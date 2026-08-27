@@ -7,7 +7,7 @@
   "n_by_kind": {
     "process_defect": 22,
     "harden": 12,
-    "fix": 9,
+    "fix": 10,
     "build": 1,
     "verify": 1,
     "analysis": 1,
@@ -21,9 +21,9 @@
   },
   "n_by_state": {
     "done": 29,
-    "queued": 103,
+    "queued": 106,
     "superseded": 1,
-    "in_progress": 5
+    "in_progress": 3
   },
   "n_clamped": 11,
   "entries": [
@@ -994,6 +994,32 @@
       "_score_basis": "hand-filed by CYC-0017. Same rank as the id-allocation defect: it corrupts the loop's own self-measurement rather than a paper, and it silently disabled a governance check on the dial the architecture records as having failed catastrophically."
     },
     {
+      "id": "AUT-PD-025",
+      "kind": "fix",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-DEGRADER",
+        "publication": "PUB-DEGRADER",
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PROP-007",
+      "what": "✅ DONE 2026-08-27, THE SAME HOUR THE GUARD THAT FOUND IT WAS BUILT. ⛔ THE DEGRADER MANUSCRIPT CITED A RETRACTED PAPER AND THE REPOSITORY DID NOT KNOW. According to PubMed, PMID 40646688 / PMC12263127 (Safe S et al., *Orphan nuclear receptor transcription factors as drug targets*, Transcription 16:224-260, 2025, doi 10.1080/21541264.2025.2521766) carries article_types ['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication']. VERIFIED INDEPENDENTLY by the driver against the live PubMed record, not taken from the seat's report. `grep -i retract` found NOTHING about it anywhere in the repository — not in the degrader paper, not in nr4a3-druggability-reconciliation.md, not in safe2025-verify.json. It was surfaced by AUT-PROP-007's new type guard as an advisory on its FIRST real run. ⭐ THE SCIENCE IS UNAFFECTED AND THAT IS WHY THE FIX IS AN ANNOTATION RATHER THAN A WITHDRAWAL: the repository had ALREADY corrected this source on 2026-07-12, primary-source verified — 'Safe 2025 selective analogues' is a review's loose paraphrase of the SAME Zaienne 2022 compounds 1 and 19, not a distinct NR4A3-selective series. No claim rests on it; it is cited as the secondary source whose paraphrase the manuscript corrects. The retraction STRENGTHENS that correction. ⛔ BUT A READER MUST BE TOLD, AND A REVIEWER WILL CHECK. Annotated at all three sites — the citing sentence in nr4a3-degrader-paper.md, its reference-list entry, and both places in nr4a3-druggability-reconciliation.md — each naming PubMed as the source and the date it was read. ⚠ THE GENERAL LESSON IS THE ONE TO KEEP: a citation verified once STAYS verified in this repository's records, and 'Retracted Publication' is a type NLM adds AFTER publication. `safe2025-verify.json` recorded a real fetch of a real paper and was correct when written. Provenance is not a property that holds still.",
+      "score": 170.0,
+      "_score_basis": "a manuscript citing a retracted review, found by a guard on its first run",
+      "depends_on_evidence": "PubMed record for PMID 40646688 read 2026-08-27; lint_citation_types advisory",
+      "closes_clause": null
+    },
+    {
       "id": "AUT-013",
       "_derived": true,
       "what": "Treat as landscape context; the ex-vivo result is banked and needs no further lookup.",
@@ -1136,7 +1162,7 @@
     {
       "id": "AUT-041",
       "_derived": true,
-      "what": "Do NOT write the concept paper as framed. Extract dose, fractionation, BED and local-control duration for every reported irradiated EMC metastasis into the findings artifact, and decide from the assembled table whether anything survives that the 2025 review has not already said. DONE 2026-08-27: built the dose/fractionation/BED/local-control-duration table directly in research/literature/emc-rt-lung-mets-findings.json (new 'dose_outcome_table' field), using only already-retrieved evidence (no new fetch dispatched this pass). Of 4 independently-sourced reported deliveries, only PMID 35494187 (HDR interstitial brachytherapy, 30 Gy/2fx) has dose+fractionation specific enough to compute a BED -- 142.5 Gy at alpha/beta=4, computed here, which lands almost exactly on the 2025 review's own headline '142 Gy (alpha/beta=4)' HDR-ISBT figure. That identification (the review's central BED number IS this case) was not previously recorded in this artifact, since the review's quoted passage names no PMID -- it is the one piece of new synthesis this pass produced. DECISION: the table does NOT surface anything the review has not already said, and it is too data-poor (3 of 4 sourced cases lack a reportable dose) to support even the weaker descriptive-appendix framing from the concept paper's own SS8(b) until two further $0 fetches land -- filed as AUT-RT-001 and AUT-RT-002. A fifth candidate case (40 Gy/10fx SBRT) was excluded outright rather than tabulated, because the artifact's own prior note flags its attribution as disputed (the review cites two different, conflicting primary authors for the same case).",
+      "what": "Do NOT write the concept paper as framed. Extract dose, fractionation, BED and local-control duration for every reported irradiated EMC metastasis into the findings artifact, and decide from the assembled table whether anything survives that the 2025 review has not already said.",
       "serves": {
         "route": "RT-MDT-LUNG",
         "publication": "PUB-LOCOREGIONAL",
@@ -1235,7 +1261,7 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "experiment",
-      "state": "in_progress",
+      "state": "queued",
       "owner": "chaperone-client-seat",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -1334,9 +1360,9 @@
         "publication": "PUB-IPD-SURVIVAL",
         "strategy": "ST-CARE-DELIVERY"
       },
-      "state": "in_progress",
-      "owner": "morioka-transcription-seat",
-      "claimed_utc": "2026-08-27T21:08:00Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1345,7 +1371,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "AUT-034",
-      "what": "⭐ TRANSCRIBE morioka2016's TABLE 2 — per-subject PFS/OS with censoring flags for its two EMC patients. Named by AUT-034's seat as this route's next action, and it is the ONE step here that needs no instrument: it is patient-level data printed as a table, not a curve to digitize, so none of the detector's unclosed bounds apply to it. ⚠ n=2, so it is a small addition to a denominator and must be reported at exactly that weight — its value is that individual patient data is the strongest form this route can hold, not that it moves the pooled estimate. ⛔ The paper is already fetched and its risk row was independently re-read by `km_risk_row_detect.py` (5,5,5,3,3,1,1,1, matching a human's reading two days earlier), so the retrieval half is done and this is transcription against a source already on hand. Free.",
+      "what": "⭐ TRANSCRIBE morioka2016's TABLE 2 — per-subject PFS/OS with censoring flags for its two EMC patients. Named by AUT-034's seat as this route's next action, and it is the ONE step here that needs no instrument: it is patient-level data printed as a table, not a curve to digitize, so none of the detector's unclosed bounds apply to it. ⚠ n=2, so it is a small addition to a denominator and must be reported at exactly that weight — its value is that individual patient data is the strongest form this route can hold, not that it moves the pooled estimate. ⛔ The paper is already fetched and its risk row was independently re-read by `km_risk_row_detect.py` (5,5,5,3,3,1,1,1, matching a human's reading two days earlier), so the retrieval half is done and this is transcription against a source already on hand. Free.\n\nDONE 2026-08-27 (morioka-transcription-seat): the transcription this item asked for was ALREADY PRESENT on main -- research/modalities/emc_ipd_survival.py's PRINTED_IPD table and the committed emc-ipd-survival.json both carried both EMCS rows (subject 1: PFS 13.0mo not censored, OS 26.4mo not censored, SD; subject 2: PFS 7.4mo not censored, OS 10.4mo not censored, SD) since commit 7eb340c82 (2026-08-27 12:46 UTC), which predates this ledger item's own filing (ca025870d, 20:03 UTC) by over seven hours -- filed stale, most likely from a state read before that commit landed. This seat did not re-transcribe; it INDEPENDENTLY RE-VERIFIED the two committed rows against the real page raster (literature-cache branch, morioka2016trabectedin_page-4.png, PMC4946242 Table 2 'Summary of efficacy', subjects 1-2, both EMCS in the trabectedin arm) -- pixels read, not the cached text layer alone -- and the digits match exactly: no asterisk on either subject's PFS or OS cell, so neither is censored (the paper's own footnote: '* Censored observation'). `python3 research/modalities/emc_ipd_survival.py --check` -> OK (committed artifact matches the generator); `pytest research/modalities/tests/test_emc_ipd_survival.py` -> 20 passed, known-answer control included. n=2 EMCS rows, NOT pooled with anything (POLICY-evidence.md forbids merging populations; the module's own header says so at PRINTED_IPD) -- reported at that weight, not as a pooled-estimate move.",
       "score": 140.0,
       "_score_basis": "the only AUT-034 follow-up that needs no instrument and no unreachable paper",
       "depends_on_evidence": "research/modalities/km-risk-row-detection.json — morioka2016's risk row re-read by two methods",
@@ -1607,8 +1633,8 @@
         "strategy": null
       },
       "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "owner": "cross-file-key-sweep-seat",
+      "claimed_utc": "2026-08-27T21:19:55Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1621,6 +1647,58 @@
       "score": 120.0,
       "_score_basis": "the instance cost one permanently-unmeasurable governance row on the dial the architecture calls the most important; the class is every other row like it",
       "depends_on_evidence": "research/autonomy/receipt_schema.py and its 21-test suite — the worked instance",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-027",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ THE SCRATCHPAD IS SHARED ACROSS SEATS AND FILENAMES COLLIDE — ONE SEAT'S EVIDENCE WAS DESTROYED MID-RUN. Measured 2026-08-27: the AUT-PROP-009 review seat's `scratchpad/preflight.log` was TRUNCATED TO 8 LINES by another agent's run at 20:38 while it was still writing. ⭐ THE SEAT HANDLED IT CORRECTLY AND THAT IS WHY WE KNOW: it refused to report that run's result at all and re-ran under a uniquely-named log. A less careful seat reports the truncated log's tail as the verdict, and a preflight that was killed mid-write is indistinguishable from one that passed — the exact ambiguity CLAUDE.md §6 records as the reason preflight now writes an explicit exit marker. ⛔ THE HAZARD IS GENERAL, NOT ABOUT ONE FILENAME: every seat is told to write to the same scratchpad directory, and `preflight.log`, `mutations.txt` and `patch.diff` are the names everyone reaches for. ⭐ FIX: give each seat a namespaced subdirectory it is told to use, and say so in the seat prompt template rather than hoping — a convention agreed in prose between two writers is not agreed at all (AUT-PD-017, filed today for exactly this shape one level down).",
+      "score": 120.0,
+      "_score_basis": "a seat's own evidence was silently destroyed by a sibling; a truncated log reads like a pass",
+      "depends_on_evidence": "the AUT-PROP-009 review seat's report: scratchpad/preflight.log truncated to 8 lines at 20:38",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-028",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ TWO SESSIONS BOTH REGENERATE THE ASO ARCHIVE MANIFEST AND COLLIDE ON EVERY PUSH — THREE TIMES IN TEN MINUTES on 2026-08-27. Each merge brings in a manifest stamped against the OTHER session's tree; AUT-PD-016's guard then correctly REFUSES one whose `git_tree_is_clean_apart_from_this_manifest` is false; and the resolution is always identical — never hand-merge a generated file, regenerate it on the settled tree. ⭐ THAT RESOLUTION IS RIGHT AND IT DOES NOT CONVERGE WHILE TWO WRITERS KEEP PRODUCING IT: every regeneration is itself a commit, which is another push another session must merge, which restamps the flag. ⚠ THE GUARD IS NOT THE PROBLEM AND MUST NOT BE LOOSENED — it caught a real instance today, a manifest whose hash list was taken while tracked files were uncommitted and so may describe a file that is not what got committed. ⭐ THE CANDIDATE FIX IS ONE WRITER: have CI regenerate the manifest on the trunk after a push, the way the submission parts are already rebuilt on a runner, so no interactive session ever needs to. Check what `.github/workflows/aso-submission-parts.yml` already does before building anything — half of this may exist.",
+      "score": 115.0,
+      "_score_basis": "a generated artifact with two writers thrashes, and each resolution is another commit to merge",
+      "depends_on_evidence": "three regenerations in ten minutes; the merged manifest refused for clean_flag=false",
       "closes_clause": null
     },
     {
@@ -1735,6 +1813,32 @@
       "score": 95.0,
       "_score_basis": "the ranker decides what the loop works on next; it has been exiting 1 on every invocation",
       "depends_on_evidence": "priority.py exits 0 over 126 entries; 4 tests in research/autonomy/tests/test_priority_ranks_the_hand_filed_entries_too.py",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-026",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "✅ CLOSED 2026-08-27 — THE REPORTED BLOCKER WAS NOT LIVE, AND THE REAL FINDING IS THE ONE THAT NEARLY GOT FILED INSTEAD. ⛔ WHAT WAS REPORTED: the AUT-PROP-009 review seat measured `PREFLIGHT_MODALITIES=1` as unusable here — `50 failed, 7933 passed`, exactly 50 on an unpatched origin/main checkout too, the first tracing to `ModuleNotFoundError: No module named 'pymbar'` at nr4a3_abfe.py:69 — and correctly REFUSED to add them to sandbox-failure-baseline.txt, which would have converted a missing dependency into a permanent amnesty. That refusal was right and is worth keeping. ⛔ WHAT IS ACTUALLY TRUE: I checked before acting rather than filing the report. `pymbar 4.0.3` imports in BOTH interpreters — the tool venv at /root/.local/share/uv/tools/pytest/bin/python AND system python3 — and the ABFE tests the failure named now run `168 passed, 2 skipped`. There is no live blocker. ⭐ THE ENVIRONMENT WAS REPAIRED BETWEEN THE SEAT'S READING AND MINE: `dev-setup.sh` already carries `pymbar` in TEST_DEPS and its own header records this EXACT incident on 2026-08-24 — 'the tool venv had pymbar' while python3 lacked it, a publication gate red on ModuleNotFoundError at nr4a3_abfe.py:69, the same line. A `SessionStart` hook now runs `dev-setup.sh --if-needed`, which is presumably what closed it. ⭐⭐ SO THE TRANSFERABLE FINDING IS ABOUT SEATS, NOT ABOUT pymbar: A SUBAGENT'S ENVIRONMENT READING IS A DATED OBSERVATION AND CAN BE STALE BY THE TIME ITS REPORT IS READ — a seat runs for 40-55 minutes, a SessionStart hook or a sibling's install can move the ground under it, and its report arrives asserting the present tense. This one would have entered the ledger as a live blocker on a whole preflight tier, and the next session would have inherited it as a fact. ⚠ THE RULE THAT CAUGHT IT is CLAUDE.md §4 pointed at our own sandbox rather than at AI capability: take the live reading, it costs nothing. Two `python -c 'import pymbar'` calls and one scoped pytest run were the whole cost. ⛔ AND THE GENERAL FORM IS WORTH THE ENTRY EVEN THOUGH THE INSTANCE IS EMPTY: a seat's environment claims should be re-measured by the driver before they are filed, the same way its factual claims are — the ATR causal account was checked with `git show` and HELD; this one was checked and did NOT.\n\n⛔⛔ REOPENED THE SAME HOUR, AND MY OWN CLOSING DIAGNOSIS WAS A 'probably X' — the thing CLAUDE.md §4 forbids by name. I closed this as a STALE READING repaired between the seat's run and mine, on the evidence that pymbar imports here now. That evidence was real and the inference from it was wrong. ⭐ A SECOND SEAT, WORKING A DIFFERENT ITEM, MEASURED THE ACTUAL MECHANISM AND IT IS REPRODUCIBLE: **a fresh git worktree does not get the `SessionStart` hook, so `dev-setup.sh` never runs there, and preflight falls back to an interpreter without the packages.** Its own log said `MISSING PACKAGE — run ./scripts/dev-setup.sh`. In that state it reported `50 failed, 7901 passed, 95 skipped` and collected only 8,046 of 8,113 tests; the same suite on a working runner gave **8067 passed / 0 failed** in the seat's tree and **8065 passed / 0 failed** on a clean tree at the same commit. Running `dev-setup.sh --if-needed` by hand fixed it and the rerun was green. ⛔ SO TWO INDEPENDENT SEATS HIT THE IDENTICAL 50-FAILURE SIGNATURE FROM THE SAME CAUSE, and the cause is not the sandbox drifting — it is that the worktree contract this repository adopted on 2026-08-27 (research-loop §3, worktree-in/branch-out) put every seat in exactly the environment the SessionStart hook cannot reach. The contract and the hook were each correct alone and are broken together. ⚠ AND THE FAILURE IS DANGEROUS IN THE DIRECTION THAT COSTS MOST: it manufactures 50 red tests that do not exist, so a seat either wastes an hour chasing them, reports a false blocker (this entry, first pass), or — worst — adds them to `sandbox-failure-baseline.txt` and grants a permanent amnesty to 50 real guards. Both seats REFUSED to baseline them, which is the only reason this is a fixable defect rather than a silent hole. ⭐ FIX: make the seat prompt template run `./scripts/dev-setup.sh --if-needed` as its first action in a new worktree, and have `preflight.sh` say loudly that its interpreter is the fallback rather than burying it in a log line. CLAUDE.md §6 already records the rule for the non-worktree case — 'a red preflight in a fresh sandbox is usually the sandbox, run dev-setup.sh first' — and a hook was added so it would heal itself. The worktree path was never covered.",
+      "score": 150.0,
+      "_score_basis": "every seat works in a worktree, and every worktree preflight manufactures 50 red tests that do not exist",
+      "depends_on_evidence": "two independent seats, identical signature; 8067 vs 8046 collected; preflight's own 'MISSING PACKAGE' line; dev-setup.sh --if-needed fixed it",
       "closes_clause": null
     },
     {
@@ -3498,36 +3602,6 @@
       }
     },
     {
-      "serves": {
-        "route": "RT-FUSION-PARTNER",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-EVIDENCE"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "AUT-PROP-017"
-      ],
-      "blocked_evidence": "Edits emc-fusion-partner-stratification.md, which branch aut-prop-017-fusion-partner-p1s (commit 3e580f41b) also edits and which has not merged. A whole-paper prose pass on top of an unmerged prose change is a conflict I would be creating deliberately. Unblocks on that merge.",
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "AUT-PROP-017",
-      "depends_on_evidence": "lint_readability --check is red on emc-fusion-partner-stratification.md before and after the P1 pass: 17 sentences over 60 words, longest 167w at line 201; and `pinned-figures.json` carries no caution baseline for this document",
-      "id": "AUT-PROP-026",
-      "kind": "harden",
-      "prerequisite_of": null,
-      "score": 6.0,
-      "closes_clause": null,
-      "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text.",
-      "score_inputs": {
-        "blocked_with_evidence": true
-      }
-    },
-    {
       "id": "AUT-059",
       "_derived": true,
       "what": "Nothing. The scan carries the one observation that would reopen it.",
@@ -3558,6 +3632,36 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
+      }
+    },
+    {
+      "serves": {
+        "route": "RT-FUSION-PARTNER",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-EVIDENCE"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "AUT-PROP-017"
+      ],
+      "blocked_evidence": "Edits emc-fusion-partner-stratification.md, which branch aut-prop-017-fusion-partner-p1s (commit 3e580f41b) also edits and which has not merged. A whole-paper prose pass on top of an unmerged prose change is a conflict I would be creating deliberately. Unblocks on that merge.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PROP-017",
+      "depends_on_evidence": "lint_readability --check is red on emc-fusion-partner-stratification.md before and after the P1 pass: 17 sentences over 60 words, longest 167w at line 201; and `pinned-figures.json` carries no caution baseline for this document",
+      "id": "AUT-PROP-026",
+      "kind": "harden",
+      "prerequisite_of": null,
+      "score": -174.0,
+      "closes_clause": null,
+      "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text.",
+      "score_inputs": {
+        "blocked_with_evidence": true
       }
     },
     {
@@ -3812,6 +3916,28 @@
       "_score_basis": "free; it is the first available answer to a gap this repository's own prior-art scan named, and it reuses an external vocabulary instead of minting another one we wrote ourselves"
     },
     {
+      "id": "AUT-PD-029",
+      "process_defect": true,
+      "what": "claim.py's Git.push() (research/autonomy/claim.py:79-80) runs `git push -q origin main`, which pushes whatever LOCAL BRANCH IS LITERALLY NAMED 'main' -- stale or unrelated to HEAD if the session's real work is on a differently-named branch (e.g. this repo's 'claude/dreamy-hawking-18pm7n' convention, which stays rebased onto origin/main and is pushed via `git push origin <branch>:main`). On such a session, claim.py's push always fails as a non-fast-forward (or pushes nothing new), so the module cannot actually arbitrate a claim there -- it silently degrades to reporting RETRY forever rather than CLAIMED. MEASURED 2026-08-27 (CYC-0028-moriokat, a subagent dispatched by CYC-0027's driver session): claim.py was tried first for AUT-PD-020, failed exactly this way, and the seat fell back to the manual fetch/verify/edit/commit/`push origin HEAD:main` sequence documented as claim.py's own manual fallback -- work completed correctly, but the module meant to make this race-safe took no part in it. FIX (not applied here, filed for a future cycle): push() should push HEAD, not the ref literally named 'main' -- `git push -q origin HEAD:main`, which is a fast-forward-safe compare-and-swap on the REMOTE ref regardless of what the local branch is named, exactly matching the module's own stated design intent.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "fix",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0028-moriokat"
+    },
+    {
       "id": "AUT-PD-005",
       "kind": "fix",
       "serves": {
@@ -3880,6 +4006,48 @@
       "depends_on_evidence": "BixBench3 (arXiv:2608.25286v1) Appendix Table 1, task 14 — TITLE ONLY, read 2026-08-27. Portfolio gap confirmed by $0 grep the same day: zero hits for 'feed-forward' or 'cofactor loop' in any markdown under research/ or systems/; RUNX2 appears only in accession-symbol-cache.json and a scraped journal index, never as a target.",
       "what": "READ ONE PAPER AND ASK ONE QUESTION. BixBench3's task 14 is built on 'RUNX2 inhibition disrupts a PAX3::FOXO1-RUNX2 feed-forward loop and dismantles oncogenic gene programs in fusion-positive rhabdomyosarcoma' — a transcription-factor-fusion sarcoma whose oncogenic program is dismantled by hitting a COFACTOR rather than the undruggable fusion. That is EMC's problem shape, and this repository has no vocabulary for it.\nWHAT TO DO, all $0: (1) resolve and read the source paper (its raw data are public — a BixBench3 inclusion criterion — and it published >=4 ground-truth derived artifacts, also a criterion); (2) ask whether any EWSR1::NR4A3 cofactor forms an analogous feed-forward loop, and whether that is answerable from the EMC expression data ALREADY on disk rather than needing new data; (3) grade it against RT-FUSION-OUTPUT, RT-TXN-CDK and RT-PARTNER-STRAT — is it a variant of one of those, or a route they do not cover?\n⛔ WEIGHT IT HONESTLY AND EXPECT A NULL. This is a paper TITLE in the appendix of an unrelated AI benchmark; nothing else has been read, PAX3::FOXO1 is not a FET fusion, and cross-fusion transfer is exactly the kind of analogy that reads as insight and dies on contact with the biology. The deliverable is a graded verdict either way — a clean 'no analogous loop is reported, and here is what would have shown one' is a full result under CLAUDE.md §0, not a failure. ⛔ DO NOT open a route on the title alone. Reading: research/method-watch-bixbench3-calibration.md §6",
       "_score_basis": "free, and it is the only thing in this preprint that touches the science portfolio rather than the operating loop — CLAUDE.md §0 puts a live lead ahead of the three process items filed alongside it"
+    },
+    {
+      "id": "AUT-RT-001",
+      "what": "Fetch the full text of PMID 41323055 (Kobayashi et al./Case Reports in Oncology 2025, 'Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxoid Chondrosarcoma Repeatedly Treated with Surgical Excision or Stereotactic Radiotherapy Alone') -- open access per this artifact's own outstanding list, $0, not yet retrieved. Extract dose, fractionation and local-control duration for each of the three SABR occasions and write them into research/literature/emc-rt-lung-mets-findings.json's dose_outcome_table (filed by AUT-041, which found this the highest-value single gap: the case with the most treated occasions and no dose data of the four sourced deliveries).",
+      "serves": {
+        "route": "RT-MDT-LUNG",
+        "publication": "PUB-LOCOREGIONAL",
+        "strategy": "ST-LOCOREGIONAL"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-041"
+    },
+    {
+      "id": "AUT-RT-002",
+      "what": "Find and confirm the correct primary source for the 40 Gy/10-fraction SBRT lung-metastasis case the 2025 review (PMID 41055792) tells twice under conflicting attributions ('Qiu et al. 2014' and 'Takagawa et al. 2022', with Takagawa separately used for the unrelated brachytherapy case PMID 35494187 in the same paragraph). At least one attribution is wrong. research/literature/emc-rt-lung-mets-findings.json already instructs not to cite this case from the review; this item is the follow-through -- locate the real primary (search both named authors' bibliographies for an EMC lung-metastasis SBRT case), or record that neither produces one and the case cannot currently be sourced. $0, WebSearch/Europe PMC only.",
+      "serves": {
+        "route": "RT-MDT-LUNG",
+        "publication": "PUB-LOCOREGIONAL",
+        "strategy": "ST-LOCOREGIONAL"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-041"
     },
     {
       "serves": {
@@ -3996,152 +4164,6 @@
       "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
       "what": "⛔ THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING — research-loop §1 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the §6 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n⚠ ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT — never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening §8b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. ⛔ DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. ⭐ These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them — which is exactly why they could sit red unnoticed.",
       "_score_basis": "a red trunk blocks every cycle's commit gate; research-loop §1 makes it the cycle rather than a task within one"
-    },
-    {
-      "id": "AUT-RT-001",
-      "what": "Fetch the full text of PMID 41323055 (Kobayashi et al./Case Reports in Oncology 2025, 'Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxoid Chondrosarcoma Repeatedly Treated with Surgical Excision or Stereotactic Radiotherapy Alone') -- open access per this artifact's own outstanding list, $0, not yet retrieved. Extract dose, fractionation and local-control duration for each of the three SABR occasions and write them into research/literature/emc-rt-lung-mets-findings.json's dose_outcome_table (filed by AUT-041, which found this the highest-value single gap: the case with the most treated occasions and no dose data of the four sourced deliveries).",
-      "serves": {
-        "route": "RT-MDT-LUNG",
-        "publication": "PUB-LOCOREGIONAL",
-        "strategy": "ST-LOCOREGIONAL"
-      },
-      "kind": "fetch",
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "AUT-041"
-    },
-    {
-      "id": "AUT-RT-002",
-      "what": "Find and confirm the correct primary source for the 40 Gy/10-fraction SBRT lung-metastasis case the 2025 review (PMID 41055792) tells twice under conflicting attributions ('Qiu et al. 2014' and 'Takagawa et al. 2022', with Takagawa separately used for the unrelated brachytherapy case PMID 35494187 in the same paragraph). At least one attribution is wrong. research/literature/emc-rt-lung-mets-findings.json already instructs not to cite this case from the review; this item is the follow-through -- locate the real primary (search both named authors' bibliographies for an EMC lung-metastasis SBRT case), or record that neither produces one and the case cannot currently be sourced. $0, WebSearch/Europe PMC only.",
-      "serves": {
-        "route": "RT-MDT-LUNG",
-        "publication": "PUB-LOCOREGIONAL",
-        "strategy": "ST-LOCOREGIONAL"
-      },
-      "kind": "fetch",
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "AUT-041"
-    },
-    {
-      "id": "AUT-PD-025",
-      "kind": "fix",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-DEGRADER",
-        "publication": "PUB-DEGRADER",
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "AUT-PROP-007",
-      "what": "✅ DONE 2026-08-27, THE SAME HOUR THE GUARD THAT FOUND IT WAS BUILT. ⛔ THE DEGRADER MANUSCRIPT CITED A RETRACTED PAPER AND THE REPOSITORY DID NOT KNOW. According to PubMed, PMID 40646688 / PMC12263127 (Safe S et al., *Orphan nuclear receptor transcription factors as drug targets*, Transcription 16:224-260, 2025, doi 10.1080/21541264.2025.2521766) carries article_types ['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication']. VERIFIED INDEPENDENTLY by the driver against the live PubMed record, not taken from the seat's report. `grep -i retract` found NOTHING about it anywhere in the repository — not in the degrader paper, not in nr4a3-druggability-reconciliation.md, not in safe2025-verify.json. It was surfaced by AUT-PROP-007's new type guard as an advisory on its FIRST real run. ⭐ THE SCIENCE IS UNAFFECTED AND THAT IS WHY THE FIX IS AN ANNOTATION RATHER THAN A WITHDRAWAL: the repository had ALREADY corrected this source on 2026-07-12, primary-source verified — 'Safe 2025 selective analogues' is a review's loose paraphrase of the SAME Zaienne 2022 compounds 1 and 19, not a distinct NR4A3-selective series. No claim rests on it; it is cited as the secondary source whose paraphrase the manuscript corrects. The retraction STRENGTHENS that correction. ⛔ BUT A READER MUST BE TOLD, AND A REVIEWER WILL CHECK. Annotated at all three sites — the citing sentence in nr4a3-degrader-paper.md, its reference-list entry, and both places in nr4a3-druggability-reconciliation.md — each naming PubMed as the source and the date it was read. ⚠ THE GENERAL LESSON IS THE ONE TO KEEP: a citation verified once STAYS verified in this repository's records, and 'Retracted Publication' is a type NLM adds AFTER publication. `safe2025-verify.json` recorded a real fetch of a real paper and was correct when written. Provenance is not a property that holds still.",
-      "score": 170.0,
-      "_score_basis": "a manuscript citing a retracted review, found by a guard on its first run",
-      "depends_on_evidence": "PubMed record for PMID 40646688 read 2026-08-27; lint_citation_types advisory",
-      "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-026",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "✅ CLOSED 2026-08-27 — THE REPORTED BLOCKER WAS NOT LIVE, AND THE REAL FINDING IS THE ONE THAT NEARLY GOT FILED INSTEAD. ⛔ WHAT WAS REPORTED: the AUT-PROP-009 review seat measured `PREFLIGHT_MODALITIES=1` as unusable here — `50 failed, 7933 passed`, exactly 50 on an unpatched origin/main checkout too, the first tracing to `ModuleNotFoundError: No module named 'pymbar'` at nr4a3_abfe.py:69 — and correctly REFUSED to add them to sandbox-failure-baseline.txt, which would have converted a missing dependency into a permanent amnesty. That refusal was right and is worth keeping. ⛔ WHAT IS ACTUALLY TRUE: I checked before acting rather than filing the report. `pymbar 4.0.3` imports in BOTH interpreters — the tool venv at /root/.local/share/uv/tools/pytest/bin/python AND system python3 — and the ABFE tests the failure named now run `168 passed, 2 skipped`. There is no live blocker. ⭐ THE ENVIRONMENT WAS REPAIRED BETWEEN THE SEAT'S READING AND MINE: `dev-setup.sh` already carries `pymbar` in TEST_DEPS and its own header records this EXACT incident on 2026-08-24 — 'the tool venv had pymbar' while python3 lacked it, a publication gate red on ModuleNotFoundError at nr4a3_abfe.py:69, the same line. A `SessionStart` hook now runs `dev-setup.sh --if-needed`, which is presumably what closed it. ⭐⭐ SO THE TRANSFERABLE FINDING IS ABOUT SEATS, NOT ABOUT pymbar: A SUBAGENT'S ENVIRONMENT READING IS A DATED OBSERVATION AND CAN BE STALE BY THE TIME ITS REPORT IS READ — a seat runs for 40-55 minutes, a SessionStart hook or a sibling's install can move the ground under it, and its report arrives asserting the present tense. This one would have entered the ledger as a live blocker on a whole preflight tier, and the next session would have inherited it as a fact. ⚠ THE RULE THAT CAUGHT IT is CLAUDE.md §4 pointed at our own sandbox rather than at AI capability: take the live reading, it costs nothing. Two `python -c 'import pymbar'` calls and one scoped pytest run were the whole cost. ⛔ AND THE GENERAL FORM IS WORTH THE ENTRY EVEN THOUGH THE INSTANCE IS EMPTY: a seat's environment claims should be re-measured by the driver before they are filed, the same way its factual claims are — the ATR causal account was checked with `git show` and HELD; this one was checked and did NOT.\n\n⛔⛔ REOPENED THE SAME HOUR, AND MY OWN CLOSING DIAGNOSIS WAS A 'probably X' — the thing CLAUDE.md §4 forbids by name. I closed this as a STALE READING repaired between the seat's run and mine, on the evidence that pymbar imports here now. That evidence was real and the inference from it was wrong. ⭐ A SECOND SEAT, WORKING A DIFFERENT ITEM, MEASURED THE ACTUAL MECHANISM AND IT IS REPRODUCIBLE: **a fresh git worktree does not get the `SessionStart` hook, so `dev-setup.sh` never runs there, and preflight falls back to an interpreter without the packages.** Its own log said `MISSING PACKAGE — run ./scripts/dev-setup.sh`. In that state it reported `50 failed, 7901 passed, 95 skipped` and collected only 8,046 of 8,113 tests; the same suite on a working runner gave **8067 passed / 0 failed** in the seat's tree and **8065 passed / 0 failed** on a clean tree at the same commit. Running `dev-setup.sh --if-needed` by hand fixed it and the rerun was green. ⛔ SO TWO INDEPENDENT SEATS HIT THE IDENTICAL 50-FAILURE SIGNATURE FROM THE SAME CAUSE, and the cause is not the sandbox drifting — it is that the worktree contract this repository adopted on 2026-08-27 (research-loop §3, worktree-in/branch-out) put every seat in exactly the environment the SessionStart hook cannot reach. The contract and the hook were each correct alone and are broken together. ⚠ AND THE FAILURE IS DANGEROUS IN THE DIRECTION THAT COSTS MOST: it manufactures 50 red tests that do not exist, so a seat either wastes an hour chasing them, reports a false blocker (this entry, first pass), or — worst — adds them to `sandbox-failure-baseline.txt` and grants a permanent amnesty to 50 real guards. Both seats REFUSED to baseline them, which is the only reason this is a fixable defect rather than a silent hole. ⭐ FIX: make the seat prompt template run `./scripts/dev-setup.sh --if-needed` as its first action in a new worktree, and have `preflight.sh` say loudly that its interpreter is the fallback rather than burying it in a log line. CLAUDE.md §6 already records the rule for the non-worktree case — 'a red preflight in a fresh sandbox is usually the sandbox, run dev-setup.sh first' — and a hook was added so it would heal itself. The worktree path was never covered.",
-      "score": 150.0,
-      "_score_basis": "every seat works in a worktree, and every worktree preflight manufactures 50 red tests that do not exist",
-      "depends_on_evidence": "two independent seats, identical signature; 8067 vs 8046 collected; preflight's own 'MISSING PACKAGE' line; dev-setup.sh --if-needed fixed it",
-      "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-027",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ THE SCRATCHPAD IS SHARED ACROSS SEATS AND FILENAMES COLLIDE — ONE SEAT'S EVIDENCE WAS DESTROYED MID-RUN. Measured 2026-08-27: the AUT-PROP-009 review seat's `scratchpad/preflight.log` was TRUNCATED TO 8 LINES by another agent's run at 20:38 while it was still writing. ⭐ THE SEAT HANDLED IT CORRECTLY AND THAT IS WHY WE KNOW: it refused to report that run's result at all and re-ran under a uniquely-named log. A less careful seat reports the truncated log's tail as the verdict, and a preflight that was killed mid-write is indistinguishable from one that passed — the exact ambiguity CLAUDE.md §6 records as the reason preflight now writes an explicit exit marker. ⛔ THE HAZARD IS GENERAL, NOT ABOUT ONE FILENAME: every seat is told to write to the same scratchpad directory, and `preflight.log`, `mutations.txt` and `patch.diff` are the names everyone reaches for. ⭐ FIX: give each seat a namespaced subdirectory it is told to use, and say so in the seat prompt template rather than hoping — a convention agreed in prose between two writers is not agreed at all (AUT-PD-017, filed today for exactly this shape one level down).",
-      "score": 120.0,
-      "_score_basis": "a seat's own evidence was silently destroyed by a sibling; a truncated log reads like a pass",
-      "depends_on_evidence": "the AUT-PROP-009 review seat's report: scratchpad/preflight.log truncated to 8 lines at 20:38",
-      "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-028",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ TWO SESSIONS BOTH REGENERATE THE ASO ARCHIVE MANIFEST AND COLLIDE ON EVERY PUSH — THREE TIMES IN TEN MINUTES on 2026-08-27. Each merge brings in a manifest stamped against the OTHER session's tree; AUT-PD-016's guard then correctly REFUSES one whose `git_tree_is_clean_apart_from_this_manifest` is false; and the resolution is always identical — never hand-merge a generated file, regenerate it on the settled tree. ⭐ THAT RESOLUTION IS RIGHT AND IT DOES NOT CONVERGE WHILE TWO WRITERS KEEP PRODUCING IT: every regeneration is itself a commit, which is another push another session must merge, which restamps the flag. ⚠ THE GUARD IS NOT THE PROBLEM AND MUST NOT BE LOOSENED — it caught a real instance today, a manifest whose hash list was taken while tracked files were uncommitted and so may describe a file that is not what got committed. ⭐ THE CANDIDATE FIX IS ONE WRITER: have CI regenerate the manifest on the trunk after a push, the way the submission parts are already rebuilt on a runner, so no interactive session ever needs to. Check what `.github/workflows/aso-submission-parts.yml` already does before building anything — half of this may exist.",
-      "score": 115.0,
-      "_score_basis": "a generated artifact with two writers thrashes, and each resolution is another commit to merge",
-      "depends_on_evidence": "three regenerations in ten minutes; the merged manifest refused for clean_flag=false",
-      "closes_clause": null
     },
     {
       "id": "AUT-PROP-028",
