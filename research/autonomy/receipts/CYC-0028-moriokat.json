@@ -1,0 +1,36 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0028-moriokat",
+  "session_id": "morioka-transcription-seat",
+  "utc": "2026-08-27T21:20:00Z",
+  "cycles_in_this_session": 1,
+  "max_cycles_per_session": 1,
+  "repo_confirmed": "git fetch origin main + rebase at session start; HEAD matched origin/main before the claim commit.",
+  "health_check": "Not separately run against health.py; AUT-PD-020 was assigned directly as this session's one task and is free/CPU-only, well inside every stopping condition in research-loop SS1.",
+  "took": "AUT-PD-020",
+  "took_what": "Claimed AUT-PD-020 (transcribe morioka2016trabectedin's Table 2 per-subject PFS/OS with censoring flags for its two EMCS patients into the reconstructed-IPD instrument). Fetched the actual PDF page image (literature-cache branch, literature/km-figures-2026-08-25/morioka2016trabectedin_page-4.png) and READ THE PIXELS of Table 2 'Summary of efficacy' directly, cross-checked against the EuropePMC full-text XML (literature/emc-ipd-admissibility-2026-08-12/morioka2016trabectedin.txt). FINDING: the transcription this item asked for was ALREADY PRESENT on main. research/modalities/emc_ipd_survival.py's PRINTED_IPD table and the committed emc-ipd-survival.json both already carried both EMCS rows -- subject 1: PFS 13.0mo (no asterisk, not censored), OS 26.4mo (not censored), SD; subject 2: PFS 7.4mo (not censored), OS 10.4mo (not censored), SD -- since commit 7eb340c82 (2026-08-27 12:46 UTC), which predates AUT-PD-020's own filing (ca025870d, 20:03 UTC) by over seven hours. The ledger item was filed stale, most likely from a queue state read before that commit had landed. This seat did not re-transcribe or add new rows; it independently re-verified the two already-committed rows against the real page raster, confirmed they match exactly (both subjects' PFS and OS cells carry no asterisk against the paper's own footnote '* Censored observation', so neither is censored), ran `python3 research/modalities/emc_ipd_survival.py --check` (OK: committed artifact matches the generator) and `pytest research/modalities/tests/test_emc_ipd_survival.py` (20 passed, including the known-answer control), and closed the ledger item with that finding recorded rather than duplicating work already done. n=2 EMCS rows; POLICY-evidence.md forbids pooling them with anything else, and the module's own PRINTED_IPD header says so -- reported at that weight only, not as a move to any pooled estimate.",
+  "cost": {
+    "real_dollars": 0.0,
+    "gpu_hours": 0.0,
+    "note": "CPU only: git fetch of literature-cache branch, reading two page images and one cached full-text file already on disk, one pytest run, one preflight run. No new fetch dispatched, no GPU."
+  },
+  "subagents": {
+    "launched": 0,
+    "max_concurrent": 0,
+    "shape": "single session, driver only -- verification-and-write-up task, nothing to parallelize."
+  },
+  "gates": {
+    "preflight_before_fix": "not applicable -- no gate failure encountered this cycle.",
+    "preflight_after_fix": "Default-tier preflight run on the final tree before commit; EXIT= marker read from the background run's own log file, not the wrapper's reported exit code.",
+    "amendment_guard": "Not run -- research/autonomy/research-ledger.json and this receipt are not in amendment_guard.py's GOVERNED list, and no bar clause or guard test was touched.",
+    "exit_read_from": "the backgrounded preflight run's own EXIT= marker written to its log file, read directly after the run_in_background task notification confirmed completion."
+  },
+  "escalated": null,
+  "escalation_note": "None of research-loop section 5's five triggers fired: no journal-submission recommendation, no spend, no outward-facing act, no goal-changing fact, loop stayed healthy, no publication bar reached all-clear.",
+  "route_advanced": "RT-IPD-SURVIVAL",
+  "route_advanced_note": "AUT-PD-020 closed done. The route's printed-IPD table for morioka2016trabectedin's two EMCS patients is now independently pixel-verified rather than resting only on an earlier commit's own self-report -- a real (if small) increment in the evidence behind PUB-IPD-SURVIVAL's n=2 printed rows, at exactly that weight.",
+  "queued_now": [],
+  "blocked_by": [],
+  "handoff": null,
+  "why_only_one_cycle": "Single-item seat dispatched for exactly this ledger entry; task complete, ending the turn per CLAUDE.md section 2/6 rather than searching for more work outside scope."
+}
