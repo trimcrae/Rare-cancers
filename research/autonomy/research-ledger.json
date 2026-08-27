@@ -20,8 +20,8 @@
     "regrade": 7
   },
   "n_by_state": {
-    "done": 33,
-    "queued": 104,
+    "done": 34,
+    "queued": 103,
     "superseded": 1,
     "in_progress": 4
   },
@@ -1046,6 +1046,34 @@
       "closes_clause": null
     },
     {
+      "id": "AUT-PD-032",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "what": "✅ HALF FIXED 2026-08-27, AND THE OTHER HALF IS IMPOSSIBLE — WHICH IS ITSELF THE ANSWER. ⛔⛔ THE LOOP'S HANDOFF MECHANISM CANNOT RUN AT THE END OF A SPAWN CHAIN, AND IT FAILS CLOSED INTO A HEALTH ROW NOTHING CAN CLEAR. Measured 2026-08-27: CYC-0030 built its successor prompt with `handoff.py --json`, called `create_session`, and was refused — `caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions`. ⭐ research-loop §3 tells every session to 'HAND OFF THE SAME WAY YOU WERE STARTED', and handoff.py's own generated prompt tells the child the same thing. So each generation is instructed to extend a chain that has a hard ceiling, and the LAST generation is the one told most emphatically to do the impossible — the deeper the loop has run unattended, the more certainly the instruction fails. ⛔ AND THE FAILURE IS RECORDED AS A DEFECT IN THE SESSION RATHER THAN IN THE PLATFORM: `health.py`'s `cycles_are_sized` grades an over-cap session with no `handoff.child_session_id` as RED, and no future cycle can clear that row by behaving better — the same LATCHING shape `RECEIPT_WINDOW` was introduced to fix, arriving through a different door. ⚠ NOT AN OUTAGE: the 'EMC research loop — driver' Routine (13 */4 * * *) is enabled and healthy, so the chain terminating costs a ~4 h delay rather than continuity. That is the backstop working as designed — and it is only NOT a deferral because the handoff was attempted first and refused. ⭐ FIXES WORTH CONSIDERING, none obviously right: (1) handoff.py should CHECK the depth before building a prompt it cannot use, and say plainly that the Routine is the successor when it cannot spawn; (2) `cycles_are_sized` should read a refused-handoff record and grade it as UNMEASURED rather than RED, since 'the platform refused' is not the same fact as 'this session did not hand off'; (3) the child could be spawned by the Routine rather than by the parent, which removes the chain entirely. ⛔ Do NOT fix this by raising the cap on cycles per session — the cap is about context running out silently and has nothing to do with the spawn limit.\n\n⛔ CANDIDATE (1) CANNOT BE BUILT, and whoever reads this next should not try: `handoff.py` cannot check the lineage depth before building its prompt. It is a pure-stdlib script with no network and no session context; the depth is known only to `create_session` at call time. The refusal is discoverable ONLY by attempting the handoff. ⭐ SO THE FIX IS CANDIDATE (2), AND IT IS THE ONE THE CODE'S OWN COMMENT ALREADY ARGUED FOR: `c_cycles_are_sized` says in its source that 'a condition that cannot be satisfied by doing the right thing ... is a stopwatch, not a guard'. That is exactly what it had become — the session built the prompt, made the call, was refused, and earned a red row no future cycle could clear. `handoff.refusal_of()` now reads a recorded refusal and the row downgrades RED → UNMEASURED. ⛔ NEVER TO GREEN, and the distinction is the whole point: no successor exists, so the work did NOT continue in a fresh context. Green would claim the rule was satisfied; red claims a defect that is not the session's; unmeasured says the loop cannot be graded on this because the mechanism was gone. ⛔ AND THE REFUSAL MUST BE RECORDED VERBATIM — an absent or whitespace record stays RED, or 'I could not' becomes a free pass claimable by any session that never tried. ✅ 5 new tests; 4 mutations, 4 caught, control green at 74, both files restored byte-identically by sha256 comparison. ⚠ AND TWO MUTATION HARNESSES WERE THROWN AWAY FIRST: one returned `8 failed, 66 errors` uniformly and one had a control of `3 failed`, because the file copies were not faithful. Both would have printed a tidy table of catches. A mutation run whose CONTROL IS NOT GREEN measures nothing, and the tidy table is what makes that dangerous. ⭐ CANDIDATE (3) — the Routine spawning the child instead of the parent — remains open and is the only one that removes the chain rather than accommodating it. Filed as the real fix; this is the honest accounting of a ceiling, not a way past it.",
+      "score": 160.0,
+      "_score_basis": "the mechanism that keeps the loop running unattended cannot run at the end of a chain, and grades its own failure as the session's fault",
+      "depends_on_evidence": "research/autonomy/health.py c_cycles_are_sized HANDOFF-REFUSED branch; 5 tests in systems/tests/test_autonomy_health.py; 4/4 mutations caught with a green control",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "an internal session-lifecycle mechanism; nothing published, submitted or deposited"
+    },
+    {
       "id": "AUT-013",
       "_derived": true,
       "what": "Treat as landscape context; the ex-vivo result is banked and needs no further lookup.",
@@ -1304,9 +1332,35 @@
       }
     },
     {
+      "id": "AUT-PD-027",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ THE SCRATCHPAD IS SHARED ACROSS SEATS AND FILENAMES COLLIDE — ONE SEAT'S EVIDENCE WAS DESTROYED MID-RUN. Measured 2026-08-27: the AUT-PROP-009 review seat's `scratchpad/preflight.log` was TRUNCATED TO 8 LINES by another agent's run at 20:38 while it was still writing. ⭐ THE SEAT HANDLED IT CORRECTLY AND THAT IS WHY WE KNOW: it refused to report that run's result at all and re-ran under a uniquely-named log. A less careful seat reports the truncated log's tail as the verdict, and a preflight that was killed mid-write is indistinguishable from one that passed — the exact ambiguity CLAUDE.md §6 records as the reason preflight now writes an explicit exit marker. ⛔ THE HAZARD IS GENERAL, NOT ABOUT ONE FILENAME: every seat is told to write to the same scratchpad directory, and `preflight.log`, `mutations.txt` and `patch.diff` are the names everyone reaches for. ⭐ FIX: give each seat a namespaced subdirectory it is told to use, and say so in the seat prompt template rather than hoping — a convention agreed in prose between two writers is not agreed at all (AUT-PD-017, filed today for exactly this shape one level down).\n\n⭐ SHARPENED 2026-08-27 BY A DEFECT IT MADE UNDIAGNOSABLE. AUT-PD-026's mechanism is now recorded as UNKNOWN, and the reason is that THE EVIDENCE NO LONGER EXISTS: the two seats that observed it worked in worktrees that were removed when they finished, and one of the two logs had already been truncated mid-write by a sibling. The symptom survives only because it happens to be quoted inside the seats' completion reports. ⛔ SO THE FINDING IS NOT ONLY THAT LOGS COLLIDE, IT IS THAT THEY ARE EPHEMERAL BY CONSTRUCTION: a seat's evidence lives inside the worktree that is deleted the moment its work lands, so any defect the driver cannot reproduce IMMEDIATELY becomes unfalsifiable. I then wrote two wrong mechanisms into the ledger in sequence, and neither could be checked against the run that produced them. ⭐ FIX, AND IT IS TWO LINES IN THE SEAT PROMPT: every seat writes its logs to a seat-unique directory OUTSIDE its worktree — the scratchpad root survives the worktree — and names the log paths in its final report so the driver can read them after the worktree is gone. The chaperone seat did exactly this unprompted (`scratchpad/aut015/aut015-devsetup-preflight3.log`) and its run is the only one of the three that is still auditable.",
+      "score": 140.0,
+      "_score_basis": "a seat's evidence dies with its worktree, so any defect the driver cannot reproduce immediately becomes unfalsifiable — it already cost two wrong mechanisms in the ledger",
+      "depends_on_evidence": "the AUT-PROP-009 review seat's report: scratchpad/preflight.log truncated to 8 lines at 20:38",
+      "closes_clause": null
+    },
+    {
       "id": "AUT-015",
       "_derived": true,
-      "what": "✅ ANSWERED 2026-08-27 — **NO**, and the route's own framing was half wrong. Original question: 'Establish whether any FET-family fusion protein is a documented chaperone client.' ⛔ THE ANSWER: not one co-immunoprecipitation, pull-down, affinity-capture or client-screen result exists for any FUS, EWSR1 or TAF15 fusion. What exists is three independent demonstrations that EWS::FLI1 protein LEVELS FALL when the HSP90 machine is perturbed — machine-level DEPENDENCE, not clientship — and for EWSR1::NR4A3, this programme's own fusion, the chaperone literature is EMPTY. ⛔ A COMMITTED 'YES' IS WITHDRAWN: the 2026-08-09 record rested on Zajec 2022's sentence 'EWS::FLI1 … are Hsp90 client proteins', which is BACKGROUND PROSE IN AN INTRODUCTION; that paper's own data are depletion. The 2026-08-09 file is left byte-for-byte intact with a `superseded_by` pointer. ⭐ THE DISTINCTION THE ITEM ASKED FOR WAS MADE ROW BY ROW — (a) wild-type FET as client, (b) the FUSION as client, (c) the PARTNER as client, (d) mere sensitivity of a fusion-driven line to an HSP90 inhibitor — and every row landed in (b)-as-dependence or (d). ⚠ ONE TRAP CAUGHT: Urbini 2017 reports HSPA8 (HSC70) as a NOVEL FUSION PARTNER of NR4A3 in one EMC case. A chaperone gene donating a promoter is not a chimera being a chaperone substrate, and HSPA8 is not a FET gene — it would have read as a hit to a keyword search. ⭐⭐ THE FINDING WORTH MORE THAN THE LITERATURE LIST: RT-CHAPERONE's rationale locates the folding liability in the chimera as such — 'two domains that never evolved together'. But the ONE fusion oncoprotein whose clientship has actually been solved, AML1-ETO, is handled through its 3′ partner's ORDERED DNA-BINDING DOMAIN (IP + MS + cryo-EM, TRiC/CCT with HSP70) — not its disordered half. If that generalises, the liability in EWSR1::NR4A3 sits in the NR4A3 zinc-finger/LBD region rather than the EWSR1 low-complexity domain, and NR4A3 has no chaperone literature at all. Stated as a hypothesis from one comparator, not a finding. ⭐ AND THE COMPARATOR PROVES THE ASSAY EXISTS AND HAS SIMPLY NEVER BEEN POINTED AT THIS FAMILY. ⚠ Taipale 2014's client screen MATERIALLY WEAKENS the strongest row: SGT1's validated client preference is leucine-rich-repeat folds (p<0.0001), and neither EWSR1 nor FLI1 has an LRR domain, so the SGT1 knockdown effect is unlikely to be direct clientship. ⭐ GRADE UNCHANGED, DELIBERATELY: ◐ PARTLY SUPPORTED holds and falsifier F5 survives. An over-read was removed, one real positive and one real negative were added, and they cancel — no clientship measurement was added, so no grade moved. A route does not improve because a seat spent an afternoon on it. ⚠ UNKNOWN, recorded: whether FET proteins are even in Taipale's query panel (answer lives in IntAct IM-22301, and that is now the route's best_next_action); whether Martins 2008 tested EWS-FLI1 for HSP90 binding and found nothing, or never tested it; and whether the EWS::FLI1 depletion is post-translational AT ALL — none of the three papers reports a cycloheximide chase, proteasome rescue or matched mRNA measurement, so a route through the fusion's own autoregulated locus is not excluded. 15 queries recorded verbatim with their counts, including the ones that returned nothing.",
+      "what": "Fetch IntAct/BioGRID dataset IM-22301, the deposited interaction set of the published human chaperone-interaction network (PMID 25036637), and record whether FUS, EWSR1 or TAF15 appear in its query panel at all — a $0 fetch, and the last cheap observation left on this route now that the FET-fusion clientship literature has been assessed and come back empty.",
       "serves": {
         "route": "RT-CHAPERONE",
         "publication": "PUB-TXN-DEPENDENCY",
@@ -1589,6 +1643,34 @@
       "closes_clause": null
     },
     {
+      "id": "AUT-PD-031",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
+      "score": 125.0,
+      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
+      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited"
+    },
+    {
       "id": "AUT-032",
       "_derived": true,
       "what": "Keep as landscape context, cited and never overstated. It is the comparator, not a contribution.",
@@ -1662,7 +1744,7 @@
         "publication": "PUB-ATR",
         "strategy": "ST-DEPENDENCY"
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -1674,7 +1756,7 @@
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0016",
       "score": 120.0,
-      "what": "Propagate the PMID 37205599 -> 41811428 citation correction (route 1's mechanism paper, Gracilla et al., Cancer Research 2026;86:2660-2677 — already corrected in emc-atr-collaborator-package.md's own reference list and in emc-atr-vulnerability-assessment.md by CYC-0016) to the one remaining citing file: research/manuscripts/program/emc-post-degrader-options.md, lines 267 and 499. Out of scope for CYC-0016's two-document hardening round; a small, mechanical, already-vetted fix (citation-corrections-2026-08-09.json already documents which identifier is current)."
+      "what": "Propagate the PMID 37205599 -> 41811428 citation correction (route 1's mechanism paper, Gracilla et al., Cancer Research 2026;86:2660-2677 — already corrected in emc-atr-collaborator-package.md's own reference list and in emc-atr-vulnerability-assessment.md by CYC-0016) to the one remaining citing file: research/manuscripts/program/emc-post-degrader-options.md, lines 267 and 499. Out of scope for CYC-0016's two-document hardening round; a small, mechanical, already-vetted fix (citation-corrections-2026-08-09.json already documents which identifier is current). DONE 2026-08-27: propagated to both cited lines (267, 499) in emc-post-degrader-options.md, matching the corrected citation format already used in emc-atr-collaborator-package.md and emc-atr-vulnerability-assessment.md (Gracilla et al., Cancer Research 2026;86:2660-2677, PMID 41811428). lint_citations: 0 errors."
     },
     {
       "id": "AUT-PD-017",
@@ -1700,32 +1782,6 @@
       "score": 120.0,
       "_score_basis": "the instance cost one permanently-unmeasurable governance row on the dial the architecture calls the most important; the class is every other row like it",
       "depends_on_evidence": "research/autonomy/receipt_schema.py and its 21-test suite — the worked instance",
-      "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-027",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ THE SCRATCHPAD IS SHARED ACROSS SEATS AND FILENAMES COLLIDE — ONE SEAT'S EVIDENCE WAS DESTROYED MID-RUN. Measured 2026-08-27: the AUT-PROP-009 review seat's `scratchpad/preflight.log` was TRUNCATED TO 8 LINES by another agent's run at 20:38 while it was still writing. ⭐ THE SEAT HANDLED IT CORRECTLY AND THAT IS WHY WE KNOW: it refused to report that run's result at all and re-ran under a uniquely-named log. A less careful seat reports the truncated log's tail as the verdict, and a preflight that was killed mid-write is indistinguishable from one that passed — the exact ambiguity CLAUDE.md §6 records as the reason preflight now writes an explicit exit marker. ⛔ THE HAZARD IS GENERAL, NOT ABOUT ONE FILENAME: every seat is told to write to the same scratchpad directory, and `preflight.log`, `mutations.txt` and `patch.diff` are the names everyone reaches for. ⭐ FIX: give each seat a namespaced subdirectory it is told to use, and say so in the seat prompt template rather than hoping — a convention agreed in prose between two writers is not agreed at all (AUT-PD-017, filed today for exactly this shape one level down).\n\n⭐ SHARPENED 2026-08-27 BY A DEFECT IT MADE UNDIAGNOSABLE. AUT-PD-026's mechanism is now recorded as UNKNOWN, and the reason is that THE EVIDENCE NO LONGER EXISTS: the two seats that observed it worked in worktrees that were removed when they finished, and one of the two logs had already been truncated mid-write by a sibling. The symptom survives only because it happens to be quoted inside the seats' completion reports. ⛔ SO THE FINDING IS NOT ONLY THAT LOGS COLLIDE, IT IS THAT THEY ARE EPHEMERAL BY CONSTRUCTION: a seat's evidence lives inside the worktree that is deleted the moment its work lands, so any defect the driver cannot reproduce IMMEDIATELY becomes unfalsifiable. I then wrote two wrong mechanisms into the ledger in sequence, and neither could be checked against the run that produced them. ⭐ FIX, AND IT IS TWO LINES IN THE SEAT PROMPT: every seat writes its logs to a seat-unique directory OUTSIDE its worktree — the scratchpad root survives the worktree — and names the log paths in its final report so the driver can read them after the worktree is gone. The chaperone seat did exactly this unprompted (`scratchpad/aut015/aut015-devsetup-preflight3.log`) and its run is the only one of the three that is still auditable.",
-      "score": 140.0,
-      "_score_basis": "a seat's evidence dies with its worktree, so any defect the driver cannot reproduce immediately becomes unfalsifiable — it already cost two wrong mechanisms in the ledger",
-      "depends_on_evidence": "the AUT-PROP-009 review seat's report: scratchpad/preflight.log truncated to 8 lines at 20:38",
       "closes_clause": null
     },
     {
@@ -3712,7 +3768,7 @@
       "id": "AUT-PROP-026",
       "kind": "harden",
       "prerequisite_of": null,
-      "score": -354.0,
+      "score": -444.0,
       "closes_clause": null,
       "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text.",
       "score_inputs": {
@@ -4219,62 +4275,6 @@
       "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
       "what": "⛔ THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING — research-loop §1 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the §6 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n⚠ ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT — never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening §8b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. ⛔ DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. ⭐ These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them — which is exactly why they could sit red unnoticed.",
       "_score_basis": "a red trunk blocks every cycle's commit gate; research-loop §1 makes it the cycle rather than a task within one"
-    },
-    {
-      "id": "AUT-PD-031",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
-      "score": 125.0,
-      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
-      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited"
-    },
-    {
-      "id": "AUT-PD-032",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0030-6be7fd5a",
-      "what": "✅ HALF FIXED 2026-08-27, AND THE OTHER HALF IS IMPOSSIBLE — WHICH IS ITSELF THE ANSWER. ⛔⛔ THE LOOP'S HANDOFF MECHANISM CANNOT RUN AT THE END OF A SPAWN CHAIN, AND IT FAILS CLOSED INTO A HEALTH ROW NOTHING CAN CLEAR. Measured 2026-08-27: CYC-0030 built its successor prompt with `handoff.py --json`, called `create_session`, and was refused — `caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions`. ⭐ research-loop §3 tells every session to 'HAND OFF THE SAME WAY YOU WERE STARTED', and handoff.py's own generated prompt tells the child the same thing. So each generation is instructed to extend a chain that has a hard ceiling, and the LAST generation is the one told most emphatically to do the impossible — the deeper the loop has run unattended, the more certainly the instruction fails. ⛔ AND THE FAILURE IS RECORDED AS A DEFECT IN THE SESSION RATHER THAN IN THE PLATFORM: `health.py`'s `cycles_are_sized` grades an over-cap session with no `handoff.child_session_id` as RED, and no future cycle can clear that row by behaving better — the same LATCHING shape `RECEIPT_WINDOW` was introduced to fix, arriving through a different door. ⚠ NOT AN OUTAGE: the 'EMC research loop — driver' Routine (13 */4 * * *) is enabled and healthy, so the chain terminating costs a ~4 h delay rather than continuity. That is the backstop working as designed — and it is only NOT a deferral because the handoff was attempted first and refused. ⭐ FIXES WORTH CONSIDERING, none obviously right: (1) handoff.py should CHECK the depth before building a prompt it cannot use, and say plainly that the Routine is the successor when it cannot spawn; (2) `cycles_are_sized` should read a refused-handoff record and grade it as UNMEASURED rather than RED, since 'the platform refused' is not the same fact as 'this session did not hand off'; (3) the child could be spawned by the Routine rather than by the parent, which removes the chain entirely. ⛔ Do NOT fix this by raising the cap on cycles per session — the cap is about context running out silently and has nothing to do with the spawn limit.\n\n⛔ CANDIDATE (1) CANNOT BE BUILT, and whoever reads this next should not try: `handoff.py` cannot check the lineage depth before building its prompt. It is a pure-stdlib script with no network and no session context; the depth is known only to `create_session` at call time. The refusal is discoverable ONLY by attempting the handoff. ⭐ SO THE FIX IS CANDIDATE (2), AND IT IS THE ONE THE CODE'S OWN COMMENT ALREADY ARGUED FOR: `c_cycles_are_sized` says in its source that 'a condition that cannot be satisfied by doing the right thing ... is a stopwatch, not a guard'. That is exactly what it had become — the session built the prompt, made the call, was refused, and earned a red row no future cycle could clear. `handoff.refusal_of()` now reads a recorded refusal and the row downgrades RED → UNMEASURED. ⛔ NEVER TO GREEN, and the distinction is the whole point: no successor exists, so the work did NOT continue in a fresh context. Green would claim the rule was satisfied; red claims a defect that is not the session's; unmeasured says the loop cannot be graded on this because the mechanism was gone. ⛔ AND THE REFUSAL MUST BE RECORDED VERBATIM — an absent or whitespace record stays RED, or 'I could not' becomes a free pass claimable by any session that never tried. ✅ 5 new tests; 4 mutations, 4 caught, control green at 74, both files restored byte-identically by sha256 comparison. ⚠ AND TWO MUTATION HARNESSES WERE THROWN AWAY FIRST: one returned `8 failed, 66 errors` uniformly and one had a control of `3 failed`, because the file copies were not faithful. Both would have printed a tidy table of catches. A mutation run whose CONTROL IS NOT GREEN measures nothing, and the tidy table is what makes that dangerous. ⭐ CANDIDATE (3) — the Routine spawning the child instead of the parent — remains open and is the only one that removes the chain rather than accommodating it. Filed as the real fix; this is the honest accounting of a ceiling, not a way past it.",
-      "score": 160.0,
-      "_score_basis": "the mechanism that keeps the loop running unattended cannot run at the end of a chain, and grades its own failure as the session's fault",
-      "depends_on_evidence": "research/autonomy/health.py c_cycles_are_sized HANDOFF-REFUSED branch; 5 tests in systems/tests/test_autonomy_health.py; 4/4 mutations caught with a green control",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "an internal session-lifecycle mechanism; nothing published, submitted or deposited"
     }
   ]
 }
