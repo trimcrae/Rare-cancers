@@ -1,0 +1,844 @@
+{
+  "_what": "Figure graphics for the candidate EMC Kaplan-Meier series, with the full route ladder tried for each and every outcome recorded.",
+  "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety or clinical readiness.",
+  "_reading": "A retrieved figure is NOT an admissible curve. Admissibility is decided by looking at the graphic for a numbers-at-risk row, which this script does not do.",
+  "targets": [
+    {
+      "source_id": "seer270_2022",
+      "pmcid": null,
+      "routes": [
+        {
+          "route": "caller_pdf_url",
+          "url": "https://www.sciencedirect.com/science/article/pii/S2468294222000211/pdf",
+          "http": 403,
+          "content_type": "text/html; charset=UTF-8",
+          "bytes": 2000,
+          "browser_retry": {
+            "http": 403,
+            "content_type": "text/html; charset=UTF-8",
+            "bytes": 831865
+          },
+          "kind": "not-a-figure-source",
+          "head": "<!DOCTYPE html>\n<html lang='en-us'>\n<head>\n  <meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\" >\n  <meta content=\"IE=edge\" http-equiv=\"X-UA-Compatible\" >\n  <meta c"
+        }
+      ],
+      "assets": null,
+      "route_used": null,
+      "registry_ids": {
+        "doi": "10.1016/j.ctarc.2022.100530",
+        "pmid": "35144048",
+        "pmcid": null,
+        "found": true
+      },
+      "identifiers_used": {
+        "doi": "10.1016/j.ctarc.2022.100530",
+        "pmid": "35144048",
+        "pmcid": null
+      },
+      "identifier_source": "registry",
+      "pmid_resolution": {
+        "query_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:35144048%20AND%20SRC:MED&format=json&resultType=core&pageSize=1",
+        "http": 200,
+        "pmcid": null,
+        "is_open_access": "N",
+        "in_epmc": "N",
+        "title": "Extraskeletal myxoid chondrosarcoma: Clinical features and overall survival.",
+        "journal": "Cancer treatment and research communications"
+      },
+      "unpaywall": {
+        "query_url": "https://api.unpaywall.org/v2/10.1016/j.ctarc.2022.100530",
+        "http": 200,
+        "is_oa": true,
+        "oa_status": "gold",
+        "best_url_for_pdf": "https://www.sciencedirect.com/science/article/pii/S2468294222000211/pdf",
+        "best_host_type": "publisher",
+        "licence": "cc-by-nc-nd",
+        "best_url": "https://www.sciencedirect.com/science/article/pii/S2468294222000211/pdf",
+        "n_oa_locations": 2,
+        "oa_locations": [
+          {
+            "url_for_pdf": "https://www.sciencedirect.com/science/article/pii/S2468294222000211/pdf",
+            "url": "https://www.sciencedirect.com/science/article/pii/S2468294222000211/pdf",
+            "host_type": "publisher",
+            "version": "publishedVersion",
+            "repository_institution": null
+          },
+          {
+            "url_for_pdf": null,
+            "url": "https://doaj.org/article/90d8691fbbb84cf897ca1c7b378f0042",
+            "host_type": "repository",
+            "version": "submittedVersion",
+            "repository_institution": null
+          }
+        ]
+      },
+      "openalex": {
+        "query_url": "https://api.openalex.org/works/doi:10.1016/j.ctarc.2022.100530",
+        "http": 200,
+        "is_oa": true,
+        "locations": [
+          {
+            "pdf_url": "https://www.sciencedirect.com/science/article/pii/S2468294222000211/pdf",
+            "landing_page_url": "https://doi.org/10.1016/j.ctarc.2022.100530",
+            "source": "Cancer Treatment and Research Communications",
+            "type": "journal",
+            "version": "publishedVersion",
+            "license": "cc-by-nc-nd"
+          },
+          {
+            "pdf_url": null,
+            "landing_page_url": "https://doaj.org/article/90d8691fbbb84cf897ca1c7b378f0042",
+            "source": "DOAJ (DOAJ: Directory of Open Access Journals)",
+            "type": "repository",
+            "version": "submittedVersion",
+            "license": "cc-by-sa"
+          }
+        ],
+        "oa_status": "gold"
+      },
+      "extra_oa_urls": [],
+      "oa_service": {
+        "lookup_url": null,
+        "skipped": "no PMC id"
+      },
+      "oa_service_raw": null,
+      "⛔": "no route returned a figure source. This is a reachability finding about THIS run, not a statement that the paper prints no curve."
+    },
+    {
+      "source_id": "drilon2008",
+      "pmcid": "PMC2779719",
+      "routes": [
+        {
+          "route": "europepmc_pdf_render",
+          "url": "https://europepmc.org/articles/PMC2779719?pdf=render",
+          "http": 500,
+          "content_type": "application/json;charset=UTF-8",
+          "bytes": 57,
+          "browser_retry": {
+            "http": 500,
+            "content_type": "application/json;charset=UTF-8",
+            "bytes": 57
+          },
+          "kind": "not-a-figure-source",
+          "head": "{\"error\": \"Failed to retrieve PDF for pmcid: PMC2779719\"}"
+        },
+        {
+          "route": "pmc_direct_pdf",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2779719/pdf/",
+          "http": 200,
+          "content_type": "text/html; charset=utf-8",
+          "bytes": 1817,
+          "browser_retry": {
+            "http": 200,
+            "content_type": "text/html; charset=utf-8",
+            "bytes": 1817
+          },
+          "kind": "not-a-figure-source",
+          "head": "\n\n\n\n<html>\n  <head>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Preparing to download ...</title>\n    <style type=\"text/css\">\n      body{f"
+        },
+        {
+          "route": "pmc_legacy_pdf",
+          "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2779719/pdf/",
+          "http": 200,
+          "content_type": "text/html; charset=utf-8",
+          "bytes": 1817,
+          "browser_retry": {
+            "http": 200,
+            "content_type": "text/html; charset=utf-8",
+            "bytes": 1817
+          },
+          "kind": "not-a-figure-source",
+          "head": "\n\n\n\n<html>\n  <head>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Preparing to download ...</title>\n    <style type=\"text/css\">\n      body{f"
+        },
+        {
+          "route": "caller_pdf_url",
+          "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.23978",
+          "http": 403,
+          "content_type": "text/html; charset=UTF-8",
+          "bytes": 2000,
+          "browser_retry": {
+            "http": 403,
+            "content_type": "text/html; charset=UTF-8",
+            "bytes": 5808
+          },
+          "kind": "not-a-figure-source",
+          "head": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content"
+        }
+      ],
+      "assets": null,
+      "route_used": null,
+      "registry_ids": {
+        "doi": "10.1002/cncr.23978",
+        "pmid": "18951519",
+        "pmcid": "PMC2779719",
+        "found": true
+      },
+      "identifiers_used": {
+        "doi": "10.1002/cncr.23978",
+        "pmid": "18951519",
+        "pmcid": "PMC2779719"
+      },
+      "identifier_source": "registry",
+      "unpaywall": {
+        "query_url": "https://api.unpaywall.org/v2/10.1002/cncr.23978",
+        "http": 200,
+        "is_oa": true,
+        "oa_status": "bronze",
+        "best_url_for_pdf": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.23978",
+        "best_host_type": "publisher",
+        "licence": null,
+        "best_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.23978",
+        "n_oa_locations": 2,
+        "oa_locations": [
+          {
+            "url_for_pdf": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.23978",
+            "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.23978",
+            "host_type": "publisher",
+            "version": "publishedVersion",
+            "repository_institution": null
+          },
+          {
+            "url_for_pdf": null,
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/2779719",
+            "host_type": "repository",
+            "version": "submittedVersion",
+            "repository_institution": "National Institutes of Health"
+          }
+        ]
+      },
+      "openalex": {
+        "query_url": "https://api.openalex.org/works/doi:10.1002/cncr.23978",
+        "http": 200,
+        "is_oa": true,
+        "locations": [
+          {
+            "pdf_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.23978",
+            "landing_page_url": "https://doi.org/10.1002/cncr.23978",
+            "source": "Cancer",
+            "type": "journal",
+            "version": "publishedVersion",
+            "license": null
+          },
+          {
+            "pdf_url": null,
+            "landing_page_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/2779719",
+            "source": "PubMed Central",
+            "type": "repository",
+            "version": "submittedVersion",
+            "license": null
+          }
+        ],
+        "oa_status": "bronze"
+      },
+      "extra_oa_urls": [],
+      "oa_service": {
+        "lookup_url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC2779719",
+        "http": 404,
+        "content_type": "text/html; charset=ISO-8859-1",
+        "tgz": null,
+        "pdf": null,
+        "error_code": null,
+        "license": null
+      },
+      "oa_service_raw": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\"> \n<html>\n<head>\n<title>NCBI/xpmc21 - WWW Error 404 Diagnostic</title>\n<style type=\"text/css\"> \nh1.error {color: red; font-size: 40pt}\ndiv.diags {text-indent: 0.5in }\n</style> \n</head>\n<body>\n<h1>Can't find the requested web page.</h1>\n\n<p>The page you requested ( h t t p : / / w w w . n c b i . n l m . n i h . g o v / p m c / u t i l s / o a / o a . f c g i ? i d = P M C 2 7 7 9 7 1 9 ) could not be found on our web server.\nThis is usually caused by a error in the web request;\nhowever, it could also be caused by a problem on our server.\nYou might be able to find what you want via \n<a href=\"/entrez/query.fcgi?db=ncbisearch\">NCBI Site Search</a>.  </p>\n<p>If you know what the request should be, please check it and correct it\nif necessary.  If not, you may be able to find the desired page by browsing\nour site at <a href=\"http://www.ncbi.nlm.nih.gov\">http://www.ncbi.nlm.nih.gov</a>.</p>\n<p> If you need additional assistance, send e-mail to webadmin@ncbi.nlm.nih.gov.  Please include\nthe following information in your problem report.</p>\n\n<div class=\"diags\">Error: 404</div>\n\n<div class=\"diags\">URL:  h t t p : / / w w w . n c b i . n l m . n i h . g o v / p m c / u t i l s / o a / o a . f c g i ? i d = P M C 2 7 7 9 7 1 9 </div>\n\n<div class=\"diags\">Server: xpmc21</div>\n\n<div class=\"diags\">Time: Thu Aug 27 15:23:18 EDT 2026</div>\n\n\n<p>NOTE: The above may be an internal URL which differs fr",
+      "⛔": "no route returned a figure source. This is a reachability finding about THIS run, not a statement that the paper prints no curve."
+    },
+    {
+      "source_id": "bishop2019",
+      "pmcid": "PMC7771031",
+      "routes": [
+        {
+          "route": "europepmc_pdf_render",
+          "url": "https://europepmc.org/articles/PMC7771031?pdf=render",
+          "http": 500,
+          "content_type": "application/json;charset=UTF-8",
+          "bytes": 57,
+          "browser_retry": {
+            "http": 500,
+            "content_type": "application/json;charset=UTF-8",
+            "bytes": 57
+          },
+          "kind": "not-a-figure-source",
+          "head": "{\"error\": \"Failed to retrieve PDF for pmcid: PMC7771031\"}"
+        },
+        {
+          "route": "pmc_direct_pdf",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7771031/pdf/",
+          "http": 200,
+          "content_type": "text/html; charset=utf-8",
+          "bytes": 1817,
+          "browser_retry": {
+            "http": 200,
+            "content_type": "text/html; charset=utf-8",
+            "bytes": 1817
+          },
+          "kind": "not-a-figure-source",
+          "head": "\n\n\n\n<html>\n  <head>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Preparing to download ...</title>\n    <style type=\"text/css\">\n      body{f"
+        },
+        {
+          "route": "pmc_legacy_pdf",
+          "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7771031/pdf/",
+          "http": 200,
+          "content_type": "text/html; charset=utf-8",
+          "bytes": 1816,
+          "browser_retry": {
+            "http": 200,
+            "content_type": "text/html; charset=utf-8",
+            "bytes": 1816
+          },
+          "kind": "not-a-figure-source",
+          "head": "\n\n\n\n<html>\n  <head>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Preparing to download ...</title>\n    <style type=\"text/css\">\n      body{f"
+        },
+        {
+          "route": "caller_pdf_url",
+          "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/7771031",
+          "http": 200,
+          "content_type": "text/html; charset=utf-8",
+          "bytes": 168147,
+          "browser_retry": {
+            "http": 200,
+            "content_type": "text/html; charset=utf-8",
+            "bytes": 168147
+          },
+          "kind": "not-a-figure-source",
+          "head": "\n<!DOCTYPE html>\n<html lang=\"en\" >\n    <head >\n\n        <meta charset=\"UTF-8\" />\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n        <meta name=\"HandheldFriendl"
+        }
+      ],
+      "assets": null,
+      "route_used": null,
+      "registry_ids": {
+        "doi": "10.1097/coc.0000000000000590",
+        "pmid": "31436747",
+        "pmcid": "PMC7771031",
+        "found": true
+      },
+      "identifiers_used": {
+        "doi": "10.1097/coc.0000000000000590",
+        "pmid": "31436747",
+        "pmcid": "PMC7771031"
+      },
+      "identifier_source": "registry",
+      "unpaywall": {
+        "query_url": "https://api.unpaywall.org/v2/10.1097/coc.0000000000000590",
+        "http": 200,
+        "is_oa": true,
+        "oa_status": "green",
+        "best_url_for_pdf": "https://www.ncbi.nlm.nih.gov/pmc/articles/7771031",
+        "best_host_type": "repository",
+        "licence": null,
+        "best_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/7771031",
+        "n_oa_locations": 1,
+        "oa_locations": [
+          {
+            "url_for_pdf": null,
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/7771031",
+            "host_type": "repository",
+            "version": "submittedVersion",
+            "repository_institution": "National Institutes of Health"
+          }
+        ]
+      },
+      "openalex": {
+        "query_url": "https://api.openalex.org/works/doi:10.1097/coc.0000000000000590",
+        "http": 200,
+        "is_oa": true,
+        "locations": [
+          {
+            "pdf_url": null,
+            "landing_page_url": "https://www.ncbi.nlm.nih.gov/pmc/articles/7771031",
+            "source": "PubMed Central",
+            "type": "repository",
+            "version": "submittedVersion",
+            "license": null
+          }
+        ],
+        "oa_status": "green"
+      },
+      "extra_oa_urls": [],
+      "oa_service": {
+        "lookup_url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC7771031",
+        "http": 404,
+        "content_type": "text/html; charset=ISO-8859-1",
+        "tgz": null,
+        "pdf": null,
+        "error_code": null,
+        "license": null
+      },
+      "oa_service_raw": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\"> \n<html>\n<head>\n<title>NCBI/xpmc21 - WWW Error 404 Diagnostic</title>\n<style type=\"text/css\"> \nh1.error {color: red; font-size: 40pt}\ndiv.diags {text-indent: 0.5in }\n</style> \n</head>\n<body>\n<h1>Can't find the requested web page.</h1>\n\n<p>The page you requested ( h t t p : / / w w w . n c b i . n l m . n i h . g o v / p m c / u t i l s / o a / o a . f c g i ? i d = P M C 7 7 7 1 0 3 1 ) could not be found on our web server.\nThis is usually caused by a error in the web request;\nhowever, it could also be caused by a problem on our server.\nYou might be able to find what you want via \n<a href=\"/entrez/query.fcgi?db=ncbisearch\">NCBI Site Search</a>.  </p>\n<p>If you know what the request should be, please check it and correct it\nif necessary.  If not, you may be able to find the desired page by browsing\nour site at <a href=\"http://www.ncbi.nlm.nih.gov\">http://www.ncbi.nlm.nih.gov</a>.</p>\n<p> If you need additional assistance, send e-mail to webadmin@ncbi.nlm.nih.gov.  Please include\nthe following information in your problem report.</p>\n\n<div class=\"diags\">Error: 404</div>\n\n<div class=\"diags\">URL:  h t t p : / / w w w . n c b i . n l m . n i h . g o v / p m c / u t i l s / o a / o a . f c g i ? i d = P M C 7 7 7 1 0 3 1 </div>\n\n<div class=\"diags\">Server: xpmc21</div>\n\n<div class=\"diags\">Time: Thu Aug 27 15:23:32 EDT 2026</div>\n\n\n<p>NOTE: The above may be an internal URL which differs fr",
+      "⛔": "no route returned a figure source. This is a reachability finding about THIS run, not a statement that the paper prints no curve."
+    },
+    {
+      "source_id": "huang2023",
+      "pmcid": null,
+      "routes": [
+        {
+          "route": "caller_pdf_url",
+          "url": "http://www.modernpathology.org/article/S0893395223000662/pdf",
+          "http": 403,
+          "content_type": "text/html; charset=UTF-8",
+          "bytes": 2000,
+          "browser_retry": {
+            "http": 403,
+            "content_type": "text/html; charset=UTF-8",
+            "bytes": 5799
+          },
+          "kind": "not-a-figure-source",
+          "head": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content"
+        }
+      ],
+      "assets": null,
+      "route_used": null,
+      "registry_ids": {
+        "doi": "10.1016/j.modpat.2023.100161",
+        "pmid": "36948401",
+        "pmcid": null,
+        "found": true
+      },
+      "identifiers_used": {
+        "doi": "10.1016/j.modpat.2023.100161",
+        "pmid": "36948401",
+        "pmcid": null
+      },
+      "identifier_source": "registry",
+      "pmid_resolution": {
+        "query_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:36948401%20AND%20SRC:MED&format=json&resultType=core&pageSize=1",
+        "http": 200,
+        "pmcid": null,
+        "is_open_access": "N",
+        "in_epmc": "N",
+        "title": "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion.",
+        "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc"
+      },
+      "unpaywall": {
+        "query_url": "https://api.unpaywall.org/v2/10.1016/j.modpat.2023.100161",
+        "http": 200,
+        "is_oa": true,
+        "oa_status": "bronze",
+        "best_url_for_pdf": "http://www.modernpathology.org/article/S0893395223000662/pdf",
+        "best_host_type": "publisher",
+        "licence": null,
+        "best_url": "http://www.modernpathology.org/article/S0893395223000662/pdf",
+        "n_oa_locations": 1,
+        "oa_locations": [
+          {
+            "url_for_pdf": "http://www.modernpathology.org/article/S0893395223000662/pdf",
+            "url": "http://www.modernpathology.org/article/S0893395223000662/pdf",
+            "host_type": "publisher",
+            "version": "publishedVersion",
+            "repository_institution": null
+          }
+        ]
+      },
+      "openalex": {
+        "query_url": "https://api.openalex.org/works/doi:10.1016/j.modpat.2023.100161",
+        "http": 200,
+        "is_oa": true,
+        "locations": [
+          {
+            "pdf_url": "http://www.modernpathology.org/article/S0893395223000662/pdf",
+            "landing_page_url": "https://doi.org/10.1016/j.modpat.2023.100161",
+            "source": "Modern Pathology",
+            "type": "journal",
+            "version": "publishedVersion",
+            "license": null
+          }
+        ],
+        "oa_status": "bronze"
+      },
+      "extra_oa_urls": [],
+      "oa_service": {
+        "lookup_url": null,
+        "skipped": "no PMC id"
+      },
+      "oa_service_raw": null,
+      "⛔": "no route returned a figure source. This is a reachability finding about THIS run, not a statement that the paper prints no curve."
+    },
+    {
+      "source_id": "japan2003",
+      "pmcid": null,
+      "routes": [
+        {
+          "route": "caller_pdf_url",
+          "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.11162",
+          "http": 403,
+          "content_type": "text/html; charset=UTF-8",
+          "bytes": 2000,
+          "browser_retry": {
+            "http": 403,
+            "content_type": "text/html; charset=UTF-8",
+            "bytes": 5808
+          },
+          "kind": "not-a-figure-source",
+          "head": "<!DOCTYPE html><html lang=\"en-US\"><head><title>Just a moment...</title><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><meta http-equiv=\"X-UA-Compatible\" content"
+        }
+      ],
+      "assets": null,
+      "route_used": null,
+      "registry_ids": {
+        "doi": "10.1002/cncr.11162",
+        "pmid": "12599237",
+        "pmcid": null,
+        "found": true
+      },
+      "identifiers_used": {
+        "doi": "10.1002/cncr.11162",
+        "pmid": "12599237",
+        "pmcid": null
+      },
+      "identifier_source": "registry",
+      "pmid_resolution": {
+        "query_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:12599237%20AND%20SRC:MED&format=json&resultType=core&pageSize=1",
+        "http": 200,
+        "pmcid": null,
+        "is_open_access": "N",
+        "in_epmc": "N",
+        "title": "Extraskeletal myxoid chondrosarcoma: a Multi-Institutional Study of 42 Cases in Japan.",
+        "journal": "Cancer"
+      },
+      "unpaywall": {
+        "query_url": "https://api.unpaywall.org/v2/10.1002/cncr.11162",
+        "http": 200,
+        "is_oa": true,
+        "oa_status": "bronze",
+        "best_url_for_pdf": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.11162",
+        "best_host_type": "publisher",
+        "licence": null,
+        "best_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.11162",
+        "n_oa_locations": 1,
+        "oa_locations": [
+          {
+            "url_for_pdf": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.11162",
+            "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.11162",
+            "host_type": "publisher",
+            "version": "publishedVersion",
+            "repository_institution": null
+          }
+        ]
+      },
+      "openalex": {
+        "query_url": "https://api.openalex.org/works/doi:10.1002/cncr.11162",
+        "http": 200,
+        "is_oa": true,
+        "locations": [
+          {
+            "pdf_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cncr.11162",
+            "landing_page_url": "https://doi.org/10.1002/cncr.11162",
+            "source": "Cancer",
+            "type": "journal",
+            "version": "publishedVersion",
+            "license": null
+          }
+        ],
+        "oa_status": "bronze"
+      },
+      "extra_oa_urls": [],
+      "oa_service": {
+        "lookup_url": null,
+        "skipped": "no PMC id"
+      },
+      "oa_service_raw": null,
+      "⛔": "no route returned a figure source. This is a reachability finding about THIS run, not a statement that the paper prints no curve."
+    },
+    {
+      "source_id": "meisKindblom1999",
+      "pmcid": null,
+      "routes": [],
+      "assets": null,
+      "route_used": null,
+      "registry_ids": {
+        "doi": "10.1097/00000478-199906000-00002",
+        "pmid": "10366145",
+        "pmcid": null,
+        "found": true
+      },
+      "identifiers_used": {
+        "doi": "10.1097/00000478-199906000-00002",
+        "pmid": "10366145",
+        "pmcid": null
+      },
+      "identifier_source": "registry",
+      "pmid_resolution": {
+        "query_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:10366145%20AND%20SRC:MED&format=json&resultType=core&pageSize=1",
+        "http": 200,
+        "pmcid": null,
+        "is_open_access": "N",
+        "in_epmc": "N",
+        "title": "Extraskeletal myxoid chondrosarcoma: a reappraisal of its morphologic spectrum and prognostic factors based on 117 cases.",
+        "journal": "The American journal of surgical pathology"
+      },
+      "unpaywall": {
+        "query_url": "https://api.unpaywall.org/v2/10.1097/00000478-199906000-00002",
+        "http": 200,
+        "is_oa": false,
+        "oa_status": "closed",
+        "best_url_for_pdf": null,
+        "best_host_type": null,
+        "licence": null,
+        "best_url": null,
+        "n_oa_locations": 0,
+        "oa_locations": []
+      },
+      "openalex": {
+        "query_url": "https://api.openalex.org/works/doi:10.1097/00000478-199906000-00002",
+        "http": 200,
+        "is_oa": false,
+        "locations": [],
+        "oa_status": "closed"
+      },
+      "extra_oa_urls": [],
+      "⛔": "no PMC identifier and no free copy located: this candidate has no open route at $0. That is a reachability statement, not a statement about the paper."
+    },
+    {
+      "source_id": "ussc2022",
+      "pmcid": null,
+      "routes": [],
+      "assets": null,
+      "route_used": null,
+      "registry_ids": {
+        "doi": "10.1002/jso.27062",
+        "pmid": "35962783",
+        "pmcid": null,
+        "found": true
+      },
+      "identifiers_used": {
+        "doi": "10.1002/jso.27062",
+        "pmid": "35962783",
+        "pmcid": null
+      },
+      "identifier_source": "registry",
+      "pmid_resolution": {
+        "query_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:35962783%20AND%20SRC:MED&format=json&resultType=core&pageSize=1",
+        "http": 200,
+        "pmcid": null,
+        "is_open_access": "N",
+        "in_epmc": "N",
+        "title": "Extraskeletal myxoid chondrosarcoma: Clinicopathological features and outcomes from the United States sarcoma collaborative database.",
+        "journal": "Journal of surgical oncology"
+      },
+      "unpaywall": {
+        "query_url": "https://api.unpaywall.org/v2/10.1002/jso.27062",
+        "http": 200,
+        "is_oa": false,
+        "oa_status": "closed",
+        "best_url_for_pdf": null,
+        "best_host_type": null,
+        "licence": null,
+        "best_url": null,
+        "n_oa_locations": 0,
+        "oa_locations": []
+      },
+      "openalex": {
+        "query_url": "https://api.openalex.org/works/doi:10.1002/jso.27062",
+        "http": 200,
+        "is_oa": false,
+        "locations": [],
+        "oa_status": "closed"
+      },
+      "extra_oa_urls": [],
+      "⛔": "no PMC identifier and no free copy located: this candidate has no open route at $0. That is a reachability statement, not a statement about the paper."
+    },
+    {
+      "source_id": "uMich2023",
+      "pmcid": null,
+      "routes": [],
+      "assets": null,
+      "route_used": null,
+      "registry_ids": {
+        "doi": "10.1097/coc.0000000000000988",
+        "pmid": "36825763",
+        "pmcid": null,
+        "found": true
+      },
+      "identifiers_used": {
+        "doi": "10.1097/coc.0000000000000988",
+        "pmid": "36825763",
+        "pmcid": null
+      },
+      "identifier_source": "registry",
+      "pmid_resolution": {
+        "query_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:36825763%20AND%20SRC:MED&format=json&resultType=core&pageSize=1",
+        "http": 200,
+        "pmcid": null,
+        "is_open_access": "N",
+        "in_epmc": "N",
+        "title": "Extraskeletal Myxoid Chondrosarcoma: Retrospective Case Series Examining Prognostic Factors, Treatment Approaches, and Oncologic Outcomes.",
+        "journal": "American journal of clinical oncology"
+      },
+      "unpaywall": {
+        "query_url": "https://api.unpaywall.org/v2/10.1097/coc.0000000000000988",
+        "http": 200,
+        "is_oa": false,
+        "oa_status": "closed",
+        "best_url_for_pdf": null,
+        "best_host_type": null,
+        "licence": null,
+        "best_url": null,
+        "n_oa_locations": 0,
+        "oa_locations": []
+      },
+      "openalex": {
+        "query_url": "https://api.openalex.org/works/doi:10.1097/coc.0000000000000988",
+        "http": 200,
+        "is_oa": false,
+        "locations": [],
+        "oa_status": "closed"
+      },
+      "extra_oa_urls": [],
+      "⛔": "no PMC identifier and no free copy located: this candidate has no open route at $0. That is a reachability statement, not a statement about the paper."
+    },
+    {
+      "source_id": "china2016",
+      "pmcid": null,
+      "routes": [],
+      "assets": null,
+      "route_used": null,
+      "registry_ids": {
+        "doi": "10.1016/j.anndiagpath.2016.04.004",
+        "pmid": "27402218",
+        "pmcid": null,
+        "found": true
+      },
+      "identifiers_used": {
+        "doi": "10.1016/j.anndiagpath.2016.04.004",
+        "pmid": "27402218",
+        "pmcid": null
+      },
+      "identifier_source": "registry",
+      "pmid_resolution": {
+        "query_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:27402218%20AND%20SRC:MED&format=json&resultType=core&pageSize=1",
+        "http": 200,
+        "pmcid": null,
+        "is_open_access": "N",
+        "in_epmc": "N",
+        "title": "Clinicopathologic and radiologic features of extraskeletal myxoid chondrosarcoma: a retrospective study of 40 Chinese cases with literature review.",
+        "journal": "Annals of diagnostic pathology"
+      },
+      "unpaywall": {
+        "query_url": "https://api.unpaywall.org/v2/10.1016/j.anndiagpath.2016.04.004",
+        "http": 200,
+        "is_oa": false,
+        "oa_status": "closed",
+        "best_url_for_pdf": null,
+        "best_host_type": null,
+        "licence": null,
+        "best_url": null,
+        "n_oa_locations": 0,
+        "oa_locations": []
+      },
+      "openalex": {
+        "query_url": "https://api.openalex.org/works/doi:10.1016/j.anndiagpath.2016.04.004",
+        "http": 200,
+        "is_oa": false,
+        "locations": [],
+        "oa_status": "closed"
+      },
+      "extra_oa_urls": [],
+      "⛔": "no PMC identifier and no free copy located: this candidate has no open route at $0. That is a reachability statement, not a statement about the paper."
+    },
+    {
+      "source_id": "stacchiotti2019pazopanib",
+      "pmcid": null,
+      "routes": [],
+      "assets": null,
+      "route_used": null,
+      "registry_ids": {
+        "doi": "10.1016/S1470-2045(19)30319-5",
+        "pmid": "31331701",
+        "pmcid": null,
+        "found": true
+      },
+      "identifiers_used": {
+        "doi": "10.1016/S1470-2045(19)30319-5",
+        "pmid": "31331701",
+        "pmcid": null
+      },
+      "identifier_source": "registry",
+      "pmid_resolution": {
+        "query_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:31331701%20AND%20SRC:MED&format=json&resultType=core&pageSize=1",
+        "http": 200,
+        "pmcid": null,
+        "is_open_access": "N",
+        "in_epmc": "N",
+        "title": "Pazopanib for treatment of advanced extraskeletal myxoid chondrosarcoma: a multicentre, single-arm, phase 2 trial.",
+        "journal": "The Lancet. Oncology"
+      },
+      "unpaywall": {
+        "query_url": "https://api.unpaywall.org/v2/10.1016/S1470-2045(19)30319-5",
+        "http": 200,
+        "is_oa": false,
+        "oa_status": "closed",
+        "best_url_for_pdf": null,
+        "best_host_type": null,
+        "licence": null,
+        "best_url": null,
+        "n_oa_locations": 0,
+        "oa_locations": []
+      },
+      "openalex": {
+        "query_url": "https://api.openalex.org/works/doi:10.1016/S1470-2045(19)30319-5",
+        "http": 200,
+        "is_oa": false,
+        "locations": [],
+        "oa_status": "closed"
+      },
+      "extra_oa_urls": [],
+      "⛔": "no PMC identifier and no free copy located: this candidate has no open route at $0. That is a reachability statement, not a statement about the paper."
+    },
+    {
+      "source_id": "stacchiotti2014sunitinib",
+      "pmcid": null,
+      "routes": [],
+      "assets": null,
+      "route_used": null,
+      "registry_ids": {
+        "doi": "10.1016/j.ejca.2014.03.013",
+        "pmid": "24703573",
+        "pmcid": null,
+        "found": true
+      },
+      "identifiers_used": {
+        "doi": "10.1016/j.ejca.2014.03.013",
+        "pmid": "24703573",
+        "pmcid": null
+      },
+      "identifier_source": "registry",
+      "pmid_resolution": {
+        "query_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:24703573%20AND%20SRC:MED&format=json&resultType=core&pageSize=1",
+        "http": 200,
+        "pmcid": null,
+        "is_open_access": "N",
+        "in_epmc": "N",
+        "title": "Activity of sunitinib in extraskeletal myxoid chondrosarcoma.",
+        "journal": "European journal of cancer (Oxford, England : 1990)"
+      },
+      "unpaywall": {
+        "query_url": "https://api.unpaywall.org/v2/10.1016/j.ejca.2014.03.013",
+        "http": 200,
+        "is_oa": false,
+        "oa_status": "closed",
+        "best_url_for_pdf": null,
+        "best_host_type": null,
+        "licence": null,
+        "best_url": null,
+        "n_oa_locations": 0,
+        "oa_locations": []
+      },
+      "openalex": {
+        "query_url": "https://api.openalex.org/works/doi:10.1016/j.ejca.2014.03.013",
+        "http": 200,
+        "is_oa": false,
+        "locations": [],
+        "oa_status": "closed"
+      },
+      "extra_oa_urls": [],
+      "⛔": "no PMC identifier and no free copy located: this candidate has no open route at $0. That is a reachability statement, not a statement about the paper."
+    }
+  ],
+  "_totals": {
+    "targets": 11,
+    "with_assets": 0,
+    "crashed": 0,
+    "published_bytes": 0,
+    "byte_cap": 62914560
+  }
+}
