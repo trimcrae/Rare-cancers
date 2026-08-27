@@ -6,7 +6,7 @@
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
     "process_defect": 22,
-    "harden": 11,
+    "harden": 12,
     "fix": 9,
     "build": 1,
     "verify": 1,
@@ -20,10 +20,10 @@
     "regrade": 7
   },
   "n_by_state": {
-    "done": 28,
-    "queued": 105,
+    "done": 29,
+    "queued": 103,
     "superseded": 1,
-    "in_progress": 3
+    "in_progress": 5
   },
   "n_clamped": 11,
   "entries": [
@@ -4074,7 +4074,7 @@
         "publication": null,
         "strategy": null
       },
-      "state": "done",
+      "state": "queued",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -4085,10 +4085,10 @@
       "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0023-6be7fd5a",
-      "what": "✅ CLOSED 2026-08-27 — THE REPORTED BLOCKER WAS NOT LIVE, AND THE REAL FINDING IS THE ONE THAT NEARLY GOT FILED INSTEAD. ⛔ WHAT WAS REPORTED: the AUT-PROP-009 review seat measured `PREFLIGHT_MODALITIES=1` as unusable here — `50 failed, 7933 passed`, exactly 50 on an unpatched origin/main checkout too, the first tracing to `ModuleNotFoundError: No module named 'pymbar'` at nr4a3_abfe.py:69 — and correctly REFUSED to add them to sandbox-failure-baseline.txt, which would have converted a missing dependency into a permanent amnesty. That refusal was right and is worth keeping. ⛔ WHAT IS ACTUALLY TRUE: I checked before acting rather than filing the report. `pymbar 4.0.3` imports in BOTH interpreters — the tool venv at /root/.local/share/uv/tools/pytest/bin/python AND system python3 — and the ABFE tests the failure named now run `168 passed, 2 skipped`. There is no live blocker. ⭐ THE ENVIRONMENT WAS REPAIRED BETWEEN THE SEAT'S READING AND MINE: `dev-setup.sh` already carries `pymbar` in TEST_DEPS and its own header records this EXACT incident on 2026-08-24 — 'the tool venv had pymbar' while python3 lacked it, a publication gate red on ModuleNotFoundError at nr4a3_abfe.py:69, the same line. A `SessionStart` hook now runs `dev-setup.sh --if-needed`, which is presumably what closed it. ⭐⭐ SO THE TRANSFERABLE FINDING IS ABOUT SEATS, NOT ABOUT pymbar: A SUBAGENT'S ENVIRONMENT READING IS A DATED OBSERVATION AND CAN BE STALE BY THE TIME ITS REPORT IS READ — a seat runs for 40-55 minutes, a SessionStart hook or a sibling's install can move the ground under it, and its report arrives asserting the present tense. This one would have entered the ledger as a live blocker on a whole preflight tier, and the next session would have inherited it as a fact. ⚠ THE RULE THAT CAUGHT IT is CLAUDE.md §4 pointed at our own sandbox rather than at AI capability: take the live reading, it costs nothing. Two `python -c 'import pymbar'` calls and one scoped pytest run were the whole cost. ⛔ AND THE GENERAL FORM IS WORTH THE ENTRY EVEN THOUGH THE INSTANCE IS EMPTY: a seat's environment claims should be re-measured by the driver before they are filed, the same way its factual claims are — the ATR causal account was checked with `git show` and HELD; this one was checked and did NOT.",
-      "score": 95.0,
-      "_score_basis": "a seat's stale environment reading nearly entered the ledger as a live blocker on a whole gate tier",
-      "depends_on_evidence": "pymbar 4.0.3 imports in both interpreters; research/modalities/tests -k abfe -> 168 passed, 2 skipped; scripts/dev-setup.sh:112-114 records the 2026-08-24 instance",
+      "what": "✅ CLOSED 2026-08-27 — THE REPORTED BLOCKER WAS NOT LIVE, AND THE REAL FINDING IS THE ONE THAT NEARLY GOT FILED INSTEAD. ⛔ WHAT WAS REPORTED: the AUT-PROP-009 review seat measured `PREFLIGHT_MODALITIES=1` as unusable here — `50 failed, 7933 passed`, exactly 50 on an unpatched origin/main checkout too, the first tracing to `ModuleNotFoundError: No module named 'pymbar'` at nr4a3_abfe.py:69 — and correctly REFUSED to add them to sandbox-failure-baseline.txt, which would have converted a missing dependency into a permanent amnesty. That refusal was right and is worth keeping. ⛔ WHAT IS ACTUALLY TRUE: I checked before acting rather than filing the report. `pymbar 4.0.3` imports in BOTH interpreters — the tool venv at /root/.local/share/uv/tools/pytest/bin/python AND system python3 — and the ABFE tests the failure named now run `168 passed, 2 skipped`. There is no live blocker. ⭐ THE ENVIRONMENT WAS REPAIRED BETWEEN THE SEAT'S READING AND MINE: `dev-setup.sh` already carries `pymbar` in TEST_DEPS and its own header records this EXACT incident on 2026-08-24 — 'the tool venv had pymbar' while python3 lacked it, a publication gate red on ModuleNotFoundError at nr4a3_abfe.py:69, the same line. A `SessionStart` hook now runs `dev-setup.sh --if-needed`, which is presumably what closed it. ⭐⭐ SO THE TRANSFERABLE FINDING IS ABOUT SEATS, NOT ABOUT pymbar: A SUBAGENT'S ENVIRONMENT READING IS A DATED OBSERVATION AND CAN BE STALE BY THE TIME ITS REPORT IS READ — a seat runs for 40-55 minutes, a SessionStart hook or a sibling's install can move the ground under it, and its report arrives asserting the present tense. This one would have entered the ledger as a live blocker on a whole preflight tier, and the next session would have inherited it as a fact. ⚠ THE RULE THAT CAUGHT IT is CLAUDE.md §4 pointed at our own sandbox rather than at AI capability: take the live reading, it costs nothing. Two `python -c 'import pymbar'` calls and one scoped pytest run were the whole cost. ⛔ AND THE GENERAL FORM IS WORTH THE ENTRY EVEN THOUGH THE INSTANCE IS EMPTY: a seat's environment claims should be re-measured by the driver before they are filed, the same way its factual claims are — the ATR causal account was checked with `git show` and HELD; this one was checked and did NOT.\n\n⛔⛔ REOPENED THE SAME HOUR, AND MY OWN CLOSING DIAGNOSIS WAS A 'probably X' — the thing CLAUDE.md §4 forbids by name. I closed this as a STALE READING repaired between the seat's run and mine, on the evidence that pymbar imports here now. That evidence was real and the inference from it was wrong. ⭐ A SECOND SEAT, WORKING A DIFFERENT ITEM, MEASURED THE ACTUAL MECHANISM AND IT IS REPRODUCIBLE: **a fresh git worktree does not get the `SessionStart` hook, so `dev-setup.sh` never runs there, and preflight falls back to an interpreter without the packages.** Its own log said `MISSING PACKAGE — run ./scripts/dev-setup.sh`. In that state it reported `50 failed, 7901 passed, 95 skipped` and collected only 8,046 of 8,113 tests; the same suite on a working runner gave **8067 passed / 0 failed** in the seat's tree and **8065 passed / 0 failed** on a clean tree at the same commit. Running `dev-setup.sh --if-needed` by hand fixed it and the rerun was green. ⛔ SO TWO INDEPENDENT SEATS HIT THE IDENTICAL 50-FAILURE SIGNATURE FROM THE SAME CAUSE, and the cause is not the sandbox drifting — it is that the worktree contract this repository adopted on 2026-08-27 (research-loop §3, worktree-in/branch-out) put every seat in exactly the environment the SessionStart hook cannot reach. The contract and the hook were each correct alone and are broken together. ⚠ AND THE FAILURE IS DANGEROUS IN THE DIRECTION THAT COSTS MOST: it manufactures 50 red tests that do not exist, so a seat either wastes an hour chasing them, reports a false blocker (this entry, first pass), or — worst — adds them to `sandbox-failure-baseline.txt` and grants a permanent amnesty to 50 real guards. Both seats REFUSED to baseline them, which is the only reason this is a fixable defect rather than a silent hole. ⭐ FIX: make the seat prompt template run `./scripts/dev-setup.sh --if-needed` as its first action in a new worktree, and have `preflight.sh` say loudly that its interpreter is the fallback rather than burying it in a log line. CLAUDE.md §6 already records the rule for the non-worktree case — 'a red preflight in a fresh sandbox is usually the sandbox, run dev-setup.sh first' — and a hook was added so it would heal itself. The worktree path was never covered.",
+      "score": 150.0,
+      "_score_basis": "every seat works in a worktree, and every worktree preflight manufactures 50 red tests that do not exist",
+      "depends_on_evidence": "two independent seats, identical signature; 8067 vs 8046 collected; preflight's own 'MISSING PACKAGE' line; dev-setup.sh --if-needed fixed it",
       "closes_clause": null
     },
     {
@@ -4141,6 +4141,32 @@
       "score": 115.0,
       "_score_basis": "a generated artifact with two writers thrashes, and each resolution is another commit to merge",
       "depends_on_evidence": "three regenerations in ten minutes; the merged manifest refused for clean_flag=false",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PROP-028",
+      "kind": "harden",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "in_progress",
+      "owner": "CYC-0023-6be7fd5a",
+      "claimed_utc": "2026-08-27T21:45:00Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "aso-attribution-seat",
+      "what": "⛔ AUT-PROP-022's REWRITE WENT THE RIGHT DIRECTION AND LANDED WRONG IN FOUR OF FIVE PLACES, AND IT BROKE TWO SENTENCES GRAMMATICALLY IN THE PAPER WE WOULD SUBMIT. Reviewed by the seat that had spent half an hour deciding what those five sentences may say, after a concurrent session landed 473413bdf first (the AUT-PD-021 collision, third of the day). ⭐ THE METHOD IS THE DEFECT: APPENDING 'unconfirmed' TO AN ATTRIBUTION DOES NOT REMOVE THE ATTRIBUTION. In 4 of 5 sites the paper still told the reader what a source nobody here has read SAYS — 'are seen more often', 'is suggested as', 'they prescribe', 'is reported to' all survived untouched. ⛔ AND 'unconfirmed' HAS NO STATED REFERENT, WHICH MAKES IT WORSE THAN SILENCE: a reader takes it as modifying the FINDING (the biology is unconfirmed) rather than THIS PROJECT'S ACCESS TO THE SOURCE, converting a provenance gap into an implicit claim about the state of the field. ⛔⛔ TWO GRAMMATICAL BREAKS REACHED main AND EVERY GATE WAS GREEN, BECAUSE NO GUARD READS GRAMMAR: deleting 'the one' turned 'report' from a verb into a noun, so the paper asserted that a direction IS A REPORT; and dropping 'does' to save a word left a comparison of SITES to A DESIGN. ⚠ NOTHING WAS SOFTENED TOO FAR — the held five-step workflow, the one thing the PubMed abstract carries near-verbatim, stands at full strength. The negative claim's second half was genuinely fixed by them and is kept. ⭐ A SIXTH SITE THEY MISSED: the cover letter (fusion-junction-aso-cover-letter.md:114) still carried 'the energy-based re-evaluation those recommendations prescribe' — the same unheld claim, in the submission package. ✅ FIX APPLIED: every surviving attribution replaced with the paper's OWN idiom rather than a new one — 'adopted here rather than retrieved', 'a search scope adopted here', 'taken here to', 'Its form and the cut are adopted here, not from that source' — both broken constructions restored, and the sixth site closed. Guard rows touched: NONE, by either side; both guards that read these sentences were mutation-tested against the patched text with `count(old) == 1` asserted before any result and the file restored byte-identically.",
+      "score": 185.0,
+      "_score_basis": "the submission-track manuscript carried two ungrammatical sentences and four live attributions to an unread source",
+      "depends_on_evidence": "the AUT-PROP-022 review seat's before/after table; patch sha256 3cd4c8a576e6b9e62f7c65e1334af9281d9d72121525b2a5a8b4a6ca4beafbe9",
       "closes_clause": null
     }
   ]

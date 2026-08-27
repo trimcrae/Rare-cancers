@@ -111,8 +111,8 @@ fusion-driven cancer, reported at the point where computation stops being able t
 question. It is also written to a standard this journal published: the screens carry out the
 in-silico step of the 2025 Oligonucleotide Safety Working Group recommendations on
 hybridisation-dependent off-target risk (Andersson et al., *Nucleic Acid Ther* 2025;35:16–33),
-including the energy-based re-evaluation those recommendations prescribe for the candidates an
-over-sensitive similarity search returns, and the manuscript stops where that workflow turns
+with an energy-based re-evaluation, adopted here, of the candidates an over-sensitive
+similarity search returns, and the manuscript stops where that workflow turns
 experimental. Designability is not the constraint: junction-spanning designs exist at every one of the
 38 frame-compatible junctions. On the one existence statistic tested, specificity does not sort by
 partner: at the default search ceiling each of the five partners has a junction whose *cleanest*

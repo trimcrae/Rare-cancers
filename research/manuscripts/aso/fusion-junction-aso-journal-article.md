@@ -89,11 +89,11 @@ from the criterion this paper screens on. The requirement is reported as a DNA g
 nucleotides, with seven to ten the working range;<sup>12</sup><!--PMID:24981949--> the screen below counts a liability only at ten
 contiguous base pairs of duplex through that gap, a length of hybrid rather than a count of gap
 nucleotides. Whether a wild-type parent pairs the catalytic gap contiguously is therefore a separate
-question from overall similarity, and it is the one this work puts to all 190 designs. That direction is an industry working group's 2025 off-target
-recommendations report (unconfirmed): off-target effects are seen more often where an oligonucleotide's mismatches
+question from overall similarity, and it is the one this work puts to all 190 designs. That direction is adopted here rather than
+retrieved: off-target effects are taken to be seen more often where an oligonucleotide's mismatches
 fall in its wings than where they fall in its central gap, on which reading a flanking mismatch is
-suggested as the more important one to avoid.<sup>13</sup><!--PMID:39912803--> Those recommendations
-set five steps: in-silico identification with transcriptomics, a focus on cell types showing
+the more important one to avoid. An industry working group's 2025 off-target
+recommendations<sup>13</sup><!--PMID:39912803--> set five steps, as their abstract states: in-silico identification with transcriptomics, a focus on cell types showing
 activity, in-vitro verification and margin assessment, risk assessment of what is confirmed, and
 management of what remains. This work performs the in-silico half of the first step and stops there;
 the margin measurement of the third is what the Discussion specifies, against the wild-type parent
@@ -120,11 +120,10 @@ complete for substitutions within a one-mismatch budget. The third reads the par
 sequence. The fourth records the longest contiguous duplex any of six wild-type parent transcripts
 forms through the catalytic gap. The fifth covers every position of GRCh38, mitochondrial sequence
 included. They cover mature transcript, unspliced precursor, exon-exon junction,
-non-coding and mitochondrial sequence — the search scope the 2025 recommendations
-ask for, unconfirmed.<sup>13</sup><!--PMID:39912803--> A near-match is a transcript window pairing a design at 14
+non-coding and mitochondrial sequence — a search scope adopted here. A near-match is a transcript window pairing a design at 14
 or more of its 16 positions. Each alignment
 was re-scored on the nearest-neighbour stability of its longest contiguous paired run — the
-energy-based second stage they prescribe, unconfirmed — and only separations are reported. A design is
+energy-based second stage adopted here — and only separations are reported. A design is
 liable where a wild-type parent pairs its whole catalytic gap over a contiguous run of ten base
 pairs or more, ten being adopted rather than measured. Null ensembles were built as scrambles of
 each design and as chimeras joining the same two parent transcripts at real exon termini, screened
@@ -169,9 +168,9 @@ Both loads are predictions from sequence search rather than measured activity.
 Both reagents are phosphorothioate throughout, with wings of five contiguous β-D-oxy-locked
 residues — a high locked content against the two to four per wing taken here as usual, so these are
 not conventional locked-nucleic-acid reagents and their matched-duplex melting temperatures are
-correspondingly high. That cuts against the screens: a high-affinity chemistry is reported, unconfirmed, to
-retain knockdown at more extensively mismatched sites than a conventional
-design,<sup>13</sup><!--PMID:39912803--> so the two-mismatch ceiling the near-match screens run at may
+correspondingly high. That cuts against the screens: a high-affinity chemistry is taken here to
+retain knockdown at more extensively mismatched sites than a conventional design
+does, so the two-mismatch ceiling the near-match screens run at may
 under-call for reagents of this locked content. Both begin 5′-GGG, a contiguous locked G-tract. High affinity is taken to
 carry a risk of sequence-dependent hepatotoxicity; that is a premise adopted here rather than a
 retrieved finding, and nothing here measures it.
@@ -319,8 +318,9 @@ screened controls above, which a knockdown assay alone cannot distinguish.
 
 Selectivity is the ratio of two half-maximal knockdown concentrations: wild-type *NR4A3* over the
 fusion, from a matched dose-response in the same wells. The cut of 5.0 is adopted as a convention.
-Comparing the two half-maximal concentrations is the margin assessment the recommendations specify
-at this step, and whether they set a default for it is unconfirmed.<sup>13</sup><!--PMID:39912803-->
+Comparing the two half-maximal concentrations is the margin assessment of the third
+step.<sup>13</sup><!--PMID:39912803--> Its form and the cut are adopted here, not from that
+source.
 At an assumed
 replicate standard deviation of 0.35 on the natural-log scale — like the cut, adopted for
 pre-registration rather than measured here — six independent biological replicates
