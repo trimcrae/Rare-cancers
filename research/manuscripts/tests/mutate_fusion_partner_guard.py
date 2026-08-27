@@ -89,6 +89,33 @@ MUTATIONS = [
      "at **31.8 %** and\n   **30.4 %**",
      "at **30.4 %** and\n   **31.8 %**",
      "§6 falsifier #5's two projected pooled points for a third cohort of 7 and of 8"),
+    # ---- round 10: the falsifier's INTEGER trio, which round 9 found unbound and unmutated -------
+    # ⛔ THE PERCENTAGES BESIDE THEM WERE ALREADY COVERED BY THE FOUR MUTATIONS ABOVE, and that is
+    # the point: this is the one-of-a-pair shape, so a mutation set that stops at the percentages
+    # measures a guard that stops at the percentages.
+    ("6.5: the further-zero-death-patients integer drifts by one",
+     "**19 further TAF15 patients with zero deaths",
+     "**18 further TAF15 patients with zero deaths",
+     "§6 falsifier #5's derived reconciliation threshold — the further zero-death TAF15 patients "
+     "required and the total denominator they would make, the two integers the percentage bindings "
+     "above left unwatched"),
+    ("6.5: the total-denominator integer drifts by one, leaving 19 correct beside it",
+     "a total TAF15 denominator of 34**",
+     "a total TAF15 denominator of 35**",
+     "§6 falsifier #5's derived reconciliation threshold — the further zero-death TAF15 patients "
+     "required and the total denominator they would make, the two integers the percentage bindings "
+     "above left unwatched"),
+    # ⭐ THE RELATION, NOT A DIGIT. Every number on the page stays correct and the sentence now
+    # overstates how far out of reach the falsifier is — the direction that flatters this paper.
+    ("6.5: the multiple of the pooled experience is overstated, every digit left correct",
+     "denominator of 34**, more than twice the",
+     "denominator of 34**, more than three times the",
+     "the falsifier's multiple-of-the-pooled-experience relation"),
+    # ---- round 10: §4.7's new bridge from Huang's 53 with follow-up to the pooled 50 -------------
+    ("4.7: the bridging denominator drifts from the sum of the arms the pool uses",
+     "53, the **50** that enter the pooled table",
+     "53, the **51** that enter the pooled table",
+     "§4.7's bridge from Huang's follow-up count to the denominator the pooled table actually uses"),
     ("6.5: the comparator upper bound drifts",
      "Wilson upper bound of **20.8 %**",
      "Wilson upper bound of **20.9 %**",
