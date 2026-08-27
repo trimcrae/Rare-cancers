@@ -46,6 +46,18 @@ Three formats differ from the artifact's own and each is converted, not tolerate
   * a handful of counts reach the page as WORDS ("three", "fifty-eight") — `_word`, which raises on
     an unmapped value rather than guessing.
 
+⭐⭐ RE-MEASURED FOR SECTION F, 2026-08-27 (CYC-0013) — 46 of 46 mutations caught, positive control
+green, every one single-site, by the same committed harness. The 21 added that run cover all 15
+statistical-notation bindings and include two ARM SWAPS (Huang's two independent predictors
+exchanged; Paioli's DFS and DMFS exchanged) — mutations that leave every digit on the page and
+invert which covariate a model found. ⭐ ONE OF THE 21 TARGETS NO BINDING AT ALL: it writes an
+unbound `n = 99` into the prose, and it is the only thing that can distinguish a census that FIRES
+from a census that merely passes.
+⚠ AND THE HARNESS REFUSED THIS CYCLE ONCE BEFORE IT PASSED IT. Run before these bindings were
+committed, 20 of the 21 SURVIVED — the harness builds a git worktree from HEAD, so it was
+measuring the old guard against the new mutations. A harness that reads committed state is a
+harness that can tell you your work is not in it yet.
+
 ⭐ MEASURED, 2026-08-26 — 36 of 36 mutations caught, 22 of them SINGLE-SITE.
 ⭐⭐ AND RE-MEASURED FOR THE 2026-08-27 BINDINGS, THIS TIME BY A COMMITTED HARNESS:
 `mutate_fusion_partner_guard.py` beside this file, 24 of 24 caught, EVERY ONE SINGLE-SITE,

@@ -28,24 +28,24 @@
         "strategy": "ST-REPURPOSING"
       },
       "state": "queued",
-      "owner": "CYC-0013",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 4,
+      "attempts": 5,
       "last_evidence_utc": "2026-08-27",
       "score": 195.5,
       "filed_by": "CYC-0001",
       "prerequisite_of": "AUT-049",
       "id": "AUT-PROP-002",
       "kind": "harden",
-      "what": "Run a hardening round on PUB-FUSION-PARTNER — publish_bar clause 1. ⛔ DO NOT OPEN WITH A REVIEWER SEAT: the standing P1 list was closed by CYC-0011 and its bindings were mutation-proven by CYC-0012. What is open is COVERAGE — 221 of 271 sentences are read by no instrument. ★ The next act is guards over that uncovered set (`python3 research/manuscripts/claim_coverage.py --uncovered=research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md`), each one mutation-tested by adding it to mutate_fusion_partner_guard.py's MUTATIONS list — that harness now exists, so 'designed but not proven' is no longer an acceptable state for a new guard. ⚠ AND NOTE WHAT THE TWO INSTRUMENTS MEASURE: the guard counts FIGURES (fractions and rates) and reports zero unbound; the census counts SENTENCES and reports 155 numbered ones unread. Both are true. A sentence stating 'HR 30.60', 'P = .004', 'n = 58' or a count spelled as a word carries a number the guard's census regex does not look at, and that gap is where the next guards go.",
+      "what": "Run a hardening round on PUB-FUSION-PARTNER — publish_bar clause 1. ⛔ DO NOT OPEN WITH A REVIEWER SEAT: the standing P1 list was closed by CYC-0011 and its bindings mutation-proven by CYC-0012. ★ ROUND 5's SECOND ACT IS DONE (CYC-0013): the guard's census was BLIND, and that is why it read zero unbound while claim_coverage.py read 155 numbered sentences unread. `_CENSUS_STATS` now reads four further notations (cohort size, p-value in BOTH printed forms, hazard ratio, cm/months); 15 bindings and 3 declarations took that surface from 39/74 to 74/74, and 46/46 mutations are caught. ⭐ WHAT IS STILL OPEN: 214 of 271 sentences are read by no instrument. The next notations to census are the ones NOTHING has looked at yet — a bare year, a PMID/NCT/DOI used as a claim rather than an identifier, an ordinal ('the third independent series'), and a count spelled as a word OUTSIDE the constructions `_word` already binds. Re-derive that set with `claim_coverage.py --uncovered=...` rather than trusting this sentence. Every new guard goes into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit.",
       "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
       "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-69d8a6ac1c90ae2129f7ee2348d8a523e5f82be8-round4-p1-rederivation.json",
-      "claimed_utc": "2026-08-27T02:28:11Z",
-      "lease_released": "released by CYC-0012. Round 5's FIRST act is done: the nine bindings CYC-0011 wrote are mutation-tested by a COMMITTED harness (research/manuscripts/tests/mutate_fusion_partner_guard.py) — 24/24 caught, every one single-site, positive control green, both arm swaps included. ⛔ WHAT IS STILL OPEN IS THE COVERAGE HALF AND IT DID NOT MOVE MUCH: 50/271 sentences read by an instrument, so 221 are not. The nine bindings turned FOUR sentences covered while round 4's corrections added twelve, which is the whole finding of AUT-COV-001 seen from inside one paper."
+      "claimed_utc": null,
+      "lease_released": "released by CYC-0013. ⛔ THE FINDING THAT MATTERS IS NOT THE COUNT, IT IS THE SHAPE: a coverage instrument reports coverage OF ITS OWN PATTERN and never of the document, so a guard can print full coverage over a manuscript in which a load-bearing figure has no reader. In this one that included `P = .728` — the published test carrying §3.3's whole metastasis negative. ⚠ AND THE COVERAGE HALF STILL MOVED ONLY 50 -> 57 SENTENCES: binding 35 figures touched seven sentences, because a sentence is counted covered when ANY instrument reads it and most of these figures sat in sentences already counted. AUT-COV-001's mechanism is unrefuted."
     },
     {
       "serves": {
@@ -2676,7 +2676,7 @@
       "kind": "process",
       "state": "queued",
       "owner": null,
-      "what": "⛔ 22 OF 32 PUBLICATION ENDPOINTS ARE READ BY NO INSTRUMENT AT ALL, AND EVERY CORRECTION ROUND MAKES IT WORSE. Measured 2026-08-27 by `python3 research/manuscripts/claim_coverage.py`: nr4a3-fusion-transcriptional-output.md 0/382, emc-surface-target-landscape.md 0/297, repurposing-hypotheses.md 0/216, emc-icdo-9231-classification.md 0/146, emc-atr-collaborator-package.md 0/144 — and nr4a3-degrader-paper.md 3/964, which is coverage in name only. ★ THE MECHANISM THIS ENTRY EXISTS FOR WAS MEASURED ON A REAL ROUND, NOT INFERRED: CYC-0011's round 4 on PUB-FUSION-PARTNER fixed nine defects and moved coverage 46/259 -> 50/271. The covered count did not move and the document grew twelve sentences, so the UNCOVERED surface ROSE 213 -> 221. Prose written to fix a defect is itself unwatched, so a hardening round without an instrumenting half enlarges exactly the surface `paper-hardening` §8a calls the remaining blocker risk. ⛔ THE WORK IS NOT 'INSTRUMENT EVERY ENDPOINT' — that is a list, and §8b.2's 33-mutation result says list-scoped fixes regress at the sibling nobody named. The work is a PREDICATE-scoped guard family plus the rule that a round which adds a sentence adds its guard in the same commit.",
+      "what": "⛔ 22 OF 32 PUBLICATION ENDPOINTS ARE READ BY NO INSTRUMENT AT ALL, AND EVERY CORRECTION ROUND MAKES IT WORSE. Measured 2026-08-27 by `python3 research/manuscripts/claim_coverage.py`: nr4a3-fusion-transcriptional-output.md 0/382, emc-surface-target-landscape.md 0/297, repurposing-hypotheses.md 0/216, emc-icdo-9231-classification.md 0/146, emc-atr-collaborator-package.md 0/144 — and nr4a3-degrader-paper.md 3/964, which is coverage in name only. ★ THE MECHANISM THIS ENTRY EXISTS FOR WAS MEASURED ON A REAL ROUND, NOT INFERRED: CYC-0011's round 4 on PUB-FUSION-PARTNER fixed nine defects and moved coverage 46/259 -> 50/271. The covered count did not move and the document grew twelve sentences, so the UNCOVERED surface ROSE 213 -> 221. Prose written to fix a defect is itself unwatched, so a hardening round without an instrumenting half enlarges exactly the surface `paper-hardening` §8a calls the remaining blocker risk. ⛔ THE WORK IS NOT 'INSTRUMENT EVERY ENDPOINT' — that is a list, and §8b.2's 33-mutation result says list-scoped fixes regress at the sibling nobody named. The work is a PREDICATE-scoped guard family plus the rule that a round which adds a sentence adds its guard in the same commit. ⭐ CYC-0013 ADDED THE MISSING HALF OF THE DIAGNOSIS, MEASURED ON ONE PAPER: the shortfall is not only that most endpoints have NO instrument, it is that an endpoint WITH one can still be unread, because the instrument's census pattern bounds what it can ever see. emc-fusion-partner-stratification.md scored 50/271 while its guard reported zero unbound figures, and 35 statistical quantities were outside both. ⛔ SO THE PREDICATE-SCOPED GUARD FAMILY THIS ENTRY ASKS FOR MUST BE AUDITED BY ITS PATTERN FIRST: ask what NOTATION a census cannot see before asking which documents it does not cover. The four notations CYC-0013 added (n = N, p-values in both printed forms, HR, cm/months) are reusable across every endpoint; nothing about them is specific to this paper.",
       "serves": {
         "route": null,
         "publication": null,
@@ -2687,7 +2687,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0011",
       "claimed_utc": null

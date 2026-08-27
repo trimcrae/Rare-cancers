@@ -1,0 +1,54 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0013",
+ "started_utc": "2026-08-27T02:26:24Z",
+ "finished_utc": "2026-08-27T03:35:00Z",
+ "session_id": "session_016z8Nm7cZTaLN4smGWue75c (spawned session, no live user present — started by CYC-0012 at its 2-cycle cap)",
+ "kind": "harden",
+ "took": "AUT-PROP-002 — round 5's second act on PUB-FUSION-PARTNER (publish_bar clause 1). Top of the re-scored ledger at 195.5, cost_class free. Re-scored with priority.py --write rather than trusting the handoff prompt's list; 86 entries, 11 clamped, and the prompt's ordering held.",
+ "route_advanced": "RT-PARTNER-STRAT",
+ "_route_advanced_why": "The manuscript this route publishes (PUB-FUSION-PARTNER) gained 15 bindings and a second census over 35 previously unwatched figures, and publish_bar clause 1 turns on that instrumentation. ⚠ STATED AT ITS TRUE WEIGHT: this advances the paper's READINESS, not its evidence. No pooled quantity, interval, count or verdict changed; nothing new was learned about EMC.",
+ "the_finding": "⛔ A COVERAGE INSTRUMENT REPORTS COVERAGE OF ITS OWN PATTERN, NEVER OF THE DOCUMENT — and two instruments disagreeing is how it surfaced. `test_every_fraction_and_percentage_is_bound_or_declared` reported ZERO unbound figures in emc-fusion-partner-stratification.md while `claim_coverage.py` reported 155 numbered sentences in the same file read by nothing. Both readings were correct. `_CENSUS` matches `\\d+/\\d+|\\d+(?:\\.\\d+)? ?%` and nothing else, so a cohort size, a published p-value, a hazard ratio and a measurement in cm or months were never inside the surface it enumerated. MEASURED BEFORE ANY BINDING WAS WRITTEN, over those four notations: 74 sites, 39 inside a binding, 35 bound to nothing and declared nowhere. ⭐ WHAT THE UNCOVERED SET CONTAINED IS THE FINDING, NOT ITS SIZE: `P = .728`, the published test carrying §3.3's entire metastasis negative; `p = 0.0034` at the appendix restatement of what the paper itself calls 'the single most quotable number in this document'; and every statement of Paioli 2021's three p-values, the third independent test of the partner. ⚠ AND A SEPARATE ONE-FACT-ONE-PLACE DEFECT UNDERNEATH: Paioli's three p-values had no structured home at all — they were typed inside an English sentence in a JSON string, stated at six manuscript sites, derivable by nothing. Promoted to `published_p_values` fields in the generator; no pooled quantity changed and `--check` passes.",
+ "⛔_what_did_not_move": "THE COVERAGE HALF, ALMOST. Sentence coverage went 50/271 -> 57/271: binding 35 figures moved SEVEN sentences, because a sentence counts as covered when ANY instrument reads it and most of these figures sat in sentences already counted. 214 sentences are still read by nothing. ⛔ AUT-COV-001'S MECHANISM IS UNREFUTED and this cycle is evidence FOR it, not against it. ⚠ ALSO NOT MOVED: 22 of 32 publication endpoints still have no instrument at all. This paper is the only one with a mutation harness. Nothing in this cycle touched the other 31.",
+ "verification": {
+  "mutation_run": "python3 research/manuscripts/tests/mutate_fusion_partner_guard.py -> 46/46 caught, 0 survived, 0 harness errors, positive control green. 21 of the 46 are new this cycle and cover all 15 new bindings.",
+  "arm_swaps": "Two of the 21 leave every digit on the page and invert the claim — Huang's two independent predictors exchanged (.004/.032 between size and metastasis), and Paioli's DFS and DMFS p-values exchanged. Both caught.",
+  "the_census_itself_was_mutated": "⭐ ONE OF THE 21 TARGETS NO BINDING: it writes an unbound `n = 99` into the prose. It is the only mutation that can distinguish a census that FIRES from one that merely passes. Caught.",
+  "⛔_the_harness_refused_this_cycle_once_first": "Run before the bindings were committed, 20 of 21 SURVIVED. The harness builds a git worktree from HEAD, so it was measuring the OLD guard against the NEW mutations. That is the harness working, not failing — and it is why the 46/46 claim is worth something.",
+  "preflight": "green with PREFLIGHT_TESTS=1 on the exact tree committed: 1256 passed, 3 skipped, EXIT=0 read from the command's own marker.",
+  "⛔_the_harness_exit_code_lied_three_times": "Two killed preflight runs AND one genuinely failing one were all notified as 'exit code 0'. The `EXIT=$?` marker written by the command itself was correct every time, including the run that caught a real defect in this change — a stale claim-coverage.json, since regenerated. The handoff prompt warned about this; it was measured again here."
+ },
+ "subagents": {
+  "dispatched": 0,
+  "concurrent_max": 0,
+  "cap": 5,
+  "cap_source": "research/autonomy/autonomy-state.json subagent_width",
+  "why_none": "One document, one guard file, one generator. The measurement that drove every decision was a 20-line regex census the driver had to read anyway; a seat would have paid context for a search that did not need doing."
+ },
+ "blocked_by": [],
+ "also_fixed_because_a_red_trunk_blocks_every_committer": [
+  {
+   "what": "CI red on `main` since b1f7bd5 — systems/tests/test_systems_check.py::test_a_dead_code_pointer_still_fires_after_the_external_allowance",
+   "path": "research/method-watch-autonomy-prior-art.md",
+   "diagnostic": "⛔ ROOT-CAUSED FROM THE FAILING CI LOG, NOT GUESSED. systems_check [K3] flagged `prepare.py` and `train.py` as dead pointers. They are karpathy/autoresearch's files; CODE_CITE_CLEARED requires the reason to be ON THE LINE that names them, and the line did not say external. It now does. Confirmed by reproducing the failure in the CI log and then running the same test green locally.",
+   "not_mine": "The failure first appears at b1f7bd5, the commit that added the prior-art document; 0fbce490 before it was green."
+  },
+  {
+   "what": "Preflight red for everyone — the ASO archive manifest was stale, so no commit could pass the generated-artifact gate",
+   "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+   "diagnostic": "⚠ MY FIRST TEST OF THIS WAS INCONCLUSIVE AND I RECORD THAT RATHER THAN THE CONCLUSION I NEARLY DREW: I compared with `git status`, which reports the repo-state fields (`git_revision`) that `--check` deliberately ignores, so it 'proved' staleness that the gate does not care about. The gate itself is the instrument: preflight read OK at HEAD 65c4ee1 and STALE once this cycle changed emc-fusion-partner-pooling.json, which the manifest hashes. Regenerated; gate now OK."
+  }
+ ],
+ "queued_next": [
+  "★ THE NEXT NOTATIONS TO CENSUS ARE THE ONES NOTHING HAS LOOKED AT YET — a bare year, a PMID/NCT/DOI used as a CLAIM rather than an identifier, an ordinal ('the third independent series', 'the largest series'), and a count spelled as a word outside the constructions `_word` already binds. ⛔ RE-DERIVE THAT SET with claim_coverage.py --uncovered=... rather than trusting this sentence.",
+  "⛔ AUT-COV-001 NOW HAS BOTH HALVES OF ITS DIAGNOSIS: 22 of 32 endpoints have NO instrument, AND an endpoint WITH one can still be unread because its census pattern bounds what it can see. The four notations added here are reusable across every endpoint — nothing about them is specific to this paper.",
+  "AUT-PROP-006 (seat record on disk before any fix) still owed the three layers — carried unclaimed from CYC-0008, CYC-0010, CYC-0011 and CYC-0012. Four cycles is no longer a backlog, it is a row nobody will ever take; either take it or retire it.",
+  "⚠ NOTHING TESTS A PREFLIGHT/CI GATE FOR WHETHER ITS OWN PATTERN CAN SEE WHAT IT CLAIMS TO CHECK. That is the generalisation of this cycle's finding and it is unfiled — the guard here was audited by hand because two instruments happened to disagree, which is luck, not a method."
+ ],
+ "cost": {
+  "_points_at": "research/compute/pricing.md",
+  "real_dollars": "none",
+  "claude_budget": "one spawned session, cycle 1 of 2, 0 subagents. rate_limit_info at close: status allowed, five_hour window, isUsingOverage false."
+ },
+ "handoff": {}
+}
