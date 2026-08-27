@@ -64,9 +64,21 @@ is required at all); this file keeps the format and the buy-line arithmetic.
     declared `closes_clause` field rather than on prose — the first version grepped the item text and
     reported three filed items as missing, because they said "clause 2" where the clause is named
     `preflight_full_green`.
-    ⛔ **So the board gains one line when nothing is running: what picks the work up.** *"Nothing in
-    flight; N items queued, the driver Routine takes them"* is an honest end to a turn. *"Nothing in
-    flight"* alone, with work outstanding, is the failure this rule exists to stop.
+    ⛔⛔ **AND THE SCHEDULED ROUTINE IS A BACKSTOP AGAINST STALENESS, NEVER A REASON TO STOP**
+    (trimcrae, 2026-08-27, correcting the first version of this very clause: *"why do we need to wait
+    for the driver routine? That's more of a backup to make sure things never get stale, not a reason
+    to intentionally stall."*). ⚠ **The first draft of this rule offered *"N items queued, the driver
+    Routine takes them"* as an honest ending — which quietly licensed a four-hour wait for work that
+    was free, ready and in hand.** Naming a future scheduler is not continuation; it is a deferral
+    with a citation.
+    ★ **THE ORDER IS: DO IT NOW, HAND IT OFF IF IT WILL NOT FIT, AND ONLY THEN LET THE SCHEDULE CATCH
+    IT.** CLAUDE.md §2 — warranted, cheap and ready means DO IT NOW, and "a cycle will pick it up" is
+    the same offer-instead-of-act the phrasing test forbids. The queue exists so that work is not LOST
+    when a session genuinely ends; it does not exist to schedule work a session could finish.
+    ⛔ So the honest ending, when nothing is running, names **why nothing is running**: the backlog is
+    empty, or every remaining item genuinely cannot proceed in this session (needs a spawn, a human
+    act, or an external result) — and it says which. *"Nothing in flight"* with free, ready work in
+    hand is the failure this rule exists to stop, whether or not a Routine would eventually get to it.
 
   - **COST IS PART OF THE FORMAT, NOT AN EXTRA (trimcrae, 2026-07-26 — asked for it twice in one session).**
     Every in-flight row carries what it costs, on the same line as its ETA: the ladder figure for a priced rung,
