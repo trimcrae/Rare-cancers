@@ -88,5 +88,13 @@
     "note": "A genuinely concurrent cycle, not a duplicate of this one. Its work is on RT-ATR-ASSESS and does not overlap this cycle's. The only interference was id allocation and one ledger rebase conflict, resolved by taking the sibling's ledger as base and re-applying this cycle's four entries onto it."
   },
   "trunk_fix": "Preflight went red on gate 3 with two O4 errors naming the sibling's PUB-ATR seat files. Established pre-existing before touching anything: a detached worktree at clean origin/main (e3e6abb) reproduced both errors identically, and this cycle's commit touches no PUB-ATR path. So e3e6abb was pushed with gate 3 red — the 'run preflight once, with the tree settled' failure, its seat records written after the run that cleared them. This cycle classified both uses `unaffected` with per-entry reasoning and regenerated the view; the sibling independently pushed the SAME verdict for both files minutes later (1745c33), so this cycle DROPPED its redundant commit rather than push duplicate read_by entries. ⭐ Two independent readers reaching `unaffected` on both is corroboration, not waste.",
-  "harness_exit_code_defect": "⛔ HIT LIVE, AND IT IS ALREADY FILED AS AUT-PD-012 (CYC-0011). The harness reported 'exit code 0' for the backgrounded preflight whose own marker said EXIT=1 — the run that caught the red trunk. Reading the marker rather than the harness is what made the difference between pushing onto a red main and finding it."
+  "harness_exit_code_defect": "⛔ HIT LIVE, AND IT IS ALREADY FILED AS AUT-PD-012 (CYC-0011). The harness reported 'exit code 0' for the backgrounded preflight whose own marker said EXIT=1 — the run that caught the red trunk. Reading the marker rather than the harness is what made the difference between pushing onto a red main and finding it.",
+  "handoff": {
+    "child_session_id": "session_01NQWAPmTzoyTZTHSpCeZekU",
+    "created_utc": "2026-08-27T05:02:13Z",
+    "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+    "reason": "One cycle of a two-cycle cap. The top item, AUT-PROP-011, is a full apply-and-re-review round (three verified blockers repaired as REPLACEMENTS, re-pin, five fresh blind seats, re-derive the round record), not the small follow-on the second cycle is slack for — and it cannot be run blind by this session, which verified those blockers. Prompt built by handoff.py from committed state, carrying no findings and no conclusions.",
+    "prompt_source": "research/autonomy/handoff.py --json --reason ...",
+    "generator_gap": "⚠ handoff.py's generated prompt does NOT carry the environment id, the source repo/revision or the `handoff.child_session_id` field name, so this cycle appended them by hand from its own prompt — the one thing a handoff should not require. They are operational constants, not findings, and belong in the generator. Flagged inside the successor's prompt as well as here."
+  }
 }
