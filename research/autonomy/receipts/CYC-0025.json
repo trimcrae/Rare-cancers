@@ -1,0 +1,47 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0025",
+  "session_id": "354e0be6-45c8-5b86-b281-1aa10b07ae67",
+  "utc": "2026-08-27T20:25:00Z",
+  "cycles_in_this_session": 2,
+  "max_cycles_per_session": 2,
+  "repo_confirmed": "git pull --rebase -q origin main succeeded before the claim was written; re-verified again before each push.",
+  "health_check": "Not re-run standalone this cycle -- CYC-0024's health check earlier in this session (exit 0, 0 need attention) covers the same session, and this cycle's own scoped preflight (gate 13, the test selector's own contract) passed at every commit.",
+  "took": "AUT-PROP-009",
+  "took_what": "Claimed the item BEFORE doing any work (lesson taken directly from CYC-0024's two live id/claim collisions this session) and closed the single-slot-artifact hazard's remaining gap in research/modalities/atr_hrd_sarcoma_series.py. A CLI-level refusal (a foreign --series argument is rejected before it reaches the fetch half) already existed from an earlier fix; this item's gap was different -- a restore that swaps the INPUTS CACHE and the ARTIFACT together, both self-consistently describing the wrong GEO series, with no --series argument involved at all. That is exactly what happened 2026-08-07 (325258cb8): GSE28866 overwrote GSE299349 and went undetected for three weeks, because the derive-reproduces check (main()'s default/--check path) only asks whether the artifact reproduces from its own cache, never whether that cache is for the series the module's SOURCE says it is.",
+  "fix_applied": [
+    "research/modalities/atr_hrd_sarcoma_series.py: main() now compares the committed artifact's own `series` field against the module-level SERIES constant BEFORE the derive-reproduces comparison, failing with a named SERIES MISMATCH diagnostic (and a re-fetch instruction) even when fresh == committed. SERIES lives in this .py file, which a data-only restore does not touch, so it is the one thing such a restore cannot silently carry backwards along with the data it does revert.",
+    "research/modalities/tests/test_atr_hrd_sarcoma_series.py: new test test_check_would_have_caught_the_incident_the_drift_check_missed, built so derive(mutated_inputs) genuinely equals the committed fixture (computed, never hand-patched), faithfully reproducing the incident's real shape rather than an approximation. Declared in amendments.jsonl (governed path, cycle_id CYC-0025, self_serving_check ANSWERED: NO)."
+  ],
+  "verification": {
+    "existing_suite": "12/12 pre-existing tests in test_atr_hrd_sarcoma_series.py unaffected; a static assertion of the same invariant (test_the_declared_series_is_the_one_the_committed_artifact_holds) already existed but only runs when the suite runs -- this closes the module's own --check path directly, independent of pytest.",
+    "mutation_test": "Reverted the fix (removed the SERIES MISMATCH block), re-ran the new test: it fails with rc==0 -- a genuine silent pass, reproducing the real incident, not merely a worse diagnostic message. Restored the fix, re-ran: rc==1 with the correct diagnostic. 13/13 tests pass with the fix in place.",
+    "preflight": "Scoped (default-tier) preflight EXIT=0 before every commit this cycle."
+  },
+  "cost": {
+    "real_dollars": 0.0,
+    "gpu_hours": 0.0,
+    "note": "CPU only. No GPU, no network beyond git."
+  },
+  "subagents": {
+    "launched": 0,
+    "max_concurrent": 0,
+    "shape": "single session, driver only -- one focused module fix and its regression test."
+  },
+  "gates": {
+    "preflight": "PASS (default tier) before every push this cycle.",
+    "amendment_guard": "research/modalities/tests/test_atr_hrd_sarcoma_series.py matches **/tests/** and **/test_*.py -- declared in amendments.jsonl (cycle_id CYC-0025, self_serving_check ANSWERED: NO -- not a check this cycle was blocked by; strictly tightens what --check catches). atr_hrd_sarcoma_series.py is not a governed path.",
+    "exit_read_from": "each pytest run's own reported pass/fail counts and the mutation test's explicit rc comparison, read directly."
+  },
+  "escalated": null,
+  "escalation_note": "None of research-loop section 5's five triggers fired: no journal submission, no spend, no goal-changing fact, loop healthy throughout. This item does not touch any publish_bar clause.",
+  "route_advanced": "RT-ATR-ASSESS",
+  "route_advanced_note": "Closes a real, previously-incident-causing gap in PUB-ATR's evidence-integrity tooling: the module can now catch a restore-induced series swap on its own, at --check time, without depending on the full pytest suite happening to run. Taken as this session's second small cycle specifically because ending the turn with the ready-work queue's top items untouched and zero real compute in flight would have been the exact failure continuity.py exists to catch -- and because claiming the item BEFORE starting was the direct, immediate lesson from this same session's two live id/claim collisions on AUT-PD-013 and the CYC-0023 name.",
+  "queued_now": [
+    "AUT-PROP-013 (unclaimed -- the general id-allocation-collision defect this session observed live twice; score 170.0, a larger architectural fix than this session's remaining scope warranted)",
+    "AUT-PROP-018 (unclaimed -- PUB-ASO clause 2 needs a fresh PREFLIGHT_FULL receipt once AUT-PROP-020's hardening round lands the final text)"
+  ],
+  "blocked_by": [],
+  "handoff": null,
+  "why_only_two_cycles": "Cap reached (max_cycles_per_session: 2). This second cycle was deliberately kept small and well-scoped -- one module, one focused guard, one regression test, claimed before any work started -- both because the first cycle already substantially exceeded normal scope and because a small, cleanly-claimed follow-on is exactly the shape research-loop section 3 reserves the second cycle's slack for."
+}

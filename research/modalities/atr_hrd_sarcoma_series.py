@@ -1283,6 +1283,23 @@ def main(argv=None):
         return 0
     with open(ART) as f:
         committed = json.load(f)
+    # ⛔⛔ AUT-PROP-009, THE HALF THE DERIVE-REPRODUCES CHECK CANNOT SEE. The 2026-08-07 incident
+    # (325258cb8) was a restore that swept in a stale snapshot of the inputs cache AND the artifact
+    # TOGETHER, both self-consistently describing GSE28866 instead of GSE299349 -- so `a == b` below
+    # stayed green for three weeks, because it only asks whether the artifact reproduces from ITS OWN
+    # cache, never whether that cache is for the series this module's SOURCE says it is. `SERIES`
+    # lives in this .py file, which a restore of research/modalities/*.json data does not touch, so
+    # it is the one thing such a restore cannot silently carry backwards along with it.
+    committed_series = committed.get("series")
+    if committed_series != SERIES:
+        print(f"SERIES MISMATCH — the committed artifact at {os.path.basename(ART)} records "
+              f"series={committed_series!r}, but this module's SERIES constant is {SERIES!r}. A "
+              f"restore or an unrelated dispatch has silently overwritten this artifact with "
+              f"another series' data (measured 2026-08-07, 325258cb8: GSE28866 overwrote GSE299349, "
+              f"undetected for three weeks because the derive-reproduces check alone cannot see a "
+              f"cache and artifact that are wrong TOGETHER). Re-fetch the correct series: "
+              f"python3 {os.path.basename(__file__)} --fetch", file=sys.stderr)
+        return 1
     a = json.dumps(fresh, indent=1, sort_keys=True)
     b = json.dumps(committed, indent=1, sort_keys=True)
     if a == b:
