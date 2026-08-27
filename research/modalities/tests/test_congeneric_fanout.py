@@ -1770,6 +1770,94 @@ def test_collect_keeps_the_map_scoped_to_19_but_reaps_over_the_whole_lane():
     assert "for u in lane}" in src
 
 
+# ---- the single-slot-artifact hazard: a tick must never silently regress n_complete ------------------------
+
+class _FakeS3PutOnly:
+    """Records every `put_object` call; `_write_map_guarded` must not reach it on a refused write."""
+
+    def __init__(self):
+        self.puts = []
+
+    def put_object(self, Bucket, Key, Body):  # noqa: N803 — boto3's signature
+        self.puts.append((Bucket, Key, Body))
+
+
+def test_write_map_guarded_refuses_a_regression_and_alarms_instead(tmp_path, monkeypatch):
+    """Measured 2026-08-27: a tick's S3 read came back with zero ddg.json objects (10 OTHER objects were
+    still under the prefix, so this was not a masked credential exception) against a map that had stood at
+    18/19 complete, unchanged, for 4h41m across dozens of prior ticks — and the tick overwrote it with 0/19
+    and nothing noticed for hours. This is that regression, reproduced without any network or S3 access."""
+    import congeneric_fanout_vast as fv
+    monkeypatch.chdir(tmp_path)
+    good = {"n_complete": 18, "n_units": 19, "results": [{"unit_id": f"e{i}"} for i in range(18)]}
+    with open("step1-fanout-map.json", "w") as f:
+        json.dump(good, f)
+    fv._ARTIFACT_REGRESSION_DETECTED = False
+    s3 = _FakeS3PutOnly()
+    bad = {"n_complete": 0, "n_units": 19, "results": []}
+    fv._write_map_guarded(bad, s3, "bkt")
+    # the committed file is UNTOUCHED — still the 18-complete content, not the regressed 0
+    with open("step1-fanout-map.json") as f:
+        assert json.load(f) == good
+    assert s3.puts == [], "the S3 mirror must not be overwritten on a refused write either"
+    assert fv._ARTIFACT_REGRESSION_DETECTED is True
+    assert os.path.exists("step1-fanout-map-regression-alarm.json")
+    with open("step1-fanout-map-regression-alarm.json") as f:
+        alarm = json.load(f)
+    assert alarm["committed_n_complete"] == 18 and alarm["this_ticks_n_complete"] == 0
+    fv._ARTIFACT_REGRESSION_DETECTED = False  # leave the module-global as this test found it
+
+
+def test_write_map_guarded_writes_through_when_there_is_no_regression(tmp_path, monkeypatch):
+    """The guard's positive control: an equal or improved count must land exactly as before, with no alarm
+    and no refusal — otherwise the fix trades a silent data-loss bug for a silent stall."""
+    import congeneric_fanout_vast as fv
+    monkeypatch.chdir(tmp_path)
+    with open("step1-fanout-map.json", "w") as f:
+        json.dump({"n_complete": 18, "n_units": 19, "results": []}, f)
+    fv._ARTIFACT_REGRESSION_DETECTED = False
+    s3 = _FakeS3PutOnly()
+    better = {"n_complete": 19, "n_units": 19, "results": [{"unit_id": f"e{i}"} for i in range(19)]}
+    fv._write_map_guarded(better, s3, "bkt")
+    with open("step1-fanout-map.json") as f:
+        assert json.load(f) == better
+    assert len(s3.puts) == 1 and s3.puts[0][0] == "bkt"
+    assert fv._ARTIFACT_REGRESSION_DETECTED is False
+
+
+def test_write_map_guarded_writes_through_on_a_first_run_with_no_existing_file(tmp_path, monkeypatch):
+    """No committed file yet means nothing to regress FROM — a cold start must not be mistaken for a loss."""
+    import congeneric_fanout_vast as fv
+    monkeypatch.chdir(tmp_path)
+    fv._ARTIFACT_REGRESSION_DETECTED = False
+    s3 = _FakeS3PutOnly()
+    fv._write_map_guarded({"n_complete": 0, "n_units": 19, "results": []}, s3, "bkt")
+    assert os.path.exists("step1-fanout-map.json")
+    assert not os.path.exists("step1-fanout-map-regression-alarm.json")
+    assert fv._ARTIFACT_REGRESSION_DETECTED is False
+
+
+def test_mode_collect_writes_are_routed_through_the_regression_guard():
+    """Both write sites inside `mode_collect` must go through the guard — a fix that only covers one of the
+    two `step1-fanout-map.json` writes is the same list-scoped-fix hazard paper-hardening §8b.2 names: the
+    guard would hold at one site and silently miss the other."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.mode_collect)
+    assert src.count("_write_map_guarded(out, s3, bucket)") == 2
+    assert 'with open("step1-fanout-map.json", "w")' not in src, \
+        "an unguarded write crept back into mode_collect"
+
+
+def test_main_fails_the_job_when_the_artifact_guard_fires():
+    """Same escalation shape as the market-hold guard: a refusal must fail the CI job, never stay a quiet
+    ::error:: annotation nobody opens."""
+    import inspect
+    import congeneric_fanout_vast as fv
+    src = inspect.getsource(fv.main)
+    assert "_ARTIFACT_REGRESSION_DETECTED" in src and src.count("raise SystemExit(2)") == 2
+
+
 def test_a_replicate_jobspec_carries_its_seed_and_an_n0_one_does_not():
     import congeneric_fanout_vast as fv
     u0 = cf.default_units()[0]

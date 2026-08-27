@@ -89,6 +89,14 @@ LABEL_PREFIX = "s1f-"
 # `mode_launch` refuses any multi-unit launch that reaches it with this still False.
 _MARKET_GUARD_RAN = False
 _MARKET_HOLD_ESCALATED = False
+# Set True by `_write_map_guarded` when a tick's freshly-read `n_complete` is LOWER than the count already
+# committed on disk. Measured 2026-08-27: a tick read the results prefix as holding zero ddg.json objects
+# (10 other objects present, so the S3 call itself succeeded — this was not a masked credential exception)
+# against a committed map that had stood at 18/19 complete, unchanged, for 4h41m. That reading silently
+# overwrote $73.79 of already-realised, already-banked GPU results with an empty map — the exact
+# single-slot-artifact hazard AUT-PROP-009 names for a sibling file. The guard below refuses that overwrite
+# and escalates loudly instead, the same way `_MARKET_HOLD_ESCALATED` already does for a held-too-long market.
+_ARTIFACT_REGRESSION_DETECTED = False
 N_WINDOWS = int(os.environ.get("N_WINDOWS", "12"))
 
 # The OpenFE image (openfe>=1.12 + ambertools/am1bcc + lomap/kartograf + OpenMM CUDA + awscli), built by the
@@ -3844,6 +3852,65 @@ def mode_monitor():
               f"unaffected; the merged board will render this lane STALE rather than dropping it.")
 
 
+_MAP_PATH = "step1-fanout-map.json"
+
+
+def _write_map_guarded(out, s3, bucket):
+    """Write `out` to `step1-fanout-map.json` (and its S3 mirror) UNLESS doing so would silently erase
+    already-banked results — CLAUDE.md §4: an absent reading is not a reading of absence, and a completed
+    result is exactly the kind of committed fact a live re-read must never be allowed to retract on its own
+    say-so.
+
+    ⛔ WHY THIS EXISTS. Measured 2026-08-27: a tick's S3 read came back with zero `ddg.json` objects under
+    the results prefix while 10 other objects were still there — so the read was not a masked credential
+    exception (`_get_json` returning None on ANY exception is a KNOWN separate hazard; this guard does not
+    depend on distinguishing the two, because either way a completed count must never regress silently).
+    The committed map had stood at 18/19 complete, unchanged, for 4h41m across dozens of prior ticks, then
+    one tick overwrote it with 0/19 and nothing noticed for hours. That is the single-slot-artifact hazard
+    AUT-PROP-009 already names for a sibling file, here with $73.79 of realised GPU spend as the stakes.
+
+    A regression is `out["n_complete"] < on-disk n_complete`, read from the file THIS PROCESS is about to
+    overwrite — never from a copy made earlier in the run, so a second collect in the same tick still sees
+    the first collect's write. On a regression: the existing file is left untouched, the anomaly is written
+    to a sibling alarm file (diffable, never silently retried away), and `_ARTIFACT_REGRESSION_DETECTED` is
+    set so `main()` can fail the job loudly — the same escalation shape already used for a held-too-long
+    market (`_MARKET_HOLD_ESCALATED`), because a false positive here (a real 18->3 loss, say) must reach a
+    human exactly as fast as a real one.
+    """
+    existing_n_complete = None
+    if os.path.exists(_MAP_PATH):
+        try:
+            with open(_MAP_PATH) as f:
+                existing_n_complete = json.load(f).get("n_complete")
+        except Exception as e:  # noqa: BLE001 — an unreadable existing file must not block a real write
+            print(f"[s1f] could not read the existing {_MAP_PATH} to guard against regression "
+                  f"({type(e).__name__}: {e}) — writing the new map anyway.")
+    if (isinstance(existing_n_complete, int) and existing_n_complete > 0
+            and out["n_complete"] < existing_n_complete):
+        alarm = {
+            "_what": "STEP 1 fan-out — a tick's re-read regressed n_complete and the write was REFUSED.",
+            "utc": _utcnow(),
+            "committed_n_complete": existing_n_complete,
+            "this_ticks_n_complete": out["n_complete"],
+            "action_taken": f"{_MAP_PATH} left UNCHANGED on disk; the S3 mirror was NOT overwritten either.",
+            "what_to_check": "Was research/modalities/step1-fanout-map.json's results prefix genuinely "
+                             "emptied in S3 (list the prefix directly), or was this one tick's read a fluke "
+                             "(a transient AWS error, a credential or region change)? Do not clear this file "
+                             "by re-running the tick — it will keep refusing until the real count recovers "
+                             "or a human overwrites step1-fanout-map.json deliberately.",
+        }
+        print(f"::error::[s1f] REFUSING to overwrite {_MAP_PATH}: committed n_complete="
+              f"{existing_n_complete}, this tick read n_complete={out['n_complete']}. See "
+              f"step1-fanout-map-regression-alarm.json.")
+        with open("step1-fanout-map-regression-alarm.json", "w") as f:
+            json.dump(alarm, f, indent=2)
+        globals()["_ARTIFACT_REGRESSION_DETECTED"] = True
+        return
+    with open(_MAP_PATH, "w") as f:
+        json.dump(out, f, indent=2)
+    s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/_map.json", Body=json.dumps(out, indent=2).encode())
+
+
 def mode_collect():
     """Assemble the map result from finished units, run the internal-consistency checks, reap dead hosts."""
     bucket, s3 = _require_bucket(), _s3()
@@ -3939,10 +4006,7 @@ def mode_collect():
                        "SE and answers a different question. Do not quote one as the other.",
         }} if rep_units else {}),
     }
-    with open("step1-fanout-map.json", "w") as f:
-        json.dump(out, f, indent=2)
-    s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/_map.json",
-                  Body=json.dumps(out, indent=2).encode())
+    _write_map_guarded(out, s3, bucket)
     print(json.dumps({k: v for k, v in out.items() if k != "results"}, indent=2))
     print(f"\n[s1f] {len(results)}/{len(units)} units complete -> step1-fanout-map.json")
 
@@ -4074,9 +4138,7 @@ def mode_collect():
     out["cost_note"] = ("realised = recorded BID $/hr x observed billed hours (Vast charges the bid up to the "
                         "machine's on-demand price). Plan = vast_cost_model.LADDER_REFERENCE_GPU_H repriced "
                         "at the best-10-mean $/reference-GPU-hour from vast-ladder-repricing.json.")
-    with open("step1-fanout-map.json", "w") as f:
-        json.dump(out, f, indent=2)
-    s3.put_object(Bucket=bucket, Key=f"{RESULT_PREFIX}/_map.json", Body=json.dumps(out, indent=2).encode())
+    _write_map_guarded(out, s3, bucket)
 
 
 def mode_diag():
@@ -4332,6 +4394,11 @@ def main():
             # alert path that does not depend on an agent or a session. Only the ESCALATED hold does this —
             # a routine hold is a normal, expected outcome and stays green.
             if _MARKET_HOLD_ESCALATED:
+                raise SystemExit(2)
+            # Same shape, different trigger: `_write_map_guarded` refused to let a re-read regress
+            # `n_complete` over already-banked results. That refusal must reach a human as fast as a real
+            # loss would, so it fails the job rather than staying a quiet ::error:: annotation.
+            if _ARTIFACT_REGRESSION_DETECTED:
                 raise SystemExit(2)
             return rc
     return mode_plan()

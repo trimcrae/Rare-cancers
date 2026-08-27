@@ -1,0 +1,51 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0022",
+  "session_id": "session_01CvC9JUZCqZpHGrcKN2tDzJ",
+  "utc": "2026-08-27T12:33:19Z",
+  "cycles_in_this_session": 1,
+  "max_cycles_per_session": 2,
+  "repo_confirmed": "git rev-parse --abbrev-ref HEAD and git pull --rebase -q origin main both succeeded before anything else ran.",
+  "health_check": "python3 research/autonomy/health.py --check exited 0. 0 need attention, 1 UNMEASURED (gates_green, NO-GATE-VERDICT -- the checker has no network and no --gates-verdict was supplied). Not a stop condition.",
+  "took": "AUT-PROP-017",
+  "took_what": "Claimed the queue's top-scored item (round 10 of PUB-FUSION-PARTNER's hardening series, score 195.5) and committed the claim. Before starting the actual hardening work, ran the queue's own top-priority instruction from research-loop step 5 (take every free observation first) by starting a background preflight ahead of editing -- and that preflight came back RED on an unrelated file, which redirected the whole cycle per the loop's own §1 stop-condition table: 'Preflight is red on main and not by your hand -> Fixing that IS the cycle. Nothing else lands until it is green.' AUT-PROP-017 was never started and its claim was released (owner set back to null) so a later cycle can take it.",
+  "redirect": {
+    "trigger": "lint_consistency ERROR [A-figure-mismatch] on research/manuscripts/degrader/nr4a3-degrader-paper.md:1426 (step1_fanout_edges_complete: paper quotes [18.0, 18.0, 19.0], artifact read n_complete=$0.00) -- present on a clean HEAD with only the AUT-PROP-017 claim edit applied, so confirmed not caused by this cycle.",
+    "root_cause_diagnostic": "Root-caused with real evidence per CLAUDE.md §4, not a 'probably': fetched the GitHub Actions job logs for the exact tick that produced the regressing commit (run 33059299433, job 98473805641, commit 91df57d, 2026-08-27T09:36:35Z). The job's own 'Terminus evidence' step log reads '10 object(s) under the results prefix' immediately followed by '=== RAW ARTIFACT EVIDENCE -- every ddg.json key in the object store === (none)'. That rules out a masked credential exception (a known separate hazard in `_get_json`, which returns None on ANY exception) -- the S3 LIST call itself succeeded and found 10 other objects, so the ddg.json result objects specifically are genuinely absent from S3 right now, for a reason not yet root-caused (this sandbox's own AWS credentials returned InvalidAccessKeyId on a direct ListObjectsV2, so could not be used to check the bucket further). `mode_collect` committed n_complete=0 over a map that had stood at 18/19 complete (LANE-17, closed 2026-07-30, $73.79 realised, corroborated independently by systems/graph/lanes.json and the program map's RUNG 4 row) unchanged for 4h41m across dozens of prior ticks, and every tick since has re-committed the same false zero because nothing in the pipeline could tell a real loss from an instrument fault.",
+    "fix_applied": [
+      "research/modalities/step1-fanout-map.json restored to its last-verified-good content (git show 79ac2b8:...), with a new `_incident_2026-08-27_silent_regression` field documenting the evidence above so a future reader does not mistake the restoration for a new measurement.",
+      "research/modalities/congeneric_fanout_vast.py: added `_write_map_guarded()`, now the only path either of mode_collect's two map-write sites may take. It refuses to commit a new n_complete lower than what is already on disk, writes a diffable step1-fanout-map-regression-alarm.json instead of silently overwriting, and sets a new `_ARTIFACT_REGRESSION_DETECTED` flag that main() checks to fail the CI job loudly -- same escalation shape already used for `_MARKET_HOLD_ESCALATED`.",
+      "research/modalities/tests/test_congeneric_fanout.py: 6 new tests (regression refused + alarm written; write-through when not regressing; write-through on a cold start with no existing file; both mode_collect call sites routed through the guard and no unguarded write survives; main() wired to SystemExit(2) on the flag). Full module 119/119 green.",
+      "research/autonomy/research-ledger.json: AUT-PD-015 filed and marked done (the incident + fix, evidenced); AUT-078 filed queued (root-causing the actual S3 state needs working AWS credentials this sandbox does not have -- blocked_by access-only-trimcrae-has)."
+    ],
+    "class_of_defect": "the single-slot-artifact hazard AUT-PROP-009 already names for a sibling file (paper-hardening's framing: a fix scoped to a property -- 'refuse any regression', not a named file list -- generalises past this one lane if any other autoscale tick writes an artifact the same unconditional way; not swept this cycle, left for AUT-078 or a future cycle to check)."
+  },
+  "cost": {
+    "real_dollars": 0.0,
+    "gpu_hours": 0.0,
+    "note": "CPU + $0 GitHub API reads only (Actions run/job logs). No GPU touched -- the step1-fanout lane has been on operator_hold since 2026-08-06 and this cycle did not change that, so nothing was rented as a side effect of the fix."
+  },
+  "subagents": {
+    "launched": 0,
+    "shape": "single session, driver only -- no parallel fan-out was warranted for a single root-cause-and-patch task."
+  },
+  "gates": {
+    "preflight_before_fix": "RED, default tier -- lint_consistency: 1 ERROR (A-figure-mismatch), confirmed pre-existing and unrelated to this cycle's own edits.",
+    "preflight_after_fix": "PASS, default tier (fast gates + selector contract), 88 pytest items, 0 ERROR across 26 lint_consistency target files.",
+    "amendment_guard": "research/modalities/tests/test_congeneric_fanout.py matches the GOVERNED glob **/tests/** and **/test_*.py -- declared in amendments.jsonl (cycle_id CYC-0022, self_serving_check ANSWERED: NO -- every added test can only refuse a future weakening of the new guard, and this cycle was not blocked by any pre-existing test). research/modalities/congeneric_fanout_vast.py and research/modalities/step1-fanout-map.json are not governed paths.",
+    "exit_read_from": "each command's own EXIT marker / background-task completion notification, never inferred."
+  },
+  "escalated": null,
+  "escalation_note": "None of research-loop §5's four triggers fired in the strict sense (no journal submission recommended, no GPU spend, no health condition red past a deadline), but this is squarely the kind of finding CLAUDE.md §4 and this scheduled routine's own posture exist for -- a live automated process was silently discarding real, already-realised ($73.79) GPU evidence on a paper's central claim, unnoticed for hours -- so a PushNotification was sent in the same turn per that posture, separate from this ledger mechanism. AUT-078 (root-causing whether the S3 objects are recoverable) is `blocked_by: access-only-trimcrae-has` in the strict CLAUDE.md §3 sense (this sandbox's AWS credentials do not work against the bucket) but is low-urgency: the paper-facing defect is already fixed and the historical data is safe in git regardless of what S3 currently holds.",
+  "route_advanced": "RT-DEGRADER",
+  "route_advanced_note": "Defensive rather than generative: no new scientific result was produced, but a real, live corruption of RT-DEGRADER's already-banked LANE-17 result was caught and fixed before it could propagate further (every ~7-minute tick had been re-committing the false zero for hours) and the class of defect is now guarded against going forward. RT-PARTNER-STRAT's AUT-PROP-017 (round 10 of the fusion-partner hardening series) was claimed and then explicitly not worked -- its claim was released so it stays queued at its current score for the next cycle.",
+  "queued_now": [
+    "AUT-PROP-017 (unclaimed, unchanged -- round 10 of PUB-FUSION-PARTNER's hardening series, score 195.5, next cycle's likely top pick)",
+    "AUT-078 (new, score 60 -- root-cause whether the S3 ddg.json objects are recoverable, needs working AWS credentials or console access)"
+  ],
+  "blocked_by": [
+    {"path": "research/autonomy/receipts/AUT-078-credentials", "why": "this sandbox's AWS credentials return InvalidAccessKeyId against sagemaker-us-east-2-646605541856; only someone with working bucket access or AWS console access can root-cause the S3-side deletion."}
+  ],
+  "handoff": null,
+  "why_only_one_cycle": "The redirect (root-causing and fixing a live CI regression via GitHub Actions log archaeology plus a production-code guard and its tests) consumed the cycle's natural scope; AUT-PROP-017's own hardening round is a substantial, separate piece of work better started fresh."
+}

@@ -8,18 +8,18 @@
     "analysis": 1,
     "code": 1,
     "experiment": 23,
-    "fetch": 11,
+    "fetch": 12,
     "fix": 5,
     "harden": 6,
     "negative": 32,
     "process": 6,
-    "process_defect": 9,
+    "process_defect": 10,
     "regrade": 7,
     "write": 6
   },
   "n_by_state": {
-    "done": 7,
-    "queued": 99,
+    "done": 8,
+    "queued": 100,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -202,6 +202,30 @@
       "score": 195.5,
       "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
       "_derived": false
+    },
+    {
+      "id": "AUT-PD-015",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-DEGRADER",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0022",
+      "what": "\u26d4 A LIVE CI TICK SILENTLY OVERWROTE A CLOSED, BANKED GPU RESULT WITH A FALSE ZERO, AND PREFLIGHT WAS RED ON MAIN BECAUSE OF IT, NOT BY ANY CYCLE'S HAND. research/modalities/step1-fanout-map.json had stood at n_complete=18/19 (LANE-17, closed 2026-07-30, $73.79 realised, systems/graph/lanes.json and the program map's RUNG 4 row both corroborate) unchanged across dozens of autoscale ticks for 4h41m. The 2026-08-27T09:36:35Z tick (run https://github.com/trimcrae/Rare-cancers/actions/runs/33059299433/job/98473805641, commit 91df57d) read the S3 results prefix and found ZERO ddg.json objects \u2014 its own log: '10 object(s) under the results prefix' immediately followed by '=== RAW ARTIFACT EVIDENCE ... (none)'. That is NOT a masked credential exception (`_get_json` returning None on ANY exception is a KNOWN separate hazard, flagged in this file's own `_load_ledger` comment) \u2014 the bucket LIST call itself succeeded and found 10 other objects still under the prefix, so the ddg.json result objects specifically are genuinely absent from S3 right now, for a reason NOT YET ROOT-CAUSED. `mode_collect` then committed n_complete=0 without any sanity check, which desynced the live artifact from research/manuscripts/degrader/nr4a3-degrader-paper.md's \u00a7 stating '18 computed edges of the 18 that are computable' and turned lint_consistency red (A-figure-mismatch, line ~1426) \u2014 every subsequent tick (dozens more, through at least 12:14 UTC) re-committed the same false zero because nothing in the pipeline can tell a real loss from an instrument fault.\n\u2b50 FIXED THIS CYCLE (CYC-0022), TWO PARTS: (1) research/modalities/step1-fanout-map.json restored to its last-verified-good content (from commit 79ac2b8) with a documented `_incident_2026-08-27_silent_regression` field carrying the evidence above, because the underlying GPU work and its $73.79 spend are historical facts of record recoverable from git history regardless of what the live object store currently returns (CLAUDE.md \u00a74: an absent reading is not a reading of absence). (2) `congeneric_fanout_vast.py` gained `_write_map_guarded()`, now the only path either of `mode_collect`'s two map writes may take: it refuses to commit a new n_complete lower than the one already on disk, writes a diffable `step1-fanout-map-regression-alarm.json` instead, and sets `_ARTIFACT_REGRESSION_DETECTED` so `main()` fails the CI job loudly (same escalation shape as the existing `_MARKET_HOLD_ESCALATED`) rather than repeating the silent overwrite every ~7 minutes. Five new tests in research/modalities/tests/test_congeneric_fanout.py (regression refused + alarm written, no-regression write-through, cold-start write-through, both call sites routed through the guard, main() wired to fail on it); full suite 119/119 green; preflight re-run green.\n\u26a0 STILL OPEN, AND THIS IS THE LIVE-ROUTE WORK A FUTURE CYCLE OR TRIMCRAE SHOULD PICK UP: WHETHER THE S3 OBJECTS ARE PERMANENTLY GONE OR RECOVERABLE IS UNESTABLISHED. This sandbox's own AWS credentials (AWS_ACCESS_KEY_ID in this environment) are themselves invalid (InvalidAccessKeyId on a plain ListObjectsV2), so they could not be used to check s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/ directly \u2014 someone with working bucket credentials (or S3 versioning / CloudTrail access) needs to check whether this is a lifecycle-policy expiry, an accidental delete, or a credential/prefix change on the CI side, and whether the 10 surviving non-ddg.json objects narrow it down. This does not block the paper (the git-committed record is intact and now protected from further silent loss) but it is real, unrecovered ambiguity about a live AWS account.",
+      "score": 195.0,
+      "_score_basis": "hand-filed by CYC-0022, ranked beside the fan-out governance defect (AUT-PD-013): it is a silent-regression class defect (paper-hardening's single-slot-artifact hazard) that was actively corrupting a closed, banked, real-dollar GPU result on every CI tick, and it held preflight red on main until fixed."
     },
     {
       "id": "AUT-010",
@@ -1354,6 +1378,32 @@
         "fruitless_attempts": 0
       },
       "clamp": "blocked_without_evidence_becomes_a_check"
+    },
+    {
+      "id": "AUT-078",
+      "kind": "fetch",
+      "serves": {
+        "route": "RT-DEGRADER",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "access-only-trimcrae-has"
+      ],
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0022",
+      "prerequisite_of": null,
+      "what": "Root-cause why s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/ genuinely has zero ddg.json objects as of 2026-08-27T09:36Z (AUT-PD-015 \u2014 a closed, $73.79-realised LANE-17 result that had stood complete for weeks was found empty by a live tick, confirmed via the tick's own successful S3 LIST call: 10 non-ddg.json objects present, zero ddg.json). With working credentials: (1) list the full prefix and diff against what the 79ac2b8 map expects \u2014 18 ddg.json keys plus whatever the 10 surviving objects are; (2) check the bucket's lifecycle rules for an expiry policy that could delete only certain key patterns; (3) check S3 versioning \u2014 if enabled, the deleted objects may be one `list_object_versions` call away from recovery; (4) check CloudTrail (if enabled) for a DeleteObject(s) event around 2026-08-27T09:3x. NOT urgent for the paper \u2014 the git-committed record is intact and step1-fanout-map.json is now guarded against further silent overwrite \u2014 but it is a real, unexplained event on a live AWS account and worth knowing whether it recurs on other lanes' prefixes.",
+      "score": 60.0,
+      "_score_basis": "hand-filed by CYC-0022. Low urgency (the paper-facing defect is already fixed and the historical data is safe in git) but genuinely blocked on access this sandbox does not have."
     },
     {
       "id": "AUT-045",
