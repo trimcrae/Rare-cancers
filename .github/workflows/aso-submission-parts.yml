@@ -99,15 +99,23 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "ASO submission parts rebuilt on a runner (CI)
-
-${{ inputs.reason }}
-
-LibreOffice does not work in the dev sandbox — soffice is installed and every
-invocation fails with 'source file could not be loaded', including on a trivial
-control file. These three .docx artifacts are derived from the manuscript, so any
-prose edit re-stales them and reds the trunk. Rebuilt here, where the converter
-passed a positive control before the build ran."
+          # ⚠ The message is built in a file rather than inline: a multi-line -m argument inside a
+          # `run: |` block puts its continuation lines at column 0, which ends the YAML block scalar
+          # and makes the workflow unparseable. Measured — an earlier version of this file was
+          # pushed broken because its validation ran in the same command as a backgrounded gate and
+          # the parse error never reached the author.
+          {
+            echo "ASO submission parts rebuilt on a runner (CI)"
+            echo
+            echo "${{ inputs.reason }}"
+            echo
+            echo "LibreOffice does not work in the dev sandbox: soffice is installed and every"
+            echo "invocation fails with 'source file could not be loaded', including on a trivial"
+            echo "control file. These three .docx artifacts are derived from the manuscript, so any"
+            echo "prose edit re-stales them and reds the trunk. Rebuilt here, where the converter"
+            echo "passed a positive control before the build ran."
+          } > /tmp/aso-parts-msg.txt
+          git commit -F /tmp/aso-parts-msg.txt
           for i in 1 2 3 4; do
             git pull --rebase origin main && python3 research/manuscripts/aso_archive_manifest.py \
               && git add -A && git commit --amend --no-edit && git push origin HEAD:main && break
