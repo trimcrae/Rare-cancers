@@ -1,0 +1,306 @@
+{
+  "_what": "AUT-015 / RT-CHAPERONE, answered 2026-08-27. Whether ANY FET-family fusion protein (FUS, EWSR1 or TAF15 fused to a partner) is a DOCUMENTED chaperone client. Every record below was read from PubMed in this session through the NCBI MCP tools; nothing is quoted from recollection.",
+  "_attribution": "Bibliographic metadata and every verbatim string below were retrieved from PubMed (NCBI). Each record carries its DOI link.",
+  "_not_medical_advice": "⛔ Every experimental record below is in EWING SARCOMA, MYXOID LIPOSARCOMA, LEUKAEMIA or a YEAST model. Nothing here claims that any agent works in extraskeletal myxoid chondrosarcoma. No patient with EMC appears below.",
+  "_anchor_form": "Each record carries `PMID`, `pubmed_url` and `doi` — the three forms research/manuscripts/lint_citations.py reads as a fetch-product anchor.",
+  "_supersedes": {
+    "file": "research/literature/live-lane-answers-2026-08-09.json",
+    "key": "⭐ finding_1_a_FET_fusion_is_a_documented_HSP90_client",
+    "what_changed": "That entry recorded the verdict '⭐ YES, AND IT STRENGTHENS THE ROUTE'S PREMISE' on the strength of two records. Re-read here against the four-category test, the verdict is WRONG AS STATED and right in a weaker form. Its first citation (PMID 36495678) asserts clientship in an INTRODUCTION and the same paper's own data are depletion, not binding; its second (PMID 24388362) is depletion-on-inhibition. NEITHER is a binding assay, and no binding assay for any FET fusion was found in this session's fifteen queries. The correct verdict is the one below: DEPENDENCE IS DOCUMENTED, CLIENTSHIP IS NOT. The 2026-08-09 record is left exactly as written — it is a dated retrieval, and corrections belong in an appendix rather than inline."
+  },
+  "verdict": {
+    "answer": "NO — with a real positive underneath it that must not be inflated into a yes.",
+    "one_sentence": "No FET-family fusion protein has been shown to BIND a chaperone in any published assay: what the literature contains is three independent demonstrations that EWS::FLI1 protein levels FALL when the HSP90 machine is perturbed — one of them a genetic knockdown of the HSP90 co-chaperone SGT1/SUGT1 rather than a drug — which is chaperone-machine DEPENDENCE and not client status; for EWSR1::NR4A3, this programme's own fusion, the chaperone literature is empty.",
+    "by_category": {
+      "a_wild_type_FET_protein_as_client": "PARTIAL AND OFF-AXIS. Wild-type FUS is repeatedly handled by chaperones in the ALS/FTD literature — but as an AGGREGATION substrate (engineered Hsp104 disaggregase variants, small heat-shock proteins, nuclear-import receptors), not as an HSP90 client in the kinase/steroid-receptor sense. No HSP90-client demonstration was found for wild-type EWSR1 or TAF15.",
+      "b_the_FUSION_as_client": "NOT ESTABLISHED. Three papers show EWS::FLI1 protein DEPLETION on HSP90-machine perturbation (PMID 24388362, PMID 36495678, PMID 25985210). Zero co-immunoprecipitation, zero pull-down, zero chemical-affinity capture, zero client-screen appearance for any FET fusion. ⚠ And the co-chaperone result is weaker than it first reads: the systematic human client screen assigns SGT1 a preference for leucine-rich-repeat folds (PMID 25036637), which neither EWSR1 nor FLI1 has.",
+      "c_the_PARTNER_as_client": "NULL. FLI1, DDIT3 and NR4A3 each return no record of HSP90 clientship in a title/abstract co-occurrence search (queries Q5 and Q6 below). The 3' partner of this disease's fusion, NR4A3, has no chaperone literature at all.",
+      "d_fusion_driven_line_sensitive_to_an_HSP90_inhibitor": "ABUNDANT, AND IT IS THE WEAKEST CATEGORY. Ewing and myxoid liposarcoma lines and xenografts are sensitive to 17-AAG, 17-DMAG, ganetespib, PU-H71 and an HSP90 C-terminal-domain inhibitor. Sensitivity of a fusion-driven line is not clientship of the fusion — in the one Ewing paper that actually assayed physical HSP90 interaction (PMID 18676850), the clients named are AKT, KIT and IGF1R, and the fusion is not among them.",
+      "e_a_chaperone_gene_as_a_FUSION_PARTNER": "⚠ A TRAP SPECIFIC TO THIS DISEASE, AND IT IS NOT CLIENTSHIP. HSPA8 (HSC70) is reported as a novel 5' fusion partner of NR4A3 in one EMC case (PMID 28383167). A chaperone GENE donating a promoter and N-terminus to the chimera says nothing about whether the chimera is a chaperone SUBSTRATE. The two collapse easily and must not be conflated."
+    },
+    "why_this_is_not_a_null_result_about_the_assay": "The assay exists and has been run on other fusion oncoproteins. AML1-ETO was shown to bind the chaperonin TRiC/CCT directly, by immunoprecipitation, mass spectrometry and cryo-EM, with HSP70 assistance and through its DNA-BINDING DOMAIN (PMID 26706127, PMID 27276256). So the absence of such a demonstration for any FET fusion is a genuine gap in the literature, not an artefact of the instrument."
+  },
+  "definitions": {
+    "documented_chaperone_client": "A specific, cited experimental observation naming the chaperone, the protein and the assay: co-immunoprecipitation or pull-down with a chaperone; appearance in a chaperone client screen or affinity-capture proteomic; loss of the protein on chaperone inhibition or co-chaperone depletion. The first two are BINDING evidence; the third is DEPENDENCE evidence and is weaker, because a transcription factor can fall for reasons that never touch the chaperone — including loss of its own autoregulated transcription.",
+    "the_four_way_test": "(a) the WILD-TYPE FET protein as client; (b) the FUSION as client; (c) the fusion's PARTNER as client; (d) a fusion-driven line merely SENSITIVE to an HSP90 inhibitor. Only (b) answers this question. A fifth case, (e), is specific to EMC: a chaperone gene appearing as a fusion PARTNER."
+  },
+  "retrieval": {
+    "date_et": "2026-08-27",
+    "source": "PubMed (NCBI), via the session's NCBI MCP tools",
+    "seat": "AUT-015 chaperone-client-seat",
+    "full_text_read": [
+      "PMC4450263 (PMID 25985210) — read in full"
+    ],
+    "full_text_refused": [
+      "PMC6643043 (PMID 31171724) — the PMC full-text endpoint returned an empty body; the abstract was used",
+      "PMID 18676850 and PMID 36495678 have no PMC record; abstracts only"
+    ]
+  },
+  "evidence": [
+    {
+      "pmid": "25985210",
+      "PMID": "25985210",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/25985210/",
+      "doi": "10.1038/oncsis.2015.12",
+      "doi_url": "https://doi.org/10.1038/oncsis.2015.12",
+      "title": "The oncogenic role of the cochaperone Sgt1",
+      "year": 2015,
+      "journal": "Oncogenesis",
+      "category": "b — the FUSION, dependence not binding",
+      "assay": "siRNA knockdown of SUGT1/Sgt1 (two independent siRNAs) and, separately, treatment with the HSP90 inhibitor ganetespib, in the Ewing sarcoma line EW8 and the rhabdomyosarcoma line Rh41; read out by immunoblot for the fusion protein.",
+      "verbatim": "\"Protein levels of EWS-FLI in EW8 cells and PAX3-FOXO1 in Rh41 cells were reduced by […] depletion or ganetespib (an Hsp90 inhibitor) treatment.\" ⚠ The elided token is the italicised gene symbol, which the PMC text extractor strips; in context it is SUGT1/Sgt1.",
+      "what_it_establishes": "⭐ THE STRONGEST RECORD FOUND. Two independent perturbations of the HSP90 machine — one genetic and specific to a co-chaperone — both lower the level of a FET fusion protein in a human cell. That is chaperone-machine dependence for EWS::FLI1.",
+      "what_it_does_NOT_establish": "It is NOT clientship. The paper reports no co-immunoprecipitation and no pull-down between Sgt1 or Hsp90 and EWS-FLI1, and says so itself in its Discussion: \"Further study is needed to identify client proteins of Sgt1 in other types of cancer cells.\" EWS-FLI1 autoregulates its own locus, so a fall in protein is consistent with an indirect route.",
+      "pmcid": "PMC4450263"
+    },
+    {
+      "pmid": "24388362",
+      "PMID": "24388362",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/24388362/",
+      "doi": "10.1016/j.molonc.2013.12.005",
+      "doi_url": "https://doi.org/10.1016/j.molonc.2013.12.005",
+      "title": "Pre-clinical efficacy of PU-H71, a novel HSP90 inhibitor, alone and in combination with bortezomib in Ewing sarcoma",
+      "year": 2013,
+      "journal": "Molecular oncology",
+      "category": "b/d — depletion on inhibition, in a list of eight",
+      "assay": "HSP90 inhibitor (PU-H71) exposure of Ewing lines; immunoblot and reverse-phase protein array.",
+      "verbatim": "\"Exposure to PU-H71 resulted in depletion of critical proteins including AKT, pERK, RAF-1, c-MYC, c-KIT, IGF1R, hTERT and EWS-FLI1 in Ewing cell lines\"",
+      "what_it_establishes": "EWS-FLI1 protein falls when HSP90 is inhibited pharmacologically.",
+      "what_it_does_NOT_establish": "The fusion is one of eight proteins depleted, so the effect is not fusion-specific and any of the other seven could carry it. No binding assay between HSP90 and EWS-FLI1 is reported.",
+      "pmcid": "PMC3982393"
+    },
+    {
+      "pmid": "36495678",
+      "PMID": "36495678",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36495678/",
+      "doi": "10.1016/j.bioorg.2022.106311",
+      "doi_url": "https://doi.org/10.1016/j.bioorg.2022.106311",
+      "title": "Optimisation of pyrazolo[1,5-a]pyrimidin-7(4H)-one derivatives as novel Hsp90 C-terminal domain inhibitors against Ewing sarcoma",
+      "year": 2022,
+      "journal": "Bioorganic chemistry",
+      "category": "b/d — depletion on inhibition; the clientship sentence is an ASSERTION, not a result",
+      "assay": "Exposure of SK-N-MC Ewing sarcoma cells to an allosteric HSP90 C-terminal-domain inhibitor (analogue 11c); immunoblot for candidate clients.",
+      "verbatim": "Assertion, in the abstract's framing: \"EWS::FLI1 and a large number of downstream dysregulated proteins are Hsp90 client proteins\". Result, in the same abstract: \"Exposure of Ewing sarcoma cells to the most potent analogue 11c resulted in depletion of critical Hsp90 client proteins involved in cancer pathways such as EWS::FLI1, CDK4, RAF-1 and IGF1R, without inducing a heat shock response.\"",
+      "what_it_establishes": "A second, chemically independent HSP90 inhibitor class also depletes EWS::FLI1, and does so without triggering a heat-shock response.",
+      "what_it_does_NOT_establish": "⛔ THE SENTENCE THAT CALLS EWS::FLI1 A CLIENT IS BACKGROUND PROSE IN A MEDICINAL-CHEMISTRY PAPER, NOT AN EXPERIMENT. This is the record on which the repository's 2026-08-09 'YES' rested, and it cannot carry that weight: the paper's own evidence is depletion."
+    },
+    {
+      "pmid": "18676850",
+      "PMID": "18676850",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/18676850/",
+      "doi": "10.1158/0008-5472.CAN-07-3074",
+      "doi_url": "https://doi.org/10.1158/0008-5472.CAN-07-3074",
+      "title": "A pivotal role for heat shock protein 90 in Ewing sarcoma resistance to anti-insulin-like growth factor 1 receptor treatment: in vitro and in vivo study",
+      "year": 2008,
+      "journal": "Cancer research",
+      "category": "d — and the informative NEGATIVE on category (b)",
+      "assay": "17-AAG and siRNA against HSP90 in Ewing lines and A673 xenografts; client degradation attributed to loss of PHYSICAL INTERACTION with HSP90.",
+      "verbatim": "\"17-AAG treatment induced HSP90 client protein degradation, including AKT, KIT, or IGF1R, by inhibiting their physical interaction with HSP90.\"",
+      "what_it_establishes": "⭐ THE ONE EWING PAPER THAT ASSAYS PHYSICAL HSP90 INTERACTION. Its clients are AKT, KIT and IGF1R — signalling proteins, not the fusion.",
+      "what_it_does_NOT_establish": "EWS-FLI1 is absent from the client list. ⚠ UNKNOWN whether the fusion was assayed and found negative or simply never tested: the abstract does not say and the paper has no PMC record, so this is read as SILENCE, not as a measured negative."
+    },
+    {
+      "pmid": "31171724",
+      "PMID": "31171724",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31171724/",
+      "doi": "10.1074/jbc.RA119.009494",
+      "doi_url": "https://doi.org/10.1074/jbc.RA119.009494",
+      "title": "Engineered protein disaggregases mitigate toxicity of aberrant prion-like fusion proteins underlying sarcoma",
+      "year": 2019,
+      "journal": "The Journal of biological chemistry",
+      "category": "b — a chaperone acting ON the fusion, but an ENGINEERED, NON-HUMAN one in YEAST",
+      "assay": "Yeast models of FUS-CHOP and EWS-FLI toxicity and aggregation; potentiated variants of Hsp104, a hexameric AAA+ disaggregase from yeast, tested for suppression.",
+      "verbatim": "\"Potentiated Hsp104 variants that robustly suppressed FUS toxicity and aggregation also suppressed the toxicity and aggregation of FUS-CHOP and EWS-FLI.\"",
+      "what_it_establishes": "The closest thing in the literature to a chaperone acting directly on FET FUSION proteins: two different FET fusions are handled as aggregation substrates by a disaggregase.",
+      "what_it_does_NOT_establish": "Hsp104 has NO human orthologue and the variants used are ENGINEERED, not wild type; the system is heterologous yeast, not a sarcoma cell. It says the fusions are aggregation-prone and chaperone-tractable; it does not make them clients of any human chaperone. ⚠ UNKNOWN whether wild-type Hsp104 was inactive here — the PMC full-text endpoint returned an empty body.",
+      "pmcid": "PMC6643043"
+    },
+    {
+      "pmid": "26595521",
+      "PMID": "26595521",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/26595521/",
+      "doi": "10.18632/oncotarget.6336",
+      "doi_url": "https://doi.org/10.18632/oncotarget.6336",
+      "title": "HSP90 inhibition blocks ERBB3 and RET phosphorylation in myxoid/round cell liposarcoma and causes massive cell death in vitro and in vivo",
+      "year": 2016,
+      "journal": "Oncotarget",
+      "category": "d — and a clean example of the confusion this test exists to prevent",
+      "assay": "17-DMAG in FUS-DDIT3-driven myxoid liposarcoma lines and xenografts.",
+      "verbatim": "\"EGFR and ERBB3 are clients of HSP90 that help complex formation and RTK activation. Treatment of cultured MLS cells with HSP90 inhibitor 17-DMAG, caused loss of RET and ERBB3 phosphorylation and lead to rapid cell death.\"",
+      "what_it_establishes": "A FUS-DDIT3-driven disease is highly sensitive to HSP90 inhibition in vitro and in vivo.",
+      "what_it_does_NOT_establish": "The clients named are EGFR, ERBB3 and RET — receptor tyrosine kinases downstream of the fusion. FUS-DDIT3 itself is never claimed as a client and is not shown to be depleted.",
+      "pmcid": "PMC4808009"
+    },
+    {
+      "pmid": "28383167",
+      "PMID": "28383167",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/28383167/",
+      "doi": "10.1002/gcc.22462",
+      "doi_url": "https://doi.org/10.1002/gcc.22462",
+      "title": "HSPA8 as a novel fusion partner of NR4A3 in extraskeletal myxoid chondrosarcoma",
+      "year": 2017,
+      "journal": "Genes, chromosomes & cancer",
+      "category": "e — a chaperone gene as a fusion PARTNER; NOT clientship",
+      "assay": "Whole-transcriptome sequencing of one EMC case, confirmed by FISH for the genomic translocation.",
+      "verbatim": "\"We herein report the identification by whole-transcriptome sequencing of HSPA8 as a novel fusion partner of NR4A3 in a case of EMC. FISH analysis confirmed the presence of a genomic HSPA8-NR4A3 translocation in the vast majority of tumor cells.\"",
+      "what_it_establishes": "The only chaperone-family record that exists in the EMC literature at all: HSPA8 (HSC70) occurs as a 5' fusion partner of NR4A3 in one reported case.",
+      "what_it_does_NOT_establish": "⛔ THIS IS NOT EVIDENCE THAT ANY NR4A3 FUSION IS A CHAPERONE CLIENT, and it is not a FET fusion — HSPA8 is not FUS, EWSR1 or TAF15. A chaperone gene donating a promoter and an N-terminus to a chimera is a different fact from a chimera being a chaperone substrate. One case, no functional work."
+    },
+    {
+      "pmid": "26706127",
+      "PMID": "26706127",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/26706127/",
+      "doi": "10.1074/jbc.M115.684878",
+      "doi_url": "https://doi.org/10.1074/jbc.M115.684878",
+      "title": "Chaperonin TRiC/CCT Modulates the Folding and Activity of Leukemogenic Fusion Oncoprotein AML1-ETO",
+      "year": 2015,
+      "journal": "The Journal of biological chemistry",
+      "category": "COMPARATOR — a NON-FET fusion, shown as a chaperonin client by BINDING",
+      "assay": "Immunoprecipitation and mass spectrometry of AML1-ETO with TRiC/CCT subunits; folding-intermediate binding through the DNA-binding domain, with HSP70.",
+      "verbatim": "\"We demonstrate that a folding intermediate of AML1-ETO binds to TRiC directly, mainly through its β-strand rich, DNA-binding domain (AML-(1-175)), with the assistance of HSP70.\"",
+      "what_it_establishes": "⭐ THIS IS WHAT AN ANSWER TO AUT-015 WOULD LOOK LIKE IF ANYONE HAD DONE IT FOR A FET FUSION: direct binding, named chaperone, named domain. It also relocates the folding problem to the 3' partner's DNA-BINDING DOMAIN rather than to the disordered 5' half — the opposite of where RT-CHAPERONE's rationale has been pointing.",
+      "what_it_does_NOT_establish": "Nothing here concerns FET fusions, Ewing sarcoma or EMC. It bounds the question, it does not answer it.",
+      "pmcid": "PMC4813495"
+    },
+    {
+      "pmid": "27276256",
+      "PMID": "27276256",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/27276256/",
+      "doi": "10.1016/j.bpj.2016.04.045",
+      "doi_url": "https://doi.org/10.1016/j.bpj.2016.04.045",
+      "title": "Chaperonin TRiC/CCT Recognizes Fusion Oncoprotein AML1-ETO through Subunit-Specific Interactions",
+      "year": 2016,
+      "journal": "Biophysical journal",
+      "category": "COMPARATOR — structural corroboration of the same non-FET result",
+      "assay": "Single-particle cryo-electron microscopy of the AML1-175 folding intermediate bound to apo-TRiC.",
+      "verbatim": "\"Using single-particle cryo-electron microscopy, we demonstrate here that a folding intermediate of AML1-ETO's DNA-binding domain (AML1-175) forms a stable complex with apo-TRiC.\"",
+      "what_it_establishes": "Fusion-oncoprotein clientship is demonstrable to structural resolution when someone does it.",
+      "what_it_does_NOT_establish": "Not a FET fusion.",
+      "pmcid": "PMC4906440"
+    },
+    {
+      "pmid": "25036637",
+      "PMID": "25036637",
+      "pmcid": "PMC4104544",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/25036637/",
+      "doi": "10.1016/j.cell.2014.05.039",
+      "doi_url": "https://doi.org/10.1016/j.cell.2014.05.039",
+      "title": "A quantitative chaperone interaction network reveals the architecture of cellular protein homeostasis pathways",
+      "year": 2014,
+      "journal": "Cell",
+      "category": "CLIENT SCREEN — read in full; it neither includes nor excludes the FET proteins in its body",
+      "assay": "AP-MS of 54 tagged chaperones and co-chaperones plus 40,604 pairwise LUMIER assays against an 800-protein query panel, with ganetespib used to test client dissociation from Hsp90β.",
+      "verbatim": "\"This set included known Hsp90 clients, a subset of kinases, E3 ligases and transcription factors that we previously identified as Hsp90 clients, and the 423 proteins that we used for characterizing the overlap between AP-MS interactors and LUMIER assay.\" And, on the co-chaperone this route now depends on: \"although SGT1 interacted with some non-LRR proteins, its interactions with LRR proteins were significantly stronger than with other domains (p<0.0001)\".",
+      "what_it_establishes": "⭐ A MATERIAL QUALIFICATION OF THE STRONGEST RECORD ABOVE. The one systematic human client screen assigns SGT1 a client preference for LEUCINE-RICH REPEAT folds, validated by co-immunoprecipitation of SGT1 with the LRR domain of FBXL2. Neither EWSR1 nor FLI1 contains an LRR domain. So the SGT1 knockdown that destabilises EWS::FLI1 (PMID 25985210) is unlikely to be direct SGT1 clientship, which pushes that record further toward machine-level dependence and further away from binding.",
+      "what_it_does_NOT_establish": "⚠ The paper's body names no FET protein. Whether FUS, EWSR1 or TAF15 was in the 800-protein query panel at all is NOT answerable from the text; the panel membership and every interaction score are in the deposited dataset, submitted to BioGRID and IntAct under identifier IM-22301. That is where this question gets closed, and it is a $0 fetch."
+    }
+  ],
+  "searches_that_returned_nothing_relevant": {
+    "_why_this_section_exists": "A negative is only as strong as the search behind it. Every query below was run against PubMed on 2026-08-27 through the NCBI MCP tools; counts are PubMed's own total_count.",
+    "queries": [
+      {
+        "id": "Q1",
+        "query": "(EWS-FLI1 OR EWSR1-FLI1 OR \"EWS::FLI1\") AND (HSP90 OR Hsp90 OR heat shock protein 90) AND client",
+        "hits": 3,
+        "outcome": "PMID 36495678, PMID 31025088, PMID 27863422 — no binding assay in any of them."
+      },
+      {
+        "id": "Q2",
+        "query": "(FUS-DDIT3 OR FUS-CHOP OR \"TLS-CHOP\" OR \"FUS::DDIT3\") AND (HSP90 OR HSP70 OR chaperone OR chaperonin)",
+        "hits": 3,
+        "outcome": "One relevant (PMID 26595521, category d), one Hsp104 yeast paper (PMID 31171724), one MeSH false positive. NO FUS-DDIT3 clientship record exists."
+      },
+      {
+        "id": "Q3",
+        "query": "(EWSR1-NR4A3 OR \"EWS-NR4A3\" OR \"EWS-CHN\" OR \"TAF15-NR4A3\" OR \"TAF2N-NR4A3\" OR extraskeletal myxoid chondrosarcoma) AND (HSP90 OR chaperone OR \"heat shock\")",
+        "hits": 1,
+        "outcome": "⭐ THE DECISIVE NULL FOR THIS PROGRAMME. The single hit is PMID 28383167 — HSPA8 as a fusion PARTNER. There is no chaperone-dependence, chaperone-binding or HSP90-inhibitor study of EWSR1::NR4A3 or TAF15::NR4A3 in PubMed."
+      },
+      {
+        "id": "Q4",
+        "query": "(EWSR1[TIAB] OR \"EWS protein\"[TIAB] OR TAF15[TIAB] OR FUS[TIAB]) AND (HSP90[TIAB] OR \"heat shock protein 90\"[TIAB]) AND (client OR immunoprecipitation OR interact*)",
+        "hits": 6,
+        "outcome": "Four are neurodegeneration reviews or unrelated screens; one (PMID 24251390) is a RETRACTED review and is not cited here; none reports a FET protein bound to HSP90."
+      },
+      {
+        "id": "Q5",
+        "query": "(FLI1[TIAB] AND HSP90[TIAB]) OR (DDIT3[TIAB] AND HSP90[TIAB])",
+        "hits": 6,
+        "outcome": "All six already reviewed above. Neither partner protein is independently documented as an HSP90 client."
+      },
+      {
+        "id": "Q6",
+        "query": "(NR4A3[TIAB] OR NR4A1[TIAB] OR Nur77[TIAB] OR NURR1[TIAB]) AND (HSP90[TIAB] OR \"heat shock protein 90\"[TIAB])",
+        "hits": 3,
+        "outcome": "⭐ ALL THREE OFF-TOPIC (a Cushing's disease HSF1 study, a myeloma HDAC review, a magnesium/arthritis transcriptome). NR4A3 has NO HSP90 clientship literature. The steroid-receptor chaperone cycle does not transfer to this orphan nuclear receptor on any evidence found here."
+      },
+      {
+        "id": "Q7",
+        "query": "\"ews fli fusion protein\"[Supplementary Concept] AND (HSP90 OR HSP70 OR chaperone OR chaperonin OR \"heat shock\")",
+        "hits": 3,
+        "outcome": "The MeSH-indexed route to the same small literature. Nothing new."
+      },
+      {
+        "id": "Q8",
+        "query": "(\"TLS-CHOP\" OR \"TLS/CHOP\" OR \"FUS/CHOP\" OR \"EWS/FLI\" OR \"EWS/FLI1\" OR \"EWS-FLI-1\") AND (HSP90 OR chaperone OR \"heat shock\" OR proteostasis)",
+        "hits": 13,
+        "outcome": "Spelling-variant sweep. Surfaced PMID 25985210 (the SGT1 paper) and otherwise zebrafish heat-shock promoters, a CDK12 review and an unrelated BRICHOS-domain paper."
+      },
+      {
+        "id": "Q9",
+        "query": "(\"Ewing sarcoma\"[TIAB]) AND (geldanamycin OR \"17-AAG\" OR \"17-DMAG\" OR ganetespib OR tanespimycin OR \"PU-H71\" OR \"HSP90 inhibitor\")",
+        "hits": 4,
+        "outcome": "The whole HSP90-inhibitor literature in Ewing sarcoma is four papers, and all four are category (d) or (b-by-depletion)."
+      },
+      {
+        "id": "Q10",
+        "query": "epichaperome AND (sarcoma OR \"Ewing\" OR fusion)",
+        "hits": 2,
+        "outcome": "PMID 34040147 (a PML-SYK fusion AML responding to PU-H71) and PMID 32366671 (a first-in-human PU-H71 PET trial). Neither concerns a FET fusion. ⚠ No PU-H71 chemical-affinity capture listing a FET fusion was found."
+      },
+      {
+        "id": "Q11",
+        "query": "(\"EWS-FLI1\" OR \"EWS::FLI1\" OR \"EWSR1-FLI1\") AND (interactome[Title] OR \"interacting proteins\"[Title] OR \"protein complex\"[Title] OR \"binding partners\"[Title])",
+        "hits": 1,
+        "outcome": "PMID 30123424, and its \"druggable interactome\" is a drug-perturbation and RNA-seq NETWORK, not a physical interactome. No published affinity-purification interactome of EWS::FLI1 was reachable by title search, so no chaperone subunit could be checked for in one."
+      },
+      {
+        "id": "Q12",
+        "query": "(HSP70 OR HSPA8 OR HSC70 OR HSPA1A OR DNAJ OR \"co-chaperone\" OR CDC37 OR AHA1 OR p23) AND (\"EWS-FLI1\" OR \"EWSR1-FLI1\" OR \"FUS-DDIT3\" OR \"FUS-CHOP\" OR \"EWSR1-NR4A3\" OR \"fusion oncoprotein\"[Title])",
+        "hits": 4,
+        "outcome": "Surfaced the AML1-ETO/TRiC comparator pair. NO HSP70-family or co-chaperone binding record for any FET fusion."
+      },
+      {
+        "id": "Q13",
+        "query": "Taipale quantitative chaperone interaction network HSP90 client LUMIER",
+        "hits": 1,
+        "outcome": "PMID 25036637 (Taipale et al., Cell 2014). ⚠ UNKNOWN whether FUS, EWSR1 or TAF15 appear in its client set — that lives in supplementary tables not retrieved in this seat. See open questions."
+      },
+      {
+        "id": "Q14",
+        "query": "(\"fusion oncoprotein\" OR \"fusion protein\" OR \"chimeric oncoprotein\") AND (HSP90 OR HSC70 OR HSPA8 OR \"TRiC\" OR CCT chaperonin) AND (client OR \"co-immunoprecipitation\" OR interactome)",
+        "hits": 43,
+        "outcome": "The route by which the AML1-ETO comparator was found. No FET-fusion binding record appears in it."
+      },
+      {
+        "id": "Q15",
+        "query": "(FUS[TIAB] OR EWSR1[TIAB] OR TAF15[TIAB]) AND (HSPB1[TIAB] OR \"Hsp27\"[TIAB] OR HSPA8[TIAB] OR \"karyopherin\"[TIAB] OR chaperone[Title]) AND (\"phase separation\" OR aggregation OR condensate)",
+        "hits": 25,
+        "outcome": "A substantial WILD-TYPE FUS aggregation literature — category (a), and about condensates rather than HSP90 clientship. Not individually screened; it cannot contain a fusion-clientship result that Q1, Q2, Q7, Q8 and Q12 all missed."
+      }
+    ]
+  },
+  "what_this_changes": {
+    "for_RT_CHAPERONE": "The route's own required_validation item — 'A literature assessment of chaperone clientship across FET-family fusion proteins' — is now DONE, and it comes back NEGATIVE ON THE PREMISE. The route's remaining_unknown 'whether the chimera is a chaperone CLIENT' stays open, and the literature now says it is open for EVERY FET fusion, not just this one. That is a weaker position than the 2026-08-09 record implied and a better-evidenced one.",
+    "the_grade_should_not_move": "◐ PARTLY SUPPORTED is still right, and for the reason already written into it. This seat removes an over-read (the 'YES' of 2026-08-09) and adds one genuinely new positive (SGT1 knockdown destabilises EWS::FLI1, PMID 25985210) and one genuinely new negative (nothing exists for NR4A3 fusions at all). Those cancel: no clientship measurement has been added, and the expression-and-dependency reading the grade is built on is untouched.",
+    "the_rationale_needs_one_correction": "⚠ RT-CHAPERONE's rationale says the chimera 'is a folding problem before it is a signalling one' because it joins two domains that never evolved together. The only fusion oncoprotein whose chaperone clientship HAS been solved structurally is handled through its DNA-BINDING DOMAIN (PMID 26706127), i.e. through the 3' partner's ordered fold, not through the disordered 5' prion-like half. If that generalises, the folding liability in EWSR1::NR4A3 would sit in the NR4A3 zinc-finger/ligand-binding region rather than in the EWSR1 low-complexity domain. That is a HYPOTHESIS generated by one comparator, not a finding.",
+    "falsifier_F5_of_the_dependency_manuscript": "F5 reads 'the chimera's clientship is untested', killed by 'a published co-immunoprecipitation for any FET-family fusion protein'. F5 SURVIVES: no such co-immunoprecipitation exists. But the manuscript's §5 statement that the literature question was attempted and not answered is now stale and is corrected in this cycle."
+  },
+  "open_questions_stated_as_unknown": [
+    "UNKNOWN — whether FUS, EWSR1 or TAF15 appear at all in the query panel of the one systematic human chaperone client screen (PMID 25036637). Its full text was read in this seat and names no FET protein; the panel membership and scores live in the deposited dataset, submitted to BioGRID and IntAct under identifier IM-22301. Fetching IM-22301 and grepping it for the three FET genes is the cheapest remaining observation on this route and it costs $0.",
+    "UNKNOWN — whether Martins et al. (PMID 18676850) assayed EWS-FLI1 for HSP90 binding and found nothing, or never assayed it. No PMC record; the abstract does not say. Absence from a client list is not a measured negative.",
+    "UNKNOWN — whether wild-type (non-potentiated) Hsp104 acts on FUS-CHOP or EWS-FLI in Ryan et al. (PMID 31171724). The PMC full-text endpoint returned an empty body for PMC6643043.",
+    "UNKNOWN — whether the EWS::FLI1 depletion seen under HSP90 inhibition is post-translational at all. None of the three papers reports a cycloheximide chase, a proteasome-block rescue or an mRNA measurement alongside the immunoblot, so a transcriptional route through the fusion's own autoregulated locus is not excluded.",
+    "NOT SEARCHED — preprint servers and non-PubMed-indexed sources. This assessment is PubMed-only."
+  ]
+}

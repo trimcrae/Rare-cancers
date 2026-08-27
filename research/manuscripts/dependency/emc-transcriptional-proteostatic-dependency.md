@@ -15,7 +15,7 @@ scope: >
   drug exposure and no patient.
 audience: [maintainers, external reviewers, autonomous research agents, collaborators]
 date: 2026-08-09
-last_verified: 2026-08-09
+last_verified: 2026-08-27
 related: [DOC-MODALITY-CENSUS, DOC-EMC-BIOMARKER-SELECTED]
 ---
 
@@ -133,10 +133,18 @@ model experiment.
 
 **For the chaperone half — one measurement, and it is not an expression question.** Is the chimera an
 HSP90 **client**? That is a co-immunoprecipitation or degradation-on-inhibition readout in an EMC model.
-⚠ Its cheaper precursor is a literature question that this programme attempted and did **not** answer:
-whether any FET-family fusion protein is a documented chaperone client. The retrieval run for this paper
-returned an unusable result for exactly that query, which is recorded in the citation anchor rather than
-quietly dropped, and the question remains open.
+⚠ Its cheaper precursor was a literature question — whether any FET-family fusion protein is a
+documented chaperone client — and that question has now been answered: **no FET-family fusion protein
+is one.** No co-immunoprecipitation, pull-down or client-screen result exists for any *FUS*, *EWSR1* or
+*TAF15* fusion. What exists is dependence without binding: EWS::FLI1 protein falls when HSP90 is
+inhibited pharmacologically (PMID 24388362, PMID 36495678) and when the HSP90 co-chaperone SGT1 is
+knocked down (PMID 25985210) — and for *NR4A3* fusions the chaperone literature is empty, its only
+record being *HSPA8* appearing as a fusion **partner** in one case (PMID 28383167), which is a
+different fact. ⭐ The comparison that sets the bar is AML1-ETO, shown to bind the chaperonin TRiC
+directly through its DNA-binding domain (PMID 26706127): the assay exists and has been run on another
+fusion family, so this is a gap in the literature rather than a limit of the instrument. Sources, and
+the queries that returned nothing, are in
+[`fet-fusion-chaperone-clientship-2026-08-27.json`](../../literature/fet-fusion-chaperone-clientship-2026-08-27.json).
 
 ## 6 · Falsifiers
 

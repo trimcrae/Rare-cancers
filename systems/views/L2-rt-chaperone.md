@@ -60,7 +60,7 @@ A structural argument nobody here had made. Chimeric proteins are disproportiona
 
 ## Remaining unknowns
 
-- Whether the chimera is a chaperone CLIENT, which is the route's actual premise and a co-immunoprecipitation question that no expression read can reach.
+- Whether the chimera is a chaperone CLIENT, which is the route's actual premise and a co-immunoprecipitation question that no expression read can reach. ⛔ The literature was assessed on 2026-08-27 and NO FET-family fusion protein is a documented client: no binding assay exists for any FUS, EWSR1 or TAF15 fusion, and NR4A3 fusions have no chaperone literature at all. What does exist is dependence without binding — EWS::FLI1 protein falls on HSP90 inhibition and on knockdown of the co-chaperone SGT1. The assay is not the obstacle: AML1-ETO was shown to bind the chaperonin TRiC directly. See research/literature/fet-fusion-chaperone-clientship-2026-08-27.json.
 - Why the HSP90 and HSP70 arms move in opposite directions here, which is unexplained and is the reason this is not graded as support.
 - Whether any therapeutic index exists for this class — its clinical record is dominated by toxicity, and nothing here assumes otherwise.
 - Whether the two HSP90 paralogues are mutually redundant, which would make their individually low dependency scores an artefact of single-gene knockout rather than a statement about the chaperone — a dual-knockout question no public panel answers.
@@ -122,7 +122,7 @@ The decisive observation is whether the fusion is an HSP90 client, and that need
 
 ## Best next action
 
-Establish whether any FET-family fusion protein is a documented chaperone client.
+Fetch IntAct/BioGRID dataset IM-22301, the deposited interaction set of the published human chaperone-interaction network (PMID 25036637), and record whether FUS, EWSR1 or TAF15 appear in its query panel at all — a $0 fetch, and the last cheap observation left on this route now that the FET-fusion clientship literature has been assessed and come back empty.
 
 *Cost:* $0
 
