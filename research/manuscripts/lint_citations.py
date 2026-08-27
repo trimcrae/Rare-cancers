@@ -54,6 +54,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 LEDGER = os.path.join(HERE, "citation-provenance-ledger.json")
+#: The type guard's fetch cache — excluded from the anchor scan by `survey()`, see there.
+TYPE_CACHE_REL = "research/manuscripts/citation-article-types.json"
 
 #: ⚠ ANCHORED IS ABOUT ORIGIN, NOT ABOUT FILE TYPE. `.json`/`.jsonl` are what fetches, registry
 #: curations and graph edits write; prose is what a model types. That asymmetry is the whole test.
@@ -191,8 +193,16 @@ def survey():
     # still fails), which is exactly what made it dangerous: the guard kept working while its READOUT
     # went vacuous, and a count of 0 is the one number nobody re-examines.
     ledger_rel = os.path.relpath(LEDGER, ROOT).replace(os.sep, "/")
+    # ⛔ AND THE SAME EXCLUSION FOR THE PUBLICATION-TYPE CACHE, ADDED 2026-08-27 WITH THE TYPE GUARD
+    # AND FOR THE REASON THE PARAGRAPH ABOVE RECORDS. `citation-article-types.json` is a tracked
+    # `.json` whose whole content is identifiers, so left in this scan it would ANCHOR every one of
+    # them — two of which (PMID 40885991, PMID 41055792) are `unverified_at_baseline` in the ledger
+    # right now. The unanchored count would fall because a DIFFERENT gate fetched something, and the
+    # only number a reader would see is the smaller one. Provenance is resolved by --verify-online;
+    # a fetch performed to answer "what kind of paper is this" is not evidence for "who checked it".
     anchors = _scan([f for f in files
-                     if f.endswith(ANCHOR_SUFFIXES) and f != ledger_rel])
+                     if f.endswith(ANCHOR_SUFFIXES)
+                     and f not in (ledger_rel, TYPE_CACHE_REL)])
     return prose, anchors
 
 
@@ -261,11 +271,34 @@ def check():
           % (sum(len(v) for v in prose.values()), len(un), len(led["entries"]),
              ", ".join("%s=%d" % (s, n) for s, n in sorted(by_status.items())),
              ", %d stale ledger row(s)" % len(stale) if stale else ""))
+    rc = 0
     if new:
         print("lint_citations: %d NEW unanchored identifier(s) — see errors above" % len(new),
               file=sys.stderr)
-        return 1
-    return 0
+        rc = 1
+    # ⭐⭐ THE TYPE GUARD RUNS FROM HERE, AND THE CALL SITE IS THE WIRING (added 2026-08-27,
+    # AUT-PROP-007). ⛔ IT IS A THIRD AXIS, NOT A REFINEMENT OF THIS ONE. On 2026-08-26 a national
+    # registry cohort and two single-patient case reports were cited as "the review literature";
+    # every identifier was real, every one was ANCHORED, and this checker was green — correctly,
+    # because ORIGIN was never the question. `lint_citation_types` asks whether the paper behind the
+    # identifier is the KIND of paper the sentence says it is, against PubMed's `article_types`.
+    # ⚠ WHY IT HANGS OFF THIS FUNCTION RATHER THAN OFF ITS OWN PREFLIGHT HEADING. Gate ordinals are
+    # DERIVED from `preflight.sh`'s `== heading ==` lines by `systems_check.check_preflight_gate_list`
+    # and hard-coded in four documents besides, so a new heading renumbers every gate below it. This
+    # guard does not warrant that churn, and hanging it on a gate that already runs in the commit
+    # loop AND in CI wires it more strongly than a heading of its own would. The two rcs are OR-ed
+    # so neither can hide the other — the shape preflight's own manuscripts block was fixed into.
+    # ⚠ IMPORTED BY PATH, NOT BY NAME. Run as a script, `sys.path[0]` is this directory and a bare
+    # `import` works; imported by `spec_from_file_location` — which is how every test in this
+    # repository loads a linter — it is NOT, and the bare form raises ImportError from inside a
+    # function nothing had reason to re-test. The guard must be reachable both ways or the wiring is
+    # only as good as the entry point that happened to be exercised.
+    import importlib.util
+    _spec = importlib.util.spec_from_file_location(
+        "lint_citation_types", os.path.join(HERE, "lint_citation_types.py"))
+    _types = importlib.util.module_from_spec(_spec)
+    _spec.loader.exec_module(_types)
+    return max(rc, _types.check())
 
 
 def baseline():

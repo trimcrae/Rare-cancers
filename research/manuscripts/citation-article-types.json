@@ -1,0 +1,175 @@
+{
+  "_what": "PubMed PUBLICATION TYPES (`article_types`) for every identifier that this repository's prose characterises BY TYPE — 'a review', 'a case report', 'a randomised controlled trial'. It is the offline evidence `lint_citation_types.py` reads. It is a FETCH RECORD, not a judgement: every field below is returned verbatim by PubMed and nothing here is inferred, edited or summarised.",
+  "_why_it_exists": "2026-08-26. A national-registry outcome cohort (PMC12398172) and two single-patient case reports (PMC12376927, PMC9131214) were cited as 'the review literature' alongside the one paper of the four that is a review (PMC7563993). Every identifier was real, every one was ANCHORED in a tracked artifact, `lint_citations` was green throughout — correctly, because it checks ORIGIN and not TYPE — and the misattribution survived two cycles. `article_types` is the one field that discriminates them, and the four rows are in this file so the guard's regression tests can use the real incident rather than a fixture.",
+  "_attribution": "According to PubMed. Metadata retrieved from PubMed (NCBI) through the PubMed MCP connector's `get_article_metadata`. PubMed's terms of use require that its metadata carry attribution and a resolvable DOI link wherever it travels, so every record below carries `doi_url`, and any document, report or message that quotes a row from this file must carry both.",
+  "_source_of_truth": "PubMed is. This file is a CACHE, and a cache is only ever as current as its `retrieved_utc`. Publication types are assigned by NLM indexers and can change after publication — a 'Retracted Publication' type in particular is added LATER than the article. So a stale row is a real failure mode: re-fetch rather than trust an old one when a row is load-bearing.",
+  "_how_to_refresh": "The fetcher is a live connector and the gate is offline; the two never meet. To add or refresh a row, in an interactive session: (1) `mcp__<pubmed>__convert_article_ids` with id_type='pmcid' to turn a PMCID into a PMID; (2) `mcp__<pubmed>__get_article_metadata` with the PMIDs; (3) copy `identifiers`, `journal.iso_abbreviation`, `publication_date.year`, `title` and `article_types` into a record here verbatim, with today's date in `retrieved_utc`. ⛔ NEVER type an `article_types` value from recollection or infer it from a title — a paper titled 'a case report and review of literature' (PMC9131214) is typed `Case Reports` and NOT `Review`, which is exactly the discrimination this file exists to make.",
+  "_lookup": "`records` is keyed by PMID because PubMed is. A PMCID resolves through the `pmcid` field of the record that owns it; the guard builds that index at load time rather than storing a second copy of it (CLAUDE.md §1: one fact, one place).",
+  "_not_an_anchor": "⛔ This file is EXCLUDED from `lint_citations`' anchor scan, deliberately, and the exclusion is the 2026-08-07 self-anchoring defect applied forward. It is a tracked `.json` whose content is identifiers, so left in the scan it would ANCHOR every one of them and make the provenance gate's unanchored count depend on the TYPE gate's fetch history — one gate's readout moving because a different gate went looking for something else. Provenance is resolved by `lint_citations.py --verify-online`, never by a fetch performed to answer a different question. ⚠ MEASURED 2026-08-27, AND THE FIRST MEASUREMENT SAID NOTHING: removing the exclusion left the count at 90, because every identifier cached here today is already anchored by some other artifact. So the exclusion is DEFENSIVE rather than active right now, and a mutation that only deleted it would have reported a green pass for a guard doing nothing. Adding a row for an identifier that is prose-only unanchored today moved the count 90 -> 89 with the exclusion removed and left it at 90 with the exclusion in place, which is the demonstration. ⚠ AND THE IDENTIFIER USED FOR IT IS PMC10142489, NAMED IN THIS VERY SENTENCE — so this note is itself the live proof: a bare mention of an identifier inside a tracked .json is all it takes to anchor it, which is why the exclusion is a filter on the FILE and not on the `records` block.",
+  "records": {
+    "37213274": {
+      "pmid": "37213274",
+      "pmcid": "PMC10196192",
+      "doi": "10.3389/fonc.2023.1176790",
+      "doi_url": "https://doi.org/10.3389/fonc.2023.1176790",
+      "title": "Targeted treatment of solid tumors in pediatric precision oncology.",
+      "journal": "Front Oncol",
+      "year": "2023",
+      "article_types": [
+        "Journal Article",
+        "Review"
+      ],
+      "retrieved_utc": "2026-08-27"
+    },
+    "32967265": {
+      "pmid": "32967265",
+      "pmcid": "PMC7563993",
+      "doi": "10.3390/cancers12092703",
+      "doi_url": "https://doi.org/10.3390/cancers12092703",
+      "title": "Extraskeletal Myxoid Chondrosarcoma: State of the Art and Current Research on Biology and Clinical Management.",
+      "journal": "Cancers (Basel)",
+      "year": "2020",
+      "article_types": [
+        "Journal Article",
+        "Review"
+      ],
+      "retrieved_utc": "2026-08-27"
+    },
+    "41055792": {
+      "pmid": "41055792",
+      "pmcid": "PMC12504171",
+      "doi": "10.1007/s00432-025-06316-5",
+      "doi_url": "https://doi.org/10.1007/s00432-025-06316-5",
+      "title": "From pathogenesis to the patient's bedside: a comprehensive review of extraskeletal myxoid chondrosarcoma.",
+      "journal": "J Cancer Res Clin Oncol",
+      "year": "2025",
+      "article_types": [
+        "Journal Article",
+        "Review"
+      ],
+      "retrieved_utc": "2026-08-27"
+    },
+    "40646688": {
+      "pmid": "40646688",
+      "pmcid": "PMC12263127",
+      "doi": "10.1080/21541264.2025.2521766",
+      "doi_url": "https://doi.org/10.1080/21541264.2025.2521766",
+      "title": "Orphan nuclear receptor transcription factors as drug targets.",
+      "journal": "Transcription",
+      "year": "2025",
+      "article_types": [
+        "Journal Article",
+        "Review",
+        "Research Support, N.I.H., Extramural",
+        "Retracted Publication"
+      ],
+      "retrieved_utc": "2026-08-27"
+    },
+    "40885991": {
+      "pmid": "40885991",
+      "pmcid": "PMC12398172",
+      "doi": "10.1186/s13018-025-06245-6",
+      "doi_url": "https://doi.org/10.1186/s13018-025-06245-6",
+      "title": "The role of radiotherapy and chemotherapy in extraskeletal myxoid chondrosarcoma.",
+      "journal": "J Orthop Surg Res",
+      "year": "2025",
+      "article_types": [
+        "Journal Article"
+      ],
+      "retrieved_utc": "2026-08-27"
+    },
+    "40831041": {
+      "pmid": "40831041",
+      "pmcid": "PMC12376927",
+      "doi": "10.12659/AJCR.947135",
+      "doi_url": "https://doi.org/10.12659/AJCR.947135",
+      "title": "Diagnosis and Management of Large Extraosseous Myxoid Chondrosarcoma of the Buttocks: A Case Report.",
+      "journal": "Am J Case Rep",
+      "year": "2025",
+      "article_types": [
+        "Journal Article",
+        "Case Reports"
+      ],
+      "retrieved_utc": "2026-08-27"
+    },
+    "35665108": {
+      "pmid": "35665108",
+      "pmcid": "PMC9131214",
+      "doi": "10.12998/wjcc.v10.i13.4301",
+      "doi_url": "https://doi.org/10.12998/wjcc.v10.i13.4301",
+      "title": "Primary intracranial extraskeletal myxoid chondrosarcoma: A case report and review of literature.",
+      "journal": "World J Clin Cases",
+      "year": "2022",
+      "article_types": [
+        "Case Reports",
+        "Journal Article"
+      ],
+      "retrieved_utc": "2026-08-27"
+    },
+    "42110475": {
+      "pmid": "42110475",
+      "pmcid": "PMC13156592",
+      "doi": "10.1016/j.omton.2026.201213",
+      "doi_url": "https://doi.org/10.1016/j.omton.2026.201213",
+      "title": "RNA-based precision medicine in glioblastoma driven by oncogenic gene fusions.",
+      "journal": "Mol Ther Oncol",
+      "year": "2026",
+      "article_types": [
+        "Journal Article",
+        "Review"
+      ],
+      "retrieved_utc": "2026-08-27"
+    },
+    "16083345": {
+      "pmid": "16083345",
+      "pmcid": null,
+      "doi": "10.1517/14728222.9.4.825",
+      "doi_url": "https://doi.org/10.1517/14728222.9.4.825",
+      "title": "Oncogene-targeted antisense oligonucleotides for the treatment of Ewing sarcoma.",
+      "journal": "Expert Opin Ther Targets",
+      "year": "2005",
+      "article_types": [
+        "Journal Article",
+        "Review"
+      ],
+      "retrieved_utc": "2026-08-27"
+    },
+    "30575484": {
+      "pmid": "30575484",
+      "pmcid": "PMC6447029",
+      "doi": "10.1056/NEJMoa1805052",
+      "doi_url": "https://doi.org/10.1056/NEJMoa1805052",
+      "title": "Sorafenib for Advanced and Refractory Desmoid Tumors.",
+      "journal": "N Engl J Med",
+      "year": "2018",
+      "article_types": [
+        "Clinical Trial, Phase III",
+        "Journal Article",
+        "Multicenter Study",
+        "Randomized Controlled Trial",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "retrieved_utc": "2026-08-27"
+    },
+    "23058004": {
+      "pmid": "23058004",
+      "pmcid": "PMC3534218",
+      "doi": "10.1186/2045-3329-2-22",
+      "doi_url": "https://doi.org/10.1186/2045-3329-2-22",
+      "title": "Extraskeletal myxoid chondrosarcoma: tumor response to sunitinib.",
+      "journal": "Clin Sarcoma Res",
+      "year": "2012",
+      "article_types": [
+        "Case Reports",
+        "Journal Article"
+      ],
+      "retrieved_utc": "2026-08-27"
+    }
+  },
+  "_freshness_check": {
+    "checked_utc": "2026-08-27T21:05:00Z",
+    "method": "every cached PMID re-fetched from live PubMed and compared field-for-field against the committed types",
+    "result": "10 of 10 non-Safe records identical; no record other than PMID 40646688 carries 'Retracted Publication'; zero drift",
+    "_why_this_is_here": "⚠ THE GUARD'S OWN STATED WEAKNESS, MEASURED INSTEAD OF LEFT AS A CAVEAT. Publication types are assigned by NLM indexers and 'Retracted Publication' in particular is added AFTER publication, so `retrieved_utc` is a real staleness clock with no automatic refresh. That made 'is this cache current?' an UNKNOWN — and it was a $0 UNKNOWN, which CLAUDE.md §4 says to take now rather than defer. ⛔ THIS DOES NOT REMOVE THE WEAKNESS: the clock now runs from the date above, and the next retraction will land silently. What it does is replace a remembered assumption with a dated reading, and record that re-checking costs one API call over ~11 identifiers."
+  }
+}

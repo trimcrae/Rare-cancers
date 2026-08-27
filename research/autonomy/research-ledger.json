@@ -15,15 +15,15 @@
     "fetch": 14,
     "negative": 32,
     "regrade": 7,
-    "fix": 8,
+    "fix": 9,
     "build": 1,
     "verify": 1
   },
   "n_by_state": {
     "queued": 100,
     "superseded": 1,
-    "done": 24,
-    "in_progress": 6
+    "done": 26,
+    "in_progress": 5
   },
   "n_clamped": 11,
   "entries": [
@@ -709,21 +709,21 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "in_progress",
-      "owner": "pubtype-guard-seat",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "score": 175.0,
       "_score_basis": "hand-filed by CYC-0010. Just under the live manuscript work: a GUARD, not a route, but it closes the defect class that has cost this paper the most.",
       "filed_by": "CYC-0010",
-      "what": "⭐ BUILD THE PUBLICATION-TYPE GUARD — the PubMed connector is live and PROVEN to reach NCBI from this container (convert_article_ids resolved 4 PMCIDs while `curl` to eutils returns HTTP 000 / exit 56). `lint_citations` can only check that an identifier is ANCHORED; its own header says 'an ANCHORED identifier is not thereby verified either'. On 2026-08-26 that gap let a national-registry cohort and two single-patient case reports be cited as 'the review literature' — every identifier real, every one anchored, the gate green, and it survived two cycles. ⛔ THE DISCRIMINATOR IS ONE FIELD: get_article_metadata returns `article_types`. Measured on those four: PMC7563993 ['Journal Article','Review']; PMC12398172 ['Journal Article']; PMC12376927 and PMC9131214 both carry 'Case Reports'. Exactly ONE is a Review. ⭐ THE GUARD: where prose characterises a citation BY TYPE, assert `article_types` agrees. ⛔ CACHE, NEVER CALL — preflight is offline and deterministic; a linter depending on a live connector puts a commit gate at the mercy of someone's uptime. The connector is the FETCHER; a tracked artifact is what the gate reads. ⚠ PubMed's terms require attribution and a DOI link wherever its metadata travels, cache artifact included.",
+      "what": "✅ DONE 2026-08-27. ⭐ BUILD THE PUBLICATION-TYPE GUARD — the PubMed connector is live and PROVEN to reach NCBI from this container (convert_article_ids resolved 4 PMCIDs while `curl` to eutils returns HTTP 000 / exit 56). `lint_citations` can only check that an identifier is ANCHORED; its own header says 'an ANCHORED identifier is not thereby verified either'. On 2026-08-26 that gap let a national-registry cohort and two single-patient case reports be cited as 'the review literature' — every identifier real, every one anchored, the gate green, and it survived two cycles. ⛔ THE DISCRIMINATOR IS ONE FIELD: get_article_metadata returns `article_types`. Measured on those four: PMC7563993 ['Journal Article','Review']; PMC12398172 ['Journal Article']; PMC12376927 and PMC9131214 both carry 'Case Reports'. Exactly ONE is a Review. ⭐ THE GUARD: where prose characterises a citation BY TYPE, assert `article_types` agrees. ⛔ CACHE, NEVER CALL — preflight is offline and deterministic; a linter depending on a live connector puts a commit gate at the mercy of someone's uptime. The connector is the FETCHER; a tracked artifact is what the gate reads. ⚠ PubMed's terms require attribution and a DOI link wherever its metadata travels, cache artifact included.\n\n⭐ SHIPPED: `research/manuscripts/lint_citation_types.py` + a cached `citation-article-types.json` + 29 tests. ⭐ IT SITS BESIDE `lint_citations` AS A MODULE (different question, different data source, different remedy) BUT EXTENDS AT THE CALL SITE — `check()` invokes it, so one command runs both. That was deliberate and the reasoning is worth keeping: `systems_check.check_preflight_gate_list` DERIVES gate ordinals from preflight.sh's headings and four documents hard-code them, so a new heading renumbers every gate below it. Bolting onto gate 6 — already in the commit loop AND in CI — wires it more strongly than a new gate would, and the count stays 15 with no ordinal moved. ⭐ BINDS the attributive slot after a type word, INCLUDING every identifier in a following list, which is the 2026-08-26 defect's own shape (one type word, four PMCIDs). ⛔ DOES NOT BIND, each with its reason in code: `cohort study` and `case series` (no MeSH type exists, so a rule could only ever pass — reporting while measuring nothing), bare `trial`/`phase N trial` (PubMed types the REPORT, so secondary analyses legitimately carry only Journal Article), `preprint`, and `retracted` (read and reported, ADVISORY only — whether a retracted paper may still be cited is a human's call). ⭐ NO BASELINE AND NO AMNESTY LIST: 22 type claims on the live tree, 22 correct. A first proximity cut found 58 hits over 26 files (prose ABOUT the incident, titles containing 'review of literature', 'clears peer review'); the attributive form plus four rejection rules took it to 18 with nothing honest lost, and list-binding to 22. A missing cache row is an ERROR naming the exact fetch, never a silent pass. ✅ 9 mutations, 9 caught — and TWO of them are worth more than the count: M3 and M5 ABORTED on a whitespace miss, which is the landing assertion working rather than a gap; and M8's first form was honest-but-vacuous (90→90, because every cached identifier is already anchored elsewhere today), so it was redone constructively with a stub row that moves 90→89 without the exclusion. A vacuous mutation reported as a catch would have been the dishonest option. ⚠ UNKNOWN, recorded rather than smoothed: whether the 11 cached rows are still current (NLM assigns types after publication and 'Retracted Publication' in particular arrives late, so `retrieved_utc` is a real staleness clock with no auto-refresh); how many type claims sit in prose the scanner cannot see (a list wrapped across source lines binds only the members before the wrap — deliberate under-binding, since allowing `\\n` would let a run cross a blank line); and whether `Systematic Review` is separable, since NLM assigns it unevenly.",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art.md",
-      "claimed_utc": "2026-08-27T19:59:32Z"
+      "claimed_utc": null
     },
     {
       "id": "AUT-PROP-009",
@@ -3979,6 +3979,32 @@
       "score": 105.0,
       "_score_basis": "the checker that decides whether the turn may end was reading capacity it could not see",
       "depends_on_evidence": "continuity.py live_leases()/width_cap(); 89 tests in research/autonomy/tests",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-025",
+      "kind": "fix",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-DEGRADER",
+        "publication": "PUB-DEGRADER",
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PROP-007",
+      "what": "✅ DONE 2026-08-27, THE SAME HOUR THE GUARD THAT FOUND IT WAS BUILT. ⛔ THE DEGRADER MANUSCRIPT CITED A RETRACTED PAPER AND THE REPOSITORY DID NOT KNOW. According to PubMed, PMID 40646688 / PMC12263127 (Safe S et al., *Orphan nuclear receptor transcription factors as drug targets*, Transcription 16:224-260, 2025, doi 10.1080/21541264.2025.2521766) carries article_types ['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication']. VERIFIED INDEPENDENTLY by the driver against the live PubMed record, not taken from the seat's report. `grep -i retract` found NOTHING about it anywhere in the repository — not in the degrader paper, not in nr4a3-druggability-reconciliation.md, not in safe2025-verify.json. It was surfaced by AUT-PROP-007's new type guard as an advisory on its FIRST real run. ⭐ THE SCIENCE IS UNAFFECTED AND THAT IS WHY THE FIX IS AN ANNOTATION RATHER THAN A WITHDRAWAL: the repository had ALREADY corrected this source on 2026-07-12, primary-source verified — 'Safe 2025 selective analogues' is a review's loose paraphrase of the SAME Zaienne 2022 compounds 1 and 19, not a distinct NR4A3-selective series. No claim rests on it; it is cited as the secondary source whose paraphrase the manuscript corrects. The retraction STRENGTHENS that correction. ⛔ BUT A READER MUST BE TOLD, AND A REVIEWER WILL CHECK. Annotated at all three sites — the citing sentence in nr4a3-degrader-paper.md, its reference-list entry, and both places in nr4a3-druggability-reconciliation.md — each naming PubMed as the source and the date it was read. ⚠ THE GENERAL LESSON IS THE ONE TO KEEP: a citation verified once STAYS verified in this repository's records, and 'Retracted Publication' is a type NLM adds AFTER publication. `safe2025-verify.json` recorded a real fetch of a real paper and was correct when written. Provenance is not a property that holds still.",
+      "score": 170.0,
+      "_score_basis": "a manuscript citing a retracted review, found by a guard on its first run",
+      "depends_on_evidence": "PubMed record for PMID 40646688 read 2026-08-27; lint_citation_types advisory",
       "closes_clause": null
     }
   ]

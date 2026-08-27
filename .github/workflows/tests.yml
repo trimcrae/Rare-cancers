@@ -118,7 +118,12 @@ jobs:
       # scripts/preflight.sh, and neither ran in CI. A gate that only fires when somebody
       # remembers to run preflight locally is a gate that will be green on the day it matters --
       # the same shape as the fake --check that shipped before and kept CI green for weeks.
-      - name: Citation provenance (every prose identifier traces to a fetch or the ledger)
+      # ⭐ AND SINCE 2026-08-27 THIS ONE COMMAND CARRIES TWO CHECKS (AUT-PROP-007). It also runs
+      # `lint_citation_types.py`: where prose calls a paper a review, a case report or a randomised
+      # controlled trial, PubMed's cached `article_types` must agree. On 2026-08-26 a
+      # national-registry cohort and two single-patient case reports were cited as "the review
+      # literature" with every identifier real, every one anchored, and this step green.
+      - name: Citation provenance and publication type (an identifier's origin, and its KIND)
         run: python3 research/manuscripts/lint_citations.py
       - name: Manuscript prose style (journal register, not repository register)
         run: python3 research/manuscripts/lint_style.py

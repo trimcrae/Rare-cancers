@@ -382,11 +382,32 @@ fi
 echo "== changed prose (a qualifier dropped by an edit) =="
 python3 research/manuscripts/lint_changed_prose.py || true
 
-echo "== citation provenance (every prose identifier traces to a fetch or to the ledger) =="
-if python3 research/manuscripts/lint_citations.py >/dev/null 2>&1; then
+# ⭐ AND THIS GATE GREW A SECOND AXIS ON 2026-08-27 (AUT-PROP-007), UNDER THE SAME ORDINAL AND THE
+# SAME COMMAND. `lint_citations` now also runs `lint_citation_types.py`: provenance asks whether an
+# identifier has an ORIGIN, and the type guard asks whether the paper behind it is the KIND of paper
+# the sentence says it is. On 2026-08-26 a national-registry cohort and two single-patient case
+# reports were cited as "the review literature" -- every identifier real, every one ANCHORED, this
+# gate green throughout and correct to be, because origin was never the question. It survived two
+# cycles. The discriminator is PubMed's `article_types`, cached offline in
+# `research/manuscripts/citation-article-types.json` (attribution and DOI links travel with it).
+# ⚠ ONE HEADING ON PURPOSE. Gate ordinals are DERIVED from these `== ... ==` lines by
+# `systems_check.check_preflight_gate_list` and hard-coded in four documents besides, so a new
+# heading renumbers every gate below it -- the churn this file's generated-artifacts note already
+# warns about. Bolting the guard onto a gate that runs in the commit loop AND in CI wires it more
+# strongly than a heading of its own would, and the rerun command below is unchanged because it is
+# still the right one.
+# ⛔ AND THE CITATION LINTER'S NAME IS WRITTEN ABOVE WITHOUT ITS FILE EXTENSION ON PURPOSE, WHICH
+# LOOKS LIKE A TYPO AND IS NOT. `systems_check.check_preflight_gate_list` assigns a tool to the FIRST
+# gate whose BODY contains that tool's exact filename, and a comment placed above an `echo` belongs
+# to the PREVIOUS gate's body -- so naming the file in full in a comment here puts the citation gate
+# at ordinal 5 and turns [P1] red against a gate list that is correct. Measured twice while writing
+# this block: once in the note above, and once in the note explaining the note. Do not "fix" either.
+echo "== citation provenance and publication type (every prose identifier traces to a fetch or to the ledger; every claim of TYPE agrees with PubMed) =="
+if python3 research/manuscripts/lint_citations.py; then
   echo "   OK"
 else
-  echo "   FAILED -- rerun 'python3 research/manuscripts/lint_citations.py' to see which identifier"; rc=1
+  echo "   FAILED -- rerun 'python3 research/manuscripts/lint_citations.py' to see which identifier"
+  echo "            is unanchored, or which sentence calls a paper something PubMed says it is not"; rc=1
 fi
 
 # ADDED 2026-08-09. The repository's house style -- glyph warnings, bold on the load-bearing clause,

@@ -107,7 +107,8 @@ cryptic/surface sites. **NR4A3 itself is experimentally ligandable — pharmacol
 structurally.** A fragment screen against NOR-1/NR4A3 (hit rate <1 %) returned three ligand chemotypes, one
 elaborated to a **low-micromolar inverse agonist** (compound 19) that shifted NOR-1-regulated gene expression
 in cells, de-repressing the NR4A3 target gene *MYC* (IC₅₀ ≈ 8–47 µM; Zaienne 2022, a paper titled, aptly, a
-*"Druggability Evaluation of NOR-1"*; the same compounds are recapitulated in the Safe 2025 review). We note
+*"Druggability Evaluation of NOR-1"*; the same compounds are recapitulated in the Safe 2025 review, which
+PubMed types as a **Retracted Publication** — the primary result here is Zaienne 2022 and does not rest on it). We note
 explicitly that these compounds were characterized **on NR4A3/NOR-1 only** — no NR4A1/NR4A2 counter-screen was
 reported — so they establish NR4A3 *engagement*, **not** paralogue selectivity. These experimental results
 establish that NR4A3 *can* be engaged by small molecules, but
@@ -2964,7 +2965,9 @@ cited without a formal article title (conference/early-access or database entrie
    [Primary; experimental NR4A3/NOR-1 ligandability.]
 6. Safe S, Oany AR, Tsui WN, Lee M, Srivastava V, Upadhyay S, et al. *Orphan nuclear receptor transcription
    factors as drug targets.* Transcription 16:224–260 (2025). PMID 40646688; PMC12263127;
-   doi 10.1080/21541264.2025.2521766. [Review/secondary.]
+   doi 10.1080/21541264.2025.2521766. [Review/secondary. **RETRACTED** — PubMed records the type
+   "Retracted Publication" for this article, read 2026-08-27. It is cited here only as the secondary
+   source whose paraphrase of Zaienne 2022 this manuscript corrects; no claim rests on it.]
 7. Willems S, Morozov V, Marschner JA, Merk D. *Comparative Profiling and Chemogenomics Application of Chemical
    Tools for NR4A Nuclear Receptors.* J Med Chem 68:19955–19970 (2025). doi 10.1021/acs.jmedchem.5c00459.
 8. Muñoz-Tello P, Lin H, Khan P, de Vera IMS, Kamenecka TM, Kojetin DJ. *Assessment of NR4A Ligands That

@@ -166,7 +166,9 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
 - **Before committing:** `./scripts/preflight.sh` must pass. **Fifteen gates, in this order:** (1) the consistency
   linter (`research/manuscripts/lint_consistency.py`), (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
   (4) claim strength (`lint_claims.py`), (5) changed prose (`lint_changed_prose.py`, warnings only),
-  (6) `research/manuscripts/lint_citations.py`, (7) `research/manuscripts/lint_style.py`,
+  (6) citation provenance AND publication type — `research/manuscripts/lint_citations.py`, which since
+  2026-08-27 also runs `lint_citation_types.py` under the same ordinal and the same command,
+  (7) `research/manuscripts/lint_style.py`,
   (8) the readability screen (`research/manuscripts/lint_readability.py`, ADVISORY — where to look, not
   whether the prose is good; the HARD gate on an outgoing version is publish_bar clause 7, not this one),
   (9) `systems/parser_guard.py`, (10) the registry evidence
@@ -222,6 +224,28 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     fall. **Anything NEW and unanchored fails immediately**, which is the case that actually happened.
     ⚠ An anchored identifier is **not thereby verified** — an artifact carrying it is evidence of a
     fetch, not of correctness. This raises the floor; it is not a truth oracle.
+  - **★★ AND ON 2026-08-26 THAT EXACT SENTENCE CAME TRUE, SO GATE 6 GREW A THIRD AXIS.** A metastasis
+    claim was attributed to *"the review literature"* over four PMCIDs. **One was a review.** The
+    others were a Japanese national-registry outcome cohort (PMC12398172, n = 171) and two
+    single-patient case reports (PMC12376927, PMC9131214). Every identifier was real, every one was
+    **anchored**, gate 6 was **green and correct to be** — origin was never the question — and the
+    misattribution survived **two cycles** before a blind seat read the papers (correction register
+    A11). ⭐ **The discriminator is one field: PubMed's `article_types`.**
+    [`lint_citation_types.py`](./research/manuscripts/lint_citation_types.py) runs from inside
+    `lint_citations`, under the same gate ordinal and the same command, and asserts that where prose
+    puts an identifier in the attributive slot after a type word — *a review*, *a case report*, *a
+    randomised controlled trial* — PubMed agrees. **Three orthogonal axes now:** how strongly a claim
+    is WORDED (gate 4), whether an identifier has an ORIGIN (gate 6a), whether the paper is the KIND
+    of thing the sentence says (gate 6b).
+    ⛔ **CACHE, NEVER CALL.** The PubMed MCP connector is the FETCHER; the gate reads
+    `research/manuscripts/citation-article-types.json`, so preflight stays offline and deterministic.
+    A claim whose identifier has no cached row is an **ERROR naming the fetch**, never a silent pass.
+    ⚠ PubMed's terms require attribution and a DOI link wherever its metadata travels — the cache
+    carries `doi_url` on every record and every failure line prints it.
+    ⭐ **It needed NO baseline**: 18 type claims in the tree the day it was written, 18 correct. What
+    it deliberately does **not** bind is listed in the module's `NOT_BOUND` with a reason each —
+    *cohort study*, *case series* and bare *trial* have no MeSH publication type that could confirm
+    them, and a rule that can only ever pass is a rule that reports while measuring nothing.
   - **★★ A GREEN PREFLIGHT THAT SKIPS A MEDICAL-INTEGRITY GUARD IS WORSE THAN NO PREFLIGHT (measured
     2026-08-06, and it turned `main` red).** Gate 3 was **CI-only** until that day, so a session could run
     this script, read `PREFLIGHT OK`, merge, and only then learn that a newly-generated view named a cell

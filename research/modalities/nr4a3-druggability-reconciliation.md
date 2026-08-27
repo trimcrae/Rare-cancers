@@ -66,7 +66,9 @@ ligandable at cryptic/alternative sites.* Our route sits inside that consensus.
 2022 — titled, aptly, a *"Druggability Evaluation of NOR-1"*) fragment-screened NOR-1/NR4A3 and, despite a
 <1 % hit rate, obtained three ligand chemotypes, one elaborated to a **low-micromolar inverse NOR-1 agonist**
 that altered NOR-1-regulated gene expression in cells. **[CORRECTED 2026-07-12, primary-source verified:** the
-Safe 2025 *review* (PMC12263127) describes "Compounds 1 and 19, carboxymethyl analogs of indole-3-carbinol,
+Safe 2025 *review* (PMC12263127 — **RETRACTED**; PubMed records the type "Retracted Publication" for
+this article, read 2026-08-27, which strengthens rather than changes the correction below) describes
+"Compounds 1 and 19, carboxymethyl analogs of indole-3-carbinol,
 IC₅₀ ≈ 8–47 µM, de-repressing *MYC*" — but its full text ("library screening produced two hits with potential
 inverse agonist activities, Compounds 1 and 19") and matching MYC/inverse-agonist readout make this a loose
 **secondary paraphrase of the SAME Zaienne 2022 compounds**, NOT a distinct NR4A3-selective series. There is
@@ -391,6 +393,7 @@ The bottleneck is **not** backbone-prediction accuracy:
   adjudication: §5a.)
 - Safe S, Oany AR, Tsui WN, Lee M, Srivastava V, Upadhyay S, et al. *Orphan nuclear receptor transcription
   factors as drug targets.* **Transcription** 16:224–260 (2025). PMID 40646688; PMC12263127;
+  **RETRACTED** (PubMed type "Retracted Publication", read 2026-08-27);
   doi 10.1080/21541264.2025.2521766. (Safe-group review; source for NR4A3-selective carboxymethyl-indole-3-
   carbinol analogues, cpds 1 & 19, IC₅₀ ≈ 8–47 µM, de-repressing *MYC*. Secondary source for those compounds;
   verified 2026-07-05.)
