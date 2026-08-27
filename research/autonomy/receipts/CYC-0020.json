@@ -1,0 +1,80 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0020",
+  "session_id": "session_011h4nBFbDXnWtNwGDy34k91",
+  "utc": "2026-08-27T07:07:28Z",
+  "cycles_in_this_session": 1,
+  "max_cycles_per_session": 2,
+  "took": "AUT-PROP-016",
+  "took_what": "Round 8 of PUB-FUSION-PARTNER, the queue's top item. ⚠ IT WAS FILED AS `AUT-PROP-015` AND THAT ID NAMED TWO ITEMS; the collision was fixed before the claim, so this cycle's subject is AUT-PROP-016. Round 8 is a full APPLY round: the hostile referee's structural finding plus the three blockers round 7 left standing.",
+  "trunk_verified": "Read directly, not assumed. `git fetch && checkout -B main origin/main` landed on 55471ab, which `git log origin/main -1` confirms is the tip. Actions on main: the three most recent DECIDED runs before this cycle (38803cc, 475ad7d, 537d9f1) were all `success`; 55471ab was still `in_progress` at cycle start. No red trunk, so research-loop §1's redirect did not fire.",
+  "the_finding": "⭐ THE STRUCTURAL FINDING WAS ACTED ON, NOT RE-FILED, AND THE PAPER LOST A THIRD OF ITS WORDS WITHOUT LOSING A SINGLE BOUND. Appendix A had grown to 31 rows and 5,476 words — close to a third of a 17,647-word manuscript and larger than its entire Results section (3,912 words) — and three blind seats had traced round 7's blockers to it as a MECHANISM: a statement was corrected by registering a row in the appendix while the wrong sentence stayed in the live text, so six sections came to reason by pointing at a drafting log instead of saying what they meant. That is paper-hardening §1's replace-don't-append failure with an address. The register moved to its own committed document, every row verbatim, and with it the 15 inline `Superseded, retained` notes that stood INSIDE live sentences and 4 internal-review attributions. Manuscript 17,647 → 11,783 words (−33 %); register 6,749; net prose +885, which is the register's explanatory header and the three blocker rewrites. ⛔ THE NEAR-MISS IS THE PART WORTH KEEPING: one migrated note ended with a LIVE BOUND rather than a correction — the concession that the artifact carries no machine-checkable per-count fetch record — and deleting the note would have deleted the concession. It was caught by reading each deletion site and restored into the live text. A bound is the one class §1 says may never be cut, and a bulk migration is exactly where one leaves quietly.",
+  "what_changed": [
+    "STRUCTURAL: Appendix A (31 rows) → research/manuscripts/fusion-partner/emc-fusion-partner-correction-register.md, verbatim, plus 15 migrated inline notes and a §7 provenance row pointing at it.",
+    "R7-B4 (§6 falsifier #5): threshold now DERIVED in the generator by zero_death_patients_to_reconcile() — 19 further zero-death TAF15 patients, total n = 34, against the comparator's Wilson upper bound 20.8 %. The manuscript prints 31.8 % / 30.4 % for a third cohort of 7 / 8.",
+    "R7-B5 (§3.3 + the artifact's follow_up_warning): the circular 'the death excess is observed DESPITE shorter observation' reading removed from BOTH, replaced by the narrower statement the record supports.",
+    "R7-B6 (§1.2 table row + closing paragraph): both halves rewritten after primary-source verification.",
+    "GUARD: test_fusion_partner_prose_matches_its_artifact.py now reads BOTH prose documents (scoped by property, not a list), 3 new bindings added, 1 re-pointed to a live site, 1 re-anchored; 7 mutations added to mutate_fusion_partner_guard.py.",
+    "claim-coverage.json: covered 58 → 77, uncovered_with_a_number 149 → 125.",
+    "LEDGER: two duplicate-id collisions fixed and a duplicate guard added to priority.py's merge(), plus its prior-row filter scoped by `_derived` so a hand-filed row can no longer be silently DELETED by a re-score."
+  ],
+  "round_8_outcome": {
+    "kind": "apply round — no seats launched, by design",
+    "structural_item": "applied",
+    "standing_blockers_applied": [
+      "R7-B4",
+      "R7-B5",
+      "R7-B6"
+    ],
+    "blockers_reported_fixed_by_CYC_0019_reverified": "R7-B1, R7-B2 and R7-B3 were RE-DERIVED against the current text rather than inherited as a summary, because the handoff warns that a wrong finding has propagated here twice by being passed along. All three are genuinely fixed: the retracted phrasings return 0 occurrences and §3.8 now reads 'the one series that ran a multivariable model', naming Paioli separately.",
+    "convergence": "NOT CONVERGED — an apply round cannot converge a paper. Round 9 must seat."
+  },
+  "the_seats_were_wrong_about_one_thing": "⚠ R7-B4's ARITHMETIC WAS RE-DERIVED AND THE SEATS' RANGE DID NOT SURVIVE. Two seats independently reported that a third cohort of 7–8 zero-death TAF15 patients gives a pooled point estimate of '30.4–36.4 %'. Recomputed from the artifact's own counts (7 events / 15) with the generator's own wilson(): 31.8 % at +7 and 30.4 % at +8. 36.4 % corresponds to 8 events over 22, not 7 — so the upper end of their range is not a projection of this contrast at all. Their CONCLUSION was right and load-bearing (the falsifier is unreachable by the study describing it, k = 19, n ≥ 34, which reproduced exactly); one of their numbers was not. This is precisely why paper-hardening §5 forbids pasting a verifier's figures.",
+  "process_defect_found_in_this_cycle": {
+    "id": "AUT-PD-001",
+    "what": "regenerate_aso_chain.sh has three steps that cannot run in this sandbox (LibreOffice/Java), and it folds them into one 'something is stale or failed' verdict indistinguishable from a genuine drift finding. Confirmed NOT OURS by the §6 cascade procedure — git stash -u, re-run on clean origin/main, identical failure, stash pop. The real cost was that running the chain rewrote TEN files belonging to other submissions; they were reverted and only the archive manifest (which genuinely hashes emc-fusion-partner-pooling.json) was re-derived."
+  },
+  "second_process_defect": {
+    "id": "closed in this cycle rather than filed",
+    "what": "An id named two ledger items, twice. Hand-filed ids are typed by the filing cycle and merge() deduped only the graph-derived AUT-NNN space. Every id-keyed operation — a claim, a lease release, a retry-budget decrement, prerequisite_of — silently picks one of the two, so a cycle can claim one row and finish the other, and a handoff prompt can point a successor at a row that is not the one it describes. Fixed, guarded and mutation-tested in the claim commit.",
+    "residual": "⚠ NOT CLOSED: ids are minted by gap-filling, so a future cycle could reuse an id that was retired from the ledger but is still named in an old receipt. Checked for this cycle's two new ids (AUT-PROP-005, AUT-PD-001) — neither appears in any receipt — but the check was manual and nothing enforces it."
+  },
+  "mutation_testing": {
+    "priority_merge_guard": "3 realistic collision shapes, 3 caught, clean control unchanged at n=99. A fourth shape was correctly absorbed by the pre-existing dedupe and that was verified by reading merge()'s id-assignment, not assumed.",
+    "fusion_partner_quantity_guard": "7 mutations added to mutate_fusion_partner_guard.py covering every binding written or moved this round, including two SWAPS that leave every digit on the page (the two falsifier projections, and the per-arm follow-up pair). Run against HEAD after the commit — the harness builds its worktree from HEAD by design."
+  },
+  "cost": {
+    "real_dollars": 0.0,
+    "gpu_hours": 0.0,
+    "note": "CPU, one $0 PubMed Central fetch (PMC7999686) to verify a quotation at primary source before it entered the manuscript."
+  },
+  "subagents": {
+    "launched": 0,
+    "width_cap_read_from": "research/autonomy/autonomy-state.json",
+    "cap": 5,
+    "why_none": "One coherent structural edit to one document, plus its guard. Nothing here was independent enough to seat in parallel, and the driver had to hold the whole document's state to avoid cutting a bound."
+  },
+  "gates": {
+    "preflight": "PREFLIGHT_TESTS=1 (a manuscript, an SI-equivalent and citation-bearing prose were edited)",
+    "exit_read_from": "the command's own EXIT= marker, never the harness's report"
+  },
+  "escalated": null,
+  "escalation_note": "Nothing in research-loop §5 fired. No journal submission is recommended, no spend crossed expensive ($0 this cycle), no goal-changing fact, and no health condition is red past its deadline (gates_green is UNMEASURED by construction — the checker has no network — and was settled by reading Actions directly). The structural change is large but it is a change to one paper's shape, which is the round's assigned work, not a program decision.",
+  "route_advanced": "RT-PARTNER-STRAT",
+  "route_advanced_note": "⭐ HONESTLY YES, AND NARROWLY. The paper's claims changed: a falsifier that could not be met by the study describing it now states a threshold derived from the data (n ≥ 34); a bias direction asserted as established is now stated as unsigned and circular-if-asserted; and a claim that the field never published its denominators is withdrawn against two quotations from a review the paper itself cites. All three make the paper WEAKER and better sourced, which is the direction a hardening round is supposed to move a submittable paper. ⚠ WHAT IT IS NOT: convergence. No seats ran this round, so the blocker count is unmeasured on the new pin, and round 8 moved more prose than any round before it — which is exactly the condition under which paper-hardening §4 says the regression seat earns its place.",
+  "queued_now": [
+    "AUT-PROP-005 (round 9 seats on the new pin — regression lens mandatory)",
+    "AUT-PD-001 (scoped chain regeneration)",
+    "AUT-PD-002 (TaskStop leaves preflight.sh orphaned; the only symptom is slowness)"
+  ],
+  "blocked_by": [],
+  "handoff": {},
+  "re_measured_rather_than_inherited": "⚠ ROUND 7's TWO DOCUMENT-SIZE FIGURES DID NOT REPRODUCE AND THE REPRODUCIBLE ONES ARE PRINTED INSTEAD. Its record states the appendix ran ~5,592 words and Results ~3,998; measured at the pin the appendix was removed from (55471ab), they are 5,476 and 3,912. A boundary convention, not a dispute about the text, and it changes nothing in the argument — but the register now prints the reproducible figures with the command that produces them, because an inherited number is a dated observation. Recorded because this cycle was explicitly told not to inherit its predecessor's numbers, and two of them were wrong.",
+  "third_process_defect": {
+    "id": "AUT-PD-002",
+    "what": "⛔ TaskStop KILLS THE HARNESS'S WRAPPER AND LEAVES `preflight.sh` RUNNING. §6 says to kill a gate the tree moved under rather than sit through it; this cycle did that three times and every TaskStop reported success. `ps` then showed the stopped run's preflight.sh still alive at 3:05 with its own `pytest -n 4`, racing the live run's — two gates, eight workers, on a four-worker box.",
+    "how_it_was_found": "NOT by a crash. The live gate simply overran its measured ~255 s, and CLAUDE.md §4's 'unexpected slowness is a signal, investigate rather than reassure' is the only reason anybody ran `ps`. Two prior cycles' worth of slow gates may have had the same cause and been read as 'the suite is slow today'.",
+    "second_trap_confirmed_twice": "The harness reports each killed run as `failed with exit code 1`, which reads exactly like a RED GATE. Seen twice in this cycle, for pf5 and pf6, both of which I had killed deliberately. Neither wrote an `EXIT=` marker — that absence is what distinguishes a killed run from a failed one, and it is precisely why the marker rule exists. This is the same class as the incident behind that rule (a harness reporting 0 for a preflight whose marker said 1), arriving from the other direction.",
+    "fix_proposed": "Have preflight.sh record its own pid and add `scripts/stop-preflight.sh` to kill that pid's process GROUP, or run the gate under `setsid`/`exec` so the tracked process IS the gate. ⛔ NOT `pkill -f preflight` — CLAUDE.md §6 records that pattern matching the killer's own command line three times in one session. Killed by recorded PID here."
+  }
+}

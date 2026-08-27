@@ -165,6 +165,19 @@ MANUSCRIPTS = os.path.dirname(HERE)
 FP = os.path.join(MANUSCRIPTS, "fusion-partner")
 
 PAPER = os.path.join(FP, "emc-fusion-partner-stratification.md")
+# ⛔ THE SYNTHESIS SHIPS TWO PROSE DOCUMENTS AS OF ROUND 8, AND THIS GUARD MUST READ BOTH.
+# Round 8 (2026-08-27) moved the correction register out of the manuscript's Appendix A into its own
+# file, because a correction recorded in an appendix while the wrong sentence stayed in the live text
+# was the mechanism by which round 7's blockers survived. The register still RESTATES pooled figures
+# — that is what a correction row does, it quotes the value that replaced the superseded one — so
+# every quantity binding below applies to it exactly as it did when those rows sat in the appendix.
+# ⚠ THIS IS THE ONE-OF-A-PAIR CLASS THIS FILE'S OWN HEADER IS ABOUT (paper-hardening §6): a
+# deliverable gained a second form, and an instrument bound to the first would have gone green while
+# a figure drifted in the second. Scoped by the PROPERTY — every prose document of this synthesis —
+# rather than by a list somebody must remember to extend (§8b.2: six of eleven list-scoped fixes
+# regressed at a sibling the fix did not name; no predicate-scoped one did).
+REGISTER = os.path.join(FP, "emc-fusion-partner-correction-register.md")
+PROSE_DOCUMENTS = (PAPER, REGISTER)
 ARTIFACT = os.path.join(FP, "emc-fusion-partner-pooling.json")
 
 pytestmark = pytest.mark.committed_artifact
@@ -184,7 +197,17 @@ def _required(path, what):
 
 
 def _load_prose():
-    return open(_required(PAPER, "the fusion-partner manuscript"), encoding="utf-8").read()
+    """Every prose document of this synthesis, concatenated.
+
+    The bindings below assert that EVERY site stating a quantity states the artifact's value, so
+    concatenation is the right composition: it widens what counts as a site without weakening any
+    assertion. A figure that drifts in the register now fails exactly as it did in the appendix.
+    """
+    names = {PAPER: "the fusion-partner manuscript",
+             REGISTER: "the fusion-partner correction register"}
+    return "\n\n".join(
+        open(_required(path, names[path]), encoding="utf-8").read() for path in PROSE_DOCUMENTS
+    )
 
 
 def _load_artifact():
@@ -678,7 +701,14 @@ def _any_met(a):
 # EWSR1-first — so each is bound to the arm its own sentence names. An order-blind binding would
 # pass on the swap that reverses which arm was observed longer, which is the whole caveat.
 bind("§3.3's per-arm mean follow-up, TAF15 first",
-     r"mean follow-up \((\d+\.\d) vs (\d+\.\d) months, biasing",
+     # ⚠ RE-ANCHORED IN ROUND 8, AND THE MEANING WAS CHECKED BEFORE THE REGEX (this file's own
+     # remedy text). The old anchor was the word "biasing", from a clause asserting that the
+     # follow-up asymmetry ran AGAINST the TAF15 arm accruing events. That clause was REMOVED as a
+     # blocker, not reworded: in an uncensored during-follow-up analysis follow-up ends at death, so
+     # the TAF15 arm's shorter observation is partly produced by its own deaths and the bias
+     # direction is not established. The two NUMBERS this binding exists for are unchanged and still
+     # TAF15-first, so the binding follows the sentence; it does not follow the retracted claim.
+     r"mean follow-up \((\d+\.\d) vs (\d+\.\d) months\) and Huang publishes",
      lambda a: (_pct(_by_id(a)["agaram-2014-outcome"]["strata"]["TAF15::NR4A3"]["mean_followup_months"]),
                 _pct(_by_id(a)["agaram-2014-outcome"]["strata"]["EWSR1::NR4A3"]["mean_followup_months"])))
 
@@ -1278,14 +1308,47 @@ bind("Appendix A22's restatement of the local-recurrence comparator spread",
          _pct(a["analyses"]["B_outcome_by_partner"]["local_recurrence"]
               ["heterogeneity_comparator_arm"]["spread_percent"])))
 
-bind("§2.5's two named spreads, which are the whole reason that bullet was corrected",
-     r"the secondary TKI pool \(spread (\d+\.\d+) points\) and local recurrence \(comparator\s+"
-     r"arm, (\d+\.\d+) points\)",
-     lambda a: (
-         _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
-              ["heterogeneity"]["spread_percent"]),
-         _pct(a["analyses"]["B_outcome_by_partner"]["local_recurrence"]
-              ["heterogeneity_comparator_arm"]["spread_percent"])))
+# ⭐ RE-POINTED IN ROUND 8, AND THE MOVE IMPROVED THE COVERAGE RATHER THAN PRESERVING IT.
+# This used to bind §2.5's ⚠ note, which RESTATED both spreads while recording why that bullet had
+# been corrected. Round 8 removed the note (the correction belongs in the register, not inside the
+# sentence it corrects), and the restatement went with it. ⛔ THE QUANTITIES DID NOT: 53.9 stands at
+# its real home in §3.1's secondary row, already bound above, and 22.4 stands in §3.3's live
+# direction-flip sentence — which NOTHING bound, because the note that restated it was the only site
+# this file read. So the binding moves to the live sentence instead of being deleted with the note.
+# ⚠ Deleting it would have been the comfortable reading ("both numbers are covered elsewhere") and it
+# was true of only one of the two.
+# ⭐ ROUND 8's DERIVED FALSIFICATION THRESHOLD. §6 falsifier #5 used to assert that a third cohort of
+# similar size would put the pooled point estimate inside the comparator's interval; two blind seats
+# computed that independently and it is false, and a stated falsifier the study cannot reach is worse
+# than none. The threshold is now DERIVED in the generator (`zero_death_patients_to_reconcile`) and
+# every figure §6 prints for it is re-derived here from the same artifact fields — never from the
+# generator's output, which would make this a reproduction rather than a binding.
+def _third_cohort_projection(a, extra):
+    dod = a["analyses"]["B_outcome_by_partner"]["disease_specific_death"]["taf15_arm"]
+    return _pct(round(100.0 * dod["events"] / (dod["denom"] + extra), 1))
+
+
+bind("§6 falsifier #5's two projected pooled points for a third cohort of 7 and of 8",
+     r"still leaves the pooled point estimate at (\d+\.\d) % and (\d+\.\d) %",
+     lambda a: (_third_cohort_projection(a, 7), _third_cohort_projection(a, 8)))
+
+bind("§6 falsifier #5's comparator upper bound, which is what the projection is measured against",
+     r"against the comparator arm's Wilson upper bound of (\d+\.\d) %",
+     lambda a: _pct(a["analyses"]["B_outcome_by_partner"]["disease_specific_death"]
+                    ["comparator_arm"]["ci95_hi_percent"]))
+
+bind("§3.3's restatement of the Agaram TAF15 death count inside the follow-up circularity argument",
+     r"partly produced by its own (\d+/\d+) deaths",
+     lambda a: "{}/{}".format(
+         _by_id(a)["agaram-2014-outcome"]["strata"]["TAF15::NR4A3"]["disease_specific_death"]["events"],
+         _by_id(a)["agaram-2014-outcome"]["strata"]["TAF15::NR4A3"]["disease_specific_death"]["denom"]))
+
+
+bind("§3.3's live statement of the local-recurrence comparator-arm spread — the site the removed "
+     "§2.5 note used to be the only bound restatement of",
+     r"comparator-arm spread is\s+(\d+\.\d+) points",
+     lambda a: _pct(a["analyses"]["B_outcome_by_partner"]["local_recurrence"]
+                    ["heterogeneity_comparator_arm"]["spread_percent"]))
 
 # ⛔ THE SJÖGREN COUNTERFACTUAL IS DERIVED, NEVER TYPED. §3.5 and A28 state what the prevalence pool
 # WOULD read had the excluded series been pooled. That is an arithmetic claim about the artifact's
@@ -1570,6 +1633,15 @@ DECLARED_NOT_ARTIFACT_OWNED = [
      "prevalence figure, both RETIRED from the live document. Preserving the retracted wording is "
      "the appendix's whole job (CLAUDE.md rule 1.2), so these must not be corrected to anything. "
      "A4's live replacement IS bound above."),
+
+    ("document-metrics",
+     r"(?:5,476 words of a\s+17,647-word manuscript|3,912 words|5,592 and ~3,998|5,476\s+and 3,912)",
+     "Measurements OF the manuscript, taken in round 8 to justify moving the correction register out "
+     "of it: the appendix's word count, its share of the document and the size of Results. They are "
+     "properties of a markdown file at one commit, not quantities this synthesis pools, so no "
+     "artifact field owns them and none should. ⚠ They are reproducible rather than remembered — "
+     "`git show <PIN>:<path> | wc -w` — and they are stated in the REGISTER, which explains why it "
+     "is a separate document, not in the manuscript's own argument."),
 
     ("foreign-artifact",
      r"SEMA3C reads 1\.8× normal tissue and 1\.7× other sarcomas",

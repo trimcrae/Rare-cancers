@@ -61,6 +61,39 @@ TEST = os.path.join("research", "manuscripts", "tests",
 #: and it is asserted rather than assumed. `mutated` replaces it. The point of every one of these is
 #: that a human reader of the sentence would not notice, and the guard must.
 MUTATIONS = [
+    # ---- round 8: the derived falsification threshold, the moved spread, and the split register --
+    # ⛔ EVERY ONE OF THESE TARGETS A BINDING WRITTEN OR RE-POINTED IN ROUND 8. The round moved the
+    # correction register into its own document and derived §6 falsifier #5's threshold in the
+    # generator; both are new surfaces, and an unmutated new surface is a coverage guess.
+    ("6.5: the 7-cohort projection drifts one tenth",
+     "still leaves the pooled point estimate at **31.8 %** and",
+     "still leaves the pooled point estimate at **31.9 %** and",
+     "§6 falsifier #5's two projected pooled points for a third cohort of 7 and of 8"),
+    ("6.5: the 8-cohort projection drifts one tenth",
+     "**31.8 %** and\n   **30.4 %**",
+     "**31.8 %** and\n   **30.5 %**",
+     "§6 falsifier #5's two projected pooled points for a third cohort of 7 and of 8"),
+    ("6.5: the two projections are SWAPPED, leaving every digit on the page",
+     "at **31.8 %** and\n   **30.4 %**",
+     "at **30.4 %** and\n   **31.8 %**",
+     "§6 falsifier #5's two projected pooled points for a third cohort of 7 and of 8"),
+    ("6.5: the comparator upper bound drifts",
+     "Wilson upper bound of **20.8 %**",
+     "Wilson upper bound of **20.9 %**",
+     "§6 falsifier #5's comparator upper bound, which is what the projection is measured against"),
+    ("3.3: the Agaram TAF15 death count in the circularity argument drifts",
+     "partly **produced by** its own 3/7 deaths",
+     "partly **produced by** its own 3/8 deaths",
+     "§3.3's restatement of the Agaram TAF15 death count inside the follow-up circularity argument"),
+    ("3.3: the live comparator-arm spread drifts, at the site the removed 2.5 note used to cover",
+     "comparator-arm spread is\n**22.4 points**",
+     "comparator-arm spread is\n**22.5 points**",
+     "§3.3's live statement of the local-recurrence comparator-arm spread — the site the removed "
+     "§2.5 note used to be the only bound restatement of"),
+    ("3.3: the per-arm follow-up pair is SWAPPED at the re-anchored site",
+     "mean follow-up (21.7 vs 43.3 months) and Huang publishes",
+     "mean follow-up (43.3 vs 21.7 months) and Huang publishes",
+     "§3.3's per-arm mean follow-up, TAF15 first"),
     # ---- §3.1's secondary row and the range round 4 was forced to print into it -----------------
     ("3.1 row: pazopanib arm rate drifts one tenth",
      "per cohort **21.1 %** (pazopanib, 4/19)",

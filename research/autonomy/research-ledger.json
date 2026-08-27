@@ -10,17 +10,16 @@
     "experiment": 23,
     "fetch": 11,
     "fix": 2,
-    "harden": 4,
+    "harden": 5,
     "negative": 32,
     "process": 6,
-    "process_defect": 6,
+    "process_defect": 8,
     "regrade": 7,
     "write": 6
   },
   "n_by_state": {
-    "done": 5,
-    "in_progress": 1,
-    "queued": 93
+    "done": 6,
+    "queued": 96
   },
   "n_clamped": 11,
   "entries": [
@@ -107,20 +106,20 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "in_progress",
-      "owner": "CYC-0020",
+      "state": "done",
+      "owner": null,
       "claimed_utc": "2026-08-27T06:41:32Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0019",
       "prerequisite_of": "AUT-049",
       "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-475ad7d0c3bd0b587bce6591c3826a8c37c77d09.json",
-      "what": "\u2b50 ROUND 8 OF PUB-FUSION-PARTNER, AND ITS LARGEST ITEM IS STRUCTURAL, NOT A BLOCKER. READ THE ROUND RECORD'S `blockers_distinct` AND `structural_finding` \u2014 do not carry them forward as a summary; three of round 7's six blockers are marked STANDING there with the seat, the quote and the arithmetic that refutes each. \u26d4 THE THREE STANDING BLOCKERS ARE NOT PROSE PATCHES: R7-B4 (\u00a76 falsifier #5) states a falsification threshold two seats independently computed to be unreachable by the study it describes \u2014 it needs a threshold DERIVED in the generator from the counts it names, which is the class already closed twice in that same file; R7-B5 (\u00a73.3 follow-up bias) is circular because follow-up ends at death in an uncensored analysis, and the artifact's own `follow_up_warning` carries the circular reading, so the fix is in the generator; R7-B6 (\u00a71.2 TKI row) is refuted by two of the five sources the row itself cites, quoted at primary source in the citations seat's record. \u2b50 AND THE HOSTILE REFEREE'S FINDING OUTWEIGHS ALL THREE: Appendix A is ~5,280 words over 31 rows \u2014 about 30 % of the manuscript and larger than Results \u2014 plus 16 inline superseded notes and 30 internal-review attributions, none of which corrects a PUBLISHED record. Its recommendation is to strip the correction register from the submitted document and re-derive \u00a71.3 and \u00a75 from \u00a73, IN THAT ORDER, because every blocker of round 7 survived by being recorded in an appendix instead of carried through the live text. \u26a0 CYC-0019 added three rows to that appendix while applying round 6, so the growth is happening under the cycles told to watch for it (paper-hardening \u00a71). Decide that structural question BEFORE patching prose: a \u00a71.3 re-derived from \u00a73 may delete the sentences the remaining blockers live in.",
+      "what": "\u2705 ROUND 8 APPLIED BY CYC-0020 \u2014 the structural item and all three standing blockers. \u2b50 THE STRUCTURAL FINDING WAS ACTED ON RATHER THAN RE-FILED: Appendix A (31 rows, ~5,592 words, close to a third of the manuscript and larger than Results) MOVED to its own committed document, research/manuscripts/fusion-partner/emc-fusion-partner-correction-register.md, with every row carried verbatim plus the 15 inline `Superseded, retained` notes that stood inside the live sentences and the 4 internal-review attributions. Manuscript 17,647 \u2192 11,783 words (\u221233 %); register 6,749. \u26d4 NOTHING WAS DROPPED \u2014 one live BOUND was nearly lost with note 13 (the concession that the artifact carries no machine-checkable per-count fetch record) and was restored into the live text rather than migrated. R7-B4: the falsification threshold is now DERIVED in the generator (zero_death_patients_to_reconcile) \u2014 19 further zero-death TAF15 patients, total n = 34; \u26a0 the seats' own '30.4\u201336.4 %' was WRONG on re-derivation (31.8 % and 30.4 %; 36.4 % implies 8 events, not 7), which is why paper-hardening \u00a75 says re-derive rather than paste. R7-B5: the circular follow-up reading is gone from BOTH the generator field and \u00a73.3. R7-B6: refuted at primary source via PubMed (PMC7999686) and split \u2014 the 'never states a denominator' half was UNSUPPORTED (the primaries are not open access and were never read) and the 'nobody put the counts in one place' half was FALSE. \u2b50 NEXT IS A REVIEW ROUND, NOT MORE APPLYING: round 9 seats on the new pin, and the regression seat is the one that matters because round 8 moved more text than any round before it.",
       "score": 195.5,
       "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
       "_renamed_from": "\u26a0 RENAMED AUT-PROP-015 \u2192 AUT-PROP-016 by CYC-0020. The id was minted twice: hand-filed ids (AUT-PROP-*, AUT-PD-*) are typed by the filing cycle and `merge()` deduped only against the graph-DERIVED AUT-NNN space, so two cycles could and did choose the same string. The earlier-filed row keeps the id; this one moves. Receipts of CYC-0019 name it under AUT-PROP-015."
@@ -149,6 +148,31 @@
       "what": "\u2b50 APPLY ROUND 6's THREE VERIFIED BLOCKERS, THEN RE-PIN AND RE-SEAT. The findings, their quoted text, the artifact field that contradicts each and the driver's verification are in the canonical seat record's `blockers_distinct_verified_by_driver` \u2014 READ THEM THERE, do not carry them forward as a summary. \u26d4 EACH FIX IS A REPLACEMENT, NEVER AN APPENDED QUALIFIER (paper-hardening \u00a71): B1 and B2 EXIST because a previous correction replaced half a sentence and left the wrong half standing, and B1's own commit added an appendix row claiming the repair its diff did not contain (\u00a77b). Check the diff against the message before committing, and re-read both sentences whole afterwards. \u26a0 B3 IS NOT A NUMBER FIX: '\u224827 % the field routinely quotes' is an unsourced claim about the field's practice at four sites, and the honest repair is to say what Agaram 2014 reports and what the reviews in this paper's own reference list report (about 20 %, PMC7563993 and PMC9813045), not to swap one unsourced figure for another \u2014 note that ~20 % falls INSIDE the paper's pooled interval, so the 'below what the field quotes' framing may not survive at all, and losing it is a legitimate outcome rather than a problem to write around. \u26d4 THEN THE ROUND IS NOT DONE: every guard commit moves the tree and un-pins the evidence, so finish the fixes, pin the NEW head, run fresh blind seats on it (the applier is not blind \u2014 subagents or a spawned session), and re-derive the round record. Round 7.",
       "score": 195.5,
       "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it"
+    },
+    {
+      "id": "AUT-PROP-005",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "prerequisite_of": "AUT-049",
+      "depends_on_evidence": "the round-8 commit on main, and research/autonomy/review-seats/PUB-FUSION-PARTNER-475ad7d0c3bd0b587bce6591c3826a8c37c77d09.json for what round 7 found",
+      "what": "\u2b50 ROUND 9 OF PUB-FUSION-PARTNER \u2014 SEAT IT, DO NOT APPLY ANYTHING FIRST. Round 8 was the largest apply round of the series: it moved the correction register out of the manuscript into emc-fusion-partner-correction-register.md, deleted 15 inline superseded notes from inside live sentences, and rewrote \u00a71.2, \u00a73.3 and \u00a76 for the three standing blockers. \u26d4 THE REGRESSION SEAT IS THE ONE THAT MATTERS AND IT IS NOT OPTIONAL (paper-hardening \u00a74): more prose moved this round than in any before it, and the failure mode that lens catches \u2014 a repair that invents a new defect \u2014 is invisible to every other seat because the repair looks deliberate. \u26a0 TWO SPECIFIC RISKS THIS ROUND CREATED, to be checked rather than assumed harmless: (1) deleting a note that sat mid-sentence can leave the surviving sentence saying something narrower or wider than intended \u2014 one such deletion nearly took a live bound with it and was caught by hand, so ANOTHER may not have been; (2) the quantity guard now reads BOTH documents concatenated, so a figure stated only in the register is now 'covered' by an instrument the manuscript's reader never sees \u2014 check that no live claim depends on a register row to be correct. \u26d4 REVIEW A PIN, and re-derive every finding: round 7's own seats got the falsifier arithmetic wrong in a way this cycle only caught by recomputing it. \u2b50 AND ONE INSTRUMENT GAP FOUND BY CYC-0020 AND DELIBERATELY LEFT OPEN FOR THIS ROUND TO DECIDE, RATHER THAN CLOSED QUIETLY: `claim_coverage.py` censuses the MANUSCRIPT and does NOT read the new correction register, while `test_fusion_partner_prose_matches_its_artifact.py` now reads both. So the register's 'current statement' column \u2014 which restates live pooled values \u2014 has its NUMBERS guarded but its SENTENCES uncensused, and the manuscript carries a coverage FLOOR the register has none of. \u26a0 Decide it as a question about what the census is FOR (blocker risk in a text a reader acts on) rather than by reflex; adding a document to the census also adds a floor somebody then owns, and the census's own ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE already names this manuscript.",
+      "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
+      "score": 195.5
     },
     {
       "id": "AUT-010",
@@ -3123,6 +3147,52 @@
       "id": "AUT-PROP-004",
       "kind": "write",
       "what": "ESCALATE, do not perform: the three paywalled-table requests to corresponding authors named in section 6 of the fusion-partner paper. Email is outward-facing and covered by NO grant."
+    },
+    {
+      "id": "AUT-PD-001",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/manuscripts/build_submission_parts.py run on clean origin/main (git stash) by CYC-0020",
+      "what": "\u26d4 THREE STEPS OF regenerate_aso_chain.sh CANNOT RUN IN THIS SANDBOX, AND THE CHAIN REPORTS THAT AS 'something is stale or failed' \u2014 which reads exactly like a real staleness finding. Measured 2026-08-27 (CYC-0020): `build_submission_parts.py`, `svg_to_print_formats.py` and `build_submission_docx.py` all fail with '\u26d4 LibreOffice did not write a .docx / failed to launch javaldx / source file could not be loaded'. \u2b50 VERIFIED NOT OURS BY THE \u00a76 CASCADE PROCEDURE: `git stash -u`, re-run on clean origin/main, identical failure, `git stash pop`. \u26a0 THE REAL COST IS NOT THE THREE STEPS \u2014 IT IS THAT RUNNING THE CHAIN AT ALL REWROTE TEN FILES BELONGING TO A DIFFERENT SUBMISSION (four ASO PDFs, two fusion-output PDFs, two neoantigen PDFs, and the ASO submission reference list, whose entry 2 gained a full author list from a live fetch). A cycle that needed ONE regeneration \u2014 the archive manifest, because it hashes emc-fusion-partner-pooling.json \u2014 would have silently committed all ten into another paper's history. They were reverted and the manifest re-derived against the restored tree. \u2b50 THE FIX IS A SCOPED REGENERATION: the chain should be able to run the steps downstream of ONE named artifact, or at minimum report which of its steps are environment-blocked rather than folding them into one 'stale or failed' verdict that a reader cannot distinguish from a genuine drift.",
+      "_score_basis": "a gate whose failure mode is indistinguishable from a real finding, on the commit path every cycle uses"
+    },
+    {
+      "id": "AUT-PD-002",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "`ps -eo etime,pid,cmd` taken by CYC-0020 at 07:12 on 2026-08-27, showing pids 8682 and 9789 both running ./scripts/preflight.sh",
+      "what": "\u26d4 `TaskStop` ON A BACKGROUNDED PREFLIGHT KILLS THE HARNESS'S WRAPPER AND LEAVES `preflight.sh` RUNNING. Measured 2026-08-27 (CYC-0020): \u00a76 says to kill a gate run the tree moved under rather than sit through it, and this cycle did that three times. Each TaskStop reported success. `ps` then showed pid 8682 STILL running the stopped run's preflight.sh at 3:05 elapsed, with its own `pytest -n 4` child, alongside the live run's pid 9789 \u2014 TWO gates, eight workers, on a box sized for four. \u26a0 THE SYMPTOM IS NOT A CRASH, IT IS SLOWNESS, WHICH IS WHY IT SURVIVES: the live gate simply takes much longer than its measured ~255 s, and the honest reading of that ('unexpected slowness is a signal', CLAUDE.md \u00a74) is indistinguishable from 'the suite is just slow today' unless somebody runs `ps`. It was found only because the manuscripts suite overran and this cycle went looking for a mechanism instead of reassuring itself. \u26d4 AND THE HARNESS THEN REPORTS THE KILLED JOB AS `failed with exit code 1`, which reads exactly like a RED GATE \u2014 a second way to draw a wrong conclusion from a stop. The killed run wrote no `EXIT=` marker, which is what distinguishes the two and is why the marker rule exists. \u2b50 THE FIX IS A STOP THAT REACHES THE CHILD: have preflight.sh write its own pid to a file and give the repo a `scripts/stop-preflight.sh` that kills that pid's process GROUP, or run it with `setsid`/`exec` so the tracked process IS the gate. \u26d4 NOT `pkill -f preflight` \u2014 CLAUDE.md \u00a76 records that pattern matching the killer's own command line, three times in one session. Kill by recorded pid, never by pattern.",
+      "_score_basis": "a stop that does not stop, on the commit path every cycle uses, whose only symptom is slowness"
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "_schema": "emc-fusion-partner-pooling/1",
   "_generated_by": "research/manuscripts/emc_fusion_partner_pooling.py",
-  "_generated_utc": "2026-08-27T06:26:29Z",
+  "_generated_utc": "2026-08-27T06:49:45Z",
   "_do_not_hand_edit": "Every number in this file is computed by the generator from the counts in its COHORTS table. Change a count in the script and regenerate; never edit a number here (CLAUDE.md rule 1).",
   "title": "Partner-stratified pooled synthesis of published EMC systemic-therapy and outcome data (EWSR1::NR4A3 vs TAF15::NR4A3)",
   "lane": "research/manuscripts/program/emc-unexplored-treatment-lanes.md s3.2",
@@ -466,7 +466,7 @@
       },
       "pool": true,
       "pool_note": "Pooled with huang-2023-outcome (POLICY-evidence.md s2.2). \u26a0 *Superseded, retained: 'The only published EMC cohort that reports outcome EVENT COUNTS by NR4A3 partner. Pooling it is therefore a single-cohort Wilson interval, stated as such rather than dressed as a meta-analysis.'* That was true until 2026-08-08, when Huang 2023's Table 1 was read from the published PDF and supplied a second, larger and geographically independent set of per-partner event counts. This cohort is now the SMALLER of two.",
-      "follow_up_warning": "The two arms have very different mean follow-up (43.3 vs 21.7 months) and these are crude during-follow-up proportions with no censoring (POLICY-evidence.md s2.4). The bias runs AGAINST the TAF15 arm accruing events, so the death excess is observed despite shorter observation, while the recurrence comparison is confounded in the direction that produced this cohort's metastasis reversal. \u26a0 *Superseded, retained: 'the reversal reported below'* -- the reversal is this cohort's alone and the second cohort does not reproduce it; see analyses.B_outcome_by_partner.metastasis_reading."
+      "follow_up_warning": "The two arms have very different mean follow-up (43.3 vs 21.7 months) and these are crude during-follow-up proportions with no censoring (POLICY-evidence.md s2.4). \u26d4 THE DIRECTION OF THAT BIAS IS NOT ESTABLISHED, AND THIS FIELD ASSERTED THAT IT WAS. The superseded reading -- 'the bias runs AGAINST the TAF15 arm accruing events, so the death excess is observed DESPITE shorter observation' -- is CIRCULAR in an uncensored during-follow-up analysis, because follow-up ENDS AT DEATH. The TAF15 arm's shorter mean follow-up (21.7 months against 43.3) is therefore partly PRODUCED BY its own 3/7 deaths rather than being an independent handicap it overcame; the same 3 deaths appear on both sides of that sentence, once as the effect and once as the reason the effect is impressive. What can honestly be said is narrower: the two arms' observation windows differ, the difference is not independent of the endpoint being compared, and no censored analysis exists in either source that would separate them. The recurrence comparison is confounded the same way, in a direction this record cannot sign. \u26a0 *Superseded, retained: 'the reversal reported below'* -- the reversal is this cohort's alone and the second cohort does not reproduce it; see analyses.B_outcome_by_partner.metastasis_reading."
     },
     {
       "id": "huang-2023-outcome",
@@ -1554,7 +1554,7 @@
     "The Lancet Oncol 2019 full text showing that the pazopanib trial's non-TAF15 arm contains non-EWSR1 partners, or that a TAF15 patient sat outside the evaluable 22.",
     "Confirmation that the sunitinib series' TAF15 patients re-enrolled on the pazopanib trial, which would collapse the world's TAF15 experience to three patients.",
     "A partner-stratified reanalysis of any registry (SEER, the Japanese national registry, the US Sarcoma Collaborative) showing no survival separation once size and stage are adjusted for -- which is the direction Huang 2023 already points.",
-    "A THIRD outcome cohort with per-partner event counts in which TAF15 mortality is not elevated. The pooled crude death contrast now rests on two cohorts whose TAF15 arms are 7 and 8 patients; a third of similar size disagreeing would put the pooled point estimate inside the comparator arm's interval.",
+    "A THIRD outcome cohort with per-partner event counts in which TAF15 mortality is not elevated. The pooled crude death contrast now rests on two cohorts whose TAF15 arms are 7 and 8 patients. \u26a0 BUT ONE SUCH COHORT WOULD NOT OVERTURN THIS, AND SAYING SO IS PART OF THE FALSIFIER: it would take 19 FURTHER TAF15 patients with no disease-specific deaths at all -- a total TAF15 denominator of 34, more than twice the world's pooled experience here -- to bring the pooled point estimate down to the comparator arm's Wilson upper bound of 20.8%. A third cohort of 7 or 8 with zero deaths leaves it at 31.8% and 30.4%. Derived by zero_death_patients_to_reconcile() from the counts in this artifact, not asserted.",
     "Any size-adjusted partner analysis in which the partner DOES remain independent. That would overturn the defeater rather than the effect, and it is the single result that would turn the crude magnitude on this page into a claim about biology instead of a claim about tumour size."
   ],
   "resolved_2026_08_08": {

@@ -140,6 +140,44 @@ def fisher_exact_two_sided(a: int, b: int, c: int, d: int) -> float:
     return min(1.0, p)
 
 
+def zero_death_patients_to_reconcile(taf: dict, comparator: dict) -> dict:
+    """How many further TAF15 patients with ZERO deaths would pull the pooled TAF15 point estimate
+    down inside the comparator arm's Wilson interval.
+
+    ⛔ THIS EXISTS BECAUSE THE PAPER STATED A FALSIFICATION THRESHOLD IT HAD NEVER COMPUTED. Round 7
+    of the hardening series (2026-08-27) had falsifier #5 assert that "a third cohort of similar size
+    disagreeing would put the pooled point estimate inside the comparator arm's interval". Two blind
+    seats computed it independently and it is arithmetically false; re-derived here a third time from
+    the artifact's own counts, a third cohort of 7 or 8 TAF15 patients with no deaths at all leaves
+    the pooled point estimate at 31.8% or 30.4%, against a comparator upper bound of 20.8%.
+
+    ⚠ A STATED FALSIFIER THAT THE STUDY DESCRIBING IT CANNOT REACH IS WORSE THAN NO FALSIFIER: it
+    reads as a standing invitation to check while being unreachable by the evidence it names. So the
+    threshold is DERIVED here from the counts rather than asserted in prose, and the paper prints
+    whatever this returns.
+
+    The comparator arm is held FIXED — it gains no patients from the hypothetical cohort. That is the
+    conservative direction and the defensible one: letting the comparator grow too drives its own
+    upper bound DOWN (its event count is fixed), which makes the threshold recede rather than
+    approach, so modelling growth in both arms would overstate how reachable the falsifier is.
+    """
+    events = taf["events"]
+    hi = comparator["ci95_hi_percent"]
+    extra = 0
+    # events stay fixed: the hypothetical patients contribute denominator only.
+    while 100.0 * events / (taf["denom"] + extra) > hi:
+        extra += 1
+    return {
+        "further_zero_death_taf15_patients_required": extra,
+        "total_taf15_denominator_required": taf["denom"] + extra,
+        "comparator_ci95_hi_percent": hi,
+        "_method": (
+            "Smallest k such that events/(denom+k) <= the comparator arm's Wilson 95% upper bound, "
+            "with the TAF15 event count and the whole comparator arm held fixed. Derived, never typed."
+        ),
+    }
+
+
 def contrast(name: str, taf: dict, other: dict, note: str) -> dict:
     """One TAF15-vs-comparator contrast with both arms' Wilson intervals."""
     a, b = taf["events"], taf["denom"] - taf["events"]
@@ -780,12 +818,21 @@ COHORTS = [
         ),
         "follow_up_warning": (
             "The two arms have very different mean follow-up (43.3 vs 21.7 months) and these are "
-            "crude during-follow-up proportions with no censoring (POLICY-evidence.md s2.4). The "
-            "bias runs AGAINST the TAF15 arm accruing events, so the death excess is observed "
-            "despite shorter observation, while the recurrence comparison is confounded in the "
-            "direction that produced this cohort's metastasis reversal. ⚠ *Superseded, retained: "
-            "'the reversal reported below'* -- the reversal is this cohort's alone and the second "
-            "cohort does not reproduce it; see analyses.B_outcome_by_partner.metastasis_reading."
+            "crude during-follow-up proportions with no censoring (POLICY-evidence.md s2.4). "
+            "⛔ THE DIRECTION OF THAT BIAS IS NOT ESTABLISHED, AND THIS FIELD ASSERTED THAT IT WAS. "
+            "The superseded reading -- 'the bias runs AGAINST the TAF15 arm accruing events, so "
+            "the death excess is observed DESPITE shorter observation' -- is CIRCULAR in an "
+            "uncensored during-follow-up analysis, because follow-up ENDS AT DEATH. The TAF15 "
+            "arm's shorter mean follow-up (21.7 months against 43.3) is therefore partly PRODUCED "
+            "BY its own 3/7 deaths rather than being an independent handicap it overcame; the "
+            "same 3 deaths appear on both sides of that sentence, once as the effect and once as "
+            "the reason the effect is impressive. What can honestly be said is narrower: the two "
+            "arms' observation windows differ, the difference is not independent of the endpoint "
+            "being compared, and no censored analysis exists in either source that would separate "
+            "them. The recurrence comparison is confounded the same way, in a direction this "
+            "record cannot sign. ⚠ *Superseded, retained: 'the reversal reported below'* -- the "
+            "reversal is this cohort's alone and the second cohort does not reproduce it; see "
+            "analyses.B_outcome_by_partner.metastasis_reading."
         ),
     },
     {
@@ -1946,6 +1993,11 @@ def build() -> dict:
         analysis_outcome["distant_metastasis_after_presentation"],
     )
 
+    # Falsifier #5's threshold, derived from the pooled death contrast rather than asserted in prose.
+    _dod = analysis_outcome["disease_specific_death"]
+    _dod_taf = _dod["taf15_arm"]
+    dod_threshold = zero_death_patients_to_reconcile(_dod_taf, _dod["comparator_arm"])
+
     doc = {
         "_schema": "emc-fusion-partner-pooling/1",
         "_generated_by": "research/manuscripts/emc_fusion_partner_pooling.py",
@@ -2022,10 +2074,23 @@ def build() -> dict:
             "A partner-stratified reanalysis of any registry (SEER, the Japanese national registry, "
             "the US Sarcoma Collaborative) showing no survival separation once size and stage are "
             "adjusted for -- which is the direction Huang 2023 already points.",
-            "A THIRD outcome cohort with per-partner event counts in which TAF15 mortality is not "
-            "elevated. The pooled crude death contrast now rests on two cohorts whose TAF15 arms "
-            "are 7 and 8 patients; a third of similar size disagreeing would put the pooled point "
-            "estimate inside the comparator arm's interval.",
+            (
+                "A THIRD outcome cohort with per-partner event counts in which TAF15 mortality is "
+                "not elevated. The pooled crude death contrast now rests on two cohorts whose "
+                "TAF15 arms are 7 and 8 patients. ⚠ BUT ONE SUCH COHORT WOULD NOT OVERTURN THIS, "
+                "AND SAYING SO IS PART OF THE FALSIFIER: it would take {k} FURTHER TAF15 patients "
+                "with no disease-specific deaths at all -- a total TAF15 denominator of {n}, more "
+                "than twice the world's pooled experience here -- to bring the pooled point "
+                "estimate down to the comparator arm's Wilson upper bound of {hi}%. A third "
+                "cohort of 7 or 8 with zero deaths leaves it at {p7}% and {p8}%. Derived by "
+                "zero_death_patients_to_reconcile() from the counts in this artifact, not asserted."
+            ).format(
+                k=dod_threshold["further_zero_death_taf15_patients_required"],
+                n=dod_threshold["total_taf15_denominator_required"],
+                hi=dod_threshold["comparator_ci95_hi_percent"],
+                p7=round(100.0 * _dod_taf["events"] / (_dod_taf["denom"] + 7), 1),
+                p8=round(100.0 * _dod_taf["events"] / (_dod_taf["denom"] + 8), 1),
+            ),
             "Any size-adjusted partner analysis in which the partner DOES remain independent. That "
             "would overturn the defeater rather than the effect, and it is the single result that "
             "would turn the crude magnitude on this page into a claim about biology instead of a "
