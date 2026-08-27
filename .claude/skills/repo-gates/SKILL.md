@@ -143,13 +143,15 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     gate; `scripts/tests/test_affected_tests.py` asserts each of those directions, and the
     baseline-pruning readout is suppressed on a scoped run because **a subset cannot say a test it
     never executed is fixed.**
-- **Before committing:** `./scripts/preflight.sh` must pass. **Thirteen gates, in this order:** (1) the consistency
+- **Before committing:** `./scripts/preflight.sh` must pass. **Fourteen gates, in this order:** (1) the consistency
   linter (`research/manuscripts/lint_consistency.py`), (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
   (4) claim strength (`lint_claims.py`), (5) changed prose (`lint_changed_prose.py`, warnings only),
   (6) `research/manuscripts/lint_citations.py`, (7) `research/manuscripts/lint_style.py`,
-  (8) `systems/parser_guard.py`, (9) the registry evidence
-  contract (`validate-registry.mjs`), (10) the generated deposit artifacts reproducing from their
-  generators, (11) the modalities tests, (12) the manuscripts tests, (13) `scripts/tests`, the test
+  (8) the readability screen (`research/manuscripts/lint_readability.py`, ADVISORY — where to look, not
+  whether the prose is good; the HARD gate on an outgoing version is publish_bar clause 7, not this one),
+  (9) `systems/parser_guard.py`, (10) the registry evidence
+  contract (`validate-registry.mjs`), (11) the generated deposit artifacts reproducing from their
+  generators, (12) the modalities tests, (13) the manuscripts tests, (14) `scripts/tests`, the test
   selector's own contract. Its exit code cannot be masked. **Do not
   re-type an ordinal from memory** — `[P1]` derives it from the script and fails the build on any document
   that disagrees. *(It did exactly that when the citation gate was inserted, catching four documents in one run.)*
@@ -282,7 +284,7 @@ failed closed instead of waving 36 unknown failures through.
   clinical registry, now [`research/data/emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)
   — read by `research/meta/meta-analysis.mjs` and `research/hypotheses/enumerate-drugs.mjs`, both of which build
   the path from segments, so **searching for the DIRECTORY name finds neither; searching for the filename finds
-  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 9 of preflight's 12**.
+  both** — and its validator, now `scripts/validate-registry.mjs`, which is **gate 10 of preflight's 14**.
   **Do not recreate the site.** Full accounting: [`systems/MIGRATION.md`](./systems/MIGRATION.md).
   ⚠ *Superseded, retained: "both via segment-built paths a text search will not find … which is gate 2 of
   preflight." The first over-stated the problem — `grep emc-clinical-registry` returns both readers at once,

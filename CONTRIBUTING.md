@@ -87,7 +87,7 @@ and is governed by [systems/POLICY-evidence.md](./systems/POLICY-evidence.md), w
 pooled with what, how to represent disagreement, and how to handle data age.
 
 ```bash
-node scripts/validate-registry.mjs      # the evidence contract; also gate 9 of preflight
+node scripts/validate-registry.mjs      # the evidence contract; also gate 10 of preflight
 ```
 
 ⚠ **Two pooling methods exist and are not interchangeable** — crude denominator-weighted proportions with
