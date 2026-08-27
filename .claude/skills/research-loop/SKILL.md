@@ -166,6 +166,27 @@ builds the prompt **from committed state** — the queue from the ledger, the po
 HAS ONE WRITER: THE DRIVER.** Put it in the seat prompt — worktree off `origin/main`, commit there,
 push a branch, never touch the repository root.
 
+⛔⛔ **AND ITS LOGS GO OUTSIDE THE WORKTREE, IN A DIRECTORY NAMED FOR THE SEAT — BECAUSE A WORKTREE
+IS DELETED THE MOMENT ITS WORK LANDS, AND ITS EVIDENCE DIES WITH IT.** Two lines in every seat
+prompt: *write every log to `scratchpad/<seat-name>/`, never inside the worktree, and NAME the log
+paths in your final report.*
+⚠ *Measured 2026-08-27 (AUT-PD-027), and it cost two wrong entries in the ledger.* Two seats
+independently hit a preflight reporting **50 failures that did not exist** — `50 failed, 7901
+passed` and `50 failed, 7933 passed`, `No module named 'pymbar'`. By the time the driver looked,
+**both worktrees were gone and one log had already been truncated mid-write by a sibling writing to
+the same filename.** The symptom survives only because it happens to be quoted inside the seats'
+completion reports. ⛔ **So the driver could not reproduce it, and wrote TWO wrong mechanisms into
+the ledger in sequence** — "a stale reading repaired between runs", then "a fresh worktree misses
+the SessionStart hook" — neither checkable against the run that produced it, and the second
+disproved only when someone finally made a worktree and looked. **A defect the driver cannot
+reproduce immediately becomes unfalsifiable, and unfalsifiable defects attract guesses.**
+⭐ *One seat did this unprompted — `scratchpad/aut015/aut015-devsetup-preflight3.log`, seat-unique
+and outside its tree — and its run is the only one of the three still auditable.*
+★ **AND A LOG WITH NO EXPLICIT EXIT MARKER IS NOT A RESULT.** The same day, a seat's monitor timed
+out watching a preflight the seat had deliberately killed; that log never received its `EXIT=`
+line, and the seat correctly reported nothing from it rather than quoting the tail. A truncated log
+and a passing one look identical from the bottom.
+
 ⚠ *Measured 2026-08-27 across four agents in one afternoon, and it cost real time twice.* Two agents
 were dispatched with "commit, do not push" and both ended up mid-write in the shared tree at once.
 The consequences were not hypothetical:
