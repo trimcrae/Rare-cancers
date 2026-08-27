@@ -59,7 +59,24 @@ def test_an_unknown_paper_is_blocked_rather_than_erroring(bar):
 
 def test_every_clause_reports_pass_fail_or_unverifiable_and_nothing_else(bar):
     result = bar.evaluate("PUB-ASO", "0" * 40)
-    assert len(result["clauses"]) == 6, "the bar is six clauses; a missing one is a hole"
+    # ⛔ THE COUNT WAS TYPED AND WENT STALE, WHICH IS THE ONE-FACT-ONE-PLACE RULE FAILING INSIDE A
+    # TEST (2026-08-27). A seventh clause -- `readable_enough_to_review` -- was added to the bar and
+    # this line still said six, so CI was red on main for a bar that had GROWN. A test asserting a
+    # hand-typed count of something the module already enumerates is a second copy of that fact.
+    # ⚠ AND `== len(bar.CLAUSES)` ALONE WOULD BE TAUTOLOGICAL, so it is paired with the clause
+    # NAMES: the length catches `evaluate` dropping or merging a row, the names catch a clause being
+    # deleted from CLAUSES itself. A clause that silently disappears is the hole this test was
+    # written for, and neither assertion finds it alone.
+    assert len(result["clauses"]) == len(bar.CLAUSES), (
+        "evaluate() returned a different number of rows than the bar declares clauses; a missing "
+        "one is a hole")
+    assert [c["clause"] for c in result["clauses"]] == [
+        "hardening_converged", "preflight_full_green", "claim_ceiling_honoured",
+        "identifiers_resolvable", "endpoint_declared", "independent_adversarial_seat",
+        "readable_enough_to_review",
+    ], ("the bar's clauses changed. That is allowed -- it is how the seventh arrived -- but it is "
+        "never a silent change: update this list deliberately, and NEVER drop one to make a red "
+        "build green (CLAUDE.md §3: a bar clause may not be loosened by the cycle it blocked).")
     for clause in result["clauses"]:
         assert clause["verdict"] in {bar.PASS, bar.FAIL, bar.UNVERIFIABLE}
         assert clause["ok"] == (clause["verdict"] == bar.PASS), (
