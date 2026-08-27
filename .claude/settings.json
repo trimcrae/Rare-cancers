@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/no-detached-background.py",
+            "command": "python3 \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/no-detached-background.py\"",
             "timeout": 10
           }
         ]

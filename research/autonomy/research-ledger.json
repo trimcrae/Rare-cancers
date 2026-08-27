@@ -5,19 +5,19 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
-    "harden": 1,
     "analysis": 1,
-    "write": 5,
     "experiment": 23,
     "fetch": 11,
+    "harden": 1,
     "negative": 32,
-    "regrade": 7,
+    "process": 1,
     "process_defect": 2,
-    "process": 1
+    "regrade": 7,
+    "write": 5
   },
   "n_by_state": {
-    "queued": 81,
-    "done": 2
+    "done": 2,
+    "queued": 81
   },
   "n_clamped": 11,
   "entries": [
@@ -27,8 +27,8 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "CYC-0011",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -44,7 +44,7 @@
       "what": "Run a hardening round on PUB-FUSION-PARTNER — publish_bar clause 1. ⛔ ROUND 3 (CYC-0006) FIXED NINE BLOCKERS AND DID NOT CONVERGE; 16 P1s stand. ⭐ ITS TWO SEAT RECORDS ARE ON DISK AND ARE THE ROUND'S INPUT — read review-seats/PUB-FUSION-PARTNER-34264bbeb610…json first. ★ THE NEXT ROUND'S FIRST ACT IS FRESH BLIND SEATS ON THE CURRENT COMMIT, RECORDS WRITTEN BEFORE ANYTHING IS APPLIED. Two of round 3's nine blockers were introduced by round 2's own correction pass, so a correction pass is itself a source of defects and is never self-verifying. A correction REPLACES text and never appends.",
       "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
       "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-34264bbeb6109f3675e7b76f0038775216f6b0d8.json",
-      "claimed_utc": null,
+      "claimed_utc": "2026-08-27T01:36:23Z",
       "lease_released": "released by CYC-0005 on finishing its round. Round 2 fixed two blockers (REG-B1 medical-integrity, REG-B2 provenance overclaim) and five P1s; it did NOT converge, so the item is takeable again rather than done."
     },
     {
@@ -1114,6 +1114,29 @@
         "fruitless_attempts": 0
       },
       "clamp": "blocked_without_evidence_becomes_a_check"
+    },
+    {
+      "id": "AUT-PROP-006",
+      "kind": "process",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-26",
+      "score": 60.0,
+      "_score_basis": "hand-filed by CYC-0005. Scored below the live manuscript work (s0: live paths first) and above documentation, because it is the fix for a defect that has already cost this paper one wrong claim.",
+      "filed_by": "CYC-0005",
+      "what": "Make the research-loop cycle contract require a blind seat's record to be WRITTEN TO research/autonomy/review-seats/ as the first act after the seat returns, BEFORE any fix is applied. Evidence: CYC-0005 ran two seats, acted on both, and persisted neither, so the manuscript now carries their fixes while publish_bar clause 6 still has nothing to read. The failure mode is general and it is one-directional: the CHANGE survives a context loss and the EVIDENCE FOR IT does not. Add a step to .claude/skills/research-loop/SKILL.md and a guard that fails a cycle whose receipt names a seat with no matching record on disk.",
+      "depends_on_evidence": "research/autonomy/receipts/CYC-0005.json"
     },
     {
       "id": "AUT-060",
@@ -2724,29 +2747,6 @@
       "id": "AUT-PROP-004",
       "kind": "write",
       "what": "ESCALATE, do not perform: the three paywalled-table requests to corresponding authors named in section 6 of the fusion-partner paper. Email is outward-facing and covered by NO grant."
-    },
-    {
-      "id": "AUT-PROP-006",
-      "kind": "process",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-26",
-      "score": 60.0,
-      "_score_basis": "hand-filed by CYC-0005. Scored below the live manuscript work (s0: live paths first) and above documentation, because it is the fix for a defect that has already cost this paper one wrong claim.",
-      "filed_by": "CYC-0005",
-      "what": "Make the research-loop cycle contract require a blind seat's record to be WRITTEN TO research/autonomy/review-seats/ as the first act after the seat returns, BEFORE any fix is applied. Evidence: CYC-0005 ran two seats, acted on both, and persisted neither, so the manuscript now carries their fixes while publish_bar clause 6 still has nothing to read. The failure mode is general and it is one-directional: the CHANGE survives a context loss and the EVIDENCE FOR IT does not. Add a step to .claude/skills/research-loop/SKILL.md and a guard that fails a cycle whose receipt names a seat with no matching record on disk.",
-      "depends_on_evidence": "research/autonomy/receipts/CYC-0005.json"
     }
   ]
 }
