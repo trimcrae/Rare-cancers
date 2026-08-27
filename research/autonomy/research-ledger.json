@@ -9,6 +9,7 @@
     "code": 1,
     "experiment": 23,
     "fetch": 11,
+    "fix": 1,
     "harden": 3,
     "negative": 32,
     "process": 6,
@@ -18,6 +19,7 @@
   },
   "n_by_state": {
     "done": 3,
+    "in_progress": 1,
     "queued": 93
   },
   "n_clamped": 11,
@@ -3023,6 +3025,29 @@
       "id": "AUT-PROP-001",
       "kind": "process_defect",
       "what": "PROPOSAL (filed, not applied): teach systems_check.check_scan_interop the `venue` trigger_kind, then re-enable scan_enabled on the three TRG-VENUE-* triggers. Not applied by its own cycle: [X3] blocked that cycle and amendment_guard refuses a cycle that edits the check blocking it."
+    },
+    {
+      "id": "AUT-PROP-014",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-EXPRESSION-COHORTS",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "in_progress",
+      "owner": "CYC-0018",
+      "claimed_utc": "2026-08-27T05:10:48Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0018",
+      "depends_on_evidence": "git log -- research/modalities/atr-hrd-sarcoma-series.json",
+      "what": "\u26d4 TRUNK RED, AND THE RED IS THE SMALL HALF. `research/modalities/atr-hrd-sarcoma-series.json` is ONE FILENAME THAT HAS HELD TWO DIFFERENT GEO SERIES, and two modules read it as two different things. Committed history, not inference: 2026-08-05 it held GSE299349 (its producer atr_hrd_sarcoma_series.py declares SERIES = 'GSE299349'); 325258cb8 on 2026-08-07 overwrote it with GSE28866, 99 samples, via the same emc-expression-datasets.yml mode=gse-series workflow run with a different series argument; emc_cohort_search.py and its committed verdict were then written on 2026-08-08 AGAINST THAT GSE28866 CONTENT; a8caba9 on 2026-08-27 04:37 UTC re-fetched GSE299349 to repair PUB-ATR \u00a78 (CYC-0016, correctly) and thereby deleted the sample list emc_cohort_search had been relying on. \u2b50 THE DAMAGE IS NOT THE THREE RED TESTS. `_known_gsms()` guards against counting a re-deposit of a cohort the manuscript already reads as a FOURTH EMC cohort; it fell 157 \u2192 126 GSMs (58 fusion-target + 99 Brunner \u2192 58 + 68 unrelated), lost the entire 3SEQ arm, and now LABELS 68 BCOR-rearranged sarcoma cell-line samples with the string 'GSE299349 = GSE170983, the Brunner deposit (the 3SEQ arm)'. A re-deposit sharing neither accession nor PMID grades NEW_CANDIDATE. \u26d4 FIX IS NOT A RE-PIN: give the GSE28866 record its own series-named home restored verbatim from 325258cb8, point emc_cohort_search at it, and make _known_gsms() REFUSE a wrong-series or missing file instead of degrading silently \u2014 the silent degradation is why a guard vanished and only a downstream assertion noticed.",
+      "_score_basis": "trunk red on main, not by this cycle's hand \u2014 research-loop \u00a71 makes fixing it the cycle"
     },
     {
       "serves": {
