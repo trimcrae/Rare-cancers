@@ -469,10 +469,23 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/manuscripts/aso_archive_manifest.py|archive manifest|--check-archive" \
          "research/modalities/emc_condensate_report.py|condensate CALVADOS findings|--check"; do
   gen="${g%%|*}"; rest="${g#*|}"; label="${rest%%|*}"; mode="${rest##*|}"
-  if python3 "$gen" "$mode" >/dev/null 2>&1; then
+  # ⛔ THE GENERATOR'S OWN FAILURE TEXT REACHES THE READER AS OF AUT-PD-016 (2026-08-27). This line
+  # was `python3 "$gen" "$mode" >/dev/null 2>&1`, so every producer's diagnosis was discarded and
+  # the only remedy a reader ever saw was the generic "rerun and commit the result" below. For the
+  # archive manifest that generic advice is ACTIVELY WRONG — it is what regenerates the artifact
+  # against the same dirty tree and reproduces the defect — and the generator now says so in a
+  # message nobody could read. Capturing instead of discarding is what makes a per-producer remedy
+  # possible at all, and it costs one variable.
+  if gen_out="$(python3 "$gen" "$mode" 2>&1)"; then
     echo "   OK   $label"
   else
     echo "   STALE $label -- rerun 'python3 $gen' and commit the result"
+    # ⚠ AND WHERE THE PRODUCER DISAGREES WITH THAT LINE, THE PRODUCER WINS: it knows which of
+    # "stale" and "must not be regenerated here" its own exit code meant. Indented so the block
+    # reads as the row's detail rather than as a new gate.
+    if [ -n "$gen_out" ]; then
+      echo "$gen_out" | sed 's/^/          /' || true
+    fi
     gen_fail="$gen_fail $label"; rc=1
   fi
 done
