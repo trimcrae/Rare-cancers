@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "98e1c843daf957c45e08f38a6bf0d3b550072ad6",
+  "git_revision": "babb1dce297be24dbdc4fc6200e401b884357a05",
   "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "de39b4edb7d684e8c214acf4fcccf381ff6440fdf63fcbf9183c691e89391a64",
+  "archive_content_digest": "971d06bb2566a73a659e5705afff2441631ec52dba0da8fbcec599ef5499cdaa",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,18 +24,18 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 43217097,
-  "total_mib": 41.215,
+  "total_bytes": 43217645,
+  "total_mib": 41.216,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 383,
-        "bytes": 35916361
+        "bytes": 35916584
       },
       ".py": {
         "n_files": 68,
-        "bytes": 3089851
+        "bytes": 3090176
       },
       ".md": {
         "n_files": 13,
@@ -2787,8 +2787,8 @@
     },
     {
       "path": "research/modalities/emc-expression-panels.json",
-      "bytes": 7727671,
-      "sha256": "7fe039894b34d5bc3639ad47fa13e5e23ef957d4be50e2e8e96b2ec90f7b009a",
+      "bytes": 7727894,
+      "sha256": "c50e101b1d09c2a3506f2f183828e4e23aa692091f70266e168097a2d0a9e0aa",
       "serves": "delivery_antigen_negative",
       "also_serves": [],
       "contributes": "The two-axis surface-antigen screen behind the Discussion's delivery negative: the twelve antigens scoreable on both axes, the measured EMC tumour-versus-normal-organ exposure contrast from GSE28866, the three that clear the measured axes and the reason each is still refused, and the ceiling field recording that 86 further surface-board genes are unmeasured rather than excluded. Released so the bound on what was examined is checkable rather than taken on trust."
@@ -2835,8 +2835,8 @@
     },
     {
       "path": "research/modalities/emc_expression_panels.py",
-      "bytes": 181883,
-      "sha256": "3712455ada6f7641d12f11d2f4b282a0ba2347ce229467245fdd05c8e11fba47",
+      "bytes": 182208,
+      "sha256": "d9062629ee36d85c26c9ee37bda5cd017a91c6671e91f0703f6d52ed9523be87",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."

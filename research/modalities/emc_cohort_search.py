@@ -53,7 +53,20 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "emc-cohort-search.json")
 INPUTS = os.path.join(HERE, "emc-cohort-search-inputs.json")
 FUSION_INPUTS = os.path.join(HERE, "nr4a3-fusion-targets-inputs.json")
-ATR_SERIES = os.path.join(HERE, "atr-hrd-sarcoma-series.json")
+BRUNNER_SERIES = os.path.join(HERE, "geo-gse28866-brunner-series.json")
+BRUNNER_ACCESSION = "GSE28866"
+# ⛔ THIS FILE HAS ITS OWN NAME BECAUSE THE SHARED ONE HELD TWO DIFFERENT SERIES AT DIFFERENT TIMES.
+# Until 2026-08-27 the 3SEQ arm was read out of `atr-hrd-sarcoma-series.json`, whose producer
+# (`atr_hrd_sarcoma_series.py`) declares `SERIES = "GSE299349"`. Committed history, not inference:
+# 325258cb8 (2026-08-07) overwrote that filename with GSE28866 because the SAME workflow
+# (`emc-expression-datasets.yml mode=gse-series`) writes a fixed path whatever series it is given;
+# this module and its committed verdict were written on 2026-08-08 against that content; a8caba9
+# (2026-08-27 04:37 UTC) re-fetched GSE299349 to repair PUB-ATR §8 and took the 3SEQ arm with it.
+# `_known_gsms()` fell 157 -> 126, lost every GSE28866 GSM, and labelled 68 BCOR-rearranged sarcoma
+# CELL-LINE samples as "the Brunner deposit". Two modules were each right about a filename that
+# could only be right for one of them. The file named above holds 325258cb8's blob verbatim,
+# fetched 2026-08-07T17:26:52Z by emc-expression-datasets.yml run 31200667719, and nothing but a
+# GSE28866 fetch may ever be written to it.
 
 sys.path.insert(0, HERE)
 
@@ -309,14 +322,30 @@ def _known_gsms():
         acc = "GSE24369" if "GSE24369" in plat else "GSE4303"
         for s in t.get("samples") or []:
             out[s["gsm"]] = acc
-    if os.path.exists(ATR_SERIES):
-        with open(ATR_SERIES) as fh:
-            a = json.load(fh)
-        series = a.get("series") or "GSE28866"
-        for s in (a.get("samples") or []):
-            g = s.get("gsm") or s.get("accession")
-            if g:
-                out.setdefault(g, f"{series} = GSE170983, the Brunner deposit (the 3SEQ arm)")
+    # ⛔ REFUSE, NEVER DEGRADE. This half used to be wrapped in `if os.path.exists(...)` and to
+    # take the series identifier out of whatever it found, so a file that was absent, empty or
+    # about a DIFFERENT series produced a smaller map and no complaint — and a smaller map means
+    # every sample-overlap check passes and the third dedup level is silently gone. That is the
+    # failure this module's own docstring calls an absent reading rendered as a reading of absence,
+    # and it happened: see BRUNNER_SERIES above. A guard that can quietly stop guarding is not one.
+    if not os.path.exists(BRUNNER_SERIES):
+        raise RuntimeError(
+            f"{os.path.basename(BRUNNER_SERIES)} is missing. It carries the {BRUNNER_ACCESSION} "
+            "3SEQ arm, which is dedup level 3 for the GSE170983 re-deposit. Without it a "
+            "re-deposit of an arm this paper already reads grades NEW_CANDIDATE. Restore it "
+            "rather than letting the search run.")
+    with open(BRUNNER_SERIES) as fh:
+        a = json.load(fh)
+    series = a.get("series")
+    if series != BRUNNER_ACCESSION:
+        raise RuntimeError(
+            f"{os.path.basename(BRUNNER_SERIES)} holds series {series!r}, not "
+            f"{BRUNNER_ACCESSION!r}. Some other series' samples would be labelled as the Brunner "
+            "deposit and counted as already-read EMC tumours. Refusing.")
+    for s in (a.get("samples") or []):
+        g = s.get("gsm") or s.get("accession")
+        if g:
+            out.setdefault(g, f"{series} = GSE170983, the Brunner deposit (the 3SEQ arm)")
     return out
 
 

@@ -48,15 +48,19 @@ NORMALIZED = BASE + "GSE28866_36048_normalized_peaks_cancer_and_normal.txt.gz"
 RAW = BASE + "GSE28866_raw_counts_54511_peaks_cancer_and_normal.txt.gz"
 
 #: The four EMC libraries, from this repo's own sample-level characterisation of the series
-#: (`atr-hrd-sarcoma-series.json`). Recorded here as the ONLY hard-coded sample identity; every
-#: other column role is derived from the header the file actually carries.
+#: (`geo-gse28866-brunner-series.json`). Recorded here as the ONLY hard-coded sample identity;
+#: every other column role is derived from the header the file actually carries.
+#: ⚠ THAT CHARACTERISATION LIVED IN `atr-hrd-sarcoma-series.json` UNTIL 2026-08-27, WHICH IS A
+#: FILENAME BELONGING TO ANOTHER SERIES: its producer declares `SERIES = "GSE299349"`, and the two
+#: series overwrote each other there in both directions (325258cb8, then a8caba9). The GSE28866
+#: bytes were restored verbatim under their own name; that name is what this points at now.
 EMC_GSMS = ["GSM715466", "GSM715467", "GSM715470", "GSM715472"]
 
 #: ⭐ THE COLUMN HEADERS ARE NOT GSMs. Measured by the first header read: the normalized table names
 #: its columns `<Tissue>_<specimen>` (e.g. `Breast_STT5463`), so a GSM never appears and matching on
 #: one finds nothing — which the first run reported honestly as `emc_gsms_found_in_header: []` rather
 #: than as an absent EMC arm. The four EMC libraries carry the specimen ids below, resolved from this
-#: repo's own sample-level characterisation of the series (`atr-hrd-sarcoma-series.json` titles
+#: repo's own sample-level characterisation of the series (`geo-gse28866-brunner-series.json` titles
 #: `STT5525_EMC`, `STT5526_EMC`, `STT5527_EMC`, `STT5592_EMC`).
 EMC_SPECIMENS = ["STT5525", "STT5526", "STT5527", "STT5592"]
 

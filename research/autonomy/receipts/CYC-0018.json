@@ -1,0 +1,71 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0018",
+ "session_id": "session_01NQWAPmTzoyTZTHSpCeZekU",
+ "utc": "2026-08-27T05:25:12Z",
+ "cycles_in_this_session": 1,
+ "max_cycles_per_session": 2,
+ "took": "AUT-PROP-014",
+ "took_what": "NOT the queue's top item. `main` was red and not by this cycle's hand, and research-loop §1 says fixing that IS the cycle. AUT-PROP-011 (apply round 6's blockers to PUB-FUSION-PARTNER) was left untouched at the top of the queue with owner null.",
+ "why_not_the_top_item": "The refusal check was run before the work, as the contract requires, and it fired: the CI run for e3e6abb (33040381857) had two failed jobs, and the head of main was still undecided when this cycle started. Reproduced in-sandbox rather than read off a log — 3 failed in research/modalities/tests/test_emc_cohort_search.py — and confirmed NOT to be a fresh-sandbox dependency artefact: none of the three appears in tests/sandbox-failure-baseline.txt.",
+ "the_finding": "⛔ THE RED WAS THE SMALL HALF. `research/modalities/atr-hrd-sarcoma-series.json` is ONE FILENAME THAT HAS HELD TWO DIFFERENT GEO SERIES, and two modules read it as two different things. From committed history, not inference (git log over that path, after unshallowing the clone): 2026-08-05 it held GSE299349, the series its producer atr_hrd_sarcoma_series.py declares in `SERIES`; 325258cb8 on 2026-08-07 17:27 UTC overwrote it with GSE28866, 99 samples, because emc-expression-datasets.yml mode=gse-series passes a free `series` input to a module whose output path is FIXED; emc_cohort_search.py and its committed verdict were then written on 2026-08-08 AGAINST that GSE28866 content; a8caba9 on 2026-08-27 04:37 UTC re-fetched GSE299349 to repair PUB-ATR §8 (CYC-0016, correctly) and took the 3SEQ arm with it. Both readers were right about a filename that could only be right for one of them. ⭐ THE DAMAGE WAS NOT THE THREE RED TESTS. `_known_gsms()` is dedup level 3 of the guard that stops a re-deposit of a cohort the manuscript already reads being counted as a FOURTH EMC cohort — the GSE170983/GSE28866 trap emc_cohort_search.py exists to catch. It fell from 157 GSMs to 126 (58 fusion-target + 99 Brunner → 58 + 68 unrelated), lost every GSE28866 GSM, and labelled 68 BCOR-rearranged sarcoma CELL-LINE samples with the string 'GSE299349 = GSE170983, the Brunner deposit (the 3SEQ arm)'. A re-deposit sharing neither accession nor PMID graded NEW_CANDIDATE. It degraded silently because the read was wrapped in `if os.path.exists(...)` and took the series identifier from whatever it found — an absent reading rendered as a reading of absence, which is the failure this module's own docstring names.",
+ "what_changed": [
+  "research/modalities/geo-gse28866-brunner-series.json — NEW. The GSE28866 3SEQ record restored VERBATIM from 325258cb8 (blob 83e92a1465971a2344076be210cc07bd067a5363, identical to the blob at the shallow boundary 4b17713, fetched_utc 2026-08-07T17:26:52Z by emc-expression-datasets.yml run 31200667719). Not re-fetched and not re-derived: the bytes are the ones CI wrote.",
+  "research/modalities/emc_cohort_search.py — ATR_SERIES → BRUNNER_SERIES + BRUNNER_ACCESSION, pointed at the new path, with the two-incident history recorded at the constant. `_known_gsms()` now RAISES on a missing file and RAISES on a `series` that is not GSE28866, where it used to skip and to relabel. n_known_gsms back to 157; GSM715466 maps to the Brunner deposit again; `emc_cohort_search.py --check` says the committed verdict is current, so no artifact was rewritten.",
+  "research/modalities/tests/test_emc_cohort_search.py — 3 new tests: the record is read from its own series-named file; a missing file refuses; a different series in that file refuses rather than being relabelled. 30 → 33 passing.",
+  "research/modalities/atr_hrd_sarcoma_series.py — `main(argv=None)` so the CLI is testable offline, and a REFUSAL of any `--series` other than the declared SERIES, placed before the fetch so it costs no network. This closes the mechanism rather than the symptom.",
+  "research/modalities/tests/test_atr_hrd_sarcoma_series.py — 2 new tests: the refusal returns 2, prints REFUSED and leaves the artifact byte-identical; and the declared SERIES matches the series the committed artifact holds.",
+  "research/modalities/emc_expression_panels.py + emc-expression-panels.json — the provenance pointer for the GSE28866 fetch named atr-hrd-sarcoma-series.json, which now holds another series. Moved to the new path with the reason attached. Regenerated offline; exactly one line of the artifact moved, and `--check` said REPRODUCES both before and after.",
+  "research/modalities/gse28866_tumour_vs_normal.py — its two provenance comments named atr-hrd-sarcoma-series.json as the source of the four EMC libraries' identities. Repointed, with the reason attached. Comments only; no artifact of that module moved.",
+  "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json — regenerated. It inventories the modalities tree and preflight's generated-artifact gate caught it as STALE; the only entries that moved are the two files this cycle changed."
+ ],
+ "process_defect_found_in_this_cycle": {
+  "id": "AUT-PD-CYC0018-mutation-harness-writes",
+  "what": "⛔ A MUTATION HARNESS THAT EXERCISES A WRITING CODE PATH DAMAGES THE TREE, AND THIS ONE REPRODUCED THE VERY INCIDENT IT WAS TESTING THE FIX FOR. The first version of the refusal test called `main(['--fetch', '--series', 'GSE28866'])` and relied on the guard to stop before the fetch. That is the right assertion and the wrong mechanics: mutation M6 removed the guard, the real fetch half ran, and because that half RECORDS failures rather than raising, it derived and WROTE — putting series GSE28866 into atr-hrd-sarcoma-series.json and its inputs cache at 2026-08-27T05:20:09Z. That is exactly the clobber this cycle exists to close, performed by the test for the fix. Measured, not theorised: `git status` showed both artifacts modified and `json.load(...)['series']` read 'GSE28866'.",
+  "how_it_was_caught": "The harness's own post-restore run. It restores the source and re-runs, and that run came back '1 failed, 11 passed' against a green pre-mutation baseline. Without that step the damage would have been committed inside a commit whose subject is 'stop this file being overwritten'.",
+  "fix_applied": "Both artifacts restored with `git checkout --` (they were committed and untouched at HEAD, so nothing was lost), and the test now monkeypatches `M.fetch` to raise. The assertion is now about ORDER — refuse before anything reaches the network or the writer — and a violation fails loudly instead of quietly. Side effect worth having: the three mutations went from 169 s each to 0.2 s.",
+  "the_general_rule": "A mutation removes a guard by construction, so every code path that guard was protecting WILL run. Stub the destructive half before mutating, and always re-run clean after restoring."
+ },
+ "mutation_testing": {
+  "_why": "paper-hardening: a guard that has never been mutated is a guard nobody has tested. Every mutation is a single site.",
+  "emc_cohort_search": [
+   "M1 restore the silent-skip on a missing file — CAUGHT",
+   "M2 drop the wrong-series refusal — CAUGHT",
+   "M3 point the constant back at the shared filename — CAUGHT"
+  ],
+  "atr_hrd_sarcoma_series": [
+   "M4 drop the foreign-series refusal — CAUGHT",
+   "M5 refuse but return 0 instead of 2 — CAUGHT",
+   "M6 declare the wrong series — CAUGHT"
+  ],
+  "survived": "none — 6/6 caught, source restored and the suites green after restore"
+ },
+ "cost": {
+  "real_dollars": 0.0,
+  "gpu_hours": 0.0,
+  "compute": "none — CPU only: git archaeology, two offline regenerations, the modalities suite and preflight",
+  "spend_class": "free"
+ },
+ "subagents": {
+  "dispatched": 0,
+  "cap_at_dispatch": 5,
+  "within_cap": true,
+  "note": "A single-thread root-cause and repair. Nothing here was independent enough to be worth a seat, and no blind reading was required: this cycle authored the fix and CI is the reader."
+ },
+ "gates": {
+  "preflight": "PREFLIGHT_MODALITIES=1 ./scripts/preflight.sh → PREFLIGHT OK, EXIT=0 read from the run's OWN marker (`echo \"EXIT=$?\" >> log`) rather than from the harness's reported exit code — the harness has already been observed reporting 0 for a run whose marker said 1, on the run that caught a red trunk (AUT-PD-012). Every fast gate green, including the generated-artifact gate that caught the archive manifest as STALE and passed once it was regenerated. ⚠ THE SCOPE IS STATED RATHER THAN IMPLIED: that run saw this tree except for this receipt's own gate text and one reworded source comment, neither of which any suite reads; a second, fast run on the exact committed tree is what gated the commit and its marker is quoted in the commit message.",
+  "preflight_full": "not run — PREFLIGHT_FULL=1 is reserved for publication (CLAUDE.md §6); nothing here goes outward.",
+  "modalities_suite": "8049 passed, 48 skipped, 13 warnings in 408.38s — FULL, because affected_tests.py fails safe to FULL while its selector-validation hashes are stale. ZERO failures: the three that opened this cycle are gone, and none of the 33 + 12 tests in the two files touched here is red. Run explicitly because CLAUDE.md §6 makes this suite opt-in and the whole cycle is inside it; the default commit-loop tier would not have executed a single one of them.",
+  "regenerations_verified": [
+   "emc_cohort_search.py --check → OK, artifact is current (no rewrite needed)",
+   "emc_expression_panels.py --check → REPRODUCES, before the edit AND after the regeneration",
+   "atr_hrd_sarcoma_series.py --check → OK, re-derives byte-identically from the committed cache",
+   "aso_archive_manifest.py --check-archive → exit 0 after regeneration"
+  ]
+ },
+ "trunk_verified": "Read directly, not assumed. The run on head 1fd33bb was CANCELLED — by CYC-0017's own handoff push arriving a minute later, established by fetching origin/main again rather than guessed. The last DECIDED run was 33040381857 on e3e6abb: jobs `pytest` (3 failed, 9716 passed) and `gates` (2 O4 errors on unclassified PUB-ATR seat files). The gates half had already been fixed by 1745c33. The pytest half had not, and reproducing it locally is what started this cycle.",
+ "escalated": null,
+ "escalation_note": "Nothing in research-loop §5 fired. No journal submission is recommended, no spend crossed expensive, no §5.3 goal-changing fact, and no health condition is red past its deadline. The trunk red was inside the cycle's own authority to fix (§1), so it is reported here rather than escalated.",
+ "route_advanced": "none",
+ "route_advanced_note": "⭐ WRITTEN HONESTLY BECAUSE THE INSTRUMENT ONLY WORKS THAT WAY. This cycle repaired a guard and closed the mechanism that broke it; it moved no route forward. The temptation to claim RT-FUSION-OUTPUT is real — the guard is what keeps that paper's three-cohort claim honest, and it was restored — but restoring a thing to where it already was is not advancing it. Two more `none` in a row and health.py should escalate, and it should."
+}

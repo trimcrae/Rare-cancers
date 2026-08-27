@@ -182,3 +182,35 @@ def test_identity_check_reports_cannot_determine_when_nothing_read():
     q = {"per_sample": {"GSM2": {"status": "FAILED after 3 tries: HTTP 500"}}}
     r = M.derive_quant(q, art)
     assert r["verdict"].startswith("CANNOT_DETERMINE")
+
+
+def test_a_foreign_series_is_refused_rather_than_written_over_this_one(capsys, monkeypatch):
+    """One fixed output path plus a free `--series` clobbered this artifact twice, both ways.
+
+    2026-08-07 (325258cb8) `--series GSE28866` overwrote the GSE299349 record, and PUB-ATR §8 then
+    spent three weeks citing an artifact holding another series; `--check` was green throughout,
+    because it only asks whether the artifact reproduces from ITS OWN cache. 2026-08-27 (a8caba9)
+    the repair ran the other way and took with it the GSE28866 samples `emc_cohort_search` reads as
+    dedup level 3. Refusal is the only honest answer while the output path does not vary with the
+    series -- and it must come BEFORE the fetch, so it is testable with no network.
+    """
+    # ⛔ THE FETCH IS STUBBED TO EXPLODE, AND THAT IS THE POINT OF THE TEST, NOT A CONVENIENCE.
+    # The guarantee being pinned is ORDER: refuse BEFORE anything reaches the network or the
+    # writer. Stubbing makes a violation fail loudly instead of quietly, and it also keeps this
+    # test safe to MUTATE — measured 2026-08-27, when mutating the refusal away made an earlier
+    # version of this test run the real fetch half, which wrote GSE28866 over the committed
+    # GSE299349 artifact and reproduced, live, the incident the refusal exists to prevent.
+    def _must_not_run(*a, **k):
+        raise AssertionError("refused too late: a foreign series reached the fetch half")
+    monkeypatch.setattr(M, "fetch", _must_not_run)
+    before = open(M.ART, "rb").read()
+    assert M.main(["--fetch", "--series", "GSE28866"]) == 2
+    assert "REFUSED" in capsys.readouterr().err
+    assert open(M.ART, "rb").read() == before, "the artifact must be untouched by a refused run"
+
+
+def test_the_declared_series_is_the_one_the_committed_artifact_holds():
+    """The invariant the refusal protects, stated once so a silent swap cannot pass."""
+    assert M.SERIES == "GSE299349"
+    with open(M.ART) as fh:
+        assert json.load(fh)["series"] == M.SERIES

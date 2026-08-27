@@ -1202,7 +1202,7 @@ def _load_quant():
     return None
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--fetch", action="store_true",
                     help="network pass (CI only: the dev sandbox's proxy 403s NCBI)")
@@ -1210,8 +1210,33 @@ def main():
                     help="network pass over every sample's quant.sf (CI only). Needs --fetch first")
     ap.add_argument("--check", action="store_true",
                     help="offline: re-derive from the inputs cache and diff against the artifact")
-    ap.add_argument("--series", default=SERIES)
-    args = ap.parse_args()
+    ap.add_argument("--series", default=SERIES,
+                    help=f"must be {SERIES}. This module writes ONE fixed path; see the refusal "
+                         f"below for why any other value is rejected rather than honoured.")
+    args = ap.parse_args(argv)
+
+    # ⛔⛔ ONE FIXED OUTPUT PATH AND A FREE `--series` IS A CLOBBER WAITING FOR A DISPATCH, AND IT
+    # HAS ALREADY HAPPENED TWICE IN OPPOSITE DIRECTIONS. `ART` does not vary with `--series`, so a
+    # run handed a different accession overwrites the committed characterisation of THIS one and
+    # every reader downstream keeps citing the path as though nothing moved.
+    #   2026-08-07, 325258cb8: `--series GSE28866` overwrote the GSE299349 record. PUB-ATR §8's
+    #     entire evidence base then cited an artifact holding a different series. Caught three
+    #     weeks later by a blind arithmetic seat (CYC-0016), not by any instrument here — `--check`
+    #     stayed green throughout, because it only asks whether the artifact reproduces from ITS
+    #     OWN cache, never whether that cache is for the series a citing manuscript names.
+    #   2026-08-27, a8caba9: the repair re-fetched GSE299349 and removed the GSE28866 samples that
+    #     `emc_cohort_search._known_gsms()` had been reading since 2026-08-08 as dedup level 3.
+    #     The EMC re-deposit guard lost its 3SEQ arm; CI caught it, hours later (CYC-0018).
+    # Both readers were right about a filename that could only be right for one of them. Until this
+    # module writes a series-derived path, the honest behaviour is to refuse the other series
+    # rather than to serve it destructively.
+    if args.series != SERIES:
+        print(f"REFUSED: --series {args.series!r}. This module's output path "
+              f"{os.path.basename(ART)} is fixed and its content is the committed "
+              f"characterisation of {SERIES}; writing {args.series} here would overwrite it "
+              f"silently and leave every citation of that path pointing at another series. "
+              f"Give the other series its own module or its own output path.", file=sys.stderr)
+        return 2
 
     if args.fetch_quant:
         if not os.path.exists(ART):

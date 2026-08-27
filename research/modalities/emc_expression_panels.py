@@ -2497,7 +2497,10 @@ def _assemble_reads(res):
                      "✅_that_characterisation_was_run_and_here_is_what_it_measured": {
                          "run": "emc-expression-datasets.yml mode=gse-series series=GSE28866, "
                                "run 31200667719, 2026-08-07. Artifact: "
-                               "research/modalities/atr-hrd-sarcoma-series.json.",
+                               "research/modalities/geo-gse28866-brunner-series.json "
+                               "(that fetch was written to atr-hrd-sarcoma-series.json until 2026-08-27, "
+                               "when a8caba9 returned that filename to its declared series GSE299349; "
+                               "the GSE28866 blob was restored verbatim from 325258cb8 under its own name).",
                          "state": "SERIES_LEVEL_PROCESSED_SUPPLEMENT_ONLY",
                          "⭐_a_processed_matrix_exists": (
                              "The series-level supplementary listing carries "

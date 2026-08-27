@@ -292,6 +292,43 @@ def test_the_known_gsm_map_covers_all_three_cohorts_the_manuscript_reads():
     assert "GSE170983" in (k.get("GSM715466") or ""), "the 3SEQ arm must map to BOTH accessions"
 
 
+def test_the_brunner_record_is_read_from_its_own_series_named_file():
+    """The 3SEQ arm must not be read out of a filename another series can claim.
+
+    Until 2026-08-27 it was read from `atr-hrd-sarcoma-series.json`, whose producer declares
+    `SERIES = "GSE299349"`. The same workflow writes that fixed path for whatever series it is
+    handed, so on 2026-08-07 it held GSE28866 and on 2026-08-27 it held GSE299349 again -- and this
+    module, written in between, silently lost all 99 GSE28866 GSMs and labelled 68 BCOR-rearranged
+    sarcoma cell lines "the Brunner deposit".
+    """
+    assert M.BRUNNER_SERIES.endswith("geo-gse28866-brunner-series.json"), M.BRUNNER_SERIES
+    with open(M.BRUNNER_SERIES) as fh:
+        assert json.load(fh)["series"] == M.BRUNNER_ACCESSION == "GSE28866"
+
+
+def test_a_missing_brunner_record_refuses_instead_of_shrinking_the_map(tmp_path, monkeypatch):
+    """Dedup level 3 may fail loudly. It may not fail quietly, which is what it used to do."""
+    monkeypatch.setattr(M, "BRUNNER_SERIES", str(tmp_path / "not-here.json"))
+    with pytest.raises(RuntimeError, match="missing"):
+        M._known_gsms()
+
+
+def test_a_different_series_in_that_file_refuses_rather_than_being_relabelled(tmp_path, monkeypatch):
+    """The exact 2026-08-27 incident: right filename, right shape, WRONG SERIES.
+
+    The old code took the series identifier out of whatever it found and appended the Brunner
+    sentence to it, so this case produced the string
+    `GSE299349 = GSE170983, the Brunner deposit (the 3SEQ arm)` and 68 unrelated cell-line GSMs
+    entered the map as EMC tumour samples already read by the manuscript.
+    """
+    wrong = tmp_path / "geo-gse28866-brunner-series.json"
+    wrong.write_text(json.dumps({"series": "GSE299349",
+                                 "samples": [{"accession": "GSM9037835"}]}))
+    monkeypatch.setattr(M, "BRUNNER_SERIES", str(wrong))
+    with pytest.raises(RuntimeError, match="GSE299349"):
+        M._known_gsms()
+
+
 def test_every_query_is_recorded_including_the_ones_that_return_nothing():
     res = M.derive(_inp([]))
     assert res["query_summary"]["n_queries"] == len(M.GEO_QUERIES)

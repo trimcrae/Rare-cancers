@@ -9,7 +9,7 @@
     "code": 1,
     "experiment": 23,
     "fetch": 11,
-    "fix": 1,
+    "fix": 2,
     "harden": 3,
     "negative": 32,
     "process": 6,
@@ -18,9 +18,8 @@
     "write": 6
   },
   "n_by_state": {
-    "done": 3,
-    "in_progress": 1,
-    "queued": 93
+    "done": 4,
+    "queued": 94
   },
   "n_clamped": 11,
   "entries": [
@@ -3027,16 +3026,16 @@
       "what": "PROPOSAL (filed, not applied): teach systems_check.check_scan_interop the `venue` trigger_kind, then re-enable scan_enabled on the three TRG-VENUE-* triggers. Not applied by its own cycle: [X3] blocked that cycle and amendment_guard refuses a cycle that edits the check blocking it."
     },
     {
-      "id": "AUT-PROP-014",
+      "id": "AUT-PROP-015",
       "kind": "fix",
       "serves": {
-        "route": "RT-EXPRESSION-COHORTS",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
+        "route": "RT-ATR-ASSESS",
+        "publication": "PUB-ATR",
+        "strategy": "ST-DEPENDENCY"
       },
-      "state": "in_progress",
-      "owner": "CYC-0018",
-      "claimed_utc": "2026-08-27T05:10:48Z",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3045,9 +3044,33 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0018",
+      "depends_on_evidence": "research/modalities/atr_hrd_sarcoma_series.py (the refusal added by CYC-0018) and .github/workflows/emc-expression-datasets.yml mode=gse-series",
+      "what": "\u2b50 MAKE `gse-series` WRITE A PATH THAT VARIES WITH THE SERIES, THEN DELETE THE REFUSAL THAT STANDS IN FOR IT. CYC-0018 stopped the clobber by making atr_hrd_sarcoma_series.py refuse any `--series` other than its declared SERIES, which is correct and is also a CAPABILITY LOSS: the workflow advertises `gse-series` as 'characterise ONE GEO series' with a free `series` input, and that is now a lie for every accession but GSE299349. \u26d4 DO NOT SIMPLY MOVE THE EXISTING ARTIFACT \u2014 research/manuscripts/emc-systems-map.json, PUB-ATR \u00a78 and emc-expression-panels.json all name research/modalities/atr-hrd-sarcoma-series.json, and a rename that does not carry every citation with it swaps one silent wrongness for another. The shape that works: derive ART/INPUTS/QUANT_INPUTS from the series accession, keep the GSE299349 file at its current path as the one grandfathered name, and make the constant a lookup rather than a literal. \u26a0 AND THE INSTRUMENT NEEDS THE SAME WIDENING: `--check` was green through the entire three weeks PUB-ATR \u00a78 cited a foreign series, because it only asks whether the artifact reproduces from ITS OWN cache and never whether that cache is for the series anything downstream names.",
+      "_score_basis": "closes the mechanism behind a measured trunk red; the current refusal is a correct stopgap that costs a capability"
+    },
+    {
+      "id": "AUT-PROP-014",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-FUSION-OUTPUT",
+        "publication": "PUB-FUSION-OUTPUT",
+        "strategy": "ST-DISSEMINATION"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": "2026-08-27T05:10:48Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0018",
       "depends_on_evidence": "git log -- research/modalities/atr-hrd-sarcoma-series.json",
       "what": "\u26d4 TRUNK RED, AND THE RED IS THE SMALL HALF. `research/modalities/atr-hrd-sarcoma-series.json` is ONE FILENAME THAT HAS HELD TWO DIFFERENT GEO SERIES, and two modules read it as two different things. Committed history, not inference: 2026-08-05 it held GSE299349 (its producer atr_hrd_sarcoma_series.py declares SERIES = 'GSE299349'); 325258cb8 on 2026-08-07 overwrote it with GSE28866, 99 samples, via the same emc-expression-datasets.yml mode=gse-series workflow run with a different series argument; emc_cohort_search.py and its committed verdict were then written on 2026-08-08 AGAINST THAT GSE28866 CONTENT; a8caba9 on 2026-08-27 04:37 UTC re-fetched GSE299349 to repair PUB-ATR \u00a78 (CYC-0016, correctly) and thereby deleted the sample list emc_cohort_search had been relying on. \u2b50 THE DAMAGE IS NOT THE THREE RED TESTS. `_known_gsms()` guards against counting a re-deposit of a cohort the manuscript already reads as a FOURTH EMC cohort; it fell 157 \u2192 126 GSMs (58 fusion-target + 99 Brunner \u2192 58 + 68 unrelated), lost the entire 3SEQ arm, and now LABELS 68 BCOR-rearranged sarcoma cell-line samples with the string 'GSE299349 = GSE170983, the Brunner deposit (the 3SEQ arm)'. A re-deposit sharing neither accession nor PMID grades NEW_CANDIDATE. \u26d4 FIX IS NOT A RE-PIN: give the GSE28866 record its own series-named home restored verbatim from 325258cb8, point emc_cohort_search at it, and make _known_gsms() REFUSE a wrong-series or missing file instead of degrading silently \u2014 the silent degradation is why a guard vanished and only a downstream assertion noticed.",
-      "_score_basis": "trunk red on main, not by this cycle's hand \u2014 research-loop \u00a71 makes fixing it the cycle"
+      "_score_basis": "trunk red on main, not by this cycle's hand \u2014 research-loop \u00a71 made fixing it the cycle",
+      "observed": "FIXED, and the mechanism is closed rather than the symptom. (1) The GSE28866 3SEQ record was restored VERBATIM from 325258cb8 (blob 83e92a1465971a2344076be210cc07bd067a5363, fetched 2026-08-07T17:26:52Z by emc-expression-datasets.yml run 31200667719) to its own series-named path research/modalities/geo-gse28866-brunner-series.json. (2) emc_cohort_search._known_gsms() reads that path and now RAISES on a missing file or on a `series` other than GSE28866 instead of silently returning a shorter map \u2014 the old `if os.path.exists(...)` skip is what let dedup level 3 disappear without a word. n_known_gsms is back to 157 (58 fusion-target + 99 Brunner), GSM715466 maps to the Brunner deposit again, `--check` says the committed verdict is current, and the 3 red tests plus 3 new ones pass (33/33). Three single-site mutations of the new guard were all CAUGHT. (3) atr_hrd_sarcoma_series.py now REFUSES `--series` != its declared SERIES before fetching anything, because one fixed output path plus a free --series is what clobbered this artifact in BOTH directions (2026-08-07 GSE28866 over GSE299349, silently invalidating PUB-ATR \u00a78 for three weeks; 2026-08-27 the repair back the other way). Three mutations of that guard were all CAUGHT. (4) emc_expression_panels.py's provenance pointer for the GSE28866 fetch was moved to the new path and emc-expression-panels.json regenerated (one line changed). \u26a0 WHAT IS NOT FIXED AND IS FILED SEPARATELY: the output path still does not VARY with the series, so a second series characterisation needs its own module or its own path \u2014 the refusal buys correctness, not capability. See AUT-PROP-015."
     },
     {
       "serves": {
