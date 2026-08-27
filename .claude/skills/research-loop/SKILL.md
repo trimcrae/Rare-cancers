@@ -142,7 +142,7 @@ rate limit can kill while holding uncommitted work. CLAUDE.md §1 and §6.
 
 ---
 
-## 5 · Escalate exactly four things. Everything else is silent.
+## 5 · Escalate exactly five things. Everything else is silent.
 
 1. A **journal submission** is recommended — immediately, with the top three venue fits and their
    evidence (`venue_fit.py`).
@@ -150,6 +150,20 @@ rate limit can kill while holding uncommitted work. CLAUDE.md §1 and §6.
 3. A genuinely **goal-changing** fact — the north-star route closes, a capability reorders the
    portfolio.
 4. **The loop itself is unhealthy** — a health condition red past its deadline.
+5. **⛔⛔ A PAPER IS READY FOR trimcrae TO POST** — every bar clause passes and the only remaining act
+   is one that belongs to him (`ready_to_post.py --new` exits 1 and names it).
+   ⚠ *Added 2026-08-27, because the rule that should have covered it lived only in an agent's memory.
+   trimcrae: "If you have a paper ready for me to post, you need a better way of contacting me with it
+   than putting it in a thread of an unmonitored session." The ASO v2 was finished, gated and postable
+   and the only notice of it was prose in a session he was not reading. CLAUDE.md §3 ALREADY required a
+   PushNotification in the same turn — so this was not a missing rule, it was a rule nothing measured.*
+   ★ **THE NOTIFICATION IS THE DELIVERABLE, NOT THE QUEUE FILE.** `research/autonomy/ready-to-post.json`
+   exists so a cycle can DETECT the condition; a file nobody opens is the same failure one layer down.
+   Send the `PushNotification` in the same turn, then `ready_to_post.py --mark-notified <PUB>` so the
+   next cycle does not push again for the same commit — and DOES push again if the paper is revised.
+   ⛔ **"Ready" means every clause passed.** A paper with one clause open is IN PROGRESS and must not be
+   announced as ready; doing that once teaches him to ignore the channel, which costs more than the
+   silence would have.
 
 ⛔ **Nothing else.** Not a finished cycle, not a green gate, not a clean commit, not "which should I
 do first" when all of them are self-doable. CLAUDE.md §2's phrasing test applies inside a cycle

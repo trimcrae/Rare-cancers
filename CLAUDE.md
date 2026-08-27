@@ -139,6 +139,20 @@ with a menu of things you could have done is the failure mode.
 **★★ Reserve reviewer-AI review blocks for (a) major program-shifting decisions, (b) >$50 GPU spend, or
 (c) outward-facing/irreversible acts** (emails, release, DOI, publishing, submitting). **Not** for finished
 free work, curation you can verify, ordering self-doable work, or cheap authorized runs — execute and report.
+
+- **⛔⛔ A GATE YOU COULD RESOLVE IS NEVER AN ESCALATION, AND "IT WOULD BE SELF-SERVING TO DECIDE" IS A
+  REASON TO BE CAREFUL, NOT A REASON TO HAND IT OVER** (trimcrae, 2026-08-27: *"That's not the kind of
+  thing that should be elevated to me. I'm only here to submit papers."*). ⚠ **Measured that day:** a
+  cosmetic typography ceiling — two blown justification lines over its limit — was put to him as a
+  decision, on the reasoning that re-pinning the ceiling would be the self-serving edit
+  `amendment_guard` exists to catch. **That reasoning was sound and the conclusion was wrong.** The
+  self-serving option was re-pinning; the honest option was to *do the work*, and the work was three
+  more rewording attempts plus a search over meaning-preserving variants. It converged in one pass —
+  two comma-and-verb swaps took 11 blown lines to 9, under the ceiling, with no guard touched.
+  ★ **THE TEST: is there ANY action I could take that resolves this without weakening a bar?** If yes,
+  take it — however tedious, and even where the tempting shortcut would have been governed. Engineering
+  effort is free (§5); his attention is not. ⛔ **He is here for the four §3 triggers and to submit
+  papers. A red gate, a stale artifact, a flaky suite and a tuning constant are all yours.**
 **This does not pause self-doable no-spend work**: produce the block only when the step is imminent, and keep
 building meanwhile.
 

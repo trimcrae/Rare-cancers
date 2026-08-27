@@ -75,7 +75,7 @@ report.<sup>5</sup><!--PMID:31331701-->
 The fusion junction is the one feature of an EMC tumour that exists at the RNA level and in no
 normal cell. An antisense gapmer tiled across it recruits RNase-H1 to cleave the transcript it
 pairs, at the six-nucleotide DNA gap at the centre of a 5-6-5 architecture.
-Junction-directed nucleic-acid agents are a thirty-five-year lineage, reported against at least six
+Junction-directed nucleic-acid agents have a thirty-five-year lineage, reported against at least six
 fusion oncogenes: two as antisense oligonucleotides, the rest as RNA-interference agents, one of those from
 a lentiviral vector rather than an administered oligonucleotide.<sup>6,7,8,9,10,11</sup><!--PMID:1794439,9049825,33241214,21846246,23052253,37980543--> No
 such design is reported for any *NR4A3* fusion in the literature retrieved here.
@@ -105,7 +105,7 @@ All analyses are computational and use public data; no laboratory work was perfo
 parameters, the complete bounds on each claim and the per-design tables are in the archived
 deposit named under Data availability.
 
-Canonical transcripts for the five partner genes and for *NR4A3* were obtained from
+Canonical transcripts for the five partner genes, and for *NR4A3*, were obtained from
 Ensembl.<sup>19</sup><!--PMID:39656687--> Junction-spanning 16-mer gapmers were tiled in a 5-6-5
 β-D-oxy-locked-nucleic-acid/DNA/β-D-oxy-locked-nucleic-acid
 geometry,<sup>20</sup><!--PMID:24981949--> one design per register at which the breakpoint falls
