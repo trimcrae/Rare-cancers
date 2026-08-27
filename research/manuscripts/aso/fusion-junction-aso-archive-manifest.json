@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "2ae55905a0551423d083795966ca1dd8dcd5ea07",
-  "git_tree_is_clean_apart_from_this_manifest": false,
+  "git_revision": "6c5e8e4c9008a007d4c7083327065da2dafa47ff",
+  "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "1ae97f4db058bfad90f0ccbe35b1cbd904bae214be3ea3e9e1f3d82eeb9f214b",
+  "archive_content_digest": "a3505834d1cf2e4115d0d68423e645d2e82f6e4f609ff5c65300ee42318e733f",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,8 +24,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 43225254,
-  "total_mib": 41.223,
+  "total_bytes": 43231486,
+  "total_mib": 41.229,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -35,7 +35,7 @@
       },
       ".py": {
         "n_files": 68,
-        "bytes": 3092128
+        "bytes": 3098360
       },
       ".md": {
         "n_files": 13,
@@ -1367,8 +1367,8 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 102278,
-      "sha256": "57673d12c33e1c7c9fcaa7aff9d07593af03a6dc57e31639b557a57a0911606e",
+      "bytes": 108510,
+      "sha256": "162f4ca1a1167e76930c1df18d49d986cf68930243e80b5509fc1a98c8594cd8",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
