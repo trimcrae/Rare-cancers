@@ -7,6 +7,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/ready-work-at-turn-end.sh\"",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "printf '%s' '{\"systemMessage\":\"🔔 Claude finished its turn — over to you.\"}'"
           }
         ]

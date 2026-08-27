@@ -3606,9 +3606,9 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "round-10-guard-agent",
+      "claimed_utc": "2026-08-27",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3636,8 +3636,10 @@
       "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
+      "blocked_by": [
+        "AUT-PROP-023"
+      ],
+      "blocked_evidence": "AUT-PROP-023 is IN FLIGHT as a subagent and edits research/manuscripts/tests/ — the same directory 024 must edit. Two agents mutating one tree is the class that put 13 inverted claims on origin/main on 2026-08-27 (CLAUDE.md §6). Unblocks the moment 023's commit lands.",
       "retry_budget": 3,
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
