@@ -31,5 +31,13 @@
     "AUT-PROP-002 remains open on its coverage half: of the 148 uncovered sentences stating a number, 52 spell a count as a WORD, 46 carry a bare YEAR, 46 a section cross-reference, 33 an ORDINAL or superlative. ⛔ RE-DERIVE that set with claim_coverage.py rather than trusting this sentence.",
     "⚠ AN INSTRUMENT DEFECT FOUND AND NOT FIXED, RECORDED SO IT IS NOT RE-DISCOVERED: priority.py hardcodes score_inputs['fruitless_attempts'] = 0 and computes it from nothing. `attempts` is incremented ONLY by release_stale_claims (an expired lease), nothing anywhere decrements `retry_budget`, and health.py's takeability filter reads `retry_budget > 0` — so its `retry_budget_spent` list is always empty and the budget governs nothing. priority.py's own comment at line 307 says this is the failure it was meant to prevent. NOTE THE HONEST READING: a progress-aware counter modelled on research/modalities/work_ledger.py (where it IS implemented and tested) would NOT have penalised AUT-PROP-002, which made progress every cycle — so fixing this would not have changed what this cycle took."
   ],
-  "handoff": {}
+  "handoff": {
+    "child_session_id": "session_0171JA5QgECBeiW1L4vv53G6",
+    "child_title": "EMC research loop — cycle (post-CYC-0015)",
+    "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+    "source": "https://github.com/trimcrae/Rare-cancers @ main",
+    "prompt_built_by": "python3 research/autonomy/handoff.py --json, from committed state — never from this session's context, which is the thing being discarded",
+    "why": "This session ran ONE cycle of its two-cycle cap and handed off anyway. §3 calls 2 a CAP and one the intended shape, with the second reserved for a SMALL follow-on. The top remaining item is AUT-PROP-008, a BLIND SEAT — and this session is disqualified from it by construction: it authored the clause changes and read the bar's context, so a seat it ran would not be independent. That is not a scheduling preference, it is clause 6's own requirement.",
+    "⛔_deliberately_not_carried": "No findings and no conclusions. CYC-0011 measured what inheriting a summary costs: of 16 P1s it inherited, four were already fixed and ten carried a factual error of their own. The successor is told where to look, never what it will find."
+  }
 }
