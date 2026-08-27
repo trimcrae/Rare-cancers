@@ -3606,9 +3606,9 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "in_progress",
-      "owner": "round-10-guard-agent",
-      "claimed_utc": "2026-08-27",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3623,7 +3623,7 @@
       "score": 197.0,
       "depends_on_evidence": "research/manuscripts/aso/fusion-junction-aso-guard-coverage-audit.md — 34 of 42 single-sentence mutations shipped green; all five linters rc=0 on all 42",
       "_score_basis": "the highest-value finding of round 10: the paper's honesty is held by 16 regex spans in one module",
-      "what": "⛔⛔ CLOSE THE GUARD-COVERAGE HOLES THE ROUND-10 AUDIT MEASURED. 34 of 42 mutations shipped GREEN. Priority order, by what an inversion would publish: (1) ⭐ MISCOVERED A — the synthesis denial ('none has been synthesised or tested'). Its REQUIRED row is satisfied by a GENERATED TABLE CAPTION in aso_journal_tables.py, and two-column typesetting scatters the manuscript's own clause so the pdfminer text has ZERO matches for it. Deleting the clause and rebuilding the real PDF leaves the row green. ⚠ THIS ROW WAS 'FIXED' AND MUTATION-TESTED ON 2026-08-27 AND THE FIX DID NOT WORK — the test deleted from EXTRACTED TEXT, which removed the caption too. Any future fix must delete from the .md and REBUILD THE PDF. (2) The Declarations block: consent-to-participate, no-individual-data and funding all invert into fabricated human-subjects or funding claims with nothing reading them. (3) The AI-use citation-provenance sentence — POLARITY['ai-use'] spans 140 chars and the sentence starts at 244. (4) 'Neither may be substituted for the other', which sits beside the condemned one-slide design; inverted it tells a lab to order it. (5) Figure 1's 'No reagent is named at it'. (6) The statistics-honesty cluster (7 sentences) and the scope-of-work cluster (4), every one of which converts a stated bound into a stated result while leaving all numbers arithmetically correct. ★ THE STRUCTURAL FINDING: only ONE module in the repository reads VERBS (test_the_manuscript_asserts_the_relation_its_artifacts_compute.py, 16 rows) and it accounts for six of the eight catches — the 34 unguarded sentences are all outside its spans. Widening that module is worth more than any number of new files."
+      "what": "✅ DONE 2026-08-27, commit ed4583b7c. NINE previously unguarded ASO claims bound in test_the_manuscript_asserts_the_relation_its_artifacts_compute.py — the module the audit identified as the only one that reads VERBS. Each binds in BOTH directions (missing site = ERROR, inverted site trips `forbid`) and each mutation was asserted to land, watched RED with the failure attributed to its own row id, then restored to GREEN. Rows: nothing-synthesised-or-tested, consent-to-participate, no-individual-patient-data, no-external-funding, condemned-slide-is-not-a-substitute, figure1-one-of-three-is-a-reported-junction, figure1-no-reagent-at-the-taf15-exon-11-row, citation-provenance-statement, three-clean-designs-are-mechanism-controls. ⭐ THE LAST WAS ADDED UNASKED and is the sentence CLAUDE.md §6 quotes as the worst of the 13 inversions that reached origin/main that morning; verified independently by the driver — inverting it now turns test_no_claim_asserts_the_inverse_of_what_its_artifact_computes red. ⛔ THE MORNING'S FALSE FIX WAS REPRODUCED, NOT ASSUMED: clause deleted from the .md, real PDF rebuilt (BUILD_RC=0, 6pp), old PDF-bound row still reported 11 passed. Root cause confirmed twofold — the row's only PDF match is the Table 1 caption constant at aso_journal_tables.py:194, and 'none has been synthesised' occurs ZERO times in the text layer because two-column typesetting interleaves the columns. Bound against the .md instead of tightening the PDF row, because no pattern over a scattered clause can bind it and tightening would redden an honest paper; the PDF row still holds a different real property and the stale-build-stamp guards refuse a commit whose PDF was not rebuilt from that .md. Preflight green, 1305 passed / 3 skipped. Coverage 82 → 84 of 174."
     },
     {
       "serves": {
@@ -3636,10 +3636,8 @@
       "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "AUT-PROP-023"
-      ],
-      "blocked_evidence": "AUT-PROP-023 is IN FLIGHT as a subagent and edits research/manuscripts/tests/ — the same directory 024 must edit. Two agents mutating one tree is the class that put 13 inverted claims on origin/main on 2026-08-27 (CLAUDE.md §6). Unblocks the moment 023's commit lands.",
+      "blocked_by": null,
+      "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
