@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "9533b70336b9f942fa79f75d12d4b197b9b59210",
+  "git_revision": "00d13b1cab79b0e6a3167e4dcb487c037bd4af8e",
   "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "44121508a0fe363530c6c88fc455d88e969f655b4ba91dfc4c83260bff95b357",
+  "archive_content_digest": "b671aac6a543099e081a69a1c9632be7afbcb723339d8cb7310cf6635ef139ea",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,7 +24,7 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 43231861,
+  "total_bytes": 43231918,
   "total_mib": 41.229,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
@@ -35,7 +35,7 @@
       },
       ".py": {
         "n_files": 68,
-        "bytes": 3101198
+        "bytes": 3101255
       },
       ".md": {
         "n_files": 13,
@@ -2763,8 +2763,8 @@
     },
     {
       "path": "research/modalities/depmap_sarcoma_dependency.py",
-      "bytes": 22928,
-      "sha256": "98f52b1330af55852a65a8894b096521ca0f6bf9626f6ca01387706e0fc96e33",
+      "bytes": 22985,
+      "sha256": "f34707fb39d98971ecc168ac58517f69446ee445cd434d0b6f0077b89530f43f",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
