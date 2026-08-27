@@ -8,18 +8,18 @@
     "analysis": 1,
     "code": 1,
     "experiment": 23,
-    "fetch": 12,
+    "fetch": 13,
     "fix": 5,
     "harden": 6,
     "negative": 32,
-    "process": 6,
-    "process_defect": 10,
+    "process": 7,
+    "process_defect": 11,
     "regrade": 7,
     "write": 6
   },
   "n_by_state": {
     "done": 8,
-    "queued": 100,
+    "queued": 103,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -3203,6 +3203,52 @@
       "_score_basis": "closes the mechanism behind a measured trunk red; the current refusal is a correct stopgap that costs a capability"
     },
     {
+      "id": "AUT-BIX-001",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "preprint-review-2026-08-27",
+      "depends_on_evidence": "BixBench3 arXiv:2608.25286v1 Appendix A.2, read in full 2026-08-27; graded in research/method-watch-bixbench3-calibration.md",
+      "what": "\u2b50 ENUMERATE EVERY AGENT-WRITTEN ARTIFACT THAT HAS NO MACHINE-CHECKED OUTPUT CONTRACT \u2014 this is the axis on which the model this repository RUNS is externally measured to be weakest. BixBench3 (arXiv:2608.25286v1) graded 13 frontier models on 20 research-study-scale computational-biology tasks. Claude Opus 5 scored 0.406 (7th of 13) and its authors attribute the deficit to violating the artifact OUTPUT-FORMAT contract on 3 of 20 tasks \u2014 on task 5 it substituted its own column labels for the ones the contract named, so the grader read those columns as missing. Excluding those three tasks from EVERY model's average puts Opus 5 second at 0.455, behind 0.458. The failure was instruction-following on a schema, not science.\nWHAT TO DO: (1) list every artifact an agent writes in this repository \u2014 cycle receipts, review-seat records, health.json, handoff files, generated views, regenerated data artifacts, preflight receipts; (2) for each, say whether a gate would FAIL if the file were emitted with a renamed key, a missing required field, or the right values under the wrong schema; (3) file the unguarded ones. \u26d4 DO NOT WRITE GUARDS IN THIS ITEM \u2014 the enumeration is the deliverable, because guessing which files matter is how a guard lands on the ones that were already covered. \u26a0 MUTATION-TEST anything that follows (paper-hardening: a guard that cannot be made to go red is not a guard). Reading: research/method-watch-bixbench3-calibration.md \u00a75.1",
+      "_score_basis": "free, and it targets the one weakness in this program's own model that an external benchmark has actually measured rather than one we inferred"
+    },
+    {
+      "id": "AUT-BIX-002",
+      "kind": "process",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "preprint-review-2026-08-27",
+      "depends_on_evidence": "BixBench3 arXiv:2608.25286v1 Table 3 and Figure 5, read in full 2026-08-27; incident mapping in research/method-watch-bixbench3-calibration.md \u00a74",
+      "what": "\u2b50 GIVE THE LOOP AN EXTERNALLY-ANCHORED FAILURE VOCABULARY \u2014 adopt BixBench3's closed ten-tag failure-mode set as an optional `failure_modes` block on the cycle receipt, and measure it in health.py.\nWHY IT IS NOT BUSYWORK: method-watch-autonomy-prior-art.md \u00a72 item 3 states the gap plainly \u2014 'this loop has no external calibration of any kind: health.py grades the loop against rules we wrote.' BixBench3 measured that a run's total failure-tag count predicts its score at Spearman rho = -0.92 (p = 9.9e-6), with premature termination (~2.0x) and repetitive retry loop (~2.2x) the most enriched in the worst quantile. Mapping that vocabulary onto CLAUDE.md's own dated incidents lands SEVEN of the ten (repetitive retry loop = the pgrep self-match loops, 2026-08-26; premature termination = the bare `&` orphaned jobs, 2026-08-27; synthetic/placeholder output = the env-echoed fabricated verdict; output format violation = the generated-artifact regime; environment setup failure = the fresh-sandbox import reds, 2026-08-23; incomplete data = 'an absent reading is not a reading of absence'; inefficient analysis = the serialized-preflight complaint, 2026-08-25).\n\u26d4 THE THREE MISSES ARE THE POINT, AND THE ITEM IS NOT DONE WITHOUT THEM: input misinterpretation, wrong method substitution and method misconfiguration have NO dated incident here. They are the SCIENTIFIC execution errors, and the benign reading (we do not make them) is not the only one \u2014 an operational failure is loud and a misconfigured method is silent, and nothing in this loop is instrumented to catch the second. State which of the three this loop could actually detect, and say UNMEASURED for the rest rather than shipping a green row. \u26a0 A receipt that records no `failure_modes` block must leave the health row UNMEASURED, never green \u2014 the exact defect AUT-PD-013 records for `fanout_is_governed`. Reading: research/method-watch-bixbench3-calibration.md \u00a74",
+      "_score_basis": "free; it is the first available answer to a gap this repository's own prior-art scan named, and it reuses an external vocabulary instead of minting another one we wrote ourselves"
+    },
+    {
       "id": "AUT-PD-005",
       "kind": "fix",
       "serves": {
@@ -3248,6 +3294,29 @@
       "what": "\u26d4 TRUNK RED, AND THE RED IS THE SMALL HALF. `research/modalities/atr-hrd-sarcoma-series.json` is ONE FILENAME THAT HAS HELD TWO DIFFERENT GEO SERIES, and two modules read it as two different things. Committed history, not inference: 2026-08-05 it held GSE299349 (its producer atr_hrd_sarcoma_series.py declares SERIES = 'GSE299349'); 325258cb8 on 2026-08-07 overwrote it with GSE28866, 99 samples, via the same emc-expression-datasets.yml mode=gse-series workflow run with a different series argument; emc_cohort_search.py and its committed verdict were then written on 2026-08-08 AGAINST THAT GSE28866 CONTENT; a8caba9 on 2026-08-27 04:37 UTC re-fetched GSE299349 to repair PUB-ATR \u00a78 (CYC-0016, correctly) and thereby deleted the sample list emc_cohort_search had been relying on. \u2b50 THE DAMAGE IS NOT THE THREE RED TESTS. `_known_gsms()` guards against counting a re-deposit of a cohort the manuscript already reads as a FOURTH EMC cohort; it fell 157 \u2192 126 GSMs (58 fusion-target + 99 Brunner \u2192 58 + 68 unrelated), lost the entire 3SEQ arm, and now LABELS 68 BCOR-rearranged sarcoma cell-line samples with the string 'GSE299349 = GSE170983, the Brunner deposit (the 3SEQ arm)'. A re-deposit sharing neither accession nor PMID grades NEW_CANDIDATE. \u26d4 FIX IS NOT A RE-PIN: give the GSE28866 record its own series-named home restored verbatim from 325258cb8, point emc_cohort_search at it, and make _known_gsms() REFUSE a wrong-series or missing file instead of degrading silently \u2014 the silent degradation is why a guard vanished and only a downstream assertion noticed.",
       "_score_basis": "trunk red on main, not by this cycle's hand \u2014 research-loop \u00a71 made fixing it the cycle",
       "observed": "FIXED, and the mechanism is closed rather than the symptom. (1) The GSE28866 3SEQ record was restored VERBATIM from 325258cb8 (blob 83e92a1465971a2344076be210cc07bd067a5363, fetched 2026-08-07T17:26:52Z by emc-expression-datasets.yml run 31200667719) to its own series-named path research/modalities/geo-gse28866-brunner-series.json. (2) emc_cohort_search._known_gsms() reads that path and now RAISES on a missing file or on a `series` other than GSE28866 instead of silently returning a shorter map \u2014 the old `if os.path.exists(...)` skip is what let dedup level 3 disappear without a word. n_known_gsms is back to 157 (58 fusion-target + 99 Brunner), GSM715466 maps to the Brunner deposit again, `--check` says the committed verdict is current, and the 3 red tests plus 3 new ones pass (33/33). Three single-site mutations of the new guard were all CAUGHT. (3) atr_hrd_sarcoma_series.py now REFUSES `--series` != its declared SERIES before fetching anything, because one fixed output path plus a free --series is what clobbered this artifact in BOTH directions (2026-08-07 GSE28866 over GSE299349, silently invalidating PUB-ATR \u00a78 for three weeks; 2026-08-27 the repair back the other way). Three mutations of that guard were all CAUGHT. (4) emc_expression_panels.py's provenance pointer for the GSE28866 fetch was moved to the new path and emc-expression-panels.json regenerated (one line changed). \u26a0 WHAT IS NOT FIXED AND IS FILED SEPARATELY: the output path still does not VARY with the series, so a second series characterisation needs its own module or its own path \u2014 the refusal buys correctness, not capability. See AUT-PROP-015."
+    },
+    {
+      "id": "AUT-BIX-003",
+      "kind": "fetch",
+      "serves": {
+        "route": "RT-FUSION-OUTPUT",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "preprint-review-2026-08-27",
+      "depends_on_evidence": "BixBench3 (arXiv:2608.25286v1) Appendix Table 1, task 14 \u2014 TITLE ONLY, read 2026-08-27. Portfolio gap confirmed by $0 grep the same day: zero hits for 'feed-forward' or 'cofactor loop' in any markdown under research/ or systems/; RUNX2 appears only in accession-symbol-cache.json and a scraped journal index, never as a target.",
+      "what": "READ ONE PAPER AND ASK ONE QUESTION. BixBench3's task 14 is built on 'RUNX2 inhibition disrupts a PAX3::FOXO1-RUNX2 feed-forward loop and dismantles oncogenic gene programs in fusion-positive rhabdomyosarcoma' \u2014 a transcription-factor-fusion sarcoma whose oncogenic program is dismantled by hitting a COFACTOR rather than the undruggable fusion. That is EMC's problem shape, and this repository has no vocabulary for it.\nWHAT TO DO, all $0: (1) resolve and read the source paper (its raw data are public \u2014 a BixBench3 inclusion criterion \u2014 and it published >=4 ground-truth derived artifacts, also a criterion); (2) ask whether any EWSR1::NR4A3 cofactor forms an analogous feed-forward loop, and whether that is answerable from the EMC expression data ALREADY on disk rather than needing new data; (3) grade it against RT-FUSION-OUTPUT, RT-TXN-CDK and RT-PARTNER-STRAT \u2014 is it a variant of one of those, or a route they do not cover?\n\u26d4 WEIGHT IT HONESTLY AND EXPECT A NULL. This is a paper TITLE in the appendix of an unrelated AI benchmark; nothing else has been read, PAX3::FOXO1 is not a FET fusion, and cross-fusion transfer is exactly the kind of analogy that reads as insight and dies on contact with the biology. The deliverable is a graded verdict either way \u2014 a clean 'no analogous loop is reported, and here is what would have shown one' is a full result under CLAUDE.md \u00a70, not a failure. \u26d4 DO NOT open a route on the title alone. Reading: research/method-watch-bixbench3-calibration.md \u00a76",
+      "_score_basis": "free, and it is the only thing in this preprint that touches the science portfolio rather than the operating loop \u2014 CLAUDE.md \u00a70 puts a live lead ahead of the three process items filed alongside it"
     },
     {
       "serves": {

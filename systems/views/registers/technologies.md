@@ -781,7 +781,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 
 **Autonomous research agents able to carry a multi-month scientific thread — planning, running, checking and revising — with provenance a reviewer would accept**
 
-*Category:* `autonomous_research_agent` · *state:* `partially_landed` · *confidence in that state:* `moderate`
+*Category:* `autonomous_research_agent` · *state:* `partially_landed` · *confidence in that state:* `high`
 
 **Why it matters.** This program is one person with no bench, and its binding constraint after money is attention. An agent that can hold a long thread would change what a solo program can attempt rather than merely how fast it goes. It is also the dependency this repository is best placed to notice arriving, because it is already operated this way.
 
@@ -800,6 +800,7 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 **What the state assessment rests on:**
 - Agents already execute this repository's compute lanes, monitoring and document generation.
 - The arm that has NOT landed is unsupervised multi-month scientific judgement: the repository's own automation record shows a scheduled agent task credited in two documents that has never produced an entry.
+- ⭐ EXTERNALLY CALIBRATED 2026-08-27, and it dates the LANDED half precisely. BixBench3 (arXiv:2608.25286v1, 26 Aug 2026, Edison Scientific) graded 13 frontier models on 20 research-study-scale computational-biology tasks, 138 artifacts, 1,794 artifact evaluations: top score 0.48 (GPT 5.6 Sol), Claude Opus 5 — the model this repository runs — 0.406, rising to 0.455 when the three tasks it lost on OUTPUT-FORMAT contract violations are excluded from every model. Its authors state the split this row records: agents 'can begin to execute a specified analysis pipeline – not that they can decide which questions or analyses are worth pursuing.' Reading: research/method-watch-bixbench3-calibration.md
 
 **Unblocks.** routes: RT-METHODS-PAPER, RT-DEGRADER, RT-ASO
 
@@ -808,10 +809,10 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 | scenario | band | confidence | rationale |
 |---|---|---|---|
 | conservative | `2029` | moderate | Reliability over months, not hours, is the gap. This repository's own record shows a scheduled agent task credited in two documents that has never produced an entry — long-horizon reliability is genuinely not solved. |
-| expected | `2027` | moderate | Agent capability on multi-step technical work has improved rapidly and continuously. The remaining gap is durability and provenance rather than raw capability, and both are being worked on directly. |
-| optimistic | `2026H2` | moderate | Much of this has already landed here: agents run the compute lanes, the monitoring and the document generation. The missing piece is unsupervised scientific judgement over long horizons. |
+| expected | `2027` | moderate | Agent capability on multi-step technical work has improved rapidly and continuously. The remaining gap is durability and provenance rather than raw capability, and both are being worked on directly. ⚠ SHARPENED 2026-08-27 against BixBench3 (arXiv:2608.25286v1): the gap is NOT only durability and provenance. Artifact pass rate falls to 0.24 at dependency depth 3+ (against 0.44 at depth 2) and to 0.10 on tasks with >100 GB of raw input, so multi-step reliability is a measured raw-capability gap too. The band is unchanged because the paper also shows the top models chaining analyses that defeated the previous generation one year earlier. |
+| optimistic | `2026H2` | moderate | Much of this has already landed here: agents run the compute lanes, the monitoring and the document generation. The missing piece is unsupervised scientific judgement over long horizons. ⚠ 2026-08-27: BixBench3's authors draw exactly this line — success on a task carrying an explicit methodological plan means an agent 'can begin to execute a specified analysis pipeline – not that they can decide which questions or analyses are worth pursuing.' |
 
-*Basis:* `evidence_based` · *impact here:* `large` · *last reviewed:* 2026-08-05
+*Basis:* `evidence_based` · *impact here:* `large` · *last reviewed:* 2026-08-27
 
 **What would move this.** Demonstrated multi-month autonomous research threads with provenance a reviewer would accept. ⭐ This repository is unusually well placed to observe this directly, because it is already operated this way and its failures are recorded.
 

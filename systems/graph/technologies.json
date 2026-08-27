@@ -1655,9 +1655,10 @@
     "current_state": "partially_landed",
     "evidence": [
       "Agents already execute this repository's compute lanes, monitoring and document generation.",
-      "The arm that has NOT landed is unsupervised multi-month scientific judgement: the repository's own automation record shows a scheduled agent task credited in two documents that has never produced an entry."
+      "The arm that has NOT landed is unsupervised multi-month scientific judgement: the repository's own automation record shows a scheduled agent task credited in two documents that has never produced an entry.",
+      "⭐ EXTERNALLY CALIBRATED 2026-08-27, and it dates the LANDED half precisely. BixBench3 (arXiv:2608.25286v1, 26 Aug 2026, Edison Scientific) graded 13 frontier models on 20 research-study-scale computational-biology tasks, 138 artifacts, 1,794 artifact evaluations: top score 0.48 (GPT 5.6 Sol), Claude Opus 5 — the model this repository runs — 0.406, rising to 0.455 when the three tasks it lost on OUTPUT-FORMAT contract violations are excluded from every model. Its authors state the split this row records: agents 'can begin to execute a specified analysis pipeline – not that they can decide which questions or analyses are worth pursuing.' Reading: research/method-watch-bixbench3-calibration.md"
     ],
-    "confidence": "moderate",
+    "confidence": "high",
     "forecast": "FC-AUTONOMOUS-AGENT",
     "scan_trigger": [
       "TRG-AUTONOMOUS-RESEARCH-AGENT"
@@ -2122,6 +2123,18 @@
         "url": "http://arxiv.org/abs/2608.14407v1",
         "seen_on": "2026-08-21",
         "graded": false
+      },
+      {
+        "trg": "TRG-AUTONOMOUS-RESEARCH-AGENT",
+        "paper_id": "arXiv/2608.25286v1",
+        "title": "BixBench3: Benchmarking AI agents on research-study-scale computational biology tasks",
+        "date": "2026-08-26",
+        "venue": "arXiv",
+        "url": "http://arxiv.org/abs/2608.25286v1",
+        "seen_on": "2026-08-27",
+        "graded": true,
+        "abstract_verdict": "does_not_meet_criterion",
+        "abstract_note": "FULL PAPER READ, not just the abstract. Graded a NON-FIRE by this trigger's own exclusion: \"not a single-task benchmark score ... only [a thread actually carried and reviewed] is evidence here.\" It is a benchmark. It was promoted into evidence[] anyway because it dates which half of partially_landed has landed. research/method-watch-bixbench3-calibration.md"
       }
     ]
   },
