@@ -45,29 +45,45 @@ jobs:
         run: ./scripts/dev-setup.sh --if-needed || pip install -q pypdf pdfminer.six jsonschema pytest
 
       - name: Run PREFLIGHT_FULL=1 against the pinned commit
+        # ⛔⛔ GitHub Actions runs every `run:` step under `bash -e` BY DEFAULT, and `set -uo pipefail`
+        # below only ADDS flags -- it does not clear the pre-existing `-e`. A first version of this
+        # step let that abort the script the instant preflight.sh returned nonzero, discarding the
+        # EXIT= marker, the log tail AND the real diagnostic (measured 2026-08-27, run 33101598851:
+        # the step failed but "Record the evidence" showed `skipped`, so nothing about WHY survived).
+        # `set +e` / `set -e` around the one command that is allowed to fail is what fixes it.
         env:
           SHA: ${{ github.event.inputs.sha }}
         run: |
           set -uo pipefail
           echo "PINNED_SHA=$SHA" > /tmp/preflight-full.log
+          set +e
           PREFLIGHT_FULL=1 ./scripts/preflight.sh >> /tmp/preflight-full.log 2>&1
-          echo "EXIT=$?" >> /tmp/preflight-full.log
-          echo "::group::preflight-full.log (tail)"
-          tail -80 /tmp/preflight-full.log
+          rc=$?
+          set -e
+          echo "EXIT=$rc" >> /tmp/preflight-full.log
+          echo "::group::preflight-full.log (full)"
+          cat /tmp/preflight-full.log
           echo "::endgroup::"
+          echo "PREFLIGHT_RC=$rc" >> "$GITHUB_ENV"
 
       - name: Record the evidence
+        # ⚠ ALWAYS RUNS, pass or fail: a red run's log is diagnostic evidence, not something to lose
+        # by letting the job stop here. record_bar_evidence.py itself refuses to write a passing
+        # receipt when the log's EXIT= marker is not 0 -- that refusal is correct and expected on a
+        # red run; this step's own exit code is intentionally not checked (`|| true`) so the publish
+        # step below still runs and the log itself still lands on main either way.
+        if: always()
         env:
           SHA: ${{ github.event.inputs.sha }}
-        # ⚠ Runs whatever the tree at $SHA happens to check out for record_bar_evidence.py's own
-        # code, which is fine: the script only reads the log and writes JSON, and does not read git
-        # state itself. The publish step below is what puts the result on `main`.
-        run: python3 research/autonomy/record_bar_evidence.py preflight --sha "$SHA" --log /tmp/preflight-full.log
+        run: python3 research/autonomy/record_bar_evidence.py preflight --sha "$SHA" --log /tmp/preflight-full.log || true
 
-      - name: Publish the receipt and log to main
+      - name: Publish the log (and the receipt, if the run was green) to main
         # ⛔ GOES THROUGH THE ONE PRIMITIVE, never a hand-rolled git commit+push -- see
         # research/modalities/tests/test_no_hand_rolled_publish.py. This is an EVENT publish (one
-        # receipt for one sha), not a heartbeat, hence PUBLISH_IF_CHANGED=1.
+        # receipt/log for one sha), not a heartbeat, hence PUBLISH_IF_CHANGED=1. `publish_artifacts.sh`
+        # already skips a path that does not exist (e.g. the receipt, absent on a red run), so listing
+        # both paths unconditionally is safe on either outcome.
+        if: always()
         env:
           SHA: ${{ github.event.inputs.sha }}
           PUBLISH_IF_CHANGED: "1"
@@ -75,6 +91,16 @@ jobs:
         run: |
           set -euo pipefail
           bash research/compute/publish_artifacts.sh main \
-            "record PREFLIGHT_FULL evidence for ${SHA} (CI)" \
+            "record PREFLIGHT_FULL evidence for ${SHA} (exit ${PREFLIGHT_RC:-unknown}) (CI)" \
             "research/autonomy/preflight-receipts/${SHA}.json" \
             "research/autonomy/preflight-logs/${SHA}.log"
+
+      - name: Fail the job if PREFLIGHT_FULL itself was red
+        # ⚠ Separate from the steps above on purpose: the log and (absent) receipt must land on main
+        # EVEN THOUGH the job is red, so this check runs last rather than gating anything upstream.
+        if: always()
+        run: |
+          if [ "${PREFLIGHT_RC:-1}" != "0" ]; then
+            echo "::error::PREFLIGHT_FULL=1 exited ${PREFLIGHT_RC:-unknown} -- see the log published to research/autonomy/preflight-logs/${{ github.event.inputs.sha }}.log on main, or the group above."
+            exit 1
+          fi
