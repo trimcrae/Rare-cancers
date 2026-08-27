@@ -48,5 +48,13 @@
   "real_dollars": "none",
   "claude_budget": "one spawned session, cycle 1 of 2, 0 subagents. rate_limit_info at open: status allowed, five_hour, isUsingOverage false."
  },
- "handoff": {}
+ "handoff": {
+  "child_session_id": "session_01WfuiZt4N6GdaTZ61NUtnct",
+  "_field_name_is_load_bearing": "`health.py`'s `cycles_are_sized` reads exactly `handoff.child_session_id`. CYC-0012 recorded the same fact as `successor_session_id` and was invisible to the row; 645446a repaired it. Named here the way the instrument reads it.",
+  "title": "EMC research loop — cycle (AUT-PROP-002)",
+  "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+  "prompt_built_by": "python3 research/autonomy/handoff.py --json --reason \"...\" at commit 8960584 — from committed state, carrying no findings and no conclusions.",
+  "why": "One cycle of the two allowed. The second is slack for a SMALL follow-on and there is none: the follow-on this cycle produced (AUT-COV-002) was measured to be a coverage-wide change that moves every floor, and the remaining top items are full-size.",
+  "⚠_a_gap_in_the_generated_prompt_observed_rather_than_silently_patched": "`handoff.py` names the spawn step but not its arguments — no environment id, no source, no receipt field name — so the successor is told to create a session without being told how. This cycle appended those as a factual block at create_session time rather than editing handoff.py at the close of a cycle. The fix belongs in handoff.py, and it is a one-function change a later cycle should make so the generated prompt is self-contained."
+ }
 }
