@@ -359,9 +359,40 @@ def merge(generated: list[dict], existing: dict | None) -> list[dict]:
     # so id is the whole test. A row whose route later leaves the graph is KEPT rather than deleted:
     # retiring an entry is a session's decision with a reason, never a silent side effect of a
     # re-score.
+    # ⛔ AND THE DROP IS SCOPED TO `_derived` ROWS, NOT TO THE ID ALONE. This filter exists to discard
+    # the PREVIOUS generation of derived rows, which `generated` has just rebuilt. A HAND-FILED row is
+    # not a stale copy of anything, so when one carries a derived row's id the id-only test deletes it
+    # outright — silently, on a routine re-score, with no error and no trace. That is the AUT-PROP-004
+    # incident named above arriving through the other door: there a hand-filed row STOLE a derived id,
+    # here it LOSES to one. Scoping by the property (`is this row one the graph produces?`) instead of
+    # by the id lets the collision survive into `merged`, where the check below reports it by name.
     derived_ids = {e["id"] for e in generated}
-    kept = [e for e in prior if e.get("id") not in derived_ids]
-    return generated + kept
+    kept = [e for e in prior if not (e.get("_derived") and e.get("id") in derived_ids)]
+    merged = generated + kept
+
+    # ⛔ AND THE DEDUPE ABOVE ONLY EVER GUARDED THE *DERIVED* SPACE. Hand-filed ids (AUT-PROP-*,
+    # AUT-PD-*) are TYPED by the filing cycle — nothing mints them and nothing checked them — so two
+    # cycles reading the same stale ledger pick the same next number and both write it. Measured
+    # 2026-08-27 (CYC-0020): `AUT-PROP-015` named BOTH the PUB-FUSION-PARTNER round-8 item (CYC-0019)
+    # and the PUB-ATR gse-series fix (CYC-0018), and `AUT-PD-012` named two unrelated process
+    # defects (CYC-0011, CYC-0015). ⚠ THE DAMAGE IS NOT THE COLLISION, IT IS THAT EVERY ID-KEYED
+    # OPERATION SILENTLY PICKS ONE: a claim (`owner`/`claimed_utc`), a lease release, a retry-budget
+    # decrement and `prerequisite_of` all resolve by id, so a cycle can claim one row and finish the
+    # other, and the handoff prompt can point a successor at a row that is not the one it describes.
+    # Fail LOUDLY here rather than letting a re-score launder it: this function is the one place
+    # every entry passes through.
+    seen: dict[str, int] = {}
+    for entry in merged:
+        seen[entry.get("id", "")] = seen.get(entry.get("id", ""), 0) + 1
+    collisions = sorted(i for i, n in seen.items() if n > 1)
+    if collisions:
+        raise ValueError(
+            "duplicate ledger ids: "
+            + ", ".join(collisions)
+            + " — an id names exactly one item. Rename the LATER-filed row (keep the earlier "
+            "filer's claim on the string), record `_renamed_from` on it, and re-run."
+        )
+    return merged
 
 
 def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
