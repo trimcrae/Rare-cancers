@@ -67,6 +67,12 @@ class FakeGit:
     def undo_last_commit(self):
         self.calls.append("undo")
 
+    def integrate(self):
+        self.calls.append("integrate")
+        return self.integrate_ok
+
+    integrate_ok = True
+
 
 @pytest.fixture
 def led(tmp_path):
@@ -158,6 +164,39 @@ def test_a_rejection_that_was_somebody_elses_commit_retries_and_wins(led):
     assert verdict == C.CLAIMED and "attempt 2" in why
 
 
+def test_a_rejected_push_integrates_the_remote_before_retrying(led):
+    """⛔⛔ THE LOOP COULD NOT CONVERGE AND SAID SOMETHING ELSE (AUT-PD-033, found by USING it).
+
+    A push is rejected when the remote has moved — and in this repository CI ticks push several
+    times an hour, so that is the ORDINARY case, not contention. The first version re-fetched and
+    re-decided but never INTEGRATED, so HEAD stayed behind and every retry was rejected for the
+    identical reason as the first. It then reported "the remote is moving faster than this can
+    commit", which is a comforting hypothesis for a loop that structurally could not succeed.
+
+    ★ `fetch` updates the remote-tracking ref and changes NOTHING about HEAD. That distinction is
+    the whole bug, and it is invisible unless the test asserts on the integration itself.
+    """
+    git = FakeGit([_ledger([("AUT-X", None)])], [False, True])
+    verdict, _ = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=led)
+    assert verdict == C.CLAIMED
+    assert "integrate" in git.calls, (
+        "the retry never merged origin/main, so the second push was rejected for the same reason "
+        "as the first — a loop that cannot converge is worse than one that fails immediately")
+    assert git.calls.index("integrate") < git.calls.index("push:ok"), (
+        "it integrated AFTER the successful push, which is the wrong order and would not have "
+        "helped the push it was meant to unblock")
+
+
+def test_a_conflicting_integration_reports_rather_than_auto_resolving(led):
+    """⚠ THE LEDGER IS THE FILE TWO SESSIONS COLLIDE ON, and a claim is not worth risking a wrong
+    automatic resolution of it. Abort and say so; the human or the driver resolves it."""
+    git = FakeGit([_ledger([("AUT-X", None)])], [False])
+    git.integrate_ok = False
+    verdict, why = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=led)
+    assert verdict == C.RETRY
+    assert "conflict" in why and "resolve the merge yourself" in why
+
+
 def test_endless_rejection_reports_rather_than_pretending_to_have_claimed(led):
     """⛔ THE ONE THAT MUST NOT SILENTLY SUCCEED. If every push is rejected the item is NOT claimed,
     and saying otherwise would dispatch a worker onto a row the trunk still shows as free — the exact
@@ -165,7 +204,10 @@ def test_endless_rejection_reports_rather_than_pretending_to_have_claimed(led):
     git = FakeGit([_ledger([("AUT-X", None)])], [False] * C.MAX_ATTEMPTS)
     verdict, why = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=led)
     assert verdict == C.RETRY
-    assert "retrying will not fix it" in why
+    assert "even after merging origin/main" in why, (
+        "the exhausted-retry message must say that integration was tried, or the next reader "
+        "repeats the diagnosis this defect already produced once: 'the remote is moving too fast', "
+        "for a loop that was simply never catching up")
 
 
 # ---------------------------------------------------------------------------------------------

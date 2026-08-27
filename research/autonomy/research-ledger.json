@@ -5,7 +5,7 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
-    "process_defect": 25,
+    "process_defect": 26,
     "harden": 12,
     "fix": 10,
     "build": 1,
@@ -20,10 +20,10 @@
     "regrade": 7
   },
   "n_by_state": {
-    "done": 35,
-    "queued": 102,
+    "done": 36,
+    "queued": 99,
     "superseded": 1,
-    "in_progress": 4
+    "in_progress": 7
   },
   "n_clamped": 11,
   "entries": [
@@ -4278,6 +4278,34 @@
       "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
       "what": "⛔ THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING — research-loop §1 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the §6 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n⚠ ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT — never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening §8b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. ⛔ DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. ⭐ These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them — which is exactly why they could sit red unnoticed.",
       "_score_basis": "a red trunk blocks every cycle's commit gate; research-loop §1 makes it the cycle rather than a task within one"
+    },
+    {
+      "id": "AUT-PD-033",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "what": "✅ FIXED 2026-08-27, FOUND BY USING THE TOOL RATHER THAN BY TESTING IT. ⛔⛔ `claim.py`'s RETRY LOOP COULD NOT CONVERGE, AND IT REPORTED A COMFORTING HYPOTHESIS INSTEAD OF THE REASON. A push is rejected when the remote has moved; in this repository the CI ticks push several times an hour, so that is the ORDINARY case and not contention. The loop re-fetched and re-decided on every attempt — but `git fetch` updates the remote-tracking ref and changes NOTHING about HEAD, so HEAD stayed behind and all three attempts were rejected for the identical reason as the first. It then printed 'the remote is moving faster than this can commit; that is not contention on this row and retrying will not fix it' — which sounds like a diagnosis and is a rationalisation for a loop that structurally could not succeed. ⚠ MEASURED: three consecutive claims returned RETRY; `git log HEAD..origin/main` showed exactly ONE CI commit ahead. The remote had moved once, not fast. ⭐ FIXED: `Git.integrate()` merges origin/main after a rejected push, before the next attempt, so the compare-and-swap actually converges. ⛔ AND A CONFLICTING MERGE IS NOT AUTO-RESOLVED: the ledger is the file two sessions collide on, and a claim is not worth risking a wrong automatic resolution — it aborts the merge and reports RETRY with what to do. The exhausted-retry message now states that integration WAS tried, so the next reader cannot repeat this diagnosis. ✅ 2 new tests, 108 in the suite. ⭐⭐ THE PATTERN IS NOW THREE FOR THREE AND WORTH MORE THAN ANY OF THE INSTANCES: every defect in this tool — the local-branch refspec (AUT-PD-029, found by another session), the unreachable `os.path.exists` guard, and this — was invisible to a suite driving a `FakeGit`, and every one surfaced the first time the tool met a real remote that had moved. A fake that never fails the way production fails tests the code against itself.",
+      "score": 135.0,
+      "_score_basis": "the coordination tool could not converge against a moving remote and misreported why",
+      "depends_on_evidence": "three RETRY results with exactly one CI commit ahead; Git.integrate() and 2 tests",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a coordination tool; nothing published or deposited"
     }
   ]
 }

@@ -92,6 +92,25 @@ class Git:
     def push(self) -> bool:
         return self._run(*self.PUSH_REFSPEC, check=False).returncode == 0
 
+    def integrate(self) -> bool:
+        """Merge origin/main into HEAD so a rejected push can actually succeed next time.
+
+        ⛔⛔ WITHOUT THIS THE RETRY LOOP CANNOT CONVERGE, AND IT LIED ABOUT WHY (AUT-PD-033, measured
+        2026-08-27 by using the tool). A push is rejected when the remote has moved — in this
+        repository the CI ticks push several times an hour, so that is the ORDINARY case, not
+        contention. The loop re-fetched and re-decided, but never INTEGRATED, so HEAD stayed behind
+        and every retry was rejected for the same reason as the first. It then reported "the remote
+        is moving faster than this can commit", which is a comforting hypothesis for a loop that
+        structurally could not succeed.
+        ⚠ A CONFLICT HERE IS NOT SOMETHING TO RESOLVE AUTOMATICALLY. The ledger is the file two
+        sessions collide on, and a claim is not important enough to risk a wrong auto-resolution:
+        abort the merge, return False, and let the caller report RETRY honestly.
+        """
+        if self._run("merge", "--no-edit", "-q", "origin/main", check=False).returncode == 0:
+            return True
+        self._run("merge", "--abort", check=False)
+        return False
+
     def undo_last_commit(self):
         """⚠ `reset --soft`, NEVER `--hard`: a yield must not destroy anything else in the tree."""
         self._run("reset", "-q", "--soft", "HEAD~1")
@@ -171,9 +190,14 @@ def claim(entry_id: str, me: str, when: str, git: Git | None = None,
         verdict, why = decide(git.trunk_ledger(), entry_id, me)
         if verdict == YIELDED:
             return YIELDED, f"{why} — the push race was lost, and the claim was withdrawn cleanly"
-    return RETRY, (f"{entry_id} was still free after {MAX_ATTEMPTS} attempts but every push was "
-                   "rejected. The remote is moving faster than this can commit; that is not "
-                   "contention on this row and retrying will not fix it.")
+        # ⭐ INTEGRATE BEFORE RETRYING, or the next push is rejected for the identical reason.
+        if not git.integrate():
+            return RETRY, (f"{entry_id} is still free, but origin/main could not be merged without "
+                           "a conflict. A claim is not worth an automatic resolution on the file two "
+                           "sessions collide on — resolve the merge yourself, then claim again.")
+    return RETRY, (f"{entry_id} was still free after {MAX_ATTEMPTS} attempts and every push was "
+                   f"rejected even after merging origin/main each time. Something is wrong beyond "
+                   "contention on this row; look at the push output directly rather than retrying.")
 
 
 def unpushed_claims(trunk: dict, working: dict) -> list[tuple[str, str]]:
