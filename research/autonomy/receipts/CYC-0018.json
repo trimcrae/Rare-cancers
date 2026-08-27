@@ -67,5 +67,29 @@
  "escalated": null,
  "escalation_note": "Nothing in research-loop §5 fired. No journal submission is recommended, no spend crossed expensive, no §5.3 goal-changing fact, and no health condition is red past its deadline. The trunk red was inside the cycle's own authority to fix (§1), so it is reported here rather than escalated.",
  "route_advanced": "none",
- "route_advanced_note": "⭐ WRITTEN HONESTLY BECAUSE THE INSTRUMENT ONLY WORKS THAT WAY. This cycle repaired a guard and closed the mechanism that broke it; it moved no route forward. The temptation to claim RT-FUSION-OUTPUT is real — the guard is what keeps that paper's three-cohort claim honest, and it was restored — but restoring a thing to where it already was is not advancing it. Two more `none` in a row and health.py should escalate, and it should."
+ "route_advanced_note": "⭐ WRITTEN HONESTLY BECAUSE THE INSTRUMENT ONLY WORKS THAT WAY. This cycle repaired a guard and closed the mechanism that broke it; it moved no route forward. The temptation to claim RT-FUSION-OUTPUT is real — the guard is what keeps that paper's three-cohort claim honest, and it was restored — but restoring a thing to where it already was is not advancing it. Two more `none` in a row and health.py should escalate, and it should.",
+ "handoff": {
+  "child_session_id": "session_01Fj3EQfAMMXZsWfvjyoGjDP",
+  "created_utc": "2026-08-27T05:40:13Z",
+  "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+  "source": {
+   "url": "https://github.com/trimcrae/Rare-cancers",
+   "revision": "main"
+  },
+  "reason": "One cycle spent, and it was not the one this session was started for: the trunk was red and research-loop §1 makes that the cycle. The queue's top item is a full apply-and-re-review round on PUB-FUSION-PARTNER, which §3 says is a spawned session — and this session could not run its blind seats anyway, having read the blockers.",
+  "prompt_built_by": "python3 research/autonomy/handoff.py --json --reason ... — from committed state, never from this session's context. It now emits the whole create_session call, which is the defect this cycle also fixed (c2f348715).",
+  "queued_for_the_successor": [
+   "AUT-PROP-002",
+   "AUT-PROP-011",
+   "AUT-010",
+   "AUT-046",
+   "AUT-034"
+  ]
+ },
+ "queued_now": [
+  "AUT-PROP-015 (make gse-series write a path that VARIES with the series, then delete the refusal that stands in for it — filed by this cycle)",
+  "AUT-PROP-011 (apply round 6's three verified blockers to PUB-FUSION-PARTNER, re-pin, re-seat)",
+  "AUT-PROP-002 (the hardening round behind publish_bar clause 1)"
+ ],
+ "blocked_by": []
 }
