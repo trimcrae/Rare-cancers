@@ -30,10 +30,16 @@ import receipt_schema as R  # noqa: E402
 
 
 def _write(tmp_path, name, block, **extra):
-    doc = {"cycle_id": name}
+    # ⛔ DEFAULTS TO A VALID `route_advanced` SO THESE FIXTURES STAY FOCUSED ON THE WIDTH SCHEMA
+    # (AUT-PD-017). `problems()` now checks both keys unconditionally; a test in this file that is
+    # about `subagents.*` and does not care about `route_advanced` should not have to say so. Pass
+    # `route_advanced=...` explicitly (including `None` to omit it) to override.
+    doc = {"cycle_id": name, "route_advanced": "RT-TEST"}
     if block is not None:
         doc["subagents"] = block
     doc.update(extra)
+    if doc.get("route_advanced") is None:
+        doc.pop("route_advanced", None)
     p = tmp_path / f"{name}.json"
     p.write_text(json.dumps(doc), encoding="utf-8")
     return doc
@@ -206,6 +212,74 @@ def test_an_over_cap_fanout_is_still_red(tmp_path):
     over = {"cycle_id": GOVERNED, "subagents": {R.WIDTH_KEY: 107}}
     row = H.c_fanout_is_governed([over], {"subagent_width": 5}, None)
     assert row["needs_attention"] and "107" in row["detail"]
+
+
+# ---------------------------------------------------------------------------------------------
+# ⛔⛔ THE SECOND KEY (AUT-PD-017): `route_advanced`, generalising AUT-PD-013's fix rather than
+# re-deriving it. Same failure mode -- an absent value must fail the gate, not read as a pass -- and
+# the same regression that matters most: the reader must use the constant, not its own spelling.
+# ---------------------------------------------------------------------------------------------
+
+def test_a_governed_receipt_missing_route_advanced_fails_the_gate(tmp_path):
+    """⛔⛔ THE ONE THAT MUST NEVER GO GREEN. An omitted `route_advanced` is a broken writer, not a
+    cycle that advanced nothing -- and before this fix nothing at the commit gate caught it."""
+    doc = _write(tmp_path, GOVERNED, {R.WIDTH_KEY: 0}, route_advanced=None)
+    assert R.route_advanced_of(doc) is None
+    probs = R.problems(doc, str(tmp_path / f"{GOVERNED}.json"))
+    assert probs and R.ROUTE_ADVANCED_KEY in probs[0]
+    assert R.main(["--check", "--dir", str(tmp_path)]) == 1
+
+
+@pytest.mark.parametrize("value", ["", "   ", 5, None, ["RT-X"], True])
+def test_a_route_advanced_that_is_not_a_real_string_is_not_read(tmp_path, value):
+    """Empty, blank or non-string values must not satisfy the schema -- an empty string is exactly
+    as unreadable as an absent key, and reading `True` as a route id would be the bool-is-an-int trap
+    `WIDTH_KEY`'s own tests already guard against, one type over."""
+    doc = _write(tmp_path, GOVERNED, {R.WIDTH_KEY: 0}, route_advanced=value)
+    assert R.route_advanced_of(doc) is None, f"{value!r} was accepted as a route"
+    assert R.problems(doc, "x") != []
+
+
+def test_a_governed_receipt_missing_both_keys_is_told_about_both(tmp_path):
+    """⚠ THE EARLY-RETURN TRAP. A first draft of this check ran after the `subagents`-block-missing
+    early return, so a receipt missing BOTH keys was only ever told about one. A receipt failing two
+    independent checks must be told about both, not whichever the code happened to check first."""
+    doc = {"cycle_id": GOVERNED}
+    probs = R.problems(doc, "x")
+    assert len(probs) == 2, f"expected one complaint per missing key, got {probs!r}"
+    assert any(R.ROUTE_ADVANCED_KEY in p for p in probs)
+    assert any(R.BLOCK_KEY in p for p in probs)
+
+
+def test_health_reads_route_advanced_via_the_schema_constant(tmp_path):
+    """⛔⛔ THE ACTUAL REGRESSION THIS ITEM EXISTS TO PREVENT: `health.py` must not spell
+    `route_advanced` itself. This receipt is written under `R.ROUTE_ADVANCED_KEY`, not the literal
+    string, so if a future edit renames the constant without updating `health.py`'s read, this test
+    starts writing under the NEW name while `health.py` keeps reading the OLD one -- and fails."""
+    receipts = [{"cycle_id": f"CYC-{n:04d}", "_file": f"CYC-{n:04d}.json",
+                 R.ROUTE_ADVANCED_KEY: "none", "ended_utc": ts}
+                for n, ts in enumerate(["2026-08-27T09:00:00Z", "2026-08-27T10:00:00Z",
+                                        "2026-08-27T11:00:00Z"], start=1)]
+    row = H.c_advancing_live_work(receipts, None)
+    assert not row["unmeasured"], row["detail"]
+    assert row["needs_attention"], "three genuine `none`s must still trip the row"
+    assert row["payload"]["route_advanced"] == ["none", "none", "none"]
+
+
+def test_a_receipt_spelling_route_advanced_differently_is_unmeasured_not_silently_green():
+    """★ THE THREAT MODEL, DIRECTLY: a receipt that used a different spelling must not read as if the
+    field were simply blank-and-fine, nor must the whole row read `ok` by accident. It must read
+    UNMEASURED, with the absent receipt named -- exactly what `ROUTE-ADVANCED-ABSENT` already does,
+    now proven against the shared constant rather than a hand-typed literal."""
+    receipts = [{"cycle_id": "CYC-1", "_file": "CYC-1.json", "routes_advanced": "RT-X",
+                 "ended_utc": "2026-08-27T09:00:00Z"},
+                {"cycle_id": "CYC-2", "_file": "CYC-2.json", "route_advanced": "none",
+                 "ended_utc": "2026-08-27T10:00:00Z"},
+                {"cycle_id": "CYC-3", "_file": "CYC-3.json", "route_advanced": "none",
+                 "ended_utc": "2026-08-27T11:00:00Z"}]
+    row = H.c_advancing_live_work(receipts, None)
+    assert row["unmeasured"] and not row["ok"] and not row["needs_attention"]
+    assert row["verdict"] == "ROUTE-ADVANCED-ABSENT"
 
 
 # ---------------------------------------------------------------------------------------------

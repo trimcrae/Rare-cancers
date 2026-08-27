@@ -67,8 +67,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # a FALSE ABSENCE for cycles whose fan-out was recorded plainly, under another name. A name agreed in
 # prose between a writer and a reader is not agreed at all. `receipt_schema` owns it for both sides,
 # and `scripts/preflight.sh` checks the writer against it at the commit.
+# ⛔ THE HANDOFF KEY IS IMPORTED TOO, FOR THE SAME REASON (AUT-PD-017). This file used to re-derive
+# `receipt.get("handoff", {}).get("child_session_id")` inline -- the name AND the traversal spelled
+# a second time, agreed with `handoff.py` only by never being touched. `handoff.py` owns both sides
+# of that read now (`CHILD_ID_FIELD` and `child_session_id_of`); this file calls the function.
 sys.path.insert(0, HERE)
 import receipt_schema  # noqa: E402
+import handoff  # noqa: E402
 DEFAULT_LEDGER = os.path.join(HERE, "research-ledger.json")
 DEFAULT_STATE = os.path.join(HERE, "autonomy-state.json")
 DEFAULT_RECEIPTS = os.path.join(HERE, "receipts")
@@ -408,8 +413,14 @@ def c_advancing_live_work(receipts, now):
     nothing — nor one that did. Fewer than three receipts is likewise unmeasured: the condition is
     defined on a run of three and there is no shorter reading of it.
     """
+    # ⛔ THE FIELD IS IMPORTED, NEVER SPELLED (AUT-PD-017, generalising AUT-PD-013's fix). It has
+    # never drifted across 29 receipts, but the risk is the same shape: a receipt that misspelled it
+    # would read as ROUTE-ADVANCED-ABSENT with no hint the value was sitting right there under
+    # another name. `receipt_schema.ROUTE_ADVANCED_KEY` is the one place that names it, and
+    # `receipt_schema.py --check` (wired into preflight) fails the commit for a governed receipt that
+    # omits it, exactly as it already does for `subagents.max_concurrent`.
     key, label = "advancing_live_work", "are cycles moving LIVE routes, or just documenting?"
-    source = "research/autonomy/receipts/*.json `route_advanced`"
+    source = f"research/autonomy/receipts/*.json `{receipt_schema.ROUTE_ADVANCED_KEY}`"
     if len(receipts) < NO_ADVANCE_RUN:
         return _unmeasured(key, label, source, "TOO-FEW-RECEIPTS",
                            f"{len(receipts)} receipt(s) exist and the condition is defined on a run of "
@@ -417,16 +428,17 @@ def c_advancing_live_work(receipts, now):
                            f"no verdict yet. Settle it: {NO_ADVANCE_RUN - len(receipts)} more cycle(s).",
                            {"receipts_seen": len(receipts)})
     window = receipts[-NO_ADVANCE_RUN:]
-    raw = [(r["_file"], r.get("route_advanced")) for r in window]
-    absent = [f for f, v in raw if not (isinstance(v, str) and v.strip())]
+    raw = [(r["_file"], receipt_schema.route_advanced_of(r)) for r in window]
+    absent = [f for f, v in raw if v is None]
     if absent:
         return _unmeasured(key, label, source, "ROUTE-ADVANCED-ABSENT",
-                           f"receipt(s) {absent} record no `route_advanced`, so what those cycles moved "
-                           f"is unknown. §4.2 step 10 requires the route id or the literal 'none' — an "
-                           f"omitted field is neither, and reading it as 'none' would invent a failure "
-                           f"exactly as readily as reading it as ok would hide one.",
+                           f"receipt(s) {absent} record no `{receipt_schema.ROUTE_ADVANCED_KEY}`, so "
+                           f"what those cycles moved is unknown. §4.2 step 10 requires the route id or "
+                           f"the literal 'none' — an omitted field is neither, and reading it as 'none' "
+                           f"would invent a failure exactly as readily as reading it as ok would hide "
+                           f"one.",
                            {"window": [f for f, _ in raw]})
-    values = [v.strip() for _, v in raw]
+    values = [v for _, v in raw]
     payload = {"window": [f for f, _ in raw], "route_advanced": values, "receipts_seen": len(receipts)}
     if all(v.lower() == "none" for v in values):
         return _red(key, label, source, "NOT-ADVANCING",
@@ -637,8 +649,7 @@ def c_cycles_are_sized(receipts, state, state_err):
     handed_off = {sid for sid, _ in counts.items()
                   for r in receipts
                   if (r.get("session_id") or "").strip().split()[:1] == [sid]
-                  and isinstance(r.get("handoff"), dict)
-                  and str((r["handoff"] or {}).get("child_session_id") or "").strip()}
+                  and handoff.child_session_id_of(r)}
     over = {sid: cids for sid, cids in counts.items()
             if len(cids) > cap and sid not in handed_off}
     payload = {"cap": cap, "sessions": {k: len(v) for k, v in counts.items()},
@@ -655,7 +666,7 @@ def c_cycles_are_sized(receipts, state, state_err):
                     "cycle that overruns it is the one that cannot tell. ⭐ THE REMEDY IS ONE ACT: "
                     "build the successor's prompt with `python3 research/autonomy/handoff.py --json` "
                     "and create the session, then record its id in this cycle's receipt under "
-                    "`handoff.child_session_id`. A loop that needs a human to start its next session "
+                    f"`{handoff.CHILD_ID_FIELD}`. A loop that needs a human to start its next session "
                     "is not automated; it just has a longer fuse.", payload)
     if not counts:
         return _unmeasured(key, label, source, "NONE-STAMPED",
