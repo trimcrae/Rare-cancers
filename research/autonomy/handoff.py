@@ -54,6 +54,26 @@ TOP_N = 5
 #: How many recent receipts to name. The successor READS them; they are not summarised here.
 RECENT_N = 3
 
+#: ⛔ THE SPAWN TARGET, AND IT IS HERE BECAUSE ITS ABSENCE MADE EVERY HANDOFF A MANUAL STEP AGAIN.
+#: `create_session` needs an environment and a source; this module knew neither, so CYC-0017 had to
+#: append them BY HAND from its own prompt — copying an operational constant out of the context that
+#: is being discarded, which is the one thing a generated handoff exists to prevent. They are read
+#: from the loop's own session (`get_session` returns `environment_id` and `session_context.sources`
+#: at $0, with no network), and they are constants, not findings: a successor is spawned into the
+#: same environment against the same repository, or it is not the same loop.
+SPAWN = {
+    "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+    "source_url": "https://github.com/trimcrae/Rare-cancers",
+    "source_revision": "main",
+    "tags": ["emc-research-loop"],
+}
+
+#: ⛔ THE RECEIPT FIELD `health.py` ACTUALLY READS. `cycles_are_sized` grades an over-cap session
+#: GREEN only if its receipt records `handoff.child_session_id`; a receipt stating the same fact
+#: under any other name is invisible to it, so the successor is told the field name rather than left
+#: to invent one. Named once, here, and interpolated into the prompt.
+CHILD_ID_FIELD = "handoff.child_session_id"
+
 
 def _read(path: pathlib.Path):
     try:
@@ -101,6 +121,10 @@ def build(reason: str = "", ledger=None, state=None) -> str:
     backoff = (state or {}).get("backoff_level", "?")
     width = (state or {}).get("subagent_width", "?")
     cap = (state or {}).get("max_cycles_per_session", "?")
+    env = SPAWN["environment_id"]
+    src = SPAWN["source_url"]
+    rev = SPAWN["source_revision"]
+    child_field = CHILD_ID_FIELD
 
     return f"""Run the next cycle of the autonomous EMC research loop. You are a FRESH SESSION,
 started deliberately so that this cycle gets a clean context.
@@ -135,9 +159,26 @@ its mistakes, and a wrong review finding has already propagated through two cycl
 passed along as a summary instead of re-derived.
 
 ⛔ AND YOU INHERIT ITS CAP TOO. You are one session; `research-loop` §3 allows {cap} cycles in it. When
-you reach that, HAND OFF THE SAME WAY YOU WERE STARTED — `python3 research/autonomy/handoff.py` builds
-the next prompt, and you create the successor session yourself. A loop that needs a human to start its
-next session is not automated; it just has a longer fuse.
+you reach that, HAND OFF THE SAME WAY YOU WERE STARTED — build the prompt with
+`python3 research/autonomy/handoff.py --json --reason "..."`, then create the successor with the
+claude-code-remote `create_session` tool. That command's JSON carries the `create_session` arguments
+under `create_session`: environment {env}, source {src} at revision {rev}. Record the child's id in
+your receipt under `{child_field}` — that exact field name is what `health.py`'s `cycles_are_sized`
+reads, and a receipt stating the same fact under any other name is invisible to it. A loop that needs
+a human to start its next session is not automated; it just has a longer fuse.
+
+⛔ THREE THINGS THAT ARE MEASURED, NOT ADVISORY, AND EACH HAS COST THIS REPOSITORY A RUN: never
+background a command with a shell `&` (a hook refuses it — use the tool's own run_in_background,
+because `&` orphans the work and nothing ever wakes you); never commit without `./scripts/preflight.sh`
+passing on the exact tree you commit; and never trust the harness's reported exit code for a
+backgrounded gate — have the command write its own marker (`echo "EXIT=$?" >> log`) and read THAT.
+The third is not theoretical: a session has seen the harness report exit code 0 for a preflight whose
+own marker said EXIT=1, on the run that caught a red trunk.
+
+⛔ AND VERIFY THE TRUNK YOURSELF RATHER THAN ASSUMING IT: read the Actions result for the current head
+of `main` before you take an item. If it is red, `research-loop` §1 says fixing that IS your cycle.
+Another cycle may be running concurrently, so expect the ledger to move under you — rebase rather than
+force, and check `git log origin/main` before assuming a claim is yours.
 
 Escalate only what the skill's §5 names. Everything else is silent. Your final message is short: what
 you took, what changed, and `route_advanced`."""
@@ -154,7 +195,13 @@ def main(argv=None) -> int:
         ledger, _ = _read(LEDGER)
         top = top_items(ledger, 1)
         focus = top[0]["id"] if top else "queue empty"
-        print(json.dumps({"title": f"EMC research loop — cycle ({focus})", "prompt": prompt},
+        title = f"EMC research loop — cycle ({focus})"
+        # ⭐ THE WHOLE `create_session` CALL, NOT JUST THE PROMPT. The docstring's promise is that
+        # the half which cannot be tested is "one tool call with no judgement left in it"; a payload
+        # missing the environment and the source left judgement — and hand-copying — in it.
+        print(json.dumps({"title": title, "prompt": prompt,
+                          "create_session": {"title": title, "prompt": prompt, **SPAWN},
+                          "record_child_id_under": CHILD_ID_FIELD},
                          indent=2, ensure_ascii=False))
     else:
         print(prompt)
