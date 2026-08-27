@@ -1,0 +1,53 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0027-schedrou",
+  "session_id": "sched-routine-aut-041-0e2ca63",
+  "utc": "2026-08-27T21:05:00Z",
+  "cycles_in_this_session": 2,
+  "max_cycles_per_session": 2,
+  "repo_confirmed": "Same session as CYC-0026-schedrou; repo already confirmed and current at session start.",
+  "health_check": "python3 research/autonomy/health.py --check exited 0 before this second cycle started (re-checked; unchanged from CYC-0026's start-of-session read). No BLOCKING condition red.",
+  "took": "AUT-041",
+  "took_what": "Built the dose/fractionation/BED/local-control-duration table the ledger item and the RT-MDT-LUNG concept paper's own SS8(b) called for, directly in research/literature/emc-rt-lung-mets-findings.json (new 'dose_outcome_table' field), using only evidence already retrieved into that artifact -- no new fetch dispatched. Of four independently-sourced reported EMC-metastasis radiotherapy deliveries, exactly one (PMID 35494187, HDR interstitial brachytherapy, 30 Gy/2 fractions) had dose and fractionation specific enough to compute a BED: 142.5 Gy at alpha/beta=4 (arithmetic performed in this cycle, not read from any source). That figure lands almost exactly on the 2025 review's (PMID 41055792) own headline '142 Gy (alpha/beta=4)' HDR-ISBT figure -- which the review's quoted passage does not attribute to a PMID, so identifying that the review's central BED number IS this case is the one piece of new synthesis this pass produced. DECISION recorded in the artifact: the table does not surface anything the review has not already said, and remains too data-poor (3 of 4 sourced cases lack a reportable dose in what has been read so far) to support even the weaker 'descriptive appendix' framing the concept paper allowed for -- confirming, more sharply than before, that document's existing recommendation not to write this as a standalone paper (research/manuscripts/care-delivery/emc-oligometastatic-rt-concept.md SS9). A fifth candidate case (40 Gy/10 fractions SBRT) was excluded outright from the table rather than tabulated, because this artifact's own prior note flags its attribution as disputed (the review cites two conflicting primary authors for the same case).",
+  "redirect": {
+    "trigger": "The archive-manifest ordering gate (see repo-gates) fired again on this second cycle's commit, exactly as it had on CYC-0026's -- any uncommitted change anywhere in the repo (not just in the ASO paper's own files) makes the manifest's git_tree_is_clean_apart_from_this_manifest field read false until the OTHER changes are committed first.",
+    "root_cause_diagnostic": [
+      "Confirmed by reading aso_archive_manifest.py's _tree_clean_apart_from_this_manifest(): it runs `git status --porcelain` over the WHOLE repository (excluding only the manifest file itself), not merely over the files the manifest hashes. So a ledger.json + findings.json edit outside research/manuscripts/aso/ still trips the clean-flag exactly as an ASO-file edit would.",
+      "Also found the manifest's committed state after CYC-0026's second push had drifted to git_revision=<its own commit sha> with clean=false, rather than naming the content commit it actually hashed -- inspected directly (python3 -c reading the JSON field), not assumed. Root cause not fully chased (would need bisecting exactly which preflight sub-step re-wrote it), but the fix is identical regardless: regenerate as the true last step against a genuinely clean, pushed tree, which this cycle did and verified (git_revision now matches the receipt-adjacent commit, clean=true)."
+    ],
+    "fix_applied": [
+      "Committed and pushed the ledger + findings-artifact changes FIRST (commit 0e2ca63), confirmed `git status --short` empty, THEN regenerated the manifest (commit bc7848d) and verified its own recorded fields directly before trusting it.",
+      "A full default-tier preflight re-run on the final clean, pushed tree: EXIT=0, no findings."
+    ],
+    "class_of_defect": "Same class as CYC-0026's manifest-ordering fix -- not a new defect, a second instance of a gate this repository's own docs already explain (research/manuscripts/aso_archive_manifest.py's module header). Not filed as a new process_defect; the mid-cycle git_revision drift (manifest briefly naming its own commit) is worth a closer look in a future cycle but did not block this one and was resolved by the same regenerate-last-against-clean-tree step regardless of its exact cause."
+  },
+  "cost": {
+    "real_dollars": 0.0,
+    "gpu_hours": 0.0,
+    "note": "CPU only: reading the existing findings artifact and concept-paper memo already on disk, one arithmetic BED calculation, JSON edits, local pytest/preflight runs. No fetch, no CI dispatch, no GPU."
+  },
+  "subagents": {
+    "launched": 0,
+    "max_concurrent": 0,
+    "shape": "single session, driver only -- this was a synthesis task over already-retrieved evidence, no independent work to parallelize."
+  },
+  "gates": {
+    "preflight_before_fix": "Default-tier preflight FAILED once on the archive-manifest ordering check (see redirect) -- same class, not a new failure mode, already understood from CYC-0026.",
+    "preflight_after_fix": "Default-tier preflight PASS, EXIT=0, on the final clean tree at commit bc7848d (fast gates, generated-artifact reproduction including the now-correctly-ordered manifest, receipt fan-out schema, gate-13 pure-logic suite: 177 passed). This cycle did not touch any manuscript prose, so PREFLIGHT_TESTS=1 was not additionally required by CLAUDE.md's own rule (only default-tier fast gates apply to a ledger/literature-artifact edit).",
+    "amendment_guard": "No governed path touched (research/literature/*.json and research/autonomy/research-ledger.json are not in amendment_guard.py's GOVERNED list). Not run.",
+    "exit_read_from": "each backgrounded preflight run's own EXIT= marker in its log file, read directly after the run_in_background task-notification confirmed completion -- never inferred from the notification's own reported exit code, which is the wrapper's code and can read 0 even when preflight.sh itself failed (documented in CLAUDE.md section 6 and re-confirmed by CYC-0026's first preflight run in this same session)."
+  },
+  "escalated": null,
+  "escalation_note": "None of research-loop section 5's five triggers fired: no journal submission recommendation (this pass explicitly recommends AGAINST writing a paper here, matching the concept memo's own SS9), no spend, no goal-changing fact, loop stayed healthy, and no publication's bar reached all-clear.",
+  "route_advanced": "RT-MDT-LUNG",
+  "route_advanced_note": "AUT-041 closed: the route's own concept memo (SS8(b)) asked whether a dose-and-outcome table exists and would add anything; this cycle built it and answered no, with the specific finding (the review's 142 Gy figure IS PMID 35494187) recorded so a future reader does not have to re-derive it. Two new fetch items filed (AUT-RT-001, AUT-RT-002) name exactly what would need to change before that answer could flip, keeping the route's next real step concrete rather than a vague 'more literature needed'.",
+  "queued_now": [
+    "AUT-RT-001 (new, free, fetch -- full text of PMID 41323055, open access, would add dose/fractionation/duration for the case with the most treated occasions of the four sourced deliveries)",
+    "AUT-RT-002 (new, free, fetch -- resolve the disputed attribution of the twice-told 40 Gy/10fx SBRT case before it can be added to the table)",
+    "AUT-PROP-020 (unclaimed, unchanged -- hardening round 10 on PUB-ASO, SPAWNED SESSION scope)",
+    "AUT-PROP-019, AUT-PROP-018 (unclaimed, unchanged -- ASO publish-bar evidence gathering)"
+  ],
+  "blocked_by": [],
+  "handoff": null,
+  "why_only_one_cycle": "This is cycle 2 of 2 -- max_cycles_per_session reached. The 71-item ready queue reported by this session's Stop hook is real and not exhausted; per research-loop SS3 the correct next step for MORE work is a spawned successor session, not a third cycle held open in this one. This session's tool surface (a scheduled Routine) was checked for create_session / list_sessions access before ending and neither is present -- see the final message for how that gap is being surfaced rather than silently worked around."
+}
