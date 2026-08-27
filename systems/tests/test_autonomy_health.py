@@ -680,6 +680,73 @@ def test_a_session_over_the_cap_goes_red(health):
     assert "CYC-3" in row["detail"]
 
 
+REFUSAL = ("create_session: caller session is at lineage depth 8 (limit 8); cannot spawn or "
+           "re-arm further child sessions")
+
+
+def test_a_refused_handoff_is_unmeasured_not_red(health):
+    """⛔⛔ AUT-PD-032, MEASURED 2026-08-27. `create_session` refuses at a lineage depth limit, so
+    §3's remedy — "hand off the same way you were started" — DOES NOT EXIST at the end of a spawn
+    chain, and the deeper the loop has run unattended the more certainly it fails. The session that
+    hit it built the successor prompt with handoff.py, made the call, and was refused.
+
+    ★ Grading that RED made this row exactly what its own source comment warns against: "a condition
+    that cannot be satisfied by doing the right thing ... is a stopwatch, not a guard." No future
+    cycle could clear it — the LATCHING shape RECEIPT_WINDOW was added to fix, through another door.
+    """
+    receipts = [_sess_receipt("CYC-1", "sess-A"), _sess_receipt("CYC-2", "sess-A"),
+                {"cycle_id": "CYC-3", "session_id": "sess-A",
+                 "handoff": {"child_session_id": None, "refused_by": REFUSAL}}]
+    row = health.c_cycles_are_sized(receipts, _state(2), None)
+    assert row["unmeasured"] is True, "a refused handoff was graded as a defect in the session"
+    assert row["needs_attention"] is False
+    assert row["verdict"] == "HANDOFF-REFUSED"
+    assert "lineage depth" in row["detail"], (
+        "the platform's own words are not in the detail, so a reader cannot tell a real ceiling "
+        "from an excuse")
+
+
+def test_a_refused_handoff_is_never_graded_GREEN(health):
+    """⛔ THE DIRECTION THAT WOULD HAVE BEEN EASIER AND IS WRONG. No successor exists, so the work
+    did NOT continue in a fresh context. Green would assert the rule was satisfied; the honest
+    reading is that the loop cannot be graded on this because the mechanism was gone."""
+    receipts = [_sess_receipt("CYC-1", "sess-A"), _sess_receipt("CYC-2", "sess-A"),
+                {"cycle_id": "CYC-3", "session_id": "sess-A",
+                 "handoff": {"refused_by": REFUSAL}}]
+    row = health.c_cycles_are_sized(receipts, _state(2), None)
+    assert row["ok"] is False, "a refused handoff was graded as though the rule had been satisfied"
+
+
+def test_an_unrecorded_refusal_is_still_red(health):
+    """⛔⛔ THE INTEGRITY OF THE WHOLE EXEMPTION. If an ABSENT refusal record earned the downgrade,
+    'I could not' would be a free pass claimable by any session that simply never tried. The
+    platform's verbatim words are what distinguishes a real ceiling from an excuse."""
+    receipts = [_sess_receipt("CYC-1", "sess-A"), _sess_receipt("CYC-2", "sess-A"),
+                {"cycle_id": "CYC-3", "session_id": "sess-A", "handoff": {"refused_by": "   "}}]
+    row = health.c_cycles_are_sized(receipts, _state(2), None)
+    assert row["needs_attention"] is True
+    assert "NO-HANDOFF" in row["verdict"]
+
+
+def test_a_real_handoff_still_beats_a_refusal(health):
+    """A session that actually spawned a successor is GREEN, not merely unmeasured — the remedy
+    working must outrank the remedy being unavailable, or there is no gradient to climb."""
+    receipts = [_sess_receipt("CYC-1", "sess-A"), _sess_receipt("CYC-2", "sess-A"),
+                {"cycle_id": "CYC-3", "session_id": "sess-A",
+                 "handoff": {"child_session_id": "session_01CHILD"}}]
+    row = health.c_cycles_are_sized(receipts, _state(2), None)
+    assert row["ok"] is True and row["unmeasured"] is False
+
+
+def test_a_refusal_on_a_session_that_is_not_over_cap_changes_nothing(health):
+    """⚠ The exemption must be scoped to the row it exempts. A refusal recorded by a well-behaved
+    session is irrelevant, and must not drag a green board into unmeasured."""
+    receipts = [_sess_receipt("CYC-1", "sess-A"),
+                {"cycle_id": "CYC-2", "session_id": "sess-B", "handoff": {"refused_by": REFUSAL}}]
+    row = health.c_cycles_are_sized(receipts, _state(2), None)
+    assert row["ok"] is True and row["unmeasured"] is False
+
+
 def test_a_session_at_the_cap_is_green(health):
     """The cap is a cap, not a target. Two is allowed on purpose: slack for a cycle that turns out
     to have a small follow-on. Firing at two would make the row noise, and a noisy row gets muted."""

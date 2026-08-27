@@ -93,6 +93,36 @@ def child_session_id_of(receipt: dict) -> str | None:
     return v.strip() if isinstance(v, str) and v.strip() else None
 
 
+#: ⛔ The field a session records when the PLATFORM refused the handoff, not when it skipped one.
+REFUSAL_FIELD = "handoff.refused_by"
+
+
+def refusal_of(receipt: dict) -> str | None:
+    """The platform's verbatim refusal of this session's handoff attempt, or None.
+
+    ⛔⛔ WHY THIS EXISTS (AUT-PD-032, measured 2026-08-27). `create_session` refuses at a lineage
+    depth limit: *"caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further
+    child sessions"*. So the DEEPER a loop has run unattended, the more certainly §3's "hand off the
+    same way you were started" fails — and the last generation is the one instructed most
+    emphatically to do the impossible.
+
+    ⭐ AND `c_cycles_are_sized` GRADED THAT AS THE SESSION'S DEFECT. Its own comment says a condition
+    that cannot be satisfied by doing the right thing "is a stopwatch, not a guard" — which is
+    precisely what it became here: the session built the prompt, called the tool, was refused, and
+    earned a red row no future cycle could clear.
+
+    ⚠ RECORDING THE REFUSAL IS REQUIRED, AND THAT IS THE WHOLE INTEGRITY OF THIS. An ABSENT refusal
+    is still red: otherwise "I could not" becomes a free pass claimable by any session that simply
+    did not try. The string must be the platform's own words, so a reader can tell a real ceiling
+    from an excuse.
+    """
+    block = receipt.get("handoff")
+    if not isinstance(block, dict):
+        return None
+    v = block.get("refused_by")
+    return v.strip() if isinstance(v, str) and v.strip() else None
+
+
 def _read(path: pathlib.Path):
     try:
         return json.loads(path.read_text()), None

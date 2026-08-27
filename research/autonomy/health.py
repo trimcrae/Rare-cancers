@@ -650,12 +650,48 @@ def c_cycles_are_sized(receipts, state, state_err):
                   for r in receipts
                   if (r.get("session_id") or "").strip().split()[:1] == [sid]
                   and handoff.child_session_id_of(r)}
+    # ⛔⛔ A REFUSED HANDOFF IS NOT A SKIPPED ONE (AUT-PD-032, measured 2026-08-27). `create_session`
+    # refuses at a lineage depth limit — "caller session is at lineage depth 8 (limit 8)" — so §3's
+    # remedy is UNAVAILABLE at the end of a spawn chain, and the deeper the loop has run unattended
+    # the more certainly it fails. The session that hit it built the prompt with handoff.py, made
+    # the call, and was refused; grading that RED made this row exactly what the comment above warns
+    # against — "a condition that cannot be satisfied by doing the right thing ... a stopwatch, not
+    # a guard" — and no future cycle could clear it, which is the LATCHING shape RECEIPT_WINDOW was
+    # added to fix, arriving through a different door.
+    # ⚠ IT DOWNGRADES TO UNMEASURED, NEVER TO GREEN, AND THE DIFFERENCE IS THE POINT: no successor
+    # exists, so the work did NOT continue in a fresh context. What is untrue is that the session
+    # failed to try. Green would claim the rule was satisfied; red claims a defect that is not the
+    # session's; unmeasured says the loop cannot be graded on this because the mechanism was gone.
+    # ⛔ AND THE REFUSAL MUST BE RECORDED VERBATIM. An absent record stays RED — otherwise "I could
+    # not" becomes a free pass claimable by any session that simply never tried.
+    refused = {sid for sid in counts
+               for r in receipts
+               if (r.get("session_id") or "").strip().split()[:1] == [sid]
+               and handoff.refusal_of(r)}
     over = {sid: cids for sid, cids in counts.items()
             if len(cids) > cap and sid not in handed_off}
+    over_but_refused = {sid: cids for sid, cids in over.items() if sid in refused}
+    over = {sid: cids for sid, cids in over.items() if sid not in refused}
     payload = {"cap": cap, "sessions": {k: len(v) for k, v in counts.items()},
                "unstamped_receipts": unstamped or None,
                "handed_off": sorted(handed_off) or None,
+               "over_cap_but_handoff_refused": sorted(over_but_refused) or None,
                "worst": max((len(v) for v in counts.values()), default=0)}
+    if not over and over_but_refused:
+        sid = sorted(over_but_refused)[0]
+        why = next((handoff.refusal_of(r) for r in receipts
+                    if (r.get("session_id") or "").strip().split()[:1] == [sid]
+                    and handoff.refusal_of(r)), "")
+        return _unmeasured(key, label, source, "HANDOFF-REFUSED",
+                           f"session {sid[:24]} ran {len(over_but_refused[sid])} cycles against a "
+                           f"cap of {cap} and its handoff was REFUSED BY THE PLATFORM, verbatim: "
+                           f"{why[:160]}. ⭐ It built the successor prompt and made the call; §3's "
+                           "remedy does not exist at the end of a spawn chain. Not green — no "
+                           "successor exists and the work did not continue in a fresh context. Not "
+                           "red — that would be a defect no future cycle could clear. ⚠ The "
+                           "scheduled driver Routine is the designed fallback here, and it is only "
+                           "a fallback rather than a deferral BECAUSE the handoff was attempted "
+                           "first.", payload)
     if over:
         worst = max(over.items(), key=lambda kv: len(kv[1]))
         return _red(key, label, source, "SESSION-OVERLOADED-NO-HANDOFF",
