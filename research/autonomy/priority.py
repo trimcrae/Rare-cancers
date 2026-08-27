@@ -39,6 +39,11 @@ import pathlib
 import sys
 from typing import Any
 
+# ⚠ sys.path, not a package import: this directory is a flat set of scripts run as `python3
+# research/autonomy/<tool>.py` from the repo root, and every sibling here resolves the same way.
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import ids  # noqa: E402
+
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 GRAPH = REPO / "systems" / "graph"
@@ -554,6 +559,25 @@ def main(argv: list[str] | None = None) -> int:
 
     ledger = build_ledger()
     entries = ledger["entries"]
+
+    # ⛔⛔ A DUPLICATED ID IS INVISIBLE UNTIL A HUMAN OR A REBASE TRIPS OVER IT (AUT-PROP-013).
+    # `AUT-PD-012` was issued twice, by two entirely different process defects, filed by SEQUENTIAL
+    # cycles — so this is not a race, the max+1 derivation collides on its own — and it sat on
+    # origin/main unnoticed because nothing in the loop ever read a ledger looking for one. Two
+    # concurrent sessions did it again the same hour with AUT-PROP-009 and AUT-PROP-010.
+    # ⭐ FOUR LINES, HERE, WOULD HAVE CAUGHT ALL THREE AT THE COMMIT THAT CREATED THEM. This is the
+    # ledger's own tool: if the ranker will not read a ledger with two rows under one id, the
+    # duplicate cannot survive to the next cycle's queue. `research/autonomy/tests` asserts the same
+    # property against the committed file, and preflight gate 15 runs it.
+    dups = ids.duplicate_ids(entries)
+    if dups:
+        for bad, n in sorted(dups.items()):
+            print(f"⛔ ledger id {bad} is used {n} times — two different items under one identity, "
+                  "so a receipt, a claim or an evidence pointer naming it is ambiguous",
+                  file=sys.stderr)
+        print("Allocate with research/autonomy/ids.py:next_entry_id(); do not renumber by eye.",
+              file=sys.stderr)
+        return 3
 
     if args.explain:
         match = [e for e in entries if e["serves"]["route"] == args.explain]

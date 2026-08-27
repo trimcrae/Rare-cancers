@@ -73,7 +73,18 @@ Check before anything else. A loop that works through its own alarm is the alarm
 9. **Write back what you OBSERVED** onto the entry: **release your claim (`owner: null`)**, set the
    new state and `last_evidence_utc`, and for a failure the *diagnostic*. ⛔ CLAUDE.md §4: never a "probably". If you cannot diagnose it, record
    `UNKNOWN` and queue the diagnostic as its own entry.
-10. **Write the receipt** — `research/autonomy/receipts/<cycle-id>.json`: what you took, what
+10. **Write the receipt** — **allocate its id, never derive one by eye:**
+    `python3 -c "import sys;sys.path.insert(0,'research/autonomy');import ids;print(ids.next_receipt('research/autonomy/receipts','<this session id>'))"`.
+    ⛔ *Measured 2026-08-27 (AUT-PROP-013): every session computed `max(committed) + 1` from the same
+    committed state, so concurrency was outside the derivation BY CONSTRUCTION. Two sessions 50 s
+    apart both took `CYC-0016` and the second would have SILENTLY OVERWRITTEN the first; the same
+    hour both filed `AUT-PROP-009` and `AUT-PROP-010` for four different items. And `AUT-PD-012` was
+    issued twice by SEQUENTIAL cycles, which kills the comfortable reading that this is a race — the
+    derivation collides on its own.* The id now carries a discriminator from your session id, so two
+    cycles can share an ordinal (they are both genuinely the Nth cycle) and still never share a file.
+    ⭐ **New ledger entries the same way** — `ids.next_entry_id("AUT-PD", entries)` — and
+    `priority.py` now REFUSES a ledger with a duplicated id rather than ranking it.
+    Contents of `research/autonomy/receipts/<cycle-id>.json`: what you took, what
     changed, what it cost, your session id, what is now queued, `blocked_by[]` (each with the
     **path** of whatever refused you — §6 depends on this), and **`route_advanced`**: the id of the
     live route you moved, or the literal `none`.
