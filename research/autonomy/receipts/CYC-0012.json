@@ -42,5 +42,12 @@
     "real_dollars": "none",
     "claude_budget": "second cycle of one spawned session, 0 subagents"
   },
-  "handoff": {}
+  "handoff": {
+    "successor_session_id": "session_016z8Nm7cZTaLN4smGWue75c",
+    "why": "This session reached max_cycles_per_session (2). The successor was created by this cycle, not by a human — a loop that needs a human to start its next session is not automated, it just has a longer fuse.",
+    "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+    "source": "https://github.com/trimcrae/Rare-cancers @ main",
+    "carried_forward": "AUT-PROP-002 (coverage half), AUT-COV-001, AUT-PD-011's untested-hook residue, AUT-PROP-006.",
+    "⛔_deliberately_not_carried": "No findings and no conclusions. CYC-0011 measured what inheriting a summary costs: of 16 P1s it inherited, four were already fixed and ten carried a factual error of their own."
+  }
 }
