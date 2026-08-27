@@ -54,16 +54,39 @@ is required at all); this file keeps the format and the buy-line arithmetic.
     a ledger item. They existed only as sentences in a reply. A fresh cycle re-scores the LEDGER, so
     the whole "next I'll close these" plan was one session-death from being lost — while the loop kept
     looking healthy: cycles firing, receipts landing, and the only paper with a public DOI parked.*
-    ★ **THE RULE: before a turn ends, every piece of work you are holding is a QUEUED LEDGER ITEM, or
-    it does not exist.** A reply is not a queue and a context window is not a durable medium. Check it
-    rather than remember it:
+    ⛔⛔ **AND THE FIRST FIX FOR THIS FAILED IN PRODUCTION. READ WHY BEFORE TRUSTING THE SECOND**
+    (trimcrae, 2026-08-27, on a later turn that ended the same way: *"There's that ending a message
+    with 'nothing in flight' bug again. Whatever we tried to change to fix it last time didn't work.
+    Let's try another approach based on that outcome."*).
+    ⚠ **v1 of `continuity.py` asked whether outstanding work was WRITTEN DOWN.** On the turn that
+    failed, it was — every blocking clause had a queued ledger item — so the tool printed
+    *"✅ every blocking clause has a queued ledger item; the work survives this session"* next to a
+    turn that then ended with three pieces of free, ready, unblocked work and nothing running.
+    **The check passed over the bug**, which is worse than not existing: a session looking for a
+    reason to stop found a green tick with a citation attached.
+    ★★ **THE DIAGNOSIS: DURABILITY WAS MEASURED AND MOMENTUM WAS THE THING BROKEN.** "Will this
+    survive if the session dies?" is a real question and recording is NOT sufficient. "Is this work
+    MOVING?" is what nobody was asking. **Filing an item is not progress on it.**
+    ★ **SO v2 HAS NO GREEN STATE THAT RECORDING CAN BUY.** It prints what is READY TO RUN and exits
+    non-zero whenever that list is non-empty; recording an item is what puts it ON the list, never
+    what clears it:
 
         python3 research/autonomy/continuity.py --check
 
-    It exits 1 when a clause is blocking a paper and nothing queued closes it, and it matches on a
-    declared `closes_clause` field rather than on prose — the first version grepped the item text and
-    reported three filed items as missing, because they said "clause 2" where the clause is named
-    `preflight_full_green`.
+    **The only ways to exit 0 are that every remaining item is genuinely blocked on a human or the
+    outside world, or that the backlog is empty** — and the blocked list NAMES what each row waits
+    on, so it can be argued with (CLAUDE.md §0: *"'Blocked' is a claim that needs evidence, and it is
+    usually wrong"*). v1's question survives as `--clauses`, subordinate, because unrecorded work is
+    still a real defect; its remedy text now points at the ready list rather than at a tick.
+    ⚠ **It deliberately does NOT try to observe running work.** A checker cannot see a subagent, a
+    dispatched workflow or a spawned session, and a `--what-is-running` flag would be one more
+    self-issued declaration to satisfy — the same shape as the failure. It answers only the half it
+    can measure honestly, in the direction that costs something.
+    ⛔ **AND THE LINEAGE CEILING IS NOT AN EXCUSE.** When `create_session` refuses at depth 8, that
+    is not "the work cannot continue" — `research-loop` §3 prescribes **parallel subagents** for
+    exactly this, and blind seats run that way. Measured 2026-08-27: a turn ended on "nothing in
+    flight" citing a context budget, when five seats could have been launched in the same turn and
+    were, the moment the ceiling was read as a routing decision instead of a stop.
     ⛔⛔ **AND THE SCHEDULED ROUTINE IS A BACKSTOP AGAINST STALENESS, NEVER A REASON TO STOP**
     (trimcrae, 2026-08-27, correcting the first version of this very clause: *"why do we need to wait
     for the driver routine? That's more of a backup to make sure things never get stale, not a reason

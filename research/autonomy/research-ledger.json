@@ -3554,7 +3554,7 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -3569,7 +3569,7 @@
       "id": "AUT-PROP-021",
       "kind": "build",
       "prerequisite_of": "AUT-PROP-018",
-      "what": "REBUILD THE THREE ASO .docx SUBMISSION PARTS ON A RUNNER — dispatch .github/workflows/aso-submission-parts.yml (workflow_dispatch, ref=main). ⛔ WHY IT CANNOT BE DONE HERE: soffice and java are installed in this sandbox and every invocation fails, including on a three-line control file; the workflow proves the converter works with a positive control BEFORE it trusts a green build. ⚠ The round-9 prose edits re-staled all three parts, so test_no_submission_part_is_stale_against_its_manuscript and test_the_word_file_is_not_stale are RED on the trunk until this lands. ★ The workflow now publishes through research/compute/publish_artifacts.sh and re-derives the archive manifest INSIDE the publish (PUBLISH_REGEN), which is the only ordering in which the manifest's recorded git revision is the one that lands — the first version hand-rolled the publish and test_no_hand_rolled_publish caught it.",
+      "what": "✅ DONE 2026-08-27. Dispatched aso-submission-parts.yml on main; run 33097825961 succeeded and committed df2bc4b02 'ASO submission parts rebuilt on a runner (CI)'. The LibreOffice positive control passed on the runner BEFORE the build ran, so a green build is not a dead tool reported as a malformed manuscript. All three staleness guards verified green after the fast-forward (test_the_word_file_is_not_stale, and both test_no_submission_part_is_stale_against_its_manuscript params). ⚠ The wake armed for this run died with a container restart; the run had already succeeded, so the row was honest by luck rather than by design — a wake armed inside a container is only as durable as the container.",
       "_score_basis": "blocks AUT-PROP-018, which blocks publish_bar clause 2",
       "score": 196.0,
       "closes_clause": null
