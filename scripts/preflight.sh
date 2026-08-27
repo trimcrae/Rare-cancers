@@ -642,6 +642,24 @@ if [ "$RUN_MODALITIES" = "1" ]; then
       # inside the fix for the defect it repeats.
       { grep -v '^#' "$base" || true; } | sed '/^[[:space:]]*$/d' | sort -u >"$known"
       new=$(comm -23 "$got" "$known"); fixed=$(comm -13 "$got" "$known")
+      # ⛔⛔ THE THIRD SITE OF THE 2026-08-26 FALSE-GREEN DEFECT, AND THE ONE WITH THE MOST TO LOSE.
+      # This gate diffs a LIST built from `^FAILED` lines. If those lines are absent while the run
+      # really did fail — the state observed that day, in which a preflight printed OK over its own
+      # `1 failed, 1209 passed, 3 skipped, 4 errors` — then `$got` is EMPTY, `$new` is empty, and this
+      # block reports a clean diff. The list-based design fixed the 2026-08-08 count defect and
+      # inherited a different blind spot: an empty list is indistinguishable from a green run.
+      # ⚠ Cause still UNKNOWN — five hypotheses tested and refuted (see the manuscripts block). This
+      # is a cross-check between two signals that can each fail separately, not a root-cause fix.
+      _osum=$(tail -1 "$out")
+      _ocount=$({ printf '%s\n' "$_osum" | grep -oE '[0-9]+ (failed|errors?)' || true; } | awk '{s+=$1} END {print s+0}')
+      _olisted=$(wc -l <"$got" | tr -d ' ')
+      if [ "$_ocount" -gt 0 ] && [ "$_olisted" -eq 0 ]; then
+        echo "   FAILED: the summary reports $_ocount failure(s)/error(s) and the parsed list is EMPTY,"
+        echo "           so the baseline diff below would compare nothing and report clean. This is the"
+        echo "           2026-08-26 false-green state; capture the run's FULL output before rerunning."
+        tail -5 "$out"
+        rc=1
+      fi
       if [ -n "$new" ]; then
         echo "   FAILED: $(printf '%s\n' "$new" | wc -l | tr -d ' ') failure(s) NOT in the sandbox baseline."
         echo "   ⚠ These are NEW and are named in full -- they are not the known dep gap:"
@@ -703,10 +721,47 @@ if [ "$RUN_TESTS" = "1" ]; then
   mout=$(mktemp)
   $PYTEST $PYTEST_PAR research/manuscripts/tests -q --continue-on-collection-errors >"$mout" 2>&1 || true
   tail -1 "$mout"
+  # ⛔⛔ READ THE COUNT, NOT ONLY THE `^FAILED` LINES — MEASURED 2026-08-26, IN THIS FILE'S OWN LOG.
+  # A preflight run printed `PREFLIGHT OK` while THIS step's own `tail -1` said
+  #     1 failed, 1209 passed, 3 skipped, 4 errors in 721.19s
+  # because the `^(FAILED|ERROR )` grep below found nothing to match. The gate had the truth in hand,
+  # printed it to the log, and then decided on a different signal.
+  # ⚠ THE MECHANISM IS UNKNOWN AND IS RECORDED AS UNKNOWN. Five hypotheses were tested against real
+  # runs and every one was REFUTED: xdist suppressing the summary (it does not, `-n 4 --dist loadfile`
+  # emits them), an OOM-killed worker (emits them), colour codes breaking the `^` anchor (plausible in
+  # principle, but the log carries zero escape sequences), a pytest config or conftest changing
+  # reporting (neither exists in this repo), and collection errors from half-written files (emit
+  # `ERROR ` lines normally). So this is NOT a fix derived from a root cause — it is a fix derived
+  # from the observation that the count and the lines can DISAGREE, which is all that is needed.
+  # ⭐ THE COUNT IS THE MORE TRUSTWORTHY SIGNAL because pytest always emits it and this script already
+  # prints it. The lines are kept as an INDEPENDENT second signal, and either one alone turns the step
+  # red. Two signals that can each fail separately are the whole point (CLAUDE.md §4).
+  # ⛔ AND A DISAGREEMENT BETWEEN THEM IS ITSELF REPORTED, LOUDLY, rather than resolved silently: the
+  # unexplained state above IS a disagreement, so the next occurrence must arrive with its evidence
+  # attached instead of being absorbed by whichever signal happened to fire.
+  # ⚠ Counted from the SUMMARY LINE ONLY, never the whole file — "3 failed" inside a traceback or a
+  # test's own name would otherwise manufacture a failure, which is the red-on-true-input hazard that
+  # gets a gate switched off (`paper-hardening` §8b.1).
+  # ⛔ `|| true` INSIDE THE BRACES, NOT AFTER THE PIPELINE. grep exits 1 on NO MATCH, which here
+  # means ZERO failures — the GOOD case — and `set -euo pipefail` propagates that, killing the run
+  # at the instant everything passed. This file already records the same shape twice (2026-08-12,
+  # 2026-08-23) and it was reintroduced HERE on 2026-08-26 inside the fix for the false-green
+  # defect, then caught by the abort banner: `PREFLIGHT ABORTED MID-RUN at :790`, every gate below
+  # it unrun. ⚠ A guard added to a gate is a change to the gate and inherits every trap the gate
+  # has — including the ones its own comments warn about 200 lines up.
+  _msum=$(tail -1 "$mout")
+  _mcount=$({ printf '%s\n' "$_msum" | grep -oE '[0-9]+ (failed|errors?)' || true; } | awk '{s+=$1} END {print s+0}')
+  _mlines=$(grep -cE '^(FAILED|ERROR )' "$mout" || true)
   if ! grep -qE '[0-9]+ (passed|failed)' "$mout"; then
     echo "   FAILED: pytest reported no test count -- the run collected nothing."
     tail -5 "$mout"; rc=1
-  elif grep -qE '^(FAILED|ERROR )' "$mout"; then
+  elif [ "$_mcount" -gt 0 ] && [ "$_mlines" -eq 0 ]; then
+    echo "   FAILED: the summary reports $_mcount failure(s)/error(s) and NOT ONE is named by a"
+    echo "           '^FAILED'/'^ERROR ' line. That disagreement is the 2026-08-26 false-green state"
+    echo "           and its cause is still unknown -- capture this run's FULL output before rerunning,"
+    echo "           because '$mout' is deleted below and only 'tail -1' reaches the log."
+    tail -5 "$mout"; rc=1
+  elif [ "$_mcount" -gt 0 ] || [ "$_mlines" -gt 0 ]; then
     echo "   FAILED:"; { grep -E '^(FAILED|ERROR )' "$mout" || true; } | sed 's/^/     /'
     # ⛔ `|| true` ON THE HINT TOO, FOR THE REASON THE LINE ABOVE CARRIES IT. `grep -q X && f` is a
     # single AND-list: when grep finds nothing it returns 1, the list returns 1, and `set -e` kills
@@ -732,10 +787,23 @@ echo "== pytest (scripts: the test selector's own contract) =="
 sout=$(mktemp)
 $PYTEST $PYTEST_PAR scripts/tests -q --continue-on-collection-errors >"$sout" 2>&1 || true
 tail -1 "$sout"
+# ⛔ SAME TWO-SIGNAL DECISION AS THE MANUSCRIPTS BLOCK ABOVE, AND IT IS HERE FOR THE REASON THAT
+# BLOCK'S COMMENT GIVES: a fix bound to one call site regresses at its sibling (`paper-hardening`
+# §8b.2 — measured over 33 mutations, six of eleven list-scoped fixes missed a sibling, and in three
+# of those the missed sibling was named in the fix's own comment). This file has already paid for
+# that shape twice: the modalities block's careful count-based parser was written in 2026-08-05 and
+# the manuscripts block, added later, was still deciding on `grep -q` alone on 2026-08-26.
+_ssum=$(tail -1 "$sout")
+_scount=$({ printf '%s\n' "$_ssum" | grep -oE '[0-9]+ (failed|errors?)' || true; } | awk '{s+=$1} END {print s+0}')
+_slines=$(grep -cE '^(FAILED|ERROR )' "$sout" || true)
 if ! grep -qE '[0-9]+ (passed|failed)' "$sout"; then
   echo "   FAILED: pytest reported no test count -- the run collected nothing."
   tail -5 "$sout"; rc=1
-elif grep -qE '^(FAILED|ERROR )' "$sout"; then
+elif [ "$_scount" -gt 0 ] && [ "$_slines" -eq 0 ]; then
+  echo "   FAILED: the summary reports $_scount failure(s)/error(s) and NOT ONE is named by a"
+  echo "           '^FAILED'/'^ERROR ' line -- the 2026-08-26 false-green state, cause still unknown."
+  tail -5 "$sout"; rc=1
+elif [ "$_scount" -gt 0 ] || [ "$_slines" -gt 0 ]; then
   echo "   FAILED:"; { grep -E '^(FAILED|ERROR )' "$sout" || true; } | sed 's/^/     /'
   rc=1
 else
