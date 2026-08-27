@@ -1,0 +1,22 @@
+{
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "c1bc934fec3c0ddca04e1c72962bbd87834f1506",
+  "blind": true,
+  "lens": "citations, provenance, claim-ceiling, gates",
+  "verdict": "needs_revision",
+  "central_claim": "The two documents hold together on citation provenance, claim-ceiling discipline and internal/cross-file links, with one propagation gap in citation currency.",
+  "blockers": [
+    {"summary": "PMID 37205599 cited for route 1's mechanism paper is the stale preprint identifier; the companion document's own reference list already corrects this to PMID 41811428 (the peer-reviewed Cancer Research 2026 version) per citation-corrections-2026-08-09.json finding 2, which explicitly names this file as needing the propagation.", "artifact": "research/literature/citation-corrections-2026-08-09.json", "disposition": "fixed in this round; also present uncorrected in a third file, research/manuscripts/program/emc-post-degrader-options.md (lines 267, 499), out of scope for this round's two documents and filed as a follow-up."}
+  ],
+  "p1s": [
+    {"summary": "lint_citations.py checks that an identifier is anchored somewhere, not that companion documents citing the same external paper agree on which identifier. This is exactly how the PMID blocker survived undetected.", "guard_gap": "no cross-document identifier-agreement check"},
+    {"summary": "emc-atr-collaborator-package.md's editorial (non-shipping) comment block asserts systems/views/L3-publications.md is stale; it is not, at this commit.", "guard_gap": "none, and confined to an editorial block that never ships"}
+  ],
+  "p2s": [],
+  "lint_results": {
+    "lint_citations": "exit 0 -- 971 prose identifiers, 89 unanchored, 213 in ledger",
+    "lint_claims_assessment": "exit 0 -- clean",
+    "lint_claims_collaborator_package": "exit 0 -- 1 WARN inside an editorial (non-shipping) block, does not gate the build"
+  },
+  "notes": "All markdown links and same-file anchors in both documents resolve. Claim-ceiling read in full: no leaked efficacy/safety/selectivity/window/readiness claims found."
+}

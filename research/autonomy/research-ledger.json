@@ -6,6 +6,7 @@
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
     "analysis": 1,
+    "code": 1,
     "experiment": 23,
     "fetch": 11,
     "harden": 2,
@@ -13,12 +14,12 @@
     "process": 4,
     "process_defect": 5,
     "regrade": 7,
-    "write": 5
+    "write": 6
   },
   "n_by_state": {
     "done": 2,
-    "queued": 87,
-    "running": 1
+    "in_progress": 1,
+    "queued": 89
   },
   "n_clamped": 11,
   "entries": [
@@ -106,15 +107,15 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "write",
-      "state": "running",
-      "owner": "CYC-0016",
+      "state": "queued",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-06",
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
       "score": 190.0,
       "score_inputs": {
         "live": true,
@@ -128,7 +129,7 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
-      "claimed_utc": "2026-08-27T04:21:20Z"
+      "claimed_utc": null
     },
     {
       "id": "AUT-046",
@@ -449,6 +450,28 @@
       "filed_by": "CYC-0010",
       "what": "\u2b50 BUILD THE PUBLICATION-TYPE GUARD \u2014 the PubMed connector is live and PROVEN to reach NCBI from this container (convert_article_ids resolved 4 PMCIDs while `curl` to eutils returns HTTP 000 / exit 56). `lint_citations` can only check that an identifier is ANCHORED; its own header says 'an ANCHORED identifier is not thereby verified either'. On 2026-08-26 that gap let a national-registry cohort and two single-patient case reports be cited as 'the review literature' \u2014 every identifier real, every one anchored, the gate green, and it survived two cycles. \u26d4 THE DISCRIMINATOR IS ONE FIELD: get_article_metadata returns `article_types`. Measured on those four: PMC7563993 ['Journal Article','Review']; PMC12398172 ['Journal Article']; PMC12376927 and PMC9131214 both carry 'Case Reports'. Exactly ONE is a Review. \u2b50 THE GUARD: where prose characterises a citation BY TYPE, assert `article_types` agrees. \u26d4 CACHE, NEVER CALL \u2014 preflight is offline and deterministic; a linter depending on a live connector puts a commit gate at the mercy of someone's uptime. The connector is the FETCHER; a tracked artifact is what the gate reads. \u26a0 PubMed's terms require attribution and a DOI link wherever its metadata travels, cache artifact included.",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art.md"
+    },
+    {
+      "id": "AUT-PROP-009",
+      "kind": "code",
+      "serves": {
+        "route": "RT-ATR-ASSESS",
+        "publication": "PUB-ATR",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0016",
+      "score": 170.0,
+      "what": "Close the single-slot-artifact hazard in atr_hrd_sarcoma_series.py (mode: gse-series). CYC-0016's hardening round found that section 8 of PUB-ATR's entire evidence base had been silently overwritten with a DIFFERENT series' data (GSE28866 instead of GSE299349) by an unrelated restore commit (4a7030e, 2026-08-26) that swept in a stale snapshot of the whole toolchain. `--check` passed throughout because it only verifies the artifact reproduces from its own inputs cache, never that the cache is for the series a citing manuscript names. Add a `--check` failure (or a standalone test) that compares the committed `series` field against the SERIES module constant, and ideally against every manuscript that cites this artifact as its producer, so this exact silent-clobber cannot recur on the next unrelated dispatch or restore. Fixed once already by re-dispatching emc-expression-datasets.yml mode=gse-series series=GSE299349 (run 33039862314 -> commit a8caba9) \u2014 this item is the guard against it happening again, not the data fix itself."
     },
     {
       "id": "AUT-013",
@@ -950,6 +973,28 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       }
+    },
+    {
+      "id": "AUT-PROP-010",
+      "kind": "write",
+      "serves": {
+        "route": "RT-ATR-ASSESS",
+        "publication": "PUB-ATR",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0016",
+      "score": 120.0,
+      "what": "Propagate the PMID 37205599 -> 41811428 citation correction (route 1's mechanism paper, Gracilla et al., Cancer Research 2026;86:2660-2677 \u2014 already corrected in emc-atr-collaborator-package.md's own reference list and in emc-atr-vulnerability-assessment.md by CYC-0016) to the one remaining citing file: research/manuscripts/program/emc-post-degrader-options.md, lines 267 and 499. Out of scope for CYC-0016's two-document hardening round; a small, mechanical, already-vetted fix (citation-corrections-2026-08-09.json already documents which identifier is current)."
     },
     {
       "id": "AUT-049",

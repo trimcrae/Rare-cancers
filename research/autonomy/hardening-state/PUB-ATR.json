@@ -1,0 +1,46 @@
+{
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "c1bc934fec3c0ddca04e1c72962bbd87834f1506",
+  "last_round": 1,
+  "seats": [
+    "PUB-ATR-c1bc934fec3c0ddca04e1c72962bbd87834f1506-seat-arithmetic.json",
+    "PUB-ATR-c1bc934fec3c0ddca04e1c72962bbd87834f1506-seat-statistics.json",
+    "PUB-ATR-c1bc934fec3c0ddca04e1c72962bbd87834f1506-seat-citations.json",
+    "PUB-ATR-c1bc934fec3c0ddca04e1c72962bbd87834f1506-seat-consistency.json",
+    "PUB-ATR-c1bc934fec3c0ddca04e1c72962bbd87834f1506.json"
+  ],
+  "blockers": [
+    {"seat": "arithmetic", "summary": "section 8's entire evidence base was for the wrong GEO series (GSE28866 instead of GSE299349) due to an unrelated restore commit clobbering the artifact", "status": "fixed: re-fetched via emc-expression-datasets.yml run 33039862314, commit a8caba9; every section-8 number re-verified"},
+    {"seat": "arithmetic", "summary": "GSE24369 probe count/resolution % and several contrast values (ATM sign, S-phase/checkpoint transposed, t-values) did not match the artifact", "status": "fixed in commit (this round)"},
+    {"seat": "arithmetic", "summary": "27,195 probes stated for GSE4303 GPL3290 vs artifact's 27,196", "status": "fixed in commit (this round)"},
+    {"seat": "citations", "summary": "stale preprint PMID 37205599 cited for route 1's mechanism paper instead of the peer-reviewed PMID 41811428", "status": "fixed in commit (this round); also present in a third, out-of-scope file (emc-post-degrader-options.md) and filed as a follow-up"},
+    {"seat": "consistency", "summary": "line 81 'canonical fusion' claim conflates EMC's second-commonest fusion (type 2, exact structural match) with its actual commonest fusion (type 1, partial match) -- companion document's own appendix already corrected this label", "status": "fixed in commit (this round)"},
+    {"seat": "consistency", "summary": "same stale PMID 37205599 issue, found independently", "status": "fixed in commit (this round); converges with the citations seat"},
+    {"seat": "hostile-referee", "summary": "same canonical-fusion mislabeling, found independently", "status": "fixed in commit (this round); converges with the consistency seat"}
+  ],
+  "p1s": [
+    {"seat": "arithmetic", "summary": "atr_hrd_sarcoma_series.py mode:gse-series is a single-slot artifact with no check that the committed series matches what a citing manuscript expects -- the exact mechanism that produced blocker 1 and can recur"},
+    {"seat": "arithmetic", "summary": "no lint pins manuscript prose numbers to the emc-atr-vulnerability.json fields that produce them"},
+    {"seat": "arithmetic", "summary": "STR locus count (18 vs 16 distinct loci) is uncounted; non-load-bearing"},
+    {"seat": "statistics", "summary": "manuscript's 'only 4 grading outcomes' claim is not pinned against grade()'s actual 5th branch (MODERATE_PLUS), unreached this run"},
+    {"seat": "statistics", "summary": "Part-B's >0.2 SD-unit elevation threshold is an undocumented magic number with no manuscript disclosure"},
+    {"seat": "statistics", "summary": "Part-D's specificity margins were iteratively hardened mid-analysis per the code's own comment; not disclosed as such in the manuscript's 'fixed before the numbers' framing"},
+    {"seat": "statistics", "summary": "MODERATE branch does not distinguish 'no data' from 'tested and negative'; unreached this run"},
+    {"seat": "citations", "summary": "lint_citations checks anchoring, not cross-document identifier agreement -- how the PMID blocker survived"},
+    {"seat": "citations", "summary": "stale editorial comment in the companion document's non-shipping block (does not affect the shipped text)"},
+    {"seat": "consistency", "summary": "line 439's '§5's limit' cross-reference actually points at content stated in §6.1"},
+    {"seat": "consistency", "summary": "no mechanical tie between a companion document's citation-correction table and a sibling's live prose"},
+    {"seat": "consistency", "summary": "companion appendix's 'files affected' list for the canonical-fusion correction omitted this document"},
+    {"seat": "hostile-referee", "summary": "no mechanical guard cross-checks narrative labels between the two sibling documents"},
+    {"seat": "hostile-referee", "summary": "§2.3's table of affected repository files has no enforcement that flagged corrections are actually actioned downstream"},
+    {"seat": "hostile-referee", "summary": "§5's four mechanism-test bars have no machine-pinned record equivalent to the tier grading's grading._criteria_verbatim"},
+    {"seat": "hostile-referee", "summary": "primary document retains repository-register voice the companion explicitly converted away from for submission"}
+  ],
+  "round_1_disposition": "All 7 seat-flagged blockers verified and fixed in this round's commit (canonical-fusion mislabeling, stale PMID, and the section-8 artifact/GSE24369/GSE4303 arithmetic errors, the last via a real GEO re-fetch dispatched to Actions after root-causing the clobber to an unrelated 2026-08-26 restore commit). 16 P1s remain open across all five seats -- none block correctness of the current text, all are guard/documentation gaps. publish_bar clause 1 (hardening_converged) will therefore still FAIL until a round 2 (on the commit carrying these fixes) closes the P1s and reviews a fresh pin.",
+  "queued_next": [
+    "★ HIGHEST PRIORITY: close the single-slot-artifact hazard in atr_hrd_sarcoma_series.py (mode:gse-series) -- add a --check failure when the committed `series` field disagrees with what a citing manuscript names, so the exact defect this round found and fixed cannot silently recur on the next unrelated dispatch or restore.",
+    "propagate the PMID 37205599 -> 41811428 correction to research/manuscripts/program/emc-post-degrader-options.md (lines 267, 499) -- out of scope for this round's two documents.",
+    "round 2: fresh 5 blind seats pinned to the commit carrying this round's fixes, targeting the 16 open P1s -- particularly pinning the grading thresholds (>0.2 SD, the 1.5x/1.15x/0.1 specificity margins) the way grading._criteria_verbatim already pins the tier rubric.",
+    "clause 2 (PREFLIGHT_FULL=1) and clause 6 (a seat with verdict=='supported', requiring a fresh referee pass since this round's referee verdict was needs_revision) are both still open."
+  ]
+}

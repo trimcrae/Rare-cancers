@@ -1,0 +1,21 @@
+{
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "c1bc934fec3c0ddca04e1c72962bbd87834f1506",
+  "blind": true,
+  "lens": "arithmetic against committed artifacts",
+  "verdict": "needs_revision",
+  "central_claim": "The paper tests, using only public data, whether EMC inherits a published ATM-suppression to compensatory-ATR-dependency vulnerability from its FET-fusion class, and concludes the computational case is WEAK.",
+  "blockers": [
+    {"summary": "The entire section 8 competing-biomarker narrative (GSE299349, 68 samples, GSM9037837/USZ-23_EMC3, TPM values) cited research/modalities/atr-hrd-sarcoma-series.json as its producer, but at the pinned commit that file's committed content was for a different series (GSE28866, 99 samples) entirely -- none of section 8's numbers appeared in it.", "artifact": "research/modalities/atr-hrd-sarcoma-series.json", "disposition": "root-caused to an unrelated 2026-08-26 restore commit (4a7030e, \"Restore the fan-out map\") that swept in a stale pre-GSE299349 snapshot of the whole ATR-HRD toolchain. Fixed by re-dispatching emc-expression-datasets.yml mode=gse-series series=GSE299349 (run 33039862314, success, commit a8caba9). Verified post-fix: every number in section 8 (NR4A3 TPM 13.332 rank 4/68, ACTB/GAPDH/ALB/INS controls, family-fraction 0.0524 median, verdict string) reproduces exactly."},
+    {"summary": "GSE24369 prose paragraph in section 3.4 (probe count, resolution %, and ATM/S-phase/checkpoint/MYC/oxphos contrast values) did not match part_b_emc_tumour_signature.per_platform in emc-atr-vulnerability.json -- ATM signalling's sign was wrong (stated positive, actually negative) in both the pooled and FET-arm contrasts.", "artifact": "research/modalities/emc-atr-vulnerability.json", "disposition": "fixed in this round: 20,324/93.2% -> 20,629/98.2%; ATM +0.001/+0.002 -> -0.004/-0.001; S-phase and checkpoint deltas were transposed, corrected; MYC/oxphos/checkpoint-FET t-values corrected to match the artifact. Does not change the qualitative flat/null reading."},
+    {"summary": "27,195 probes stated for GSE4303 GPL3290 in three places; artifact records 27,196 (n_probes_mapped_to_symbols).", "artifact": "research/modalities/emc-atr-vulnerability.json", "disposition": "fixed in this round, all occurrences."}
+  ],
+  "p1s": [
+    {"summary": "atr_hrd_sarcoma_series.py's mode:gse-series is a single-slot tool -- its one output file gets overwritten on each invocation for whatever series was last fetched, with no check that the committed series matches what a citing manuscript expects. This is exactly the mechanism that produced blocker 1 and can recur on the next unrelated dispatch or restore.", "guard_gap": "no --check mode failure when committed `series` disagrees with the series a citing document names"},
+    {"summary": "Nothing pins manuscript prose numbers (e.g. \"20,629 (98.2%)\") to the JSON fields that produce them.", "guard_gap": "no lint comparing prose numbers to emc-atr-vulnerability.json fields"},
+    {"summary": "\"An 18-locus STR profile\" for H-EMC-SS in section 2 -- the Cellosaurus record has 16 distinct loci (one duplicated, one non-STR sex marker); non-load-bearing.", "guard_gap": "none, and not load-bearing"}
+  ],
+  "p2s": ["rounding convention inconsistencies of +/-1 in the last printed digit in a few table cells; none affect a threshold or verdict"],
+  "document_sha256": "15bd409f80e7dd95d9c9e829df3b2dd737e8940f21e9883b834b72e510094daf",
+  "notes": "Extensively verified Parts A, C, D and the GSE4303 table as fully correct against the committed artifact. The section 8 finding is the most consequential of this round."
+}

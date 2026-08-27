@@ -1,0 +1,17 @@
+{
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "c1bc934fec3c0ddca04e1c72962bbd87834f1506",
+  "blind": true,
+  "lens": "statistics and experimental design",
+  "verdict": "needs_revision",
+  "central_claim": "Whether the published FET-fusion to impaired-ATM to compensatory-ATR-dependency hypothesis is internally consistent in public data and transfers to EMC, tested against a pre-registered three-tier rubric reaching a graded WEAK verdict.",
+  "blockers": [],
+  "p1s": [
+    {"summary": "The manuscript's section 1 claims only four grading outcomes exist (three tiers plus NOT_ASSESSABLE), but emc_atr_vulnerability.py's grade() function supports a fifth, MODERATE_PLUS, never mentioned in the prose. Did not fire this run so the reported tier is not currently wrong, but nothing pins the 'only 4 outcomes' claim against the code.", "guard_gap": "no test asserts the manuscript's enumerated outcome set matches grade()'s actual branches"},
+    {"summary": "The raw/adjusted DDR-concept threshold (>0.2 SD units) that decides which concepts count as 'elevated' is a bare magic number in emc_atr_vulnerability.py with no named constant, no manuscript citation, and no stated numeric value in the prose at all (unlike the |rho|>=0.15 bar in Part D, which is quoted verbatim).", "guard_gap": "no pinned constant, no prose disclosure"},
+    {"summary": "Part D's specificity margins (1.5x, 1.15x, 0.1) were iteratively hardened mid-analysis per the code's own comment (tightened after a specific run's numbers revealed a naive comparison would admit a proliferation-driven predictor); the manuscript's framing ('fixed before the numbers') does not disclose this.", "guard_gap": "no machine-pinned record of these thresholds equivalent to grading._criteria_verbatim"},
+    {"summary": "The MODERATE branch condition does not distinguish 'no surrogate data exist' from 'surrogate data were tested and came back negative', though the verbatim MODERATE criterion's plain-language sense treats them differently. Unreached this run.", "guard_gap": "none"}
+  ],
+  "p2s": ["no multiple-comparison correction is noted for the many within-series t-statistics reported bare, though the design (concordance across independent series/comparators) is a defensible substitute", "small group sizes (n=6-10) with no confidence intervals on point deltas"],
+  "notes": "All four Part-D mechanism tests, the Part-B verdict chain, the final grade() tier, the drug-response correction, and Part C's joint-dependency null all independently re-derived and confirmed correct against the committed artifact."
+}

@@ -1,0 +1,19 @@
+{
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "c1bc934fec3c0ddca04e1c72962bbd87834f1506",
+  "blind": true,
+  "lens": "internal consistency across a long edit history (round-1 substitute for a regression seat)",
+  "verdict": "needs_revision",
+  "central_claim": "The primary document concludes the FET to ATM-suppression to ATR-dependency hypothesis is structurally still viable for EMC but graded only WEAK computationally, while its companion pre-specifies wet-lab constructs and predictions to test the structural argument.",
+  "blockers": [
+    {"summary": "Line 81's 'canonical fusion' claim (EWSR1(1-264), 0/30 RG) is exactly the framing the companion document's own Appendix A documents as superseded 2026-08-03: the label 'canonical' belongs to the exon-12 cut (type 1, EWSR1(1-431), 8/30 RG), not the exon-7 cut (type 2). The primary document even states the correct exon-12 fusion structure elsewhere (line 748), contradicting its own line 81.", "artifact": "research/manuscripts/dependency/emc-atr-collaborator-package.md Appendix A + Table 4", "disposition": "fixed in this round"},
+    {"summary": "PMID 37205599 cited in section 8.2 for route 1's mechanism paper is the identifier the companion's own Appendix A marks superseded (PMID 41811428 is current).", "artifact": "research/manuscripts/dependency/emc-atr-collaborator-package.md Appendix A", "disposition": "fixed in this round (independently found and fixed; converges with the citations seat's identical finding)"}
+  ],
+  "p1s": [
+    {"summary": "Line 439's '§5's limit applies with full force here' cross-references §5 (Part D, GDSC2 correlations), but the cited 'recruitment and phosphorylation' limitation is actually stated in §6.1, not §5.", "guard_gap": "no guard validates bare §N prose cross-references against target section content"},
+    {"summary": "No mechanical check ties a companion document's citation-correction table to a sibling manuscript's live prose -- how the PMID blocker survived.", "guard_gap": "same as citations seat's finding"},
+    {"summary": "The companion's Appendix A 'used by' accounting for the canonical-fusion correction omits this document even though it used the identical superseded phrase.", "guard_gap": "no check that a correction's own 'files affected' list is complete"}
+  ],
+  "p2s": ["a blank line splits one appendix table into two in the companion document (cosmetic)", "one cross-reference points at a Methods section rather than the sharper Results section (readable in context)", "one stale pointer already self-disclosed in the companion's own appendix"],
+  "notes": "Checked all appendix rows in both documents' superseded-value tables against live text; checked 25+ internal section cross-references; full gene-identifier scan for single-character typos (none found); verified sample-count and TPM arithmetic in section 8."
+}

@@ -1,0 +1,21 @@
+{
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "c1bc934fec3c0ddca04e1c72962bbd87834f1506",
+  "blind": true,
+  "lens": "hostile referee (accept/revise/reject)",
+  "referee_verdict": "MAJOR_REVISIONS_NEEDED",
+  "verdict": "needs_revision",
+  "central_claim": "The paper tests whether extraskeletal myxoid chondrosarcoma inherits the FET-fusion class's ATM-suppression/compensatory-ATR-dependency vulnerability in public genomic and drug-response data, and it reports that only weak, mostly-null computational support for that inheritance was found.",
+  "blockers": [
+    {"summary": "Line 81's headline 'structural precondition census' row misidentifies which EMC fusion type is canonical (commonest), borrowing a label the companion document's own Appendix A already corrected -- overstating the precision of the one structural argument said to survive parts C and D untouched.", "artifact": "research/manuscripts/dependency/emc-atr-collaborator-package.md Appendix A + Table 4", "disposition": "fixed in this round"}
+  ],
+  "p1s": [
+    {"summary": "No mechanical guard cross-checks narrative labels (e.g. 'canonical fusion') between the two sibling documents; the drift already happened once undetected.", "guard_gap": "prose-level cross-document consistency, outside lint_consistency's numeric/pinned-figure scope"},
+    {"summary": "Section 2.3's table of repository files affected by the H-EMC-SS fusion-status finding is explicitly left 'for a human decision' with nothing enforcing follow-through.", "guard_gap": "no tracking of whether a flagged correction was actually actioned downstream"},
+    {"summary": "Section 5's four mechanism-test bars are asserted as 'fixed before the numbers' with no machine-pinned record equivalent to the tier grading's grading._criteria_verbatim.", "guard_gap": "same as statistics seat's finding on unpinned thresholds"},
+    {"summary": "The primary document retains repository-register voice (glyph-led warnings, meta-narrative) that the companion explicitly converted away from for outward-facing submission per its own house rule.", "guard_gap": "no register/style gate applies to this document specifically for aiXiv submission"}
+  ],
+  "p2s": ["terminology collision between 'Ewing type-1' (source paper's numbering) and EMC's own 'type 1' (unrelated numbering) could confuse a cross-referencing reader", "no explicit multiple-testing correction discussed across the four section 5 predictor tests", "frontmatter date/last_verified metadata is stale relative to content"],
+  "document_sha256": "15bd409f80e7dd95d9c9e829df3b2dd737e8940f21e9883b834b72e510094daf",
+  "notes": "One of the most self-critical computational manuscripts reviewed: the WEAK tier is earned with a fixed, pre-registered, JSON-pinned rubric; negative findings in Parts C and D are stated plainly; section 8's competing-biomarker discovery is reported as actively weakening the authors' own route. The class-inheritance limit is genuinely stated inside the document repeatedly. The one blocker found sat exactly where a hostile reader would look first (the headline). Fixing it plausibly brings this to ACCEPT_WITH_MINOR_REVISIONS on a second look, pending the remaining P1s across all five seats."
+}
