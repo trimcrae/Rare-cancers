@@ -134,10 +134,18 @@ words.
 
 ⚠ WHAT IS DELIBERATELY NOT BOUND, AND WHY IT IS ENUMERATED RATHER THAN LEFT OUT.
 Some printed numbers are not the artifact's to own: the 95 % confidence LEVEL, which the evidence
-contract fixes and the artifact only ever echoes; the "≈27 %" the field quotes, which this paper
-exists partly to correct; a figure whose one home is a different artifact; a DOI that happens to
-contain a slash between digits; and a retained SUPERSEDED quotation whose whole purpose is to
-preserve a number this document no longer asserts.
+contract fixes and the artifact only ever echoes; a figure whose one home is a different artifact;
+a DOI that happens to contain a slash between digits; and a retained SUPERSEDED quotation whose
+whole purpose is to preserve a number this document no longer asserts.
+⭐ ONE FIGURE LEFT THIS BUCKET ON 2026-08-27 AND THAT MOVE IS THE POINT (round 7, Appendix A30).
+The "≈27 %" the field was said to quote sat here as `source-quoted` — an external comparator with
+NO SOURCE, which is precisely why nothing could read it and why the claim survived four sites for
+weeks. Its replacement, the ≈20 % two sources in the manuscript's own reference list state, was
+NOT written into this bucket: it went into the artifact as `external_reported_share` with both
+quotations and both DOIs, and every prose site of it — the two verbatim quotations included — is
+BOUND. ⛔ The general rule this bought: a figure is declared unowned because the artifact has no
+business computing it, never because nobody has yet written down where it came from. The second
+case is a provenance gap wearing a declaration's clothes.
 Excluding those silently would make the guard's coverage a matter of whatever happened to pass, so
 they are declared in `DECLARED_NOT_ARTIFACT_OWNED` with a reason class, and
 `test_every_fraction_and_percentage_is_bound_or_declared` fails on any printed fraction or rate that
@@ -943,6 +951,50 @@ def _outlier(a):
     return (_pct(per[hi_id]), _pct(min(others)), _pct(max(others)))
 
 
+# ⛔ ADDED 2026-08-27 (round 7, manuscript Appendix A30) BECAUSE THE RETRACTION MOVED THE COMPARATOR.
+# The Abstract and the §5 claims bullet used to compare the pooled share against a "≈27 % the field
+# quotes" — a figure no source was ever held for, declared not-artifact-owned and therefore read by
+# nothing. Both now compare it against the referral cohort's OWN share, which the artifact does own,
+# so the comparator moved from an unwatched constant to a derived one. Bound at every site rather
+# than at the two obvious ones: `paper-hardening` §8b.2 — a fix scoped to a list regresses at a
+# sibling, and the third site is the appendix row that records this very correction.
+bind("the referral cohort's own share, wherever the prose compares the pooled interval against it "
+     "(Abstract, §5 claims bullet)",
+     r"below the (\d+\.\d) % of the single referral-centre series that is the high outlier of the four",
+     lambda a: _outlier(a)[0])
+
+bind("Appendix A30's restatement of the referral cohort's own share",
+     r"the location of the referral cohort's (\d+\.\d) % within it",
+     lambda a: _outlier(a)[0])
+
+# ⛔ THE EXTERNAL COMPARATOR IS BOUND, NOT DECLARED — 2026-08-27, round 7, Appendix A30.
+# Its predecessor (the "≈27 % the field quotes") sat in DECLARED_NOT_ARTIFACT_OWNED for exactly the
+# reason A30 retracts it: no source was ever held, so there was nothing for an instrument to read.
+# Writing the replacement into the same exclusion bucket would have reproduced the defect with a
+# better number, so the figure now lives in the artifact WITH both quotations and both DOIs, and
+# every prose site of it — including the two VERBATIM QUOTATIONS, which is where a transcription
+# error would actually land — is bound to that record.
+def _ext_share(a):
+    return a["analyses"]["C_partner_prevalence"]["external_reported_share"]
+
+
+bind("the cited literature's general TAF15 share, wherever the prose says the pooled interval "
+     "contains it (Abstract, §5 claims bullet)",
+     r"the ≈(\d+) % this document's own cited sources state",
+     lambda a: str(_ext_share(a)["percent_approx"]))
+
+bind("§3.5's statement of the same share, and Appendix A30's",
+     r"both (?:put it at|give) about (\d+) %",
+     lambda a: str(_ext_share(a)["percent_approx"]))
+
+bind("Appendix A30's verbatim quotation of reference [4]'s TAF15 share",
+     r"less frequently \(about (\d+)% of cases\) to the transactivation domain of TAF15",
+     lambda a: str(_ext_share(a)["percent_approx"]))
+
+bind("Appendix A30's verbatim quotation of reference [12]'s TAF15 share",
+     r"less frequently \(approximately (\d+)%\) to TAF15",
+     lambda a: str(_ext_share(a)["percent_approx"]))
+
 bind("§3.5's two excluded congress abstracts, each as TAF15 over its partner-assigned total",
      r"\((\d+) of (\d+) partner-assigned in Valencia; (\d+) of (\d+) in Pilsen/Znojmo\)",
      lambda a: _abstracts(a))
@@ -1412,12 +1464,17 @@ DECLARED_NOT_ARTIFACT_OWNED = [
      "`systems/POLICY-evidence.md` §2.2 and recorded in every interval the artifact writes as "
      "`\"interval\": \"Wilson score, 95%\"`; the bounds themselves are bound above, at every site."),
 
-    ("source-quoted",
+    ("superseded-quotation",
      r"≈27 %",
-     "The figure THE FIELD quotes, which this paper exists partly to correct. It is a "
-     "characterisation of the literature, not a pooled quantity, and the artifact holds no such "
-     "field — its `outlier_note` describes the same situation in prose. The pooled 18.2 % that "
-     "replaces it, and the 29.2 % referral cohort it comes from, are both bound above."),
+     "⛔ RECLASSIFIED 2026-08-27 (round 7, Appendix A30), AND THE RECLASSIFICATION IS THE POINT. "
+     "This row previously read `source-quoted` and called it \"the figure THE FIELD quotes, which "
+     "this paper exists partly to correct\" — but no source for that quoting practice was ever "
+     "held, and the two sources in the manuscript\'s own reference list that state a general TAF15 "
+     "share both give about 20 %, INSIDE the pooled interval. The claim is retracted at all four "
+     "of its live sites; the string survives only inside retained `Superseded, retained` "
+     "quotations and the A3/A30 appendix rows. ⚠ A declaration row that names a figure the "
+     "document no longer ASSERTS must say so, or the exclusion list quietly keeps a retracted "
+     "claim exempt from the census that would otherwise notice it."),
 
     ("source-quoted",
      r">\s?90% (?:of the cases an NR4A3 rearrangement|NR4A3-rearrangement statement)",

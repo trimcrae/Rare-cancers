@@ -1829,23 +1829,79 @@ def build() -> dict:
                 for c in prev
             ]
         ),
+        # ⛔ ADDED 2026-08-27 (manuscript Appendix A30). THE COMPARATOR THIS REPLACES HAD NO SOURCE.
+        # Until this round the prose compared the pooled share against "the ~27 % the field quotes"
+        # -- a characterisation of the literature's practice that nothing in this repository, the
+        # manuscript or its reference list ever attested, and which the guard therefore carried as
+        # DELIBERATELY UNOWNED. The two sources in the manuscript's own reference list that state a
+        # general TAF15 share both give about 20 %. They are recorded here WITH the sentence each
+        # states it in, so the comparator is a quotation with a DOI behind it rather than a number
+        # somebody remembered, and so an instrument reads it (paper-hardening s8a: close the class).
+        # ⚠ `falls_inside_pooled_interval` is DERIVED below, never typed -- it is the whole finding.
+        "external_reported_share": {
+            "question": (
+                "What share does the literature this manuscript cites actually state for "
+                "TAF15::NR4A3, as against what this pooling computes?"
+            ),
+            "percent_approx": 20,
+            "scope": (
+                "The two sources in the manuscript's reference list that state a GENERAL TAF15 "
+                "share. It is a figure this synthesis QUOTES; it is not pooled, re-derived or "
+                "weighted here, and the two sources are not independent of each other in any way "
+                "this record establishes."
+            ),
+            "sources": [
+                {
+                    "citation": "stacchiotti2020review",
+                    "reference_number_in_manuscript": 4,
+                    "pmcid": "PMC7563993",
+                    "doi": "10.3390/cancers12092703",
+                    "kind": "narrative review",
+                    "quote": (
+                        "less frequently (about 20% of cases) to the transactivation domain of "
+                        "TAF15"
+                    ),
+                    "section": "Pathological and Molecular Characteristics",
+                },
+                {
+                    "citation": "bangerter2022",
+                    "reference_number_in_manuscript": 12,
+                    "pmcid": "PMC9813045",
+                    "doi": "10.1007/s13577-022-00818-x",
+                    "kind": "journal article, introduction",
+                    "quote": "less frequently (approximately 20%) to TAF15",
+                    "section": "Introduction",
+                },
+            ],
+            "_attribution": (
+                "Both quotations are PubMed Central full-text reads and travel with their DOIs."
+            ),
+        },
         "context_range_note": (
             "The two excluded congress abstracts bracket the pooled estimate rather than "
             "contradicting it: 7 of 26 partner-assigned cases in Valencia, 1 of 9 in "
             "Pilsen/Znojmo. A THIRD prevalence series is excluded and does NOT bracket it: "
             "sjogren-2003-prevalence is 3/9 = 33.3 % TAF15 at patient level, above every pooled "
-            "cohort and above the ~27 % the field quotes, held out under POLICY-evidence.md "
+            "cohort, held out under POLICY-evidence.md "
             "s2.1(3). Pooling it would give 31/163 = 19.0 % with a per-cohort range of "
-            "15.8-33.3 %, so this exclusion moves the estimate AWAY from the field's figure "
-            "rather than toward it."
+            "15.8-33.3 %, so this exclusion moves the estimate AWAY from the highest published "
+            "shares rather than toward them."
         ),
         "outlier_note": (
-            "Agaram 2014 is the high outlier of the four pooled series and is also the source most "
-            "often quoted for TAF15 frequency ('27%'). Its cohort is 26 consecutive cases at a "
+            "Agaram 2014 is the high outlier of the four pooled series. Its cohort is 26 "
+            "consecutive cases at a "
             "tertiary sarcoma referral centre, i.e. exactly the setting where morphologically "
             "unusual, high-grade, hard-to-classify tumours -- which is what TAF15::NR4A3 tends to "
-            "be -- are over-represented. The pooled estimate is materially lower than the figure "
-            "the field repeats."
+            "be -- are over-represented. "
+            "WHAT THIS NOTE NO LONGER SAYS, AND WHY (manuscript Appendix A30, 2026-08-27): it "
+            "asserted that Agaram is 'the source most often quoted for TAF15 frequency (27%)' and "
+            "that the pooled estimate is 'materially lower than the figure the field repeats'. NO "
+            "SOURCE FOR THAT QUOTING PRACTICE WAS EVER HELD. The two sources in the manuscript's "
+            "own reference list that state a general TAF15 share -- Stacchiotti 2020 (PMC7563993, "
+            "doi 10.3390/cancers12092703) and Bangerter (PMC9813045, "
+            "doi 10.1007/s13577-022-00818-x) -- both give about 20 %, which lies INSIDE this "
+            "pooled interval. The pooling is consistent with the cited literature and its "
+            "contribution is the interval, not a correction of a point figure."
         ),
         "verdict": (
             "TAF15::NR4A3 is carried by {t}/{n} partner-assigned EMC across four independent "
@@ -1860,6 +1916,26 @@ def build() -> dict:
             hi=wilson(taf_n, tot)["ci95_hi_percent"],
         ),
     }
+
+    # ⛔ DERIVED, NEVER TYPED (CLAUDE.md rule 1.1). Whether the literature's stated share falls
+    # inside this pooling's own interval IS Appendix A30's finding, so it is computed from the
+    # interval the generator just wrote rather than asserted beside it. If a count changes and the
+    # interval moves off the cited figure, this flips here and the prose bound to it goes red --
+    # which is the whole reason the comparator was moved into the artifact.
+    _ext = analysis_prev["external_reported_share"]
+    _w = wilson(taf_n, tot)
+    _ext["pooled_percent_for_comparison"] = _w["percent"]
+    _ext["pooled_ci95_for_comparison"] = [_w["ci95_lo_percent"], _w["ci95_hi_percent"]]
+    _ext["falls_inside_pooled_interval"] = bool(
+        _w["ci95_lo_percent"] <= _ext["percent_approx"] <= _w["ci95_hi_percent"]
+    )
+    _ext["reading"] = (
+        "The share the cited literature states falls {inside} the interval this pooling computes, "
+        "so the pooling {verb} it."
+    ).format(
+        inside="INSIDE" if _ext["falls_inside_pooled_interval"] else "OUTSIDE",
+        verb="is consistent with" if _ext["falls_inside_pooled_interval"] else "disagrees with",
+    )
 
     # The ten strata s2.5 names: both TKI-response contrasts and all three outcome contrasts.
     _extent = _stratum_extent(
