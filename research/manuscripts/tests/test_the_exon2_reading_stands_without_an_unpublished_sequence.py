@@ -118,12 +118,63 @@ def test_a_reagent_is_named_at_both_candidate_acceptors():
         f"acceptor, which is the acceptor the whole panel was tiled at. Printed: {sorted(printed)}")
 
 
+#: The requirement, as a phrase. ⛔⛔ THIS KEYWORD SURVIVES ITS OWN NEGATION, WHICH IS WHY IT IS NOT
+#: THE WHOLE TEST (round 10's audit, item MISCOVERED E). "the breakpoint … need NOT be established
+#: at nucleotide resolution by RNA sequencing" contains the needle verbatim, so the sentence this
+#: module names as property (4) of its four could be inverted with the module green — and it was:
+#: the audit's mutation 5 flipped the Methods requirement AND the clause behind it ("every design
+#: here being specific to the exon pair it was tiled at" -> "no design here being…") and every test
+#: in this file passed. A keyword search reads whether a topic is MENTIONED; a requirement is a
+#: DIRECTION, and direction has to be read where it is written — immediately in front of the verb.
+_SEQUENCING_REQUIREMENT = re.compile(
+    r"established\s+at\s+nucleotide\s+resolution\s+by\s+RNA\s+sequencing", re.I)
+
+#: A negation standing on that verb. ⚠ NOT "the word `not` is nearby" — the Declarations copy reads
+#: "and NOT until the breakpoint has been established…", which is the requirement stated as a
+#: prohibition on ordering and must stay green. What is rejected is a negation attached to the verb
+#: itself: a modal + "not", "not be/been/being", "no need", or "without".
+_NEGATION_ON_THE_VERB = re.compile(
+    r"\b(?:need|must|does|do|did|shall|will|would|may|might|can|could|is|are|was|were)\s+not\b"
+    r"|\bnot\s+(?:be|been|being)\b|\bno\s+need\b|\bwithout\b", re.I)
+
+#: The venue's required Declarations heading, used here only to split the two independent copies of
+#: the requirement apart. ⛔ THE SPLIT IS THE POINT: the audit measured that the Declarations copy
+#: "matches independently too", so a search over the whole document is satisfied by either one and
+#: the Methods sentence could be deleted outright with this module green.
+_DECLARATIONS = "## Statements and Declarations"
+
+
 def test_the_breakpoint_must_be_sequenced_before_anything_is_ordered():
     """(4) The requirement that makes an undecided acceptor safe rather than merely admitted."""
     body = _article()
-    assert re.search(r"established\s+at\s+nucleotide\s+resolution\s+by\s+RNA\s+sequencing", body), (
+    assert _SEQUENCING_REQUIREMENT.search(body), (
         "⛔ the manuscript no longer requires the test article's breakpoint to be established at "
         "nucleotide resolution by RNA sequencing before an oligonucleotide is ordered. Every "
         "design here is specific to the exon pair it was tiled at, so this requirement is what "
         "makes an unresolved acceptor a question rather than a hazard — and it is the reason the "
         "paper can leave the question open at all.")
+
+    head, marker, declarations = body.partition(_DECLARATIONS)
+    assert marker, (
+        f"⛔ the journal article no longer carries a {_DECLARATIONS!r} section, so the two copies "
+        "of the sequencing requirement cannot be told apart and either one could stand in for the "
+        "other. Re-anchor this split on whatever heading the venue now requires.")
+    assert _SEQUENCING_REQUIREMENT.search(head), (
+        "⛔ the requirement is gone from the body of the paper — only the Declarations ordering "
+        "instruction still carries it. A reader following the Methods to the reagents never "
+        "reaches Declarations, and this is the sentence that tells them the design is specific to "
+        "one exon pair.")
+    assert _SEQUENCING_REQUIREMENT.search(declarations), (
+        "⛔ the Declarations ordering instruction no longer carries the requirement. It is the "
+        "copy a screener and a laboratory ordering from the canonical record actually read.")
+
+    for m in _SEQUENCING_REQUIREMENT.finditer(body):
+        lead = body[max(0, m.start() - 80):m.start()]
+        assert not _NEGATION_ON_THE_VERB.search(lead), (
+            "⛔⛔ the manuscript NEGATES the sequencing requirement where it states it:\n  "
+            + repr(lead + body[m.start():m.end() + 60])
+            + "\n\nThis is the property the whole module is named for. trimcrae's 2026-08-25 "
+              "ruling not to gate this paper on an unpublished junction sequence rests on the "
+              "requirement being stated, not merely mentioned — and every design here is specific "
+              "to the exon pair it was tiled at, so an oligonucleotide ordered against an "
+              "unsequenced breakpoint is a hazard rather than a question.")

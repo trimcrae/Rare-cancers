@@ -63,7 +63,24 @@ import pytest
 HERE = os.path.dirname(os.path.abspath(__file__))
 MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
 ARTICLE = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-research-article.md")
+JOURNAL = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-journal-article.md")
 TABLES = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-submission-tables.md")
+
+#: ⛔⛔ THIS MODULE READ ONE DOCUMENT WHILE REASONING ABOUT "THE MANUSCRIPT" (round 10's
+#: guard-coverage audit, item MISCOVERED G). `ARTICLE` was the extended report and no journal-article
+#: path appeared anywhere in the file, so the class it polices — an open quantifier over a subset
+#: measurement — was unguarded in the paper that is actually being submitted. Three inversions in the
+#: journal article went green in a run that included this module: "none 3′ of exon 3" -> "several",
+#: "Every source of a test article named here ends at someone culturing cells" -> "reaches an animal
+#: model", and "performs the in-silico half of the first step" -> "performs all five of those steps".
+#:
+#: ★ THE SPLIT IS BY WHAT A CHECK IS, NOT BY A LIST OF FILES. A PROHIBITION — no sentence may put an
+#: open quantifier over a measurement that does not reach that far — is true of every document this
+#: work submits, so it runs over `ARTICLES`. A REQUIREMENT on a numbered section — "§2.10 must say
+#: the comparison is to the seam" — can only be checked where that section exists, and the journal
+#: article has no numbered sections at all. Adding a third document means adding one path here.
+ARTICLES = [ARTICLE, JOURNAL]
+IDS = [os.path.basename(a) for a in ARTICLES]
 
 
 def _read(path):
@@ -72,8 +89,8 @@ def _read(path):
     return open(path, encoding="utf-8").read()
 
 
-def _body():
-    text = _read(ARTICLE)
+def _body(path=ARTICLE):
+    text = _read(path)
     return re.sub(r"^---\n.*?\n---\n", "", text, flags=re.S)
 
 
@@ -139,7 +156,7 @@ def test_the_free_energy_margin_is_never_called_the_best_duplex_a_parent_can_for
     passed. The quantifier is now read where it governs: a superlative over a parent duplex, in a
     sentence that does not localise it to the seam.
     """
-    for path in (ARTICLE, TABLES):
+    for path in (*ARTICLES, TABLES):
         offenders = [s for s in _sentences(_read(path))
                      if _SUPERLATIVE_OVER_A_PARENT_DUPLEX.search(s)
                      and not _LOCALISED_TO_THE_SEAM.search(s)]
@@ -165,16 +182,17 @@ def test_the_free_energy_section_says_what_the_margin_is_not_scored_against():
 # ── 2 · no universal quantifier over the parent counts ──────────────────────────────────────
 
 
-def test_no_sentence_quantifies_universally_over_the_parent_counts():
+@pytest.mark.parametrize("path", ARTICLES, ids=IDS)
+def test_no_sentence_quantifies_universally_over_the_parent_counts(path):
     """§2.5 reports 53 / forty / 21 as parent counts that do NOT require a fully paired gap."""
     # The quantifier has to GOVERN the noun. A sentence that scopes the set first and then
     # distributes over it ("the mature-parent counts … so each is a floor") is exactly the
     # corrected form, so proximity — not mere co-occurrence — is what this looks for.
     governs = re.compile(r"\b(every|all|each|any|no other|the only)\b[\w\s,-]{0,20}?\bparent counts?\b",
                          re.I)
-    offenders = [s for s in _sentences(_body()) if governs.search(s)]
+    offenders = [s for s in _sentences(_body(path)) if governs.search(s)]
     assert not offenders, (
-        "a sentence quantifies universally over 'parent count(s)':\n  "
+        f"{os.path.basename(path)} quantifies universally over 'parent count(s)':\n  "
         + "\n  ".join(offenders[:4])
         + "\n\n§2.5 reports 53 designs with a pre-mRNA near-match, forty on the sense strand and 21 "
           "pairing all of the gap but one or two positions. None of those requires the gap paired in "
@@ -225,13 +243,15 @@ def test_the_parent_exclusion_is_scoped_to_the_screen_that_makes_it():
     near-match counts" and "excluded from the near-match counts reported here" both said it and
     both passed. The quantifier is now read where it governs the noun.
     """
-    body = _body()
-    offenders = [s for s in _sentences(body) if _EXCLUDED_FROM_ALL_NEAR_MATCH_COUNTS.search(s)]
-    assert not offenders, (
-        "a sentence excludes parent records from an unscoped set of near-match counts:\n  "
-        + "\n  ".join(o[:220] for o in offenders[:3])
-        + "\n\n§2.5 reports 53 designs with a near-match in parent pre-mRNA, from screen 3, where "
-          "the parent records ARE the measurement. Scope the exclusion to the screen that makes it.")
+    for path in ARTICLES:
+        offenders = [s for s in _sentences(_body(path))
+                     if _EXCLUDED_FROM_ALL_NEAR_MATCH_COUNTS.search(s)]
+        assert not offenders, (
+            f"{os.path.basename(path)} excludes parent records from an unscoped set of near-match "
+            "counts:\n  " + "\n  ".join(o[:220] for o in offenders[:3])
+            + "\n\n§2.5 reports 53 designs with a near-match in parent pre-mRNA, from screen 3, "
+              "where the parent records ARE the measurement. Scope the exclusion to the screen "
+              "that makes it.")
     methods = _flat(_section("6"))
     assert _EXCLUSION_SCOPED_TO_ONE_SCREEN.search(methods), (
         "§6 must scope the parent-record exclusion to the alignment screen that makes it — some "
@@ -382,10 +402,11 @@ def test_the_optional_margin_arm_is_not_claimed_to_be_the_only_one_available():
     exclusive = re.compile(
         r"\b(?:only|solely|exclusively|uniquely)\b[\w\s,'’-]{0,25}?\bat " + junction + r"\b"
         r"|\bat " + junction + r"\b[\s,]{0,3}(?:alone|only)\b", re.I)
-    offenders = [s for s in _sentences(_body()) if exclusive.search(s)]
+    offenders = [(os.path.basename(path), s)
+                 for path in ARTICLES for s in _sentences(_body(path)) if exclusive.search(s)]
     assert not offenders, (
         "a sentence claims the margin contrast is available only at the lead junction:\n  "
-        + "\n  ".join(o[:220] for o in offenders[:3])
+        + "\n  ".join(f"{n}: {o[:220]}" for n, o in offenders[:3])
         + f"\n\nTable 2 shows {contrary} designs clearing the parent screen at the other two §4.1 "
           "junctions, so lower-margin registers survive there too. The arm is PLACED at the lead "
           "junction.")

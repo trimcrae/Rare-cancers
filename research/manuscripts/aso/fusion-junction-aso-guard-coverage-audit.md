@@ -263,5 +263,31 @@ still ends 174 characters into the section and the provenance sentence still beg
 it would have been the "a window is a disguised list" mistake that file's own first comment records.
 The claim got its own span anchored on its own subject.
 
-**Still open, and unchanged by this work:** UNGUARDED 3, 5, 7, 9, 11–17; MISCOVERED B, C, D, E, G, H;
+**MISCOVERED D, E and G were closed on 2026-08-27 (ledger AUT-PROP-024), each proved by the
+mutation that had shipped green.** D: `test_aso_deposition_doi_is_one_fact.py` no longer carries a
+module-level `ARTICLE` at all — both remaining functions are parametrized over `ARTICLES`, and the
+availability check gained a predicate (every bolded statement whose heading says "availability"
+carries the deposit DOI) because the raw count of `10.5281/zenodo.\d+` reaches two from a single
+markdown link. The placeholder mutation re-run in the journal article's Methods now fails
+`test_no_archive_doi_placeholder_survives_in_the_article[fusion-junction-aso-journal-article.md]`.
+E: the sequencing requirement is no longer a bare keyword —
+`test_the_breakpoint_must_be_sequenced_before_anything_is_ordered` splits the document at
+`## Statements and Declarations`, requires the phrase on BOTH sides so neither copy can stand in for
+the other, and rejects a negation standing on the verb within 80 characters of every occurrence
+(a modal + "not", "not be/been/being", "no need", "without" — not the bare word "not", which the
+Declarations copy's own "and not until the breakpoint has been established" needs). Mutation 5 goes
+red; so does deleting the Methods copy outright. G:
+`test_universal_claims_are_scoped_to_what_was_measured.py` now reads `ARTICLES = [ARTICLE, JOURNAL]`
+for every PROHIBITION it makes, keeping the REQUIREMENTS on numbered sections where those sections
+exist — the journal article has none.
+
+⛔ **AND THE THREE SURVIVING INVERSIONS OF ITEM G ARE HELD BY A SECOND INSTRUMENT, NOT BY THAT ONE.**
+A scope guard reads the SHAPE of a quantifier and cannot tell "none 3′ of exon 3" from "several";
+direction is what those mutations changed. Four rows were added to
+`test_the_manuscript_asserts_the_relation_its_artifacts_compute.py` — `no-acceptor-3-prime-of-exon-3`,
+`test-articles-end-at-cell-culture`, `in-silico-half-of-the-first-step` and, for item E's Methods
+site, `breakpoint-sequenced-before-order`. Each was watched red under the audit's own mutation and
+green on restore, and each is exercised by that file's `test_the_polarity_table_actually_fires_on_an_inverted_document`.
+
+**Still open, and unchanged by this work:** UNGUARDED 3, 5, 7, 9, 11–17; MISCOVERED B, C, H;
 every STALE_GUARD_TEXT item; and the headline that no linter holds any claim in this paper.

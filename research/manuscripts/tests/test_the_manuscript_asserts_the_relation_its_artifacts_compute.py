@@ -345,6 +345,85 @@ POLARITY = [
      "reads, and CLAUDE.md §7's never-write-an-identifier-from-recollection rule",
      "Every reference's bibliographic record was written from model output rather than retrieved "
      "from PubMed, and no citation was checked against a retrieved record."),
+    # ─────────────────────────────────────────────────────────────────────────────────────────
+    # ⛔⛔ ROUND 10's AUDIT ITEMS G AND E, AS DIRECTIONS RATHER THAN AS A WIDER FILE LIST. Both
+    # findings are one instrument reading one document: `test_universal_claims_are_scoped_to_what_
+    # was_measured.py` bound the EXTENDED REPORT alone (item G) and
+    # `test_the_exon2_reading_stands_without_an_unpublished_sequence.py`'s sequencing requirement
+    # was a keyword that survives its own negation (item E). Both of those modules were repaired in
+    # place — the first now scans every submitted document, the second reads the negation standing
+    # on the verb. What neither repair can supply is what THIS file supplies: the audit's three
+    # surviving inversions in the journal article are open quantifiers whose defect is DIRECTION,
+    # and a scope guard that reads quantifier shape cannot tell "none 3′ of exon 3" from "several".
+    # ★ SO THE DIRECTION LIVES HERE, WHERE THE VERBS ARE READ, AND THE SHAPE LIVES THERE. Two
+    # instruments, one claim each, neither a copy of the other.
+    # ─────────────────────────────────────────────────────────────────────────────────────────
+    # ⛔ THE ACCEPTOR BOUND — audit mutation 16a, "none 3′ of exon 3" -> "several", green. This is
+    # the sentence that says why the panel designs nothing downstream of exon 3: not that the
+    # position was screened and rejected, but that no patient is reported there. Inverted, the
+    # paper reports patients at acceptors the census does not contain, and the reason the panel
+    # stops where it stops becomes a claim about the disease that its own source contradicts.
+    ("no-acceptor-3-prime-of-exon-3",
+     r"across the exon-resolved \*NR4A3\* junctions retrieved here[^#]{0,240}?reported there\.",
+     r"none 3′ of exon 3",
+     r"\b(?:several|some|others?|many|two|three|four|five|a few|one|both)\s+3′ of exon 3",
+     "lit-targets-aso-breakpoint-census.json:junction_census — every acceptor it records is "
+     "NR4A3 exon 3, NR4A3 exon 2 or the cryptic exon in NR4A3 intron 2, and it records none "
+     "3′ of exon 3",
+     "across the exon-resolved *NR4A3* junctions retrieved here every acceptor is exon 2, exon 3, "
+     "or a cryptic exon in intron 2, several 3′ of exon 3, so nothing is designed there because "
+     "no patient is reported there."),
+    # ⛔ WHERE THE TEST ARTICLES STOP — audit mutation 16b, "ends at someone culturing cells" ->
+    # "reaches an animal model", green. It is the last sentence of the limits paragraph and it
+    # prices every downstream claim in the paper: an in-vivo result would change what a reader may
+    # conclude about delivery, which the sentence beside it calls unsolved.
+    # ⚠ `decided_by` HERE IS THE PAPER'S OWN TEST-ARTICLE SECTION AND THE TWO SOURCES IT CITES,
+    # which is the honest description — the same shape as `chemotherapy-response` above. Nothing
+    # available in this repository can verify what those sources contain; what this row binds is
+    # that the paper does not claim more than the section two pages earlier describes.
+    ("test-articles-end-at-cell-culture",
+     r"Every source of a test article named here[^.]{0,120}\.",
+     r"ends at someone culturing cells",
+     r"reaches an animal model|reaches a mouse|ends at an animal|goes on to an animal"
+     r"|reaches a xenograft|ends in a patient|reaches the clinic",
+     "the paper's own Test articles section: three engineered constructs expressed in a "
+     "heterologous background (PMID:31020999) and two patient-derived cell lines reported with "
+     "doubling times (PMID:36316541). No animal model is named anywhere in the submission, and "
+     "this repository has no wet lab",
+     "Every source of a test article named here reaches an animal model."),
+    # ⛔ HOW MUCH OF THE CITED WORKFLOW THIS WORK DOES — audit mutation 16c, "performs the
+    # in-silico half of the first step" -> "performs all five of those steps", green. The five
+    # steps are the cited source's recommendations; claiming all five claims cell-type activity
+    # work, in-vitro verification and risk management this project has never done, in the same
+    # paragraph that introduces them. It is the paper's scope sentence in the Introduction.
+    ("in-silico-half-of-the-first-step",
+     r"This work performs[^;]{0,140};",
+     r"the in-silico half of the first step",
+     r"all five of those steps|all five steps|each of the five steps|the whole of the first step"
+     r"|the first three steps|steps one to",
+     "the Methods' own first sentence, 'All analyses are computational and use public data; no "
+     "laboratory work was performed' — steps two to five of the cited recommendations "
+     "(PMID:39912803) are laboratory steps",
+     "This work performs all five of those steps and stops there;"),
+    # ⛔⛔ THE SEQUENCING REQUIREMENT, METHODS COPY — audit item MISCOVERED E and UNGUARDED 5, and
+    # the second half of that repair. `test_the_exon2_reading_stands_without_an_unpublished_
+    # sequence.py` now rejects a negation standing on the verb at EVERY copy of the phrase, which
+    # is the general defence; this row binds THIS site's relation to the ordering rule, so a
+    # rewrite that keeps the phrase and drops the requirement is caught as a missing site rather
+    # than passing as a mention. The Declarations copy is already held by `order-after-sequencing`
+    # above — these are the two copies the audit measured as able to stand in for each other.
+    ("breakpoint-sequenced-before-order",
+     r"One requirement is upstream of all of them:[^#]{0,320}?tiled at\.",
+     r"must be established at nucleotide resolution by RNA sequencing before any oligonucleotide "
+     r"is ordered",
+     r"need not be established|must not be established|need not be sequenced"
+     r"|no design here being specific|without RNA sequencing|after any oligonucleotide is ordered",
+     "fusion-junction-aso-sequences.csv, whose every row is specific to one exon pair, and the "
+     "ordering rule test_every_ordering_route_carries_the_same_verdict.py enforces across the "
+     "routes a laboratory can order from",
+     "One requirement is upstream of all of them: the breakpoint of the test article need not be "
+     "established at nucleotide resolution by RNA sequencing before an oligonucleotide is "
+     "ordered, no design here being specific to the exon pair it was tiled at."),
 ]
 
 
