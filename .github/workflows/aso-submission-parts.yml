@@ -1,0 +1,115 @@
+name: ASO submission parts (.docx via LibreOffice)
+
+# ⛔ WHY THIS EXISTS: LIBREOFFICE IS PRESENT IN THE DEV SANDBOX AND DOES NOT WORK THERE.
+# `build_submission_parts.py` and `build_submission_docx.py` shell out to `soffice` to produce the
+# journal's required double-spaced .docx files. Measured 2026-08-27 in the sandbox: `soffice` and
+# `java` are both installed, and every invocation — including `--convert-to docx` on a three-line
+# HTML file, with and without `--infilter`, `SAL_USE_VCLPLUGIN=svp`, `SAL_DISABLE_JAVALDX=1` and a
+# cleared `JAVA_TOOL_OPTIONS` — fails with "Error: source file could not be loaded". The install is
+# broken rather than absent, which is why this looked for a while like a bad input.
+#
+# ⚠ THE COST IT REMOVES IS RECURRING, NOT ONE-OFF. These parts are derived from the manuscript, so
+# EVERY prose edit to the ASO article re-stales all three and turns the trunk red on
+# `test_no_submission_part_is_stale_against_its_manuscript` and `test_the_word_file_is_not_stale`.
+# Before this workflow the only remedy was a human with a working LibreOffice.
+#
+# ★ It writes to `main` on purpose. CLAUDE.md §7 makes branch drift a data-loss bug, and a rebuilt
+# deposit artifact sitting on a branch nobody reads is exactly that: the staleness guards read the
+# trunk, so a rebuild that lands anywhere else fixes nothing.
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Why this run — recorded in the commit message"
+        required: false
+        default: "rebuild the ASO submission parts after a manuscript edit"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aso-submission-parts
+  cancel-in-progress: false   # ⛔ never cancel a run that may be mid-commit to main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Install LibreOffice
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libreoffice-writer >/dev/null
+          soffice --version
+
+      - name: Prove the converter works BEFORE trusting a green build
+        # ⛔ A POSITIVE CONTROL, BECAUSE THIS IS THE EXACT TOOL THAT FAILS SILENTLY-ISH ELSEWHERE.
+        # Without it, a runner whose LibreOffice is also broken would reach the build step, raise
+        # SystemExit, and be read as "the manuscript is malformed" rather than "the tool is dead".
+        run: |
+          set -euo pipefail
+          tmp=$(mktemp -d)
+          printf '<html><body><p>control</p></body></html>' > "$tmp/control.html"
+          HOME="$tmp" soffice --headless --norestore \
+            -env:UserInstallation="file://$tmp/profile" \
+            --infilter="HTML (StarWriter)" --convert-to "docx:MS Word 2007 XML" \
+            --outdir "$tmp" "$tmp/control.html"
+          test -f "$tmp/control.docx" || { echo "⛔ LibreOffice cannot convert on this runner either"; exit 1; }
+          echo "positive control: LibreOffice converted a trivial file"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install the gates' dependencies
+        run: ./scripts/dev-setup.sh --if-needed || pip install -q pypdf pdfminer.six jsonschema
+
+      - name: Rebuild the parts and the Word file
+        run: |
+          set -euo pipefail
+          python3 research/manuscripts/build_submission_parts.py
+          python3 research/manuscripts/build_submission_docx.py
+
+      - name: Re-derive the archive manifest
+        # ⚠ MUST BE LAST, AND MUST BE AFTER ANY REBASE. It hashes every other artifact, and it
+        # records the git revision it ran at — a manifest generated before a rebase names a commit
+        # the rebase then orphans, which is a real defect this repository has already shipped once.
+        run: python3 research/manuscripts/aso_archive_manifest.py
+
+      - name: Prove the staleness guards are actually satisfied
+        run: |
+          set -euo pipefail
+          pip install -q pytest
+          python3 -m pytest research/manuscripts/tests/ -q \
+            -k "submission_part_is_stale or word_file_is_not_stale" 2>&1 | tail -5
+
+      - name: Commit to main
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo "nothing changed — the parts were already current"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "ASO submission parts rebuilt on a runner (CI)
+
+${{ inputs.reason }}
+
+LibreOffice does not work in the dev sandbox — soffice is installed and every
+invocation fails with 'source file could not be loaded', including on a trivial
+control file. These three .docx artifacts are derived from the manuscript, so any
+prose edit re-stales them and reds the trunk. Rebuilt here, where the converter
+passed a positive control before the build ran."
+          for i in 1 2 3 4; do
+            git pull --rebase origin main && python3 research/manuscripts/aso_archive_manifest.py \
+              && git add -A && git commit --amend --no-edit && git push origin HEAD:main && break
+            sleep $((2 ** i))
+          done

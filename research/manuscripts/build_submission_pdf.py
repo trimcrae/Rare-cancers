@@ -1839,6 +1839,20 @@ li { margin-bottom: 3pt; text-align: justify; }
    without it), and the remaining cause is a 20-character token that must NOT break: breaking a
    sequence is the wrong-reagent hazard this whole deposit is built to prevent.
 
+   ⛔⛔ CORRECTED 2026-08-27, AND THE CORRECTION MATTERS BECAUSE IT MEANS THE DECLARATION IS INERT.
+   `hyphens: auto` + `lang="en"` are BOTH set and Chromium still hyphenates NOTHING in this build
+   container. Measured on the rendered manuscript PDF: of 548 text lines, 14 end in a hyphen and
+   ALL FOURTEEN break at a hyphen the word already contains (`off-target`, `junction-spanning`,
+   `parent-gene`, and the ORCID's `0000-`). Not one is an algorithmic break of an ordinary word.
+   Chromium needs a hyphenation dictionary it does not have here, so the property is declared,
+   honoured by the parser, and does nothing.
+   ⚠ THE PRACTICAL CONSEQUENCE: justified prose has NO lever but stretching, which is why the
+   rivers survive rewording, and why the blown-line count oscillates when prose is edited — every
+   edit reflows the page and lands a different long token at a line end. Adding real hyphenation
+   would need a dictionary or `pyphen` (neither is present) and is the one fix that would help
+   every river at once. ⛔ DO NOT hand-roll English hyphenation to close this: a wrong break in a
+   published paper is a worse defect than the river it removes.
+
    ⭐ THE "NO SAFE LEVER" CLAIM IS NOW MEASURED RATHER THAN ASSERTED (2026-08-19). Baseline over
    BODY PROSE ONLY (spans >=10 pt; table and caption lines are set at 6.9-9 pt and measuring them
    alongside body text moves the median enough to change a verdict): 1,520 lines, median inter-word

@@ -250,7 +250,12 @@ def test_the_partner_count_is_the_atlas_partner_list(prose):
     """
     atlas = _load(ATLAS, "the fusion-junction atlas")
     partners = atlas["partners_scored"]
-    _every_site(prose, r"Canonical transcripts for the (\w+) partner genes and for \*?NR4A3\*?",
+    # ⚠ RE-ANCHORED 2026-08-27, AND ONLY FOR PUNCTUATION. The v2 readability pass set the NR4A3
+    # clause off with commas — "for the five partner genes, and for *NR4A3*, were obtained" — which
+    # is the identical sentence with identical words. The optional commas are the whole change; the
+    # count, the construction around it and the binding to the atlas partner list are untouched, and
+    # a mutation of the count still fails (asserted in the sibling test below).
+    _every_site(prose, r"Canonical transcripts for the (\w+) partner genes,? and for \*?NR4A3\*?",
                 _word(len(partners)), "how many partner genes §8 obtained transcripts for")
     _every_site(prose, r"in-frame junctions of (\w+) modelled partners", _word(len(partners)),
                 "how many modelled partners the panel was tiled across")
