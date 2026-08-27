@@ -9,7 +9,7 @@
     "code": 1,
     "experiment": 23,
     "fetch": 11,
-    "fix": 2,
+    "fix": 3,
     "harden": 6,
     "negative": 32,
     "process": 6,
@@ -19,7 +19,7 @@
   },
   "n_by_state": {
     "done": 7,
-    "queued": 96,
+    "queued": 97,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -3245,6 +3245,29 @@
       "depends_on_evidence": "create_session refusal observed by CYC-0020 2026-08-27: 'caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions'",
       "what": "\u26d4 THE CHAINED HANDOFF HAS A HARD CEILING OF EIGHT GENERATIONS, AND THIS SESSION IS THE EIGHTH. `research-loop` \u00a73 tells a cycle at its session cap to create its own successor with `create_session`, and calls a loop that needs a human to start its next session 'not automated, just a longer fuse'. Measured 2026-08-27 (CYC-0020): that call now REFUSES \u2014 'caller session is at lineage depth 8 (limit 8)'. Each handoff makes the child one generation deeper, so the chain was always going to terminate; nothing in the skill, the generator or the health checker knows the ceiling exists. \u2b50 NOT AN OUTAGE TODAY, AND THE REASON MATTERS: the loop's PRIMARY continuation is the UI-created driver Routine (trig_01P9ZNSAw7rNLcKLBFYCwuHp, `13 */4 * * *`, enabled, repo attached, last run SUCCEEDED), which fires a FRESH session at lineage depth 0 every four hours. The chained handoff is the redundancy, not the mechanism. CYC-0020 also ran only ONE cycle of its permitted two, so it never owed a handoff at all. \u26d4 THE LIVE RISK IS NARROW AND REAL: a session that REACHES its 2-cycle cap while at depth 8 cannot comply with \u00a73, and `health.py`'s `cycles_are_sized` reads `handoff.child_session_id` \u2014 so it would score that session RED for failing to do something the platform forbids. \u2b50 WHAT TO FIX: teach the handoff path to detect the refusal and fall back to the driver Routine explicitly (record that the Routine carries the next cycle, rather than leaving the field absent), and teach `cycles_are_sized` that a depth-refused handoff with a live driver Routine is GREEN. \u26a0 A cycle may NOT fix this by disabling or re-arming the driver Routine \u2014 \u00a77 forbids acting on a `created_via: http_api` Routine from outside it, and `fire_trigger` refuses it too.",
       "_score_basis": "a mandated mechanism that now refuses, and a health row that would score a session red for obeying the platform"
+    },
+    {
+      "id": "AUT-PD-004",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
+      "what": "\u26d4 THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING \u2014 research-loop \u00a71 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the \u00a76 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::\u2026[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::\u2026[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n\u26a0 ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT \u2014 never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening \u00a78b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. \u26d4 DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. \u2b50 These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them \u2014 which is exactly why they could sit red unnoticed.",
+      "_score_basis": "a red trunk blocks every cycle's commit gate; research-loop \u00a71 makes it the cycle rather than a task within one"
     }
   ]
 }

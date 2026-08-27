@@ -18,6 +18,30 @@ is required at all); this file keeps the format and the buy-line arithmetic.
   Do **NOT** list your own wake mechanisms (self-timers, pollers, heartbeats) or **scheduled routines** — a
   schedule is not running compute. Nothing running → "Nothing in flight", one line. This REPLACES long status
   narration.
+  - **⛔⛔ EVERY ROW MUST NAME WHAT WILL BRING THE SESSION BACK FOR IT, AND A ROW THAT CANNOT IS NOT
+    IN FLIGHT — IT IS ABANDONED** (trimcrae, 2026-08-27: *"you said something was in flight 2 hours ago
+    and it looks like it just stalled after that"*). ⚠ **Measured that day, and the board was the only
+    thing that looked healthy.** A cycle ended its turn with `In flight: CI tests on 8b22933, adda6f6,
+    0743ac1`. All three went green; the session never came back, because **the harness wakes a session
+    when a backgrounded command exits or a subagent lands, and it does not know GitHub Actions
+    exists.** So the board named three things the session had no mechanism to follow up on, and sat
+    idle for two hours until a human asked.
+    ★ **THE TEST IS CLAUDE.md §1's, POINTED AT THE REPORT INSTEAD OF THE SHELL:** *after this turn, is
+    there anything that will bring the session back for this row?* A backgrounded command → yes, its
+    exit is the wake. A subagent → yes. **A CI run, a GitHub workflow, a remote job → NO, not by
+    itself.** Arm the wake in the same turn:
+
+        python3 research/autonomy/await_ci.py --sha $(git rev-parse HEAD) > ci.log 2>&1; echo "EXIT=$?" >> ci.log
+
+    run with the tool's own `run_in_background`, so its exit IS the wake. It returns **0 green, 1 red,
+    2 UNKNOWN** — and never reads an empty run list as green, because a push that has not registered
+    yet would otherwise pass.
+    ⛔ **The waiter itself never appears ON the board** — §1 already forbids listing your own pollers.
+    It is what makes the CI row honest, not a row of its own.
+    ⚠ **And if you genuinely will not follow a thing up, say that instead of listing it.** "CI is
+    running; I am not waiting on it" is honest and costs nothing. A row that implies a return you have
+    not arranged is the failure this rule exists to stop.
+
   - **COST IS PART OF THE FORMAT, NOT AN EXTRA (trimcrae, 2026-07-26 — asked for it twice in one session).**
     Every in-flight row carries what it costs, on the same line as its ETA: the ladder figure for a priced rung,
     a stated estimate with its range for anything unpriced, `$0` for CI/analysis, and free credit named as such
