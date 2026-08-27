@@ -202,6 +202,74 @@
       "why_it_matters": "Surgical rather than radiotherapeutic, and it undercuts any tidy oligometastatic threshold -- 20 nodules is not oligometastatic by any published definition, and it worked."
     }
   ],
+  "dose_outcome_table": {
+    "generated": "2026-08-27",
+    "requested_by": "AUT-041",
+    "question": "Extract dose, fractionation, BED and local-control duration for every reported irradiated EMC metastasis, and decide whether the assembled table surfaces anything the 2025 review (PMID 41055792) has not already said.",
+    "method": "Built ONLY from data already retrieved into this artifact -- no new fetch was dispatched for this pass. A field is 'UNKNOWN' where the source has genuinely not been read (abstract silent, full text unread or blocked), never inferred or estimated.",
+    "rows": [
+      {
+        "pmid": "35494187",
+        "modality": "HDR interstitial brachytherapy",
+        "dose": "30 Gy",
+        "fractions": 2,
+        "dose_per_fraction": "15 Gy",
+        "bed_gy_ab4": 142.5,
+        "bed_computed_here": "2 x 15 x (1 + 15/4) = 142.5 Gy, alpha/beta = 4 -- arithmetic performed here from the reported dose/fractionation, not read from any source.",
+        "sites_treated": 3,
+        "local_control_duration": "UNKNOWN precisely -- source abstract says only 'long-term' local control at all three sites, no months/years given; needs full text.",
+        "source_confidence": "single-source, read from abstract via Europe PMC API"
+      },
+      {
+        "pmid": "41323055",
+        "modality": "SABR alternating with surgical excision",
+        "dose": "UNKNOWN",
+        "fractions": "UNKNOWN",
+        "dose_per_fraction": "UNKNOWN",
+        "bed_gy_ab4": null,
+        "sites_treated": "all metastatic sites, 3 separate occasions",
+        "local_control_duration": "UNKNOWN precisely -- 'complete or major response each time', no duration given in the abstract",
+        "source_confidence": "abstract only; full text is open access and retrievable at $0 per this artifact's own outstanding list -- not fetched this pass"
+      },
+      {
+        "pmid": "36944557",
+        "modality": "bilateral whole-lung EBRT",
+        "dose": "UNKNOWN",
+        "fractions": "UNKNOWN",
+        "dose_per_fraction": "UNKNOWN",
+        "bed_gy_ab4": null,
+        "sites_treated": 2,
+        "local_control_duration": "UNKNOWN -- 'sustained symptomatic benefit' is itself UNVERIFIED per this artifact (search-engine snippet, no indexed abstract)",
+        "source_confidence": "UNVERIFIED -- full text blocked by Cloudflare at both the sandbox and a CI runner; do not use for anything beyond 'a delivery was reported'"
+      },
+      {
+        "pmid": "40885991",
+        "modality": "palliative RT to metastatic lesions",
+        "dose": "UNKNOWN",
+        "fractions": "UNKNOWN",
+        "dose_per_fraction": "UNKNOWN",
+        "bed_gy_ab4": null,
+        "sites_treated": 2,
+        "local_control_duration": "NOT REPORTED in the source at all (full text read; the cohort paper records the exposure and no outcome for these two patients)",
+        "source_confidence": "full text read; the absence is a property of the source, not of this extraction"
+      },
+      {
+        "pmid": "EXCLUDED -- attribution unresolved, see additional_deliveries_found_in_the_review",
+        "modality": "SBRT",
+        "dose": "40 Gy",
+        "fractions": 10,
+        "dose_per_fraction": "4 Gy",
+        "bed_gy_ab4": "NOT COMPUTED -- excluded by design",
+        "why_excluded": "This artifact's own prior note is explicit: the 2025 review tells this case twice, attributed to two different papers ('Qiu et al. 2014' and 'Takagawa et al. 2022'), and at least one attribution is wrong. Computing a BED from a case whose primary source is unidentified would launder an attribution error into an arithmetic fact. Retrieve the correct primary before this row can be added."
+      }
+    ],
+    "decision": "NO -- the assembled table does not surface anything the 2025 review has not already said, and it is thinner than the concept paper's own §8(b) estimate implied. Of the four independently-sourced reported deliveries, only ONE (PMID 35494187) has a dose and fractionation specific enough to compute a BED, and that computation (142.5 Gy at alpha/beta=4) lands almost exactly on the review's own headline figure of '142 Gy (alpha/beta=4)' for HDR-ISBT -- which this artifact's provenance notes had NOT previously identified as the same case, since the review's quoted passage names no PMID. That identification is the one piece of new synthesis this pass produced: the review's central BED number IS PMID 35494187, not a separate unstated data point. The other three sourced deliveries (41323055, 36944557, 40885991) all lack dose and/or fractionation in what has been read so far -- two behind a full-text fetch this repository has not yet made ($0, open access, per the artifact's own outstanding list), one genuinely unreported in the source. A fifth candidate case (the twice-attributed SBRT delivery) is excluded outright rather than tabulated with an unverified attribution. A table this data-poor cannot support a dose-response argument and was never going to (concept paper §8(b) already said so); it also cannot yet support the weaker 'here is every dose anyone has reported' descriptive-appendix framing, because three of four sourced cases have no dose to report. That appendix is buildable, but only after the two outstanding $0 fetches land -- filed as new ledger items rather than dispatched in this pass.",
+    "outstanding_fetches_this_decision_depends_on": [
+      "PMID 41323055 full text (open access, $0, not yet fetched) -- would add dose/fractionation/duration for the one case with three separate treated occasions",
+      "PMID 36944557 full text (Cloudflare-blocked at sandbox and CI runner; needs a route this repository does not have, e.g. a library copy or a co-author with institutional access)",
+      "The correct primary source for the twice-attributed 40 Gy/10fx SBRT case, to replace the excluded row above"
+    ]
+  },
   "the_discrepancy_nobody_has_reconciled": {
     "statement": "Median overall survival after metastasis in EMC is quoted as 17.8 months in the 2008 two-referral-centre series and as '5-7 years in modern series' by the 2025 review, which also reports a SEER-derived median OS of 48 months with 10-year OS of 10% for metastatic disease. These differ by roughly fourfold and the review uses the 17.8-month figure as the benchmark a treated patient exceeded while elsewhere stating the 5-7 year figure.",
     "why_it_matters_here": "Every argument for metastasis-directed therapy in this disease rests on the patient living long enough for local control to matter. The size of that window is currently unsettled by a factor of four, and the direction of the error decides whether the strategy is compelling or marginal.",

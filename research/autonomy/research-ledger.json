@@ -20,66 +20,13 @@
     "write": 6
   },
   "n_by_state": {
-    "done": 24,
-    "in_progress": 4,
+    "done": 25,
+    "in_progress": 3,
     "queued": 102,
     "superseded": 1
   },
   "n_clamped": 11,
   "entries": [
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/manuscripts/build_submission_parts.py exits 1 in the dev sandbox: 'LibreOffice did not write a .docx / Error: source file could not be loaded'",
-      "id": "AUT-PROP-021",
-      "kind": "build",
-      "prerequisite_of": "AUT-PROP-018",
-      "what": "\u2705 DONE 2026-08-27. Dispatched aso-submission-parts.yml on main; run 33097825961 succeeded and committed df2bc4b02 'ASO submission parts rebuilt on a runner (CI)'. The LibreOffice positive control passed on the runner BEFORE the build ran, so a green build is not a dead tool reported as a malformed manuscript. All three staleness guards verified green after the fast-forward (test_the_word_file_is_not_stale, and both test_no_submission_part_is_stale_against_its_manuscript params). \u26a0 The wake armed for this run died with a container restart; the run had already succeeded, so the row was honest by luck rather than by design \u2014 a wake armed inside a container is only as durable as the container.",
-      "_score_basis": "inherited from AUT-PROP-018 (+0.5) \u2014 it is the work that unblocks it",
-      "score": 286.0,
-      "closes_clause": null
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 3,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "round-10",
-      "depends_on_evidence": "FETCH LADDER EXHAUSTED AND MEASURED 2026-08-27, all $0: sandbox proxy refuses liebertpub/sagepub/oswg.net/pmc; CI plain HTTP -> 403 Cloudflare; CI HEADLESS CHROMIUM (the browser rung, slug=browser-fetch) -> 403 Cloudflare, same interstitial; Unpaywall says is_oa=true, oa_status=hybrid, licence cc-by, but EXACTLY ONE oa_location and it is the publisher behind that same check; no PMC deposit. Artifacts on origin/literature-cache under literature/oswg-offtarget-2025-fulltext/ and research/literature/browser-fetch.json on main.",
-      "id": "AUT-PROP-022",
-      "kind": "verify",
-      "prerequisite_of": "AUT-PROP-020",
-      "what": "\u26d4 SOFTEN THE FIVE ATTRIBUTIONS TO PMID 39912803 \u2014 THE FETCH ROUTE IS CLOSED, MEASURED, NOT ASSUMED. The article is open access IN LICENCE (CC-BY) and unreachable by every automated route this project has; see depends_on_evidence for the ladder. \u26a0 THE SEAT READ IT AS PAYWALLED AND THAT WAS WRONG \u2014 it is a bot check on a free article \u2014 but the remedy is the same and the distinction is worth keeping, because 'paywalled' would have closed the question at rung one. \u2605 WHAT TO DO: rewrite so the paper stops asserting what the source says. HELD from the abstract and may stand: the FIVE-STEP workflow (in-silico identification with transcriptomics; focus on cell types with relevant activity; verification and margin assessment; risk assessment; management of unavoidable off-targets) \u2014 quoted near-verbatim in the PubMed abstract. UNHELD, rewrite each: (1) wings-vs-gap mismatch direction [Introduction]; (2) 'the search scope the 2025 recommendations ask for' [Methods]; (3) 'the energy-based second stage those recommendations prescribe' [Methods]; (4) 'the margin assessment the recommendations specify at this step, and they decline to set a default value for it' [Discussion] \u2014 a NEGATIVE claim about the source's content, the least checkable of all; (5) 'a high-affinity chemistry is reported to retain knockdown at more extensively mismatched sites' [Results]. \u2b50 THE PAPER ALREADY HAS THE IDIOM: 'that premise is adopted here rather than established', 'ten being adopted rather than measured'. An honest 'adopted here' beats a confident characterisation of a paper nobody in this project has read. \u26d4 DO NOT reconstruct the source's content from search snippets \u2014 CLAUDE.md \u00a77. DONE 2026-08-27 (this cycle, id assigned at commit time): all five attributions to PMID 39912803 rewritten so the paper states this project could not confirm the source's content (fetch route closed, CC-BY but unreachable behind a Cloudflare bot check on every rung tried, per depends_on_evidence) and that its characterisation of the source is adopted/read here rather than verified against the primary text. The HELD five-step workflow (quoted near-verbatim from the public PubMed abstract) is untouched. Net word count held at or below the original (page budget for Nucleic Acid Therapeutics is exactly at its 6-page ceiling with zero slack -- every hedge was written as a word-neutral or word-negative substitution, verified by rebuilding the PDF, which stayed at 6 pages). lint_claims: 0 ERROR (3 pre-existing WARNs, none introduced). lint_style: clean. Full manuscripts pytest suite: 1304 passed (excl. 3 LibreOffice-dependent tests, which are a documented, pre-existing sandbox defect -- see aso-submission-parts.yml header -- routed to that workflow rather than fixed locally). \u26a0 COLLISION NOTE: this item's ledger row was found claimed by owner 'aso-attribution-seat' (claimed_utc 2026-08-27T20:25:00Z) when this session re-read the trunk before pushing. Per AUT-PD-021 (research/autonomy/claim.py, landed on trunk while this session was working), the push is the arbiter, not the lease: the manuscript file itself was NOT touched by any commit between this session's start and this push (git log confirms the last prior touch was the incident-restore b4f086c), so no conflicting work actually landed. This push resolves the row to done; if the other seat's work lands later, standard git conflict resolution on the manuscript text applies.",
-      "_score_basis": "inherited from AUT-PROP-020 (+0.5) \u2014 it is the work that unblocks it",
-      "score": 286.0,
-      "closes_clause": null,
-      "_block_cleared": "\u2b50 CLEARED 2026-08-27 BY ITS OWN STOPPING CONDITION, which the evidence stated in words: \"Unblocks when 024's commit is pushed.\" AUT-PROP-024 is `done` and on origin/main, so the block is satisfied. \u26d4 IT WAS CAUGHT BY A RED TEST, NOT BY ANYBODY REREADING IT \u2014 `systems/tests/test_autonomy_priority.py::test_an_evidenced_block_drops_out_of_the_queue` was red on main because a -90 penalty could not push a base score of 284 out of the top three. \u26a0 THE TEMPTING FIX WAS THE WRONG ONE: raising the penalty would have made the test green while leaving a satisfied block in place, and CLAUDE.md \u00a70 says 'blocked' is a claim that needs evidence and is usually wrong. The stale claim was the defect; the tuning constant was not. Superseded evidence, retained (rule 1.2): AUT-PROP-024 is IN FLIGHT and commits to research/manuscripts/tests/ for the ASO paper. All three of these edit that paper's prose or its review state, and a third concurrent ASO writer is the collision pattern already recorded as a real blocker once today (CLAUDE.md \u00a76, the 13 inverted claims). \u26a0 Also substantive, not only mechanical: 019 needs a seat receipt at the CURRENT commit and 024 is about to move it, so a seat run now buys a receipt for a sha that will be stale before it lands. Unblocks when 024's commit is pushed."
-    },
     {
       "id": "AUT-PD-016",
       "kind": "process_defect",
@@ -155,6 +102,59 @@
       "depends_on_evidence": "round-10 guard audit MISCOVERED D and G; test_aso_deposition_doi_is_one_fact.py ARTICLE=ARTICLES[0], test_universal_claims_are_scoped_to_what_was_measured.py ARTICLE=research-article",
       "_score_basis": "one-of-a-pair defects; the eighth and ninth instances of a class this repo has found seven times",
       "what": "\u2705 DONE 2026-08-27, commit bea7d5973. All three defects closed, each watched red. (a) test_aso_deposition_doi_is_one_fact.py: module-level ARTICLE=ARTICLES[0] DELETED \u2014 a single-document default is what silently re-scopes a function when a paper is added \u2014 both functions parametrized. \u2b50 AND IT FOUND A WEAKER DEFECT UNASKED: test_both_availability_statements_carry_it counted DOI matches, but the DOI is a markdown link, so ONE statement already reached >=2 and the journal article passed with a single availability statement. Now every bolded 'availability' heading must carry the identifier. (b) test_universal_claims_are_scoped_to_what_was_measured.py parametrized over both papers for every PROHIBITION (requirements stay where numbered sections exist); the three surviving inversions are held by a SECOND instrument, since a scope guard reads a quantifier's SHAPE and cannot tell 'none' from 'several' \u2014 four polarity rows added. (c) the exon-2 guard now splits at Statements and requires the phrase on BOTH sides, then rejects a negation on the verb within 80 chars \u2014 deliberately not the bare word 'not', because the Declarations copy's own 'and not until the breakpoint has been established' must stay green. Coverage 84 \u2192 100 of 174; numbered 53 \u2192 60 of 81."
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/manuscripts/build_submission_parts.py exits 1 in the dev sandbox: 'LibreOffice did not write a .docx / Error: source file could not be loaded'",
+      "id": "AUT-PROP-021",
+      "kind": "build",
+      "prerequisite_of": "AUT-PROP-018",
+      "what": "\u2705 DONE 2026-08-27. Dispatched aso-submission-parts.yml on main; run 33097825961 succeeded and committed df2bc4b02 'ASO submission parts rebuilt on a runner (CI)'. The LibreOffice positive control passed on the runner BEFORE the build ran, so a green build is not a dead tool reported as a malformed manuscript. All three staleness guards verified green after the fast-forward (test_the_word_file_is_not_stale, and both test_no_submission_part_is_stale_against_its_manuscript params). \u26a0 The wake armed for this run died with a container restart; the run had already succeeded, so the row was honest by luck rather than by design \u2014 a wake armed inside a container is only as durable as the container.",
+      "_score_basis": "inherited from AUT-PROP-018 (+0.5) \u2014 it is the work that unblocks it",
+      "score": 196.0,
+      "closes_clause": null
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 3,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "round-10",
+      "depends_on_evidence": "FETCH LADDER EXHAUSTED AND MEASURED 2026-08-27, all $0: sandbox proxy refuses liebertpub/sagepub/oswg.net/pmc; CI plain HTTP -> 403 Cloudflare; CI HEADLESS CHROMIUM (the browser rung, slug=browser-fetch) -> 403 Cloudflare, same interstitial; Unpaywall says is_oa=true, oa_status=hybrid, licence cc-by, but EXACTLY ONE oa_location and it is the publisher behind that same check; no PMC deposit. Artifacts on origin/literature-cache under literature/oswg-offtarget-2025-fulltext/ and research/literature/browser-fetch.json on main.",
+      "id": "AUT-PROP-022",
+      "kind": "verify",
+      "prerequisite_of": "AUT-PROP-020",
+      "what": "\u26d4 SOFTEN THE FIVE ATTRIBUTIONS TO PMID 39912803 \u2014 THE FETCH ROUTE IS CLOSED, MEASURED, NOT ASSUMED. The article is open access IN LICENCE (CC-BY) and unreachable by every automated route this project has; see depends_on_evidence for the ladder. \u26a0 THE SEAT READ IT AS PAYWALLED AND THAT WAS WRONG \u2014 it is a bot check on a free article \u2014 but the remedy is the same and the distinction is worth keeping, because 'paywalled' would have closed the question at rung one. \u2605 WHAT TO DO: rewrite so the paper stops asserting what the source says. HELD from the abstract and may stand: the FIVE-STEP workflow (in-silico identification with transcriptomics; focus on cell types with relevant activity; verification and margin assessment; risk assessment; management of unavoidable off-targets) \u2014 quoted near-verbatim in the PubMed abstract. UNHELD, rewrite each: (1) wings-vs-gap mismatch direction [Introduction]; (2) 'the search scope the 2025 recommendations ask for' [Methods]; (3) 'the energy-based second stage those recommendations prescribe' [Methods]; (4) 'the margin assessment the recommendations specify at this step, and they decline to set a default value for it' [Discussion] \u2014 a NEGATIVE claim about the source's content, the least checkable of all; (5) 'a high-affinity chemistry is reported to retain knockdown at more extensively mismatched sites' [Results]. \u2b50 THE PAPER ALREADY HAS THE IDIOM: 'that premise is adopted here rather than established', 'ten being adopted rather than measured'. An honest 'adopted here' beats a confident characterisation of a paper nobody in this project has read. \u26d4 DO NOT reconstruct the source's content from search snippets \u2014 CLAUDE.md \u00a77. DONE 2026-08-27 (this cycle, id assigned at commit time): all five attributions to PMID 39912803 rewritten so the paper states this project could not confirm the source's content (fetch route closed, CC-BY but unreachable behind a Cloudflare bot check on every rung tried, per depends_on_evidence) and that its characterisation of the source is adopted/read here rather than verified against the primary text. The HELD five-step workflow (quoted near-verbatim from the public PubMed abstract) is untouched. Net word count held at or below the original (page budget for Nucleic Acid Therapeutics is exactly at its 6-page ceiling with zero slack -- every hedge was written as a word-neutral or word-negative substitution, verified by rebuilding the PDF, which stayed at 6 pages). lint_claims: 0 ERROR (3 pre-existing WARNs, none introduced). lint_style: clean. Full manuscripts pytest suite: 1304 passed (excl. 3 LibreOffice-dependent tests, which are a documented, pre-existing sandbox defect -- see aso-submission-parts.yml header -- routed to that workflow rather than fixed locally). \u26a0 COLLISION NOTE: this item's ledger row was found claimed by owner 'aso-attribution-seat' (claimed_utc 2026-08-27T20:25:00Z) when this session re-read the trunk before pushing. Per AUT-PD-021 (research/autonomy/claim.py, landed on trunk while this session was working), the push is the arbiter, not the lease: the manuscript file itself was NOT touched by any commit between this session's start and this push (git log confirms the last prior touch was the incident-restore b4f086c), so no conflicting work actually landed. This push resolves the row to done; if the other seat's work lands later, standard git conflict resolution on the manuscript text applies.",
+      "_score_basis": "inherited from AUT-PROP-020 (+0.5) \u2014 it is the work that unblocks it",
+      "score": 196.0,
+      "closes_clause": null,
+      "_block_cleared": "\u2b50 CLEARED 2026-08-27 BY ITS OWN STOPPING CONDITION, which the evidence stated in words: \"Unblocks when 024's commit is pushed.\" AUT-PROP-024 is `done` and on origin/main, so the block is satisfied. \u26d4 IT WAS CAUGHT BY A RED TEST, NOT BY ANYBODY REREADING IT \u2014 `systems/tests/test_autonomy_priority.py::test_an_evidenced_block_drops_out_of_the_queue` was red on main because a -90 penalty could not push a base score of 284 out of the top three. \u26a0 THE TEMPTING FIX WAS THE WRONG ONE: raising the penalty would have made the test green while leaving a satisfied block in place, and CLAUDE.md \u00a70 says 'blocked' is a claim that needs evidence and is usually wrong. The stale claim was the defect; the tuning constant was not. Superseded evidence, retained (rule 1.2): AUT-PROP-024 is IN FLIGHT and commits to research/manuscripts/tests/ for the ASO paper. All three of these edit that paper's prose or its review state, and a third concurrent ASO writer is the collision pattern already recorded as a real blocker once today (CLAUDE.md \u00a76, the 13 inverted claims). \u26a0 Also substantive, not only mechanical: 019 needs a seat receipt at the CURRENT commit and 024 is about to move it, so a seat run now buys a receipt for a sha that will be stale before it lands. Unblocks when 024's commit is pushed."
     },
     {
       "serves": {
@@ -1136,14 +1136,14 @@
     {
       "id": "AUT-041",
       "_derived": true,
-      "what": "Do NOT write the concept paper as framed. Extract dose, fractionation, BED and local-control duration for every reported irradiated EMC metastasis into the findings artifact, and decide from the assembled table whether anything survives that the 2025 review has not already said.",
+      "what": "Do NOT write the concept paper as framed. Extract dose, fractionation, BED and local-control duration for every reported irradiated EMC metastasis into the findings artifact, and decide from the assembled table whether anything survives that the 2025 review has not already said. DONE 2026-08-27: built the dose/fractionation/BED/local-control-duration table directly in research/literature/emc-rt-lung-mets-findings.json (new 'dose_outcome_table' field), using only already-retrieved evidence (no new fetch dispatched this pass). Of 4 independently-sourced reported deliveries, only PMID 35494187 (HDR interstitial brachytherapy, 30 Gy/2fx) has dose+fractionation specific enough to compute a BED -- 142.5 Gy at alpha/beta=4, computed here, which lands almost exactly on the 2025 review's own headline '142 Gy (alpha/beta=4)' HDR-ISBT figure. That identification (the review's central BED number IS this case) was not previously recorded in this artifact, since the review's quoted passage names no PMID -- it is the one piece of new synthesis this pass produced. DECISION: the table does NOT surface anything the review has not already said, and it is too data-poor (3 of 4 sourced cases lack a reportable dose) to support even the weaker descriptive-appendix framing from the concept paper's own SS8(b) until two further $0 fetches land -- filed as AUT-RT-001 and AUT-RT-002. A fifth candidate case (40 Gy/10fx SBRT) was excluded outright rather than tabulated, because the artifact's own prior note flags its attribution as disputed (the review cites two different, conflicting primary authors for the same case).",
       "serves": {
         "route": "RT-MDT-LUNG",
         "publication": "PUB-LOCOREGIONAL",
         "strategy": "ST-LOCOREGIONAL"
       },
       "kind": "experiment",
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -1151,7 +1151,7 @@
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-10",
+      "last_evidence_utc": "2026-08-27",
       "score": 156.0,
       "score_inputs": {
         "live": true,
@@ -1707,36 +1707,6 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0,
-        "blocked_with_evidence": true
-      }
-    },
-    {
-      "serves": {
-        "route": "RT-FUSION-PARTNER",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-EVIDENCE"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "AUT-PROP-017"
-      ],
-      "blocked_evidence": "Edits emc-fusion-partner-stratification.md, which branch aut-prop-017-fusion-partner-p1s (commit 3e580f41b) also edits and which has not merged. A whole-paper prose pass on top of an unmerged prose change is a conflict I would be creating deliberately. Unblocks on that merge.",
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "AUT-PROP-017",
-      "depends_on_evidence": "lint_readability --check is red on emc-fusion-partner-stratification.md before and after the P1 pass: 17 sentences over 60 words, longest 167w at line 201; and `pinned-figures.json` carries no caution baseline for this document",
-      "id": "AUT-PROP-026",
-      "kind": "harden",
-      "prerequisite_of": null,
-      "score": 96.0,
-      "closes_clause": null,
-      "what": "\u26d4 THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. \u26a0 TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED \u2014 meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. \u2605 ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. \u26d4 This is a prose pass over the whole paper, NOT a P1 application \u2014 scientific-writing \u00a71.4 and \u00a74. Do it before round 11's re-seat, so the seats read the readable text.",
-      "score_inputs": {
         "blocked_with_evidence": true
       }
     },
@@ -3527,6 +3497,36 @@
       }
     },
     {
+      "serves": {
+        "route": "RT-FUSION-PARTNER",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-EVIDENCE"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "AUT-PROP-017"
+      ],
+      "blocked_evidence": "Edits emc-fusion-partner-stratification.md, which branch aut-prop-017-fusion-partner-p1s (commit 3e580f41b) also edits and which has not merged. A whole-paper prose pass on top of an unmerged prose change is a conflict I would be creating deliberately. Unblocks on that merge.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PROP-017",
+      "depends_on_evidence": "lint_readability --check is red on emc-fusion-partner-stratification.md before and after the P1 pass: 17 sentences over 60 words, longest 167w at line 201; and `pinned-figures.json` carries no caution baseline for this document",
+      "id": "AUT-PROP-026",
+      "kind": "harden",
+      "prerequisite_of": null,
+      "score": 6.0,
+      "closes_clause": null,
+      "what": "\u26d4 THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. \u26a0 TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED \u2014 meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. \u2605 ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. \u26d4 This is a prose pass over the whole paper, NOT a P1 application \u2014 scientific-writing \u00a71.4 and \u00a74. Do it before round 11's re-seat, so the seats read the readable text.",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
+    },
+    {
       "id": "AUT-059",
       "_derived": true,
       "what": "Nothing. The scan carries the one observation that would reopen it.",
@@ -3995,6 +3995,48 @@
       "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
       "what": "\u26d4 THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING \u2014 research-loop \u00a71 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the \u00a76 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::\u2026[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::\u2026[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n\u26a0 ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT \u2014 never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening \u00a78b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. \u26d4 DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. \u2b50 These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them \u2014 which is exactly why they could sit red unnoticed.",
       "_score_basis": "a red trunk blocks every cycle's commit gate; research-loop \u00a71 makes it the cycle rather than a task within one"
+    },
+    {
+      "id": "AUT-RT-001",
+      "what": "Fetch the full text of PMID 41323055 (Kobayashi et al./Case Reports in Oncology 2025, 'Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxoid Chondrosarcoma Repeatedly Treated with Surgical Excision or Stereotactic Radiotherapy Alone') -- open access per this artifact's own outstanding list, $0, not yet retrieved. Extract dose, fractionation and local-control duration for each of the three SABR occasions and write them into research/literature/emc-rt-lung-mets-findings.json's dose_outcome_table (filed by AUT-041, which found this the highest-value single gap: the case with the most treated occasions and no dose data of the four sourced deliveries).",
+      "serves": {
+        "route": "RT-MDT-LUNG",
+        "publication": "PUB-LOCOREGIONAL",
+        "strategy": "ST-LOCOREGIONAL"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-041"
+    },
+    {
+      "id": "AUT-RT-002",
+      "what": "Find and confirm the correct primary source for the 40 Gy/10-fraction SBRT lung-metastasis case the 2025 review (PMID 41055792) tells twice under conflicting attributions ('Qiu et al. 2014' and 'Takagawa et al. 2022', with Takagawa separately used for the unrelated brachytherapy case PMID 35494187 in the same paragraph). At least one attribution is wrong. research/literature/emc-rt-lung-mets-findings.json already instructs not to cite this case from the review; this item is the follow-through -- locate the real primary (search both named authors' bibliographies for an EMC lung-metastasis SBRT case), or record that neither produces one and the case cannot currently be sourced. $0, WebSearch/Europe PMC only.",
+      "serves": {
+        "route": "RT-MDT-LUNG",
+        "publication": "PUB-LOCOREGIONAL",
+        "strategy": "ST-LOCOREGIONAL"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-041"
     }
   ]
 }
