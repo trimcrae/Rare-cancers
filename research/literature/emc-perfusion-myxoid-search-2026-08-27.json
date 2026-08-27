@@ -1,0 +1,142 @@
+{
+  "id": "ART-EMC-PERFUSION-MYXOID-SEARCH",
+  "generated": "2026-08-27",
+  "question": "Does the isolated-limb-perfusion literature contain extraskeletal myxoid chondrosarcoma, or any myxoid histology, at all?",
+  "asked_by": "RT-LIMB-PERFUSION, remaining_unknowns: \"Whether the perfusion literature contains any myxoid histology at all, which has not been searched.\" Ledger item AUT-036, second half.",
+  "_not_medical_advice": "Nothing here is medical advice and nothing here asserts efficacy, safety, a therapeutic window or clinical readiness for isolated limb perfusion in any disease. This file records what the published literature does and does not contain.",
+  "provenance": {
+    "channel": "PubMed E-utilities, through the NCBI PubMed MCP server available to this container. Bare curl to eutils is 403'd at this sandbox's egress proxy; the MCP route is not.",
+    "attribution": "According to PubMed. Every identifier below was returned by a query recorded in `searches`, and every DOI is the one PubMed returned — none is written from recollection.",
+    "what_was_read": "Titles, abstracts and MeSH records for all listed identifiers. Full text was read only where a PMC full-text record served it, and each row says which.",
+    "run_at_et": "2026-08-27, 4:10 PM ET"
+  },
+
+  "headline": "⛔ NO REPORT OF ISOLATED LIMB PERFUSION — OR ISOLATED LIMB INFUSION — IN EXTRASKELETAL MYXOID CHONDROSARCOMA EXISTS IN PUBMED. Two independent queries return ZERO records: perfusion/infusion crossed with the EMC term, and the EMC term crossed with 'perfusion' alone. The second is the stronger of the two, because 'perfusion' there is an All-Fields match over 468 EMC records and it still finds nothing. ⭐ THE ADJACENT LITERATURE IS NOT EMPTY AND IT LEANS THE ROUTE'S WAY: where a perfusion series reports response by histology, the MYXOID subgroup is the best-responding one it names. ⛔ AND THAT IS MYXOID LIPOSARCOMA, A DIFFERENT DISEASE. The two share a stromal descriptor, not a lineage, a driver or a translocation, and nothing here transfers a response from one to the other.",
+
+  "searches": [
+    {
+      "query": "(isolated limb perfusion OR isolated limb infusion) AND (extraskeletal myxoid chondrosarcoma OR myxoid chondrosarcoma)",
+      "total_count": 0,
+      "verdict": "NULL",
+      "note": "PubMed expanded the disease half to the supplementary concept 'chondrosarcoma extraskeletal myxoid' plus the free-text forms, so the null is not a term-spelling artefact."
+    },
+    {
+      "query": "extraskeletal myxoid chondrosarcoma AND perfusion",
+      "total_count": 0,
+      "verdict": "NULL",
+      "⭐_why_this_is_the_load_bearing_null": "'perfusion' here matches the MeSH term and every All-Fields variant (perfusate, perfused, perfusing…). Zero records means no PubMed record indexed under this disease mentions perfusion in any searchable field — not as treatment, and not even as MRI perfusion imaging."
+    },
+    {
+      "query": "extraskeletal myxoid chondrosarcoma",
+      "total_count": 468,
+      "verdict": "INSTRUMENT CONTROL — PASSED",
+      "⭐_why_this_query_is_here": "A null is only evidence if the instrument can return anything. 468 records on the disease term alone, run in the same session through the same channel, is what makes the two zeros above readable as absence rather than as a broken query."
+    },
+    {
+      "query": "isolated limb perfusion AND myxoid",
+      "total_count": 4,
+      "verdict": "HITS — all myxoid LIPOSARCOMA, none EMC",
+      "pmids": ["40536544", "34534063", "28083602", "10761796"]
+    },
+    {
+      "query": "(isolated limb perfusion OR isolated limb infusion) AND chondrosarcoma",
+      "total_count": 3,
+      "verdict": "HITS — all pre-date EMC as an entity and none is EMC",
+      "pmids": ["6082420", "14147957", "14151960"],
+      "note": "Published 1964, 1964 and 1967. Extraskeletal myxoid chondrosarcoma was not described as a distinct entity until 1972, so no record in this set can be one; the MeSH term on each is plain 'Chondrosarcoma' alongside osteosarcoma, Ewing sarcoma and melanoma. Recorded so a later reader does not have to re-run the query to find out they are not relevant."
+    },
+    {
+      "query": "(isolated limb perfusion OR isolated limb infusion) AND (NR4A3 OR EWSR1 OR translocation-associated sarcoma)",
+      "total_count": 1,
+      "verdict": "ONE HIT — a different translocation sarcoma",
+      "pmids": ["39535601"]
+    },
+    {
+      "query": "extraskeletal myxoid chondrosarcoma AND (regional chemotherapy OR intra-arterial OR melphalan OR limb salvage OR amputation)",
+      "total_count": 20,
+      "verdict": "HITS — no perfusion report among them",
+      "note": "A wider net for regional delivery in this disease. Ten were read in full metadata; none reports limb perfusion. The one regional-delivery report in the set is PMID 36720511, intra-arterial chemotherapy with proton beam radiotherapy in a PELVIC primary — not a limb, and not perfusion. The set's remaining members are surgical, pathological or systemic-therapy reports that matched on 'amputation' or 'limb salvage'. ⚠ The two zeros above already answer the perfusion question directly; this query is the corroborating wider net, not the primary evidence."
+    },
+    {
+      "query": "isolated limb perfusion AND soft tissue sarcoma",
+      "total_count": 444,
+      "verdict": "DENOMINATOR — the size of the literature the two nulls were taken against",
+      "note": "444 records exist on limb perfusion in soft tissue sarcoma. None of them mentions this disease in a searchable field."
+    }
+  ],
+
+  "what_the_adjacent_literature_holds": [
+    {
+      "pmid": "28083602",
+      "doi": "10.1007/s00104-016-0362-3",
+      "year": 2017,
+      "journal": "Chirurg",
+      "language": "German",
+      "read_from": "abstract",
+      "title": "[Isolated limb perfusion for liposarcoma: Histopathological response and subgroup analysis after TNF melphalan-based ILP]",
+      "what_it_reports": "126 patients perfused with TNF-alpha and melphalan and then resected, of whom 24 had a liposarcoma. Histopathological regression, myxoid liposarcoma against non-myxoid liposarcoma: median 95% (mean 79% ± 31.5) against median 75% (mean 72% ± 24.6). Atypical lipomatous tumours were the least responsive at median 40%.",
+      "⭐_why_it_matters_to_this_route": "It is the only perfusion series that analyses a MYXOID subgroup as its own subgroup, and the myxoid subgroup is the better-responding one.",
+      "⛔_what_it_does_not_support": "The authors state the subgroups are too small for a conclusion in their own words. It is a within-liposarcoma comparison, the difference is described as a tendency, no test is quoted in the abstract, and NOTHING in it is about extraskeletal myxoid chondrosarcoma."
+    },
+    {
+      "pmid": "10761796",
+      "doi": "10.1007/s10434-000-0155-1",
+      "year": 2000,
+      "journal": "Ann Surg Oncol",
+      "read_from": "abstract",
+      "title": "Hyperthermic isolated limb perfusion with tumor necrosis factor-alpha and melphalan in advanced soft-tissue sarcomas: histopathological considerations",
+      "what_it_reports": "30 perfused patients. 'The responsive types were malignant fibrous histiocytoma, followed by myxoid liposarcoma and synovial sarcoma.' Best responses (>90% necrosis) in 8 cases, all in distally located tumours.",
+      "⛔_what_it_does_not_support": "The authors write that 'the small number of specimens and, especially, the variability of tumors preclude definite conclusions'. The histology ranking is a narrative ordering with no counts attached to it."
+    },
+    {
+      "pmid": "40536544",
+      "doi": "10.1097/CORR.0000000000003584",
+      "year": 2025,
+      "journal": "Clin Orthop Relat Res",
+      "read_from": "abstract; the PMC record PMC12373031 exists but serves NO full-text body through the PMC full-text API",
+      "title": "Isolated Limb Perfusion Can Avert Amputation Indication in Initially Nonsalvageable Sarcomas of the Extremities",
+      "what_it_reports": "34 patients perfused with TNF-alpha and melphalan for extremity sarcoma a tumour board had judged non-salvageable. The two most frequent diagnoses were undifferentiated pleomorphic sarcoma (6) and myxoid liposarcoma (6).",
+      "⚠_UNKNOWN": "Whether any of the 34 was an extraskeletal myxoid chondrosarcoma is UNKNOWN. The per-patient histology table is not reachable at $0 — the abstract names only the two commonest diagnoses and the PMC full-text body is empty."
+    },
+    {
+      "pmid": "34534063",
+      "year": 2021,
+      "journal": "Acta Chir Orthop Traumatol Cech",
+      "language": "Czech",
+      "read_from": "abstract",
+      "title": "[Neoadjuvant Use of Isolated Limb Perfusion in Large Myxoid Liposarcoma of the Thigh: a Case Report]",
+      "what_it_reports": "One patient, initially unresectable myxoid liposarcoma of the thigh, perfused with TNF-alpha and melphalan: 55% reduction in size, wide resection achieved, 99% tumour necrosis on pathology, disease-free at one year.",
+      "⛔_what_it_does_not_support": "n = 1, one year of follow-up, no comparator, and a different disease."
+    },
+    {
+      "pmid": "39535601",
+      "doi": "10.1007/s00432-024-05980-3",
+      "year": 2024,
+      "journal": "J Cancer Res Clin Oncol",
+      "read_from": "abstract",
+      "title": "Prognostic factors in clear cell sarcoma: an analysis of soft tissue sarcoma in 43 cases",
+      "what_it_reports": "43 patients with clear cell sarcoma / gastrointestinal neuroectodermal tumour, 94% of tested tissues EWSR1::ATF1-positive. The abstract states: 'Radiation and systemic treatment had limited antitumor effects while isolated limb perfusion was active in some patients.'",
+      "⭐_why_it_matters_to_this_route": "It is the nearest structural analogue found: a rare, chemotherapy-refractory, TRANSLOCATION-DRIVEN extremity sarcoma in which limb perfusion has been used and reported as active in some patients. That is the shape of the argument RT-LIMB-PERFUSION makes for EMC.",
+      "⛔_what_it_does_not_support": "'Active in some patients' carries no numerator, no denominator and no response criterion in the abstract. It is a different fusion, a different disease and a narrative statement, and it is recorded as an analogue rather than as evidence."
+    },
+    {
+      "pmid": "36720511",
+      "doi": "10.1136/bcr-2022-250218",
+      "year": 2023,
+      "journal": "BMJ Case Rep",
+      "read_from": "abstract",
+      "title": "Extraskeletal myxoid chondrosarcoma in the pelvis successfully treated with proton beam radiotherapy",
+      "what_it_reports": "One patient with pelvic EMC treated with proton beam radiotherapy plus INTRA-ARTERIAL chemotherapy, maintaining a complete response for more than seven years.",
+      "⭐_why_it_is_here": "It is the only regional-delivery report in EMC this search found — the closest thing in the disease to a locoregional drug-delivery precedent. ⛔ It is intra-arterial infusion to a PELVIC primary, not isolated limb perfusion, the limb is not isolated, and the radiotherapy confounds any attribution to the drug. Already recorded in research/literature/emc-rt-lung-mets-findings.json as adjacent RT evidence."
+    }
+  ],
+
+  "⛔_the_null_and_its_exact_boundary": {
+    "what_is_established": "No PubMed-indexed record reports isolated limb perfusion or isolated limb infusion in extraskeletal myxoid chondrosarcoma. Two independent queries return zero against a 468-record disease literature and a 444-record perfusion literature, with an instrument control run in the same session.",
+    "⚠_what_this_null_CANNOT_reach": "A field search reads titles, abstracts, MeSH and other indexed fields. A perfusion series that included one EMC patient in a per-patient histology TABLE, without naming the disease in its title or abstract, is invisible to every query above. PMID 40536544 is a live instance of exactly that shape: 34 perfused patients, histology table not reachable at $0.",
+    "⛔_so_the_honest_statement_is": "'Nobody has published a perfusion report ABOUT this disease' is established. 'No patient with this disease has ever been perfused' is NOT established and is not claimed.",
+    "what_would_close_the_gap": "Full text of the histology tables of the larger ILP series. That is a paywall and a per-paper read, not a query — and it would settle a question about whether a precedent exists, not a question about whether perfusion works."
+  },
+
+  "⛔_what_none_of_this_says": "Nothing in this file says isolated limb perfusion works in extraskeletal myxoid chondrosarcoma, would be safe in it, or should be offered in it. The myxoid-liposarcoma readings are a different disease; the clear-cell-sarcoma reading is a different disease; the one EMC regional-delivery report is a single patient with a confounded regimen. RT-LIMB-PERFUSION's eligible fraction sizes who the technique could be OFFERED to, and this file establishes that the efficacy question in this disease is UNTOUCHED by the published record."
+}

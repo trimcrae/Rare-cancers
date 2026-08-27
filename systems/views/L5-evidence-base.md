@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 15 evidence items · 50 artifacts · 14 pinned claims.**
+**19 objects · 15 evidence items · 51 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -91,6 +91,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-EMC-CLINICAL-REGISTRY** | `research/data/emc-clinical-registry.json` | `hand-curated from published literature; ingestion via scripts/fetch-paper.mjs + scripts/triage-literature.mjs` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md), [RT-ICI-TKI](L2-rt-ici-tki.md), [RT-PARTNER-STRAT](L2-rt-partner-strat.md), [RT-TRABECTEDIN](L2-rt-trabectedin.md), [RT-VACCINE-COMBINATION](L2-rt-vaccine-combination.md) |
 | **ART-EMC-ENDPOINT-DISCORDANCE** | `research/manuscripts/endpoint/emc-endpoint-discordance.json` | `research/manuscripts/emc_endpoint_discordance.py (stdlib only, CPU, $0; --check re-derives and refuses to write on any drift)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
 | **ART-EMC-EXPRESSION-PANELS** | `research/modalities/emc-expression-panels.json` | `research/modalities/emc_expression_panels.py` | ⚠ **nothing** |
+| **ART-EMC-PERFUSION-MYXOID-SEARCH** | `research/literature/emc-perfusion-myxoid-search-2026-08-27.json` | `PubMed E-utilities queries through this container's NCBI MCP server, with every query, its record count and its verdict recorded — including the queries that returned nothing` | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md) |
 | **ART-EMC-RT-LUNG-METS** | `research/literature/emc-rt-lung-mets-findings.json` | `scripts/lit_rt_probe.py, plus hand curation of the retrieved full texts` | [RT-MDT-LUNG](L2-rt-mdt-lung.md) |
 | **ART-ENDPOINT-CORPUS** | `research/manuscripts/endpoint/endpoint-corpus.json` | `research/manuscripts/endpoint_corpus.py (stdlib only, CPU, $0; --check re-derives from the literature-cache extraction and refuses to write on drift)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |
 | **ART-ENDPOINT-ORR-DCR-REREAD** | `research/manuscripts/endpoint/orr-dcr-reread.json` | `research/manuscripts/orr_dcr_reread.py (stdlib only, CPU, $0; --check re-derives)` | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) |

@@ -7,23 +7,92 @@
     "estimator": "crude denominator-weighted proportions",
     "interval": "Wilson score, 95%",
     "contract": "systems/POLICY-evidence.md §2 (binding)",
-    "⚠_what_is_pooled": "TWO series, both reporting a site distribution over their whole cohort. They are non-overlapping (an Italian two-institution series and a Japanese national registry study).",
-    "⛔_the_inclusive_pool_is_NOT_symmetric": "Only one of the two series breaks out the junctional sites at all. Chiusole reports 'chest 3, abdomen 7, other 3' with no shoulder, groin, axilla or buttock row, so any junctional primaries it contains are invisible and it contributes ZERO extra patients to the inclusive reading. ⇒ The inclusive pool applies a category widening to one series and not to the other, which biases it DOWNWARD by an unknown amount. The per-cohort column, not the pooled figure, is the honest object here."
+    "⚠_what_is_pooled": "THREE series, each reporting a site distribution over its whole cohort: an Italian/French two-institution series (n=59), a Japanese national registry study (n=171) and a US single-institution series (n=41). POLICY-evidence §2.3 names exactly this pairing — 'a Japanese registry and a US single institution' — as distinct populations that may be pooled.",
+    "⭐_why_bishop2019_is_pooled_HERE_and_pool_false_in_the_REGISTRY": "The clinical registry marks bishop2019 `pool: false` with `contextReason: population-overlap (US single institution; likely within SEER / US Sarcoma Collaborative)`. That exclusion bites only where an overlap PARTNER is inside the same pool, and neither SEER nor the US Sarcoma Collaborative contributes a site distribution to this one. ⛔ Pool membership is decided per pool, not once per source. The registry's recurrence and metastasis pools do contain ussc2022, so its flag stands unchanged there.",
+    "⛔_the_inclusive_pool_is_NOT_symmetric": "Only ONE of the three series contributes junctional patients to the inclusive reading, and the other two are silent for two DIFFERENT reasons. Chiusole reports 'chest 3, abdomen 7, other 3' with no shoulder, groin, axilla or buttock row, so any junctional primaries it contains are invisible. Bishop DOES print a buttock row (4) but its subsite rows do not sum to its own group totals, so no addend can be taken from them — and it already files groin and shoulder inside its limb groups, so part of the widening is baked into its strict count instead. ⇒ The inclusive pool applies a category widening to one series and not to the other two, which biases it DOWNWARD by an unknown amount. The per-cohort column, not the pooled figure, is the honest object here."
   },
   "⚠_these_denominators_DIFFER_from_the_registry_cohorts_AND_BOTH_ARE_RIGHT": {
     "_why_this_is_written_down": "A later reader will notice that this file says n=59 for chiusole2020 while the clinical registry's cohort says 49, and that it says n=171 for masunaga2025 while the registry carries 134 + 29 = 163. Neither is an error, and without this note somebody will 'fix' one of them.",
     "chiusole2020": "The registry cohort is keyed on the SURGICAL subset — Table 1's 'Extension of Surgery (n. 49)'. A site distribution is reported over the whole series, 'Primary Location (n. 59)', which is the denominator a site fraction needs.",
     "masunaga2025": "The registry carries two strata, 'localised at diagnosis, surgically treated' (134) and 'metastatic at diagnosis' (29). Table 1's tumour-site column runs over the whole cohort of 171 — the 8 localised patients who had no surgery are outside the registry's first stratum and inside the paper's site table.",
+    "bishop2019": "No divergence: the registry cohort and the paper's site breakdown are both over n=41, the whole series.",
     "⛔_the_rule": "An eligibility fraction takes the denominator its own question defines. A perfusion service asks about every patient with this disease, not only the ones somebody operated on."
   },
   "⛔_the_category_boundary": "Masunaga files shoulder (9), groin (8), axilla (3) and buttock (15) under TRUNK. Every one of those is a primary a perfusion service would argue about rather than refuse outright, and together they are 35 of 171 patients. Both readings are computed and NEITHER is called the answer: the gap between them is WIDER than the sampling interval on either, so the binding uncertainty in this quantity is a definition, not a sample size. ⛔ Anyone quoting a single extremity fraction for this disease is quoting a category boundary they did not state.",
-  "⭐_local_therapy_of_metastases_is_already_being_given": "Both series record it: masunaga, 8 of 29 patients presenting with distant metastases (27.6%) underwent metastasectomy; chiusole, 8 lung metastasectomies and 2 radiofrequency ablations among 59 patients, 26 of whom were metastatic. ⇒ RT-LUNG-DIRECTED's premise is not hypothetical — a lung-directed local strategy is the standard of care for a substantial minority of these patients already, and the route's question is whether perfusion, inhaled delivery or ablation extends it to patients surgery cannot reach. ⚠ Nothing here says any of it works: these are counts of what was DONE, with no comparator and no outcome attached.",
+  "⭐_local_therapy_of_metastases_is_already_being_given": "All three series record it: masunaga, 8 of 29 patients presenting with distant metastases (27.6%) underwent metastasectomy; chiusole, 8 lung metastasectomies and 2 radiofrequency ablations among 59 patients, 26 of whom were metastatic; bishop, 5 of the 13 patients who recurred distantly (38%) underwent surgical resection of metastases, and that series states in its own words that neither salvage surgery (p=0.15) nor salvage chemotherapy (p=0.24) was associated with improved disease-specific survival afterwards. ⇒ RT-LUNG-DIRECTED's premise is not hypothetical — a lung-directed local strategy is the standard of care for a substantial minority of these patients already, and the route's question is whether perfusion, inhaled delivery or ablation extends it to patients surgery cannot reach. ⚠ Nothing here says any of it works: these are counts of what was DONE, with no comparator and no outcome attached.",
   "⛔_what_is_still_not_computable": {
-    "lesion_burden": "no series prints per-patient lesion counts, so no oligometastatic threshold fraction can be stated. Unchanged by this curation.",
-    "time_to_metastasis": "printed as a median in one series (5.9 years, chiusole2020) and nowhere per patient.",
-    "lung_confined_fraction_pooled": "readable in ONE series' presenting cohort (27/29) and NOT readable in the other, whose metastatic-site rows are non-exclusive and over-sum their denominator.",
-    "the_other_nine_series": "not open access. Europe PMC returns no PMC record and isOpenAccess: N for all nine remaining candidate series, so their site tables are unreachable at $0."
+    "lesion_burden": "no series prints per-patient lesion counts, so no oligometastatic threshold fraction can be stated. Unchanged by this curation, and unchanged by the two series added on 2026-08-27.",
+    "time_to_metastasis": "printed as a median in one series (5.9 years, chiusole2020) and as a median time to distant metastasis in another (28 months, bishop2019), and nowhere per patient.",
+    "lung_confined_fraction_pooled": "STILL NOT POOLABLE, and the reason has changed. Two series now print an EXCLUSIVE two-row partition (masunaga 27 lung / 2 peritoneal on 29; bishop 12 lung / 1 bone on 13) but they describe different presentation strata and may not be summed; one series' rows are non-exclusive and over-sum their denominator (chiusole); and the one series that states a lung-CONFINED fraction in those words prints only percentages (drilon). See `lung_confined_readings`.",
+    "⚠_SUPERSEDED_the_other_nine_series": "⛔ WITHDRAWN 2026-08-27. This file previously said: 'not open access. Europe PMC returns no PMC record and isOpenAccess: N for all nine remaining candidate series, so their site tables are unreachable at $0.' TWO of the nine have a PMC full-text record and both were read at $0 on 2026-08-27 — bishop2019 (PMC7771031) and drilon2008 (PMC2779719). The registry already carried both PMCIDs, next to `openAccess: false`. ⛔ THE ROOT CAUSE IS A CONFLATION: `openAccess` is a LICENCE field and it was read as an ACCESS statement. A restrictive licence and an unreachable full text are different facts, and only the second one blocks a transcription of printed counts.",
+    "the_other_seven_series": "NCBI ID conversion returns no PMCID for meisKindblom1999 (PMID 10366145), ussc2022 (35962783), japan2003 (12599237), china2016 (27402218), uMich2023 (36825763) and seer270_2022 (35144048); remiszewski2025 is a REVIEW (PMC12504171) and POLICY-evidence §1.3 forbids laundering a primary's counts through it. So seven of the nine remain unreachable at $0 — measured on 2026-08-27, not assumed.",
+    "a_candidate_series_this_search_surfaced": "Paioli 2020 (PMID 32572850, DOI 10.1245/s10434-020-08737-7, Ann Surg Oncol), 67 molecularly confirmed localised EMC across three Italian Sarcoma Group centres, 1989-2016, is NOT in the clinical registry. NCBI returns no PMCID, so its site table is not reachable at $0. Recorded as a lead, not curated, and NOT assumed to be non-overlapping with chiusole2020 without checking the institutions."
   },
+  "lung_confined_readings": {
+    "_what_this_block_is_for": "RT-LUNG-DIRECTED's eligibility criterion is a LUNG-CONFINED metastatic pattern. Three reachable series say something about it, no two of them in the same form, and POLICY-evidence forbids summing them. They are listed side by side and NOT combined.",
+    "⛔_no_pooled_estimate": "There is no pooled lung-confined fraction here and no confidence interval on one. The rows below are different estimands over different strata (POLICY-evidence §2.1.3, §2.4).",
+    "readings": [
+      {
+        "source_id": "masunaga2025",
+        "stratum": "metastatic AT DIAGNOSIS",
+        "events": 27,
+        "denom": 29,
+        "form": "one category per patient, rows exhaust the cohort — but the printed words are '27 patients HAD LUNG METASTASES, and two had peritoneal dissemination', which states involvement rather than confinement",
+        "⚠_is_an_upper_bound": true
+      },
+      {
+        "source_id": "bishop2019",
+        "stratum": "developed distant metastasis during follow-up, localised at diagnosis",
+        "events": 12,
+        "denom": 13,
+        "form": "exclusive two-row partition (lung, bone), rows exhaust the cohort",
+        "⚠_is_an_upper_bound": true
+      },
+      {
+        "source_id": "drilon2008",
+        "stratum": "diagnosed with or progressed to metastatic disease",
+        "events": null,
+        "denom": null,
+        "form": "PERCENTAGE-ONLY: 63% 'with metastasis confined to the lungs', 17% 'with metastasis at other sites concurrent with lung disease', 20% other sites",
+        "⚠_is_an_upper_bound": false
+      },
+      {
+        "source_id": "chiusole2020",
+        "stratum": "metastatic disease in the series",
+        "events": null,
+        "denom": 26,
+        "form": "NON-EXCLUSIVE rows (23 lung + 4 bone + 14 other = 41 over 26); no lung-confined fraction is readable and none may be inferred",
+        "⚠_is_an_upper_bound": null
+      }
+    ],
+    "⛔_THE_FINDING_AND_IT_CUTS_AGAINST_THE_ROUTE": "A two-row partition tells you which site a patient was FILED under; it does not tell you the patient had no other site — and in masunaga the printed verb is 'had', an involvement word, verified against the primary text on 2026-08-27. Drilon is the only series that draws the distinction in its own words, and when it does, 17 of the 80 percentage points of lung involvement turn out to be lung PLUS another site. ⇒ The 27/29 and 12/13 readings are UPPER BOUNDS on a lung-confined fraction, not measurements of one, and the only explicit lung-confined reading in the reachable literature is markedly lower than either. ⚠ Stated because it runs against RT-LUNG-DIRECTED's own argument.",
+    "⭐_what_did_improve": "The quantity is now readable in BOTH presentation strata rather than one — patients metastatic at diagnosis and patients who metastasise later — which is what a lung-directed strategy needs, because the two groups are offered it at different points in their disease."
+  },
+  "⚠_superseded_retained": {
+    "pooled_extremity_fraction_2026_08_25": "Before bishop2019 was added on 2026-08-27 the pooled extremity fractions were 70.4% (64.2-76.0) strict and 85.7% (80.5-89.6) inclusive, over 230 patients in two series. Both figures were correct for the two-series pool and are superseded by the three-series pool computed above. The per-cohort rows for chiusole2020 and masunaga2025 are unchanged.",
+    "⚠_and_the_direction_is_disclosed": "Adding a third series moved the strict reading UP and the inclusive reading DOWN, which narrows the gap between the two definitions without closing it. The gap remains the binding uncertainty."
+  },
+  "context_not_pooled": [
+    {
+      "source_id": "drilon2008",
+      "pmid": "18951519",
+      "pmcid": "PMC2779719",
+      "doi": "10.1002/cncr.23978",
+      "n_total": 86,
+      "verified_against": "the PMC full-text record PMC2779719, retrieved through the NCBI PMC full-text API",
+      "⛔_why_not_pooled": "PERCENTAGE-ONLY. The site distribution is printed as 'approximately 62% … lower extremities; 17% … upper extremities; 13% … abdomen, retroperitoneum, or pelvis; and 8% … other areas', with the integer counts living in a table this channel does not render. POLICY-evidence §2.1.2 forbids deriving counts from a published percentage, so this series contributes to NO pooled fraction here.",
+      "primary_site_percentages_printed": {
+        "lower extremities": 62,
+        "upper extremities": 17,
+        "abdomen, retroperitoneum, or pelvis": 13,
+        "other": 8
+      },
+      "⚠_this_reading_was_already_in_the_repository_and_was_being_read_wrongly": "The 63% appears in research/literature/emc-rt-lung-mets-findings.json, where it is described as 'corroborated at 93% of the metastatic-at-presentation subgroup in another' series. That word is withdrawn there: 93% is an INVOLVEMENT figure and belongs beside this series' own 80% first-site-lung figure, not beside its 63% confined figure. The number was not the missing thing; the distinction was.",
+      "⭐_the_lung_confined_sentence": "This is the ONLY series in the reachable set that separates lung-CONFINED from lung-INVOLVED in its own words: 'The first site of metastasis was the lung in 80% of cases (63% with metastasis confined to the lungs and 17% with metastasis at other sites concurrent with lung disease).' The metastatic denominator is itself a percentage — 'A total of 34% of patients were either diagnosed with or progressed to metastatic disease' — so no integer fraction is readable and none is reconstructed.",
+      "⚠_internal_discrepancy": "The abstract says 87 patients and the Results say '86 evaluable patients'; the clinical registry carries 87. Recorded, not resolved.",
+      "⭐_an_open_item_closed_in_passing": "research/literature/emc-rt-lung-mets-findings.json records that this series' PMID was NOT confirmed by its probe and 'must not be written into any manuscript until it is'. It is confirmed here: PMID 18951519, PMCID PMC2779719, DOI 10.1002/cncr.23978, Cancer 2008, Memorial Sloan-Kettering and the Royal Marsden, patients treated 1975-2006, data censored 2008-03-01 — retrieved from PubMed, not from recollection."
+    }
+  ],
   "series": [
     {
       "source_id": "chiusole2020",
@@ -70,7 +139,7 @@
       "source_id": "masunaga2025",
       "n_total": 171,
       "printed_in": "Table 1 'Patient characteristics and clinical outcomes…' — 'Tumor site, n (%)'; metastatic sites from the 'Patients with metastases at diagnosis' paragraph",
-      "verified_against": "the text layer of the article PDF retrieved via europepmc.org/articles/PMC12398172?pdf=render",
+      "verified_against": "the text layer of the article PDF retrieved via europepmc.org/articles/PMC12398172?pdf=render; re-verified 2026-08-27 against the PMC full-text record PMC12398172 (PMID 40885991), which confirmed every site subcount and corrected the metastatic-site reading",
       "primary_site_counts": {
         "lower limb": 100,
         "upper limb": 16,
@@ -133,23 +202,91 @@
           "peritoneal": 2
         },
         "regional_lymph_node_at_diagnosis": 6,
-        "⭐_lung_confined_readable_here": "27 + 2 = 29 over a denominator of 29, so these two rows exhaust the cohort and 27/29 IS a lung-only fraction for THIS presenting cohort. It is one series' metastatic-at-diagnosis stratum and must not be quoted as a pooled distribution."
+        "⛔_CORRECTED_2026_08_27_this_is_NOT_a_lung_only_fraction": "⚠ *Superseded, retained: \"27 + 2 = 29 over a denominator of 29, so these two rows exhaust the cohort and 27/29 IS a lung-only fraction for THIS presenting cohort.\"* The primary text was re-read on 2026-08-27 (PMC12398172, PMID 40885991) and its sentence is: 'A total of 29 patients had distant metastases at the time of diagnosis. Of these, 27 patients HAD LUNG METASTASES, and two had peritoneal dissemination.' ⛔ 'Had lung metastases' is an INVOLVEMENT statement, not a confinement statement, and the paper never says the 27 had no other site. The rows summing to 29 shows the categories were assigned one per patient; it does not show the assignment means lung-ONLY. ⇒ 27/29 is an UPPER BOUND on the lung-confined fraction in this presenting stratum, and quoting it as a lung-only fraction overstates it. See `lung_confined_readings`.",
+        "⛔_WHY_THE_PMID_IS_RECORDED_HERE_AND_NOT_IN_THE_REGISTRY": "The registry's masunaga2025 citation carries a PMCID and a DOI but no PMID, and PMID 40885991 is confirmed above. It was NOT added to research/data/emc-clinical-registry.json, and the reason is a constraint worth carrying: that file is inside the inventory of research/manuscripts/aso/fusion-junction-aso-archive-manifest.json, the DOI-deposited archive (10.5281/zenodo.22061075). ⛔ ANY byte change to it turns the manifest gate red and forces a re-stamp of a deposited artifact — measured 2026-08-27: a one-line insertion moved the registry from 99,912 to 99,940 bytes and the archive_content_digest with it. Re-stamping a deposit is not a side effect a curation step gets to cause, so the identifier lives here, where nothing is deposited. ⚠ The citation already resolves by PMCID and DOI, so nothing is lost.",
+        "⭐_what_the_re_read_did_confirm": "Every site subcount transcribed above was checked against the same full text and matches: lower limb 61+17+8+4+10 = 100, upper limb 6+3+2+5 = 16, trunk 1+1+5+1+9+3+1+8+4+4+3+15 = 55, and 100+16+55 = 171. The 2026-08-25 transcription of this table is independently verified.",
+        "metastasectomy_breakdown": "'Eight patients (27.6%) underwent metastasectomy, including six, one, and one who underwent lung, bone, and lymph node resections, respectively.' ⇒ six LUNG metastasectomies among 29 patients presenting with distant disease. ⚠ A count of what was done, with no comparator and no outcome."
+      }
+    },
+    {
+      "source_id": "bishop2019",
+      "n_total": 41,
+      "printed_in": "Results, 'Patient and Tumor Characteristics' — the anatomical breakdown printed in the paragraph that introduces Table 1 ('Patient and tumor characteristics are listed in [Table 1]'); metastatic sites from the 'Patterns of Disease Recurrence' paragraph",
+      "verified_against": "the PMC full-text record PMC7771031 (PMID 31436747), retrieved through the NCBI PMC full-text API",
+      "⭐_why_this_series_is_here_at_all": "This artifact previously recorded that the other nine candidate series were 'not open access … so their site tables are unreachable at $0'. That claim conflated a LICENCE with an ACCESS ROUTE. The clinical registry itself carries `pmcid: PMC7771031` for this source next to `openAccess: false`, and the PMC full-text record serves the whole article body. ⛔ The correct test for reachability is whether a full-text record exists, not whether the licence is an open one.",
+      "⚠_licence": "The PubMed/PMC copyright endpoint returns no licence record for PMID 31436747 (source: not_available), so the licence is UNKNOWN. Only factual counts are transcribed here; no article text is reproduced.",
+      "primary_site_counts": {
+        "lower extremity": 22,
+        "upper extremity": 10,
+        "trunk": 8,
+        "neck": 1
+      },
+      "⛔_printed_subsite_rows_that_do_not_sum": {
+        "lower extremity": {
+          "thigh": 14,
+          "knee": 2,
+          "leg": 2,
+          "ankle/foot": 3,
+          "groin": 1
+        },
+        "upper extremity": {
+          "shoulder": 1,
+          "upper arm": 3,
+          "elbow": 1,
+          "forearm": 3
+        },
+        "trunk": {
+          "chest wall": 2,
+          "intrathoracic": 1,
+          "superficial abdomen": 1,
+          "pelvis": 2,
+          "buttocks": 4
+        },
+        "⚠_the_discrepancy": "The lower-extremity subsites sum to 22 and match their group. The upper-extremity subsites sum to 8 against a printed group total of 10, and the trunk subsites sum to 10 against a printed group total of 8 — the two errors are equal and opposite. The GROUP totals are the self-consistent set: 22 + 10 + 8 + 1 = 41 exhausts the cohort and matches the printed percentages (54%, 24%, 20%, 2% of 41). RECORDED, NOT RESOLVED — one rendering of one article cannot say whether the slip is the paper's or the transcription channel's, and picking the convenient reading would be a silent edit to somebody's data.",
+        "⛔_consequence": "This series therefore contributes ZERO patients to the inclusive extremity reading, exactly as chiusole2020 does, and for a different reason.",
+        "⚠_and_its_strict_reading_is_already_slightly_inclusive": "Under this series' own top-level categories, groin sits inside LOWER EXTREMITY and shoulder inside UPPER EXTREMITY — the two sites masunaga2025 files under TRUNK. The strict pool takes each series' own category boundary, so this row's 32 is drawn a shade wider than masunaga's 116. That is the same category boundary this artifact exists to expose, now visible BETWEEN series rather than only within one."
+      },
+      "extremity_strict": [
+        "lower extremity",
+        "upper extremity"
+      ],
+      "extremity_inclusive_extra": [],
+      "locoregional_treatment_already_given": {
+        "printed_in": "'Treatment' and 'Outcomes After Relapse' paragraphs",
+        "counts": {
+          "combined surgery and radiotherapy": 33,
+          "surgery alone": 8,
+          "surgical resection of metastases": 5
+        },
+        "⚠_denominator": "The first two are over n=41 and sum to it. The metastasectomy count is over the 13 patients who recurred distantly, not over 41."
+      },
+      "primary_site_counts_sum": 41,
+      "⚠_sum_vs_n": "the site counts exhaust the series",
+      "metastatic": {
+        "denominator": 13,
+        "denominator_means": "patients who DEVELOPED distant metastases during follow-up in a cohort that was LOCALISED at diagnosis — an incidence cohort, not a presenting stratum",
+        "counts_non_exclusive": {
+          "lung": 12,
+          "bone": 1
+        },
+        "⭐_lung_partition_readable_here": "The sentence reads 'Thirteen patients (32%) developed distant metastases - of which all but one patient (bone) recurred within the lung (n=12, 92%)'. 12 + 1 = 13 over a denominator of 13, so the rows exhaust the cohort and this IS an exclusive partition. ⚠ It partitions patients at the point of distant recurrence and says nothing about whether the 12 stayed lung-only afterwards, so it is an UPPER BOUND on a lung-confined fraction rather than a measurement of one — see `lung_confined_readings`."
       }
     }
   ],
   "pooled_extremity_fraction": {
     "extremity_strict": {
       "definition": "limb primaries only, as each series' own top-level category defines them",
-      "events": 162,
-      "denom": 230,
-      "percent": 70.4,
-      "ci95_lo_percent": 64.2,
-      "ci95_hi_percent": 76.0,
+      "events": 194,
+      "denom": 271,
+      "percent": 71.6,
+      "ci95_lo_percent": 65.9,
+      "ci95_hi_percent": 76.6,
       "estimator": "crude denominator-weighted proportion (POLICY-evidence §2.2)",
       "interval": "Wilson score, 95%",
       "per_cohort_percent": {
         "chiusole2020": 78.0,
-        "masunaga2025": 67.8
+        "masunaga2025": 67.8,
+        "bishop2019": 78.0
       },
       "heterogeneity_range_percent": [
         67.8,
@@ -159,16 +296,17 @@
     },
     "extremity_inclusive": {
       "definition": "limb primaries plus the junctional girdle sites — shoulder, groin, axilla and buttock — which one series files under trunk",
-      "events": 197,
-      "denom": 230,
-      "percent": 85.7,
-      "ci95_lo_percent": 80.5,
-      "ci95_hi_percent": 89.6,
+      "events": 229,
+      "denom": 271,
+      "percent": 84.5,
+      "ci95_lo_percent": 79.7,
+      "ci95_hi_percent": 88.3,
       "estimator": "crude denominator-weighted proportion (POLICY-evidence §2.2)",
       "interval": "Wilson score, 95%",
       "per_cohort_percent": {
         "chiusole2020": 78.0,
-        "masunaga2025": 88.3
+        "masunaga2025": 88.3,
+        "bishop2019": 78.0
       },
       "heterogeneity_range_percent": [
         78.0,

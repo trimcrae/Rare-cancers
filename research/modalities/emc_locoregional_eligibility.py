@@ -60,10 +60,16 @@ QUANTITIES = {
                "\"computable: False\"* — which was a statement about the REGISTRY and kept being "
                "read as a statement about the literature.",
         "resolved_by": "research/modalities/emc-site-curation.json",
-        "what_would_supply_it": "DONE for the two open-access series that print a site table "
-                                "(chiusole2020 n=59, masunaga2025 n=171). The other nine candidate "
-                                "series are not open access, so their site tables stay unreachable "
-                                "at $0 — a paywall, not a missing extraction.",
+        "what_would_supply_it": "DONE for THREE series that print a site table — chiusole2020 "
+                                "(n=59), masunaga2025 (n=171) and, added 2026-08-27, bishop2019 "
+                                "(n=41), reached through its PMC full-text record. ⚠ *Superseded, "
+                                "retained: \"The other nine candidate series are not open access, "
+                                "so their site tables stay unreachable at $0 — a paywall, not a "
+                                "missing extraction.\"* That sentence read a LICENCE field as an "
+                                "ACCESS statement. Two of the nine have a PMC full-text record and "
+                                "both were read at $0; the remaining seven return no PMCID from "
+                                "NCBI ID conversion and stay unreachable. Detail and the corrected "
+                                "census: emc-site-curation.json.",
     },
     "metastatic_site_distribution": {
         "wanted_by": "RT-LUNG-DIRECTED — a lung-directed strategy is offerable only to patients whose "
@@ -73,16 +79,33 @@ QUANTITIES = {
         "computable": "partially",
         "why": "⚠ ONE COHORT CARRIES A LUNG-CONFINED READING AND IT IS A PRESENTING STRATUM. The "
                "metastatic-at-diagnosis stratum records 27 lung and 2 peritoneal on n = 29 — those "
-               "two rows exhaust the cohort, so 27/29 IS a lung-only fraction there. ⭐ A SECOND "
+               "two rows exhaust the cohort. ⛔ CORRECTED 2026-08-27: ⚠ *Superseded, retained: "
+               "\"so 27/29 IS a lung-only fraction there.\"* The primary text says '27 patients "
+               "HAD LUNG METASTASES', which states involvement, not confinement, so 27/29 bounds "
+               "the lung-confined fraction from ABOVE and is not a measurement of it. ⭐ A SECOND "
                "SERIES WAS CURATED 2026-08-25 AND IT CANNOT BE ADDED: chiusole2020's metastatic-site "
                "rows are NON-EXCLUSIVE (23 lung + 4 bone + 14 other = 41 over a denominator of 26), "
                "so no lung-CONFINED fraction can be read off it, and the paper's own table and its "
                "running text disagree by one and two patients. ⛔ So the honest state is UNCHANGED "
-               "in kind: one presenting cohort, not a pooled distribution.",
+               "in kind: one presenting cohort, not a pooled distribution. ⭐ 2026-08-27 — A THIRD "
+               "SERIES ADDS THE OTHER PRESENTATION STRATUM AND STILL DOES NOT MAKE IT POOLABLE. "
+               "bishop2019 partitions the 13 patients who developed distant metastases during "
+               "follow-up as 12 lung and 1 bone, which exhausts that cohort, so the quantity is "
+               "now readable in BOTH strata — metastatic at diagnosis and metastasising later — "
+               "rather than one. ⛔ The two may not be summed: they are different estimands over "
+               "different populations. ⛔ AND BOTH ARE UPPER BOUNDS. drilon2008 is the only "
+               "reachable series that separates lung-CONFINED from lung-INVOLVED in its own words, "
+               "and when it does, 63% of metastatic patients are confined to the lungs against 80% "
+               "with lung as a first site — so a two-row partition counts the patient's filed "
+               "site, not the absence of another one. That reading is percentage-only and enters "
+               "no pool. ⚠ Recorded because it runs AGAINST this route's own argument.",
         "resolved_by": "research/modalities/emc-site-curation.json (partially)",
         "what_would_supply_it": "a series reporting metastatic sites as MUTUALLY EXCLUSIVE "
-                                "categories, or patient-level data. Neither exists in the reachable "
-                                "open-access set.",
+                                "categories WITHIN ONE STRATUM AND OVER THE WHOLE METASTATIC "
+                                "COHORT, or patient-level data. Two series now print an exclusive "
+                                "partition, but over different strata, so the gap is no longer "
+                                "'nobody reports exclusive categories' — it is that no two "
+                                "reachable series report them over the same population.",
     },
     "burden_and_timing": {
         "wanted_by": "RT-LUNG-DIRECTED — an oligometastatic threshold is a COUNT of lesions, and "
