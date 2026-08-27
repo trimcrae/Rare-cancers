@@ -1,6 +1,6 @@
 ---
 name: research-loop
-description: Run one cycle of the autonomous EMC research loop. Load when a scheduled Routine fires a research cycle, when resuming a cycle after a rate limit or a container restart, when you are about to pick what research to work on next, when running a retrospective on the loop's own process, AND — added 2026-08-26 after this was the gap that made the session-shape rule unreachable — whenever a human asks for loop work directly in an INTERACTIVE session: take a ledger item, run a hardening round, run blind seats, write a receipt, fix what a seat found. Every load trigger used to be a Routine firing, so the interactive path never reached this file and its section 3 never bound. Covers the eleven-step cycle contract and the receipt that ends it; the three session shapes and when each is correct (fresh driver, parallel subagents, a spawned session); the stop conditions that make a cycle refuse to start; the rate-limit governor and why the limit is READ rather than inferred; the anti-gaming invariant that a bar may not be changed by the cycle it blocked; and which of the six existing skills to load at which step. It restates none of them — gates live in repo-gates, hardening in paper-hardening, posting in aixiv-submission, rentals in gpu-compute.
+description: Run one cycle of the autonomous EMC research loop. Load when a scheduled Routine fires a research cycle, when resuming a cycle after a rate limit or a container restart, when you are about to pick what research to work on next, when running a retrospective on the loop's own process, AND — added 2026-08-26 after this was the gap that made the session-shape rule unreachable — whenever a human asks for loop work directly in an INTERACTIVE session: take a ledger item, run a hardening round, run blind seats, write a receipt, fix what a seat found. Every load trigger used to be a Routine firing, so the interactive path never reached this file and its section 3 never bound. Covers the twelve-step cycle contract and the receipt that ends it; the three session shapes and when each is correct (fresh driver, parallel subagents, a spawned session); the stop conditions that make a cycle refuse to start; the rate-limit governor and why the limit is READ rather than inferred; the anti-gaming invariant that a bar may not be changed by the cycle it blocked; and which of the six existing skills to load at which step. It restates none of them — gates live in repo-gates, hardening in paper-hardening, posting in aixiv-submission, rentals in gpu-compute.
 ---
 
 # One cycle of the research loop
@@ -43,7 +43,7 @@ Check before anything else. A loop that works through its own alarm is the alarm
 
 ---
 
-## 2 · ★★ THE CYCLE CONTRACT — eleven steps, and step 10 is not optional
+## 2 · ★★ THE CYCLE CONTRACT — twelve steps, and step 10 is not optional
 
 **A cycle that cannot complete step 10 has failed, however much it wrote.**
 
@@ -95,6 +95,12 @@ Check before anything else. A loop that works through its own alarm is the alarm
     `session_id` as if the field were an id, when cycles have written prose into it, and so reported
     three DELIVERED cycles as "died holding uncommitted work". Fixed, mutation-tested 5/5, and the
     regression is pinned by `test_session_reaper_refuses_to_lose_work.py`.
+
+12. **Before you end the turn, prove the work survives you.** `python3 research/autonomy/continuity.py
+    --check` must exit 0. Anything you are about to describe as a next step is a QUEUED LEDGER ITEM
+    with a `closes_clause` link, or it is not real. ⚠ *Added 2026-08-27: three open bar clauses on the
+    only paper with a public DOI existed solely as sentences in a reply, and a fresh cycle reads the
+    ledger, not the reply.*
 
 ⭐ **`route_advanced: none` is the loop's own honesty instrument.** Three in a row means the loop is
 doing documentation, not research, and the health checker escalates on exactly that. **Write it

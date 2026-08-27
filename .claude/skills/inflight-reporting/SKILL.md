@@ -42,6 +42,32 @@ is required at all); this file keeps the format and the buy-line arithmetic.
     running; I am not waiting on it" is honest and costs nothing. A row that implies a return you have
     not arranged is the failure this rule exists to stop.
 
+  - **⛔⛔ "NOTHING IN FLIGHT" IS NOT A STOPPING CONDITION, AND A TURN THAT ENDS ON IT MUST ALSO SAY
+    WHAT CONTINUES THE WORK** (trimcrae, 2026-08-27: *"What's the mechanism that lets you say 'in
+    flight: nothing running' and end a turn? We want this to continue autonomously so we should fix
+    that."*). ⚠ **The hole is structural, not a slip.** This board reports RUNNING COMPUTE, and §1
+    above forbids listing wake mechanisms or scheduled Routines on it — so *"Nothing in flight"* is a
+    true statement about GPUs and CI that says **nothing about whether the work resumes.** A session
+    can hold three pieces of unfinished work, report it, end, and be compliant with every rule here
+    while the work dies with the turn.
+    ⚠ *Measured that day: PUB-ASO's publish bar read 4/7 and **not one** of the three open clauses was
+    a ledger item. They existed only as sentences in a reply. A fresh cycle re-scores the LEDGER, so
+    the whole "next I'll close these" plan was one session-death from being lost — while the loop kept
+    looking healthy: cycles firing, receipts landing, and the only paper with a public DOI parked.*
+    ★ **THE RULE: before a turn ends, every piece of work you are holding is a QUEUED LEDGER ITEM, or
+    it does not exist.** A reply is not a queue and a context window is not a durable medium. Check it
+    rather than remember it:
+
+        python3 research/autonomy/continuity.py --check
+
+    It exits 1 when a clause is blocking a paper and nothing queued closes it, and it matches on a
+    declared `closes_clause` field rather than on prose — the first version grepped the item text and
+    reported three filed items as missing, because they said "clause 2" where the clause is named
+    `preflight_full_green`.
+    ⛔ **So the board gains one line when nothing is running: what picks the work up.** *"Nothing in
+    flight; N items queued, the driver Routine takes them"* is an honest end to a turn. *"Nothing in
+    flight"* alone, with work outstanding, is the failure this rule exists to stop.
+
   - **COST IS PART OF THE FORMAT, NOT AN EXTRA (trimcrae, 2026-07-26 — asked for it twice in one session).**
     Every in-flight row carries what it costs, on the same line as its ETA: the ladder figure for a priced rung,
     a stated estimate with its range for anything unpriced, `$0` for CI/analysis, and free credit named as such
