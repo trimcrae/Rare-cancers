@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Which sentences of the submission does any instrument actually read?
+"""Which sentences of every publication endpoint does any instrument actually read?
 
 ⛔⛔ WHY THIS EXISTS — THE CONVERGENCE DIAGNOSIS (2026-08-22, after round 15).
 
@@ -46,10 +46,172 @@ REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 TESTS = os.path.join(HERE, "tests")
 PINS = os.path.join(HERE, "pinned-figures.json")
 
-PAPERS = {
-    "journal-article": os.path.join(HERE, "aso", "fusion-junction-aso-journal-article.md"),
-    "journal-tables": os.path.join(HERE, "aso", "fusion-junction-aso-journal-tables.md"),
-    "cover-letter": os.path.join(HERE, "aso", "fusion-junction-aso-cover-letter.md"),
+#: ⛔⛔ THE DOCUMENT SET IS A PREDICATE READ FROM RECORDS, NOT A LIST SOMEBODY MUST REMEMBER TO
+#: EXTEND (2026-08-26). Until today this was three hand-typed entries, all three belonging to ONE
+#: submission — and the omission was not hypothetical: `fusion-partner/emc-fusion-partner-
+#: stratification.md` is a live publication endpoint that was being hardened by blind review seats
+#: while NO instrument read it, not even to say its coverage was zero. Measured that day: 94 test
+#: modules name `fusion-junction-aso`, 2 name `fusion-partner`, and its blocker count across four
+#: rounds went 3 -> 2 -> 9, which is `paper-hardening` §8a's signature of sampling surfaces rather
+#: than fixing a paper.
+#: ★★ THE STRUCTURAL REASON, MEASURED (`paper-hardening` §8b.2, 33 mutations): every fix scoped to a
+#: PREDICATE held; six of eleven scoped to a LIST regressed at a sibling the fix did not name, and in
+#: three of the six the missed sibling was named in the fix's own comment. A list is a thing somebody
+#: must remember to extend, and the remembering is what fails. So a manuscript added tomorrow lands
+#: in this census without anybody editing anything here.
+#: ⚠ AND A WIDENING IS ONLY A FIX ONCE YOU HAVE RUN IT. The first attempt at this class of predicate
+#: — "every `.md` in the submission directory" — swept up working notes and a review backlog and went
+#: RED ON A CORRECT TREE, which is worse than a gate that greens on false input because the first
+#: thing anyone does is loosen it. So the predicate is not "a markdown file near a manuscript"; it is
+#: "a document a committed RECORD calls a publication endpoint, or a part one of those ships".
+#: Run 2026-08-26, it selects 32 documents: the 25 endpoint manuscripts the systems graph names, the
+#: two ASO companion files the submission metrics name, and the five cover letters the generated
+#: submission packet names. It selects NO redteam round, NO working record, NO receipt, and none of
+#: the program memos (`nr4a3-program-map.md`, `program/emc-treatment-strategy.md`,
+#: `program/emc-post-degrader-options.md`) — those are memory, not endpoints.
+_PUBLICATION_GRAPH = os.path.join("systems", "graph", "publications.json")
+_SUBMISSION_METRICS = os.path.join("research", "manuscripts", "submission-metrics.json")
+_SUBMISSION_PACKET = os.path.join("research", "manuscripts", "SUBMISSION-PACKET.md")
+
+#: The packet is generated markdown whose per-paper tables name each shipped part in backticks.
+_PACKET_DOCUMENT = re.compile(r"`([A-Za-z0-9._/-]+\.md)`")
+
+
+def _record(repo, rel, load, missing):
+    """Read one record. Absent -> `missing`; present and unreadable -> the exception, unswallowed."""
+    path = os.path.join(repo, rel)
+    if not os.path.exists(path):
+        return missing
+    return load(io.open(path, encoding="utf-8"))
+
+
+def endpoint_documents(repo=None):
+    """{repo-relative path: the record that named it} for every publication-endpoint document.
+
+    Three records, each authoritative for a different half of the question, and each read rather
+    than remembered:
+
+      · `systems/graph/publications.json` — the source of truth for every L3 publication endpoint
+        (CLAUDE.md §7). Its `document.file` is the manuscript itself. This is what puts a new paper
+        in scope the day it is registered.
+      · `research/manuscripts/submission-metrics.json` — the per-submission measurement rows, whose
+        `companion_files` name the tables and reference list a submission is counted over. This is
+        what keeps `fusion-junction-aso-journal-tables.md` in scope; the graph names only the
+        article.
+      · `research/manuscripts/SUBMISSION-PACKET.md` — generated, and the only record that says which
+        cover letter belongs to which paper (`submission_packet.py` resolves it from the directory
+        because nothing else records it). This is what keeps the ASO cover letter in scope.
+
+    ⚠ A record entry naming a file that is not on disk is DROPPED rather than raising: an endpoint
+    can be registered before it is written (`state: unwritten` carries no `document`), and a census
+    that dies on a planned paper would be a gate reddening on a correct tree.
+    """
+    repo = REPO if repo is None else repo
+    found = {}
+
+    def offer(rel, record):
+        rel = rel.replace(os.sep, "/")
+        if os.path.exists(os.path.join(repo, rel)):
+            found.setdefault(rel, record)
+
+    # ⛔ A RECORD THAT IS PRESENT AND UNREADABLE RAISES; ONLY AN ABSENT ONE IS TOLERATED. Swallowing
+    # a parse error would shrink the document set silently, and a census reporting on 4 documents
+    # because a file failed to parse looks exactly like a census reporting on 4 documents. An absent
+    # reading is not a reading of absence (CLAUDE.md §4).
+    graph = _record(repo, _PUBLICATION_GRAPH, json.load, [])
+    for entry in graph:
+        if entry.get("kind") != "publication":
+            continue
+        rel = (entry.get("document") or {}).get("file")
+        if rel and rel.endswith(".md"):
+            offer(rel, "systems/graph/publications.json")
+
+    metrics = _record(repo, _SUBMISSION_METRICS, json.load, {})
+    for row in metrics.get("rows") or []:
+        for rel in [row.get("file")] + list(row.get("companion_files") or []):
+            if rel and rel.endswith(".md"):
+                offer(os.path.join("research", "manuscripts", rel),
+                      "research/manuscripts/submission-metrics.json")
+
+    packet = _record(repo, _SUBMISSION_PACKET, lambda fh: fh.read(), "")
+    for rel in _PACKET_DOCUMENT.findall(packet):
+        offer(os.path.join("research", "manuscripts", rel),
+              "research/manuscripts/SUBMISSION-PACKET.md")
+
+    return {k: found[k] for k in sorted(found)}
+
+
+#: Which record named each censused document — carried into the report so a reader sees the
+#: predicate rather than having to trust that one was used.
+NAMED_BY = endpoint_documents()
+
+#: ⚠ THE KEY IS THE REPO-RELATIVE PATH, not a short label. A short label ("journal-article") has to
+#: be invented per document by somebody, which is the same remembering this derivation removes.
+PAPERS = {rel: os.path.join(REPO, rel) for rel in NAMED_BY}
+
+#: FLOORS, not targets: coverage may rise freely and may not fall. Taken by
+#: `python3 research/manuscripts/claim_coverage.py --write`; the ratchet that enforces them, and the
+#: full history of every time one moved and why, is
+#: `tests/test_the_paper_states_what_its_own_claims_depend_on.py`.
+#: ⚠ Raising a floor is a deliberate act — do it when you have closed a class, never to make a red
+#: run green. Lowering one is legitimate only when the INSTRUMENT was proved wrong, not when a run
+#: went red, and the commit must say which.
+#: ⛔ THE TABLE LIVES HERE RATHER THAN BESIDE ITS TEST BECAUSE ITS KEYS ARE MANUSCRIPT PATHS, and
+#: `_test_patterns` treats any test module mentioning a manuscript's basename — in a constant, in a
+#: comment, anywhere — as a reader of that document, then credits that module's literals to it as
+#: coverage. Measured 2026-08-26: with these four keys in the test file, the cover letter read
+#: 16 covered instead of 10 and the fusion-partner manuscript gained a witness that binds nothing in
+#: it. This module is not scanned, so the table is inert here.
+#: ⚠ A DOCUMENT WITH NO ROW IS STILL CENSUSED. Its coverage is visible in the committed report and
+#: checked for staleness; it is simply not held. 28 of the 32 are in that state, most of them at zero.
+COVERAGE_FLOOR = {
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md":
+        {"covered": 66, "with_a_number_covered": 44},
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md":
+        {"covered": 4, "with_a_number_covered": 1},
+    "research/manuscripts/aso/fusion-junction-aso-cover-letter.md":
+        {"covered": 6, "with_a_number_covered": 4},
+    #: ⭐ FIRST CENSUS OF THIS DOCUMENT, 2026-08-26, AND THE LOW NUMBER IS THE FINDING. The census had
+    #: never read it — its document set was three hand-typed entries, all three of one submission —
+    #: while blind review seats hardened it with no instrument behind them. Measured at
+    #: `6b2bd3729`: 1 of 259 sentences, 1 of 192 stating a number, and the one witness is a pin
+    #: (`fusion_partner_dod_fisher_p`). No test module named the file at all. That 1 is not a false
+    #: positive: ablating it — perturbing the number in a clone and re-running the witness — goes red.
+    #: ⚠ THE LIVE READING IS NO LONGER 1. `8bd6cff9d` landed a numbers guard against this manuscript
+    #: hours later and the census now reads 46 of 259 (46 of 192 numbered), which is the instrument
+    #: working: a guard arrived and the count moved. THE FLOOR IS DELIBERATELY LEFT AT 1 rather than
+    #: raised to 46, because raising a floor holds whoever owns that guard to its current shape and
+    #: it was still being written when this was committed. Raising it is a one-line, deliberate act
+    #: for that owner, and leaving the gain unheld is the cost of not taking it.
+    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md":
+        {"covered": 1, "with_a_number_covered": 1},
+}
+
+#: ⛔⛔ A DOCUMENT WHOSE ABLATION IS BLOCKED BY A KNOWN CENSUS FALSE POSITIVE, WITH THE COUNTEREXAMPLE
+#: WRITTEN DOWN RATHER THAN THE GATE LOOSENED. `test_the_census_word_covered_survives_ablation.py`
+#: perturbs a covered sentence's NUMBER and demands that some witness the census names goes red. That
+#: is a stronger claim than `covered` makes — the census says only that a selective pattern matches
+#: the sentence, and this module's own docstring calls the covered count an upper bound — so a
+#: pattern can legitimately bind a sentence's WORDS while claiming nothing about its digits.
+#: ★ MEASURED, NOT ARGUED (2026-08-26, at `8bd6cff9d`, 6 sentences sampled, 1 blind):
+#:   sentence  "The development environment's egress proxy refuses CONNECT to Europe PMC, NCBI and
+#:              ClinicalTrials.gov (verified this session: curl exit 56, HTTP 000)."
+#:   credited  test_fusion_partner_prose_matches_its_artifact.py, by the harvested pattern
+#:             `HTTP \d{3}` — which matches 5 of 259 sentences, so it passes the share filter, and
+#:             contains the literal run "HTTP", so it passes `_binds_literal_text`.
+#:   perturbed 56 -> 57 and 000 -> 007. Nothing went red, because `\d{3}` matches "007" too.
+#: ⚠ THE VERDICT IS THE GATE'S, NOT THE PAPER'S: that sentence is counted as covered and is not, and
+#: the remedy the gate prints applies — bind the number for real, or stop crediting a pattern that is
+#: wildcard exactly where the claim is. Both live in the guard, which another session owns and was
+#: still writing when this was committed, so the finding is recorded here for it.
+#: ⛔ THIS IS AN EXEMPTION FROM ONE GATE ON ONE DOCUMENT, NOT A RULE CHANGE. The census still counts
+#: this document, its committed counts are still checked for staleness, its floor still holds, and
+#: every other floored document is still ablated. Deleting a row here is the fix; adding one is a
+#: defect being recorded, and each must carry the perturbation that proved it.
+ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE = {
+    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md":
+        "one covered sentence is credited to `HTTP \\d{3}`, which still matches after the digits "
+        "move; 56 -> 57 and 000 -> 007 turned nothing red",
 }
 
 #: Front matter, HTML comments, headings and table pipes are not prose claims.
@@ -220,6 +382,29 @@ def _generator(path):
     return m.group(1) if m else None
 
 
+def is_selective(pattern, sents):
+    """Does this pattern DISTINGUISH a sentence in `sents`, or does it merely match the document?
+
+    Both halves are load-bearing and each was written after the other one alone reported a lie:
+    `_binds_literal_text` refuses structure (bold, a code span, an ISO date, whitespace), and
+    `MAX_MATCH_SHARE` refuses breadth. A pattern matching nothing at all distinguishes nothing
+    either, and saying so here rather than letting it sit in the compiled set is what lets a guard
+    assert the word "selective" against this function instead of against a comment.
+    """
+    if not sents:
+        return False
+    if not _binds_literal_text(pattern):
+        return False  # structure only: bold, a code span, a date, whitespace — binds nothing
+    try:
+        rx = re.compile(pattern, re.I)
+    except re.error:
+        return False
+    matched = sum(1 for s in sents if rx.search(s))
+    if matched > max(1, MAX_MATCH_SHARE * len(sents)):
+        return False  # matches most of the document; binds none of it
+    return matched > 0
+
+
 def census(paper_key):
     path = PAPERS[paper_key]
     base = os.path.basename(path)
@@ -227,18 +412,9 @@ def census(paper_key):
     pats = [(h, p, w) for h, p, w in _pin_patterns() if h == base] + _test_patterns(base)
     compiled = []
     for _h, p, w in pats:
-        try:
-            rx = re.compile(p, re.I)
-        except re.error:
+        if not is_selective(p, sents):
             continue
-        if not sents:
-            continue
-        if not _binds_literal_text(p):
-            continue  # structure only: bold, a code span, a date, whitespace — binds nothing
-        matched = sum(1 for s in sents if rx.search(s))
-        if matched > max(1, MAX_MATCH_SHARE * len(sents)):
-            continue  # matches most of the document; binds none of it
-        compiled.append((rx, w))
+        compiled.append((re.compile(p, re.I), w))
     # ⛔⛔ A GENERATOR IS NOT A WITNESS, AND CREDITING IT AS ONE WAS A FALSE POSITIVE THIS FILE HELD
     # FOR ABOUT AN HOUR (2026-08-22). The reasoning was: the tables file is generated, an edit to it
     # fails `--check`, therefore every sentence in it is bound — and the first ablation agreed, twice
@@ -258,11 +434,47 @@ def census(paper_key):
     return rows
 
 
+def uncovered(paper_key):
+    """The finding, printed on demand: the sentences of one document nothing selective reads.
+
+    ⛔⛔ THIS IS NOT IN THE COMMITTED REPORT, AND THAT IS A DECISION WITH A MEASUREMENT BEHIND IT
+    (2026-08-26). The report used to carry every uncovered sentence, which was affordable while the
+    census read three documents of one submission. Widened to every publication endpoint it produced
+    a **1.1 MB** artifact holding a second copy of the prose of 32 manuscripts — a fact stored twice
+    (CLAUDE.md §1), stale the moment any of those papers is edited, and re-diffed in full on every
+    regeneration. The counts are the thing a ratchet can hold; the sentences are a WORKING LIST for
+    designing a review round, and they cost $0 to reproduce here at the moment they are wanted.
+    """
+    rows = census(paper_key)
+    return {"with_a_number": [r["sentence"] for r in rows if r["has_number"] and not r["covered"]],
+            "without_a_number": [r["sentence"] for r in rows
+                                 if not r["has_number"] and not r["covered"]]}
+
+
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     write = "--write" in argv
+    for arg in argv:
+        if arg.startswith("--uncovered="):
+            key = arg.split("=", 1)[1]
+            if key not in PAPERS:
+                print(f"{key} is not a censused document. The census reads what "
+                      f"`claim_coverage.endpoint_documents` selects:\n  "
+                      + "\n  ".join(PAPERS), file=sys.stderr)
+                return 2
+            found = uncovered(key)
+            for half in ("with_a_number", "without_a_number"):
+                print(f"\n=== uncovered, {half.replace('_', ' ')} "
+                      f"({len(found[half])}) — {key}\n")
+                for s in found[half]:
+                    print(f"  * {s}")
+            return 0
     report = {"_what": __doc__.strip().splitlines()[0],
-              "_generated_by": "research/manuscripts/claim_coverage.py", "papers": {}}
+              "_generated_by": "research/manuscripts/claim_coverage.py",
+              "_scope": "every document a committed record calls a publication endpoint, or a part "
+                        "one of those ships — never a list typed here. See "
+                        "`claim_coverage.endpoint_documents`.",
+              "named_by": NAMED_BY, "papers": {}}
     for key in PAPERS:
         rows = census(key)
         n = len(rows)
@@ -272,14 +484,18 @@ def main(argv=None):
         report["papers"][key] = {
             "sentences": n, "covered": cov,
             "with_a_number": len(num), "with_a_number_covered": num_cov,
-            "uncovered_with_a_number": [r["sentence"] for r in num if not r["covered"]],
-            "uncovered_without_a_number": [r["sentence"] for r in rows
-                                           if not r["covered"] and not r["has_number"]],
+            #: The uncovered sentences themselves are `--uncovered=<path>`, not a field here — see
+            #: `uncovered()` for the 1.1 MB measurement that took them out of the artifact.
+            "uncovered": n - cov, "uncovered_with_a_number": len(num) - num_cov,
         }
         print(f"{key}: {cov}/{n} sentences read by something "
               f"({num_cov}/{len(num)} of those stating a number)")
     if write:
-        out = os.path.join(HERE, "aso", "claim-coverage.json")
+        #: ⚠ THIS ARTIFACT MOVED OUT OF `aso/` ON 2026-08-26 AND THE MOVE IS THE POINT. While the
+        #: census read one submission it was an ASO deposit artifact; it now reads every publication
+        #: endpoint in the repository, and a repo-wide census filed under one paper's directory is a
+        #: fact stored where nobody looking for it would look.
+        out = os.path.join(HERE, "claim-coverage.json")
         io.open(out, "w", encoding="utf-8").write(json.dumps(report, indent=1, ensure_ascii=False) + "\n")
         print(f"wrote {os.path.relpath(out, REPO)}")
     return 0

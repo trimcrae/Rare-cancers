@@ -39,7 +39,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
 ASO = os.path.join(MANUSCRIPTS, "aso")
 ARTICLE = os.path.join(ASO, "fusion-junction-aso-journal-article.md")
-COVERAGE = os.path.join(ASO, "claim-coverage.json")
+#: ⚠ MOVED OUT OF `aso/` ON 2026-08-26 with the census itself: it reads every publication endpoint
+#: in the repository now, so filing it under one submission's directory hid it from every other one.
+COVERAGE = os.path.join(MANUSCRIPTS, "claim-coverage.json")
 
 #: (label, pattern, why its ABSENCE would break something else in the paper)
 REQUIRED = [
@@ -152,9 +154,26 @@ def test_the_article_states_it(label, pattern, why, prose):
 #: after its selectivity filter was added. These are FLOORS, not targets: coverage may rise freely
 #: and may not fall. ⚠ Raising a floor is a deliberate act — do it when you have closed a class, and
 #: never to make a red run green.
-COVERAGE_FLOOR = {"journal-article": {"covered": 66, "with_a_number_covered": 44},
-                  "journal-tables": {"covered": 4, "with_a_number_covered": 1},
-                  "cover-letter": {"covered": 6, "with_a_number_covered": 4}}
+COVERAGE_FLOOR = claim_coverage.COVERAGE_FLOOR
+#: ⛔⛔ AND THE FLOOR TABLE ITSELF LIVES IN `claim_coverage.py`, NOT HERE, FOR A REASON MEASURED THE
+#: HOUR IT WAS WRITTEN (2026-08-26). Its keys became repo-relative PATHS when the census's document
+#: set became a derivation — a derivation cannot invent the short label a person used to choose. But
+#: `claim_coverage._test_patterns` decides that a test module reads a document if the document's
+#: basename appears ANYWHERE in that module's source, comments and constants included, and it then
+#: credits that module's regex-shaped literals to that document as coverage.
+#: ⚠ MEASURED, NOT REASONED: with the four floor keys sitting in this file, the cover letter jumped
+#: 10 -> 16 covered and the fusion-partner manuscript picked up a witness — this module's REQUIRED
+#: patterns, which are about the JOURNAL ARTICLE'S prose and bind nothing in either document. That is
+#: round 16 seat 4's defect exactly (22 of 27 "covered" cover-letter sentences were false positives
+#: of the same shape), re-manufactured by a bookkeeping constant. A false positive inflates covered,
+#: which shrinks uncovered, which HIDES surfaces — the comfortable direction, and the one to
+#: distrust. The census module is not scanned for patterns, so the table is inert there.
+#: ★ THE GENERAL RULE THIS LEAVES BEHIND: naming a manuscript in a test module is not free. It grants
+#: that module's literals to that document. Name only the documents whose claims you actually check.
+#: ⚠ A DOCUMENT WITH NO ROW HERE IS STILL CENSUSED AND STILL CHECKED FOR STALENESS BELOW, but its
+#: coverage is only VISIBLE, not held: a fall shows up as a changed number in the regenerated
+#: artifact's diff and nothing refuses it. That is weaker than a floor and is said here rather than
+#: papered over — 28 of the 32 censused documents are in that state, most of them at zero.
 #: ⛔ `journal-article.covered` 67 -> 66 ON 2026-08-24, SAME DAY, AND FOR A DELETED SENTENCE AGAIN.
 #: trimcrae removed his diagnosis from the whole submission envelope, so the manuscript's pointer
 #: sentence — "a non-financial interest is disclosed to the editor in the accompanying cover
@@ -256,17 +275,34 @@ def test_claim_coverage_has_not_regressed():
     # catch. A populated field is not a measured one.
     # ★ The census is now RUN HERE, and the committed artifact is checked against that live reading,
     # so a stale deposit artifact fails as loudly as a lost binding.
+    # ⛔ AND IT IS CHECKED FOR EVERY CENSUSED DOCUMENT, NOT FOR THE ONES THAT HAVE A FLOOR
+    # (2026-08-26). Looping over `COVERAGE_FLOOR` here would have re-created, one level down, the
+    # defect this whole change removes: the artifact would carry 32 documents and four of them would
+    # be checked, so a manuscript nobody had floored could go stale in a committed record and the
+    # gate would say nothing. A populated field is not a measured one (CLAUDE.md §4).
+    # ⚠ ALL FOUR FIELDS, not just the two the floors use: `sentences` and `with_a_number` are
+    # committed too, and a committed number nothing compares is exactly the kind of plausible-looking
+    # record that carried a fabricated verdict out of this repository once already.
     live = {}
-    for paper in COVERAGE_FLOOR:
+    for paper in claim_coverage.PAPERS:
         rows = claim_coverage.census(paper)
         numbered = [r for r in rows if r["has_number"]]
-        live[paper] = {"covered": sum(1 for r in rows if r["covered"]),
-                       "with_a_number_covered": sum(1 for r in numbered if r["covered"])}
+        cov = sum(1 for r in rows if r["covered"])
+        ncov = sum(1 for r in numbered if r["covered"])
+        live[paper] = {"sentences": len(rows), "covered": cov,
+                       "with_a_number": len(numbered), "with_a_number_covered": ncov,
+                       "uncovered": len(rows) - cov,
+                       "uncovered_with_a_number": len(numbered) - ncov}
 
     committed = json.load(io.open(COVERAGE, encoding="utf-8"))["papers"]
     stale = [f"{p}.{f}: committed {committed.get(p, {}).get(f)!r}, census now reports {v!r}"
              for p, fields in live.items() for f, v in fields.items()
              if committed.get(p, {}).get(f) != v]
+    # ⛔ AND IN THE OTHER DIRECTION TOO. A document dropped from the census — a publication retired
+    # from the graph, a companion file renamed — leaves its old counts sitting in the artifact
+    # looking like a live reading of a document nothing measures any more.
+    stale += [f"{p}: in the committed artifact but no longer censused, so its numbers are a reading "
+              f"of nothing" for p in sorted(set(committed) - set(live))]
     assert not stale, (
         "claim-coverage.json disagrees with what claim_coverage.py now computes:\n  "
         + "\n  ".join(stale)
