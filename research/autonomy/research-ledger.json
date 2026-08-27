@@ -7,7 +7,7 @@
   "n_by_kind": {
     "harden": 11,
     "analysis": 1,
-    "process_defect": 18,
+    "process_defect": 19,
     "write": 6,
     "experiment": 23,
     "process": 7,
@@ -20,10 +20,10 @@
     "verify": 1
   },
   "n_by_state": {
-    "queued": 101,
+    "queued": 100,
     "superseded": 1,
-    "done": 23,
-    "in_progress": 5
+    "done": 24,
+    "in_progress": 6
   },
   "n_clamped": 11,
   "entries": [
@@ -3953,6 +3953,32 @@
       "score": 110.0,
       "_score_basis": "the ranker and the continuity checker disagreed about which work was runnable",
       "depends_on_evidence": "AUT-PROP-018 offered as ready with blocked_evidence recorded; 79 tests in research/autonomy/tests",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-024",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "✅ DONE 2026-08-27. ⛔ `continuity.py` REPORTED CAPACITY THE LOOP DID NOT HAVE. It offered 70 items as 'READY TO RUN RIGHT NOW' while five workers were live against a governed `subagent_width` of 5 — every one of those 70 ready in the ledger's sense and startable by nobody. The Stop hook then asked, correctly by its own lights, why nothing was moving. ⭐ THE FIX READS THE DIAL INSTEAD OF IGNORING IT: `live_leases()` and `width_cap()`, and at capacity `--check` exits 0 with the holders NAMED. ⛔⛔ AND THE LINE THIS HAD TO HOLD IS THE ONE THE FILE EXISTS FOR: a full cap is a REAL STOP, not a permission slip, and it is allowed to end a turn only because it is FALSIFIABLE — every holder is printed, each lease carries a `claimed_utc` that `release_stale_claims` ages out, and one completion re-opens the list. A lease naming a worker that is not running now reads as litter rather than as capacity. An unreadable cap buys NOTHING (fail closed), because a dial nobody can read must never excuse a stall. ⛔⛔ AND THE FIRST VERSION HAD THE RECEIPT SCHEMA'S UNIT ERROR, CAUGHT BY RUNNING IT: it counted LEASES, not WORKERS, and read 5-of-5 while FOUR workers were running. One seat legitimately holds two items — AUT-036 and AUT-037 went to a single seat because both re-curate one corpus — so counting leases would have manufactured a capacity excuse OUT OF GOOD PRACTICE, and the excuse would grow every time a seat was sensibly given two related items. That is the same concurrent-vs-total confusion AUT-PD-013 refused in the receipts, one file over, and it took twenty minutes to make the identical mistake after writing the argument against it. ✅ 6 tests, 6/6 mutations caught, including the two that matter most: counting leases instead of workers, and letting an unreadable cap pass.",
+      "score": 105.0,
+      "_score_basis": "the checker that decides whether the turn may end was reading capacity it could not see",
+      "depends_on_evidence": "continuity.py live_leases()/width_cap(); 89 tests in research/autonomy/tests",
       "closes_clause": null
     }
   ]

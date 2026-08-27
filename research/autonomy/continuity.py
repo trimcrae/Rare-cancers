@@ -61,6 +61,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
 LEDGER = os.path.join(HERE, "research-ledger.json")
 QUEUE = os.path.join(HERE, "ready-to-post.json")
+#: ⛔ The governed concurrency dial lives in ONE file and is READ, never remembered — CLAUDE.md §1
+#: records that `subagent_width` governed nothing for a fortnight precisely because no code read it.
+STATE = os.path.join(HERE, "autonomy-state.json")
 
 #: Cost classes a session may take without asking. CLAUDE.md §2: warranted, cheap and ready -> DO IT NOW.
 SELF_DOABLE_COST = {"free", "cheap", None}
@@ -142,6 +145,32 @@ def ready(me: str | None = None) -> list[dict]:
     out = [e for e in _entries() if _why_not_ready(e, me) is None]
     out.sort(key=lambda e: (-(e.get("score") or 0), e.get("id") or ""))
     return out
+
+
+def live_leases() -> list[tuple[str, str]]:
+    """`[(id, owner)]` for every open item a worker currently holds.
+
+    ⚠ A LEASE IS FALSIFIABLE AND THAT IS WHY IT MAY BE COUNTED. It names WHICH worker holds WHICH
+    item, with a timestamp `priority.py:release_stale_claims` ages out — so a session cannot quietly
+    manufacture capacity pressure the way a self-issued "I am busy" flag would let it.
+    """
+    return [(e.get("id"), e.get("owner")) for e in _entries()
+            if e.get("state") in OPEN_STATES and e.get("owner")]
+
+
+def width_cap() -> int | None:
+    """The governed concurrent-worker cap, READ rather than remembered (CLAUDE.md §1).
+
+    ⛔ None when it cannot be read, and None means NO CAPACITY EXCUSE IS AVAILABLE — an unreadable
+    dial must never buy a pass. That is the same failing-closed rule the publish bar uses, and it is
+    the direction that costs nothing when wrong.
+    """
+    try:
+        with open(STATE, encoding="utf-8") as fh:
+            v = json.load(fh).get("subagent_width")
+    except (OSError, ValueError):
+        return None
+    return v if isinstance(v, int) and not isinstance(v, bool) and v >= 1 else None
 
 
 def unclassified_outward(me: str | None = None) -> list[dict]:
@@ -266,7 +295,44 @@ def main(argv=None) -> int:
         for e in u[:args.limit]:
             print(f"      {e.get('id')}  {' '.join((e.get('what') or '').split())[:88]}")
 
+    # ⛔⛔ THE CAPACITY READING, ADDED 2026-08-27 AFTER THIS TOOL REPORTED CAPACITY THE LOOP DID NOT
+    # HAVE. It offered 70 items as "READY TO RUN RIGHT NOW" while five workers were live at a
+    # governed `subagent_width` of 5 — so every one of those 70 was ready in the ledger's sense and
+    # startable by nobody. That is the same defect class as AUT-PD-023 one step out: a checker
+    # reading a different set of facts than the thing it is checking.
+    # ⭐ AND IT IS A REAL STOP, NOT A PERMISSION SLIP, WHICH IS THE LINE THIS FILE EXISTS TO HOLD.
+    # A full cap means a WORKER must finish first — the same shape as waiting on a human or the
+    # outside world, and unlike v1's green tick it is falsifiable: the holders are named, each lease
+    # carries a `claimed_utc` that `priority.py:release_stale_claims` ages out, and one worker
+    # finishing re-opens the list. ⚠ AN UNREADABLE CAP BUYS NOTHING (`width_cap()` returns None and
+    # this branch is skipped), because a dial nobody can read must never excuse a stall.
+    leases = live_leases()
+    # ⛔⛔ DISTINCT WORKERS, NOT LEASES, AND THE FIRST VERSION OF THIS GOT IT WRONG IN THE SAME WAY
+    # THE RECEIPT SCHEMA ALMOST DID. `subagent_width` caps CONCURRENT WORKERS (autonomy-state.json's
+    # `_subagent_width_means` says so in as many words). One seat legitimately holds two items —
+    # AUT-036 and AUT-037 were given to a single seat precisely because both re-curate one corpus —
+    # so counting LEASES said 5-of-5 while four workers were running and there was room for a fifth.
+    # ⚠ Counting the wrong unit here is not a miscount, it is a STALL: it would have manufactured a
+    # capacity excuse out of good practice, and the excuse would have grown every time a seat was
+    # sensibly given two related items.
+    workers = sorted({owner for _, owner in leases})
+    cap = width_cap()
+    at_capacity = cap is not None and len(workers) >= cap
+    if at_capacity:
+        print(f"\n⚠ {len(workers)} worker(s) hold {len(leases)} lease(s) against a governed "
+              f"`subagent_width` of {cap} — the loop is AT CAPACITY, so the rows above are ready in "
+              f"the ledger and startable by nobody until one finishes:")
+        for eid, owner in sorted(leases)[:args.limit]:
+            print(f"      {eid}  held by {owner}")
+        print("   ⛔ THIS IS NOT PERMISSION TO STOP WORKING. It is a claim that a WORKER must finish\n"
+              "      first, and it is falsifiable: every holder is named above, each lease carries a\n"
+              "      `claimed_utc` that priority.py ages out, and one completion re-opens the list.\n"
+              "      If a lease above names a worker that is not actually running, that is litter —\n"
+              "      release it (`owner: null`) and the work is startable again.")
+
     if args.check:
+        if at_capacity:
+            return 0
         print("\n⛔⛔ THIS IS NOT A FAILURE TO RECORD THE WORK. The work is recorded — that is how it\n"
               "   appears above. This exits 1 because the work is READY AND NOT MOVING.\n"
               "   ★ Ending a turn here needs one of: something actually running (a subagent, a\n"

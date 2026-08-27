@@ -259,6 +259,79 @@ def test_empty_block_evidence_is_not_a_block(led):
         assert len(C.ready()) == 1, f"blocked_evidence={value!r} wrongly stood the item down"
 
 
+# ---------------------------------------------------------------------------------------------
+# ⛔ THE CAPACITY BRANCH. It is the only thing in this file that can turn a ready list into exit 0,
+# so it is the branch most likely to be quietly widened into v1's permission slip.
+# ---------------------------------------------------------------------------------------------
+
+def _cap(monkeypatch, tmp_path, value):
+    p = tmp_path / "autonomy-state.json"
+    p.write_text(json.dumps({"subagent_width": value}), encoding="utf-8")
+    monkeypatch.setattr(C, "STATE", str(p))
+
+
+def test_the_cap_counts_workers_not_leases(led, monkeypatch, tmp_path):
+    """⛔⛔ FOUND IN THE FIRST VERSION OF THIS BRANCH, AND IT IS THE RECEIPT SCHEMA'S UNIT ERROR
+    AGAIN. `subagent_width` caps CONCURRENT WORKERS. One seat legitimately holds two items —
+    AUT-036 and AUT-037 went to a single seat precisely because both re-curate one corpus — so
+    counting LEASES read 5-of-5 while four workers ran and there was room for a fifth.
+
+    ⚠ Counting the wrong unit here is not a miscount, it is a STALL: it manufactures a capacity
+    excuse out of good practice, and the excuse grows every time a seat is sensibly given two
+    related items.
+    """
+    _cap(monkeypatch, tmp_path, 2)
+    led([_item(id="A", owner="seat-one", state="in_progress"),
+         _item(id="B", owner="seat-one", state="in_progress"),
+         _item(id="C")])
+    assert C.main(["--check"]) == 1, (
+        "two leases held by ONE worker were counted as two workers, so a free row was reported as "
+        "unstartable while the cap had room")
+
+
+def test_a_full_cap_is_a_real_stop_and_names_every_holder(led, monkeypatch, tmp_path, capsys):
+    """★ A full cap is the same shape as waiting on a human: a WORKER must finish first. It is
+    allowed to end a turn — and only because it is falsifiable. Every holder is named, so a lease
+    pointing at a worker that is not running is visible as litter rather than as capacity."""
+    _cap(monkeypatch, tmp_path, 2)
+    led([_item(id="A", owner="seat-one", state="in_progress"),
+         _item(id="B", owner="seat-two", state="in_progress"),
+         _item(id="C")])
+    assert C.main(["--check"]) == 0
+    out = capsys.readouterr().out
+    assert "AT CAPACITY" in out
+    assert "seat-one" in out and "seat-two" in out, (
+        "the capacity claim did not name its holders, so nobody can tell a running worker from a "
+        "stale lease — and an unfalsifiable capacity claim IS v1's permission slip")
+    assert "NOT PERMISSION TO STOP WORKING" in out
+
+
+def test_an_unreadable_cap_buys_nothing(led, monkeypatch, tmp_path):
+    """⛔ FAIL CLOSED. A dial nobody can read must never excuse a stall — the same direction the
+    publish bar fails, and the direction that costs nothing when wrong."""
+    monkeypatch.setattr(C, "STATE", str(tmp_path / "does-not-exist.json"))
+    led([_item(id="A", owner="seat-one", state="in_progress"), _item(id="B")])
+    assert C.width_cap() is None
+    assert C.main(["--check"]) == 1, "an unreadable width cap was treated as capacity pressure"
+
+
+@pytest.mark.parametrize("bad", [0, -1, True, "5", None, 2.5])
+def test_a_nonsense_cap_is_unreadable_rather_than_believed(monkeypatch, tmp_path, bad):
+    """`True` is an int in Python and would pass a naive check as a cap of 1 — which would declare
+    the loop full the moment any single worker existed."""
+    _cap(monkeypatch, tmp_path, bad)
+    assert C.width_cap() is None, f"subagent_width={bad!r} was accepted as a cap"
+
+
+def test_a_released_lease_stops_counting(led, monkeypatch, tmp_path):
+    """⚠ The recovery path, asserted. If a finished worker's lease kept counting, the cap would
+    ratchet shut over a session and the loop would starve itself."""
+    _cap(monkeypatch, tmp_path, 1)
+    led([_item(id="A", owner="seat-one", state="done"), _item(id="B")])
+    assert C.live_leases() == [], "a finished item's lease still counted against the cap"
+    assert C.main(["--check"]) == 1
+
+
 def test_declaring_false_silences_the_report_without_hiding_the_work(led):
     """⭐ THE REGEX WAS WRONG ABOUT TWO OF TEN REAL ROWS — one matched 'the paper heading' inside a
     list of already-rewritten sites, the other matched 'deposit artifact' in a row about a file
