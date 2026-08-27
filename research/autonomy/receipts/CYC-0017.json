@@ -57,7 +57,6 @@
   },
   "subagents": {
     "dispatched": 5,
-    "concurrent_max": 5,
     "cap_at_dispatch": 5,
     "within_cap": true,
     "lenses": [
@@ -66,7 +65,9 @@
       "statistics",
       "citations-and-instruments",
       "hostile-referee"
-    ]
+    ],
+    "max_concurrent": 5,
+    "_key_note": "⚠ WRITTEN AS `max_concurrent` BECAUSE THAT IS THE NAME health.py ACTUALLY READS (c_fanout_is_governed: `block.get('max_concurrent')`). CYC-0014 and CYC-0016 wrote the same value under `concurrent_max`, so their fan-outs are invisible to the check. Filed as AUT-PD-013. Only this cycle's own receipt is corrected — a receipt is immutable committed history and another cycle's is not this one's to edit."
   },
   "gates": {
     "preflight": "green on the exact tree committed, marker-verified (EXIT=0), not the harness exit code",

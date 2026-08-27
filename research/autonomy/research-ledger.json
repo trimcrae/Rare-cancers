@@ -12,13 +12,13 @@
     "harden": 3,
     "negative": 32,
     "process": 6,
-    "process_defect": 5,
+    "process_defect": 6,
     "regrade": 7,
     "write": 6
   },
   "n_by_state": {
     "done": 3,
-    "queued": 92
+    "queued": 93
   },
   "n_clamped": 11,
   "entries": [
@@ -549,6 +549,30 @@
         "research/autonomy/research-ledger.json (two entries with id AUT-PD-012)",
         "research/autonomy/receipts/CYC-0017.json"
       ]
+    },
+    {
+      "id": "AUT-PD-013",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0017",
+      "what": "\u26d4 THE FAN-OUT GOVERNANCE ROW READS A KEY NO RECEIPT WRITES \u2014 a one-word reader/writer mismatch that makes `fanout_is_governed` PERMANENTLY UNMEASURABLE, in the check CLAUDE.md \u00a71 added precisely because 'the number governed nothing'. Measured 2026-08-27 by CYC-0017 against the live checker, not read off the docs: health.py's c_fanout_is_governed does `block.get('max_concurrent')`, while every receipt that has ever recorded a fan-out \u2014 CYC-0014, CYC-0016 and CYC-0017 as first written \u2014 stores the same value under `concurrent_max`. So the row reported DISPATCH-NOT-RECORDED and NAMED CYC-0014 and CYC-0017 as recording no `subagents` block when both plainly do. \u2b50 AN INSTRUMENT REPORTING A FALSE ABSENCE IS THE FAILURE THIS REPOSITORY KEEPS PAYING FOR (CLAUDE.md \u00a74), and this one wears the costume of the very restraint it cannot see: 'an absent record is not a record of restraint' is the correct principle printed over an incorrect reading. \u26a0 NOT A DEFECT: the message lists five ids for six receipts \u2014 that is the reader's own `unrecorded[:5]` truncation, deliberate. \u26d4 THE FIX IS NOT SIMPLY TO RENAME THE WRITERS. A receipt is immutable committed history (health.py's own comment says so and two conditions depend on it), so CYC-0014's and CYC-0016's fan-outs can never be made visible by editing them. Either the checker accepts BOTH spellings with the historical one documented as legacy, or the convention is pinned in one place that both the writer and the reader point at. CYC-0017's own receipt was corrected to `max_concurrent` at the time of filing, so the row has exactly one measurable cycle. \u2b50 AND THE GENERAL FORM IS WORTH MORE THAN THE INSTANCE: a field name agreed in prose between a writer and a reader is not agreed at all \u2014 it is a hope, checked by nothing. Every other cross-file key this loop relies on has the same exposure, `handoff.child_session_id` included, which is why that one is spelled out verbatim in the handoff prompt. Sweep them.",
+      "score": 170.0,
+      "_score_basis": "hand-filed by CYC-0017. Same rank as the id-allocation defect: it corrupts the loop's own self-measurement rather than a paper, and it silently disabled a governance check on the dial the architecture records as having failed catastrophically."
     },
     {
       "id": "AUT-013",
