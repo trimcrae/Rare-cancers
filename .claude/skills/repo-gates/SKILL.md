@@ -3,6 +3,26 @@ name: repo-gates
 description: This repository's commit gates, linters, architecture graph, deliverable map, and the six-part reviewer-AI review block. Load before committing or pushing, before running preflight, when a preflight or CI gate goes red, when writing or editing a manuscript or its SI, when touching anything under systems/ or the registry, and before any outward-facing step (preprint, submission, release, DOI). Covers: tiered preflight (scoped tests for the commit loop, PREFLIGHT_FULL=1 before publication) and why the selector fails to full; the nine gates in order; lint_claims vs lint_citations (claim strength is orthogonal to citation provenance); why the prose-style gate is scoped to submission texts only; branch drift as a data-loss bug and checking which ref a workflow actually writes to; the generated systems/views; and the retired patient-facing site, which must not be recreated; and the exact six parts a reviewer-AI review block must contain before any outward-facing step.
 ---
 
+## ⛔ THE COMMIT RITUAL FOR ANYTHING THAT RECORDS A GIT REVISION
+
+**Re-derive `aso_archive_manifest.py` as the LAST action before committing, and commit it as its OWN
+commit. Never `--amend` and never rebase afterwards.**
+
+⚠ *Measured three times in one session, 2026-08-27, always the same shape.* The manifest records the
+revision it was generated at. Generate it, then amend or rebase, and that commit is rewritten — so the
+manifest names a sha reachable from no branch and no tag, and the deposit's provenance line points
+nowhere. `test_the_recorded_revision_is_a_commit_this_clone_can_resolve` catches it **one commit late**,
+which is exactly late enough to have pushed it once.
+
+⭐ **THE LAG IS FINE; THE REWRITE IS NOT.** A manifest generated before its own commit legitimately
+names that commit's PARENT, which is reachable. What breaks it is history rewriting, not sequencing.
+
+⛔ **AND ITS BLAST RADIUS IS BIGGER THAN ITS OWN TEST.** A module red at baseline blinds the ablation
+gate's batched witness command (AUT-PD-006), so an orphaned revision ALSO makes an unrelated document
+report a covered sentence as blind — a blindness finding pointing at a manuscript, manufactured
+entirely by a stale sha. Two failures, one cause, and the second one looks like a paper defect.
+
+
 # Commit gates, architecture and deliverables
 
 Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verbatim**.
