@@ -282,6 +282,61 @@ MUTATIONS = [
      "The full inclusion table is §3.2.",
      "The full inclusion table is §3.2 (n = 99).",
      "test_every_statistical_quantity_is_bound_or_declared"),
+
+    # ---- G · THE IDENTIFIER CENSUS (2026-08-27) --------------------------------------------------
+    # ⛔ EVERY ONE OF THESE LEAVES A REAL, ANCHORED, CORRECTLY-FORMATTED IDENTIFIER ON THE PAGE.
+    # `lint_citations` is green on all ten — it asks whether an identifier appears in some tracked
+    # JSON, which is provenance, and none of these invents one out of thin air except where noted.
+    # What they break is ATTACHMENT: which paper the identifier is printed against.
+    ("ref [8]: Huang's PMID replaced by Lenz's — both real, both anchored, the paper wrong",
+     "*Mod Pathol* 2023;36:100161. PMID 36948401.",
+     "*Mod Pathol* 2023;36:100161. PMID 36563884.",
+     "the reference-entry and title identifier tests"),
+    ("ref [9]: Paioli's DOI replaced by Brenca's",
+     "*Ann Surg Oncol* 2021;28:1142–50. PMID 32572850. doi:10.1245/s10434-020-08737-7",
+     "*Ann Surg Oncol* 2021;28:1142–50. PMID 32572850. doi:10.1002/path.5284",
+     "the reference-entry and title identifier tests"),
+    # ⭐ THE ONE THAT JUSTIFIES THE TITLE TEST EXISTING. Both identifiers in the entry become Davis
+    # 2017's, so the entry stays INTERNALLY CONSISTENT and the grouping test cannot see it. Measured:
+    # this fires the title test and nothing else.
+    ("ref [11]: WHOLE-ENTRY SWAP — Brenca's entry carries Davis 2017's pair, internally consistent",
+     "PMID 31020999 · PMC6766969. doi:10.1002/path.5284",
+     "PMID 28423517 · PMC6766969. doi:10.18632/oncotarget.15568",
+     "the title identifier test ONLY — the entry test cannot see this"),
+    ("in-text: Agaram's PMID gains a digit, an identifier owned by nobody",
+     "(Agaram 2014, PMID 24746215;",
+     "(Agaram 2014, PMID 24746216;",
+     "the identifier ownership census"),
+    ("ref [4]: one digit of Stacchiotti 2020's DOI",
+     "doi:10.3390/cancers12092703",
+     "doi:10.3390/cancers12092704",
+     "the identifier ownership census"),
+    ("abstract: the trial registration drifts one digit",
+     "phase 2 trial NCT02066285 (PMID 31331701)",
+     "phase 2 trial NCT02066286 (PMID 31331701)",
+     "the identifier ownership census"),
+    # ⭐ A DECLARATION IS VALUE-SPECIFIC, NOT AN AMNESTY FOR A NOTATION. The erratum PMID is declared
+    # not-pooled; change the digits and it is a different unowned identifier, and both the census and
+    # the dead-declaration test must say so.
+    ("ref [3]: the DECLARED erratum PMID becomes a different number",
+     "e559, PMID 31579002)",
+     "e559, PMID 31579003)",
+     "the ownership census and the dead-declaration test"),
+    ("3.2 ARM SWAP: Huang's bullet carries Paioli's PMID",
+     "**Huang 2023** (PMID 36948401, n = 58, Taiwan)",
+     "**Huang 2023** (PMID 32572850, n = 58, Taiwan)",
+     "the name-attachment test"),
+    ("3.2 ARM SWAP, the other arm: Paioli's bullet carries Huang's PMID",
+     "**Paioli 2021** (PMID 32572850, n = 67",
+     "**Paioli 2021** (PMID 36948401, n = 67",
+     "the name-attachment test"),
+    # ⭐ THE EXCLUSIVE EVIDENCE FOR THE NAME-ATTACHMENT TEST. The two arm swaps above also trip
+    # bindings that happen to capture text around those bullets; this one fires the new test and
+    # nothing else, which is what makes it evidence rather than a coincidence.
+    ("3.7 table: Suemitsu's PMID and DOI both replaced by Bangerter's",
+     "Suemitsu 2025 (MSK, n = 18, PMID 40828003, doi 10.1002/gcc.70076)",
+     "Suemitsu 2025 (MSK, n = 18, PMID 36316541, doi 10.1007/s13577-022-00818-x)",
+     "the name-attachment test"),
 ]
 
 

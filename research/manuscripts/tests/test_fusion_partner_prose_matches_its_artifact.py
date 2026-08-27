@@ -101,6 +101,32 @@ Paioli 2021's three p-values. ⚠ THE LESSON GENERALISES AND IS FILED AS `AUT-CO
 instrument reports coverage OF ITS OWN PATTERN, never of the document, so the pattern is the thing
 to audit first.
 
+⛔⛔ THE THIRD CENSUS, 2026-08-27 (CYC-0014), AND IT IS THE FIRST ONE THAT IS NOT ABOUT QUANTITIES.
+Sections F and G above census NOTATIONS OF NUMBER. An IDENTIFIER — a PubMed id, a trial
+registration, a DOI — is not a number this synthesis computes, so neither census could see one, and
+`lint_citations.py` reads identifiers for PROVENANCE (does this one appear in some tracked JSON)
+rather than for ATTACHMENT (is it printed against the right paper). Between them there was no
+instrument at all on the surface that tells two papers apart. ★ SECTION G IS THAT GAP CLOSED: 61
+identifier sites, 31 distinct values the artifact owns, 5 declared not-pooled with a reason, and
+four tests — ownership, per-reference-entry grouping, entry-title attachment, and in-text
+name attachment.
+⚠ THE PAPER'S MEASURED COVERAGE DID NOT MOVE AT ALL, AND THE REASON IS THE FINDING RATHER THAN AN
+EXCUSE. `claim_coverage.py` still reads 57 of 271 sentences, unchanged, because its selectivity
+filter discards any harvested pattern matching more than 10 % of a document's sentences and the
+identifier pattern matches 28 — against a ceiling of 27. One sentence. So an entire notation went
+from unread to guarded and the coverage number is identical.
+⛔ THE CEILING WAS NOT RAISED TO 0.11, AND IT MUST NOT BE. A cycle that widens the filter its own
+work just failed has changed a bar to report its own success (`research-loop` §6); the honest
+reading is that a coverage count is a property of the INSTRUMENT, not of the document — which is
+`AUT-COV-001` again, seen from the opposite side to CYC-0013's finding. There a guard reported full
+coverage over 35 unread figures; here a guard reads a whole notation and is credited with nothing.
+⚠ AND ONE DEFECT WAS CAUGHT BY REGENERATING THE CENSUS BEFORE COMMITTING, NOT BY READING THE DIFF:
+`claim_coverage.py` credits a test module's literals to any document whose BASENAME appears anywhere
+in that module, comments included. A declaration row here originally cited the NR4A3 degrader
+manuscript by filename, and that one path made it read 85 of 964 sentences covered instead of 3 — 82
+sentences of false coverage from a guard that opens none of it. The row now names that paper in
+words.
+
 ⚠ WHAT IS DELIBERATELY NOT BOUND, AND WHY IT IS ENUMERATED RATHER THAN LEFT OUT.
 Some printed numbers are not the artifact's to own: the 95 % confidence LEVEL, which the evidence
 contract fixes and the artifact only ever echoes; the "≈27 %" the field quotes, which this paper
@@ -117,6 +143,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import unicodedata
 
 import pytest
 
@@ -1794,3 +1821,319 @@ def test_the_guard_binds_a_material_share_of_the_documents_figures(flat, art):
     assert in_bindings >= 90, (
         f"only {in_bindings} of {total} printed figures sit inside a binding; bindings have been "
         "removed without the sentences they read going with them")
+
+
+# =================================================================================================
+# G · The identifier census — the third notation, and the first one that is not a QUANTITY.
+# =================================================================================================
+
+#: ⛔⛔ WHY A THIRD CENSUS, AND WHY IDENTIFIERS ARE NOT COVERED BY `lint_citations`.
+#:
+#: `lint_citations.py` asks one question about every identifier in this repository: does it also
+#: appear in a tracked `.json`/`.jsonl` — i.e. did a fetch, a curation or a graph edit put it there,
+#: rather than a model's memory. That is PROVENANCE, and it is the guard that exists because a PMID
+#: was once written from recollection onto a cloning claim and passed `lint_claims` twice.
+#:
+#: ★★ IT CANNOT SEE ATTACHMENT, AND ATTACHMENT IS THE DEFECT THIS DOCUMENT HAS ALREADY MADE ONCE.
+#: Print Huang 2023's PMID on Lenz 2023's reference entry and BOTH identifiers stay anchored in
+#: tracked JSON, so `lint_citations` is green, `lint_claims` is green — the sentence is worded
+#: exactly as carefully as before — and the two censuses above are blind, because an identifier is
+#: not a fraction, a rate, a cohort size, a p-value, a hazard ratio or a measurement. Appendix A
+#: records this manuscript's own instance of the class: a cohort attributed to a
+#: "Warmke/Antonescu-type series" while linking PMID 36948401, which is Huang SC et al. The row also
+#: records that Warmke LM is a real author with a real and DIFFERENT TAF15::NR4A3 paper, so the
+#: correction "must not be applied by pattern" — the two papers are told apart only by their
+#: identifiers, which is precisely the surface nothing was reading.
+#:
+#: ⚠ SCOPE, STATED RATHER THAN LEFT TO BE DISCOVERED. Three notations, and they are the three the
+#: pooling artifact holds a structured field for: `pmid`, `doi`, `nct`. A PMC id is printed 23 times
+#: in this manuscript and the artifact has no `pmc` field, so a PMC id is OUTSIDE this census and is
+#: read only by `lint_citations`' provenance test. Widening to PMC would mean either inventing a
+#: home for it or declaring 23 sites, and both are worse than saying which surface is unread.
+_IDENT = re.compile(
+    r"\bPMID[: ](?P<pmid>\d+)"              # a PubMed id, in both printed forms
+    r"|\b(?P<nct>NCT\d{8})\b"               # a trial registration
+    r"|\bdoi:? ?(?P<doi>10\.\d{4,9}/\S+)"   # a DOI, prefixed as the manuscript prefixes it
+)
+
+
+def _trim_doi(raw):
+    """A DOI as a VALUE, from a DOI as the prose prints it.
+
+    ⚠ THE PARENTHESIS RULE IS LOAD-BEARING, NOT TIDYING. `10.1016/S1470-2045(19)30319-5` contains a
+    closing parenthesis that is part of the identifier, and it is printed inside a sentence that
+    closes its own bracket. Trimming every trailing `)` would silently mangle the pazopanib trial's
+    DOI into a value the artifact does not own — a guard manufacturing its own failure. Only an
+    UNBALANCED trailing parenthesis is punctuation.
+    """
+    value = raw.rstrip(".,;·")
+    while value.count(")") > value.count("("):
+        value = value[:-1]
+    return value.lower()
+
+
+def _identifiers(text):
+    """[(kind, value, start, end)] for every PubMed id, trial registration and DOI in `text`."""
+    found = []
+    for m in _IDENT.finditer(text):
+        if m.group("pmid"):
+            found.append(("pmid", m.group("pmid"), m.start(), m.end()))
+        elif m.group("nct"):
+            found.append(("nct", m.group("nct"), m.start(), m.end()))
+        else:
+            found.append(("doi", _trim_doi(m.group("doi")), m.start(), m.end()))
+    return found
+
+
+def _identifier_owners(art):
+    """{(kind, value): {citation key, …}} — which paper the ARTIFACT says each identifier belongs to.
+
+    ⚠ A SET, NOT A KEY. Two of this manuscript's references are congress abstracts published in the
+    same *Virchows Arch* supplement and share one DOI, so an identifier legitimately owned by two
+    citations is a real state and must not be an error.
+    """
+    owners = {}
+    for key, citation in art["citations"].items():
+        for kind in ("pmid", "doi", "nct"):
+            value = citation.get(kind)
+            if value:
+                owners.setdefault((kind, value.lower() if kind == "doi" else value), set()).add(key)
+    return owners
+
+
+#: ⛔ IDENTIFIERS THE MANUSCRIPT PRINTS THAT THE POOLING ARTIFACT DELIBERATELY DOES NOT OWN.
+#: Same contract as `DECLARED_NOT_ARTIFACT_OWNED` above and the same reason for existing: the list
+#: is meant to stay short and reviewable, and every row must say why the artifact holding no field
+#: for it is the HONEST state rather than a gap to be filled in.
+#: ★ EVERY ONE OF THESE IS A PAPER NAMED IN ORDER TO SAY IT IS NOT IN THE POOL. That is why they
+#: have no citation record: giving them one would assert they are evidence this synthesis pools.
+DECLARED_IDENTIFIERS_NOT_POOLED = [
+    ("pmid", "31579002",
+     "The ERRATUM to the pazopanib trial (*Lancet Oncol* 2019;20(10):e559), printed inside "
+     "reference [3] beside the trial's own PMID. The artifact holds one record per PAPER and no "
+     "erratum field; adding one would make the erratum look like a second source."),
+
+    ("pmid", "37057757",
+     "Warmke LM et al.'s DIFFERENT TAF15::NR4A3 paper, named in Appendix A precisely to say it is "
+     "not the cohort this synthesis pools — the row exists because that attribution error was made "
+     "three times in two days. An artifact record for it would assert the opposite of what the row "
+     "says."),
+
+    ("doi", "10.1002/gcc.23144",
+     "The same Warmke LM paper's DOI, printed in the same two Appendix A rows and correctly cited "
+     "as reference 20 of the NR4A3 degrader manuscript. Not this pool's evidence — see the PMID "
+     "above.\n"
+     "⛔ THAT MANUSCRIPT IS NAMED IN WORDS AND NOT BY ITS FILENAME, DELIBERATELY. "
+     "`claim_coverage.py` credits a test module's literals to any document whose BASENAME appears "
+     "anywhere in the module — comments included — so writing the path here made the degrader "
+     "paper read 85 of 964 sentences covered instead of 3, on the strength of a guard that opens "
+     "no part of it. Measured on this change, before it was committed, by regenerating "
+     "claim-coverage.json."),
+
+    ("doi", "10.1186/s13018-025-06245-6",
+     "Masunaga 2025 (*J Orthop Surg Res*), named in §8 as one of the PMC records the retrieval "
+     "sweep returned that is NOT a partner-stratified series. It is identified there so the sweep's "
+     "yield can be audited, and it enters no analysis."),
+
+    ("doi", "10.12998/wjcc.v10.i13.4301",
+     "A single-patient intracranial EMC case report (*World J Clin Cases* 2022), named in §8 for "
+     "the same reason as Masunaga above: it is what a PMC id in the sweep resolved to, not "
+     "evidence this synthesis pools."),
+]
+
+
+@pytest.fixture(scope="module")
+def reference_entries(prose):
+    """The `[n] …` lines of the reference list — one entry per line, read from the document.
+
+    ⚠ READ AS LINES, NOT FROM `flat`. Everywhere else in this file the collapsed text is right,
+    because a construction worth binding straddles a wrap. Here the LINE BREAK IS THE DATA: it is
+    what says where one reference stops and the next begins, and in `flat` an inline `[12]` in the
+    prose is indistinguishable from a reference entry's own marker.
+    """
+    return [line for line in prose.splitlines() if re.match(r"^\[\d+\] ", line)]
+
+
+def test_every_identifier_the_manuscript_prints_is_owned_or_declared(flat, art):
+    """★★ THE THIRD CENSUS — every identifier traces to a citation record, or says why it does not.
+
+    ⚠ WHAT THIS ADDS OVER `lint_citations`, which already reads every identifier in the repository:
+    that checker asks whether an identifier appears in SOME tracked JSON anywhere. This asks whether
+    THIS manuscript's pooling artifact owns it. A PMID that is real, anchored and belongs to a
+    different paper passes there and fails here, which is the whole point.
+    """
+    declared = {(kind, value) for kind, value, _why in DECLARED_IDENTIFIERS_NOT_POOLED}
+    owners = _identifier_owners(art)
+    orphans = []
+    for kind, value, start, end in _identifiers(flat):
+        if (kind, value) in owners or (kind, value) in declared:
+            continue
+        orphans.append((kind, value, flat[max(0, start - 90):end + 40]))
+    assert not orphans, (
+        f"{len(orphans)} identifier(s) in the manuscript belong to no citation record in "
+        "emc-fusion-partner-pooling.json and are declared nowhere. Either the artifact should own "
+        "the paper, or add a DECLARED_IDENTIFIERS_NOT_POOLED row saying why it must not:\n"
+        + "\n".join(f"  {k} {v!r}  …{ctx}…" for k, v, ctx in orphans))
+
+
+def test_identifiers_printed_in_one_reference_entry_belong_to_one_paper(reference_entries, art):
+    """⛔ THE SWAP CLASS, CAUGHT WITHOUT HAVING TO KNOW WHICH ENTRY IS WHICH PAPER.
+
+    A reference entry states a paper's identifiers together. Move one of them onto a neighbouring
+    entry and every identifier in the document is still real, still anchored, and still correctly
+    formatted — but two entries now point at three papers. This intersects the artifact's ownership
+    sets across each entry and requires the intersection to be non-empty.
+
+    ★ IT NEEDS NO LIST AND NO NAME MATCHING. The entry supplies the grouping; the artifact supplies
+    the ownership. A reference added tomorrow is checked the day it is written.
+    """
+    owners = _identifier_owners(art)
+    broken = []
+    for entry in reference_entries:
+        sets = [owners[(kind, value)] for kind, value, _s, _e in _identifiers(entry)
+                if (kind, value) in owners]
+        if not sets:
+            continue
+        if not set.intersection(*sets):
+            broken.append((entry[:70], [sorted(s) for s in sets]))
+    assert not broken, (
+        "these reference entries print identifiers belonging to different papers:\n"
+        + "\n".join(f"  {e!r} -> {o}" for e, o in broken))
+
+
+def test_a_reference_entry_that_prints_a_papers_title_prints_that_papers_identifiers(
+        reference_entries, art):
+    """★★ THE ARM SWAP FOR IDENTIFIERS — the test above with the paper's IDENTITY supplied.
+
+    The test above would stay green if a whole entry's identifiers were exchanged with another
+    entry's: each remains internally consistent while both reference the wrong paper. This closes
+    that by using the one identity anchor the artifact states verbatim — the TITLE. An entry that
+    prints a citation's title must print that citation's identifiers and no other's.
+
+    ⚠ ITS REACH IS WHAT THE ARTIFACT SUPPLIES, AND THAT IS LESS THAN EVERY ENTRY — MEASURED, NOT
+    ASSERTED. 2026-08-27: 14 of 15 reference entries carry a citation title verbatim. Three
+    citations anchor nothing, for two different reasons, and the second reason is the one worth
+    knowing: `sjogren2003` and `suemitsu2025` are cited in the text and have NO entry of their own,
+    while `klubickova2022` has entry [14] and that entry prints its title WITHOUT the subtitle the
+    artifact records ("… 11 cases of extraskeletal myxoid chondrosarcoma (ECP 2022, OFP-04-003)"
+    against "…: rare fusion variants…"). So a truncated title is a silent loss of reach, and the
+    floor below is what makes a further loss audible. All three are read by the ownership census
+    above and by the entry test; none is read by this one.
+    """
+    def _norm(text):
+        return re.sub(r"\s+", " ", text).replace("*", "").lower()
+
+    owners = _identifier_owners(art)
+    entries = [(_norm(e), e) for e in reference_entries]
+    misattributed, anchored = [], 0
+    for key, citation in art["citations"].items():
+        title = _norm((citation.get("title") or "").strip().rstrip("."))
+        if not title:
+            continue
+        for norm_entry, entry in entries:
+            if title not in norm_entry:
+                continue
+            anchored += 1
+            wrong = [(kind, value) for kind, value, _s, _e in _identifiers(entry)
+                     if (kind, value) in owners and key not in owners[(kind, value)]]
+            if wrong:
+                misattributed.append((key, entry[:70], wrong))
+    assert not misattributed, (
+        "these reference entries print one paper's title and another paper's identifiers:\n"
+        + "\n".join(f"  {k} in {e!r} -> {w}" for k, e, w in misattributed))
+    assert anchored >= 12, (
+        f"only {anchored} reference entries could be anchored to a citation title; the artifact's "
+        "titles have stopped matching the reference list, so this test has stopped testing")
+
+
+def _fold(text):
+    """Diacritics removed, so a name is matched as a NAME rather than as a typographic form.
+
+    ⛔ IT IS NOT COSMETIC. The artifact writes `Sjogren 2003` and `Klubickova 2022`; the manuscript
+    prints *Sjögren 2003* and *Klubíčková 2022*. A comparison without this reads two of the
+    seventeen citations as absent from a document that names them on the page.
+    """
+    return "".join(c for c in unicodedata.normalize("NFD", text)
+                   if unicodedata.category(c) != "Mn")
+
+
+#: How far after a citation's own short name an identifier is still taken to be ATTACHED to it.
+#: ⚠ THE SEGMENT ENDS AT THE NEXT CITATION NAME, WHICHEVER COMES FIRST, AND THAT CUT IS WHAT MAKES
+#: THE WINDOW HONEST RATHER THAN TUNED. Without it §3.2 reads "Agaram 2014, PMID 24746215; and Huang
+#: 2023, PMID 36948401" as Agaram owning both, which is a false positive the guard would have had to
+#: be loosened around. With it, the reading is 10 attachments and 0 mismatches at EVERY window from
+#: 60 to 200 characters — i.e. the verdict does not depend on this number, which is the only reason
+#: to trust a number like this at all.
+_NAME_TO_IDENTIFIER = 120
+
+
+def test_an_identifier_beside_a_citations_name_belongs_to_that_citation(flat, art):
+    """★★ THE IN-TEXT HALF — where a reference entry's grouping does not exist.
+
+    Most of this manuscript's identifiers are printed in running prose beside the study they belong
+    to: "**Huang 2023** (PMID 36948401, n = 58, Taiwan)", "(Agaram 2014, PMID 24746215; and Huang
+    2023, PMID 36948401 …)". The ownership census reads whether such a number is real; nothing read
+    whether it is on the right study, and swapping two of them there leaves every identifier in the
+    document real, anchored and correctly formatted.
+
+    ⚠ WHAT IT DOES NOT REACH, MEASURED: 10 of the manuscript's 61 identifier sites sit beside a
+    citation's own short name. The rest are named by DESCRIPTOR — "the 2012 two-case report", "the
+    pazopanib phase 2 trial" — and no artifact field states those phrases, so no predicate can bind
+    them without a hand-typed list of sentences, which is the shape this file's own history says
+    fails. Those sites are read for ownership and, in the reference list, for grouping.
+    """
+    owners = _identifier_owners(art)
+    folded = _fold(flat)
+    names = {}
+    for key, citation in art["citations"].items():
+        short = " ".join((citation.get("short") or "").split()[:2])
+        if re.match(r"^\S+ (?:19|20)\d{2}$", short):
+            names[key] = _fold(short)
+    sites = sorted((m.start(), m.end(), key) for key, name in names.items()
+                   for m in re.finditer(re.escape(name), folded))
+    misattributed, read = [], 0
+    for i, (start, end, key) in enumerate(sites):
+        stop = min(end + _NAME_TO_IDENTIFIER,
+                   sites[i + 1][0] if i + 1 < len(sites) else len(flat))
+        for kind, value, _s, _e in _identifiers(flat[end:stop]):
+            if (kind, value) not in owners:
+                continue
+            read += 1
+            if key not in owners[(kind, value)]:
+                misattributed.append((key, sorted(owners[(kind, value)]), flat[start:stop]))
+    assert not misattributed, (
+        "these identifiers are printed beside one study's name and belong to another:\n"
+        + "\n".join(f"  named {k} -> identifier owned by {o}: …{ctx}…"
+                    for k, o, ctx in misattributed))
+    assert read >= 8, (
+        f"only {read} identifiers sit beside a citation name; either the manuscript has stopped "
+        "naming its studies that way or the artifact's short names have stopped matching it")
+
+
+def test_the_identifier_census_still_matches_the_document(flat):
+    """⛔ A CENSUS THAT HAS STOPPED MATCHING IS A GUARD THAT HAS STOPPED GUARDING, SILENTLY.
+
+    Same contract as the statistical census's floor above, and the same deliberate slack: 61 sites
+    were measured on 2026-08-27 and the floor is 45, because this asserts that the PATTERN still
+    reads the document rather than that the manuscript keeps a particular number of citations. A
+    retyped prefix (`PMID: 36948401` written as `PubMed 36948401`) would drop sites out of the
+    census while every other test here stayed green.
+    """
+    found = _identifiers(flat)
+    assert len(found) >= 45, (
+        f"only {len(found)} identifiers found; the identifier census has stopped matching the "
+        "manuscript's notation")
+
+
+def test_the_declared_identifiers_still_appear_in_the_manuscript(flat):
+    """⛔ A DECLARATION THAT NO LONGER MATCHES ANYTHING IS ONE NOBODY WILL EVER REMOVE.
+
+    Exactly the contract `test_the_declared_exclusions_still_describe_real_sentences` applies to the
+    quantity declarations: a row whose identifier has left the document hides the fact that it is
+    gone, and makes the exclusion set look larger than the manuscript justifies.
+    """
+    printed = {(kind, value) for kind, value, _s, _e in _identifiers(flat)}
+    dead = [(kind, value) for kind, value, _why in DECLARED_IDENTIFIERS_NOT_POOLED
+            if (kind, value) not in printed]
+    assert not dead, (
+        f"these declared identifiers are no longer printed in the manuscript, so delete them: {dead}")
