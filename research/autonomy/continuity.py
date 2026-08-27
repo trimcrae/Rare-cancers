@@ -80,8 +80,17 @@ SELF_DOABLE_COST = {"free", "cheap", None}
 #: ★ AND AN UNDECLARED ROW THAT LOOKS OUTWARD-FACING IS REPORTED, NEVER SILENTLY OFFERED. The tool
 #: cannot classify it and must not pretend the question does not exist — the same reason v1's green
 #: tick was worse than no check at all.
+#: ⚠ TWO ALTERNATIONS, BECAUSE THE FIRST ONE ONLY SAW VERBS. Found by the Stop hook on three
+#: consecutive firings: AUT-042, AUT-057 and AUT-064 are all trimcrae's under §3 and none matched.
+#: They do not say "publish the …"; they say "Decide whether X is worth publishing" and "a judgement
+#: call about what we publish". ★ THE SECOND CLASS IS A DECISION *ABOUT* PUBLISHING RATHER THAN AN
+#: ACT OF IT, and §2 reserves it just as firmly — a genuine goal-changing decision is one of the four
+#: things that halts a session. A pattern that only matches verbs cannot see a decision.
 _OUTWARD_LOOKING = re.compile(
-    r"\b(publish|post the|submit|deposit|e-?mail|mint (?:a )?doi|release|outreach|put .{0,40} in front of)\b",
+    r"\b(publish|post the|submit|deposit|e-?mail|mint (?:a )?doi|release|outreach|put .{0,40} in front of)\b"
+    r"|judgement call (?:about )?what we publish"
+    r"|worth publishing|worth writing(?: up)?"
+    r"|decide (?:what|whether).{0,80}(?:publish|writ)",
     re.I)
 #: States that still represent outstanding work.
 OPEN_STATES = {None, "queued", "in_progress"}

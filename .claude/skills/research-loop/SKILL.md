@@ -125,6 +125,29 @@ builds the prompt **from committed state** — the queue from the ledger, the po
 ⚠ *Added 2026-08-27. The brief asked for "proper usage of new session creation to manage context"; this section said a hardening cycle is a spawned session; `cycles_are_sized` measured when a session had run too long. **Three layers of knowing and nothing that could act** — so the session at the cap wrote "the next cycle should be a fresh session" in its final message and stopped. trimcrae: "You've flagged that a new session needs to start which is correct. But then you stopped there." A loop that needs a human to start its next session is not automated; it just has a longer fuse.*
 ⛔ **NEVER WRITE THE HANDOFF PROMPT FROM MEMORY.** It would be written from the context that is running out — the exact thing being discarded. And carry **no findings and no conclusions**: a successor that inherits its predecessor's reasoning inherits its mistakes, which is how a wrong seat finding propagated through two cycles here. Tell it where to look, never what it will find.
 
+⛔⛔ **A SUBAGENT THAT WILL WRITE CODE WORKS IN A WORKTREE AND HANDS BACK A BRANCH. THE SHARED TREE
+HAS ONE WRITER: THE DRIVER.** Put it in the seat prompt — worktree off `origin/main`, commit there,
+push a branch, never touch the repository root.
+
+⚠ *Measured 2026-08-27 across four agents in one afternoon, and it cost real time twice.* Two agents
+were dispatched with "commit, do not push" and both ended up mid-write in the shared tree at once.
+The consequences were not hypothetical:
+  * **The driver could not gate its own work.** `preflight.sh` went red on `lint_citations` and the
+    archive manifest — neither caused by the driver's staged change, whose own suite was green — so a
+    driver holding verified work had no way to verify it, and committing anyway would have been
+    committing into a mutation window. That is the morning's incident exactly (13 inverted claims).
+  * **The manifest cannot be correct mid-flight.** `aso_archive_manifest.py` hashes the live tree, so
+    while anyone else is writing it is *structurally* impossible to regenerate honestly. Any gate that
+    reads it is red until the tree settles.
+  * **A driver mis-measured because of it** — read the manifest from disk while an uncommitted
+    regeneration sat there, and reported a defect on `main` that was not on `main`.
+★ **THE TWO AGENTS THAT USED A WORKTREE HAD NONE OF THIS.** Each pushed a branch, the driver merged
+both with zero conflicts, and the work survived a window in which the shared tree was ungateable —
+including six verified P1s that would otherwise have lived only in `/tmp`, where a container restart
+had already destroyed background work twice that day.
+⛔ **A patch file in the scratchpad is NOT the durable form.** Push the branch. CLAUDE.md §7 calls
+branch drift a data-loss bug; work that exists only in `/tmp` is the same bug with the branch missing.
+
 ⛔ **THE DRIVER NEVER WAITS.** Dispatch, record, end. A cycle blocking on a subagent is a cycle a
 rate limit can kill while holding uncommitted work. CLAUDE.md §1 and §6.
 

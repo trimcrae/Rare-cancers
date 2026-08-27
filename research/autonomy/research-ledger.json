@@ -529,7 +529,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "the row's own words: 'What is left is a judgement call: whether an EMC note … is worth writing'. The curation half is explicitly closed ('Do NOT re-curate'), so ONLY the publish decision remains, and that is his."
     },
     {
       "id": "AUT-057",
@@ -562,7 +564,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "'Decide what an ordering-only prognostic statement is worth publishing as' — the coefficients are in hand and the missing baseline hazard is unobtainable, so the technical work is done and the residue is a publication judgement."
     },
     {
       "id": "AUT-058",
@@ -630,7 +634,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "'Decide whether an EMC margin note is worth writing from what is now in hand' — the rate and its honest denominator range already exist across two cohorts. What remains is whether it becomes a paper."
     },
     {
       "id": "AUT-065",
@@ -3741,7 +3747,7 @@
         "publication": null,
         "strategy": "ST-PROCESS"
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -3760,7 +3766,7 @@
       "prerequisite_of": null,
       "score": 178.0,
       "closes_clause": null,
-      "what": "⛔ THE COMMIT GATE CANNOT BE RUN ON A TREE OTHER AGENTS ARE MID-WRITE IN, AND NOTHING SAYS SO. Measured 2026-08-27: with two subagents editing research/manuscripts/, preflight went red on lint_citations and the archive-manifest staleness gate — neither caused by the driver's staged changes, whose own suite was 32/32. ⚠ THE CONSEQUENCE IS NOT 'wait': it is that a driver holding verified work has NO WAY TO GATE IT and, if it commits anyway, is committing into a mutation window — this morning's incident exactly (13 inverted claims, CLAUDE.md §6). ★ THE FIX IS NOT ANOTHER RULE. Options, cheapest first: (a) have subagents that will commit work in a WORKTREE and hand back a branch, so the shared tree is only ever written by the driver — this already worked today for AUT-PROP-017; (b) make preflight able to scope to the staged paths, so a driver can gate its own change without gating someone else's half-written one; (c) a simple tree lease, so the driver knows before staging that the tree is not gateable. ⭐ (a) IS ALREADY PROVEN AND COSTS NOTHING — it should become the default subagent contract, and the AUT-PROP-024/025 prompts should have said so rather than 'commit, do not push'. ⚠ AND NOTE (b) INTERACTS WITH A KNOWN DEFECT: AUT-PD-016 records that aso_archive_manifest.py is only correct as a session's LAST commit, which is the second half of why this tree cannot be gated mid-flight."
+      "what": "✅ DONE 2026-08-27 — remedy (a), the one already proven. research-loop §3 now makes WORKTREE-IN / BRANCH-OUT the contract for any subagent that will write code: worktree off origin/main, commit there, push a branch, never touch the repository root. The shared tree has ONE writer, the driver. ⚠ Written from the afternoon's measurement rather than from principle: the two agents dispatched with 'commit, do not push' ended up mid-write simultaneously and made the tree ungateable — preflight red on lint_citations and the manifest, neither caused by the driver's own change — while the two that used worktrees pushed branches that merged with zero conflicts and survived the window. ⛔ Remedies (b) scoping preflight to staged paths and (c) a tree lease are NOT done and are deliberately not filed as follow-ups: (a) removes the condition they exist to handle, and building a lease for a problem that no longer occurs is how a repository accumulates guards nobody needs. Re-file them if the condition recurs with (a) in force."
     }
   ]
 }
