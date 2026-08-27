@@ -264,7 +264,7 @@ at #1 on the strength of an experiment nobody has agreed to run. **1a is the str
 **The mechanism, cited.** FET fusion oncoproteins are recruited to DNA double-strand breaks through
 their N-terminal intrinsically-disordered region and **impair ATM activation and downstream
 signalling**, leaving the compensatory ATR axis load-bearing — so ATR inhibition is synthetic lethal
-([Cancer Res / bioRxiv 10.1101/2023.04.30.538578, PMID 37205599](https://pubmed.ncbi.nlm.nih.gov/37205599/);
+(Gracilla et al., *Cancer Research* 2026;86:2660-2677, [PMID 41811428](https://pubmed.ncbi.nlm.nih.gov/41811428/);
 open-access full text in the corpus). Two things in that paper make it transfer to EMC rather than
 stopping at Ewing, and both are quoted rather than paraphrased:
 
@@ -496,7 +496,7 @@ averaged in.
 
 | | |
 |---|---|
-| ⛔ **why it weakens** | A peer-reviewed 2026 sarcoma ATR/CHK1/WEE1 programme (**Cancer Letters**, [PMID 41651400](https://pubmed.ncbi.nlm.nih.gov/41651400/)) selects patients on **HRD** — a ten-gene SARC-HRD signature — **not on FET-fusion status**. Its 62-tumour cohort (MFS, UPS, SS, LMS, MPNST) contains **no FET-fusion sarcoma at all**. And route 1's own source, [PMID 37205599](https://pubmed.ncbi.nlm.nih.gov/37205599/), spends a figure refuting HR deficiency for this class — *"ES patient tumors do not display the genomic scars of HR deficiency"*. **Same target, incompatible upstream lesions, non-overlapping patient selection.** A reviewer now has a specific, citable alternative to raise |
+| ⛔ **why it weakens** | A peer-reviewed 2026 sarcoma ATR/CHK1/WEE1 programme (**Cancer Letters**, [PMID 41651400](https://pubmed.ncbi.nlm.nih.gov/41651400/)) selects patients on **HRD** — a ten-gene SARC-HRD signature — **not on FET-fusion status**. Its 62-tumour cohort (MFS, UPS, SS, LMS, MPNST) contains **no FET-fusion sarcoma at all**. And route 1's own source, Gracilla et al. ([PMID 41811428](https://pubmed.ncbi.nlm.nih.gov/41811428/)), spends a figure refuting HR deficiency for this class — *"ES patient tumors do not display the genomic scars of HR deficiency"*. **Same target, incompatible upstream lesions, non-overlapping patient selection.** A reviewer now has a specific, citable alternative to raise |
 | ⛔ **and the sharpest part** | The group behind it is **University Hospital Zurich (Pauli)** — the group [`emc-atri-outreach-DRAFT.md`](../../modalities/emc-atri-outreach-DRAFT.md) already ranks **#1** as this ask's best taker. They hold a **third** EMC model (`USZ-23_EMC3`, in the same deposit), they built an ATR programme — **and they did not reach for FET status.** ⚠ Not addressing an idea is not rejecting it, and only the first is observed |
 | ✅ **why it also strengthens, on a different axis** | **Axis W1's taker is now evidenced rather than inferred.** The #1 target demonstrably holds an EMC model, pharmacotypes patient-derived sarcoma models with ATRi/CHK1i/WEE1i/PARPi, and has published it. Route 1b's ask is an experiment they **already run, on a model they already hold, with compounds they already use.** W2 is unchanged; **W1's evidence is materially better than when the row above was written** |
 | ⚪ **what it does NOT supply** | **No ATR-inhibitor response data.** 0 of 68 samples name an inhibitor; 0 carry a treatment protocol. Part D's missing instrument is still missing — now watched by `TRG-SARCOMA-ATRI-RESPONSE-PANEL` |
