@@ -99,6 +99,19 @@ DRIFTED_KEYS = {
     },
 }
 
+#: ⛔ THE SECOND KEY THIS SCHEMA OWNS (AUT-PD-017, generalising AUT-PD-013's fix rather than
+#: re-deriving it). `research-loop` §2 step 10 says every receipt records "the id of the live route
+#: you moved, or the literal 'none'" but has only ever named the FIELD in prose — agreed between the
+#: skill's own text and `health.py`'s `c_advancing_live_work`, CLAUDE.md §0's own honesty instrument.
+#: ⚠ MEASURED, NOT ASSUMED: all 29 receipts on the trunk as this lands already spell it
+#: `route_advanced` — the convention has never drifted the way `subagents.max_concurrent` did. But
+#: "has not drifted yet" is not "cannot drift", and the failure mode is identical in shape: before
+#: this fix, a receipt that misspelled the field would have made `c_advancing_live_work` report
+#: ROUTE-ADVANCED-ABSENT with no hint the value was sitting right there under another name — the same
+#: false-absence risk `WIDTH_KEY` already paid for once. `health.py` now imports this name rather than
+#: spelling it, and a governed receipt missing it fails the same `--check` gate `WIDTH_KEY` does.
+ROUTE_ADVANCED_KEY = "route_advanced"
+
 _CYCLE_NUM = re.compile(r"CYC-(\d+)")
 
 
@@ -121,6 +134,18 @@ def width_of(receipt: dict) -> int | None:
     return w if isinstance(w, int) and not isinstance(w, bool) and w >= 0 else None
 
 
+def route_advanced_of(receipt: dict) -> str | None:
+    """The route this receipt claims to have moved, or None when unreadable.
+
+    ⚠ Deliberately does not distinguish 'the literal none' from 'a route id' — that judgement
+    belongs to `health.py`'s `c_advancing_live_work`, which already makes it (§2 step 10: absent is
+    neither). This is only the shared read both sides now use, so a spelling drift shows up as the
+    same value on both sides of a diff rather than a silent divergence.
+    """
+    v = receipt.get(ROUTE_ADVANCED_KEY)
+    return v.strip() if isinstance(v, str) and v.strip() else None
+
+
 def drift_in(receipt: dict) -> dict:
     """Which drifted spellings this receipt used, for a diagnostic that names the cause.
 
@@ -141,6 +166,18 @@ def problems(receipt: dict, path: str) -> list[str]:
     """
     out = []
     rid = receipt.get("cycle_id") or os.path.basename(path).removesuffix(".json")
+
+    # ⛔ CHECKED FIRST AND UNCONDITIONALLY (AUT-PD-017). This must not be short-circuited by the
+    # `subagents`-block early return just below -- a missing route_advanced and a missing subagents
+    # block are two independent failures, and a receipt missing both must be told about both, not
+    # whichever the code happened to check first.
+    if route_advanced_of(receipt) is None:
+        out.append(
+            f"{rid}: no `{ROUTE_ADVANCED_KEY}` (or it is empty/not a string). Every receipt records "
+            "the route it moved, or the literal 'none' (research-loop §2 step 10) -- an absent value "
+            "reads as ROUTE-ADVANCED-ABSENT to health.py's `advancing_live_work`, the loop's own "
+            "honesty instrument, and is graded `unmeasured` rather than a pass.")
+
     block = receipt.get(BLOCK_KEY)
     if not isinstance(block, dict):
         out.append(

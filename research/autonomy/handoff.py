@@ -75,6 +75,24 @@ SPAWN = {
 CHILD_ID_FIELD = "handoff.child_session_id"
 
 
+def child_session_id_of(receipt: dict) -> str | None:
+    """The handed-off child's session id this receipt records, or None if it records none.
+
+    ⛔ THE ONE PLACE THAT READS `CHILD_ID_FIELD` (AUT-PD-017, generalising AUT-PD-013's fix). Before
+    this, `health.py`'s `c_cycles_are_sized` re-derived the same two-level lookup
+    (`receipt.get("handoff", {}).get("child_session_id")`) directly in its own source -- the field
+    name AND the traversal spelled a second time, agreed with this module only by never being
+    touched. That is the exact shape AUT-PD-013 fixed for `subagents.max_concurrent`: a name (and
+    here, a path) agreed in prose between a writer and a reader is not agreed at all. Now there is
+    one function that knows how to read it, and health.py calls this one instead of re-deriving it.
+    """
+    block = receipt.get("handoff")
+    if not isinstance(block, dict):
+        return None
+    v = block.get("child_session_id")
+    return v.strip() if isinstance(v, str) and v.strip() else None
+
+
 def _read(path: pathlib.Path):
     try:
         return json.loads(path.read_text()), None
