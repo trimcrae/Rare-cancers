@@ -19,8 +19,8 @@
   },
   "n_by_state": {
     "done": 8,
-    "in_progress": 1,
-    "queued": 106,
+    "in_progress": 3,
+    "queued": 104,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -61,7 +61,7 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "queued",
+      "state": "in_progress",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -69,7 +69,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0020",
       "depends_on_evidence": "research/autonomy/ready-to-post.json \u2014 PUB-ASO NOT-READY, 4/7 clauses",
@@ -82,7 +82,8 @@
       "closes_clause": {
         "paper": "PUB-ASO",
         "clause": "independent_adversarial_seat"
-      }
+      },
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed \u2014 see priority-weights.json claim_lease."
     },
     {
       "serves": {
@@ -90,7 +91,7 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "queued",
+      "state": "in_progress",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -98,7 +99,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0020",
       "depends_on_evidence": "research/autonomy/ready-to-post.json \u2014 PUB-ASO NOT-READY, 4/7 clauses",
@@ -111,7 +112,8 @@
       "closes_clause": {
         "paper": "PUB-ASO",
         "clause": "hardening_converged"
-      }
+      },
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed \u2014 see priority-weights.json claim_lease."
     },
     {
       "serves": {
@@ -3513,14 +3515,14 @@
       "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": "platform: lineage depth ceiling",
-      "blocked_evidence": "Verified TWICE on 2026-08-27 by CYC-0020, both refusals quoted verbatim: create_session -> 'caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions', and fire_trigger on the driver Routine -> the SAME message. \u26d4 THE SECOND ONE IS THE IMPORTANT FINDING AND IT CORRECTS research-loop \u00a77: fire_trigger is refused here by LINEAGE DEPTH, not by the `created_via: http_api` rule \u00a77 records. So a session at the ceiling cannot start a new session by ANY mechanism \u2014 not a child, not a Routine fire, and not via send_later or a self-bind trigger (those wake THIS session, which is equally unable to spawn).",
+      "blocked_by": null,
+      "blocked_evidence": "Verified twice on 2026-08-27: create_session AND fire_trigger both refuse with 'caller session is at lineage depth 8 (limit 8)'. \u2b50 THE fire_trigger REFUSAL CORRECTS research-loop \u00a77, which attributes that refusal to `created_via: http_api`; here it is LINEAGE DEPTH. \u26a0 But this ceiling blocks SPAWNING, not WORK \u2014 subagents are unaffected and are the prescribed mechanism for blind seats. Recorded as a real defect with a bounded blast radius rather than as an outage.",
       "retry_budget": 3,
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0020",
       "depends_on_evidence": "create_session refusal observed by CYC-0020 2026-08-27: 'caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions'",
-      "what": "\u26d4 THE CHAINED HANDOFF HAS A HARD CEILING OF EIGHT GENERATIONS, AND THIS SESSION IS THE EIGHTH. `research-loop` \u00a73 tells a cycle at its session cap to create its own successor with `create_session`, and calls a loop that needs a human to start its next session 'not automated, just a longer fuse'. Measured 2026-08-27 (CYC-0020): that call now REFUSES \u2014 'caller session is at lineage depth 8 (limit 8)'. Each handoff makes the child one generation deeper, so the chain was always going to terminate; nothing in the skill, the generator or the health checker knows the ceiling exists. \u26d4 IT IS AN OUTAGE NOW, NOT A LATENT ONE \u2014 UPGRADED 2026-08-27 WHEN IT BLOCKED REAL WORK. AUT-PROP-019 (a blind seat on the published paper's v2) and AUT-PROP-020 (its hardening round) both REQUIRE a session that did not author the text, and CYC-0020 could create none. The work is filed and survives, but nothing this session can do will start it. \u2b50 THE BACKSTOP STILL HOLDS: the loop's PRIMARY continuation is the UI-created driver Routine (trig_01P9ZNSAw7rNLcKLBFYCwuHp, `13 */4 * * *`, enabled, repo attached, last run SUCCEEDED), which fires a FRESH session at lineage depth 0 every four hours. The chained handoff is the redundancy, not the mechanism. CYC-0020 also ran only ONE cycle of its permitted two, so it never owed a handoff at all. \u26d4 THE LIVE RISK IS NARROW AND REAL: a session that REACHES its 2-cycle cap while at depth 8 cannot comply with \u00a73, and `health.py`'s `cycles_are_sized` reads `handoff.child_session_id` \u2014 so it would score that session RED for failing to do something the platform forbids. \u2b50 WHAT TO FIX: teach the handoff path to detect the refusal and fall back to the driver Routine explicitly (record that the Routine carries the next cycle, rather than leaving the field absent), and teach `cycles_are_sized` that a depth-refused handoff with a live driver Routine is GREEN. \u26a0 A cycle may NOT fix this by disabling or re-arming the driver Routine \u2014 \u00a77 forbids acting on a `created_via: http_api` Routine from outside it, and `fire_trigger` refuses it too.",
+      "what": "\u26d4 THE CHAINED HANDOFF HAS A HARD CEILING OF EIGHT GENERATIONS, AND THIS SESSION IS THE EIGHTH. `research-loop` \u00a73 tells a cycle at its session cap to create its own successor with `create_session`, and calls a loop that needs a human to start its next session 'not automated, just a longer fuse'. Measured 2026-08-27 (CYC-0020): that call now REFUSES \u2014 'caller session is at lineage depth 8 (limit 8)'. Each handoff makes the child one generation deeper, so the chain was always going to terminate; nothing in the skill, the generator or the health checker knows the ceiling exists. \u26a0 CORRECTED THE SAME HOUR, AND THE CORRECTION IS THE MORE USEFUL HALF. CYC-0020 first recorded this as BLOCKING, on the reasoning that AUT-PROP-019/020 need a reviewer who did not author the text and no session could be created. \u26d4 THAT WAS WRONG, AND research-loop \u00a73 SAYS SO IN PLAIN TEXT: the blind seats of a hardening round are PARALLEL SUBAGENTS, not spawned sessions. A subagent starts with a fresh context and has never seen the authoring, which is exactly what 'blind' means here. The seats ran as five concurrent subagents at the governed width. \u2605 THE LESSON IS NOT ABOUT THIS CEILING: an agent that cannot use its FIRST choice of mechanism must enumerate the others before calling work blocked, and 'blocked' is a claim that needs evidence (CLAUDE.md \u00a70). The depth ceiling is real and still worth fixing \u2014 it just never blocked this work. \u2b50 THE BACKSTOP STILL HOLDS: the loop's PRIMARY continuation is the UI-created driver Routine (trig_01P9ZNSAw7rNLcKLBFYCwuHp, `13 */4 * * *`, enabled, repo attached, last run SUCCEEDED), which fires a FRESH session at lineage depth 0 every four hours. The chained handoff is the redundancy, not the mechanism. CYC-0020 also ran only ONE cycle of its permitted two, so it never owed a handoff at all. \u26d4 THE LIVE RISK IS NARROW AND REAL: a session that REACHES its 2-cycle cap while at depth 8 cannot comply with \u00a73, and `health.py`'s `cycles_are_sized` reads `handoff.child_session_id` \u2014 so it would score that session RED for failing to do something the platform forbids. \u2b50 WHAT TO FIX: teach the handoff path to detect the refusal and fall back to the driver Routine explicitly (record that the Routine carries the next cycle, rather than leaving the field absent), and teach `cycles_are_sized` that a depth-refused handoff with a live driver Routine is GREEN. \u26a0 A cycle may NOT fix this by disabling or re-arming the driver Routine \u2014 \u00a77 forbids acting on a `created_via: http_api` Routine from outside it, and `fire_trigger` refuses it too.",
       "_score_basis": "blocks two filed items on the only paper with a public DOI; verified twice, not inferred"
     },
     {
