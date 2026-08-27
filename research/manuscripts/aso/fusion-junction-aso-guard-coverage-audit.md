@@ -292,3 +292,22 @@ green on restore, and each is exercised by that file's `test_the_polarity_table_
 
 **Still open, and unchanged by this work:** UNGUARDED 3, 5, 7, 9, 11–17; MISCOVERED B, C, H;
 every STALE_GUARD_TEXT item; and the headline that no linter holds any claim in this paper.
+
+
+---
+
+## ⚠ Correction, 2026-08-27 — a measurement in this file's follow-up was wrong
+
+While chasing a red gate, the driver reported that the archive manifest **on `main`** asserted a
+sha256 for `lint_style.py` that no commit contained. **That was wrong.** The committed manifest
+asserts `5e2e23a2…`, which matches every commit — that file has exactly one blob across all refs. The
+hash reported was read **from disk**, where an uncommitted regeneration was sitting, and attributed
+to `main`. ⛔ **The error is the same one the finding was about**: a mid-flight artifact mistaken for
+a committed one, made this time by the person writing the warning.
+
+★ **The defect class was real and a genuine instance exists**, found by verifying all 483 inventory
+hashes rather than one: against the tree it landed in, 483/483 match; against **the revision the
+manifest names**, one does not — `submission-metrics.json`, whose asserted content was uncommitted at
+generation time. So a reader who checks out the revision the deposit names and verifies it does get a
+mismatch on a file that revision cannot produce. The guard shipped in `aut-pd-016-manifest-clean-flag`
+closes it.
