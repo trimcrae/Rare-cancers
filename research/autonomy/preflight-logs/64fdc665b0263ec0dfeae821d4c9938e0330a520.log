@@ -1,0 +1,60 @@
+PINNED_SHA=64fdc665b0263ec0dfeae821d4c9938e0330a520
+== lint_consistency ==
+lint_consistency: 0 ERROR across 26 target file(s)
+   OK
+== systems model (invariants, pointers, view drift) ==
+   OK
+== EMC systems map (disputed identities, claim artifacts, view drift) ==
+   OK
+== claim strength (R1-R5: selectivity, efficacy, safety, window, readiness) ==
+   OK
+== changed prose (a qualifier dropped by an edit) ==
+lint_changed_prose: 0 changed passage(s) over the working tree
+   OK
+== citation provenance (every prose identifier traces to a fetch or to the ledger) ==
+   OK
+== manuscript prose style (journal register, not repository register) ==
+   OK
+== readability screen (ADVISORY: where to look, not whether the prose is good) ==
+   document                                             sent  mean  p90  max  >60w  FKGL  caution/1kw
+   response-endpoint-indolent-tumours.md                 320  18.8   35   53     0  11.4         12.3
+   emc-mtap-prmt5-hypothesis.md                          270  21.7   38   69     1  12.5         12.8
+   emc-mtap-prmt5-hypothesis-SI.md                        88  22.8   38  134     1  11.9         10.0
+   emc-atr-collaborator-package.md                       216  19.5   38   66     1  11.7          8.3
+   repurposing-hypotheses.md                             264  20.8   37   64     1  14.7          8.2
+   emc-surface-target-landscape.md                       299  21.3   38   80     2  13.4          8.2
+   emc-surface-target-landscape-si.md                    160  18.3   35   49     0  12.2         12.3
+   fusion-junction-aso-supplementary-information.md       98  22.6   45  103     3  12.0          7.7
+   fusion-junction-aso-journal-article.md                187  23.1   43   54     0  12.8          9.5
+   fusion-junction-aso-journal-tables.md                  11  24.3   37   62     1  13.6         11.2
+   emc-vaccine-development-path.md                       695  24.4   45  108    18  13.2         11.5
+   
+   ⚠ This is a SCREEN. It says where to look. Whether the prose is good is decided by reading it — see the `scientific-writing` skill.
+== parser guard (every registered parser can still find its input) ==
+   OK
+== validate (EMC clinical registry evidence contract) ==
+   OK
+== generated deposit artifacts reproduce from their generators ==
+   OK   submission tables
+   OK   submission references
+   OK   submission metrics
+   OK   canonical sequence file
+   OK   journal article tables
+   OK   offtarget duplex energy
+   OK   submission packet
+   OK   vaccine-path manuscript tables
+   OK   archive manifest
+   OK   condensate CALVADOS findings
+== pytest (modalities: FULL, PREFLIGHT_FULL=1) ==
+8058 passed, 50 skipped, 13 warnings in 591.83s (0:09:51)
+   OK (0 failure(s), every one named in the sandbox baseline as dep-related;
+       0 module(s) could not be imported here and are counted separately)
+== pytest (manuscripts: endpoints, systems map, pooling, submission citations) ==
+1305 passed, 3 skipped, 9 warnings in 795.76s (0:13:15)
+   OK
+== pytest (scripts: the test selector's own contract) ==
+88 passed in 46.04s
+   OK
+
+PREFLIGHT OK (FULL: every gate, both suites unscoped)
+EXIT=0
