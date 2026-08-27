@@ -194,3 +194,43 @@ def test_the_blocked_report_names_what_each_row_waits_on(led, capsys):
     assert "AUT-999" in out and "CYC-0023" in out, (
         "the blocked report stopped naming what each row waits on, so nobody can tell a real "
         "blocker from a stale one")
+
+
+# ---------------------------------------------------------------------------------------------
+# Found by the Stop hook that reads this module, 2026-08-27.
+# ---------------------------------------------------------------------------------------------
+
+def test_an_outward_facing_act_is_not_ready_work(led):
+    """⛔⛔ THE TOOL OFFERED WORK IT IS NOT ALLOWED TO DO. The Stop hook's third firing put
+    "Publish the assessment…" and "Post the preprint and put the MTAP stain in front of a group…"
+    at the top of the ready list — both reserved for trimcrae by CLAUDE.md §3, both offered because
+    readiness was modelled on SPEND and never on WHO MAY ACT. An outward-facing act is free in
+    dollars and still not mine.
+    """
+    led([_item(id="A", requires_trimcrae=True)])
+    assert C.ready() == [], "an outward-facing act was offered as ready work"
+    assert C.main(["--check"]) == 0
+
+
+def test_an_undeclared_outward_looking_row_is_reported_not_hidden(led, capsys):
+    """★ THE TOOL MAY NOT QUIETLY WITHHOLD WORK ON A GUESS, AND MAY NOT PRETEND THE QUESTION IS NOT
+    THERE. An undeclared row that reads as outward-facing stays ON the ready list — hiding it would
+    lose real work — and is named so somebody decides. Silence either way is the v1 failure: a
+    status that is really an unanswered question.
+    """
+    led([_item(id="A", what="Publish the assessment and pair it with the cell-panel ask.")])
+    assert len(C.ready()) == 1, "an undeclared row was hidden on a guess"
+    assert [e["id"] for e in C.unclassified_outward()] == ["A"]
+    C.main(["--check"])
+    assert "declare nothing" in capsys.readouterr().out
+
+
+def test_declaring_false_silences_the_report_without_hiding_the_work(led):
+    """⭐ THE REGEX WAS WRONG ABOUT TWO OF TEN REAL ROWS — one matched 'the paper heading' inside a
+    list of already-rewritten sites, the other matched 'deposit artifact' in a row about a file
+    ORDERING bug. Declaring false must clear the flag and keep the item startable, or the honest
+    answer costs you the work."""
+    led([_item(id="A", what="BUILD THE DETECTOR so the paper heading sweep never repeats.",
+               requires_trimcrae=False)])
+    assert len(C.ready()) == 1, "declaring an item mine removed it from the ready list"
+    assert C.unclassified_outward() == []

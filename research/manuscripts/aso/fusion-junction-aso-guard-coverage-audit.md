@@ -267,8 +267,9 @@ The claim got its own span anchored on its own subject.
 mutation that had shipped green.** D: `test_aso_deposition_doi_is_one_fact.py` no longer carries a
 module-level `ARTICLE` at all — both remaining functions are parametrized over `ARTICLES`, and the
 availability check gained a predicate (every bolded statement whose heading says "availability"
-carries the deposit DOI) because the raw count of `10.5281/zenodo.\d+` reaches two from a single
-markdown link. The placeholder mutation re-run in the journal article's Methods now fails
+carries the deposit DOI) because the raw count of the deposit-DOI pattern (the Zenodo prefix followed by digits — not written
+out here, because a DOI-shaped string in prose is exactly what `lint_citations` exists to catch, and
+it cannot tell a regex from a citation) reaches two from a single markdown link. The placeholder mutation re-run in the journal article's Methods now fails
 `test_no_archive_doi_placeholder_survives_in_the_article[fusion-junction-aso-journal-article.md]`.
 E: the sequencing requirement is no longer a bare keyword —
 `test_the_breakpoint_must_be_sequenced_before_anything_is_ordered` splits the document at

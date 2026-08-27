@@ -357,7 +357,9 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
-      "claimed_utc": null
+      "claimed_utc": null,
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "publishes an assessment AND makes an ask of an external group — CLAUDE.md §3, outward-facing. The assessment itself is self-doable and is not this row."
     },
     {
       "id": "AUT-046",
@@ -390,7 +392,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "posts a preprint AND approaches a group holding archival material. Two outward acts in one row."
     },
     {
       "id": "AUT-034",
@@ -402,8 +406,8 @@
         "strategy": "ST-CARE-DELIVERY"
       },
       "kind": "experiment",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "km-digitization-agent",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -423,7 +427,10 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "claimed_utc": "2026-08-27",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "digitization and an admit/refuse judgement against a documented quality floor; nothing leaves the repo"
     },
     {
       "id": "AUT-036",
@@ -588,7 +595,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "the row's own deliverable is 'whether that is worth writing up is a judgement call about what we publish' — a portfolio decision, §2's 'genuine goal-changing decision'. ⚠ THE WRITE-UP HALF IS SELF-DOABLE and is not blocked by this; file it separately if wanted rather than letting the decision hold the prose hostage."
     },
     {
       "id": "AUT-064",
@@ -654,7 +663,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "same shape: 'a judgement call about what we publish, not a technical one'. The observation is recorded; only the publish decision is his."
     },
     {
       "id": "AUT-PROP-012",
@@ -913,7 +924,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "publishes the eligibility map. ⚠ §3 is per paper, per act: he must name THIS one for THIS act."
     },
     {
       "id": "AUT-041",
@@ -1439,7 +1452,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "same shape: 'whether and where to publish that is a judgement call about what we publish'. The negative itself is already characterised."
     },
     {
       "id": "AUT-008",
@@ -1791,7 +1806,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "puts a proposed arm in front of the external group holding the two EMC models — outreach."
     },
     {
       "id": "AUT-009",
@@ -1824,7 +1841,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "⭐ THE REGEX MATCHED 'the paper heading' INSIDE A LIST OF SITES ALREADY REWRITTEN. The row is 'BUILD THE DETECTOR' — write a guard so a hand sweep does not have to repeat. Entirely self-doable."
     },
     {
       "id": "AUT-016",
@@ -2130,7 +2149,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "a journal submission, and the row itself says the residue is author-only furniture (ORCID, cover letter). D4: always his call."
     },
     {
       "id": "AUT-048",
@@ -3262,9 +3283,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "manifest-clean-flag-agent",
+      "claimed_utc": "2026-08-27",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3273,9 +3294,12 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "preprint-review-2026-08-27",
-      "depends_on_evidence": "Measured 2026-08-27 while clearing a preflight red: regenerating research/manuscripts/aso/fusion-junction-aso-archive-manifest.json mid-session wrote `git_tree_is_clean_apart_from_this_manifest: false`; regenerating it as the session's LAST commit (cd93a92, against a tree clean at 1bb9c17) wrote `true`. Same generator, same 483 files, same 41.221 MiB — only the ordering differed.",
-      "what": "⛔ ONE GENERATED DEPOSIT ARTIFACT IS ORDER-DEPENDENT AND NOTHING SAYS SO. aso_archive_manifest.py stamps `git_tree_is_clean_apart_from_this_manifest` from the live tree, so it can only be regenerated correctly as the LAST commit of a session. Run it in the middle of one — the obvious thing to do when preflight's staleness gate names it — and it records `false`, shipping a deposit artifact that asserts its own tree was dirty. ⚠ THE GATE CANNOT TELL THE TWO APART: 'STALE' and 'regenerated against a dirty tree' both clear by running the generator, and only the second is worse than doing nothing.\nWHAT TO DO: (1) decide whether the generator should REFUSE to write a `false` flag rather than record one — a deposit artifact that cannot be built is a louder failure than one that ships a self-contradiction; (2) whichever way that goes, make preflight's staleness line for THIS artifact say 'regenerate on a clean tree', because the generic 'rerun X and commit the result' is the advice that produces the bad artifact. ⚠ MUTATION-TEST it: the fix is only real if a deliberate mid-session regeneration goes red.\n⭐ ROOT CAUSE OF THE STALENESS ITSELF IS SEPARATE AND ALREADY PAID: commit 0e0eacd edited the ASO article without regenerating this manifest or submission-metrics.json, so the trunk carried both reds. Fixed in 55048d8 and cd93a92. This item is about the ORDERING TRAP the fix exposed, not the staleness.",
-      "_score_basis": "free, and it guards a DEPOSIT artifact — the ASO archive manifest is what an outside reader would check the deposit against, which is the one door CLAUDE.md §6 says ceremony is actually for"
+      "depends_on_evidence": "MEASURED ON main 2026-08-27, not hypothesised: the committed archive manifest asserts sha256 233e1d00… for research/manuscripts/lint_style.py. That hash is in NO COMMIT — a walk of every commit touching that file finds no match. It is the hash of an UNCOMMITTED working-tree edit (+14/-4) that was present when the manifest was regenerated. The manifest also records git_tree_is_clean_apart_from_this_manifest: false, and nothing reads that field.",
+      "what": "⛔⛔ A DEPOSIT ARTIFACT ON main ASSERTS A HASH NO COMMIT CONTAINS, AND SAYS SO ITSELF WHILE NOTHING LISTENS. aso_archive_manifest.py stamps `git_tree_is_clean_apart_from_this_manifest` from the LIVE TREE, so regenerating it mid-session — the obvious thing to do when preflight's staleness gate names it — hashes whatever is uncommitted into a deposit artifact and records `false`. ⚠ CONFIRMED WITH AN INSTANCE, NOT A SCENARIO: commit ae7930ddb's manifest hashes an uncommitted lint_style.py. A reader who verifies the deposit against the repository gets a mismatch on a file nobody can produce. ★ THE FIX IS ONE GUARD AND IT IS CHEAP: the staleness gate must REFUSE a manifest whose clean flag is false, because such a manifest is untrustworthy BY CONSTRUCTION — the field already exists and already told the truth. ⛔ DO NOT 'fix' this by making the generator stamp true regardless, or by dropping the field: the field is the only honest thing in this defect. ⚠ SECOND HALF, from AUT-PROP-027: this is also WHY a tree cannot be gated while subagents write to it — the manifest cannot be correct until the last commit, so any mid-flight preflight is red on it.",
+      "_score_basis": "free, and it guards a DEPOSIT artifact — the ASO archive manifest is what an outside reader would check the deposit against, which is the one door CLAUDE.md §6 says ceremony is actually for",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "a repository integrity guard; nothing leaves the repo",
+      "score": 198.0
     },
     {
       "id": "AUT-PD-006",
@@ -3640,9 +3664,9 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "in_progress",
-      "owner": "guard-defects-agent",
-      "claimed_utc": "2026-08-27",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3657,7 +3681,7 @@
       "score": 196.5,
       "depends_on_evidence": "round-10 guard audit MISCOVERED D and G; test_aso_deposition_doi_is_one_fact.py ARTICLE=ARTICLES[0], test_universal_claims_are_scoped_to_what_was_measured.py ARTICLE=research-article",
       "_score_basis": "one-of-a-pair defects; the eighth and ninth instances of a class this repo has found seven times",
-      "what": "⛔ TWO MORE ONE-OF-A-PAIR GUARD DEFECTS, both measured by mutation in round 10. (a) test_aso_deposition_doi_is_one_fact.py: ARTICLES was widened to both papers for ONE function; the other two still read ARTICLE=ARTICLES[0], the extended report. Proven: an unresolvable '[ARCHIVE DOI — PLACEHOLDER]' shipped in the JOURNAL article's Methods with 3 passed. (b) test_universal_claims_are_scoped_to_what_was_measured.py reads ONLY the extended report, while the class it polices — open quantifiers over a subset measurement — is live in the journal article: 'none 3′ of exon 3', 'Every source of a test article ends at someone culturing cells' and 'performs the in-silico half of the first step' all inverted green. Also: MISCOVERED E, test_the_breakpoint_must_be_sequenced_before_anything_is_ordered searches for 'established at nucleotide resolution by RNA sequencing', which STILL MATCHES 'need NOT be established at...' — a keyword that survives its own negation, twice over, in the guard named as property (4) of the four that let this submission proceed without an unpublished junction sequence."
+      "what": "✅ DONE 2026-08-27, commit bea7d5973. All three defects closed, each watched red. (a) test_aso_deposition_doi_is_one_fact.py: module-level ARTICLE=ARTICLES[0] DELETED — a single-document default is what silently re-scopes a function when a paper is added — both functions parametrized. ⭐ AND IT FOUND A WEAKER DEFECT UNASKED: test_both_availability_statements_carry_it counted DOI matches, but the DOI is a markdown link, so ONE statement already reached >=2 and the journal article passed with a single availability statement. Now every bolded 'availability' heading must carry the identifier. (b) test_universal_claims_are_scoped_to_what_was_measured.py parametrized over both papers for every PROHIBITION (requirements stay where numbered sections exist); the three surviving inversions are held by a SECOND instrument, since a scope guard reads a quantifier's SHAPE and cannot tell 'none' from 'several' — four polarity rows added. (c) the exon-2 guard now splits at Statements and requires the phrase on BOTH sides, then rejects a negation on the verb within 80 chars — deliberately not the bare word 'not', because the Declarations copy's own 'and not until the breakpoint has been established' must stay green. Coverage 84 → 100 of 174; numbered 53 → 60 of 81."
     },
     {
       "serves": {
@@ -3665,9 +3689,9 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "in_progress",
-      "owner": "stale-docstrings-agent",
-      "claimed_utc": "2026-08-27",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3682,7 +3706,7 @@
       "score": 193.0,
       "depends_on_evidence": "round-10 guard audit STALE_GUARD_TEXT 1-5",
       "_score_basis": "a stale docstring beside an unchecked invariant is how the original renumbering defect reached a typeset PDF",
-      "what": "CORRECT FIVE STALE GUARD DOCSTRINGS the round-10 audit measured against reality. (1) lint_style.py ~line 115 says the submission is the extended report; a comment 45 lines above says the opposite, and the journal article is the submission. (2) test_aso_abstract_is_bounded.py's docstring frames the bound as bioRxiv's deposit target while the constant 45 lines below says NAT. (3) The same file states 'The abstract stands at 227'; measured by its own splitter at the pin it is 220. (4) ⭐ claim_coverage.py's ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE exemption no longer reproduces: the seat re-ran the gate's own sampling and got applied=6 blind=0 — every sampled sentence goes red, so the exemption is removing a whole floored manuscript from test_the_census_word_covered_survives_ablation.py on a reading that is no longer true. (5) test_the_unbound_claims_the_coverage_census_found.py cites 76/124 against a live 82/174."
+      "what": "✅ DONE 2026-08-27, commit 99e723e5e — AND IT REFUSED THE INSTRUCTION IT WAS GIVEN, CORRECTLY. The dispatch said: reproduce the audit's ablation finding and, if it reproduces, DELETE the exemption. The number reproduced exactly (SAMPLE=6 → applied=6 blind=0) and the agent did not stop there: ablating ALL 76 covered numbered sentences — what PREFLIGHT_FULL does, and what a 6-sentence sample never reaches — gives applied=71 blind=3. The exemption's own recorded sentence IS STILL BLIND under the identical perturbations (56→57, 000→007), as are two others, all three credited solely by the harvested wildcard `HTTP \\d{3}` sitting exactly where the claim is. ⛔ SO DELETING IT WOULD HAVE SHIPPED A RED PUBLICATION GATE. The real defect was SCOPE: three blind sentences removed a 269-sentence manuscript from the gate, leaving 68 falsifiable claims unfalsified. Narrowed from document-keyed to SENTENCE-keyed, each row carrying its measured perturbation and matching exactly one censused sentence, so a row EXPIRES when its sentence is fixed — the old shape never could. Document back in the gate, 6 passed. ⭐ SECOND FINDING: the NAT instruction had ALREADY FIRED — trimcrae read the venue page in a browser 2026-08-23 and captured it, four days before the audit called the note stale; the 403 half reproduces and is retained. Abstract re-measured with the module's own splitter: 220 / 399 against bounds 250 / 400."
     },
     {
       "serves": {
@@ -3695,8 +3719,10 @@
       "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
+      "blocked_by": [
+        "AUT-PROP-017"
+      ],
+      "blocked_evidence": "Edits emc-fusion-partner-stratification.md, which branch aut-prop-017-fusion-partner-p1s (commit 3e580f41b) also edits and which has not merged. A whole-paper prose pass on top of an unmerged prose change is a conflict I would be creating deliberately. Unblocks on that merge.",
       "retry_budget": 3,
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
@@ -3708,6 +3734,33 @@
       "score": 186.0,
       "closes_clause": null,
       "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text."
+    },
+    {
+      "serves": {
+        "route": "RT-LOOP",
+        "publication": null,
+        "strategy": "ST-PROCESS"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "driver",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "a repository ordering fix; nothing leaves the repo",
+      "depends_on_evidence": "preflight on 2026-08-27 failed on a tree two subagents were mid-write in: lint_citations red and 'a stale generated file ships a claim its own artifacts no longer support: archive manifest', neither caused by the driver's own staged changes (research/autonomy suite 32/32 green)",
+      "id": "AUT-PROP-027",
+      "kind": "fix",
+      "prerequisite_of": null,
+      "score": 178.0,
+      "closes_clause": null,
+      "what": "⛔ THE COMMIT GATE CANNOT BE RUN ON A TREE OTHER AGENTS ARE MID-WRITE IN, AND NOTHING SAYS SO. Measured 2026-08-27: with two subagents editing research/manuscripts/, preflight went red on lint_citations and the archive-manifest staleness gate — neither caused by the driver's staged changes, whose own suite was 32/32. ⚠ THE CONSEQUENCE IS NOT 'wait': it is that a driver holding verified work has NO WAY TO GATE IT and, if it commits anyway, is committing into a mutation window — this morning's incident exactly (13 inverted claims, CLAUDE.md §6). ★ THE FIX IS NOT ANOTHER RULE. Options, cheapest first: (a) have subagents that will commit work in a WORKTREE and hand back a branch, so the shared tree is only ever written by the driver — this already worked today for AUT-PROP-017; (b) make preflight able to scope to the staged paths, so a driver can gate its own change without gating someone else's half-written one; (c) a simple tree lease, so the driver knows before staging that the tree is not gateable. ⭐ (a) IS ALREADY PROVEN AND COSTS NOTHING — it should become the default subagent contract, and the AUT-PROP-024/025 prompts should have said so rather than 'commit, do not push'. ⚠ AND NOTE (b) INTERACTS WITH A KNOWN DEFECT: AUT-PD-016 records that aso_archive_manifest.py is only correct as a session's LAST commit, which is the second half of why this tree cannot be gated mid-flight."
     }
   ]
 }

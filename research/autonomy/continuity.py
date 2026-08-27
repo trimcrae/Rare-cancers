@@ -54,6 +54,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -63,6 +64,25 @@ QUEUE = os.path.join(HERE, "ready-to-post.json")
 
 #: Cost classes a session may take without asking. CLAUDE.md §2: warranted, cheap and ready -> DO IT NOW.
 SELF_DOABLE_COST = {"free", "cheap", None}
+
+#: ⛔⛔ AN OUTWARD-FACING ACT IS FREE IN DOLLARS AND STILL NOT MINE TO DO, AND THIS TOOL DID NOT KNOW
+#: THAT. Found 2026-08-27 by the Stop hook that reads this file: its top two rows were "Publish the
+#: assessment…" and "Post the preprint and put the MTAP stain in front of a group…" — both reserved
+#: for trimcrae by CLAUDE.md §3, both offered as ready work because readiness was modelled on SPEND
+#: and never on WHO MAY ACT. The hook surfaced a correctness bug in its own input, which is the loop
+#: working; it is fixed here rather than answered in a reply.
+#:
+#: ⛔ IT IS AN EXPLICIT FIELD, NOT A KEYWORD MATCH. A regex over the item text finds 11 candidates and
+#: is wrong about at least two — AUT-058 and AUT-065 open with "⛔ Do NOT …" and the verb is
+#: incidental. Guessing here would either hide real work or offer a forbidden act, and both failures
+#: are silent. A row declares `requires_trimcrae: true` or it does not.
+#:
+#: ★ AND AN UNDECLARED ROW THAT LOOKS OUTWARD-FACING IS REPORTED, NEVER SILENTLY OFFERED. The tool
+#: cannot classify it and must not pretend the question does not exist — the same reason v1's green
+#: tick was worse than no check at all.
+_OUTWARD_LOOKING = re.compile(
+    r"\b(publish|post the|submit|deposit|e-?mail|mint (?:a )?doi|release|outreach|put .{0,40} in front of)\b",
+    re.I)
 #: States that still represent outstanding work.
 OPEN_STATES = {None, "queued", "in_progress"}
 
@@ -88,6 +108,9 @@ def _why_not_ready(e: dict, me: str | None) -> str | None:
         return f"claimed by {owner}"
     if e.get("cost_class") not in SELF_DOABLE_COST:
         return f"cost_class {e.get('cost_class')} — needs a human (CLAUDE.md §2)"
+    # ⛔ CLAUDE.md §3: an outward-facing or irreversible act is trimcrae's, whatever it costs.
+    if e.get("requires_trimcrae"):
+        return "outward-facing — trimcrae's act (CLAUDE.md §3)"
     return None
 
 
@@ -96,6 +119,16 @@ def ready(me: str | None = None) -> list[dict]:
     out = [e for e in _entries() if _why_not_ready(e, me) is None]
     out.sort(key=lambda e: (-(e.get("score") or 0), e.get("id") or ""))
     return out
+
+
+def unclassified_outward(me: str | None = None) -> list[dict]:
+    """Ready rows that LOOK outward-facing and have not declared either way.
+
+    ⚠ These are still counted as ready — the tool does not get to quietly withhold work on a guess.
+    They are reported so somebody decides, because an undeclared row is a question, not a status.
+    """
+    return [e for e in ready(me)
+            if "requires_trimcrae" not in e and _OUTWARD_LOOKING.search(e.get("what") or "")]
 
 
 def blocked() -> list[tuple[dict, str]]:
@@ -200,6 +233,15 @@ def main(argv=None) -> int:
         print(f"   [{e.get('score', 0):>6.1f}]  {e.get('id')}  {what[:150]}")
     if len(r) > args.limit:
         print(f"   … and {len(r) - args.limit} more")
+
+    u = unclassified_outward(args.me)
+    if u:
+        print(f"\n⚠ {len(u)} ready row(s) read as OUTWARD-FACING and declare nothing. CLAUDE.md §3 "
+              f"reserves\n   publishing, submitting, depositing and outreach for trimcrae — so each is "
+              f"either his\n   act (set `requires_trimcrae: true`) or it is not (set it false and say "
+              f"why). Undeclared,\n   it is a question wearing the costume of a ready item:")
+        for e in u[:args.limit]:
+            print(f"      {e.get('id')}  {' '.join((e.get('what') or '').split())[:88]}")
 
     if args.check:
         print("\n⛔⛔ THIS IS NOT A FAILURE TO RECORD THE WORK. The work is recorded — that is how it\n"
