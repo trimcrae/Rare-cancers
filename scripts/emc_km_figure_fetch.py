@@ -235,10 +235,55 @@ def unpaywall(doi: str) -> dict:
     out["best_host_type"] = best.get("host_type")
     out["licence"] = best.get("license")
     out["n_oa_locations"] = len(doc.get("oa_locations") or [])
+    # ⭐ EVERY LOCATION, NOT ONLY THE BEST ONE (added 2026-08-27, AUT-034). Unpaywall ranks the
+    # PUBLISHER copy first, and the publisher copy is precisely the one this program has already
+    # been refused by: seer270_2022, huang2023 and japan2003 are each graded open access and each
+    # answered HTTP 403 on their `best_oa_location`, three rounds running. A repository copy in the
+    # same record carries no bot wall and was never tried, because only the best location was read.
+    out["oa_locations"] = [
+        {"url_for_pdf": loc.get("url_for_pdf"), "url": loc.get("url"),
+         "host_type": loc.get("host_type"), "version": loc.get("version"),
+         "repository_institution": loc.get("repository_institution")}
+        for loc in (doc.get("oa_locations") or [])]
     return out
 
 
-def candidate_urls(pmcid: str, oa: dict, pdf_url: str | None) -> list[tuple[str, str]]:
+def openalex(doi: str) -> dict:
+    """A SECOND open-access index, asked because one index answering "publisher only" is one index.
+
+    ⚠ Unpaywall and OpenAlex are not the same corpus even though OpenAlex ingests Unpaywall: a
+    repository deposit indexed by one can be missing from the other, and the cost of asking both is
+    one HTTP request. Nothing here is a paywall route -- every location returned is one the index
+    has already graded as free to read.
+    """
+    url = f"https://api.openalex.org/works/doi:{doi}"
+    code, _ctype, body = _get(url)
+    out = {"query_url": url, "http": code, "is_oa": None, "locations": []}
+    if code != 200:
+        out["error"] = f"HTTP {code}"
+        return out
+    try:
+        doc = json.loads(body.decode("utf-8", "replace"))
+    except Exception as exc:  # noqa: BLE001
+        out["error"] = f"unparseable: {type(exc).__name__}: {exc}"
+        return out
+    out["is_oa"] = (doc.get("open_access") or {}).get("is_oa")
+    out["oa_status"] = (doc.get("open_access") or {}).get("oa_status")
+    for loc in (doc.get("locations") or []):
+        if not loc.get("is_oa"):
+            continue
+        src = loc.get("source") or {}
+        out["locations"].append({"pdf_url": loc.get("pdf_url"),
+                                 "landing_page_url": loc.get("landing_page_url"),
+                                 "source": src.get("display_name"),
+                                 "type": src.get("type"),
+                                 "version": loc.get("version"),
+                                 "license": loc.get("license")})
+    return out
+
+
+def candidate_urls(pmcid: str, oa: dict, pdf_url: str | None,
+                   extra_urls: list[dict] | None = None) -> list[tuple[str, str]]:
     """(route_name, url) in the order the docstring's ladder describes."""
     urls: list[tuple[str, str]] = []
     if oa.get("tgz"):
@@ -251,8 +296,18 @@ def candidate_urls(pmcid: str, oa: dict, pdf_url: str | None) -> list[tuple[str,
                                                        "https://ftp.ncbi.nlm.nih.gov/")))
     if pmcid:
         urls.append(("europepmc_pdf_render", f"https://europepmc.org/articles/{pmcid}?pdf=render"))
+        # ⭐ PMC'S OWN ARTICLE-PDF ENDPOINT, NEVER TRIED BEFORE 2026-08-27 (AUT-034). drilon2008 and
+        # bishop2019 are NIH author manuscripts: they have PMC identifiers, they are not in the OA
+        # subset (so oa.fcgi offers no package) and Europe PMC answers `pdf=render` with HTTP 500,
+        # three rounds running. Those two facts were being read as "unresolved" when the route that
+        # serves an author manuscript -- PMC's own article PDF -- had simply never been requested.
+        urls.append(("pmc_direct_pdf", f"https://pmc.ncbi.nlm.nih.gov/articles/{pmcid}/pdf/"))
+        urls.append(("pmc_legacy_pdf",
+                     f"https://www.ncbi.nlm.nih.gov/pmc/articles/{pmcid}/pdf/"))
     if pdf_url:
         urls.append(("caller_pdf_url", pdf_url))
+    for i, extra in enumerate(extra_urls or []):
+        urls.append((f"oa_location_{i}_{extra['tag']}", extra["url"]))
     return urls
 
 
@@ -394,6 +449,7 @@ def run_target(tgt: dict, dest: str, budget_left: int) -> tuple[dict, int]:
                 tgt = dict(tgt, **{k: reg[k]})
 
     pmcid = tgt.get("pmcid")
+    extra_urls: list[dict] = []
     rec = {"source_id": sid, "pmcid": pmcid, "routes": [], "assets": None, "route_used": None,
            "registry_ids": reg,
            "identifiers_used": {k: tgt.get(k) for k in ("doi", "pmid", "pmcid")},
@@ -418,6 +474,22 @@ def run_target(tgt: dict, dest: str, budget_left: int) -> tuple[dict, int]:
         if up.get("best_url_for_pdf") and not tgt.get("pdf_url"):
             tgt = dict(tgt, pdf_url=up["best_url_for_pdf"],
                        landing_url=up.get("best_url") or None)
+        oax = openalex(tgt["doi"])
+        rec["openalex"] = oax
+        print(f"{sid:32s} openalex is_oa={oax.get('is_oa')} "
+              f"locations={len(oax.get('locations') or [])}")
+        seen = {tgt.get("pdf_url")}
+        for loc in (up.get("oa_locations") or []):
+            for url, tag in ((loc.get("url_for_pdf"), f"unpaywall_{loc.get('host_type')}"),):
+                if url and url not in seen:
+                    seen.add(url)
+                    extra_urls.append({"url": url, "tag": str(tag)})
+        for loc in (oax.get("locations") or []):
+            url = loc.get("pdf_url")
+            if url and url not in seen:
+                seen.add(url)
+                extra_urls.append({"url": url, "tag": f"openalex_{loc.get('type')}"})
+        rec["extra_oa_urls"] = extra_urls
     if not pmcid and not tgt.get("pdf_url"):
         rec["⛔"] = ("no PMC identifier and no free copy located: this candidate has no open route "
                     "at $0. That is a reachability statement, not a statement about the paper.")
@@ -429,21 +501,26 @@ def run_target(tgt: dict, dest: str, budget_left: int) -> tuple[dict, int]:
     rec["oa_service_raw"] = oa.get("raw")
 
     spent = 0
-    for route, url in candidate_urls(pmcid or "", oa, tgt.get("pdf_url")):
+    for route, url in candidate_urls(pmcid or "", oa, tgt.get("pdf_url"), extra_urls):
         if spent >= budget_left:
             rec["routes"].append({"route": route, "url": url, "skipped": "byte cap reached"})
             continue
         code, ctype, body = _get(url)
         entry = {"route": route, "url": url, "http": code, "content_type": ctype,
                  "bytes": len(body)}
-        if (USE_BROWSER and route == "caller_pdf_url" and not _looks_like("pdf", ctype, body)):
+        # ⚠ THE BROWSER RUNG USED TO REACH ONLY THE CALLER'S URL, which meant the two routes that
+        # actually 403 -- a publisher PDF reached from an OA index, and PMC's own endpoint behind
+        # its reCAPTCHA -- were retried only when they happened to arrive as `caller_pdf_url`.
+        # Widened 2026-08-27 to any HTTP route that did not come back a PDF.
+        if (USE_BROWSER and url.startswith("http") and not _looks_like("pdf", ctype, body)
+                and not _looks_like("tgz", ctype, body)):
             # the plain fetch was refused; retry the SAME url through a real browser
             b_code, b_ctype, b_body = browser_get(url, referer=tgt.get("landing_url"))
             entry["browser_retry"] = {"http": b_code, "content_type": b_ctype,
                                       "bytes": len(b_body)}
             if _looks_like("pdf", b_ctype, b_body):
                 code, ctype, body = b_code, b_ctype, b_body
-                entry["route"] = route = "caller_pdf_url_via_browser"
+                entry["route"] = route = f"{route}_via_browser"
         if _looks_like("tgz", ctype, body):
             entry["kind"] = "tgz"
             try:
