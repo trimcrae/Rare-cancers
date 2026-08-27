@@ -50,5 +50,14 @@
   "real_dollars": "none",
   "claude_budget": "one spawned session, cycle 1 of 2, 0 subagents. rate_limit_info at close: status allowed, five_hour window, isUsingOverage false."
  },
- "handoff": {}
+ "handoff": {
+  "child_session_id": "session_01KFTLiME1hYLJRTifvCYd9V",
+  "child_title": "EMC research loop — cycle (post-CYC-0013)",
+  "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+  "source": "https://github.com/trimcrae/Rare-cancers @ main",
+  "prompt_built_by": "python3 research/autonomy/handoff.py --json, from committed state — never from this session's context, which is the thing being discarded",
+  "why": "This session ran ONE cycle of its two-cycle cap and handed off anyway. §3 calls 2 a CAP and one the intended shape, with the second reserved for a SMALL follow-on; the remaining top items (AUT-010 publish, AUT-046 post a preprint, AUT-034 digitise a Kaplan-Meier curve) are each full-size, and starting one here risks the exact mid-cycle context exhaustion the cap exists to prevent.",
+  "carries_no_findings": "The successor is told where to look and not what it will find — including that it must read the Actions result for main itself rather than believe this cycle's claim that the trunk fix worked."
+ },
+ "⛔_a_defect_this_cycle_found_in_its_own_instrument_layer": "health.py's `cycles_are_sized` reads `handoff.child_session_id`. CYC-0012's receipt recorded the same fact as `handoff.successor_session_id`, so that row would have found NO handoff had that session gone over cap — it passed only because the session stopped exactly AT the cap and the check fires on over-cap sessions. ⭐ THIS IS THE SAME SHAPE AS THIS CYCLE'S HEADLINE FINDING, ONE LAYER UP: an instrument reads a NAME, and a record that states the fact under a different name is invisible to it while looking complete to a human. CYC-0012's receipt now carries `child_session_id` alongside its original field — the value is identical and the intent was the same, so this is a recording repair, not a rewrite of what happened."
 }
