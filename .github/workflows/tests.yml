@@ -463,6 +463,14 @@ jobs:
         # change silently changes how this suite is distributed — and the parity above was measured
         # at 4. A hosted `ubuntu-latest` runner is 4 cores today; if that changes, re-measure parity
         # and then change this number, in that order.
+        # ⛔ `research/autonomy/tests` ADDED 2026-08-27, AND IT WAS RUN BY NOTHING UNTIL THAT DAY.
+        # Neither this list nor preflight named it, and there is no pytest.ini or testpaths to
+        # collect it by accident, so 53 assertions guarding the loop's own instruments — the
+        # continuity checker, the session reaper, the receipt schema — were asserted by nobody. All
+        # three suites were written as guards against defects that had already happened. This is the
+        # same shape as `scripts/tests` (unrun until 2026-08-22) and as `subagent_width` itself,
+        # which CLAUDE.md §1 records as a governed number no code read.
         run: >-
           python -m pytest research/modalities/tests research/manuscripts/tests systems/tests scripts/tests
+          research/autonomy/tests
           -q --continue-on-collection-errors --durations=25 -n 4 --dist loadfile

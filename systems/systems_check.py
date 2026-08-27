@@ -1506,6 +1506,10 @@ _GATE_TOOLS = (
     "lint_consistency.py", "systems_check.py", "emc_systems_map_check.py", "lint_claims.py",
     "lint_changed_prose.py", "lint_citations.py", "lint_style.py", "parser_guard.py",
     "validate-registry.mjs",
+    # ⚠ ADDED 2026-08-27 WITH THE GATE ITSELF. An entry naming no tool in this tuple is checked only
+    # for its ORDINAL — the header above records five such entries hiding a wrong list for weeks —
+    # so a new gate that owns a script belongs here in the same commit that adds it.
+    "receipt_schema.py",
 )
 
 

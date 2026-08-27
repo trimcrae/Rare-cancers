@@ -77,6 +77,19 @@ Check before anything else. A loop that works through its own alarm is the alarm
     changed, what it cost, your session id, what is now queued, `blocked_by[]` (each with the
     **path** of whatever refused you — §6 depends on this), and **`route_advanced`**: the id of the
     live route you moved, or the literal `none`.
+    - ⛔ **AND `subagents.max_concurrent` — SPELLED EXACTLY THAT, INCLUDING `0` FOR A CYCLE THAT
+      SPAWNED NOBODY.** It is the only key `health.py`'s `fanout_is_governed` reads, and it is the
+      dial the architecture records as having failed catastrophically. ⚠ *Measured 2026-08-27 over
+      all 22 receipts (AUT-PD-013): seventeen of them used **three different schemas** —
+      `max_concurrent`, then `concurrent_max`, then `launched` — so the row printed a FALSE ABSENCE
+      for cycles whose fan-out was recorded plainly under another name.* **`launched` is not a
+      substitute**: it is the serial total over the cycle, and the cap governs *concurrency* — five
+      launched one at a time and five launched together are the same number and different acts.
+      Record the serial total too if you like; record the width regardless.
+      ⭐ **This is now a preflight gate, not a convention** — `python3
+      research/autonomy/receipt_schema.py --check` owns the name for the writer and the reader both,
+      and refuses the commit that lands a receipt without it. A field name agreed in prose between
+      two files is a hope; this loop had already got this one right twice and lost it twice.
 
 11. **Reap the finished sessions you left behind.** List sessions, pass them to the reaper, archive
     what it clears:

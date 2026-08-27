@@ -5,23 +5,25 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
+    "harden": 11,
     "analysis": 1,
-    "code": 1,
+    "process_defect": 15,
+    "write": 6,
     "experiment": 23,
-    "fetch": 13,
-    "fix": 5,
-    "harden": 9,
-    "negative": 32,
     "process": 7,
-    "process_defect": 12,
+    "code": 1,
+    "fetch": 13,
+    "negative": 32,
     "regrade": 7,
-    "write": 6
+    "fix": 8,
+    "build": 1,
+    "verify": 1
   },
   "n_by_state": {
-    "done": 8,
-    "in_progress": 3,
     "queued": 104,
-    "superseded": 1
+    "in_progress": 4,
+    "superseded": 1,
+    "done": 17
   },
   "n_clamped": 11,
   "entries": [
@@ -779,7 +781,7 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -787,10 +789,10 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0017",
-      "what": "⛔ THE FAN-OUT GOVERNANCE ROW READS A KEY NO RECEIPT WRITES — a one-word reader/writer mismatch that makes `fanout_is_governed` PERMANENTLY UNMEASURABLE, in the check CLAUDE.md §1 added precisely because 'the number governed nothing'. Measured 2026-08-27 by CYC-0017 against the live checker, not read off the docs: health.py's c_fanout_is_governed does `block.get('max_concurrent')`, while every receipt that has ever recorded a fan-out — CYC-0014, CYC-0016 and CYC-0017 as first written — stores the same value under `concurrent_max`. So the row reported DISPATCH-NOT-RECORDED and NAMED CYC-0014 and CYC-0017 as recording no `subagents` block when both plainly do. ⭐ AN INSTRUMENT REPORTING A FALSE ABSENCE IS THE FAILURE THIS REPOSITORY KEEPS PAYING FOR (CLAUDE.md §4), and this one wears the costume of the very restraint it cannot see: 'an absent record is not a record of restraint' is the correct principle printed over an incorrect reading. ⚠ NOT A DEFECT: the message lists five ids for six receipts — that is the reader's own `unrecorded[:5]` truncation, deliberate. ⛔ THE FIX IS NOT SIMPLY TO RENAME THE WRITERS. A receipt is immutable committed history (health.py's own comment says so and two conditions depend on it), so CYC-0014's and CYC-0016's fan-outs can never be made visible by editing them. Either the checker accepts BOTH spellings with the historical one documented as legacy, or the convention is pinned in one place that both the writer and the reader point at. CYC-0017's own receipt was corrected to `max_concurrent` at the time of filing, so the row has exactly one measurable cycle. ⭐ AND THE GENERAL FORM IS WORTH MORE THAN THE INSTANCE: a field name agreed in prose between a writer and a reader is not agreed at all — it is a hope, checked by nothing. Every other cross-file key this loop relies on has the same exposure, `handoff.child_session_id` included, which is why that one is spelled out verbatim in the handoff prompt. Sweep them.",
+      "what": "✅ DONE 2026-08-27. ⛔ THE FAN-OUT GOVERNANCE ROW READ A KEY THE RECEIPTS HAD STOPPED WRITING, so `fanout_is_governed` printed a FALSE ABSENCE for cycles whose fan-out was recorded plainly — an instrument reporting absence while wearing the costume of the restraint it could not see (CLAUDE.md §4). ⭐ THE MEASUREMENT OVER ALL 22 RECEIPTS CORRECTS THE TICKET'S OWN DIAGNOSIS, WHICH READ IT AS A KEY NOBODY WRITES: the convention EXISTED, was abandoned, was re-invented, and was abandoned again — CYC-0006/0008/0010 wrote `max_concurrent`; CYC-0011–0016 and CYC-0019 wrote `concurrent_max`+`dispatched`; CYC-0017/0018 re-invented `max_concurrent`; CYC-0020–0022 dropped the width entirely for `launched`. Three schemas in seventeen receipts, the last drop four cycles after the correct spelling was in use. ⛔ THE CHEAP FIX WAS REFUSED AND THE REFUSAL IS THE POINT: teaching the checker to accept every spelling silently changes the QUANTITY. `launched` is the serial total over a cycle; `subagent_width` caps CONCURRENCY (autonomy-state.json `_subagent_width_means`, and the 107-agent incident was ONE fan-out of width 107). Six sequential agents under a cap of 5 would have read as a violation and five concurrent would have been indistinguishable from five in sequence. ⭐ THE FIX: `research/autonomy/receipt_schema.py` owns the name for BOTH sides — health.py imports `WIDTH_KEY` and `width_of()` rather than spelling them — and a new preflight gate runs `receipt_schema.py --check` at the commit that lands a receipt, which is the only moment anything can check a writer that does not exist (step 10 says 'write the receipt' and every cycle hand-authors the JSON). health.py's diagnostic now NAMES the drifted spelling instead of counting the absence. ⚠ PRE-CUTOFF RECEIPTS ARE GRANDFATHERED BY A CYCLE NUMBER, NOT A LIST: a receipt is immutable committed history, so failing the gate on CYC-0014's spelling would latch it red forever — the defect that wedged the loop the same morning — and the drift is REPORTED rather than hidden, because the ticket was filed against a checker that hid what it could not read. ✅ 21 tests, 10/10 mutations caught on a scratch copy; the mutation that raised the cutoff to 999 passed everything until a test bound it to the newest receipt on the trunk (a suite that exercises one value of a constant measures nothing about the others — the same finding that pinned `in_progress` in the continuity suite). ⚠ STILL OPEN, filed as AUT-PD-017: the general form. Every other cross-file key this loop shares is agreed in prose and checked by nothing.",
       "score": 170.0,
       "_score_basis": "hand-filed by CYC-0017. Same rank as the id-allocation defect: it corrupts the loop's own self-measurement rather than a paper, and it silently disabled a governance check on the dial the architecture records as having failed catastrophically."
     },
@@ -3662,7 +3664,7 @@
       "score": 197.0,
       "depends_on_evidence": "research/manuscripts/aso/fusion-junction-aso-guard-coverage-audit.md — 34 of 42 single-sentence mutations shipped green; all five linters rc=0 on all 42",
       "_score_basis": "the highest-value finding of round 10: the paper's honesty is held by 16 regex spans in one module",
-      "what": "✅ DONE 2026-08-27, commit ed4583b7c. NINE previously unguarded ASO claims bound in test_the_manuscript_asserts_the_relation_its_artifacts_compute.py — the module the audit identified as the only one that reads VERBS. Each binds in BOTH directions (missing site = ERROR, inverted site trips `forbid`) and each mutation was asserted to land, watched RED with the failure attributed to its own row id, then restored to GREEN. Rows: nothing-synthesised-or-tested, consent-to-participate, no-individual-patient-data, no-external-funding, condemned-slide-is-not-a-substitute, figure1-one-of-three-is-a-reported-junction, figure1-no-reagent-at-the-taf15-exon-11-row, citation-provenance-statement, three-clean-designs-are-mechanism-controls. ⭐ THE LAST WAS ADDED UNASKED and is the sentence CLAUDE.md §6 quotes as the worst of the 13 inversions that reached origin/main that morning; verified independently by the driver — inverting it now turns test_no_claim_asserts_the_inverse_of_what_its_artifact_computes red. ⛔ THE MORNING'S FALSE FIX WAS REPRODUCED, NOT ASSUMED: clause deleted from the .md, real PDF rebuilt (BUILD_RC=0, 6pp), old PDF-bound row still reported 11 passed. Root cause confirmed twofold — the row's only PDF match is the Table 1 caption constant at aso_journal_tables.py:194, and 'none has been synthesised' occurs ZERO times in the text layer because two-column typesetting interleaves the columns. Bound against the .md instead of tightening the PDF row, because no pattern over a scattered clause can bind it and tightening would redden an honest paper; the PDF row still holds a different real property and the stale-build-stamp guards refuse a commit whose PDF was not rebuilt from that .md. Preflight green, 1305 passed / 3 skipped. Coverage 82 → 84 of 174."
+      "what": "✅ DONE 2026-08-27, commit ed4583b7c. NINE previously unguarded ASO claims bound in test_the_manuscript_asserts_the_relation_its_artifacts_compute.py — the module the audit identified as the only one that reads VERBS. Each binds in BOTH directions (missing site = ERROR, inverted site trips `forbid`) and each mutation was asserted to land, watched RED with the failure attributed to its own row id, then restored to GREEN. Rows: nothing-synthesised-or-tested, consent-to-participate, no-individual-patient-data, no-external-funding, condemned-slide-is-not-a-substitute, figure1-one-of-three-is-a-reported-junction, figure1-no-reagent-at-the-taf15-exon-11-row, citation-provenance-statement, three-clean-designs-are-mechanism-controls. ⭐ THE LAST WAS ADDED UNASKED and is the sentence CLAUDE.md §6 quotes as the worst of the 13 inversions that reached origin/main that morning; verified independently by the driver — inverting it now turns test_no_claim_asserts_the_inverse_of_what_its_artifact_computes red. ⛔ THE MORNING'S FALSE FIX WAS REPRODUCED, NOT ASSUMED: clause deleted from the .md, real PDF rebuilt (BUILD_RC=0, 6pp), old PDF-bound row still reported 11 passed. Root cause confirmed twofold — the row's only PDF match is the Table 1 caption constant at aso_journal_tables.py:194, and 'none has been synthesised' occurs ZERO times in the text layer because two-column typesetting interleaves the columns. Bound against the .md instead of tightening the PDF row, because no pattern over a scattered clause can bind it and tightening would redden an honest paper; the PDF row still holds a different real property and the stale-build-stamp guards refuse a commit whose PDF was not rebuilt from that .md. Preflight green, 1305 passed / 3 skipped. Coverage 82 → 84 of 174.\n\n⚠ CORRECTION 2026-08-27 (appended, not edited inline — CLAUDE.md §1.2): the commit sha above, `ed4583b7c`, is STALE. The seat rebased under a concurrent push and its work landed as `78d75fbed`; the seat itself reported the correction and this entry was written from the earlier read. The finding, the nine rows and the mutation evidence are unaffected — only the identifier was wrong, and an identifier written from an earlier read is exactly the class of error CLAUDE.md §7 forbids writing from recollection."
     },
     {
       "serves": {
@@ -3767,6 +3769,84 @@
       "score": 178.0,
       "closes_clause": null,
       "what": "✅ DONE 2026-08-27 — remedy (a), the one already proven. research-loop §3 now makes WORKTREE-IN / BRANCH-OUT the contract for any subagent that will write code: worktree off origin/main, commit there, push a branch, never touch the repository root. The shared tree has ONE writer, the driver. ⚠ Written from the afternoon's measurement rather than from principle: the two agents dispatched with 'commit, do not push' ended up mid-write simultaneously and made the tree ungateable — preflight red on lint_citations and the manifest, neither caused by the driver's own change — while the two that used worktrees pushed branches that merged with zero conflicts and survived the window. ⛔ Remedies (b) scoping preflight to staged paths and (c) a tree lease are NOT done and are deliberately not filed as follow-ups: (a) removes the condition they exist to handle, and building a lease for a problem that no longer occurs is how a repository accumulates guards nobody needs. Re-file them if the condition recurs with (a) in force."
+    },
+    {
+      "id": "AUT-PD-017",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PD-013",
+      "what": "⛔ SWEEP EVERY CROSS-FILE KEY THIS LOOP SHARES — the general form of AUT-PD-013, and worth more than the instance. A field name agreed in PROSE between a writer and a reader is not agreed at all: it is a hope, checked by nothing, and `subagents.max_concurrent` proves prose cannot even HOLD a convention the loop had already got right twice (three schemas in seventeen receipts). ⭐ THE SWEEP: enumerate every key one file writes and another reads — `handoff.child_session_id` (read by `cycles_are_sized`, spelled verbatim in the handoff prompt precisely because somebody already noticed this exposure), `route_advanced`, `blocked_by[].path`, the five `RECEIPT_TIME_KEYS`, the ledger's `closes_clause`/`requires_trimcrae`/`owner`, and `autonomy-state.json`'s dials — and for each ask the ONE question: what happens if the writer spells it differently? ⛔ THE ANSWER THAT MATTERS IS NOT 'the check fails' but 'the check goes UNMEASURED or, worse, GREEN', because a reader that cannot find a key reports absence, and this repository grades absence as restraint in at least one place already. ⭐ THE FIX SHAPE IS SETTLED by AUT-PD-013 and should be copied rather than re-derived: one module owns the name, both sides import it, a preflight gate checks the writer at the commit, and history is grandfathered by a number so the gate cannot latch. ⚠ CHEAP AND FREE — it is a grep, a reading and a test file; no compute, no network, nobody's permission.",
+      "score": 120.0,
+      "_score_basis": "the instance cost one permanently-unmeasurable governance row on the dial the architecture calls the most important; the class is every other row like it",
+      "depends_on_evidence": "research/autonomy/receipt_schema.py and its 21-test suite — the worked instance",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-018",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PD-013",
+      "what": "✅ DONE 2026-08-27, found while wiring AUT-PD-013's gate. ⛔⛔ THE LOOP'S OWN TEST SUITE WAS RUN BY NOTHING. `research/autonomy/tests` appeared in neither `scripts/preflight.sh` nor `.github/workflows/tests.yml` — CI's pytest step names `research/modalities/tests research/manuscripts/tests systems/tests scripts/tests` and stops there — and there is no pytest.ini or `testpaths` to collect it by accident. **53 assertions asserted by nobody.** ⭐ AND ALL THREE SUITES WERE WRITTEN THE SAME DAY, EACH AS A GUARD AGAINST A DEFECT THAT HAD ALREADY HAPPENED: `test_continuity_has_no_green_state_recording_can_buy.py` (the third fix for trimcrae's 'ending with nothing in flight' bug, whose entire design is that recording work must never buy a pass), `test_session_reaper_refuses_to_lose_work.py` (pinned after the reaper's first run against real data called three DELIVERED cycles 'died holding uncommitted work'), and `test_receipt_schema.py`. A guard written the day of the incident and executed by nothing is the incident's second half. ⚠ THE SHAPE IS THE REPOSITORY'S MOST-REPEATED ONE and it was already written down twice: `scripts/tests` ran nowhere until 2026-08-22 (preflight gate 13 exists for exactly this), and CLAUDE.md §1 records `subagent_width` as a governed number no code read. ⭐ FIX: folded into gate 13's invocation rather than given a step of its own — that gate's own comment warns that a fix bound to one call site regresses at its sibling, and a second copy of its twenty-line two-signal decision block would BE that sibling — and added to tests.yml, which is the authority. 53 tests in 0.09 s, so it is free in the commit loop.",
+      "score": 60.0,
+      "_score_basis": "the guards written on incident day were themselves ungoverned; this is the class, not one suite",
+      "depends_on_evidence": "scripts/preflight.sh gate 13 heading and .github/workflows/tests.yml:467 — measured, both lists omitted the directory",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-019",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PD-013",
+      "what": "✅ DONE 2026-08-27, same session it was found. ⛔ `priority.py` CRASHED ON THE COMMITTED LEDGER AND HAS FOR SOME TIME — the loop's RANKER, dead, and nothing noticed because no gate runs it. Measured 2026-08-27 on a CLEAN tree at `origin/main` (`git stash`, re-run, reproduced — so it is not the working change): `KeyError: 'score_inputs'` at priority.py:423 in `apply_session_penalties`, `entry['score_inputs']['blocked_with_evidence'] = True`. ⭐ THE CAUSE IS THE SAME CLASS AS AUT-PD-013, WHICH IS WHY IT IS FILED HERE: a field one writer emits and another reader assumes. **47 of 124 ledger entries carry no `score_inputs` key at all** — every `AUT-PROP-*`, every `AUT-PD-*`, `AUT-COV-*`, `AUT-BIX-*`, `AUT-INC-001`, `AUT-078` — because they were appended by hand or by a seat rather than by whatever wrote the originals. ⚠ THE FIX IS A JUDGEMENT, NOT A `setdefault`: writing an empty `score_inputs` makes the ranker RUN and rank 47 items on absent inputs, which is a populated field that is not a measured one (CLAUDE.md §4). Decide whether an entry with no score inputs is unrankable (and say so in the output) or whether the missing inputs have honest defaults, then make the ledger's own schema enforce it. ⛔ AND WIRE IT TO SOMETHING: an unrun ranker is AUT-PD-018 again. ⭐ FIXED: `entry.setdefault(\"score_inputs\", {})` at the penalty line and `(parent.get(\"score_inputs\") or {})` at its sibling — the inheritance line, which would have been the next crash and is the shape `paper-hardening` §8b.2 measured six of eleven list-scoped fixes missing. ⛔ THE JUDGEMENT WENT THE HONEST WAY: the dict is created EMPTY, carrying only the flag this function actually observed, rather than filled with zeroed defaults. A hand-filed entry is HAND-SCORED, not unscorable — it carries a `score` its filer typed and a `_score_basis` in prose; what it does not carry is the DERIVED scorer's audit trail, and fabricating one would make it look computed. ✅ `priority.py` now exits 0 and ranks all 126 entries. ⭐ AND IT IS WIRED: `research/autonomy/tests/test_priority_ranks_the_hand_filed_entries_too.py` runs the ranker against the REAL committed ledger (a synthetic two-row fixture would have passed on the broken code, because both rows would have been derived), plus the two unit cases and a precondition test that fails if every entry ever starts carrying `score_inputs` — otherwise this suite would go green for the wrong reason, which is how `in_progress` was dropped from the continuity suite's OPEN_STATES with all twelve tests passing.",
+      "score": 95.0,
+      "_score_basis": "the ranker decides what the loop works on next; it has been exiting 1 on every invocation",
+      "depends_on_evidence": "priority.py exits 0 over 126 entries; 4 tests in research/autonomy/tests/test_priority_ranks_the_hand_filed_entries_too.py",
+      "closes_clause": null
     }
   ]
 }

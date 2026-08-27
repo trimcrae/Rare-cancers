@@ -491,6 +491,31 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
 done
 [ -n "$gen_fail" ] && echo "   ⛔ a stale generated file ships a claim its own artifacts no longer support:$gen_fail"
 
+# ⛔ THE CYCLE RECEIPT'S FAN-OUT FIELD, CHECKED AT THE MOMENT IT IS WRITTEN (AUT-PD-013, 2026-08-27).
+# `health.py`'s `fanout_is_governed` guards `subagent_width` -- the dial the architecture records as
+# having failed catastrophically (a 107-agent fan-out: 40 completed, 67 errored, the synthesis lost).
+# It reads `subagents.max_concurrent`. Measured over all 22 receipts, the writers used THREE different
+# schemas in seventeen of them -- `max_concurrent`, then `concurrent_max`, then `launched` -- so the
+# row printed a FALSE ABSENCE for cycles whose fan-out was recorded plainly under another name.
+# ⭐ THE PREVENTION HALF HAS TO BE HERE AND NOWHERE ELSE. There is no receipt writer: step 10 of
+# `research-loop` says "write the receipt" and every cycle hand-authors the JSON, so the only moment
+# anything can check the writer is the commit that lands it. A convention this loop had already got
+# right twice, in prose, was lost twice anyway; a gate is what a name shared by two files needs.
+# ⚠ IT COSTS NOTHING TO RUN (pure stdlib, one glob over ~22 small files) and it is scoped by a cycle
+# NUMBER, not a hand-kept exemption list: receipts before CYC-0023 predate the schema and are
+# immutable committed history, so failing them would latch this gate red forever -- the exact defect
+# that wedged the autonomy loop the same morning. Their drift is REPORTED, never hidden.
+echo "== cycle receipts record the fan-out width the cap is checked against =="
+if receipt_out="$(python3 research/autonomy/receipt_schema.py --check 2>&1)"; then
+  echo "$receipt_out" | sed 's/^/   /'
+  echo "   OK"
+else
+  echo "$receipt_out" | sed 's/^/   /'
+  echo "   FAILED -- a receipt does not record \`subagents.max_concurrent\`, so its fan-out is"
+  echo "            invisible to health.py's governed-width row. Fix the receipt, not the checker."
+  rc=1
+fi
+
 if [ "$RUN_TESTS" = "1" ] || [ "$RUN_MODALITIES" = "1" ]; then
   # ⚠ EACH STAGE IS GATED ON ITS OWN FLAG, AND THIS OUTER TEST IS AN `OR` FOR THAT REASON.
   # ⛔ MEASURED 2026-08-26 — `PREFLIGHT_MODALITIES=1` WAS INERT ON ITS OWN, FOR A FULL DAY.
@@ -805,9 +830,25 @@ fi   # end of the "either large suite was asked for" block
 # tests.yml ever executed that directory. There is no pytest.ini or testpaths either, so nothing
 # collected it by accident. Nineteen assertions about the gate that decides what this script runs,
 # asserted by nobody. It is a fast, offline, pure-logic suite; it runs every time now.
-echo "== pytest (scripts: the test selector's own contract) =="
+#
+# ⛔⛔ AND IT HAPPENED AGAIN, IN THE SAME WEEK, TO THE LOOP'S OWN INSTRUMENTS (2026-08-27, found
+# while wiring the receipt gate above). `research/autonomy/tests` is run by NEITHER this script nor
+# tests.yml -- CI's pytest step names `research/modalities/tests research/manuscripts/tests
+# systems/tests scripts/tests` and stops there -- so 53 assertions were unrun by anything:
+#   test_continuity_has_no_green_state_recording_can_buy.py  the third fix for "ended the turn with
+#     ready work and nothing running", whose whole design is that recording work must never buy a pass
+#   test_session_reaper_refuses_to_lose_work.py              pinned after the reaper's first run
+#     against real data called three DELIVERED cycles "died holding uncommitted work"
+#   test_receipt_schema.py                                   AUT-PD-013's own regression
+# ⭐ ALL THREE WERE WRITTEN THE SAME DAY AS GUARDS AGAINST DEFECTS THAT HAD ALREADY HAPPENED, and
+# every one of them was a guard nothing ran -- the identical shape as the selector's suite above and
+# as `subagent_width` itself, which CLAUDE.md §1 records as governed by nothing for a fortnight.
+# They are folded into THIS invocation rather than given a step of their own, deliberately: the
+# comment below is about a fix bound to one call site regressing at its sibling, and a second copy of
+# this twenty-line decision block is exactly that sibling. 53 tests, 0.09 s.
+echo "== pytest (pure-logic suites nothing else runs: the selector's contract + the loop's instruments) =="
 sout=$(mktemp)
-$PYTEST $PYTEST_PAR scripts/tests -q --continue-on-collection-errors >"$sout" 2>&1 || true
+$PYTEST $PYTEST_PAR scripts/tests research/autonomy/tests -q --continue-on-collection-errors >"$sout" 2>&1 || true
 tail -1 "$sout"
 # ⛔ SAME TWO-SIGNAL DECISION AS THE MANUSCRIPTS BLOCK ABOVE, AND IT IS HERE FOR THE REASON THAT
 # BLOCK'S COMMENT GIVES: a fix bound to one call site regresses at its sibling (`paper-hardening`
@@ -871,7 +912,8 @@ else
   # the tier, so 55 tests DO run in the default loop. A verdict line that names what it measured is
   # worth having only if it is re-derived when the gates move; this one is now written from what
   # actually ran rather than from what the tier was designed to run.
-  echo; echo "PREFLIGHT OK (fast gates + the selector's own contract; NEITHER large suite ran here."
+  echo; echo "PREFLIGHT OK (fast gates + the selector's contract + the loop's instruments;"
+  echo "             NEITHER large suite ran here."
   echo "             CI runs both on push. PREFLIGHT_TESTS=1 for the manuscripts suite,"
   echo "             PREFLIGHT_MODALITIES=1 for the modalities suite,"
   echo "             PREFLIGHT_FULL=1 before publishing.)"

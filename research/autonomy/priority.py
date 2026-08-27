@@ -420,7 +420,21 @@ def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
         if str(entry.get("blocked_evidence") or "").strip():
             if entry.get("score") is not None:
                 entry["score"] = round(entry["score"] + penalty, 2)
-                entry["score_inputs"]["blocked_with_evidence"] = True
+                # ⛔ `setdefault`, BECAUSE A HAND-FILED ENTRY HAS NO SCORE INPUTS AND NEVER DID.
+                # `score_inputs` is the DERIVED scorer's audit trail: `build_entries` writes it for
+                # the rows it computes from systems/graph, and `merge()` deliberately carries
+                # hand-filed rows through untouched (its docstring: "the ledger's own `_role` says a
+                # session may add one the graph cannot express"). This line then indexed it on every
+                # merged row and `priority.py` DIED — `KeyError: 'score_inputs'` — on the committed
+                # ledger, where 47 of 124 entries are hand-filed. ⚠ Measured 2026-08-27 on a clean
+                # tree at origin/main, so it was not a working-tree artifact; nothing caught it
+                # because no gate ran the ranker (AUT-PD-018, the same day, the same shape).
+                # ⭐ AND THE DICT IS CREATED EMPTY RATHER THAN FILLED WITH DEFAULTS. Giving a
+                # hand-scored row a full set of zeroed inputs would make it look computed — a
+                # populated field that is not a measured one (CLAUDE.md §4) — and the arithmetic
+                # printed beside it would be arithmetic nobody did. What goes in is only the flag
+                # this function actually observed.
+                entry.setdefault("score_inputs", {})["blocked_with_evidence"] = True
 
     bonus = weights["prerequisite_bonus"]["value"]
     for entry in entries:
@@ -430,7 +444,11 @@ def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
             continue
         # Inherit the parent's PRE-penalty value: the prerequisite is worth what the parent is worth
         # once unblocked, which is the whole reason to do it.
-        base = parent["score"] - (penalty if parent["score_inputs"].get("blocked_with_evidence") else 0)
+        # ⚠ THE SIBLING OF THE LINE ABOVE, AND IT WOULD HAVE BEEN THE NEXT CRASH: a hand-filed
+        # prerequisite naming a hand-filed parent reaches here with no `score_inputs` on either.
+        # `paper-hardening` §8b.2 measured six of eleven list-scoped fixes missing exactly this.
+        parent_inputs = parent.get("score_inputs") or {}
+        base = parent["score"] - (penalty if parent_inputs.get("blocked_with_evidence") else 0)
         entry["score"] = round(base + bonus, 2)
         entry["_score_basis"] = f"inherited from {parent_id} (+{bonus}) — it is the work that unblocks it"
     return entries

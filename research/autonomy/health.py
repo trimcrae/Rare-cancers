@@ -60,6 +60,15 @@ import sys
 ET = datetime.timezone(datetime.timedelta(hours=-4))  # EDT. CLAUDE.md §1: US Eastern, 12-hour, always.
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+
+# ⛔ THE FAN-OUT KEY IS IMPORTED, NEVER SPELLED, AND THAT IS THE WHOLE OF AUT-PD-013's FIX. This file
+# read `subagents.max_concurrent`; the receipts wrote `concurrent_max`, then `max_concurrent` again,
+# then `launched` — three schemas in seventeen receipts — so the row guarding the width dial reported
+# a FALSE ABSENCE for cycles whose fan-out was recorded plainly, under another name. A name agreed in
+# prose between a writer and a reader is not agreed at all. `receipt_schema` owns it for both sides,
+# and `scripts/preflight.sh` checks the writer against it at the commit.
+sys.path.insert(0, HERE)
+import receipt_schema  # noqa: E402
 DEFAULT_LEDGER = os.path.join(HERE, "research-ledger.json")
 DEFAULT_STATE = os.path.join(HERE, "autonomy-state.json")
 DEFAULT_RECEIPTS = os.path.join(HERE, "receipts")
@@ -694,7 +703,8 @@ def c_fanout_is_governed(receipts, state, state_err):
     receipts = list(receipts or [])[-RECEIPT_WINDOW:]
     key = "fanout_is_governed"
     label = "did any cycle fan out wider than the governed cap?"
-    source = "receipts' `subagents.max_concurrent`, against autonomy-state.json `subagent_width`"
+    source = (f"receipts' `subagents.{receipt_schema.WIDTH_KEY}` (name owned by "
+              "research/autonomy/receipt_schema.py), against autonomy-state.json `subagent_width`")
     if not isinstance(state, dict):
         return _unmeasured(key, label, source, "STATE-UNREADABLE",
                            f"{state_err or 'autonomy-state.json is unreadable'}, so the cap is "
@@ -705,18 +715,25 @@ def c_fanout_is_governed(receipts, state, state_err):
                            f"`subagent_width`={cap!r} is not a positive integer, so there is nothing "
                            "to check against.")
 
-    measured, unrecorded = [], []
+    measured, unrecorded, drifted = [], [], {}
     for r in receipts or []:
         cid = r.get("cycle_id") or "?"
-        block = r.get("subagents")
-        width = block.get("max_concurrent") if isinstance(block, dict) else None
-        if not isinstance(width, int) or width < 0:
+        width = receipt_schema.width_of(r)
+        if width is None:
             unrecorded.append(cid)
+            # ⭐ NAME THE CAUSE, DO NOT JUST COUNT THE ABSENCE (CLAUDE.md §4). "records no dispatch"
+            # was the sentence this row printed about receipts that recorded one under a drifted
+            # key — an instrument reporting a false absence, wearing the costume of the restraint it
+            # could not see. The drifted spelling IS the discriminating observation, so it is here.
+            found = receipt_schema.drift_in(r)
+            if found:
+                drifted[cid] = found
         else:
             measured.append((cid, width))
 
     payload = {"cap": cap, "measured": dict(measured) or None,
                "receipts_not_recording_dispatch": unrecorded or None,
+               "recorded_under_a_drifted_key": drifted or None,
                "worst": max((w for _, w in measured), default=None)}
     over = [(c, w) for c, w in measured if w > cap]
     if over:
@@ -727,10 +744,19 @@ def c_fanout_is_governed(receipts, state, state_err):
                     "agents and its synthesis to the weekly limit. Lower it, or move `backoff_level` "
                     "— never widen the cap to fit what was already spent.", payload)
     if not measured:
+        drift_note = ""
+        if drifted:
+            drift_note = (" ⚠ " + ", ".join(f"{c} records {'/'.join(sorted(v))}"
+                                            for c, v in list(drifted.items())[:3]) +
+                          f" — a fan-out WAS recorded there, under a key this row does not read. "
+                          f"`receipt_schema.DRIFTED_KEYS` says which are renames and which are a "
+                          f"different quantity; `launched` is the serial total and is NOT the cap's "
+                          f"unit.")
         return _unmeasured(key, label, source, "DISPATCH-NOT-RECORDED",
-                           f"{len(unrecorded)} receipt(s) record no `subagents` block "
+                           f"{len(unrecorded)} receipt(s) record no readable "
+                           f"`subagents.{receipt_schema.WIDTH_KEY}` "
                            f"({', '.join(unrecorded[:5])}), so what was dispatched is unknown. An "
-                           "absent record is not a record of restraint.", payload)
+                           "absent record is not a record of restraint." + drift_note, payload)
     return _green(key, label, source, "WITHIN-CAP",
                   f"{len(measured)} cycle(s) recorded a fan-out; the widest was "
                   f"{payload['worst']} against a cap of {cap}.", payload)
