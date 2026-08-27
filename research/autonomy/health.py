@@ -82,6 +82,78 @@ CONDITION_ORDER = (
     "authority_respected",
 )
 
+#: ⛔⛔ WHAT A RED MEANS FOR THE LOOP — THE CONTRACT THAT WAS IMPLIED, NEVER STATED, AND BROKEN THE
+#: HOUR IT WAS FIRST TESTED (2026-08-27). `research-loop` §1 says a cycle REFUSES TO START while any
+#: §5.2 condition is red. Every condition written before that day happened to be one a cycle could
+#: ACT on, so the rule worked by luck rather than by design. Then two conditions were added whose
+#: subject is IMMUTABLE COMMITTED HISTORY — `cycles_are_sized` and `fanout_is_governed` both read
+#: every receipt ever written — and no future cycle in any session could ever clear them.
+#: MEASURED: the driver Routine fired, read a red board, refused to start, and pushed
+#: "health check permanently red, needs your call". The loop was dead, permanently, and the author of
+#: both conditions had looked at that red row a dozen times and called it working as intended.
+#:
+#: ⭐ SO THE CLASSIFICATION IS NOW EXPLICIT AND EVERY CONDITION MUST CARRY ONE:
+#:   "blocks"    a cycle MUST NOT start. Continuing could compound real harm.
+#:   "redirects" the cycle still runs — fixing this IS its work for this cycle.
+#:   "advises"   report, escalate if it persists, but NEVER stop the loop. Anything a cycle cannot
+#:               act on belongs here, and that includes every retrospective observation about what
+#:               already happened.
+#: ⛔ `--check` exits non-zero ONLY for a red `blocks` row. A red that stops a loop it cannot teach
+#: to recover is not a safety feature; it is an outage with a virtuous name.
+#: ⛔ HOW FAR BACK A RETROSPECTIVE CONDITION LOOKS, AND WHY IT MUST NOT BE "ALL OF HISTORY".
+#: `cycles_are_sized` and `fanout_is_governed` judge receipts, and a receipt is immutable committed
+#: history — so reading every receipt ever written makes the row LATCH: once true, true forever, with
+#: no action in any future session able to clear it. Proven 2026-08-27 by simulation before the fix:
+#: fifty consecutive well-behaved sessions left both rows red.
+#: ⚠ A LATCHED ROW IS NOT MERELY USELESS, IT IS CORROSIVE — it is the muted alarm this repository has
+#: already paid for once (every push channel stripped from lane-staleness-watch.yml after 1,476
+#: commits in 24 h). A row that can never go green teaches every reader to skip it, and it takes the
+#: rows that CAN go green down with it.
+#: ⭐ So both look only at the most recent RECEIPT_WINDOW receipts. Good behaviour clears them; the
+#: permanent record of what happened stays where it belongs, in the receipts themselves.
+#: The window is > `max_cycles_per_session` on purpose: smaller and an overrun would scroll out of
+#: view before anyone saw it.
+RECEIPT_WINDOW = 6
+
+#: ⛔ HOW EACH RECEIPT-READING CONDITION AVOIDS LATCHING — DECLARED, NOT INFERRED.
+#: A first attempt at guarding this SCRAPED THIS FILE'S SOURCE for slicing patterns and got two of
+#: four wrong: it accused `advancing_live_work` (which reads `receipts[-NO_ADVANCE_RUN:]`, a tail run)
+#: and `authority_respected` (whose red is cleared by a human adding the grant) of being latched, and
+#: nearly "fixed" two things that were never broken. A property a reader must infer from code shape is
+#: a property nobody has actually stated. So each condition says how it recovers, here, once.
+#:   "windowed"           reads only the last RECEIPT_WINDOW receipts
+#:   "newest-run"         reads only a tail run, which the next receipt displaces
+#:   "cleared-by:<path>"  a red is cleared by an edit to that file — the recovery path for the one
+#:                        condition that BLOCKS, and it is deliberately a HUMAN's edit (§6.3: the loop
+#:                        may never self-issue a grant)
+RECEIPT_SCOPE = {
+    "cycle_delivering": "newest-run",
+    "advancing_live_work": "newest-run",
+    "cycles_are_sized": "windowed",
+    "fanout_is_governed": "windowed",
+    "authority_respected": "cleared-by:research/autonomy/publication-authority.json",
+}
+
+CONDITION_ON_RED = {
+    # A cycle that runs and writes a receipt IS the cure — blocking would be a death spiral.
+    "cycle_delivering": "advises",
+    "advancing_live_work": "advises",
+    "evidence_moving": "advises",
+    # A cycle can add the missing observation, release the stale claim, fix the trunk.
+    "blocks_are_real": "redirects",
+    "queue_is_takeable": "redirects",
+    "gates_green": "redirects",
+    # ⛔ RETROSPECTIVE. Their subject is receipts already committed; no cycle can undo one. These are
+    # the two that killed the loop, and "advises" is the whole of that fix's first half.
+    "cycles_are_sized": "advises",
+    "fanout_is_governed": "advises",
+    # The governor moves this on its own schedule; a cycle taking free items is the documented answer.
+    "budget_recovering": "advises",
+    # ⛔ THE ONE GENUINE STOP. An outward act with no grant behind it is the permission this loop may
+    # never self-issue (§6.3), and another cycle could compound it. This is what "blocks" is for.
+    "authority_respected": "blocks",
+}
+
 #: §5.2 thresholds. Each is the doc's number, in one place, named after the row it governs.
 CYCLE_MISS_PERIODS = 2.0        # "no receipt within 2 expected cycle periods"
 EVIDENCE_FROZEN_PERIODS = 2.0   # "running with last_evidence_utc unchanged over 2 cycles"
@@ -517,6 +589,9 @@ def c_cycles_are_sized(receipts, state, state_err):
     fresh session — otherwise the absence of a field would read as evidence of good behaviour, which
     is CLAUDE.md §4's rule exactly.
     """
+    # ⛔ WINDOWED, NEVER ALL OF HISTORY — see RECEIPT_WINDOW. Reading every receipt made this
+    # row latch permanently and wedged the loop on 2026-08-27.
+    receipts = list(receipts or [])[-RECEIPT_WINDOW:]
     key = "cycles_are_sized"
     label = "is each cycle getting a fresh context, or is one session doing all of them?"
     source = ("research/autonomy/receipts/*.json `session_id`, against "
@@ -597,6 +672,9 @@ def c_fanout_is_governed(receipts, state, state_err):
     clean board is to stop recording dispatches, and a gate whose easiest defeat is omitting data is
     a gate that measures compliance with itself (CLAUDE.md §4).
     """
+    # ⛔ WINDOWED, NEVER ALL OF HISTORY — see RECEIPT_WINDOW. Reading every receipt made this
+    # row latch permanently and wedged the loop on 2026-08-27.
+    receipts = list(receipts or [])[-RECEIPT_WINDOW:]
     key = "fanout_is_governed"
     label = "did any cycle fan out wider than the governed cap?"
     source = "receipts' `subagents.max_concurrent`, against autonomy-state.json `subagent_width`"
@@ -899,6 +977,13 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
     if previous is None:
         previous, _ = _read_json(health_path)
     conditions = merge(previous, conditions, now)
+    # ⚠ Stamped from ONE table rather than passed through ten constructors: a classification threaded
+    # through every call site is a list somebody must remember to extend, and this file has already
+    # paid for that shape twice today.
+    for c in conditions:
+        c["on_red"] = CONDITION_ON_RED.get(c["key"], "blocks")
+    blocking = [c["key"] for c in conditions if c["needs_attention"]
+                and c.get("on_red") == "blocks"]
 
     period = interval_h if interval_h is not None else FALLBACK_CYCLE_INTERVAL_H
     stale_after = now + datetime.timedelta(hours=STALE_AFTER_CYCLES * period)
@@ -935,6 +1020,14 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
         "fully_measured": not unmeasured_keys,
         "n_conditions": len(conditions),
         "needs_attention": attention,
+        # ⛔ THE ROWS THAT ACTUALLY STOP A CYCLE — a strict subset of `needs_attention`, and the only
+        # thing `--check` gates on. See CONDITION_ON_RED for why the two are not the same thing.
+        "blocking": blocking,
+        "_blocking_means": (
+            "research-loop §1's stop condition. A red row that is NOT here is reported and escalated "
+            "but must never stop the loop, because a cycle cannot act on it. On 2026-08-27 the "
+            "distinction did not exist, every red stopped the loop, and two retrospective conditions "
+            "about immutable committed history wedged it permanently."),
         "unmeasured": unmeasured_keys,
         "_unmeasured_means": (
             "⛔ A VERDICT THAT COULD NOT BE REACHED — NOT a condition that is fine. It is listed apart "
@@ -1005,6 +1098,9 @@ def main(argv=None) -> int:
                     help="exit 0 if this board says something the committed one did not, 10 if not. "
                          "For autonomy-tick.yml's no-work-no-commit step — 10 rather than 1 because "
                          "'nothing to say' is the rule working, not a failure")
+    ap.add_argument("--check-any", action="store_true",
+                    help="exit 1 if ANY condition is red, blocking or not (the pre-2026-08-27 "
+                         "behaviour; not what a cycle's stop condition should use)")
     ap.add_argument("--check", action="store_true",
                     help="exit 1 if any condition needs attention (unmeasured does NOT exit 1 — it is "
                          "not a failing loop, it is an unreadable one, and the fix is different)")
@@ -1034,6 +1130,14 @@ def main(argv=None) -> int:
         # ⚠ The ONLY non-zero path in this module. Everything else exits 0 on purpose: a red run is a
         # push channel (GitHub mails the repo owner), and reintroducing that is what alarm_state.py's
         # whole design removed. A caller that wants the gate asks for it.
+        # ⛔ ONLY A RED `blocks` ROW STOPS A CYCLE — see CONDITION_ON_RED. Before 2026-08-27 this
+        # returned 1 for ANY red, which let two retrospective conditions about immutable history
+        # wedge the loop permanently. `--check-any` keeps the old behaviour for a caller that
+        # genuinely wants "is anything red at all".
+        return 1 if board.get("blocking") else 0
+    if a.check_any:
+        # ⚠ Handled INDEPENDENTLY of `--check`, not nested inside it. Nested, the flag did nothing
+        # unless both were passed — a flag that reports while measuring nothing, caught on first run.
         return 1 if board["needs_attention"] else 0
     return 0
 

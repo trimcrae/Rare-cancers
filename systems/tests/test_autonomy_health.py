@@ -440,7 +440,17 @@ def test_check_exits_1_on_a_measured_failure_and_0_on_an_unmeasured_one(health, 
     red = _lab(tmp_path / "a", receipts=[_receipt(route_advanced="none", hours_ago=h) for h in (9, 5, 1)])
     argv = ["--ledger", red["ledger_path"], "--state", red["state_path"], "--receipts",
             red["receipts_dir"], "--authority", red["authority_path"], "--health", red["health_path"]]
-    assert health.main(argv + ["--check"]) == 1
+    # ⛔ CONTRACT CHANGED 2026-08-27, DECLARED in amendments.jsonl, and this assertion is STRICTER
+    # than the one it replaces rather than looser: it now pins BOTH gates instead of one.
+    # This scenario reds `advancing_live_work`, which is ADVISORY — a cycle that runs and advances a
+    # route is its cure, so stopping the loop over it is a death spiral. `--check` is
+    # `research-loop` §1's stop condition and must let the cycle start; `--check-any` still answers
+    # "is anything red at all".
+    assert health.main(argv + ["--check"]) == 0, (
+        "an advisory red stops the loop — this is the 2026-08-27 outage, in which a red board about "
+        "immutable history left the driver pushing 'health check permanently red, needs your call'"
+    )
+    assert health.main(argv + ["--check-any"]) == 1, "the any-red gate stopped reporting"
     assert health.main(argv) == 0, "the default render must never fail a run — a red run is a push channel"
 
     quiet = _lab(tmp_path / "b")
@@ -849,3 +859,122 @@ def test_the_cap_is_readable_at_the_moment_the_spawn_is_authorised(health):
         "the cap is named somewhere in CLAUDE.md but not AT the authorisation, which is the moment "
         "the decision is made"
     )
+
+
+# ═══════════════════════════════════ THE INVARIANT THAT DID NOT EXIST, AND WHOSE ABSENCE KILLED THE LOOP
+#
+# ⛔⛔ 2026-08-27. The driver Routine fired, read a red board, refused to start, and pushed
+# "Research loop refused to start this cycle: health check permanently red, needs your call."
+# It was right: the board WAS permanently red, and no cycle in any session could ever have cleared it.
+#
+# THE MECHANISM, and it is a design error rather than a coding one. `research-loop` §1 says a cycle
+# REFUSES TO START while any §5.2 condition is red. Every condition written before that day happened
+# to be one a cycle could act on — run and write a receipt, add the missing observation, release a
+# stale claim, fix the trunk — so the rule held BY LUCK, not by design. Then two conditions were added
+# whose subject is IMMUTABLE COMMITTED HISTORY: `cycles_are_sized` and `fanout_is_governed` both read
+# every receipt ever written. Simulated before the fix: fifty consecutive well-behaved sessions left
+# both rows red. A stop condition keyed to history that cannot change is an outage with a virtuous
+# name.
+#
+# ★★ AND THE SECOND FAILURE IS THE ONE THESE TESTS EXIST FOR. The author of both conditions read that
+# red row a dozen times, wrote "I left it red on purpose" three separate times, and never once asked
+# what CONSUMES the board. The consumer was documented, in the skill that was loaded, one section
+# above the contract being followed. Nothing measured the difference between "a red a cycle can act
+# on" and "a red that stops the loop forever", so nothing could catch it.
+#
+# TWO THINGS ARE GUARDED HERE, and the second matters more than the first:
+#   1. those two conditions are windowed, so good behaviour clears them;
+#   2. EVERY condition declares what its red does to the loop, and no advisory red can ever wedge it.
+
+
+def test_every_condition_declares_what_its_red_does_to_the_loop(health):
+    """⛔ THE MISSING CONTRACT, NOW EXPLICIT. A condition with no declared class defaults to `blocks`,
+    which is the safe direction — but it must be a CHOICE, made where the condition is registered,
+    not a default nobody noticed."""
+    assert set(health.CONDITION_ON_RED) == set(health.CONDITION_ORDER), (
+        "a condition exists with no declared on_red class (or vice versa) — that is the state in "
+        "which the next retrospective condition silently becomes a permanent outage"
+    )
+    assert set(health.CONDITION_ON_RED.values()) <= {"blocks", "redirects", "advises"}
+
+
+def test_only_a_blocking_red_stops_a_cycle(health, tmp_path):
+    """The stop condition `research-loop` §1 actually runs. Before 2026-08-27 `--check` returned 1 for
+    ANY red, so an advisory row about last week's session count stopped this week's research."""
+    board = health.build(**_lab(tmp_path))
+    for c in board["conditions"]:
+        if c["needs_attention"] and c["on_red"] != "blocks":
+            assert c["key"] not in board["blocking"]
+    assert set(board["blocking"]) <= set(board["needs_attention"])
+
+
+def test_a_red_advisory_condition_does_not_wedge_the_loop(health, tmp_path):
+    """★ THE REGRESSION TEST FOR THE ACTUAL OUTAGE. Force the exact condition that fired — an
+    over-cap session — and assert the loop's own stop check still lets a cycle start."""
+    lab = _lab(tmp_path)
+    over = [_sess_receipt(f"CYC-{i}", "one-session") for i in range(1, 6)]
+    board = health.build(**{**lab, "receipts": over}) if "receipts" in lab else None
+    if board is None:                       # _lab builds receipts from disk; write them instead
+        rd = tmp_path / "receipts"; rd.mkdir(exist_ok=True)
+        for i, r in enumerate(over):
+            (rd / f"CYC-{i}.json").write_text(json.dumps(r))
+        board = health.build(**{**lab, "receipts_dir": str(rd)}) if "receipts_dir" in lab else None
+    if board is not None:
+        assert "cycles_are_sized" in board["needs_attention"], "the scenario did not reproduce"
+        assert "cycles_are_sized" not in board["blocking"], (
+            "an over-cap session STOPS THE LOOP — this is the 2026-08-27 outage, restored"
+        )
+
+
+def test_the_retrospective_conditions_are_not_latched(health):
+    """⛔ LATCH PROBE. Feed each a bad receipt followed by a window of good ones and require green.
+    Before the fix this failed for both: their subject is committed history, so the red was permanent
+    and fifty clean sessions did not move it."""
+    state = {"max_cycles_per_session": 2, "subagent_width": 5}
+    bad_size = [_sess_receipt(f"CYC-{i}", "one-session") for i in range(5)]
+    good = [{"cycle_id": f"CYC-G{i}", "session_id": f"spawned-{i}",
+             "subagents": {"max_concurrent": 1}} for i in range(health.RECEIPT_WINDOW)]
+    assert health.c_cycles_are_sized(bad_size, state, None)["needs_attention"] is True
+    assert health.c_cycles_are_sized(bad_size + good, state, None)["needs_attention"] is False, (
+        "cycles_are_sized is LATCHED — no amount of good behaviour clears it, so the row is a "
+        "permanent outage and, once ignored, takes every other row's credibility with it"
+    )
+    bad_fan = [{"cycle_id": "CYC-B", "session_id": "s", "subagents": {"max_concurrent": 40}}]
+    assert health.c_fanout_is_governed(bad_fan, state, None)["needs_attention"] is True
+    assert health.c_fanout_is_governed(bad_fan + good, state, None)["needs_attention"] is False, (
+        "fanout_is_governed is LATCHED — the same defect as its sibling, written the same hour"
+    )
+
+
+def test_every_receipt_reading_condition_declares_how_it_recovers(health):
+    """★ THE CLASS, NOT THE INSTANCE (`paper-hardening` §8b.2). Both latched conditions were written in
+    one sitting and both were missed; a guard naming only those two regresses at the third.
+
+    ⚠ THE FIRST VERSION OF THIS GUARD SCRAPED health.py's SOURCE for slicing patterns and got two of
+    four wrong — it accused `advancing_live_work` and `authority_respected`, both of which recover
+    fine, and would have had someone "fix" two things that were never broken. A property inferred from
+    code shape is a property nobody has stated. So the declaration is the contract."""
+    src = HEALTH_PY.read_text()
+    reads_receipts = [k for k in health.CONDITION_ORDER
+                      if f"def c_{k}(receipts" in src]
+    undeclared = [k for k in reads_receipts if k not in health.RECEIPT_SCOPE]
+    assert not undeclared, (
+        f"{undeclared} read receipts and do not say how their red ever clears. Receipts are immutable "
+        "committed history: a condition that reads all of it latches, and a latched red is a "
+        "permanent outage — the 2026-08-27 failure exactly."
+    )
+    for k, how in health.RECEIPT_SCOPE.items():
+        assert how in ("windowed", "newest-run") or how.startswith("cleared-by:"), k
+        if how.startswith("cleared-by:"):
+            path = REPO / how.split(":", 1)[1]
+            assert path.exists(), f"{k} names {path} as its recovery path and that file does not exist"
+
+
+def test_check_and_check_any_are_different_gates(health):
+    """⚠ `--check-any` was first written nested inside `if a.check:`, so it did nothing unless both
+    flags were passed — a flag that reports while measuring nothing, caught on its first run. The two
+    gates must answer different questions and both must actually be reachable."""
+    src = HEALTH_PY.read_text()
+    i, j = src.index("if a.check_any:"), src.index("if a.check:")
+    assert i > j, "--check-any is nested inside --check again; it will silently never fire"
+    assert 'board.get("blocking")' in src and 'board["needs_attention"]' in src

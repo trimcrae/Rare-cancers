@@ -34,7 +34,8 @@ Check before anything else. A loop that works through its own alarm is the alarm
 
 | condition | how to see it | what to do |
 |---|---|---|
-| A §5.2 health condition is red past its deadline | `python3 research/autonomy/health.py --check` | Write a receipt saying so, escalate per §5, stop. |
+| A **BLOCKING** §5.2 health condition is red | `python3 research/autonomy/health.py --check` (exit 1 = stop) | Write a receipt saying so, escalate per §5, stop. |
+| ⛔ **A red that is NOT blocking — DO NOT STOP** | the board's `on_red`: `advises` or `redirects` | **Run the cycle.** `redirects` means fixing that row IS this cycle's work; `advises` means report it and carry on. ⚠ *Added 2026-08-27 after this row's absence killed the loop: every red used to stop a cycle, two conditions were then added whose subject is IMMUTABLE COMMITTED HISTORY (`cycles_are_sized`, `fanout_is_governed`), and no cycle in any session could clear them. The driver fired, refused, and pushed "health check permanently red, needs your call." A stop condition keyed to history that cannot change is an outage with a virtuous name.* |
 | `backoff_level` is at maximum | `research/autonomy/autonomy-state.json` | Take one FREE item only, or stop. §4. |
 | Preflight is red on `main` and not by your hand | `repo-gates` | Fixing that IS the cycle. Nothing else lands until it is green. |
 | An unresolved escalation to trimcrae older than its deadline | the last receipts | Stop. He is the blocker and another cycle does not help. |

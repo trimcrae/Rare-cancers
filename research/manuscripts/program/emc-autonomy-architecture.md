@@ -319,8 +319,11 @@ These have no gate today because nothing was running unattended. Checked by
 (`_generated_utc`, `_stale_after_utc`, `_stale_after_means`, so a reader can tell the file is dead
 without running anything):
 
-| condition | red when | why it exists |
-|---|---|---|
+⛔ **EVERY ROW DECLARES WHAT ITS RED DOES TO THE LOOP** (`health.py`'s `CONDITION_ON_RED`), and that column did not exist until 2026-08-27, when its absence killed the loop. `research-loop` §1 stopped a cycle on ANY red; every condition written before that day happened to be one a cycle could act on, so the rule held by luck. Two conditions were then added whose subject is **immutable committed history** — `cycles_are_sized` and `fanout_is_governed` read receipts — and nothing in any future session could clear them. The driver fired, read the red board, refused, and pushed *"health check permanently red, needs your call."*
+**`blocks`** a cycle must not start · **`redirects`** the cycle runs and fixing this is its work · **`advises`** report, never stop. `--check` exits non-zero for `blocks` only; `--check-any` keeps the old any-red answer. Retrospective conditions are windowed to `RECEIPT_WINDOW` so good behaviour clears them, and every receipt-reading condition declares its recovery in `RECEIPT_SCOPE`.
+
+| condition | on red | red when | why it exists |
+|---|---|---|---|
 | `cycle_delivering` | no receipt within 2 expected cycle periods | §2.2 — a fired Routine is not a delivered one |
 | `advancing_live_work` | 3 consecutive receipts with `route_advanced: none` | CLAUDE.md §0 — the documentation-drift failure |
 | `evidence_moving` | an entry `running` with `last_evidence_utc` unchanged over 2 cycles | §4's unproven-pipeline rule: progress checks, not liveness pings |

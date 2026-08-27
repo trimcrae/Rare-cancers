@@ -1,0 +1,60 @@
+{
+  "_schema": "emc-autonomy-receipt/1",
+  "cycle_id": "CYC-0010",
+  "started_utc": "2026-08-27T01:00:00Z",
+  "finished_utc": "2026-08-27T01:40:00Z",
+  "session_id": "66dab3ca-b11c-5d0b-a0d9-9babe135276e (interactive, trimcrae present)",
+  "kind": "process",
+  "took": [
+    "the loop refused to start — raised by trimcrae from a push notification"
+  ],
+  "route_advanced": "none",
+  "_route_advanced_why": "Outage repair. CLAUDE.md §0: say so plainly.",
+  "subagents": {
+    "max_concurrent": 0,
+    "total": 0,
+    "cap_at_the_time": 5,
+    "what": [],
+    "_why_none": "One focused defect in one module; a subagent would have cost more context than it saved."
+  },
+  "the_outage": {
+    "what_trimcrae_saw": "Driver Routine push: 'Research loop refused to start this cycle: health check permanently red, needs your call.'",
+    "it_was_correct": "The board WAS permanently red and the driver was right to say so.",
+    "cause": "research-loop §1 stops a cycle while ANY §5.2 condition is red. Every condition written before 2026-08-26 happened to be one a cycle could ACT on — run and write a receipt, add the missing observation, release a stale claim, fix the trunk — so the rule held BY LUCK rather than by design. CYC-0007 and CYC-0008 then added two conditions whose subject is IMMUTABLE COMMITTED HISTORY: cycles_are_sized and fanout_is_governed both read every receipt ever written. Neither can be cleared by any action in any future session.",
+    "proven_not_reasoned": "Simulated before touching anything: appending 50 consecutive well-behaved sessions left both rows red. A stop condition keyed to history that cannot change is an outage with a virtuous name.",
+    "blast_radius": "Every scheduled research cycle from the moment CYC-0007 landed until this fix."
+  },
+  "⛔_the_process_failure_which_is_the_worse_half": {
+    "what_trimcrae_asked": "'whatever process made it so that you couldn't tell this was broken on your own'",
+    "the_honest_answer": "I added a condition to a board without checking what CONSUMES the board. I then read that red row a dozen times across four turns, wrote 'I left it red on purpose' THREE separate times, and presented it as the guard working. The consumer was documented in research-loop §1 — in the skill I had loaded, one section above the cycle contract I was following. I never asked the question.",
+    "why_no_gate_caught_it": "The board had an UNSTATED contract — every red is a state a cycle can act on — that held for ten conditions by accident and was enforced by nothing. Nine tests were written for cycles_are_sized and nine for fanout_is_governed, all mutation-tested, and every one of them asserted the condition FIRED CORRECTLY. Not one asked whether the loop could still run afterwards, or whether the red could ever clear.",
+    "the_generalisable_form": "⭐ A GUARD THAT TESTS ONLY 'DOES IT FIRE' IS HALF A GUARD. The other half is 'CAN IT STOP FIRING' — and for anything that gates a process, 'what does firing DO to the thing it gates'. Both halves are now tests: a behavioural latch probe, and an assertion that the specific outage scenario cannot wedge the loop.",
+    "this_is_the_fourth_of_its_family_in_two_days": "The session-shape rule lived in a skill nothing loaded. The seat-record rule was a practice followed by hand. The width cap was a number nothing read. And now: a stop-condition contract that was never written down, held by luck, and broken by the first two conditions that did not happen to fit it. Every one was CORRECT, WRITTEN DOWN OR ASSUMED, and MEASURED BY NOTHING."
+  },
+  "the_fix": {
+    "1_classify": "CONDITION_ON_RED: every condition declares blocks / redirects / advises. `--check` — research-loop §1's stop condition — exits non-zero ONLY on a blocking red. `--check-any` preserves the old any-red answer. The two retrospective conditions are `advises`: a cycle cannot undo a committed receipt.",
+    "2_unlatch": "RECEIPT_WINDOW = 6. Both retrospective conditions read only the most recent window, so good behaviour clears them. ⚠ Not cosmetic: a row that can never go green is the muted alarm this repository already paid for once (every push channel stripped from lane-staleness-watch.yml after 1,476 commits in 24 h), and it takes the rows that CAN go green down with it.",
+    "3_declare_recovery": "RECEIPT_SCOPE: every receipt-reading condition states how its red clears — windowed, newest-run, or cleared-by a named file. ⚠ The first version of this guard SCRAPED health.py's source for slicing patterns and got two of four WRONG, accusing advancing_live_work and authority_respected, both of which recover fine. It would have had me 'fix' two things that were never broken. A property inferred from code shape is a property nobody stated.",
+    "4_the_one_genuine_stop": "authority_respected stays `blocks` — an outward act with no grant is the permission the loop may never self-issue (§6.3). Verified clearable, and clearable only by a HUMAN editing publication-authority.json, which is the correct recovery path for exactly this row."
+  },
+  "verification": {
+    "the_stop_condition_now_passes": "python3 research/autonomy/health.py --check -> exit 0. The loop can start. --check-any -> exit 1, still reporting the red.",
+    "latch_probe": "bad receipt + RECEIPT_WINDOW good ones -> green, for both conditions. Before the fix, 50 good sessions -> still red.",
+    "mutation": "restoring the any-red gate turns 2 tests red — the outage is guarded, not described.",
+    "board_after": "⛔ STILL RED on cycles_are_sized, naming this session's cycles. That is correct and deliberate: the row reports, and no longer stops. Making it green was never the fix.",
+    "preflight": "PREFLIGHT_TESTS=1 ./scripts/preflight.sh EXIT=0 on the exact tree committed."
+  },
+  "blocked_by": [],
+  "queued_next": [
+    "⭐ THE NEXT CYCLE IS A SPAWNED SESSION — this is the fifth receipt under one session_id.",
+    "Round 5 on PUB-FUSION-PARTNER, seat design starting from the census's 213 uncovered sentences.",
+    "AUT-PROP-006 (seat record on disk before any fix) still owed the three layers.",
+    "Audit the OTHER gates in this repository for the same contract gap: does anything else stop a process on a condition that process cannot clear? preflight, the publish bar and amendment_guard are each worth the same question, and none has been asked it."
+  ],
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none",
+    "claude_budget": "one interactive session, no subagents"
+  },
+  "_renumbered": "Written as CYC-0009 and renumbered on rebase: the DRIVER had already claimed that id, writing its own CYC-0009 receipt when it refused to start. ⭐ That receipt is the loop's own record of this outage, from the other side — session 7aec0937 (scheduled Routine, no live user), `health.py --check` exit_code 1, needs_attention ['cycles_are_sized'] — and it is kept exactly as the driver wrote it. Two receipts, two sessions, one event: the refusal and its repair."
+}
