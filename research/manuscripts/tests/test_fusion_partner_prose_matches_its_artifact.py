@@ -58,6 +58,14 @@ committed, 20 of the 21 SURVIVED — the harness builds a git worktree from HEAD
 measuring the old guard against the new mutations. A harness that reads committed state is a
 harness that can tell you your work is not in it yet.
 
+⭐⭐ ROUND 10, 2026-08-27 — 65 of 65 caught, positive control green, by the same committed
+harness. The four added that round close round 9's REG-P1-1 and STAT-P1-2: §6 falsifier #5's
+TWO INTEGERS (the further zero-death patients required and the total denominator they make),
+the MULTIPLE relation beside them, and §4.7's new bridge from Huang's follow-up count to the
+denominator the pooled table uses. ⛔ THE PERCENTAGES IN THAT SENTENCE WERE ALREADY BOUND AND
+ALREADY MUTATED, which is exactly why the integers went unnoticed for two rounds — the
+one-of-a-pair shape at its smallest scale, inside a single sentence.
+
 ⭐ MEASURED, 2026-08-26 — 36 of 36 mutations caught, 22 of them SINGLE-SITE.
 ⭐⭐ AND RE-MEASURED FOR THE 2026-08-27 BINDINGS, THIS TIME BY A COMMITTED HARNESS:
 `mutate_fusion_partner_guard.py` beside this file, 24 of 24 caught, EVERY ONE SINGLE-SITE,
@@ -154,6 +162,7 @@ is in neither bucket. That census is what stops the exclusion list growing to ma
 from __future__ import annotations
 
 import json
+import math
 import os
 import re
 import unicodedata
@@ -868,6 +877,15 @@ bind("§4.7's statement of how much of the Huang cohort has follow-up",
      lambda a: (str(_by_id(a)["huang-2023-outcome"]["n_with_followup"]),
                 str(_by_id(a)["huang-2023-outcome"]["n_assessable"])))
 
+# ⭐ ROUND 9's STAT-P1-2. §4.7 stated the 58 -> 53 follow-up exclusion and stopped there, so a reader
+# checking the arithmetic from the prose alone met 58 - 5 = 53 against §3.2/§3.3's 50 and saw two
+# "one home" numbers disagreeing. They nest — the further 3 are the miscellaneous group the paper
+# carries as no outcome arm — and §4.7 now says so. The bridging count is bound to the SAME sum
+# `_followed` derives, so the sentence that explains the step cannot drift from the step.
+bind("§4.7's bridge from Huang's follow-up count to the denominator the pooled table actually uses",
+     r"of those 53, the (\d+) that enter the pooled table are the partner-assigned ones",
+     lambda a: _followed(a, "huang-2023-outcome"))
+
 bind("§4.1's four size statements: largest series, pooled outcome n, TAF15 arm range, pooled arm",
      r"synthesis has (\d+) patients, the pooled outcome analysis rests on (\d+), and every TAF15 "
      r"arm carrying an actual outcome is (\d+)–(\d+) patients — the pooled TAF15 outcome arm is (\d+)",
@@ -1337,6 +1355,43 @@ bind("§6 falsifier #5's comparator upper bound, which is what the projection is
      lambda a: _pct(a["analyses"]["B_outcome_by_partner"]["disease_specific_death"]
                     ["comparator_arm"]["ci95_hi_percent"]))
 
+
+# ⭐ ROUND 9's REG-P1-1 / STAT-P1-1, CLOSED HERE. The two bindings above cover the PERCENTAGES in
+# falsifier #5 and nothing covered the INTEGERS standing in the same sentence — the 19 and the 34
+# that are `zero_death_patients_to_reconcile()`'s actual headline output, the figures round 8 built
+# that function so nobody would ever type again. Grepped at the review pin: "19 further",
+# "denominator of 34", `total_taf15_denominator_required` and `further_zero_death_taf15_patients_
+# required` matched NOTHING in this file or in the mutation harness. That is the one-of-a-pair shape
+# this paper's own correction history keeps naming (A19/A20, A24, A31): a bound quantity and an
+# unbound sibling inside one sentence, where a correction to the TAF15 death arm would move the
+# integers, leave the percentages standing, and keep every test green.
+# ⛔ RE-DERIVED HERE, NEVER READ BACK FROM THE GENERATOR. The artifact stores the threshold only
+# inside the rendered `what_could_kill_this[4]` sentence, so reading it from there would compare the
+# prose against a string built by the same code that built the prose. This recomputes the smallest
+# k from the artifact's own counts — the definition, not the output.
+def _reconcile_threshold(a):
+    """(further zero-death TAF15 patients required, total TAF15 denominator required).
+
+    The definition `zero_death_patients_to_reconcile()` implements: the smallest k for which the
+    TAF15 arm's crude rate, its EVENT count held fixed and only its denominator growing, no longer
+    exceeds the comparator arm's Wilson 95 % upper bound. The comparator arm is held fixed, which is
+    the direction §6 now states in the prose — a growing comparator's own upper bound falls and
+    would push k up.
+    """
+    dod = a["analyses"]["B_outcome_by_partner"]["disease_specific_death"]
+    taf, hi = dod["taf15_arm"], dod["comparator_arm"]["ci95_hi_percent"]
+    k = 0
+    while 100.0 * taf["events"] / (taf["denom"] + k) > hi:
+        k += 1
+    return k, taf["denom"] + k
+
+
+bind("§6 falsifier #5's derived reconciliation threshold — the further zero-death TAF15 patients "
+     "required and the total denominator they would make, the two integers the percentage bindings "
+     "above left unwatched",
+     r"(\d+) further TAF15 patients with zero deaths — a total TAF15 denominator of (\d+)",
+     lambda a: tuple(str(x) for x in _reconcile_threshold(a)))
+
 bind("§3.3's restatement of the Agaram TAF15 death count inside the follow-up circularity argument",
      r"partly produced by its own (\d+/\d+) deaths",
      lambda a: "{}/{}".format(
@@ -1724,6 +1779,50 @@ def test_every_site_that_states_the_quantity_states_the_artifacts_value(what, pa
         f"{len(wrong)} of its {len(found)} site(s). The artifact is generated from the counts in "
         "`emc_fusion_partner_pooling.py`; fix the prose, or fix the generator and regenerate — "
         "never paste the prose's value into this test.")
+
+
+#: The multiples §6 falsifier #5 can state, as the prose spells them. ⛔ A RELATION IS NOT A
+#: QUANTITY (paper-hardening §8b): binding 19 and 34 says both integers are right and says nothing
+#: about the clause that tells the reader what 34 MEANS against the evidence already assembled. That
+#: clause carries the falsifier's whole force — "more than twice the pooled experience" is why one
+#: dissenting cohort does not overturn the contrast — and it is a word, so no numeric binding above
+#: can ever reach it.
+_MULTIPLE_WORD = {1: "once", 2: "twice", 3: "three times", 4: "four times", 5: "five times"}
+
+
+def test_the_falsifier_states_the_multiple_of_the_pooled_experience_the_counts_give(flat, art):
+    """★ THE MULTIPLE IS DERIVED FROM THE SAME TWO INTEGERS THE SENTENCE PRINTS.
+
+    The threshold denominator over the pooled TAF15 denominator is 34/15 today, so the largest whole
+    multiple the evidence strictly exceeds is 2 and the prose must read "more than twice". If the
+    TAF15 arm grows — the one thing that would really move this — the multiple falls, and a sentence
+    still claiming "more than twice" would be overstating how far out of reach the falsifier is,
+    which is the direction that flatters this paper.
+
+    ⛔ EXACTLY ONE SITE, AND THE WORD IS COMPARED RATHER THAN SEARCHED FOR. `re.findall` over the
+    construction returns whatever multiple the prose states; asserting the RIGHT word is present
+    would pass a sentence that also stated a wrong one somewhere else, and asserting a wrong word is
+    absent would pass a sentence that stated none.
+    """
+    _, total = _reconcile_threshold(art)
+    pooled = art["analyses"]["B_outcome_by_partner"]["disease_specific_death"]["taf15_arm"]["denom"]
+    ratio = total / pooled
+    n = math.ceil(ratio) - 1
+
+    stated = re.findall(r"more than ([a-z]+(?: times)?) the pooled experience assembled here", flat)
+    assert len(stated) == 1, (
+        f"§6 falsifier #5's multiple-of-the-pooled-experience clause matched {len(stated)} site(s), "
+        "not one. A guard that has stopped matching has stopped guarding — check the MEANING of the "
+        "sentence before touching this pattern.")
+    assert n in _MULTIPLE_WORD, (
+        f"the threshold denominator ({total}) is {ratio:.2f}x the pooled TAF15 denominator "
+        f"({pooled}), and no multiple this file knows how to spell fits. The sentence needs "
+        "rewriting by a reader, not a word swapped by a test.")
+    assert stated[0] == _MULTIPLE_WORD[n], (
+        f"the counts give a threshold of {total} against a pooled TAF15 denominator of {pooled} — "
+        f"{ratio:.2f}x, so the falsifier is more than {_MULTIPLE_WORD[n]} the pooled experience — "
+        f"and the prose says 'more than {stated[0]}'. Fix the sentence or the counts; do not relax "
+        "this comparison.")
 
 
 def test_the_typed_rosters_equal_the_cohort_records_they_count(art):

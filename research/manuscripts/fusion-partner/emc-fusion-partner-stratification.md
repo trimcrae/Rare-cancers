@@ -275,11 +275,12 @@ this repository's citation set, not every report that exists.*
 | **Secondary** (both cohorts, assumes independence) | 0/5 | 10/27 = 37.0 % — per cohort **21.1 %** (pazopanib, 4/19) and **75.0 %** (sunitinib, 6/8), spread **53.9 pts** | **43.4 %** | 0.155 |
 
 **The honest statement is a direction, not a difference.** The direction is consistent across two cohorts, two
-drugs and five years of accrual (July 2011 – January 2017). The magnitude is not established: in **both**
-analyses the TAF15 arm's 95 % upper bound lies **above the comparator arm's own point estimate**, so the data
-cannot exclude a TAF15 response rate equal to the EWSR1 one. Anyone who has written "TAF15 tumours do not
-respond to antiangiogenics" has written a claim the evidence does not carry — and that includes reviews that
-state it flatly.
+drugs and five years of accrual (July 2011 – January 2017: the sunitinib series' own stated treatment
+start, `citations.stacchiotti2014.population`, to the pazopanib trial's enrolment close, §4.11). The
+magnitude is not established: in **both** analyses the TAF15 arm's 95 % upper bound lies **above the
+comparator arm's own point estimate**, so the data cannot exclude a TAF15 response rate equal to the
+EWSR1 one. Anyone who has written "TAF15 tumours do not respond to antiangiogenics" has written a claim
+the evidence does not carry — and that includes reviews that state it flatly.
 
 Two further features of the primary analysis matter and are easy to lose:
 
@@ -611,8 +612,10 @@ cases.
 all.** The outcome figures in §3.3 are during-follow-up proportions pooled over two cohorts: one whose arms
 differ roughly two-fold in mean follow-up (43.3 vs 21.7 months) and one that publishes no per-arm follow-up,
 so the same check cannot be run on it in either direction. Huang 2023 also reports outcome only for the 53 of
-58 patients with follow-up available, and the five without are in neither numerator nor denominator. The
-figures are not survival estimates, they are not adjusted, and they are not comparable to the DFS/DMFS figures
+58 patients with follow-up available, and the five without are in neither numerator nor denominator; of those
+53, the **50** that enter the pooled table are the partner-assigned ones, the other three being two *TCF12*
+cases and one whose partner was not identified (`cohorts[huang-2023-outcome].counts_read_from`). The figures
+are not survival estimates, they are not adjusted, and they are not comparable to the DFS/DMFS figures
 in §3.4, which are a different estimand entirely. The two hazard ratios quoted anywhere in this document
 (HR 30.60 for size, HR 8.14 for metastasis at presentation) are **Huang 2023's own published values, reported
 because they are the defeater** — no hazard ratio, survival curve or individual prognosis is derived anywhere
@@ -752,8 +755,11 @@ rather than acting on it.*
    **30.4 %**, against the comparator arm's Wilson upper bound of **20.8 %**. Reconciling the two would take
    **19 further TAF15 patients with zero deaths — a total TAF15 denominator of 34**, more than twice the
    pooled experience assembled here. The threshold is derived in the generator
-   (`zero_death_patients_to_reconcile()`) from the artifact's own counts, with the comparator arm held fixed,
-   and it is the fifth entry of the artifact's `what_could_kill_this`.
+   (`zero_death_patients_to_reconcile()`) from the artifact's own counts, and it is the fifth entry of the
+   artifact's `what_could_kill_this`. It is measured against the comparator arm's Wilson **upper** bound
+   rather than its point estimate, with that arm held fixed rather than allowed to grow; **both choices make
+   this falsifier easier to trigger**, because a growing comparator's own upper bound would fall and push the
+   threshold further away than the figure printed here.
 6. Any **size-adjusted** partner analysis in which the partner *does* remain independent. That would overturn
    the defeater rather than the effect, and it is the one result that would turn §3.3's crude magnitude into a
    claim about biology instead of a claim about tumour size.

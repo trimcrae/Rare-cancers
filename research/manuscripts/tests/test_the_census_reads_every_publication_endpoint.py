@@ -36,6 +36,7 @@ from __future__ import annotations
 import io
 import json
 import os
+import re
 import sys
 import tempfile
 
@@ -65,6 +66,26 @@ NOT_ENDPOINTS = [
     "research/manuscripts/aso/fusion-junction-aso-submission-plan.md",
     "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",
     "research/manuscripts/README.md",
+    # ⭐ THE ONE THAT WAS DECIDED BY NOBODY UNTIL NOW — the CYC-0020 open question, closed here.
+    # The fusion-partner correction register was excluded from the census by the derivation working
+    # correctly (no record names it), and NOTHING said that was intended. A future session finding a
+    # live prose document of a censused paper missing from `claim_coverage.PAPERS` could "fix" the
+    # oversight by adding it, without ever seeing why it is out. The reasons, each read from the
+    # register's own committed frontmatter rather than asserted here:
+    #   * `kind: register`, not `kind: publication` — it is not an endpoint, and no record that
+    #     scopes the census (the publications graph, `submission-metrics.json`,
+    #     `SUBMISSION-PACKET.md`) names it; measured 2026-08-27, it appears in none of the three;
+    #   * `audience: [maintainers, autonomous research agents]` and `purpose: ... this repository's
+    #     drafting record` — its readers are us, so its sentences are process claims about what this
+    #     repository used to say, which is exactly the class the census must not report on;
+    #   * `scope: ... ⛔ It corrects no PUBLISHED record` — nothing in it has ever appeared under an
+    #     external identifier, so there is no outside reader for the coverage number to protect.
+    # ⛔ ITS FIGURES ARE NOT UNGUARDED, AND THAT IS THE OTHER HALF OF THE DECISION.
+    # `test_fusion_partner_prose_matches_its_artifact.py` reads it as one of `PROSE_DOCUMENTS`, so
+    # every quantity binding applies to it exactly as it applies to the manuscript. Excluding it
+    # from the CLAIM-COVERAGE census removes it from a per-sentence coverage report; it removes it
+    # from no guard.
+    "research/manuscripts/fusion-partner/emc-fusion-partner-correction-register.md",
 ]
 
 
@@ -112,6 +133,51 @@ def test_the_fusion_partner_manuscript_is_censused():
         "endpoint, it was hardened for four blind review rounds with no instrument reading it, and "
         "measuring that was the whole reason the census stopped being a list of three files.")
     assert os.path.exists(claim_coverage.PAPERS[FUSION_PARTNER])
+
+
+FUSION_PARTNER_REGISTER = (
+    "research/manuscripts/fusion-partner/emc-fusion-partner-correction-register.md")
+
+
+def test_the_correction_register_is_excluded_for_the_reason_its_own_frontmatter_gives():
+    """⛔ AN EXCLUSION DEFENDED BY A COMMENT IS AN EXCLUSION NOBODY CAN FALSIFY.
+
+    The row above states three reasons the fusion-partner correction register is not a publication
+    endpoint, every one of them read out of the register's own committed frontmatter. This asserts
+    those reasons are still what the file says, so the decision goes red when its own evidence
+    changes rather than standing on a comment somebody wrote once. ⭐ The register declaring itself
+    `kind: publication` tomorrow is exactly the event that should reopen the question — and without
+    this test it would reopen nothing.
+
+    ⚠ THE PATH IS ALSO ASSERTED ABSENT FROM ALL THREE SCOPING RECORDS. `endpoint_documents()` reads
+    the publications graph, `submission-metrics.json` and `SUBMISSION-PACKET.md`; the exclusion
+    holds today because none of them names this file, which is a fact about those records and not
+    about this list. If one of them starts naming it, the census SHOULD take it and the parametrized
+    test above will go red — this one says why that would be a real change rather than a bug.
+
+    ⭐ MUTATION-MEASURED, 2026-08-27, 3 of 3 caught with the control green: `kind: register` changed
+    to `kind: publication`; the maintainer/agent audience narrowed to a reader audience; and
+    `SUBMISSION-PACKET.md` made to name the register. A guard nobody tried to break is a guard whose
+    coverage is a guess (paper-hardening §6).
+    """
+    text = io.open(os.path.join(REPO, FUSION_PARTNER_REGISTER), encoding="utf-8").read()
+    head = text.split("---", 2)[1] if text.startswith("---") else ""
+    assert re.search(r"^kind:\s*register\s*$", head, re.M), (
+        "the fusion-partner correction register no longer declares `kind: register` in its "
+        "frontmatter. That declaration is the first of the three reasons NOT_ENDPOINTS gives for "
+        "keeping it out of the claim-coverage census — re-read the decision, do not re-anchor this "
+        "regex.")
+    assert re.search(r"^audience:.*maintainers", head, re.M), (
+        "the register no longer declares a maintainer/agent audience. Its exclusion rests partly "
+        "on having no outside reader; if that changed, the exclusion is the thing to revisit.")
+
+    for rel in ("systems/graph/publications.json",
+                "research/manuscripts/submission-metrics.json",
+                "research/manuscripts/SUBMISSION-PACKET.md"):
+        record = io.open(os.path.join(REPO, rel), encoding="utf-8").read()
+        assert "emc-fusion-partner-correction-register" not in record, (
+            f"{rel} now names the correction register, so `endpoint_documents()` will census it "
+            "and the exclusion below is stale. That is a decision to re-take deliberately.")
 
 
 @pytest.mark.parametrize("rel", NOT_ENDPOINTS)
