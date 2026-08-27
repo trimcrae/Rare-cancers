@@ -214,3 +214,52 @@ def test_the_declared_series_is_the_one_the_committed_artifact_holds():
     assert M.SERIES == "GSE299349"
     with open(M.ART) as fh:
         assert json.load(fh)["series"] == M.SERIES
+
+
+def test_check_would_have_caught_the_incident_the_drift_check_missed(tmp_path, monkeypatch, capsys):
+    """AUT-PROP-009: reproduces 2026-08-07 (325258cb8) faithfully, not just a message difference.
+
+    That incident was not "the artifact disagrees with its own cache" -- `derive()` reads `series`
+    FROM the inputs cache (line ~721: `inp.get("series", SERIES)`), so a restore that swaps the
+    INPUTS CACHE and the ARTIFACT together, both landing on GSE28866, makes `fresh == committed`
+    genuinely TRUE: `derive()` faithfully reproduces a self-consistently wrong pair. The
+    derive-reproduces check (main()'s default/--check path) was green for three weeks for exactly
+    that reason. `test_a_foreign_series_is_refused...` covers a DIFFERENT half -- a `--series`
+    argument reaching the CLI -- and says nothing about this one.
+
+    Reproduced here without touching the real committed files: copy the real INPUTS cache, mutate
+    BOTH its `series` field and a same-copy of the artifact's `series` field to GSE28866, so
+    `derive()` on the mutated inputs naturally re-derives series=GSE28866 -- matching the mutated
+    artifact byte-for-byte apart from that one field. This is the shape of a restore that swept in a
+    stale DATA pair but left this module's SOURCE (and hence its `SERIES` constant) untouched.
+    """
+    with open(M.INPUTS) as fh:
+        mutated_inputs = json.load(fh)
+    mutated_inputs["series"] = "GSE28866"
+
+    # ⛔ THE FIXTURE IS SELF-CONSISTENT BY CONSTRUCTION, NOT BY HAND-PATCHING A COPY OF THE REAL
+    # ARTIFACT. `derive()` does not only echo `series` verbatim -- other derived fields depend on it
+    # too -- so committing whatever `derive(mutated_inputs)` ACTUALLY produces (never a hand-edited
+    # guess) is what makes `fresh == committed` genuinely true below, reproducing the incident's real
+    # shape rather than a fixture that merely looks similar.
+    committed_from_mutated_inputs = M.derive(mutated_inputs, M._load_quant())
+
+    fake_inputs = tmp_path / "inputs.json"
+    fake_art = tmp_path / "art.json"
+    fake_inputs.write_text(json.dumps(mutated_inputs))
+    fake_art.write_text(json.dumps(committed_from_mutated_inputs))
+
+    monkeypatch.setattr(M, "INPUTS", str(fake_inputs))
+    monkeypatch.setattr(M, "ART", str(fake_art))
+
+    rc = M.main([])
+    err = capsys.readouterr().err
+    assert rc == 1, (
+        "a self-consistently wrong inputs+artifact pair must still fail --check -- this is exactly "
+        "the case where fresh == committed and the old derive-reproduces check alone stayed green "
+        "for three weeks")
+    assert "SERIES MISMATCH" in err
+    assert "GSE28866" in err and M.SERIES in err
+    assert "DRIFT" not in err, (
+        "must be caught by the series check, not by the (here, coincidentally absent) derive-"
+        "reproduces mismatch -- a reader chasing DRIFT would look at derive() instead of the series field")

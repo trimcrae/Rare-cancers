@@ -733,9 +733,9 @@
         "publication": "PUB-ATR",
         "strategy": "ST-DEPENDENCY"
       },
-      "state": "in_progress",
-      "owner": "CYC-0025",
-      "claimed_utc": "2026-08-27T20:15:00Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -745,7 +745,7 @@
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0016",
       "score": 170.0,
-      "what": "Close the single-slot-artifact hazard in atr_hrd_sarcoma_series.py (mode: gse-series). CYC-0016's hardening round found that section 8 of PUB-ATR's entire evidence base had been silently overwritten with a DIFFERENT series' data (GSE28866 instead of GSE299349) by an unrelated restore commit (4a7030e, 2026-08-26) that swept in a stale snapshot of the whole toolchain. `--check` passed throughout because it only verifies the artifact reproduces from its own inputs cache, never that the cache is for the series a citing manuscript names. Add a `--check` failure (or a standalone test) that compares the committed `series` field against the SERIES module constant, and ideally against every manuscript that cites this artifact as its producer, so this exact silent-clobber cannot recur on the next unrelated dispatch or restore. Fixed once already by re-dispatching emc-expression-datasets.yml mode=gse-series series=GSE299349 (run 33039862314 -> commit a8caba9) — this item is the guard against it happening again, not the data fix itself."
+      "what": "✅ DONE 2026-08-27 (CYC-0025). atr_hrd_sarcoma_series.py's main() now compares the committed artifact's own `series` field against the module's SERIES constant BEFORE the derive-reproduces comparison, failing with a named SERIES MISMATCH diagnostic even when fresh == committed -- closing the exact gap the incident exploited (a restore that swaps the inputs cache and the artifact together, both self-consistently wrong, so the derive-reproduces check alone stays green). New regression test test_check_would_have_caught_the_incident_the_drift_check_missed faithfully reproduces the incident's shape (derive() on mutated inputs genuinely equals the mutated committed fixture, not a hand-patched approximation) and is mutation-tested: reverting the fix makes it fail with rc==0, a genuine silent pass. A static assertion of the same invariant already existed (test_the_declared_series_is_the_one_the_committed_artifact_holds) but only ran when the test suite ran; this closes the module's own --check path directly."
     },
     {
       "id": "AUT-PROP-013",
