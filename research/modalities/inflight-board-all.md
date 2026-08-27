@@ -23,7 +23,7 @@ IN-FLIGHT BOARD: no GPU legs.
 
 ## STEP 1 FAN-OUT — the cmpd19 congeneric RBFE map (one unit = complex + solvent legs)
 
-_As of 5:37 AM ET Thu Aug 27, 2026 (1 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 0 of 19 unit(s) landed; 0 permanently excluded (rows below are the rest)._
+_As of 5:38 AM ET Thu Aug 27, 2026 (0 min ago). Written by `congeneric_fanout_vast.py MONITOR=1`. 0 of 19 unit(s) landed; 0 permanently excluded (rows below are the rest)._
 
 ```
 LEG                    ETA (ET)          % DONE  $/ns STATE     WHY (when not running)
@@ -51,7 +51,7 @@ cw_bio_primary_amide   —                      —  —    NO HOST   no live ho
 
 ## NR-V04 RETROSPECTIVE (Arm E / R1) — endpoint-MD legs
 
-_As of 5:37 AM ET Thu Aug 27, 2026 (1 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 0 of 16 authorized R1 leg(s) landed (rows below are the rest)._
+_As of 5:37 AM ET Thu Aug 27, 2026 (2 min ago). Written by `nrv04_vast_launch.py RETRO_COLLECT=1`. 0 of 16 authorized R1 leg(s) landed (rows below are the rest)._
 
 ```
 LEG                ETA (ET)          % DONE  $/ns STATE     WHY (when not running)
