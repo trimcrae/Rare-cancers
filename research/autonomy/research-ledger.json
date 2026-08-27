@@ -5,7 +5,7 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
-    "process_defect": 24,
+    "process_defect": 25,
     "harden": 12,
     "fix": 10,
     "build": 1,
@@ -21,7 +21,7 @@
   },
   "n_by_state": {
     "done": 32,
-    "queued": 105,
+    "queued": 106,
     "superseded": 1,
     "in_progress": 3
   },
@@ -4247,6 +4247,34 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited"
+    },
+    {
+      "id": "AUT-PD-032",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "what": "⛔⛔ THE LOOP'S HANDOFF MECHANISM CANNOT RUN AT THE END OF A SPAWN CHAIN, AND IT FAILS CLOSED INTO A HEALTH ROW NOTHING CAN CLEAR. Measured 2026-08-27: CYC-0030 built its successor prompt with `handoff.py --json`, called `create_session`, and was refused — `caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions`. ⭐ research-loop §3 tells every session to 'HAND OFF THE SAME WAY YOU WERE STARTED', and handoff.py's own generated prompt tells the child the same thing. So each generation is instructed to extend a chain that has a hard ceiling, and the LAST generation is the one told most emphatically to do the impossible — the deeper the loop has run unattended, the more certainly the instruction fails. ⛔ AND THE FAILURE IS RECORDED AS A DEFECT IN THE SESSION RATHER THAN IN THE PLATFORM: `health.py`'s `cycles_are_sized` grades an over-cap session with no `handoff.child_session_id` as RED, and no future cycle can clear that row by behaving better — the same LATCHING shape `RECEIPT_WINDOW` was introduced to fix, arriving through a different door. ⚠ NOT AN OUTAGE: the 'EMC research loop — driver' Routine (13 */4 * * *) is enabled and healthy, so the chain terminating costs a ~4 h delay rather than continuity. That is the backstop working as designed — and it is only NOT a deferral because the handoff was attempted first and refused. ⭐ FIXES WORTH CONSIDERING, none obviously right: (1) handoff.py should CHECK the depth before building a prompt it cannot use, and say plainly that the Routine is the successor when it cannot spawn; (2) `cycles_are_sized` should read a refused-handoff record and grade it as UNMEASURED rather than RED, since 'the platform refused' is not the same fact as 'this session did not hand off'; (3) the child could be spawned by the Routine rather than by the parent, which removes the chain entirely. ⛔ Do NOT fix this by raising the cap on cycles per session — the cap is about context running out silently and has nothing to do with the spawn limit.",
+      "score": 160.0,
+      "_score_basis": "the mechanism that keeps the loop running unattended cannot run at the end of a chain, and grades its own failure as the session's fault",
+      "depends_on_evidence": "create_session refusal at depth 8, recorded verbatim in research/autonomy/receipts/CYC-0030-6be7fd5a.json under `handoff`",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "an internal session-lifecycle mechanism; nothing published, submitted or deposited"
     }
   ]
 }

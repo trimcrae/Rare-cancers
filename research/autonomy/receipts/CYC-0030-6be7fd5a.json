@@ -55,5 +55,11 @@
     "AUT-PD-031: a --fix that repairs one copy of a shared fact and is silent about the others."
   ],
   "blocked_by": [],
-  "route_advanced": "RT-AUTONOMY, RT-CHAPERONE, RT-LIMB-PERFUSION, RT-LUNG-DIRECTED, RT-IPD-SURVIVAL"
+  "route_advanced": "RT-AUTONOMY, RT-CHAPERONE, RT-LIMB-PERFUSION, RT-LUNG-DIRECTED, RT-IPD-SURVIVAL",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": true,
+    "refused_by": "create_session: caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions",
+    "_what_this_means": "⛔ research-loop §3's HANDOFF CANNOT EXECUTE AT THE END OF A SPAWN CHAIN, and this is the measurement rather than the theory. The prompt was built from committed state by handoff.py and create_session refused it outright at depth 8 of 8. ⚠ `cycles_are_sized` reads `handoff.child_session_id` and grades an over-cap session WITHOUT one as RED — this receipt is over cap and has none, so that row will be red, and it is red for a reason no future cycle can clear by behaving better. ⭐ THE LOOP IS NOT STALLED: the 'EMC research loop — driver' Routine fires every 4 h (13 */4 * * *), is enabled, last run SUCCEEDED, and its next run is 2026-08-28T00:13:00Z — about 2.5 h after this receipt. The chain terminating costs a DELAY, not continuity. ⛔ AND THE DISTINCTION FROM A DEFERRAL IS THE WHOLE POINT: naming a scheduler INSTEAD of handing off is the deferral trimcrae named on 2026-08-27; naming it AFTER the prescribed handoff was attempted and refused by a platform limit is the backstop working as designed."
+  }
 }
