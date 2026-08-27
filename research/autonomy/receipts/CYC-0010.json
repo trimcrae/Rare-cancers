@@ -56,5 +56,13 @@
     "real_dollars": "none",
     "claude_budget": "one interactive session, no subagents"
   },
-  "_renumbered": "Written as CYC-0009 and renumbered on rebase: the DRIVER had already claimed that id, writing its own CYC-0009 receipt when it refused to start. ⭐ That receipt is the loop's own record of this outage, from the other side — session 7aec0937 (scheduled Routine, no live user), `health.py --check` exit_code 1, needs_attention ['cycles_are_sized'] — and it is kept exactly as the driver wrote it. Two receipts, two sessions, one event: the refusal and its repair."
+  "_renumbered": "Written as CYC-0009 and renumbered on rebase: the DRIVER had already claimed that id, writing its own CYC-0009 receipt when it refused to start. ⭐ That receipt is the loop's own record of this outage, from the other side — session 7aec0937 (scheduled Routine, no live user), `health.py --check` exit_code 1, needs_attention ['cycles_are_sized'] — and it is kept exactly as the driver wrote it. Two receipts, two sessions, one event: the refusal and its repair.",
+  "handoff": {
+    "child_session_id": "session_01PFnQ8dMiY7XwpU8vtC9GgG",
+    "child_title": "EMC research loop — cycle (AUT-PROP-002)",
+    "created_utc": "2026-08-27T01:33:32Z",
+    "reason": "session 66dab3ca reached 5 cycles against a cap of 2; cycles_are_sized red naming it",
+    "prompt_built_by": "research/autonomy/handoff.py --json",
+    "_why_this_field_exists": "⛔ THE LOOP KNEW IT NEEDED A NEW SESSION AND HAD NOTHING THAT COULD START ONE. The founding brief asked for 'proper usage of new session creation to manage context'; research-loop §3 said a full hardening cycle is a SPAWNED session; cycles_are_sized measured when a session had run too long. Three layers of knowing and no mechanism — so the session at the cap wrote 'the next cycle should be a fresh session' in its final message and stopped. A manual step, parked in the middle of a loop whose entire purpose is that no manual step exists. trimcrae: 'You've flagged that a new session needs to start which is correct. But then you stopped there.'"
+  }
 }

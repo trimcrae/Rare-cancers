@@ -93,6 +93,14 @@ CLAUDE.md §0 cares most about.
 | **Parallel subagents** | ≥2 independent items, or the blind seats of a hardening round | Launch them in ONE message so they run concurrently. Each returns a **structured verdict, not prose** — you must not pay context for the search that produced it. Width is capped by `autonomy-state.json`. |
 | **A spawned session** | anything that will not fit one context: a full hardening cycle, a large corpus read | Spawn it, record its session id on the entry, and **end your turn.** The child writes its own receipt. |
 
+⛔⛔ **AND SPAWNING IS AN ACT, NOT A NOTE. THE CYCLE THAT REACHES THE CAP CREATES ITS OWN SUCCESSOR BEFORE IT ENDS.**
+
+    python3 research/autonomy/handoff.py --json --reason "<why>"
+
+builds the prompt **from committed state** — the queue from the ledger, the posture from `autonomy-state.json`. Pass it to `create_session` (claude-code-remote MCP) with this environment and repo, then record the child's id in your receipt under `handoff.child_session_id`. `health.py`'s `cycles_are_sized` reads that field: an over-cap session **with** a recorded handoff is GREEN, one without is RED.
+⚠ *Added 2026-08-27. The brief asked for "proper usage of new session creation to manage context"; this section said a hardening cycle is a spawned session; `cycles_are_sized` measured when a session had run too long. **Three layers of knowing and nothing that could act** — so the session at the cap wrote "the next cycle should be a fresh session" in its final message and stopped. trimcrae: "You've flagged that a new session needs to start which is correct. But then you stopped there." A loop that needs a human to start its next session is not automated; it just has a longer fuse.*
+⛔ **NEVER WRITE THE HANDOFF PROMPT FROM MEMORY.** It would be written from the context that is running out — the exact thing being discarded. And carry **no findings and no conclusions**: a successor that inherits its predecessor's reasoning inherits its mistakes, which is how a wrong seat finding propagated through two cycles here. Tell it where to look, never what it will find.
+
 ⛔ **THE DRIVER NEVER WAITS.** Dispatch, record, end. A cycle blocking on a subagent is a cycle a
 rate limit can kill while holding uncommitted work. CLAUDE.md §1 and §6.
 

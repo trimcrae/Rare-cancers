@@ -619,18 +619,35 @@ def c_cycles_are_sized(receipts, state, state_err):
             continue
         counts.setdefault(sid.strip().split()[0], []).append(cid)
 
-    over = {sid: cids for sid, cids in counts.items() if len(cids) > cap}
+    # ⭐ AN OVER-CAP SESSION THAT HANDED OFF HAS OBEYED THE RULE — MEASURE THE ACTION, NOT THE COUNT.
+    # Added 2026-08-27. The first version counted cycles and nothing else, so the only way to a green
+    # row was to WAIT for the window to slide: the rule's remedy (start a successor session) moved
+    # the row not at all. A condition that cannot be satisfied by doing the right thing teaches
+    # nothing — it is a stopwatch, not a guard. `handoff.child_session_id` in any receipt of that
+    # session is the evidence, and it is evidence only a real `create_session` call can produce.
+    handed_off = {sid for sid, _ in counts.items()
+                  for r in receipts
+                  if (r.get("session_id") or "").strip().split()[:1] == [sid]
+                  and isinstance(r.get("handoff"), dict)
+                  and str((r["handoff"] or {}).get("child_session_id") or "").strip()}
+    over = {sid: cids for sid, cids in counts.items()
+            if len(cids) > cap and sid not in handed_off}
     payload = {"cap": cap, "sessions": {k: len(v) for k, v in counts.items()},
                "unstamped_receipts": unstamped or None,
+               "handed_off": sorted(handed_off) or None,
                "worst": max((len(v) for v in counts.values()), default=0)}
     if over:
         worst = max(over.items(), key=lambda kv: len(kv[1]))
-        return _red(key, label, source, "SESSION-OVERLOADED",
+        return _red(key, label, source, "SESSION-OVERLOADED-NO-HANDOFF",
                     f"session {worst[0][:24]} ran {len(worst[1])} cycles ({', '.join(worst[1])}) "
-                    f"against a cap of {cap}. §3 of the cycle contract: a full hardening cycle is a "
-                    "SPAWNED session, not more work in the current one. Context is the resource that "
-                    "runs out silently — nothing announces it, and the cycle that overruns it is the "
-                    "one that cannot tell.", payload)
+                    f"against a cap of {cap} AND STARTED NO SUCCESSOR. §3 of the cycle contract: a "
+                    "full hardening cycle is a SPAWNED session, not more work in the current one. "
+                    "Context is the resource that runs out silently — nothing announces it, and the "
+                    "cycle that overruns it is the one that cannot tell. ⭐ THE REMEDY IS ONE ACT: "
+                    "build the successor's prompt with `python3 research/autonomy/handoff.py --json` "
+                    "and create the session, then record its id in this cycle's receipt under "
+                    "`handoff.child_session_id`. A loop that needs a human to start its next session "
+                    "is not automated; it just has a longer fuse.", payload)
     if not counts:
         return _unmeasured(key, label, source, "NONE-STAMPED",
                            f"{len(unstamped)} receipt(s) carry no usable session_id "

@@ -669,7 +669,14 @@ def test_a_session_over_the_cap_goes_red(health):
         [_sess_receipt("CYC-1", "sess-A"), _sess_receipt("CYC-2", "sess-A"), _sess_receipt("CYC-3", "sess-A")],
         _state(2), None)
     assert row["needs_attention"] is True
-    assert row["verdict"] == "SESSION-OVERLOADED"
+    # ⚠ Renamed 2026-08-27 when the row began measuring the ACTION rather than the count:
+    # SESSION-OVERLOADED -> SESSION-OVERLOADED-NO-HANDOFF. Asserted by prefix so the meaning is
+    # pinned and a future qualifier does not break a test that still holds.
+    assert row["verdict"].startswith("SESSION-OVERLOADED")
+    assert "NO-HANDOFF" in row["verdict"], (
+        "the verdict no longer says WHY it is red — over the cap is not the defect; over the cap "
+        "with no successor started is"
+    )
     assert "CYC-3" in row["detail"]
 
 
@@ -978,3 +985,99 @@ def test_check_and_check_any_are_different_gates(health):
     i, j = src.index("if a.check_any:"), src.index("if a.check:")
     assert i > j, "--check-any is nested inside --check again; it will silently never fire"
     assert 'board.get("blocking")' in src and 'board["needs_attention"]' in src
+
+
+# ══════════════════════════════════ THE HANDOFF — three layers of knowing, and nothing that could act
+#
+# ⛔⛔ THE LOOP KNEW IT NEEDED A NEW SESSION AND HAD NOTHING THAT COULD START ONE. The founding brief
+# asked for "proper usage of new session creation to manage context". `research-loop` §3 said a full
+# hardening cycle is a SPAWNED session. `cycles_are_sized` measured when a session had run too long.
+# Three layers of knowing — and no mechanism. So the session that hit the cap wrote "the next cycle
+# should be a fresh session" in its final message and STOPPED: a manual step, parked in the middle of
+# a loop whose entire purpose is that no manual step exists.
+#
+# ★ AND THE CONDITION ITSELF WAS PART OF THE PROBLEM. Its first version counted cycles and nothing
+# else, so the only route to green was to WAIT for the window to slide — performing the rule's own
+# remedy moved the row not at all. A guard that cannot be satisfied by doing the right thing is a
+# stopwatch, not a guard. It now measures the ACTION: a recorded `handoff.child_session_id`, which is
+# evidence only a real session-creation call can produce.
+
+
+def _capped(n=5, session="sess-A", handoff=None):
+    rs = [{"cycle_id": f"C{i}", "session_id": session} for i in range(n)]
+    if handoff is not None:
+        rs[-1] = {**rs[-1], "handoff": handoff}
+    return rs
+
+
+def test_an_over_cap_session_that_handed_off_is_green(health):
+    """★ THE POINT. The remedy the row prints must be the thing that clears it."""
+    st = {"max_cycles_per_session": 2}
+    assert health.c_cycles_are_sized(_capped(), st, None)["verdict"] == "SESSION-OVERLOADED-NO-HANDOFF"
+    ok = health.c_cycles_are_sized(_capped(handoff={"child_session_id": "session_01ABC"}), st, None)
+    assert ok["needs_attention"] is False, (
+        "spawning the successor — the exact act §3 demands — did not move the row. A condition that "
+        "cannot be satisfied by obeying it teaches nothing."
+    )
+
+
+def test_a_handoff_with_no_child_id_does_not_count(health):
+    """⛔ THE CHEAP DEFEAT, CLOSED. If an empty `handoff` block satisfied the row, the way to a green
+    board would be to write the field rather than start the session — a gate measuring its own
+    paperwork. Only a real child session id counts, and only a real create_session call produces one."""
+    st = {"max_cycles_per_session": 2}
+    for bogus in ({}, {"child_session_id": ""}, {"child_session_id": "   "}, {"child_session_id": None}):
+        row = health.c_cycles_are_sized(_capped(handoff=bogus), st, None)
+        assert row["needs_attention"] is True, f"an empty handoff satisfied the row: {bogus!r}"
+
+
+def test_a_handoff_does_not_excuse_a_DIFFERENT_session(health):
+    """One session's successor is not another's. Crediting any handoff anywhere would let a single
+    spawn cover every over-cap session in the window."""
+    st = {"max_cycles_per_session": 2}
+    mixed = _capped(session="sess-A") + [
+        {"cycle_id": "D0", "session_id": "sess-B", "handoff": {"child_session_id": "session_01XYZ"}}]
+    row = health.c_cycles_are_sized(mixed, st, None)
+    assert row["needs_attention"] is True
+    assert "sess-A" in row["detail"], "the wrong session was credited with sess-B's handoff"
+
+
+def test_the_remedy_text_names_the_command_that_performs_it(health):
+    """§8b.1e: a guard whose printed remedy is the wrong fix teaches the wrong fix. This one must name
+    the generator, because a handoff prompt WRITTEN FROM MEMORY is written from the context that is
+    running out — the very thing being discarded."""
+    row = health.c_cycles_are_sized(_capped(), {"max_cycles_per_session": 2}, None)
+    assert "handoff.py" in row["detail"]
+    assert "child_session_id" in row["detail"]
+
+
+def test_the_handoff_prompt_is_generated_from_committed_state(health):
+    """⚠ NOT typed by the outgoing session. Every fact in it is read from a committed artifact, so the
+    successor re-reads the same files and finds them unchanged — CLAUDE.md's 'state lives in git,
+    never in context', applied at the one moment context is discarded on purpose."""
+    spec = importlib.util.spec_from_file_location(
+        "handoff", REPO / "research" / "autonomy" / "handoff.py")
+    ho = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(ho)
+
+    ledger = {"entries": [
+        {"id": "AUT-TOP", "score": 99.0, "kind": "harden", "what": "the top item", "retry_budget": 3},
+        {"id": "AUT-OWNED", "score": 100.0, "kind": "harden", "what": "claimed", "retry_budget": 3,
+         "owner": "CYC-X"},
+        {"id": "AUT-SPENT", "score": 100.0, "kind": "harden", "what": "no budget", "retry_budget": 0},
+    ]}
+    top = ho.top_items(ledger)
+    assert [e["id"] for e in top] == ["AUT-TOP"], (
+        "the successor was handed an item that is owned or out of retry budget — its first act would "
+        "be discovering that, which is the cost the ledger exists to remove"
+    )
+    prompt = ho.build(reason="because", ledger=ledger, state={"max_cycles_per_session": 2})
+    assert "FRESH SESSION" in prompt and "because" in prompt
+    assert "research-loop" in prompt, "the successor is not pointed at the cycle contract"
+    assert "handoff.py" in prompt, (
+        "the successor is not told to hand off in turn — a chain that stops after one link is a "
+        "longer fuse, not an automated loop"
+    )
+    assert "re-score" in prompt.lower() or "RE-SCORE" in prompt, (
+        "the queue must be handed over as a POINTER, not as a plan the successor follows blindly"
+    )
