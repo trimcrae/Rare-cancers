@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
-"""The publish bar — the six clauses that decide whether a paper may be posted unattended.
+"""The publish bar — the clauses that decide whether a paper may be posted unattended.
+
+⚠ THE COUNT IS `len(CLAUSES)` AND IS DELIBERATELY NOT TYPED HERE OR ANYWHERE ELSE. It read
+"six" in this docstring, in `record_bar_evidence.py`, in `publication-authority.json` (the
+record of what trimcrae actually granted), in CLAUDE.md §3 and at four places in the
+architecture doc — eight copies of one number, all correct on 2026-08-26 and all stale by
+12:41 PM ET the next day, when `clause_7_readable_enough_to_review` landed in commit 648114f.
+Nothing was under-enforced: `evaluate()` derives `n_clauses` from this list at runtime, so the
+seventh clause was always checked. But the GRANT RECORD described a bar with one fewer clause
+than the code applies, which is CLAUDE.md rule 1 ("a total is DERIVED, never typed") in the
+one file where a reader is least able to check. Found 2026-08-27 by a survey seat reading this
+file for an unrelated reason — no gate saw it, which is why one now does
+(`tests/test_the_clause_count_is_never_typed.py`).
 
 ⛔⛔ READ THIS FIRST. On 2026-08-26 trimcrae granted a **bar-scoped** standing aiXiv authority
 (architecture doc §6.3, decision D1): the loop may post ANY paper that clears this bar, rather than
@@ -106,7 +118,7 @@ def _endpoint(pub_id: str) -> dict | None:
     return None
 
 
-# ---------------------------------------------------------------- the six clauses
+# -------------------------------------------------------------------- the clauses
 
 
 def _seat_records(pub_id: str, sha: str) -> tuple[list[dict], list[str]]:

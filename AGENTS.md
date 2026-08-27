@@ -173,8 +173,9 @@ automated release.
 
 ⭑ **The one exception is aiXiv**, where trimcrae granted a standing bar-scoped authority — see
 CLAUDE.md §3 and [`publication-authority.json`](./research/autonomy/publication-authority.json). It is
-narrow on purpose: a paper posts unattended only if it clears all six clauses of
-[`publish_bar.py`](./research/autonomy/publish_bar.py), and he is notified after each post. ⛔ *Superseded,
+narrow on purpose: a paper posts unattended only if it clears EVERY clause of
+[`publish_bar.py`](./research/autonomy/publish_bar.py) — the count lives in the code, not in this
+sentence, and he is notified after each post. ⛔ *Superseded,
 retained: "No automated preprint or journal posting." The journal half is live and unchanged; the
 preprint half now holds only for hosts other than aiXiv.*
 

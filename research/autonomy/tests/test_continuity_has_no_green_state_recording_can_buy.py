@@ -289,6 +289,48 @@ def test_the_cap_counts_workers_not_leases(led, monkeypatch, tmp_path):
         "unstartable while the cap had room")
 
 
+def test_one_lease_covering_a_fanout_counts_its_AGENTS(led, monkeypatch, tmp_path):
+    """⛔⛔ THE THIRD UNIT ERROR IN THIS FAMILY IN ONE DAY, and each was caught only by comparing the
+    check against reality rather than reading it.
+
+      1. counted LEASES  → one seat holding two items read as two workers (caught by AUT-036/037)
+      2. counted OWNERS  → a FIVE-SEAT fan-out claimed under one owner name read as ONE worker,
+                           while ListAgents showed five running (caught here)
+
+    `subagent_width`'s unit is CONCURRENT AGENTS — autonomy-state.json says so in as many words — and
+    under-counting is the dangerous direction: it permits a sixth dispatch past the cap the
+    architecture records as having failed catastrophically (107 agents, 40 completed, 67 errored,
+    the synthesis lost).
+    """
+    _cap(monkeypatch, tmp_path, 5)
+    led([_item(id="FANOUT", owner="one-name-five-seats", state="in_progress", claim_workers=5),
+         _item(id="FREE")])
+    assert C.main(["--check"]) == 0, (
+        "a five-agent fan-out under one owner name read as one worker, so the cap had room it does "
+        "not have")
+
+
+def test_an_undeclared_lease_counts_as_one_agent(led, monkeypatch, tmp_path):
+    """⚠ THE HONEST DEFAULT. Most claims are one worker, and only the caller knows it dispatched
+    five — so absence means one, not zero and not a guess. ⛔ And that makes `claim_workers` a FLOOR
+    ON HONESTY, not a guarantee: an under-declared fan-out still under-counts, which the module says
+    out loud rather than leaving a reader to assume the count is measured."""
+    _cap(monkeypatch, tmp_path, 2)
+    led([_item(id="A", owner="seat-one", state="in_progress"),
+         _item(id="B", owner="seat-two", state="in_progress"),
+         _item(id="C")])
+    assert C.main(["--check"]) == 0, "two undeclared leases should count as two agents"
+
+
+@pytest.mark.parametrize("bad", [0, -1, True, "5", 2.5, None])
+def test_a_nonsense_claim_workers_falls_back_to_one(led, monkeypatch, tmp_path, bad):
+    """`True` is an int in Python; a string would raise. A malformed declaration must degrade to the
+    honest default rather than crashing the checker or inventing capacity."""
+    _cap(monkeypatch, tmp_path, 3)
+    led([_item(id="A", owner="seat", state="in_progress", claim_workers=bad), _item(id="B")])
+    assert C.main(["--check"]) == 1, f"claim_workers={bad!r} did not degrade to one agent"
+
+
 def test_a_full_cap_is_a_real_stop_and_names_every_holder(led, monkeypatch, tmp_path, capsys):
     """★ A full cap is the same shape as waiting on a human: a WORKER must finish first. It is
     allowed to end a turn — and only because it is falsifiable. Every holder is named, so a lease

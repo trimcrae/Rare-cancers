@@ -158,8 +158,10 @@ building meanwhile.
 
 - **⭑ AMENDED 2026-08-26 FOR aiXiv ONLY — THE RULE BELOW IS OTHERWISE UNCHANGED AND STILL BINDS.**
   trimcrae granted a **standing, bar-scoped** authority to post to **aiXiv** without naming the
-  paper: *"Broad: any paper meeting the bar"*. The bar is the six clauses in
-  [`publish_bar.py`](./research/autonomy/publish_bar.py), each computed from a committed artifact and
+  paper: *"Broad: any paper meeting the bar"*. The bar is every clause in `CLAUSES` in
+  [`publish_bar.py`](./research/autonomy/publish_bar.py) — **read the count from the code, never from
+  a sentence** (it said "six" here for a day after a seventh clause landed) — each computed from a
+  committed artifact and
   each failing closed; the grant, its edges and the backdrop it was given against live in
   [`publication-authority.json`](./research/autonomy/publication-authority.json); the reasoning is
   [the autonomy architecture](./research/manuscripts/program/emc-autonomy-architecture.md) §6.3.

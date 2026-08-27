@@ -86,7 +86,7 @@ render a row the ledger does not carry.
 | Field/capability watch | ✅ live — layer 1 repaired 2026-08-24, cadence unconfirmed (§8.2) | `method-watch.md` layers 1–3 |
 | Human channel | ✅ live | weekly Friday newsletter (`method-watch.yml`) |
 | **Research prioritization + cycle contract** | ✅ **BUILT 2026-08-26** | `research/autonomy/priority.py` + the `research-loop` skill — §3, §4 |
-| **Publication authority** | ✅ **GRANTED and GATED 2026-08-26** | `publish_bar.py` (six clauses) + `publication-authority.json` — §6 |
+| **Publication authority** | ✅ **GRANTED and GATED 2026-08-26** | `publish_bar.py` (every clause in `CLAUSES`) + `publication-authority.json` — §6 |
 
 ---
 
@@ -394,12 +394,12 @@ amendment rather than an exception.**
     "standing_grant": true,
     "granted_by": "trimcrae, 2026-08-26, AskUserQuestion D1: 'Broad: any paper meeting the bar'",
     "granted_against": [                   ← the backdrop the grant was given against. If any of these
-      "the bar is the six clauses of §6.1, all machine-checkable",   changes, RE-ASK. It was not
+      "the bar is EVERY clause of §6.1, all machine-checkable",       changes, RE-ASK. It was not
       "aiXiv only — no other venue, ever",                           granted in general.
       "every journal submission still escalates (D4)"
     ],
     "scope": {
-      "papers": "ANY PUB-* passing all six clauses of §6.1",
+      "papers": "ANY PUB-* passing ALL clauses of §6.1",
       "acts": ["submit", "new_version"],
       "max_versions_per_paper": N,         ← aixiv-submission §3: eleven versions of one paper never
                                               moved its rating and it trended DOWN. A version cap
@@ -730,7 +730,7 @@ to report success?*** If yes, it is not an improvement, whatever else is true ab
 | class | examples | rule |
 |---|---|---|
 | **Free, unlogged** | fix a bug, add a check, refactor, sharpen a prompt, correct a stale doc, add or retire a ledger entry, retime a Routine | Just do it. This is the bulk of self-improvement and it needs no ceremony. |
-| **Free, but DECLARED** | `priority-weights.json` · the six clauses of §6.1 · `publication-authority.json` · CLAUDE.md, AGENTS.md or this file's rules · any §5.2 health condition · deleting or weakening any test | Allowed unattended — **and appended to the amendment log (§10.5) and carried in the Friday digest.** These are the edits that change what "doing well" MEANS, so they are never silent. |
+| **Free, but DECLARED** | `priority-weights.json` · the clauses of §6.1 · `publication-authority.json` · CLAUDE.md, AGENTS.md or this file's rules · any §5.2 health condition · deleting or weakening any test | Allowed unattended — **and appended to the amendment log (§10.5) and carried in the Friday digest.** These are the edits that change what "doing well" MEANS, so they are never silent. |
 | **⛔ Refused** | see the invariant below | Filed as a proposal and escalated (§7 trigger 3), never applied by that cycle. |
 
 ⛔⛔ **THE ANTI-GAMING INVARIANT, and it is mechanically checkable:**
@@ -817,7 +817,7 @@ must be put to him again — it was granted against that backdrop, not in genera
 ## 13 · What this design refuses to do
 
 - **Grant itself an authority.** ⚠ *Amended 2026-08-26 (D1): the loop MAY now post to aiXiv any paper
-  clearing §6.1's six clauses, because trimcrae granted that — and the grant is bounded by the backdrop
+  clearing every one of §6.1's clauses, because trimcrae granted that — and the grant is bounded by the backdrop
   recorded in `granted_against`.* What is unchanged and absolute: it may not extend that grant to
   another venue, widen it, or lower a clause to fit a paper through. **When the only way to satisfy a
   goal is an act nobody authorised, the goal yields** — CLAUDE.md §3.

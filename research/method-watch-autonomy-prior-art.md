@@ -26,6 +26,29 @@ related: [DOC-EMC-AUTONOMY-ARCHITECTURE, DOC-METHOD-WATCH, DOC-NR4A3-PROGRAM-MAP
 
 # Prior art — the autonomous-researcher ecosystem, checked
 
+> ⛔⛔ **TWO OF THIS DOCUMENT'S HEADLINE CONCLUSIONS ARE SUPERSEDED. READ
+> [`method-watch-autonomy-prior-art-2.md`](./method-watch-autonomy-prior-art-2.md) FIRST.** A second
+> pass on 2026-08-27, five seats wide, was run because trimcrae rejected this one as a survey of the
+> field: *"I'm not buying this is real survey of the field if you think that the only people doing
+> auto-research are doing it on ML benchmarks."*
+>
+> **The method is why, and it was not carelessness.** This scan searched GitHub for AI-scientist
+> repositories and read their READMEs, which samples *code that turns a topic into a paper*. It
+> therefore could not see a loop whose bottleneck is physical, a pre-LLM robot scientist running
+> since 2009, the living-evidence world, a commercial platform that publishes nothing about its
+> loop, or a venue-level publication gate.
+>
+> - *"Not solved for our SHAPE"* → **half wrong.** A long-lived loop with a persistent queue,
+>   resource governance, stall detection, human authority and provenance is solved in three other
+>   domains, two of them running for decades.
+> - *"We are ahead on governance"* → **a sampling artifact; the honest verdict is UNAWARE, not
+>   ahead.** ⭐ §3 below already hedged this correctly (*"being the only one with a problem is not
+>   the same as being ahead"*) — the headline did not.
+> - *"We are behind on tooling"* → **unchanged and confirmed.**
+>
+> Everything else here stands, including the six recommended actions, and the rest of this document
+> is retained as written (CLAUDE.md rule 1.2).
+
 **Scan run 2026-08-26, 9:30–10:00 PM ET (2026-08-27 UTC).** Repository metadata (stars, forks, last
 push, licence) was read live from the GitHub API through `mcp__github__search_repositories`; READMEs
 were read with `WebFetch`; everything else came from `WebSearch` and is marked as such. Several

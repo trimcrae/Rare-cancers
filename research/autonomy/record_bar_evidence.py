@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The producer for the publish bar's file-backed clauses — the half that had none.
 
-⛔⛔ WHY THIS FILE EXISTS. `publish_bar.py` is the publication permission. Three of its six clauses
+⛔⛔ WHY THIS FILE EXISTS. `publish_bar.py` is the publication permission. Three of its clauses
 read a committed artifact: `hardening-state/<PUB>.json` (clause 1), `preflight-receipts/<sha>.json`
 (clause 2) and `review-seats/<PUB>-<sha>.json` (clause 6). ⭐ NEITHER OF THE FIRST TWO DIRECTORIES
 HAD EVER EXISTED IN ANY REF — `git log --all` over both returned empty on 2026-08-27 — and

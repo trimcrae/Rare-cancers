@@ -315,13 +315,35 @@ def main(argv=None) -> int:
     # ⚠ Counting the wrong unit here is not a miscount, it is a STALL: it would have manufactured a
     # capacity excuse out of good practice, and the excuse would have grown every time a seat was
     # sensibly given two related items.
-    workers = sorted({owner for _, owner in leases})
+    # ⛔⛔ AGENTS, NOT OWNER STRINGS — THE THIRD UNIT ERROR IN THIS FAMILY IN ONE DAY. First it
+    # counted LEASES and one seat holding two items read as two workers. Fixed to distinct owners.
+    # Then a FIVE-SEAT fan-out was claimed under ONE owner name and this read "1 worker against a
+    # cap of 5" while ListAgents showed five running — under-counting by four and permitting a sixth
+    # dispatch past the width cap the architecture calls the dial that failed catastrophically
+    # (107 agents: 40 completed, 67 errored, the synthesis lost).
+    # ⭐ A row may DECLARE how many concurrent agents its lease covers, via `claim_workers`. Absent
+    # the field a lease counts as one agent, which is the honest default: most claims are one worker,
+    # and a fan-out is the caller's to declare because only the caller knows it dispatched five.
+    # ⚠ THIS IS A DECLARATION, NOT A MEASUREMENT, and it says so. The authoritative agent count lives
+    # in ListAgents, which a Stop hook cannot call. An under-declared fan-out still under-counts —
+    # so `claim_workers` is a floor on honesty, not a guarantee of it.
+    by_owner = {}
+    for entry_id, owner in leases:
+        by_owner.setdefault(owner, 1)
+    for e in _entries():
+        owner = e.get("owner")
+        n = e.get("claim_workers")
+        if owner in by_owner and isinstance(n, int) and not isinstance(n, bool) and n >= 1:
+            by_owner[owner] = max(by_owner[owner], n)
+    workers = sorted(by_owner)
+    agent_count = sum(by_owner.values())
     cap = width_cap()
-    at_capacity = cap is not None and len(workers) >= cap
+    at_capacity = cap is not None and agent_count >= cap
     if at_capacity:
-        print(f"\n⚠ {len(workers)} worker(s) hold {len(leases)} lease(s) against a governed "
-              f"`subagent_width` of {cap} — the loop is AT CAPACITY, so the rows above are ready in "
-              f"the ledger and startable by nobody until one finishes:")
+        print(f"\n⚠ {agent_count} concurrent agent(s) across {len(workers)} holder(s) and "
+              f"{len(leases)} lease(s), against a governed `subagent_width` of {cap} — the loop is AT "
+              f"CAPACITY, so the rows above are ready in the ledger and startable by nobody until one "
+              f"finishes:")
         for eid, owner in sorted(leases)[:args.limit]:
             print(f"      {eid}  held by {owner}")
         print("   ⛔ THIS IS NOT PERMISSION TO STOP WORKING. It is a claim that a WORKER must finish\n"

@@ -311,7 +311,7 @@ def test_both_scripts_run_as_cli_without_crashing():
 
 # ---------------------------------------------------------------- the self-graded half of the bar
 #
-# ⛔⛔ CYC-0015 FOUND THAT THREE OF THE SIX CLAUSES WERE SELF-REPORTS, AND VERIFIED IT RATHER THAN
+# ⛔⛔ CYC-0015 FOUND THAT THREE OF THE BAR'S CLAUSES WERE SELF-REPORTS, AND VERIFIED IT RATHER THAN
 # ARGUING IT. Clauses 3-5 are computed — lint_claims, lint_citations, the graph. Clauses 1, 2 and 6
 # read a file that the loop itself writes, and each was cleared by a hand-typed JSON object with no
 # evidence whatever behind it:

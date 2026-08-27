@@ -50,6 +50,39 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+# ⛔⛔ EVERY GATE BELOW RUNS AGAINST A PRIVATE, EMPTY BYTECODE CACHE — BECAUSE ON 2026-08-27 THIS
+# SCRIPT REPORTED TWO FAILING TESTS THAT THE SOURCE ON DISK COULD NOT PRODUCE. `inspect.getsource`
+# showed the fixed code; the interpreter executed the OLD bytecode. The mechanism, measured rather
+# than guessed:
+#
+#   research/autonomy/__pycache__/continuity.cpython-311.pyc  written 23:28:57.634
+#   research/autonomy/continuity.py                           written 23:28:57.840
+#   the .pyc's header recorded source mtime 1787873337, size 21219 — EXACTLY the current source's
+#
+# CPython validates a cached .pyc by comparing (source mtime in SECONDS, source size). The edit
+# landed 0.2 s after the .pyc was written, inside the same second, and happened to leave the file
+# the same number of bytes — so both fields matched and the stale bytecode was reused. Clearing the
+# caches took that suite from `2 failed, 211 passed` to `213 passed` with no source change.
+#
+# ⛔ THE DANGEROUS DIRECTION IS THE ONE WE DID NOT GET. A false RED costs an hour. A false GREEN is a
+# guard that ran the version of itself that had not yet been broken — this whole script exists to
+# stop a check that "reports while measuring nothing actionable", and stale bytecode is that failure
+# with no symptom at all. It is also invisible to every gate below: each reads the SOURCE.
+#
+# ⭐ THE FIX IS ONE LINE AND IT IS THE READ SIDE, NOT THE WRITE SIDE. `PYTHONDONTWRITEBYTECODE=1`
+# would only stop THIS run from writing; a cache some other process wrote a second ago would still
+# be read. Pointing PYTHONPYCACHEPREFIX at a fresh directory means no .pyc in the tree is visible at
+# all, so every gate compiles from the bytes it is about to judge. Modules imported by several gates
+# still compile once, inside the run.
+# ⚠ Cost, measured 2026-08-27 on `scripts/tests research/autonomy/tests` (213 tests), four runs:
+# warm repo cache 32.5 s against 33.1 s and 33.1 s with NO cache reachable at all
+# (PYTHONDONTWRITEBYTECODE=1, caches deleted) -- the strictly-worse form, since it recompiles on
+# every import where the prefix directory at least caches within the run. **+0.6 s, about 2%.**
+# Compilation is CPU, and CPU is free (CLAUDE.md §5).
+PREFLIGHT_PYCACHE="$(mktemp -d)"
+export PYTHONPYCACHEPREFIX="$PREFLIGHT_PYCACHE"
+trap 'rm -rf "$PREFLIGHT_PYCACHE"' EXIT
+
 # ⛔ AUT-PD-026, 2026-08-27: A FRESH GIT WORKTREE NEVER GETS THE SessionStart HOOK, SO
 # dev-setup.sh NEVER RUNS THERE, AND THIS SCRIPT SILENTLY FALLS BACK TO AN INCOMPLETE
 # INTERPRETER. Two independent seats hit the identical signature (50 failed, ~8046 of 8113
