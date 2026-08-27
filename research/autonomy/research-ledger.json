@@ -17,7 +17,8 @@
   },
   "n_by_state": {
     "done": 2,
-    "queued": 88
+    "queued": 87,
+    "running": 1
   },
   "n_clamped": 11,
   "entries": [
@@ -105,8 +106,8 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "write",
-      "state": "queued",
-      "owner": null,
+      "state": "running",
+      "owner": "CYC-0016",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -126,7 +127,8 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "claimed_utc": "2026-08-27T04:21:20Z"
     },
     {
       "id": "AUT-046",
