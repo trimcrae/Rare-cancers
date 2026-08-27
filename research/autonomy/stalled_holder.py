@@ -25,6 +25,15 @@ already observable from disk: **a ledger row with an open claim, whose holder's 
 growing.** That names the actual harm — an item parked for every other worker — rather than the
 symptom, and it needs no status field at all.
 
+⭐⭐ AND IT COVERS A SECOND FAILURE IT WAS NOT BUILT FOR, FOUND ON ITS FIRST REAL USE: a seat that
+FINISHED and was never released leaves a transcript that stops growing in exactly the same way a dead
+one does. Same signal, same threshold, same harm — an item parked by a holder that is not working.
+⚠ Measured 2026-08-27, minutes after this module landed: SIX stale leases from four finished seats
+made `continuity.py`'s capacity check read "5 workers AT CAPACITY" when exactly ONE was running, so
+the guard would have refused to dispatch anything. `priority.py:release_stale_claims` does expire
+leases, but by `claimed_utc` against the 4 h cycle interval — an order of magnitude slower than a
+seat, which finishes in 20–50 minutes. This closes that window without touching the expiry.
+
 ⛔ IT REPORTS AND NEVER ACTS, which is ARIS's own rule and the right one: a long single tool call is
 legitimately silent (a modalities suite is ~20 minutes), so this is a prompt to LOOK. Killing a seat
 and releasing its lease is a judgement, and a judgement made by a watchdog is how live work gets

@@ -20,10 +20,10 @@
     "regrade": 7
   },
   "n_by_state": {
-    "done": 37,
-    "queued": 101,
+    "done": 43,
+    "queued": 98,
     "superseded": 1,
-    "in_progress": 6
+    "in_progress": 3
   },
   "n_clamped": 11,
   "entries": [
@@ -573,9 +573,9 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "in_progress",
-      "owner": "CYC-0023-6be7fd5a",
-      "claimed_utc": "2026-08-27T21:45:00Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -588,7 +588,8 @@
       "score": 185.0,
       "_score_basis": "the submission-track manuscript carried two ungrammatical sentences and four live attributions to an unread source",
       "depends_on_evidence": "the AUT-PROP-022 review seat's before/after table; patch sha256 3cd4c8a576e6b9e62f7c65e1334af9281d9d72121525b2a5a8b4a6ca4beafbe9",
-      "closes_clause": null
+      "closes_clause": null,
+      "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (ASO grammar fix landed)"
     },
     {
       "id": "AUT-034",
@@ -636,8 +637,8 @@
         "strategy": "ST-LOCOREGIONAL"
       },
       "kind": "experiment",
-      "state": "queued",
-      "owner": "locoregional-curation-seat",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -658,7 +659,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
-      "claimed_utc": "2026-08-27T19:59:32Z"
+      "claimed_utc": null,
+      "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (locoregional curation landed)"
     },
     {
       "id": "AUT-037",
@@ -670,8 +672,8 @@
         "strategy": "ST-LOCOREGIONAL"
       },
       "kind": "experiment",
-      "state": "queued",
-      "owner": "locoregional-curation-seat",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -692,7 +694,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
-      "claimed_utc": "2026-08-27T19:59:32Z"
+      "claimed_utc": null,
+      "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (locoregional curation landed)"
     },
     {
       "id": "AUT-042",
@@ -1283,8 +1286,8 @@
         "strategy": null
       },
       "state": "in_progress",
-      "owner": "CYC-0030-6be7fd5a",
-      "claimed_utc": "2026-08-27T21:52:52Z",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1297,7 +1300,8 @@
       "score": 150.0,
       "_score_basis": "every seat works in a worktree, and every worktree preflight manufactures 50 red tests that do not exist",
       "depends_on_evidence": "both seats' transcripts (50 failed / 7901 and 7933 passed, No module named 'pymbar', preflight's MISSING PACKAGE line); reproduction attempt 2026-08-27 in a fresh worktree found an identical complete environment — mechanism UNKNOWN",
-      "closes_clause": null
+      "closes_clause": null,
+      "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (the defensive fix landed; the MECHANISM is still UNKNOWN, so the row stays queued rather than closed)"
     },
     {
       "id": "AUT-003",
@@ -1309,8 +1313,8 @@
         "strategy": "ST-REPURPOSING"
       },
       "kind": "experiment",
-      "state": "in_progress",
-      "owner": "kinase-leads-seat",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1331,7 +1335,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
-      "claimed_utc": "2026-08-27T22:13:48Z"
+      "claimed_utc": null,
+      "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (kinase-leads patch landed)"
     },
     {
       "id": "AUT-PD-027",
@@ -1404,8 +1409,8 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "experiment",
-      "state": "in_progress",
-      "owner": "kinase-leads-seat",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1426,7 +1431,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
-      "claimed_utc": "2026-08-27T22:14:13Z"
+      "claimed_utc": null,
+      "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (kinase-leads patch landed)"
     },
     {
       "id": "AUT-025",
@@ -1497,8 +1503,8 @@
         "strategy": "ST-REPURPOSING"
       },
       "kind": "experiment",
-      "state": "in_progress",
-      "owner": "kinase-leads-seat",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1519,7 +1525,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
-      "claimed_utc": "2026-08-27T22:14:13Z"
+      "claimed_utc": null,
+      "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (kinase-leads patch landed)"
     },
     {
       "id": "AUT-062",
