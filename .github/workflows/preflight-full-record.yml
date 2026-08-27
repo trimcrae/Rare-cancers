@@ -1,0 +1,80 @@
+name: Record PREFLIGHT_FULL evidence (publish_bar clause 2)
+
+# ⛔ WHY THIS EXISTS: publish_bar.py's `preflight_full_green` clause requires a committed receipt at
+# research/autonomy/preflight-receipts/<sha>.json, produced by a REAL `PREFLIGHT_FULL=1` run against
+# the exact pinned commit (record_bar_evidence.py preflight --sha <sha> --log <path>). That run
+# regularly takes ~25 minutes (fast gates + the manuscripts suite + the modalities suite, unscoped).
+#
+# Measured 2026-08-27: three consecutive dev-sandbox container restarts each interrupted the same
+# local run before it finished, with no partial result recoverable (CLAUDE.md section 1's own warning
+# about a long-running foreground-adjacent job in this container). The run itself is correct; the
+# container's lifetime is not long enough to host it reliably. A GitHub Actions runner's lifecycle is
+# independent of this dev container, so the run belongs here instead (ci-escape-hatches rung 1: the
+# answer must be a committed artifact someone will later quote, and this clause will need this same
+# evidence again for every future publish_bar evaluation of every paper -- rung 2's "will be re-run").
+
+on:
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: "Full 40-char commit sha to run PREFLIGHT_FULL=1 against"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: preflight-full-record-${{ github.event.inputs.sha }}
+  cancel-in-progress: false
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.sha }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install the gates' dependencies
+        run: ./scripts/dev-setup.sh --if-needed || pip install -q pypdf pdfminer.six jsonschema pytest
+
+      - name: Run PREFLIGHT_FULL=1 against the pinned commit
+        env:
+          SHA: ${{ github.event.inputs.sha }}
+        run: |
+          set -uo pipefail
+          echo "PINNED_SHA=$SHA" > /tmp/preflight-full.log
+          PREFLIGHT_FULL=1 ./scripts/preflight.sh >> /tmp/preflight-full.log 2>&1
+          echo "EXIT=$?" >> /tmp/preflight-full.log
+          echo "::group::preflight-full.log (tail)"
+          tail -80 /tmp/preflight-full.log
+          echo "::endgroup::"
+
+      - name: Record the evidence
+        env:
+          SHA: ${{ github.event.inputs.sha }}
+        # ⚠ Runs whatever the tree at $SHA happens to check out for record_bar_evidence.py's own
+        # code, which is fine: the script only reads the log and writes JSON, and does not read git
+        # state itself. The publish step below is what puts the result on `main`.
+        run: python3 research/autonomy/record_bar_evidence.py preflight --sha "$SHA" --log /tmp/preflight-full.log
+
+      - name: Publish the receipt and log to main
+        # ⛔ GOES THROUGH THE ONE PRIMITIVE, never a hand-rolled git commit+push -- see
+        # research/modalities/tests/test_no_hand_rolled_publish.py. This is an EVENT publish (one
+        # receipt for one sha), not a heartbeat, hence PUBLISH_IF_CHANGED=1.
+        env:
+          SHA: ${{ github.event.inputs.sha }}
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+        run: |
+          set -euo pipefail
+          bash research/compute/publish_artifacts.sh main \
+            "record PREFLIGHT_FULL evidence for ${SHA} (CI)" \
+            "research/autonomy/preflight-receipts/${SHA}.json" \
+            "research/autonomy/preflight-logs/${SHA}.log"
