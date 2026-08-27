@@ -3,12 +3,12 @@
   "_read_this_when": "you want to know whether the unattended research loop is WORKING \u2014 not whether what it wrote is correct, which every preflight gate already covers (\u00a75.1). A loop can be perfectly correct and advance nothing.",
   "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#52--loop-health--new-and-it-is-what-never-check-in-actually-requires",
   "_this_channel_is_PULL_ONLY": "nothing here sends, opens an issue, comments, or fails a run. \u00a77 trigger 4 is the ONE push, and it is the caller's act, not this file's: a condition red past its deadline earns a PushNotification and a line in the Friday digest, nothing else.",
-  "_generated_utc": "2026-08-27T20:00:21Z",
-  "_generated_et": "4:00 PM ET Aug 27, 2026",
+  "_generated_utc": "2026-08-27T21:46:51Z",
+  "_generated_et": "5:46 PM ET Aug 27, 2026",
   "_cycle_interval_h": 4.0,
   "_stale_window_basis": "read from autonomy-state.json `cycle_interval_hours` = 4 h, which is its one home (the governor writes it \u2014 architecture \u00a79.2). Not typed here.",
-  "_stale_after_utc": "2026-08-28T08:00:21Z",
-  "_stale_after_et": "4:00 AM ET Aug 28, 2026",
+  "_stale_after_utc": "2026-08-28T09:46:51Z",
+  "_stale_after_et": "5:46 AM ET Aug 28, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS CHECKING THE LOOP and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a checker that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed cycles at 4 h. Restart it: `gh workflow run autonomy-tick.yml --ref main`.",
   "ok": true,
   "_ok_means": "no condition is FAILING. \u26d4 IT DOES NOT MEAN EVERY CONDITION WAS MEASURED \u2014 read `fully_measured` and `unmeasured` beside it. `ok: true, fully_measured: false` is the honest shape of a loop nobody can yet grade, and it is NOT a healthy loop.",
@@ -32,11 +32,11 @@
       "needs_attention": false,
       "detail": "no gate verdict was supplied. This checker has no network by design, so it cannot read Actions itself. Settle it: have the tick workflow write {\"ok\": bool, \"red_since_utc\": str|null, \"detail\": str} and pass it with --gates-verdict.",
       "payload": {},
-      "last_seen_utc": "2026-08-27T20:00:21Z",
+      "last_seen_utc": "2026-08-27T21:46:51Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": "2026-08-26T21:05:29Z",
-      "consecutive_bad_runs": 2,
-      "bad_for_h": 22.91,
+      "consecutive_bad_runs": 3,
+      "bad_for_h": 24.69,
       "bad_since_et": "5:05 PM ET Aug 26, 2026",
       "on_red": "redirects"
     },
@@ -48,15 +48,15 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "the last receipt (CYC-0023.json) landed 0.0 h ago, inside the 8.0 h deadline.",
+      "detail": "the last receipt (CYC-0029-crossfil.json) landed -0.2 h ago, inside the 8.0 h deadline.",
       "payload": {
-        "receipts_seen": 23,
-        "latest_receipt": "CYC-0023.json",
-        "latest_receipt_et": "3:59 PM ET Aug 27, 2026",
-        "age_h": 0.01,
+        "receipts_seen": 30,
+        "latest_receipt": "CYC-0029-crossfil.json",
+        "latest_receipt_et": "6:00 PM ET Aug 27, 2026",
+        "age_h": -0.22,
         "deadline_h": 8.0
       },
-      "last_seen_utc": "2026-08-27T20:00:21Z",
+      "last_seen_utc": "2026-08-27T21:46:51Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -72,21 +72,21 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "3 of the last 3 cycles moved a live route (RT-PARTNER-STRAT, RT-DEGRADER, RT-AUTONOMY).",
+      "detail": "3 of the last 3 cycles moved a live route (RT-IPD-SURVIVAL, RT-AUTONOMY, RT-CHAPERONE, RT-LIMB-PERFUSION, RT-LUNG-DIRECTED, RT-IPD-SURVIVAL, RT-AUTONOMY).",
       "payload": {
         "window": [
-          "CYC-0021.json",
-          "CYC-0022.json",
-          "CYC-0023.json"
+          "CYC-0028-moriokat.json",
+          "CYC-0030-6be7fd5a.json",
+          "CYC-0029-crossfil.json"
         ],
         "route_advanced": [
-          "RT-PARTNER-STRAT",
-          "RT-DEGRADER",
+          "RT-IPD-SURVIVAL",
+          "RT-AUTONOMY, RT-CHAPERONE, RT-LIMB-PERFUSION, RT-LUNG-DIRECTED, RT-IPD-SURVIVAL",
           "RT-AUTONOMY"
         ],
-        "receipts_seen": 23
+        "receipts_seen": 30
       },
-      "last_seen_utc": "2026-08-27T20:00:21Z",
+      "last_seen_utc": "2026-08-27T21:46:51Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -104,10 +104,10 @@
       "needs_attention": false,
       "detail": "the ledger was read and no entry is in state `running`, so no entry can be frozen. Vacuously true, and stated as such: this row says the check ran, not that the loop is busy \u2014 `cycle_delivering` is the row that says that.",
       "payload": {
-        "entries": 126,
+        "entries": 141,
         "running": 0
       },
-      "last_seen_utc": "2026-08-27T20:00:21Z",
+      "last_seen_utc": "2026-08-27T21:46:51Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -125,10 +125,10 @@
       "needs_attention": false,
       "detail": "the ledger was read and no entry is in state `blocked`.",
       "payload": {
-        "entries": 126,
+        "entries": 141,
         "blocked": 0
       },
-      "last_seen_utc": "2026-08-27T20:00:21Z",
+      "last_seen_utc": "2026-08-27T21:46:51Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -144,18 +144,18 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "84 of 126 entr(ies) are takeable now.",
+      "detail": "84 of 141 entr(ies) are takeable now.",
       "payload": {
-        "entries": 126,
+        "entries": 141,
         "takeable": 84,
         "owned": [
-          "AUT-034",
+          "AUT-PROP-028",
           "AUT-036",
           "AUT-037",
-          "AUT-PROP-007"
+          "AUT-PROP-012"
         ]
       },
-      "last_seen_utc": "2026-08-27T20:00:21Z",
+      "last_seen_utc": "2026-08-27T21:46:51Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -175,20 +175,16 @@
       "payload": {
         "cap": 2,
         "sessions": {
-          "session_01NQWAPmTzoyTZTHSpCeZekU": 1,
-          "session_01Fj3EQfAMMXZsWfvjyoGjDP": 1,
-          "session_011h4nBFbDXnWtNwGDy34k91": 1,
-          "session_017u1bZT3At1tzWKzBeQBZcg": 1,
-          "session_01CvC9JUZCqZpHGrcKN2tDzJ": 1,
-          "6be7fd5a-28ea-50e3-8f4a-32e755af962a": 1
+          "354e0be6-45c8-5b86-b281-1aa10b07ae67": 1,
+          "sched-routine-aut-prop-022-473413b": 1,
+          "sched-routine-aut-041-0e2ca63": 1,
+          "morioka-transcription-seat": 1,
+          "6be7fd5a-28ea-50e3-8f4a-32e755af962a": 1,
+          "cross-file-key-sweep-seat": 1
         },
-        "handed_off": [
-          "session_01Fj3EQfAMMXZsWfvjyoGjDP",
-          "session_01NQWAPmTzoyTZTHSpCeZekU"
-        ],
         "worst": 1
       },
-      "last_seen_utc": "2026-08-27T20:00:21Z",
+      "last_seen_utc": "2026-08-27T21:46:51Z",
       "last_change_utc": "2026-08-27T20:00:21Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -204,40 +200,20 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "1 cycle(s) recorded a fan-out; the widest was 3 against a cap of 5.",
+      "detail": "6 cycle(s) recorded a fan-out; the widest was 5 against a cap of 5.",
       "payload": {
         "cap": 5,
         "measured": {
-          "CYC-0023": 3
+          "CYC-0025": 0,
+          "CYC-0026-schedrou": 0,
+          "CYC-0027-schedrou": 0,
+          "CYC-0028-moriokat": 0,
+          "CYC-0030-6be7fd5a": 5,
+          "CYC-0029-crossfil": 0
         },
-        "receipts_not_recording_dispatch": [
-          "CYC-0018",
-          "CYC-0019",
-          "CYC-0020",
-          "CYC-0021",
-          "CYC-0022"
-        ],
-        "recorded_under_a_drifted_key": {
-          "CYC-0018": {
-            "dispatched": 0
-          },
-          "CYC-0019": {
-            "concurrent_max": 5,
-            "dispatched": 5
-          },
-          "CYC-0020": {
-            "launched": 0
-          },
-          "CYC-0021": {
-            "launched": 5
-          },
-          "CYC-0022": {
-            "launched": 0
-          }
-        },
-        "worst": 3
+        "worst": 5
       },
-      "last_seen_utc": "2026-08-27T20:00:21Z",
+      "last_seen_utc": "2026-08-27T21:46:51Z",
       "last_change_utc": "2026-08-27T20:00:21Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -257,7 +233,7 @@
       "payload": {
         "backoff_level": 0
       },
-      "last_seen_utc": "2026-08-27T20:00:21Z",
+      "last_seen_utc": "2026-08-27T21:46:51Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -278,7 +254,7 @@
         "acts_seen": 0,
         "authority_file": "present"
       },
-      "last_seen_utc": "2026-08-27T20:00:21Z",
+      "last_seen_utc": "2026-08-27T21:46:51Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -287,7 +263,7 @@
       "on_red": "blocks"
     }
   ],
-  "_commit_worthy": true,
-  "_commit_worthy_why": "a verdict changed",
+  "_commit_worthy": false,
+  "_commit_worthy_why": "every verdict is unchanged and the committed board is not near its expiry \u2014 this run carries no information the last one did not",
   "_commit_worthy_means": "fleet_armed.py's discipline: the caller COMMITS this file only when this is true. A board whose verdicts are unchanged carries no information (measured cost of ignoring that: 1,476 commits in 24 h, 703 of them non-events), and the keep-alive clause makes sure a live checker can never be the reason the board looks dead."
 }

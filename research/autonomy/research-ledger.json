@@ -5,7 +5,7 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
-    "process_defect": 23,
+    "process_defect": 24,
     "harden": 12,
     "fix": 10,
     "build": 1,
@@ -21,7 +21,7 @@
   },
   "n_by_state": {
     "done": 32,
-    "queued": 104,
+    "queued": 105,
     "superseded": 1,
     "in_progress": 3
   },
@@ -4219,6 +4219,34 @@
       "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
       "what": "⛔ THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING — research-loop §1 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the §6 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n⚠ ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT — never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening §8b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. ⛔ DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. ⭐ These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them — which is exactly why they could sit red unnoticed.",
       "_score_basis": "a red trunk blocks every cycle's commit gate; research-loop §1 makes it the cycle rather than a task within one"
+    },
+    {
+      "id": "AUT-PD-031",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
+      "score": 125.0,
+      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
+      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited"
     }
   ]
 }
