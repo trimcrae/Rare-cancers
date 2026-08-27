@@ -9,17 +9,16 @@
     "code": 1,
     "experiment": 23,
     "fetch": 11,
-    "harden": 2,
+    "harden": 3,
     "negative": 32,
-    "process": 4,
+    "process": 6,
     "process_defect": 5,
     "regrade": 7,
     "write": 6
   },
   "n_by_state": {
-    "done": 2,
-    "in_progress": 1,
-    "queued": 89
+    "done": 3,
+    "queued": 92
   },
   "n_clamped": 11,
   "entries": [
@@ -81,8 +80,8 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "in_progress",
-      "owner": "CYC-0017",
+      "state": "done",
+      "owner": null,
       "claimed_utc": "2026-08-27T04:20:40Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -94,6 +93,32 @@
       "filed_by": "CYC-0015",
       "prerequisite_of": "AUT-049",
       "what": "\u2b50 RUN A BLIND SEAT ON A PINNED COMMIT FOR PUB-FUSION-PARTNER \u2014 this is what clauses 1 and 6 of the publish bar actually need, and no amount of coverage guarding can reach either. MEASURED BY CYC-0015 against ec78ba9: the bar reads 4/6, clause 1 FAILs with `record names no seats` and clause 6 is UNVERIFIABLE for want of `review-seats/PUB-FUSION-PARTNER-<sha>.json`. \u26d4 THE SEAT MUST BE INDEPENDENT: a session that authored or applied the paper's fixes is not blind, so this is a SPAWNED SESSION or a subagent seat (research-loop \u00a73), never the driver reviewing its own tree. The record it writes must carry `blind`, `reviewed_commit`, `verdict`, a `central_claim` of at least 40 characters and `document_sha256` = sha256 of `git show <sha>:<the endpoint's document>` \u2014 clause 6 now refuses a record missing any of them. Then run `record_bar_evidence.py hardening` to derive the round record FROM that seat. \u26a0 AND PIN FIRST: every guard commit moves the tree and un-pins the evidence, which is why three cycles of round 5 left both clauses exactly where they started.",
+      "score": 195.5,
+      "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
+      "observed": "DONE. Five blind seats ran on pin 053a8211 at subagent_width=5, none of them the driver, and their records are committed at research/autonomy/review-seats/PUB-FUSION-PARTNER-053a8211*.json. record_bar_evidence.py hardening derived round 6 FROM those seats. \u2b50 WHAT CHANGED IS THE KIND OF READING THE BAR RETURNS, NOT THE SCORE: it is still BLOCKED at 3/6, but clause 1 moved from 'record names no seats' to a measured '4 blocker(s), 11 P1(s) open at round 6', and clause 6 from UNVERIFIABLE to FAIL with verdict 'not_supported'. An absent reading became a reading of absence's opposite \u2014 somebody looked. \u26d4 THREE DISTINCT BLOCKERS, ALL VERIFIED BY THE DRIVER, ALL NON-NUMERIC: (B1) \u00a75's claims bullet says 'either of the two series that ran a multivariable model (Huang 2023)' while exactly one cohort record carries multivariable_result and the paper's own A17 retracts that wording \u2014 a half-applied replacement by e7cff259, whose same commit added A24 claiming the fix; (B2) \u00a73.4 opens 'Two series, both larger than any cohort that could be pooled here' and both ARE pooled here; (B3) the '\u224827 % the field routinely quotes' at four sites is unsourced, and reference [4] (PMC7563993, a Review) says about 20 %, which sits inside the paper's own 12.9-25.0 interval. \u2b50 THE SHAPE IS THE FINDING: the arithmetic seat re-derived 140 printed quantities with ZERO mismatches and ran the generator's verify mode, the 122-test prose guard and the 9-test mutation suite clean. Not one defect is a wrong number. Every one is a count-word, a comparative or an attribution \u2014 paper-hardening \u00a78a measured rather than argued."
+    },
+    {
+      "id": "AUT-PROP-011",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0017",
+      "prerequisite_of": "AUT-049",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-053a821102c352e74c0f3f4c125277e7ff183191.json",
+      "what": "\u2b50 APPLY ROUND 6's THREE VERIFIED BLOCKERS, THEN RE-PIN AND RE-SEAT. The findings, their quoted text, the artifact field that contradicts each and the driver's verification are in the canonical seat record's `blockers_distinct_verified_by_driver` \u2014 READ THEM THERE, do not carry them forward as a summary. \u26d4 EACH FIX IS A REPLACEMENT, NEVER AN APPENDED QUALIFIER (paper-hardening \u00a71): B1 and B2 EXIST because a previous correction replaced half a sentence and left the wrong half standing, and B1's own commit added an appendix row claiming the repair its diff did not contain (\u00a77b). Check the diff against the message before committing, and re-read both sentences whole afterwards. \u26a0 B3 IS NOT A NUMBER FIX: '\u224827 % the field routinely quotes' is an unsourced claim about the field's practice at four sites, and the honest repair is to say what Agaram 2014 reports and what the reviews in this paper's own reference list report (about 20 %, PMC7563993 and PMC9813045), not to swap one unsourced figure for another \u2014 note that ~20 % falls INSIDE the paper's pooled interval, so the 'below what the field quotes' framing may not survive at all, and losing it is a legitimate outcome rather than a problem to write around. \u26d4 THEN THE ROUND IS NOT DONE: every guard commit moves the tree and un-pins the evidence, so finish the fixes, pin the NEW head, run fresh blind seats on it (the applier is not blind \u2014 subagents or a spawned session), and re-derive the round record. Round 7.",
       "score": 195.5,
       "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it"
     },
@@ -429,6 +454,30 @@
       }
     },
     {
+      "id": "AUT-PROP-012",
+      "kind": "process",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0017",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-053a821102c352e74c0f3f4c125277e7ff183191.json",
+      "what": "\u2b50 BIND THE RELATION HALF \u2014 round 6 measured the gap instead of arguing it. One seat re-derived 140 printed quantities from the artifacts with ZERO mismatches, and ran emc_fusion_partner_pooling.py --check, the 122-test prose guard and the 9-test mutation suite clean. In the same tree, five seats found three blockers, and NOT ONE is a number: a cardinal written as the WORD 'two' (\u00a75), a COMPARATIVE 'larger than any cohort that could be pooled here' (\u00a73.4), and an unsourced claim about what THE FIELD quotes (four sites). That is paper-hardening \u00a78a's 'a claim is a QUANTITY and a RELATION, and the guard set was built on the quantity half' reproduced with a measurement under it. \u26d4 SO DO NOT ADD MORE NUMBER CHECKS. Three surfaces, each with a derivable witness already on disk: (1) COUNT-WORDS \u2014 'the one/two/three series that ...' against sum(1 for c in cohorts if <key> in c); the guard's own `_word` helper already exists and is used for \u00a78's cache-slug count. (2) COMPARATIVES AND SUPERLATIVES over the paper's own pool \u2014 'larger than any cohort that could be pooled here', 'the largest series to test X directly' \u2014 decidable against analyses.*.pooled_cohorts / cohorts_pooled. (3) CLAIMS ABOUT THE FIELD'S PRACTICE ('the field routinely quotes', 'usually attributed to') \u2014 these need a named source or they need to go; B3 and the \u00a73.8 P2 are both this shape, and Appendix A11 is a third instance the paper already retracted. \u26d4 MUTATION-TEST EVERY GUARD, SINGLE-SITE MUTATIONS INCLUDED, into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit. \u26a0 Scope by the PROPERTY, never by a list of sites (paper-hardening \u00a78b.2: six of eleven list-scoped fixes regressed at a sibling).",
+      "score": 175.0,
+      "_score_basis": "hand-filed by CYC-0017. Same rank as AUT-PROP-007 \u2014 a guard, not a route, but it closes the class that produced every blocker of round 6."
+    },
+    {
       "id": "AUT-PROP-007",
       "kind": "process",
       "serves": {
@@ -472,6 +521,34 @@
       "filed_by": "CYC-0016",
       "score": 170.0,
       "what": "Close the single-slot-artifact hazard in atr_hrd_sarcoma_series.py (mode: gse-series). CYC-0016's hardening round found that section 8 of PUB-ATR's entire evidence base had been silently overwritten with a DIFFERENT series' data (GSE28866 instead of GSE299349) by an unrelated restore commit (4a7030e, 2026-08-26) that swept in a stale snapshot of the whole toolchain. `--check` passed throughout because it only verifies the artifact reproduces from its own inputs cache, never that the cache is for the series a citing manuscript names. Add a `--check` failure (or a standalone test) that compares the committed `series` field against the SERIES module constant, and ideally against every manuscript that cites this artifact as its producer, so this exact silent-clobber cannot recur on the next unrelated dispatch or restore. Fixed once already by re-dispatching emc-expression-datasets.yml mode=gse-series series=GSE299349 (run 33039862314 -> commit a8caba9) \u2014 this item is the guard against it happening again, not the data fix itself."
+    },
+    {
+      "id": "AUT-PROP-013",
+      "kind": "process",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0017",
+      "process_defect": true,
+      "what": "\u26d4 NOTHING ALLOCATES AN ID OF ANY KIND IN THIS LOOP, AND THE SAME COLLISION FIRED TWICE IN ONE HOUR ON TWO DIFFERENT ID SPACES \u2014 measured 2026-08-27, not hypothesised. \u2b50 THE SECOND INSTANCE IS THE ONE THAT GENERALISES IT: this cycle and its sibling ALSO both filed ledger entries numbered AUT-PROP-009 and AUT-PROP-010, from the same max+1 derivation over the same committed ledger, for four entirely different items (RT-PARTNER-STRAT guards here, RT-ATR-ASSESS fixes there). Caught only by a rebase conflict on the ledger; the cycle-id half was caught only because the two claims raced on one push window. So the defect is not about cycle ids, it is about EVERY id the loop mints as max+1 from committed state \u2014 cycle ids, AUT-PROP entry ids, and anything later given the same treatment. This cycle derived 'CYC-0016' from the receipts directory; a sibling session that started ~50 s later derived the same id from the same committed state and committed c1bc934 'CYC-0016: claim AUT-010'. Both would have written research/autonomy/receipts/CYC-0016.json, and the ledger's `owner` field would have named one id for two different sessions on two different items. The collision was caught only because a rebase put the two claims side by side; had they not raced on the same push window, the second receipt would have silently overwritten the first. \u2b50 THE DERIVATION IS THE BUG: every session computes the id from the same committed state, so concurrency is outside the derivation by construction, and the loop's own architecture assumes cycles are serial when nothing enforces that. Tiebreak taken here was ad-hoc \u2014 claimed first (04:20:40Z vs 04:21:20Z), landed second, so this cycle renumbered itself to CYC-0017 \u2014 and an ad-hoc tiebreak is not a mechanism. \u26a0 FIX THE ALLOCATION, NOT THE TIEBREAK: an id that cannot collide (the session id, or a receipt filename carrying it) beats a rule about who yields, because the yielding session must first NOTICE, and a session that pushes cleanly never does. Check `health.py` too: `cycles_are_sized` reads receipts by session_id and would mis-group two sessions sharing a cycle id. \u26d4\u26d4 THIRD INSTANCE, AND IT IS ALREADY IN THE COMMITTED LEDGER: `AUT-PD-012` IS USED TWICE, by two entirely different process defects \u2014 CYC-0011's 'the harness reported exit code 0 for a backgrounded preflight that FAILED' and CYC-0015's 'the ledger's retry budget governs nothing'. Those cycles were SEQUENTIAL, not concurrent, which kills the comfortable reading that this is a race: the derivation collides on its own. Present at 053a821 and on origin/main, so it predates CYC-0017 and has been sitting there unnoticed \u2014 nothing in the loop validates id uniqueness, so a duplicate is invisible until a human or a rebase trips over it. \u2b50 THE FIX THEREFORE HAS TWO PARTS AND THE SECOND IS THE CHEAP ONE: allocate ids so they cannot collide, AND add a uniqueness assertion over `entries[*].id` to priority.py or the gate set, which would have caught all three instances at the commit that created them. De-duplicating the existing AUT-PD-012 pair belongs to this item.",
+      "score": 170.0,
+      "_score_basis": "hand-filed by CYC-0017. Below the manuscript guards: it corrupts the loop's own record-keeping rather than a paper, but it fails silently and it fired TWICE in one hour on two different id spaces.",
+      "evidence_paths": [
+        "research/autonomy/research-ledger.json (two entries with id AUT-PD-012)",
+        "research/autonomy/receipts/CYC-0017.json"
+      ]
     },
     {
       "id": "AUT-013",

@@ -1,0 +1,60 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "One blind seat's raw record. The canonical clause-6 file for this commit merges the seats and deliberately carries EMPTY tallies, so clause 1's derivation over the glob counts each finding exactly once.",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "053a821102c352e74c0f3f4c125277e7ff183191",
+  "blind": true,
+  "_blind_means": "Given the document path and the pinned sha and nothing else. Forbidden research/autonomy/, CLAUDE.md, AGENTS.md, STRATEGY.md, the program map, every skill file and every commit message. Instructed to refute by default and told there is no wanted answer. Dispatched concurrently at subagent_width=5 by CYC-0017, which had not authored or applied any fix to this paper.",
+  "document_sha256": "cae2ce621b1449172585681ca502cb41ddc3efe720a56779aa4b553e7b190ea8",
+  "cycle_id": "CYC-0017",
+  "round": 6,
+  "utc": "2026-08-27T04:39:00Z",
+  "seat": "arithmetic",
+  "verdict": "supported",
+  "lens": "Every printed quantity re-derived from the artifact that produces it, with the seat's own Wilson and Fisher implementations rather than the generator's.",
+  "central_claim": "The NR4A3 5' fusion partner is a CANDIDATE, not established, stratification variable in EMC, and the two halves are in different states. Prognosis: 7/15 = 46.7 % vs 6/58 = 10.3 %, 36.3 points, post-hoc Fisher p = 0.0034, simultaneously defeated by Huang's own multivariable model where the partner loses to tumour size (>10 cm, HR 30.60) and metastasis at presentation (HR 8.14). Response: 0 of 3 to 0 of 5 TAF15 patients, Wilson upper bound 43.4–56.1 % sitting ABOVE the comparator arm's own point estimate — a direction only, no magnitude. Prevalence pools at 28/154 = 18.2 % (12.9–25.0). It does NOT establish non-response, an independent prognostic effect, mechanism, or anything about local recurrence or metastasis in either direction; it is not a meta-analysis and makes no treatment recommendation.",
+  "blockers": [],
+  "p1s": [
+    {
+      "where": "§3.3 'a direction flip whose comparator-arm spread is 22.4 points'",
+      "finding": "One-of-a-pair guard gap. The value is stated at three sites (§2.5, §3.3, Appendix A22); two are bound to the artifact and the §3.3 site is matched by NO binding pattern. Correct today, so an edit moving Huang's or Agaram's local-recurrence counts would move the artifact and the two guarded sites and leave §3.3 silently stale.",
+      "evidence": "analyses.B_outcome_by_partner.local_recurrence.heterogeneity_comparator_arm.spread_percent = 22.4; coverage computed by replaying every BINDINGS regex against the flattened prose — the §3.3 occurrence has zero covered characters."
+    },
+    {
+      "where": "§3.2 '35/67 relapse split', §4.11 'surgically treated 1989–2016' and 'enrolled 24 Jun 2014 – 17 Jan 2017', §3.5 'every series' TAF15 arm is 2–10 patients' and '≈27 % the field routinely quotes'",
+      "finding": "Five further quantities correct today and homed in the artifact, reached by no binding, so either side can drift without a red build.",
+      "evidence": "Homes: retrieval_provenance.not_retrievable['Paioli 2021 …']; citations.paioli2021.population; citations.stacchiotti2019.population; analyses.C_partner_prevalence.verdict; analyses.C_partner_prevalence.outlier_note. None matched by any BINDINGS pattern."
+    },
+    {
+      "where": "§1.1 '\"EMCs are translocation sarcomas and harbor in > 90% of the cases an NR4A3 rearrangement\" [12]' against the banner 'Every number below has one home: emc-fusion-partner-pooling.json'",
+      "finding": "The '> 90%' figure has NO field anywhere in emc-fusion-partner-pooling.json — '90' occurs in that file only inside '95%'. The document's opening universality claim is measurably false inside the document. The figure itself is NOT wrong: the verbatim sentence is Bangerter 2022's abstract and is held in three other tracked artifacts, so this is provenance/coverage, not claim integrity.",
+      "evidence": "grep of the artifact at the pin returns no '>90' / '90 %' match; the sentence is present at the pin in research/literature/rt-lung-mets-probe.json, research/modalities/emc-line-data-probe.json:15, research/manuscripts/aso/lit-targets-aso-verify.json:615 and research/modalities/hemcss-label-priorart.json:271."
+    }
+  ],
+  "p2s": [
+    {
+      "where": "§3.2 'Huang 2023 (Taiwan), 50 partner-assigned with follow-up of 58' vs 'partner prevalence | … Huang 2023 (57)'",
+      "finding": "'Partner-assigned' carries two incompatible denominators for the same cohort inside the same table: prevalence rows include TCF12/TFG (Huang 57), outcome rows silently mean EWSR1-or-TAF15 only (50). Taken at face value the page implies 7 Huang patients lack follow-up while §4.7 says 5. No pooled figure is affected.",
+      "evidence": "cohorts[huang-2023-outcome].counts_read_from ('50 of the 53 with follow-up; the remaining 3 are the miscellaneous group -- 2 TCF12, 1 partner unidentified'); cohorts[huang-2023-prevalence].counts {46,9,2}, not_partner_assigned 1."
+    },
+    {
+      "where": "§2.5 'the per-stratum denominator runs from three … to fifty-eight … and the event count from zero … to fourteen'",
+      "finding": "The range is derived over a narrower set than the sentence names: the artifact scopes it to the 10 strata this synthesis POOLS, the prose to the strata in §3.1 and §3.3 — and §3.3 also prints Huang's within-cohort 16/42, outside the stated range.",
+      "evidence": "method.not_used; analyses.B_outcome_by_partner.huang_only_metastasis_readings.any_distant_metastasis.comparator_arm = {events 16, denom 42}."
+    },
+    {
+      "where": "§3.5 'every series' TAF15 arm is 2–10 patients' vs '(1 of 9 in Pilsen/Znojmo)' four sentences later",
+      "finding": "Exact for the four POOLED prevalence series (2, 7, 9, 10) but written as unrestricted 'every series' and contradicted on the same page by Klubíčková 2022's arm of 1. One word ('every pooled series') would make it true.",
+      "evidence": "cohorts[klubickova-2022-prevalence].counts['TAF15::NR4A3'] = 1 over 9 partner-assigned."
+    },
+    {
+      "where": "§6 ask table, Stacchiotti 2019 row: 'four of the five listed institutional handles are metadata-only'",
+      "finding": "Residual of Appendix A25. The row places all five handles under Stacchiotti 2019, but the underlying measurement is explicitly joint for Stacchiotti 2019 AND 2014 and does not attribute handles per paper — which A25 itself registers.",
+      "evidence": "retrieval_provenance.not_retrievable['Stacchiotti 2019 Lancet Oncol full text (PMID 31331701)']: 'for this paper and Stacchiotti 2014 TOGETHER -- the measurement does not split them per paper'."
+    }
+  ],
+  "numbers_checked": 140,
+  "numbers_reconciled": "All 44 {events, denom, percent, ci95_lo, ci95_hi} arm records reproduce to the stated decimal, zero mismatches; all 13 Fisher exact two-sided p-values reproduce; all three pooled gaps computed from unrounded proportions; every additive identity; the whole prevalence pool and every per-cohort share and the 13.4-point spread; the Sjögren counterfactual; the Huang size cells; SEMA3C's ratios from gse28866; the four author-list lengths and all six pairwise intersections, empty on surname alone; §8's self-census. Also ran the generator's verify mode (emc_fusion_partner_pooling.py --check → OK, exit 0), the prose-vs-artifact guard (122 passed) and the --check mutation suite (9 passed).",
+  "could_not_check": "Any primary source's own integers — the egress proxy blocks the publishers and Huang's counts are by design a human PDF read no artifact can re-derive, so analysis B is verified for internal consistency and against the artifact, never against the paper. The ≈27 % attributed to 'the field' names no source anywhere; it is homed only as prose in analyses.C_partner_prevalence.outlier_note."
+}

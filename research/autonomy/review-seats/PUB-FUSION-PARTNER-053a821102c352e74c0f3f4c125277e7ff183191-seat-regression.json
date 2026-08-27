@@ -1,0 +1,61 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "One blind seat's raw record. The canonical clause-6 file for this commit merges the seats and deliberately carries EMPTY tallies, so clause 1's derivation over the glob counts each finding exactly once.",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "053a821102c352e74c0f3f4c125277e7ff183191",
+  "blind": true,
+  "_blind_means": "Given the document path and the pinned sha and nothing else. Forbidden research/autonomy/, CLAUDE.md, AGENTS.md, STRATEGY.md, the program map, every skill file and every commit message. Instructed to refute by default and told there is no wanted answer. Dispatched concurrently at subagent_width=5 by CYC-0017, which had not authored or applied any fix to this paper.",
+  "document_sha256": "cae2ce621b1449172585681ca502cb41ddc3efe720a56779aa4b553e7b190ea8",
+  "cycle_id": "CYC-0017",
+  "round": 6,
+  "utc": "2026-08-27T04:39:00Z",
+  "seat": "regression",
+  "verdict": "not_supported",
+  "lens": "Regression on the document's own repair history — read every diff of the file up to the pin, ignoring commit messages, hunting for damage previous edits did that is invisible to a reader of the current text.",
+  "central_claim": "The NR4A3 5' fusion partner is a CANDIDATE, not an established, stratification variable in EMC. It establishes (a) a crude pooled magnitude for disease-specific death by partner over two cohorts and 73 patients (7/15 = 46.7 % vs 6/58 = 10.3 %), which it immediately defeats by pointing at the larger cohort's own multivariable model where the partner loses to tumour size; (b) a pooled TAF15 prevalence of 28/154 = 18.2 %. It does NOT establish that TAF15 predicts non-response to antiangiogenic TKIs, does NOT establish an independent prognostic effect, does NOT establish a metastasis difference in either direction, and makes no treatment recommendation. No systematic search was run, so every exhaustiveness claim is bounded to this repository's citation set.",
+  "blockers": [
+    {
+      "id": "RG-B1",
+      "where": "§5 'What this synthesis claims', claims bullet: \"does not survive adjustment for tumour size in either of the two series that ran a multivariable model (Huang 2023), while the second series to test it (Paioli 2021) ...\"",
+      "finding": "A half-applied repair in the pin's own last revision. Commit e7cff25 replaced the bullet's CONTINUATION line and left its first line, 'in either of the two', standing. The sentence now asserts that TWO series ran a multivariable model — the exact over-attribution Appendix A17 registers as retracted — names only one, and then introduces Paioli as a separate series whose adjustment structure is UNKNOWN. Self-contradictory under every parse, in the section §5 itself designates as the source of the quoted-onward endpoint text.",
+      "evidence": "emc-fusion-partner-pooling.json at the pin: of 16 cohort records exactly one, huang-2023-outcome, carries multivariable_result. Contradicted in-document by §3.4 ('it is not counted as a second multivariable result'), Appendix A17 ('Only Huang 2023 is recorded anywhere here as having run a multivariable model'), and §5's own endpoint sentence twelve lines below ('the one series that ran a multivariable model')."
+    }
+  ],
+  "p1s": [
+    {
+      "where": "research/manuscripts/tests/test_fusion_partner_prose_matches_its_artifact.py",
+      "finding": "The count of series that ran a multivariable model is stated at five sites (§1.2 table, §3.3, §3.4, §4.1a, §5) and bound by no instrument. That is why RG-B1 survived a commit whose stated purpose included fixing this claim. The census matches only \\d+/\\d+ and percentages plus four statistical notations, so a cardinal written as an English word is outside every surface it enumerates. The artifact makes the value trivially derivable: sum(1 for c in cohorts if 'multivariable_result' in c) == 1.",
+      "evidence": "grep -i multivariable over research/manuscripts/tests/ at the pin returns only hazard-ratio and published-p bindings into cohorts[huang-2023-outcome].multivariable_result. No test reads how many cohorts carry the key. The guard's own _word helper exists and is used for §8's cache-slug count but not here."
+    }
+  ],
+  "p2s": [
+    {
+      "where": "§1.2 opening: \"supported in four places that do not talk to each other\"",
+      "finding": "Surviving copy of the framing Appendix A14 retracted. The retraction was applied to §5's first claims bullet and to nothing in §1.2. Two of the four 'places' demonstrably do talk to each other. A charitable reading survives, hence P2.",
+      "evidence": "§3.6 'Brenca 2019 is not an independent replication ... shares its senior investigators and consortium (Milan/Aviano) with both TKI reports'; §4.10; Appendix A14. References [1],[2],[3],[11] all carry Stacchiotti S."
+    },
+    {
+      "where": "§2.5 I² bullet: \"the range of per-cohort rates, printed beside every pooled figure\"",
+      "finding": "Three of the four pooled figures in §3.5's prevalence table — EWSR1 77.9 %, TCF12 3.2 %, TFG 0.6 % — carry no per-cohort range in the prose and no heterogeneity block in the artifact. Second consecutive round in which this sentence is the finding.",
+      "evidence": "analyses.C_partner_prevalence carries exactly one heterogeneity block, heterogeneity_TAF15."
+    },
+    {
+      "where": "Abstract Background \"no source pools the response data at all\" vs §2.3a",
+      "finding": "One-of-a-pair residue from Appendix A16. A16 bounded the sibling sentence in place in both the Abstract and §3.1; the first of the pair was left absolute in the Abstract. §2.3a's own stated rationale now argues against the treatment it gives that sentence.",
+      "evidence": "Abstract line 50 vs §2.3a lines 205-213; Appendix A16 records the fix for the second sentence only."
+    },
+    {
+      "where": "Abstract: \"Local recurrence (26.7 % vs 22.4 %) and distant metastasis (33.3 % vs 24.1 %) show no material separation.\"",
+      "finding": "§3.3 was amended to say the pooled local-recurrence gap is a cancellation of two cohorts that disagree, not a small shared effect. The Abstract's summary of the same row was not touched, so an Abstract-only reader takes away the reading §3.3 was amended to prevent. Pooled, the sentence is true, hence P2.",
+      "evidence": "analyses.B_outcome_by_partner.local_recurrence.heterogeneity_comparator_arm.spread_percent = 22.4; diff e7cff25 touches §3.3 and not the Abstract."
+    },
+    {
+      "where": "§3.4 opening: \"Two series, both larger than any cohort that could be pooled here\"",
+      "finding": "Stale from the single-cohort era, byte-identical from the file's first commit through three revisions that rewrote the sentences around it. Graded P2 here on a charitable 'larger than any pooled ARM' reading. ⛔ THE STATISTICS SEAT GRADED THE SAME SENTENCE A BLOCKER AND THE DRIVER UPHELD THAT — see the canonical record.",
+      "evidence": "§3.4's own later line 'Huang 2023's event counts are now pooled in §3.3'; cohorts[huang-2023-outcome].pool is true."
+    }
+  ],
+  "numbers_reconciled": "All per-cohort arms sum to their pooled arms (death 3+4=7/15, 1+5=6/58; local recurrence 2+2=4/15, 1+12=13/58; metastasis 2+3=5/15, 6+8=14/58); prevalence 120+28+5+1=154 and 7/24, 9/57, 2/11, 10/62 = 28/154 = 18.2 %; the Sjögren counterfactual 31/163 = 19.0 %; §8's whole census. Every figure stated at more than one site agrees with itself.",
+  "could_not_check": "Nothing under research/autonomy/. No primary literature — Huang 2023's Table 1, the Lancet Oncol and Ann Surg Oncol full texts are not in the sandbox, so every count is checked against the artifact and never against the source."
+}

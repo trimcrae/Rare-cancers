@@ -1,0 +1,68 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "The blind adversarial seat record required by publish_bar.py clause 6. A seat that saw the authoring context is not independent evidence, and a seat that reviewed a different tree is not a review of this one.",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "053a821102c352e74c0f3f4c125277e7ff183191",
+  "document_sha256": "cae2ce621b1449172585681ca502cb41ddc3efe720a56779aa4b553e7b190ea8",
+  "blind": true,
+  "_blind_means": "Five seats, each given the document path and the pinned sha and nothing else — no authorship, no history, no statement of what the programme wants the answer to be, and no sight of each other's work. Each was forbidden research/autonomy/, CLAUDE.md, AGENTS.md, STRATEGY.md, the program map, every skill file and every commit message, and each was told to refute by default and that there is no wanted answer. The driver, CYC-0017, had authored no part of this paper and applied no fix to it.",
+  "utc": "2026-08-27T04:41:00Z",
+  "cycle_id": "CYC-0017",
+  "round": 6,
+  "seat": "five blind seats — regression, arithmetic, statistics, citations-and-instruments, hostile-referee",
+  "verdict": "not_supported",
+  "_verdict_note": "⛔ THREE DISTINCT BLOCKERS SURVIVED VERIFICATION, so clause 6 FAILS on this commit and the paper cannot post — which is correct and is the gate working. Two of five seats returned not_supported; three returned supported, and one of those three (citations-and-instruments) filed a blocker while noting explicitly that its verdict should read not_supported if the driver treats §5's claims bullets collectively as the central claim. The driver does: §5 is the section the document itself designates as the source of the endpoint text quoted onward. ⭐ THE CENTRAL FINDING IS NOT ANY ONE BLOCKER, IT IS THEIR SHAPE. The arithmetic seat re-derived 140 printed quantities — all 44 arm records, all 13 Fisher p-values, every additive identity, every Wilson bound — with ZERO mismatches, and ran the generator's verify mode, the prose guard (122 passed) and the mutation suite (9 passed) clean. Not one defect found by any seat is a wrong NUMBER. All three blockers are non-numeric: a count written as the WORD 'two', a COMPARATIVE ('larger than any cohort that could be pooled here'), and an unsourced claim about what THE FIELD quotes. This is paper-hardening §8a's diagnosis measured rather than argued — the guard set is built on the quantity half of 'a claim is a QUANTITY and a RELATION' — and it says the next instrument must bind relations, not that the next round needs more number checks.",
+  "central_claim": "The NR4A3 5' fusion partner is a CANDIDATE, not an established, treatment-stratification variable in EMC, and its two halves stand in different evidentiary states. PROGNOSIS has a crude pooled magnitude: over the only two cohorts publishing partner-stratified event counts (Agaram 2014 and Huang 2023; 73 partner-assigned patients) disease-specific death is 7/15 = 46.7 % (Wilson 24.8-69.9) with TAF15::NR4A3 against 6/58 = 10.3 % (4.8-20.8) with EWSR1::NR4A3 — a crude, unadjusted, uncensored during-follow-up contrast that the paper defeats in the same breath, because the larger contributing cohort's own multivariable model drops the partner once tumour size is entered. TREATMENT RESPONSE has direction only: 0 of 3 to 0 of 5 TAF15 patients responded to an antiangiogenic TKI in the sources examined, and the Wilson upper bound on that null (43.4-56.1 %) sits ABOVE the comparator arm's own point estimate, so equal response rates cannot be excluded at any denominator. It does NOT establish that TAF15::NR4A3 predicts non-response, that the partner is an independent prognostic factor, that the partner is mechanistically responsible for anything, or any treatment recommendation; it is not a meta-analysis; and no systematic search was run, so every exhaustiveness claim is bounded to this repository's citation set.",
+  "blockers": [],
+  "p1s": [],
+  "_tallies_are_deliberately_empty": "⛔ NOT A CLAIM THAT NOTHING WAS FOUND — the opposite. clause_1_hardening_converged globs `PUB-FUSION-PARTNER-<sha>*.json`, which matches this canonical file AND the five per-seat files, and concatenates every matching record's `blockers` and `p1s`. Carrying the merged lists here too would count every finding twice and print a tally nobody could reconcile against the seats. The tallies therefore live once, in the five per-seat records, and this file carries the verdict, the central claim and the document digest that clause 6 reads. The distinct counts are recorded below. ⚠ AND THAT IS WHY THE ROUND RECORD SAYS `6 blind seat(s)` FOR FIVE LENSES: the producer counts every file matching the glob, and this canonical merge record is one of them. Five lenses reviewed the tree; the sixth name is this file.",
+  "distinct_findings": {
+    "blockers_distinct": 3,
+    "blocker_instances_across_seats": 4,
+    "p1_instances_across_seats": 11,
+    "p2_instances_across_seats": 21,
+    "note": "4 instances dedupe to 3 because the §5 multivariable-count blocker was found INDEPENDENTLY by the regression seat (RG-B1) and the statistics seat (ST-B1), which could not see each other. paper-hardening §4: independent convergence is the signal that a finding is real."
+  },
+  "blockers_distinct_verified_by_driver": [
+    {
+      "id": "B1",
+      "seats": [
+        "regression RG-B1",
+        "statistics ST-B1"
+      ],
+      "where": "§5 'What this synthesis claims', claims bullet",
+      "quote": "does not survive adjustment for tumour size in either of the two series that ran a multivariable model (Huang 2023), while the second series to test it (Paioli 2021) ...",
+      "why_wrong": "Asserts two series ran a multivariable model while naming one, and contradicts itself inside the same sentence.",
+      "driver_verification": "CONFIRMED. Parsed emc-fusion-partner-pooling.json at the pin: of 16 cohort records exactly one, huang-2023-outcome, carries `multivariable_result`. The document's own Appendix A17 retracts this exact wording ('Only Huang 2023 is recorded anywhere here as having run a multivariable model') and §3.4 says 'it is not counted as a second multivariable result'.",
+      "mechanism": "A half-applied replacement. `git show e7cff259 -- <doc>` replaces the bullet's CONTINUATION line and leaves its first line, containing 'in either of the two', as unchanged context — and the SAME commit adds Appendix row A24 claiming the repair. paper-hardening §1 (a correction replaces text, it does not append) and §7b (check the diff against the message) both, in one commit."
+    },
+    {
+      "id": "B2",
+      "seats": [
+        "statistics ST-B2"
+      ],
+      "also_seen_as_p2_by": "regression",
+      "where": "§3.4 opening sentence",
+      "quote": "Two series, both larger than any cohort that could be pooled here, tested the partner as a prognostic factor against tumour size.",
+      "why_wrong": "Both named series ARE cohorts pooled here, so neither can be larger than every poolable cohort. As written it presents the size-adjusted evidence as external corroboration, when the paper's actual and stronger point four paragraphs later is that the cohort supplying most of the pooled magnitude is the same cohort that publishes the analysis calling it confounded.",
+      "driver_verification": "CONFIRMED, and the driver UPHELD BLOCKER over the regression seat's P2. analyses.B_outcome_by_partner.pooled_cohorts = ['agaram-2014-outcome','huang-2023-outcome']; analyses.C_partner_prevalence.cohorts_pooled contains both huang-2023-prevalence and paioli-2021-prevalence. The regression seat's charitable reading was 'larger than any pooled ARM', which does not survive either: the pooled outcome total is 73 against Huang's 58. The paragraph contradicts itself eight lines later — 'Huang 2023's event counts are now pooled in §3.3'.",
+      "mechanism": "Same class as B1. The sentence carries a `Superseded, retained` marker showing a prior correction fixed its 'multivariable model' half and left the false half standing."
+    },
+    {
+      "id": "B3",
+      "seats": [
+        "citations-and-instruments CT-B1"
+      ],
+      "where": "Abstract, §3.5, §5 claims bullet and Appendix A3 — four sites",
+      "quote": "below the ≈27 % the field routinely quotes from a single referral-centre cohort",
+      "why_wrong": "No source is named for the quoting practice anywhere in the manuscript, its reference list or the artifact, and the two sources in the paper's OWN reference list that state a general TAF15 share both give about 20 % — which lies inside the paper's own pooled interval of 12.9-25.0. The correction is against a figure its cited literature does not use, which manufactures a contribution.",
+      "driver_verification": "CONFIRMED AT PRIMARY SOURCE, re-derived by the driver rather than taken from the seat. According to PubMed, PMC7563993 — reference [4] of this manuscript, Stacchiotti 2020, Cancers 12:2703, doi 10.3390/cancers12092703, article_types ['Journal Article','Review'] — states in 'Pathological and Molecular Characteristics': 'In the vast majority of cases (over 70%), NR4A3 fuses to ... EWSR1 ...; less frequently (about 20% of cases) to the transactivation domain of TAF15'. The seat independently reports the same figure from reference [12], PMC9813045, doi 10.1007/s13577-022-00818-x.",
+      "mechanism": "The same defect class the paper already retracted once in Appendix A11 — a claim attributed to 'the review literature' with no verified source behind it. The guard's DECLARED_NOT_ARTIFACT_OWNED lists the ≈27 % as deliberately unowned, so no instrument reads it.",
+      "attribution_required": "PubMed metadata and full text travel with attribution and a DOI link wherever this record is quoted."
+    }
+  ],
+  "what_the_seats_could_not_break": "The measurement layer, comprehensively, and the safety language. 140 printed quantities re-derived from the artifacts with zero mismatches, by an implementation independent of the generator's; the generator's own verify mode, the 122-test prose guard and the 9-test mutation suite all clean; every quotation reachable in a fetched full text verbatim in the source named; every PMCID-PMID-DOI triple in the reference list internally consistent with no cross-attachment; publication types agreeing with the prose at every site but one. The hostile referee read every occurrence of should/recommend/benefit/withhold/therapeutic/efficacy/first-line/biomarker and found nothing that reads as a treatment recommendation, an efficacy claim, a therapeutic window or clinical readiness, and found the limitations stated where a reader meets the claim rather than quarantined at the end. Three seats also independently confirmed the endpoint's own hedging is real: the tumour-size defeater appears in the Abstract, §1.3, §3.3, §3.4, §4.1a and §5.",
+  "convergence_across_seats": "Independent convergence, seats blind to each other: the §5 multivariable-count blocker (regression + statistics); §2.3a's 'qualified here rather than softened' self-contradiction (regression + hostile-referee); §2.5's 'printed beside every pooled figure' against three prevalence rows with no heterogeneity block (regression + hostile-referee + arithmetic, from three different artifacts); the §3.5 author-list independence claim being bound by no instrument (statistics + hostile-referee); the ≈27 % figure being unsourced (citations as a blocker, arithmetic and statistics reaching the edge of it from coverage and denominator-convention angles).",
+  "scope_note": "No measurement was refuted. Every defect found is in a RELATION, an ATTRIBUTION or a SCOPE word, not in a quantity — see _verdict_note."
+}

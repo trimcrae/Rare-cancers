@@ -1,0 +1,76 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "One blind seat's raw record. The canonical clause-6 file for this commit merges the seats and deliberately carries EMPTY tallies, so clause 1's derivation over the glob counts each finding exactly once.",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "053a821102c352e74c0f3f4c125277e7ff183191",
+  "blind": true,
+  "_blind_means": "Given the document path and the pinned sha and nothing else. Forbidden research/autonomy/, CLAUDE.md, AGENTS.md, STRATEGY.md, the program map, every skill file and every commit message. Instructed to refute by default and told there is no wanted answer. Dispatched concurrently at subagent_width=5 by CYC-0017, which had not authored or applied any fix to this paper.",
+  "document_sha256": "cae2ce621b1449172585681ca502cb41ddc3efe720a56779aa4b553e7b190ea8",
+  "cycle_id": "CYC-0017",
+  "round": 6,
+  "utc": "2026-08-27T04:39:00Z",
+  "seat": "hostile-referee",
+  "verdict": "supported",
+  "recommendation": "major_revision",
+  "lens": "Hostile referee — read as a whole, one verdict with reasons, weighing safety and clinical language heaviest.",
+  "central_claim": "That the NR4A3 5' fusion partner is a CANDIDATE, not an established, stratification variable in EMC, and that its two halves are in different evidentiary states: prognosis now has a crude pooled magnitude (7/15 = 46.7 % vs 6/58 = 10.3 % over 73 patients) that arrives with a published defeater from the larger contributing cohort's own multivariable model; while treatment response has direction only — 0 of 3–5 TAF15 patients, with a Wilson upper bound sitting ABOVE the comparator arm's own point estimate, so the data cannot exclude equal response rates. It does NOT establish that TAF15 predicts non-response, that the partner is an independent prognostic factor, that the partner is mechanistically responsible for anything, or any treatment recommendation whatever; the ask it makes is a reporting ask, explicitly 'report the partner rather than act on it'.",
+  "strongest_argument_for_rejection": "The net new knowledge is close to zero, and the paper says so itself. What is added is (i) two 2x2 tables assembled from already-published tables, whose only quotable output the paper immediately withdraws because the cohort supplying 4 of the 7 TAF15 deaths publishes the model saying the partner stands in for tumour size, further unadjusted for grade, stage, era and chemotherapy, pooled across cohorts with two-fold unequal follow-up, with no censoring, on endpoint definitions matched by LABEL rather than by published definition for the metastasis row; (ii) a prevalence pool of four series; (iii) a set of bibliographic corrections. On the stratification question the framing puts first — treatment response — the entire evidence base is zero events in three to five patients from two reports of one consortium the paper cannot show non-overlapping. Compounding that, the artefact submitted is not a manuscript: 994 lines, of which a 28-row Appendix A is a ledger of the document's own drafting errors, annotated with internal process markers no external reader can evaluate, which advertises at length that the citation apparatus has repeatedly been wrong.",
+  "blockers": [],
+  "p1s": [
+    {
+      "where": "§3.5 'four independent molecular series … whose complete author lists — 5, 20, 18 and 16 names — intersect in nobody'",
+      "finding": "TRUE at the pin — recomputed — but nothing reads it. No binding names authors or intersections and neither census surface can see it: _CENSUS matches only counts and percentages, _CENSUS_STATS only n = N, p-values, HR and cm/months, so four bare integers and an absolute set-theoretic claim are outside both. Adding a fifth prevalence cohort, or an author-list correction of the kind A26 has already made once, would silently falsify the non-overlap argument on which the whole prevalence pool rests.",
+      "evidence": "citations.{agaram2014,huang2023,lenz2023,paioli2021}.authors give 5, 20, 18 and 16 names and all six pairwise intersections are empty on surname-plus-initials and on ASCII-folded surname alone. grep for author|intersect over the guard returns no binding; _CENSUS_STATS at line 1688 excludes bare integers."
+    },
+    {
+      "where": "The guard suite as a whole — nothing binds the artifact to the repository's own candidate lists",
+      "finding": "Every instrument checks that the manuscript agrees with the pooling artifact. Nothing checks that a source holding partner-stratified counts is ACCOUNTED FOR — pooled, or excluded with a ground — in every analysis it could enter. That is the hole Suemitsu 2025 fell through for months (the paper's own A18). The A18 fix added a row and a cohort record; it did not add an instrument, so the identical omission is available again, and one instance is live today.",
+      "evidence": "analyses.C_partner_prevalence.cohorts_excluded lists exactly three keys and no suemitsu-2025-prevalence cohort record exists, while citations.suemitsu2025.verification_note quotes its partner counts verbatim."
+    }
+  ],
+  "p2s": [
+    {
+      "where": "§2.3 'The full inclusion table is §3.2' and §3.5's exclusion accounting, against Suemitsu 2025",
+      "finding": "Suemitsu 2025 is a partner-prevalence series with integer counts (EWSR1 14/18, TAF15 2, TCF12 1, FUS 1) that is neither pooled in the prevalence analysis nor given an exclusion ground for it; it appears in §3.2 under outcome only, while §3.5 enumerates its exclusions as though the set were closed. The direction runs AGAINST the paper's own interest — 2/18 = 11.1 % would pull the pooled 18.2 % further below the ≈27 % §3.5 exists to argue down — so this is an accounting gap, not selective reporting. It also means §3.5's four-row partition silently reads FUS::NR4A3 as 0 %, while §3.1 names FUS as a partner the pazopanib comparator arm may contain.",
+      "evidence": "analyses.C_partner_prevalence.cohorts_excluded (three keys, no Suemitsu); citations.suemitsu2025.verification_note. Same defect class as the paper's own Appendix A18."
+    },
+    {
+      "where": "§2.3a 'qualified here rather than softened where they are quoted'",
+      "finding": "The lead clause is false for one of the two sentences it governs and its own 'because' clause argues for the opposite of what it states. The second sentence WAS softened where quoted; the first — 'no source pools the response data at all' — is still stated flat in the Abstract with no in-place bound, which is precisely the reader the 'because' clause says should not have to reach §2.3a. ⭐ FOUND INDEPENDENTLY BY THE REGRESSION SEAT.",
+      "evidence": "Abstract line 50 has no qualifier; §2.3a lines 205-212 carry both the clause and the admission that the second sentence is now bounded in place."
+    },
+    {
+      "where": "Abstract 'the first magnitude this contrast has ever had'; §3.3 the same",
+      "finding": "An unbounded priority claim over the whole literature, in the Abstract, from a synthesis that ran no database search, no screening flow and no second reader. §2.3a's blanket clause is what keeps this from being a blocker, but §2.3a's own stated policy is to bound in place the sentences a reader is most likely to meet alone, and this is the most quotable novelty claim on the page.",
+      "evidence": "§2.3a: 'No database ... was queried with a registered search string across a defined date range, no PRISMA-style screening flow was run, and no second reader checked the inclusion decisions.'"
+    },
+    {
+      "where": "§2.5 'printed beside every pooled figure'",
+      "finding": "Three of the four pooled figures in §3.5's prevalence table carry no per-cohort range in the prose and no heterogeneity block in the artifact. Survives only on the scoping enumeration that follows it. ⭐ FOUND INDEPENDENTLY BY THE REGRESSION SEAT.",
+      "evidence": "analyses.C_partner_prevalence has heterogeneity_TAF15 and no other heterogeneity key."
+    },
+    {
+      "where": "§1.1 'The one systemic class with reproducible activity in EMC is the antiangiogenic TKIs.'",
+      "finding": "The one efficacy-adjacent sentence with no caveat, denominator or interval where a reader meets it, two sentences after a quoted statement that anthracyclines have low activity — so the plain reading a hurried clinician takes is 'TKIs are what works in EMC'. NOT a blocker: 'activity' is the correct technical term for the observed RECIST responses rather than a claim of benefit, the banner and §4.12 disclaim efficacy explicitly, and 'reproducible' is defensible because NCT02066285 excluded prior antiangiogenic agents. But 4/22 (18 %, 95 % CI 1–36) in one single-arm trial is the whole of the trial evidence.",
+      "evidence": "citations.stacchiotti2019.verification_note: 'four (18% [95% CI 1-36]) with a RECIST objective response'; §4.10 on the shared Milan/Aviano consortium."
+    },
+    {
+      "where": "Title — 'Fusion-variant stratification in EMC (EWSR1::NR4A3 vs TAF15::NR4A3) — a partner-stratified pooled synthesis'",
+      "finding": "The title carries none of the paper's own hedge. §5's endpoint sentence contains 'candidate — not established'; the title does not. It asserts no false predicate, so P2 — but it is the one line quoted most often and reviewed least.",
+      "evidence": "Front-matter title vs §5's endpoint sentence, which the document designates as the text propagated to systems/views/L3-publications.md."
+    },
+    {
+      "where": "§4.5 / §6 — 'This document has deliberately NOT yet acted on that'",
+      "finding": "The paper retrieved, from two independent registries, the evidence that resolves its own central pooling decision, states that it resolves it, and publishes with the unresolved decision in place. The three stated reasons are honest and the direction is conservative, but a referee will not accept a synthesis submitted with a known-unapplied correction to its own inclusion criteria.",
+      "evidence": "§6 resolved_2026_08_08 in the artifact and §4.5's own text."
+    },
+    {
+      "where": "Document form — the header block and Appendix A's 28 rows",
+      "finding": "Repository scaffolding and an internal drafting ledger carried in a document presented as a preprint. Appendix A is a service to the next maintainer and a liability to an external referee: roughly a quarter of the file, referencing internal process, several rows describing citation misattributions. Separating the maintainer's record from the submitted text costs nothing and removes the strongest non-scientific objection.",
+      "evidence": "Pinned doc lines 23-26 and the Appendix A table."
+    }
+  ],
+  "safety_reading": "Read every occurrence of should/recommend/benefit/withhold/therapeutic/efficacy/first-line/biomarker. Found nothing that reads as a treatment recommendation, an efficacy claim for a named agent in a named group, a therapeutic window or clinical readiness. The limitations are not quarantined: the tumour-size defeater appears in the Abstract, §1.3, §3.3, §3.4, §4.1a and §5, and §5's endpoint sentence ends 'so the field should start reporting the partner rather than acting on it'. That discipline is why this seat returns no blockers despite recommending major revision.",
+  "could_not_check": "Any primary full text; whether the guard suite passes; the mutation-testing counts the test docstring reports."
+}

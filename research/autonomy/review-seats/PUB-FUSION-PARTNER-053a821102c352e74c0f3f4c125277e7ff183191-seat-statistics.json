@@ -1,0 +1,68 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "One blind seat's raw record. The canonical clause-6 file for this commit merges the seats and deliberately carries EMPTY tallies, so clause 1's derivation over the glob counts each finding exactly once.",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "053a821102c352e74c0f3f4c125277e7ff183191",
+  "blind": true,
+  "_blind_means": "Given the document path and the pinned sha and nothing else. Forbidden research/autonomy/, CLAUDE.md, AGENTS.md, STRATEGY.md, the program map, every skill file and every commit message. Instructed to refute by default and told there is no wanted answer. Dispatched concurrently at subagent_width=5 by CYC-0017, which had not authored or applied any fix to this paper.",
+  "document_sha256": "cae2ce621b1449172585681ca502cb41ddc3efe720a56779aa4b553e7b190ea8",
+  "cycle_id": "CYC-0017",
+  "round": 6,
+  "utc": "2026-08-27T04:39:00Z",
+  "seat": "statistics",
+  "verdict": "not_supported",
+  "lens": "Statistics and study design — what this evidence can and cannot bound, and whether the prose stays inside it: pooling validity, crude vs adjusted, confounding, small numbers, multiplicity, survival estimands.",
+  "central_claim": "The NR4A3 5' fusion partner is a CANDIDATE, not an established, stratification variable in EMC, on two separable legs. Prognosis: crude, unadjusted, uncensored during-follow-up proportions pooled over two non-overlapping pathology cohorts (73 partner-assigned patients) put disease-specific death at 7/15 = 46.7 % (Wilson 24.8–69.9) with TAF15 against 6/58 = 10.3 % (4.8–20.8) with EWSR1, and that crude gap is explicitly NOT claimed as an independent effect. Response: the whole partner-stratified antiangiogenic-TKI experience examined is 0 events in 3–5 TAF15 patients, whose Wilson upper bound lies above the comparator arm's own point estimate, so a direction and NOT a magnitude. Prevalence pools to 18.2 % (12.9–25.0). It does NOT establish an independent prognostic effect, any response difference, any causal or mechanistic role, or any treatment recommendation; it is not a meta-analysis, carries no time-to-event estimate, and its p-values are declared post-hoc and uncorrected.",
+  "blockers": [
+    {
+      "id": "ST-B1",
+      "where": "§5 claims bullet: \"does not survive adjustment for tumour size in either of the two series that ran a multivariable model (Huang 2023), while the second series to test it (Paioli 2021) reaches no conventional significance ... and whose adjustment structure is UNKNOWN\"",
+      "finding": "Asserts that TWO series ran a multivariable model, in the section the document designates as the source of its onward-quotable endpoint text, then contradicts itself inside the same sentence by naming only one and saying the other's adjustment structure is UNKNOWN. Exactly one series in the record ran a multivariable model. This is a crude-versus-adjusted misstatement: it doubles the amount of size-adjusted evidence the paper holds. ⭐ FOUND INDEPENDENTLY BY THE REGRESSION SEAT (RG-B1), which could not see this one.",
+      "evidence": "emc-fusion-partner-pooling.json at the pin: exactly one cohort carries multivariable_result (huang-2023-outcome); cohorts[paioli-2021-outcome].published_p_values.note reads verbatim 'Whether this analysis was adjusted is NOT recorded in anything held here, so it is not counted as a second multivariable result', and that cohort has no multivariable_result field at all."
+    },
+    {
+      "id": "ST-B2",
+      "where": "§3.4 opening: \"Two series, both larger than any cohort that could be pooled here, tested the partner as a prognostic factor against tumour size.\"",
+      "finding": "Both named series ARE pooled here, so the clause is false as it stands. Huang 2023 supplies 50 of the 73 patients in the §3.3 outcome pool and 57 of the 154 in the §3.5 prevalence pool; Paioli 2021 supplies 62 of the 154. Stale text from before the 2026-08-08 integration. It matters for design rather than typography: as written it presents the size-adjusted evidence as coming from cohorts OUTSIDE the pooled data, i.e. as external corroboration, when the paper's actual and stronger point four paragraphs later is the opposite. A reader who quotes the opening sentence states something false about this paper's own pool. ⚠ The regression seat graded this same sentence P2 on a charitable reading; the driver verified the artifact and upheld BLOCKER.",
+      "evidence": "analyses.B_outcome_by_partner.pooled_cohorts = ['agaram-2014-outcome','huang-2023-outcome']; analyses.C_partner_prevalence.cohorts_pooled includes huang-2023-prevalence and paioli-2021-prevalence; cohorts[huang-2023-outcome].pool = true. Contradicted in-document by §3.4's own later sentence 'Huang 2023's event counts are now pooled in §3.3'."
+    }
+  ],
+  "p1s": [
+    {
+      "where": "§3.3, §4.1a and §5's endpoint sentence — 'the one series that ran a multivariable model' (correct at the pin)",
+      "finding": "The count of size-adjusted analyses is the hinge of the paper's crude-versus-adjusted framing and no guard binds it. The guard binds Huang's hazard ratios and published p-values, but nothing asserts that the number of series the prose says ran a multivariable model equals the number of cohort records carrying multivariable_result. ST-B1 is this gap already realised once; the three still-correct sites would drift the same way.",
+      "evidence": "multivariable_result appears in the guard only at lines 699, 1259-1261 and 1324-1326, all extracting hazard ratios or p-values. Cohort-COUNT claims ARE bound (lines 372-378, 792-797, 1534-1549), so the binding pattern exists and was simply not applied to this quantity."
+    },
+    {
+      "where": "§3.5 'four independent molecular series … whose complete author lists — 5, 20, 18 and 16 names — intersect in nobody'",
+      "finding": "This is the POLICY §2.3 non-overlap precondition for the entire prevalence pool — the justification for computing one Wilson interval over 154 patients — asserted in prose and computed by nothing. Verified by hand at the pin and it holds. Appendix A26 records that this exact sentence once stood while three of the four author lists were truncated at 'et al.' in the artifact: the failure has already happened once and the repair added data, not a guard.",
+      "evidence": "The test module at the pin contains no occurrence of 'authors', 'surname' or an author-set intersection; its only intersection is over reference-entry identifier ownership."
+    }
+  ],
+  "p2s": [
+    {
+      "where": "§3.3 second estimand caveat: 'neither states whether a patient metastatic at presentation sat inside its recurrence denominator'",
+      "finding": "For Huang 2023 the denominator composition is in fact known and adverse, and the document holds the evidence: the metastasis variable is a complete three-way partition, so the 'after presentation' cells use denominators including patients already metastatic at presentation, and the dilution is unequal across arms (19.0 % of the EWSR1 arm vs 12.5 % of the TAF15 arm). At-risk denominators give 8/34 = 23.5 % vs 3/7 = 42.9 % within Huang. No stated claim becomes wrong, so P2 — but the caveat files a known, quantifiable estimand defect as unknowable.",
+      "evidence": "cohorts[huang-2023-outcome].stratum_definition and the cells strata['EWSR1::NR4A3'].distant_metastasis_at_presentation = 8/42 and _after_presentation = 8/42; strata['TAF15::NR4A3'] = 1/8 and 3/8."
+    },
+    {
+      "where": "Abstract Results: 'Local recurrence (26.7 % vs 22.4 %) and distant metastasis (33.3 % vs 24.1 %) show no material separation.'",
+      "finding": "Two underpowered nulls stated in the abstract as findings of no separation without either qualification §3.3 supplies. The 4.3-point local-recurrence gap is a cancellation, not a shared small effect (Agaram 28.6 vs 6.2; Huang 25.0 vs 28.6 — a sign flip with a 22.4-point comparator spread), and no interval is given for either row. Direction runs against the paper's own hypothesis, hence P2.",
+      "evidence": "analyses.B_outcome_by_partner.local_recurrence.heterogeneity_comparator_arm.spread_percent = 22.4 with per_cohort_percent {agaram 6.2, huang 28.6}; taf15_arm ci95 10.9–52.0 vs comparator 13.6–34.7. Fisher two-sided p = 0.7389 and 0.5163 reproduced."
+    },
+    {
+      "where": "§2.5 first bullet (random-effects deliberately not fitted) against §3.5's pooled prevalence",
+      "finding": "The stated reason for refusing a random-effects estimator is scoped in its own words to the TKI-response and outcome-by-partner strata. It never addresses the prevalence pool — four cohorts of 24, 57, 11 and 62 with a 13.4-point spread, the one analysis where a between-study variance is arguably estimable. The headline prevalence interval is a Wilson interval on summed counts and does not widen for heterogeneity.",
+      "evidence": "analyses.C_partner_prevalence.partner_assigned_per_cohort = {24, 57, 11, 62}; heterogeneity_TAF15.spread_percent = 13.4; §2.5's justification text names only §3.1 and §3.3."
+    },
+    {
+      "where": "§3.5 / Abstract — '18.2 % … below the ≈27 % the field routinely quotes'",
+      "finding": "The two figures are computed on different denominator conventions: this synthesis counts partner-assigned cases only, under which Agaram is 7/24 = 29.2 %, while the ≈27 % is 7/26 over all cases tested. A ~2-point inconsistency inside the comparison the section exists to make. ⛔ THE CITATIONS SEAT FOUND A DEEPER DEFECT IN THE SAME SENTENCE and graded it a blocker — see CT-B1.",
+      "evidence": "cohorts[agaram-2014-prevalence] counts {16,7,1}, n_tested 26, not_partner_assigned 2; analyses.C_partner_prevalence.denominator_convention = partner-assigned only."
+    }
+  ],
+  "numbers_reconciled": "All Wilson 95 % intervals reproduce to the printed decimal (0/3, 0/5, 4/19, 7/15, 6/58, 4/15, 13/58, 5/15, 14/58, 28/154, 120/154, 5/154, 1/154) and all Fisher exact two-sided p-values reproduce exactly (0.0034, 0.7389, 0.5163, 0.155, 1.0). Every pooled count reconciles to the sum of contributing strata. The §3.5 author-independence claim holds on surname alone.",
+  "attacks_dropped": "Double-counting is handled at four separate sites with named grounds; the outcome pool's comparator arm really is verified EWSR1 rather than 'non-TAF15'; all three outcome endpoints are reported rather than only the significant one; multiplicity and post-hoc status are declared in two places; the two exclusions that would move the estimate toward the null are disclosed with their direction; no time-to-event quantity is estimated anywhere.",
+  "could_not_check": "The source documents themselves. Huang 2023's Table 1 counts and Discussion quotation come from a human PDF read no fetch record corroborates; the two TKI response strata are secondary-provenance readings. Both blockers and both P1s are internal to the committed record and need no external source to settle."
+}
