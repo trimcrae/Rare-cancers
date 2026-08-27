@@ -5,19 +5,19 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
-    "analysis": 1,
-    "build": 1,
-    "code": 1,
-    "experiment": 23,
-    "fetch": 16,
-    "fix": 10,
-    "harden": 12,
-    "negative": 32,
-    "process": 7,
     "process_defect": 23,
-    "regrade": 7,
+    "harden": 12,
+    "fix": 10,
+    "build": 1,
     "verify": 1,
-    "write": 6
+    "analysis": 1,
+    "write": 6,
+    "experiment": 23,
+    "process": 7,
+    "code": 1,
+    "fetch": 16,
+    "negative": 32,
+    "regrade": 7
   },
   "n_by_state": {
     "done": 32,
@@ -629,7 +629,7 @@
     {
       "id": "AUT-036",
       "_derived": true,
-      "what": "Curate primary anatomical site from the open-access pooled series, then search the perfusion literature for myxoid histologies.",
+      "what": "Decide which junctional sites a perfusion service would actually accept, and state the eligible fraction under that definition rather than under both. ⚠ Superseded, retained: \"Curate primary anatomical site from the open-access pooled series, then search the perfusion literature for myxoid histologies.\" — DONE 2026-08-27: three series curated (ART-SITE-CURATION) and the perfusion literature searched to a null (ART-EMC-PERFUSION-MYXOID-SEARCH). ⚠ The remaining step is a clinical judgement, recorded in this route's `best_next_action.why`; it is deliberately NOT written as `next.blocked_on`, which would reschedule the autonomy loop as a side effect of a curation step.",
       "serves": {
         "route": "RT-LIMB-PERFUSION",
         "publication": "PUB-LOCOREGIONAL",
@@ -663,7 +663,7 @@
     {
       "id": "AUT-037",
       "_derived": true,
-      "what": "Re-curate metastatic site from the open-access primary reports of the pooled series — the one $0 step that converts this route's denominator into an eligible fraction.",
+      "what": "State the lung-confined fraction as the UPPER BOUND it is — two exclusive partitions over different strata (27/29 and 12/13) bounded above, and one explicit confined reading (63%, percentage-only) below — and write that framing into PUB-LOCOREGIONAL rather than curating further. ⚠ Superseded, retained: \"Re-curate metastatic site from the open-access primary reports of the pooled series — the one $0 step that converts this route's denominator into an eligible fraction.\" — DONE 2026-08-27, and it did NOT convert the denominator into an eligible fraction: it showed the readings available are upper bounds and are not poolable.",
       "serves": {
         "route": "RT-LUNG-DIRECTED",
         "publication": "PUB-LOCOREGIONAL",
@@ -3712,7 +3712,7 @@
       "id": "AUT-PROP-026",
       "kind": "harden",
       "prerequisite_of": null,
-      "score": -264.0,
+      "score": -354.0,
       "closes_clause": null,
       "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text.",
       "score_inputs": {
