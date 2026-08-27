@@ -1,0 +1,82 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0023",
+  "session_id": "6be7fd5a-28ea-50e3-8f4a-32e755af962a",
+  "utc": "2026-08-27T19:59:32Z",
+  "cycles_in_this_session": 1,
+  "max_cycles_per_session": 2,
+  "shape": "interactive driver, not a Routine firing. research-loop's description names this path explicitly: a human asking for loop work directly is a load trigger, and it was the path from which the session-shape rule was UNREACHABLE until 2026-08-26.",
+  "repo_confirmed": "Fast-forwarded 8226753f9 -> 4c7d5128b before committing; a concurrent session had pushed two commits touching research-ledger.json. The ledger was re-merged SEMANTICALLY (my five entries re-applied onto the fetched file by id) rather than textually, so the incoming AUT-PROP-018 claim release survives intact.",
+  "health_check": "python3 research/autonomy/health.py: 0 need attention, 2 UNMEASURED (fanout_is_governed DISPATCH-NOT-RECORDED, gates_green NO-GATE-VERDICT). Neither blocks. ⭐ THE FIRST of those is the item this cycle took, and THIS RECEIPT IS THE FIRST ONE THE FIX GOVERNS.",
+  "took": "AUT-PD-013",
+  "took_what": "The fan-out governance row read `subagents.max_concurrent` while the receipts had stopped writing it, so the row guarding `subagent_width` -- the dial the architecture records as having failed catastrophically -- printed a FALSE ABSENCE for cycles whose fan-out was recorded plainly under another name.",
+  "measurement_that_corrected_the_ticket": {
+    "_what": "⛔ THE TICKET READ IT AS A KEY NOBODY WRITES. Measured over all 22 receipts rather than the checker's 6-receipt window, it is worse than that: the convention EXISTED, was abandoned, was re-invented, and was abandoned again.",
+    "max_concurrent": [
+      "CYC-0006",
+      "CYC-0008",
+      "CYC-0010",
+      "CYC-0017"
+    ],
+    "concurrent_max_plus_dispatched": [
+      "CYC-0011",
+      "CYC-0012",
+      "CYC-0013",
+      "CYC-0014",
+      "CYC-0016",
+      "CYC-0019"
+    ],
+    "launched_only_no_width": [
+      "CYC-0020",
+      "CYC-0021",
+      "CYC-0022"
+    ],
+    "no_subagents_block": [
+      "CYC-0000-BOOTSTRAP",
+      "CYC-0001",
+      "CYC-0002",
+      "CYC-0003",
+      "CYC-0005",
+      "CYC-0007",
+      "CYC-0009",
+      "CYC-0015"
+    ],
+    "finding": "Three schemas in seventeen receipts, and the drop at CYC-0020 came four cycles after the correct spelling was in use. A field name agreed in PROSE between a writer and a reader is not agreed at all -- and prose could not hold a convention this loop had already got right twice."
+  },
+  "changed": [
+    "research/autonomy/receipt_schema.py (new): owns WIDTH_KEY for the writer and the reader both; DRIFTED_KEYS records which spellings are renames and which are a DIFFERENT QUANTITY; grandfathers pre-CYC-0023 receipts by a NUMBER, never a list, and reports their drift rather than hiding it.",
+    "research/autonomy/health.py: imports the constant instead of spelling it, and NAMES the drifted key in the diagnostic instead of counting an absence.",
+    "scripts/preflight.sh: new gate 12 checks the writer at the commit that lands a receipt -- the only moment anything can, since no receipt writer exists.",
+    "research/autonomy/priority.py (AUT-PD-019): the ranker exited 1 on every invocation; fixed and wired to a test that runs it against the REAL committed ledger.",
+    ".github/workflows/tests.yml + preflight gate 15 (AUT-PD-018): research/autonomy/tests was run by NOTHING -- 53 assertions asserted by nobody.",
+    ".claude/skills/repo-gates/SKILL.md: the enumerated gate list re-derived to fifteen (adding a gate renumbered ordinals four documents hard-code; [P1] caught it).",
+    ".claude/skills/research-loop/SKILL.md: step 10 now names the required field and the gate that checks it.",
+    "MERGED branch `aut-034-km-digitization` (4 commits) — AUT-034 answered REFUSED, with the instrument that can disagree: `km_risk_row_detect.py` re-read morioka2016's risk row itself and got the same eight numbers a human read two days earlier by a different method. ⚠ seer270 (n=270) stays UNKNOWN rather than negative: unreachable behind bot protection, and its figures have never been looked at. CLAUDE.md §7 — a branch a workflow runs from must never be the only home of an artifact."
+  ],
+  "cost": "$0. Engineering only -- no GPU, no rental, no network beyond the git remote. CLAUDE.md §5: engineering effort is free.",
+  "verification": {
+    "tests": "21 new (receipt schema) + 4 new (ranker) + 53 pre-existing-but-unrun = 57 in research/autonomy/tests, 0.09 s.",
+    "mutations": "10/10 caught on a SCRATCH COPY of research/autonomy, never the live tree (CLAUDE.md §6). The mutation that raised FIRST_GOVERNED_CYCLE to 999 passed every other test, because they build their fixtures from the constant itself -- a suite that exercises one value of a constant measures nothing about the others. A test now binds the cutoff to the newest receipt on the trunk.",
+    "preflight": "EXIT=0 (fast gates + the selector's contract + the loop's instruments; 141 passed). The run that saw the tree that was committed."
+  },
+  "subagents": {
+    "max_concurrent": 3,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 3,
+    "seats": [
+      "km-digitization-agent (AUT-034, inherited running from earlier in this session)",
+      "locoregional-curation-seat (AUT-036 + AUT-037, one seat because both re-curate the same corpus)",
+      "pubtype-guard-seat (AUT-PROP-007)"
+    ],
+    "_note": "⭐ THE FIRST RECEIPT `fanout_is_governed` CAN ACTUALLY READ, and it is the cycle that fixed the reader. ⚠ `serial_total` is recorded BESIDE the width and not instead of it: it is a different quantity, and conflating the two is the defect this cycle refused to ship as a fix. All three seats hold a claim lease on their ledger rows (`owner` + `claimed_utc`), set in the same action that dispatched them."
+  },
+  "now_queued": [
+    "AUT-PD-017 -- the general form: sweep every cross-file key this loop shares. handoff.child_session_id, route_advanced, blocked_by[].path, RECEIPT_TIME_KEYS, the ledger's own fields.",
+    "AUT-PROP-018 -- PREFLIGHT_FULL=1 at the final ASO v2 commit; its claim was released by a concurrent session because HEAD moved past the commit clause 2 closed at.",
+    "AUT-PD-020 -- transcribe morioka2016's Table 2 (n=2 patient-level PFS/OS). The one AUT-034 follow-up needing no instrument and no unreachable paper."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY"
+}

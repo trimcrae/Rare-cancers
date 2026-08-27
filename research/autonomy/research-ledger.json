@@ -12,7 +12,7 @@
     "experiment": 23,
     "process": 7,
     "code": 1,
-    "fetch": 13,
+    "fetch": 14,
     "negative": 32,
     "regrade": 7,
     "fix": 8,
@@ -20,10 +20,10 @@
     "verify": 1
   },
   "n_by_state": {
-    "queued": 104,
-    "in_progress": 4,
+    "queued": 102,
+    "in_progress": 6,
     "superseded": 1,
-    "done": 17
+    "done": 18
   },
   "n_clamped": 11,
   "entries": [
@@ -401,22 +401,22 @@
     {
       "id": "AUT-034",
       "_derived": true,
-      "what": "Digitize the Kaplan-Meier curve and numbers-at-risk table of the largest open-access EMC series and admit or refuse it against the quality floor.",
+      "what": "✅ ANSWERED 2026-08-27 — REFUSED, AND THE REFUSAL IS NOW A MEASUREMENT. Merged from branch `aut-034-km-digitization` (4 commits, preflight exit 0 on the exact tree committed). Original item: digitize the Kaplan-Meier curve and numbers-at-risk table of the largest open-access EMC series and admit or refuse it against the quality floor. ⛔ THE ITEM'S OWN PHRASE IS AMBIGUOUS AND BOTH READINGS ANSWER THE SAME WAY. (a) Largest open-access series = Brown/Rakoczy/Pretell-Mazzini 2022, SEER, n=270 (PMID 35144048, DOI 10.1016/j.ctarc.2022.100530) — UNREACHABLE, its figures have never been looked at: Unpaywall grades it gold and OpenAlex agrees, but its only PDF location is ScienceDirect, which answered 403 to plain HTTP and to a real headless Chromium, and the second indexed location is a DOAJ landing page with no file. ⚠ ITS RISK-ROW STATUS IS UNKNOWN, NOT NEGATIVE — a human with a browser can read this paper; this program cannot, and building a route around bot protection is not a route this program will build. (b) Largest series this program can FETCH = Masunaga 2025, n=171 (PMC12398172, DOI 10.1186/s13018-025-06245-6): three KM figures, NO numbers-at-risk row on any → REFUSED by POLICY-evidence.md §2.7(a). Nothing to digitize. ⭐ THE PART THAT WAS NEW, AND IT IS THE REASON THIS IS NOT A REPEATED DEAD END: the 2026-08-25 pass had already eyeballed these figures, so every verdict this route held was an agent looking at a page raster and typing `numbers_at_risk_row: false` into a field — unfalsifiable, and CLAUDE.md §4's 'a populated field is not a measured one'. The seat built the instrument that can DISAGREE: `research/modalities/km_risk_row_detect.py` measures band structure below a figure's axis, in two arms because one is blind here (eight of the corpus's nine KM figures are rasters with no text layer). The two arms AGREE on all nine, and the detector is shown capable of the other answer twice — it fires on both real positives and RE-READ morioka2016's risk row itself (5,5,5,3,3,1,1,1), the same eight numbers a human read two days earlier by a different method. Seven synthetic controls, four of them defects it actually had on real papers, including one that INVENTED a risk row on masunaga2025 Fig. 3 by reading drawn tick marks as tick labels. An undecodable figure is `undetermined`, never `absent`, and a test enforces that. 16 guards pass. ⭐ RETRIEVAL MOVED ONE RUNG (Actions run 33108005085): PMC answers `/articles/<PMCID>/pdf/` for the two NIH author manuscripts (drilon2008 n=87, bishop2019 n=41) with HTTP 200 and a 1,817-byte 'Preparing to download' INTERSTITIAL — not a refusal and not a PDF, which is exactly how three earlier rounds recorded them as 'unresolved'. Corpus: 16 candidates — 2 admitted (n=11, n=5, both already read), 3 refused-no-risk-row (n=171, n=68, n=59), 11 unreachable at $0. ⚠ BOUNDS THE SEAT COULD NOT CLOSE, recorded rather than smoothed: seer270 (n=270), huang2023 (n=58) and japan2003 (n=42) are unread, not negative; the detector's constants are tuned on nine real figures plus synthetics and are NOT validated against an external corpus, so false negatives on unusual layouts (a risk row beside the axis, or right-aligned) are unquantified; a `present` verdict gives POSITIONS, not values; chiusole2020's four curves were read from a page raster at small type near the resolution floor; and the detector reads FIGURES only, so a paper printing its risk table in text or a supplement would read as `absent`. ⭐ NEXT ACTION FOR THIS ROUTE, filed as AUT-PD-020: transcribe morioka2016's Table 2 — patient-level PFS/OS with censoring flags for its two EMC patients, which needs no instrument.",
       "serves": {
         "route": "RT-IPD-SURVIVAL",
         "publication": "PUB-IPD-SURVIVAL",
         "strategy": "ST-CARE-DELIVERY"
       },
       "kind": "experiment",
-      "state": "in_progress",
-      "owner": "km-digitization-agent",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-25",
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
       "score": 184.0,
       "score_inputs": {
         "live": true,
@@ -430,7 +430,7 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
-      "claimed_utc": "2026-08-27",
+      "claimed_utc": null,
       "requires_trimcrae": false,
       "requires_trimcrae_why": "digitization and an admit/refuse judgement against a documented quality floor; nothing leaves the repo"
     },
@@ -444,8 +444,8 @@
         "strategy": "ST-LOCOREGIONAL"
       },
       "kind": "experiment",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "locoregional-curation-seat",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -465,7 +465,8 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "claimed_utc": "2026-08-27T19:59:32Z"
     },
     {
       "id": "AUT-037",
@@ -477,8 +478,8 @@
         "strategy": "ST-LOCOREGIONAL"
       },
       "kind": "experiment",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "locoregional-curation-seat",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -498,7 +499,8 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
+      },
+      "claimed_utc": "2026-08-27T19:59:32Z"
     },
     {
       "id": "AUT-042",
@@ -707,8 +709,8 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "pubtype-guard-seat",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -720,7 +722,8 @@
       "_score_basis": "hand-filed by CYC-0010. Just under the live manuscript work: a GUARD, not a route, but it closes the defect class that has cost this paper the most.",
       "filed_by": "CYC-0010",
       "what": "⭐ BUILD THE PUBLICATION-TYPE GUARD — the PubMed connector is live and PROVEN to reach NCBI from this container (convert_article_ids resolved 4 PMCIDs while `curl` to eutils returns HTTP 000 / exit 56). `lint_citations` can only check that an identifier is ANCHORED; its own header says 'an ANCHORED identifier is not thereby verified either'. On 2026-08-26 that gap let a national-registry cohort and two single-patient case reports be cited as 'the review literature' — every identifier real, every one anchored, the gate green, and it survived two cycles. ⛔ THE DISCRIMINATOR IS ONE FIELD: get_article_metadata returns `article_types`. Measured on those four: PMC7563993 ['Journal Article','Review']; PMC12398172 ['Journal Article']; PMC12376927 and PMC9131214 both carry 'Case Reports'. Exactly ONE is a Review. ⭐ THE GUARD: where prose characterises a citation BY TYPE, assert `article_types` agrees. ⛔ CACHE, NEVER CALL — preflight is offline and deterministic; a linter depending on a live connector puts a commit gate at the mercy of someone's uptime. The connector is the FETCHER; a tracked artifact is what the gate reads. ⚠ PubMed's terms require attribution and a DOI link wherever its metadata travels, cache artifact included.",
-      "depends_on_evidence": "research/method-watch-autonomy-prior-art.md"
+      "depends_on_evidence": "research/method-watch-autonomy-prior-art.md",
+      "claimed_utc": "2026-08-27T19:59:32Z"
     },
     {
       "id": "AUT-PROP-009",
@@ -3846,6 +3849,32 @@
       "score": 95.0,
       "_score_basis": "the ranker decides what the loop works on next; it has been exiting 1 on every invocation",
       "depends_on_evidence": "priority.py exits 0 over 126 entries; 4 tests in research/autonomy/tests/test_priority_ranks_the_hand_filed_entries_too.py",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-020",
+      "kind": "fetch",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-IPD-SURVIVAL",
+        "publication": "PUB-IPD-SURVIVAL",
+        "strategy": "ST-CARE-DELIVERY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-034",
+      "what": "⭐ TRANSCRIBE morioka2016's TABLE 2 — per-subject PFS/OS with censoring flags for its two EMC patients. Named by AUT-034's seat as this route's next action, and it is the ONE step here that needs no instrument: it is patient-level data printed as a table, not a curve to digitize, so none of the detector's unclosed bounds apply to it. ⚠ n=2, so it is a small addition to a denominator and must be reported at exactly that weight — its value is that individual patient data is the strongest form this route can hold, not that it moves the pooled estimate. ⛔ The paper is already fetched and its risk row was independently re-read by `km_risk_row_detect.py` (5,5,5,3,3,1,1,1, matching a human's reading two days earlier), so the retrieval half is done and this is transcription against a source already on hand. Free.",
+      "score": 140.0,
+      "_score_basis": "the only AUT-034 follow-up that needs no instrument and no unreachable paper",
+      "depends_on_evidence": "research/modalities/km-risk-row-detection.json — morioka2016's risk row re-read by two methods",
       "closes_clause": null
     }
   ]
