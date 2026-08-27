@@ -1,0 +1,45 @@
+PINNED_SHA=ec78ba94d0e983674cdf173ce9708e572b133a67
+== lint_consistency ==
+lint_consistency: 0 ERROR across 26 target file(s)
+   OK
+== systems model (invariants, pointers, view drift) ==
+   OK
+== EMC systems map (disputed identities, claim artifacts, view drift) ==
+   OK
+== claim strength (R1-R5: selectivity, efficacy, safety, window, readiness) ==
+   OK
+== changed prose (a qualifier dropped by an edit) ==
+lint_changed_prose: 0 changed passage(s) over the working tree
+   OK
+== citation provenance (every prose identifier traces to a fetch or to the ledger) ==
+   OK
+== manuscript prose style (journal register, not repository register) ==
+   OK
+== parser guard (every registered parser can still find its input) ==
+   OK
+== validate (EMC clinical registry evidence contract) ==
+   OK
+== generated deposit artifacts reproduce from their generators ==
+   OK   submission tables
+   OK   submission references
+   OK   submission metrics
+   OK   canonical sequence file
+   OK   journal article tables
+   OK   offtarget duplex energy
+   OK   submission packet
+   OK   vaccine-path manuscript tables
+   OK   archive manifest
+   OK   condensate CALVADOS findings
+== pytest (modalities: FULL, PREFLIGHT_FULL=1) ==
+8044 passed, 48 skipped, 13 warnings in 365.47s (0:06:05)
+   OK (0 failure(s), every one named in the sandbox baseline as dep-related;
+       0 module(s) could not be imported here and are counted separately)
+== pytest (manuscripts: endpoints, systems map, pooling, submission citations) ==
+1262 passed, 3 skipped, 9 warnings in 656.08s (0:10:56)
+   OK
+== pytest (scripts: the test selector's own contract) ==
+88 passed in 37.35s
+   OK
+
+PREFLIGHT OK (FULL: every gate, both suites unscoped)
+EXIT=0

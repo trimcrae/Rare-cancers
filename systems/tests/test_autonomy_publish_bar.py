@@ -11,6 +11,7 @@ something loosened, and asserts it was refused.
 
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 import pathlib
@@ -103,7 +104,14 @@ def test_a_seat_that_was_not_blind_is_not_independent_evidence(bar, tmp_path, mo
 
 def test_all_six_clauses_passing_is_what_it_takes(bar, tmp_path, monkeypatch):
     """The positive control. Without it, the tests above could all pass on a bar that is simply
-    broken and refuses everything — which is a different defect, not a safe one."""
+    broken and refuses everything — which is a different defect, not a safe one.
+
+    ⭐ WHAT THIS TEST HAD TO GROW (CYC-0015) IS ITSELF THE MEASUREMENT. It used to clear all three
+    file-backed clauses with three JSON objects of three keys each. Now it has to stand up a blind
+    seat that reviewed this exact commit, a preflight log carrying the FULL banner and its own EXIT
+    marker, a digest binding the receipt to that log, and a seat bound to the document's bytes. That
+    difference is the distance between a self-report and evidence.
+    """
     sha = "e" * 40
     hardening, preflight, seats = tmp_path / "h", tmp_path / "p", tmp_path / "s"
     for d in (hardening, preflight, seats):
@@ -111,12 +119,23 @@ def test_all_six_clauses_passing_is_what_it_takes(bar, tmp_path, monkeypatch):
     monkeypatch.setattr(bar, "HARDENING_DIR", hardening)
     monkeypatch.setattr(bar, "PREFLIGHT_DIR", preflight)
     monkeypatch.setattr(bar, "SEATS_DIR", seats)
+    monkeypatch.setattr(bar, "REPO", tmp_path)
+    monkeypatch.setattr(bar, "_document_digest", lambda commit, doc: ("f" * 64, None))
+    monkeypatch.setattr(bar, "_endpoint", lambda pub: {"document": {"file": "paper.md"}})
+
+    seat_name = f"PUB-X-{sha}.json"
+    (seats / seat_name).write_text(json.dumps({
+        "blind": True, "verdict": "supported", "reviewed_commit": sha,
+        "central_claim": "The fusion partner is a candidate stratification variable, not established.",
+        "document_sha256": "f" * 64, "blockers": [], "p1s": []}))
     (hardening / "PUB-X.json").write_text(json.dumps({
-        "last_round": 7, "blockers": [], "p1s": [], "reviewed_commit": sha}))
+        "last_round": 7, "blockers": [], "p1s": [], "reviewed_commit": sha,
+        "seats": [seat_name]}))
+    body = f"PINNED_SHA={sha}\n{bar.FULL_BANNER}\n878 passed\nEXIT=0\n"
+    (tmp_path / "run.log").write_text(body)
     (preflight / f"{sha}.json").write_text(json.dumps({
-        "sha": sha, "mode": "FULL", "exit": 0, "utc": "2026-08-26T00:00:00Z"}))
-    (seats / f"PUB-X-{sha}.json").write_text(json.dumps({
-        "blind": True, "verdict": "supported", "reviewed_commit": sha}))
+        "sha": sha, "mode": "FULL", "exit": 0, "utc": "2026-08-26T00:00:00Z",
+        "log": "run.log", "log_sha256": hashlib.sha256(body.encode()).hexdigest()}))
 
     assert bar.clause_1_hardening_converged("PUB-X", sha)["ok"]
     assert bar.clause_2_preflight_full_green("PUB-X", sha)["ok"]
@@ -271,3 +290,224 @@ def test_both_scripts_run_as_cli_without_crashing():
         ["python3", str(AUTONOMY / "publish_bar.py"), "--paper", "PUB-ASO", "--sha", "0" * 40],
         capture_output=True, text=True, cwd=str(REPO), timeout=300)
     assert proc.returncode == 1, "an evidence-free paper must exit nonzero"
+
+
+# ---------------------------------------------------------------- the self-graded half of the bar
+#
+# ⛔⛔ CYC-0015 FOUND THAT THREE OF THE SIX CLAUSES WERE SELF-REPORTS, AND VERIFIED IT RATHER THAN
+# ARGUING IT. Clauses 3-5 are computed — lint_claims, lint_citations, the graph. Clauses 1, 2 and 6
+# read a file that the loop itself writes, and each was cleared by a hand-typed JSON object with no
+# evidence whatever behind it:
+#
+#     clause 1  {"blockers": [], "p1s": [], "reviewed_commit": sha, "last_round": 99}  -> PASS
+#     clause 2  {"mode": "FULL", "exit": 0, "sha": sha, "utc": "typed by hand"}        -> PASS
+#     clause 6  {"blind": true, "reviewed_commit": sha, "verdict": "supported"}        -> PASS
+#
+# The second one printed `at typed by hand` as its evidence line. This file's own header says these
+# tests are adversarial by construction, and this block is the reason that matters: the bar is a
+# standing grant to publish under a real person's name and ORCID.
+
+
+def test_an_empty_hardening_record_with_no_seat_behind_it_is_refused(bar, tmp_path, monkeypatch):
+    """⛔ THE VERIFIED DEFECT. Absence of findings is evidence only when somebody looked."""
+    monkeypatch.setattr(bar, "HARDENING_DIR", tmp_path)
+    monkeypatch.setattr(bar, "SEATS_DIR", tmp_path / "none")
+    sha = "a" * 40
+    (tmp_path / "PUB-X.json").write_text(json.dumps({
+        "blockers": [], "p1s": [], "reviewed_commit": sha, "last_round": 99,
+    }))
+    clause = bar.clause_1_hardening_converged("PUB-X", sha)
+    assert clause["verdict"] == bar.FAIL, "a convergence claim with no seat under it is not a clause"
+    assert not clause["ok"]
+
+
+def test_a_hardening_record_may_not_name_a_seat_that_reviewed_another_commit(bar, tmp_path,
+                                                                             monkeypatch):
+    """The pin is the whole point: a seat that read an older tree reviewed a different paper."""
+    hardening, seats = tmp_path / "h", tmp_path / "s"
+    hardening.mkdir(), seats.mkdir()
+    monkeypatch.setattr(bar, "HARDENING_DIR", hardening)
+    monkeypatch.setattr(bar, "SEATS_DIR", seats)
+    sha, older = "a" * 40, "b" * 40
+    (seats / f"PUB-X-{sha}-seat-one.json").write_text(json.dumps({
+        "blind": True, "reviewed_commit": older, "blockers": [], "p1s": []}))
+    (hardening / "PUB-X.json").write_text(json.dumps({
+        "blockers": [], "p1s": [], "reviewed_commit": sha, "last_round": 5,
+        "seats": [f"PUB-X-{sha}-seat-one.json"]}))
+    assert bar.clause_1_hardening_converged("PUB-X", sha)["verdict"] == bar.FAIL
+
+
+def test_a_hardening_record_may_not_under_report_its_own_seats(bar, tmp_path, monkeypatch):
+    """The tallies are the SEATS'. A record that declares zero over a seat holding a blocker is the
+    failure mode this clause exists to catch, and it is the one a self-report cannot see."""
+    hardening, seats = tmp_path / "h", tmp_path / "s"
+    hardening.mkdir(), seats.mkdir()
+    monkeypatch.setattr(bar, "HARDENING_DIR", hardening)
+    monkeypatch.setattr(bar, "SEATS_DIR", seats)
+    sha = "a" * 40
+    (seats / f"PUB-X-{sha}-seat-one.json").write_text(json.dumps({
+        "blind": True, "reviewed_commit": sha,
+        "blockers": [{"id": "B1", "finding": "the central claim is not supported"}], "p1s": []}))
+    (hardening / "PUB-X.json").write_text(json.dumps({
+        "blockers": [], "p1s": [], "reviewed_commit": sha, "last_round": 5,
+        "seats": [f"PUB-X-{sha}-seat-one.json"]}))
+    clause = bar.clause_1_hardening_converged("PUB-X", sha)
+    assert clause["verdict"] == bar.FAIL
+    assert "under-reports" in clause["evidence"]
+
+
+def test_a_preflight_receipt_with_no_log_is_a_typed_claim(bar, tmp_path, monkeypatch):
+    """An exit code nothing can re-derive is a sentence, not a gate result."""
+    monkeypatch.setattr(bar, "PREFLIGHT_DIR", tmp_path)
+    sha = "c" * 40
+    (tmp_path / f"{sha}.json").write_text(json.dumps({
+        "sha": sha, "mode": "FULL", "exit": 0, "utc": "typed by hand"}))
+    assert bar.clause_2_preflight_full_green("PUB-X", sha)["verdict"] == bar.FAIL
+
+
+def test_a_scoped_run_log_cannot_clear_the_full_clause(bar, tmp_path, monkeypatch):
+    """⛔ A ONE-OF-A-PAIR TRAP, AND THE TEXT BELOW IS THE REAL THING preflight.sh PRINTS. The scoped
+    run's own closing verdict ADVERTISES the flag — 'PREFLIGHT_FULL=1 before publishing.' — so a
+    naive substring test for `PREFLIGHT_FULL=1` accepts a log from the very run that is telling you
+    it is not the publication run."""
+    monkeypatch.setattr(bar, "PREFLIGHT_DIR", tmp_path)
+    monkeypatch.setattr(bar, "REPO", tmp_path)
+    sha = "c" * 40
+    scoped = ("PINNED_SHA=" + sha + "\n"
+              "PREFLIGHT OK (fast gates + the selector's own contract; NEITHER large suite ran here.\n"
+              "             CI runs both on push. PREFLIGHT_TESTS=1 for the manuscripts suite,\n"
+              "             PREFLIGHT_MODALITIES=1 for the modalities suite,\n"
+              "             PREFLIGHT_FULL=1 before publishing.)\n"
+              "EXIT=0\n")
+    (tmp_path / "scoped.log").write_text(scoped)
+    (tmp_path / f"{sha}.json").write_text(json.dumps({
+        "sha": sha, "mode": "FULL", "exit": 0, "utc": "2026-08-27T00:00:00Z",
+        "log": "scoped.log",
+        "log_sha256": hashlib.sha256(scoped.encode()).hexdigest()}))
+    clause = bar.clause_2_preflight_full_green("PUB-X", sha)
+    assert clause["verdict"] == bar.FAIL
+    assert "banner" in clause["evidence"]
+
+
+def test_a_preflight_receipt_cannot_be_re_pointed_at_another_run(bar, tmp_path, monkeypatch):
+    """The digest binds the receipt to one log. Without it, one green run clears every commit."""
+    monkeypatch.setattr(bar, "PREFLIGHT_DIR", tmp_path)
+    monkeypatch.setattr(bar, "REPO", tmp_path)
+    sha = "c" * 40
+    (tmp_path / "run.log").write_text(f"PINNED_SHA={sha}\n{bar.FULL_BANNER}\nEXIT=0\n")
+    (tmp_path / f"{sha}.json").write_text(json.dumps({
+        "sha": sha, "mode": "FULL", "exit": 0, "utc": "2026-08-27T00:00:00Z",
+        "log": "run.log", "log_sha256": "0" * 64}))
+    assert bar.clause_2_preflight_full_green("PUB-X", sha)["verdict"] == bar.FAIL
+
+
+def test_an_unterminated_preflight_log_is_an_abandoned_run(bar, tmp_path, monkeypatch):
+    """`repo-gates`: never trust a backgrounded gate's reported exit code — read its own marker. A
+    log with no marker is a run that died, and a run that died is not a green one."""
+    monkeypatch.setattr(bar, "PREFLIGHT_DIR", tmp_path)
+    monkeypatch.setattr(bar, "REPO", tmp_path)
+    sha = "c" * 40
+    body = f"PINNED_SHA={sha}\n{bar.FULL_BANNER}\n... and then the container went away\n"
+    (tmp_path / "run.log").write_text(body)
+    (tmp_path / f"{sha}.json").write_text(json.dumps({
+        "sha": sha, "mode": "FULL", "exit": 0, "utc": "2026-08-27T00:00:00Z",
+        "log": "run.log", "log_sha256": hashlib.sha256(body.encode()).hexdigest()}))
+    clause = bar.clause_2_preflight_full_green("PUB-X", sha)
+    assert clause["verdict"] == bar.FAIL
+    assert "EXIT=" in clause["evidence"]
+
+
+def test_a_seat_must_be_bound_to_the_text_it_reviewed(bar, tmp_path, monkeypatch):
+    """A verdict that names no document could have been written without opening one."""
+    monkeypatch.setattr(bar, "SEATS_DIR", tmp_path)
+    monkeypatch.setattr(bar, "_document_digest", lambda sha, doc: ("f" * 64, None))
+    monkeypatch.setattr(bar, "_endpoint", lambda pub: {"document": {"file": "paper.md"}})
+    sha = "d" * 40
+    (tmp_path / f"PUB-X-{sha}.json").write_text(json.dumps({
+        "blind": True, "verdict": "supported", "reviewed_commit": sha,
+        "central_claim": "The fusion partner is a candidate stratification variable, not established.",
+    }))
+    assert bar.clause_6_independent_adversarial_seat("PUB-X", sha)["verdict"] == bar.FAIL
+
+
+# ---------------------------------------------------------------- the producer
+#
+# ⭐ `hardening-state/` AND `preflight-receipts/` HAD NEVER EXISTED IN ANY REF (`git log --all` over
+# both returned empty, 2026-08-27), and `publish_bar.py` was the only file in the repository that
+# named them. The bar declared three clauses nothing produced. These tests hold the producer to the
+# rule that makes it worth having: it derives, it never serialises an assertion.
+
+
+@pytest.fixture(scope="module")
+def producer():
+    return _load("record_bar_evidence")
+
+
+def test_the_producer_refuses_a_run_that_did_not_pass(producer, tmp_path, monkeypatch):
+    sha = "a" * 40
+    log = tmp_path / "run.log"
+    log.write_text(f"PINNED_SHA={sha}\n{producer.FULL_BANNER}\nEXIT=1\n")
+    monkeypatch.setattr(producer, "PREFLIGHT_DIR", tmp_path / "receipts")
+    monkeypatch.setattr(producer, "PREFLIGHT_LOG_DIR", tmp_path / "logs")
+    assert producer.record_preflight(sha, log) == 1
+    assert not (tmp_path / "receipts").exists(), "a refusal must write nothing at all"
+
+
+def test_the_producer_refuses_a_run_against_a_different_tree(producer, tmp_path, monkeypatch):
+    log = tmp_path / "run.log"
+    log.write_text(f"PINNED_SHA={'b' * 40}\n{producer.FULL_BANNER}\nEXIT=0\n")
+    monkeypatch.setattr(producer, "PREFLIGHT_DIR", tmp_path / "receipts")
+    monkeypatch.setattr(producer, "PREFLIGHT_LOG_DIR", tmp_path / "logs")
+    assert producer.record_preflight("a" * 40, log) == 1
+
+
+def test_the_producer_refuses_an_unterminated_log(producer, tmp_path, monkeypatch):
+    sha = "a" * 40
+    log = tmp_path / "run.log"
+    log.write_text(f"PINNED_SHA={sha}\n{producer.FULL_BANNER}\nstill going\n")
+    monkeypatch.setattr(producer, "PREFLIGHT_DIR", tmp_path / "receipts")
+    monkeypatch.setattr(producer, "PREFLIGHT_LOG_DIR", tmp_path / "logs")
+    assert producer.record_preflight(sha, log) == 1
+
+
+def test_the_producer_writes_a_non_converged_record_when_no_seat_ran(producer, tmp_path,
+                                                                     monkeypatch):
+    """⭐ THE GAIN IS TURNING 'I CANNOT SEE' INTO 'I LOOKED, AND NO'. The record is still written —
+    an honest not-converged record is worth more than an absent one, because the bar can grade it."""
+    monkeypatch.setattr(producer, "SEATS_DIR", tmp_path / "seats")
+    (tmp_path / "seats").mkdir()
+    monkeypatch.setattr(producer, "HARDENING_DIR", tmp_path / "hardening")
+    assert producer.record_hardening("PUB-X", "a" * 40, 5, None) == 0
+    written = json.loads((tmp_path / "hardening" / "PUB-X.json").read_text())
+    assert written["seats"] == []
+    assert written["converged"] is False
+
+
+def test_the_producer_carries_a_seats_findings_into_the_record(producer, tmp_path, monkeypatch):
+    """It may not quietly drop a blocker: the record's tallies come from the seat files."""
+    seats = tmp_path / "seats"
+    seats.mkdir()
+    sha = "a" * 40
+    (seats / f"PUB-X-{sha}-seat-one.json").write_text(json.dumps({
+        "blind": True, "reviewed_commit": sha,
+        "blockers": [{"id": "B1", "finding": "unsupported"}], "p1s": []}))
+    monkeypatch.setattr(producer, "SEATS_DIR", seats)
+    monkeypatch.setattr(producer, "HARDENING_DIR", tmp_path / "hardening")
+    assert producer.record_hardening("PUB-X", sha, 5, None) == 0
+    written = json.loads((tmp_path / "hardening" / "PUB-X.json").read_text())
+    assert len(written["blockers"]) == 1
+    assert written["converged"] is False
+
+
+def test_the_producer_ignores_a_seat_that_was_not_blind(producer, tmp_path, monkeypatch):
+    seats = tmp_path / "seats"
+    seats.mkdir()
+    sha = "a" * 40
+    (seats / f"PUB-X-{sha}-seat-one.json").write_text(json.dumps({
+        "blind": False, "reviewed_commit": sha, "blockers": [], "p1s": []}))
+    monkeypatch.setattr(producer, "SEATS_DIR", seats)
+    monkeypatch.setattr(producer, "HARDENING_DIR", tmp_path / "hardening")
+    producer.record_hardening("PUB-X", sha, 5, None)
+    written = json.loads((tmp_path / "hardening" / "PUB-X.json").read_text())
+    assert written["seats"] == [], "a seat that was not blind is not independent evidence"
+    assert written["converged"] is False

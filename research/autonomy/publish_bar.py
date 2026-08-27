@@ -34,6 +34,7 @@ EXIT CODES
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import pathlib
 import subprocess
@@ -50,6 +51,12 @@ PREFLIGHT_DIR = HERE / "preflight-receipts"
 SEATS_DIR = HERE / "review-seats"
 
 PASS, FAIL, UNVERIFIABLE = "PASS", "FAIL", "UNVERIFIABLE"
+
+#: ⛔ THE SPECIFIC BANNER. A scoped run's closing verdict advertises the flag
+#: ("PREFLIGHT_FULL=1 before publishing."), so a naive substring test for PREFLIGHT_FULL=1 accepts
+#: a log from the very run that is telling you it is not the publication run. Measured 2026-08-27
+#: against both logs before this constant was written.
+FULL_BANNER = "== pytest (modalities: FULL, PREFLIGHT_FULL=1) =="
 
 
 def _clause(key: str, label: str, verdict: str, evidence: str) -> dict:
@@ -101,54 +108,153 @@ def _endpoint(pub_id: str) -> dict | None:
 # ---------------------------------------------------------------- the six clauses
 
 
+def _seat_records(pub_id: str, sha: str) -> tuple[list[dict], list[str]]:
+    """Every blind seat record in the repository that reviewed THIS paper at THIS commit.
+
+    ⛔ THIS IS THE FUNCTION THAT MAKES CLAUSE 1 A MEASUREMENT RATHER THAN A SELF-REPORT. Before it
+    existed, the clause read `blockers` and `p1s` straight out of a file the loop writes for itself,
+    so a four-key JSON object with two empty lists — no seat, no review, no reading of the paper at
+    all — cleared the convergence clause of the publication permission. Verified 2026-08-27 by
+    CYC-0015 against the then-current code, not argued: `{"blockers": [], "p1s": [],
+    "reviewed_commit": sha, "last_round": 99}` returned PASS with the evidence line
+    "round 99 on ec78ba94d0e9: 0 blockers, 0 P1s".
+    """
+    found, names = [], []
+    try:
+        paths = sorted(SEATS_DIR.glob(f"{pub_id}-{sha}*.json"))
+    except Exception:
+        return [], []
+    for path in paths:
+        record, _ = _read_json(path)
+        if not isinstance(record, dict):
+            continue
+        if record.get("blind") is not True or record.get("reviewed_commit") != sha:
+            continue
+        found.append(record)
+        names.append(path.name)
+    return found, names
+
+
 def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
     """`paper-hardening`'s convergence test: no blockers AND no P1s, on THIS commit.
 
     Reviewing a pinned commit is the skill's own rule — round 13's seats hit working-tree drift
     mid-review. So a hardening record for a DIFFERENT commit does not clear this paper; it clears
     the paper as it was.
+
+    ⛔⛔ AND CONVERGENCE IS DERIVED FROM THE SEATS, NEVER READ OFF THE RECORD (CYC-0015). This file's
+    own design principle 1 says a clause the loop grades for itself is not a clause. Clauses 3-5 are
+    computed — two linters and the graph. This one was not: it trusted the record's own arithmetic.
+    So the record must now NAME the blind seats behind it, every named seat must exist and have
+    reviewed this same commit, and the blocker/P1 tallies are taken from the SEATS. The record's own
+    counts are still required (absent is not empty) and are used only to catch a record that
+    disagrees with the evidence underneath it.
     """
+    label = "hardening converged (no blockers, no P1s)"
     record, err = _read_json(HARDENING_DIR / f"{pub_id}.json")
     if record is None:
-        return _clause("hardening_converged", "hardening converged (no blockers, no P1s)",
-                       UNVERIFIABLE, err + " — run a hardening round and record its result")
+        return _clause("hardening_converged", label, UNVERIFIABLE,
+                       err + " — run a hardening round and record its result")
     blockers = record.get("blockers")
     p1s = record.get("p1s")
     if blockers is None or p1s is None:
-        return _clause("hardening_converged", "hardening converged (no blockers, no P1s)",
-                       UNVERIFIABLE, "record lacks `blockers` or `p1s` — absent is not empty")
+        return _clause("hardening_converged", label, UNVERIFIABLE,
+                       "record lacks `blockers` or `p1s` — absent is not empty")
     if record.get("reviewed_commit") != sha:
-        return _clause("hardening_converged", "hardening converged (no blockers, no P1s)", FAIL,
+        return _clause("hardening_converged", label, FAIL,
                        f"last round reviewed {record.get('reviewed_commit')!r}, not {sha!r} — "
                        "a review of a different tree is not a review of this one")
-    if blockers or p1s:
-        return _clause("hardening_converged", "hardening converged (no blockers, no P1s)", FAIL,
+
+    # ⛔ NO SEAT, NO CONVERGENCE. An empty round is not a converged round: absence of findings is
+    # only evidence when somebody looked. CLAUDE.md §4.
+    seats, seat_names = _seat_records(pub_id, sha)
+    declared = record.get("seats")
+    if not isinstance(declared, list) or not declared:
+        return _clause("hardening_converged", label, FAIL,
+                       "record names no `seats` — a convergence claim with no blind seat behind it "
+                       "is the loop grading itself, not a clause")
+    missing = [name for name in declared if name not in seat_names]
+    if missing:
+        return _clause("hardening_converged", label, FAIL,
+                       f"record names seat(s) that are absent, not blind, or reviewed another "
+                       f"commit: {', '.join(sorted(missing))}")
+    if not seats:
+        return _clause("hardening_converged", label, FAIL,
+                       f"no blind seat record reviewed {sha[:12]}")
+
+    # The tallies that decide are the seats' own, not the record's.
+    seat_blockers = [item for seat in seats for item in (seat.get("blockers") or [])]
+    seat_p1s = [item for seat in seats for item in (seat.get("p1s") or [])]
+    if len(blockers) < len(seat_blockers) or len(p1s) < len(seat_p1s):
+        return _clause("hardening_converged", label, FAIL,
+                       f"record under-reports its own seats: it declares {len(blockers)} blocker(s) "
+                       f"and {len(p1s)} P1(s), the seats record {len(seat_blockers)} and "
+                       f"{len(seat_p1s)}")
+    if blockers or p1s or seat_blockers or seat_p1s:
+        return _clause("hardening_converged", label, FAIL,
                        f"{len(blockers)} blocker(s), {len(p1s)} P1(s) open at round "
                        f"{record.get('last_round')}")
-    return _clause("hardening_converged", "hardening converged (no blockers, no P1s)", PASS,
-                   f"round {record.get('last_round')} on {sha[:12]}: 0 blockers, 0 P1s")
+    return _clause("hardening_converged", label, PASS,
+                   f"round {record.get('last_round')} on {sha[:12]}: 0 blockers, 0 P1s across "
+                   f"{len(seats)} blind seat(s)")
 
 
 def clause_2_preflight_full_green(pub_id: str, sha: str) -> dict:
     """`repo-gates`: PREFLIGHT_FULL=1 is required before anything outward-facing, and this is one
     of the only four acts it is for. The receipt must name THIS commit — a green run against a
-    different tree says nothing about the one being posted."""
+    different tree says nothing about the one being posted.
+
+    ⛔ THE EXIT CODE IS RE-DERIVED FROM THE COMMITTED LOG, NOT READ OFF THE RECEIPT (CYC-0015).
+    `{"mode": "FULL", "exit": 0, "sha": sha, "utc": "typed by hand"}` used to clear this clause, and
+    that literal string is what the evidence line printed. The run's own output is now the artifact:
+    the receipt names a committed log, the log must carry the FULL-mode banner preflight.sh prints
+    and terminate in the `EXIT=` marker `repo-gates` requires, and the receipt's digest must match
+    the log it names — so a receipt cannot be re-pointed at some other run's output.
+    """
+    label = "PREFLIGHT_FULL=1 green on the posted commit"
     record, err = _read_json(PREFLIGHT_DIR / f"{sha}.json")
     if record is None:
-        return _clause("preflight_full_green", "PREFLIGHT_FULL=1 green on the posted commit",
-                       UNVERIFIABLE, err + " — run PREFLIGHT_FULL=1 and record its exit code")
+        return _clause("preflight_full_green", label, UNVERIFIABLE,
+                       err + " — run PREFLIGHT_FULL=1 and record its exit code")
     if record.get("mode") != "FULL":
-        return _clause("preflight_full_green", "PREFLIGHT_FULL=1 green on the posted commit", FAIL,
+        return _clause("preflight_full_green", label, FAIL,
                        f"receipt records mode={record.get('mode')!r}; the scoped run does not "
                        "claim any test passes and cannot clear an outward-facing act")
     if record.get("exit") != 0:
-        return _clause("preflight_full_green", "PREFLIGHT_FULL=1 green on the posted commit", FAIL,
-                       f"exit={record.get('exit')!r}")
+        return _clause("preflight_full_green", label, FAIL, f"exit={record.get('exit')!r}")
     if record.get("sha") != sha:
-        return _clause("preflight_full_green", "PREFLIGHT_FULL=1 green on the posted commit", FAIL,
+        return _clause("preflight_full_green", label, FAIL,
                        f"receipt is for {record.get('sha')!r}, not {sha!r}")
-    return _clause("preflight_full_green", "PREFLIGHT_FULL=1 green on the posted commit", PASS,
-                   f"FULL run exit 0 on {sha[:12]} at {record.get('utc')}")
+
+    rel = str(record.get("log") or "").strip()
+    if not rel:
+        return _clause("preflight_full_green", label, FAIL,
+                       "receipt names no `log` — an exit code nothing can re-derive is a typed "
+                       "claim, not a gate result")
+    log_path = REPO / rel
+    try:
+        text = log_path.read_text(errors="replace")
+    except Exception as exc:
+        return _clause("preflight_full_green", label, UNVERIFIABLE,
+                       f"log {rel} is unreadable ({type(exc).__name__})")
+    digest = hashlib.sha256(text.encode("utf-8", "replace")).hexdigest()
+    if record.get("log_sha256") != digest:
+        return _clause("preflight_full_green", label, FAIL,
+                       f"receipt's log_sha256 does not match {rel} — the receipt is not bound to "
+                       "the run it names")
+    if FULL_BANNER not in text:
+        return _clause("preflight_full_green", label, FAIL,
+                       f"{rel} carries no PREFLIGHT_FULL=1 banner; it is not a FULL run")
+    markers = [line for line in text.splitlines() if line.startswith("EXIT=")]
+    if not markers:
+        return _clause("preflight_full_green", label, FAIL,
+                       f"{rel} has no EXIT= marker — an unterminated log is an abandoned run, not "
+                       "a green one")
+    if markers[-1].strip() != "EXIT=0":
+        return _clause("preflight_full_green", label, FAIL,
+                       f"{rel} terminates in {markers[-1].strip()!r}")
+    return _clause("preflight_full_green", label, PASS,
+                   f"FULL run exit 0 on {sha[:12]} at {record.get('utc')}, re-derived from {rel}")
 
 
 def clause_3_claim_ceiling_honoured(pub_id: str, sha: str) -> dict:
@@ -232,25 +338,67 @@ def clause_5_endpoint_declared(pub_id: str, sha: str) -> dict:
                    f"{pub_id} claims: {claim[:90]}...")
 
 
+def _document_digest(sha: str, doc: str) -> tuple[str | None, str | None]:
+    """sha256 of the paper's text AS IT WAS at `sha`, read out of git rather than the working tree.
+
+    A seat record is a claim about a document. Binding it to the bytes it read is the difference
+    between "a seat says the claim is supported" and "a seat says the claim is supported, and here
+    is the text it said it about".
+    """
+    try:
+        proc = subprocess.run(["git", "show", f"{sha}:{doc}"], capture_output=True,
+                              timeout=120, cwd=str(REPO))
+    except Exception as exc:
+        return None, f"git show failed ({type(exc).__name__})"
+    if proc.returncode != 0:
+        return None, f"{doc} is not in the tree at {sha[:12]}"
+    return hashlib.sha256(proc.stdout).hexdigest(), None
+
+
 def clause_6_independent_adversarial_seat(pub_id: str, sha: str) -> dict:
     """A blind seat, on the pinned commit, reporting the central claim supported by the COMMITTED
     artifacts. `paper-hardening`: refute by default, and a seat that saw the authoring context is
-    not independent."""
+    not independent.
+
+    ⛔ WHAT THIS CLAUSE CAN AND CANNOT PROVE (CYC-0015). It cannot prove a seat was sincere or that
+    it was truly blind — those are properties of how the seat was RUN, and no file can carry them.
+    What it can prove is that the record is attached to the exact text it claims to have reviewed,
+    so the clause now demands the document's digest at the pinned commit. `{"blind": true,
+    "reviewed_commit": sha, "verdict": "supported"}` used to clear it; that object names no paper,
+    quotes no claim, and would clear the bar for a document it never opened.
+    """
+    label = "a blind adversarial seat finds the claim supported"
     record, err = _read_json(SEATS_DIR / f"{pub_id}-{sha}.json")
     if record is None:
-        return _clause("independent_adversarial_seat", "a blind adversarial seat finds the claim "
-                       "supported", UNVERIFIABLE, err + " — run a blind seat on this commit")
+        return _clause("independent_adversarial_seat", label, UNVERIFIABLE,
+                       err + " — run a blind seat on this commit")
     if not record.get("blind"):
-        return _clause("independent_adversarial_seat", "a blind adversarial seat finds the claim "
-                       "supported", FAIL, "seat was not blind; it is not independent evidence")
+        return _clause("independent_adversarial_seat", label, FAIL,
+                       "seat was not blind; it is not independent evidence")
     if record.get("reviewed_commit") != sha:
-        return _clause("independent_adversarial_seat", "a blind adversarial seat finds the claim "
-                       "supported", FAIL, f"seat reviewed {record.get('reviewed_commit')!r}")
+        return _clause("independent_adversarial_seat", label, FAIL,
+                       f"seat reviewed {record.get('reviewed_commit')!r}")
     if record.get("verdict") != "supported":
-        return _clause("independent_adversarial_seat", "a blind adversarial seat finds the claim "
-                       "supported", FAIL, f"seat verdict: {record.get('verdict')!r}")
-    return _clause("independent_adversarial_seat", "a blind adversarial seat finds the claim "
-                   "supported", PASS, f"blind seat on {sha[:12]}: supported")
+        return _clause("independent_adversarial_seat", label, FAIL,
+                       f"seat verdict: {record.get('verdict')!r}")
+    if len(str(record.get("central_claim") or "").strip()) < 40:
+        return _clause("independent_adversarial_seat", label, FAIL,
+                       "seat states no `central_claim` it tested — a verdict with no claim under "
+                       "it is not a review")
+    endpoint = _endpoint(pub_id)
+    doc = ((endpoint or {}).get("document") or {}).get("file")
+    if not doc:
+        return _clause("independent_adversarial_seat", label, UNVERIFIABLE,
+                       f"{pub_id} has no document.file in publications.json")
+    digest, why = _document_digest(sha, doc)
+    if digest is None:
+        return _clause("independent_adversarial_seat", label, UNVERIFIABLE, why)
+    if record.get("document_sha256") != digest:
+        return _clause("independent_adversarial_seat", label, FAIL,
+                       f"seat carries no matching `document_sha256` for {doc} at {sha[:12]} — the "
+                       "record is not bound to the text it reviewed")
+    return _clause("independent_adversarial_seat", label, PASS,
+                   f"blind seat on {sha[:12]}: supported, bound to {doc}")
 
 
 CLAUSES = (

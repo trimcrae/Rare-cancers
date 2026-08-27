@@ -8,16 +8,16 @@
     "analysis": 1,
     "experiment": 23,
     "fetch": 11,
-    "harden": 1,
+    "harden": 2,
     "negative": 32,
     "process": 4,
-    "process_defect": 4,
+    "process_defect": 5,
     "regrade": 7,
     "write": 5
   },
   "n_by_state": {
     "done": 2,
-    "queued": 86
+    "queued": 88
   },
   "n_clamped": 11,
   "entries": [
@@ -27,8 +27,8 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "running",
-      "owner": "CYC-0015",
+      "state": "queued",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -44,8 +44,8 @@
       "what": "Run a hardening round on PUB-FUSION-PARTNER \u2014 publish_bar clause 1. \u26d4 DO NOT OPEN WITH A REVIEWER SEAT: the standing P1 list was closed by CYC-0011 and its bindings mutation-proven by CYC-0012. \u2605 ROUND 5 HAS RUN THREE ACTS. CYC-0013 added the statistical census (`_CENSUS_STATS`: cohort size, p-value in both printed forms, hazard ratio, cm/months). CYC-0014 added the THIRD census, section G, over a surface that is not a quantity at all \u2014 PubMed ids, trial registrations and DOIs, read for ATTACHMENT (which paper is this printed against) rather than the PROVENANCE `lint_citations` already reads. 61 sites, 31 artifact-owned values, 5 declared not-pooled, four tests, 56/56 mutations caught. \u2b50 WHAT IS STILL OPEN, RE-DERIVED 2026-08-27 rather than carried forward: of the 148 uncovered sentences that state a number, 52 contain a count spelled as a WORD outside the constructions `_word` already binds, 46 a bare YEAR, 46 a section cross-reference, and 33 an ORDINAL or superlative ('the third independent series', 'the largest series'). \u26d4 RE-DERIVE THAT SET with `claim_coverage.py --uncovered=...` rather than trusting this sentence, and note that 24 of the 148 contain an identifier that section G now guards \u2014 the census does not credit it (see the lease note). \u26a0 AND A SUPERLATIVE IS THE HARDEST OF THE FOUR AND THE MOST LOAD-BEARING: it is a claim about RANK that the artifact's cohort records can actually decide, unlike a year. Every new guard goes into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit.",
       "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
       "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-69d8a6ac1c90ae2129f7ee2348d8a523e5f82be8-round4-p1-rederivation.json",
-      "claimed_utc": "2026-08-27T03:45:58Z",
-      "lease_released": "released by CYC-0014. \u26d4 THE FINDING IS THAT A COVERAGE COUNT IS A PROPERTY OF THE INSTRUMENT, MEASURED THIS TIME FROM THE OPPOSITE SIDE TO CYC-0013's. There a guard reported full coverage over 35 unread figures. Here an entire notation went from unread to guarded \u2014 61 identifier sites, 10 mutations that each leave a real and anchored identifier on the page, all caught \u2014 and the paper's measured coverage did not move by one sentence: 57/271 before and after. `claim_coverage.py` discards a harvested pattern matching more than 10 % of a document's sentences, and the identifier pattern matches 28 against a ceiling of 27. \u26d4 MAX_MATCH_SHARE WAS NOT RAISED TO 0.11 \u2014 research-loop \u00a76 forbids a cycle changing the bar that blocked it, and the ceiling is doing the job it was written for. \u26a0 SO THE 57/271 IN THE COMMITTED CENSUS UNDERSTATES WHAT READS THIS DOCUMENT, and a future cycle must not read a flat coverage number as a cycle that achieved nothing."
+      "claimed_utc": null,
+      "lease_released": "released by CYC-0015. \u26d4 THE FINDING IS THAT THE WORK AND THE BAR HAD COME APART. Round 5's three acts (CYC-0012/13/14) all improved this paper's guards, and not one of them could clear a clause: the three clauses still open are the SHA-PINNED ones, and `git log --all` over `hardening-state` and `preflight-receipts` returned EMPTY \u2014 neither directory had ever existed in any ref, and publish_bar.py was the only file that named them. Worse, all three file-backed clauses were cleared by hand-typed JSON with no evidence behind them (clause 2's evidence line printed `at typed by hand`). CYC-0015 rewrote the three clauses to compute from evidence, wrote the missing producer, and pinned ec78ba9: clause 2 is now genuinely OK and clause 1 a measured FAIL rather than UNVERIFIABLE. \u2b50 WHAT THIS ITEM NEEDS NEXT IS A BLIND SEAT ON A PINNED COMMIT, NOT ANOTHER GUARD \u2014 coverage work cannot reach clauses 1 or 6, and every act of it moves the tree and un-pins the evidence."
     },
     {
       "serves": {
@@ -70,6 +70,30 @@
       "what": "Run a BLIND adversarial seat on PUB-FUSION-PARTNER at the pinned commit and record it to research/autonomy/review-seats/ \u2014 publish_bar clause 6. The seat must be blind and must review the pinned sha, or it is not independent evidence.",
       "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
       "result": "Seat run and recorded: research/autonomy/review-seats/PUB-FUSION-PARTNER-21bc8578b11a9ab3f2c08fe3135799769036cdad.json. VERDICT not_supported \u2014 publish_bar clause 6 now reads FAIL rather than UNVERIFIABLE. Three blockers, each verified independently against the pinned commit before being recorded."
+    },
+    {
+      "id": "AUT-PROP-008",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0015",
+      "prerequisite_of": "AUT-049",
+      "what": "\u2b50 RUN A BLIND SEAT ON A PINNED COMMIT FOR PUB-FUSION-PARTNER \u2014 this is what clauses 1 and 6 of the publish bar actually need, and no amount of coverage guarding can reach either. MEASURED BY CYC-0015 against ec78ba9: the bar reads 4/6, clause 1 FAILs with `record names no seats` and clause 6 is UNVERIFIABLE for want of `review-seats/PUB-FUSION-PARTNER-<sha>.json`. \u26d4 THE SEAT MUST BE INDEPENDENT: a session that authored or applied the paper's fixes is not blind, so this is a SPAWNED SESSION or a subagent seat (research-loop \u00a73), never the driver reviewing its own tree. The record it writes must carry `blind`, `reviewed_commit`, `verdict`, a `central_claim` of at least 40 characters and `document_sha256` = sha256 of `git show <sha>:<the endpoint's document>` \u2014 clause 6 now refuses a record missing any of them. Then run `record_bar_evidence.py hardening` to derive the round record FROM that seat. \u26a0 AND PIN FIRST: every guard commit moves the tree and un-pins the evidence, which is why three cycles of round 5 left both clauses exactly where they started.",
+      "score": 195.5,
+      "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it"
     },
     {
       "id": "AUT-010",
@@ -2808,6 +2832,27 @@
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0011",
       "claimed_utc": null
+    },
+    {
+      "id": "AUT-PD-012",
+      "kind": "process_defect",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0015",
+      "what": "\u26d4 THE LEDGER'S RETRY BUDGET GOVERNS NOTHING, AND THE CODE'S OWN COMMENT SAYS THAT IS THE FAILURE IT WAS MEANT TO PREVENT. Measured by CYC-0015 while deciding whether to take an item showing attempts=6 against retry_budget=3: (1) priority.py line ~177 hardcodes score_inputs['fruitless_attempts'] = 0 and computes it from nothing, though priority-weights.json defines a `fruitless_attempts` term; (2) `attempts` is incremented in exactly ONE place, release_stale_claims \u2014 i.e. it counts EXPIRED LEASES, not fruitless work; (3) NOTHING anywhere decrements `retry_budget` (grep: the only writers are priority.py's default of 3 and the modalities work_ledger, a different ledger); (4) health.py's queue_is_takeable filters on `retry_budget > 0` and reports a `retry_budget_spent` list that is therefore ALWAYS EMPTY. priority.py's own line-307 comment: 'so a route could be retried forever and the scorer's fruitless_attempts penalty could never fire.' It cannot fire. \u2b50 THE FIX HAS A PROVEN MODEL IN THIS REPOSITORY: research/modalities/work_ledger.py implements the progress-aware version and TESTS it \u2014 Entry.fruitless_attempts() counts backwards and stops at the last evidence-fingerprint change, _apply_retry_budget blocks at MAX_FRUITLESS_ATTEMPTS, and progress wipes the count ('a dispatch that WORKED costs nothing'). Port that semantics; do not invent one. \u26a0 AND RECORD THE HONEST READING SO THE FIX IS NOT OVERSOLD: a progress-aware counter would NOT have penalised AUT-PROP-002, which moved last_evidence_utc every cycle. This defect did not cause the three-cycle stall CYC-0015 found; it is a separate governance instrument that is inert, and the next item it fails to stop will not announce itself either."
     },
     {
       "serves": {
