@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "b4f086c73a28ad581c80e51c5d9d336ad7d65ca7",
-  "git_tree_is_clean_apart_from_this_manifest": true,
+  "git_revision": "ee868283eccad2d421f298e4f0647b783accd9ec",
+  "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "ba04b68ac69699d7a223b546f8553d7577ebd703f7a309d6e52ac1d53acb800d",
+  "archive_content_digest": "1bbde5521a90bb9a8bc0f6e3be69593e372c1e11d8bb24719e4a502ea97ad06f",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,7 +24,7 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 43223658,
+  "total_bytes": 43223669,
   "total_mib": 41.221,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
@@ -39,7 +39,7 @@
       },
       ".md": {
         "n_files": 13,
-        "bytes": 746122
+        "bytes": 746133
       },
       ".pdf": {
         "n_files": 8,
@@ -1052,7 +1052,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
       "bytes": 443170,
-      "sha256": "ee8bff553eb3c913b286e8ace7bc2b6b064f78a98c8e6bc43e5ea16b590b7ab8",
+      "sha256": "2565ee621bce9d093f38979af570a6cb8dee03c7a60ae303dd992bb6dd27e308",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1084,7 +1084,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
       "bytes": 377268,
-      "sha256": "940d605b9fb491b3df82c44581cdf8758e29153b261c986e1b434b6f4c3af027",
+      "sha256": "61294a8a273e5aff59180cd631a9cac12b6f522a2b53fdc41860ad040782bb12",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1100,7 +1100,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
       "bytes": 363102,
-      "sha256": "24cef9c77834f512e30dc32e760eafb9605c3cee529300af3f9a128ed2804476",
+      "sha256": "5ab0b094530f572d32e637802f13559f7ae2a6cb6059d12db0101b537b221cc2",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1123,8 +1123,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
-      "bytes": 30727,
-      "sha256": "6be28cc10d72eb36ea04eae0bee110ab422495c9e512f2337932711a60ec8238",
+      "bytes": 30738,
+      "sha256": "15e08f6a1f8f3ea0149d40ca90687b39844aab082261446831564099e15840cb",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -1132,7 +1132,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
       "bytes": 451666,
-      "sha256": "80f371efb54c15c03ccb2ab773bd605adbb55cea332f4fff706c277f33efe798",
+      "sha256": "d63c035b7ca5ab59cf75c48249d46a31357946897a6894c6cbbc1ef85945676b",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1632,7 +1632,7 @@
     {
       "path": "research/manuscripts/submission-metrics.json",
       "bytes": 13099,
-      "sha256": "d6c41c2e28d9182cedf5f441477d1f3228b57f8177fd167a05d3da3129cdc19e",
+      "sha256": "d971b2f90d42eecdc22d251317b0ecb7114bf5b8a62003977e620a3280bb49b0",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
