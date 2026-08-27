@@ -1411,8 +1411,80 @@ def build():
 
 #: Fields that move with the REPOSITORY rather than with the archive. `git_revision` advances on
 #: every commit, including commits touching no archived file, and the cleanliness flag flips while a
-#: session has edits in progress. Neither says anything about whether the hash list is right.
+#: session has edits in progress. Excluding both from the INVENTORY DIFF is what stops the
+#: cry-wolf failure documented in `_archive_only`, and that part is unchanged.
+#: ⚠ SUPERSEDED, RETAINED: this note used to end "Neither says anything about whether the hash list
+#: is right." That is true of `git_revision` and FALSE of the cleanliness flag, and the difference
+#: is AUT-PD-016. A `false` flag says the hash list was taken while files were uncommitted, so a
+#: hash in it may describe content that is in no commit at all — which is precisely a statement
+#: about whether the hash list is right. Being wrong about that is why the flag sat on `main`
+#: reading `false` with nothing listening. It is still dropped from the diff; it is now checked
+#: SEPARATELY, as a precondition, by `_dirty_tree_refusal` below.
 _REPO_STATE_FIELDS = ("git_revision", "git_tree_is_clean_apart_from_this_manifest")
+
+#: The one value of the cleanliness flag under which the hash list is verifiable against a commit.
+#: ⛔ THE TEST IS `is True`, NOT TRUTHINESS, AND NOT `!= False`. The field is tri-state by design
+#: (`_tree_clean_apart_from_this_manifest` returns None for "no git here", explicitly documented as
+#: "unknown, never clean"), and a manifest missing the key entirely is the shape this guard would
+#: take if someone deleted the field to clear a red. Unknown provenance and absent provenance are
+#: both refused, because a deposit artifact whose hashes cannot be tied to a commit is not
+#: depositable whatever the reason.
+_CLEAN_FLAG = "git_tree_is_clean_apart_from_this_manifest"
+
+
+def _dirty_tree_refusal(old_text):
+    """The refusal message for a manifest generated against a dirty tree, or None if it is sound.
+
+    ⛔ AUT-PD-016, MEASURED ON `main` 2026-08-27 RATHER THAN HYPOTHESISED. The manifest committed at
+    ae7930ddb names `git_revision` 21c733cd and asserts sha256 d6c41c2e… for
+    research/manuscripts/submission-metrics.json. At 21c733cd that file is d971b2f9…. The asserted
+    bytes were uncommitted working-tree content at generation time, committed only later — inside
+    ae7930ddb itself. So a reader who does the one thing this artifact invites, `git checkout` the
+    revision it names and verify, gets a mismatch on a file that revision cannot produce.
+    ⚠ THE MANIFEST SAID SO ITSELF THE WHOLE TIME. It recorded that flag as `false`, whose meaning
+    (see `_tree_clean_apart_from_this_manifest`) is "these hashes were taken against a dirty tree,
+    do not trust them" — and NOTHING READ IT. `_archive_only` dropped it from the comparison for a
+    good reason and no other caller looked, so the only honest field in the defect governed nothing.
+
+    ⭐ THIS READS THE MANIFEST ON DISK, NEVER THE FRESHLY BUILT ONE, AND THE DISTINCTION IS THE
+    WHOLE GUARD. The on-disk file is the artifact that ships; its flag is a fact about how it was
+    made. The freshly built flag is a fact about the CURRENT tree, which is dirty during any
+    ordinary commit loop — gating on that would paint preflight red for every session with an edit
+    in flight, which is the cry-wolf pattern this module has already been burned by twice.
+    """
+    try:
+        old = json.loads(old_text)
+    except ValueError:
+        return None                       # unreadable JSON is the callers' existing failure to report
+    if not isinstance(old, dict):
+        return None
+    flag = old.get(_CLEAN_FLAG, "__missing__")
+    if flag is True:
+        return None
+    if flag == "__missing__":
+        detail = ("the manifest on disk has no `%s` field at all" % _CLEAN_FLAG)
+    elif flag is None:
+        detail = ("the manifest on disk records `%s: null` — the generator could not consult git, "
+                  "so the provenance of its hashes is UNKNOWN, which is not the same as clean"
+                  % _CLEAN_FLAG)
+    else:
+        detail = ("the manifest on disk records `%s: %s`" % (_CLEAN_FLAG, json.dumps(flag)))
+    return (
+        "REFUSED: %s.\n"
+        "  Its hash list was taken while tracked files were uncommitted, so a hash in it may\n"
+        "  describe content that is in NO COMMIT. A reader who checks out the `git_revision` this\n"
+        "  manifest names and verifies gets a mismatch on a file nobody can produce. That is not a\n"
+        "  staleness — the inventory may well be current — it is a provenance failure, and it is\n"
+        "  why this is refused rather than reported as STALE.\n"
+        "  ⭐ THE FIX IS AN ORDERING, NOT A REGENERATION, AND REGENERATING NOW MAKES IT WORSE.\n"
+        "  Running `python3 research/manuscripts/aso_archive_manifest.py` against the tree you have\n"
+        "  right now re-hashes the same uncommitted edits and writes `false` again — that is the\n"
+        "  obvious response to a STALE line and it is what produced the bad artifact on `main`.\n"
+        "  Instead: commit (or stash) every other change FIRST, then regenerate the manifest\n"
+        "  against the clean tree as the session's LAST commit. Same generator, same inputs; only\n"
+        "  the ordering differs, and the ordering is the whole content of this field."
+        % detail
+    )
 
 
 def _archive_only(art):
@@ -1437,13 +1509,31 @@ def _archive_only(art):
 
 
 def main(argv):
-    art = build()
-    text = json.dumps(art, indent=2, ensure_ascii=False) + "\n"
-    if "--check" in argv or "--check-archive" in argv:
+    checking = "--check" in argv or "--check-archive" in argv
+    old_text = None
+    if checking:
+        # ⛔ PROVENANCE IS CHECKED BEFORE CONTENT, IT GATES BOTH MODES, AND IT RUNS BEFORE `build()`
+        # (AUT-PD-016). A manifest generated against a dirty tree is untrustworthy by construction
+        # whether or not its inventory still matches, so this cannot live inside the
+        # `--check-archive` branch and cannot become a field of the diff — `_archive_only` must keep
+        # dropping it, or the 2026-08-17 cry-wolf failure returns.
+        # ⭐ AND IT PRECEDES THE BUILD FOR TWO REASONS, ONE OF WHICH IS THE DEFECT ITSELF. The
+        # question "was this file made against a clean tree?" is answered entirely by the bytes on
+        # disk; re-deriving 483 hashes first answers nothing it needs. More to the point, the tree
+        # that produces a `false` flag is a tree mid-write — exactly the state in which `build()` is
+        # least likely to survive — and a provenance refusal that only prints after a successful
+        # build is a refusal that the failure it describes can suppress.
         old_text = open(OUT, "r", encoding="utf-8").read() if os.path.exists(OUT) else None
         if old_text is None:
             print("STALE: no manifest on disk", file=sys.stderr)
             return 1
+        refusal = _dirty_tree_refusal(old_text)
+        if refusal is not None:
+            print(refusal, file=sys.stderr)
+            return 1
+    art = build()
+    text = json.dumps(art, indent=2, ensure_ascii=False) + "\n"
+    if checking:
         if "--check-archive" in argv:
             try:
                 old = json.loads(old_text)
