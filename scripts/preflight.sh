@@ -404,6 +404,15 @@ else
   echo "   FAILED -- rerun 'python3 research/manuscripts/lint_style.py' to see which lines"; rc=1
 fi
 
+# ⚠ ADVISORY ON PURPOSE — IT PRINTS, IT NEVER SETS rc. trimcrae, 2026-08-27: "Good prose is going to
+# come from better writing style rather than metrics. Though the metrics could be a decent screening
+# layer." Gating the commit loop on a readability number would instruct this loop to shorten sentences
+# by any means available, and the cheapest means is deleting the difficult truth. The HARD half lives
+# where it belongs: publish_bar clause 7, which blocks an outgoing version — not a commit — on a
+# sentence past the ceiling or a fall in caution.
+echo "== readability screen (ADVISORY: where to look, not whether the prose is good) =="
+python3 research/manuscripts/lint_readability.py --report 2>/dev/null | tail -n +1 | sed 's/^/   /' || true
+
 echo "== parser guard (every registered parser can still find its input) =="
 if python3 systems/parser_guard.py >/dev/null 2>&1; then
   echo "   OK"

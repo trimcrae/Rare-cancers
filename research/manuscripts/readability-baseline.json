@@ -1,0 +1,18 @@
+{
+  "_what": "Caution markers per 1000 words, per submission text, at the moment this was pinned. A readability pass may raise it; a FALL is what --check refuses.",
+  "_why": "A revision that reads better because a hedge, a null or a limitation quietly left is worse than the dense original \u2014 it is now readable AND overstated, and on a posted paper it is overstated under a DOI.",
+  "_regenerate": "python3 research/manuscripts/lint_readability.py --write-baseline, and say in the commit message which qualification changed and why.",
+  "caution_per_1000w": {
+    "research/manuscripts/endpoint/response-endpoint-indolent-tumours.md": 11.8,
+    "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md": 12.7,
+    "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-SI.md": 9.5,
+    "research/manuscripts/dependency/emc-atr-collaborator-package.md": 7.7,
+    "research/manuscripts/repurposing/repurposing-hypotheses.md": 8.2,
+    "research/manuscripts/surface-targets/emc-surface-target-landscape.md": 7.9,
+    "research/manuscripts/surface-targets/emc-surface-target-landscape-si.md": 11.7,
+    "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md": 7.8,
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md": 9.0,
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md": 11.2,
+    "research/manuscripts/neoantigen/emc-vaccine-development-path.md": 11.2
+  }
+}

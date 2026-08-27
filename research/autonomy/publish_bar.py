@@ -35,6 +35,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import json
 import pathlib
 import subprocess
@@ -338,6 +339,88 @@ def clause_5_endpoint_declared(pub_id: str, sha: str) -> dict:
                    f"{pub_id} claims: {claim[:90]}...")
 
 
+def clause_7_readable_enough_to_review(pub_id: str, sha: str) -> dict:
+    """No sentence in the outgoing document runs past the splitting ceiling, and the paper has not
+    bought readability by dropping caution.
+
+    ⚠ ADDED 2026-08-27 AT trimcrae'S REQUEST, after the ASO preprint's v1 went out: "A big issue with
+    the preprint v1 is readability... We should make sure readability is a check for our automated
+    EMC researchers before future preprint versions go out." Measured on that published text: mean
+    sentence 28.4 words, seven sentences over 60, the longest 102 — the hardest-reading submission
+    text in this repository.
+
+    ⛔⛔ THIS CLAUSE DELIBERATELY DOES NOT GATE ON A SCORE, AND THAT IS THE WHOLE DESIGN. trimcrae, in
+    the same breath: "Good prose is going to come from better writing style rather than metrics.
+    Though the metrics could be a decent screening layer." A Flesch threshold as a bar clause is an
+    instruction to this loop to write shorter sentences by any means available — and the cheapest
+    means is deleting the difficult truth. So the clause fails on exactly two things, neither of
+    which can be satisfied by making the paper say less:
+      * a sentence past the ceiling, which is always worth SPLITTING, and splitting drops nothing;
+      * a FALL in caution markers against the pinned baseline, which is the failure itself.
+    Everything else the screen prints is advisory and reaches the author, not the gate.
+
+    ⚠ It runs against the document AT THE PINNED SHA, like every other clause here — a bar that reads
+    the working tree measures a paper nobody is publishing.
+    """
+    name, title = "readable_enough_to_review", "the outgoing text is readable and keeps its caution"
+    endpoint = _endpoint(pub_id)
+    if endpoint is None:
+        return _clause(name, title, UNVERIFIABLE, f"{pub_id} is not in systems/graph/publications.json")
+    doc = (endpoint.get("document") or {}).get("file")
+    if not doc:
+        return _clause(name, title, UNVERIFIABLE, f"{pub_id} names no document")
+
+    import tempfile
+    try:
+        proc = subprocess.run(["git", "show", f"{sha}:{doc}"], capture_output=True,
+                              timeout=120, cwd=str(REPO))
+    except Exception as exc:
+        return _clause(name, title, UNVERIFIABLE, f"git show failed ({type(exc).__name__})")
+    if proc.returncode != 0:
+        return _clause(name, title, UNVERIFIABLE, f"{doc} is not in the tree at {sha[:12]}")
+
+    sys.path.insert(0, str(REPO / "research" / "manuscripts"))
+    try:
+        import lint_readability as LR
+    except Exception as exc:  # pragma: no cover - import guard
+        return _clause(name, title, UNVERIFIABLE, f"lint_readability did not import ({exc})")
+
+    with tempfile.NamedTemporaryFile("wb", suffix=".md", delete=False) as fh:
+        fh.write(proc.stdout)
+        tmp = fh.name
+    try:
+        m = LR.measure(tmp)
+    finally:
+        os.unlink(tmp)
+    if not m:
+        return _clause(name, title, UNVERIFIABLE, f"no prose extracted from {doc} at {sha[:12]}")
+
+    baseline = {}
+    bl = REPO / "research" / "manuscripts" / "readability-baseline.json"
+    if bl.exists():
+        baseline = json.loads(bl.read_text(encoding="utf-8")).get("caution_per_1000w", {})
+    was = baseline.get(doc)
+
+    if m["over_ceiling"]:
+        worst = [w for w in m["worst"] if w["words"] > LR.SENTENCE_CEILING]
+        return _clause(name, title, FAIL,
+                       f"{m['over_ceiling']} sentence(s) over {LR.SENTENCE_CEILING} words in {doc} "
+                       f"(longest {m['max_len']}w at line {worst[0]['line']}). Split them — see the "
+                       f"`scientific-writing` skill. Do NOT raise the ceiling and do NOT cut a clause "
+                       f"to get under it.")
+    if was is not None and m["caution_per_1000w"] < was:
+        return _clause(name, title, FAIL,
+                       f"caution fell {was} -> {m['caution_per_1000w']} markers per 1000 words in "
+                       f"{doc}. A readability pass that costs a hedge, a null or a limitation has "
+                       f"made the paper worse. Name what left, or re-pin deliberately.")
+    return _clause(name, title, PASS,
+                   f"{doc}: no sentence over {LR.SENTENCE_CEILING}w (longest {m['max_len']}w, mean "
+                   f"{m['mean_len']}w, FKGL {m['flesch_kincaid_grade']}), caution "
+                   f"{m['caution_per_1000w']}/1000w"
+                   + (f" against a {was} baseline" if was is not None else " (no baseline pinned)")
+                   + ". ⚠ This says nothing about whether the prose is CLEAR.")
+
+
 def _document_digest(sha: str, doc: str) -> tuple[str | None, str | None]:
     """sha256 of the paper's text AS IT WAS at `sha`, read out of git rather than the working tree.
 
@@ -408,6 +491,7 @@ CLAUSES = (
     clause_4_identifiers_resolvable,
     clause_5_endpoint_declared,
     clause_6_independent_adversarial_seat,
+    clause_7_readable_enough_to_review,
 )
 
 
