@@ -16,7 +16,9 @@
     "R7-B6 (§1.2 table row + closing paragraph): both halves rewritten after primary-source verification.",
     "GUARD: test_fusion_partner_prose_matches_its_artifact.py now reads BOTH prose documents (scoped by property, not a list), 3 new bindings added, 1 re-pointed to a live site, 1 re-anchored; 7 mutations added to mutate_fusion_partner_guard.py.",
     "claim-coverage.json: covered 58 → 77, uncovered_with_a_number 149 → 125.",
-    "LEDGER: two duplicate-id collisions fixed and a duplicate guard added to priority.py's merge(), plus its prior-row filter scoped by `_derived` so a hand-filed row can no longer be silently DELETED by a re-score."
+    "LEDGER: two duplicate-id collisions fixed and a duplicate guard added to priority.py's merge(), plus its prior-row filter scoped by `_derived` so a hand-filed row can no longer be silently DELETED by a re-score.",
+    "GUARD (second pass): mutate_fusion_partner_guard.py widened to both prose documents after the commit's own mutation run showed 15 committed mutations had gone inert. 61 entries, 0 un-run, 0 survivors.",
+    "MANIFEST: regenerated post-rebase so its recorded git_revision (8a92d44) is reachable from main; the round-8 commit had recorded a revision the rebase orphaned."
   ],
   "round_8_outcome": {
     "kind": "apply round — no seats launched, by design",
@@ -41,7 +43,7 @@
   },
   "mutation_testing": {
     "priority_merge_guard": "3 realistic collision shapes, 3 caught, clean control unchanged at n=99. A fourth shape was correctly absorbed by the pre-existing dedupe and that was verified by reading merge()'s id-assignment, not assumed.",
-    "fusion_partner_quantity_guard": "7 mutations added to mutate_fusion_partner_guard.py covering every binding written or moved this round, including two SWAPS that leave every digit on the page (the two falsifier projections, and the per-arm follow-up pair). Run against HEAD after the commit — the harness builds its worktree from HEAD by design."
+    "fusion_partner_quantity_guard": "Run against HEAD after the round-8 commit. ⭐ 7 of 7 new mutations CAUGHT, including both swaps that leave every digit on the page; ZERO survivors across the whole suite. ⛔ AND THE RUN FOUND A DEFECT ROUND 8 ITSELF CREATED: the harness mutated ONE document, so 15 committed appendix-anchored mutations stopped landing the moment the register moved. It reported them as un-run HARNESS ERRORS rather than as 15 caught mutations, which is the only reason this was visible — a mutation that never lands reports exactly what a guard that never fires reports. Fixed by resolving each anchor to whichever prose document holds it, exactly-once asserted across both: un-run 15 → 3 → 0, one anchor repaired, two mutations retired in place with their replacements named."
   },
   "cost": {
     "real_dollars": 0.0,
@@ -76,5 +78,12 @@
     "how_it_was_found": "NOT by a crash. The live gate simply overran its measured ~255 s, and CLAUDE.md §4's 'unexpected slowness is a signal, investigate rather than reassure' is the only reason anybody ran `ps`. Two prior cycles' worth of slow gates may have had the same cause and been read as 'the suite is slow today'.",
     "second_trap_confirmed_twice": "The harness reports each killed run as `failed with exit code 1`, which reads exactly like a RED GATE. Seen twice in this cycle, for pf5 and pf6, both of which I had killed deliberately. Neither wrote an `EXIT=` marker — that absence is what distinguishes a killed run from a failed one, and it is precisely why the marker rule exists. This is the same class as the incident behind that rule (a harness reporting 0 for a preflight whose marker said 1), arriving from the other direction.",
     "fix_proposed": "Have preflight.sh record its own pid and add `scripts/stop-preflight.sh` to kill that pid's process GROUP, or run the gate under `setsid`/`exec` so the tracked process IS the gate. ⛔ NOT `pkill -f preflight` — CLAUDE.md §6 records that pattern matching the killer's own command line three times in one session. Killed by recorded PID here."
+  },
+  "fourth_process_defect": {
+    "id": "caught by an existing guard; no new instrument needed",
+    "what": "⛔ THE ROUND-8 COMMIT (8a92d44) SHIPPED AN ARCHIVE MANIFEST POINTING AT AN ORPHANED COMMIT, AND I PUSHED IT. The manifest records the git revision it was generated at. It was regenerated at 59e068a6 — this cycle's claim commit — and then origin/main moved under the push, the rebase rewrote 59e068a6 into 1b79dd0, and the manifest's provenance line was left naming a commit reachable from no branch and no tag. A reader cloning the repository could not resolve the deposit's own provenance.",
+    "how_it_was_found": "`test_the_manifest_revision_is_a_commit_a_reader_can_resolve` failed on the NEXT preflight, and its message diagnosed the mechanism outright: 'This is what a rebase after regeneration looks like. Regenerate the manifest AFTER the final rebase.' ⭐ THAT IS WHAT A GOOD GUARD MESSAGE BUYS — the failure named its own cause and its own remedy, and cost one regeneration instead of an investigation.",
+    "consequence_stated_plainly": "CI on 8a92d44 is expected to be RED on this one test, because the defect is in the pushed commit. It is fixed forward by the follow-up commit rather than by rewriting pushed history.",
+    "the_ordering_lesson": "The regeneration chain ran BEFORE the final rebase. Any artifact that records a git revision must be regenerated after the last rebase, which means after the push is known to fast-forward — not merely before the commit. ⚠ Nothing enforces that ordering; the guard catches the result on the next run, one commit late."
   }
 }

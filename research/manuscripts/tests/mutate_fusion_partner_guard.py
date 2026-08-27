@@ -50,8 +50,20 @@ import sys
 import tempfile
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".."))
+# ⛔ TWO DOCUMENTS SINCE ROUND 8, AND EACH MUTATION GOES TO WHICHEVER ONE HOLDS ITS ANCHOR.
+# Round 8 moved the correction register out of the manuscript's Appendix A into its own file. This
+# harness mutated ONE document, so 15 committed mutations — every appendix-anchored one — stopped
+# landing the moment the register moved. ⭐ IT REPORTED THAT AS A HARNESS ERROR RATHER THAN AS 15
+# CAUGHT MUTATIONS, which is the one behaviour that made this safe to find: a mutation that never
+# lands reports exactly what a guard that never fires reports (paper-hardening §8b), and the whole
+# reason this file asserts `anchor occurs exactly once` is to refuse that reading.
+# The anchor is now resolved by the PROPERTY "the document that contains it", and exactly-once is
+# asserted ACROSS BOTH documents, so the single-site invariant is unchanged and an anchor that
+# became ambiguous by appearing in both would still be an error rather than a silent choice.
 DOC = os.path.join("research", "manuscripts", "fusion-partner",
                    "emc-fusion-partner-stratification.md")
+REGISTER = os.path.join("research", "manuscripts", "fusion-partner",
+                        "emc-fusion-partner-correction-register.md")
 TEST = os.path.join("research", "manuscripts", "tests",
                     "test_fusion_partner_prose_matches_its_artifact.py")
 
@@ -153,14 +165,14 @@ MUTATIONS = [
      "A22's local-recurrence comparator spread"),
 
     # ---- §2.5's two named spreads --------------------------------------------------------------
-    ("2.5: the secondary-pool spread drifts where the bullet names it",
-     "the secondary TKI pool (spread 53.9 points)",
-     "the secondary TKI pool (spread 53.6 points)",
-     "§2.5's two named spreads"),
-    ("2.5: the local-recurrence spread drifts where the bullet names it",
-     "arm, 22.4 points). Two blind adversarial seats",
-     "arm, 22.1 points). Two blind adversarial seats",
-     "§2.5's two named spreads"),
+    # ⛔ TWO MUTATIONS RETIRED IN ROUND 8, AND RETIRED IS NOT THE SAME AS DELETED — the reason is
+    # recorded because a missing mutation is invisible and a removed one should have to argue for
+    # itself. Both mutated §2.5's ⚠ note, which RESTATED the two widest spreads while recording why
+    # that bullet had been corrected. Round 8 removed the note (a correction belongs in the register,
+    # not inside the sentence it corrects). ⭐ NEITHER QUANTITY LOST COVERAGE, which is the only thing
+    # that justifies retiring rather than re-pointing them: 53.9 is still mutated at its real home by
+    # "3.1 row: the spread itself drifts", and 22.4 by "3.3: the live comparator-arm spread drifts",
+    # which round 8 added precisely because that live site had never been mutated at all.
 
     # ---- §3.5's Sjögren counterfactual, which is DERIVED and must not become typed --------------
     ("3.5: Sjögren's own TAF15 share drifts",
@@ -182,8 +194,11 @@ MUTATIONS = [
 
     # ---- A4's high-grade share, restated twice by round 4 ---------------------------------------
     ("4.1a: A4's high-grade share drifts at round 4's first restatement",
-     "Appendix A4 records its 80 % high-grade variant group",
-     "Appendix A4 records its 85 % high-grade variant group",
+     # ⚠ ANCHOR REPAIRED IN ROUND 8, NOT RETIRED. The sentence still stands and its binding still
+     # reads it; only the cross-reference changed, from `Appendix A4` to a link at the register the
+     # row moved to. Repair when the claim survives the rewording — retire only when it does not.
+     "register.md) A4 records its 80 % high-grade variant group",
+     "register.md) A4 records its 85 % high-grade variant group",
      "round 4's two restatements of A4's high-grade share"),
     ("A23: A4's high-grade share drifts at round 4's second restatement",
      "A4 records its 80 % high-grade variant group. And §4.9",
@@ -414,10 +429,10 @@ def main():
     tree = os.path.join(tmp, "wt")
     subprocess.run(["git", "worktree", "add", "--detach", tree, "HEAD"],
                    cwd=REPO, check=True, capture_output=True)
-    doc = os.path.join(tree, DOC)
+    docs = [os.path.join(tree, DOC), os.path.join(tree, REGISTER)]
     try:
-        pristine = io.open(doc, encoding="utf-8").read()
-        base_digest = _digest(doc)
+        pristine = {d: io.open(d, encoding="utf-8").read() for d in docs}
+        base_digest = {d: _digest(d) for d in docs}
 
         # ⛔ THE POSITIVE CONTROL RUNS FIRST. A harness that reports every mutation caught while the
         # unmutated tree is ALSO red has measured nothing at all.
@@ -428,19 +443,23 @@ def main():
 
         survived, errors = [], []
         for label, anchor, mutated, targets in MUTATIONS:
-            n = pristine.count(anchor)
-            if n != 1:
-                errors.append(f"{label}: anchor occurs {n} times, not once — the mutation is not "
-                              f"single-site and its result would be unreadable")
+            total = sum(pristine[d].count(anchor) for d in docs)
+            if total != 1:
+                where = ", ".join(f"{os.path.relpath(d, tree)}×{pristine[d].count(anchor)}"
+                                  for d in docs if pristine[d].count(anchor))
+                errors.append(f"{label}: anchor occurs {total} times across the synthesis's prose "
+                              f"documents, not once{' (' + where + ')' if where else ''} — the "
+                              f"mutation is not single-site and its result would be unreadable")
                 continue
-            io.open(doc, "w", encoding="utf-8").write(pristine.replace(anchor, mutated))
-            if _digest(doc) == base_digest:
+            doc = next(d for d in docs if pristine[d].count(anchor) == 1)
+            io.open(doc, "w", encoding="utf-8").write(pristine[doc].replace(anchor, mutated))
+            if _digest(doc) == base_digest[doc]:
                 errors.append(f"{label}: MUTATION DID NOT LAND (digest unchanged)")
-                io.open(doc, "w", encoding="utf-8").write(pristine)
+                io.open(doc, "w", encoding="utf-8").write(pristine[doc])
                 continue
             green = _run_guard(tree)
-            io.open(doc, "w", encoding="utf-8").write(pristine)
-            assert _digest(doc) == base_digest, "failed to restore the worktree between mutations"
+            io.open(doc, "w", encoding="utf-8").write(pristine[doc])
+            assert _digest(doc) == base_digest[doc], "failed to restore the worktree between mutations"
             print(f"  {'⛔ SURVIVED' if green else '✅ caught  '}  {label}")
             if green:
                 survived.append(f"{label}  [targets: {targets}]")
