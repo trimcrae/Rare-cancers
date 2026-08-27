@@ -53,8 +53,21 @@ Check before anything else. A loop that works through its own alarm is the alarm
 3. **Re-score.** `python3 research/autonomy/priority.py --write`. It is $0 and deterministic —
    never trust a score you inherited.
 4. **Take the top item whose `cost_class` fits the current budget posture.** Free work always fits.
-   Set `owner` to your cycle id **and `claimed_utc` to now**, and commit that before doing any work:
-   an item with no owner is indistinguishable from an item in progress.
+   ⭐ **CLAIM IT WITH THE TOOL, NOT BY HAND:**
+   `python3 research/autonomy/claim.py --id <AUT-...> --me <your cycle id> --utc <now>`.
+   It reads the row from **`origin/main`, never your working tree**, and the **push is the arbiter** —
+   a rejected push means the remote moved, so the claim is withdrawn and the question re-asked. It
+   prints `CLAIMED`, `YIELDED` (somebody else holds it — take the next item) or `RETRY`.
+   ⛔ *Measured 2026-08-27 (AUT-PD-021): a seat claimed AUT-PROP-009 at 20:10:00Z and a concurrent
+   session claimed the SAME item at 20:15:00Z from state fetched before that lease landed. Both
+   worked; the collision surfaced as a merge conflict AFTER ~20 minutes of duplicated effort. A local
+   commit is not an arbiter — two sessions can both make one and meet at the merge. `git push` is a
+   compare-and-swap on the remote ref, so it is.*
+   ⚠ **AND CLAIM AT DISPATCH, IN THE SAME ACTION THAT SPAWNS THE WORKER.** An unpushed claim protects
+   nothing: every other session reads the trunk, and the trunk still says free. `claim.py --check`
+   reports any claim you hold locally that the trunk cannot see — eight minutes of exactly that was
+   measured the day this was written, on the author's own claim, while writing the fix for it.
+   An item with no owner is indistinguishable from an item in progress.
    ⛔ **A CLAIM IS A LEASE, NOT A DEED — STAMP IT.** An unstamped claim cannot be aged, so
    `priority.py` releases it on the very next re-score and another cycle may take the item out from
    under you. Worse, before the lease existed, an unstamped claim was IMMORTAL: CYC-0003 claimed an

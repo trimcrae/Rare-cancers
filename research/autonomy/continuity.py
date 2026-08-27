@@ -112,6 +112,20 @@ def _why_not_ready(e: dict, me: str | None) -> str | None:
         return "finished"
     if e.get("blocked_by"):
         return f"blocked_by {e['blocked_by']}"
+    # ⛔⛔ AND `blocked_evidence` ALONE IS A STOP TOO, BECAUSE THIS FILE AND `priority.py` WERE
+    # READING DIFFERENT FIELDS FOR THE SAME QUESTION (found 2026-08-27). `priority.py`'s
+    # `apply_session_penalties` keys its -90 penalty on a non-empty `blocked_evidence` and says why
+    # in as many words: "KEYED ON THE EVIDENCE, NOT ON `state`. The recorded observation IS the
+    # block." This function keyed on `blocked_by`. So a row carrying evidence and no `blocked_by` was
+    # PENALISED by the ranker and OFFERED by this checker at the same moment — AUT-PROP-018 sat at
+    # the top of the ready list for an hour that way, with a recorded reason nobody was reading.
+    # ⚠ THE SAME READER/WRITER MISMATCH FAMILY AS AUT-PD-013 AND AUT-PD-017: two files agreeing in
+    # prose about which field carries a fact, and disagreeing in code.
+    # ⭐ Hiding it is safe HERE and only here because the reason is NAMED in the blocked report
+    # below — CLAUDE.md §0 wants a block to be checkable, not invisible, and an unread reason is
+    # what this fixes rather than what it creates.
+    if str(e.get("blocked_evidence") or "").strip():
+        return f"blocked_evidence recorded: {str(e['blocked_evidence'])[:120]}"
     owner = e.get("owner")
     if owner and owner != me:
         return f"claimed by {owner}"

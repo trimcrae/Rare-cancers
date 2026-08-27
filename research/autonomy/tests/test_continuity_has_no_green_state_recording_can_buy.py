@@ -225,6 +225,40 @@ def test_an_undeclared_outward_looking_row_is_reported_not_hidden(led, capsys):
     assert "declare nothing" in capsys.readouterr().out
 
 
+def test_recorded_block_evidence_is_a_stop_even_with_no_blocked_by(led, capsys):
+    """⛔⛔ THIS FILE AND `priority.py` READ DIFFERENT FIELDS FOR THE SAME QUESTION (2026-08-27).
+
+    `apply_session_penalties` keys its -90 penalty on a non-empty `blocked_evidence`, and its comment
+    says why in as many words: *"KEYED ON THE EVIDENCE, NOT ON `state`. The recorded observation IS
+    the block."* This checker keyed on `blocked_by`. So a row carrying evidence and no `blocked_by`
+    was PENALISED by the ranker and OFFERED by this checker at the same moment — AUT-PROP-018 sat at
+    the top of the ready list for an hour that way, with a recorded reason nobody was reading, while
+    the driver described the reason in chat instead. An item whose blocker lives only in somebody's
+    reply is an item nothing can check.
+
+    ⚠ THE SAME READER/WRITER MISMATCH FAMILY AS AUT-PD-013 AND AUT-PD-017: two files agreeing in
+    prose about which field carries a fact, and disagreeing in code.
+    """
+    led([_item(id="A", blocked_evidence="the ASO clauses are sha-bound; HEAD is moving")])
+    assert C.ready() == [], (
+        "a row with recorded block evidence was offered as ready work. The ranker already stands it "
+        "down; two tools disagreeing about whether an item is runnable is worse than either answer.")
+    assert C.main(["--check"]) == 0
+    out = capsys.readouterr().out
+    assert "sha-bound" in out, (
+        "the row was hidden without its reason being named. CLAUDE.md §0 wants a block CHECKABLE, "
+        "not invisible — an unread reason is what this fixes, not what it creates.")
+
+
+def test_empty_block_evidence_is_not_a_block(led):
+    """⚠ The positive control, and it guards the direction that costs work. An empty string, a null
+    or whitespace must NOT stand an item down — otherwise the field's mere presence parks a route,
+    which is the opposite failure and the more expensive one."""
+    for value in (None, "", "   "):
+        led([_item(id="A", blocked_evidence=value)])
+        assert len(C.ready()) == 1, f"blocked_evidence={value!r} wrongly stood the item down"
+
+
 def test_declaring_false_silences_the_report_without_hiding_the_work(led):
     """⭐ THE REGEX WAS WRONG ABOUT TWO OF TEN REAL ROWS — one matched 'the paper heading' inside a
     list of already-rewritten sites, the other matched 'deposit artifact' in a row about a file

@@ -7,7 +7,7 @@
   "n_by_kind": {
     "harden": 11,
     "analysis": 1,
-    "process_defect": 17,
+    "process_defect": 18,
     "write": 6,
     "experiment": 23,
     "process": 7,
@@ -20,9 +20,9 @@
     "verify": 1
   },
   "n_by_state": {
-    "queued": 102,
+    "queued": 101,
     "superseded": 1,
-    "done": 21,
+    "done": 23,
     "in_progress": 5
   },
   "n_clamped": 11,
@@ -3886,18 +3886,18 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0023-6be7fd5a",
-      "claimed_utc": "2026-08-27T20:35:00Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ A CLAIM LEASE DOES NOT PREVENT A SECOND CLAIM, AND TWO WORKERS TOOK ONE ITEM TODAY. Measured 2026-08-27, live: `atr-single-slot-seat` claimed AUT-PROP-009 at 20:10:00Z and was dispatched with an isolated worktree; CYC-0025 claimed the SAME item at 20:15:00Z from committed state it had fetched before that lease landed, and the two claims met as a git merge conflict on research-ledger.json. ⭐ THE GAP IS PRECISELY STATED AND IS NOT THE ONE AUT-PROP-013 CLOSED: id allocation is now collision-proof, but a LEASE is read-then-write against a file that another session may have advanced in between, so the read is stale by construction — the same shape as the id derivation, one level up. `continuity.py` already hides owned rows from other workers, so the machinery is there; what is missing is that a claimant re-reads the trunk IMMEDIATELY before committing its claim, and yields if the row is taken. ⚠ THE TIEBREAK USED TODAY WAS AD-HOC — earlier lease wins, recorded in the entry's `_contested` field — and AUT-PROP-013 says in as many words that an ad-hoc tiebreak is not a mechanism. It is written down rather than performed silently, which is the least that can be said for it. ⛔ AND THE COST IS NOT COSMETIC: two seats on one guard produce two patches for the same file, and the second one to land either loses work or silently overwrites the first — the identical harm the receipt collision would have caused. ⭐ CHEAP: a fetch-and-recheck before the claim commit, plus a test that two claimants racing on one row cannot both succeed.",
+      "what": "✅ DONE 2026-08-27, in the session that hit it. ⛔ A CLAIM LEASE DOES NOT PREVENT A SECOND CLAIM, AND TWO WORKERS TOOK ONE ITEM TODAY. Measured 2026-08-27, live: `atr-single-slot-seat` claimed AUT-PROP-009 at 20:10:00Z and was dispatched with an isolated worktree; CYC-0025 claimed the SAME item at 20:15:00Z from committed state it had fetched before that lease landed, and the two claims met as a git merge conflict on research-ledger.json. ⭐ THE GAP IS PRECISELY STATED AND IS NOT THE ONE AUT-PROP-013 CLOSED: id allocation is now collision-proof, but a LEASE is read-then-write against a file that another session may have advanced in between, so the read is stale by construction — the same shape as the id derivation, one level up. `continuity.py` already hides owned rows from other workers, so the machinery is there; what is missing is that a claimant re-reads the trunk IMMEDIATELY before committing its claim, and yields if the row is taken. ⚠ THE TIEBREAK USED TODAY WAS AD-HOC — earlier lease wins, recorded in the entry's `_contested` field — and AUT-PROP-013 says in as many words that an ad-hoc tiebreak is not a mechanism. It is written down rather than performed silently, which is the least that can be said for it. ⛔ AND THE COST IS NOT COSMETIC: two seats on one guard produce two patches for the same file, and the second one to land either loses work or silently overwrites the first — the identical harm the receipt collision would have caused. ⭐ CHEAP: a fetch-and-recheck before the claim commit, plus a test that two claimants racing on one row cannot both succeed.\n\n⭐ WHAT SHIPPED: `research/autonomy/claim.py`. ⛔⛔ THE FIX IS NOT A RULE ABOUT WHO YIELDS, BECAUSE AUT-PROP-013 ALREADY ESTABLISHED THAT A RULE ABOUT YIELDING IS NOT A MECHANISM — the yielding session must first NOTICE, and a session that pushes cleanly never does. **The arbiter is `git push`**, the one operation in this loop that is already atomic: a compare-and-swap on the remote ref that succeeds only if the remote is still where you thought. The decision is made against `origin/main`'s copy of the ledger — never the working tree, which IS the stale read that caused the incident — and a rejected push is treated as INFORMATION rather than an error: the claim is withdrawn (`reset --soft`, never `--hard`), the trunk re-read, and the item conceded if somebody else now holds it. ⚠ A rejection is usually NOT contention on your row (the autoscale ticks push several times an hour), so it retries up to 3 times and then reports RETRY — never a silent CLAIMED, which would dispatch a worker onto a row the trunk still shows as free. ⭐ `--check` reports claims held locally that the trunk cannot see. ⛔⛔ AND THAT CHECK WAS MEASURED ON MY OWN CLAIM WHILE WRITING THIS: AUT-PROP-022 was claimed, a seat dispatched, and the claim then sat in an UNCOMMITTED merge for eight minutes while the trunk still showed the row unowned. I filed this defect and then stood in it. That is not somebody else's carelessness — it is what claiming in the working tree and committing later DOES, every time. ⚠ WHAT THIS DELIBERATELY DOES NOT DO: protect against a worker that claims and then dies. `priority.py:release_stale_claims` already ages an owner out by `claimed_utc`; the two are halves of one thing — this stops two workers starting, that stops one worker parking the queue forever. ✅ 9 tests, wired to preflight gate 15 and tests.yml; no test touches the real remote, because a test that pushes changes the trunk and racing writers on the trunk is this module's whole subject. ⚠ MUTATIONS: 8 run, 7 caught, and the 8th is reported as EQUIVALENT rather than as a gap — swapping `undo_last_commit()` and `fetch()` after a lost race changes no behaviour, since both complete before the trunk is re-read and before any retry can commit. Calling an equivalent mutation a survivor would be as dishonest as calling it a catch.",
       "score": 150.0,
       "_score_basis": "two workers were dispatched onto one item and only a merge conflict revealed it",
       "depends_on_evidence": "research-ledger.json AUT-PROP-009 `_contested`; the merge conflict between ff8cff1e8 and 6cd21de13",
@@ -3927,6 +3927,32 @@
       "score": 130.0,
       "_score_basis": "three tests red on the trunk, none caused by this session, all fixed at the cause",
       "depends_on_evidence": "systems/tests/test_autonomy_priority.py and test_autonomy_publish_bar.py: 54 passed after the fixes",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-023",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "✅ DONE 2026-08-27, and it is AUT-PD-017's class caught in the act. ⛔ `continuity.py` AND `priority.py` READ DIFFERENT FIELDS FOR THE SAME QUESTION. `priority.py`'s `apply_session_penalties` keys its -90 evidenced-block penalty on a non-empty `blocked_evidence`, and its comment states the principle outright: 'KEYED ON THE EVIDENCE, NOT ON `state`. The recorded observation IS the block.' `continuity.py`'s `_why_not_ready` keyed on `blocked_by`. ⭐ SO A ROW CARRYING EVIDENCE AND NO `blocked_by` WAS PENALISED BY THE RANKER AND OFFERED BY THE CHECKER AT THE SAME MOMENT. Measured on AUT-PROP-018, which sat at the TOP of the ready list for roughly an hour with a recorded reason nobody read — written there by a concurrent session — while this driver described the same reason in chat replies instead. ⛔⛔ AND THAT IS THE PART WORTH KEEPING: an item whose blocker lives only in somebody's reply is an item nothing can check, which is precisely the failure `continuity.py` was built to stop. The Stop hook offered it four times; four times the answer given was prose. ⭐ FIXED: a non-empty `blocked_evidence` is now a real stop in `_why_not_ready`, and the reason is NAMED in the blocked report rather than the row silently disappearing — CLAUDE.md §0 wants a block CHECKABLE, not invisible, and an unread reason is what this fixes rather than what it creates. ✅ 3 tests, 3/3 mutations caught, including the one that matters in the opposite direction: an empty string, null or whitespace must NOT stand an item down, or the field's mere presence parks a live route. ⚠ THE CLASS IS STILL OPEN AS AUT-PD-017 — this is the third instance today after the receipt's fan-out key and the ledger's id allocation, and all three are the same sentence: a field name agreed in prose between two files is not agreed at all.",
+      "score": 110.0,
+      "_score_basis": "the ranker and the continuity checker disagreed about which work was runnable",
+      "depends_on_evidence": "AUT-PROP-018 offered as ready with blocked_evidence recorded; 79 tests in research/autonomy/tests",
       "closes_clause": null
     }
   ]
