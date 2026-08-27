@@ -1,0 +1,83 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0021",
+  "session_id": "session_017u1bZT3At1tzWKzBeQBZcg",
+  "utc": "2026-08-27T08:42:11Z",
+  "cycles_in_this_session": 1,
+  "max_cycles_per_session": 2,
+  "repo_confirmed": "git rev-parse --abbrev-ref HEAD (claude/dreamy-hawking-y7q1ps) and git pull --rebase -q origin main both succeeded before anything else ran.",
+  "health_check": "python3 research/autonomy/health.py --check exited 0. 9/10 conditions green; gates_green UNMEASURED by construction (the checker has no network). Not a stop condition (health.py exits 0, and the loop's own §1 table only stops on BLOCKING red, never on UNMEASURED).",
+  "took": "AUT-PROP-005",
+  "took_what": "Round 9 of PUB-FUSION-PARTNER's hardening series, the queue's top-scored takeable item (195.5, tied with AUT-PROP-002). Per the item's own instruction: seat it, do not apply anything first.",
+  "stale_duplicate_closed": {
+    "id": "AUT-PROP-002",
+    "what": "Tied at the top of the queue at score 195.5 since CYC-0001, describing round 5's open work (superseded by rounds 6-8 under AUT-PROP-008/011/015/016). Every cycle from CYC-0016 through CYC-0020 had to re-derive that it was stale before taking a newer round-specific id instead — CYC-0016's own receipt names this by hand ('tied top-score with AUT-010'). Marked `state: superseded` with a `superseded_note` explaining why, so it stops re-litigating itself every four hours. Not deleted — CLAUDE.md §7: retiring an entry is a session's decision with a reason, kept in the ledger rather than silently dropped."
+  },
+  "the_round": {
+    "pinned_commit": "0743ac15d0153916309728366fbd3cd880a003a8",
+    "pin_verified": "HEAD at cycle start; confirmed identical to origin/main's tip by `git log --oneline origin/main -5`. Confirmed no manuscript file changed between round 8's commit (8a92d44) and this pin via `git diff --stat 8a92d44..HEAD -- research/manuscripts/fusion-partner/` (empty) — the three intervening commits were instrument/receipt fixes only.",
+    "seats_launched": 5,
+    "seat_lenses": ["regression on round 8's repairs (mandatory)", "arithmetic against committed artifacts", "statistics and experimental design", "citations, build and gates", "hostile referee"],
+    "width": "5 concurrent, within the governed cap (autonomy-state.json subagent_width=5 at backoff_level 0)",
+    "result": "ZERO BLOCKERS FROM EVERY SEAT — the first zero-blocker round in this paper's series (round 7 found 6 distinct blockers). 6 P1 instances across 4 of the 5 seats (arithmetic reported clean at 52/52 numbers re-derived independently and exhaustively). Every P1 is a completeness or coverage gap; none is a wrong statement in the committed text as it stands today.",
+    "p1_summary": [
+      "REG-P1-1 + STAT-P1-1 (same surface, two independent lenses): §6's falsifier derives 19 further patients / denominator 34 / 'more than twice' via zero_death_patients_to_reconcile(), and both are correct today, but the guard binds only the two adjacent percentages, not these integers (REG), and the prose never states why the comparator's Wilson UPPER bound is held fixed rather than its point estimate (STAT) -- the actual rationale lives only in a docstring.",
+      "STAT-P1-2: §4.7 states Huang's 58→53 follow-up exclusion but not the further 53→50 TCF12/unassigned exclusion the pooled table's denominator actually uses.",
+      "STAT-P1-3: the artifact's own follow_up_warning field overstates recurrence/metastasis confounding as equivalent to the death-endpoint mechanism (a live template risk, not a current manuscript defect -- the manuscript's own prose is already more careful).",
+      "CITE-P1-1: excluding the correction register from claim_coverage.py's census is the right call (traced and confirmed: no live manuscript claim is uniquely register-dependent, and the register's own frontmatter places it outside the census's publication-endpoint predicate) but is not recorded anywhere as a deliberate decision the way NOT_ENDPOINTS records its exclusions.",
+      "REF-P1-1: §3.1's accrual start date ('July 2011') carries no citation or artifact pointer, unlike every other date in the document and unlike §4.11's explicit refusal to state an unsourced period."
+    ],
+    "what_held": "Every seat's own extensive independent re-verification: the arithmetic seat re-derived 52 numbers straight from raw cohort counts (not the pre-computed analyses block) with zero drift, including re-implementing wilson()/fisher_exact_two_sided() from the generator source; the regression seat re-ran the 132-test quantity guard and the 61-mutation harness at the exact pin and reproduced round 8's receipt exactly; the citations seat independently re-anchored every identifier in the new correction register and confirmed lint_citations.py globs by property (git ls-files) rather than a named list, so it covered the register automatically; the hostile referee constructed the paper's strongest available attack (the death-rate gap may be a tumour-size proxy, not a partner effect) and confirmed the manuscript states that caveat itself, at full strength, in three places.",
+    "verdict_by_seat": {
+      "regression": "supported-with-corrections",
+      "arithmetic": "supported",
+      "statistics": "supported-with-corrections",
+      "citations-and-instruments": "supported-with-corrections",
+      "hostile-referee": "minor-revision"
+    }
+  },
+  "artifacts_written": [
+    "research/autonomy/review-seats/PUB-FUSION-PARTNER-0743ac15d0153916309728366fbd3cd880a003a8-seat-{regression,arithmetic,statistics,citations-and-instruments,hostile-referee}.json (the 5 blind seat records, each carrying its own blockers/p1s/p2s)",
+    "research/autonomy/review-seats/PUB-FUSION-PARTNER-0743ac15d0153916309728366fbd3cd880a003a8.json (the canonical combined record, empty tallies by convention so the glob clause_1 reads does not double-count; carries the merged central_claim and the round's verdict 'NOT CONVERGED' with the reasoning)",
+    "research/autonomy/hardening-state/PUB-FUSION-PARTNER.json (regenerated via record_bar_evidence.py hardening --paper PUB-FUSION-PARTNER --sha 0743ac1... --round 9, never hand-written -- it re-derives its own tallies from the seat files)"
+  ],
+  "publish_bar_before_and_after": {
+    "before": "clause 1 UNVERIFIABLE ('last round reviewed 475ad7d..., not 0743ac1...'); clause 6 UNVERIFIABLE (absent seat file for this pin)",
+    "after": "clause 1 FAIL, but now a REAL measurement: '0 blocker(s), 6 P1(s) open at round 9' instead of a stale-commit non-answer. clause 6 FAIL ('seat verdict: NOT CONVERGED') -- the combined record's top-level verdict intentionally mirrors round 7's convention (a status string, not the literal 'supported') rather than asserting a favourable reading of clause 6 that this cycle -- the one whose own round just produced the P1s -- would be the one deciding. Still 3/6 clauses green overall (claim ceiling, identifier resolution, endpoint declared); clause 2 (PREFLIGHT_FULL) remains unattempted, correctly reserved for an actual publication act."
+  },
+  "process_defect_fixed_in_this_cycle": {
+    "id": "none new; one pre-existing bug hit and fixed",
+    "what": "apply_session_penalties() in priority.py crashed with KeyError('score_inputs') the moment AUT-PROP-002 (a hand-filed row with no `score_inputs` field, since only graph-derived rows carry one) had a non-empty `blocked_evidence` set on it -- the function assumes any entry with a non-null score also carries score_inputs. Root cause was this cycle's own edit: `blocked_evidence` is semantically for a BLOCKED item awaiting an observation, not for a SUPERSEDED item being closed out, and using it for the latter was the wrong field regardless of the crash. Fixed by moving the explanatory text to a new `superseded_note` field and leaving `blocked_evidence: null`. Not filed as a ledger process_defect because it was caught and fixed within this same cycle, before any commit landed on a broken re-score -- but worth naming here per CLAUDE.md §4's root-cause-with-evidence rule rather than silently self-correcting."
+  },
+  "cost": {
+    "real_dollars": 0.0,
+    "gpu_hours": 0.0,
+    "note": "CPU only. Five subagent seats plus this driver, all on the flat-rate subscription."
+  },
+  "subagents": {
+    "launched": 5,
+    "width_cap_read_from": "research/autonomy/autonomy-state.json",
+    "cap": 5,
+    "shape": "parallel, single message, per research-loop §3 -- the five blind seats of a hardening round are the canonical case for this shape.",
+    "total_subagent_tokens": "165685 + 209598 + 141324 + 186208 + 114506 = 817321 across the 5 seats (self-reported usage in their completion notifications)"
+  },
+  "gates": {
+    "preflight_claim_commit": "PASS, default tier (fast gates + selector contract), 90c3b23",
+    "preflight_seat_records_commit": "PASS, default tier, 88 pytest items in the selector-scoped suite, 42689c2. Neither commit edited a manuscript, SI, or citation-bearing prose -- the review-seat and hardening-state files are evidence records, not submission documents -- so PREFLIGHT_TESTS=1 was not required; judgment call, recorded here for the next reader to check.",
+    "exit_read_from": "each command's own EXIT= marker in a log file, never the harness's backgrounded-command report, per CLAUDE.md §6"
+  },
+  "escalated": null,
+  "escalation_note": "Nothing in research-loop §5 fired. No journal submission is recommended (the paper is further from convergence, not closer to submission-ready, than a bar-clearing event would require). No spend crossed expensive ($0 this cycle). No goal-changing fact -- the route is unambiguously advancing. No health condition red past its deadline. A zero-blocker round is real progress but is explicitly NOT the trigger-1 condition (a recommended journal submission) -- six P1s and an un-run PREFLIGHT_FULL still stand between this paper and its bar.",
+  "route_advanced": "RT-PARTNER-STRAT",
+  "route_advanced_note": "Real evidence moved, not just documentation: the paper's hardening series produced its first-ever zero-blocker round, publish_bar clause 1 now reads a genuine current-pin measurement instead of a stale non-answer, and every one of the round's six P1s is independently reproducible from its stated evidence (re-verified by each seat's own exhaustive artifact re-derivation, not merely asserted). Nothing was applied to the manuscript this cycle by design -- AUT-PROP-005 explicitly separated seating from application (paper-hardening §5: verification is a separate pass from application), so the paper's actual text is unchanged and round 10 (AUT-PROP-017) is queued to close the six P1s, re-pin, and re-seat.",
+  "queued_now": [
+    "AUT-PROP-017 (round 10: apply round 9's six P1s as replacements, re-pin, re-seat -- filed by this cycle, score 195.5, inherited from AUT-049)"
+  ],
+  "blocked_by": [],
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "why_no_handoff_was_owed": "This session ran ONE cycle of its permitted two (research-loop §3's cap). The driver Routine (trig_01P9ZNSAw7rNLcKLBFYCwuHp, cron 13 */4 * * *) fires the next cycle at a fresh lineage depth on its own schedule; no chained spawn was needed or attempted."
+  },
+  "why_only_one_cycle": "Round 9 alone spent five parallel subagent seats (~817K subagent tokens) plus a full synthesis-and-record pass. A second cycle here would extend into the resource this session cannot measure (CLAUDE.md §6), and the natural next unit of work -- round 10's apply pass -- is exactly the kind of item paper-hardening §5 says should be a SEPARATE, freshly-verified pass rather than tacked onto the seating cycle that produced its inputs."
+}
