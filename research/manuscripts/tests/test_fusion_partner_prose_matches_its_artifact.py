@@ -109,7 +109,12 @@ rather than for ATTACHMENT (is it printed against the right paper). Between them
 instrument at all on the surface that tells two papers apart. ★ SECTION G IS THAT GAP CLOSED: 61
 identifier sites, 31 distinct values the artifact owns, 5 declared not-pooled with a reason, and
 four tests — ownership, per-reference-entry grouping, entry-title attachment, and in-text
-name attachment.
+name attachment. MEASURED BY THE COMMITTED HARNESS AGAINST THE COMMIT: 56 of 56 mutations caught,
+0 survived, positive control green; 10 of the 56 are section G's, every one of them leaving a real
+and anchored identifier on the page. ⭐ TWO OF THE TEN EXIST TO SHOW A TEST EARNS ITS PLACE RATHER
+THAN TO RAISE A COUNT: ref [11] taking Davis 2017's whole pair stays internally consistent and fires
+the TITLE test alone, and §3.7's Suemitsu row fires the NAME-ATTACHMENT test alone — no pre-existing
+binding sees either.
 ⚠ THE PAPER'S MEASURED COVERAGE DID NOT MOVE AT ALL, AND THE REASON IS THE FINDING RATHER THAN AN
 EXCUSE. `claim_coverage.py` still reads 57 of 271 sentences, unchanged, because its selectivity
 filter discards any harvested pattern matching more than 10 % of a document's sentences and the

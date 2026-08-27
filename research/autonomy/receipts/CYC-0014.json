@@ -1,0 +1,52 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0014",
+ "started_utc": "2026-08-27T03:05:54Z",
+ "finished_utc": "2026-08-27T03:55:00Z",
+ "session_id": "session_01KFTLiME1hYLJRTifvCYd9V (spawned session, no live user present — started by CYC-0013 at its 2-cycle cap; parent session_016z8Nm7cZTaLN4smGWue75c)",
+ "kind": "harden",
+ "took": "AUT-PROP-002 — round 5's THIRD act on PUB-FUSION-PARTNER (publish_bar clause 1). Top of the re-scored ledger at 195.5, cost_class free. Re-scored with `priority.py --write` before taking it (87 entries, 11 clamped) rather than trusting the handoff prompt's list; the prompt's ordering held.",
+ "route_advanced": "RT-PARTNER-STRAT",
+ "_route_advanced_why": "PUB-FUSION-PARTNER gained an instrument over a surface that had none, and publish_bar clause 1 turns on that instrumentation. ⚠ STATED AT ITS TRUE WEIGHT, THE SAME AS LAST CYCLE: this advances the paper's READINESS, not its evidence. No pooled quantity, interval, count or verdict changed; nothing new was learned about EMC.",
+ "refusal_checks": {
+  "health": "`health.py --check` exit 0. One row UNMEASURED — `gates_green`, which has no network by design — so it was settled by hand rather than left as a status.",
+  "⛔_ci_on_main_was_READ_not_believed": "The handoff prompt said CYC-0013 had pushed a CI fix whose run had not finished. Actions run 33035268861 on head 98e1c84: completed, conclusion SUCCESS. The fix held, so §1's red-trunk condition did not apply. Also re-ran systems/tests/test_systems_check.py locally at that head: 113 passed.",
+  "rate_limit": "status allowed, five_hour window, isUsingOverage false, read from `get_session` on this session."
+ },
+ "the_finding": "⛔ THE NEXT UNREAD SURFACE WAS NOT A QUANTITY, AND THAT IS WHY THREE CENSUSES MISSED IT. `_CENSUS` and `_CENSUS_STATS` enumerate notations of NUMBER; an identifier is not a number this synthesis computes. `lint_citations.py` does read every identifier in the repository — for PROVENANCE, i.e. whether it also appears in a tracked JSON. ★ MEASURED, NOT ARGUED, ON THIS MANUSCRIPT'S FIVE NOT-POOLED IDENTIFIERS: PMID 31579002 is anchored in 1 tracked json, PMID 37057757 in 5, doi:10.1186/s13018-025-06245-6 in 7, doi:10.12998/wjcc.v10.i13.4301 in 4 — so provenance is green whichever study they are printed beside. Between the two there was NO instrument on the surface that tells two papers apart, and Appendix A records this document's own instance of the defect: a cohort attributed to a 'Warmke/Antonescu-type series' while linking Huang's PMID, with the row warning that the correction must not be applied by pattern because Warmke LM has a real and DIFFERENT TAF15::NR4A3 paper.",
+ "what_landed": {
+  "census": "61 identifier sites (34 PMID, 21 DOI, 6 NCT), 31 distinct values the pooling artifact owns, 5 declared not-pooled with a reason.",
+  "four_tests": "ownership; per-reference-entry grouping (identifiers inside one entry must intersect on one paper — no list and no name matching, the entry supplies the grouping and the artifact the ownership); entry-title attachment (the only test that can see a WHOLE entry swapped, which stays internally consistent); in-text name attachment.",
+  "⭐_the_window_is_not_tuned_and_the_measurement_says_so": "The in-text test reads an identifier within 120 characters after a citation's short name, CUT AT THE NEXT citation name. Without the cut, §3.2's 'Agaram 2014, PMID 24746215; and Huang 2023, PMID 36948401' reads as Agaram owning both — a false positive the guard would have had to be loosened around. With it: 10 attachments, 0 mismatches, at every window from 60 to 200 characters. The verdict does not depend on the number.",
+  "scope_stated": "PMC ids are printed 23 times and the artifact holds no `pmc` field, so they are OUTSIDE this census and read only by lint_citations. Widening would mean inventing a home or declaring 23 sites."
+ },
+ "verification": {
+  "mutation_run": "`python3 research/manuscripts/tests/mutate_fusion_partner_guard.py` at commit 054845e → 56/56 caught, 0 survived, 0 harness errors, positive control green. 10 are new this cycle.",
+  "⭐_two_mutations_earn_a_test_its_place": "ref [11] taking Davis 2017's whole identifier pair stays internally consistent and fires the TITLE test alone; §3.7's Suemitsu row fires the NAME-ATTACHMENT test alone. Neither is seen by any pre-existing binding.",
+  "every_mutation_leaves_a_real_identifier": "All ten leave a real, anchored, correctly formatted identifier on the page — lint_citations is green on every one of them. What they break is attachment.",
+  "pre_checked_before_committing": "The harness builds its worktree from HEAD, so the ten were first run against the WORKING tree by a scratch harness: 10/10 caught, each firing its intended test. CYC-0013 recorded this trap; it was designed around rather than rediscovered.",
+  "preflight": "green with PREFLIGHT_TESTS=1 on the exact tree committed: 1262 passed, 3 skipped, selector suite 88 passed, EXIT=0 read from the command's own marker. Three preflight runs this cycle, every verdict taken from the marker and not from the harness's reported exit code."
+ },
+ "⛔_what_did_not_move": "THE COVERAGE NUMBER, BY EXACTLY NOTHING, AND THE REASON IS THE SECOND FINDING RATHER THAN AN EXCUSE. `claim_coverage.py` reads 57 of 271 sentences before and after. Its selectivity filter discards any harvested pattern matching more than 10 % of a document's sentences; the identifier pattern matches 28 against a ceiling of 27. ONE SENTENCE. So an entire notation went from unread to guarded and the committed census says nothing changed — AUT-COV-001 seen from the far side of CYC-0013's finding: there a guard reported full coverage over 35 unread figures, here a guard reads a whole notation and is credited with zero. ⛔ MAX_MATCH_SHARE WAS NOT RAISED TO 0.11. It was considered, and raising it would have converted this cycle's work into a coverage gain — research-loop §6 forbids exactly that, and the ceiling is doing the job it was written for. ⚠ ALSO NOT MOVED: 22 of 32 publication endpoints still have no instrument at all; nothing here touched the other 31 documents, although all four tests are artifact-shaped and reusable by any endpoint whose artifact holds citation records.",
+ "⛔_a_defect_this_cycle_nearly_shipped": "`claim_coverage.py` credits a test module's literals to any document whose BASENAME appears anywhere in that module, comments included. A DECLARED_IDENTIFIERS_NOT_POOLED row here first cited the NR4A3 degrader manuscript by filename, and that one path made that paper read 85 of 964 sentences covered instead of 3 — 82 sentences of false coverage from a guard that opens none of it. ⚠ IT WAS CAUGHT BY REGENERATING claim-coverage.json BEFORE COMMITTING, NOT BY READING THE DIFF, and no gate would have caught it. Filed as AUT-COV-002 with the measurement that refuses the obvious fix: 'the module must contain the PATH' is red on a correct tree — 42 module × document mentions across the test directory, 18 path-like and 24 basename-only.",
+ "subagents": {
+  "dispatched": 0,
+  "concurrent_max": 0,
+  "cap": 5,
+  "cap_source": "research/autonomy/autonomy-state.json subagent_width",
+  "why_none": "One document, one guard file, one harness. Every decision rested on a measurement the driver had to read anyway — the uncovered set, the ownership table, the window sweep. A seat would have paid context for a search that did not need doing."
+ },
+ "blocked_by": [],
+ "queued_next": [
+  "★ THE NOTATIONS NOTHING STILL READS, RE-DERIVED 2026-08-27 rather than carried forward from the last receipt: of the 148 uncovered sentences that state a number, 52 contain a count spelled as a WORD outside what `_word` binds, 46 a bare YEAR, 46 a section cross-reference, 33 an ORDINAL or superlative. ⚠ THE SUPERLATIVE IS THE HARDEST AND THE MOST LOAD-BEARING — it is a claim about RANK the artifact's cohort records can actually decide, unlike a year.",
+  "AUT-COV-002, filed this cycle. It is NOT small: an observed-read rule moves every coverage number and therefore every floor.",
+  "AUT-PROP-006 (a blind seat's record on disk BEFORE any fix is applied) is still owed by CYC-0008, CYC-0010, CYC-0011, CYC-0012 and now CYC-0013 and CYC-0014. Six cycles is not a backlog; either take it or retire it. Neither of the last two cycles ran a seat, so neither could have discharged it — which is itself the argument for retiring it as written and re-filing it as a guard on the seat-running path.",
+  "⚠ STILL UNFILED, CARRIED FROM CYC-0013 AND NOW WITH A SECOND INSTANCE: nothing tests a preflight/CI gate for whether its own pattern can see what it claims to check. This cycle found the same shape twice — a census blind to a notation, and a coverage instrument blind to a guard."
+ ],
+ "cost": {
+  "_points_at": "research/compute/pricing.md",
+  "real_dollars": "none",
+  "claude_budget": "one spawned session, cycle 1 of 2, 0 subagents. rate_limit_info at open: status allowed, five_hour, isUsingOverage false."
+ },
+ "handoff": {}
+}
