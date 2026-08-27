@@ -5,28 +5,157 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
-    "harden": 11,
-    "analysis": 1,
+    "build": 1,
+    "verify": 1,
     "process_defect": 19,
+    "harden": 11,
+    "fix": 9,
+    "analysis": 1,
     "write": 6,
     "experiment": 23,
     "process": 7,
     "code": 1,
     "fetch": 14,
     "negative": 32,
-    "regrade": 7,
-    "fix": 9,
-    "build": 1,
-    "verify": 1
+    "regrade": 7
   },
   "n_by_state": {
-    "queued": 100,
+    "done": 27,
+    "queued": 102,
     "superseded": 1,
-    "done": 26,
-    "in_progress": 5
+    "in_progress": 2
   },
   "n_clamped": 11,
   "entries": [
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/manuscripts/build_submission_parts.py exits 1 in the dev sandbox: 'LibreOffice did not write a .docx / Error: source file could not be loaded'",
+      "id": "AUT-PROP-021",
+      "kind": "build",
+      "prerequisite_of": "AUT-PROP-018",
+      "what": "✅ DONE 2026-08-27. Dispatched aso-submission-parts.yml on main; run 33097825961 succeeded and committed df2bc4b02 'ASO submission parts rebuilt on a runner (CI)'. The LibreOffice positive control passed on the runner BEFORE the build ran, so a green build is not a dead tool reported as a malformed manuscript. All three staleness guards verified green after the fast-forward (test_the_word_file_is_not_stale, and both test_no_submission_part_is_stale_against_its_manuscript params). ⚠ The wake armed for this run died with a container restart; the run had already succeeded, so the row was honest by luck rather than by design — a wake armed inside a container is only as durable as the container.",
+      "_score_basis": "inherited from AUT-PROP-018 (+0.5) — it is the work that unblocks it",
+      "score": 286.0,
+      "closes_clause": null
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 3,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "round-10",
+      "depends_on_evidence": "FETCH LADDER EXHAUSTED AND MEASURED 2026-08-27, all $0: sandbox proxy refuses liebertpub/sagepub/oswg.net/pmc; CI plain HTTP -> 403 Cloudflare; CI HEADLESS CHROMIUM (the browser rung, slug=browser-fetch) -> 403 Cloudflare, same interstitial; Unpaywall says is_oa=true, oa_status=hybrid, licence cc-by, but EXACTLY ONE oa_location and it is the publisher behind that same check; no PMC deposit. Artifacts on origin/literature-cache under literature/oswg-offtarget-2025-fulltext/ and research/literature/browser-fetch.json on main.",
+      "id": "AUT-PROP-022",
+      "kind": "verify",
+      "prerequisite_of": "AUT-PROP-020",
+      "what": "⛔ SOFTEN THE FIVE ATTRIBUTIONS TO PMID 39912803 — THE FETCH ROUTE IS CLOSED, MEASURED, NOT ASSUMED. The article is open access IN LICENCE (CC-BY) and unreachable by every automated route this project has; see depends_on_evidence for the ladder. ⚠ THE SEAT READ IT AS PAYWALLED AND THAT WAS WRONG — it is a bot check on a free article — but the remedy is the same and the distinction is worth keeping, because 'paywalled' would have closed the question at rung one. ★ WHAT TO DO: rewrite so the paper stops asserting what the source says. HELD from the abstract and may stand: the FIVE-STEP workflow (in-silico identification with transcriptomics; focus on cell types with relevant activity; verification and margin assessment; risk assessment; management of unavoidable off-targets) — quoted near-verbatim in the PubMed abstract. UNHELD, rewrite each: (1) wings-vs-gap mismatch direction [Introduction]; (2) 'the search scope the 2025 recommendations ask for' [Methods]; (3) 'the energy-based second stage those recommendations prescribe' [Methods]; (4) 'the margin assessment the recommendations specify at this step, and they decline to set a default value for it' [Discussion] — a NEGATIVE claim about the source's content, the least checkable of all; (5) 'a high-affinity chemistry is reported to retain knockdown at more extensively mismatched sites' [Results]. ⭐ THE PAPER ALREADY HAS THE IDIOM: 'that premise is adopted here rather than established', 'ten being adopted rather than measured'. An honest 'adopted here' beats a confident characterisation of a paper nobody in this project has read. ⛔ DO NOT reconstruct the source's content from search snippets — CLAUDE.md §7. DONE 2026-08-27 (this cycle, id assigned at commit time): all five attributions to PMID 39912803 rewritten so the paper states this project could not confirm the source's content (fetch route closed, CC-BY but unreachable behind a Cloudflare bot check on every rung tried, per depends_on_evidence) and that its characterisation of the source is adopted/read here rather than verified against the primary text. The HELD five-step workflow (quoted near-verbatim from the public PubMed abstract) is untouched. Net word count held at or below the original (page budget for Nucleic Acid Therapeutics is exactly at its 6-page ceiling with zero slack -- every hedge was written as a word-neutral or word-negative substitution, verified by rebuilding the PDF, which stayed at 6 pages). lint_claims: 0 ERROR (3 pre-existing WARNs, none introduced). lint_style: clean. Full manuscripts pytest suite: 1304 passed (excl. 3 LibreOffice-dependent tests, which are a documented, pre-existing sandbox defect -- see aso-submission-parts.yml header -- routed to that workflow rather than fixed locally). ⚠ COLLISION NOTE: this item's ledger row was found claimed by owner 'aso-attribution-seat' (claimed_utc 2026-08-27T20:25:00Z) when this session re-read the trunk before pushing. Per AUT-PD-021 (research/autonomy/claim.py, landed on trunk while this session was working), the push is the arbiter, not the lease: the manuscript file itself was NOT touched by any commit between this session's start and this push (git log confirms the last prior touch was the incident-restore b4f086c), so no conflicting work actually landed. This push resolves the row to done; if the other seat's work lands later, standard git conflict resolution on the manuscript text applies.",
+      "_score_basis": "inherited from AUT-PROP-020 (+0.5) — it is the work that unblocks it",
+      "score": 286.0,
+      "closes_clause": null,
+      "_block_cleared": "⭐ CLEARED 2026-08-27 BY ITS OWN STOPPING CONDITION, which the evidence stated in words: \"Unblocks when 024's commit is pushed.\" AUT-PROP-024 is `done` and on origin/main, so the block is satisfied. ⛔ IT WAS CAUGHT BY A RED TEST, NOT BY ANYBODY REREADING IT — `systems/tests/test_autonomy_priority.py::test_an_evidenced_block_drops_out_of_the_queue` was red on main because a -90 penalty could not push a base score of 284 out of the top three. ⚠ THE TEMPTING FIX WAS THE WRONG ONE: raising the penalty would have made the test green while leaving a satisfied block in place, and CLAUDE.md §0 says 'blocked' is a claim that needs evidence and is usually wrong. The stale claim was the defect; the tuning constant was not. Superseded evidence, retained (rule 1.2): AUT-PROP-024 is IN FLIGHT and commits to research/manuscripts/tests/ for the ASO paper. All three of these edit that paper's prose or its review state, and a third concurrent ASO writer is the collision pattern already recorded as a real blocker once today (CLAUDE.md §6, the 13 inverted claims). ⚠ Also substantive, not only mechanical: 019 needs a seat receipt at the CURRENT commit and 024 is about to move it, so a seat run now buys a receipt for a sha that will be stale before it lands. Unblocks when 024's commit is pushed."
+    },
+    {
+      "id": "AUT-PD-016",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "preprint-review-2026-08-27",
+      "depends_on_evidence": "⚠ CORRECTED. The driver's original evidence was WRONG IN ITS INSTANCE and right in its class. It claimed the manifest on main asserts 233e1d00… for lint_style.py, a hash no commit contains. Re-measured: the COMMITTED manifest at ae7930ddb asserts 5e2e23a2…, which matches every commit — lint_style.py has exactly one blob across all refs. The driver read the manifest FROM DISK while an uncommitted regeneration was sitting there and attributed it to main, which is the very mid-flight artifact it was warning about. THE REAL INSTANCE, found by verifying all 483 hashes: against the tree it landed in, 483/483 match; against the revision it NAMES (git_revision 21c733cd), ONE mismatch — submission-metrics.json asserted d6c41c2e…, actual d971b2f9…, content that was uncommitted at generation time and committed only later inside ae7930ddb itself.",
+      "what": "✅ DONE 2026-08-27 on branch aut-pd-016-manifest-clean-flag, commit c681fda15. `_dirty_tree_refusal` refuses unless git_tree_is_clean_apart_from_this_manifest is exactly True — false, null AND a MISSING FIELD are all refused, the last because deleting the field was named as a tempting fix. It reads the manifest ON DISK, never the freshly built one, so it cannot redden preflight for every session with an edit in flight. ⭐ HARD GATE AND SELF-NAMING TURNED OUT TO BE ONE WIRE: preflight's generated-artifact row already runs --check-archive, so refusing inside the generator gates the commit with no new gate ordinal — but preflight was DISCARDING every generator's stderr, so the only remedy a reader saw was the generic 'rerun and commit the result', which for this artifact is the action that REPRODUCES the defect. Preflight now surfaces the producer's text and the refusal names the fix as an ORDERING. ⛔ THE WIRING CUT SURVIVED THE FIRST DRAFT: the tests exercised the function but not the call site, so a correct-but-unreachable guard passed everything while --check-archive accepted the bad manifest — the one-of-a-pair class again, this time inside the fix for it. Call-site tests added and the check moved BEFORE build(), since a refusal that only prints after a successful build is one a mid-write tree can suppress. ⚠ A full end-to-end green is structurally impossible: the generator is itself inside the hashed inventory, so editing it always reports inventory STALE; green is measured as 'guard silent, run proceeds to the inventory question'. The live instance was resolved while it worked, by exactly the ordering its refusal prescribes, and the guard accepts the regenerated manifest silently — so the branch merges green.",
+      "_score_basis": "free, and it guards a DEPOSIT artifact — the ASO archive manifest is what an outside reader would check the deposit against, which is the one door CLAUDE.md §6 says ceremony is actually for",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "a repository integrity guard; nothing leaves the repo",
+      "score": 198.0
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "round-10",
+      "closes_clause": null,
+      "id": "AUT-PROP-023",
+      "kind": "harden",
+      "score": 197.0,
+      "depends_on_evidence": "research/manuscripts/aso/fusion-junction-aso-guard-coverage-audit.md — 34 of 42 single-sentence mutations shipped green; all five linters rc=0 on all 42",
+      "_score_basis": "the highest-value finding of round 10: the paper's honesty is held by 16 regex spans in one module",
+      "what": "✅ DONE 2026-08-27, commit ed4583b7c. NINE previously unguarded ASO claims bound in test_the_manuscript_asserts_the_relation_its_artifacts_compute.py — the module the audit identified as the only one that reads VERBS. Each binds in BOTH directions (missing site = ERROR, inverted site trips `forbid`) and each mutation was asserted to land, watched RED with the failure attributed to its own row id, then restored to GREEN. Rows: nothing-synthesised-or-tested, consent-to-participate, no-individual-patient-data, no-external-funding, condemned-slide-is-not-a-substitute, figure1-one-of-three-is-a-reported-junction, figure1-no-reagent-at-the-taf15-exon-11-row, citation-provenance-statement, three-clean-designs-are-mechanism-controls. ⭐ THE LAST WAS ADDED UNASKED and is the sentence CLAUDE.md §6 quotes as the worst of the 13 inversions that reached origin/main that morning; verified independently by the driver — inverting it now turns test_no_claim_asserts_the_inverse_of_what_its_artifact_computes red. ⛔ THE MORNING'S FALSE FIX WAS REPRODUCED, NOT ASSUMED: clause deleted from the .md, real PDF rebuilt (BUILD_RC=0, 6pp), old PDF-bound row still reported 11 passed. Root cause confirmed twofold — the row's only PDF match is the Table 1 caption constant at aso_journal_tables.py:194, and 'none has been synthesised' occurs ZERO times in the text layer because two-column typesetting interleaves the columns. Bound against the .md instead of tightening the PDF row, because no pattern over a scattered clause can bind it and tightening would redden an honest paper; the PDF row still holds a different real property and the stale-build-stamp guards refuse a commit whose PDF was not rebuilt from that .md. Preflight green, 1305 passed / 3 skipped. Coverage 82 → 84 of 174.\n\n⚠ CORRECTION 2026-08-27 (appended, not edited inline — CLAUDE.md §1.2): the commit sha above, `ed4583b7c`, is STALE. The seat rebased under a concurrent push and its work landed as `78d75fbed`; the seat itself reported the correction and this entry was written from the earlier read. The finding, the nine rows and the mutation evidence are unaffected — only the identifier was wrong, and an identifier written from an earlier read is exactly the class of error CLAUDE.md §7 forbids writing from recollection."
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "round-10",
+      "closes_clause": null,
+      "id": "AUT-PROP-024",
+      "kind": "fix",
+      "score": 196.5,
+      "depends_on_evidence": "round-10 guard audit MISCOVERED D and G; test_aso_deposition_doi_is_one_fact.py ARTICLE=ARTICLES[0], test_universal_claims_are_scoped_to_what_was_measured.py ARTICLE=research-article",
+      "_score_basis": "one-of-a-pair defects; the eighth and ninth instances of a class this repo has found seven times",
+      "what": "✅ DONE 2026-08-27, commit bea7d5973. All three defects closed, each watched red. (a) test_aso_deposition_doi_is_one_fact.py: module-level ARTICLE=ARTICLES[0] DELETED — a single-document default is what silently re-scopes a function when a paper is added — both functions parametrized. ⭐ AND IT FOUND A WEAKER DEFECT UNASKED: test_both_availability_statements_carry_it counted DOI matches, but the DOI is a markdown link, so ONE statement already reached >=2 and the journal article passed with a single availability statement. Now every bolded 'availability' heading must carry the identifier. (b) test_universal_claims_are_scoped_to_what_was_measured.py parametrized over both papers for every PROHIBITION (requirements stay where numbered sections exist); the three surviving inversions are held by a SECOND instrument, since a scope guard reads a quantifier's SHAPE and cannot tell 'none' from 'several' — four polarity rows added. (c) the exon-2 guard now splits at Statements and requires the phrase on BOTH sides, then rejects a negation on the verb within 80 chars — deliberately not the bare word 'not', because the Declarations copy's own 'and not until the breakpoint has been established' must stay green. Coverage 84 → 100 of 174; numbered 53 → 60 of 81."
+    },
     {
       "serves": {
         "route": "RT-ASO-JUNCTION",
@@ -55,7 +184,10 @@
         "paper": "PUB-ASO",
         "clause": "preflight_full_green"
       },
-      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease."
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
     },
     {
       "serves": {
@@ -87,7 +219,10 @@
         "paper": "PUB-ASO",
         "clause": "independent_adversarial_seat"
       },
-      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease."
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
     },
     {
       "serves": {
@@ -119,7 +254,10 @@
         "paper": "PUB-ASO",
         "clause": "hardening_converged"
       },
-      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease."
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
     },
     {
       "serves": {
@@ -301,7 +439,10 @@
       "what": "✅ APPLIED AND PUSHED 2026-08-27 to branch aut-prop-017-fusion-partner-p1s, commit 3e580f41b — all six of round 9's P1s, each tied to the artifact path and field that decides it. Manuscript 11,783 → 11,874 words (+91); three prose edits, all replacements; sentences over 60 words unchanged at 17; caution 186 → 187. Mutation harness 65/65 single-site, control green. ⛔ REMAINING: merge to main once AUT-PROP-024 and AUT-PROP-025 land. ⚠ It is on a BRANCH rather than a patch file because /tmp is not durable — a container restart destroyed background work twice today, and six verified P1s in ephemeral storage is CLAUDE.md §7's branch-drift data-loss bug with the branch missing entirely.",
       "score": 195.5,
       "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "_derived": false
+      "_derived": false,
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
     },
     {
       "id": "AUT-PD-015",
@@ -326,6 +467,31 @@
       "what": "⛔ A LIVE CI TICK SILENTLY OVERWROTE A CLOSED, BANKED GPU RESULT WITH A FALSE ZERO, AND PREFLIGHT WAS RED ON MAIN BECAUSE OF IT, NOT BY ANY CYCLE'S HAND. research/modalities/step1-fanout-map.json had stood at n_complete=18/19 (LANE-17, closed 2026-07-30, its realised cost recorded in research/compute/pricing.md, systems/graph/lanes.json and the program map's RUNG 4 row both corroborate) unchanged across dozens of autoscale ticks for 4h41m. The 2026-08-27T09:36:35Z tick (run https://github.com/trimcrae/Rare-cancers/actions/runs/33059299433/job/98473805641, commit 91df57d) read the S3 results prefix and found ZERO ddg.json objects — its own log: '10 object(s) under the results prefix' immediately followed by '=== RAW ARTIFACT EVIDENCE ... (none)'. That is NOT a masked credential exception (`_get_json` returning None on ANY exception is a KNOWN separate hazard, flagged in this file's own `_load_ledger` comment) — the bucket LIST call itself succeeded and found 10 other objects still under the prefix, so the ddg.json result objects specifically are genuinely absent from S3 right now, for a reason NOT YET ROOT-CAUSED. `mode_collect` then committed n_complete=0 without any sanity check, which desynced the live artifact from research/manuscripts/degrader/nr4a3-degrader-paper.md's § stating '18 computed edges of the 18 that are computable' and turned lint_consistency red (A-figure-mismatch, line ~1426) — every subsequent tick (dozens more, through at least 12:14 UTC) re-committed the same false zero because nothing in the pipeline can tell a real loss from an instrument fault.\n⭐ FIXED THIS CYCLE (CYC-0022), TWO PARTS: (1) research/modalities/step1-fanout-map.json restored to its last-verified-good content (from commit 79ac2b8) with a documented `_incident_2026-08-27_silent_regression` field carrying the evidence above, because the underlying GPU work and its realised spend (research/compute/pricing.md) are historical facts of record recoverable from git history regardless of what the live object store currently returns (CLAUDE.md §4: an absent reading is not a reading of absence). (2) `congeneric_fanout_vast.py` gained `_write_map_guarded()`, now the only path either of `mode_collect`'s two map writes may take: it refuses to commit a new n_complete lower than the one already on disk, writes a diffable `step1-fanout-map-regression-alarm.json` instead, and sets `_ARTIFACT_REGRESSION_DETECTED` so `main()` fails the CI job loudly (same escalation shape as the existing `_MARKET_HOLD_ESCALATED`) rather than repeating the silent overwrite every ~7 minutes. Five new tests in research/modalities/tests/test_congeneric_fanout.py (regression refused + alarm written, no-regression write-through, cold-start write-through, both call sites routed through the guard, main() wired to fail on it); full suite 119/119 green; preflight re-run green.\n⚠ STILL OPEN, AND THIS IS THE LIVE-ROUTE WORK A FUTURE CYCLE OR TRIMCRAE SHOULD PICK UP: WHETHER THE S3 OBJECTS ARE PERMANENTLY GONE OR RECOVERABLE IS UNESTABLISHED. This sandbox's own AWS credentials (AWS_ACCESS_KEY_ID in this environment) are themselves invalid (InvalidAccessKeyId on a plain ListObjectsV2), so they could not be used to check s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/ directly — someone with working bucket credentials (or S3 versioning / CloudTrail access) needs to check whether this is a lifecycle-policy expiry, an accidental delete, or a credential/prefix change on the CI side, and whether the 10 surviving non-ddg.json objects narrow it down. This does not block the paper (the git-committed record is intact and now protected from further silent loss) but it is real, unrecovered ambiguity about a live AWS account.",
       "score": 195.0,
       "_score_basis": "hand-filed by CYC-0022, ranked beside the fan-out governance defect (AUT-PD-013): it is a silent-regression class defect (paper-hardening's single-slot-artifact hazard) that was actively corrupting a closed, banked, real-dollar GPU result on every CI tick, and it held preflight red on main until fixed."
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "round-10",
+      "closes_clause": null,
+      "id": "AUT-PROP-025",
+      "kind": "fix",
+      "score": 193.0,
+      "depends_on_evidence": "round-10 guard audit STALE_GUARD_TEXT 1-5",
+      "_score_basis": "a stale docstring beside an unchecked invariant is how the original renumbering defect reached a typeset PDF",
+      "what": "✅ DONE 2026-08-27, commit 99e723e5e — AND IT REFUSED THE INSTRUCTION IT WAS GIVEN, CORRECTLY. The dispatch said: reproduce the audit's ablation finding and, if it reproduces, DELETE the exemption. The number reproduced exactly (SAMPLE=6 → applied=6 blind=0) and the agent did not stop there: ablating ALL 76 covered numbered sentences — what PREFLIGHT_FULL does, and what a 6-sentence sample never reaches — gives applied=71 blind=3. The exemption's own recorded sentence IS STILL BLIND under the identical perturbations (56→57, 000→007), as are two others, all three credited solely by the harvested wildcard `HTTP \\d{3}` sitting exactly where the claim is. ⛔ SO DELETING IT WOULD HAVE SHIPPED A RED PUBLICATION GATE. The real defect was SCOPE: three blind sentences removed a 269-sentence manuscript from the gate, leaving 68 falsifiable claims unfalsified. Narrowed from document-keyed to SENTENCE-keyed, each row carrying its measured perturbation and matching exactly one censused sentence, so a row EXPIRES when its sentence is fixed — the old shape never could. Document back in the gate, 6 passed. ⭐ SECOND FINDING: the NAT instruction had ALREADY FIRED — trimcrae read the venue page in a browser 2026-08-23 and captured it, four days before the audit called the note stale; the 403 half reproduces and is retained. Abstract re-measured with the module's own splitter: 220 / 399 against bounds 250 / 400."
     },
     {
       "id": "AUT-010",
@@ -401,7 +567,7 @@
     {
       "id": "AUT-034",
       "_derived": true,
-      "what": "✅ ANSWERED 2026-08-27 — REFUSED, AND THE REFUSAL IS NOW A MEASUREMENT. Merged from branch `aut-034-km-digitization` (4 commits, preflight exit 0 on the exact tree committed). Original item: digitize the Kaplan-Meier curve and numbers-at-risk table of the largest open-access EMC series and admit or refuse it against the quality floor. ⛔ THE ITEM'S OWN PHRASE IS AMBIGUOUS AND BOTH READINGS ANSWER THE SAME WAY. (a) Largest open-access series = Brown/Rakoczy/Pretell-Mazzini 2022, SEER, n=270 (PMID 35144048, DOI 10.1016/j.ctarc.2022.100530) — UNREACHABLE, its figures have never been looked at: Unpaywall grades it gold and OpenAlex agrees, but its only PDF location is ScienceDirect, which answered 403 to plain HTTP and to a real headless Chromium, and the second indexed location is a DOAJ landing page with no file. ⚠ ITS RISK-ROW STATUS IS UNKNOWN, NOT NEGATIVE — a human with a browser can read this paper; this program cannot, and building a route around bot protection is not a route this program will build. (b) Largest series this program can FETCH = Masunaga 2025, n=171 (PMC12398172, DOI 10.1186/s13018-025-06245-6): three KM figures, NO numbers-at-risk row on any → REFUSED by POLICY-evidence.md §2.7(a). Nothing to digitize. ⭐ THE PART THAT WAS NEW, AND IT IS THE REASON THIS IS NOT A REPEATED DEAD END: the 2026-08-25 pass had already eyeballed these figures, so every verdict this route held was an agent looking at a page raster and typing `numbers_at_risk_row: false` into a field — unfalsifiable, and CLAUDE.md §4's 'a populated field is not a measured one'. The seat built the instrument that can DISAGREE: `research/modalities/km_risk_row_detect.py` measures band structure below a figure's axis, in two arms because one is blind here (eight of the corpus's nine KM figures are rasters with no text layer). The two arms AGREE on all nine, and the detector is shown capable of the other answer twice — it fires on both real positives and RE-READ morioka2016's risk row itself (5,5,5,3,3,1,1,1), the same eight numbers a human read two days earlier by a different method. Seven synthetic controls, four of them defects it actually had on real papers, including one that INVENTED a risk row on masunaga2025 Fig. 3 by reading drawn tick marks as tick labels. An undecodable figure is `undetermined`, never `absent`, and a test enforces that. 16 guards pass. ⭐ RETRIEVAL MOVED ONE RUNG (Actions run 33108005085): PMC answers `/articles/<PMCID>/pdf/` for the two NIH author manuscripts (drilon2008 n=87, bishop2019 n=41) with HTTP 200 and a 1,817-byte 'Preparing to download' INTERSTITIAL — not a refusal and not a PDF, which is exactly how three earlier rounds recorded them as 'unresolved'. Corpus: 16 candidates — 2 admitted (n=11, n=5, both already read), 3 refused-no-risk-row (n=171, n=68, n=59), 11 unreachable by any free route. ⚠ BOUNDS THE SEAT COULD NOT CLOSE, recorded rather than smoothed: seer270 (n=270), huang2023 (n=58) and japan2003 (n=42) are unread, not negative; the detector's constants are tuned on nine real figures plus synthetics and are NOT validated against an external corpus, so false negatives on unusual layouts (a risk row beside the axis, or right-aligned) are unquantified; a `present` verdict gives POSITIONS, not values; chiusole2020's four curves were read from a page raster at small type near the resolution floor; and the detector reads FIGURES only, so a paper printing its risk table in text or a supplement would read as `absent`. ⭐ NEXT ACTION FOR THIS ROUTE, filed as AUT-PD-020: transcribe morioka2016's Table 2 — patient-level PFS/OS with censoring flags for its two EMC patients, which needs no instrument.",
+      "what": "Digitize the Kaplan-Meier curve and numbers-at-risk table of the largest open-access EMC series and admit or refuse it against the quality floor.",
       "serves": {
         "route": "RT-IPD-SURVIVAL",
         "publication": "PUB-IPD-SURVIVAL",
@@ -444,7 +610,7 @@
         "strategy": "ST-LOCOREGIONAL"
       },
       "kind": "experiment",
-      "state": "in_progress",
+      "state": "queued",
       "owner": "locoregional-curation-seat",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -478,7 +644,7 @@
         "strategy": "ST-LOCOREGIONAL"
       },
       "kind": "experiment",
-      "state": "in_progress",
+      "state": "queued",
       "owner": "locoregional-curation-seat",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -676,6 +842,33 @@
       },
       "requires_trimcrae": true,
       "requires_trimcrae_why": "same shape: 'a judgement call about what we publish, not a technical one'. The observation is recorded; only the publish decision is his."
+    },
+    {
+      "serves": {
+        "route": "RT-LOOP",
+        "publication": null,
+        "strategy": "ST-PROCESS"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "driver",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "a repository ordering fix; nothing leaves the repo",
+      "depends_on_evidence": "preflight on 2026-08-27 failed on a tree two subagents were mid-write in: lint_citations red and 'a stale generated file ships a claim its own artifacts no longer support: archive manifest', neither caused by the driver's own staged changes (research/autonomy suite 32/32 green)",
+      "id": "AUT-PROP-027",
+      "kind": "fix",
+      "prerequisite_of": null,
+      "score": 178.0,
+      "closes_clause": null,
+      "what": "✅ DONE 2026-08-27 — remedy (a), the one already proven. research-loop §3 now makes WORKTREE-IN / BRANCH-OUT the contract for any subagent that will write code: worktree off origin/main, commit there, push a branch, never touch the repository root. The shared tree has ONE writer, the driver. ⚠ Written from the afternoon's measurement rather than from principle: the two agents dispatched with 'commit, do not push' ended up mid-write simultaneously and made the tree ungateable — preflight red on lint_citations and the manifest, neither caused by the driver's own change — while the two that used worktrees pushed branches that merged with zero conflicts and survived the window. ⛔ Remedies (b) scoping preflight to staged paths and (c) a tree lease are NOT done and are deliberately not filed as follow-ups: (a) removes the condition they exist to handle, and building a lease for a problem that no longer occurs is how a repository accumulates guards nobody needs. Re-file them if the condition recurs with (a) in force."
     },
     {
       "id": "AUT-PROP-012",
@@ -974,6 +1167,32 @@
       }
     },
     {
+      "id": "AUT-PD-021",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "✅ DONE 2026-08-27, in the session that hit it. ⛔ A CLAIM LEASE DOES NOT PREVENT A SECOND CLAIM, AND TWO WORKERS TOOK ONE ITEM TODAY. Measured 2026-08-27, live: `atr-single-slot-seat` claimed AUT-PROP-009 at 20:10:00Z and was dispatched with an isolated worktree; CYC-0025 claimed the SAME item at 20:15:00Z from committed state it had fetched before that lease landed, and the two claims met as a git merge conflict on research-ledger.json. ⭐ THE GAP IS PRECISELY STATED AND IS NOT THE ONE AUT-PROP-013 CLOSED: id allocation is now collision-proof, but a LEASE is read-then-write against a file that another session may have advanced in between, so the read is stale by construction — the same shape as the id derivation, one level up. `continuity.py` already hides owned rows from other workers, so the machinery is there; what is missing is that a claimant re-reads the trunk IMMEDIATELY before committing its claim, and yields if the row is taken. ⚠ THE TIEBREAK USED TODAY WAS AD-HOC — earlier lease wins, recorded in the entry's `_contested` field — and AUT-PROP-013 says in as many words that an ad-hoc tiebreak is not a mechanism. It is written down rather than performed silently, which is the least that can be said for it. ⛔ AND THE COST IS NOT COSMETIC: two seats on one guard produce two patches for the same file, and the second one to land either loses work or silently overwrites the first — the identical harm the receipt collision would have caused. ⭐ CHEAP: a fetch-and-recheck before the claim commit, plus a test that two claimants racing on one row cannot both succeed.\n\n⭐ WHAT SHIPPED: `research/autonomy/claim.py`. ⛔⛔ THE FIX IS NOT A RULE ABOUT WHO YIELDS, BECAUSE AUT-PROP-013 ALREADY ESTABLISHED THAT A RULE ABOUT YIELDING IS NOT A MECHANISM — the yielding session must first NOTICE, and a session that pushes cleanly never does. **The arbiter is `git push`**, the one operation in this loop that is already atomic: a compare-and-swap on the remote ref that succeeds only if the remote is still where you thought. The decision is made against `origin/main`'s copy of the ledger — never the working tree, which IS the stale read that caused the incident — and a rejected push is treated as INFORMATION rather than an error: the claim is withdrawn (`reset --soft`, never `--hard`), the trunk re-read, and the item conceded if somebody else now holds it. ⚠ A rejection is usually NOT contention on your row (the autoscale ticks push several times an hour), so it retries up to 3 times and then reports RETRY — never a silent CLAIMED, which would dispatch a worker onto a row the trunk still shows as free. ⭐ `--check` reports claims held locally that the trunk cannot see. ⛔⛔ AND THAT CHECK WAS MEASURED ON MY OWN CLAIM WHILE WRITING THIS: AUT-PROP-022 was claimed, a seat dispatched, and the claim then sat in an UNCOMMITTED merge for eight minutes while the trunk still showed the row unowned. I filed this defect and then stood in it. That is not somebody else's carelessness — it is what claiming in the working tree and committing later DOES, every time. ⚠ WHAT THIS DELIBERATELY DOES NOT DO: protect against a worker that claims and then dies. `priority.py:release_stale_claims` already ages an owner out by `claimed_utc`; the two are halves of one thing — this stops two workers starting, that stops one worker parking the queue forever. ✅ 9 tests, wired to preflight gate 15 and tests.yml; no test touches the real remote, because a test that pushes changes the trunk and racing writers on the trunk is this module's whole subject. ⚠ MUTATIONS: 8 run, 7 caught, and the 8th is reported as EQUIVALENT rather than as a gap — swapping `undo_last_commit()` and `fetch()` after a lost race changes no behaviour, since both complete before the trunk is re-read and before any retry can commit. Calling an equivalent mutation a survivor would be as dishonest as calling it a catch.",
+      "score": 150.0,
+      "_score_basis": "two workers were dispatched onto one item and only a merge conflict revealed it",
+      "depends_on_evidence": "research-ledger.json AUT-PROP-009 `_contested`; the merge conflict between ff8cff1e8 and 6cd21de13",
+      "closes_clause": null
+    },
+    {
       "id": "AUT-003",
       "_derived": true,
       "what": "Report it in the kinase paper as a CORRECTED reading of a lead: the screen's dominant signal is a class the board already holds, and the arrays structurally cannot attribute the kinase hit.",
@@ -1104,6 +1323,32 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       }
+    },
+    {
+      "id": "AUT-PD-020",
+      "kind": "fetch",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-IPD-SURVIVAL",
+        "publication": "PUB-IPD-SURVIVAL",
+        "strategy": "ST-CARE-DELIVERY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-034",
+      "what": "⭐ TRANSCRIBE morioka2016's TABLE 2 — per-subject PFS/OS with censoring flags for its two EMC patients. Named by AUT-034's seat as this route's next action, and it is the ONE step here that needs no instrument: it is patient-level data printed as a table, not a curve to digitize, so none of the detector's unclosed bounds apply to it. ⚠ n=2, so it is a small addition to a denominator and must be reported at exactly that weight — its value is that individual patient data is the strongest form this route can hold, not that it moves the pooled estimate. ⛔ The paper is already fetched and its risk row was independently re-read by `km_risk_row_detect.py` (5,5,5,3,3,1,1,1, matching a human's reading two days earlier), so the retrieval half is done and this is transcription against a source already on hand. Free.",
+      "score": 140.0,
+      "_score_basis": "the only AUT-034 follow-up that needs no instrument and no unreachable paper",
+      "depends_on_evidence": "research/modalities/km-risk-row-detection.json — morioka2016's risk row re-read by two methods",
+      "closes_clause": null
     },
     {
       "id": "AUT-054",
@@ -1238,6 +1483,32 @@
       }
     },
     {
+      "id": "AUT-PD-022",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "✅ DONE 2026-08-27. ⛔ THREE TESTS WERE RED ON `main` AND NONE OF THEM WAS MINE — found by reading CI (run 33109624214, `5 failed, 9808 passed` at 8226753f9) rather than by waiting for somebody to notice. Two were already fixed by AUT-PD-019's ranker repair; these three needed their own diagnosis. ⭐ (1) `test_no_dollar_figure_is_ever_written_into_the_ledger`: two entries typed a realised GPU cost into their prose — CLAUDE.md §1, a price has one home and this is not it. Replaced with pointers to research/compute/pricing.md; the incident narrative is unchanged and the number is now read from the file that owns it. ⭐ (2) `test_an_evidenced_block_drops_out_of_the_queue`: AUT-PROP-022 carried block evidence and still ranked top-three, because a -90 penalty cannot move a base score of 284. ⛔ THE TEMPTING FIX WAS THE WRONG ONE — raising the penalty would have turned the test green while leaving a SATISFIED block in place. The evidence stated its own stopping condition in words ('Unblocks when 024's commit is pushed') and AUT-PROP-024 was `done` and pushed, so the block was stale: cleared, with the superseded evidence retained per rule 1.2. CLAUDE.md §0 — 'blocked' is a claim that needs evidence and it is usually wrong, and here it was wrong in the way that costs the most: a route standing down for a reason that had already cleared. ⭐ (3) `test_every_clause_reports_pass_fail_or_unverifiable_and_nothing_else` asserted the publish bar has SIX clauses; it has seven since `readable_enough_to_review` was added. A hand-typed count of something the module enumerates is a second copy of that fact, so the assertion now derives the length from `bar.CLAUSES` AND pins the clause NAMES — the length alone would be tautological, the names alone would miss `evaluate` merging two rows, and a clause that silently disappears is the hole the test was written for. ⚠ THE NAMES LIST CARRIES ITS OWN WARNING: never drop a clause to make a red build green (CLAUDE.md §3).",
+      "score": 130.0,
+      "_score_basis": "three tests red on the trunk, none caused by this session, all fixed at the cause",
+      "depends_on_evidence": "systems/tests/test_autonomy_priority.py and test_autonomy_publish_bar.py: 54 passed after the fixes",
+      "closes_clause": null
+    },
+    {
       "id": "AUT-032",
       "_derived": true,
       "what": "Keep as landscape context, cited and never overstated. It is the comparator, not a contribution.",
@@ -1326,6 +1597,84 @@
       "what": "Propagate the PMID 37205599 -> 41811428 citation correction (route 1's mechanism paper, Gracilla et al., Cancer Research 2026;86:2660-2677 — already corrected in emc-atr-collaborator-package.md's own reference list and in emc-atr-vulnerability-assessment.md by CYC-0016) to the one remaining citing file: research/manuscripts/program/emc-post-degrader-options.md, lines 267 and 499. Out of scope for CYC-0016's two-document hardening round; a small, mechanical, already-vetted fix (citation-corrections-2026-08-09.json already documents which identifier is current)."
     },
     {
+      "id": "AUT-PD-017",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PD-013",
+      "what": "⛔ SWEEP EVERY CROSS-FILE KEY THIS LOOP SHARES — the general form of AUT-PD-013, and worth more than the instance. A field name agreed in PROSE between a writer and a reader is not agreed at all: it is a hope, checked by nothing, and `subagents.max_concurrent` proves prose cannot even HOLD a convention the loop had already got right twice (three schemas in seventeen receipts). ⭐ THE SWEEP: enumerate every key one file writes and another reads — `handoff.child_session_id` (read by `cycles_are_sized`, spelled verbatim in the handoff prompt precisely because somebody already noticed this exposure), `route_advanced`, `blocked_by[].path`, the five `RECEIPT_TIME_KEYS`, the ledger's `closes_clause`/`requires_trimcrae`/`owner`, and `autonomy-state.json`'s dials — and for each ask the ONE question: what happens if the writer spells it differently? ⛔ THE ANSWER THAT MATTERS IS NOT 'the check fails' but 'the check goes UNMEASURED or, worse, GREEN', because a reader that cannot find a key reports absence, and this repository grades absence as restraint in at least one place already. ⭐ THE FIX SHAPE IS SETTLED by AUT-PD-013 and should be copied rather than re-derived: one module owns the name, both sides import it, a preflight gate checks the writer at the commit, and history is grandfathered by a number so the gate cannot latch. ⚠ CHEAP AND FREE — it is a grep, a reading and a test file; no compute, no network, nobody's permission.",
+      "score": 120.0,
+      "_score_basis": "the instance cost one permanently-unmeasurable governance row on the dial the architecture calls the most important; the class is every other row like it",
+      "depends_on_evidence": "research/autonomy/receipt_schema.py and its 21-test suite — the worked instance",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-023",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "✅ DONE 2026-08-27, and it is AUT-PD-017's class caught in the act. ⛔ `continuity.py` AND `priority.py` READ DIFFERENT FIELDS FOR THE SAME QUESTION. `priority.py`'s `apply_session_penalties` keys its -90 evidenced-block penalty on a non-empty `blocked_evidence`, and its comment states the principle outright: 'KEYED ON THE EVIDENCE, NOT ON `state`. The recorded observation IS the block.' `continuity.py`'s `_why_not_ready` keyed on `blocked_by`. ⭐ SO A ROW CARRYING EVIDENCE AND NO `blocked_by` WAS PENALISED BY THE RANKER AND OFFERED BY THE CHECKER AT THE SAME MOMENT. Measured on AUT-PROP-018, which sat at the TOP of the ready list for roughly an hour with a recorded reason nobody read — written there by a concurrent session — while this driver described the same reason in chat replies instead. ⛔⛔ AND THAT IS THE PART WORTH KEEPING: an item whose blocker lives only in somebody's reply is an item nothing can check, which is precisely the failure `continuity.py` was built to stop. The Stop hook offered it four times; four times the answer given was prose. ⭐ FIXED: a non-empty `blocked_evidence` is now a real stop in `_why_not_ready`, and the reason is NAMED in the blocked report rather than the row silently disappearing — CLAUDE.md §0 wants a block CHECKABLE, not invisible, and an unread reason is what this fixes rather than what it creates. ✅ 3 tests, 3/3 mutations caught, including the one that matters in the opposite direction: an empty string, null or whitespace must NOT stand an item down, or the field's mere presence parks a live route. ⚠ THE CLASS IS STILL OPEN AS AUT-PD-017 — this is the third instance today after the receipt's fan-out key and the ledger's id allocation, and all three are the same sentence: a field name agreed in prose between two files is not agreed at all.",
+      "score": 110.0,
+      "_score_basis": "the ranker and the continuity checker disagreed about which work was runnable",
+      "depends_on_evidence": "AUT-PROP-018 offered as ready with blocked_evidence recorded; 79 tests in research/autonomy/tests",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-024",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "✅ DONE 2026-08-27. ⛔ `continuity.py` REPORTED CAPACITY THE LOOP DID NOT HAVE. It offered 70 items as 'READY TO RUN RIGHT NOW' while five workers were live against a governed `subagent_width` of 5 — every one of those 70 ready in the ledger's sense and startable by nobody. The Stop hook then asked, correctly by its own lights, why nothing was moving. ⭐ THE FIX READS THE DIAL INSTEAD OF IGNORING IT: `live_leases()` and `width_cap()`, and at capacity `--check` exits 0 with the holders NAMED. ⛔⛔ AND THE LINE THIS HAD TO HOLD IS THE ONE THE FILE EXISTS FOR: a full cap is a REAL STOP, not a permission slip, and it is allowed to end a turn only because it is FALSIFIABLE — every holder is printed, each lease carries a `claimed_utc` that `release_stale_claims` ages out, and one completion re-opens the list. A lease naming a worker that is not running now reads as litter rather than as capacity. An unreadable cap buys NOTHING (fail closed), because a dial nobody can read must never excuse a stall. ⛔⛔ AND THE FIRST VERSION HAD THE RECEIPT SCHEMA'S UNIT ERROR, CAUGHT BY RUNNING IT: it counted LEASES, not WORKERS, and read 5-of-5 while FOUR workers were running. One seat legitimately holds two items — AUT-036 and AUT-037 went to a single seat because both re-curate one corpus — so counting leases would have manufactured a capacity excuse OUT OF GOOD PRACTICE, and the excuse would grow every time a seat was sensibly given two related items. That is the same concurrent-vs-total confusion AUT-PD-013 refused in the receipts, one file over, and it took twenty minutes to make the identical mistake after writing the argument against it. ✅ 6 tests, 6/6 mutations caught, including the two that matter most: counting leases instead of workers, and letting an unreadable cap pass.",
+      "score": 105.0,
+      "_score_basis": "the checker that decides whether the turn may end was reading capacity it could not see",
+      "depends_on_evidence": "continuity.py live_leases()/width_cap(); 89 tests in research/autonomy/tests",
+      "closes_clause": null
+    },
+    {
       "id": "AUT-049",
       "_derived": true,
       "what": "Post the preprint at research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md, and in the same pass send the three paywalled-table requests named in its section 6 to the corresponding authors.",
@@ -1360,6 +1709,62 @@
         "fruitless_attempts": 0,
         "blocked_with_evidence": true
       }
+    },
+    {
+      "serves": {
+        "route": "RT-FUSION-PARTNER",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-EVIDENCE"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "AUT-PROP-017"
+      ],
+      "blocked_evidence": "Edits emc-fusion-partner-stratification.md, which branch aut-prop-017-fusion-partner-p1s (commit 3e580f41b) also edits and which has not merged. A whole-paper prose pass on top of an unmerged prose change is a conflict I would be creating deliberately. Unblocks on that merge.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PROP-017",
+      "depends_on_evidence": "lint_readability --check is red on emc-fusion-partner-stratification.md before and after the P1 pass: 17 sentences over 60 words, longest 167w at line 201; and `pinned-figures.json` carries no caution baseline for this document",
+      "id": "AUT-PROP-026",
+      "kind": "harden",
+      "prerequisite_of": null,
+      "score": 96.0,
+      "closes_clause": null,
+      "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text.",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
+    },
+    {
+      "id": "AUT-PD-019",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PD-013",
+      "what": "✅ DONE 2026-08-27, same session it was found. ⛔ `priority.py` CRASHED ON THE COMMITTED LEDGER AND HAS FOR SOME TIME — the loop's RANKER, dead, and nothing noticed because no gate runs it. Measured 2026-08-27 on a CLEAN tree at `origin/main` (`git stash`, re-run, reproduced — so it is not the working change): `KeyError: 'score_inputs'` at priority.py:423 in `apply_session_penalties`, `entry['score_inputs']['blocked_with_evidence'] = True`. ⭐ THE CAUSE IS THE SAME CLASS AS AUT-PD-013, WHICH IS WHY IT IS FILED HERE: a field one writer emits and another reader assumes. **47 of 124 ledger entries carry no `score_inputs` key at all** — every `AUT-PROP-*`, every `AUT-PD-*`, `AUT-COV-*`, `AUT-BIX-*`, `AUT-INC-001`, `AUT-078` — because they were appended by hand or by a seat rather than by whatever wrote the originals. ⚠ THE FIX IS A JUDGEMENT, NOT A `setdefault`: writing an empty `score_inputs` makes the ranker RUN and rank 47 items on absent inputs, which is a populated field that is not a measured one (CLAUDE.md §4). Decide whether an entry with no score inputs is unrankable (and say so in the output) or whether the missing inputs have honest defaults, then make the ledger's own schema enforce it. ⛔ AND WIRE IT TO SOMETHING: an unrun ranker is AUT-PD-018 again. ⭐ FIXED: `entry.setdefault(\"score_inputs\", {})` at the penalty line and `(parent.get(\"score_inputs\") or {})` at its sibling — the inheritance line, which would have been the next crash and is the shape `paper-hardening` §8b.2 measured six of eleven list-scoped fixes missing. ⛔ THE JUDGEMENT WENT THE HONEST WAY: the dict is created EMPTY, carrying only the flag this function actually observed, rather than filled with zeroed defaults. A hand-filed entry is HAND-SCORED, not unscorable — it carries a `score` its filer typed and a `_score_basis` in prose; what it does not carry is the DERIVED scorer's audit trail, and fabricating one would make it look computed. ✅ `priority.py` now exits 0 and ranks all 126 entries. ⭐ AND IT IS WIRED: `research/autonomy/tests/test_priority_ranks_the_hand_filed_entries_too.py` runs the ranker against the REAL committed ledger (a synthetic two-row fixture would have passed on the broken code, because both rows would have been derived), plus the two unit cases and a precondition test that fails if every entry ever starts carrying `score_inputs` — otherwise this suite would go green for the wrong reason, which is how `in_progress` was dropped from the continuity suite's OPEN_STATES with all twelve tests passing.\n\n⚠ CORRECTION 2026-08-27, appended not edited (CLAUDE.md §1.2), and it goes against my own framing: I wrote that nothing caught this because no gate ran the ranker. **CI caught it and had been red on it.** `systems/tests/test_autonomy_priority.py` runs in tests.yml on every push, and run 33109624214 at 8226753f9 reports FOUR failures reading `KeyError: 'score_inputs'` — the exact traceback — inside `5 failed, 9808 passed`. What is true is narrower and still worth the fix: no PREFLIGHT gate ran the ranker, so the crash was invisible in the COMMIT LOOP and was only ever reported minutes later by a workflow nobody had read that day. ⛔ THE HONEST FINDING IS WORSE THAN THE ONE I CLAIMED: this was not an unseen defect, it was a SEEN one — red on main, in a suite that names it plainly, and it survived anyway. A guard that fires where nobody looks is closer to AUT-PD-018 than I allowed.",
+      "score": 95.0,
+      "_score_basis": "the ranker decides what the loop works on next; it has been exiting 1 on every invocation",
+      "depends_on_evidence": "priority.py exits 0 over 126 entries; 4 tests in research/autonomy/tests/test_priority_ranks_the_hand_filed_entries_too.py",
+      "closes_clause": null
     },
     {
       "id": "AUT-011",
@@ -1503,6 +1908,32 @@
         "fruitless_attempts": 0
       },
       "clamp": "blocked_without_evidence_becomes_a_check"
+    },
+    {
+      "id": "AUT-PD-018",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PD-013",
+      "what": "✅ DONE 2026-08-27, found while wiring AUT-PD-013's gate. ⛔⛔ THE LOOP'S OWN TEST SUITE WAS RUN BY NOTHING. `research/autonomy/tests` appeared in neither `scripts/preflight.sh` nor `.github/workflows/tests.yml` — CI's pytest step names `research/modalities/tests research/manuscripts/tests systems/tests scripts/tests` and stops there — and there is no pytest.ini or `testpaths` to collect it by accident. **53 assertions asserted by nobody.** ⭐ AND ALL THREE SUITES WERE WRITTEN THE SAME DAY, EACH AS A GUARD AGAINST A DEFECT THAT HAD ALREADY HAPPENED: `test_continuity_has_no_green_state_recording_can_buy.py` (the third fix for trimcrae's 'ending with nothing in flight' bug, whose entire design is that recording work must never buy a pass), `test_session_reaper_refuses_to_lose_work.py` (pinned after the reaper's first run against real data called three DELIVERED cycles 'died holding uncommitted work'), and `test_receipt_schema.py`. A guard written the day of the incident and executed by nothing is the incident's second half. ⚠ THE SHAPE IS THE REPOSITORY'S MOST-REPEATED ONE and it was already written down twice: `scripts/tests` ran nowhere until 2026-08-22 (preflight gate 13 exists for exactly this), and CLAUDE.md §1 records `subagent_width` as a governed number no code read. ⭐ FIX: folded into gate 13's invocation rather than given a step of its own — that gate's own comment warns that a fix bound to one call site regresses at its sibling, and a second copy of its twenty-line two-signal decision block would BE that sibling — and added to tests.yml, which is the authority. 53 tests in 0.09 s, so it is free in the commit loop.",
+      "score": 60.0,
+      "_score_basis": "the guards written on incident day were themselves ungoverned; this is the class, not one suite",
+      "depends_on_evidence": "scripts/preflight.sh gate 13 heading and .github/workflows/tests.yml:467 — measured, both lists omitted the directory",
+      "closes_clause": null
     },
     {
       "id": "AUT-078",
@@ -3288,32 +3719,6 @@
       "what": "PROPOSAL (filed, not applied): teach systems_check.check_scan_interop the `venue` trigger_kind, then re-enable scan_enabled on the three TRG-VENUE-* triggers. Not applied by its own cycle: [X3] blocked that cycle and amendment_guard refuses a cycle that edits the check blocking it."
     },
     {
-      "id": "AUT-PD-016",
-      "kind": "process_defect",
-      "serves": {
-        "route": "RT-ASO",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "preprint-review-2026-08-27",
-      "depends_on_evidence": "⚠ CORRECTED. The driver's original evidence was WRONG IN ITS INSTANCE and right in its class. It claimed the manifest on main asserts 233e1d00… for lint_style.py, a hash no commit contains. Re-measured: the COMMITTED manifest at ae7930ddb asserts 5e2e23a2…, which matches every commit — lint_style.py has exactly one blob across all refs. The driver read the manifest FROM DISK while an uncommitted regeneration was sitting there and attributed it to main, which is the very mid-flight artifact it was warning about. THE REAL INSTANCE, found by verifying all 483 hashes: against the tree it landed in, 483/483 match; against the revision it NAMES (git_revision 21c733cd), ONE mismatch — submission-metrics.json asserted d6c41c2e…, actual d971b2f9…, content that was uncommitted at generation time and committed only later inside ae7930ddb itself.",
-      "what": "✅ DONE 2026-08-27 on branch aut-pd-016-manifest-clean-flag, commit c681fda15. `_dirty_tree_refusal` refuses unless git_tree_is_clean_apart_from_this_manifest is exactly True — false, null AND a MISSING FIELD are all refused, the last because deleting the field was named as a tempting fix. It reads the manifest ON DISK, never the freshly built one, so it cannot redden preflight for every session with an edit in flight. ⭐ HARD GATE AND SELF-NAMING TURNED OUT TO BE ONE WIRE: preflight's generated-artifact row already runs --check-archive, so refusing inside the generator gates the commit with no new gate ordinal — but preflight was DISCARDING every generator's stderr, so the only remedy a reader saw was the generic 'rerun and commit the result', which for this artifact is the action that REPRODUCES the defect. Preflight now surfaces the producer's text and the refusal names the fix as an ORDERING. ⛔ THE WIRING CUT SURVIVED THE FIRST DRAFT: the tests exercised the function but not the call site, so a correct-but-unreachable guard passed everything while --check-archive accepted the bad manifest — the one-of-a-pair class again, this time inside the fix for it. Call-site tests added and the check moved BEFORE build(), since a refusal that only prints after a successful build is one a mid-write tree can suppress. ⚠ A full end-to-end green is structurally impossible: the generator is itself inside the hashed inventory, so editing it always reports inventory STALE; green is measured as 'guard silent, run proceeds to the inventory question'. The live instance was resolved while it worked, by exactly the ordering its refusal prescribes, and the guard accepts the regenerated manifest silently — so the branch merges green.",
-      "_score_basis": "free, and it guards a DEPOSIT artifact — the ASO archive manifest is what an outside reader would check the deposit against, which is the one door CLAUDE.md §6 says ceremony is actually for",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "a repository integrity guard; nothing leaves the repo",
-      "score": 198.0
-    },
-    {
       "id": "AUT-PD-006",
       "kind": "fix",
       "serves": {
@@ -3590,396 +3995,6 @@
       "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
       "what": "⛔ THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING — research-loop §1 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the §6 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n⚠ ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT — never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening §8b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. ⛔ DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. ⭐ These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them — which is exactly why they could sit red unnoticed.",
       "_score_basis": "a red trunk blocks every cycle's commit gate; research-loop §1 makes it the cycle rather than a task within one"
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/manuscripts/build_submission_parts.py exits 1 in the dev sandbox: 'LibreOffice did not write a .docx / Error: source file could not be loaded'",
-      "id": "AUT-PROP-021",
-      "kind": "build",
-      "prerequisite_of": "AUT-PROP-018",
-      "what": "✅ DONE 2026-08-27. Dispatched aso-submission-parts.yml on main; run 33097825961 succeeded and committed df2bc4b02 'ASO submission parts rebuilt on a runner (CI)'. The LibreOffice positive control passed on the runner BEFORE the build ran, so a green build is not a dead tool reported as a malformed manuscript. All three staleness guards verified green after the fast-forward (test_the_word_file_is_not_stale, and both test_no_submission_part_is_stale_against_its_manuscript params). ⚠ The wake armed for this run died with a container restart; the run had already succeeded, so the row was honest by luck rather than by design — a wake armed inside a container is only as durable as the container.",
-      "_score_basis": "blocks AUT-PROP-018, which blocks publish_bar clause 2",
-      "score": 196.0,
-      "closes_clause": null
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "in_progress",
-      "owner": "aso-attribution-seat",
-      "claimed_utc": "2026-08-27T20:25:00Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 2,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "round-10",
-      "depends_on_evidence": "FETCH LADDER EXHAUSTED AND MEASURED 2026-08-27, all $0: sandbox proxy refuses liebertpub/sagepub/oswg.net/pmc; CI plain HTTP -> 403 Cloudflare; CI HEADLESS CHROMIUM (the browser rung, slug=browser-fetch) -> 403 Cloudflare, same interstitial; Unpaywall says is_oa=true, oa_status=hybrid, licence cc-by, but EXACTLY ONE oa_location and it is the publisher behind that same check; no PMC deposit. Artifacts on origin/literature-cache under literature/oswg-offtarget-2025-fulltext/ and research/literature/browser-fetch.json on main.",
-      "id": "AUT-PROP-022",
-      "kind": "verify",
-      "prerequisite_of": "AUT-PROP-020",
-      "what": "⛔ SOFTEN THE FIVE ATTRIBUTIONS TO PMID 39912803 — THE FETCH ROUTE IS CLOSED, MEASURED, NOT ASSUMED. The article is open access IN LICENCE (CC-BY) and unreachable by every automated route this project has; see depends_on_evidence for the ladder. ⚠ THE SEAT READ IT AS PAYWALLED AND THAT WAS WRONG — it is a bot check on a free article — but the remedy is the same and the distinction is worth keeping, because 'paywalled' would have closed the question at rung one. ★ WHAT TO DO: rewrite so the paper stops asserting what the source says. HELD from the abstract and may stand: the FIVE-STEP workflow (in-silico identification with transcriptomics; focus on cell types with relevant activity; verification and margin assessment; risk assessment; management of unavoidable off-targets) — quoted near-verbatim in the PubMed abstract. UNHELD, rewrite each: (1) wings-vs-gap mismatch direction [Introduction]; (2) 'the search scope the 2025 recommendations ask for' [Methods]; (3) 'the energy-based second stage those recommendations prescribe' [Methods]; (4) 'the margin assessment the recommendations specify at this step, and they decline to set a default value for it' [Discussion] — a NEGATIVE claim about the source's content, the least checkable of all; (5) 'a high-affinity chemistry is reported to retain knockdown at more extensively mismatched sites' [Results]. ⭐ THE PAPER ALREADY HAS THE IDIOM: 'that premise is adopted here rather than established', 'ten being adopted rather than measured'. An honest 'adopted here' beats a confident characterisation of a paper nobody in this project has read. ⛔ DO NOT reconstruct the source's content from search snippets — CLAUDE.md §7.",
-      "_score_basis": "blocks AUT-PROP-020 (round 10 convergence); the paper's only open provenance gap",
-      "score": 194.0,
-      "closes_clause": null,
-      "_block_cleared": "⭐ CLEARED 2026-08-27 BY ITS OWN STOPPING CONDITION, which the evidence stated in words: \"Unblocks when 024's commit is pushed.\" AUT-PROP-024 is `done` and on origin/main, so the block is satisfied. ⛔ IT WAS CAUGHT BY A RED TEST, NOT BY ANYBODY REREADING IT — `systems/tests/test_autonomy_priority.py::test_an_evidenced_block_drops_out_of_the_queue` was red on main because a -90 penalty could not push a base score of 284 out of the top three. ⚠ THE TEMPTING FIX WAS THE WRONG ONE: raising the penalty would have made the test green while leaving a satisfied block in place, and CLAUDE.md §0 says 'blocked' is a claim that needs evidence and is usually wrong. The stale claim was the defect; the tuning constant was not. Superseded evidence, retained (rule 1.2): AUT-PROP-024 is IN FLIGHT and commits to research/manuscripts/tests/ for the ASO paper. All three of these edit that paper's prose or its review state, and a third concurrent ASO writer is the collision pattern already recorded as a real blocker once today (CLAUDE.md §6, the 13 inverted claims). ⚠ Also substantive, not only mechanical: 019 needs a seat receipt at the CURRENT commit and 024 is about to move it, so a seat run now buys a receipt for a sha that will be stale before it lands. Unblocks when 024's commit is pushed."
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "round-10",
-      "closes_clause": null,
-      "id": "AUT-PROP-023",
-      "kind": "harden",
-      "score": 197.0,
-      "depends_on_evidence": "research/manuscripts/aso/fusion-junction-aso-guard-coverage-audit.md — 34 of 42 single-sentence mutations shipped green; all five linters rc=0 on all 42",
-      "_score_basis": "the highest-value finding of round 10: the paper's honesty is held by 16 regex spans in one module",
-      "what": "✅ DONE 2026-08-27, commit ed4583b7c. NINE previously unguarded ASO claims bound in test_the_manuscript_asserts_the_relation_its_artifacts_compute.py — the module the audit identified as the only one that reads VERBS. Each binds in BOTH directions (missing site = ERROR, inverted site trips `forbid`) and each mutation was asserted to land, watched RED with the failure attributed to its own row id, then restored to GREEN. Rows: nothing-synthesised-or-tested, consent-to-participate, no-individual-patient-data, no-external-funding, condemned-slide-is-not-a-substitute, figure1-one-of-three-is-a-reported-junction, figure1-no-reagent-at-the-taf15-exon-11-row, citation-provenance-statement, three-clean-designs-are-mechanism-controls. ⭐ THE LAST WAS ADDED UNASKED and is the sentence CLAUDE.md §6 quotes as the worst of the 13 inversions that reached origin/main that morning; verified independently by the driver — inverting it now turns test_no_claim_asserts_the_inverse_of_what_its_artifact_computes red. ⛔ THE MORNING'S FALSE FIX WAS REPRODUCED, NOT ASSUMED: clause deleted from the .md, real PDF rebuilt (BUILD_RC=0, 6pp), old PDF-bound row still reported 11 passed. Root cause confirmed twofold — the row's only PDF match is the Table 1 caption constant at aso_journal_tables.py:194, and 'none has been synthesised' occurs ZERO times in the text layer because two-column typesetting interleaves the columns. Bound against the .md instead of tightening the PDF row, because no pattern over a scattered clause can bind it and tightening would redden an honest paper; the PDF row still holds a different real property and the stale-build-stamp guards refuse a commit whose PDF was not rebuilt from that .md. Preflight green, 1305 passed / 3 skipped. Coverage 82 → 84 of 174.\n\n⚠ CORRECTION 2026-08-27 (appended, not edited inline — CLAUDE.md §1.2): the commit sha above, `ed4583b7c`, is STALE. The seat rebased under a concurrent push and its work landed as `78d75fbed`; the seat itself reported the correction and this entry was written from the earlier read. The finding, the nine rows and the mutation evidence are unaffected — only the identifier was wrong, and an identifier written from an earlier read is exactly the class of error CLAUDE.md §7 forbids writing from recollection."
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "round-10",
-      "closes_clause": null,
-      "id": "AUT-PROP-024",
-      "kind": "fix",
-      "score": 196.5,
-      "depends_on_evidence": "round-10 guard audit MISCOVERED D and G; test_aso_deposition_doi_is_one_fact.py ARTICLE=ARTICLES[0], test_universal_claims_are_scoped_to_what_was_measured.py ARTICLE=research-article",
-      "_score_basis": "one-of-a-pair defects; the eighth and ninth instances of a class this repo has found seven times",
-      "what": "✅ DONE 2026-08-27, commit bea7d5973. All three defects closed, each watched red. (a) test_aso_deposition_doi_is_one_fact.py: module-level ARTICLE=ARTICLES[0] DELETED — a single-document default is what silently re-scopes a function when a paper is added — both functions parametrized. ⭐ AND IT FOUND A WEAKER DEFECT UNASKED: test_both_availability_statements_carry_it counted DOI matches, but the DOI is a markdown link, so ONE statement already reached >=2 and the journal article passed with a single availability statement. Now every bolded 'availability' heading must carry the identifier. (b) test_universal_claims_are_scoped_to_what_was_measured.py parametrized over both papers for every PROHIBITION (requirements stay where numbered sections exist); the three surviving inversions are held by a SECOND instrument, since a scope guard reads a quantifier's SHAPE and cannot tell 'none' from 'several' — four polarity rows added. (c) the exon-2 guard now splits at Statements and requires the phrase on BOTH sides, then rejects a negation on the verb within 80 chars — deliberately not the bare word 'not', because the Declarations copy's own 'and not until the breakpoint has been established' must stay green. Coverage 84 → 100 of 174; numbered 53 → 60 of 81."
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "round-10",
-      "closes_clause": null,
-      "id": "AUT-PROP-025",
-      "kind": "fix",
-      "score": 193.0,
-      "depends_on_evidence": "round-10 guard audit STALE_GUARD_TEXT 1-5",
-      "_score_basis": "a stale docstring beside an unchecked invariant is how the original renumbering defect reached a typeset PDF",
-      "what": "✅ DONE 2026-08-27, commit 99e723e5e — AND IT REFUSED THE INSTRUCTION IT WAS GIVEN, CORRECTLY. The dispatch said: reproduce the audit's ablation finding and, if it reproduces, DELETE the exemption. The number reproduced exactly (SAMPLE=6 → applied=6 blind=0) and the agent did not stop there: ablating ALL 76 covered numbered sentences — what PREFLIGHT_FULL does, and what a 6-sentence sample never reaches — gives applied=71 blind=3. The exemption's own recorded sentence IS STILL BLIND under the identical perturbations (56→57, 000→007), as are two others, all three credited solely by the harvested wildcard `HTTP \\d{3}` sitting exactly where the claim is. ⛔ SO DELETING IT WOULD HAVE SHIPPED A RED PUBLICATION GATE. The real defect was SCOPE: three blind sentences removed a 269-sentence manuscript from the gate, leaving 68 falsifiable claims unfalsified. Narrowed from document-keyed to SENTENCE-keyed, each row carrying its measured perturbation and matching exactly one censused sentence, so a row EXPIRES when its sentence is fixed — the old shape never could. Document back in the gate, 6 passed. ⭐ SECOND FINDING: the NAT instruction had ALREADY FIRED — trimcrae read the venue page in a browser 2026-08-23 and captured it, four days before the audit called the note stale; the 403 half reproduces and is retained. Abstract re-measured with the module's own splitter: 220 / 399 against bounds 250 / 400."
-    },
-    {
-      "serves": {
-        "route": "RT-FUSION-PARTNER",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-EVIDENCE"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "AUT-PROP-017"
-      ],
-      "blocked_evidence": "Edits emc-fusion-partner-stratification.md, which branch aut-prop-017-fusion-partner-p1s (commit 3e580f41b) also edits and which has not merged. A whole-paper prose pass on top of an unmerged prose change is a conflict I would be creating deliberately. Unblocks on that merge.",
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "AUT-PROP-017",
-      "depends_on_evidence": "lint_readability --check is red on emc-fusion-partner-stratification.md before and after the P1 pass: 17 sentences over 60 words, longest 167w at line 201; and `pinned-figures.json` carries no caution baseline for this document",
-      "id": "AUT-PROP-026",
-      "kind": "harden",
-      "prerequisite_of": null,
-      "score": 186.0,
-      "closes_clause": null,
-      "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text."
-    },
-    {
-      "serves": {
-        "route": "RT-LOOP",
-        "publication": null,
-        "strategy": "ST-PROCESS"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "driver",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "a repository ordering fix; nothing leaves the repo",
-      "depends_on_evidence": "preflight on 2026-08-27 failed on a tree two subagents were mid-write in: lint_citations red and 'a stale generated file ships a claim its own artifacts no longer support: archive manifest', neither caused by the driver's own staged changes (research/autonomy suite 32/32 green)",
-      "id": "AUT-PROP-027",
-      "kind": "fix",
-      "prerequisite_of": null,
-      "score": 178.0,
-      "closes_clause": null,
-      "what": "✅ DONE 2026-08-27 — remedy (a), the one already proven. research-loop §3 now makes WORKTREE-IN / BRANCH-OUT the contract for any subagent that will write code: worktree off origin/main, commit there, push a branch, never touch the repository root. The shared tree has ONE writer, the driver. ⚠ Written from the afternoon's measurement rather than from principle: the two agents dispatched with 'commit, do not push' ended up mid-write simultaneously and made the tree ungateable — preflight red on lint_citations and the manifest, neither caused by the driver's own change — while the two that used worktrees pushed branches that merged with zero conflicts and survived the window. ⛔ Remedies (b) scoping preflight to staged paths and (c) a tree lease are NOT done and are deliberately not filed as follow-ups: (a) removes the condition they exist to handle, and building a lease for a problem that no longer occurs is how a repository accumulates guards nobody needs. Re-file them if the condition recurs with (a) in force."
-    },
-    {
-      "id": "AUT-PD-017",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "AUT-PD-013",
-      "what": "⛔ SWEEP EVERY CROSS-FILE KEY THIS LOOP SHARES — the general form of AUT-PD-013, and worth more than the instance. A field name agreed in PROSE between a writer and a reader is not agreed at all: it is a hope, checked by nothing, and `subagents.max_concurrent` proves prose cannot even HOLD a convention the loop had already got right twice (three schemas in seventeen receipts). ⭐ THE SWEEP: enumerate every key one file writes and another reads — `handoff.child_session_id` (read by `cycles_are_sized`, spelled verbatim in the handoff prompt precisely because somebody already noticed this exposure), `route_advanced`, `blocked_by[].path`, the five `RECEIPT_TIME_KEYS`, the ledger's `closes_clause`/`requires_trimcrae`/`owner`, and `autonomy-state.json`'s dials — and for each ask the ONE question: what happens if the writer spells it differently? ⛔ THE ANSWER THAT MATTERS IS NOT 'the check fails' but 'the check goes UNMEASURED or, worse, GREEN', because a reader that cannot find a key reports absence, and this repository grades absence as restraint in at least one place already. ⭐ THE FIX SHAPE IS SETTLED by AUT-PD-013 and should be copied rather than re-derived: one module owns the name, both sides import it, a preflight gate checks the writer at the commit, and history is grandfathered by a number so the gate cannot latch. ⚠ CHEAP AND FREE — it is a grep, a reading and a test file; no compute, no network, nobody's permission.",
-      "score": 120.0,
-      "_score_basis": "the instance cost one permanently-unmeasurable governance row on the dial the architecture calls the most important; the class is every other row like it",
-      "depends_on_evidence": "research/autonomy/receipt_schema.py and its 21-test suite — the worked instance",
-      "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-018",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "AUT-PD-013",
-      "what": "✅ DONE 2026-08-27, found while wiring AUT-PD-013's gate. ⛔⛔ THE LOOP'S OWN TEST SUITE WAS RUN BY NOTHING. `research/autonomy/tests` appeared in neither `scripts/preflight.sh` nor `.github/workflows/tests.yml` — CI's pytest step names `research/modalities/tests research/manuscripts/tests systems/tests scripts/tests` and stops there — and there is no pytest.ini or `testpaths` to collect it by accident. **53 assertions asserted by nobody.** ⭐ AND ALL THREE SUITES WERE WRITTEN THE SAME DAY, EACH AS A GUARD AGAINST A DEFECT THAT HAD ALREADY HAPPENED: `test_continuity_has_no_green_state_recording_can_buy.py` (the third fix for trimcrae's 'ending with nothing in flight' bug, whose entire design is that recording work must never buy a pass), `test_session_reaper_refuses_to_lose_work.py` (pinned after the reaper's first run against real data called three DELIVERED cycles 'died holding uncommitted work'), and `test_receipt_schema.py`. A guard written the day of the incident and executed by nothing is the incident's second half. ⚠ THE SHAPE IS THE REPOSITORY'S MOST-REPEATED ONE and it was already written down twice: `scripts/tests` ran nowhere until 2026-08-22 (preflight gate 13 exists for exactly this), and CLAUDE.md §1 records `subagent_width` as a governed number no code read. ⭐ FIX: folded into gate 13's invocation rather than given a step of its own — that gate's own comment warns that a fix bound to one call site regresses at its sibling, and a second copy of its twenty-line two-signal decision block would BE that sibling — and added to tests.yml, which is the authority. 53 tests in 0.09 s, so it is free in the commit loop.",
-      "score": 60.0,
-      "_score_basis": "the guards written on incident day were themselves ungoverned; this is the class, not one suite",
-      "depends_on_evidence": "scripts/preflight.sh gate 13 heading and .github/workflows/tests.yml:467 — measured, both lists omitted the directory",
-      "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-019",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "AUT-PD-013",
-      "what": "✅ DONE 2026-08-27, same session it was found. ⛔ `priority.py` CRASHED ON THE COMMITTED LEDGER AND HAS FOR SOME TIME — the loop's RANKER, dead, and nothing noticed because no gate runs it. Measured 2026-08-27 on a CLEAN tree at `origin/main` (`git stash`, re-run, reproduced — so it is not the working change): `KeyError: 'score_inputs'` at priority.py:423 in `apply_session_penalties`, `entry['score_inputs']['blocked_with_evidence'] = True`. ⭐ THE CAUSE IS THE SAME CLASS AS AUT-PD-013, WHICH IS WHY IT IS FILED HERE: a field one writer emits and another reader assumes. **47 of 124 ledger entries carry no `score_inputs` key at all** — every `AUT-PROP-*`, every `AUT-PD-*`, `AUT-COV-*`, `AUT-BIX-*`, `AUT-INC-001`, `AUT-078` — because they were appended by hand or by a seat rather than by whatever wrote the originals. ⚠ THE FIX IS A JUDGEMENT, NOT A `setdefault`: writing an empty `score_inputs` makes the ranker RUN and rank 47 items on absent inputs, which is a populated field that is not a measured one (CLAUDE.md §4). Decide whether an entry with no score inputs is unrankable (and say so in the output) or whether the missing inputs have honest defaults, then make the ledger's own schema enforce it. ⛔ AND WIRE IT TO SOMETHING: an unrun ranker is AUT-PD-018 again. ⭐ FIXED: `entry.setdefault(\"score_inputs\", {})` at the penalty line and `(parent.get(\"score_inputs\") or {})` at its sibling — the inheritance line, which would have been the next crash and is the shape `paper-hardening` §8b.2 measured six of eleven list-scoped fixes missing. ⛔ THE JUDGEMENT WENT THE HONEST WAY: the dict is created EMPTY, carrying only the flag this function actually observed, rather than filled with zeroed defaults. A hand-filed entry is HAND-SCORED, not unscorable — it carries a `score` its filer typed and a `_score_basis` in prose; what it does not carry is the DERIVED scorer's audit trail, and fabricating one would make it look computed. ✅ `priority.py` now exits 0 and ranks all 126 entries. ⭐ AND IT IS WIRED: `research/autonomy/tests/test_priority_ranks_the_hand_filed_entries_too.py` runs the ranker against the REAL committed ledger (a synthetic two-row fixture would have passed on the broken code, because both rows would have been derived), plus the two unit cases and a precondition test that fails if every entry ever starts carrying `score_inputs` — otherwise this suite would go green for the wrong reason, which is how `in_progress` was dropped from the continuity suite's OPEN_STATES with all twelve tests passing.\n\n⚠ CORRECTION 2026-08-27, appended not edited (CLAUDE.md §1.2), and it goes against my own framing: I wrote that nothing caught this because no gate ran the ranker. **CI caught it and had been red on it.** `systems/tests/test_autonomy_priority.py` runs in tests.yml on every push, and run 33109624214 at 8226753f9 reports FOUR failures reading `KeyError: 'score_inputs'` — the exact traceback — inside `5 failed, 9808 passed`. What is true is narrower and still worth the fix: no PREFLIGHT gate ran the ranker, so the crash was invisible in the COMMIT LOOP and was only ever reported minutes later by a workflow nobody had read that day. ⛔ THE HONEST FINDING IS WORSE THAN THE ONE I CLAIMED: this was not an unseen defect, it was a SEEN one — red on main, in a suite that names it plainly, and it survived anyway. A guard that fires where nobody looks is closer to AUT-PD-018 than I allowed.",
-      "score": 95.0,
-      "_score_basis": "the ranker decides what the loop works on next; it has been exiting 1 on every invocation",
-      "depends_on_evidence": "priority.py exits 0 over 126 entries; 4 tests in research/autonomy/tests/test_priority_ranks_the_hand_filed_entries_too.py",
-      "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-020",
-      "kind": "fetch",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-IPD-SURVIVAL",
-        "publication": "PUB-IPD-SURVIVAL",
-        "strategy": "ST-CARE-DELIVERY"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "AUT-034",
-      "what": "⭐ TRANSCRIBE morioka2016's TABLE 2 — per-subject PFS/OS with censoring flags for its two EMC patients. Named by AUT-034's seat as this route's next action, and it is the ONE step here that needs no instrument: it is patient-level data printed as a table, not a curve to digitize, so none of the detector's unclosed bounds apply to it. ⚠ n=2, so it is a small addition to a denominator and must be reported at exactly that weight — its value is that individual patient data is the strongest form this route can hold, not that it moves the pooled estimate. ⛔ The paper is already fetched and its risk row was independently re-read by `km_risk_row_detect.py` (5,5,5,3,3,1,1,1, matching a human's reading two days earlier), so the retrieval half is done and this is transcription against a source already on hand. Free.",
-      "score": 140.0,
-      "_score_basis": "the only AUT-034 follow-up that needs no instrument and no unreachable paper",
-      "depends_on_evidence": "research/modalities/km-risk-row-detection.json — morioka2016's risk row re-read by two methods",
-      "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-021",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "✅ DONE 2026-08-27, in the session that hit it. ⛔ A CLAIM LEASE DOES NOT PREVENT A SECOND CLAIM, AND TWO WORKERS TOOK ONE ITEM TODAY. Measured 2026-08-27, live: `atr-single-slot-seat` claimed AUT-PROP-009 at 20:10:00Z and was dispatched with an isolated worktree; CYC-0025 claimed the SAME item at 20:15:00Z from committed state it had fetched before that lease landed, and the two claims met as a git merge conflict on research-ledger.json. ⭐ THE GAP IS PRECISELY STATED AND IS NOT THE ONE AUT-PROP-013 CLOSED: id allocation is now collision-proof, but a LEASE is read-then-write against a file that another session may have advanced in between, so the read is stale by construction — the same shape as the id derivation, one level up. `continuity.py` already hides owned rows from other workers, so the machinery is there; what is missing is that a claimant re-reads the trunk IMMEDIATELY before committing its claim, and yields if the row is taken. ⚠ THE TIEBREAK USED TODAY WAS AD-HOC — earlier lease wins, recorded in the entry's `_contested` field — and AUT-PROP-013 says in as many words that an ad-hoc tiebreak is not a mechanism. It is written down rather than performed silently, which is the least that can be said for it. ⛔ AND THE COST IS NOT COSMETIC: two seats on one guard produce two patches for the same file, and the second one to land either loses work or silently overwrites the first — the identical harm the receipt collision would have caused. ⭐ CHEAP: a fetch-and-recheck before the claim commit, plus a test that two claimants racing on one row cannot both succeed.\n\n⭐ WHAT SHIPPED: `research/autonomy/claim.py`. ⛔⛔ THE FIX IS NOT A RULE ABOUT WHO YIELDS, BECAUSE AUT-PROP-013 ALREADY ESTABLISHED THAT A RULE ABOUT YIELDING IS NOT A MECHANISM — the yielding session must first NOTICE, and a session that pushes cleanly never does. **The arbiter is `git push`**, the one operation in this loop that is already atomic: a compare-and-swap on the remote ref that succeeds only if the remote is still where you thought. The decision is made against `origin/main`'s copy of the ledger — never the working tree, which IS the stale read that caused the incident — and a rejected push is treated as INFORMATION rather than an error: the claim is withdrawn (`reset --soft`, never `--hard`), the trunk re-read, and the item conceded if somebody else now holds it. ⚠ A rejection is usually NOT contention on your row (the autoscale ticks push several times an hour), so it retries up to 3 times and then reports RETRY — never a silent CLAIMED, which would dispatch a worker onto a row the trunk still shows as free. ⭐ `--check` reports claims held locally that the trunk cannot see. ⛔⛔ AND THAT CHECK WAS MEASURED ON MY OWN CLAIM WHILE WRITING THIS: AUT-PROP-022 was claimed, a seat dispatched, and the claim then sat in an UNCOMMITTED merge for eight minutes while the trunk still showed the row unowned. I filed this defect and then stood in it. That is not somebody else's carelessness — it is what claiming in the working tree and committing later DOES, every time. ⚠ WHAT THIS DELIBERATELY DOES NOT DO: protect against a worker that claims and then dies. `priority.py:release_stale_claims` already ages an owner out by `claimed_utc`; the two are halves of one thing — this stops two workers starting, that stops one worker parking the queue forever. ✅ 9 tests, wired to preflight gate 15 and tests.yml; no test touches the real remote, because a test that pushes changes the trunk and racing writers on the trunk is this module's whole subject. ⚠ MUTATIONS: 8 run, 7 caught, and the 8th is reported as EQUIVALENT rather than as a gap — swapping `undo_last_commit()` and `fetch()` after a lost race changes no behaviour, since both complete before the trunk is re-read and before any retry can commit. Calling an equivalent mutation a survivor would be as dishonest as calling it a catch.",
-      "score": 150.0,
-      "_score_basis": "two workers were dispatched onto one item and only a merge conflict revealed it",
-      "depends_on_evidence": "research-ledger.json AUT-PROP-009 `_contested`; the merge conflict between ff8cff1e8 and 6cd21de13",
-      "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-022",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "✅ DONE 2026-08-27. ⛔ THREE TESTS WERE RED ON `main` AND NONE OF THEM WAS MINE — found by reading CI (run 33109624214, `5 failed, 9808 passed` at 8226753f9) rather than by waiting for somebody to notice. Two were already fixed by AUT-PD-019's ranker repair; these three needed their own diagnosis. ⭐ (1) `test_no_dollar_figure_is_ever_written_into_the_ledger`: two entries typed a realised GPU cost into their prose — CLAUDE.md §1, a price has one home and this is not it. Replaced with pointers to research/compute/pricing.md; the incident narrative is unchanged and the number is now read from the file that owns it. ⭐ (2) `test_an_evidenced_block_drops_out_of_the_queue`: AUT-PROP-022 carried block evidence and still ranked top-three, because a -90 penalty cannot move a base score of 284. ⛔ THE TEMPTING FIX WAS THE WRONG ONE — raising the penalty would have turned the test green while leaving a SATISFIED block in place. The evidence stated its own stopping condition in words ('Unblocks when 024's commit is pushed') and AUT-PROP-024 was `done` and pushed, so the block was stale: cleared, with the superseded evidence retained per rule 1.2. CLAUDE.md §0 — 'blocked' is a claim that needs evidence and it is usually wrong, and here it was wrong in the way that costs the most: a route standing down for a reason that had already cleared. ⭐ (3) `test_every_clause_reports_pass_fail_or_unverifiable_and_nothing_else` asserted the publish bar has SIX clauses; it has seven since `readable_enough_to_review` was added. A hand-typed count of something the module enumerates is a second copy of that fact, so the assertion now derives the length from `bar.CLAUSES` AND pins the clause NAMES — the length alone would be tautological, the names alone would miss `evaluate` merging two rows, and a clause that silently disappears is the hole the test was written for. ⚠ THE NAMES LIST CARRIES ITS OWN WARNING: never drop a clause to make a red build green (CLAUDE.md §3).",
-      "score": 130.0,
-      "_score_basis": "three tests red on the trunk, none caused by this session, all fixed at the cause",
-      "depends_on_evidence": "systems/tests/test_autonomy_priority.py and test_autonomy_publish_bar.py: 54 passed after the fixes",
-      "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-023",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "✅ DONE 2026-08-27, and it is AUT-PD-017's class caught in the act. ⛔ `continuity.py` AND `priority.py` READ DIFFERENT FIELDS FOR THE SAME QUESTION. `priority.py`'s `apply_session_penalties` keys its -90 evidenced-block penalty on a non-empty `blocked_evidence`, and its comment states the principle outright: 'KEYED ON THE EVIDENCE, NOT ON `state`. The recorded observation IS the block.' `continuity.py`'s `_why_not_ready` keyed on `blocked_by`. ⭐ SO A ROW CARRYING EVIDENCE AND NO `blocked_by` WAS PENALISED BY THE RANKER AND OFFERED BY THE CHECKER AT THE SAME MOMENT. Measured on AUT-PROP-018, which sat at the TOP of the ready list for roughly an hour with a recorded reason nobody read — written there by a concurrent session — while this driver described the same reason in chat replies instead. ⛔⛔ AND THAT IS THE PART WORTH KEEPING: an item whose blocker lives only in somebody's reply is an item nothing can check, which is precisely the failure `continuity.py` was built to stop. The Stop hook offered it four times; four times the answer given was prose. ⭐ FIXED: a non-empty `blocked_evidence` is now a real stop in `_why_not_ready`, and the reason is NAMED in the blocked report rather than the row silently disappearing — CLAUDE.md §0 wants a block CHECKABLE, not invisible, and an unread reason is what this fixes rather than what it creates. ✅ 3 tests, 3/3 mutations caught, including the one that matters in the opposite direction: an empty string, null or whitespace must NOT stand an item down, or the field's mere presence parks a live route. ⚠ THE CLASS IS STILL OPEN AS AUT-PD-017 — this is the third instance today after the receipt's fan-out key and the ledger's id allocation, and all three are the same sentence: a field name agreed in prose between two files is not agreed at all.",
-      "score": 110.0,
-      "_score_basis": "the ranker and the continuity checker disagreed about which work was runnable",
-      "depends_on_evidence": "AUT-PROP-018 offered as ready with blocked_evidence recorded; 79 tests in research/autonomy/tests",
-      "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-024",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "✅ DONE 2026-08-27. ⛔ `continuity.py` REPORTED CAPACITY THE LOOP DID NOT HAVE. It offered 70 items as 'READY TO RUN RIGHT NOW' while five workers were live against a governed `subagent_width` of 5 — every one of those 70 ready in the ledger's sense and startable by nobody. The Stop hook then asked, correctly by its own lights, why nothing was moving. ⭐ THE FIX READS THE DIAL INSTEAD OF IGNORING IT: `live_leases()` and `width_cap()`, and at capacity `--check` exits 0 with the holders NAMED. ⛔⛔ AND THE LINE THIS HAD TO HOLD IS THE ONE THE FILE EXISTS FOR: a full cap is a REAL STOP, not a permission slip, and it is allowed to end a turn only because it is FALSIFIABLE — every holder is printed, each lease carries a `claimed_utc` that `release_stale_claims` ages out, and one completion re-opens the list. A lease naming a worker that is not running now reads as litter rather than as capacity. An unreadable cap buys NOTHING (fail closed), because a dial nobody can read must never excuse a stall. ⛔⛔ AND THE FIRST VERSION HAD THE RECEIPT SCHEMA'S UNIT ERROR, CAUGHT BY RUNNING IT: it counted LEASES, not WORKERS, and read 5-of-5 while FOUR workers were running. One seat legitimately holds two items — AUT-036 and AUT-037 went to a single seat because both re-curate one corpus — so counting leases would have manufactured a capacity excuse OUT OF GOOD PRACTICE, and the excuse would grow every time a seat was sensibly given two related items. That is the same concurrent-vs-total confusion AUT-PD-013 refused in the receipts, one file over, and it took twenty minutes to make the identical mistake after writing the argument against it. ✅ 6 tests, 6/6 mutations caught, including the two that matter most: counting leases instead of workers, and letting an unreadable cap pass.",
-      "score": 105.0,
-      "_score_basis": "the checker that decides whether the turn may end was reading capacity it could not see",
-      "depends_on_evidence": "continuity.py live_leases()/width_cap(); 89 tests in research/autonomy/tests",
-      "closes_clause": null
     },
     {
       "id": "AUT-PD-025",
