@@ -121,5 +121,14 @@
   }
  ],
  "blocked_by": [],
- "handoff": {}
+ "handoff": {
+  "child_session_id": "session_011h4nBFbDXnWtNwGDy34k91",
+  "utc": "2026-08-27T06:37:43Z",
+  "reason": "Round 8 is a full apply round whose largest item is structural — whether the correction register belongs in the submitted manuscript at all — and research-loop §3 puts anything that will not fit one context in a spawned session. This session had spent its context on round 7's application and its five seats.",
+  "prompt_built_by": "python3 research/autonomy/handoff.py --json --reason \"...\" — from committed state, never from this session's context",
+  "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+  "source": "https://github.com/trimcrae/Rare-cancers @ main",
+  "spawned_from_commit": "55471ab",
+  "note": "⭐ THE GENERATED PROMPT CARRIES THIS CYCLE'S OWN FIX. Its sync block is `git fetch origin main && git checkout -B main origin/main`, not the `git pull --rebase` that left THIS session 33 commits stale, and it tells the successor to verify its sha against origin/main because a stale start is indistinguishable from a healthy one from inside. ⚠ The `\\`-continuation in the generated command was flattened to one line before it was passed to create_session — a bare trailing backslash would have handed the successor a command that hangs, which is the second thing test_autonomy_handoff.py now refuses."
+ }
 }
