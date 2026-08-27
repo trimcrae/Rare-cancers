@@ -1,0 +1,39 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "0743ac15d0153916309728366fbd3cd880a003a8",
+  "document_sha256": "48ad2e553ecfc059a159e73efba9c717e5ce0e81c4d5da1ebbf782c88d6f9d4d",
+  "document_sha256_verified": "yes -- `git show 0743ac15d0153916309728366fbd3cd880a003a8:research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md | sha256sum` returns 48ad2e553ecfc059a159e73efba9c717e5ce0e81c4d5da1ebbf782c88d6f9d4d",
+  "blind": true,
+  "utc": "2026-08-27T08:36:17Z",
+  "cycle_id": "CYC-0021",
+  "round": 9,
+  "seat": "hostile-referee",
+  "verdict": "minor-revision",
+  "one_paragraph_referee_report": "This is an unusually disciplined small-cohort pooling synthesis, and it shows the scars of many prior hardening rounds in a good way: every pooled figure checked (TKI response 0/3 and 0/5, disease-specific death 7/15 vs 6/58, local recurrence 4/15 vs 13/58, distant metastasis 5/15 vs 14/58, prevalence 120/28/5/1 of 154) is internally arithmetically consistent between the summary table and the per-cohort breakdown, the Abstract states the defeater to its own headline number in the same paragraph as the number, the register's post-hoc corrections (A15-A31) are all reflected correctly in the current prose with no orphaned superseded phrasing left over from earlier drafts, and the correction register's removal from the manuscript body (round 8) has not left the reader dependent on it. The paper's central claim ('candidate, not established, stratification variable') is scoped exactly to what the evidence shows: a direction-only, zero-event treatment-response signal and a crude, confounded prognostic magnitude, with the confound (tumour size) stated as strongly in the Abstract and Limitations as anywhere else. No overclaiming that would mislead a reader today, no underclaiming that buries a real result, and no internal contradiction between sections or against the register. The residual issues are small: one specific factual claim (a five-year accrual window in Section 3.1) is stated without any inline citation or artifact pointer, inconsistent with the paper's own otherwise-exceptional sourcing discipline; references [13] and [14] sit in the bibliography but are never invoked by bracket number in the body; and Section 3.6's subsection header is punchier than the partner-blind, non-replicating finding it introduces, though the following four numbered points immediately correct the impression. None of these rises to a blocker. Recommend minor revision: source or remove the accrual-window date, and tighten the Section 3.6 header to match its own qualifications.",
+  "strongest_attack_and_its_disposition": "The strongest attack is that the only quantified finding in the paper — the 46.7% vs 10.3% disease-specific-death gap — may be nothing more than a tumour-size proxy rather than a real partner effect, since the larger of the two pooled cohorts (Huang 2023) shows TAF15::NR4A3 is both non-independent of survival under multivariable adjustment AND strongly associated with size >10cm (78% vs 26-28%, P=.025), and no source in the literature publishes a partner-stratified, size-controlled event count that could separate the two explanations. This is a genuine, currently irresolvable gap in the evidence. The paper does not evade this attack — it makes it itself, repeatedly and in the strongest available language (§3.4's closing line, §4.1a widening the confound to grade and chemotherapy allocation, §5's 'Does not claim' list). Because the paper's own headline claim is explicitly the crude, confounded magnitude and not an adjusted or causal one, the attack lands on a caveat the paper has already stated at full strength rather than on an unstated assumption — it is defused by disclosure, not by resolution, which is the honest outcome available given the evidence.",
+  "defects_found": 3,
+  "coverage_gaps_found": 1,
+  "blockers": [],
+  "p1s": [
+    {
+      "id": "REF-P1-1",
+      "where": "Section 3.1, main manuscript: \"The direction is consistent across two cohorts, two drugs and five years of accrual (July 2011 – January 2017).\"",
+      "what": "The end date (January 2017) is traceable elsewhere in the document to the pazopanib trial's enrolment close (Section 4.11), but the start date, July 2011, appears nowhere else in either document and carries no citation, artifact pointer, or 'read from' note — unlike essentially every other date, count, and quote in this manuscript. Sits awkwardly next to Section 4.11's explicit refusal to state a diagnosis or accrual period it cannot source. Not decision-relevant to any interval or gap in the paper, so it would not mislead a reader about the central claim, but it is the one place in the document where a specific factual claim escapes the sourcing discipline applied everywhere else, and no instrument covers inline accrual-window prose of this kind."
+    }
+  ],
+  "p2s": [
+    {
+      "id": "REF-P2-1",
+      "where": "References [13] (Llombart-Bosch 2022) and [14] (Klubíčková 2022), reference list",
+      "what": "Both are named by author and year in the Section 3.2 exclusion table but are never cited via their bracket numbers anywhere in the running prose, unlike every other reference in the list. Not misleading, just a minor bibliographic inconsistency a copyeditor would flag."
+    },
+    {
+      "id": "REF-P2-2",
+      "where": "Section 3.6 subsection header: \"A third EMC expression cohort replicates SEMA3C, and it does not touch the clinical claim.\"",
+      "what": "The header's first clause reads as though a partner-specific mechanistic finding was replicated. What GSE28866 actually shows is that SEMA3C is elevated in EMC generally versus normal tissue and other sarcomas, in a cohort carrying no fusion-partner annotation at all — a materially weaker and different claim. The four numbered points immediately below correct this fully and explicitly, so no reader who reads the section is misled, but a reader who only sees the header could come away with an inflated impression of what was replicated."
+    }
+  ],
+  "notes": "Scope for this review was the two named documents only. Did not open emc-fusion-partner-pooling.json, emc_fusion_partner_pooling.py, or partner-event-counts-2026-08-08.md, so the one coverage gap flagged is that REF-P1-1's accrual-date claim could well be sourced correctly in the artifact even though it is not sourced in the prose — could not check that within scope; this review should not be read as asserting the date is wrong, only that its presentation breaks the paper's own stated sourcing discipline. Everything else reported here was checked directly against the two documents as pinned, including arithmetic cross-checks on every pooled table and a full pass for stale post-correction phrasing — none of those regressions are present at this pin. This is a mature manuscript; round 9's marginal value is small relative to rounds 6-8's, which is itself evidence the process is converging."
+}

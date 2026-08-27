@@ -1,0 +1,42 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "0743ac15d0153916309728366fbd3cd880a003a8",
+  "document_sha256": "48ad2e553ecfc059a159e73efba9c717e5ce0e81c4d5da1ebbf782c88d6f9d4d",
+  "document_sha256_verified": "yes -- `git show 0743ac15d0153916309728366fbd3cd880a003a8:research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md | sha256sum` returns 48ad2e553ecfc059a159e73efba9c717e5ce0e81c4d5da1ebbf782c88d6f9d4d",
+  "blind": true,
+  "utc": "2026-08-27T08:36:17Z",
+  "cycle_id": "CYC-0021",
+  "round": 9,
+  "seat": "statistics",
+  "verdict": "supported-with-corrections",
+  "defects_found": 2,
+  "coverage_gaps_found": 1,
+  "blockers": [],
+  "p1s": [
+    {
+      "id": "STAT-P1-1",
+      "where": "§6 falsifier #5 (\"a total TAF15 denominator of 34\") and §3.3's follow-up caveat, cross-checked against the artifact's `zero_death_patients_to_reconcile()` docstring and `follow_up_warning` field",
+      "what": "The falsifier's derivation (comparator arm's Wilson upper bound, 20.8%, held fixed while only the TAF15 arm's denominator grows) is a sound and appropriately self-critical choice — independently recomputed (7/(15+n) crosses 20.79% at n=19, giving denom=34; Fisher exact on 7/34 vs 6/58 gives p=0.219) — but the manuscript's own prose never states why the upper bound rather than the comparator's point estimate (10.3%) is the reconciliation target, or why the comparator is held fixed rather than allowed to grow. That reasoning exists only in the generator's docstring, not in §6. A future editor who 'simplifies' the target to the comparator's point estimate (which would roughly double the threshold to ~68) would silently change what the falsifier means, and nothing in the prose would flag that as a substantive edit. Recommend importing one sentence of the generator's rationale into §6 itself."
+    },
+    {
+      "id": "STAT-P1-2",
+      "where": "§4.7 (\"Huang 2023 also reports outcome only for the 53 of 58 patients with follow-up available, and the five without are in neither numerator nor denominator\") vs. §3.2/§3.3 (\"50 partner-assigned with follow-up\")",
+      "what": "53 and 50 look like the same quantity but are not, and the manuscript never bridges them. The artifact resolves it cleanly (of the 53 Huang patients with follow-up, 3 are TCF12/partner-unidentified and are excluded from the two-arm outcome pool, leaving 50), but that second exclusion step is stated nowhere in the manuscript prose — §4.7 attributes the entire 58→53 gap to missing follow-up and is silent on the further 53→50 step. A reader checking the arithmetic from the manuscript text alone (58 − 5 = 53 ≠ 50) will see an apparent inconsistency between two 'load one home' numbers that in fact nest correctly. Recommend one clause in §4.7 naming the 3 TCF12/unassigned patients as the reason 50, not 53, enters the pooled table."
+    },
+    {
+      "id": "STAT-P1-3",
+      "where": "artifact emc-fusion-partner-pooling.json → cohorts[agaram-2014-outcome].follow_up_warning: \"The recurrence comparison is confounded the same way, in a direction this record cannot sign\"",
+      "what": "This artifact field generalizes the death-endpoint reasoning (follow-up truncates at death, so the higher-mortality arm's shorter mean follow-up is partly an artefact of its own event count) to the recurrence/metastasis rows by asserting they are 'confounded the same way'. Not quite true: for recurrence/metastasis the more relevant mechanism is competing-risks informative censoring, which would tend to bias the TAF15 arm's rate DOWNWARD if anything, not merely 'unsigned'. The manuscript's own §3.3 prose is actually more careful than the artifact here (it says only 'not independent of the endpoint being compared'), so this is not currently a defect in the reviewed prose, but it is a latent one: the artifact field is the more likely template a future edit copies verbatim, and if pulled into the manuscript unedited it would overstate a mechanistic equivalence between two genuinely different biases."
+    }
+  ],
+  "p2s": [
+    {
+      "id": "STAT-P2-1",
+      "where": "§3.1 secondary TKI-response analysis (0/5 vs 10/27, pooling pazopanib and sunitinib into one 'antiangiogenic TKI' denominator)",
+      "what": "Two structurally different regimens (a prospective phase 2 trial vs. a retrospective named-use series) are pooled into a single class-level proportion despite a disclosed 53.9-point per-cohort comparator spread (21.1% vs 75.0%). Well-flagged in the same sentence/table and the primary (trial-alone) analysis is what the headline leans on, so not misleading as written, but a reader skimming only the pooled 43.4% Wilson bound could miss how heterogeneous its two contributing cohorts are."
+    }
+  ],
+  "notes": "All Wilson intervals and Fisher exact p-values independently recomputed from the stated integer counts match the manuscript to the reported precision; no arithmetic defect found. The §3.3 rewrite of the follow-up/'despite shorter observation' framing is statistically sound and not vacuous. The falsifier logic in §6 is a defensible, self-critical heuristic, verified to roughly track real loss of Fisher significance, but its rationale lives only in code comments, not prose (STAT-P1-1). The Paioli/Huang multivariable-model scoping is now correctly bounded everywhere checked. Pooling method compliance with systems/POLICY-evidence.md checked directly against the policy text: crude denominator-weighted proportions + Wilson intervals is the policy's standard method for simple proportions; non-overlapping-population and outcome-is-not-inclusion-criterion rules applied correctly to every excluded cohort checked. No blocker found; eight independent hardening rounds' worth of prior correction is a strong prior that this document is close to converged from this lens; the three P1s are all fragility/completeness findings rather than currently-wrong claims."
+}

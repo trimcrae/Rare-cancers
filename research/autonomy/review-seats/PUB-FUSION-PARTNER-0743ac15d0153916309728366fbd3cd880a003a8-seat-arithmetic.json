@@ -1,0 +1,21 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "0743ac15d0153916309728366fbd3cd880a003a8",
+  "document_sha256": "48ad2e553ecfc059a159e73efba9c717e5ce0e81c4d5da1ebbf782c88d6f9d4d",
+  "document_sha256_verified": "yes -- `git show 0743ac15d0153916309728366fbd3cd880a003a8:research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md | sha256sum` returns 48ad2e553ecfc059a159e73efba9c717e5ce0e81c4d5da1ebbf782c88d6f9d4d",
+  "blind": true,
+  "utc": "2026-08-27T08:36:17Z",
+  "cycle_id": "CYC-0021",
+  "round": 9,
+  "seat": "arithmetic",
+  "verdict": "supported",
+  "numbers_checked": 52,
+  "defects_found": 0,
+  "coverage_gaps_found": 0,
+  "blockers": [],
+  "p1s": [],
+  "p2s": [],
+  "notes": "Exhaustive independent re-derivation, not spot-checking. Re-implemented wilson() and fisher_exact_two_sided() verbatim from research/manuscripts/emc_fusion_partner_pooling.py and recomputed every Wilson interval and every Fisher p-value printed in the manuscript directly from the raw {events,denom} integers in emc-fusion-partner-pooling.json's cohorts[] records (not from the pre-computed analyses block) — all match to the printed decimal: TKI primary 0/3 vs 4/19 (56.1% upper, p=1.0), secondary 0/5 vs 10/27 (43.4% upper, p=0.155, per-cohort 21.1%/75.0%, spread 53.9), sensitivity 0/2 vs 4/20 (65.8% upper), disease-specific death 7/15=46.7% (24.8-69.9) vs 6/58=10.3% (4.8-20.8), gap -36.3 unrounded, p=0.0034, local recurrence 4/15 vs 13/58 gap -4.3 p=0.7389, distant metastasis 5/15 vs 14/58 gap -9.2 p=0.5163, and prevalence pooling 120/28/5/1 out of 154 (summed by hand from the four pooled cohorts' raw counts: Agaram 16/7/1, Huang 46/9/2, Lenz 8/2/1, Paioli 50/10/1/1) giving 77.9/18.2/3.2/0.6% with correct CIs, per-cohort prevalence range 15.8-29.2 (spread 13.4), and the Sjögren counterfactual 31/163=19.0% with widened range 15.8-33.3. §6's falsifier #1 threshold — the ⛔ specifically flagged item — was re-derived from zero_death_patients_to_reconcile()'s actual algorithm (confirmed it is called at generation time on the real computed disease_specific_death arms, not a hardcoded value) and independently reproduces n≥34 (19 further zero-death patients), comparator Wilson upper 20.8%, and the two counterfactual point estimates 31.8% (7/22) and 30.4% (7/23) exactly. Ran the actual generator's `--check` mode in a worktree pinned to this exact commit (0743ac1) — it passed, confirming the committed artifact byte-reproduces from the generator's own COHORTS table, independently corroborating all of the above. Verified the register's own self-referential word-count claims (5,476-word appendix, 3,912-word Results section, measured against commit 55471ab via the exact `sed`/`awk` commands the register specifies) — both reproduce exactly. Verified §8/A19/A20's citation-and-cohort census (17 citations, 16 cohorts, 13 citations with a verification_note, and exactly 4 — stacchiotti2014/stacchiotti2019/huang2023/sjogren2003 — naming both a cache slug and an HTTP status) directly against the JSON, and confirmed research/manuscripts/tests/test_fusion_partner_prose_matches_its_artifact.py binds this exact sentence to len(citations) etc., so this class of drift is now actually guarded, not just re-derived by hand. Confirmed that guard's PROSE_DOCUMENTS constant covers both the manuscript AND the correction register (concatenated). Every Huang-2023 stratum and every Agaram-2014 stratum were checked against cohorts[] and hand-summed into the pooled §3.3 table with an exact match. The one internal arithmetic inconsistency the manuscript itself flags (Huang's printed '12/46 (28%)' actually being 26.1%) is correctly computed and correctly disclosed as unresolved by the paper itself — not a fresh finding. No blocker, no uncovered drift surface, and no minor arithmetic slip was found anywhere in either document."
+}

@@ -1,0 +1,40 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "The CANONICAL round-9 record for this commit. It merges five blind seats and deliberately carries EMPTY tallies, so clause 1's derivation over the seat glob counts each finding exactly once.",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "0743ac15d0153916309728366fbd3cd880a003a8",
+  "document_sha256": "48ad2e553ecfc059a159e73efba9c717e5ce0e81c4d5da1ebbf782c88d6f9d4d",
+  "blind": true,
+  "_blind_means": "Each seat was given the document path and the pinned sha and nothing else, told the tree may drift and that the PIN is the subject, and forbidden research/autonomy/, CLAUDE.md, AGENTS.md, STRATEGY.md, the program map, every skill file and every other seat's output. Instructed to refute by default and told there is no wanted answer. Dispatched CONCURRENTLY at subagent_width=5 by CYC-0021.",
+  "utc": "2026-08-27T08:36:17Z",
+  "cycle_id": "CYC-0021",
+  "round": 9,
+  "seat": "five blind seats — regression, arithmetic, statistics, citations-and-instruments, hostile-referee",
+  "verdict": "NOT CONVERGED",
+  "_verdict_note": "paper-hardening §8: stop when a round returns no blockers AND no P1s. This round returned ZERO blockers across all five seats (a first for this paper's series — round 7 found 6 distinct blockers) but 6 P1 instances across four of the five seats, so a round 10 (apply) is warranted before re-seating. Every P1 is a completeness/documentation gap, not a wrong statement in the committed text: an unbound derived-integer triple in the §6 falsifier (REG-P1-1), the same falsifier's missing prose rationale (STAT-P1-1), an unexplained denominator step in §4.7 (STAT-P1-2), a latent overstatement risk in an artifact field not currently copied into prose (STAT-P1-3), an unrecorded census-exclusion decision for the correction register (CITE-P1-1), and one unsourced accrual date in §3.1 (REF-P1-1).",
+  "central_claim": "The NR4A3 5' fusion partner is a CANDIDATE and not an established stratification variable in EMC. Treatment response is a direction-only signal at zero events (0/3-5 TAF15 patients); the disease-specific-death prognostic contrast has a first pooled crude magnitude (7/15 = 46.7% vs 6/58 = 10.3%) that the paper itself flags as confounded with tumour size and not separable from it in any published source; and TAF15::NR4A3 covers 28/154 = 18.2% (12.9–25.0) of partner-assigned EMC, an interval the paper states CONTAINS rather than corrects the ~20% the cited literature repeats.",
+  "blockers_distinct": [],
+  "p1s": [],
+  "p2s": [],
+  "_tallies_are_deliberately_empty": "blockers/p1s/p2s are empty here so the per-seat glob is the single counting surface. See the five PUB-FUSION-PARTNER-<sha>-seat-*.json files for the real findings.",
+  "distinct_findings": {
+    "blockers_distinct": 0,
+    "blocker_instances_across_seats": 0,
+    "p1_instances_across_seats": 6,
+    "p2_instances_across_seats": 5,
+    "note": "Zero blocker instances from any seat — the first zero-blocker round in this paper's series. Defects found in the artifact and coverage gaps found are reported separately (paper-hardening §8.0): none of the P1s are a wrong statement in the text today; every one is a coverage gap an ordinary future edit would not be caught breaking."
+  },
+  "convergence_across_seats": "The falsifier at §6 (round 8's derived n≥34 threshold) drew two seats independently: regression found its integer outputs unbound by the guard (REG-P1-1), statistics found its derivation rationale absent from the prose (STAT-P1-1) — the same surface, two distinct completeness gaps, found by two lenses that could not see each other. No other finding converged across seats this round, unlike round 7 where three seats independently hit the same retracted-framing residue — consistent with round 8's structural fix (moving the register out, deriving the falsifier) having actually closed the surfaces that produced round 7's convergent blockers.",
+  "what_the_seats_could_not_break": [
+    "The arithmetic: 52 figures independently re-derived from raw cohort counts (not the pre-computed analyses block), zero drift found — including a from-scratch reproduction of the falsifier's own generator function.",
+    "The identifier layer: every PMID/PMCID/DOI in the correction register traces to an independently anchored fetch-product record; lint_citations.py exits 0 at the pin.",
+    "The central claim's weight: the hostile referee found no treatment implication, no mechanism overclaim and no under-reported null; recommends minor revision, not major.",
+    "Reproducibility: `emc_fusion_partner_pooling.py --check` and the full 132-test quantity guard both pass at the pin; the mutation harness (61 mutations, both documents) is 61/61 caught with 0 survivors."
+  ],
+  "structural_finding": "None this round — round 8's structural fix (the register split) held. The near-miss it created (a migrated note that nearly took a live bound with it) was checked and confirmed intact by the regression seat.",
+  "recommendations": {
+    "hostile_referee": "minor revision"
+  },
+  "scope_note": "A round record, not a decision. Nothing here authorises an outward-facing act, and publish_bar clause 1 reads NOT CONVERGED off this file."
+}

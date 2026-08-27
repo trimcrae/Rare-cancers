@@ -10,7 +10,7 @@
     "experiment": 23,
     "fetch": 11,
     "fix": 2,
-    "harden": 5,
+    "harden": 6,
     "negative": 32,
     "process": 6,
     "process_defect": 9,
@@ -18,8 +18,9 @@
     "write": 6
   },
   "n_by_state": {
-    "done": 6,
-    "queued": 97
+    "done": 7,
+    "queued": 96,
+    "superseded": 1
   },
   "n_clamped": 11,
   "entries": [
@@ -34,7 +35,6 @@
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
-      "blocked_evidence": "SUPERSEDED, not blocked-on-evidence: this entry's `what` describes round 5's open work (filed by CYC-0001, released by CYC-0015). Rounds 6, 7 and 8 have since run and applied under AUT-PROP-008/011/015/016 (receipts CYC-0016..CYC-0020), and round 9 is now tracked as AUT-PROP-005 (this cycle, CYC-0021). Every cycle from CYC-0016 to CYC-0020 re-derived this same 'is it still live' question because nothing ever closed it out -- CYC-0016's receipt names it explicitly: 'tied top-score with AUT-010'. Closing it here so it stops re-litigating itself every four hours.",
       "retry_budget": 3,
       "attempts": 6,
       "last_evidence_utc": "2026-08-27",
@@ -47,7 +47,9 @@
       "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
       "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-69d8a6ac1c90ae2129f7ee2348d8a523e5f82be8-round4-p1-rederivation.json",
       "claimed_utc": null,
-      "lease_released": "released by CYC-0015. \u26d4 THE FINDING IS THAT THE WORK AND THE BAR HAD COME APART. Round 5's three acts (CYC-0012/13/14) all improved this paper's guards, and not one of them could clear a clause: the three clauses still open are the SHA-PINNED ones, and `git log --all` over `hardening-state` and `preflight-receipts` returned EMPTY \u2014 neither directory had ever existed in any ref, and publish_bar.py was the only file that named them. Worse, all three file-backed clauses were cleared by hand-typed JSON with no evidence behind them (clause 2's evidence line printed `at typed by hand`). CYC-0015 rewrote the three clauses to compute from evidence, wrote the missing producer, and pinned ec78ba9: clause 2 is now genuinely OK and clause 1 a measured FAIL rather than UNVERIFIABLE. \u2b50 WHAT THIS ITEM NEEDS NEXT IS A BLIND SEAT ON A PINNED COMMIT, NOT ANOTHER GUARD \u2014 coverage work cannot reach clauses 1 or 6, and every act of it moves the tree and un-pins the evidence."
+      "lease_released": "released by CYC-0015. \u26d4 THE FINDING IS THAT THE WORK AND THE BAR HAD COME APART. Round 5's three acts (CYC-0012/13/14) all improved this paper's guards, and not one of them could clear a clause: the three clauses still open are the SHA-PINNED ones, and `git log --all` over `hardening-state` and `preflight-receipts` returned EMPTY \u2014 neither directory had ever existed in any ref, and publish_bar.py was the only file that named them. Worse, all three file-backed clauses were cleared by hand-typed JSON with no evidence behind them (clause 2's evidence line printed `at typed by hand`). CYC-0015 rewrote the three clauses to compute from evidence, wrote the missing producer, and pinned ec78ba9: clause 2 is now genuinely OK and clause 1 a measured FAIL rather than UNVERIFIABLE. \u2b50 WHAT THIS ITEM NEEDS NEXT IS A BLIND SEAT ON A PINNED COMMIT, NOT ANOTHER GUARD \u2014 coverage work cannot reach clauses 1 or 6, and every act of it moves the tree and un-pins the evidence.",
+      "blocked_evidence": null,
+      "superseded_note": "SUPERSEDED, not blocked-on-evidence: this entry's `what` describes round 5's open work (filed by CYC-0001, released by CYC-0015). Rounds 6, 7 and 8 have since run and applied under AUT-PROP-008/011/015/016 (receipts CYC-0016..CYC-0020), and round 9 is now tracked as AUT-PROP-005 (this cycle, CYC-0021). Every cycle from CYC-0016 to CYC-0020 re-derived this same 'is it still live' question because nothing ever closed it out -- CYC-0016's receipt names it explicitly: 'tied top-score with AUT-010'. Closing it here so it stops re-litigating itself every four hours."
     },
     {
       "serves": {
@@ -157,9 +159,9 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "running",
-      "owner": "CYC-0021",
-      "claimed_utc": "2026-08-27T08:20:09Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -172,7 +174,34 @@
       "depends_on_evidence": "the round-8 commit on main, and research/autonomy/review-seats/PUB-FUSION-PARTNER-475ad7d0c3bd0b587bce6591c3826a8c37c77d09.json for what round 7 found",
       "what": "\u2b50 ROUND 9 OF PUB-FUSION-PARTNER \u2014 SEAT IT, DO NOT APPLY ANYTHING FIRST. Round 8 was the largest apply round of the series: it moved the correction register out of the manuscript into emc-fusion-partner-correction-register.md, deleted 15 inline superseded notes from inside live sentences, and rewrote \u00a71.2, \u00a73.3 and \u00a76 for the three standing blockers. \u26d4 THE REGRESSION SEAT IS THE ONE THAT MATTERS AND IT IS NOT OPTIONAL (paper-hardening \u00a74): more prose moved this round than in any before it, and the failure mode that lens catches \u2014 a repair that invents a new defect \u2014 is invisible to every other seat because the repair looks deliberate. \u26a0 TWO SPECIFIC RISKS THIS ROUND CREATED, to be checked rather than assumed harmless: (1) deleting a note that sat mid-sentence can leave the surviving sentence saying something narrower or wider than intended \u2014 one such deletion nearly took a live bound with it and was caught by hand, so ANOTHER may not have been; (2) the quantity guard now reads BOTH documents concatenated, so a figure stated only in the register is now 'covered' by an instrument the manuscript's reader never sees \u2014 check that no live claim depends on a register row to be correct. \u26d4 REVIEW A PIN, and re-derive every finding: round 7's own seats got the falsifier arithmetic wrong in a way this cycle only caught by recomputing it. \u2b50 AND ONE INSTRUMENT GAP FOUND BY CYC-0020 AND DELIBERATELY LEFT OPEN FOR THIS ROUND TO DECIDE, RATHER THAN CLOSED QUIETLY: `claim_coverage.py` censuses the MANUSCRIPT and does NOT read the new correction register, while `test_fusion_partner_prose_matches_its_artifact.py` now reads both. So the register's 'current statement' column \u2014 which restates live pooled values \u2014 has its NUMBERS guarded but its SENTENCES uncensused, and the manuscript carries a coverage FLOOR the register has none of. \u26a0 Decide it as a question about what the census is FOR (blocker risk in a text a reader acts on) rather than by reflex; adding a document to the census also adds a floor somebody then owns, and the census's own ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE already names this manuscript.",
       "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
-      "score": 195.5
+      "score": 195.5,
+      "outcome": "Round 9 seated and recorded: 5 blind seats (regression, arithmetic, statistics, citations-and-instruments, hostile-referee) at pin 0743ac15d0153916309728366fbd3cd880a003a8. ZERO blockers across all five -- first zero-blocker round in this paper's series (round 7 had 6). 6 P1 instances across 4 seats, all completeness/coverage gaps, none a wrong statement in the committed text. Recorded via research/autonomy/record_bar_evidence.py hardening -- publish_bar clause 1 now reads a real, current measurement instead of a stale-commit FAIL (0 blocker(s), 6 P1(s) open at round 9). Per the item's own instruction ('SEAT IT, DO NOT APPLY ANYTHING FIRST'), nothing was applied to the manuscript this cycle -- verification and application are a separate pass (paper-hardening SS5). Round 10 filed as AUT-PROP-017."
+    },
+    {
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0021",
+      "prerequisite_of": "AUT-049",
+      "id": "AUT-PROP-017",
+      "kind": "harden",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-0743ac15d0153916309728366fbd3cd880a003a8-seat-*.json (round 9, CYC-0021) and research/autonomy/hardening-state/PUB-FUSION-PARTNER.json",
+      "what": "ROUND 10 OF PUB-FUSION-PARTNER \u2014 APPLY ROUND 9's SIX P1s, THEN RE-PIN AND RE-SEAT. Round 9 (CYC-0021) found ZERO blockers across five blind seats for the first time in this paper's series \u2014 apply this round as REPLACEMENTS (paper-hardening \u00a71: a correction replaces text, it does not append), verify every fix against its artifact before it enters prose (\u00a75: a verifier's pasteable fix is not pre-verified), then re-derive round 9's document hashes have changed and commit a fresh pin. \u26d4 Two of the six are the SAME surface found by two independent lenses (REG-P1-1 + STAT-P1-1, both on \u00a76's falsifier) \u2014 fix them together, one edit. \u2605 THE SIX, IN FULL:\n1. REG-P1-1: the falsifier's derived integers (19 further patients, denominator 34, 'more than twice') are unbound by test_fusion_partner_prose_matches_its_artifact.py and unmutated by mutate_fusion_partner_guard.py \u2014 only the two percentages next to them are covered. Add bindings/mutations for the integer trio.\n2. STAT-P1-1: \u00a76 never states WHY the falsifier holds the comparator's Wilson UPPER bound fixed while growing only the TAF15 arm (the self-critical, easier-to-trigger choice) \u2014 import one sentence of zero_death_patients_to_reconcile()'s own rationale into the prose so a future edit can't silently swap in the comparator's point estimate (~68) instead.\n3. STAT-P1-2: \u00a74.7 states Huang's 58\u219253 follow-up exclusion but not the further 53\u219250 TCF12/partner-unidentified exclusion that the pooled table's denominator actually uses \u2014 one clause naming the 3 excluded patients.\n4. STAT-P1-3: the artifact's own follow_up_warning field (cohorts[agaram-2014-outcome]) overstates recurrence/metastasis confounding as 'the same way' as the death endpoint, when the real mechanism (competing-risks informative censoring) would bias in a KNOWN direction, not merely unsigned \u2014 the current manuscript prose is more careful and does NOT have this defect, but the field is a live template risk for the next edit that copies it verbatim. Fix the field itself.\n5. CITE-P1-1: nothing records the DECISION that claim_coverage.py should exclude the correction register (the CYC-0020 open question) \u2014 add a named, defended exclusion the way test_the_census_reads_every_publication_endpoint.py's NOT_ENDPOINTS does, citing the register's own frontmatter (non-endpoint, maintainer/agent audience, absent from SUBMISSION-PACKET.md).\n6. REF-P1-1: \u00a73.1's accrual start date ('July 2011') has no citation or artifact pointer, unlike every other date in the document and unlike \u00a74.11's explicit refusal to state an unsourced period. Source it from the artifact if traceable there, or remove the specific month/year and state the interval more generally.\n\u26a0 P2s (REG-P2-1 register preamble overclaims '4 internal-review attributions' it does not carry; CITE-P2-1 three register-only test bindings lack the 'Appendix A...' naming convention that flags them as register-scoped; STAT-P2-1 TKI pooling heterogeneity; REF-P2-1 two unused bracket refs; REF-P2-2 \u00a73.6 header overclaims relative to its own body) are optional this round \u2014 fix if cheap, do not let them block the P1 pass.",
+      "score": 195.5,
+      "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
+      "_derived": false
     },
     {
       "id": "AUT-010",

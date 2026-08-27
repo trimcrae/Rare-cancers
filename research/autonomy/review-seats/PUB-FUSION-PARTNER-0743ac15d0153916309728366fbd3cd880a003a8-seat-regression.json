@@ -1,0 +1,34 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "0743ac15d0153916309728366fbd3cd880a003a8",
+  "document_sha256": "48ad2e553ecfc059a159e73efba9c717e5ce0e81c4d5da1ebbf782c88d6f9d4d",
+  "document_sha256_verified": "yes -- `git show 0743ac15d0153916309728366fbd3cd880a003a8:research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md | sha256sum` returns 48ad2e553ecfc059a159e73efba9c717e5ce0e81c4d5da1ebbf782c88d6f9d4d",
+  "blind": true,
+  "utc": "2026-08-27T08:36:17Z",
+  "cycle_id": "CYC-0021",
+  "round": 9,
+  "seat": "regression",
+  "verdict": "supported-with-corrections",
+  "central_claim_as_understood": "Pooling the published EWSR1::NR4A3 vs TAF15::NR4A3 evidence across four literatures shows the fusion partner is a candidate, crude, and confounded prognostic stratifier — not yet an established or independent one — and round 8 correctly moved the 31-row correction appendix plus 15 inline notes and the falsifier's threshold derivation into disciplined, machine-checked form without dropping any content, including the one concession that nearly went missing.",
+  "defects_found": 0,
+  "coverage_gaps_found": 1,
+  "blockers": [],
+  "p1s": [
+    {
+      "id": "REG-P1-1",
+      "where": "§6, falsifier #5 (\"Reconciling the two would take 19 further TAF15 patients with zero deaths — a total TAF15 denominator of 34, more than twice the pooled experience assembled here\"); mirrored in emc-fusion-partner-pooling.json -> what_could_kill_this[4]",
+      "what": "Round 8's whole point for R7-B4 was to DERIVE the falsifier threshold with zero_death_patients_to_reconcile() instead of asserting it, and this was re-run and independently reproduces 19/34/31.8%/30.4%/20.8% exactly from the committed COHORTS counts, so the numbers are correct today. But test_fusion_partner_prose_matches_its_artifact.py (the quantity guard) and mutate_fusion_partner_guard.py (the mutation harness) only bind/mutate the two projected percentages (31.8%/30.4%) and the comparator's 20.8% upper bound — grepped both files for '19 further', 'denominator of 34', 'total_taf15_denominator_required', 'further_zero_death_taf15_patients_required' and 'twice' and found zero matches. The '19', the '34' and the 'more than twice' relation — which are the actual headline output of the function round 8 built specifically so this class of number would never be typed by hand again — have no binding and no mutation, so a future correction to the TAF15 death arm's denominator/events or the comparator's counts could silently desync these three figures from the prose while every existing test stays green.",
+      "class_of_surface_unwatched": "a derived quantity with a sibling quantity in the same sentence that IS bound — the guard covers the percentages next to it but not the integer counts, the exact one-of-a-pair shape (A19/A20, A24, A31) this paper's own correction history repeatedly names as its recurring failure mode"
+    }
+  ],
+  "p2s": [
+    {
+      "id": "REG-P2-1",
+      "where": "correction-register.md preamble line 28 (\"plus 15 inline `Superseded, retained` notes and 4 internal-review attributions in the live text\"), and the round-8 commit message's identical claim",
+      "what": "The register gives the 15 inline notes their own dedicated section (N1-N15, all present and verbatim — confirmed). No equivalent section or entry exists for the '4 internal-review attributions.' The standalone trailing attribution sentences removed from live prose in the round-8 diff have no register entry at all — they were simply deleted. Not a lost correction (an attribution of who found a defect is discovery-credit metadata, not a superseded factual claim), but the preamble's own bookkeeping overclaims what the register actually holds."
+    }
+  ],
+  "notes": "Checks performed and found clean: (1) the near-miss concession (the artifact does not carry a machine-checkable per-count fetch record) is present and intact in the live manuscript at the pin, not just in the register. (2) All 31 appendix rows (A1-A31) present in the register, byte-identical to the pre-move appendix text (diffed directly against 8a92d44^). (3) Zero dangling 'Appendix A' or internal-review-attribution references remain in the live manuscript. (4) Re-ran emc_fusion_partner_pooling.py --check in a clean worktree at the pin: artifact reproduces from the generator. (5) Re-ran the full pytest quantity guard (132 tests) at the pin: all pass. (6) Re-ran mutate_fusion_partner_guard.py at the pin: 61/61 caught, positive control green, matching the CYC-0020 receipt exactly — including the two 'retired in place' mutations whose replacement anchors are verified single-site. (7) Independently re-derived the falsifier threshold from raw Wilson/derivation code: 19 further patients, denominator 34, 31.8%/30.4%/20.8% — all match manuscript and artifact exactly, confirming CYC-0020's correction of the prior round's '30.4-36.4%' error was itself correct. (8) The circular follow-up framing is consistently removed from both §3.3 and the generator's follow_up_warning field. (9) The archive manifest at the pin correctly records commit 8a92d44, verified reachable from origin/main. (10) The register's re-measured word counts reproduce exactly. (11) claim_coverage.json correctly excludes the register from its publication-endpoint census by design, which is not a round-8 regression."
+}

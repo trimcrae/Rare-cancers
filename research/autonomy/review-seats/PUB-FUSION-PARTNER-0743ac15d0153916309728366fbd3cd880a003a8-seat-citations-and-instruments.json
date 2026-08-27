@@ -1,0 +1,33 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "0743ac15d0153916309728366fbd3cd880a003a8",
+  "document_sha256": "48ad2e553ecfc059a159e73efba9c717e5ce0e81c4d5da1ebbf782c88d6f9d4d",
+  "document_sha256_verified": "yes -- `git show 0743ac15d0153916309728366fbd3cd880a003a8:research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md | sha256sum` returns 48ad2e553ecfc059a159e73efba9c717e5ce0e81c4d5da1ebbf782c88d6f9d4d",
+  "blind": true,
+  "utc": "2026-08-27T08:36:17Z",
+  "cycle_id": "CYC-0021",
+  "round": 9,
+  "seat": "citations-and-instruments",
+  "verdict": "supported-with-corrections",
+  "defects_found": 2,
+  "coverage_gaps_found": 1,
+  "register_census_decision": "Do NOT widen claim_coverage.py to census the register. The census's own documented predicate scopes it to documents a committed record calls a publication endpoint or a part a submission ships, and deliberately keeps out working notes/receipts/program-memory documents. The register's own frontmatter places it in exactly that excluded class: it corrects no PUBLISHED record, its audience is [maintainers, autonomous research agents], and the manuscript's own §7 table says it is held outside this paper so the paper does not depend on it to be read correctly. It is absent from submission-metrics.json and SUBMISSION-PACKET.md. The actual load-bearing risk (the register's restated NUMBERS drifting from the artifact) is already closed by test_fusion_partner_prose_matches_its_artifact.py, whose BINDINGS concatenate PAPER+REGISTER and are individually mutation-tested (61/61 caught, 0 survivors, at this pin). Additionally checked CYC-0020's specific risk (2): of 116 BINDINGS, 14 match only inside the register; 11 are self-labeled 'Appendix A...' by design, and the remaining 3 were traced individually — one targets text explicitly retired from the manuscript, the other two have independently-bound manuscript-side counterparts covering the same fact. No live manuscript claim is uniquely register-dependent. So: correct to exclude the register, but the exclusion is currently a fact about the code rather than a recorded decision — filed as P1.",
+  "blockers": [],
+  "p1s": [
+    {
+      "id": "CITE-P1-1",
+      "where": "research/manuscripts/claim_coverage.py — endpoint_documents()/PAPERS, against emc-fusion-partner-correction-register.md",
+      "what": "The exclusion of the correction register from the claim-coverage census is correct but is not encoded anywhere as a deliberate, defended decision, unlike test_the_census_reads_every_publication_endpoint.py's NOT_ENDPOINTS list, which asserts by name that specific documents must NOT be swept in. Nothing here asserts the register must stay out, or says why. A future session could 'fix' this by reflex (adding the register to PAPERS thinking it's an oversight) without seeing the reasoning that keeps it out today. This is the CYC-0020 open question, genuinely undecided as a matter of committed record even though the right answer (no) is clear on inspection."
+    }
+  ],
+  "p2s": [
+    {
+      "id": "CITE-P2-1",
+      "where": "test_fusion_partner_prose_matches_its_artifact.py — BINDINGS entries 'the retired Agaram-only p...', \"§8's complementary count of the citations lacking a verification_note\", and \"Huang's published three-way metastasis p, at the §5 site that states the negative\"",
+      "what": "These three bindings match only inside the register (verified by running each pattern against PAPER-only and REGISTER-only text), unlike the other ~11 register-only bindings whose 'what' label starts 'Appendix A...' to say so. Each was traced and found harmless today, but the missing naming convention makes the register-only-coverage risk CYC-0020 flagged harder to audit by inspection, and nothing enforces the convention for future bindings added to this file."
+    }
+  ],
+  "notes": "lint_citations.py needed no fix: it globs every git-tracked *.md file via git ls-files rather than a named list, so the register was covered automatically the moment it was committed. Ran it at the pin: exit 0, 971 prose identifiers, 90 unanchored (all pre-existing/ledgered), 0 new/0 stale. Extracted every identifier in the register (6 PMID, 5 PMCID, 5 DOI, 0 NCT) and confirmed each is independently anchored in a tracked fetch-product JSON. test_fusion_partner_prose_matches_its_artifact.py: confirmed PROSE_DOCUMENTS = (PAPER, REGISTER); 132/132 passed at the pin; zero remaining 'Appendix A' references in the manuscript body; no stale pre-migration anchor. mutate_fusion_partner_guard.py: re-ran the full harness in a real git worktree at the exact pinned commit — positive control GREEN, 61 mutation entries, 61/61 caught, 0 harness errors/un-run, 0 survivors, reproducing round 8's receipt exactly. Its anchor resolution is by property rather than a hardcoded per-document mutation list. scripts/preflight.sh: zero hits for 'fusion-partner'/'fusion_partner' — it invokes lint_citations.py generically and runs pytest over the tests directory, so a new test_*.py is auto-collected; no list-vs-predicate trap found in the gate list itself. Also confirmed test_the_census_reads_every_publication_endpoint.py, the coverage-floor ratchet, the ablation survival test, and test_emc_fusion_partner_pooling_check.py all pass at the pin (39 passed)."
+}
