@@ -13,13 +13,13 @@
     "harden": 5,
     "negative": 32,
     "process": 6,
-    "process_defect": 8,
+    "process_defect": 9,
     "regrade": 7,
     "write": 6
   },
   "n_by_state": {
     "done": 6,
-    "queued": 96
+    "queued": 97
   },
   "n_clamped": 11,
   "entries": [
@@ -3193,6 +3193,29 @@
       "depends_on_evidence": "`ps -eo etime,pid,cmd` taken by CYC-0020 at 07:12 on 2026-08-27, showing pids 8682 and 9789 both running ./scripts/preflight.sh",
       "what": "\u26d4 `TaskStop` ON A BACKGROUNDED PREFLIGHT KILLS THE HARNESS'S WRAPPER AND LEAVES `preflight.sh` RUNNING. Measured 2026-08-27 (CYC-0020): \u00a76 says to kill a gate run the tree moved under rather than sit through it, and this cycle did that three times. Each TaskStop reported success. `ps` then showed pid 8682 STILL running the stopped run's preflight.sh at 3:05 elapsed, with its own `pytest -n 4` child, alongside the live run's pid 9789 \u2014 TWO gates, eight workers, on a box sized for four. \u26a0 THE SYMPTOM IS NOT A CRASH, IT IS SLOWNESS, WHICH IS WHY IT SURVIVES: the live gate simply takes much longer than its measured ~255 s, and the honest reading of that ('unexpected slowness is a signal', CLAUDE.md \u00a74) is indistinguishable from 'the suite is just slow today' unless somebody runs `ps`. It was found only because the manuscripts suite overran and this cycle went looking for a mechanism instead of reassuring itself. \u26d4 AND THE HARNESS THEN REPORTS THE KILLED JOB AS `failed with exit code 1`, which reads exactly like a RED GATE \u2014 a second way to draw a wrong conclusion from a stop. The killed run wrote no `EXIT=` marker, which is what distinguishes the two and is why the marker rule exists. \u2b50 THE FIX IS A STOP THAT REACHES THE CHILD: have preflight.sh write its own pid to a file and give the repo a `scripts/stop-preflight.sh` that kills that pid's process GROUP, or run it with `setsid`/`exec` so the tracked process IS the gate. \u26d4 NOT `pkill -f preflight` \u2014 CLAUDE.md \u00a76 records that pattern matching the killer's own command line, three times in one session. Kill by recorded pid, never by pattern.",
       "_score_basis": "a stop that does not stop, on the commit path every cycle uses, whose only symptom is slowness"
+    },
+    {
+      "id": "AUT-PD-003",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "create_session refusal observed by CYC-0020 2026-08-27: 'caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions'",
+      "what": "\u26d4 THE CHAINED HANDOFF HAS A HARD CEILING OF EIGHT GENERATIONS, AND THIS SESSION IS THE EIGHTH. `research-loop` \u00a73 tells a cycle at its session cap to create its own successor with `create_session`, and calls a loop that needs a human to start its next session 'not automated, just a longer fuse'. Measured 2026-08-27 (CYC-0020): that call now REFUSES \u2014 'caller session is at lineage depth 8 (limit 8)'. Each handoff makes the child one generation deeper, so the chain was always going to terminate; nothing in the skill, the generator or the health checker knows the ceiling exists. \u2b50 NOT AN OUTAGE TODAY, AND THE REASON MATTERS: the loop's PRIMARY continuation is the UI-created driver Routine (trig_01P9ZNSAw7rNLcKLBFYCwuHp, `13 */4 * * *`, enabled, repo attached, last run SUCCEEDED), which fires a FRESH session at lineage depth 0 every four hours. The chained handoff is the redundancy, not the mechanism. CYC-0020 also ran only ONE cycle of its permitted two, so it never owed a handoff at all. \u26d4 THE LIVE RISK IS NARROW AND REAL: a session that REACHES its 2-cycle cap while at depth 8 cannot comply with \u00a73, and `health.py`'s `cycles_are_sized` reads `handoff.child_session_id` \u2014 so it would score that session RED for failing to do something the platform forbids. \u2b50 WHAT TO FIX: teach the handoff path to detect the refusal and fall back to the driver Routine explicitly (record that the Routine carries the next cycle, rather than leaving the field absent), and teach `cycles_are_sized` that a depth-refused handoff with a live driver Routine is GREEN. \u26a0 A cycle may NOT fix this by disabling or re-arming the driver Routine \u2014 \u00a77 forbids acting on a `created_via: http_api` Routine from outside it, and `fire_trigger` refuses it too.",
+      "_score_basis": "a mandated mechanism that now refuses, and a health row that would score a session red for obeying the platform"
     }
   ]
 }

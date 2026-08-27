@@ -70,7 +70,14 @@
     "AUT-PD-002 (TaskStop leaves preflight.sh orphaned; the only symptom is slowness)"
   ],
   "blocked_by": [],
-  "handoff": {},
+  "handoff": {
+    "child_session_id": null,
+    "attempted": true,
+    "refused_by": "create_session: 'caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions'",
+    "why_no_handoff_was_owed": "⭐ STATED PLAINLY BECAUSE AN ABSENT FIELD LOOKS LIKE A SKIPPED OBLIGATION. This session ran ONE cycle of its permitted two, so `research-loop` §3's handoff duty — which attaches when a session REACHES its cap — never triggered. The spawn was attempted anyway, as redundancy, and was refused by the platform.",
+    "what_actually_carries_the_next_cycle": "The UI-created driver Routine trig_01P9ZNSAw7rNLcKLBFYCwuHp, 'EMC research loop — driver', cron `13 */4 * * *`, enabled, repo attached as a source, last_run SUCCEEDED at 04:13 UTC, next_run_at 2026-08-27T08:13:00Z. It creates a FRESH session at lineage depth 0, so the depth ceiling does not reach it. ⛔ VERIFIED BY READING list_triggers, not assumed — the whole point of this field is that 'the loop will continue' is a claim, not a hope.",
+    "the_ceiling_is_filed": "AUT-PD-003 — the chained handoff terminates at 8 generations and nothing in the skill, the generator or health.py knows it."
+  },
   "re_measured_rather_than_inherited": "⚠ ROUND 7's TWO DOCUMENT-SIZE FIGURES DID NOT REPRODUCE AND THE REPRODUCIBLE ONES ARE PRINTED INSTEAD. Its record states the appendix ran ~5,592 words and Results ~3,998; measured at the pin the appendix was removed from (55471ab), they are 5,476 and 3,912. A boundary convention, not a dispute about the text, and it changes nothing in the argument — but the register now prints the reproducible figures with the command that produces them, because an inherited number is a dated observation. Recorded because this cycle was explicitly told not to inherit its predecessor's numbers, and two of them were wrong.",
   "third_process_defect": {
     "id": "AUT-PD-002",
@@ -85,5 +92,6 @@
     "how_it_was_found": "`test_the_manifest_revision_is_a_commit_a_reader_can_resolve` failed on the NEXT preflight, and its message diagnosed the mechanism outright: 'This is what a rebase after regeneration looks like. Regenerate the manifest AFTER the final rebase.' ⭐ THAT IS WHAT A GOOD GUARD MESSAGE BUYS — the failure named its own cause and its own remedy, and cost one regeneration instead of an investigation.",
     "consequence_stated_plainly": "CI on 8a92d44 is expected to be RED on this one test, because the defect is in the pushed commit. It is fixed forward by the follow-up commit rather than by rewriting pushed history.",
     "the_ordering_lesson": "The regeneration chain ran BEFORE the final rebase. Any artifact that records a git revision must be regenerated after the last rebase, which means after the push is known to fast-forward — not merely before the commit. ⚠ Nothing enforces that ordering; the guard catches the result on the next run, one commit late."
-  }
+  },
+  "why_only_one_cycle": "2 is a cap, not a target, and `research-loop` §3 calls one cycle the intended shape. This cycle was the largest apply round of the series — a structural edit to a 17,647-word manuscript, three blockers, and two rounds of instrument repair — so a second one here would be spending the resource the session cannot measure (CLAUDE.md §6). The driver Routine takes the next cycle in ~40 minutes."
 }
