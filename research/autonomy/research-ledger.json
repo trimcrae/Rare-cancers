@@ -9,7 +9,7 @@
     "code": 1,
     "experiment": 23,
     "fetch": 11,
-    "fix": 3,
+    "fix": 5,
     "harden": 6,
     "negative": 32,
     "process": 6,
@@ -19,7 +19,7 @@
   },
   "n_by_state": {
     "done": 7,
-    "queued": 97,
+    "queued": 99,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -3107,6 +3107,29 @@
       "what": "PROPOSAL (filed, not applied): teach systems_check.check_scan_interop the `venue` trigger_kind, then re-enable scan_enabled on the three TRG-VENUE-* triggers. Not applied by its own cycle: [X3] blocked that cycle and amendment_guard refuses a cycle that edits the check blocking it."
     },
     {
+      "id": "AUT-PD-006",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/manuscripts/claim_ablation.py::_baseline_reds and the two red ablation params on the ASO documents",
+      "what": "\u2b50 THE ABLATION GATE'S BATCH DECOMPOSITION STOPS ONE LEVEL TOO HIGH, AND IT IS CURRENTLY POINTING AT A PAPER THAT IS CORRECT. paper-hardening \u00a78b.1a already says 'THE UNIT OF EXCLUSION MUST BE THE FAILING WITNESS, NEVER THE BATCH THAT CONTAINS IT', and `_baseline_reds` implements exactly that \u2014 for MODULES. A PARAMETRIZED MODULE IS STILL A BATCH: `test_pinned_figures_every_home.py` is red at baseline on ONE param (`step1_fanout_edges_complete`, a GPU-lane pin \u2014 see the sibling item), so the whole module is subtracted, and every pin it carries stops counting as a witness.\n\u26a0 THE VISIBLE COST, MEASURED: the gate reports that two sentences in `fusion-junction-aso-journal-article.md` and its cover letter are 'counted as covered and are not'. They ARE covered. Both pins were re-run by hand against the live document and both bind correctly \u2014 `aso_panel_junctions_in_frame_journal_selection` captures 38 and `aso_panel_designs_total_journal_selection` captures 190 from the flattened text, and both match their artifacts (`nr4a3-fusion-junction-atlas.json:n_emittable_junctions` = 38, `aso-parent-gap-pairing.json:corpus.n_designs` = 190). \u26d4 SO THE BLINDNESS VERDICT IS MANUFACTURED BY THE HARNESS, exactly as \u00a78b.1a warns \u2014 and it points a reader at the manuscript instead of at the instrument, which now matters more than it did, because that manuscript is PUBLISHED (doi 10.32388/VL3LJR).\n\u2605 THE FIX: decompose a red parametrized module to its PARAMS, not just to its file, so only the failing param is subtracted. \u26d4 Do not fix this by lowering a coverage floor, and do not write a new guard for the two sentences \u2014 they already have working ones.",
+      "_score_basis": "an instrument manufacturing a blindness finding against a PUBLISHED paper whose numbers verify correct"
+    },
+    {
       "id": "AUT-PROP-015",
       "kind": "fix",
       "serves": {
@@ -3128,6 +3151,29 @@
       "depends_on_evidence": "research/modalities/atr_hrd_sarcoma_series.py (the refusal added by CYC-0018) and .github/workflows/emc-expression-datasets.yml mode=gse-series",
       "what": "\u2b50 MAKE `gse-series` WRITE A PATH THAT VARIES WITH THE SERIES, THEN DELETE THE REFUSAL THAT STANDS IN FOR IT. CYC-0018 stopped the clobber by making atr_hrd_sarcoma_series.py refuse any `--series` other than its declared SERIES, which is correct and is also a CAPABILITY LOSS: the workflow advertises `gse-series` as 'characterise ONE GEO series' with a free `series` input, and that is now a lie for every accession but GSE299349. \u26d4 DO NOT SIMPLY MOVE THE EXISTING ARTIFACT \u2014 research/manuscripts/emc-systems-map.json, PUB-ATR \u00a78 and emc-expression-panels.json all name research/modalities/atr-hrd-sarcoma-series.json, and a rename that does not carry every citation with it swaps one silent wrongness for another. The shape that works: derive ART/INPUTS/QUANT_INPUTS from the series accession, keep the GSE299349 file at its current path as the one grandfathered name, and make the constant a lookup rather than a literal. \u26a0 AND THE INSTRUMENT NEEDS THE SAME WIDENING: `--check` was green through the entire three weeks PUB-ATR \u00a78 cited a foreign series, because it only asks whether the artifact reproduces from ITS OWN cache and never whether that cache is for the series anything downstream names.",
       "_score_basis": "closes the mechanism behind a measured trunk red; the current refusal is a correct stopgap that costs a capability"
+    },
+    {
+      "id": "AUT-PD-005",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-DEGRADER-TERNARY",
+        "publication": "PUB-DEGRADER",
+        "strategy": "ST-DEGRADER"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "git show 1fd33bb:research/modalities/step1-fanout-map.json vs the same file at 91df57d",
+      "what": "\u26d4\u26d4 A CI TICK EMPTIED THE STEP-1 FAN-OUT MAP AND THE DEGRADER PAPER'S COMPLETENESS CLAIM NOW HAS NOTHING BEHIND IT. Measured 2026-08-27 by diffing the artifact across the commit that changed it, not inferred: at 1fd33bb `n_complete=18`, `n_computable=18`, `results` held 18 entries; at 91df57d ('step1 fan-out autoscale tick', 2026-08-27T09:36:35Z) `n_complete=0`, `n_computable=19`, `results=[]`. Eighteen computed RBFE edges left the committed map. \u26a0 `nr4a3-degrader-paper.md:1426` still reads 'The congeneric map is COMPLETE at 18 computed edges of the 18 that are computable, in a 19-edge map', so a paper claim and its own artifact now disagree \u2014 which is what `test_pinned_figures_every_home[step1_fanout_edges_complete]` is red about, and it is RIGHT to be red.\n\u26d4 WHAT IS NOT ESTABLISHED, AND MUST BE THE FIRST THING CHECKED RATHER THAN ASSUMED EITHER WAY: whether the UNDERLYING per-edge results still exist (S3, the per-unit ddg.json files, a prior commit) and only this derived INDEX was clobbered, or whether the fan-out state itself was reset. Those have completely different remedies \u2014 regenerate the index, versus 18 edges of GPU spend to redo. \u26d4 Do not 'fix' the red by editing the paper down to 0 until that is known; the paper may be the only surviving record of the count.\n\u26a0 AND THE MECHANISM IS THE REAL BUG: a scheduled tick that can overwrite a committed results artifact with an empty one is a data-loss path, and it ran unattended. Whatever the recovery, the tick must not be able to reduce `n_complete` without saying so loudly.",
+      "_score_basis": "a committed results artifact was emptied by automation, and a paper claim now disagrees with its artifact"
     },
     {
       "id": "AUT-PROP-014",

@@ -21,7 +21,7 @@
     "id": "PUB-ASO",
     "level": "L3",
     "kind": "publication",
-    "state": "complete_unposted",
+    "state": "posted_preprint",
     "target_venue": "journal_submission",
     "document": {
       "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
@@ -33,7 +33,26 @@
     "blocked_by": [
       "BLK-DELIVERY"
     ],
-    "unit": "full_paper"
+    "unit": "full_paper",
+    "posted": {
+      "venue": "Qeios",
+      "qeios_id": "VL3LJR",
+      "doi": "10.32388/VL3LJR",
+      "doi_url": "https://doi.org/10.32388/VL3LJR",
+      "read_url": "https://www.qeios.com/read/VL3LJR",
+      "version_label": "Preprint v1",
+      "version_number": 1,
+      "published_at_utc": "2026-08-27T12:00:45Z",
+      "author": "Tristan McRae (ORCID 0000-0002-1823-1451)",
+      "title_as_posted": "NR4A3 Fusion-Junction Antisense Gapmers for Extraskeletal Myxoid Chondrosarcoma: Reagents, Test Articles and a Pre-Registrable Knockdown Experiment",
+      "declarations_as_posted": {
+        "coi": "No potential competing interests to declare.",
+        "funding": "No specific funding was received for this work."
+      },
+      "posted_by": "trimcrae, directly. NOT an act of the loop — no agent grant was used or needed.",
+      "_evidence": "Read at primary source, not from the announcement: GET https://www.qeios.com/api/publications/VL3LJR returned HTTP 200 and is cached verbatim on the literature-cache branch at literature/qeios-aso-preprint-2026-08-27/. The sandbox egress proxy blocks qeios.com, so the fetch ran on an Actions runner (ci-escape-hatches rung 1). Every identifier here is transcribed from that payload — CLAUDE.md §7: never write an identifier from recollection.",
+      "_what_this_changes": "⛔ THIS DOCUMENT NOW HAS AN OUTSIDE READER AND A CITABLE IDENTIFIER. CLAUDE.md §6's line — 'a submission is the ONLY moment anything here reaches an outside reader, and it is undone only by a public correction against an identifier somebody may already have cited' — is no longer hypothetical for this paper. A future correction to it is an ERRATUM against 10.32388/VL3LJR, not a commit. `is_reviewable` is true and Qeios is versionable, so a v2 is possible; that does not make v1 unread."
+    }
   },
   {
     "id": "PUB-ATR",
