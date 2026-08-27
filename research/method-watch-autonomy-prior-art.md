@@ -283,3 +283,49 @@ inside every session. The scan above was pointed at GitHub because that is where
 aimed; the answer was one tool call away in the harness. **`method-watch` gains a standing row: check
 the connector registry and plugin catalogue before building infrastructure to work around a
 limitation.**
+
+---
+
+## Addendum 2, 2026-08-27 — the connector is live, and the unknown is CLOSED
+
+trimcrae enabled the PubMed connector. Both open questions settled in two calls.
+
+**1. TRANSPORT — SETTLED, NOT INFERRED.** `convert_article_ids` resolved four PMCIDs from this
+container, in the same session in which `curl https://eutils.ncbi.nlm.nih.gov/...` returns HTTP 000 /
+exit 56. **A remote MCP connector does not traverse the container's egress proxy.** The addendum
+above called this "evidence, not proof"; it is now proof, and the observation cost one tool call.
+
+⛔ **WHAT THAT MEANS FOR `ci-escape-hatches`.** That skill's opening line is *"the moment you are
+about to write 'I can't run X here' … a 403 at the egress proxy (NCBI, GEO, PMC, EuropePMC, UniProt,
+Springer all block CONNECT)"* — and its answer is always **dispatch a GitHub Actions run**. For
+PubMed-reachable content that answer is now second-best: a connector is synchronous, needs no
+workflow, no cache branch and no commit. **The skill needs a rung 0.5 between WebSearch and CI.**
+⚠ It does NOT retire the CI hatch: Actions still owns everything the connector cannot reach
+(EuropePMC full text, ClinicalTrials.gov v2, publisher PDFs behind an anti-bot edge) and everything
+that must run on a schedule without a session.
+
+**2. THE PROVENANCE GAP HAS A ONE-FIELD ANSWER.** `get_article_metadata` returns `article_types`.
+Measured on the four identifiers of the 2026-08-26 medical-integrity defect:
+
+| PMCID | PMID | `article_types` | what the prose called it |
+|---|---|---|---|
+| PMC7563993 | 32967265 | `Journal Article`, **`Review`** | review literature ✅ |
+| PMC12398172 | 40885991 | `Journal Article` (registry cohort, n=171) | review literature ⛔ |
+| PMC12376927 | 40831041 | `Journal Article`, **`Case Reports`** | review literature ⛔ |
+| PMC9131214 | 35665108 | **`Case Reports`**, `Journal Article` | review literature ⛔ |
+
+**Exactly one of four is a Review.** A gate comparing a prose type-claim against `article_types`
+fails that instantly. Filed as **AUT-PROP-007**.
+
+⛔ **THE GATE MUST CACHE, NOT CALL.** `preflight.sh` is offline and deterministic by design; making a
+linter depend on a live connector would put a commit gate at the mercy of somebody's uptime. The
+connector is the FETCHER; a tracked artifact is what the gate reads.
+
+⚠ **AND THE TOOL'S TERMS TRAVEL WITH THE DATA.** The PubMed tool requires attribution and a DOI link
+wherever its metadata is used. Any cache artifact must carry that, and so must anything rendered from
+it. Recorded here so the guard is built with it rather than retrofitted.
+
+★ **THE STANDING ROW THIS EARNS, and it is the generalisable half:** *before building infrastructure
+to work around a limitation, search the connector registry.* Two days of CI escape-hatch work was
+spent on a block that a first-party authless connector steps around, and the search that found it
+took one tool call from inside the same session that was building the workaround.
