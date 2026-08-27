@@ -347,6 +347,36 @@ def browser_get(url: str, referer: str | None = None) -> tuple[int, str, bytes]:
         return 0, f"{type(exc).__name__}: {exc}"[:300], b""
 
 
+INTERSTITIAL_RE = re.compile(
+    r'(?:http-equiv=["\']refresh["\'][^>]*url=|window\.location(?:\.href)?\s*=\s*["\']|'
+    r'<a[^>]+href=["\'])([^"\'>\s]+\.pdf[^"\'>\s]*)', re.I)
+
+
+def follow_interstitial(url: str, body: bytes) -> tuple[str | None, str]:
+    """PMC answers /pdf/ with an HTML PAGE THAT REDIRECTS, and the first read of that was wrong.
+
+    ⛔ Measured 2026-08-27: `https://pmc.ncbi.nlm.nih.gov/articles/<PMCID>/pdf/` returns HTTP 200
+    with 1,817 bytes of HTML titled "Preparing to download ..." -- not a refusal, not a captcha, and
+    not a PDF. Classified by magic bytes alone it reads as `not-a-figure-source`, which is how two
+    NIH author manuscripts (drilon2008, n=87; bishop2019, n=41) came out of three retrieval rounds
+    as `unresolved`. The document names where the PDF actually is; following the site's OWN redirect
+    is ordinary retrieval and is not defeating anything.
+    """
+    text = body[:4000].decode("utf-8", "replace")
+    m = INTERSTITIAL_RE.search(text)
+    if not m:
+        return None, "no pdf href in the interstitial"
+    href = m.group(1).replace("&amp;", "&")
+    if href.startswith("//"):
+        href = "https:" + href
+    elif href.startswith("/"):
+        base = url.split("/", 3)
+        href = f"{base[0]}//{base[2]}{href}"
+    elif not href.startswith("http"):
+        href = url.rstrip("/") + "/" + href
+    return href, "followed"
+
+
 def _looks_like(kind: str, ctype: str, body: bytes) -> bool:
     """Classify by MAGIC BYTES, never by the extension in the URL.
 
@@ -512,6 +542,18 @@ def run_target(tgt: dict, dest: str, budget_left: int) -> tuple[dict, int]:
         # actually 403 -- a publisher PDF reached from an OA index, and PMC's own endpoint behind
         # its reCAPTCHA -- were retried only when they happened to arrive as `caller_pdf_url`.
         # Widened 2026-08-27 to any HTTP route that did not come back a PDF.
+        # ⭐ FOLLOW A DOWNLOAD INTERSTITIAL BEFORE GIVING UP ON THE ROUTE.
+        if (code == 200 and not _looks_like("pdf", ctype, body)
+                and not _looks_like("tgz", ctype, body) and b"<html" in body[:400].lower()):
+            href, why = follow_interstitial(url, body)
+            entry["interstitial"] = {"href": href, "why": why}
+            if href:
+                i_code, i_ctype, i_body = _get(href)
+                entry["interstitial"].update({"http": i_code, "content_type": i_ctype,
+                                              "bytes": len(i_body)})
+                if _looks_like("pdf", i_ctype, i_body) or _looks_like("tgz", i_ctype, i_body):
+                    code, ctype, body = i_code, i_ctype, i_body
+                    entry["route"] = route = f"{route}_via_interstitial"
         if (USE_BROWSER and url.startswith("http") and not _looks_like("pdf", ctype, body)
                 and not _looks_like("tgz", ctype, body)):
             # the plain fetch was refused; retry the SAME url through a real browser
