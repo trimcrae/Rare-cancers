@@ -47,6 +47,20 @@ Three formats differ from the artifact's own and each is converted, not tolerate
     an unmapped value rather than guessing.
 
 ⭐ MEASURED, 2026-08-26 — 36 of 36 mutations caught, 22 of them SINGLE-SITE.
+⭐⭐ AND RE-MEASURED FOR THE 2026-08-27 BINDINGS, THIS TIME BY A COMMITTED HARNESS:
+`mutate_fusion_partner_guard.py` beside this file, 24 of 24 caught, EVERY ONE SINGLE-SITE,
+positive control green. It covers the nine bindings CYC-0011 added and both figures that cycle
+promoted out of DECLARED_NOT_ARTIFACT_OWNED, and it includes two ARM SWAPS — mutations that
+leave every digit in the document correct and still invert the claim, which is the whole reason
+§3.3's local-recurrence rates are one eight-group binding rather than eight.
+⛔ THE 2026-08-26 RUN WAS AD HOC AND LEFT NOTHING BEHIND, which is why the nine new bindings
+could not inherit its evidence and the CYC-0011 receipt had to say in as many words that they
+were designed and not proven. A claim of the form 'N of N caught' is worth exactly as much as
+the ability to re-run it. ⚠ AND THE HARNESS'S OWN POSITIVE CONTROL EARNED ITS PLACE ON THE
+FIRST RUN: `python3 -m pytest` is not installed for this interpreter and answers with EXIT
+CODE 1 — the same code a failing test returns — so the harness read 'the guard is red on an
+unmutated tree' and stopped. A missing runner must never be readable as a test result, and it
+now raises instead of scoring.
 Each mutation was applied to a `cp -al` clone (never the working tree), written as a new file and
 `os.replace`d so the shared inode could not carry it back, and asserted LANDED by digest and by
 occurrence count BEFORE the gate's answer was read — a mutation that never applies reports exactly

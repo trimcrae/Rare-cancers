@@ -1,0 +1,46 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0012",
+  "started_utc": "2026-08-27T02:55:00Z",
+  "finished_utc": "2026-08-27T03:20:00Z",
+  "session_id": "e1c37798-e0e3-5940-9d42-c03dff05632e (spawned session, second and FINAL cycle — max_cycles_per_session is 2)",
+  "kind": "harden",
+  "took": "AUT-PROP-002 again — round 5's first act: mutation-test the nine bindings CYC-0011 wrote, which that cycle explicitly did NOT claim held.",
+  "route_advanced": "RT-PARTNER-STRAT",
+  "_route_advanced_why": "The evidence that the fusion-partner endpoint's numbers are actually watched went from a design claim to a re-runnable measurement. That is the guard half of publish_bar clause 1, and it is the half the last three hardening rounds kept re-discovering by hand.",
+  "the_finding": {
+    "headline": "⭐ 24 OF 24 MUTATIONS CAUGHT, EVERY ONE SINGLE-SITE, POSITIVE CONTROL GREEN — and the number that matters more is that the harness is COMMITTED. The 2026-08-26 run reporting '36 of 36' was ad hoc and left nothing behind, which is exactly why CYC-0011's nine new bindings could not inherit its evidence. A claim of the form 'N of N caught' is worth what it costs to re-run it.",
+    "⛔_the_positive_control_caught_the_harness_not_the_guard": "On its first run the harness reported the guard RED on an unmutated tree and refused to score anything. The cause was not the guard: `python3 -m pytest` is not installed for this interpreter and answers 'No module named pytest' with EXIT CODE 1 — the same code a genuinely failing test returns. ★ THIS IS THE THIRD INDEPENDENT INSTANCE IN ONE SESSION OF THE SAME SHAPE: an exit code that is not an answer (see AUT-PD-012, where the harness reported 'exit code 0' for a preflight that failed, twice). The runner now resolves `pytest` on PATH and refuses to return a verdict unless the output carries a pytest summary. A missing runner must never be readable as a test result.",
+    "four_mutations_were_un_run_before_they_were_right": "Four anchors matched zero or two times because the raw markdown wraps lines where the flattened prose does not, and because one Sjögren sentence is restated verbatim in Appendix A28. The harness reported them as HARNESS ERRORS rather than as passes — which is the design point: a mutation that never lands reports exactly what a guard that never fires reports.",
+    "arm_swaps_hold": "Both arm-swap mutations were caught. They leave every digit in the document correct and invert the claim, and they are the reason §3.3's local-recurrence rates are ONE eight-group binding rather than eight separate ones."
+  },
+  "⛔_what_did_not_move": {
+    "coverage": "50/271 sentences read by an instrument; 221 uncovered. CYC-0011's nine bindings turned FOUR sentences covered while its corrections added twelve. Mutation-proving the bindings does not cover a single new sentence and this cycle claims no coverage gain.",
+    "the_two_instruments_measure_different_things_and_that_is_now_written_down": "The guard reports ZERO unbound figures while the census reports 155 numbered sentences unread. Both are correct: the guard's census regex reads `\\d+/\\d+` and printed rates only, so a sentence carrying 'HR 30.60', 'P = .004', 'n = 58' or a count spelled as a word states a number neither bound nor declared nor looked at. ⚠ That gap was not documented anywhere and is where the next guards go — recorded on AUT-PROP-002 rather than left for a fourth round to rediscover."
+  },
+  "verification": {
+    "mutation_run": "python3 research/manuscripts/tests/mutate_fusion_partner_guard.py -> 24/24 caught, 0 survived, 0 harness errors, positive control green.",
+    "isolation": "A git worktree, never the working tree. The 2026-08-26 ad hoc run used a `cp -al` clone and recorded that the shared inode carried a mutation back into the real tree; a worktree has no inode to share.",
+    "preflight": "green with PREFLIGHT_TESTS=1 on the exact tree committed, exit read from the log's own marker."
+  },
+  "subagents": {
+    "dispatched": 0,
+    "concurrent_max": 0,
+    "cap": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width",
+    "why_none": "Writing and debugging one deterministic harness is driver work; a seat would have paid context for a search that did not need doing."
+  },
+  "blocked_by": [],
+  "queued_next": [
+    "★ Guards over the 221 uncovered sentences, starting with the number-shaped ones the guard's census regex does not read (HR, published p-values, n =, counts spelled as words). Every new guard goes into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit — the harness exists now, so 'designed but not proven' is no longer acceptable.",
+    "AUT-COV-001: 22 of 32 publication endpoints score ZERO. This paper is the only one with a harness; the others have no instruments at all.",
+    "AUT-PD-011: the SessionStart hook's relative path was fixed on `main` by another session (0fbce490) while this cycle ran. What is still open is that NOTHING TESTS a hook command for working-directory dependence.",
+    "AUT-PROP-006 (seat record on disk before any fix) still owed the three layers — carried unclaimed from CYC-0008 and CYC-0010."
+  ],
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none",
+    "claude_budget": "second cycle of one spawned session, 0 subagents"
+  },
+  "handoff": {}
+}

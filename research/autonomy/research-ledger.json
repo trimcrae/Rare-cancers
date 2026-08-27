@@ -34,18 +34,18 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 3,
+      "attempts": 4,
       "last_evidence_utc": "2026-08-27",
       "score": 195.5,
       "filed_by": "CYC-0001",
       "prerequisite_of": "AUT-049",
       "id": "AUT-PROP-002",
       "kind": "harden",
-      "what": "Run a hardening round on PUB-FUSION-PARTNER \u2014 publish_bar clause 1. \u26d4 DO NOT OPEN ROUND 5 WITH A REVIEWER SEAT. The standing P1 list was re-derived and closed by CYC-0011 (round 4); what is open is COVERAGE, and it got worse: 221 of 271 sentences are read by no instrument. \u2605 Round 5's first act is writing guards over the uncovered set \u2014 start from `python3 research/manuscripts/claim_coverage.py --uncovered=research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md` \u2014 and its second is mutation-testing each guard, single-site mutations included. A blind lens round is warranted only once coverage stops being the binding constraint. Round 4's record is the input: review-seats/PUB-FUSION-PARTNER-69d8a6ac\u2026-round4-p1-rederivation.json.",
+      "what": "Run a hardening round on PUB-FUSION-PARTNER \u2014 publish_bar clause 1. \u26d4 DO NOT OPEN WITH A REVIEWER SEAT: the standing P1 list was closed by CYC-0011 and its bindings were mutation-proven by CYC-0012. What is open is COVERAGE \u2014 221 of 271 sentences are read by no instrument. \u2605 The next act is guards over that uncovered set (`python3 research/manuscripts/claim_coverage.py --uncovered=research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md`), each one mutation-tested by adding it to mutate_fusion_partner_guard.py's MUTATIONS list \u2014 that harness now exists, so 'designed but not proven' is no longer an acceptable state for a new guard. \u26a0 AND NOTE WHAT THE TWO INSTRUMENTS MEASURE: the guard counts FIGURES (fractions and rates) and reports zero unbound; the census counts SENTENCES and reports 155 numbered ones unread. Both are true. A sentence stating 'HR 30.60', 'P = .004', 'n = 58' or a count spelled as a word carries a number the guard's census regex does not look at, and that gap is where the next guards go.",
       "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
       "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-69d8a6ac1c90ae2129f7ee2348d8a523e5f82be8-round4-p1-rederivation.json",
       "claimed_utc": null,
-      "lease_released": "released by CYC-0011 on finishing round 4. \u26d4 ROUND 4 WAS A RE-DERIVATION, NOT A NEW LENS: of the 16 P1s on the round-3 record, one pair was the same defect (15 distinct), FOUR were ALREADY FIXED at the pinned commit, and TEN carried a factual error of their own. Nine were applied; Appendix A21-A28 registers them. \u26d4\u26d4 AND THE MEASUREMENT THAT MATTERS IS UNFLATTERING: coverage went 46/259 -> 50/271. The covered count did not move and the document grew twelve sentences, so the UNCOVERED surface rose 213 -> 221. A correction round that writes prose without writing instruments enlarges the very surface paper-hardening \u00a78a says is the remaining blocker risk. \u2b50 ROUND 5'S FIRST ACT IS INSTRUMENTING, NOT REVIEWING \u2014 and it must cover what round 4 wrote, not only what it inherited. Not converged: the round introduced no new lens by design, so it is no evidence that a new lens would find nothing."
+      "lease_released": "released by CYC-0012. Round 5's FIRST act is done: the nine bindings CYC-0011 wrote are mutation-tested by a COMMITTED harness (research/manuscripts/tests/mutate_fusion_partner_guard.py) \u2014 24/24 caught, every one single-site, positive control green, both arm swaps included. \u26d4 WHAT IS STILL OPEN IS THE COVERAGE HALF AND IT DID NOT MOVE MUCH: 50/271 sentences read by an instrument, so 221 are not. The nine bindings turned FOUR sentences covered while round 4's corrections added twelve, which is the whole finding of AUT-COV-001 seen from inside one paper."
     },
     {
       "serves": {
