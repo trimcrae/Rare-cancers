@@ -206,6 +206,18 @@
             "letter"
           ],
           "description": "What size of publishable unit this actually is. ⚠ ADDED 2026-08-09 because the board had no way to answer 'is that even a paper?' — trimcrae asked it of PUB-STRATEGY-ARCH, which sits third in the ranking at 1,958 words, under a third the length of the next shortest endpoint. A short report is not a lesser contribution; it is a different object, and a ranking that hides the difference invites exactly that question."
+        },
+        "next_act": {
+          "type": "string",
+          "description": "The one remaining act on this publication that is TRIMCRAE'S and only his — posting, submitting, depositing, minting. Read by research/autonomy/ready_to_post.py, which owns the closed vocabulary in its `HIS_ACTS` map; that map is the single home for the list and is deliberately NOT duplicated here as an enum. ⚠ ready_to_post.py fails CLOSED on an unrecognised value: the paper is silently dropped from his queue rather than flagged, so a typo here reads exactly like 'nothing is waiting'. Clearing this field is what records that he has done it."
+        },
+        "next_venue": {
+          "type": "string",
+          "description": "The venue `next_act` would be performed at. Passed to publish_bar.evaluate as `venue`, which defaults to 'aixiv' when absent — so a paper waiting on a non-aiXiv venue MUST set this or it is graded against the wrong bar."
+        },
+        "_next_act_why": {
+          "type": "string",
+          "description": "Prose: why this act is his rather than the loop's. Underscore-prefixed because nothing reads it — it is for the next session, which otherwise sees a queue entry with no reason attached."
         }
       },
       "allOf": [
