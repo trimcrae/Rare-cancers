@@ -85,7 +85,17 @@ silently falling back to writing up closed routes looks identical to progress.
   `fanout_is_governed` now measures it, and a receipt that records no `subagents` block leaves
   that row UNMEASURED rather than green.* A gate, a suite, a build, a fetch →
   backgrounded, never awaited in the foreground.
-  ⛔ **NO FOREGROUND WAIT LOOPS.** An `until … sleep` loop, a long blocking command, a poll — each is
+  ⛔⛔ **AND `run_in_background` IS NOT THE SAME AS A SHELL `&` — ONE COMES BACK AND THE OTHER
+  ORPHANS THE WORK.** `run_in_background: true` registers a job the harness TRACKS and wakes you
+  for. A bare `&` detaches the process: nothing tracks it, nothing ever wakes you, and the turn
+  ends with the work abandoned while you report it "in flight". **The test: after this command,
+  is there anything that will bring the session back?**
+  ⚠ *Measured 2026-08-27, twice in one session, and it is the shape that LOOKS responsible —
+  `&` keeps the foreground free, satisfying the letter of the rule above while breaking the
+  thing the rule is for. Two preflight runs abandoned, one dead at 35 lines with no exit marker,
+  and trimcrae had to notice the silence. `.claude/hooks/no-detached-background.py` now REFUSES
+  the call, because this is the fifth rule in two days that was correct and measured by nothing.*
+    ⛔ **NO FOREGROUND WAIT LOOPS.** An `until … sleep` loop, a long blocking command, a poll — each is
   a window in which his message sits unread. **The test: if he messaged right now, how long until you
   saw it?** More than a few seconds means that call is in the wrong place.
   ⚠ **This is the responsiveness half of §6's gate rule and it is the stricter half:** §6 says a
