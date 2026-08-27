@@ -13,13 +13,13 @@
     "harden": 6,
     "negative": 32,
     "process": 7,
-    "process_defect": 11,
+    "process_defect": 12,
     "regrade": 7,
     "write": 6
   },
   "n_by_state": {
     "done": 8,
-    "queued": 103,
+    "queued": 104,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -3155,6 +3155,29 @@
       "id": "AUT-PROP-001",
       "kind": "process_defect",
       "what": "PROPOSAL (filed, not applied): teach systems_check.check_scan_interop the `venue` trigger_kind, then re-enable scan_enabled on the three TRG-VENUE-* triggers. Not applied by its own cycle: [X3] blocked that cycle and amendment_guard refuses a cycle that edits the check blocking it."
+    },
+    {
+      "id": "AUT-PD-016",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "preprint-review-2026-08-27",
+      "depends_on_evidence": "Measured 2026-08-27 while clearing a preflight red: regenerating research/manuscripts/aso/fusion-junction-aso-archive-manifest.json mid-session wrote `git_tree_is_clean_apart_from_this_manifest: false`; regenerating it as the session's LAST commit (cd93a92, against a tree clean at 1bb9c17) wrote `true`. Same generator, same 483 files, same 41.221 MiB \u2014 only the ordering differed.",
+      "what": "\u26d4 ONE GENERATED DEPOSIT ARTIFACT IS ORDER-DEPENDENT AND NOTHING SAYS SO. aso_archive_manifest.py stamps `git_tree_is_clean_apart_from_this_manifest` from the live tree, so it can only be regenerated correctly as the LAST commit of a session. Run it in the middle of one \u2014 the obvious thing to do when preflight's staleness gate names it \u2014 and it records `false`, shipping a deposit artifact that asserts its own tree was dirty. \u26a0 THE GATE CANNOT TELL THE TWO APART: 'STALE' and 'regenerated against a dirty tree' both clear by running the generator, and only the second is worse than doing nothing.\nWHAT TO DO: (1) decide whether the generator should REFUSE to write a `false` flag rather than record one \u2014 a deposit artifact that cannot be built is a louder failure than one that ships a self-contradiction; (2) whichever way that goes, make preflight's staleness line for THIS artifact say 'regenerate on a clean tree', because the generic 'rerun X and commit the result' is the advice that produces the bad artifact. \u26a0 MUTATION-TEST it: the fix is only real if a deliberate mid-session regeneration goes red.\n\u2b50 ROOT CAUSE OF THE STALENESS ITSELF IS SEPARATE AND ALREADY PAID: commit 0e0eacd edited the ASO article without regenerating this manifest or submission-metrics.json, so the trunk carried both reds. Fixed in 55048d8 and cd93a92. This item is about the ORDERING TRAP the fix exposed, not the staleness.",
+      "_score_basis": "free, and it guards a DEPOSIT artifact \u2014 the ASO archive manifest is what an outside reader would check the deposit against, which is the one door CLAUDE.md \u00a76 says ceremony is actually for"
     },
     {
       "id": "AUT-PD-006",
