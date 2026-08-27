@@ -170,6 +170,118 @@ MUTATIONS = [
      '(78%, P = .025)"*), so the defeater',
      '(78%, P = .026)"*), so the defeater',
      "Huang 2023's own abstract sentence (78 %)"),
+
+    # =============================================================================================
+    # THE STATISTICAL-NOTATION FAMILY (section F of the guard), added 2026-08-27 by CYC-0013.
+    #
+    # ⛔ THESE BINDINGS EXIST BECAUSE A CENSUS WAS BLIND, SO THEIR MUTATIONS MATTER MORE THAN MOST.
+    # The first census read fractions and rates only; every figure below was inside the manuscript,
+    # outside every instrument, and reported as fully covered. A binding written to close that gap
+    # and never mutated would reproduce the exact state it was written to end.
+    # =============================================================================================
+
+    # ---- F.1 · cohort sizes ---------------------------------------------------------------------
+    ("3.2: the sunitinib series size the two-case report is contained in drifts",
+     "contained in the n = 10 series",
+     "contained in the n = 11 series",
+     "the sunitinib series size, at the row explaining what the two-case report is contained in"),
+    ("3.2: Paioli's size drifts at the exclusion row",
+     "Paioli 2021 (Italian Sarcoma Group), n = 67",
+     "Paioli 2021 (Italian Sarcoma Group), n = 66",
+     "Paioli's size at §3.2's exclusion row"),
+    ("4.1a: Paioli's size drifts where the third independent test is named",
+     "**Paioli 2021** (PMID 32572850, n = 67, Italian Sarcoma Group)",
+     "**Paioli 2021** (PMID 32572850, n = 68, Italian Sarcoma Group)",
+     "Paioli's size where §4.1a names the third independent test"),
+    ("§6: Paioli's size drifts at the closed-full-text row",
+     "DFS/DMFS p-values, n = 67",
+     "DFS/DMFS p-values, n = 65",
+     "Paioli's size at the closed-full-text row that says what is behind its p-values"),
+    ("3.2: Llombart-Bosch's size drifts",
+     "Bosch 2022 congress abstract (n = 31)",
+     "Bosch 2022 congress abstract (n = 30)",
+     "Llombart-Bosch's size at §3.2's exclusion row"),
+    ("3.2: Klubíčková's size drifts",
+     "čková 2022 congress abstract (n = 11)",
+     "čková 2022 congress abstract (n = 12)",
+     "Klubíčková's size at §3.2's exclusion row"),
+    ("4.1a: Huang's size drifts where it is named the third failing series",
+     "**Huang 2023** (PMID 36948401, n = 58, Taiwan)",
+     "**Huang 2023** (PMID 36948401, n = 57, Taiwan)",
+     "Huang's size where §4.1a names it the third series failing to establish the partner"),
+
+    # ---- F.2 · published and post-hoc p-values ---------------------------------------------------
+    ("4.7a: the metastasis predictor's p drifts at ONE of the two verbatim quotations",
+     'metastasis at presentation (P = .032) remained prognostically independent"*;',
+     'metastasis at presentation (P = .033) remained prognostically independent"*;',
+     "Huang's two independent predictors, at the two sites that quote the source verbatim"),
+    ("A27: the same predictor's p drifts at the OTHER quotation — the one-of-a-pair case",
+     'metastasis at presentation (P = .032) remained prognostically independent"* and',
+     'metastasis at presentation (P = .031) remained prognostically independent"* and',
+     "Huang's two independent predictors, at the two sites that quote the source verbatim"),
+    ("4.7a: ARM SWAP — both p-values present and correct, the two covariates exchanged",
+     '*"only size >10 cm (P = .004) and\nmetastasis at presentation (P = .032) remained '
+     'prognostically independent"*;',
+     '*"only size >10 cm (P = .032) and\nmetastasis at presentation (P = .004) remained '
+     'prognostically independent"*;',
+     "Huang's two independent predictors, at the two sites that quote the source verbatim"),
+    ("§5: the published three-way metastasis p drifts — the site carrying the whole negative",
+     "directly reports P = .728. **That is a",
+     "directly reports P = .729. **That is a",
+     "Huang's published three-way metastasis p, at the §5 site that states the negative"),
+    ("4.1a: Paioli's DMFS p drifts inside the three-value construction",
+     "(p = 0.08) and DMFS (p = 0.09), in the same analysis where **size reaches p = 0.004**",
+     "(p = 0.08) and DMFS (p = 0.10), in the same analysis where **size reaches p = 0.004**",
+     "Paioli's three published p-values as §4.1a states them, in order"),
+    ("4.1a: ARM SWAP — Paioli's DFS and DMFS p-values exchanged, both digits still on the page",
+     "(p = 0.08) and DMFS (p = 0.09), in the same analysis where **size reaches p = 0.004**",
+     "(p = 0.09) and DMFS (p = 0.08), in the same analysis where **size reaches p = 0.004**",
+     "Paioli's three published p-values as §4.1a states them, in order"),
+    ("A17: Paioli's size p drifts at the appendix restatement",
+     "(DFS p = 0.08, DMFS p = 0.09) while size does (p = 0.004)",
+     "(DFS p = 0.08, DMFS p = 0.09) while size does (p = 0.005)",
+     "Paioli's same three p-values at the appendix restatement"),
+    ("3.3: Paioli's DMFS p drifts at the time-to-event corroboration",
+     "agrees that nothing is established: DMFS p = 0.09.",
+     "agrees that nothing is established: DMFS p = 0.08.",
+     "Paioli's DMFS p where §3.3 uses it as the time-to-event corroboration"),
+    ("A: the pooled Fisher p drifts where the appendix records it becoming the headline",
+     "§3.3's headline became p = 0.0034",
+     "§3.3's headline became p = 0.0035",
+     "the pooled Fisher p at the appendix site recording when it became the headline"),
+
+    # ---- F.3 · measurements ----------------------------------------------------------------------
+    ("Abstract: the size threshold drifts at ONE of its fifteen sites",
+     "78 % of TAF15 tumours were > 10 cm. Local recurrence",
+     "78 % of TAF15 tumours were > 12 cm. Local recurrence",
+     "the size threshold, at every site that prints it"),
+    ("4.7b: the threshold drifts inside a verbatim quotation of the source's factor list",
+     'names five factors — *"Size >10 cm',
+     'names five factors — *"Size >15 cm',
+     "the size threshold, at every site that prints it"),
+    ("A: the threshold drifts at the appendix restatement of the same factor list",
+     'mes **five** factors — *"Size >10 cm',
+     'mes **five** factors — *"Size >20 cm',
+     "the size threshold, at every site that prints it"),
+    ("4.11: Agaram's follow-up range drifts at the wrapped site",
+     "follow-up range\n(2–99 months)",
+     "follow-up range\n(2–98 months)",
+     "Agaram's published follow-up range, at both sites establishing it publishes no accrual "
+     "window"),
+    ("A: Agaram's follow-up range drifts at the appendix site — one of a pair again",
+     "only a follow-up range (2–99 months)",
+     "only a follow-up range (3–99 months)",
+     "Agaram's published follow-up range, at both sites establishing it publishes no accrual "
+     "window"),
+
+    # ---- F.4 · the census itself ------------------------------------------------------------------
+    # ⭐ THE ONE MUTATION THAT TARGETS NO BINDING. It adds a statistical quantity that no binding
+    # reads and no declaration covers, which is the defect the second census exists to catch — and
+    # the only way to prove the census FIRES rather than merely passing.
+    ("census: an unbound cohort size is written into the prose",
+     "The full inclusion table is §3.2.",
+     "The full inclusion table is §3.2 (n = 99).",
+     "test_every_statistical_quantity_is_bound_or_declared"),
 ]
 
 

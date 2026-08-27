@@ -74,6 +74,21 @@ regenerated through `emc_fusion_partner_pooling.py`, which is the edit that woul
 artifact IN PLACE, the clone shares the inode, and the first run regenerated a MUTATED artifact
 straight into the working tree. Break the link before regenerating — `cp -al` is not isolation.
 
+⛔⛔ AND THE CENSUS ITSELF WAS BLIND — MEASURED 2026-08-27 (CYC-0013), TWO INSTRUMENTS DISAGREEING.
+`test_every_fraction_and_percentage_is_bound_or_declared` reported ZERO unbound figures while
+`research/manuscripts/claim_coverage.py` reported 155 numbered sentences in the same document read
+by nothing. BOTH READINGS WERE CORRECT, and the reconciliation is `_CENSUS`: it matches
+`\d+/\d+|\d+(?:\.\d+)? ?%` and nothing else, so a cohort size, a published p-value, a hazard ratio
+and a measurement in centimetres or months were never in the surface it enumerated. A guard can
+report full coverage over a document in which a load-bearing figure has no reader — and this one
+did. ★ `_CENSUS_STATS` and section F below are that gap closed: 74 sites in those four notations,
+of which 35 were bound to nothing and declared nowhere, among them `P = .728` (the published test
+carrying §3.3's entire metastasis negative), `p = 0.0034` at the appendix restatement of what this
+document itself calls "the single most quotable number in this document", and every statement of
+Paioli 2021's three p-values. ⚠ THE LESSON GENERALISES AND IS FILED AS `AUT-COV-001`: a coverage
+instrument reports coverage OF ITS OWN PATTERN, never of the document, so the pattern is the thing
+to audit first.
+
 ⚠ WHAT IS DELIBERATELY NOT BOUND, AND WHY IT IS ENUMERATED RATHER THAN LEFT OUT.
 Some printed numbers are not the artifact's to own: the 95 % confidence LEVEL, which the evidence
 contract fixes and the artifact only ever echoes; the "≈27 %" the field quotes, which this paper
@@ -1148,6 +1163,176 @@ bind("the Paioli prevalence split named in the sentence describing the back-deri
                 str(_by_id(a)["paioli-2021-prevalence"]["counts"]["TAF15::NR4A3"])))
 
 
+# =================================================================================================
+# F · THE STATISTICAL-NOTATION FAMILY — the numbers the FIRST census cannot see.
+#
+# ⛔ WHY THIS SECTION EXISTS, AND IT IS A MEASUREMENT RATHER THAN AN INTUITION.
+# Two instruments read this document and they disagreed, and BOTH were right:
+# `test_every_fraction_and_percentage_is_bound_or_declared` reported ZERO unbound figures, while
+# `research/manuscripts/claim_coverage.py` reported 155 numbered sentences read by nothing. The
+# reconciliation is `_CENSUS` itself — `\d+/\d+|\d+(?:\.\d+)? ?%` reads an events/denom fraction
+# and a printed rate AND NOTHING ELSE. A sentence whose number is a cohort size, a published
+# p-value, a hazard ratio or a measurement in centimetres or months was outside the census, so a
+# guard could report full coverage over a document in which a load-bearing figure had no reader.
+#
+# ⭐ MEASURED BEFORE ANY BINDING WAS WRITTEN, 2026-08-27 (CYC-0013), over the four printed forms:
+#     n = N          15 sites, 12 covered by nothing
+#     p-values       30 sites, 13 covered by nothing   (both printed forms — see below)
+#     HR             6 sites, 0 covered by nothing     — CYC-0011's bindings already reach these
+#     cm / months    23 sites, 10 covered by nothing
+# ⛔ AND WHAT THE UNCOVERED SET CONTAINED IS THE POINT, NOT ITS SIZE: `P = .728`, the published
+# test that carries §3.3's whole metastasis negative; `p = 0.0034`, which this document itself
+# calls "the single most quotable number in this document", at its appendix restatement; and every
+# statement of Paioli 2021's three p-values, the third independent test of the partner.
+#
+# ⚠ TWO PRINTED FORMS OF A P-VALUE, AND THE DIFFERENCE IS NOT COSMETIC. A source's OWN test is
+# quoted the way its paper prints it — "P = .004", no leading zero (`_pubp`) — while a post-hoc
+# Fisher value this repository computes prints as "p = 0.0034" (`_fisher`). Paioli's are quoted
+# from its abstract and print WITH the zero, because that is how that abstract prints them. The
+# census below reads both forms; the bindings keep the two provenances apart exactly as the
+# artifact does.
+# =================================================================================================
+
+
+def _cite_n(a, key):
+    """A cohort size as the manuscript prints it, from the citation record that owns it.
+
+    ⛔ RAISES ON A MISSING `n` rather than rendering `None`: a citation whose size is not recorded
+    is a citation this binding must not pretend to read.
+    """
+    n = a["citations"][key]["n"]
+    if n is None:
+        raise KeyError(f"citations.{key} records no `n`; do not bind a size the artifact lacks")
+    return str(int(n))
+
+
+def _size_threshold(a):
+    """The >10 cm threshold, parsed out of the stratum NAME the source's own model uses.
+
+    ⭐ A THRESHOLD IS A NUMBER EVEN WHEN IT IS A LABEL. It reaches this manuscript at fifteen sites
+    and is the covariate the entire prognostic argument turns on — if Huang's model had stratified
+    at a different size, every one of those sentences would be stale. Its home is the KEY of
+    `multivariable_result.hazard_ratios`, so the key is parsed rather than a literal typed here.
+    """
+    keys = list(_by_id(a)["huang-2023-outcome"]["multivariable_result"]["hazard_ratios"])
+    hits = [re.fullmatch(r"size >(\d+) cm", k) for k in keys]
+    found = [m.group(1) for m in hits if m]
+    assert len(found) == 1, (
+        f"expected exactly one size-threshold predictor in {keys}; the prose binding below reads "
+        "that key's threshold and cannot choose between two")
+    return found[0]
+
+
+def _agaram_followup_range(a):
+    """Agaram's published follow-up RANGE, parsed from the citation record's population string.
+
+    ⚠ ITS HOME IS A SENTENCE, WHICH IS EXACTLY WHY IT IS PARSED AND NOT RETYPED. The range is not a
+    pooled quantity and has no structured field; it appears in `citations.agaram2014.population` as
+    "(2-99 months)". §4.11 uses it twice to establish that this cohort publishes a follow-up range
+    and NO accrual window, which is a claim about the record that goes stale if the record moves.
+    """
+    m = re.search(r"\((\d+)-(\d+) months\)", a["citations"]["agaram2014"]["population"])
+    assert m, ("citations.agaram2014.population no longer states a follow-up range; §4.11 asserts "
+               "it does, so one of the two is now wrong")
+    return m.group(1), m.group(2)
+
+
+# ---- F.1 · cohort sizes -------------------------------------------------------------------------
+
+bind("the sunitinib series size, at the row explaining what the two-case report is contained in",
+     r"contained in the n = (\d+) series",
+     lambda a: _cite_n(a, "stacchiotti2014"))
+
+bind("Paioli's size at §3.2's exclusion row",
+     r"Paioli 2021 \(Italian Sarcoma Group\), n = (\d+)",
+     lambda a: _cite_n(a, "paioli2021"))
+
+bind("Paioli's size where §4.1a names the third independent test",
+     r"Paioli 2021 \(PMID 32572850, n = (\d+), Italian Sarcoma Group\)",
+     lambda a: _cite_n(a, "paioli2021"))
+
+bind("Paioli's size at the closed-full-text row that says what is behind its p-values",
+     r"DFS/DMFS p-values, n = (\d+)",
+     lambda a: _cite_n(a, "paioli2021"))
+
+bind("Llombart-Bosch's size at §3.2's exclusion row",
+     r"Llombart-Bosch 2022 congress abstract \(n = (\d+)\)",
+     lambda a: _cite_n(a, "llombartBosch2022"))
+
+bind("Klubíčková's size at §3.2's exclusion row",
+     r"Klubíčková 2022 congress abstract \(n = (\d+)\)",
+     lambda a: _cite_n(a, "klubickova2022"))
+
+bind("Huang's size where §4.1a names it the third series failing to establish the partner",
+     r"Huang 2023 \(PMID 36948401, n = (\d+), Taiwan\)",
+     lambda a: _cite_n(a, "huang2023"))
+
+# ---- F.2 · published p-values -------------------------------------------------------------------
+
+# ⭐ ONE CONSTRUCTION, BOTH PREDICTORS, TWICE. The verbatim quotation of Huang's multivariable model
+# appears at two sites (§4.7a and Appendix A) and the pattern reaches both. It is bound as a PAIR
+# for the arm-swap reason the local-recurrence binding exists for: swapping .004 and .032 between
+# size and metastasis leaves every digit in the document correct and inverts which covariate the
+# model found stronger.
+bind("Huang's two independent predictors, at the two sites that quote the source verbatim",
+     r"only size >\d+ cm \(P = (\.\d+)\) and metastasis at presentation \(P = (\.\d+)\) "
+     r"remained prognostically independent",
+     lambda a: (_pubp(_by_id(a)["huang-2023-outcome"]["multivariable_result"]
+                       ["independent_predictors"]["size >10 cm"]),
+                _pubp(_by_id(a)["huang-2023-outcome"]["multivariable_result"]
+                       ["independent_predictors"]["metastasis at presentation"])))
+
+# ⛔ THIS ONE CARRIES §3.3'S ENTIRE METASTASIS NEGATIVE and it was read by nothing. The sentence is
+# the paper's answer to the review literature: the largest series to test the claim directly does
+# not establish it.
+bind("Huang's published three-way metastasis p, at the §5 site that states the negative",
+     r"directly reports P = (\.\d+), so the reviews",
+     lambda a: _pubp(_by_id(a)["huang-2023-outcome"]["published_p_values"]
+                      ["distant_metastasis_three_way"]))
+
+bind("Paioli's three published p-values as §4.1a states them, in order",
+     r"trend for DFS \(p = (\d\.\d+)\) and DMFS \(p = (\d\.\d+)\), in the same analysis "
+     r"where size reaches p = (\d\.\d+)",
+     lambda a: (_fisher(_by_id(a)["paioli-2021-outcome"]["published_p_values"]
+                         ["disease_free_survival_by_partner"]),
+                _fisher(_by_id(a)["paioli-2021-outcome"]["published_p_values"]
+                         ["distant_metastasis_free_survival_by_partner"]),
+                _fisher(_by_id(a)["paioli-2021-outcome"]["published_p_values"]["size_vs_dmfs"])))
+
+bind("Paioli's same three p-values at the appendix restatement",
+     r"no conventional significance \(DFS p = (\d\.\d+), DMFS p = (\d\.\d+)\) while size "
+     r"does \(p = (\d\.\d+)\)",
+     lambda a: (_fisher(_by_id(a)["paioli-2021-outcome"]["published_p_values"]
+                         ["disease_free_survival_by_partner"]),
+                _fisher(_by_id(a)["paioli-2021-outcome"]["published_p_values"]
+                         ["distant_metastasis_free_survival_by_partner"]),
+                _fisher(_by_id(a)["paioli-2021-outcome"]["published_p_values"]["size_vs_dmfs"])))
+
+bind("Paioli's DMFS p where §3.3 uses it as the time-to-event corroboration",
+     r"agrees that nothing is established: DMFS p = (\d\.\d+)",
+     lambda a: _fisher(_by_id(a)["paioli-2021-outcome"]["published_p_values"]
+                        ["distant_metastasis_free_survival_by_partner"]))
+
+bind("the pooled Fisher p at the appendix site recording when it became the headline",
+     r"headline became p = (\d\.\d+)",
+     lambda a: _fisher(a["analyses"]["B_outcome_by_partner"]["disease_specific_death"]
+                        ["fisher_exact_two_sided_p"]))
+
+# ---- F.3 · measurements -------------------------------------------------------------------------
+
+# ⭐ A PREDICATE, NOT A LIST. Every ">N cm" in the document is required to state the SAME threshold
+# the source's model stratified at, wherever it appears and however it is spaced — which is what
+# makes this one binding cover fifteen sites instead of fifteen bindings covering fifteen sites.
+bind("the size threshold, at every site that prints it",
+     r">\s?(\d+) cm",
+     lambda a: _size_threshold(a))
+
+bind("Agaram's published follow-up range, at both sites establishing it publishes no accrual window",
+     r"follow-up range \((\d+)[–-](\d+) months\)",
+     lambda a: _agaram_followup_range(a))
+
+
+
 # ⚠ DECLARED NOT-ARTIFACT-OWNED NUMBERS.
 #
 # Every printed fraction and rate the census below finds must be covered either by a BINDING above
@@ -1209,6 +1394,30 @@ DECLARED_NOT_ARTIFACT_OWNED = [
      "`research/modalities/gse28866-tumour-vs-normal.json` -> `per_gene.values`, named in the same "
      "sentence. §3.6 states four separate times that this deposit touches no clinical claim, so it "
      "is not a fusion-partner pooled quantity."),
+
+    # ---- declared against the STATISTICAL-NOTATION census (section F) ----------------------------
+
+    ("not-a-cohort-size",
+     r"n = 1\b",
+     "Four sites, and none of them is a series size. Two are the Bangerter 2022 matched pair, "
+     "which is one MODEL per arm (§3.2's preclinical row and §3.7); two are §5's and Appendix "
+     "A17's characterisation of the review literature's metastasis claim as 'an n = 1 "
+     "attribution' — a statement about how many cohorts stand behind a claim, not a count this "
+     "synthesis pools. The artifact records the Bangerter record with no `n` at all, which is the "
+     "honest state and must not be filled in to make this bindable."),
+
+    ("foreign-artifact",
+     r"n = 4 EMC libraries",
+     "GSE28866's library count. Its home is "
+     "`research/modalities/gse28866-tumour-vs-normal.json`, named two sentences earlier, and §3.6 "
+     "states four times that this deposit touches no clinical claim — same class as the SEMA3C "
+     "ratios declared above."),
+
+    ("source-quoted",
+     r"40 cm buttock tumour",
+     "A descriptor of an EXCLUDED case report, named in Appendix A only to say what the "
+     "unretrievable record contains. It enters no pool, no analysis and no count; the artifact "
+     "holds no such field and should not."),
 ]
 
 
@@ -1416,6 +1625,29 @@ def test_every_artifact_pointer_the_prose_names_resolves(prose, art):
 #: that only read decimals would have called the paper's most-repeated share unwatched.
 _CENSUS = re.compile(r"\d+/\d+|\d+(?:\.\d+)? ?%")
 
+#: ★★ THE SECOND CENSUS — the printed forms `_CENSUS` above is blind to.
+#:
+#: ⛔ IT EXISTS BECAUSE THE FIRST ONE REPORTED FULL COVERAGE OVER A DOCUMENT WITH THIRTY-FIVE
+#: UNREAD FIGURES. `_CENSUS` reads an `events/denom` fraction and a printed rate; a cohort size, a
+#: published p-value, a hazard ratio and a measurement in centimetres or months are none of those,
+#: so the most-quoted p-value in this manuscript and the published test carrying its metastasis
+#: negative both sat outside every instrument while the guard printed zero unbound.
+#:
+#: ⚠ THE FOUR ALTERNATIVES ARE PREDICATES, NOT A LIST OF SENTENCES. Each is a NOTATION — "this
+#: document is stating a cohort size / a significance test / a hazard ratio / a measurement" — so a
+#: figure added to the prose in any of these forms lands inside the census on the day it is written,
+#: which a list of known sites could never do.
+#: ⛔ AND A P-VALUE IS MATCHED IN BOTH PRINTED FORMS. A source's own test is quoted as its paper
+#: prints it ("P = .004"); a Fisher value computed here prints with the leading zero
+#: ("p = 0.0034"). Reading only one form would leave the other class entirely unwatched, which is
+#: the same one-of-a-pair defect this file already carries seven instances of.
+_CENSUS_STATS = re.compile(
+    r"\bn = \d+"                            # a cohort size
+    r"|\b[Pp] ?[=<] ?0?\.\d+"               # a published or post-hoc p-value, either printed form
+    r"|\bHR ?=? ?\d+(?:\.\d+)?"            # a hazard ratio
+    r"|\d+(?:\.\d+)? ?(?:cm|months)\b"     # a size or a duration
+)
+
 
 def _spans_by_bucket(flat):
     """(spans covered by a BINDING, spans covered by a DECLARATION) — kept apart on purpose.
@@ -1459,6 +1691,44 @@ def test_every_fraction_and_percentage_is_bound_or_declared(flat, art):
         "nowhere. Add a binding if the artifact owns the number, or a "
         "DECLARED_NOT_ARTIFACT_OWNED row with its reason class if it does not:\n"
         + "\n".join(f"  {v!r}  …{ctx}…" for v, ctx in uncovered))
+
+
+def test_every_statistical_quantity_is_bound_or_declared(flat, art):
+    """★★ THE SECOND CENSUS, over the notations the first one cannot see.
+
+    Same contract as `test_every_fraction_and_percentage_is_bound_or_declared` and the same two
+    buckets — a BINDING watches the value, a DECLARATION only accounts for it — applied to cohort
+    sizes, p-values in both printed forms, hazard ratios, and measurements in centimetres or
+    months.
+
+    ⚠ THIS IS COVERAGE, NOT CORRECTNESS, and the distinction matters more here than above: several
+    of these figures are quoted from sources rather than computed, so what a binding proves is that
+    the manuscript still states what the artifact records the source as having published.
+    """
+    spans = _covered_spans(flat, art)
+    uncovered = []
+    for m in _CENSUS_STATS.finditer(flat):
+        if not any(s <= m.start() and m.end() <= e for s, e in spans):
+            uncovered.append((m.group(0), flat[max(0, m.start() - 90):m.end() + 60]))
+    assert not uncovered, (
+        f"{len(uncovered)} statistical quantity/quantities in the manuscript are bound to nothing "
+        "and declared nowhere. Add a binding if the artifact owns the number, or a "
+        "DECLARED_NOT_ARTIFACT_OWNED row with its reason class if it does not:\n"
+        + "\n".join(f"  {v!r}  …{ctx}…" for v, ctx in uncovered))
+
+
+def test_the_statistical_census_still_matches_the_document(flat):
+    """⛔ A CENSUS THAT HAS STOPPED MATCHING IS A GUARD THAT HAS STOPPED GUARDING, SILENTLY.
+
+    The floor is deliberately well below the 74 sites measured on 2026-08-27, because this asserts
+    that the PATTERN still reads the document — not that the document keeps a particular number of
+    statistics. A retyped notation (`p=0.004`, `n=67`) would drop sites out of the census while
+    every other test here stayed green.
+    """
+    found = _CENSUS_STATS.findall(flat)
+    assert len(found) >= 60, (
+        f"only {len(found)} statistical quantities found; the second census has stopped matching "
+        "the manuscript's notation")
 
 
 def test_the_declared_exclusions_still_describe_real_sentences(flat):

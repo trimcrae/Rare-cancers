@@ -963,14 +963,34 @@ COHORTS = [
         "provenance": "primary",
         "pool": False,
         "contextReason": "counts-not-reported",
+        # ⭐ PROMOTED OUT OF THE PROSE NOTE, 2026-08-27 (CYC-0013). These three p-values are stated
+        # at six sites in the manuscript, and until this commit their only home in this file was
+        # the `context_note` sentence below — a number typed inside a paragraph, which no guard can
+        # read and no binding can derive from. They are the SOURCE'S OWN tests, quoted as published
+        # (Paioli 2021's abstract is all this repository holds — see `full_text_closed`), so they
+        # are kept apart from the Fisher values this file computes exactly as Huang's are.
+        "published_p_values": {
+            "disease_free_survival_by_partner": 0.08,
+            "distant_metastasis_free_survival_by_partner": 0.09,
+            "size_vs_dmfs": 0.004,
+            "note": (
+                "The authors' own tests, read from the abstract. The two partner contrasts reach "
+                "no conventional threshold and the SIZE covariate does -- the same pattern "
+                "huang-2023-outcome's multivariable model shows. Whether this analysis was "
+                "adjusted is NOT recorded in anything held here, so it is not counted as a second "
+                "multivariable result."
+            ),
+        },
+        "full_text_closed": True,
         "context_note": (
             "THE THIRD INDEPENDENT TEST OF THE PARTNER AS A PROGNOSTIC FACTOR, AND IT IS NEGATIVE "
             "AT THE CONVENTIONAL THRESHOLD. NR4A3-EWS showed only a TREND toward better "
-            "disease-free survival (p = 0.08) and distant-metastasis-free survival (p = 0.09) "
-            "versus NR4A3-TAF15, while primary tumour SIZE was significantly related to DMFS "
-            "(p = 0.004) -- the same pattern Huang 2023 found. No per-partner event counts are "
-            "published, so POLICY-evidence.md s2.1(2) bars it from the pool; its prevalence counts "
-            "are pooled separately below."
+            "disease-free survival and distant-metastasis-free survival versus NR4A3-TAF15, while "
+            "primary tumour SIZE was significantly related to DMFS -- the same pattern Huang 2023 "
+            "found. The three p-values are in `published_p_values` above and are deliberately NOT "
+            "restated here: one fact, one place. No per-partner event counts are published, so "
+            "POLICY-evidence.md s2.1(2) bars it from the pool; its prevalence counts are pooled "
+            "separately below."
         ),
     },
     # ---- endpoint: fusion-partner prevalence -------------------------------

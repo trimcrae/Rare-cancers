@@ -1,7 +1,7 @@
 {
   "_schema": "emc-fusion-partner-pooling/1",
   "_generated_by": "research/manuscripts/emc_fusion_partner_pooling.py",
-  "_generated_utc": "2026-08-27T01:47:54Z",
+  "_generated_utc": "2026-08-27T02:34:20Z",
   "_do_not_hand_edit": "Every number in this file is computed by the generator from the counts in its COHORTS table. Change a count in the script and regenerate; never edit a number here (CLAUDE.md rule 1).",
   "title": "Partner-stratified pooled synthesis of published EMC systemic-therapy and outcome data (EWSR1::NR4A3 vs TAF15::NR4A3)",
   "lane": "research/manuscripts/program/emc-unexplored-treatment-lanes.md s3.2",
@@ -615,7 +615,14 @@
       "provenance": "primary",
       "pool": false,
       "contextReason": "counts-not-reported",
-      "context_note": "THE THIRD INDEPENDENT TEST OF THE PARTNER AS A PROGNOSTIC FACTOR, AND IT IS NEGATIVE AT THE CONVENTIONAL THRESHOLD. NR4A3-EWS showed only a TREND toward better disease-free survival (p = 0.08) and distant-metastasis-free survival (p = 0.09) versus NR4A3-TAF15, while primary tumour SIZE was significantly related to DMFS (p = 0.004) -- the same pattern Huang 2023 found. No per-partner event counts are published, so POLICY-evidence.md s2.1(2) bars it from the pool; its prevalence counts are pooled separately below."
+      "published_p_values": {
+        "disease_free_survival_by_partner": 0.08,
+        "distant_metastasis_free_survival_by_partner": 0.09,
+        "size_vs_dmfs": 0.004,
+        "note": "The authors' own tests, read from the abstract. The two partner contrasts reach no conventional threshold and the SIZE covariate does -- the same pattern huang-2023-outcome's multivariable model shows. Whether this analysis was adjusted is NOT recorded in anything held here, so it is not counted as a second multivariable result."
+      },
+      "full_text_closed": true,
+      "context_note": "THE THIRD INDEPENDENT TEST OF THE PARTNER AS A PROGNOSTIC FACTOR, AND IT IS NEGATIVE AT THE CONVENTIONAL THRESHOLD. NR4A3-EWS showed only a TREND toward better disease-free survival and distant-metastasis-free survival versus NR4A3-TAF15, while primary tumour SIZE was significantly related to DMFS -- the same pattern Huang 2023 found. The three p-values are in `published_p_values` above and are deliberately NOT restated here: one fact, one place. No per-partner event counts are published, so POLICY-evidence.md s2.1(2) bars it from the pool; its prevalence counts are pooled separately below."
     },
     {
       "id": "agaram-2014-prevalence",
