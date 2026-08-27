@@ -3918,14 +3918,14 @@
     {
       "id": "AUT-PD-029",
       "process_defect": true,
-      "what": "claim.py's Git.push() (research/autonomy/claim.py:79-80) runs `git push -q origin main`, which pushes whatever LOCAL BRANCH IS LITERALLY NAMED 'main' -- stale or unrelated to HEAD if the session's real work is on a differently-named branch (e.g. this repo's 'claude/dreamy-hawking-18pm7n' convention, which stays rebased onto origin/main and is pushed via `git push origin <branch>:main`). On such a session, claim.py's push always fails as a non-fast-forward (or pushes nothing new), so the module cannot actually arbitrate a claim there -- it silently degrades to reporting RETRY forever rather than CLAIMED. MEASURED 2026-08-27 (CYC-0028-moriokat, a subagent dispatched by CYC-0027's driver session): claim.py was tried first for AUT-PD-020, failed exactly this way, and the seat fell back to the manual fetch/verify/edit/commit/`push origin HEAD:main` sequence documented as claim.py's own manual fallback -- work completed correctly, but the module meant to make this race-safe took no part in it. FIX (not applied here, filed for a future cycle): push() should push HEAD, not the ref literally named 'main' -- `git push -q origin HEAD:main`, which is a fast-forward-safe compare-and-swap on the REMOTE ref regardless of what the local branch is named, exactly matching the module's own stated design intent.",
+      "what": "✅ FIXED 2026-08-27 by claim.py's own author, the same hour it was filed. claim.py's Git.push() (research/autonomy/claim.py:79-80) runs `git push -q origin main`, which pushes whatever LOCAL BRANCH IS LITERALLY NAMED 'main' -- stale or unrelated to HEAD if the session's real work is on a differently-named branch (e.g. this repo's 'claude/dreamy-hawking-18pm7n' convention, which stays rebased onto origin/main and is pushed via `git push origin <branch>:main`). On such a session, claim.py's push always fails as a non-fast-forward (or pushes nothing new), so the module cannot actually arbitrate a claim there -- it silently degrades to reporting RETRY forever rather than CLAIMED. MEASURED 2026-08-27 (CYC-0028-moriokat, a subagent dispatched by CYC-0027's driver session): claim.py was tried first for AUT-PD-020, failed exactly this way, and the seat fell back to the manual fetch/verify/edit/commit/`push origin HEAD:main` sequence documented as claim.py's own manual fallback -- work completed correctly, but the module meant to make this race-safe took no part in it. FIX (not applied here, filed for a future cycle): push() should push HEAD, not the ref literally named 'main' -- `git push -q origin HEAD:main`, which is a fast-forward-safe compare-and-swap on the REMOTE ref regardless of what the local branch is named, exactly matching the module's own stated design intent.\n\n⭐ APPLIED EXACTLY AS FILED: `Git.PUSH_REFSPEC = (\"push\", \"-q\", \"origin\", \"HEAD:main\")`. The filing session's diagnosis and its proposed fix were both correct and are taken unchanged. ⛔⛔ THE PART WORTH KEEPING IS HOW IT SURVIVED ITS OWN TEST SUITE: nine tests, eight mutations, and a first real use that reported CLAIMED and pushed — all of it in the ONE configuration that hides the bug, because the author's local branch happened to be named `main`. Every test drove a `FakeGit` that never reaches a real refspec, so the argv was the single thing the suite could not see and the exact thing that was wrong. ⭐ The new test asserts on the argv itself rather than through the fake, which is the only level at which this class of defect is visible. ⚠ AND THE COST WHILE IT WAS OPEN IS THE SHAPE THE MODULE EXISTS TO PREVENT: on a `claude/<name>` branch it did not error loudly, it reported RETRY forever — so a seat trying to claim AUT-PD-020 fell back to the manual fetch/verify/edit/commit sequence and completed the work correctly, while the tool built to make that race-safe took no part in it. A tool that fails by degrading into the manual path it replaced is one nobody notices is broken.",
       "serves": {
         "route": "RT-AUTONOMY",
         "publication": null,
         "strategy": null
       },
       "kind": "fix",
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -3933,7 +3933,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0028-moriokat"
     },

@@ -108,6 +108,27 @@ def test_your_own_claim_on_the_trunk_is_not_a_conflict():
 # ⭐ THE PUSH IS THE ARBITER. These are the tests that make this a mechanism and not a rule.
 # ---------------------------------------------------------------------------------------------
 
+def test_the_push_targets_the_remote_ref_not_a_local_branch_name():
+    """⛔⛔ AUT-PD-029, AND ANOTHER SESSION FOUND IT BECAUSE MINE COULD NOT.
+
+    `git push origin main` pushes the LOCAL BRANCH LITERALLY NAMED `main`. On any session working
+    from a differently-named branch — this repository's own convention is `claude/<name>` rebased
+    onto origin/main — that branch is stale or absent, every push fails as a non-fast-forward, and
+    this module degrades SILENTLY to reporting RETRY forever. It cannot arbitrate a claim at all,
+    which is the one thing it exists to do.
+
+    ★ THE TEST IS AS MUCH ABOUT HOW THIS WAS MISSED AS ABOUT THE REFSPEC. It worked for its author
+    because the author's branch happened to be named `main`: the tool was exercised in the single
+    configuration that hides the bug, and every other test here uses a FakeGit that never reaches
+    a real refspec. So the assertion is on the argv itself, which is the part a fake cannot cover.
+    """
+    assert C.Git.PUSH_REFSPEC == ("push", "-q", "origin", "HEAD:main"), (
+        "the push refspec no longer names HEAD. `origin main` pushes a local branch by NAME; "
+        "`origin HEAD:main` is a compare-and-swap on the REMOTE ref whatever the local branch is "
+        "called, which is what this module's docstring claims it does.")
+    assert "main" not in C.Git.PUSH_REFSPEC[:-1], "a bare `main` refspec crept back into the argv"
+
+
 def test_a_clean_push_takes_the_item(led):
     git = FakeGit([_ledger([("AUT-X", None)])], [True])
     verdict, _ = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=led)

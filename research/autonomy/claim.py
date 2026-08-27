@@ -76,8 +76,21 @@ class Git:
         self._run("add", LEDGER_REL)
         self._run("commit", "-q", "-m", message)
 
+    #: ⛔ `HEAD:main`, NEVER `main` (AUT-PD-029, found by another session 2026-08-27).
+    #: `git push origin main` pushes whatever LOCAL BRANCH IS LITERALLY NAMED `main` — which is
+    #: stale or unrelated on any session working from a differently-named branch, and this repo's
+    #: own convention is `claude/<name>` rebased onto origin/main. There, every push failed as a
+    #: non-fast-forward and this module degraded SILENTLY to reporting RETRY forever: it could not
+    #: arbitrate a claim at all, and a seat fell back to the manual sequence while the tool built to
+    #: make that race-safe took no part in it.
+    #: ⭐ `HEAD:main` is a compare-and-swap on the REMOTE ref whatever the local branch is called,
+    #: which is exactly what this module's docstring already claimed it was doing. It worked here
+    #: only because the author's branch happened to be named `main` — the tool was tested in the one
+    #: configuration that hid the bug.
+    PUSH_REFSPEC = ("push", "-q", "origin", "HEAD:main")
+
     def push(self) -> bool:
-        return self._run("push", "-q", "origin", "main", check=False).returncode == 0
+        return self._run(*self.PUSH_REFSPEC, check=False).returncode == 0
 
     def undo_last_commit(self):
         """⚠ `reset --soft`, NEVER `--hard`: a yield must not destroy anything else in the tree."""
