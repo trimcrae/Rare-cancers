@@ -150,10 +150,19 @@ if [ "${1:-}" = "--if-needed" ]; then
   else
     run_missing="$(_missing_in "$run_py" "$TEST_PROBE")"
   fi
-  if [ -z "$sys_missing" ] && [ -z "$tool_missing" ] && [ -z "$run_missing" ]; then
+  # ⛔ THE PROBE MUST ASK ABOUT EVERY DEPENDENCY THE SCRIPT INSTALLS, NOT JUST THE PYTHON ONES.
+  # Added with the ghostscript step, 2026-08-27, because the first version of that step sat BELOW
+  # this early exit — so on a sandbox whose interpreters were already complete, `--if-needed` printed
+  # "nothing to do" and returned without ever reaching it. That is this file's own documented failure
+  # mode ("a populated field is not a measured one") arriving one layer up: the probe answered a
+  # narrower question than the script's job.
+  bin_missing=""
+  command -v gs >/dev/null 2>&1 || bin_missing=" ghostscript"
+  if [ -z "$sys_missing" ] && [ -z "$tool_missing" ] && [ -z "$run_missing" ] && [ -z "$bin_missing" ]; then
     echo "dev-setup: every interpreter the gates use already imports what they need — nothing to do."
     exit 0
   fi
+  [ -n "$bin_missing" ] && echo "dev-setup: a system binary the artifact chain needs is missing:$bin_missing"
   [ -n "$sys_missing" ] && echo "dev-setup: system python3 is missing:$sys_missing"
   [ -n "$tool_missing" ] && echo "dev-setup: the pytest tool venv is missing:$tool_missing"
   [ -n "$run_missing" ] && echo "dev-setup: $run_py — the interpreter preflight RUNS THE SUITES in — is missing:$run_missing"
@@ -198,6 +207,32 @@ if [ -n "$run_py" ] && [ -x "$run_py" ]; then
     echo "   That is the interpreter preflight runs the suites in, so the gates will go red on" >&2
     echo "   imports rather than on the repository. Fix this before reading any test result." >&2
     exit 1
+  fi
+fi
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# SYSTEM BINARIES THE DERIVED-ARTIFACT CHAIN NEEDS, WHICH ARE NOT PYTHON PACKAGES
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# ⛔ GHOSTSCRIPT, ADDED 2026-08-27. `figures/svg_to_print_formats.py` writes the EPS and CMYK TIFF a
+# journal actually uploads, and Ghostscript is the ONLY offline PDF->EPS/TIFF path this image has:
+# the tool's own refusal message records that it found no inkscape, no rsvg-convert, no pdftops, no
+# cairosvg and no ImageMagick. Without it `regenerate_aso_chain.sh` fails that step, falls back to
+# `--check`, and fails that too — so the chain reports "something is stale" and the deliverable a
+# reader downloads stays stale.
+# ⚠ AND IT WAS NOT IN ANY WORKFLOW EITHER. Measured that day: `grep -rl "svg_to_print_formats\|ghostscript"
+# .github/workflows/` returned NOTHING, so unlike the LibreOffice .docx step there was no CI escape
+# hatch to route this to — it was simply never regenerated anywhere. It installs from the standard
+# archive in about ten seconds, which is the whole reason this line exists rather than a workflow.
+if ! command -v gs >/dev/null 2>&1; then
+  echo
+  echo "== ghostscript (figures/svg_to_print_formats.py: EPS + CMYK TIFF; no other offline path) =="
+  if apt-get install -y -qq ghostscript >/dev/null 2>&1 || sudo apt-get install -y -qq ghostscript >/dev/null 2>&1; then
+    echo "   installed: $(gs --version 2>/dev/null)"
+  else
+    # ⚠ NOT FATAL, AND DELIBERATELY SO. Every Python gate above still runs without it; only the
+    # print-format step is affected, and it fails loudly with its own apt-get line. A hard exit here
+    # would turn a missing figure format into a refusal to set up the sandbox at all.
+    echo "   ⚠ could not install ghostscript — figures/svg_to_print_formats.py will refuse and say so" >&2
   fi
 fi
 

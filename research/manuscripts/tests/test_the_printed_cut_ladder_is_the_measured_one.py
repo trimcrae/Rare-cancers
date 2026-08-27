@@ -24,6 +24,18 @@ import pytest
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 PAPER = os.path.join(os.path.dirname(HERE), "aso", "fusion-junction-aso-research-article.md")
+#: ⛔⛔ THE ONE-OF-A-PAIR DEFECT, RE-CREATED IN THE GUARD FOR THIS PAPER'S CENTRAL NEGATIVE
+#: (round 9, citations-and-instruments seat, 2026-08-27). `PAPER` above is the EXTENDED REPORT.
+#: The submitted journal article carries the same sentence — "across cuts of six to thirteen base
+#: pairs the excess over the strongest null changes sign four times" — and NOTHING read it, so
+#: inverting it there ("does not change sign", "changes sign once") passed every gate in the repo.
+#: ⚠ The `flips == 4` half was always derived from the artifact and always bound; it is the
+#: PROSE half that was bound in one document of two. That is the class this suite has now found
+#: seven times, and it keeps recurring because a guard written for one document looks complete.
+#: ★ Both are asserted below, by iterating a tuple rather than by a second copied assertion —
+#: a copied assertion is how the pair separates again the next time a paper is added.
+JOURNAL = os.path.join(os.path.dirname(HERE), "aso", "fusion-junction-aso-journal-article.md")
+PAPERS_CARRYING_THE_SIGN_CHANGE_CLAIM = (PAPER, JOURNAL)
 ART = os.path.join(os.path.dirname(os.path.dirname(HERE)), "modalities", "aso-parent-null.json")
 
 
@@ -142,11 +154,17 @@ def test_the_prose_claim_of_four_sign_changes_is_the_measured_one():
         strongest = max(100 * ne[k]["cut_ladder"][cut]["rate_liable"] for k in ne)
         signs.append(obs > strongest)
     flips = sum(1 for a, b in zip(signs, signs[1:]) if a != b)
-    text = open(PAPER, encoding="utf-8").read()
     assert flips == 4, (
         f"the excess over the strongest null now changes sign {flips} times, not four. §2.5 says "
         "four; recompute the sentence rather than the guard")
-    assert "changes sign four times" in text, (
-        "§2.5's sign-change claim has been reworded away from the measured value; it is the ⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, re-anchoring makes the guard agree with the new wording and the finding disappears. Re-anchor only when the sentence says the same thing in different words."
-        "sentence that replaced 'ten is the cut at which the observed rate stands clear of "
-        "every null', so it must keep saying what the ladder measures")
+    for path in PAPERS_CARRYING_THE_SIGN_CHANGE_CLAIM:
+        text = open(path, encoding="utf-8").read()
+        assert "changes sign four times" in text, (
+            f"{os.path.basename(path)} no longer carries the sign-change claim. "
+            "The sign-change claim has been reworded away from the measured value. "
+            "⛔ CHECK THE MEANING BEFORE THE REGEX: if the claim was INVERTED or DROPPED, "
+            "re-anchoring makes the guard agree with the new wording and the finding "
+            "disappears. Re-anchor only when the sentence says the same thing in different "
+            "words. It is the sentence that replaced 'ten is the cut at which the observed "
+            "rate stands clear of every null', so it must keep saying what the ladder "
+            "measures.")

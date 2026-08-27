@@ -103,9 +103,32 @@ REQUIRED = [
      r"zenodo|doi:",
      "every number in the paper is claimed to re-derive from released artefacts; without the "
      "pointer that claim is unfalsifiable."),
+    # ⛔ `not for administration` WAS AN ALTERNATIVE HERE AND THAT MADE THE ROW UNFALSIFIABLE
+    # (round 9 on the journal article, citations seat, 2026-08-27). The Abstract already carries
+    # "every sequence named is a research reagent not for administration", so that branch was
+    # satisfied before the Declarations were read at all — deleting the Declarations sentence
+    # outright left this guard GREEN. An alternation whose weakest branch is satisfied elsewhere in
+    # the same document tests nothing about the branch you care about. The administration clause is
+    # bound separately and in both directions by `test_the_manuscript_asserts_the_relation_its_
+    # artifacts_compute.py`'s `research-use-only` row, so removing it here loses no coverage and
+    # restores this row's power over the synthesis denial it is named for.
     ("that nothing was synthesised or tested",
-     r"has been synthesi[sz]ed|nothing (?:here )?(?:has been|was) synthesi[sz]ed|not for administration",
+     r"has been synthesi[sz]ed|nothing (?:here )?(?:has been|was) synthesi[sz]ed",
      "the scope bound. A paper naming orderable reagents without it reads as a wet-lab report."),
+    # ⛔ ADDED round 9, 2026-08-27, by the seat that asked what READS each load-bearing sentence.
+    # `grep -rn "remains unsolved\|delivery to a solid" --include=*.py` over the whole repository
+    # returned ZERO hits: the paper's delivery limitation was carried by prose alone. ⚠ And this
+    # file's own margin note had already named delivery as one of the seven `_what_this_is_not`
+    # denials `lint_claims` does not cover — the sibling row for hybridisation-not-cleavage was
+    # written and this one was not, which is the one-of-a-pair class this suite keeps re-finding.
+    # ★ WHY ITS ABSENCE IS THE WORST KIND: every number in the paper stays correct without it. A
+    # length cut here turns an honest paper into one that over-claims by omission, silently.
+    ("the delivery gate the modality still faces",
+     r"delivery",
+     "PUB-ASO is BLOCKED BY BLK-DELIVERY in the systems graph, and the paper's honesty rests on "
+     "naming that gate rather than assuming it away. Without the sentence a reader takes a named, "
+     "orderable reagent for a deliverable therapeutic — and no other guard fires, because a "
+     "deletion matches nothing."),
 ]
 
 

@@ -152,8 +152,8 @@ last_verified: 2026-08-10
 
 | field | value |
 |---|---|
-| Word count, main text | 3725 (limit 4000) |
-| Abstract | 200 words (limit 200) |
+| Word count, main text | 3719 (limit 4000) |
+| Abstract | 205 words (limit 200) |
 | Display items | 3 (1 figures, 2 tables) (limit 5) |
 | References | 23 |
 | Cover letter | `aso/fusion-junction-aso-cover-letter.md` |
@@ -161,6 +161,8 @@ last_verified: 2026-08-10
 | Anonymized copy | `aso/fusion-junction-aso-journal-article-anonymized.pdf` |
 | Supplemental material, for review | `aso/fusion-junction-aso-sequences.csv` |
 | Fee route | NO ZERO-DOLLAR ROUTE. Publishing Services Fee $90 per typeset page, assessed on acceptance; colour charged separately at $800 for the first print image, which this submission does not request. READ AT PRIMARY SOURCE 2026-08-23, same capture as the limits. |
+
+> **Over a stated limit:** abstract_words 205 > 200
 
 ⚠ Limits provenance: READ AT PRIMARY SOURCE 2026-08-23 by trimcrae in a human web browser, and captured verbatim to research/literature/nat-submission-guidelines-2026-08-23.md, which is the source of record for every figure below. Article type Original Paper: 4,000-word limit, unstructured abstract of no more than 200 words, maximum total of five (5) figures and/or tables, and no reference cap for this type. THE COUNTING RULES AGREE WITH THIS MODULE'S: 'Word limits do NOT pertain to the abstract, disclosure statements, author contribution statements, funding information, acknowledgments, tables, figure legends, or references' -- which is the boundary `TAIL` already draws, so main_words here is comparable to the cap rather than merely near it. ⚠ NOT AUTOMATABLE: journals.sagepub.com returns HTTP 403 to the egress proxy, to a plain CI fetch and to a real headless Chromium alike (re-confirmed 2026-08-23, Actions run 32644971152), so this row cannot be refreshed by any tool here and must be re-read by a person before submission. ⚠ THE PAGE CONTRADICTS ITSELF ON THE REVIEW MODEL and the contradiction changes what is submitted: 'Identity transparency: Single-anonymized' appears twice, while the peer-review section says 'The journal adheres to a rigorous double-anonymized reviewing policy in which the identity of both the reviewer and author are always concealed from both parties.' Under the second reading the manuscript needs an anonymized copy. ✅ NO LONGER AN OPEN ITEM: both files are built, by `build_submission_pdf.py --anonymized` on every chain run, so the contradiction is decided at the upload form instead of after a return. ⚠ Superseded, retained: 'Tracked as an open item in the preprint checklist; not resolved here, because nothing here can resolve it.' The second clause is still true of THIS module and the first is not: nothing here can read the form, but the fix never needed the form read -- it needed both uploads to exist. SETTLED BY THE SAME READ, and each was previously carried as an open risk: (1) 'Accepts preprints? Yes' -- posting before submission does not disqualify, and the submission form asks for the preprint DOI. (2) The Publishing Services Fee survived the Liebert-to-SAGE transfer unchanged at $90 per typeset page, assessed on acceptance, with colour charged separately at $800 for the first print image. (3) The control-oligodeoxynucleotide rule is real and is scoped to efficacy: 'All manuscripts that claim antisense efficacy must, in addition to the antisense oligodeoxynucleotide construct, include at least two control oligodeoxynucleotides.' This paper claims no efficacy and runs no assay, so it is out of that rule's scope..
 

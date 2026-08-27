@@ -8,12 +8,23 @@ reported "53 distinct PMID(s), citation numbering is current" while the journal 
 references were read by nothing at all. A green gate said nothing about the file it appeared to be
 about, which is the "reports while measuring nothing" defect this repository keeps paying for.
 
-Three things are checked, and each is a way the two documents can silently disagree:
+Four things are checked, and each is a way the two documents can silently disagree:
   1. every superscript number in the prose resolves to an entry in the list (a dangling citation);
   2. every entry in the list is cited by the prose (a reference to nothing, which reviewers notice);
-  3. the PMID a citation names is the PMID its entry carries (the numbering is inherited from the
-     extended report, so the numbers are deliberately NOT contiguous and a renumbering slip would
-     otherwise point a reader at the wrong paper).
+  3. the PMID a citation names is the PMID its entry carries, so a renumbering slip cannot point a
+     reader at the wrong paper;
+  4. the numbers run 1..N in order of FIRST CITATION, which is what the reference list's own banner
+     asserts and what the journal convention requires.
+
+⛔⛔ CHECK 4 WAS ADDED ROUND 9, 2026-08-27, AND IT WAS FAILING WHEN IT WAS WRITTEN. Measured at the
+pin: first-citation order ran 1-11, then 22, 19, 20, 21, then 12, 13, 23, 16, 14, 15, 17, 18. The
+labels were contiguous and every PMID resolved, so checks 1-3 were all green over a list that broke
+the rule its own file states in a banner. ⚠ AND THIS DOCSTRING WAS ITSELF THE EVIDENCE: item 3 above
+used to read "the numbering is inherited from the extended report, so the numbers are deliberately
+NOT contiguous" — a description of a regime that had already been retired, sitting beside the
+invariant nobody was checking. A stale docstring next to an unchecked rule is how the ORIGINAL
+renumbering defect reached a typeset PDF, where about two thirds of the citations pointed at a real
+paper that was the wrong one.
 """
 import json
 import os
@@ -210,3 +221,28 @@ def test_the_printed_pdf_numbers_the_references_as_the_prose_cites_them():
         f"the PDF prints reference numbers {printed[:8]}… while the prose cites {cited[:8]}…\n"
         "Every citation whose printed position differs from its number sends the reader to a "
         "different paper, which no linter on the markdown can see.")
+
+
+def test_the_numbering_runs_in_order_of_first_citation():
+    """⛔ THE ORDERING HALF OF THE BANNER, WHICH NOTHING READ.
+
+    Checks 1-3 pass on any bijection between numbers and PMIDs. This one asserts the ONE ordering
+    the reference list's banner commits to, and that a journal reader assumes without looking.
+    """
+    article = _read(ARTICLE)
+    body = re.sub(r"^---\n.*?\n---\n", "", article, flags=re.S)
+    order = []
+    for m in re.finditer(r"<sup>([\d,\s]+)</sup>", body):
+        for x in re.findall(r"\d+", m.group(1)):
+            n = int(x)
+            if n not in order:
+                order.append(n)
+    assert order, "no citations found in the journal article — the extractor is broken, not the paper"
+    assert order == list(range(1, len(order) + 1)), (
+        f"references are not numbered by order of first citation.\n"
+        f"  first-citation order: {order}\n"
+        f"  expected:             {list(range(1, len(order) + 1))}\n\n"
+        "⛔ FIX THE NUMBERING, NOT THIS TEST. `fusion-junction-aso-journal-references.md` states the "
+        "rule in its own banner and the journal convention requires it. Renumber the superscripts "
+        "AND reorder the list together, then re-run: `test_the_pmid_a_citation_names_is_the_one_its_"
+        "entry_carries` is the post-condition that proves no citation moved to the wrong paper.")

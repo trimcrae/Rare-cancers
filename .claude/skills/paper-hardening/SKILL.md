@@ -186,6 +186,29 @@ inside a submission seven rounds deep. **Enumerate what each round's seats actua
   count that holds at any run length. ★ **Re-derive every number in any proposed replacement**, from
   the artifact, before it enters the manuscript. A fix arriving in quotable form is the most dangerous
   kind, because it reads as already checked.
+- **⛔⛔ VERIFY EXISTENCE *AND* SEVERITY — AND THE SECOND ONE IS THE ONE THAT GETS SKIPPED.**
+  ⚠ *Measured round 9, on the ASO journal article, 2026-08-27.* Every one of eight findings was
+  checked against the committed artifacts and every one passed, because the seats were quoting
+  accurately. The check answered *does the text actually say this?* It never asked *is this a reason
+  to stop the paper?* — so **severity was inherited from the seat's own heading**, and eight
+  suggestions were applied as blockers.
+  ★ **A SEAT'S GRADE IS NOT EVIDENCE; IT IS THE THING UNDER REVIEW.** A seat is instructed to emit a
+  `BLOCKERS:` section, so five seats will produce blockers. A synthesis that reads those headings as
+  data has outsourced the judgment that is the synthesis's whole job.
+  ★★ **THE TEST, APPLIED PER FINDING BEFORE ANY PROSE IS TOUCHED: would a reviewer STOP this paper
+  for it, or SUGGEST it?** A wrong fact, a claim the paper's own text contradicts, and an internal
+  contradiction stop a paper. A completeness wish, a *"you should also measure X"*, and a caveat the
+  body already carries elsewhere are suggestions — record them, do not apply them.
+  ⛔ **AND THE COST IS NOT WASTED EFFORT, IT IS DELETED GOOD CONTENT.** Applying all eight took that
+  paper from 4,614 to 5,563 words and from six typeset pages to eight, against a **hard 6-page budget
+  backed by a per-page charge**. An hour then went into cutting cited case reports, the coverage
+  arithmetic and a paragraph of the Introduction to fund additions that should not have been made.
+  Every individual cut looked defensible. **A §1 word budget does not protect you here — it makes the
+  over-grade expensive rather than preventing it.**
+  ⚠ **The count itself is the smoke alarm** (trimcrae, that day): *"if it's coming back as having 10
+  blockers… that strikes me as agents making things up to fill a quota."* Late rounds on a paper that
+  has already survived eight of them should produce FEW blockers. A high count is evidence about the
+  synthesis before it is evidence about the paper.
 - **★ VERIFICATION IS A SEPARATE PASS FROM APPLICATION.** The round-8 ledger applies nothing: the
   ledger is the deliverable and application is its own commit. Mixing them is how an unverified charge
   reaches the prose while you are busy fixing a verified one.
