@@ -995,6 +995,88 @@ bind("Appendix A30's verbatim quotation of reference [12]'s TAF15 share",
      r"less frequently \(approximately (\d+)%\) to TAF15",
      lambda a: str(_ext_share(a)["percent_approx"]))
 
+# ⛔ AND THE RELATION, NOT ONLY THE OPERANDS — added 2026-08-27 after a blind regression seat found
+# that the operands were bound and the CLAIM JOINING THEM was not. The generator derives
+# `falls_inside_pooled_interval` from the interval it has just computed, and the commit that added it
+# said in as many words that a moved interval would turn the prose red. It would not have: nothing
+# read that field. Binding 20 and 12.9–25.0 separately says both numbers are right and says NOTHING
+# about the sentence asserting one contains the other, which is the sentence carrying the finding.
+# ★ paper-hardening §8b: a claim is a QUANTITY and a RELATION, and this guard set was built on the
+# quantity half. Both directions are asserted separately, because "the right word is present" and
+# "no wrong word is present" fail differently.
+# ⚠ PATTERNS ARE WRITTEN AGAINST THE FLATTENED TEXT, WHICH STRIPS `**`. The first version of this
+# test anchored on the bold markers and matched NOTHING at three of four sites — a guard that is red
+# on true input, which is worse than one that is green on false input because the first thing anyone
+# does is loosen it (paper-hardening §8b.1).
+# ⚠ AND THE FORBIDDEN HALF IS SCOPED TO THE ≈20 % CLAUSE, NOT TO THE SENTENCE. The Abstract sentence
+# correctly says the interval "sits BELOW the 29.2 %" of the referral cohort in the same breath —
+# two different comparisons, one contained and one below, and a sentence-wide ban on "below" would
+# have red-flagged a correct paper.
+_CONTAINMENT_REQUIRED = (
+    ("Abstract", r"an interval that contains the ≈20 %"),
+    ("§1.3 what this synthesis adds",
+     r"containing the share this paper's own cited sources state"),
+    ("§3.5", r"both put it at about 20 %, which falls inside 12\.9–25\.0"),
+    ("§5 claims bullet", r"an interval over four independent series that contains the ≈20 %"),
+)
+#: The inverse assertion. None of these may appear ANYWHERE while the artifact derives containment.
+_CONTAINMENT_FORBIDDEN = (
+    r"below the ≈20 %",
+    r"above the ≈20 %",
+    r"outside 12\.9–25\.0",
+    r"the ≈20 %[^.]{0,40}falls outside",
+)
+
+
+def test_the_prose_asserts_the_containment_the_artifact_computes(flat, art):
+    """★★ THE RELATION IS DERIVED, SO THE PROSE MUST FOLLOW IT — in both directions.
+
+    `analyses.C_partner_prevalence.external_reported_share.falls_inside_pooled_interval` is computed
+    from the pooled Wilson interval at generation time. If a count changes and that interval moves
+    off the cited ≈20 %, that field flips to False and THIS test goes red — which is what makes the
+    paper's central round-7 finding ("the pooling is consistent with its own cited literature, so the
+    correction framing does not survive") a bound claim rather than a sentence somebody wrote once.
+
+    ⛔ WITHOUT THIS, THE OPERANDS WERE BOUND AND THE CLAIM JOINING THEM WAS NOT. Binding 20 and
+    12.9–25.0 separately says both numbers are right and says nothing about the sentence asserting
+    one contains the other — which is the sentence carrying the finding. A claim is a QUANTITY and a
+    RELATION and this guard set was built on the quantity half (paper-hardening §8b). Found by a
+    blind regression seat, 2026-08-27, against a commit message that had claimed this was already
+    implemented.
+
+    ⛔ Both directions are asserted, because "the right word is present" and "no wrong word is
+    present" fail differently, and over-anchoring one silently makes the check vacuous.
+    """
+    ext = art["analyses"]["C_partner_prevalence"]["external_reported_share"]
+    inside = ext["falls_inside_pooled_interval"]
+    lo, hi = ext["pooled_ci95_for_comparison"]
+    assert (lo <= ext["percent_approx"] <= hi) is inside, (
+        "the artifact's own derived containment disagrees with its own interval — regenerate it")
+
+    if not inside:
+        # The interval has moved off the cited share. The paper's round-7 finding no longer holds
+        # and the prose must not still assert it. This branch is deliberately strict: it fails
+        # until a human has re-read the section, which is the correct outcome for a finding that
+        # has just been falsified by its own data.
+        still = [w for w, p in _CONTAINMENT_REQUIRED if re.search(p, flat)]
+        assert not still, (
+            f"the artifact now derives falls_inside_pooled_interval=False over {lo}-{hi}, but the "
+            f"prose still asserts containment at {still}. ⛔ The paper's finding changed — read the "
+            "section, do not re-anchor the regex.")
+        return
+
+    missing = [w for w, p in _CONTAINMENT_REQUIRED if not re.search(p, flat)]
+    assert not missing, (
+        f"the containment claim is absent at {missing}, while the artifact derives "
+        f"falls_inside_pooled_interval=True over {lo}-{hi}. ⛔ CHECK THE MEANING BEFORE THE REGEX: "
+        "re-anchor only if the sentence says the same thing in different words. If the sentence now "
+        "says something else, the paper's finding changed and that is the thing to look at.")
+    contradicted = [p for p in _CONTAINMENT_FORBIDDEN if re.search(p, flat)]
+    assert not contradicted, (
+        "the artifact says the cited share falls INSIDE the pooled interval, but the prose asserts "
+        f"the opposite somewhere: {contradicted}")
+
+
 bind("§3.5's two excluded congress abstracts, each as TAF15 over its partner-assigned total",
      r"\((\d+) of (\d+) partner-assigned in Valencia; (\d+) of (\d+) in Pilsen/Znojmo\)",
      lambda a: _abstracts(a))

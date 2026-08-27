@@ -1,0 +1,109 @@
+{
+ "_schema": "emc-review-seat/1",
+ "_role": "The CANONICAL round-7 record for this commit. It merges five blind seats and deliberately carries EMPTY tallies, so clause 1's derivation over the seat glob counts each finding exactly once.",
+ "paper": "PUB-FUSION-PARTNER",
+ "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+ "reviewed_commit": "475ad7d0c3bd0b587bce6591c3826a8c37c77d09",
+ "document_sha256": "0e440a481a7ab33c8217e9ddbebbe254c873404f323edb55bed51e8f219fd59e",
+ "blind": true,
+ "_blind_means": "Each seat was given the document path and the pinned sha and nothing else, told the tree may drift and that the PIN is the subject, and forbidden research/autonomy/, CLAUDE.md, AGENTS.md, STRATEGY.md, the program map, every skill file and every other seat's output. Instructed to refute by default and told there is no wanted answer. Dispatched CONCURRENTLY at subagent_width=5 by CYC-0019. ⛔ THE APPLIER IS NOT BLIND: CYC-0019 wrote the fixes these seats reviewed, which is exactly why the seats are subagents and not the driver.",
+ "utc": "2026-08-27T06:28:46Z",
+ "cycle_id": "CYC-0019",
+ "round": 7,
+ "seat": "five blind seats — regression, arithmetic, statistics, citations-and-instruments, hostile-referee",
+ "verdict": "NOT CONVERGED",
+ "_verdict_note": "paper-hardening §8: stop when a round returns no blockers AND no P1s. This round returned six distinct blockers and seventeen P1 instances, so round 8 is warranted. ⭐ THE TREND IS THE SIGNAL, NOT THE COUNT: round 6 found 3 distinct blockers and round 7 found 6, and the rise is NOT decay in the paper — three of the six are residue of round 7's OWN retraction, found by the regression lens that exists for exactly that, and three are pre-existing defects two new lenses (statistics arithmetic on the falsifiers, citations on what §1.2 says the literature does) reached for the first time. paper-hardening §8a: a new lens looks where nobody looked and finds the first thing there, so a rising count tracks lenses added, not defects remaining.",
+ "central_claim": "The NR4A3 5' fusion partner is a CANDIDATE and not an established stratification variable in EMC. Prognosis has a crude pooled magnitude (n=73) arriving with a published defeater from its own larger cohort; treatment response is a DIRECTION ONLY with no magnitude at any denominator; prevalence is an interval (18.2 %, 95 % CI 12.9–25.0) over four independent series.",
+ "seats_agreed_the_arithmetic_reproduces": "⭐ THE STRONGEST POSITIVE RESULT OF THE ROUND, AND IT IS INDEPENDENT. The arithmetic seat re-derived 233 printed figures and the hostile referee independently recomputed all 13 Wilson intervals and all 5 Fisher p-values; both report exact agreement with the artifact, and denominators reconcile across all three analyses. The citations seat resolved 46 distinct identifiers over 61 sites — every PMID/PMCID/DOI triple belongs to one paper, every publication-type characterisation matches the record, and 16 of 18 verbatim quotations are word-for-word in the source named, the other two disclosed as unreachable by the paper itself. ⛔ SO THE MEASUREMENT LAYER IS NOT WHAT FAILS. Every blocker below is in a SENTENCE ABOUT the numbers or about the literature, never in a number.",
+ "blockers_distinct": [
+  {
+   "id": "R7-B1",
+   "seats": [
+    "regression RG-B1",
+    "hostile-referee HR-B1",
+    "arithmetic ARITH-B1"
+   ],
+   "where": "§1.3 'What this synthesis adds'",
+   "quote": "a prevalence figure materially below the one the field repeats",
+   "why_wrong": "A live site of the claim Appendix A30 retracts, and the artifact says the opposite: external_reported_share.falls_inside_pooled_interval is true. A30 asserted the retraction reached 'four sites'; this is a fifth.",
+   "convergence": "THREE seats, blind to each other, from three different lenses. paper-hardening §4: independent convergence is the signal that a finding is real.",
+   "status": "FIXED by CYC-0019 in the commit that carries this record; A30's site count corrected to six."
+  },
+  {
+   "id": "R7-B2",
+   "seats": [
+    "regression RG-B2",
+    "citations CI-B2"
+   ],
+   "where": "§1.2 evidence table, partner-prevalence row",
+   "quote": "the field quotes one cohort",
+   "why_wrong": "States the quoting practice A30 says no source was ever held for, in a row whose own evidence column cites [7,8,9,10] for 'TAF15 in roughly one EMC in five' — the row contradicts itself.",
+   "convergence": "Two seats, independently.",
+   "status": "FIXED by CYC-0019 in the commit that carries this record."
+  },
+  {
+   "id": "R7-B3",
+   "seats": [
+    "statistics STAT-B1"
+   ],
+   "where": "§3.8 closing paragraph",
+   "quote": "the prognostic effect is absorbed by tumour size in the two largest series",
+   "why_wrong": "Asserts an adjustment result for two cohorts when only huang-2023-outcome carries multivariable_result and §3.4/A17 record Paioli 2021's adjustment structure as UNKNOWN. The same sentence then names Paioli 2021 again, in its next clause, as reaching no significance at all.",
+   "status": "FIXED by CYC-0019 in the commit that carries this record; A31 extended to record that this was a THIRD site the same correction had missed."
+  },
+  {
+   "id": "R7-B4",
+   "seats": [
+    "statistics STAT-B2",
+    "arithmetic ARITH-B2"
+   ],
+   "where": "§6 falsifier #5, and analyses…what_could_kill_this[4] in the artifact",
+   "quote": "a third cohort of similar size disagreeing would put the pooled point estimate inside the comparator arm's interval",
+   "why_wrong": "Arithmetically false. Both seats computed it independently: a third cohort of 7–8 TAF15 with zero deaths gives a pooled TAF15 point estimate of 30.4–36.4 % against a comparator upper bound of 20.8 % (18.6 % if the comparator arm grows too). It would take roughly 19 further TAF15 patients with zero deaths, i.e. n ≥ 34.",
+   "convergence": "Two seats, independently, with agreeing arithmetic.",
+   "status": "STANDING — round 8. ⚠ This is a stated falsification threshold that cannot be met by the study it describes, which makes the paper's own falsifier unfalsifiable. Not applied here because it needs a re-derived threshold in the generator, not a prose patch."
+  },
+  {
+   "id": "R7-B5",
+   "seats": [
+    "statistics STAT-B3"
+   ],
+   "where": "§3.3 second estimand caveat; cohorts[agaram-2014-outcome].follow_up_warning",
+   "quote": "(21.7 vs 43.3 months, biasing against the TAF15 arm accruing events)",
+   "why_wrong": "In an uncensored during-follow-up analysis follow-up ENDS at death, so the TAF15 arm's shorter mean follow-up is partly PRODUCED by its 3/7 deaths. Stating the bias direction as established, and concluding 'the death excess is observed despite shorter observation', is circular.",
+   "status": "STANDING — round 8. The artifact's own field carries the circular reading, so the fix is in the generator."
+  },
+  {
+   "id": "R7-B6",
+   "seats": [
+    "citations CI-B1"
+   ],
+   "where": "§1.2 evidence table, TKI-response row, and its closing paragraph",
+   "quote": "never states a denominator in the primary text / nobody had put the counts in one place",
+   "why_wrong": "Refuted by two of the five sources the row itself cites, read at primary source: PMC7563993 states 'no activity was observed in the two TAF15-positive patients' and 'all three TAF15-positive tumors … failed to respond'; PMC7999686 states both cohorts' counts in one paragraph. The manuscript's own §4.4 says the per-arm denominators were read from reviews.",
+   "status": "STANDING — round 8. ⚠ Same direction of error as R7-B1 and R7-B2: it enlarges this paper's contribution."
+  }
+ ],
+ "p1s": [],
+ "p2s": [],
+ "_tallies_are_deliberately_empty": "blockers/p1s/p2s are empty here so the per-seat glob is the single counting surface. The distinct blocker list above is a merged view carrying provenance, not a tally.",
+ "distinct_findings": {
+  "blockers_distinct": 6,
+  "blocker_instances_across_seats": 10,
+  "p1_instances_across_seats": 17,
+  "p2_instances_across_seats": 25,
+  "note": "10 instances dedupe to 6. Defects found in the artifact and coverage gaps found are reported SEPARATELY and never merged (paper-hardening §8.0): all six above are defects — a wrong statement in the committed text — and every P1 is a coverage gap, i.e. the text is correct today and nothing would catch an ordinary edit that made it wrong."
+ },
+ "convergence_across_seats": "§1.3's retracted-framing residue (regression + hostile-referee + arithmetic, three lenses); §1.2's prevalence row (regression + citations); §6's falsifier-#5 arithmetic (statistics + arithmetic, agreeing computations); and — one level up — the SAME coverage gap reported by regression (REG-P1-2) and statistics (STAT-P1-3): the prose-vs-artifact guard bound the operands of a relational claim and never the relation. That gap was closed by CYC-0019 in this commit and mutation-proven, including a generator mutation that flips the derived containment.",
+ "what_the_seats_could_not_break": [
+  "The arithmetic: 233 figures re-derived by one seat, all Wilson intervals and Fisher p-values recomputed independently by another, exact agreement both times.",
+  "The identifier layer: 46 identifiers over 61 sites, every triple internally consistent, every publication-type characterisation matching the record.",
+  "The central claim's weight: the hostile referee found no treatment implication, no mechanism overclaim and no under-reported null, and states the claim is at or below the weight the data carry.",
+  "Reproducibility: `--check` on a clean archive of the pin exits 0."
+ ],
+ "structural_finding": "⭐ THE HOSTILE REFEREE'S NON-BLOCKER FINDING IS THE LARGEST RESULT OF THE ROUND AND IS RECORDED HERE RATHER THAN GRADED AWAY. Appendix A now runs 31 rows and roughly 5,280 words — about 30 % of a 17,300-word manuscript and larger than the entire Results section (~3,990 words) — plus 16 inline 'Superseded, retained' notes and 30 internal-review attributions. None of it corrects a PUBLISHED record; it is this repository's drafting log, carried inside the manuscript. Six sections now reason by pointing at it, and the referee's diagnosis is that this is HOW the blockers survived: a retraction recorded in an appendix instead of carried through the live text. Its recommendation — strip the register from the submitted document and re-derive §1.3 and §5 from §3 — is round 8's largest item and is exactly paper-hardening §1's monotone-growth failure arriving on this paper. ⚠ CYC-0019 added three more rows to that appendix while applying round 6, which is the pattern continuing under the cycle that was told to watch for it.",
+ "recommendations": {
+  "hostile_referee": "major revision"
+ },
+ "scope_note": "A round record, not a decision. Nothing here authorises an outward-facing act, and publish_bar clause 1 reads NOT CONVERGED off this file."
+}

@@ -10,7 +10,7 @@
     "experiment": 23,
     "fetch": 11,
     "fix": 2,
-    "harden": 3,
+    "harden": 4,
     "negative": 32,
     "process": 6,
     "process_defect": 6,
@@ -18,7 +18,7 @@
     "write": 6
   },
   "n_by_state": {
-    "done": 4,
+    "done": 5,
     "queued": 94
   },
   "n_clamped": 11,
@@ -99,7 +99,7 @@
       "observed": "DONE. Five blind seats ran on pin 053a8211 at subagent_width=5, none of them the driver, and their records are committed at research/autonomy/review-seats/PUB-FUSION-PARTNER-053a8211*.json. record_bar_evidence.py hardening derived round 6 FROM those seats. \u2b50 WHAT CHANGED IS THE KIND OF READING THE BAR RETURNS, NOT THE SCORE: it is still BLOCKED at 3/6, but clause 1 moved from 'record names no seats' to a measured '4 blocker(s), 11 P1(s) open at round 6', and clause 6 from UNVERIFIABLE to FAIL with verdict 'not_supported'. An absent reading became a reading of absence's opposite \u2014 somebody looked. \u26d4 THREE DISTINCT BLOCKERS, ALL VERIFIED BY THE DRIVER, ALL NON-NUMERIC: (B1) \u00a75's claims bullet says 'either of the two series that ran a multivariable model (Huang 2023)' while exactly one cohort record carries multivariable_result and the paper's own A17 retracts that wording \u2014 a half-applied replacement by e7cff259, whose same commit added A24 claiming the fix; (B2) \u00a73.4 opens 'Two series, both larger than any cohort that could be pooled here' and both ARE pooled here; (B3) the '\u224827 % the field routinely quotes' at four sites is unsourced, and reference [4] (PMC7563993, a Review) says about 20 %, which sits inside the paper's own 12.9-25.0 interval. \u2b50 THE SHAPE IS THE FINDING: the arithmetic seat re-derived 140 printed quantities with ZERO mismatches and ran the generator's verify mode, the 122-test prose guard and the 9-test mutation suite clean. Not one defect is a wrong number. Every one is a count-word, a comparative or an attribution \u2014 paper-hardening \u00a78a measured rather than argued."
     },
     {
-      "id": "AUT-PROP-011",
+      "id": "AUT-PROP-015",
       "kind": "harden",
       "serves": {
         "route": "RT-PARTNER-STRAT",
@@ -107,8 +107,33 @@
         "strategy": "ST-REPURPOSING"
       },
       "state": "queued",
-      "owner": "CYC-0019",
-      "claimed_utc": "2026-08-27T05:44:42Z",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0019",
+      "prerequisite_of": "AUT-049",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-475ad7d0c3bd0b587bce6591c3826a8c37c77d09.json",
+      "what": "\u2b50 ROUND 8 OF PUB-FUSION-PARTNER, AND ITS LARGEST ITEM IS STRUCTURAL, NOT A BLOCKER. READ THE ROUND RECORD'S `blockers_distinct` AND `structural_finding` \u2014 do not carry them forward as a summary; three of round 7's six blockers are marked STANDING there with the seat, the quote and the arithmetic that refutes each. \u26d4 THE THREE STANDING BLOCKERS ARE NOT PROSE PATCHES: R7-B4 (\u00a76 falsifier #5) states a falsification threshold two seats independently computed to be unreachable by the study it describes \u2014 it needs a threshold DERIVED in the generator from the counts it names, which is the class already closed twice in that same file; R7-B5 (\u00a73.3 follow-up bias) is circular because follow-up ends at death in an uncensored analysis, and the artifact's own `follow_up_warning` carries the circular reading, so the fix is in the generator; R7-B6 (\u00a71.2 TKI row) is refuted by two of the five sources the row itself cites, quoted at primary source in the citations seat's record. \u2b50 AND THE HOSTILE REFEREE'S FINDING OUTWEIGHS ALL THREE: Appendix A is ~5,280 words over 31 rows \u2014 about 30 % of the manuscript and larger than Results \u2014 plus 16 inline superseded notes and 30 internal-review attributions, none of which corrects a PUBLISHED record. Its recommendation is to strip the correction register from the submitted document and re-derive \u00a71.3 and \u00a75 from \u00a73, IN THAT ORDER, because every blocker of round 7 survived by being recorded in an appendix instead of carried through the live text. \u26a0 CYC-0019 added three rows to that appendix while applying round 6, so the growth is happening under the cycles told to watch for it (paper-hardening \u00a71). Decide that structural question BEFORE patching prose: a \u00a71.3 re-derived from \u00a73 may delete the sentences the remaining blockers live in.",
+      "score": 195.5,
+      "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it"
+    },
+    {
+      "id": "AUT-PROP-011",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,

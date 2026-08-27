@@ -2,6 +2,31 @@
 
 Every mutation is asserted LANDED (occurrence count + digest) BEFORE the gate's answer is read —
 a mutation that never applies reports exactly what a guard that never fires reports.
+
+⛔⛔ AND `cp -al` IS NOT ISOLATION IF ANYTHING IN THE CLONE WRITES IN PLACE — MEASURED, NOT QUOTED.
+This module mutates only the MANUSCRIPT and is safe, because every write below goes to a new file
+that is then `os.replace`d, which breaks the shared inode instead of following it. An ad-hoc run
+during the same cycle went further and mutated the GENERATOR, then ran it inside the clone to see
+whether a moved interval turned the prose red. `emc_fusion_partner_pooling.py` writes its artifact
+IN PLACE, the clone shared that inode, and the mutated artifact landed in the real working tree —
+`external_reported_share.percent_approx` read 40 in a tracked file. The guard file's own docstring
+had predicted exactly this, in those words, and it happened anyway.
+⭐ TWO THINGS THE INCIDENT ACTUALLY ESTABLISHED, and they are worth more than the warning:
+  · The guards CAUGHT it within seconds and named it precisely — four bindings plus the new
+    containment test, which went red because the artifact said the cited share now sits OUTSIDE
+    the interval while the prose still said it was contained. That is the drift the containment
+    test was written for, arriving unplanned.
+  · Nothing was lost, because the generator is the source of truth and the artifact is derived:
+    re-running the clean generator restored the file exactly. A repository where the fix for a
+    corrupted artifact is one regeneration is a repository where this class of accident is cheap.
+⚠ SO: if a mutation needs a GENERATOR run, copy the tree with `cp -a` (no `-l`), or break the link
+on the output path before regenerating. Never `cp -al` a tree you are about to run a writer inside.
+
+⚠ ONE MUTATION WAS DISCARDED RATHER THAN COUNTED, and the reason generalises. Dropping a TAF15
+count left the pooled interval still containing the cited share, so `falls_inside_pooled_interval`
+never flipped — the property under test did not move, and the gate's PASS said nothing. A mutation
+that does not move the property is not a test of it. Assert the property flipped, not merely that
+the bytes changed.
 """
 import hashlib, json, os, shutil, subprocess, sys, tempfile
 
