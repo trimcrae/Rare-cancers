@@ -112,6 +112,30 @@ REQUIRED = [
     # bound separately and in both directions by `test_the_manuscript_asserts_the_relation_its_
     # artifacts_compute.py`'s `research-use-only` row, so removing it here loses no coverage and
     # restores this row's power over the synthesis denial it is named for.
+    # ⛔⛔ AND TIGHTENING THAT ALTERNATION DID NOT MAKE THIS ROW BIND THE PAPER'S SENTENCE. Round
+    # 10's guard-coverage audit deleted the manuscript's clause outright, rebuilt the real PDF
+    # (BUILD_RC=0) and re-ran this module: GREEN, on a paper that no longer said it. Re-measured
+    # 2026-08-27 while closing that audit, same method, same result — `11 passed` with the clause
+    # gone. TWO INDEPENDENT DEFECTS, and only the first is a pattern problem:
+    #   (1) the single match in the rebuilt PDF's text layer is the Table 1 CAPTION CONSTANT at
+    #       `research/manuscripts/aso_journal_tables.py` ("Nothing here has been synthesised or
+    #       tested, and no sequence may be administered to any person or animal") — a generated
+    #       string, not the paper, and the same "weakest branch is satisfied from elsewhere"
+    #       failure the note above records for `not for administration`;
+    #   (2) EVEN WITH THAT BRANCH GONE THE ROW COULD NOT BIND THE CLAUSE. Two-column typesetting
+    #       interleaves the columns, so `none has been synthesised` occurs ZERO times in the
+    #       pdfminer text of a paper that states it — the extraction reads "…and none has been
+    #       record, fusion-junction-aso-sequences.csv, … by RNA sequencing. tested. Order
+    #       canonical". No pattern over this fixture can distinguish that from its absence.
+    # ★ SO THE ROW IS LEFT EXACTLY AS IT IS AND THE BINDING WAS PUT SOMEWHERE ELSE. This row still
+    # holds a real property — the DELIVERED document states the denial somewhere — and tightening
+    # it to exclude the caption would make it red on an honest paper, which is how gates get
+    # loosened. The manuscript's own clause is bound in BOTH directions, against the `.md` the
+    # author edits, by `test_the_manuscript_asserts_the_relation_its_artifacts_compute.py`'s
+    # `nothing-synthesised-or-tested` row: deletion trips its missing-site ERROR and inversion
+    # trips its `forbid`, both watched red before this comment was written. ⚠ Reading the source
+    # rather than the PDF is not a weakening here — the stale-build-stamp guards refuse a commit
+    # whose PDF was not rebuilt from that same `.md`, so the two are the same bytes at commit time.
     ("that nothing was synthesised or tested",
      r"has been synthesi[sz]ed|nothing (?:here )?(?:has been|was) synthesi[sz]ed",
      "the scope bound. A paper naming orderable reagents without it reads as a wet-lab report."),

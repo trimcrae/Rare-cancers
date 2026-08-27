@@ -190,6 +190,161 @@ POLARITY = [
      "the CSV column gap_level_margin, computed on the shorter side",
      "gap-level margin is the count of junction-unique bases on the longer side of the "
      "breakpoint."),
+    # ─────────────────────────────────────────────────────────────────────────────────────────
+    # ⛔⛔ ROUND 10's GUARD-COVERAGE AUDIT: 34 OF 42 SINGLE-SENTENCE MUTATIONS SHIPPED GREEN, AND
+    # ALL FIVE LINTERS RETURNED rc=0 ON ALL 42 (research/manuscripts/aso/
+    # fusion-junction-aso-guard-coverage-audit.md, 2026-08-27). Its structural finding is the
+    # reason the nine rows below are HERE rather than in a new module: this file is the only
+    # instrument in the repository that reads VERBS, its sixteen rows accounted for six of the
+    # eight catches, and every one of the 34 survivors fell outside their spans. Widening the
+    # table is the fix; a new file would have been a second list to remember.
+    # ★ AND EVERY ROW BELOW BINDS THE `.md`, WHICH IS THE POINT. The audit's MISCOVERED A is a
+    # guard that reads the built PDF's text layer and therefore could not see its own sentence:
+    # two-column typesetting interleaves the columns, so `none has been synthesised` occurs ZERO
+    # times in the pdfminer text of a paper that states it (measured — the extraction reads
+    # "…and none has been record, fusion-junction-aso-sequences.csv, … by RNA sequencing. tested.
+    # Order canonical"). A PDF-text guard on a scattered clause cannot be tightened into a
+    # working one; the source is where the clause exists as a clause, so the source is what these
+    # rows read. The delivered-document direction is not lost — it is held by the stale-build-stamp
+    # guards, which refuse a commit whose PDF was not rebuilt from this same `.md`.
+    # ─────────────────────────────────────────────────────────────────────────────────────────
+    # ⛔⛔ THE SYNTHESIS DENIAL — audit item UNGUARDED 1 and MISCOVERED A, THE WORST HOLE IT FOUND.
+    # `test_the_paper_states_what_its_own_claims_depend_on.py::REQUIRED["that nothing was
+    # synthesised or tested"]` is named for this sentence and does not bind it, for TWO
+    # independent reasons measured that day: its pattern is satisfied by the Table 1 caption
+    # constant at `research/manuscripts/aso_journal_tables.py:194` ("Nothing here has been
+    # synthesised or tested…"), which is a GENERATED STRING and not the paper; and even with that
+    # branch gone the clause is unmatchable in the PDF text layer. The seat DELETED the clause
+    # from the `.md`, rebuilt the real PDF (BUILD_RC=0) and re-ran the module: green, on a paper
+    # that no longer said it. This row is the binding — deletion trips the missing-site ERROR,
+    # inversion trips `forbid`, and both read the source the author edits.
+    ("nothing-synthesised-or-tested",
+     r"Every sequence here is a research reagent[^.]{0,140}\.",
+     r"none has been synthesi[sz]ed or tested",
+     r"(?<!none )has been synthesi[sz]ed|have been synthesi[sz]ed|w(?:as|ere) synthesi[sz]ed",
+     "this repository has no wet lab: no protocol, instrument record or assay result exists for "
+     "any sequence in fusion-junction-aso-sequences.csv, and the whole submission is the "
+     "in-silico half of a first step",
+     "Every sequence here is a research reagent for laboratory investigation only, and each has "
+     "been synthesised and tested."),
+    # ⛔ THE DECLARATIONS BLOCK — audit item UNGUARDED 4. `SAFETY_CLAUSES` below covers exactly two
+    # of the six operative statements (no-administration, no-human-subjects) and the `POLARITY`
+    # rows above cover two more (ethics, competing interests). The remaining three sat beside them
+    # reading nothing: `grep -n "funding\|participants\|individual person\|consent"` over
+    # `research/manuscripts/tests/*.py` and `research/manuscripts/lint_*.py` returned three hits,
+    # all of them comments. Each inverts into a fabricated human-subjects or funding claim in a
+    # document going to a journal under a real name and ORCID, and each inversion is CHEAPER than
+    # the ones this file already catches — deleting the word "No" is enough for two of the three.
+    ("consent-to-participate",
+     r"\*\*Consent to participate\.\*\*[^*]{0,140}",
+     r"No participants were enrolled",
+     r"(?<!No )[Pp]articipants were enrolled|participants were recruited|participants gave",
+     "this repository enrolled nobody: there is no protocol, no consent form and no participant "
+     "record anywhere in it, and the same fact is stated in the cover letter",
+     "**Consent to participate.** Not applicable. Participants were enrolled."),
+    ("no-individual-patient-data",
+     r"\*\*Consent for publication\.\*\*[^*]{0,180}",
+     r"contains no data from any individual person",
+     r"contains data from (?:any |an )?individual person|contains individual patient data",
+     "every clinical number in the submission is a published aggregate under a PMID "
+     "(research/manuscripts/aso/fusion-junction-aso-references.json); no record of any individual "
+     "person exists in this repository, and AGENTS.md's medical-integrity rule forbids one",
+     "**Consent for publication.** Not applicable. The manuscript contains data from individual "
+     "persons."),
+    ("no-external-funding",
+     r"\*\*Funding statement\.\*\*[^*]{0,140}",
+     r"No external funding",
+     r"external funding was received|received external funding|funded by a grant|"
+     r"supported by (?:a )?grant",
+     "the cover letter's own declaration, 'I received no funding and have no financial competing "
+     "interests', which test_the_envelope_declares_one_interest.py holds",
+     "**Funding statement.** External funding was received by the author."),
+    # ⛔⛔ THE CONDEMNED ONE-SLIDE DESIGN — audit item UNGUARDED 6, AND THE ONE THAT COULD BE ACTED
+    # ON. This sentence sits immediately after the paper prints `5′-AGGGCATATCTTGTGT-3′`, a
+    # sequence whose own CSV row reads `do_not_order` = "DO NOT ORDER — pairs its whole catalytic
+    # gap against a wild-type parent gene at the ten-base-pair criterion" while its one-base slide
+    # `GGGCATATCTTGTGTG` is the named, orderable *TAF15* reagent. Inverted — "Either may be
+    # substituted for the other" — the paper tells a laboratory holding both strings that it may
+    # order the condemned one. The span is anchored at BOTH ends on purpose: a reworded warning
+    # leaves the site unmatched, which is an ERROR here rather than a silent pass.
+    ("condemned-slide-is-not-a-substitute",
+     r"AGGGCATATCTTGTGT[^#]{0,220}?substituted for the other\.",
+     r"\bNeither may be substituted for the other\b",
+     r"\bEither may be substituted\b|\bmay be substituted for either\b|\bmay substitute for\b",
+     "fusion-junction-aso-sequences.csv: AGGGCATATCTTGTGT carries a do_not_order verdict and "
+     "names GGGCATATCTTGTGTG as 'a single-base slide; orderable', and "
+     "aso-parent-gap-pairing.json:per_design gives it longest_parent_duplex_bp_through_gap = 11 "
+     "with counts_as_liability = true",
+     "AGGGCATATCTTGTGT-3′ is one slide from the *TAF15* reagent and pairs 11 base pairs of "
+     "wild-type *NR4A3* through its whole catalytic gap. Either may be substituted for the "
+     "other."),
+    # ⛔ FIGURE 1's TWO SCOPE SENTENCES — audit item UNGUARDED 8. The figure draws one 16-mer across
+    # *EWSR1* e12, *TAF15* e11 and *FUS* e10, and the legend's two scope clauses are the only
+    # things stopping a reader taking the *TAF15* exon-11 row for an orderable reagent at a
+    # patient junction. The audit searched test_aso_figure_provenance.py,
+    # test_aso_figure_chain_is_complete.py, test_figure_text_carries_no_markdown.py and
+    # test_display_items_are_cited_in_order.py: all four check provenance, rendering or ordering,
+    # and none reads the legend's claims. Both inversions shipped green.
+    ("figure1-one-of-three-is-a-reported-junction",
+     r"\*\*Figure 1\.[^*]{0,220}\*\*",
+     r"only one of the three is a junction any patient is reported to carry",
+     r"all three are junctions|each of the three is a junction|"
+     r"three of the three|all three of them are junctions",
+     "aso-per-junction-table.json:junctions[].clinical_tier — EWSR1_e12__NR4A3_e3 is "
+     "published_exon_resolved_breakpoint, TAF15_e11__NR4A3_e3 is "
+     "partner_published_this_exon_not_reported and FUS_e10__NR4A3_e3 is "
+     "no_published_exon_resolved_breakpoint",
+     "**Figure 1. One 16-mer spans three partners' breakpoints, and all three are junctions "
+     "patients are reported to carry.**"),
+    ("figure1-no-reagent-at-the-taf15-exon-11-row",
+     r"The \*TAF15\* row is exon 11[^#]{0,280}?named at it\.",
+     r"No reagent is named at it",
+     r"\bAn? reagent is named at it\b|\bone reagent is named at it\b|"
+     r"\bthe reagent named at it\b",
+     "fusion-junction-aso-sequences.csv: no row carries junction TAF15_e11__NR4A3_e3; the named "
+     "TAF15 reagent is at TAF15_e6__NR4A3_e3",
+     "The *TAF15* row is exon 11 — a different junction from Table 1's *TAF15* exon 6 reagent, "
+     "and one of the two further breakpoints the *EWSR1* reagent also spans. A reagent is named "
+     "at it."),
+    # ⛔ THE THREE CLEAN DESIGNS — audit item UNGUARDED 10, and the sentence CLAUDE.md §6 quotes as
+    # the worst of the thirteen inversions that reached `origin/main` on 2026-08-27: "Three designs
+    # clear every screen, each at a junction patients are reported to carry, which makes them
+    # candidates rather than mechanism controls" is the exact reverse of the sentence, in the paper
+    # whose whole value is not overclaiming. `test_aso_submission_numbers.py::
+    # test_the_discussion_recommends_the_two_published_junctions` holds the same relation against
+    # the same artifact — but its `PAPER` is the EXTENDED REPORT, so the journal article's copy is
+    # one of a pair with nothing on this side of it.
+    ("three-clean-designs-are-mechanism-controls",
+     r"Three designs clear every screen[^.]{0,200}\.",
+     r"none at a junction any patient is reported to carry",
+     r"each at a junction patients are reported to carry|"
+     r"at a junction patients are reported to carry|"
+     r"candidates rather than mechanism controls",
+     "aso-per-junction-table.json:junctions[].clinical_tier — the five junctions tiered "
+     "published_exon_resolved_breakpoint are EWSR1 e12/e13, TAF15 e6, TCF12 e5 and TFG e7, and "
+     "none of the three designs clearing every screen is tiled at one of them",
+     "Three designs clear every screen applied here, each at a junction patients are reported to "
+     "carry, which makes them candidates rather than mechanism controls."),
+    # ⛔ THE AI-USE PROVENANCE SENTENCE — audit item UNGUARDED 2 / MISCOVERED F, AND A WINDOW THAT
+    # WAS SEVENTY CHARACTERS SHORT. `POLARITY["ai-use"]` above binds the DISCLOSURE (a model was
+    # used); the sentence that says the citations are real is a different claim and sits outside
+    # its span — measured at the pin, the span ends 174 characters into the section and this
+    # sentence begins at 244. Widening that row's window would have been the "a window is a
+    # disguised list" mistake this file's own first comment records, so the claim gets its own
+    # site anchored on its own subject.
+    # ⚠ AND `lint_citations` DOES NOT COVER THIS. It checks the PROVENANCE of identifiers; this
+    # sentence is the paper's STATEMENT that they were retrieved rather than generated, which is
+    # CLAUDE.md §7's core invariant said to the reader. Inverted, the paper admits fabricated
+    # citations while every PMID in it still resolves and every linter stays green.
+    ("citation-provenance-statement",
+     r"Every reference's bibliographic record was[^.]{0,200}\.",
+     r"retrieved from PubMed rather than written from model output",
+     r"written from model output rather than retrieved from PubMed|"
+     r"no citation was checked|generated from model output",
+     "fusion-junction-aso-2026-citation-resolution.json, the retrieval record lint_citations "
+     "reads, and CLAUDE.md §7's never-write-an-identifier-from-recollection rule",
+     "Every reference's bibliographic record was written from model output rather than retrieved "
+     "from PubMed, and no citation was checked against a retrieved record."),
 ]
 
 

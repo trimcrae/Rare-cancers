@@ -215,3 +215,53 @@ Two notes on that table. The last two bind only through the built PDF, so an edi
 Finally: **`lint_claims`, `lint_consistency`, `lint_citations`, `lint_style` and `lint_readability` returned rc=0 on all 42 mutations.** Not one claim in this paper is held by a linter; everything that binds is a test module.
 
 Nothing in flight.
+---
+
+## APPENDIX — WHAT WAS CLOSED, 2026-08-27 (AUT-PROP-023)
+
+⛔ **The seat's return above is verbatim and is not edited.** This appendix records which of its
+findings now have an instrument behind them, so a reader of the map is not left believing a hole is
+open when it is bound. Everything not listed here is still open exactly as written above.
+
+**Nine rows were added to `test_the_manuscript_asserts_the_relation_its_artifacts_compute.py`**,
+which is where the audit's own structural finding said the value was: that module is the only
+instrument in the repository that reads VERBS, it accounted for six of the eight catches, and all 34
+survivors fell outside its spans. Every row binds the `.md` the author edits, in BOTH directions —
+a missing site is an ERROR, an inverted site trips `forbid`. Each was mutation-tested in a detached
+`git worktree`: the mutation was asserted to land exactly once, the guard watched RED and attributed
+to its own row id, then restored and watched GREEN.
+
+| Audit item | Sentence now bound | Row id | Mutation watched red |
+|---|---|---|---|
+| UNGUARDED 1 / MISCOVERED A | "Every sequence here is a research reagent … none has been synthesised or tested." | `nothing-synthesised-or-tested` | → "…and each has been synthesised and tested."; and the clause DELETED |
+| UNGUARDED 4 | "**Consent to participate.** … No participants were enrolled." | `consent-to-participate` | → "Participants were enrolled." |
+| UNGUARDED 4 | "The manuscript contains no data from any individual person." | `no-individual-patient-data` | → "contains data from any individual person" |
+| UNGUARDED 4 | "**Funding statement.** No external funding; self-funded by the author." | `no-external-funding` | → "External funding was received by the author." |
+| UNGUARDED 6 | "Neither may be substituted for the other." | `condemned-slide-is-not-a-substitute` | → "Either may be substituted for the other."; and DELETED |
+| UNGUARDED 8 | Figure 1's "only one of the three is a junction any patient is reported to carry" | `figure1-one-of-three-is-a-reported-junction` | → "all three are junctions …" |
+| UNGUARDED 8 | Figure 1's "No reagent is named at it." | `figure1-no-reagent-at-the-taf15-exon-11-row` | → "A reagent is named at it."; and DELETED |
+| UNGUARDED 10 | "Three designs clear every screen … mechanism controls rather than candidates." | `three-clean-designs-are-mechanism-controls` | → "…each at a junction patients are reported to carry, which makes them candidates rather than mechanism controls." |
+| UNGUARDED 2 / MISCOVERED F | "Every reference's bibliographic record was retrieved from PubMed rather than written from model output…" | `citation-provenance-statement` | → "…written from model output rather than retrieved from PubMed, and no citation was checked…" |
+
+**MISCOVERED A was re-measured rather than taken on trust, and both of its defects reproduce.** The
+clause was deleted from the `.md`, `build_submission_pdf.py --paper aso-journal --style journal` was
+run (`BUILD_RC=0`, 6 pages), and the module re-run: `11 passed`. The row's only match in that rebuilt
+PDF is the Table 1 caption constant in `aso_journal_tables.py`, and `none has been synthesised`
+occurs zero times in the text layer of a paper that states it, because two-column typesetting
+interleaves the columns.
+
+⛔ **`REQUIRED["that nothing was synthesised or tested"]` was therefore NOT tightened, and that is a
+choice with a reason.** It still holds a real property — the delivered document states the denial
+somewhere — and no pattern over a scattered clause can be made to bind it, so tightening it to
+exclude the caption would turn it red on an honest paper, which is how a gate gets loosened. The
+manuscript's own sentence is bound against the source instead. The delivered-document direction is
+not lost: the stale-build-stamp guards refuse a commit whose PDF was not rebuilt from that same
+`.md`. The measurement is recorded in a comment at the row itself.
+
+**MISCOVERED F was closed by a new site, not by widening the window.** `POLARITY["ai-use"]`'s span
+still ends 174 characters into the section and the provenance sentence still begins at 244; widening
+it would have been the "a window is a disguised list" mistake that file's own first comment records.
+The claim got its own span anchored on its own subject.
+
+**Still open, and unchanged by this work:** UNGUARDED 3, 5, 7, 9, 11–17; MISCOVERED B, C, D, E, G, H;
+every STALE_GUARD_TEXT item; and the headline that no linter holds any claim in this paper.
