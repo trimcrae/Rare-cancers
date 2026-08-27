@@ -1,41 +1,37 @@
 {
   "_what": "what the last ternary launch actually rented, per host, at the rate the instance is billed \u2014 NOT a board mean and NOT the launcher's `dph\u2248` line (both read low or price a market rather than a purchase). This is the number that answers 'what are we paying?'",
-  "utc": "2026-08-01T22:06:39Z",
+  "utc": "2026-08-27T09:41:24Z",
   "mode": "5aks",
-  "n_requested": 1,
-  "n_rented": 1,
+  "n_requested": 4,
+  "n_rented": 0,
   "requested": [
+    "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
+    "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+    "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
     "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks"
   ],
-  "rented": [
-    {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
-      "instance": "46541779",
-      "machine_id": 34332,
-      "bid": 0.068,
-      "dph": 0.06814815148148148,
-      "gpu": "RTX 3090",
-      "dph_total_usd_h": 0.07911111111111112,
-      "dph_base_usd_h": 0.068,
-      "usd_per_ns": 0.004119,
-      "x_basis": 1.207,
-      "over_buy_line": false
-    }
-  ],
-  "failed": [],
-  "already_live": [],
-  "skipped": [
-    {
-      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
-      "why": "done"
-    },
+  "rented": [],
+  "failed": [
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a3_r0_dt4.0fs_wu1.0_5aks",
-      "why": "done"
+      "error": "RentalHeldByOperator: \u23f8 VAST IS STOOD DOWN \u2014 no rental may be created until vast-RENTAL-HOLD.json is deleted. Reason on record: Vast has not been used in a month and is not to be driven at all (trimcrae, 2026-08-26). This is the account-level expression of that instruction: rather than repeating a hold in each of six lanes \u2014 and missing the seventh \u2014 the lock sits on the one door they all rent thr",
+      "kind": "operator_hold"
+    },
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r0_dt4.0fs_wu1.0_5aks",
+      "error": "RentalHeldByOperator: \u23f8 VAST IS STOOD DOWN \u2014 no rental may be created until vast-RENTAL-HOLD.json is deleted. Reason on record: Vast has not been used in a month and is not to be driven at all (trimcrae, 2026-08-26). This is the account-level expression of that instruction: rather than repeating a hold in each of six lanes \u2014 and missing the seventh \u2014 the lock sits on the one door they all rent thr",
+      "kind": "operator_hold"
     },
     {
       "unit_id": "5aks_d0_to_d__ternary_nr4a3_r1_dt4.0fs_wu1.0_5aks",
-      "why": "done"
+      "error": "RentalHeldByOperator: \u23f8 VAST IS STOOD DOWN \u2014 no rental may be created until vast-RENTAL-HOLD.json is deleted. Reason on record: Vast has not been used in a month and is not to be driven at all (trimcrae, 2026-08-26). This is the account-level expression of that instruction: rather than repeating a hold in each of six lanes \u2014 and missing the seventh \u2014 the lock sits on the one door they all rent thr",
+      "kind": "operator_hold"
+    },
+    {
+      "unit_id": "5aks_d0_to_d__ternary_nr4a1_r1_dt4.0fs_wu1.0_5aks",
+      "error": "RentalHeldByOperator: \u23f8 VAST IS STOOD DOWN \u2014 no rental may be created until vast-RENTAL-HOLD.json is deleted. Reason on record: Vast has not been used in a month and is not to be driven at all (trimcrae, 2026-08-26). This is the account-level expression of that instruction: rather than repeating a hold in each of six lanes \u2014 and missing the seventh \u2014 the lock sits on the one door they all rent thr",
+      "kind": "operator_hold"
     }
-  ]
+  ],
+  "already_live": []
 }
