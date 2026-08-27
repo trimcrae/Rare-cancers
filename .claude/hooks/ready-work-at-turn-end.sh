@@ -53,6 +53,32 @@ CONTINUITY="$REPO/research/autonomy/continuity.py"
 # ⚠ A HOOK THAT CANNOT RUN MUST BE SILENT, NOT NOISY. If the interpreter or the ledger is missing,
 # saying nothing is right: the alternative is a hook that cries wolf at every turn end and gets
 # tuned out, which is how the repository lost the value of several guards already.
+# ⛔⛔ A PARKED CLAIM IS CHECKED FIRST, BECAUSE IT IS THE FAILURE THAT LOOKS MOST LIKE PROGRESS
+# (2026-08-27). A seat died on its first message; `ListAgents` reported it `running` for 2 h 36 m;
+# the driver relayed that as "in flight" seven times while its claim on AUT-PROP-012 stayed open.
+# trimcrae found it, not the loop. ⭐ THE SHAPE IS BORROWED: ARIS (15,294★, MIT) runs
+# `tools/watchdog.py` as a SEPARATE process that watches STATE-FILE WRITES rather than pinging for
+# liveness, and only ever reports. `research/method-watch-autonomy-prior-art.md` had ranked it hours
+# earlier and nobody had read it.
+# ⚠ AND IT BELONGS HERE RATHER THAN IN THE DRIVER'S HANDS FOR THE REASON THIS FILE ALREADY EXISTS:
+# the driver cannot be the thing that notices the driver has stalled.
+# ⛔ DERIVED, NOT READ FROM AN ENV VAR THAT DOES NOT EXIST. `CLAUDE_TASKS_DIR` is UNSET in this
+# harness — checked, not assumed — so a branch guarded on it would never have fired, which is the
+# unreachable-guard trap this repository hit three times on 2026-08-27 alone (the `--if-needed`
+# early exit, the `os.path.exists` guard, and this). `CLAUDE_CODE_SESSION_ID` IS set, and the
+# transcripts live at a path derivable from it. If the glob finds nothing the block is silent,
+# because a watchdog that cannot see is not a watchdog that reports.
+STALLED="$REPO/research/autonomy/stalled_holder.py"
+TASKS_DIR=""
+for _c in /tmp/claude-*/*/"${CLAUDE_CODE_SESSION_ID:-nope}"/tasks; do
+  [[ -d "$_c" ]] && TASKS_DIR="$_c" && break
+done
+if [[ -f "$STALLED" && -n "$TASKS_DIR" ]]; then
+  if held=$(cd "$REPO" && timeout 15 python3 "$STALLED" --tasks-dir "$TASKS_DIR" --check 2>/dev/null); then :; else
+    { echo "$held"; echo; } >&2
+  fi
+fi
+
 out=$(cd "$REPO" && timeout 25 python3 "$CONTINUITY" --check --limit 5 2>/dev/null)
 rc=$?
 [[ $rc -eq 1 ]] || exit 0

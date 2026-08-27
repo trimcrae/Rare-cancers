@@ -5,7 +5,7 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
-    "process_defect": 26,
+    "process_defect": 28,
     "harden": 12,
     "fix": 10,
     "build": 1,
@@ -20,10 +20,10 @@
     "regrade": 7
   },
   "n_by_state": {
-    "done": 36,
-    "queued": 99,
+    "done": 37,
+    "queued": 101,
     "superseded": 1,
-    "in_progress": 7
+    "in_progress": 6
   },
   "n_clamped": 11,
   "entries": [
@@ -904,9 +904,9 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "in_progress",
-      "owner": "fusion-partner-relation-seat",
-      "claimed_utc": "2026-08-27T20:37:11Z",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -918,7 +918,8 @@
       "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-053a821102c352e74c0f3f4c125277e7ff183191.json",
       "what": "⭐ BIND THE RELATION HALF — round 6 measured the gap instead of arguing it. One seat re-derived 140 printed quantities from the artifacts with ZERO mismatches, and ran emc_fusion_partner_pooling.py --check, the 122-test prose guard and the 9-test mutation suite clean. In the same tree, five seats found three blockers, and NOT ONE is a number: a cardinal written as the WORD 'two' (§5), a COMPARATIVE 'larger than any cohort that could be pooled here' (§3.4), and an unsourced claim about what THE FIELD quotes (four sites). That is paper-hardening §8a's 'a claim is a QUANTITY and a RELATION, and the guard set was built on the quantity half' reproduced with a measurement under it. ⛔ SO DO NOT ADD MORE NUMBER CHECKS. Three surfaces, each with a derivable witness already on disk: (1) COUNT-WORDS — 'the one/two/three series that ...' against sum(1 for c in cohorts if <key> in c); the guard's own `_word` helper already exists and is used for §8's cache-slug count. (2) COMPARATIVES AND SUPERLATIVES over the paper's own pool — 'larger than any cohort that could be pooled here', 'the largest series to test X directly' — decidable against analyses.*.pooled_cohorts / cohorts_pooled. (3) CLAIMS ABOUT THE FIELD'S PRACTICE ('the field routinely quotes', 'usually attributed to') — these need a named source or they need to go; B3 and the §3.8 P2 are both this shape, and Appendix A11 is a third instance the paper already retracted. ⛔ MUTATION-TEST EVERY GUARD, SINGLE-SITE MUTATIONS INCLUDED, into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit. ⚠ Scope by the PROPERTY, never by a list of sites (paper-hardening §8b.2: six of eleven list-scoped fixes regressed at a sibling).",
       "score": 175.0,
-      "_score_basis": "hand-filed by CYC-0017. Same rank as AUT-PROP-007 — a guard, not a route, but it closes the class that produced every blocker of round 6."
+      "_score_basis": "hand-filed by CYC-0017. Same rank as AUT-PROP-007 — a guard, not a route, but it closes the class that produced every blocker of round 6.",
+      "_lease_released": "⚠ RELEASED 2026-08-27T23:15Z AFTER THE HOLDER DIED SILENTLY. `fusion-partner-relation-seat` was dispatched at 21:0x and its transcript last moved at 20:37:42 — its whole output is 'I'll start by reading the ledger entry and the relevant files.' It never got past its first message. ⛔ `ListAgents` reported it `running` for 2h36m and the driver relayed that as 'in flight' seven times, because it checked LIVENESS and never PROGRESS. The item was untouched; it is queued again with nothing lost but the wall clock."
     },
     {
       "id": "AUT-PROP-007",
@@ -4306,6 +4307,62 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a coordination tool; nothing published or deposited"
+    },
+    {
+      "id": "AUT-PD-034",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "trimcrae",
+      "what": "✅ FIXED 2026-08-27, FOUND BY trimcrae: 'We stalled again. Address the root cause.' ⛔⛔ A SEAT DIED ON ITS FIRST MESSAGE AND WAS REPORTED AS WORKING FOR 2 h 36 m. Its entire output was 'I'll start by reading the ledger entry and the relevant files.' `ListAgents` said `running` throughout; the driver relayed that as 'in flight' seven times and held its claim on AUT-PROP-012 open, parking the item for every other worker. ⭐ THE ERROR WAS ASKING THE WRONG QUESTION, NOT FAILING TO ASK. `ListAgents` answers 'is this agent ALIVE?' — a liveness ping. A status field cannot separate a seat thinking hard from a seat that stopped existing, and CLAUDE.md §4 already says an unproven pipeline gets PROGRESS checks and that 'no error yet' is not progress. The transcript's mtime is a real progress signal costing a stat(). ⛔ THE SAME SUBSTITUTION WAS RUNNING ONE LAYER UP: 33 preflight runs this session, ~66 minutes inside pytest steps alone, one gate per ledger item — each backgrounded (technically §6-compliant) and each ending the turn anyway. 'Backgrounded' stood in for 'not waiting' exactly as 'running' stood in for 'working'. ⭐ FIX: `research/autonomy/stalled_holder.py`, wired into the Stop hook, because THE DRIVER CANNOT BE THE THING THAT NOTICES THE DRIVER HAS STALLED — the same reason `continuity.py` had to become a hook. It joins two signals already on disk: a ledger row with an OPEN CLAIM whose holder's transcript has stopped growing. That names the harm (a parked item) rather than the symptom, and needs no status field at all. Replayed against the real state it reports the exact row at 156 minutes. ⛔ IT REPORTS AND NEVER ACTS: a long tool call is legitimately silent, and a lease released by a watchdog is how live work gets thrown away. ✅ 5 tests. ⚠ AND THE FIRST WIRING WOULD NEVER HAVE FIRED — it read `CLAUDE_TASKS_DIR`, which is UNSET in this harness. Checked rather than assumed; the path is now derived from `CLAUDE_CODE_SESSION_ID`. That is the unreachable-guard trap for the THIRD time today.",
+      "score": 175.0,
+      "_score_basis": "a dispatched seat produced nothing for 2h36m while being reported as working, and its claim parked an item",
+      "depends_on_evidence": "the seat's transcript frozen at 20:37:42 with a one-sentence body; stalled_holder replay reports 156 min",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop supervision; nothing published, submitted or deposited"
+    },
+    {
+      "id": "AUT-PD-035",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "trimcrae",
+      "what": "⛔⛔ READ `research/method-watch-autonomy-prior-art.md` BEFORE BUILDING ANY MORE LOOP MACHINERY — IT WAS WRITTEN IN THIS REPOSITORY ON 2026-08-27 AT 14:49 AND WENT UNREAD WHILE THE SAME AFTERNOON HAND-ROLLED FIVE COORDINATION PRIMITIVES. trimcrae, twice: 'Have you looked at how other people do continuously running research agents? This must be a solved problem.' The answer is in the repository already: 37 KB, ranked adoptable items, explicit rejections with reasons, and SIX RECOMMENDED ACTIONS marked '$0, none taken'. ⭐ ITS HEADLINE, WHICH IS THE ACTUAL ANSWER: not solved for our SHAPE — the ecosystem's systems take a topic and produce a paper in one sitting on ML benchmarks, and none runs a long-lived domain program with a queue, a spend governor and a publication-authority model — but we are BEHIND ON TOOLING: zero MCP servers, no cross-model review, no external calibration. ⛔ AND IT NAMED THE FIX FOR THE STALL HOURS BEFORE THE STALL: ARIS (15,294★, MIT) runs `tools/watchdog.py` as a separate process watching STATE-FILE WRITES, and `tools/iteration_log.py` where TWO empty rounds force a change of direction and FOUR call in a human. The watchdog was rebuilt from scratch instead. ⭐ THE SIX ACTIONS, STILL UNTAKEN: settle the MCP-egress unknown (gates the largest tooling gap); port Anti-Autoresearch's 46 hack-patterns into paper-hardening's seat prompts (the highest-value item it found); add method-watch rows for the subscription's programmatic-usage terms and for awesome-autoresearch's commit log; extend `lint_citations --verify-online` past Europe PMC to Crossref and OpenAlex (130 of 213 ledger entries are still `unverified_at_baseline`); and put AiraXiv to trimcrae only if a second venue is ever wanted. ⛔ THE EMPTY-ITERATION COUNTER IS THE ONE THIS SESSION MOST NEEDS AND STILL LACKS: `health.py`'s `advancing_live_work` counts receipts with `route_advanced: none` ACROSS cycles; ARIS counts empty rounds WITHIN one.",
+      "score": 190.0,
+      "_score_basis": "the survey answering the standing question sat unread while its subject was rebuilt by hand",
+      "depends_on_evidence": "research/method-watch-autonomy-prior-art.md §1, §2, §6; ARIS watchdog.py and iteration_log.py read live",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop supervision; nothing published, submitted or deposited"
     }
   ]
 }
