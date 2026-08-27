@@ -73,8 +73,8 @@ flowchart LR
 
 | route | state | maturity | readiness today | ends in | next action |
 |---|---|---|---|---|---|
-| **[RT-ASO](L2-rt-aso.md)**<br/>Fusion-junction ASO / siRNA (the deliverable) | ○ blocked | scoped | `chemrxiv` | [PUB-ASO](L3-publications.md) ◕ *primary* | Publish the complete in-silico arc: a systematic NR4A3-fusion junction design platform spanning all five repor |
-| **[RT-ASO-ASK](L2-rt-aso-ask.md)**<br/>Junction knockdown + parental sparing in EMC lines (the ask behind the ASO) | ○ blocked | scoped | `experimental_proposal` | [PUB-ASO](L3-publications.md) ◕ *contributing* | Send the ask alongside the preprint. The proposal is ready; the missing input is a person. |
+| **[RT-ASO](L2-rt-aso.md)**<br/>Fusion-junction ASO / siRNA (the deliverable) | ○ blocked | scoped | `chemrxiv` | [PUB-ASO](L3-publications.md) ◉ *primary* | Publish the complete in-silico arc: a systematic NR4A3-fusion junction design platform spanning all five repor |
+| **[RT-ASO-ASK](L2-rt-aso-ask.md)**<br/>Junction knockdown + parental sparing in EMC lines (the ask behind the ASO) | ○ blocked | scoped | `experimental_proposal` | [PUB-ASO](L3-publications.md) ◉ *contributing* | Send the ask alongside the preprint. The proposal is ready; the missing input is a person. |
 | **[RT-CRISPR-CAS13](L2-rt-crispr-cas13.md)**<br/>CRISPR/Cas9 intron-targeted fusion disruption; Cas13 fusion-RNA knockdown | ○ parked | concept | `internal_note` | [PUB-PARKED-MODALITIES](L3-publications.md) ○ *contributing* | Keep registered. Watch vector delivery, not the nuclease. |
 | **[RT-RIBOZYME](L2-rt-ribozyme.md)**<br/>Trans-splicing ribozyme → suicide gene, triggered by the fusion transcript | ○ parked | concept | `internal_note` | [PUB-PARKED-MODALITIES](L3-publications.md) ○ *contributing* | Keep registered at low priority. |
 | **[RT-SYNPROMOTER](L2-rt-synpromoter.md)**<br/>Fusion-driven synthetic promoter → suicide gene | ○ closed | scoped | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ◐ *contributing* | Keep registered with the premise stated. If an EMC dataset lands, re-read the binding specificity before re-cl |

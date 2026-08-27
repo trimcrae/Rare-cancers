@@ -97,7 +97,7 @@ It is a specified but UNCOSTED experimental proposal (fusion-junction-aso-workin
 
 **[PUB-ASO](L3-publications.md)** — [NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondrosarcoma: reagents, test articles and a pre-registrable knockdown experiment](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md)
 
-`contributing` · ◕ `complete_unposted` · aimed at `journal_submission`
+`contributing` · ◉ `posted_preprint` · aimed at `journal_submission`
 
 **This route contributes:** The decisive experiment, specified inside the paper and sent with it: junction knockdown with wild-type sparing in an EMC line. Without it the paper states a specificity result with no named way to falsify it at a bench.
 

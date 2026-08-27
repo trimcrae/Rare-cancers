@@ -36,7 +36,7 @@ last_verified: 2026-08-06
 
 | endpoint | state | aimed at | routes | what is still missing |
 |---|---|---|---:|---|
-| **PUB-ASO**<br/>[NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondr…](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md) | ◕ `complete_unposted` | `journal_submission` | 2 | — |
+| **PUB-ASO**<br/>[NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondr…](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md) | ◉ `posted_preprint` | `journal_submission` | 2 | — |
 | **PUB-ANDGATE**<br/>[A coincidence-detection ("AND-gate") bivalent degrader for protein-leve…](../../research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR**<br/>[The in-silico ATR vulnerability assessment for EMC](../../research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) | ◐ `drafted` | `preprint` | 1 | — |
 | **PUB-ATR-PANEL-ASK**<br/>[Transcript-level models of the NR4A3 fusions of extraskeletal myxoid ch…](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ◐ `drafted` | `experimental_proposal` | 1 | — |
@@ -75,7 +75,7 @@ last_verified: 2026-08-06
 
 ### PUB-ASO — NR4A3 fusion-junction antisense gapmers for extraskeletal myxoid chondrosarcoma: reagents, test articles and a pre-registrable knockdown experiment
 
-**◕ `complete_unposted` · aimed at `journal_submission` · [`research/manuscripts/aso/fusion-junction-aso-journal-article.md`](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md)**
+**◉ `posted_preprint` · aimed at `journal_submission` · [`research/manuscripts/aso/fusion-junction-aso-journal-article.md`](../../research/manuscripts/aso/fusion-junction-aso-journal-article.md)**
 
 The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level, and two junction-spanning gapmers are named for synthesis against it: 5'-GGGCATATCATCAAAC-3' at EWSR1 exon 12 and 5'-GGGCATATCTTGTGTG-3' at TAF15 exon 6, the best available designs at the two most frequently reported breakpoints. They are what survives a screen that condemns most of the panel: 87 of 190 junction-spanning designs let a mature wild-type parent transcript pair their whole catalytic gap over at least ten contiguous base pairs, 61 of them against wild-type NR4A3 itself, and lengthening the catalytic gap raises the margin available only by conceding parent-paired gap DNA, for an arithmetic rather than an empirical reason. Two fusion-positive patient-derived EMC models and two engineered constructs carrying these junctions are named as test articles, the controls and pre-registrable decision threshold for the falsifying experiment are stated, and the design pipeline is released for breakpoints outside the panel. Delivery is named as an outstanding gate rather than assumed away, the named reagents carry stated parent-duplex and off-target loads, and nothing here has been synthesised or tested.
 
@@ -545,8 +545,8 @@ For each parked modality there is a single named capability — a glue design me
 | route | family | readiness today | endpoint | aimed at | role |
 |---|---|---|---|---|---|
 | [RT-ANDGATE](L2-rt-andgate.md) | [ST-PROXIMITY](L1-st-proximity.md) | `internal_note` | **PUB-ANDGATE** ◐ | `preprint` | `primary` |
-| [RT-ASO](L2-rt-aso.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `chemrxiv` | **PUB-ASO** ◕ | `journal_submission` | `primary` |
-| [RT-ASO-ASK](L2-rt-aso-ask.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `experimental_proposal` | **PUB-ASO** ◕ | `journal_submission` | `contributing` |
+| [RT-ASO](L2-rt-aso.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `chemrxiv` | **PUB-ASO** ◉ | `journal_submission` | `primary` |
+| [RT-ASO-ASK](L2-rt-aso-ask.md) | [ST-NUCLEIC-ACID](L1-st-nucleic-acid.md) | `experimental_proposal` | **PUB-ASO** ◉ | `journal_submission` | `contributing` |
 | [RT-ATR-ASSESS](L2-rt-atr-assess.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `preprint` | **PUB-ATR** ◐ | `preprint` | `primary` |
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `experimental_proposal` | **PUB-ATR-PANEL-ASK** ◐ | `experimental_proposal` | `primary` |
 | [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md) | [ST-DEPENDENCY](L1-st-dependency.md) | `internal_note` | **PUB-BIOMARKER-DEP** ◐ | `preprint` | `contributing` |

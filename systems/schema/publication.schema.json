@@ -38,9 +38,81 @@
             "outlined",
             "drafted",
             "complete_unposted",
+            "posted_preprint",
             "posted"
           ],
-          "description": "⛔ NO VAGUE STATES. The question this answers is 'how much of this paper exists?', and it is deliberately NOT a quality grade -- `drafted` says a draft file exists, never that the draft is good. Whether the science is publishable is `target_venue` against each route's own `readiness.attainable_today`, which is a different question with a different owner."
+          "description": "⛔ NO VAGUE STATES. The question this answers is 'how much of this paper exists?', and it is deliberately NOT a quality grade -- `drafted` says a draft file exists, never that the draft is good. Whether the science is publishable is `target_venue` against each route's own `readiness.attainable_today`, which is a different question with a different owner. `posted_preprint` sits between `complete_unposted` and `posted`: the document has an outside reader and a citable identifier (a preprint server, e.g. Qeios or aiXiv) but has not reached its `target_venue`'s final placement -- see the `posted` property for the record of that act."
+        },
+        "posted": {
+          "type": "object",
+          "required": [
+            "venue",
+            "doi",
+            "published_at_utc",
+            "posted_by",
+            "_evidence"
+          ],
+          "additionalProperties": false,
+          "description": "REQUIRED when `state` is `posted_preprint` or `posted`; absent otherwise. The record of the one act that gives this document an outside reader -- CLAUDE.md §6: a submission is the only moment anything here reaches an outside reader, and every identifier here is transcribed from the publisher's own record, never from an announcement (CLAUDE.md §7).",
+          "properties": {
+            "venue": {
+              "type": "string",
+              "description": "The posting platform, e.g. \"Qeios\", \"aiXiv\"."
+            },
+            "qeios_id": {
+              "type": "string"
+            },
+            "aixiv_id": {
+              "type": "string"
+            },
+            "doi": {
+              "type": "string"
+            },
+            "doi_url": {
+              "type": "string"
+            },
+            "read_url": {
+              "type": "string"
+            },
+            "version_label": {
+              "type": "string"
+            },
+            "version_number": {
+              "type": "integer"
+            },
+            "published_at_utc": {
+              "type": "string"
+            },
+            "author": {
+              "type": "string"
+            },
+            "title_as_posted": {
+              "type": "string"
+            },
+            "declarations_as_posted": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "coi": {
+                  "type": "string"
+                },
+                "funding": {
+                  "type": "string"
+                }
+              }
+            },
+            "posted_by": {
+              "type": "string",
+              "description": "Who actually posted it, and whether an agent grant was used -- CLAUDE.md §3: publish only the paper trimcrae named, as the paper it is, per act."
+            },
+            "_evidence": {
+              "type": "string",
+              "description": "How the fields above were read -- primary source, never the announcement (CLAUDE.md §7)."
+            },
+            "_what_this_changes": {
+              "type": "string"
+            }
+          }
         },
         "target_venue": {
           "enum": [
@@ -211,6 +283,7 @@
                 "enum": [
                   "drafted",
                   "complete_unposted",
+                  "posted_preprint",
                   "posted"
                 ]
               }
@@ -225,6 +298,23 @@
                 "type": "object"
               }
             }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "posted_preprint",
+                  "posted"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "posted"
+            ]
           }
         }
       ]

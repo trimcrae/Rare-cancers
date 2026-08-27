@@ -3067,7 +3067,8 @@ def _l2_trace_down(r, g):
 #: whether the science in it is publishable. That second question is `target_venue` read against each
 #: route's own `readiness.attainable_today`, and conflating the two would let "we wrote it down" pass
 #: for "it is ready".
-PUB_GLYPH = {"unwritten": "○", "outlined": "◔", "drafted": "◐", "complete_unposted": "◕", "posted": "●"}
+PUB_GLYPH = {"unwritten": "○", "outlined": "◔", "drafted": "◐", "complete_unposted": "◕",
+             "posted_preprint": "◉", "posted": "●"}
 
 
 def _pub_title(p):
