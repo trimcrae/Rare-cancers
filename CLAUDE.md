@@ -309,6 +309,32 @@ act you'd commit *before* thinking to consult anything:
   7.6 MB transcript; an earlier one ran three cycles. That is why this row is HERE, in the file that
   loads every session, and not only in the skill. `health.py`'s `cycles_are_sized` now measures it.*
 
+- **⛔⛔ NEVER `git add -A` WHILE A SUBAGENT THAT MUTATES THE WORKING TREE IS RUNNING — A MUTATION
+  WINDOW IS A COMMIT WINDOW.** ⚠ *Measured 2026-08-27, and it reached `origin/main`.* A blind seat
+  was auditing guard coverage the correct way: mutate a load-bearing sentence, watch the guard go
+  red, restore. It did all three faithfully. **`git add -A` ran inside the mutation window**, so the
+  commit captured **13 inverted claims** mid-flight and pushed them — and because the seat then
+  restored properly, the working tree looked right afterwards and nothing was obviously wrong.
+  ⛔ **EVERY INVERSION TURNED A CAVEAT INTO AN OVERCLAIM**, because that is precisely what a
+  coverage audit mutates: *"Ten is a **measurement, not a convention**"*, *"Both loads are **measured
+  activities** rather than predictions"*, *"the range … **is** a confidence interval"*, *"those
+  partial duplexes **are** counted here and **have** been measured"*, and worst, *"Three designs
+  clear every screen, **each at a junction patients are reported to carry**, which makes them
+  **candidates** rather than mechanism controls"* — the exact reverse of the sentence, in the paper
+  whose whole value is not overclaiming.
+  ★★ **THE RULE, IN THREE PARTS.** (1) **A mutation-testing agent works on a COPY** — a scratch file
+  or `EnterWorktree`, never the live tree; the seat prompt must say so. (2) **While ANY subagent is
+  running, stage by PATH, never `-A`** — you can name what you changed; you cannot name what it is
+  changing. (3) **Before every commit, diff the paths you did not touch.** A file you have no reason
+  to be committing is the tell, and it is the ONLY signal here — the guards were all green, because
+  an inverted sentence is still a sentence and the mutation was designed to be caught by a guard that
+  was *deliberately not run at that moment*.
+  ⚠ **AND `lint_claims` CANNOT SEE THIS.** Every inversion is grammatical, hedged in form, and
+  cites the same PMID; claim STRENGTH is orthogonal to claim DIRECTION, which is the same orthogonality
+  §7 records for provenance. The recovery was possible only because the pinned blob's sha256 was
+  recorded in the review register — **pin the digest of anything under review, and the restoration is
+  a byte comparison instead of an argument.**
+
 - **⛔ NEVER BUILD AN ENVIRONMENT ON A MACHINE WE ARE PAYING FOR — THE STACKS ARE PRE-BAKED.** A new lane's
   first question is **"which baked image?"**, never "what do I install?".
 - **⛔ A ROW THAT PRINTS `⚠ DRIFT` IS A ROW WE DO NOT BUY.** The drift line **is** the buy line — a hard gate,

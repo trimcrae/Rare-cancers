@@ -3573,6 +3573,32 @@
       "_score_basis": "blocks AUT-PROP-018, which blocks publish_bar clause 2",
       "score": 196.0,
       "closes_clause": null
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "in_progress",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "round-10",
+      "depends_on_evidence": "round 10 citation seat: ref 13 (PMID 39912803) carries FIVE attributions and only the five-step workflow one is held from the abstract; the egress proxy refuses www.liebertpub.com, journals.sagepub.com, oswg.net and pmc.ncbi.nlm.nih.gov, and there is no PMC deposit",
+      "id": "AUT-PROP-022",
+      "kind": "verify",
+      "prerequisite_of": "AUT-PROP-020",
+      "what": "CLOSE OR SOFTEN THE FOUR UNHELD ATTRIBUTIONS TO PMID 39912803 — the ASO paper's largest provenance exposure. The four are: (1) mismatches in the WINGS cause off-target effects more often than mismatches in the GAP, so a flanking mismatch is the more important to avoid [Introduction]; (2) that mature transcript + unspliced precursor + exon-exon junction + non-coding + mitochondrial is 'the search scope the 2025 recommendations ask for' [Methods]; (3) that nearest-neighbour re-scoring is 'the energy-based second stage those recommendations prescribe' [Methods]; (4) that comparing two half-maximal concentrations is 'the margin assessment the recommendations specify at this step, and they decline to set a default value for it' [Discussion] — this last is a NEGATIVE claim about the source's content and is the least checkable of the four. Also unheld: 'a high-affinity chemistry is reported to retain knockdown at more extensively mismatched sites' [Results]. ⭐ TWO WAYS TO CLOSE IT AND BOTH ARE $0: fetch the full text on a runner (dispatched 2026-08-27 via fetch-literature.yml, slug oswg-offtarget-2025-fulltext — CI can reach hosts the sandbox proxy refuses), or, if the fetch returns only a landing page because the article is paywalled, REWRITE the five sentences so they no longer assert what the source says. ⛔ The second is not a defeat: the paper already labels adopted premises everywhere else, and an honest 'adopted here' beats a confident characterisation of a source nobody has read. ⚠ CLAUDE.md section 7: never write an identifier or a source's content from recollection.",
+      "_score_basis": "blocks AUT-PROP-020 (round 10 convergence); the paper's only open provenance gap",
+      "score": 194.0,
+      "closes_clause": null
     }
   ]
 }
