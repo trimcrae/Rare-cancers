@@ -42,7 +42,20 @@ jobs:
           python-version: "3.11"
 
       - name: Install the gates' dependencies
-        run: ./scripts/dev-setup.sh --if-needed || pip install -q pypdf pdfminer.six jsonschema pytest
+        # ⛔⛔ RUN 33104631542 WENT RED ON THE ENVIRONMENT, NOT THE REPOSITORY (measured 2026-08-27):
+        # 53 modalities failures, every one ModuleNotFoundError-shaped, and preflight.sh's own log said
+        # so verbatim ("that is a MISSING PACKAGE, not a defect in the repository"). dev-setup.sh
+        # (scripts/dev-setup.sh) already installs everything the gates need EXCEPT `uv` itself -- the
+        # pytest tool venv it provisions (TEST_DEPS: numpy, scipy, rdkit, boto3, pymbar, biopython...)
+        # requires `uv` to exist first, and a vanilla ubuntu-latest runner does not carry it.
+        # `pip install pypdf pdfminer.six jsonschema pytest` (copied from aso-submission-parts.yml,
+        # which never runs the modalities suite) was never going to cover that gap; it silenced the
+        # dev-setup.sh failure instead of fixing it. Install uv first and let dev-setup.sh do its own
+        # job -- no separate package list to keep in sync with SYSTEM_DEPS/TEST_DEPS there.
+        run: |
+          set -euo pipefail
+          command -v uv >/dev/null 2>&1 || pip install -q uv
+          ./scripts/dev-setup.sh --if-needed
 
       - name: Run PREFLIGHT_FULL=1 against the pinned commit
         # ⛔⛔ GitHub Actions runs every `run:` step under `bash -e` BY DEFAULT, and `set -uo pipefail`
