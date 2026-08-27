@@ -10,7 +10,7 @@
     "code": 1,
     "experiment": 23,
     "fetch": 16,
-    "fix": 9,
+    "fix": 10,
     "harden": 11,
     "negative": 32,
     "process": 7,
@@ -22,7 +22,7 @@
   "n_by_state": {
     "done": 30,
     "in_progress": 2,
-    "queued": 104,
+    "queued": 105,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -3657,7 +3657,7 @@
       "id": "AUT-PROP-026",
       "kind": "harden",
       "prerequisite_of": null,
-      "score": -84.0,
+      "score": -174.0,
       "closes_clause": null,
       "what": "\u26d4 THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. \u26a0 TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED \u2014 meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. \u2605 ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. \u26d4 This is a prose pass over the whole paper, NOT a P1 application \u2014 scientific-writing \u00a71.4 and \u00a74. Do it before round 11's re-seat, so the seats read the readable text.",
       "score_inputs": {
@@ -3914,6 +3914,28 @@
       "depends_on_evidence": "BixBench3 arXiv:2608.25286v1 Table 3 and Figure 5, read in full 2026-08-27; incident mapping in research/method-watch-bixbench3-calibration.md \u00a74",
       "what": "\u2b50 GIVE THE LOOP AN EXTERNALLY-ANCHORED FAILURE VOCABULARY \u2014 adopt BixBench3's closed ten-tag failure-mode set as an optional `failure_modes` block on the cycle receipt, and measure it in health.py.\nWHY IT IS NOT BUSYWORK: method-watch-autonomy-prior-art.md \u00a72 item 3 states the gap plainly \u2014 'this loop has no external calibration of any kind: health.py grades the loop against rules we wrote.' BixBench3 measured that a run's total failure-tag count predicts its score at Spearman rho = -0.92 (p = 9.9e-6), with premature termination (~2.0x) and repetitive retry loop (~2.2x) the most enriched in the worst quantile. Mapping that vocabulary onto CLAUDE.md's own dated incidents lands SEVEN of the ten (repetitive retry loop = the pgrep self-match loops, 2026-08-26; premature termination = the bare `&` orphaned jobs, 2026-08-27; synthetic/placeholder output = the env-echoed fabricated verdict; output format violation = the generated-artifact regime; environment setup failure = the fresh-sandbox import reds, 2026-08-23; incomplete data = 'an absent reading is not a reading of absence'; inefficient analysis = the serialized-preflight complaint, 2026-08-25).\n\u26d4 THE THREE MISSES ARE THE POINT, AND THE ITEM IS NOT DONE WITHOUT THEM: input misinterpretation, wrong method substitution and method misconfiguration have NO dated incident here. They are the SCIENTIFIC execution errors, and the benign reading (we do not make them) is not the only one \u2014 an operational failure is loud and a misconfigured method is silent, and nothing in this loop is instrumented to catch the second. State which of the three this loop could actually detect, and say UNMEASURED for the rest rather than shipping a green row. \u26a0 A receipt that records no `failure_modes` block must leave the health row UNMEASURED, never green \u2014 the exact defect AUT-PD-013 records for `fanout_is_governed`. Reading: research/method-watch-bixbench3-calibration.md \u00a74",
       "_score_basis": "free; it is the first available answer to a gap this repository's own prior-art scan named, and it reuses an external vocabulary instead of minting another one we wrote ourselves"
+    },
+    {
+      "id": "AUT-PD-029",
+      "process_defect": true,
+      "what": "claim.py's Git.push() (research/autonomy/claim.py:79-80) runs `git push -q origin main`, which pushes whatever LOCAL BRANCH IS LITERALLY NAMED 'main' -- stale or unrelated to HEAD if the session's real work is on a differently-named branch (e.g. this repo's 'claude/dreamy-hawking-18pm7n' convention, which stays rebased onto origin/main and is pushed via `git push origin <branch>:main`). On such a session, claim.py's push always fails as a non-fast-forward (or pushes nothing new), so the module cannot actually arbitrate a claim there -- it silently degrades to reporting RETRY forever rather than CLAIMED. MEASURED 2026-08-27 (CYC-0028-moriokat, a subagent dispatched by CYC-0027's driver session): claim.py was tried first for AUT-PD-020, failed exactly this way, and the seat fell back to the manual fetch/verify/edit/commit/`push origin HEAD:main` sequence documented as claim.py's own manual fallback -- work completed correctly, but the module meant to make this race-safe took no part in it. FIX (not applied here, filed for a future cycle): push() should push HEAD, not the ref literally named 'main' -- `git push -q origin HEAD:main`, which is a fast-forward-safe compare-and-swap on the REMOTE ref regardless of what the local branch is named, exactly matching the module's own stated design intent.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "fix",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0028-moriokat"
     },
     {
       "id": "AUT-PD-005",
