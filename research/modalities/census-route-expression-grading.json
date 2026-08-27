@@ -488,8 +488,11 @@
       "genes": {
         "ALK": {
           "GSE24369_series_matrix.txt.gz": {
-            "readable": false,
-            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+            "readable": true,
+            "emc_mean_z": -0.3228,
+            "emc_array_percentile": 0.3538,
+            "comparator_mean_z": -0.3675,
+            "delta_emc_minus_comparator": 0.0447
           },
           "GSE4303-GPL3290_series_matrix.txt.gz": {
             "readable": false,
@@ -498,12 +501,18 @@
         },
         "ROS1": {
           "GSE24369_series_matrix.txt.gz": {
-            "readable": false,
-            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+            "readable": true,
+            "emc_mean_z": -0.9393,
+            "emc_array_percentile": 0.1805,
+            "comparator_mean_z": -0.857,
+            "delta_emc_minus_comparator": -0.0823
           },
           "GSE4303-GPL3290_series_matrix.txt.gz": {
-            "readable": false,
-            "why": "no probe on this platform maps to the symbol; NOT a reading of absence"
+            "readable": true,
+            "emc_mean_z": -0.6409,
+            "emc_array_percentile": 0.2297,
+            "comparator_mean_z": -0.7066,
+            "delta_emc_minus_comparator": 0.0657
           }
         },
         "EGFR": {
@@ -574,22 +583,40 @@
       "panel_groups": {
         "brigatinib_targets": {
           "GSE24369_series_matrix.txt.gz": {
-            "verdict": "⛔ UNDERPOWERED — 1/3 genes readable on GPL6244 (coverage 0.333); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology.",
-            "score": null
+            "verdict": "LOWER in EMC by 0.2188 SD units (t=-2.055, df=6.3, n_EMC=6, n_comparator=29, 3/3 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -2.055,
+              "df": 6.3,
+              "mean_a": -0.227,
+              "mean_b": -0.0083,
+              "delta_a_minus_b": -0.2188
+            }
           },
           "GSE4303-GPL3290_series_matrix.txt.gz": {
-            "verdict": "⛔ UNDERPOWERED — 1/3 genes readable on GPL3290 (coverage 0.333); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology.",
+            "verdict": "⛔ UNDERPOWERED — 2/3 genes readable on GPL3290 (coverage 0.667); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology.",
             "score": null
           }
         },
         "hdac_class_i_ii": {
           "GSE24369_series_matrix.txt.gz": {
-            "verdict": "⛔ UNDERPOWERED — 3/8 genes readable on GPL6244 (coverage 0.375); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology.",
-            "score": null
+            "verdict": "LOWER in EMC by 0.0613 SD units (t=-1.487, df=6.2, n_EMC=6, n_comparator=29, 8/8 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -1.487,
+              "df": 6.2,
+              "mean_a": 0.7285,
+              "mean_b": 0.7898,
+              "delta_a_minus_b": -0.0613
+            }
           },
           "GSE4303-GPL3290_series_matrix.txt.gz": {
-            "verdict": "⛔ UNDERPOWERED — 3/8 genes readable on GPL3290 (coverage 0.375); the floor for a curated panel is 3 genes and 0.5 coverage. NO SCORE EMITTED. This is an instrument limit, not a reading of the biology.",
-            "score": null
+            "verdict": "LOWER in EMC by 0.132 SD units (t=-1.386, df=11.6, n_EMC=10, n_comparator=6, 7/8 genes readable). ⚠ Uncorrected for multiple testing.",
+            "score": {
+              "t": -1.386,
+              "df": 11.6,
+              "mean_a": 0.009,
+              "mean_b": 0.141,
+              "delta_a_minus_b": -0.132
+            }
           }
         },
         "kinase_contrast": {
@@ -1025,7 +1052,7 @@
           "fraction_of_sarcoma_lines_dependent": 0.0
         }
       },
-      "what_the_dependency_prior_adds_and_takes_away": "⚠ IT TAKES SOMETHING AWAY AND THE PAPER MUST CARRY IT. Across 176 sarcoma lines PRMT5 and MAT2A are dependencies in 94.5% and 96.7% -- close to pan-essential. That does NOT refute the hypothesis, because the therapeutic argument for this class is a DIFFERENTIAL between MTAP-deleted and MTAP-intact cells that a gene-effect score cannot express: an MTA-cooperative inhibitor exploits a metabolic state, not the raw dependency. But it does weaken any argument that resting on 'silencing PRMT5 impairs proliferation' is specific to a fusion sarcoma -- silencing it impairs proliferation nearly everywhere. MTAP itself is not a dependency (mean -0.075), exactly as expected for a biomarker rather than a target.",
+      "what_the_dependency_prior_adds_and_takes_away": "⚠ IT TAKES SOMETHING AWAY AND THE PAPER MUST CARRY IT. Across the 91 screened sarcoma lines (of 176 sarcoma models) PRMT5 and MAT2A are dependencies in 94.5% and 96.7% -- close to pan-essential. That does NOT refute the hypothesis, because the therapeutic argument for this class is a DIFFERENTIAL between MTAP-deleted and MTAP-intact cells that a gene-effect score cannot express: an MTA-cooperative inhibitor exploits a metabolic state, not the raw dependency. But it does weaken any argument that resting on 'silencing PRMT5 impairs proliferation' is specific to a fusion sarcoma -- silencing it impairs proliferation nearly everywhere. MTAP itself is not a dependency (mean -0.075), exactly as expected for a biomarker rather than a target.",
       "route_action": "promote, with the near-pan-essentiality of the target carried as a stated limit: the cheapest decisive next observation is a copy-number or methylation read of the locus, not another expression series"
     },
     "RT-TXN-CDK": {
@@ -1202,7 +1229,7 @@
           "fraction_of_sarcoma_lines_dependent": 0.011
         }
       },
-      "the_dependency_screen_ran_and_it_closed_the_window": "⛔ THE DECISIVE OBSERVATION THIS ROW ASKED FOR ARRIVED THE SAME DAY, AND IT WENT AGAINST THE ROUTE. Across 176 sarcoma lines CDK7 and CDK9 are dependencies in 100% of them, with mean gene effects of -1.85 and -1.46. That is the definition of pan-essential: the elevation seen in EMC buys no window, because every line needs these genes. The abundance result stands and is now known to be uninformative about the question, which is what this row warned it would be.",
+      "the_dependency_screen_ran_and_it_closed_the_window": "⛔ THE DECISIVE OBSERVATION THIS ROW ASKED FOR ARRIVED THE SAME DAY, AND IT WENT AGAINST THE ROUTE. Across the 91 screened sarcoma lines (of 176 sarcoma models) CDK7 and CDK9 are dependencies in 100% of them, with mean gene effects of -1.85 and -1.46. That is the definition of pan-essential: the elevation seen in EMC buys no window, because every line needs these genes. The abundance result stands and is now known to be uninformative about the question, which is what this row warned it would be.",
       "route_action": "down-grade: supported on abundance, closed on the axis that matters"
     },
     "RT-CHAPERONE": {
@@ -1489,7 +1516,7 @@
           "fraction_of_sarcoma_lines_dependent": 0.022
         }
       },
-      "the_dependency_prior_says_the_opposite_of_the_abundance_read": "⭐ THE MOST INFORMATIVE SINGLE RESULT OF THIS PASS, AND IT ARRIVED AFTER THE VERDICT ABOVE WAS WRITTEN. Across 176 sarcoma lines, MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% of them -- and BCL2 in 2.2%. So in this tumour class the guardian holding the effectors is not BCL-2, which is precisely what the route hypothesised and precisely what would explain an EMC result where BCL-2 inhibition was inactive alone. The abundance read and the dependency prior disagree, and dependency is the axis the question is actually about. ⛔ NO EMC LINE IS IN THIS PANEL, so this is a class transfer and not an EMC finding.",
+      "the_dependency_prior_says_the_opposite_of_the_abundance_read": "⭐ THE MOST INFORMATIVE SINGLE RESULT OF THIS PASS, AND IT ARRIVED AFTER THE VERDICT ABOVE WAS WRITTEN. Across the 91 screened sarcoma lines (of 176 sarcoma models), MCL1 and BCL2L1 are dependencies in 83.5% and 75.8% of them -- and BCL2 in 2.2%. So in this tumour class the guardian holding the effectors is not BCL-2, which is precisely what the route hypothesised and precisely what would explain an EMC result where BCL-2 inhibition was inactive alone. The abundance read and the dependency prior disagree, and dependency is the axis the question is actually about. ⛔ NO EMC LINE IS IN THIS PANEL, so this is a class transfer and not an EMC finding.",
       "route_action": "the MCL-1-dominance form is AGAINST on abundance and FOR on the sarcoma dependency prior; the two disagree and dependency is the relevant axis, so the route is restored to open rather than down-graded"
     },
     "RT-MDM2": {

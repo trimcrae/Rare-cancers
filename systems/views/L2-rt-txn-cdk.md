@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ○ parked · computed · confidence moderate · verified 2026-08-09
 
-**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ CLOSED ON THE AXIS THAT MATTERS (2026-08-09). Supported on abundance — CDK7 module and transcriptional output higher in EMC on both platforms — and then the dependency screen this row asked for ran the same day: across 176 sarcoma lines CDK7 and CDK9 are dependencies in 100%, mean gene effect -1.85 and -1.46. Pan-essential. The elevation buys no window.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ CLOSED ON THE AXIS THAT MATTERS (2026-08-09). Supported on abundance — CDK7 module and transcriptional output higher in EMC on both platforms — and then the dependency screen this row asked for ran the same day: across the 91 screened sarcoma lines CDK7 and CDK9 are dependencies in 100% ⛔ DENOMINATOR CORRECTED 2026-08-27: this grade said 176 sarcoma lines. 176 is the number of sarcoma MODELS in DepMap 24Q4; only 91 of them carry CRISPR gene-effect data, and every fraction here is computed over those 91. The repository caught this identical error in the MTAP/PRMT5 manuscript on 2026-08-09/10 -- the day after this grade was written -- and the correction never reached the graph., mean gene effect -1.85 and -1.46. Pan-essential. The elevation buys no window.
 
 ## What has to land for this route to move
 

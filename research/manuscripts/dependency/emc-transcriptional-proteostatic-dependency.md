@@ -73,7 +73,7 @@ and so is the transcriptional output context (*t* = 3.78 and 4.81). The elongati
 both, significant on one (*t* = 1.19 and 2.26); the processivity kinases are flat. This is the most
 concordant elevation in the whole census, and read alone it looks like support.
 
-**Dependency.** Across 176 sarcoma lines, **CDK7 and CDK9 are dependencies in 100% of them**, with mean
+**Dependency.** Across the 91 screened sarcoma cell lines (of 176 sarcoma models in the release), **CDK7 and CDK9 are dependencies in 100% of them**, with mean
 gene effects of −1.85 and −1.46 and **essentially no sarcoma selectivity** (0.085 and 0.017).
 
 ⛔ **A gene required in every line of a tissue class offers nothing to select on.** The elevation is

@@ -76,7 +76,8 @@ GENE_GROUPS = {
     #
     # ⛔ AND THE EXPECTED ANSWER IS PAN-ESSENTIALITY, WHICH WOULD QUALIFY THE LEAD RATHER THAN
     # SUPPORT IT — the same trap this panel already caught once. PRMT5 and MAT2A are dependencies in
-    # 94.5% and 96.7% of 176 sarcoma lines, which is why the PRMT5 manuscript reports its dependency
+    # 94.5% and 96.7% of the 91 SCREENED sarcoma lines (of 176 sarcoma models in the release), which
+    # is why the PRMT5 manuscript reports its dependency
     # prior AGAINST its own route. A proteasome subunit required in every line offers nothing to
     # select on either, and if that is what comes back it belongs in the repurposing paper in the
     # same position and with the same prominence.

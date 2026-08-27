@@ -360,7 +360,7 @@ def build():
                                      "one array. And an elevated methylosome is not a dependency on it.",
         "sarcoma_dependency_prior": {g: dm.get(g) for g in ("PRMT5", "MAT2A", "MTAP")},
         "what_the_dependency_prior_adds_and_takes_away": (
-            "⚠ IT TAKES SOMETHING AWAY AND THE PAPER MUST CARRY IT. Across 176 sarcoma lines PRMT5 "
+            "⚠ IT TAKES SOMETHING AWAY AND THE PAPER MUST CARRY IT. Across the 91 screened sarcoma lines (of 176 sarcoma models) PRMT5 "
             "and MAT2A are dependencies in 94.5% and 96.7% -- close to pan-essential. That does NOT "
             "refute the hypothesis, because the therapeutic argument for this class is a "
             "DIFFERENTIAL between MTAP-deleted and MTAP-intact cells that a gene-effect score cannot "
@@ -397,7 +397,7 @@ def build():
         "sarcoma_dependency_prior": {g: dm.get(g) for g in ("CDK7", "CDK9", "CDK12", "CDK13")},
         "the_dependency_screen_ran_and_it_closed_the_window": (
             "⛔ THE DECISIVE OBSERVATION THIS ROW ASKED FOR ARRIVED THE SAME DAY, AND IT WENT "
-            "AGAINST THE ROUTE. Across 176 sarcoma lines CDK7 and CDK9 are dependencies in 100% of "
+            "AGAINST THE ROUTE. Across the 91 screened sarcoma lines (of 176 sarcoma models) CDK7 and CDK9 are dependencies in 100% of "
             "them, with mean gene effects of -1.85 and -1.46. That is the definition of pan-"
             "essential: the elevation seen in EMC buys no window, because every line needs these "
             "genes. The abundance result stands and is now known to be uninformative about the "
@@ -446,7 +446,7 @@ def build():
         "sarcoma_dependency_prior": {g: dm.get(g) for g in ("MCL1", "BCL2L1", "BCL2")},
         "the_dependency_prior_says_the_opposite_of_the_abundance_read": (
             "⭐ THE MOST INFORMATIVE SINGLE RESULT OF THIS PASS, AND IT ARRIVED AFTER THE VERDICT "
-            "ABOVE WAS WRITTEN. Across 176 sarcoma lines, MCL1 and BCL2L1 are dependencies in 83.5% "
+            "ABOVE WAS WRITTEN. Across the 91 screened sarcoma lines (of 176 sarcoma models), MCL1 and BCL2L1 are dependencies in 83.5% "
             "and 75.8% of them -- and BCL2 in 2.2%. So in this tumour class the guardian holding the "
             "effectors is not BCL-2, which is precisely what the route hypothesised and precisely "
             "what would explain an EMC result where BCL-2 inhibition was inactive alone. The "

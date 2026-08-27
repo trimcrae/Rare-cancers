@@ -83,7 +83,8 @@ These are in the manuscript and must not be softened during any formatting pass:
 
 - **No EMC cell line carrying the fusion appears in any public dependency dataset.** Every dependency
   figure is a transfer from other sarcomas.
-- **PRMT5 and MAT2A are dependencies in 94.5% and 96.7% of 176 sarcoma lines.** The proliferation half
+- **PRMT5 and MAT2A are dependencies in 94.5% and 96.7% of the 91 screened sarcoma cell lines**
+  (of 176 sarcoma models in the release). The proliferation half
   of the transferred result is therefore close to expected.
 - ⛔ **ROUTE 2 IS CLOSED BY THIS PAPER'S OWN DATA, and the closure must not be softened back into a
   caveat during any formatting pass.** *MTAP* is flat where the read is powered (−0.02 SD); the entire
