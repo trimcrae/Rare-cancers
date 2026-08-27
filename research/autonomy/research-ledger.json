@@ -27,8 +27,8 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "queued",
-      "owner": null,
+      "state": "running",
+      "owner": "CYC-0015",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -44,7 +44,7 @@
       "what": "Run a hardening round on PUB-FUSION-PARTNER \u2014 publish_bar clause 1. \u26d4 DO NOT OPEN WITH A REVIEWER SEAT: the standing P1 list was closed by CYC-0011 and its bindings mutation-proven by CYC-0012. \u2605 ROUND 5 HAS RUN THREE ACTS. CYC-0013 added the statistical census (`_CENSUS_STATS`: cohort size, p-value in both printed forms, hazard ratio, cm/months). CYC-0014 added the THIRD census, section G, over a surface that is not a quantity at all \u2014 PubMed ids, trial registrations and DOIs, read for ATTACHMENT (which paper is this printed against) rather than the PROVENANCE `lint_citations` already reads. 61 sites, 31 artifact-owned values, 5 declared not-pooled, four tests, 56/56 mutations caught. \u2b50 WHAT IS STILL OPEN, RE-DERIVED 2026-08-27 rather than carried forward: of the 148 uncovered sentences that state a number, 52 contain a count spelled as a WORD outside the constructions `_word` already binds, 46 a bare YEAR, 46 a section cross-reference, and 33 an ORDINAL or superlative ('the third independent series', 'the largest series'). \u26d4 RE-DERIVE THAT SET with `claim_coverage.py --uncovered=...` rather than trusting this sentence, and note that 24 of the 148 contain an identifier that section G now guards \u2014 the census does not credit it (see the lease note). \u26a0 AND A SUPERLATIVE IS THE HARDEST OF THE FOUR AND THE MOST LOAD-BEARING: it is a claim about RANK that the artifact's cohort records can actually decide, unlike a year. Every new guard goes into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit.",
       "_score_basis": "inherited from AUT-049 (+0.5) \u2014 it is the work that unblocks it",
       "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-69d8a6ac1c90ae2129f7ee2348d8a523e5f82be8-round4-p1-rederivation.json",
-      "claimed_utc": null,
+      "claimed_utc": "2026-08-27T03:45:58Z",
       "lease_released": "released by CYC-0014. \u26d4 THE FINDING IS THAT A COVERAGE COUNT IS A PROPERTY OF THE INSTRUMENT, MEASURED THIS TIME FROM THE OPPOSITE SIDE TO CYC-0013's. There a guard reported full coverage over 35 unread figures. Here an entire notation went from unread to guarded \u2014 61 identifier sites, 10 mutations that each leave a real and anchored identifier on the page, all caught \u2014 and the paper's measured coverage did not move by one sentence: 57/271 before and after. `claim_coverage.py` discards a harvested pattern matching more than 10 % of a document's sentences, and the identifier pattern matches 28 against a ceiling of 27. \u26d4 MAX_MATCH_SHARE WAS NOT RAISED TO 0.11 \u2014 research-loop \u00a76 forbids a cycle changing the bar that blocked it, and the ceiling is doing the job it was written for. \u26a0 SO THE 57/271 IN THE COMMITTED CENSUS UNDERSTATES WHAT READS THIS DOCUMENT, and a future cycle must not read a flat coverage number as a cycle that achieved nothing."
     },
     {
