@@ -363,7 +363,7 @@ CITATIONS = {
         "short": "Huang 2023",
         "type": "journal-article",
         "title": "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion.",
-        "authors": "Huang SC, Lee JC, Hsu YC, Tsai JW, Kao YC, Hsieh TH, et al.",
+        "authors": "Huang SC, Lee JC, Hsu YC, Tsai JW, Kao YC, Hsieh TH, Chang YM, Chang KC, Wu PS, Chen PC, Chen CH, Chang CD, Lee PH, Tai HC, Liu TT, Wen MC, Li WS, Yu SC, Wang JC, Huang HY.",  # complete list, authorString of literature-cache:literature/emc-partner-events/huang2023_epmc_core.txt
         "journal": "Mod Pathol",
         "year": 2023,
         "pmid": "36948401",
@@ -435,7 +435,7 @@ CITATIONS = {
         "short": "Lenz 2023",
         "type": "journal-article",
         "title": "Extraskeletal myxoid chondrosarcoma: A study of 17 cases focusing on the diagnostic utility of INSM1 expression and presenting rare morphological variants associated with non-EWSR1::NR4A3 fusions.",
-        "authors": "Lenz J, Klubickova N, Ptakova N, Hajkova V, Grossmann P, Steiner P, et al.",
+        "authors": "Lenz J, Klubickova N, Ptakova N, Hajkova V, Grossmann P, Steiner P, Kinkor Z, Svajdler M, Michal M, Konecna P, Machacova D, Hurnik P, Tichy M, Tichy F, Kyllar M, Fiala L, Kavka M, Michal M.",  # complete list, research/literature/submission-reference-metadata-2026-08-09.json (diacritics folded)
         "journal": "Hum Pathol",
         "year": 2023,
         "pmid": "36563884",
@@ -458,7 +458,7 @@ CITATIONS = {
         "short": "Paioli 2021 (Italian Sarcoma Group)",
         "type": "journal-article",
         "title": "Extraskeletal Myxoid Chondrosarcoma with Molecularly Confirmed Diagnosis: A Multicenter Retrospective Study Within the Italian Sarcoma Group.",
-        "authors": "Paioli A, Stacchiotti S, Campanacci D, Palmerini E, Frezza AM, Longhi A, Radaelli S, Donati DM, Beltrami G, Bianchi G, et al.",
+        "authors": "Paioli A, Stacchiotti S, Campanacci D, Palmerini E, Frezza AM, Longhi A, Radaelli S, Donati DM, Beltrami G, Bianchi G, Barisella M, Righi A, Benini S, Fiore M, Picci P, Gronchi A.",  # complete list, research/manuscripts/aso/lit-targets-aso-bibliography-completion.json
         "journal": "Ann Surg Oncol",
         "year": 2021,
         "pmid": "32572850",
@@ -1677,7 +1677,10 @@ def build() -> dict:
             "is a national-registry cohort, and none of them is review literature -- and have been "
             "removed; Appendix A11 -- asserting lower metastasis or better "
             "metastasis-free survival with EWSR1) is not established by "
-            "either cohort, in either direction. A single-cohort reversal quoted as a finding was "
+            "either cohort, in either direction. ⚠ AND THE ATTRIBUTION IS BY RECORD, NOT BY "
+            "QUOTATION: that review's metastasis sentence is quoted nowhere in this artifact, so the "
+            "provenance standard s8 asserts for every count is not met for this one claim, and it "
+            "rests on n = 1 review rather than on a literature. A single-cohort reversal quoted as a finding was "
             "always one cohort from being overturned; a two-cohort null is a reading of the same "
             "evidence that does not depend on which cohort you happened to have."
         ).format(
@@ -1809,7 +1812,12 @@ def build() -> dict:
         "context_range_note": (
             "The two excluded congress abstracts bracket the pooled estimate rather than "
             "contradicting it: 7 of 26 partner-assigned cases in Valencia, 1 of 9 in "
-            "Pilsen/Znojmo."
+            "Pilsen/Znojmo. A THIRD prevalence series is excluded and does NOT bracket it: "
+            "sjogren-2003-prevalence is 3/9 = 33.3 % TAF15 at patient level, above every pooled "
+            "cohort and above the ~27 % the field quotes, held out under POLICY-evidence.md "
+            "s2.1(3). Pooling it would give 31/163 = 19.0 % with a per-cohort range of "
+            "15.8-33.3 %, so this exclusion moves the estimate AWAY from the field's figure "
+            "rather than toward it."
         ),
         "outlier_note": (
             "Agaram 2014 is the high outlier of the four pooled series and is also the source most "
@@ -2036,7 +2044,7 @@ def build() -> dict:
                 "literature/nr4a-ligand-chemistry",
             ],
             "not_retrievable": {
-                "Stacchiotti 2019 Lancet Oncol full text (PMID 31331701)": "paywalled; isOpenAccess N / inEPMC N in the Europe PMC core record. Carries the trial's full fusion distribution and prior-therapy table, i.e. the two facts that would close the overlap question and the non-TAF15 composition question.",
+                "Stacchiotti 2019 Lancet Oncol full text (PMID 31331701)": "GENUINELY CLOSED, and re-measured 2026-08-08 rather than assumed: Unpaywall oa_status closed with zero OA locations, OpenAlex any_repository_has_fulltext false, publisher full text (stacchiotti2019_lancet_fulltext) HTTP 403. Of the repository handles OpenAIRE and OpenAlex list for this paper and Stacchiotti 2014 TOGETHER -- the measurement does not split them per paper -- IRIS Bologna (11585/779084, 11585/393895), Ferrara (11392/2495557) and Padova (11577/3243739) fetch metadata-only, while DIGITAL.CSIC (10261/214284) is UNREAD rather than empty: an Anubis proof-of-work anti-scraper challenge no stdlib fetcher can clear, i.e. a bot block of the Appendix A8 kind and not evidence of closure. Measurement: partner-event-counts-2026-08-08.md s2.3. The Europe PMC isOpenAccess N / inEPMC N flags describe Europe PMC holdings only and are no longer the basis of this label (s8). Carries the trial's full fusion distribution and prior-therapy table, i.e. the two facts that would close the overlap question and the non-TAF15 composition question.",
                 "Paioli 2021 Ann Surg Oncol full text (PMID 32572850)": "GENUINELY CLOSED, and re-measured 2026-08-08 rather than assumed: Unpaywall `is_oa: false` / `oa_status: closed` with zero OA locations, OpenAlex `any_repository_has_fulltext: false`, and both institutional-repository records it lists (IRIS Bologna 11585/778841, Florence Research 2158/1215233) fetch HTTP 200 and are metadata-only -- Florence states verbatim 'Non ci sono file associati a questo prodotto'. Carries the per-partner relapse and metastasis event counts behind its DFS/DMFS p-values, and would say what the 5 partner-unassigned patients of 67 were. ⚠ ITS ABSTRACT'S AGGREGATE RELAPSE SPLIT IS RETRIEVABLE AND STILL NOT POOLABLE (35/67 relapsed: 9 local recurrence, 26 distant metastasis, 5 with concomitant LR) -- POLICY-evidence.md s2.1 needs counts on BOTH SIDES of the stratification and that total is partner-blind; splitting 35 relapses across the published 50/10 partner ratio would be a back-derived count, which s2.1(2) forbids. Recorded so a future session does not re-fetch it believing it is the missing table.",
                 "Stacchiotti 2014 Eur J Cancer full text (PMID 24703573)": "closed; no OA location in any index. The abstract states the qualitative split but not the per-arm denominators.",
             },

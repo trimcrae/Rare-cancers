@@ -1,0 +1,132 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0011",
+  "started_utc": "2026-08-27T01:36:00Z",
+  "finished_utc": "2026-08-27T02:20:00Z",
+  "session_id": "e1c37798-e0e3-5940-9d42-c03dff05632e (spawned session, no live user present — started because cycles_are_sized was red naming the predecessor)",
+  "kind": "harden",
+  "took": "AUT-PROP-002 — hardening round 4 on PUB-FUSION-PARTNER (publish_bar clause 1). Top of the re-scored ledger at 195.5, cost_class free.",
+  "route_advanced": "RT-PARTNER-STRAT",
+  "_route_advanced_why": "Nine defects in a live publication endpoint were fixed in its prose and in its generated artifact, and the standing P1 list that was blocking clause 1 was closed. ⛔ THIS IS CLAIMED WITH A CAVEAT AND THE CAVEAT IS IN THE RECEIPT ON PURPOSE: the paper did not become postable — the round raised no blocker but also introduced no new lens, so it is not evidence that a new lens would find nothing, and coverage got WORSE (below). The route moved; it did not arrive. The three preceding receipts all read `none`, and health.py's advancing_live_work was red on exactly that run — this cycle took a live item off the top of the ledger, which is what that row asks for.",
+  "health_check": {
+    "blocking": [],
+    "exit": 0,
+    "advises": [
+      "advancing_live_work (3 consecutive route_advanced:none — this cycle is the answer)",
+      "cycles_are_sized (subject is the PREDECESSOR session's committed receipts; immutable history, which is why this session exists)"
+    ],
+    "unmeasured": [
+      "gates_green — the checker has no network by design and no --gates-verdict was supplied"
+    ]
+  },
+  "the_finding": {
+    "headline": "⛔⛔ A REVIEW FINDING IS EVIDENCE WITH A DATE ON IT, AND THIS LIST HAD GONE STALE UNDER THE PAPER IT DESCRIBED. Of 16 P1s recorded against commit 34264bbeb610, ONE PAIR WAS THE SAME DEFECT (#1 and #13 both name §2.5's 'printed beside every pooled figure'), FOUR WERE ALREADY FIXED at the pinned commit (#2, #4, #12, #16), and TEN CARRIED A FACTUAL ERROR OF THEIR OWN — wrong counts, wrong sections, wrong direction, drifted line numbers. A cycle that had inherited this list as a summary would have re-applied fixes to text that no longer existed and re-litigated four closed findings, for the third cycle running.",
+    "how_it_was_caught": "The prompt that started this session deliberately carried no findings from its predecessor. The first live sentence read — the Abstract's '**Three** reports … **one** enters the primary pool' — is precisely what P1 #12 asserts is wrong, which is what turned round 4 from a review into a re-derivation.",
+    "convergence": "Seats A and D held disjoint slices, could not see each other, and landed on the SAME §2.5 defect from opposite directions — 'the declared substitute is not delivered' and 'the universality claim is false'. That decided the fix: PRINT the two missing per-cohort ranges (spread 53.9 pts and 22.4 pts, both wider than any range the paper did print) rather than soften the rule. A correction should deliver a paper's declared method, not retire it.",
+    "one_claim_verified_TRUE": "P1 #9 asserted the reader is asked to take an absolute author non-overlap claim on lists the synthesis cannot see the end of. The seat ran the check the finding said could not be run: all six pairwise intersections are empty, and complete lists for all four series were already committed on `main` in three artifacts nobody pointed the reader at. That reclassifies it from claim-integrity to provenance, at a materially lower weight than it was filed at — and the lists are now unabridged in the generator."
+  },
+  "⛔_the_measurement_that_went_the_wrong_way": {
+    "coverage": "46/259 sentences read by an instrument -> 50/271. ⛔ THE UNCOVERED COUNT STILL ROSE, 213 -> 221, AND THAT IS THE NUMBER THAT MATTERS: the round added twelve sentences and guarded four. Reporting this as 'coverage improved' would be true of the numerator and false of the finding.",
+    "how_it_was_forced": "⭐⭐ THE GUARD REFUSED THE COMMIT, WHICH IS WHY THIS ROUND INSTRUMENTED AT ALL. `test_every_fraction_and_percentage_is_bound_or_declared` failed with ~37 unbound figures — every number the nine corrections put on the page. The instrumenting half was not a virtue of this cycle's planning; it was a gate that would not let prose join the document unwatched, and it landed on 2026-08-27, one day before it was needed. Round 4 had planned to defer instruments to round 5.",
+    "words": "14,181 -> 16,402 (+2,221). Body +915; Appendix A correction register +1,363 (rows A21-A28).",
+    "what_it_means": "★★ A CORRECTION ROUND THAT WRITES PROSE ADDS UNWATCHED SURFACE UNLESS IT ADDS THE GUARDS IN THE SAME COMMIT — and even then the surface can grow, as it did here. This is `paper-hardening` §8a's trap in a second costume: rounds 1-3 sampled surfaces one lens at a time, and round 4 manufactured surfaces while closing findings. Recorded rather than smoothed, because the number is the only thing that would have caught it.",
+    "consequence": "AUT-PROP-002 was rewritten so round 5 cannot open with a reviewer seat, and AUT-COV-001 was filed for the 22 endpoints the census scores at ZERO."
+  },
+  "applied": {
+    "p1s_fixed": [
+      1,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      13,
+      14,
+      15
+    ],
+    "p1s_already_fixed": [
+      2,
+      4,
+      12,
+      16
+    ],
+    "appendix_rows_added": [
+      "A21 data vintage",
+      "A22 heterogeneity ranges",
+      "A23 confounders and referral bias",
+      "A24 §5 never got A17",
+      "A25 closure label on retired flags",
+      "A26 truncated author lists",
+      "A27 the quotation's provenance",
+      "A28 the third excluded series"
+    ],
+    "generator_owned_copies_changed": [
+      "citations.{huang2023,lenz2023,paioli2021}.authors",
+      "analyses.C_partner_prevalence.context_range_note",
+      "analyses.B_outcome_by_partner.metastasis_reading",
+      "retrieval_provenance.not_retrievable[stacchiotti2019]"
+    ],
+    "note": "Every artifact change went through research/manuscripts/emc_fusion_partner_pooling.py and was regenerated; --check reports the committed artifact still reproduces. No pooled number moved this round."
+  },
+  "process_defects_filed": [
+    {
+      "id": "PD-CYC0011-A",
+      "what": "The PreToolUse anti-detach hook was registered with a RELATIVE command path, so one `cd` inside a Bash call moved the tool's persisted cwd and bricked the Bash tool for the whole session — every recovery command is itself a Bash call the broken hook refuses. Evidence: the error resolved to `<persisted cwd>/.claude/hooks/no-detached-background.py`. Recovered only because the Edit tool does not pass through that hook. Fixed to ${CLAUDE_PROJECT_DIR:-.} in 69d8a6a.",
+      "class": "a guard whose wiring made the tool a one-way door"
+    },
+    {
+      "id": "PD-CYC0011-B",
+      "what": "The harness reported 'exit code 0' for a backgrounded preflight that had FAILED (real exit 1, stale archive manifest). The reported code was the wrapper's, not the gate's. ⭐ This is the second independent reason CLAUDE.md §6 says to wait on an ARTIFACT rather than a process: the log's own `EXIT=` marker was right and the notification was not. Anyone reading the notification alone would have committed on a red gate. ⛔ IT HAPPENED TWICE IN THIS ONE SESSION: the second backgrounded preflight also failed (EXIT=1, two guard failures) and was also notified as 'exit code 0'. Two for two is not a fluke.",
+      "class": "a status channel that reports the wrong process"
+    }
+  ],
+  "verification": {
+    "preflight": "green on the exact tree committed, exit code unmasked, PREFLIGHT_TESTS=1 (manuscripts were edited). First run went RED on a stale archive manifest caused by these edits; regenerated and re-run once with the tree settled.",
+    "generator": "emc_fusion_partner_pooling.py --check OK",
+    "quotations": "Huang 2023's five univariate factors were read from literature-cache:literature/emc-partner-events/huang2023_epmc_core.txt (HTTP 200), not from a seat's summary. 'might be partly' confirmed ABSENT from that record — 0 occurrences — which is the basis of A27. Complete author lists taken verbatim from the committed records, with diacritics preserved in the source and ASCII-folded only to match the generator file's own convention.",
+    "one_of_a_pair": "Checked rather than assumed: a seat reported the unbounded metastasis attribution in four artifact locations. Enumerated — only one is a substantive assertion; the other two are a pmcid and a url."
+  },
+  "subagents": {
+    "dispatched": 5,
+    "concurrent_max": 5,
+    "cap": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width",
+    "all_returned": true,
+    "shape": "one message, five verification seats over a partition of the P1 list; each returned a structured verdict, never prose"
+  },
+  "blocked_by": [],
+  "queued_next": [
+    "★ ROUND 5 = MUTATION-TEST THIS ROUND'S NINE BINDINGS FIRST (single-site mutations included — the eight-group local-recurrence binding exists precisely to catch an arm swap and that has not been proven), THEN guards over the 221 still-uncovered sentences. AUT-PROP-002 refuses a reviewer-seat opening.",
+    "⛔ THE COVERAGE REGRESSION IS NOT LOCAL TO THIS PAPER. The census reads 32 publication endpoints and 22 of them score ZERO — nr4a3-fusion-transcriptional-output.md 0/382, emc-surface-target-landscape.md 0/297, repurposing-hypotheses.md 0/216, nr4a3-degrader-paper.md 3/964. Every correction round on any of them will enlarge an unwatched surface the same way. Worth its own ledger entry.",
+    "AUT-PROP-006 (seat record on disk before any fix) still owed the three layers — carried from CYC-0008 and CYC-0010 without being taken.",
+    "Audit the other gates for the contract gap CYC-0010 found: does anything else stop a process on a condition that process cannot clear? preflight, publish_bar and amendment_guard have each not been asked."
+  ],
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none",
+    "claude_budget": "one spawned session, 5 concurrent subagents against a cap of 5"
+  },
+  "handoff": {},
+  "instruments_written": {
+    "bindings_added": [
+      "§3.1's secondary row per-cohort range (and the row binding widened to cover it, so the pooled rate and the two rates it averages cannot drift apart)",
+      "A22's restatement of the same spread",
+      "§3.3's local-recurrence per-cohort rates as ONE eight-group construction, so an arm swap that keeps every digit correct still fails",
+      "A22's local-recurrence comparator spread",
+      "§2.5's two named spreads",
+      "§3.5's Sjögren counterfactual, DERIVED from the artifact's integers rather than typed",
+      "the counterfactual pool at both sites",
+      "A4's high-grade share at round 4's two restatements",
+      "Huang's 78 % >10 cm figure, promoted from a declaration"
+    ],
+    "declarations_removed_by_promotion": [
+      "78 % — the artifact holds the integers behind it (7/9), so it binds",
+      "50/10 — the declaration's own text conceded these are the prevalence cohort's pooled counts; a site that states a forbidden operation still states real integers"
+    ],
+    "⛔_the_ratchet_was_not_raised": "`test_the_guard_binds_a_material_share_of_the_documents_figures` caps declaration-only figures at 20 and my four additions took it to 24. Raising the cap is the edit research-loop §6 forbids — a bar may not be changed by the cycle it just blocked — so the fix was to BIND two figures that were wrongly declared and to stop one appendix row restating a handle §6 already names. It passes at 20, not at a loosened 24.",
+    "not_yet_done": "These bindings are NOT mutation-tested. `paper-hardening` requires single-site mutations against every guard written; that is round 5's second act and is queued, not claimed."
+  }
+}

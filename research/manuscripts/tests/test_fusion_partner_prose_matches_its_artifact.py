@@ -180,6 +180,74 @@ def _word(n):
     return _WORDS[n]
 
 
+def _frac(stratum):
+    """`events/denom` exactly as the prose prints a stratum."""
+    return f"{int(stratum['events'])}/{int(stratum['denom'])}"
+
+
+def _lr_pair(a):
+    """Both cohorts' local-recurrence arms, in the order §3.3 states them.
+
+    ⚠ ONE CONSTRUCTION, EIGHT GROUPS, ON PURPOSE. The sentence's whole point is that the two cohorts
+    run in OPPOSITE directions; binding each rate separately would let a swap that keeps every digit
+    correct pass, which is the arm-swap mutation class this file already carries two cases of.
+    """
+    pc = a["analyses"]["B_outcome_by_partner"]["local_recurrence"]["per_cohort"]
+    out = []
+    for cohort in ("agaram-2014-outcome", "huang-2023-outcome"):
+        for arm in ("TAF15::NR4A3", "EWSR1::NR4A3"):
+            out += [_frac(pc[cohort][arm]), _pct(pc[cohort][arm]["percent"])]
+    return tuple(out)
+
+
+def _prev_pooled(a):
+    """The prevalence pool's TAF15 events and denominator, re-derived from the pooled records."""
+    pooled = a["analyses"]["C_partner_prevalence"]["cohorts_pooled"]
+    by_id = _by_id(a)
+    ev = sum(by_id[c]["counts"]["TAF15::NR4A3"] for c in pooled)
+    dn = sum(sum(by_id[c]["counts"].values()) for c in pooled)
+    return ev, dn
+
+
+def _prev_shares(a):
+    """Per-cohort TAF15 share for every pooled prevalence series, as the prose rounds it."""
+    by_id = _by_id(a)
+    return {c: round(100.0 * by_id[c]["counts"]["TAF15::NR4A3"]
+                     / sum(by_id[c]["counts"].values()), 1)
+            for c in a["analyses"]["C_partner_prevalence"]["cohorts_pooled"]}
+
+
+def _prev_pct(a, cohort_id):
+    return _pct(_prev_shares(a)[cohort_id])
+
+
+def _sjogren(a):
+    c = _by_id(a)["sjogren-2003-prevalence"]["counts"]
+    return c["TAF15::NR4A3"], sum(c.values())
+
+
+def _sjogren_frac(a):
+    ev, dn = _sjogren(a)
+    return f"{ev}/{dn}"
+
+
+def _sjogren_pct(a):
+    ev, dn = _sjogren(a)
+    return _pct(round(100.0 * ev / dn, 1))
+
+
+def _prev_counterfactual_frac(a):
+    ev, dn = _prev_pooled(a)
+    sev, sdn = _sjogren(a)
+    return f"{ev + sev}/{dn + sdn}"
+
+
+def _prev_counterfactual_pct(a):
+    ev, dn = _prev_pooled(a)
+    sev, sdn = _sjogren(a)
+    return _pct(round(100.0 * (ev + sev) / (dn + sdn), 1))
+
+
 # =================================================================================================
 # The bindings.
 #
@@ -277,9 +345,11 @@ bind("§3.1's primary-analysis table row, whole",
                     a["analyses"]["A_tki_objective_response"]["overlap_sensitivity_bounds"]
                      ["taf15_upper_ci_range_percent"][1]))
 
-bind("§3.1's secondary-analysis table row, whole",
+bind("§3.1's secondary-analysis table row, whole — INCLUDING the per-cohort range added in round "
+     "4, so the pooled rate and the two rates it averages cannot drift apart",
      r"\| Secondary \(both cohorts, assumes independence\) \| (\d+)/(\d+) \| (\d+)/(\d+) = "
-     r"(\d+\.\d) % \| (\d+\.\d) % \| (\d+(?:\.\d+)?) \|",
+     r"(\d+\.\d) % — per cohort \d+\.\d % \(pazopanib, \d+/\d+\) and \d+\.\d % "
+     r"\(sunitinib, \d+/\d+\), spread \d+\.\d pts \| (\d+\.\d) % \| (\d+(?:\.\d+)?) \|",
      lambda a: _row(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]["contrast"],
                     a["analyses"]["A_tki_objective_response"]["overlap_sensitivity_bounds"]
                      ["taf15_upper_ci_range_percent"][0]))
@@ -937,6 +1007,133 @@ bind("§8's complementary count of the citations lacking a verification_note",
 
 
 # =================================================================================================
+# ------------------------------------------------- E · the ranges round 4 was forced to print ---
+# ⛔⛔ ADDED 2026-08-27, CYC-0011 ROUND 4, AND THE REASON IS THE MEASUREMENT AND NOT THE PROSE.
+# §2.5 promised the range of per-cohort rates "printed beside every pooled figure" and did not
+# deliver it at the two pooled figures with the WIDEST spreads in the document — the TKI secondary
+# pool (53.9 points) and local recurrence's comparator arm (22.4). Two blind seats, holding disjoint
+# slices of the standing P1 list and unable to see each other, found it from opposite directions.
+# The fix printed the missing ranges rather than softening the rule, which put ~20 new figures on
+# the page — and `test_every_fraction_and_percentage_is_bound_or_declared` refused the commit until
+# every one of them was bound here. That refusal is the instrument working exactly as intended:
+# ⭐ A CORRECTION ROUND THAT ADDS PROSE ADDS UNWATCHED SURFACE UNLESS IT ADDS THE GUARDS IN THE SAME
+# COMMIT. Measured that day across the whole document set: the fusion-partner endpoint went 46/259
+# sentences read by an instrument to 46/271 — the covered count did not move while the document
+# grew — so the UNCOVERED set rose 213 -> 225. That is `paper-hardening` §8a's trap in a second
+# costume: rounds 1-3 sampled surfaces one lens at a time, and round 4 manufactured them while
+# closing findings. Ledger: AUT-COV-001.
+
+bind("§3.1's secondary row now carries its per-cohort range — the widest spread in this paper, and "
+     "the one §2.5 promised was printed beside every pooled figure",
+     r"per cohort (\d+\.\d+) % \(pazopanib, (\d+/\d+)\) and (\d+\.\d+) % \(sunitinib, (\d+/\d+)\), "
+     r"spread (\d+\.\d+) pts",
+     lambda a: (
+         _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
+              ["heterogeneity"]["per_cohort_percent"]["pazopanib-NCT02066285 (non-TAF15 arm)"]),
+         _frac(_by_id(a)["pazopanib-NCT02066285"]["strata"]["non-TAF15"]),
+         _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
+              ["heterogeneity"]["per_cohort_percent"]["sunitinib-2014 (EWSR1 arm)"]),
+         _frac(_by_id(a)["sunitinib-2014"]["strata"]["EWSR1::NR4A3"]),
+         _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
+              ["heterogeneity"]["spread_percent"])))
+
+bind("Appendix A22's restatement of the same secondary-pool spread, which must not drift from the "
+     "table it registers a correction to",
+     r"averaged (\d+\.\d+) % \(pazopanib, (\d+/\d+)\) with (\d+\.\d+) % \(sunitinib, (\d+/\d+)\) "
+     r"into (\d+/\d+) = (\d+\.\d+) %, a (\d+\.\d+)-point spread",
+     lambda a: (
+         _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
+              ["heterogeneity"]["per_cohort_percent"]["pazopanib-NCT02066285 (non-TAF15 arm)"]),
+         _frac(_by_id(a)["pazopanib-NCT02066285"]["strata"]["non-TAF15"]),
+         _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
+              ["heterogeneity"]["per_cohort_percent"]["sunitinib-2014 (EWSR1 arm)"]),
+         _frac(_by_id(a)["sunitinib-2014"]["strata"]["EWSR1::NR4A3"]),
+         _frac(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
+               ["contrast"]["comparator_arm"]),
+         _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
+              ["contrast"]["comparator_arm"]["percent"]),
+         _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
+              ["heterogeneity"]["spread_percent"])))
+
+bind("§3.3's local-recurrence per-cohort rates — the DIRECTION FLIP the 4.3-point pooled gap was "
+     "cancelling, stated as one construction so the two cohorts cannot drift apart",
+     r"Agaram gives (\d+/\d+) = (\d+\.\d+) % TAF15 against (\d+/\d+) = (\d+\.\d+) % EWSR1; Huang "
+     r"gives (\d+/\d+) = (\d+\.\d+) % against (\d+/\d+) = (\d+\.\d+) %",
+     lambda a: _lr_pair(a))
+
+bind("Appendix A22's restatement of the local-recurrence comparator spread",
+     r"comparator arm ran (\d+\.\d+) % \(Agaram\) against (\d+\.\d+) % \(Huang\), (\d+\.\d+) points",
+     lambda a: (
+         _pct(a["analyses"]["B_outcome_by_partner"]["local_recurrence"]["per_cohort"]
+              ["agaram-2014-outcome"]["EWSR1::NR4A3"]["percent"]),
+         _pct(a["analyses"]["B_outcome_by_partner"]["local_recurrence"]["per_cohort"]
+              ["huang-2023-outcome"]["EWSR1::NR4A3"]["percent"]),
+         _pct(a["analyses"]["B_outcome_by_partner"]["local_recurrence"]
+              ["heterogeneity_comparator_arm"]["spread_percent"])))
+
+bind("§2.5's two named spreads, which are the whole reason that bullet was corrected",
+     r"the secondary TKI pool \(spread (\d+\.\d+) points\) and local recurrence \(comparator\s+"
+     r"arm, (\d+\.\d+) points\)",
+     lambda a: (
+         _pct(a["analyses"]["A_tki_objective_response"]["secondary_assume_independent"]
+              ["heterogeneity"]["spread_percent"]),
+         _pct(a["analyses"]["B_outcome_by_partner"]["local_recurrence"]
+              ["heterogeneity_comparator_arm"]["spread_percent"])))
+
+# ⛔ THE SJÖGREN COUNTERFACTUAL IS DERIVED, NEVER TYPED. §3.5 and A28 state what the prevalence pool
+# WOULD read had the excluded series been pooled. That is an arithmetic claim about the artifact's
+# own integers, so it is computed here from those integers — a typed "31/163 = 19.0 %" would go
+# stale the moment a prevalence cohort is added, which is precisely how `cohorts_identified` drifted
+# (see the roster note above).
+bind("§3.5's Sjögren counterfactual: its own TAF15 share, the high pooled cohort it exceeds, and "
+     "what pooling it would do to the headline",
+     r"Sjögren 2003 is (\d+/\d+) = (\d+\.\d+) % TAF15 at patient level, above Agaram's (\d+\.\d+) %",
+     lambda a: (_sjogren_frac(a), _sjogren_pct(a), _prev_pct(a, "agaram-2014-prevalence")))
+
+bind("the counterfactual pool itself, stated twice and bound at both sites",
+     r"would give \*?\*?(\d+/\d+) = \*?\*?(\d+\.\d+) %\*?\*? and (?:a per-cohort range of|widen "
+     r"the per-cohort range to) (\d+\.\d+) – (\d+\.\d+) %",
+     lambda a: (_prev_counterfactual_frac(a), _prev_counterfactual_pct(a),
+                _pct(min(_prev_shares(a).values())), _sjogren_pct(a)))
+
+
+bind("round 4's two restatements of Appendix A4's high-grade share, bound to the same stratum A4 is "
+     "bound to so a correction's own restatement cannot drift from the correction",
+     r"A4 records its (\d+) % high-grade variant group",
+     lambda a: _variant_grade(a)[0])
+
+bind("Huang 2023's own abstract sentence, quoted in §4.7a and A27 as the independent corroboration "
+     "that keeps §3.3's defeater standing without the human-transcribed Discussion quotation — "
+     "BOUND rather than declared, because the artifact holds the integers it renders (7/9 = 77.8 %, "
+     "which the source prints as 78 %). If those integers ever move, the quotation must be re-read "
+     "rather than silently left standing beside them.",
+     r"size >10 cm \((\d+)%, P = (\.\d+)\)",
+     lambda a: (str(round(100.0 * _huang_size(a)["events"] / _huang_size(a)["denom"])),
+                _pubp(_by_id(a)["huang-2023-outcome"]["size_covariate"]
+                      ["published_p_size_over_10cm"])))
+
+
+def _huang_size(a):
+    """Huang's TAF15 >10 cm stratum — the one side of that table with no internal inconsistency.
+
+    ⚠ THE EWSR1 SIDE IS DELIBERATELY NOT USED HERE. The artifact records, and does not resolve, that
+    Huang prints its EWSR1 >10 cm cell as "12/46 (28%)" while 12/46 is 26.1 % — POLICY-evidence.md
+    §2.1(2) forbids back-deriving a count from a percentage to close the gap. Rendering a percentage
+    from those integers would manufacture the very number the source disagrees with.
+    """
+    return _by_id(a)["huang-2023-outcome"]["size_covariate"]["TAF15::NR4A3"]["over_10cm"]
+
+
+bind("the Paioli prevalence split named in the sentence describing the back-derivation this "
+     "document REFUSES to perform. ⭐ IT WAS DECLARED NOT-ARTIFACT-OWNED AND THAT WAS WRONG: the "
+     "declaration's own text conceded the two integers are the prevalence cohort's counts and are "
+     "pooled under analysis C. A site that states a forbidden operation still states real integers, "
+     "and if they move, the sentence describing what would be derived from them is stale.",
+     r"across the (\d+)/(\d+) partner ratio",
+     lambda a: (str(_by_id(a)["paioli-2021-prevalence"]["counts"]["EWSR1::NR4A3"]),
+                str(_by_id(a)["paioli-2021-prevalence"]["counts"]["TAF15::NR4A3"])))
+
+
 # ⚠ DECLARED NOT-ARTIFACT-OWNED NUMBERS.
 #
 # Every printed fraction and rate the census below finds must be covered either by a BINDING above
@@ -949,17 +1146,17 @@ bind("§8's complementary count of the citations lacking a verification_note",
 # =================================================================================================
 
 DECLARED_NOT_ARTIFACT_OWNED = [
+    ("identifier",
+     r"10261/214284",
+     "A DIGITAL.CSIC repository handle, named in §6 and Appendix A25 as the one listed handle that "
+     "is UNREAD rather than measured empty (an Anubis anti-bot challenge). It contains a slash "
+     "between digits and is not a proportion — same class as the DOI row above."),
+
     ("source-quoted",
      r"Its abstract's aggregate (35)/(67) relapse split",
      "Paioli 2021's partner-BLIND relapse total, read from its abstract. It is barred from the pool "
      "by §2.1(2) and is quoted to say why, so it is not a pooled quantity and the artifact holds it "
      "only inside `retrieval_provenance.not_retrievable` prose."),
-
-    ("source-quoted",
-     r"across the 50/10 partner ratio",
-     "The Paioli prevalence split, named here only to describe the back-derivation the document "
-     "REFUSES to perform. Its two integers are the prevalence cohort's own counts and are pooled "
-     "under analysis C; this site states the forbidden operation, not a result."),
 
     ("identifier",
      r"doi:10\.1186/2045-3329-2-22",

@@ -1,0 +1,147 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "Round 4 on PUB-FUSION-PARTNER. ⛔ THIS IS NOT A FRESH-LENS ROUND AND THAT IS THE POINT. `paper-hardening` §8a: when the blocker count stops falling (3 -> 2 -> 9 here) the round is sampling surfaces rather than fixing a paper. So round 4 introduced NO new lens. It re-derived the 16 P1s standing on the round-3 record against a pinned commit, because that record was written against 34264bbeb610 and a later correction pass moved the paper without updating it.",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "69d8a6ac1c90ae2129f7ee2348d8a523e5f82be8",
+  "blind": true,
+  "_blind_means": "Each of the five seats was given the pinned sha, the document path, and ONLY its own slice of the P1 list — no authorship, no round history, no sight of another seat's slice, and no statement of which verdict the programme would prefer. Every seat was instructed to REFUTE BY DEFAULT: the verdict is `already_fixed` unless the seat can quote the offending text as it stands at the pinned commit.",
+  "utc": "2026-08-27T02:05:00Z",
+  "cycle_id": "CYC-0011",
+  "seat": "five verification seats, partitioned 1-4 / 5-7 / 8-10 / 11-13 / 14-16 over the round-3 P1 list",
+  "round": 4,
+  "supersedes_record": "research/autonomy/review-seats/PUB-FUSION-PARTNER-34264bbeb6109f3675e7b76f0038775216f6b0d8.json",
+  "verdict": "p1s_re_derived_and_applied",
+  "_verdict_note": "⛔⛔ THE HEADLINE IS THE STALENESS, NOT THE DEFECTS. Of 16 recorded P1s, ONE PAIR WAS THE SAME DEFECT (#1 and #13 both name §2.5's 'printed beside every pooled figure'), so 15 were distinct; FOUR of those were ALREADY FIXED at the pinned commit (#2, #4, #12, #16) and would have been re-applied or re-litigated by a cycle that inherited the list as a summary. ⭐ A fifth (#9) verified TRUE on the merits when the seat ran the check the finding asserted could not be run: all six pairwise author-list intersections are empty, and the complete lists were already committed on `main` in three artifacts nobody had pointed the reader at. That reclassifies it from a claim-integrity defect to a provenance one, at a materially lower weight than it was filed at. ⛔ TEN of the sixteen findings CARRIED A FACTUAL ERROR OF THEIR OWN (`old_finding_accurate: false`) — wrong counts, wrong sections, wrong direction, line numbers drifted — which is the measured case for re-deriving rather than inheriting: a review finding is evidence with a date on it, exactly like any other reading.",
+  "method": {
+    "why_not_a_fresh_lens": "paper-hardening §8a. Rounds 1-3 went 3 -> 2 -> 9 blockers. A rising count under fresh lenses tracks how many unexamined surfaces each round introduces, not how many defects the paper holds.",
+    "instrument_context": "The coverage census (`claim_coverage.py`) scored this document at 46/259 sentences read by any instrument on 2026-08-26 — 213 uncovered. That census is the enumeration this round was told to start from; re-deriving the standing P1s came first because a stale finding list poisons every round built on it.",
+    "refute_by_default": true,
+    "seats_saw_each_other": false,
+    "convergence": "Seats A and D, given disjoint slices and no sight of each other, landed on the SAME §2.5 defect from opposite directions (#1 'the declared substitute is not delivered', #13 'the universality claim is false'). Independent convergence across a partition boundary is the strongest signal this arrangement produces, and it decided the fix: PRINT the missing ranges rather than soften the rule."
+  },
+  "tally": {
+    "recorded": 16,
+    "distinct": 15,
+    "already_fixed": [
+      2,
+      4,
+      12,
+      16
+    ],
+    "still_stands": [
+      1,
+      5,
+      7,
+      10,
+      13,
+      14,
+      15
+    ],
+    "partly_stands": [
+      3,
+      6,
+      8,
+      9,
+      11
+    ],
+    "duplicate_pair": [
+      1,
+      13
+    ],
+    "old_finding_carried_its_own_error": [
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      13,
+      15
+    ]
+  },
+  "applied_this_round": [
+    {
+      "p1": [
+        1,
+        13
+      ],
+      "where": "§2.5, §3.1 table, §3.3",
+      "what": "The declared heterogeneity substitute is now delivered at both pooled figures that lacked it: the TKI secondary pool (21.1 % vs 75.0 %, spread 53.9 pts — the widest in the paper) and local recurrence (comparator arm 6.2 % vs 28.6 %, 22.4 pts, a direction flip the 4.3-pt pooled gap was cancelling). Appendix A22."
+    },
+    {
+      "p1": [
+        3
+      ],
+      "where": "§4.1a, §4.9",
+      "what": "Grade added to the not-adjusted-for list, with Huang's five univariate DSS factors quoted from the fetched Europe PMC record; §4.9's referral-bias argument extended from the prevalence estimate to the death contrast, both of whose cohorts are consultation material. Appendix A23."
+    },
+    {
+      "p1": [
+        5
+      ],
+      "where": "§4.11",
+      "what": "The 1989-2017 diagnosis span was stitched from a surgical window and a trial enrolment endpoint, neither a diagnosis date, neither belonging to the outcome pool. Vintage now marked absent per POLICY-evidence.md §4.1; the conservative-floor reading labelled an assumption. Appendix A21."
+    },
+    {
+      "p1": [
+        6
+      ],
+      "where": "§2.3a",
+      "what": "Scope changed from a LIST of two qualified sentences to a PREDICATE over every count and superlative taken over the literature — the fix shape §8b.2's 33-mutation result says holds (every predicate-scoped fix held; six of eleven list-scoped fixes regressed at an unnamed sibling)."
+    },
+    {
+      "p1": [
+        7,
+        8,
+        14
+      ],
+      "where": "§5, and the artifact's metastasis_reading via the generator",
+      "what": "A17's correction and the n = 1 attribution had reached every section EXCEPT §5 — the section §5 itself designates as the source of the publications-view endpoint text, i.e. the one most likely to be quoted onward. Appendix A24."
+    },
+    {
+      "p1": [
+        9
+      ],
+      "where": "§3.5, and citations.{huang2023,lenz2023,paioli2021}.authors via the generator",
+      "what": "Three of four author lists were truncated at 'et al.' in the artifact the document calls the one home of its numbers, under an absolute non-overlap claim. Complete lists restored from records already on `main`; the claim verifies. Appendix A26."
+    },
+    {
+      "p1": [
+        10
+      ],
+      "where": "§3.3, §4.7a",
+      "what": "The Discussion sentence carrying the paper's central defeater came from the same human PDF read as the counts, and every provenance disclosure named the COUNTS only. Now disclosed, with the Europe PMC corroboration that keeps the defeater standing without it. Appendix A27."
+    },
+    {
+      "p1": [
+        11
+      ],
+      "where": "§3.5, and context_range_note via the generator",
+      "what": "The bracket sentence named two of three excluded prevalence series; the unnamed third (Sjögren 2003, 3/9 = 33.3 % TAF15) is the one that does NOT bracket the estimate. Same family as A18 — the omissions that survive are the ones that flatter. Appendix A28."
+    },
+    {
+      "p1": [
+        15
+      ],
+      "where": "§6, and retrieval_provenance.not_retrievable via the generator",
+      "what": "The 'genuinely closed' label rested on the exact Europe PMC flags Appendix A8 retired, and counted DIGITAL.CSIC's Anubis anti-bot challenge as a handle measured empty. An absent reading is not a reading of absence. Appendix A25."
+    }
+  ],
+  "not_applied": [
+    {
+      "p1": [
+        2,
+        4,
+        12,
+        16
+      ],
+      "why": "already fixed at the pinned commit — verified by quoting the replacement text, not by trusting the record."
+    }
+  ],
+  "what_the_seats_could_not_break": "No pooled number moved this round. Every seat that re-derived arithmetic re-derived it from the artifact's integers with its own implementation: 28/154 = 18.2 % prevalence and its 15.8-29.2 per-cohort range, 7/15 = 46.7 % (Wilson 24.8-69.9) for TAF15 disease-specific death, the 3-to-58 denominator and 0-to-14 event ranges, and `--check` reports the committed artifact still reproduces from the generator. ⭐ AND THE ONE CLAIM A SEAT ACTIVELY TESTED RATHER THAN READ CAME BACK TRUE: the four prevalence series share no author, on surname-plus-initials or on surname alone.",
+  "convergence_test": "NOT MET, and the reason is now different in kind. `paper-hardening`'s test is no blockers AND no P1s. This round raised no blocker and closed the standing P1 list, but it introduced no new lens by design, so it is not evidence that a new lens would find nothing. ⛔ THE NEXT ROUND'S INPUT IS THE COVERAGE CENSUS, NOT ANOTHER REVIEWER: 213 of 259 sentences are read by no instrument, and that uncovered set is the remaining blocker risk enumerated all at once instead of one per round.",
+  "blocked_by": []
+}
