@@ -111,10 +111,20 @@ TARGETS = [
 ]
 
 # ⛔ fusion-junction-aso-working-record.md IS DELIBERATELY NOT IN `TARGETS`, AND THAT IS NOW CORRECT
-# RATHER THAN DEFERRED (2026-08-12). It is no longer a manuscript: the submission is
-# `fusion-junction-aso-research-article.md`, and the working record is its provenance archive —
-# every analysis in full plus the superseded-value register that rule 1.2 REQUIRES. Gate 5 checks
-# journal REGISTER, and that file's audience is a maintainer, so the house style is right there.
+# RATHER THAN DEFERRED (2026-08-12). It is no longer a manuscript: the working record is the
+# provenance archive of the ASO line — every analysis in full plus the superseded-value register
+# that rule 1.2 REQUIRES. Gate 5 checks journal REGISTER, and that file's audience is a maintainer,
+# so the house style is right there.
+#
+# ⚠ Superseded, retained (2026-08-27): this comment used to name
+# `fusion-junction-aso-research-article.md` — the extended report — as "the submission". It is not,
+# and had not been since 2026-08-25, when the extended report was removed from `TARGETS` (trimcrae:
+# "Remove any checks requiring it from the gate"); the comment 45 lines ABOVE, inside the list,
+# already said so — "the file stays in the tree as history". THE SUBMISSION IS THE JOURNAL ARTICLE,
+# `fusion-junction-aso-journal-article.md`, which is the row in `TARGETS` above. Two comments in one
+# gate described two different regimes, and the wrong one was the one a reader meets last. Measured
+# 2026-08-27 by the round-10 guard-coverage audit (STALE_GUARD_TEXT 1) and re-checked here: no
+# element of `TARGETS` contains "research-article".
 #
 # ⚠ Superseded, retained: the measurement below was taken when the working record still WAS the
 # manuscript, and it is kept because it is the EVIDENCE FOR SPLITTING rather than rewriting. Getting

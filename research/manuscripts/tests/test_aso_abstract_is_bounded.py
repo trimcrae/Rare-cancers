@@ -8,15 +8,37 @@ this one, so it passed no matter what this abstract did, and prose was trimmed o
 satisfy a constraint borrowed from another. A green test that does not read the file it is believed
 to guard is worse than no test: it converts an unchecked property into a checked-looking one.
 
-★ THE BOUND HERE IS THE DEPOSIT TARGET'S. bioRxiv sets no abstract word limit, so this is not a venue
-constraint and must not be described as one. It is a drift bound: an abstract is the only part of the
-paper most readers will read, and it has grown every time a reviewer asked for a qualification to be
-carried into it. 380 leaves room for the qualifications this paper genuinely owes a reader — the
-adopted-not-measured criterion, the by-construction share of the gap-length result, the unusable
-candidate set — while failing if the abstract starts absorbing the Results.
+★ NEITHER BOUND IN THIS MODULE IS A VENUE LIMIT, AND NEITHER MAY BE DESCRIBED AS ONE. There are two
+papers here and two constants — `ABSTRACT_DRIFT_BOUND` for the extended report and
+`JOURNAL_ABSTRACT_DRIFT_BOUND` for the condensed journal article — and both are DRIFT bounds. An
+abstract is the only part of the paper most readers will read, and it has grown every time a reviewer
+asked for a qualification to be carried into it; each constant leaves room for the qualifications the
+paper genuinely owes a reader — the adopted-not-measured criterion, the by-construction share of the
+gap-length result, the unusable candidate set — while failing if the abstract starts absorbing the
+Results. The reason for each bound's current value is at the constant, not here.
 
-⚠ IF A JOURNAL IS EVER TARGETED, replace this with that venue's limit and say which venue in the
-constant's name. Do not silently raise this number to make an edit fit.
+⛔ THE VENUE'S OWN ABSTRACT LIMIT IS NOT IN THIS FILE AND MUST NOT BE COPIED INTO IT. The journal
+article has a targeted venue (NAT), that venue's limit HAS been read at primary source, and the limit
+together with the measured abstract length and the over/under verdict has ONE home:
+`research/manuscripts/submission-metrics.json` (regenerate: `submission_metrics.py`), whose NAT row
+cites the verbatim human capture `research/literature/nat-submission-guidelines-2026-08-23.md`.
+That row and this module count differently on purpose — it counts to the venue's stated counting
+rule, `_abstract()` below splits on this file's own `## Abstract` anchor — so a reader who finds two
+different word counts for one abstract is looking at two instruments, not at a contradiction. This
+module holds DRIFT; that artifact holds COMPLIANCE.
+
+⚠ Superseded, retained (2026-08-27, round-10 guard-coverage audit STALE_GUARD_TEXT 2 and 3). This
+docstring used to read "★ THE BOUND HERE IS THE DEPOSIT TARGET'S. bioRxiv sets no abstract word
+limit…", framing a single bound as belonging to a deposit that is no longer the only destination,
+and it named `380` when the constant below had already been raised to 400. It then instructed the
+next reader: "IF A JOURNAL IS EVER TARGETED, replace this with that venue's limit and say which venue
+in the constant's name." THAT INSTRUCTION HAD ALREADY FIRED AND BOTH NOTES READ AS THOUGH IT HAD
+NOT — a journal was targeted, and the note on `JOURNAL_ABSTRACT_DRIFT_BOUND` below said the
+instruction "CANNOT BE FOLLOWED YET" because every Sage-hosted NAT page returned 403. The 403 is real
+and still blocks every AUTOMATED route; it stopped being the whole story on 2026-08-23, when a person
+read the page in a browser and captured it. Both notes are corrected here. The standing half of the
+old instruction is unchanged and is the only part still binding:
+⛔ DO NOT SILENTLY RAISE EITHER NUMBER TO MAKE AN EDIT FIT.
 """
 from __future__ import annotations
 
@@ -65,16 +87,34 @@ ABSTRACT_DRIFT_BOUND = 400
 
 #: The condensed submission's own bound.
 #:
-#: ⚠ ALSO NOT A VENUE LIMIT, AND THE DOCSTRING'S INSTRUCTION CANNOT BE FOLLOWED YET. The module
-#: docstring says to replace the bound with the venue's own once a journal is targeted. NAT is the
-#: targeted venue, and its author instructions could not be read: every Sage-hosted NAT page in
+#: ⚠ ALSO NOT A VENUE LIMIT — 250 IS THIS REPOSITORY'S DRIFT BOUND AND IS NOT NAT'S NUMBER. NAT is
+#: the targeted venue and NAT's own abstract limit HAS been read, so the limit itself is not stated
+#: here: it has one home, the NAT row of `research/manuscripts/submission-metrics.json`, which cites
+#: the verbatim human capture `research/literature/nat-submission-guidelines-2026-08-23.md` and
+#: carries the compliance verdict for this abstract. Read the limit there; do not copy it here.
+#:
+#: ⚠ Superseded, retained (2026-08-27): this note used to say "THE DOCSTRING'S INSTRUCTION CANNOT BE
+#: FOLLOWED YET … its author instructions could not be read: every Sage-hosted NAT page in
 #: `research/literature/venue-policy-browser-fetch.json` — `author-instructions/NAT`,
-#: `aims-scope/NAT`, `home/nat` — returned **403** to the fetcher. So this stays a drift bound, and
-#: it is NOT to be described as NAT's limit until someone has read NAT's limit.
+#: `aims-scope/NAT`, `home/nat` — returned **403** to the fetcher … it is NOT to be described as
+#: NAT's limit until someone has read NAT's limit." The 403 half REPRODUCES and is not retracted —
+#: re-read from that artifact on 2026-08-27, five Sage NAT targets still carry `status: 403` with the
+#: note "403 persisted under a real browser; not fixable by retrying" — but it was never the whole
+#: story after 2026-08-23, when trimcrae read the page in a signed-out browser and pasted it in. The
+#: condition the old note set ("until someone has read NAT's limit") was met four days before the
+#: note was found stale, which is exactly the failure mode the round-10 audit was looking for: an
+#: unfired-looking instruction that had in fact fired.
 #:
 #: 250 rather than 400 because this paper is on a six-page budget: a word in its abstract is a word
-#: not available to its Results. The abstract stands at 227, so the bound buys one qualification
-#: and no more.
+#: not available to its Results.
+#: ⛔ AND DO NOT RESTATE THE ABSTRACT'S LENGTH HERE — the last attempt is why this comment is being
+#: rewritten. It read "The abstract stands at 227, so the bound buys one qualification and no more",
+#: and 227 was never re-measured as the paper moved. The live number is what
+#: `test_the_abstract_reads_this_paper_and_is_bounded[journal-article-250]` below computes; take it with
+#:   `python -c "import sys;sys.path.insert(0,'research/manuscripts/tests');
+#:    import test_aso_abstract_is_bounded as m;print(len(m._abstract(m.PAPERS['journal-article'])))"`
+#: ⚠ Dated reading, 2026-08-27, by exactly that command: **220** against this bound of 250, and 399
+#: against `ABSTRACT_DRIFT_BOUND`'s 400. Both are HISTORY the moment they are written down.
 JOURNAL_ABSTRACT_DRIFT_BOUND = 250
 
 #: Which needles apply to a paper that reports fewer results. The two below are SCOPE bounds — they

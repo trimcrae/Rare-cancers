@@ -177,22 +177,52 @@ COVERAGE_FLOOR = {
     #: `6b2bd3729`: 1 of 259 sentences, 1 of 192 stating a number, and the one witness is a pin
     #: (`fusion_partner_dod_fisher_p`). No test module named the file at all. That 1 is not a false
     #: positive: ablating it — perturbing the number in a clone and re-running the witness — goes red.
-    #: ⚠ THE LIVE READING IS NO LONGER 1. `8bd6cff9d` landed a numbers guard against this manuscript
-    #: hours later and the census now reads 46 of 259 (46 of 192 numbered), which is the instrument
-    #: working: a guard arrived and the count moved. THE FLOOR IS DELIBERATELY LEFT AT 1 rather than
-    #: raised to 46, because raising a floor holds whoever owns that guard to its current shape and
-    #: it was still being written when this was committed. Raising it is a one-line, deliberate act
-    #: for that owner, and leaving the gain unheld is the cost of not taking it.
+    #: ⚠ THE LIVE READING IS NO LONGER 1, AND IT IS NOT WRITTEN HERE. `8bd6cff9d` landed a numbers
+    #: guard against this manuscript hours later and the count moved, which is the instrument
+    #: working. The current count has ONE home — the committed report `claim-coverage.json` that
+    #: `main(--write)` below produces — and it is read there, never restated here.
+    #: THE FLOOR IS DELIBERATELY LEFT AT 1 rather than raised to the live count, because raising a
+    #: floor holds whoever owns that guard to its current shape and it was still being written when
+    #: this was committed. Raising it is a one-line, deliberate act for that owner, and leaving the
+    #: gain unheld is the cost of not taking it.
+    #: ⚠ Superseded, retained (2026-08-27, round-10 audit STALE_GUARD_TEXT 4): this note used to
+    #: state "the census now reads 46 of 259 (46 of 192 numbered)". Re-measured 2026-08-27 by
+    #: `python3 research/manuscripts/claim_coverage.py` — none of those four numbers is current, and
+    #: the committed `claim-coverage.json` agreed with the live run to the digit on every one of
+    #: them. The count was frozen into a comment while the artifact beside it kept measuring; that
+    #: is why the sentence above now points instead of repeating.
     "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md":
         {"covered": 1, "with_a_number_covered": 1},
 }
 
-#: ⛔⛔ A DOCUMENT WHOSE ABLATION IS BLOCKED BY A KNOWN CENSUS FALSE POSITIVE, WITH THE COUNTEREXAMPLE
+#: ⛔⛔ A SENTENCE WHOSE ABLATION IS BLOCKED BY A KNOWN CENSUS FALSE POSITIVE, WITH THE COUNTEREXAMPLE
 #: WRITTEN DOWN RATHER THAN THE GATE LOOSENED. `test_the_census_word_covered_survives_ablation.py`
 #: perturbs a covered sentence's NUMBER and demands that some witness the census names goes red. That
 #: is a stronger claim than `covered` makes — the census says only that a selective pattern matches
 #: the sentence, and this module's own docstring calls the covered count an upper bound — so a
 #: pattern can legitimately bind a sentence's WORDS while claiming nothing about its digits.
+#: ⭐⭐ NARROWED FROM A DOCUMENT TO A SENTENCE ON 2026-08-27 (AUT-PROP-025), AND THE MEASUREMENT IS
+#: WHY. The round-10 guard-coverage audit filed this row as stale: it re-ran the gate's own sampling
+#: (`SAMPLE=6`, evenly spaced over covered numbered sentences) through `claim_ablation.ablate` and
+#: got `applied=6 blind=0`, concluding the exemption removed a whole floored manuscript "on a reading
+#: that no longer reproduces". BOTH HALVES WERE RE-MEASURED HERE AND THEY DISAGREE:
+#:   · the audit's NUMBER reproduces exactly — the same sampling at `2ca11bfe8` gives
+#:     `applied=6 blind=0 skipped=0`, every sampled sentence red;
+#:   · the audit's CONCLUSION does not. Ablating EVERY covered numbered sentence — which is what
+#:     `PREFLIGHT_FULL=1` does, and what the six-sentence sample never reaches — gives
+#:     `applied=71 blind=3 skipped=5` over all 76, and the recorded sentence is one of the three
+#:     still blind, under the identical perturbations the row already named.
+#: ★ SO THE ROW IS EVIDENCE, NOT ROT, AND THE DEFECT WAS ITS SCOPE: three blind sentences were taking
+#: a 269-sentence manuscript out of the gate, so 68 covered numbered sentences that DO go red went
+#: unfalsified to buy cover for three that do not. Exemptions are now keyed by SENTENCE and the
+#: document stays in the gate.
+#: ⚠ THE OTHER TWO BLINDS ARE NEW ROWS, NOT A LOOSENING: nothing was ablating them before, because
+#: nothing was ablating this document at all. They are the audit's real finding, and they are the
+#: reason the honest move was to narrow the exemption rather than delete it.
+#: ⚠ AND A SAMPLE THAT MISSES A DEFECT IS NOT A SAMPLE THAT DISPROVES IT. `SAMPLE=6` over 76
+#: candidates touches 8% of them; reading `blind=0` from it as "the cause is gone" is an absent
+#: reading taken for a reading of absence, which is the failure `claim_ablation` was built to stop.
+#: Re-grade an exemption with `PREFLIGHT_FULL=1`, never with the commit-loop sample.
 #: ★ MEASURED, NOT ARGUED (2026-08-26, at `8bd6cff9d`, 6 sentences sampled, 1 blind):
 #:   sentence  "The development environment's egress proxy refuses CONNECT to Europe PMC, NCBI and
 #:              ClinicalTrials.gov (verified this session: curl exit 56, HTTP 000)."
@@ -204,15 +234,51 @@ COVERAGE_FLOOR = {
 #: the remedy the gate prints applies — bind the number for real, or stop crediting a pattern that is
 #: wildcard exactly where the claim is. Both live in the guard, which another session owns and was
 #: still writing when this was committed, so the finding is recorded here for it.
-#: ⛔ THIS IS AN EXEMPTION FROM ONE GATE ON ONE DOCUMENT, NOT A RULE CHANGE. The census still counts
-#: this document, its committed counts are still checked for staleness, its floor still holds, and
-#: every other floored document is still ablated. Deleting a row here is the fix; adding one is a
-#: defect being recorded, and each must carry the perturbation that proved it.
+#: ⛔ THIS IS AN EXEMPTION FROM ONE GATE ON NAMED SENTENCES, NOT A RULE CHANGE. The census still
+#: counts every sentence of these documents, their committed counts are still checked for staleness,
+#: their floors still hold, and every other covered numbered sentence in them is still ablated.
+#: Deleting a row here is the fix; adding one is a defect being recorded, and each must carry the
+#: perturbation that proved it.
+#: SHAPE: `{document: {a literal excerpt of the exempted sentence: what was measured}}`. The excerpt must
+#: match exactly ONE censused sentence of that document, which is what makes the row expire on its
+#: own: edit or delete the sentence and the validator in
+#: `tests/test_the_census_reads_every_publication_endpoint.py` goes red instead of the exemption
+#: quietly outliving the defect it records. That is the property the document-keyed shape lacked.
 ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE = {
-    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md":
-        "one covered sentence is credited to `HTTP \\d{3}`, which still matches after the digits "
-        "move; 56 -> 57 and 000 -> 007 turned nothing red",
+    #: ⛔ ALL THREE ROWS BELOW ARE ONE DEFECT WITH ONE CAUSE, and it is worth stating once: each
+    #: sentence's only census witness is the harvested pattern `HTTP \\d{3}`, which is a WILDCARD
+    #: EXACTLY WHERE THE CLAIM IS — it goes on matching after the status code moves. The rows are
+    #: kept separate because the validator requires each excerpt to pick out exactly one censused
+    #: sentence, which is what lets a row expire when its sentence is fixed or deleted.
+    #: ★ THE SYSTEMIC REMEDY IS NOT HERE AND IS NOT TAKEN HERE. Refusing to credit a pattern whose
+    #: only variable part is the number would delete all three rows at once, and it would change
+    #: `covered` for every censused document and every floor that holds one — a separate, measured
+    #: change with its own blast radius, raised rather than absorbed into a docstring fix.
+    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md": {
+        "egress proxy refuses CONNECT to Europe PMC":
+            "credited only by `HTTP \\d{3}`; re-measured 2026-08-27 at 2ca11bfe8 against every "
+            "guard that opens the file, 56 -> 57 and 000 -> 007 turned nothing red",
+        "It is **bronze open access**":
+            "credited only by `HTTP \\d{3}`, matching the sentence's HTTP 403; measured 2026-08-27 "
+            "at 2ca11bfe8, 2023 -> 2027, 03 -> 07, 21 -> 27 and 403 -> 407 turned nothing red",
+        "That was necessary because the publisher's edge blocks automation":
+            "credited only by `HTTP \\d{3}`, matching the sentence's HTTP 403; measured 2026-08-27 "
+            "at 2ca11bfe8, 2023 -> 2027, 03 -> 07, 21 -> 27, 403 -> 407 and 2 -> 7 turned nothing red",
+    },
 }
+
+
+def ablation_exempt(paper_key, sentence):
+    """Is this censused sentence one of the recorded false positives for its own document?
+
+    ⛔ SUBSTRING, NOT EQUALITY, AND DELIBERATELY SO: `sentences()` flattens line wrapping, so a
+    sentence's exact text is a property of the splitter rather than of the manuscript, and an
+    exemption keyed on it would expire on a reflow instead of on a fix. The validator holds the
+    other end — an excerpt matching zero or several censused sentences fails there.
+    """
+    return any(excerpt in sentence
+               for excerpt in ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE.get(paper_key, {}))
+
 
 #: Front matter, HTML comments, headings and table pipes are not prose claims.
 _FRONTMATTER = re.compile(r"\A---\n.*?\n---\n", re.S)

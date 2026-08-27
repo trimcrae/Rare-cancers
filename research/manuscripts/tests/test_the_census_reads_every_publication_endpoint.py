@@ -231,17 +231,25 @@ def test_this_module_does_not_credit_itself_as_coverage_of_any_manuscript():
           "larger coverage number.")
 
 
-def test_every_ablation_exemption_names_a_censused_document_and_says_why():
-    """⛔ AN EXEMPTION IS A RECORDED DEFECT, SO IT MUST NAME A REAL DOCUMENT AND CARRY ITS EVIDENCE.
+def test_every_ablation_exemption_names_a_censused_sentence_and_says_why():
+    """⛔ AN EXEMPTION IS A RECORDED DEFECT, SO IT MUST NAME A REAL SENTENCE AND CARRY ITS EVIDENCE.
 
-    `claim_coverage.ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE` takes one document out of the
+    `claim_coverage.ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE` takes named sentences out of the
     ablation gate. That is the shape of thing that quietly becomes the way a red run is made green,
     so each row has to survive being read: it must name a document this census actually reads, that
-    document must carry a floor, and the reason must be long enough to hold a sentence, a crediting
-    pattern and the perturbation that proved nothing noticed. A bare path with an empty excuse fails
-    here.
+    document must carry a floor, each excerpt must still pick out exactly one censused sentence, and
+    the reason must be long enough to hold a sentence, a crediting pattern and the perturbation that
+    proved nothing noticed. A bare path with an empty excuse fails here.
+
+    ⭐⭐ THE ONE-SENTENCE MATCH IS THE POINT, AND IT IS WHY THIS ROW IS KEYED BY SENTENCE AT ALL
+    (2026-08-27, AUT-PROP-025). The document-keyed shape could not expire: the defect could be
+    fixed, or the sentence deleted, and the exemption would go on quietly excusing a whole
+    manuscript with nothing to disagree with it. An excerpt that matches zero censused sentences is
+    an exemption that has outlived its defect and must be deleted; one that matches several is an
+    excerpt too vague to say which sentence is excused. Both fail here rather than passing silently.
     """
-    for rel, why in claim_coverage.ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE.items():
+    exemptions = claim_coverage.ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE
+    for rel, rows in exemptions.items():
         assert rel in claim_coverage.PAPERS, (
             f"{rel} is exempted from ablation and is not a document the census reads at all. An "
             "exemption for a file nothing measures is a row nobody will ever be able to delete.")
@@ -249,8 +257,20 @@ def test_every_ablation_exemption_names_a_censused_document_and_says_why():
             f"{rel} is exempted from ablation and carries no coverage floor, so nothing holds its "
             "coverage and nothing falsifies it. That is not an exemption from one gate, it is a "
             "document with no gate at all.")
-        assert isinstance(why, str) and len(why) >= 60, (
-            f"the exemption for {rel} does not say what was measured. Record the sentence, the "
-            "pattern that credits it and the perturbation that turned nothing red, or delete the "
-            "row: an exemption without its evidence is indistinguishable from a gate being "
-            "switched off.")
+        assert isinstance(rows, dict) and rows, (
+            f"the exemption for {rel} is not a mapping of sentence excerpt to what was measured. "
+            "Exemptions are keyed by SENTENCE so that one blind sentence cannot take a whole "
+            "manuscript out of the ablation gate.")
+        censused = [r["sentence"] for r in claim_coverage.census(rel)]
+        for excerpt, why in rows.items():
+            matched = [s for s in censused if excerpt in s]
+            assert len(matched) == 1, (
+                f"the exemption excerpt {excerpt!r} matches {len(matched)} censused sentences in "
+                f"{rel}, not one. Zero means the exemption has outlived the sentence it excuses — "
+                "delete the row and let the gate ablate the document. More than one means the "
+                "excerpt does not say which sentence is excused — narrow it.")
+            assert isinstance(why, str) and len(why) >= 60, (
+                f"the exemption for {excerpt!r} in {rel} does not say what was measured. Record the "
+                "pattern that credits the sentence and the perturbation that turned nothing red, or "
+                "delete the row: an exemption without its evidence is indistinguishable from a gate "
+                "being switched off.")

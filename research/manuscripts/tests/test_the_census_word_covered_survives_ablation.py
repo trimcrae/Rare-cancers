@@ -64,17 +64,29 @@ SAMPLE = 6
 #: it. Ablation runs the real guards in subprocesses per sentence; the census is a ~1.5 s pure-CPU
 #: screen. An unfloored document has its coverage counted and its committed count checked for
 #: staleness, but never falsified by perturbation.
-#: ⛔ AND ONE DOCUMENT IS OUT, WITH ITS COUNTEREXAMPLE WRITTEN INTO THE CENSUS MODULE RATHER THAN
-#: THIS GATE RELAXED — `claim_coverage.ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE` carries the
-#: sentence, the crediting pattern and the perturbation that proved nothing notices. Widening the
-#: ablation scope to the floored documents is what FOUND it, on the first run.
-PAPERS = tuple(p for p in claim_coverage.COVERAGE_FLOOR
-               if p not in claim_coverage.ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE)
+#: ⛔ NO DOCUMENT IS OUT. Individual SENTENCES with a recorded census false positive are skipped by
+#: `_sample` below, with the counterexample written into the census module rather than this gate
+#: relaxed — `claim_coverage.ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE` carries the sentence, the
+#: crediting pattern and the perturbation that proved nothing notices. Widening the ablation scope to
+#: the floored documents is what FOUND the first one, on the first run.
+#: ⚠ IT USED TO BE A DOCUMENT, AND THE COST WAS MEASURED ON 2026-08-27 (AUT-PROP-025). One recorded
+#: blind sentence took a 269-sentence manuscript out of this gate entirely. A `PREFLIGHT_FULL=1`
+#: sweep of all 76 of its covered numbered sentences returned `applied=71 blind=3 skipped=5`: the
+#: recorded sentence is still blind, two more are blind for the identical reason, and 68 go red — so
+#: 68 falsifiable claims were going unfalsified to buy cover for three that are not. All three blinds
+#: are named in the census module with their perturbations; the document is back in the gate.
+#: An exemption should cost what the defect costs and no more.
+PAPERS = tuple(claim_coverage.COVERAGE_FLOOR)
 
 
-def _sample(rows):
-    """Deterministic, evenly spaced — never random: a flaky gate teaches people to re-run it."""
-    covered = [r for r in rows if r["covered"] and re.search(r"\d", r["sentence"])]
+def _sample(rows, paper):
+    """Deterministic, evenly spaced — never random: a flaky gate teaches people to re-run it.
+
+    ⛔ THE EXEMPTED SENTENCES COME OUT BEFORE THE SPACING, NOT AFTER, so a document does not lose a
+    sample slot to a sentence this gate has already agreed not to ask about.
+    """
+    covered = [r for r in rows if r["covered"] and re.search(r"\d", r["sentence"])
+               and not claim_coverage.ablation_exempt(paper, r["sentence"])]
     if os.environ.get("PREFLIGHT_FULL") or len(covered) <= SAMPLE:
         return covered
     step = len(covered) / SAMPLE
@@ -89,7 +101,7 @@ def test_a_covered_sentence_has_a_witness_that_actually_goes_red(paper):
     `covered`, which shrinks the UNCOVERED list, which HIDES surfaces — the comfortable direction,
     and therefore the one to distrust.
     """
-    rows = _sample(claim_coverage.census(paper))
+    rows = _sample(claim_coverage.census(paper), paper)
     assert rows, (
         f"the census reports no covered sentence stating a number in {paper}, so this gate has "
         "nothing to ablate and its silence would mean nothing. Either every numbered claim in that "

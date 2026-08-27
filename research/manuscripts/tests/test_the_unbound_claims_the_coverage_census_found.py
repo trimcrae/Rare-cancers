@@ -9,9 +9,23 @@ unexamined patch.
 
 `research/manuscripts/claim_coverage.py` was written to end that by ENUMERATING the patches instead
 of sampling them. It asks, of every assertive sentence, whether any SELECTIVE committed pattern
-matches it. Its first honest run: **76 of 124 sentences in the journal article, and 47 of the 66
-that state a number.** This file closes the mechanically-checkable part of the residue — every claim
-below was on that uncovered list and is now bound to the artifact that decides it.
+matches it. This file closes the mechanically-checkable part of the residue — every claim below was
+on that uncovered list and is now bound to the artifact that decides it.
+
+⛔ THE LIVE COVERAGE FIGURES ARE NOT IN THIS DOCSTRING AND MUST NOT BE COPIED INTO IT. They have one
+home, `research/manuscripts/claim-coverage.json` (regenerate: `python3
+research/manuscripts/claim_coverage.py --write`), which carries every censused document rather than
+this one, and they move whenever a guard is added or a sentence is edited. A count typed here is a
+second copy that nothing re-measures — which is precisely what happened below.
+
+⚠ HISTORY, NOT A CURRENT READING (retained 2026-08-27). This paragraph used to state, in the present
+tense, "Its first honest run: **76 of 124 sentences in the journal article, and 47 of the 66 that
+state a number.**" That was the census's FIRST run, taken while `claim_coverage.py` was still being
+written and BEFORE any census artifact was committed, so it cannot be re-derived from this
+repository: the earliest committed `claim-coverage.json` — `1fd33bbbb`, 2026-08-27, the same commit
+that added this module — already read 80 of 154 (54 of 78) for the same document. The 76/124 is kept
+because it is the EVIDENCE FOR ENUMERATING rather than sampling, which is this file's whole argument;
+it is not a statement about the paper as it now stands. For that, read the artifact.
 
 ⚠ MECHANICALLY CHECKABLE IS NOT THE SAME AS IMPORTANT, and this file covers only the first. A claim
 like "no such design is reported in the literature retrieved here" is on the uncovered list too and
