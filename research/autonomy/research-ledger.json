@@ -279,12 +279,15 @@
         "strategy": "ST-REPURPOSING"
       },
       "state": "in_progress",
-      "owner": "fusion-partner-p1-agent",
-      "claimed_utc": "2026-08-27",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
+      "blocked_by": [
+        "AUT-PROP-024",
+        "AUT-PROP-025"
+      ],
+      "blocked_evidence": "The work is DONE and pushed to branch aut-prop-017-fusion-partner-p1s (commit 3e580f41b). What remains is only the merge to main, and it is held because the patch touches three files in research/manuscripts/tests/ plus claim-coverage.json, which AUT-PROP-024 and AUT-PROP-025 are committing to right now. Merge when both land, then re-run claim_coverage.py --write rather than hand-merging that file.",
       "retry_budget": 3,
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
@@ -293,7 +296,7 @@
       "id": "AUT-PROP-017",
       "kind": "harden",
       "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-0743ac15d0153916309728366fbd3cd880a003a8-seat-*.json (round 9, CYC-0021) and research/autonomy/hardening-state/PUB-FUSION-PARTNER.json",
-      "what": "ROUND 10 OF PUB-FUSION-PARTNER — APPLY ROUND 9's SIX P1s, THEN RE-PIN AND RE-SEAT. Round 9 (CYC-0021) found ZERO blockers across five blind seats for the first time in this paper's series — apply this round as REPLACEMENTS (paper-hardening §1: a correction replaces text, it does not append), verify every fix against its artifact before it enters prose (§5: a verifier's pasteable fix is not pre-verified), then re-derive round 9's document hashes have changed and commit a fresh pin. ⛔ Two of the six are the SAME surface found by two independent lenses (REG-P1-1 + STAT-P1-1, both on §6's falsifier) — fix them together, one edit. ★ THE SIX, IN FULL:\n1. REG-P1-1: the falsifier's derived integers (19 further patients, denominator 34, 'more than twice') are unbound by test_fusion_partner_prose_matches_its_artifact.py and unmutated by mutate_fusion_partner_guard.py — only the two percentages next to them are covered. Add bindings/mutations for the integer trio.\n2. STAT-P1-1: §6 never states WHY the falsifier holds the comparator's Wilson UPPER bound fixed while growing only the TAF15 arm (the self-critical, easier-to-trigger choice) — import one sentence of zero_death_patients_to_reconcile()'s own rationale into the prose so a future edit can't silently swap in the comparator's point estimate (~68) instead.\n3. STAT-P1-2: §4.7 states Huang's 58→53 follow-up exclusion but not the further 53→50 TCF12/partner-unidentified exclusion that the pooled table's denominator actually uses — one clause naming the 3 excluded patients.\n4. STAT-P1-3: the artifact's own follow_up_warning field (cohorts[agaram-2014-outcome]) overstates recurrence/metastasis confounding as 'the same way' as the death endpoint, when the real mechanism (competing-risks informative censoring) would bias in a KNOWN direction, not merely unsigned — the current manuscript prose is more careful and does NOT have this defect, but the field is a live template risk for the next edit that copies it verbatim. Fix the field itself.\n5. CITE-P1-1: nothing records the DECISION that claim_coverage.py should exclude the correction register (the CYC-0020 open question) — add a named, defended exclusion the way test_the_census_reads_every_publication_endpoint.py's NOT_ENDPOINTS does, citing the register's own frontmatter (non-endpoint, maintainer/agent audience, absent from SUBMISSION-PACKET.md).\n6. REF-P1-1: §3.1's accrual start date ('July 2011') has no citation or artifact pointer, unlike every other date in the document and unlike §4.11's explicit refusal to state an unsourced period. Source it from the artifact if traceable there, or remove the specific month/year and state the interval more generally.\n⚠ P2s (REG-P2-1 register preamble overclaims '4 internal-review attributions' it does not carry; CITE-P2-1 three register-only test bindings lack the 'Appendix A...' naming convention that flags them as register-scoped; STAT-P2-1 TKI pooling heterogeneity; REF-P2-1 two unused bracket refs; REF-P2-2 §3.6 header overclaims relative to its own body) are optional this round — fix if cheap, do not let them block the P1 pass.",
+      "what": "✅ APPLIED AND PUSHED 2026-08-27 to branch aut-prop-017-fusion-partner-p1s, commit 3e580f41b — all six of round 9's P1s, each tied to the artifact path and field that decides it. Manuscript 11,783 → 11,874 words (+91); three prose edits, all replacements; sentences over 60 words unchanged at 17; caution 186 → 187. Mutation harness 65/65 single-site, control green. ⛔ REMAINING: merge to main once AUT-PROP-024 and AUT-PROP-025 land. ⚠ It is on a BRANCH rather than a patch file because /tmp is not durable — a container restart destroyed background work twice today, and six verified P1s in ephemeral storage is CLAUDE.md §7's branch-drift data-loss bug with the branch missing entirely.",
       "score": 195.5,
       "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
       "_derived": false
@@ -3680,6 +3683,31 @@
       "depends_on_evidence": "round-10 guard audit STALE_GUARD_TEXT 1-5",
       "_score_basis": "a stale docstring beside an unchecked invariant is how the original renumbering defect reached a typeset PDF",
       "what": "CORRECT FIVE STALE GUARD DOCSTRINGS the round-10 audit measured against reality. (1) lint_style.py ~line 115 says the submission is the extended report; a comment 45 lines above says the opposite, and the journal article is the submission. (2) test_aso_abstract_is_bounded.py's docstring frames the bound as bioRxiv's deposit target while the constant 45 lines below says NAT. (3) The same file states 'The abstract stands at 227'; measured by its own splitter at the pin it is 220. (4) ⭐ claim_coverage.py's ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE exemption no longer reproduces: the seat re-ran the gate's own sampling and got applied=6 blind=0 — every sampled sentence goes red, so the exemption is removing a whole floored manuscript from test_the_census_word_covered_survives_ablation.py on a reading that is no longer true. (5) test_the_unbound_claims_the_coverage_census_found.py cites 76/124 against a live 82/174."
+    },
+    {
+      "serves": {
+        "route": "RT-FUSION-PARTNER",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-EVIDENCE"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "AUT-PROP-017",
+      "depends_on_evidence": "lint_readability --check is red on emc-fusion-partner-stratification.md before and after the P1 pass: 17 sentences over 60 words, longest 167w at line 201; and `pinned-figures.json` carries no caution baseline for this document",
+      "id": "AUT-PROP-026",
+      "kind": "harden",
+      "prerequisite_of": null,
+      "score": 186.0,
+      "closes_clause": null,
+      "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text."
     }
   ]
 }
