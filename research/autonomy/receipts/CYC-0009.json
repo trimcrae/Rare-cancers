@@ -1,0 +1,41 @@
+{
+  "_schema": "emc-autonomy-receipt/1",
+  "cycle_id": "CYC-0009",
+  "started_utc": "2026-08-27T00:16:00Z",
+  "finished_utc": "2026-08-27T00:22:00Z",
+  "session_id": "7aec0937-7c66-5676-aac3-a806dd149e4c (scheduled Routine, no live user present)",
+  "kind": "process",
+  "took": [
+    "step 1 (orient): read autonomy-state.json and research-ledger.json",
+    "step 2 (refusal checks): python3 research/autonomy/health.py --check"
+  ],
+  "route_advanced": "none",
+  "_route_advanced_why": "The cycle refused to start at step 2 of the contract. No ledger item was claimed, so no route could have been advanced. CLAUDE.md §0: say so plainly.",
+  "health_check": {
+    "command": "python3 research/autonomy/health.py --check",
+    "exit_code": 1,
+    "needs_attention": ["cycles_are_sized"],
+    "unmeasured": ["gates_green"],
+    "verdict": "SESSION-OVERLOADED",
+    "detail": "session 66dab3ca-b11c-5d0b-a0d9- ran 4 cycles (CYC-0005, CYC-0006, CYC-0007, CYC-0008) against autonomy-state.json's max_cycles_per_session=2. This is a §5.2 health condition red at first measurement (it carries no grace window the way gates_green or cycle_delivering do — needs_attention = not ok for this check, immediately), so §1's refusal table applies: 'A §5.2 health condition is red past its deadline → write a receipt saying so, escalate per §5, stop.'",
+    "already_diagnosed_in": "research/autonomy/receipts/CYC-0008.json queued_next[0]: 'STILL OVER THE SESSION CAP ... The next cycle is a SPAWNED SESSION.' This cycle IS that spawned session — a fresh session_id (7aec0937...), fired by a scheduled Routine with no live user, running exactly one cycle. The remediation CYC-0008 named is what this receipt executes.",
+    "why_it_will_stay_red": "c_cycles_are_sized() in research/autonomy/health.py scans ALL receipts under research/autonomy/receipts/ with no time window or archival boundary. The four offending receipts (CYC-0005..0008) are permanent history under session 66dab3ca, so this condition cannot self-heal by any later session behaving correctly — it will read SESSION-OVERLOADED forever unless a human decides how the record of an already-fixed-forward incident should be retired (e.g. an archive/ subdirectory outside the glob, or a time-bounded window on the check). I did not make that change myself: health.py is the file that just blocked this cycle, and CLAUDE.md §6 / the amendment guard forbid a cycle loosening the bar that blocked it — self-serving even if the fix is legitimate.",
+    "not_a_new_finding_for_trimcrae": "receipts/CYC-0008.json records this session as 'interactive, trimcrae present' and its finding_2/finding_1 sections show him directly in the room for the diagnosis that produced this exact check. This receipt reports the check's first live run, not new information."
+  },
+  "escalating": "§5 trigger 4 (loop itself unhealthy, health condition red) applies procedurally, but the underlying fact is not new to trimcrae — see above. Notifying once, briefly, per the scheduled-routine notification contract, and recommending the archival/window fix as a decision for him rather than making it myself.",
+  "blocked_by": [
+    {
+      "path": "research/autonomy/health.py::c_cycles_are_sized",
+      "detail": "returns SESSION-OVERLOADED for session 66dab3ca-b11c-5d0b-a0d9- (4 receipts against cap 2); no time-bounding or archival mechanism exists to let this clear once addressed."
+    }
+  ],
+  "queued_next": [
+    "Decide (trimcrae's call, not this cycle's) how a fixed-forward session-cap violation should stop reading as a live alarm: archive CYC-0005..CYC-0008 out of the glob c_cycles_are_sized scans, or bound the check to a rolling window, or accept it as a permanent scar and change §1's refusal table to not re-trigger on already-escalated history.",
+    "Once that decision lands and is implemented (by a session other than the one it would unblock, per the amendment-guard invariant), re-run this cycle: it never reached step 3 (priority.py --write) or step 4 (claim), so the queue is exactly as CYC-0008 left it."
+  ],
+  "cost": {
+    "_points_at": "research/compute/pricing.md",
+    "real_dollars": "none",
+    "claude_budget": "one scheduled session, 0 subagents dispatched"
+  }
+}
