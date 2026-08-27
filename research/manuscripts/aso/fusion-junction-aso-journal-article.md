@@ -83,8 +83,8 @@ such design is reported for any *NR4A3* fusion in the literature retrieved here.
 What a junction design must survive follows from its construction. Both halves are parent-gene
 sequence, so each parent matches roughly half the oligonucleotide — far outside the mismatch budget
 of a conventional off-target search, which therefore never returns a parent as a near-match. That
-parent liability is the one this work screens for directly. RNase-H1 does not require the whole duplex, only that the gap be paired — a premise
-adopted here rather than established, and one whose length requirement is stated in a different unit
+parent liability is the one this work screens for directly. RNase-H1 does not require the whole duplex, only that the gap be paired. That premise is adopted
+here rather than established, and its length requirement is stated in a different unit
 from the criterion this paper screens on. The requirement is reported as a DNA gap of at least six
 nucleotides, with seven to ten the working range; the screen below counts a liability only at ten
 contiguous base pairs of duplex through that gap, a length of hybrid rather than a count of gap
@@ -114,11 +114,11 @@ rather than its preferred one, and six is used because the genome-wide arm is no
 16-mer. A design's gap-level margin is the count of junction-unique bases inside the gap on
 the shorter side of the breakpoint.
 
-Five specificity screens were applied: an alignment screen against human RefSeq RNA, classifying
-each near-match by whether the catalytic gap is paired; an exhaustive transcript scan complete for
-substitutions within a one-mismatch budget; a screen of the parents' unspliced sequence; a
-mature-parent screen recording the longest contiguous duplex any of six wild-type parent transcripts
-forms through the catalytic gap; and a genome-wide screen over every position of GRCh38, mitochondrial sequence
+Five specificity screens were applied. The first aligns against human RefSeq RNA, classifying each
+near-match by whether the catalytic gap is paired. The second is an exhaustive transcript scan,
+complete for substitutions within a one-mismatch budget. The third reads the parents' unspliced
+sequence. The fourth records the longest contiguous duplex any of six wild-type parent transcripts
+forms through the catalytic gap. The fifth covers every position of GRCh38, mitochondrial sequence
 included. Between them they cover mature transcript, unspliced precursor, exon-exon junction,
 non-coding and mitochondrial sequence — the search scope the 2025 recommendations
 ask for.<sup>22</sup><!--PMID:39912803--> A near-match is a transcript window pairing a design at 14
@@ -138,7 +138,7 @@ is, and as a floor: the fusion duplex pairs all ten locked residues where each p
 ### The reagents
 
 The two reagents named for synthesis are the best available designs at the two junctions with a
-published exon-resolved breakpoint and the highest reported prevalence:
+published exon-resolved breakpoint and the highest reported prevalence. They are
 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 joined to *NR4A3* exon 3, and 5′-GGGCATATCTTGTGTG-3′ at
 *TAF15* exon 6 joined to *NR4A3* exon 3 (Table 1). Exon numbers throughout are transcript exon indices counted
 from the transcript 5′ end, including non-coding exons; an acceptor exon number read under the
@@ -146,10 +146,11 @@ coding-exon convention instead selects a different reagent. Both hold the panel'
 junction-unique bases inside the catalytic gap on the shorter side of the breakpoint, and
 neither pairs a wild-type parent through the gap at the ten-base-pair criterion below.
 
-Both sit close to it. The *EWSR1* reagent's longest wild-type parent duplex through the whole gap is
-eight base pairs and the *TAF15* reagent's is nine, both against wild-type *TFG*, so the cut decides
-how they read: at eight both fall inside the class this work marks as not to be ordered, at nine the
-*TAF15* reagent alone does, and only at ten does neither. Both also pair a wild-type parent through
+Both reagents sit close to that ten-base-pair criterion. The *EWSR1* reagent's longest wild-type
+parent duplex through the whole gap is eight base pairs and
+the *TAF15* reagent's is nine, both against wild-type *TFG*. The cut therefore decides how they
+read. At eight, both fall inside the class this work marks as not to be ordered; at nine, the
+*TAF15* reagent alone does; only at ten does neither. Both also pair a wild-type parent through
 part of the gap at the *NR4A3* exon-2/exon-3 seam their acceptor halves share, neither in full;
 those partial duplexes are not counted here and have not been measured. Consecutive registers of one seam differ by a single-base
 slide and can carry opposite verdicts, and one slide from a named reagent is condemned:
@@ -191,14 +192,14 @@ reported prevalence and the selection above takes the first two.
 
 ### Selection from a panel of 190 designs
 What this screen establishes is structural rather than statistical, and it does not depend on the
-cut: the parent liability the Introduction describes is invisible to the instrument a designer would
-ordinarily use at any threshold it is normally run at, which is the case for screening it directly
-whatever cut is adopted. The ten-base-pair criterion is adopted rather than measured.
+cut. The parent liability the Introduction describes is invisible to the instrument a designer would
+ordinarily use, at any threshold that instrument is normally run at. That is the case for screening
+it directly, whatever cut is adopted. The ten-base-pair criterion is adopted rather than measured.
 
-Two bounds apply to every panel count below: seven of the 190 screens never
-returned, and the alignment screen censors the rest, leaving 47 of 183 assessable at all, so a count
-of clean designs is a floor over that subset and not a total over the panel; and most designs clean
-at the default search ceiling are not clean at a deeper one.
+Two bounds apply to every panel count below. First, seven of the 190 screens never returned, and
+the alignment screen censors the rest, leaving 47 of 183 assessable at all — so a count of clean
+designs is a floor over that subset, not a total over the panel. Second, most designs clean at the
+default search ceiling are not clean at a deeper one.
 
 The two reagents above are what survived a screen applied uniformly to the whole panel. Across the
 38 in-frame junctions of five modelled partners, 190 junction-spanning designs were tiled and put
@@ -283,8 +284,9 @@ spans, and USZ20-EMC1 carries *EWSR1* exon 13 joined to exon 3 — the third des
 reagent named for synthesis. This is an inference and not a determination, and the requirement below
 is unchanged. The released builder emits an
 exon-2 acceptor in two cases only: a seam a published report places a patient at, and one the user
-supplies from their own sequencing, checked against the builder's transcript models. Reagents exist at both acceptors:
-5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6
+supplies from their own sequencing, checked against the builder's transcript models.
+
+Reagents exist at both acceptors: 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6
 to exon 2, both at the panel's top margin. Neither reaches the ten-base-pair criterion, and their longest wild-type parent
 duplexes through the whole gap are eight base pairs against wild-type *EWSR1* and nine against
 wild-type *NR4A3* — the second against the acceptor parent on which the selectivity ratio is
@@ -302,8 +304,8 @@ partner.<sup>3</sup><!--PMID:41055792-->
 Two controls are named as sequences (Table 2): a dinucleotide-preserving scramble of each reagent,
 drawn and then put through the same mature-parent screen the reagent passed. That screening is what
 makes a scramble a control — 10.0% of such scrambles pair a parent's whole catalytic gap at the
-ten-base-pair criterion and 3.9% do so against wild-type *NR4A3*, so an unscreened one carries a
-one-in-ten chance of being a second active molecule offered as a negative control. Clearing the
+ten-base-pair criterion and 3.9% do so against wild-type *NR4A3*. An unscreened scramble therefore
+carries a one-in-ten chance of being a second active molecule offered as a negative control. Clearing the
 screen is not a claim of inertness; it is the property a negative control has to have.
 
 ## Discussion
@@ -315,10 +317,10 @@ sarcoma, against *NAB2::STAT6* in solitary fibrous
 tumour.<sup>17</sup><!--PMID:37370737--> It is specified here for these reagents, with three
 controls a knockdown assay alone cannot distinguish, two of them the screened scrambles above.
 
-Selectivity is the wild-type *NR4A3* half-maximal knockdown concentration divided by the fusion's,
-from a matched dose-response in the same wells, at a cut of 5.0 adopted as a convention — a
-comparison of the two half-maximal concentrations is the margin assessment the recommendations
-specify at this step, and they decline to set a default value for it.<sup>22</sup><!--PMID:39912803-->
+Selectivity is the ratio of two half-maximal knockdown concentrations: wild-type *NR4A3* over the
+fusion, from a matched dose-response in the same wells. The cut of 5.0 is adopted as a convention.
+Comparing the two half-maximal concentrations is the margin assessment the recommendations specify
+at this step, and they decline to set a default value for it.<sup>22</sup><!--PMID:39912803-->
 At an assumed
 replicate standard deviation of 0.35 on the natural-log scale — like the cut, adopted for
 pre-registration rather than measured here — six independent biological replicates
@@ -345,9 +347,9 @@ fusion junction modelled here, and 35 of the 38 have one clearing the parent scr
 
 The constraint is discrimination between the fusion and its parents, and it is not resolved here. A junction design's most plausible wild-type liability is its own
 parent, in the mature transcript or across a splice junction in precursor RNA. Both are searched
-before any molecule exists, but not on comparable terms: the mature-transcript screen condemns on a
-ten-base-pair duplex through the gap and the precursor arm on a hit at up to two mismatches with the
-gap fully paired, so neither restates the other, and their counts may not be added because a design
+before any molecule exists, but not on comparable terms. The mature-transcript screen condemns on a
+ten-base-pair duplex through the gap; the precursor arm condemns on a hit at up to two mismatches
+with the gap fully paired. Neither restates the other, and their counts may not be added: a design
 condemned in both is one design. A third compartment is searched only in the archived deposit: the
 patient's own un-rearranged *NR4A3* allele, at a two-mismatch ceiling that bounds its class from
 below. No design this panel selects is condemned by it, but it excludes two registers
@@ -363,8 +365,8 @@ directions; the archived deposit gives that literature and does not resolve it e
 
 Three limits bound what any test of these reagents could show. All five screens address
 hybridisation rather than cleavage, and none establishes that a predicted duplex forms or is cut.
-The method-level novelty is nil, junction-directed oligonucleotides being long established; what is
-new is the indication and the screen applied before synthesis. And systemic delivery to a solid
+The method-level novelty is nil: junction-directed oligonucleotides are long established. What is
+new here is the indication, and the screen applied before synthesis. And systemic delivery to a solid
 tumour remains unsolved, the gate this modality faces after any result reported here. Every source of a test article named here ends at someone culturing cells.
 
 ## Acknowledgments

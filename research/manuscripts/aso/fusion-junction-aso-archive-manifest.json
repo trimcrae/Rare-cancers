@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "8a92d44d1386b67094a00bfe80b26183a739b758",
-  "git_tree_is_clean_apart_from_this_manifest": false,
+  "git_revision": "cc5f15481a21a39859d351407f2a9e6ebd05d81e",
+  "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "48fd652c5b1a075b048b0f0aab2e0b4a1323acad0846a565395d81afbe1684dc",
+  "archive_content_digest": "6f4d0b2f147f7f9c47c0936815f6135c910415d766473cebea6fe7840e564442",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,8 +24,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 43221028,
-  "total_mib": 41.219,
+  "total_bytes": 43222881,
+  "total_mib": 41.221,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -39,11 +39,11 @@
       },
       ".md": {
         "n_files": 13,
-        "bytes": 745977
+        "bytes": 746050
       },
       ".pdf": {
         "n_files": 8,
-        "bytes": 1963510
+        "bytes": 1965290
       },
       ".png": {
         "n_files": 4,
@@ -1044,15 +1044,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json",
       "bytes": 906,
-      "sha256": "84716804788e736f71e87b3ca702615884d63d19f4d6ec9b0d1f89e4c33a75bf",
+      "sha256": "1e199fe81010686ee915df0000925b6c593cfe9f9296be0cdd7c4032d05022cf",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
-      "bytes": 442897,
-      "sha256": "a97fc461255f6f23d55358e2916896d9d746ce5b62b9ad879eef5e2a85052984",
+      "bytes": 443165,
+      "sha256": "75630b944beca727d26bb9bfe732fc6ae32e42ece547fcc73bfb8108cbf24ea4",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1068,7 +1068,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json",
       "bytes": 906,
-      "sha256": "efadbcbb2971e7b8d9b084a2be224780420fda6911764728ef159acadf8f567e",
+      "sha256": "3eec0e7737c40412ed2b91062d2af765236deabe1b30bd047833d566a6c54c33",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1083,8 +1083,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
-      "bytes": 377069,
-      "sha256": "3d7fad6b70c5c3ebec8e997bceec37fb7d38d609baa7e8d7f4c38082bb4ab0fd",
+      "bytes": 377659,
+      "sha256": "e47f1014b076a224da9f42fb8be994e9ae0b4f4a6a7f94846f927f216f18758a",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1092,15 +1092,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.build-stamp.json",
       "bytes": 904,
-      "sha256": "81183f1eae8a6f90987265e4dcbdaf21e687f361d16d81e05bd85f7525140620",
+      "sha256": "cc4f6ab807d5afcb7baabc36b8a54938f4b4b4eebe2f1ba3e3bd8280ba9df9b1",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
-      "bytes": 362647,
-      "sha256": "8deecb1cd3bc8d40f8337446d327bef76eabbcc2d92d42b807df2f7e907ea501",
+      "bytes": 363295,
+      "sha256": "fbd499ab7db69a5b0bd8478fc87637782e7cf39597de4a6549729cf805ef9ecb",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1116,23 +1116,23 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json",
       "bytes": 895,
-      "sha256": "d06ba85017b9b060951e49c20004dd771e4c81e6eb20a67338a5a3a360209fa5",
+      "sha256": "a89da9cdea7438af8d7e890729ad49618a5fc7e6b69a24171be8f47fc4097b7b",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
-      "bytes": 30636,
-      "sha256": "4d2ecdc8840aa6b083536aee358b3338667d742d15faa26fe8acba35bd485294",
+      "bytes": 30709,
+      "sha256": "9b4a3fc2f610c7646d33f07ddff979015732086edd505edec563988df2467fd2",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
-      "bytes": 451386,
-      "sha256": "2551d382e27eb84139a11fc7155a8a95982249ad07531ea43a125c3d0850f945",
+      "bytes": 451660,
+      "sha256": "0ff30ad944bb374812d58814823a4bdb73fd3f186b10be49ba89b0ca19ea5e36",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."

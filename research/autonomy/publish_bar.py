@@ -514,8 +514,23 @@ def authority_permits(pub_id: str, venue: str, act: str) -> dict:
     aixiv = authority.get("aixiv") or {}
     if not aixiv.get("standing_grant"):
         return {"ok": False, "why": "standing_grant is not true"}
-    if act not in (aixiv.get("scope") or {}).get("acts", []):
+    scope = aixiv.get("scope") or {}
+    if act not in scope.get("acts", []):
         return {"ok": False, "why": f"act {act!r} is outside the granted scope"}
+    # ⛔ THE DENY-LIST IS CHECKED BEFORE ANY POST, AND IT IS CHECKED HERE BECAUSE THIS IS THE ONE
+    # FUNCTION EVERY OUTWARD PATH GOES THROUGH. trimcrae, 2026-08-27: "That's the only paper that
+    # shouldn't auto ship to aiXiv." PUB-ASO lives on Qeios with a DOI and a version history he
+    # controls; a second public home posted by the loop would fragment one work into two version
+    # histories under his ORCID.
+    # ⚠ RECORDED IS NOT ENFORCED. This repository has already paid for that exact gap once —
+    # `subagent_width` was defined in JSON, asserted by one test, and read by NO code, so compliance
+    # was luck (CLAUDE.md §1). An exclusion that lived only in publication-authority.json would be
+    # the same shape: true, documented, and governing nothing.
+    excluded = (scope.get("excluded_papers") or {}).get(pub_id)
+    if excluded and act in (excluded.get("excluded_from") or []):
+        return {"ok": False,
+                "why": (f"{pub_id} is excluded from the aiXiv grant for {act!r} — "
+                        f"{str(excluded.get('why'))[:160]}")}
     return {"ok": True, "why": f"granted: {aixiv.get('granted_by')}"}
 
 
