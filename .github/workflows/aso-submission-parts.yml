@@ -90,24 +90,35 @@ jobs:
             -k "submission_part_is_stale or word_file_is_not_stale" 2>&1 | tail -5
 
       - name: Commit to main
+        # ⛔ GOES THROUGH THE ONE PRIMITIVE (research/compute/publish_artifacts.sh), NOT A HAND-ROLLED
+        # `git pull --rebase` + retry loop. That shape has silently failed to publish on three separate
+        # lanes (GCP, selcal, step-1): one conflict leaves the repo MID-REBASE, every retry then dies on
+        # the wreckage of the first, and the step reports SUCCESS — see test_no_hand_rolled_publish.py.
+        # The primitive rewrites onto upstream instead, so a conflict is unrepresentable.
+        # `PUBLISH_IF_CHANGED=1` because this is an EVENT publish (a rebuild), not a heartbeat tick — an
+        # `--allow-empty` commit here would assert a rebuild happened when the parts were already current.
+        # `PUBLISH_REGEN` re-derives the archive manifest AFTER the primitive's reset onto upstream's tip,
+        # because it hashes every other artifact and records the git revision it ran at — a manifest
+        # generated before that reset would name a commit the reset then orphans.
+        env:
+          REASON: ${{ inputs.reason }}
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+          PUBLISH_REGEN: "python3 research/manuscripts/aso_archive_manifest.py"
+          PUBLISH_REGEN_ADD: "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"
         run: |
           set -euo pipefail
-          if git diff --quiet; then
-            echo "nothing changed — the parts were already current"
-            exit 0
-          fi
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
           # ⚠ The message is built in a file rather than inline: a multi-line -m argument inside a
           # `run: |` block puts its continuation lines at column 0, which ends the YAML block scalar
-          # and makes the workflow unparseable. Measured — an earlier version of this file was
-          # pushed broken because its validation ran in the same command as a backgrounded gate and
-          # the parse error never reached the author.
+          # and makes the workflow unparseable (measured — the same trap bit an earlier heredoc version
+          # of this exact step). And `${{ inputs.reason }}` is never interpolated directly into the
+          # script: a workflow_dispatch input substituted straight into a `run:` block is a
+          # script-injection vector, so REASON reaches this step via `env:` instead (matching
+          # aso-offtarget.yml's convention).
           {
             echo "ASO submission parts rebuilt on a runner (CI)"
             echo
-            echo "${{ inputs.reason }}"
+            echo "$REASON"
             echo
             echo "LibreOffice does not work in the dev sandbox: soffice is installed and every"
             echo "invocation fails with 'source file could not be loaded', including on a trivial"
@@ -115,9 +126,5 @@ jobs:
             echo "prose edit re-stales them and reds the trunk. Rebuilt here, where the converter"
             echo "passed a positive control before the build ran."
           } > /tmp/aso-parts-msg.txt
-          git commit -F /tmp/aso-parts-msg.txt
-          for i in 1 2 3 4; do
-            git pull --rebase origin main && python3 research/manuscripts/aso_archive_manifest.py \
-              && git add -A && git commit --amend --no-edit && git push origin HEAD:main && break
-            sleep $((2 ** i))
-          done
+          bash research/compute/publish_artifacts.sh main "$(cat /tmp/aso-parts-msg.txt)" \
+            research/manuscripts/aso

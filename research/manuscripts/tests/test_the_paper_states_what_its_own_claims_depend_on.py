@@ -146,6 +146,38 @@ def test_the_article_states_it(label, pattern, why, prose):
         "round-14 blockers were both deletions.")
 
 
+# ⛔⛔ THE ABOVE CHECKS PRESENCE, NOT THE VALUE — AND THAT WAS A BLIND WITNESS (found running
+# PREFLIGHT_FULL=1 at the ASO v2 pinned commit, 2026-08-27). `claim_coverage.py` credits
+# `r"cut of \d|threshold"` above as the witness for "The cut of 5.0 is adopted as a convention.",
+# and `test_the_census_word_covered_survives_ablation.py` perturbs that sentence's digits (5->7,
+# 0->7) and re-runs every witness the census names. Nothing went red: `cut of \d` still matches
+# "cut of 7". That is the exact class of defect `claim_coverage.ABLATION_BLOCKED_BY_A_KNOWN_
+# FALSE_POSITIVE` already names for the fusion-partner manuscript's `HTTP \d{3}` — a keyword hit
+# standing in for a value check.
+# ★ THE FIX IS "BIND IT FOR REAL", NOT WIDENING THAT EXEMPTION LIST TO A SECOND DOCUMENT: this is
+# a NEW, narrow witness pinned to the exact adopted value, deliberately separate from the wide
+# presence check above (which stays wide on purpose — see the module docstring on ABSENCE checks,
+# which reasons that a wrong VALUE is "caught by the guards that do read values". This is that
+# guard for this value; before this commit none existed).
+# ⛔⛔ AND IT MUST NOT USE THE `prose` FIXTURE ABOVE, WHICH READS THE BUILT PDF (measured the same
+# day: a first version using `prose` still reported BLIND under `claim_ablation.ablate()` directly,
+# because that module mutates the raw .md source in its clone and never rebuilds the PDF from it —
+# so a witness reading the PDF text layer can never see a markdown-only mutation, independent of
+# how tight its pattern is). This witness reads the .md source directly instead, the way
+# `test_journal_article_numbers.py`'s own `prose` fixture does, so it reads the same bytes the
+# ablation harness perturbs.
+def test_the_falsification_cut_is_the_stated_value():
+    text = io.open(ARTICLE, encoding="utf-8").read()
+    assert re.search(r"cut of 5\.0", text), (
+        "the journal article's §5 falsification experiment no longer states the adopted "
+        "selectivity cut as exactly 5.0 (or no longer phrases it as 'cut of <value>'). §5's power "
+        "figures (80% power at six replicates, ~30% at three, against a true selectivity of 3) are "
+        "computed AGAINST this exact cut, so a changed stated value without re-deriving those "
+        "figures would silently mismatch the two. If the convention was deliberately revised, "
+        "update this assertion — and the power figures it guards — in the same commit as the "
+        "manuscript edit.")
+
+
 # ---------------------------------------------------------------------------------------------
 # ⛔ AND A RATCHET, so the census is a gate rather than a tool nobody runs.
 # ---------------------------------------------------------------------------------------------
