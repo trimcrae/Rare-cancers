@@ -2,7 +2,7 @@
      every collect overwrites it. Source of every cell: inflight_board.py. -->
 # In-flight board
 
-Generated 3:19 PM ET Wed Aug 26, 2026 by `task=collect`.
+Generated 5:37 AM ET Thu Aug 27, 2026 by `task=collect`.
 
 ```
 ---- TVAST-BOARD ----
