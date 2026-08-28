@@ -27,8 +27,15 @@
   "blocked_by": [],
   "route_advanced": "RT-AUTONOMY",
   "handoff": {
-    "child_session_id": null,
-    "attempted": false,
-    "_why": "Filled in below once the successor is created — this session is at its two-cycle cap and the handoff is owed before it ends."
+    "child_session_id": "session_01Sk6Z8LF28tVGzp57NKw3R1",
+    "attempted": true,
+    "created_utc": "2026-08-28T20:14:26Z",
+    "title": "EMC research loop — cycle (successor to CYC-0065)",
+    "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+    "source": "https://github.com/trimcrae/Rare-cancers @ main",
+    "parent_session_id": "session_011FQNGgHipBkXZL62gbCugs",
+    "prompt_built_by": "python3 research/autonomy/handoff.py --json --reason '...' — built from COMMITTED state after both cycles were pushed, never from this session's context, and carrying no findings or conclusions.",
+    "prompt_log": "/tmp/claude-0/-home-user-Rare-cancers/f5c9b5f2-b624-5a7d-b5ab-340fd3bd0ec7/scratchpad/driver/driver-handoff.json",
+    "_one_addition_to_the_generated_prompt": "The successor is warned that ids.next_entry_id collides across concurrent sessions, told to check for duplicate ids after every rebase, and told to push a new row before working it. This session hit that twice, hours apart and in both directions — losing an id race once and winning it once. The generated prompt warns about the ledger moving under you and about rebasing; it does not warn that two sessions can independently mint the same id, which is the failure that survives a careful rebase. ⛔ The addition names the MECHANISM and points at the ledger row for the analysis, rather than handing the successor a conclusion to inherit."
   }
 }
