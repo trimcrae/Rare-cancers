@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "a361c5d1950f0701043078ee5b2d4296f5fdb9a9",
+  "git_revision": "fcec6dc688dc1221b859a8bf23e010942e607e48",
   "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "d50326b6d3033e01a382aa6724a64445137b5d15882d105e4d29573e98872467",
+  "archive_content_digest": "6c83b47650bb6bc0bc2d8e6e67ab633042e5cd84601c52e9d546c8f846a55394",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,8 +24,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 43245963,
-  "total_mib": 41.243,
+  "total_bytes": 43250654,
+  "total_mib": 41.247,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -35,7 +35,7 @@
       },
       ".py": {
         "n_files": 68,
-        "bytes": 3110373
+        "bytes": 3115064
       },
       ".md": {
         "n_files": 13,
@@ -4883,8 +4883,8 @@
     },
     {
       "path": "research/modalities/tests/test_aso_submission_numbers.py",
-      "bytes": 134200,
-      "sha256": "628ac8aaea0a13f8d5debdd962790c8436b12a31638692f7480efdc936dd4621",
+      "bytes": 138891,
+      "sha256": "c5a4bc4530d3926153c65731d7597a2b49d359d07e86f1ad52b03cd4d4c8e3a4",
       "serves": "reproduction_guards",
       "also_serves": [],
       "contributes": "Test that re-derives a manuscript number from the artifacts and fails if the two diverge; this is the check a reader runs to confirm the archive reproduces the paper."
