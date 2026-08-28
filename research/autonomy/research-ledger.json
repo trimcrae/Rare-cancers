@@ -1796,16 +1796,16 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0053-3217966b",
-      "claimed_utc": "2026-08-28T14:14:26Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
+      "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 166.1,
       "_score_basis": "converts an existing rule from a thing we remember into a thing that is computed",
@@ -1813,7 +1813,7 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §4.4 (PUBMED 10.1038/s41467-024-55655-3 Polybot, 10.1038/s41467-023-37139-y AlphaFlow). THE FINDING: a result must pass an EXPLICIT VALIDITY PREDICATE, written down IN ADVANCE, before it is allowed to steer the next decision. Polybot runs every sample 2–4 times, applies Shapiro–Wilk at α=0.03 and a two-sample test at α=0.005, discards thickness readings with goodness-of-fit < 0.9, and IQR-filters at scale 1.5 before averaging. AlphaFlow enumerates the signature of a DEAD RUN in advance — undetectable droplet volume, no measurable spectral features, insufficient nanoparticle concentration — and terminates in-line rather than letting a dead run's numbers reach the evidence base. This is the document's own named counter to this repository's worst measured failure: 'env-echoed defaults carrying a fabricated verdict all the way out.'\n\n⚠ THE PATTERN IS ALREADY KNOWN IN THIS REPO FOR ONE DOMAIN, JUST NOT FOR THE LOOP'S OWN EVIDENCE: `scripts/emc_km_admissibility.py` already implements exactly this shape for Kaplan–Meier curve digitization (an explicit, computed 'quality floor' a digitized curve must clear before AUT-034 admits or refuses it) — proving the mechanism is understood here, not that it is generalised. This proposal's target is DIFFERENT and unbuilt: the AUTONOMY LOOP'S OWN EVIDENCE INPUTS — a subagent seat's factual report, a cycle receipt's claims, a ledger row's `score_inputs` block, a claimed environment reading — currently have no computed admission gate at all. Instead this repository relies on a session REMEMBERING to apply CLAUDE.md §4's evidence-discipline rules by hand each time ('an absent reading is not a reading of absence', 'never act on the snapshot that triggered you', 'presence is never evidence of provenance'), which is exactly the 'a thing we remember' this proposal's own score-basis names, and it has already failed once (AUT-PD-026: a subagent's stale environment reading was almost written into the ledger as a live blocker before a second seat measured the real mechanism).\n\nTASK: for one or more of the loop's own evidence types — start with a seat's factual claim in a cycle receipt, or a `score_inputs` block on a ledger row — write down IN ADVANCE the observable signature that makes it INADMISSIBLE (e.g. a factual claim with no cited command/log/diff behind it; a `score_inputs` block copied from a parent without re-deriving; an environment reading older than N minutes relative to when it is filed), and check that signature BEFORE the evidence is allowed to change a ledger row's score, state or `what` field — turning today's prose discipline into a computed gate, the same conversion `emc_km_admissibility.py` already made for one modality.",
+      "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §4.4 (PUBMED 10.1038/s41467-024-55655-3 Polybot, 10.1038/s41467-023-37139-y AlphaFlow). THE FINDING: a result must pass an EXPLICIT VALIDITY PREDICATE, written down IN ADVANCE, before it is allowed to steer the next decision. Polybot runs every sample 2–4 times, applies Shapiro–Wilk at α=0.03 and a two-sample test at α=0.005, discards thickness readings with goodness-of-fit < 0.9, and IQR-filters at scale 1.5 before averaging. AlphaFlow enumerates the signature of a DEAD RUN in advance — undetectable droplet volume, no measurable spectral features, insufficient nanoparticle concentration — and terminates in-line rather than letting a dead run's numbers reach the evidence base. This is the document's own named counter to this repository's worst measured failure: 'env-echoed defaults carrying a fabricated verdict all the way out.'\n\n⚠ THE PATTERN IS ALREADY KNOWN IN THIS REPO FOR ONE DOMAIN, JUST NOT FOR THE LOOP'S OWN EVIDENCE: `scripts/emc_km_admissibility.py` already implements exactly this shape for Kaplan–Meier curve digitization (an explicit, computed 'quality floor' a digitized curve must clear before AUT-034 admits or refuses it) — proving the mechanism is understood here, not that it is generalised. This proposal's target is DIFFERENT and unbuilt: the AUTONOMY LOOP'S OWN EVIDENCE INPUTS — a subagent seat's factual report, a cycle receipt's claims, a ledger row's `score_inputs` block, a claimed environment reading — currently have no computed admission gate at all. Instead this repository relies on a session REMEMBERING to apply CLAUDE.md §4's evidence-discipline rules by hand each time ('an absent reading is not a reading of absence', 'never act on the snapshot that triggered you', 'presence is never evidence of provenance'), which is exactly the 'a thing we remember' this proposal's own score-basis names, and it has already failed once (AUT-PD-026: a subagent's stale environment reading was almost written into the ledger as a live blocker before a second seat measured the real mechanism).\n\nTASK: for one or more of the loop's own evidence types — start with a seat's factual claim in a cycle receipt, or a `score_inputs` block on a ledger row — write down IN ADVANCE the observable signature that makes it INADMISSIBLE (e.g. a factual claim with no cited command/log/diff behind it; a `score_inputs` block copied from a parent without re-deriving; an environment reading older than N minutes relative to when it is filed), and check that signature BEFORE the evidence is allowed to change a ledger row's score, state or `what` field — turning today's prose discipline into a computed gate, the same conversion `emc_km_admissibility.py` already made for one modality.  ✅ BUILT 2026-08-28 (CYC-0053-3217966b, seat s36-admissibility, merged at a660303): research/autonomy/admissibility.py, enforced in ledger_io.write_ledger — the one chokepoint AUT-PD-037 already forces every ledger writer through. Evidence type chosen: a row's `score_inputs` block and the `score` it is the audit trail for; the ledger's own `_scores_are_not_evidence` field PROMISED a reader could check the arithmetic and nothing ever did. Signature: unreadable / underivable from pinned weights / accumulated beyond what its own echoed terms account for / stale echoed age_factor; unscored and unaccounted are graded UNMEASURED, never admitted. TOLERANCE=0.05 derived from the code's own rounding quantum (0.1), not preferred. ⭐ THE 'READING OLDER THAN N MINUTES' CANDIDATE WAS TESTED AND REJECTED ON MEASUREMENT: last_evidence_utc being old is exactly what the age term REWARDS, so any wall-clock N grades the calendar — at N = one cycle interval it refuses 103 of 103 rows carrying an age term. ⛔⛔ AND THE GATE CAUGHT A LIVE DEFECT ON ITS FIRST REAL RUN: apply_session_penalties and apply_age_factor were ADDITIVE ACROSS RE-SCORES because merge() carries a hand-filed row's score forward by design, so both terms compounded on a reused base. AUT-PROP-036 climbed 158.0 → 165.2 at +0.9 per re-score over EIGHT re-scores in 92 minutes while its age_factor never moved; AUT-PROP-026 fell −90.0 per re-score to −2506.8. The discriminating observation is the derived row AUT-049 sitting UNMOVED at 117.0 across the same eight runs — a reused base, not a wrong term. It had already inverted the queue: the top 15 rows were hand-filed process/proposal rows at 195.5–199.0, several marked done, with the best derived route row 78 points below. Both terms are now idempotent and the prerequisite chain resolves parents-first with a cycle guard; the pipeline is a fixed point of itself. 14/14 mutations caught, after a first round with 2 survivors and 3 broken anchors where THE TESTS were fixed rather than the guards. ⚠ RESIDUE NOT REPAIRED — see the follow-up row; ~13 rows keep inflated values and AUT-PROP-026 is off by roughly −1160.",
       "score_inputs": {
         "age_factor": 0.0714
       }
@@ -5966,6 +5966,63 @@
         "strategy": null
       },
       "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-073",
+      "what": "⛔ SCORE RESIDUE: ~13 hand-filed rows carry values the additive-term defect accumulated before AUT-PROP-036's fix landed (a660303). AUT-PROP-026 is off by roughly −1160 (≈13 spurious −90 applications); AUT-PROP-033/034/035/036/037/038, AUT-PD-026/028/030/031, AUT-078 each carry ~+0.9 per re-score of inflation, AUT-PROP-006 ~+1.70. ⚠ THIS IS NOT COSMETIC: the inflation had already INVERTED THE QUEUE — the top 15 rows were hand-filed process rows, several already done, with the best derived route row 78 points below, which is CLAUDE.md §0's failure (documentation outranking live work) arriving through arithmetic rather than judgement. ★ FIX: the base is recoverable from git history (the first commit each row appeared in); repair each row and carry `_score_correction` naming the evidence, or ledger_io.write_ledger will refuse the write — which is the gate working, not an obstacle to route around. ⛔ Do NOT clear the residue by widening TOLERANCE or by adding a standing correction note: the note must differ from the one already on the row precisely so it cannot become a licence.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-074",
+      "what": "⛔ `priority-weights.json:terms.fruitless_attempts` (weight −8.0) IS APPLIED NOWHERE IN priority.py. Measured 2026-08-28 by seat s36-admissibility: it is echoed as a hard-coded 0 in all 77 derived score_inputs blocks, and 46 rows carry attempts > 0 that buy them nothing. ⭐ SAME CLASS AS `subagent_width`, which governed nothing for days while a JSON field and one test asserted its value — a dial that exists, is documented, and is read by no code. ★ FIX: either wire the term in (and add it to admissibility.derived_score IN THE SAME COMMIT, or every row goes refused_underivable on the next write) or delete it and say why. ⚠ Wiring it changes scores materially — 46 rows — so it is a decision, not a cleanup.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PROP-046",
+      "what": "PROPOSAL from seat s36-admissibility: give cycle receipts ONE machine-readable field recording the ledger score the cycle acted on, so the admission predicate can adjudicate receipts instead of reporting 0/52 coverage. ⚠ THE PROSE ROUTE WAS MEASURED AND REFUSED, and that measurement is the argument: 27 receipts quote a score in text, a regex extractor produced 29 pairs and 17 apparent mismatches, and hand-inspection found 16 were extractor artifacts (matching a neighbouring ledger id's digits — AUT-PD-020 → '20') with the 17th explained by a fix landing between reading and writing. A false-positive rate that high builds a gate whose first maintenance act is to loosen it. One field per receipt closes it honestly.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "proposal",
       "state": "queued",
       "owner": null,
       "cost_class": "free",
