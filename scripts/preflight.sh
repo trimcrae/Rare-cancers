@@ -706,7 +706,31 @@ gen_fail=""
 # 0.032 s (measured 2026-08-28, this sandbox). The fixer now names its downstream copies too; that is
 # the other half and it does not replace this one, because a hand edit to the roadmap never runs the
 # fixer at all.
-for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
+# ⭐⭐ THE CLAIM-COVERAGE ROW IS AUT-PD-130, AND IT IS THE ONE WHOSE INVALIDATING EDIT IS NOT IN A
+# MANUSCRIPT AT ALL. Measured 2026-08-28: 83aede1 widened three guards' patterns to close
+# AUT-PD-119, two of them witness the ASO journal article, and `claim_coverage` HARVESTS ITS
+# PATTERNS FROM THE TEST CORPUS — so `covered` moved 99 -> 101 with no manuscript byte touched and
+# `main` went red on a clean tree for ~35 minutes. The pairing that usually catches a stale artifact
+# did not apply: the article and the census were last written by the SAME commit, so a
+# doc-touches-artifact rule sees nothing, and the edit that staled the census lived in
+# research/manuscripts/tests/, a different directory from the artifact it invalidates.
+# ⚠ AND THE RED WAS NOT COSMETIC. `claim_ablation._baseline_reds` subtracts a witness already red on
+# the unmutated clone, so while that guard is red every sentence whose only witness is that module
+# scores BLIND — the false-BLIND mechanism recorded in the module's own docstring, reached by a new
+# route, pointing a reader at the paper instead of at the instrument.
+# ★ A PATH-PAIRING RULE WAS THE OBVIOUS FIX AND IS THE WEAKER ONE. "A commit touching tests/*.py
+# must also touch claim-coverage.json" is a list of directories somebody has to keep correct, it
+# passes on a regeneration that produced the wrong numbers, and it fires on the many test edits that
+# move no pattern. RE-RUNNING THE CENSUS DECIDES THE ACTUAL QUESTION and cannot go stale: it reads
+# whatever `_test_patterns`, `_pin_patterns` and `endpoint_documents` read TODAY. Cost measured in
+# this sandbox, 2026-08-28: 1.7 s over the whole endpoint set, pure CPU, no network. (How many
+# documents that is has ONE home — the committed census itself — and is not restated here.)
+# ⛔ The freshness comparison itself is not new — `test_claim_coverage_has_not_regressed` has run the
+# census live since 2026-08-22. What was missing is that it lives in the manuscripts suite, which is
+# opt-in locally (PREFLIGHT_TESTS=1) and in CI only AFTER the push that ships the stale artifact.
+# This row is the same instrument in the commit loop, which is the AUT-PD-031 shape one row above.
+for g in "research/manuscripts/claim_coverage.py|claim coverage census|--check" \
+         "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/manuscripts/submission_citations.py|submission references|--check" \
          "research/manuscripts/submission_metrics.py|submission metrics|--check" \
          "research/manuscripts/aso_sequence_manifest.py|canonical sequence file|--check" \

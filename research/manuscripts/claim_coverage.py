@@ -517,24 +517,20 @@ def uncovered(paper_key):
                                  if not r["has_number"] and not r["covered"]]}
 
 
-def main(argv=None):
-    argv = list(sys.argv[1:] if argv is None else argv)
-    write = "--write" in argv
-    for arg in argv:
-        if arg.startswith("--uncovered="):
-            key = arg.split("=", 1)[1]
-            if key not in PAPERS:
-                print(f"{key} is not a censused document. The census reads what "
-                      f"`claim_coverage.endpoint_documents` selects:\n  "
-                      + "\n  ".join(PAPERS), file=sys.stderr)
-                return 2
-            found = uncovered(key)
-            for half in ("with_a_number", "without_a_number"):
-                print(f"\n=== uncovered, {half.replace('_', ' ')} "
-                      f"({len(found[half])}) — {key}\n")
-                for s in found[half]:
-                    print(f"  * {s}")
-            return 0
+#: The one committed copy of this census. ⚠ NAMED HERE rather than typed at each use, because
+#: `--write`, `--check` and the freshness test all have to mean the same file.
+ARTIFACT = os.path.join(HERE, "claim-coverage.json")
+
+
+def build_report():
+    """The whole census, as the artifact records it. ⛔ NO PRINTING AND NO WRITING.
+
+    `--write` and `--check` must be the SAME derivation or the check verifies a second
+    implementation of the census rather than the census. This repository has already shipped a
+    `--check` that regenerated its own reference and exited 0 (see the note beside the CI step
+    "EMC evidence artifacts reproduce from their generators"), and the defence against that is
+    one producer function with two callers, not two functions that agree today.
+    """
     report = {"_what": __doc__.strip().splitlines()[0],
               "_generated_by": "research/manuscripts/claim_coverage.py",
               "_scope": "every document a committed record calls a publication endpoint, or a part "
@@ -554,16 +550,127 @@ def main(argv=None):
             #: `uncovered()` for the 1.1 MB measurement that took them out of the artifact.
             "uncovered": n - cov, "uncovered_with_a_number": len(num) - num_cov,
         }
-        print(f"{key}: {cov}/{n} sentences read by something "
-              f"({num_cov}/{len(num)} of those stating a number)")
+    return report
+
+
+def render(report):
+    """The exact bytes `--write` puts on disk, so `--check` can compare bytes and not opinions."""
+    return json.dumps(report, indent=1, ensure_ascii=False) + "\n"
+
+
+def disagreements(report, committed_text):
+    """Every way the committed artifact differs from a live census. Empty list = it reproduces.
+
+    ⛔⛔ WHY A DIFF AND NOT A BOOLEAN. The reader of a red gate has to know WHICH document moved, or
+    the only actionable advice is "regenerate and hope" — and a regeneration is exactly what makes a
+    real regression disappear into a green run. Each line names the field, the committed value and
+    the live one.
+    ⚠ THE FIELD COMPARISON RUNS BOTH WAYS, and then the bytes are compared as a backstop: a
+    document dropped from the census leaves its counts behind looking like a reading of a document
+    nothing measures, and a change to `named_by` (which records WHICH RECORD put each document in
+    scope) moves no count at all while changing what the artifact says the census read.
+    """
+    try:
+        committed = json.loads(committed_text)
+    except ValueError as exc:
+        return [f"the committed artifact is not readable JSON ({exc})"]
+    if not isinstance(committed, dict):
+        return ["the committed artifact is not a JSON object"]
+    out = []
+    live_papers, com_papers = report["papers"], committed.get("papers") or {}
+    for paper, fields in live_papers.items():
+        for field, value in fields.items():
+            was = com_papers.get(paper, {}).get(field)
+            if was != value:
+                out.append(f"papers.{paper}.{field}: committed {was!r}, "
+                           f"the census now reports {value!r}")
+    out += [f"papers.{paper}: in the committed artifact but no longer censused, so its numbers are "
+            f"a reading of nothing" for paper in sorted(set(com_papers) - set(live_papers))]
+    for key in [k for k in report if k != "papers"]:
+        if committed.get(key) != report[key]:
+            out.append(f"{key}: the committed value is not the one this module now derives")
+    out += [f"{key}: in the committed artifact and no longer produced at all"
+            for key in sorted(set(committed) - set(report))]
+    #: ⛔ AND IF EVERY FIELD AGREES AND THE BYTES DO NOT, SAY SO RATHER THAN PASSING. A hand edit
+    #: that reformats or reorders the file leaves `--write` producing something different from what
+    #: is committed, which is the staleness this gate exists to refuse.
+    if not out and committed_text != render(report):
+        out.append("every field agrees but the committed bytes are not what --write would produce "
+                   "(a hand edit to formatting, ordering or whitespace)")
+    return out
+
+
+#: What `--check` prints above its diff. Kept as a constant so the guard that proves the check is
+#: real can bind the message without re-typing it.
+STALE_HEADER = "claim-coverage.json is stale — it is not what the live census computes:"
+STALE_REMEDY = ("\nRe-run `python3 research/manuscripts/claim_coverage.py --write` and commit the "
+                "result in THIS change.\n"
+                "⛔ If you did not touch a manuscript, look at research/manuscripts/tests/: the "
+                "census harvests its patterns from that corpus, so widening a guard's regex moves "
+                "`covered` with no manuscript byte touched. That edit and this artifact are a pair "
+                "even though they live in different directories.")
+
+
+def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    write = "--write" in argv
+    check = "--check" in argv
+    #: ⛔⛔ AN UNRECOGNISED FLAG IS AN ERROR, NOT A NO-OP, AND THAT IS THE WHOLE POINT OF THE CHECK
+    #: MODE (AUT-PD-130). Until this line every argument this script did not know was silently
+    #: ignored and the run exited 0 — so wiring `claim_coverage.py --verify` into a gate would have
+    #: bought a green row that measured nothing, which is the exact defect recorded against
+    #: `emc_systemic_therapy_pooling.py` in `.github/workflows/tests.yml`.
+    unknown = [a for a in argv
+               if a not in ("--write", "--check") and not a.startswith("--uncovered=")]
+    if unknown:
+        print(f"unrecognised argument(s): {' '.join(unknown)}\n"
+              f"usage: claim_coverage.py [--write | --check | --uncovered=<repo-relative path>]",
+              file=sys.stderr)
+        return 2
+    #: ⛔ AND THE TWO MODES MAY NOT BE COMBINED. A verify that regenerates its own reference first
+    #: passes unconditionally; that is not a hypothetical failure mode in this repository.
+    if write and check:
+        print("--write and --check together verify nothing: the write would produce the reference "
+              "the check then reads. Run one.", file=sys.stderr)
+        return 2
+    if check:
+        report = build_report()
+        if not os.path.exists(ARTIFACT):
+            print(f"{os.path.relpath(ARTIFACT, REPO)} is missing.{STALE_REMEDY}", file=sys.stderr)
+            return 1
+        bad = disagreements(report, io.open(ARTIFACT, encoding="utf-8").read())
+        if bad:
+            print(STALE_HEADER + "\n  " + "\n  ".join(bad) + STALE_REMEDY, file=sys.stderr)
+            return 1
+        print(f"claim-coverage.json reproduces from the live census "
+              f"({len(report['papers'])} documents)")
+        return 0
+    for arg in argv:
+        if arg.startswith("--uncovered="):
+            key = arg.split("=", 1)[1]
+            if key not in PAPERS:
+                print(f"{key} is not a censused document. The census reads what "
+                      f"`claim_coverage.endpoint_documents` selects:\n  "
+                      + "\n  ".join(PAPERS), file=sys.stderr)
+                return 2
+            found = uncovered(key)
+            for half in ("with_a_number", "without_a_number"):
+                print(f"\n=== uncovered, {half.replace('_', ' ')} "
+                      f"({len(found[half])}) — {key}\n")
+                for s in found[half]:
+                    print(f"  * {s}")
+            return 0
+    report = build_report()
+    for key, row in report["papers"].items():
+        print(f"{key}: {row['covered']}/{row['sentences']} sentences read by something "
+              f"({row['with_a_number_covered']}/{row['with_a_number']} of those stating a number)")
     if write:
         #: ⚠ THIS ARTIFACT MOVED OUT OF `aso/` ON 2026-08-26 AND THE MOVE IS THE POINT. While the
         #: census read one submission it was an ASO deposit artifact; it now reads every publication
         #: endpoint in the repository, and a repo-wide census filed under one paper's directory is a
         #: fact stored where nobody looking for it would look.
-        out = os.path.join(HERE, "claim-coverage.json")
-        io.open(out, "w", encoding="utf-8").write(json.dumps(report, indent=1, ensure_ascii=False) + "\n")
-        print(f"wrote {os.path.relpath(out, REPO)}")
+        io.open(ARTIFACT, "w", encoding="utf-8").write(render(report))
+        print(f"wrote {os.path.relpath(ARTIFACT, REPO)}")
     return 0
 
 

@@ -222,10 +222,20 @@ jobs:
           # --check-archive, not --check: the manifest stamps git_revision, which advances on every
           # commit, so the strict form is red the instant you commit the manifest you just built.
           python3 research/manuscripts/aso_archive_manifest.py --check-archive
+      # ⛔ ITS OWN STEP, BECAUSE IT IS NOT AN ASO ARTIFACT AND ITS INVALIDATING EDIT IS NOT A
+      # MANUSCRIPT (AUT-PD-130, 2026-08-28). The census reads every publication endpoint and
+      # harvests its patterns from research/manuscripts/tests/, so WIDENING A GUARD'S REGEX makes
+      # this artifact stale with no manuscript byte touched — measured that day at 83aede1, `covered`
+      # 99 -> 101, `main` red on a clean tree for ~35 minutes, and while it was red every sentence
+      # whose only witness is that module scored a false BLIND in `claim_ablation`.
+      # ⚠ A red here means REGENERATE, and the module prints which document moved. It is 1.7 s.
+      - name: The claim-coverage census reproduces from the corpus it harvests
+        run: python3 research/manuscripts/claim_coverage.py --check
       - name: Endpoint producer logic and --check are real (not just wired)
         run: |
           python3 -m pytest research/manuscripts/tests/test_endpoint_logic.py \
-                            research/manuscripts/tests/test_endpoint_producers_check.py -q
+                            research/manuscripts/tests/test_endpoint_producers_check.py \
+                            research/manuscripts/tests/test_the_census_artifact_and_the_guard_corpus_are_a_pair.py -q
       # The systems model (systems/graph/*.json) and its generated views. Standalone for the same
       # reason as the linters above -- a doc author who breaks it should see the failing step name,
       # not a traceback in ~1500 tests. Three distinct things fail here, all red:
