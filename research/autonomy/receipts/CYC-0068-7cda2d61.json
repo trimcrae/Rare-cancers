@@ -20,7 +20,7 @@
     "root_cause": "⛔ MEASURED THREE WAYS, AND MY FIRST HYPOTHESIS WAS WRONG. (1) TIMING: the nine most recent completed runs on main are all `cancelled`, each 1-3 s after the NEXT run on main is created — 8c14cc5 cancelled 20:24:23 as 3937db8 was created 20:24:22, and so on through 12a5f34. (2) THE DISCRIMINATOR: run 33207278897 on 86098c2 was `pending`, NOT running, when cancelled — `cancel-in-progress` only ever cancels a RUNNING run, and it already evaluated to false on main. So the flag was never the mechanism. (3) PLATFORM SEMANTICS READ LIVE, NOT REMEMBERED: a concurrency group holds at most one running and one pending run; a third arrival evicts the pending one whatever the flag says. ⭐ MY FIRST HYPOTHESIS — that the expression evaluates to a truthy string 'false' — is NOT what the evidence shows, and observation (2) is what killed it.",
     "chain_closed": "gates_verdict.py's own line 96 reads '`cancelled` and `skipped` are NOT verdicts. A cancelled run says the trunk was never tested', and it returns `_no_verdict` when no graded run is in the window. So the eviction is the concrete mechanism behind health.py's `gates_green` reading NO-GATE-VERDICT for 47.2 h — a row every cycle reads before it starts.",
     "mutation_testing": "4/4 caught, single-site, in a worktree: M9 revert to the shared ref group, M10 uniquify every ref not just main, M11 drop ref entirely, M12 branches stop collapsing. Log: drv-mutation3.log.",
-    "honest_limit": "⛔ THE GUARD READS THE WORKFLOW FILE, NOT GITHUB. It can show the configuration no longer forces runs to evict one another; it CANNOT show that runs are now completing. That is gates_verdict.py's half, and it stays UNMEASURED until a run on main actually finishes — which this cycle's own push is the first chance to observe."
+    "honest_limit": "⭐ RESOLVED IN THE SAME CYCLE, BY OBSERVATION RATHER THAN BY ARGUMENT. The guard reads the workflow file, not GitHub, so it could only show the configuration no longer forces runs to evict one another. The live half is now measured: at 20:52Z, immediately after this fix was pushed, TWO runs on `main` were `in_progress` SIMULTANEOUSLY — 2334df9 (created 20:52:16, the fix's own commit) and 4cb2c64b (created 20:47:16, still alive). Under the old shared group the arrival of the first would have evicted the second, which is the exact chain measured in the six cancellations before it. ⛔ WHAT IS STILL NOT OBSERVED, STATED PLAINLY: that a run on main now runs to a CONCLUSION. Coexistence is necessary and not sufficient — a suite can still fail or be cancelled for other reasons, and the first graded verdict is what `gates_verdict.py` needs before health.py's `gates_green` can read anything but NO-GATE-VERDICT."
   },
   "what_i_got_wrong": [
     "Reached for the familiar explanation first — that an expression-valued `cancel-in-progress` coerces to a truthy string. It is a real Actions gotcha and it was not this. The pending-run cancellation is what discriminated, and I only looked for it because CLAUDE.md §4 requires the observation that separates competing hypotheses rather than the one that fits the favourite.",
@@ -28,15 +28,19 @@
     "Filed a ledger id that a concurrent session had already taken, for the second time in this session. The rebase reported SUCCESS and auto-merged both rows, so nothing surfaced it — the duplicate was found only by explicitly counting ids after the rebase. That check is now the thing to run after every rebase of this file, not the merge exit code."
   ],
   "now_queued": [
-    "The live half of AUT-PD-130: confirm a run on main actually reaches a conclusion now. First observable on this cycle's own push.",
+    "The last unobserved step of AUT-PD-131: that a run on main reaches a CONCLUSION, not merely that two now coexist. Until one does, `gates_green` stays NO-GATE-VERDICT and that row is UNMEASURED, which is not the same as ok.",
     "AUT-PD-129 (filed by CYC-0067) — a receipt's `session_id` holds two id spaces, so session_reaper.py can join only 5 of 40 live sessions.",
     "AUT-PD-058 — the clone is shallow, censoring stuck_clock and the git-derived health rows. NOW HELD by SEAT-s2-1f1a2449."
   ],
   "blocked_by": [],
   "route_advanced": "RT-AUTONOMY",
   "handoff": {
-    "child_session_id": null,
-    "attempted": false,
-    "_why": "Filled in once the successor is created — this session is at its two-cycle cap and the handoff is owed before it ends."
+    "child_session_id": "session_014bUAwbtDFoFGovmMkaNPj8",
+    "attempted": true,
+    "created_utc": "2026-08-28T20:53:06Z",
+    "reason": "CYC-0067 and CYC-0068 reached this session's two-cycle cap (research-loop §3).",
+    "prompt_built_by": "research/autonomy/handoff.py --json, from committed state — never from this session's context.",
+    "_why": "⛔ SPAWNING IS AN ACT, NOT A NOTE. The cycle that reaches the cap creates its own successor before it ends; a loop that needs a human to start its next session is not automated, it just has a longer fuse.",
+    "carried_forward": "One MECHANISM, no findings: a ledger id collision does not surface as a merge conflict — git auto-merges both rows and reports success — so the successor is told to count ids after every rebase. It is told WHERE to look, never what it will find."
   }
 }
