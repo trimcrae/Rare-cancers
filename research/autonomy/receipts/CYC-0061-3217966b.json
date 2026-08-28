@@ -1,0 +1,55 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0061-3217966b",
+ "session_id": "3217966b-1027-5d69-a051-f43b65aedde9",
+ "utc": "2026-08-28T22:05:00Z",
+ "shape": "This session's SECOND cycle, driver + two parallel worktree seats. Started because session_cap.py --check read MUST NOT STOP at 1 receipt against a cap of 2 — the cap was READ, not inferred, after the previous turn had argued from the same rule for the opposite conclusion.",
+ "took": "AUT-013 (the top-ranked ready row, whose own text said no further lookup was needed) and AUT-PD-057 (arXiv identifiers outside the citation gate). Plus one unplanned item the trunk forced: a stale ASO archive manifest reddening every seat's commit gate.",
+ "took_what": "⭐ AUT-013's CONCLUSION WAS WRONG, AND THAT IS THE CYCLE'S RESULT. The row was the top of the queue at 172.0 saying there was nothing left to look up. A PubMed query found PMID 15739208 — a 2005 multicentre phase II of bortezomib in recurrent or metastatic sarcoma, one partial response in 21 evaluable patients, closed after the first stage of accrual for inactivity — the FIRST human read this repository has ever held on proteasome inhibition in the parent histology, negative for monotherapy, published twenty-one years before we read it. The root cause is a QUERY-SCOPE gap, not a failed screen: our prior-art screen is scoped to EMC pairings and structurally cannot return a paper mentioning neither EMC nor NR4A3. Nothing measured was withdrawn; the route's status moved ready → blocked, which its own blockers_inherited already implied. AUT-PD-057: 67 arXiv identifiers across 22 files were outside the provenance gate. The seat measured before designing and REFUSED the bare numeric pattern, because it matches fragments of correctly cited DOIs and would raise a fabrication alarm on honest work while buying nothing. 13 unanchored ids were triaged rather than baselined, two with flags a fetch cannot clear.",
+ "changed": [
+  "systems/graph + regenerated views: RT-CARFILZOMIB re-graded (ready → blocked, pursue_now → monitor with a revisit trigger), two new evidence records.",
+  "research/literature/carfilzomib-class-clinical-2026-08-28.json: every query, count and verbatim quotation, plus what was NOT read.",
+  "research/IDEAS.md: a board row that had carried a phrase superseded nineteen days earlier.",
+  "research/manuscripts/lint_citations.py + tests: the arXiv identifier class, context-anchored only.",
+  "research-ledger.json: AUT-013 and AUT-PD-057 closed with evidence; 6 rows filed."
+ ],
+ "cost": "$0. Engineering, CPU and $0 literature retrieval only.",
+ "subagents": {
+  "max_concurrent": 2,
+  "cap_at_dispatch": 5,
+  "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+  "within_cap": true,
+  "serial_total": 2,
+  "seats": [
+   "s13-carfilzomib",
+   "s57-arxivids"
+  ]
+ },
+ "what_i_got_wrong": [
+  "⛔ REGENERATED THE ASO ARCHIVE MANIFEST ON A DIRTY TREE — the exact move its own gate warns is the obvious response and the one that produced the bad artifact on main. Run against uncommitted edits it records git_tree_is_clean_apart_from_this_manifest false, which is a PROVENANCE failure, not staleness: a reader checking out the revision it names gets a mismatch on content in no commit. The fix is an ordering (commit everything else, regenerate last on a clean tree), and the gate said so in the message I had already read. Reverted.",
+  "⛔ MY FIRST POST-REBASE VERIFICATION GREP RETURNED A FALSE NEGATIVE on one of two filed rows, because the search string dropped the backticks the row's text carries. The row was present. A verification check that can fail toward 'a row is missing' is tolerable; one that fails toward 'fine' would not be, and this one failed in the safe direction by luck of phrasing rather than by design.",
+  "⛔ SENT A COORDINATION MESSAGE TO A FINISHED SEAT BY ADDRESSING THE WRONG WORKER, which resumed it for nothing.",
+  "⭐ AND ONE THING THE PREVIOUS TURN GOT WRONG THAT THIS CYCLE CORRECTED: it argued from §6's two-cycle cap that this session should stop, without reading session_cap.py, which says the opposite. The cap is a measurement, not a memory."
+ ],
+ "now_queued": [
+  "AUT-PD-110 (re-grade RT-ALK-HIT against a 2026 ALK IHC paper — n=4, ungraded)",
+  "AUT-PD-111 (a standing class-level literature query, the generalisation of AUT-013's miss)",
+  "AUT-PD-112 (PUB-REPURPOSING must cite the 2005 trial)",
+  "AUT-PD-113 (BLK-NO-EMC-DATA's imprecise retirement clause, inherited by 38 of 77 routes)",
+  "AUT-080 (CI job to anchor 13 arXiv ids; two must not be closed by it)",
+  "AUT-PD-114 (a stale line in the citation gate's own coverage list)"
+ ],
+ "blocked_by": [
+  {
+   "what": "Five manuscripts tests on the ASO journal article are red on origin/main",
+   "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "evidence": "Four of the five reproduce identically on a clean origin/main with this session's work stashed (scratchpad/s0-driver/s0-clean-main-repro.log). They are the in-flight state of the spawned AUT-PD-082 hardening round, which owns that manuscript and the archive manifest until it finishes. Not absorbed, not ignored, and not this cycle's to fix."
+  }
+ ],
+ "route_advanced": "RT-CARFILZOMIB",
+ "handoff": {
+  "child_session_id": "session_01F6Xn8WS2cEj2wbNuVWtAPp",
+  "attempted": true,
+  "why": "The ASO hardening round was spawned in this session's first cycle and is still running; it writes its own receipt."
+ }
+}
