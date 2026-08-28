@@ -1,0 +1,32 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0043-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T13:45:00Z",
+  "shape": "Follow-up wake on the CYC-0042 subagent's completion notification. The subagent's own honesty (flagging that the bug it was dispatched to fix was already fixed, rather than claiming credit) is the main event this cycle; the driver's job was to independently verify that claim before trusting it.",
+  "took": "AUT-PROP-030 — close a stale ledger claim; merge one genuine small contribution (RT-AUTONOMY)",
+  "took_what": "The dispatched subagent reported that claim.py's lost-race merge bug — the thing AUT-PROP-030 was filed to fix — was ALREADY fixed on origin/main by commit 34fb5c188, landed roughly 10 hours before this cycle's claim timestamp. Rather than trust this, independently verified: `git log`/`git show 34fb5c188` confirms the commit exists, its message names AUT-PROP-030 directly and describes the exact fix (fencing via git push, withdraw_claim restoring exact pre-claim bytes, RemoteUnreachable vs PUSH_LOST/PUSH_FAILED distinguishing network faults from real races). Ran the full research/autonomy/tests/ suite myself post-merge (193 passed) rather than relying on the subagent's reported count.",
+  "changed": [
+    "Merged the subagent's one genuine contribution: a 12-line docstring addition to claim.py answering the module's own previously-open question (does any write path need a Chubby-style lock-delay fallback for a path that can't check the fencing token) — audited and found no such path exists, so none was built, and that finding is now recorded rather than left dangling.",
+    "Ledger: AUT-PROP-030 marked done, with the ledger entry's own stale `attempts`/lease timestamps flagged as a separate small bookkeeping gap (the row was never reconciled after 34fb5c188 landed) rather than papered over as if this cycle had done the original fix. Re-scored.",
+    "This is the second time this session a dispatched subagent's honesty about pre-existing work (the first being AUT-PROP-031's missing receipt, CYC-0040/0041) was the actual finding worth recording, rather than a fresh fix — worth noting as a pattern: this session's ledger housekeeping (AUT-PD-037's serialization fix, AUT-PD-046's what-field backfill) is surfacing several small reconciliation gaps between what actually happened and what the ledger's bookkeeping fields say happened, none of them serious, all of them now individually corrected as found."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "Review-and-merge of an already-completed subagent's small branch; no new work spawned this cycle."
+  }
+}
