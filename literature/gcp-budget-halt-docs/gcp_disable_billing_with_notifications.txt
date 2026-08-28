@@ -1,0 +1,995 @@
+SOURCE URL: https://docs.cloud.google.com/billing/docs/how-to/disable-billing-with-notifications
+FINAL URL: https://docs.cloud.google.com/billing/docs/how-to/disable-billing-with-notifications
+HTTP: 200
+CONTENT-TYPE: text/html; charset=utf-8
+======================================================================
+Disable billing usage with notifications | Cloud Billing | Google Cloud Documentation 
+
+ Skip to main content
+
+ Technology areas
+
+ close 
+
+ AI and ML
+
+ Application development
+
+ Application hosting
+
+ Compute
+
+ Data analytics and pipelines
+
+ Databases
+
+ Distributed, hybrid, and multicloud
+
+ Industry solutions
+
+ Migration
+
+ Networking
+
+ Observability and monitoring
+
+ Security
+
+ Storage
+
+ Cross-product tools
+
+ close 
+
+ Access and resources management
+
+ Costs and usage management
+
+ Infrastructure as code
+
+ SDK, languages, frameworks, and tools
+
+ / 
+
+ Console
+
+ English 
+
+ Deutsch 
+
+ Español 
+
+ Español – América Latina 
+
+ Français 
+
+ Indonesia 
+
+ Italiano 
+
+ Português 
+
+ Português – Brasil 
+
+ עברית 
+
+ 中文 – 简体 
+
+ 中文 – 繁體 
+
+ 日本語 
+
+ 한국어 
+
+ Sign in 
+
+ Cloud Billing
+
+ Start free 
+
+ Overview
+
+ Guides
+
+ APIs & Reference
+
+ Resources
+
+ Technology areas
+
+ More
+
+ Overview
+
+ Guides
+
+ APIs & Reference
+
+ Resources
+
+ Cross-product tools
+
+ More
+
+ Console
+
+ Discover 
+
+ Product overview 
+
+ Cost management for project owners 
+ 
+ Key concepts and tools 
+ Set up project-scoped access 
+
+ Supported currencies and payment methods 
+
+ Find your account type and charging cycle 
+
+ Find your billing account ID 
+
+ Find your billing account administrator 
+
+ Get started 
+
+ Create a new Cloud Billing account 
+
+ Get started from other products 
+
+ Use Gemini Cloud Assist in Billing 
+
+ Apply for invoiced billing 
+
+ Interactive tutorials in the Google Cloud console 
+
+ Pay your bill 
+
+ Get an invoice, statement, or receipt 
+
+ View your transaction history 
+
+ Pay for invoiced accounts 
+ 
+ Understand your monthly invoice 
+ Split invoicing for agency model transactions 
+ Pay your invoice 
+ Update your PO number 
+
+ Pay for self-serve (online) accounts 
+ 
+ Split charging cycles for online billing accounts 
+ Add, remove, or update a payment method 
+ Make a manual payment, or pay early 
+
+ Monitor your costs 
+
+ Organize your resources for cost management 
+
+ Analyze your AI spend with the AI Cost Summary Agent 
+
+ Create budgets and set up spending alerts 
+ 
+ Create, edit, or delete a budget alert 
+ Manage a spend cap budget 
+ Customize budget alert email recipients 
+
+ View built-in billing reports 
+ 
+ Choose a billing report 
+
+ Analyze billing data with Reports 
+ 
+ Access and configure Reports 
+ View Gemini Enterprise costs in Reports 
+ View and analyze your savings 
+ View charges on invoices 
+ View your forecasted costs 
+ View costs by project hierarchy 
+ View a budget in your report 
+
+ Understand your monthly invoice with the cost table report 
+ View and download your price lists 
+ Understand your savings with cost breakdown reports 
+
+ Export billing data for analysis 
+ 
+ Overview of billing data export to BigQuery 
+ Set up billing data export to BigQuery 
+ Set up FOCUS export to BigQuery 
+ Understand the billing data tables in BigQuery 
+ Structure of FOCUS data export 
+ Structure of Standard data export 
+ Structure of Detailed data export 
+ Structure of Pricing data export 
+ Structure of CUD metadata export 
+ Example queries for Cloud Billing 
+
+ View and manage cost anomalies 
+
+ Track your spend-based milestone credits 
+
+ Optimize usage costs 
+
+ Optimize costs with FinOps hub 
+ 
+ Discover potential savings using the FinOps hub 
+ Review and apply FinOps hub Recommendations 
+ Review utilization and wasted usage insights 
+
+ Committed use discounts 
+ 
+ About CUDs for cost optimization 
+ View your commitments 
+ Analyze CUDs 
+ Calculate savings with Compute flexible commitments 
+
+ Estimate costs for simulated workloads 
+
+ Optimize infrastructure management and data protection costs 
+ 
+ About Infrastructure Management Essentials 
+ Enable or disable Infrastructure Management Essentials 
+
+ Discounts for education accounts 
+ 
+ Get and redeem education grants 
+ Get a data transfer discount for research and education 
+
+ Automate cost management 
+
+ Set up programmatic notifications 
+
+ Set up cost control responses 
+ 
+ Listen to your notifications 
+ Send notifications to Slack 
+ Control resource usage with notifications 
+ Disable billing with notifications 
+
+ Manage billing status of projects 
+
+ View projects linked to a billing account 
+
+ Verify the billing status of projects 
+
+ Enable, disable, or change billing for a project 
+
+ Lock a project to its billing account 
+
+ Manage Cloud Billing accounts 
+
+ About account management 
+
+ Modify your Cloud Billing account 
+
+ Close or reopen your Cloud Billing account 
+
+ Control access to Cloud Billing 
+ 
+ Overview of billing access control 
+ Create custom roles for billing 
+ Manage access to billing accounts 
+ Manage access to payment methods 
+
+ Manage payments for self-serve (autopay) accounts 
+ 
+ Add, remove, or update a payment method 
+ Verify your bank account 
+
+ Troubleshoot 
+
+ Resolve common billing issues 
+
+ Restart services 
+
+ AI and ML
+
+ Application development
+
+ Application hosting
+
+ Compute
+
+ Data analytics and pipelines
+
+ Databases
+
+ Distributed, hybrid, and multicloud
+
+ Industry solutions
+
+ Migration
+
+ Networking
+
+ Observability and monitoring
+
+ Security
+
+ Storage
+
+ Access and resources management
+
+ Costs and usage management
+
+ Infrastructure as code
+
+ SDK, languages, frameworks, and tools
+
+ Home
+
+ Documentation
+
+ Costs and usage management
+
+ Cloud Billing
+
+ Guides
+
+ Send feedback
+
+ Disable billing usage with notifications 
+
+ Stay organized with collections
+
+ Save and categorize content based on your preferences.
+
+ Warning: This tutorial removes Cloud Billing from your project, shutting down
+all resources. Resources might be irretrievably deleted. You can
+ re-enable Cloud Billing ,
+but it requires manual configuration and there's no guarantee
+of service recovery. 
+ This document explains how to automatically disable billing on a project when
+your costs meet or exceed your project budget. When you disable
+billing on a project, you terminate all Google Cloud services in the project,
+including
+ Free Tier services .
+For a more nuanced response to budget notifications, see
+ Control resource usage with notifications .
+
+ You might limit costs because you have a maximum amount of money that you can
+spend on Google Cloud. In these cases, when your budget limit is
+reached, you might be willing to shut down all of your Google Cloud services
+and usage to stop incurring costs. Disabling billing on your project is an
+efficient method to stop incurring costs in that project.
+
+ Limitations
+
+ There's a delay between incurring costs and receiving budget
+notifications, so you might incur additional
+costs for usage that hasn't arrived at the time that all services are stopped.
+Following the steps in this example doesn't guarantee that you won't spend more
+than your budget. If you have a limited amount of funds, set your maximum budget
+below your available funds to account for billing delays.
+
+ You can't disable billing on a project that's locked to a billing account. To
+learn more about locking and unlocking projects, see
+ Secure the link between a project and its billing account .
+
+ Example script
+
+ You can use the following script to perform all of the steps in this tutorial
+in a single script. Simply copy this script into a Bash file,
+edit the user parameters near the top of the file, and execute the script.
+
+ Click to expand the script
+
+ #!/bin/bash 
+
+ # This script combines all the steps from the following documentation so they 
+ # can be executed in a single command: 
+ # https://docs.cloud.google.com/billing/docs/how-to/disable-billing-with-notifications#functions_cap_billing_dependencies-nodejs 
+
+ # Step-by-step instructions: 
+ # A) Edit the parameters under step 1 (Set User Parameters) below and then 
+ # copy the contents of this file to your clipboard. 
+ # B) Open Cloud Shell (or any bash terminal with gcloud installed) via the 
+ # terminal icon in the top right of http://console.cloud.google.com 
+ # C) Paste the contents into a new Bash file which you can do with the 
+ # following commands: 
+ # type "vi ./billing_caps.sh" to create a new file and open it for editing 
+ # press 'i' to enter insert mode 
+ # paste the contents of this file into the terminal (right-click + "paste") 
+ # press 'ESC' to exit insert mode 
+ # type ":wq" to save and exit 
+ # type "chmod +x billing_caps.sh" to make the script executable 
+ # C) Execute the script with the command "./billing_caps.sh" 
+ # D) Monitor the terminal output for any errors that might require you to 
+ # repeat one or more of the above steps. If no errors occur then you're done! 
+
+ # 1. Set User Parameters 
+ PROJECT_ID = "your-project-id" 
+ REGION = "us-central1" 
+ TOPIC_ID = "billing-alerts-topic" 
+ BILLING_ACCOUNT_ID = "your-billing-account-id" 
+ BUDGET_AMOUNT = "100" # Example: $100 
+
+ # 2. Enable Required APIs 
+gcloud services enable billingbudgets.googleapis.com \ 
+ cloudbilling.googleapis.com \ 
+ cloudbuild.googleapis.com \ 
+ cloudfunctions.googleapis.com \ 
+ eventarc.googleapis.com \ 
+ run.googleapis.com \ 
+ pubsub.googleapis.com \ 
+ artifactregistry.googleapis.com \ 
+ --project = " ${ PROJECT_ID } " 
+
+ # 3. Create Pub/Sub Topic 
+gcloud pubsub topics create " ${ TOPIC_ID } " --project = " ${ PROJECT_ID } " 
+
+ # 4. Create Source Files for the Function 
+mkdir -p billing_function
+cat billing_function/package.json 
+ { 
+ "name": "cloud-functions-billing", 
+ "private": "true", 
+ "version": "0.0.1", 
+ "description": "Examples of integrating Cloud Functions with billing", 
+ "main": "index.js", 
+ "engines": { 
+ "node": ">=18.0.0" 
+ }, 
+ "author": "Ace Nassri ", 
+ "license": "Apache-2.0", 
+ "dependencies": { 
+ "@google-cloud/billing": "^4.0.0" 
+ }, 
+ "devDependencies": { 
+ "@google-cloud/functions-framework": "^3.0.0", 
+ "c8": "^10.0.0", 
+ "gaxios": "^6.0.0", 
+ "mocha": "^10.0.0", 
+ "promise-retry": "^2.0.0", 
+ "proxyquire": "^2.1.0", 
+ "sinon": "^18.0.0", 
+ "wait-port": "^1.0.4" 
+ } 
+ } 
+ EOF 
+
+cat billing_function/index.js 
+ const {CloudBillingClient} = require('@google-cloud/billing'); 
+
+ const PROJECT_ID = process.env.GOOGLE_CLOUD_PROJECT; 
+ const PROJECT_NAME = `projects/${PROJECT_ID}`; 
+ const billing = new CloudBillingClient(); 
+
+ exports.stopBilling = async pubsubEvent => { 
+ const pubsubData = JSON.parse( 
+ Buffer.from(pubsubEvent.data, 'base64').toString() 
+ ); 
+ if (pubsubData.costAmount 
+ return `No action necessary. (Current cost: ${pubsubData.costAmount})`; 
+ } 
+
+ if (!PROJECT_ID) { 
+ return 'No project specified'; 
+ } 
+
+ const billingEnabled = await _isBillingEnabled(PROJECT_NAME); 
+ if (billingEnabled) { 
+ return _disableBillingForProject(PROJECT_NAME); 
+ } else { 
+ return 'Billing already disabled'; 
+ } 
+ }; 
+
+ /** 
+ * Determine whether billing is enabled for a project 
+ * @param {string} projectName Name of project to check if billing is enabled 
+ * @return {bool} Whether project has billing enabled or not 
+ */ 
+ const _isBillingEnabled = async projectName => { 
+ try { 
+ const [res] = await billing.getProjectBillingInfo({name: projectName}); 
+ return res.billingEnabled; 
+ } catch (e) { 
+ console.log( 
+ 'Unable to determine if billing is enabled on specified project, assuming billing is enabled' 
+ ); 
+ return true; 
+ } 
+ }; 
+
+ /** 
+ * Disable billing for a project by removing its billing account 
+ * @param {string} projectName Name of project disable billing on 
+ * @return {string} Text containing response from disabling billing 
+ */ 
+ const _disableBillingForProject = async projectName => { 
+ const [res] = await billing.updateProjectBillingInfo({ 
+ name: projectName, 
+ resource: {billingAccountName: ''}, // Disable billing 
+ }); 
+ return `Billing disabled: ${JSON.stringify(res)}`; 
+ }; 
+ EOF 
+
+ # 5. Deploy the Cloud Run Function 
+ # This uses the Gen 2 runtime as suggested by current standards 
+gcloud functions deploy stop-billing-function \ 
+ --gen2 \ 
+ --runtime = nodejs24 \ 
+ --region = " ${ REGION } " \ 
+ --trigger-topic = " ${ TOPIC_ID } " \ 
+ --entry-point = stopBilling \ 
+ --set-env-vars GOOGLE_CLOUD_PROJECT = " ${ PROJECT_ID } " \ 
+ --source = ./billing_function \ 
+ --project = " ${ PROJECT_ID } " 
+
+ # 6. Configure Service Account Permissions 
+ # Get the service account associated with the function 
+ SERVICE_ACCOUNT = $( gcloud functions describe stop-billing-function --region = " ${ REGION } " --format = "value(serviceConfig.serviceAccountEmail)" --project = " ${ PROJECT_ID } " ) 
+
+ # Grant the service account the "Billing Account Administrator" role on the 
+ # billing account. 
+ # Note: You must have 'Billing Account Administrator' rights to run this 
+gcloud billing accounts add-iam-policy-binding " ${ BILLING_ACCOUNT_ID } " \ 
+ --member = "serviceAccount: ${ SERVICE_ACCOUNT } " \ 
+ --role = "roles/billing.admin" 
+
+ # 7. Create the Budget and Link to Topic 
+gcloud billing budgets create \ 
+ --billing-account = " ${ BILLING_ACCOUNT_ID } " \ 
+ --display-name = "Budget for ${ PROJECT_ID } " \ 
+ --budget-amount = " ${ BUDGET_AMOUNT } " \ 
+ --threshold-rule = percent = 100 \ 
+ --notifications-rule-pubsub-topic = "projects/ ${ PROJECT_ID } /topics/ ${ TOPIC_ID } " 
+
+ echo "Setup complete. Billing will be disabled if costs exceed ${ BUDGET_AMOUNT } ." 
+
+ Before you begin
+
+ Before you begin, you must complete the following tasks:
+
+ Enable the Cloud Billing API 
+
+ Create a budget that's scoped to a single project
+
+ Set up programmatic budget notifications 
+
+ Set up a Cloud Run function
+
+ To disable Cloud Billing for a project, create a
+Cloud Run function and configure it to call the Cloud Billing API.
+
+ Complete the steps in
+ Create a Cloud Run function .
+Ensure that the Trigger type is set to the same Pub/Sub
+topic that your budget will use.
+
+ Add the following dependencies:
+
+ Node.js
+
+ Copy the following to your package.json file:
+
+ { 
+ "name" : "cloud-functions-billing" , 
+ "private" : "true" , 
+ "version" : "0.0.1" , 
+ "description" : "Examples of integrating Cloud Functions with billing" , 
+ "main" : "index.js" , 
+ "engines" : { 
+ "node" : ">=18.0.0" 
+ }, 
+ "scripts" : { 
+ "compute-test" : "c8 mocha -p -j 2 test/periodic.test.js --timeout=600000" , 
+ "test" : "c8 mocha -p -j 2 test/index.test.js --timeout=5000 --exit" 
+ }, 
+ "author" : "Ace Nassri <anassri@google.com>" , 
+ "license" : "Apache-2.0" , 
+ "dependencies" : { 
+ "@google-cloud/billing" : "^4.0.0" , 
+ "@google-cloud/compute" : "^4.0.0" , 
+ "@slack/web-api" : "^7.15.0" , 
+ "google-auth-library" : "^9.0.0" , 
+ "googleapis" : "^143.0.0" 
+ }, 
+ "devDependencies" : { 
+ "@google-cloud/functions-framework" : "^3.0.0" , 
+ "c8" : "^10.0.0" , 
+ "gaxios" : "^6.0.0" , 
+ "mocha" : "^10.0.0" , 
+ "promise-retry" : "^2.0.0" , 
+ "proxyquire" : "^2.1.0" , 
+ "sinon" : "^18.0.0" , 
+ "wait-port" : "^1.0.4" 
+ } 
+ } 
+
+ Python
+
+ Copy the following to your requirements.txt file:
+
+ functions - framework == 3. * 
+ google - cloud - billing == 1.16.2 
+ google - cloud - logging == 3.12.1 
+
+ Copy the following code into your Cloud Run function:
+
+ Node.js
+
+ const { CloudBillingClient } = require ( ' @google-cloud/billing ' ); 
+ const { InstancesClient } = require ( ' @google-cloud/compute ' ); 
+
+ const PROJECT_ID = process . env . GOOGLE_CLOUD_PROJECT ; 
+ const PROJECT_NAME = `projects/ ${ PROJECT_ID } ` ; 
+ const billing = new CloudBillingClient (); 
+
+ exports . stopBilling = async pubsubEvent = > { 
+ const pubsubData = JSON . parse ( 
+ Buffer . from ( pubsubEvent . data , 'base64' ). toString () 
+ ); 
+ if ( pubsubData . costAmount < = pubsubData . budgetAmount ) { 
+ return `No action necessary. (Current cost: ${ pubsubData . costAmount } )` ; 
+ } 
+
+ if ( ! PROJECT_ID ) { 
+ return 'No project specified' ; 
+ } 
+
+ const billingEnabled = await _isBillingEnabled ( PROJECT_NAME ); 
+ if ( billingEnabled ) { 
+ return _disableBillingForProject ( PROJECT_NAME ); 
+ } else { 
+ return 'Billing already disabled' ; 
+ } 
+ }; 
+
+ /** 
+ * Determine whether billing is enabled for a project 
+ * @param {string} projectName Name of project to check if billing is enabled 
+ * @return {bool} Whether project has billing enabled or not 
+ */ 
+ const _isBillingEnabled = async projectName = > { 
+ try { 
+ const [ res ] = await billing . getProjectBillingInfo ({ name : projectName }); 
+ return res . billingEnabled ; 
+ } catch ( e ) { 
+ console . log ( 
+ 'Unable to determine if billing is enabled on specified project, assuming billing is enabled' 
+ ); 
+ return true ; 
+ } 
+ }; 
+
+ /** 
+ * Disable billing for a project by removing its billing account 
+ * @param {string} projectName Name of project disable billing on 
+ * @return {string} Text containing response from disabling billing 
+ */ 
+ const _disableBillingForProject = async projectName = > { 
+ const [ res ] = await billing . updateProjectBillingInfo ({ 
+ name : projectName , 
+ resource : { billingAccountName : '' }, // Disable billing 
+ }); 
+ return `Billing disabled: ${ JSON . stringify ( res ) } ` ; 
+ }; 
+
+ Python
+
+ # WARNING: The following action, if not in simulation mode, will disable billing 
+ # for the project, potentially stopping all services and causing outages. 
+ # Ensure thorough testing and understanding before enabling live deactivation. 
+
+ import base64 
+ import json 
+ import os 
+ import urllib.request 
+
+ from cloudevents.http.event import CloudEvent 
+ import functions_framework 
+
+ from google.api_core import exceptions 
+ from google.cloud import billing_v1 
+ from google.cloud import logging 
+
+ billing_client = billing_v1 . CloudBillingClient () 
+
+ def get_project_id () - > str : 
+ """Retrieves the Google Cloud Project ID. 
+
+ This function first attempts to get the project ID from the 
+ `GOOGLE_CLOUD_PROJECT` environment variable. If the environment 
+ variable is not set or is None, it then attempts to retrieve the 
+ project ID from the Google Cloud metadata server. 
+
+ Returns: 
+ str: The Google Cloud Project ID. 
+
+ Raises: 
+ ValueError: If the project ID cannot be determined either from 
+ the environment variable or the metadata server. 
+ """ 
+
+ # Read the environment variable, usually set manually 
+ project_id = os . getenv ( "GOOGLE_CLOUD_PROJECT" ) 
+ if project_id is not None : 
+ return project_id 
+
+ # Otherwise, get the `project-id`` from the Metadata server 
+ url = "http://metadata.google.internal/computeMetadata/v1/project/project-id" 
+ req = urllib . request . Request ( url ) 
+ req . add_header ( "Metadata-Flavor" , "Google" ) 
+ project_id = urllib . request . urlopen ( req ) . read () . decode () 
+
+ if project_id is None : 
+ raise ValueError ( "project-id metadata not found." ) 
+
+ return project_id 
+
+ @functions_framework . cloud_event 
+ def stop_billing ( cloud_event : CloudEvent ) - > None : 
+ # TODO(developer): As stoping billing is a destructive action 
+ # for your project, change the following constant to False 
+ # after you validate with a test budget. 
+ SIMULATE_DEACTIVATION = True 
+
+ PROJECT_ID = get_project_id () 
+ PROJECT_NAME = f "projects/ { PROJECT_ID } " 
+
+ event_data = base64 . b64decode ( 
+ cloud_event . data [ "message" ][ "data" ] 
+ ) . decode ( "utf-8" ) 
+
+ event_dict = json . loads ( event_data ) 
+ cost_amount = event_dict [ "costAmount" ] 
+ budget_amount = event_dict [ "budgetAmount" ] 
+ print ( f "Cost: { cost_amount } Budget: { budget_amount } " ) 
+
+ if cost_amount < = budget_amount : 
+ print ( "No action required. Current cost is within budget." ) 
+ return 
+
+ print ( f "Disabling billing for project ' { PROJECT_NAME } '..." ) 
+
+ is_billing_enabled = _is_billing_enabled ( PROJECT_NAME ) 
+
+ if is_billing_enabled : 
+ _disable_billing_for_project ( 
+ PROJECT_NAME , 
+ SIMULATE_DEACTIVATION 
+ ) 
+ else : 
+ print ( "Billing is already disabled." ) 
+
+ def _is_billing_enabled ( project_name : str ) - > bool : 
+ """Determine whether billing is enabled for a project. 
+
+ Args: 
+ project_name: Name of project to check if billing is enabled. 
+
+ Returns: 
+ Whether project has billing enabled or not. 
+ """ 
+ try : 
+ print ( f "Getting billing info for project ' { project_name } '..." ) 
+ response = billing_client . get_project_billing_info ( name = project_name ) 
+
+ return response . billing_enabled 
+ except Exception as e : 
+ print ( f 'Error getting billing info: { e } ' ) 
+ print ( 
+ "Unable to determine if billing is enabled on specified project, " 
+ "assuming billing is enabled." 
+ ) 
+
+ return True 
+
+ def _disable_billing_for_project ( 
+ project_name : str , 
+ simulate_deactivation : bool , 
+ ) - > None : 
+ """Disable billing for a project by removing its billing account. 
+
+ Args: 
+ project_name: Name of project to disable billing. 
+ simulate_deactivation: 
+ If True, it won't actually disable billing. 
+ Useful to validate with test budgets. 
+ """ 
+
+ # Log this operation in Cloud Logging 
+ logging_client = logging . Client () 
+ logger = logging_client . logger ( name = "disable-billing" ) 
+
+ if simulate_deactivation : 
+ entry_text = "Billing disabled. (Simulated)" 
+ print ( entry_text ) 
+ logger . log_text ( entry_text , severity = "CRITICAL" ) 
+ return 
+
+ # Find more information about `updateBillingInfo` API method here: 
+ # https://cloud.google.com/billing/docs/reference/rest/v1/projects/updateBillingInfo 
+ try : 
+ # To disable billing set the `billing_account_name` field to empty 
+ project_billing_info = billing_v1 . ProjectBillingInfo ( 
+ billing_account_name = "" 
+ ) 
+
+ response = billing_client . update_project_billing_info ( 
+ name = project_name , 
+ project_billing_info = project_billing_info 
+ ) 
+
+ entry_text = f "Billing disabled: { response } " 
+ print ( entry_text ) 
+ logger . log_text ( entry_text , severity = "CRITICAL" ) 
+ except exceptions . PermissionDenied : 
+ print ( "Failed to disable billing, check permissions." ) 
+
+ Set the Entry point to the correct function to execute:
+
+ Node.js
+ Set the Entry point to stopBilling .
+
+ Python
+ Set the Entry point to stop_billing .
+
+ Review the list of environment variables set automatically 
+to determine if you need to manually set the GOOGLE_CLOUD_PROJECT 
+variable to the project that you want to disable Cloud Billing for.
+
+ Note: If the environment variable is automatically set, the Cloud Billing
+account will be removed on the project where this
+Cloud Run function is running. Depending on your needs, you
+can change the code inside your Cloud Run function
+to specify a different project. 
+
+ Click DEPLOY .
+
+ Configure service account permissions
+
+ Your Cloud Run function runs as an
+ automatically created service account .
+To disable billing, you need to grant the service account permissions to
+any services on the project that it needs to modify by completing the following
+steps:
+
+ Identify the correct service account by viewing the details of your
+Cloud Run function. The service account is listed at the
+bottom of the page.
+
+ Go to the IAM page in the Google Cloud console to set the
+appropriate permissions.
+
+ Go to the IAM page 
+
+ To modify the billing account permissions, in the Google Cloud console, go to
+the Billing Account management page, add the service account as a
+principle on the Cloud Billing account, and set the
+ appropriate billing account permissions .
+
+ Go to the Account management page in Cloud Billing 
+
+ Learn more about how to
+ configure permissions for Cloud Billing accounts .
+
+ Test that Cloud Billing is disabled
+
+ When the budget sends a notification, the specified project will no longer have
+a Cloud Billing account associated with it. To ensure your function works as
+expected, follow the steps in
+ Test a Cloud Run function .
+
+ If successful, the project is no longer visible under the Cloud Billing
+account and resources in the project are disabled, including the
+Cloud Run function if it's in the same project.
+
+ To continue using Google Cloud resources in the project, in the
+Google Cloud console,
+ manually re-enable Cloud Billing 
+for your project.
+
+ What's next
+
+ Re-enable Cloud Billing for your project 
+
+ Review other programmatic notification examples to learn how to do the
+following:
+
+ Listen to your notifications 
+
+ Control resource usage with notifications 
+
+ Send notifications to Slack 
+
+ Send feedback
+
+ Except as otherwise noted, the content of this page is licensed under the Creative Commons Attribution 4.0 License , and code samples are licensed under the Apache 2.0 License . For details, see the Google Developers Site Policies . Java is a registered trademark of Oracle and/or its affiliates.
+
+ Last updated 2026-08-26 UTC.
+
+ Need to tell us more?
+
+ [[["Easy to understand","easyToUnderstand","thumb-up"],["Solved my problem","solvedMyProblem","thumb-up"],["Other","otherUp","thumb-up"]],[["Hard to understand","hardToUnderstand","thumb-down"],["Incorrect information or sample code","incorrectInformationOrSampleCode","thumb-down"],["Missing the information/samples I need","missingTheInformationSamplesINeed","thumb-down"],["Other","otherDown","thumb-down"]],["Last updated 2026-08-26 UTC."],[],[]]
+
+ Products and pricing
+
+ See all products
+
+ Google Cloud pricing
+
+ Google Cloud Marketplace
+
+ Contact sales
+
+ Support
+
+ Community forums
+
+ Support
+
+ Release Notes
+
+ System status
+
+ Resources
+
+ GitHub
+
+ Getting Started with Google Cloud
+
+ Code samples
+
+ Cloud Architecture Center
+
+ Training and Certification
+
+ Engage
+
+ Blog
+
+ Events
+
+ X (Twitter)
+
+ Google Cloud on YouTube
+
+ Google Cloud Tech on YouTube
+
+ About Google
+
+ Privacy
+
+ Site terms
+
+ Google Cloud terms
+
+ Manage cookies
+
+ Our third decade of climate action: join us
+
+ Sign up for the Google Cloud newsletter 
+
+ Subscribe
+
+ English 
+
+ Deutsch 
+
+ Español 
+
+ Español – América Latina 
+
+ Français 
+
+ Indonesia 
+
+ Italiano 
+
+ Português 
+
+ Português – Brasil 
+
+ עברית 
+
+ 中文 – 简体 
+
+ 中文 – 繁體 
+
+ 日本語 
+
+ 한국어
