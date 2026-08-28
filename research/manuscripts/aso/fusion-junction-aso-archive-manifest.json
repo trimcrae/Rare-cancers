@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "a35ebec5472541a478bb33f581316b2cecb49830",
-  "git_tree_is_clean_apart_from_this_manifest": false,
+  "git_revision": "83aede1f4e2fc5751aad8b422bdf854699f1aae9",
+  "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "753c940f15df0de92f9f02f0a449126a58ce3e066f367c9a510f70179268b7a4",
+  "archive_content_digest": "b09929fb2ec038ef10cf048ac36ae4f87a249263e15152d25a7fc6676fe1e101",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,7 +24,7 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 43248056,
+  "total_bytes": 43248084,
   "total_mib": 41.245,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
@@ -39,7 +39,7 @@
       },
       ".md": {
         "n_files": 13,
-        "bytes": 746883
+        "bytes": 746911
       },
       ".pdf": {
         "n_files": 8,
@@ -1195,8 +1195,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.md",
-      "bytes": 245026,
-      "sha256": "88e1114b6fab2a7e1d634101fa2ce786634db90f04c7f8cc38f13ff6cc9d9cba",
+      "bytes": 245054,
+      "sha256": "d36fe90532e5ffd32dc36ee65ebe9700647f5ac864fc0bc60b2c248e0b6bc276",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
