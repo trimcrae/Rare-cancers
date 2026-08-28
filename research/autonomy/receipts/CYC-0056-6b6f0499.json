@@ -13,11 +13,12 @@
     "hardening-state/PUB-ASO.json written — the clause it feeds moved from UNMEASURED to a measured FAIL, which is the honest direction."
   ],
   "verification": {
-    "seats": "4 of 5 returned (regression, arithmetic, statistics, hostile referee); the citations/guard-coverage seat had not returned when this receipt was written and its silence is recorded as absent, not clean.",
-    "blockers": "5, every one reproduced from the committed artifacts before being acted on, every one fixed.",
-    "p1s": "7, of which 2 closed here.",
+    "seats": "ALL FIVE returned. The citations/guard-coverage seat ran 79 minutes, most of it a mutation sweep running the whole manuscripts suite per mutation, and landed after the round was committed; its findings were merged into the hardening record rather than deferred. An earlier version of this receipt said four seats and recorded the fifth's silence as ABSENT rather than clean — that was the right thing to write at the time and is now superseded by the seat itself.",
+    "blockers": "5, unchanged when the fifth seat landed — it found none.",
+    "p1s": "12 across five seats, of which 2 closed here. Seat 5 added five, all guard-coverage gaps.",
     "mutation_testing": "21 caught / 21 on a hardlink clone, every mutation asserted to have landed before its result was read, positive control green. Included five synonym reinstatements and three cross-document ones.",
-    "arithmetic_seat": "0 blockers — every printed quantity re-derived from its producing artifact, including this round's new 7-of-87."
+    "arithmetic_seat": "0 blockers — every printed quantity re-derived from its producing artifact, including this round's new 7-of-87.",
+    "independent_confirmation": "Two seats re-derived this round's new numbers from the artifacts without being told them: the arithmetic seat and the citations seat both reproduced '176 distinct sequences, nine at more than one exon pair', and the citations seat additionally verified all 23 references end to end against retrieved Europe PMC records, in both the markdown and the built PDF."
   },
   "cost": {
     "real_dollars": 0,

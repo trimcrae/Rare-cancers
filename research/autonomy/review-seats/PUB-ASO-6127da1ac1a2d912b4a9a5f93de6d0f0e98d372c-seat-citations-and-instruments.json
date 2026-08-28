@@ -1,0 +1,118 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c",
+  "blind": true,
+  "seat": "citations-and-instruments",
+  "lens": "Whether every identifier in the paper traces to a fetch record and each cited work says what the citing sentence says it says, and which of the paper's load-bearing sentences an arbitrary edit could change with every committed test still green — tested by mutating a private copy of the pin, not by reading the guards.",
+  "utc": "2026-08-28T17:39:24Z",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md (at the pin, via git show)",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf (text layer, pdfminer)",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md (at the pin)",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv (at the pin)",
+    "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+    "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+    "research/manuscripts/aso/fusion-junction-aso-claim-audit-verdicts.json",
+    "research/manuscripts/aso/fusion-junction-aso-data-sources.json",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+    "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",
+    "research/manuscripts/aso/deposit-state.json",
+    "research/manuscripts/aso/lit-targets-aso-verify.json",
+    "research/manuscripts/aso/lit-targets-aso-gap-length.json",
+    "research/manuscripts/aso/lit-targets-aso-round7-precedents.json",
+    "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
+    "research/manuscripts/aso/lit-targets-aso-delivery-routes.json",
+    "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+    "research/manuscripts/aso/fusion-junction-aso-2026-citation-resolution.json",
+    "research/manuscripts/aso/nat-scope-census.json",
+    "research/manuscripts/citation-provenance-ledger.json",
+    "research/manuscripts/claim-coverage.json",
+    "research/manuscripts/claim_coverage.py (census/uncovered API)",
+    "research/manuscripts/lint_citations.py",
+    "research/manuscripts/submission_citations.py",
+    "research/manuscripts/aso_falsification_power.py (executed)",
+    "research/manuscripts/tests/test_journal_references_match_the_prose.py",
+    "research/manuscripts/tests/test_the_exon2_reading_stands_without_an_unpublished_sequence.py",
+    "research/manuscripts/tests/test_the_manuscript_asserts_the_relation_its_artifacts_compute.py",
+    "research/manuscripts/tests/test_the_numbered_claims_no_instrument_read.py",
+    "research/manuscripts/tests/test_aso_partner_share_intervals.py",
+    "research/manuscripts/tests/test_aso_coverage_ladder.py",
+    "research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py",
+    "research/manuscripts/tests/test_submission_citations.py",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-premrna-offtarget.json",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/nr4a3-fusion-junction-atlas.json",
+    "research/modalities/emc-test-article-routes.json",
+    "research/modalities/noncoding-acceptor/aso-insilico-evaluation-e13n2-deep500.json (Cellosaurus quote)",
+    "research/literature/no-wet-lab-archetypes-2026-08-12.json",
+    "research/literature/rt-lung-mets-probe.json",
+    "research/manuscripts/endpoint/emc-systemic-therapy-pooling.json",
+    "scripts/preflight.sh (test tiers only)",
+    "origin/literature-cache:literature/oswg-offtarget-2025/epmc_core_39912803.txt",
+    "origin/literature-cache:literature/bangerter-2023-emc-exvivo/PMC9813045.txt",
+    "origin/literature-cache:literature/emc-cell-models-round2b-2026-08-15/ftxt_PMC9813045_usz.txt",
+    "origin/literature-cache: all 104 literature/*/_index.json (PMID -> title/journal/volume/pages/year/DOI sweep)"
+  ],
+  "central_claim": "Every PMID, DOI, accession, RRID and gene symbol in the journal article traces to a committed fetch record, each cited work supports the sentence citing it, and the sentences that carry the paper's weight are held by instruments that would actually fire on an arbitrary edit.",
+  "verdict": "supported",
+  "recommendation": "minor_revision",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "At the pin the manuscripts suite is RED (4 failures on a clean copy), and three of the four are one root cause: the polarity row `breakpoint-sequenced-before-order` no longer matches the sentence it guards, so the paper's ordering-safety requirement has NO inversion guard.",
+      "evidence": "Reproduced on a fresh non-hardlink copy of 6127da1a with __pycache__ removed (`git status` clean, article sha256 209432ff…): `pytest research/manuscripts/tests/ -n 4` gives 4 failed / 1451 passed. Three are test_the_manuscript_asserts_the_relation_its_artifacts_compute.py::{test_no_claim_asserts_the_inverse_of_what_its_artifact_computes, test_every_polarity_row_still_finds_the_claim_it_guards[breakpoint-sequenced-before-order], test_the_polarity_table_actually_fires_on_an_inverted_document} — 'only 27 of 28 polarity rows fire'. The row's span at the pin is `One requirement is upstream of all of them:[^#]{0,420}?tiled at\\.` while the pinned sentence now ends '…most designs here being specific to the exon pair they were tiled at, and nine of the panel's 176 distinct sequences matching at more than one.' The round-18 prose correction landed without its paired guard re-anchor. `scripts/preflight.sh` puts this suite behind PREFLIGHT_TESTS=1 (lines 360-361), so the default commit loop could not see it.",
+      "what_edit_would_break_it": "It is already broken at the pin. The dangerous repair is re-anchoring the span to any string that happens to match rather than to the requirement's verb — the row exists to catch 'need not be established / after any oligonucleotide is ordered', and a lazily re-anchored span reads as coverage without being it."
+    },
+    {
+      "summary": "A reference entry can carry the WRONG YEAR, VOLUME and PAGE RANGE, or another cited paper's REAL DOI, with every committed check green — and the typeset PDF drops the PMID tail, so the DOI is the only identifier a reader receives.",
+      "evidence": "Mutation on a copy of the pin, entry 12 (Kauppinen 2005) '(2005). … Drug Discov Today Technol 2:287–290.' -> '(2015). … 9:187–190.': lint_citations rc=0, and the only new pytest failures are the build-staleness family (PDF/DOCX rebuild) — no check reads the value. Second mutation, entry 15 (Sugimoto, PMID 7545436) given Ensembl's DOI 10.1093/nar/gkae1071 (an anchored identifier): test_journal_references_match_the_prose.py 9 passed, lint_citations rc=0. The four bindings that do exist are style shape, author segment (journal-reference-authors.json), journal name (journal-abbreviations.json) and prose-PMID == entry-PMID; `submission_citations.PAPER` is fusion-junction-aso-research-article.md, i.e. the extended report, so its 'every cited paper has a retrieved bibliographic record' test never reads this article. The PDF text layer prints `doi:` on every entry and no `PMID:` anywhere. I checked all 23 entries against retrieved Europe PMC records today and every DOI, journal, volume, page range and year is correct.",
+      "what_edit_would_break_it": "Any hand edit to an entry's year, volume, pages or title, or a DOI swapped for another anchored DOI while adding, re-ordering or correcting a reference — the list is hand-maintained by its own banner's admission."
+    },
+    {
+      "summary": "Facts quoted FROM a cited paper are read by no instrument, while numbers computed from committed artifacts are well guarded — so the citation half of the paper is exactly the half an edit can move silently.",
+      "evidence": "Mutations on a copy of the pin, all leaving lint_citations, lint_claims and every non-staleness test green: (a) ref 12's RNase-H1 gap requirement 'with seven to ten the working range' -> 'two to four'; (b) ref 21's 'reported doubling times of five to six days' -> 'one to two days'; (c) 'reported against at least six fusion oncogenes' -> 'twelve' with the same six citations; (d) re-attributing 'break-apart NR4A3 FISH detects a rearrangement irrespective of partner' from <sup>3</sup> PMID 41055792 to <sup>2</sup> PMID 32572850 (both real, both still cited elsewhere, so no orphan and no numbering break). By contrast the artifact-derived numbers all fired: 68.4% -> 88.4% (test_journal_article_numbers + three pinned-figure tests), 'five of them curated records' -> 'seven', and both printed reagent-sequence swaps (test_named_reagents_carry_the_acceptor_the_csv_gives_them). Every one of the four ungrounded values is in fact correct at the pin: the quotes are in origin/literature-cache literature/aso-rnaseh-mismatch (via lit-targets-aso-gap-length.json), emc-test-article-routes.json R1 ('5.09 days … 6.05 days'), the six prior-art abstracts in lit-targets-aso-verify.json, and lit-targets-aso-round7-precedents.json's verbatim FISH passage.",
+      "what_edit_would_break_it": "Any rewording of a sentence that reports a number or a fact taken from a cited paper rather than from research/modalities — including a well-intentioned 'tightening' during a hardening round."
+    },
+    {
+      "summary": "Two reader-facing assignments beside the reagents can be inverted with everything green, although the canonical artifacts hold both answers: which cell model carries which junction, and which wild-type parent supplies the reagents' gap duplex.",
+      "evidence": "Mutation on a copy of the pin: swapping 'On that reading USZ22-EMC2 carries the junction the *TAF15* reagent spans, and USZ20-EMC1 carries *EWSR1* exon 13 joined to exon 3' to the reverse leaves every non-staleness check green; so does 'both against wild-type *TFG*' -> '*TCF12*'. fusion-junction-aso-sequences.csv gives `mature_parent_duplex_gene = TFG` for both named reagents (and TCF12 for the exon-13 design), and the Bangerter fusions are pinned in research/modalities/noncoding-acceptor/*.json. The cell-model sentence is in claim_coverage.uncovered('…journal-article.md')['with_a_number'], i.e. the census already reports nothing selective reads it. Consequence if inverted: a laboratory holding USZ20-EMC1 is pointed at the TAF15 reagent, which the paper elsewhere says must never be substituted for the other.",
+      "what_edit_would_break_it": "Any rewrite of the parsimony paragraph or of the reagent paragraph's parent-duplex clause — both were edited in round 18."
+    },
+    {
+      "summary": "RRIDs are outside every identifier check: both cell models can be given the same RRID and nothing notices.",
+      "evidence": "Mutation on a copy of the pin: 'USZ22-EMC2 (RRID:CVCL_C6MY)' -> '(RRID:CVCL_C6MX)' leaves lint_citations rc=0 and every non-staleness test green. lint_citations' identifier kinds are PMID/PMCID/DOI/accession; RRID is not one of them. Both RRIDs are correct at the pin and are anchored in research/modalities/noncoding-acceptor/aso-insilico-evaluation-{e13n2,taf15e6n2}-deep500.json, which quote the Cellosaurus records naming USZ20-EMC1 / CVCL_C6MX and USZ22-EMC2 / CVCL_C6MY.",
+      "what_edit_would_break_it": "Any edit to the test-article paragraph, or a third cell model being added with a copy-pasted RRID — the identifier a reader uses to request the line."
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "The Zenodo version the Data availability statement names is behind the pinned repository, and the paper does not tell a reader the archived copy of the manuscript is an earlier text.",
+      "evidence": "fusion-junction-aso-archive-manifest.json archive_content_digest = a25901f9dfe125fabdbcbda273e65e398500341c354a1bfb8c3c0c895ee15fd1 at git_revision 445169e83; deposit-state.json published.manifest_digest = 989d462e101ce75b2b9dd74a0057df46768f41192891d012d23854aeb68d543a at git_revision 091721519 (published 2026-08-23), and `pending` is absent. The drift is declared internally at fusion-junction-aso-preprint-checklist.md §3-i ('THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY'), which records 105 insertions / 80 deletions in this manuscript against the deposited revision as of 2026-08-24, before round 18 narrowed four universals. The paper's own sentence — 'That deposit carries every screen's parameters and the complete bounds on each claim, and is the citable record for them' — reaches the reader with no version caveat."
+    },
+    {
+      "summary": "fusion-junction-aso-claim-audit-verdicts.json overcounts the curated off-target records; the manuscript's figure is the correct one.",
+      "evidence": "Row C-fd96ba7190ad's verdict_evidence reads '8 carry a fully paired 16/16 off-target duplex at ddG 0.000, and 6 of those 8 are CURATED RefSeq records'. Recomputing from research/modalities/aso-offtarget-duplex-energy.json (designs with max_run_len_hybridisable == 16): 5 hit curated records (NM_001317003 x2, NM_001354853 x3) and 3 hit predicted models (XR_001737610, XR_007069430 x2). The manuscript's 'five of them curated records' is right; the audit artifact is wrong."
+    },
+    {
+      "summary": "A field named `verbatim` in the artifact that owns the paper's headline coverage figure holds a paraphrase, not the source's words — the same defect class this repository already found and repaired twice in the breakpoint census.",
+      "evidence": "fusion-junction-aso-reagent-coverage.json inputs.partner_prevalence.verbatim reads 'fusion distribution reported as 46 EWSR1::NR4A3 (79%), 9 TAF15::NR4A3 (16%), 2 TCF12::NR4A3 (3%), 1 NR4A3-rearranged with no identified partner (2%)' and cites research/literature/no-wet-lab-archetypes-2026-08-12.json, a WebSearch deep-research survey. The retrieved abstract of PMID 36948401 (origin/literature-cache:literature/aso-bibliography-completion/_index.json) reads 'Except for 1 (2%) NR4A3-rearranged EMC without identifiable partners, 46 (79%), 9 (16%), and 2 (3%) cases harbored EWSR1::NR4A3, TAF15::NR4A3, and TCF12::NR4A3 fusions, respectively.' The counts are right and 68.4% recomputes exactly (46/58 x 10/15 + 9/58 x 3/3 = 0.68391); only the quotation provenance is mislabelled, and that fetch record is on the cache branch where lint_citations cannot see it."
+    },
+    {
+      "summary": "In the typeset PDF the PMID tail is dropped from every reference, so reference 6 reaches the reader with no persistent identifier at all.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf prints entries 1-23 with `doi:` and no `PMID:`; entry 6 (Skórski T, et al. (1991). … Folia Histochem Cytobiol 29:85–89.) has no DOI in fusion-junction-aso-journal-references.md either, and Europe PMC returns none for PMID 1794439. The markdown carries the PMID; the artefact a reader receives does not."
+    },
+    {
+      "summary": "test_justification_does_not_degrade fails at the pin — outside this seat's lens, recorded because it is a red gate on the pinned artifact.",
+      "evidence": "On the clean copy of 6127da1a: '14 of 380 body lines exceed 2x the median inter-word gap (7.14 pt) — 36.84 per 1,000 against a ceiling of 23.5 and a measured 20.89 on the build it was set against.' The guard's own diagnosis names new prose containing a sequence or accession token as the usual cause; round 18 added '5′-AGGGCATATCTTGTGT-3′' and several sequence-bearing clauses."
+    },
+    {
+      "summary": "The paper's evidence for the cell models' exon assignment is stronger than two committed artifacts describe it, which is worth correcting in the artifacts rather than the paper.",
+      "evidence": "research/modalities/noncoding-acceptor/{aso-insilico-evaluation-e13n2-deep500,taf15e6n2-deep500}.json call the exon-13 / exon-6 / exon-2 assignment 'Cellosaurus curation of the same PubMed record, not an independent observation'. The source itself states it, in its Figure 2 legend: origin/literature-cache:literature/emc-cell-models-round2b-2026-08-15/ftxt_PMC9813045_usz.txt — 'For USZ20-EMC1; EWSR1 was confirmed as fusion partner having exon 13 for EWSR1 on chr22 and exon 2 from NR4A3 on chr9 involved (B). For USZ22-EMC2; TAF15 … exon 6 for TAF15 on chr17 and exon 2 from NR4A3 on chr9 involved (D).' The word 'exon' appears nowhere in the article's body text, which is exactly why the manuscript's 'the report carries no sequenced exon-exon boundary, no transcript accession and no junction sequence' is correct as written."
+    }
+  ]
+}
