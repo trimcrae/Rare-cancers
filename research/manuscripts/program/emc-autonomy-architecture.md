@@ -467,6 +467,58 @@ recommendation alone.
 
 ---
 
+### 6.5 · ⭐ Convergence is a REPEATED LOOK, and only one of the loop's re-reads needs a correction
+
+`paper-hardening` runs review rounds until one comes back with no blockers and no P1s, and then
+stops. That is optional stopping: every extra round is another chance for seats that happened to
+miss to produce a clean sheet, so the probability that "converged" reflects lucky seats rather than
+a clean paper **rises with the number of rounds**. Simmonds et al. 2017 measured this shape for
+living systematic reviews and the four published remedies are surveyed in
+[`method-watch-autonomy-prior-art-2.md`](../../method-watch-autonomy-prior-art-2.md) §4.3, which
+owns that finding and its citation — not restated here.
+
+⭐ **Their decision rule is what sorts our own re-reads, and it sorts them unevenly.** A reading
+reported as the current picture, which readers know may change, needs no correction. A reading whose
+verdict **feeds a decision that is not revisited** does. Applied across this loop:
+
+| the loop re-reads | Simmonds class | why |
+|---|---|---|
+| `priority.py` scores, re-derived on every `--write` | **(a)** snapshot | ranked again next cycle; nothing is spent on a score |
+| `health.py`'s board, `stuck_clock.py`, `learning_rate.py` | **(a)** snapshot | each run replaces the last, and every row says what it measured |
+| a route's `work_state` and `timing.recommendation` | **(a)** snapshot | re-graded on schedule by design — CLAUDE.md §4's rising frontier |
+| clearing a `blocked_by` row | **(a)** snapshot | reversible, and the block is re-derived from evidence each time |
+| **clause 1, `hardening_converged`** | **(b) DECISION** | it is the gate on posting, and a paper with a DOI is not un-posted |
+
+⛔ **So the correction lands in exactly one place, and it is the one that is a permission.** The
+other rows are not exempt by argument — they are exempt because nothing is spent on them.
+
+⚠ **The premise is measured, not asserted.** The blind-seat records under
+`research/autonomy/review-seats/` for PUB-FUSION-PARTNER run 9 blockers over 2 seats, then 4 over 5,
+then **ten** over 5, then 0 over 5 — the third round found more than the second, on text the
+second round's findings had just been applied to. Per-round findings do not descend to a floor, so a
+zero is one draw from a noisy process rather than a measurement of zero defects.
+
+⛔ **WHAT CANNOT BE COMPUTED, STATED RATHER THAN APPROXIMATED.** A real alpha-spending boundary needs
+the seats' own miss rate, and nothing in this repository measures it. No number is invented for one
+(CLAUDE.md §4: an honest UNKNOWN costs nothing, a remembered number costs the route). What clause 1
+now enforces is the part that needs no unknown parameter:
+
+1. **The verdict must state how many rounds produced it.** `last_round` was previously read only
+   into an f-string, so a record that never stated it still passed — a convergence claim with no
+   statement of how many chances the paper had to come back clean.
+2. **The declaring round may not field fewer blind seats than the widest round before it.** Stopping
+   on a thin round after several fat ones is optional stopping at its worst, and it is the one form
+   of it that is forbiddable without knowing the miss rate. The width is read off committed seat
+   records, so it is a **lower** bound: a round whose seats were never committed cannot raise it,
+   which makes the check miss cases rather than invent them.
+
+Both are strengthenings and can only ever block a post. Guarded by
+`systems/tests/test_convergence_is_a_repeated_look_not_a_single_test.py`, mutation-tested 6/6 in a
+worktree, with a positive control first so the pair cannot pass on a clause broken into refusing
+everything.
+
+---
+
 ## 7 · The escalation contract — the only four things that reach trimcrae
 
 **Everything else is silent.** The weekly newsletter is the ambient channel; it already exists and needs

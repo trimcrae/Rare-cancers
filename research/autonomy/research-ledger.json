@@ -5,7 +5,7 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
-    "analysis": 1,
+    "analysis": 2,
     "build": 1,
     "code": 1,
     "experiment": 23,
@@ -22,10 +22,9 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 95,
-    "in_progress": 1,
+    "done": 96,
     "parked": 28,
-    "queued": 129,
+    "queued": 130,
     "ready": 1,
     "superseded": 1
   },
@@ -2000,16 +1999,16 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0065-f5c9b5f2",
-      "claimed_utc": "2026-08-28T19:49:56Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
+      "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 148.1,
       "_score_basis": "the one mechanism in the survey that our loop's shape needs and no comparable system has",
@@ -2027,7 +2026,8 @@
           "utc": "2026-08-28T19:49:56Z",
           "fingerprint_at_dispatch": "2026-08-27|None"
         }
-      ]
+      ],
+      "evidence": "DONE 2026-08-28 by CYC-0065-f5c9b5f2. Simmonds' decision rule applied across the loop's repeated evidence-reads and the classification recorded in emc-autonomy-architecture.md §6.5. THE FINDING: four of the five re-read families are class (a) snapshots and need no correction — not by argument, but because nothing is spent on them; exactly one is class (b), publish_bar.py's clause_1_hardening_converged, because it gates posting and a paper with a DOI is not un-posted. The premise was MEASURED, not asserted: PUB-FUSION-PARTNER's committed blind-seat records run 9 blockers over 2 seats, 4 over 5, TEN over 5, then 0 over 5 — the third round found more than the second on text the second's findings had just been applied to, so per-round findings do not descend to a floor and a zero is one draw. IMPLEMENTED in clause 1, both parameter-free: (1) `last_round` must be a positive int or the clause is UNVERIFIABLE — it was previously read only into an f-string, so a convergence verdict could omit how many rounds produced it; (2) the declaring round may not field fewer blind seats than the widest earlier round on record, via a new _look_history() keyed on each seat's own reviewed_commit rather than on its filename. Both can only ever block a post. Guarded by systems/tests/test_convergence_is_a_repeated_look_not_a_single_test.py (5 tests, positive control first), mutation-tested 6/6 in a worktree (scratchpad/driver/driver-mutate-bar.log). Behaviour on the three real papers is unchanged: all three still FAIL clause 1 for their pre-existing reasons. NOT DONE, and deliberately: no alpha-spending boundary, because it needs the seats' miss rate and nothing measures it — queued as AUT-PD-125 with the estimator named."
     },
     {
       "id": "AUT-044",
@@ -7083,6 +7083,30 @@
       "claimed_utc": null,
       "evidence": "MEASURED 2026-08-28 (CYC-0065-1f1a2449), not inferred from reading the code. The reaper was run per step 11 and returned archive=[] with two IDLE sessions flagged `idle with NO committed receipt`: session_017VDt2MMZnksnnHSebkKbbY and session_01AiEBt1BhjfPMi9rCZ4rZ53. The first is CYC-0061, whose receipt research/autonomy/receipts/CYC-0061-d60caf7b.json is committed on main and carries session_id `d60caf7b-1472-58ce-a4b4-8451374fc919`. A census of all 66 receipts carrying the field gives THREE namespaces: 23 raw uuids, 12 `session_...` ids (the only shape committed_session_ids can match), and 31 prose labels (the defect the contract already names). Verdict log: driver-reap.json in this cycle's scratchpad directory.",
       "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-125",
+      "what": "⭐ MEASURE THE BLIND SEATS' MISS RATE, WHICH IS THE ONE NUMBER THAT WOULD LET CLAUSE 1 CARRY A REAL STOPPING BOUNDARY. AUT-PROP-038 established that hardening convergence is an optional-stopping verdict and added the two constraints that need no unknown parameter (the round count must be stated; the declaring round may not be narrower than the widest before it). The constraint it could NOT add is an alpha-spending boundary, because that needs q — the probability a round of k blind seats returns clean while a real defect is present. ★ q IS MEASURABLE FROM WHAT IS ALREADY COMMITTED, and the estimator is the obvious one: a finding raised at round R against text that round R-1 also reviewed is a MISS by round R-1's seats. research/autonomy/review-seats/ holds per-commit blind-seat records with their findings, and git holds the text each commit carried, so for every consecutive pair of rounds on the same paper the denominator (findings raised at R) and the numerator (those whose text predates R's commit) are both derivable. Three papers have such series; PUB-FUSION-PARTNER has four rounds. ⛔ DO NOT ESTIMATE q FROM ROUND-OVER-ROUND FINDING COUNTS ALONE — the counts move because the TEXT moves. The pairing has to be per-finding and text-anchored, or it measures editing rather than missing. ⛔ AND DO NOT LOWER ANY CLAUSE WITH THE RESULT. A measured q can only ever be used to make the stopping rule stricter than the two ordering constraints already are; if it comes out low enough to argue for relaxing them, that argument is `amendment_guard`'s to refuse. ⚠ RENUMBERED ON PUSH (2026-08-28): filed as AUT-PD-123 and a concurrent session filed a different AUT-PD-123 from the same committed state. Second such collision in one session — AUT-PD-122 records the mechanism and the fix that already exists for receipt ids.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "analysis",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Committed artifacts and git history. Nothing outward-facing.",
+      "claimed_utc": null,
+      "closes_clause": null,
+      "evidence": "research/autonomy/review-seats/ (33 records across three papers; PUB-FUSION-PARTNER has four reviewed commits with 2, 5, 5 and 5 blind seats). The classification and the two implemented constraints are emc-autonomy-architecture.md §6.5; the source finding is method-watch-autonomy-prior-art-2.md §4.3."
     },
     {
       "id": "AUT-PD-112",

@@ -1,0 +1,34 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0065-f5c9b5f2",
+  "session_id": "f5c9b5f2-b624-5a7d-b5ab-340fd3bd0ec7",
+  "utc": "2026-08-28T21:35:00Z",
+  "shape": "Second and final cycle of this session (autonomy-state.json max_cycles_per_session = 2). Driver only, no fan-out: the item was a classification over artifacts already committed here, and briefing a seat would have cost more context than doing it.",
+  "took": "AUT-PROP-038 (RT-AUTONOMY) — free, and the actual top of the re-scored queue rather than the row this cycle had a personal stake in. Claimed with claim.py, which pushed the lease on attempt 1 before any work started; that is the half CYC-0064 got wrong.",
+  "took_what": "Apply Simmonds et al.'s decision rule to the loop's own repeated re-reading of the same evidence, and for every instance whose updated verdict FEEDS A DECISION, document or implement the sequential correction the repeated look requires.",
+  "changed": "⭐ THE FINDING IS A NEGATIVE FOR FOUR OF FIVE FAMILIES AND IT IS THE USEFUL HALF. priority.py's scores, health.py's board and its git-derived siblings, a route's work_state and timing recommendation, and the clearing of a blocked_by row are all class (a) — snapshots a reader knows may change — and need no correction. Not by argument: because nothing is spent on them, each is re-derived next cycle, and each can be revised at no cost. Exactly one re-read is class (b): publish_bar.py's clause_1_hardening_converged, because paper-hardening repeats rounds until one returns clean and then STOPS, and the decision it gates — posting — is not revisited once a DOI exists. That is optional stopping, and it sits inside the file that is the publication permission. Recorded as emc-autonomy-architecture.md §6.5, with the table and the reasoning; §4.3 of the prior-art survey keeps the source finding and its citation, and no figure is restated across the two. IMPLEMENTED in clause 1, both constraints parameter-free: (1) `last_round` must be a positive int or the clause is UNVERIFIABLE — it was previously read only into an f-string, so a convergence verdict could omit how many rounds produced it, which is the one number telling a reader whether a clean round is a result or a draw; (2) the round declaring convergence may not field fewer blind seats than the widest earlier round on record, via a new _look_history() keyed on each seat's own reviewed_commit rather than on its filename. Both were declared in amendments.jsonl with an answered self_serving_check, and both can only ever REFUSE a post.",
+  "cost": "$0. CPU and repository reads only. No CI dispatch, no GPU, no network fetch.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "verification": {
+    "the_premise_was_measured_not_asserted": "The argument only works if per-round findings are noisy rather than descending to a floor, so that was read off the committed blind-seat records rather than assumed. PUB-FUSION-PARTNER's four reviewed commits run 9 blockers over 2 seats, then 4 over 5, then TEN over 5, then 0 over 5 — the third round found more than the second, on text the second round's findings had just been applied to. A zero is therefore one draw from a noisy process, not a measurement of zero defects.",
+    "no_behaviour_change_on_real_data": "clause_1 was run directly against all three papers at the commits their hardening records name. All three still FAIL for their pre-existing reasons (PUB-ASO 5 blockers/12 P1s at round 18; PUB-ATR 7/16 at round 1; PUB-FUSION-PARTNER 0/6 at round 9), so nothing was tuned to let anything through and nothing new was broken. scratchpad/driver/driver-clause1.log.",
+    "mutation_tested": "6/6 caught, in a git worktree under the scratchpad — the live tree was never mutated. The six: drop the last_round requirement; drop the width floor; count sighted reviewers as looks; key the look history by filename instead of by what the seat read; stop naming the look count in the verdict; invert the width comparison. scratchpad/driver/driver-mutate-bar.log.",
+    "positive_control_first": "systems/tests/test_convergence_is_a_repeated_look_not_a_single_test.py opens with a converged round that IS the widest yet and must pass, so the two refusals cannot pass on a clause broken into refusing everything. 40 passed across the new file and the existing publish-bar suite."
+  },
+  "what_i_got_wrong": "Two. (1) I ran `publish_bar.py --all` as a quick smoke test and it timed out at 120 s in the foreground — it shells out per clause, and I had no reason to think it was fast. The check I actually wanted was clause_1 alone against the three records, which takes under a second; reaching for the whole CLI first was laziness that cost two minutes of blocked foreground, which is exactly what CLAUDE.md §1 says never to occupy. (2) I ran amendment_guard against CYC-0064's receipt for CYC-0065's diff and got a REFUSED I briefly read as a real refusal rather than as my passing the wrong receipt. The guard was right and the operator was wrong, which is the good direction, but it is worth recording that the failure mode of that tool is indistinguishable from a genuine block if you are not reading the cycle id in its message.",
+  "now_queued": "AUT-PD-125 (filed as AUT-PD-123 and renumbered — a concurrent session filed a different AUT-PD-123 from the same committed state, the second entry-id collision this session; AUT-PD-122 records the mechanism): measure the blind seats' miss rate, which is the one number that would let clause 1 carry a real alpha-spending boundary instead of the two ordering constraints. It is derivable from what is already committed — a finding raised at round R against text round R-1 also reviewed is a MISS by round R-1's seats, and review-seats/ plus git holds both sides — and the row names the estimator, the trap (do not estimate it from round-over-round counts, which move because the TEXT moves), and the standing prohibition that a measured q may only make the stopping rule stricter.",
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why": "Filled in below once the successor is created — this session is at its two-cycle cap and the handoff is owed before it ends."
+  }
+}

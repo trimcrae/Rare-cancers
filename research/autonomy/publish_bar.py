@@ -148,6 +148,43 @@ def _seat_records(pub_id: str, sha: str) -> tuple[list[dict], list[str]]:
     return found, names
 
 
+def _look_history(pub_id: str) -> dict:
+    """Every commit of this paper that a blind seat has reviewed, and how many seats reviewed it.
+
+    ⛔ THIS EXISTS BECAUSE CONVERGENCE IS A REPEATED LOOK, NOT A SINGLE TEST, AND THE CLAUSE WAS
+    READING IT AS A SINGLE TEST. `paper-hardening` runs rounds until one comes back with no blockers
+    and no P1s, and then stops. That is optional stopping: the probability of a clean round arising
+    from seats that happened to miss, rather than from a paper that is clean, rises with the number
+    of rounds — Simmonds et al. 2017 (`research/method-watch-autonomy-prior-art-2.md` §4.3, PMID
+    28935493), whose decision rule is the one that applies here. A round STATUS is a snapshot a
+    reader knows may change, and needs no correction; a convergence verdict FEEDS A DECISION —
+    posting, which for a paper with a DOI is not revisited — and so needs one.
+
+    ⚠ IT IS NOT MONOTONE, WHICH IS THE WHOLE ARGUMENT, AND IT IS MEASURED RATHER THAN ASSERTED. The
+    PUB-FUSION-PARTNER seat records on disk run 9 blockers over 2 seats, then 4 over 5, then TEN
+    over 5, then 0 over 5 — the third round found more than the second, on text the second round's
+    findings had just been applied to. Per-round findings therefore do not descend to a floor, so a
+    zero is one draw from a noisy process and not a measurement of zero defects.
+
+    ⛔ WHAT THIS CANNOT DO, SAID PLAINLY. A real alpha-spending boundary needs the seats' own
+    miss rate, and nothing here measures it. No number is invented for it (CLAUDE.md §4); the two
+    constraints the clause adds below are the ones that need no unknown parameter.
+    """
+    history = {}
+    try:
+        paths = sorted(SEATS_DIR.glob(f"{pub_id}-*.json"))
+    except Exception:
+        return {}
+    for path in paths:
+        record, _ = _read_json(path)
+        if not isinstance(record, dict) or record.get("blind") is not True:
+            continue
+        seen = record.get("reviewed_commit")
+        if isinstance(seen, str) and seen:
+            history[seen] = history.get(seen, 0) + 1
+    return history
+
+
 def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
     """`paper-hardening`'s convergence test: no blockers AND no P1s, on THIS commit.
 
@@ -173,6 +210,17 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
     if blockers is None or p1s is None:
         return _clause("hardening_converged", label, UNVERIFIABLE,
                        "record lacks `blockers` or `p1s` — absent is not empty")
+    # ⛔ HOW MANY LOOKS PRODUCED THIS VERDICT IS PART OF THE VERDICT (2026-08-28, AUT-PROP-038).
+    # `last_round` was read only into an f-string, so a record that never stated it still passed —
+    # a convergence claim with no statement of how many rounds it took to arrive. Under §4.3's
+    # decision rule that is the one number a reader needs to know whether the clean round is a
+    # result or a draw. Absent is not empty, so an absent count is UNVERIFIABLE, not zero.
+    rounds = record.get("last_round")
+    if not isinstance(rounds, int) or isinstance(rounds, bool) or rounds < 1:
+        return _clause("hardening_converged", label, UNVERIFIABLE,
+                       f"record states `last_round` as {record.get('last_round')!r} — a convergence "
+                       "verdict has to say how many rounds produced it, because the rounds were "
+                       "repeated until one came back clean")
     if record.get("reviewed_commit") != sha:
         return _clause("hardening_converged", label, FAIL,
                        f"last round reviewed {record.get('reviewed_commit')!r}, not {sha!r} — "
@@ -207,9 +255,29 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
         return _clause("hardening_converged", label, FAIL,
                        f"{len(blockers)} blocker(s), {len(p1s)} P1(s) open at round "
                        f"{record.get('last_round')}")
+
+    # ⛔ THE ROUND THAT DECLARES CONVERGENCE MAY NOT BE THE WEAKEST ONE. Rounds repeat until one
+    # comes back clean, so the loop stops on the first favourable draw; stopping on a THIN round
+    # after several fat ones is that failure at its worst, and it is the one form of it that can be
+    # forbidden without knowing the seats' miss rate. The declaring round must therefore field at
+    # least as many blind seats as the widest round that came before it.
+    # ⚠ THE WIDTH IS READ OFF THE SEAT RECORDS ON DISK, so it is a LOWER bound: a round whose seat
+    # records were never committed cannot raise it. That makes this check miss cases, never invent
+    # them — stated because a bound in the permissive direction inside a permission is exactly the
+    # thing this file's header says to distrust.
+    priors = {seen: k for seen, k in _look_history(pub_id).items() if seen != sha}
+    widest = max(priors.values(), default=0)
+    if len(seats) < widest:
+        return _clause("hardening_converged", label, FAIL,
+                       f"the round declaring convergence fielded {len(seats)} blind seat(s) against "
+                       f"{widest} on the widest earlier round ({len(priors)} earlier round(s) have "
+                       "seat records). Rounds are repeated until one comes back clean, so a clean "
+                       "round narrower than the ones before it is the loop stopping on its weakest "
+                       "look")
     return _clause("hardening_converged", label, PASS,
-                   f"round {record.get('last_round')} on {sha[:12]}: 0 blockers, 0 P1s across "
-                   f"{len(seats)} blind seat(s)")
+                   f"round {rounds} on {sha[:12]}: 0 blockers, 0 P1s across {len(seats)} blind "
+                   f"seat(s), and no earlier round on record fielded more "
+                   f"({len(priors)} earlier round(s) with seat records, widest {widest})")
 
 
 def clause_2_preflight_full_green(pub_id: str, sha: str) -> dict:
