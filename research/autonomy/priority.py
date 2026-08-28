@@ -298,6 +298,71 @@ def load_existing() -> dict | None:
         return None
 
 
+def age_factor(row: dict, weights: dict, today=None) -> float:
+    """A BOUNDED wait bonus in [0, 1] — Slurm's age factor, and the bound is the whole point.
+
+    ⛔⛔ WHY THIS EXISTS. The 2026-08-27 `/deep-research` pass tried to refute the claim and could
+    not, 3-0: **no verified orchestrator implements any anti-starvation mechanism.** Every shipped
+    default is priority-then-FIFO or bare FIFO — no ageing, no quota, no wait-time bound. AlabOS is a
+    two-pass stable sort on (submitted_at, priority) and a repo-wide grep for
+    `starvation|starve|aging|ageing|fairness|round-robin` returns ZERO hits. ⛔ THIS LEDGER HAD THE
+    SAME DEFECT AND THE SAME SYMPTOM: it ranks on score alone, and carried 70+ queued rows with
+    several filed weeks earlier and never taken.
+
+    ⭐ SATURATING, NOT UNBOUNDED, AND THAT IS THE DESIGN. Slurm's factor rises linearly to
+    `PriorityMaxAge` and then stops. An unbounded age term does not fix a starving queue — it INVERTS
+    it into pure FIFO, and a live patient-facing route would sit behind a stale one purely for being
+    younger. Read the ceiling from `priority-weights.json`; never restate it here.
+
+    ⚠ FAIR-SHARE WAS DELIBERATELY NOT TAKEN. It arbitrates between competing USERS and there is one
+    operator, so it would be ceremony. Take the age term, leave the scheduler.
+
+    ⚠ THE CLOCK IS `last_evidence_utc`, WHICH IS A DATE THE ROW ALREADY CARRIES — not a new field and
+    not a git walk on every scoring run. A row with no readable date scores 0.0: unreadable buys
+    nothing, the same direction every other cap in this loop fails.
+    """
+    import datetime as _dt
+    sat = ((weights.get("age_saturates_days") or {}).get("value"))
+    if not isinstance(sat, (int, float)) or sat <= 0:
+        return 0.0
+    raw = row.get("last_evidence_utc")
+    if not isinstance(raw, str) or not raw.strip():
+        return 0.0
+    try:
+        seen = _dt.date.fromisoformat(raw.strip()[:10])
+    except ValueError:
+        return 0.0
+    now = today or _dt.date.today()
+    days = (now - seen).days
+    if days <= 0:
+        return 0.0
+    return min(days / float(sat), 1.0)
+
+
+def apply_age_factor(entries: list[dict], weights: dict, today=None) -> list[dict]:
+    """Add the bounded wait bonus to every OPEN row, echoing the input beside the score.
+
+    ⛔ OPEN ROWS ONLY. Ageing a closed row would raise the score of finished work, which is how a
+    ranker starts recommending things that are already done.
+    ⭐ AND THE INPUT IS ECHOED into `score_inputs`, because this file's own contract is that every
+    term a reader sees is one they can re-derive — a score that moved for a reason nobody can check
+    is the thing `_scores_are_not_evidence` warns about.
+    """
+    w = ((weights.get("terms") or {}).get("age") or {}).get("weight")
+    if not isinstance(w, (int, float)):
+        return entries
+    for e in entries:
+        if (e.get("state") or "queued") in ("done", "abandoned", "superseded"):
+            continue
+        f = age_factor(e, weights, today=today)
+        if not f:
+            continue
+        e.setdefault("score_inputs", {})["age_factor"] = round(f, 4)
+        if isinstance(e.get("score"), (int, float)):
+            e["score"] = round(e["score"] + w * f, 1)
+    return entries
+
+
 def merge(generated: list[dict], existing: dict | None) -> list[dict]:
     """Carry the previous ledger's SESSION state onto the freshly derived entries.
 
@@ -507,6 +572,11 @@ def build_ledger() -> dict:
     interval_h = _cycle_interval_hours()
     entries = release_stale_claims(merge(build_entries(weights), existing), weights, interval_h)
     entries = apply_session_penalties(entries, weights)
+    # ⛔ THE ANTI-STARVATION TERM MUST RUN BEFORE THE SORT AND AFTER THE PENALTIES, or it is dead
+    # code — the defect class this repository has paid for repeatedly (`subagent_width` governed
+    # nothing for a fortnight because no code read it; the census lane's exempt flag; the watchdog
+    # wired to an env var that does not exist). Its own test asserts this call site exists.
+    entries = apply_age_factor(entries, weights)
     entries.sort(key=lambda e: (-(e.get("score") if e.get("score") is not None else -1e9),
                                 str(e.get("serves", {}).get("route") or e["id"])))
     return {

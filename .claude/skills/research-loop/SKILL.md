@@ -93,7 +93,15 @@ Check before anything else. A loop that works through its own alarm is the alarm
    new state and `last_evidence_utc`, and for a failure the *diagnostic*. ⛔ CLAUDE.md §4: never a "probably". If you cannot diagnose it, record
    `UNKNOWN` and queue the diagnostic as its own entry.
 10. **Write the receipt** — **allocate its id, never derive one by eye:**
-    `python3 -c "import sys;sys.path.insert(0,'research/autonomy');import ids;print(ids.next_receipt('research/autonomy/receipts','<this session id>'))"`.
+    `python3 -c "import sys;sys.path.insert(0,'research/autonomy');import ids,session_cap;print(ids.next_receipt('research/autonomy/receipts',session_cap.session_id() or ''))"`,
+    **and put that same `session_cap.session_id()` in the receipt's `session_id` field.**
+    ⛔⛔ **READ IT FROM THE ENVIRONMENT; NEVER TYPE IT, AND NEVER INVENT A LABEL.** Measured
+    2026-08-28: scheduled cycles typed the literal `"scheduled-routine-session"` into that field, so
+    nine consecutive cycles were INDISTINGUISHABLE FROM ONE SESSION'S to every reader — and the two
+    readers that matter are `health.py:c_cycles_are_sized`, which grades the session-shape rule, and
+    `session_cap.py`, which decides whether this session has earned the right to stop. A session
+    whose receipts do not name it cannot show it is at its cap, so the hook keeps demanding another
+    cycle and it runs nine. `CLAUDE_CODE_SESSION_ID` is set in this harness — checked, not assumed.
     ⛔ *Measured 2026-08-27 (AUT-PROP-013): every session computed `max(committed) + 1` from the same
     committed state, so concurrency was outside the derivation BY CONSTRUCTION. Two sessions 50 s
     apart both took `CYC-0016` and the second would have SILENTLY OVERWRITTEN the first; the same

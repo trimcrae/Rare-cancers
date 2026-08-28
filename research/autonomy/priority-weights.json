@@ -54,6 +54,13 @@
       "weight": -90.0,
       "reads": "research-ledger.json entries[].state == 'blocked' AND a non-empty blocked_evidence, applied AFTER the merge because both are session state rather than graph state",
       "why": "⛔ FOUND BY CYCLE CYC-0001, WHICH WOULD OTHERWISE HAVE LOOPED FOREVER. The top-scored item was established as blocked, with evidence — and it still scored 195 and still sorted first, so the next cycle would have re-derived the same block, and the one after that, every four hours. An EVIDENCED block is a real reason to stand down until it clears; the unevidenced kind is already handled by its own clamp, which turns it into a free re-test instead. The penalty is large but finite on purpose: the row stays visible and re-scores back to the top the moment the evidence is cleared."
+    },
+    "age": {
+      "weight": 12.0,
+      "_what": "A BOUNDED anti-starvation term: a row's score rises with how long it has waited and then SATURATES, so nothing waits forever and nothing can be dragged to the top by age alone.",
+      "_why": "The 2026-08-27 /deep-research pass found, 3-0 against attempted refutation, that NO verified orchestrator implements any anti-starvation mechanism — every shipped default is priority-then-FIFO or bare FIFO, with no ageing, no quota and no wait-time bound. AlabOS is a two-pass stable sort and greps clean for starvation|starve|aging|fairness|round-robin. This ledger had the same defect and the same symptom: 70+ queued rows, several filed weeks earlier and never taken.",
+      "_shape_is_borrowed": "Slurm's multifactor age factor, which rises linearly to PriorityMaxAge and then saturates. Fair-share was deliberately NOT taken: it arbitrates between competing USERS and there is one operator here, so importing it would be ceremony. Take the age term, leave the scheduler.",
+      "_ceiling_is_the_point": "At weight 12.0 a fully-aged row gains less than the `live` and `patient_path` terms can carry, so age breaks ties and rescues the forgotten without ever outranking a live, patient-facing route. An unbounded age term is how a queue inverts into pure FIFO."
     }
   },
   "patient_path_scale": {
@@ -95,5 +102,10 @@
     "_what": "A claim (`owner`) is a LEASE, not a deed. It expires after this many cycle periods and the item returns to the queue.",
     "_why": "⛔ FOUND LIVE 2026-08-26, AND IT WAS A STALL ALREADY IN PROGRESS. CYC-0003 claimed AUT-PROP-002, finished its cycle, and never released the claim — there was no release step and no timestamp to age it by. merge() faithfully carries `owner` across every re-score, so the claim was PERMANENT: the next driver would see the item owned and skip it, forever, and the queue's top item would silently never be worked. A cycle that dies mid-item produces the identical result, which is the more dangerous version because nothing announces it.",
     "_unstamped_claims_are_stale_immediately": "An `owner` with no `claimed_utc` cannot be aged, and an un-releasable claim is worse than a re-done item. Fail toward releasing."
+  },
+  "age_saturates_days": {
+    "value": 14.0,
+    "_what": "Days after which the age factor stops growing. A row waiting 14 days scores the same age bonus as one waiting 90 — the bound Slurm's PriorityMaxAge provides.",
+    "_why_this_number": "Two full weeks is the interval Rucio uses before it gives up on a STUCK rule entirely (stuck_at + 14 days -> SUSPENDED), so it is this survey's own precedent for 'long enough that waiting is itself the finding'. It is a tuning constant, not a measurement, and it says so."
   }
 }
