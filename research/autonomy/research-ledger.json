@@ -1796,9 +1796,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0053-3217966b",
+      "claimed_utc": "2026-08-28T14:14:26Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1974,9 +1974,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0053-3217966b",
-      "claimed_utc": "2026-08-28T13:55:21Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1991,7 +1991,7 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⛔⛔ THE SCRATCHPAD IS SHARED ACROSS CONCURRENT SEATS AND GENERIC FILENAMES COLLIDE SILENTLY, measured twice independently on 2026-08-28. One seat's scratchpad/mutate.py was overwritten by a sibling's; its next run reported `4 caught / 4` against a module IN ANOTHER WORKTREE, in a log that read exactly like a successful run of its own, and was caught only because the module name was wrong. ⭐ THAT IS CLAUDE.md §4 EXACTLY — 'a plausible-looking record is more dangerous than an empty one' — and it produced a mutation result fabricated in substance while looking clean. Two seats hitting it independently makes it a container property, not bad luck. ★ FIX: item- and worktree-scoped filenames as a seat-prompt convention in paper-hardening and research-loop, rather than each seat rediscovering it (the existing AUT-PROP-007-* files suggest an earlier one already did)."
+      "what": "⛔⛔ THE SCRATCHPAD IS SHARED ACROSS CONCURRENT SEATS AND GENERIC FILENAMES COLLIDE SILENTLY, measured twice independently on 2026-08-28. One seat's scratchpad/mutate.py was overwritten by a sibling's; its next run reported `4 caught / 4` against a module IN ANOTHER WORKTREE, in a log that read exactly like a successful run of its own, and was caught only because the module name was wrong. ⭐ THAT IS CLAUDE.md §4 EXACTLY — 'a plausible-looking record is more dangerous than an empty one' — and it produced a mutation result fabricated in substance while looking clean. Two seats hitting it independently makes it a container property, not bad luck. ★ FIX: item- and worktree-scoped filenames as a seat-prompt convention in paper-hardening and research-loop, rather than each seat rediscovering it (the existing AUT-PROP-007-* files suggest an earlier one already did).  ✅ CLOSED 2026-08-28 (CYC-0053-3217966b, seat s55-scratchpad, merged at ca06844): the convention now lives in .claude/skills/research-loop/SKILL.md §3 (owner) with paper-hardening §8b.1 pointing at it, and research/autonomy/seat_scratch.py measures it (--audit-root flags unowned root files, --verify-log binds a log's SEAT=/WORKTREE= stamp to the paths it names; an UNSTAMPED log is never OK). 15 assertions in gate 13; 7/7 single-site mutations caught; preflight green. ⚠ THIRD FINDING, recorded because it is the part nobody would rediscover: `scratchpad/` was AMBIGUOUS — a tracked repo-relative scratchpad/ exists, so the previously-stated relative form resolved INSIDE the worktree, which is what the rule forbids. ⚠ And the tool's first live run flagged four files, ALL FOUR the driver's own."
     },
     {
       "id": "AUT-041",
@@ -5747,6 +5747,63 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
+    },
+    {
+      "id": "AUT-PD-064",
+      "what": "⛔ GENERIC FIXED PATHS OUTSIDE THE SCRATCHPAD ROOT ARE AUT-PD-055 ONE LEVEL OUT, and seat_scratch.py --audit-root cannot see them by construction. Measured 2026-08-28 by seat s55-scratchpad while fixing AUT-PD-055: research/autonomy/gates_verdict.py:112 defaults --out to /tmp/gates.json; scripts/venue_typeset_geometry.py:176 defaults --workdir to /tmp/venue-typeset; scripts/triage-literature.mjs:8-9 documents /tmp/idx.json in its usage line, which TEACHES the pattern. Two concurrent callers of any of these overwrite each other with no marker and the second reads the first's file as its own — the same fabricated-but-clean-looking result AUT-PD-055 measured, with nothing watching. ★ FIX: default each to a session/seat-scoped path (or mkdtemp), and keep the usage line teaching the scoped form. Not absorbed into AUT-PD-055 because each is a behaviour change to a shipped script.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-065",
+      "what": "⛔ A SEAT-PROMPT CONVENTION THAT LIVES ONLY IN A SKILL BINDS ONLY WHEN THE SKILL IS LOADED — the same reachability gap CLAUDE.md §6 already records for research-loop §3's session shapes, where `\"name\":\"Skill\"` appeared 0 times in the transcript of the session that broke the rule. AUT-PD-055's fix is a convention stated in research-loop §3; a driver who dispatches seats without loading that skill gives prompts that omit it, and nothing measures the omission. ★ PROPOSAL: have the cycle receipt record that dispatched seats were given the seat-discipline lines (worktree, seat-scoped logs outside it, EXIT= markers, no ledger edits), and have health.py read that field — the same shape as `fanout_is_governed`, pointed at seat-prompt CONTENT rather than width. ⚠ Design it so an absent field reads UNMEASURED, never green.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PROP-043",
+      "what": "PROPOSAL from seat s55-scratchpad (AUT-PD-055), NOT BUILT because it needs a driver-level decision: add a health.py axis that reads the LIVE scratchpad root via seat_scratch.audit_root during a fan-out, so an unowned root file is red WHILE seats are running rather than discovered afterwards. ⛔ THE DECISION IT NEEDS: every existing health.py condition is computed from COMMITTED state, and this one would read per-session state no commit contains — which is a real departure (a checker that reads mutable local state can report a red no other reader can reproduce). Decide that explicitly before building it. Related: seat_scratch.py was deliberately NOT wired into preflight.sh for the same reason — preflight is offline, deterministic and repo-scoped.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "proposal",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
     }
   ]
 }
