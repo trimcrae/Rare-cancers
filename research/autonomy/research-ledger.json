@@ -2821,9 +2821,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "SEAT-s2-ba841eee",
+      "claimed_utc": "2026-08-28T22:32:09Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2839,7 +2839,12 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "instrument work on committed artifacts; nothing outward-facing",
       "what": "⛔ CITATION YEARS IN THE FUSION-PARTNER SYNTHESIS ARE UNBOUND, AND ONE SENTENCE'S COVERAGE NOW RESTS ENTIRELY ON ITS §-REFERENCE. Measured 2026-08-28 (CYC-0069): perturbing 'Huang 2023' -> 'Huang 2027' in '**Neither found the partner to carry the prognosis.**' turned NO guard red. That sentence is no longer BLIND only because AUT-PD-105 bound its §-references in the same cycle, and the ablation harness stops at the first trip — so the gate is now green over an unwatched year. ⛔ THIS IS THE HONEST RESIDUAL OF THAT FIX AND IS FILED RATHER THAN LEFT FOR THE GATE'S SILENCE TO IMPLY COVERAGE. WHAT TO DO: bind author-year mentions in the prose to the reference list the way test_journal_references_match_the_prose.py does for the ASO article — the fusion-partner documents have no equivalent. Mutation-test with a year drift, not only a nonsense one.",
-      "dispatch_log": [],
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:32:09Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
       "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me."
     },
     {
