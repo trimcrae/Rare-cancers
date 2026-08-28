@@ -1,0 +1,34 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0045-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T14:30:00Z",
+  "shape": "Follow-up wake on the CYC-0044 subagent's completion notification. Reviewed a larger diff than prior dispatches this session (5 files, 519 insertions) carefully before merging, since it touches health.py and CI wiring — both load-bearing for the loop's own self-monitoring.",
+  "took": "AUT-PROP-029 — merge and close the stuck_clock.py wiring into health.py and handoff.py (RT-AUTONOMY)",
+  "took_what": "Reviewed each file's diff individually (health.py's new c_stalls_are_named condition and its ON_RED reasoning; handoff.py's terminal_ids()/top_items() exclusion, fail-open by design; the autonomy-tick.yml wiring, matching the existing --gates-verdict pattern exactly). Merged clean, no conflicts. Verified rather than trusted: ran the full research/autonomy/tests/ (210 passed) and systems/tests/test_autonomy_health.py (75 passed) suites myself, then ran `stuck_clock.py --check --json` + `health.py --check --stall-verdict` live against the real ledger myself and confirmed the new condition surfaces real findings.",
+  "changed": [
+    "Merged to main: health.py gained an 11th board condition, `stalls_are_named` (CONDITION_ON_RED: advises, with a substantive argued justification for why not redirects/blocks), fed by a new `--stall-verdict` file argument following the exact pattern already established for `--gates-verdict` (health.py has no subprocess by design, so the git-history-derived verdict is supplied by a caller that can shell out). handoff.py's top_items() gained an exclude_ids parameter (default None, zero behavior change for existing callers) and a new terminal_ids() function that reads stuck_clock.terminal_rows() live and fails OPEN on any error — a terminal row is excluded from what a fresh session is handed, never deleted or its state changed. autonomy-tick.yml wired to compute the stall verdict each tick (full clone, so stuck_clock's shallow-clone censoring never triggers there) and thread it through all three health.py invocations.",
+    "⭐ REAL FINDING, VERIFIED LIVE POST-MERGE: `stuck_clock.py --check --json` + `health.py --check --stall-verdict` against the actual current ledger reports 3 rows genuinely `stalled_needs_human` — AUT-049 (since 2026-08-27T18:28:50Z), AUT-COV-001 (since 2026-08-28T03:04:40Z), AUT-PROP-012 (since 2026-08-28T05:00:53Z). AUT-PROP-012 is one of the items this session's own ready-work stop hook has been repeatedly listing as 'ready to run' — it is not; it is a row automation has already retried to exhaustion and needs a human decision (re-scope, hand to a different route, or close), which is exactly the gap this wiring closes. This is advisory (does not block the loop) but is a genuine, previously-invisible finding now surfaced for the first time.",
+    "Declared research/autonomy/health.py and its two touched test files in amendments.jsonl per CLAUDE.md §6 (governed paths) — see that entry for the self-serving check."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [
+    "AUT-049, AUT-COV-001, AUT-PROP-012: each now confirmed `stalled_needs_human` — needs a human decision (re-scope/hand-off/close), not further automated retries."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "Review-and-merge of an already-completed subagent's branch; no new work spawned this cycle."
+  }
+}
