@@ -138,13 +138,13 @@ WHAT THIS DOES NOT CATCH, STATED HERE RATHER THAN DISCOVERED LATER
   * **A receipt's prose claims.** Receipts quote scores in free text ("the queue's top-scored item
     (195.0)"); this module reads JSON fields, not sentences. See `--receipts`, which reports that
     coverage gap as a number instead of leaving it implied.
-  * ⚠ **A TERM THE SCORER ECHOES BUT DOES NOT APPLY.** `score_inputs.fruitless_attempts` is written
-    as a hard-coded `0` on all 77 derived rows and its `-8.0` weight is applied NOWHERE in
-    `priority.py` — measured 2026-08-28, `grep -n fruitless` returns the echo and a comment, and 46
-    ledger rows carry `attempts > 0` that buy them nothing. `derived_score` therefore has no term
-    for it, matching the code rather than the weights file. ⛔ **If that weight is ever wired in,
-    R2 goes red on every derived row until the term is added here** — which is the gate working, not
-    a bug in it, and it is written down so the next session recognises the red for what it is.
+  * ⚠ **SUPERSEDED 2026-08-28 (AUT-PD-041's re-score).** `apply_fruitless_attempts` was wired into
+    `priority.py`'s pipeline, exactly as predicted above — and it went red on the very first
+    non-derived row it moved (`refused_accumulated` on AUT-PD-041, -8.00 unexplained). Both
+    `expected_score` (R2) and `_explained_delta` (R3) now carry the `fruitless_attempts` term,
+    applied last, at 2 dp, matching `priority.py:apply_fruitless_attempts`'s own place at the end of
+    `build_ledger`'s pipeline and its own rounding. This paragraph is kept as the record of the
+    prediction that came true, not as current behaviour.
   * **A row deleted outright.** The delta rules see rows present in both states and rows added; a
     disappearance is `ids.py`/`merge()`'s territory.
 """
@@ -277,6 +277,12 @@ def expected_score(row: dict, weights: dict):
         if factor is None:
             return None, f"`age_factor` is {age!r}, not a number"
         base = round(base + weights["terms"]["age"]["weight"] * factor, 1)
+    fruitless = inputs.get("fruitless_attempts")
+    if fruitless:
+        n = _num(fruitless)
+        if n is None:
+            return None, f"`fruitless_attempts` is {fruitless!r}, not a number"
+        base = round(base + weights["terms"]["fruitless_attempts"]["weight"] * n, 2)
     return base, None
 
 
@@ -352,6 +358,8 @@ def _explained_delta(before: dict, after: dict, weights: dict) -> float:
                                        - (_num(b.get("age_factor")) or 0.0))
     delta += terms["blocked_with_evidence"]["weight"] * (bool(a.get("blocked_with_evidence"))
                                                          - bool(b.get("blocked_with_evidence")))
+    delta += terms["fruitless_attempts"]["weight"] * ((_num(a.get("fruitless_attempts")) or 0.0)
+                                                       - (_num(b.get("fruitless_attempts")) or 0.0))
     return delta
 
 

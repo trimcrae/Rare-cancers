@@ -14,17 +14,17 @@
     "harden": 16,
     "negative": 32,
     "process": 7,
-    "process_defect": 86,
+    "process_defect": 88,
     "proposal": 15,
     "regrade": 8,
     "verify": 1,
     "write": 6
   },
   "n_by_state": {
-    "done": 82,
+    "done": 83,
     "in_progress": 2,
     "parked": 28,
-    "queued": 111,
+    "queued": 112,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -87,7 +87,8 @@
       "score_inputs": {
         "age_factor": 0.0714
       },
-      "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question."
+      "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question.",
+      "_commit_pointer_correction": "2026-08-28T16:31:00Z CYC-0058-18394002: the pinned `commit` (eed563d6b5114f0879c8bcb285f1b67ba9d677e5, from research/autonomy/ready-to-post.json, written by ready_to_post.py's `_head()` as whatever HEAD was in some earlier session's checkout) is UNREACHABLE from origin/main -- `git merge-base origin/claude/dreamy-hawking-vcvlhk origin/main` exits 1, no common ancestor. That branch is a stranded scratch/session branch (144 commits ahead, 88 behind, disjoint root commit), stopped at 'ASO round 11'. DO NOT attempt to recover or merge it: diffing its tip against origin/main shows the ASO journal article text is BYTE-IDENTICAL already, and main additionally carries fusion-junction-aso-paper-redteam-round12.md plus the claim-audit manifest/verdicts JSON that the branch does not have -- main is the more current state, not the branch. The stale pointer is why this row has already burned two PREFLIGHT_FULL attempts: a receipt at that sha could never satisfy publish_bar clause 2 (`record.get('sha') != sha`) because that sha is not where the current work lives. NEXT ATTEMPT: run `ready_to_post.py --write` to refresh the `commit` pointer against a clean, QUIET origin/main checkout (not mid-push), THEN immediately PREFLIGHT_FULL=1 at that same HEAD before anything else lands. Not attempted this cycle: origin/main had 3 concurrent commits land from CYC-0053-3217966b within the ~15 minutes of this session's own work, and a 25-minute FULL run started into that churn would very likely be a third throwaway."
     },
     {
       "serves": {
@@ -5324,6 +5325,34 @@
       "what": "Wired research/autonomy/continuity.py's _why_not_ready()/ready()/blocked() to handoff.terminal_ids() (fail-open: any exception in reading stuck_clock state yields an empty terminal set, never a crash) so a row already marked stalled_needs_human is reported as blocked ('stalled_needs_human (stuck_clock.py) — a human decision, not queued work') instead of appearing ready. Before this fix, continuity.py --check could read a stalled row as ready work, which is exactly the false-green shape CLAUDE.md §1/inflight-reporting warns about: a checker built to stop a session from ending on a fabricated 'nothing to do' could itself be fooled the other direction, into telling a session real work remained when the only remaining action on that row was a human decision. Added 3 tests to test_continuity_has_no_green_state_recording_can_buy.py: a stalled row is excluded from ready(), its reason is named in blocked(), and terminal_ids() failing open still shows everything (regression guard for the fail-open contract). Full suite: 40 passed. Declared in amendments.jsonl (governed path: a test file)."
     },
     {
+      "id": "AUT-PD-096",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0058-18394002",
+      "score": 0.0,
+      "_score_basis": "already done at filing time; scored 0 so priority.py does not rank a closed row",
+      "depends_on_evidence": "research/autonomy/admissibility.py's own docstring (\"A TERM THE SCORER ECHOES BUT DOES NOT APPLY ... If that weight is ever wired in, R2 goes red on every derived row until the term is added here\") predicted this exactly. Reproduced live: step 3 of this cycle ran `priority.py --write` and it raised `InadmissibleWrite` on AUT-PD-041 -- refused_accumulated, score moved 150.0 -> 142.0 (-8.00) with echoed inputs explaining only +0.00. Traced to `priority.py:apply_fruitless_attempts` (wired in since the docstring was written) applying the `fruitless_attempts` term (weight -8.0) to every non-closed row, while `admissibility.py`'s `expected_score` (R2) and `_explained_delta` (R3) only knew about `age` and `blocked_with_evidence`.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a bugfix to an internal ledger-scoring gate; nothing published or outward-facing",
+      "what": "Fixed research/autonomy/admissibility.py: added the `fruitless_attempts` term to both `expected_score()` (R2, full-derived-row reproduction) and `_explained_delta()` (R3, delta-accounting for hand-filed/session-state rows), applied LAST at 2dp, matching `priority.py:apply_fruitless_attempts`'s own place at the end of `build_ledger`'s pipeline and its own rounding. Without this, `priority.py --write` could not complete a re-score once any row picked up a nonzero fruitless-attempts count -- the very first cycle to try after the term was wired in was blocked outright, unable to even reach step 4 (claim/take an item). Verified: `pytest research/autonomy/tests/test_a_score_must_derive_from_its_own_inputs.py` 29 passed; `python3 research/autonomy/priority.py --write` now completes cleanly against the full 221-entry corpus (11 clamped, none refused). Also updated the now-stale prediction paragraph in admissibility.py's own module docstring to record that it came true, rather than leave it describing a gap that no longer exists."
+    },
+    {
       "serves": {
         "route": "RT-FUSION-PARTNER",
         "publication": "PUB-FUSION-PARTNER",
@@ -6421,6 +6450,34 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-097",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0058-18394002",
+      "score": null,
+      "_score_basis": "unaccounted -- hand-filed, no derivation to check yet",
+      "depends_on_evidence": "Live-reproduced in this cycle, not inferred: this session allocated `ids.next_entry_id('AUT-PD', entries)` against the ledger at commit c7427f1 and got `AUT-PD-093`; wrote and pushed a new entry under that id (commit c4f1c8c, on a local branch never merged to origin/main). Meanwhile a concurrent session (CYC-0053-3217966b) independently derived the SAME id `AUT-PD-093` from the same base state and pushed it first (commit cd6a3a6, `claim AUT-PD-093 for CYC-0053-3217966b`) for an unrelated item. Recovered by resetting to origin/main and re-deriving a fresh id (AUT-PD-096) before writing -- exactly the workaround, not a fix.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "an internal id-allocation race in loop tooling; nothing published or outward-facing",
+      "what": "`research/autonomy/ids.py`'s `next_receipt()` already carries a session discriminator so two concurrent cycles can be 'both genuinely the Nth cycle' and never collide on a receipt filename (this exact fix is narrated in the research-loop skill, step 10, dated 2026-08-28 AUT-PROP-013). `next_entry_id()` for LEDGER entries (AUT-PD-*, AUT-PROP-*, etc.) has no equivalent: it derives `max(existing ids) + 1` from whatever ledger state the calling session happened to read, with nothing distinguishing two sessions that read the same base concurrently -- the identical race AUT-PROP-013 already fixed for receipts, on the twin surface it was never ported to. WHAT TO DO: give `next_entry_id()` the same session-discriminator shape `next_receipt()` uses (e.g. suffix collision-prone bare ids with a short session-id fragment, or detect+reallocate against `origin/main` at push time the way `claim.py`'s compare-and-swap already does for claims) so a filing race produces two distinct ids instead of a silent duplicate-id write. Diagnose whether `admissibility.py`/`ledger_io.write_ledger` would even catch a genuine duplicate id landing on `main` (two DIFFERENT branches each locally consistent, pushed by two different sessions). This instance never reached that test: this session's commit (c4f1c8c) was never pushed -- a routine `git fetch` before pushing surfaced CYC-0053-3217966b's already-landed `AUT-PD-093` first, and this session reallocated rather than push into the collision. A session that pushed without fetching first would not have been so lucky, and nothing here proves the ledger-side checks would have caught it after the fact."
     },
     {
       "id": "AUT-PD-005",
