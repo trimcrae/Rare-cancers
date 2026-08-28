@@ -136,8 +136,8 @@ individual source says out loud: a response contrast whose confidence interval o
 first pooled magnitude for the prognostic contrast, immediately beside the multivariable analysis that defeats
 it; a metastasis claim that **neither** cohort with counts establishes, in **either** direction; a prevalence
 **interval** where the literature carries point figures, containing the share this paper's own cited sources
-state and placing the most-quoted single cohort above it; and an attribution correction to the field's
-most-quoted caveat (§3.8).
+state and placing the single referral-centre cohort above it; and an attribution correction to a hedge this
+repository's own lane memo attached to the wrong report (§3.8).
 
 ⚠ **And it makes explicit a separation the literature blurs.** This paper asks two questions, and as of
 2026-08-08 they are in different states:
@@ -521,8 +521,8 @@ The investigators who reported the correlation do not believe the fusion causes 
 
 > **"Even in EMCS the fusion-protein is unlikely to be related to sunitinib sensitivity"**
 
-⚠ **The quote is from the 2012 two-case report (PMID 23058004), not the 2014 series (PMID 24703573) it is
-usually attributed to — including in this repository's own lane memo.** Verified against the cached full text
+⚠ **The quote is from the 2012 two-case report (PMID 23058004), not the 2014 series (PMID 24703573) this
+repository's own lane memo attached it to.** Verified against the cached full text
 of both. The 2014 abstract does not contain it, and says instead that *"genotype/phenotype analyses support a
 correlation between response and EWSR1-NR4A3 fusion"*.
 

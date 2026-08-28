@@ -268,7 +268,8 @@ CITATIONS = {
             "is unlikely to be related to sunitinib sensitivity' is in its Discussion, following "
             "'As shown in ASPS, another STS bearing a translocation, the antitumor activity of "
             "sunitinib is unlikely to be directly linked to the fusion-protein.' The 2014 EJC "
-            "abstract, which is the source usually cited for the hedge, does not contain it -- it "
+            "abstract, which is the source this repository's own lane memo cited for the hedge, "
+            "does not contain it -- it "
             "says the opposite-facing 'Genotype/phenotype analyses support a correlation between "
             "response and EWSR1-NR4A3 fusion'."
         ),
@@ -2054,8 +2055,11 @@ def build() -> dict:
             "sourceId": "stacchiotti2012",
             "attribution_correction": (
                 "⚠ THE QUOTE IS FROM THE 2012 TWO-CASE REPORT (PMID 23058004), NOT THE 2014 SERIES "
-                "(PMID 24703573) IT IS USUALLY ATTRIBUTED TO -- including in this repository's own "
-                "lane memo. Verified against the cached full text of both; the 2014 abstract does "
+                "(PMID 24703573) THIS REPOSITORY'S OWN LANE MEMO ATTACHED IT TO. ⛔ IT SAID "
+                "'usually attributed to' UNTIL 2026-08-28 AND HELD NO RECORD OF WHO ELSE "
+                "ATTRIBUTES IT THAT WAY -- the same unsourced-attribution class as manuscript "
+                "Appendix A11 and A30, caught here by the relation guard rather than by a reader. "
+                "Verified against the cached full text of both; the 2014 abstract does "
                 "not contain it. This matters for what the hedge IS: it was written in 2012, when "
                 "the authors had only two EWSR1-positive responders and no TAF15 patient at all, so "
                 "it is their PRIOR that the fusion is not the mechanism -- not a retrospective "

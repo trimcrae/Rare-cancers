@@ -34,7 +34,19 @@ real round:
 recorded that the shared inode carried a mutation back into the real tree — it cost a restore. A
 worktree is a genuine separate checkout, so there is no inode to share and no restore to get wrong.
 
-Usage:  python3 research/manuscripts/tests/mutate_fusion_partner_guard.py [--keep]
+⭐ TWO GUARD MODULES SINCE 2026-08-28, RUN SEPARATELY, AND THE OUTPUT SAYS WHICH ONE FIRED.
+The synthesis's claims have a QUANTITY half and a RELATION half, and each has its own guard. Running
+them in one invocation would answer "something went red", which scores a mutation and cannot support
+the claim this harness now has to support — that a given binding reaches a given site. Every result
+line carries `[numbers]`, `[relations]` or `[numbers+relations]`.
+
+⛔ AND IT CAN MEASURE UNCOMMITTED WORK, WHICH IT COULD NOT BEFORE. `--working-tree` copies the
+uncommitted changes into the clone before measuring. Without it the clone is HEAD, and a guard
+written in this session is measured in a tree that does not contain it: the quantity guard's own
+docstring records that failure — 20 of 21 mutations "survived" for exactly that reason. The mode is
+printed with the result, because "N of N caught" means something different in each.
+
+Usage:  python3 research/manuscripts/tests/mutate_fusion_partner_guard.py [--keep] [--working-tree]
 Exit 0 iff the positive control is GREEN and every mutation is RED.
 """
 from __future__ import annotations
@@ -64,8 +76,21 @@ DOC = os.path.join("research", "manuscripts", "fusion-partner",
                    "emc-fusion-partner-stratification.md")
 REGISTER = os.path.join("research", "manuscripts", "fusion-partner",
                         "emc-fusion-partner-correction-register.md")
-TEST = os.path.join("research", "manuscripts", "tests",
-                    "test_fusion_partner_prose_matches_its_artifact.py")
+# ⛔ TWO GUARD MODULES SINCE 2026-08-28, AND BOTH ARE RUN FOR EVERY MUTATION.
+# The synthesis's claims split into a QUANTITY half and a RELATION half (`paper-hardening` §8a), and
+# they are guarded by two files: the numbers guard, and
+# `test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py`, which reads
+# count-words, comparatives, superlatives and attributions. A harness that ran one of them would
+# report every relation mutation as SURVIVED while the guard that catches it sat uncollected — a
+# mutation that reaches no instrument reports exactly what an instrument that never fires reports.
+# ⚠ Running both in ONE pytest invocation is a batch, and a batch red at baseline hides its members
+# (`paper-hardening` §8b.1a). That is why the positive control below refuses to score anything at
+# all unless the unmutated tree is green: there is no state in which a pre-existing failure in one
+# module is silently charged to the other.
+TESTS = [os.path.join("research", "manuscripts", "tests", name) for name in (
+    "test_fusion_partner_prose_matches_its_artifact.py",
+    "test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+)]
 
 #: Each mutation is (label, anchor, mutated, binding_it_targets).
 #:
@@ -412,6 +437,143 @@ MUTATIONS = [
      "Suemitsu 2025 (MSK, n = 18, PMID 40828003, doi 10.1002/gcc.70076)",
      "Suemitsu 2025 (MSK, n = 18, PMID 36316541, doi 10.1007/s13577-022-00818-x)",
      "the name-attachment test"),
+
+    # =============================================================================================
+    # R · THE RELATION HALF (2026-08-28, ledger AUT-PROP-012).
+    #
+    # ⛔⛔ NOT ONE OF THESE CHANGES A DIGIT ON THE PAGE except where the relation IS a digit. Round 6
+    # measured the gap they close: one seat re-derived 140 printed quantities from the artifacts
+    # with ZERO mismatches while five seats in the same tree found three blockers, and not one of
+    # the three was a number — a cardinal written as the word "two", a comparative over the paper's
+    # own pool, and an unsourced claim about what the field quotes. Every mutation below is one of
+    # those three shapes, and the two guard modules are run SEPARATELY per mutation so the output
+    # says which one caught it rather than only that something did.
+    # ---- R.1 · count-words: a cardinal spelled out is still a count ------------------------------
+    # ⭐ THE ROUND-6 BLOCKER ITSELF, RESTORED VERBATIM. §5 read this for three days: two series
+    # asserted, one named in the parenthesis beside it, and the sentence contradicting itself.
+    ("§5 claims bullet: the round-6 blocker restored — 'the one series' becomes 'either of the two'",
+     "in the one series that\n  ran a multivariable model (Huang 2023), while the second",
+     "in either of the two series that\n  ran a multivariable model (Huang 2023), while the second",
+     "the count of series that ran a multivariable model, at the §5 site round 6 found"),
+    # ⭐ THE ONE-OF-A-PAIR HALF. The same count at a different section: a repair that reached §5 and
+    # stopped there is exactly how this claim survived three rounds of hand-enumerated fixes.
+    ("§3.8: the same count drifts at a site four sections away from §5",
+     "absorbed by tumour size in the\none series that ran a multivariable model (§3.4)",
+     "absorbed by tumour size in the\ntwo series that ran a multivariable model (§3.4)",
+     "the count of series that ran a multivariable model, at the §3.8 site"),
+    ("§1.2: the outcome roster grows in the evidence table",
+     "| **four** series test the partner against outcome",
+     "| **five** series test the partner against outcome",
+     "the count of series testing the partner against outcome"),
+    ("§1.2: the sub-count publishing event counts drifts, leaving the roster count correct",
+     "outcome and only **two** publish per-partner event counts",
+     "outcome and only **three** publish per-partner event counts",
+     "the count of outcome series publishing per-partner event counts"),
+    ("§3.3: the count opening the results section drifts",
+     "\n\n**Two** cohorts publish EMC outcome event counts by *NR4A3* partner. Agaram",
+     "\n\n**Three** cohorts publish EMC outcome event counts by *NR4A3* partner. Agaram",
+     "the count of cohorts publishing EMC outcome event counts"),
+    ("§2.3a: the SAME count drifts where §2.3a quotes §3.3 — one of a pair",
+     "§3.3's \"**Two** cohorts publish EMC outcome event\ncounts",
+     "§3.3's \"**Three** cohorts publish EMC outcome event\ncounts",
+     "the count of cohorts publishing EMC outcome event counts"),
+    ("§5: the count in the endpoint sentence drifts",
+     "death across the only two cohorts that publish event counts by partner",
+     "death across the only three cohorts that publish event counts by partner",
+     "the count of cohorts publishing event counts, as §2.3a and §5 state it"),
+    ("§2.3a: the same count drifts where §2.3a quotes §5 — one of a pair again",
+     "§5's \"the only two cohorts that publish event counts by partner\"",
+     "§5's \"the only three cohorts that publish event counts by partner\"",
+     "the count of cohorts publishing event counts, as §2.3a and §5 state it"),
+    ("§5 claims bullet: the pooled-cohort count drifts beside a correct 7/15",
+     "pooled over the two cohorts publishing\n  partner-stratified",
+     "pooled over the four cohorts publishing\n  partner-stratified",
+     "the count of cohorts publishing partner-stratified event counts"),
+    ("§2.3a: the same count drifts in the exhaustiveness caveat that quotes it",
+     "bullet's \"the two cohorts publishing partner-stratified event counts\"",
+     "bullet's \"the three cohorts publishing partner-stratified event counts\"",
+     "the count of cohorts publishing partner-stratified event counts"),
+    # ⭐ THE COUNTS §3.4's REPAIRED OPENING RESTS ON. The retracted sentence put both series OUTSIDE
+    # the pool; the replacement puts each inside a named one, so both roster sizes are load-bearing.
+    ("§3.4: the outcome pool's size drifts where §3.4 places Huang 2023 inside it",
+     "Huang 2023 is one of the two cohorts pooled in §3.3",
+     "Huang 2023 is one of the three cohorts pooled in §3.3",
+     "the size of the outcome pool as §3.4 states it"),
+    ("§3.4: the prevalence pool's size drifts, leaving the outcome count correct beside it",
+     "Paioli 2021 one of the four pooled in §3.5",
+     "Paioli 2021 one of the five pooled in §3.5",
+     "the size of the prevalence pool as §3.4 states it"),
+    ("§3.5: the number of the paper's own references stating a general TAF15 share drifts",
+     "The two sources in the reference list that give a general TAF15 share",
+     "The three sources in the reference list that give a general TAF15 share",
+     "the count of the paper's own references stating a general TAF15 share"),
+
+    # ---- R.2 · comparatives and superlatives over this synthesis's own pool ----------------------
+    # ⭐ A REAL PUBLISHED P FROM THE SAME COHORT, ON A DIFFERENT TEST. Nothing on the page becomes
+    # invented; the sentence just quotes the wrong one of Huang's own results for the superlative it
+    # asserts.
+    ("§3.3: the largest metastasis-testing series is credited with Huang's STATUS p, not its "
+     "metastasis p",
+     "*directly* reports **P = .728** on its own",
+     "*directly* reports **P = .047** on its own",
+     "the superlative binding the largest metastasis-testing series to its own published p"),
+    # ⭐ EVERY DIGIT ON THE PAGE STAYS CORRECT. Suemitsu 2025 is a real cohort of this synthesis; it
+    # is simply not one the outcome analysis pools, which is the whole content of the sentence.
+    ("§3.4: the series placed inside the outcome pool is one the artifact does not pool",
+     "synthesis: Huang 2023 is one of the two cohorts pooled",
+     "synthesis: Suemitsu 2025 is one of the two cohorts pooled",
+     "the membership assertion §3.4's repaired opening rests on"),
+    # ⭐⭐ ROUND 6's BLOCKER B2, RESTORED INTO THE SENTENCE IT WAS REMOVED FROM.
+    ("§3.4: the retracted comparative is put back in front of the repaired opening",
+     "Two series tested the partner as a prognostic factor against tumour size",
+     "Two series, both larger than any cohort that could be pooled here, tested the partner as a "
+     "prognostic factor against tumour size",
+     "the forbid on comparisons against this synthesis's own pool — the named-series branch"),
+    # ⭐ THE UNDECIDABLE BRANCH. Same claim, in a sentence naming nobody, which is the shape the
+    # retracted sentence actually had: its two series were named in the NEXT sentence, so neither a
+    # reader nor an instrument could settle it where it stood.
+    ("§3.4: the same comparative in a sentence that names no series at all",
+     "**Neither found the partner to carry the prognosis.**",
+     "**Neither found the partner to carry the prognosis, and both are larger than any cohort that "
+     "could be pooled here.**",
+     "the forbid on comparisons against this synthesis's own pool — the undecidable branch"),
+    ("§5: the pooled-cohort count inside the comparative that carries the defeater",
+     "the larger of its own two cohorts declines to",
+     "the larger of its own three cohorts declines to",
+     "the comparative placing the defeater in the larger pooled cohort"),
+    # ⭐ A UNIQUENESS CLAIM INVERTED WITH EVERY DIGIT INTACT. Agaram 2014 is a real cohort of this
+    # synthesis and publishes no time-to-event metastasis analysis at all.
+    ("§3.3: the only cohort treating metastasis as time-to-event becomes the wrong cohort",
+     "Paioli 2021, the only cohort treating\nmetastasis as a **time-to-event**",
+     "Agaram 2014, the only cohort treating\nmetastasis as a **time-to-event**",
+     "the uniqueness claim about the time-to-event metastasis cohort"),
+
+    # ---- R.3 · what the field says ---------------------------------------------------------------
+    # ⭐⭐ ROUND 6's BLOCKER B3, RESTORED VERBATIM AT THE ABSTRACT SITE. No source for the quoting
+    # practice has ever been held here, and the guard's licence is that absence.
+    ("abstract: the external share is re-attributed to the field's quoting practice",
+     "the ≈20 % this document's own cited sources state and sits below the",
+     "the ≈20 % the field routinely quotes and sits below the",
+     "the forbid on unsourced claims about the field's practice, plus the attribution binding"),
+    ("§1.3: 'most-quoted' restored — the same class with no number in it at all",
+     "state and placing the single referral-centre cohort above it",
+     "state and placing the most-quoted single cohort above it",
+     "the forbid on unsourced claims about the field's practice"),
+    ("§3.8: 'usually attributed to' restored, both PMIDs left correct beside it",
+     "(PMID 24703573) this\nrepository's own lane memo attached it to.**",
+     "(PMID 24703573) it is\nusually attributed to.**",
+     "the forbid on unsourced claims about the field's practice"),
+    ("§5 claims bullet: the externally reported share drifts from the artifact's figure",
+     "**contains** the ≈20 % this document's own cited sources state ([4], [12])",
+     "**contains** the ≈21 % this document's own cited sources state ([4], [12])",
+     "the external-share attribution binding — the percentage half"),
+    # ⭐ THE MUTATION THAT ONLY THE RELATION GUARD CAN SEE. Reference [15] is a real reference of
+    # this manuscript, so `lint_citations` is green and every number on the page is right; what
+    # changes is WHICH of the paper's own sources is claimed to state the external share.
+    ("§5 claims bullet: the external share is attributed to a different real reference",
+     "own cited sources state ([4], [12])",
+     "own cited sources state ([4], [15])",
+     "the external-share attribution binding — the named-sources half"),
 ]
 
 
@@ -428,8 +590,8 @@ def _digest(path):
 PYTEST = shutil.which("pytest")
 
 
-def _run_guard(tree):
-    """The guard's verdict in `tree`: True = green.
+def _run_one(tree, test):
+    """One guard module's verdict in `tree`: True = green.
 
     ⛔ A RETURN CODE ALONE IS NOT AN ANSWER. pytest exits 1 for a failing test, for a collection
     error, and (via `-m`) for not being installed at all. So the verdict is accepted only when the
@@ -438,24 +600,98 @@ def _run_guard(tree):
     """
     if not PYTEST:
         raise SystemExit("no `pytest` on PATH — this harness cannot run and will not guess.")
-    r = subprocess.run([PYTEST, TEST, "-q", "--no-header", "-x"],
+    r = subprocess.run([PYTEST, test, "-q", "--no-header", "-x"],
                        cwd=tree, capture_output=True, text=True)
     out = r.stdout + r.stderr
     if not re.search(r"\d+ (?:passed|failed|error)", out):
-        raise SystemExit(f"the guard could not run in {tree} (exit {r.returncode}); no pytest "
-                         f"summary in the output, so this is not a verdict:\n{out[-3000:]}")
+        raise SystemExit(f"{os.path.basename(test)} could not run in {tree} (exit "
+                         f"{r.returncode}); no pytest summary in the output, so this is not a "
+                         f"verdict:\n{out[-3000:]}")
     return r.returncode == 0
+
+
+def _run_guard(tree):
+    """Which guard modules go RED in `tree` — the empty set means the tree is green.
+
+    ⛔⛔ EACH MODULE IS RUN ON ITS OWN, AND THE REASON IS `paper-hardening` §8b.1a: an instrument
+    that reports `state(group)` and then reasons about a member of that group can manufacture a
+    finding that looks real. Running both guards in one pytest invocation would answer "something
+    went red", which is enough to score a mutation and NOT enough to say which binding reached it —
+    and "the relation guard caught this" is precisely the claim this harness exists to support now
+    that there are two modules. The cost is one extra interpreter start per mutation; the benefit is
+    that every line of the output below names the guard that fired.
+    """
+    return [t for t in TESTS if not _run_one(tree, t)]
+
+
+def _overlay_working_tree(tree):
+    """Copy every uncommitted change into the clone, and say exactly what was copied.
+
+    ⛔⛔ WHY THIS EXISTS — THE HARNESS ONCE MEASURED THE WRONG GUARD AND SAID SO ITSELF. The
+    quantity guard's docstring records it: run before its new bindings were committed, 20 of 21
+    mutations SURVIVED, because the worktree is built from HEAD and HEAD did not contain them. That
+    reading was correct about the tree it measured and worthless as evidence about the work in hand,
+    and the only way out was to commit first — i.e. to commit a guard whose coverage was still a
+    guess.
+
+    ★ SO THE CLONE IS STILL A CLONE. `git worktree add` gives a genuine separate checkout with no
+    shared inode (`paper-hardening` §8b.1: ablate a copy, never the working tree, and `cp -al` is
+    not isolation); this only copies the uncommitted files into it, by `git status --porcelain`,
+    without touching the real repository's index. ⛔ It is NOT the default, and the mode is printed
+    with the result, because "N of N caught" means something different in each mode.
+    """
+    st = subprocess.run(["git", "status", "--porcelain", "-z", "--untracked-files=all"],
+                        cwd=REPO, check=True, capture_output=True, text=True).stdout
+    copied, removed = [], []
+    entries = [e for e in st.split("\0") if e]
+    i = 0
+    while i < len(entries):
+        entry = entries[i]
+        i += 1
+        code, path = entry[:2], entry[3:]
+        if code[0] == "R":            # rename: the next NUL-separated field is the source path
+            i += 1
+        src = os.path.join(REPO, path)
+        dst = os.path.join(tree, path)
+        if os.path.isdir(src):        # an untracked directory is reported as one entry
+            for root, _dirs, files in os.walk(src):
+                for f in files:
+                    s = os.path.join(root, f)
+                    d = os.path.join(tree, os.path.relpath(s, REPO))
+                    os.makedirs(os.path.dirname(d), exist_ok=True)
+                    shutil.copy2(s, d)
+                    copied.append(os.path.relpath(s, REPO))
+            continue
+        if not os.path.exists(src):   # deleted in the working tree
+            if os.path.exists(dst):
+                os.remove(dst)
+                removed.append(path)
+            continue
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        shutil.copy2(src, dst)
+        copied.append(path)
+    print(f"⚠ WORKING-TREE MODE: {len(copied)} uncommitted file(s) copied into the clone"
+          f"{f', {len(removed)} removed' if removed else ''}. This measures the tree you are about "
+          f"to commit, NOT HEAD.")
+    for p in sorted(copied):
+        print(f"    + {p}")
+    return copied
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--keep", action="store_true", help="leave the worktree in place for inspection")
+    ap.add_argument("--working-tree", action="store_true",
+                    help="overlay uncommitted changes onto the clone before measuring, so a guard "
+                         "can be mutation-tested BEFORE it is committed")
     args = ap.parse_args()
 
     tmp = tempfile.mkdtemp(prefix="fp-mutate-")
     tree = os.path.join(tmp, "wt")
     subprocess.run(["git", "worktree", "add", "--detach", tree, "HEAD"],
                    cwd=REPO, check=True, capture_output=True)
+    if args.working_tree:
+        _overlay_working_tree(tree)
     docs = [os.path.join(tree, DOC), os.path.join(tree, REGISTER)]
     try:
         pristine = {d: io.open(d, encoding="utf-8").read() for d in docs}
@@ -463,9 +699,13 @@ def main():
 
         # ⛔ THE POSITIVE CONTROL RUNS FIRST. A harness that reports every mutation caught while the
         # unmutated tree is ALSO red has measured nothing at all.
-        if not _run_guard(tree):
-            raise SystemExit("POSITIVE CONTROL FAILED: the guard is red on an unmutated tree, so no "
-                             "mutation result below would mean anything. Fix that first.")
+        red = _run_guard(tree)
+        if red:
+            raise SystemExit(
+                "POSITIVE CONTROL FAILED: "
+                + ", ".join(os.path.basename(t) for t in red)
+                + " is red on an unmutated tree, so no mutation result below would mean anything. "
+                  "Fix that first.")
         print(f"positive control: GREEN on unmutated HEAD ({len(MUTATIONS)} mutations to run)\n")
 
         survived, errors = [], []
@@ -484,11 +724,20 @@ def main():
                 errors.append(f"{label}: MUTATION DID NOT LAND (digest unchanged)")
                 io.open(doc, "w", encoding="utf-8").write(pristine[doc])
                 continue
-            green = _run_guard(tree)
+            caught_by = _run_guard(tree)
             io.open(doc, "w", encoding="utf-8").write(pristine[doc])
             assert _digest(doc) == base_digest[doc], "failed to restore the worktree between mutations"
-            print(f"  {'⛔ SURVIVED' if green else '✅ caught  '}  {label}")
-            if green:
+            # ⭐ THE VERDICT NAMES THE GUARD, not just the outcome. `numbers` is the quantity guard,
+            # `relations` the one that reads count-words, comparatives, superlatives and
+            # attributions; a mutation caught by `relations` alone is that binding's own evidence.
+            short = {"test_fusion_partner_prose_matches_its_artifact.py": "numbers",
+                     "test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py":
+                         "relations"}
+            who = "+".join(short.get(os.path.basename(t), os.path.basename(t))
+                           for t in caught_by)
+            print(f"  {'⛔ SURVIVED' if not caught_by else '✅ caught  '}  "
+                  f"[{who or '—':<17}]  {label}")
+            if not caught_by:
                 survived.append(f"{label}  [targets: {targets}]")
 
         print()
