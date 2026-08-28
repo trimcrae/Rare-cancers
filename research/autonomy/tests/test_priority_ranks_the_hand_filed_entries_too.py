@@ -82,6 +82,36 @@ def test_a_hand_filed_prerequisite_of_a_hand_filed_parent_does_not_kill_it_eithe
         "a block is invisible to the driver")
 
 
+def test_the_table_survives_a_row_with_no_what_field(capsys):
+    """⛔⛔ THE AUT-PD-046 CRASH: `_table()` — the code every `--limit N` view runs — did
+    `entry["what"]` unconditionally, so the FIRST row missing a `what` field killed the CLI view for
+    every other row alongside it, not just that one row. Measured directly against the ten real
+    ledger rows this defect was filed over: AUT-PROP-029 through AUT-PROP-038 all carried a `score`,
+    a `_score_basis` and a `depends_on_evidence` pointer but no `what` at all, and
+    `python3 research/autonomy/priority.py --limit 25` raised `KeyError: 'what'` reaching the first
+    one (confirmed by reverting the ledger to that state and running the CLI before this fix landed).
+
+    ★ THE FIX: `_table()` reads `entry.get("what", "(no description)")` instead of `entry["what"]`, so
+    a row missing the field degrades to a placeholder in the printed table rather than crashing the
+    whole view. This is a minimal, constructed ledger — not the real one — so the test exercises the
+    CODE PATH directly regardless of what the committed ledger currently contains.
+
+    ⚠ MUTATION-TESTED 2026-08-28: reverting `entry.get("what", "(no description)")` back to
+    `entry["what"]` reproduces `KeyError: 'what'` and fails this test; restoring the `.get(...)` call
+    makes it pass again."""
+    entries = [
+        {"id": "AUT-PROP-999", "score": 100.0, "kind": "proposal", "cost_class": "free",
+         "serves": {"route": "RT-X"}},  # no `what` at all — the exact shape of the real defect
+        {"id": "AUT-PROP-998", "score": 90.0, "kind": "proposal", "cost_class": "free",
+         "serves": {"route": "RT-X"}, "what": "a row that DOES carry a description"},
+    ]
+    table = P._table(entries, limit=10)  # must not raise KeyError
+    assert "(no description)" in table, (
+        "a row with no `what` should render a placeholder, not vanish or crash the table")
+    assert "a row that DOES carry a description" in table, (
+        "the fix must not blank out a `what` that IS present on a sibling row")
+
+
 def test_the_ledger_still_holds_hand_filed_entries_without_score_inputs():
     """★ THE PRECONDITION, PINNED. If a later change starts writing `score_inputs` onto every entry,
     the two tests above stop exercising the branch they were written for and go green for the wrong
