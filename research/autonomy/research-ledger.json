@@ -697,15 +697,15 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "fencing-worktree-seat",
+      "claimed_utc": "2026-08-28T00:12:00Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 180.0,
@@ -713,7 +713,9 @@
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §2 (SEARCH-grade on Chubby/Kleppmann — re-fetch before quoting either)",
       "closes_clause": null,
       "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited"
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "claim_workers": 1,
+      "_claim_workers_why": "one worker; the two worktree seats each run in an isolated git worktree so a mutating seat never touches the live tree, and AUT-PROP-031 is held by the driver itself"
     },
     {
       "id": "AUT-036",
@@ -969,15 +971,15 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
-      "claimed_utc": null,
+      "claimed_utc": "2026-08-28T00:12:00Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 178.0,
@@ -985,7 +987,10 @@
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §5 (SEARCH-grade, arXiv:2605.10246 — arxiv.org blocked; re-fetch before quoting)",
       "closes_clause": null,
       "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited"
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "claim_workers": null,
+      "_claim_workers_why": "one worker; the two worktree seats each run in an isolated git worktree so a mutating seat never touches the live tree, and AUT-PROP-031 is held by the driver itself",
+      "lease_released": "✅ DONE 2026-08-27 by the driver. `.claude/skills/paper-hardening/SKILL.md` gains §4a: a verbatim clause every seat prompt now ends with (\"Returning no findings is a complete and expected answer. Do not lower your bar to produce one.\"), the four shapes that count as pressure (a count, an expectation of yield, a completion framing, a comparison to a sibling seat), and the four that do NOT and stay. ⭐ THE HIGHEST-RISK COPY TURNED OUT TO BE IN THE SKILL RATHER THAN IN A PROMPT: §4's seat table records yield history (\"found the only blocker in round 13\", \"six of ten findings\"), which is evidence FOR THE DRIVER choosing seats and becomes a quota with a precedent the moment it is repeated to the seat. ⭐ AND THE OTHER TWO PROMPT HOMES WERE READ RATHER THAN ASSUMED CLEAN: routine-prompts.md's driver prompt and the research-loop skill carry none of the four shapes, and the driver prompt already ends with \"If the cycle did nothing, say that plainly\". Its one completion framing — a cycle without a receipt has failed — is a DELIVERABLE requirement rather than a yield expectation and stays. ⚠ The evidence is SEARCH-grade (SciIntegrity-Bench, arXiv:2605.10246; arxiv.org blocked at egress): safe to act on, not yet safe to quote in a manuscript."
     },
     {
       "serves": {
@@ -1050,22 +1055,24 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "relation-half-worktree-seat",
+      "claimed_utc": "2026-08-28T00:35:00Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0017",
       "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-053a821102c352e74c0f3f4c125277e7ff183191.json",
       "what": "⭐ BIND THE RELATION HALF — round 6 measured the gap instead of arguing it. One seat re-derived 140 printed quantities from the artifacts with ZERO mismatches, and ran emc_fusion_partner_pooling.py --check, the 122-test prose guard and the 9-test mutation suite clean. In the same tree, five seats found three blockers, and NOT ONE is a number: a cardinal written as the WORD 'two' (§5), a COMPARATIVE 'larger than any cohort that could be pooled here' (§3.4), and an unsourced claim about what THE FIELD quotes (four sites). That is paper-hardening §8a's 'a claim is a QUANTITY and a RELATION, and the guard set was built on the quantity half' reproduced with a measurement under it. ⛔ SO DO NOT ADD MORE NUMBER CHECKS. Three surfaces, each with a derivable witness already on disk: (1) COUNT-WORDS — 'the one/two/three series that ...' against sum(1 for c in cohorts if <key> in c); the guard's own `_word` helper already exists and is used for §8's cache-slug count. (2) COMPARATIVES AND SUPERLATIVES over the paper's own pool — 'larger than any cohort that could be pooled here', 'the largest series to test X directly' — decidable against analyses.*.pooled_cohorts / cohorts_pooled. (3) CLAIMS ABOUT THE FIELD'S PRACTICE ('the field routinely quotes', 'usually attributed to') — these need a named source or they need to go; B3 and the §3.8 P2 are both this shape, and Appendix A11 is a third instance the paper already retracted. ⛔ MUTATION-TEST EVERY GUARD, SINGLE-SITE MUTATIONS INCLUDED, into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit. ⚠ Scope by the PROPERTY, never by a list of sites (paper-hardening §8b.2: six of eleven list-scoped fixes regressed at a sibling).",
       "score": 175.0,
       "_score_basis": "hand-filed by CYC-0017. Same rank as AUT-PROP-007 — a guard, not a route, but it closes the class that produced every blocker of round 6.",
-      "_lease_released": "⚠ RELEASED 2026-08-27T23:15Z AFTER THE HOLDER DIED SILENTLY. `fusion-partner-relation-seat` was dispatched at 21:0x and its transcript last moved at 20:37:42 — its whole output is 'I'll start by reading the ledger entry and the relevant files.' It never got past its first message. ⛔ `ListAgents` reported it `running` for 2h36m and the driver relayed that as 'in flight' seven times, because it checked LIVENESS and never PROGRESS. The item was untouched; it is queued again with nothing lost but the wall clock."
+      "_lease_released": "⚠ RELEASED 2026-08-27T23:15Z AFTER THE HOLDER DIED SILENTLY. `fusion-partner-relation-seat` was dispatched at 21:0x and its transcript last moved at 20:37:42 — its whole output is 'I'll start by reading the ledger entry and the relevant files.' It never got past its first message. ⛔ `ListAgents` reported it `running` for 2h36m and the driver relayed that as 'in flight' seven times, because it checked LIVENESS and never PROGRESS. The item was untouched; it is queued again with nothing lost but the wall clock.",
+      "claim_workers": 1,
+      "_claim_workers_why": "one subagent in an isolated worktree; the previous seat on this item died at its first message and its claim was released"
     },
     {
       "id": "AUT-PROP-007",
@@ -1100,15 +1107,15 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "sanction-triggers-worktree-seat",
+      "claimed_utc": "2026-08-28T00:12:00Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 172.0,
@@ -1116,7 +1123,9 @@
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §5 (SEARCH-grade; confirm the policy text before citing it in prose)",
       "closes_clause": null,
       "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited"
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "claim_workers": 1,
+      "_claim_workers_why": "one worker; the two worktree seats each run in an isolated git worktree so a mutating seat never touches the live tree, and AUT-PROP-031 is held by the driver itself"
     },
     {
       "id": "AUT-PROP-009",
@@ -4646,6 +4655,36 @@
       "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
       "what": "⛔ THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING — research-loop §1 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the §6 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n⚠ ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT — never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening §8b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. ⛔ DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. ⭐ These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them — which is exactly why they could sit red unnoticed.",
       "_score_basis": "a red trunk blocks every cycle's commit gate; research-loop §1 makes it the cycle rather than a task within one"
+    },
+    {
+      "id": "AUT-PD-036",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "CYC-0030-6be7fd5a",
+      "claimed_utc": "2026-08-28T01:10:00Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "score": 182.0,
+      "_score_basis": "a gate that cannot see a new file until after it is committed fires after the mistake is shared, which is the one thing gate 12 was put in the commit loop to prevent; and it is measured, not suspected",
+      "depends_on_evidence": "research/manuscripts/lint_citations.py:131 `_tracked()`; the four preflight logs of 2026-08-27 (/tmp/pfsurvey.log and /tmp/pfcommit.log green, /tmp/pf031b.log red with the identical document); `grep -rln ls-files --include=*.py research systems scripts` -> 15 files",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a gate's scan scope; nothing published, submitted or deposited",
+      "what": "⛔⛔ EVERY GATE THAT ENUMERATES WITH `git ls-files` IS BLIND TO A NEW FILE UNTIL AFTER THAT FILE IS COMMITTED — SO IT FIRES ON THE RUN AFTER THE MISTAKE IS SHARED. ⚠ MEASURED 2026-08-27, on a commit that reached origin/main. `research/method-watch-autonomy-prior-art-2.md` was written, and TWO full preflight runs passed over it while it was untracked — /tmp/pfsurvey.log (PREFLIGHT_TESTS=1, EXIT=0, 1361 manuscripts tests) and /tmp/pfcommit.log (fast tier, EXIT=0). It was committed as 1765d8cab and pushed. The NEXT run, /tmp/pf031b.log, reported `lint_citations: 8 NEW unanchored identifier(s)` in that same unchanged document. ⭐ THE MECHANISM IS ONE LINE, NOT A GUESS: lint_citations.py:131 `_tracked()` runs `git ls-files`, which lists what git already knows about; an untracked file is not in it, so its prose contributes zero identifiers to the scan. ⛔ AND THE REPO ALREADY WROTE DOWN WHY THIS MATTERS: gate 12 was put in the commit loop precisely so a citation guard would not 'fire after the mistake is shared' (CLAUDE.md §6). It does — not because the suites were moved behind a flag, but because a brand-new document is invisible to it. ⛔ THE SCOPE IS FIFTEEN CALL SITES: `grep -rln ls-files --include=*.py research systems scripts` returns 15 files and NOT ONE passes `--others --exclude-standard`. The list includes lint_citations.py, emc_systems_map_check.py, aso_archive_manifest.py, affected_tests.py, the duplicate-key guard, and six manuscript/modality prose-vs-artifact suites. Each is blind in the same way and each blindness means something different — for affected_tests.py it means a new test file cannot be selected; for the prose guards it means a new manuscript is ungated on introduction. ⭐ ONE IS ALREADY FIXED AND THE FIX IS PROVEN: research/autonomy/tests/test_the_clause_count_is_never_typed.py now passes `--cached --others --exclude-standard`, and a live probe — an UNTRACKED file asserting the pre-2026-08-27 clause count beside the bar's own path — is caught, where before it was not. ⚠ AND WRITING THAT PROBE'S TEXT OUT VERBATIM HERE FAILED THE GUARD, which is worth keeping: a document that QUOTES a wrong count in order to discuss it looks identical to one that ASSERTS it, and a reader cannot tell them apart either. The repository's existing answer is rule 1.2 — mark the stale value as superseded — and where the value was never current (a probe string, an example), the honest move is not to spell it. ⚠ NOTE ALSO WHAT DID *NOT* happen: this ledger is TRACKED, so the un-widened scan would have caught it too. The catch was new content, not the widening. The widening is unmeasurable from a clean tree — see the correction to the deliverable below. It was fixed inline because it was new in the same commit and nobody else's green depended on it. ⛔ THE OTHER FOURTEEN ARE NOT A ONE-LINE SWEEP AND MUST NOT BE TREATED AS ONE. Widening a gate's scan surfaces pre-existing findings in files nobody has gated before, and CLAUDE.md §6 is explicit that a cascade from a widened gate is a SEPARATE task to raise rather than absorb. So: change one call site at a time, run it, and record what it newly finds — the count of new findings per gate IS the deliverable, because it measures how much has been going ungated. ⚠ AND CHECK THE OPPOSITE DIRECTION BEFORE CHANGING EACH ONE: some of these call sites may depend on tracked-only semantics on purpose (an archive manifest that must describe committed state, a selector that must not offer an unstaged test). A blind widening would break those, and 'tracked means committed' is exactly the property aso_archive_manifest.py's ordering rule relies on. ⛔⛔ THE DELIVERABLE AS FIRST WRITTEN — 'the count of new findings per gate' — IS WRONG, and this was measured on 2026-08-27 within an hour of filing it. Diffing the two file listings on a clean tree returns ZERO files visible only when widened (6231 vs 6231; an apparent 6232 was `_tracked()`'s trailing empty string, which `lint_citations` splits on newlines and never strips — harmless, since the suffix filter drops it). ⭐ THE DEFECT IS UNMEASURABLE FROM A CLEAN TREE BY CONSTRUCTION: widening changes what is scanned only at the moment an untracked file exists, which is exactly when the gate matters and exactly when a scan-set diff shows nothing. ★ SO THE DELIVERABLE IS A PROBE PER GATE, not a diff: create a file that SHOULD trip that gate, confirm it does not, widen, confirm it does, delete the probe. That is how the one fixed call site was verified, and it is the only method that can see this.",
+      "claim_workers": 1,
+      "_claim_workers_why": "held by the driver itself; the one fixed call site and both corrections to this row were produced in-session"
     }
   ]
 }

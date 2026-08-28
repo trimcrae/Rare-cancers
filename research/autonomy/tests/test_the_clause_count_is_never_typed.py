@@ -27,6 +27,15 @@ is the same finding CLAUDE.md §1 records about `subagent_width` governing nothi
 bar, must equal `len(CLAUSES)` — or must be marked as superseded, because this repository never
 silently drops a correction (rule 1.2). The markers are READ from `pinned-figures.json` rather than
 restated here, for exactly the reason this file exists.
+
+⚠ AND A QUOTED WRONG COUNT IS FLAGGED TOO, DELIBERATELY. Within an hour of this guard landing it
+refused a ledger entry that spelled out a probe string — a sentence quoting the stale count in order
+to DISCUSS it, not to assert it. That is the correct behaviour and not a false positive: a quotation
+and an assertion are the same bytes, and a reader skimming the file cannot tell them apart either.
+Two honest ways out, in order of preference: don't spell a value that was never current (describe it
+— "the pre-2026-08-27 count"), or, where it WAS current, mark it superseded per rule 1.2. Widening
+the matcher to exempt anything that looks like a quotation is the third way and it is the wrong one,
+because "looks quoted" is not decidable and the exemption would be the hole.
 """
 
 from __future__ import annotations
@@ -87,8 +96,28 @@ def markers() -> list[str]:
 
 
 def _tracked_text_files() -> list[str]:
-    out = subprocess.run(["git", "ls-files", "-z"], cwd=REPO,
-                         capture_output=True, text=True, check=True).stdout
+    """⛔ TRACKED **AND** UNTRACKED-BUT-NOT-IGNORED, AND THE SECOND HALF IS THE WHOLE POINT.
+
+    A bare `git ls-files` lists only files git already knows about, so a guard built on it **cannot
+    see a brand-new file until AFTER that file has been committed** — it fires on the next run, by
+    which time the mistake is in history and, in this repository's normal loop, pushed.
+
+    ⚠ MEASURED 2026-08-27, ON THIS VERY COMMIT. `lint_citations.py` uses a bare `git ls-files` and
+    stayed green across two full preflight runs over `research/method-watch-autonomy-prior-art-2.md`
+    while that file was untracked. The moment it was committed and pushed, the next run reported
+    **8 NEW unanchored DOIs** in it. Nothing had changed about the document. That is exactly the
+    failure the citation gate was put in the commit loop to prevent — the repo's own note beside it
+    says it exists so a citation guard would "not fire after the mistake is shared".
+
+    ⛔ FIFTEEN CALL SITES IN THIS REPOSITORY USE `git ls-files` AND NOT ONE PASSES `--others`, so
+    every one of them shares this hole. Only this file is fixed here, because it is new in this same
+    commit and nobody else's green depends on it; widening the others changes what each of those
+    gates scans and is filed as its own item rather than absorbed silently into this one.
+
+    `--exclude-standard` keeps `.gitignore` honoured, so build output and caches stay out.
+    """
+    out = subprocess.run(["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
+                         cwd=REPO, capture_output=True, text=True, check=True).stdout
     keep = (".md", ".py", ".json", ".jsonl", ".sh", ".yml", ".yaml", ".txt")
     return [p for p in out.split("\0") if p and p.endswith(keep)]
 

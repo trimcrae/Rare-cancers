@@ -128,6 +128,60 @@ lens in the round. The failure mode it catches — a repair that invents a new d
 every other lens, because the other lenses read the paper as it now stands and the repair looks
 deliberate.
 
+### 4a · ⛔⛔ A SEAT THAT FINDS NOTHING HAS SUCCEEDED, AND THE PROMPT MUST SAY SO IN WORDS
+
+**Every seat prompt ends with this clause, verbatim, and no seat is dispatched without it:**
+
+> Returning **no findings** is a complete and expected answer. Do not lower your bar to produce one.
+> If your lens turns up nothing on this commit, say so plainly and stop — that is the round's most
+> valuable result, not its least.
+
+⚠ **THIS IS NOT ENCOURAGEMENT, IT IS A MEASURED INTERVENTION, AND IT IS THE ONLY ONE IN THE
+2026-08-27 PRIOR-ART SURVEY WITH AN EFFECT SIZE ATTACHED.** SciIntegrity-Bench built 33 scenarios in
+which honest acknowledgement of failure is the *only* correct answer while completing the task
+requires misconduct — 231 runs across 7 frontier models, **34.2% overall integrity problem rate, no
+model at zero, and all seven synthesised data rather than admit infeasibility.** ⭐ **Removing
+explicit completion pressure cut UNDISCLOSED fabrication from 20.6% to 3.2% while the underlying
+synthesis rate was unchanged** — i.e. the pressure does not change how often a model reaches for
+something it cannot support, it changes whether it tells you. A one-line prompt clause is therefore
+worth more here than another gate, and it costs nothing.
+⚠ **SEARCH-grade** (arXiv:2605.10246; arxiv.org is blocked at this sandbox's egress). The effect size
+is safe to ACT on and is not safe to QUOTE in a manuscript until somebody fetches the paper —
+[`method-watch-autonomy-prior-art-2.md`](../../../research/method-watch-autonomy-prior-art-2.md) §5.
+
+★ **AND THIS REPOSITORY REACHED THE SAME PLACE FROM THE SYMPTOM SIDE, WHICH IS WHY THE FINDING
+LANDS RATHER THAN BEING INTERESTING.** §5 already carries trimcrae's own reading — *"if it's coming
+back as having 10 blockers… that strikes me as agents making things up to fill a quota"* — and §8a
+already says a blocker count that stops falling means you are sampling surfaces. Those two describe
+what a pressured seat LOOKS like afterwards. This clause is the upstream half: **stop applying the
+pressure, and there is less to detect.**
+
+⛔ **WHAT COUNTS AS PRESSURE, so the audit is repeatable rather than a matter of taste.** Any of
+these in a seat prompt, however incidentally phrased:
+- a **count** — "find the top N", "at least three", "list ten"; the number becomes the target
+- an **expectation of yield** — "this seat has historically found the most", "there will be defects"
+- a **completion framing** — "do not return until", "keep looking until you have", "your job is to
+  produce a findings list"
+- a **comparison** — telling a seat what a sibling seat found, before it has finished
+
+✅ **What is NOT pressure and stays**: the lens itself, the pinned commit, the artifact paths, the
+refute-by-default standard of §5, and the requirement to say what it looked at. Constraining HOW a
+seat looks is the point; promising WHAT it will find is the defect.
+
+⛔ **AND THE HIGHEST-RISK COPY IS IN THIS SKILL, NOT IN A PROMPT.** §4's seat table records yield
+history — *"found the only blocker in round 13"*, *"six of ten findings"*, *"the highest-yield lens
+in the round"* — and that history is **for the DRIVER, choosing which seats to run.** ⛔ **It must
+never be repeated to the seat itself**, where it stops being evidence and becomes a quota with a
+precedent attached. The same goes for telling a seat what a sibling seat has already filed.
+
+⭐ **AUDITED 2026-08-27, and the other two prompt homes came back CLEAN — which is a reading, not an
+assumption.** `research/autonomy/routine-prompts.md`'s driver prompt and
+[`research-loop`](../research-loop/SKILL.md) were both read for the four shapes above and carry
+none. The driver prompt already ends with the right instinct in its own words: *"If the cycle did
+nothing, say that plainly rather than describing what you looked at."* Its one completion framing —
+*"a cycle without [a receipt] has failed however much it wrote"* — is a **deliverable requirement,
+not a yield expectation**, and stays: it demands a record of what happened, never a finding.
+
 ### 4b · ★ THE EXTERNAL SEAT — aiXiv's attack review, and exactly which seats it can replace
 
 aiXiv runs an adversarial reviewer over HTTP, so part of a round's model spend can be moved off our

@@ -174,11 +174,18 @@ of suggestion uids, so an agent that keeps re-proposing the same idea cannot fil
 (SOURCE)
 
 ⭐ **And the best-specified admission rule in the survey is not from software at all.** Elliott et al.
-2017, *Living systematic reviews: 1*, says a question earns a *living* process only when three
-conditions hold **together**: the question is important, **current evidence is uncertain**, and **new
-evidence is emerging rapidly**. That is a three-clause test for whether a route deserves a standing
-loop rather than a one-off — which is exactly what a forty-route portfolio needs and does not have.
-(PUBMED, [10.1016/j.jclinepi.2017.08.010](https://doi.org/10.1016/j.jclinepi.2017.08.010))
+2017, *Living systematic review: 1. Introduction — the why, what, when, and how*, says a living
+process is warranted where three conditions hold **together**, verbatim from the abstract: *"research
+evidence is emerging rapidly, current evidence is uncertain, and new research may change policy or
+practice decisions."* That is a three-clause test for whether a route deserves a standing loop rather
+than a one-off — which is exactly what a forty-route portfolio needs and does not have.
+⚠ **CORRECTED 2026-08-27 against the record itself.** This paragraph first paraphrased the third
+condition as *"the question is important"*. Superseded: importance is weaker and vaguer than what the
+paper says, which is **decision-relevance** — and decision-relevance is the same criterion §4.3 below
+uses to decide when a sequential correction is required, so the paraphrase had quietly broken the
+link between the two. Found by `lint_citations` refusing the DOI as unanchored, which forced the
+record to be read rather than trusted. (PUBMED, PMID 28912002,
+[10.1016/j.jclinepi.2017.08.010](https://doi.org/10.1016/j.jclinepi.2017.08.010))
 
 ---
 
