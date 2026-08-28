@@ -1,0 +1,239 @@
+{
+  "_schema": "claim-ceiling-grade-map/1",
+  "_what_this_is": "A TRANSLATION LAYER. For every rule in research/manuscripts/lint_claims.py it records the GRADE certainty rating that rule's regulated claim could honestly carry, so a reviewer or an outside reader can read a ceiling without first learning this repository's R1-Rn glossary. GRADE is the certainty-of-evidence vocabulary of the GRADE Working Group; gradeworkinggroup.org states 'More than 120 organizations from over 20 countries around the world have endorsed or are using GRADE' (fetched 2026-08-28, see sources[1]).",
+  "_what_this_is_not": "It is NOT a gate, NOT an input to any linter, and NOT a rating of any particular sentence. lint_claims.py does not read this file and must not: its enforcement mechanism (grep-and-substitute against a closed rule list, cleared by disclaimer / hedge / local negation) is unchanged by this artifact. Nothing here loosens, retunes or replaces a rule. A row saying VERY_LOW does not permit a claim the linter forbids, and a row saying OUT_OF_CONSTRUCT does not exempt a sentence from its rule.",
+  "_the_mapping_is_partial_on_purpose": "11 of the 17 rules regulate claims that are inside GRADE's construct; 6 are not. GRADE rates 'the certainty that a true effect lies on one side of a specified threshold, or within a chosen range' (sources[3]). A claim that a chemistry package is complete, that a programme is clinic-ready, that a result is a landmark, that a dollar figure was measured, or that other groups routinely do something is not an estimate of an effect on an outcome. Forcing those onto a four-rung certainty scale would tell a reader that a weak effect estimate exists where none does, which is worse than saying nothing. Those rows carry grade_applicable=false and state why.",
+  "_naming_collision_warning": "systems/graph/routes.json has a field named `grade` whose value is FREE-TEXT NARRATIVE about a route's standing. It has nothing to do with GRADE certainty ratings. Do not join the two.",
+  "_no_third_party_automation": "GRADErater (the GRADE Working Group's own prototype automation) is NOT used, imported, called or depended on anywhere. research/method-watch-autonomy-prior-art-2.md section 11 records its status as UNKNOWN beyond 'prototype built and undergoing testing' - no release date, no accuracy figures, no adopter identified, and its paper was not read. Wiring a tool with no measured accuracy into a gate is the unverified-dependency failure CLAUDE.md section 4 warns about. Every rating in this file is a hand-written judgement with its reasoning in the row.",
+  "grade_vocabulary": {
+    "_source": "sources[0], GRADE Handbook Table 5.1, quoted verbatim from the copy fetched 2026-08-28",
+    "HIGH": "We are very confident that the true effect lies close to that of the estimate of the effect.",
+    "MODERATE": "We are moderately confident in the effect estimate: The true effect is likely to be close to the estimate of the effect, but there is a possibility that it is substantially different",
+    "LOW": "Our confidence in the effect estimate is limited: The true effect may be substantially different from the estimate of the effect.",
+    "VERY_LOW": "We have very little confidence in the effect estimate: The true effect is likely to be substantially different from the estimate of effect",
+    "NO_EVIDENCE": "⛔ NOT A GRADE RATING - THIS REPOSITORY'S OWN LABEL, and it is named separately so it can never be read as one. Cochrane Handbook chapter 14 states 'It is not possible to rate lower than very low certainty evidence' (sources[2]), which fixes VERY_LOW as the floor for a body of evidence that EXISTS. All four Table 5.1 definitions are predicated on there being an effect estimate. A body with zero studies has no estimate, so it is off the bottom of the scale rather than at it, and calling it VERY_LOW would assert that a weak estimate exists. Whether GRADE itself defines a rendering for an outcome with no included studies is UNKNOWN here - see unknowns[1]."
+  },
+  "families": {
+    "R1": "earned-phrase substitutions - replace an asserted property with the predicted/conditional phrasing the evidence supports",
+    "R2": "the never-imply set - regulated claims that may appear only in a sentence scoping them out",
+    "R3": "novelty right-sizing - claims about this work's standing in the literature",
+    "R4": "evidentiary-verb discipline - the verbs of certainty (prove/confirm/establish/validate)",
+    "R5": "measured vs projected - a resource figure labelled 'measured' that is a projection",
+    "R6": "claims about what OTHER GROUPS routinely do, with no survey behind them"
+  },
+  "rows": [
+    {
+      "rule_id": "R1-selective-hit",
+      "family": "R1",
+      "linter_severity": "ERROR",
+      "linter_clears_on": "local_negation",
+      "grade_applicable": true,
+      "grade_ceiling": "VERY_LOW",
+      "justification": "The rule replaces an asserted property ('selective hit') with a prediction ('predicted selective candidate'), so what it regulates IS an effect claim: whether a compound selectively engages the target. The whole evidence base for that here is computational scoring against a hypothesised pose and receptor frame, with no binding measurement. Cochrane chapter 14 lists 'indirectness due to surrogate outcomes when data on patient-important outcomes are not available' as a rating-down domain (sources[2]); this is that, on a modelled system. Table 5.1's LOW rung still presumes an effect estimate whose true value 'may be' substantially different; a score with no measurement behind it supports only VERY_LOW, where the true effect 'is likely to be substantially different'."
+    },
+    {
+      "rule_id": "R1-synthesis-ready",
+      "family": "R1",
+      "linter_severity": "ERROR",
+      "linter_clears_on": "local_negation",
+      "grade_applicable": false,
+      "grade_ceiling": null,
+      "not_applicable_because": "'Synthesis-ready' asserts that a chemistry package EXISTS - exact structures and stereochemistry, exit-vector chemistry, routes, building-block availability, physicochemical assessment. That is a claim about the completeness of a deliverable, not about the size or direction of an effect. GRADE's construct is 'the certainty that a true effect lies on one side of a specified threshold, or within a chosen range' (sources[3]); a readiness claim has no true effect and no threshold, so all four Table 5.1 definitions are false of it rather than merely pessimistic. Labelling it VERY_LOW would be worse than leaving it unlabelled: it would tell a reader that a weak effect estimate exists.",
+      "justification": "Unmappable, and stated as such rather than forced. Note what the rule DOES: it demands five concrete chemistry artifacts before a phrase may be used, and every one of them is a thing that either exists in a file or does not. That is a completeness test, and a completeness test has no estimate, no threshold and no direction of effect for a certainty rating to attach to. The rule is unchanged and still an ERROR; it simply is not a certainty-of-evidence rule, and pretending otherwise would put a number on a claim GRADE was never built to measure."
+    },
+    {
+      "rule_id": "R1-nr4a3-selective",
+      "family": "R1",
+      "linter_severity": "WARN",
+      "linter_clears_on": "hedge",
+      "grade_applicable": true,
+      "grade_ceiling": "VERY_LOW",
+      "justification": "Same evidence base as R1-selective-hit, narrowed to NR4A paralogues. The hedge markers that clear this rule - predicted, in-silico, computational, surrogate, proxy, modelled - are this repository's way of DISCLOSING precisely the indirectness Cochrane chapter 14 rates down for. Disclosure changes the sentence, not the body of evidence, so the ceiling is unchanged. That the rule is WARN rather than ERROR is a decision about how hard to push back on a phrasing, and carries no information about certainty."
+    },
+    {
+      "rule_id": "R1-does-bind",
+      "family": "R1",
+      "linter_severity": "WARN",
+      "linter_clears_on": "hedge",
+      "grade_applicable": true,
+      "grade_ceiling": "VERY_LOW",
+      "justification": "Binding is an outcome GRADE can rate. The rule's mandated replacement - 'compatible with the hypothesized conditional bound state' - names the conditioning, which the rule's source states in full: everything is conditional on the hypothesised pose x receptor frame. A body of evidence consisting of simulation conditional on an unverified input structure supports at most VERY_LOW."
+    },
+    {
+      "rule_id": "R1-recovered-degradation",
+      "family": "R1",
+      "linter_severity": "ERROR",
+      "linter_clears_on": "local_negation",
+      "grade_applicable": true,
+      "grade_ceiling": "VERY_LOW",
+      "justification": "The rule's own replacement text names the surrogate out loud: 'produced a surrogate score concordant with the reported outcome'. Concordance of a score with one previously reported outcome is a single indirect comparison, not a body of evidence about degradation. ⭐ This is the row where GRADE is strictly clearer than our glossary: 'very low certainty, rated down for indirectness (surrogate outcome)' says in one clause what 'never write recovered degradation' says only to a reader who already knows R1."
+    },
+    {
+      "rule_id": "R2-efficacy",
+      "family": "R2",
+      "linter_severity": "ERROR",
+      "linter_clears_on": "disclaimer",
+      "grade_applicable": true,
+      "grade_ceiling": "NO_EVIDENCE",
+      "justification": "clears_on='disclaimer' means the ONLY permitted use is a sentence that scopes the claim out - the linter's way of saying this repository asserts no efficacy estimate whatsoever. The programme runs no wet lab and no clinical study, so the body of evidence for EMC efficacy contains zero studies. VERY_LOW would overstate it, because every Table 5.1 rung is predicated on there being an effect estimate to be uncertain about."
+    },
+    {
+      "rule_id": "R2-therapeutic-window",
+      "family": "R2",
+      "linter_severity": "ERROR",
+      "linter_clears_on": "disclaimer",
+      "grade_applicable": true,
+      "grade_ceiling": "NO_EVIDENCE",
+      "justification": "A therapeutic window is a relation between an efficacious exposure and a toxic one. Neither has been measured here in any system, so there are no two estimates to relate and nothing to rate. Same shape as R2-efficacy."
+    },
+    {
+      "rule_id": "R2-clinical-readiness",
+      "family": "R2",
+      "linter_severity": "ERROR",
+      "linter_clears_on": "disclaimer",
+      "grade_applicable": false,
+      "grade_ceiling": null,
+      "not_applicable_because": "'Ready for the clinic' is a development-stage claim about a programme, not an estimate of an effect on an outcome - out of GRADE's construct for the same reason as R1-synthesis-ready.",
+      "justification": "⭐ Unmappable itself, but its PRECONDITIONS are inside the construct and are each NO_EVIDENCE here (R2-efficacy, R2-safe). Telling a reader that is a stronger and more useful statement than the bare rule makes, and it is the one thing this row adds."
+    },
+    {
+      "rule_id": "R2-safe",
+      "family": "R2",
+      "linter_severity": "ERROR",
+      "linter_clears_on": "disclaimer",
+      "grade_applicable": true,
+      "grade_ceiling": "NO_EVIDENCE",
+      "justification": "Harms are outcomes GRADE rates, and this rule regulates the assertion of one directly ('is safe', 'well-tolerated', 'safety was established/demonstrated/shown'). No toxicology, no animal work and no human exposure exists in this programme, so there is no body of evidence to rate - not a weak one."
+    },
+    {
+      "rule_id": "R2-proteome-wide",
+      "family": "R2",
+      "linter_severity": "ERROR",
+      "linter_clears_on": "disclaimer",
+      "grade_applicable": true,
+      "grade_ceiling": "NO_EVIDENCE",
+      "justification": "The rule's own message carries the discriminating fact: the only novelty test in this repository compares against the TWO PARENT PROTEINS (fusion_breakpoints.py:231), and no proteome-wide search has ever been run here. So evidence exists but addresses a DIFFERENT question from the sentence being regulated. In GRADE terms the asserted outcome (proteome-wide selectivity / normal-cell sparing) has no included studies; the parent-protein comparison is a separate outcome that would need its own rating. ⭐ The clearest case in this table where 'no evidence for this outcome' tells an outside reader more than any downgraded rating could."
+    },
+    {
+      "rule_id": "R2-treats-cures",
+      "family": "R2",
+      "linter_severity": "ERROR",
+      "linter_clears_on": "disclaimer",
+      "grade_applicable": true,
+      "grade_ceiling": "NO_EVIDENCE",
+      "justification": "The rule's source is the roadmap's statement that degradation is experimentally unvalidated. A treatment claim sits squarely inside GRADE's construct and squarely without evidence here: zero studies, so no estimate to rate."
+    },
+    {
+      "rule_id": "R3-landmark",
+      "family": "R3",
+      "linter_severity": "ERROR",
+      "linter_clears_on": "disclaimer",
+      "grade_applicable": false,
+      "grade_ceiling": null,
+      "not_applicable_because": "'Landmark', 'unprecedented', 'breakthrough', 'first-ever', 'paradigm-shift' are claims about a work's standing in the literature. GRADE rates certainty in an effect estimate and has no rung for priority.",
+      "justification": "Unmappable, and forcing it would blur two axes this repository deliberately keeps apart. The rule's own remedy is citing the prior art it must not out-claim - a PROVENANCE requirement, which CLAUDE.md section 7 already records as orthogonal to claim strength."
+    },
+    {
+      "rule_id": "R3-first-to",
+      "family": "R3",
+      "linter_severity": "WARN",
+      "linter_clears_on": "disclaimer",
+      "grade_applicable": false,
+      "grade_ceiling": null,
+      "not_applicable_because": "A first-in-field assertion is settled by a literature search, not by rating an effect estimate.",
+      "justification": "Same class as R3-landmark, and unmappable for the same reason: what settles a first-in-field assertion is a literature search, not a rating of an effect estimate. The rule's clearer is a citation requirement — cite the prior art the roadmap names — so the thing that makes such a sentence honest is PROVENANCE, which CLAUDE.md section 7 already records as orthogonal to claim strength. It is WARN rather than ERROR because a right-sized priority sentence is sometimes correct; that judgement is about the literature, not about certainty."
+    },
+    {
+      "rule_id": "R4-proves",
+      "family": "R4",
+      "linter_severity": "WARN",
+      "linter_clears_on": "disclaimer",
+      "grade_applicable": true,
+      "grade_ceiling": "LOW",
+      "justification": "⭐ The family that maps most directly, and it maps to the TOP of the scale rather than to a rung of its own. 'Proves' is the verb of Table 5.1's HIGH rung - 'we are very confident that the true effect lies close to that of the estimate'. The rule bans it for computational results and mandates the conditional register ('say what it is evidence FOR, conditionally'), which is the language of LOW ('our confidence in the effect estimate is limited') and below. Stated in GRADE, the rule's content is: a computational result in this repository may never be written as HIGH or MODERATE. LOW is recorded as the ceiling because the rule itself does not discriminate below that line; most sentences it touches sit at VERY_LOW for the indirectness reasons given in the R1 rows."
+    },
+    {
+      "rule_id": "R4-confirms",
+      "family": "R4",
+      "linter_severity": "WARN",
+      "linter_clears_on": "disclaimer",
+      "grade_applicable": true,
+      "grade_ceiling": "LOW",
+      "justification": "Same ceiling as R4-proves, plus a misfit recorded rather than smoothed over. The rule's message permits confirm/establish/validate 'for results with a committed primary artifact'. A committed artifact establishes that the computation RAN and is reproducible - that is provenance. None of GRADE's five rating-down domains (risk of bias, inconsistency, indirectness, imprecision, publication bias; sources[2]) is one a repository commit could satisfy, so that condition does not raise the GRADE ceiling even though it does relax our verb rule. ⛔ Both systems are recorded here as they are; neither is bent to agree with the other."
+    },
+    {
+      "rule_id": "R5-measured-edge-cost",
+      "family": "R5",
+      "linter_severity": "ERROR",
+      "linter_clears_on": "disclaimer",
+      "grade_applicable": false,
+      "grade_ceiling": null,
+      "not_applicable_because": "The object is a dollar figure for a compute leg, not an effect on an outcome in a population.",
+      "justification": "What the rule polices - a projected number labelled 'measured' - is real and important, and it has a family resemblance to GRADE's indirectness domain (a modelled quantity standing in for a measured one). A resemblance is not a rating. Whether GRADE's guidance on resource-use outcomes reaches a projected compute cost is UNKNOWN here: neither handbook page fetched (sources[0], sources[2]) covers it, and no primary source on that point was read. See unknowns[2]."
+    },
+    {
+      "rule_id": "R6-unsurveyed-field-practice",
+      "family": "R6",
+      "linter_severity": "ERROR",
+      "linter_clears_on": null,
+      "grade_applicable": false,
+      "grade_ceiling": null,
+      "not_applicable_because": "The rule regulates a claim about what OTHER GROUPS routinely do. That is a descriptive claim about the field, settled by a survey of published pipelines, not an estimate of an effect on an outcome; GRADE's rungs are the wrong instrument for it in either direction. Its clearer is a citation marker, which is provenance again.",
+      "justification": "⛔ AND THIS ROW IS WHY THE COVERAGE TEST EXISTS. R6 was added to lint_claims.py on 2026-08-15, and the ledger row commissioning this mapping - AUT-PROP-037, filed 2026-08-27 - still describes the linter as 'R1-R5'. A whole rule family arrived and the description of the gate did not follow it, for twelve days, with every gate green. What an outside reader needs told about an R6 sentence is 'no survey was performed', and that is what this row says."
+    }
+  ],
+  "sources": [
+    {
+      "id": 0,
+      "what": "GRADE Handbook, Table 5.1 'Quality of Evidence Grades' - the four certainty definitions quoted verbatim in grade_vocabulary",
+      "url": "https://gdt.gradepro.org/app/handbook/handbook.html",
+      "http_status": 200,
+      "fetched_utc": "2026-08-28",
+      "fetched_via": "fetch-literature.yml run 33181002075, slug grade-definitions (the dev sandbox egress proxy 403s this host on CONNECT)",
+      "artifact": "literature-cache:literature/grade-definitions/gradepro_handbook.txt"
+    },
+    {
+      "id": 1,
+      "what": "GRADE Working Group site, Organizations section: 'More than 120 organizations from over 20 countries around the world have endorsed or are using GRADE.'",
+      "url": "https://www.gradeworkinggroup.org/",
+      "http_status": 200,
+      "fetched_utc": "2026-08-28",
+      "fetched_via": "fetch-literature.yml run 33181002075, slug grade-definitions",
+      "artifact": "literature-cache:literature/grade-definitions/grade_working_group_home.txt",
+      "supersedes": "research/method-watch-autonomy-prior-art-2.md section 10 action 9 and the AUT-PROP-037 ledger row both say '110+ organisations'. That was a dated reading and it understates, exactly as CLAUDE.md section 4 predicts a remembered AI/standards figure will. This entry is the live reading; the two older copies are left as they are because they are dated survey records, and correcting them is proposed as a separate ledger row rather than done here."
+    },
+    {
+      "id": 2,
+      "what": "Cochrane Handbook chapter 14 - the five rating-down domains ('risk of bias, inconsistency, indirectness, imprecision and publication bias', with three further upgrade domains for non-randomized evidence); the floor of the scale ('It is not possible to rate lower than very low certainty evidence'); and indirectness from surrogate outcomes ('indirectness due to surrogate outcomes when data on patient-important outcomes are not available')",
+      "url": "https://training.cochrane.org/handbook/current/chapter-14",
+      "final_url": "https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-14",
+      "http_status": 200,
+      "fetched_utc": "2026-08-28",
+      "fetched_via": "fetch-literature.yml run 33181002075, slug grade-definitions",
+      "artifact": "literature-cache:literature/grade-definitions/cochrane_handbook_ch14.txt"
+    },
+    {
+      "id": 3,
+      "what": "'The GRADE Working Group clarifies the construct of certainty of evidence' - the construct statement quoted in _the_mapping_is_partial_on_purpose: 'Certainty of evidence is best considered as the certainty that a true effect lies on one side of a specified threshold, or within a chosen range.' Bibliographic line as printed on the fetched page: 'J Clin Epidemiol. 2017 May 18;87:4-13. doi: 10.1016/j.jclinepi.2017.05.006', 'PMCID: PMC6542664 EMSID: EMS83123 PMID: 28529184'.",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6542664/",
+      "http_status": 200,
+      "fetched_utc": "2026-08-28",
+      "fetched_via": "fetch-literature.yml run 33181002075, slug grade-definitions",
+      "artifact": "literature-cache:literature/grade-definitions/pmc_clarifies_certainty.txt",
+      "note": "Identifiers above were READ OFF THE FETCHED PAGE, not recalled. The publisher's version was requested in the same run and refused - see sources[4]."
+    },
+    {
+      "id": 4,
+      "what": "NOT READ. Requested in the same run and refused by the publisher to the GitHub runner: the J Clin Epidemiol publisher version (https://www.jclinepi.com/article/S0895-4356(16)30703-X/fulltext, HTTP 403) and the BMJ 2008 GRADE introduction (https://www.bmj.com/content/336/7650/924, HTTP 403). Nothing in this file is sourced from either.",
+      "http_status": 403,
+      "fetched_utc": "2026-08-28",
+      "fetched_via": "fetch-literature.yml run 33181002075, slug grade-definitions"
+    }
+  ],
+  "unknowns": [
+    "GRADErater's status beyond 'prototype built and undergoing testing' - no release date, no accuracy figures, no adopter identified, paper not read (research/method-watch-autonomy-prior-art-2.md section 11). It is not wired into anything here and must not be.",
+    "Whether GRADE itself defines a rendering for an outcome with NO included studies. The two handbook pages fetched (sources[0], sources[2]) were searched for 'no studies' / 'no evidence' and contain no such definition. NO_EVIDENCE in this file is therefore THIS REPOSITORY'S label, argued from Table 5.1's definitions and from Cochrane's statement that very low is the floor - it is not a GRADE category and is marked as such in grade_vocabulary.",
+    "Whether GRADE's resource-use / economic guidance reaches a projected compute cost (bears on R5-measured-edge-cost). Not covered by anything fetched; no primary source read.",
+    "Whether an outside reviewer reads these ceilings as intended. Untested - nobody outside this repository has been shown the mapping."
+  ]
+}
