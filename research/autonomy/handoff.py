@@ -128,6 +128,50 @@ def refusal_of(receipt: dict) -> str | None:
     return v.strip() if isinstance(v, str) and v.strip() else None
 
 
+#: ⛔ The field a session records when the mechanism was ABSENT rather than refused — no
+#: `create_session` on this context's tool surface at all. Named here, once, because `session_cap.py`
+#: and `health.py` both read it and AUT-PD-017's finding is that a field name agreed in prose between
+#: two readers is not agreed at all.
+UNAVAILABLE_FIELD = "handoff.mechanism_unavailable"
+
+
+def mechanism_unavailable_of(receipt: dict) -> str | None:
+    """What this session found ABSENT when it went looking for a way to hand off, or None.
+
+    ⛔⛔ A REFUSAL AND AN ABSENCE ARE DIFFERENT FAILURES AND THEY HAVE DIFFERENT REMEDIES
+    (AUT-PD-059, measured 2026-08-28; the two incidents are AUT-PD-032 and AUT-PD-045).
+    `refusal_of` covers a call that was MADE and rejected — `create_session` exists, the session
+    called it, and the platform answered with a lineage-depth ceiling. This covers the stronger
+    failure: in a scheduled-Routine session `create_session` is **not present as a tool at all**,
+    at lineage depth 1, with no chain to have exhausted. Nothing was refused because nothing could
+    be called.
+
+    ★ WHY THE DISTINCTION IS WORTH A SECOND FIELD RATHER THAN A SHARED "blocked" ONE. A depth
+    refusal says the loop ran too deep and a successor started nearer the root would work — the
+    remedy is a shallower spawn. An absence says the platform never gave THIS LAUNCH SHAPE the
+    tool, so spawning shallower changes nothing and the remedy is to stop expecting a handoff here
+    and let the driver Routine's next firing be the successor. Recording which one occurred is the
+    whole diagnostic value; collapsing them tells a future session to retry something that cannot
+    work, or to give up on something that would have.
+
+    ⚠ AND THIS EVIDENCE IS WEAKER THAN A REFUSAL'S, WHICH IS STATED RATHER THAN HIDDEN. A refusal
+    can quote the platform's own words, so a reader can tell a real ceiling from an excuse. An
+    absence produces no words at all — there is nothing to quote — so the string is necessarily the
+    session's own account of a check it says it ran. That asymmetry is exactly why a named absence
+    downgrades a health row to UNMEASURED and never to green: it is a reason the reading could not
+    be taken, never evidence the rule was obeyed.
+
+    ⛔ AN ABSENT RECORD IS STILL A SKIPPED HANDOFF. Same rule as `refusal_of`, same reason:
+    otherwise "the tool wasn't there" becomes a free pass claimable by any session that never
+    looked.
+    """
+    block = receipt.get("handoff")
+    if not isinstance(block, dict):
+        return None
+    v = block.get("mechanism_unavailable")
+    return v.strip() if isinstance(v, str) and v.strip() else None
+
+
 def _read(path: pathlib.Path):
     try:
         return json.loads(path.read_text()), None
@@ -247,6 +291,8 @@ def build(reason: str = "", ledger=None, state=None) -> str:
     src = SPAWN["source_url"]
     rev = SPAWN["source_revision"]
     child_field = CHILD_ID_FIELD
+    refused_field = REFUSAL_FIELD
+    unavailable_field = UNAVAILABLE_FIELD
 
     return f"""Run the next cycle of the autonomous EMC research loop. You are a FRESH SESSION,
 started deliberately so that this cycle gets a clean context.
@@ -301,6 +347,16 @@ under `create_session`: environment {env}, source {src} at revision {rev}. Recor
 your receipt under `{child_field}` — that exact field name is what `health.py`'s `cycles_are_sized`
 reads, and a receipt stating the same fact under any other name is invisible to it. A loop that needs
 a human to start its next session is not automated; it just has a longer fuse.
+
+⛔ AND IF YOU CANNOT HAND OFF, RECORD WHICH OF THE TWO WAYS IT FAILED — THEY ARE DIFFERENT FAILURES
+WITH DIFFERENT REMEDIES, AND A RECEIPT THAT DOES NOT SAY WHICH IS GRADED AS A SESSION THAT NEVER
+TRIED. If `create_session` EXISTS and the platform REFUSES it (a lineage-depth ceiling, for example),
+put its answer VERBATIM under `{refused_field}`. If `create_session` is not on your tool surface at
+all — the usual case in a scheduled-Routine session — name what you searched for and did not find
+under `{unavailable_field}`. ★ THE DISTINCTION IS THE POINT: a refusal means a successor started
+nearer the root would work; an absence means spawning cannot help from this launch shape and the
+driver Routine's next firing is the successor. Both read as UNMEASURED rather than as your defect;
+NEITHER field, or a name you invented instead, reads as RED.
 
 ⛔ THREE THINGS THAT ARE MEASURED, NOT ADVISORY, AND EACH HAS COST THIS REPOSITORY A RUN: never
 background a command with a shell `&` (a hook refuses it — use the tool's own run_in_background,

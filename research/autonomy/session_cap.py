@@ -72,7 +72,12 @@ STATE = os.path.join(HERE, "autonomy-state.json")
 
 #: The receipt field naming a mechanism that is absent rather than refused. A refusal quotes the
 #: platform; this names what could not be reached. Both must be non-empty strings.
-UNAVAILABLE_FIELD = "handoff.mechanism_unavailable"
+#: ⛔ RE-EXPORTED, NOT RE-SPELLED (AUT-PD-059 tightening AUT-PD-017). This module used to declare the
+#: literal here AND hand-roll `block.get("mechanism_unavailable")` below, while `handoff.py` owned
+#: every other handoff field — the same two-readers-agreeing-in-prose shape AUT-PD-017 fixed for
+#: `child_session_id`, one field later. `handoff.py` now owns the name and the read; this is an alias
+#: so nothing importing `session_cap.UNAVAILABLE_FIELD` breaks.
+UNAVAILABLE_FIELD = handoff.UNAVAILABLE_FIELD
 
 #: ⛔ The literal a scheduled session wrote instead of its real id, so nine sessions' receipts were
 #: indistinguishable from one session's. Treated as NO id: an unreadable session id must never let a
@@ -150,15 +155,7 @@ def blocked_handoff(receipt: dict) -> str | None:
     """
     if handoff.child_session_id_of(receipt):
         return None
-    refused = handoff.refusal_of(receipt)
-    if refused:
-        return refused
-    block = receipt.get("handoff")
-    if isinstance(block, dict):
-        v = block.get("mechanism_unavailable")
-        if isinstance(v, str) and v.strip():
-            return v.strip()
-    return None
+    return handoff.refusal_of(receipt) or handoff.mechanism_unavailable_of(receipt)
 
 
 def verdict() -> tuple[bool, str]:
