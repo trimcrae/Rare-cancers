@@ -11,7 +11,7 @@
 | *EWSR1* e12::*NR4A3* e3 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 bp, wild-type *TFG* | ≥ 26.6 | E-N, engineered construct |
 | *TAF15* e6::*NR4A3* e3 | 5′-GGGCATATCTTGTGTG-3′ | 3 | 9 bp, wild-type *TFG* | ≥ 36.0 | T-N*, engineered construct |
 
-**Table 2. The two control oligonucleotides, each screened as its reagent was.** Each is a dinucleotide-preserving scramble of the reagent it controls, matching it in length, first and last base, base composition and dinucleotide counts while spanning no junction, and each cleared the same mature-parent screen the reagent did. Section 5 gives why that screening step is what makes a scramble a control.
+**Table 2. The two control oligonucleotides, each screened as its reagent was.** Each is a dinucleotide-preserving scramble of the reagent it controls, matching it in length, first and last base, base composition and dinucleotide counts while spanning no junction, and each cleared the same mature-parent screen the reagent did. The Controls section above explains why that screening step makes a scramble a control.
 
 | control | sequence | scramble of | WT gap duplex (bp) |
 |---|---|---|---|
