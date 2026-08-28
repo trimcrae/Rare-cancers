@@ -542,8 +542,19 @@ def main(argv=None) -> int:
             if kind in REFUSALS:
                 print(f"{kind}  {rid}\n    {why}")
     print(json.dumps(counts, indent=2, sort_keys=True))
+    # ⛔⛔ THE CLOSING SENTENCE EXPLAINED TWO GRADES AND OMITTED THE LARGEST ONE (AUT-PD-050). On
+    # 2026-08-28 this report printed `{"admitted": 77, "unaccounted": 86, "unscored": 97}` and then
+    # a sentence that named `admitted` and `unaccounted` only — so the biggest bucket in the loop's
+    # own scoring audit was a number with no reading attached, and the reading it needed is that an
+    # unscored row cannot be RANKED at all. Every grade this reporter can emit is now explained.
     print(f"{len(rows)} rows graded. `admitted` means the arithmetic checks out; `unaccounted` "
-          "means there is no arithmetic to check and is NOT a pass.")
+          "means there is no arithmetic to check and is NOT a pass; `unscored` means there is no "
+          "NUMBER — the row is pinned below every scored row by `priority.build_ledger`'s sort and "
+          "no ranking term can reach it, the anti-starvation age factor included.")
+    if counts.get(UNSCORED):
+        print(f"⛔ {counts[UNSCORED]} row(s) are UNSCORED. A hand-filed entry is HAND-SCORED, not "
+              "unscorable: file it with a `score` and a `_score_basis`, or with a "
+              "`prerequisite_of` naming the row it unblocks. See research-ledger.json `_role`.")
     if args.check:
         return 1 if any(k in REFUSALS for _, k, _w in rows) else 0
     return 0
