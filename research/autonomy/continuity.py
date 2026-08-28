@@ -186,7 +186,18 @@ def ready(me: str | None = None) -> list[dict]:
     """Every ledger item a session could start right now, best first."""
     terminal = handoff.terminal_ids()
     out = [e for e in _entries() if _why_not_ready(e, me, terminal) is None]
-    out.sort(key=lambda e: (-(e.get("score") or 0), e.get("id") or ""))
+    # ⛔⛔ THE SAME MISSING VALUE, RANKED TWO DIFFERENT WAYS BY THE TWO FILES THAT RANK IT
+    # (AUT-PD-050). `priority.build_ledger` sorts unscored rows with `-1e9`, i.e. strictly below
+    # every scored row; this line read `or 0`, i.e. as if the row had scored exactly zero — above
+    # every negatively-scored row. Nothing diverged TODAY only because no currently-ready row holds
+    # a negative score (measured 2026-08-28: ready scores run 36.0 to 152.0), and
+    # `apply_fruitless_attempts` alone can take a ready row below zero, at which point the ranker
+    # and the ready list would disagree about which work comes first with nothing saying so. ⚠ Same
+    # reader/writer-mismatch family as the `blocked_by` vs `blocked_evidence` split fixed above:
+    # two files agreeing in prose about a fact and disagreeing in code.
+    # ⛔ AND `or 0` WAS ALSO WRONG FOR A REAL SCORE OF 0.0, which two committed rows carry — it made
+    # a computed zero and an absent score indistinguishable at the one place that orders them.
+    out.sort(key=lambda e: (priority.score_rank(e), e.get("id") or ""))
     return out
 
 
@@ -399,7 +410,22 @@ def main(argv=None) -> int:
     print(f"⛔ {len(r)} ledger item(s) are READY TO RUN RIGHT NOW — free, unclaimed and unblocked.\n")
     for e in r[:args.limit]:
         what = " ".join((e.get("what") or "").split())
-        print(f"   [{e.get('score', 0):>6.1f}]  {e.get('id')}  {what[:150]}")
+        # ⛔⛔ AUT-PD-050, AND THIS LINE FAILED TWO DIFFERENT WAYS ON THE SAME COMMITTED LEDGER.
+        # 91 rows omit `score` entirely, so `.get('score', 0)` printed a confident `[   0.0]` for a
+        # row nobody scored — CLAUDE.md §4's "a populated field is not a measured one", in the list
+        # the driver reads to CHOOSE WHAT TO WORK ON. Six other rows carry `"score": null`, for
+        # which the default never fires and `None.__format__` raises: measured 2026-08-28,
+        # `continuity.py --limit 30` died with `TypeError` at ready-rank 29, while the default
+        # `--limit 10` never reached it. A view that works until you look past the top ten, and
+        # crashes exactly on the starved rows, is how the starvation stayed invisible.
+        # ⚠ THE LIMIT THAT REPRODUCES IT IS A MOVING TARGET, so do not read `30` as the property.
+        # Re-measured on the pre-fix tree five hours later (seat s6): `--limit 30` exited 0, because
+        # the ready list had grown past 30 SCORED rows and no longer reached an unscored one;
+        # `--limit 300` raised the identical TypeError. The crash follows the starved rows, not a
+        # number, and it gets HARDER to trip as the queue grows — which is the wrong direction.
+        score = e.get("score")
+        cell = f"{score:>6.1f}" if isinstance(score, (int, float)) else f"{priority.NO_SCORE:>6}"
+        print(f"   [{cell}]  {e.get('id')}  {what[:150]}")
     if len(r) > args.limit:
         print(f"   … and {len(r) - args.limit} more")
 
