@@ -1,0 +1,38 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0038-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T11:55:00Z",
+  "shape": "Follow-up wake on the CYC-0037 subagent's completion notification. Reviewed and merged its branch, updated the ledger (using the brand-new ledger_io.write_ledger it just built — the fix immediately dogfooded), and in the course of running PREFLIGHT_TESTS=1 for the first time in a few cycles, caught a real latent defect this session itself introduced two cycles ago.",
+  "took": "AUT-PD-037 — merge and close the ledger-serialization fix; fix a self-introduced archive-manifest provenance defect found while doing so (RT-AUTONOMY)",
+  "took_what": "Reviewed branch aut-pd-037-ledger-serialization (commit b29ffc4f1) diff-by-diff before merging (research/autonomy/ledger_io.py, and its wiring into priority.py and claim.py). Merged clean, no conflicts. Updated the ledger for AUT-PD-037 using the new ledger_io.write_ledger function itself — the diff came out as a clean 61-line addition instead of the whole-file churn every previous cycle produced, which is the fix working end to end on its first real use.",
+  "changed": [
+    "Merged AUT-PD-037's fix to main: research/autonomy/ledger_io.py (new canonical write_ledger()/dumps_ledger(), pinned to the format already de facto on origin/main — indent=2, ensure_ascii=False, trailing newline), priority.py and claim.py both migrated to call it, and a 9-test guard (research/autonomy/tests/test_the_ledger_has_one_serialization.py) that fails if either writer reverts or if the pinned parameters ever drift from what's actually committed. Verified: re-ran priority.py --write after the merge and confirmed zero encoding churn in the resulting diff (the exact defect this session hit personally in CYC-0033-036 no longer reproduces).",
+    "Ledger: AUT-PD-037 marked done. Filed AUT-PD-043 (citation-provenance-ledger.json has the same drift on disk but its one writer, lint_citations.py's baseline(), refuses to ever run twice, so it's inert — low priority) and AUT-PD-044 (amendments.jsonl has 2 of 80 lines with a different ensure_ascii setting than the rest, found by the subagent, no current writer identified — flagged for a shared appender if this keeps recurring, since JSONL's per-line unit makes this lower-severity than AUT-PD-037's single-document case).",
+    "⛔⛔ CAUGHT A REAL, ALREADY-PUSHED DEFECT ON main, INTRODUCED BY THIS SESSION TWO CYCLES AGO: running PREFLIGHT_TESTS=1 (the first time this session ran it since CYC-0036) failed test_the_manifest_revision_is_a_commit_a_reader_can_resolve — the archive manifest committed in CYC-0036 (b389f3c14, currently on origin/main) records git_revision a23fa5c366..., which is NOT reachable on any branch or tag. Root cause, confirmed rather than guessed: CYC-0036 regenerated the manifest, then a push was rejected by a concurrent CI commit, forcing a rebase that rewrote a23fa5c36 to ea83fc145 — and this session explicitly chose NOT to re-regenerate the manifest a second time afterward (reasoning at the time: '--check-archive still passes, so this is just cosmetic', which was WRONG — --check-archive verifies the file inventory, not whether git_revision is a resolvable commit, and a dedicated separate test exists precisely for that second question, which this session did not run before pushing because PREFLIGHT_TESTS was skipped on that push). CYC-0034 hit the identical rebase situation and DID correctly re-regenerate a second time (commit 1468c7a9d, 're-regenerate ASO archive manifest after rebase') — CYC-0036 was the one place this session got complacent. Fixed in this cycle: manifest regenerated against the final, post-merge, pre-push tree, and (per the lesson) will be regenerated AGAIN after any further rebase this push needs, not skipped.",
+    "Archive manifest regenerated as an isolated follow-up commit per its own ordering requirement, AND verified this time with the dedicated resolvability test, not just --check-archive."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [
+    "CYC-0036 regenerated the archive manifest after a rebase-forced push rejection, checked only `--check-archive` (the file-inventory question), and explicitly decided the `git_revision` staleness this caused was cosmetic/human-only. It was not: a dedicated test (test_the_manifest_revision_is_a_commit_a_reader_can_resolve.py) exists specifically to catch a git_revision left dangling by a post-regeneration rebase, and it went unrun on that push because PREFLIGHT_TESTS=1 was not set for it. The defect sat on origin/main for two cycles before this one's PREFLIGHT_TESTS=1 run caught it. Lesson, stated plainly: '--check-archive passes' is not the same claim as 'the manifest's provenance line is sound after a rebase' — the two are different tests for different questions, and CYC-0034's own handling of the identical situation (re-regenerate a second time, unconditionally, after any rebase) was the correct instinct that CYC-0036 abandoned under a false economy."
+  ],
+  "now_queued": [
+    "AUT-PD-043: confirm citation-provenance-ledger.json's serialization drift is genuinely inert, or route a future --verify-online writer through a shared serializer.",
+    "AUT-PD-044: decide whether amendments.jsonl needs a shared append helper given repeated ad hoc appends this session."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "Review-and-merge plus a same-session self-correction; no new large or open-ended work spawned this cycle."
+  }
+}
