@@ -127,6 +127,17 @@ jobs:
         run: python3 research/manuscripts/lint_citations.py
       - name: Manuscript prose style (journal register, not repository register)
         run: python3 research/manuscripts/lint_style.py
+      # ⛔ ADDED 2026-08-28 WITH PREFLIGHT GATE 16 (AUT-PROP-032), AND IT IS HERE FOR THE REASON THE
+      # BLOCK ABOVE GIVES IN ITS OWN WORDS: a gate that only fires when somebody remembers to run
+      # preflight locally is a gate that will be green on the day it matters. arXiv applies a
+      # one-year submission ban for incontrovertible evidence of unverified LLM output, and its named
+      # triggers are hallucinated references, residual model meta-comments and unremoved placeholder
+      # text. This step covers the second and third, over the documents that actually go out; the
+      # first is the citation-provenance step above, and is partial (the module names the gaps).
+      # ⚠ The policy is SEARCH-grade here — arxiv.org is refused at the sandbox's egress proxy — so
+      # the CHECKLIST is implemented and the policy's wording, date and scope stay UNKNOWN.
+      - name: Unverified-output residue in the documents that go out
+        run: python3 research/manuscripts/lint_submission_residue.py
       # ⛔ A LINE-NUMBER CITATION IS A CLAIM AND IT ROTS SILENTLY. `check_links` validates that a FILE and
       # an ANCHOR exist; neither reaches inside a file to a LINE, so a citation that has drifted still
       # resolves — it just points at a sentence that does not say what it is cited for. Measured

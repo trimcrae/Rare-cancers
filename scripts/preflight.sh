@@ -1002,6 +1002,51 @@ else
 fi
 rm -f "$sout"
 
+# ⛔ THE THREE THINGS A PREPRINT SERVER NOW BANS SUBMITTERS OVER (AUT-PROP-032, 2026-08-28).
+# A one-year submission ban is applied where there is "incontrovertible evidence" of unverified LLM
+# output, and the named triggers are exactly what an unattended drafting loop produces: hallucinated
+# references, residual model meta-comments, unremoved placeholder text. ⛔⛔ THE SANCTION ATTACHES TO
+# THE AUTHOR'S NAME AND ORCID, not to this repository, and no later commit undoes it. That is why a
+# cosmetic-looking string check sits in the commit loop.
+# ⚠ THE POLICY IS SEARCH-GRADE HERE AND THE GATE SAYS SO RATHER THAN QUOTING IT. The trigger list
+# reached us through a secondary news item (research/method-watch-autonomy-prior-art-2.md §5);
+# arxiv.org is refused at this sandbox's egress proxy, so its wording, date and scope are UNKNOWN and
+# the module records them as UNKNOWN. What is implemented is the CHECKLIST, not the policy text.
+# ⛔ TRIGGER 1 IS GATE 6's AND IS NOT DUPLICATED HERE. `lint_citations.py` already asks whether an
+# identifier traces to a fetch product; a second guard over the same corpus would be an overlapping
+# wall rather than new coverage. What gate 6 does NOT reach — a reference carrying no identifier at
+# all, arXiv ids, the author list and title printed beside an anchored id — is enumerated in the
+# module's `UNCOVERED_BY_LINT_CITATIONS` instead of being closed with a weaker check.
+# ★★ AND THE SCOPE IS THE DESIGN. Every string this gate looks for appears legitimately, and often,
+# in the repository's own working prose — CLAUDE.md, AGENTS.md, the skills, the ledger and the plans
+# discuss TODOs, placeholders and model behaviour correctly, and plan files are written as `- [ ]`
+# checklists. Measured 2026-08-28, with the shipped rules and the frontmatter exemption both live:
+# 132 of the 398 tracked `.md` files that are NOT submission documents match at least one rule, 314
+# matches in all, every one honest. (⚠ Superseded, retained: "197 … 275 matches", measured against
+# the PROTOTYPE rules before the empty-bracket lookahead was tightened and frontmatter exempted.)
+# The linter re-derives this pair on every test run rather than trusting this line. So the gate reads ONLY the
+# documents that go out (manuscripts, SIs, tables, references, cover letters), and derives that set
+# from four committed artifacts — publications.json, lint_style.TARGETS, build_submission_pdf.PAPERS
+# and submission-metrics.json — rather than from a hand-list that drifts.
+# ⚠ APPENDED AT THE END ON PURPOSE, AND IT IS THE SAME REASONING THE GENERATED-ARTIFACTS GATE
+# RECORDS: a new heading RENUMBERS every gate below it, and gates 13-15's ordinals are written into
+# `research/autonomy/ids.py`, `research/autonomy/priority.py` and committed ledger rows that are
+# immutable history. Appending moves nothing. This gate is fast (0.6 s measured over five runs) and
+# has no ordering requirement, so the only cost of the position is that its message appears at the
+# end of the log rather than the middle.
+echo "== unverified-output residue in the documents that go out (model meta-comments, placeholders) =="
+if residue_out="$(python3 research/manuscripts/lint_submission_residue.py 2>&1)"; then
+  echo "$residue_out" | sed 's/^/   /'
+  echo "   OK"
+else
+  echo "$residue_out" | sed 's/^/   /'
+  echo "   FAILED -- an outgoing document carries a model meta-comment or an unremoved placeholder."
+  echo "            Fix the DOCUMENT. Do not add a row to submission-residue-baseline.json to make"
+  echo "            this pass: that file records slots a human decided may stand, and the count is"
+  echo "            meant to fall."
+  rc=1
+fi
+
 # The run reached its own verdict, so an exit from here on is the verdict rather than an abort.
 _preflight_summary_reached=1
 

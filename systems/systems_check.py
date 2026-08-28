@@ -1510,6 +1510,10 @@ _GATE_TOOLS = (
     # for its ORDINAL — the header above records five such entries hiding a wrong list for weeks —
     # so a new gate that owns a script belongs here in the same commit that adds it.
     "receipt_schema.py",
+    # ⚠ ADDED 2026-08-28 WITH ITS GATE (AUT-PROP-032), for the reason the note above gives. The
+    # residue gate is appended LAST in `preflight.sh` precisely so no ordinal moves, which means the
+    # only way a document can say where it runs is by deriving it from here.
+    "lint_submission_residue.py",
 )
 
 

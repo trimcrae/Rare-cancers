@@ -1,0 +1,121 @@
+{
+ "_what": "Every unverified-output residue finding present in the outgoing documents on the day lint_submission_residue.py was written (2026-08-28, AUT-PROP-032). Anything NOT in this list fails the build the moment it is written.",
+ "_why_a_baseline_and_not_a_wall": "The lint_citations precedent, for the same reason: failing the build on findings that already exist produces a red gate the next session switches off, which is worse than no gate. THE BASELINE IS THE FINDING — it names, for the first time, exactly which outgoing document carries which unfilled slot. The count is meant to FALL.",
+ "⛔_this_is_not_an_amnesty": "A row here says a human read the string and decided it may stand FOR NOW. It does not say the document is ready to send. Nine of these fifteen are the SAME slot — a submission date the repository cannot supply and must not invent — and every one of them still has to be filled or cut before its letter goes to an editor.",
+ "⭐_two_rows_are_fixable_today_and_are_recorded_as_such": "nr4a3-fusion-transcriptional-output-cover-letter.md's [ORCID] is a fact this repository already holds (CITATION.cff and .zenodo.json), and nr4a3-fusion-transcriptional-output-SI.md's [] is an empty cell in a column every other row fills. Neither was changed by the cycle that wrote this gate, because a gate's author editing the documents it grades is the shape amendment_guard.py exists to catch; both are reported to the owner instead.",
+ "_key": "file|rule|matched text — never a line number. A baseline keyed to a line is amnesty for whatever drifts onto that line.",
+ "entries": [
+  {
+   "key": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md|bracket-placeholder|[DATE]",
+   "file": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
+   "rule": "bracket-placeholder",
+   "text": "[DATE]",
+   "line_when_written": "34 and 78 — ONE ROW COVERS BOTH, because the key is the matched text and not a line",
+   "why": "Two occurrences of the same string in one file. Line 78 is the LIVE slot (`**Date:** [DATE]`): the submission date, not knowable at commit time and one the repository must not invent. Line 34 is the letter's own ⛔ instruction to whoever sends it, naming the brackets that must be filled or cut first — quoted inside that instruction rather than standing as a slot, and deleting it would remove the only place the requirement is written down."
+  },
+  {
+   "key": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md|uppercase-slot|[PREPRINT DOI]",
+   "file": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
+   "rule": "uppercase-slot",
+   "text": "[PREPRINT DOI]",
+   "line_when_written": 38,
+   "why": "Quoted inside the note recording that this bracket was REMOVED from the letter, because no preprint exists and a bracket in a letter where no preprint exists is 'a sentence waiting to become false'. The removal is the finding; the quotation records it."
+  },
+  {
+   "key": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md|uppercase-slot|[ARCHIVE DOI]",
+   "file": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
+   "rule": "uppercase-slot",
+   "text": "[ARCHIVE DOI]",
+   "line_when_written": 50,
+   "why": "Quoted inside a superseded-retained note stating that no [ARCHIVE DOI] placeholder survives — the DOI was minted 2026-08-20. The live placeholder this string names is gone; the record of it is required by CLAUDE.md rule 1.2."
+  },
+  {
+   "key": "research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md|bracket-placeholder|[DATE]",
+   "file": "research/manuscripts/dependency/emc-atr-collaborator-package-cover-letter.md",
+   "rule": "bracket-placeholder",
+   "text": "[DATE]",
+   "line_when_written": 33,
+   "why": "The live `**Date:** [DATE]` slot. The send date is not knowable at commit time; it is filled by the sender, and this gate exists so that it is filled rather than shipped."
+  },
+  {
+   "key": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md|empty-bracket|[]",
+   "file": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md",
+   "rule": "empty-bracket",
+   "text": "[]",
+   "line_when_written": 123,
+   "why": "⚠ A REAL HOLE, NOT A CONVENTION. The NDRG2 row's driver column is `[]` where every other row of that table names one (`NR4A3 (native)`, `EWSR1::NR4A3`). It renders as a literal `[]` in the built SI. If the intended meaning is 'no driver established for this class-D association', the cell must say so; if a value was dropped, it must be restored. Left as a finding for the document's owner rather than guessed at by the gate's author."
+  },
+  {
+   "key": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-cover-letter.md|bracket-placeholder|[ORCID]",
+   "file": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-cover-letter.md",
+   "rule": "bracket-placeholder",
+   "text": "[ORCID]",
+   "line_when_written": 31,
+   "why": "⭐ FIXABLE FROM A COMMITTED ARTIFACT. The author's ORCID is recorded in CITATION.cff and .zenodo.json; the ASO cover letter's own supersession note records that the iD was registered on 2026-08-20 and put into both papers' author blocks. This letter's slot was not filled at the same time. It is a one-fact-one-place repair, not an unknowable value — but it is an edit to an outward-facing document and is left to the owner."
+  },
+  {
+   "key": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-cover-letter.md|bracket-placeholder|[DATE]",
+   "file": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-cover-letter.md",
+   "rule": "bracket-placeholder",
+   "text": "[DATE]",
+   "line_when_written": 33,
+   "why": "The live `**Date:** [DATE]` slot; filled by the sender at the moment of sending."
+  },
+  {
+   "key": "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-cover-letter.md|bracket-placeholder|[DATE]",
+   "file": "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis-cover-letter.md",
+   "rule": "bracket-placeholder",
+   "text": "[DATE]",
+   "line_when_written": 33,
+   "why": "The live `**Date:** [DATE]` slot; filled by the sender at the moment of sending."
+  },
+  {
+   "key": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md|todo-marker|TBD",
+   "file": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md",
+   "rule": "todo-marker",
+   "text": "TBD",
+   "line_when_written": 25,
+   "why": "'Draft (2026-06). Authors/affiliations TBD.' — an unfilled author block in a manuscript the publications graph points a publication endpoint at. The document states its own draft status, so nothing here is dishonest; the TBD is nevertheless exactly the placeholder class that must not reach a submission portal, and it stays a finding until the block is filled."
+  },
+  {
+   "key": "research/manuscripts/neoantigen/hla-coverage-emc.md|bracket-placeholder|[Name]",
+   "file": "research/manuscripts/neoantigen/hla-coverage-emc.md",
+   "rule": "bracket-placeholder",
+   "text": "[Name]",
+   "line_when_written": 58,
+   "why": "'**Author:** [Name], Independent researcher, [City, Country]' in a document whose own banner reads 'DRAFT v0.1 — full prose, pre-clinician-review, not for submission'. The banner is the reason this is baselined rather than a build failure; the slot is still a slot."
+  },
+  {
+   "key": "research/manuscripts/neoantigen/hla-coverage-emc.md|bracket-placeholder|[City, Country]",
+   "file": "research/manuscripts/neoantigen/hla-coverage-emc.md",
+   "rule": "bracket-placeholder",
+   "text": "[City, Country]",
+   "line_when_written": 58,
+   "why": "The second half of the same unfilled author block. Recorded as its own row because the key is the matched TEXT: filling one slot and not the other must leave the gate red on the one still open."
+  },
+  {
+   "key": "research/manuscripts/program/emc-treatment-roadmap.md|todo-marker|TBD",
+   "file": "research/manuscripts/program/emc-treatment-roadmap.md",
+   "rule": "todo-marker",
+   "text": "TBD",
+   "line_when_written": 27,
+   "why": "'Draft manuscript (2026-06). Authors/affiliations TBD.' — the same unfilled author block as the neoantigen paper, in the roadmap manuscript PUB-EMC-PROGRAM points at."
+  },
+  {
+   "key": "research/manuscripts/repurposing/repurposing-hypotheses-cover-letter.md|bracket-placeholder|[DATE]",
+   "file": "research/manuscripts/repurposing/repurposing-hypotheses-cover-letter.md",
+   "rule": "bracket-placeholder",
+   "text": "[DATE]",
+   "line_when_written": 34,
+   "why": "The live `**Date:** [DATE]` slot; filled by the sender at the moment of sending."
+  },
+  {
+   "key": "research/manuscripts/surface-targets/emc-surface-target-landscape-cover-letter.md|bracket-placeholder|[DATE]",
+   "file": "research/manuscripts/surface-targets/emc-surface-target-landscape-cover-letter.md",
+   "rule": "bracket-placeholder",
+   "text": "[DATE]",
+   "line_when_written": 33,
+   "why": "The live `**Date:** [DATE]` slot; filled by the sender at the moment of sending."
+  }
+ ]
+}
