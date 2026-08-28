@@ -1,0 +1,49 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0031-cyc031as",
+  "session_id": "CYC-031-aso-round10",
+  "utc": "2026-08-28T01:15:00Z",
+  "shape": "One fired session (scheduled Routine, `research-loop` cycle contract), one ledger item, five parallel Agent-tool subagents for the hardening round's blind seats, several CI dispatches for gate remediation, one item claimed and closed.",
+  "took": "AUT-PROP-020 — ASO round 10 (PUB-ASO hardening)",
+  "took_what": "Claimed AUT-PROP-020 (score 195.5, tied top with its siblings AUT-PROP-018/019; picked it over the sibling items because it was the one whose own text named the sequencing gate the other two wait on — round 10 must run first). Dispatched five blind adversarial review seats (regression, arithmetic, statistics/design, citations/build/gates, hostile referee) as parallel Agent-tool subagents against the pinned commit of fusion-junction-aso-journal-article.md, per paper-hardening's seat design. `create_session`/handoff (the SPAWNED SESSION shape AUT-PROP-020's own text called for) was not available as a tool in this scheduled-Routine context — used the parallel-subagents shape research-loop §3 names as the alternative for a hardening round's blind seats.",
+  "changed": [
+    "ZERO blockers, ZERO P1s found in the ASO journal article's own prose across all five lenses — the article text itself needed no edit this round.",
+    "ONE real P1 found and fixed: Table 2's caption (in the GENERATED sibling fusion-junction-aso-journal-tables.md) referenced a nonexistent 'Section 5' — leaked from the sibling extended report, which the journal article's unnumbered-heading structure does not have. Fixed at the generator (aso_journal_tables.py), replacing rather than appending, word-neutral (14 words -> 14 words). All four dependent PDFs rebuilt (journal/manuscript/preprint/anonymized); journal style held at its 6-page, zero-slack budget.",
+    "Two P2 notes recorded, not applied (a Wilson-CI framing nicety on the panel's overlap check; a reference-file naming trap for the next editor) — full reasoning in fusion-junction-aso-paper-redteam-round10.md.",
+    "Discovered en route: preflight was red on main, not by this cycle's hand — 8 unanchored DOIs in research/method-watch-autonomy-prior-art-2.md from an earlier, unrelated commit. Verified via Crossref (fetch-literature.yml run 33130616967) and anchored in citation-provenance-ledger.json. A concurrent session fixed the identical gap independently via the PubMed/PMC MCP connector and landed first; resolved cleanly on rebase by taking that version (a strict superset of this session's additions) — no duplicate ledger entries survived.",
+    "claim-coverage.json regenerated for the digit-count change the caption fix caused (expected, verified scoped to exactly that one field).",
+    "Dispatched aso-submission-parts.yml (run 33131539072) to rebuild the .docx submission parts, which cannot be built in this sandbox (LibreOffice installed but broken here, documented pre-existing defect) — landed on main as its own CI commit.",
+    "Regenerated the ASO archive manifest as the session's final commit, against the fully clean tree, per repo-gates' ordering rule.",
+    "Queued AUT-PROP-039 (round 11) to re-seat and confirm convergence — this round found and fixed a real defect, so per the series' own standard it does not itself certify hardening_converged."
+  ],
+  "cost": "$0. Engineering, CPU and CI runner time only — no GPU, no rental, no spend of any kind.",
+  "subagents": {
+    "max_concurrent": 5,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 5,
+    "seats": [
+      "aso-round10-seat1 (regression lens — clean)",
+      "aso-round10-seat2 (arithmetic lens — clean, 2 P2 notes)",
+      "aso-round10-seat3 (statistics/design lens — 1 P1 candidate, downgraded to suggestion on review)",
+      "aso-round10-seat4 (citations/build/gates lens — 1 real P1, fixed; 2 P2 notes)",
+      "aso-round10-seat5 (hostile referee — verdict: minor revision, no correctness findings)"
+    ]
+  },
+  "what_i_got_wrong": [
+    "Ran `python3 research/manuscripts/aso_archive_manifest.py` once, early, while exploring the CLI (checking for a --help flag) — this regenerated the manifest against a dirty tree, which the gate correctly refused rather than merely flagging stale. Caught by preflight's own diagnostic before it was ever committed; reverted with `git checkout --` and redone properly as the session's last, clean-tree action.",
+    "Initially scheduled a `/loop`-style dynamic wakeup (ScheduleWakeup with the autonomous-loop-dynamic sentinel) as a fallback while background agents ran, before recognizing that tool is scoped to `/loop` sessions and inappropriate here — cancelled it immediately (stop:true) before it could fire and inject an unrelated prompt."
+  ],
+  "now_queued": [
+    "AUT-PROP-039: round 11 of PUB-ASO hardening — re-seat on the post-round-10 text, confirm convergence, closes publish_bar clause 1 (hardening_converged) if clean.",
+    "AUT-PROP-018 and AUT-PROP-019 remain queued behind round 11's convergence, per their own sequencing text (run against the FINAL commit, or the receipt is thrown away)."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-ASO-JUNCTION",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism was available as a tool in this scheduled-Routine context (searched via ToolSearch, not found). The item this cycle took did not require a spawned session once re-scoped to the parallel-subagents shape for the blind seats — the driver stayed within a single session's context budget throughout, so no handoff was needed for `cycles_are_sized` purposes."
+  }
+}
