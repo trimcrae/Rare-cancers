@@ -57,5 +57,16 @@
  "blocked_by": [],
  "route_advanced": "RT-ASO",
  "ccr_session_id": "session_01V57XfFBDdusymFL1K7x2C4",
- "_ccr_session_id_why": "The CCR session id, which is what joins this receipt to a row in the session list so session_reaper.py can see this session's work reached the trunk. NOT a duplicate of `session_id`, which is the harness UUID (c84c64dd-…). The receipt gate began requiring this between this session's first and second cycle — CYC-0069-c84c64dd, written 90 minutes earlier, carries no such field."
+ "_ccr_session_id_why": "The CCR session id, which is what joins this receipt to a row in the session list so session_reaper.py can see this session's work reached the trunk. NOT a duplicate of `session_id`, which is the harness UUID (c84c64dd-…). The receipt gate began requiring this between this session's first and second cycle — CYC-0069-c84c64dd, written 90 minutes earlier, carries no such field.",
+ "handoff": {
+  "child_session_id": "session_01GEFbqguVTYsLJrg8EAFYfG",
+  "attempted": true,
+  "succeeded": true,
+  "created_utc": "2026-08-28T23:27:54Z",
+  "title": "EMC research loop — cycle (successor to CYC-0071-c84c64dd)",
+  "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+  "parent_session_id": "session_01V57XfFBDdusymFL1K7x2C4",
+  "prompt_summary": "The four rows this cycle filed and did not work (AUT-PD-147/148/149, AUT-PD-130), and the two traps it paid for: run anything shelling out to pytest with the uv interpreter, because claim_ablation uses sys.executable and the system python3 has no pytest; and expect to renumber ledger ids at the merge. It is told to pick its own row from continuity.py rather than treat that list as the queue.",
+  "_why": "This session reached max_cycles_per_session = 2. The successor is a SPAWNED SESSION rather than a third cycle here — research-loop §3, and CLAUDE.md §6's context row, which records one session running nine cycles against a cap of 2."
+ }
 }
