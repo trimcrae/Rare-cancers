@@ -14,7 +14,7 @@
     "harden": 21,
     "negative": 32,
     "process": 7,
-    "process_defect": 119,
+    "process_defect": 120,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
@@ -22,7 +22,7 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 107,
+    "done": 108,
     "in_progress": 4,
     "parked": 28,
     "queued": 130,
@@ -1959,6 +1959,37 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "internal scoring-engine bugfix; nothing published, submitted or deposited",
       "what": "research/autonomy/priority.py's apply_session_penalties() resolves prerequisite chains in a SINGLE linear pass over `entries`, with no topological ordering: for a chain AUT-049 (blocked) <- AUT-PROP-018 (prerequisite of AUT-049, itself ALSO blocked_with_evidence) <- AUT-PROP-021 (prerequisite of AUT-PROP-018), the loop's correctness depends on iteration order and on how many times a node's score has already been mutated when a downstream child reads `parent[\"score\"]`. Concretely reproduced on the current committed ledger: AUT-PROP-018 and AUT-PROP-021 are hand-filed rows (filed_by CYC-0020) whose score/score_inputs are carried forward by merge() from a past --write rather than freshly derived, and AUT-PROP-018's `blocked_evidence` field holds stale text ('NOT blocked in the strict sense -- CLOSED at 64fdc665...') that nonetheless still triggers the penalty every run because the code is deliberately KEYED ON PRESENCE OF ANY TEXT, not on what the text says (a correct design for the common case, but it means this specific row's block can never self-clear without a session editing blocked_evidence to null). Separately, apply_age_factor running AFTER apply_session_penalties means a prerequisite's inherited score is locked in BEFORE its parent receives that cycle's age bonus, so a long-waited parent's true value grows past what its child already inherited. WHAT TO DO: (1) first, as a real, separate question: should AUT-PROP-018's `blocked_evidence` field be cleared (it reads as already-resolved prose, not a live blocker) -- if so this specific instance of the test failure may simply disappear, and that is worth checking BEFORE touching any scoring code. (2) If the underlying chain-resolution bug is still real after that, the correct fix is almost certainly to resolve apply_session_penalties' prerequisite loop to a FIXPOINT (iterate until no score changes, or topologically sort by prerequisite_of depth first) rather than a single pass, and to reconsider whether apply_age_factor should run once before AND the inheritance recomputed after, or whether age should be folded into the same fixpoint iteration. (3) Whatever the fix, verify against BOTH test_a_prerequisite_inherits_the_parents_value_not_its_penalty AND the two tests a naive reorder broke (test_an_evidenced_block_drops_out_of_the_queue, test_a_prerequisite_outranks_the_thing_it_unblocks) plus the full systems/tests + research/autonomy/tests suites, not just the one row that was red.  ✅ FIXED 2026-08-28 (CYC-0053-3217966b, seat s63-prereqscore, code on main at f9e19b4f3). ⛔ THE SIBLING FIX (a660303d1) ALONE DID NOT CLOSE IT — verified in a read-only clone at that commit with its own unmodified test: still red, only the failing PAIR moved. That fix addressed the ORDER; what kept the guard red is the ERASURE. Rule 2 ASSIGNS entry['score'], so a row that is both blocked-with-evidence and a prerequisite lost rule 1's −90 while its score_inputs went on saying blocked_with_evidence: true. Five rows carrying their own recorded block sat at ranks 6,7,9,11,12; test_an_evidenced_block_drops_out_of_the_queue checks only the TOP THREE, so it watched this and stayed green. After the fix they sit at 92–96. ⭐ THE ASSERTION'S SIGN IS INTENDED, NOT A BUG: penalty is −90, so `parent - penalty/2` reads parent+45, the MIDPOINT between the parent's penalised and unpenalised score — a child that inherited the penalty lands at the bottom of that interval, one that inherited the value at the top. ⛔ What WAS wrong is the other side: it compared the parent's unpenalised value against the child's FINAL score, which includes any penalty the CHILD carries for a block OF ITS OWN, so it read a correct scorer as broken. The tempting fix would have been deleting the child's own penalty — the bug, not the fix. It never fired that way before only because the penalty was being erased. ⭐ AND THE CHEAP FIRST QUESTION WAS A TRAP: clearing AUT-PROP-018's blocked_evidence under the OLD code went green by MINTING 90 points from a stale flag, taking that row to first place by 87 — a one-field edit would have closed the CI check and left the scorer broken. Age now runs BEFORE the penalties, deliberately: an assignment cannot see what is added to its parent afterwards. 752 passed, 0 failed; 6 mutants all caught; re-scoring twice moves 0 rows."
+    },
+    {
+      "id": "AUT-PD-140",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0070-c84c64dd",
+      "score": 150.0,
+      "_score_basis": "the guard against stalling was disarmed by the act its own remedy recommends, and the disarm is silent",
+      "depends_on_evidence": "continuity.py --check returned 0 with 5 leases against subagent_width 5, the fifth being CYC-0070-c84c64dd's own claim on AUT-PD-132; transcript shows the hook's last firing at 5:10 PM ET and the claim at 5:19 PM ET",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "the loop's own stop condition; nothing outward-facing",
+      "what": "⛔⛔ A SESSION'S OWN CLAIM FILLED THE CONCURRENCY CAP AND BOUGHT IT A SILENT STOP — FIXED IN THE SAME CYCLE. Measured 2026-08-28: CYC-0070 finished one cycle, claimed AUT-PD-132 for its second, wrote nothing and ended the turn. The ready-work Stop hook stayed silent because `continuity.py --check` returned 0: `live_leases()` counted 5 distinct owners against a governed `subagent_width` of 5, so the tool read AT CAPACITY — 'a WORKER must finish first' — and the worker it was waiting for was the session reading the verdict. 39 minutes; trimcrae found it. ⭐ THREE DEFECTS, ONE CAUSE. (1) A worker was counted among the workers blocking it. (2) The at-capacity branch printed 'THIS IS NOT PERMISSION TO STOP WORKING' and returned 0 — and inside a Stop hook the exit code is the ONLY channel read, because the hook returns on it before printing anything, so the caveat was delivered to nobody. (3) The hook's own remedy #1 said 'CLAIM THE ITEM, so this stops asking', which is right for a driver recording a dispatched seat and is a silencer for a session claiming for itself. FIX: continuity.own_cycle_owners() identifies this session's own cycle leases (from --me or CLAUDE_CODE_SESSION_ID, failing closed when neither is readable), excludes them from the capacity count, and returns 1 naming the rows you hold; the at-capacity wording now says what it means (it stops NEW work, it does not excuse work already held); the hook text no longer teaches the silencer. 15 tests, both mutations caught on a copy. ⚠ SEATS AND OTHER SESSIONS ARE UNCHANGED — the capacity reading was right about them, and a driver that claims at dispatch is still doing the correct thing.",
+      "dispatch_log": [],
+      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
+      "_id_collision": "Filed as AUT-PD-134 and renumbered AUT-PD-140 at the rebase. Another session filed its own AUT-PD-134 on the trunk while this cycle was working. `ids.next_entry_id` is max+1 over the ledger it can see and says so in its own docstring: concurrent filings collide and are caught at the merge. Nothing was lost — both rows exist, and every reference in continuity.py, the Stop hook and the two test files was moved with it."
     },
     {
       "id": "AUT-PROP-038",
@@ -6032,7 +6063,7 @@
       }
     },
     {
-      "id": "AUT-PD-140",
+      "id": "AUT-PD-141",
       "kind": "process_defect",
       "process_defect": true,
       "serves": {
@@ -6057,7 +6088,9 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a generated deposit artifact and its guards; nothing published, submitted or deposited",
-      "what": "⛔ A REBASE SILENTLY INVALIDATES THE ARCHIVE MANIFEST'S PROVENANCE, AND EVERY GUARD IT HAS STAYS GREEN — MEASURED 2026-08-28 (CYC-0070). AUT-PD-138's ordering says regenerate the manifest against a clean tree as the session's LAST commit, so `git_revision` names the content commit it describes. That is what happened: the manifest named 6a4c833fd, `git_tree_is_clean_apart_from_this_manifest: true`, --check-archive exit 0, and both manifest guard modules 11/11. ⛔ THEN TWELVE COMMITS LANDED FROM A CONCURRENT SESSION AND THE REBASE REWROTE 6a4c833fd TO 656ff2a29992. The manifest was now naming a sha that exists ONLY in this container's reflog — unreachable for anybody who clones — while its clean flag still read true and its inventory was still current. ⭐ THE THREE THINGS THAT WOULD CATCH IT ALL LOOK RIGHT: the cleanliness flag is about the TREE, not the ref; --check-archive explicitly does not compare repository-state fields; and `test_the_manifest_revision_is_a_commit_a_reader_can_resolve` passes locally because the orphaned sha still resolves through the local reflog. It was caught by hand, by comparing git_revision against `git rev-parse HEAD~1` after the rebase, and nothing required that. ⚠ AND THIS IS THE NORMAL CASE, NOT AN EDGE ONE. A concurrent loop session pushed 12 commits during the ~20 minutes this cycle spent rebuilding a deposit family, and the trunk moved under it three separate times. Any manifest commit that has to be rebased has this defect. WHAT TO DO: the candidate is to make the revision check ask git whether the named sha is an ANCESTOR OF THE COMMITTED BRANCH rather than merely resolvable — `git merge-base --is-ancestor <git_revision> HEAD` — which is false for an orphan and true for a real parent, and which the reflog cannot fake. ⚠ Note it must run against the committed history, not the working tree, or it reintroduces AUT-PD-138's ordering trap. ⛔ DO NOT 'fix' this by regenerating the manifest after every rebase as a convention: that is the remembered pairing AUT-PD-130 is about, and it failed there for the same reason it would fail here."
+      "what": "⛔ A REBASE SILENTLY INVALIDATES THE ARCHIVE MANIFEST'S PROVENANCE, AND EVERY GUARD IT HAS STAYS GREEN — MEASURED 2026-08-28 (CYC-0070). AUT-PD-138's ordering says regenerate the manifest against a clean tree as the session's LAST commit, so `git_revision` names the content commit it describes. That is what happened: the manifest named 6a4c833fd, `git_tree_is_clean_apart_from_this_manifest: true`, --check-archive exit 0, and both manifest guard modules 11/11. ⛔ THEN TWELVE COMMITS LANDED FROM A CONCURRENT SESSION AND THE REBASE REWROTE 6a4c833fd TO 656ff2a29992. The manifest was now naming a sha that exists ONLY in this container's reflog — unreachable for anybody who clones — while its clean flag still read true and its inventory was still current. ⭐ THE THREE THINGS THAT WOULD CATCH IT ALL LOOK RIGHT: the cleanliness flag is about the TREE, not the ref; --check-archive explicitly does not compare repository-state fields; and `test_the_manifest_revision_is_a_commit_a_reader_can_resolve` passes locally because the orphaned sha still resolves through the local reflog. It was caught by hand, by comparing git_revision against `git rev-parse HEAD~1` after the rebase, and nothing required that. ⚠ AND THIS IS THE NORMAL CASE, NOT AN EDGE ONE. A concurrent loop session pushed 12 commits during the ~20 minutes this cycle spent rebuilding a deposit family, and the trunk moved under it three separate times. Any manifest commit that has to be rebased has this defect. WHAT TO DO: the candidate is to make the revision check ask git whether the named sha is an ANCESTOR OF THE COMMITTED BRANCH rather than merely resolvable — `git merge-base --is-ancestor <git_revision> HEAD` — which is false for an orphan and true for a real parent, and which the reflog cannot fake. ⚠ Note it must run against the committed history, not the working tree, or it reintroduces AUT-PD-138's ordering trap. ⛔ DO NOT 'fix' this by regenerating the manifest after every rebase as a convention: that is the remembered pairing AUT-PD-130 is about, and it failed there for the same reason it would fail here.",
+      "_renamed_from": "AUT-PD-140",
+      "_renamed_why": "⛔ ID COLLISION WITH A CONCURRENT SESSION, AND IT REACHED origin/main. CYC-0070-c84c64dd filed a DIFFERENT AUT-PD-140 and landed on the trunk first, so that string is theirs. `ids.next_entry_id` derives max+1 over committed state, so two sessions reading the same trunk allocate the same id; the rebase AUTO-MERGED both rows with no conflict marker, and `priority.py` then refused the whole ledger. ⚠ I PRINTED THE DUPLICATE CHECK AND PUSHED ANYWAY — the check and the push were in one command and the push was not gated on it, so the guard ran and its answer went unread. The handoff prompt names counting ids after a rebase as one of three measured rules; the failure was not knowing it, it was not WIRING it."
     },
     {
       "id": "AUT-PROP-015",
@@ -8092,37 +8125,6 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-140",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0070-c84c64dd",
-      "score": 150.0,
-      "_score_basis": "the guard against stalling was disarmed by the act its own remedy recommends, and the disarm is silent",
-      "depends_on_evidence": "continuity.py --check returned 0 with 5 leases against subagent_width 5, the fifth being CYC-0070-c84c64dd's own claim on AUT-PD-132; transcript shows the hook's last firing at 5:10 PM ET and the claim at 5:19 PM ET",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "the loop's own stop condition; nothing outward-facing",
-      "what": "⛔⛔ A SESSION'S OWN CLAIM FILLED THE CONCURRENCY CAP AND BOUGHT IT A SILENT STOP — FIXED IN THE SAME CYCLE. Measured 2026-08-28: CYC-0070 finished one cycle, claimed AUT-PD-132 for its second, wrote nothing and ended the turn. The ready-work Stop hook stayed silent because `continuity.py --check` returned 0: `live_leases()` counted 5 distinct owners against a governed `subagent_width` of 5, so the tool read AT CAPACITY — 'a WORKER must finish first' — and the worker it was waiting for was the session reading the verdict. 39 minutes; trimcrae found it. ⭐ THREE DEFECTS, ONE CAUSE. (1) A worker was counted among the workers blocking it. (2) The at-capacity branch printed 'THIS IS NOT PERMISSION TO STOP WORKING' and returned 0 — and inside a Stop hook the exit code is the ONLY channel read, because the hook returns on it before printing anything, so the caveat was delivered to nobody. (3) The hook's own remedy #1 said 'CLAIM THE ITEM, so this stops asking', which is right for a driver recording a dispatched seat and is a silencer for a session claiming for itself. FIX: continuity.own_cycle_owners() identifies this session's own cycle leases (from --me or CLAUDE_CODE_SESSION_ID, failing closed when neither is readable), excludes them from the capacity count, and returns 1 naming the rows you hold; the at-capacity wording now says what it means (it stops NEW work, it does not excuse work already held); the hook text no longer teaches the silencer. 15 tests, both mutations caught on a copy. ⚠ SEATS AND OTHER SESSIONS ARE UNCHANGED — the capacity reading was right about them, and a driver that claims at dispatch is still doing the correct thing.",
-      "dispatch_log": [],
-      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
-      "_id_collision": "Filed as AUT-PD-134 and renumbered AUT-PD-140 at the rebase. Another session filed its own AUT-PD-134 on the trunk while this cycle was working. `ids.next_entry_id` is max+1 over the ledger it can see and says so in its own docstring: concurrent filings collide and are caught at the merge. Nothing was lost — both rows exist, and every reference in continuity.py, the Stop hook and the two test files was moved with it."
     }
   ]
 }
