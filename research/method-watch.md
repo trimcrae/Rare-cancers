@@ -191,6 +191,20 @@ plausible-looking record of a model run that never happened. Rows that survive a
 watch list kept by people who want these routes to work under-reports the results that cut against
 them — the count is what makes that question askable.
 
+⛔ **AND IT IS NOT RUNNING YET, BECAUSE THIS REPOSITORY HAS NO `ANTHROPIC_API_KEY` SECRET.**
+Measured on the first CI run ([33215625481](https://github.com/trimcrae/Rare-cancers/actions/runs/33215625481)):
+the step's env printed `ANTHROPIC_API_KEY:` **empty**, beside `GITHUB_TOKEN: ***` for a secret that
+*is* defined — GitHub renders an undefined secret as an empty value, so nothing shouts. The matcher
+refused to write a queue and exited 1, which is the designed behaviour: an empty queue and a call
+that never happened look identical once committed, and the second would read as *"the model
+considered this week and found nothing"*.
+⚠ **Three call sites reference that secret** — this step, `email_digest.py`'s summary fallback in
+the email step, and `daily-degrader-email.yml` — so the API fallback in the daily and weekly emails
+has almost certainly **never fired**. The newsletter's summary comes from the `email-outbox` branch,
+written by a scheduled Claude session, which is why nobody noticed. This is the same shape as the
+SES branch documented in `mailer.py`: a code path that looked like coverage and had never once run.
+**Setting the secret is trimcrae's**; until then the matcher is built, tested offline and inert.
+
 ⚠ **Why the matcher is not inside the trigger scan.** That scan's bottleneck is its Europe PMC
 *query*, not its title filter: the API returns only what the query asked for, so a model placed
 downstream of a narrow query still never sees the paper the query missed. The newsletter's feeds are

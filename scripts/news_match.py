@@ -332,8 +332,10 @@ def main():
         # ⛔ FAIL, DO NOT WRITE AN EMPTY QUEUE. A queue of zero matches and a call that never
         # happened look identical once committed, and the second one would read as "the model
         # considered this week and found nothing".
-        print("news_match: the model call did not return a usable answer; queue NOT written",
-              file=sys.stderr)
+        print("news_match: no usable answer from the model; queue NOT written. The line above "
+              "from [llm_json] says which failure this was — a missing ANTHROPIC_API_KEY (nothing "
+              "was called; set the repository secret) or a real call failure (retry or read the "
+              "error).", file=sys.stderr)
         return 1
 
     matches, rejected = validate(result, items, pubs)

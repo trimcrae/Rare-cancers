@@ -168,6 +168,15 @@ def llm_json(facts, system, schema, max_tokens=4000, model=None):
     """
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
+        # ⛔ SAY WHICH FAILURE THIS IS. Measured on the first CI run (33215625481): the step printed
+        # "the model call did not return a usable answer", which reads as "the API misbehaved" and
+        # sent the reader looking at the prompt. The truth was that ANTHROPIC_API_KEY is not set in
+        # this repository at all — GitHub renders an undefined secret as an EMPTY env value, next
+        # to `GITHUB_TOKEN: ***` for a defined one, so nothing in the step shouted. A missing
+        # credential and a bad response are different problems with different owners, and one
+        # message for both costs a diagnosis.
+        print("[llm_json] ANTHROPIC_API_KEY is not set — no call was attempted. This is a missing "
+              "credential, NOT a model or prompt failure.")
         return None
     model = model or os.environ.get("NEWS_MATCH_MODEL", "claude-opus-5")
     body = json.dumps({
