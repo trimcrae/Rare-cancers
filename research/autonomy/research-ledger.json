@@ -5804,6 +5804,25 @@
       "retry_budget": 3,
       "attempts": 0,
       "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-066",
+      "what": "⛔⛔ `claim.py` TURNS A ONE-ROW LEASE INTO AN UNGATED PUSH WHEN THE TREE IS DIRTY, AND NOTHING REFUSES IT. Measured 2026-08-28 by CYC-0053-3217966b, on itself: the driver held (a) an unpushed merge commit of seat s55's branch and (b) uncommitted edits to research-ledger.json (a closure plus three new rows), with `./scripts/preflight.sh` STILL RUNNING on that tree. It then ran `claim.py --id AUT-PROP-036`. `Git.commit_ledger` stages research-ledger.json WHOLE, so the uncommitted edits were swept into the claim commit; `PUSH_REFSPEC = ('push','-q','origin','HEAD:main')` then pushed EVERY local commit on HEAD, so the seat merge went to the trunk too. Net: 467 lines of new code and 64 lines of ledger reached origin/main with the gate that was supposed to clear them still in flight. ⚠ THE GATE DID NOT FAIL — IT WAS BYPASSED, which is the same shape as AUT-PD-0xx's `git add -A` mutation window: a narrow tool that stages by FILE and pushes by BRANCH cannot distinguish the one row it was asked to lease from whatever else the working tree happens to be holding. It is silent by construction, and the driver only noticed by reading `git show --stat` afterwards. (This run came back green — EXIT=0, log s0-preflight-s55merge-2.log — so nothing was broken. A green outcome is not the finding; the absent refusal is.) ★ FIX, and the choice matters: `claim.py` should REFUSE to run when `git status --porcelain` is non-empty outside the ledger row it is about to write, or when HEAD is ahead of origin/main by commits it did not author — printing what it found, so the caller commits and gates deliberately. ⛔ DO NOT 'fix' this by having claim.py stage a partial hunk or push a detached ref: the claim's whole safety argument is that the push is an atomic compare-and-swap on the trunk (AUT-PROP-030), and anything that makes the push narrower than HEAD weakens the arbiter. The honest fix is a refusal, not a cleverer push. ⚠ AND WHOEVER TAKES THIS: the refusal must not deadlock the ordinary loop, where a cycle legitimately holds a ledger edit and a claim at once — decide explicitly whether 'dirty' means the ledger file itself (usually legitimate) or anything else (never legitimate), and mutation-test both directions.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
     }
   ]
 }
