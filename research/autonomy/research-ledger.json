@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 121,
+    "process_defect": 123,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
@@ -25,7 +25,7 @@
     "done": 108,
     "in_progress": 6,
     "parked": 28,
-    "queued": 130,
+    "queued": 132,
     "ready": 1,
     "superseded": 1
   },
@@ -2521,6 +2521,64 @@
       "_requires_trimcrae_why": "a coordination tool; nothing published or deposited"
     },
     {
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0071-61dd9024",
+      "requires_trimcrae": false,
+      "closes_clause": null,
+      "id": "AUT-PD-143",
+      "score": 135.0,
+      "_score_basis": "filed WITH a score so it is not itself invisible, which is the defect. Set just above AUT-PD-031 (132.2), the highest-scoring open RT-AUTONOMY row, because this one gates whether any of the others is reachable.",
+      "depends_on_evidence": "research/autonomy/priority.py:325 (sole score writer), :1008 (-1e9 sentinel), :1047 (_table TypeError); research/autonomy/health.py:731; research/autonomy/handoff.py:186; counts reproduced against 95071429c from git AND after `priority.py --write`",
+      "what": "⛔⛔ A HAND-FILED LEDGER ROW NEVER ACQUIRES A SCORE, AND FOUR READERS TREAT THAT ABSENCE AS 'NOT WORK' — SO 94 OF 271 ROWS (35%) HAVE NEVER BEEN OFFERED TO ANY CYCLE. Measured 2026-08-28 at 95071429c. `priority.py:325` is the ONLY place a score is CREATED — verified by enumerating every writer of the field (:346, :493, :655, :727, :738, :870, :921 all ADJUST an existing score and each guards on `score is not None`) — and it sits inside `build_entries`, which reads systems/graph and produces DERIVED rows only. `merge()` carries a hand-filed row forward verbatim, so a row filed without a `score` key can never gain one. Instrumented, not argued: `git show HEAD:research/autonomy/research-ledger.json` and the tree after a fresh `priority.py --write` BOTH report 271 entries / 103 with `score is None` / 94 with no `score` key, and the SET of unscored ids is IDENTICAL before and after — re-scoring moves none of them.\n⛔ FOUR READERS THEN EXCLUDE EXACTLY THAT SET. `priority.py:1008` sorts them out behind a -1e9 sentinel; `priority.py:_table` CRASHES on one (`TypeError: unsupported format string passed to NoneType.__format__` — reproduce with `python3 research/autonomy/priority.py --limit 300`), so the ranker's own view cannot render them at all; `health.py:731` requires a score before it will count a row TAKEABLE; `handoff.py:186` requires one before it will put a row in the successor's queue. ⚠ THE SENTINEL IS THE TELL — somebody knew scores could be None and made the SORT tolerate it, while the same run's renderer was left unable to print them. And `health.py:queue_is_takeable` cannot see any of this: it reports TAKEABLE off the scored rows, so the ledger could reach 100% unscored real work and the stall condition would still print green on one derived row. An absent score is being read as a reading of absence (CLAUDE.md §4).\n⚠ THE COST IS POINTED STRAIGHT AT CLAUDE.md §0. Of the 79 open unowned unscored rows, 26 are NOT RT-AUTONOMY and several are live in-silico work: AUT-PROP-048 (RT-SGK1, '$0 AND THE INPUTS ARE ON DISK: score NDRG1 against HIF-1 and PPARγ target panels in the two committed expression series'), AUT-PD-110 (RT-ALK-HIT re-grade against PMID 42660639), AUT-PD-005 (RT-DEGRADER-TERNARY), AUT-079 / AUT-PD-100 / AUT-PD-102 (RT-JUNCTION-NEOANTIGEN HLA panel). Meanwhile the RANKED queue's top takeable rows are RT-AUTONOMY process defects at 123–132. THE LOOP HAS BEEN DOCUMENTING ITSELF BECAUSE THE RESEARCH WAS STRUCTURALLY INVISIBLE, not because any cycle chose it.\n⭐ THE FIX IS MEASURED AND IT IS §0-POSITIVE, WHICH WAS NOT OBVIOUS AND HAD TO BE CHECKED. The principled derivation already exists here: `apply_session_penalties._resolve` inherits a prerequisite's score from its parent and writes `_score_basis` WITHOUT writing `score_inputs`, and `admissibility.py:315` models exactly that as UNACCOUNTED rather than a failure — so an inherited score is an established, non-fabricated shape. Applying the same idiom by `serves.route` gives RT-SGK1 140.0, RT-ALK-HIT 140.0, RT-PARTNER-STRAT 109.0, RT-JUNCTION-NEOANTIGEN 44.0: live research work would enter ABOVE the 123–132 autonomy rows. ⛔ AND THE FLOODING RISK IS ABSENT FOR A MEASURED REASON — RT-AUTONOMY HAS NO DERIVED ROW AT ALL (it is not a route in systems/graph), so the 53 RT-AUTONOMY rows cannot inherit and stay exactly as hand-scored today; same for RT-ASO-JUNCTION and RT-DEGRADER-TERNARY. ⚠ Place the pass LAST in `build_ledger`, immediately before the sort, so no later pass overwrites the assignment — the placement `_resolve` needed AUT-PD-063 to learn. ⛔ The residue (rows whose route has no derived sibling) is NOT scorable and must be REPORTED, never invented: that is a new health condition's job, and it must be `advises`, not `redirects` — ~60 rows redirecting every cycle is the death spiral CONDITION_ON_RED already warns about.",
+      "_renamed_from": "AUT-PD-142",
+      "_renamed_why": "re-allocated at the rebase onto 469e8944d: a concurrent session had taken the id this row was first filed under. AUT-PD-143's own finding is why the count was re-derived explicitly rather than assumed."
+    },
+    {
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0071-61dd9024",
+      "requires_trimcrae": false,
+      "closes_clause": null,
+      "id": "AUT-PD-144",
+      "score": 134.0,
+      "_score_basis": "same family as AUT-PD-144 and equally cheap, but it has already cost a trunk outage and ~40 minutes of duplicated diagnosis; set one point below it.",
+      "depends_on_evidence": "commits e901ae619 and 170314393 (`git rev-parse 170314393^` = e901ae619); `priority.py --limit 3` ValueError on the committed trunk; `pytest research/autonomy/tests/test_ids_cannot_collide.py` on the stashed trunk = 1 failed, 10 passed; the independent second fix at 960dd822b",
+      "what": "⛔⛔ A REBASE-THEN-PUSH LANDS A TREE NO GATE EVER SAW, AND IT PUT A DUPLICATE ID ON `main` THAT CRASHED EVERY CYCLE'S STEP 3. Measured 2026-08-28. Two sessions filed AUT-PD-140 four minutes apart: CYC-0070-c84c64dd at e901ae619, then CYC-0070-225452b4 at 170314393 — and `git rev-parse 170314393^` IS e901ae619, so these were NOT divergent branches meeting at a merge. The second session allocated its id from state fetched before e901ae619, REBASED onto it, and pushed; the ledger's rows are separate array elements, so the rebase produced no conflict and no marker. ⛔ THE COST WAS TOTAL: `priority.py:merge` REFUSES a duplicated ledger (`ValueError: duplicate ledger ids: AUT-PD-140`), so `python3 research/autonomy/priority.py --write` — step 3 of the cycle contract, run before any item is taken — crashed on committed `main` for every session until it was renamed.\n⭐ THE GUARD WAS CORRECT AND WAS SIMPLY NOT RUN AT THE MOMENT THAT MATTERED. Verified by stashing the fix and running the committed trunk: `research/autonomy/tests/test_ids_cannot_collide.py::test_the_committed_ledger_has_no_duplicate_ids` FAILS (1 failed, 10 passed), and it is inside preflight gate 13's scope — so a preflight run AFTER the rebase would have caught it before the push. ⛔ SO THIS IS NOT A MISSING GATE. IT IS A GAP IN WHAT 'THE TREE YOU COMMIT' MEANS. CLAUDE.md §6 requires that the run you report green is the run that saw the tree you commit; a rebase performed at push time creates a THIRD tree — neither session's gated one — and nothing re-gates it. Every id here derives from max+1 over committed state (AUT-PROP-013), so a rebase is precisely when a collision becomes possible and precisely when nothing looks.\n⚠ AND THE DUPLICATED-EFFORT HALF REPEATED WHILE THIS WAS BEING WRITTEN, WHICH IS EVIDENCE THE FIX MUST BE MECHANICAL RATHER THAN A RULE. CYC-0071 diagnosed the collision and renamed the later row to AUT-PD-141; a concurrent session shipped the SAME diagnosis and the SAME rename to the SAME id at 960dd822b, minutes apart. CYC-0071 discarded its own version at the rebase. That is CYC-0069's recorded loss repeating: two sessions can both be right, both be gated, and still waste the work. ⭐ THE CHEAP FIX IS A PRE-PUSH CHECK, NOT A NEW TEST: after any rebase that touched research-ledger.json, re-run the id guard (0.04 s) and refuse the push on a duplicate.",
+      "_renamed_from": "AUT-PD-143",
+      "_renamed_why": "re-allocated at the rebase onto 469e8944d: a concurrent session had taken the id this row was first filed under. AUT-PD-143's own finding is why the count was re-derived explicitly rather than assumed."
+    },
+    {
       "id": "AUT-PD-031",
       "kind": "process_defect",
       "process_defect": true,
@@ -3382,7 +3440,7 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "fetch",
-      "state": "in_progress",
+      "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
       "owner": "SEAT-s5-ba841eee",
@@ -3392,10 +3450,10 @@
         "BLK-NO-WET-LAB"
       ],
       "blocked_evidence": null,
-      "retry_budget": 3,
+      "retry_budget": 2,
       "attempts": 0,
       "last_evidence_utc": "2026-08-05",
-      "score": 84.0,
+      "score": 76.0,
       "score_inputs": {
         "live": false,
         "patient_path": "prebuilt_bench",
@@ -3406,7 +3464,7 @@
         "blocker_leverage": 6,
         "cost_class": "free",
         "blocked_on_human": false,
-        "fruitless_attempts": 0,
+        "fruitless_attempts": 1,
         "age_factor": 1.0
       },
       "clamp": "blocked_without_evidence_becomes_a_check",
@@ -3415,52 +3473,6 @@
         {
           "utc": "2026-08-28T22:45:03Z",
           "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ]
-    },
-    {
-      "id": "AUT-007",
-      "_derived": true,
-      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-DELIVERY']. Original next action: Publish the complete in-silico arc: a systematic NR4A3-fusion junction design platform spanning all five reported partners, screened and orientation-filtered at all 38 frame-compatible junctions, with delivery stated as three routes of differing requirement rather than one gate. Superseded, retained: 'spanning four partners, screened at three junctions'.",
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": "ST-NUCLEIC-ACID"
-      },
-      "kind": "fetch",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "SEAT-s5-ba841eee",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-DELIVERY"
-      ],
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-13",
-      "score": 78.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": true,
-        "endpoint_reachable": true,
-        "blocker_leverage": 0,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": "2026-08-28T22:45:10Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:45:10Z",
-          "fingerprint_at_dispatch": "2026-08-13|None"
         }
       ]
     },
@@ -3489,98 +3501,6 @@
       "score_inputs": {
         "age_factor": 0.1429
       }
-    },
-    {
-      "id": "AUT-008",
-      "_derived": true,
-      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-WET-LAB']. Original next action: Send the ask alongside the preprint. The proposal is ready; the missing input is a person.",
-      "serves": {
-        "route": "RT-ASO-ASK",
-        "publication": "PUB-ASO",
-        "strategy": "ST-NUCLEIC-ACID"
-      },
-      "kind": "fetch",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "SEAT-s5-ba841eee",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-NO-WET-LAB"
-      ],
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 72.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": "2026-08-28T22:45:13Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:45:13Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ]
-    },
-    {
-      "id": "AUT-045",
-      "_derived": true,
-      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-UNSIZED-REQUIREMENT']. Original next action: Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what makes every later grade of this route meaningful.",
-      "serves": {
-        "route": "RT-MONOVALENT",
-        "publication": "PUB-MONOVALENT",
-        "strategy": "ST-OCCUPANCY"
-      },
-      "kind": "fetch",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "SEAT-s4-ba841eee",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-UNSIZED-REQUIREMENT"
-      ],
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-06",
-      "score": 72.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": "2026-08-28T22:44:38Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:44:38Z",
-          "fingerprint_at_dispatch": "2026-08-06|None"
-        }
-      ]
     },
     {
       "id": "AUT-060",
@@ -3617,6 +3537,52 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0
       }
+    },
+    {
+      "id": "AUT-007",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-DELIVERY']. Original next action: Publish the complete in-silico arc: a systematic NR4A3-fusion junction design platform spanning all five reported partners, screened and orientation-filtered at all 38 frame-compatible junctions, with delivery stated as three routes of differing requirement rather than one gate. Superseded, retained: 'spanning four partners, screened at three junctions'.",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-NUCLEIC-ACID"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "SEAT-s5-ba841eee",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-DELIVERY"
+      ],
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-13",
+      "score": 70.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": true,
+        "tier_one": true,
+        "endpoint_reachable": true,
+        "blocker_leverage": 0,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": "2026-08-28T22:45:10Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:45:10Z",
+          "fingerprint_at_dispatch": "2026-08-13|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-030",
@@ -3713,6 +3679,98 @@
         "fruitless_attempts": 0,
         "age_factor": 0.6429
       }
+    },
+    {
+      "id": "AUT-008",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-WET-LAB']. Original next action: Send the ask alongside the preprint. The proposal is ready; the missing input is a person.",
+      "serves": {
+        "route": "RT-ASO-ASK",
+        "publication": "PUB-ASO",
+        "strategy": "ST-NUCLEIC-ACID"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "SEAT-s5-ba841eee",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-NO-WET-LAB"
+      ],
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-05",
+      "score": 64.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": "2026-08-28T22:45:13Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:45:13Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ]
+    },
+    {
+      "id": "AUT-045",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-UNSIZED-REQUIREMENT']. Original next action: Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what makes every later grade of this route meaningful.",
+      "serves": {
+        "route": "RT-MONOVALENT",
+        "publication": "PUB-MONOVALENT",
+        "strategy": "ST-OCCUPANCY"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "SEAT-s4-ba841eee",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-UNSIZED-REQUIREMENT"
+      ],
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-06",
+      "score": 64.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": "2026-08-28T22:44:38Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:44:38Z",
+          "fingerprint_at_dispatch": "2026-08-06|None"
+        }
+      ]
     },
     {
       "id": "AUT-043",
@@ -3921,52 +3979,6 @@
       },
       "requires_trimcrae": false,
       "requires_trimcrae_why": "⭐ THE REGEX MATCHED 'the paper heading' INSIDE A LIST OF SITES ALREADY REWRITTEN. The row is 'BUILD THE DETECTOR' — write a guard so a hand sweep does not have to repeat. Entirely self-doable."
-    },
-    {
-      "id": "AUT-016",
-      "_derived": true,
-      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-REACH-CATEGORICAL']. Original next action: Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re-run the reach enumeration under it. Report the result as a rank until the criterion passes.",
-      "serves": {
-        "route": "RT-COVALENT-PROBE",
-        "publication": "PUB-DEGRADER",
-        "strategy": "ST-OCCUPANCY"
-      },
-      "kind": "fetch",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "SEAT-s5-ba841eee",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-REACH-CATEGORICAL"
-      ],
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 56.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": "2026-08-28T22:45:16Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:45:16Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ]
     },
     {
       "id": "AUT-020",
@@ -4348,6 +4360,52 @@
       "dispatch_log": [
         {
           "utc": "2026-08-28T18:12:20Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ]
+    },
+    {
+      "id": "AUT-016",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-REACH-CATEGORICAL']. Original next action: Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re-run the reach enumeration under it. Report the result as a rank until the criterion passes.",
+      "serves": {
+        "route": "RT-COVALENT-PROBE",
+        "publication": "PUB-DEGRADER",
+        "strategy": "ST-OCCUPANCY"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "SEAT-s5-ba841eee",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-REACH-CATEGORICAL"
+      ],
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-05",
+      "score": 48.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": "2026-08-28T22:45:16Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:45:16Z",
           "fingerprint_at_dispatch": "2026-08-05|None"
         }
       ]

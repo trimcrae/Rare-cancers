@@ -1,0 +1,54 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0071-61dd9024",
+ "session_id": "61dd9024-ac5f-5380-9f7c-abf9824cab1d",
+ "ccr_session_id": "session_013tSg7aC3Z1hLvyB6bzX3gd",
+ "utc": "2026-08-28T22:36:56Z",
+ "shape": "this session (driver, no subagents) — research-loop §3's ordinary case. Cycle 1 of the 2 this session may run.",
+ "took": "⛔ NOT THE ITEM I CLAIMED. I filed and claimed AUT-PD-140 for the ranker defect below, then found `main` RED and the committed ledger UNRANKABLE, which research-loop §1 makes the whole cycle. The claim was never pushed (its own preflight went red on my hand-written JSON), so nothing was held from another session and nothing had to be released.",
+ "took_what": "THE RED TRUNK — two independent breakages, both root-caused with a real diagnostic and both fixed.",
+ "changed": {
+  "1_duplicate_ledger_id": "⛔ `python3 research/autonomy/priority.py --write` — STEP 3 OF EVERY CYCLE — CRASHED ON COMMITTED `main`: `ValueError: duplicate ledger ids: AUT-PD-140`. Two sessions filed that id 4 minutes apart (e901ae619 by CYC-0070-c84c64dd, then 170314393 by CYC-0070-225452b4) and `170314393^` IS e901ae619 — a rebase, not a divergent merge, so no conflict and no marker. Renamed the later row to AUT-PD-141 per priority.py:merge's own instruction, with `_renamed_from` and the reason on the row. `priority.py` now exits 0. Filed the mechanism as AUT-PD-144. ⚠ AND THIS FIX WAS DISCARDED AT THE REBASE, NOT SHIPPED: a concurrent session reached the same diagnosis and pushed the same rename to the same id at 960dd822b while CYC-0071's preflight was running. CYC-0071 dropped its version and rebased onto theirs. The trunk is correct either way; the duplicated diagnosis is the finding, and it is recorded in AUT-PD-144.",
+  "2_ci_red_fast_checks": "⛔ Five consecutive `tests` runs on main failed from 22:02Z on ONE test: `research/modalities/tests/test_fast_checks.py::test_the_two_checks_preflight_does_not_run_are_members` (1 failed, 10542 passed). ROOT CAUSE, not a guess: the test read `scripts/preflight.sh` as ONE STRING and fired if both tool names appeared anywhere in it. Measured per-line — `lint_claims.py` is INVOKED at :571 and :574; `line_citations.py` has ZERO invocations and appears only inside a COMMENT at :701. So the premise was HALF true and the guard could not tell running from mentioning. Fixed as the test's own message directs: rewrote fast_checks.py's stale header paragraph (lint_claims IS a preflight gate now; line_citations still is not, which is why the set survives), moved the fact into a data table `ALSO_A_PREFLIGHT_GATE`, and made the tripwire compare each tool's REAL invocation state against it, in both directions, naming whichever moved. No assertion deleted or weakened.",
+  "3_filed": "AUT-PD-143 (the ranker defect) and AUT-PD-144 (rebase-then-push lands an ungated tree), both queued, unowned, scored, and both re-allocated AFTER the rebase with the ids counted explicitly on the new base (273 entries, 0 duplicates, next = AUT-PD-143)."
+ },
+ "cost": {
+  "real_dollars": 0.0,
+  "gpu_hours": 0.0,
+  "class": "free",
+  "note": "CPU and agent time only (CLAUDE.md §5)."
+ },
+ "subagents": {
+  "max_concurrent": 0,
+  "launched": 0,
+  "_why": "one driver, no fan-out; every diagnostic was a $0 local read or one Actions log fetch."
+ },
+ "verification": {
+  "mutation_test": "3/3 CAUGHT on the new guard, on a restored tree: declaring line_citations covered, declaring lint_claims uncovered, and reverting the reader to count comment lines (the exact regression that reddened main). Log: <session-scratchpad>/drv-cyc0071-aut-pd-140/drv-cyc0071-mutation.log",
+  "fast_checks_suite": "pytest research/modalities/tests/test_fast_checks.py -q -> 9 passed",
+  "id_guard_on_the_trunk": "stashed my fix and ran the committed trunk: test_ids_cannot_collide.py::test_the_committed_ledger_has_no_duplicate_ids -> 1 failed, 10 passed. The guard was correct and simply was not run after the rebase that created the duplicate.",
+  "ranker": "priority.py --write -> 275 entries, 12 clamped, exit 0",
+  "ids_after_rebase": "counted explicitly on 4b7d59349 before re-filing: 273 entries, 0 duplicate ids, next_entry_id = AUT-PD-143; `priority.py --write` -> 275 entries, exit 0.",
+  "stuck_clock": "164 open rows · 5 stalled_needs_human · 90 touched since they last advanced"
+ },
+ "what_i_got_wrong": "⛔ I HAND-WROTE research-ledger.json WITH json.dump INSTEAD OF ledger_io.write_ledger, and `test_write_ledger_reproduces_the_committed_file_byte_for_byte` caught it — the claim commit's own preflight went red on MY edit, which is why the claim never reached the trunk. The pinned serializer is the one place that serialization lives (AUT-PD-037) and I typed around it.\n⚠ AND THE HARNESS REPORTED EXIT CODE 0 FOR THAT PREFLIGHT WHILE ITS OWN MARKER SAID `EXIT=1` — a third recorded occurrence of AUT-PD-012, in the session whose starting prompt warned about it twice. The marker is the reading; the harness summary is not.\n⚠ I also wrote two files to the SHARED SCRATCHPAD ROOT before creating a seat directory (`drv-preflight-claim.log`, `drv-stall.json`); `seat_scratch.py --audit-root` flagged one and both were moved. research-loop §3 says the driver is a writer like any other, and I was the counter-example.\n⚠ AND I RAN A PREFLIGHT THE TRUNK MOVED UNDER, TWICE. The first was invalidated by my own bad ledger write; the second by four commits landing while it ran (04b6a938f, 6c0df7d7e, 960dd822b, 4b7d59349). The second was killed with TaskStop rather than protected — CLAUDE.md §6's 'an invalidated run is cheap and an idle wait is not' — but the deeper cost is the one AUT-PD-144 records: I did ~40 minutes of diagnosis on a collision a concurrent session was fixing at the same time, and only the rebase revealed it.\n⚠ AND I HIT AUT-PD-144's OWN DEFECT WHILE FILING IT, TWICE. The first rebase took a concurrent session's rename of the duplicate id and discarded mine; the second, onto 469e8944d, found my ids AUT-PD-142/143 already taken by another session, so both rows were re-allocated to AUT-PD-143/144 with the count re-derived explicitly on the new base (275 entries, 0 duplicates) rather than assumed. ⛔ AND THE FIRST ATTEMPT AT THAT RESOLUTION WAS WRONG IN THE DANGEROUS DIRECTION: `git checkout --theirs` DURING A REBASE MEANS THE COMMIT BEING APPLIED, NOT THE UPSTREAM, so it silently took my own ledger and dropped six upstream commits' worth of claims. Caught by counting `filed_by` rows against the upstream file, not by any gate.",
+ "now_queued": [
+  "AUT-PD-143 (score 135.0)",
+  "AUT-PD-144 (score 134.0)",
+  "AUT-PD-141 (renamed, unchanged content)"
+ ],
+ "blocked_by": [],
+ "route_advanced": "none",
+ "_route_advanced_why": "HONEST `none`, and the honesty matters here because the cycle produced a lot. Nothing this cycle moved a RESEARCH route: it restored the trunk so that other cycles can commit, and filed two process defects. ⭐ The finding that DOES point at a route is AUT-PD-143 — 26 open rows of live in-silico work on RT-SGK1, RT-ALK-HIT, RT-DEGRADER-TERNARY and RT-JUNCTION-NEOANTIGEN have never been offered to any cycle because they carry no score — but diagnosing that is not advancing it.",
+ "handoff": {
+  "child_session_id": null,
+  "attempted": false,
+  "_why": "Cycle 1 of 2. Owed only if this session reaches its cap."
+ },
+ "health": {
+  "_how": "python3 research/autonomy/health.py --check --stall-verdict <stuck_clock --check --json>",
+  "blocking_red": "none — --check exit 0, and --escalations exit 0 (no restart budget spent)",
+  "stalls_are_named": "⛔ RED when actually MEASURED, and it had been sitting UNMEASURED for 9.7 h because no cycle was passing --stall-verdict. `on_red: advises`, so it does not stop a cycle, but it is reported here rather than left as an unanswered question wearing the costume of a status (CLAUDE.md §4). FIVE rows are `stalled_needs_human`: AUT-049 (51.8 h), AUT-010 (26.8 h), AUT-PROP-019 (25.8 h, 2 attempts), AUT-PD-031 (24.5 h), AUT-PD-028 (24.1 h). ⚠ AUT-PROP-019 IS PUB-ASO's OWN BLOCKER — the blind adversarial seat that closes publish_bar clause 6 — so the paper's remaining gate is on the stalled list, not merely queued. stuck_clock's three human answers (re-scope, re-route, close) are the choices; no cycle should keep re-claiming these on the strength of their score.",
+  "gates_green": "STILL UNMEASURED by the board — it takes a --gates-verdict this checker cannot fetch. Measured DIRECTLY instead, via the Actions API: five consecutive `tests` runs on main concluded `failure` from 22:02Z (47264d4f6, 609ee0a5b, e754910f0, 53084e88f, 269494f7d, 62464340c), the last green being 191fae2ad at 21:59Z. That red is what this cycle fixed."
+ }
+}

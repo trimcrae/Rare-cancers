@@ -62,21 +62,42 @@ def test_every_exclusion_states_the_clause_it_fails():
             "%s is excluded without naming which clause of the membership rule it fails: %r" % (path, why))
 
 
+def _preflight_invocations():
+    """`scripts/preflight.sh` reduced to the lines that RUN something, comments dropped.
+
+    ⛔ THE DISTINCTION IS LOAD-BEARING, AND ITS ABSENCE PUT `main` IN THE RED. Measured 2026-08-28: the
+    tripwire below read `preflight.sh` as ONE STRING, so a shell COMMENT naming a tool was
+    indistinguishable from a gate invoking it. A comment recounting a past `line_citations.py --fix`
+    incident (preflight.sh:701, the only occurrence in the file) made this test announce that preflight
+    now ran `line_citations.py`. It does not, and never has -- zero invocations -- while the OTHER half
+    of the same condition, `lint_claims.py`, had genuinely become a gate at :571/:574. So the assertion
+    was half true, fired as if wholly true, and named the wrong remedy.
+    ⭐ Presence is not provenance (CLAUDE.md §4). A comment is presence; an invocation is the reading.
+    """
+    src = open(os.path.join(ROOT, "scripts", "preflight.sh"), encoding="utf-8").read().splitlines()
+    return "\n".join(line for line in src if not line.lstrip().startswith("#"))
+
+
 def test_the_two_checks_preflight_does_not_run_are_members():
-    """⭐ THE REASON THE SET IS NOT AN ALIAS FOR preflight.sh. CLAUDE.md §7: `lint_claims.py` is NOT in
-    preflight, so a green preflight does not mean the language rules passed. `line_citations.py` is the
-    same shape. If either ever leaves this set, the gap CLAUDE.md warns about reopens silently."""
+    """⭐ THE REASON THE SET IS NOT AN ALIAS FOR preflight.sh, AND IT IS NOW HALF OF WHAT IT WAS.
+    `line_citations.py` is still not a preflight gate, so a green preflight still says nothing about
+    drifted line citations and this set is what closes that. `lint_claims.py` no longer carries the
+    argument -- preflight invokes it. Both stay members (overlap is allowed); what is guarded is that
+    `fast_checks.ALSO_A_PREFLIGHT_GATE` keeps saying which is which."""
     cmds = " ".join(" ".join(m[1]) for m in fc.MEMBERS)
     assert "lint_claims.py" in cmds
     assert "line_citations.py" in cmds
-    preflight = open(os.path.join(ROOT, "scripts", "preflight.sh"), encoding="utf-8").read()
-    # If preflight ever DOES gain them, that is good news -- but this set's stated reason for existing
-    # would then be wrong, so it must be rewritten rather than left standing.
-    if "lint_claims.py" in preflight and "line_citations.py" in preflight:
-        raise AssertionError(
-            "preflight now runs lint_claims and line_citations, so fast_checks.py's stated reason for "
-            "existing ('the set that closes the gap preflight leaves') is out of date -- rewrite the "
-            "header rather than deleting the check")
+    run = _preflight_invocations()
+    for tool, declared in fc.ALSO_A_PREFLIGHT_GATE.items():
+        actual = tool in run
+        assert actual == declared, (
+            "fast_checks.ALSO_A_PREFLIGHT_GATE[%r] says %s but scripts/preflight.sh %s it. The set's "
+            "stated reason for existing depends on which of these preflight covers, so rewrite that "
+            "table AND the header paragraph above it in the SAME commit -- never delete the check."
+            % (tool, declared, "invokes" if actual else "does not invoke"))
+    assert fc.ALSO_A_PREFLIGHT_GATE["line_citations.py"] is False, (
+        "line_citations.py became a preflight gate, so this set no longer closes any gap preflight "
+        "leaves -- rewrite fast_checks.py's header rather than deleting the check")
 
 
 def test_pytest_is_not_a_member():
