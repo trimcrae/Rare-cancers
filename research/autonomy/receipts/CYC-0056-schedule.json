@@ -1,0 +1,37 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0056-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T19:05:00Z",
+  "shape": "This session, dispatched a worktree seat for AUT-PD-014, reviewed and independently re-verified its branch before merging.",
+  "took": "AUT-PD-014 — make the ledger's retry-budget governance instrument actually fire (RT-AUTONOMY, free, closing).",
+  "took_what": "The seat ported work_ledger.py's progress-aware fruitless-attempt semantics into priority.py (a new dispatch_log field stamped by claim.py, fruitless_attempts_count() counting backwards through unchanged-evidence attempts, retry_budget recomputed fresh each re-score, surfaced via continuity.py's _retry_budget_spent()). Placed apply_fruitless_attempts AFTER apply_session_penalties, deliberately, to avoid the exact prerequisite-assignment overwrite hazard AUT-PD-063 (landed concurrently by a different session while this seat worked) had just fixed for the age term. Independently re-verified before merging: confirmed AUT-PD-063 is genuinely done on the base; ran the full research/autonomy/tests + systems/tests suite myself on the merged tree (774 passed, 1 skipped, matching the seat's own numbers exactly, ~4 minutes).",
+  "changed": [
+    "research/autonomy/priority.py: fruitless_attempts_count()/apply_fruitless_attempts(), wired into build_ledger() after apply_session_penalties.",
+    "research/autonomy/claim.py: stamps dispatch_log ({utc, fingerprint_at_dispatch}) at claim time.",
+    "research/autonomy/continuity.py: _retry_budget_spent(), wired into _why_not_ready() alongside the existing stuck_clock exclusion.",
+    "research/autonomy/stuck_clock.py: dispatch_log classified as a TOUCH field.",
+    "research/autonomy/tests/test_retries_that_learn_nothing_cost_something.py: new, 18 tests. research/autonomy/tests/test_continuity_has_no_green_state_recording_can_buy.py: +4 tests. Both declared in amendments.jsonl (cycle_id AUT-PD-014-seat, already present on the merged branch).",
+    "research/autonomy/research-ledger.json: closed AUT-PD-014 (done), preserving the item's own required honest caveat (does not explain the CYC-0015 stall)."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 1,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 1,
+    "seats": [
+      "aut-pd-014-real-retry-budget (agentId a945e134be3aa5a30, completed, worktree-isolated, pushed branch aut-pd-014-real-retry-budget, head 4e56863c7a7277fdf32163127ff9df4287b16632, merged clean fast-forward)"
+    ]
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context (AUT-PD-045)."
+  }
+}

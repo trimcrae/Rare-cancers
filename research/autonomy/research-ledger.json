@@ -14,17 +14,17 @@
     "harden": 16,
     "negative": 32,
     "process": 7,
-    "process_defect": 76,
+    "process_defect": 83,
     "proposal": 15,
     "regrade": 8,
     "verify": 1,
     "write": 6
   },
   "n_by_state": {
-    "done": 76,
-    "in_progress": 4,
+    "done": 79,
+    "in_progress": 2,
     "parked": 28,
-    "queued": 105,
+    "queued": 111,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -5482,18 +5482,18 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0056-schedule",
-      "claimed_utc": "2026-08-28T18:20:00Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
+      "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0015",
-      "what": "⛔ THE LEDGER'S RETRY BUDGET GOVERNS NOTHING, AND THE CODE'S OWN COMMENT SAYS THAT IS THE FAILURE IT WAS MEANT TO PREVENT. Measured by CYC-0015 while deciding whether to take an item showing attempts=6 against retry_budget=3: (1) priority.py line ~177 hardcodes score_inputs['fruitless_attempts'] = 0 and computes it from nothing, though priority-weights.json defines a `fruitless_attempts` term; (2) `attempts` is incremented in exactly ONE place, release_stale_claims — i.e. it counts EXPIRED LEASES, not fruitless work; (3) NOTHING anywhere decrements `retry_budget` (grep: the only writers are priority.py's default of 3 and the modalities work_ledger, a different ledger); (4) health.py's queue_is_takeable filters on `retry_budget > 0` and reports a `retry_budget_spent` list that is therefore ALWAYS EMPTY. priority.py's own line-307 comment: 'so a route could be retried forever and the scorer's fruitless_attempts penalty could never fire.' It cannot fire. ⭐ THE FIX HAS A PROVEN MODEL IN THIS REPOSITORY: research/modalities/work_ledger.py implements the progress-aware version and TESTS it — Entry.fruitless_attempts() counts backwards and stops at the last evidence-fingerprint change, _apply_retry_budget blocks at MAX_FRUITLESS_ATTEMPTS, and progress wipes the count ('a dispatch that WORKED costs nothing'). Port that semantics; do not invent one. ⚠ AND RECORD THE HONEST READING SO THE FIX IS NOT OVERSOLD: a progress-aware counter would NOT have penalised AUT-PROP-002, which moved last_evidence_utc every cycle. This defect did not cause the three-cycle stall CYC-0015 found; it is a separate governance instrument that is inert, and the next item it fails to stop will not announce itself either.",
+      "what": "⛔ THE LEDGER'S RETRY BUDGET GOVERNS NOTHING, AND THE CODE'S OWN COMMENT SAYS THAT IS THE FAILURE IT WAS MEANT TO PREVENT. Measured by CYC-0015 while deciding whether to take an item showing attempts=6 against retry_budget=3: (1) priority.py line ~177 hardcodes score_inputs['fruitless_attempts'] = 0 and computes it from nothing, though priority-weights.json defines a `fruitless_attempts` term; (2) `attempts` is incremented in exactly ONE place, release_stale_claims — i.e. it counts EXPIRED LEASES, not fruitless work; (3) NOTHING anywhere decrements `retry_budget` (grep: the only writers are priority.py's default of 3 and the modalities work_ledger, a different ledger); (4) health.py's queue_is_takeable filters on `retry_budget > 0` and reports a `retry_budget_spent` list that is therefore ALWAYS EMPTY. priority.py's own line-307 comment: 'so a route could be retried forever and the scorer's fruitless_attempts penalty could never fire.' It cannot fire. ⭐ THE FIX HAS A PROVEN MODEL IN THIS REPOSITORY: research/modalities/work_ledger.py implements the progress-aware version and TESTS it — Entry.fruitless_attempts() counts backwards and stops at the last evidence-fingerprint change, _apply_retry_budget blocks at MAX_FRUITLESS_ATTEMPTS, and progress wipes the count ('a dispatch that WORKED costs nothing'). Port that semantics; do not invent one. ⚠ AND RECORD THE HONEST READING SO THE FIX IS NOT OVERSOLD: a progress-aware counter would NOT have penalised AUT-PROP-002, which moved last_evidence_utc every cycle. This defect did not cause the three-cycle stall CYC-0015 found; it is a separate governance instrument that is inert, and the next item it fails to stop will not announce itself either. ✅ CLOSED 2026-08-28 by CYC-0056-schedule. A worktree seat ported work_ledger.py's progress-aware fruitless-attempt semantics into priority.py: a new `dispatch_log` field (stamped by claim.py at claim time with {utc, fingerprint_at_dispatch}) lets fruitless_attempts_count() count backwards through consecutive attempts made against the SAME evidence fingerprint (fingerprint(last_evidence_utc, blocked_evidence)), resetting to zero the moment evidence moves -- 'a dispatch that worked costs nothing', matching work_ledger.py's proven model. Feeds the already-declared but previously-unused `fruitless_attempts` weight; retry_budget is recomputed fresh every re-score (max(0, DEFAULT-count)) rather than never decremented. A spent budget is surfaced through continuity.py's `_retry_budget_spent()` (live-computed, wired into `_why_not_ready()` the same way as the stuck_clock exclusion added earlier this session for AUT-PROP-029) rather than trusting a possibly-stale on-disk field. health.py needed no changes -- queue_is_takeable/top_items already read retry_budget correctly; they were just never given a real number. PLACEMENT NOTE: apply_fruitless_attempts runs AFTER apply_session_penalties (not alongside apply_age_factor before it), deliberately, to avoid the exact prerequisite-assignment overwrite hazard AUT-PD-063 (landed concurrently by a different session, independently verified present on this base) had just fixed for age/blocked_with_evidence -- documented trade-off: a prerequisite inherits its parent's fruitless-attempts decay one re-score late. 22 new tests (18 in test_retries_that_learn_nothing_cost_something.py, 4 added to the continuity stuck_clock test file), 3-way mutation-tested. Independently re-verified before merging: full research/autonomy/tests + systems/tests suite (774 tests) run fresh on the merged tree by this session -- 774 passed, 1 skipped, matching the seat's own reported numbers exactly. HONEST CAVEAT PRESERVED, per the ledger item's own instruction: this does NOT explain the CYC-0015 three-cycle stall -- AUT-PROP-002 moved last_evidence_utc every cycle and a progress-aware counter would not have penalised it. This closes a separate, previously-inert governance instrument, nothing more. SCOPED DOWN (documented, not a gap): claim.py does not refuse claiming an already-spent row -- continuity.py's ready() already keeps it unoffered via the same read-side check, so the property holds without a second enforcement point.",
       "_renamed_from": "⚠ RENAMED AUT-PD-012 → AUT-PD-014 by CYC-0020. The id was minted twice: hand-filed ids (AUT-PROP-*, AUT-PD-*) are typed by the filing cycle and `merge()` deduped only against the graph-DERIVED AUT-NNN space, so two cycles could and did choose the same string. The earlier-filed row keeps the id; this one moves. Receipts of CYC-0015 name it under AUT-PD-012.",
       "score_inputs": {
         "age_factor": 0.0714
@@ -6245,263 +6245,6 @@
       "last_evidence_utc": "2026-08-28"
     },
     {
-      "id": "AUT-PD-005",
-      "kind": "fix",
-      "serves": {
-        "route": "RT-DEGRADER-TERNARY",
-        "publication": "PUB-DEGRADER",
-        "strategy": "ST-DEGRADER"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "git show 1fd33bb:research/modalities/step1-fanout-map.json vs the same file at 91df57d",
-      "what": "⛔⛔ A CI TICK EMPTIED THE STEP-1 FAN-OUT MAP AND THE DEGRADER PAPER'S COMPLETENESS CLAIM NOW HAS NOTHING BEHIND IT. Measured 2026-08-27 by diffing the artifact across the commit that changed it, not inferred: at 1fd33bb `n_complete=18`, `n_computable=18`, `results` held 18 entries; at 91df57d ('step1 fan-out autoscale tick', 2026-08-27T09:36:35Z) `n_complete=0`, `n_computable=19`, `results=[]`. Eighteen computed RBFE edges left the committed map. ⚠ `nr4a3-degrader-paper.md:1426` still reads 'The congeneric map is COMPLETE at 18 computed edges of the 18 that are computable, in a 19-edge map', so a paper claim and its own artifact now disagree — which is what `test_pinned_figures_every_home[step1_fanout_edges_complete]` is red about, and it is RIGHT to be red.\n⛔ WHAT IS NOT ESTABLISHED, AND MUST BE THE FIRST THING CHECKED RATHER THAN ASSUMED EITHER WAY: whether the UNDERLYING per-edge results still exist (S3, the per-unit ddg.json files, a prior commit) and only this derived INDEX was clobbered, or whether the fan-out state itself was reset. Those have completely different remedies — regenerate the index, versus 18 edges of GPU spend to redo. ⛔ Do not 'fix' the red by editing the paper down to 0 until that is known; the paper may be the only surviving record of the count.\n⚠ AND THE MECHANISM IS THE REAL BUG: a scheduled tick that can overwrite a committed results artifact with an empty one is a data-loss path, and it ran unattended. Whatever the recovery, the tick must not be able to reduce `n_complete` without saying so loudly.",
-      "_score_basis": "a committed results artifact was emptied by automation, and a paper claim now disagrees with its artifact",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
-    },
-    {
-      "id": "AUT-PROP-014",
-      "kind": "fix",
-      "serves": {
-        "route": "RT-FUSION-OUTPUT",
-        "publication": "PUB-FUSION-OUTPUT",
-        "strategy": "ST-DISSEMINATION"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": "2026-08-27T05:10:48Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0018",
-      "depends_on_evidence": "git log -- research/modalities/atr-hrd-sarcoma-series.json",
-      "what": "⛔ TRUNK RED, AND THE RED IS THE SMALL HALF. `research/modalities/atr-hrd-sarcoma-series.json` is ONE FILENAME THAT HAS HELD TWO DIFFERENT GEO SERIES, and two modules read it as two different things. Committed history, not inference: 2026-08-05 it held GSE299349 (its producer atr_hrd_sarcoma_series.py declares SERIES = 'GSE299349'); 325258cb8 on 2026-08-07 overwrote it with GSE28866, 99 samples, via the same emc-expression-datasets.yml mode=gse-series workflow run with a different series argument; emc_cohort_search.py and its committed verdict were then written on 2026-08-08 AGAINST THAT GSE28866 CONTENT; a8caba9 on 2026-08-27 04:37 UTC re-fetched GSE299349 to repair PUB-ATR §8 (CYC-0016, correctly) and thereby deleted the sample list emc_cohort_search had been relying on. ⭐ THE DAMAGE IS NOT THE THREE RED TESTS. `_known_gsms()` guards against counting a re-deposit of a cohort the manuscript already reads as a FOURTH EMC cohort; it fell 157 → 126 GSMs (58 fusion-target + 99 Brunner → 58 + 68 unrelated), lost the entire 3SEQ arm, and now LABELS 68 BCOR-rearranged sarcoma cell-line samples with the string 'GSE299349 = GSE170983, the Brunner deposit (the 3SEQ arm)'. A re-deposit sharing neither accession nor PMID grades NEW_CANDIDATE. ⛔ FIX IS NOT A RE-PIN: give the GSE28866 record its own series-named home restored verbatim from 325258cb8, point emc_cohort_search at it, and make _known_gsms() REFUSE a wrong-series or missing file instead of degrading silently — the silent degradation is why a guard vanished and only a downstream assertion noticed.",
-      "_score_basis": "trunk red on main, not by this cycle's hand — research-loop §1 made fixing it the cycle",
-      "observed": "FIXED, and the mechanism is closed rather than the symptom. (1) The GSE28866 3SEQ record was restored VERBATIM from 325258cb8 (blob 83e92a1465971a2344076be210cc07bd067a5363, fetched 2026-08-07T17:26:52Z by emc-expression-datasets.yml run 31200667719) to its own series-named path research/modalities/geo-gse28866-brunner-series.json. (2) emc_cohort_search._known_gsms() reads that path and now RAISES on a missing file or on a `series` other than GSE28866 instead of silently returning a shorter map — the old `if os.path.exists(...)` skip is what let dedup level 3 disappear without a word. n_known_gsms is back to 157 (58 fusion-target + 99 Brunner), GSM715466 maps to the Brunner deposit again, `--check` says the committed verdict is current, and the 3 red tests plus 3 new ones pass (33/33). Three single-site mutations of the new guard were all CAUGHT. (3) atr_hrd_sarcoma_series.py now REFUSES `--series` != its declared SERIES before fetching anything, because one fixed output path plus a free --series is what clobbered this artifact in BOTH directions (2026-08-07 GSE28866 over GSE299349, silently invalidating PUB-ATR §8 for three weeks; 2026-08-27 the repair back the other way). Three mutations of that guard were all CAUGHT. (4) emc_expression_panels.py's provenance pointer for the GSE28866 fetch was moved to the new path and emc-expression-panels.json regenerated (one line changed). ⚠ WHAT IS NOT FIXED AND IS FILED SEPARATELY: the output path still does not VARY with the series, so a second series characterisation needs its own module or its own path — the refusal buys correctness, not capability. See AUT-PROP-015."
-    },
-    {
-      "id": "AUT-BIX-003",
-      "kind": "fetch",
-      "serves": {
-        "route": "RT-FUSION-OUTPUT",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "preprint-review-2026-08-27",
-      "depends_on_evidence": "BixBench3 (arXiv:2608.25286v1) Appendix Table 1, task 14 — TITLE ONLY, read 2026-08-27. Portfolio gap confirmed by $0 grep the same day: zero hits for 'feed-forward' or 'cofactor loop' in any markdown under research/ or systems/; RUNX2 appears only in accession-symbol-cache.json and a scraped journal index, never as a target.",
-      "what": "READ ONE PAPER AND ASK ONE QUESTION. BixBench3's task 14 is built on 'RUNX2 inhibition disrupts a PAX3::FOXO1-RUNX2 feed-forward loop and dismantles oncogenic gene programs in fusion-positive rhabdomyosarcoma' — a transcription-factor-fusion sarcoma whose oncogenic program is dismantled by hitting a COFACTOR rather than the undruggable fusion. That is EMC's problem shape, and this repository has no vocabulary for it.\nWHAT TO DO, all $0: (1) resolve and read the source paper (its raw data are public — a BixBench3 inclusion criterion — and it published >=4 ground-truth derived artifacts, also a criterion); (2) ask whether any EWSR1::NR4A3 cofactor forms an analogous feed-forward loop, and whether that is answerable from the EMC expression data ALREADY on disk rather than needing new data; (3) grade it against RT-FUSION-OUTPUT, RT-TXN-CDK and RT-PARTNER-STRAT — is it a variant of one of those, or a route they do not cover?\n⛔ WEIGHT IT HONESTLY AND EXPECT A NULL. This is a paper TITLE in the appendix of an unrelated AI benchmark; nothing else has been read, PAX3::FOXO1 is not a FET fusion, and cross-fusion transfer is exactly the kind of analogy that reads as insight and dies on contact with the biology. The deliverable is a graded verdict either way — a clean 'no analogous loop is reported, and here is what would have shown one' is a full result under CLAUDE.md §0, not a failure. ⛔ DO NOT open a route on the title alone. Reading: research/method-watch-bixbench3-calibration.md §6",
-      "_score_basis": "free, and it is the only thing in this preprint that touches the science portfolio rather than the operating loop — CLAUDE.md §0 puts a live lead ahead of the three process items filed alongside it",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
-    },
-    {
-      "id": "AUT-RT-001",
-      "what": "Fetch the full text of PMID 41323055 (Kobayashi et al./Case Reports in Oncology 2025, 'Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxoid Chondrosarcoma Repeatedly Treated with Surgical Excision or Stereotactic Radiotherapy Alone') -- open access per this artifact's own outstanding list, $0, not yet retrieved. Extract dose, fractionation and local-control duration for each of the three SABR occasions and write them into research/literature/emc-rt-lung-mets-findings.json's dose_outcome_table (filed by AUT-041, which found this the highest-value single gap: the case with the most treated occasions and no dose data of the four sourced deliveries). ✅ CLOSED 2026-08-28 by CYC-0054-schedule. Full text of PMID 41323055 fetched at $0 via a plain HTTPS GET to PMC's own copy (pmc.ncbi.nlm.nih.gov/articles/PMC12659415/) from a GitHub Actions runner (fetch-literature.yml run 33178734185) -- the Karger publisher page still 403s, PMC's mirror did not. Dose/fractionation/local-control extracted for all four SABR courses across the three treated occasions (Table 1 cross-checked against the running text), plus the one surgical-excision episode correctly excluded as non-SABR. Written into a new dose_outcome_table entry with per-occasion detail and honest UNKNOWNs (occasion 3's local-control duration is UNKNOWN -- no follow-up restaging reported after the most recent course). BED computations are explicitly marked as computed here from the reported dose/fractionation, not asserted as the source's own figures.",
-      "serves": {
-        "route": "RT-MDT-LUNG",
-        "publication": "PUB-LOCOREGIONAL",
-        "strategy": "ST-LOCOREGIONAL"
-      },
-      "kind": "fetch",
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "AUT-041",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
-    },
-    {
-      "id": "AUT-RT-002",
-      "what": "Find and confirm the correct primary source for the 40 Gy/10-fraction SBRT lung-metastasis case the 2025 review (PMID 41055792) tells twice under conflicting attributions ('Qiu et al. 2014' and 'Takagawa et al. 2022', with Takagawa separately used for the unrelated brachytherapy case PMID 35494187 in the same paragraph). At least one attribution is wrong. research/literature/emc-rt-lung-mets-findings.json already instructs not to cite this case from the review; this item is the follow-through -- locate the real primary (search both named authors' bibliographies for an EMC lung-metastasis SBRT case), or record that neither produces one and the case cannot currently be sourced. $0, WebSearch/Europe PMC only. ✅ CLOSED 2026-08-28 by CYC-0054-schedule. Resolved by reading the review's (PMID 41055792) own already-cached full text rather than fresh search: its second paragraph reproduces the first's case narrative verbatim but mislabels the attribution -- a copy-paste error inside the review, not two competing sources. The review's own bibliography lists exactly one 2014 Qiu citation and exactly one 2022 Takagawa citation (the latter being the already-known brachytherapy paper, PMID 35494187). Independently corroborated via two direct Europe PMC API queries (fetch-literature.yml run 33178734185): AUTH:Takagawa AND PUB_YEAR:2022 AND myxoid-chondrosarcoma returns exactly 1 hit, which IS PMID 35494187 (empirically ruling out a second Takagawa paper); the mirror Qiu query returns 0 (consistent with, not contradicting, a small non-MEDLINE journal's incomplete Europe PMC coverage -- a live WebSearch separately found a real Cambridge Core landing page for the exact title/author/journal). CONFIDENCE: HIGH that Qiu et al. 2014 (DOI 10.1017/S1460396914000284) is the correct, sole primary source. The Cambridge Core full text itself remains unread (same egress block class as other Cambridge/Wiley/Elsevier pages this repo has hit) so the dose figures are recorded as SECONDARY (from the review's paraphrase, cross-checked against its bibliography), not primary-source-verified -- correctly graded, not overclaimed.",
-      "serves": {
-        "route": "RT-MDT-LUNG",
-        "publication": "PUB-LOCOREGIONAL",
-        "strategy": "ST-LOCOREGIONAL"
-      },
-      "kind": "fetch",
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "AUT-041",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
-    },
-    {
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "research/autonomy/publication-authority.json"
-      ],
-      "blocked_evidence": "publication-authority.json: outreach was never granted to anyone. Only trimcrae sends these.",
-      "retry_budget": 1,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-26",
-      "score": null,
-      "filed_by": "CYC-0001",
-      "prerequisite_of": null,
-      "id": "AUT-PROP-004",
-      "kind": "write",
-      "what": "ESCALATE, do not perform: the three paywalled-table requests to corresponding authors named in section 6 of the fusion-partner paper. Email is outward-facing and covered by NO grant.",
-      "score_inputs": {
-        "age_factor": 0.1429,
-        "blocked_with_evidence": true
-      }
-    },
-    {
-      "id": "AUT-PD-001",
-      "kind": "process_defect",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/manuscripts/build_submission_parts.py run on clean origin/main (git stash) by CYC-0020",
-      "what": "⛔ THREE STEPS OF regenerate_aso_chain.sh CANNOT RUN IN THIS SANDBOX, AND THE CHAIN REPORTS THAT AS 'something is stale or failed' — which reads exactly like a real staleness finding. Measured 2026-08-27 (CYC-0020): `build_submission_parts.py`, `svg_to_print_formats.py` and `build_submission_docx.py` all fail with '⛔ LibreOffice did not write a .docx / failed to launch javaldx / source file could not be loaded'. ⭐ VERIFIED NOT OURS BY THE §6 CASCADE PROCEDURE: `git stash -u`, re-run on clean origin/main, identical failure, `git stash pop`. ⚠ THE REAL COST IS NOT THE THREE STEPS — IT IS THAT RUNNING THE CHAIN AT ALL REWROTE TEN FILES BELONGING TO A DIFFERENT SUBMISSION (four ASO PDFs, two fusion-output PDFs, two neoantigen PDFs, and the ASO submission reference list, whose entry 2 gained a full author list from a live fetch). A cycle that needed ONE regeneration — the archive manifest, because it hashes emc-fusion-partner-pooling.json — would have silently committed all ten into another paper's history. They were reverted and the manifest re-derived against the restored tree. ⭐ THE FIX IS A SCOPED REGENERATION: the chain should be able to run the steps downstream of ONE named artifact, or at minimum report which of its steps are environment-blocked rather than folding them into one 'stale or failed' verdict that a reader cannot distinguish from a genuine drift.",
-      "_score_basis": "a gate whose failure mode is indistinguishable from a real finding, on the commit path every cycle uses",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
-    },
-    {
-      "id": "AUT-PD-002",
-      "kind": "process_defect",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "`ps -eo etime,pid,cmd` taken by CYC-0020 at 07:12 on 2026-08-27, showing pids 8682 and 9789 both running ./scripts/preflight.sh",
-      "what": "⛔ `TaskStop` ON A BACKGROUNDED PREFLIGHT KILLS THE HARNESS'S WRAPPER AND LEAVES `preflight.sh` RUNNING. Measured 2026-08-27 (CYC-0020): §6 says to kill a gate run the tree moved under rather than sit through it, and this cycle did that three times. Each TaskStop reported success. `ps` then showed pid 8682 STILL running the stopped run's preflight.sh at 3:05 elapsed, with its own `pytest -n 4` child, alongside the live run's pid 9789 — TWO gates, eight workers, on a box sized for four. ⚠ THE SYMPTOM IS NOT A CRASH, IT IS SLOWNESS, WHICH IS WHY IT SURVIVES: the live gate simply takes much longer than its measured ~255 s, and the honest reading of that ('unexpected slowness is a signal', CLAUDE.md §4) is indistinguishable from 'the suite is just slow today' unless somebody runs `ps`. It was found only because the manuscripts suite overran and this cycle went looking for a mechanism instead of reassuring itself. ⛔ AND THE HARNESS THEN REPORTS THE KILLED JOB AS `failed with exit code 1`, which reads exactly like a RED GATE — a second way to draw a wrong conclusion from a stop. The killed run wrote no `EXIT=` marker, which is what distinguishes the two and is why the marker rule exists. ⭐ THE FIX IS A STOP THAT REACHES THE CHILD: have preflight.sh write its own pid to a file and give the repo a `scripts/stop-preflight.sh` that kills that pid's process GROUP, or run it with `setsid`/`exec` so the tracked process IS the gate. ⛔ NOT `pkill -f preflight` — CLAUDE.md §6 records that pattern matching the killer's own command line, three times in one session. Kill by recorded pid, never by pattern.",
-      "_score_basis": "a stop that does not stop, on the commit path every cycle uses, whose only symptom is slowness",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
-    },
-    {
-      "id": "AUT-PD-003",
-      "kind": "process_defect",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": "Verified twice on 2026-08-27: create_session AND fire_trigger both refuse with 'caller session is at lineage depth 8 (limit 8)'. ⭐ THE fire_trigger REFUSAL CORRECTS research-loop §7, which attributes that refusal to `created_via: http_api`; here it is LINEAGE DEPTH. ⚠ But this ceiling blocks SPAWNING, not WORK — subagents are unaffected and are the prescribed mechanism for blind seats. Recorded as a real defect with a bounded blast radius rather than as an outage.",
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "create_session refusal observed by CYC-0020 2026-08-27: 'caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions'",
-      "what": "⛔ THE CHAINED HANDOFF HAS A HARD CEILING OF EIGHT GENERATIONS, AND THIS SESSION IS THE EIGHTH. `research-loop` §3 tells a cycle at its session cap to create its own successor with `create_session`, and calls a loop that needs a human to start its next session 'not automated, just a longer fuse'. Measured 2026-08-27 (CYC-0020): that call now REFUSES — 'caller session is at lineage depth 8 (limit 8)'. Each handoff makes the child one generation deeper, so the chain was always going to terminate; nothing in the skill, the generator or the health checker knows the ceiling exists. ⚠ CORRECTED THE SAME HOUR, AND THE CORRECTION IS THE MORE USEFUL HALF. CYC-0020 first recorded this as BLOCKING, on the reasoning that AUT-PROP-019/020 need a reviewer who did not author the text and no session could be created. ⛔ THAT WAS WRONG, AND research-loop §3 SAYS SO IN PLAIN TEXT: the blind seats of a hardening round are PARALLEL SUBAGENTS, not spawned sessions. A subagent starts with a fresh context and has never seen the authoring, which is exactly what 'blind' means here. The seats ran as five concurrent subagents at the governed width. ★ THE LESSON IS NOT ABOUT THIS CEILING: an agent that cannot use its FIRST choice of mechanism must enumerate the others before calling work blocked, and 'blocked' is a claim that needs evidence (CLAUDE.md §0). The depth ceiling is real and still worth fixing — it just never blocked this work. ⭐ THE BACKSTOP STILL HOLDS: the loop's PRIMARY continuation is the UI-created driver Routine (trig_01P9ZNSAw7rNLcKLBFYCwuHp, `13 */4 * * *`, enabled, repo attached, last run SUCCEEDED), which fires a FRESH session at lineage depth 0 every four hours. The chained handoff is the redundancy, not the mechanism. CYC-0020 also ran only ONE cycle of its permitted two, so it never owed a handoff at all. ⛔ THE LIVE RISK IS NARROW AND REAL: a session that REACHES its 2-cycle cap while at depth 8 cannot comply with §3, and `health.py`'s `cycles_are_sized` reads `handoff.child_session_id` — so it would score that session RED for failing to do something the platform forbids. ⭐ WHAT TO FIX: teach the handoff path to detect the refusal and fall back to the driver Routine explicitly (record that the Routine carries the next cycle, rather than leaving the field absent), and teach `cycles_are_sized` that a depth-refused handoff with a live driver Routine is GREEN. ⚠ A cycle may NOT fix this by disabling or re-arming the driver Routine — §7 forbids acting on a `created_via: http_api` Routine from outside it, and `fire_trigger` refuses it too.",
-      "_score_basis": "blocks two filed items on the only paper with a public DOI; verified twice, not inferred",
-      "score_inputs": {
-        "age_factor": 0.0714,
-        "blocked_with_evidence": true
-      }
-    },
-    {
-      "id": "AUT-PD-004",
-      "kind": "fix",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
-      "what": "⛔ THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING — research-loop §1 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the §6 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n⚠ ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT — never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening §8b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. ⛔ DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. ⭐ These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them — which is exactly why they could sit red unnoticed.",
-      "_score_basis": "a red trunk blocks every cycle's commit gate; research-loop §1 makes it the cycle rather than a task within one",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
-    },
-    {
       "id": "AUT-PD-086",
       "what": "⛔⛔ FOUR ROUTES ARE RECORDED `state.status: parked` WHILE THEIR OWN NEXT ACTION NAMES A $0 STEP — AND AS OF 2026-08-28 THAT RECORD NOW HIDES THEM FROM THE QUEUE. Measured by seat s75-derivedstate while building the status-driven fix: RT-HORMONE-PARTNER ('Run the one $0 Europe PMC query on the HSPA8 promoter'), RT-VACCINE ('Re-grade on the recomputed coverage'), RT-MATRIX-SYNTHESIS, RT-SEQUENCING. ★★ THIS IS THE HIGHEST-PRIORITY ROW THIS CYCLE FILED AND IT IS THE ONLY ONE THAT IS RESEARCH RATHER THAN PLUMBING: two of the four are LIVE FREE WORK on real routes, and CLAUDE.md §0 is explicit that a route that could still produce a result outranks every finished-negative and documentation item. ⚠ The fix that surfaced them also conceals them until the graph is corrected — a false park hides a live route, which is exactly the asymmetry the seat chose precision to avoid, and it did not avoid it for these four. ★ FIX: correct the four records in systems/graph (a portfolio judgement with a generated-views blast radius, so it is a deliberate act, not a sweep), then RUN THE TWO $0 STEPS.",
       "serves": {
@@ -6648,6 +6391,263 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-005",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-DEGRADER-TERNARY",
+        "publication": "PUB-DEGRADER",
+        "strategy": "ST-DEGRADER"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "git show 1fd33bb:research/modalities/step1-fanout-map.json vs the same file at 91df57d",
+      "what": "⛔⛔ A CI TICK EMPTIED THE STEP-1 FAN-OUT MAP AND THE DEGRADER PAPER'S COMPLETENESS CLAIM NOW HAS NOTHING BEHIND IT. Measured 2026-08-27 by diffing the artifact across the commit that changed it, not inferred: at 1fd33bb `n_complete=18`, `n_computable=18`, `results` held 18 entries; at 91df57d ('step1 fan-out autoscale tick', 2026-08-27T09:36:35Z) `n_complete=0`, `n_computable=19`, `results=[]`. Eighteen computed RBFE edges left the committed map. ⚠ `nr4a3-degrader-paper.md:1426` still reads 'The congeneric map is COMPLETE at 18 computed edges of the 18 that are computable, in a 19-edge map', so a paper claim and its own artifact now disagree — which is what `test_pinned_figures_every_home[step1_fanout_edges_complete]` is red about, and it is RIGHT to be red.\n⛔ WHAT IS NOT ESTABLISHED, AND MUST BE THE FIRST THING CHECKED RATHER THAN ASSUMED EITHER WAY: whether the UNDERLYING per-edge results still exist (S3, the per-unit ddg.json files, a prior commit) and only this derived INDEX was clobbered, or whether the fan-out state itself was reset. Those have completely different remedies — regenerate the index, versus 18 edges of GPU spend to redo. ⛔ Do not 'fix' the red by editing the paper down to 0 until that is known; the paper may be the only surviving record of the count.\n⚠ AND THE MECHANISM IS THE REAL BUG: a scheduled tick that can overwrite a committed results artifact with an empty one is a data-loss path, and it ran unattended. Whatever the recovery, the tick must not be able to reduce `n_complete` without saying so loudly.",
+      "_score_basis": "a committed results artifact was emptied by automation, and a paper claim now disagrees with its artifact",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
+      "id": "AUT-PROP-014",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-FUSION-OUTPUT",
+        "publication": "PUB-FUSION-OUTPUT",
+        "strategy": "ST-DISSEMINATION"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": "2026-08-27T05:10:48Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0018",
+      "depends_on_evidence": "git log -- research/modalities/atr-hrd-sarcoma-series.json",
+      "what": "⛔ TRUNK RED, AND THE RED IS THE SMALL HALF. `research/modalities/atr-hrd-sarcoma-series.json` is ONE FILENAME THAT HAS HELD TWO DIFFERENT GEO SERIES, and two modules read it as two different things. Committed history, not inference: 2026-08-05 it held GSE299349 (its producer atr_hrd_sarcoma_series.py declares SERIES = 'GSE299349'); 325258cb8 on 2026-08-07 overwrote it with GSE28866, 99 samples, via the same emc-expression-datasets.yml mode=gse-series workflow run with a different series argument; emc_cohort_search.py and its committed verdict were then written on 2026-08-08 AGAINST THAT GSE28866 CONTENT; a8caba9 on 2026-08-27 04:37 UTC re-fetched GSE299349 to repair PUB-ATR §8 (CYC-0016, correctly) and thereby deleted the sample list emc_cohort_search had been relying on. ⭐ THE DAMAGE IS NOT THE THREE RED TESTS. `_known_gsms()` guards against counting a re-deposit of a cohort the manuscript already reads as a FOURTH EMC cohort; it fell 157 → 126 GSMs (58 fusion-target + 99 Brunner → 58 + 68 unrelated), lost the entire 3SEQ arm, and now LABELS 68 BCOR-rearranged sarcoma cell-line samples with the string 'GSE299349 = GSE170983, the Brunner deposit (the 3SEQ arm)'. A re-deposit sharing neither accession nor PMID grades NEW_CANDIDATE. ⛔ FIX IS NOT A RE-PIN: give the GSE28866 record its own series-named home restored verbatim from 325258cb8, point emc_cohort_search at it, and make _known_gsms() REFUSE a wrong-series or missing file instead of degrading silently — the silent degradation is why a guard vanished and only a downstream assertion noticed.",
+      "_score_basis": "trunk red on main, not by this cycle's hand — research-loop §1 made fixing it the cycle",
+      "observed": "FIXED, and the mechanism is closed rather than the symptom. (1) The GSE28866 3SEQ record was restored VERBATIM from 325258cb8 (blob 83e92a1465971a2344076be210cc07bd067a5363, fetched 2026-08-07T17:26:52Z by emc-expression-datasets.yml run 31200667719) to its own series-named path research/modalities/geo-gse28866-brunner-series.json. (2) emc_cohort_search._known_gsms() reads that path and now RAISES on a missing file or on a `series` other than GSE28866 instead of silently returning a shorter map — the old `if os.path.exists(...)` skip is what let dedup level 3 disappear without a word. n_known_gsms is back to 157 (58 fusion-target + 99 Brunner), GSM715466 maps to the Brunner deposit again, `--check` says the committed verdict is current, and the 3 red tests plus 3 new ones pass (33/33). Three single-site mutations of the new guard were all CAUGHT. (3) atr_hrd_sarcoma_series.py now REFUSES `--series` != its declared SERIES before fetching anything, because one fixed output path plus a free --series is what clobbered this artifact in BOTH directions (2026-08-07 GSE28866 over GSE299349, silently invalidating PUB-ATR §8 for three weeks; 2026-08-27 the repair back the other way). Three mutations of that guard were all CAUGHT. (4) emc_expression_panels.py's provenance pointer for the GSE28866 fetch was moved to the new path and emc-expression-panels.json regenerated (one line changed). ⚠ WHAT IS NOT FIXED AND IS FILED SEPARATELY: the output path still does not VARY with the series, so a second series characterisation needs its own module or its own path — the refusal buys correctness, not capability. See AUT-PROP-015."
+    },
+    {
+      "id": "AUT-BIX-003",
+      "kind": "fetch",
+      "serves": {
+        "route": "RT-FUSION-OUTPUT",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "preprint-review-2026-08-27",
+      "depends_on_evidence": "BixBench3 (arXiv:2608.25286v1) Appendix Table 1, task 14 — TITLE ONLY, read 2026-08-27. Portfolio gap confirmed by $0 grep the same day: zero hits for 'feed-forward' or 'cofactor loop' in any markdown under research/ or systems/; RUNX2 appears only in accession-symbol-cache.json and a scraped journal index, never as a target.",
+      "what": "READ ONE PAPER AND ASK ONE QUESTION. BixBench3's task 14 is built on 'RUNX2 inhibition disrupts a PAX3::FOXO1-RUNX2 feed-forward loop and dismantles oncogenic gene programs in fusion-positive rhabdomyosarcoma' — a transcription-factor-fusion sarcoma whose oncogenic program is dismantled by hitting a COFACTOR rather than the undruggable fusion. That is EMC's problem shape, and this repository has no vocabulary for it.\nWHAT TO DO, all $0: (1) resolve and read the source paper (its raw data are public — a BixBench3 inclusion criterion — and it published >=4 ground-truth derived artifacts, also a criterion); (2) ask whether any EWSR1::NR4A3 cofactor forms an analogous feed-forward loop, and whether that is answerable from the EMC expression data ALREADY on disk rather than needing new data; (3) grade it against RT-FUSION-OUTPUT, RT-TXN-CDK and RT-PARTNER-STRAT — is it a variant of one of those, or a route they do not cover?\n⛔ WEIGHT IT HONESTLY AND EXPECT A NULL. This is a paper TITLE in the appendix of an unrelated AI benchmark; nothing else has been read, PAX3::FOXO1 is not a FET fusion, and cross-fusion transfer is exactly the kind of analogy that reads as insight and dies on contact with the biology. The deliverable is a graded verdict either way — a clean 'no analogous loop is reported, and here is what would have shown one' is a full result under CLAUDE.md §0, not a failure. ⛔ DO NOT open a route on the title alone. Reading: research/method-watch-bixbench3-calibration.md §6",
+      "_score_basis": "free, and it is the only thing in this preprint that touches the science portfolio rather than the operating loop — CLAUDE.md §0 puts a live lead ahead of the three process items filed alongside it",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
+      "id": "AUT-RT-001",
+      "what": "Fetch the full text of PMID 41323055 (Kobayashi et al./Case Reports in Oncology 2025, 'Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxoid Chondrosarcoma Repeatedly Treated with Surgical Excision or Stereotactic Radiotherapy Alone') -- open access per this artifact's own outstanding list, $0, not yet retrieved. Extract dose, fractionation and local-control duration for each of the three SABR occasions and write them into research/literature/emc-rt-lung-mets-findings.json's dose_outcome_table (filed by AUT-041, which found this the highest-value single gap: the case with the most treated occasions and no dose data of the four sourced deliveries). ✅ CLOSED 2026-08-28 by CYC-0054-schedule. Full text of PMID 41323055 fetched at $0 via a plain HTTPS GET to PMC's own copy (pmc.ncbi.nlm.nih.gov/articles/PMC12659415/) from a GitHub Actions runner (fetch-literature.yml run 33178734185) -- the Karger publisher page still 403s, PMC's mirror did not. Dose/fractionation/local-control extracted for all four SABR courses across the three treated occasions (Table 1 cross-checked against the running text), plus the one surgical-excision episode correctly excluded as non-SABR. Written into a new dose_outcome_table entry with per-occasion detail and honest UNKNOWNs (occasion 3's local-control duration is UNKNOWN -- no follow-up restaging reported after the most recent course). BED computations are explicitly marked as computed here from the reported dose/fractionation, not asserted as the source's own figures.",
+      "serves": {
+        "route": "RT-MDT-LUNG",
+        "publication": "PUB-LOCOREGIONAL",
+        "strategy": "ST-LOCOREGIONAL"
+      },
+      "kind": "fetch",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "AUT-041",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
+      "id": "AUT-RT-002",
+      "what": "Find and confirm the correct primary source for the 40 Gy/10-fraction SBRT lung-metastasis case the 2025 review (PMID 41055792) tells twice under conflicting attributions ('Qiu et al. 2014' and 'Takagawa et al. 2022', with Takagawa separately used for the unrelated brachytherapy case PMID 35494187 in the same paragraph). At least one attribution is wrong. research/literature/emc-rt-lung-mets-findings.json already instructs not to cite this case from the review; this item is the follow-through -- locate the real primary (search both named authors' bibliographies for an EMC lung-metastasis SBRT case), or record that neither produces one and the case cannot currently be sourced. $0, WebSearch/Europe PMC only. ✅ CLOSED 2026-08-28 by CYC-0054-schedule. Resolved by reading the review's (PMID 41055792) own already-cached full text rather than fresh search: its second paragraph reproduces the first's case narrative verbatim but mislabels the attribution -- a copy-paste error inside the review, not two competing sources. The review's own bibliography lists exactly one 2014 Qiu citation and exactly one 2022 Takagawa citation (the latter being the already-known brachytherapy paper, PMID 35494187). Independently corroborated via two direct Europe PMC API queries (fetch-literature.yml run 33178734185): AUTH:Takagawa AND PUB_YEAR:2022 AND myxoid-chondrosarcoma returns exactly 1 hit, which IS PMID 35494187 (empirically ruling out a second Takagawa paper); the mirror Qiu query returns 0 (consistent with, not contradicting, a small non-MEDLINE journal's incomplete Europe PMC coverage -- a live WebSearch separately found a real Cambridge Core landing page for the exact title/author/journal). CONFIDENCE: HIGH that Qiu et al. 2014 (DOI 10.1017/S1460396914000284) is the correct, sole primary source. The Cambridge Core full text itself remains unread (same egress block class as other Cambridge/Wiley/Elsevier pages this repo has hit) so the dose figures are recorded as SECONDARY (from the review's paraphrase, cross-checked against its bibliography), not primary-source-verified -- correctly graded, not overclaimed.",
+      "serves": {
+        "route": "RT-MDT-LUNG",
+        "publication": "PUB-LOCOREGIONAL",
+        "strategy": "ST-LOCOREGIONAL"
+      },
+      "kind": "fetch",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "AUT-041",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "research/autonomy/publication-authority.json"
+      ],
+      "blocked_evidence": "publication-authority.json: outreach was never granted to anyone. Only trimcrae sends these.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-26",
+      "score": null,
+      "filed_by": "CYC-0001",
+      "prerequisite_of": null,
+      "id": "AUT-PROP-004",
+      "kind": "write",
+      "what": "ESCALATE, do not perform: the three paywalled-table requests to corresponding authors named in section 6 of the fusion-partner paper. Email is outward-facing and covered by NO grant.",
+      "score_inputs": {
+        "age_factor": 0.1429,
+        "blocked_with_evidence": true
+      }
+    },
+    {
+      "id": "AUT-PD-001",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/manuscripts/build_submission_parts.py run on clean origin/main (git stash) by CYC-0020",
+      "what": "⛔ THREE STEPS OF regenerate_aso_chain.sh CANNOT RUN IN THIS SANDBOX, AND THE CHAIN REPORTS THAT AS 'something is stale or failed' — which reads exactly like a real staleness finding. Measured 2026-08-27 (CYC-0020): `build_submission_parts.py`, `svg_to_print_formats.py` and `build_submission_docx.py` all fail with '⛔ LibreOffice did not write a .docx / failed to launch javaldx / source file could not be loaded'. ⭐ VERIFIED NOT OURS BY THE §6 CASCADE PROCEDURE: `git stash -u`, re-run on clean origin/main, identical failure, `git stash pop`. ⚠ THE REAL COST IS NOT THE THREE STEPS — IT IS THAT RUNNING THE CHAIN AT ALL REWROTE TEN FILES BELONGING TO A DIFFERENT SUBMISSION (four ASO PDFs, two fusion-output PDFs, two neoantigen PDFs, and the ASO submission reference list, whose entry 2 gained a full author list from a live fetch). A cycle that needed ONE regeneration — the archive manifest, because it hashes emc-fusion-partner-pooling.json — would have silently committed all ten into another paper's history. They were reverted and the manifest re-derived against the restored tree. ⭐ THE FIX IS A SCOPED REGENERATION: the chain should be able to run the steps downstream of ONE named artifact, or at minimum report which of its steps are environment-blocked rather than folding them into one 'stale or failed' verdict that a reader cannot distinguish from a genuine drift.",
+      "_score_basis": "a gate whose failure mode is indistinguishable from a real finding, on the commit path every cycle uses",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
+      "id": "AUT-PD-002",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "`ps -eo etime,pid,cmd` taken by CYC-0020 at 07:12 on 2026-08-27, showing pids 8682 and 9789 both running ./scripts/preflight.sh",
+      "what": "⛔ `TaskStop` ON A BACKGROUNDED PREFLIGHT KILLS THE HARNESS'S WRAPPER AND LEAVES `preflight.sh` RUNNING. Measured 2026-08-27 (CYC-0020): §6 says to kill a gate run the tree moved under rather than sit through it, and this cycle did that three times. Each TaskStop reported success. `ps` then showed pid 8682 STILL running the stopped run's preflight.sh at 3:05 elapsed, with its own `pytest -n 4` child, alongside the live run's pid 9789 — TWO gates, eight workers, on a box sized for four. ⚠ THE SYMPTOM IS NOT A CRASH, IT IS SLOWNESS, WHICH IS WHY IT SURVIVES: the live gate simply takes much longer than its measured ~255 s, and the honest reading of that ('unexpected slowness is a signal', CLAUDE.md §4) is indistinguishable from 'the suite is just slow today' unless somebody runs `ps`. It was found only because the manuscripts suite overran and this cycle went looking for a mechanism instead of reassuring itself. ⛔ AND THE HARNESS THEN REPORTS THE KILLED JOB AS `failed with exit code 1`, which reads exactly like a RED GATE — a second way to draw a wrong conclusion from a stop. The killed run wrote no `EXIT=` marker, which is what distinguishes the two and is why the marker rule exists. ⭐ THE FIX IS A STOP THAT REACHES THE CHILD: have preflight.sh write its own pid to a file and give the repo a `scripts/stop-preflight.sh` that kills that pid's process GROUP, or run it with `setsid`/`exec` so the tracked process IS the gate. ⛔ NOT `pkill -f preflight` — CLAUDE.md §6 records that pattern matching the killer's own command line, three times in one session. Kill by recorded pid, never by pattern.",
+      "_score_basis": "a stop that does not stop, on the commit path every cycle uses, whose only symptom is slowness",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
+      "id": "AUT-PD-003",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": "Verified twice on 2026-08-27: create_session AND fire_trigger both refuse with 'caller session is at lineage depth 8 (limit 8)'. ⭐ THE fire_trigger REFUSAL CORRECTS research-loop §7, which attributes that refusal to `created_via: http_api`; here it is LINEAGE DEPTH. ⚠ But this ceiling blocks SPAWNING, not WORK — subagents are unaffected and are the prescribed mechanism for blind seats. Recorded as a real defect with a bounded blast radius rather than as an outage.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "create_session refusal observed by CYC-0020 2026-08-27: 'caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions'",
+      "what": "⛔ THE CHAINED HANDOFF HAS A HARD CEILING OF EIGHT GENERATIONS, AND THIS SESSION IS THE EIGHTH. `research-loop` §3 tells a cycle at its session cap to create its own successor with `create_session`, and calls a loop that needs a human to start its next session 'not automated, just a longer fuse'. Measured 2026-08-27 (CYC-0020): that call now REFUSES — 'caller session is at lineage depth 8 (limit 8)'. Each handoff makes the child one generation deeper, so the chain was always going to terminate; nothing in the skill, the generator or the health checker knows the ceiling exists. ⚠ CORRECTED THE SAME HOUR, AND THE CORRECTION IS THE MORE USEFUL HALF. CYC-0020 first recorded this as BLOCKING, on the reasoning that AUT-PROP-019/020 need a reviewer who did not author the text and no session could be created. ⛔ THAT WAS WRONG, AND research-loop §3 SAYS SO IN PLAIN TEXT: the blind seats of a hardening round are PARALLEL SUBAGENTS, not spawned sessions. A subagent starts with a fresh context and has never seen the authoring, which is exactly what 'blind' means here. The seats ran as five concurrent subagents at the governed width. ★ THE LESSON IS NOT ABOUT THIS CEILING: an agent that cannot use its FIRST choice of mechanism must enumerate the others before calling work blocked, and 'blocked' is a claim that needs evidence (CLAUDE.md §0). The depth ceiling is real and still worth fixing — it just never blocked this work. ⭐ THE BACKSTOP STILL HOLDS: the loop's PRIMARY continuation is the UI-created driver Routine (trig_01P9ZNSAw7rNLcKLBFYCwuHp, `13 */4 * * *`, enabled, repo attached, last run SUCCEEDED), which fires a FRESH session at lineage depth 0 every four hours. The chained handoff is the redundancy, not the mechanism. CYC-0020 also ran only ONE cycle of its permitted two, so it never owed a handoff at all. ⛔ THE LIVE RISK IS NARROW AND REAL: a session that REACHES its 2-cycle cap while at depth 8 cannot comply with §3, and `health.py`'s `cycles_are_sized` reads `handoff.child_session_id` — so it would score that session RED for failing to do something the platform forbids. ⭐ WHAT TO FIX: teach the handoff path to detect the refusal and fall back to the driver Routine explicitly (record that the Routine carries the next cycle, rather than leaving the field absent), and teach `cycles_are_sized` that a depth-refused handoff with a live driver Routine is GREEN. ⚠ A cycle may NOT fix this by disabling or re-arming the driver Routine — §7 forbids acting on a `created_via: http_api` Routine from outside it, and `fire_trigger` refuses it too.",
+      "_score_basis": "blocks two filed items on the only paper with a public DOI; verified twice, not inferred",
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "blocked_with_evidence": true
+      }
+    },
+    {
+      "id": "AUT-PD-004",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
+      "what": "⛔ THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING — research-loop §1 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the §6 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n⚠ ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT — never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening §8b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. ⛔ DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. ⭐ These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them — which is exactly why they could sit red unnoticed.",
+      "_score_basis": "a red trunk blocks every cycle's commit gate; research-loop §1 makes it the cycle rather than a task within one",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
     }
   ]
 }
