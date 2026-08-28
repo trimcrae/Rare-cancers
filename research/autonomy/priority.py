@@ -540,7 +540,9 @@ def _table(entries: list[dict], limit: int) -> str:
     lines = [f"{'score':>7}  {'kind':<10} {'cost':<9} {'route':<28} what"]
     lines.append("-" * 110)
     for entry in entries[:limit]:
-        what = entry["what"].replace("\n", " ")
+        # AUT-PD-046: a row missing `what` (e.g. a freshly-filed proposal nobody has described yet)
+        # must degrade the table, never crash the whole --limit view for every other row alongside it.
+        what = entry.get("what", "(no description)").replace("\n", " ")
         if len(what) > 52:
             what = what[:49] + "..."
         lines.append(
