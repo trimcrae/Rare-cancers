@@ -83,10 +83,23 @@ jobs:
         run: python3 research/manuscripts/aso_archive_manifest.py
 
       - name: Prove the staleness guards are actually satisfied
+        # ⛔ NAME THE TWO FILES, NEVER THE DIRECTORY. `-k` DESELECTS BUT DOES NOT PREVENT IMPORT:
+        # pytest collects every module under the path it is given first, and only then applies the
+        # filter. This step installs pytest and nothing else, so pointing it at the whole tests/
+        # directory imports modules needing scipy, pdfminer and Bio, and the run dies with
+        # "1 error during collection" having deselected all 1437 tests it never needed.
+        # ⚠ MEASURED 2026-08-28 (run 33203189924), and the failure was WORSE THAN A RED BUILD: the
+        # parts and the manifest had ALREADY been rebuilt successfully by the two steps above, and
+        # this step's exit 2 skipped "Commit to main" — so the workflow did its whole job, threw the
+        # result away, and reported failure. The trunk stayed stale on exactly the three guards this
+        # workflow exists to satisfy. Reproduced on a bare pytest venv against BOTH this commit's
+        # tree and its parent, so it is latent, not caused by the manuscript edit that dispatched it.
         run: |
           set -euo pipefail
           pip install -q pytest
-          python3 -m pytest research/manuscripts/tests/ -q \
+          python3 -m pytest -q \
+            research/manuscripts/tests/test_the_submission_uploads_are_individual_files.py \
+            research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py \
             -k "submission_part_is_stale or word_file_is_not_stale" 2>&1 | tail -5
 
       - name: Commit to main
