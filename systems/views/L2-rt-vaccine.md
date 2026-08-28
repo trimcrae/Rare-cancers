@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-VACCINE — Fusion-junction vaccine / HLA-coverage paper
 
-**Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ✓ parked · computed · confidence low · verified 2026-08-05
+**Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ✓ parked · computed · confidence low · verified 2026-08-28
 
-**Grade** (owned by [`research/manuscripts/neoantigen/hla-coverage-emc.md`](../../research/manuscripts/neoantigen/hla-coverage-emc.md)): PARKED — done, not a treatment path; a self-adjacent junction in a cold tumour is a weak immunogen
+**Grade** (owned by [`research/manuscripts/neoantigen/hla-coverage-emc.md`](../../research/manuscripts/neoantigen/hla-coverage-emc.md)): PARKED — done, not a treatment path; a self-adjacent junction in a cold tumour is a weak immunogen ⭐ RE-GRADED ON THE RECOMPUTED COVERAGE (2026-08-28) AND THE PARKING SURVIVES — COVERAGE MOVED AGAINST THE ROUTE, NOT FOR IT. Class I fell on the corrected transcript-model junction: the public e7::e3 junction is presented on HLA-B*15:01 alone, and the any-strong-binder set lost two alleles. ⛔ AND THE CLASS-II ARM IS NO LONGER WITHHELD — that claim was FALSE against the committed artifacts and had been since 2026-08-22. patient-cd4-demo.json is rebuilt on the corrected seam (`QYSQQSSSYGQQ\|NMPCVQAQYSPS`, grade EMITTABLE), hla_coverage.py's own ⛔_class_ii_provenance records `matches_corrected_seam: true` with no banner, and the coverage artifact carries class-II and both-arms figures. The class-II result is itself weak: ONE strong binder on ONE allele across a 23-allele DR/DP/DQ panel in which every declared allele was scored. ⚠ The re-grade therefore changes nothing about the parking, which rests on BLK-ANTIGEN-COLD — immunogenicity of a self-adjacent junction in a cold tumour — and not on coverage. Figures are owned by ART-HLA-COVERAGE and are not re-typed here.
 
 ## What has to land for this route to move
 
@@ -77,7 +77,7 @@ If the junction peptide is presented, a vaccine is the cheapest way to point the
 
 **`internal_note`**
 
-its antigen input is no longer void — it is regenerated. What now blocks it is COVERAGE: ≈8.5% on the public junction, ≈27% pooled, and a class-II arm still on the retracted seam.
+its antigen input is no longer void — it is regenerated. What now blocks it is COVERAGE on the public junction and, above that, immunogenicity. ⚠ Superseded, retained: "≈8.5% on the public junction, ≈27% pooled, and a class-II arm still on the retracted seam." The two class-I figures are unchanged and are owned by ART-HLA-COVERAGE; the class-II half of that sentence was FALSE when this record last carried it — the demo was rebuilt on the corrected seam and the coverage module records the match — and the arm is reported rather than withheld. Corrected 2026-08-28 against the committed artifacts.
 
 **Missing:**
 - an immunogenicity argument
@@ -122,7 +122,7 @@ Parked on a property of the tumour and the junction rather than of the modality,
 
 ## Best next action
 
-Re-grade on the recomputed coverage. The HLA-coverage output is reusable but its class-I figures moved by ~3× and its class-II figures are withheld.
+⭐ THE RE-GRADE THIS FIELD ASKED FOR IS DONE (2026-08-28) AND THE ROUTE STAYS PARKED. Superseded, retained: "Re-grade on the recomputed coverage. The HLA-coverage output is reusable but its class-I figures moved by ~3× and its class-II figures are withheld." ⛔ THE SECOND HALF OF THAT SENTENCE WAS ALREADY FALSE WHEN IT WAS WRITTEN INTO THE QUEUE: the class-II figures are computed and committed. The re-grade's outcome is that coverage moved AGAINST the route and immunogenicity — BLK-ANTIGEN-COLD — is unchanged, so `parked` is the right state and TECH-JUNCTION-PMHC remains what would reopen it. Nothing free is left open on this route; the reusable half is the coverage computation, which feeds TCR-T eligibility through RT-JUNCTION-NEOANTIGEN.
 
 *Cost:* $0
 

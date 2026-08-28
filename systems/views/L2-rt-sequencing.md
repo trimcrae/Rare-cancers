@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-SEQUENCING — Treatment sequencing and line ordering
 
-**Family:** [ST-STRATEGY](L1-st-strategy.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-26
+**Family:** [ST-STRATEGY](L1-st-strategy.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-28
 
 **Grade** (owned by [`research/manuscripts/endpoint/emc-systemic-therapy-pooling.json`](../../research/manuscripts/endpoint/emc-systemic-therapy-pooling.json)): ⛔ THE PUBLISHED RECORD CANNOT SUPPORT A SEQUENCING CLAIM, AND SAYING SO PRECISELY IS THE RESULT (2026-08-09). No randomised evidence exists for any systemic therapy in this disease: all prospective cohorts are single-arm or single-arm within a master protocol, and the one randomised dataset that touches the disease randomised translocation sarcomas as a class with no EMC patient in its control arm. Every pooled denominator is under sixty patients worldwide, ever, and two of the pools rest on single-digit EMC subsets whose intervals span almost the entire range. ⭐ The between-cohort response range runs from zero to a majority, which is why the artifact REFUSES the all-regimen pool rather than reporting it — and that refusal, not an ordering, is what this route can honestly contribute.
 
@@ -59,7 +59,7 @@ The registry curates several agents with disease-specific activity and says noth
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| The $0 analysis or registry sweep named in this route's next action | ⛔ none built | yes | — |
+| ⛔ TAKEN 2026-08-09 and sharpened 2026-08-26 — the $0 analysis and registry sweep this route named. It produced the pooling artifact's refusal to report an all-regimen figure, and the check against the field's most recent comprehensive EMC review. Recorded as taken so the row stops reading as an open feasible-today step (AUT-PD-086). | ⛔ none built | yes | — |
 | Prospective confirmation, which no trial in this disease will supply | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers

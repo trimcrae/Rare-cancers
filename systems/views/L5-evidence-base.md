@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 15 evidence items · 51 artifacts · 14 pinned claims.**
+**19 objects · 15 evidence items · 52 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -104,6 +104,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-GSE28866-TUMOUR-VS-NORMAL** | `research/modalities/gse28866-tumour-vs-normal.json` | `the GSE28866 supplementary peak-table read (emc-expression-datasets.yml)` | ⚠ **nothing** |
 | **ART-HLA-COVERAGE** | `research/modalities/hla-coverage.json` | `research/modalities/hla_coverage.py` | [RT-JUNCTION-NEOANTIGEN](L2-rt-junction-neoantigen.md), [RT-TCR-IMMTAC](L2-rt-tcr-immtac.md), [RT-TCRT-CTA](L2-rt-tcrt-cta.md), [RT-VACCINE](L2-rt-vaccine.md) |
 | **ART-HORMONE-PARTNER-LANE** | `research/modalities/hormone-partner-lane.json` | `research/modalities/hormone_partner_map.py` | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) |
+| **ART-HSPA8-PROMOTER-GRADE** | `research/modalities/hspa8-promoter-hormone-grade.json` | `—` | [RT-HORMONE-PARTNER](L2-rt-hormone-partner.md) |
 | **ART-ICDO-CONTAMINATION** | `research/modalities/emc-icdo-contamination.json` | `research/modalities/emc_icdo_contamination.py` | [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md) |
 | **ART-IDR-CENSUS** | `research/modalities/emc-fet-idr-census.json` | `research/modalities/emc_fet_idr_census.py` | `CLM-IDR-COMPARATIVE`, `CLM-IDR-CONTROLS`, `CLM-IDR-EMC`, [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **ART-IPD-SURVIVAL** | `research/modalities/emc-ipd-survival.json` | `research/modalities/emc_ipd_survival.py` | [RT-IPD-SURVIVAL](L2-rt-ipd-survival.md) |
