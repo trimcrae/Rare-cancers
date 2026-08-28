@@ -41,9 +41,10 @@
  "route_advanced": "none",
  "_route_advanced_why": "HONEST `none`, and the honesty matters here because the cycle produced a lot. Nothing this cycle moved a RESEARCH route: it restored the trunk so that other cycles can commit, and filed two process defects. ⭐ The finding that DOES point at a route is AUT-PD-143 — 26 open rows of live in-silico work on RT-SGK1, RT-ALK-HIT, RT-DEGRADER-TERNARY and RT-JUNCTION-NEOANTIGEN have never been offered to any cycle because they carry no score — but diagnosing that is not advancing it.",
  "handoff": {
-  "child_session_id": null,
-  "attempted": false,
-  "_why": "Cycle 1 of 2. Owed only if this session reaches its cap."
+  "child_session_id": "session_01K2cMqfMrMvPcj6wJU4Fixs",
+  "attempted": true,
+  "built_by": "python3 research/autonomy/handoff.py --json --reason \"...\" — from committed state, never from memory",
+  "_why": "This session ran ONE cycle of its two, and handed off anyway. research-loop §3's cap is a CAP, not a target: the follow-on this cycle diagnosed (AUT-PD-143, the ranker fix) is a pass in priority.py plus a new health condition plus its guard tests — machinery, not the 'small follow-on' the second slot is slack for. The context this session spent on a red trunk is context the successor should not inherit."
  },
  "health": {
   "_how": "python3 research/autonomy/health.py --check --stall-verdict <stuck_clock --check --json>",
