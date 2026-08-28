@@ -939,7 +939,7 @@ this criterion by, no design at any of the five clears the screen, and at eight,
 Both parent-liability classes of §2.5 (the pre-mRNA sites and the mature-transcript duplexes)
 were bounded the same way: exhaustive over six parent transcripts and silent about every
 other gene. The genome scan, screen 5, removes that bound for the pre-mRNA class alone. It runs at two mismatches, and a contiguous run of eleven or twelve base pairs inside a 16-mer
-leaves five or four positions outside that run — which are not all unpaired. Recomputed against
+leaves five or four positions outside that run, respectively — which are not all unpaired. Recomputed against
 the parent sites, 52 of those 78 designs carry fewer mismatches than the run length alone implies
 and five sit at exactly two, inside the scan's own budget. So most of the mature-transcript class
 stays bounded by the six transcripts searched and five designs are not, which is the same reason
@@ -2389,7 +2389,7 @@ another catches. No single screen supports any claim here on its own.
 
 5. **The genome scan.** Screens 1 to 4 are bounded either by an annotation or by six transcripts.
    The fifth removes that SEARCH-SPACE bound, and only for the pre-mRNA class: it runs at two mismatches, and a contiguous run of eleven or twelve base pairs inside a
-   16-mer leaves five or four positions outside that run, which are not all unpaired: five of
+   16-mer leaves five or four positions outside that run, respectively, which are not all unpaired: five of
    those 78 designs sit at exactly two mismatches and so fall inside this scan's budget, while
    the rest of the mature-parent duplex class of §2.5 stays bounded by the same six transcripts
    it was bounded by before. A reader who takes this bullet alone gets a wider clearance than the

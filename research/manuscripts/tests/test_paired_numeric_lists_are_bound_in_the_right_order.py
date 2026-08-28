@@ -94,7 +94,23 @@ _BINDING_VERB = (r"leaves?|leaving|left|carries|carry|carrying|carried|has|have|
 _UNPAIRED_NOUN = (r"positions?\s+unpaired|unpaired\s+positions?|mismatch(?:es)?"
                   r"|bases?\s+unpaired|unpaired\s+bases?"
                   r"|nucleotides?\s+unpaired|unpaired\s+nucleotides?"
-                  r"|base\s+pairs?\s+unpaired|unpaired\s+base\s+pairs?")
+                  r"|base\s+pairs?\s+unpaired|unpaired\s+base\s+pairs?"
+                  #: ⛔ THE COMPLEMENT MAY BE NAMED AS *OUTSIDE THE RUN* RATHER THAN AS *UNPAIRED*
+                  #: (2026-08-28, AUT-PD-117). Round 18 narrowed §2.7's screen-5 sentence from
+                  #: "leaves five or four positions unpaired" to "leaves five or four positions
+                  #: outside that run — which are not all unpaired", because a position outside the
+                  #: run need not be unpaired. That narrowing is CORRECT and stands. But every
+                  #: pattern here demanded the word "unpaired", so the file's only matching sentence
+                  #: stopped matching, the coverage assertion fired, and the guard went from
+                  #: checking an invariant to reporting its own blindness.
+                  #: ⭐ THE INVARIANT IS UNAFFECTED, AND IS IF ANYTHING CLEANER HERE: "outside the
+                  #: run" is N − L BY DEFINITION, where "unpaired" was only N − L under the
+                  #: assumption the narrowing removed. So this alternative is not a widening of
+                  #: tolerance — it is the arithmetically exact form of the same complement.
+                  r"|positions?\s+outside\s+(?:that|the|this)\s+run"
+                  r"|bases?\s+outside\s+(?:that|the|this)\s+run"
+                  r"|nucleotides?\s+outside\s+(?:that|the|this)\s+run"
+                  r"|base\s+pairs?\s+outside\s+(?:that|the|this)\s+run")
 
 #: "a contiguous run of eleven or twelve base pairs" / "an eleven- or twelve-base-pair ... run"
 _RUN_LIST = re.compile(

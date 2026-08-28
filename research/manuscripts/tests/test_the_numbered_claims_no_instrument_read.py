@@ -93,6 +93,22 @@ def _every_site(prose, pattern, expected, what):
                        f"at {len(wrong)} of its {len(found)} site(s)")
 
 
+def _any_site_that_states_it(prose, pattern, expected, what):
+    """The count is checked wherever it IS stated, and no site is required to state it.
+
+    ⛔ THE DIFFERENCE FROM `_every_site`, WHICH IS THE WHOLE POINT: that helper requires at least
+    one match, because a pattern that has stopped matching is usually a guard that has silently
+    stopped guarding. That is the right default and it stays the default. It is the WRONG check for
+    a sentence whose count is allowed to become an anaphor — there the absence of a match is the
+    prose working, not the guard failing.
+    ⛔ SO THIS HELPER IS ONLY EVER CORRECT NEXT TO A SEPARATE ASSERTION THAT THE CLAIM ITSELF IS
+    STILL PRESENT. Used alone it is exactly the fail-quiet shape `_every_site` exists to forbid.
+    Its one caller asserts the release claim in the line above.
+    """
+    wrong = [f for f in re.findall(pattern, prose) if f != expected]
+    assert not wrong, (f"{what} is {expected!r} in the artifact, and the article states {wrong!r}")
+
+
 def _oligo(path, sequence, what):
     rows = [o for o in _load(path, what)["oligos"] if o["antisense_5to3"] == sequence]
     assert len(rows) == 1, (f"{os.path.basename(path)} carries {len(rows)} records for {sequence}; "
@@ -234,8 +250,26 @@ def test_the_panel_size_is_the_screens_at_every_site_that_states_it(prose):
     later. §1's "puts to all 190 designs" is a fourth.
     """
     n = _load(GAP_PAIRING, "the mature-parent gap-pairing screen")["corpus"]["n_designs"]
-    _every_site(prose, r"the procedure that produced the (\d+) designs", str(n),
-                "the panel size §6 says the released procedure produced")
+    # ⛔ THE RELEASE SENTENCE MAY NAME THE COUNT OR REFER BACK TO IT, AND ONLY ONE OF THOSE IS A
+    # SITE (2026-08-28, AUT-PD-117). This required "the procedure that produced the N designs" to
+    # match at least once. Round 18 condensed the Abstract's "Also released is the procedure that
+    # produced the 190 designs" to "The procedure producing them is released" — the count moved
+    # from a restatement to an anaphor three sentences after the Abstract's own "panel of 190
+    # junction-spanning 16-mers", which is pinned as `aso_panel_designs_total_journal_abstract`.
+    # Nothing became unbound; the site simply stopped being a site, and a site census fired on its
+    # own absence.
+    # ⭐ SO THE TWO THINGS ARE ASSERTED SEPARATELY, WHICH IS WHAT THEY ALWAYS WERE. The CLAIM —
+    # that the design procedure is released — is required to be present in any wording, so it
+    # cannot be dropped silently. The COUNT is checked at every site that states it, and this
+    # sentence is allowed to have none. Requiring the count back would buy nothing a pin does not
+    # already hold, at the cost of a word in a paper whose page budget is a per-page charge.
+    assert re.search(r"procedure (?:that produced|producing|behind) (?:the |them\b)", prose, re.I), (
+        "the journal article no longer says the design procedure is released. That release is what "
+        "makes the panel reproducible rather than merely reported, and it is a claim about this "
+        "deposit — not a restatement of the count, which the Abstract pin holds.")
+    _any_site_that_states_it(
+        prose, r"procedure (?:that produced|producing) the (\d+) designs", str(n),
+        "the panel size the released procedure is said to have produced")
     _every_site(prose, r"puts to all (\d+) designs", str(n),
                 "the panel size §1 says the parent question is put to")
 

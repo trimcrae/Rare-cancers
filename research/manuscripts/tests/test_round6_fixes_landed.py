@@ -423,7 +423,34 @@ def test_the_journal_article_keeps_both_branches_of_the_pilot_gate():
     # file, so the phrase it looks for stopped being found the moment a re-wrap put a newline
     # between "no" and "falsification" — the manuscript is hard-wrapped, so every edit anywhere in
     # a paragraph can move that break. The phrase was present and intact both times.
+    # ⛔ THE ANCHOR IS THE THREE BRANCHES, NOT THE CLAUSE THEY WERE FIRST WRITTEN IN (2026-08-28,
+    # AUT-PD-117). This asserted the literal "no falsification test at all". Round 18 condensed the
+    # same sentence to "the decision is more replicates or no test, never three" — every branch
+    # intact, the literal gone — so the guard reported a dropped branch against a sentence that
+    # still carries all of them. A guard keyed to one draft's phrasing of a paper under active
+    # rewrite reports on the rewrite, not on the claim.
+    # ⭐ SO EACH BRANCH IS NOW ITS OWN ASSERTION, over the sentence that states the decision. That
+    # is STRICTER, not looser: the old literal could not tell a dropped "never three" from a
+    # reworded one, and dropping either of the other two branches is now its own named failure.
     text = re.sub(r"\s+", " ", open(JOURNAL, encoding="utf-8").read())
-    assert "no falsification test at all" in text, (
-        "the journal article's pilot gate dropped the second branch the extended report states at "
-        "its own section 4.4 — with only the first branch it prescribes an underpowered test")
+    decision = re.search(r"the decision is[^.]*\.", text, re.I)
+    assert decision, (
+        "the journal article no longer states what the pilot gate decides. The gate exists to stop "
+        "a three-replicate falsification test being prescribed where the realised variance makes it "
+        "void, and a gate with no stated decision prescribes nothing.")
+    clause = decision.group(0)
+    for pattern, branch, why in (
+        (r"more replicates|larger replicate count|larger count|more replicate",
+         "raise the replicate count",
+         "without it the gate has no satisfiable branch at all"),
+        (r"\bno (?:falsification )?test\b|abandon(?:ing)? the test|not run(?:ning)? (?:the )?test",
+         "or run no falsification test",
+         "with only the first branch the gate is always satisfiable by adding replicates, and at a "
+         "replicate SD of 1.5 the count it admits runs at about 10% power"),
+        (r"never three|not three|never at three",
+         "and never three",
+         "three replicates is the count the gate exists to forbid"),
+    ):
+        assert re.search(pattern, clause, re.I), (
+            f"the journal article's pilot gate no longer states the branch {branch!r} — {why}. "
+            f"The decision clause reads: {clause!r}")

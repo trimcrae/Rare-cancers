@@ -10,11 +10,11 @@
     "code": 1,
     "experiment": 23,
     "fetch": 19,
-    "fix": 11,
+    "fix": 12,
     "harden": 20,
     "negative": 32,
     "process": 7,
-    "process_defect": 104,
+    "process_defect": 107,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
@@ -22,9 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 93,
+    "done": 94,
+    "in_progress": 1,
     "parked": 28,
-    "queued": 126,
+    "queued": 128,
     "ready": 1,
     "superseded": 1
   },
@@ -6887,7 +6888,7 @@
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
-      "retry_budget": 3,
+      "retry_budget": 2,
       "attempts": 0,
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
@@ -6900,11 +6901,14 @@
           "utc": "2026-08-28T19:38:30Z",
           "fingerprint_at_dispatch": "2026-08-28|None"
         }
-      ]
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
     },
     {
       "id": "AUT-PD-118",
-      "what": "⚠ A SUCCESSOR SESSION IS IDLE WITH NO COMMITTED RECEIPT, WHICH IS THE ONE THING session_reaper.py REFUSES TO ARCHIVE — because a cycle that died holding uncommitted work looks exactly like this and archiving it releases the container that still has it. session_01AiEBt1BhjfPMi9rCZ4rZ53, titled 'EMC research loop — cycle (successor to CYC-0061)'. ⛔ THE QUESTION IS WHICH OF TWO THINGS IT IS, and they need different answers: a session that ran and lost its work (recover what it holds before anything else), or a session that was created and never fired (a handoff that produced a container and no cycle, which would mean the handoff mechanism reports success without delivering — the same shape as the Routine-with-no-sources failure in architecture §2.2). READ ITS TRANSCRIPT with get_session before deciding; do not archive it first.",
+      "what": "⚠ A SUCCESSOR SESSION IS IDLE WITH NO COMMITTED RECEIPT, WHICH IS THE ONE THING session_reaper.py REFUSES TO ARCHIVE — because a cycle that died holding uncommitted work looks exactly like this and archiving it releases the container that still has it. session_01AiEBt1BhjfPMi9rCZ4rZ53, titled 'EMC research loop — cycle (successor to CYC-0061)'. ⛔ THE QUESTION IS WHICH OF TWO THINGS IT IS, and they need different answers: a session that ran and lost its work (recover what it holds before anything else), or a session that was created and never fired (a handoff that produced a container and no cycle, which would mean the handoff mechanism reports success without delivering — the same shape as the Routine-with-no-sources failure in architecture §2.2). READ ITS TRANSCRIPT with get_session before deciding; do not archive it first. ⛔⛔ ANSWERED 2026-08-28 BY CYC-0064-f5c9b5f2, AND THE PREMISE IS FALSE — IT IS NEITHER OF THE TWO. session_01AiEBt1BhjfPMi9rCZ4rZ53 DELIVERED: CYC-0062-757d4e91 and CYC-0063-757d4e91 were both on the trunk before that reaper run. The reaper could not see them because its join is broken, not because the session lost work — it matches the session list's CCR id (`session_01...`) against a receipt `session_id` that `session_cap.session_id()` now fills with the HARNESS UUID (`757d4e91-...`). Different namespaces, never intersecting. Root cause and census in AUT-PD-121. ⛔ SO DO NOT READ ITS TRANSCRIPT LOOKING FOR LOST WORK, and do not conclude the handoff mechanism reports success without delivering — it delivered twice. ★ THE LESSON IS THE ONE THE ROW WAS ABOUT TO TEACH THE HARD WAY: an instrument's FINDING is a claim that needs checking against the thing it claims to be about, and the check here cost one `git log` over the receipts directory.",
       "serves": {
         "route": "RT-AUTONOMY",
         "publication": null,
@@ -6925,6 +6929,105 @@
       "claimed_utc": null,
       "evidence": "Reported by `python3 research/autonomy/session_reaper.py --self-id d60caf7b-...` over a 30-session list on 2026-08-28: '30 session(s) in, 0 safe to archive, 30 kept', with this row the only FINDING — 'idle with NO committed receipt — this is a finding, not litter.' Note the ordinal collision is not the issue and is by design: CYC-0061-3217966b and CYC-0061-d60caf7b are two different cycles sharing an ordinal, which ids.py's session discriminator exists to allow.",
       "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-119",
+      "what": "⛔ THREE PROSE GUARDS ON THE ASO JOURNAL ARTICLE AND THE EXTENDED REPORT ARE RED ON `main`, AND THEY ARE NOT THE TWO AUT-PD-106 IS HOLDING. The trunk carries FIVE red guards, not two: the page-budget and justification ceilings (AUT-PD-106) plus these three, each a guard whose anchor round 18's rewording moved out from under it. Bisected, not guessed — 445169e83^ is green on all three; 445169e83 turns one red and 9338d6178 turns the other two red. (1) test_paired_numeric_lists_are_bound_in_the_right_order: §2.7's screen-5 sentence in the EXTENDED REPORT was narrowed from 'leaves five or four positions unpaired' to 'leaves five or four positions outside that run — which are not all unpaired'. The narrowing is CORRECT and must stand; it is the guard's _UNPAIRED_NOUN that no longer recognises the complement, so the guard matched nothing and its own coverage assertion fired. The arithmetic invariant (11+5=16, 12+4=16) is untouched and still checkable. (2) test_round6_fixes_landed::test_the_journal_article_keeps_both_branches_of_the_pilot_gate: the substring 'no falsification test at all' became 'more replicates or no test, never three'. BOTH BRANCHES SURVIVE — the guard's literal did not. (3) test_the_numbered_claims_no_instrument_read::test_the_panel_size_is_the_screens_at_every_site_that_states_it: the Abstract's 'Also released is the procedure that produced the 190 designs' became 'The procedure producing them is released.' That site no longer states a count, so a site-census assertion has no site. The count itself is NOT unbound — the Abstract's 'panel of 190 junction-spanning 16-mers' is pinned (aso_panel_designs_total_journal_abstract) and §1's 'puts to all 190 designs' is bound by this test's sibling assertion, which passes. ⛔ THE FIX IS TO RE-ANCHOR EACH GUARD TO THE INVARIANT IT WAS WRITTEN FOR, NEVER TO THE WORDING IT WAS WRITTEN AGAINST, AND EVERY RE-ANCHORED ASSERTION MUST BE MUTATION-TESTED RED BEFORE IT IS BELIEVED. ⛔ DO NOT EDIT THE MANUSCRIPT FOR THIS — a live session holds AUT-PD-106 and is cutting the same files for the page budget; test files only. ⚠ RENUMBERED ON PUSH (2026-08-28): this row was allocated AUT-PD-117 from committed state and a concurrent session allocated the SAME id for a DIFFERENT item from the same state, minutes apart — ids.next_entry_id derives max+1, so concurrency is outside the derivation by construction, which is the defect already recorded for RECEIPT ids (AUT-PROP-013) and not yet fixed for ENTRY ids. Filed as AUT-PD-122.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "fix",
+      "state": "done",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Test files in this repository. Nothing outward-facing; PUB-ASO is not being posted or revised by this row.",
+      "claimed_utc": null,
+      "closes_clause": "PUB-ASO/gates_green",
+      "evidence": "DONE 2026-08-28 by CYC-0064-f5c9b5f2. All three guards re-anchored to the invariant each was written for; no manuscript wording was changed to suit a guard and the journal article was not touched at all (AUT-PD-106 holds it under a live lease). (1) test_paired_numeric_lists…: _UNPAIRED_NOUN now also accepts the complement named as 'positions outside that run', which is N−L by definition where 'unpaired' was N−L only under the assumption round 18's narrowing removed. ⛔ RESTORING COVERAGE IMMEDIATELY SURFACED A SECOND DEFECT THE SAME EDIT SHIPPED: 'respectively' had been dropped from both sites, leaving [11,12] and [5,4] side by side with no binding marker — the exact ambiguity test_every_paired_list_says_which_element_binds_to_which forbids, passing vacuously because the sentence it guards had become invisible to it. Restored at both sites of fusion-junction-aso-research-article.md. THAT IS THE ONLY PROSE CHANGE IN THIS ROW. (2) test_round6_fixes_landed…pilot_gate: the literal 'no falsification test at all' replaced by three named assertions over the decision clause (raise the count / or no test / never three), which is stricter — the literal could not tell a dropped 'never three' from a reworded one. (3) test_the_numbered_claims…panel_size: the release CLAIM is now required in any wording and the COUNT is checked at every site that states it, via a helper whose docstring records that it is only correct next to that claim assertion. VERIFIED: mutation-tested on copies — paired 5/5, pilot 5/5, panel 4/4 including the one mutation that must PASS; the pilot and panel guards were also run against the round-17 wording they were written for and accept it. Targeted gate over every test that reads the extended report plus all three re-anchored files: 624 passed, 2 skipped (scratchpad/driver/driver-targeted.log). CI baseline on the head this branched from (34dee81, run 33201559355): 5 failed / 10462 passed — the two survivors are AUT-PD-106's.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T19:20:00Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
+    },
+    {
+      "id": "AUT-PD-120",
+      "what": "⚠ A LEASE ON ONE ROW WAS READ AS OWNERSHIP OF A WHOLE RED BUILD, AND IT HELD FOR THREE CYCLES. CYC-0062 and CYC-0063 each met the same five failing manuscript guards on `main`, and each recorded all five as 'the in-flight state of the ASO hardening round, held under a live lease by CYC-0061-d60caf7b via AUT-PD-106'. That is true of TWO of them — the page-budget and justification ceilings, which AUT-PD-106 names. It is false of the other three, which that row does not mention, and which no row mentioned at all. So three guards sat red on the trunk with an owner attributed to them, which is worse than sitting red with none: an unowned red is a queue item and an owned red is somebody else's problem. ⛔ THE MECHANISM IS CHEAP TO STATE AND WAS CHEAP TO AVOID: the attribution was made at the granularity of the RUN ('the five failures'), and the lease is at the granularity of a ROW. Nothing compared the failing node ids against what the claimed row actually covers, and the second cycle inherited the first's sentence rather than re-deriving it — the exact propagation `handoff.py` carries no findings in order to prevent. ★ THE CHECK THAT WOULD HAVE CAUGHT IT costs one read: for each failing test, name the ledger row that covers it. A failure that cannot be assigned to a claimed row is unowned, and unowned red on the trunk is the next cycle's work under `research-loop` §1 — not a footnote in its blocked_by. ⚠ RENUMBERED ON PUSH (2026-08-28): this row was allocated AUT-PD-117 from committed state and a concurrent session allocated the SAME id for a DIFFERENT item from the same state, minutes apart — ids.next_entry_id derives max+1, so concurrency is outside the derivation by construction, which is the defect already recorded for RECEIPT ids (AUT-PROP-013) and not yet fixed for ENTRY ids. Filed as AUT-PD-122.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A record of how this loop mis-attributed its own red build. Nothing outward-facing.",
+      "claimed_utc": null,
+      "evidence": "research/autonomy/receipts/CYC-0062-757d4e91.json and CYC-0063-757d4e91.json, both blocked_by[0]; against research/autonomy/research-ledger.json AUT-PD-106, whose `what` names the page budget and the justification rate and no other guard. The three unattributed failures and their bisect are AUT-PD-121."
+    },
+    {
+      "id": "AUT-PD-121",
+      "what": "⛔ `session_id` HAS TWO READERS THAT NEED IDS FROM DIFFERENT NAMESPACES, AND THE FIX FOR ONE SILENTLY DISABLED THE OTHER. `session_reaper.py` joins the session list against committed receipts by `session_id`; the session list is keyed by the CCR id (`session_01AiEBt1...`). `session_cap.session_id()` returns CLAUDE_CODE_SESSION_ID, which is the HARNESS UUID (`757d4e91-a56a-5571-83ce-07bfacec30b5`). The two namespaces never intersect, so a receipt written the way `research-loop` step 10 now REQUIRES can never be joined to the session that wrote it. ⚠ MEASURED 2026-08-28 running step 11 of CYC-0064: the reaper reported session_01AiEBt1BhjfPMi9rCZ4rZ53 as 'idle with NO committed receipt — a cycle that died holding uncommitted work', when BOTH its receipts (CYC-0062-757d4e91, CYC-0063-757d4e91) were on the trunk and had been for half an hour. Across the receipt directory: 12 carry a CCR `session_*` id, 16 carry a harness UUID, 39 carry neither — and every UUID is recent. ⭐ IT FAILS SAFE, WHICH IS WHY NOBODY NOTICED: the reaper's refusal is 'keep', so the cost is that it can never clear anything and its owner becomes the janitor again — the exact outcome it was written to end. Its own header records the LAST time this field's ambiguity made it report delivered cycles as dead; that fix addressed prose in the field, not the namespace. ★ THE SHAPE, WHICH IS THE GENERALISABLE PART: `session_id` is asked to be an identity for `health.py:c_cycles_are_sized` and `session_cap.py` (any stable per-session value works) and a FOREIGN KEY for the reaper (only the CCR id works). One field cannot be both. The fix is a second field — the CCR id recorded alongside the harness id — not a change to which one step 10 demands, because step 10's requirement was itself written against a measured failure (nine cycles typing the literal 'scheduled-routine-session'). ⚠ RENUMBERED ON PUSH (2026-08-28): this row was allocated AUT-PD-117 from committed state and a concurrent session allocated the SAME id for a DIFFERENT item from the same state, minutes apart — ids.next_entry_id derives max+1, so concurrency is outside the derivation by construction, which is the defect already recorded for RECEIPT ids (AUT-PROP-013) and not yet fixed for ENTRY ids. Filed as AUT-PD-122.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An instrument in this repository, joined against a tool this session can already call. Nothing outward-facing.",
+      "claimed_utc": null,
+      "evidence": "scratchpad/driver/driver-reaper.log (CYC-0064 step 11) against research/autonomy/receipts/CYC-0062-757d4e91.json and CYC-0063-757d4e91.json, both committed before that run. Namespace census reproducible with `python3 -c \"import sys;sys.path.insert(0,'research/autonomy');import session_reaper as r;print(sorted(r.committed_session_ids('HEAD')))\"` — 10 ids at that commit, all `session_*`, none matching any recent receipt."
+    },
+    {
+      "id": "AUT-PD-122",
+      "what": "⛔⛔ ENTRY IDS COLLIDE THE SAME WAY RECEIPT IDS DID, AND THE FIX APPLIED TO ONE WAS NEVER APPLIED TO THE OTHER. `ids.next_entry_id` derives max+1 over committed state, so two sessions reading the same trunk allocate the SAME id — concurrency is outside the derivation BY CONSTRUCTION. That is verbatim the finding AUT-PROP-013 recorded for RECEIPT ids on 2026-08-27, and receipt ids were fixed by appending a session discriminator (`CYC-0064-f5c9b5f2`). Entry ids were not. ⚠ MEASURED 2026-08-28, live: CYC-0064-f5c9b5f2 filed AUT-PD-117 and AUT-PD-118; CYC-0064-1f1a2449 filed a DIFFERENT AUT-PD-117 and a DIFFERENT AUT-PD-118 from the same committed state, minutes apart, and pushed first. Both pairs are real, distinct, wanted items. The loser renumbered by hand to AUT-PD-119/120/121. ⭐ IT IS CAUGHT RATHER THAN SILENT — `priority.py` refuses a ledger with a duplicated id, and the push is a compare-and-swap, so the collision surfaces as a conflict instead of an overwrite. That is the good half. The bad half is that it surfaces AFTER both sessions have written their rows, the merge is manual, and the handoff prompt has to warn every successor to check for duplicates by hand after every rebase — a warning that exists precisely because the id does not carry what would make the warning unnecessary. ★ THE FIX IS THE ONE ALREADY IN THE REPOSITORY, one function over: give `next_entry_id` the same discriminator `next_receipt` has. Two sessions can then both file the Nth process defect of the day and never share a filename. ⛔ NOT DONE HERE, and deliberately: this cycle IS the losing side of the collision, and `research-loop` §6's invariant is that a bar may not be changed by the cycle it just blocked. The identical argument applies to a mechanism that just cost this cycle a renumber. A later cycle may make this change; this one records it.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "One function in this repository, with the pattern to copy sitting beside it.",
+      "claimed_utc": null,
+      "evidence": "Trunk commits 03da63c157 ('AUT-PD-117/118, and fix the rebuild workflow that threw its own work away') and 44a998622c ('claim AUT-PD-117 for CYC-0064-1f1a2449') against this cycle's own AUT-PD-117/118, which were allocated locally before either landed and are preserved renumbered as AUT-PD-119 and AUT-PD-120. The pattern to copy is ids.next_receipt, in the same module."
     },
     {
       "id": "AUT-PD-112",
