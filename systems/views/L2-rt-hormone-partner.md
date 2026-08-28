@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-HORMONE-PARTNER — Hormonal therapy for hormone-responsive 5′ fusion partners
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-09
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ parked · computed · confidence moderate · verified 2026-08-28
 
-**Grade** (owned by [`research/modalities/hormone-partner-lane.json`](../../research/modalities/hormone-partner-lane.json)): ⛔ THE PRINCIPLE SURVIVES AND THE REACH DOES NOT (graded 2026-08-09 from a lane that ran 2026-08-07). A hormone-responsive 5′ partner is reported in ONE EMC patient in the world literature and in ZERO of the 84 partner-genotyped EMC cases across the two cohorts this repository cites — Wilson 95% upper bound 4.4%. The dominant partner, which carries roughly four in five cases, answers NO: across 345 retrieved full-text records no source characterises the EWSR1 promoter as responsive to any druggable stimulus. ⭐ What survives is the general mechanism, which the sweep strengthened rather than merely repeated: across every partner retrieved, the imported regulatory input is the PARTNER's and never NR4A3's own — 12 partners across 3 tumour types, including a second disease where the imported element is an enhancer.
+**Grade** (owned by [`research/modalities/hormone-partner-lane.json`](../../research/modalities/hormone-partner-lane.json)): ⛔ THE PRINCIPLE SURVIVES AND THE REACH DOES NOT (graded 2026-08-09 from a lane that ran 2026-08-07). A hormone-responsive 5′ partner is reported in ONE EMC patient in the world literature and in ZERO of the 84 partner-genotyped EMC cases across the two cohorts this repository cites — Wilson 95% upper bound 4.4%. The dominant partner, which carries roughly four in five cases, answers NO: across 345 retrieved full-text records no source characterises the EWSR1 promoter as responsive to any druggable stimulus. ⭐ What survives is the general mechanism, which the sweep strengthened rather than merely repeated: across every partner retrieved, the imported regulatory input is the PARTNER's and never NR4A3's own — 12 partners across 3 tumour types, including a second disease where the imported element is an enhancer. ⭐ THE LAST UNGRADED PARTNER IS NOW GRADED, AND IT ANSWERS NO (2026-08-28). HSPA8 — the one partner whose gene family plausibly carried an inducible element — has no reported hormone response element in its promoter. Across every PubMed record returned by three intersecting queries, read exhaustively (7 on the HSC70/HSPA8 promoter, 8 on hormone-response-element language, 13 on the intersection), the only cis-elements ever localised in a mammalian hsc70 promoter are Sp1 sites, and the one inducible input ever mapped there is ETHANOL. ⛔ THE DISCRIMINATING RECORD IS THE ONE THAT DOES FIND AN OESTROGEN LINK: in a human ER-positive line the mapped site is the HSPA8 3′UTR, reached by an oestrogen-regulated microRNA — a segment an HSPA8::NR4A fusion transcript does not carry, because such a fusion takes its 3′ end from the NR4A gene. ⚠ This is a RETRIEVAL negative, not a measurement: nobody has asked whether the human HSPA8 promoter contains an ERE. Grade and every identifier: ART-HSPA8-PROMOTER-GRADE.
 
 ## What has to land for this route to move
 
@@ -50,11 +50,12 @@ A 5′ partner can bring its own promoter and its own regulation, and the reposi
 | ref | supports | strength |
 |---|---|---|
 | `ART-HORMONE-PARTNER-LANE` | the hormone-responsive-partner fraction in EMC is zero of 84 partner-genotyped cases with a Wilson 95% upper bound of 4.4%, and no retrieved source gives the dominant partner's promoter a druggable inducible input | `direct` |
+| `ART-HSPA8-PROMOTER-GRADE` | the HSPA8 promoter is not characterised anywhere in PubMed-indexed literature as carrying a hormone response element or as driven by a nuclear-receptor ligand, so the route's last ungraded partner imports no druggable hormonal input | `direct` |
 
 ## Remaining unknowns
 
 - Whether an unbiased RNA-seq-genotyped EMC series would move the reach figure in either direction — the cited denominators come from targeted assays that one of the source reports states would have missed its own case, and this is the single observation that could move it.
-- Whether the one partner whose gene family plausibly carries a druggable inducible input (HSPA8) has one, which is ungraded because nothing was retrieved for it.
+- ⭐ ANSWERED 2026-08-28, AND THE ANSWER IS NO. Superseded, retained: "Whether the one partner whose gene family plausibly carries a druggable inducible input (HSPA8) has one, which is ungraded because nothing was retrieved for it." It is no longer ungraded — ART-HSPA8-PROMOTER-GRADE records the retrieval. ⚠ WHAT REPLACES IT IS A NARROWER UNKNOWN AND IT IS REAL: whether the human HSPA8 promoter contains a hormone response element NOBODY HAS LOOKED FOR. Every study that dissected that promoter was asking about something else — ethanol, oxidative stress, a cystic-fibrosis corrector, a transgenic cassette — so the absence is an absence of asking, not a measured negative. A response-element scan of the promoter sequence, or a nuclear-receptor cistrome read at the HSPA8 TSS, would close it and neither was run.
 - Whether any anti-oestrogen outcome exists in a hormone-partnered UTERINE tumour, which would take the axis past n = 1 in a different disease.
 
 ## Required validation
@@ -62,7 +63,7 @@ A 5′ partner can bring its own promoter and its own regulation, and the reposi
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | ⛔ TAKEN 2026-08-07 and returned a negative — the pooled hormone-responsive partner fraction across the partner-genotyped series curated here | ⛔ none built | yes | — |
-| One targeted literature query for whether the HSPA8 promoter carries a druggable inducible element — the only partner left ungraded, and $0 | ⛔ none built | yes | — |
+| ⛔ TAKEN 2026-08-28 and returned a negative — the targeted literature query for whether the HSPA8 promoter carries a druggable inducible element, the last partner left ungraded. No hormone response element is reported; the promoter's only localised cis-elements are Sp1 sites. ART-HSPA8-PROMOTER-GRADE. | ⛔ none built | yes | — |
 | Confirmation that a partner's promoter drives the fusion in a hormone-dependent way | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
@@ -115,7 +116,7 @@ Only somebody else's RNA-seq-genotyped series could move the reach figure, and t
 
 ## Best next action
 
-Run the one $0 Europe PMC query on the HSPA8 promoter to close the last ungraded partner, then report the reach negative in the nuclear-receptor paper.
+⭐ THE $0 STEP THIS FIELD NAMED IS DONE (2026-08-28) AND THE ROUTE IS NOW GENUINELY PARKED. Superseded, retained: "Run the one $0 Europe PMC query on the HSPA8 promoter to close the last ungraded partner, then report the reach negative in the nuclear-receptor paper." ⚠ THAT SENTENCE IS WHY THIS ROUTE WAS MIS-PARKED: it named a takeable free step beside `status: parked`, and once the queue began trusting `state.status` the route was hidden with the step still open (AUT-PD-086). The query was run — through PubMed rather than Europe PMC, which 403s at this sandbox's egress — and it returned NO. What is left is a paragraph in PUB-NR-OUTSIDE-NR4A3, not a lane: no validation this route names is both open and feasible today, the wet-lab confirmation is blocked by BLK-NO-WET-LAB, and only somebody else's RNA-seq-genotyped EMC series (TECH-EMC-EXPRESSION-DATA) can move the reach figure.
 
 *Cost:* $0
 

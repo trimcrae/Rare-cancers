@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-MATRIX-SYNTHESIS — Inhibition of the tumour's glycosaminoglycan biosynthesis
 
-**Family:** [ST-MICROENV](L1-st-microenv.md) · **state:** ✓ parked · computed · confidence low · verified 2026-08-09
+**Family:** [ST-MICROENV](L1-st-microenv.md) · **state:** ✓ parked · computed · confidence low · verified 2026-08-28
 
 **Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ⛔ Premise NOT supported AS STATED (2026-08-09). The sulfate-donor module is LOWER in EMC than in comparator sarcomas on both platforms; the backbone and 4-O-sulfotransferase groups disagree between platforms. A matrix-defining tumour is not running its biosynthetic machinery hotter than its neighbours.
 
@@ -60,7 +60,7 @@ The matrix has been treated here as a barrier and, once, as an address. This is 
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| The expression lookup that grades this route's premise | ⛔ none built | yes | — |
+| ⛔ TAKEN 2026-08-09 and returned against the premise — the expression lookup that grades this route's premise. It is what produced the grade above, and it is recorded here as taken so the row stops reading as an open feasible-today step (AUT-PD-086). | ⛔ none built | yes | — |
 | A measurement of the matrix compartment in EMC tissue | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
 
 ## Blockers
@@ -114,7 +114,7 @@ The naive form of the premise is contradicted and the restatement would need a m
 
 ## Best next action
 
-Restate the premise, or report the contradiction as the result.
+Report the contradiction as the result. ⛔ AND THE OTHER HALF OF THIS SENTENCE IS NOT TAKEABLE — checked 2026-08-28. Superseded, retained: "Restate the premise, or report the contradiction as the result." A restatement is what this route's own `readiness.missing` and `timing.rationale` say it lacks, and they also say why it cannot be produced here: the restated premise is about matrix TURNOVER rather than enzyme transcript, and no available dataset supplies that. So the only free step left is writing up a finished negative, which CLAUDE.md §0 ranks behind anything live. `parked` is correct and TECH-EMC-EXPRESSION-DATA is what reopens it.
 
 *Cost:* $0
 
