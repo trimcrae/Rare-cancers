@@ -38,6 +38,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
 RECEIPTS = os.path.join(HERE, "receipts")
 
+sys.path.insert(0, HERE)
+import ids  # noqa: E402  -- the ONE home for the receipt-id shape; see _CYCLE_RECEIPT_STEM below
+
 #: Statuses that mean the session is doing something. ⛔ NEVER archive one of these — the tool
 #: releases the container, so archiving a live cycle kills work in progress. Listed positively
 #: (what is alive) rather than negatively (what is dead), because a status string this file has
@@ -61,7 +64,39 @@ LOOP_TITLE = re.compile(r"EMC research loop", re.I)
 
 #: A receipt names the session that wrote it. That is the join between "a row in the session list"
 #: and "work that is on main".
-_CYCLE_RECEIPT = re.compile(r"^CYC-\d+\.json$")
+#:
+#: ⛔⛔ THE RECEIPT-ID SHAPE IS `ids.RECEIPT_ID`'S TO OWN, AND A PRIVATE COPY HERE WENT STALE THE DAY
+#: THE SHAPE CHANGED (AUT-PD-129, 2026-08-28). This module used to carry its own
+#: `re.compile(r"^CYC-\d+\.json$")`. AUT-PROP-013 then appended a session discriminator to every
+#: receipt id -- `CYC-0065-1f1a2449.json` -- precisely so two concurrent cycles sharing an ordinal
+#: could not share a file. That regex does not match a discriminated name, so this reaper stopped
+#: seeing every receipt written after it: measured over the committed tree, the private pattern
+#: matched 24 of 70 receipts where `ids.RECEIPT_ID` matches 69.
+#: ⚠ AND THE FAILURE WAS SILENT AND IN THE DANGEROUS DIRECTION. Fewer visible receipts means a
+#: smaller `delivered` set, which means a delivered cycle is reported as "died holding uncommitted
+#: work" -- CLAUDE.md §4's "an absent reading is not a reading of absence", and the SECOND time this
+#: file has produced that exact false finding (see `_SESSION_ID` below, which fixed it at the FIELD
+#: level while the FILENAME level was still to break).
+#: ★ So the shape is imported, never restated. CLAUDE.md rule 1: one fact, one place.
+_CYCLE_RECEIPT_STEM = ids.RECEIPT_ID
+
+
+def _is_cycle_receipt(name: str) -> bool:
+    """Is this committed filename a cycle receipt, in either the bare or the discriminated shape?"""
+    return name.endswith(".json") and bool(_CYCLE_RECEIPT_STEM.match(name[:-len(".json")]))
+
+
+#: ⛔⛔ THE SECOND JOIN, AND IT BREAKS INDEPENDENTLY OF THE FIRST (AUT-PD-129). The session LIST
+#: speaks CCR ids (`session_01AbC...`). `session_id` in a receipt no longer does: research-loop §2
+#: step 10 was tightened on 2026-08-28 to "read it from the environment; never type it", and
+#: `CLAUDE_CODE_SESSION_ID` is a harness UUID. That change was RIGHT for its two readers --
+#: `health.py:c_cycles_are_sized` and `session_cap.py` only need cycles of one session to share a
+#: value -- and it silently broke this one, which needs the value to be the same id the session list
+#: uses. Measured over the committed tree: 12 receipts carry a CCR id, 27 carry a bare UUID, and all
+#: eight of the newest are UUIDs. One field, two consumers, two incompatible id spaces.
+#: ★ SO THE CCR ID GETS ITS OWN FIELD rather than overloading `session_id` a third way. Receipts
+#: record `ccr_session_id`; both fields are read here, so a receipt carrying either still joins.
+CCR_ID_FIELDS = ("ccr_session_id", "session_id")
 
 #: ⛔⛔ `session_id` IS NOT ALWAYS AN ID. It is a free-text field and cycles have written prose into
 #: it — "session_016z8Nm7cZTaLN4smGWue75c (spawned session, no live user present — started by
@@ -101,9 +136,9 @@ def committed_session_ids(ref: str = "HEAD") -> set[str]:
             "archive. Refusing to archive anything rather than guessing — an absent reading is not "
             "a reading of absence (CLAUDE.md §4).\n" + out.stderr.strip()
         )
-    ids: set[str] = set()
+    found: set[str] = set()
     for name in out.stdout.split():
-        if not _CYCLE_RECEIPT.match(name):
+        if not _is_cycle_receipt(name):
             continue
         blob = subprocess.run(
             ("git", "show", f"{ref}:research/autonomy/receipts/{name}"),
@@ -115,18 +150,61 @@ def committed_session_ids(ref: str = "HEAD") -> set[str]:
             data = json.loads(blob.stdout)
         except json.JSONDecodeError:
             continue
-        sid = data.get("session_id")
-        if isinstance(sid, str):
-            # Extract, never compare whole — see _SESSION_ID above.
-            ids.update(_SESSION_ID.findall(sid))
+        for field in CCR_ID_FIELDS:
+            sid = data.get(field)
+            if isinstance(sid, str):
+                # Extract, never compare whole — see _SESSION_ID above.
+                found.update(_SESSION_ID.findall(sid))
         # ⛔ `handoff.child_session_id` IS DELIBERATELY NOT COLLECTED. A child id in a parent's
         # receipt proves the child was CREATED, never that it DELIVERED — and this reaper's whole
         # safety property is "the work is on the trunk". Counting it would archive a spawned session
         # that died before writing anything, which is the one case that must stay visible.
-    return ids
+    return found
 
 
-def classify(sessions: list[dict], self_id: str | None, ref: str = "HEAD") -> dict:
+def receipts_that_cannot_join(ref: str = "HEAD") -> int:
+    """How many committed receipts name NO CCR session id, and so can never match the session list.
+
+    ⛔⛔ THIS IS WHAT MAKES THE "no committed receipt" VERDICT FALSIFIABLE (AUT-PD-129). Without it
+    the reaper cannot tell two very different situations apart, and it reported them identically:
+
+      (a) a cycle really did die before committing its receipt   — a finding a human must chase;
+      (b) the cycle delivered, but its receipt records a harness UUID where the session list speaks
+          a CCR id, so nothing could ever have matched — an instrument gap, and chasing it wastes
+          the reader's time on a session that is fine.
+
+    Reporting (b) as (a) is the failure mode this file's header already records paying for once, and
+    a guard that cries wolf is a guard that gets tuned out. So the count is measured and carried into
+    the reason string, rather than the verdict being stated more confidently than the evidence.
+    """
+    out = subprocess.run(
+        ("git", "ls-tree", "--name-only", f"{ref}:research/autonomy/receipts"),
+        cwd=REPO, capture_output=True, text=True,
+    )
+    if out.returncode != 0:
+        return 0
+    gap = 0
+    for name in out.stdout.split():
+        if not _is_cycle_receipt(name):
+            continue
+        blob = subprocess.run(
+            ("git", "show", f"{ref}:research/autonomy/receipts/{name}"),
+            cwd=REPO, capture_output=True, text=True,
+        )
+        if blob.returncode != 0:
+            continue
+        try:
+            data = json.loads(blob.stdout)
+        except json.JSONDecodeError:
+            continue
+        if not any(_SESSION_ID.findall(data.get(f) or "")
+                   for f in CCR_ID_FIELDS if isinstance(data.get(f), str)):
+            gap += 1
+    return gap
+
+
+def classify(sessions: list[dict], self_id: str | None, ref: str = "HEAD",
+             unjoinable_receipts: int = 0) -> dict:
     """Split the session list into archive / keep, each with a reason.
 
     Every `keep` carries WHY, because a reaper that silently skips is indistinguishable from a
@@ -155,6 +233,19 @@ def classify(sessions: list[dict], self_id: str | None, ref: str = "HEAD") -> di
             keep.append({**row, "why": "not a research-loop session; out of this reaper's scope"})
         elif sid in delivered:
             archive.append({**row, "why": "idle, and its receipt is on the trunk"})
+        elif unjoinable_receipts:
+            # ⛔ THE HONEST VERDICT WHEN THE JOIN ITSELF IS DEGRADED (AUT-PD-129). Some committed
+            # receipt names no CCR id at all, so "not in `delivered`" is not evidence this session
+            # delivered nothing — it may simply be unmatchable. Still never archived: the safe
+            # direction is unchanged, only the claim is weakened to what the evidence supports.
+            keep.append({
+                **row,
+                "why": (f"idle, and no committed receipt names it — but {unjoinable_receipts} "
+                        "committed receipt(s) record no CCR session id at all, so this join is "
+                        "DEGRADED and cannot tell 'died holding work' from 'delivered, unmatchable'. "
+                        "Not archived, and not reported as a death. Fix: receipts must carry "
+                        "`ccr_session_id`."),
+            })
         else:
             keep.append({
                 **row,
@@ -189,7 +280,8 @@ def main(argv=None) -> int:
     else:
         sessions = data
 
-    verdict = classify(sessions, args.self_id, args.ref)
+    verdict = classify(sessions, args.self_id, args.ref,
+                       unjoinable_receipts=receipts_that_cannot_join(args.ref))
 
     if args.json:
         print(json.dumps(verdict, indent=2))

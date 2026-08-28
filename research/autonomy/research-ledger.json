@@ -7272,18 +7272,18 @@
         "strategy": null
       },
       "kind": "fix",
-      "state": "in_progress",
-      "owner": "CYC-0068-8226e21b",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Loop instrumentation in research/autonomy/. Nothing outward-facing.",
-      "claimed_utc": "2026-08-28T20:44:42Z",
+      "claimed_utc": null,
       "evidence": "OBSERVED 2026-08-28 by CYC-0067-7cda2d61 running step 11 against a real 40-session list: '40 session(s) in, 0 safe to archive, 40 kept', with two rows reported as 'idle with NO committed receipt — a cycle that died holding uncommitted work looks exactly like this'. Both named sessions are in the `session_01…` space and cannot match a uuid-keyed receipt, so the finding is unfalsifiable as it stands. ⚠ THE REAPER'S OWN HISTORY WARNS ABOUT THIS DIRECTION — its first run against real data reported three DELIVERED cycles as having died holding uncommitted work, and the fix pinned by test_session_reaper_refuses_to_lose_work.py addressed the field carrying PROSE, not the field carrying a second ID SPACE.",
       "dispatch_log": [
         {
@@ -7293,7 +7293,9 @@
       ],
       "score_inputs": {
         "fruitless_attempts": 1
-      }
+      },
+      "_closed_by": "CYC-0068-8226e21b",
+      "_resolution": "FIXED. The row named one of two breaks; both are fixed and pinned separately.\nBREAK 1 (this row's) -- the id spaces. `session_id` stays the harness UUID, because research-loop §2 step 10 requires it be read from CLAUDE_CODE_SESSION_ID and both health.py:c_cycles_are_sized and session_cap.py key on it; the session list speaks CCR ids. So the CCR id gets its OWN field, `ccr_session_id`, rather than overloading `session_id` a third way. session_reaper reads both (CCR_ID_FIELDS); receipt_schema requires the new field from FIRST_CCR_GOVERNED_CYCLE = 70, set two ordinals ahead because three loop sessions ran concurrently on 2026-08-28 and a cutoff at the next ordinal would fail the preflight of a cycle already in flight.\nBREAK 2 (not in this row) -- the filename. session_reaper carried its own re.compile(r'^CYC-\\\\d+\\\\.json$'), which predates the discriminator AUT-PROP-013 added. Measured on the trunk at close: 72 committed receipts, matched 24 by that pattern and 71 by ids.RECEIPT_ID, the one home for the shape. Now imported, never restated.\n⛔ FIXING BREAK 2 ALONE IS INVISIBLE: committed_session_ids() still returns the same 10 pre-discriminator ids afterwards, because the newly visible receipts carry UUIDs. 60 of 72 still cannot join, so the reaper now reports the join as DEGRADED instead of asserting a death it cannot evidence -- with a negative control keeping the real finding alive on a healthy join.\n⚠ This row's figure of '35 committed receipts' does not match the 72 actually committed. Recorded as an observation; its mechanism was not measured and is not asserted."
     },
     {
       "id": "AUT-PD-131",

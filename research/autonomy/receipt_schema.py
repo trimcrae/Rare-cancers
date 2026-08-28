@@ -70,10 +70,31 @@ WIDTH_KEY = "max_concurrent"
 #: The block the width lives in.
 BLOCK_KEY = "subagents"
 
+#: A CCR session id as the session list writes it. Matched, never compared whole -- a receipt may
+#: legitimately wrap the id in prose, which `session_reaper._SESSION_ID` already accounts for.
+_CCR_ID = re.compile(r"\bsession_[A-Za-z0-9]{6,}\b")
+
 #: ⭐ FIRST CYCLE THIS SCHEMA GOVERNS. CYC-0022 is the newest receipt on the trunk as this lands, so
 #: CYC-0023 -- the next cycle written under a schema that exists -- is the first that can comply.
 #: ⛔ Do NOT lower this to "catch" history: see the latching argument in the module docstring.
 FIRST_GOVERNED_CYCLE = 23
+
+#: The field that lets `session_reaper.py` join a receipt to a row in the session list.
+CCR_ID_KEY = "ccr_session_id"
+
+#: ⭐ FIRST CYCLE REQUIRED TO CARRY `ccr_session_id` (AUT-PD-129, 2026-08-28).
+#: ⛔ WHY A SECOND ID FIELD RATHER THAN REUSING `session_id`: they are different id spaces and each
+#: has a reader that needs its own. `session_id` must stay the harness `CLAUDE_CODE_SESSION_ID` --
+#: research-loop §2 step 10 requires it read from the environment, and `health.py:c_cycles_are_sized`
+#: and `session_cap.py` both key on it. The session LIST speaks CCR ids (`session_01...`), so
+#: `session_reaper.py` needs that one. Measured on the trunk the day this landed: 58 of 69 committed
+#: receipts name no CCR id at all, so the reaper could not show a single modern session had
+#: delivered -- it archived nothing and reported delivered cycles as having died holding work.
+#: ⛔ SET TWO ORDINALS AHEAD, DELIBERATELY, AND THIS IS NOT SLACK. Three loop sessions ran
+#: concurrently on 2026-08-28. A cutoff at the very next ordinal would fail the preflight of a cycle
+#: ALREADY IN FLIGHT that cannot have known this field exists -- breaking another session's commit
+#: to enforce a field invented while it was working. Two ordinals is the observed concurrent width.
+FIRST_CCR_GOVERNED_CYCLE = 70
 
 #: Spellings measured in real receipts, each with what it actually meant. `same_quantity` decides
 #: whether a value found here may be compared against `max_concurrent` (a rename) or must not be
@@ -177,6 +198,17 @@ def problems(receipt: dict, path: str) -> list[str]:
             "the route it moved, or the literal 'none' (research-loop §2 step 10) -- an absent value "
             "reads as ROUTE-ADVANCED-ABSENT to health.py's `advancing_live_work`, the loop's own "
             "honesty instrument, and is graded `unmeasured` rather than a pass.")
+
+    n = cycle_number(rid)
+    if n is not None and n >= FIRST_CCR_GOVERNED_CYCLE:
+        ccr = receipt.get(CCR_ID_KEY)
+        if not (isinstance(ccr, str) and _CCR_ID.search(ccr)):
+            out.append(
+                f"{rid}: no `{CCR_ID_KEY}` naming a CCR session id (`session_...`). It is what joins "
+                "this receipt to a row in the session list, and without it `session_reaper.py` cannot "
+                "show this session's work reached the trunk -- so the session is never archived and "
+                "is reported as one that may have died holding uncommitted work. ⛔ This is NOT a "
+                "duplicate of `session_id`, which is the harness UUID and must stay that.")
 
     block = receipt.get(BLOCK_KEY)
     if not isinstance(block, dict):
