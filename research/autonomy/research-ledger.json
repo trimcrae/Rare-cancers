@@ -5120,8 +5120,8 @@
     {
       "id": "AUT-COV-001",
       "kind": "process",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "CYC-0055-schedule",
       "what": "⛔ 22 OF 32 PUBLICATION ENDPOINTS ARE READ BY NO INSTRUMENT AT ALL, AND EVERY CORRECTION ROUND MAKES IT WORSE. Measured 2026-08-27 by `python3 research/manuscripts/claim_coverage.py`: nr4a3-fusion-transcriptional-output.md 0/382, emc-surface-target-landscape.md 0/297, repurposing-hypotheses.md 0/216, emc-icdo-9231-classification.md 0/146, emc-atr-collaborator-package.md 0/144 — and nr4a3-degrader-paper.md 3/964, which is coverage in name only. ★ THE MECHANISM THIS ENTRY EXISTS FOR WAS MEASURED ON A REAL ROUND, NOT INFERRED: CYC-0011's round 4 on PUB-FUSION-PARTNER fixed nine defects and moved coverage 46/259 -> 50/271. The covered count did not move and the document grew twelve sentences, so the UNCOVERED surface ROSE 213 -> 221. Prose written to fix a defect is itself unwatched, so a hardening round without an instrumenting half enlarges exactly the surface `paper-hardening` §8a calls the remaining blocker risk. ⛔ THE WORK IS NOT 'INSTRUMENT EVERY ENDPOINT' — that is a list, and §8b.2's 33-mutation result says list-scoped fixes regress at the sibling nobody named. The work is a PREDICATE-scoped guard family plus the rule that a round which adds a sentence adds its guard in the same commit. ⭐ CYC-0013 ADDED THE MISSING HALF OF THE DIAGNOSIS, MEASURED ON ONE PAPER: the shortfall is not only that most endpoints have NO instrument, it is that an endpoint WITH one can still be unread, because the instrument's census pattern bounds what it can ever see. emc-fusion-partner-stratification.md scored 50/271 while its guard reported zero unbound figures, and 35 statistical quantities were outside both. ⛔ SO THE PREDICATE-SCOPED GUARD FAMILY THIS ENTRY ASKS FOR MUST BE AUDITED BY ITS PATTERN FIRST: ask what NOTATION a census cannot see before asking which documents it does not cover. The four notations CYC-0013 added (n = N, p-values in both printed forms, HR, cm/months) are reusable across every endpoint; nothing about them is specific to this paper.",
       "serves": {
         "route": null,
@@ -5136,7 +5136,7 @@
       "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0011",
-      "claimed_utc": null,
+      "claimed_utc": "2026-08-28T17:40:00Z",
       "score_inputs": {
         "age_factor": 0.0714
       }
