@@ -582,3 +582,350 @@ def test_the_union_of_the_two_screens_and_the_own_parent_share_are_derived(prose
     _every_site(prose, r"the two screens condemn (\d+) of the (\d+)",
                 (str(len(liable | invisible)), str(pairing["corpus"]["n_designs"])),
                 "the union of the two screens, derived over the per-design records")
+
+
+# ---------------------------------------------------------------------------
+# Round 18 (AUT-PD-082): the three refuted interpretation claims, and the
+# Introduction sibling that carried the fourth copy of the same overclaim.
+#
+# ⛔ WHY THESE THREE GUARDS EXIST. The claim audit
+# (`fusion-junction-aso-claim-audit-verdicts.json`, seat s33-claimaudit) refuted three
+# INTERPRETATION sentences, and every one failed the same way: a bare universal quantifier
+# ("at any threshold", "every design here", "most plausible") over a panel whose own artifacts
+# return exceptions. The repairs replaced each universal with the bounded statement plus the
+# observation that bounds it — which puts three new counts into the prose that nothing read.
+# An unbound number is how the universal grows back: reword the sentence, drop the seven, and
+# "mostly, not wholly, invisible" reads as "invisible" again with every gate still green.
+#
+# ★ EACH COUNT IS RECOMPUTED HERE FROM THE ARTIFACT, never asserted against a literal. The
+# identity block in particular re-splices the mature parents rather than reading a stored field,
+# because no committed field holds it: the refutation exists precisely because the alignment
+# screens never report identity at a parent site — they exclude parent records by name first.
+SCREEN_E10 = os.path.join(MOD, "junction-aso-offtarget-e10n3.json")
+PREMRNA_SEQS = os.path.join(MOD, "aso-premrna-sequences.json")
+ENERGY = os.path.join(MOD, "aso-offtarget-duplex-energy.json")
+
+_COMPLEMENT = str.maketrans("ACGTU", "TGCAA")
+
+
+def _revcomp(s):
+    return s.translate(_COMPLEMENT)[::-1]
+
+
+def _mature(seqs, gene):
+    """The spliced parent transcript, assembled from the exon spans the artifact records.
+
+    ⚠ The gap-pairing screen's `parent_start_0based` indexes THIS, not the pre-mRNA: reproducing
+    `method.parent_nt_searched` from the spans is the check that the two agree.
+    """
+    g = seqs["genes"][gene]
+    return "".join(g["sequence"][a:b + 1] for a, b in g["exon_spans_0based_inclusive"])
+
+
+PREMRNA_OFFTARGET = os.path.join(MOD, "aso-premrna-offtarget.json")
+
+_JUNCTION = re.compile(r"^([A-Z0-9]+)_e\d+__([A-Z0-9]+)_e\d+$")
+
+
+def _longest_run(a, b):
+    best = cur = 0
+    for x, y in zip(a, b):
+        cur = cur + 1 if x == y else 0
+        best = max(best, cur)
+    return best
+
+
+def _own_parent_runs(pairing):
+    """The longest run a design's OWN parent forms, over BOTH compartments the sentence names.
+
+    ⛔⛔ WHY BOTH. The first version of this guard read `longest_parent_duplex_bp_through_gap` alone
+    and so measured the MATURE arm only, while the sentence it bound named the mature transcript AND
+    the precursor splice junction in its own antecedent. A blind regression seat found the gap on the
+    commit that introduced it: the precursor arm carries a 14-base-pair hybridisable run, one longer
+    than the mature maximum, so an unscoped "no parent pairs more than 13" was false as written.
+
+    ★ AND THE SCOPE THAT MAKES IT TRUE IS "ITS OWN PARENT", NOT "A PARENT". That 14-mer is TCF12
+    against a TFG::NR4A3 design — TCF12 is a parent gene of the panel and not a parent of that
+    design. Both readings are defensible English and only one of them is what the paragraph is
+    about, so the guard computes the one the sentence claims and the prose says which it means.
+    """
+    runs = [d["longest_parent_duplex_bp_through_gap"] for d in pairing["per_design"]
+            if d.get("counts_as_liability")]
+    seqs = json.load(open(_required(PREMRNA_SEQS, "the parent transcript sequences")))
+    pre = json.load(open(_required(PREMRNA_OFFTARGET, "the precursor-RNA off-target screen")))
+    for d in pre["per_design"]:
+        m = _JUNCTION.match(d["junction_label"])
+        assert m, f"{d['junction_label']!r} is not a junction label this guard can read"
+        parents = set(m.groups())
+        target = _revcomp(d["antisense_5to3"])
+        for hit in d.get("hits", ()):
+            if not hit.get("hybridisable") or hit["gene"] not in parents:
+                continue
+            site = seqs["genes"][hit["gene"]]["sequence"][
+                hit["premrna_start_0based"]:hit["premrna_end_0based"] + 1]
+            runs.append(_longest_run(site, target))
+    assert runs, "no own-parent runs were measured at all, so the bound below is unmeasured"
+    return runs
+
+
+@pytest.fixture(scope="module")
+def parent_site_identity(pairing):
+    """Identity of each liable design against its parent, at the site the screen names.
+
+    Returns the list of match counts out of the oligo length, one per liable design.
+    """
+    seqs = json.load(open(_required(PREMRNA_SEQS, "the parent transcript sequences")))
+    mature = {gene: _mature(seqs, gene) for gene in pairing["method"]["parents_searched"]}
+    for gene, nt in pairing["method"]["parent_nt_searched"].items():
+        assert len(mature[gene]) == nt, (
+            f"the spliced {gene} transcript is {len(mature[gene])} nt and the screen says it "
+            f"searched {nt} — the spans and the screen disagree, so no identity computed against "
+            "them can be trusted")
+    n = pairing["method"]["oligo_len"]
+    out = []
+    for d in pairing["per_design"]:
+        if not d.get("counts_as_liability"):
+            continue
+        start = d["parent_start_0based"]
+        site = mature[d["parent"]][start:start + n]
+        assert len(site) == n, f"the parent site for {d['junction']} runs off the transcript"
+        out.append(sum(1 for a, b in zip(site, _revcomp(d["antisense_5to3"])) if a == b))
+    return out
+
+
+def test_the_parent_visibility_the_article_states_is_recomputed_not_asserted(
+        prose, pairing, parent_site_identity):
+    """⛔ THE REFUTED CLAIM: "invisible … at ANY threshold that instrument is normally run at".
+
+    It is not. Recomputing identity at each liable design's own parent site — the site the
+    gap-pairing screen names, against the mature parent spliced from its own exon spans — gives a
+    distribution that reaches the near-match threshold the manuscript's alignment screens run at.
+    The universal was wrong; the mechanism it was reaching for is right for most of the panel, and
+    what actually keeps every parent off the returned lists is `method.parent_set`, an explicit
+    exclusion by name and accession, not the threshold.
+
+    ★ BOTH HALVES ARE DERIVED: the count from the recomputation, the threshold from a screen's own
+    `method.near_match_threshold`. Re-run the screen at another threshold and this fails here
+    rather than shipping a sentence under a threshold nobody used.
+    """
+    n = pairing["method"]["oligo_len"]
+    screen = json.load(open(_required(SCREEN_E10, "an alignment screen, for its threshold")))
+    m = re.search(r"(\d+)\s*/\s*(\d+)", screen["method"]["near_match_threshold"])
+    assert m, ("the alignment screen no longer states its near-match threshold as k/n, so the "
+               "identity the article quotes cannot be tied to it")
+    cut, denom = int(m.group(1)), int(m.group(2))
+    assert denom == n, (f"the alignment screen calls a near-match at {denom} bases and the panel "
+                        f"is tiled at {n} — the article's identity claim spans two geometries")
+    reaching = sum(1 for i in parent_site_identity if i >= cut)
+    assert 0 < reaching < len(parent_site_identity), (
+        "the recomputation puts either none or all of the liable designs at the near-match "
+        f"threshold ({reaching} of {len(parent_site_identity)}); 'mostly, not wholly, invisible' "
+        "is then the wrong sentence in one direction or the other")
+    _every_site(prose,
+                r"(\w+) of the (\d+) liable designs reach their parent at the (\d+)-of-(\d+) "
+                r"identity these screens run at",
+                (_word(reaching), str(len(parent_site_identity)), str(cut), str(denom)),
+                "how many liable designs the ordinary screen's own threshold would reach")
+
+
+def test_the_shared_sequences_the_article_concedes_are_the_panels_own(prose, pairing):
+    """⛔ THE REFUTED CLAIM: "EVERY design here being specific to the exon pair it was tiled at".
+
+    The panel's own rows say otherwise, and so does this paper's Figure 1 legend — "One 16-mer
+    spans three partners' breakpoints" — which is the one-of-a-pair shape at its plainest: two
+    sentences of one document contradicting each other, with nothing reading either.
+
+    ★ DERIVED BY GROUPING `per_design` on the antisense sequence. Both numbers move together if
+    the panel is re-tiled, so neither can drift alone.
+    """
+    by_seq = {}
+    for d in pairing["per_design"]:
+        by_seq.setdefault(d["antisense_5to3"], set()).add(d["junction"])
+    shared = sum(1 for junctions in by_seq.values() if len(junctions) > 1)
+    _every_site(prose, r"(\w+) of the panel's (\d+) distinct sequences",
+                (_word(shared), str(len(by_seq))),
+                "how many of the panel's distinct sequences sit at more than one exon pair")
+
+
+def test_the_strongest_returned_liability_is_the_two_screens_own(prose, pairing):
+    """⛔ THE REFUTED CLAIM: a junction design's "MOST PLAUSIBLE" wild-type liability is its parent.
+
+    Refuted as a comparative ranking on this repository's own artifacts: the parent screen never
+    returns a run longer than its panel maximum, while the energy re-evaluation returns off-target
+    duplexes paired over the whole oligo at ddG 0.000, in curated RefSeq records rather than
+    predicted models — so the paper's own "mostly predicted transcript models" caveat does not
+    dispose of them. The honest bound stays in the sentence: the alignment screen excludes parent
+    records by name, so the two arms are not on a common scale.
+
+    ★ THE CURATED COUNT IS THE ONE THAT CARRIES THE ARGUMENT, so it is derived from the accession
+    prefixes rather than from the seat's report of them: RefSeq NM_/NR_ are curated, XM_/XR_ are
+    model-predicted. (The audit verdict said six of eight; recomputing gives five — recorded as a
+    correction on the verdict record.)
+    """
+    energy = json.load(open(_required(ENERGY, "the off-target duplex-energy re-evaluation")))
+    n = pairing["method"]["oligo_len"]
+    longest_parent = max(_own_parent_runs(pairing))
+    full = [d for d in energy["designs"] if d.get("max_run_len_hybridisable") == n]
+    assert len(full) == energy["summary"]["n_designs_with_a_fully_paired_offtarget_duplex"], (
+        "the fully-paired designs recomputed from max_run_len_hybridisable disagree with the "
+        "artifact's own summary count — one of the two is wrong and the prose rests on both")
+    records = [(d.get("closest_gap_paired_record") or {}) for d in full]
+    curated = sum(1 for r in records if r.get("acc", "").startswith(("NM_", "NR_")))
+    # ⚠ TWO INDEPENDENT MARKERS OF THE SAME FACT, ASSERTED AGAINST EACH OTHER. The accession prefix
+    # says curated (NM_/NR_) or model-predicted (XM_/XR_); RefSeq also writes "PREDICTED:" at the
+    # head of a model record's definition. If the two ever disagree, the classification the sentence
+    # rests on is not established and the count must not be printed as though it were.
+    for r in records:
+        predicted_by_prefix = r.get("acc", "").startswith(("XM_", "XR_"))
+        predicted_by_defn = r.get("defn", "").startswith("PREDICTED:")
+        assert predicted_by_prefix == predicted_by_defn, (
+            f"{r.get('acc')!r} is classed one way by its accession prefix and the other by its "
+            f"definition ({r.get('defn', '')[:40]!r}) — the curated count in the article rests on "
+            "the two agreeing")
+    assert longest_parent < n, (
+        f"a parent now pairs {longest_parent} of {n} bases, so the comparison the sentence draws "
+        "between the two arms no longer runs in the direction it states")
+    _every_site(prose,
+                r"no design's own parent pairs more than (\d+) base pairs in either compartment, "
+                r"against the whole (\d+) for the (\w+) fully paired off-target duplexes above, "
+                r"(\w+) of them curated records",
+                (str(longest_parent), str(n), _word(len(full)), _word(curated)),
+                "the two arms' strongest returns, and how many of the fully paired are curated")
+
+
+# ⛔⛔ THE QUANTIFIER IS THE CLAIM HERE, AND EVERY GUARD ABOVE READS ONLY THE NUMBERS.
+# §8a of `paper-hardening`: "a claim is a QUANTITY and a RELATION, and the whole guard set was built
+# on the quantity half". This round's four repairs ARE the relation half — each replaced a universal
+# with a bounded quantifier — so binding only their counts would leave the thing that was actually
+# wrong unwatched. Deleting ", not wholly," from the first sentence leaves every count correct, every
+# pattern above matching, and the paper back to the claim the audit refuted.
+#
+# ★ REQUIRE AND FORBID ARE ASSERTED SEPARATELY, because "the narrowed wording is present" and "the
+# universal is absent" fail differently: a rewrite can satisfy the first while reintroducing the
+# second somewhere else in the same paragraph.
+#
+# ⛔⛔ AND THE FORBID SIDE IS A CLASS PATTERN, NEVER THE SENTENCE THAT WAS THERE. This repository has
+# already paid for the other shape:
+# `test_universal_claims_are_scoped_to_what_was_measured.py` records that five of its six sections
+# shipped as EXACT-STRING BLACKLISTS, and every one of the six contradictions it existed to stop
+# could be reinstated in synonyms with no test turning red. So each `forbid` below matches the
+# QUANTIFIER GOVERNING THE NOUN — a universal over `design(s) ... specific to`, a superlative over
+# `liability`, a `never/no ... returns a parent`, an `at any/every threshold` beside `invisible` —
+# and the synonym reinstatements are in this file's mutation record, not left to inspection.
+NARROWED_QUANTIFIERS = [
+    ("the Introduction's account of what an ordinary off-target search returns",
+     "of a conventional off-target search, though not for every design",
+     r"(?:never|not once|no(?:t a)? single)\s+(?:\w+\s+){0,3}returns?\s+(?:a|the|any)\s+parent"
+     r"|returns?\s+no\s+parent"
+     r"|cannot\s+return\s+(?:a|the|any)\s+parent"),
+    ("§Selection's account of how visible the parent liability is",
+     "is mostly but not wholly invisible to the instrument",
+     r"invisible[^.]{0,80}\bat\s+(?:any|every|all|whatever)\s+(?:threshold|cut|setting)"
+     r"|\bat\s+(?:any|every|all|whatever)\s+(?:threshold|setting)[^.]{0,80}invisible"),
+    ("§Test articles' account of how junction-specific the panel is",
+     "most designs here are specific to the exon pair they were tiled at",
+     r"\b(?:every|each|all|any)\s+designs?\s+(?:here\s+)?(?:being\s+|is\s+|are\s+|was\s+|were\s+)?"
+     r"specific\s+to\s+(?:the|its|their)\s+(?:exon\s+pair|junction)"),
+    ("§Interpretation's account of which wild-type liability is strongest",
+     "The wild-type liability that follows from a junction design's construction is its own parent",
+     r"\b(?:most|more)\s+(?:plausible|likely|probable|credible)\b[^.]{0,40}\bliability"
+     r"|\bliability[^.]{0,40}\b(?:most|more)\s+(?:plausible|likely|probable|credible)\b"
+     r"|\b(?:strongest|principal|dominant|chief|foremost|greatest)\s+"
+     r"(?:predicted\s+|wild-type\s+|)liability\s+is\s+its\s+own\s+parent"),
+]
+
+
+@pytest.mark.parametrize("what,require,forbid", NARROWED_QUANTIFIERS,
+                         ids=[q[0].split("'")[0] for q in NARROWED_QUANTIFIERS])
+def test_the_narrowed_quantifiers_stay_narrow(prose, what, require, forbid):
+    """⛔ EACH OF THESE FOUR SENTENCES CARRIED A UNIVERSAL THAT THIS PAPER'S OWN ARTIFACTS REFUTE.
+
+    Verdicts: `fusion-junction-aso-claim-audit-verdicts.json`, lines 194, 295 and 348, plus the
+    Introduction sibling that carried the fourth copy — two of the four were contradicted by this
+    document's own text (the Figure 1 legend, and the next sentence).
+
+    ⚠ IF THIS FAILS, CHECK THE MEANING BEFORE THE REGEX. The narrowed wording is the finding, not a
+    phrasing preference: re-anchoring this guard to a reworded sentence is only correct when the new
+    sentence says the same bounded thing. A sentence that has become universal again is the defect
+    this guard exists for, and it will look exactly like a rewording.
+    """
+    flat = _flat(prose)
+    assert require in flat, (
+        f"{what} no longer carries its narrowed wording ({require!r}). If the sentence was reworded, "
+        "check that it still bounds the claim before you re-anchor this guard — the audited defect "
+        "was a bare universal, and a rewrite that drops the bound looks identical to one that keeps it")
+    found = re.search(forbid, flat)
+    assert not found, (
+        f"{what} has gone universal again: {found.group(0)!r} is the wording the claim audit refuted, "
+        "and the artifacts that refuted it have not changed")
+
+
+GAP_TRADEOFF = os.path.join(MOD, "aso-gap-length-tradeoff.json")
+
+
+def test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count(prose):
+    """⛔ THE RAW COUNT POINTED THE OPPOSITE WAY FROM THE DENOMINATED ONE (round 18, seat 3).
+
+    The article said "across three geometries the liable count does not fall", which is true — 87,
+    88, 87 — and it was the whole evidence that a longer catalytic gap does not buy the design out
+    of the liability. The three panels are 190, 266 and 342 designs, sizes the article never printed,
+    so the rate falls 45.8% -> 33.1% -> 25.4% and the count is not even monotone. A statistic whose
+    denominator is withheld is not a weaker version of the claim; it is the reverse of it.
+
+    ★ AND THE LAST FIGURE IS A CONSTRUCTION ARTEFACT, WHICH THE PROSE NOW SAYS. MIN_DUPLEX_BP is an
+    absolute hybrid length that does not scale with the gap, so at 5-10-5 the catalytic gap alone is
+    already a ten-base-pair hybrid and every gap-pairing window clears the criterion by construction
+    — the artifact's own `_threshold_note`, and visible here as the two counts converging.
+    """
+    geoms = json.load(open(_required(GAP_TRADEOFF, "the gap-length trade-off series")))["geometries"]
+    present = [g for g in geoms if g.get("present")]
+    assert len(present) == 3, (
+        f"the series now holds {len(present)} measured geometries, not the three the article "
+        "reports — the sentence names its own denominators and must follow the artifact")
+    counts = [g["mature_parent_whole_gap_duplex"]["n_at_or_above_min_duplex_bp"] for g in present]
+    sizes = [g["n_fusion_specific_designs"] for g in present]
+    rates = [_pct(c / n) for c, n in zip(counts, sizes)]
+    _every_site(prose,
+                r"the liable count holds at (\d+), (\d+) and (\d+) while the panel grows from (\d+) "
+                r"designs to (\d+) and (\d+), so the rate falls from ([\d.]+%) to ([\d.]+%) and "
+                r"([\d.]+%)",
+                tuple(str(c) for c in counts) + tuple(str(n) for n in sizes) + tuple(rates),
+                "the three geometries' liable counts, their panel sizes and the resulting rates")
+    last = present[-1]["mature_parent_whole_gap_duplex"]
+    assert last["n_with_any_gap_pairing_window"] == last["n_at_or_above_min_duplex_bp"], (
+        "the two counts no longer converge at the longest geometry, so the article's 'met by the "
+        "catalytic gap alone, so that last figure is a floor' has lost the observation behind it")
+
+
+def test_the_ddg_separations_are_reported_with_the_direction_their_artifact_records(prose):
+    """⛔ A ONE-DIRECTIONAL BOUND QUOTED AS A POINT VALUE READS AS MARGIN (round 18, seat 5).
+
+    The article's evidence that neither named reagent falls in the fully-paired or within-2-kcal
+    classes is "the closest to each being 3.2 and 3.0 kcal/mol weaker". Its own artifact says, in a
+    field written for exactly this: scoring only the longest perfectly paired run "UNDERSTATES a
+    near-match's true stability and therefore OVERSTATES its separation from the intended duplex.
+    Every ddG here is an upper bound on that separation." Beside a concern band the paper itself
+    sets at 2 kcal/mol, dropping that direction turns a ceiling into a clearance.
+
+    ⚠ AND THE OTHER BOUND MUST NOT BE MERGED IN. The artifact also records that unmodelled LNA
+    points the other way and that the two "are not a range and must not be quoted as one", so this
+    guard requires the run-length direction and does NOT ask for a two-sided interval.
+
+    ★ THE REQUIREMENT IS DERIVED FROM THE ARTIFACT'S OWN FIELD, so if that field is ever rewritten
+    to say something else, this fails rather than going on enforcing a sentence nobody stands behind.
+    """
+    energy = json.load(open(_required(ENERGY, "the off-target duplex-energy re-evaluation")))
+    field = next((v for k, v in energy.items()
+                  if "bound" in k and "one_way" in k and isinstance(v, str)), None)
+    assert field and "upper bound on that separation" in field, (
+        "the energy artifact no longer records that its ddG values are upper bounds on the "
+        "separation; the article's wording below was derived from that field and must be re-derived "
+        "rather than left standing")
+    flat = _flat(prose)
+    assert "upper bounds on" in flat and "that separation" in flat, (
+        "the article quotes the ddG separations without the direction its artifact records. Every "
+        "ddG there is an UPPER bound on the separation, so a bare 3.2 / 3.0 reads as more margin "
+        "than was measured — beside a concern band this paper sets at 2 kcal/mol.")
+    assert "range" not in flat.split("upper bounds on")[1][:200], (
+        "the two bounds point opposite ways and the artifact says they must not be quoted as a "
+        "range; this sentence appears to have merged them")

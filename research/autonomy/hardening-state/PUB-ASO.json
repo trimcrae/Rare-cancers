@@ -1,0 +1,91 @@
+{
+  "pub_id": "PUB-ASO",
+  "_what": "Round 18's record: the hardening round that applied the three REFUTED interpretation claims of fusion-junction-aso-claim-audit-verdicts.json to the manuscript, plus the siblings that audit did not sample.",
+  "reviewed_commit": "6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c",
+  "last_round": 18,
+  "cycle_id": "CYC-0053-3217966b",
+  "session_id": "6b6f0499-f9a5-5941-8d7e-f2d4c1f2c937",
+  "utc": "2026-08-28",
+  "seats": [
+    "PUB-ASO-6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c-seat-arithmetic.json",
+    "PUB-ASO-6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c-seat-hostile-referee.json",
+    "PUB-ASO-6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c-seat-regression.json",
+    "PUB-ASO-6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c-seat-statistics.json"
+  ],
+  "_seat_count_is_four_not_five": "A fifth seat (citations, provenance and guard coverage) was dispatched on the same pin and had not returned when this record was written. Its absence is recorded rather than papered over: four lenses ran, and a fifth lens's silence is not a clean bill from that lens. ABSENT IS NOT EMPTY.",
+  "_the_reviewed_commit_is_not_the_final_commit": "The seats reviewed 6127da1ac1a2. Applying their five verified blockers necessarily changed the text after that pin, so the commit this round ends on is a DIFFERENT sha and clause 6 of publish_bar (a blind seat on the posted commit) is therefore still open by construction. That is the ordinary shape of a round that finds something: the fixes need their own seats. It is recorded here rather than left for someone to notice.",
+  "blockers": [
+    {
+      "seat": "hostile-referee",
+      "summary": "The only quantitative evidence that the two reagents named for synthesis clear the energy-based off-target screen is quoted as a bare point value, with none of the one-directional bias its producing artifact records - while every other bound in the paper carries its direction explicitly.",
+      "status": "fixed in this round: the separations are stated as upper bounds, in the direction the artifact's own field records (\"Every ddG here is an upper bound on that separation\"). The opposite-pointing LNA bound is deliberately NOT merged in, because the same artifact says the two are not a range and must not be quoted as one. New guard requires the direction and forbids a merged range, deriving the requirement from that field."
+    },
+    {
+      "seat": "regression",
+      "summary": "The new Interpretation sentence's supporting universal is false against the paper's own precursor-arm screen: a parent pairs 14 contiguous base pairs, not 13. The claim audit stated it scoped ('the parent SCREEN never produces a run longer than 13 bp'); the prose dropped the scope and made it a statement about parents.",
+      "status": "fixed in this round: scoped to \"no design's own parent ... in either compartment\". Re-derived independently: the mature arm's maximum own-parent run is 13 and the precursor arm's is also 13; the 14-base-pair run the seat cites is TCF12 against a TFG::NR4A3 design, so it is a parent GENE of the panel and not that design's parent. Both readings of \"parent\" are defensible English and only one is what the paragraph is about, so the prose now says which. The guard was rewritten to derive the bound from BOTH screens."
+    },
+    {
+      "seat": "regression",
+      "summary": "The same new sentence ranks two screens whose corpora are not comparable, and the bound the claim audit itself attached to that ranking was not carried into the prose; the adjacent 'not on comparable terms' concession refers to a different pair of things.",
+      "status": "fixed in this round: the bound is restored explicitly on THIS comparison (\"a bound, not a ranking - the parent arm reads six transcripts and the energy screen excludes parent records by name\"). The seat is right about the cause: the clause existed in the first draft of the repair and was dropped by my own page-budget trim, which is the repair-damage class paper-hardening 8a names."
+    },
+    {
+      "seat": "regression",
+      "summary": "In the extended report the round's new recomputation contradicts a standing arithmetic premise that is stated twice and used to bound the genome scan's reach.",
+      "status": "fixed in this round at BOTH sites in the extended report. Re-derived: of the 78 designs with an 11 or 12 bp parent run, 52 carry fewer mismatches than the run length alone implies and 5 sit at exactly two - inside the genome scan's own budget, the case the argument said could not arise. New derived guard: test_the_genome_scans_bound_counts_mismatches_and_not_positions_outside_the_run."
+    },
+    {
+      "seat": "statistics",
+      "summary": "The gap-length sentence compares raw liable COUNTS across three panels of different sizes (190, 266, 342 designs) on a criterion that is not comparable across them, and neither the sizes nor the rates appear anywhere in the article. Normalised, the liability rate falls by nearly half.",
+      "status": "fixed in this round: reported as a rate with its denominators (87/88/87 over 190/266/342, 45.8% -> 33.1% -> 25.4%) and the construction artefact at 5-10-5 named. Re-derived from aso-gap-length-tradeoff.json; the count is not even monotone (88 > 87) and n_with_any_gap_pairing_window falls 181 -> 130 -> 87. New guard binds all nine numbers plus the convergence that makes the last figure a floor."
+    }
+  ],
+  "p1s": [
+    {
+      "seat": "arithmetic",
+      "summary": "The exon-2 (non-coding acceptor) arm's four printed quantities are all correct at the pin and none is bound to the artifact that produces them. Recomputed: 5'-AGTGGGCTCTCCACGG-3' (EWSR1 e13->NR4A3 e2) has gap_specificity_margin 3 and longest_parent_duplex_bp_through_gap 8 against EWSR1; 5'-AGTGGGCTCTTGTGTG-3' (TAF15 e6->NR4A3 e2) has margin 3 and 9 against NR4A3 — matching 'both at the panel's top margin', 'eight base pairs against wild-type EWSR1 and nine against wild-type NR4A3', and 'the second against the acceptor parent'. Separately, exactly two registers of the EWSR1 e13->NR4A3 e2 seam (CAGTGGGCTCTCCACG, GCAGTGGGCTCTCCAC) carry a hybridisable, gap-fully-paired 2-mismatch hit in wild-type NR4A3 pre-mRNA while the named reagent carries none — matching 'it excludes two registers ... while clearing that reagent'.",
+      "status": "OPEN"
+    },
+    {
+      "seat": "arithmetic",
+      "summary": "'Across three geometries the liable count does not fall' is correct at the pin and unbound. Recomputed from the per_design rows of the three geometry artifacts: 87 liable of 190 at 5-6-5, 88 of 266 at 5-8-5, 87 of 342 at 5-10-5. No pin and no journal-article-binding test reads aso-parent-gap-pairing-18mer-5-8-5.json or aso-parent-gap-pairing-20mer-5-10-5.json.",
+      "status": "CLOSED in this round: test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count binds the three counts, the three panel sizes, the three rates and the convergence at 5-10-5, all derived from the artifact."
+    },
+    {
+      "seat": "arithmetic",
+      "summary": "'the same ten shared donor bases that let one oligonucleotide span the EWSR1, TAF15 and FUS breakpoints at once' is correct at the pin and unbound. Recomputed from the atlas's junction contexts: EWSR1 e12 donor tail ...AATGGTTTGATG, TAF15 e11 and FUS e10 ...ACTGGTTTGATG — the shared 3' donor suffix is TGGTTTGATG, exactly 10 nt; the reagent's target window takes 8 donor bases, so it spans all three. Consistently, GGGCATATCATCAAAC appears in the panel at three junctions.",
+      "status": "OPEN"
+    },
+    {
+      "seat": "hostile-referee",
+      "summary": "Every load-bearing number in the Abstract and Results is hand-typed prose restating a value that Tables 1 and 2 draw from the canonical CSV by generation. A regeneration of the screens would move the tables and leave the prose behind, and nothing in the document links them.",
+      "status": "OPEN"
+    },
+    {
+      "seat": "regression",
+      "summary": "The extended report's copies of this round's three new counts are bound by nothing. The one-of-a-pair defect the round's own new guard file was written to stop is reintroduced on the numbers half.",
+      "status": "OPEN"
+    },
+    {
+      "seat": "regression",
+      "summary": "The guard that certifies 'no parent pairs more than 13' reads one of the two parent screens the sentence names, so the compartment the counterexample lives in is unwatched even after the prose is fixed.",
+      "status": "CLOSED in this round: the guard now derives the own-parent bound from BOTH the mature and the precursor screens (_own_parent_runs), and asserts it measured something rather than passing on an empty list."
+    },
+    {
+      "seat": "statistics",
+      "summary": "The one OUTSIDE claim in the null comparison — 'but eleven' — rests on the nominal Wilson interval, whose independence assumption the repository itself rejects for these units; the guard that pins the sentence uses the same nominal field, and its own docstring says that field is the wrong one for an outside assertion.",
+      "status": "OPEN"
+    }
+  ],
+  "round_18_disposition": "Five blockers, every one reproduced from the committed artifacts before it was acted on, and every one fixed in this round. Two corrections were also made to the claim audit's OWN verdict record, because re-deriving each verdict is part of applying it: ':348 six of those 8 are curated RefSeq records' is FIVE of 8, and ':194 the seventh, taf15e14n3, returns 0 at both ceilings' is wrong - it returns 2 at the default ceiling and 5 at the deep one, which strengthens the refutation. Both are carried as verdict_correction fields rather than edited in place. Seven P1s, of which two are closed here and five remain open; all five are guard-coverage gaps, none is a wrong statement in the text. So publish_bar clause 1 (no blockers AND no P1s) still FAILS, honestly.",
+  "queued_next": [
+    "PAGE BUDGET, and it is the round's one unresolved item. The five fixes add about 110 words of BOUNDS to a paper that sat at exactly 6 typeset pages with zero headroom, and test_the_journal_pdf_fits_its_page_budget.py is red at 7 pages. Funded so far without removing any bound: three meta-commentary passages, four duplications, two derivations moved to documents that already carry them, four passages tightened twice, and the abstract brought from 205 words to 200 against its own 200-word limit. The remaining sanctioned action is the one the gate itself names - move a result to a packet document - and the candidate is the null-ensemble APPARATUS (the 6.2% weakest null, the 38,000-draw Wilson construction, the 91.4/92.1 loose-cut pair, the four sign changes) into the supplementary information, keeping in the paper the concession that carries the argument: the strongest null's 40.6% sits inside the panel's own 95% interval on 45.8%. It is real work rather than a decision: at least three guards bind those numbers to the journal article and must follow them (test_journal_article_numbers.py, test_the_printed_cut_ladder_is_the_measured_one.py, test_the_manuscript_title_states_the_measurement_it_carries.py). NOT attempted at the end of this context, because a relocation done badly is the next round's blocker.",
+    "Bind the extended report's copies of this round's three new counts (seven of 87 at 14-of-16, the 13-base-pair own-parent bound, five of eight curated). The journal article's copies are bound; the report's are not, which is the one-of-a-pair shape this round found twice already.",
+    "Seat 5's open P1: every load-bearing number in the Abstract and Results is hand-typed prose restating a value Tables 1 and 2 draw from the canonical file. That is the largest remaining coverage gap on this paper.",
+    "Seat 2's open P1s: the exon-2 non-coding-acceptor arm's four printed quantities, and 'the same ten shared donor bases', are correct at the pin and bound by nothing.",
+    "Seat 3's open P1: the null comparison's one OUTSIDE claim, 'but eleven', rests on the nominal Wilson interval's independence assumption.",
+    "A fresh round of seats on whatever commit the page-budget work lands on - clause 6 needs seats on the POSTED commit, and this round's seats reviewed its parent."
+  ],
+  "_posting_is_not_ours": "PUB-ASO carries a public DOI (Qeios 10.32388/VL3LJR) under trimcrae's name and is excluded BY NAME from the standing aiXiv grant - verbatim, 2026-08-27: 'That's the only paper that shouldn't auto ship to aiXiv.' Nothing in this round was posted, submitted or published. A new public version requires that he named THIS paper for THAT act."
+}

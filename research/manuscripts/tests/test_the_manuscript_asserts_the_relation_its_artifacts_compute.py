@@ -413,7 +413,14 @@ POLARITY = [
     # than passing as a mention. The Declarations copy is already held by `order-after-sequencing`
     # above — these are the two copies the audit measured as able to stand in for each other.
     ("breakpoint-sequenced-before-order",
-     r"One requirement is upstream of all of them:[^#]{0,320}?tiled at\.",
+     # ⚠ RE-ANCHORED 2026-08-28 (round 18), AFTER CHECKING THE MEANING FIRST. The claim this row
+     # guards — sequence the breakpoint before ordering — is untouched. What changed is the
+     # subordinate reason clause: "every design here being specific to the exon pair it was tiled
+     # at" was a universal the panel refutes (nine of its 176 distinct sequences sit at more than
+     # one exon pair, the lead reagent among them), so the sentence no longer ends at "tiled at".
+     # The requirement is if anything strengthened by the correction: a sequence that spans three
+     # partners' breakpoints cannot tell you which junction the sample carries.
+     r"One requirement is upstream of all of them:[^#]{0,420}?match at more than one\.",
      r"must be established at nucleotide resolution by RNA sequencing before any oligonucleotide "
      r"is ordered",
      r"need not be established|must not be established|need not be sequenced"
@@ -423,7 +430,8 @@ POLARITY = [
      "routes a laboratory can order from",
      "One requirement is upstream of all of them: the breakpoint of the test article need not be "
      "established at nucleotide resolution by RNA sequencing before an oligonucleotide is "
-     "ordered, no design here being specific to the exon pair it was tiled at."),
+     "ordered, no design here being specific to the exon pair they were tiled at, and nine of "
+     "the panel's 176 distinct sequences match at more than one."),
 ]
 
 

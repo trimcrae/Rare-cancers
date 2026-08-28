@@ -1923,3 +1923,57 @@ def test_the_tfg_deposit_is_reported_without_moving_a_coverage_figure():
     import aso_reagent_coverage as RC  # noqa: PLC0415
     assert "TFG" not in RC.PARTNER_COHORT["counts"], RC.PARTNER_COHORT["counts"]
     assert "so this changes which junctions are reported and no percentage" in txt
+
+
+def test_the_genome_scans_bound_counts_mismatches_and_not_positions_outside_the_run():
+    """⛔ A CONTIGUOUS RUN'S COMPLEMENT IS NOT A MISMATCH COUNT (round 18, seat 1, BLOCKER).
+
+    Two passages bounded the genome scan by arguing that "a contiguous run of eleven or twelve base
+    pairs inside a 16-mer leaves five or four positions unpaired respectively", and concluded that
+    the mature-transcript class therefore stays bounded by the six transcripts searched. The
+    positions outside a run are not unpaired — they are merely outside the run, and identity either
+    side of a mismatch still counts against a two-mismatch budget. Recomputed against each liable
+    design's own parent site, 52 of the 78 designs with an eleven- or twelve-base-pair run carry
+    FEWER mismatches than the run length alone implies, and five sit at exactly two — inside the
+    scan's own budget, which is the case the argument said could not arise.
+
+    ★ DERIVED, NOT ASSERTED: the identity is recomputed here from the exon spans, because no
+    committed field holds it. The screens report contiguous runs; the budget is a mismatch count;
+    and this test exists because the two were treated as the same number.
+    """
+    pairing = json.load(open(_required(
+        os.path.join(MOD, "aso-parent-gap-pairing.json"), "the mature-parent gap-pairing screen")))
+    seqs = json.load(open(_required(
+        os.path.join(MOD, "aso-premrna-sequences.json"), "the parent transcript sequences")))
+    mature = {}
+    for gene, rec in seqs["genes"].items():
+        mature[gene] = "".join(rec["sequence"][a:b + 1]
+                               for a, b in rec["exon_spans_0based_inclusive"])
+    complement = str.maketrans("ACGTU", "TGCAA")
+    n = pairing["method"]["oligo_len"]
+    within_budget = looser_than_the_run_implies = total = 0
+    for d in pairing["per_design"]:
+        if not d.get("counts_as_liability"):
+            continue
+        run = d["longest_parent_duplex_bp_through_gap"]
+        if run not in (11, 12):
+            continue
+        total += 1
+        start = d["parent_start_0based"]
+        site = mature[d["parent"]][start:start + n]
+        target = d["antisense_5to3"].translate(complement)[::-1]
+        mismatches = n - sum(1 for a, b in zip(site, target) if a == b)
+        if mismatches <= 2:
+            within_budget += 1
+        if mismatches < n - run:
+            looser_than_the_run_implies += 1
+    txt = _flat(_paper())
+    assert f"{total} designs" in txt or f"those {total} designs" in txt, (
+        f"the paper no longer states the {total}-design denominator this bound is computed over")
+    assert f"{looser_than_the_run_implies} of those {total} designs carry fewer mismatches" in txt, (
+        f"{looser_than_the_run_implies} of {total} designs carry fewer mismatches than their run "
+        "length implies, and the paper no longer says so — the sentence that replaced it is what "
+        "made the genome scan's bound wrong the first time")
+    assert within_budget == 5 and "five sit at exactly two" in txt, (
+        f"{within_budget} design(s) sit inside the scan's two-mismatch budget; the paper must name "
+        "the exception rather than conclude the class is bounded")

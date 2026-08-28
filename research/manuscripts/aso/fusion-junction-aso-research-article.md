@@ -938,11 +938,12 @@ this criterion by, no design at any of the five clears the screen, and at eight,
 
 Both parent-liability classes of §2.5 (the pre-mRNA sites and the mature-transcript duplexes)
 were bounded the same way: exhaustive over six parent transcripts and silent about every
-other gene. The genome scan, screen 5, removes that bound for the pre-mRNA class alone. It runs at two
-mismatches, and a contiguous run of eleven or twelve base pairs inside a 16-mer leaves five or four
-positions unpaired respectively, so the
-mature-transcript duplexes stay bounded by the six transcripts searched — the same reason §2.5 gives for
-their being invisible to the alignment screens.
+other gene. The genome scan, screen 5, removes that bound for the pre-mRNA class alone. It runs at two mismatches, and a contiguous run of eleven or twelve base pairs inside a 16-mer
+leaves five or four positions outside that run — which are not all unpaired. Recomputed against
+the parent sites, 52 of those 78 designs carry fewer mismatches than the run length alone implies
+and five sit at exactly two, inside the scan's own budget. So most of the mature-transcript class
+stays bounded by the six transcripts searched and five designs are not, which is the same reason
+§2.5 gives for their being mostly invisible to the alignment screens.
 
 A raw genome-wide count is not a result at this threshold. Chance alone predicts of order 10³
 near-matches per 16-mer over a genome for any 16-mer whatever, so the informative readings are
@@ -1243,7 +1244,9 @@ Clean designs are much scarcer than the default search depth implies, and two in
 converge on that. One is search depth, measured in §2.4 and bounded corpus-wide in §5. The other
 is invisible to depth at any setting: five of the nine designs form an eleven- or twelve-base-pair
 duplex with a mature wild-type parent that pairs the whole catalytic gap, one of them with *NR4A3*
-itself, where no screen filtering on global identity can see it. Three designs survive every screen
+itself, which a screen filtering on global identity mostly cannot see — across the panel, five of
+the 78 designs whose parent duplex runs eleven or twelve base pairs still reach the 14-of-16
+near-match threshold. Three designs survive every screen
 applied here, two of them at any parent-duplex threshold (§2.7).
 
 The limiting step is discrimination between the fusion and its parents, and it is not resolved here.
@@ -1261,9 +1264,16 @@ residues, where destabilisation is largest and where no penalty is modelled anyw
 Table 4's nine carries such a site of the strict class §2.5 defines, and that section is silent on
 whether any sits in the wider sense-strand forty. In
 mature parent sequence 87 designs pair a wild-type parent (any of the six, not *NR4A3* alone,
-which 61 of them pair) over a contiguous duplex of at least ten base pairs. The general point is that a fusion-junction design's most
-plausible wild-type liability is its own parent, reached either across a splice junction or in the
-mature transcript, and both are invisible to a screen that ranks candidates by global identity. A
+which 61 of them pair) over a contiguous duplex of at least ten base pairs. The general point is that the wild-type liability a
+fusion-junction design's construction implies is its own parent, reached either across a splice
+junction or in the mature transcript, and that a screen ranking candidates by global identity is
+mostly but not wholly blind to it: recomputed at each liable design's own parent site, identity
+runs 10 to 14 of 16, so seven of the 87 reach the 14-of-16 near-match threshold these screens use
+and are removed from their output by an explicit exclusion of parent records rather than by that
+threshold. Nor is it the strongest liability those screens return: no design's own parent pairs more than 13
+base pairs in either compartment, against the whole 16 for the eight designs carrying a fully
+paired off-target duplex, five of them in curated records — a bound rather than a ranking, since
+the parent arm reads six transcripts and the energy screen excludes parent records by name. A
 third compartment is invisible to all of them: at a seam whose acceptor half is not exonic in the
 mature transcript, the patient's own un-rearranged *NR4A3* allele carries the same sequence behind an
 intron, and three designs the mature-parent screen clears or cannot read — the pre-mRNA screen
@@ -2378,11 +2388,11 @@ another catches. No single screen supports any claim here on its own.
    between the observed arm and every null only the query differs. §2.5 reports the result.
 
 5. **The genome scan.** Screens 1 to 4 are bounded either by an annotation or by six transcripts.
-   The fifth removes that SEARCH-SPACE bound, and only for the pre-mRNA class: it runs at two
-   mismatches, and a contiguous run of eleven or twelve base pairs inside a 16-mer leaves five or
-   four positions unpaired respectively, so the mature-parent duplex class of §2.5 stays bounded by
-   the same six transcripts it
-   was bounded by before. A reader who takes this bullet alone gets a wider clearance than the
+   The fifth removes that SEARCH-SPACE bound, and only for the pre-mRNA class: it runs at two mismatches, and a contiguous run of eleven or twelve base pairs inside a
+   16-mer leaves five or four positions outside that run, which are not all unpaired: five of
+   those 78 designs sit at exactly two mismatches and so fall inside this scan's budget, while
+   the rest of the mature-parent duplex class of §2.5 stays bounded by the same six transcripts
+   it was bounded by before. A reader who takes this bullet alone gets a wider clearance than the
    screen supplies (§2.7). Each distinct target window and its reverse complement were placed
    in one membership set and every plus-strand position probed once, which covers both
    orientations without a second pass, at ≤2 mismatches, exhaustively: windows containing an N

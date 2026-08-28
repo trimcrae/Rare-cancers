@@ -1,0 +1,90 @@
+{
+ "_schema": "emc-review-seat/1",
+ "paper": "PUB-ASO",
+ "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+ "reviewed_commit": "6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c",
+ "blind": true,
+ "seat": "regression",
+ "lens": "Whether this round's own repairs — four replaced sentences and eight cuts in the journal article, two replacements in the extended report — introduced new defects, broke cross-references, orphaned claims, or left the packet stating two different things in two places.",
+ "utc": "2026-08-28T16:33:39Z",
+ "what_i_read": [
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.md (at the pin)",
+  "research/manuscripts/aso/fusion-junction-aso-research-article.md (at the pin)",
+  "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md (at the pin)",
+  "research/manuscripts/aso/fusion-junction-aso-submission-tables.md (at the pin)",
+  "research/manuscripts/aso/fusion-junction-aso-journal-tables.md (at the pin)",
+  "research/manuscripts/aso/fusion-junction-aso-cover-letter.md (at the pin)",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf (at the pin)",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf (at the pin)",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf (at the pin)",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf (at the pin)",
+  "research/manuscripts/aso/fusion-junction-aso-claim-audit-verdicts.json (diff at the pin)",
+  "research/manuscripts/claim-coverage.json (diff at the pin)",
+  "research/manuscripts/submission-metrics.json (diff at the pin)",
+  "research/manuscripts/tests/test_journal_article_numbers.py",
+  "research/manuscripts/tests/test_the_refuted_universals_are_absent_from_every_document_that_makes_the_claim.py",
+  "research/modalities/aso-parent-gap-pairing.json (at the pin)",
+  "research/modalities/aso-premrna-offtarget.json (at the pin)",
+  "research/modalities/aso-premrna-sequences.json (at the pin)",
+  "research/modalities/aso-offtarget-duplex-energy.json (at the pin)",
+  "research/modalities/junction-aso-offtarget-e10n3.json (at the pin)",
+  "git diff ea83b8843a180d809a27f4dd1654b56e0f5a62d5..6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c restricted to the two manuscript paths and to research/manuscripts/tests/"
+ ],
+ "central_claim": "The round's repairs replaced four refuted universals with bounded statements and cut eight passages without introducing a new defect, breaking a cross-reference, orphaning a claim, or leaving the packet saying two different things in two places.",
+ "verdict": "not_supported",
+ "recommendation": "major_revision",
+ "blockers": [
+  {
+   "summary": "The new Interpretation sentence's supporting universal is false against the paper's own precursor-arm screen: a parent pairs 14 contiguous base pairs, not 13. The claim audit stated it scoped ('the parent SCREEN never produces a run longer than 13 bp'); the prose dropped the scope and made it a statement about parents.",
+   "quote": "It is not the strongest liability these screens return: no parent pairs more than 13 base pairs anywhere in the panel, against the whole 16 for the eight fully paired off-target duplexes above, five of them curated records.",
+   "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-article.md line 349-352 (identically at fusion-junction-aso-research-article.md line 1270-1273). Refuted by research/modalities/aso-premrna-offtarget.json per_design[13] (junction_label TFG_e2__NR4A3_e3, antisense GCATATCTTCATCTTT) hits[0]: gene TCF12, hybridisable true, mismatches 1, gap_fully_paired true, premrna_start_0based/end_0based -> the 16-nt site in research/modalities/aso-premrna-sequences.json genes.TCF12.sequence is 5'-AAAGATGAAGATATCC-3' against target 5'-AAAGATGAAGATATGC-3', 14 contiguous matched base pairs (single mismatch at position 15 of 16). That design is one of the 19 the same paragraph cites. The 13 comes only from research/modalities/aso-parent-gap-pairing.json per_design[*].longest_parent_duplex_bp_through_gap (max 13), which is the MATURE arm alone.",
+   "why_a_reader_would_be_misled": "The two sentences before it define the liability as the design's own parent 'in the mature transcript OR ACROSS A SPLICE JUNCTION IN PRECURSOR RNA', and the two after it name both arms, so 'these screens' and 'anywhere in the panel' unambiguously include the precursor arm — where the paper's own artifact holds a gap-fully-paired 14 bp parent duplex at one mismatch. A reader takes away a ceiling on parent liability that the paper's own data exceeds, and the whole point of the sentence is a comparison of ceilings. (Under the narrowest possible reading — 'its OWN parent' only — the maximum is exactly 13 in both arms, so the sentence is at best true only on a reading its own wording forbids.)"
+  },
+  {
+   "summary": "The same new sentence ranks two screens whose corpora are not comparable, and the bound the claim audit itself attached to that ranking was not carried into the prose; the adjacent 'not on comparable terms' concession refers to a different pair of things.",
+   "quote": "no parent pairs more than 13 base pairs anywhere in the panel, against the whole 16 for the eight fully paired off-target duplexes above ... Both are searched before any molecule exists, but not on comparable terms.",
+   "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-article.md line 349-354. The 16-bp arm is research/modalities/aso-offtarget-duplex-energy.json (8 designs with max_run_len_hybridisable == 16, summary.n_designs_with_a_fully_paired_offtarget_duplex == 8), built on the alignment screen, whose research/modalities/junction-aso-offtarget-e10n3.json method.parent_set excludes parent names and accessions — so that artifact contains no parent record at all. The 13-bp arm is research/modalities/aso-parent-gap-pairing.json, whose method.parent_nt_searched totals 20,011 nt over six transcripts. fusion-junction-aso-claim-audit-verdicts.json (the REFUTED row for this claim) records the bound the repair omitted: 'the alignment screen excludes parent records by name and accession, so the energy artifact contains no parent record at all and the two arms are not on a common scale'.",
+   "why_a_reader_would_be_misled": "The reader is given 13-versus-16 as evidence that the parent is not the strongest liability, when one arm searched 20 kb of parent sequence and the other searched a transcriptome from which parents were deleted by name. The sentence that looks like the concession — 'Both are searched ... but not on comparable terms' — has 'the mature transcript or across a splice junction in precursor RNA' as its antecedent, i.e. it concedes incomparability between the two PARENT arms, not between the parent screen and the energy re-scoring, and the next two sentences confirm that reading by defining what each of those two parent arms condemns on."
+  },
+  {
+   "summary": "In the extended report the round's new recomputation contradicts a standing arithmetic premise that is stated twice and used to bound the genome scan's reach.",
+   "quote": "It runs at two mismatches, and a contiguous run of eleven or twelve base pairs inside a 16-mer leaves five or four positions unpaired respectively, so the mature-transcript duplexes stay bounded by the six transcripts searched — the same reason §2.5 gives for their being invisible to the alignment screens.",
+   "evidence": "research/manuscripts/aso/fusion-junction-aso-research-article.md lines 941-945 and, in the Methods screen-5 bullet, lines 2388-2392. Contradicted by the sentence this round inserted at lines 1265-1272 of the same file ('identity runs 10 to 14 of 16 ... five of the 78 designs whose parent duplex runs eleven or twelve base pairs still reach the 14-of-16 near-match threshold'). Recomputed from research/modalities/aso-parent-gap-pairing.json per_design (parent, parent_start_0based) against the mature parent spliced from research/modalities/aso-premrna-sequences.json exon_spans_0based_inclusive: of the 78 designs with an 11- or 12-bp run, 52 have FEWER unpaired positions than the sentence asserts, and 5 sit at exactly two mismatches — inside the genome scan's own method.max_mismatches budget.",
+   "why_a_reader_would_be_misled": "A maximal contiguous run of 11 forces only one mismatch at each end, not five; the paper's own new number proves it. A reader checking the bound finds the premise refuted by the same document twenty pages later and cannot tell which statement to trust. The conclusion happens to survive — all seven designs reaching 14/16 at a parent site span two exons of the mature parent (recomputed from the exon spans), so their sites are not contiguous in the assembly the genome scan searches — but that is the reason the paper does not give."
+  }
+ ],
+ "p1s": [
+  {
+   "summary": "The extended report's copies of this round's three new counts are bound by nothing. The one-of-a-pair defect the round's own new guard file was written to stop is reintroduced on the numbers half.",
+   "evidence": "research/manuscripts/tests/test_journal_article_numbers.py fixture `prose` (line ~62) reads ARTICLE = the journal article only, and every Round-18 assertion (`test_the_parent_visibility...`, `test_the_shared_sequences...`, `test_the_strongest_returned_liability...`) binds that fixture. research/manuscripts/tests/test_the_refuted_universals_are_absent_from_every_document_that_makes_the_claim.py covers the research article but its own docstring says 'it does not check that the corrected sentence is present or that its numbers are right'. A grep of research/manuscripts/tests/ and research/modalities/tests/ for '14-of-16', 'no parent pairs', 'of the 78 designs' returns only the journal-article guard.",
+   "what_edit_would_break_it": "Any edit to fusion-junction-aso-research-article.md lines 1243-1275 — retiling the panel, re-running the screen, or simply mistyping 'five of the 78' or 'seven of the 87' — leaves the two shipped documents stating different values for the same recomputation with every gate green."
+  },
+  {
+   "summary": "The guard that certifies 'no parent pairs more than 13' reads one of the two parent screens the sentence names, so the compartment the counterexample lives in is unwatched even after the prose is fixed.",
+   "evidence": "research/manuscripts/tests/test_journal_article_numbers.py::test_the_strongest_returned_liability_is_the_two_screens_own derives `longest_parent` from `pairing` (research/modalities/aso-parent-gap-pairing.json) alone and asserts `longest_parent < n`. Nothing in research/manuscripts/tests/ or research/modalities/tests/ derives a contiguous run length from research/modalities/aso-premrna-offtarget.json, which is where a 14-bp gap-fully-paired parent duplex sits.",
+   "what_edit_would_break_it": "Re-running or extending the precursor arm (a new geometry, a deeper hit list, a new parent) can raise the parent's true maximum run to 15 or 16 and the assertion stays green, because it never reads that artifact; the guard's failure message would still promise that 'the comparison the sentence draws between the two arms' had been checked."
+  }
+ ],
+ "p2s": [
+  {
+   "summary": "The repaired Selection sentence rests on a method step the journal article never discloses: 'excluded by name' has no referent anywhere in that document.",
+   "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-article.md lines 192-194 ('...and are excluded by name rather than by that threshold') against the same file's Methods, which describe screen 1 only as 'The first aligns against human RefSeq RNA, classifying each near-match by whether the catalytic gap is paired' — no parent-record exclusion. The exclusion is stated in fusion-junction-aso-research-article.md line 608 ('The alignment screen excludes parent records by design and filters at >=14/16 identity') and in research/modalities/junction-aso-offtarget-e10n3.json method.parent_set. A reader building the screen from this paper's Methods would build one that does return the parents."
+  },
+  {
+   "summary": "A cut left a 'because' that no longer completes its argument.",
+   "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-article.md line 216-217: 'Lengthening the catalytic gap does not remove this liability, because every base inside the gap comes from the donor or the acceptor exon.' The step that made the inference work — 'so a longer gap buys margin only by conceding parent-paired gap DNA at the design's own seam' — was removed in this round's diff; the extended report still carries it ('What a longer gap cannot do is raise the margin without conceding parent-paired gap DNA')."
+  },
+  {
+   "summary": "Cutting 'Both readings are properties of the cut.' left the sensitivity series without the sentence that said what it was demonstrating.",
+   "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-article.md lines 221-227: '...35 of the 38 junctions have a design that clears the parent screen, and all five junctions with a published exon-resolved breakpoint have one. At nine base pairs 31 of the 38 still clear...'. The paragraph now runs from two counts straight into their re-reading at four other cuts with no statement that the point is the cut-dependence."
+  },
+  {
+   "summary": "'seven of the 87' is the mature arm's count only; the precursor arm's 19 parent hits are all at <=2 mismatches, i.e. at or above the same 14-of-16 identity, by construction.",
+   "evidence": "research/modalities/aso-premrna-offtarget.json corpus.with_hybridisable_gap_paired = 19 and method.max_mismatches = 2, whose why_this_threshold says it is 'matched to the BLAST arm's >=14/16 identity so the two arms describe the same liability class'. Those sites are invisible to an ordinary RefSeq-RNA search for a compartment reason rather than a threshold one, which is a defensible scope for the sentence — but the sentence does not say it is scoped to the mature arm."
+  },
+  {
+   "summary": "No stale-build regression: all four built PDFs at the pin carry every repair and none of the eight cut passages.",
+   "evidence": "pdfminer extraction of fusion-junction-aso-journal-article.pdf, -manuscript.pdf, -anonymized.pdf and -preprint.pdf at the pin: 'mostly, not wholly, invisible', 'seven of the 87', \"nine of the panel's 176\", 'no parent pairs more than 13', 'most designs here being specific' all PRESENT; 'never returns a parent as a near-match', 'Both readings are properties of the cut', 'census of expressed transcripts', 'One unscreened scramble in ten', 'a design condemned in both is one design', 'for an arithmetic reason', 'most plausible wild-type liability', 'every design here being specific' all ABSENT."
+  }
+ ]
+}

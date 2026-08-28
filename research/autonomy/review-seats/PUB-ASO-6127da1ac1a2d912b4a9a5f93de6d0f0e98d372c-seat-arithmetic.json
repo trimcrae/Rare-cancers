@@ -1,0 +1,85 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "Every quantity the document prints, recomputed from the raw per-record rows of the artifact that owns it rather than read from that artifact's summary field or from the manuscript's own prose.",
+  "utc": "2026-08-28T16:39:40Z",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md (at the pin)",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso-parent-gap-pairing-18mer-5-8-5.json",
+    "research/modalities/aso-parent-gap-pairing-20mer-5-10-5.json",
+    "research/modalities/aso-parent-gap-pairing-noncoding-acceptor.json",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-premrna-offtarget.json",
+    "research/modalities/aso-premrna-offtarget-noncoding-acceptor.json",
+    "research/modalities/aso-premrna-sequences.json (via aso_parent_gap_pairing.mature_parents)",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/aso-per-junction-table.json",
+    "research/modalities/aso-gap-length-tradeoff.json",
+    "research/modalities/aso-insilico-evaluation.json",
+    "research/modalities/nr4a3-fusion-junction-atlas.json",
+    "research/modalities/junction-aso-thermo.json",
+    "research/modalities/junction-aso-offtarget-e12n3-deep500-b1.json",
+    "research/modalities/junction-aso-offtarget-taf15e6n3-deep500-b1.json",
+    "research/modalities/junction-aso-offtarget-*.json (all 78 16-mer BLAST screens, via aso_screen_sets.load_screens)",
+    "research/modalities/aso_screen_sets.py",
+    "research/modalities/aso_parent_gap_pairing.py",
+    "research/modalities/emc-model-junction-evidence.json",
+    "research/modalities/aso-taf15-intron2-designs.json",
+    "research/modalities/aso-noncoding-acceptor-designs.json",
+    "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+    "research/manuscripts/aso/fusion-junction-aso-claim-audit-verdicts.json",
+    "research/manuscripts/aso/lit-targets-aso-verify.json",
+    "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
+    "research/manuscripts/aso/fusion-junction-aso-priorart-evidence.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md (censoring derivation only)",
+    "research/manuscripts/aso/fusion-junction-aso-guard-coverage-audit.md",
+    "research/manuscripts/aso_falsification_power.py",
+    "research/manuscripts/pinned-figures.json",
+    "research/manuscripts/tests/test_journal_article_numbers.py",
+    "research/manuscripts/tests/test_the_numbered_claims_no_instrument_read.py",
+    "research/manuscripts/tests/test_named_reagents_carry_the_acceptor_the_csv_gives_them.py",
+    "research/manuscripts/tests/test_aso_coverage_ladder.py"
+  ],
+  "central_claim": "Every number the article prints is the value its producing artifact's raw records actually yield, at the depth, cut, denominator and attribution the sentence around it states.",
+  "verdict": "supported",
+  "recommendation": "minor_revision",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The exon-2 (non-coding acceptor) arm's four printed quantities are all correct at the pin and none is bound to the artifact that produces them. Recomputed: 5'-AGTGGGCTCTCCACGG-3' (EWSR1 e13->NR4A3 e2) has gap_specificity_margin 3 and longest_parent_duplex_bp_through_gap 8 against EWSR1; 5'-AGTGGGCTCTTGTGTG-3' (TAF15 e6->NR4A3 e2) has margin 3 and 9 against NR4A3 — matching 'both at the panel's top margin', 'eight base pairs against wild-type EWSR1 and nine against wild-type NR4A3', and 'the second against the acceptor parent'. Separately, exactly two registers of the EWSR1 e13->NR4A3 e2 seam (CAGTGGGCTCTCCACG, GCAGTGGGCTCTCCAC) carry a hybridisable, gap-fully-paired 2-mismatch hit in wild-type NR4A3 pre-mRNA while the named reagent carries none — matching 'it excludes two registers ... while clearing that reagent'.",
+      "evidence": "research/modalities/aso-parent-gap-pairing-noncoding-acceptor.json#per_design[].gap_specificity_margin, .longest_parent_duplex_bp_through_gap, .parent ; research/modalities/aso-premrna-offtarget-noncoding-acceptor.json#per_design[].n_hybridisable_gap_fully_paired, .hits[].gene ; neither file is referenced by any module under research/manuscripts/tests/ that binds fusion-junction-aso-journal-article.md, nor by any entry in research/manuscripts/pinned-figures.json (grep for both filenames returns only research/manuscripts/tests/test_aso_coverage_ladder.py, which doctors a temp copy for a module test and never reads the prose)",
+      "what_edit_would_break_it": "Regenerating either non-coding-acceptor artifact, or swapping 'eight'/'nine' or 'EWSR1'/'NR4A3' in the sentence. The exon-3 pair IS guarded (test_the_two_named_reagents_carry_their_own_seams_and_their_own_duplex_lengths), and its own comment records that its pattern 'deliberately does not reach' the '... are eight base pairs against wild-type *EWSR1* and nine against ...' construction — which is precisely this exon-2 sentence, carrying the same two numerals against different genes. A swap here is the exact acceptor-substitution error the paper says its withdrawn version arose from, and it would pass every gate."
+    },
+    {
+      "summary": "'Across three geometries the liable count does not fall' is correct at the pin and unbound. Recomputed from the per_design rows of the three geometry artifacts: 87 liable of 190 at 5-6-5, 88 of 266 at 5-8-5, 87 of 342 at 5-10-5. No pin and no journal-article-binding test reads aso-parent-gap-pairing-18mer-5-8-5.json or aso-parent-gap-pairing-20mer-5-10-5.json.",
+      "evidence": "research/modalities/aso-parent-gap-pairing.json#per_design[].counts_as_liability (87/190); research/modalities/aso-parent-gap-pairing-18mer-5-8-5.json#per_design[].counts_as_liability (88/266); research/modalities/aso-parent-gap-pairing-20mer-5-10-5.json#per_design[].counts_as_liability (87/342); research/manuscripts/pinned-figures.json#artifact_figures has no entry naming either longer-geometry artifact",
+      "what_edit_would_break_it": "Re-tiling or re-screening either longer geometry. If the 5-10-5 count dropped to, say, 60, the sentence 'Across three geometries the liable count does not fall' would become false and no gate would notice — the claim is a RELATION across three artifacts, a shape pinned-figures (which pins single values against a prose regex) cannot express at all."
+    },
+    {
+      "summary": "'the same ten shared donor bases that let one oligonucleotide span the EWSR1, TAF15 and FUS breakpoints at once' is correct at the pin and unbound. Recomputed from the atlas's junction contexts: EWSR1 e12 donor tail ...AATGGTTTGATG, TAF15 e11 and FUS e10 ...ACTGGTTTGATG — the shared 3' donor suffix is TGGTTTGATG, exactly 10 nt; the reagent's target window takes 8 donor bases, so it spans all three. Consistently, GGGCATATCATCAAAC appears in the panel at three junctions.",
+      "evidence": "research/modalities/nr4a3-fusion-junction-atlas.json#graded_pairs[].junction_context_mRNA for EWSR1_e12__NR4A3_e3, TAF15_e11__NR4A3_e3, FUS_e10__NR4A3_e3 ; research/modalities/aso-parent-gap-pairing.json#per_design[] (GGGCATATCATCAAAC at 3 junctions). No test or pin binds the numeral 'ten' in that clause — test_named_reagents_carry_the_acceptor_the_csv_gives_them.py matches the phrase 'shared donor' only as a labelling rule, never as a count.",
+      "what_edit_would_break_it": "A transcript-model refresh that changed either donor's terminal exon sequence, or an editorial rounding of 'ten' to another word. The number is what licenses the whole Figure 1 three-partner claim and would drift silently."
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "'61 of the 87 do so against wild-type NR4A3' (and the abstract's '61 against wild-type NR4A3 itself') is an ATTRIBUTION count, not the count its sentence describes. Recomputing over the per-design rows — sliding every 16-nt window of the spliced NR4A3 transcript against each design's target and taking the longest run that covers the whole catalytic gap — gives 62 designs that let wild-type NR4A3 pair their entire gap at >=10 bp. The 61 counts only designs whose LONGEST parent duplex is against NR4A3; TAF15_e9__NR4A3_e3 / GCATATCAGCATCTGT pairs wild-type NR4A3 at 11 bp but is attributed to TAF15 at 12 bp. The repository's own second artifact carries both numbers under names that draw exactly this distinction: n_liable_attributed_to_NR4A3 = 61 and n_pairing_NR4A3_specifically = 62 at cut 10. The pin cements the ambiguous reading. Fix is one clause: print 62, or write 'for 61 of them that parent is wild-type NR4A3'.",
+      "evidence": "research/modalities/aso-parent-gap-pairing.json#corpus.which_parent_supplies_it.NR4A3 (=61, best-parent attribution) vs research/modalities/aso-parent-null.json#cut_sensitivity.observed_cut_ladder.10.n_pairing_NR4A3_specifically (=62); recomputed 62 independently from aso-parent-gap-pairing.json#per_design[].antisense_5to3 against the spliced NR4A3 in research/modalities/aso-premrna-sequences.json#genes.NR4A3.exon_spans_0based_inclusive; research/manuscripts/pinned-figures.json#artifact_figures[id=aso_liable_against_wildtype_nr4a3_journal_selection] binds the sentence to the 61 field"
+    },
+    {
+      "summary": "'Across three geometries the liable count does not fall' is true as a COUNT (87, 88, 87) but the underlying rate falls by nearly half — 45.8%, 33.1%, 25.4% — because a longer gap admits more junction-spanning registers per seam (5, 7 and 9, giving 190, 266 and 342 designs over the same 38 junctions). The count also does fall by one between 5-8-5 and 5-10-5. A reader taking 'does not fall' as 'the liability is unchanged' gets the wrong impression in the direction that favours the paper's argument; naming the denominators, or the per-junction availability, would settle it.",
+      "evidence": "research/modalities/aso-parent-gap-pairing{,-18mer-5-8-5,-20mer-5-10-5}.json#per_design[] (190/266/342 rows; 87/88/87 with counts_as_liability true); research/modalities/aso-gap-length-tradeoff.json#geometries[].junction_spanning_registers_per_seam"
+    },
+    {
+      "summary": "The two censoring bounds are DEFAULT-depth facts presented as bounding 'every panel count below', while most counts below are computed at the deeper ceiling. Recomputed over the 38 panel junctions: at default depth 7 of 190 screens returned status screen_failed (183 screened) and 47 of those 183 hit lists are complete (35 at the >=50 cap, 101 more past the 15 records retained) — both figures exact. At the DEEP ceiling, however, only 3 of 190 failed and only 36 of 187 lists are uncensored, and it is the deep set that produces '123 ... against eight', the 8/45 duplex-energy classes and the 'three designs clear every screen'. Naming the depth in the bound would remove the mismatch; the direction of the bound is right either way.",
+      "evidence": "research/modalities/junction-aso-offtarget-*.json#oligos[].status and .n_offtarget_near_matches, loaded through research/modalities/aso_screen_sets.py (MANUSCRIPT_GEOMETRY, BLAST_SCREEN), split by is_default_depth/is_deep; research/modalities/aso-per-junction-table.json#junctions[].n_designs_screened (=187, the deep set)"
+    }
+  ]
+}
