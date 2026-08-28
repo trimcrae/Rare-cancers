@@ -22,9 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 97,
+    "done": 98,
+    "in_progress": 1,
     "parked": 28,
-    "queued": 130,
+    "queued": 128,
     "ready": 1,
     "superseded": 1
   },
@@ -1935,40 +1936,6 @@
       ]
     },
     {
-      "id": "AUT-PD-049",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "CYC-research-loop-1787948441",
-      "claimed_utc": "2026-08-28T20:20:41Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0030-6be7fd5a",
-      "score": 150.0,
-      "_score_basis": "our own queue is inspectable in exactly the half AlabOS's is not, and the arbitration half is where a stall hides",
-      "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §11a (the /deep-research pass, 109 agents, 3-vote adversarial verification)",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⚠ THE INSPECTABILITY QUALIFICATION THE ADVERSARIAL PASS INSISTED ON, TURNED ON US. AlabOS's task STATUS is dashboard-visible; its pending RESOURCE-REQUEST queue lives in the `requests` collection and is surfaced by NO route. So the thing a reader can see is what each task is doing, and the thing they cannot see is what is waiting on what. ⭐ OUR EQUIVALENT: continuity.py prints ready rows and the capacity line, and stalled_holder.py prints held rows — but nothing prints WHY a ready row is not moving when the cap is not full, and nothing prints the arbitration between a lease and a ready row. That is precisely where the 2026-08-27 dead seat hid for 2 h 36 m. Cheap: one view, derived, no new state.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T20:20:41Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-063",
       "kind": "process_defect",
       "process_defect": true,
@@ -2126,6 +2093,43 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
       "what": "⚠ `c_cycles_are_sized` CANNOT DISTINGUISH A DEPTH-LIMIT REFUSAL FROM AN ABSENT TOOL, and they are different failures. AUT-PD-032 found create_session CALLABLE but refused past lineage depth 8; AUT-PD-045 found it NOT PRESENT AS A TOOL AT ALL in a scheduled-Routine session. The condition downgrades both to UNMEASURED. ⭐ session_cap.py accepts both DELIBERATELY, because for the STOP decision they are the same fact — the loop cannot hand off — and that is not the defect here. ★ For DIAGNOSIS they are not the same: one says the loop ran too deep and a fresh root session fixes it; the other says the platform never gave this context the tool and restarting cannot help. Recording which occurred is what tells a future session whether to spawn shallower or to stop expecting a handoff."
+    },
+    {
+      "id": "AUT-PD-049",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "CYC-research-loop-1787948441",
+      "claimed_utc": "2026-08-28T20:20:41Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "score": 142.0,
+      "_score_basis": "our own queue is inspectable in exactly the half AlabOS's is not, and the arbitration half is where a stall hides",
+      "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §11a (the /deep-research pass, 109 agents, 3-vote adversarial verification)",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "what": "⚠ THE INSPECTABILITY QUALIFICATION THE ADVERSARIAL PASS INSISTED ON, TURNED ON US. AlabOS's task STATUS is dashboard-visible; its pending RESOURCE-REQUEST queue lives in the `requests` collection and is surfaced by NO route. So the thing a reader can see is what each task is doing, and the thing they cannot see is what is waiting on what. ⭐ OUR EQUIVALENT: continuity.py prints ready rows and the capacity line, and stalled_holder.py prints held rows — but nothing prints WHY a ready row is not moving when the cap is not full, and nothing prints the arbitration between a lease and a ready row. That is precisely where the 2026-08-27 dead seat hid for 2 h 36 m. Cheap: one view, derived, no new state.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:20:41Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
     },
     {
       "id": "AUT-PD-057",
@@ -7057,19 +7061,19 @@
         "strategy": null
       },
       "kind": "harden",
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "CI and repository work; no outward-facing act and no access only trimcrae has.",
       "claimed_utc": null,
-      "evidence": "Defect measured this cycle on eeb5ab8 and recorded on AUT-PD-117. The hand-repair has now been applied FOUR times on this trunk by four different sessions -- runs 3, 4 and 7 were each followed by a 're-derive the archive manifest against the clean tree' commit, and on 2026-08-28 two sessions did it concurrently (5cf6e05 landed while this cycle was gating the same change). A repair that recurs every time the workflow runs is a generator defect. The regen-only invocation was verified locally before the change was committed: publish_artifacts.sh runs `set -uo pipefail`, and an empty PATHS array survives both its snapshot loop and its restore loop under `\"${PATHS[@]:-}\"` (driver-emptyarray.log, EXIT=0). It refuses only when BOTH the path list and PUBLISH_REGEN are empty (line 111).",
+      "evidence": "VERIFIED IN PRODUCTION ON A REBUILDING DISPATCH — the strong half of the two this row distinguishes, not the no-op half it was dispatched expecting. Run 33206223315 (workflow_dispatch on ecfe6d6, the commit carrying the two-pass change) found the parts stale after the concurrent ASO edits and actually rebuilt them, so both passes did real work and both committed: d12af75 'ASO submission parts rebuilt on a runner (CI)' (pass 1) then 41378b9 're-derive the ASO archive manifest against the committed tree (CI)' (pass 2). THE ARTIFACT, READ FROM THE TRUNK RATHER THAN FROM THE RUN RECORD (research-loop §8.4): the manifest now carries git_tree_is_clean_apart_from_this_manifest = TRUE at git_revision d12af75, which is pass 1's own commit and is on main. `aso_archive_manifest.py --check-archive` exits 0. On the identical code path before the fix, the same workflow wrote `false` (eeb5ab8). ⚠ ONE OBSERVATION WORTH KEEPING FOR THE NEXT DIAGNOSIS: this run's `actions/checkout` step took 18 min 56 s (19:58:58 -> 20:17:54) against a ~2 min TOTAL job on every previous run of this workflow. It completed and every later step behaved normally, so it did not affect this verdict, and no cause was established — recorded as an unexplained observation rather than guessed at.",
       "closes_clause": null
     },
     {

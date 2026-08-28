@@ -16,7 +16,8 @@
     "research/autonomy/health.py — new `--stored-commit-worthy` flag, which exits 0/10 on the `_commit_worthy` that `--write` already recorded instead of recomputing it against a file `--write` has overwritten. `--commit-worthy` is left as it was and is now documented as correct only BEFORE a write.",
     ".github/workflows/autonomy-tick.yml — the publish step calls `--stored-commit-worthy`.",
     "research/autonomy/tests/test_the_board_reaches_main_when_a_verdict_changes.py — 6 tests, new. Pins the trap itself (so the two flags are never collapsed into one), the fix, the negative control, the absent-decision case, and the wiring.",
-    "research/autonomy/research-ledger.json — AUT-PD-126 filed done with its evidence."
+    "research/autonomy/research-ledger.json — AUT-PD-126 filed done with its evidence.",
+    "research/autonomy/research-ledger.json — AUT-PD-123 closed: the two-pass ASO rebuild was verified in production by run 33206223315, which rebuilt for real and produced a manifest with clean=true at git_revision d12af75 (pass 1's commit, on main). This is cycle CYC-0065's fix, followed through here rather than left as unrun code."
   ],
   "cost": {
     "usd": 0.0,
