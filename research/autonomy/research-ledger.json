@@ -7290,8 +7290,8 @@
         "strategy": null
       },
       "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "SEAT-s5-1f1a2449",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -7301,9 +7301,15 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
-      "claimed_utc": null,
+      "claimed_utc": "2026-08-28T22:02:59Z",
       "evidence": "MEASURED 2026-08-28 (CYC-0065-1f1a2449), not inferred from reading the code. The reaper was run per step 11 and returned archive=[] with two IDLE sessions flagged `idle with NO committed receipt`: session_017VDt2MMZnksnnHSebkKbbY and session_01AiEBt1BhjfPMi9rCZ4rZ53. The first is CYC-0061, whose receipt research/autonomy/receipts/CYC-0061-d60caf7b.json is committed on main and carries session_id `d60caf7b-1472-58ce-a4b4-8451374fc919`. A census of all 66 receipts carrying the field gives THREE namespaces: 23 raw uuids, 12 `session_...` ids (the only shape committed_session_ids can match), and 31 prose labels (the defect the contract already names). Verdict log: driver-reap.json in this cycle's scratchpad directory.",
-      "closes_clause": null
+      "closes_clause": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:02:59Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-125",
