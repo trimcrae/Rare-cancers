@@ -79,6 +79,63 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/method-watch.mjs research/method-watch-digest.md
 
+      # ── MATCH THE WEEK'S NEWS AGAINST WHAT OUR PAPERS CLAIM (added 2026-08-28, trimcrae) ──────
+      # The reopening-trigger scan decides relevance with hand-written keyword lists, and that is
+      # fragile in a way this repository measured: the closest human prior art the junction-vaccine
+      # route has matched NONE of the 38 triggers' queries, because none of them contained the word
+      # "vaccine". We already hold both halves of the answer — the headlines this digest just
+      # generated, and `what_it_would_claim` for all 32 publications — so the match is one model
+      # call. Rationale, prompt and guards: scripts/news_match.py.
+      #
+      # ⛔ IT RUNS HERE AND NOT IN THE TRIGGER SCAN. That scan's bottleneck is its QUERY: Europe PMC
+      # returns only what the query asked for, so a model placed downstream of a narrow query still
+      # never sees the paper the query missed. These feeds are broad — a deliberately unscoped
+      # oncology catch-all, ClinicalTrials.gov, dated RSS — and are the layer that actually caught it.
+      #
+      # ⛔ continue-on-error IS DELIBERATE AND IS NOT LAZINESS. The newsletter is the thing trimcrae
+      # actually reads on a Friday; a matcher outage must never be able to stop it sending. The
+      # script fails loudly rather than writing an empty queue, so a failure here is visible in the
+      # run log and the previous queue stays committed and correctly dated — it does not degrade
+      # into "the model considered this week and found nothing".
+      - name: Match news items against what each paper claims (LLM)
+        if: ${{ (inputs.backfill_from == '' || inputs.backfill_to == '') && vars.NEWS_MATCH != 'off' }}
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NEWS_MATCH_MODEL: ${{ vars.NEWS_MATCH_MODEL }}
+        run: python3 scripts/news_match.py --digest research/method-watch-digest.md
+
+      # Published to the TRIGGERING branch, not to method-watch-cache. The queue is a work item a
+      # session acts on beside citation-debt.json, and the cache branch is a firehose nothing reads
+      # in the ordinary loop. ⚠ It must also land BEFORE the digest-publish step below, which does a
+      # `git checkout -B method-watch-cache` and takes the tree with it.
+      - name: Publish the news-match queue to the triggering branch (best effort)
+        if: ${{ always() && (inputs.backfill_from == '' || inputs.backfill_to == '') }}
+        continue-on-error: true
+        env:
+          TARGET_REF: ${{ github.ref_name }}
+        run: |
+          [ -f research/literature/news-match-queue.json ] || { echo "no queue produced"; exit 0; }
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/literature/news-match-queue.json
+          git diff --cached --quiet && { echo "no change"; exit 0; }
+          git commit -q -m "news-match: proposed matches for $(date -u +%Y-%m-%d) (UNVALIDATED LEADS)"
+          for i in 1 2 3; do
+            git push origin "HEAD:$TARGET_REF" && { echo "pushed"; exit 0; }
+            git fetch origin "$TARGET_REF" && git rebase "origin/$TARGET_REF" || true
+          done
+          echo "::warning::queue push failed; the artifact below is the record"
+
+      - name: Keep the news-match queue as a run artifact
+        if: ${{ always() && (inputs.backfill_from == '' || inputs.backfill_to == '') }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: news-match-queue-${{ github.run_id }}
+          path: research/literature/news-match-queue.json
+          if-no-files-found: ignore
+
       # Pick up a Claude-written newsletter summary (the "LLM filter") if a scheduled Claude session
       # committed a fresh one to email-outbox. Weekly cadence, so accept up to ~2 days old. Mirrors the
       # daily email's "Pick up today's Claude-written summary" step.

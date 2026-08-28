@@ -170,6 +170,32 @@ below, do the paired action and open the follow-up; otherwise no action.
 > checker now reads the query as evidence and reports 0 `[Z5]`. This table stays the one home of the **capability → action** pairing; the
 > map owns the **closure → trigger → what-it-reopens** graph, and neither restates the other.
 
+## How an item gets from a feed to a document
+
+Three layers, and they are not interchangeable. **The feeds** (this file's watched topics, run by
+`scripts/method-watch.mjs`) are broad and catch what a query was never written for. **The
+reopening-trigger scan** ([`method-watch-triggers.json`](method-watch-triggers.json)) is narrow,
+deterministic and free, and answers *"did the specific named capability we are parked on arrive?"*.
+**The matcher** ([`scripts/news_match.py`](../scripts/news_match.py), added 2026-08-28) is one model
+call over the week's headlines and `what_it_would_claim` for all 32 rows of
+[`publications.json`](../systems/graph/publications.json), and answers the question neither of the
+others could — *"which of OUR documents does this bear on?"*
+
+⛔ **The matcher proposes; nothing cites automatically.** It has seen a headline, not a paper. Its
+output is `research/literature/news-match-queue.json`, an unvalidated queue — **not linked here
+because it does not exist until the first CI run writes one**, and seeding it by hand would be a
+plausible-looking record of a model run that never happened. Rows that survive a human read become
+`open` rows in
+[`citation-debt.json`](literature/citation-debt.json), which refuses a row that names no
+`blocked_on`. ⚠ **It reports `supports` against `complicates` and prints the census**, because a
+watch list kept by people who want these routes to work under-reports the results that cut against
+them — the count is what makes that question askable.
+
+⚠ **Why the matcher is not inside the trigger scan.** That scan's bottleneck is its Europe PMC
+*query*, not its title filter: the API returns only what the query asked for, so a model placed
+downstream of a narrow query still never sees the paper the query missed. The newsletter's feeds are
+broad, and are the layer that actually caught PMID 42570981.
+
 ## Capability → action trigger table
 | When this capability becomes usable | …do this |
 |---|---|

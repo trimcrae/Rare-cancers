@@ -712,7 +712,14 @@ gen_fail=""
 # closest human prior art the junction-vaccine route has -- was captured, triaged and cited in two
 # manuscripts while research/modalities/vaccine-construct.json, which proposes that exact design
 # class, said nothing about it for four days under green gates.
-# ⛔ NEITHER ROW CITES ANYTHING AUTOMATICALLY. Both verify a decision a human made; the ledger's
+# ⭐ THE THIRD ROW GUARDS THE LLM MATCHER'S COMMITTED OUTPUT (2026-08-28). news_match.py replaces
+# the keyword judgement with a model's, which is better at the judgement and worse at being
+# reproducible — rerunning it costs an API call and does not return the same answer. So the queue
+# is a COMMITTED product, and what this row checks is the part a model cannot be right about by
+# luck: that every publication id in it still resolves, that no verdict lacks a reason, and that
+# the run recorded WHICH MODEL answered. An unattributed LLM verdict cannot be re-read later.
+# ⚠ It passes when no queue is committed yet, because the first one arrives from CI.
+# ⛔ NO ROW HERE CITES ANYTHING AUTOMATICALLY. Both verify a decision a human made; the ledger's
 # `declined` status exists so that "we looked and it is not owed" stays distinguishable from
 # "nobody looked". Measured cost of the pair: under 0.3 s.
 for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
@@ -728,7 +735,8 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/modalities/atr_hrd_sarcoma_series.py|ATR HRD sarcoma series|--check" \
          "research/modalities/single_slot_identity.py|single-slot artifact identity|--check" \
          "scripts/trigger_scan.py|reopening-trigger registry join|--check" \
-         "scripts/citation_debt.py|literature citation debt|--check"; do
+         "scripts/citation_debt.py|literature citation debt|--check" \
+         "scripts/news_match.py|news-match queue|--check"; do
   gen="${g%%|*}"; rest="${g#*|}"; label="${rest%%|*}"; mode="${rest##*|}"
   # ⛔ THE GENERATOR'S OWN FAILURE TEXT REACHES THE READER AS OF AUT-PD-016 (2026-08-27). This line
   # was `python3 "$gen" "$mode" >/dev/null 2>&1`, so every producer's diagnosis was discarded and
