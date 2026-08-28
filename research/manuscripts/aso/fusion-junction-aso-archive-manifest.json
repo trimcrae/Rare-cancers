@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "ae006e684771c1f978685e7754af27f3e9f825a8",
+  "git_revision": "c9ee517f707896aed4800fd57e3ccc374514ab98",
   "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "47bebe3c8249d308cdbcde4456d5cad5e4b56af508cfec692639613439a03b67",
+  "archive_content_digest": "7a1596d8205b7e157efd0f6619615a5ac7700a1516fd0b86f4450f24e6852a86",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,8 +24,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 43233582,
-  "total_mib": 41.231,
+  "total_bytes": 43236487,
+  "total_mib": 41.234,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -35,7 +35,7 @@
       },
       ".py": {
         "n_files": 68,
-        "bytes": 3102616
+        "bytes": 3105521
       },
       ".md": {
         "n_files": 13,
@@ -1599,8 +1599,8 @@
     },
     {
       "path": "research/manuscripts/lint_citations.py",
-      "bytes": 22934,
-      "sha256": "3c680f6d65fb3de48e6e2950a5d969d8cda1dc5146197cf1e1b9c752bcbe96ea",
+      "bytes": 25839,
+      "sha256": "99b4a1a07eca4b1862979e92390e626726f09b3a989113bf064ddffca6e65e2c",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
