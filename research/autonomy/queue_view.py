@@ -15,15 +15,27 @@ row stays open, the stale-lease sweep releases it, and a second session claims i
 already shipped. Measured that day: `stuck_clock.py` (AUT-PROP-029) was on origin/main when
 CYC-0044-schedule claimed the row and dispatched an agent to build it.
 
+⛔⛔ AND THE FIRST VERSION OF THIS FIX ONLY ANSWERED HALF OF AUT-PD-051 (fixed 2026-08-28, CYC-0047).
+`already_landed()` originally read `continuity.ready()` only — but AUT-PD-051's own SECOND instance
+that same day (AUT-PROP-032's residue gate, merged locally and never pushed, row stayed open,
+CYC-0046-schedule claimed and dispatched anyway) was a HELD row, not a ready one: `stuck_clock.py`
+had already been released by the stale-lease sweep by the time it was rebuilt, but AUT-PROP-032 was
+still actively `in_progress`, owned, and would never have been caught by the ready-only check. The
+sharper diagnosis in AUT-PD-051's own text says so: "should be pointed at rows owned by a COMPLETED
+seat, not only at ready rows." `main()` now also runs `already_landed()` against every currently-held
+row, using the same filed-then-added-after discriminator, and reports it in its own section.
+
 ⛔⛔ IT REPORTS AND NEVER CLOSES ANYTHING, AND THAT LIMIT IS DELIBERATE. An artifact existing on the
 trunk is NOT the same as the item being finished — a row whose deliverable partly landed must stay
 open, and auto-closing on this signal would silently drop the unfinished half. The whole value is
 making a human or the merging session look. ⚠ Same reason `stalled_holder.py` only ever reports:
-"the driver cannot be the thing that notices the driver has stalled."
+"the driver cannot be the thing that notices the driver has stalled." This applies exactly as much
+to a held row as a ready one: a seat mid-way through extending what already landed is not finished
+just because its named path exists.
 
 USAGE
     python3 research/autonomy/queue_view.py            # the arbitration view
-    python3 research/autonomy/queue_view.py --check    # exit 1 if a ready row's deliverable is already on the trunk
+    python3 research/autonomy/queue_view.py --check    # exit 1 if a ready OR held row's deliverable is already on the trunk
 """
 
 from __future__ import annotations
@@ -128,6 +140,14 @@ def already_landed(rows: list[dict] | None = None, ref: str = "origin/main") -> 
     return out
 
 
+def held_full_rows(rows: list[dict] | None = None) -> list[dict]:
+    """Full ledger rows for every currently-held claim — `held()`'s summary carries no `what` or
+    `lease_released`, and `already_landed()` needs those to find a named deliverable."""
+    pool = rows if rows is not None else continuity._entries()
+    by_id = {e.get("id"): e for e in pool if isinstance(e, dict)}
+    return [by_id[eid] for eid, _owner in continuity.live_leases() if eid in by_id]
+
+
 def held(rows: list[dict] | None = None) -> list[dict]:
     """Open rows a worker holds, with the age of the claim — the arbitration side of the queue."""
     out = []
@@ -157,6 +177,7 @@ def main(argv=None) -> int:
 
     h = held()
     landed = already_landed(ref=args.ref)
+    landed_held = already_landed(rows=held_full_rows(), ref=args.ref)
 
     print(f"HELD — {len(h)} row(s) a worker is holding right now:")
     for row in sorted(h, key=lambda r: -(r["claim_age_hours"] or 0)):
@@ -175,7 +196,19 @@ def main(argv=None) -> int:
         print("\n   ★ THIS IS A REPORT, NOT A CLOSURE. An artifact on the trunk is not the same as the")
         print("     item being finished — a row whose deliverable PARTLY landed must stay open. Read")
         print("     each one and close it deliberately, or say why it is still open (AUT-PD-051).")
-    return 1 if args.check and landed else 0
+
+    print(f"\n⛔⛔ HELD, BUT ALREADY ON {args.ref} — {len(landed_held)} owned row(s) whose named "
+          f"deliverable exists:")
+    for eid, paths in landed_held:
+        owner = next((o for i, o in continuity.live_leases() if i == eid), "?")
+        print(f"   {eid:<16} owner={owner}  {', '.join(paths)}")
+    if not landed_held:
+        print("   (none)")
+    else:
+        print("\n   ★ A ROW SOMEBODY HOLDS IS NOT AUTOMATICALLY UNFINISHED WORK — it may be a fresh")
+        print("     dispatch rebuilding what a DIFFERENT session already merged (AUT-PD-051's exact")
+        print("     shape, twice in one day). Check with the holder before releasing or re-dispatching.")
+    return 1 if args.check and (landed or landed_held) else 0
 
 
 if __name__ == "__main__":

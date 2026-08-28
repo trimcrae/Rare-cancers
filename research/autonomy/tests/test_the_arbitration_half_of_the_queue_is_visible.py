@@ -80,6 +80,42 @@ def test_an_unreadable_trunk_suppresses_nothing(monkeypatch):
                          repo="/nonexistent-repo-path") is False
 
 
+def test_held_full_rows_returns_the_full_row_for_a_live_lease(monkeypatch):
+    """`held()`'s summary carries no `what`/`lease_released` -- already_landed needs the full row."""
+    monkeypatch.setattr(Q.continuity, "live_leases", lambda: [("R1", "seat-x")])
+    pool = [{"id": "R1", "what": "build research/autonomy/thing.py", "last_evidence_utc": "2026-08-20"},
+            {"id": "R2", "what": "unrelated row"}]
+    assert Q.held_full_rows(pool) == [pool[0]]
+
+
+def test_held_full_rows_skips_a_lease_whose_row_vanished(monkeypatch):
+    """⚠ Defensive: a lease naming an id no longer in the ledger must not crash the report."""
+    monkeypatch.setattr(Q.continuity, "live_leases", lambda: [("GHOST", "seat-x")])
+    assert Q.held_full_rows([{"id": "R1", "what": "x"}]) == []
+
+
+def test_a_held_rows_landed_deliverable_is_caught_where_ready_only_missed_it(monkeypatch):
+    """⛔⛔ THE ACTUAL REGRESSION AUT-PD-051's SECOND INSTANCE NAMES. AUT-PROP-032's residue gate was
+    `in_progress` and OWNED, not ready, when CYC-0046-schedule dispatched an agent to rebuild it --
+    the original ready()-only already_landed() would never have seen it. This pins that a HELD row
+    with the same shape is now caught by the same discriminator, and that `continuity.ready()` alone
+    (the pre-fix behaviour) genuinely does not see it, so the fix is not vacuous."""
+    monkeypatch.setattr(Q, "on_trunk", lambda p, ref=None, repo=None: True)
+    monkeypatch.setattr(Q, "added_after", lambda p, when, ref=None, repo=None: True)
+    held_row = {"id": "AUT-PROP-032-LIKE", "state": "in_progress", "owner": "seat-x",
+                "what": "build research/manuscripts/lint_submission_residue.py",
+                "last_evidence_utc": "2026-08-20"}
+    monkeypatch.setattr(Q.continuity, "live_leases", lambda: [("AUT-PROP-032-LIKE", "seat-x")])
+    monkeypatch.setattr(Q.continuity, "_entries", lambda: [held_row])
+    monkeypatch.setattr(Q.continuity, "ready", lambda me=None: [])  # not ready: owned, in_progress
+
+    # The gap this fix closes: the ready-only check sees nothing.
+    assert Q.already_landed(ref="origin/main") == []
+    # The held-row check sees it.
+    assert Q.already_landed(rows=Q.held_full_rows(), ref="origin/main") == \
+        [("AUT-PROP-032-LIKE", ["research/manuscripts/lint_submission_residue.py"])]
+
+
 def test_it_reports_and_never_closes():
     """⛔⛔ THE LIMIT THAT IS THE POINT. An artifact on the trunk is not the same as the item being
     finished; a row whose deliverable PARTLY landed must stay open. Auto-closing would silently drop

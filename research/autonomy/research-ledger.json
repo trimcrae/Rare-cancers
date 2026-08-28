@@ -21,13 +21,39 @@
     "write": 6
   },
   "n_by_state": {
-    "done": 60,
+    "done": 62,
     "in_progress": 2,
-    "queued": 121,
+    "queued": 119,
     "superseded": 1
   },
   "n_clamped": 11,
   "entries": [
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/manuscripts/build_submission_parts.py exits 1 in the dev sandbox: 'LibreOffice did not write a .docx / Error: source file could not be loaded'",
+      "id": "AUT-PROP-021",
+      "kind": "build",
+      "prerequisite_of": "AUT-PROP-018",
+      "what": "✅ DONE 2026-08-27. Dispatched aso-submission-parts.yml on main; run 33097825961 succeeded and committed df2bc4b02 'ASO submission parts rebuilt on a runner (CI)'. The LibreOffice positive control passed on the runner BEFORE the build ran, so a green build is not a dead tool reported as a malformed manuscript. All three staleness guards verified green after the fast-forward (test_the_word_file_is_not_stale, and both test_no_submission_part_is_stale_against_its_manuscript params). ⚠ The wake armed for this run died with a container restart; the run had already succeeded, so the row was honest by luck rather than by design — a wake armed inside a container is only as durable as the container.",
+      "_score_basis": "inherited from AUT-PROP-018 (+0.5) — it is the work that unblocks it",
+      "score": 286.0,
+      "closes_clause": null
+    },
     {
       "id": "AUT-046",
       "_derived": true,
@@ -209,32 +235,6 @@
         "blocked_with_evidence": true,
         "age_factor": 0.0714
       }
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/manuscripts/build_submission_parts.py exits 1 in the dev sandbox: 'LibreOffice did not write a .docx / Error: source file could not be loaded'",
-      "id": "AUT-PROP-021",
-      "kind": "build",
-      "prerequisite_of": "AUT-PROP-018",
-      "what": "✅ DONE 2026-08-27. Dispatched aso-submission-parts.yml on main; run 33097825961 succeeded and committed df2bc4b02 'ASO submission parts rebuilt on a runner (CI)'. The LibreOffice positive control passed on the runner BEFORE the build ran, so a green build is not a dead tool reported as a malformed manuscript. All three staleness guards verified green after the fast-forward (test_the_word_file_is_not_stale, and both test_no_submission_part_is_stale_against_its_manuscript params). ⚠ The wake armed for this run died with a container restart; the run had already succeeded, so the row was honest by luck rather than by design — a wake armed inside a container is only as durable as the container.",
-      "_score_basis": "inherited from AUT-PROP-018 (+0.5) — it is the work that unblocks it",
-      "score": 196.0,
-      "closes_clause": null
     },
     {
       "serves": {
@@ -1248,6 +1248,37 @@
       "what": "✅ DONE 2026-08-27 — remedy (a), the one already proven. research-loop §3 now makes WORKTREE-IN / BRANCH-OUT the contract for any subagent that will write code: worktree off origin/main, commit there, push a branch, never touch the repository root. The shared tree has ONE writer, the driver. ⚠ Written from the afternoon's measurement rather than from principle: the two agents dispatched with 'commit, do not push' ended up mid-write simultaneously and made the tree ungateable — preflight red on lint_citations and the manifest, neither caused by the driver's own change — while the two that used worktrees pushed branches that merged with zero conflicts and survived the window. ⛔ Remedies (b) scoping preflight to staged paths and (c) a tree lease are NOT done and are deliberately not filed as follow-ups: (a) removes the condition they exist to handle, and building a lease for a problem that no longer occurs is how a repository accumulates guards nobody needs. Re-file them if the condition recurs with (a) in force."
     },
     {
+      "id": "AUT-PROP-012",
+      "kind": "process",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "in_progress",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 2,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0017",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-053a821102c352e74c0f3f4c125277e7ff183191.json",
+      "what": "⭐ BIND THE RELATION HALF — round 6 measured the gap instead of arguing it. One seat re-derived 140 printed quantities from the artifacts with ZERO mismatches, and ran emc_fusion_partner_pooling.py --check, the 122-test prose guard and the 9-test mutation suite clean. In the same tree, five seats found three blockers, and NOT ONE is a number: a cardinal written as the WORD 'two' (§5), a COMPARATIVE 'larger than any cohort that could be pooled here' (§3.4), and an unsourced claim about what THE FIELD quotes (four sites). That is paper-hardening §8a's 'a claim is a QUANTITY and a RELATION, and the guard set was built on the quantity half' reproduced with a measurement under it. ⛔ SO DO NOT ADD MORE NUMBER CHECKS. Three surfaces, each with a derivable witness already on disk: (1) COUNT-WORDS — 'the one/two/three series that ...' against sum(1 for c in cohorts if <key> in c); the guard's own `_word` helper already exists and is used for §8's cache-slug count. (2) COMPARATIVES AND SUPERLATIVES over the paper's own pool — 'larger than any cohort that could be pooled here', 'the largest series to test X directly' — decidable against analyses.*.pooled_cohorts / cohorts_pooled. (3) CLAIMS ABOUT THE FIELD'S PRACTICE ('the field routinely quotes', 'usually attributed to') — these need a named source or they need to go; B3 and the §3.8 P2 are both this shape, and Appendix A11 is a third instance the paper already retracted. ⛔ MUTATION-TEST EVERY GUARD, SINGLE-SITE MUTATIONS INCLUDED, into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit. ⚠ Scope by the PROPERTY, never by a list of sites (paper-hardening §8b.2: six of eleven list-scoped fixes regressed at a sibling).",
+      "score": 176.8,
+      "_score_basis": "hand-filed by CYC-0017. Same rank as AUT-PROP-007 — a guard, not a route, but it closes the class that produced every blocker of round 6.",
+      "_lease_released": "⚠ RELEASED 2026-08-27T23:15Z AFTER THE HOLDER DIED SILENTLY. `fusion-partner-relation-seat` was dispatched at 21:0x and its transcript last moved at 20:37:42 — its whole output is 'I'll start by reading the ledger entry and the relevant files.' It never got past its first message. ⛔ `ListAgents` reported it `running` for 2h36m and the driver relayed that as 'in flight' seven times, because it checked LIVENESS and never PROGRESS. The item was untouched; it is queued again with nothing lost but the wall clock.",
+      "claim_workers": 1,
+      "_claim_workers_why": "one subagent in an isolated worktree; the previous seat on this item died at its first message and its claim was released",
+      "lease_released": "claim by relation-half-worktree-seat released after 8.1 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
       "id": "AUT-PD-037",
       "kind": "process_defect",
       "process_defect": true,
@@ -1277,37 +1308,6 @@
       "claim_workers": 1,
       "_claim_workers_why": "one subagent in an isolated worktree",
       "lease_released": "claim by serialization-worktree-seat released after 8.2 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
-    },
-    {
-      "id": "AUT-PROP-012",
-      "kind": "process",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "in_progress",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 2,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0017",
-      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-053a821102c352e74c0f3f4c125277e7ff183191.json",
-      "what": "⭐ BIND THE RELATION HALF — round 6 measured the gap instead of arguing it. One seat re-derived 140 printed quantities from the artifacts with ZERO mismatches, and ran emc_fusion_partner_pooling.py --check, the 122-test prose guard and the 9-test mutation suite clean. In the same tree, five seats found three blockers, and NOT ONE is a number: a cardinal written as the WORD 'two' (§5), a COMPARATIVE 'larger than any cohort that could be pooled here' (§3.4), and an unsourced claim about what THE FIELD quotes (four sites). That is paper-hardening §8a's 'a claim is a QUANTITY and a RELATION, and the guard set was built on the quantity half' reproduced with a measurement under it. ⛔ SO DO NOT ADD MORE NUMBER CHECKS. Three surfaces, each with a derivable witness already on disk: (1) COUNT-WORDS — 'the one/two/three series that ...' against sum(1 for c in cohorts if <key> in c); the guard's own `_word` helper already exists and is used for §8's cache-slug count. (2) COMPARATIVES AND SUPERLATIVES over the paper's own pool — 'larger than any cohort that could be pooled here', 'the largest series to test X directly' — decidable against analyses.*.pooled_cohorts / cohorts_pooled. (3) CLAIMS ABOUT THE FIELD'S PRACTICE ('the field routinely quotes', 'usually attributed to') — these need a named source or they need to go; B3 and the §3.8 P2 are both this shape, and Appendix A11 is a third instance the paper already retracted. ⛔ MUTATION-TEST EVERY GUARD, SINGLE-SITE MUTATIONS INCLUDED, into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit. ⚠ Scope by the PROPERTY, never by a list of sites (paper-hardening §8b.2: six of eleven list-scoped fixes regressed at a sibling).",
-      "score": 175.9,
-      "_score_basis": "hand-filed by CYC-0017. Same rank as AUT-PROP-007 — a guard, not a route, but it closes the class that produced every blocker of round 6.",
-      "_lease_released": "⚠ RELEASED 2026-08-27T23:15Z AFTER THE HOLDER DIED SILENTLY. `fusion-partner-relation-seat` was dispatched at 21:0x and its transcript last moved at 20:37:42 — its whole output is 'I'll start by reading the ledger entry and the relevant files.' It never got past its first message. ⛔ `ListAgents` reported it `running` for 2h36m and the driver relayed that as 'in flight' seven times, because it checked LIVENESS and never PROGRESS. The item was untouched; it is queued again with nothing lost but the wall clock.",
-      "claim_workers": 1,
-      "_claim_workers_why": "one subagent in an isolated worktree; the previous seat on this item died at its first message and its claim was released",
-      "lease_released": "claim by relation-half-worktree-seat released after 8.1 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease.",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
     },
     {
       "id": "AUT-PD-034",
@@ -1401,7 +1401,7 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -1409,7 +1409,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 172.0,
@@ -1418,7 +1418,7 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop coordination; nothing published, submitted or deposited",
-      "what": "⛔⛔ MERGING A SEAT'S BRANCH DOES NOT CLOSE THE SEAT'S LEDGER ROW, SO FINISHED WORK IS RE-OFFERED AS READY AND A SECOND SESSION CLAIMS IT. ⚠ MEASURED 2026-08-28 and it cost a dispatch: `stuck_clock.py` (AUT-PROP-029) was merged to main from a worktree branch — 569 lines, 40 tests, 17/17 mutations — and the row stayed `in_progress` with the SEAT as owner. priority.py's stale-lease sweep then released it, continuity.py offered it as ready, and CYC-0044-schedule claimed it and dispatched a background worktree agent to build what was already on its own base. ⭐ THE SHAPE IS THE LEASE DEFECT ONE STEP LATER: a lease says who HOLDS a row and nothing says who FINISHED one, so the ledger's only record of completion is a human remembering to write it during a merge — which is exactly the 'agreement in prose between a reader and a writer' this repository has now paid for at AUT-PD-013, AUT-PROP-013 and AUT-PD-037. ★ THE FIX IS TO DERIVE IT, NOT TO REMEMBER IT: a merge that lands a seat's deliverable can be detected — the row names its artifact in `depends_on_evidence` or its branch in `lease_released`, and git can answer whether that artifact is on main. A check that refuses to offer a row as READY while its named deliverable already exists on the trunk would have caught this before the dispatch. ⚠ DO NOT auto-close on that signal alone — an artifact existing is not the same as the item being finished, and a row whose deliverable partly landed must stay open. Report it and make a human or the merging session confirm. ⛔⛔ SECOND INSTANCE, SAME DAY: AUT-PROP-032's residue gate (1,110 lines, preflight gate 16) was merged locally and not pushed, the row stayed open on the trunk, and CYC-0046-schedule claimed it and dispatched an agent. ⭐ THE TWO TOGETHER SHARPEN THE FIX: the defect is not that a merge fails to close a row, it is that NOTHING VERIFIES A MERGE HAPPENED. The check now exists — queue_view.already_landed() compares a row's named deliverable against origin/main and caught AUT-020 on its first run — and should be pointed at rows owned by a COMPLETED seat, not only at ready rows."
+      "what": "⛔⛔ MERGING A SEAT'S BRANCH DOES NOT CLOSE THE SEAT'S LEDGER ROW, SO FINISHED WORK IS RE-OFFERED AS READY AND A SECOND SESSION CLAIMS IT. ⚠ MEASURED 2026-08-28 and it cost a dispatch: `stuck_clock.py` (AUT-PROP-029) was merged to main from a worktree branch — 569 lines, 40 tests, 17/17 mutations — and the row stayed `in_progress` with the SEAT as owner. priority.py's stale-lease sweep then released it, continuity.py offered it as ready, and CYC-0044-schedule claimed it and dispatched a background worktree agent to build what was already on its own base. ⭐ THE SHAPE IS THE LEASE DEFECT ONE STEP LATER: a lease says who HOLDS a row and nothing says who FINISHED one, so the ledger's only record of completion is a human remembering to write it during a merge — which is exactly the 'agreement in prose between a reader and a writer' this repository has now paid for at AUT-PD-013, AUT-PROP-013 and AUT-PD-037. ★ THE FIX IS TO DERIVE IT, NOT TO REMEMBER IT: a merge that lands a seat's deliverable can be detected — the row names its artifact in `depends_on_evidence` or its branch in `lease_released`, and git can answer whether that artifact is on main. A check that refuses to offer a row as READY while its named deliverable already exists on the trunk would have caught this before the dispatch. ⚠ DO NOT auto-close on that signal alone — an artifact existing is not the same as the item being finished, and a row whose deliverable partly landed must stay open. Report it and make a human or the merging session confirm. ⛔⛔ SECOND INSTANCE, SAME DAY: AUT-PROP-032's residue gate (1,110 lines, preflight gate 16) was merged locally and not pushed, the row stayed open on the trunk, and CYC-0046-schedule claimed it and dispatched an agent. ⭐ THE TWO TOGETHER SHARPEN THE FIX: the defect is not that a merge fails to close a row, it is that NOTHING VERIFIES A MERGE HAPPENED. The check now exists — queue_view.already_landed() compares a row's named deliverable against origin/main and caught AUT-020 on its first run — and should be pointed at rows owned by a COMPLETED seat, not only at ready rows.\n\n✅ DONE 2026-08-28 (CYC-0047-cyc0047s, second item this session). Widened already_landed() from ready-rows-only to also cover HELD rows: added queue_view.held_full_rows() (the full ledger row for every live lease, since held()'s own summary dict carries no `what`/`lease_released` for named_paths() to scan), wired it into main() as a new '⛔⛔ HELD, BUT ALREADY ON origin/main' section, and folded it into --check's exit code. Report-only, same as the ready-row half -- never auto-closes, per the module's own stated limit. Regression-tested: research/autonomy/tests/test_the_arbitration_half_of_the_queue_is_visible.py gained 3 cases, the key one (test_a_held_rows_landed_deliverable_is_caught_where_ready_only_missed_it) modelling AUT-PROP-032's exact shape and asserting BOTH that the pre-fix ready-only check sees nothing for an in_progress/owned row AND that the new held-row check does -- all 3 confirmed failing (AttributeError) against the pre-fix module before being trusted, all pass post-fix."
     },
     {
       "id": "AUT-013",
@@ -1584,7 +1584,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
-      "score": 170.9,
+      "score": 171.8,
       "_score_basis": "measures whether our blind spot is where somebody else measured theirs",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §4.1, §4.2",
       "closes_clause": null,
@@ -1713,7 +1713,7 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 168.0,
@@ -1723,7 +1723,7 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
       "what": "⭐ RUN THE RESCORE THAT ACTIVATES THE ANTI-STARVATION TERM (AUT-PD-048). The age factor dry-runs correctly — 106 rows gain a bounded bonus, AUT-046 rises to 199.0 — but `--write` was DELIBERATELY not run on 2026-08-28 because another session was mid-cycle on this ledger and a full regeneration would have collided. ⛔ UNTIL IT RUNS THE TERM CHANGES NOTHING: every live score is still the pre-age one and the rows it exists to rescue rank as if they had never waited. ⚠ Run it when no session holds a lease (queue_view.py names holders), expect a large diff by construction, and READ the top of the re-ranked list before committing — a scoring change that reorders the queue is exactly the kind whose effect should be looked at rather than assumed.",
-      "lease_released": "✅ RUN 2026-08-28. `priority.py --write`: 182 entries in, 182 out, none lost, 11 clamped. 84 rows moved and AUT-046 — fully aged at factor 1.0 — rose 187.0 -> 199.0 to the top of the queue, which is the starved-row rescue the term exists for. ⭐ THE ANTI-STARVATION TERM IS NOW LIVE RATHER THAN DORMANT; before this the code was committed and every score was still the pre-age one. ⚠ AND THE STATED REASON FOR DEFERRING IT DID NOT SURVIVE EXAMINATION: 'another session is mid-cycle' was true — CYC-0047-schedule held AUT-PROP-040, claimed 18 minutes earlier — but the regeneration PRESERVED that lease (merge() carries owner across a re-score, verified after the write), and the ledger conflict it risks is one this session had already resolved three times with a lease-preserving union. A deferral is only honest while the thing deferred is actually unsafe."
+      "lease_released": "✅ RUN 2026-08-28. `priority.py --write`: 182 entries in, 182 out, none lost, 11 clamped. 84 rows moved and AUT-046 — fully aged at factor 1.0 — rose 187.0 -> 199.0 to the top of the queue, which is the starved-row rescue the term exists for. ⭐ THE ANTI-STARVATION TERM IS NOW LIVE RATHER THAN DORMANT; before this the code was committed and every score was still the pre-age one. ⚠ AND THE STATED REASON FOR DEFERRING IT DID NOT SURVIVE EXAMINATION: 'another session is mid-cycle' was true — CYC-0047-schedule held AUT-PROP-040, claimed 18 minutes earlier — but the regeneration PRESERVED that lease (merge() carries owner across a re-score, verified after the write), and the ledger conflict it risks is one this session had already resolved three times with a lease-preserving union. A deferral is only honest while the thing deferred is actually unsafe. ⭐ INDEPENDENTLY CORROBORATED BY THE OTHER SIDE OF THAT SAME LEASE (CYC-0047/CYC-0048): its own repeated `priority.py --write` runs that same window (after round-12 ledger edits, an id-rename, and a rebase) all succeeded with no collision, and it read AUT-046 at 199.0 before marking this row done from its own vantage — two sessions, the same live term, one fact."
     },
     {
       "id": "AUT-PROP-034",
@@ -1745,7 +1745,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
-      "score": 166.9,
+      "score": 167.8,
       "_score_basis": "three canonical answers to three defects this repo has already paid for",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §2 (SOURCE-grade: k8s probes.md, OTP sup_princ.md, systemd man pages)",
       "closes_clause": null,
@@ -1805,7 +1805,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
-      "score": 160.9,
+      "score": 161.8,
       "_score_basis": "named by every surveyed long-running loop, and already once written down here unread",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §3",
       "closes_clause": null,
@@ -1864,7 +1864,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
-      "score": 158.9,
+      "score": 159.8,
       "_score_basis": "converts an existing rule from a thing we remember into a thing that is computed",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §4.4",
       "closes_clause": null,
@@ -2116,7 +2116,7 @@
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0023-6be7fd5a",
       "what": "⛔ OPEN — EVERY SEAT'S PREFLIGHT MANUFACTURES ~50 RED TESTS THAT DO NOT EXIST, because a fresh worktree never gets the SessionStart hook that runs dev-setup.sh. ⚠ THIS ENTRY WAS BRIEFLY CLOSED AND THE CLOSURE WAS WRONG; the history below is kept because the wrong turning is the instructive part. ⚠ SUPERSEDED HEADING, retained (rule 1.2): 'CLOSED — THE REPORTED BLOCKER WAS NOT LIVE'. That heading sat at the top of a QUEUED row for an hour, so every reader — including the continuity hook, which offered it as ready work — saw a closed item in the ready queue. One fact, two places, inside a single field. ⛔ WHAT WAS REPORTED: the AUT-PROP-009 review seat measured `PREFLIGHT_MODALITIES=1` as unusable here — `50 failed, 7933 passed`, exactly 50 on an unpatched origin/main checkout too, the first tracing to `ModuleNotFoundError: No module named 'pymbar'` at nr4a3_abfe.py:69 — and correctly REFUSED to add them to sandbox-failure-baseline.txt, which would have converted a missing dependency into a permanent amnesty. That refusal was right and is worth keeping. ⛔ WHAT IS ACTUALLY TRUE: I checked before acting rather than filing the report. `pymbar 4.0.3` imports in BOTH interpreters — the tool venv at /root/.local/share/uv/tools/pytest/bin/python AND system python3 — and the ABFE tests the failure named now run `168 passed, 2 skipped`. There is no live blocker. ⭐ THE ENVIRONMENT WAS REPAIRED BETWEEN THE SEAT'S READING AND MINE: `dev-setup.sh` already carries `pymbar` in TEST_DEPS and its own header records this EXACT incident on 2026-08-24 — 'the tool venv had pymbar' while python3 lacked it, a publication gate red on ModuleNotFoundError at nr4a3_abfe.py:69, the same line. A `SessionStart` hook now runs `dev-setup.sh --if-needed`, which is presumably what closed it. ⭐⭐ SO THE TRANSFERABLE FINDING IS ABOUT SEATS, NOT ABOUT pymbar: A SUBAGENT'S ENVIRONMENT READING IS A DATED OBSERVATION AND CAN BE STALE BY THE TIME ITS REPORT IS READ — a seat runs for 40-55 minutes, a SessionStart hook or a sibling's install can move the ground under it, and its report arrives asserting the present tense. This one would have entered the ledger as a live blocker on a whole preflight tier, and the next session would have inherited it as a fact. ⚠ THE RULE THAT CAUGHT IT is CLAUDE.md §4 pointed at our own sandbox rather than at AI capability: take the live reading, it costs nothing. Two `python -c 'import pymbar'` calls and one scoped pytest run were the whole cost. ⛔ AND THE GENERAL FORM IS WORTH THE ENTRY EVEN THOUGH THE INSTANCE IS EMPTY: a seat's environment claims should be re-measured by the driver before they are filed, the same way its factual claims are — the ATR causal account was checked with `git show` and HELD; this one was checked and did NOT.\n\n⛔⛔ REOPENED THE SAME HOUR, AND MY OWN CLOSING DIAGNOSIS WAS A 'probably X' — the thing CLAUDE.md §4 forbids by name. I closed this as a STALE READING repaired between the seat's run and mine, on the evidence that pymbar imports here now. That evidence was real and the inference from it was wrong. ⭐ A SECOND SEAT, WORKING A DIFFERENT ITEM, MEASURED THE ACTUAL MECHANISM AND IT IS REPRODUCIBLE: **a fresh git worktree does not get the `SessionStart` hook, so `dev-setup.sh` never runs there, and preflight falls back to an interpreter without the packages.** Its own log said `MISSING PACKAGE — run ./scripts/dev-setup.sh`. In that state it reported `50 failed, 7901 passed, 95 skipped` and collected only 8,046 of 8,113 tests; the same suite on a working runner gave **8067 passed / 0 failed** in the seat's tree and **8065 passed / 0 failed** on a clean tree at the same commit. Running `dev-setup.sh --if-needed` by hand fixed it and the rerun was green. ⛔ SO TWO INDEPENDENT SEATS HIT THE IDENTICAL 50-FAILURE SIGNATURE FROM THE SAME CAUSE, and the cause is not the sandbox drifting — it is that the worktree contract this repository adopted on 2026-08-27 (research-loop §3, worktree-in/branch-out) put every seat in exactly the environment the SessionStart hook cannot reach. The contract and the hook were each correct alone and are broken together. ⚠ AND THE FAILURE IS DANGEROUS IN THE DIRECTION THAT COSTS MOST: it manufactures 50 red tests that do not exist, so a seat either wastes an hour chasing them, reports a false blocker (this entry, first pass), or — worst — adds them to `sandbox-failure-baseline.txt` and grants a permanent amnesty to 50 real guards. Both seats REFUSED to baseline them, which is the only reason this is a fixable defect rather than a silent hole. ⭐ FIX: make the seat prompt template run `./scripts/dev-setup.sh --if-needed` as its first action in a new worktree, and have `preflight.sh` say loudly that its interpreter is the fallback rather than burying it in a log line. CLAUDE.md §6 already records the rule for the non-worktree case — 'a red preflight in a fresh sandbox is usually the sandbox, run dev-setup.sh first' — and a hook was added so it would heal itself. The worktree path was never covered.\n\n⛔⛔ CORRECTION 2026-08-27, THE SECOND ON THIS ENTRY, AND THE MECHANISM IS NOW RECORDED AS **UNKNOWN** RATHER THAN GUESSED A THIRD TIME. I attempted to reproduce it and COULD NOT. In a fresh `git worktree add` right now, `pytest`, `numpy`, `scipy` and `pymbar` all import from /usr/local/lib/python3.11/dist-packages — the same shared system path the main tree uses. There is no per-tree venv, no per-tree python config, and no difference to find. **So 'a fresh worktree never gets the SessionStart hook' cannot be the cause**, because those packages are system-wide and a worktree inherits them. ⭐ THE SYMPTOM IS NOT IN DOUBT — both seats' transcripts carry it verbatim: `50 failed, 7901 passed, 95 skipped` and `50 failed, 7933 passed, 95 skipped`, with `No module named 'pymbar'` and preflight's own `MISSING PACKAGE` line. ⭐ AND THE REASON I CANNOT REPRODUCE IT IS ITSELF THE EVIDENCE: a seat ran `./scripts/dev-setup.sh --if-needed`, which installs to the SHARED system path, so it repaired the condition for every worker and every future worktree at once. The defect healed in flight, before the driver could diagnose it. ⛔ WHY THE ENVIRONMENT WAS INCOMPLETE AT ALL IS THE PART NOBODY HAS ESTABLISHED: this session's own SessionStart hook reported 'every interpreter the gates use already imports what they need — nothing to do' at start, and `dev-setup.sh`'s TEST_PROBE already lists `pymbar`. Those two facts and the seats' failures cannot all be true of the same moment, and I have not found the observation that discriminates. ⚠ TWO WRONG MECHANISMS ARE ALREADY RECORDED ABOVE — 'a stale reading repaired between runs' and 'worktrees miss the hook'. Both were plausible, both were written before a reproduction was attempted, and CLAUDE.md §4 names exactly that: catch yourself writing 'probably / must be' about a failure and go get the data. I wrote it twice. ⭐ WHAT WOULD SETTLE IT, for whoever takes this: the seats' own preflight logs, which are GONE — their worktrees were removed and one log was truncated mid-write by a sibling (AUT-PD-027). The next occurrence must have its log preserved OUTSIDE the worktree before anything else is done with it. ⭐ AND THE DEFENSIVE FIX IS WORTH DOING REGARDLESS OF THE CAUSE, because it costs nothing and closes the whole class: (1) every seat prompt runs `./scripts/dev-setup.sh --if-needed` as its first action — two seats did this by instruction today and it worked; (2) `preflight.sh` should PRINT which interpreter it resolved and whether the probe found anything missing, at the top of every run, rather than leaving it to a line buried in a gate. A run that invents 50 failures should say so in its first ten lines, not its thousandth.",
-      "score": 150.9,
+      "score": 151.8,
       "_score_basis": "every seat works in a worktree, and every worktree preflight manufactures 50 red tests that do not exist",
       "depends_on_evidence": "both seats' transcripts (50 failed / 7901 and 7933 passed, No module named 'pymbar', preflight's MISSING PACKAGE line); reproduction attempt 2026-08-27 in a fresh worktree found an identical complete environment — mechanism UNKNOWN",
       "closes_clause": null,
@@ -2145,7 +2145,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
-      "score": 150.9,
+      "score": 151.8,
       "_score_basis": "makes an existing bespoke ceiling legible outside this repository at no cost",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §5 (GRADErater status is SEARCH-grade and its paper was not read)",
       "closes_clause": null,
@@ -2286,7 +2286,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
-      "score": 148.9,
+      "score": 149.8,
       "_score_basis": "the one mechanism in the survey that our loop's shape needs and no comparable system has",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §4.3 (PUBMED, doi 10.1016/j.jclinepi.2017.08.008)",
       "closes_clause": null,
@@ -2753,6 +2753,37 @@
       "lease_released": "✅ CLOSED 2026-08-28, but NOT by restoring create_session — by removing the loop's dependence on it. ⭐ THE REFRAME: the driver Routine fires `13 */4 * * *`, so a session that runs its cycles and STOPS is not stalling — the cron IS the successor. Handoff makes the next cycle start sooner than four hours; it was never what keeps the loop alive. ⛔ THE ACTUAL DAMAGE WAS THE STOP HOOK, NOT THE MISSING TOOL. `.claude/hooks/ready-work-at-turn-end.sh` accepted three answers — something running, blocked on a human, or START ONE — with 'A SCHEDULED ROUTINE IS NOT AN ANSWER' written in. Exhaustive only for a session that CAN hand off. A capped Routine session with no handoff had NO legal answer, so the only move that satisfied the hook was another cycle in the same context: CYC-0033 … CYC-0041, NINE cycles in one session against max_cycles_per_session=2, and one receipt named this hook in its own `shape` field. ⭐ FIXED: research/autonomy/session_cap.py is the fourth answer, and the hook consults it BEFORE demanding another cycle. EARNED AND FALSIFIABLE, never a flag — `cap` receipts FROM THIS SESSION, plus a handoff attempted and blocked either in the platform's verbatim words (AUT-PD-032's depth-8 refusal) or as a named absent mechanism (this item's shape). An absent record is a session that did not try and stays red; every unreadable input answers MUST NOT STOP. 15 tests, 6 mutations all caught, restore verified by sha256. ⛔ AND THE HALF WITHOUT WHICH THE FIX WAS INERT: scheduled cycles typed the literal 'scheduled-routine-session' into the receipt's session_id, so nine cycles were indistinguishable from one session's to both readers that matter — cycles_are_sized and session_cap. A session whose receipts do not name it cannot show it is at its cap. research-loop §10 now reads the id from CLAUDE_CODE_SESSION_ID via session_cap.session_id(), and the placeholder is treated as NO id so it can never be inherited as another session's cap. ⚠ STILL TRUE AND NOT CLOSED BY THIS: cycles_are_sized cannot distinguish a depth-limit refusal from an absent tool. session_cap accepts both deliberately, because for the STOP decision they are the same fact — the loop cannot hand off. Telling them apart still matters for diagnosis."
     },
     {
+      "id": "AUT-PD-031",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
+      "score": 126.8,
+      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
+      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
       "id": "AUT-032",
       "_derived": true,
       "what": "Keep as landscape context, cited and never overstated. It is the comparator, not a contribution.",
@@ -2784,37 +2815,6 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0,
         "age_factor": 0.2143
-      }
-    },
-    {
-      "id": "AUT-PD-031",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
-      "score": 125.9,
-      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
-      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited",
-      "score_inputs": {
-        "age_factor": 0.0714
       }
     },
     {
@@ -2923,7 +2923,7 @@
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0023-6be7fd5a",
       "what": "⛔ TWO SESSIONS BOTH REGENERATE THE ASO ARCHIVE MANIFEST AND COLLIDE ON EVERY PUSH — THREE TIMES IN TEN MINUTES on 2026-08-27. Each merge brings in a manifest stamped against the OTHER session's tree; AUT-PD-016's guard then correctly REFUSES one whose `git_tree_is_clean_apart_from_this_manifest` is false; and the resolution is always identical — never hand-merge a generated file, regenerate it on the settled tree. ⭐ THAT RESOLUTION IS RIGHT AND IT DOES NOT CONVERGE WHILE TWO WRITERS KEEP PRODUCING IT: every regeneration is itself a commit, which is another push another session must merge, which restamps the flag. ⚠ THE GUARD IS NOT THE PROBLEM AND MUST NOT BE LOOSENED — it caught a real instance today, a manifest whose hash list was taken while tracked files were uncommitted and so may describe a file that is not what got committed. ⭐ THE CANDIDATE FIX IS ONE WRITER: have CI regenerate the manifest on the trunk after a push, the way the submission parts are already rebuilt on a runner, so no interactive session ever needs to. Check what `.github/workflows/aso-submission-parts.yml` already does before building anything — half of this may exist.\n\n⚠ ATTEMPTED 2026-08-27 AND BACKED OUT. TWO CANDIDATE FIXES ARE NOW DEAD ENDS WITH EVIDENCE, WHICH IS WORTH MORE THAN THE FIX I DID NOT GET. ⛔ (1) A GIT MERGE DRIVER MAKES IT WORSE, MEASURED NOT REASONED. I built it — `.gitattributes` mapping the manifest to `merge=derived-artifact`, a driver of `true` (keep ours; both sides are equally stale and the file's own `_derived_never_typed` key means no human value can be lost), registered by `dev-setup.sh` because git will not read driver definitions from a repository. It WORKED: a simulated two-sided conflict merged with zero markers. ⛔ THEN THE CONTROL KILLED IT — with `.gitattributes` present and the config absent, git says **`fatal: custom merge driver derived-artifact lacks command line`** and the merge FAILS HARD. A repository cannot ship local git config (a driver is an arbitrary command; that is a deliberate git security property), so any clone, any CI job and any worktree where dev-setup has not run gets a FATAL error instead of a recoverable conflict. Strictly worse than the problem. Reverted. ⛔ (2) 'STOP STAMPING git_revision ON EVERY REGENERATION' CUTS ALMOST NOTHING. Measured over the same 12 hours: of 22 manifest commits, only **6 changed just the repository-state lines** and **16 changed real inventory or hashes**. The churn is not stamping noise. ⭐⭐ SO THE MEASUREMENT REFRAMES THE ITEM: this is not a manifest problem, it is a CONCURRENCY problem wearing a manifest's clothes. Sixteen genuine content changes to the ASO archive in twelve hours came from several sessions writing the same subtree, and gate 11 correctly forces each of them to regenerate. The manifest is the place the collision becomes VISIBLE, not the place it is caused — which puts it in AUT-PD-021's family (a claim protects the claimant, not against a session that fetched before the claim landed), not in its own. ⚠ Whoever takes this next should read it as 'reduce concurrent writers on one subtree, or make the regeneration a step the trunk owns rather than each session', and should NOT re-try either dead end above. ⚠ AND ONE INCIDENTAL DEFECT WAS FOUND AND FIXED WHILE FAILING AT THIS: the merge-driver registration was first written BELOW `dev-setup.sh`'s `--if-needed` early exit, so the hook that runs it would never have reached it — the file's own comment three lines above describes exactly that failure happening to the ghostscript step. I reproduced it verbatim while reading the warning about it. The probe-extension pattern is the lesson: any step added to dev-setup must extend the `--if-needed` probe IN THE SAME COMMIT, because a step the probe cannot see does not exist. That fix went out with the revert since the step it guarded is gone, and is recorded here instead.",
-      "score": 115.9,
+      "score": 116.8,
       "_score_basis": "22 manifest commits in 12 h, 16 of them real content from concurrent writers; two candidate fixes measured and rejected",
       "depends_on_evidence": "three regenerations in ten minutes; the merged manifest refused for clean_flag=false",
       "closes_clause": null,
@@ -3324,6 +3324,32 @@
       "requires_trimcrae_why": "same shape: 'whether and where to publish that is a judgement call about what we publish'. The negative itself is already characterised."
     },
     {
+      "id": "AUT-PROP-006",
+      "kind": "process",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-26",
+      "score": 63.4,
+      "_score_basis": "hand-filed by CYC-0005. Scored below the live manuscript work (s0: live paths first) and above documentation, because it is the fix for a defect that has already cost this paper one wrong claim.",
+      "filed_by": "CYC-0005",
+      "what": "Make the research-loop cycle contract require a blind seat's record to be WRITTEN TO research/autonomy/review-seats/ as the first act after the seat returns, BEFORE any fix is applied. Evidence: CYC-0005 ran two seats, acted on both, and persisted neither, so the manuscript now carries their fixes while publish_bar clause 6 still has nothing to read. The failure mode is general and it is one-directional: the CHANGE survives a context loss and the EVIDENCE FOR IT does not. Add a step to .claude/skills/research-loop/SKILL.md and a guard that fails a cycle whose receipt names a seat with no matching record on disk.",
+      "depends_on_evidence": "research/autonomy/receipts/CYC-0005.json",
+      "score_inputs": {
+        "age_factor": 0.1429
+      }
+    },
+    {
       "id": "AUT-043",
       "_derived": true,
       "what": "Write it — no scientific blocker. ⚠ But the FRAMING choice (P1 vs P6) is trimcrae's and is not settled here.",
@@ -3358,32 +3384,6 @@
       }
     },
     {
-      "id": "AUT-PROP-006",
-      "kind": "process",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-26",
-      "score": 61.7,
-      "_score_basis": "hand-filed by CYC-0005. Scored below the live manuscript work (s0: live paths first) and above documentation, because it is the fix for a defect that has already cost this paper one wrong claim.",
-      "filed_by": "CYC-0005",
-      "what": "Make the research-loop cycle contract require a blind seat's record to be WRITTEN TO research/autonomy/review-seats/ as the first act after the seat returns, BEFORE any fix is applied. Evidence: CYC-0005 ran two seats, acted on both, and persisted neither, so the manuscript now carries their fixes while publish_bar clause 6 still has nothing to read. The failure mode is general and it is one-directional: the CHANGE survives a context loss and the EVIDENCE FOR IT does not. Add a step to .claude/skills/research-loop/SKILL.md and a guard that fails a cycle whose receipt names a seat with no matching record on disk.",
-      "depends_on_evidence": "research/autonomy/receipts/CYC-0005.json",
-      "score_inputs": {
-        "age_factor": 0.1429
-      }
-    },
-    {
       "id": "AUT-PD-030",
       "kind": "process_defect",
       "process_defect": true,
@@ -3404,7 +3404,7 @@
       "last_evidence_utc": "2026-08-27",
       "filed_by": "AUT-PD-017",
       "what": "⛔ LEDGER-ENTRY FIELD NAMES ARE HAND-TYPED, WITH NO SCHEMA CATCHING A NEAR-MISS SPELLING — the residual risk AUT-PD-017's sweep found and did not fix (scope: a whole-ledger validator, not a two-file constant-sharing pattern like receipt_schema.py's). Every entry in research-ledger.json is authored directly as JSON by a cycle, and several readers (continuity.py, priority.py, health.py) key off specific field names -- `owner`, `requires_trimcrae`, `blocked_by`, `blocked_evidence`, `closes_clause`, `cost_class`, `retry_budget` -- with no whitelist anywhere that would catch `require_trimcrae`, `requires_trimcrae_` or `owned_by` as a typo rather than a new field. ⛔ THE SHARPEST EDGE IS `requires_trimcrae`: continuity.py's `_why_not_ready()` treats an ABSENT key as 'not outward-facing' (falls through to ready), and `unclassified_outward()` only catches it if the item's own `what` text ALSO matches a regex over publish/submit/deposit/outreach verbs -- so a ledger entry that means to block an outward-facing act via a misspelled key, on text the regex does not match, is silently offered as ready with NO warning at all. That is category (c) from AUT-PD-017's own test (silently reads as GREEN), on the one field CLAUDE.md §3 exists to protect. ⛔ `owner` and `closes_clause` are lower-risk by comparison (a misspelled `owner` just fails to claim the lease, which is the safe direction; a misspelled `closes_clause.clause` reports a paper's blocking clause as still-uncovered, also the safe direction) but belong in the same sweep since the fix is one validator, not three. ⭐ THE FIX SHAPE: a `ledger_schema.py` (or an addition to an existing checker) that owns a whitelist of known top-level ledger-entry field names (including the `_why`-suffixed explanation fields already in use), flags any key within edit distance ~1-2 of a known name that is not itself a known name, and is wired into preflight as a gate over the whole ledger -- no grandfather cutoff needed here since it is a live-edited single file, not immutable receipt history; a one-time hand fix of any existing near-miss is enough before turning the gate on. ⚠ CHEAP AND FREE, same as AUT-PD-013/AUT-PD-017 — no compute, no network.",
-      "score": 60.9,
+      "score": 61.8,
       "_score_basis": "the sharpest instance (requires_trimcrae) can silently drop CLAUDE.md §3's outward-act protection with no warning printed anywhere; lower than AUT-PD-017 because it needs a new validator shape rather than reusing receipt_schema.py's, and no live drift has actually been observed yet (15 of ~90 entries in the ledger already carry `requires_trimcrae` correctly and consistently)",
       "depends_on_evidence": "research/autonomy/continuity.py `_why_not_ready`/`unclassified_outward` and research/autonomy/receipt_schema.py as the worked pattern to copy",
       "closes_clause": null,
@@ -3437,7 +3437,7 @@
       "filed_by": "CYC-0022",
       "prerequisite_of": null,
       "what": "Root-cause why s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/ genuinely has zero ddg.json objects as of 2026-08-27T09:36Z (AUT-PD-015 — a closed LANE-17 result whose realised cost is recorded in research/compute/pricing.md that had stood complete for weeks was found empty by a live tick, confirmed via the tick's own successful S3 LIST call: 10 non-ddg.json objects present, zero ddg.json). With working credentials: (1) list the full prefix and diff against what the 79ac2b8 map expects — 18 ddg.json keys plus whatever the 10 surviving objects are; (2) check the bucket's lifecycle rules for an expiry policy that could delete only certain key patterns; (3) check S3 versioning — if enabled, the deleted objects may be one `list_object_versions` call away from recovery; (4) check CloudTrail (if enabled) for a DeleteObject(s) event around 2026-08-27T09:3x. NOT urgent for the paper — the git-committed record is intact and step1-fanout-map.json is now guarded against further silent overwrite — but it is a real, unexplained event on a live AWS account and worth knowing whether it recurs on other lanes' prefixes.",
-      "score": 60.9,
+      "score": 61.8,
       "_score_basis": "hand-filed by CYC-0022. Low urgency (the paper-facing defect is already fixed and the historical data is safe in git) but genuinely blocked on access this sandbox does not have.",
       "score_inputs": {
         "age_factor": 0.0714
@@ -5025,7 +5025,7 @@
       "id": "AUT-PROP-026",
       "kind": "harden",
       "prerequisite_of": null,
-      "score": -1883.1,
+      "score": -1972.2,
       "closes_clause": null,
       "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text.",
       "score_inputs": {
