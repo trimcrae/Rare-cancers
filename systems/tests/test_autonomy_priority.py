@@ -303,15 +303,39 @@ def test_a_prerequisite_outranks_the_thing_it_unblocks(priority):
 
 def test_a_prerequisite_inherits_the_parents_value_not_its_penalty(priority):
     """The prerequisite is worth what the parent is worth ONCE UNBLOCKED. Inheriting the penalised
-    score would bury the fix underneath the problem it fixes."""
+    score would bury the fix underneath the problem it fixes.
+
+    ⚠ THE COMPARISON IS AGAINST THE CHILD'S OWN UNBLOCKED VALUE, AND IT DID NOT USED TO BE — the
+    correction is AUT-PD-063, 2026-08-28, and it is a CORRECTION rather than a relaxation: not one
+    row leaves the loop, and the quantity compared is the one the docstring above always named.
+    ⛔ THE SIGN IS NOT A TYPO. `penalty` is NEGATIVE (-90.0), so `parent["score"] - penalty / 2`
+    reads parent + 45: the midpoint between the parent's PENALISED score and its UNPENALISED one.
+    A child that inherited the penalty lands at the bottom of that interval and a child that
+    inherited the value lands at the top, so the midpoint is exactly the discriminator, and it was
+    checked before it was touched.
+    ⛔ WHAT WAS WRONG WAS THE OTHER SIDE. The old form compared the parent's un-penalised value to
+    the child's FINAL score — which includes any penalty the CHILD carries for a block of its own.
+    A prerequisite may perfectly well record its own evidenced block (AUT-PROP-018 does), and such a
+    row must still stand down: -90 for itself, on top of a correctly inherited value. The old form
+    could not tell that apart from the defect it is named for, so it read a correct scorer as broken
+    and would have been "fixed" by deleting the child's own penalty — which is the bug, not the fix.
+    It never fired that way only because the penalty used to be ERASED by the inheritance, so no row
+    ever reached it carrying one.
+    """
     weights = priority.load_weights()
     penalty = weights["terms"]["blocked_with_evidence"]["weight"]
     ledger = priority.build_ledger()
     by_id = {e["id"]: e for e in ledger["entries"]}
+
+    def _records_its_own_block(row):
+        # The same key the scorer uses: the recorded observation IS the block.
+        return bool(str(row.get("blocked_evidence") or "").strip())
+
     for entry in [e for e in ledger["entries"] if e.get("prerequisite_of")]:
         parent = by_id[entry["prerequisite_of"]]
         if parent["score_inputs"].get("blocked_with_evidence"):
-            assert entry["score"] > parent["score"] - penalty / 2, (
+            inherited = entry["score"] - (penalty if _records_its_own_block(entry) else 0)
+            assert inherited > parent["score"] - penalty / 2, (
                 "the prerequisite inherited the parent's PENALISED score"
             )
 

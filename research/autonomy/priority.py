@@ -486,6 +486,23 @@ def merge(generated: list[dict], existing: dict | None) -> list[dict]:
     return merged
 
 
+def _own_age_bonus(entry: dict, terms: dict) -> float:
+    """What `apply_age_factor` has already put into THIS row's score, so an assignment can put it
+    back. AUT-PD-063.
+
+    ⚠ READ DEFENSIVELY, LIKE `apply_age_factor`'s OWN READ OF THE SAME NUMBER: a missing or
+    malformed weights file must disable the anti-starvation term rather than crash the ranker
+    (`test_an_unreadable_saturation_disables_the_term_rather_than_dividing_by_zero`). This is a
+    second READER of the weight, not a second copy of it — the value still lives only in
+    `priority-weights.json`.
+    """
+    w = ((terms.get("age") or {}).get("weight"))
+    f = (entry.get("score_inputs") or {}).get("age_factor")
+    if not isinstance(w, (int, float)) or not isinstance(f, (int, float)) or isinstance(f, bool):
+        return 0.0
+    return w * f
+
+
 def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
     """Score adjustments that depend on SESSION state, so they cannot run inside build_entries().
 
@@ -585,9 +602,29 @@ def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
         # ⚠ A hand-filed prerequisite naming a hand-filed parent reaches here with no `score_inputs`
         # on either. `paper-hardening` §8b.2 measured six of eleven list-scoped fixes missing this.
         parent_inputs = parent.get("score_inputs") or {}
-        carries_penalty = bool(parent_inputs.get("blocked_with_evidence")) and parent_id not in assigned
-        base = parent["score"] - (penalty if carries_penalty else 0)
-        entry["score"] = round(base + bonus, 2)
+        # ⛔⛔ EVERY BLOCKED ROW'S SCORE NOW CARRIES EXACTLY ONE PENALTY, ASSIGNED OR NOT — so this
+        # reads the flag and nothing else. It used to read `... and parent_id not in assigned`,
+        # because an ASSIGNED parent's freshly-written score genuinely did not contain a penalty:
+        # the assignment below overwrote it. That is the half of AUT-PD-063 fixed here — see the
+        # re-application four lines down — and once the penalty survives the assignment, exempting
+        # assigned parents would subtract a penalty that IS there.
+        base = parent["score"] - (penalty if parent_inputs.get("blocked_with_evidence") else 0)
+        # ⭐ THE ROW'S OWN AGE SURVIVES THE ASSIGNMENT. `apply_age_factor` runs BEFORE this function
+        # (see `build_ledger`) so a parent's wait reaches its child; an assignment that dropped the
+        # child's own wait would leave `score_inputs["age_factor"]` advertising a term the printed
+        # score does not contain — the one thing `_scores_are_not_evidence` promises never happens.
+        entry["score"] = round(base + bonus + _own_age_bonus(entry, terms), 2)
+        # ⛔⛔ AND THE ROW THEN ANSWERS FOR ITS OWN BLOCK. AUT-PD-063, measured 2026-08-28: the
+        # assignment above is what rule 1 writes to, so a row that is BOTH a prerequisite AND
+        # blocked-with-evidence had its -90 silently overwritten while `score_inputs` went on
+        # saying `blocked_with_evidence: true`. On the committed ledger that left AUT-PROP-018,
+        # -019, -020, -040 and -042 — five rows carrying their own recorded block — at ranks 6, 7,
+        # 9, 11 and 12 of a queue rule 1 exists to remove them from, and
+        # `test_an_evidenced_block_drops_out_of_the_queue` watched it happen because it checks only
+        # the top THREE. Inheriting is what the row is WORTH; the block is what can be DONE about it
+        # this cycle. They are different questions and the row answers both.
+        if str(entry.get("blocked_evidence") or "").strip():
+            entry["score"] = round(entry["score"] + penalty, 2)
         entry["_score_basis"] = f"inherited from {parent_id} (+{bonus}) — it is the work that unblocks it"
         assigned.add(eid)
 
@@ -642,12 +679,22 @@ def build_ledger() -> dict:
     existing = load_existing()
     interval_h = _cycle_interval_hours()
     entries = release_stale_claims(merge(build_entries(weights), existing), weights, interval_h)
-    entries = apply_session_penalties(entries, weights)
-    # ⛔ THE ANTI-STARVATION TERM MUST RUN BEFORE THE SORT AND AFTER THE PENALTIES, or it is dead
+    # ⭐⭐ AGE RUNS FIRST — A DELIBERATE DECISION, MEASURED 2026-08-28 (AUT-PD-063). Rule 2 of
+    # `apply_session_penalties` ASSIGNS a prerequisite's score from what its parent is worth, so
+    # anything added to the parent AFTER that assignment is invisible to the child. With age applied
+    # last, a starved parent climbed points the only row able to clear it never saw: on the committed
+    # ledger AUT-049 aged to +12.0 while AUT-PROP-018 — the single path to it — got only its own
+    # +0.86, which drops the prerequisite BELOW the item it unblocks the moment that item's own block
+    # penalty stops being erased. You cannot take a blocked row, so raising it buys nothing unless
+    # its prerequisite rises with it; ageing first is what makes the wait bonus flow down the chain.
+    # ⚠ THE ROW'S OWN AGE IS NOT LOST TO THE ASSIGNMENT — `apply_session_penalties` re-adds it from
+    # the `age_factor` echoed in `score_inputs`, so the printed inputs still re-derive the score.
+    # ⛔ THE ANTI-STARVATION TERM MUST RUN BEFORE THE SORT, or it is dead
     # code — the defect class this repository has paid for repeatedly (`subagent_width` governed
     # nothing for a fortnight because no code read it; the census lane's exempt flag; the watchdog
     # wired to an env var that does not exist). Its own test asserts this call site exists.
     entries = apply_age_factor(entries, weights)
+    entries = apply_session_penalties(entries, weights)
     entries.sort(key=lambda e: (-(e.get("score") if e.get("score") is not None else -1e9),
                                 str(e.get("serves", {}).get("route") or e["id"])))
     return {
