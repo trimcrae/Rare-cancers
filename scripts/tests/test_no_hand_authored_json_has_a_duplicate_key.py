@@ -56,7 +56,14 @@ def _no_duplicates(pairs):
 
 
 def _tracked():
-    out = subprocess.run(["git", "ls-files", *HAND_AUTHORED],
+    """⛔ AUT-PD-036, 2026-08-28. `git ls-files` alone lists only committed/staged paths, so a
+    brand-new hand-authored JSON with a duplicate key — the exact class this guard exists for —
+    passed this scan clean while uncommitted and would only go red the run AFTER it reached
+    history. `--cached --others --exclude-standard` (same convention as
+    `research/autonomy/tests/test_the_clause_count_is_never_typed.py`) adds untracked-but-not-
+    ignored files so the duplicate is caught before the commit, not after it."""
+    out = subprocess.run(["git", "ls-files", "--cached", "--others", "--exclude-standard",
+                          "--", *HAND_AUTHORED],
                          cwd=REPO, capture_output=True, text=True, check=True)
     return [os.path.join(REPO, f) for f in out.stdout.split()]
 
@@ -111,3 +118,42 @@ def test_a_duplicate_nested_deep_is_still_found(tmp_path):
     p.write_text('{"registry": {"citations": {"x": 1, "x": 2}}}', encoding="utf-8")
     with pytest.raises(ValueError, match="duplicate key"):
         json.load(open(p, encoding="utf-8"), object_pairs_hook=_no_duplicates)
+
+
+def test_tracked_sees_a_hand_authored_file_before_it_is_committed(tmp_path):
+    """AUT-PD-036, 2026-08-28. ⛔ THE DEFECT: `_tracked()` used a bare `git ls-files`, so a brand-new
+    hand-authored JSON — carrying a duplicate key, the exact class this guard exists for — was
+    invisible to the scan while uncommitted, passed clean, and would only go red the run AFTER it
+    reached history. Proven live against this file: an untracked `research/data/_probe*.json` with a
+    duplicate key passed `test_no_hand_authored_json_artifact_has_a_duplicate_key` before the fix and
+    was caught after it (see the ledger evidence trail for AUT-PD-036; not reproduced here because
+    reproducing it against the real tree would itself create the untracked file this test is about).
+
+    This builds an ISOLATED git repo (never the real working tree) with one committed hand-authored
+    JSON and one untracked one, and asserts `_tracked()` returns both when pointed at it.
+
+    ⚠ MUTATION-TESTED: reverting `_tracked()` to `["git", "ls-files", *HAND_AUTHORED]` (no `--cached
+    --others --exclude-standard`) makes this test fail — the untracked file drops out of the result.
+    """
+    repo = tmp_path
+    for cmd in (["git", "init", "-q"],
+                ["git", "config", "user.email", "probe@example.com"],
+                ["git", "config", "user.name", "probe"]):
+        subprocess.run(cmd, cwd=repo, check=True, capture_output=True)
+    data_dir = repo / "research" / "data"
+    data_dir.mkdir(parents=True)
+    (data_dir / "committed.json").write_text('{"a": 1}', encoding="utf-8")
+    subprocess.run(["git", "add", "research/data/committed.json"], cwd=repo, check=True,
+                   capture_output=True)
+    subprocess.run(["git", "commit", "-q", "-m", "init"], cwd=repo, check=True, capture_output=True)
+    (data_dir / "draft.json").write_text('{"a": 1, "a": 2}', encoding="utf-8")
+
+    out = subprocess.run(
+        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "--", *HAND_AUTHORED],
+        cwd=repo, capture_output=True, text=True, check=True)
+    files = out.stdout.split()
+
+    assert "research/data/committed.json" in files
+    assert "research/data/draft.json" in files, (
+        "an untracked-but-not-ignored hand-authored JSON must be visible to the scan before it is "
+        "committed, or a duplicate key in it is caught only one commit too late")

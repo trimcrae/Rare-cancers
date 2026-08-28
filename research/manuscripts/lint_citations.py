@@ -129,10 +129,24 @@ STATUSES = ("unverified_at_baseline", "verified", "retracted", "known_absent_ups
 
 
 def _tracked():
-    r = subprocess.run(["git", "-C", ROOT, "ls-files"], capture_output=True, text=True)
+    """Every path this gate scans: committed **and** untracked-but-not-ignored.
+
+    ⛔ AUT-PD-036, 2026-08-28. A bare `git ls-files` lists only what git already knows about, so a
+    brand-new manuscript sat invisible to this scan while uncommitted, passed preflight clean, and
+    only went red on the run AFTER it was committed and pushed — "firing after the mistake is
+    shared", the exact failure gate 12 was put in the commit loop to prevent. `--cached --others
+    --exclude-standard` (the convention already proven in
+    `research/autonomy/tests/test_the_clause_count_is_never_typed.py`) adds working-tree files git
+    is not ignoring, so a fabricated citation in a not-yet-`git add`ed draft is caught before the
+    commit rather than after it. `--exclude-standard` keeps `.gitignore` honoured.
+    """
+    r = subprocess.run(
+        ["git", "-C", ROOT, "ls-files", "--cached", "--others", "--exclude-standard"],
+        capture_output=True, text=True,
+    )
     if r.returncode != 0:
         return []
-    return r.stdout.split("\n")
+    return [p for p in r.stdout.split("\n") if p]
 
 
 def extract(kind, text):

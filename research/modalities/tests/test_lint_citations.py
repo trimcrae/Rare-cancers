@@ -12,6 +12,7 @@ red -- and one of those controls is itself checked for having the power to fail.
 """
 import json
 import os
+import subprocess
 import sys
 
 import pytest
@@ -220,3 +221,58 @@ def test_lit_targets_bare_digit_keys_are_unaffected_by_redaction():
     src = inspect.getsource(lc._scan)
     after_bare_digit_comment = src.split("A THIRD FORM", 1)[1]
     assert 're.findall(r\'"(\\d{6,9})"\\s*:\', text)' in after_bare_digit_comment
+
+
+def _init_git_repo(path):
+    for cmd in (["git", "init", "-q"],
+                ["git", "config", "user.email", "probe@example.com"],
+                ["git", "config", "user.name", "probe"]):
+        subprocess.run(cmd, cwd=path, check=True, capture_output=True)
+
+
+def test_tracked_sees_an_untracked_file_before_it_is_committed(tmp_path, monkeypatch):
+    """AUT-PD-036, 2026-08-28. ⛔ THE DEFECT: `_tracked()` used a bare `git ls-files`, which lists only
+    what git already knows about. A brand-new manuscript sat invisible to this scan while uncommitted,
+    passed preflight clean on that content, and only went red on the run AFTER it was committed and
+    pushed — `research/method-watch-autonomy-prior-art-2.md`, reached `origin/main` as 1765d8cab,
+    measured in this ledger item's own evidence trail. That is "firing after the mistake is shared",
+    the exact failure gate 12 was put in the commit loop to prevent.
+
+    This builds an ISOLATED git repo (never the real working tree — mutating that from a test is the
+    §6 hazard this repository already paid for once) with one committed file and one untracked file,
+    and asserts `_tracked()` — pointed at that repo via `ROOT` — returns both.
+
+    ⚠ MUTATION-TESTED: reverting `_tracked()` to a bare `["git", "-C", ROOT, "ls-files"]` makes this
+    test fail (the untracked file drops out of the result), confirming it has the power to catch a
+    regression rather than passing no matter what the implementation does.
+    """
+    _init_git_repo(tmp_path)
+    (tmp_path / "committed.md").write_text("PMID 10000001 tracked and committed\n", encoding="utf-8")
+    subprocess.run(["git", "add", "committed.md"], cwd=tmp_path, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-q", "-m", "init"], cwd=tmp_path, check=True, capture_output=True)
+    (tmp_path / "draft.md").write_text("PMID 20000002 untracked and new\n", encoding="utf-8")
+
+    monkeypatch.setattr(lc, "ROOT", str(tmp_path))
+    files = lc._tracked()
+
+    assert "committed.md" in files
+    assert "draft.md" in files, (
+        "an untracked-but-not-ignored file must be visible to the citation scan before it is "
+        "committed, or a fabricated citation in it is caught only one commit too late")
+
+
+def test_tracked_still_honours_gitignore_for_untracked_files(tmp_path, monkeypatch):
+    """The widened scan adds `--others --exclude-standard`, not `--others` alone — build output and
+    caches an author never intended to track must stay out, or every `.gitignore`'d scratch file in
+    the tree becomes a citation-gate input.
+    """
+    _init_git_repo(tmp_path)
+    (tmp_path / ".gitignore").write_text("ignored.md\n", encoding="utf-8")
+    subprocess.run(["git", "add", ".gitignore"], cwd=tmp_path, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-q", "-m", "init"], cwd=tmp_path, check=True, capture_output=True)
+    (tmp_path / "ignored.md").write_text("PMID 30000003 must not be scanned\n", encoding="utf-8")
+
+    monkeypatch.setattr(lc, "ROOT", str(tmp_path))
+    files = lc._tracked()
+
+    assert "ignored.md" not in files

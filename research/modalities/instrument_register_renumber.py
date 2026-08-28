@@ -161,7 +161,15 @@ SKIP_PREFIXES = ("results/", ".claude/")
 
 
 def tracked_files():
-    out = subprocess.run(["git", "-C", ROOT, "ls-files"], capture_output=True, text=True).stdout.split("\n")
+    """⛔ AUT-PD-036, 2026-08-28. A bare `git ls-files` misses a brand-new, not-yet-committed
+    document, so `test_the_migration_is_idempotent_over_the_repo` could pass over a fresh draft that
+    reintroduces the exact `C10`-`C16` ambiguity this migration exists to remove, and only catch it
+    the run AFTER it was committed. `--cached --others --exclude-standard` (the convention proven in
+    `research/autonomy/tests/test_the_clause_count_is_never_typed.py`) adds untracked-but-not-
+    ignored files so the convergence check sees a draft before it is committed, not after.
+    """
+    out = subprocess.run(["git", "-C", ROOT, "ls-files", "--cached", "--others", "--exclude-standard"],
+                        capture_output=True, text=True).stdout.split("\n")
     for f in out:
         f = f.strip()
         if not f or f.startswith(SKIP_PREFIXES) or not f.endswith(TEXT_EXT):
