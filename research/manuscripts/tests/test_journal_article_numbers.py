@@ -912,6 +912,19 @@ def test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count(prose)
                 r"([\d.]+%)",
                 tuple(str(c) for c in counts) + tuple(str(n) for n in sizes) + tuple(rates),
                 "the three geometries' liable counts, their panel sizes and the resulting rates")
+    # ⛔ THE GEOMETRY THE SENTENCE NAMES WAS UNBOUND UNTIL 2026-08-28 (AUT-PD-105, CYC-0067).
+    # The ablation gate perturbed "At 5-10-5 the criterion is met by the catalytic gap alone" —
+    # 5 -> 7, 10 -> 17, 5 -> 7 — and NOTHING reading this document went red. The assert below binds
+    # the CONVERGENCE to the artifact's longest geometry but never asked that the prose name that
+    # geometry, so the sentence could have printed any architecture and kept its evidence intact.
+    # The census credited it to a guard matching scoping language rather than the number, which is
+    # the "the pattern is structure rather than content" false positive `claim_coverage
+    # ._binds_literal_text` describes — read there as coverage, and it was not.
+    _every_site(prose,
+                r"At (\d+-\d+-\d+) the criterion is met by the catalytic gap alone",
+                present[-1]["architecture"],
+                "the geometry at which the catalytic gap alone meets the criterion")
+
     last = present[-1]["mature_parent_whole_gap_duplex"]
     assert last["n_with_any_gap_pairing_window"] == last["n_at_or_above_min_duplex_bp"], (
         "the two counts no longer converge at the longest geometry, so the article's 'met by the "

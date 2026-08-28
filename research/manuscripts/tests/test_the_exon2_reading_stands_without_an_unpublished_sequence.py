@@ -118,6 +118,49 @@ def test_a_reagent_is_named_at_both_candidate_acceptors():
         f"acceptor, which is the acceptor the whole panel was tiled at. Printed: {sorted(printed)}")
 
 
+def test_the_builders_special_case_names_the_acceptor_its_artifact_records():
+    """⛔ THE SENTENCE THAT SCOPES THE RELEASED TOOL WAS UNBOUND (AUT-PD-105, 2026-08-28).
+
+    "The released builder emits an exon-2 acceptor in two cases only" is what keeps the tool inside
+    the inference this paper is allowed to make: it emits the reported acceptor for a seam a
+    published report places a patient at, and for one the user supplies. The ablation gate perturbed
+    its only number — exon-2 -> exon-7 — and NOTHING reading this document went red. The census
+    credited the sentence to a guard matching scoping language rather than the exon number, so it
+    counted as watched and was not.
+
+    ⛔ AND AN EXON NUMBER IS THE ONE THING THIS MODULE MAY NOT LEAVE UNWATCHED: its sibling above
+    records that the withdrawal this paper's caution is modelled on WAS an exon-numbering error.
+
+    ★ THE EXPECTED NUMBER IS DERIVED, NOT TYPED. The canonical sequence file carries designs at both
+    NR4A3 acceptors and the panel was tiled at one of them, so the acceptor the builder treats as the
+    special case is the MINORITY one in that file. Reading it that way means a renumbering in the
+    artifact fails this guard instead of silently agreeing with a stale sentence.
+    """
+    rows = list(csv.DictReader(io.open(SEQUENCES, encoding="utf-8")))
+    per_exon = {}
+    for r in rows:
+        m = re.search(r"NR4A3_e(\d+)\b", r.get("junction") or "")
+        if m:
+            per_exon[int(m.group(1))] = per_exon.get(int(m.group(1)), 0) + 1
+    assert len(per_exon) == 2, (
+        f"the canonical sequence file records designs at {sorted(per_exon)} NR4A3 acceptor(s), not "
+        "the two the paper's whole exon-2 passage is about — fix the artifact, not this test")
+    ranked = sorted(per_exon.items(), key=lambda kv: -kv[1])
+    tiled, special = ranked[0][0], ranked[1][0]
+    found = re.findall(
+        r"The released builder emits an exon-(\d+) acceptor in two cases only", _article())
+    assert found, (
+        "⛔ nothing in the article states the released builder's two-case scope for the reported "
+        "acceptor — either the sentence was reworded and this guard must follow it, or the scope "
+        "was dropped, and the scope is what stops the tool from asserting the inference")
+    assert found == [str(special)], (
+        f"⛔ the article says the builder's special case is exon {', '.join(found)}, but the "
+        f"canonical file places only {per_exon[special]} designs at exon {special} against "
+        f"{per_exon[tiled]} at exon {tiled}, which is the acceptor the panel was tiled at. An exon "
+        "number in the prose that the artifact does not carry is the pair that produced the "
+        "withdrawal this module's sibling cites.")
+
+
 #: The requirement, as a phrase. ⛔⛔ THIS KEYWORD SURVIVES ITS OWN NEGATION, WHICH IS WHY IT IS NOT
 #: THE WHOLE TEST (round 10's audit, item MISCOVERED E). "the breakpoint … need NOT be established
 #: at nucleotide resolution by RNA sequencing" contains the needle verbatim, so the sentence this
