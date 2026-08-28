@@ -176,14 +176,27 @@ def receipts_that_cannot_join(ref: str = "HEAD") -> int:
     Reporting (b) as (a) is the failure mode this file's header already records paying for once, and
     a guard that cries wolf is a guard that gets tuned out. So the count is measured and carried into
     the reason string, rather than the verdict being stated more confidently than the evidence.
+
+    ⚠ THE COUNT ALONE IS NOT ENOUGH, AND ON ITS OWN IT LATCHES — see
+    `newest_unjoinable_receipt_commit` below, which is what makes the softening expire.
+    """
+    return len(unjoinable_receipt_names(ref))
+
+
+def unjoinable_receipt_names(ref: str = "HEAD") -> list[str]:
+    """The committed receipt filenames that name NO CCR session id. One scan, one definition.
+
+    ⛔ Both the COUNT and the HORIZON are derived from this list rather than each re-deriving
+    "can this receipt join?" — CLAUDE.md rule 1. Two copies of that predicate is the same shape as
+    the private filename regex that went stale above.
     """
     out = subprocess.run(
         ("git", "ls-tree", "--name-only", f"{ref}:research/autonomy/receipts"),
         cwd=REPO, capture_output=True, text=True,
     )
     if out.returncode != 0:
-        return 0
-    gap = 0
+        return []
+    names: list[str] = []
     for name in out.stdout.split():
         if not _is_cycle_receipt(name):
             continue
@@ -199,16 +212,95 @@ def receipts_that_cannot_join(ref: str = "HEAD") -> int:
             continue
         if not any(_SESSION_ID.findall(data.get(f) or "")
                    for f in CCR_ID_FIELDS if isinstance(data.get(f), str)):
-            gap += 1
-    return gap
+            names.append(name)
+    return names
+
+
+def newest_unjoinable_receipt_commit(ref: str = "HEAD") -> str | None:
+    """When the newest receipt that can NEVER join reached the trunk. `None` if that is unknown.
+
+    ⛔⛔ WHY A HORIZON AND NOT JUST A COUNT (AUT-PD-124, measured 2026-08-28 on `origin/main`).
+    AUT-PD-129 correctly stopped the reaper asserting a death it could not evidence, by softening
+    the verdict whenever ANY committed receipt names no CCR id. But that count is taken over
+    IMMUTABLE COMMITTED HISTORY and can never fall: measured on the trunk this day, 63 of 76 cycle
+    receipts cannot join, and 39 of them name no session id anywhere at all — prose like "unknown --
+    fired by the UI-created autonomy Routine" — so nobody can ever recover which session wrote them.
+    ★ THE CONSEQUENCE: the softening never expires, so the branch that raises the alarm this whole
+    module exists for ("idle with NO committed receipt — this is a finding") became UNREACHABLE in
+    production the day it was added. A guard that can never fire again is the latching failure
+    `receipt_schema.py` and `preflight.sh` each already record paying for once.
+
+    ★ THE RESOLUTION, AND IT NEEDS NO NEW PINNED CONSTANT. An unjoinable receipt can only excuse a
+    session that could have WRITTEN one. A receipt is committed after the session that wrote it
+    started, so a session created AFTER the newest unjoinable receipt landed cannot own any of them:
+    for that session, "not in `delivered`" really is evidence, and the finding is honest again. The
+    horizon is derived from git, so it moves by itself — every receipt written under
+    `receipt_schema.FIRST_CCR_GOVERNED_CYCLE` carries a CCR id, so the horizon stops advancing and
+    the alarm comes back on for every session created from then on.
+
+    ⚠ FAILS TOWARD SILENCE, NEVER TOWARD A DEATH CLAIM. Unknown horizon, unparseable time, missing
+    `created_at` -> the session is treated as one that could own an unjoinable receipt, so the
+    verdict stays DEGRADED. Nothing here can archive anything: this only chooses between two `keep`
+    reasons.
+    """
+    names = unjoinable_receipt_names(ref)
+    if not names:
+        return None
+    want = {f"research/autonomy/receipts/{n}" for n in names}
+    log = subprocess.run(
+        ("git", "log", "--format=%x01%cI", "--name-only", ref, "--",
+         "research/autonomy/receipts"),
+        cwd=REPO, capture_output=True, text=True,
+    )
+    if log.returncode != 0:
+        return None
+    stamp = None
+    for line in log.stdout.splitlines():
+        # `git log` is newest-first, so the first unjoinable path we meet carries the newest commit
+        # that touched one.
+        if line.startswith("\x01"):
+            stamp = line[1:].strip()
+        elif line.strip() in want:
+            return stamp
+    return None
+
+
+def _utc(value: str):
+    """Parse an RFC3339 stamp, or raise. `Z` is what both git and the session list write."""
+    from datetime import datetime, timezone
+    dt = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+    return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+
+
+def could_own_an_unjoinable_receipt(session: dict, horizon_utc: str | None) -> bool:
+    """Could THIS session be the author of a receipt that can never join? Conservative by design.
+
+    True unless the session is provably younger than every unjoinable receipt on the trunk. Every
+    uncertainty — no horizon, no `created_at`, an unparseable one — answers True, which keeps the
+    softer verdict and never manufactures a death.
+    """
+    if not horizon_utc:
+        return True
+    created = session.get("created_at")
+    if not isinstance(created, str) or not created.strip():
+        return True
+    try:
+        return not (_utc(created) > _utc(horizon_utc))
+    except ValueError:
+        return True
 
 
 def classify(sessions: list[dict], self_id: str | None, ref: str = "HEAD",
-             unjoinable_receipts: int = 0) -> dict:
+             unjoinable_receipts: int = 0, join_horizon_utc: str | None = None) -> dict:
     """Split the session list into archive / keep, each with a reason.
 
     Every `keep` carries WHY, because a reaper that silently skips is indistinguishable from a
     reaper that is broken.
+
+    `unjoinable_receipts` and `join_horizon_utc` are the two halves of one measurement: how many
+    committed receipts can never join, and when the newest of them landed. The count decides whether
+    the join is degraded AT ALL; the horizon decides whether it is degraded FOR THIS SESSION. Both
+    are passed in rather than measured here so the decision stays a pure function of evidence.
     """
     delivered = committed_session_ids(ref)
     archive, keep = [], []
@@ -233,25 +325,34 @@ def classify(sessions: list[dict], self_id: str | None, ref: str = "HEAD",
             keep.append({**row, "why": "not a research-loop session; out of this reaper's scope"})
         elif sid in delivered:
             archive.append({**row, "why": "idle, and its receipt is on the trunk"})
-        elif unjoinable_receipts:
+        elif unjoinable_receipts and could_own_an_unjoinable_receipt(s, join_horizon_utc):
             # ⛔ THE HONEST VERDICT WHEN THE JOIN ITSELF IS DEGRADED (AUT-PD-129). Some committed
             # receipt names no CCR id at all, so "not in `delivered`" is not evidence this session
             # delivered nothing — it may simply be unmatchable. Still never archived: the safe
             # direction is unchanged, only the claim is weakened to what the evidence supports.
+            # ⭐ AND IT IS NOW SCOPED TO THE SESSIONS THE GAP CAN ACTUALLY EXCUSE (AUT-PD-124):
+            # unconditional softening never expires, because committed history never gains a CCR id.
             keep.append({
                 **row,
                 "why": (f"idle, and no committed receipt names it — but {unjoinable_receipts} "
                         "committed receipt(s) record no CCR session id at all, so this join is "
                         "DEGRADED and cannot tell 'died holding work' from 'delivered, unmatchable'. "
                         "Not archived, and not reported as a death. Fix: receipts must carry "
-                        "`ccr_session_id`."),
+                        "`ccr_session_id`."
+                        + (f" (Newest unjoinable receipt committed {join_horizon_utc}; this session "
+                           f"was created {s.get('created_at') or 'at an unrecorded time'}, so it "
+                           "could be the one that wrote it.)" if join_horizon_utc else "")),
             })
         else:
             keep.append({
                 **row,
                 "why": ("idle with NO committed receipt — this is a finding, not litter. A cycle that "
                         "died holding uncommitted work looks exactly like this, and archiving it "
-                        "would release the container that still has it."),
+                        "would release the container that still has it."
+                        + (f" The join is sound FOR THIS SESSION: every committed receipt that cannot "
+                           f"name a CCR id landed by {join_horizon_utc}, before this session was "
+                           f"created ({s.get('created_at')}), so none of them can be its receipt."
+                           if unjoinable_receipts else "")),
             })
 
     return {"archive": archive, "keep": keep, "committed_session_ids": sorted(delivered)}
@@ -280,8 +381,12 @@ def main(argv=None) -> int:
     else:
         sessions = data
 
+    # ⛔ ONE SCAN, TWO NUMBERS. The count and the horizon must describe the SAME set of receipts, or
+    # the verdict softens on one measurement and expires on another (AUT-PD-124).
+    unjoinable = unjoinable_receipt_names(args.ref)
     verdict = classify(sessions, args.self_id, args.ref,
-                       unjoinable_receipts=receipts_that_cannot_join(args.ref))
+                       unjoinable_receipts=len(unjoinable),
+                       join_horizon_utc=newest_unjoinable_receipt_commit(args.ref))
 
     if args.json:
         print(json.dumps(verdict, indent=2))
