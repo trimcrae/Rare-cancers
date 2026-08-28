@@ -14,17 +14,17 @@
     "harden": 16,
     "negative": 32,
     "process": 7,
-    "process_defect": 83,
+    "process_defect": 86,
     "proposal": 15,
     "regrade": 8,
     "verify": 1,
     "write": 6
   },
   "n_by_state": {
-    "done": 81,
+    "done": 82,
     "in_progress": 2,
     "parked": 28,
-    "queued": 109,
+    "queued": 111,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -3507,8 +3507,8 @@
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-26",
-      "score": 65.7,
+      "last_evidence_utc": "2026-08-28",
+      "score": 64.0,
       "score_inputs": {
         "live": false,
         "patient_path": "no_bench_needed",
@@ -3519,8 +3519,7 @@
         "blocker_leverage": 6,
         "cost_class": "free",
         "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 0.1429
+        "fruitless_attempts": 0
       },
       "requires_trimcrae": true,
       "requires_trimcrae_why": "same shape: 'whether and where to publish that is a judgement call about what we publish'. The negative itself is already characterised."
@@ -4570,44 +4569,6 @@
       }
     },
     {
-      "id": "AUT-030",
-      "_derived": true,
-      "what": "Run the one $0 Europe PMC query on the HSPA8 promoter to close the last ungraded partner, then report the reach negative in the nuclear-receptor paper.",
-      "serves": {
-        "route": "RT-HORMONE-PARTNER",
-        "publication": "PUB-NR-OUTSIDE-NR4A3",
-        "strategy": "ST-REPURPOSING"
-      },
-      "kind": "negative",
-      "state": "parked",
-      "parked_on": [
-        "TECH-EMC-EXPRESSION-DATA"
-      ],
-      "parked_by_graph_status": "parked",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
-      "score": 36.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      }
-    },
-    {
       "id": "AUT-031",
       "_derived": true,
       "what": "Leave it to the hypoxia memo, which owns the reading and the ruling.",
@@ -4694,44 +4655,6 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
-      "score": 36.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      }
-    },
-    {
-      "id": "AUT-039",
-      "_derived": true,
-      "what": "Restate the premise, or report the contradiction as the result.",
-      "serves": {
-        "route": "RT-MATRIX-SYNTHESIS",
-        "publication": "PUB-MATRIX-ADDRESS",
-        "strategy": "ST-MICROENV"
-      },
-      "kind": "negative",
-      "state": "parked",
-      "parked_on": [
-        "TECH-EMC-EXPRESSION-DATA"
-      ],
-      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -5066,45 +4989,6 @@
       }
     },
     {
-      "id": "AUT-076",
-      "_derived": true,
-      "what": "Re-grade on the recomputed coverage. The HLA-coverage output is reusable but its class-I figures moved by ~3× and its class-II figures are withheld.",
-      "serves": {
-        "route": "RT-VACCINE",
-        "publication": "PUB-HLA-COVERAGE",
-        "strategy": "ST-IMMUNO"
-      },
-      "kind": "negative",
-      "state": "parked",
-      "parked_on": [
-        "TECH-JUNCTION-PMHC",
-        "TR-NEOANTIGEN-BROADER-ALLELE-COVERAGE"
-      ],
-      "parked_by_graph_status": "parked",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 36.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      }
-    },
-    {
       "id": "AUT-019",
       "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-SELECTIVITY-CONTROL-UNAUTHORIZED']. Original next action: Ask for the decision on the binary selectivity control. It is the highest-leverage unrun item in the portfolio and it costs a conversation.",
@@ -5180,6 +5064,118 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0,
         "age_factor": 1.0
+      }
+    },
+    {
+      "id": "AUT-030",
+      "_derived": true,
+      "what": "⭐ THE $0 STEP THIS FIELD NAMED IS DONE (2026-08-28) AND THE ROUTE IS NOW GENUINELY PARKED. Superseded, retained: \"Run the one $0 Europe PMC query on the HSPA8 promoter to close the last ungraded partner, then report the reach negative in the nuclear-receptor paper.\" ⚠ THAT SENTENCE IS WHY THIS ROUTE WAS MIS-PARKED: it named a takeable free step beside `status: parked`, and once the queue began trusting `state.status` the route was hidden with the step still open (AUT-PD-086). The query was run — through PubMed rather than Europe PMC, which 403s at this sandbox's egress — and it returned NO. What is left is a paragraph in PUB-NR-OUTSIDE-NR4A3, not a lane: no validation this route names is both open and feasible today, the wet-lab confirmation is blocked by BLK-NO-WET-LAB, and only somebody else's RNA-seq-genotyped EMC series (TECH-EMC-EXPRESSION-DATA) can move the reach figure.",
+      "serves": {
+        "route": "RT-HORMONE-PARTNER",
+        "publication": "PUB-NR-OUTSIDE-NR4A3",
+        "strategy": "ST-REPURPOSING"
+      },
+      "kind": "negative",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ],
+      "parked_by_graph_status": "parked",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "score": 24.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      }
+    },
+    {
+      "id": "AUT-039",
+      "_derived": true,
+      "what": "Report the contradiction as the result. ⛔ AND THE OTHER HALF OF THIS SENTENCE IS NOT TAKEABLE — checked 2026-08-28. Superseded, retained: \"Restate the premise, or report the contradiction as the result.\" A restatement is what this route's own `readiness.missing` and `timing.rationale` say it lacks, and they also say why it cannot be produced here: the restated premise is about matrix TURNOVER rather than enzyme transcript, and no available dataset supplies that. So the only free step left is writing up a finished negative, which CLAUDE.md §0 ranks behind anything live. `parked` is correct and TECH-EMC-EXPRESSION-DATA is what reopens it.",
+      "serves": {
+        "route": "RT-MATRIX-SYNTHESIS",
+        "publication": "PUB-MATRIX-ADDRESS",
+        "strategy": "ST-MICROENV"
+      },
+      "kind": "negative",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ],
+      "parked_by_graph_status": "parked",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "score": 24.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      }
+    },
+    {
+      "id": "AUT-076",
+      "_derived": true,
+      "what": "⭐ THE RE-GRADE THIS FIELD ASKED FOR IS DONE (2026-08-28) AND THE ROUTE STAYS PARKED. Superseded, retained: \"Re-grade on the recomputed coverage. The HLA-coverage output is reusable but its class-I figures moved by ~3× and its class-II figures are withheld.\" ⛔ THE SECOND HALF OF THAT SENTENCE WAS ALREADY FALSE WHEN IT WAS WRITTEN INTO THE QUEUE: the class-II figures are computed and committed. The re-grade's outcome is that coverage moved AGAINST the route and immunogenicity — BLK-ANTIGEN-COLD — is unchanged, so `parked` is the right state and TECH-JUNCTION-PMHC remains what would reopen it. Nothing free is left open on this route; the reusable half is the coverage computation, which feeds TCR-T eligibility through RT-JUNCTION-NEOANTIGEN.",
+      "serves": {
+        "route": "RT-VACCINE",
+        "publication": "PUB-HLA-COVERAGE",
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "negative",
+      "state": "parked",
+      "parked_on": [
+        "TECH-JUNCTION-PMHC",
+        "TR-NEOANTIGEN-BROADER-ALLELE-COVERAGE"
+      ],
+      "parked_by_graph_status": "parked",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "score": 24.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
       }
     },
     {
@@ -6406,6 +6402,27 @@
       "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act."
     },
     {
+      "id": "AUT-PD-095",
+      "what": "★ MEASURE THE RESIDUE AUT-PD-086 SAMPLED, THEN GUARD IT. Measured on the corrected graph: NINE further routes with a not-takeable status carry a required_validation row reading feasible_today: true and unmarked — RT-TXN-CDK, RT-ARGININE, RT-MDM2, RT-EZH2, RT-POLQ, RT-RET, RT-ALK-HIT, RT-HYPOXIA-PRODRUG (parked) and RT-DIAGNOSTIC-PATHWAY (closed). ⭐ THE TRIAGE IS REASSURING RATHER THAN ALARMING, WHICH IS ITSELF THE FINDING: every one of their next actions reads as a write-up ('Report it as a closed line', 'Report the negative', '⛔ NOTHING. CLOSED 2026-08-23'), which §0 ranks behind anything live — so AUT-PD-086's four appear to have held the only two genuinely live rows in the class. ⚠ THAT IS A READING OF NEXT-ACTION TEXT, NOT A PER-ROUTE GRADE, and the seat that wrote it said so: it graded four routes properly and found 2 of 4 mis-parked, so a 9-for-9 pass rate from a text scan must not be trusted without the same per-route work. ★ THE DURABLE HALF IS THE GUARD: a route whose status is not takeable must not carry a feasible_today required_validation row that is unmarked. All four of AUT-PD-086's routes now satisfy it, and as a systems_check invariant it would have caught this class BEFORE the queue generator began trusting state.status and made a false park invisible.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
+    },
+    {
       "id": "AUT-PD-005",
       "kind": "fix",
       "serves": {
@@ -6479,6 +6496,37 @@
       "_score_basis": "free, and it is the only thing in this preprint that touches the science portfolio rather than the operating loop — CLAUDE.md §0 puts a live lead ahead of the three process items filed alongside it",
       "score_inputs": {
         "age_factor": 0.0714
+      }
+    },
+    {
+      "id": "AUT-PD-093",
+      "what": "⛔⛔ THE SAME DEFECT AS AUT-PD-086, ON A LIVE ROUTE, AND IT IS THE WORSE DIRECTION. RT-JUNCTION-NEOANTIGEN is `status: blocked` + `pursue_now` + `next.cost: $0`, so it sits IN the queue looking healthy — and its next action is ALREADY DONE. It reads 'Regenerate patient-cd4-demo.json and the TAF15 panel at the corrected junction, then re-grade', and readiness.missing[0] says 'the class-II arm and every CD8∧CD4 figure are WITHHELD until it is'. ⛔ BOTH NAMED REGENERATIONS ARE COMMITTED AND ON THE TRANSCRIPT MODEL: patient-cd4-demo.json carries the corrected junction_context, source.grade EMITTABLE, n_alleles_screened 23, alleles_without_a_model []; the TAF15 panel carries coordinate_system TRANSCRIPT and grade EMITTABLE; hla-coverage.json records matches_corrected_seam true with a null banner. ★★ A FALSE 'WITHHELD' ON A LIVE ROUTE IS WORSE THAN A FALSE PARK: a false park hides work and the row goes quiet, which is at least visible AS silence; a false 'withheld' STOPS the work while leaving the row in the queue looking healthy, so an agent takes it, redoes finished work, and the false claim propagates to every reader. ⚠ NOT VERIFIED by the seat that found this: the third item in readiness.missing (vaccine_construct.py / coverage_scan.py) — coverage-scan.json is ABSENT and vaccine-construct.json carries no source block to grade a seam from, so establish that first rather than assuming it is also stale.",
+      "serves": {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "publication": null,
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "process_defect",
+      "state": "in_progress",
+      "owner": "CYC-0053-3217966b",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act.",
+      "claimed_utc": "2026-08-28T16:18:28Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T16:18:28Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
       }
     },
     {
@@ -6663,61 +6711,12 @@
       }
     },
     {
-      "id": "AUT-PD-093",
-      "what": "⛔⛔ THE SAME DEFECT AS AUT-PD-086, ON A LIVE ROUTE, AND IT IS THE WORSE DIRECTION. RT-JUNCTION-NEOANTIGEN is `status: blocked` + `pursue_now` + `next.cost: $0`, so it sits IN the queue looking healthy — and its next action is ALREADY DONE. It reads 'Regenerate patient-cd4-demo.json and the TAF15 panel at the corrected junction, then re-grade', and readiness.missing[0] says 'the class-II arm and every CD8∧CD4 figure are WITHHELD until it is'. ⛔ BOTH NAMED REGENERATIONS ARE COMMITTED AND ON THE TRANSCRIPT MODEL: patient-cd4-demo.json carries the corrected junction_context, source.grade EMITTABLE, n_alleles_screened 23, alleles_without_a_model []; the TAF15 panel carries coordinate_system TRANSCRIPT and grade EMITTABLE; hla-coverage.json records matches_corrected_seam true with a null banner. ★★ A FALSE 'WITHHELD' ON A LIVE ROUTE IS WORSE THAN A FALSE PARK: a false park hides work and the row goes quiet, which is at least visible AS silence; a false 'withheld' STOPS the work while leaving the row in the queue looking healthy, so an agent takes it, redoes finished work, and the false claim propagates to every reader. ⚠ NOT VERIFIED by the seat that found this: the third item in readiness.missing (vaccine_construct.py / coverage_scan.py) — coverage-scan.json is ABSENT and vaccine-construct.json carries no source block to grade a seam from, so establish that first rather than assuming it is also stale.",
-      "serves": {
-        "route": "RT-JUNCTION-NEOANTIGEN",
-        "publication": null,
-        "strategy": "ST-IMMUNO"
-      },
-      "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "CYC-0053-3217966b",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act.",
-      "claimed_utc": "2026-08-28T16:18:28Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T16:18:28Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-094",
       "what": "⛔ A POINTER THAT DRIFTED FROM ITS OWN DECLARED OWNER, MISREPORTING THREE FIGURES: research/manuscripts/neoantigen/hla-coverage-emc.md's correction block says the class-II arm is 'negative: 2 predicted binders, none strong, on three DRB1 alleles' and that the both-arms figure is 'NOT COMPUTED rather than withheld'. ⛔ All three are stale — the committed artifact records 44 binders, 1 strong (SYGQQNMPCVQAQYS on DRB1*14:01, IC50 66.1 nM) over a 23-allele panel, and the coverage script computes both the class-II and the combined figure rather than leaving them empty. ⭐ THE DECLARED OWNER IS CORRECT AND CURRENT — the same paragraph names emc-vaccine-development-path.md §B4, which reads '44 binders, 1 strong … over 14 of 23 alleles; class II coverage 6.5%, combined 1.8%' and already carries a withdrawal row retiring the 'not computed' statement. So this is not a disagreement about the science; it is A POINTER THAT WAS NOT UPDATED WHEN ITS OWNER WAS, which is exactly what ONE FACT, ONE PLACE exists to prevent — and the failure mode is that a restatement silently becomes a second, wrong home. ★ FIX: rewrite the paragraph to POINT at §B4 rather than restate it, superseded-retained. ⚠ RELATED, NOT THE SAME ROW: hla-coverage.json's own _class_ii_note says '3-allele DR panel' and then lists 23 — a stale sentence inside the GENERATOR, so it is fixed in code and cleared by a regeneration that needs the AFND fetch, i.e. CI.",
       "serves": {
         "route": "RT-VACCINE",
         "publication": "PUB-HLA-COVERAGE",
         "strategy": "ST-IMMUNO"
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-095",
-      "what": "★ MEASURE THE RESIDUE AUT-PD-086 SAMPLED, THEN GUARD IT. Measured on the corrected graph: NINE further routes with a not-takeable status carry a required_validation row reading feasible_today: true and unmarked — RT-TXN-CDK, RT-ARGININE, RT-MDM2, RT-EZH2, RT-POLQ, RT-RET, RT-ALK-HIT, RT-HYPOXIA-PRODRUG (parked) and RT-DIAGNOSTIC-PATHWAY (closed). ⭐ THE TRIAGE IS REASSURING RATHER THAN ALARMING, WHICH IS ITSELF THE FINDING: every one of their next actions reads as a write-up ('Report it as a closed line', 'Report the negative', '⛔ NOTHING. CLOSED 2026-08-23'), which §0 ranks behind anything live — so AUT-PD-086's four appear to have held the only two genuinely live rows in the class. ⚠ THAT IS A READING OF NEXT-ACTION TEXT, NOT A PER-ROUTE GRADE, and the seat that wrote it said so: it graded four routes properly and found 2 of 4 mis-parked, so a 9-for-9 pass rate from a text scan must not be trusted without the same per-route work. ★ THE DURABLE HALF IS THE GUARD: a route whose status is not takeable must not carry a feasible_today required_validation row that is unmarked. All four of AUT-PD-086's routes now satisfy it, and as a systems_check invariant it would have caught this class BEFORE the queue generator began trusting state.status and made a false park invisible.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
       },
       "kind": "process_defect",
       "state": "queued",
