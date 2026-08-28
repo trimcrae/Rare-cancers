@@ -1,0 +1,37 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0037-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T11:05:00Z",
+  "shape": "Fifth cycle in the same fired session, well past the research-loop skill's 2-cycle-per-session cap. Dispatch-only, exactly like CYC-0035: a background Agent-tool subagent in an isolated worktree stands in for a spawned session (still no create_session/handoff tool in this scheduled-Routine context). Taken because this session personally hit the exact defect AUT-PD-037 describes moments earlier (CYC-0036's ledger-write diffs were needlessly enormous from an ensure_ascii mismatch between this driver's ad hoc scripts and priority.py's default), making it a well-motivated, well-specified, already-filed item to hand off rather than a fresh investigation.",
+  "took": "AUT-PD-037 — the ledger has no enforced serialization, so every writer invents one (RT-AUTONOMY, loop mechanism)",
+  "took_what": "Re-scored the queue; AUT-PD-037 (score 176) held a stale lease from 'serialization-worktree-seat' past its 8h claim_lease, released by a prior rescore. Claimed cleanly on attempt 1 (this is the item's 3rd and final retry_budget attempt). Dispatched a background Agent-tool subagent (isolation: worktree) with a full self-contained brief: read the ledger entry as the authoritative spec, build ONE canonical write_ledger() function pinning the serialization actually in use on origin/main today (verify empirically, not by assumption), migrate every writer (priority.py, claim.py, others found by grep) to use it, add a round-trip guard test that would fail if a writer reverted to raw json.dump, and separately check (not necessarily fully fix) the same drift risk on citation-provenance-ledger.json, publication-authority.json, autonomy-state.json and amendments.jsonl. Per 'the driver never waits', this receipt is written and the turn ends at dispatch.",
+  "changed": [
+    "NOTHING LANDED YET — dispatch-only, as with CYC-0035. Claimed AUT-PD-037 and launched one background subagent; it must commit to a new branch (aut-pd-037-ledger-serialization suggested) and push it, then report the exact canonical parameters chosen, every writer migrated, the guard added, and its findings on the four secondary files. It was explicitly told NOT to touch research-ledger.json's content, only its serialization, and NOT to touch receipts/ or amendments.jsonl.",
+    "The ledger row for AUT-PD-037 stays in_progress with the claim set; a follow-up wake will review the branch, run targeted tests plus full preflight, update the ledger with the actual outcome, and merge."
+  ],
+  "cost": "$0. Engineering, CPU and one Claude subagent — no GPU, no rental.",
+  "subagents": {
+    "max_concurrent": 1,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 2,
+    "seats": [
+      "aut-pd-037-worktree-fix (agentId a3d35281a7358fa2e, still running at receipt time — isolation: worktree, will push branch aut-pd-037-ledger-serialization or similar and report back; not yet observed). Serial total 2 counts this alongside CYC-0035's aut-pd-036 subagent earlier in this same session; only one was ever concurrent (max_concurrent: 1)."
+    ]
+  },
+  "what_i_got_wrong": [
+    "This session's own ledger-update scripts (CYC-0033 through CYC-0036) used json.dump(..., ensure_ascii=False) inconsistently against priority.py's ensure_ascii=True default, producing the exact whole-file-diff churn AUT-PD-037 already names as a known, filed, measured defect — I reproduced the incident rather than checking the ledger for a known issue first. No content was lost (JSON semantics identical either way), but several commits this session carry noisier diffs than necessary as a result. Not fixed retroactively (not worth another round of history-noise to fix cosmetic history); fixed going forward by dispatching this item so no future session repeats it."
+  ],
+  "now_queued": [
+    "Merge the aut-pd-037-ledger-serialization branch once its completion notification arrives: review the diff, run targeted tests, full preflight, update the ledger, write a receipt, push."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context. This is the second background-subagent dispatch this session (after AUT-PD-036); this session has now run five cycles total and should not take on a sixth without a fresh context."
+  }
+}
