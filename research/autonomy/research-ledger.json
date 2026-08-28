@@ -7242,8 +7242,8 @@
         "strategy": null
       },
       "kind": "fix",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "CYC-0068-8226e21b",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -7253,8 +7253,14 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Loop instrumentation in research/autonomy/. Nothing outward-facing.",
-      "claimed_utc": null,
-      "evidence": "OBSERVED 2026-08-28 by CYC-0067-7cda2d61 running step 11 against a real 40-session list: '40 session(s) in, 0 safe to archive, 40 kept', with two rows reported as 'idle with NO committed receipt — a cycle that died holding uncommitted work looks exactly like this'. Both named sessions are in the `session_01…` space and cannot match a uuid-keyed receipt, so the finding is unfalsifiable as it stands. ⚠ THE REAPER'S OWN HISTORY WARNS ABOUT THIS DIRECTION — its first run against real data reported three DELIVERED cycles as having died holding uncommitted work, and the fix pinned by test_session_reaper_refuses_to_lose_work.py addressed the field carrying PROSE, not the field carrying a second ID SPACE."
+      "claimed_utc": "2026-08-28T20:44:42Z",
+      "evidence": "OBSERVED 2026-08-28 by CYC-0067-7cda2d61 running step 11 against a real 40-session list: '40 session(s) in, 0 safe to archive, 40 kept', with two rows reported as 'idle with NO committed receipt — a cycle that died holding uncommitted work looks exactly like this'. Both named sessions are in the `session_01…` space and cannot match a uuid-keyed receipt, so the finding is unfalsifiable as it stands. ⚠ THE REAPER'S OWN HISTORY WARNS ABOUT THIS DIRECTION — its first run against real data reported three DELIVERED cycles as having died holding uncommitted work, and the fix pinned by test_session_reaper_refuses_to_lose_work.py addressed the field carrying PROSE, not the field carrying a second ID SPACE.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:44:42Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-112",
