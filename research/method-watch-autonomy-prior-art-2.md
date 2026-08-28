@@ -293,7 +293,15 @@ submissions)** after detecting **795 LLM-written reviews** — by embedding hidd
 submitted PDFs drawn from a 170,000-phrase dictionary, every flag manually verified. arXiv now
 applies a **one-year ban** where there is "incontrovertible evidence" of unverified LLM output, and
 its named triggers are exactly what an unattended loop produces: **hallucinated references, residual
-model meta-comments, unremoved placeholder text.** (SEARCH)
+model meta-comments, unremoved placeholder text.** ⭐ Corroborated 2026-08-28 across at least eight
+independent outlets (TechCrunch, The Next Web, ChemistryViews, Economist Writing Every Day, Inside
+Higher Ed, Research Information, MIT Sloan Management Review Middle East, Pivot to AI), all
+attributing the policy to **Thomas Dietterich, chair of arXiv's computer science section**,
+announced **May 2026**: a **one-strike, one-year ban**, after which subsequent submissions must
+first be accepted at a reputable peer-reviewed venue; enforcement requires a moderator flag plus
+section-chair confirmation, with an author appeal right; the policy targets unchecked output, not
+AI-assisted drafting itself. (SEARCH — still not arXiv's own policy page, which remains blocked at
+this sandbox's egress proxy; multiply-corroborated secondary reporting, not the primary source.)
 
 ⭐ **That last list is a closed, cheap, offline checklist and it now attaches a sanction to trimcrae's
 name.** `lint_citations` covers the first item partially; the other two are `grep`.

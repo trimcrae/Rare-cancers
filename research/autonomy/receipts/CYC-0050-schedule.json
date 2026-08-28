@@ -1,0 +1,33 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0050-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T16:10:00Z",
+  "shape": "This session, taking a second independent free item (AUT-PD-062, claimed as CYC-0051-schedule) in parallel with the AUT-PD-052 worktree subagent dispatched earlier this cycle.",
+  "took": "AUT-PD-062 — independently re-verify the arXiv sanction-policy WebSearch lead surfaced during AUT-PROP-032's duplicate-work episode, then update the gate's provenance record if confirmed (RT-AUTONOMY, free, attempt 1)",
+  "took_what": "The row's own text required independent re-verification before touching the governed gate, rather than trusting a subagent's relayed WebSearch summary. Ran two fresh WebSearch queries (rung 0, per ci-escape-hatches) and got consistent corroboration across at least 8 named outlets not previously enumerated individually (TechCrunch, The Next Web, ChemistryViews, Economist Writing Every Day, Inside Higher Ed, Research Information, MIT Sloan Management Review Middle East, Pivot to AI), all agreeing on: Thomas Dietterich (chair of arXiv's CS section), May 2026, one-strike one-year ban, reinstatement conditioned on a subsequent submission first being accepted at a reputable peer-reviewed venue, moderator flag + section-chair confirmation + author appeal. Also attempted WebFetch directly against blog.arxiv.org and techcrunch.com to try to reach either a primary or a directly-quotable secondary source; both returned EGRESS_BLOCKED, confirming the sandbox's arxiv.org block extends to at least one major outlet too and the WebSearch tool remains the only reachable rung here.",
+  "changed": [
+    "research/method-watch-autonomy-prior-art-2.md §5: added the named official, date and the 8-outlet corroboration list to the existing arXiv sanction paragraph (still tagged SEARCH — secondary reporting, not the policy page).",
+    "research/manuscripts/lint_submission_residue.py: updated the module docstring and _POLICY_PROVENANCE — grade stays SEARCH; policy_date now states the corroborated month/year at SEARCH grade; policy_wording (verbatim) and policy_scope (which submission classes) remain UNKNOWN since neither was actually read.",
+    "research/manuscripts/tests/test_submission_residue_guard.py: loosened test_the_policy_is_recorded_as_search_grade_and_never_quoted_as_fact's per-field assertion to match the new, more accurate provenance record — policy_wording/policy_scope still must start with UNKNOWN; policy_date now only required to carry the word SEARCH rather than starting with UNKNOWN. Declared in amendments.jsonl (governed path).",
+    "research/autonomy/research-ledger.json: closed AUT-PD-062 (state done)."
+  ],
+  "cost": "$0. Engineering, CPU and 2 WebSearch + 2 WebFetch calls (both WebFetch calls egress-blocked, $0 either way).",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context (AUT-PD-045). health.py's cycles_are_sized condition is already red for this session on this known constraint (advises, non-blocking); working via parallel dispatched subagents (AUT-PD-052) as the substitute session-shape per research-loop §3."
+  }
+}

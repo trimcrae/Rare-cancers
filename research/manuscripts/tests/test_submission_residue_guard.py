@@ -382,14 +382,20 @@ def test_the_module_does_not_claim_to_cover_hallucinated_references():
 
 
 def test_the_policy_is_recorded_as_search_grade_and_never_quoted_as_fact():
-    """⛔ §7: NEVER WRITE AN IDENTIFIER OR A QUOTATION FROM RECOLLECTION. The trigger list reached
-    this repository through a secondary news item; arxiv.org is refused at this sandbox's egress
-    proxy, so the policy's wording, date and scope have been read by nobody here."""
+    """⛔ §7: NEVER WRITE AN IDENTIFIER OR A QUOTATION FROM RECOLLECTION. arxiv.org is refused at
+    this sandbox's egress proxy, so nobody here has read the policy page itself — only secondary
+    reporting, even after 2026-08-28's cross-outlet corroboration raised confidence in the
+    SUBSTANCE. The wording (verbatim) and the scope (which submission classes) remain genuinely
+    unread and must stay recorded as UNKNOWN; the date is now SEARCH-grade known and may say so,
+    but the grade must stay SEARCH — this file must never claim SOURCE (i.e. having read the
+    policy page) regardless of how many secondary outlets agree."""
     prov = lsr._POLICY_PROVENANCE
     assert prov["grade"].startswith("SEARCH")
-    for field in ("policy_wording", "policy_date", "policy_scope"):
+    for field in ("policy_wording", "policy_scope"):
         assert prov[field].startswith("UNKNOWN"), \
             "%s is asserted rather than recorded as unread — that is a fabricated citation" % field
+    assert "SEARCH" in prov["policy_date"], \
+        "policy_date must carry its own grade rather than being asserted as directly-read fact"
     src = open(os.path.join(MANUSCRIPTS, "lint_submission_residue.py"), encoding="utf-8").read()
     assert "arxiv.org" not in src.lower().replace("arxiv.org is refused", ""), \
         "the module names the venue outside its provenance note"

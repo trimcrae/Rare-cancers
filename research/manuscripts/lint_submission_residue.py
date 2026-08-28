@@ -6,12 +6,16 @@
 the three triggers it names are exactly what an unattended drafting loop produces: **hallucinated
 references, residual model meta-comments, unremoved placeholder text.** That sanction attaches to
 the author's name and ORCID, not to this repository, and it is not undone by a commit.
-⚠ THE POLICY ITSELF IS UNVERIFIED HERE AND IS DELIBERATELY NOT QUOTED AS FACT. The trigger list
-reached this repository through a secondary news item, recorded at SEARCH grade in
-`research/method-watch-autonomy-prior-art-2.md` §5; arxiv.org is refused by this sandbox's egress
-proxy, so no session here has read the policy page. **What this module implements is the CHECKLIST.
-Its wording, its date and its scope are UNKNOWN** — see `_POLICY_PROVENANCE`. Nothing in this file,
-and nothing it prints, may be cited as the policy's text.
+⚠ THE POLICY ITSELF IS STILL NOT READ FROM ITS OWN PAGE, AND ITS EXACT WORDING IS DELIBERATELY NOT
+QUOTED AS FACT. arxiv.org is refused by this sandbox's egress proxy, so no session here has read the
+policy page directly. What IS now corroborated (2026-08-28, WebSearch, at least eight
+independent outlets — see `research/method-watch-autonomy-prior-art-2.md` §5 for the list): the
+policy was announced May 2026 by Thomas Dietterich, chair of arXiv's CS section — a one-strike,
+one-year ban, reinstatement conditioned on a subsequent submission first being accepted at a
+reputable peer-reviewed venue, enforced by moderator flag plus section-chair confirmation with an
+author appeal right. **What this module implements is the CHECKLIST of the three named triggers.**
+See `_POLICY_PROVENANCE` for the grade of every field. Nothing in this file, and nothing it prints,
+may be cited as the policy's verbatim text.
 
 WHAT IT CHECKS — two of the three triggers, and only those:
 
@@ -83,14 +87,21 @@ BASELINE = os.path.join(HERE, "submission-residue-baseline.json")
 #: first golden rule forbids writing an identifier or a quotation from recollection; the policy page
 #: is unreadable from here, so what is asserted is the GRADE of the evidence and nothing else.
 _POLICY_PROVENANCE = {
-    "what_is_known": "a one-year submission ban for incontrovertible evidence of unverified LLM "
-                     "output, with three named triggers: hallucinated references, residual model "
-                     "meta-comments, unremoved placeholder text",
-    "grade": "SEARCH — reached us through a secondary news item, not the policy page",
+    "what_is_known": "a one-strike, one-year submission ban for incontrovertible evidence of "
+                     "unverified LLM output, with three named triggers: hallucinated references, "
+                     "residual model meta-comments, unremoved placeholder text; reinstatement "
+                     "requires a subsequent submission first be accepted at a reputable "
+                     "peer-reviewed venue; enforced by moderator flag + section-chair confirmation, "
+                     "with an author appeal right",
+    "grade": "SEARCH — corroborated 2026-08-28 across ≥8 independent secondary outlets (named in "
+             "research/method-watch-autonomy-prior-art-2.md §5); still not arXiv's own policy page",
     "recorded_in": "research/method-watch-autonomy-prior-art-2.md §5",
-    "policy_wording": "UNKNOWN",
-    "policy_date": "UNKNOWN",
-    "policy_scope": "UNKNOWN — which submission classes it covers has not been read",
+    "policy_wording": "UNKNOWN (verbatim) — only paraphrased secondary reporting has been read; see "
+                      "what_is_known for the corroborated substance",
+    "policy_date": "SEARCH-grade: announced May 2026",
+    "policy_scope": "UNKNOWN — which submission classes it covers has not been read from the "
+                    "policy page itself; named official is Thomas Dietterich, chair of arXiv's CS "
+                    "section",
     "why_unread": "arxiv.org is refused at this sandbox's egress proxy",
 }
 
