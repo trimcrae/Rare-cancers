@@ -1,0 +1,41 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0067-165c2385",
+  "session_id": "165c2385-71e7-5cec-a817-dd53ea83ce8d",
+  "utc": "2026-08-28T20:35:00Z",
+  "shape": "this session, driver only, no subagents (Task tool not available in this scheduled-Routine context).",
+  "took": "AUT-PD-049, claimed and closed in this cycle.",
+  "took_what": {
+    "id": "AUT-PD-049",
+    "route": "RT-AUTONOMY",
+    "publication": null,
+    "cost_class": "free",
+    "why_this_and_not_the_queue": "Highest-scoring row (150.0) not reserved for trimcrae (AUT-046/AUT-010 at 199/190.9 both requires_trimcrae) and not a watch-only row (AUT-025 at 152.0 has pursue_now:false, endpoint_reachable:false — nothing to act on today)."
+  },
+  "changed": [
+    "research/autonomy/continuity.py — new lease_arbitration() function and --leases CLI flag: for every open row an OTHER worker's lease is holding back, computes the same claim_lease arithmetic priority.release_stale_claims uses and reports the lease's age against the expiry threshold, whether it is already past expiry, and whether the row would read as ready if the lease were released.",
+    "research/autonomy/tests/test_continuity_has_no_green_state_recording_can_buy.py — 11 new tests for the above (governed path, declared in amendments.jsonl).",
+    "research/autonomy/amendments.jsonl — declaration for the test-file edit.",
+    "research/autonomy/research-ledger.json — AUT-PD-049 closed done with its evidence."
+  ],
+  "cost": {
+    "usd": 0.0,
+    "gpu_hours": 0.0,
+    "detail": "Repository work only: local pytest runs, one local preflight (fast gates), a handful of GitHub Actions API reads (public, read-only)."
+  },
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "rate_limit_info": null,
+  "what_i_got_wrong": [],
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {},
+  "also_verified": "gates_green (health.py's UNMEASURED row, no network by design): CI shows `tests (modalities)` red on main from 978aa89 through several intermediate commits (17:42–19:40 UTC 2026-08-28), but the specific failures — 3 manuscript regression tests in test_round6_fixes_landed.py / test_the_numbered_claims_no_instrument_read.py / test_paired_numeric_lists_are_bound_in_the_right_order.py, plus the ASO deposit-artifact regeneration gate — were already fixed by 83aede1 and ecfe6d6/86098c2 (this cycle's base). Reproduced locally on HEAD 86098c2: all three regression tests pass, all five ASO deposit --check scripts pass, and ./scripts/preflight.sh (fast gates + selector suite) exits 0 (553 passed in the pure-logic suite). CI's in-flight/pending runs on ecfe6d6 and 86098c2 are expected to confirm green once they complete; not re-polled here (§1: preflight gates the commit, this is not a gate to sit and watch). stalls_are_named: stuck_clock.py --check --json reports 0 stalled_needs_human rows (shallow_clone: true, so this is a lower bound, per AUT-PD-058)."
+}

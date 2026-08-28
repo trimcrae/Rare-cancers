@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 98,
-    "in_progress": 3,
+    "done": 99,
+    "in_progress": 5,
     "parked": 28,
-    "queued": 128,
+    "queued": 125,
     "ready": 1,
     "superseded": 1
   },
@@ -1936,6 +1936,41 @@
       ]
     },
     {
+      "id": "AUT-PD-049",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "score": 150.0,
+      "_score_basis": "our own queue is inspectable in exactly the half AlabOS's is not, and the arbitration half is where a stall hides",
+      "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §11a (the /deep-research pass, 109 agents, 3-vote adversarial verification)",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "what": "⚠ THE INSPECTABILITY QUALIFICATION THE ADVERSARIAL PASS INSISTED ON, TURNED ON US. AlabOS's task STATUS is dashboard-visible; its pending RESOURCE-REQUEST queue lives in the `requests` collection and is surfaced by NO route. So the thing a reader can see is what each task is doing, and the thing they cannot see is what is waiting on what. ⭐ OUR EQUIVALENT: continuity.py prints ready rows and the capacity line, and stalled_holder.py prints held rows — but nothing prints WHY a ready row is not moving when the cap is not full, and nothing prints the arbitration between a lease and a ready row. That is precisely where the 2026-08-27 dead seat hid for 2 h 36 m. Cheap: one view, derived, no new state.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:20:41Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me."
+    },
+    {
       "id": "AUT-PD-063",
       "kind": "process_defect",
       "process_defect": true,
@@ -2039,40 +2074,6 @@
       }
     },
     {
-      "id": "AUT-PD-058",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "SEAT-s2-1f1a2449",
-      "claimed_utc": "2026-08-28T20:34:34Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0030-6be7fd5a",
-      "score": 146.0,
-      "_score_basis": "two instruments built on git history return a censored verdict in this container, so neither can yet do its job",
-      "depends_on_evidence": "stuck_clock.is_shallow() is true here; git rev-parse --is-shallow-repository = true, 206 commits all dated 2026-08-27 or later.",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⚠ THE CLONE IS SHALLOW, WHICH CENSORS BOTH GIT-DERIVED INSTRUMENTS. stuck_clock.py reports every long-waiting row as a right-censored LOWER BOUND rather than a measurement and cannot declare a row terminal until the horizon is older than its 24 h threshold; learning_rate.py refuses to grade any window the horizon falls inside. ⭐ BOTH BEHAVIOURS ARE CORRECT — refusing to grade is the direction that does not invent a finding — but the cost is that neither does its job here yet. ★ `git fetch --unshallow` fixes it and was deliberately NOT run by the seat that found it, because it writes to the object store of a repository other sessions are actively using. Decide when, do it once, and note both instruments become conclusive from that moment.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T20:34:34Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-059",
       "kind": "process_defect",
       "process_defect": true,
@@ -2099,43 +2100,6 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
       "what": "⚠ `c_cycles_are_sized` CANNOT DISTINGUISH A DEPTH-LIMIT REFUSAL FROM AN ABSENT TOOL, and they are different failures. AUT-PD-032 found create_session CALLABLE but refused past lineage depth 8; AUT-PD-045 found it NOT PRESENT AS A TOOL AT ALL in a scheduled-Routine session. The condition downgrades both to UNMEASURED. ⭐ session_cap.py accepts both DELIBERATELY, because for the STOP decision they are the same fact — the loop cannot hand off — and that is not the defect here. ★ For DIAGNOSIS they are not the same: one says the loop ran too deep and a fresh root session fixes it; the other says the platform never gave this context the tool and restarting cannot help. Recording which occurred is what tells a future session whether to spawn shallower or to stop expecting a handoff."
-    },
-    {
-      "id": "AUT-PD-049",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "CYC-research-loop-1787948441",
-      "claimed_utc": "2026-08-28T20:20:41Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0030-6be7fd5a",
-      "score": 142.0,
-      "_score_basis": "our own queue is inspectable in exactly the half AlabOS's is not, and the arbitration half is where a stall hides",
-      "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §11a (the /deep-research pass, 109 agents, 3-vote adversarial verification)",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⚠ THE INSPECTABILITY QUALIFICATION THE ADVERSARIAL PASS INSISTED ON, TURNED ON US. AlabOS's task STATUS is dashboard-visible; its pending RESOURCE-REQUEST queue lives in the `requests` collection and is surfaced by NO route. So the thing a reader can see is what each task is doing, and the thing they cannot see is what is waiting on what. ⭐ OUR EQUIVALENT: continuity.py prints ready rows and the capacity line, and stalled_holder.py prints held rows — but nothing prints WHY a ready row is not moving when the cap is not full, and nothing prints the arbitration between a lease and a ready row. That is precisely where the 2026-08-27 dead seat hid for 2 h 36 m. Cheap: one view, derived, no new state.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T20:20:41Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ],
-      "score_inputs": {
-        "fruitless_attempts": 1
-      }
     },
     {
       "id": "AUT-PD-057",
@@ -2238,40 +2202,6 @@
       "_score_basis": "a seat's evidence dies with its worktree, so any defect the driver cannot reproduce immediately becomes unfalsifiable — it already cost two wrong mechanisms in the ledger",
       "depends_on_evidence": "the AUT-PROP-009 review seat's report: scratchpad/preflight.log truncated to 8 lines at 20:38",
       "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-050",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "SEAT-s1-1f1a2449",
-      "claimed_utc": "2026-08-28T20:34:34Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0030-6be7fd5a",
-      "score": 140.0,
-      "_score_basis": "a row with no score is invisible to every ranking term, including the anti-starvation one just added",
-      "depends_on_evidence": "priority.build_ledger() dry run 2026-08-28: 24 entries with score=None",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "queue mechanics; nothing published, submitted or deposited",
-      "what": "⚠ TWENTY-FOUR LEDGER ROWS CARRY NO SCORE AT ALL, so no ranking term can order them — including the anti-starvation age factor added in AUT-PD-048, which is precisely the term meant to rescue exactly these rows. Found while dry-running that change, not by looking for it. Sample: AUT-COV-001, AUT-COV-002, AUT-INC-001, AUT-PD-011, AUT-PD-012. ⛔ THE SORT ALREADY KNOWS: build_ledger sorts with `-(score if score is not None else -1e9)`, i.e. an unscored row is pinned to the BOTTOM forever by construction — a starving class the age term cannot reach. ★ The question to answer first is whether these rows SHOULD be scored (hand-filed rows get a hand score) or whether the scorer should derive one; do not paper over it by defaulting them to zero, which just makes the starvation silent instead of visible.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T20:34:34Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
     },
     {
       "id": "AUT-015",
@@ -2449,6 +2379,43 @@
       "claimed_utc": null
     },
     {
+      "id": "AUT-PD-058",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "SEAT-s2-1f1a2449",
+      "claimed_utc": "2026-08-28T20:34:34Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "score": 138.0,
+      "_score_basis": "two instruments built on git history return a censored verdict in this container, so neither can yet do its job",
+      "depends_on_evidence": "stuck_clock.is_shallow() is true here; git rev-parse --is-shallow-repository = true, 206 commits all dated 2026-08-27 or later.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "what": "⚠ THE CLONE IS SHALLOW, WHICH CENSORS BOTH GIT-DERIVED INSTRUMENTS. stuck_clock.py reports every long-waiting row as a right-censored LOWER BOUND rather than a measurement and cannot declare a row terminal until the horizon is older than its 24 h threshold; learning_rate.py refuses to grade any window the horizon falls inside. ⭐ BOTH BEHAVIOURS ARE CORRECT — refusing to grade is the direction that does not invent a finding — but the cost is that neither does its job here yet. ★ `git fetch --unshallow` fixes it and was deliberately NOT run by the seat that found it, because it writes to the object store of a repository other sessions are actively using. Decide when, do it once, and note both instruments become conclusive from that moment.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:34:34Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
+    },
+    {
       "id": "AUT-071",
       "_derived": true,
       "what": "Keep as cited landscape context. Do not overstate a single response.",
@@ -2513,7 +2480,7 @@
       "_requires_trimcrae_why": "a coordination tool; nothing published or deposited"
     },
     {
-      "id": "AUT-PD-031",
+      "id": "AUT-PD-050",
       "kind": "process_defect",
       "process_defect": true,
       "serves": {
@@ -2522,32 +2489,32 @@
         "strategy": null
       },
       "state": "in_progress",
-      "owner": "SEAT-s3-1f1a2449",
+      "owner": "SEAT-s1-1f1a2449",
       "claimed_utc": "2026-08-28T20:34:34Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
-      "retry_budget": 3,
+      "retry_budget": 2,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
-      "score": 133.1,
-      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
-      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "score": 132.0,
+      "_score_basis": "a row with no score is invisible to every ranking term, including the anti-starvation one just added",
+      "depends_on_evidence": "priority.build_ledger() dry run 2026-08-28: 24 entries with score=None",
       "closes_clause": null,
       "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited",
-      "score_inputs": {
-        "age_factor": 0.0714
-      },
+      "_requires_trimcrae_why": "queue mechanics; nothing published, submitted or deposited",
+      "what": "⚠ TWENTY-FOUR LEDGER ROWS CARRY NO SCORE AT ALL, so no ranking term can order them — including the anti-starvation age factor added in AUT-PD-048, which is precisely the term meant to rescue exactly these rows. Found while dry-running that change, not by looking for it. Sample: AUT-COV-001, AUT-COV-002, AUT-INC-001, AUT-PD-011, AUT-PD-012. ⛔ THE SORT ALREADY KNOWS: build_ledger sorts with `-(score if score is not None else -1e9)`, i.e. an unscored row is pinned to the BOTTOM forever by construction — a starving class the age term cannot reach. ★ The question to answer first is whether these rows SHOULD be scored (hand-filed rows get a hand score) or whether the scorer should derive one; do not paper over it by defaulting them to zero, which just makes the starvation silent instead of visible.",
       "dispatch_log": [
         {
           "utc": "2026-08-28T20:34:34Z",
-          "fingerprint_at_dispatch": "2026-08-27|None"
+          "fingerprint_at_dispatch": "2026-08-28|None"
         }
-      ]
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
     },
     {
       "id": "AUT-PROP-041",
@@ -2669,6 +2636,44 @@
         "fruitless_attempts": 0,
         "age_factor": 0.2143
       }
+    },
+    {
+      "id": "AUT-PD-031",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "SEAT-s3-1f1a2449",
+      "claimed_utc": "2026-08-28T20:34:34Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
+      "score": 125.1,
+      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
+      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited",
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "fruitless_attempts": 1
+      },
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:34:34Z",
+          "fingerprint_at_dispatch": "2026-08-27|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-028",

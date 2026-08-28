@@ -232,6 +232,54 @@ def blocked() -> list[tuple[dict, str]]:
     return [(e, why) for e, why in rows if why and why != "finished"]
 
 
+def lease_arbitration(me: str | None = None) -> list[dict]:
+    """AUT-PD-049: the half neither `continuity.py` nor `stalled_holder.py` printed — for a row an
+    OTHER worker's lease is holding back, is that lease still alive?
+
+    ⛔ THE GAP THIS CLOSES. `priority.release_stale_claims` only runs inside `priority.py --write`,
+    once a cycle period. Between writes, a row a dead seat claimed and never released reads
+    identically to one a live seat is actively working — both just say "claimed by X" — which is
+    exactly where the 2026-08-27 dead seat hid for 2 h 36 m. This computes the SAME arithmetic
+    `release_stale_claims` uses (claim_lease.periods × the cycle interval) on demand, so the
+    staleness is visible the moment anyone looks rather than only after the next re-score.
+
+    ⭐ ONE VIEW, DERIVED, NO NEW STATE — it reads `claimed_utc` and the existing weights file; it
+    writes nothing and reaps nothing. Reaping stays `priority.py`'s job so there is exactly one
+    place a lease is actually released.
+    """
+    interval_h = priority._cycle_interval_hours() or 4.0
+    weights = priority.load_weights()
+    hours = interval_h * weights["claim_lease"]["periods"]
+    now = priority._utcnow()
+    terminal = handoff.terminal_ids()
+    out = []
+    for e in _entries():
+        if e.get("state") not in OPEN_STATES:
+            continue
+        owner = e.get("owner")
+        if not owner or owner == me:
+            continue
+        stamped = priority._parse_utc(e.get("claimed_utc"))
+        age_h = None if stamped is None else (now - stamped).total_seconds() / 3600.0
+        past_expiry = stamped is None or age_h >= hours
+        # ⚠ THE ARBITRATION ITSELF: would this row read as ready RIGHT NOW if the lease were gone?
+        # Checked against a copy — this view must never mutate the entry it read.
+        unheld = dict(e, owner=None, claimed_utc=None)
+        out.append({
+            "id": e.get("id"),
+            "held_by": owner,
+            "claimed_utc": e.get("claimed_utc"),
+            "age_h": age_h,
+            "lease_hours": round(hours, 1),
+            "past_expiry": past_expiry,
+            "would_be_ready_if_released": _why_not_ready(unheld, me, terminal) is None,
+        })
+    # unstamped (age_h is None) first — an un-ageable claim is the most urgent to look at, not the
+    # least, because `release_stale_claims` treats it as stale immediately (priority.py).
+    out.sort(key=lambda r: -1e9 if r["age_h"] is None else -r["age_h"])
+    return out
+
+
 # ---------------------------------------------------------------------------------------------
 # v1's question, KEPT — but demoted. It is a real check and it is not the stopping condition.
 # ---------------------------------------------------------------------------------------------
@@ -303,6 +351,9 @@ def main(argv=None) -> int:
                     help="exit 1 if any ledger item is ready to run right now")
     ap.add_argument("--clauses", action="store_true",
                     help="the subordinate durability view: is every blocking clause recorded?")
+    ap.add_argument("--leases", action="store_true",
+                    help="AUT-PD-049: every OTHER worker's lease holding a row back, and whether "
+                         "that lease still looks alive")
     ap.add_argument("--me", metavar="CYCLE", default=None,
                     help="your cycle id, so items YOU hold a lease on still count as yours to run")
     ap.add_argument("--limit", type=int, default=10)
@@ -310,6 +361,28 @@ def main(argv=None) -> int:
 
     if args.clauses:
         return 1 if _print_clauses() else 0
+
+    if args.leases:
+        rows = lease_arbitration(args.me)
+        if not rows:
+            print("no other worker holds a lease on an open row.")
+            return 0
+        stale = [r for r in rows if r["past_expiry"]]
+        print(f"{len(rows)} open row(s) held by another worker, {len(stale)} past their lease "
+              f"threshold (would be released by the next `priority.py --write`):\n")
+        for r in rows[:args.limit]:
+            age = "unstamped" if r["age_h"] is None else f"{r['age_h']:.1f} h"
+            flag = "⛔ PAST EXPIRY" if r["past_expiry"] else "· within lease"
+            unlock = " — would be READY if released" if r["would_be_ready_if_released"] else ""
+            print(f"   {flag}  {r['id']}  held by {r['held_by']} for {age} "
+                  f"(lease {r['lease_hours']:.1f} h){unlock}")
+        if len(rows) > args.limit:
+            print(f"   … and {len(rows) - args.limit} more")
+        if stale:
+            print("\n⚠ A row past expiry is not yet released — that only happens inside the next\n"
+                  "  `priority.py --write`. If the holder is not actually running (ListAgents shows\n"
+                  "  nothing), that is litter: release it by hand (`owner: null`) rather than wait.")
+        return 0
 
     r = ready(args.me)
     b = blocked()

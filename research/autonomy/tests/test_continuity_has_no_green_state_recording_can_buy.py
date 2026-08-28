@@ -462,6 +462,107 @@ def test_a_released_lease_stops_counting(led, monkeypatch, tmp_path):
     assert C.main(["--check"]) == 1
 
 
+# ---------------------------------------------------------------------------------------------
+# AUT-PD-049: `--leases` — is a row's blocking lease still alive, between `priority.py --write`s.
+# ---------------------------------------------------------------------------------------------
+
+def _lease_clock(monkeypatch, tmp_path, interval_h=4.0, periods=2.0, now=None):
+    """Pins the arithmetic `lease_arbitration` shares with `priority.release_stale_claims`,
+    without touching the real autonomy-state.json / priority-weights.json."""
+    import datetime
+    monkeypatch.setattr(C.priority, "_cycle_interval_hours", lambda: interval_h)
+    monkeypatch.setattr(C.priority, "load_weights", lambda: {"claim_lease": {"periods": periods}})
+    fixed_now = now or datetime.datetime(2026, 8, 28, 20, 0, tzinfo=datetime.timezone.utc)
+    monkeypatch.setattr(C.priority, "_utcnow", lambda: fixed_now)
+    return fixed_now
+
+
+def test_your_own_lease_is_never_reported_as_another_workers(led, monkeypatch, tmp_path):
+    """⛔ THE SAME ONE-WAY DOOR AS `ready(me=...)`. A cycle reading its own lease back as something
+    to arbitrate would be nonsense — it already knows it holds the item."""
+    _lease_clock(monkeypatch, tmp_path)
+    led([_item(id="A", owner="CYC-mine", claimed_utc="2026-08-28T19:00:00Z")])
+    assert C.lease_arbitration(me="CYC-mine") == []
+
+
+def test_a_lease_within_its_window_is_not_past_expiry(led, monkeypatch, tmp_path):
+    _lease_clock(monkeypatch, tmp_path, interval_h=4.0, periods=2.0)  # 8 h lease
+    led([_item(id="A", owner="CYC-other", claimed_utc="2026-08-28T19:00:00Z")])  # 1 h old
+    [row] = C.lease_arbitration()
+    assert row["age_h"] == pytest.approx(1.0)
+    assert row["lease_hours"] == pytest.approx(8.0)
+    assert row["past_expiry"] is False
+
+
+def test_a_lease_past_its_window_is_flagged(led, monkeypatch, tmp_path):
+    """⭐ THE CASE THIS EXISTS FOR: a dead seat's claim, still standing hours after
+    `release_stale_claims` would have cleared it at the next `priority.py --write`."""
+    _lease_clock(monkeypatch, tmp_path, interval_h=4.0, periods=2.0)  # 8 h lease
+    led([_item(id="A", owner="CYC-dead", claimed_utc="2026-08-28T10:00:00Z")])  # 10 h old
+    [row] = C.lease_arbitration()
+    assert row["past_expiry"] is True
+
+
+def test_an_unstamped_claim_is_stale_immediately(led, monkeypatch, tmp_path):
+    """Mirrors `release_stale_claims`: a claim with no `claimed_utc` cannot be aged, so it is treated
+    as stale rather than immortal — the fail-toward-releasing direction."""
+    _lease_clock(monkeypatch, tmp_path)
+    led([_item(id="A", owner="CYC-other", claimed_utc=None)])
+    [row] = C.lease_arbitration()
+    assert row["age_h"] is None
+    assert row["past_expiry"] is True
+
+
+def test_would_be_ready_if_released_reflects_a_second_real_block(led, monkeypatch, tmp_path):
+    """⛔ RELEASING THE LEASE MUST NOT BE MISREPORTED AS UNLOCKING THE ROW when something else also
+    blocks it — a stale lease is not the only reason a row can be unstartable."""
+    _lease_clock(monkeypatch, tmp_path)
+    led([_item(id="A", owner="CYC-dead", claimed_utc="2026-08-28T10:00:00Z",
+               blocked_by=["AUT-999"])])
+    [row] = C.lease_arbitration()
+    assert row["would_be_ready_if_released"] is False
+
+
+def test_would_be_ready_if_released_is_true_when_the_lease_is_the_only_block(led, monkeypatch, tmp_path):
+    _lease_clock(monkeypatch, tmp_path)
+    led([_item(id="A", owner="CYC-dead", claimed_utc="2026-08-28T10:00:00Z")])
+    [row] = C.lease_arbitration()
+    assert row["would_be_ready_if_released"] is True
+
+
+def test_finished_rows_never_appear_in_lease_arbitration(led, monkeypatch, tmp_path):
+    _lease_clock(monkeypatch, tmp_path)
+    led([_item(id="A", owner="CYC-other", state="done", claimed_utc="2026-08-01T00:00:00Z")])
+    assert C.lease_arbitration() == []
+
+
+def test_unstamped_leases_sort_first(led, monkeypatch, tmp_path):
+    """An un-ageable claim is the most urgent to look at, not the least — it is already stale by
+    construction, whatever its neighbours' ages are."""
+    _lease_clock(monkeypatch, tmp_path)
+    led([_item(id="OLD", owner="CYC-a", claimed_utc="2026-08-28T10:00:00Z"),
+         _item(id="UNSTAMPED", owner="CYC-b", claimed_utc=None)])
+    ids = [row["id"] for row in C.lease_arbitration()]
+    assert ids[0] == "UNSTAMPED"
+
+
+def test_leases_cli_reports_past_expiry_and_survivors(led, monkeypatch, tmp_path, capsys):
+    _lease_clock(monkeypatch, tmp_path)
+    led([_item(id="STALE", owner="CYC-dead", claimed_utc="2026-08-28T10:00:00Z"),
+         _item(id="FRESH", owner="CYC-live", claimed_utc="2026-08-28T19:30:00Z")])
+    assert C.main(["--leases"]) == 0
+    out = capsys.readouterr().out
+    assert "STALE" in out and "PAST EXPIRY" in out
+    assert "FRESH" in out and "within lease" in out
+
+
+def test_leases_cli_excludes_the_callers_own_claim(led, monkeypatch, tmp_path, capsys):
+    _lease_clock(monkeypatch, tmp_path)
+    led([_item(id="A", owner="CYC-mine", claimed_utc="2026-08-28T19:00:00Z")])
+    assert C.main(["--leases", "--me", "CYC-mine"]) == 0
+    assert "no other worker holds a lease" in capsys.readouterr().out
+
+
 def test_declaring_false_silences_the_report_without_hiding_the_work(led):
     """⭐ THE REGEX WAS WRONG ABOUT TWO OF TEN REAL ROWS — one matched 'the paper heading' inside a
     list of already-rewritten sites, the other matched 'deposit artifact' in a row about a file
