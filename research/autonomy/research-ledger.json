@@ -8,23 +8,24 @@
     "analysis": 1,
     "build": 1,
     "code": 1,
-    "experiment": 23,
+    "experiment": 24,
     "fetch": 17,
     "fix": 10,
     "harden": 16,
     "negative": 32,
     "process": 7,
-    "process_defect": 88,
-    "proposal": 15,
+    "process_defect": 96,
+    "proposal": 16,
     "regrade": 8,
     "verify": 1,
     "write": 6
   },
   "n_by_state": {
-    "done": 83,
+    "blocked": 1,
+    "done": 85,
     "in_progress": 2,
     "parked": 28,
-    "queued": 112,
+    "queued": 119,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -54,47 +55,6 @@
       "_score_basis": "inherited from AUT-PROP-018 (+0.5) — it is the work that unblocks it",
       "score": 208.86,
       "closes_clause": null
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "in_progress",
-      "owner": "CYC-0059-18394002",
-      "claimed_utc": "2026-08-28T16:35:43Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 2,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
-      "id": "AUT-PROP-018",
-      "kind": "harden",
-      "prerequisite_of": "AUT-049",
-      "what": "run PREFLIGHT_FULL=1 at the FINAL ASO v2 commit and RECORD the receipt with record_bar_evidence.py. ⭐ CLOSES publish_bar CLAUSE 2 FOR PUB-ASO. ⛔ IT MUST BE THE COMMIT THAT IS POSTED — a receipt at an earlier sha closes nothing, and this has already been restarted twice because the tree moved under a run in flight. Run it LAST, after the CI .docx rebuild has landed on main, or it is thrown away.",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "score": 208.36,
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "preflight_full_green"
-      },
-      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
-      "score_inputs": {
-        "age_factor": 0.0714
-      },
-      "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question.",
-      "_commit_pointer_correction": "2026-08-28T16:31:00Z CYC-0058-18394002: the pinned `commit` (eed563d6b5114f0879c8bcb285f1b67ba9d677e5, from research/autonomy/ready-to-post.json, written by ready_to_post.py's `_head()` as whatever HEAD was in some earlier session's checkout) is UNREACHABLE from origin/main -- `git merge-base origin/claude/dreamy-hawking-vcvlhk origin/main` exits 1, no common ancestor. That branch is a stranded scratch/session branch (144 commits ahead, 88 behind, disjoint root commit), stopped at 'ASO round 11'. DO NOT attempt to recover or merge it: diffing its tip against origin/main shows the ASO journal article text is BYTE-IDENTICAL already, and main additionally carries fusion-junction-aso-paper-redteam-round12.md plus the claim-audit manifest/verdicts JSON that the branch does not have -- main is the more current state, not the branch. The stale pointer is why this row has already burned two PREFLIGHT_FULL attempts: a receipt at that sha could never satisfy publish_bar clause 2 (`record.get('sha') != sha`) because that sha is not where the current work lives. NEXT ATTEMPT: run `ready_to_post.py --write` to refresh the `commit` pointer against a clean, QUIET origin/main checkout (not mid-push), THEN immediately PREFLIGHT_FULL=1 at that same HEAD before anything else lands. Not attempted this cycle: origin/main had 3 concurrent commits land from CYC-0053-3217966b within the ~15 minutes of this session's own work, and a 25-minute FULL run started into that churn would very likely be a third throwaway.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T16:35:43Z",
-          "fingerprint_at_dispatch": "2026-08-27|None"
-        }
-      ]
     },
     {
       "serves": {
@@ -1367,49 +1327,6 @@
       "what": "⛔⛔ MERGING A SEAT'S BRANCH DOES NOT CLOSE THE SEAT'S LEDGER ROW, SO FINISHED WORK IS RE-OFFERED AS READY AND A SECOND SESSION CLAIMS IT. ⚠ MEASURED 2026-08-28 and it cost a dispatch: `stuck_clock.py` (AUT-PROP-029) was merged to main from a worktree branch — 569 lines, 40 tests, 17/17 mutations — and the row stayed `in_progress` with the SEAT as owner. priority.py's stale-lease sweep then released it, continuity.py offered it as ready, and CYC-0044-schedule claimed it and dispatched a background worktree agent to build what was already on its own base. ⭐ THE SHAPE IS THE LEASE DEFECT ONE STEP LATER: a lease says who HOLDS a row and nothing says who FINISHED one, so the ledger's only record of completion is a human remembering to write it during a merge — which is exactly the 'agreement in prose between a reader and a writer' this repository has now paid for at AUT-PD-013, AUT-PROP-013 and AUT-PD-037. ★ THE FIX IS TO DERIVE IT, NOT TO REMEMBER IT: a merge that lands a seat's deliverable can be detected — the row names its artifact in `depends_on_evidence` or its branch in `lease_released`, and git can answer whether that artifact is on main. A check that refuses to offer a row as READY while its named deliverable already exists on the trunk would have caught this before the dispatch. ⚠ DO NOT auto-close on that signal alone — an artifact existing is not the same as the item being finished, and a row whose deliverable partly landed must stay open. Report it and make a human or the merging session confirm. ⛔⛔ SECOND INSTANCE, SAME DAY: AUT-PROP-032's residue gate (1,110 lines, preflight gate 16) was merged locally and not pushed, the row stayed open on the trunk, and CYC-0046-schedule claimed it and dispatched an agent. ⭐ THE TWO TOGETHER SHARPEN THE FIX: the defect is not that a merge fails to close a row, it is that NOTHING VERIFIES A MERGE HAPPENED. The check now exists — queue_view.already_landed() compares a row's named deliverable against origin/main and caught AUT-020 on its first run — and should be pointed at rows owned by a COMPLETED seat, not only at ready rows.\n\n✅ DONE 2026-08-28 (CYC-0047-cyc0047s, second item this session). Widened already_landed() from ready-rows-only to also cover HELD rows: added queue_view.held_full_rows() (the full ledger row for every live lease, since held()'s own summary dict carries no `what`/`lease_released` for named_paths() to scan), wired it into main() as a new '⛔⛔ HELD, BUT ALREADY ON origin/main' section, and folded it into --check's exit code. Report-only, same as the ready-row half -- never auto-closes, per the module's own stated limit. Regression-tested: research/autonomy/tests/test_the_arbitration_half_of_the_queue_is_visible.py gained 3 cases, the key one (test_a_held_rows_landed_deliverable_is_caught_where_ready_only_missed_it) modelling AUT-PROP-032's exact shape and asserting BOTH that the pre-fix ready-only check sees nothing for an in_progress/owned row AND that the new held-row check does -- all 3 confirmed failing (AttributeError) against the pre-fix module before being trusted, all pass post-fix."
     },
     {
-      "id": "AUT-013",
-      "_derived": true,
-      "what": "Treat as landscape context; the ex-vivo result is banked and needs no further lookup.",
-      "serves": {
-        "route": "RT-CARFILZOMIB",
-        "publication": "PUB-REPURPOSING",
-        "strategy": "ST-REPURPOSING"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-0059-3217966b",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
-      "score": 172.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "claimed_utc": "2026-08-28T17:02:07Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T17:02:07Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-052",
       "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-EMC-DATA']. Original next action: The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-emc.md). What remains is a PPARγ activity readout in EMC, which is blocked by BLK-NO-EMC-DATA — not by an unrun literature pull.",
@@ -1716,6 +1633,49 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
+    },
+    {
+      "id": "AUT-013",
+      "_derived": true,
+      "what": "Treat as landscape context; the ex-vivo result is banked and needs no further lookup.",
+      "serves": {
+        "route": "RT-CARFILZOMIB",
+        "publication": "PUB-REPURPOSING",
+        "strategy": "ST-REPURPOSING"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "CYC-0059-3217966b",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-09",
+      "score": 164.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0
+      },
+      "claimed_utc": "2026-08-28T17:02:07Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T17:02:07Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-054",
@@ -2029,43 +1989,6 @@
       }
     },
     {
-      "id": "AUT-062",
-      "_derived": true,
-      "what": "Read which other kinases phosphorylate the substrate, to size how much of the signal SGK1 could account for.  ✅ ANSWERED 2026-08-28 (CYC-0053-3217966b, seat s62-sgk1, merged at b3700d21f; artifact research/literature/ndrg1-kinase-attribution-2026-08-28.json). Substrate established from the repository, not assumed: NDRG1. ⛔⛔ THE QUESTION'S PREMISE DOES NOT HOLD FOR THIS ROUTE'S DATA, AND THAT IS THE RESULT: RT-SGK1 reads NDRG1 TRANSCRIPT ABUNDANCE, while every SGK1→NDRG1 mechanism in the literature is PHOSPHORYLATION OF PROTEIN, so there is no phosphorylation in the number for other kinases to divide. No fraction is assignable to SGK1 — which is NOT 'SGK1 contributes nothing', and the seat corrected its own first draft for overstating it as 'zero by construction'. Discriminating observations: in sgk1−/− cells NDRG1 is 'similarly expressed' while its phosphorylation falls (PMID 25200670); Hsp90 inhibition moves abundance UP and phosphorylation DOWN (PMID 19682504) — the two readouts can be ANTI-correlated. What drives NDRG1 abundance is hypoxia via HIF-1 (PMID 15341671), and this repository's own data has all six published hypoxia signatures higher in EMC on both platforms with NDRG1 a core member of four of six. ⭐ FOR THE PHOSPHO READING THE ROUTE DOES NOT HAVE: UNKNOWN, bounded away from BOTH 0% and 100% — SGK1, SGK3 and Akt have each been shown individually SUFFICIENT to carry p-NDRG1 in some human cell background (PMIDs 15461589, 31461270, 23581296), so the answer is a property of the cell rather than a constant. One retrieved record is typed Retracted Publication by PubMed and is recorded as excluded, carrying no claim. Settled by a p-NDRG1 (Thr346/Ser330) measurement in EMC material under an SGK-directed perturbation WITH AN AKT ARM AS CONTROL — blocked on BLK-NO-WET-LAB. ★ EFFECT: WEAKENS ONE CLAUSE, NOT THE ROUTE. The grade's 'which is an activity-shaped reading rather than an abundance one' is the entire inferential step from a number to a statement about SGK1, and it is unsupported; the grade's own 'not attributable to SGK1' was already right, for a NARROWER reason than it gave. PUB-KINASE-LEADS is unharmed — a lead whose corroboration rests on a transcript-for-phospho substitution is a fourth instance of exactly what that paper is about.",
-      "serves": {
-        "route": "RT-SGK1",
-        "publication": "PUB-KINASE-LEADS",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "kind": "experiment",
-      "state": "done",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "score": 152.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "claimed_utc": null
-    },
-    {
       "id": "AUT-074",
       "_derived": true,
       "what": "Report it as a closed line: elevated and pan-essential is not an opportunity.",
@@ -2192,40 +2115,6 @@
       "what": "⚠ THE INSPECTABILITY QUALIFICATION THE ADVERSARIAL PASS INSISTED ON, TURNED ON US. AlabOS's task STATUS is dashboard-visible; its pending RESOURCE-REQUEST queue lives in the `requests` collection and is surfaced by NO route. So the thing a reader can see is what each task is doing, and the thing they cannot see is what is waiting on what. ⭐ OUR EQUIVALENT: continuity.py prints ready rows and the capacity line, and stalled_holder.py prints held rows — but nothing prints WHY a ready row is not moving when the cap is not full, and nothing prints the arbitration between a lease and a ready row. That is precisely where the 2026-08-27 dead seat hid for 2 h 36 m. Cheap: one view, derived, no new state."
     },
     {
-      "id": "AUT-PD-057",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "CYC-0059-3217966b",
-      "claimed_utc": "2026-08-28T17:02:10Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0030-6be7fd5a",
-      "score": 150.0,
-      "_score_basis": "prose in this repository cites arXiv identifiers that no provenance check can see, and the 2026-08-27 survey added many more",
-      "depends_on_evidence": "Found by the AUT-PROP-032 seat, recorded in lint_submission_residue's UNCOVERED_BY_LINT_CITATIONS.",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⚠ `lint_citations` EXTRACTS PMID / PMCID / DOI / NCT / GEO AND NO arXiv PATTERN, so every arXiv identifier in this repository's prose is unanchored and invisible to the provenance gate — and the 2026-08-27 survey added a substantial number, every one SEARCH-grade. ⛔ THE SEAT THAT FOUND IT DECLINED TO ADD THE PATTERN AND WAS RIGHT: adding it would newly flag every existing arXiv citation at once, which needs its own baseline and its own decision rather than riding along with an unrelated change. ★ The work: add the pattern, run it, and BASELINE the existing hits with a reason each — the shape citation-provenance-ledger.json already uses — so new fabrications fail immediately while the existing corpus is triaged deliberately. ⚠ AUT-PD-038 (a failed fetch can anchor a citation) is the same gate's other hole.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T17:02:10Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-063",
       "kind": "process_defect",
       "process_defect": true,
@@ -2344,6 +2233,43 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
       "what": "⚠ `c_cycles_are_sized` CANNOT DISTINGUISH A DEPTH-LIMIT REFUSAL FROM AN ABSENT TOOL, and they are different failures. AUT-PD-032 found create_session CALLABLE but refused past lineage depth 8; AUT-PD-045 found it NOT PRESENT AS A TOOL AT ALL in a scheduled-Routine session. The condition downgrades both to UNMEASURED. ⭐ session_cap.py accepts both DELIBERATELY, because for the STOP decision they are the same fact — the loop cannot hand off — and that is not the defect here. ★ For DIAGNOSIS they are not the same: one says the loop ran too deep and a fresh root session fixes it; the other says the platform never gave this context the tool and restarting cannot help. Recording which occurred is what tells a future session whether to spawn shallower or to stop expecting a handoff."
+    },
+    {
+      "id": "AUT-PD-057",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "CYC-0059-3217966b",
+      "claimed_utc": "2026-08-28T17:02:10Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "score": 142.0,
+      "_score_basis": "prose in this repository cites arXiv identifiers that no provenance check can see, and the 2026-08-27 survey added many more",
+      "depends_on_evidence": "Found by the AUT-PROP-032 seat, recorded in lint_submission_residue's UNCOVERED_BY_LINT_CITATIONS.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "what": "⚠ `lint_citations` EXTRACTS PMID / PMCID / DOI / NCT / GEO AND NO arXiv PATTERN, so every arXiv identifier in this repository's prose is unanchored and invisible to the provenance gate — and the 2026-08-27 survey added a substantial number, every one SEARCH-grade. ⛔ THE SEAT THAT FOUND IT DECLINED TO ADD THE PATTERN AND WAS RIGHT: adding it would newly flag every existing arXiv citation at once, which needs its own baseline and its own decision rather than riding along with an unrelated change. ★ The work: add the pattern, run it, and BASELINE the existing hits with a reason each — the shape citation-provenance-ledger.json already uses — so new fabrications fail immediately while the existing corpus is triaged deliberately. ⚠ AUT-PD-038 (a failed fetch can anchor a citation) is the same gate's other hole.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T17:02:10Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
     },
     {
       "id": "AUT-003",
@@ -2576,6 +2502,42 @@
       },
       "claimed_utc": null,
       "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (kinase-leads patch landed)"
+    },
+    {
+      "id": "AUT-062",
+      "_derived": true,
+      "what": "Read which other kinases phosphorylate the substrate, to size how much of the signal SGK1 could account for.",
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "kind": "experiment",
+      "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "score": 140.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "claimed_utc": null
     },
     {
       "id": "AUT-071",
@@ -2869,6 +2831,48 @@
       "_score_basis": "the instance cost one permanently-unmeasurable governance row on the dial the architecture calls the most important; the class is every other row like it",
       "depends_on_evidence": "research/autonomy/receipt_schema.py and its 21-test suite — the worked instance",
       "closes_clause": null
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "blocked",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": "AUT-PD-105",
+      "blocked_evidence": "Dispatched PREFLIGHT_FULL=1 for real this cycle (Actions run https://github.com/trimcrae/Rare-cancers/actions/runs/33190817704, sha 5964fa24da222d7557a3073fccb8ddf0be048cd6) -- the stale-commit-pointer problem this row previously carried is resolved. The run is a GENUINE red, not infrastructure: 8106 modalities + 543 selector tests passed; the manuscripts suite is 1451 passed, 2 FAILED -- both in research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py::test_a_covered_sentence_has_a_witness_that_actually_goes_red, on research/manuscripts/aso/fusion-junction-aso-journal-article.md (1 of 53 perturbed sentences changed its number with no witness the census names going red) and research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md (2 of 73). This is PUB-ASO's own article failing a real coverage-falsifiability gate -- filed as AUT-PD-105. Also found and fixed live: record_bar_evidence.py was silently discarding the diagnostic log of any red PREFLIGHT_FULL run (fixed this cycle, AUT-PD-105's sibling finding is in the commit, not a separate row -- see the amendment on test_a_red_preflight_full_log_is_preserved.py); the itemized per-sentence detail of the 1-of-53 and 2-of-73 failures was NOT recoverable from the Actions console log (pytest's short summary truncates the assertion message) and needs a fresh local or CI run of just that test file to see. NEXT ATTEMPT: close AUT-PD-105 first, then re-dispatch preflight-full-record.yml at a fresh quiet-main sha exactly as this cycle did.",
+      "retry_budget": 3,
+      "attempts": 2,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "id": "AUT-PROP-018",
+      "kind": "harden",
+      "prerequisite_of": "AUT-049",
+      "what": "run PREFLIGHT_FULL=1 at the FINAL ASO v2 commit and RECORD the receipt with record_bar_evidence.py. ⭐ CLOSES publish_bar CLAUSE 2 FOR PUB-ASO. ⛔ IT MUST BE THE COMMIT THAT IS POSTED — a receipt at an earlier sha closes nothing, and this has already been restarted twice because the tree moved under a run in flight. Run it LAST, after the CI .docx rebuild has landed on main, or it is thrown away.",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "score": 118.36,
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "preflight_full_green"
+      },
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "blocked_with_evidence": true
+      },
+      "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question.",
+      "_commit_pointer_correction": "2026-08-28T16:31:00Z CYC-0058-18394002: the pinned `commit` (eed563d6b5114f0879c8bcb285f1b67ba9d677e5, from research/autonomy/ready-to-post.json, written by ready_to_post.py's `_head()` as whatever HEAD was in some earlier session's checkout) is UNREACHABLE from origin/main -- `git merge-base origin/claude/dreamy-hawking-vcvlhk origin/main` exits 1, no common ancestor. That branch is a stranded scratch/session branch (144 commits ahead, 88 behind, disjoint root commit), stopped at 'ASO round 11'. DO NOT attempt to recover or merge it: diffing its tip against origin/main shows the ASO journal article text is BYTE-IDENTICAL already, and main additionally carries fusion-junction-aso-paper-redteam-round12.md plus the claim-audit manifest/verdicts JSON that the branch does not have -- main is the more current state, not the branch. The stale pointer is why this row has already burned two PREFLIGHT_FULL attempts: a receipt at that sha could never satisfy publish_bar clause 2 (`record.get('sha') != sha`) because that sha is not where the current work lives. NEXT ATTEMPT: run `ready_to_post.py --write` to refresh the `commit` pointer against a clean, QUIET origin/main checkout (not mid-push), THEN immediately PREFLIGHT_FULL=1 at that same HEAD before anything else lands. Not attempted this cycle: origin/main had 3 concurrent commits land from CYC-0053-3217966b within the ~15 minutes of this session's own work, and a 25-minute FULL run started into that churn would very likely be a third throwaway.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T16:35:43Z",
+          "fingerprint_at_dispatch": "2026-08-27|None"
+        }
+      ]
     },
     {
       "serves": {
@@ -3822,42 +3826,6 @@
       "lease_released": "✅ STATE CORRECTED 2026-08-28, AND IT WAS FOUND BY THE NEW queue_view.py ON ITS FIRST REAL RUN. This row's own `what` opens '⛔ NOTHING. CLOSED 2026-08-23' and names its record — research/modalities/emc-icdo-contamination.json, which landed on the trunk 2026-08-27 in 1fd33bbbb. The PROSE said closed and the STATE said `queued`, and the state is the field continuity.py reads, so this row has been offered as ready work for five days. ⭐ Exactly the AUT-PD-051 shape: nothing records that a row is FINISHED except a human remembering to write it in the right field."
     },
     {
-      "id": "AUT-035",
-      "_derived": true,
-      "what": "Regenerate patient-cd4-demo.json and the TAF15 panel at the corrected junction, then re-grade the route on COVERAGE rather than on a defective input.",
-      "serves": {
-        "route": "RT-JUNCTION-NEOANTIGEN",
-        "publication": "PUB-NEOANTIGEN",
-        "strategy": "ST-IMMUNO"
-      },
-      "kind": "negative",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 56.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      }
-    },
-    {
       "id": "AUT-PD-062",
       "kind": "process_defect",
       "process_defect": true,
@@ -4214,6 +4182,41 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0,
         "age_factor": 1.0
+      }
+    },
+    {
+      "id": "AUT-035",
+      "_derived": true,
+      "what": "⭐ THE RE-GRADE THIS FIELD ASKED FOR IS DONE (2026-08-28), AND THE ROUTE IS BLOCKED ON NOTHING THIS PROGRAM OWES. ⚠ Superseded, retained: \"Regenerate patient-cd4-demo.json and the TAF15 panel at the corrected junction, then re-grade the route on COVERAGE rather than on a defective input.\" ⛔ BOTH REGENERATIONS WERE ALREADY COMMITTED WHEN THAT SENTENCE WAS SITTING IN THE QUEUE AT `status: blocked` AND `cost: $0`, and so was the third item — so the row looked healthy while telling every reader that finished work was owed and that the class-II arm was withheld. THE RE-GRADE'S OUTCOME is in `grade`: coverage is the ceiling, it is low, and it moved AGAINST the route rather than for it. NEXT, AND IT IS FREE: add HLA-C to coverage_scan.py's class-I panel, re-run it in modalities-run.yml, and re-grade the coverage again. ⛔ DELIBERATELY NOT DONE IN THE CYCLE THAT FOUND THIS: changing the panel moves figures registered in research/manuscripts/pinned-figures.json and quoted in a manuscript under hardening, and CLAUDE.md rule 1.3 requires every home of a changed pinned figure updated in the same commit — which needs the CI run's numbers first.",
+      "serves": {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "publication": "PUB-NEOANTIGEN",
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "negative",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "score": 44.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
       }
     },
     {
@@ -5658,6 +5661,37 @@
       "requires_trimcrae_why": "a repository lint fix; nothing leaves the repo"
     },
     {
+      "id": "AUT-PD-105",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0060-18394002",
+      "score": null,
+      "_score_basis": "unaccounted -- hand-filed, no derivation to check yet",
+      "depends_on_evidence": "PREFLIGHT_FULL=1 Actions run https://github.com/trimcrae/Rare-cancers/actions/runs/33190817704 (sha 5964fa24da222d7557a3073fccb8ddf0be048cd6), the FIRST real (non-infra) run this row has ever produced -- two prior runs (33101598851, 33104631542) failed on workflow/environment bugs before the gates could even run cleanly, and the run before this one (33107744620) was green but at a commit no longer reachable from main. Full manuscripts suite: 1451 passed, 2 failed, both test_the_census_word_covered_survives_ablation.py::test_a_covered_sentence_has_a_witness_that_actually_goes_red[...]. Every other gate (8106 modalities tests, 543 selector/loop-instrument tests, lint_citations, lint_claims, claim strength, systems model, generated-artifact reproduction) was clean.",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "preflight_full_green"
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "content-integrity work on a manuscript's own numeric-claims coverage; nothing published, submitted or deposited by fixing it",
+      "what": "Two documents fail the ablation-coverage falsifiability gate: for each perturbed (number-mutated) sentence the census calls 'covered', the gate checks that at least one registered witness (a guard, a binding) actually goes red when that sentence's number is mutated. research/manuscripts/aso/fusion-junction-aso-journal-article.md has 1 of 53 perturbed sentences with NO witness firing; research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md has 2 of 73. The ASO article is PUB-ASO's own text and this is the second of its three remaining publish_bar blockers (preflight_full_green) -- a real, not cosmetic, gap: a number in that sentence could drift and nothing would catch it. WHAT TO DO: reproduce locally or via a scoped Actions dispatch -- `pytest research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py -k 'fusion-junction-aso-journal-article or fusion-partner-stratification' -v` -- to get the itemized sentence/witness detail the truncated Actions console log did not preserve (this row's own CI run's full pytest verbose output was not recoverable after the fact; the short summary line only names the file and count). Then either add/fix the binding or witness that should cover the drifted sentence (the AUT-PD-036/041 sibling pattern: a guard's scope not reaching a real prose location), or, if the sentence is genuinely not a claim needing a witness, correct the census's own classification -- following the same methodology those rows used (mutation-test the fix, verify zero collateral on the rest of the corpus). Closing this closes one of PUB-ASO's three remaining publish_bar clauses (the other two, hardening_converged and independent_adversarial_seat, are separate rows)."
+    },
+    {
       "id": "AUT-PROP-015",
       "kind": "fix",
       "serves": {
@@ -6499,6 +6533,69 @@
       "what": "`research/autonomy/ids.py`'s `next_receipt()` already carries a session discriminator so two concurrent cycles can be 'both genuinely the Nth cycle' and never collide on a receipt filename (this exact fix is narrated in the research-loop skill, step 10, dated 2026-08-28 AUT-PROP-013). `next_entry_id()` for LEDGER entries (AUT-PD-*, AUT-PROP-*, etc.) has no equivalent: it derives `max(existing ids) + 1` from whatever ledger state the calling session happened to read, with nothing distinguishing two sessions that read the same base concurrently -- the identical race AUT-PROP-013 already fixed for receipts, on the twin surface it was never ported to. WHAT TO DO: give `next_entry_id()` the same session-discriminator shape `next_receipt()` uses (e.g. suffix collision-prone bare ids with a short session-id fragment, or detect+reallocate against `origin/main` at push time the way `claim.py`'s compare-and-swap already does for claims) so a filing race produces two distinct ids instead of a silent duplicate-id write. Diagnose whether `admissibility.py`/`ledger_io.write_ledger` would even catch a genuine duplicate id landing on `main` (two DIFFERENT branches each locally consistent, pushed by two different sessions). This instance never reached that test: this session's commit (c4f1c8c) was never pushed -- a routine `git fetch` before pushing surfaced CYC-0053-3217966b's already-landed `AUT-PD-093` first, and this session reallocated rather than push into the collision. A session that pushed without fetching first would not have been so lucky, and nothing here proves the ledger-side checks would have caught it after the fact.  ⚠ MEASURED INSTANCE, 2026-08-28, CYC-0053-3217966b: this row's own id collided. Two sessions filed AUT-PD-097 within minutes — that session's row (this one) and a row filed by CYC-0053 — and the collision surfaced only at a rebase, where both survived into one file as two entries with one id. priority.py REFUSES a ledger with a duplicated id, so the next re-score anywhere would have failed until a human read the traceback. ⭐ THE COLLIDING ROW WAS REASSIGNED AND THIS ONE KEPT THE ID because this one reached the trunk first — but that rule is a convention nothing enforces, which is the same gap the row describes. It was caught by a post-rebase check for duplicated ids, not by the id allocator."
     },
     {
+      "id": "AUT-PD-098",
+      "what": "★★ SWEEP EVERY ROUTE GRADE FOR THE DEFECT CLASS AUT-062 FOUND BY READING ONE ROUTE: a TRANSCRIPT-ABUNDANCE number described as reporting a protein's ACTIVITY. ⛔ NOBODY HAS CHECKED WHETHER RT-SGK1'S WAS THE ONLY ONE, and that is the whole reason to run it — the defect is invisible to every existing gate, because the sentence is grammatical, hedged, cites a real artifact, and the number it quotes is correct. It is claim SCOPE again (the third orthogonality this repository recorded on 2026-08-28, after strength-vs-provenance and strength-vs-direction), pointed at the systems graph rather than at a manuscript. ★ THE DISCRIMINATOR IS CHEAP: any grade whose evidence is an expression series and whose language names activity, phosphorylation, signalling, pathway output or 'shaped' anything — read each candidate against what its cited artifact actually MEASURES. ⚠ Expect most to be fine; the value is the count, and a clean sweep is a real result worth recording.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-103",
+      "what": "⛔ `TR-*` REVIVAL TRIGGERS ARE DEFINED ONLY IN THE LEGACY emc-systems-map.json: systems/graph carries NO TR-* records, and nothing validates that a route's `revival_trigger` id resolves to anything. Three routes point at one such id. ⚠ CLAUDE.md §7 says systems/graph is the source of truth and everything under systems/views is generated — a route whose reopening condition lives only in the legacy projection is a condition the source of truth cannot see, and a dangling id would be silent. ★ FIX: move TR-* into the graph (or record explicitly that the legacy file owns them and add the resolution check), then validate every reference.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-104",
+      "what": "★★ AUDIT EVERY ROUTE FOR A STATUS OR `readiness.missing` CLAIM THAT A COMMITTED ARTIFACT REFUTES. THIS IS THE THIRD INSTANCE IN ONE DAY and the trend is what matters: AUT-PD-086 (four routes parked while their own next step was $0), AUT-PD-093 (three blockers all false on a live route), and — worst — the neoantigen paper's 28.4% class-II figure, which shows the defect PROPAGATING OUT OF THE GRAPH INTO A MANUSCRIPT, where it was asserted in running prose outside any marker and overstated by roughly 4×. ⭐ THE CLASS IS 'A RECORD ABOUT WHETHER WORK IS DONE, DISAGREEING WITH THE ARTIFACT THAT WOULD SETTLE IT', and no existing gate reads it: lint_citations checks that identifiers resolve, lint_claims checks strength, systems_check checks internal consistency — none compares a readiness claim against the artifact it names. ★ THE CHECK IS MECHANICAL where the claim names a file: does the named artifact exist, and does its grade/seam/allele count match what the record says is missing?",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
+    },
+    {
       "id": "AUT-PD-005",
       "kind": "fix",
       "serves": {
@@ -6604,6 +6701,90 @@
       "score_inputs": {
         "fruitless_attempts": 1
       }
+    },
+    {
+      "id": "AUT-PD-100",
+      "what": "$0 CI: dispatch modalities-run.yml to regenerate hla-coverage.json, so its `_class_ii_note` stops saying '3-allele DR panel' beside a list of twenty-three. ⭐ THE SCRIPT IS ALREADY FIXED (hla_coverage.py now derives the count) AND THE ARTIFACT IS NOT — which is the gap worth naming: a source fix does not correct a committed generated artifact, and the stale string is what every reader sees until the generator re-runs. The regeneration needs the AFND fetch, which is 403 at this sandbox's egress, so it is a CI job rather than a sandbox edit.",
+      "serves": {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "publication": "PUB-NEOANTIGEN",
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
+    },
+    {
+      "id": "AUT-079",
+      "what": "ADD HLA-C TO coverage_scan.py's class-I PANEL (today HLA-A/HLA-B only), re-run in modalities-run.yml, then update EVERY home of every changed pinned figure IN ONE COMMIT and re-grade the route. This is RT-JUNCTION-NEOANTIGEN's own corrected next step and the route's table names HLA-C as the first extension that could raise the figures at a fixed acceptance threshold. ⛔ FIRST ESTABLISH WHETHER MHCflurry 2.1.4 SCORES HLA-C AT ALL — UNKNOWN from this tree, and the whole item collapses if it does not. ⚠ It moves figures registered in pinned-figures.json and quoted in a manuscript under hardening, so rule 1.3 binds: the old numbers get registered in the same commit that changes them, or CI finds the copies you missed.",
+      "serves": {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "publication": "PUB-NEOANTIGEN",
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-101",
+      "what": "⛔ A REVIVAL TRIGGER THAT DOES NOT DISCRIMINATE: TR-NEOANTIGEN-BROADER-ALLELE-COVERAGE's first disjunct ('an epitope on more than one common allele') is ALREADY SATISFIED by a committed artifact — the 34-allele scan — while buying about 4 points of coverage (8.5% → 12.3% public), nowhere near enough to reopen anything; the second disjunct (raise combined above 27.4%) is decisively unmet and arithmetically cannot be met by allele breadth alone. ⭐ A trigger that fires on evidence already in the repository is not a trigger, it is a label. ⛔ DELIBERATELY NOT REWRITTEN BY THE CYCLE THAT FIRED IT — sharpening a bar in the cycle it just cleared is what amendment_guard exists to refuse, so this needs a later cycle and a declared amendment.",
+      "serves": {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "publication": null,
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-102",
+      "what": "⛔ AN ABSENT READING RENDERED AS AN ABSENCE, in coverage_scan.greedy_curve: any allele with no AFND frequency is dropped SILENTLY (`af_of(a) is None`), with no `alleles_without_a_model` equivalent recorded — so a coverage curve computed over fewer alleles than were screened is indistinguishable from one computed over all of them. ⭐ THE FIX ALREADY EXISTS ONE FILE OVER: patient_cd4_epitopes.py records exactly that field and this repository's class-II reporting is trustworthy because of it. CLAUDE.md §4 — an absent reading is not a reading of absence — and the coverage numbers are the ones this route is graded on.",
+      "serves": {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "publication": "PUB-NEOANTIGEN",
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
     },
     {
       "id": "AUT-RT-001",
@@ -6787,54 +6968,12 @@
       }
     },
     {
-      "id": "AUT-PD-094",
-      "what": "⛔ A POINTER THAT DRIFTED FROM ITS OWN DECLARED OWNER, MISREPORTING THREE FIGURES: research/manuscripts/neoantigen/hla-coverage-emc.md's correction block says the class-II arm is 'negative: 2 predicted binders, none strong, on three DRB1 alleles' and that the both-arms figure is 'NOT COMPUTED rather than withheld'. ⛔ All three are stale — the committed artifact records 44 binders, 1 strong (SYGQQNMPCVQAQYS on DRB1*14:01, IC50 66.1 nM) over a 23-allele panel, and the coverage script computes both the class-II and the combined figure rather than leaving them empty. ⭐ THE DECLARED OWNER IS CORRECT AND CURRENT — the same paragraph names emc-vaccine-development-path.md §B4, which reads '44 binders, 1 strong … over 14 of 23 alleles; class II coverage 6.5%, combined 1.8%' and already carries a withdrawal row retiring the 'not computed' statement. So this is not a disagreement about the science; it is A POINTER THAT WAS NOT UPDATED WHEN ITS OWNER WAS, which is exactly what ONE FACT, ONE PLACE exists to prevent — and the failure mode is that a restatement silently becomes a second, wrong home. ★ FIX: rewrite the paragraph to POINT at §B4 rather than restate it, superseded-retained. ⚠ RELATED, NOT THE SAME ROW: hla-coverage.json's own _class_ii_note says '3-allele DR panel' and then lists 23 — a stale sentence inside the GENERATOR, so it is fixed in code and cleared by a regeneration that needs the AFND fetch, i.e. CI.",
-      "serves": {
-        "route": "RT-VACCINE",
-        "publication": "PUB-HLA-COVERAGE",
-        "strategy": "ST-IMMUNO"
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
-    },
-    {
       "id": "AUT-PD-099",
       "what": "⛔ CORRECT RT-SGK1's GRADE CLAUSE: 'its canonical substrate NDRG1 is higher on BOTH … WHICH IS AN ACTIVITY-SHAPED READING RATHER THAN AN ABUNDANCE ONE' is unsupported, and it is the entire inferential step from a number to a statement about SGK1 (evidence: research/literature/ndrg1-kinase-attribution-2026-08-28.json, seat s62-sgk1, 2026-08-28). The reading is transcript ABUNDANCE; the mechanism it is offered as evidence of is PHOSPHORYLATION, and the two are published as anti-correlated under Hsp90 inhibition (PMID 19682504). ⛔ THE CORRECTION LANDS IN census-route-expression-grading.json FIRST, not in the graph: that file owns the grade, and editing the graph copy would create a second home for a fact this repository keeps in one place. Then regenerate the views with the repo's own tooling. ⚠ Do NOT withdraw the route or the grade's 'not attributable to SGK1' conclusion — that conclusion was already correct, for a narrower reason than it gave, and over-correcting trades one wrong sentence for another.",
       "serves": {
         "route": "RT-SGK1",
         "publication": "PUB-KINASE-LEADS",
         "strategy": "ST-DEPENDENCY"
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-098",
-      "what": "★★ SWEEP EVERY ROUTE GRADE FOR THE DEFECT CLASS AUT-062 FOUND BY READING ONE ROUTE: a TRANSCRIPT-ABUNDANCE number described as reporting a protein's ACTIVITY. ⛔ NOBODY HAS CHECKED WHETHER RT-SGK1'S WAS THE ONLY ONE, and that is the whole reason to run it — the defect is invisible to every existing gate, because the sentence is grammatical, hedged, cites a real artifact, and the number it quotes is correct. It is claim SCOPE again (the third orthogonality this repository recorded on 2026-08-28, after strength-vs-provenance and strength-vs-direction), pointed at the systems graph rather than at a manuscript. ★ THE DISCRIMINATOR IS CHEAP: any grade whose evidence is an expression series and whose language names activity, phosphorylation, signalling, pathway output or 'shaped' anything — read each candidate against what its cited artifact actually MEASURES. ⚠ Expect most to be fine; the value is the count, and a clean sweep is a real result worth recording.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
       },
       "kind": "process_defect",
       "state": "queued",
@@ -6871,11 +7010,11 @@
       "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act."
     },
     {
-      "id": "AUT-PD-100",
-      "what": "$0 CI: dispatch modalities-run.yml to regenerate hla-coverage.json, so its `_class_ii_note` stops saying '3-allele DR panel' beside a list of twenty-three. ⭐ THE SCRIPT IS ALREADY FIXED (hla_coverage.py now derives the count) AND THE ARTIFACT IS NOT — which is the gap worth naming: a source fix does not correct a committed generated artifact, and the stale string is what every reader sees until the generator re-runs. The regeneration needs the AFND fetch, which is 403 at this sandbox's egress, so it is a CI job rather than a sandbox edit.",
+      "id": "AUT-PD-094",
+      "what": "⛔ A POINTER THAT DRIFTED FROM ITS OWN DECLARED OWNER, MISREPORTING THREE FIGURES: research/manuscripts/neoantigen/hla-coverage-emc.md's correction block says the class-II arm is 'negative: 2 predicted binders, none strong, on three DRB1 alleles' and that the both-arms figure is 'NOT COMPUTED rather than withheld'. ⛔ All three are stale — the committed artifact records 44 binders, 1 strong (SYGQQNMPCVQAQYS on DRB1*14:01, IC50 66.1 nM) over a 23-allele panel, and the coverage script computes both the class-II and the combined figure rather than leaving them empty. ⭐ THE DECLARED OWNER IS CORRECT AND CURRENT — the same paragraph names emc-vaccine-development-path.md §B4, which reads '44 binders, 1 strong … over 14 of 23 alleles; class II coverage 6.5%, combined 1.8%' and already carries a withdrawal row retiring the 'not computed' statement. So this is not a disagreement about the science; it is A POINTER THAT WAS NOT UPDATED WHEN ITS OWNER WAS, which is exactly what ONE FACT, ONE PLACE exists to prevent — and the failure mode is that a restatement silently becomes a second, wrong home. ★ FIX: rewrite the paragraph to POINT at §B4 rather than restate it, superseded-retained. ⚠ RELATED, NOT THE SAME ROW: hla-coverage.json's own _class_ii_note says '3-allele DR panel' and then lists 23 — a stale sentence inside the GENERATOR, so it is fixed in code and cleared by a regeneration that needs the AFND fetch, i.e. CI.",
       "serves": {
-        "route": "RT-JUNCTION-NEOANTIGEN",
-        "publication": "PUB-NEOANTIGEN",
+        "route": "RT-VACCINE",
+        "publication": "PUB-HLA-COVERAGE",
         "strategy": "ST-IMMUNO"
       },
       "kind": "process_defect",
@@ -6889,112 +7028,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
-    },
-    {
-      "id": "AUT-079",
-      "what": "ADD HLA-C TO coverage_scan.py's class-I PANEL (today HLA-A/HLA-B only), re-run in modalities-run.yml, then update EVERY home of every changed pinned figure IN ONE COMMIT and re-grade the route. This is RT-JUNCTION-NEOANTIGEN's own corrected next step and the route's table names HLA-C as the first extension that could raise the figures at a fixed acceptance threshold. ⛔ FIRST ESTABLISH WHETHER MHCflurry 2.1.4 SCORES HLA-C AT ALL — UNKNOWN from this tree, and the whole item collapses if it does not. ⚠ It moves figures registered in pinned-figures.json and quoted in a manuscript under hardening, so rule 1.3 binds: the old numbers get registered in the same commit that changes them, or CI finds the copies you missed.",
-      "serves": {
-        "route": "RT-JUNCTION-NEOANTIGEN",
-        "publication": "PUB-NEOANTIGEN",
-        "strategy": "ST-IMMUNO"
-      },
-      "kind": "experiment",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-101",
-      "what": "⛔ A REVIVAL TRIGGER THAT DOES NOT DISCRIMINATE: TR-NEOANTIGEN-BROADER-ALLELE-COVERAGE's first disjunct ('an epitope on more than one common allele') is ALREADY SATISFIED by a committed artifact — the 34-allele scan — while buying about 4 points of coverage (8.5% → 12.3% public), nowhere near enough to reopen anything; the second disjunct (raise combined above 27.4%) is decisively unmet and arithmetically cannot be met by allele breadth alone. ⭐ A trigger that fires on evidence already in the repository is not a trigger, it is a label. ⛔ DELIBERATELY NOT REWRITTEN BY THE CYCLE THAT FIRED IT — sharpening a bar in the cycle it just cleared is what amendment_guard exists to refuse, so this needs a later cycle and a declared amendment.",
-      "serves": {
-        "route": "RT-JUNCTION-NEOANTIGEN",
-        "publication": null,
-        "strategy": "ST-IMMUNO"
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-102",
-      "what": "⛔ AN ABSENT READING RENDERED AS AN ABSENCE, in coverage_scan.greedy_curve: any allele with no AFND frequency is dropped SILENTLY (`af_of(a) is None`), with no `alleles_without_a_model` equivalent recorded — so a coverage curve computed over fewer alleles than were screened is indistinguishable from one computed over all of them. ⭐ THE FIX ALREADY EXISTS ONE FILE OVER: patient_cd4_epitopes.py records exactly that field and this repository's class-II reporting is trustworthy because of it. CLAUDE.md §4 — an absent reading is not a reading of absence — and the coverage numbers are the ones this route is graded on.",
-      "serves": {
-        "route": "RT-JUNCTION-NEOANTIGEN",
-        "publication": "PUB-NEOANTIGEN",
-        "strategy": "ST-IMMUNO"
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-103",
-      "what": "⛔ `TR-*` REVIVAL TRIGGERS ARE DEFINED ONLY IN THE LEGACY emc-systems-map.json: systems/graph carries NO TR-* records, and nothing validates that a route's `revival_trigger` id resolves to anything. Three routes point at one such id. ⚠ CLAUDE.md §7 says systems/graph is the source of truth and everything under systems/views is generated — a route whose reopening condition lives only in the legacy projection is a condition the source of truth cannot see, and a dangling id would be silent. ★ FIX: move TR-* into the graph (or record explicitly that the legacy file owns them and add the resolution check), then validate every reference.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-104",
-      "what": "★★ AUDIT EVERY ROUTE FOR A STATUS OR `readiness.missing` CLAIM THAT A COMMITTED ARTIFACT REFUTES. THIS IS THE THIRD INSTANCE IN ONE DAY and the trend is what matters: AUT-PD-086 (four routes parked while their own next step was $0), AUT-PD-093 (three blockers all false on a live route), and — worst — the neoantigen paper's 28.4% class-II figure, which shows the defect PROPAGATING OUT OF THE GRAPH INTO A MANUSCRIPT, where it was asserted in running prose outside any marker and overstated by roughly 4×. ⭐ THE CLASS IS 'A RECORD ABOUT WHETHER WORK IS DONE, DISAGREEING WITH THE ARTIFACT THAT WOULD SETTLE IT', and no existing gate reads it: lint_citations checks that identifiers resolve, lint_claims checks strength, systems_check checks internal consistency — none compares a readiness claim against the artifact it names. ★ THE CHECK IS MECHANICAL where the claim names a file: does the named artifact exist, and does its grade/seam/allele count match what the record says is missing?",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
+      "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
     }
   ]
 }

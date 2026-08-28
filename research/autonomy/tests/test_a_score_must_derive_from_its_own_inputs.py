@@ -248,8 +248,9 @@ def test_the_scoring_pipeline_is_a_fixed_point_of_itself():
     first = priority.build_ledger()
     def _again(state):
         entries = priority.merge(priority.build_entries(w), state)
-        entries = priority.apply_session_penalties(entries, w)
         entries = priority.apply_age_factor(entries, w)
+        entries = priority.apply_session_penalties(entries, w)
+        entries = priority.apply_fruitless_attempts(entries, w)
         return {"entries": entries}
     second = _again(first)
     was = {e["id"]: e.get("score") for e in first["entries"]}
@@ -264,8 +265,10 @@ def test_a_third_application_still_moves_nothing():
     state = priority.build_ledger()
     scores = []
     for _ in range(3):
-        entries = priority.apply_age_factor(
-            priority.apply_session_penalties(priority.merge(priority.build_entries(w), state), w), w)
+        entries = priority.merge(priority.build_entries(w), state)
+        entries = priority.apply_age_factor(entries, w)
+        entries = priority.apply_session_penalties(entries, w)
+        entries = priority.apply_fruitless_attempts(entries, w)
         state = {"entries": entries}
         scores.append({e["id"]: e.get("score") for e in entries})
     assert scores[0] == scores[1] == scores[2]
