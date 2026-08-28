@@ -7278,6 +7278,27 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-115",
+      "what": "⛔⛔ `session_cap.py` CANNOT TELL A SUCCESSFUL HANDOFF FROM NO HANDOFF AT ALL, AND SAYS THE WRONG ONE. Measured 2026-08-28 by CYC-0061-3217966b on its own committed receipt: `handoff.child_session_id_of(r)` → 'session_01AiEBt1BhjfPMi9rCZ4rZ53' (the successor really was created), `session_cap.blocked_handoff(r)` → None, `session_cap.verdict()` → (False, '… the latest receipt records no handoff attempt — an absent record is a session that did not try'). ⭐ THE MODULE IS RIGHT AND ITS CALLER IS WRONG: `blocked_handoff` is documented to return None when a receipt carries a child_session_id, precisely because 'a session that DID hand off is not BLOCKED'. `verdict()` then reads that None as 'no handoff attempt', CONFLATING THE SUCCESS PATH WITH THE ABSENT ONE. ⛔ THE CONSEQUENCE RUNS THE WRONG WAY: a session whose handoff FAILED may stop, while a session that created its successor as prescribed is told MUST NOT STOP — permanently, by a message that misstates its own receipt. The only remaining exits are 'my handoff was refused' and 'keep working past the cap', and the second is the context-exhaustion failure the cap exists to prevent, so the instrument pushes sessions toward the harm it guards. ★ THE FIX IS IN `verdict()`, NOT IN `blocked_handoff` AND NOT IN THE RECEIPT SCHEMA: at or over the cap, MAY STOP should hold when the latest receipt carries a child_session_id (handed off) OR when blocked_handoff names a refusal (attempted and blocked); only an ABSENT record stays red. Keep the absent-record rule exactly as it is — it is the half that works, and it is why this session created a successor at all. ⛔⛔ DELIBERATELY NOT FIXED BY THE CYCLE IT BLOCKED (CLAUDE.md §6, amendment_guard): this is the bar refusing that session's stopping point, so its own fix would be self-serving even though the diagnosis is independently checkable by the three-line reproduction above. A LATER CYCLE MAY MAKE THE IDENTICAL CHANGE. ⚠ Until it lands, a correct handoff still reads MUST NOT STOP — do not take that message as evidence a handoff is missing; read `handoff.child_session_id` in the receipt instead.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A one-branch fix to a local checker; no outward-facing act."
     }
   ]
 }
