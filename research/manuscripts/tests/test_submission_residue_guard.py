@@ -353,7 +353,13 @@ def test_the_module_does_not_claim_to_cover_hallucinated_references():
     src = open(os.path.join(MANUSCRIPTS, "lint_submission_residue.py"), encoding="utf-8").read()
     assert "lint_citations" in src, "the module must name the gate that owns trigger 1"
     gaps = lsr.UNCOVERED_BY_LINT_CITATIONS
-    assert len(gaps) >= 6, \
+    # ⚠ WAS 6 UNTIL 2026-08-28, AND THE FLOOR FELL BECAUSE A GAP CLOSED, NOT BECAUSE THE BAR
+    # BENT. AUT-PD-057 added an `ARXIV` entry to `lint_citations.PATTERNS`, so "arXiv identifiers
+    # match no pattern" stopped being true and was removed from the list — the deliberate removal
+    # this test's own message asks for. Holding the floor at 6 would have forced a gap to be
+    # invented to satisfy a count, which is the opposite of what the list is for. It may never be
+    # lowered for any other reason: a gap that is merely inconvenient stays named.
+    assert len(gaps) >= 5, \
         "the named gaps in identifier provenance are the honest half of this gate's scope"
     for gap in gaps:
         assert gap.strip(), "an empty gap line reports while measuring nothing"
@@ -366,9 +372,12 @@ def test_the_module_does_not_claim_to_cover_hallucinated_references():
     # ⚠ THE FIX IS NOT TO ASSERT THE STRINGS, WHICH WOULD BE A TAUTOLOGY. It is to assert that each
     # DISTINCT MECHANISM the list claims to enumerate is still named, so dropping or garbling one
     # family is caught while rewording an entry is not.
+    # ⚠ THE `arxiv` MECHANISM WAS REMOVED FROM THIS LOOP ON 2026-08-28 BECAUSE IT WAS CLOSED, NOT
+    # BECAUSE IT WAS AWKWARD — the pattern now exists and `research/modalities/tests/
+    # test_lint_citations.py` holds the guards that keep it matching. A mechanism leaves this loop
+    # only with a named fix and a guard that replaces it.
     joined = " | ".join(gaps).lower()
     for mechanism, why in (
-        ("arxiv", "arXiv identifiers match no pattern in lint_citations.PATTERNS"),
         ("no pmid/pmcid/doi/nct/geo identifier",
          "a reference carrying no machine-readable identifier is never extracted"),
         ("aut-pd-038",
