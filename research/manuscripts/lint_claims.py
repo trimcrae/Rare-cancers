@@ -32,6 +32,19 @@ RULES IMPLEMENTED (each cites its roadmap source section)
   R3  novelty right-sizing             roadmap "Novelty is incremental, not landmark."
   R4  evidentiary-verb discipline      no computational result "proves" / "confirms" / "establishes"
   R5  measured-vs-projected            "measured" must not be attached to a projected cost/number
+  R6  unsurveyed field practice        a claim about what OTHER GROUPS routinely do needs a survey
+                                       or a citation (trimcrae 2026-08-15: "we're claiming we
+                                       invented it?")
+
+⛔ THIS TABLE WAS TWELVE DAYS OUT OF DATE AND NOTHING SAID SO. R6 landed 2026-08-15; on 2026-08-27 a
+ledger row still quoted this block as "R1-R5" and described the gate by it. The rule table and the
+prose about the rule table are now JOINED by a test —
+`research/manuscripts/tests/test_claim_ceiling_grade_map.py` fails if any rule in `RULES` has no row
+in the GRADE ceiling map, so a new family cannot arrive silently again. That map expresses each
+rule's ceiling in GRADE certainty-of-evidence terms (High / Moderate / Low / Very Low), so a reader
+can tell how strong a claim is allowed to be without learning this glossary first.
+⛔ IT IS A LABEL, NOT AN INPUT. Nothing in this file reads it, no behaviour here changes because of
+it, and the same test asserts that this file never names it.
 
 EXIT CODE
 ---------
