@@ -7602,8 +7602,8 @@
         "strategy": null
       },
       "kind": "fix",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "CYC-0066-7cda2d61",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -7613,8 +7613,14 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Loop instrumentation in research/autonomy/. Nothing outward-facing; it REMOVES incorrectly-offered outward acts rather than performing one.",
-      "claimed_utc": null,
-      "evidence": "MEASURED ON 86098c2, NOT INFERRED. (1) Over the committed ledger: 12 rows declare `requires_trimcrae: true`; the `blocked_on_human` penalty is present in the `score_inputs` of 0 of them (the single row carrying that penalty earns it via routes.json instead). (2) The re-scored queue's first EIGHT rows — AUT-046 199.0, AUT-010 190.9, AUT-042/057/058/064/065 181.7, AUT-073 172.0 — all declare the field; the first row a cycle may actually take is AUT-025 at 152.0. (3) The handoff prompt that started session 7cda2d61 lists five rows under 'WHAT IS WAITING' and all five declare it — `handoff.py::_takeable` produced that list, and AUT-010 was dropped from it only by the unrelated `stuck_clock` exclusion, not by this field. ⚠ THIS IS THE ONE-OF-A-PAIR CLASS AT n=3: `continuity.py` lines 80–95 record this exact incident being found by the Stop hook on 2026-08-27 — its top two rows were 'Publish the assessment…' and 'Post the preprint and put the MTAP stain…', 'both offered as ready work because readiness was modelled on SPEND and never on WHO MAY ACT' — and fixed THERE; the two other readers of the same question were never touched."
+      "claimed_utc": "2026-08-28T20:24:24Z",
+      "evidence": "MEASURED ON 86098c2, NOT INFERRED. (1) Over the committed ledger: 12 rows declare `requires_trimcrae: true`; the `blocked_on_human` penalty is present in the `score_inputs` of 0 of them (the single row carrying that penalty earns it via routes.json instead). (2) The re-scored queue's first EIGHT rows — AUT-046 199.0, AUT-010 190.9, AUT-042/057/058/064/065 181.7, AUT-073 172.0 — all declare the field; the first row a cycle may actually take is AUT-025 at 152.0. (3) The handoff prompt that started session 7cda2d61 lists five rows under 'WHAT IS WAITING' and all five declare it — `handoff.py::_takeable` produced that list, and AUT-010 was dropped from it only by the unrelated `stuck_clock` exclusion, not by this field. ⚠ THIS IS THE ONE-OF-A-PAIR CLASS AT n=3: `continuity.py` lines 80–95 record this exact incident being found by the Stop hook on 2026-08-27 — its top two rows were 'Publish the assessment…' and 'Post the preprint and put the MTAP stain…', 'both offered as ready work because readiness was modelled on SPEND and never on WHO MAY ACT' — and fixed THERE; the two other readers of the same question were never touched.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:24:24Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     }
   ]
 }
