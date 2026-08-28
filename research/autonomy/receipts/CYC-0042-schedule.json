@@ -1,0 +1,35 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0042-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T13:20:00Z",
+  "shape": "Dispatch-only, same pattern as prior cycles this session: the ready-work-at-turn-end stop hook fires on every turn regardless of prior work delivered (confirmed this cycle: it re-fires even after 9 prior cycles' worth of real, merged, gated work — it checks 'is anything running right now', not 'has this session been productive'). Rather than treat each firing as requiring fresh justification, settling into a steady rhythm: always keep one subagent in flight, merge-and-immediately-redispatch on each notification, until the backlog thins or a real escalation trigger fires.",
+  "took": "AUT-PROP-030 — claim.py's lost-race merge bug (RT-AUTONOMY, loop mechanism)",
+  "took_what": "This session's own AUT-PD-046 cycle (CYC-0040/0041) backfilled AUT-PROP-030's `what` field and surfaced that it documents a REAL, already-measured concurrency bug in claim.py itself — the exact tool every cycle this session used to coordinate: on a rejected push (lost the race), the reset/unstage sequence leaves the claim's edit sitting in the working tree, so the subsequent merge against the refreshed trunk falsely reports a merge conflict that `git merge --abort` then can't even abort (proving it was never a real conflict). A second, related gap: push()/fetch() collapse 'remote unreachable' and 'remote refused' into one boolean, so a network fault burns the retry budget and gets misreported as contention. Claimed cleanly on attempt 1.",
+  "changed": [
+    "NOTHING LANDED YET — dispatch-only. Launched a background Agent-tool subagent (isolation: worktree) with a full brief: reproduce the false-conflict bug against a real temporary bare git remote with two simulated racing workers BEFORE fixing it (the ledger entry itself was measured this way, not theorized, and the fix should be verified the same way), then fix the reset/re-apply sequence so a lost race cleanly restores the working tree and re-derives the claim against the new trunk rather than reconciling stale content; separately give push()/fetch() a way to distinguish unreachable-remote from refused-push; and resolve the module's own open question about whether any write path needs a Chubby-style lock-delay fallback (only build one if something in the actual codebase needs it, not speculatively). Told explicitly to root-cause for real if the bug turns out different from the ticket's description once the code is actually read, matching how the original finding was made.",
+    "Per 'the driver never waits', this receipt is written and the turn ends at dispatch."
+  ],
+  "cost": "$0. Engineering, CPU and one Claude subagent.",
+  "subagents": {
+    "max_concurrent": 1,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 4,
+    "seats": [
+      "aut-prop-030-claim-race-fix (agentId a1bc49d1da8a651e8, still running at receipt time — isolation: worktree, will push branch aut-prop-030-claim-race-fix or similar and report back; not yet observed). Serial total 4 counts this alongside three earlier subagents this session; only one was ever concurrent (max_concurrent: 1)."
+    ]
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [
+    "Merge the aut-prop-030-claim-race-fix branch once its completion notification arrives: this is a concurrency fix in shared coordination infrastructure, so review with extra care (does the fix actually close the reproduced race, do all existing claim.py tests still pass), run full preflight, update the ledger, write a receipt, push."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context (AUT-PD-045). This is the fourth background-subagent dispatch this session; the driver itself continues to keep each individual review-and-merge cycle small rather than absorbing large diffs into its own context."
+  }
+}
