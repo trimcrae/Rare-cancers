@@ -44,5 +44,17 @@
   "now_queued": [],
   "blocked_by": [],
   "route_advanced": "RT-AUTONOMY",
-  "handoff": {}
+  "handoff": {
+    "child_session_id": "session_018A9rdUZLrexk1HJrKtDCd2",
+    "attempted": true,
+    "created_utc": "2026-08-28T20:18:54Z",
+    "title": "EMC research loop — cycle (successor to CYC-0066)",
+    "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+    "source": "https://github.com/trimcrae/Rare-cancers @ main",
+    "parent_session_id": "session_01CYvZx1rzd5y3AaHjuAAU4o",
+    "prompt_built_by": "python3 research/autonomy/handoff.py --json --reason '...' — built from COMMITTED state after CYC-0066 was pushed, never from this session's context, and carrying no findings or conclusions.",
+    "prompt_log": "/tmp/claude-0/-home-user-Rare-cancers/1f1a2449-a087-5338-b7d0-a35a6856b58a/scratchpad/driver-cyc/driver-handoff.json",
+    "_one_addition_to_the_generated_prompt": "The successor is warned to expect ID COLLISIONS and to re-check ids against the re-read base after every rebase, and to check whether the trunk has already repaired a shared generated artifact before doing it by hand. Both are operational facts about concurrency measured in this session — two collisions and one wholly duplicated repair — not findings or conclusions about the research.",
+    "why": "This session ran CYC-0065-1f1a2449 and CYC-0066-1f1a2449 against a cap of 2."
+  }
 }
