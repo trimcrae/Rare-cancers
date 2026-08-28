@@ -1,0 +1,51 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0065-1f1a2449",
+  "session_id": "1f1a2449-a087-5338-b7d0-a35a6856b58a",
+  "utc": "2026-08-28T19:58:00Z",
+  "shape": "this session, driver only, no subagents. One item. Two commits were planned because the invariant being repaired is an ORDERING that cannot be satisfied inside one commit; the first was dropped when a concurrent session landed the identical repair.",
+  "took": "AUT-PD-117 (claim.py, CLAIMED on attempt 1) -- the follow-through on the ASO submission-parts rebuild CYC-0061 dispatched without waiting. It resolved into research-loop §1's red-trunk case: the check the row prescribes FAILED on clean origin/main, so fixing that was the cycle.",
+  "took_what": {
+    "id": "AUT-PD-117",
+    "route": "RT-AUTONOMY",
+    "publication": "PUB-ASO",
+    "cost_class": "free",
+    "why_not_the_top_of_the_queue": "The seven rows above the takeable line (AUT-046, AUT-010, AUT-042, AUT-057, AUT-058, AUT-064, AUT-065) all carry requires_trimcrae:true. Independently, §1 makes a red trunk the cycle, and the trunk was red -- verified here on a stashed tree, not inherited from the handoff prompt."
+  },
+  "changed": [
+    ".github/workflows/aso-submission-parts.yml -- split into TWO publish passes. Pass 1 commits the rebuilt .docx with no PUBLISH_REGEN; pass 2 calls publish_artifacts.sh with an empty path list and PUBLISH_REGEN, so the primitive's reset lands on pass 1's commit and the manifest is hashed against a tree where the .docx are COMMITTED. This is the surviving contribution of the cycle: it removes the generator of a defect that has been hand-repaired four times.",
+    "research/autonomy/research-ledger.json -- AUT-PD-117 closed with its diagnostic; AUT-PD-123 and AUT-PD-124 queued."
+  ],
+  "cost": {
+    "usd": 0.0,
+    "gpu_hours": 0.0,
+    "detail": "Repository work and public Actions reads only. No rental, no paid dispatch."
+  },
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "rate_limit_info": {
+    "status": "allowed_warning",
+    "rateLimitType": "seven_day",
+    "isUsingOverage": false,
+    "read_from": "list_sessions external_metadata for this session -- read, not inferred",
+    "note": "allowed_warning is not a stop condition and no overage is in effect, so §4's spend-event escalation does not apply. Recorded because it is the reading."
+  },
+  "what_i_got_wrong": [
+    "I DUPLICATED ANOTHER SESSION'S WORK AND ONLY THE PUSH TOLD ME. I regenerated the manifest against a clean tree at 978aa89 and committed it; while that commit was being gated (a 287 s manuscripts suite), a concurrent session landed the identical hand-repair as 5cf6e05. My push was rejected, the rebase conflicted on that exact file, and I aborted and dropped my commit rather than rebasing it -- the trunk was already green. AUT-PD-117's own text warned against regenerating the manifest by hand in a dev sandbox for precisely this reason (AUT-PD-028), and I did it anyway because the trunk was red and the repair was two lines. The lease protects a LEDGER ROW; it does not protect a FILE, and two cycles can hold different rows whose work lands in the same artifact.",
+    "THE HARNESS REPORTED EXIT CODE 0 FOR A PREFLIGHT WHOSE OWN MARKER SAID EXIT=1. The task notification for the backgrounded gate read 'completed (exit code 0)'; the log's own `echo \"EXIT=${PIPESTATUS[0]}\"` line read EXIT=1 and the run printed 'PREFLIGHT FAILED -- do not commit.' The marker was believed. This is the third condition the handoff prompt named and the only one that fired.",
+    "MY CLAIM AND MY RECEIPT CARRY DIFFERENT ORDINALS. I claimed AUT-PD-117 as CYC-0064-1f1a2449; by the time the receipt id was allocated, another session had taken 0064, so this receipt is CYC-0065-1f1a2449. The claim string on the row is the earlier one. Recorded rather than quietly reconciled: the ordinal is not an identity, the session discriminator is."
+  ],
+  "now_queued": [
+    "AUT-PD-123",
+    "AUT-PD-124"
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {}
+}

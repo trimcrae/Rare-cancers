@@ -11,10 +11,10 @@
     "experiment": 23,
     "fetch": 19,
     "fix": 12,
-    "harden": 20,
+    "harden": 21,
     "negative": 32,
     "process": 7,
-    "process_defect": 107,
+    "process_defect": 108,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 94,
+    "done": 95,
     "in_progress": 1,
     "parked": 28,
-    "queued": 128,
+    "queued": 129,
     "ready": 1,
     "superseded": 1
   },
@@ -1705,43 +1705,6 @@
       "lease_released": "✅ BUILT 2026-08-28: priority.py gains age_factor()/apply_age_factor(), wired into build_ledger BEFORE the sort (its own test asserts that call site, because a term the ranker never applies is worse than no term — it looks solved). Weights: terms.age.weight 12.0 and age_saturates_days 14. ⭐ SLURM'S SHAPE, SATURATING: linear to 14 days then flat, so 90 days scores exactly what 14 does. The bound is the design — an unbounded age term does not fix a starving queue, it INVERTS it into pure FIFO and a live patient-facing route would sit behind a stale one purely for being younger. A test asserts age (12) < live (100) + max patient_path (40), so age BREAKS TIES and rescues the forgotten and can never outrank relevance. ⚠ Fair-share deliberately NOT taken: it arbitrates between competing USERS and there is one operator. Dry run over the live ledger: 106 rows gain a bounded bonus and AUT-046, fully aged at factor 1.0, rises to the top at 199.0 — the starved-row rescue this exists for. 11 tests, 6 mutations all caught. ⛔ THE RESCORE WAS DELIBERATELY NOT RUN: `priority.py --write` regenerates every row and another session is mid-cycle on this ledger, so the next cycle's own regeneration picks it up. ⚠ FOUND WHILE MEASURING, NOT FIXED: 24 rows carry NO score at all, and a row with no score cannot be ranked by any term including this one."
     },
     {
-      "id": "AUT-PROP-038",
-      "kind": "proposal",
-      "process_defect": false,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "CYC-0065-f5c9b5f2",
-      "claimed_utc": "2026-08-28T19:49:56Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0030-6be7fd5a",
-      "score": 156.1,
-      "_score_basis": "the one mechanism in the survey that our loop's shape needs and no comparable system has",
-      "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §4.3 (PUBMED, doi 10.1016/j.jclinepi.2017.08.008)",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §4.3 (PUBMED 10.1016/j.jclinepi.2017.08.008, Simmonds et al. 2017, Living systematic reviews: 3). THE FINDING: repeated looks at accumulating evidence inflate type I error — 'the chance of incorrectly concluding that any updated meta-analysis is statistically significant when there is no effect increases rapidly as more updates are performed.' Four published fixes exist: the law of the iterated logarithm and the Shuster method (type I error only), and trial sequential analysis / sequential meta-analysis (type I AND II, with heterogeneity). SIMMONDS' OWN DECISION RULE IS THE PART TO STEAL: if the review only reports the CURRENT BEST PICTURE and readers know results may change, standard methods are fine; if the updated conclusion FEEDS A DECISION, the sequential correction is required.\n\nWHY THIS BEARS ON THE AUTONOMY LOOP SPECIFICALLY (not just the manuscripts): this repository's research loop repeatedly RE-EXAMINES THE SAME CLAIMS as new evidence accumulates across cycles — a route's score is re-derived from `systems/graph` on every ledger `--write`, a blocker's status is re-checked cycle over cycle, and `research/method-watch.md` explicitly re-grades settled findings on a schedule as methods improve (CLAUDE.md §4: 'that licenses keeping the option open and re-grading it on a schedule; it never licenses claiming a result early'). That is structurally identical to a living systematic review's repeated-look problem, and §4.3's own framing is direct: 'nobody in the LLM wave has this.' Verified: no sequential-testing or repeated-look correction exists anywhere in this codebase (grepped for 'sequential test', 'type I error', 'iterated logarithm', 'Shuster' — no hits outside the survey document itself).\n\nTASK: apply Simmonds' decision rule to distinguish the loop's two kinds of repeated evidence-reading — (a) a route STATUS or health-board reading that is reported as a current snapshot readers already know may change (no correction needed), versus (b) a re-examination whose updated verdict FEEDS A DECISION with consequences that don't get revisited on the next cycle — closing a route, clearing a `blocked_by` entry, satisfying a `publish_bar.py` clause, or admitting a manuscript claim strengthened by newly-accumulated evidence. For every instance of (b) found (start with `publish_bar.py`'s clauses and any route-closure logic in the ledger/graph pipeline), document or implement the sequential correction the repeated look requires, rather than treating every fresh re-check as an independent, uncorrected test.",
-      "score_inputs": {
-        "age_factor": 0.0714
-      },
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T19:49:56Z",
-          "fingerprint_at_dispatch": "2026-08-27|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-055",
       "kind": "process_defect",
       "process_defect": true,
@@ -2027,6 +1990,44 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "internal scoring-engine bugfix; nothing published, submitted or deposited",
       "what": "research/autonomy/priority.py's apply_session_penalties() resolves prerequisite chains in a SINGLE linear pass over `entries`, with no topological ordering: for a chain AUT-049 (blocked) <- AUT-PROP-018 (prerequisite of AUT-049, itself ALSO blocked_with_evidence) <- AUT-PROP-021 (prerequisite of AUT-PROP-018), the loop's correctness depends on iteration order and on how many times a node's score has already been mutated when a downstream child reads `parent[\"score\"]`. Concretely reproduced on the current committed ledger: AUT-PROP-018 and AUT-PROP-021 are hand-filed rows (filed_by CYC-0020) whose score/score_inputs are carried forward by merge() from a past --write rather than freshly derived, and AUT-PROP-018's `blocked_evidence` field holds stale text ('NOT blocked in the strict sense -- CLOSED at 64fdc665...') that nonetheless still triggers the penalty every run because the code is deliberately KEYED ON PRESENCE OF ANY TEXT, not on what the text says (a correct design for the common case, but it means this specific row's block can never self-clear without a session editing blocked_evidence to null). Separately, apply_age_factor running AFTER apply_session_penalties means a prerequisite's inherited score is locked in BEFORE its parent receives that cycle's age bonus, so a long-waited parent's true value grows past what its child already inherited. WHAT TO DO: (1) first, as a real, separate question: should AUT-PROP-018's `blocked_evidence` field be cleared (it reads as already-resolved prose, not a live blocker) -- if so this specific instance of the test failure may simply disappear, and that is worth checking BEFORE touching any scoring code. (2) If the underlying chain-resolution bug is still real after that, the correct fix is almost certainly to resolve apply_session_penalties' prerequisite loop to a FIXPOINT (iterate until no score changes, or topologically sort by prerequisite_of depth first) rather than a single pass, and to reconsider whether apply_age_factor should run once before AND the inheritance recomputed after, or whether age should be folded into the same fixpoint iteration. (3) Whatever the fix, verify against BOTH test_a_prerequisite_inherits_the_parents_value_not_its_penalty AND the two tests a naive reorder broke (test_an_evidenced_block_drops_out_of_the_queue, test_a_prerequisite_outranks_the_thing_it_unblocks) plus the full systems/tests + research/autonomy/tests suites, not just the one row that was red.  ✅ FIXED 2026-08-28 (CYC-0053-3217966b, seat s63-prereqscore, code on main at f9e19b4f3). ⛔ THE SIBLING FIX (a660303d1) ALONE DID NOT CLOSE IT — verified in a read-only clone at that commit with its own unmodified test: still red, only the failing PAIR moved. That fix addressed the ORDER; what kept the guard red is the ERASURE. Rule 2 ASSIGNS entry['score'], so a row that is both blocked-with-evidence and a prerequisite lost rule 1's −90 while its score_inputs went on saying blocked_with_evidence: true. Five rows carrying their own recorded block sat at ranks 6,7,9,11,12; test_an_evidenced_block_drops_out_of_the_queue checks only the TOP THREE, so it watched this and stayed green. After the fix they sit at 92–96. ⭐ THE ASSERTION'S SIGN IS INTENDED, NOT A BUG: penalty is −90, so `parent - penalty/2` reads parent+45, the MIDPOINT between the parent's penalised and unpenalised score — a child that inherited the penalty lands at the bottom of that interval, one that inherited the value at the top. ⛔ What WAS wrong is the other side: it compared the parent's unpenalised value against the child's FINAL score, which includes any penalty the CHILD carries for a block OF ITS OWN, so it read a correct scorer as broken. The tempting fix would have been deleting the child's own penalty — the bug, not the fix. It never fired that way before only because the penalty was being erased. ⭐ AND THE CHEAP FIRST QUESTION WAS A TRAP: clearing AUT-PROP-018's blocked_evidence under the OLD code went green by MINTING 90 points from a stale flag, taking that row to first place by 87 — a one-field edit would have closed the CI check and left the scorer broken. Age now runs BEFORE the penalties, deliberately: an assignment cannot see what is added to its parent afterwards. 752 passed, 0 failed; 6 mutants all caught; re-scoring twice moves 0 rows."
+    },
+    {
+      "id": "AUT-PROP-038",
+      "kind": "proposal",
+      "process_defect": false,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "CYC-0065-f5c9b5f2",
+      "claimed_utc": "2026-08-28T19:49:56Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "score": 148.1,
+      "_score_basis": "the one mechanism in the survey that our loop's shape needs and no comparable system has",
+      "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §4.3 (PUBMED, doi 10.1016/j.jclinepi.2017.08.008)",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §4.3 (PUBMED 10.1016/j.jclinepi.2017.08.008, Simmonds et al. 2017, Living systematic reviews: 3). THE FINDING: repeated looks at accumulating evidence inflate type I error — 'the chance of incorrectly concluding that any updated meta-analysis is statistically significant when there is no effect increases rapidly as more updates are performed.' Four published fixes exist: the law of the iterated logarithm and the Shuster method (type I error only), and trial sequential analysis / sequential meta-analysis (type I AND II, with heterogeneity). SIMMONDS' OWN DECISION RULE IS THE PART TO STEAL: if the review only reports the CURRENT BEST PICTURE and readers know results may change, standard methods are fine; if the updated conclusion FEEDS A DECISION, the sequential correction is required.\n\nWHY THIS BEARS ON THE AUTONOMY LOOP SPECIFICALLY (not just the manuscripts): this repository's research loop repeatedly RE-EXAMINES THE SAME CLAIMS as new evidence accumulates across cycles — a route's score is re-derived from `systems/graph` on every ledger `--write`, a blocker's status is re-checked cycle over cycle, and `research/method-watch.md` explicitly re-grades settled findings on a schedule as methods improve (CLAUDE.md §4: 'that licenses keeping the option open and re-grading it on a schedule; it never licenses claiming a result early'). That is structurally identical to a living systematic review's repeated-look problem, and §4.3's own framing is direct: 'nobody in the LLM wave has this.' Verified: no sequential-testing or repeated-look correction exists anywhere in this codebase (grepped for 'sequential test', 'type I error', 'iterated logarithm', 'Shuster' — no hits outside the survey document itself).\n\nTASK: apply Simmonds' decision rule to distinguish the loop's two kinds of repeated evidence-reading — (a) a route STATUS or health-board reading that is reported as a current snapshot readers already know may change (no correction needed), versus (b) a re-examination whose updated verdict FEEDS A DECISION with consequences that don't get revisited on the next cycle — closing a route, clearing a `blocked_by` entry, satisfying a `publish_bar.py` clause, or admitting a manuscript claim strengthened by newly-accumulated evidence. For every instance of (b) found (start with `publish_bar.py`'s clauses and any route-closure logic in the ledger/graph pipeline), document or implement the sequential correction the repeated look requires, rather than treating every fresh re-check as an independent, uncorrected test.",
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "fruitless_attempts": 1
+      },
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T19:49:56Z",
+          "fingerprint_at_dispatch": "2026-08-27|None"
+        }
+      ]
     },
     {
       "id": "AUT-044",
@@ -6888,19 +6889,19 @@
         "strategy": null
       },
       "kind": "harden",
-      "state": "in_progress",
-      "owner": "CYC-0064-1f1a2449",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Repository and CI work; no outward-facing act and no access only trimcrae has.",
-      "claimed_utc": "2026-08-28T19:38:30Z",
-      "evidence": "Dispatched 2026-08-28 ~19:15 UTC by CYC-0061-d60caf7b, ref=main, reason names 86c68dfbb. The workflow rebuilds the parts and runs aso_archive_manifest.py (line 83) and commits to main by design — its own header explains why it writes to the trunk rather than a branch. Preflight at 86c68dfbb was red on exactly those three staleness tests and on three further tests that reproduce on clean origin/main (see AUT-PD-004).",
+      "claimed_utc": null,
+      "evidence": "FOLLOWED THROUGH, AND THE RUN THAT SUCCEEDED IS WHAT LEFT THE TRUNK RED. Run 33204494355 (workflow_dispatch on a35ebec) reports conclusion=success and produced eeb5ab8. CHECK (a) PASSES: the three .docx parts and their build stamps were rebuilt and committed. CHECK (b) FAILED: eeb5ab8 flipped git_tree_is_clean_apart_from_this_manifest true -> false and moved git_revision 472e8f00b -> a35ebec5 (git show eeb5ab8 -- the manifest). `aso_archive_manifest.py --check-archive` therefore REFUSED on clean origin/main with this session's tree untouched (EXIT=1, driver-checkarchive.log) -- preflight's generated-artifact gate, so a red trunk under research-loop 1. MECHANISM, MEASURED NOT GUESSED: the workflow passed PUBLISH_REGEN to publish_artifacts.sh, which runs the regen after `git reset --hard FETCH_HEAD` and after `git add -f` restores the rebuilt .docx -- i.e. while those files are STAGED AND UNCOMMITTED. aso_archive_manifest.py hashes the working tree and records whether it was clean, so inside that pass it is structurally incapable of seeing a clean tree. One commit cannot contain a hash of itself. THE INVENTORY WAS NEVER WRONG: archive_content_digest read 753c940f before and after the repair, so the rebuild was correct and only the provenance record was false. This CORRECTS the belief in 978aa89's commit message, that regenerating after the primitive's reset is 'what makes that unrepresentable and is therefore also the fix': it removes the orphaned-revision defect and INTRODUCES the dirty-tree one. Both, not either. DUPLICATED WORK, RECORDED AS THE COST IT WAS: this cycle regenerated the manifest against a clean tree at 978aa89 and, while it was gating that commit, a concurrent session landed the identical hand-repair as 5cf6e05. This cycle's commit was therefore dropped rather than rebased -- the trunk was already green (--check-archive EXIT=0 at fae85df). That is the FOURTH hand-repair of this same field on this trunk, and the first to be done twice at once, which is the evidence for fixing the generator of the defect instead. The structural fix is this cycle's surviving contribution; its verification is AUT-PD-123.",
       "closes_clause": null,
       "dispatch_log": [
         {
@@ -7034,6 +7035,54 @@
       "requires_trimcrae_why": "One function in this repository, with the pattern to copy sitting beside it.",
       "claimed_utc": null,
       "evidence": "Trunk commits 03da63c157 ('AUT-PD-117/118, and fix the rebuild workflow that threw its own work away') and 44a998622c ('claim AUT-PD-117 for CYC-0064-1f1a2449') against this cycle's own AUT-PD-117/118, which were allocated locally before either landed and are preserved renumbered as AUT-PD-119 and AUT-PD-120. The pattern to copy is ids.next_receipt, in the same module."
+    },
+    {
+      "id": "AUT-PD-123",
+      "what": "⛔ VERIFY THE TWO-PASS REBUILD ON A REAL DISPATCH -- THE FIX IS UNRUN CODE UNTIL THEN. aso-submission-parts.yml now publishes TWICE: pass 1 commits the rebuilt .docx with NO PUBLISH_REGEN, pass 2 calls publish_artifacts.sh with an EMPTY path list and PUBLISH_REGEN, so the primitive's `git reset --hard FETCH_HEAD` lands on pass 1's commit and the manifest is hashed against a tree where the .docx are COMMITTED. THE CHECK, after the next dispatch: on the trunk, `python3 research/manuscripts/aso_archive_manifest.py --check-archive` exits 0 AND the manifest's git_tree_is_clean_apart_from_this_manifest is true with a git_revision `git branch --contains` puts on main. ⭐ TWO DIFFERENT DISPATCHES PROVE DIFFERENT THINGS AND MUST NOT BE CONFLATED. A no-op dispatch (parts already current, so PUBLISH_IF_CHANGED=1 makes both passes commit nothing) proves the YAML parses, the regen-only invocation is accepted and pass 2 runs -- nothing more. Only a dispatch that ACTUALLY REBUILDS, i.e. the one after the next ASO prose edit, proves the clean=true outcome. Record which was observed.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "harden",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "CI and repository work; no outward-facing act and no access only trimcrae has.",
+      "claimed_utc": null,
+      "evidence": "Defect measured this cycle on eeb5ab8 and recorded on AUT-PD-117. The hand-repair has now been applied FOUR times on this trunk by four different sessions -- runs 3, 4 and 7 were each followed by a 're-derive the archive manifest against the clean tree' commit, and on 2026-08-28 two sessions did it concurrently (5cf6e05 landed while this cycle was gating the same change). A repair that recurs every time the workflow runs is a generator defect. The regen-only invocation was verified locally before the change was committed: publish_artifacts.sh runs `set -uo pipefail`, and an empty PATHS array survives both its snapshot loop and its restore loop under `\"${PATHS[@]:-}\"` (driver-emptyarray.log, EXIT=0). It refuses only when BOTH the path list and PUBLISH_REGEN are empty (line 111).",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-124",
+      "what": "⛔ session_reaper.py CAN NEVER MATCH A CORRECTLY-WRITTEN RECEIPT, SO THE LOOP STILL CANNOT CLEAN UP AFTER ITSELF. It compares the `id` from list_sessions (shape `session_01CYvZx1...`) against the `session_id` field of committed receipts. The cycle contract tells every cycle to put `session_cap.session_id()` there, and in this harness that returns the RAW CLAUDE_CODE_SESSION_ID uuid (shape `1f1a2449-a087-5338-b7d0-a35a6856b58a`). Different namespaces cannot compare equal, so a session whose receipt IS on the trunk is reported as `idle with NO committed receipt` -- the reaper's finding for a cycle that died holding uncommitted work. ⚠ THE DIRECTION IS SAFE AND THE CONSEQUENCE IS NOT: it refuses to archive, so no work is lost, and the loop therefore reaps NOTHING and stays exactly as it was when trimcrae had to archive 32 sessions by hand. ⛔ IT GETS WORSE THE MORE FAITHFULLY THE CONTRACT IS FOLLOWED, because every compliant cycle writes the unmatched shape. ⭐ THE FIX IS NOT TO CHANGE WHAT CYCLES WRITE: health.py's cycles_are_sized and session_cap.py both read that field and need the uuid, and the contract's own measured incident (nine cycles indistinguishable under a typed label) is why it is read from the environment. Either the reaper learns to resolve the two, or receipts carry BOTH. Mutation-test the resolution so a receipt that genuinely has no session still reads as a finding.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
+      "claimed_utc": null,
+      "evidence": "MEASURED 2026-08-28 (CYC-0065-1f1a2449), not inferred from reading the code. The reaper was run per step 11 and returned archive=[] with two IDLE sessions flagged `idle with NO committed receipt`: session_017VDt2MMZnksnnHSebkKbbY and session_01AiEBt1BhjfPMi9rCZ4rZ53. The first is CYC-0061, whose receipt research/autonomy/receipts/CYC-0061-d60caf7b.json is committed on main and carries session_id `d60caf7b-1472-58ce-a4b4-8451374fc919`. A census of all 66 receipts carrying the field gives THREE namespaces: 23 raw uuids, 12 `session_...` ids (the only shape committed_session_ids can match), and 31 prose labels (the defect the contract already names). Verdict log: driver-reap.json in this cycle's scratchpad directory.",
+      "closes_clause": null
     },
     {
       "id": "AUT-PD-112",

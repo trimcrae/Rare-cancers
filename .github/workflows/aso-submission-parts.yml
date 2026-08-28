@@ -76,11 +76,15 @@ jobs:
           python3 research/manuscripts/build_submission_parts.py
           python3 research/manuscripts/build_submission_docx.py
 
-      - name: Re-derive the archive manifest
-        # ⚠ MUST BE LAST, AND MUST BE AFTER ANY REBASE. It hashes every other artifact, and it
-        # records the git revision it ran at — a manifest generated before a rebase names a commit
-        # the rebase then orphans, which is a real defect this repository has already shipped once.
-        run: python3 research/manuscripts/aso_archive_manifest.py
+      # ⛔ THE MANIFEST IS NOT RE-DERIVED HERE, AND THAT ABSENCE IS THE FIX.
+      # It used to be regenerated at this point and again inside the publish primitive's
+      # `PUBLISH_REGEN`. Both ran against a tree holding the freshly rebuilt .docx files
+      # UNCOMMITTED, so `aso_archive_manifest.py` recorded
+      # `git_tree_is_clean_apart_from_this_manifest: false` — its own statement that the hashes
+      # describe content that is in no commit. `--check-archive` REFUSES that flag, so the run
+      # that rebuilt the parts correctly left the trunk red on the generated-artifact gate.
+      # ⚠ MEASURED 2026-08-28: run on eeb5ab8, whose manifest carries `false` and names a35ebec.
+      # The regen now happens in a SECOND publish pass below, after the .docx commit has landed.
 
       - name: Prove the staleness guards are actually satisfied
         # ⛔ NAME THE TWO FILES, NEVER THE DIRECTORY. `-k` DESELECTS BUT DOES NOT PREVENT IMPORT:
@@ -110,15 +114,16 @@ jobs:
         # The primitive rewrites onto upstream instead, so a conflict is unrepresentable.
         # `PUBLISH_IF_CHANGED=1` because this is an EVENT publish (a rebuild), not a heartbeat tick — an
         # `--allow-empty` commit here would assert a rebuild happened when the parts were already current.
-        # `PUBLISH_REGEN` re-derives the archive manifest AFTER the primitive's reset onto upstream's tip,
-        # because it hashes every other artifact and records the git revision it ran at — a manifest
-        # generated before that reset would name a commit the reset then orphans.
+        # ⛔ NO `PUBLISH_REGEN` HERE, DELIBERATELY — IT USED TO BE AND THAT WAS THE DEFECT. The regen
+        # ran after the primitive's reset onto upstream's tip, which is the right place to avoid naming
+        # an orphaned revision, and the wrong place to take hashes: the rebuilt .docx are staged and
+        # UNCOMMITTED at that moment, so the manifest recorded a dirty tree and `--check-archive`
+        # refused it. The manifest is re-derived in the second publish pass below instead, which still
+        # runs after a reset onto upstream and additionally sees the .docx COMMITTED.
         env:
           REASON: ${{ inputs.reason }}
           PUBLISH_IF_CHANGED: "1"
           PUBLISH_FAIL_HARD: "1"
-          PUBLISH_REGEN: "python3 research/manuscripts/aso_archive_manifest.py"
-          PUBLISH_REGEN_ADD: "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"
         run: |
           set -euo pipefail
           # ⚠ The message is built in a file rather than inline: a multi-line -m argument inside a
@@ -141,3 +146,42 @@ jobs:
           } > /tmp/aso-parts-msg.txt
           bash research/compute/publish_artifacts.sh main "$(cat /tmp/aso-parts-msg.txt)" \
             research/manuscripts/aso
+
+      - name: Re-derive the archive manifest against the committed tree
+        # ⛔ A SECOND PUBLISH PASS, AND IT MUST BE SECOND — THE ORDERING IS THE WHOLE CONTENT OF
+        # THE FIELD IT FIXES. `aso_archive_manifest.py` hashes the WORKING TREE and records whether
+        # that tree was clean. In the pass above, the primitive resets onto upstream, restores the
+        # rebuilt .docx as STAGED-BUT-UNCOMMITTED files, and only then commits — so a regen running
+        # inside that pass is structurally incapable of seeing a clean tree, whatever it is ordered
+        # after. One commit cannot contain a hash of itself.
+        # ★ HERE the primitive's `git reset --hard FETCH_HEAD` lands on the commit the pass above
+        # just pushed, with the new .docx COMMITTED and no snapshot paths to restore. `PUBLISH_REGEN`
+        # then hashes a clean tree, writes `git_tree_is_clean_apart_from_this_manifest: true`, and
+        # records a `git_revision` that is the .docx commit — a revision a reader can check out and
+        # verify every hash against. This is the ordering `--check-archive`'s own remedy text
+        # prescribes: commit every other change FIRST, regenerate the manifest LAST.
+        # ⚠ PATHS ARE DELIBERATELY EMPTY. `publish_artifacts.sh` supports regen-only (it refuses
+        # only when BOTH the path list and PUBLISH_REGEN are empty), and passing the directory here
+        # would re-stage a snapshot this pass did not write.
+        # ⚠ The trunk is briefly STALE between the two commits — the .docx have moved and the
+        # manifest has not. That window is seconds inside one job, and it is strictly better than
+        # the previous steady state, which was a provenance REFUSAL that persisted until a human
+        # or a later cycle noticed.
+        env:
+          PUBLISH_IF_CHANGED: "1"
+          PUBLISH_FAIL_HARD: "1"
+          PUBLISH_REGEN: "python3 research/manuscripts/aso_archive_manifest.py"
+          PUBLISH_REGEN_ADD: "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"
+        run: |
+          set -euo pipefail
+          {
+            echo "re-derive the ASO archive manifest against the committed tree (CI)"
+            echo
+            echo "Second publish pass. The manifest hashes the working tree and records whether that"
+            echo "tree was clean; the pass that commits the rebuilt .docx cannot offer it a clean one,"
+            echo "because those files are staged and uncommitted at the moment the regen would run."
+            echo "Running it here, after that commit has landed, is what makes"
+            echo "git_tree_is_clean_apart_from_this_manifest true and makes the git_revision it names"
+            echo "a commit whose contents a reader can verify the hashes against."
+          } > /tmp/aso-manifest-msg.txt
+          bash research/compute/publish_artifacts.sh main "$(cat /tmp/aso-manifest-msg.txt)"
