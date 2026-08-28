@@ -34,7 +34,9 @@
   "THE ROW'S NAMED DESTINATION, AND I NEARLY FOLLOWED IT. AUT-PD-106 said to relocate the apparatus 'to the SI'. The journal article has no SI -- build_submission_pdf.py says so in terms -- and the file by that name belongs to the extended report. Moving a result there would have deleted it from the submission while looking like a relocation. Caught by reading the builder's PAPERS entry before editing, not by the gates, which would all have stayed green.",
   "I MISSED ONE OF A PAIR, INSIDE THE FIX FOR ONE-OF-A-PAIR. Two guards bound the same loose-cut sentence; I found one by reading and re-pointed only it. The manuscripts suite caught the other. Reading is not an instrument.",
   "I ALMOST INHERITED A WRONG FINDING. The census-ablation failure in my preflight matched AUT-PD-105 and AUT-PD-004 exactly, and both rows call it pre-existing. Run alone against a detached worktree at origin/main it PASSES -- so those rows' premise is spent and the failure in my run was a transient mid-edit state. Had I trusted the rows, I would have shipped a red I caused, labelled as somebody else's.",
-  "THE HARNESS REPORTED EXIT 0 TWICE FOR COMMANDS WHOSE OWN MARKER SAID EXIT=1 (the regeneration chain, and the preflight run). The marker was right both times. This is the third recorded instance."
+  "THE HARNESS REPORTED EXIT 0 TWICE FOR COMMANDS WHOSE OWN MARKER SAID EXIT=1 (the regeneration chain, and the preflight run). The marker was right both times. This is the third recorded instance.",
+  "I ORPHANED THE MANIFEST'S OWN git_revision, WHICH IS THE DEFECT ITS COMMENT WARNS ABOUT. I regenerated it on a clean tree at 472e8f00b, then rebased onto a moved trunk before pushing, which rewrote that commit -- so the pushed manifest names a revision reachable from no branch. Caught by checking `git branch --contains` rather than by any gate. The workflow's publish primitive regenerates AFTER its reset onto the upstream tip precisely to make this unrepresentable, which is why the re-dispatch is also the fix.",
+  "I TRIED TO BACKGROUND A POLL LOOP WITH A SHELL `&` and the hook refused it. The rule is in CLAUDE.md and in my own handoff prompt, and I still reached for it."
  ],
  "now_queued": [
   "AUT-PD-004 carries the measured current trunk-red set: three tests, none named by any row before now, and all three the same shape -- a guard whose prose moved and was not re-anchored.",
@@ -51,11 +53,22 @@
    "what": "aso_priorart_evidence.py refused on a shallow clone missing origin/literature-cache.",
    "path": "research/manuscripts/aso_priorart_evidence.py",
    "evidence": "'REFUSED: origin/literature-cache does not carry [...]'. Resolved in-cycle by fetching that branch; the step then wrote its artifact and agrees_with_manuscript=True."
+  },
+  {
+   "what": "The first dispatch of aso-submission-parts.yml FAILED and threw away work it had already done successfully.",
+   "path": ".github/workflows/aso-submission-parts.yml",
+   "evidence": "Run 33203189924: both build steps and the manifest regeneration succeeded ('wrote ... 483 files, 41.245 MiB'), then the verification step exited 2 on 'ERROR test_journal_article_numbers.py / 1 error during collection', which skipped 'Commit to main'. Root cause measured, not inferred: `-k` deselects but does not prevent import, and the step installs only pytest, so collecting the whole tests/ directory imports scipy via aso_falsification_power. Reproduced on a bare pytest venv against BOTH this cycle's tree and its parent — latent, not caused by the manuscript edit.",
+   "remedy": "Fixed in the same cycle: the step now names the two test files instead of the directory (verified under the same bare-pytest conditions: 3 collected, 12 deselected, no error), and the workflow was re-dispatched. Following it through to the trunk is AUT-PD-117."
   }
  ],
  "route_advanced": "RT-AUTONOMY",
  "handoff": {
-  "child_session_id": null,
-  "note": "Filled in before the turn ends; this session is at 1 of its 2 permitted cycles."
+  "child_session_id": "session_01CYvZx1rzd5y3AaHjuAAU4o",
+  "attempted": true,
+  "created_utc": "2026-08-28T19:35:54Z",
+  "title": "EMC research loop — cycle (successor to CYC-0061-d60caf7b)",
+  "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+  "prompt_built_by": "research/autonomy/handoff.py --json, from committed state, carrying no findings from this cycle",
+  "note": "This session ran ONE cycle against a cap of 2, and handed off anyway: the cycle's remaining work is a CI run this driver must not wait on (AUT-PD-117), and research-loop §3 says the driver dispatches, records and ends."
  }
 }
