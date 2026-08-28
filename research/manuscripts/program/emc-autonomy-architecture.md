@@ -191,7 +191,9 @@ entries[]:
   what                one sentence, falsifiable, in the imperative
   serves              {route: RT-*, requirement: R*, publication: PUB-*}   ← the join to systems/graph
   kind                experiment | analysis | write | harden | fetch | regrade | venue | negative
-  state               queued | running | blocked | done | abandoned
+  state               queued | running | blocked | parked | done | abandoned
+  parked_on           TECH-*/TR-* the graph says would reopen the route, or null   ← derived rows
+  parked_by_graph_status  the routes.json state.status that stood it down, or null ← derived rows
   owner               the cycle id that took it, or null
   cost_class          free | cheap | expensive        ← CLAUDE.md §2's ladder, never a typed $
   cost_points_at      the rung or ladder row that owns the figure   ← never a number here
@@ -239,6 +241,25 @@ mechanical:**
 3. **`blocked` is a claim that must carry evidence.** An entry with `state: blocked` and an empty
    `blocked_evidence` is **not** filtered out — it is promoted to a `kind: fetch` entry that re-tests
    the block, because §0 records that most blocked rows are waiting on a $0 check.
+4. **A route the graph has stood down is born `parked`, never `queued`** (AUT-PD-075, 2026-08-28).
+   The derived row's state used to be invented from `next.blocked_on` alone — a field 11 of 77 routes
+   carry — so every other route was born takeable regardless of what the graph recorded. Measured on
+   the corrected ranking: of 77 derived rows, **39 name a conclusion or a registration waiting on the
+   outside world** and 36 of those were `queued`, with the top-scoring row in the whole ledger reading
+   *"the ex-vivo result is banked and needs no further lookup"*. The scorer now reads `state.status`,
+   the closed vocabulary [`CONVENTIONS.md` §4.1](../../../systems/CONVENTIONS.md) already defines, and
+   maps `parked`/`closed`/`delegated`/`superseded` onto a `parked` row that names its reopening
+   condition in `parked_on`.
+   ⛔ **Keyed on the FIELD, never the English.** Matching phrases like *"no further lookup"* or
+   *"closed line"* is a grep the next re-wording defeats in silence.
+   ⛔ **And parking is not closing.** The row keeps its id, its score and the route's own words, and a
+   session's `done` still wins over a re-derived `parked` — AUT-PD-051's rule that a report is not a
+   closure.
+   ⚠ **It is deliberately narrow, and the residue is a GRAPH record.** Widening it to
+   `timing.recommendation ∈ {monitor, wait, closed}` would raise recall from 0.72 to 0.87 and double
+   the false parks from 4 to 9 — hiding live $0 work, which is §0's named failure — so precision wins.
+   Eleven rows in the class stay queued because their route records contradict their own next action;
+   those are fixed in `systems/graph`, never by a special case in the scorer.
 
 ### 3.3 · Seeding it
 

@@ -61,6 +61,52 @@ OPEN_CLOSURES = {"open", "", None}
 LIVE_OUTCOME = "live_positive"
 NEGATIVE_OUTCOMES = {"negative_or_methods"}
 
+# ⛔⛔ ROUTE STATUSES THAT MEAN "THERE IS NO STEP A SESSION CAN TAKE ON THIS TODAY" (AUT-PD-075).
+# ⚠ THE DEFECT THIS FIXES: the derived row's state was invented here, from `next.blocked_on` alone
+# — a field 11 of 77 routes carry — so every other route was born `queued` no matter what the graph
+# said about it, and the queue offered rows whose own text says there is nothing to do. Measured on
+# the corrected ranking 2026-08-28 by CYC-0053: of 77 derived rows, 39 name a CONCLUSION ("the
+# ex-vivo result is banked and needs no further lookup", "Report it as a closed line", "Nothing.
+# Cite the closure") or a REGISTRATION waiting on the outside world ("Keep registered for automatic
+# re-grade when EMC expression data lands"), and 36 of those 39 were `queued`. That is HALF the
+# derived queue, not a handful of rows — AUT-013 was the top-scoring row in the whole ledger.
+#
+# ⭐ THE DISCRIMINATOR IS A FIELD THE GRAPH ALREADY OWNS, NOT A PHRASE. `state.status` is a closed
+# controlled vocabulary defined in systems/CONVENTIONS.md §4.1 and enforced by the route schema:
+# `parked` = "failed with today's tools; has a named TECH-* to reopen it", `closed` =
+# "conclusively unworkable; carries no TECH-*", `delegated` = "someone else's to answer",
+# `superseded` = "replaced by another object, which is named". Each of those, in the vocabulary's
+# own words, says the route has no takeable next step. Reading it is a one-line lookup that the
+# next re-wording of a `best_next_action` cannot defeat.
+# ⛔ THE ALTERNATIVE WAS MATCHING THE ENGLISH ("no further lookup", "closed line", "keep
+# registered") AND IT IS REFUSED. It is a grep over prose that a synonym silently defeats — the
+# class of guard this repository has already paid for twice (AUT-PD-013's fan-out key,
+# AUT-PROP-013's ids: an agreement written in prose that nothing enforced).
+#
+# ⭐ AND IT FAILS TOWARD OFFERING THE WORK, WHICH IS THE ONLY SAFE DIRECTION HERE. Measured against
+# a hand classification of all 77 next-action texts (2026-08-28), with the `next.blocked_on`
+# precedence below applied: this set parks 28 rows, 24 of them correctly, 4 of them ACTION rows
+# whose route is recorded `parked` while its own next action is a $0 step — AUT-030, AUT-039,
+# AUT-061, AUT-076. Wider sets score better on recall and worse here: adding
+# `timing.recommendation in {monitor, wait, closed}` lifts recall 0.72 → 0.87 and DOUBLES the false
+# parks to 9, hiding live $0 work — CLAUDE.md §0's named failure. A missed row keeps the status
+# quo; a false park hides a live route, so precision wins.
+# ⛔ THE RESIDUE IS A GRAPH RECORD, NOT A CASE TO ADD HERE. Twelve rows in the class stay `queued`
+# because no committed field distinguishes them: RT-CARFILZOMIB is recorded `status: ready`
+# (= "nothing blocks it") and `recommendation: pursue_now` while its own next action reads "needs
+# no further lookup". Per this module's contract, that is a wrong graph record and it is fixed in
+# systems/graph — never by a special case here.
+# ⚠ AND `blockers_inherited` / `required_validation[].blocked_by` DO NOT RESCUE THOSE ROWS, tested
+# rather than assumed: 13 routes recorded `ready` name a blocker under one of those keys, and they
+# include RT-MTAP-PRMT5 ("post the preprint"), the top-scoring live row. Both fields describe the
+# route's ultimate VALIDATION, not its next step, so they carry no signal about takeability.
+NOT_TAKEABLE_STATUSES = frozenset({"parked", "closed", "delegated", "superseded"})
+
+#: ⛔ AND A PARKED ROW IS NEVER DISPOSED OF. It keeps its id, its score and its `what`; only its
+#: state changes, so it stops being OFFERED without being closed. AUT-PD-051's rule: an artifact on
+#: the trunk is not the same as the item being finished, and a report is not a closure. Deleting or
+#: auto-`done`-ing these rows would take the route's record with them.
+PARKED_STATE = "parked"
 
 def _load(name: str) -> Any:
     with (GRAPH / name).open() as fh:
@@ -88,6 +134,31 @@ def _cost_class(route: dict) -> str:
     if any(tok in raw for tok in ("gpu", "fleet", "leg", "multi", "k)", "000")):
         return "expensive"
     return "cheap"
+
+
+def _parked(route: dict) -> bool:
+    """Whether this route derives a `parked` row. One predicate, so the state and the two fields
+    that explain it can never disagree about which rows are parked."""
+    if (route.get("next") or {}).get("blocked_on"):
+        return False
+    return (route.get("state") or {}).get("status") in NOT_TAKEABLE_STATUSES
+
+
+def parked_on(route: dict) -> list[str] | None:
+    """What the graph says would reopen a route it has already stood down (AUT-PD-075).
+
+    ⭐ NAMING WHAT IT WAITS ON IS THE POINT, not the state string. A row that reads `parked` with
+    nothing beside it is the same unanswered question in a new costume (CLAUDE.md §4: a row reading
+    UNKNOWN or "will check next cycle" is an unanswered question wearing the costume of a status).
+    Both registers are read because they answer different halves and neither is complete alone:
+    `timing.revisit_trigger` names the TECH-* whose arrival is being scanned for (schema-REQUIRED
+    for any recommendation other than `pursue_now`), and `revival_trigger` names the TR-* result
+    that would revive the route. A `closed` route may legitimately have neither, and `None` then
+    says so honestly rather than inventing a condition.
+    """
+    triggers = list((route.get("timing") or {}).get("revisit_trigger") or [])
+    triggers += list(route.get("revival_trigger") or [])
+    return sorted(set(triggers)) or None
 
 
 def _blocked_on_human(route: dict) -> bool:
@@ -205,7 +276,29 @@ def build_entries(weights: dict | None = None) -> list[dict]:
                     "strategy": route.get("strategy"),
                 },
                 "kind": kind,
-                "state": "blocked" if (route.get("next") or {}).get("blocked_on") else "queued",
+                # ⛔ THE GRAPH'S OWN `state.status` DECIDES FIRST (AUT-PD-075). Before this, the
+                # only input was `next.blocked_on`, so a route the graph records as parked, closed
+                # or delegated was still born `queued` and offered as takeable work every cycle.
+                # ⛔ AND `next.blocked_on` OUTRANKS THE STATUS, WHICH IS NOT THE ORDER I WROTE
+                # FIRST. `state.status` describes the ROUTE; `next.blocked_on` names a blocker on
+                # THE NEXT STEP, and clamp 3 turns an unevidenced one into a free re-test
+                # (CLAUDE.md §0: a blocked row is usually waiting on a $0 observation). Parking
+                # first suppressed that re-test — caught by
+                # systems/tests/test_autonomy_priority.py's clamp-3 test on RT-SYNLETH-DEP, the one
+                # route that is `parked` AND names a blocker. The $0 re-test of BLK-NO-EMC-DATA is
+                # exactly the observation its "keep registered until EMC expression data lands"
+                # registration is waiting on, so the specific statement wins over the general one.
+                "state": (
+                    "blocked" if (route.get("next") or {}).get("blocked_on")
+                    else PARKED_STATE if state.get("status") in NOT_TAKEABLE_STATUSES
+                    else "queued"
+                ),
+                # ⛔ ALWAYS WRITTEN, INCLUDING AS None. `merge()` ends with a `setdefault` over every
+                # key of the previous row — forward-compat, so an unknown key is never dropped — and
+                # a key this function omits on a later run would therefore be RESURRECTED from the
+                # stale row. A route that leaves NOT_TAKEABLE_STATUSES must lose this field.
+                "parked_on": parked_on(route) if _parked(route) else None,
+                "parked_by_graph_status": state.get("status") if _parked(route) else None,
                 "owner": None,
                 "cost_class": cost_class,
                 "cost_points_at": "research/compute/pricing.md",
@@ -257,7 +350,10 @@ def apply_clamps(entries: list[dict], weights: dict) -> list[dict]:
 # would be overwritten anyway. Everything else on an entry belongs to the SESSION that touched it.
 SESSION_OWNED = ("owner", "claimed_utc", "attempts", "retry_budget", "blocked_evidence", "blocked_by",
                  "prerequisite_of")
-# States a session sets. `queued`/`blocked` are re-derived from the graph; these are not.
+# States a session sets. `queued`/`blocked`/`parked` are re-derived from the graph; these are not.
+# ⛔ AND THAT ORDERING IS THE AUT-PD-051 GUARANTEE: a session that finished a row wrote `done`
+# here, and `merge()` lets that WIN over the graph's re-derived `parked`, so a re-score can never
+# quietly un-finish work — nor can it finish work by parking it.
 SESSION_STATES = {"running", "done", "abandoned"}
 
 
