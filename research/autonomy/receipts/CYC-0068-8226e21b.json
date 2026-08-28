@@ -54,8 +54,11 @@
   "receipt_schema.py --check is green on all committed history: the cutoff does not retroactively fail one receipt, so no future commit inherits a red gate nobody can clear."
  ],
  "handoff": {
-  "child_session_id": null,
-  "attempted": false,
-  "_why": "Filled in below once the successor is created."
+  "child_session_id": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+  "attempted": true,
+  "created_utc": "2026-08-28T21:55:56Z",
+  "reason": "CYC-0068 and CYC-0069 reached this session's 2-cycle cap (autonomy-state.json max_cycles_per_session=2).",
+  "prompt_built_by": "research/autonomy/handoff.py --json (from committed state, never from memory)",
+  "_carried_forward": "One OPERATIONAL fact was appended to the generated prompt and no findings: a clean auto-merge of the ledger can still produce a duplicate id, so dedupe unconditionally after every rebase rather than only on conflict. It cost this session a red preflight."
  }
 }
