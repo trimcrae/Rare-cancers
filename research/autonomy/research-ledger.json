@@ -11,21 +11,21 @@
     "experiment": 24,
     "fetch": 17,
     "fix": 10,
-    "harden": 19,
+    "harden": 16,
     "negative": 32,
     "process": 7,
-    "process_defect": 95,
+    "process_defect": 96,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
     "write": 6
   },
   "n_by_state": {
-    "done": 86,
+    "blocked": 1,
+    "done": 85,
     "in_progress": 2,
     "parked": 28,
-    "queued": 118,
-    "ready": 3,
+    "queued": 119,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -292,48 +292,6 @@
       "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
       "_derived": false,
       "score_inputs": {}
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "in_progress",
-      "owner": "CYC-0059-18394002",
-      "claimed_utc": "2026-08-28T16:35:43Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 2,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
-      "id": "AUT-PROP-018",
-      "kind": "harden",
-      "prerequisite_of": "AUT-049",
-      "what": "run PREFLIGHT_FULL=1 at the FINAL ASO v2 commit and RECORD the receipt with record_bar_evidence.py. ⭐ CLOSES publish_bar CLAUSE 2 FOR PUB-ASO. ⛔ IT MUST BE THE COMMIT THAT IS POSTED — a receipt at an earlier sha closes nothing, and this has already been restarted twice because the tree moved under a run in flight. Run it LAST, after the CI .docx rebuild has landed on main, or it is thrown away.",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "score": 200.36,
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "preflight_full_green"
-      },
-      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
-      "score_inputs": {
-        "age_factor": 0.0714,
-        "fruitless_attempts": 1
-      },
-      "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question.",
-      "_commit_pointer_correction": "2026-08-28T16:31:00Z CYC-0058-18394002: the pinned `commit` (eed563d6b5114f0879c8bcb285f1b67ba9d677e5, from research/autonomy/ready-to-post.json, written by ready_to_post.py's `_head()` as whatever HEAD was in some earlier session's checkout) is UNREACHABLE from origin/main -- `git merge-base origin/claude/dreamy-hawking-vcvlhk origin/main` exits 1, no common ancestor. That branch is a stranded scratch/session branch (144 commits ahead, 88 behind, disjoint root commit), stopped at 'ASO round 11'. DO NOT attempt to recover or merge it: diffing its tip against origin/main shows the ASO journal article text is BYTE-IDENTICAL already, and main additionally carries fusion-junction-aso-paper-redteam-round12.md plus the claim-audit manifest/verdicts JSON that the branch does not have -- main is the more current state, not the branch. The stale pointer is why this row has already burned two PREFLIGHT_FULL attempts: a receipt at that sha could never satisfy publish_bar clause 2 (`record.get('sha') != sha`) because that sha is not where the current work lives. NEXT ATTEMPT: run `ready_to_post.py --write` to refresh the `commit` pointer against a clean, QUIET origin/main checkout (not mid-push), THEN immediately PREFLIGHT_FULL=1 at that same HEAD before anything else lands. Not attempted this cycle: origin/main had 3 concurrent commits land from CYC-0053-3217966b within the ~15 minutes of this session's own work, and a 25-minute FULL run started into that churn would very likely be a third throwaway.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T16:35:43Z",
-          "fingerprint_at_dispatch": "2026-08-27|None"
-        }
-      ]
     },
     {
       "id": "AUT-046",
@@ -2873,6 +2831,48 @@
       "_score_basis": "the instance cost one permanently-unmeasurable governance row on the dial the architecture calls the most important; the class is every other row like it",
       "depends_on_evidence": "research/autonomy/receipt_schema.py and its 21-test suite — the worked instance",
       "closes_clause": null
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "blocked",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": "AUT-PD-105",
+      "blocked_evidence": "Dispatched PREFLIGHT_FULL=1 for real this cycle (Actions run https://github.com/trimcrae/Rare-cancers/actions/runs/33190817704, sha 5964fa24da222d7557a3073fccb8ddf0be048cd6) -- the stale-commit-pointer problem this row previously carried is resolved. The run is a GENUINE red, not infrastructure: 8106 modalities + 543 selector tests passed; the manuscripts suite is 1451 passed, 2 FAILED -- both in research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py::test_a_covered_sentence_has_a_witness_that_actually_goes_red, on research/manuscripts/aso/fusion-junction-aso-journal-article.md (1 of 53 perturbed sentences changed its number with no witness the census names going red) and research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md (2 of 73). This is PUB-ASO's own article failing a real coverage-falsifiability gate -- filed as AUT-PD-105. Also found and fixed live: record_bar_evidence.py was silently discarding the diagnostic log of any red PREFLIGHT_FULL run (fixed this cycle, AUT-PD-105's sibling finding is in the commit, not a separate row -- see the amendment on test_a_red_preflight_full_log_is_preserved.py); the itemized per-sentence detail of the 1-of-53 and 2-of-73 failures was NOT recoverable from the Actions console log (pytest's short summary truncates the assertion message) and needs a fresh local or CI run of just that test file to see. NEXT ATTEMPT: close AUT-PD-105 first, then re-dispatch preflight-full-record.yml at a fresh quiet-main sha exactly as this cycle did.",
+      "retry_budget": 3,
+      "attempts": 2,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "id": "AUT-PROP-018",
+      "kind": "harden",
+      "prerequisite_of": "AUT-049",
+      "what": "run PREFLIGHT_FULL=1 at the FINAL ASO v2 commit and RECORD the receipt with record_bar_evidence.py. ⭐ CLOSES publish_bar CLAUSE 2 FOR PUB-ASO. ⛔ IT MUST BE THE COMMIT THAT IS POSTED — a receipt at an earlier sha closes nothing, and this has already been restarted twice because the tree moved under a run in flight. Run it LAST, after the CI .docx rebuild has landed on main, or it is thrown away.",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "score": 118.36,
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "preflight_full_green"
+      },
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "blocked_with_evidence": true
+      },
+      "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question.",
+      "_commit_pointer_correction": "2026-08-28T16:31:00Z CYC-0058-18394002: the pinned `commit` (eed563d6b5114f0879c8bcb285f1b67ba9d677e5, from research/autonomy/ready-to-post.json, written by ready_to_post.py's `_head()` as whatever HEAD was in some earlier session's checkout) is UNREACHABLE from origin/main -- `git merge-base origin/claude/dreamy-hawking-vcvlhk origin/main` exits 1, no common ancestor. That branch is a stranded scratch/session branch (144 commits ahead, 88 behind, disjoint root commit), stopped at 'ASO round 11'. DO NOT attempt to recover or merge it: diffing its tip against origin/main shows the ASO journal article text is BYTE-IDENTICAL already, and main additionally carries fusion-junction-aso-paper-redteam-round12.md plus the claim-audit manifest/verdicts JSON that the branch does not have -- main is the more current state, not the branch. The stale pointer is why this row has already burned two PREFLIGHT_FULL attempts: a receipt at that sha could never satisfy publish_bar clause 2 (`record.get('sha') != sha`) because that sha is not where the current work lives. NEXT ATTEMPT: run `ready_to_post.py --write` to refresh the `commit` pointer against a clean, QUIET origin/main checkout (not mid-push), THEN immediately PREFLIGHT_FULL=1 at that same HEAD before anything else lands. Not attempted this cycle: origin/main had 3 concurrent commits land from CYC-0053-3217966b within the ~15 minutes of this session's own work, and a 25-minute FULL run started into that churn would very likely be a third throwaway.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T16:35:43Z",
+          "fingerprint_at_dispatch": "2026-08-27|None"
+        }
+      ]
     },
     {
       "serves": {
@@ -5661,6 +5661,37 @@
       "requires_trimcrae_why": "a repository lint fix; nothing leaves the repo"
     },
     {
+      "id": "AUT-PD-105",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0060-18394002",
+      "score": null,
+      "_score_basis": "unaccounted -- hand-filed, no derivation to check yet",
+      "depends_on_evidence": "PREFLIGHT_FULL=1 Actions run https://github.com/trimcrae/Rare-cancers/actions/runs/33190817704 (sha 5964fa24da222d7557a3073fccb8ddf0be048cd6), the FIRST real (non-infra) run this row has ever produced -- two prior runs (33101598851, 33104631542) failed on workflow/environment bugs before the gates could even run cleanly, and the run before this one (33107744620) was green but at a commit no longer reachable from main. Full manuscripts suite: 1451 passed, 2 failed, both test_the_census_word_covered_survives_ablation.py::test_a_covered_sentence_has_a_witness_that_actually_goes_red[...]. Every other gate (8106 modalities tests, 543 selector/loop-instrument tests, lint_citations, lint_claims, claim strength, systems model, generated-artifact reproduction) was clean.",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "preflight_full_green"
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "content-integrity work on a manuscript's own numeric-claims coverage; nothing published, submitted or deposited by fixing it",
+      "what": "Two documents fail the ablation-coverage falsifiability gate: for each perturbed (number-mutated) sentence the census calls 'covered', the gate checks that at least one registered witness (a guard, a binding) actually goes red when that sentence's number is mutated. research/manuscripts/aso/fusion-junction-aso-journal-article.md has 1 of 53 perturbed sentences with NO witness firing; research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md has 2 of 73. The ASO article is PUB-ASO's own text and this is the second of its three remaining publish_bar blockers (preflight_full_green) -- a real, not cosmetic, gap: a number in that sentence could drift and nothing would catch it. WHAT TO DO: reproduce locally or via a scoped Actions dispatch -- `pytest research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py -k 'fusion-junction-aso-journal-article or fusion-partner-stratification' -v` -- to get the itemized sentence/witness detail the truncated Actions console log did not preserve (this row's own CI run's full pytest verbose output was not recoverable after the fact; the short summary line only names the file and count). Then either add/fix the binding or witness that should cover the drifted sentence (the AUT-PD-036/041 sibling pattern: a guard's scope not reaching a real prose location), or, if the sentence is genuinely not a claim needing a witness, correct the census's own classification -- following the same methodology those rows used (mutation-test the fix, verify zero collateral on the rest of the corpus). Closing this closes one of PUB-ASO's three remaining publish_bar clauses (the other two, hardening_converged and independent_adversarial_seat, are separate rows)."
+    },
+    {
       "id": "AUT-PROP-015",
       "kind": "fix",
       "serves": {
@@ -6566,78 +6597,6 @@
       "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
     },
     {
-      "id": "AUT-PD-105",
-      "what": "⛔ THE ASO JOURNAL ARTICLE IS 7 TYPESET PAGES AGAINST A 6-PAGE BUDGET BACKED BY A PER-PAGE CHARGE, and test_the_journal_pdf_fits_its_page_budget.py is red because of it. Cause, measured: round 18's five verified blocker fixes add ~110 words of BOUNDS to a paper that sat at exactly 6 pages with zero headroom. Already funded without removing a bound: 3 meta-commentary passages, 4 duplications, 2 derivations moved to documents that carry them, 4 passages tightened twice, abstract 205 -> 200 words. ⭐ THE REMAINING ACTION IS THE ONE THE GATE ITSELF NAMES — move a result to a packet document. Candidate: the null-ensemble APPARATUS (6.2% weakest null, the 38,000-draw Wilson construction, the 91.4/92.1 loose-cut pair, the four sign changes) into the supplementary information, KEEPING in the paper the concession that carries the argument — the strongest null's 40.6% sits inside the panel's own 95% interval on 45.8%. ⛔ At least three guards bind those numbers to the journal article and must follow them: test_journal_article_numbers.py, test_the_printed_cut_ladder_is_the_measured_one.py, test_the_manuscript_title_states_the_measurement_it_carries.py. ⛔ DO NOT RAISE THE BUDGET — the gate's own remedy text forbids it and the ceiling is backed by the author's money, not by taste. ⛔⛔ AND IT IS TWO GATES, NOT ONE — the record said page budget only, which was incomplete. test_justification_does_not_degrade.py is ALSO red: 13 of 383 body lines exceed twice the median inter-word gap, 33.94 per 1,000 against a ceiling of 23.5 and a baseline of 20.89 measured on the parent commit's build. ⚠ ROOT-CAUSED, not guessed: the parent build's median gap is 3.659 pt and this one's is 3.571, and the threshold is 2x the median, so a build whose lines are on average TIGHTER counts MORE lines as blown. Four of the extra blown lines sit in the 7.19-7.32 pt band and are pre-existing prose that merely reflowed — they are not new rivers. ⛔ TWO REWORDINGS AIMED AT THIS WERE TRIED AND MEASURED: one moved its own line from 7.21 to 7.71 pt (worse, reverted), and moving the cut ladder out tripped test_the_junction_clearing_ladder_is_the_artifacts_ladder, a guard that exists to keep that bound in the paper (reverted; the guard was right). The lever is real, per-line and laborious — the file's own note records rewording ONE sentence moving the rate 18.0 -> 16.9. ⛔ DO NOT RE-PIN EITHER CEILING.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": "PUB-ASO",
-        "strategy": null
-      },
-      "kind": "harden",
-      "state": "ready",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "Repository work on a file in this repository. Posting the result is NOT ours: PUB-ASO carries a public DOI under trimcrae's name and is excluded by name from the standing aiXiv grant.",
-      "claimed_utc": null,
-      "evidence": "Round 18 applied. All three REFUTED interpretation claims narrowed in research/manuscripts/aso/fusion-junction-aso-journal-article.md, plus the Introduction sibling the audit did not sample and two siblings in the extended report. Five blind-seat blockers verified against the artifacts and fixed. Record: research/autonomy/hardening-state/PUB-ASO.json (round 18, 5 blockers all fixed, 7 P1s of which 2 closed). Journal article 4613 -> 4634 words by wc -w. NOT DONE: the 6-page budget is exceeded by one page and test_the_journal_pdf_fits_its_page_budget.py is red; see AUT-PD-083. Nothing was posted.",
-      "closes_clause": "PUB-ASO/hardening_converged"
-    },
-    {
-      "id": "AUT-PD-106",
-      "what": "Bind the EXTENDED REPORT's copies of round 18's three new counts — seven of 87 reaching 14-of-16 identity, the 13-base-pair own-parent bound across both compartments, and five of eight fully paired off-targets in curated records. The journal article's copies are bound by test_journal_article_numbers.py; the report's are bound by nothing, which is the one-of-a-pair shape round 18 found twice in this same packet (seat 1 P1). Evidence: research/autonomy/hardening-state/PUB-ASO.json.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": "PUB-ASO",
-        "strategy": null
-      },
-      "kind": "harden",
-      "state": "ready",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "Repository work on a file in this repository. Posting the result is NOT ours: PUB-ASO carries a public DOI under trimcrae's name and is excluded by name from the standing aiXiv grant.",
-      "claimed_utc": null,
-      "evidence": "Round 18 applied. All three REFUTED interpretation claims narrowed in research/manuscripts/aso/fusion-junction-aso-journal-article.md, plus the Introduction sibling the audit did not sample and two siblings in the extended report. Five blind-seat blockers verified against the artifacts and fixed. Record: research/autonomy/hardening-state/PUB-ASO.json (round 18, 5 blockers all fixed, 7 P1s of which 2 closed). Journal article 4613 -> 4634 words by wc -w. NOT DONE: the 6-page budget is exceeded by one page and test_the_journal_pdf_fits_its_page_budget.py is red; see AUT-PD-083. Nothing was posted.",
-      "closes_clause": "PUB-ASO/hardening_converged"
-    },
-    {
-      "id": "AUT-PD-107",
-      "what": "Close the three remaining round-18 P1s that are guard-coverage gaps, none of them a wrong statement in the text: (1) seat 5 — every load-bearing number in the Abstract and Results is hand-typed prose restating a value Tables 1 and 2 draw from the canonical file, the largest remaining coverage gap on this paper; (2) seat 2 — the exon-2 non-coding-acceptor arm's four printed quantities, and 'the same ten shared donor bases', are correct and unbound; (3) seat 3 — the null comparison's one OUTSIDE claim, 'but eleven', rests on the nominal Wilson interval's independence assumption. Evidence: the four seat records under research/autonomy/review-seats/PUB-ASO-6127da1ac1a2*.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": "PUB-ASO",
-        "strategy": null
-      },
-      "kind": "harden",
-      "state": "ready",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "Repository work on a file in this repository. Posting the result is NOT ours: PUB-ASO carries a public DOI under trimcrae's name and is excluded by name from the standing aiXiv grant.",
-      "claimed_utc": null,
-      "evidence": "Round 18 applied. All three REFUTED interpretation claims narrowed in research/manuscripts/aso/fusion-junction-aso-journal-article.md, plus the Introduction sibling the audit did not sample and two siblings in the extended report. Five blind-seat blockers verified against the artifacts and fixed. Record: research/autonomy/hardening-state/PUB-ASO.json (round 18, 5 blockers all fixed, 7 P1s of which 2 closed). Journal article 4613 -> 4634 words by wc -w. NOT DONE: the 6-page budget is exceeded by one page and test_the_journal_pdf_fits_its_page_budget.py is red; see AUT-PD-083. Nothing was posted.",
-      "closes_clause": "PUB-ASO/hardening_converged"
-    },
-    {
       "id": "AUT-PD-005",
       "kind": "fix",
       "serves": {
@@ -7073,7 +7032,79 @@
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
     },
     {
+      "id": "AUT-PD-106",
+      "what": "⛔ THE ASO JOURNAL ARTICLE IS 7 TYPESET PAGES AGAINST A 6-PAGE BUDGET BACKED BY A PER-PAGE CHARGE, and test_the_journal_pdf_fits_its_page_budget.py is red because of it. Cause, measured: round 18's five verified blocker fixes add ~110 words of BOUNDS to a paper that sat at exactly 6 pages with zero headroom. Already funded without removing a bound: 3 meta-commentary passages, 4 duplications, 2 derivations moved to documents that carry them, 4 passages tightened twice, abstract 205 -> 200 words. ⭐ THE REMAINING ACTION IS THE ONE THE GATE ITSELF NAMES — move a result to a packet document. Candidate: the null-ensemble APPARATUS (6.2% weakest null, the 38,000-draw Wilson construction, the 91.4/92.1 loose-cut pair, the four sign changes) into the supplementary information, KEEPING in the paper the concession that carries the argument — the strongest null's 40.6% sits inside the panel's own 95% interval on 45.8%. ⛔ At least three guards bind those numbers to the journal article and must follow them: test_journal_article_numbers.py, test_the_printed_cut_ladder_is_the_measured_one.py, test_the_manuscript_title_states_the_measurement_it_carries.py. ⛔ DO NOT RAISE THE BUDGET — the gate's own remedy text forbids it and the ceiling is backed by the author's money, not by taste. ⛔⛔ AND IT IS TWO GATES, NOT ONE — the record said page budget only, which was incomplete. test_justification_does_not_degrade.py is ALSO red: 13 of 383 body lines exceed twice the median inter-word gap, 33.94 per 1,000 against a ceiling of 23.5 and a baseline of 20.89 measured on the parent commit's build. ⚠ ROOT-CAUSED, not guessed: the parent build's median gap is 3.659 pt and this one's is 3.571, and the threshold is 2x the median, so a build whose lines are on average TIGHTER counts MORE lines as blown. Four of the extra blown lines sit in the 7.19-7.32 pt band and are pre-existing prose that merely reflowed — they are not new rivers. ⛔ TWO REWORDINGS AIMED AT THIS WERE TRIED AND MEASURED: one moved its own line from 7.21 to 7.71 pt (worse, reverted), and moving the cut ladder out tripped test_the_junction_clearing_ladder_is_the_artifacts_ladder, a guard that exists to keep that bound in the paper (reverted; the guard was right). The lever is real, per-line and laborious — the file's own note records rewording ONE sentence moving the rate 18.0 -> 16.9. ⛔ DO NOT RE-PIN EITHER CEILING.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "harden",
+      "state": "ready",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository work on a file in this repository. Posting the result is NOT ours: PUB-ASO carries a public DOI under trimcrae's name and is excluded by name from the standing aiXiv grant.",
+      "claimed_utc": null,
+      "evidence": "Round 18 applied. All three REFUTED interpretation claims narrowed in research/manuscripts/aso/fusion-junction-aso-journal-article.md, plus the Introduction sibling the audit did not sample and two siblings in the extended report. Five blind-seat blockers verified against the artifacts and fixed. Record: research/autonomy/hardening-state/PUB-ASO.json (round 18, 5 blockers all fixed, 7 P1s of which 2 closed). Journal article 4613 -> 4634 words by wc -w. NOT DONE: the 6-page budget is exceeded by one page and test_the_journal_pdf_fits_its_page_budget.py is red; see AUT-PD-083. Nothing was posted.",
+      "closes_clause": "PUB-ASO/hardening_converged"
+    },
+    {
+      "id": "AUT-PD-107",
+      "what": "Bind the EXTENDED REPORT's copies of round 18's three new counts — seven of 87 reaching 14-of-16 identity, the 13-base-pair own-parent bound across both compartments, and five of eight fully paired off-targets in curated records. The journal article's copies are bound by test_journal_article_numbers.py; the report's are bound by nothing, which is the one-of-a-pair shape round 18 found twice in this same packet (seat 1 P1). Evidence: research/autonomy/hardening-state/PUB-ASO.json.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "harden",
+      "state": "ready",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository work on a file in this repository. Posting the result is NOT ours: PUB-ASO carries a public DOI under trimcrae's name and is excluded by name from the standing aiXiv grant.",
+      "claimed_utc": null,
+      "evidence": "Round 18 applied. All three REFUTED interpretation claims narrowed in research/manuscripts/aso/fusion-junction-aso-journal-article.md, plus the Introduction sibling the audit did not sample and two siblings in the extended report. Five blind-seat blockers verified against the artifacts and fixed. Record: research/autonomy/hardening-state/PUB-ASO.json (round 18, 5 blockers all fixed, 7 P1s of which 2 closed). Journal article 4613 -> 4634 words by wc -w. NOT DONE: the 6-page budget is exceeded by one page and test_the_journal_pdf_fits_its_page_budget.py is red; see AUT-PD-083. Nothing was posted.",
+      "closes_clause": "PUB-ASO/hardening_converged"
+    },
+    {
       "id": "AUT-PD-108",
+      "what": "Close the three remaining round-18 P1s that are guard-coverage gaps, none of them a wrong statement in the text: (1) seat 5 — every load-bearing number in the Abstract and Results is hand-typed prose restating a value Tables 1 and 2 draw from the canonical file, the largest remaining coverage gap on this paper; (2) seat 2 — the exon-2 non-coding-acceptor arm's four printed quantities, and 'the same ten shared donor bases', are correct and unbound; (3) seat 3 — the null comparison's one OUTSIDE claim, 'but eleven', rests on the nominal Wilson interval's independence assumption. Evidence: the four seat records under research/autonomy/review-seats/PUB-ASO-6127da1ac1a2*.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "harden",
+      "state": "ready",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository work on a file in this repository. Posting the result is NOT ours: PUB-ASO carries a public DOI under trimcrae's name and is excluded by name from the standing aiXiv grant.",
+      "claimed_utc": null,
+      "evidence": "Round 18 applied. All three REFUTED interpretation claims narrowed in research/manuscripts/aso/fusion-junction-aso-journal-article.md, plus the Introduction sibling the audit did not sample and two siblings in the extended report. Five blind-seat blockers verified against the artifacts and fixed. Record: research/autonomy/hardening-state/PUB-ASO.json (round 18, 5 blockers all fixed, 7 P1s of which 2 closed). Journal article 4613 -> 4634 words by wc -w. NOT DONE: the 6-page budget is exceeded by one page and test_the_journal_pdf_fits_its_page_budget.py is red; see AUT-PD-083. Nothing was posted.",
+      "closes_clause": "PUB-ASO/hardening_converged"
+    },
+    {
+      "id": "AUT-PD-109",
       "what": "⛔ THE TRUNK IS RED AND IT IS NOT ROUND 18's DOING — research/autonomy/tests/test_a_score_must_derive_from_its_own_inputs.py::test_the_scoring_pipeline_is_a_fixed_point_of_itself fails on AUT-013, whose score oscillates between 164.0 and 172.0 across successive `priority.py --write` runs. ⭐ PROVEN PRE-EXISTING, not inferred: `git archive origin/main | tar -x` into a directory sharing NO inodes and NO .git reproduces the identical failure with the identical pair (164.0, 172.0) on the trunk's own committed ledger. ⚠ A first attempt to establish this used a `cp -al` hardlink clone, which shares .git with the live repository and tangled the index — do not repeat that; `git archive` is the clean instrument. ⛔ WHY IT MATTERS BEYOND ONE ROW: a score that is not a fixed point of its own pipeline means the queue's ORDER is not reproducible, so two cycles re-scoring the same committed ledger can rank the backlog differently and neither is wrong. research-loop §1 makes this the next cycle's first item: preflight red on main and not by your hand IS the cycle. ⛔ FIX THE PIPELINE, never the row — pinning AUT-013's score to one of the two values hides the defect and leaves every other row exposed to it.",
       "serves": {
         "route": "RT-AUTONOMY",

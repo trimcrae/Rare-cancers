@@ -98,17 +98,32 @@ def record_preflight(sha: str, log: pathlib.Path) -> int:
     if FULL_BANNER not in text:
         return _refuse(f"{log} carries no FULL-mode banner; a scoped run cannot clear an "
                        "outward-facing act")
+
+    # ⛔⛔ THE LOG IS COPIED HERE, BEFORE THE PASS/FAIL CHECK — NOT INSIDE THE SUCCESS PATH BELOW.
+    # Measured 2026-08-28 (AUT-PROP-018, run 33190817704): a genuine red PREFLIGHT_FULL=1 run hit
+    # `_refuse()` on the EXIT= check below and returned before ever reaching the old copy site, so
+    # `publish_artifacts.sh` found neither the receipt NOR the log in the tree and printed "nothing
+    # to stage" — the ONE diagnostic that would explain the failure was silently discarded, exactly
+    # what the caller step's own comment claims cannot happen ("a red run's log is diagnostic
+    # evidence, not something to lose ... the log itself still lands on main either way"). By the
+    # time this was noticed, the workflow's ephemeral runner and its /tmp were long gone; the only
+    # surviving copy was the raw Actions console output, fetched back out through the API. A log
+    # that has already passed the PINNED_SHA and FULL_BANNER checks above IS this exact tree's real
+    # run, red or green, and belongs on main either way — only the RECEIPT (a claim of success)
+    # should ever be conditional on the exit code.
+    PREFLIGHT_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    kept = PREFLIGHT_LOG_DIR / f"{sha}.log"
+    shutil.copyfile(log, kept)
+
     markers = [ln for ln in text.splitlines() if ln.startswith("EXIT=")]
     if not markers:
         return _refuse(f"{log} has no EXIT= marker — an unterminated log is an abandoned run. "
-                       "repo-gates: never trust a backgrounded gate's reported exit code")
+                       "repo-gates: never trust a backgrounded gate's reported exit code "
+                       f"(log preserved at {_rel(kept)})")
     if markers[-1].strip() != "EXIT=0":
-        return _refuse(f"{log} terminates in {markers[-1].strip()!r}")
+        return _refuse(f"{log} terminates in {markers[-1].strip()!r} (log preserved at {_rel(kept)})")
 
-    PREFLIGHT_LOG_DIR.mkdir(parents=True, exist_ok=True)
     PREFLIGHT_DIR.mkdir(parents=True, exist_ok=True)
-    kept = PREFLIGHT_LOG_DIR / f"{sha}.log"
-    shutil.copyfile(log, kept)
     digest = hashlib.sha256(text.encode("utf-8", "replace")).hexdigest()
     receipt = {
         "_schema": "emc-preflight-receipt/1",

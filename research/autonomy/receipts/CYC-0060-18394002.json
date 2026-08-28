@@ -1,0 +1,41 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0060-18394002",
+  "session_id": "18394002-4f40-54ac-951c-755538d54467",
+  "utc": "2026-08-28T17:25:00Z",
+  "shape": "This session, third cycle -- completing the loop on the CI result CYC-0059 dispatched and armed a poller for, not a fresh queue pick. Not writing this receipt would be the abandoned-in-flight-row failure inflight-reporting warns about: the prior turn's board promised this session would come back for run 33190817704, and it did.",
+  "took": "Follow-through on AUT-PROP-018's dispatched PREFLIGHT_FULL=1 run (RT-ASO-JUNCTION, free, closing this leg).",
+  "took_what": "The armed poller (task bjyfj7dmo) completed and reported the Actions run as conclusion=failure. Root-caused with real evidence rather than assumed infra flake (CLAUDE.md §4): fetched the job's full console log via the GitHub API. Confirmed a GENUINE red run, not an environment issue -- 8106 modalities tests + 543 selector tests passed, and the manuscripts suite is 1451 passed, 2 FAILED: research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py::test_a_covered_sentence_has_a_witness_that_actually_goes_red on research/manuscripts/aso/fusion-junction-aso-journal-article.md (1 of 53 perturbed sentences, no witness fired) and research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md (2 of 73). That log revealed two further real defects, both root-caused and fixed with mutation-test evidence (reverted each fix, confirmed the pre-fix code fails the way expected, reapplied): (1) research/autonomy/record_bar_evidence.py silently discarded the diagnostic log of any red PREFLIGHT_FULL run -- the copy-to-repo line lived only inside the success path, so `_refuse()` on a red EXIT= returned before it ran; the only surviving copy of THIS run's log was pulled back out of the raw Actions console output after the ephemeral runner was gone. Fixed by moving the log copy to right after the PINNED_SHA/FULL_BANNER checks (which gate whether the log is trustworthy at all), before the EXIT= check, so it is preserved red or green; only the JSON receipt stays conditional on EXIT=0. 4 new tests, mutation-verified against the pre-fix code (2/4 failed as expected). (2) research/autonomy/tests/test_a_score_must_derive_from_its_own_inputs.py's two fixed-point tests hand-rolled the scoring pipeline as merge->apply_session_penalties->apply_age_factor, omitting apply_fruitless_attempts (wired into build_ledger() by AUT-PD-014 earlier the same day without this test's copy being updated) -- exposed for the first time by AUT-013 (claimed by a concurrent session) being the ledger's first row with a nonzero fruitless_attempts count. The real CLI pipeline (python3 priority.py --write, run twice against the actual committed ledger) was confirmed genuinely idempotent throughout; this was a test-only drift. Fixed both helpers to match build_ledger()'s real order.",
+  "changed": [
+    "research/autonomy/record_bar_evidence.py: record_preflight() now preserves the log unconditionally once it is confirmed to be a real FULL run against the pinned sha, before the pass/fail check.",
+    "research/autonomy/tests/test_a_red_preflight_full_log_is_preserved.py: new, 4 tests for the above.",
+    "research/autonomy/tests/test_a_score_must_derive_from_its_own_inputs.py: fixed the two fixed-point tests' hand-rolled pipeline to include apply_fruitless_attempts.",
+    "research/autonomy/amendments.jsonl: two declarations (both governed test-file paths), each with an answered self_serving_check.",
+    "research/autonomy/research-ledger.json: AUT-PROP-018 moved to blocked (owner released, claim cleared, blocked_by=AUT-PD-105, blocked_evidence names the real test failures and the run) -- last_evidence_utc deliberately NOT bumped, per this row's own existing precedent (a starvation-clock field, not a work-done field; bumping it once already tripped admissibility's R4 and did again on my first attempt here, caught before writing). Filed AUT-PD-105 (queued, unaccounted) for the actual content fix: the two documents' ablation-coverage gaps, with a reproduction command since the itemized per-sentence detail was not recoverable from the truncated Actions console log.",
+    "Re-scored (priority.py --write) after each ledger edit; ran the full preflight once more against the fully settled tree before this commit."
+  ],
+  "cost": "$0. GitHub API reads (job logs) and CPU only.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [
+    "First attempt at releasing AUT-PROP-018's claim also bumped last_evidence_utc to today, on the reasoning that real new evidence had genuinely arrived -- admissibility.py's R4 correctly refused it (refused_stale_input), repeating the same lesson CYC-0053-3217966b's earlier _score_correction on this exact row had already recorded. Caught before the write landed; not repeated."
+  ],
+  "now_queued": [
+    "AUT-PD-105: fix the ablation-coverage gaps in fusion-junction-aso-journal-article.md (1 sentence) and emc-fusion-partner-stratification.md (2 sentences) -- see the row for the reproduction command. Closes one of PUB-ASO's three remaining publish_bar clauses.",
+    "AUT-PD-097 (still open, filed CYC-0058): ids.next_entry_id() needs the session discriminator next_receipt() already has -- corroborated AGAIN this cycle by a third concurrent session's own id-collision-resolution commit (51d4aa82b) landing on origin/main during this cycle's own work."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-ASO-JUNCTION",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": true,
+    "mechanism_unavailable": "Same finding as CYC-0059: no create_session/spawn tool is exposed in this scheduled-Routine session's tool surface (re-checked, unchanged).",
+    "_why_this_is_the_true_stopping_point": "No new async work was dispatched this cycle -- the CI run this session was following up on has completed and its result is fully handled (evidence preserved, fix landed, ledger reflects reality, follow-up work is a queued, unclaimed item for the next cycle). Nothing is in flight."
+  }
+}
