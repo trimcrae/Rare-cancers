@@ -486,6 +486,18 @@ jobs:
         # three suites were written as guards against defects that had already happened. This is the
         # same shape as `scripts/tests` (unrun until 2026-08-22) and as `subagent_width` itself,
         # which CLAUDE.md §1 records as a governed number no code read.
+        # ⭐ AUT-PD-052 (filed 2026-08-28, three days after the line above) asked for this exact
+        # wiring on the strength of a stale evidence pointer — the directory-absent state it cited
+        # predates this very commit. Re-verified rather than re-added: run 33173323019 (2026-08-28,
+        # this file's HEAD at the time) shows the pytest job executing this line with 0 failures
+        # inside research/autonomy/tests (its 4 failures are all in systems/tests, pre-existing and
+        # unrelated — a `test_autonomy_priority.py`/weights-file drift, tracked separately). And a
+        # genuine `git clone --depth 1` of this HEAD — the actions/checkout@v4 default this suite
+        # never gets to see locally — still passes all 264: `test_stuck_clock_a_retry_is_not_an_advance.py`
+        # and `test_stalls_are_named_reaches_the_board.py` already carry the shallow-horizon
+        # degrade-gracefully path this row asked someone to go build. ~100 tests landed the same day
+        # this row was filed (session_cap, learning_rate, queue_view, stuck_clock, the priority age
+        # term) and all are already covered by the line below, which they never had to be added to.
         run: >-
           python -m pytest research/modalities/tests research/manuscripts/tests systems/tests scripts/tests
           research/autonomy/tests

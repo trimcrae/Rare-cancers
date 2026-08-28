@@ -1,0 +1,40 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0052-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T16:30:00Z",
+  "shape": "This session. Investigated a worktree subagent's CI-red report (AUT-PD-052 seat) rather than trusting it, root-caused each failure with real evidence, fixed what was safe, filed what needed a dedicated pass.",
+  "took": "AUT-PD-052 (closing) — the seat's own finding was that this row's premise was stale (already fixed by AUT-PD-013, 3 days before filing); independently confirmed via git blame + live CI run + a genuine shallow clone. Also investigated the seat's flagged-but-out-of-scope finding: 4 real CI-red failures in systems/tests (never run by preflight.sh locally), reproduced independently, root-caused, 3 fixed, 1 filed as AUT-PD-063.",
+  "took_what": "Reproduced the 4 systems/tests failures locally (`pytest systems/tests/test_systems_check.py systems/tests/test_autonomy_priority.py`). (1) test_a_dead_code_pointer_still_fires_after_the_external_allowance: research/method-watch-autonomy-prior-art-2.md cited PanDA's Watcher.py without the required external-repo phrase — added '(upstream, external repo — not ours)'. (2) test_no_dollar_figure_is_ever_written_into_the_ledger: its regex \\$[0-9][0-9,.]* matched '$0,' inside ordinary prose as a false positive — tightened to require digits after every comma/period. (3) test_every_weight_the_scorer_applies_is_declared_in_the_weights_file: 'age' (activated in d9489dd6a, genuinely declared in priority-weights.json) was missing from the test's hardcoded expected set, and the test's separate literal-source-string check didn't account for age's deliberately defensive read pattern — fixed both. (4) test_a_prerequisite_inherits_the_parents_value_not_its_penalty: root-caused to a real, deeper bug (apply_session_penalties resolves prerequisite chains in a single linear pass, no topological ordering, compounded by apply_age_factor running after it and by a stale blocked_evidence string on a hand-filed row that keeps re-triggering the penalty). A first fix attempt (reorder apply_age_factor before apply_session_penalties) broke 2 previously-passing tests — reverted, filed as AUT-PD-063 with the full diagnostic rather than risk a second rushed patch.",
+  "changed": [
+    ".github/workflows/tests.yml: cherry-picked a 12-line documentation comment from the AUT-PD-052 seat's branch (aut-pd-052-ci-autonomy-tests, not merged — comment-only) recording that research/autonomy/tests was already CI-wired by AUT-PD-013, so a third session doesn't re-file the same gap.",
+    "research/method-watch-autonomy-prior-art-2.md: fixed the Watcher.py citation to name it as external.",
+    "systems/tests/test_autonomy_priority.py: fixed the dollar-figure regex and the 'age' weight-declaration checks. Declared in amendments.jsonl.",
+    "research/autonomy/research-ledger.json: closed AUT-PD-052 (done, already-landed by AUT-PD-013); filed AUT-PD-063 (the prerequisite-chain scoring bug, queued, free, with a full diagnostic and an explicit note on what NOT to try again)."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 1,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 1,
+    "seats": [
+      "aut-pd-052-ci-autonomy-tests (agentId a24265b5409ae4585, completed, pushed branch aut-pd-052-ci-autonomy-tests off 7aedb73b7 — head ff828c1cec3a2e3c766170a9a6a4e9d4fb8c132c, not merged; its documentation comment was cherry-picked directly instead of merging the branch)."
+    ]
+  },
+  "what_i_got_wrong": [
+    "Dispatched the AUT-PD-052 seat without first checking whether the row's own cited evidence (research/autonomy/tests missing from CI) was still true on the current trunk — it was already fixed 3 days before the row was filed. The seat itself caught this (unprompted, exactly as the AUT-PROP-032 seat caught its own duplication earlier this session), which is the second time this exact lesson has been reinforced in one session: check whether the underlying WORK is already done, not just whether the ledger row is unclaimed.",
+    "First attempt at fixing test_a_prerequisite_inherits_the_parents_value_not_its_penalty (reordering apply_age_factor before apply_session_penalties) was tried and pushed to local working tree without first fully tracing the multi-level-chain interaction — it fixed the targeted test but broke two others that were previously green. Caught by re-running the full suite before committing, reverted before it ever reached a commit. Lesson: for a scoring-engine change, run the FULL suite immediately after the change, not just the one target test, before trusting the fix."
+  ],
+  "now_queued": [
+    "AUT-PD-063: the prerequisite-inheritance chain bug in priority.py's apply_session_penalties, needs a dedicated pass (fixpoint/topological resolution, or clearing the stale blocked_evidence on AUT-PROP-018 first as a cheaper partial fix)."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context (AUT-PD-045)."
+  }
+}

@@ -14,16 +14,16 @@
     "harden": 15,
     "negative": 32,
     "process": 7,
-    "process_defect": 56,
+    "process_defect": 57,
     "proposal": 10,
     "regrade": 7,
     "verify": 1,
     "write": 6
   },
   "n_by_state": {
-    "done": 65,
-    "in_progress": 3,
-    "queued": 117,
+    "done": 66,
+    "in_progress": 2,
+    "queued": 118,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -1061,6 +1061,37 @@
       "requires_trimcrae_why": "same shape: 'a judgement call about what we publish, not a technical one'. The observation is recorded; only the publish decision is his."
     },
     {
+      "id": "AUT-PROP-012",
+      "kind": "process",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "in_progress",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 2,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0017",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-053a821102c352e74c0f3f4c125277e7ff183191.json",
+      "what": "⭐ BIND THE RELATION HALF — round 6 measured the gap instead of arguing it. One seat re-derived 140 printed quantities from the artifacts with ZERO mismatches, and ran emc_fusion_partner_pooling.py --check, the 122-test prose guard and the 9-test mutation suite clean. In the same tree, five seats found three blockers, and NOT ONE is a number: a cardinal written as the WORD 'two' (§5), a COMPARATIVE 'larger than any cohort that could be pooled here' (§3.4), and an unsourced claim about what THE FIELD quotes (four sites). That is paper-hardening §8a's 'a claim is a QUANTITY and a RELATION, and the guard set was built on the quantity half' reproduced with a measurement under it. ⛔ SO DO NOT ADD MORE NUMBER CHECKS. Three surfaces, each with a derivable witness already on disk: (1) COUNT-WORDS — 'the one/two/three series that ...' against sum(1 for c in cohorts if <key> in c); the guard's own `_word` helper already exists and is used for §8's cache-slug count. (2) COMPARATIVES AND SUPERLATIVES over the paper's own pool — 'larger than any cohort that could be pooled here', 'the largest series to test X directly' — decidable against analyses.*.pooled_cohorts / cohorts_pooled. (3) CLAIMS ABOUT THE FIELD'S PRACTICE ('the field routinely quotes', 'usually attributed to') — these need a named source or they need to go; B3 and the §3.8 P2 are both this shape, and Appendix A11 is a third instance the paper already retracted. ⛔ MUTATION-TEST EVERY GUARD, SINGLE-SITE MUTATIONS INCLUDED, into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit. ⚠ Scope by the PROPERTY, never by a list of sites (paper-hardening §8b.2: six of eleven list-scoped fixes regressed at a sibling).",
+      "score": 180.4,
+      "_score_basis": "hand-filed by CYC-0017. Same rank as AUT-PROP-007 — a guard, not a route, but it closes the class that produced every blocker of round 6.",
+      "_lease_released": "⚠ RELEASED 2026-08-27T23:15Z AFTER THE HOLDER DIED SILENTLY. `fusion-partner-relation-seat` was dispatched at 21:0x and its transcript last moved at 20:37:42 — its whole output is 'I'll start by reading the ledger entry and the relevant files.' It never got past its first message. ⛔ `ListAgents` reported it `running` for 2h36m and the driver relayed that as 'in flight' seven times, because it checked LIVENESS and never PROGRESS. The item was untouched; it is queued again with nothing lost but the wall clock.",
+      "claim_workers": 1,
+      "_claim_workers_why": "one subagent in an isolated worktree; the previous seat on this item died at its first message and its claim was released",
+      "lease_released": "claim by relation-half-worktree-seat released after 8.1 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
       "id": "AUT-PROP-030",
       "kind": "proposal",
       "process_defect": false,
@@ -1162,37 +1193,6 @@
       "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (locoregional curation landed)"
     },
     {
-      "id": "AUT-PROP-012",
-      "kind": "process",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "in_progress",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 2,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0017",
-      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-053a821102c352e74c0f3f4c125277e7ff183191.json",
-      "what": "⭐ BIND THE RELATION HALF — round 6 measured the gap instead of arguing it. One seat re-derived 140 printed quantities from the artifacts with ZERO mismatches, and ran emc_fusion_partner_pooling.py --check, the 122-test prose guard and the 9-test mutation suite clean. In the same tree, five seats found three blockers, and NOT ONE is a number: a cardinal written as the WORD 'two' (§5), a COMPARATIVE 'larger than any cohort that could be pooled here' (§3.4), and an unsourced claim about what THE FIELD quotes (four sites). That is paper-hardening §8a's 'a claim is a QUANTITY and a RELATION, and the guard set was built on the quantity half' reproduced with a measurement under it. ⛔ SO DO NOT ADD MORE NUMBER CHECKS. Three surfaces, each with a derivable witness already on disk: (1) COUNT-WORDS — 'the one/two/three series that ...' against sum(1 for c in cohorts if <key> in c); the guard's own `_word` helper already exists and is used for §8's cache-slug count. (2) COMPARATIVES AND SUPERLATIVES over the paper's own pool — 'larger than any cohort that could be pooled here', 'the largest series to test X directly' — decidable against analyses.*.pooled_cohorts / cohorts_pooled. (3) CLAIMS ABOUT THE FIELD'S PRACTICE ('the field routinely quotes', 'usually attributed to') — these need a named source or they need to go; B3 and the §3.8 P2 are both this shape, and Appendix A11 is a third instance the paper already retracted. ⛔ MUTATION-TEST EVERY GUARD, SINGLE-SITE MUTATIONS INCLUDED, into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit. ⚠ Scope by the PROPERTY, never by a list of sites (paper-hardening §8b.2: six of eleven list-scoped fixes regressed at a sibling).",
-      "score": 179.5,
-      "_score_basis": "hand-filed by CYC-0017. Same rank as AUT-PROP-007 — a guard, not a route, but it closes the class that produced every blocker of round 6.",
-      "_lease_released": "⚠ RELEASED 2026-08-27T23:15Z AFTER THE HOLDER DIED SILENTLY. `fusion-partner-relation-seat` was dispatched at 21:0x and its transcript last moved at 20:37:42 — its whole output is 'I'll start by reading the ledger entry and the relevant files.' It never got past its first message. ⛔ `ListAgents` reported it `running` for 2h36m and the driver relayed that as 'in flight' seven times, because it checked LIVENESS and never PROGRESS. The item was untouched; it is queued again with nothing lost but the wall clock.",
-      "claim_workers": 1,
-      "_claim_workers_why": "one subagent in an isolated worktree; the previous seat on this item died at its first message and its claim was released",
-      "lease_released": "claim by relation-half-worktree-seat released after 8.1 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease.",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
-    },
-    {
       "id": "AUT-PROP-031",
       "kind": "proposal",
       "process_defect": false,
@@ -1232,9 +1232,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0050-schedule",
-      "claimed_utc": "2026-08-28T15:45:00Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1249,7 +1249,7 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⛔⛔ CI NEVER RUNS `research/autonomy/tests`, SO THE LOOP'S OWN INSTRUMENTS ARE GATED BY PREFLIGHT ALONE. tests.yml:479 runs modalities, manuscripts, systems and scripts — and stops. preflight.sh DOES run the autonomy directory and its own comment documents the gap for three older files, but the CI list was never updated. ⚠ THE EXPOSURE GREW SHARPLY ON 2026-08-28: session_cap, learning_rate, queue_view, stuck_clock and the priority age term added ~100 tests that live only there, so a push breaking one is caught by a local gate a session may not have run rather than by the authority. ⛔ NOT A ONE-WORD FIX, which is why it needs a cycle: adding the directory starts running several never-CI'd files against main and could redden the trunk for unrelated reasons. Add it, watch what goes red, fix or baseline each deliberately."
+      "what": "⛔⛔ CI NEVER RUNS `research/autonomy/tests`, SO THE LOOP'S OWN INSTRUMENTS ARE GATED BY PREFLIGHT ALONE. tests.yml:479 runs modalities, manuscripts, systems and scripts — and stops. preflight.sh DOES run the autonomy directory and its own comment documents the gap for three older files, but the CI list was never updated. ⚠ THE EXPOSURE GREW SHARPLY ON 2026-08-28: session_cap, learning_rate, queue_view, stuck_clock and the priority age term added ~100 tests that live only there, so a push breaking one is caught by a local gate a session may not have run rather than by the authority. ⛔ NOT A ONE-WORD FIX, which is why it needs a cycle: adding the directory starts running several never-CI'd files against main and could redden the trunk for unrelated reasons. Add it, watch what goes red, fix or baseline each deliberately. ✅ CLOSED 2026-08-28 by CYC-0052-schedule, on a dispatched worktree seat's finding (branch aut-pd-052-ci-autonomy-tests, head ff828c1cec3a2e3c766170a9a6a4e9d4fb8c132c, not merged — its only content change was a documentation comment, cherry-picked directly instead). The row's own evidence pointer was stale: `git blame` shows research/autonomy/tests was added to tests.yml's pytest line by commit 8eef10fafb (AUT-PD-013), landed 2026-08-27 — three days before this row was filed off a prose mention buried in the closed AUT-PROP-029 row. Verified independently: live CI run 33173323019 executes the line with 0 failures inside research/autonomy/tests (4 unrelated systems/tests failures existed, tracked separately as AUT-PD-063 below); a genuine `git clone --depth 1` of the same HEAD (the actions/checkout@v4 shallow-clone case this item worried about) passes all 264 research/autonomy/tests tests, confirming test_stuck_clock_a_retry_is_not_an_advance.py and test_stalls_are_named_reaches_the_board.py already implement the shallow-horizon degrade-gracefully pattern this item asked for. Added a dated comment to tests.yml recording this so a third session does not re-file the identical gap."
     },
     {
       "serves": {
@@ -1310,6 +1310,37 @@
       "lease_released": "claim by serialization-worktree-seat released after 8.2 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
     },
     {
+      "id": "AUT-PROP-033",
+      "kind": "proposal",
+      "process_defect": false,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "score": 175.4,
+      "_score_basis": "measures whether our blind spot is where somebody else measured theirs",
+      "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §4.1, §4.2",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §4.1 and §4.2 (SEARCH-grade — arXiv:2511.02824 for Kosmos, blocked at egress; PUBMED 10.1038/s41586-026-10652-y for Robin). THE FINDING (§4.1): Kosmos had 102 statements from 3 reports independently classified Supported/Refuted by expert scientists who had to reproduce the analysis or find the literature support, STRATIFIED BY STATEMENT TYPE — data-analysis claims 85.5% supported, literature claims 82.1%, and INTERPRETATION CLAIMS ONLY 57.9%. Named failure modes: conflating statistical significance with scientific value, excessively strong claims, unorthodox invented metrics. §4.2 gives the two cheapest mechanisms to steal: (1) Robin's blinded citation re-find — a reviewer BLINDED TO SOURCE takes N proposals and tries to re-find every reference online, labelling anything not confidently identifiable as hallucinated; (2) Kosmos's own stratified-audit protocol — sample N statements from a finished paper, classify each Supported/Refuted by an independent party who actually reproduces or re-finds it, report the rate BY TYPE.\n\n⛔ READ AGAINST OUR OWN GATES, THIS IS UNCOMFORTABLE IN A SPECIFIC WAY (the document's own framing, worth repeating here): `lint_citations` covers the 82.1%-category axis (does the cited work exist and say roughly what we say it says) and `lint_claims` R1–R5 covers claim STRENGTH (verb discipline, never-imply bans) — but the 57.9% category, INTERPRETIVE sentences ('this supports X', 'this suggests Y'), is the one axis this repository's guards touch least. Verified: no stratified claim-audit tool exists anywhere under research/manuscripts or research/autonomy (grepped for 'stratified', 'Supported'/'Refuted' classification, 'interpretation claim' — no hits outside the survey document itself).\n\nTASK: pick a finished, hardened manuscript (the ASO paper or the degrader paper are the obvious targets, both already through multiple `paper-hardening` rounds), sample N of its interpretive sentences plus a comparison set of data-analysis and literature-claim sentences, dispatch a BLIND seat (per `paper-hardening`'s existing seat-design conventions) to classify each Supported/Refuted by actually reproducing the analysis or re-finding the source — never by re-reading the prose — and report the rate stratified by type. The finding to test for is specifically whether this repository's own interpretation-claim support rate sits near Kosmos's 57.9%, which would mean the existing gates (`lint_citations`, `lint_claims`) are silent on exactly the claim type most likely to be wrong.",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
       "id": "AUT-PD-034",
       "kind": "process_defect",
       "process_defect": true,
@@ -1360,37 +1391,6 @@
       "what": "✅ DONE 2026-08-27. ⭐ BUILD THE PUBLICATION-TYPE GUARD — the PubMed connector is live and PROVEN to reach NCBI from this container (convert_article_ids resolved 4 PMCIDs while `curl` to eutils returns HTTP 000 / exit 56). `lint_citations` can only check that an identifier is ANCHORED; its own header says 'an ANCHORED identifier is not thereby verified either'. On 2026-08-26 that gap let a national-registry cohort and two single-patient case reports be cited as 'the review literature' — every identifier real, every one anchored, the gate green, and it survived two cycles. ⛔ THE DISCRIMINATOR IS ONE FIELD: get_article_metadata returns `article_types`. Measured on those four: PMC7563993 ['Journal Article','Review']; PMC12398172 ['Journal Article']; PMC12376927 and PMC9131214 both carry 'Case Reports'. Exactly ONE is a Review. ⭐ THE GUARD: where prose characterises a citation BY TYPE, assert `article_types` agrees. ⛔ CACHE, NEVER CALL — preflight is offline and deterministic; a linter depending on a live connector puts a commit gate at the mercy of someone's uptime. The connector is the FETCHER; a tracked artifact is what the gate reads. ⚠ PubMed's terms require attribution and a DOI link wherever its metadata travels, cache artifact included.\n\n⭐ SHIPPED: `research/manuscripts/lint_citation_types.py` + a cached `citation-article-types.json` + 29 tests. ⭐ IT SITS BESIDE `lint_citations` AS A MODULE (different question, different data source, different remedy) BUT EXTENDS AT THE CALL SITE — `check()` invokes it, so one command runs both. That was deliberate and the reasoning is worth keeping: `systems_check.check_preflight_gate_list` DERIVES gate ordinals from preflight.sh's headings and four documents hard-code them, so a new heading renumbers every gate below it. Bolting onto gate 6 — already in the commit loop AND in CI — wires it more strongly than a new gate would, and the count stays 15 with no ordinal moved. ⭐ BINDS the attributive slot after a type word, INCLUDING every identifier in a following list, which is the 2026-08-26 defect's own shape (one type word, four PMCIDs). ⛔ DOES NOT BIND, each with its reason in code: `cohort study` and `case series` (no MeSH type exists, so a rule could only ever pass — reporting while measuring nothing), bare `trial`/`phase N trial` (PubMed types the REPORT, so secondary analyses legitimately carry only Journal Article), `preprint`, and `retracted` (read and reported, ADVISORY only — whether a retracted paper may still be cited is a human's call). ⭐ NO BASELINE AND NO AMNESTY LIST: 22 type claims on the live tree, 22 correct. A first proximity cut found 58 hits over 26 files (prose ABOUT the incident, titles containing 'review of literature', 'clears peer review'); the attributive form plus four rejection rules took it to 18 with nothing honest lost, and list-binding to 22. A missing cache row is an ERROR naming the exact fetch, never a silent pass. ✅ 9 mutations, 9 caught — and TWO of them are worth more than the count: M3 and M5 ABORTED on a whitespace miss, which is the landing assertion working rather than a gap; and M8's first form was honest-but-vacuous (90→90, because every cached identifier is already anchored elsewhere today), so it was redone constructively with a stub row that moves 90→89 without the exclusion. A vacuous mutation reported as a catch would have been the dishonest option. ⚠ UNKNOWN, recorded rather than smoothed: whether the 11 cached rows are still current (NLM assigns types after publication and 'Retracted Publication' in particular arrives late, so `retrieved_utc` is a real staleness clock with no auto-refresh); how many type claims sit in prose the scanner cannot see (a list wrapped across source lines binds only the members before the wrap — deliberate under-binding, since allowing `\\n` would let a run cross a blank line); and whether `Systematic Review` is separable, since NLM assigns it unevenly.",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art.md",
       "claimed_utc": null
-    },
-    {
-      "id": "AUT-PROP-033",
-      "kind": "proposal",
-      "process_defect": false,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0030-6be7fd5a",
-      "score": 174.5,
-      "_score_basis": "measures whether our blind spot is where somebody else measured theirs",
-      "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §4.1, §4.2",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §4.1 and §4.2 (SEARCH-grade — arXiv:2511.02824 for Kosmos, blocked at egress; PUBMED 10.1038/s41586-026-10652-y for Robin). THE FINDING (§4.1): Kosmos had 102 statements from 3 reports independently classified Supported/Refuted by expert scientists who had to reproduce the analysis or find the literature support, STRATIFIED BY STATEMENT TYPE — data-analysis claims 85.5% supported, literature claims 82.1%, and INTERPRETATION CLAIMS ONLY 57.9%. Named failure modes: conflating statistical significance with scientific value, excessively strong claims, unorthodox invented metrics. §4.2 gives the two cheapest mechanisms to steal: (1) Robin's blinded citation re-find — a reviewer BLINDED TO SOURCE takes N proposals and tries to re-find every reference online, labelling anything not confidently identifiable as hallucinated; (2) Kosmos's own stratified-audit protocol — sample N statements from a finished paper, classify each Supported/Refuted by an independent party who actually reproduces or re-finds it, report the rate BY TYPE.\n\n⛔ READ AGAINST OUR OWN GATES, THIS IS UNCOMFORTABLE IN A SPECIFIC WAY (the document's own framing, worth repeating here): `lint_citations` covers the 82.1%-category axis (does the cited work exist and say roughly what we say it says) and `lint_claims` R1–R5 covers claim STRENGTH (verb discipline, never-imply bans) — but the 57.9% category, INTERPRETIVE sentences ('this supports X', 'this suggests Y'), is the one axis this repository's guards touch least. Verified: no stratified claim-audit tool exists anywhere under research/manuscripts or research/autonomy (grepped for 'stratified', 'Supported'/'Refuted' classification, 'interpretation claim' — no hits outside the survey document itself).\n\nTASK: pick a finished, hardened manuscript (the ASO paper or the degrader paper are the obvious targets, both already through multiple `paper-hardening` rounds), sample N of its interpretive sentences plus a comparison set of data-analysis and literature-claim sentences, dispatch a BLIND seat (per `paper-hardening`'s existing seat-design conventions) to classify each Supported/Refuted by actually reproducing the analysis or re-finding the source — never by re-reading the prose — and report the rate stratified by type. The finding to test for is specifically whether this repository's own interpretation-claim support rate sits near Kosmos's 57.9%, which would mean the existing gates (`lint_citations`, `lint_claims`) are silent on exactly the claim type most likely to be wrong.",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
     },
     {
       "id": "AUT-PROP-032",
@@ -1615,7 +1615,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
-      "score": 170.5,
+      "score": 171.4,
       "_score_basis": "three canonical answers to three defects this repo has already paid for",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §2 (SOURCE-grade: k8s probes.md, OTP sup_princ.md, systemd man pages)",
       "closes_clause": null,
@@ -1776,7 +1776,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
-      "score": 164.5,
+      "score": 165.4,
       "_score_basis": "named by every surveyed long-running loop, and already once written down here unread",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §3",
       "closes_clause": null,
@@ -1807,7 +1807,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
-      "score": 162.5,
+      "score": 163.4,
       "_score_basis": "converts an existing rule from a thing we remember into a thing that is computed",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §4.4",
       "closes_clause": null,
@@ -1986,7 +1986,7 @@
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0023-6be7fd5a",
       "what": "⛔ OPEN — EVERY SEAT'S PREFLIGHT MANUFACTURES ~50 RED TESTS THAT DO NOT EXIST, because a fresh worktree never gets the SessionStart hook that runs dev-setup.sh. ⚠ THIS ENTRY WAS BRIEFLY CLOSED AND THE CLOSURE WAS WRONG; the history below is kept because the wrong turning is the instructive part. ⚠ SUPERSEDED HEADING, retained (rule 1.2): 'CLOSED — THE REPORTED BLOCKER WAS NOT LIVE'. That heading sat at the top of a QUEUED row for an hour, so every reader — including the continuity hook, which offered it as ready work — saw a closed item in the ready queue. One fact, two places, inside a single field. ⛔ WHAT WAS REPORTED: the AUT-PROP-009 review seat measured `PREFLIGHT_MODALITIES=1` as unusable here — `50 failed, 7933 passed`, exactly 50 on an unpatched origin/main checkout too, the first tracing to `ModuleNotFoundError: No module named 'pymbar'` at nr4a3_abfe.py:69 — and correctly REFUSED to add them to sandbox-failure-baseline.txt, which would have converted a missing dependency into a permanent amnesty. That refusal was right and is worth keeping. ⛔ WHAT IS ACTUALLY TRUE: I checked before acting rather than filing the report. `pymbar 4.0.3` imports in BOTH interpreters — the tool venv at /root/.local/share/uv/tools/pytest/bin/python AND system python3 — and the ABFE tests the failure named now run `168 passed, 2 skipped`. There is no live blocker. ⭐ THE ENVIRONMENT WAS REPAIRED BETWEEN THE SEAT'S READING AND MINE: `dev-setup.sh` already carries `pymbar` in TEST_DEPS and its own header records this EXACT incident on 2026-08-24 — 'the tool venv had pymbar' while python3 lacked it, a publication gate red on ModuleNotFoundError at nr4a3_abfe.py:69, the same line. A `SessionStart` hook now runs `dev-setup.sh --if-needed`, which is presumably what closed it. ⭐⭐ SO THE TRANSFERABLE FINDING IS ABOUT SEATS, NOT ABOUT pymbar: A SUBAGENT'S ENVIRONMENT READING IS A DATED OBSERVATION AND CAN BE STALE BY THE TIME ITS REPORT IS READ — a seat runs for 40-55 minutes, a SessionStart hook or a sibling's install can move the ground under it, and its report arrives asserting the present tense. This one would have entered the ledger as a live blocker on a whole preflight tier, and the next session would have inherited it as a fact. ⚠ THE RULE THAT CAUGHT IT is CLAUDE.md §4 pointed at our own sandbox rather than at AI capability: take the live reading, it costs nothing. Two `python -c 'import pymbar'` calls and one scoped pytest run were the whole cost. ⛔ AND THE GENERAL FORM IS WORTH THE ENTRY EVEN THOUGH THE INSTANCE IS EMPTY: a seat's environment claims should be re-measured by the driver before they are filed, the same way its factual claims are — the ATR causal account was checked with `git show` and HELD; this one was checked and did NOT.\n\n⛔⛔ REOPENED THE SAME HOUR, AND MY OWN CLOSING DIAGNOSIS WAS A 'probably X' — the thing CLAUDE.md §4 forbids by name. I closed this as a STALE READING repaired between the seat's run and mine, on the evidence that pymbar imports here now. That evidence was real and the inference from it was wrong. ⭐ A SECOND SEAT, WORKING A DIFFERENT ITEM, MEASURED THE ACTUAL MECHANISM AND IT IS REPRODUCIBLE: **a fresh git worktree does not get the `SessionStart` hook, so `dev-setup.sh` never runs there, and preflight falls back to an interpreter without the packages.** Its own log said `MISSING PACKAGE — run ./scripts/dev-setup.sh`. In that state it reported `50 failed, 7901 passed, 95 skipped` and collected only 8,046 of 8,113 tests; the same suite on a working runner gave **8067 passed / 0 failed** in the seat's tree and **8065 passed / 0 failed** on a clean tree at the same commit. Running `dev-setup.sh --if-needed` by hand fixed it and the rerun was green. ⛔ SO TWO INDEPENDENT SEATS HIT THE IDENTICAL 50-FAILURE SIGNATURE FROM THE SAME CAUSE, and the cause is not the sandbox drifting — it is that the worktree contract this repository adopted on 2026-08-27 (research-loop §3, worktree-in/branch-out) put every seat in exactly the environment the SessionStart hook cannot reach. The contract and the hook were each correct alone and are broken together. ⚠ AND THE FAILURE IS DANGEROUS IN THE DIRECTION THAT COSTS MOST: it manufactures 50 red tests that do not exist, so a seat either wastes an hour chasing them, reports a false blocker (this entry, first pass), or — worst — adds them to `sandbox-failure-baseline.txt` and grants a permanent amnesty to 50 real guards. Both seats REFUSED to baseline them, which is the only reason this is a fixable defect rather than a silent hole. ⭐ FIX: make the seat prompt template run `./scripts/dev-setup.sh --if-needed` as its first action in a new worktree, and have `preflight.sh` say loudly that its interpreter is the fallback rather than burying it in a log line. CLAUDE.md §6 already records the rule for the non-worktree case — 'a red preflight in a fresh sandbox is usually the sandbox, run dev-setup.sh first' — and a hook was added so it would heal itself. The worktree path was never covered.\n\n⛔⛔ CORRECTION 2026-08-27, THE SECOND ON THIS ENTRY, AND THE MECHANISM IS NOW RECORDED AS **UNKNOWN** RATHER THAN GUESSED A THIRD TIME. I attempted to reproduce it and COULD NOT. In a fresh `git worktree add` right now, `pytest`, `numpy`, `scipy` and `pymbar` all import from /usr/local/lib/python3.11/dist-packages — the same shared system path the main tree uses. There is no per-tree venv, no per-tree python config, and no difference to find. **So 'a fresh worktree never gets the SessionStart hook' cannot be the cause**, because those packages are system-wide and a worktree inherits them. ⭐ THE SYMPTOM IS NOT IN DOUBT — both seats' transcripts carry it verbatim: `50 failed, 7901 passed, 95 skipped` and `50 failed, 7933 passed, 95 skipped`, with `No module named 'pymbar'` and preflight's own `MISSING PACKAGE` line. ⭐ AND THE REASON I CANNOT REPRODUCE IT IS ITSELF THE EVIDENCE: a seat ran `./scripts/dev-setup.sh --if-needed`, which installs to the SHARED system path, so it repaired the condition for every worker and every future worktree at once. The defect healed in flight, before the driver could diagnose it. ⛔ WHY THE ENVIRONMENT WAS INCOMPLETE AT ALL IS THE PART NOBODY HAS ESTABLISHED: this session's own SessionStart hook reported 'every interpreter the gates use already imports what they need — nothing to do' at start, and `dev-setup.sh`'s TEST_PROBE already lists `pymbar`. Those two facts and the seats' failures cannot all be true of the same moment, and I have not found the observation that discriminates. ⚠ TWO WRONG MECHANISMS ARE ALREADY RECORDED ABOVE — 'a stale reading repaired between runs' and 'worktrees miss the hook'. Both were plausible, both were written before a reproduction was attempted, and CLAUDE.md §4 names exactly that: catch yourself writing 'probably / must be' about a failure and go get the data. I wrote it twice. ⭐ WHAT WOULD SETTLE IT, for whoever takes this: the seats' own preflight logs, which are GONE — their worktrees were removed and one log was truncated mid-write by a sibling (AUT-PD-027). The next occurrence must have its log preserved OUTSIDE the worktree before anything else is done with it. ⭐ AND THE DEFENSIVE FIX IS WORTH DOING REGARDLESS OF THE CAUSE, because it costs nothing and closes the whole class: (1) every seat prompt runs `./scripts/dev-setup.sh --if-needed` as its first action — two seats did this by instruction today and it worked; (2) `preflight.sh` should PRINT which interpreter it resolved and whether the probe found anything missing, at the top of every run, rather than leaving it to a line buried in a gate. A run that invents 50 failures should say so in its first ten lines, not its thousandth.",
-      "score": 154.5,
+      "score": 155.4,
       "_score_basis": "every seat works in a worktree, and every worktree preflight manufactures 50 red tests that do not exist",
       "depends_on_evidence": "both seats' transcripts (50 failed / 7901 and 7933 passed, No module named 'pymbar', preflight's MISSING PACKAGE line); reproduction attempt 2026-08-27 in a fresh worktree found an identical complete environment — mechanism UNKNOWN",
       "closes_clause": null,
@@ -2015,7 +2015,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
-      "score": 154.5,
+      "score": 155.4,
       "_score_basis": "makes an existing bespoke ceiling legible outside this repository at no cost",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §5 (GRADErater status is SEARCH-grade and its paper was not read)",
       "closes_clause": null,
@@ -2046,7 +2046,7 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0030-6be7fd5a",
-      "score": 152.5,
+      "score": 153.4,
       "_score_basis": "the one mechanism in the survey that our loop's shape needs and no comparable system has",
       "depends_on_evidence": "research/method-watch-autonomy-prior-art-2.md §4.3 (PUBMED, doi 10.1016/j.jclinepi.2017.08.008)",
       "closes_clause": null,
@@ -2296,6 +2296,34 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
       "what": "⚠ `lint_citations` EXTRACTS PMID / PMCID / DOI / NCT / GEO AND NO arXiv PATTERN, so every arXiv identifier in this repository's prose is unanchored and invisible to the provenance gate — and the 2026-08-27 survey added a substantial number, every one SEARCH-grade. ⛔ THE SEAT THAT FOUND IT DECLINED TO ADD THE PATTERN AND WAS RIGHT: adding it would newly flag every existing arXiv citation at once, which needs its own baseline and its own decision rather than riding along with an unrelated change. ★ The work: add the pattern, run it, and BASELINE the existing hits with a reason each — the shape citation-provenance-ledger.json already uses — so new fabrications fail immediately while the existing corpus is triaged deliberately. ⚠ AUT-PD-038 (a failed fetch can anchor a citation) is the same gate's other hole."
+    },
+    {
+      "id": "AUT-PD-063",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0052-schedule",
+      "score": 150.0,
+      "_score_basis": "a real, reproducible bug in the loop's own priority scoring, currently red on CI (systems/tests, which preflight.sh never runs locally) -- high leverage because every cycle trusts this scorer's output, but scoped carefully after a first attempted fix made things worse",
+      "depends_on_evidence": "Discovered via a dispatched subagent's report that CI (systems/tests, run against the live workflow, NOT run by preflight.sh in any tier) was red on 4 tests, independently reproduced locally: `pytest systems/tests/test_systems_check.py systems/tests/test_autonomy_priority.py`. This session fixed 3 of the 4 directly (a dead-code-pointer citation missing its external-repo phrase in research/method-watch-autonomy-prior-art-2.md; a dollar-figure regex in test_no_dollar_figure_is_ever_written_into_the_ledger that swallowed a trailing comma in ordinary prose like '$0, few-minutes fix'; and 'age' missing from test_every_weight_the_scorer_applies_is_declared_in_the_weights_file's expected set, stale since the anti-starvation term's activation two commits ago). The fourth, test_a_prerequisite_inherits_the_parents_value_not_its_penalty, resisted a first attempt: reordering apply_age_factor to run BEFORE apply_session_penalties (so a prerequisite would inherit its parent's fully-aged score) made two PREVIOUSLY-PASSING tests fail instead (test_an_evidenced_block_drops_out_of_the_queue, test_a_prerequisite_outranks_the_thing_it_unblocks) -- reverted.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "internal scoring-engine bugfix; nothing published, submitted or deposited",
+      "what": "research/autonomy/priority.py's apply_session_penalties() resolves prerequisite chains in a SINGLE linear pass over `entries`, with no topological ordering: for a chain AUT-049 (blocked) <- AUT-PROP-018 (prerequisite of AUT-049, itself ALSO blocked_with_evidence) <- AUT-PROP-021 (prerequisite of AUT-PROP-018), the loop's correctness depends on iteration order and on how many times a node's score has already been mutated when a downstream child reads `parent[\"score\"]`. Concretely reproduced on the current committed ledger: AUT-PROP-018 and AUT-PROP-021 are hand-filed rows (filed_by CYC-0020) whose score/score_inputs are carried forward by merge() from a past --write rather than freshly derived, and AUT-PROP-018's `blocked_evidence` field holds stale text ('NOT blocked in the strict sense -- CLOSED at 64fdc665...') that nonetheless still triggers the penalty every run because the code is deliberately KEYED ON PRESENCE OF ANY TEXT, not on what the text says (a correct design for the common case, but it means this specific row's block can never self-clear without a session editing blocked_evidence to null). Separately, apply_age_factor running AFTER apply_session_penalties means a prerequisite's inherited score is locked in BEFORE its parent receives that cycle's age bonus, so a long-waited parent's true value grows past what its child already inherited. WHAT TO DO: (1) first, as a real, separate question: should AUT-PROP-018's `blocked_evidence` field be cleared (it reads as already-resolved prose, not a live blocker) -- if so this specific instance of the test failure may simply disappear, and that is worth checking BEFORE touching any scoring code. (2) If the underlying chain-resolution bug is still real after that, the correct fix is almost certainly to resolve apply_session_penalties' prerequisite loop to a FIXPOINT (iterate until no score changes, or topologically sort by prerequisite_of depth first) rather than a single pass, and to reconsider whether apply_age_factor should run once before AND the inheritance recomputed after, or whether age should be folded into the same fixpoint iteration. (3) Whatever the fix, verify against BOTH test_a_prerequisite_inherits_the_parents_value_not_its_penalty AND the two tests a naive reorder broke (test_an_evidenced_block_drops_out_of_the_queue, test_a_prerequisite_outranks_the_thing_it_unblocks) plus the full systems/tests + research/autonomy/tests suites, not just the one row that was red."
     },
     {
       "id": "AUT-044",
@@ -2698,6 +2726,37 @@
       "what": "⭐ THE VANCOUVER STANDARD CONSULTATION CLOSES 2026-10-16 — a dated fact that expires. A Global Reporting Standard for AI Disclosure in Research is being written by STM + COPE + the International Science Council + the Global Young Academy, and one of its five consultation questions is explicitly how to describe OVERSIGHT AND VERIFICATION for accountability and trust. That is the question publish_bar.py answers, and an author-side artifact-computed publication gate is the one mechanism this repository holds for which the 2026-08-27 survey could find no equivalent anywhere. ⛔ RESPONDING IS OUTWARD-FACING AND IS TRIMCRAE'S CALL UNDER CLAUDE.md §3, NOT THE LOOP'S. What the loop may do unattended: prepare a draft description of the bar and its clauses for him to read, and re-verify the deadline from a primary source — it is SEARCH-grade. ⚠ Do not let this sit until October; a window noticed on the last day is a window missed."
     },
     {
+      "id": "AUT-PD-031",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
+      "score": 130.4,
+      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
+      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
       "id": "AUT-PD-022",
       "kind": "process_defect",
       "process_defect": true,
@@ -2753,37 +2812,6 @@
       "lease_released": "✅ CLOSED 2026-08-28, but NOT by restoring create_session — by removing the loop's dependence on it. ⭐ THE REFRAME: the driver Routine fires `13 */4 * * *`, so a session that runs its cycles and STOPS is not stalling — the cron IS the successor. Handoff makes the next cycle start sooner than four hours; it was never what keeps the loop alive. ⛔ THE ACTUAL DAMAGE WAS THE STOP HOOK, NOT THE MISSING TOOL. `.claude/hooks/ready-work-at-turn-end.sh` accepted three answers — something running, blocked on a human, or START ONE — with 'A SCHEDULED ROUTINE IS NOT AN ANSWER' written in. Exhaustive only for a session that CAN hand off. A capped Routine session with no handoff had NO legal answer, so the only move that satisfied the hook was another cycle in the same context: CYC-0033 … CYC-0041, NINE cycles in one session against max_cycles_per_session=2, and one receipt named this hook in its own `shape` field. ⭐ FIXED: research/autonomy/session_cap.py is the fourth answer, and the hook consults it BEFORE demanding another cycle. EARNED AND FALSIFIABLE, never a flag — `cap` receipts FROM THIS SESSION, plus a handoff attempted and blocked either in the platform's verbatim words (AUT-PD-032's depth-8 refusal) or as a named absent mechanism (this item's shape). An absent record is a session that did not try and stays red; every unreadable input answers MUST NOT STOP. 15 tests, 6 mutations all caught, restore verified by sha256. ⛔ AND THE HALF WITHOUT WHICH THE FIX WAS INERT: scheduled cycles typed the literal 'scheduled-routine-session' into the receipt's session_id, so nine cycles were indistinguishable from one session's to both readers that matter — cycles_are_sized and session_cap. A session whose receipts do not name it cannot show it is at its cap. research-loop §10 now reads the id from CLAUDE_CODE_SESSION_ID via session_cap.session_id(), and the placeholder is treated as NO id so it can never be inherited as another session's cap. ⚠ STILL TRUE AND NOT CLOSED BY THIS: cycles_are_sized cannot distinguish a depth-limit refusal from an absent tool. session_cap accepts both deliberately, because for the STOP decision they are the same fact — the loop cannot hand off. Telling them apart still matters for diagnosis."
     },
     {
-      "id": "AUT-PD-031",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
-      "score": 129.5,
-      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
-      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
-    },
-    {
       "id": "AUT-032",
       "_derived": true,
       "what": "Keep as landscape context, cited and never overstated. It is the comparator, not a contribution.",
@@ -2815,6 +2843,35 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0,
         "age_factor": 0.2143
+      }
+    },
+    {
+      "id": "AUT-PD-028",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ TWO SESSIONS BOTH REGENERATE THE ASO ARCHIVE MANIFEST AND COLLIDE ON EVERY PUSH — THREE TIMES IN TEN MINUTES on 2026-08-27. Each merge brings in a manifest stamped against the OTHER session's tree; AUT-PD-016's guard then correctly REFUSES one whose `git_tree_is_clean_apart_from_this_manifest` is false; and the resolution is always identical — never hand-merge a generated file, regenerate it on the settled tree. ⭐ THAT RESOLUTION IS RIGHT AND IT DOES NOT CONVERGE WHILE TWO WRITERS KEEP PRODUCING IT: every regeneration is itself a commit, which is another push another session must merge, which restamps the flag. ⚠ THE GUARD IS NOT THE PROBLEM AND MUST NOT BE LOOSENED — it caught a real instance today, a manifest whose hash list was taken while tracked files were uncommitted and so may describe a file that is not what got committed. ⭐ THE CANDIDATE FIX IS ONE WRITER: have CI regenerate the manifest on the trunk after a push, the way the submission parts are already rebuilt on a runner, so no interactive session ever needs to. Check what `.github/workflows/aso-submission-parts.yml` already does before building anything — half of this may exist.\n\n⚠ ATTEMPTED 2026-08-27 AND BACKED OUT. TWO CANDIDATE FIXES ARE NOW DEAD ENDS WITH EVIDENCE, WHICH IS WORTH MORE THAN THE FIX I DID NOT GET. ⛔ (1) A GIT MERGE DRIVER MAKES IT WORSE, MEASURED NOT REASONED. I built it — `.gitattributes` mapping the manifest to `merge=derived-artifact`, a driver of `true` (keep ours; both sides are equally stale and the file's own `_derived_never_typed` key means no human value can be lost), registered by `dev-setup.sh` because git will not read driver definitions from a repository. It WORKED: a simulated two-sided conflict merged with zero markers. ⛔ THEN THE CONTROL KILLED IT — with `.gitattributes` present and the config absent, git says **`fatal: custom merge driver derived-artifact lacks command line`** and the merge FAILS HARD. A repository cannot ship local git config (a driver is an arbitrary command; that is a deliberate git security property), so any clone, any CI job and any worktree where dev-setup has not run gets a FATAL error instead of a recoverable conflict. Strictly worse than the problem. Reverted. ⛔ (2) 'STOP STAMPING git_revision ON EVERY REGENERATION' CUTS ALMOST NOTHING. Measured over the same 12 hours: of 22 manifest commits, only **6 changed just the repository-state lines** and **16 changed real inventory or hashes**. The churn is not stamping noise. ⭐⭐ SO THE MEASUREMENT REFRAMES THE ITEM: this is not a manifest problem, it is a CONCURRENCY problem wearing a manifest's clothes. Sixteen genuine content changes to the ASO archive in twelve hours came from several sessions writing the same subtree, and gate 11 correctly forces each of them to regenerate. The manifest is the place the collision becomes VISIBLE, not the place it is caused — which puts it in AUT-PD-021's family (a claim protects the claimant, not against a session that fetched before the claim landed), not in its own. ⚠ Whoever takes this next should read it as 'reduce concurrent writers on one subtree, or make the regeneration a step the trunk owns rather than each session', and should NOT re-try either dead end above. ⚠ AND ONE INCIDENTAL DEFECT WAS FOUND AND FIXED WHILE FAILING AT THIS: the merge-driver registration was first written BELOW `dev-setup.sh`'s `--if-needed` early exit, so the hook that runs it would never have reached it — the file's own comment three lines above describes exactly that failure happening to the ghostscript step. I reproduced it verbatim while reading the warning about it. The probe-extension pattern is the lesson: any step added to dev-setup must extend the `--if-needed` probe IN THE SAME COMMIT, because a step the probe cannot see does not exist. That fix went out with the revert since the step it guarded is gone, and is recorded here instead.",
+      "score": 120.4,
+      "_score_basis": "22 manifest commits in 12 h, 16 of them real content from concurrent writers; two candidate fixes measured and rejected",
+      "depends_on_evidence": "three regenerations in ten minutes; the merged manifest refused for clean_flag=false",
+      "closes_clause": null,
+      "score_inputs": {
+        "age_factor": 0.0714
       }
     },
     {
@@ -2864,35 +2921,6 @@
       "_score_basis": "the instance cost one permanently-unmeasurable governance row on the dial the architecture calls the most important; the class is every other row like it",
       "depends_on_evidence": "research/autonomy/receipt_schema.py and its 21-test suite — the worked instance",
       "closes_clause": null
-    },
-    {
-      "id": "AUT-PD-028",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ TWO SESSIONS BOTH REGENERATE THE ASO ARCHIVE MANIFEST AND COLLIDE ON EVERY PUSH — THREE TIMES IN TEN MINUTES on 2026-08-27. Each merge brings in a manifest stamped against the OTHER session's tree; AUT-PD-016's guard then correctly REFUSES one whose `git_tree_is_clean_apart_from_this_manifest` is false; and the resolution is always identical — never hand-merge a generated file, regenerate it on the settled tree. ⭐ THAT RESOLUTION IS RIGHT AND IT DOES NOT CONVERGE WHILE TWO WRITERS KEEP PRODUCING IT: every regeneration is itself a commit, which is another push another session must merge, which restamps the flag. ⚠ THE GUARD IS NOT THE PROBLEM AND MUST NOT BE LOOSENED — it caught a real instance today, a manifest whose hash list was taken while tracked files were uncommitted and so may describe a file that is not what got committed. ⭐ THE CANDIDATE FIX IS ONE WRITER: have CI regenerate the manifest on the trunk after a push, the way the submission parts are already rebuilt on a runner, so no interactive session ever needs to. Check what `.github/workflows/aso-submission-parts.yml` already does before building anything — half of this may exist.\n\n⚠ ATTEMPTED 2026-08-27 AND BACKED OUT. TWO CANDIDATE FIXES ARE NOW DEAD ENDS WITH EVIDENCE, WHICH IS WORTH MORE THAN THE FIX I DID NOT GET. ⛔ (1) A GIT MERGE DRIVER MAKES IT WORSE, MEASURED NOT REASONED. I built it — `.gitattributes` mapping the manifest to `merge=derived-artifact`, a driver of `true` (keep ours; both sides are equally stale and the file's own `_derived_never_typed` key means no human value can be lost), registered by `dev-setup.sh` because git will not read driver definitions from a repository. It WORKED: a simulated two-sided conflict merged with zero markers. ⛔ THEN THE CONTROL KILLED IT — with `.gitattributes` present and the config absent, git says **`fatal: custom merge driver derived-artifact lacks command line`** and the merge FAILS HARD. A repository cannot ship local git config (a driver is an arbitrary command; that is a deliberate git security property), so any clone, any CI job and any worktree where dev-setup has not run gets a FATAL error instead of a recoverable conflict. Strictly worse than the problem. Reverted. ⛔ (2) 'STOP STAMPING git_revision ON EVERY REGENERATION' CUTS ALMOST NOTHING. Measured over the same 12 hours: of 22 manifest commits, only **6 changed just the repository-state lines** and **16 changed real inventory or hashes**. The churn is not stamping noise. ⭐⭐ SO THE MEASUREMENT REFRAMES THE ITEM: this is not a manifest problem, it is a CONCURRENCY problem wearing a manifest's clothes. Sixteen genuine content changes to the ASO archive in twelve hours came from several sessions writing the same subtree, and gate 11 correctly forces each of them to regenerate. The manifest is the place the collision becomes VISIBLE, not the place it is caused — which puts it in AUT-PD-021's family (a claim protects the claimant, not against a session that fetched before the claim landed), not in its own. ⚠ Whoever takes this next should read it as 'reduce concurrent writers on one subtree, or make the regeneration a step the trunk owns rather than each session', and should NOT re-try either dead end above. ⚠ AND ONE INCIDENTAL DEFECT WAS FOUND AND FIXED WHILE FAILING AT THIS: the merge-driver registration was first written BELOW `dev-setup.sh`'s `--if-needed` early exit, so the hook that runs it would never have reached it — the file's own comment three lines above describes exactly that failure happening to the ghostscript step. I reproduced it verbatim while reading the warning about it. The probe-extension pattern is the lesson: any step added to dev-setup must extend the `--if-needed` probe IN THE SAME COMMIT, because a step the probe cannot see does not exist. That fix went out with the revert since the step it guarded is gone, and is recorded here instead.",
-      "score": 119.5,
-      "_score_basis": "22 manifest commits in 12 h, 16 of them real content from concurrent writers; two candidate fixes measured and rejected",
-      "depends_on_evidence": "three regenerations in ten minutes; the merged manifest refused for clean_flag=false",
-      "closes_clause": null,
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
     },
     {
       "id": "AUT-049",
@@ -3270,7 +3298,7 @@
       "retry_budget": 3,
       "attempts": 0,
       "last_evidence_utc": "2026-08-26",
-      "score": 68.5,
+      "score": 70.2,
       "_score_basis": "hand-filed by CYC-0005. Scored below the live manuscript work (s0: live paths first) and above documentation, because it is the fix for a defect that has already cost this paper one wrong claim.",
       "filed_by": "CYC-0005",
       "what": "Make the research-loop cycle contract require a blind seat's record to be WRITTEN TO research/autonomy/review-seats/ as the first act after the seat returns, BEFORE any fix is applied. Evidence: CYC-0005 ran two seats, acted on both, and persisted neither, so the manuscript now carries their fixes while publish_bar clause 6 still has nothing to read. The failure mode is general and it is one-directional: the CHANGE survives a context loss and the EVIDENCE FOR IT does not. Add a step to .claude/skills/research-loop/SKILL.md and a guard that fails a cycle whose receipt names a seat with no matching record on disk.",
@@ -3370,7 +3398,7 @@
       "last_evidence_utc": "2026-08-27",
       "filed_by": "AUT-PD-017",
       "what": "⛔ LEDGER-ENTRY FIELD NAMES ARE HAND-TYPED, WITH NO SCHEMA CATCHING A NEAR-MISS SPELLING — the residual risk AUT-PD-017's sweep found and did not fix (scope: a whole-ledger validator, not a two-file constant-sharing pattern like receipt_schema.py's). Every entry in research-ledger.json is authored directly as JSON by a cycle, and several readers (continuity.py, priority.py, health.py) key off specific field names -- `owner`, `requires_trimcrae`, `blocked_by`, `blocked_evidence`, `closes_clause`, `cost_class`, `retry_budget` -- with no whitelist anywhere that would catch `require_trimcrae`, `requires_trimcrae_` or `owned_by` as a typo rather than a new field. ⛔ THE SHARPEST EDGE IS `requires_trimcrae`: continuity.py's `_why_not_ready()` treats an ABSENT key as 'not outward-facing' (falls through to ready), and `unclassified_outward()` only catches it if the item's own `what` text ALSO matches a regex over publish/submit/deposit/outreach verbs -- so a ledger entry that means to block an outward-facing act via a misspelled key, on text the regex does not match, is silently offered as ready with NO warning at all. That is category (c) from AUT-PD-017's own test (silently reads as GREEN), on the one field CLAUDE.md §3 exists to protect. ⛔ `owner` and `closes_clause` are lower-risk by comparison (a misspelled `owner` just fails to claim the lease, which is the safe direction; a misspelled `closes_clause.clause` reports a paper's blocking clause as still-uncovered, also the safe direction) but belong in the same sweep since the fix is one validator, not three. ⭐ THE FIX SHAPE: a `ledger_schema.py` (or an addition to an existing checker) that owns a whitelist of known top-level ledger-entry field names (including the `_why`-suffixed explanation fields already in use), flags any key within edit distance ~1-2 of a known name that is not itself a known name, and is wired into preflight as a gate over the whole ledger -- no grandfather cutoff needed here since it is a live-edited single file, not immutable receipt history; a one-time hand fix of any existing near-miss is enough before turning the gate on. ⚠ CHEAP AND FREE, same as AUT-PD-013/AUT-PD-017 — no compute, no network.",
-      "score": 64.5,
+      "score": 65.4,
       "_score_basis": "the sharpest instance (requires_trimcrae) can silently drop CLAUDE.md §3's outward-act protection with no warning printed anywhere; lower than AUT-PD-017 because it needs a new validator shape rather than reusing receipt_schema.py's, and no live drift has actually been observed yet (15 of ~90 entries in the ledger already carry `requires_trimcrae` correctly and consistently)",
       "depends_on_evidence": "research/autonomy/continuity.py `_why_not_ready`/`unclassified_outward` and research/autonomy/receipt_schema.py as the worked pattern to copy",
       "closes_clause": null,
@@ -3403,7 +3431,7 @@
       "filed_by": "CYC-0022",
       "prerequisite_of": null,
       "what": "Root-cause why s3://sagemaker-us-east-2-646605541856/nr4a3-step1-fanout/results/ genuinely has zero ddg.json objects as of 2026-08-27T09:36Z (AUT-PD-015 — a closed LANE-17 result whose realised cost is recorded in research/compute/pricing.md that had stood complete for weeks was found empty by a live tick, confirmed via the tick's own successful S3 LIST call: 10 non-ddg.json objects present, zero ddg.json). With working credentials: (1) list the full prefix and diff against what the 79ac2b8 map expects — 18 ddg.json keys plus whatever the 10 surviving objects are; (2) check the bucket's lifecycle rules for an expiry policy that could delete only certain key patterns; (3) check S3 versioning — if enabled, the deleted objects may be one `list_object_versions` call away from recovery; (4) check CloudTrail (if enabled) for a DeleteObject(s) event around 2026-08-27T09:3x. NOT urgent for the paper — the git-committed record is intact and step1-fanout-map.json is now guarded against further silent overwrite — but it is a real, unexplained event on a live AWS account and worth knowing whether it recurs on other lanes' prefixes.",
-      "score": 64.5,
+      "score": 65.4,
       "_score_basis": "hand-filed by CYC-0022. Low urgency (the paper-facing defect is already fixed and the historical data is safe in git) but genuinely blocked on access this sandbox does not have.",
       "score_inputs": {
         "age_factor": 0.0714
@@ -5081,7 +5109,7 @@
       "id": "AUT-PROP-026",
       "kind": "harden",
       "prerequisite_of": null,
-      "score": -2239.5,
+      "score": -2328.6,
       "closes_clause": null,
       "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text.",
       "score_inputs": {

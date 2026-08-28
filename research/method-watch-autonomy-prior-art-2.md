@@ -129,8 +129,9 @@ Give such a row a `stuck_at` and it stops being able to hide.
   lost at 3 h (6×). Rucio: `older_than = renewal_interval * 10`, with the code comment
   `# 10 was chosen without any particular reason`. Two independently-developed systems, decades old,
   telling you the constant does not need to be principled. (SOURCE)
-- **Never act on the snapshot that triggered you, and cross-check a second observer.** PanDA's
-  `Watcher.py` re-reads the job and bails with `"escape : wrong status"` if the state moved on, then
+- **Never act on the snapshot that triggered you, and cross-check a second observer.** PanDA's own
+  `Watcher.py` (upstream, external repo — not ours) re-reads the job and bails with
+  `"escape : wrong status"` if the state moved on, then
   consults `getWorkersForJob()` and stamps `WORKER_ALREADY_DONE` if the worker record already says
   finished — because *"my monitor lost sight of it"* and *"it died"* look identical from one
   vantage point. (SOURCE)
