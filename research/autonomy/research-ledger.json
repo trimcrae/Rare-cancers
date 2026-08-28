@@ -1953,9 +1953,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0057-1ef8c95a",
+      "claimed_utc": "2026-08-28T19:20:00Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1970,7 +1970,13 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⚠ VERIFY `CLAUDE_CODE_SESSION_ID` IS SET INSIDE A SCHEDULED-ROUTINE SESSION — one receipt settles it and the whole session-cap fix (AUT-PD-045) turns on the answer. Set: a Routine-fired session can show it is at its cap and stop. Unset: session_cap.verdict() answers MUST NOT STOP and those sessions keep running cycles exactly as before — inert rather than wrong, the safe direction, which is why it fails that way. ★ THE CHECK IS TRIVIAL: read the next scheduled cycle's receipt. A real id means it works; the literal 'scheduled-routine-session' means the skill's step-10 change did not reach that path and the id needs a different source. ⛔ Do not record AUT-PD-045 as fixed for the scheduled path until a receipt written by one shows a real session id."
+      "what": "⚠ VERIFY `CLAUDE_CODE_SESSION_ID` IS SET INSIDE A SCHEDULED-ROUTINE SESSION — one receipt settles it and the whole session-cap fix (AUT-PD-045) turns on the answer. Set: a Routine-fired session can show it is at its cap and stop. Unset: session_cap.verdict() answers MUST NOT STOP and those sessions keep running cycles exactly as before — inert rather than wrong, the safe direction, which is why it fails that way. ★ THE CHECK IS TRIVIAL: read the next scheduled cycle's receipt. A real id means it works; the literal 'scheduled-routine-session' means the skill's step-10 change did not reach that path and the id needs a different source. ⛔ Do not record AUT-PD-045 as fixed for the scheduled path until a receipt written by one shows a real session id.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T19:20:00Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "id": "AUT-025",
