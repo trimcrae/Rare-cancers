@@ -60,6 +60,18 @@ and then dies. That is the LEASE's job — `priority.py:release_stale_claims` ag
 that one are the two halves: one stops two workers starting, the other stops one worker parking the
 queue forever. ⚠ And per the finding above, that half is a LIVENESS device and can never be a safety
 one; the push is what makes the safety claim, not the stamp.
+
+⭐ DECIDED, NOT BUILT (AUT-PROP-030's remaining open question): does any write path in this loop reach
+the ledger WITHOUT going through the fencing check, the way Chubby's lock-delay covers a write path
+that genuinely cannot check a sequencer? Audited every place this module writes: `apply_claim` only
+ever writes into the WORKING TREE of a commit that has not yet been pushed, `withdraw_claim` only
+restores those same bytes on a conceded attempt, and neither one is visible to any other worker — the
+trunk, which is what every other session reads, moves only through `git.push()`'s compare-and-swap.
+There is no second door: every mutation that could let two workers both succeed is gated by the one
+push this module already treats as the fencing check. **So Chubby's lock-delay fallback does not
+apply to this module and none was built** — adding one would be a mechanism for a gap that an audit,
+not a guess, shows does not exist here. Re-open this only if a future write path is added that lands
+on the trunk some way other than this module's own `git push`.
 """
 
 from __future__ import annotations
