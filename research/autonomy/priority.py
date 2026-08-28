@@ -354,12 +354,32 @@ def apply_age_factor(entries: list[dict], weights: dict, today=None) -> list[dic
     for e in entries:
         if (e.get("state") or "queued") in ("done", "abandoned", "superseded"):
             continue
-        f = age_factor(e, weights, today=today)
-        if not f:
+        f = round(age_factor(e, weights, today=today), 4)
+        # ⛔⛔ THE SECOND HALF OF THE SAME DEFECT, AND THE ONE THAT WAS ACTIVELY MOVING THE QUEUE
+        # (AUT-PROP-036). This was `score = score + w * f`, so on a hand-filed row — whose score
+        # `merge()` carries forward — the bonus was added AGAIN on every re-score rather than once
+        # per day. Measured across eight consecutive commits in 92 minutes on 2026-08-28:
+        # AUT-PROP-036 climbed 158.0 → 158.9 → 159.8 → 160.7 → 161.6 → 162.5 → 163.4 → 164.3 →
+        # 165.2 (+0.9 each) while its `age_factor` stayed 0.0714 and its `last_evidence_utc` stayed
+        # 2026-08-27. Nothing about the row's evidence changed; only the number did. By then the
+        # top 15 rows of the ranked table were all hand-filed process/proposal rows, several already
+        # marked "✅ DONE", and the best DERIVED route row was 78 points below them — CLAUDE.md §0's
+        # named failure arriving as arithmetic rather than as a judgement.
+        # ⭐ APPLY THE DELTA AGAINST WHAT IS ALREADY ON THE ROW. The previously-applied factor is
+        # echoed in `score_inputs` and carried by `merge()`; a derived row has none (its inputs are
+        # rebuilt each run) so it gets the full term exactly as before. This also makes the term
+        # correctly REVERSIBLE: refreshing a row's evidence lowers its age factor, and the bonus now
+        # shrinks with it instead of being a ratchet.
+        prev = (e.get("score_inputs") or {}).get("age_factor")
+        prev = float(prev) if isinstance(prev, (int, float)) and not isinstance(prev, bool) else 0.0
+        if not f and not prev:
             continue
-        e.setdefault("score_inputs", {})["age_factor"] = round(f, 4)
+        if f:
+            e.setdefault("score_inputs", {})["age_factor"] = f
+        else:
+            (e.get("score_inputs") or {}).pop("age_factor", None)
         if isinstance(e.get("score"), (int, float)):
-            e["score"] = round(e["score"] + w * f, 1)
+            e["score"] = round(e["score"] + w * (f - prev), 1)
     return entries
 
 
@@ -488,40 +508,91 @@ def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
         # every re-score, so a session writing state="blocked" saw it reverted to "queued" on the
         # very next run and the penalty never fired — the item stayed at the top of the queue with
         # its own block recorded underneath it. The recorded observation IS the block.
-        if str(entry.get("blocked_evidence") or "").strip():
-            if entry.get("score") is not None:
-                entry["score"] = round(entry["score"] + penalty, 2)
-                # ⛔ `setdefault`, BECAUSE A HAND-FILED ENTRY HAS NO SCORE INPUTS AND NEVER DID.
-                # `score_inputs` is the DERIVED scorer's audit trail: `build_entries` writes it for
-                # the rows it computes from systems/graph, and `merge()` deliberately carries
-                # hand-filed rows through untouched (its docstring: "the ledger's own `_role` says a
-                # session may add one the graph cannot express"). This line then indexed it on every
-                # merged row and `priority.py` DIED — `KeyError: 'score_inputs'` — on the committed
-                # ledger, where 47 of 124 entries are hand-filed. ⚠ Measured 2026-08-27 on a clean
-                # tree at origin/main, so it was not a working-tree artifact; nothing caught it
-                # because no gate ran the ranker (AUT-PD-018, the same day, the same shape).
-                # ⭐ AND THE DICT IS CREATED EMPTY RATHER THAN FILLED WITH DEFAULTS. Giving a
-                # hand-scored row a full set of zeroed inputs would make it look computed — a
-                # populated field that is not a measured one (CLAUDE.md §4) — and the arithmetic
-                # printed beside it would be arithmetic nobody did. What goes in is only the flag
-                # this function actually observed.
-                entry.setdefault("score_inputs", {})["blocked_with_evidence"] = True
+        evidenced = bool(str(entry.get("blocked_evidence") or "").strip())
+        # ⛔⛔ IDEMPOTENT, AND IT WAS NOT (AUT-PROP-036, measured 2026-08-28). This was
+        # `score = score + penalty` applied on EVERY re-score. For a DERIVED row that is correct —
+        # `build_entries` rebuilds its base from `systems/graph` each run, so the term lands on a
+        # fresh number. For a HAND-FILED row `merge()` carries the previous `score` forward, by
+        # design, because the graph cannot rebuild it — so the penalty compounded. Traced through 25
+        # commits of `research-ledger.json`: AUT-PROP-026 went -1344.0 → -2506.8 in one day, -90.0
+        # per re-score, while the derived AUT-049 sat unmoved at 117.0 across the same eight runs.
+        # That contrast is the observation that discriminates a wrong TERM from a reused BASE.
+        # ⭐ THE FLAG IN `score_inputs` IS THE STATE, AND IT IS ALREADY WRITTEN AND ALREADY CARRIED:
+        # a derived row's `score_inputs` is rebuilt fresh by `build_entries` (so the flag is absent
+        # and the penalty applies), a hand-filed row's is carried by `merge()` (so the flag is
+        # present and the penalty is not applied twice). No new field, and the toggle runs BOTH
+        # ways — clearing the evidence removes the penalty instead of leaving it baked in forever.
+        applied = bool((entry.get("score_inputs") or {}).get("blocked_with_evidence"))
+        if evidenced != applied and entry.get("score") is not None:
+            entry["score"] = round(entry["score"] + (penalty if evidenced else -penalty), 2)
+        if evidenced:
+            # ⛔ `setdefault`, BECAUSE A HAND-FILED ENTRY HAS NO SCORE INPUTS AND NEVER DID.
+            # `score_inputs` is the DERIVED scorer's audit trail: `build_entries` writes it for
+            # the rows it computes from systems/graph, and `merge()` deliberately carries
+            # hand-filed rows through untouched (its docstring: "the ledger's own `_role` says a
+            # session may add one the graph cannot express"). This line then indexed it on every
+            # merged row and `priority.py` DIED — `KeyError: 'score_inputs'` — on the committed
+            # ledger, where 47 of 124 entries are hand-filed. ⚠ Measured 2026-08-27 on a clean
+            # tree at origin/main, so it was not a working-tree artifact; nothing caught it
+            # because no gate ran the ranker (AUT-PD-018, the same day, the same shape).
+            # ⭐ AND THE DICT IS CREATED EMPTY RATHER THAN FILLED WITH DEFAULTS. Giving a
+            # hand-scored row a full set of zeroed inputs would make it look computed — a
+            # populated field that is not a measured one (CLAUDE.md §4) — and the arithmetic
+            # printed beside it would be arithmetic nobody did. What goes in is only the flag
+            # this function actually observed.
+            entry.setdefault("score_inputs", {})["blocked_with_evidence"] = True
+        elif applied:
+            # The evidence was cleared. Drop the flag with the penalty it accounted for, so the row
+            # is again a fixed point of this function rather than carrying a term nothing explains.
+            (entry.get("score_inputs") or {}).pop("blocked_with_evidence", None)
 
     bonus = weights["prerequisite_bonus"]["value"]
-    for entry in entries:
+
+    # ⛔⛔ PARENTS FIRST, AND THE ASSIGNED SET IS THE OTHER HALF OF THE FIX (AUT-PROP-036).
+    # This loop used to walk `entries` in list order and read `parent["score"]` wherever it found
+    # it. Two things then went wrong together on a CHAIN — a prerequisite whose parent is itself a
+    # prerequisite, which the committed ledger has four of:
+    #   (1) ORDER. A child processed before its parent inherited the parent's PREVIOUS value, so
+    #       the chain resolved to a different number depending on where the rows happened to sort.
+    #   (2) THE PENALTY ADD-BACK BECAME A LIE. `base = parent.score + 90` is right only while the
+    #       parent's score actually CONTAINS one application of the evidenced-block penalty. A row
+    #       this loop has just re-assigned holds `grandparent_base + bonus`, which contains none —
+    #       yet its `score_inputs.blocked_with_evidence` flag is still set, so +90 was added to a
+    #       penalty that was not there. Measured 2026-08-28 on the committed ledger: AUT-PROP-021
+    #       and AUT-PROP-022 moved 196.9 → 286.9 and 196.0 → 286.0 on a re-score that changed no
+    #       evidence, which would have put two hand-filed rows 90 points clear of every route in
+    #       the portfolio.
+    # ⭐ RESOLVE DEPTH-FIRST WITH A CYCLE GUARD, and take a re-assigned parent's score as ALREADY
+    # pre-penalty. `admissibility.write_verdict` is what caught this: the row was not a fixed point
+    # of its own pipeline, which is the whole signature that module exists to name.
+    assigned: set[str] = set()
+    resolving: set[str] = set()
+
+    def _resolve(entry: dict) -> None:
+        eid = entry.get("id")
         parent_id = entry.get("prerequisite_of")
         parent = by_id.get(parent_id) if parent_id else None
         if parent is None or parent.get("score") is None:
-            continue
+            return
+        if eid in assigned or eid in resolving:
+            return  # already done, or this is a `prerequisite_of` cycle — leave the score alone
+        resolving.add(eid)
+        if parent.get("prerequisite_of"):
+            _resolve(parent)
+        resolving.discard(eid)
         # Inherit the parent's PRE-penalty value: the prerequisite is worth what the parent is worth
         # once unblocked, which is the whole reason to do it.
-        # ⚠ THE SIBLING OF THE LINE ABOVE, AND IT WOULD HAVE BEEN THE NEXT CRASH: a hand-filed
-        # prerequisite naming a hand-filed parent reaches here with no `score_inputs` on either.
-        # `paper-hardening` §8b.2 measured six of eleven list-scoped fixes missing exactly this.
+        # ⚠ A hand-filed prerequisite naming a hand-filed parent reaches here with no `score_inputs`
+        # on either. `paper-hardening` §8b.2 measured six of eleven list-scoped fixes missing this.
         parent_inputs = parent.get("score_inputs") or {}
-        base = parent["score"] - (penalty if parent_inputs.get("blocked_with_evidence") else 0)
+        carries_penalty = bool(parent_inputs.get("blocked_with_evidence")) and parent_id not in assigned
+        base = parent["score"] - (penalty if carries_penalty else 0)
         entry["score"] = round(base + bonus, 2)
         entry["_score_basis"] = f"inherited from {parent_id} (+{bonus}) — it is the work that unblocks it"
+        assigned.add(eid)
+
+    for entry in entries:
+        _resolve(entry)
     return entries
 
 
