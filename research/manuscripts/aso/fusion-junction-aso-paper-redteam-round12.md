@@ -15,9 +15,9 @@ purpose: >
   round. Separately, and outside any seat's own finding: applying the driver's own fix for a stale
   generated artifact ran into a live mutation left by a concurrently-running seat and briefly
   committed a wrong value to research/manuscripts/submission-metrics.json, caught by seat 4 and
-  corrected in the same cycle (process defect AUT-PD-047). Because round 12 itself found and fixed
+  corrected in the same cycle (process defect AUT-PD-060). Because round 12 itself found and fixed
   real things, it does NOT close publish_bar's hardening_converged clause — round 13, a confirmation
-  pass on round 12's two fixes, is queued (AUT-PROP-041).
+  pass on round 12's two fixes, is queued (AUT-PROP-042).
 scope: >
   Computational design and specificity screening only. No wet-lab experiment was performed, and
   nothing here asserts efficacy, potency, safety, a therapeutic window, delivery to a tumour, or
@@ -92,7 +92,7 @@ the power/void-SD figures and overclaim scan, and seat 5's cover-to-cover hostil
   orphaned. Separately, and outside the pin: caught that the driver's own follow-up commit
   (`6e7d44e06`, regenerating `submission-metrics.json` to clear an unrelated stale-preflight failure)
   had captured a mutation-window contamination rather than real drift, and named the exact mechanism.
-  Corrected in `3a53478a8`. Full account: process defect AUT-PD-047.
+  Corrected in `3a53478a8`. Full account: process defect AUT-PD-060.
 - **Seat 5 (hostile referee).** Verdict: **accept**. No BLOCKER, no P1, no internal contradiction, no
   LLM artifact, every cross-checkable number consistent. Read cover to cover as if for the first
   time despite eleven-plus prior rounds.
@@ -105,8 +105,8 @@ Per this series' own standard (round 9 → round 10, round 11 → round 12): a r
 fixes a real gap is not the round that gets to certify nothing was found, because the fixes
 themselves are unreviewed. Round 12 found and fixed one real P1 (the `lint_style.py` regression)
 and, separately, the driver's own process caused and then corrected one BLOCKER-grade artifact error
-(`submission-metrics.json`, AUT-PD-047) inside the same cycle. Both are fixed and verified as of this
-commit, but neither has been reviewed by a fresh blind seat. **Round 13 (AUT-PROP-041, queued)** is a
+(`submission-metrics.json`, AUT-PD-060) inside the same cycle. Both are fixed and verified as of this
+commit, but neither has been reviewed by a fresh blind seat. **Round 13 (AUT-PROP-042, queued)** is a
 confirmation pass on these two fixes at whatever commit is final once nothing else is mid-flight
 against the ASO family — the same shape as this round was for round 11.
 
@@ -122,4 +122,4 @@ silently captured the mutated word count, landing a wrong value in commit `6e7d4
 commits later by seat 4's independent re-derivation against an isolated pinned-commit worktree, and
 corrected in `3a53478a8`. Full root-cause and the generalisable lesson (verification-after-the-fact
 worked; `git add -A` avoidance alone does not protect a live-tree-reading regeneration script run
-concurrently with mutation-risk subagents): process defect **AUT-PD-047**.
+concurrently with mutation-risk subagents): process defect **AUT-PD-060**.
