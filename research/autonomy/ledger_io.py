@@ -28,6 +28,9 @@ from __future__ import annotations
 
 import json
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 #: The exact parameters, pinned once. Nothing downstream should ever type `indent=` or
 #: `ensure_ascii=` again for this file — import `write_ledger` (or `dumps_ledger`, for a caller
@@ -43,12 +46,30 @@ def dumps_ledger(data: dict) -> str:
     return json.dumps(data, indent=INDENT, ensure_ascii=ENSURE_ASCII) + "\n"
 
 
-def write_ledger(path: "str | os.PathLike", data: dict) -> None:
+def write_ledger(path: "str | os.PathLike", data: dict, check: bool = True) -> None:
     """Write `data` to `path` as `research-ledger.json`'s one canonical serialization.
 
     ⛔ NOT `json.dump(data, fh, indent=2)` — that call's `ensure_ascii` defaults to `True` and
     escapes every non-ASCII character. This function exists so no caller can make that mistake by
     typing the parameters out again.
+
+    ⛔⛔ AND IT IS ALSO THE ADMISSION GATE FOR THE LOOP'S OWN SCORING EVIDENCE (AUT-PROP-036).
+    `research/autonomy/admissibility.py` names, in advance and in code, the observable signature of
+    a score change nothing can account for; this is the one place every writer of the ledger already
+    has to pass through, so it is where the predicate is CHECKED rather than merely documented —
+    before the evidence is allowed to change a row's score, state or `what`. It raises
+    `admissibility.InadmissibleWrite`; it never writes a partial file.
+
+    ⚠ `check=False` EXISTS FOR TESTS AND FOR NOTHING ELSE, AND IT IS NOT A WAY PAST A REFUSAL. A
+    real writer whose score change is refused records why on the row (`_score_correction`) or
+    re-derives the number; a test that is deliberately constructing an inadmissible ledger in order
+    to assert the gate fires needs to be able to lay one down on disk first.
     """
+    if check:
+        # Imported here, not at module scope: `admissibility` reaches `priority` for the age term,
+        # and `priority` imports this module — a top-level import would close the cycle.
+        import admissibility  # noqa: PLC0415
+
+        admissibility.check_write(os.fspath(path), data)
     with open(path, "w", encoding="utf-8") as fh:
         fh.write(dumps_ledger(data))
