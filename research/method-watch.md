@@ -191,19 +191,30 @@ plausible-looking record of a model run that never happened. Rows that survive a
 watch list kept by people who want these routes to work under-reports the results that cut against
 them — the count is what makes that question askable.
 
-⛔ **AND IT IS NOT RUNNING YET, BECAUSE THIS REPOSITORY HAS NO `ANTHROPIC_API_KEY` SECRET.**
-Measured on the first CI run ([33215625481](https://github.com/trimcrae/Rare-cancers/actions/runs/33215625481)):
-the step's env printed `ANTHROPIC_API_KEY:` **empty**, beside `GITHUB_TOKEN: ***` for a secret that
-*is* defined — GitHub renders an undefined secret as an empty value, so nothing shouts. The matcher
-refused to write a queue and exited 1, which is the designed behaviour: an empty queue and a call
-that never happened look identical once committed, and the second would read as *"the model
-considered this week and found nothing"*.
-⚠ **Three call sites reference that secret** — this step, `email_digest.py`'s summary fallback in
-the email step, and `daily-degrader-email.yml` — so the API fallback in the daily and weekly emails
-has almost certainly **never fired**. The newsletter's summary comes from the `email-outbox` branch,
-written by a scheduled Claude session, which is why nobody noticed. This is the same shape as the
-SES branch documented in `mailer.py`: a code path that looked like coverage and had never once run.
-**Setting the secret is trimcrae's**; until then the matcher is built, tested offline and inert.
+⭐ **THE JUDGE IS A SCHEDULED CLAUDE SESSION, NOT AN API CALL** (trimcrae, 2026-08-28: *"Why on
+earth would I use an additional API key from a Claude code session. Obviously use a scheduled
+session"*). The first build called `api.anthropic.com` with `secrets.ANTHROPIC_API_KEY` — a second
+bill for a capability this project already pays for. It was also inert: that secret does not exist,
+which the first CI run
+([33215625481](https://github.com/trimcrae/Rare-cancers/actions/runs/33215625481)) showed by
+printing `ANTHROPIC_API_KEY:` **empty** beside `GITHUB_TOKEN: ***` for a secret that is defined.
+⚠ **Three call sites still reference that secret** — `email_digest.py`'s summary fallback and
+`daily-degrader-email.yml` — so the API fallback in both emails has almost certainly never fired
+once. Nobody noticed because the newsletter's summary comes from the `email-outbox` branch, written
+by a scheduled session, so the fallback was never reached. Same shape as the SES branch documented
+in `mailer.py`: a code path that looked like coverage and had never run. Recorded, not fixed —
+that is trimcrae's call, and the matcher no longer needs it.
+⭐ **The session was the better mechanism anyway, not just the cheaper one**: a session can read the
+source, and the API judge only ever saw a headline. Steps:
+[`news-match-routine-prompt.md`](routines/news-match-routine-prompt.md).
+
+⭐ **Validated end to end 2026-08-28, by a session doing exactly what the Routine will do**: 47 fresh
+headlines against 32 publication claims → 15 distinct stories matched, 19 explicitly bearing on
+nothing, 0 unreached, 0 verdicts rejected. Running it also found a defect no amount of design would
+have: one Phase 3 readout arrived from **eleven outlets**, so the census counted eleven `supports`
+where there was one story. `duplicate_of` now collapses a story to one row and excludes the copies
+from the census — the bias instrument counts stories, not headlines, or it inflates the exact number
+it exists to watch, in the exact direction it is watching for.
 
 ⚠ **Why the matcher is not inside the trigger scan.** That scan's bottleneck is its Europe PMC
 *query*, not its title filter: the API returns only what the query asked for, so a model placed

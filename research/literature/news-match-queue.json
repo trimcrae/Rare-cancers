@@ -1,0 +1,647 @@
+{
+  "_schema": "news-match-queue/1",
+  "_what": "Proposed matches between this week's news items and what this program's papers claim. UNVALIDATED LEADS from a model that saw HEADLINES, not papers.",
+  "_may_not": "⛔ Nothing here may be cited, and nothing here changes a status. A row is a prompt to read the source. Rows that survive reading become `open` rows in research/literature/citation-debt.json.",
+  "_model": "claude-opus-5 (interactive session, manual validation run)",
+  "_source": "/tmp/claude-0/-home-user-Rare-cancers/bfde6072-7ee9-55a3-bf2d-15f9352abcb1/scratchpad/digest.md",
+  "_produced_by": "scripts/news_match.py",
+  "_bearing_census": {
+    "prior_art": 0,
+    "supports": 7,
+    "complicates": 1,
+    "supersedes": 0,
+    "unclear": 8
+  },
+  "_bias_note": "⚠ `supports` vs `complicates` is here to be COUNTED. A watch list kept by people who want these routes to work under-reports the results that cut against them, and a run returning only `supports` is the shape that failure takes. It is reported, never failed on — a genuinely good week is possible and must not be forced to look otherwise.",
+  "_cite_into": {
+    "TRG-JUNCTION-PHLA": [
+      "research/modalities/vaccine-construct.json",
+      "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "research/manuscripts/neoantigen/shared-vs-individualized-neoantigen-evidence.md"
+    ],
+    "TRG-FUSION-JUNCTION-CLINICAL": [
+      "research/modalities/vaccine-construct.json",
+      "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+      "research/manuscripts/neoantigen/shared-vs-individualized-neoantigen-evidence.md"
+    ],
+    "TRG-NR4A3-DIRECT-MATTER": [
+      "research/manuscripts/emc-systems-map.json"
+    ],
+    "TRG-CONDENSATE-PARTNER-RESOLUTION": [
+      "research/modalities/emc-condensate-calvados-findings.md"
+    ]
+  },
+  "_rejected": [],
+  "_rejected_note": "Verdicts dropped by scripts/news_match.py: an invented publication id, an out-of-range item, or an empty reason. Kept rather than discarded because a hallucination rate nobody records is a hallucination rate nobody can notice rising.",
+  "items": [
+    {
+      "item": {
+        "date": "2026-08-27",
+        "title": "FDA Approval Opens New Chapter in Pancreatic Cancer Treatment - University of Miami",
+        "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPRDVtNGlYdktlSnJEMWZWdmFGX21NUFBpODZ4aUMtR2tUY0JBaXNENlVzNDBpQThmc0JLMFdMVS1ucmExbUVQV0hnYnhoeUtHMmp1VWdwR2pGN2wzelRGVGwyNnpEM3NteURwNDVzSGozaHFBelRPWENYV0lVeUdMQ05fSU9zUVBi?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-19",
+        "title": "Moderna and Merck say mRNA cancer vaccine succeeded in late-stage melanoma trial - STAT",
+        "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNOVJjTGRvUDNjbXM4NFZtdENhQU5pRDRsV0F1dnctNGRhVEJPbTZuWFBRZ3huTnhIT2o0SjZwTXQ4WmZGSF82V0VQLUQ3dEV0RWdKVDMyZXRoQVFlRFRXMXBVSXl5RzlDUmUyTFJXWDdJb0FJaVBGbW5jRTBYdTEtNnBZX2VLcFZjSDZubjdR?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-VACCINE-PATH",
+          "bearing": "supports",
+          "why": "same INTerpath-001 readout, STAT",
+          "duplicate_of": 13
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-18",
+        "title": "Transport of cytotoxic cyanine dyes coupled to siRNA into hematopoietic cancer cells with CD20-, CD22- or CD33-targeting ELART nanocarriers - Nature",
+        "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBsLTd4OS1abHE4b0ppNDhiZW5KYVpUYXB0T0tIUkJJbzFCWlpUZnZvMEVEUWhpOV9SZDk2U0o0YXZaanRVcThnWmJjU2dpSDlmcEluM0N6R2Z5WUFwNHZV?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-ASO",
+          "bearing": "unclear",
+          "why": "an siRNA-conjugate nanocarrier reaching cancer cells touches the delivery gate, but the target cells are haematopoietic and the headline cannot say whether it bears on solid-tumour penetration"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-25",
+        "title": "First Patient Dosed in Molecular Glue Degrader Trial for mCRPC - Targeted Oncology",
+        "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNeHlGMWR3enpCM0NXX1hVTlVJWUF5NEhTNzU1SC1QODNjdV9EenVRb2JSaHZvUTVwZmRURDRFTUtrRzgyYi1BeUZiS1lXTlZXX0ZmYmk2bmlUaU9RVzJGb3BOU0MzY1dhb2ptZWZTaFhzS1U0cnJtRFRGSFJuY0x4b1NMUUZxcU9pa3c?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-PARKED-MODALITIES",
+          "bearing": "unclear",
+          "why": "a molecular-glue degrader entering the clinic is a regulatory milestone, not the prospective-design track record the glue row's reopening condition names"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "FDA Grants Fast Track Designation to SOT106 in Soft Tissue Sarcoma - OncLive",
+        "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNcENOWEZ6MFQ4NkRROWtlRnZ2LVloWm1KbDFDZFpzQWNhT2xfb0U3UVZtQklGUTBIcmlkZkFaWHZXbFd3S1pMQzJmdlZOMS03Rkt2dUVCMElOam5ScFN4XzFHcUZFWG5DNkxhMjM5Vmo4WERLb3hRWG01OFNuVjRQZXJiMm5BcFpnRVpBcE80TU5tdjRyRWtRRFd0bw?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-SURFACE-TARGETS",
+          "bearing": "unclear",
+          "why": "a soft-tissue-sarcoma agent given fast track may be surface-antigen-directed, which is this paper's axis, but the headline names no antigen"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "F.D.A. Approves Drug Poised to Transform Care for Pancreatic Cancer - The New York Times",
+        "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNcDFUdlNabS1QTHFtUXBVNTVmczg5dmFGYVMzSlViVFRWRG1sTzZ1YWg4RnFyZndPZVBlUDhLZ1NMbHZSSTNGUmFmSmpmNVlhc1V0ZXhVbGdrWVVVOUY2dTFkU1VLMjNpN1lPbjNsN3BQcHVLczhaTDVsUnBfQnd5b21nYWxjZlMxdkc0SFdWVU0?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-27",
+        "title": "Ivonescimab Beats Durvalumab in Phase III Biliary Tract Cancer Trial - The Clinical Trial Vanguard",
+        "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNUnJqOUhuLXl0SkMtRjBnM1BGaE5FNHBNQmhQQmNRSzg3eWFuLUJ2aGpQdUc2TVZKWlp3SnZjUWJoSTMwX0l2R2JJRENvTEdBY1dCWGI5enRzbnhZbHVMUWI4Z1Z5aFVIelMwNDZzRC1BU2R0TVBtYm54ZkFzYU95STJrQUlXOXVSd0RQQjV4Y2c3YzhCZnh2UWxpazJ4YkJzRFhIZ1NVczlEWGVqbm1MMDdn?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-19",
+        "title": "Cancer vaccine from Moderna, Merck shows promise in late-stage trial; both stocks soar - CNBC",
+        "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOUlktR2pLY0JiWFdHWWtNb2ozX2ltdUZPV0F3SlNud0o5aUF0Nk16bEZjTU9yWW1sd044bnlwYWxrM0pGaDE5TGRQS2hlWGNtbVJIOF8zNVpQOWF5S1FMUXdCeV85Y1oxOG9Dck9ydjZGcGN2czgxOE5aeFY5Y3BVVExITTZpY1JUbG9sMHYtZmpCRzZGa1dGNUJBR0JvTl9TRmZ6R0NxSdIBrAFBVV95cUxNSDhhdThuTXRTbkNHRzIzVklfb3M0S1pjWWFSNTBhal9GQlVWZzBZVkpDeEVlREc2eEYyNTRNSkdvSzZ3cVBQanc3S012LWZocFVoTXJNMHVJaHFNSFBlZG1vMFZ3eTk0NzhSUEdXSGR4QXY5N1o5Q1FPN3czNTFHOURrektERU02MFQxRmMtTDJrNFhDeEE5OHBFVHBHRzRCeGZZNjBjV3BNZmVY?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-VACCINE-PATH",
+          "bearing": "supports",
+          "why": "same INTerpath-001 readout, CNBC",
+          "duplicate_of": 13
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-24",
+        "title": "Inside Moderna and Merck’s cancer vaccine triumph - STAT",
+        "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNbGpxNlJCcm1aM2pwbW1CVDBiN01HSmQtVjdyVnNUaXNVRHFEZTRTdmg2RmhjeEYtSnNOUmhLXzVENld6aFdSczhKOHR6VVNiZUZvYmlCSWdSNS04UTlMM0NxM082S21IQ2E3ZFAtb3lyeVlMTmpPaGJyWHQyUXA3d0pMc25PS2FmX05uag?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-VACCINE-PATH",
+          "bearing": "supports",
+          "why": "same INTerpath-001 readout, STAT follow-up",
+          "duplicate_of": 13
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-25",
+        "title": "Protein degrader approval offers hope to relapsed multiple myeloma patients - Chemistry World",
+        "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNb0szbTI4alVJT2Z3NEZDeVNhUDZMNnRHUXh4NjRQazlqVHAwdzBZaERTMEZScFhyN3dBT0pBT3JmV1VUSjZhU2NJVG9jRmxUYVJmRlBFUkNQbWFxRWo3MXlvOEVFVHhYTEhyT3BqbVJTWHdKNDRPaF9UWl9WUW10N3J3TWNONHAwSEhzYTBOaFZVLXc3eEhkNVRPdmMtcGowOGtxMTZLUUhvNGhQYkx4T0lrNDBpZi1vNXN2dUgwVGN2MW1UN0E?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-DEGRADER",
+          "bearing": "supports",
+          "why": "a targeted protein degrader reaching approval bears on the modality's clinical viability, not on any selectivity method"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-27",
+        "title": "FDA Grants Fast Track Designation to SOT106 for Soft Tissue Sarcoma - Targeted Oncology",
+        "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQb2dkRDN5ZkNsSUtLMklfVnFXa1REN2ZnMU1tNlZhWkRlNXYyZXgxUkM4N2lmV0pYQmpPYTRHSjlOcU93RThtMm1Qd2FLSEtsNWhLcE9rTm5RTFFDVVZVeEwyV0VEVXlyOXpmSHJwQ3VveWU4QV83TUVlakJGa1lyaHIxbDlrSGU3RU1Ua2VlNHRtbVl2Zl93MFFyUXZ3M1EwbUE?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-SURFACE-TARGETS",
+          "bearing": "unclear",
+          "why": "same SOT106 fast track, Targeted Oncology",
+          "duplicate_of": 4
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "FDA approves new pancreatic cancer drug expected to usher in new era of treatment - STAT",
+        "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOaTZuQkNreGcxNnROTUMxbk5xcXBpYU5VNWprQ2p2QnFSNmRHamdjLWNDbGhKOGE4WUd1Z0ZraS1vbFRHcmJDM2RqaEtRREFTRWhMZHBQakZPcmt3dHBuT0Y2SFQwZ1RaOENkTzR1MEpXUG1NYThfSFc2UldvMEZlTXdlQQ?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-21",
+        "title": "Personalised cancer vaccine slows melanoma recurrence, suggest topline phase III results - The Pharmaceutical Journal",
+        "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOM28yMlJuRTI4TmZYdGoxTzE2NUw3MGxKcnZHTHdWQTlQS05nMHBjT0hoSEhoTEItM08ta0ZQdW9pTkpCajlGV0RWUjhkWUd2OVl5TXBQRS1wMzAyMWFjcmVjVHVmOE0wQ3FuQmtnTWY4MFJfNHUxbTJxVGNWMGE4SDdDWjNibkNEZkNwTUh5UUg2XzVmRjg1Nkprb0pFUWx4OXpTUGUzblZJSGxmbjRFZFoteWNVTTRidDVONnY4cHlFTzI2bjV1MTdvcGVMYTlo?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-VACCINE-PATH",
+          "bearing": "supports",
+          "why": "same INTerpath-001 readout, Pharmaceutical Journal",
+          "duplicate_of": 13
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-21",
+        "title": "INTerpath-001 Trial of mRNA-Based Individualized Neoantigen Therapy Meets Primary and Key Secondary Endpoints in Patients With High-Risk Resected Melanoma - The ASCO Post",
+        "link": "https://news.google.com/rss/articles/CBMingJBVV95cUxQYjUwY3ZSaEtKVks5T2V5OUZpYnFHWjYtUF9kOWhCekVDYnA5dmgzUXB6cDNtUWJMekdzUWpkUmEtWmxnM0llRHRjV2FnWVBDS1JTVWZMV0xKMmNkSG1LMmdvMEg4UlhOOHJoNnpONGtBVlpLWUQ5X3NqaEFQM0VDTEI0dUxYWjF1N1ZyR2FqSTNBMS1ac0JmeDVMRVU0ZnB6UWhwdzVhS3hNNWpGZGJXQVEzUW12alU1R2ZBdkZRVDBrd1pRTjhyT3RzWDdtWmFIWjBtajVfN2U1WFozc0NfUk9pc1RCRFlJQ0hqNlRVejl6aWRVMkl1XzNFeVhZWWp4LURHT1IxMzRDU055bFJCdnN1UkdyY2RzZ3l1ZFR3?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-VACCINE-PATH",
+          "bearing": "supports",
+          "why": "a neoantigen-directed vaccine met a Phase 3 endpoint, which bears on this paper's premise that the obstacles between a junction and a therapeutic vaccine are separable rather than disqualifying — but the agent is INDIVIDUALISED and this route is shared/off-the-shelf"
+        },
+        {
+          "publication_id": "PUB-NEOANTIGEN",
+          "bearing": "supports",
+          "why": "the first positive Phase 3 for neoantigen-directed therapy raises the prior that a tumour-exclusive peptide can be a usable target at all"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-24",
+        "title": "Rznomics Joins Lilly Gateway Labs to Quicken RNA Therapeutic Candidate Discovery and Development - Genetic Engineering and Biotechnology News",
+        "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNSjNSaXdadFdoZnAwQTd1UnNVdmdLbW0xM3c0eVhFczB4REVsUlhsV0xJdC1YcXZONlFQZFNNNVUyenBDQ05weml2SmQ2U1I5eFhjaGVrdW9jWTlhM1VoaDBYSkNzOUF5ZGlvTlBmSmp5VjY3MkJuam1iWURnZTRQZ3NtQlpsRGo4Z0ZraVFRZlA1d0FhQkE0eVlqREtsZ0w1b0c3UGZuR2FoQ1dwdlJIXzFRNTV1UHNWeTVEMjdhMVotN21lbVhHeC1HcklKQ0VkVWYtOVZkTjlPZ1ZCX3BR?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-PARKED-MODALITIES",
+          "bearing": "unclear",
+          "why": "a ribozyme RNA-therapeutic partnership touches a parked route, but a discovery collaboration is not the vector-delivery capability that row waits on"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-24",
+        "title": "FDA Grants Fast Track Designation to Pan-RAS Molecular Glue ERAS-0015 for Metastatic Pancreatic Adenocarcinoma - OncLive",
+        "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPUXkta1pXSmptLV8zSmo2RWlpWUJQWFg1Mm5RSHhNcnJTalM0LU1maHdGQzlaaVdldXVPR2pmNW9mSEp1bkE0ZEMzN1dKeG04eU1wY2ZndHU4VmpoRVZHTzBuVXF3T1VjZHVRa29lQVpxWktLUXl4ZDN3cmJKNnBNYno3RDU0MElROXhUY1REQ3pRdGFwVzltdXI3Um5tXzBvU3h5U09BOGVpZnlob1huU3l6amhGZUc4UW1veXpNY3RzUWQ1aDRGRHlzYWlaMGNUXzdaVmdB?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-PARKED-MODALITIES",
+          "bearing": "unclear",
+          "why": "a pan-RAS molecular glue fast track is regulatory rather than evidence of prospective glue-interface design"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-27",
+        "title": "FDA grants fast track to SOTIO, LigaChem's soft tissue sarcoma drug - Korea Biomedical Review",
+        "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE8tYkRCS2tRSm9YRjEyWFlEdlcta0ZiV09pbDdrTHhjc29fYnpMRE93TmtVMTV2NG9GSzIzNlJnYU05TXBXWHMySVd1YlNyTzRuX2lpbUM1bVU0NE5PTGk3S3NDUExqcUNHa283STBR0gFyQVVfeXFMT3RpUjY2MWw5WnVlcGJpY25DblN3LWRmcnVMWEdpT1FWaUstT2RmaWllQWdGRE00SG5ldVdFWWgzaDVwMDRsOXRRajQxRTVUYmFJMWt2MVhfOWNIRXczelM2dms0UFJNa1B5OHgycEZQQjdB?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-SURFACE-TARGETS",
+          "bearing": "unclear",
+          "why": "same SOT106 fast track, Korea Biomedical Review",
+          "duplicate_of": 4
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "FDA Approves RASONQUE™ (daraxonrasib) - Pancreatic Cancer Action Network",
+        "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBXVTEyUmZaMXRsRDdaclU0M01vSjVlcTIweWNpcDdoc3Z5YUJGa015UXNIRlBZcGx1SEVITzAtZlhsWGNBcl81WDZwWDljd291VWg5Tkg4S19jNGNFRm1lbzJ6THQtTVdZelVN?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-19",
+        "title": "Promising Results for mRNA Cancer Vaccine from Moderna and Merck - Time Magazine",
+        "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5jTF9rNkllRnpIUVU4MEdGZmlCV3hhZlhsM3pRTzl3RlJLaW9GaDNQd0huZWJOdlBjb1pqc0xwX3NfMV9PeElHWllmdS1vT1Uzb01jSDBUV2ItOFFXa1ZrMkIxY0tqTHhxdE9QTzlXTVRmd3NxUE9hQURn?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-VACCINE-PATH",
+          "bearing": "supports",
+          "why": "same INTerpath-001 readout, Time",
+          "duplicate_of": 13
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-20",
+        "title": "Regeneron podcast turns science into immersive experience - Fierce Pharma",
+        "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQUG1HQnVsYTZ3V2kxVlVTWDFlbUlQdU5xNVVLSmU3cHhtMUwzZUJnLVU2aDZ0SnBzQ3dBbDRyRmZmcnI2M19GSXA3UmIzU3VseXA1ZS1YNHVOVmhldURFSTdNZGpQTVJIWUtlSUFSdXU3RHI1Z3Eyd1pBX1RFdlZjMjdvZXVOSlJuRUV1NlZuOEo4SEpyejM1MnpJeWp2dUhMeF9Cd3BOaWJ6MWVseUJHUFBn?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-21",
+        "title": "Insilico Medicine Publishes Research in Journal of Medicinal Chemistry Detailing Discovery of Highly Potent, Selective, and Orally Bioavailable BTK PROTACs Featuring Novel CRBN Warheads - Insilico Medicine",
+        "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPZld4MkRkQWczSml0aS1yY2ZtOUhvWXl6MGI3c21tbkRyelprUm11c1M3SElvcDRnSFpCbG1QOEhFX1dKNk9rWWZGcW5sR0ViQ0V5SzlJSWdUY0lhN1ItanNfUnRRS1VZeFpmNkRhZkhLU1NlZUMxb3Ftb0VObjVMN1ZB?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-DEGRADER",
+          "bearing": "supports",
+          "why": "in-silico-discovered PROTACs reported as potent, selective and orally bioavailable bear on this paper's claim that a paralogue-favoured ligand can be designed by computation alone"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-28",
+        "title": "A new sarcoma clinical trial bridges adolescent and adult care at the MUHC - McGill University Health Centre",
+        "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNRGJ4UEkzOWwzVzM5NkNoNHNuUlhNcy04bkFveUx3T2xlNy02U1J3SEhEbzZSeVJtQ3ZCclEtMm1PaXMtTzlwQS01ODFpVVZJaWttMUJuTXNMcFFocmlDM3dFOWNmeGk0SS02NVNrWFRpR2hVUVlKR0FrQndmb0FJc19SM1Z4emxub05sNnJ1Q3BXeDRfRVhhMmFra2VLTGY3UjlsTWpOdElPcFhOUXk5Zg?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-CARE-DELIVERY",
+          "bearing": "unclear",
+          "why": "an adolescent-to-adult sarcoma trial bridge touches this paper's claim that care-pathway variables decide survival, but a single centre's trial says nothing about the determinants"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "Revolution's lifesaving pancreatic cancer drug wins speedy FDA approval - Reuters",
+        "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQV3k0a2JLVkpObG5KNmttUjlPSGo1MHhicUNjZkQyQk1MTzNjb0VZdFJWbFFsZ25wY1JDNUlSaWQ2RnFXeDZEUC04VW9kRXhzQi1GT084aS12N2tBT3YxZENpQ0NUUzlMMWZFMklqOTlGRjlkbjhYSkhqV0dhVzNyT19GUGJWdDIxQ3RqY0RpU2F3SHpPZHFSMHFWcmVGLTdIcDVaX3R0UDlDYVlHc2xkUnNLbHVqZFhZU3c?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-19",
+        "title": "Merck, Moderna’s personalized cancer vaccine slows recurrence in phase 3, setting up approval push - Fierce Biotech",
+        "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOQTlPdm5DX1BWS3QwejlDZkhWSlhTMzU2OEZ5cnhIQjhoV1UxLXBPLXZUUFJSeVNzMnRGVkxTb0VRdDlFVVMzOTlNaVl2dDhfVjIwV3Bzd2htVU1GYW9PbVAydHhOTzJWSExiLS1kUFk3N05tTDdobmlXOHB5VTkxdEk3X3lwZkpJV0FuUklEN0t3bDZkbjZPRlAxTjdsa0VtOFl5V1BpdjZmNm1VVHp0MldB?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-VACCINE-PATH",
+          "bearing": "supports",
+          "why": "same INTerpath-001 readout, reported as setting up an approval filing",
+          "duplicate_of": 13
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-21",
+        "title": "Wisconsin doctor responds to ‘breakthrough trial’ of new cancer vaccine - WPR",
+        "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOT1ltbUdHN25mTFJCb1RWZWxkWDhDSEhXTXo2N0NMWjV0SnpKYXNYejlueEZhaTJ6VmdnMWZiWllSQzB4ZW1pTUh5VFRwWmM5Y29JclJ3am9acDBTVEEyenkyRi1EVnBabERDSEs5MDk0TTBPMlpBaGxfNXBiV3U0OUQyWkVuOUREWnBIeEN3dHBvQQ?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-VACCINE-PATH",
+          "bearing": "supports",
+          "why": "same INTerpath-001 readout, local clinician reaction",
+          "duplicate_of": 13
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-19",
+        "title": "Preventing the accumulation of mRNA-loaded lipid nanoparticles in the liver - EurekAlert!",
+        "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE4wWHI2SjlkZW8wZWctbnJYa1NpOU5SamsxaEhZRnF0LXdoTWZRTzZhWDZoOXUwSVhDU0dPYkRia0F6RE5aVm02Wm82cXBlTF9kdFQxR19zSmJfWEha?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-ASO",
+          "bearing": "supports",
+          "why": "keeping mRNA-loaded lipid nanoparticles OUT of the liver is the non-hepatic-delivery problem this paper names as the ASO route's outstanding gate rather than assuming away"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-27",
+        "title": "Virtual cell model could accelerate protein-degrader therapy design - Phys.org",
+        "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9WX0hBUXE3U05TZHpqcTlKZ3NHNGpUdXlaSGNZMFRWN3JLckJNdTZIZ29zQ1dKYkljYUJMTmMyYnVpTUgtUzVUTWRKNmJuUm4tUXpRN0U5ZDMta21mNjVoQlVYOEcySnVJRGpHX1hzRmw4OFJ2Tm5aRE1MY3Q?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-PARKED-MODALITIES",
+          "bearing": "supports",
+          "why": "a virtual-cell model for degrader design is close to the named capability this paper's parked rows wait on, and the headline is the reason to go read whether the validation is on held-out phenotype"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-27",
+        "title": "Megan's story: A young mom's journey through sarcoma - Northside Hospital",
+        "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPUmJJMjdCTHFwQUFDWDU0R0lFUGhLMmdGYWtGSnpvZ2g4bTRhdHBIWko1ekRWNEMtMUowMUdpOHo5a3V6c2RmODQwNVNxMFpLV0ZwV2hsLWVFbzVlV3QzZHJ1bUw4TmstOU81Q0psTm9oV2pYYjNkcXRjbG5SVTBpUGxpXzVST1VMX2FkLWtiUzdsRTNQSVZJd0pCVk93ZEFxMGpPclVoMG9EelFaWlE?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "FDA approves ‘game-changing’ pancreatic cancer drug - NBC News",
+        "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPakp0aWczZFJ3dWV5SzBQRGpZdWY0dEhqdVFSTURTRHZONEd3bGN4YmNCSzFsRm01SjVYUlBuWF9FTTZuRnhEQW5CRGdkY1hHWHNHdWs4cjlvNGpnNURaVW1QTGlsZVM2YlNQS3JOWXMzbHJCZnFPT3FNdGtrTUoxSUp2YVV3MmxSUnZoV2VfTE5Rbmd2NGgwRVlHYVJUM051RjJUbXpQWi1vV0ZTS3pUaA?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "FDA Approves Daraxonrasib for Pancreatic Cancer: What Patients Need To Know - Memorial Sloan Kettering Cancer Center",
+        "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQVW44aHFtT0xweVk4WjItWElHNnA4RU1EbFBUUmZhTGEyakJFRGtpdVlLQmprQVFzeTNlZ2hURzFMV2ZNZjkzd25PRGk3MWdLdXhxaXRWRDdoM2VLTS1VWm1FQjRpSDRPQ2NuM2dkRklaQnY5N1RKQTZtNjF2Y0ZxVXE1T0E4bHZoamZuSmc3dWxhcWVDMlJQMUxoOWZMVXNrUFQ1QXBB?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-19",
+        "title": "Personalized mRNA cancer vaccine shows promise in extending lifespan in melanoma trial - ABC News - Breaking News, Latest News and Videos",
+        "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQbkwxLTlILUQ1SVkxRlUyWmNsVFBIMHFnazQzLWxGVUhiWHY0MHNSWWxoUGJGMnFTR0QwZGJqMFhCUV9CNzJQWGNraUpyN1RoTzdUTXhYa1R1Z1RFbjB4bWg1QTgySm1qZmRuWFdHTm9xRTlLcTdXUHllQTlVczhZWFVoLXN0cVQ0b0ZnQTF4NDNYSnFxOGdqeHREc2Q5UEl5NlFWWUE1S3UwNjhlcnBJWNIBtgFBVV95cUxPN1NwbVZCdEN0UEw1T2hwUzNCYTlQRGFYTkdqSU1vMDVidzM3YXlMaXQ0NFM2czBBcXBaeWlLc2FqZzFJejZWZDRNdWtUazNwVnZRZDY0QlI3SXlseGxBejBCTDVJcHVwRHlnWmxORkZ5WlZTdEdnWkJXVUh0ZzhnSUZEMFptMTFkWWhndEpfQnRBdlpjMnFQWUFPWU1wV1BKRzcwV0tVUEd6SnpNUVZTdi1JbHJ6Zw?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-VACCINE-PATH",
+          "bearing": "supports",
+          "why": "same INTerpath-001 readout, ABC News",
+          "duplicate_of": 13
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-17",
+        "title": "AstraZeneca pulls plug on late-stage lung cancer trial, taking another clinical blow - BioSpace",
+        "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQajgxU0ZjWFpJVWRYWTRKQlFzV19Oc3V1M1JBTHIyS3REMnJzdjhuZFVfTTVrbEJ2OC1FUjdsXzNnakdEbk15MjVnSWpkaTllQllNYmpBZHp6R0V2aUxFV0JIOHhqNlY0UzMzaXRqa0wyWE5CNjR0WWZRWEFiN2U1WTMyQ043dGlaZkRTUVZwZ2NVRlpBbjJDQkpteTdHa3IwYlBpdmpKRExuNXJyNTVpc0s4YnRuSkZlTUsxQ2NCVE9xTXM?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-25",
+        "title": "FDA Grants Fast Track Designation to ERAS-0015 for Pancreatic Adenocarcinoma - CancerNetwork",
+        "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOS1BMcmxvT2NYUUVXeFVITHlHTndZZ01hVWsycDZxbnNfV1Vja2NDTmU4WWdZRkdjeERyanFjODF4YW9BVmowNzk4bnEyVnllWVBFZjBIbmcwNUFadHg5bTRoNUw2d0Myci1uUjdZcTlPcE9CcU1ELWotVHpjZ2tLV0pxdnQ5Q1hTZHdOMzAwNk43eWhhanVzN3JRTlcwdERnTjhhempmRktYdkZSMENwWQ?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-PARKED-MODALITIES",
+          "bearing": "unclear",
+          "why": "same ERAS-0015 fast track, CancerNetwork",
+          "duplicate_of": 15
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-25",
+        "title": "Clinical Trials Matter: What Our Patients Say - Cancer Health",
+        "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE5zSGZZZ0lYZ2tkendMQXZHUWlCdmZNVEYtek5yNks1VDJvV3lnQmwyWlUtNkhUOWg2cEZOVEx6VnJua280c0JWRDVGZjVvb3l5WExLSWpuNUMyZkY5dUR5U0ExYzRuaUJuZ25KcndFRXlFaFh1SlBWbmlueHI?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "FDA approves new pancreatic cancer drug that could extend patients' lives - CBS News",
+        "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQWEdQR2lZUnRQVkRjTUZMNXdUYmZQMnFqdGwwR2JRWF9EaklJajZyam0tdUdRUVk3QWMwNmJVNHNCMi1CaHNxS3F6cXA3SDZlUzUzTGQ3Rm5paU42WkhpSElaRnRZUTZRdXlxNUNiRGhpY2JiUDBseFFuSU9vbjBOYlpqTXg5clVCMmNfN3pnS05VN2xpT2NPbkxNNks3UzloakhPRjk1S2ZJZw?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "Immuneering Highlights FDA Approval in Second-Line Pancreatic Cancer as Phase 3 MAPKeeper 301 Enrolls First-Line Patients - Quiver Quantitative",
+        "link": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxNU3RXZWQ0c0JpNU9CWXhnZzMxc0hid3dZdEswMFotcDFhOUItVjZFTGZuMzBKbnlfUEE4djktNzV2YnJvU0tHUEs5cnZzcGZnczhBWmowX2dXN1M5MFhXWlF6VVprQ0dFZmoxU29UQTJadkZxcmFKQUlnbjBNLUZXQnV6TjJMcW5Vb2RGd3VYSFdNZTRETjdHelY5Q0NkLVNtak9BUW81RXI5SEZfMlVINWxsOWZNWXNrRTR2dk02cEtnZUtqejRKaG5IcVhjNTNja0tibjdMVUFqOXZUUU5RWVJSRWJHWVJGaGk2azhB?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-20",
+        "title": "The First-Ever Personalized Cancer Vaccine to Pass a Phase 3 Trial Just Beat Keytruda Alone - Cure Today",
+        "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOckNwOWpxWGtKVjBKcXB2cXVMWW1WaDFGQ1owRFVtd3dESWdnNXNTRjhIUWVjMDlNYlJramtkYUJjaXpxLVB3TUtzREV4N2tlT25TblBUUzJfdkxRQXR5RmdWbjl1OWx5MG5tSVU2a2QzY1FHbjRBbVByTExyUnJMeDR0SGt2RnQ4aEdKOEprNnRwZmlPSXVneG1RaW5ELXJLTE9vbVFZSWpvVWMyd09zTV9peVZoQkJtdlI0MjAzVQ?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-HLA-COVERAGE",
+          "bearing": "complicates",
+          "why": "an individualised vaccine beating the checkpoint-alone arm sidesteps the HLA-coverage question entirely, which raises rather than lowers the bar for choosing a single public junction epitope whose population coverage this paper computes"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-24",
+        "title": "Japan first approval for GSK’s bepirovirsen for CHB - Pharmaphorum",
+        "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1PYndyX05heDVocUh3LTlLT29pNUh4UE9MVFRnZ3RkNEZCZmFJOGQtR0JlV05OR3hGblRrTkZxYkRyWEs5UGNOV1k3NlE5eXlta0RQSjhQWUktNHBDRGJjRFZ6OFJ1MUJfSl9rV2Z5d1FDRDctT1QyVmlBZHM?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-ASO",
+          "bearing": "supports",
+          "why": "an antisense oligonucleotide reaching a national approval bears on the modality's clinical viability, though for a hepatic indication rather than a solid tumour"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-28",
+        "title": "Pin Therapeutics outlines molecular glue development strategy at China TPD forum - Korea Biomedical Review",
+        "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFAxbzUxUUpmSnZleEgxaWZtNFlrSW1mT0xXdURhbFpLTlIzaVRjM241Z0Q2ZVVLSHVvMTNCcjFudktvNm9ybkF4dDlVbnZSaDJnbWx4TUdZQldkcnNWZlZxTzI3bktVRGlXWWFuOUdB0gFyQVVfeXFMUGhpM3hjZFpwSlRwLVZ4U3gzZnBHNXRwcndsalhlbGR6aUZPVlZIU0VPOGFuWFNkSGJ6cmVOVmFUYXVlWUtFMG95Q0w0RS16ZXVhbk5TcC12a2MxX21YeGljSTI4VHozYlhzMFVnREJDNWJn?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-PARKED-MODALITIES",
+          "bearing": "unclear",
+          "why": "a molecular-glue development strategy talk may or may not contain a prospective-design claim; the headline cannot say"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-17",
+        "title": "Summer funding supports student’s cancer research - The University of North Carolina at Chapel Hill",
+        "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQUWtfTDltbW9JZ1ZiRWRaZFJnWEdkVUZoYVltRUdrdWJwWV8yNlMzSU5fVXVKaVBpWFBmOWx4SDRnMTNNeEFzU0x6TTRsLTRxQTN0V1E3ZmxDeUpCQ3dQRmZmZzlUQWRJczJyWkpGdVJHNWV4UzFzT1kwc01hXzZESklRLU8?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "FDA approves breakthrough drug to treat advanced pancreatic cancer - ABC News - Breaking News, Latest News and Videos",
+        "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQXzVOaEFzN0VYZFQ1VGFmaFZsVUNRTmg5TGhOTk1MVDBSVENmejFfQmJta29jaDJ4Qk5NWTkxc2QzRUhpRDJleU9BZTkxYUV4YzZDRnNIY2tkeHJMcTF5S0ZKV3lGVFAwTXlGYkE4QXRna1VOQ2RmVXE4eTl6TjdRS09XUFlqaFBOQmN2aDN0d3E1Y1pvZDlfcmJSVlF0dVZwbFpUamhBLWIyUTVJVFHSAbMBQVVfeXFMUFFHQm1SOGhLWmFEZ29HVmNYSnEzcnAwZjdvMXhwT2pWbkhTMzY4ZkUxT1IwYlFVZy1oSXl6a0E0V3I1czJKdko2SHJaWUZSNU5OaDU5b1BfNkVRNjJ4aHFzN3NRYnNPZndPQmhoVXpOZEhmY0JvbmVKSWNaRnkxdlVNWHdoazhGY2lMSnpXZnZ4YTJ0Z19RNDdSQ0VsM3hoUm1YWjJuN0ZMdlphSkZNWWNGUmM?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "'Practice-Changing' Data Expand Zanidatamab's Approval to Gastroesophageal Cancer - MedPage Today",
+        "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5ocFZBaVBKSDE0RVZ4d3diTmRWTmZKSEdHSy1VYjM2d0ZULUpRU25fWVAtdHktdld1cW1QcWU3N0VRMl9aeklLam5oc1ZNOEE5aERseE02TTNlV3ViNzBwQk9BN0VUeGhVTzZnTkpFMTFxeWlLakE?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-19",
+        "title": "Moderna and Merck cancer vaccine returns ‘landmark’ result in melanoma - BioPharma Dive",
+        "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOWEI5MExwQ3o4ZGJTS1NyNklsc1VVb2xIajk3dXZ5OTlDSFJ4a1BFblQyTGlybFJnQm5YUGNHOTlGYXA4RDExaHNnUTRyaFBWNWh4YV83TVlnSWVVeHgyVlVTelNaRXotcXZtTmNQZ3MyXzdKUjJORHJYeWF1MERzUjJFN3k4UDFUV05XaFRtOEVEOHVpRDUzN0kyM3c?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-VACCINE-PATH",
+          "bearing": "supports",
+          "why": "same INTerpath-001 readout, BioPharma Dive",
+          "duplicate_of": 13
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-18",
+        "title": "What Spider-Man gets right — and wrong — about turning off superpowers - Science News",
+        "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9aZU5Ncmd5OVBKYzZXWWtOOVFYeGZkaGVWQm50LVFKYmoyUDRFUmJJckI0RWFaa2RUSjg5YUxoZmR1Y0FWSXZTNUo5d1pNN0hlZGJadVhZamJEZzF5VVBhYVJsTEpTOHY0LWtDSlNWUVlMdGFQaXFSYzZqZw?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    },
+    {
+      "item": {
+        "date": "2026-08-24",
+        "title": "Erasca Receives FDA Fast Track Designation for Pan-RAS Molecular Glue ERAS-0015 in Metastatic Pancreatic Cancer - Oncodaily",
+        "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE14WHBGMnNoX1MzajV0RF84SUp5R1RTdVR6bTdoNWxxU3Z0M1duOTVfWWhrWEJydk5QMnVQd01YaGhLNWg3STdNNTV2YkFGZGYzVS1WUmxVMlBjZw?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-PARKED-MODALITIES",
+          "bearing": "unclear",
+          "why": "same ERAS-0015 fast track, Oncodaily",
+          "duplicate_of": 15
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-25",
+        "title": "Surufatinib Shows Efficacy and Safety in Later-Line Advanced Sarcoma Trial - Bioengineer.org",
+        "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNcXpkaFJEbkhWZ3p5akdLaDlJRWNvaWlGZUdGcXdyUHpFZnFJSU4waWxxcW1mb0N5Vm55YktzTVVaS2F4NXhwcnluSExldXJDUFMyVzk1WExQNkhRbk5MRUpjZGotYjBueHN3UVdhRm5mbmNYVHRGYjAweVlmRVlFenFnemtKX2VhbUlkTXlPYjZWY2p2QUM5LU5qcVRhWjc4?oc=5"
+      },
+      "bears_on": [
+        {
+          "publication_id": "PUB-REPURPOSING",
+          "bearing": "unclear",
+          "why": "an approved agent reported in later-line advanced sarcoma is the shape of candidate this paper maps, but the headline gives no histology breakdown"
+        }
+      ],
+      "status": "matched"
+    },
+    {
+      "item": {
+        "date": "2026-08-26",
+        "title": "FDA gives expedited approval to new groundbreaking pancreatic cancer drug - The Guardian",
+        "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNbjBUa3RqLTNGUE1SaF81T2FjcV9IbEtJTmRObm5wUkpBdVFORUNGNjVqYUw1SUhIRHZXV2xOVFdMdzgyRFk5dXpHSFdEd2N5LXEyYVJfUzVqQm50THZXQ3lCXzlMYWZDRWJpRDJjX2NLN2VVUTR6bmFGeExTT1ZpNXNydFY5RWRIeTVISUpqbG0?oc=5"
+      },
+      "bears_on": [],
+      "status": "no_bearing"
+    }
+  ]
+}
