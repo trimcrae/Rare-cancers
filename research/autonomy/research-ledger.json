@@ -11,23 +11,321 @@
     "experiment": 23,
     "fetch": 17,
     "fix": 10,
-    "harden": 15,
+    "harden": 16,
     "negative": 32,
     "process": 7,
-    "process_defect": 67,
-    "proposal": 14,
+    "process_defect": 76,
+    "proposal": 15,
     "regrade": 8,
     "verify": 1,
     "write": 6
   },
   "n_by_state": {
-    "done": 73,
-    "in_progress": 5,
-    "queued": 124,
+    "done": 76,
+    "in_progress": 4,
+    "parked": 28,
+    "queued": 105,
     "superseded": 1
   },
   "n_clamped": 11,
   "entries": [
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/manuscripts/build_submission_parts.py exits 1 in the dev sandbox: 'LibreOffice did not write a .docx / Error: source file could not be loaded'",
+      "id": "AUT-PROP-021",
+      "kind": "build",
+      "prerequisite_of": "AUT-PROP-018",
+      "what": "✅ DONE 2026-08-27. Dispatched aso-submission-parts.yml on main; run 33097825961 succeeded and committed df2bc4b02 'ASO submission parts rebuilt on a runner (CI)'. The LibreOffice positive control passed on the runner BEFORE the build ran, so a green build is not a dead tool reported as a malformed manuscript. All three staleness guards verified green after the fast-forward (test_the_word_file_is_not_stale, and both test_no_submission_part_is_stale_against_its_manuscript params). ⚠ The wake armed for this run died with a container restart; the run had already succeeded, so the row was honest by luck rather than by design — a wake armed inside a container is only as durable as the container.",
+      "_score_basis": "inherited from AUT-PROP-018 (+0.5) — it is the work that unblocks it",
+      "score": 208.86,
+      "closes_clause": null
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 2,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "id": "AUT-PROP-018",
+      "kind": "harden",
+      "prerequisite_of": "AUT-049",
+      "what": "run PREFLIGHT_FULL=1 at the FINAL ASO v2 commit and RECORD the receipt with record_bar_evidence.py. ⭐ CLOSES publish_bar CLAUSE 2 FOR PUB-ASO. ⛔ IT MUST BE THE COMMIT THAT IS POSTED — a receipt at an earlier sha closes nothing, and this has already been restarted twice because the tree moved under a run in flight. Run it LAST, after the CI .docx rebuild has landed on main, or it is thrown away.",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "score": 208.36,
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "preflight_full_green"
+      },
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "age_factor": 0.0714
+      },
+      "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question."
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 3,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "round-10",
+      "depends_on_evidence": "FETCH LADDER EXHAUSTED AND MEASURED 2026-08-27, all $0: sandbox proxy refuses liebertpub/sagepub/oswg.net/pmc; CI plain HTTP -> 403 Cloudflare; CI HEADLESS CHROMIUM (the browser rung, slug=browser-fetch) -> 403 Cloudflare, same interstitial; Unpaywall says is_oa=true, oa_status=hybrid, licence cc-by, but EXACTLY ONE oa_location and it is the publisher behind that same check; no PMC deposit. Artifacts on origin/literature-cache under literature/oswg-offtarget-2025-fulltext/ and research/literature/browser-fetch.json on main.",
+      "id": "AUT-PROP-022",
+      "kind": "verify",
+      "prerequisite_of": "AUT-PROP-020",
+      "what": "⛔ SOFTEN THE FIVE ATTRIBUTIONS TO PMID 39912803 — THE FETCH ROUTE IS CLOSED, MEASURED, NOT ASSUMED. The article is open access IN LICENCE (CC-BY) and unreachable by every automated route this project has; see depends_on_evidence for the ladder. ⚠ THE SEAT READ IT AS PAYWALLED AND THAT WAS WRONG — it is a bot check on a free article — but the remedy is the same and the distinction is worth keeping, because 'paywalled' would have closed the question at rung one. ★ WHAT TO DO: rewrite so the paper stops asserting what the source says. HELD from the abstract and may stand: the FIVE-STEP workflow (in-silico identification with transcriptomics; focus on cell types with relevant activity; verification and margin assessment; risk assessment; management of unavoidable off-targets) — quoted near-verbatim in the PubMed abstract. UNHELD, rewrite each: (1) wings-vs-gap mismatch direction [Introduction]; (2) 'the search scope the 2025 recommendations ask for' [Methods]; (3) 'the energy-based second stage those recommendations prescribe' [Methods]; (4) 'the margin assessment the recommendations specify at this step, and they decline to set a default value for it' [Discussion] — a NEGATIVE claim about the source's content, the least checkable of all; (5) 'a high-affinity chemistry is reported to retain knockdown at more extensively mismatched sites' [Results]. ⭐ THE PAPER ALREADY HAS THE IDIOM: 'that premise is adopted here rather than established', 'ten being adopted rather than measured'. An honest 'adopted here' beats a confident characterisation of a paper nobody in this project has read. ⛔ DO NOT reconstruct the source's content from search snippets — CLAUDE.md §7. DONE 2026-08-27 (this cycle, id assigned at commit time): all five attributions to PMID 39912803 rewritten so the paper states this project could not confirm the source's content (fetch route closed, CC-BY but unreachable behind a Cloudflare bot check on every rung tried, per depends_on_evidence) and that its characterisation of the source is adopted/read here rather than verified against the primary text. The HELD five-step workflow (quoted near-verbatim from the public PubMed abstract) is untouched. Net word count held at or below the original (page budget for Nucleic Acid Therapeutics is exactly at its 6-page ceiling with zero slack -- every hedge was written as a word-neutral or word-negative substitution, verified by rebuilding the PDF, which stayed at 6 pages). lint_claims: 0 ERROR (3 pre-existing WARNs, none introduced). lint_style: clean. Full manuscripts pytest suite: 1304 passed (excl. 3 LibreOffice-dependent tests, which are a documented, pre-existing sandbox defect -- see aso-submission-parts.yml header -- routed to that workflow rather than fixed locally). ⚠ COLLISION NOTE: this item's ledger row was found claimed by owner 'aso-attribution-seat' (claimed_utc 2026-08-27T20:25:00Z) when this session re-read the trunk before pushing. Per AUT-PD-021 (research/autonomy/claim.py, landed on trunk while this session was working), the push is the arbiter, not the lease: the manuscript file itself was NOT touched by any commit between this session's start and this push (git log confirms the last prior touch was the incident-restore b4f086c), so no conflicting work actually landed. This push resolves the row to done; if the other seat's work lands later, standard git conflict resolution on the manuscript text applies.",
+      "_score_basis": "inherited from AUT-PROP-020 (+0.5) — it is the work that unblocks it",
+      "score": 208.0,
+      "closes_clause": null,
+      "_block_cleared": "⭐ CLEARED 2026-08-27 BY ITS OWN STOPPING CONDITION, which the evidence stated in words: \"Unblocks when 024's commit is pushed.\" AUT-PROP-024 is `done` and on origin/main, so the block is satisfied. ⛔ IT WAS CAUGHT BY A RED TEST, NOT BY ANYBODY REREADING IT — `systems/tests/test_autonomy_priority.py::test_an_evidenced_block_drops_out_of_the_queue` was red on main because a -90 penalty could not push a base score of 284 out of the top three. ⚠ THE TEMPTING FIX WAS THE WRONG ONE: raising the penalty would have made the test green while leaving a satisfied block in place, and CLAUDE.md §0 says 'blocked' is a claim that needs evidence and is usually wrong. The stale claim was the defect; the tuning constant was not. Superseded evidence, retained (rule 1.2): AUT-PROP-024 is IN FLIGHT and commits to research/manuscripts/tests/ for the ASO paper. All three of these edit that paper's prose or its review state, and a third concurrent ASO writer is the collision pattern already recorded as a real blocker once today (CLAUDE.md §6, the 13 inverted claims). ⚠ Also substantive, not only mechanical: 019 needs a seat receipt at the CURRENT commit and 024 is about to move it, so a seat run now buys a receipt for a sha that will be stale before it lands. Unblocks when 024's commit is pushed."
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-031-aso-round10",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "id": "AUT-PROP-039",
+      "kind": "harden",
+      "prerequisite_of": "AUT-049",
+      "what": "ROUND 11 OF PUB-ASO — five blind seats on the post-round-10 text (pin the commit AFTER a4cc04cab, once nothing else is mid-flight against the ASO manuscript family), then apply any survivors. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s, anywhere — article prose AND its generated siblings (tables, references). ⛔ SPAWNED SESSION if create_session is available in that context; otherwise parallel subagents in one driver session, per research-loop §3 — measured 2026-08-27 (CYC-031) that create_session/handoff was unavailable in a scheduled-Routine context and parallel Agent-tool dispatch worked fine for this shape of round. ✅ DONE 2026-08-28 (CYC-0032-cycrouti). Five blind seats ran at pin eed563d6 (post round-10, quiet head confirmed). ZERO blockers, ZERO P1s in the article's own prose or its generated siblings' CONTENT across all five lenses — hostile referee verdict: minor revision. FOUR P1 guard gaps found (two of them, the falsification power/void-SD figures, convergently by seats 2 and 3 independently) and ALL FOUR CLOSED this cycle: (1) lint_changed_prose.py's cross-reference check extended to informal 'The X section' references, mutation-tested; (2) Table 1's ΔTm floor bound to junction-aso-thermo.json in a new test, mutation-tested; (3) the falsification power/void-SD figures now derived by a new module, research/manuscripts/aso_falsification_power.py, and bound in a new test, mutation-tested; (4) fusion-junction-aso-journal-references.md added to lint_claims.py and lint_style.py's target lists (which surfaced and required fixing a real, harmless finding — two decorative glyphs inside a non-rendered HTML comment; lint_style.py now exempts HTML comments). claim-coverage.json regenerated (coverage rose, no floor moved). Two adjacent findings scoped out and filed as AUT-PD-039/AUT-PD-040 rather than fixed blind under this paper's review pressure. ⛔ DOES NOT CLOSE clause 1 (hardening_converged): per this series' own standard (round 9/10's rule), a round that finds and fixes real gaps is not the round that gets to certify nothing was found — the fixes themselves are unreviewed. Queued AUT-PROP-040 (round 12, a confirmation pass on this round's four fixes) to actually close the clause.",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "score": 207.5,
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "score_inputs": {}
+    },
+    {
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "superseded",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "retry_budget": 3,
+      "attempts": 6,
+      "last_evidence_utc": "2026-08-27",
+      "score": 207.5,
+      "filed_by": "CYC-0001",
+      "prerequisite_of": "AUT-049",
+      "id": "AUT-PROP-002",
+      "kind": "harden",
+      "what": "Run a hardening round on PUB-FUSION-PARTNER — publish_bar clause 1. ⛔ DO NOT OPEN WITH A REVIEWER SEAT: the standing P1 list was closed by CYC-0011 and its bindings mutation-proven by CYC-0012. ★ ROUND 5 HAS RUN THREE ACTS. CYC-0013 added the statistical census (`_CENSUS_STATS`: cohort size, p-value in both printed forms, hazard ratio, cm/months). CYC-0014 added the THIRD census, section G, over a surface that is not a quantity at all — PubMed ids, trial registrations and DOIs, read for ATTACHMENT (which paper is this printed against) rather than the PROVENANCE `lint_citations` already reads. 61 sites, 31 artifact-owned values, 5 declared not-pooled, four tests, 56/56 mutations caught. ⭐ WHAT IS STILL OPEN, RE-DERIVED 2026-08-27 rather than carried forward: of the 148 uncovered sentences that state a number, 52 contain a count spelled as a WORD outside the constructions `_word` already binds, 46 a bare YEAR, 46 a section cross-reference, and 33 an ORDINAL or superlative ('the third independent series', 'the largest series'). ⛔ RE-DERIVE THAT SET with `claim_coverage.py --uncovered=...` rather than trusting this sentence, and note that 24 of the 148 contain an identifier that section G now guards — the census does not credit it (see the lease note). ⚠ AND A SUPERLATIVE IS THE HARDEST OF THE FOUR AND THE MOST LOAD-BEARING: it is a claim about RANK that the artifact's cohort records can actually decide, unlike a year. Every new guard goes into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit.",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-69d8a6ac1c90ae2129f7ee2348d8a523e5f82be8-round4-p1-rederivation.json",
+      "claimed_utc": null,
+      "lease_released": "released by CYC-0015. ⛔ THE FINDING IS THAT THE WORK AND THE BAR HAD COME APART. Round 5's three acts (CYC-0012/13/14) all improved this paper's guards, and not one of them could clear a clause: the three clauses still open are the SHA-PINNED ones, and `git log --all` over `hardening-state` and `preflight-receipts` returned EMPTY — neither directory had ever existed in any ref, and publish_bar.py was the only file that named them. Worse, all three file-backed clauses were cleared by hand-typed JSON with no evidence behind them (clause 2's evidence line printed `at typed by hand`). CYC-0015 rewrote the three clauses to compute from evidence, wrote the missing producer, and pinned ec78ba9: clause 2 is now genuinely OK and clause 1 a measured FAIL rather than UNVERIFIABLE. ⭐ WHAT THIS ITEM NEEDS NEXT IS A BLIND SEAT ON A PINNED COMMIT, NOT ANOTHER GUARD — coverage work cannot reach clauses 1 or 6, and every act of it moves the tree and un-pins the evidence.",
+      "blocked_evidence": null,
+      "superseded_note": "SUPERSEDED, not blocked-on-evidence: this entry's `what` describes round 5's open work (filed by CYC-0001, released by CYC-0015). Rounds 6, 7 and 8 have since run and applied under AUT-PROP-008/011/015/016 (receipts CYC-0016..CYC-0020), and round 9 is now tracked as AUT-PROP-005 (this cycle, CYC-0021). Every cycle from CYC-0016 to CYC-0020 re-derived this same 'is it still live' question because nothing ever closed it out -- CYC-0016's receipt names it explicitly: 'tied top-score with AUT-010'. Closing it here so it stops re-litigating itself every four hours."
+    },
+    {
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "done",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-26",
+      "score": 207.5,
+      "filed_by": "CYC-0001",
+      "prerequisite_of": "AUT-049",
+      "id": "AUT-PROP-003",
+      "kind": "analysis",
+      "what": "Run a BLIND adversarial seat on PUB-FUSION-PARTNER at the pinned commit and record it to research/autonomy/review-seats/ — publish_bar clause 6. The seat must be blind and must review the pinned sha, or it is not independent evidence.",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "result": "Seat run and recorded: research/autonomy/review-seats/PUB-FUSION-PARTNER-21bc8578b11a9ab3f2c08fe3135799769036cdad.json. VERDICT not_supported — publish_bar clause 6 now reads FAIL rather than UNVERIFIABLE. Three blockers, each verified independently against the pinned commit before being recorded."
+    },
+    {
+      "id": "AUT-PROP-008",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": "2026-08-27T04:20:40Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0015",
+      "prerequisite_of": "AUT-049",
+      "what": "⭐ RUN A BLIND SEAT ON A PINNED COMMIT FOR PUB-FUSION-PARTNER — this is what clauses 1 and 6 of the publish bar actually need, and no amount of coverage guarding can reach either. MEASURED BY CYC-0015 against ec78ba9: the bar reads 4/6, clause 1 FAILs with `record names no seats` and clause 6 is UNVERIFIABLE for want of `review-seats/PUB-FUSION-PARTNER-<sha>.json`. ⛔ THE SEAT MUST BE INDEPENDENT: a session that authored or applied the paper's fixes is not blind, so this is a SPAWNED SESSION or a subagent seat (research-loop §3), never the driver reviewing its own tree. The record it writes must carry `blind`, `reviewed_commit`, `verdict`, a `central_claim` of at least 40 characters and `document_sha256` = sha256 of `git show <sha>:<the endpoint's document>` — clause 6 now refuses a record missing any of them. Then run `record_bar_evidence.py hardening` to derive the round record FROM that seat. ⚠ AND PIN FIRST: every guard commit moves the tree and un-pins the evidence, which is why three cycles of round 5 left both clauses exactly where they started.",
+      "score": 207.5,
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "observed": "DONE. Five blind seats ran on pin 053a8211 at subagent_width=5, none of them the driver, and their records are committed at research/autonomy/review-seats/PUB-FUSION-PARTNER-053a8211*.json. record_bar_evidence.py hardening derived round 6 FROM those seats. ⭐ WHAT CHANGED IS THE KIND OF READING THE BAR RETURNS, NOT THE SCORE: it is still BLOCKED at 3/6, but clause 1 moved from 'record names no seats' to a measured '4 blocker(s), 11 P1(s) open at round 6', and clause 6 from UNVERIFIABLE to FAIL with verdict 'not_supported'. An absent reading became a reading of absence's opposite — somebody looked. ⛔ THREE DISTINCT BLOCKERS, ALL VERIFIED BY THE DRIVER, ALL NON-NUMERIC: (B1) §5's claims bullet says 'either of the two series that ran a multivariable model (Huang 2023)' while exactly one cohort record carries multivariable_result and the paper's own A17 retracts that wording — a half-applied replacement by e7cff259, whose same commit added A24 claiming the fix; (B2) §3.4 opens 'Two series, both larger than any cohort that could be pooled here' and both ARE pooled here; (B3) the '≈27 % the field routinely quotes' at four sites is unsourced, and reference [4] (PMC7563993, a Review) says about 20 %, which sits inside the paper's own 12.9-25.0 interval. ⭐ THE SHAPE IS THE FINDING: the arithmetic seat re-derived 140 printed quantities with ZERO mismatches and ran the generator's verify mode, the 122-test prose guard and the 9-test mutation suite clean. Not one defect is a wrong number. Every one is a count-word, a comparative or an attribution — paper-hardening §8a measured rather than argued."
+    },
+    {
+      "id": "AUT-PROP-016",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": "2026-08-27T06:41:32Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0019",
+      "prerequisite_of": "AUT-049",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-475ad7d0c3bd0b587bce6591c3826a8c37c77d09.json",
+      "what": "✅ ROUND 8 APPLIED BY CYC-0020 — the structural item and all three standing blockers. ⭐ THE STRUCTURAL FINDING WAS ACTED ON RATHER THAN RE-FILED: Appendix A (31 rows, ~5,592 words, close to a third of the manuscript and larger than Results) MOVED to its own committed document, research/manuscripts/fusion-partner/emc-fusion-partner-correction-register.md, with every row carried verbatim plus the 15 inline `Superseded, retained` notes that stood inside the live sentences and the 4 internal-review attributions. Manuscript 17,647 → 11,783 words (−33 %); register 6,749. ⛔ NOTHING WAS DROPPED — one live BOUND was nearly lost with note 13 (the concession that the artifact carries no machine-checkable per-count fetch record) and was restored into the live text rather than migrated. R7-B4: the falsification threshold is now DERIVED in the generator (zero_death_patients_to_reconcile) — 19 further zero-death TAF15 patients, total n = 34; ⚠ the seats' own '30.4–36.4 %' was WRONG on re-derivation (31.8 % and 30.4 %; 36.4 % implies 8 events, not 7), which is why paper-hardening §5 says re-derive rather than paste. R7-B5: the circular follow-up reading is gone from BOTH the generator field and §3.3. R7-B6: refuted at primary source via PubMed (PMC7999686) and split — the 'never states a denominator' half was UNSUPPORTED (the primaries are not open access and were never read) and the 'nobody put the counts in one place' half was FALSE. ⭐ NEXT IS A REVIEW ROUND, NOT MORE APPLYING: round 9 seats on the new pin, and the regression seat is the one that matters because round 8 moved more text than any round before it.",
+      "score": 207.5,
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "_renamed_from": "⚠ RENAMED AUT-PROP-015 → AUT-PROP-016 by CYC-0020. The id was minted twice: hand-filed ids (AUT-PROP-*, AUT-PD-*) are typed by the filing cycle and `merge()` deduped only against the graph-DERIVED AUT-NNN space, so two cycles could and did choose the same string. The earlier-filed row keeps the id; this one moves. Receipts of CYC-0019 name it under AUT-PROP-015."
+    },
+    {
+      "id": "AUT-PROP-011",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0017",
+      "prerequisite_of": "AUT-049",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-053a821102c352e74c0f3f4c125277e7ff183191.json",
+      "what": "⭐ APPLY ROUND 6's THREE VERIFIED BLOCKERS, THEN RE-PIN AND RE-SEAT. The findings, their quoted text, the artifact field that contradicts each and the driver's verification are in the canonical seat record's `blockers_distinct_verified_by_driver` — READ THEM THERE, do not carry them forward as a summary. ⛔ EACH FIX IS A REPLACEMENT, NEVER AN APPENDED QUALIFIER (paper-hardening §1): B1 and B2 EXIST because a previous correction replaced half a sentence and left the wrong half standing, and B1's own commit added an appendix row claiming the repair its diff did not contain (§7b). Check the diff against the message before committing, and re-read both sentences whole afterwards. ⚠ B3 IS NOT A NUMBER FIX: '≈27 % the field routinely quotes' is an unsourced claim about the field's practice at four sites, and the honest repair is to say what Agaram 2014 reports and what the reviews in this paper's own reference list report (about 20 %, PMC7563993 and PMC9813045), not to swap one unsourced figure for another — note that ~20 % falls INSIDE the paper's pooled interval, so the 'below what the field quotes' framing may not survive at all, and losing it is a legitimate outcome rather than a problem to write around. ⛔ THEN THE ROUND IS NOT DONE: every guard commit moves the tree and un-pins the evidence, so finish the fixes, pin the NEW head, run fresh blind seats on it (the applier is not blind — subagents or a spawned session), and re-derive the round record. Round 7.",
+      "score": 207.5,
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it"
+    },
+    {
+      "id": "AUT-PROP-005",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "prerequisite_of": "AUT-049",
+      "depends_on_evidence": "the round-8 commit on main, and research/autonomy/review-seats/PUB-FUSION-PARTNER-475ad7d0c3bd0b587bce6591c3826a8c37c77d09.json for what round 7 found",
+      "what": "⭐ ROUND 9 OF PUB-FUSION-PARTNER — SEAT IT, DO NOT APPLY ANYTHING FIRST. Round 8 was the largest apply round of the series: it moved the correction register out of the manuscript into emc-fusion-partner-correction-register.md, deleted 15 inline superseded notes from inside live sentences, and rewrote §1.2, §3.3 and §6 for the three standing blockers. ⛔ THE REGRESSION SEAT IS THE ONE THAT MATTERS AND IT IS NOT OPTIONAL (paper-hardening §4): more prose moved this round than in any before it, and the failure mode that lens catches — a repair that invents a new defect — is invisible to every other seat because the repair looks deliberate. ⚠ TWO SPECIFIC RISKS THIS ROUND CREATED, to be checked rather than assumed harmless: (1) deleting a note that sat mid-sentence can leave the surviving sentence saying something narrower or wider than intended — one such deletion nearly took a live bound with it and was caught by hand, so ANOTHER may not have been; (2) the quantity guard now reads BOTH documents concatenated, so a figure stated only in the register is now 'covered' by an instrument the manuscript's reader never sees — check that no live claim depends on a register row to be correct. ⛔ REVIEW A PIN, and re-derive every finding: round 7's own seats got the falsifier arithmetic wrong in a way this cycle only caught by recomputing it. ⭐ AND ONE INSTRUMENT GAP FOUND BY CYC-0020 AND DELIBERATELY LEFT OPEN FOR THIS ROUND TO DECIDE, RATHER THAN CLOSED QUIETLY: `claim_coverage.py` censuses the MANUSCRIPT and does NOT read the new correction register, while `test_fusion_partner_prose_matches_its_artifact.py` now reads both. So the register's 'current statement' column — which restates live pooled values — has its NUMBERS guarded but its SENTENCES uncensused, and the manuscript carries a coverage FLOOR the register has none of. ⚠ Decide it as a question about what the census is FOR (blocker risk in a text a reader acts on) rather than by reflex; adding a document to the census also adds a floor somebody then owns, and the census's own ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE already names this manuscript.",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "score": 207.5,
+      "outcome": "Round 9 seated and recorded: 5 blind seats (regression, arithmetic, statistics, citations-and-instruments, hostile-referee) at pin 0743ac15d0153916309728366fbd3cd880a003a8. ZERO blockers across all five -- first zero-blocker round in this paper's series (round 7 had 6). 6 P1 instances across 4 seats, all completeness/coverage gaps, none a wrong statement in the committed text. Recorded via research/autonomy/record_bar_evidence.py hardening -- publish_bar clause 1 now reads a real, current measurement instead of a stale-commit FAIL (0 blocker(s), 6 P1(s) open at round 9). Per the item's own instruction ('SEAT IT, DO NOT APPLY ANYTHING FIRST'), nothing was applied to the manuscript this cycle -- verification and application are a separate pass (paper-hardening SS5). Round 10 filed as AUT-PROP-017."
+    },
+    {
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0021",
+      "prerequisite_of": "AUT-049",
+      "id": "AUT-PROP-017",
+      "kind": "harden",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-0743ac15d0153916309728366fbd3cd880a003a8-seat-*.json (round 9, CYC-0021) and research/autonomy/hardening-state/PUB-FUSION-PARTNER.json",
+      "what": "✅ APPLIED AND PUSHED 2026-08-27 to branch aut-prop-017-fusion-partner-p1s, commit 3e580f41b — all six of round 9's P1s, each tied to the artifact path and field that decides it. Manuscript 11,783 → 11,874 words (+91); three prose edits, all replacements; sentences over 60 words unchanged at 17; caution 186 → 187. Mutation harness 65/65 single-site, control green. ✅ MERGED TO main 2026-08-28, commit 9b67db864 (CYC-0033-schedule), after AUT-PROP-024 and AUT-PROP-025 landed. Three-way conflicts in claim-coverage.json, emc-fusion-partner-correction-register.md and emc-fusion-partner-pooling.json resolved by keeping the round-10 additions (A33, AUT-PROP-024/025 fixes) from main and regenerating claim-coverage.json via claim_coverage.py --write and pooling.json via its own generator (both --check green post-merge) rather than hand-merging either. preflight.sh green (fast gates + selector suite, 281 passed).",
+      "score": 207.5,
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "_derived": false,
+      "score_inputs": {}
+    },
     {
       "id": "AUT-046",
       "_derived": true,
@@ -39,6 +337,8 @@
       },
       "kind": "write",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -141,444 +441,6 @@
       "what": "✅ DONE 2026-08-27, commit bea7d5973. All three defects closed, each watched red. (a) test_aso_deposition_doi_is_one_fact.py: module-level ARTICLE=ARTICLES[0] DELETED — a single-document default is what silently re-scopes a function when a paper is added — both functions parametrized. ⭐ AND IT FOUND A WEAKER DEFECT UNASKED: test_both_availability_statements_carry_it counted DOI matches, but the DOI is a markdown link, so ONE statement already reached >=2 and the journal article passed with a single availability statement. Now every bolded 'availability' heading must carry the identifier. (b) test_universal_claims_are_scoped_to_what_was_measured.py parametrized over both papers for every PROHIBITION (requirements stay where numbered sections exist); the three surviving inversions are held by a SECOND instrument, since a scope guard reads a quantifier's SHAPE and cannot tell 'none' from 'several' — four polarity rows added. (c) the exon-2 guard now splits at Statements and requires the phrase on BOTH sides, then rejects a negation on the verb within 80 chars — deliberately not the bare word 'not', because the Declarations copy's own 'and not until the breakpoint has been established' must stay green. Coverage 84 → 100 of 174; numbered 53 → 60 of 81."
     },
     {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/manuscripts/build_submission_parts.py exits 1 in the dev sandbox: 'LibreOffice did not write a .docx / Error: source file could not be loaded'",
-      "id": "AUT-PROP-021",
-      "kind": "build",
-      "prerequisite_of": "AUT-PROP-018",
-      "what": "✅ DONE 2026-08-27. Dispatched aso-submission-parts.yml on main; run 33097825961 succeeded and committed df2bc4b02 'ASO submission parts rebuilt on a runner (CI)'. The LibreOffice positive control passed on the runner BEFORE the build ran, so a green build is not a dead tool reported as a malformed manuscript. All three staleness guards verified green after the fast-forward (test_the_word_file_is_not_stale, and both test_no_submission_part_is_stale_against_its_manuscript params). ⚠ The wake armed for this run died with a container restart; the run had already succeeded, so the row was honest by luck rather than by design — a wake armed inside a container is only as durable as the container.",
-      "_score_basis": "inherited from AUT-PROP-018 (+0.5) — it is the work that unblocks it",
-      "score": 196.0,
-      "closes_clause": null
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 3,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "round-10",
-      "depends_on_evidence": "FETCH LADDER EXHAUSTED AND MEASURED 2026-08-27, all $0: sandbox proxy refuses liebertpub/sagepub/oswg.net/pmc; CI plain HTTP -> 403 Cloudflare; CI HEADLESS CHROMIUM (the browser rung, slug=browser-fetch) -> 403 Cloudflare, same interstitial; Unpaywall says is_oa=true, oa_status=hybrid, licence cc-by, but EXACTLY ONE oa_location and it is the publisher behind that same check; no PMC deposit. Artifacts on origin/literature-cache under literature/oswg-offtarget-2025-fulltext/ and research/literature/browser-fetch.json on main.",
-      "id": "AUT-PROP-022",
-      "kind": "verify",
-      "prerequisite_of": "AUT-PROP-020",
-      "what": "⛔ SOFTEN THE FIVE ATTRIBUTIONS TO PMID 39912803 — THE FETCH ROUTE IS CLOSED, MEASURED, NOT ASSUMED. The article is open access IN LICENCE (CC-BY) and unreachable by every automated route this project has; see depends_on_evidence for the ladder. ⚠ THE SEAT READ IT AS PAYWALLED AND THAT WAS WRONG — it is a bot check on a free article — but the remedy is the same and the distinction is worth keeping, because 'paywalled' would have closed the question at rung one. ★ WHAT TO DO: rewrite so the paper stops asserting what the source says. HELD from the abstract and may stand: the FIVE-STEP workflow (in-silico identification with transcriptomics; focus on cell types with relevant activity; verification and margin assessment; risk assessment; management of unavoidable off-targets) — quoted near-verbatim in the PubMed abstract. UNHELD, rewrite each: (1) wings-vs-gap mismatch direction [Introduction]; (2) 'the search scope the 2025 recommendations ask for' [Methods]; (3) 'the energy-based second stage those recommendations prescribe' [Methods]; (4) 'the margin assessment the recommendations specify at this step, and they decline to set a default value for it' [Discussion] — a NEGATIVE claim about the source's content, the least checkable of all; (5) 'a high-affinity chemistry is reported to retain knockdown at more extensively mismatched sites' [Results]. ⭐ THE PAPER ALREADY HAS THE IDIOM: 'that premise is adopted here rather than established', 'ten being adopted rather than measured'. An honest 'adopted here' beats a confident characterisation of a paper nobody in this project has read. ⛔ DO NOT reconstruct the source's content from search snippets — CLAUDE.md §7. DONE 2026-08-27 (this cycle, id assigned at commit time): all five attributions to PMID 39912803 rewritten so the paper states this project could not confirm the source's content (fetch route closed, CC-BY but unreachable behind a Cloudflare bot check on every rung tried, per depends_on_evidence) and that its characterisation of the source is adopted/read here rather than verified against the primary text. The HELD five-step workflow (quoted near-verbatim from the public PubMed abstract) is untouched. Net word count held at or below the original (page budget for Nucleic Acid Therapeutics is exactly at its 6-page ceiling with zero slack -- every hedge was written as a word-neutral or word-negative substitution, verified by rebuilding the PDF, which stayed at 6 pages). lint_claims: 0 ERROR (3 pre-existing WARNs, none introduced). lint_style: clean. Full manuscripts pytest suite: 1304 passed (excl. 3 LibreOffice-dependent tests, which are a documented, pre-existing sandbox defect -- see aso-submission-parts.yml header -- routed to that workflow rather than fixed locally). ⚠ COLLISION NOTE: this item's ledger row was found claimed by owner 'aso-attribution-seat' (claimed_utc 2026-08-27T20:25:00Z) when this session re-read the trunk before pushing. Per AUT-PD-021 (research/autonomy/claim.py, landed on trunk while this session was working), the push is the arbiter, not the lease: the manuscript file itself was NOT touched by any commit between this session's start and this push (git log confirms the last prior touch was the incident-restore b4f086c), so no conflicting work actually landed. This push resolves the row to done; if the other seat's work lands later, standard git conflict resolution on the manuscript text applies.",
-      "_score_basis": "inherited from AUT-PROP-020 (+0.5) — it is the work that unblocks it",
-      "score": 196.0,
-      "closes_clause": null,
-      "_block_cleared": "⭐ CLEARED 2026-08-27 BY ITS OWN STOPPING CONDITION, which the evidence stated in words: \"Unblocks when 024's commit is pushed.\" AUT-PROP-024 is `done` and on origin/main, so the block is satisfied. ⛔ IT WAS CAUGHT BY A RED TEST, NOT BY ANYBODY REREADING IT — `systems/tests/test_autonomy_priority.py::test_an_evidenced_block_drops_out_of_the_queue` was red on main because a -90 penalty could not push a base score of 284 out of the top three. ⚠ THE TEMPTING FIX WAS THE WRONG ONE: raising the penalty would have made the test green while leaving a satisfied block in place, and CLAUDE.md §0 says 'blocked' is a claim that needs evidence and is usually wrong. The stale claim was the defect; the tuning constant was not. Superseded evidence, retained (rule 1.2): AUT-PROP-024 is IN FLIGHT and commits to research/manuscripts/tests/ for the ASO paper. All three of these edit that paper's prose or its review state, and a third concurrent ASO writer is the collision pattern already recorded as a real blocker once today (CLAUDE.md §6, the 13 inverted claims). ⚠ Also substantive, not only mechanical: 019 needs a seat receipt at the CURRENT commit and 024 is about to move it, so a seat run now buys a receipt for a sha that will be stale before it lands. Unblocks when 024's commit is pushed."
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 2,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
-      "id": "AUT-PROP-018",
-      "kind": "harden",
-      "prerequisite_of": "AUT-049",
-      "what": "run PREFLIGHT_FULL=1 at the FINAL ASO v2 commit and RECORD the receipt with record_bar_evidence.py. ⭐ CLOSES publish_bar CLAUSE 2 FOR PUB-ASO. ⛔ IT MUST BE THE COMMIT THAT IS POSTED — a receipt at an earlier sha closes nothing, and this has already been restarted twice because the tree moved under a run in flight. Run it LAST, after the CI .docx rebuild has landed on main, or it is thrown away.",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "score": 195.5,
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "preflight_full_green"
-      },
-      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
-      "score_inputs": {
-        "blocked_with_evidence": true,
-        "age_factor": 0.0714
-      },
-      "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question."
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "quiet-head-for-the-sha-bound-aso-clauses"
-      ],
-      "blocked_evidence": "⚠ STATE CORRECTED 2026-08-27: this row read `in_progress` with `owner: null` and 2 attempts — the shape a DEAD CYCLE leaves behind, and the one `continuity.py`'s pinned `in_progress` test exists to keep visible. No worker held it. ⛔ BUT 'abandoned' was not what was true either: the item's own text names a sequencing condition, and so do its two siblings. All THREE open publish_bar clauses for PUB-ASO are sha-bound to the commit that gets posted — clause 1 (AUT-PROP-020, round 10's five blind seats), clause 2 (AUT-PROP-018, PREFLIGHT_FULL) and clause 6 (AUT-PROP-019, a seat receipt at the current commit) — so any one of them run against a moving HEAD buys a receipt for a sha that is stale before it lands. That is not a guess: clause 2 has already been thrown away twice for exactly this, and AUT-PROP-020's own text says SPAWNED SESSION, not more work in the current one (research-loop §3). ⭐ SO THE CONDITION IS A QUIET HEAD, and the right shape is ONE spawned session running all three against a single pinned commit once the seats in flight have landed. Recorded as evidence rather than left as a state nobody could read — CLAUDE.md §0: 'blocked' is a claim that needs evidence.",
-      "retry_budget": 3,
-      "attempts": 2,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
-      "id": "AUT-PROP-019",
-      "kind": "harden",
-      "prerequisite_of": "AUT-049",
-      "what": "re-run a blind adversarial seat on the ASO v2 pinned commit. ⭐ CLOSES publish_bar CLAUSE 6 FOR PUB-ASO. ⚠ ROUND 9 RAN 2026-08-27 (five seats, pin 29f4e5e2, all five verified the digest) and its findings are APPLIED — research/manuscripts/aso/fusion-junction-aso-paper-redteam-round9.md. It does NOT close this clause: the bar wants a seat receipt at the CURRENT commit, and the text moved under it. ⛔ AND THE NEXT SEAT MUST READ WHAT ROUND 9 WROTE: the falsification section was substantially rewritten in response to review (readout, three controls, the delivery/dose/timepoint gap, the TFG mismatch, a success criterion), and paper-hardening is explicit that a verifier's pasteable fix is not pre-verified prose. Record under research/autonomy/review-seats/PUB-ASO-<sha>.json.",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "score": 195.5,
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "independent_adversarial_seat"
-      },
-      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
-      "score_inputs": {
-        "blocked_with_evidence": true,
-        "age_factor": 0.0714
-      }
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "quiet-head-for-the-sha-bound-aso-clauses"
-      ],
-      "blocked_evidence": "⚠ STATE CORRECTED 2026-08-27: this row read `in_progress` with `owner: null` and 2 attempts — the shape a DEAD CYCLE leaves behind, and the one `continuity.py`'s pinned `in_progress` test exists to keep visible. No worker held it. ⛔ BUT 'abandoned' was not what was true either: the item's own text names a sequencing condition, and so do its two siblings. All THREE open publish_bar clauses for PUB-ASO are sha-bound to the commit that gets posted — clause 1 (AUT-PROP-020, round 10's five blind seats), clause 2 (AUT-PROP-018, PREFLIGHT_FULL) and clause 6 (AUT-PROP-019, a seat receipt at the current commit) — so any one of them run against a moving HEAD buys a receipt for a sha that is stale before it lands. That is not a guess: clause 2 has already been thrown away twice for exactly this, and AUT-PROP-020's own text says SPAWNED SESSION, not more work in the current one (research-loop §3). ⭐ SO THE CONDITION IS A QUIET HEAD, and the right shape is ONE spawned session running all three against a single pinned commit once the seats in flight have landed. Recorded as evidence rather than left as a state nobody could read — CLAUDE.md §0: 'blocked' is a claim that needs evidence.",
-      "retry_budget": 3,
-      "attempts": 2,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
-      "id": "AUT-PROP-020",
-      "kind": "harden",
-      "prerequisite_of": "AUT-049",
-      "what": "ROUND 10 OF PUB-ASO — five blind seats on the post-round-9 text, then apply. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s. ⚠ ROUND 9 FOUND SIX BLOCKERS AND ELEVEN P1s, so this paper is genuinely not converged and the clause is honest. Round 9's register names what changed and why: the abstract lost an over-claim and regained a scope qualifier, the falsification experiment gained a readout, a third control and a success criterion, the nulls gained their n=38,000 denominator and the artifact's own non-independence caveat, and the references were renumbered by first citation. ⛔ SPAWNED SESSION, not more work in the current one — research-loop §3. ✅ DONE 2026-08-27 (CYC-031-aso-round10), commit a4cc04cab. Five blind seats re-seated on round 9's corrected text, at pin 8ce3216. ZERO blockers, ZERO P1s in the article's own prose across all five lenses. ONE real P1, in a sibling GENERATED document (fusion-junction-aso-journal-tables.md): Table 2's caption referenced a nonexistent 'Section 5', leaked from the sibling extended report. Fixed at the generator (aso_journal_tables.py), word-neutral, all four dependent PDFs rebuilt, journal style held at 6pp. Full record: fusion-junction-aso-paper-redteam-round10.md. ⛔ DOES NOT CLOSE clause 1 (hardening_converged) — a round that found and fixed a real defect is not the round that gets to certify nothing was found, per this series' own standard (round 9's rule). Also folded in en route: a pre-existing, unrelated red gate (8 unanchored citations in research/method-watch-autonomy-prior-art-2.md from an earlier commit) verified and anchored — a concurrent session fixed the identical gap independently via a different route (PubMed/PMC MCP) and landed first; resolved by taking that version on rebase, no duplicate work survived. Queued: AUT-PROP-039 (round 11, to confirm convergence).",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "score": 195.5,
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "hardening_converged"
-      },
-      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
-      "score_inputs": {
-        "blocked_with_evidence": true
-      }
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-031-aso-round10",
-      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
-      "id": "AUT-PROP-039",
-      "kind": "harden",
-      "prerequisite_of": "AUT-049",
-      "what": "ROUND 11 OF PUB-ASO — five blind seats on the post-round-10 text (pin the commit AFTER a4cc04cab, once nothing else is mid-flight against the ASO manuscript family), then apply any survivors. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s, anywhere — article prose AND its generated siblings (tables, references). ⛔ SPAWNED SESSION if create_session is available in that context; otherwise parallel subagents in one driver session, per research-loop §3 — measured 2026-08-27 (CYC-031) that create_session/handoff was unavailable in a scheduled-Routine context and parallel Agent-tool dispatch worked fine for this shape of round. ✅ DONE 2026-08-28 (CYC-0032-cycrouti). Five blind seats ran at pin eed563d6 (post round-10, quiet head confirmed). ZERO blockers, ZERO P1s in the article's own prose or its generated siblings' CONTENT across all five lenses — hostile referee verdict: minor revision. FOUR P1 guard gaps found (two of them, the falsification power/void-SD figures, convergently by seats 2 and 3 independently) and ALL FOUR CLOSED this cycle: (1) lint_changed_prose.py's cross-reference check extended to informal 'The X section' references, mutation-tested; (2) Table 1's ΔTm floor bound to junction-aso-thermo.json in a new test, mutation-tested; (3) the falsification power/void-SD figures now derived by a new module, research/manuscripts/aso_falsification_power.py, and bound in a new test, mutation-tested; (4) fusion-junction-aso-journal-references.md added to lint_claims.py and lint_style.py's target lists (which surfaced and required fixing a real, harmless finding — two decorative glyphs inside a non-rendered HTML comment; lint_style.py now exempts HTML comments). claim-coverage.json regenerated (coverage rose, no floor moved). Two adjacent findings scoped out and filed as AUT-PD-039/AUT-PD-040 rather than fixed blind under this paper's review pressure. ⛔ DOES NOT CLOSE clause 1 (hardening_converged): per this series' own standard (round 9/10's rule), a round that finds and fixes real gaps is not the round that gets to certify nothing was found — the fixes themselves are unreviewed. Queued AUT-PROP-040 (round 12, a confirmation pass on this round's four fixes) to actually close the clause.",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "score": 195.5,
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "hardening_converged"
-      },
-      "score_inputs": {}
-    },
-    {
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "quiet-head-for-the-sha-bound-aso-clauses"
-      ],
-      "blocked_evidence": "Same condition as AUT-PROP-018/019, which this item now joins behind: all three of PUB-ASO's remaining open publish_bar clauses (hardening_converged, preflight_full_green, independent_adversarial_seat) are sha-bound to the commit that gets posted, so any one run against a moving HEAD buys a receipt for a sha that is stale before it lands. Round 11 (AUT-PROP-039) just fixed four guard-gap findings across lint_changed_prose.py, test_journal_article_numbers.py, aso_falsification_power.py (new), lint_claims.py and lint_style.py — none of which are article PROSE, but paper-hardening's own regression-seat rule (§4's seat 1) applies to any repair, and this round's fixes have not yet been reviewed by a fresh seat. Run this LAST, against the commit that is actually posted, once nothing else is mid-flight against the ASO family.",
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0032-cycrouti",
-      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
-      "id": "AUT-PROP-040",
-      "kind": "harden",
-      "prerequisite_of": "AUT-049",
-      "what": "ROUND 12 OF PUB-ASO — five blind seats confirming round 11's four fixes introduced no regression (paper-hardening §4's regression-seat lens is the load-bearing one here), pin the commit once nothing else is mid-flight against the ASO manuscript family. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s, anywhere. ⛔ Parallel Agent-tool subagents in the driver session (measured working for this shape of round in a scheduled-Routine context, CYC-031 and CYC-0032) unless create_session/handoff is available.\n\n✅ DONE 2026-08-28 (CYC-0047-cyc0047s). Five blind seats ran at pin 9ae1365 (post round-11, quiet head confirmed). ZERO blockers, ZERO P1s in the article's own prose across all five lenses (seats 2/3/5 independently re-derived every headline number/power figure and read cover-to-cover: hostile-referee verdict ACCEPT). ONE real P1 found in round 11's OWN TOOLING (seat 1: lint_style.py's HTML-comment exemption dropped the whole line on a same-line-closed comment, blinding the style gate over ~24 citation-marker lines of real prose -- downgraded from seat 1's BLOCKER label per this series' own §8.0 test, since the prose itself was verified correct, only the gate was blind). FIXED and mutation-tested this cycle: research/modalities/tests/test_lint_style.py, 7 cases, all failing pre-fix and passing post-fix. SEPARATELY: the driver's own follow-up commit to clear an unrelated stale-preflight failure (submission-metrics.json) ran into a live subagent mutation window and briefly landed a wrong value on main (6e7d44e06) -- caught by seat 4, corrected same cycle (3a53478a8). Full round record: research/manuscripts/aso/fusion-junction-aso-paper-redteam-round12.md. Process defect: AUT-PD-047. ⛔ DOES NOT CLOSE clause 1 (hardening_converged): per this series' own standard, a round that finds and fixes real gaps does not get to certify nothing was found -- both fixes are unreviewed. Queued AUT-PROP-042 (round 13, confirmation pass) to actually close the clause.",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "hardening_converged"
-      },
-      "score_inputs": {
-        "blocked_with_evidence": true
-      },
-      "score": 195.5
-    },
-    {
-      "id": "AUT-PROP-042",
-      "kind": "harden",
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "quiet-head-for-the-sha-bound-aso-clauses"
-      ],
-      "blocked_evidence": "Same sequencing condition as AUT-PROP-018/019/040: all three of PUB-ASO's remaining open publish_bar clauses are sha-bound to the commit that gets posted, so a round run against a moving HEAD buys a receipt for a sha that is stale before it lands. Round 12 (this item's predecessor, AUT-PROP-040) just fixed two real things -- a lint_style.py guard-gap P1 and a process-caused submission-metrics.json BLOCKER -- neither of which has been reviewed by a fresh seat. Run this once nothing else is mid-flight against the ASO manuscript family.",
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0047-cyc0047s",
-      "prerequisite_of": "AUT-049",
-      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "hardening_converged"
-      },
-      "what": "ROUND 13 OF PUB-ASO — five blind seats confirming round 12's two fixes introduced no regression (paper-hardening §4's regression-seat lens is the load-bearing one here, exactly as it was for round 12 confirming round 11): (1) lint_style.py's rewritten HTML-comment handling (strips only the comment span, not the whole line) — check it doesn't now UNDER-exempt (i.e. does a genuinely decorative glyph purely inside a comment still pass clean?) and that it handles a comment with no trailing content, a comment spanning 3+ lines, and two comments on one line; (2) the corrected submission-metrics.json (main_words=3719) actually reproduces byte-for-byte against the pinned commit via `submission_metrics.py --check` run from a FRESH checkout, not the driver's shared working tree, so this round's own review cannot repeat the mutation-window mistake AUT-PD-047 documents. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s, anywhere — article prose AND its generated siblings (tables, references, submission-metrics.json). ⛔ Parallel Agent-tool subagents in the driver session (measured working for this shape of round in a scheduled-Routine context, CYC-031/032/047) unless create_session/handoff is available. ⛔ PIN THE COMMIT ONLY ONCE NOTHING ELSE IS MID-FLIGHT AGAINST THE ASO FAMILY, and if any seat wants to mutation-test a guard, give it an isolated git worktree (EnterWorktree or `git worktree add`) rather than relying on a self-reported scratch copy — AUT-PD-047's whole finding is that the plain instruction alone was not reliable.",
-      "score": 195.5,
-      "_renamed_from": "AUT-PROP-041",
-      "score_inputs": {
-        "blocked_with_evidence": true
-      }
-    },
-    {
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "superseded",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "retry_budget": 3,
-      "attempts": 6,
-      "last_evidence_utc": "2026-08-27",
-      "score": 195.5,
-      "filed_by": "CYC-0001",
-      "prerequisite_of": "AUT-049",
-      "id": "AUT-PROP-002",
-      "kind": "harden",
-      "what": "Run a hardening round on PUB-FUSION-PARTNER — publish_bar clause 1. ⛔ DO NOT OPEN WITH A REVIEWER SEAT: the standing P1 list was closed by CYC-0011 and its bindings mutation-proven by CYC-0012. ★ ROUND 5 HAS RUN THREE ACTS. CYC-0013 added the statistical census (`_CENSUS_STATS`: cohort size, p-value in both printed forms, hazard ratio, cm/months). CYC-0014 added the THIRD census, section G, over a surface that is not a quantity at all — PubMed ids, trial registrations and DOIs, read for ATTACHMENT (which paper is this printed against) rather than the PROVENANCE `lint_citations` already reads. 61 sites, 31 artifact-owned values, 5 declared not-pooled, four tests, 56/56 mutations caught. ⭐ WHAT IS STILL OPEN, RE-DERIVED 2026-08-27 rather than carried forward: of the 148 uncovered sentences that state a number, 52 contain a count spelled as a WORD outside the constructions `_word` already binds, 46 a bare YEAR, 46 a section cross-reference, and 33 an ORDINAL or superlative ('the third independent series', 'the largest series'). ⛔ RE-DERIVE THAT SET with `claim_coverage.py --uncovered=...` rather than trusting this sentence, and note that 24 of the 148 contain an identifier that section G now guards — the census does not credit it (see the lease note). ⚠ AND A SUPERLATIVE IS THE HARDEST OF THE FOUR AND THE MOST LOAD-BEARING: it is a claim about RANK that the artifact's cohort records can actually decide, unlike a year. Every new guard goes into mutate_fusion_partner_guard.py's MUTATIONS list in the same commit.",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-69d8a6ac1c90ae2129f7ee2348d8a523e5f82be8-round4-p1-rederivation.json",
-      "claimed_utc": null,
-      "lease_released": "released by CYC-0015. ⛔ THE FINDING IS THAT THE WORK AND THE BAR HAD COME APART. Round 5's three acts (CYC-0012/13/14) all improved this paper's guards, and not one of them could clear a clause: the three clauses still open are the SHA-PINNED ones, and `git log --all` over `hardening-state` and `preflight-receipts` returned EMPTY — neither directory had ever existed in any ref, and publish_bar.py was the only file that named them. Worse, all three file-backed clauses were cleared by hand-typed JSON with no evidence behind them (clause 2's evidence line printed `at typed by hand`). CYC-0015 rewrote the three clauses to compute from evidence, wrote the missing producer, and pinned ec78ba9: clause 2 is now genuinely OK and clause 1 a measured FAIL rather than UNVERIFIABLE. ⭐ WHAT THIS ITEM NEEDS NEXT IS A BLIND SEAT ON A PINNED COMMIT, NOT ANOTHER GUARD — coverage work cannot reach clauses 1 or 6, and every act of it moves the tree and un-pins the evidence.",
-      "blocked_evidence": null,
-      "superseded_note": "SUPERSEDED, not blocked-on-evidence: this entry's `what` describes round 5's open work (filed by CYC-0001, released by CYC-0015). Rounds 6, 7 and 8 have since run and applied under AUT-PROP-008/011/015/016 (receipts CYC-0016..CYC-0020), and round 9 is now tracked as AUT-PROP-005 (this cycle, CYC-0021). Every cycle from CYC-0016 to CYC-0020 re-derived this same 'is it still live' question because nothing ever closed it out -- CYC-0016's receipt names it explicitly: 'tied top-score with AUT-010'. Closing it here so it stops re-litigating itself every four hours."
-    },
-    {
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "done",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-26",
-      "score": 195.5,
-      "filed_by": "CYC-0001",
-      "prerequisite_of": "AUT-049",
-      "id": "AUT-PROP-003",
-      "kind": "analysis",
-      "what": "Run a BLIND adversarial seat on PUB-FUSION-PARTNER at the pinned commit and record it to research/autonomy/review-seats/ — publish_bar clause 6. The seat must be blind and must review the pinned sha, or it is not independent evidence.",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "result": "Seat run and recorded: research/autonomy/review-seats/PUB-FUSION-PARTNER-21bc8578b11a9ab3f2c08fe3135799769036cdad.json. VERDICT not_supported — publish_bar clause 6 now reads FAIL rather than UNVERIFIABLE. Three blockers, each verified independently against the pinned commit before being recorded."
-    },
-    {
-      "id": "AUT-PROP-008",
-      "kind": "harden",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": "2026-08-27T04:20:40Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0015",
-      "prerequisite_of": "AUT-049",
-      "what": "⭐ RUN A BLIND SEAT ON A PINNED COMMIT FOR PUB-FUSION-PARTNER — this is what clauses 1 and 6 of the publish bar actually need, and no amount of coverage guarding can reach either. MEASURED BY CYC-0015 against ec78ba9: the bar reads 4/6, clause 1 FAILs with `record names no seats` and clause 6 is UNVERIFIABLE for want of `review-seats/PUB-FUSION-PARTNER-<sha>.json`. ⛔ THE SEAT MUST BE INDEPENDENT: a session that authored or applied the paper's fixes is not blind, so this is a SPAWNED SESSION or a subagent seat (research-loop §3), never the driver reviewing its own tree. The record it writes must carry `blind`, `reviewed_commit`, `verdict`, a `central_claim` of at least 40 characters and `document_sha256` = sha256 of `git show <sha>:<the endpoint's document>` — clause 6 now refuses a record missing any of them. Then run `record_bar_evidence.py hardening` to derive the round record FROM that seat. ⚠ AND PIN FIRST: every guard commit moves the tree and un-pins the evidence, which is why three cycles of round 5 left both clauses exactly where they started.",
-      "score": 195.5,
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "observed": "DONE. Five blind seats ran on pin 053a8211 at subagent_width=5, none of them the driver, and their records are committed at research/autonomy/review-seats/PUB-FUSION-PARTNER-053a8211*.json. record_bar_evidence.py hardening derived round 6 FROM those seats. ⭐ WHAT CHANGED IS THE KIND OF READING THE BAR RETURNS, NOT THE SCORE: it is still BLOCKED at 3/6, but clause 1 moved from 'record names no seats' to a measured '4 blocker(s), 11 P1(s) open at round 6', and clause 6 from UNVERIFIABLE to FAIL with verdict 'not_supported'. An absent reading became a reading of absence's opposite — somebody looked. ⛔ THREE DISTINCT BLOCKERS, ALL VERIFIED BY THE DRIVER, ALL NON-NUMERIC: (B1) §5's claims bullet says 'either of the two series that ran a multivariable model (Huang 2023)' while exactly one cohort record carries multivariable_result and the paper's own A17 retracts that wording — a half-applied replacement by e7cff259, whose same commit added A24 claiming the fix; (B2) §3.4 opens 'Two series, both larger than any cohort that could be pooled here' and both ARE pooled here; (B3) the '≈27 % the field routinely quotes' at four sites is unsourced, and reference [4] (PMC7563993, a Review) says about 20 %, which sits inside the paper's own 12.9-25.0 interval. ⭐ THE SHAPE IS THE FINDING: the arithmetic seat re-derived 140 printed quantities with ZERO mismatches and ran the generator's verify mode, the 122-test prose guard and the 9-test mutation suite clean. Not one defect is a wrong number. Every one is a count-word, a comparative or an attribution — paper-hardening §8a measured rather than argued."
-    },
-    {
-      "id": "AUT-PROP-016",
-      "kind": "harden",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": "2026-08-27T06:41:32Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0019",
-      "prerequisite_of": "AUT-049",
-      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-475ad7d0c3bd0b587bce6591c3826a8c37c77d09.json",
-      "what": "✅ ROUND 8 APPLIED BY CYC-0020 — the structural item and all three standing blockers. ⭐ THE STRUCTURAL FINDING WAS ACTED ON RATHER THAN RE-FILED: Appendix A (31 rows, ~5,592 words, close to a third of the manuscript and larger than Results) MOVED to its own committed document, research/manuscripts/fusion-partner/emc-fusion-partner-correction-register.md, with every row carried verbatim plus the 15 inline `Superseded, retained` notes that stood inside the live sentences and the 4 internal-review attributions. Manuscript 17,647 → 11,783 words (−33 %); register 6,749. ⛔ NOTHING WAS DROPPED — one live BOUND was nearly lost with note 13 (the concession that the artifact carries no machine-checkable per-count fetch record) and was restored into the live text rather than migrated. R7-B4: the falsification threshold is now DERIVED in the generator (zero_death_patients_to_reconcile) — 19 further zero-death TAF15 patients, total n = 34; ⚠ the seats' own '30.4–36.4 %' was WRONG on re-derivation (31.8 % and 30.4 %; 36.4 % implies 8 events, not 7), which is why paper-hardening §5 says re-derive rather than paste. R7-B5: the circular follow-up reading is gone from BOTH the generator field and §3.3. R7-B6: refuted at primary source via PubMed (PMC7999686) and split — the 'never states a denominator' half was UNSUPPORTED (the primaries are not open access and were never read) and the 'nobody put the counts in one place' half was FALSE. ⭐ NEXT IS A REVIEW ROUND, NOT MORE APPLYING: round 9 seats on the new pin, and the regression seat is the one that matters because round 8 moved more text than any round before it.",
-      "score": 195.5,
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "_renamed_from": "⚠ RENAMED AUT-PROP-015 → AUT-PROP-016 by CYC-0020. The id was minted twice: hand-filed ids (AUT-PROP-*, AUT-PD-*) are typed by the filing cycle and `merge()` deduped only against the graph-DERIVED AUT-NNN space, so two cycles could and did choose the same string. The earlier-filed row keeps the id; this one moves. Receipts of CYC-0019 name it under AUT-PROP-015."
-    },
-    {
-      "id": "AUT-PROP-011",
-      "kind": "harden",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0017",
-      "prerequisite_of": "AUT-049",
-      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-053a821102c352e74c0f3f4c125277e7ff183191.json",
-      "what": "⭐ APPLY ROUND 6's THREE VERIFIED BLOCKERS, THEN RE-PIN AND RE-SEAT. The findings, their quoted text, the artifact field that contradicts each and the driver's verification are in the canonical seat record's `blockers_distinct_verified_by_driver` — READ THEM THERE, do not carry them forward as a summary. ⛔ EACH FIX IS A REPLACEMENT, NEVER AN APPENDED QUALIFIER (paper-hardening §1): B1 and B2 EXIST because a previous correction replaced half a sentence and left the wrong half standing, and B1's own commit added an appendix row claiming the repair its diff did not contain (§7b). Check the diff against the message before committing, and re-read both sentences whole afterwards. ⚠ B3 IS NOT A NUMBER FIX: '≈27 % the field routinely quotes' is an unsourced claim about the field's practice at four sites, and the honest repair is to say what Agaram 2014 reports and what the reviews in this paper's own reference list report (about 20 %, PMC7563993 and PMC9813045), not to swap one unsourced figure for another — note that ~20 % falls INSIDE the paper's pooled interval, so the 'below what the field quotes' framing may not survive at all, and losing it is a legitimate outcome rather than a problem to write around. ⛔ THEN THE ROUND IS NOT DONE: every guard commit moves the tree and un-pins the evidence, so finish the fixes, pin the NEW head, run fresh blind seats on it (the applier is not blind — subagents or a spawned session), and re-derive the round record. Round 7.",
-      "score": 195.5,
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it"
-    },
-    {
-      "id": "AUT-PROP-005",
-      "kind": "harden",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "prerequisite_of": "AUT-049",
-      "depends_on_evidence": "the round-8 commit on main, and research/autonomy/review-seats/PUB-FUSION-PARTNER-475ad7d0c3bd0b587bce6591c3826a8c37c77d09.json for what round 7 found",
-      "what": "⭐ ROUND 9 OF PUB-FUSION-PARTNER — SEAT IT, DO NOT APPLY ANYTHING FIRST. Round 8 was the largest apply round of the series: it moved the correction register out of the manuscript into emc-fusion-partner-correction-register.md, deleted 15 inline superseded notes from inside live sentences, and rewrote §1.2, §3.3 and §6 for the three standing blockers. ⛔ THE REGRESSION SEAT IS THE ONE THAT MATTERS AND IT IS NOT OPTIONAL (paper-hardening §4): more prose moved this round than in any before it, and the failure mode that lens catches — a repair that invents a new defect — is invisible to every other seat because the repair looks deliberate. ⚠ TWO SPECIFIC RISKS THIS ROUND CREATED, to be checked rather than assumed harmless: (1) deleting a note that sat mid-sentence can leave the surviving sentence saying something narrower or wider than intended — one such deletion nearly took a live bound with it and was caught by hand, so ANOTHER may not have been; (2) the quantity guard now reads BOTH documents concatenated, so a figure stated only in the register is now 'covered' by an instrument the manuscript's reader never sees — check that no live claim depends on a register row to be correct. ⛔ REVIEW A PIN, and re-derive every finding: round 7's own seats got the falsifier arithmetic wrong in a way this cycle only caught by recomputing it. ⭐ AND ONE INSTRUMENT GAP FOUND BY CYC-0020 AND DELIBERATELY LEFT OPEN FOR THIS ROUND TO DECIDE, RATHER THAN CLOSED QUIETLY: `claim_coverage.py` censuses the MANUSCRIPT and does NOT read the new correction register, while `test_fusion_partner_prose_matches_its_artifact.py` now reads both. So the register's 'current statement' column — which restates live pooled values — has its NUMBERS guarded but its SENTENCES uncensused, and the manuscript carries a coverage FLOOR the register has none of. ⚠ Decide it as a question about what the census is FOR (blocker risk in a text a reader acts on) rather than by reflex; adding a document to the census also adds a floor somebody then owns, and the census's own ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE already names this manuscript.",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "score": 195.5,
-      "outcome": "Round 9 seated and recorded: 5 blind seats (regression, arithmetic, statistics, citations-and-instruments, hostile-referee) at pin 0743ac15d0153916309728366fbd3cd880a003a8. ZERO blockers across all five -- first zero-blocker round in this paper's series (round 7 had 6). 6 P1 instances across 4 seats, all completeness/coverage gaps, none a wrong statement in the committed text. Recorded via research/autonomy/record_bar_evidence.py hardening -- publish_bar clause 1 now reads a real, current measurement instead of a stale-commit FAIL (0 blocker(s), 6 P1(s) open at round 9). Per the item's own instruction ('SEAT IT, DO NOT APPLY ANYTHING FIRST'), nothing was applied to the manuscript this cycle -- verification and application are a separate pass (paper-hardening SS5). Round 10 filed as AUT-PROP-017."
-    },
-    {
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0021",
-      "prerequisite_of": "AUT-049",
-      "id": "AUT-PROP-017",
-      "kind": "harden",
-      "depends_on_evidence": "research/autonomy/review-seats/PUB-FUSION-PARTNER-0743ac15d0153916309728366fbd3cd880a003a8-seat-*.json (round 9, CYC-0021) and research/autonomy/hardening-state/PUB-FUSION-PARTNER.json",
-      "what": "✅ APPLIED AND PUSHED 2026-08-27 to branch aut-prop-017-fusion-partner-p1s, commit 3e580f41b — all six of round 9's P1s, each tied to the artifact path and field that decides it. Manuscript 11,783 → 11,874 words (+91); three prose edits, all replacements; sentences over 60 words unchanged at 17; caution 186 → 187. Mutation harness 65/65 single-site, control green. ✅ MERGED TO main 2026-08-28, commit 9b67db864 (CYC-0033-schedule), after AUT-PROP-024 and AUT-PROP-025 landed. Three-way conflicts in claim-coverage.json, emc-fusion-partner-correction-register.md and emc-fusion-partner-pooling.json resolved by keeping the round-10 additions (A33, AUT-PROP-024/025 fixes) from main and regenerating claim-coverage.json via claim_coverage.py --write and pooling.json via its own generator (both --check green post-merge) rather than hand-merging either. preflight.sh green (fast gates + selector suite, 281 passed).",
-      "score": 195.5,
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "_derived": false,
-      "score_inputs": {}
-    },
-    {
       "id": "AUT-PD-015",
       "kind": "process_defect",
       "process_defect": true,
@@ -638,6 +500,8 @@
       },
       "kind": "write",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -821,6 +685,8 @@
       },
       "kind": "experiment",
       "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -888,6 +754,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -924,6 +792,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -960,6 +830,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -996,6 +868,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -1032,6 +906,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -1130,6 +1006,8 @@
       },
       "kind": "experiment",
       "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -1165,6 +1043,8 @@
       },
       "kind": "experiment",
       "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -1490,6 +1370,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -1524,6 +1406,8 @@
       },
       "kind": "fetch",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -1561,6 +1445,8 @@
       },
       "kind": "fetch",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -1598,6 +1484,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -1881,18 +1769,18 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0053-3217966b",
-      "claimed_utc": "2026-08-28T14:31:59Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
+      "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ OPEN — EVERY SEAT'S PREFLIGHT MANUFACTURES ~50 RED TESTS THAT DO NOT EXIST, because a fresh worktree never gets the SessionStart hook that runs dev-setup.sh. ⚠ THIS ENTRY WAS BRIEFLY CLOSED AND THE CLOSURE WAS WRONG; the history below is kept because the wrong turning is the instructive part. ⚠ SUPERSEDED HEADING, retained (rule 1.2): 'CLOSED — THE REPORTED BLOCKER WAS NOT LIVE'. That heading sat at the top of a QUEUED row for an hour, so every reader — including the continuity hook, which offered it as ready work — saw a closed item in the ready queue. One fact, two places, inside a single field. ⛔ WHAT WAS REPORTED: the AUT-PROP-009 review seat measured `PREFLIGHT_MODALITIES=1` as unusable here — `50 failed, 7933 passed`, exactly 50 on an unpatched origin/main checkout too, the first tracing to `ModuleNotFoundError: No module named 'pymbar'` at nr4a3_abfe.py:69 — and correctly REFUSED to add them to sandbox-failure-baseline.txt, which would have converted a missing dependency into a permanent amnesty. That refusal was right and is worth keeping. ⛔ WHAT IS ACTUALLY TRUE: I checked before acting rather than filing the report. `pymbar 4.0.3` imports in BOTH interpreters — the tool venv at /root/.local/share/uv/tools/pytest/bin/python AND system python3 — and the ABFE tests the failure named now run `168 passed, 2 skipped`. There is no live blocker. ⭐ THE ENVIRONMENT WAS REPAIRED BETWEEN THE SEAT'S READING AND MINE: `dev-setup.sh` already carries `pymbar` in TEST_DEPS and its own header records this EXACT incident on 2026-08-24 — 'the tool venv had pymbar' while python3 lacked it, a publication gate red on ModuleNotFoundError at nr4a3_abfe.py:69, the same line. A `SessionStart` hook now runs `dev-setup.sh --if-needed`, which is presumably what closed it. ⭐⭐ SO THE TRANSFERABLE FINDING IS ABOUT SEATS, NOT ABOUT pymbar: A SUBAGENT'S ENVIRONMENT READING IS A DATED OBSERVATION AND CAN BE STALE BY THE TIME ITS REPORT IS READ — a seat runs for 40-55 minutes, a SessionStart hook or a sibling's install can move the ground under it, and its report arrives asserting the present tense. This one would have entered the ledger as a live blocker on a whole preflight tier, and the next session would have inherited it as a fact. ⚠ THE RULE THAT CAUGHT IT is CLAUDE.md §4 pointed at our own sandbox rather than at AI capability: take the live reading, it costs nothing. Two `python -c 'import pymbar'` calls and one scoped pytest run were the whole cost. ⛔ AND THE GENERAL FORM IS WORTH THE ENTRY EVEN THOUGH THE INSTANCE IS EMPTY: a seat's environment claims should be re-measured by the driver before they are filed, the same way its factual claims are — the ATR causal account was checked with `git show` and HELD; this one was checked and did NOT.\n\n⛔⛔ REOPENED THE SAME HOUR, AND MY OWN CLOSING DIAGNOSIS WAS A 'probably X' — the thing CLAUDE.md §4 forbids by name. I closed this as a STALE READING repaired between the seat's run and mine, on the evidence that pymbar imports here now. That evidence was real and the inference from it was wrong. ⭐ A SECOND SEAT, WORKING A DIFFERENT ITEM, MEASURED THE ACTUAL MECHANISM AND IT IS REPRODUCIBLE: **a fresh git worktree does not get the `SessionStart` hook, so `dev-setup.sh` never runs there, and preflight falls back to an interpreter without the packages.** Its own log said `MISSING PACKAGE — run ./scripts/dev-setup.sh`. In that state it reported `50 failed, 7901 passed, 95 skipped` and collected only 8,046 of 8,113 tests; the same suite on a working runner gave **8067 passed / 0 failed** in the seat's tree and **8065 passed / 0 failed** on a clean tree at the same commit. Running `dev-setup.sh --if-needed` by hand fixed it and the rerun was green. ⛔ SO TWO INDEPENDENT SEATS HIT THE IDENTICAL 50-FAILURE SIGNATURE FROM THE SAME CAUSE, and the cause is not the sandbox drifting — it is that the worktree contract this repository adopted on 2026-08-27 (research-loop §3, worktree-in/branch-out) put every seat in exactly the environment the SessionStart hook cannot reach. The contract and the hook were each correct alone and are broken together. ⚠ AND THE FAILURE IS DANGEROUS IN THE DIRECTION THAT COSTS MOST: it manufactures 50 red tests that do not exist, so a seat either wastes an hour chasing them, reports a false blocker (this entry, first pass), or — worst — adds them to `sandbox-failure-baseline.txt` and grants a permanent amnesty to 50 real guards. Both seats REFUSED to baseline them, which is the only reason this is a fixable defect rather than a silent hole. ⭐ FIX: make the seat prompt template run `./scripts/dev-setup.sh --if-needed` as its first action in a new worktree, and have `preflight.sh` say loudly that its interpreter is the fallback rather than burying it in a log line. CLAUDE.md §6 already records the rule for the non-worktree case — 'a red preflight in a fresh sandbox is usually the sandbox, run dev-setup.sh first' — and a hook was added so it would heal itself. The worktree path was never covered.\n\n⛔⛔ CORRECTION 2026-08-27, THE SECOND ON THIS ENTRY, AND THE MECHANISM IS NOW RECORDED AS **UNKNOWN** RATHER THAN GUESSED A THIRD TIME. I attempted to reproduce it and COULD NOT. In a fresh `git worktree add` right now, `pytest`, `numpy`, `scipy` and `pymbar` all import from /usr/local/lib/python3.11/dist-packages — the same shared system path the main tree uses. There is no per-tree venv, no per-tree python config, and no difference to find. **So 'a fresh worktree never gets the SessionStart hook' cannot be the cause**, because those packages are system-wide and a worktree inherits them. ⭐ THE SYMPTOM IS NOT IN DOUBT — both seats' transcripts carry it verbatim: `50 failed, 7901 passed, 95 skipped` and `50 failed, 7933 passed, 95 skipped`, with `No module named 'pymbar'` and preflight's own `MISSING PACKAGE` line. ⭐ AND THE REASON I CANNOT REPRODUCE IT IS ITSELF THE EVIDENCE: a seat ran `./scripts/dev-setup.sh --if-needed`, which installs to the SHARED system path, so it repaired the condition for every worker and every future worktree at once. The defect healed in flight, before the driver could diagnose it. ⛔ WHY THE ENVIRONMENT WAS INCOMPLETE AT ALL IS THE PART NOBODY HAS ESTABLISHED: this session's own SessionStart hook reported 'every interpreter the gates use already imports what they need — nothing to do' at start, and `dev-setup.sh`'s TEST_PROBE already lists `pymbar`. Those two facts and the seats' failures cannot all be true of the same moment, and I have not found the observation that discriminates. ⚠ TWO WRONG MECHANISMS ARE ALREADY RECORDED ABOVE — 'a stale reading repaired between runs' and 'worktrees miss the hook'. Both were plausible, both were written before a reproduction was attempted, and CLAUDE.md §4 names exactly that: catch yourself writing 'probably / must be' about a failure and go get the data. I wrote it twice. ⭐ WHAT WOULD SETTLE IT, for whoever takes this: the seats' own preflight logs, which are GONE — their worktrees were removed and one log was truncated mid-write by a sibling (AUT-PD-027). The next occurrence must have its log preserved OUTSIDE the worktree before anything else is done with it. ⭐ AND THE DEFENSIVE FIX IS WORTH DOING REGARDLESS OF THE CAUSE, because it costs nothing and closes the whole class: (1) every seat prompt runs `./scripts/dev-setup.sh --if-needed` as its first action — two seats did this by instruction today and it worked; (2) `preflight.sh` should PRINT which interpreter it resolved and whether the probe found anything missing, at the top of every run, rather than leaving it to a line buried in a gate. A run that invents 50 failures should say so in its first ten lines, not its thousandth.",
+      "what": "⛔ OPEN — EVERY SEAT'S PREFLIGHT MANUFACTURES ~50 RED TESTS THAT DO NOT EXIST, because a fresh worktree never gets the SessionStart hook that runs dev-setup.sh. ⚠ THIS ENTRY WAS BRIEFLY CLOSED AND THE CLOSURE WAS WRONG; the history below is kept because the wrong turning is the instructive part. ⚠ SUPERSEDED HEADING, retained (rule 1.2): 'CLOSED — THE REPORTED BLOCKER WAS NOT LIVE'. That heading sat at the top of a QUEUED row for an hour, so every reader — including the continuity hook, which offered it as ready work — saw a closed item in the ready queue. One fact, two places, inside a single field. ⛔ WHAT WAS REPORTED: the AUT-PROP-009 review seat measured `PREFLIGHT_MODALITIES=1` as unusable here — `50 failed, 7933 passed`, exactly 50 on an unpatched origin/main checkout too, the first tracing to `ModuleNotFoundError: No module named 'pymbar'` at nr4a3_abfe.py:69 — and correctly REFUSED to add them to sandbox-failure-baseline.txt, which would have converted a missing dependency into a permanent amnesty. That refusal was right and is worth keeping. ⛔ WHAT IS ACTUALLY TRUE: I checked before acting rather than filing the report. `pymbar 4.0.3` imports in BOTH interpreters — the tool venv at /root/.local/share/uv/tools/pytest/bin/python AND system python3 — and the ABFE tests the failure named now run `168 passed, 2 skipped`. There is no live blocker. ⭐ THE ENVIRONMENT WAS REPAIRED BETWEEN THE SEAT'S READING AND MINE: `dev-setup.sh` already carries `pymbar` in TEST_DEPS and its own header records this EXACT incident on 2026-08-24 — 'the tool venv had pymbar' while python3 lacked it, a publication gate red on ModuleNotFoundError at nr4a3_abfe.py:69, the same line. A `SessionStart` hook now runs `dev-setup.sh --if-needed`, which is presumably what closed it. ⭐⭐ SO THE TRANSFERABLE FINDING IS ABOUT SEATS, NOT ABOUT pymbar: A SUBAGENT'S ENVIRONMENT READING IS A DATED OBSERVATION AND CAN BE STALE BY THE TIME ITS REPORT IS READ — a seat runs for 40-55 minutes, a SessionStart hook or a sibling's install can move the ground under it, and its report arrives asserting the present tense. This one would have entered the ledger as a live blocker on a whole preflight tier, and the next session would have inherited it as a fact. ⚠ THE RULE THAT CAUGHT IT is CLAUDE.md §4 pointed at our own sandbox rather than at AI capability: take the live reading, it costs nothing. Two `python -c 'import pymbar'` calls and one scoped pytest run were the whole cost. ⛔ AND THE GENERAL FORM IS WORTH THE ENTRY EVEN THOUGH THE INSTANCE IS EMPTY: a seat's environment claims should be re-measured by the driver before they are filed, the same way its factual claims are — the ATR causal account was checked with `git show` and HELD; this one was checked and did NOT.\n\n⛔⛔ REOPENED THE SAME HOUR, AND MY OWN CLOSING DIAGNOSIS WAS A 'probably X' — the thing CLAUDE.md §4 forbids by name. I closed this as a STALE READING repaired between the seat's run and mine, on the evidence that pymbar imports here now. That evidence was real and the inference from it was wrong. ⭐ A SECOND SEAT, WORKING A DIFFERENT ITEM, MEASURED THE ACTUAL MECHANISM AND IT IS REPRODUCIBLE: **a fresh git worktree does not get the `SessionStart` hook, so `dev-setup.sh` never runs there, and preflight falls back to an interpreter without the packages.** Its own log said `MISSING PACKAGE — run ./scripts/dev-setup.sh`. In that state it reported `50 failed, 7901 passed, 95 skipped` and collected only 8,046 of 8,113 tests; the same suite on a working runner gave **8067 passed / 0 failed** in the seat's tree and **8065 passed / 0 failed** on a clean tree at the same commit. Running `dev-setup.sh --if-needed` by hand fixed it and the rerun was green. ⛔ SO TWO INDEPENDENT SEATS HIT THE IDENTICAL 50-FAILURE SIGNATURE FROM THE SAME CAUSE, and the cause is not the sandbox drifting — it is that the worktree contract this repository adopted on 2026-08-27 (research-loop §3, worktree-in/branch-out) put every seat in exactly the environment the SessionStart hook cannot reach. The contract and the hook were each correct alone and are broken together. ⚠ AND THE FAILURE IS DANGEROUS IN THE DIRECTION THAT COSTS MOST: it manufactures 50 red tests that do not exist, so a seat either wastes an hour chasing them, reports a false blocker (this entry, first pass), or — worst — adds them to `sandbox-failure-baseline.txt` and grants a permanent amnesty to 50 real guards. Both seats REFUSED to baseline them, which is the only reason this is a fixable defect rather than a silent hole. ⭐ FIX: make the seat prompt template run `./scripts/dev-setup.sh --if-needed` as its first action in a new worktree, and have `preflight.sh` say loudly that its interpreter is the fallback rather than burying it in a log line. CLAUDE.md §6 already records the rule for the non-worktree case — 'a red preflight in a fresh sandbox is usually the sandbox, run dev-setup.sh first' — and a hook was added so it would heal itself. The worktree path was never covered.\n\n⛔⛔ CORRECTION 2026-08-27, THE SECOND ON THIS ENTRY, AND THE MECHANISM IS NOW RECORDED AS **UNKNOWN** RATHER THAN GUESSED A THIRD TIME. I attempted to reproduce it and COULD NOT. In a fresh `git worktree add` right now, `pytest`, `numpy`, `scipy` and `pymbar` all import from /usr/local/lib/python3.11/dist-packages — the same shared system path the main tree uses. There is no per-tree venv, no per-tree python config, and no difference to find. **So 'a fresh worktree never gets the SessionStart hook' cannot be the cause**, because those packages are system-wide and a worktree inherits them. ⭐ THE SYMPTOM IS NOT IN DOUBT — both seats' transcripts carry it verbatim: `50 failed, 7901 passed, 95 skipped` and `50 failed, 7933 passed, 95 skipped`, with `No module named 'pymbar'` and preflight's own `MISSING PACKAGE` line. ⭐ AND THE REASON I CANNOT REPRODUCE IT IS ITSELF THE EVIDENCE: a seat ran `./scripts/dev-setup.sh --if-needed`, which installs to the SHARED system path, so it repaired the condition for every worker and every future worktree at once. The defect healed in flight, before the driver could diagnose it. ⛔ WHY THE ENVIRONMENT WAS INCOMPLETE AT ALL IS THE PART NOBODY HAS ESTABLISHED: this session's own SessionStart hook reported 'every interpreter the gates use already imports what they need — nothing to do' at start, and `dev-setup.sh`'s TEST_PROBE already lists `pymbar`. Those two facts and the seats' failures cannot all be true of the same moment, and I have not found the observation that discriminates. ⚠ TWO WRONG MECHANISMS ARE ALREADY RECORDED ABOVE — 'a stale reading repaired between runs' and 'worktrees miss the hook'. Both were plausible, both were written before a reproduction was attempted, and CLAUDE.md §4 names exactly that: catch yourself writing 'probably / must be' about a failure and go get the data. I wrote it twice. ⭐ WHAT WOULD SETTLE IT, for whoever takes this: the seats' own preflight logs, which are GONE — their worktrees were removed and one log was truncated mid-write by a sibling (AUT-PD-027). The next occurrence must have its log preserved OUTSIDE the worktree before anything else is done with it. ⭐ AND THE DEFENSIVE FIX IS WORTH DOING REGARDLESS OF THE CAUSE, because it costs nothing and closes the whole class: (1) every seat prompt runs `./scripts/dev-setup.sh --if-needed` as its first action — two seats did this by instruction today and it worked; (2) `preflight.sh` should PRINT which interpreter it resolved and whether the probe found anything missing, at the top of every run, rather than leaving it to a line buried in a gate. A run that invents 50 failures should say so in its first ten lines, not its thousandth.  ✅ ROOT-CAUSED AND CLOSED 2026-08-28 (CYC-0053-3217966b, seat s26-worktreepreflight, merged at e9793302e). ⛔ THE WORKTREE WAS NEVER THE CAUSE — that hypothesis is now REFUTED by measurement, not argument: root and worktree share the same python3, the same sys.path, the same pymbar and numpy files, empty PYTHONPATH and VIRTUAL_ENV in both, and no per-tree conftest/pytest.ini/pyproject. A worktree has nothing to miss; it correlated with WHO RAN, not with cause. This is the THIRD mechanism written into this row and the first with a discriminating observation behind it. ⭐ THE REAL MECHANISM: preflight.sh picks the interpreter it runs the suites in from MUTABLE GLOBAL STATE (`if python3 -c 'import pytest'`), and dev-setup.sh provisions only the interpreter that state named AT THE MOMENT DEV-SETUP RAN. Nothing re-asks afterwards, and the answer moves. THE DISCRIMINATING OBSERVATION IS A PRESERVED LOG NOBODY HAD READ: Actions run 33104631542 (2026-08-27, sha 8b3fb54a2c) ran `dev-setup.sh --if-needed || pip install -q pypdf pdfminer.six jsonschema pytest`; dev-setup named the hole correctly and then FAILED (a vanilla runner has no uv), so the `||` fallback installed pytest into system python3 AND NOTHING SCIENTIFIC — the flip, executed in one line of YAML. PREFLIGHT_FULL then reported 53 failed / 7893 passed, all named: 11 pymbar, the rest rdkit/numpy-scipy/boto3. THAT RUNNER HAD NO WORKTREE. Reproduced here to 11 failed / 8089 passed with a PYTHONPATH stub — a shadow rather than an uninstall, because the interpreters are shared with every concurrent seat, which is also why this survived four days and attracted three wrong mechanisms. ⭐ THE FIX WAS ALREADY IN THE TREE: preflight.sh:96 runs dev-setup.sh --if-needed unconditionally under set -euo pipefail, so the question is re-asked when the answer is USED. ⛔ AND THE LEDGER'S OWN PROPOSED FIX — a seat-prompt convention — SHOULD NOT BE DONE: research-loop/SKILL.md mentions dev-setup nowhere, and a prose convention checked by nothing is the shape this repository measured decaying twice in 48 hours.",
       "score": 158.1,
       "_score_basis": "every seat works in a worktree, and every worktree preflight manufactures 50 red tests that do not exist",
       "depends_on_evidence": "both seats' transcripts (50 failed / 7901 and 7933 passed, No module named 'pymbar', preflight's MISSING PACKAGE line); reproduction attempt 2026-08-27 in a fresh worktree found an identical complete environment — mechanism UNKNOWN",
@@ -2032,6 +1920,8 @@
       },
       "kind": "experiment",
       "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2093,6 +1983,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2127,6 +2019,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2160,7 +2054,11 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "experiment",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-VIRTUAL-CELL"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2333,6 +2231,8 @@
       },
       "kind": "write",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2423,6 +2323,10 @@
       },
       "kind": "experiment",
       "state": "done",
+      "parked_on": [
+        "TECH-EMC-MODEL-ACCESS"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2512,6 +2416,8 @@
       },
       "kind": "experiment",
       "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2547,6 +2453,8 @@
       },
       "kind": "experiment",
       "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2608,6 +2516,10 @@
       },
       "kind": "experiment",
       "state": "done",
+      "parked_on": [
+        "TECH-EMC-MODEL-ACCESS"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2643,6 +2555,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2818,7 +2732,11 @@
         "strategy": "ST-IMMUNO"
       },
       "kind": "experiment",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ],
+      "parked_by_graph_status": "delegated",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2920,6 +2838,146 @@
       "closes_clause": null
     },
     {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "quiet-head-for-the-sha-bound-aso-clauses"
+      ],
+      "blocked_evidence": "⚠ STATE CORRECTED 2026-08-27: this row read `in_progress` with `owner: null` and 2 attempts — the shape a DEAD CYCLE leaves behind, and the one `continuity.py`'s pinned `in_progress` test exists to keep visible. No worker held it. ⛔ BUT 'abandoned' was not what was true either: the item's own text names a sequencing condition, and so do its two siblings. All THREE open publish_bar clauses for PUB-ASO are sha-bound to the commit that gets posted — clause 1 (AUT-PROP-020, round 10's five blind seats), clause 2 (AUT-PROP-018, PREFLIGHT_FULL) and clause 6 (AUT-PROP-019, a seat receipt at the current commit) — so any one of them run against a moving HEAD buys a receipt for a sha that is stale before it lands. That is not a guess: clause 2 has already been thrown away twice for exactly this, and AUT-PROP-020's own text says SPAWNED SESSION, not more work in the current one (research-loop §3). ⭐ SO THE CONDITION IS A QUIET HEAD, and the right shape is ONE spawned session running all three against a single pinned commit once the seats in flight have landed. Recorded as evidence rather than left as a state nobody could read — CLAUDE.md §0: 'blocked' is a claim that needs evidence.",
+      "retry_budget": 3,
+      "attempts": 2,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "id": "AUT-PROP-019",
+      "kind": "harden",
+      "prerequisite_of": "AUT-049",
+      "what": "re-run a blind adversarial seat on the ASO v2 pinned commit. ⭐ CLOSES publish_bar CLAUSE 6 FOR PUB-ASO. ⚠ ROUND 9 RAN 2026-08-27 (five seats, pin 29f4e5e2, all five verified the digest) and its findings are APPLIED — research/manuscripts/aso/fusion-junction-aso-paper-redteam-round9.md. It does NOT close this clause: the bar wants a seat receipt at the CURRENT commit, and the text moved under it. ⛔ AND THE NEXT SEAT MUST READ WHAT ROUND 9 WROTE: the falsification section was substantially rewritten in response to review (readout, three controls, the delivery/dose/timepoint gap, the TFG mismatch, a success criterion), and paper-hardening is explicit that a verifier's pasteable fix is not pre-verified prose. Record under research/autonomy/review-seats/PUB-ASO-<sha>.json.",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "score": 118.36,
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "independent_adversarial_seat"
+      },
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "blocked_with_evidence": true,
+        "age_factor": 0.0714
+      }
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "quiet-head-for-the-sha-bound-aso-clauses"
+      ],
+      "blocked_evidence": "⚠ STATE CORRECTED 2026-08-27: this row read `in_progress` with `owner: null` and 2 attempts — the shape a DEAD CYCLE leaves behind, and the one `continuity.py`'s pinned `in_progress` test exists to keep visible. No worker held it. ⛔ BUT 'abandoned' was not what was true either: the item's own text names a sequencing condition, and so do its two siblings. All THREE open publish_bar clauses for PUB-ASO are sha-bound to the commit that gets posted — clause 1 (AUT-PROP-020, round 10's five blind seats), clause 2 (AUT-PROP-018, PREFLIGHT_FULL) and clause 6 (AUT-PROP-019, a seat receipt at the current commit) — so any one of them run against a moving HEAD buys a receipt for a sha that is stale before it lands. That is not a guess: clause 2 has already been thrown away twice for exactly this, and AUT-PROP-020's own text says SPAWNED SESSION, not more work in the current one (research-loop §3). ⭐ SO THE CONDITION IS A QUIET HEAD, and the right shape is ONE spawned session running all three against a single pinned commit once the seats in flight have landed. Recorded as evidence rather than left as a state nobody could read — CLAUDE.md §0: 'blocked' is a claim that needs evidence.",
+      "retry_budget": 3,
+      "attempts": 2,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "id": "AUT-PROP-020",
+      "kind": "harden",
+      "prerequisite_of": "AUT-049",
+      "what": "ROUND 10 OF PUB-ASO — five blind seats on the post-round-9 text, then apply. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s. ⚠ ROUND 9 FOUND SIX BLOCKERS AND ELEVEN P1s, so this paper is genuinely not converged and the clause is honest. Round 9's register names what changed and why: the abstract lost an over-claim and regained a scope qualifier, the falsification experiment gained a readout, a third control and a success criterion, the nulls gained their n=38,000 denominator and the artifact's own non-independence caveat, and the references were renumbered by first citation. ⛔ SPAWNED SESSION, not more work in the current one — research-loop §3. ✅ DONE 2026-08-27 (CYC-031-aso-round10), commit a4cc04cab. Five blind seats re-seated on round 9's corrected text, at pin 8ce3216. ZERO blockers, ZERO P1s in the article's own prose across all five lenses. ONE real P1, in a sibling GENERATED document (fusion-junction-aso-journal-tables.md): Table 2's caption referenced a nonexistent 'Section 5', leaked from the sibling extended report. Fixed at the generator (aso_journal_tables.py), word-neutral, all four dependent PDFs rebuilt, journal style held at 6pp. Full record: fusion-junction-aso-paper-redteam-round10.md. ⛔ DOES NOT CLOSE clause 1 (hardening_converged) — a round that found and fixed a real defect is not the round that gets to certify nothing was found, per this series' own standard (round 9's rule). Also folded in en route: a pre-existing, unrelated red gate (8 unanchored citations in research/method-watch-autonomy-prior-art-2.md from an earlier commit) verified and anchored — a concurrent session fixed the identical gap independently via a different route (PubMed/PMC MCP) and landed first; resolved by taking that version on rebase, no duplicate work survived. Queued: AUT-PROP-039 (round 11, to confirm convergence).",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "score": 117.5,
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
+    },
+    {
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "quiet-head-for-the-sha-bound-aso-clauses"
+      ],
+      "blocked_evidence": "Same condition as AUT-PROP-018/019, which this item now joins behind: all three of PUB-ASO's remaining open publish_bar clauses (hardening_converged, preflight_full_green, independent_adversarial_seat) are sha-bound to the commit that gets posted, so any one run against a moving HEAD buys a receipt for a sha that is stale before it lands. Round 11 (AUT-PROP-039) just fixed four guard-gap findings across lint_changed_prose.py, test_journal_article_numbers.py, aso_falsification_power.py (new), lint_claims.py and lint_style.py — none of which are article PROSE, but paper-hardening's own regression-seat rule (§4's seat 1) applies to any repair, and this round's fixes have not yet been reviewed by a fresh seat. Run this LAST, against the commit that is actually posted, once nothing else is mid-flight against the ASO family.",
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0032-cycrouti",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "id": "AUT-PROP-040",
+      "kind": "harden",
+      "prerequisite_of": "AUT-049",
+      "what": "ROUND 12 OF PUB-ASO — five blind seats confirming round 11's four fixes introduced no regression (paper-hardening §4's regression-seat lens is the load-bearing one here), pin the commit once nothing else is mid-flight against the ASO manuscript family. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s, anywhere. ⛔ Parallel Agent-tool subagents in the driver session (measured working for this shape of round in a scheduled-Routine context, CYC-031 and CYC-0032) unless create_session/handoff is available.\n\n✅ DONE 2026-08-28 (CYC-0047-cyc0047s). Five blind seats ran at pin 9ae1365 (post round-11, quiet head confirmed). ZERO blockers, ZERO P1s in the article's own prose across all five lenses (seats 2/3/5 independently re-derived every headline number/power figure and read cover-to-cover: hostile-referee verdict ACCEPT). ONE real P1 found in round 11's OWN TOOLING (seat 1: lint_style.py's HTML-comment exemption dropped the whole line on a same-line-closed comment, blinding the style gate over ~24 citation-marker lines of real prose -- downgraded from seat 1's BLOCKER label per this series' own §8.0 test, since the prose itself was verified correct, only the gate was blind). FIXED and mutation-tested this cycle: research/modalities/tests/test_lint_style.py, 7 cases, all failing pre-fix and passing post-fix. SEPARATELY: the driver's own follow-up commit to clear an unrelated stale-preflight failure (submission-metrics.json) ran into a live subagent mutation window and briefly landed a wrong value on main (6e7d44e06) -- caught by seat 4, corrected same cycle (3a53478a8). Full round record: research/manuscripts/aso/fusion-junction-aso-paper-redteam-round12.md. Process defect: AUT-PD-047. ⛔ DOES NOT CLOSE clause 1 (hardening_converged): per this series' own standard, a round that finds and fixes real gaps does not get to certify nothing was found -- both fixes are unreviewed. Queued AUT-PROP-042 (round 13, confirmation pass) to actually close the clause.",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "score_inputs": {
+        "blocked_with_evidence": true
+      },
+      "score": 117.5
+    },
+    {
+      "id": "AUT-PROP-042",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "quiet-head-for-the-sha-bound-aso-clauses"
+      ],
+      "blocked_evidence": "Same sequencing condition as AUT-PROP-018/019/040: all three of PUB-ASO's remaining open publish_bar clauses are sha-bound to the commit that gets posted, so a round run against a moving HEAD buys a receipt for a sha that is stale before it lands. Round 12 (this item's predecessor, AUT-PROP-040) just fixed two real things -- a lint_style.py guard-gap P1 and a process-caused submission-metrics.json BLOCKER -- neither of which has been reviewed by a fresh seat. Run this once nothing else is mid-flight against the ASO manuscript family.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0047-cyc0047s",
+      "prerequisite_of": "AUT-049",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "what": "ROUND 13 OF PUB-ASO — five blind seats confirming round 12's two fixes introduced no regression (paper-hardening §4's regression-seat lens is the load-bearing one here, exactly as it was for round 12 confirming round 11): (1) lint_style.py's rewritten HTML-comment handling (strips only the comment span, not the whole line) — check it doesn't now UNDER-exempt (i.e. does a genuinely decorative glyph purely inside a comment still pass clean?) and that it handles a comment with no trailing content, a comment spanning 3+ lines, and two comments on one line; (2) the corrected submission-metrics.json (main_words=3719) actually reproduces byte-for-byte against the pinned commit via `submission_metrics.py --check` run from a FRESH checkout, not the driver's shared working tree, so this round's own review cannot repeat the mutation-window mistake AUT-PD-047 documents. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s, anywhere — article prose AND its generated siblings (tables, references, submission-metrics.json). ⛔ Parallel Agent-tool subagents in the driver session (measured working for this shape of round in a scheduled-Routine context, CYC-031/032/047) unless create_session/handoff is available. ⛔ PIN THE COMMIT ONLY ONCE NOTHING ELSE IS MID-FLIGHT AGAINST THE ASO FAMILY, and if any seat wants to mutation-test a guard, give it an isolated git worktree (EnterWorktree or `git worktree add`) rather than relying on a self-reported scratch copy — AUT-PD-047's whole finding is that the plain instruction alone was not reliable.",
+      "score": 117.5,
+      "_renamed_from": "AUT-PROP-041",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
+    },
+    {
       "id": "AUT-049",
       "_derived": true,
       "what": "Post the preprint at research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md, and in the same pass send the three paywalled-table requests named in its section 6 to the corresponding authors.",
@@ -2930,6 +2988,8 @@
       },
       "kind": "write",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2952,8 +3012,8 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0,
-        "blocked_with_evidence": true,
-        "age_factor": 1.0
+        "age_factor": 1.0,
+        "blocked_with_evidence": true
       }
     },
     {
@@ -3073,6 +3133,8 @@
       },
       "kind": "fetch",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3110,6 +3172,8 @@
       },
       "kind": "fetch",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3173,6 +3237,8 @@
       },
       "kind": "fetch",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3210,6 +3276,8 @@
       },
       "kind": "fetch",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3247,6 +3315,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3281,6 +3351,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3375,6 +3447,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3408,7 +3482,11 @@
         "strategy": "ST-STRATEGY"
       },
       "kind": "experiment",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-RECONSTRUCTED-IPD"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3445,6 +3523,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3479,6 +3559,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3567,6 +3649,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3603,6 +3687,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3639,6 +3725,8 @@
       },
       "kind": "fetch",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3676,6 +3764,8 @@
       },
       "kind": "negative",
       "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": "closed",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3710,6 +3800,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3771,7 +3863,13 @@
         "strategy": "ST-IMMUNO"
       },
       "kind": "regrade",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA",
+        "TR-EMC-EXPRESSION-DATASET",
+        "TR-EMC-MODEL-ACCESS"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3806,6 +3904,8 @@
       },
       "kind": "experiment",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3840,6 +3940,8 @@
       },
       "kind": "fetch",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3876,7 +3978,12 @@
         "strategy": "ST-IMMUNO"
       },
       "kind": "regrade",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA",
+        "TR-EMC-EXPRESSION-DATASET"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3911,6 +4018,8 @@
       },
       "kind": "fetch",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -3976,6 +4085,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4010,6 +4121,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4046,6 +4159,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4107,7 +4222,11 @@
         "strategy": "ST-REPURPOSING"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TR-NR4A3-DIRECTION-OF-EFFECT"
+      ],
+      "parked_by_graph_status": "closed",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4141,7 +4260,12 @@
         "strategy": "ST-PROXIMITY"
       },
       "kind": "regrade",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-COFOLD-ASSEMBLY",
+        "TR-COFOLD-ASSEMBLY"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4175,7 +4299,14 @@
         "strategy": "ST-PROXIMITY"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-COFOLD-ASSEMBLY",
+        "TECH-TERNARY-ALCHEMY",
+        "TR-COFOLD-ASSEMBLY",
+        "TR-TERNARY-ALCHEMY-PASSES-VALB"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4209,7 +4340,11 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4243,7 +4378,9 @@
         "strategy": "ST-FUSION-DIRECT"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": null,
+      "parked_by_graph_status": "closed",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4277,7 +4414,9 @@
         "strategy": "ST-FUSION-DIRECT"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": null,
+      "parked_by_graph_status": "closed",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4311,7 +4450,11 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-MODEL-ACCESS"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4345,7 +4488,9 @@
         "strategy": "ST-FUSION-DIRECT"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": null,
+      "parked_by_graph_status": "closed",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4379,7 +4524,15 @@
         "strategy": "ST-PROXIMITY"
       },
       "kind": "regrade",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-COFOLD-ASSEMBLY",
+        "TECH-FE-CRYPTIC-POCKET",
+        "TECH-GLUE-DESIGN",
+        "TR-FE-CRYPTIC-POCKET",
+        "TR-GLUE-DESIGN-PREDICTOR"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4413,7 +4566,11 @@
         "strategy": "ST-REPURPOSING"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4447,7 +4604,11 @@
         "strategy": "ST-MICROENV"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4482,6 +4643,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4516,6 +4679,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4549,7 +4714,11 @@
         "strategy": "ST-MICROENV"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4583,7 +4752,11 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4618,6 +4791,8 @@
       },
       "kind": "negative",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4651,7 +4826,11 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4685,7 +4864,14 @@
         "strategy": "ST-PROXIMITY"
       },
       "kind": "regrade",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-COFOLD-ASSEMBLY",
+        "TECH-EMC-MODEL-ACCESS",
+        "TECH-FE-CRYPTIC-POCKET",
+        "TR-FE-CRYPTIC-POCKET"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4720,6 +4906,8 @@
       },
       "kind": "fetch",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4756,7 +4944,13 @@
         "strategy": "ST-NUCLEIC-ACID"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-EMC-EXPRESSION-DATA",
+        "TECH-VECTOR-DELIVERY",
+        "TR-VECTOR-TUMOUR-DELIVERY"
+      ],
+      "parked_by_graph_status": "closed",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4790,7 +4984,12 @@
         "strategy": "ST-IMMUNO"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-JUNCTION-PMHC",
+        "TR-NEOANTIGEN-BROADER-ALLELE-COVERAGE"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4824,7 +5023,12 @@
         "strategy": "ST-PROXIMITY"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-OBSERVED-CRL",
+        "TR-OBSERVED-CRL-GEOMETRY"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4858,7 +5062,12 @@
         "strategy": "ST-IMMUNO"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-JUNCTION-PMHC",
+        "TR-NEOANTIGEN-BROADER-ALLELE-COVERAGE"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4893,6 +5102,8 @@
       },
       "kind": "fetch",
       "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4929,7 +5140,12 @@
         "strategy": "ST-REPURPOSING"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-VIRTUAL-CELL",
+        "TR-EMC-MODEL-ACCESS"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4963,7 +5179,12 @@
         "strategy": "ST-NUCLEIC-ACID"
       },
       "kind": "regrade",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-VECTOR-DELIVERY",
+        "TR-VECTOR-TUMOUR-DELIVERY"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -4997,7 +5218,12 @@
         "strategy": "ST-NUCLEIC-ACID"
       },
       "kind": "regrade",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-VECTOR-DELIVERY",
+        "TR-VECTOR-TUMOUR-DELIVERY"
+      ],
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -5031,7 +5257,12 @@
         "strategy": "ST-REPURPOSING"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "parked",
+      "parked_on": [
+        "TECH-RXR-HETERODIMER-REPORT",
+        "TR-NR4A3-RXR-HETERODIMER-REPORT"
+      ],
+      "parked_by_graph_status": "closed",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -5779,13 +6010,147 @@
     },
     {
       "id": "AUT-PD-075",
-      "what": "⛔ THE DERIVED-ROW GENERATOR TURNS A ROUTE'S CONCLUSION INTO QUEUED WORK, so the queue offers rows whose own text says there is nothing to do. Measured 2026-08-28 by CYC-0053-3217966b immediately after the additive-score fix (a660303) corrected the ranking — THREE OF THE TOP FIVE ready rows are this shape, and the top row overall is: AUT-013 (172.0, `kind: experiment`, `state: queued`, `_derived: true`) reads \"Treat as landscape context; the ex-vivo result is banked and NEEDS NO FURTHER LOOKUP\"; AUT-074 (152.0) reads \"Report it as a CLOSED LINE: elevated and pan-essential is not an opportunity\"; AUT-025 (152.0) reads \"KEEP REGISTERED for automatic re-grade when EMC expression data lands\" — a row that is waiting on the outside world by construction. All three are derived from systems/graph, all three carry last_evidence_utc in early August, and all three have been offered as takeable work every cycle since. ⚠ THIS IS THE MIRROR IMAGE OF THE DEFECT JUST FIXED, and it survives it: the scores are now honest and the STATE is not, so a corrected ranking still points a cycle at non-work. It is also AUT-PD-051's family (a row that is effectively finished still being offered), reached through the generator rather than through a missed closure. ⛔ DO NOT FIX BY HAND-EDITING THE ROWS — they are regenerated from the graph, so a hand edit is erased on the next priority.py --write and the lesson with it. ★ THE FIX BELONGS IN THE GENERATOR OR THE GRAPH: a route whose next action is a conclusion (\"needs no further lookup\", \"closed line\") or a registration waiting on the world (\"keep registered for automatic re-grade\") must derive a row in a parked or blocked state naming what it waits on, never `queued`. ⚠ AND THE HARD PART IS THE DISCRIMINATOR, not the state change: keying on phrases would be a grep over prose that the next re-wording defeats. Prefer a field on the graph node that says whether its next action is an ACTION, a CONCLUSION, or a REGISTRATION — and then the generator reads a field instead of guessing at English. Check whether systems/graph already carries something equivalent before adding one.",
+      "what": "⛔ THE DERIVED-ROW GENERATOR TURNS A ROUTE'S CONCLUSION INTO QUEUED WORK, so the queue offers rows whose own text says there is nothing to do. Measured 2026-08-28 by CYC-0053-3217966b immediately after the additive-score fix (a660303) corrected the ranking — THREE OF THE TOP FIVE ready rows are this shape, and the top row overall is: AUT-013 (172.0, `kind: experiment`, `state: queued`, `_derived: true`) reads \"Treat as landscape context; the ex-vivo result is banked and NEEDS NO FURTHER LOOKUP\"; AUT-074 (152.0) reads \"Report it as a CLOSED LINE: elevated and pan-essential is not an opportunity\"; AUT-025 (152.0) reads \"KEEP REGISTERED for automatic re-grade when EMC expression data lands\" — a row that is waiting on the outside world by construction. All three are derived from systems/graph, all three carry last_evidence_utc in early August, and all three have been offered as takeable work every cycle since. ⚠ THIS IS THE MIRROR IMAGE OF THE DEFECT JUST FIXED, and it survives it: the scores are now honest and the STATE is not, so a corrected ranking still points a cycle at non-work. It is also AUT-PD-051's family (a row that is effectively finished still being offered), reached through the generator rather than through a missed closure. ⛔ DO NOT FIX BY HAND-EDITING THE ROWS — they are regenerated from the graph, so a hand edit is erased on the next priority.py --write and the lesson with it. ★ THE FIX BELONGS IN THE GENERATOR OR THE GRAPH: a route whose next action is a conclusion (\"needs no further lookup\", \"closed line\") or a registration waiting on the world (\"keep registered for automatic re-grade\") must derive a row in a parked or blocked state naming what it waits on, never `queued`. ⚠ AND THE HARD PART IS THE DISCRIMINATOR, not the state change: keying on phrases would be a grep over prose that the next re-wording defeats. Prefer a field on the graph node that says whether its next action is an ACTION, a CONCLUSION, or a REGISTRATION — and then the generator reads a field instead of guessing at English. Check whether systems/graph already carries something equivalent before adding one.  ✅ FIXED 2026-08-28 (CYC-0053-3217966b, seat s75-derivedstate, merged at 1eefaf77d). ⛔⛔ THE CLASS IS 39 ROWS, NOT THE 3 THIS ROW WAS FILED ON — half the derived queue, 36 of them `queued`: 23 CONCLUSION and 16 REGISTRATION-waiting-on-the-world, against 38 genuine ACTION rows. The measurement changed the fix from a patch to a state mapping, which is why the row demanded the enumeration first. ⭐ THE DISCRIMINATOR EXISTED ALREADY and no grep over English was needed: `state.status` on every route, a closed vocabulary in systems/CONVENTIONS.md §4.1 pinned by the schema, whose own definitions say there is no takeable step (`parked` = failed with today's tools, `closed` = conclusively unworkable, `delegated` = someone else's). The generator read NONE of it — only `next.blocked_on`, which 11 of 77 routes carry, so the other 66 were born queued BY CONSTRUCTION. Three rival discriminators were measured and refuted, including `next.cost == '$0'` which has no signal at all (all 32 are $0). Precision was chosen over recall because the errors are asymmetric: a miss keeps the status quo, a false park HIDES A LIVE ROUTE. Result: queued 129 → 101, parked 0 → 28; the ready list falls 92 → 65. Nothing is disposed of — the row keeps its id, its score and the route's own words, and a session's `done` still beats a re-derived `parked`. 12/12 mutations caught, after M2 SURVIVED the first version because the false-park test read the module's own set, so widening the set widened the test; the takeable statuses are now written out independently of the module and checked to partition the schema enum.",
       "serves": {
         "route": "RT-AUTONOMY",
         "publication": null,
         "strategy": null
       },
       "kind": "process_defect",
+      "state": "done",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "claimed_utc": null
+    },
+    {
+      "id": "AUT-PD-076",
+      "what": "⛔⛔ THE RANKER'S QUEUE HEAD IS DOMINATED BY ROWS THAT ARE ALREADY CLOSED — measured 2026-08-28 by seat s63-prereqscore: 7 of the top 10 at origin/main, and 10 of 10 AFTER the prerequisite fix, because a `prerequisite_of` row inherits its parent's value REGARDLESS OF `state` while apply_age_factor already refuses to age closed rows for exactly that reason. ★ HIGHEST-LEVERAGE ROW THIS CYCLE FILED: it is what a driver reads at step 4 of the cycle contract, so a queue head of finished work sends every fresh cycle at nothing — CLAUDE.md §0's failure reached through the ranker rather than through judgement. Two candidate fixes: skip closed rows in the inheritance, or filter them out of `_table` and the driver's pick. ⚠ EITHER REQUIRES RE-SCOPING test_a_prerequisite_outranks_the_thing_it_unblocks, which today binds EVERY prerequisite row including done ones — a decision with a guard change attached. Do not narrow that guard without mutation-testing the narrowed form.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-077",
+      "what": "⛔ A BLOCK KEYED ON THE PRESENCE OF TEXT CAN NEVER SELF-CLEAR. The −90 fires on ANY non-empty blocked_evidence, deliberately (a session writing state: blocked gets it reverted by the next re-derivation) — but only a human or a session nulling the field can end a block. Measured 2026-08-28: three rows (AUT-PROP-018, -019, -020) carried conditions that cleared DAYS earlier and kept taking the penalty every re-score; AUT-PROP-020 is `done` and still carries the field, so a FINISHED row takes −90 forever. AUT-PROP-018 was cleared this cycle with a recorded correction; -019 and -020 were left because each needs its own evidence read, not a batch edit. ★ FIX: a machine-checkable `blocked_until` / `recheck` predicate the scorer re-evaluates, so a block states the observable condition that ends it rather than resting on prose nobody re-reads.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-078",
+      "what": "LATENT, CHEAP TO CLOSE: a self-referential `prerequisite_of` (a row naming itself) is not idempotent under the committed `_resolve` — it gains +bonus on every re-score, resolving once per call from its own base. No such row exists today and the ranker terminates, so nothing is wrong right now; it is filed because the point of the idempotence work that landed this cycle is that a re-score must be a fixed point, and a latent non-fixed-point is one bad ledger edit away from being live. Found by seat s63-prereqscore while proving the chain terminates.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-079",
+      "what": "⛔ THE LINTER'S OWN RULE TABLE IS STALE, AND EVERY GATE STAYED GREEN OVER IT FOR TWELVE DAYS. Measured 2026-08-28 by seat s37-grade: research/manuscripts/lint_claims.py has 17 rules in SIX families — R6-unsurveyed-field-practice landed 2026-08-15 — while 'R1–R5' is still written in the linter's own docstring rule table (fixed on the seat's branch) and in ELEVEN further places: scripts/preflight.sh's gate heading (derived by systems_check.check_preflight_gate_list and hard-coded in four documents), publish_bar.py's clause docstring, fast_checks.py, lint_citation_types.py, four tests and three modality files. ⭐ THE POINT IS NOT THE TYPO: a rule table that describes itself inaccurately is INVISIBLE to every check that reads it, which is why twelve days passed with a green build — the same unmeasured-agreement shape as the fan-out receipt key and subagent_width. ★ FIX: one sweep, with the preflight heading's four hard-coding documents updated together. Left by the seat that found it because it is a multi-file edit with sibling-seat collision risk — a separate task to raise, not to absorb.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-080",
+      "what": "DATED-SUPERSESSION NOTE, not an inline rewrite: '110+ organisations' for GRADE endorsement is UNDERSTATED — the live reading fetched 2026-08-28 (CI run 33181002075, gradeworkinggroup.org) is 'More than 120 organizations from over 20 countries'. It appears in research/method-watch-autonomy-prior-art-2.md §10 #9 and in AUT-PROP-037's ledger text. ⭐ FILED BECAUSE IT IS CLAUDE.md §4's ONE-DIRECTIONAL STALENESS CAUGHT IN THE ACT, in a number this repository was about to carry into an artifact: a remembered figure about any field's adoption almost always understates, and this one did. Correct it as a dated supersession (the survey record keeps what it observed and when), never by silently overwriting the old number.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-081",
+      "what": "TOOLING GAP IN THE SEAT-LOG CHECKER, found by using it: research/autonomy/seat_scratch.py --verify-log should flag a log whose `EXIT=` marker is not at line start. Measured 2026-08-28 by seat s37-grade — a command whose output lacked a trailing newline had its marker appended to the end of the last output line, so `grep '^EXIT='` counted zero and a REAL marker read exactly like a MISSING one. ⚠ That is the wrong direction of failure for this checker: it turns a completed run into an apparently-abandoned one, and the standing rule is that a log with no EXIT= marker is not a result. Cheap fix; the value is that the checker stops lying about which of its own logs are results.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-082",
+      "what": "⛔⛔ APPLY THE THREE REFUTED INTERPRETATION CLAIMS TO THE ASO MANUSCRIPT AS A HARDENING ROUND — AND THIS IS THE ONE ROW ON THIS LIST THAT TOUCHES A PAPER WITH A PUBLIC DOI (PUB-ASO, Qeios 10.32388/VL3LJR). Evidence: research/manuscripts/aso/fusion-junction-aso-claim-audit-verdicts.json, seat s33-claimaudit, 2026-08-28. Each is fixed by NARROWING A QUANTIFIER, not by deleting a claim, and two are contradicted by the paper's own text — ':295' by its own Figure 1 legend, ':348' by its own next sentence. ⛔ IT IS A HARDENING ROUND, NOT AN EDIT: a correction REPLACES text (paper-hardening), two of the three sentences are load-bearing, and the round must re-run the seats rather than patch three lines. ⛔⛔ AND THE ACT AFTER IT IS NOT OURS: posting a revised version of a paper that already carries a DOI under trimcrae's name requires that HE named THAT paper for THAT act, and PUB-ASO is explicitly excluded from the standing aiXiv grant — verbatim, 2026-08-27: 'That's the only paper that shouldn't auto ship to aiXiv.' Fix the text, gate it, then it is his call.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "harden",
       "state": "in_progress",
       "owner": "CYC-0053-3217966b",
       "cost_class": "free",
@@ -5795,7 +6160,89 @@
       "retry_budget": 3,
       "attempts": 0,
       "last_evidence_utc": "2026-08-28",
-      "claimed_utc": "2026-08-28T14:50:03Z"
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Applying the three refutations to the manuscript text and gating it is ours — a hardening round on a file in this repository. ⛔ POSTING THE REVISED VERSION IS NOT: PUB-ASO carries a public DOI under trimcrae's name and is explicitly excluded from the standing aiXiv grant ('That's the only paper that shouldn't auto ship to aiXiv', 2026-08-27), so a new public version requires that he named THAT paper for THAT act. Fix the text, gate it, then it is his call — and being unable to finish the route without him is never itself authorisation.",
+      "claimed_utc": "2026-08-28T15:23:04Z"
+    },
+    {
+      "id": "AUT-PD-083",
+      "what": "⛔ AN ARTIFACT IN THE ZENODO DEPOSIT CONTRADICTS ITSELF ABOUT ITS OWN CONTROLS: aso-control-oligos.json's `⛔_not_a_claim_of_inertness` field says a control 'FAILS the specificity screen the reagent passes', while its `_what` says controls are emitted only if they clear the ten-base-pair criterion — and the data show 6 bp and 7 bp against a cut of 10, i.e. CLEARING. ⚠ Both fields ship in the released deposit, so a reviewer reads both. The manuscript sentence resting on it is CORRECT; it is the artifact's wording that is wrong, which is the harder half to notice. Found by seat s33-claimaudit while verifying an unrelated claim.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "The FIX is in-repo and ours: correcting the wording of a committed artifact so it stops contradicting itself. ⛔ What is NOT ours, and is deliberately not in this row's scope, is re-depositing the corrected artifact to Zenodo or amending the DOI record — that is an outward-facing act under CLAUDE.md §3 and needs trimcrae to name THAT deposit for THAT act. File the re-deposit as its own row when a corrected set exists; do not let it ride along on this one."
+    },
+    {
+      "id": "AUT-PD-084",
+      "what": "⛔ ONE FACT, TWO SOURCES, BOTH IN THE RELEASED DEPOSIT: aso-parent-gap-pairing.json attributes the seven-to-ten hybridised-nucleotide RNase-H1 range to PMID 35664704, while the journal article attributes 'seven to ten the working range' to PMID 24981949. ★ Decide which is the source and make it one fact in one place — and note that lint_citations cannot see this, because BOTH identifiers resolve: the defect is that two different works are credited for one number, not that either is fabricated. Separately: the journal article has NO committed PMID→title artifact (journal-reference-authors.json holds authors and no titles), so any tool resolving that manuscript's citations gets an empty record — PMID 39912803 did. Emit fusion-junction-aso-journal-references.json alongside the markdown.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "The FIX is in-repo and ours: correcting the wording of a committed artifact so it stops contradicting itself. ⛔ What is NOT ours, and is deliberately not in this row's scope, is re-depositing the corrected artifact to Zenodo or amending the DOI record — that is an outward-facing act under CLAUDE.md §3 and needs trimcrae to name THAT deposit for THAT act. File the re-deposit as its own row when a corrected set exists; do not let it ride along on this one."
+    },
+    {
+      "id": "AUT-PROP-047",
+      "what": "RUN claim_audit.py ON THE DEGRADER PAPER. One manuscript is one manuscript: the ASO draw found a 3-refutation shape in interpretation claims and zero in twenty data/literature claims, and a second paper is what turns that from an observation into a pattern (or refutes it). The sampler is committed, deterministic under a seed, and free to run. ⚠ Score it the same way: report the Wilson interval, and do NOT claim a rate is 'near' Kosmos's 57.9% when n=10 cannot distinguish 57.9% from 90%.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "proposal",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-085",
+      "what": "THE MANUSCRIPTS SUITE INTERMITTENTLY REPORTS A WHOLE FILE AS ERROR UNDER xdist: 15 items of test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py errored in one of three runs on 2026-08-28, passing standalone and on re-run. Under `--dist loadfile` a dead worker fails an ENTIRE FILE, and preflight's summary line cannot distinguish that from a real defect — which is the dangerous half: a session that sees it either chases a phantom or learns to discount real reds. ★ FIX: retry-once on worker crash, or a verdict line that names a worker crash as what it is. ⚠ Do NOT 'fix' it by loosening the summary.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
     },
     {
       "id": "AUT-PD-005",
@@ -6055,147 +6502,11 @@
       }
     },
     {
-      "id": "AUT-PD-076",
-      "what": "⛔⛔ THE RANKER'S QUEUE HEAD IS DOMINATED BY ROWS THAT ARE ALREADY CLOSED — measured 2026-08-28 by seat s63-prereqscore: 7 of the top 10 at origin/main, and 10 of 10 AFTER the prerequisite fix, because a `prerequisite_of` row inherits its parent's value REGARDLESS OF `state` while apply_age_factor already refuses to age closed rows for exactly that reason. ★ HIGHEST-LEVERAGE ROW THIS CYCLE FILED: it is what a driver reads at step 4 of the cycle contract, so a queue head of finished work sends every fresh cycle at nothing — CLAUDE.md §0's failure reached through the ranker rather than through judgement. Two candidate fixes: skip closed rows in the inheritance, or filter them out of `_table` and the driver's pick. ⚠ EITHER REQUIRES RE-SCOPING test_a_prerequisite_outranks_the_thing_it_unblocks, which today binds EVERY prerequisite row including done ones — a decision with a guard change attached. Do not narrow that guard without mutation-testing the narrowed form.",
+      "id": "AUT-PD-086",
+      "what": "⛔⛔ FOUR ROUTES ARE RECORDED `state.status: parked` WHILE THEIR OWN NEXT ACTION NAMES A $0 STEP — AND AS OF 2026-08-28 THAT RECORD NOW HIDES THEM FROM THE QUEUE. Measured by seat s75-derivedstate while building the status-driven fix: RT-HORMONE-PARTNER ('Run the one $0 Europe PMC query on the HSPA8 promoter'), RT-VACCINE ('Re-grade on the recomputed coverage'), RT-MATRIX-SYNTHESIS, RT-SEQUENCING. ★★ THIS IS THE HIGHEST-PRIORITY ROW THIS CYCLE FILED AND IT IS THE ONLY ONE THAT IS RESEARCH RATHER THAN PLUMBING: two of the four are LIVE FREE WORK on real routes, and CLAUDE.md §0 is explicit that a route that could still produce a result outranks every finished-negative and documentation item. ⚠ The fix that surfaced them also conceals them until the graph is corrected — a false park hides a live route, which is exactly the asymmetry the seat chose precision to avoid, and it did not avoid it for these four. ★ FIX: correct the four records in systems/graph (a portfolio judgement with a generated-views blast radius, so it is a deliberate act, not a sweep), then RUN THE TWO $0 STEPS.",
       "serves": {
         "route": "RT-AUTONOMY",
         "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28"
-    },
-    {
-      "id": "AUT-PD-077",
-      "what": "⛔ A BLOCK KEYED ON THE PRESENCE OF TEXT CAN NEVER SELF-CLEAR. The −90 fires on ANY non-empty blocked_evidence, deliberately (a session writing state: blocked gets it reverted by the next re-derivation) — but only a human or a session nulling the field can end a block. Measured 2026-08-28: three rows (AUT-PROP-018, -019, -020) carried conditions that cleared DAYS earlier and kept taking the penalty every re-score; AUT-PROP-020 is `done` and still carries the field, so a FINISHED row takes −90 forever. AUT-PROP-018 was cleared this cycle with a recorded correction; -019 and -020 were left because each needs its own evidence read, not a batch edit. ★ FIX: a machine-checkable `blocked_until` / `recheck` predicate the scorer re-evaluates, so a block states the observable condition that ends it rather than resting on prose nobody re-reads.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28"
-    },
-    {
-      "id": "AUT-PD-078",
-      "what": "LATENT, CHEAP TO CLOSE: a self-referential `prerequisite_of` (a row naming itself) is not idempotent under the committed `_resolve` — it gains +bonus on every re-score, resolving once per call from its own base. No such row exists today and the ranker terminates, so nothing is wrong right now; it is filed because the point of the idempotence work that landed this cycle is that a re-score must be a fixed point, and a latent non-fixed-point is one bad ledger edit away from being live. Found by seat s63-prereqscore while proving the chain terminates.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28"
-    },
-    {
-      "id": "AUT-PD-079",
-      "what": "⛔ THE LINTER'S OWN RULE TABLE IS STALE, AND EVERY GATE STAYED GREEN OVER IT FOR TWELVE DAYS. Measured 2026-08-28 by seat s37-grade: research/manuscripts/lint_claims.py has 17 rules in SIX families — R6-unsurveyed-field-practice landed 2026-08-15 — while 'R1–R5' is still written in the linter's own docstring rule table (fixed on the seat's branch) and in ELEVEN further places: scripts/preflight.sh's gate heading (derived by systems_check.check_preflight_gate_list and hard-coded in four documents), publish_bar.py's clause docstring, fast_checks.py, lint_citation_types.py, four tests and three modality files. ⭐ THE POINT IS NOT THE TYPO: a rule table that describes itself inaccurately is INVISIBLE to every check that reads it, which is why twelve days passed with a green build — the same unmeasured-agreement shape as the fan-out receipt key and subagent_width. ★ FIX: one sweep, with the preflight heading's four hard-coding documents updated together. Left by the seat that found it because it is a multi-file edit with sibling-seat collision risk — a separate task to raise, not to absorb.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28"
-    },
-    {
-      "id": "AUT-PD-080",
-      "what": "DATED-SUPERSESSION NOTE, not an inline rewrite: '110+ organisations' for GRADE endorsement is UNDERSTATED — the live reading fetched 2026-08-28 (CI run 33181002075, gradeworkinggroup.org) is 'More than 120 organizations from over 20 countries'. It appears in research/method-watch-autonomy-prior-art-2.md §10 #9 and in AUT-PROP-037's ledger text. ⭐ FILED BECAUSE IT IS CLAUDE.md §4's ONE-DIRECTIONAL STALENESS CAUGHT IN THE ACT, in a number this repository was about to carry into an artifact: a remembered figure about any field's adoption almost always understates, and this one did. Correct it as a dated supersession (the survey record keeps what it observed and when), never by silently overwriting the old number.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28"
-    },
-    {
-      "id": "AUT-PD-081",
-      "what": "TOOLING GAP IN THE SEAT-LOG CHECKER, found by using it: research/autonomy/seat_scratch.py --verify-log should flag a log whose `EXIT=` marker is not at line start. Measured 2026-08-28 by seat s37-grade — a command whose output lacked a trailing newline had its marker appended to the end of the last output line, so `grep '^EXIT='` counted zero and a REAL marker read exactly like a MISSING one. ⚠ That is the wrong direction of failure for this checker: it turns a completed run into an apparently-abandoned one, and the standing rule is that a log with no EXIT= marker is not a result. Cheap fix; the value is that the checker stops lying about which of its own logs are results.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28"
-    },
-    {
-      "id": "AUT-PD-082",
-      "what": "⛔⛔ APPLY THE THREE REFUTED INTERPRETATION CLAIMS TO THE ASO MANUSCRIPT AS A HARDENING ROUND — AND THIS IS THE ONE ROW ON THIS LIST THAT TOUCHES A PAPER WITH A PUBLIC DOI (PUB-ASO, Qeios 10.32388/VL3LJR). Evidence: research/manuscripts/aso/fusion-junction-aso-claim-audit-verdicts.json, seat s33-claimaudit, 2026-08-28. Each is fixed by NARROWING A QUANTIFIER, not by deleting a claim, and two are contradicted by the paper's own text — ':295' by its own Figure 1 legend, ':348' by its own next sentence. ⛔ IT IS A HARDENING ROUND, NOT AN EDIT: a correction REPLACES text (paper-hardening), two of the three sentences are load-bearing, and the round must re-run the seats rather than patch three lines. ⛔⛔ AND THE ACT AFTER IT IS NOT OURS: posting a revised version of a paper that already carries a DOI under trimcrae's name requires that HE named THAT paper for THAT act, and PUB-ASO is explicitly excluded from the standing aiXiv grant — verbatim, 2026-08-27: 'That's the only paper that shouldn't auto ship to aiXiv.' Fix the text, gate it, then it is his call.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": "PUB-ASO",
-        "strategy": null
-      },
-      "kind": "harden",
-      "state": "in_progress",
-      "owner": "CYC-0053-3217966b",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "Applying the three refutations to the manuscript text and gating it is ours — a hardening round on a file in this repository. ⛔ POSTING THE REVISED VERSION IS NOT: PUB-ASO carries a public DOI under trimcrae's name and is explicitly excluded from the standing aiXiv grant ('That's the only paper that shouldn't auto ship to aiXiv', 2026-08-27), so a new public version requires that he named THAT paper for THAT act. Fix the text, gate it, then it is his call — and being unable to finish the route without him is never itself authorisation.",
-      "claimed_utc": "2026-08-28T15:23:04Z"
-    },
-    {
-      "id": "AUT-PD-083",
-      "what": "⛔ AN ARTIFACT IN THE ZENODO DEPOSIT CONTRADICTS ITSELF ABOUT ITS OWN CONTROLS: aso-control-oligos.json's `⛔_not_a_claim_of_inertness` field says a control 'FAILS the specificity screen the reagent passes', while its `_what` says controls are emitted only if they clear the ten-base-pair criterion — and the data show 6 bp and 7 bp against a cut of 10, i.e. CLEARING. ⚠ Both fields ship in the released deposit, so a reviewer reads both. The manuscript sentence resting on it is CORRECT; it is the artifact's wording that is wrong, which is the harder half to notice. Found by seat s33-claimaudit while verifying an unrelated claim.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": "PUB-ASO",
         "strategy": null
       },
       "kind": "process_defect",
@@ -6209,14 +6520,14 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
-      "requires_trimcrae_why": "The FIX is in-repo and ours: correcting the wording of a committed artifact so it stops contradicting itself. ⛔ What is NOT ours, and is deliberately not in this row's scope, is re-depositing the corrected artifact to Zenodo or amending the DOI record — that is an outward-facing act under CLAUDE.md §3 and needs trimcrae to name THAT deposit for THAT act. File the re-deposit as its own row when a corrected set exists; do not let it ride along on this one."
+      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act."
     },
     {
-      "id": "AUT-PD-084",
-      "what": "⛔ ONE FACT, TWO SOURCES, BOTH IN THE RELEASED DEPOSIT: aso-parent-gap-pairing.json attributes the seven-to-ten hybridised-nucleotide RNase-H1 range to PMID 35664704, while the journal article attributes 'seven to ten the working range' to PMID 24981949. ★ Decide which is the source and make it one fact in one place — and note that lint_citations cannot see this, because BOTH identifiers resolve: the defect is that two different works are credited for one number, not that either is fabricated. Separately: the journal article has NO committed PMID→title artifact (journal-reference-authors.json holds authors and no titles), so any tool resolving that manuscript's citations gets an empty record — PMID 39912803 did. Emit fusion-junction-aso-journal-references.json alongside the markdown.",
+      "id": "AUT-PD-087",
+      "what": "THREE ROUTE RECORDS CONTRADICT THEMSELVES IN THE OTHER DIRECTION: `ready`/`pursue_now` on a route whose next action is a CONCLUSION — RT-CARFILZOMIB ('needs no further lookup', and still the top-scoring ready row at 172.0), RT-PANNR4A-EXVIVO, RT-TRABECTEDIN (`ready` + `monitor`). Evidence: scratchpad s75-graph-record-findings.txt, seat s75-derivedstate. ⚠ These are the residue the status-driven fix CANNOT catch, by construction: the generator now trusts `state.status`, so a route whose status is wrong in the permissive direction stays in the queue as before. The fix is a graph record correction, not a generator change — and the generator change is what makes the record's correctness load-bearing.",
       "serves": {
         "route": "RT-AUTONOMY",
-        "publication": "PUB-ASO",
+        "publication": null,
         "strategy": null
       },
       "kind": "process_defect",
@@ -6230,33 +6541,14 @@
       "attempts": 0,
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
-      "requires_trimcrae_why": "The FIX is in-repo and ours: correcting the wording of a committed artifact so it stops contradicting itself. ⛔ What is NOT ours, and is deliberately not in this row's scope, is re-depositing the corrected artifact to Zenodo or amending the DOI record — that is an outward-facing act under CLAUDE.md §3 and needs trimcrae to name THAT deposit for THAT act. File the re-deposit as its own row when a corrected set exists; do not let it ride along on this one."
+      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act."
     },
     {
-      "id": "AUT-PROP-047",
-      "what": "RUN claim_audit.py ON THE DEGRADER PAPER. One manuscript is one manuscript: the ASO draw found a 3-refutation shape in interpretation claims and zero in twenty data/literature claims, and a second paper is what turns that from an observation into a pattern (or refutes it). The sampler is committed, deterministic under a seed, and free to run. ⚠ Score it the same way: report the Wilson interval, and do NOT claim a rate is 'near' Kosmos's 57.9% when n=10 cannot distinguish 57.9% from 90%.",
+      "id": "AUT-PD-088",
+      "what": "THREE ROUTES RECORDED `closed` STILL CARRY A REOPENING TRIGGER: RT-SYNPROMOTER and RT-RXR carry TECH-* revisit_triggers, RT-6MP a TR-* revival_trigger, while systems/CONVENTIONS.md §4.1 defines `closed` as conclusively unworkable and carrying no TECH-*. By the convention's own words these are `parked`, not `closed`. ⚠ The distinction is not cosmetic on a rising frontier (CLAUDE.md §5): `parked` means revisit when capability X lands and is re-graded on a schedule; `closed` means never look again. Recording a revivable route as closed is how a live option gets lost quietly.",
       "serves": {
         "route": "RT-AUTONOMY",
-        "publication": "PUB-ASO",
-        "strategy": null
-      },
-      "kind": "proposal",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28"
-    },
-    {
-      "id": "AUT-PD-085",
-      "what": "THE MANUSCRIPTS SUITE INTERMITTENTLY REPORTS A WHOLE FILE AS ERROR UNDER xdist: 15 items of test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py errored in one of three runs on 2026-08-28, passing standalone and on re-run. Under `--dist loadfile` a dead worker fails an ENTIRE FILE, and preflight's summary line cannot distinguish that from a real defect — which is the dangerous half: a session that sees it either chases a phantom or learns to discount real reds. ★ FIX: retry-once on worker crash, or a verdict line that names a worker crash as what it is. ⚠ Do NOT 'fix' it by loosening the summary.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": "PUB-ASO",
+        "publication": null,
         "strategy": null
       },
       "kind": "process_defect",
@@ -6268,7 +6560,93 @@
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-28"
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-089",
+      "what": "`apply_age_factor` AGES PARKED ROWS, so a row nothing can take keeps climbing the ranked table — its docstring says OPEN ROWS ONLY and `parked` now belongs in that skip set. ⚠ NOT TAKEN BY THE SEAT THAT INTRODUCED `parked`, deliberately and correctly: it moves scores, and admissibility.CLOSED_STATES is documented as scoped to the same set, so it is a COUPLED change across the score gate — do both in one commit or the next write goes refused_underivable. Filed rather than absorbed.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-090",
+      "what": "⛔ THE xdist PROBE IN preflight.sh WAS A pipefail/SIGPIPE RACE, AND ABOUT HALF OF EVERY MODALITIES RUN SINCE 2026-08-23 HAS SILENTLY PAID ~11 EXTRA MINUTES FOR IT. Caught in the act by seat s26-worktreepreflight while waiting on its own gate: the modalities stage was running with NO `-n` on a box with xdist installed and nproc=4. 60 samples of the exact pipeline under `set -uo pipefail`: 34/60 answered 'no xdist', every one with PIPESTATUS=(1 0) — `grep -q` exits on match, pytest's stdout becomes EPIPE, and pipefail reports failure. Rewritten to capture once and case-match: 0/60. Cost from this repository's own numbers: 968.9 s serial vs 336.9 s at -n 4, and publication gates paid it too. ✅ FIXED in the same merge (e9793302e); filed as a CLOSED row because the measurement is the thing worth keeping — a probe that fails closed in the SLOW direction produces no error, no red, and no complaint, which is why it survived five days.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-091",
+      "what": "⛔ THE DEPENDENCY BANNER PROBED A HARD-CODED `python3` WHILE THE TESTS RUN UNDER $PYTEST — a one-of-a-pair defect, and the pair is documented: the xdist probe ~20 lines below was moved onto $PYTEST on 2026-08-23 for this exact trap, and this one was left. MEASURED FALSE-OK: with a console script whose shebang named a venv holding none of the seven probed modules, the old form printed 'OK every probed package imports' while the resolved form printed all seven MISSING. ✅ FIXED in the same merge (e9793302e) with a guard test in gate 13; filed closed because the ONE-OF-A-PAIR class is now at eight sightings in this repository and each was found by looking at the neighbour of a thing already fixed.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-092",
+      "what": "A SEAT'S `PREFLIGHT_MODALITIES=1` ON AN UNMODIFIED WORKTREE GATES NOTHING AND SAYS OK. Measured 2026-08-28: a clean worktree at origin/main ran the flag and executed ZERO modality tests in 202 s, because affected_tests.py::select() returns [] at `if not files` before it ever reaches the hash check — 'the selector ran and this change affects no module'. ⚠ THE VERDICT LINE IS THE DEFECT, NOT THE SELECTOR: skipping tests for an empty diff is correct; printing a green that reads like coverage is not, and three sibling seats' logs from the same day contain no modalities line at all because they ran the default tier and could not tell. ★ FIX: make the verdict name what ran — zero tests selected is not the same sentence as a suite that passed.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act."
     }
   ]
 }
