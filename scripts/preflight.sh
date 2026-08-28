@@ -696,6 +696,25 @@ gen_fail=""
 # ⚠ ITS FAILURE IS NOT STALENESS AND THE ROW'S GENERIC REMEDY BELOW IS WRONG FOR IT, exactly as it
 # is for the archive manifest; the module prints its own remedy, which AUT-PD-016 is why a reader
 # now sees.
+# ⭐ THE LAST TWO ROWS ARE THE LITERATURE-ROUTING PAIR, ADDED 2026-08-28, AND THE FIRST OF THEM IS
+# THIS GATE'S OWN LESSON REPEATING ITSELF. `trigger_scan.py --check` had existed for weeks, was the
+# only thing that could catch a reopening trigger pointing at a renamed route or watching with no
+# queries at all -- and NOTHING RAN IT. Measured that morning: it exited 1 with 7 ERROR. Six were
+# false (it resolved ids against the manuscript-scoped emc-systems-map.json rather than the
+# architecture in systems/graph/, which carries 77 routes to that file's 40); the seventh was real
+# and had been hiding behind them -- TRG-CONDENSATE-PARTNER-RESOLUTION was `scan_enabled` with no
+# `search` block, so it rendered on every board as a watched row while searching for nothing.
+# ⚠ A --check NOBODY RUNS DOES NOT DEGRADE GRACEFULLY: it accumulates false positives, and the
+# false positives are what make the real finding unreadable when somebody finally looks.
+# ⭐ THE SECOND ROW IS THE HALF THE REPOSITORY HAD NO MECHANISM FOR AT ALL. Two layers FIND
+# literature and a third routes a hit into technologies.json for grading; none of them could ask
+# whether a captured paper ever reached the artifact whose claim it bears on. PMID 42570981 -- the
+# closest human prior art the junction-vaccine route has -- was captured, triaged and cited in two
+# manuscripts while research/modalities/vaccine-construct.json, which proposes that exact design
+# class, said nothing about it for four days under green gates.
+# ⛔ NEITHER ROW CITES ANYTHING AUTOMATICALLY. Both verify a decision a human made; the ledger's
+# `declined` status exists so that "we looked and it is not owed" stays distinguishable from
+# "nobody looked". Measured cost of the pair: under 0.3 s.
 for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/manuscripts/submission_citations.py|submission references|--check" \
          "research/manuscripts/submission_metrics.py|submission metrics|--check" \
@@ -707,7 +726,9 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/manuscripts/aso_archive_manifest.py|archive manifest|--check-archive" \
          "research/modalities/emc_condensate_report.py|condensate CALVADOS findings|--check" \
          "research/modalities/atr_hrd_sarcoma_series.py|ATR HRD sarcoma series|--check" \
-         "research/modalities/single_slot_identity.py|single-slot artifact identity|--check"; do
+         "research/modalities/single_slot_identity.py|single-slot artifact identity|--check" \
+         "scripts/trigger_scan.py|reopening-trigger registry join|--check" \
+         "scripts/citation_debt.py|literature citation debt|--check"; do
   gen="${g%%|*}"; rest="${g#*|}"; label="${rest%%|*}"; mode="${rest##*|}"
   # ⛔ THE GENERATOR'S OWN FAILURE TEXT REACHES THE READER AS OF AUT-PD-016 (2026-08-27). This line
   # was `python3 "$gen" "$mode" >/dev/null 2>&1`, so every producer's diagnosis was discarded and

@@ -408,6 +408,29 @@ def _reopens_line(trg: dict) -> str:
     return " · ".join(parts) if parts else "_(no mapping recorded)_"
 
 
+def _cite_into_line(trg: dict) -> str:
+    """Name the artifacts a CONFIRMED hit is owed to, in the bullet a reader actually grades from.
+
+    ⛔ THE BULLET USED TO STOP AT "would reopen", AND THAT IS ONE STEP SHORT OF THE ACTION. A
+    reader learned which routes to re-grade and nothing about which committed document makes a
+    claim the paper bears on — so the last hop, from "this matters" to "this file now says
+    something it should not say alone", was re-derived by hand every time, or not at all. It was
+    not at all for PMID 42570981: captured, triaged, cited in two manuscripts, and absent for
+    four days from research/modalities/vaccine-construct.json, the artifact proposing exactly the
+    design class it reports on.
+
+    ⚠ IT IS A DESTINATION, NOT AN INSTRUCTION. The line says where the QUESTION goes once someone
+    has read the paper; research/literature/citation-debt.json records the answer, including
+    `declined`. Nothing in this module may write a citation — a hit here is a title match.
+    """
+    dests = trg.get("cite_into") or []
+    if not dests:
+        return ""
+    return ("**Owed to (once read and graded, record the outcome in "
+            "`research/literature/citation-debt.json`):** "
+            + ", ".join(f"`{d}`" for d in dests) + ". ")
+
+
 def ideas_bullet(trg: dict, hit: dict, today: str) -> str:
     return (
         f"- **{today} — trigger `{trg['id']}` matched: {trg['title']}.** "
@@ -415,6 +438,7 @@ def ideas_bullet(trg: dict, hit: dict, today: str) -> str:
         f"**Would reopen:** {_reopens_line(trg)}. "
         f"Hit: *{hit['title']}* ({hit['venue']}, {hit['date']}, {hit['id']}) {hit['url']} . "
         f"If it holds: {trg.get('on_fire', 'check the trigger row.')} "
+        f"{_cite_into_line(trg)}"
         f"Trigger definition + queries: [`research/method-watch-triggers.json`](./method-watch-triggers.json)."
     )
 
@@ -814,6 +838,27 @@ def check_registry(cfg: dict) -> int:
     routes = {r["id"] for r in reg.get("routes", [])}
     blockers = {b["id"] for b in reg.get("blockers", [])}
 
+    # ⛔ THE ID VOCABULARY IS `systems/graph/`, NOT THIS ONE FILE, AND CHECKING ONLY THE FILE
+    # MANUFACTURED SIX ERRORS THAT WERE NOT ERRORS (fixed 2026-08-28). CLAUDE.md §7: "the
+    # architecture is systems/ — systems/graph/*.json is the source of truth for every strategy
+    # family, route, blocker and forecast". emc-systems-map.json is the MANUSCRIPT-SCOPED subset:
+    # 40 routes against the graph's 77, and a strict subset of it (measured — every map route id
+    # is a graph route id, and every map blocker id is a graph blocker id). So a trigger pointing
+    # at a real route that the manuscript map does not carry — RT-IPD-SURVIVAL, RT-LIMB-PERFUSION,
+    # RT-LUNG-DIRECTED, RT-RISK-MODEL, RT-SURVEILLANCE, BLK-NO-CURATED-CLINICAL-DATA, all six of
+    # them present in the graph — was reported as a dangling pointer.
+    # ⚠ AND THE COST WAS NOT THE FALSE POSITIVES. `--check` was red, and NOTHING RAN IT, so the
+    # noise hid a REAL finding sitting in the same output: TRG-CONDENSATE-PARTNER-RESOLUTION was
+    # `scan_enabled` with no queries — a row rendering as watched while searching for nothing.
+    # That is the same "a --check mode existed and no gate ran it" defect the deposit-artifact
+    # gate was built for; scripts/preflight.sh now runs this one too.
+    for _graph, _key, _into in (("routes.json", "routes", routes),
+                                ("blockers.json", "blockers", blockers)):
+        _path = os.path.join(_ROOT, "systems", "graph", _graph)
+        if os.path.exists(_path):
+            with open(_path, encoding="utf-8") as fh:
+                _into.update(x["id"] for x in json.load(fh) if isinstance(x, dict) and "id" in x)
+
     seen_ids: set[str] = set()
     for t in cfg["triggers"]:
         tid = t["id"]
@@ -830,13 +875,22 @@ def check_registry(cfg: dict) -> int:
             problems.append(f"{tid}: scan_enabled with no queries")
         if not t.get("scan_enabled") and not t.get("not_searchable_because"):
             problems.append(f"{tid}: scan disabled without not_searchable_because")
+        # ⭐ `cite_into` NAMES WHERE A CONFIRMED HIT IS OWED (added 2026-08-28). A path that has
+        # been renamed or deleted turns the routing this field exists for back into nothing, and
+        # does it silently, so the pointer is checked exactly like the registry ids are.
+        # ⚠ THE FIELD IS OPTIONAL BY DESIGN: most triggers watch for a CAPABILITY this repository
+        # would then go and use, with no document owing the paper a citation. A fake destination
+        # would be worse than none.
+        for c in t.get("cite_into") or []:
+            if not os.path.exists(os.path.join(_ROOT, c)):
+                problems.append(f"{tid}: cite_into path does not exist: {c}")
         r = t.get("reopens") or {}
         for x in r.get("registry_routes", []) or []:
             if x not in routes:
-                problems.append(f"{tid}: route id {x} not in emc-systems-map.json")
+                problems.append(f"{tid}: route id {x} not in systems/graph/routes.json or emc-systems-map.json")
         for x in r.get("registry_blockers", []) or []:
             if x not in blockers:
-                problems.append(f"{tid}: blocker id {x} not in emc-systems-map.json")
+                problems.append(f"{tid}: blocker id {x} not in systems/graph/blockers.json or emc-systems-map.json")
 
     reverse = [
         (r.get("id"), r["revival_trigger"])
@@ -851,6 +905,17 @@ def check_registry(cfg: dict) -> int:
 
     for p in problems:
         print(f"ERROR {p}")
+    if problems:
+        # ⛔ THE CALLING GATE'S GENERIC REMEDY IS "rerun 'python3 scripts/trigger_scan.py' AND
+        # COMMIT THE RESULT", AND THAT IS ACTIVELY WRONG HERE — a bare run is a NETWORK SCAN of
+        # Europe PMC, arXiv and ChemRxiv that appends leads to IDEAS.md. Nothing about it fixes a
+        # dangling pointer. The producer wins over the generic line (scripts/preflight.sh says so
+        # in as many words), so it has to actually say what the fix is.
+        print("trigger_scan --check: FIX THE POINTERS, DO NOT REGENERATE. Nothing here is a "
+              "generated artifact — each ERROR above is a hand-written field in "
+              "research/method-watch-triggers.json that names something that does not exist, or a "
+              "trigger claiming to be watched with no queries behind it. A bare "
+              "`python3 scripts/trigger_scan.py` runs a live literature scan and fixes none of it.")
     print(
         f"trigger_scan --check: {len(problems)} ERROR across {len(cfg['triggers'])} trigger(s); "
         f"{len(reverse)} registry revival_trigger field(s) seen"
