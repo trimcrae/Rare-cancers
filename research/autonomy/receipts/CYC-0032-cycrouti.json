@@ -1,0 +1,48 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0032-cycrouti",
+  "session_id": "CYC-ROUTINE-0828a",
+  "utc": "2026-08-28T04:55:00Z",
+  "shape": "One fired session (scheduled Routine, `research-loop` cycle contract), one ledger item claimed and worked, five parallel Agent-tool subagents for round 11's blind seats, one backgrounded PREFLIGHT_TESTS=1 gate run.",
+  "took": "AUT-PROP-039 — ASO round 11 (PUB-ASO hardening)",
+  "took_what": "Claimed AUT-PROP-039 (score 195.5, tied top with siblings AUT-PROP-018/019, which wait on this one — all three sha-bound to the commit that gets posted). Verified the head was quiet (no other work touching the ASO manuscript family since round 10's commit a4cc04c) and pinned the current HEAD (eed563d6, later commits landed by this same cycle: the claim commit and its own branch push). Dispatched five blind adversarial review seats (regression, arithmetic, statistics/design, citations/build/gates, hostile referee) as parallel Agent-tool subagents against fusion-junction-aso-journal-article.md, fusion-junction-aso-journal-tables.md and fusion-junction-aso-journal-references.md at that pin, per paper-hardening's seat design. `create_session`/handoff was not available as a tool in this scheduled-Routine context (matches CYC-031's finding); used the parallel-subagents shape research-loop §3 names for a hardening round's blind seats.",
+  "changed": [
+    "ZERO blockers, ZERO P1s found in the article's own prose or its generated siblings' CONTENT across all five lenses — nothing needed correcting in the shipped text this round. Seat 5 (hostile referee): minor revision, no correctness findings, two cosmetic P2 wording notes not applied.",
+    "FOUR P1 guard gaps found — two of them (falsification power/void-SD) independently by seats 2 and 3, the strongest convergence signal this series produces. All four are closed this cycle, since AUT-PROP-039 only closes publish_bar clause 1 (hardening_converged) on a round with NO P1s anywhere, and these are exactly that class of finding:",
+    "  1. (seat 1) lint_changed_prose.py's cross-reference check only resolved literal '§N' symbols, never an informal 'The X section' reference — the exact style round 10's own fix ('The Controls section above') used, and the exact style the original round-10 defect ('Section 5') also used. Added a single-preceding-capitalised-word check (_SECTION_REF) resolving against every heading (numbered or not) in the document's own headings, with a documented stoplist against false positives ('this section', 'that section', etc., empirically verified against both the ASO family and the unrelated emc-vaccine document, which uses 'Section N' 50 times and produced zero false positives). Mutation-tested: catches an unresolvable reference, passes the real fix.",
+    "  2. (seat 2) Table 1's ΔTm floor column (26.6 / 36.0 °C) had no test binding it to junction-aso-thermo.json's per_design records — only the generator's own reproducibility was gated (aso_journal_tables.py --check), not whether the CSV's source Tm values still agreed with the artifact they trace to. Added test_the_two_named_reagents_carry_their_own_dtm_floor to test_journal_article_numbers.py. Mutation-tested: catches a wrong value and a swap between the two reagents.",
+    "  3. (seats 2 AND 3, independently) The Discussion's falsification-experiment power/void-SD figures ('about 80%/30% power... about 0.65 at three replicates — 1.53 at six, 2.25 at ten') were numerically correct but derived from nothing committed — round 8's red-team review found the identical gap on 2026-08-22 and it was never closed; the guard's own comment said so explicitly. New module research/manuscripts/aso_falsification_power.py computes both figures via noncentral-t from the two pre-registered constants (CUT=5.0, matching the existing pinned 'cut of 5.0' test; SIGMA=0.35, the article's own stated assumption) — reproduces both seats' independent hand-derivations exactly. New test test_the_falsification_power_figures_are_derived_not_typed, binding at nearest-ten for the hedged 'about X%' power figures and exact for the two-decimal void-SD figures. Mutation-tested: catches a wrong power value, a wrong void-SD value, and a wrong true-selectivity digit, independently.",
+    "  4. (seat 4) fusion-junction-aso-journal-references.md was absent from both lint_claims.py's and lint_style.py's target lists — a hand-maintained submission text with zero R1-R5 or register coverage. Added to both. lint_style.py's addition surfaced a REAL (if harmless) finding: two decorative ⛔ glyphs inside the file's own HTML-comment provenance banner, which never renders in the typeset PDF — extended lint_style.py's _body_lines() to exempt HTML comments the same way it already exempts frontmatter, mutation-tested against a genuine body-text glyph (still caught) to confirm the exemption doesn't blind the file.",
+    "Two adjacent findings scoped OUT of this fix and filed as new ledger entries rather than fixed blind, to avoid risk to a different paper under review pressure: AUT-PD-039 (the numbered-section extraction regex requires a middle-dot '·' and silently returns zero sections for research/manuscripts/neoantigen/emc-vaccine-development-path.md, which uses a period — that document's 50 'Section N' references have never actually been checked) and AUT-PD-040 (the spelled-out 'Section N' digit form is still unguarded for the ASO family too, sequenced behind AUT-PD-039 to avoid a cross-paper false positive once both share the same anchor mechanism).",
+    "research/manuscripts/claim-coverage.json regenerated for the two new witness patterns (journal article: covered 101->102, uncovered 74->73 — coverage rose, no floor moved).",
+    "Round 11 does NOT close publish_bar clause 1 despite zero blockers/P1s surviving in the shipped text, because the four P1s found this round were guard gaps that needed fixing — per the series' own standard (round 9/10's rule), the round that finds and fixes real gaps is not the round that gets to certify nothing was found. Queued a round 12 confirmation pass."
+  ],
+  "cost": "$0. Engineering, CPU and Claude subagent time only — no GPU, no rental, no spend of any kind.",
+  "subagents": {
+    "max_concurrent": 5,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 5,
+    "seats": [
+      "aso-round11-seat1 (regression lens — 0 blockers, 1 P1: cross-reference guard blind to informal section references)",
+      "aso-round11-seat2 (arithmetic lens — 0 blockers, 2 P1s: ΔTm floor unguarded, falsification power/void-SD unguarded)",
+      "aso-round11-seat3 (statistics/design lens — 0 blockers, 1 P1: falsification power/void-SD unguarded, same gap as seat 2 independently)",
+      "aso-round11-seat4 (citations/build/gates lens — 0 blockers, 1 P1: journal-references.md absent from lint_claims/lint_style targets)",
+      "aso-round11-seat5 (hostile referee — verdict: minor revision, 0 blockers, 0 P1s, 2 cosmetic P2s not applied)"
+    ]
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [
+    "AUT-PD-039: fix lint_changed_prose.py's numbered-section regex for emc-vaccine-development-path.md's 'N.' heading style (period, not middle-dot) — that document's 50 'Section N' references have never been checked.",
+    "AUT-PD-040 (blocked_by AUT-PD-039): extend the spelled-out 'Section N' digit-form check to the ASO journal-article family, sequenced behind AUT-PD-039 to avoid a cross-paper false positive.",
+    "A round-12 confirmation pass on PUB-ASO — re-seat blind seats on this round's four fixes (regression risk, per paper-hardening's own regression-seat rule) to actually close publish_bar clause 1 (hardening_converged); AUT-PROP-018 (PREFLIGHT_FULL) and AUT-PROP-019 (independent adversarial seat) remain queued behind that convergence, per their own sequencing text."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-ASO-JUNCTION",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism was available as a tool in this scheduled-Routine context (matches CYC-031's finding). The item stayed within a single session's context budget throughout — no handoff was needed for cycles_are_sized purposes."
+  }
+}

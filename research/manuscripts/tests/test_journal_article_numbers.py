@@ -23,6 +23,7 @@ artifact's current value in as a literal to make it green.
 import json
 import os
 import re
+import sys
 
 import pytest
 
@@ -31,6 +32,9 @@ MANUSCRIPTS = os.path.dirname(HERE)
 REPO = os.path.dirname(os.path.dirname(MANUSCRIPTS))
 ASO = os.path.join(MANUSCRIPTS, "aso")
 MOD = os.path.join(REPO, "research", "modalities")
+
+sys.path.insert(0, MANUSCRIPTS)
+import aso_falsification_power  # noqa: E402
 
 ARTICLE = os.path.join(ASO, "fusion-junction-aso-journal-article.md")
 GAP_PAIRING = os.path.join(MOD, "aso-parent-gap-pairing.json")
@@ -340,6 +344,39 @@ def test_the_adopted_cut_is_not_exempt_from_its_own_null(prose, null):
                 "the strongest null at the adopted cut, beside the panel's own rate")
 
 
+def test_the_falsification_power_figures_are_derived_not_typed(prose):
+    """⛔⛔ ROUND 11 SEATS 2 AND 3, INDEPENDENTLY, P1 — CONVERGENT.
+
+    Both seats hand-recomputed the Discussion's power and void-SD figures via noncentral-t and
+    found every one numerically correct as printed, and both found the same gap: no artifact in
+    the repository derived them. `aso_falsification_power.py` is that artifact now — it exists
+    for exactly this test to import, so the manuscript's five figures have one source rather than
+    zero.
+    """
+    # ⚠ "ABOUT 80%" / "ABOUT 30%", NOT 81.28% / 30.42% — the prose deliberately states power to
+    # the nearest ten points rather than printing the noncentral-t calculation's own precision, so
+    # the binding rounds the same way rather than demanding a false extra digit of agreement.
+    def _nearest_ten(pct):
+        return f"{round(pct / 10) * 10}"
+
+    _every_site(
+        prose,
+        r"six independent biological replicates\s+give about (\d+)% power to falsify a true "
+        r"selectivity of (\d+) and three give about (\d+)%",
+        (_nearest_ten(aso_falsification_power.power_pct(6)),
+         f"{int(aso_falsification_power.TRUE_SELECTIVITY)}",
+         _nearest_ten(aso_falsification_power.power_pct(3))),
+        "the falsification experiment's power at six and three replicates, against a true "
+        "selectivity of 3")
+    _every_site(
+        prose,
+        r"about (\d+\.\d+) at three replicates — (\d+\.\d+) at six, (\d+\.\d+) at ten",
+        (f"{aso_falsification_power.void_sd(3):.2f}",
+         f"{aso_falsification_power.void_sd(6):.2f}",
+         f"{aso_falsification_power.void_sd(10):.2f}"),
+        "the realised-SD void thresholds at three, six and ten replicates")
+
+
 def test_the_coverage_readings_are_both_the_coverage_modules_own(prose):
     """⛔ TWO READINGS, BOTH PRINTED, NEITHER DERIVED BY HAND.
 
@@ -400,10 +437,13 @@ SEQUENCES = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-sequences.csv"
 #: Table 1 of the generated display items — the table §2's sentence restates, four inches above it.
 JOURNAL_TABLES = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-journal-tables.md")
 
-#: `| *EWSR1* e12::*NR4A3* e3 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 bp, wild-type *TFG* | … |`
+#: `| *EWSR1* e12::*NR4A3* e3 | 5′-GGGCATATCATCAAAC-3′ | 3 | 8 bp, wild-type *TFG* | ≥ 26.6 | … |`
 _TABLE1_ROW = re.compile(
     r"^\|\s*\*?(?P<donor>[A-Z0-9]+)\*?\s+e(?P<dexon>\d+)::\*?(?P<acc>[A-Z0-9]+)\*?\s+e(?P<aexon>\d+)"
-    r"\s*\|\s*(?P<seq>5′-[ACGT]+-3′)\s*\|[^|]*\|\s*(?P<duplex>\d+)\s*bp", re.M)
+    r"\s*\|\s*(?P<seq>5′-[ACGT]+-3′)\s*\|[^|]*\|\s*(?P<duplex>\d+)\s*bp[^|]*\|\s*"
+    r"(?:—|≥\s*(?P<dtm>[\d.]+))\s*\|", re.M)
+
+THERMO = os.path.join(MOD, "junction-aso-thermo.json")
 
 
 def _named_reagents():
@@ -463,6 +503,40 @@ def test_the_two_named_reagents_carry_their_own_seams_and_their_own_duplex_lengt
                 r"longest wild-type parent[\w\s-]{0,20}duplexes[\w\s]{0,20}?(\w+) and (\w+) base pairs",
                 (_word(int(ew["duplex"])), _word(int(taf["duplex"]))),
                 "the same two duplex lengths as the abstract states them")
+
+
+def test_the_two_named_reagents_carry_their_own_dtm_floor(prose):
+    """⛔⛔ THE SEVENTH ONE-OF-A-PAIR GUARD (round 11 seat 2, P1). Table 1's "ΔTm floor (°C)"
+    column — 26.6 for the *EWSR1* reagent, 36.0 for the *TAF15* one — is generated fresh from
+    `fusion-junction-aso-sequences.csv`'s own `predicted_tm_fusion_c` / `predicted_tm_best_parent_c`
+    columns every time (`aso_journal_tables.py:_tm`), and `aso_journal_tables.py --check` (gate 8)
+    already proves the committed table file reproduces from that generator. What neither of those
+    proves is that the CSV's two Tm columns are still what `junction-aso-thermo.json`'s own
+    `per_design` records say they are — the artifact this whole thermodynamics claim traces back to.
+    Nothing bound the printed floor to that source for the journal article family; this does.
+    """
+    named = _named_reagents()
+    ew, taf = named["EWSR1"], named["TAF15"]
+    assert ew.get("dtm") and taf.get("dtm"), (
+        "Table 1's ΔTm floor cell did not parse for one or both named reagents — re-anchor "
+        "_TABLE1_ROW against the current table text before trusting this test")
+    thermo = json.load(open(_required(THERMO, "the junction-thermo artifact")))
+    by_seq = {}
+    for rec in thermo["per_design"]:
+        seq = rec.get("antisense_5to3")
+        pair = (rec.get("tm_fusion_duplex_c"), rec.get("tm_best_parent_duplex_c"))
+        if seq is not None and None not in pair:
+            held = by_seq.setdefault(seq, pair)
+            assert held == pair, (
+                f"the thermo artifact gives {seq} two different Tm pairs, {held} and {pair} — "
+                "this test's lookup assumes one pair per sequence, same as the manifest does")
+    for reagent, gene in ((ew, "EWSR1"), (taf, "TAF15")):
+        pair = by_seq.get(reagent["seq"].replace("5′-", "").replace("-3′", ""))
+        assert pair, f"no thermo record for the {gene} reagent's sequence {reagent['seq']!r}"
+        expected = round(pair[0] - pair[1], 1)
+        assert float(reagent["dtm"]) == expected, (
+            f"Table 1 prints a ΔTm floor of {reagent['dtm']} for the {gene} reagent; "
+            f"{THERMO} now computes {expected} ({pair[0]} - {pair[1]})")
 
 
 def test_the_loose_cut_rungs_are_bound_to_the_cut_each_is_claimed_for(prose, null):

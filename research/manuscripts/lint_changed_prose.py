@@ -15,9 +15,16 @@ reviewer is least likely to re-read because they were just repaired.
 
 ★ WHAT IT CHECKS, all of it mechanical and none of it a matter of taste:
 
-  1. CROSS-REFERENCES RESOLVE. Every "§x.y", "Table n", "Figure n" and "Box 1" introduced by the diff
-     must name something that exists. Round 15 found a pointer promising what its target denied; this
-     catches the cheaper failure of a pointer naming nothing at all.
+  1. CROSS-REFERENCES RESOLVE. Every "§x.y", "Table n", "Figure n", "Box 1" and informal "The X
+     section" introduced by the diff must name something that exists. Round 15 found a pointer
+     promising what its target denied; this catches the cheaper failure of a pointer naming nothing
+     at all.
+     ⚠ ROUND 11 OF THE ASO JOURNAL ARTICLE (2026-08-28): a seat found that this check could never
+     have caught its OWN document's round-10 repair — "The Controls section above" — because the
+     journal article carries no "§N ·" numbering at all; it uses ordinary unnumbered headings, and
+     the only informal cross-reference this repository's guards had ever resolved was the numeric
+     "§N" symbol. The word "section" spelled out and pointed at a heading BY NAME was invisible to
+     every gate. Added the single-preceding-capitalised-word check below for exactly that shape.
   2. PAIRED NUMERIC LISTS ARE BOUND IN A POSSIBLE ORDER. Inside an N-mer, a paired run of L leaves
      exactly N - L positions unpaired, so the two lists run in OPPOSITE directions. Writing both
      ascending inverts the mapping - which is exactly how "eleven or twelve ... four or five" got in.
@@ -85,6 +92,15 @@ _GAP_LIST = re.compile(
     rf"(?:leaves|carries|leaving|carrying)\s+((?:{_NUMWORD}|\d+)(?:\s+or\s+(?:{_NUMWORD}|\d+))*)"
     rf"\s+(?:positions? unpaired|mismatch(?:es)?|unpaired positions?)", re.I)
 _NMER = re.compile(r"\b(\d+)-mer\b")
+# A single capitalised word directly before "section" — "The Controls section", "the Discussion
+# section" — never a 2+ word phrase, which is what let "Earlier versions of this section" and
+# "That is the mechanism this section" (both real sentences in this repository, sentence-initial
+# capital two-to-four words upstream of "section") false-positive when first tried.
+_SECTION_REF = re.compile(r"\b([A-Z][A-Za-z'/-]*)\s+section\b")
+_SECTION_REF_STOP = {"this", "that", "same", "above", "below", "following", "preceding", "prior",
+                      "subsequent", "relevant", "whole", "entire", "current", "said", "latter",
+                      "former", "next", "new", "final", "last", "every", "each", "any", "no",
+                      "the", "a", "an"}
 
 _COUNTED_NOUNS = ("counts?", "screens?", "designs?", "reagents?", "junctions?", "criteri(?:on|a)",
                   "rules?", "duplex(?:es)?", "sites?", "near-matches", "geometr(?:y|ies)",
@@ -170,7 +186,12 @@ def _known_anchors(article):
                              open(os.path.join(HERE, "aso",
                                                "fusion-junction-aso-submission-tables.md"),
                                   encoding="utf-8").read()))
-    return sections, tables, figures
+    # ⚠ EVERY HEADING, NUMBERED OR NOT — for "The X section" informal references, which the §N
+    # scheme above cannot see on a document (the journal article) that carries no section numbers
+    # at all. Markdown emphasis markers stripped so "**Controls**" and "Controls" bind the same.
+    headings = {re.sub(r"[*_`]", "", h).strip().lower()
+                for h in re.findall(r"^#{2,3}\s+(.+)$", text, re.M)}
+    return sections, tables, figures, headings
 
 
 def _anchors_for(path, cache={}):
@@ -181,12 +202,13 @@ def _anchors_for(path, cache={}):
     """
     full = os.path.join(REPO, path)
     if path not in cache:
-        own = _known_anchors(full) if os.path.exists(full) else (set(), set(), set())
-        if own[0]:
+        own = _known_anchors(full) if os.path.exists(full) else (set(), set(), set(), set())
+        if own[0] or own[3]:
             cache[path] = own
         else:
             fallback = _known_anchors(os.path.join(REPO, DEFAULT_TARGETS[0]))
-            cache[path] = (fallback[0], own[1] | fallback[1], own[2] | fallback[2])
+            cache[path] = (fallback[0], own[1] | fallback[1], own[2] | fallback[2],
+                            own[3] | fallback[3])
     return cache[path]
 
 
@@ -207,7 +229,7 @@ def main(argv):
 
     for path, line, added in rows:
         base = os.path.basename(path)
-        sections, tables, figures = _anchors_for(path)
+        sections, tables, figures, headings = _anchors_for(path)
 
         for ref in re.findall(r"§(\d+(?:\.\d+)?)", line):
             if ref not in sections:
@@ -218,6 +240,12 @@ def main(argv):
         for ref in re.findall(r"\bFigure (S?\d+)", line):
             if ref not in figures:
                 errors.append(f"{base}: Figure {ref} does not exist — {line.strip()[:110]}")
+        for word in _SECTION_REF.findall(line):
+            if word.lower() in _SECTION_REF_STOP:
+                continue
+            if not any(re.search(rf"\b{re.escape(word.lower())}\b", h) for h in headings):
+                errors.append(f"{base}: '{word} section' names no heading it can resolve to — "
+                               f"{line.strip()[:110]}")
 
         nmer, run, gap = _NMER.search(line), _RUN_LIST.search(line), _GAP_LIST.search(line)
         if nmer and run and gap:

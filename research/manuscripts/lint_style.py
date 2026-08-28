@@ -91,6 +91,12 @@ TARGETS = [
     # build-failing instrument read it at all, and a caption stating "four designs at two seams"
     # over a two-row, one-seam table shipped in both built PDFs with every gate green.
     "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    # ⛔ THE REFERENCE LIST WAS NEVER HELD TO REGISTER EITHER, ADDED 2026-08-28 (round 11 seat 4, P1,
+    # the same gap as the tables-file entry above, for the same document family). It is
+    # hand-maintained prose in the submission, and adding it surfaced a real defect: its own
+    # provenance banner carried two ⛔ glyphs — house register, not journal register — which is why
+    # `_body_lines` above now exempts HTML comments rather than the entries here being wrapped in one.
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
     # ⚠ THE COVER LETTER IS DELIBERATELY NOT HERE, AND IT IS IN `lint_claims` (round 15, 2026-08-22).
     # It was added to both gates and then removed from this one on measurement, not on preference:
     # this linter's rules are a MANUSCRIPT register, and a letter is a different genre. It fired
@@ -210,11 +216,20 @@ def _strip_frontmatter(lines):
 
 
 def _body_lines(path):
-    """Yield (lineno, text) for body prose: no frontmatter, no fences, no appendices."""
+    """Yield (lineno, text) for body prose: no frontmatter, no fences, no appendices, no HTML
+    comments.
+
+    ⚠ HTML COMMENTS ADDED 2026-08-28 (round 11 seat 4's target-list fix surfaced it). An
+    `<!-- ... -->` block never renders in the typeset PDF, so it is maintainer bookkeeping in
+    exactly the sense frontmatter is — `fusion-junction-aso-journal-references.md`'s provenance
+    banner carries two decorative ⛔ glyphs for a maintainer reading the markdown, and would have
+    tripped this gate the moment it was added to TARGETS despite never reaching a reader.
+    """
     with open(path, encoding="utf-8") as fh:
         raw = fh.read().split("\n")
     body, offset = _strip_frontmatter(raw)
     in_fence = False
+    in_comment = False
     in_appendix = False
     seen_title = False
     table_header_next = False
@@ -222,6 +237,14 @@ def _body_lines(path):
     for i, line in enumerate(body):
         lineno = offset + i + 1
         stripped = line.strip()
+        if in_comment:
+            if "-->" in line:
+                in_comment = False
+            continue
+        if "<!--" in line:
+            if "-->" not in line.split("<!--", 1)[1]:
+                in_comment = True
+            continue
         if stripped.startswith("```") or stripped.startswith("~~~"):
             in_fence = not in_fence
             continue

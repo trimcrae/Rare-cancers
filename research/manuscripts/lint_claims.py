@@ -101,6 +101,12 @@ DEFAULT_TARGETS = [
     # build-failing instrument read it at all, and a caption stating "four designs at two seams"
     # over a two-row, one-seam table shipped in both built PDFs with every gate green.
     "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    # ⛔ THE REFERENCE LIST IS HAND-MAINTAINED PROSE, ADDED 2026-08-28 (round 11 seat 4, P1). It is
+    # not a bibliography of bare citation keys — its own banner marks it hand-maintained (two fields
+    # excepted), which is exactly the highest-risk shape this file's own comments flag elsewhere: "a
+    # hand-added entry in the old style is invisible until an editor sees it." Nothing checked its
+    # frontmatter `scope`/`purpose` block or any entry's prose for an R1-R5 overclaim before this line.
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
     # ⛔ THE COVER LETTER IS A SUBMISSION TEXT AND NO LINTER OPENED IT (round 15 seat 3, 2026-08-22).
     # It is the FIRST thing an editor reads and it makes claims of its own — a novelty claim, a fit
     # statement paraphrasing the extended report, integrity declarations. Four of one seat's five P1s
