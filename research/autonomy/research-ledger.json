@@ -8,13 +8,13 @@
     "analysis": 1,
     "build": 1,
     "code": 1,
-    "experiment": 24,
-    "fetch": 17,
+    "experiment": 23,
+    "fetch": 19,
     "fix": 11,
     "harden": 19,
     "negative": 32,
     "process": 7,
-    "process_defect": 96,
+    "process_defect": 101,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
@@ -22,14 +22,14 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 88,
+    "done": 90,
     "in_progress": 1,
     "parked": 28,
-    "queued": 119,
-    "ready": 2,
+    "queued": 124,
+    "ready": 1,
     "superseded": 1
   },
-  "n_clamped": 11,
+  "n_clamped": 12,
   "entries": [
     {
       "serves": {
@@ -1376,10 +1376,10 @@
         "strategy": "ST-IMMUNO"
       },
       "kind": "fetch",
-      "state": "queued",
+      "state": "in_progress",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": null,
+      "owner": "CYC-0062-757d4e91",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": [
@@ -1403,7 +1403,14 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0
       },
-      "clamp": "blocked_without_evidence_becomes_a_check"
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": "2026-08-28T18:12:20Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T18:12:20Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ]
     },
     {
       "id": "AUT-073",
@@ -1634,49 +1641,6 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
-    },
-    {
-      "id": "AUT-013",
-      "_derived": true,
-      "what": "Treat as landscape context; the ex-vivo result is banked and needs no further lookup.  ⛔⛔ THE CONCLUSION WAS WRONG, 2026-08-28 (CYC-0059-3217966b, seat s13-carfilzomib, merged at 37f9b966d). This row was the TOP-RANKED ready item at 172.0 and its whole text said no further lookup was needed. A cheap observation was available, it was taken, and it mattered. ⭐ PMID 15739208 (Maki et al., Cancer 2005;103(7):1431-8, doi 10.1002/cncr.20968) — a multicentre phase II of bortezomib in recurrent or metastatic sarcoma: ONE confirmed partial response in 21 evaluable patients, 'the study was closed after the first stage of accrual' for inactivity, and the authors' own conclusion that the drug should be investigated only in combination. THIS IS THE FIRST HUMAN READ THIS REPOSITORY HAS EVER HELD ON PROTEASOME INHIBITION IN THE PARENT HISTOLOGY, AND IT IS NEGATIVE FOR MONOTHERAPY — published TWENTY-ONE YEARS before we read it. Abstract only; no PMCID exists. Also found: PMID 40941020 (Cancers 2025), carfilzomib + cyclophosphamide + etoposide, recorded strictly as the DOSE-FINDING study it is — no response rate, no comparator, no sarcoma denominator, typed Journal Article by PubMed — and published eleven months BEFORE the grade that declared further lookup unnecessary. And already committed here but never cited by this route: bortezomib was a NULL CONTROL across 57 FET-rearranged lines in our own GDSC2 contrast and behaved as one. ⭐ THE ROOT CAUSE IS A QUERY-SCOPE GAP, NOT A FAILED SCREEN: emc-prior-art-2026-08-09.json states its own purpose as a novelty screen over EMC PAIRINGS, and 'what clinical evidence exists for this drug class in the parent histology?' is a different question that was never asked. A screen scoped to EMC pairings CANNOT return a paper mentioning neither EMC nor NR4A3. ⚠ NOTHING MEASURED IS WITHDRAWN: the ex-vivo result stands, none of the new evidence is EMC data, BLK-NO-EMC-DATA is untouched and confidence stays low. What changed is the route's own record — status ready → blocked (which its own blockers_inherited already implied), pursue_now → monitor with a revisit trigger. ⭐ AND THE SEAT CORRECTED ITS OWN FIRST DRAFT ON THE LOAD-BEARING POINT: it is NOT honest to wave the trial off as 'ours is a combination', because our ex-vivo result carries single-agent carfilzomib sensitivity in both models too. ⚠ IDEAS.md had carried 'NEAR-TERM LEAD — best ex-vivo EMC evidence' for NINETEEN DAYS after routes.json superseded that phrase; corrected to point at the grade's one home.",
-      "serves": {
-        "route": "RT-CARFILZOMIB",
-        "publication": "PUB-REPURPOSING",
-        "strategy": "ST-REPURPOSING"
-      },
-      "kind": "experiment",
-      "state": "done",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": "BLK-NO-EMC-DATA re-tested 2026-08-28: the PubMed query `extraskeletal myxoid chondrosarcoma AND (carfilzomib OR bortezomib OR proteasome)` returns 0 records in ALL of PubMed. Artifact: research/literature/carfilzomib-class-clinical-2026-08-28.json. This is a dated observation, not a standing fact — it is the evidence for the block, and it expires the way any retrieval does.",
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "score": 164.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 1,
-        "age_factor": 1.0
-      },
-      "claimed_utc": null,
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T17:02:07Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        }
-      ]
     },
     {
       "id": "AUT-PD-054",
@@ -4076,6 +4040,52 @@
       "what": "⚠ amendments.jsonl (the append-only self-improvement declaration log CLAUDE.md §6 requires for a governed-path edit) has two lines, of eighty, written with `ensure_ascii=True` while the other seventy-eight were not -- direct proof at least one past append used a different `json.dumps` call than the rest, even though no current codepath writes this file programmatically (every appending session this cycle has hand-written a python one-off script, exactly the pattern that caused AUT-PD-037). ⭐ WHAT TO DO: (1) confirm this is JSONL-safe as-is -- unlike research-ledger.json, jsonl's unit is the LINE, so a per-line ensure_ascii mismatch does not corrupt parsing or cause a whole-file diff the way research-ledger.json's single-document mismatch did; each line still parses to the identical Python object either way, so this may be lower-severity than AUT-PD-037's finding despite being the same root cause. (2) If a shared appender is judged worth building anyway (this program appends to amendments.jsonl every governed-path commit, so the ad hoc-script pattern will keep recurring), add an `append_amendment()` helper to ledger_io.py or a sibling module, pinned to ensure_ascii=False to match the majority convention, and point future CLAUDE.md §6 declarations at it instead of a fresh one-off script each time."
     },
     {
+      "id": "AUT-013",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-EMC-DATA']. Original next action: Re-run the CLASS-LEVEL query, not the EMC one. The 2026-08-09 prior-art screen was a novelty screen over EMC pairings and could not see either clinical record found on 2026-08-28; the query that found them — a proteasome inhibitor against the parent histology — is recorded verbatim in research/literature/carfilzomib-class-clinical-2026-08-28.json and costs $0 to repeat. Two named $0 items remain open and are listed in `remaining_unknowns`: the full text of EV-MAKI-2005 for its per-histology enrolment (no PMCID, so reaching it means the publisher and a runner fetch rather than a sandbox one), and the full text of PMC12428389 for any sarcoma subgroup denominator. ⛔ Nothing here needs another EMC-specific lookup and nothing here is in-silico work: both in-silico rationales for this route were pre-specified, run, and returned negative on 2026-08-09, and a third null control was already committed elsewhere. Superseded, retained: 'Treat as landscape context; the ex-vivo result is banked and needs no further lookup.'",
+      "serves": {
+        "route": "RT-CARFILZOMIB",
+        "publication": "PUB-REPURPOSING",
+        "strategy": "ST-REPURPOSING"
+      },
+      "kind": "fetch",
+      "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-NO-EMC-DATA"
+      ],
+      "blocked_evidence": "BLK-NO-EMC-DATA re-tested 2026-08-28: the PubMed query `extraskeletal myxoid chondrosarcoma AND (carfilzomib OR bortezomib OR proteasome)` returns 0 records in ALL of PubMed. Artifact: research/literature/carfilzomib-class-clinical-2026-08-28.json. This is a dated observation, not a standing fact — it is the evidence for the block, and it expires the way any retrieval does.",
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "score": 50.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0,
+        "blocked_with_evidence": true
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T17:02:07Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ]
+    },
+    {
       "id": "AUT-022",
       "_derived": true,
       "what": "Review the manuscript for external posting to medRxiv. Nothing else in the route is unrun.",
@@ -5611,6 +5621,27 @@
       }
     },
     {
+      "id": "AUT-PD-110",
+      "what": "⛔ RE-GRADE RT-ALK-HIT AGAINST PMID 42660639 (doi 10.1136/jcp-2026-210760, J Clin Pathol 2026): ALK D5F3 IHC OVEREXPRESSION WITHOUT REARRANGEMENT IN 2 OF 4 EMC CASES, among 119 FET-rearranged tumours. ⭐ WHY THIS SPECIFICALLY MATTERS: that route is parked because ALK and ROS1 have NO PROBE on either expression platform — the route's own text calls that 'an instrument statement, never a biological negative' — and this is exactly the protein-level modality the arrays could not supply. ⚠ GRADE IT HONESTLY AND EXPECT IT TO BE THIN: n=4, IHC overexpression is not a dependency, and this disease's own CD117/KIT history is the cautionary parallel — a marker that stained and led nowhere. Recorded ungraded by the seat that found it (research/literature/carfilzomib-class-clinical-2026-08-28.json) rather than absorbed into an unrelated item.",
+      "serves": {
+        "route": "RT-ALK-HIT",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act."
+    },
+    {
       "id": "AUT-PD-006",
       "kind": "fix",
       "serves": {
@@ -6612,7 +6643,7 @@
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
-      "retry_budget": 3,
+      "retry_budget": 2,
       "attempts": 0,
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
@@ -6625,7 +6656,10 @@
           "utc": "2026-08-28T18:00:46Z",
           "fingerprint_at_dispatch": "2026-08-28|None"
         }
-      ]
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
     },
     {
       "id": "AUT-PD-107",
@@ -6704,6 +6738,111 @@
       "claimed_utc": null,
       "evidence": "Does not reproduce on origin/main f97d31fc0: 29 passed, via `git archive origin/main | tar -x` into a directory sharing no inodes and no .git. The earlier failure is described in `what` and is not disputed.",
       "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-111",
+      "what": "★★ ADD A STANDING CLASS-LEVEL LITERATURE QUERY BESIDE THE EMC-SCOPED PRIOR-ART SCREEN. The scope gap that hid a 2005 phase II trial for twenty-one years (AUT-013) applies to EVERY repurposing route, not just carfilzomib: our screen asks 'has anyone paired this with EMC/NR4A3?' and never asks 'what does the human evidence say about this drug class in the parent histology?'. ⛔ A screen scoped to EMC pairings CANNOT return a paper mentioning neither term, so the miss was structural rather than careless — which is why the fix is a second query, not more diligence. ★ Run it once over every drug-class route now, then keep it standing.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-113",
+      "what": "⚠ `BLK-NO-EMC-DATA`'s `retired_by_action` IS IMPRECISE, AND 38 OF 77 ROUTES INHERIT IT. It says what would retire it is 'an EMC dependency or drug-response screen (… or an ex-vivo panel), NONE OF WHICH EXISTS' — but EV-BANGERTER-2023 IS a published ex-vivo EMC drug-response panel, committed and cited by this repository. The defensible reading is that no FETCHABLE OR DEPOSITED EMC drug-response dataset exists, which is a different and narrower claim. ⛔ The clause is imprecise rather than false, and it is load-bearing across half the portfolio, so it is a deliberate edit with a blast radius — not a passing fix by whichever seat notices it. ★ Reword to name what is actually absent (a deposited dataset), and check whether any inheriting route's grade rests on the looser reading.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act."
+    },
+    {
+      "id": "AUT-080",
+      "what": "$0 ACTIONS JOB against export.arxiv.org/api/query to anchor the 13 arXiv identifiers AUT-PD-057 left at `unverified_at_baseline`, moving each to `verified` with a real fetch record. Both arXiv hosts are 403 at this sandbox's egress, so it is a runner job (ci-escape-hatches), not a sandbox edit. ⛔ TWO OF THE THIRTEEN MUST NOT BE CLOSED BY IT, and this is the point of the row: arXiv:2508.15126, whose prose attributes the paper to the THIRD of 23 authors as though first — a characterization error a resolving id does not touch; and arXiv:2605.04375, where the prose says the taxonomy's attribution is UNCONFIRMED and the id resolving does not confirm it. A fetch anchors an identifier; it does not validate the sentence around it, and treating 'resolves' as 'correct' is how a provenance gate starts laundering claims.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A $0 CI fetch or an in-repo linter reword; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-114",
+      "what": "⛔ `UNCOVERED_BY_LINT_CITATIONS` STILL NAMES AUT-PD-038 AS FULLY OPEN, though that row is `done` and its fix (`_redact_failed_fetches`) is present in the code. ⚠ THE HONEST REPAIR IS A NARROWING REWORD, NOT A REMOVAL: a failed fetch stored in a shape other than the url/status/attempts one the redactor recognises STILL ANCHORS an identifier that was never retrieved, so the gap is smaller than the line says and larger than nothing. ⭐ This is the maintenance a self-declared coverage list needs to stay worth reading: the list's whole value is that a reader can trust each line to describe a live hole, and one stale line teaches them to skim the rest.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A $0 CI fetch or an in-repo linter reword; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-112",
+      "what": "SUBMISSION-GATE ITEM for PUB-REPURPOSING: §4.1 and Table 3 must cite EV-MAKI-2005 as the class-level clinical bound and EV-BOKLAN-2025 as the existing carfilzomib combination schedule. ⚠ NO SENTENCE IN repurposing-hypotheses.md IS FALSE TODAY — the defect is INCOMPLETENESS: an evidence-graded review that lists carfilzomib as untried, without the class's own closed sarcoma trial, misleads by omission in a way each individual sentence survives. ⛔ A correction REPLACES text and does not append (paper-hardening), and this is a venue-capped manuscript under an active hardening program that reviews a PINNED COMMIT — so it needs a new numbered reference, an Appendix A row and the word budget, not a paragraph bolted on.",
+      "serves": {
+        "route": "RT-CARFILZOMIB",
+        "publication": "PUB-REPURPOSING",
+        "strategy": "ST-REPURPOSING"
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act."
     },
     {
       "id": "AUT-PD-005",
@@ -7139,132 +7278,6 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-110",
-      "what": "⛔ RE-GRADE RT-ALK-HIT AGAINST PMID 42660639 (doi 10.1136/jcp-2026-210760, J Clin Pathol 2026): ALK D5F3 IHC OVEREXPRESSION WITHOUT REARRANGEMENT IN 2 OF 4 EMC CASES, among 119 FET-rearranged tumours. ⭐ WHY THIS SPECIFICALLY MATTERS: that route is parked because ALK and ROS1 have NO PROBE on either expression platform — the route's own text calls that 'an instrument statement, never a biological negative' — and this is exactly the protein-level modality the arrays could not supply. ⚠ GRADE IT HONESTLY AND EXPECT IT TO BE THIN: n=4, IHC overexpression is not a dependency, and this disease's own CD117/KIT history is the cautionary parallel — a marker that stained and led nowhere. Recorded ungraded by the seat that found it (research/literature/carfilzomib-class-clinical-2026-08-28.json) rather than absorbed into an unrelated item.",
-      "serves": {
-        "route": "RT-ALK-HIT",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-111",
-      "what": "★★ ADD A STANDING CLASS-LEVEL LITERATURE QUERY BESIDE THE EMC-SCOPED PRIOR-ART SCREEN. The scope gap that hid a 2005 phase II trial for twenty-one years (AUT-013) applies to EVERY repurposing route, not just carfilzomib: our screen asks 'has anyone paired this with EMC/NR4A3?' and never asks 'what does the human evidence say about this drug class in the parent histology?'. ⛔ A screen scoped to EMC pairings CANNOT return a paper mentioning neither term, so the miss was structural rather than careless — which is why the fix is a second query, not more diligence. ★ Run it once over every drug-class route now, then keep it standing.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-112",
-      "what": "SUBMISSION-GATE ITEM for PUB-REPURPOSING: §4.1 and Table 3 must cite EV-MAKI-2005 as the class-level clinical bound and EV-BOKLAN-2025 as the existing carfilzomib combination schedule. ⚠ NO SENTENCE IN repurposing-hypotheses.md IS FALSE TODAY — the defect is INCOMPLETENESS: an evidence-graded review that lists carfilzomib as untried, without the class's own closed sarcoma trial, misleads by omission in a way each individual sentence survives. ⛔ A correction REPLACES text and does not append (paper-hardening), and this is a venue-capped manuscript under an active hardening program that reviews a PINNED COMMIT — so it needs a new numbered reference, an Appendix A row and the word budget, not a paragraph bolted on.",
-      "serves": {
-        "route": "RT-CARFILZOMIB",
-        "publication": "PUB-REPURPOSING",
-        "strategy": "ST-REPURPOSING"
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-113",
-      "what": "⚠ `BLK-NO-EMC-DATA`'s `retired_by_action` IS IMPRECISE, AND 38 OF 77 ROUTES INHERIT IT. It says what would retire it is 'an EMC dependency or drug-response screen (… or an ex-vivo panel), NONE OF WHICH EXISTS' — but EV-BANGERTER-2023 IS a published ex-vivo EMC drug-response panel, committed and cited by this repository. The defensible reading is that no FETCHABLE OR DEPOSITED EMC drug-response dataset exists, which is a different and narrower claim. ⛔ The clause is imprecise rather than false, and it is load-bearing across half the portfolio, so it is a deliberate edit with a blast radius — not a passing fix by whichever seat notices it. ★ Reword to name what is actually absent (a deposited dataset), and check whether any inheriting route's grade rests on the looser reading.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act."
-    },
-    {
-      "id": "AUT-080",
-      "what": "$0 ACTIONS JOB against export.arxiv.org/api/query to anchor the 13 arXiv identifiers AUT-PD-057 left at `unverified_at_baseline`, moving each to `verified` with a real fetch record. Both arXiv hosts are 403 at this sandbox's egress, so it is a runner job (ci-escape-hatches), not a sandbox edit. ⛔ TWO OF THE THIRTEEN MUST NOT BE CLOSED BY IT, and this is the point of the row: arXiv:2508.15126, whose prose attributes the paper to the THIRD of 23 authors as though first — a characterization error a resolving id does not touch; and arXiv:2605.04375, where the prose says the taxonomy's attribution is UNCONFIRMED and the id resolving does not confirm it. A fetch anchors an identifier; it does not validate the sentence around it, and treating 'resolves' as 'correct' is how a provenance gate starts laundering claims.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "fetch",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "A $0 CI fetch or an in-repo linter reword; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-114",
-      "what": "⛔ `UNCOVERED_BY_LINT_CITATIONS` STILL NAMES AUT-PD-038 AS FULLY OPEN, though that row is `done` and its fix (`_redact_failed_fetches`) is present in the code. ⚠ THE HONEST REPAIR IS A NARROWING REWORD, NOT A REMOVAL: a failed fetch stored in a shape other than the url/status/attempts one the redactor recognises STILL ANCHORS an identifier that was never retrieved, so the gap is smaller than the line says and larger than nothing. ⭐ This is the maintenance a self-declared coverage list needs to stay worth reading: the list's whole value is that a reader can trust each line to describe a live hole, and one stale line teaches them to skim the rest.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "A $0 CI fetch or an in-repo linter reword; no outward-facing act."
     }
   ]
 }
