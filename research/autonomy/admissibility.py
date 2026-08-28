@@ -360,6 +360,17 @@ def _explained_delta(before: dict, after: dict, weights: dict) -> float:
                                                          - bool(b.get("blocked_with_evidence")))
     delta += terms["fruitless_attempts"]["weight"] * ((_num(a.get("fruitless_attempts")) or 0.0)
                                                        - (_num(b.get("fruitless_attempts")) or 0.0))
+    # ⚠ AUT-PD-127, AND IT IS THE SAME EVENT THIS MODULE'S DOCSTRING ALREADY RECORDS ONE TERM EARLIER.
+    # `apply_requires_trimcrae` was wired into `priority.py`'s pipeline and went red on the first
+    # non-derived row it moved (`refused_accumulated` on AUT-PROP-041, -25.00 unexplained), exactly as
+    # `apply_fruitless_attempts` did on AUT-PD-041. `derived_score` has always carried
+    # `blocked_on_human`; only this delta half had never seen it move, because until now nothing moved
+    # it after merge. ⛔ THIS DOES NOT LOOSEN R3: a score that moves with NO matching input change is
+    # refused exactly as before, and a `blocked_on_human` flip with no matching score move is now
+    # caught where previously it was invisible. The boolean shape mirrors `blocked_with_evidence`
+    # immediately above, which is the same kind of term.
+    delta += terms["blocked_on_human"]["weight"] * (bool(a.get("blocked_on_human"))
+                                                     - bool(b.get("blocked_on_human")))
     return delta
 
 

@@ -251,6 +251,7 @@ def test_the_scoring_pipeline_is_a_fixed_point_of_itself():
         entries = priority.apply_age_factor(entries, w)
         entries = priority.apply_session_penalties(entries, w)
         entries = priority.apply_fruitless_attempts(entries, w)
+        entries = priority.apply_requires_trimcrae(entries, w)
         return {"entries": entries}
     second = _again(first)
     was = {e["id"]: e.get("score") for e in first["entries"]}
@@ -269,9 +270,41 @@ def test_a_third_application_still_moves_nothing():
         entries = priority.apply_age_factor(entries, w)
         entries = priority.apply_session_penalties(entries, w)
         entries = priority.apply_fruitless_attempts(entries, w)
+        entries = priority.apply_requires_trimcrae(entries, w)
         state = {"entries": entries}
         scores.append({e["id"]: e.get("score") for e in entries})
     assert scores[0] == scores[1] == scores[2]
+
+
+# 9b -----------------------------------------------------------------------------------------
+def test_the_hand_copied_pipeline_matches_the_real_one():
+    """⛔ TESTS 9 AND 9a RE-LIST `build_ledger`'s POST-MERGE STAGES BY HAND, AND A HAND COPY DRIFTS.
+
+    Measured 2026-08-28 (AUT-PD-127): `apply_requires_trimcrae` was added to `build_ledger` and NOT
+    to those two helpers, so test 9 went red reporting eleven rows as an accumulation. It was not an
+    accumulation — the two pipelines had simply diverged, and the "fixed point" being asserted was
+    between `build_ledger` and a DIFFERENT pipeline that happened to be one stage shorter. A red
+    test that names the wrong cause is worse than a missing one: the obvious repair is to weaken
+    test 9, which would have retired the regression guard for the real accumulation it exists to
+    catch (AUT-PROP-036, -90.0 per re-score).
+
+    ⭐ SO THE COPY IS CHECKED AGAINST THE ORIGINAL RATHER THAN TRUSTED. Adding a stage to
+    `build_ledger` and forgetting the helpers now fails HERE, naming the stage, instead of failing
+    there as a phantom accumulation.
+    """
+    import re
+    src = open(os.path.join(AUTONOMY, "priority.py")).read()
+    real = re.findall(r"entries = (apply_\w+)\(", src.split("def build_ledger()", 1)[1])
+    assert real, "no apply_* stages found in build_ledger — the parse is wrong, not the code"
+
+    mine = open(os.path.abspath(__file__)).read()
+    for helper in ("def test_the_scoring_pipeline_is_a_fixed_point_of_itself",
+                   "def test_a_third_application_still_moves_nothing"):
+        body = mine.split(helper, 1)[1].split("\ndef ", 1)[0]
+        copied = re.findall(r"entries = priority\.(apply_\w+)\(", body)
+        assert copied == real, (
+            f"{helper} applies {copied}, build_ledger applies {real} — "
+            f"missing: {[s for s in real if s not in copied]}")
 
 
 # 10 -----------------------------------------------------------------------------------------

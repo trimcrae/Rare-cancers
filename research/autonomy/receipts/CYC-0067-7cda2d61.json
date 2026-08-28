@@ -1,0 +1,48 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0067-7cda2d61",
+  "session_id": "7cda2d61-4862-5e6f-8614-2628950e5375",
+  "utc": "2026-08-28T20:45:00Z",
+  "shape": "this session — one driver, no subagents. The item was a two-file fix in research/autonomy/ with its guard; nothing in it was independent enough to be worth a seat, and the shared tree had one writer throughout.",
+  "took": "AUT-PD-127 (RT-AUTONOMY) — filed by this cycle and claimed with claim.py (CLAIMED on attempt 1, pushed before any work started). ⛔ NOT the handed-over queue's top item, and that is the finding: every row that prompt listed is one no cycle may take.",
+  "took_what": "⛔ THE HANDOFF PROMPT'S OWN QUEUE WAS THE DEFECT. All five rows it listed under 'WHAT IS WAITING' declare `requires_trimcrae: true`. Three modules answer 'may a cycle take this row?' and only continuity.py read the field; priority.py's `_blocked_on_human` read systems/graph/routes.json alone and handoff.py's `_takeable` did not consider it. So the -25 `blocked_on_human` weight — its own `why` reads 'The loop cannot advance it this cycle' — was present in the score_inputs of 0 of the 12 rows declaring the field, and the re-scored queue's first EIGHT rows were all trimcrae's acts (AUT-046 199.0 down to AUT-073 172.0) before the first takeable row, AUT-025 at 152.0. This is the one-of-a-pair class at n=3: continuity.py lines 80-95 record the Stop hook finding this exact pair of rows on 2026-08-27 and fixing it THERE.",
+  "changed": [
+    "priority.py: new `apply_requires_trimcrae`, a post-merge delta pass wired into build_ledger AFTER apply_session_penalties (whose rule-2 assignment would overwrite it) and BEFORE the sort (after it, the term is dead as an ordering term). Follows apply_fruitless_attempts's documented pattern for a term build_entries cannot see, and is idempotent by construction so the pipeline stays the fixed point test 9 asserts.",
+    "handoff.py: `_takeable` withholds such rows; new `handed_to_trimcrae()` NAMES them in the prompt with the reason, rather than dropping them silently — an outward-facing row is a question somebody must answer, and a successor that never learns it exists cannot escalate it.",
+    "priority-weights.json: the `blocked_on_human` term's `reads` field now documents both sources. The weight VALUE is unchanged.",
+    "admissibility.py: `_explained_delta` (R3) accounts for a blocked_on_human flip. ⚠ DECLARED IN amendments.jsonl WITH THE SELF-SERVING CHECK ANSWERED — this bar refused this cycle's write. It does not loosen R3; it catches a flip that was previously invisible, and a score moving with no matching input change is refused exactly as before.",
+    "tests/test_who_may_act_has_one_answer.py: new 9-test suite. Its test 4 puts ONE synthetic row to all three readers, so a fourth reader added without wiring fails here.",
+    "tests/test_a_score_must_derive_from_its_own_inputs.py: tests 9 and 9a re-synced with build_ledger, plus new test 9b asserting the hand-copied pipeline in those helpers matches build_ledger's real stage list."
+  ],
+  "cost": "$0. CPU only — local pytest and preflight. No GPU, no CI dispatch, no network fetch.",
+  "subagents": {
+    "max_concurrent": 0,
+    "total": 0,
+    "_why": "No seat was warranted: one item, one tree, one writer."
+  },
+  "verification": {
+    "mutation_testing": "7/7 caught on the new suite (M1 handoff stops filtering, M2 the pass is a no-op, M3 the penalty applies every re-score, M4 the pass runs after the sort, M5 withheld rows not named, M6 continuity stops reading the field, M7 the OR becomes an overwrite), all single-site, run in a worktree at scratchpad/cyc-driver/drv-mutwt. 1/1 caught on the drift guard (M8 stage dropped from one helper only). Logs: drv-mutation.log, drv-mutation2.log.",
+    "effect_measured": "After the fix, 0 of 12 rows are unpenalised (was 12 of 12), and handoff.py hands a successor five genuinely takeable rows headed by AUT-025 152.0, with the withheld rows named.",
+    "honest_limit": "⛔ THE RANKING STILL SHOWS trimcrae's ROWS AT THE TOP — AUT-046 at 174.0 is still above AUT-025 at 152.0. That is the weight's design, not a partial fix: priority-weights.json says -25 is deliberately not -inf because the row 'must stay visible enough to be escalated'. The protection is that continuity.py refuses such a row and handoff.py withholds it; the ranking is where escalation still has to see it.",
+    "not_claimed": "This suite does NOT check that any row's `requires_trimcrae` VALUE is correct — continuity.py refuses to guess that and a keyword heuristic here would reintroduce the guessing it rejects. Only that the declared value is honoured identically everywhere.",
+    "step_11_reaper": "Ran against a real 40-session list: 40 in, 0 safe to archive, 40 kept, 2 reported as 'idle with NO committed receipt'. ⛔ THOSE TWO FINDINGS ARE NOT TRUSTWORTHY AS STATED — see AUT-PD-129. Nothing was archived."
+  },
+  "what_i_got_wrong": [
+    "⛔ THE HARNESS REPORTED EXIT CODE 0 FOR A PREFLIGHT WHOSE OWN MARKER SAID EXIT=127. The first run was launched with a stale working directory (a `cd` in an earlier tool call persisted), so `./scripts/preflight.sh` did not exist. The marker caught it; the harness code would have had me commit on a gate that never ran. This is the third rule in the fired-session prompt, confirmed live.",
+    "⛔ AUT-PD-126 COLLIDED. A concurrent cycle pushed 5 commits mid-work and allocated the same id from the same max+1 derivation. Caught by re-deriving against the rebased trunk rather than trusting the stash-pop, which had textually merged a JSON file with no conflict reported. Filed as AUT-PD-127.",
+    "Ended a turn waiting on a running gate. The Stop hook was right to refuse it: research-loop §6 says a gate blocks the COMMIT, not the WORK.",
+    "⚠ THE TRUNK MOVED UNDER THIS CYCLE THREE TIMES (a concurrent session pushing every few minutes), invalidating three preflight runs. Killed and re-run each time rather than committing a tree the green run had not seen. The ledger is GENERATED, so the correct conflict resolution each time was to discard the local copy and regenerate on the new base, never to merge it — a stash-pop had already merged that JSON textually with no conflict reported."
+  ],
+  "now_queued": [
+    "AUT-PD-129 (filed by this cycle) — a receipt's `session_id` holds TWO id spaces: 10 of 35 committed receipts carry a CCR `session_01…` id and 25 carry the CLAUDE_CODE_SESSION_ID uuid, so session_reaper.py can join only 5 of 40 live sessions and reports the rest as possibly-lost work. ⚠ The cycle contract (§2 step 10) mandates the uuid while the reaper needs the CCR id, so following the contract exactly makes a session unreapable.",
+    "AUT-PD-058 — the clone is shallow, which censors stuck_clock and the git-derived health rows. Observed again this cycle: every row came back right-censored at a 2026-08-28 17:48 horizon.",
+    "gates_green and stalls_are_named are still UNMEASURED on the board. ⚠ The trunk's `tests` run for 86098c2 was CANCELLED, not green, so the head carried no CI verdict when this cycle started."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why": "This session has run one of its two permitted cycles. The handoff is owed only when the cap is reached."
+  }
+}

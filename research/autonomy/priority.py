@@ -872,6 +872,56 @@ def apply_fruitless_attempts(entries: list[dict], weights: dict) -> list[dict]:
     return entries
 
 
+def apply_requires_trimcrae(entries: list[dict], weights: dict) -> list[dict]:
+    """Feed the `blocked_on_human` term from the ENTRY's own `requires_trimcrae`, not only from
+    `systems/graph/routes.json` (AUT-PD-127).
+
+    ⛔⛔ THE DEFECT, MEASURED ON 86098c2 BEFORE ANY CODE WAS CHANGED. Three places answer the one
+    question "may a cycle take this row?" and only ONE read the field: `continuity.py`'s
+    `_why_not_ready` refuses such a row outright, while this module's `_blocked_on_human` reads
+    routes.json alone and `handoff.py`'s `_takeable` did not consider it at all. So the -25 weight
+    written for exactly this case — its own `why` in `priority-weights.json` reads "The loop cannot
+    advance it this cycle" — appeared in the `score_inputs` of 0 of the 12 rows declaring the field,
+    and the re-scored queue's first EIGHT rows were all acts reserved for trimcrae by CLAUDE.md §3
+    (AUT-046 199.0 down to AUT-073 172.0), the first takeable row being AUT-025 at 152.0. A fresh
+    cycle reading that queue top-down is pointed at eight rows it must refuse before reaching work.
+
+    ⭐ WHY IT IS A POST-MERGE PASS AND NOT A TERM IN `build_entries`, which is where the route half
+    of this predicate lives. `build_entries` reads only `systems/graph` (its own docstring says so),
+    and `requires_trimcrae` is a property of a LEDGER ROW — a route legitimately has several next
+    steps of which only one is his act, and hand-filed rows like AUT-PROP-041 serve no route at all.
+    The field is therefore unreachable at derive time, which is the identical constraint
+    `apply_fruitless_attempts` documents for `dispatch_log`, and this follows that solution rather
+    than inventing a second one.
+
+    ⭐ APPLIED AS A DELTA AGAINST THE PREVIOUSLY-ECHOED INPUT, exactly like `apply_age_factor` and
+    `apply_fruitless_attempts`, and for the same reason: a DERIVED row's `score_inputs` is rebuilt
+    fresh each run (so `prev` is the route-derived verdict and the term lands once), while a
+    HAND-FILED row's score and inputs are carried forward unchanged by `merge()`. The value written
+    is the OR of the two sources — a row already blocked on a human via routes.json stays blocked —
+    and once True the delta is 0, so the pipeline remains the fixed point
+    `test_a_score_must_derive_from_its_own_inputs` asserts it is.
+
+    ⛔ IT PENALISES, IT DOES NOT HIDE. -25 is deliberately not -inf: `priority-weights.json` says the
+    row "must stay visible enough to be escalated", and CLAUDE.md §3 trigger 5 depends on a finished
+    paper still being findable in the queue. Dropping such rows from the RANKING would break the one
+    escalation path that matters; `handoff.py` drops them from what is HANDED to a successor and
+    names them instead, which is a different question with a different answer.
+    """
+    w = ((weights.get("terms") or {}).get("blocked_on_human") or {}).get("weight")
+    for e in entries:
+        if not e.get("requires_trimcrae"):
+            continue
+        inputs = e.setdefault("score_inputs", {})
+        prev = bool(inputs.get("blocked_on_human"))
+        if prev:
+            continue
+        inputs["blocked_on_human"] = True
+        if isinstance(w, (int, float)) and isinstance(e.get("score"), (int, float)):
+            e["score"] = round(e["score"] + w, 2)
+    return entries
+
+
 def release_stale_claims(entries: list[dict], weights: dict, interval_h, now=None) -> list[dict]:
     """A claim is a LEASE. Expire it, or one dead cycle parks an item forever.
 
@@ -949,6 +999,12 @@ def build_ledger() -> dict:
     # against destabilising machinery fixed the same day this was written — scoped down deliberately,
     # not an oversight.
     entries = apply_fruitless_attempts(entries, weights)
+    # ⛔ AUT-PD-127, AND IT MUST RUN BEFORE THE SORT OR IT IS DEAD CODE — the defect class this
+    # repository has paid for repeatedly (`subagent_width` governed nothing for a fortnight because
+    # no code read it). It is placed alongside `apply_fruitless_attempts` and after
+    # `apply_session_penalties` for that function's stated reason: rule 2 of the penalties pass
+    # ASSIGNS a prerequisite's score from its parent's, overwriting anything applied before it.
+    entries = apply_requires_trimcrae(entries, weights)
     entries.sort(key=lambda e: (-(e.get("score") if e.get("score") is not None else -1e9),
                                 str(e.get("serves", {}).get("route") or e["id"])))
     return {

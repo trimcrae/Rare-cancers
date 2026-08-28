@@ -42,7 +42,7 @@
     },
     "blocked_on_human": {
       "weight": -25.0,
-      "reads": "routes.json[].state.authorization == 'needs_decision', or next.blocked_on naming a decision only trimcrae can make",
+      "reads": "the OR of two sources, because neither is complete alone (AUT-PD-127): routes.json[].state.authorization == 'needs_decision' or next.blocked_on naming a decision only trimcrae can make, applied at derive time; and the LEDGER ROW's own `requires_trimcrae`, applied post-merge by priority.py:apply_requires_trimcrae because build_entries reads only systems/graph and cannot see it. Reading routes.json alone left this term at 0 on all 12 rows that declare the field.",
       "why": "The loop cannot advance it this cycle. Not -inf: it must stay visible enough to be escalated."
     },
     "fruitless_attempts": {

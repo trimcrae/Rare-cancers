@@ -184,8 +184,26 @@ def top_items(ledger: dict | None, n: int = TOP_N, exclude_ids=None) -> list[dic
                 and str(e.get("state") or "queued") in {"queued", "blocked"}
                 and int(e.get("retry_budget") or 0) > 0
                 and e.get("score") is not None
+                and not e.get("requires_trimcrae")
                 and e.get("id") not in exclude]
     return sorted(takeable, key=lambda e: -float(e.get("score") or 0))[:n]
+
+
+def handed_to_trimcrae(ledger=None) -> list[dict]:
+    """The rows `_takeable` withholds because they are trimcrae's act, best first.
+
+    Reported rather than dropped silently, for `continuity.py`'s reason: an outward-facing row is a
+    question somebody must answer, not a status, and a successor that never learns the row exists
+    cannot escalate it. This is `_takeable`'s AUT-PROP-029 exclusion note applied to a second and
+    unrelated predicate.
+    """
+    if ledger is None:
+        ledger, _ = _read(LEDGER)
+    rows = [e for e in ((ledger or {}).get("entries") or [])
+            if e.get("requires_trimcrae")
+            and not e.get("owner")
+            and str(e.get("state") or "queued") in {"queued", "blocked"}]
+    return sorted(rows, key=lambda e: -float(e.get("score") or 0))
 
 
 def recent_receipts(n: int = RECENT_N) -> list[str]:
@@ -204,6 +222,7 @@ def build(reason: str = "", ledger=None, state=None) -> str:
 
     excluded = terminal_ids()
     items = top_items(ledger, exclude_ids=excluded)
+    his = handed_to_trimcrae(ledger)
     queue = "\n".join(
         f"  {e['id']}  score {e.get('score')}  [{e.get('kind')}]  {str(e.get('what') or '')[:150]}"
         for e in items) or "  (the ledger holds nothing takeable — that is itself the finding; see below)"
@@ -211,6 +230,14 @@ def build(reason: str = "", ledger=None, state=None) -> str:
         queue += (f"\n  ⛔ EXCLUDED as `stalled_needs_human` (stuck_clock.py --check, AUT-PROP-029): "
                   f"{', '.join(sorted(excluded))} — a human decision, not queued work; do not re-claim "
                   f"it on the strength of its score alone.")
+    if his:
+        queue += (f"\n  ⛔ WITHHELD as `requires_trimcrae` (AUT-PD-127), NOT because they are "
+                  f"unimportant — several outscore everything above: "
+                  f"{', '.join(e['id'] for e in his[:10])}"
+                  f"{' …' if len(his) > 10 else ''}. Each is an outward-facing or irreversible act "
+                  f"reserved for trimcrae by CLAUDE.md §3, so no cycle may take one. ⭐ You may still "
+                  f"PREPARE everything one needs and escalate it — `research-loop` §5 — but do not "
+                  f"claim it as queued work.")
 
     interval = (state or {}).get("cycle_interval_hours", "?")
     backoff = (state or {}).get("backoff_level", "?")
