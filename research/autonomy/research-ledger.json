@@ -11,19 +11,19 @@
     "experiment": 23,
     "fetch": 16,
     "fix": 10,
-    "harden": 14,
+    "harden": 15,
     "negative": 32,
     "process": 7,
-    "process_defect": 39,
+    "process_defect": 40,
     "proposal": 10,
     "regrade": 7,
     "verify": 1,
     "write": 6
   },
   "n_by_state": {
-    "done": 54,
+    "done": 55,
     "in_progress": 3,
-    "queued": 110,
+    "queued": 111,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -298,9 +298,9 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "in_progress",
-      "owner": "CYC-0047-schedule",
-      "claimed_utc": "2026-08-28T12:20:23Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": [
@@ -308,14 +308,14 @@
       ],
       "blocked_evidence": "Same condition as AUT-PROP-018/019, which this item now joins behind: all three of PUB-ASO's remaining open publish_bar clauses (hardening_converged, preflight_full_green, independent_adversarial_seat) are sha-bound to the commit that gets posted, so any one run against a moving HEAD buys a receipt for a sha that is stale before it lands. Round 11 (AUT-PROP-039) just fixed four guard-gap findings across lint_changed_prose.py, test_journal_article_numbers.py, aso_falsification_power.py (new), lint_claims.py and lint_style.py — none of which are article PROSE, but paper-hardening's own regression-seat rule (§4's seat 1) applies to any repair, and this round's fixes have not yet been reviewed by a fresh seat. Run this LAST, against the commit that is actually posted, once nothing else is mid-flight against the ASO family.",
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0032-cycrouti",
       "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
       "id": "AUT-PROP-040",
       "kind": "harden",
       "prerequisite_of": "AUT-049",
-      "what": "ROUND 12 OF PUB-ASO — five blind seats confirming round 11's four fixes introduced no regression (paper-hardening §4's regression-seat lens is the load-bearing one here), pin the commit once nothing else is mid-flight against the ASO manuscript family. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s, anywhere. ⛔ Parallel Agent-tool subagents in the driver session (measured working for this shape of round in a scheduled-Routine context, CYC-031 and CYC-0032) unless create_session/handoff is available.",
+      "what": "ROUND 12 OF PUB-ASO — five blind seats confirming round 11's four fixes introduced no regression (paper-hardening §4's regression-seat lens is the load-bearing one here), pin the commit once nothing else is mid-flight against the ASO manuscript family. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s, anywhere. ⛔ Parallel Agent-tool subagents in the driver session (measured working for this shape of round in a scheduled-Routine context, CYC-031 and CYC-0032) unless create_session/handoff is available.\n\n✅ DONE 2026-08-28 (CYC-0047-cyc0047s). Five blind seats ran at pin 9ae1365 (post round-11, quiet head confirmed). ZERO blockers, ZERO P1s in the article's own prose across all five lenses (seats 2/3/5 independently re-derived every headline number/power figure and read cover-to-cover: hostile-referee verdict ACCEPT). ONE real P1 found in round 11's OWN TOOLING (seat 1: lint_style.py's HTML-comment exemption dropped the whole line on a same-line-closed comment, blinding the style gate over ~24 citation-marker lines of real prose -- downgraded from seat 1's BLOCKER label per this series' own §8.0 test, since the prose itself was verified correct, only the gate was blind). FIXED and mutation-tested this cycle: research/modalities/tests/test_lint_style.py, 7 cases, all failing pre-fix and passing post-fix. SEPARATELY: the driver's own follow-up commit to clear an unrelated stale-preflight failure (submission-metrics.json) ran into a live subagent mutation window and briefly landed a wrong value on main (6e7d44e06) -- caught by seat 4, corrected same cycle (3a53478a8). Full round record: research/manuscripts/aso/fusion-junction-aso-paper-redteam-round12.md. Process defect: AUT-PD-047. ⛔ DOES NOT CLOSE clause 1 (hardening_converged): per this series' own standard, a round that finds and fixes real gaps does not get to certify nothing was found -- both fixes are unreviewed. Queued AUT-PROP-041 (round 13, confirmation pass) to actually close the clause.",
       "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
       "closes_clause": {
         "paper": "PUB-ASO",
@@ -324,6 +324,37 @@
       "score_inputs": {
         "blocked_with_evidence": true
       },
+      "score": 195.5
+    },
+    {
+      "id": "AUT-PROP-041",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "quiet-head-for-the-sha-bound-aso-clauses"
+      ],
+      "blocked_evidence": "Same sequencing condition as AUT-PROP-018/019/040: all three of PUB-ASO's remaining open publish_bar clauses are sha-bound to the commit that gets posted, so a round run against a moving HEAD buys a receipt for a sha that is stale before it lands. Round 12 (this item's predecessor, AUT-PROP-040) just fixed two real things -- a lint_style.py guard-gap P1 and a process-caused submission-metrics.json BLOCKER -- neither of which has been reviewed by a fresh seat. Run this once nothing else is mid-flight against the ASO manuscript family.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0047-cyc0047s",
+      "prerequisite_of": "AUT-049",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "what": "ROUND 13 OF PUB-ASO — five blind seats confirming round 12's two fixes introduced no regression (paper-hardening §4's regression-seat lens is the load-bearing one here, exactly as it was for round 12 confirming round 11): (1) lint_style.py's rewritten HTML-comment handling (strips only the comment span, not the whole line) — check it doesn't now UNDER-exempt (i.e. does a genuinely decorative glyph purely inside a comment still pass clean?) and that it handles a comment with no trailing content, a comment spanning 3+ lines, and two comments on one line; (2) the corrected submission-metrics.json (main_words=3719) actually reproduces byte-for-byte against the pinned commit via `submission_metrics.py --check` run from a FRESH checkout, not the driver's shared working tree, so this round's own review cannot repeat the mutation-window mistake AUT-PD-047 documents. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s, anywhere — article prose AND its generated siblings (tables, references, submission-metrics.json). ⛔ Parallel Agent-tool subagents in the driver session (measured working for this shape of round in a scheduled-Routine context, CYC-031/032/047) unless create_session/handoff is available. ⛔ PIN THE COMMIT ONLY ONCE NOTHING ELSE IS MID-FLIGHT AGAINST THE ASO FAMILY, and if any seat wants to mutation-test a guard, give it an isolated git worktree (EnterWorktree or `git worktree add`) rather than relying on a self-reported scratch copy — AUT-PD-047's whole finding is that the plain instruction alone was not reliable.",
       "score": 195.5
     },
     {
@@ -4814,6 +4845,28 @@
       "attempts": 1,
       "last_evidence_utc": "2026-08-27",
       "filed_by": "CYC-0028-moriokat"
+    },
+    {
+      "id": "AUT-PD-047",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0047-cyc0047s",
+      "what": "⛔ A REVIEW-SEAT SUBAGENT EDITED THE LIVE TRACKED TREE DURING A READ-ONLY HARDENING ROUND, AND ONLY THE 'STAGE BY PATH, NEVER -A' RULE CAUGHT IT (CLAUDE.md §6). Round 12 of PUB-ASO hardening (AUT-PROP-040) dispatched five parallel blind-review subagents, each explicitly told 'do NOT edit any tracked file in the working tree — this is a read-only review seat' and, if it wanted to mutation-test a guard, to 'make a scratch copy first ... and mutate the COPY, never the live tree.' Mid-round, `git status` showed an UNSTAGED, UNEXPECTED edit to research/manuscripts/aso/fusion-junction-aso-journal-article.md: 'with *TAF15* a substantial minority ⭐ and your *TCF12* and *TFG*' — a nonsensical two-token insertion the driver did not make. Caught only because the driver staged research/manuscripts/submission-metrics.json BY PATH rather than `git add -A`; had -A been used, this would have committed and pushed to `main` inside an otherwise-legitimate commit, matching the shape of the 13-inverted-claims incident this rule already exists to prevent. Reverted immediately with `git checkout --`; no commit ever contained it.\n\nROOT-CAUSED, NOT GUESSED (CLAUDE.md §4): seat 1 (the regression lens) later reported it had verified this exact mutation 'on a scratch clone (/tmp/.../seat1-clone-real, checked out at the pinned commit, git checkout -- ... used to revert each time)'. The obvious hypothesis — a `cp -al` hardlink clone whose in-place edits leak back to the source inode, the failure mode paper-hardening §8b.1 already documents — was checked directly and REFUTED: `stat -c %i` on the live file (inode 483841) and on the same path inside scratchpad/seat1-clone-real (inode 1886303) are DIFFERENT inodes; seat1-clone-real also carries its own .git directory, confirming it is a real separate checkout, not a hardlinked copy. So the clone itself was not the leak. The mutation must have reached the live path some other way — most plausibly the seat's editing tool was pointed at the live repo path for at least one test before (or instead of) the clone for that specific mutation, and its own revert step ran after the driver's `git status` check happened to land in the open window. The seat's own report and the driver's direct observation cannot both be fully accurate; this entry records the observation (the live-tree diff, with inode evidence) rather than the seat's self-report, per CLAUDE.md §4's own priority of a real diagnostic over an agent's account of its own actions.\n\n⚠ NOT A CATASTROPHE THIS TIME, BUT THE MARGIN WAS ONE HABIT: if the driver had used `git add -A` (a natural shortcut when only one file was actually intended to change), this lands on `main`. The instruction given to seats ('use a scratch copy, never the live tree') is a PLAIN SUGGESTION, not a structural boundary — nothing prevents a general-purpose subagent's editing tool from targeting any path it likes, including the shared live tree, when its cwd is the same repo the driver is sitting in.\n\nPROPOSED FIX (not applied here — scoping only): any future review-seat prompt that even mentions the possibility of mutation-testing should either (a) launch the seat inside an isolated worktree (EnterWorktree / a dedicated git worktree per seat, per research-loop §3's existing worktree guidance for MUTATING subagents) rather than relying on a self-reported scratch copy, or (b) if a true read-only seat only occasionally wants to check mutation robustness, make the instruction a hard constraint naming the exact clone path and explicitly forbidding any tool call from touching a path under the live repo, not a soft 'if you want to test something, use a copy' suggestion. Either way: CLAUDE.md §6's 'stage by path, never -A, while a subagent that mutates the working tree is running' is the backstop that actually worked here and must stay in force even for seats explicitly told they are read-only, since this incident shows that instruction alone is not reliable.\n\n⛔⛔ UPDATE, SAME CYCLE, MORE SEVERE THAN THE NEAR-MISS ABOVE: it did NOT stay a near-miss. While fixing the 'stale submission-metrics.json' preflight failure, the driver ran `python3 research/manuscripts/submission_metrics.py` (the real regeneration, not `--check`) directly against the LIVE WORKING TREE while seat 1 was still active in the same window — and the live article file was contaminated at that exact moment. The regeneration silently captured the contaminated word count (main_words 3721, i.e. the clean 3719 plus the two inserted tokens '⭐'+'your', which this counter's regex apparently both count) and the driver COMMITTED it (6e7d44e06), reading the discrepancy as genuine pre-existing drift rather than live contamination. This is a corrupted-artifact commit that landed on `main`, not merely a caught-in-time diff. It was caught two commits later by round 12's own seat 4 (citations/build/gates lens), which independently regenerated the metric inside an isolated worktree of the PINNED commit and got 3719, flagged the direction of the 'fix' as backwards, and named the exact mechanism. Corrected in 3a53478a8.\n\n★★ THE GENERALISABLE LESSON THIS ADDS, BEYOND THE git add -A RULE ALREADY STATED ABOVE: 'stage by path, never -A' protects the COMMIT boundary, but it does NOT protect a DERIVATION step that reads the live working tree WHILE a mutation-risk subagent is running. `submission_metrics.py` (like `aso_archive_manifest.py` and any other generator that reads files off disk rather than off `git show`) has no way to know the tree it just read was transiently contaminated -- it can only report what the bytes said at read time. The fix that actually worked here was VERIFICATION AFTER THE FACT (a second seat re-deriving the same number against an isolated pinned-commit worktree), not prevention -- which argues for either (a) not running any live-tree-reading regeneration script while review/mutation-risk subagents are still active, deferring such fixes until they have all reported, or (b) always regenerating from a `git stash`-clean or freshly-cloned tree rather than the shared working directory when subagents are concurrently active in it."
     },
     {
       "id": "AUT-PD-005",
