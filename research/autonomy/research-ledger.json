@@ -6793,6 +6793,69 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-096",
+      "what": "⛔ CORRECT RT-SGK1's GRADE CLAUSE: 'its canonical substrate NDRG1 is higher on BOTH … WHICH IS AN ACTIVITY-SHAPED READING RATHER THAN AN ABUNDANCE ONE' is unsupported, and it is the entire inferential step from a number to a statement about SGK1 (evidence: research/literature/ndrg1-kinase-attribution-2026-08-28.json, seat s62-sgk1, 2026-08-28). The reading is transcript ABUNDANCE; the mechanism it is offered as evidence of is PHOSPHORYLATION, and the two are published as anti-correlated under Hsp90 inhibition (PMID 19682504). ⛔ THE CORRECTION LANDS IN census-route-expression-grading.json FIRST, not in the graph: that file owns the grade, and editing the graph copy would create a second home for a fact this repository keeps in one place. Then regenerate the views with the repo's own tooling. ⚠ Do NOT withdraw the route or the grade's 'not attributable to SGK1' conclusion — that conclusion was already correct, for a narrower reason than it gave, and over-correcting trades one wrong sentence for another.",
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-097",
+      "what": "★★ SWEEP EVERY ROUTE GRADE FOR THE DEFECT CLASS AUT-062 FOUND BY READING ONE ROUTE: a TRANSCRIPT-ABUNDANCE number described as reporting a protein's ACTIVITY. ⛔ NOBODY HAS CHECKED WHETHER RT-SGK1'S WAS THE ONLY ONE, and that is the whole reason to run it — the defect is invisible to every existing gate, because the sentence is grammatical, hedged, cites a real artifact, and the number it quotes is correct. It is claim SCOPE again (the third orthogonality this repository recorded on 2026-08-28, after strength-vs-provenance and strength-vs-direction), pointed at the systems graph rather than at a manuscript. ★ THE DISCRIMINATOR IS CHEAP: any grade whose evidence is an expression series and whose language names activity, phosphorylation, signalling, pathway output or 'shaped' anything — read each candidate against what its cited artifact actually MEASURES. ⚠ Expect most to be fine; the value is the count, and a clean sweep is a real result worth recording.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act."
+    },
+    {
+      "id": "AUT-PROP-048",
+      "what": "$0 AND THE INPUTS ARE ON DISK: score NDRG1 against HIF-1 and PPARγ target panels in the two committed expression series. Grounded in AUT-062's finding that what actually drives NDRG1 ABUNDANCE is hypoxia via HIF-1 (PMID 15341671), together with this repository's own reading that all six published hypoxia signatures are higher in EMC on both platforms with NDRG1 a core member of four of six. ⭐ THIS IS THE POSITIVE HALF OF AUT-062's NEGATIVE: if NDRG1's elevation tracks the hypoxia panels rather than an SGK-shaped pattern, that is a mechanistic reading the route can actually support, and it costs nothing to test. Report it at its true weight either way — a panel that does not separate is also an answer.",
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "kind": "proposal",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act."
     }
   ]
 }
