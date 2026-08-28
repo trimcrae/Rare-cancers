@@ -64,6 +64,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
+import envread  # noqa: E402
 import handoff  # noqa: E402
 
 RECEIPTS = os.path.join(HERE, "receipts")
@@ -90,9 +91,26 @@ def cap() -> int | None:
     return v if isinstance(v, int) and not isinstance(v, bool) and v >= 1 else None
 
 
+def session_id_read():
+    """The three-valued read behind `session_id()` — AUT-PROP-034, and it answers a question this
+    module's own docstring records as OPEN.
+
+    ⛔ THE DECISION DOES NOT CHANGE, AND THAT IS DELIBERATE. `verdict()` already fails closed on both
+    branches (`MUST NOT STOP`), which is why the two-valued read was not a defect here the way it is
+    in `gates_verdict.py`. What changes is the REPORT, and the report is the whole reason to bother:
+    the module docstring above says *"Whether `CLAUDE_CODE_SESSION_ID` is set inside a
+    scheduled-Routine session has NOT been verified, and cannot be from an interactive one"*, and
+    `os.environ.get(X) or ""` cannot tell **unset** (no harness variable at all — the open question)
+    from **exported empty** (a harness that set it to nothing — a different bug in a different
+    place). Collapsing them leaves the next reader of a scheduled session's output unable to settle
+    the very question this module is waiting on.
+    """
+    return envread.read("CLAUDE_CODE_SESSION_ID", default=None,
+                        what="which receipts belong to this session")
+
+
 def session_id() -> str | None:
-    sid = (os.environ.get("CLAUDE_CODE_SESSION_ID") or "").strip()
-    return sid or None
+    return session_id_read().value or None
 
 
 def _receipts() -> list[dict]:
@@ -148,9 +166,13 @@ def verdict() -> tuple[bool, str]:
     c = cap()
     if c is None:
         return False, "max_cycles_per_session is unreadable, so no cap can be claimed"
-    sid = session_id()
-    if not sid:
-        return False, "CLAUDE_CODE_SESSION_ID is unset, so this session cannot show which receipts are its own"
+    sid_read = session_id_read()
+    if not sid_read.value:
+        # ⚠ ONE DECISION, TWO REPORTS. `sid_read.detail` distinguishes "unset" from "exported empty";
+        # the answer is MUST NOT STOP either way, and it always was.
+        return False, (f"no usable session id, so this session cannot show which receipts are its "
+                       f"own — {sid_read.detail}")
+    sid = sid_read.value
     ours = mine(sid)
     if len(ours) < c:
         return False, (f"this session has written {len(ours)} receipt(s) against a cap of {c} — "
