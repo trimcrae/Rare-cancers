@@ -1,0 +1,35 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0040-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T12:35:00Z",
+  "shape": "Dispatch-only, same pattern as CYC-0035/037: the ready-work-at-turn-end stop hook fired a third time insisting on something running or claimed; found a genuine, previously-unfiled process defect (10 ledger rows with no `what` field, one confirmed to crash priority.py's own table printer) while looking for a clean next item, filed it, claimed it, and dispatched a background subagent rather than doing the backfill directly in this already-long-running session.",
+  "took": "AUT-PD-046 — 10 ledger rows lack a `what` field and one crashes priority.py's table printer (RT-AUTONOMY)",
+  "took_what": "The ready-work hook does not distinguish 'something is running for one item' from 'the other 84 items are ready and not moving' — it fires whenever ready+unclaimed work exists and it cannot see a subagent. Rather than fight it a fourth time or claim a large research item this session has no business absorbing (six prior cycles already ran, per CYC-0039/AUT-PD-045), scanned for a small, well-scoped, genuinely useful item. Found: AUT-PROP-029 through AUT-PROP-038 (ten rows, all filed by CYC-0030 citing research/method-watch-autonomy-prior-art-2.md) have no `what` field at all — confirmed by direct scan, not assumed from an earlier session's passing note. Confirmed the crash live: `python3 research/autonomy/priority.py --limit 25` raises KeyError('what') the moment it reaches one of these rows. Filed AUT-PD-046 describing both the readability gap and the crash, pushed it (claim.py requires the target to already be on origin/main), then claimed it and dispatched a background Agent-tool subagent to do the actual backfill — reading the cited document sections properly rather than restating the existing score_basis one-liners, which would not have been real work.",
+  "changed": [
+    "NOTHING BEYOND THE FILING LANDED YET. Dispatched a background subagent (isolation: worktree) with a two-part brief: (1) read research/method-watch-autonomy-prior-art-2.md's sections 2-5, match each to its citing row, and write a real, specific `what` for the nine still-open rows (029, 030, 032-038) plus a check on whether AUT-PROP-031 (already done) was closed against real understanding of its section or blindly, reporting rather than papering over the latter if found; (2) harden priority.py's table printer against a missing `what` with a regression test, mutation-confirmed. It must use the new ledger_io.write_ledger for any ledger write (told explicitly, since this is exactly the class of mistake AUT-PD-037 just fixed) and push a branch, not touch main.",
+    "Per 'the driver never waits', this receipt is written and the turn ends at dispatch, not completion."
+  ],
+  "cost": "$0. Engineering, CPU and one Claude subagent.",
+  "subagents": {
+    "max_concurrent": 1,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 3,
+    "seats": [
+      "aut-pd-046-worktree-backfill (agentId ab49b466db10ed774, still running at receipt time — isolation: worktree, will push branch aut-pd-046-ledger-what-backfill or similar and report back; not yet observed). Serial total 3 counts this alongside CYC-0035's and CYC-0037's subagents earlier in this session; only one was ever concurrent (max_concurrent: 1)."
+    ]
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [
+    "Merge the aut-pd-046-ledger-what-backfill branch once its completion notification arrives: review the diff (confirm it touches only the ten what fields and the priority.py hardening plus its test), run targeted tests plus full preflight, update the ledger, write a receipt, push."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context (AUT-PD-045). This is the third background-subagent dispatch this session; the driver itself is not taking on further full cycles."
+  }
+}
