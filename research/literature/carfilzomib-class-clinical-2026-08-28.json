@@ -1,0 +1,135 @@
+{
+  "_what": "The clinical read on PROTEASOME INHIBITION IN SARCOMA that RT-CARFILZOMIB never carried. Retrieved 2026-08-28 from PubMed through the PubMed MCP connector (`search_articles`, `get_article_metadata`) from the dev sandbox, because Europe PMC and most publisher hosts return 403 at this egress and PubMed does not.",
+  "_why": "AUT-013 stood at the top of the ready queue reading, in its entirety, 'Treat as landscape context; the ex-vivo result is banked and needs no further lookup.' CLAUDE.md §4 says a $0 observation is never 'watching' and that a remembered reading of a moving field is a dated observation rather than a fact, so the lookup the row declared unnecessary was taken. It returned two clinical records this repository had never held, one of them twenty-one years old and one eleven months older than the route's last regrade — so the row's own sentence is what the query falsified.",
+  "_scope_and_what_this_is_not": "Abstract-level metadata plus the PubMed-returned abstract text. NO full text was retrieved for either record: PMID 15739208 (Cancer 2005) carries no PMCID in its PubMed record, so no PubMed Central full text was reachable, and PMC12428389 was not fetched. An absent reading is not a reading of absence — every field below is what PubMed returned and nothing is inferred from a title.",
+  "_attribution": "According to PubMed. Metadata and abstracts retrieved from PubMed (NCBI). PubMed's terms require attribution and a resolvable DOI link wherever its metadata travels; `doi_url` is carried on every record below.",
+  "_retrieval": {
+    "date_et": "2026-08-28",
+    "endpoint": "PubMed E-utilities via the PubMed MCP connector",
+    "tools": [
+      "search_articles",
+      "get_article_metadata"
+    ],
+    "seat": "s13-carfilzomib",
+    "cycle": "CYC-0059-3217966b"
+  },
+  "queries": [
+    {
+      "q": "extraskeletal myxoid chondrosarcoma AND (carfilzomib OR bortezomib OR proteasome)",
+      "sort": "pub_date",
+      "total_count": 0,
+      "reading": "⛔ ZERO RECORDS IN ALL OF PUBMED. Nothing is indexed pairing this disease with this drug class, which is consistent with the route's standing claim that there is no EMC clinical or in-vivo evidence for a proteasome inhibitor. It is 'nothing indexed on the pairing', never 'nobody has done it'."
+    },
+    {
+      "q": "(bortezomib OR carfilzomib OR ixazomib) AND (sarcoma OR \"soft tissue sarcoma\") AND (Clinical Trial[Publication Type] OR \"phase 2\"[All Fields] OR \"phase II\"[All Fields])",
+      "sort": "pub_date",
+      "total_count": 13,
+      "reading": "The query the EMC-scoped screens never ran: the drug CLASS in the PARENT HISTOLOGY. It is what surfaced PMID 15739208."
+    },
+    {
+      "q": "(bortezomib OR carfilzomib) AND (\"soft tissue sarcoma\" OR sarcoma) AND (trial[Title] OR \"phase\"[Title])",
+      "sort": "pub_date",
+      "total_count": 8,
+      "reading": "Cross-check of the previous query on a title-scoped form; it returned the same two decision-relevant records and no third."
+    },
+    {
+      "q": "(\"extraskeletal myxoid chondrosarcoma\"[All Fields] OR \"NR4A3\"[All Fields]) AND 2026/06/01:2026/12/31[edat]",
+      "sort": "pub_date",
+      "total_count": 12,
+      "reading": "Everything indexed on the disease or the gene since 2026-06-01; the date range is inside the query string, so it applied. Twelve records. FOUR touch EMC and none touches this route: PMID 42465974 (EMC prognostic biomarkers by TempO-Seq on 12 archival cases, PeerJ 2026, doi 10.7717/peerj.21497 — ALREADY HELD HERE as the publication of the fourth EMC cohort, recorded against BLK-NO-EMC-DATA on 2026-08-24); PMID 42660639 (ALK overexpression WITHOUT rearrangement across 119 FET-rearranged tumours, 2 of 4 EMC cases at D5F3 IHC ≥2+); PMID 42391872 (a vulvar myoepithelioma-like tumour in which NR4A3 rearrangement was EXCLUDED — a diagnostic exclusion, not an EMC series); and PMID 42294281 (a synovial-sarcoma case report whose diffuse myxoid stroma mimicked EMC). The remaining eight are NR4A3 outside oncology: cardiovascular remodelling, multiple sclerosis cortex, adipose Nr4a3 knockout, inflammatory bowel disease, an anaplasma transcriptome, an osteoporosis multimodal study, a vein-graft proteome and a phytochemical endothelial study. ⛔ NOTHING NEW BEARS ON CARFILZOMIB OR ON PROTEASOME INHIBITION."
+    },
+    {
+      "q": "Pauli C[Author] AND (sarcoma OR \"ex vivo\" OR \"drug sensitivity\")",
+      "sort": "pub_date",
+      "total_count": 22,
+      "reading": "Checked for a follow-up ex-vivo screen from the group that produced USZ20-EMC1 and USZ22-EMC2. ⚠ A `date_from` of 2024 was passed and DID NOT APPLY — the returned set includes 2022 and earlier records — so this is the author's whole indexed output on those terms, not a windowed slice, and it is reported that way rather than as the window that was asked for. The most recent sarcoma pharmacotyping paper from that laboratory is PMID 41651400 (ATR, CHK1 and WEE1 in homologous-recombination-deficient sarcoma, Cancer Lett 2026), which this repository already holds as EV-SARC-HRD-2026; it names no EMC model and no proteasome inhibitor in its abstract. No re-test of the carfilzomib result was found."
+    },
+    {
+      "q": "(USZ20-EMC1 OR USZ22-EMC2 OR \"sarco-sphere\" OR (NR4A3 AND ex vivo model))",
+      "sort": "pub_date",
+      "total_count": 4,
+      "reading": "The two EMC models are named in PubMed by their own establishment paper (PMID 36316541) and nowhere else. No second laboratory has published on them."
+    }
+  ],
+  "records": [
+    {
+      "pmid": "15739208",
+      "pmcid": null,
+      "doi": "10.1002/cncr.20968",
+      "doi_url": "https://doi.org/10.1002/cncr.20968",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/15739208/",
+      "title": "A multicenter Phase II study of bortezomib in recurrent or metastatic sarcomas.",
+      "journal": "Cancer",
+      "year": "2005",
+      "citation": "Maki RG, Kraft AS, Scheu K, Yamada J, Wadler S, Antonescu CR, Wright JJ, Schwartz GK. A multicenter Phase II study of bortezomib in recurrent or metastatic sarcomas. Cancer 2005;103(7):1431-8.",
+      "article_types": [
+        "Clinical Trial",
+        "Journal Article",
+        "Multicenter Study",
+        "Research Support, Non-U.S. Gov't",
+        "Research Support, U.S. Gov't, P.H.S."
+      ],
+      "quoted_verbatim_from_the_pubmed_abstract": [
+        "Arm A included patients with osteogenic sarcoma, Ewing sarcoma, and rhabdomyosarcoma. Arm B accrued patients with other types of soft tissue sarcomas.",
+        "One confirmed partial response among 21 evaluable patients was observed on Arm B in a patient with leiomyosarcoma. Due to the inactivity of this agent, the study was closed after the first stage of accrual.",
+        "Bortezomib has minimal activity in soft tissue sarcoma as a single agent. If studied further in sarcomas, bortezomib should be investigated in combination with agents with demonstrated preclinical synergy."
+      ],
+      "what_it_does_to_the_route": "It is the first human read this repository has ever held on proteasome inhibition in the parent histology, and it is negative for monotherapy.",
+      "⛔_what_it_does_not_do": "It is BORTEZOMIB, a reversible proteasome inhibitor, and not carfilzomib; it is a MONOTHERAPY arm, whereas the ex-vivo signal carrying RT-CARFILZOMIB is a combination signal; and it is not EMC data, so BLK-NO-EMC-DATA is untouched. Whether any extraskeletal myxoid chondrosarcoma patient was enrolled in Arm B is UNREAD — the abstract names only the responder's histology and the full text was not retrieved.",
+      "⭐_the_half_that_points_the_other_way": "Its own closing recommendation — combination with agents showing demonstrated preclinical synergy — is the exact shape of the Bangerter result (carfilzomib with doxorubicin, carfilzomib with venetoclax). The trial argues against the monotherapy framing and for the combination framing."
+    },
+    {
+      "pmid": "40941020",
+      "pmcid": "PMC12428389",
+      "doi": "10.3390/cancers17172924",
+      "doi_url": "https://doi.org/10.3390/cancers17172924",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40941020/",
+      "title": "A Phase I Study of Carfilzomib with Cyclophosphamide and Etoposide in Relapsed and Refractory Leukemia and Solid Tumors.",
+      "journal": "Cancers (Basel)",
+      "year": "2025",
+      "citation": "Boklan J, Langevin AM, Bielamowicz K, Neville K, Trippett T, Brown V, DuBois SG, Eshun F, Gelfond J, Zomet A, Narendran A, Lacayo NJ. A Phase I Study of Carfilzomib with Cyclophosphamide and Etoposide in Relapsed and Refractory Leukemia and Solid Tumors. Cancers (Basel) 2025;17(17):2924.",
+      "article_types": [
+        "Journal Article"
+      ],
+      "quoted_verbatim_from_the_pubmed_abstract": [
+        "Study eligibility included an age of 6 months to <30 years with relapsed/refractory leukemia (stratum A) or a relapsed/refractory non-CNS solid tumor (stratum B)",
+        "Thirty-eight patients were treated (14 in stratum A; 24 in stratum B).",
+        "For stratum B, an MTD was not reached. The highest dose level administered and recommended in phase 2 (RP2D) was 20 mg/m/days 1-2 and 36 mg/m/days 3-5 for cycle 1, then 36 mg/mfor days 1-5 of all subsequent cycles.",
+        "Patients with sarcomas benefited most, warranting further evaluation."
+      ],
+      "what_it_does_to_the_route": "It is the only record found in which carfilzomib itself has been given to sarcoma patients, and it establishes that a carfilzomib COMBINATION schedule in solid tumours exists and has been dose-escalated to a recommended phase 2 dose.",
+      "⛔_what_it_does_not_do": "⛔ THIS IS A DOSE-FINDING STUDY AND IT IS NOT AN EFFICACY RESULT. No response rate, no comparator and no sarcoma subgroup denominator appears in the abstract; the sentence about sarcomas is the authors' own summary of a phase 1 and is quoted here as such. PubMed types this record `Journal Article` only. It is not EMC data. The partner agents are cyclophosphamide and etoposide, not the anthracycline the ex-vivo screen pairs carfilzomib with.",
+      "⚠_full_text_not_read": "PMC12428389 exists and was NOT retrieved. The per-histology outcome table, if there is one, is unread."
+    }
+  ],
+  "already_in_the_repository_and_uncited_by_this_route": {
+    "where": "research/manuscripts/program/emc-post-degrader-options.md",
+    "what": "In the FET-line GDSC2 8.5 drug-response contrast (57 FET-rearranged lines against 1,230 comparators, LN_IC50), bortezomib was carried as one of two NULL CONTROLS and behaved as one: raw Δ −0.183 (t −1.98), corrected for each line's own median LN_IC50 across every GDSC drug, +0.087 (t +0.88).",
+    "why_it_matters_here": "It is an independent modality — drug response rather than CRISPR dependency — saying the same thing as the DepMap read already in the route's grade: FET-rearranged lines are not differentially sensitive to a proteasome inhibitor. RT-CARFILZOMIB cited neither the number nor the file.",
+    "⚠": "That figure is quoted from the committed document, not re-derived here."
+  },
+  "⭐_a_lead_for_a_DIFFERENT_route_surfaced_here_and_is_NOT_graded_in_this_record": {
+    "record": {
+      "pmid": "42660639",
+      "doi": "10.1136/jcp-2026-210760",
+      "doi_url": "https://doi.org/10.1136/jcp-2026-210760",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42660639/",
+      "title": "ALK overexpression without rearrangement widely exists in/-rearranged soft tissue tumours.",
+      "journal": "J Clin Pathol",
+      "year": "2026",
+      "quoted_verbatim_from_the_pubmed_abstract": [
+        "we analysed 119 FET-rearranged tumours spanning 20 tumour types. Using ALK D5F3 immunohistochemistry (IHC), ALK overexpression was defined as positive only for scores of 2+ or 3+. Cases with ALK overexpression by IHC were further confirmed to lack ALK gene rearrangements.",
+        "extraskeletal myxoid chondrosarcoma exhibited a high overexpression rate (50%, 2/4)"
+      ]
+    },
+    "why_it_is_recorded_here": "It is the answer, from the other side, to the instrument gap that parked RT-ALK-HIT. That route is `parked` because ALK and ROS1 have NO PROBE on either expression platform, so the target group emits no score — 'an instrument statement, never a biological negative' in its own grade. This is a PROTEIN-level read on ALK in EMC tissue, which is the modality the arrays could not supply.",
+    "⛔_what_it_is_not_and_why_nothing_here_re-grades_that_route": "n = 4 EMC cases. IHC overexpression is not a rearrangement, not a dependency and not a drug response — the paper's own design confirms these cases LACK ALK rearrangement. EMC's own KIT/imatinib history in this repository is the cautionary parallel: CD117 protein is detectable in roughly half to five-sixths of cases while the imatinib-sensitive activating mutation sits near 4%, and imatinib acts on the mutation rather than on the protein. Re-grading RT-ALK-HIT needs a read of the full paper and is a separate item; this record exists so the observation is not lost.",
+    "seat_scope": "Surfaced by the AUT-013 sweep, outside AUT-013's item. Not acted on here."
+  },
+  "root_cause_of_the_twenty_one_year_miss": {
+    "question": "Why did a 2005 study of this drug class in this tumour family never reach this repository, through two route registries, an idea board and a dedicated prior-art screen?",
+    "discriminating_observation": "research/literature/emc-prior-art-2026-08-09.json states its own purpose: a novelty screen for the four publication endpoints scoring 12.5+, asking 'has anyone already done this?' of EMC pairings — `repurposing: 0` is its count for an EMC-specific drug-repurposing report. Its `_retrieval` block records a Europe PMC corpus of 322 records built for those EMC pairings.",
+    "cause": "Every literature instrument this repository has pointed at this route was EMC-SCOPED. 'What clinical evidence exists for this drug class in the parent histology?' is a different query, it was never run, and a screen scoped to EMC pairings cannot return a paper that mentions neither EMC nor NR4A3. This is a gap in query scope, not a failure of any screen at what it was built to do.",
+    "⚠_not_a_defect_in_the_prior_art_screen": "That screen's own header already says an absence in it is evidence that nothing is INDEXED on a pairing and never that no such work exists."
+  }
+}
