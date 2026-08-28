@@ -616,3 +616,68 @@ def test_no_claim_about_the_fields_practice_goes_unsourced(asserting):
         + "\n\nName the sources and state what they say, or drop the frequency word. ⛔ Do not "
           "loosen this pattern to make the sentence pass: this is round 6's blocker B3, and "
           "Appendix A11 is the same defect one round earlier.")
+
+
+#: A section reference qualified by ANOTHER file — [`emc-unexplored-treatment-lanes.md` §3.2],
+#: (`paper-hardening` §7b) — names a section of that file and must not be resolved here. Four such
+#: references exist across the two documents and every one is a backticked filename or skill name
+#: immediately before the §.
+_EXTERNALLY_QUALIFIED = re.compile(r"`[A-Za-z0-9_.\-]+`\s*$")
+_SECTION_REF = re.compile(r"§(\d+(?:\.\d+)?[a-z]?)")
+
+
+def _anchors_of_the_paper():
+    """Numbered headings AND the bolded sub-blocks, because the paper references both.
+
+    §4's sub-parts are bolded blocks rather than headings (`**4.1a · …**`), and §2.3a likewise, so
+    an anchor set built from headings alone would call every reference to them dangling.
+    """
+    text = io.open(quantities.PAPER, encoding="utf-8").read()
+    headings = set(re.findall(r"^#{2,4}\s+(\d+(?:\.\d+)?[a-z]?)\s*·", text, re.M))
+    blocks = set(re.findall(r"\*\*(\d+\.\d+[a-z]?)\s*·", text))
+    return headings | blocks
+
+
+def test_every_section_cross_reference_names_a_section_this_synthesis_has():
+    """⛔ NOTHING CHECKED THIS DOCUMENT'S CROSS-REFERENCES AT ALL (AUT-PD-105, 2026-08-28).
+
+    The ablation gate perturbed two censused sentences whose only numbers are §-references —
+    "§2.3 holds the smaller cohort out of the headline" and the Huang/Paioli sentence pointing at
+    §3.3 and §3.5 — and NOTHING reading this document went red. `lint_changed_prose.py` does check
+    §-references, but only for the ASO targets, and only inside a git diff, so it cannot run in the
+    ablation harness (whose clone carries no `.git`) and does not reach this synthesis in any case.
+
+    ⚠ AND THE REGISTER'S REFERENCES POINT INTO THE PAPER, WHICH IS WHY THE ANCHORS COME FROM ONE
+    DOCUMENT AND THE REFERENCES FROM BOTH. The correction register carries 32 §-references and no
+    numbered headings of its own. Resolving each document's references against its own headings
+    would therefore report every register reference as dangling; resolving both against the paper is
+    what the documents actually mean. `lint_changed_prose._known_anchors` records the opposite
+    failure — one document's references validated against another's headings — so the pairing is
+    stated here rather than assumed.
+
+    ★ NOT A STYLE CHECK. A reference that names a section which does not exist sends a reader to the
+    wrong place in a synthesis whose whole method is that every claim points at where it was
+    computed, and it is the one defect in this class a machine can settle completely.
+    """
+    anchors = _anchors_of_the_paper()
+    assert anchors, (
+        "the paper has no numbered headings, so this guard has no anchor set and its silence would "
+        "mean nothing — the heading scheme changed and this guard must follow it")
+    checked, dangling = 0, []
+    for path in quantities.PROSE_DOCUMENTS:
+        body = io.open(path, encoding="utf-8").read()
+        for m in _SECTION_REF.finditer(body):
+            if _EXTERNALLY_QUALIFIED.search(body[max(0, m.start() - 45):m.start()]):
+                continue
+            checked += 1
+            if m.group(1) not in anchors:
+                dangling.append((os.path.basename(path), m.group(1),
+                                 body[max(0, m.start() - 60):m.start() + 8].replace("\n", " ")))
+    assert checked, (
+        "not one section reference was checked in either prose document, so this guard measured "
+        "NOTHING — either the § convention changed or the exclusion above has swallowed every "
+        "reference (CLAUDE.md §4: an absent reading is not a reading of absence)")
+    assert not dangling, (
+        f"{len(dangling)} section reference(s) name a section this synthesis does not have:\n  "
+        + "\n  ".join(f"{doc}: §{ref}\n      …{ctx}" for doc, ref, ctx in dangling)
+        + f"\n\nAnchors available: {', '.join(sorted(anchors))}")

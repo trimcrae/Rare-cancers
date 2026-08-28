@@ -912,7 +912,7 @@ def test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count(prose)
                 r"([\d.]+%)",
                 tuple(str(c) for c in counts) + tuple(str(n) for n in sizes) + tuple(rates),
                 "the three geometries' liable counts, their panel sizes and the resulting rates")
-    # ⛔ THE GEOMETRY THE SENTENCE NAMES WAS UNBOUND UNTIL 2026-08-28 (AUT-PD-105, CYC-0067).
+    # ⛔ THE GEOMETRY THE SENTENCE NAMES WAS UNBOUND UNTIL 2026-08-28 (AUT-PD-105, CYC-0069).
     # The ablation gate perturbed "At 5-10-5 the criterion is met by the catalytic gap alone" —
     # 5 -> 7, 10 -> 17, 5 -> 7 — and NOTHING reading this document went red. The assert below binds
     # the CONVERGENCE to the artifact's longest geometry but never asked that the prose name that

@@ -1,0 +1,59 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0069-c84c64dd",
+ "session_id": "c84c64dd-64ab-5333-a9ee-09837d80ad76",
+ "utc": "2026-08-28T21:15:00Z",
+ "shape": "this session, driver only, no subagents. The cycle began as a QUESTION from trimcrae — 'are any of the current sessions targeting the ASO paper or all just autonomy?' — which is the interactive path research-loop §3's own warning says used to leave this file unloaded. Loaded it before taking the item.",
+ "took": "AUT-PD-105, claimed on the trunk before any work (claim.py, CLAIMED on attempt 2, owner CYC-0067-c84c64dd — see cycle_id_alias). It is one of PUB-ASO's three remaining publish_bar blockers and it was invisible to the ranker: the row carries NO score, so priority.py cannot order it and no cycle is ever offered it. That is why three concurrent sessions were all on autonomy process defects (scores 140-152) while the paper's own blocker sat unclaimed — the answer to the question that started the cycle, and it is a mechanism rather than a preference.",
+ "took_what": {
+  "id": "AUT-PD-105",
+  "route": "RT-ASO",
+  "publication": "PUB-ASO",
+  "cost_class": "free",
+  "why_this_and_not_the_queue": "The queue's top rows are process defects; this row serves a PAPER and closes part of a publish_bar clause path. CLAUDE.md §0: a live route outranks a finished negative or a loop improvement. The other two PUB-ASO rows (hardening round 13, the independent seat) are sha-bound to the posted commit and are spawned-session work, not this one's."
+ },
+ "changed": [
+  "research/manuscripts/claim-coverage.json — regenerated. `main` was RED on a clean tree from 83aede1 (7:52 PM ET, ~35 min) because that commit widened three guards' patterns and the census harvests its patterns FROM the test corpus, so `covered` moved 99 -> 101 with no manuscript byte touched. d8e40d8.",
+  "research/manuscripts/tests/test_journal_article_numbers.py — binds the geometry the prose names ('At 5-10-5 …') to the trade-off artifact's longest present geometry. The guard already bound the EVIDENCE for that sentence and never asked that the prose name the geometry it came from.",
+  "research/manuscripts/tests/test_the_exon2_reading_stands_without_an_unpublished_sequence.py — binds 'The released builder emits an exon-2 acceptor in two cases only' to the canonical sequence file's MINORITY acceptor (20 designs at NR4A3_e2 against 750 at e3), derived, not typed.",
+  "research/manuscripts/tests/test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py — new: every §-reference in EITHER prose document names a section the paper has. Nothing checked this synthesis's cross-references at all.",
+  "research/autonomy/research-ledger.json — AUT-PD-105 closed with its evidence; AUT-PD-130 filed (guard-pattern change invalidates the census, nothing pairs them); AUT-PD-132 (15 censused sentences across two papers are NOT-APPLIED and unfalsifiable while the gate stays green); AUT-PD-133 (citation years unbound in the fusion-partner synthesis — the honest residual of this cycle's own fix)."
+ ],
+ "cost": {
+  "usd": 0.0,
+  "gpu_hours": 0.0,
+  "detail": "Local CPU only: two full ablation sweeps (62 + 80 sentences), four mutation clones, three preflight runs. No rental, no CI dispatch, no network fetch."
+ },
+ "subagents": {
+  "max_concurrent": 0,
+  "cap_at_dispatch": 5,
+  "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+  "within_cap": true,
+  "serial_total": 0,
+  "launched_in_one_message": false,
+  "seats": [],
+  "_why": "One item, one file at a time, and every mutation test needed the tree settled. A seat would have been a second writer for no parallelism."
+ },
+ "rate_limit_info": {
+  "status": "allowed",
+  "rateLimitType": "five_hour",
+  "isUsingOverage": false,
+  "read_from": "get_session on self, external_metadata.rate_limit_info"
+ },
+ "what_i_got_wrong": [
+  "I REPORTED A FABRICATED READING TO TRIMCRAE BEFORE CHECKING THE HARNESS, AND IT POINTED AT THE PAPER. The first sweep was launched with the SYSTEM python3, which has no pytest in this sandbox (dev-setup installs into the uv tool venv, deliberately, and says so). claim_ablation runs each witness with `sys.executable`, so all 22 pytest witness commands died on ModuleNotFoundError, _baseline_reds correctly subtracted them, and sentence after sentence came back BLIND. I sent 'two blind in the first four' upstream with a caveat, then found the cause. The caveat is not the lesson — the harness control (`can this produce a red at all?`) is written into that module's own docstring as the thing to run FIRST, and I ran it second.",
+  "AND MY FIRST CULPRIT FOR THE STALE CENSUS WAS THE OBVIOUS ONE AND WAS WRONG. I expected a prose edit without a regeneration; `git log` on the two paths showed the article and the census artifact were last written by the SAME commit. The real cause was a guard-pattern widening three commits later, in a different directory from the artifact it staled — which is why AUT-PD-130 is a real defect and not a reminder to be careful."
+ ],
+ "now_queued": [
+  "AUT-PD-130",
+  "AUT-PD-132",
+  "AUT-PD-133"
+ ],
+ "blocked_by": [],
+ "route_advanced": "RT-ASO",
+ "cycle_id_alias": {
+  "alias": "CYC-0067-c84c64dd",
+  "where": "the owner written on AUT-PD-105's lease, pushed to the trunk at d18f8dc",
+  "why": "The claim is taken in step 4 and the receipt id is allocated in step 10, and two sibling cycles landed receipts in between, so ids.next_receipt answered 0069 where the lease had said 0067. The ordinal is 'the Nth cycle' and the discriminator is what keeps two cycles from sharing a file, so this is the allocator behaving as designed. Recorded rather than silently reconciled: a reader following the lease from git history lands on 0067 and must be able to find this receipt."
+ }
+}
