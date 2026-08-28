@@ -2200,9 +2200,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0059-3217966b",
+      "claimed_utc": "2026-08-28T17:02:10Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2217,7 +2217,13 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⚠ `lint_citations` EXTRACTS PMID / PMCID / DOI / NCT / GEO AND NO arXiv PATTERN, so every arXiv identifier in this repository's prose is unanchored and invisible to the provenance gate — and the 2026-08-27 survey added a substantial number, every one SEARCH-grade. ⛔ THE SEAT THAT FOUND IT DECLINED TO ADD THE PATTERN AND WAS RIGHT: adding it would newly flag every existing arXiv citation at once, which needs its own baseline and its own decision rather than riding along with an unrelated change. ★ The work: add the pattern, run it, and BASELINE the existing hits with a reason each — the shape citation-provenance-ledger.json already uses — so new fabrications fail immediately while the existing corpus is triaged deliberately. ⚠ AUT-PD-038 (a failed fetch can anchor a citation) is the same gate's other hole."
+      "what": "⚠ `lint_citations` EXTRACTS PMID / PMCID / DOI / NCT / GEO AND NO arXiv PATTERN, so every arXiv identifier in this repository's prose is unanchored and invisible to the provenance gate — and the 2026-08-27 survey added a substantial number, every one SEARCH-grade. ⛔ THE SEAT THAT FOUND IT DECLINED TO ADD THE PATTERN AND WAS RIGHT: adding it would newly flag every existing arXiv citation at once, which needs its own baseline and its own decision rather than riding along with an unrelated change. ★ The work: add the pattern, run it, and BASELINE the existing hits with a reason each — the shape citation-provenance-ledger.json already uses — so new fabrications fail immediately while the existing corpus is triaged deliberately. ⚠ AUT-PD-038 (a failed fetch can anchor a citation) is the same gate's other hole.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T17:02:10Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-063",
