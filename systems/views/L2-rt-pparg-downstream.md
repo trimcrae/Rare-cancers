@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-PPARG-DOWNSTREAM — PPARG downstream-effector (repurpose TZDs)
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ blocked · concept · confidence low · verified 2026-08-05
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ blocked · concept · confidence low · verified 2026-08-28
 
 **Grade** (owned by [`research/manuscripts/program/target-route-options.md`](../../research/manuscripts/program/target-route-options.md#route-5--downstream-of-the-fusion-pparg-and-the-transactivated-nodes)): ★ keep, unblock cheaply
 
@@ -47,6 +47,12 @@ flowchart LR
 
 If the fusion drives its phenotype partly through PPARγ signalling, then an approved agent acting on that axis reaches the driver's output without touching the driver. Repurposing a well-characterised drug class is far cheaper than any new modality.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-EMC-EXPRESSION-PANELS` | The receptor-ACTIVITY readout this route's direction turns on. PPARγ target genes are coordinately higher in EMC tumour tissue than in comparator sarcomas beyond a size-matched random set, on both readable array platforms, with a knockout-UP falsifier arm carried alongside — AND the same data cannot separate that from an adipogenic differentiation programme, whose proxy is set-specific up on both platforms too and overlaps the occupancy-derived arm more than any other pair in the table. Most arms are mouse-derived, an orthology assumption carried into human transcripts. It says nothing about the direction of any pharmacological intervention on this axis. | `direct` |
+
 ## Remaining unknowns
 
 - The direction is unresolved rather than refuted, and the reason is NOT absence of study: the two EMC expression studies that report PPARG proposed OPPOSITE directions from the same observation (Subramanian 2005 → PPARG inhibitors; Filion 2009 → PPARG agonists), and the single functional test favouring agonism was run in H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed). ⚠ The redundancy clause is WITHDRAWN — it is not in the source it cited, and Filion et al. argue the opposite in their own discussion. One home: research/manuscripts/repurposing/pparg-direction-emc.md
@@ -57,7 +63,8 @@ If the fusion drives its phenotype partly through PPARγ signalling, then an app
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | A literature read of the PPARγ-axis direction in EMC (agonism vs antagonism) via the Europe PMC CI lane — ✅ DONE 2026-08-06, research/manuscripts/repurposing/pparg-direction-emc.md: UNRESOLVED, leaning agonism, tier T1 with a model-identity caveat | ⛔ none built | yes | — |
-| A PPARγ TARGET-GENE (activity) readout in EMC. ⚠ Re-scoped from abundance: abundance is already measured twice and concordantly (Subramanian 2005, Filion 2009); receptor ACTIVITY is what the direction turns on and has never been measured by anyone | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| A PPARγ TARGET-GENE (activity) readout in EMC — ✅ TAKEN 2026-08-24, analysed in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4, from ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY — that section owns every figure and none is restated here. It does NOT settle the direction; the residual is an adipogenic ceiling, not missing data. | ⛔ none built | yes | — |
+| A readout that separates PPARγ receptor output from lineage/adipogenic composition — bulk archival tissue cannot, which is a study-design limit rather than a data-availability one, so a further bulk expression cohort does not lift it | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
@@ -82,10 +89,10 @@ If the fusion drives its phenotype partly through PPARγ signalling, then an app
 
 **`internal_note`**
 
-Its central premise is directionally unresolved. Publishing a repurposing hypothesis whose sign is unknown would be exactly the over-claim the language rules exist to prevent.
+Its central premise is directionally unresolved, and both cheap tests that were expected to resolve it have now been run. The literature read closed at T1-with-a-model-caveat; the activity read is coordinately up but cannot be separated from an adipogenic programme in bulk archival tissue. Publishing a repurposing hypothesis whose sign is unknown would be exactly the over-claim the language rules exist to prevent.
 
 **Missing:**
-- a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/repurposing/pparg-direction-emc.md
+- a readout that separates PPARγ receptor output from adipogenic/lineage composition — the target-gene activity readout itself is DONE (research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4, from ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY — that section owns every figure and none is restated here) and hits that ceiling
 
 ## Where this route ends — the paper
 
@@ -99,14 +106,14 @@ Its central premise is directionally unresolved. Publishing a repurposing hypoth
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-One cheap measurement settles it, and no amount of reasoning substitutes for the sign of an effect. Working further on a hypothesis whose direction is unknown is effort that a single dataset would render moot.
+⚠ SUPERSEDED, RETAINED: 'One cheap measurement settles it'. Both cheap measurements have been made — the literature read (2026-08-06) and the activity read (2026-08-24) — and the direction is still unresolved. What remains is not cheap and not ours to run.
 
 | horizon | effect |
 |---|---|
 | Six months | None unless data lands. |
-| Two years | Settled either way by an EMC dataset. |
+| Two years | ⚠ SUPERSEDED, RETAINED: 'Settled either way by an EMC dataset'. An EMC dataset arrived and did not settle it. What would is a readout resolving cell type, not another bulk cohort. |
 | Cost trend | flat |
 | Automation outlook | Automatic re-grade on new data. |
 
@@ -134,5 +141,7 @@ The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-
 **L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 **L5 evidence:** [EV-FILION-2009](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-HIGUCHI-2023](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-SUBRAMANIAN-2005](L5-evidence-base.md#evidence--the-literature-this-program-cites)
+
+**L5 artifacts:** [ART-EMC-EXPRESSION-PANELS](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-REPURPOSING](L1-st-repurposing.md) · [← L0](L0-ecosystem.md)

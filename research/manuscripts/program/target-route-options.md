@@ -497,6 +497,32 @@ compute question.
 selectivity requirement — approved drugs, no new chemistry — and it is stalled on one unanswered
 literature question that nobody has spent an hour on.
 
+**⭐ UPDATE 2026-08-28 — BOTH CHEAP TESTS HAVE NOW BEEN RUN, AND THE ROUTE IS STILL NOT UNBLOCKED.**
+⚠ SUPERSEDED, RETAINED: *"stalled on one unanswered literature question that nobody has spent an
+hour on"* and *"it is a literature question, not a compute question"*. Both were true when written
+and neither is now.
+
+- The **literature** half was run on 2026-08-06 and is closed:
+  [`pparg-direction-emc.md`](../repurposing/pparg-direction-emc.md) owns the verdict — *unresolved,
+  leaning agonism, at T1 with a model-identity caveat*. The question was not unasked; it was
+  answered **inconsistently by two primary studies**, which is a different and less fixable problem.
+- The **activity** half — the receptor-output measurement that memo named as the one thing nobody
+  had ever done — has also been taken, in EMC tumour tissue on two array platforms, and is analysed
+  with random-set nulls and label permutation in
+  [`nr4a3-fusion-transcriptional-output-SI.md`](../fusion-output/nr4a3-fusion-transcriptional-output-SI.md)
+  §S4, from [`emc-expression-panels.json`](../../modalities/emc-expression-panels.json). **That
+  section owns every figure; none is repeated here.** Its conclusion is that PPARγ target genes are
+  coordinately higher in EMC than in comparator sarcomas beyond a size-matched random set, and that
+  **the same data cannot separate that from an adipogenic differentiation programme** — the proxy
+  for which is itself set-specific up on both platforms and overlaps the occupancy-derived arm.
+
+⛔ **So the grade's premise has been tested rather than merely restated.** The cheap unblock is
+spent, it did not unblock the direction, and the obstacle is no longer data availability: it is that
+bulk archival tissue cannot separate receptor output from lineage composition. That is a
+study-design ceiling, so waiting on a further expression dataset does not lift it. The route is kept
+— approved agents and a removed selectivity requirement are unchanged — but it is no longer *cheaply*
+unblockable, and nothing here asserts any effect of any agent on this axis in EMC.
+
 ---
 
 ### Route 6 — TCIP: co-opt the fusion instead of degrading it

@@ -186,7 +186,42 @@ Three consequences, and the middle one is the load-bearing one:
 - ✅ **Settled (T1):** the fusion can transactivate through a response element in the *PPARG* promoter — band-shift plus transient transfection (Filion 2009). ⚠ Heterologous reporter in transfected cells, not an endogenous EMC readout.
 - ⚠ **Not settled (the question):** which direction of pharmacological intervention follows. **Published proposals exist for both signs**, each in a discussion section with no EMC functional experiment behind it (Subramanian 2005 → inhibitors; Filion 2009 → agonists), and they are not evenly matched on cohort quality (§4).
 - ★ **The tie-break, such as it is:** exactly **one** functional experiment has ever tested the direction, and it points to **agonism** (Higuchi 2023) — carrying the model-identity caveat of §5. Nothing anywhere tests the antagonism direction in EMC or an EMC model.
-- ⛔ **Never measured, by anyone:** PPARγ **transcriptional output** in EMC. Every EMC reading is of receptor *abundance* (transcript, protein, IHC). No published work reports a PPARγ target-gene signature, a ligand-occupancy readout, or a receptor-activity assay in EMC tissue. **That, not "an EMC expression dataset", is the measurement the redundancy argument actually turns on** — abundance is already measured, twice, concordantly.
+- ⛔ **Never measured, by anyone — ⚠ SUPERSEDED 2026-08-28, SEE §6a; RETAINED VERBATIM:** PPARγ **transcriptional output** in EMC. Every EMC reading is of receptor *abundance* (transcript, protein, IHC). No published work reports a PPARγ target-gene signature, a ligand-occupancy readout, or a receptor-activity assay in EMC tissue. **That, not "an EMC expression dataset", is the measurement the redundancy argument actually turns on** — abundance is already measured, twice, concordantly.
+
+### 6a · ⭐ UPDATE 2026-08-28 — the measurement §6 calls "never measured, by anyone" HAS been made, in this repository, and it does not settle the direction
+
+**What changed.** The bullet above and item 4 of the table below both file PPARγ receptor *activity*
+behind `BLK-NO-EMC-DATA` as the one thing still owed. It is no longer owed. Six PPARγ-related gene
+sets were scored in EMC tumour tissue on both readable array platforms, each pinned to a verbatim
+source term with its species read off the term, each null-calibrated on its own platform, with a
+knockout-UP falsifier arm and an adipogenesis process proxy carried alongside. **The analysis, and
+every figure in it, lives in
+[`nr4a3-fusion-transcriptional-output-SI.md`](../fusion-output/nr4a3-fusion-transcriptional-output-SI.md)
+§S4**, computed from
+[`emc-expression-panels.json`](../../modalities/emc-expression-panels.json) `reads.read_3_PPARG_ACTIVITY`.
+⛔ **No number from it is repeated here** — that section is its one home, and this memo points.
+
+**What it says, and this memo does not soften it.** PPARγ target genes are coordinately higher in
+EMC tumour tissue than in comparator sarcomas, beyond a size-matched random set, on two platforms.
+And the same data **cannot distinguish that from an adipogenic differentiation programme**: the
+adipogenesis proxy is set-specific up on both platforms too, is itself significant under permutation,
+and has the table's largest overlap with the occupancy-derived arm. Most arms are mouse-derived, which
+is an orthology assumption carried into human tumour transcripts.
+
+⛔ **So the direction verdict of §6 is UNCHANGED — *unresolved, leaning agonism, T1 with a
+model-identity caveat*.** This measurement does not move it, and the SI says so in its own words:
+it says nothing about the direction of any pharmacological intervention on this axis.
+
+★ **What genuinely changes is what the two routes are waiting FOR, and it is not more data.** Both
+`RT-PPARG-DOWNSTREAM` and `RT-TRABECTEDIN-PPARG` filed this behind `BLK-NO-EMC-DATA` and, through it,
+behind `TECH-EMC-EXPRESSION-DATA` (forecast 2029). The obstacle turns out not to be data availability
+— the data existed and was read — but that **bulk archival tissue cannot separate receptor output
+from lineage composition**. A further bulk expression cohort does not lift that; a readout that
+resolves cell type does. ⚠ This is a bounded statement about what these two platforms can support,
+not a claim that the separation is impossible.
+
+⚠ **Nothing here asserts efficacy, safety or clinical use of pioglitazone, zaltoprofen, any
+thiazolidinedione, trabectedin, or any combination.**
 
 **So the honest one-liner for any document that needs one:**
 
@@ -203,11 +238,13 @@ Three consequences, and the middle one is the load-bearing one:
 | 1 | Read the **Higuchi 2023 full text** and settle whether the xenograft is an H-EMC-SS xenograft (§5 point 2) | $0 CI, one publisher fetch | this repo, once Actions unblocks |
 | 2 | Run the dispatched PPARγ × chondrosarcoma query and read the **chondrosarcoma TZD reports** the Higuchi abstract alludes to (*"PPARγ … has been reported as an antitumor target for chondrosarcomas"*) — none has been retrieved here | $0 CI | this repo, run `31126146908` |
 | 3 | Retrieve the **CCR 2019 pioglitazone + trabectedin** text, which this repository cites and has never read (403 on record) | $0 CI | this repo |
-| 4 | A **PPARγ target-gene signature** in EMC tissue — the measurement nobody has made | needs EMC expression data | `BLK-NO-EMC-DATA` |
+| 4 | ~~A **PPARγ target-gene signature** in EMC tissue — the measurement nobody has made~~ **✅ TAKEN 2026-08-28 — see §6a.** It was made, it is null-calibrated, and it does not settle the direction: the adipogenic ceiling in SI §S4 is the reason | done, $0 | ~~`BLK-NO-EMC-DATA`~~ — the residual is a study-design limit, not a data-availability one |
 
 ⚠ Items 1–3 are all **$0 CI and none is on any route's blocker list.** Item 4 is the only one that
 genuinely waits on data, and it is a **narrower** ask than the "EMC expression readout" the route
 records name: abundance is already known, so the question is activity.
+⚠ **SUPERSEDED 2026-08-28 for item 4 only** — *"the only one that genuinely waits on data"* was true
+when written; the data was read on 2026-08-24 and item 4 is now taken (§6a). Items 1–3 stand.
 
 ---
 

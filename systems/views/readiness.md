@@ -28,7 +28,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-ATR-PANEL](L2-rt-atr-panel.md) | ST-DEPENDENCY | `experimental_proposal` | a collaborator with an EMC line |
 | [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) | ST-IMMUNO | `experimental_proposal` | a protein-level PRAME read on an EMC series; any measurement of peptide-HLA presentation in EMC |
 | [RT-SSTR2](L2-rt-sstr2.md) | ST-RADIOLIGAND | `experimental_proposal` | any expression measurement in EMC |
-| [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | ST-REPURPOSING | `experimental_proposal` | a PPARγ ACTIVITY readout in EMC, not an abundance one — the direction is stated at T1 with a model-identity caveat in research/manuscripts/repurposing/pparg-direction-emc.md |
+| [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | ST-REPURPOSING | `experimental_proposal` | a DIRECTION for the PPARγ effect, which the activity read did not supply — it is stated at T1 with a model-identity caveat in research/manuscripts/repurposing/pparg-direction-emc.m |
 | [RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md) | ST-DISSEMINATION | `journal_submission` | — |
 | [RT-FUSION-OUTPUT](L2-rt-fusion-output.md) | ST-DISSEMINATION | `journal_submission` | — |
 | [RT-METHODS-PAPER](L2-rt-methods-paper.md) | ST-DISSEMINATION | `journal_submission` | the MM-GBSA decoy null's primary run output committed as a JSON — it lives in S3, and it is the headline evidence of the recommended framing (the $0 CI job named in paper-framing-o |
@@ -80,7 +80,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-NR2F1](L2-rt-nr2f1.md) | ST-OCCUPANCY | `internal_note` | a platform that carries a probe for the receptor — the two readable array series do not |
 | [RT-POLQ](L2-rt-polq.md) | ST-DEPENDENCY | `internal_note` | nothing at the expression level — the class selects on a lesion this data cannot see, and on what it CAN see the answer is negative |
 | [RT-POPULATION-REGISTRY](L2-rt-population-registry.md) | ST-CARE-DELIVERY | `internal_note` | a signed data-use agreement, which only trimcrae can obtain |
-| [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | ST-REPURPOSING | `internal_note` | a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/repurposing/pparg-direction-emc.md |
+| [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) | ST-REPURPOSING | `internal_note` | a readout that separates PPARγ receptor output from adipogenic/lineage composition — the target-gene activity readout itself is DONE (research/manuscripts/fusion-output/nr4a3-fusio |
 | [RT-RET](L2-rt-ret.md) | ST-REPURPOSING | `internal_note` | the primary paper's full text, which is paywalled and unreachable at $0; a phospho-receptor measurement in EMC tissue, which nobody has published |
 | [RT-RIBOZYME](L2-rt-ribozyme.md) | ST-NUCLEIC-ACID | `internal_note` | a solid-tumour vector; a modern demonstration of trans-splicing ribozymes |
 | [RT-RIPTAC](L2-rt-riptac.md) | ST-PROXIMITY | `internal_note` | paralogue selectivity; a chemistry programme |

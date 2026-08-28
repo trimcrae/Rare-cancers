@@ -1572,7 +1572,9 @@
       "EV-SUBRAMANIAN-2005",
       "EV-HIGUCHI-2023"
     ],
-    "artifacts": [],
+    "artifacts": [
+      "ART-EMC-EXPRESSION-PANELS"
+    ],
     "distinct_from": [
       {
         "route": "RT-TRABECTEDIN",
@@ -1604,7 +1606,7 @@
       "TR-EMC-MODEL-ACCESS",
       "TR-EMC-EXPRESSION-DATASET"
     ],
-    "closure_note": "Good taker, thin deliverable — the ask is the block.",
+    "closure_note": "Good taker, thin deliverable — the ask is the block. ⭐ 2026-08-28: the expression read this route was waiting on has been taken and does not establish the direction (research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4, from ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY — that section owns every figure and none is restated here). The ask is still the block, and it is now an ask made without the direction, not an ask waiting for it.",
     "strategy": "ST-REPURPOSING",
     "publication": {
       "endpoint": "PUB-REPURPOSING",
@@ -1625,10 +1627,16 @@
       "status": "blocked",
       "maturity": "concept",
       "confidence": "low",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-08-28"
     },
     "rationale": "Both components are approved, so a combination trial is unusually cheap to propose. The rationale is that the fusion engages PPARγ signalling, so an agonist might either cooperate with or antagonise the transcriptional interference trabectedin provides.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-EMC-EXPRESSION-PANELS",
+        "what_it_supports": "The EMC-tissue PPARγ activity read this route waited on. PPARγ target genes are coordinately higher in EMC tumour tissue than in comparator sarcomas beyond a size-matched random set, on both readable array platforms, with a knockout-UP falsifier arm carried alongside — AND the same data cannot separate that from an adipogenic differentiation programme, whose proxy is set-specific up on both platforms too and overlaps the occupancy-derived arm more than any other pair in the table. Most arms are mouse-derived, an orthology assumption carried into human transcripts. It says nothing about the direction of any pharmacological intervention on this axis.",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
       "The DIRECTION of the PPARγ effect in EMC is unresolved — ⚠ but the redundancy clause ('if the fusion already turns PPARγ on, an agonist may be redundant or harmful') is WITHDRAWN: it is not in the source it cited, and Filion et al. propose agonists in their own discussion. Two primary studies answered the question in OPPOSITE directions; one functional experiment favours agonism, in a disputed-identity line. research/manuscripts/repurposing/pparg-direction-emc.md",
       "Whether the combination has any EMC-specific rationale beyond both drugs being available.",
@@ -1636,11 +1644,8 @@
     ],
     "required_validation": [
       {
-        "what": "An EMC expression read establishing the direction of PPARγ signalling",
-        "feasible_today": false,
-        "blocked_by": [
-          "BLK-NO-EMC-DATA"
-        ]
+        "what": "An EMC expression read establishing the direction of PPARγ signalling — ✅ THE READ WAS TAKEN 2026-08-24 (research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4, from ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY — that section owns every figure and none is restated here) AND IT DOES NOT ESTABLISH A DIRECTION. Recorded as answered-in-the-negative rather than outstanding, because leaving it open would keep this route waiting on data that has already arrived.",
+        "feasible_today": true
       },
       {
         "what": "A cell panel, which needs a bench",
@@ -1654,14 +1659,15 @@
       "attainable_today": "experimental_proposal",
       "why_not_higher": "The ask is well formed and both drugs are approved, but the direction of the PPARγ effect is unresolved — proposing a combination whose direction is unknown is a thin deliverable.",
       "missing": [
-        "a PPARγ ACTIVITY readout in EMC, not an abundance one — the direction is stated at T1 with a model-identity caveat in research/manuscripts/repurposing/pparg-direction-emc.md"
+        "a DIRECTION for the PPARγ effect, which the activity read did not supply — it is stated at T1 with a model-identity caveat in research/manuscripts/repurposing/pparg-direction-emc.md §6, unmoved by §6a",
+        "a cell panel, which needs a bench"
       ]
     },
     "timing": {
       "recommendation": "wait",
-      "rationale": "The single expression readout that settles the direction would either strengthen this proposal considerably or kill it. Asking a collaborator to run a combination whose direction we cannot state is a poor use of a scarce ask.",
+      "rationale": "⚠ SUPERSEDED, RETAINED: 'The single expression readout that settles the direction would either strengthen this proposal considerably or kill it.' The readout was taken and did neither. Asking a collaborator to run a combination whose direction we still cannot state remains a poor use of a scarce ask.",
       "six_month_delta": "None unless data lands.",
-      "two_year_delta": "An EMC dataset would settle the direction and make the ask either strong or unnecessary.",
+      "two_year_delta": "⚠ SUPERSEDED, RETAINED: 'An EMC dataset would settle the direction'. One arrived and did not.",
       "cost_trend": "flat",
       "automation_outlook": "The re-grade is automatic once data lands.",
       "revisit_trigger": [
@@ -1848,7 +1854,9 @@
       "EV-SUBRAMANIAN-2005",
       "EV-HIGUCHI-2023"
     ],
-    "artifacts": [],
+    "artifacts": [
+      "ART-EMC-EXPRESSION-PANELS"
+    ],
     "distinct_from": [
       {
         "route": "RT-TRABECTEDIN-PPARG",
@@ -1871,7 +1879,7 @@
     "revival_trigger": [
       "TR-EMC-EXPRESSION-DATASET"
     ],
-    "closure_note": "⚠ Scoped: the DIRECTION is unresolved, not refuted — in EMC the fusion turns PPARG on, so an agonist may be redundant. An EMC expression read settles it either way.",
+    "closure_note": "⚠ Scoped: the DIRECTION is unresolved, not refuted — in EMC the fusion turns PPARG on, so an agonist may be redundant. An EMC expression read settles it either way. ⭐ 2026-08-28: 'An EMC expression read settles it either way' is SUPERSEDED, RETAINED — the read was taken and settles it neither way. PPARγ target genes are coordinately higher in EMC tumour tissue than in comparator sarcomas beyond a size-matched random set, on both readable array platforms, with a knockout-UP falsifier arm carried alongside — AND the same data cannot separate that from an adipogenic differentiation programme, whose proxy is set-specific up on both platforms too and overlaps the occupancy-derived arm more than any other pair in the table. Most arms are mouse-derived, an orthology assumption carried into human transcripts. It says nothing about the direction of any pharmacological intervention on this axis. The obstacle is no longer BLK-NO-EMC-DATA; it is that bulk archival tissue cannot separate receptor output from lineage composition.",
     "strategy": "ST-REPURPOSING",
     "publication": {
       "endpoint": "PUB-REPURPOSING",
@@ -1892,10 +1900,16 @@
       "status": "blocked",
       "maturity": "concept",
       "confidence": "low",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-08-28"
     },
     "rationale": "If the fusion drives its phenotype partly through PPARγ signalling, then an approved agent acting on that axis reaches the driver's output without touching the driver. Repurposing a well-characterised drug class is far cheaper than any new modality.",
-    "supporting_evidence": [],
+    "supporting_evidence": [
+      {
+        "ref": "ART-EMC-EXPRESSION-PANELS",
+        "what_it_supports": "The receptor-ACTIVITY readout this route's direction turns on. PPARγ target genes are coordinately higher in EMC tumour tissue than in comparator sarcomas beyond a size-matched random set, on both readable array platforms, with a knockout-UP falsifier arm carried alongside — AND the same data cannot separate that from an adipogenic differentiation programme, whose proxy is set-specific up on both platforms too and overlaps the occupancy-derived arm more than any other pair in the table. Most arms are mouse-derived, an orthology assumption carried into human transcripts. It says nothing about the direction of any pharmacological intervention on this axis.",
+        "strength": "direct"
+      }
+    ],
     "remaining_unknowns": [
       "The direction is unresolved rather than refuted, and the reason is NOT absence of study: the two EMC expression studies that report PPARG proposed OPPOSITE directions from the same observation (Subramanian 2005 → PPARG inhibitors; Filion 2009 → PPARG agonists), and the single functional test favouring agonism was run in H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed). ⚠ The redundancy clause is WITHDRAWN — it is not in the source it cited, and Filion et al. argue the opposite in their own discussion. One home: research/manuscripts/repurposing/pparg-direction-emc.md",
       "The in-vivo evidence for agonism (Higuchi 2023) uses H-EMC-SS (OBJ-LINE-HEMCSS, identity disputed); whether the MOUSE experiment used that line is UNREAD — the paper is not open access and its full text has not been retrieved."
@@ -1907,25 +1921,29 @@
         "blocked_by": []
       },
       {
-        "what": "A PPARγ TARGET-GENE (activity) readout in EMC. ⚠ Re-scoped from abundance: abundance is already measured twice and concordantly (Subramanian 2005, Filion 2009); receptor ACTIVITY is what the direction turns on and has never been measured by anyone",
+        "what": "A PPARγ TARGET-GENE (activity) readout in EMC — ✅ TAKEN 2026-08-24, analysed in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4, from ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY — that section owns every figure and none is restated here. It does NOT settle the direction; the residual is an adipogenic ceiling, not missing data.",
+        "feasible_today": true
+      },
+      {
+        "what": "A readout that separates PPARγ receptor output from lineage/adipogenic composition — bulk archival tissue cannot, which is a study-design limit rather than a data-availability one, so a further bulk expression cohort does not lift it",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
     "readiness": {
       "attainable_today": "internal_note",
-      "why_not_higher": "Its central premise is directionally unresolved. Publishing a repurposing hypothesis whose sign is unknown would be exactly the over-claim the language rules exist to prevent.",
+      "why_not_higher": "Its central premise is directionally unresolved, and both cheap tests that were expected to resolve it have now been run. The literature read closed at T1-with-a-model-caveat; the activity read is coordinately up but cannot be separated from an adipogenic programme in bulk archival tissue. Publishing a repurposing hypothesis whose sign is unknown would be exactly the over-claim the language rules exist to prevent.",
       "missing": [
-        "a PPARγ ACTIVITY (target-gene) readout in EMC — the direction itself is now stated at T1 with a model-identity caveat in research/manuscripts/repurposing/pparg-direction-emc.md"
+        "a readout that separates PPARγ receptor output from adipogenic/lineage composition — the target-gene activity readout itself is DONE (research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4, from ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY — that section owns every figure and none is restated here) and hits that ceiling"
       ]
     },
     "timing": {
-      "recommendation": "pursue_now",
-      "rationale": "One cheap measurement settles it, and no amount of reasoning substitutes for the sign of an effect. Working further on a hypothesis whose direction is unknown is effort that a single dataset would render moot.",
+      "recommendation": "monitor",
+      "rationale": "⚠ SUPERSEDED, RETAINED: 'One cheap measurement settles it'. Both cheap measurements have been made — the literature read (2026-08-06) and the activity read (2026-08-24) — and the direction is still unresolved. What remains is not cheap and not ours to run.",
       "six_month_delta": "None unless data lands.",
-      "two_year_delta": "Settled either way by an EMC dataset.",
+      "two_year_delta": "⚠ SUPERSEDED, RETAINED: 'Settled either way by an EMC dataset'. An EMC dataset arrived and did not settle it. What would is a readout resolving cell type, not another bulk cohort.",
       "cost_trend": "flat",
       "automation_outlook": "Automatic re-grade on new data.",
       "revisit_trigger": [

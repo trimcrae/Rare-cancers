@@ -1,0 +1,36 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0063-757d4e91",
+  "session_id": "757d4e91-a56a-5571-83ce-07bfacec30b5",
+  "utc": "2026-08-28T19:15:00Z",
+  "shape": "Second and final cycle of this session (autonomy-state.json max_cycles_per_session = 2). Driver only, no fan-out — like CYC-0062 the item resolved entirely against artifacts already committed here.",
+  "took": "AUT-052 (RT-PPARG-DOWNSTREAM, PUB-REPURPOSING, ST-REPURPOSING) — free, the equal-scoring sibling of the row CYC-0062 took, and named in that cycle's own filing as the natural next adjudication.",
+  "took_what": "Same instruction as its sibling: re-test a block recorded without evidence. The block was false. The row said what remained was 'a PPARγ activity readout in EMC, blocked by BLK-NO-EMC-DATA'; that readout was taken on 2026-08-24 and analysed with random-set nulls and exact label permutation in nr4a3-fusion-transcriptional-output-SI.md §S4, from ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY. Its finding: PPARγ target genes are coordinately higher in EMC tumour tissue than in comparator sarcomas beyond a size-matched random set on both platforms, and the same data cannot separate that from an adipogenic differentiation programme. ⛔ The direction verdict is UNCHANGED — unresolved, leaning agonism, T1 with a model-identity caveat. What changes is what the two routes are waiting FOR: not data availability, which arrived and was read, but that bulk archival tissue cannot separate receptor output from lineage composition. A further bulk cohort does not lift that, so filing this behind TECH-EMC-EXPRESSION-DATA (forecast 2029) was waiting for the wrong thing.",
+  "changed": "research/manuscripts/repurposing/pparg-direction-emc.md — the declared one home for this question — gains §6a; its §6 bullet '⛔ Never measured, by anyone: PPARγ transcriptional output in EMC' is marked superseded and retained verbatim, and owed-item 4 is struck as taken. research/manuscripts/program/target-route-options.md Route 5, which owns RT-PPARG-DOWNSTREAM's grade, gains a dated update superseding two stale sentences ('stalled on one unanswered literature question that nobody has spent an hour on'; 'it is a literature question, not a compute question') — both cheap tests have now been run and neither unblocked the route. systems/graph/routes.json: RT-PPARG-DOWNSTREAM's activity validation marked TAKEN with a new row for the real residual (separating receptor output from lineage composition, BLK-NO-WET-LAB); RT-TRABECTEDIN-PPARG's expression validation recorded as answered-in-the-negative rather than outstanding; both gain ART-EMC-EXPRESSION-PANELS at strength direct, both timing rationales superseded-and-retained, last_verified 2026-08-28. Legacy registry reprojected, five views regenerated. ⛔ ONE FACT ONE PLACE: not one figure from §S4 is restated in any of these files — every edit points at the section that owns them.",
+  "cost": "$0. CPU and repository reads only. No CI dispatch, no GPU, no network fetch.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": "THREE things, two of them substantive. (1) I drafted two conclusions from the raw artifact that the committed SI had already refuted, and would have written both into the ledger had I not read it first: I read the OE_UP arm's failure to track KO_DOWN as a genuine discordance, where §S4 measures their Jaccard at 0.035 — nearly disjoint mouse gene sets, so agreement was never the right expectation; and I would have reported the KO_UP falsifier as cleanly passing, where §S4 shows it is set-specific down on the competitive null but NOT permutation-significant on either platform (and clears its threshold by 1.02x on one). The lesson is the cycle's own: read the write-up before drawing a conclusion from the artifact under it. (2) OWED FROM CYC-0062 AND RECORDED HERE BECAUSE AMENDING THAT RECEIPT WOULD HAVE INVALIDATED ITS GATE A THIRD TIME: seat_scratch.py --audit-root returned five findings and every one was mine — cyc0062-*.log written at the shared scratchpad root rather than in a seat directory, which is exactly the driver-is-a-writer-too failure research-loop §3 records. They were NOT relocated: the committed CYC-0062 receipt cites those absolute paths, and moving them would make the committed record point at nothing. The convention is followed forward, not retrofitted. (3) CYC-0062's push landed after a 16-commit rebase that its gate never saw. The gate ran on the pre-rebase commit and the fast tier ran on an intermediate one. Compensating check, run instead of a fourth gate: the entry-id sets at HEAD and HEAD~1 differ by exactly one row (AUT-PD-116 added, none dropped), so the rebase clobbered nothing — but that is a verification, not a gate, and it is recorded as the deviation it is.",
+  "now_queued": "AUT-PD-116 extended with this third instance and the sharpening it produced: the stale record is not only in systems/graph — a MANUSCRIPT asserting a negative about its own repository ('never measured, by anyone') was four days out of date. Adjudicating a row in that class means checking the owning prose, not only the route JSON. The row stays queued and unclaimed for the successor session.",
+  "blocked_by": [
+    {
+      "what": "PREFLIGHT_TESTS=1 exited 1 on this cycle's tree — the SAME five ASO journal-article failures CYC-0062 met, and again not this change's.",
+      "path": "/tmp/claude-0/-home-user-Rare-cancers/757d4e91-a56a-5571-83ce-07bfacec30b5/scratchpad/cyc0063/cyc0063-preflight.log",
+      "why_this_run_is_more_informative_than_CYC-0062s": "This cycle EDITED TWO MANUSCRIPTS (pparg-direction-emc.md and target-route-options.md), so the manuscripts suite was the gate that mattered. It returned 5 failed / 1460 passed — the identical failure set and the identical pass count as the run on CYC-0062's tree, which touched no manuscript. No new failure appeared, so these edits introduced nothing.",
+      "owner": "Unchanged from CYC-0062: the five are the in-flight state of the ASO hardening round, held under a live lease by CYC-0061-d60caf7b via AUT-PD-106, whose session was observed SESSION_STATUS_RUNNING during this session's step-11 reap. Reproduction on a clean origin/main worktree with this session's work absent is recorded in the CYC-0062 receipt (5 failed in 1.19s).",
+      "not_re_reproduced_here": "The clean-main reproduction was NOT re-run for this cycle. It was run once, this cycle adds the same failure set with an unchanged pass count, and the owning session is still live — re-running it would re-learn the same fact. Recorded as the judgement it is, not as a second observation."
+    }
+  ],
+  "route_advanced": "RT-PPARG-DOWNSTREAM",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why": "Filled in below once the successor is created — this session is at its two-cycle cap and the handoff is owed before it ends."
+  }
+}

@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-TRABECTEDIN-PPARG — Trabectedin + a PPARγ agonist (all approved drugs)
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-05
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ blocked · concept · confidence low · verified 2026-08-28
 
 **Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md#route-6---trabectedin--a-pparγ-agonist-an-all-approved-drug-combination-on-emcs-own-documented-axis)): Tier 2, rank 5 — ASK with a good taker and a thin deliverable
 
@@ -53,6 +53,12 @@ flowchart LR
 
 Both components are approved, so a combination trial is unusually cheap to propose. The rationale is that the fusion engages PPARγ signalling, so an agonist might either cooperate with or antagonise the transcriptional interference trabectedin provides.
 
+## Supporting evidence
+
+| ref | supports | strength |
+|---|---|---|
+| `ART-EMC-EXPRESSION-PANELS` | The EMC-tissue PPARγ activity read this route waited on. PPARγ target genes are coordinately higher in EMC tumour tissue than in comparator sarcomas beyond a size-matched random set, on both readable array platforms, with a knockout-UP falsifier arm carried alongside — AND the same data cannot separate that from an adipogenic differentiation programme, whose proxy is set-specific up on both platforms too and overlaps the occupancy-derived arm more than any other pair in the table. Most arms are mouse-derived, an orthology assumption carried into human transcripts. It says nothing about the direction of any pharmacological intervention on this axis. | `direct` |
+
 ## Remaining unknowns
 
 - The DIRECTION of the PPARγ effect in EMC is unresolved — ⚠ but the redundancy clause ('if the fusion already turns PPARγ on, an agonist may be redundant or harmful') is WITHDRAWN: it is not in the source it cited, and Filion et al. propose agonists in their own discussion. Two primary studies answered the question in OPPOSITE directions; one functional experiment favours agonism, in a disputed-identity line. research/manuscripts/repurposing/pparg-direction-emc.md
@@ -63,7 +69,7 @@ Both components are approved, so a combination trial is unusually cheap to propo
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| An EMC expression read establishing the direction of PPARγ signalling | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| An EMC expression read establishing the direction of PPARγ signalling — ✅ THE READ WAS TAKEN 2026-08-24 (research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4, from ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY — that section owns every figure and none is restated here) AND IT DOES NOT ESTABLISH A DIRECTION. Recorded as answered-in-the-negative rather than outstanding, because leaving it open would keep this route waiting on data that has already arrived. | ⛔ none built | yes | — |
 | A cell panel, which needs a bench | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
@@ -94,7 +100,8 @@ Both components are approved, so a combination trial is unusually cheap to propo
 The ask is well formed and both drugs are approved, but the direction of the PPARγ effect is unresolved — proposing a combination whose direction is unknown is a thin deliverable.
 
 **Missing:**
-- a PPARγ ACTIVITY readout in EMC, not an abundance one — the direction is stated at T1 with a model-identity caveat in research/manuscripts/repurposing/pparg-direction-emc.md
+- a DIRECTION for the PPARγ effect, which the activity read did not supply — it is stated at T1 with a model-identity caveat in research/manuscripts/repurposing/pparg-direction-emc.md §6, unmoved by §6a
+- a cell panel, which needs a bench
 
 ## Where this route ends — the paper
 
@@ -110,12 +117,12 @@ The ask is well formed and both drugs are approved, but the direction of the PPA
 
 **Recommendation: `wait`**
 
-The single expression readout that settles the direction would either strengthen this proposal considerably or kill it. Asking a collaborator to run a combination whose direction we cannot state is a poor use of a scarce ask.
+⚠ SUPERSEDED, RETAINED: 'The single expression readout that settles the direction would either strengthen this proposal considerably or kill it.' The readout was taken and did neither. Asking a collaborator to run a combination whose direction we still cannot state remains a poor use of a scarce ask.
 
 | horizon | effect |
 |---|---|
 | Six months | None unless data lands. |
-| Two years | An EMC dataset would settle the direction and make the ask either strong or unnecessary. |
+| Two years | ⚠ SUPERSEDED, RETAINED: 'An EMC dataset would settle the direction'. One arrived and did not. |
 | Cost trend | flat |
 | Automation outlook | The re-grade is automatic once data lands. |
 
@@ -132,7 +139,7 @@ The single expression readout that settles the direction would either strengthen
 
 ## Closure
 
-`authorization` — Good taker, thin deliverable — the ask is the block.
+`authorization` — Good taker, thin deliverable — the ask is the block. ⭐ 2026-08-28: the expression read this route was waiting on has been taken and does not establish the direction (research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4, from ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY — that section owns every figure and none is restated here). The ask is still the block, and it is now an ask made without the direction, not an ask waiting for it.
 
 ## Best next action
 
@@ -147,5 +154,7 @@ Hold the ask until the PPARγ direction can be stated. Re-grade automatically wh
 **L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
 **L5 evidence:** [EV-FILION-2009](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-HIGUCHI-2023](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-PIOGLITAZONE-TRABECTEDIN-2019](L5-evidence-base.md#evidence--the-literature-this-program-cites), [EV-SUBRAMANIAN-2005](L5-evidence-base.md#evidence--the-literature-this-program-cites)
+
+**L5 artifacts:** [ART-EMC-EXPRESSION-PANELS](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-REPURPOSING](L1-st-repurposing.md) · [← L0](L0-ecosystem.md)

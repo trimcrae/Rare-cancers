@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 91,
+    "done": 92,
     "in_progress": 1,
     "parked": 28,
-    "queued": 125,
+    "queued": 124,
     "ready": 1,
     "superseded": 1
   },
@@ -1326,52 +1326,6 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop coordination; nothing published, submitted or deposited",
       "what": "⛔⛔ MERGING A SEAT'S BRANCH DOES NOT CLOSE THE SEAT'S LEDGER ROW, SO FINISHED WORK IS RE-OFFERED AS READY AND A SECOND SESSION CLAIMS IT. ⚠ MEASURED 2026-08-28 and it cost a dispatch: `stuck_clock.py` (AUT-PROP-029) was merged to main from a worktree branch — 569 lines, 40 tests, 17/17 mutations — and the row stayed `in_progress` with the SEAT as owner. priority.py's stale-lease sweep then released it, continuity.py offered it as ready, and CYC-0044-schedule claimed it and dispatched a background worktree agent to build what was already on its own base. ⭐ THE SHAPE IS THE LEASE DEFECT ONE STEP LATER: a lease says who HOLDS a row and nothing says who FINISHED one, so the ledger's only record of completion is a human remembering to write it during a merge — which is exactly the 'agreement in prose between a reader and a writer' this repository has now paid for at AUT-PD-013, AUT-PROP-013 and AUT-PD-037. ★ THE FIX IS TO DERIVE IT, NOT TO REMEMBER IT: a merge that lands a seat's deliverable can be detected — the row names its artifact in `depends_on_evidence` or its branch in `lease_released`, and git can answer whether that artifact is on main. A check that refuses to offer a row as READY while its named deliverable already exists on the trunk would have caught this before the dispatch. ⚠ DO NOT auto-close on that signal alone — an artifact existing is not the same as the item being finished, and a row whose deliverable partly landed must stay open. Report it and make a human or the merging session confirm. ⛔⛔ SECOND INSTANCE, SAME DAY: AUT-PROP-032's residue gate (1,110 lines, preflight gate 16) was merged locally and not pushed, the row stayed open on the trunk, and CYC-0046-schedule claimed it and dispatched an agent. ⭐ THE TWO TOGETHER SHARPEN THE FIX: the defect is not that a merge fails to close a row, it is that NOTHING VERIFIES A MERGE HAPPENED. The check now exists — queue_view.already_landed() compares a row's named deliverable against origin/main and caught AUT-020 on its first run — and should be pointed at rows owned by a COMPLETED seat, not only at ready rows.\n\n✅ DONE 2026-08-28 (CYC-0047-cyc0047s, second item this session). Widened already_landed() from ready-rows-only to also cover HELD rows: added queue_view.held_full_rows() (the full ledger row for every live lease, since held()'s own summary dict carries no `what`/`lease_released` for named_paths() to scan), wired it into main() as a new '⛔⛔ HELD, BUT ALREADY ON origin/main' section, and folded it into --check's exit code. Report-only, same as the ready-row half -- never auto-closes, per the module's own stated limit. Regression-tested: research/autonomy/tests/test_the_arbitration_half_of_the_queue_is_visible.py gained 3 cases, the key one (test_a_held_rows_landed_deliverable_is_caught_where_ready_only_missed_it) modelling AUT-PROP-032's exact shape and asserting BOTH that the pre-fix ready-only check sees nothing for an in_progress/owned row AND that the new held-row check does -- all 3 confirmed failing (AttributeError) against the pre-fix module before being trusted, all pass post-fix."
-    },
-    {
-      "id": "AUT-052",
-      "_derived": true,
-      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-EMC-DATA']. Original next action: The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-emc.md). What remains is a PPARγ activity readout in EMC, which is blocked by BLK-NO-EMC-DATA — not by an unrun literature pull.",
-      "serves": {
-        "route": "RT-PPARG-DOWNSTREAM",
-        "publication": "PUB-REPURPOSING",
-        "strategy": "ST-REPURPOSING"
-      },
-      "kind": "fetch",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-0063-757d4e91",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-NO-EMC-DATA"
-      ],
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 172.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": "2026-08-28T18:41:33Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T18:41:33Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ]
     },
     {
       "id": "AUT-073",
@@ -3934,45 +3888,6 @@
       }
     },
     {
-      "id": "AUT-072",
-      "_derived": true,
-      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-EMC-DATA']. Original next action: Hold the ask until the PPARγ direction can be stated. Re-grade automatically when EMC expression data lands.",
-      "serves": {
-        "route": "RT-TRABECTEDIN-PPARG",
-        "publication": "PUB-REPURPOSING",
-        "strategy": "ST-REPURPOSING"
-      },
-      "kind": "fetch",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-NO-EMC-DATA"
-      ],
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 52.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "clamp": "blocked_without_evidence_becomes_a_check"
-    },
-    {
       "id": "AUT-PD-044",
       "kind": "process_defect",
       "process_defect": true,
@@ -4043,6 +3958,52 @@
         {
           "utc": "2026-08-28T17:02:07Z",
           "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ]
+    },
+    {
+      "id": "AUT-052",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-EMC-DATA']. Original next action: The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-emc.md). What remains is a PPARγ activity readout in EMC, which is blocked by BLK-NO-EMC-DATA — not by an unrun literature pull.",
+      "serves": {
+        "route": "RT-PPARG-DOWNSTREAM",
+        "publication": "PUB-REPURPOSING",
+        "strategy": "ST-REPURPOSING"
+      },
+      "kind": "fetch",
+      "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-NO-EMC-DATA"
+      ],
+      "blocked_evidence": "RE-TESTED 2026-08-28 (CYC-0063-757d4e91) AND THE BLOCK WAS FALSE — the third instance of this class in two cycles. The row said what remained was 'a PPARγ activity readout in EMC, blocked by BLK-NO-EMC-DATA'. That readout was taken on 2026-08-24 and analysed to a standard the row did not anticipate: six PPARγ-related gene sets scored in EMC tumour tissue on both readable array platforms, each pinned to a verbatim source term with its species read off the term, each null-calibrated on its own platform, with a knockout-UP falsifier arm and an adipogenesis process proxy — ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY, written up in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4, which owns every figure. FINDING: PPARγ target genes are coordinately higher in EMC than in comparator sarcomas beyond a size-matched random set on both platforms, AND the same data cannot separate that from an adipogenic differentiation programme — the proxy is set-specific up on both platforms, is permutation-significant, and has the table's largest overlap with the occupancy-derived arm. ⛔ THE DIRECTION VERDICT IS UNCHANGED (unresolved, leaning agonism, T1 with a model-identity caveat) and the SI says in its own words that this says nothing about the direction of any pharmacological intervention on this axis. ★ WHAT ACTUALLY CHANGES: both RT-PPARG-DOWNSTREAM and RT-TRABECTEDIN-PPARG filed this behind BLK-NO-EMC-DATA and through it behind TECH-EMC-EXPRESSION-DATA (forecast 2029). The obstacle is not data availability — the data existed and was read — but that bulk archival tissue cannot separate receptor output from lineage composition. A further bulk cohort does not lift that. Both routes updated; the residual is re-filed under BLK-NO-WET-LAB. ⚠ TWO READINGS OF MINE WERE WRONG AND THE SI CORRECTED THEM BEFORE I WROTE THEM DOWN: I read the OE_UP arm's failure to track KO_DOWN as a real discordance (the SI measures their Jaccard at 0.035 — nearly disjoint sets, so agreement was never the right expectation), and I would have reported the falsifier as cleanly passing (it is set-specific down on the competitive null but NOT permutation-significant on either platform). Reading the committed write-up before drawing a conclusion from the raw artifact is what caught both.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "score": 50.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0,
+        "blocked_with_evidence": true
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check",
+      "claimed_utc": "2026-08-28T18:41:33Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T18:41:33Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
         }
       ]
     },
@@ -4264,6 +4225,44 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a file's serialization; nothing published, submitted or deposited",
       "what": "⚠ LOW-URGENCY DRIFT, FOUND NOT FIXED: research/manuscripts/citation-provenance-ledger.json is committed at indent=1, but its only programmatic writer (lint_citations.py's baseline()) would write indent=2/ensure_ascii=False if it ever ran again — which the code itself refuses to allow once the ledger exists (`--baseline` is a one-time, deliberately non-reentrant operation; see lint_citations.py's own module docstring on why: 'if --baseline could be re-run, every future fabrication is one command from being blessed'). So unlike AUT-PD-037's research-ledger.json (many writers, live risk), this file effectively has ONE writer that cannot fire twice — fixing the serialization mismatch today would be inert (nothing will ever call baseline() again to exercise it) unless this repository later builds the documented-but-unimplemented `--verify-online` path into a second writer. ⭐ WHAT TO DO: either (a) confirm no other tool writes this file by hand (grep for direct `json.dump`/`open(..., 'w')` against this path) and close this as a non-issue with that evidence, or (b) if `--verify-online` or any other second writer is ever implemented, route it through a shared serializer THEN, following the ledger_io.py pattern AUT-PD-037 established, rather than inventing its own indent/ensure_ascii choice."
+    },
+    {
+      "id": "AUT-072",
+      "_derived": true,
+      "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-EMC-DATA']. Original next action: Hold the ask until the PPARγ direction can be stated. Re-grade automatically when EMC expression data lands.",
+      "serves": {
+        "route": "RT-TRABECTEDIN-PPARG",
+        "publication": "PUB-REPURPOSING",
+        "strategy": "ST-REPURPOSING"
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "BLK-NO-EMC-DATA"
+      ],
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "score": 40.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "clamp": "blocked_without_evidence_becomes_a_check"
     },
     {
       "id": "AUT-001",
@@ -5604,7 +5603,7 @@
     },
     {
       "id": "AUT-PD-116",
-      "what": "⛔ SIXTEEN ROUTES CARRY A required_validation MARKED feasible_today=false ON BLK-NO-EMC-DATA WHOSE OWN TEXT NAMES AN EXPRESSION OR TISSUE READ, AND NOT ONE OF THEM CITES ART-EMC-EXPRESSION-PANELS — the committed artifact that answers that half. Measured 2026-08-28 over systems/graph/routes.json (77 routes) against research/modalities/emc-expression-panels.json gene_reads. SIX of the sixteen name a gene the artifact already reads on EMC tumour tissue: RT-SSTR2 (SSTR2), RT-B7H3 (CD276), RT-FAP-RLT (FAP), RT-JUNCTION-NEOANTIGEN (HLA-A/B/C, TAF15), RT-FUSION-OUTPUT (EWSR1, NR4A3, PPARG, SEMA3C, TAF15), RT-MTAP-PRMT5 (MAT2A, MTAP, PRMT5). RT-B7H3, RT-SSTR2 and RT-VACCINE-COMBINATION cite the landscape MANUSCRIPT but still hold the validation open. ⭐ THE SEVENTEENTH WAS ADJUDICATED THIS CYCLE AND ITS BLOCK WAS FALSE IN THE DANGEROUS DIRECTION: RT-PRAME-IMMTAC was graded 'NEW antigen-directed lead — best of the CTAs' on a cell-line surrogate while the EMC-tissue read that its own required_validation asked for had been committed four days earlier and reads at the floor of every readable cohort (AUT-053). ⚠ ADJUDICATE PER ROUTE AND DO NOT BATCH THIS: readable is NOT answered. RT-MTAP-PRMT5 asks for a gene-level COPY-NUMBER read, which an expression panel does not answer at all; RT-SSTR2 asks for 'a receptor imaging scan in an EMC patient, OR an expression readout', where only the second half is answered. The measurement here is the CANDIDATE LIST, not a verdict on any row. ⚠ AND THE SIBLING ROW IS AUT-052 (RT-PPARG-DOWNSTREAM), which asks for a PPARγ TARGET-GENE activity readout — PPARG itself is readable in the artifact and a target-gene activity score is a different question; that row is unclaimed and is the natural next one to adjudicate. Reproduce: iterate routes.json for required_validation entries with feasible_today false and BLK-NO-EMC-DATA, intersect the entry text with emc-expression-panels.json gene_reads keys, and grep each route record for ART-EMC-EXPRESSION-PANELS.",
+      "what": "⛔ SIXTEEN ROUTES CARRY A required_validation MARKED feasible_today=false ON BLK-NO-EMC-DATA WHOSE OWN TEXT NAMES AN EXPRESSION OR TISSUE READ, AND NOT ONE OF THEM CITES ART-EMC-EXPRESSION-PANELS — the committed artifact that answers that half. Measured 2026-08-28 over systems/graph/routes.json (77 routes) against research/modalities/emc-expression-panels.json gene_reads. SIX of the sixteen name a gene the artifact already reads on EMC tumour tissue: RT-SSTR2 (SSTR2), RT-B7H3 (CD276), RT-FAP-RLT (FAP), RT-JUNCTION-NEOANTIGEN (HLA-A/B/C, TAF15), RT-FUSION-OUTPUT (EWSR1, NR4A3, PPARG, SEMA3C, TAF15), RT-MTAP-PRMT5 (MAT2A, MTAP, PRMT5). RT-B7H3, RT-SSTR2 and RT-VACCINE-COMBINATION cite the landscape MANUSCRIPT but still hold the validation open. ⭐ THE SEVENTEENTH WAS ADJUDICATED THIS CYCLE AND ITS BLOCK WAS FALSE IN THE DANGEROUS DIRECTION: RT-PRAME-IMMTAC was graded 'NEW antigen-directed lead — best of the CTAs' on a cell-line surrogate while the EMC-tissue read that its own required_validation asked for had been committed four days earlier and reads at the floor of every readable cohort (AUT-053). ⚠ ADJUDICATE PER ROUTE AND DO NOT BATCH THIS: readable is NOT answered. RT-MTAP-PRMT5 asks for a gene-level COPY-NUMBER read, which an expression panel does not answer at all; RT-SSTR2 asks for 'a receptor imaging scan in an EMC patient, OR an expression readout', where only the second half is answered. The measurement here is the CANDIDATE LIST, not a verdict on any row. ⚠ AND THE SIBLING ROW IS AUT-052 (RT-PPARG-DOWNSTREAM), which asks for a PPARγ TARGET-GENE activity readout — PPARG itself is readable in the artifact and a target-gene activity score is a different question; that row is unclaimed and is the natural next one to adjudicate. Reproduce: iterate routes.json for required_validation entries with feasible_today false and BLK-NO-EMC-DATA, intersect the entry text with emc-expression-panels.json gene_reads keys, and grep each route record for ART-EMC-EXPRESSION-PANELS. ⭐ THIRD INSTANCE, 2026-08-28 (CYC-0063): AUT-052 / RT-PPARG-DOWNSTREAM and RT-TRABECTEDIN-PPARG both waited on 'a PPARγ ACTIVITY readout in EMC' behind BLK-NO-EMC-DATA. It exists — read_3_PPARG_ACTIVITY, null-calibrated, permutation-tested, written up in nr4a3-fusion-transcriptional-output-SI.md §S4 — and neither route cited it. ⚠ AND THIS INSTANCE SHARPENS THE CLASS: the memo pparg-direction-emc.md, the declared one home for that question, still read '⛔ Never measured, by anyone: PPARγ transcriptional output in EMC'. So the stale record is not only in systems/graph — a MANUSCRIPT asserting a negative about its own repository was four days out of date. Adjudicating a row in this class means checking the owning prose too, not only the route JSON.",
       "serves": {
         "route": null,
         "publication": null,
