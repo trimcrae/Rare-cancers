@@ -2884,9 +2884,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "SEAT-s1-ba841eee",
-      "claimed_utc": "2026-08-28T22:31:26Z",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2911,6 +2911,22 @@
       "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
       "score_inputs": {
         "fruitless_attempts": 1
+      },
+      "_lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s1-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s1-aut-pd-130",
+        "sha": "e0847032ddc262d020fe528af66e52fe35aa2204",
+        "detail": "2 commits, head dated 2026-08-28T23:07:53Z. Touches research/manuscripts/claim_coverage.py, research/manuscripts/tests/test_the_census_artifact_and_the_guard_corpus_are_a_pair.py, scripts/preflight.sh, .github/workflows/tests.yml, scripts/regenerate_aso_chain.sh and the ASO archive manifest.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
       }
     },
     {
@@ -3057,9 +3073,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "SEAT-s2-ba841eee",
-      "claimed_utc": "2026-08-28T22:32:09Z",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3084,6 +3100,21 @@
       "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
       "score_inputs": {
         "fruitless_attempts": 1
+      },
+      "_lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s2-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": null,
+        "sha": null,
+        "merged_into_main": false,
+        "checked": "git ls-remote --heads origin 'refs/heads/seat/*', 2026-08-28T23:35Z",
+        "⛔": "THIS SEAT PUSHED NOTHING. `git ls-remote` shows no branch for SEAT-s2-ba841eee, so whatever it did died with its container. The row returns to the queue UNSTARTED — that is a real loss, recorded rather than papered over."
       }
     },
     {
@@ -3562,7 +3593,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SEAT-s5-ba841eee",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": [
@@ -3587,13 +3618,29 @@
         "age_factor": 1.0
       },
       "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": "2026-08-28T22:45:03Z",
+      "claimed_utc": null,
       "dispatch_log": [
         {
           "utc": "2026-08-28T22:45:03Z",
           "fingerprint_at_dispatch": "2026-08-05|None"
         }
-      ]
+      ],
+      "_lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s5-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s5-retest-blocks",
+        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
+        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
     },
     {
       "id": "AUT-PROP-006",
@@ -3670,7 +3717,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SEAT-s5-ba841eee",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": [
@@ -3695,13 +3742,29 @@
         "age_factor": 1.0
       },
       "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": "2026-08-28T22:45:10Z",
+      "claimed_utc": null,
       "dispatch_log": [
         {
           "utc": "2026-08-28T22:45:10Z",
           "fingerprint_at_dispatch": "2026-08-13|None"
         }
-      ]
+      ],
+      "_lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s5-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s5-retest-blocks",
+        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
+        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
     },
     {
       "id": "AUT-PD-030",
@@ -3812,7 +3875,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SEAT-s5-ba841eee",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": [
@@ -3837,13 +3900,29 @@
         "age_factor": 1.0
       },
       "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": "2026-08-28T22:45:13Z",
+      "claimed_utc": null,
       "dispatch_log": [
         {
           "utc": "2026-08-28T22:45:13Z",
           "fingerprint_at_dispatch": "2026-08-05|None"
         }
-      ]
+      ],
+      "_lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s5-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s5-retest-blocks",
+        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
+        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
     },
     {
       "id": "AUT-045",
@@ -3858,7 +3937,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SEAT-s4-ba841eee",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": [
@@ -3883,13 +3962,29 @@
         "age_factor": 1.0
       },
       "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": "2026-08-28T22:44:38Z",
+      "claimed_utc": null,
       "dispatch_log": [
         {
           "utc": "2026-08-28T22:44:38Z",
           "fingerprint_at_dispatch": "2026-08-06|None"
         }
-      ]
+      ],
+      "_lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s4-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s4-aut-045",
+        "sha": "c8944f76ea391f4be033adcb2268108e4fd8b478",
+        "detail": "1 commit, 2026-08-28T23:09:04Z. Touches systems/graph/routes.json, systems/views/L1-st-occupancy.md and systems/views/L2-rt-monovalent.md.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
     },
     {
       "id": "AUT-043",
@@ -4496,7 +4591,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SEAT-s5-ba841eee",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": [
@@ -4521,13 +4616,29 @@
         "age_factor": 1.0
       },
       "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": "2026-08-28T22:45:16Z",
+      "claimed_utc": null,
       "dispatch_log": [
         {
           "utc": "2026-08-28T22:45:16Z",
           "fingerprint_at_dispatch": "2026-08-05|None"
         }
-      ]
+      ],
+      "_lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s5-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s5-retest-blocks",
+        "sha": "da4247dcee5906d0d6b78b65e7f22f9567e6d7c4",
+        "detail": "2 commits, head 2026-08-28T22:52:45Z. Adds research/modalities/cys-chemoproteomics-precheck.json (IC-3) and research/modalities/nr4a3-thiol-environment.json (IC-12). ⚠ Attributed to the SEAT, which held four rows at once; which of the four each artifact serves is NOT asserted here.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
     },
     {
       "id": "AUT-022",
@@ -8004,9 +8115,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0072-2e57571a",
-      "claimed_utc": "2026-08-28T23:44:31Z",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -8032,7 +8143,7 @@
           "fingerprint_at_dispatch": "2026-08-28|None"
         }
       ],
-      "evidence": ""
+      "evidence": "⭐ HALF DONE, AND THE HALF THAT LANDED IS THE HALF THAT CHANGES NO BAR. (1) RELEASED the seven dead leases (AUT-PD-130, AUT-PD-133, AUT-007, AUT-008, AUT-011, AUT-016, AUT-045) held by four seats of the archived session_01SVfJ6HmD2f5u4Z2TPwfTCG. `continuity.py --check` went from 'AT CAPACITY … startable by nobody' to 110 rows ready with only two live leases outstanding. `last_evidence_utc` and `attempts` were deliberately left alone on every released row — releasing a lease is an observation about the HOLDER, not the row; the first of those two was refused by `admissibility.py:refused_stale_input` on this cycle's own first attempt, which is the guard working. (2) RECORDED the stranded work: each released row now carries `_stranded_work` naming its seat's pushed-but-unmerged branch and sha, or saying plainly that SEAT-s2-ba841eee pushed nothing and its work is lost. AUT-PD-151 carries all four branches and the AUT-PD-141 id collision that would make a naive merge of `seat/s3-unscreened-endpoints` silently overwrite a different live row. (3) BUILT `research/autonomy/holder_liveness.py` — the detector. Run against the ledger AS IT WAS when the loop was parked (`git show HEAD:…` at the incident commit) plus a verdict recording the two observed session statuses, it returned exactly the seven dead leases, exit 1, and correctly refused to judge CYC-0072-1681f3fa as either alive or dead because no committed receipt maps that discriminator to a session. 14 assertions, 8/8 mutations caught; the eighth was added BECAUSE the first mutation run found the prose-session_id case survived. ⛔ WHAT IS NOT DONE, AND WHY IT IS NOT DONE BY THIS CYCLE: the consumer. `continuity.py` still counts a dead seat as a live worker. That edit moves the bar that blocked this cycle, so research-loop §6 forbids this cycle from making it. Filed as AUT-PROP-050 for a later cycle, with the reasoning written out so the taker does not re-derive it. ⚠ UNKNOWN, NOT GUESSED: whether the reaper archived session_01SVfJ6HmD2f5u4Z2TPwfTCG or a human did. Its FIRST cycle's receipt (CYC-0070-ba841eee.json, `seats: []`) is on the trunk, but the seven leases were taken 22:31–22:45Z by a SECOND cycle whose receipt was never written — so a per-SESSION receipt check can pass on the strength of an earlier cycle's receipt while the session's live cycle is unrecorded. That is a real hole in research-loop §11's rule; it is described on this row and NOT asserted as the cause of this incident, because this cycle did not observe which actor archived it."
     },
     {
       "id": "AUT-PD-112",
@@ -8488,6 +8599,71 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-151",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0072-2e57571a",
+      "depends_on_evidence": [
+        "git ls-remote --heads origin 'refs/heads/seat/*' (4 branches), 2026-08-28T23:35Z",
+        "git merge-base --is-ancestor <sha> origin/main -> false for all four",
+        "per-branch ledger diff vs trunk: 1 id collision (AUT-PD-141 on seat/s3), 0 on the others",
+        "get_session(session_01SVfJ6HmD2f5u4Z2TPwfTCG) -> SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z"
+      ],
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "internal merges of already-pushed branches; nothing outward-facing",
+      "what": "⛔⛔ FOUR SEATS' FINISHED WORK IS SITTING ON PUSHED BRANCHES THAT NO ROW NAMED AND NOTHING WILL MERGE. Found 2026-08-28T23:35Z (CYC-0072-2e57571a) while releasing the dead leases of AUT-PD-150. Their driver, `session_01SVfJ6HmD2f5u4Z2TPwfTCG`, was ARCHIVED at 23:17:54Z with its own last summary reading 'landing loop attempt 2/4; gate re-gating on b94d4bc1c; 4 seats finishing' — so it died IN the landing loop, after the seats had pushed and before any of them merged. Verified by `git merge-base --is-ancestor <sha> origin/main` for each: all four false. ⭐ THE BRANCHES, WITH WHAT THEY CARRY: (1) `seat/s1-aut-pd-130` @ e0847032 — AUT-PD-130, the census/guard-corpus pairing the predecessor's handoff called 'cheap and not done'; touches claim_coverage.py, a new pairing test, preflight.sh, tests.yml, regenerate_aso_chain.sh, the ASO archive manifest. (2) `seat/s3-unscreened-endpoints` @ 88ac1c78 — lint_style.TARGETS vs systems/graph/publications.json, with a new test; ⛔ SEE THE COLLISION BELOW, this one has NO row of its own on the trunk. (3) `seat/s4-aut-045` @ c8944f76 — AUT-045 re-test, touches systems/graph/routes.json and two views. (4) `seat/s5-retest-blocks` @ da4247dc — IC-3 and IC-12 prechecks, two new research/modalities artifacts. ⛔⛔ AND MERGING (2) NAIVELY DESTROYS A LIVE ROW. Its ledger marks `AUT-PD-141` done for 'the register and readability screens are scoped by a hand-typed list, and 18 of 25 publication endpoints are outside it'. The TRUNK's `AUT-PD-141` is a DIFFERENT row — 'a rebase silently invalidates the archive manifest's provenance'. Two subjects, one id, and a clean auto-merge would silently overwrite one with the other. This is AUT-PD-144's mechanism (`ids.next_entry_id` is max+1 over a snapshot five concurrent sessions have already moved) landing on a branch instead of at a push. The seat's work must be renumbered to a fresh id at merge, and the trunk's AUT-PD-141 left alone. Checked on all four branches; s1, s4 and s5 are collision-free — their ledgers are merely 8-11 rows behind and must be rebased, never taken whole. ⚠ SIZE, SAID HONESTLY: this is FOUR merges each needing its own gate run, not one cycle's work. Whoever takes it should land them one at a time, and may split this row. Nothing here is a claim that the four branches are CORRECT — none has been reviewed by this cycle; the claim is only that they exist, that they are unmerged, and that they were about to be lost.",
+      "dispatch_log": [],
+      "evidence": ""
+    },
+    {
+      "id": "AUT-PROP-050",
+      "kind": "proposal",
+      "process_defect": false,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0072-2e57571a",
+      "depends_on_evidence": [
+        "research/autonomy/holder_liveness.py (built and mutation-tested by CYC-0072-2e57571a)",
+        "research/autonomy/tests/test_a_dead_holders_lease_is_provably_dead.py (14 assertions, 8/8 mutations caught)",
+        "continuity.py --check at 2026-08-28T23:30Z: AT CAPACITY, 5 workers vs subagent_width 5, 109 rows ready"
+      ],
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop-internal; the anti-gaming rule is what defers it, not an outward act",
+      "what": "⛔⛔ WIRE `holder_liveness.py` INTO `continuity.py`'s CAPACITY COUNT — AND IT IS FILED RATHER THAN DONE BECAUSE OF research-loop §6. AUT-PD-150 built the detector: given a driver-supplied verdict it classifies every open lease ALIVE / DEAD / UNMEASURED / UNRESOLVED / UNKNOWN_STATUS, fails closed in every direction, reports and never acts, and is pinned by 14 assertions with 8/8 mutations caught. What is still missing is the CONSUMER: `continuity.py` counts a dead seat as a live worker, so the capacity reading that parked 109 rows would still be printed today. The shape is a `--holder-verdict PATH` argument, `dead_owners()` discounted from `by_owner` in the capacity block, and the discounted holders NAMED in the output so the discount is falsifiable rather than silent. ⛔ WHY CYC-0072-2e57571a DID NOT MAKE THIS EDIT ITSELF. research-loop §6: *a bar may not be changed by the cycle that the bar just blocked.* The capacity check is exactly the bar that blocked this cycle — `continuity.py --check` printed AT CAPACITY at 23:30Z and every row in the queue was unstartable. An edit that makes that check stop blocking me, written by me, in the cycle it blocked, is the precise shape §6 forbids, and the honest test it gives — *does this change make it easier for me to report success?* — answers yes. So the detector (new module, reports only, changes no bar, blocks nothing) landed, and the consumer (which moves a bar) is filed for a LATER cycle, which §6 explicitly permits: 'a later cycle may make the identical change'. ⭐ THE RELEASE THIS CYCLE PERFORMED IS NOT THAT EDIT AND SHOULD NOT BE READ AS ONE. `continuity.py`'s own message instructs it in as many words — 'if a lease above names a worker that is not actually running, that is litter — release it (owner: null)'. Releasing litter is the sanctioned response to the check; rewriting the check is not. ⚠ AND THE TAKER SHOULD DECIDE ONE THING THIS ROW DELIBERATELY DOES NOT: whether an UNMEASURED holder should ever be discounted. It must not — 'not observed is not alive' is the whole safety property — but a future author under capacity pressure will be tempted, so the argument is written here where they will read it, not left to be re-derived.",
+      "dispatch_log": [],
+      "evidence": ""
     }
   ]
 }

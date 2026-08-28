@@ -1,0 +1,53 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0072-2e57571a",
+  "session_id": "2e57571a-47e7-5083-8b41-cc8853844a1c",
+  "ccr_session_id": "session_01GEFbqguVTYsLJrg8EAFYfG",
+  "_ccr_session_id_why": "READ from the environment (CLAUDE_CODE_SESSION_ID) and from get_session on myself, never typed as a label. `health.py:cycles_are_sized` and `session_cap.py` both key on it, and nine cycles once wrote the literal 'scheduled-routine-session' and became indistinguishable from one session.",
+  "utc": "2026-08-28T23:55:00Z",
+  "shape": "One driver, no fan-out. ⛔ THE SESSION STARTED WITH NO REPOSITORY: /home/user was empty, the `research-loop` skill was not in the skill registry, and research/autonomy/continuity.py did not exist on disk. The repo was identified from the predecessor's session record, attached with add_repo and cloned, and the skill was read from .claude/skills/research-loop/SKILL.md directly after Skill(research-loop) returned 'Unknown skill' both before and after register_repo_root.",
+  "took": "AUT-PD-150, FILED AND THEN CLAIMED BY THIS CYCLE (claim.py, CLAIMED on attempt 1 — the first attempt YIELDED with 'not on the trunk', which is the tool being right: a row main cannot see cannot be claimed, so the filing was pushed first). ⛔ IT IS NOT THE ROW THE HANDOFF NOMINATED. The handoff's priority order led with AUT-PD-147; `continuity.py --check` was reporting the loop AT CAPACITY — 5 concurrent workers against a subagent_width of 5, '109 rows ready in the ledger and startable by nobody' — so AUT-PD-147 and every other row was unstartable. Four of those five workers were seats of session_01SVfJ6HmD2f5u4Z2TPwfTCG, which get_session reports SESSION_STATUS_ARCHIVED as of 23:17:54Z. Fixing what blocks all the work outranks doing one of the blocked things.",
+  "took_what": "AUT-PD-150",
+  "changed": [
+    "research/autonomy/research-ledger.json — released 7 dead leases (AUT-PD-130, AUT-PD-133, AUT-007, AUT-008, AUT-011, AUT-016, AUT-045), each carrying `_lease_released` (holder session + its status) and `_stranded_work` (the seat's pushed branch and sha, or a plain statement that it pushed nothing).",
+    "research/autonomy/holder_liveness.py — NEW. Arbitrates open leases against a driver-supplied session-status verdict. Reports, never acts. Fails closed: no verdict is UNMEASURED not ALIVE; only an OBSERVED terminal status licenses DEAD; an owner no receipt can map is UNRESOLVED.",
+    "research/autonomy/tests/test_a_dead_holders_lease_is_provably_dead.py — NEW. 14 assertions, 8/8 mutations caught (the 8th case was added because the first mutation run found it survived).",
+    "AUT-PD-150 filed (the defect), AUT-PD-151 filed (four stranded seat branches + the AUT-PD-141 id collision that would make a naive merge overwrite a live row), AUT-PROP-050 filed (wire the detector into continuity.py's capacity count — deliberately NOT done by this cycle, §6)."
+  ],
+  "cost": "free — local reads, one clone, five control-plane reads, no compute rented, no model spend beyond this session.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "launched_in_one_message": false,
+    "seats": [],
+    "_why": "One instrument and one ledger edit, both in the shared tree, each measurement reading the tree the previous edit produced. research-loop §3 gives the shared tree ONE writer, so a seat would have been a second writer for no parallelism. ⚠ And the whole subject of this cycle was seats whose driver died holding their leases — dispatching more of them into an at-capacity loop would have been the defect, performed."
+  },
+  "rate_limit_info": {
+    "status": "allowed",
+    "rateLimitType": "five_hour",
+    "resetsAt": 1787962200,
+    "isUsingOverage": false,
+    "_read_from": "get_session on myself, external_metadata.rate_limit_info — read, never inferred (§4)"
+  },
+  "what_i_got_wrong": [
+    "⛔ MY FIRST LEDGER WRITE WAS REFUSED, AND THE GUARD WAS RIGHT. I set `last_evidence_utc` to today on all seven released rows; `admissibility.py:refused_stale_input` refused the write on five of them because the recorded `score_inputs.age_factor` no longer matched the row's own date. The refusal was also substantively correct, not merely procedural: releasing somebody else's lease is an observation about the HOLDER, and resetting the row's staleness clock would have made seven parked rows look freshly evidenced. I dropped that edit and the `attempts` increment with it — charging a retry for a container death the row did not cause would have spent its budget wrongly.",
+    "⚠ My first mutation run scored 7/8: the surviving mutation relaxed the receipt uuid match to a bare 8-character prefix, and my 'prose session_id' test did not catch it because 'scheduled-' is not hex. The test asserted the right property against the wrong input. Added a case whose prose session_id BEGINS with the real discriminator; 8/8 after.",
+    "⚠ I called Skill(research-loop) twice and register_repo_root once before accepting that the registry was not going to serve the skill, and read SKILL.md directly. That is the documented fallback and I should have reached it one call sooner."
+  ],
+  "now_queued": [
+    "AUT-PROP-050 — wire holder_liveness into continuity.py's capacity count (deferred by §6, not abandoned).",
+    "AUT-PD-151 — land four stranded seat branches; seat/s3 needs renumbering at merge or it overwrites AUT-PD-141.",
+    "AUT-PD-130 — startable again, and its work already exists on seat/s1-aut-pd-130.",
+    "AUT-PD-147 / AUT-PD-148 / AUT-PD-149 — the handoff's nominations, all now unblocked."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why": "Cycle 1 of 2 in this session (autonomy-state.json max_cycles_per_session=2). Owed only at the cap."
+  }
+}
