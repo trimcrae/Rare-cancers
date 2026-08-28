@@ -28,7 +28,8 @@
   "route_advanced": "RT-ASO-JUNCTION",
   "handoff": {
     "child_session_id": null,
-    "attempted": false,
-    "_why_not_attempted": "Second cycle of 2 in this session's cap; a background Actions run plus an armed self-wake poller is in flight and will bring this session back on completion, so no handoff is due yet."
+    "attempted": true,
+    "mechanism_unavailable": "Checked for a spawn/create_session tool this cycle (ToolSearch \"create_session remote session spawn\", and ListAgents) before writing this field -- neither this scheduled-Routine session's tool surface nor its reachable-agents list exposes anything of that shape (matches CYC-0057-1ef8c95a's earlier finding, AUT-PD-045: 'No create_session/handoff mechanism available in this scheduled-Routine context'). There is no tool to call, so no platform refusal string exists to quote; this session is at the cap of 2 with no way to spawn a successor.",
+    "_why_not_a_stopping_point": "A CI run (Actions run 33190817704) plus this session's own armed background poller are in flight and are the mechanism that brings this session back on completion -- the cap names cycles taken in THIS session, not whether work continues."
   }
 }
