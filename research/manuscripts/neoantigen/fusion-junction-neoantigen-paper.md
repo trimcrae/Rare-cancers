@@ -55,8 +55,9 @@ for the commonly reported EWSR1 e7::NR4A3 e3 public junction (B\*15:01 alone; 8.
 (1.4% Melanesia to 60% Northern Europe). ⚠ *Superseded, retained (updated 2026-08-22): "The class-II
 (CD4 helper) arm and the combined both-arms figure are **withdrawn pending regeneration** of the
 class-II demo, which still rests on the retracted seam (§3)."* The class II demo has since been
-rebuilt on the transcript model and the arm is reported and negative; the both-arms figure is not
-computed rather than withdrawn. Both have one home,
+rebuilt on the transcript model and the arm is reported and negative. ⚠ *Superseded, retained
+(corrected 2026-08-28): "the both-arms figure is not computed rather than withdrawn".* It is computed:
+the class-II branch evaluates once an allele qualifies, and one does. Both have one home,
 [`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4.
 The honest conclusion is that a fusion-exclusive EMC immunotherapy is **personalised by necessity** (no
 off-the-shelf pan-EMC epitope) and that its addressable fraction on a single public junction is **under a
@@ -252,17 +253,29 @@ peaks in Melanesia no longer holds — Melanesia is now near the bottom (0.9%). 
 overstates benefit for some patients and understates it for others; coverage must be confirmed for the
 target population.
 
-**CD4 help is the limiting arm.** The DRB1 helper alleles presenting a strong class-II junction binder
-(DRB1\*03:01, DRB1\*07:01) cover **28.4% globally** (95% CI 27.9–28.9%) — unchanged by the seam correction,
-and that is the problem with quoting it:
+**CD4 help is the limiting arm, and the regenerated screen makes it MORE limiting rather than less.**
+⚠ *Superseded, retained (corrected 2026-08-28): "The DRB1 helper alleles presenting a strong class-II
+junction binder (DRB1\*03:01, DRB1\*07:01) cover **28.4% globally** (95% CI 27.9–28.9%) — unchanged by
+the seam correction".* ⛔ That reading was the pre-regeneration one and this paper's own banner forbids
+it. The figure appears nowhere in `hla-coverage.json` today, and neither named allele is among that
+file's `class_ii_cd4_helper_alleles` — both are still listed as SCREENED, and neither presents a strong
+binder at the corrected seam. The rebuilt screen finds ONE strong class-II binder on ONE allele, and the
+coverage that follows is several-fold SMALLER than the retired figure. The current class-II and
+both-arms numbers have one home,
+[`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4, and are not re-typed here.
+The paragraph the correction replaced is retained below as the record of the withdrawal:
 
 > ⛔ **⚠ Superseded, retained (updated 2026-08-22): "THE CLASS-II ARM IS STILL BUILT ON THE RETRACTED
 > SEAM, SO THE BOTH-ARMS FIGURE IS NOT QUOTABLE."** It has since been rebuilt at the corrected
 > junction — `patient-cd4-demo.json` now reads `QYSQQSSSYGQQ|NMPCVQAQYSPS` and `hla-coverage.json`'s
 > `⛔_class_ii_provenance` records `matches_corrected_seam: true`. The paragraph below describes the
 > state before that rebuild and is retained as the record of it. The current status of both figures
-> has one home, [`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4: the arm is
-> reported and negative on three DRB1 alleles, and the both-arms figure is not computed.
+> has one home, [`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4. ⚠ *Superseded,
+> retained (corrected 2026-08-28): "the arm is reported and negative on three DRB1 alleles, and the
+> both-arms figure is not computed".* The panel is no longer three alleles — every declared allele in a
+> DR/DP/DQ panel several times that size was scored, and `alleles_without_a_model` is empty — and the
+> both-arms figure IS computed, as `coverage_cd8_and_cd4_combined` in `hla-coverage.json`. Both readings
+> are owned by §B4.
 > The class-I half of `hla-coverage.json` is recomputed from the regenerated junction panel; the
 > class-II half comes from [`patient-cd4-demo.json`](../../modalities/patient-cd4-demo.json), a separate
 > artifact nothing in this correction regenerates. Its junction context reads
