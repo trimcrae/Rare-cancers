@@ -181,9 +181,32 @@ HAS ONE WRITER: THE DRIVER.** Put it in the seat prompt — worktree off `origin
 push a branch, never touch the repository root.
 
 ⛔⛔ **AND ITS LOGS GO OUTSIDE THE WORKTREE, IN A DIRECTORY NAMED FOR THE SEAT — BECAUSE A WORKTREE
-IS DELETED THE MOMENT ITS WORK LANDS, AND ITS EVIDENCE DIES WITH IT.** Two lines in every seat
-prompt: *write every log to `scratchpad/<seat-name>/`, never inside the worktree, and NAME the log
-paths in your final report.*
+IS DELETED THE MOMENT ITS WORK LANDS, AND ITS EVIDENCE DIES WITH IT.**
+
+★★ **THE CONVENTION, AND IT COVERS EVERY FILE THE SEAT WRITES, NOT ONLY ITS LOGS.** Four lines in
+every seat prompt — the same four for a blind review seat, a fix seat and a hardening seat, and this
+section is where they live so no seat has to rediscover them:
+
+> * Your scratch directory is `<SESSION-SCRATCHPAD>/<seat-id>-<item>/`, spelled as the **absolute**
+>   path the system prompt gives — and **everything** you write outside the worktree goes there:
+>   logs, scripts, clones, diffs, intermediate data. **Nothing at the scratchpad root.**
+> * **Every filename inside it starts with your seat id** — `s55-preflight.log`, never `preflight.log`.
+> * Every command whose result you will quote ends with `; echo "EXIT=$?" >> <log>`, and every log
+>   you will quote opens with the stamp from
+>   `python3 research/autonomy/seat_scratch.py --stamp <seat-id> <worktree>`.
+> * **NAME the log paths in your final report.** The worktree is gone by then; the scratchpad is not.
+
+⛔ **THE SCRATCHPAD ROOT IS SHARED BY EVERY CONCURRENT SEAT AND BY THE DRIVER.** It is not a private
+directory that happens to be reused — it is one directory with N writers and no owner, so a generic
+name there is not a name at all. It is a lock every writer takes and nobody releases.
+⛔ **AND WRITE THE PATH ABSOLUTE, BECAUSE `scratchpad/` IS AMBIGUOUS IN THIS REPOSITORY AND RESOLVES
+THE WRONG WAY.** There is a **tracked, repo-relative `scratchpad/`** — 4 committed files, and a
+`.gitignore` rule (`scratchpad/lane10-*`) written to keep one lane's scratch out of the tree. So a
+seat told to write to `scratchpad/<seat>/` and sitting in its worktree creates the
+directory **inside the worktree**, which is precisely what the rule above forbids, and the evidence
+dies with the worktree exactly as if the rule had never been written. `.gitignore` already says the
+right home is *"the session scratchpad"*; say which one, in full, every time.
+
 ⚠ *Measured 2026-08-27 (AUT-PD-027), and it cost two wrong entries in the ledger.* Two seats
 independently hit a preflight reporting **50 failures that did not exist** — `50 failed, 7901
 passed` and `50 failed, 7933 passed`, `No module named 'pymbar'`. By the time the driver looked,
@@ -196,6 +219,36 @@ disproved only when someone finally made a worktree and looked. **A defect the d
 reproduce immediately becomes unfalsifiable, and unfalsifiable defects attract guesses.**
 ⭐ *One seat did this unprompted — `scratchpad/aut015/aut015-devsetup-preflight3.log`, seat-unique
 and outside its tree — and its run is the only one of the three still auditable.*
+
+⚠ *Measured twice independently on 2026-08-28 (AUT-PD-055), and the rule as it then stood did not
+stop it — because it said **logs**, and the file that collided was a **script**.* A seat's
+`scratchpad/mutate.py` was overwritten by a sibling's. Its next run executed the sibling's file and
+reported **`4 caught / 4` against a module in ANOTHER WORKTREE**, in a log that read exactly like a
+clean run of its own: nothing failed, nothing was empty, and it was caught only because a human
+noticed the module name was wrong. ⛔ **A mutation verdict fabricated in substance and finished in
+appearance** — CLAUDE.md §4's *"a plausible-looking record is more dangerous than an empty one"*,
+with a verdict attached. **Two seats hitting it independently makes it a container property, not
+bad luck.**
+
+⭐ **AND THE CONVENTION IS NOW MEASURED, BECAUSE THE SENTENCE ABOVE IT HAD ALREADY DECAYED ONCE.**
+[`research/autonomy/seat_scratch.py`](../../../research/autonomy/seat_scratch.py) reads the two
+halves of that incident, and they fail differently:
+`--audit-root <scratchpad>` reports every regular file at the shared root — the path two writers can
+both take — and every file inside a seat directory that does not carry its owner's id;
+`--verify-log <log>` reads the log's own `SEAT=`/`WORKTREE=` stamp back against the absolute paths
+the log names, and reports one belonging to a sibling's tree. **A log with no stamp is `UNSTAMPED`,
+never `OK`** (§4: an absent reading is not a reading of absence). Its logic is asserted by
+`research/autonomy/tests/test_a_seats_log_is_provably_its_own.py`, which gate 13 runs on every
+commit; **its header names the four things it cannot see**, and a green audit is not proof a result
+is the seat's own.
+⛔ **It is NOT wired into `preflight.sh`, and must not be.** Preflight is offline, deterministic and
+scoped to the tree; the scratchpad is per-session state no commit contains, so a gate reading it
+would go red or green on facts the repository does not hold. **A seat runs it before it reports; a
+driver runs it before it believes a seat.**
+⚠ *Run against the live root the day it was written it returned four findings, and every one was the
+DRIVER's:* `ci-main.log`, `mainsha.txt`, `prio.log` and `s0-ci-main-110a337.log`, all at the shared
+root. **The driver is a writer like any other**, and three of those four are names any cycle reaches
+for.
 ★ **AND A LOG WITH NO EXPLICIT EXIT MARKER IS NOT A RESULT.** The same day, a seat's monitor timed
 out watching a preflight the seat had deliberately killed; that log never received its `EXIT=`
 line, and the seat correctly reported nothing from it rather than quoting the tail. A truncated log
