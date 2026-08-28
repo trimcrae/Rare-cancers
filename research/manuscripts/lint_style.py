@@ -148,6 +148,216 @@ TARGETS = [
 # once so a reader meeting it in history can resolve it.
 _NOT_YET_A_SUBMISSION_TEXT_IN_REGISTER = "research/manuscripts/aso/fusion-junction-aso-working-record.md"
 
+# ⛔⛔ THE 18 PUBLICATION ENDPOINTS `TARGETS` DOES NOT REACH, AND WHY EACH ONE IS OUT (2026-08-28,
+# AUT-PD-141). `TARGETS` above is this repository's ONE HOME for "is this a submission text", and
+# `lint_readability._targets` imports it so the pair cannot drift. Both then read a list somebody
+# typed. `systems/graph/publications.json` is the source of truth for what a publication endpoint
+# IS, and until this constant existed the two sets had never been compared: 25 graph endpoints
+# resolve to a `.md` on disk and 7 of them are in `TARGETS`, so 18 live endpoints sat outside the
+# register screen, outside the readability screen and outside `readability-baseline.json` — with
+# nothing anywhere recording that as a decision rather than an oversight.
+#
+# ⭐ THE CONSEQUENCE REACHES THE PUBLISH BAR, WHICH IS WHY THIS IS A RECORD AND NOT A COMMENT.
+# `publish_bar.clause_7_readable_enough_to_review` measures the outgoing document directly, so its
+# SENTENCE-CEILING half fires for any endpoint. Its CAUTION-FLOOR half — the one
+# `lint_readability`'s docstring calls the failure mode that matters, a paper buying readability by
+# dropping a hedge — reads `readability-baseline.json`, which is written from `TARGETS`. For an
+# endpoint absent from `TARGETS` that lookup returns None and the clause returns PASS reading
+# "(no baseline pinned)": a clause that cannot fail, reported as passing, in the file whose own
+# docstring says an unreadable artifact is a FAILED clause and never a skipped one.
+#
+# ⛔ AND THE FIX IS NOT "ADD THE PATHS", WHICH WAS MEASURED BEFORE IT WAS REJECTED. `lint_file` over
+# these 18 returns 2795 findings in 0.59 s — 1170 from the 43,680-word degrader paper alone —
+# because several are internal program documents whose callout glyphs are CORRECT for their reader.
+# A blanket add reddens the commit loop on documents nobody is submitting, and a gate that reds on
+# true input is the gate somebody loosens.
+#
+# ★★ SO EVERY ROW BELOW IS A DECISION SOMEBODY HAD TO TAKE, AND SILENCE FAILS.
+# `tests/test_every_publication_endpoint_is_style_screened_or_recorded.py` asserts that every graph
+# endpoint resolving to a `.md` is in `TARGETS` or here, and that nothing is in both. Two decisions
+# exist, and they are not the same kind of thing:
+#
+#   `not_a_submission_text` — the graph's own `target_venue` says the document is aimed at no
+#       outside reader. That basis is not this file's opinion:
+#       `emc-icdo-9231-classification.md` was REMOVED from `TARGETS` on 2026-08-23 when trimcrae
+#       closed it as "not a paper" (the comment inside the list above records it), and the venue
+#       the graph gives it is `internal_note`. The guard re-reads `venue_when_decided` against the
+#       graph on every run, so a document re-aimed at a preprint reopens its own exemption without
+#       anyone having to remember it.
+#
+#   `unscreened_debt` — the document IS aimed outward (`preprint` or `journal_submission`) and this
+#       screen has never read it. That is a recorded DEFECT, and it is written here in those words
+#       so it cannot be read as an exemption. `findings_when_filed` pins what `lint_file` measured
+#       on 2026-08-28 at origin/main 170314393; the guard re-measures and fails if a count RISES,
+#       so a document may not get worse while it waits, and fails if a count reaches 0, because a
+#       document that could be screened and is not is this defect again. It is the contract
+#       `submission-residue-baseline.json` already records: the count is meant to fall.
+#       ⛔ A DEBT ROW IS NOT PERMISSION TO POST. Clause 7's caution half stays inert for that paper
+#       until the document enters `TARGETS` and `--write-baseline` re-pins the baseline.
+#
+# ⛔ THIS CONSTANT IS A RECORD, NOT AN INPUT TO THE LINTER — the same shape as
+# `_NOT_YET_A_SUBMISSION_TEXT_IN_REGISTER` above and for the same reason: a reader deciding whether
+# to add a path to `TARGETS` must meet the reasoning in the file where they are making the edit.
+UNSCREENED_ENDPOINT_DECISIONS = {
+    # ── decided: the graph aims these at no outside reader ────────────────────────────────────
+    "research/manuscripts/care-delivery/emc-icdo-9231-classification.md": {
+        "decision": "not_a_submission_text",
+        "venue_when_decided": "internal_note",
+        "why": "Removed from TARGETS on 2026-08-23 when trimcrae closed it as 'not a paper', and "
+               "the graph agrees at target_venue internal_note. Its single finding is one glyph, "
+               "so it is out on GENRE and not on cost. This row is that removal written where a "
+               "guard can read it instead of only in a comment above the list.",
+    },
+    "research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md": {
+        "decision": "not_a_submission_text",
+        "venue_when_decided": "internal_note",
+        "why": "The route record for the monovalent pocket line, aimed at no outside reader "
+               "(target_venue internal_note). Its reader is a maintainer deciding whether to "
+               "reopen the route, and its 57 glyphs and 10 sentence-shaped headings are that job "
+               "done correctly. Holding it to journal register would strip the emphasis off the "
+               "verdicts the document exists to carry.",
+    },
+    "research/manuscripts/dependency/degrader-vs-synthetic-lethal.md": {
+        "decision": "not_a_submission_text",
+        "venue_when_decided": "internal_note",
+        "why": "A route-comparison memo for this program's own sequencing decisions, aimed at no "
+               "outside reader (target_venue internal_note). It reports which of two routes to "
+               "spend on rather than a result to a journal reader, and its 40 mid-sentence bolds "
+               "are the comparison's load-bearing clauses.",
+    },
+    # ── recorded debt: aimed outward, never screened ──────────────────────────────────────────
+    "research/manuscripts/degrader/nr4a3-degrader-paper.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "journal_submission",
+        "findings_when_filed": 1170,
+        "why": "The largest register debt here: 43,680 words aimed at a journal, 1042 of the "
+               "findings mid-sentence bold and 92 glyphs. Clearing it is a rewrite, not a pass, "
+               "and the ASO line's precedent says the answer is probably a SPLIT — a journal "
+               "argument and a working record cannot satisfy one audience without failing the "
+               "other.",
+    },
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "preprint",
+        "findings_when_filed": 287,
+        "why": "Aimed at a preprint and still in house register: 133 glyph findings and 25 "
+               "sentence-shaped headings over 9,004 words, at bold 41.9/1000 against a limit of "
+               "12. The collaborator package built from the same route IS in TARGETS and passes, "
+               "so the register is reachable for this material.",
+    },
+    "research/manuscripts/methods-record/degrader-methods-failure-record.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "journal_submission",
+        "findings_when_filed": 189,
+        "why": "A methods-failure record the graph aims at a journal. Its 75 glyphs and 18 "
+               "sentence-shaped headings are the house register a journal reader does not share; "
+               "the negative it reports is the reason to submit it, and the register is the "
+               "reason it cannot go as written.",
+    },
+    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "preprint",
+        "findings_when_filed": 188,
+        "why": "⛔ THE INSTANCE. This is the manuscript "
+               "test_the_census_reads_every_publication_endpoint.py records as a live publication "
+               "endpoint hardened by blind review seats while the claim census did not list it at "
+               "all. It was outside THIS screen and outside the readability baseline for the whole "
+               "of that hardening too — the same defect, in a second instrument, found separately "
+               "and two days later.",
+    },
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "journal_submission",
+        "findings_when_filed": 121,
+        "why": "13,903 words aimed at a journal submission, at 79 mid-sentence bolds, 25 glyphs "
+               "and 9 sentence-shaped headings. Large enough that a register pass is real work "
+               "and small enough that it is one document's work rather than a split.",
+    },
+    "research/manuscripts/program/emc-treatment-roadmap.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "journal_submission",
+        "findings_when_filed": 112,
+        "why": "The graph aims the treatment roadmap at a journal submission, and it is written as "
+               "a program document: em-dashes at 22.5/1000 against a limit of 6, 80 mid-sentence "
+               "bolds, 19 glyphs. ⚠ Whether this is a paper AT ALL is the prior question — if the "
+               "answer is no, the honest edit is the graph's venue, not this row.",
+    },
+    "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "preprint",
+        "findings_when_filed": 107,
+        "why": "Aimed at a preprint, 4,713 words, and never read by this gate: 64 mid-sentence "
+               "bolds, 38 glyphs and 2 emphasis fragments. Its sibling in the same directory, "
+               "emc-vaccine-development-path.md, was written TO this gate from the start and "
+               "passes, which is the measured precedent for what a pass costs here.",
+    },
+    "research/manuscripts/methods-record/closed-routes-negative-record.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "preprint",
+        "findings_when_filed": 95,
+        "why": "A negative record aimed at a preprint, at 33 glyphs and 14 sentence-shaped "
+               "headings over 5,872 words. A negative is the class of paper whose value depends "
+               "most on not reading as advocacy, which is exactly what this gate checks.",
+    },
+    "research/manuscripts/neoantigen/hla-coverage-emc.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "preprint",
+        "findings_when_filed": 81,
+        "why": "3,093 words aimed at a preprint, at bold 30.7/1000 against a limit of 12, with 63 "
+               "mid-sentence bolds and 3 emphasis fragments. Small enough to clear in one pass.",
+    },
+    "research/manuscripts/degrader/fusion-selective-andgate-degrader-paper.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "preprint",
+        "findings_when_filed": 72,
+        "why": "4,099 words aimed at a preprint, at 58 mid-sentence bolds, 9 glyphs and 3 banned "
+               "phrases, with em-dashes at 15.4/1000 against a limit of 6. Its claim is that a "
+               "design cannot be built for a stated reason, so the register matters: house "
+               "emphasis on a negative reads as advocacy.",
+    },
+    "research/manuscripts/tcip/tcip-induced-interface-preprint.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "preprint",
+        "findings_when_filed": 54,
+        "why": "Names itself a preprint in its own filename and is aimed at one in the graph, and "
+               "has never been screened: 43 mid-sentence bolds and 4 sentence-shaped headings "
+               "over 2,394 words. The smallest outward-aimed document here after the two below.",
+    },
+    "research/manuscripts/modality-census/cancer-modality-census.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "preprint",
+        "findings_when_filed": 49,
+        "why": "3,651 words aimed at a preprint, and unusually glyph-dominated for its size: 31 "
+               "of the 49 findings are decorative glyphs, against only 10 mid-sentence bolds. A "
+               "glyph-dominated profile is the cheapest kind of debt to clear.",
+    },
+    "research/manuscripts/dependency/emc-biomarker-selected-classes.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "preprint",
+        "findings_when_filed": 36,
+        "why": "1,806 words aimed at a preprint, at 19 glyphs, 11 mid-sentence bolds and 4 "
+               "sentence-shaped headings. Short, and dominated by findings that are mechanical "
+               "rather than structural.",
+    },
+    "research/manuscripts/care-delivery/emc-trial-reachability.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "preprint",
+        "findings_when_filed": 33,
+        "why": "1,718 words aimed at a preprint, at bold 31.4/1000 against a limit of 12, with 14 "
+               "glyphs and 6 sentence-shaped headings. A care-delivery paper whose reader is a "
+               "clinician, which is the audience the house register serves worst.",
+    },
+    "research/manuscripts/dependency/emc-transcriptional-proteostatic-dependency.md": {
+        "decision": "unscreened_debt",
+        "venue_when_decided": "preprint",
+        "findings_when_filed": 27,
+        "why": "The cheapest debt on this list: 27 findings over 1,437 words, aimed at a preprint. "
+               "11 glyphs, 10 mid-sentence bolds and 3 sentence-shaped headings, with no banned "
+               "phrase beyond one. Clearing this one first is what proves the pass is a pass.",
+    },
+}
+
+
 # Densities are per 1000 words. They are deliberately generous: the aim is to catch prose that
 # leans on a device, not to ban the device. A paper that trips one of these is not using emphasis,
 # it is using emphasis instead of sentence structure.
