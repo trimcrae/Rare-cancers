@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-"""LOOP HEALTH AS A COMMITTED FILE — the ten conditions of
-`research/manuscripts/program/emc-autonomy-architecture.md` §5.2, in the `alarm-state.json` idiom.
+"""LOOP HEALTH AS A COMMITTED FILE — the eleven conditions of
+`research/manuscripts/program/emc-autonomy-architecture.md` §5.2 (plus `stalls_are_named`, ADDED
+2026-08-28 for AUT-PROP-029 and not yet in that table — see CONDITION_ORDER), in the
+`alarm-state.json` idiom.
 
 ★★ WHY THIS EXISTS. §5.1 already covers ARTIFACT correctness — every gate in `./scripts/preflight.sh`
 checks whether what the loop wrote is true. Nothing checks whether the LOOP IS WORKING. Those are
@@ -71,18 +73,27 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # `receipt.get("handoff", {}).get("child_session_id")` inline -- the name AND the traversal spelled
 # a second time, agreed with `handoff.py` only by never being touched. `handoff.py` owns both sides
 # of that read now (`CHILD_ID_FIELD` and `child_session_id_of`); this file calls the function.
+# ⛔ `stuck_clock` IS IMPORTED TOO, AND ONLY FOR ITS ONE CONSTANT (`TERMINAL_STATE`) — NEVER FOR ITS
+# FUNCTIONS (AUT-PROP-029, wiring it in). Importing a module only executes its top-level definitions;
+# every one of stuck_clock's `git` calls lives inside a function body and none is invoked here, so
+# this stays true to "no subprocess" below. What it buys is "one fact, one place" for the string
+# `"stalled_needs_human"` — the same reason `receipt_schema.ROUTE_ADVANCED_KEY` is imported rather
+# than retyped, and the same class of drift AUT-PD-013 found when a name agreed only in prose moved.
 sys.path.insert(0, HERE)
 import receipt_schema  # noqa: E402
 import handoff  # noqa: E402
+import stuck_clock  # noqa: E402
 DEFAULT_LEDGER = os.path.join(HERE, "research-ledger.json")
 DEFAULT_STATE = os.path.join(HERE, "autonomy-state.json")
 DEFAULT_RECEIPTS = os.path.join(HERE, "receipts")
 DEFAULT_HEALTH = os.path.join(HERE, "health.json")
 DEFAULT_AUTHORITY = os.path.join(HERE, "publication-authority.json")
 
-#: The TEN §5.2 conditions, in the order the architecture table lists them. Renaming or dropping one
-#: is a "free, but DECLARED" edit under §10.4 — it changes what "doing well" MEANS — so it goes in the
-#: amendment log, never silently.
+#: The TEN §5.2 conditions, in the order the architecture table lists them, PLUS `stalls_are_named`
+#: (AUT-PROP-029, ADDED 2026-08-28, not yet in that table — the same shape `queue_is_takeable`,
+#: `cycles_are_sized` and `fanout_is_governed` arrived through). Renaming or dropping one is a "free,
+#: but DECLARED" edit under §10.4 — it changes what "doing well" MEANS — so it goes in the amendment
+#: log, never silently.
 CONDITION_ORDER = (
     "cycle_delivering",
     "advancing_live_work",
@@ -94,6 +105,7 @@ CONDITION_ORDER = (
     "budget_recovering",
     "gates_green",
     "authority_respected",
+    "stalls_are_named",
 )
 
 #: ⛔⛔ WHAT A RED MEANS FOR THE LOOP — THE CONTRACT THAT WAS IMPLIED, NEVER STATED, AND BROKEN THE
@@ -166,6 +178,24 @@ CONDITION_ON_RED = {
     # ⛔ THE ONE GENUINE STOP. An outward act with no grant behind it is the permission this loop may
     # never self-issue (§6.3), and another cycle could compound it. This is what "blocks" is for.
     "authority_respected": "blocks",
+    # ⛔⛔ ALSO "advises", AND ARGUED RATHER THAN ASSUMED (AUT-PROP-029). stuck_clock's terminal
+    # verdict means exactly one thing: automation retried this SPECIFIC row for
+    # `stuck_clock.STUCK_AFTER_CYCLES` cycles and NOTHING it did advanced it — the row was claimed,
+    # abandoned, re-queued and re-claimed while looking maximally alive. "redirects" would tell the
+    # SAME automation to try harder THIS cycle, which is precisely the busy-retry loop the module
+    # exists to unmask, rebuilt one level up. It is not a well-defined mechanical fix the way
+    # `blocks_are_real` (add the missing $0 observation) or `queue_is_takeable` (release a stale
+    # claim) are — stuck_clock's own docstring names three genuinely different human answers
+    # (re-scope it, hand it to a different route, or close it), and choosing among them is exactly
+    # the judgement call automation already failed to make across every one of those cycles. Nor can
+    # it ever be "blocks": another cycle continuing does not compound harm on THIS row the way an
+    # ungranted outward act does, and every OTHER row in the queue is untouched by it. So it is
+    # retrospective in the sense `cycles_are_sized`/`fanout_is_governed` are, but its recovery is not
+    # RECEIPT_WINDOW's: the verdict is a LIVE property of the ledger's CURRENT state (the moment any
+    # row advances — a real `what`/`blocked_evidence`/`state` resolution — stuck_clock recomputes
+    # `stuck_at` from that advance and the row falls out of `terminal_rows()` on its own run), never
+    # an ever-growing window of immutable history, so it needs no windowing against latching.
+    "stalls_are_named": "advises",
 }
 
 #: §5.2 thresholds. Each is the doc's number, in one place, named after the row it governs.
@@ -971,6 +1001,78 @@ def c_authority_respected(receipts, authority, authority_err):
                   f"publication-authority.json.", payload)
 
 
+def c_stalls_are_named(stall, stall_err):
+    """Red when `stuck_clock.py` reports a ledger row `stalled_needs_human` — AUT-PROP-029, wired in.
+
+    ⛔⛔ THE GAP THIS CLOSES. `research/autonomy/stuck_clock.py` derives two independent clocks per
+    OPEN ledger row from git history — `updated_at` (any write) and `stuck_at` (only a change that
+    advances what is KNOWN about the work) — and declares a row `stalled_needs_human` once it has been
+    touched, claimed, retried and re-claimed for `stuck_clock.STUCK_AFTER_CYCLES` cycles with the
+    advance clock never moving. It was fully built and fully tested (40 tests,
+    `research/autonomy/tests/test_stuck_clock_a_retry_is_not_an_advance.py`) and NOTHING called it: no
+    board condition read it, `priority.py`/`handoff.py` did not exclude a terminal row from ready work,
+    and no scheduled job ran `--check`. A row could compute as terminal today and the only way anyone
+    would ever see that is running the CLI by hand — an unrun guard, the exact shape `AUT-PD-018`
+    already cost this repository once ("an unrun ranker is not a ranker").
+
+    ⛔⛔ THIS MODULE CANNOT MEASURE IT ITSELF, FOR THE SAME REASON AS `gates_green`. stuck_clock's two
+    clocks are derived by shelling out to `git log --follow` / `git show` on every committed version of
+    the ledger, and this file is stdlib-only with NO SUBPROCESS BY DESIGN — it has to keep working when
+    everything else has stopped, which is the only condition under which anyone actually opens it. So,
+    exactly like the trunk's gate colour, the verdict is supplied as a FILE by a caller that CAN shell
+    out: `python3 research/autonomy/stuck_clock.py --check --json > <path>`, run once a tick by
+    `autonomy-tick.yml` on a FULL clone (`fetch-depth: 0`) — where stuck_clock's own shallow-clone
+    censoring never even triggers, unlike in a dev sandbox's shallow worktree. Absent file, absent
+    reading: `unmeasured`, never green — the same asymmetry `gates_green` already established, and for
+    the identical reason: a guessed "probably nothing is stuck" is worse than admitting nobody looked.
+
+    ⛔ ON_RED CLASSIFICATION: see the long comment beside `CONDITION_ON_RED["stalls_are_named"]` — it
+    is `advises`, never `redirects` (the row is not a mechanical fix a cycle can perform) and never
+    `blocks` (no other row is put at risk by the loop continuing).
+
+    ⚠ THIS DOES NOT EXCLUDE A TERMINAL ROW FROM ANY READY-WORK TABLE. That is a SEPARATE decision,
+    made in `handoff.py`'s `top_items()` (which now reads `stuck_clock.terminal_rows()` directly and
+    fails OPEN — see its own docstring), so a computed verdict is never re-derived a second way in a
+    second module (CLAUDE.md §1) and this board stays a PULL-only reporting surface.
+    """
+    key = "stalls_are_named"
+    label = "has any row gone `stalled_needs_human` — automation stopped trying and it needs a human?"
+    source = "stuck_clock.py --check --json (git history of research-ledger.json), via --stall-verdict"
+    if not isinstance(stall, dict):
+        return _unmeasured(key, label, source, "NO-STALL-VERDICT",
+                           f"{stall_err or 'no stall verdict was supplied'}. This checker has no "
+                           f"subprocess by design, so it cannot walk git history itself. Settle it: "
+                           f"`python3 research/autonomy/stuck_clock.py --check --json > <path>` and "
+                           f"pass it with --stall-verdict.")
+    rows = stall.get("rows")
+    if not isinstance(rows, list):
+        return _unmeasured(key, label, source, "STALL-VERDICT-UNREADABLE",
+                           "the stall verdict carries no readable `rows` list, so no row can be "
+                           "judged.", {"raw_keys": sorted(stall.keys())})
+    terminal_state = stall.get("terminal_state") or stuck_clock.TERMINAL_STATE
+    terminal = [r for r in rows if isinstance(r, dict) and r.get("terminal")]
+    shallow_note = (" ⚠ the clone was SHALLOW when this verdict was taken, so a censored row below "
+                    "threshold is not yet decidable — absent from this list is not the same as clear"
+                    if stall.get("shallow_clone") else "")
+    payload = {
+        "open_rows": len(rows),
+        "terminal_ids": [r.get("id") for r in terminal] or None,
+        "shallow_clone": stall.get("shallow_clone"),
+        "history_horizon_utc": stall.get("history_horizon_utc"),
+    }
+    if terminal:
+        names = ", ".join(f"{r.get('id')} (since {(r.get('terminal') or {}).get('since_utc')})"
+                          for r in terminal)
+        return _red(key, label, source, "STALLED-ROWS",
+                    f"{len(terminal)} row(s) are `{terminal_state}`: {names}. Each is a human "
+                    f"decision — re-scope it, hand it to a different route, or close it — not queued "
+                    f"work for a cycle to keep retrying (stuck_clock.py: 'automation has stopped "
+                    f"trying')." + shallow_note, payload)
+    return _green(key, label, source, "NO-STALLED-ROWS",
+                  f"the verdict was read and no open row is `{terminal_state}`." + shallow_note,
+                  payload)
+
+
 # ═════════════════════════════════════════════════════════════════════ merge with the committed board
 def merge(previous, conditions, now):
     """Carry each condition's history forward. State lives IN the artifact — there is no side store.
@@ -1036,14 +1138,17 @@ def commit_worthy(previous, board, interval_h, now):
 
 
 def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=DEFAULT_RECEIPTS,
-          authority_path=DEFAULT_AUTHORITY, gates_path=None, health_path=DEFAULT_HEALTH, now=None,
-          previous=None):
+          authority_path=DEFAULT_AUTHORITY, gates_path=None, stall_path=None,
+          health_path=DEFAULT_HEALTH, now=None, previous=None):
     """The whole board. Pure function of the files it is pointed at plus `now` — no hidden inputs."""
     now = now or datetime.datetime.now(datetime.timezone.utc)
     ledger, ledger_err = _read_json(ledger_path)
     state, state_err = _read_json(state_path)
     authority, authority_err = _read_json(authority_path)
     gates, gates_err = (_read_json(gates_path) if gates_path else (None, None))
+    # ⚠ SAME SHAPE AS `gates_path` ABOVE, FOR THE SAME REASON: this module has no subprocess, so a
+    # verdict that requires one (stuck_clock's git walk) is a FILE this function only reads.
+    stall, stall_err = (_read_json(stall_path) if stall_path else (None, None))
     receipts, unreadable = load_receipts(receipts_dir)
     entries = ledger.get("entries") if isinstance(ledger, dict) else None
     if entries is not None and not isinstance(entries, list):
@@ -1063,6 +1168,7 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
         c_budget_recovering(state, state_err, now),
         c_gates_green(gates, gates_err, now),
         c_authority_respected(receipts, authority, authority_err),
+        c_stalls_are_named(stall, stall_err),
     ]
     if previous is None:
         previous, _ = _read_json(health_path)
@@ -1080,7 +1186,8 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
     attention = [c["key"] for c in conditions if c["needs_attention"]]
     unmeasured_keys = [c["key"] for c in conditions if c["unmeasured"]]
     board = {
-        "_what": "THE AUTONOMY LOOP'S HEALTH BOARD, AS A FILE. The ten §5.2 conditions, when each was "
+        "_what": "THE AUTONOMY LOOP'S HEALTH BOARD, AS A FILE. The CONDITION_ORDER conditions (see "
+                 "that constant for the current count and any DECLARED additions), when each was "
                  "measured, how long it has been that way, and when this file should be considered "
                  "dead. Written by research/autonomy/health.py.",
         "_read_this_when": "you want to know whether the unattended research loop is WORKING — not "
@@ -1182,6 +1289,9 @@ def main(argv=None) -> int:
     ap.add_argument("--gates-verdict", default=None,
                     help="JSON written by the caller that CAN read Actions; absent = gates_green is "
                          "unmeasured, never green")
+    ap.add_argument("--stall-verdict", default=None,
+                    help="JSON from `stuck_clock.py --check --json`, written by a caller that CAN "
+                         "shell out to git; absent = stalls_are_named is unmeasured, never green")
     ap.add_argument("--health", default=DEFAULT_HEALTH, help="the committed board; read for history")
     ap.add_argument("--write", action="store_true", help="persist the board (otherwise print only)")
     ap.add_argument("--commit-worthy", action="store_true",
@@ -1198,7 +1308,8 @@ def main(argv=None) -> int:
 
     now = datetime.datetime.now(datetime.timezone.utc)
     board = build(ledger_path=a.ledger, state_path=a.state, receipts_dir=a.receipts,
-                  authority_path=a.authority, gates_path=a.gates_verdict, health_path=a.health, now=now)
+                  authority_path=a.authority, gates_path=a.gates_verdict, stall_path=a.stall_verdict,
+                  health_path=a.health, now=now)
     print(render(board, now))
     if a.write:
         with open(a.health, "w", encoding="utf-8") as fh:
