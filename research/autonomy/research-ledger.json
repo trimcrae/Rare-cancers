@@ -14,7 +14,7 @@
     "harden": 21,
     "negative": 32,
     "process": 7,
-    "process_defect": 111,
+    "process_defect": 114,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 101,
-    "in_progress": 5,
+    "done": 103,
+    "in_progress": 1,
     "parked": 28,
-    "queued": 126,
+    "queued": 131,
     "ready": 1,
     "superseded": 1
   },
@@ -2387,15 +2387,15 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "SEAT-s2-1f1a2449",
-      "claimed_utc": "2026-08-28T20:34:34Z",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 138.0,
@@ -2413,7 +2413,8 @@
       ],
       "score_inputs": {
         "fruitless_attempts": 1
-      }
+      },
+      "evidence": "WORKED BY SEAT s2 (CYC-0066-1f1a2449 fan-out). Branch `aut-pd-058-deepen-ledger-history` @ 4a56de2f, rebased on origin/main, pushed, NOT MERGED. FINDING, and it narrows the row: the censoring is SESSION-PATH ONLY and CI was never affected — autonomy-tick.yml checks out at fetch-depth 0, and run 33200659155's log shows stalls_are_named = STALLED-ROWS naming real rows with 0 UNMEASURED. Measured three ways: shallow session horizon 3.2 h, 142/161 rows censored, 0 terminal; after the deepen 53.4 h, 47/160, 3 terminal; full clone 53.4 h, 0/161, 3 terminal — the deepen reproduces the full clone's terminal set exactly. ⛔ NOT COSMETIC: handoff.py::terminal_ids() reads the clock live and fails open, so in a shallow session `handoff.py --json` hands AUT-010 (score 190.9, the top row) to the successor as ready work, while the same call in a full clone prints EXCLUDED as stalled_needs_human for AUT-010, AUT-049 and AUT-PROP-019. The loop has been re-handing stalled rows to successors. Cost of the remedy: --unshallow is 1.5 GB / 80 s; the windowed deepen is +16 MB / 5-37 s and a repeat that finds nothing is 3-9 s. stuck_clock is one of THREE readers of that history (learning_rate 16 h, out_of_ideas 336 h), so the window is sized off the largest, each read from its own home. 8 new guards, mutation-tested 10/10, two guard defects found BY the mutation run and fixed; preflight EXIT=0. STILL OPEN: the live sandbox clone is still shallow (one additive `./scripts/dev-setup.sh` fixes it); out_of_ideas cannot be satisfied until the ledger is 14 days old (created 2026-08-26) and correctly returns unmeasurable meanwhile; out_of_ideas.py:531,620 still print `git fetch --unshallow` as their remedy with a test pinned on the word."
     },
     {
       "id": "AUT-071",
@@ -2480,6 +2481,44 @@
       "_requires_trimcrae_why": "a coordination tool; nothing published or deposited"
     },
     {
+      "id": "AUT-PD-031",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
+      "score": 132.2,
+      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
+      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited",
+      "score_inputs": {
+        "fruitless_attempts": 0
+      },
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:34:34Z",
+          "fingerprint_at_dispatch": "2026-08-27|None"
+        }
+      ],
+      "evidence": "WORKED BY SEAT s3 (CYC-0066-1f1a2449 fan-out). Branch `s3/aut-pd-031-line-citations-enumerate-carriers` @ 429241264f, rebased on origin/main, pushed, NOT MERGED. ⛔ THE ROW STAYS OPEN AND THE SEAT ARGUES WHY: its deliverable research/modalities/instrument-census.json existed and was in sync, and the defect was still fully live — an artifact on the trunk is not a finished item. Reproduced end to end: insert one blank line in nr4a3-degrader-paper.md, `line_citations.py --fix` prints 'rewrote 18 citation(s)', EXITS 0, and instrument_census.py --check immediately goes red. The fixer scanned 1 of the 19 tracked files carrying the syntax (466 occurrences). Second half, unguarded in the commit loop: `instrument_census.py --check` existed and NOTHING in preflight.sh ran it — its only enforcement was the opt-in modalities suite, which is why the original incident surfaced three commits late; now added to the generated-artifact loop at a measured 0.032 s. ⭐ THE FIX NAMES RATHER THAN REPAIRS, DELIBERATELY, and the decisive reason is measured not argued: the resolver is context-dependent, and for `:2140-2142` the roadmap's context yields a different quote than the census's because the census table has a column the roadmap does not — one ordinary edit and a 'repair' silently repoints a citation at a sentence it does not quote. Also, the largest hand-written carrier (program/map-audit-strategy.md, 131 citations) pins its line numbers to commit f67d0781 in its own header, and a fixer cannot tell a pinned reference from a rotted one. 10 tests, mutation-tested 9/9 with two earlier survivors fixed as real test defects; preflight EXIT=0 at PREFLIGHT_TESTS=1, 1467 passed. STILL OPEN: the tool now NAMES 16 hand-written carriers and CHECKS none — that surface is unmeasured rather than measured-clean, and deciding which are pinned-by-design is a reading job nobody has done."
+    },
+    {
       "id": "AUT-PD-050",
       "kind": "process_defect",
       "process_defect": true,
@@ -2488,15 +2527,15 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "SEAT-s1-1f1a2449",
-      "claimed_utc": "2026-08-28T20:34:34Z",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 132.0,
@@ -2514,7 +2553,8 @@
       ],
       "score_inputs": {
         "fruitless_attempts": 1
-      }
+      },
+      "evidence": "WORKED BY SEAT s1 (CYC-0066-1f1a2449 fan-out). Branch `s1-aut-pd-050-unscored-rows` @ d082c01a78, rebased on origin/main, pushed, NOT MERGED — the row stays queued because a branch is not the trunk. FINDING: the row's '24 unscored' was stale by 4x. 99 of 263 committed rows carry no `score`, ALL of them hand-filed, and the seat read every one of the 32 ledger commits in the observable history: 24 rows filed in that window, 24 of 24 unscored, and no pre-existing unscored row has ever acquired one, so the population is monotone. build_ledger sorts a missing score at -1e9, so they occupy the bottom ranks ordered by ID STRING; 75 of the 98 rows continuity.ready() offers were unscored. The anti-starvation term is dead code against them — apply_age_factor computes an age factor, writes it into score_inputs and cannot apply it, so the row advertises an input its score does not contain. Two live crashes on `priority.py --limit 300` and `continuity.py --limit 30` (TypeError on NoneType.__format__), reachable only past the default limits. `admissibility.UNSCORED` existed and was referenced in no file but its own. Fix: 6 files, 12 tests, mutation-tested 15/15 including the one edit that would make it self-serving; 2 amendments declared, guard PERMITTED; preflight EXIT=0. ⛔⛔ BLAST RADIUS — READ BEFORE MERGING, AND THIS IS WHY THE DRIVER DID NOT MERGE IT. The branch adds a ratchet MAX_UNSCORED_OPEN = 80 against 78-79 open unscored rows, i.e. one or two of headroom, while three concurrent sessions file roughly one unscored row every eight minutes. Merged as-is it will turn preflight red on the trunk within about an hour, for whichever session files next, on a gate it did not cause and whose remedy is not in its prompt — and research-loop §1 makes that red stop every cycle. ⛔ The ceiling must NOT simply be raised to fit: the seat's own mutation M9 (80 -> 200) is caught by test_the_ratchet_is_not_vacuous, which is the guard working. The real options are to score the open rows first, to land the crash fixes and the reporting without the ratchet, or to teach the filing path to write a score — a decision with a cost either way, which is why it is named here rather than taken quietly at the end of a session already past its cycle cap."
     },
     {
       "id": "AUT-PD-022",
@@ -2640,44 +2680,6 @@
       }
     },
     {
-      "id": "AUT-PD-031",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "SEAT-s3-1f1a2449",
-      "claimed_utc": "2026-08-28T20:34:34Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
-      "score": 125.1,
-      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
-      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited",
-      "score_inputs": {
-        "age_factor": 0.0714,
-        "fruitless_attempts": 1
-      },
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T20:34:34Z",
-          "fingerprint_at_dispatch": "2026-08-27|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-028",
       "kind": "process_defect",
       "process_defect": true,
@@ -2753,6 +2755,74 @@
       "_score_basis": "the instance cost one permanently-unmeasurable governance row on the dial the architecture calls the most important; the class is every other row like it",
       "depends_on_evidence": "research/autonomy/receipt_schema.py and its 21-test suite — the worked instance",
       "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-132",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "CYC-0070-c84c64dd",
+      "claimed_utc": "2026-08-28T21:19:12Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0069-c84c64dd",
+      "score": 120.0,
+      "_score_basis": "the same 'absent reading read as a reading of absence' the ablation module was built to stop, sitting inside it, on 15 sentences across two papers including a pinned figure",
+      "depends_on_evidence": "sweep logs drv-sweep-aso-fixed.log (8 NOT-APPLIED of 62) and drv-sweep-fp.log (7 of 80), CYC-0069",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "instrument work on committed artifacts; nothing outward-facing",
+      "what": "⛔ A CENSUSED SENTENCE THE ABLATION HARNESS CANNOT PERTURB IS COUNTED AS COVERED AND MEASURED BY NOTHING, AND THE GATE IS SILENT ON IT BY CONSTRUCTION. Measured 2026-08-28 (CYC-0069) by sweeping every covered numbered sentence rather than the gate's sample of 6: 8 of 62 in the ASO journal article and 7 of 80 in emc-fusion-partner-stratification.md come back NOT-APPLIED with 'the censused sentence has no home in the raw file even allowing for line wrapping — the flattener and the file have diverged'. ⭐ ONE OF THEM IS A PINNED FIGURE: 'Discounted by the breakpoint distribution of an 18-case series, the two junctions account for 68.4% of molecularly confirmed cases', credited to pin:aso_reagent_coverage_percent_journal. Others are the author line, the keywords line and a display-item sentence. ⛔ THE GATE ASSERTS ONLY THAT *SOMETHING* WAS APPLIED (`assert applied`), so 12-13% of each document's censused numbered claims are unfalsifiable while the row stays green, and a document could in principle reach ONE measurable sentence and pass. WHAT TO DO: fix claim_coverage.sentences()/the flattener so a censused sentence is always locatable in the raw file (the gate's own assertion message names this as the usual cause and says 'Fix the splitter, not this floor'), then re-run the two sweeps and confirm NOT-APPLIED goes to zero. ⚠ DO NOT convert these into ablation exemptions: an exemption records a sentence nothing CAN bind; this is the harness failing to edit the file, which is the fabrication mode test_the_ablation_harness_can_produce_a_red_at_all exists for.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T21:19:12Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
+    },
+    {
+      "id": "AUT-PD-133",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0069-c84c64dd",
+      "score": 120.0,
+      "_score_basis": "a wrong publication year is a citation-provenance defect, and CLAUDE.md §7 records that claim strength is orthogonal to citation provenance — lint_claims cannot see it either",
+      "depends_on_evidence": "drv-sweep-fp.log sentence 25 of 80; the perturbation list includes 2023->2027 with no red",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "instrument work on committed artifacts; nothing outward-facing",
+      "what": "⛔ CITATION YEARS IN THE FUSION-PARTNER SYNTHESIS ARE UNBOUND, AND ONE SENTENCE'S COVERAGE NOW RESTS ENTIRELY ON ITS §-REFERENCE. Measured 2026-08-28 (CYC-0069): perturbing 'Huang 2023' -> 'Huang 2027' in '**Neither found the partner to carry the prognosis.**' turned NO guard red. That sentence is no longer BLIND only because AUT-PD-105 bound its §-references in the same cycle, and the ablation harness stops at the first trip — so the gate is now green over an unwatched year. ⛔ THIS IS THE HONEST RESIDUAL OF THAT FIX AND IS FILED RATHER THAN LEFT FOR THE GATE'S SILENCE TO IMPLY COVERAGE. WHAT TO DO: bind author-year mentions in the prose to the reference list the way test_journal_references_match_the_prose.py does for the ASO article — the fusion-partner documents have no equivalent. Mutation-test with a year drift, not only a nonsense one.",
+      "dispatch_log": [],
+      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me."
     },
     {
       "serves": {
@@ -2831,6 +2901,32 @@
         "blocked_with_evidence": true,
         "age_factor": 0.0714
       }
+    },
+    {
+      "id": "AUT-PD-134",
+      "what": "⚠ `line_citations.py` SILENTLY CHECKS FEWER THAN HALF THE CITATIONS IN ITS OWN FILE, AND THE GUARD ON THE GUARD PERMITS IT TO ROT FURTHER. 24 of the roadmap's 42 quoted citations are UNRESOLVED. Two of the 24 are the LOOKBACK heuristic picking the WRONG quote — it grabs table-cell text containing another citation — and the other 22 look like genuine paraphrases, which is a different problem with a different remedy. The existing guard only requires >= 10 resolved, so the resolved count can keep falling without anything going red. ⛔ THE TWO HALVES MUST NOT BE FIXED AS ONE: a heuristic picking the wrong quote is a CORRECTNESS bug and a paraphrase that no longer matches is a STALENESS one, and a change that raises the resolved count by loosening the match would hide the first while appearing to fix the second. Establish which of the 22 are paraphrases and which are rot before touching the resolver, and raise the >= 10 floor to something derived rather than typed.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "score": 118.0,
+      "_score_basis": "Hand-filed at the level of its sibling instrument defects (AUT-PD-031 133.1, AUT-PD-028 123.1): same route, same free cost class, one step less load-bearing than the fixer defect it was found inside. Scored on filing rather than left null, because AUT-PD-050 measured that an unscored row is ordered by its id string and that the anti-starvation term cannot reach it.",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
+      "claimed_utc": null,
+      "evidence": "Measured 2026-08-28 by seat s3 while working AUT-PD-031, and filed rather than fixed because it is a different defect from the one that row names. Logs under the seat's scratch directory s3-AUT-PD-031/ (s3-inventory.log, s3-danger.log).",
+      "closes_clause": null
     },
     {
       "serves": {
@@ -3331,49 +3427,6 @@
       }
     },
     {
-      "id": "AUT-068",
-      "_derived": true,
-      "what": "Re-run the reach enumeration with the staged BCL6 arm and restate the result as named-effector rather than size-class. The staging is done; what is outstanding is the re-run and the document restatement.",
-      "serves": {
-        "route": "RT-TCIP",
-        "publication": "PUB-TCIP",
-        "strategy": "ST-PROXIMITY"
-      },
-      "kind": "negative",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-0069-8226e21b",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-06",
-      "score": 71.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": true,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "claimed_utc": "2026-08-28T21:05:15Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T21:05:15Z",
-          "fingerprint_at_dispatch": "2026-08-06|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-030",
       "kind": "process_defect",
       "process_defect": true,
@@ -3468,6 +3521,49 @@
         "fruitless_attempts": 0,
         "age_factor": 0.6429
       }
+    },
+    {
+      "id": "AUT-068",
+      "_derived": true,
+      "what": "Re-run the reach enumeration with the staged BCL6 arm and restate the result as named-effector rather than size-class. The staging is done; what is outstanding is the re-run and the document restatement.",
+      "serves": {
+        "route": "RT-TCIP",
+        "publication": "PUB-TCIP",
+        "strategy": "ST-PROXIMITY"
+      },
+      "kind": "negative",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "CYC-0069-8226e21b",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-06",
+      "score": 63.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": true,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0
+      },
+      "claimed_utc": "2026-08-28T21:05:15Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T21:05:15Z",
+          "fingerprint_at_dispatch": "2026-08-06|None"
+        }
+      ]
     },
     {
       "id": "AUT-043",
@@ -5838,7 +5934,8 @@
         }
       ],
       "score_inputs": {
-        "fruitless_attempts": 1
+        "fruitless_attempts": 1,
+        "blocked_with_evidence": true
       }
     },
     {
@@ -7781,71 +7878,6 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-132",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "CYC-0070-c84c64dd",
-      "claimed_utc": "2026-08-28T21:19:12Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0069-c84c64dd",
-      "score": 128.0,
-      "_score_basis": "the same 'absent reading read as a reading of absence' the ablation module was built to stop, sitting inside it, on 15 sentences across two papers including a pinned figure",
-      "depends_on_evidence": "sweep logs drv-sweep-aso-fixed.log (8 NOT-APPLIED of 62) and drv-sweep-fp.log (7 of 80), CYC-0069",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "instrument work on committed artifacts; nothing outward-facing",
-      "what": "⛔ A CENSUSED SENTENCE THE ABLATION HARNESS CANNOT PERTURB IS COUNTED AS COVERED AND MEASURED BY NOTHING, AND THE GATE IS SILENT ON IT BY CONSTRUCTION. Measured 2026-08-28 (CYC-0069) by sweeping every covered numbered sentence rather than the gate's sample of 6: 8 of 62 in the ASO journal article and 7 of 80 in emc-fusion-partner-stratification.md come back NOT-APPLIED with 'the censused sentence has no home in the raw file even allowing for line wrapping — the flattener and the file have diverged'. ⭐ ONE OF THEM IS A PINNED FIGURE: 'Discounted by the breakpoint distribution of an 18-case series, the two junctions account for 68.4% of molecularly confirmed cases', credited to pin:aso_reagent_coverage_percent_journal. Others are the author line, the keywords line and a display-item sentence. ⛔ THE GATE ASSERTS ONLY THAT *SOMETHING* WAS APPLIED (`assert applied`), so 12-13% of each document's censused numbered claims are unfalsifiable while the row stays green, and a document could in principle reach ONE measurable sentence and pass. WHAT TO DO: fix claim_coverage.sentences()/the flattener so a censused sentence is always locatable in the raw file (the gate's own assertion message names this as the usual cause and says 'Fix the splitter, not this floor'), then re-run the two sweeps and confirm NOT-APPLIED goes to zero. ⚠ DO NOT convert these into ablation exemptions: an exemption records a sentence nothing CAN bind; this is the harness failing to edit the file, which is the fabrication mode test_the_ablation_harness_can_produce_a_red_at_all exists for.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T21:19:12Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ],
-      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me."
-    },
-    {
-      "id": "AUT-PD-133",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0069-c84c64dd",
-      "score": 120.0,
-      "_score_basis": "a wrong publication year is a citation-provenance defect, and CLAUDE.md §7 records that claim strength is orthogonal to citation provenance — lint_claims cannot see it either",
-      "depends_on_evidence": "drv-sweep-fp.log sentence 25 of 80; the perturbation list includes 2023->2027 with no red",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "instrument work on committed artifacts; nothing outward-facing",
-      "what": "⛔ CITATION YEARS IN THE FUSION-PARTNER SYNTHESIS ARE UNBOUND, AND ONE SENTENCE'S COVERAGE NOW RESTS ENTIRELY ON ITS §-REFERENCE. Measured 2026-08-28 (CYC-0069): perturbing 'Huang 2023' -> 'Huang 2027' in '**Neither found the partner to carry the prognosis.**' turned NO guard red. That sentence is no longer BLIND only because AUT-PD-105 bound its §-references in the same cycle, and the ablation harness stops at the first trip — so the gate is now green over an unwatched year. ⛔ THIS IS THE HONEST RESIDUAL OF THAT FIX AND IS FILED RATHER THAN LEFT FOR THE GATE'S SILENCE TO IMPLY COVERAGE. WHAT TO DO: bind author-year mentions in the prose to the reference list the way test_journal_references_match_the_prose.py does for the ASO article — the fusion-partner documents have no equivalent. Mutation-test with a year drift, not only a nonsense one.",
-      "dispatch_log": [],
-      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me."
     }
   ]
 }
