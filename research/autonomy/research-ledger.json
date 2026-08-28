@@ -2244,9 +2244,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0059-3217966b",
-      "claimed_utc": "2026-08-28T17:02:10Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2261,7 +2261,7 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⚠ `lint_citations` EXTRACTS PMID / PMCID / DOI / NCT / GEO AND NO arXiv PATTERN, so every arXiv identifier in this repository's prose is unanchored and invisible to the provenance gate — and the 2026-08-27 survey added a substantial number, every one SEARCH-grade. ⛔ THE SEAT THAT FOUND IT DECLINED TO ADD THE PATTERN AND WAS RIGHT: adding it would newly flag every existing arXiv citation at once, which needs its own baseline and its own decision rather than riding along with an unrelated change. ★ The work: add the pattern, run it, and BASELINE the existing hits with a reason each — the shape citation-provenance-ledger.json already uses — so new fabrications fail immediately while the existing corpus is triaged deliberately. ⚠ AUT-PD-038 (a failed fetch can anchor a citation) is the same gate's other hole.",
+      "what": "⚠ `lint_citations` EXTRACTS PMID / PMCID / DOI / NCT / GEO AND NO arXiv PATTERN, so every arXiv identifier in this repository's prose is unanchored and invisible to the provenance gate — and the 2026-08-27 survey added a substantial number, every one SEARCH-grade. ⛔ THE SEAT THAT FOUND IT DECLINED TO ADD THE PATTERN AND WAS RIGHT: adding it would newly flag every existing arXiv citation at once, which needs its own baseline and its own decision rather than riding along with an unrelated change. ★ The work: add the pattern, run it, and BASELINE the existing hits with a reason each — the shape citation-provenance-ledger.json already uses — so new fabrications fail immediately while the existing corpus is triaged deliberately. ⚠ AUT-PD-038 (a failed fetch can anchor a citation) is the same gate's other hole.  ✅ FIXED 2026-08-28 (CYC-0059-3217966b, seat s57-arxivids, merged at 4218f6eda). MEASURED FIRST: 67 arXiv identifiers in tracked prose across 22 files, in exactly two live forms (`arXiv:NNNN.NNNNN` and `arxiv.org/abs|pdf/NNNN.NNNNN`); ZERO pre-2007 `hep-th/9901001`-style ids anywhere in the tree, probed rather than assumed. ⭐⭐ THE DESIGN DECISION IS WHAT IT REFUSED TO DO: NO BARE `\\d{4}\\.\\d{4,5}` PATTERN, because a bare form was measured to match FRAGMENTS OF CORRECTLY CITED DOIs — 10.1002/1878-0261.13558 → '0261.13558', 10.1111/j.1349-7006.2012.02370.x → '7006.2012', 10.1111/1759-7714.14613 → '7714.14613'. Each would have raised a FABRICATION ALARM ON HONEST WORK, and the bare form buys nothing: over every prose line mentioning arXiv, the three context-anchored forms capture every id-shaped token with RESIDUE ZERO. A guard that cries wolf is a guard that gets tuned out, and this repository has already lost several that way. 54 of the 67 were already anchored; the 13 that were not were TRIAGED, NOT BASELINED AWAY — both arxiv.org and export.arxiv.org are egress-blocked here (measured today, not remembered), so they were resolved by search and recorded as `unverified_at_baseline`, whose defined meaning ('nothing in this repository corroborates it') is exactly true, since a search snippet is not a retrieval. ⚠ TWO CARRY FLAGS A FETCH WILL NOT CLEAR: one prose attribution names the THIRD of 23 authors as if first, and one id resolves without confirming the attribution the prose already hedges — the hedge must survive the fetch. 11 mutations, including the single-site silent-stop on the pattern itself; M5 is caught only by the unit test because no prose carries that form, and the seat stated that rather than papering over it.",
       "dispatch_log": [
         {
           "utc": "2026-08-28T17:02:10Z",
@@ -7217,6 +7217,48 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act."
+    },
+    {
+      "id": "AUT-080",
+      "what": "$0 ACTIONS JOB against export.arxiv.org/api/query to anchor the 13 arXiv identifiers AUT-PD-057 left at `unverified_at_baseline`, moving each to `verified` with a real fetch record. Both arXiv hosts are 403 at this sandbox's egress, so it is a runner job (ci-escape-hatches), not a sandbox edit. ⛔ TWO OF THE THIRTEEN MUST NOT BE CLOSED BY IT, and this is the point of the row: arXiv:2508.15126, whose prose attributes the paper to the THIRD of 23 authors as though first — a characterization error a resolving id does not touch; and arXiv:2605.04375, where the prose says the taxonomy's attribution is UNCONFIRMED and the id resolving does not confirm it. A fetch anchors an identifier; it does not validate the sentence around it, and treating 'resolves' as 'correct' is how a provenance gate starts laundering claims.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "fetch",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A $0 CI fetch or an in-repo linter reword; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-114",
+      "what": "⛔ `UNCOVERED_BY_LINT_CITATIONS` STILL NAMES AUT-PD-038 AS FULLY OPEN, though that row is `done` and its fix (`_redact_failed_fetches`) is present in the code. ⚠ THE HONEST REPAIR IS A NARROWING REWORD, NOT A REMOVAL: a failed fetch stored in a shape other than the url/status/attempts one the redactor recognises STILL ANCHORS an identifier that was never retrieved, so the gap is smaller than the line says and larger than nothing. ⭐ This is the maintenance a self-declared coverage list needs to stay worth reading: the list's whole value is that a reader can trust each line to describe a live hole, and one stale line teaches them to skim the rest.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A $0 CI fetch or an in-repo linter reword; no outward-facing act."
     }
   ]
 }
