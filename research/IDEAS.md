@@ -526,3 +526,13 @@ dispatch; the run history that says whether the scan fired lives in
   delivery-platform precedent for the fusion-junction ASO route's dominant gate. Trial-registry identity not
   independently confirmed this scan (egress-blocked) — verify before citing. ⚠ for human review — does not by
   itself change the ASO route's delivery-gate grade.
+- **2026-08-28 — weekly field-scan: PerVision (NCT06094101) — a closer external precedent for the parked
+  fusion-breakpoint vaccine idea than what was previously tracked.** Phase I/II personalized peptide vaccine
+  in pediatric/young-adult fusion-positive sarcomas, combining a fusion-breakpoint peptide *plus* a neoantigen
+  peptide — structurally closer to an EWSR1::NR4A3-breakpoint vaccine design than the DNAJB1-PRKACA precedent
+  already tracked (which uses only the breakpoint peptide). Registry status RECRUITING as of an April 2026
+  snapshot; not independently re-verified live this scan (clinicaltrials.gov direct fetch is egress-blocked
+  from this session). Relevant to the parked vaccine/HLA-coverage row — still not a reason to un-park it (the
+  row's own reasoning was economics + a cold self-adjacent tumor, not a shortage of precedent), but strengthens
+  the "fusion-junction vaccines are a live, funded modality elsewhere" prior. https://clinicaltrials.gov/study/NCT06094101
+  ⚠ for human review.

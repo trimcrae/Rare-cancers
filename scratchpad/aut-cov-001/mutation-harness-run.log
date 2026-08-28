@@ -1,0 +1,56 @@
+SEAT=AUT-COV-001-seat
+WORKTREE=/home/user/Rare-cancers/.claude/worktrees/agent-a4027037beeede805
+
+Command: python3 research/manuscripts/tests/mutate_fusion_partner_guard.py --working-tree
+Purpose: mutation-test the 2 new bindings (SEMA3C GSE28866 fold-change ratios, EMC library count)
+and the new _CENSUS_STATS fold-change (x) alternative added for AUT-COV-001.
+
+⚠ WORKING-TREE MODE: 2 uncommitted file(s) copied into the clone. This measures the tree about to
+be committed, NOT HEAD.
+    + research/manuscripts/tests/mutate_fusion_partner_guard.py
+    + research/manuscripts/tests/test_fusion_partner_prose_matches_its_artifact.py
+positive control: GREEN on unmutated HEAD (94 mutations to run)
+
+[... 89 pre-existing mutations, all "caught", identical to the committed baseline ...]
+
+  ✅ caught    [numbers          ]  3.6: the SEMA3C-vs-normal-tissue fold-change drifts, vs-sarcoma left correct beside it
+  ✅ caught    [numbers          ]  3.6: the SEMA3C-vs-other-sarcomas fold-change drifts, vs-normal-tissue left correct beside it
+  ✅ caught    [numbers          ]  3.6: the two SEMA3C fold-change ratios are SWAPPED, both digits still on the page
+  ✅ caught    [numbers          ]  3.6: the GSE28866 EMC library count backing the ratio drifts
+  ✅ caught    [numbers          ]  census: an unbound fold-change is written into the prose
+
+✅ 94/94 mutations caught, every one single-site, positive control green.
+
+======================================================================================
+Coverage delta (python3 research/manuscripts/claim_coverage.py), fusion-partner document only:
+
+  BEFORE (git stash, HEAD):
+    research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md:
+      83/270 sentences read by something (82/201 of those stating a number)
+
+  AFTER (working tree, this change):
+    research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md:
+      84/270 sentences read by something (83/201 of those stating a number)
+
+  Delta: +1 sentence covered, +1 numbered sentence covered.
+  claim-coverage.json regenerated to match (test_claim_coverage_has_not_regressed would otherwise
+  fail).
+
+======================================================================================
+Full test runs (pytest), all green:
+
+  pytest research/manuscripts/tests/test_fusion_partner_prose_matches_its_artifact.py -q
+    -> 137 passed, 1 warning (pre-existing docstring escape-sequence warning, not from this change)
+
+  pytest research/manuscripts/tests/test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py -q
+    -> 16 passed
+
+  pytest research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py \
+         research/manuscripts/tests/test_the_census_reads_every_publication_endpoint.py \
+         research/manuscripts/tests/test_the_unbound_claims_the_coverage_census_found.py \
+         research/manuscripts/tests/test_aso_coverage_ladder.py -q
+    -> 50 passed, 3 warnings (238.57s) -- this is claim_ablation.py's REAL ablation sweep, which
+       actually mutates a git-worktree clone of the fusion-partner document and re-runs the guard,
+       proving the two new bindings are not census false positives.
+
+EXIT=0

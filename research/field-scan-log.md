@@ -216,3 +216,83 @@ human review. No new provider or free/academic credit program found.
 methodology, non-degrader routes, model/mobile-agent/GPU-market); several were egress-blocked mid-scan
 (clinicaltrials.gov, springer.com, docs.openforcefield.org, rdkit.org) and are flagged UNKNOWN rather than
 guessed. No fabricated papers, trials, releases, or prices.*
+
+---
+
+## 2026-08-28 (Fri) — AUTOMATED weekly field-scan (delta vs 2026-08-24, ~4 days)
+
+**This week's takeaway: genuinely quiet.** Three parallel research passes (method-watch/tooling/compute-cost;
+NR4A/EMC + degrader methodology; non-degrader routes) turned up no NR4A3/EMC-specific news, no plan-changing
+method, and only two real tooling/precedent deltas worth capturing — a routine RDKit patch release and one AOC
+delivery-tech milestone. This is the honest finding for a short (~4-day) window, not padding.
+
+### 1) METHOD-WATCH (plan-relevant)
+- **No new co-folding/ternary/affinity/selectivity method found.** Boltz stays at v2.2.1 (open-weight); no
+  DeepTernary, FKSFold, Chai, Protenix, or IntFold update since 2026-08-24.
+
+### 2) NR4A / EMC
+- **No new NR4A3-specific primary paper, ligand, structure, or trial found this period.** The one thing that
+  looked promising on a first pass — press coverage of a "new multiplexed E3-ligase screening platform"
+  (C&EN, phys.org, Drug Target Review, GEN, News-Medical, all ~2026-08-07) — traced back to the *same*
+  Dana-Farber DCAF11/glutathionylation-activated glue (M12→DDX18) already logged as the Nature 2026-08-05
+  paper in the prior entry. It is secondary amplification, not a new result.
+
+### 3) Degrader methodology
+- **Quiet.** DeepTernary/TernaryDB benchmarking, a paralog-selective p300 degrader (Nat Commun), and a
+  molecular-glue-landscape review (Nat Chem Biol) all surfaced in search but predate the window (2025, and
+  ~April/May 2026 respectively) — old prior art, not delta items.
+
+### 4) NON-DEGRADER ROUTES
+- **VERAXA Biotech + Secarna Pharmaceuticals — positive in-vitro proof-of-concept for their AOC alliance
+  (2026-08-24).** A conjugated oligonucleotide candidate showed greater potency than the naked oligo; reported
+  as validating VERAXA's click-chemistry conjugation platform (whose stated primary focus is solid tumors,
+  though this specific readout is an immunology indication). A second AOC delivery-tech data point alongside
+  TAC-001 for the ASO route's dominant gate — not EMC-specific, not yet a named candidate for our route.
+  https://www.biospace.com/press-releases/veraxa-biotech-and-secarna-pharmaceuticals-achieve-research-milestone-in-antibody-oligonucleotide-conjugate-aoc-alliance
+- **PerVision (NCT06094101) — a closer external precedent for the parked fusion-breakpoint vaccine idea.**
+  Phase I/II personalized peptide vaccine in pediatric/young-adult fusion-positive sarcomas, combining a
+  fusion-breakpoint peptide *plus* a neoantigen peptide — structurally closer to an EWSR1::NR4A3-breakpoint
+  design than the DNAJB1-PRKACA precedent already tracked (breakpoint peptide only). Status RECRUITING per an
+  April 2026 snapshot; not independently re-verified live this scan (clinicaltrials.gov direct fetch remains
+  egress-blocked from this session). Does not reopen the parked vaccine row — that row was parked on economics
+  and a cold, self-adjacent tumor, not on a shortage of precedent — but strengthens the "fusion-junction
+  vaccines are a live, funded modality elsewhere" prior. https://clinicaltrials.gov/study/NCT06094101
+- No new immunotherapy/TCR-T/cell-therapy trial or readout specific to fusion-driven sarcoma found otherwise.
+
+### 5) Tooling & operating-environment watch
+**(a) Library releases.** **RDKit 2026.03.6** (released 2026-08-28, today) — adds a "synthon space shape
+search" feature, a BertzCT descriptor speed-up (no value change, safely re-runnable) and bug fixes (numpy
+dtype handling, Boost 1.92 build compat); no default-affecting change to numbers we've already produced.
+https://github.com/rdkit/rdkit/releases/tag/Release_2026_03_6. OpenMM (8.6.0), OpenFE (v1.12.0), gufe
+(v1.12.0), openmmtools (v0.26.0), Kartograf (v2.0.0), openff-toolkit (0.19.0), openff-nagl (0.5.5) all confirmed
+still latest via each project's own GitHub releases page — no change. LOMAP2's GitHub releases page 404'd on
+direct fetch this scan; conda-forge metadata suggests it is still v3.3.0, unconfirmed via the primary route.
+
+**(b) Frontier-model access.** No verified newer-than-Opus-5 model this week. Secondary aggregators
+(llm-stats.com, pricepertoken.com, intuitionlabs.ai) surfaced claims that "Gemini 3.1 Pro" and "GPT-5.6 Sol"
+beat Opus 5 on GPQA (~94%); OpenAI's own page confirms GPT-5.6 Sol/Terra/Luna is real
+(openai.com/index/gpt-5-6/), but it previews from ~2026-07-09 — before the 2026-07-24 Opus 5 baseline — so it
+is not a delta, and no primary head-to-head benchmark against Opus 5 was found. Treat the specific percentages
+above as unverified/low-confidence, not established.
+
+**(c) Phone-drivable coding agents.** Changelog aggregators describe Claude Code native remote-control
+(launching sessions from the mobile app device card) and cross-session messaging as August 2026 features, but
+this scan could not confirm an exact ship date fell inside the 2026-08-21→08-28 window from a primary Anthropic
+changelog page — UNKNOWN precise timing, flagged rather than asserted. No Codex-mobile change found.
+
+**(d) Compute-cost / GPU-market.** No verified price move since 2026-08-24 on Vast.ai, RunPod, Lambda, Modal,
+Salad, Together, Crusoe, CoreWeave, AWS, or GCP spot/preemptible pricing. Nvidia's next-gen Vera Rubin (HBM4,
+~22 TB/s per-GPU bandwidth — the axis that matters for our memory-bandwidth-bound OpenMM PME MD) remains an
+"H2 2026" forward item with no cloud availability yet — not actionable now, not auto-captured. No new provider
+or free/academic credit program found.
+
+### Action items for the program
+1. If the RDKit "synthon space shape search" feature looks useful for the de-novo/warhead pool work, evaluate
+   it — otherwise no action needed on this release.
+2. Fix `trig_01X5xHy1cmkLjkATEijZSNJf`'s missing repo `sources` grant remains outstanding and needs trimcrae
+   (unchanged — carried from the 2026-08-24 entry).
+
+*Sources are real search hits from three parallel research passes (method-watch/tooling/compute-cost; NR4A/EMC
++ degrader methodology; non-degrader routes). clinicaltrials.gov direct fetch and some publisher docs sites
+remained egress-blocked mid-scan and are flagged UNKNOWN rather than guessed. No fabricated papers, trials,
+releases, or prices.*

@@ -161,6 +161,11 @@ TOUCH_FIELDS = frozenset({
     "claimed_utc",
     "attempts",
     "retry_budget",
+    # AUT-PD-014: the progress-aware retry-budget history. Bookkeeping about WHETHER a row was
+    # dispatched, exactly like `attempts`/`retry_budget` beside it — never evidence of what was
+    # learned. What WAS learned, if anything, shows up as a change to `last_evidence_utc` or
+    # `blocked_evidence` instead, which are already PROGRESS_FIELDS above.
+    "dispatch_log",
     "lease_released",
     "_lease_released",
     "last_evidence_utc",

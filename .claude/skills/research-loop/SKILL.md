@@ -35,6 +35,7 @@ Check before anything else. A loop that works through its own alarm is the alarm
 | condition | how to see it | what to do |
 |---|---|---|
 | A **BLOCKING** §5.2 health condition is red | `python3 research/autonomy/health.py --check` (exit 1 = stop) | Write a receipt saying so, escalate per §5, stop. |
+| ⛔⛔ **The board lists an ESCALATION — do NOT just refuse again** | `python3 research/autonomy/health.py --escalations` (exit 1 = a restart budget is spent), or the board's `escalations` list | **Produce a CLAUDE.md §3 block and stop, and say in it that the loop's automated response is exhausted** — not another receipt reading "health red, refused". ⚠ *Added 2026-08-28 (AUT-PROP-034). A `blocks` red used to produce the same answer forever: refuse, write a receipt, die; the driver Routine fires again and a fresh session refuses identically. Nothing counted, so nothing ever rose above another refusal — the exact behaviour OTP's `intensity`/`period` and systemd's `StartLimitBurst` both exist to prevent, and the one Kubernetes' CrashLoopBackOff is the cautionary example of. `health.py` now counts consecutive RED board runs per condition (`RESTART_INTENSITY`, systemd's default of 5) and marks the row when the budget is spent; `stall_alarm.py` mails it from the Actions clock. **The refusal is still correct; a twelfth identical refusal is not a response, it is a loop.*** |
 | ⛔ **A red that is NOT blocking — DO NOT STOP** | the board's `on_red`: `advises` or `redirects` | **Run the cycle.** `redirects` means fixing that row IS this cycle's work; `advises` means report it and carry on. ⚠ *Added 2026-08-27 after this row's absence killed the loop: every red used to stop a cycle, two conditions were then added whose subject is IMMUTABLE COMMITTED HISTORY (`cycles_are_sized`, `fanout_is_governed`), and no cycle in any session could clear them. The driver fired, refused, and pushed "health check permanently red, needs your call." A stop condition keyed to history that cannot change is an outage with a virtuous name.* |
 | `backoff_level` is at maximum | `research/autonomy/autonomy-state.json` | Take one FREE item only, or stop. §4. |
 | Preflight is red on `main` and not by your hand | `repo-gates` | Fixing that IS the cycle. Nothing else lands until it is green. |
@@ -93,7 +94,15 @@ Check before anything else. A loop that works through its own alarm is the alarm
    new state and `last_evidence_utc`, and for a failure the *diagnostic*. ⛔ CLAUDE.md §4: never a "probably". If you cannot diagnose it, record
    `UNKNOWN` and queue the diagnostic as its own entry.
 10. **Write the receipt** — **allocate its id, never derive one by eye:**
-    `python3 -c "import sys;sys.path.insert(0,'research/autonomy');import ids;print(ids.next_receipt('research/autonomy/receipts','<this session id>'))"`.
+    `python3 -c "import sys;sys.path.insert(0,'research/autonomy');import ids,session_cap;print(ids.next_receipt('research/autonomy/receipts',session_cap.session_id() or ''))"`,
+    **and put that same `session_cap.session_id()` in the receipt's `session_id` field.**
+    ⛔⛔ **READ IT FROM THE ENVIRONMENT; NEVER TYPE IT, AND NEVER INVENT A LABEL.** Measured
+    2026-08-28: scheduled cycles typed the literal `"scheduled-routine-session"` into that field, so
+    nine consecutive cycles were INDISTINGUISHABLE FROM ONE SESSION'S to every reader — and the two
+    readers that matter are `health.py:c_cycles_are_sized`, which grades the session-shape rule, and
+    `session_cap.py`, which decides whether this session has earned the right to stop. A session
+    whose receipts do not name it cannot show it is at its cap, so the hook keeps demanding another
+    cycle and it runs nine. `CLAUDE_CODE_SESSION_ID` is set in this harness — checked, not assumed.
     ⛔ *Measured 2026-08-27 (AUT-PROP-013): every session computed `max(committed) + 1` from the same
     committed state, so concurrency was outside the derivation BY CONSTRUCTION. Two sessions 50 s
     apart both took `CYC-0016` and the second would have SILENTLY OVERWRITTEN the first; the same
@@ -173,9 +182,32 @@ HAS ONE WRITER: THE DRIVER.** Put it in the seat prompt — worktree off `origin
 push a branch, never touch the repository root.
 
 ⛔⛔ **AND ITS LOGS GO OUTSIDE THE WORKTREE, IN A DIRECTORY NAMED FOR THE SEAT — BECAUSE A WORKTREE
-IS DELETED THE MOMENT ITS WORK LANDS, AND ITS EVIDENCE DIES WITH IT.** Two lines in every seat
-prompt: *write every log to `scratchpad/<seat-name>/`, never inside the worktree, and NAME the log
-paths in your final report.*
+IS DELETED THE MOMENT ITS WORK LANDS, AND ITS EVIDENCE DIES WITH IT.**
+
+★★ **THE CONVENTION, AND IT COVERS EVERY FILE THE SEAT WRITES, NOT ONLY ITS LOGS.** Four lines in
+every seat prompt — the same four for a blind review seat, a fix seat and a hardening seat, and this
+section is where they live so no seat has to rediscover them:
+
+> * Your scratch directory is `<SESSION-SCRATCHPAD>/<seat-id>-<item>/`, spelled as the **absolute**
+>   path the system prompt gives — and **everything** you write outside the worktree goes there:
+>   logs, scripts, clones, diffs, intermediate data. **Nothing at the scratchpad root.**
+> * **Every filename inside it starts with your seat id** — `s55-preflight.log`, never `preflight.log`.
+> * Every command whose result you will quote ends with `; echo "EXIT=$?" >> <log>`, and every log
+>   you will quote opens with the stamp from
+>   `python3 research/autonomy/seat_scratch.py --stamp <seat-id> <worktree>`.
+> * **NAME the log paths in your final report.** The worktree is gone by then; the scratchpad is not.
+
+⛔ **THE SCRATCHPAD ROOT IS SHARED BY EVERY CONCURRENT SEAT AND BY THE DRIVER.** It is not a private
+directory that happens to be reused — it is one directory with N writers and no owner, so a generic
+name there is not a name at all. It is a lock every writer takes and nobody releases.
+⛔ **AND WRITE THE PATH ABSOLUTE, BECAUSE `scratchpad/` IS AMBIGUOUS IN THIS REPOSITORY AND RESOLVES
+THE WRONG WAY.** There is a **tracked, repo-relative `scratchpad/`** — 4 committed files, and a
+`.gitignore` rule (`scratchpad/lane10-*`) written to keep one lane's scratch out of the tree. So a
+seat told to write to `scratchpad/<seat>/` and sitting in its worktree creates the
+directory **inside the worktree**, which is precisely what the rule above forbids, and the evidence
+dies with the worktree exactly as if the rule had never been written. `.gitignore` already says the
+right home is *"the session scratchpad"*; say which one, in full, every time.
+
 ⚠ *Measured 2026-08-27 (AUT-PD-027), and it cost two wrong entries in the ledger.* Two seats
 independently hit a preflight reporting **50 failures that did not exist** — `50 failed, 7901
 passed` and `50 failed, 7933 passed`, `No module named 'pymbar'`. By the time the driver looked,
@@ -188,6 +220,36 @@ disproved only when someone finally made a worktree and looked. **A defect the d
 reproduce immediately becomes unfalsifiable, and unfalsifiable defects attract guesses.**
 ⭐ *One seat did this unprompted — `scratchpad/aut015/aut015-devsetup-preflight3.log`, seat-unique
 and outside its tree — and its run is the only one of the three still auditable.*
+
+⚠ *Measured twice independently on 2026-08-28 (AUT-PD-055), and the rule as it then stood did not
+stop it — because it said **logs**, and the file that collided was a **script**.* A seat's
+`scratchpad/mutate.py` was overwritten by a sibling's. Its next run executed the sibling's file and
+reported **`4 caught / 4` against a module in ANOTHER WORKTREE**, in a log that read exactly like a
+clean run of its own: nothing failed, nothing was empty, and it was caught only because a human
+noticed the module name was wrong. ⛔ **A mutation verdict fabricated in substance and finished in
+appearance** — CLAUDE.md §4's *"a plausible-looking record is more dangerous than an empty one"*,
+with a verdict attached. **Two seats hitting it independently makes it a container property, not
+bad luck.**
+
+⭐ **AND THE CONVENTION IS NOW MEASURED, BECAUSE THE SENTENCE ABOVE IT HAD ALREADY DECAYED ONCE.**
+[`research/autonomy/seat_scratch.py`](../../../research/autonomy/seat_scratch.py) reads the two
+halves of that incident, and they fail differently:
+`--audit-root <scratchpad>` reports every regular file at the shared root — the path two writers can
+both take — and every file inside a seat directory that does not carry its owner's id;
+`--verify-log <log>` reads the log's own `SEAT=`/`WORKTREE=` stamp back against the absolute paths
+the log names, and reports one belonging to a sibling's tree. **A log with no stamp is `UNSTAMPED`,
+never `OK`** (§4: an absent reading is not a reading of absence). Its logic is asserted by
+`research/autonomy/tests/test_a_seats_log_is_provably_its_own.py`, which gate 13 runs on every
+commit; **its header names the four things it cannot see**, and a green audit is not proof a result
+is the seat's own.
+⛔ **It is NOT wired into `preflight.sh`, and must not be.** Preflight is offline, deterministic and
+scoped to the tree; the scratchpad is per-session state no commit contains, so a gate reading it
+would go red or green on facts the repository does not hold. **A seat runs it before it reports; a
+driver runs it before it believes a seat.**
+⚠ *Run against the live root the day it was written it returned four findings, and every one was the
+DRIVER's:* `ci-main.log`, `mainsha.txt`, `prio.log` and `s0-ci-main-110a337.log`, all at the shared
+root. **The driver is a writer like any other**, and three of those four are names any cycle reaches
+for.
 ★ **AND A LOG WITH NO EXPLICIT EXIT MARKER IS NOT A RESULT.** The same day, a seat's monitor timed
 out watching a preflight the seat had deliberately killed; that log never received its `EXIT=`
 line, and the seat correctly reported nothing from it rather than quoting the tail. A truncated log

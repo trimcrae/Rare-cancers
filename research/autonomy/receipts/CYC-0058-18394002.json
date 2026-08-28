@@ -1,0 +1,36 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0058-18394002",
+  "session_id": "18394002-4f40-54ac-951c-755538d54467",
+  "utc": "2026-08-28T16:35:00Z",
+  "shape": "This session, driver only. No subagents dispatched.",
+  "took": "No pre-existing ledger item claimed. Step 3's mandatory re-score (`priority.py --write`) raised `InadmissibleWrite` on AUT-PD-041 before step 4 could even run, so this cycle's item became fixing that gate itself (RT-AUTONOMY, free, $0, closing).",
+  "took_what": "`priority.py --write` refused with `refused_accumulated` on AUT-PD-041: score moved 150.0 -> 142.0 (-8.00) with echoed inputs explaining only +0.00. Root-caused via `admissibility.py`'s own docstring, which had predicted this exactly: `apply_fruitless_attempts` (weight -8.0, wired into `priority.py` by AUT-PD-014 earlier the same day) is applied to every non-closed ledger row, but `admissibility.py`'s `expected_score()` (R2) and `_explained_delta()` (R3) only ever accounted for `age` and `blocked_with_evidence`. Fixed by adding the `fruitless_attempts` term to both, applied last at 2dp to match `apply_fruitless_attempts`'s own place at the end of `build_ledger`'s pipeline and its own rounding. Updated the now-superseded prediction paragraph in `admissibility.py`'s module docstring to record that it came true rather than leave it describing a gap that no longer exists. Filed and closed as AUT-PD-096 with full evidence.",
+  "changed": [
+    "research/autonomy/admissibility.py: expected_score() (R2) and _explained_delta() (R3) now account for the fruitless_attempts term; superseded the stale prediction paragraph in the module docstring.",
+    "research/autonomy/research-ledger.json: filed and closed AUT-PD-096 (the admissibility fix, with reproduction/root-cause/verification evidence); filed AUT-PD-097 (queued, unaccounted) documenting a second finding made while pushing this work -- ids.next_entry_id() has no session discriminator, unlike ids.next_receipt() (fixed for the identical race by AUT-PROP-013), so two concurrent sessions independently derived the same ledger id AUT-PD-093 from the same base. Recovered here by fetching before pushing, resetting to the fresh origin/main, and reallocating (AUT-PD-096/097) rather than pushing into the collision; re-ran priority.py --write and the full preflight against the reallocated tree before this commit.",
+    "research/autonomy/research-ledger.json: added `_commit_pointer_correction` to AUT-PROP-018 (top of the ready queue, score 208, unchanged). Investigated why this cycle should not attempt it despite being #1: its pinned `commit` (from ready-to-post.json) sits on origin/claude/dreamy-hawking-vcvlhk, which shares NO common ancestor with origin/main (`git merge-base` exits 1) -- a stranded scratch branch, 144 commits ahead/88 behind, stalled at 'ASO round 11'. Diffed its tip against origin/main: the ASO journal article text is byte-identical already, and main additionally carries round-12 redteam and claim-audit artifacts the branch lacks, so main is the current state and the branch is dead, not ahead. That explains the row's own note that it has already burned two throwaway PREFLIGHT_FULL attempts. Recorded what the next attempt should do instead (refresh the commit pointer against a QUIET main, then run PREFLIGHT_FULL immediately). Did not attempt the run myself: origin/main took 3 more commits from two other concurrent sessions (CYC-0053-3217966b, and a third session closing AUT-PD-041 and re-scoring as '(CYC-0058)' under its own cycle-numbering) inside the ~20 minutes of this cycle's own work -- a 25-minute FULL run started into that churn would very likely be a third throwaway, which is exactly the failure this correction is trying to prevent for the next attempt.",
+    "Re-scored the full ledger (priority.py --write) three times as origin/main kept moving underneath (11 clamped each time, never refused after the admissibility fix landed): final corpus 226 entries."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [
+    "AUT-PD-097: give research/autonomy/ids.py's next_entry_id() the same session-discriminator shape next_receipt() already has, so a concurrent ledger-id allocation race produces two distinct ids instead of a silent duplicate-id write.",
+    "AUT-PROP-018 (still top of queue, score unchanged): next attempt should refresh ready-to-post.json's commit pointer against a quiet origin/main via ready_to_post.py --write, then run PREFLIGHT_FULL=1 immediately at that same HEAD before anything else lands -- see _commit_pointer_correction on the row."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "This is this session's first cycle (session_cap.py has not signalled a cap), and the item completed within it. No handoff is due."
+  }
+}

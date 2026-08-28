@@ -236,15 +236,29 @@ def _body_lines(path):
     out = []
     for i, line in enumerate(body):
         lineno = offset + i + 1
-        stripped = line.strip()
         if in_comment:
             if "-->" in line:
+                line = line.split("-->", 1)[1]
                 in_comment = False
-            continue
-        if "<!--" in line:
-            if "-->" not in line.split("<!--", 1)[1]:
+            else:
+                continue
+        # A same-line-closed `<!-- ... -->` comment must lose only the comment SPAN, not the
+        # whole line -- this article's citation markers (`<sup>1</sup><!--PMID:...-->`) sit
+        # mid-sentence, so dropping the whole line blinded every style check over the prose that
+        # follows them (round 12 seat 1, verified by mutation: real content silently uncaught).
+        had_comment = False
+        while "<!--" in line:
+            had_comment = True
+            before, rest = line.split("<!--", 1)
+            if "-->" in rest:
+                line = before + " " + rest.split("-->", 1)[1]
+            else:
+                line = before
                 in_comment = True
+                break
+        if had_comment and not line.strip():
             continue
+        stripped = line.strip()
         if stripped.startswith("```") or stripped.startswith("~~~"):
             in_fence = not in_fence
             continue

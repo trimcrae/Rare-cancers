@@ -383,6 +383,36 @@ MUTATIONS = [
      "The full inclusion table is §3.2 (n = 99).",
      "test_every_statistical_quantity_is_bound_or_declared"),
 
+    # ---- F.5 · the fold-change notation and the two figures promoted onto it (AUT-COV-001) -------
+    # ⛔ WHY THIS EXISTS. `_CENSUS_STATS` gained a fifth alternative (a printed ×-fold) and two
+    # DECLARED rows became BINDINGS against the GSE28866 artifact opened directly by this file.
+    # Neither move is proven by being read; both are proven by breaking on purpose, the same standard
+    # every binding above is held to.
+    ("3.6: the SEMA3C-vs-normal-tissue fold-change drifts, vs-sarcoma left correct beside it",
+     "**1.8× normal tissue and 1.7× other sarcomas**",
+     "**1.9× normal tissue and 1.7× other sarcomas**",
+     "the GSE28866 SEMA3C fold-change binding — the vs-normal-tissue half"),
+    ("3.6: the SEMA3C-vs-other-sarcomas fold-change drifts, vs-normal-tissue left correct beside it",
+     "**1.8× normal tissue and 1.7× other sarcomas**",
+     "**1.8× normal tissue and 1.8× other sarcomas**",
+     "the GSE28866 SEMA3C fold-change binding — the vs-other-sarcomas half"),
+    ("3.6: the two SEMA3C fold-change ratios are SWAPPED, both digits still on the page",
+     "**1.8× normal tissue and 1.7× other sarcomas**",
+     "**1.7× normal tissue and 1.8× other sarcomas**",
+     "the GSE28866 SEMA3C fold-change binding — both halves at once"),
+    ("3.6: the GSE28866 EMC library count backing the ratio drifts",
+     "n = 4 EMC libraries",
+     "n = 5 EMC libraries",
+     "the GSE28866 EMC library-count binding"),
+    # ⭐ THE ONE MUTATION THAT TARGETS NO BINDING, FOR THE NEW NOTATION SPECIFICALLY. A fold-change
+    # written into the prose with no artifact behind it is exactly what `_CENSUS_STATS`'s fifth
+    # alternative exists to stop going unnoticed — same shape as the `n = 99` control above, for the
+    # notation this cycle added rather than the one CYC-0013 added.
+    ("census: an unbound fold-change is written into the prose",
+     "The full inclusion table is §3.2.",
+     "The full inclusion table is §3.2 (3.0× unbound).",
+     "test_every_statistical_quantity_is_bound_or_declared — the fold-change alternative"),
+
     # ---- G · THE IDENTIFIER CENSUS (2026-08-27) --------------------------------------------------
     # ⛔ EVERY ONE OF THESE LEAVES A REAL, ANCHORED, CORRECTLY-FORMATTED IDENTIFIER ON THE PAGE.
     # `lint_citations` is green on all ten — it asks whether an identifier appears in some tracked

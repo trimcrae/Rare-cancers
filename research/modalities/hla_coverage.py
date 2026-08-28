@@ -450,8 +450,15 @@ def main():
         "_class_ii_note": (
             "Class-II (CD4 helper) coverage is over DRB1 alleles presenting a STRONG binder "
             "in patient-cd4-demo.json (MHCnuggets, EWSR1 e7::e3 junction). That screen tested "
-            "only a 3-allele DR panel (" + ", ".join(cd4_panel or []) + "), so this coverage "
-            "is a FLOOR over a tested panel, not a complete DR scan: untested DR alleles may "
+            # ⛔ THE COUNT IS DERIVED, NEVER TYPED (CLAUDE.md rule 1.1). It read "a 3-allele DR
+            # panel" beside an interpolated list of twenty-three alleles from 2026-08-22, when the
+            # panel was widened and the list was made dynamic while the number beside it was not —
+            # the one-of-a-pair defect. The stale count was quoted onward into
+            # fusion-junction-neoantigen-paper.md, which is how a wrong number in a note becomes a
+            # wrong number in a manuscript. Fixed 2026-08-28.
+            "only a " + str(len(cd4_panel or [])) + "-allele class-II panel ("
+            + ", ".join(cd4_panel or []) + "), so this coverage "
+            "is a FLOOR over a tested panel, not a complete class-II scan: untested alleles may "
             "also present the helper peptides, which would only raise coverage. "
             "coverage_cd8_and_cd4_combined = P(>=1 class-I allele) x P(>=1 class-II allele), "
             "treating HLA-A/B and DRB1 as independent loci."),

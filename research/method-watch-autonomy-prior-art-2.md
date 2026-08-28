@@ -129,8 +129,9 @@ Give such a row a `stuck_at` and it stops being able to hide.
   lost at 3 h (6×). Rucio: `older_than = renewal_interval * 10`, with the code comment
   `# 10 was chosen without any particular reason`. Two independently-developed systems, decades old,
   telling you the constant does not need to be principled. (SOURCE)
-- **Never act on the snapshot that triggered you, and cross-check a second observer.** PanDA's
-  `Watcher.py` re-reads the job and bails with `"escape : wrong status"` if the state moved on, then
+- **Never act on the snapshot that triggered you, and cross-check a second observer.** PanDA's own
+  `Watcher.py` (upstream, external repo — not ours) re-reads the job and bails with
+  `"escape : wrong status"` if the state moved on, then
   consults `getWorkersForJob()` and stamps `WORKER_ALREADY_DONE` if the worker record already says
   finished — because *"my monitor lost sight of it"* and *"it died"* look identical from one
   vantage point. (SOURCE)
@@ -293,7 +294,15 @@ submissions)** after detecting **795 LLM-written reviews** — by embedding hidd
 submitted PDFs drawn from a 170,000-phrase dictionary, every flag manually verified. arXiv now
 applies a **one-year ban** where there is "incontrovertible evidence" of unverified LLM output, and
 its named triggers are exactly what an unattended loop produces: **hallucinated references, residual
-model meta-comments, unremoved placeholder text.** (SEARCH)
+model meta-comments, unremoved placeholder text.** ⭐ Corroborated 2026-08-28 across at least eight
+independent outlets (TechCrunch, The Next Web, ChemistryViews, Economist Writing Every Day, Inside
+Higher Ed, Research Information, MIT Sloan Management Review Middle East, Pivot to AI), all
+attributing the policy to **Thomas Dietterich, chair of arXiv's computer science section**,
+announced **May 2026**: a **one-strike, one-year ban**, after which subsequent submissions must
+first be accepted at a reputable peer-reviewed venue; enforcement requires a moderator flag plus
+section-chair confirmation, with an author appeal right; the policy targets unchecked output, not
+AI-assisted drafting itself. (SEARCH — still not arXiv's own policy page, which remains blocked at
+this sandbox's egress proxy; multiply-corroborated secondary reporting, not the primary source.)
 
 ⭐ **That last list is a closed, cheap, offline checklist and it now attaches a sanction to trimcrae's
 name.** `lint_citations` covers the first item partially; the other two are `grep`.
@@ -368,10 +377,21 @@ as workers, at most ~5 concurrent.
 ⭐ These matter more than the adoptable list, because each one is a place where "we should look at how
 others do it" has no answer and the work is ours.
 
-- **A stall or liveness detector for the SCIENCE, with a named threshold.** Zero systems publish one.
-  A seat grepped the whole AlabOS tree for `heartbeat|watchdog|liveness` and got **zero hits**;
-  nothing anywhere detects *"this furnace has produced no new data in N minutes"* or *"this campaign
-  is running but learning nothing."* What exists is process liveness. The useful distinction being
+- **A stall detector for the SCIENCE — "running but no longer learning."** ⛔ **CORRECTED
+  2026-08-27 BY THE `/deep-research` PASS, AND THE CORRECTION IS HALF OF THIS ROW.** ⚠ Superseded,
+  retained (rule 1.2): *"A stall or liveness detector for the SCIENCE, with a named threshold. Zero
+  systems publish one… What exists is process liveness."* **The second sentence was wrong and the
+  claim was too broad.** ATLAS PanDA separates PROGRESS from LIVENESS with four named thresholds: a
+  **900 s progress-verification cycle** against a **7200 s no-file-written limit**, running entirely
+  separately from the liveness path's **1800 s heartbeat** and **10800 s lost-heartbeat**
+  declaration. My own seat had found PanDA's heartbeat numbers and missed the distinct progress
+  cycle underneath them, then generalised the gap it thought it saw. **Progress-versus-liveness is
+  solved; this row is not about that.**
+  ⭐ **WHAT SURVIVED ADVERSARIAL REFUTATION IS THE NARROWER AND HARDER CLAIM:** no verified system
+  detects *running but no longer LEARNING*. PanDA measures file mtime; Kubernetes probes and phi
+  accrual consume liveness signals only and are **progress-blind by construction**. A seat grepped
+  the whole AlabOS tree for `heartbeat|watchdog|liveness` and got **zero hits**, and nothing anywhere
+  detects *"this campaign is running but learning nothing."* The useful distinction being
   circulated in 2026 is **explicit failure** (the device reports an error) versus **implicit failure**
   (the device keeps running while silently violating the assumptions the result depends on) —
   everything deployed handles the first and almost nothing handles the second.
@@ -468,6 +488,54 @@ All are $0 and none is taken here — this document owns no mechanism. They are 
 | — | *(outward-facing, trimcrae's call)* **The Vancouver Standard consultation closes 2026-10-16.** | §3. Recorded, not acted on. |
 
 ---
+
+## 11a · The `/deep-research` pass — what survived adversarial verification
+
+**Run 2026-08-27, 109 agents, ~2 h.** A separate harness: five search angles, source fetch, then
+**3-vote adversarial verification per claim, needing 2 of 3 refutes to kill one.** It was pointed at
+three claims made ABOVE with instructions to break them. ⭐ **Its bar is stricter than §1–§10's and
+its reach is narrower — the two passes are complementary, not redundant, and where they disagree the
+disagreement is recorded rather than blended.**
+
+**The one thing it refuted is corrected in §7 above, in place.**
+
+**What survived, 3-0 unanimous unless noted:**
+
+- **No verified system detects "running but no longer learning."** PanDA measures file mtime;
+  Kubernetes probes and phi accrual are progress-blind by construction.
+- **No verified system halts on a monetary ceiling.** AlphaFlow governs by ~700 injection steps and
+  20 injections per droplet, with **zero monetary accounting in the paper**.
+- **No verified system enforces human authority mechanically.** ⛔ **AlabOS has no authentication
+  layer at all** — a repo-wide search for auth/login/token returns **zero hits** — and its submission
+  endpoint **cannot distinguish a human from an AI planner**.
+- **No verified orchestrator implements ANY anti-starvation mechanism.** Every shipped default is
+  priority-then-FIFO or bare FIFO: no ageing, no quota, no wait-time bound. AlabOS's own code is a
+  two-pass stable sort (submitted_at, then priority) and a repo-wide grep for
+  `starvation|starve|aging|ageing|fairness|round-robin` returns **zero hits**.
+  ⚠ **This does NOT contradict §3 above**, which cited Rucio's oldest-first ordering and Slurm's
+  saturating age factor — both outside the self-driving-lab cluster this claim is scoped to. Read
+  §3's anti-starvation designs as facility computing's, not the SDLs'.
+- **Persistent, inspectable queues ARE solved** — Redis in Bluesky Queue Server (*"the queue is
+  stored outside RE Manager (in Redis) and persists between restarts"*, and a 2020 issue records the
+  deliberate migration from an in-memory deque), MongoDB in AlabOS. ⚠ With a qualification the
+  verification insisted on: AlabOS's pending **resource-request** queue is in the `requests`
+  collection and is **not surfaced by any dashboard route** — task status is visible, the arbitration
+  queue is not.
+
+⭐⭐ **AND THE FINDING NEITHER PASS ABOVE REACHED, which reframes §1's whole question: NOBODY RUNS
+THE LOOP AS DESCRIBED.** The self-driving labs **deliberately externalise "what to do next"** —
+AlabOS delegates to Chimera/Atlas, Bluesky Queue Server to an arbitrary client, MADSci to a
+user-written `loop()`. The one system with a decision policy inside the orchestrator is AlphaFlow's
+4-step UCB rollout, and that is a **bounded optimisation campaign, not an open-ended research loop.**
+So the orchestrators supply persistent queues and mechanical execution and stop exactly where the
+hard part starts.
+
+⛔ **ITS HONEST COVERAGE GAP, STATED BY THE PASS ITSELF AND NOT BY ME.** Whole domains produced
+**nothing that passed its adversarial bar**: living evidence synthesis, the pre-LLM robot scientists,
+LIGO / Rubin / Rucio / EO-1, and the entire durable-execution cluster. Their absence from ITS
+findings is a coverage gap, not a result — §1–§10 above are the evidence for those domains, at the
+lower verification grade this document already declares. **Hard part 5, claim integrity, produced no
+surviving claim of any kind**, so §4 above stands unverified by this pass rather than contradicted.
 
 ## 11 · UNKNOWNs
 

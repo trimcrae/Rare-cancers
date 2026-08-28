@@ -1,0 +1,236 @@
+{
+  "_title": "Is the HSPA8 promoter hormone-responsive? — the last ungraded 5′ partner in the NR4A3 partner druggability map",
+  "_status": "live",
+  "_generated_by": null,
+  "_produced_how": "Hand-curated record of PubMed retrievals made through the PubMed MCP tool on 2026-08-28. Every PMID and DOI below was returned by a query recorded in `queries`; none is written from recollection. ⛔ NOT a script output and NOT regenerable from a bare checkout — the retrieval is re-runnable from the query strings, which is what `queries` is for.",
+  "_why_not_europe_pmc": "RT-HORMONE-PARTNER's next action named a Europe PMC query. www.ebi.ac.uk 403s at this sandbox's egress proxy on CONNECT, and the existing lane (`hormone-partner-lane.json`) routed around that through a GitHub Actions runner. This grade took the other available route instead — PubMed through the MCP tool, which answers from here. ⚠ THE INDEX IS THEREFORE NOT THE SAME ONE. Europe PMC indexes preprints and some non-MEDLINE content PubMed does not; a record visible only there would be invisible here. That is a real limit on this grade and it is stated rather than hidden.",
+  "_cost": "$0 — no GPU, no rental, no paid provider. Literature retrieval only.",
+  "_scope": "Annotation of the published record. No transcription measurement, no reporter assay, no promoter sequence analysis, no docking. Asserts no efficacy, no safety, no therapeutic window and no clinical readiness for EMC or any other disease.",
+  "_attribution": "Article metadata retrieved from PubMed (NCBI). DOIs are reproduced as returned by that service.",
+  "_owner_of_the_partner_map": "research/modalities/hormone-partner-lane.json — that file owns the partner list, the reach arithmetic and the Wilson interval. This file owns ONE partner's promoter grade and restates none of the lane's numbers.",
+  "question": "Does the HSPA8 promoter — the regulatory input an HSPA8::NR4A3 (or HSPA8::NR4A2) fusion imports — carry a hormone response element, or is it otherwise driven by a nuclear-receptor ligand, such that a hormonal therapy would have reach over an HSPA8-driven fusion?",
+  "why_it_was_the_last_row_open": "hormone-partner-lane.json grades HSPA8 `NO_INDUCIBLE_INPUT_RETRIEVED` with the note: 'THE ONE ROW MOST WORTH A TARGETED FOLLOW-UP, AND DELIBERATELY NOT GRADED HIGHER. A heat-shock-family promoter is the only partner here whose gene family is known to carry an inducible element with a drug class aimed at it (HSF1). But NO retrieved sentence characterises the HSPA8 promoter's inducibility, and HSPA8 is the constitutively-expressed cognate rather than the stress-inducible HSPA1A.' That row was ungraded for want of a retrieval, not for want of an answer. This is the retrieval.",
+  "verdict": {
+    "tier": "NO_HORMONE_RESPONSIVE_PROMOTER_ELEMENT_RETRIEVED",
+    "reach_for_hormonal_therapy": false,
+    "one_sentence": "⛔ NO — ON THE PUBLISHED RECORD, WHICH IS NOT THE SAME AS ON MEASUREMENT. Across every PubMed record returned by three intersecting queries — 7 of 7 on the HSC70/HSPA8 promoter, 8 of 8 on HSC70/HSPA8 with hormone-response-element language, and 13 of 13 on the promoter × hormone intersection, all read in full abstract — NOT ONE maps an oestrogen, androgen, progesterone or glucocorticoid response element in the HSPA8 promoter, and the only cis-elements anyone has localised in a mammalian hsc70 promoter are Sp1 sites. See `⛔_what_kind_of_negative_this_is` before quoting this line anywhere.",
+    "strength_of_the_negative": "This is a RETRIEVAL negative, not a measurement. It says the published record does not characterise this promoter as hormone-driven; it does not say the promoter lacks a hormone response element. Nobody has looked — see `what_stays_unknown`.",
+    "why_it_is_stronger_than_the_previous_row": "The lane's HSPA8 row was 'nothing retrieved', which is compatible with 'nobody searched'. This searched, exhaustively within PubMed, on the exact question, and reports what the promoter IS characterised as instead of only what it is not.",
+    "⛔_what_kind_of_negative_this_is": "⛔⛔ A RETRIEVAL NEGATIVE, NOT A MEASURED ABSENCE — AND THE DIFFERENCE IS THE WHOLE RESULT. NOTHING HERE MEASURED THE HSPA8 PROMOTER. No reporter assay was run, no promoter sequence was scanned against response-element matrices, no cistrome was read. What was established is that the PUBLISHED RECORD does not characterise this promoter as hormone-driven, and that where the record DOES localise something in it, the something is an Sp1 site. ⛔ THE SENTENCE THIS FILE MUST NEVER BE READ AS IS 'measured: no hormone reach'. The honest sentence is 'nobody has asked'. Every study that dissected this promoter was asking about something else — ethanol, oxidative stress, a cystic-fibrosis corrector, a transgenic expression cassette — so the absence of a hormone response element is an ABSENCE OF ASKING. ⭐ THE REPLACEMENT UNKNOWN, NAMED: whether the human HSPA8 promoter contains an ERE, ARE, GRE or PRE that nobody has looked for. It is recorded in `what_stays_unknown[0]` with the two $0 in-silico observations that would close it — a response-element scan of the promoter sequence, and a nuclear-receptor ChIP-seq/cistrome read at the HSPA8 TSS — NEITHER OF WHICH WAS RUN HERE. ⚠ What the retrieval negative DOES support is narrower and is enough for the route: a hormonal therapy cannot be argued to have reach over an HSPA8-driven fusion on the strength of anything published, because nothing published puts a hormone at that promoter."
+  },
+  "queries": [
+    {
+      "n": 1,
+      "purpose": "Everything PubMed indexes on the HSC70/HSPA8 promoter, as a set small enough to read entirely.",
+      "query": "(\"HSPA8 promoter\"[Title/Abstract] OR \"HSC70 promoter\"[Title/Abstract] OR \"hsc70 gene promoter\"[Title/Abstract] OR \"heat shock cognate 70 promoter\"[Title/Abstract] OR \"hsc70 promoter\"[All Fields])",
+      "total_count": 7,
+      "n_read_in_full_abstract": 7,
+      "retrieved_utc": "2026-08-28"
+    },
+    {
+      "n": 2,
+      "purpose": "HSC70/HSPA8 against explicit hormone-response-element and hormone-regulation language.",
+      "query": "(HSPA8[Title/Abstract] OR HSC70[Title/Abstract] OR \"heat shock cognate\"[Title/Abstract]) AND (\"estrogen response element\"[Title/Abstract] OR \"androgen response element\"[Title/Abstract] OR \"glucocorticoid response element\"[Title/Abstract] OR \"estrogen-regulated\"[Title/Abstract] OR \"estrogen-responsive\"[Title/Abstract] OR \"androgen-regulated\"[Title/Abstract] OR \"androgen-responsive\"[Title/Abstract] OR \"hormone-responsive\"[Title/Abstract] OR \"estradiol-induced\"[Title/Abstract])",
+      "total_count": 8,
+      "n_read_in_full_abstract": 8,
+      "retrieved_utc": "2026-08-28"
+    },
+    {
+      "n": 3,
+      "purpose": "The decisive intersection: HSC70/HSPA8 × promoter-or-response-element × any steroid/nuclear-receptor term.",
+      "query": "(HSPA8[Title/Abstract] OR HSC70[Title/Abstract] OR \"heat shock cognate\"[Title/Abstract]) AND (promoter[Title/Abstract] OR \"response element\"[Title/Abstract] OR \"cis-element\"[Title/Abstract] OR \"transcriptional regulation\"[Title/Abstract]) AND (estrogen[Title/Abstract] OR oestrogen[Title/Abstract] OR androgen[Title/Abstract] OR progesterone[Title/Abstract] OR glucocorticoid[Title/Abstract] OR steroid[Title/Abstract] OR \"nuclear receptor\"[Title/Abstract] OR hormone[Title/Abstract])",
+      "total_count": 13,
+      "n_read_in_full_abstract": 13,
+      "retrieved_utc": "2026-08-28"
+    },
+    {
+      "n": 4,
+      "purpose": "The broad hormone set, as context for what the HSPA8–nuclear-receptor literature IS about.",
+      "query": "(HSPA8[Title/Abstract] OR HSC70[Title/Abstract] OR \"heat shock cognate 70\"[Title/Abstract] OR \"heat shock cognate 71\"[Title/Abstract]) AND (estrogen[Title/Abstract] OR oestrogen[Title/Abstract] OR androgen[Title/Abstract] OR progesterone[Title/Abstract] OR glucocorticoid[Title/Abstract] OR \"nuclear receptor\"[Title/Abstract] OR \"estrogen receptor\"[Title/Abstract] OR tamoxifen[Title/Abstract] OR \"hormone response element\"[Title/Abstract])",
+      "total_count": 107,
+      "n_read_in_full_abstract": 25,
+      "⚠_partial": "25 of 107, relevance-ordered. This query is NOT exhaustively read and no negative in this file rests on it alone — it is quoted only for the DIRECTION finding below, which queries 1–3 establish independently.",
+      "retrieved_utc": "2026-08-28"
+    },
+    {
+      "n": 5,
+      "purpose": "The EMC fusion reports that make HSPA8 a partner at all.",
+      "query": "HSPA8 AND NR4A3 AND (fusion OR chondrosarcoma OR \"extraskeletal myxoid\")",
+      "total_count": 2,
+      "n_read_in_full_abstract": 2,
+      "retrieved_utc": "2026-08-28"
+    }
+  ],
+  "what_the_hsc70_promoter_IS_characterised_as": [
+    {
+      "pmid": "10604945",
+      "doi": null,
+      "citation": "Wilke N, Sganga MW, Gayer GG, Hsieh KP, Miles MF. Characterization of promoter elements mediating ethanol regulation of hsc70 gene transcription. J Pharmacol Exp Ther. 2000 Jan;292(1):173-80.",
+      "quote": "Deletion analysis of the hsc70 promoter showed that the 74-base pair region proximal to the transcription start site was sufficient for ethanol responsiveness. Point mutation or deletion of a consensus Spl-binding site at -67/-61 base pairs greatly reduced the induction by ethanol.",
+      "reads_as": "The one inducible input ever mapped to a defined element in a mammalian hsc70 promoter is ETHANOL, acting through an Sp1 site at −67/−61. Not a hormone, and not a druggable therapeutic stimulus.",
+      "species_system": "rodent NG108-15 neuroblastoma × glioma; Drosophila SL2 for the Sp1 arm"
+    },
+    {
+      "pmid": "1989992",
+      "doi": null,
+      "citation": "Miles MF, Diaz JE, DeGuzman VS. Mechanisms of neuronal adaptation to ethanol. Ethanol induces Hsc70 gene transcription in NG108-15 neuroblastoma x glioma cells. J Biol Chem. 1991 Feb 5;266(4):2409-14.",
+      "quote": "Stable transfection analysis revealed an ethanol-responsive cis-acting element in the proximal 2500 base pairs of the Hsc70 promoter. Regulation of Hsc70 by 50-200 mM ethanol appeared to be a specific change in expression of an ethanol-responsive gene rather than a typical stress protein response since no induction of the highly inducible stress protein, Hsp70, was seen at these ethanol concentrations.",
+      "reads_as": "The same ethanol element, and an explicit statement that HSC70 does NOT behave as the stress-inducible HSP70 does — which is the premise the lane's HSPA8 note flagged and could not source. It is now sourced.",
+      "species_system": "rodent NG108-15"
+    },
+    {
+      "pmid": "28280117",
+      "doi": "10.1242/jcs.199968",
+      "citation": "Volpert G, Ben-Dor S, Tarcic O, Duan J, Saada A, Merrill AH, Pewzner-Jung Y, Futerman AH. Oxidative stress elicited by modifying the ceramide acyl chain length reduces the rate of clathrin-mediated endocytosis. J Cell Sci. 2017;130(8):1486-1493.",
+      "quote": "Hsc70 levels were decreased because of lower levels of binding of Sp1 to position -68 in the Hsc70 promoter.",
+      "reads_as": "The second independent localisation in a mammalian hsc70 promoter, and it is the SAME Sp1 site — a housekeeping GC-box factor, under oxidative stress. No nuclear receptor anywhere in the mechanism.",
+      "species_system": "mouse astrocytes (CerS2-null)"
+    },
+    {
+      "pmid": "11404244",
+      "doi": "10.1152/ajplung.2001.281.1.L43",
+      "citation": "Rubenstein RC, Lyons BM. Sodium 4-phenylbutyrate downregulates HSC70 expression by facilitating mRNA degradation. Am J Physiol Lung Cell Mol Physiol. 2001;281(1):L43-51.",
+      "quote": "In IB3-1 cells, 1 mM 4PBA did not alter the activity of the Chinese hamster ovary HSC70 promoter or of a human HSC70 promoter fragment in luciferase reporter assays nor did it alter HSC70 mRNA synthesis in nuclear runoff assays. In contrast, preincubation with 4PBA increased the rate of HSC70 mRNA degradation by approximately 40%.",
+      "reads_as": "⭐ THE ONE DRUG SHOWN TO LOWER HSC70 DOES IT WITHOUT TOUCHING THE PROMOTER. A second, independent line pointing the same way: the HSPA8 promoter is not where pharmacology has found purchase on this gene.",
+      "species_system": "human IB3-1 bronchial epithelial; CHO and human promoter fragments"
+    },
+    {
+      "pmid": "17931801",
+      "doi": "10.1016/j.gene.2007.08.016",
+      "citation": "Chuang KH, Ho SH, Song YL. Cloning and expression analysis of heat shock cognate 70 gene promoter in tiger shrimp (Penaeus monodon). Gene. 2007;405(1-2):10-8.",
+      "quote": "The 5'-flanking region sequence (approximately 1 kb) ahead of the hsc70 gene contains a putative core promoter region and transcription elements including perfect heat shock element (HSE), imperfect HSE, CAAT elements, SP1, NF-kappaB and GC box.",
+      "reads_as": "The only full cis-element inventory of an hsc70 promoter in the retrieved set. HSE, CAAT, Sp1, NF-κB, GC box. ⛔ NO hormone response element of any kind is listed. Invertebrate, so it bounds nothing about human sequence — it is included because it is the only inventory there is, and because what it omits is as informative as what it names.",
+      "species_system": "Penaeus monodon (tiger shrimp)"
+    },
+    {
+      "pmid": "21298478",
+      "doi": "10.1007/s11248-011-9488-8",
+      "citation": "Wu CL, Lin TH, Chang TL, Sun HW, Hui CF, Wu JL. Zebrafish HSC70 promoter to express carp muscle-specific creatine kinase for acclimation under cold condition. Transgenic Res. 2011;20(6):1217-26.",
+      "quote": "a cold-inducible promoter of zebrafish, hsc 70 (heat shock protein 70 cognate), is able to increase the expression of gene product by 9.8 fold at a temperature of 16°C",
+      "reads_as": "Cold inducibility in zebrafish. Not a hormone, and not transferable to human sequence.",
+      "species_system": "Danio rerio"
+    },
+    {
+      "pmid": "32229172",
+      "doi": "10.1016/j.ibmb.2020.103368",
+      "citation": "Adames TR, Rondeau NC, Kabir MT, Johnston BA, Truong H, Snow JW. The IRE1 pathway regulates honey bee Unfolded Protein Response gene expression. Insect Biochem Mol Biol. 2020;121:103368.",
+      "quote": "we show that honey bee Hsc70 promoter activity is inducible by UPR activation. In addition, we show that this activation is IRE1-dependent and relies on specific cis regulatory elements.",
+      "reads_as": "UPR/IRE1–XBP1 inducibility in honey bee. Again a stress input, not a hormone.",
+      "species_system": "Apis mellifera Hsc70-3, assayed in Drosophila S2"
+    }
+  ],
+  "⛔_completeness_of_that_list": "Those are ALL SEVEN records query 1 returned. There is no eighth. Two of the seven are the same rodent ethanol/Sp1 finding a decade apart, three are invertebrate or fish, one is mouse oxidative stress and one is a human/CHO reporter study that found the promoter UNMOVED by the drug it tested.",
+  "the_one_nuclear_receptor_with_any_cis_association": {
+    "pmid": "28238834",
+    "doi": "10.1016/j.yexcr.2017.02.028",
+    "citation": "Gulec C, Coban N, Ozsait-Selcuk B, Sirma-Ekmekci S, Yildirim O, Erginel-Unaltuna N. Identification of potential target genes of ROR-alpha in THP1 and HUVEC cell lines. Exp Cell Res. 2017;353(1):6-15.",
+    "quote": "While SPP1 and IKBKA were shown to be direct target genes of ROR-alpha in THP1 monocytes, inflammation related gene HMOX1 and heat shock protein gene HSPA8 were shown to be potential target genes of ROR-alpha.",
+    "second_quote": "Although, the expression analyses have shown that synthetic ROR-alpha ligands can modulate some of potential ROR-alpha target genes, functional significance of ligand-dependent modulation of gene expression needs to be confirmed with further analyses.",
+    "grade": "⚠ CANDIDATE, NOT A RESULT, AND THE PAPER SAYS SO ITSELF. HSPA8 is named a POTENTIAL RORα target from a ChIP-on-chip screen. The two genes this study carried through to promoter-occupancy confirmation were SPP1 and IKBKA — HSPA8 was not one of them. Cell types are a monocytic line and endothelial cells, neither related to EMC.",
+    "why_it_gives_the_route_no_reach": "Even taken at face value it would not deliver hormonal-therapy reach in the sense RT-HORMONE-PARTNER means. The route's reach comes from an approved agent acting on a hormone axis — the repository's one EMC precedent is tamoxifen against a PGR-promoter-driven fusion. RORα is not the target of any approved hormonal therapy, and this record establishes neither a mapped response element at HSPA8 nor a ligand-dependent effect on HSPA8 confirmed at the promoter."
+  },
+  "hormone_regulation_of_HSPA8_that_IS_reported_and_where_it_sits": {
+    "⚠_read_this_first": "These records are the reason this grade is a REASONED negative rather than an empty one. HSPA8/Hsc70 transcript IS reported as hormone-regulated in three settings. NONE of them locates the regulation in the promoter, none is in a sarcoma, and the one setting where a mechanism was actually mapped puts it in a part of the transcript the fusion does not carry.",
+    "records": [
+      {
+        "pmid": "9990085",
+        "doi": "10.1073/pnas.96.4.1686",
+        "citation": "Krebs CJ, Jarvis ED, Pfaff DW. The 70-kDa heat shock cognate protein (Hsc73) gene is enhanced by ovarian hormones in the ventromedial hypothalamus. Proc Natl Acad Sci U S A. 1999;96(4):1686-91.",
+        "quote": "Northern analysis and in situ hybridizations showed that the Hsc73 gene is enhanced by E and P in the pituitary and subregions of the VMH.",
+        "what_it_establishes": "Ovarian-steroid enhancement of Hsc70 transcript in rat brain and pituitary, in ovariectomised animals given estradiol benzoate and progesterone. The strongest hormone-regulation record in the set.",
+        "what_it_does_not_establish": "No promoter element is identified, no reporter assay is run, and the tissues are rat hypothalamus and pituitary. Whether the effect is transcriptional at all, and whether any of it holds at a human HSPA8 locus in a mesenchymal tumour, is not addressed."
+      },
+      {
+        "pmid": "15597897",
+        "doi": "10.1021/es049235r",
+        "citation": "Wang DY, McKague B, Liss SN, Edwards EA. Gene expression profiles for detecting and distinguishing potential endocrine-disrupting compounds in environmental samples. Environ Sci Technol. 2004;38(23):6396-406.",
+        "quote": "Nine estrogen up-regulated genes (IGFBP4, HSPA8, B4GALT1, XBP1, KRT8, GTPBP4, HNRPAB, SLC2A1, and CALM1) and two estrogen down-regulated genes (ID2 and ZNF217) were consistently detectable in response to estrogen and other estrogenic compounds.",
+        "what_it_establishes": "HSPA8 is on a consistently oestrogen-up-regulated gene list in the human ER-positive MCF-7 line. This is the only HUMAN record in the set placing HSPA8 downstream of oestrogen.",
+        "what_it_does_not_establish": "A microarray built as an endocrine-disruptor DETECTION assay. No ERE mapped, no promoter dissected, no fold-change or direction of transcription-initiation effect established here, and MCF-7 is a hormone-receptor-positive breast carcinoma line — the tissue where almost anything oestrogen touches moves."
+      },
+      {
+        "pmid": "12850307",
+        "doi": "10.1016/s0923-1811(03)00093-8",
+        "citation": "Kim CD, Lee MH, Roh SS. Identification of androgen-regulated genes in SV40-transformed human hair dermal papilla cells. J Dermatol Sci. 2003;32(2):143-9.",
+        "quote": "cDNA representational difference analysis followed by Northern blot analysis showed that heat shock cognate protein, Hsc70 was differentially expressed by dihydrotestosterone (DHT) treatment in SV40-transformed dermal papilla cells.",
+        "what_it_establishes": "Hsc70 transcript moves with DHT in an SV40-transformed human dermal papilla line.",
+        "what_it_does_not_establish": "'Differentially expressed' — the abstract does not state the direction. No ARE mapped, no promoter work, an SV40-transformed hair-follicle line."
+      },
+      {
+        "pmid": "24735615",
+        "doi": "10.1186/bcr3644",
+        "citation": "Tan S, Ding K, Li R, Zhang W, Li G, Kong X, Qian P, Lobie PE, Zhu T. Identification of miR-26 as a key mediator of estrogen stimulated cell proliferation by targeting CHD1, GREB1 and KPNA2. Breast Cancer Res. 2014;16(2):R40.",
+        "quote": "Further verification has identified nine genes (AGPAT5, CHD1, ERLIN1, GREB1, HSPA8, KPNA2, MREG, NARG1 and PLOD2) which were directly targeted by miR-26 via their 3' UTR.",
+        "what_it_establishes": "⭐ THE DISCRIMINATING RECORD. In a human ER-positive line, where an oestrogen→HSPA8 link is actually mechanistically mapped, the mapped site is the HSPA8 3′UTR, reached by an oestrogen-regulated microRNA — post-transcriptional, downstream of the promoter entirely.",
+        "why_it_settles_the_fusion_question": "⛔ AN HSPA8::NR4A FUSION TRANSCRIPT DOES NOT CARRY THE HSPA8 3′UTR, AND THAT IS STRUCTURAL RATHER THAN AN ASSUMPTION. A 5′-partner::NR4A fusion takes its 5′ end — promoter and leading exons — from the partner and its 3′ end, including the 3′UTR, from the NR4A gene; that is what makes the partner the source of the imported regulatory input in the first place, which is this route's whole premise. It holds whichever HSPA8 exon the breakpoint falls in. Where a breakpoint IS stated it is HSPA8 exon 2 (the HSPA8::NR4A2 case, PMID 41315062); the HSPA8::NR4A3 report (PMID 28383167) states none in its abstract, and none is needed for this argument. ⇒ Whatever this miR-26 axis does to wild-type HSPA8 message, it has no site to act on in the fusion. A hormonal agent working through this route would move the patient's normal HSPA8 and not the oncogene."
+      }
+    ]
+  },
+  "the_direction_finding": {
+    "claim": "The HSPA8–nuclear-receptor literature is overwhelmingly about HSC70 acting ON receptors, not receptors acting ON the HSPA8 promoter — which is the opposite direction from the one this route needs.",
+    "basis": "Query 4 returned 107 records; 25 were read in full abstract, relevance-ordered. Every one of the 25 couples HSC70 to nuclear receptors at the PROTEIN level: as the chaperone in the Hsp90/Hsp70 receptor-folding machine, as the partner of the nucleotide-exchange cochaperones BAG-1L and HspBP1 that tune AR/GR/MR/VDR transactivation, as the scaffold for the CHIP ubiquitin ligase that degrades ERβ and AR, or as the CMA delivery chaperone for AHR and TPD52 substrates.",
+    "worked_examples_read": [
+      {
+        "pmid": "9565586",
+        "doi": "10.1074/jbc.273.19.11660",
+        "note": "BAG-1L, an Hsp70/Hsc70 regulator, enhances androgen-receptor transactivation of ARE reporters — the receptor is downstream of the chaperone."
+      },
+      {
+        "pmid": "10967105",
+        "doi": "10.1074/jbc.M004977200",
+        "note": "Same architecture for the vitamin D receptor; the Hsc70-binding domain of BAG1L is what the effect depends on."
+      },
+      {
+        "pmid": "16940184",
+        "doi": "10.1128/MCB.00713-06",
+        "note": "Turning off ERβ-mediated transcription requires CHIP — the carboxyl terminus of HSC70-interacting protein — to ubiquitinate the receptor."
+      }
+    ],
+    "⚠_limit": "25 of 107 abstracts, so this is a characterisation of the literature's shape and NOT a completeness claim about the other 82. Nothing in the verdict rests on it: the verdict rests on queries 1–3, which were read exhaustively.",
+    "why_it_matters_anyway": "It explains why a naive keyword count — 'there are ~100 papers linking HSPA8 to nuclear receptors' — would have graded this partner POSITIVE and been wrong. The papers exist and they point the other way."
+  },
+  "the_emc_fusion_context": [
+    {
+      "pmid": "28383167",
+      "doi": "10.1002/gcc.22462",
+      "citation": "Urbini M, Astolfi A, Pantaleo MA, et al. HSPA8 as a novel fusion partner of NR4A3 in extraskeletal myxoid chondrosarcoma. Genes Chromosomes Cancer. 2017;56(7):582-586.",
+      "quote": "We herein report the identification by whole-transcriptome sequencing of HSPA8 as a novel fusion partner of NR4A3 in a case of EMC. FISH analysis confirmed the presence of a genomic HSPA8-NR4A3 translocation in the vast majority of tumor cells.",
+      "note": "The report that puts HSPA8 on the partner list. One case."
+    },
+    {
+      "pmid": "41315062",
+      "doi": "10.1007/s00428-025-04352-7",
+      "citation": "Barresi S, Passa R, Vallese S, et al. Novel HSPA8-NR4A2 rearrangement in extraskeletal myxoid chondrosarcoma: a sarcoma mimicker of neuroendocrine neoplasia. Virchows Arch. 2025.",
+      "quote": "A novel in-frame fusion between HSPA8 (exon 2) and NR4A2 (exon 3) was identified by RNA-sequencing and methylation analysis placed the lesion into the EMC class (0.99 score).",
+      "note": "The second HSPA8-partnered EMC case, and the source of the exon-2 breakpoint this file uses to reason about what the fusion transcript retains. One case."
+    }
+  ],
+  "⛔_reach_arithmetic_is_not_restated_here": "How many EMC patients an HSPA8 partner accounts for, and the Wilson interval on the hormone-responsive-partner fraction, are owned by research/modalities/hormone-partner-lane.json → `reach`. This file does not re-type them, per CLAUDE.md rule 1.",
+  "what_stays_unknown": [
+    {
+      "item": "Whether the human HSPA8 promoter contains an ERE, ARE, GRE or PRE that nobody has looked for.",
+      "why": "The promoter has been dissected in a handful of studies, every one of which was asking about something else — ethanol, oxidative stress, a cystic-fibrosis corrector, a transgenic expression cassette. Absence of a characterised element in a literature that never posed the question is a weak absence, and it is recorded as UNKNOWN rather than as a measured negative.",
+      "what_would_answer_it": "A promoter-sequence scan against curated response-element matrices, or a public nuclear-receptor ChIP-seq/cistrome read at the HSPA8 TSS. Both are in-silico and neither was run here."
+    },
+    {
+      "item": "The direction of the DHT effect in PMID 12850307.",
+      "why": "The abstract says 'differentially expressed' and does not state up or down. Full text not retrieved."
+    },
+    {
+      "item": "Whether any EMC patient with an HSPA8-partnered fusion has ever received a hormonal agent.",
+      "why": "Neither of the two case reports describes one, and no other record retrieved here does."
+    },
+    {
+      "item": "Whether a record visible only in Europe PMC, or only in a preprint index, would change any of this.",
+      "why": "See `_why_not_europe_pmc`. This grade is PubMed-indexed literature and says so."
+    }
+  ],
+  "⛔_what_this_does_not_say": [
+    "⛔ FIRST AND LOUDEST: it does not say the HSPA8 promoter was MEASURED and found not to be hormone-responsive. Nothing here measured it. This is what the literature does and does not contain, and the promoter's hormone responsiveness is an OPEN QUESTION NOBODY HAS POSED.",
+    "It does not say HSPA8 lacks a hormone response element. It says none is reported.",
+    "It does not assert efficacy, safety, a therapeutic window or clinical readiness for any agent in EMC or in any other disease.",
+    "It does not say hormonal therapy has no place in EMC. The repository's one reported EMC benefit on a hormonal agent is a PGR-partnered case, and that record is unaffected by anything here.",
+    "It does not change any reach number. The hormone-responsive-partner fraction and its interval live in hormone-partner-lane.json and are not touched by grading one previously-ungraded partner NEGATIVE."
+  ],
+  "consequence_for_the_route": "RT-HORMONE-PARTNER's last feasible-today validation item is now taken and it returned a negative. The route's remaining validation is 'confirmation that a partner's promoter drives the fusion in a hormone-dependent way', which is blocked by BLK-NO-WET-LAB, and its reach figure can only move on somebody else's RNA-seq-genotyped EMC series (TECH-EMC-EXPRESSION-DATA). The route is therefore genuinely parked AFTER this work — it was not before, because a $0 step it named was still open."
+}

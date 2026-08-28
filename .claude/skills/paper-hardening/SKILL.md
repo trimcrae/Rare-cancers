@@ -512,6 +512,13 @@ preflight reported. And the `finally` is not even reliable — a SIGTERM (or an 
 costs **0.03 s for 3,326 files**, so there was never a reason to accept the risk. ⚠ The clone shares
 inodes, so an in-place write still reaches the original — measured, it does. Write a new file and
 `os.replace` it, which breaks the link instead of following it.
+⛔ **AND THE CLONE'S LOCATION IS NOT YOURS TO CHOOSE — THE SCRATCHPAD ROOT IS SHARED BY EVERY
+CONCURRENT SEAT.** A mutation harness at `scratchpad/mutate.py` is a path a sibling can take too,
+and on 2026-08-28 one did: the surviving copy ran against a module in ANOTHER SEAT'S WORKTREE and
+reported `4 caught / 4` in a log that read exactly like a clean run of its own. ★ **The naming
+convention, the log stamp and the audit tool that reads them back are owned by
+[`research-loop`](../research-loop/SKILL.md) §3 — read it before you write a seat prompt, and do
+not restate it here.** This section owns *what* you ablate; that one owns *where the seat writes*.
 
 **⛔ THE SAMPLE IS NOT THE SWEEP.** Six sentences per document per commit catches an instrument that
 has stopped binding anything; it does not enumerate what is unbound. The bounded sample was green

@@ -79,9 +79,62 @@ if [[ -f "$STALLED" && -n "$TASKS_DIR" ]]; then
   fi
 fi
 
+# ⛔⛔ AND A ROW WHOSE DELIVERABLE IS ALREADY ON THE TRUNK MUST NOT BE OFFERED AS READY WORK
+# (AUT-PD-051, measured TWICE on 2026-08-28). A seat's branch is merged locally, the row stays open
+# on the trunk, and a scheduled cycle claims it and dispatches an agent to rebuild what exists:
+# AUT-PROP-029 (stuck_clock.py) and AUT-PROP-032 (1,110 lines, preflight gate 16). The ledger records
+# who HOLDS a row and nothing records that one is FINISHED, so the only guard was a human remembering
+# to close it during a merge.
+# ⭐ queue_view.already_landed() is the comparison nobody was making: a row's named deliverable
+# against origin/main, discriminated by whether the path was ADDED after the row was filed — an
+# existence test alone flagged 33 true statements and would have been turned off in a week.
+# ⚠ IT REPORTS AND NEVER CLOSES. An artifact on the trunk is not the same as the item being finished,
+# and a row whose deliverable partly landed must stay open. This block is silent when it finds
+# nothing, which is the normal case.
+QUEUE_VIEW="$REPO/research/autonomy/queue_view.py"
+if [[ -f "$QUEUE_VIEW" ]]; then
+  if landed=$(cd "$REPO" && timeout 30 python3 "$QUEUE_VIEW" --check 2>/dev/null); then :; else
+    { echo "$landed" | sed -n '/ALREADY ON/,$p'; echo; } >&2
+  fi
+fi
+
 out=$(cd "$REPO" && timeout 25 python3 "$CONTINUITY" --check --limit 5 2>/dev/null)
 rc=$?
 [[ $rc -eq 1 ]] || exit 0
+
+# ⛔⛔ THE FOURTH ANSWER, ADDED 2026-08-28 AFTER THIS HOOK RAN A SESSION NINE CYCLES DEEP.
+# The three answers below are exhaustive only for a session that CAN hand off. A session fired by
+# the driver Routine, already at `max_cycles_per_session`, whose `create_session` was refused at the
+# platform's lineage-depth limit, has no legal answer among them — and the only move that satisfies
+# this hook is to start ANOTHER cycle in the same context. Measured: CYC-0033 … CYC-0041, nine
+# cycles in one session against a cap of 2, one receipt naming this hook in its own `shape` field.
+# ⭐ AND THE LOOP SURVIVES WITHOUT THE HANDOFF: the Routine fires `13 */4 * * *`, so a capped
+# session that stops is not stalling — the cron IS the successor. That is why "a scheduled Routine
+# is not an answer" stays true below for a session that could still work, and is exactly wrong for
+# one that cannot.
+# ⛔ EARNED AND FALSIFIABLE, NEVER A FLAG: session_cap.py requires `cap` receipts FROM THIS SESSION
+# plus a handoff attempted and blocked in the platform's own words. An absent record is a session
+# that did not try and stays red. Every unreadable input answers MUST NOT STOP.
+CAP_CHECK="$REPO/research/autonomy/session_cap.py"
+if [[ -f "$CAP_CHECK" ]]; then
+  if capline=$(cd "$REPO" && timeout 15 python3 "$CAP_CHECK" --check 2>/dev/null); then
+    {
+      echo "$out"
+      echo
+      echo "✅ THIS SESSION MAY STOP — and stopping is the CORRECT action, not a deferral."
+      echo "   $capline"
+      echo
+      echo "★ The work above is real and stays queued. What ends here is THIS SESSION, not the loop:"
+      echo "   the driver Routine fires on its own schedule and that firing IS the successor. Handing"
+      echo "   off early is an optimisation the platform has refused; it was never what keeps the"
+      echo "   loop alive."
+      echo "⛔ DO NOT START ANOTHER CYCLE HERE. Past the cap a session compacts repeatedly and loses"
+      echo "   the verdict — measured once at 23 compactions and a 7.6 MB transcript, and again as"
+      echo "   the nine-cycle run this branch exists to end."
+    } >&2
+    exit 0
+  fi
+fi
 
 {
   echo "$out"

@@ -1,0 +1,47 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0047-cyc0047s",
+  "session_id": "CYC-0047-schedule",
+  "utc": "2026-08-28T13:10:00Z",
+  "shape": "This session (single driver), five parallel Agent-tool subagents for the hardening round, no create_session/handoff mechanism available in this scheduled-Routine context (same limitation as CYC-031/032/044-046).",
+  "took": "AUT-PROP-040 — round 12 of PUB-ASO hardening: five blind seats confirming round 11's four guard/tooling fixes introduced no regression.",
+  "took_what": "Round 11 (AUT-PROP-039, done) fixed four guard-gap findings, none touching the article's own prose. Per this series' own standard, the round that finds and fixes gaps does not get to certify nothing was found — round 12 is the confirmation pass. Verified before claiming: nothing else in_progress on PUB-ASO, article prose unchanged since round 11, manuscript held at 4613 words / 6 typeset pages with zero slack.",
+  "changed": [
+    "Five blind seats reviewed pin 9ae136502a831732d79ade7c62c356d14c9f000f (regression on round 11's fixes; arithmetic; statistics/design; citations/build/gates; hostile referee). ZERO blockers/P1s in the article's own prose. Seat 1 found a real P1 in round 11's own tooling: lint_style.py's HTML-comment exemption dropped the whole line on a same-line-closed comment, blinding the style gate over ~24 real-prose lines carrying inline citation markers — graded P1 not seat 1's BLOCKER label, since the prose itself was independently verified correct by seats 2/3/5. Fixed research/manuscripts/lint_style.py (strip only the comment span, not the whole line) and added research/modalities/tests/test_lint_style.py (7 cases, asserted failing pre-fix / passing post-fix — mutation-tested, not just pasted).",
+    "Fixed a stale-preflight failure unrelated to round 12's own scope (research/manuscripts/submission-metrics.json, drift from round 11's aso_falsification_power.py addition never regenerating downstream artifacts) — but the FIRST attempt at this fix (commit 6e7d44e06) itself went wrong: it ran the regeneration script against the live tree during a window when a review-seat subagent had a live-tree mutation in flight (see process incident below), silently captured the contaminated word count, and committed a wrong value. Caught by seat 4's independent re-derivation against an isolated pinned-commit worktree; corrected in commit 3a53478a8.",
+    "Caught and reverted (before any commit) a separate live, unstaged mutation to research/manuscripts/aso/fusion-junction-aso-journal-article.md that a review-seat subagent left in the live tracked tree, contrary to its explicit read-only/scratch-copy instruction. Caught only because submission-metrics.json was staged BY PATH, never `git add -A`, while subagents were still running (CLAUDE.md §6). Root-caused with real diagnostic evidence (inode comparison ruled out the obvious cp -al hardlink-sharing hypothesis) and filed as process defect AUT-PD-060, later extended to cover the cascading submission-metrics.json corruption above.",
+    "Wrote research/manuscripts/aso/fusion-junction-aso-paper-redteam-round12.md (the round's full record, per paper-hardening §8's 'record every round, including its wrong leads').",
+    "Ledger: AUT-PROP-040 marked done with full findings, claim released. Queued AUT-PROP-042 (round 13, a confirmation pass on round 12's two fixes) since round 12 itself found and fixed real things and therefore cannot certify convergence — publish_bar clause hardening_converged remains open. Filed and later extended AUT-PD-060 (process defect: subagent live-tree mutation + the mutation-window regeneration it caused)."
+  ],
+  "cost": "$0. Engineering, CPU and five concurrent Claude subagents.",
+  "subagents": {
+    "max_concurrent": 5,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 5,
+    "seats": [
+      "round12-seat1-regression (agentId aa0ff7ff1f7821052, completed — 1 P1 found, applied)",
+      "round12-seat2-arithmetic (agentId a83887387e97502a7, completed — no findings)",
+      "round12-seat3-statistics (agentId a7561d58f5dff67a7, completed — no findings)",
+      "round12-seat4-citations-build-gates (agentId adc548ad76655c25c, completed — 1 BLOCKER found on the driver's own follow-up commit, applied)",
+      "round12-seat5-hostile-referee (agentId a2e76c2aa4d11b736, completed — verdict ACCEPT, no findings)"
+    ]
+  },
+  "what_i_got_wrong": [
+    "Initially suspected a commit-message-vs-diff mismatch on d6e3955 ('tvast launch attempt: refused-on-price (CI)' containing an unrelated aso_falsification_power.py addition) — checked directly (git log --format=%P showed zero parents) and retracted: that commit is this shallow clone's grafted root, not a real squashed commit. No process_defect filed for it.",
+    "Ran a generated-artifact regeneration (submission_metrics.py) against the live shared working tree while a review-seat subagent still had it open, without checking first whether anything might be mid-mutation. The result (commit 6e7d44e06) silently captured a subagent's transient two-token live-tree edit as if it were genuine word-count drift and landed a wrong value on `main`. Not caught by my own process — caught by an independent seat's re-derivation against an isolated pinned-commit worktree. Corrected same cycle (3a53478a8). This is the generalisable half of AUT-PD-060: 'stage by path, never -A' protects the commit boundary but does not protect a live-tree-reading regeneration step run concurrently with mutation-risk subagents.",
+    "Graded seat 1's lint_style.py finding down from BLOCKER to P1 against the seat's own label, applying paper-hardening §8.0's test directly (the prose itself was correct; only a guard was blind) rather than accepting the seat's heading — flagging this explicitly since it is exactly the 'a seat's grade is not evidence, it is the thing under review' discipline the skill calls out as the easiest step to skip."
+  ],
+  "now_queued": [
+    "AUT-PROP-042 (round 13): a confirmation pass on round 12's two fixes (lint_style.py's rewritten comment handling; the corrected submission-metrics.json), once nothing else is mid-flight against the ASO family. Only this closes publish_bar clause hardening_converged. After that: AUT-PROP-018 (PREFLIGHT_FULL=1 at the final pinned commit) and AUT-PROP-019 (a fresh blind adversarial seat receipt at that commit), in that order.",
+    "AUT-PD-060 (process defect, open): the seat-prompt guidance for any future mutation-testing seat should require an isolated git worktree rather than a self-reported scratch copy — a plain 'use a scratch copy' instruction was not reliable here."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-ASO-JUNCTION",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context, same as CYC-031/032/044-046. One cycle this session (session shape 1)."
+  }
+}

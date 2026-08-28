@@ -18,10 +18,10 @@
       "journal": "Case Reports in Oncology",
       "title": "Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxoid Chondrosarcoma Repeatedly Treated with Surgical Excision or Stereotactic Radiotherapy Alone: A Case Report",
       "modality": "stereotactic ablative radiotherapy (SABR)",
-      "read_from": "abstract, via Europe PMC API (the publisher page returns HTTP 403 to the sandbox and to a runner alike)",
-      "what_it_reports": "One patient. All metastatic sites treated with either surgical excision or SABR alone on three separate occasions, with complete or major response each time; the stated benefit is prolonged systemic-therapy-free intervals with minimal toxicity.",
+      "read_from": "UPDATED 2026-08-28 (AUT-RT-001): FULL TEXT, fetched at $0 via a plain HTTPS GET to pmc.ncbi.nlm.nih.gov/articles/PMC12659415/ from a GitHub Actions runner (fetch-literature.yml, slug=emc-rt-pmid-41323055, run 33178734185) -- HTTP 200, 24,678 chars, committed to the literature-cache branch at literature/emc-rt-pmid-41323055/pmc_plain_new_domain.txt. ⚠ Superseded, retained: the publisher (Karger) page itself still 403s a plain fetch from both the sandbox and a runner, exactly as previously recorded; PMC's own copy of this open-access article did not, and had not been tried before this pass.",
+      "what_it_reports": "One patient (39-year-old woman, right-thigh EMC, 2019). Metastatic disease was managed with THREE SABR occasions (Sept 2023; Dec 2024, delivered as two sub-courses at different doses for different lesion locations; March 2025) interposed with ONE surgical excision (June 2024, of a single new nodule) -- reconciling the abstract's 'surgical excision or SABR alone in three different occasions' with Table 1's four numbered 'SABR courses' (the Dec-2024 occasion split into two dose plans). Full dose/fractionation/outcome detail is now in `dose_outcome_table` below. Every irradiated site remained free of local relapse through the paper's last reported restaging (March 2025); new lesions kept appearing at OTHER sites (oligoprogression), which is why repeated SABR was needed, but no previously-treated site ever relapsed.",
       "weight": "n = 1, no control, and the authors present it as an individualised approach for selected patients rather than as a general claim.",
-      "why_it_matters": "It is the only paper in the searchable record in which ablative radiotherapy is the deliberate, repeated, sole treatment of metastatic EMC."
+      "why_it_matters": "It is the only paper in the searchable record in which ablative radiotherapy is the deliberate, repeated, sole treatment of metastatic EMC, and it is now the only entry in this artifact with a complete, source-read dose/fractionation record for MULTIPLE separate ablative deliveries in the same patient."
     },
     {
       "pmid": "36944557",
@@ -169,7 +169,7 @@
   ],
   "what_is_still_unread": [
     "PMID 36944557 full text -- the whole-lung radiotherapy report, the single most on-point paper, blocked by Cloudflare at both the sandbox and the runner and carrying no indexed abstract.",
-    "The dose, fractionation, lesion size and duration of local control in PMID 41323055, none of which is in the abstract.",
+    "⚠ Superseded, retained (RESOLVED 2026-08-28 by AUT-RT-001): 'The dose, fractionation, lesion size and duration of local control in PMID 41323055, none of which is in the abstract.' Full text now read -- see the `direct_evidence_rt_to_emc_metastases` entry and the `dose_outcome_table` occasions for PMID 41323055.",
     "Whether any of the sarcoma-wide SABR series reports an EMC subgroup, which would need the full texts that returned stub pages.",
     "The PMID of the 2008 two-referral-centre series, whose figures are used above from retrieved full text but whose identifier has not been confirmed."
   ],
@@ -190,7 +190,8 @@
   "additional_deliveries_found_in_the_review": [
     {
       "case": "Lung metastases treated with SBRT 40 Gy in 10 fractions, partial radiographic response, within a 10-year course of repeated radiotherapy to spine, pelvis, limb, chest wall and clavicle.",
-      "attribution_problem": "⚠ THE REVIEW TELLS THIS CASE TWICE, IN NEAR-IDENTICAL PARAGRAPHS, ATTRIBUTED TO TWO DIFFERENT PAPERS -- 'Qiu et al. (2014)' and 'Takagawa et al. (2022)'. At least one attribution is wrong, and Takagawa is separately cited in the same paragraph for the brachytherapy case (PMID 35494187). Do not cite this case from the review; find the primary report.",
+      "attribution_problem": "⚠ Superseded, retained (RESOLVED 2026-08-28 by AUT-RT-002 -- see `attribution_resolved_2026_08_28` immediately below): THE REVIEW TELLS THIS CASE TWICE, IN NEAR-IDENTICAL PARAGRAPHS, ATTRIBUTED TO TWO DIFFERENT PAPERS -- 'Qiu et al. (2014)' and 'Takagawa et al. (2022)'. At least one attribution is wrong, and Takagawa is separately cited in the same paragraph for the brachytherapy case (PMID 35494187). Do not cite this case from the review; find the primary report.",
+      "attribution_resolved_2026_08_28": "RESOLVED, by reading the review's own full text (already retrieved, literature-cache branch, literature/emc-rt-lung-mets/emc-comprehensive-review-2025.txt) rather than by search: the review's SECOND paragraph reproduces the FIRST paragraph's entire case narrative VERBATIM (same 12x7x6 cm right adductor magnus tumour, same dose-by-dose 10-year course) but relabels its opening clause 'Takagawa et al. (2022)' instead of 'Qiu et al. (2014)' -- a copy-paste/mislabelling error inside the review itself, not two competing real sources. The review's own bibliography settles it: it lists exactly ONE 2014 Qiu citation ('Qiu H, Hare M, Chen Y (2014) A case report of long-term survival of metastatic extraskeletal myxoid chondrosarcoma treated with surgery and hypofractionated radiotherapy. J Radiother Pract 13:493-497. 10.1017/s1460396914000284') and exactly ONE 2022 Takagawa citation, which is the HDR-ISBT brachytherapy paper already in this artifact's direct_evidence array (PMID 35494187, DOI 10.5114/jcb.2022.115161) -- confirming Takagawa never published a second, lung-SBRT case. A live WebSearch on 2026-08-28 independently found a real Cambridge Core landing page at that exact title/author/journal (https://www.cambridge.org/core/journals/journal-of-radiotherapy-in-practice/article/case-report-of-longterm-survival-of-metastatic-extraskeletal-myxoid-chondrosarcoma-treated-with-surgery-and-hypofractionated-radiotherapy/C9265B3AB9E5A73C4FD8FABAB22B30D3, authors Haoming Qiu, Mary Hare, Yuhchyau Chen, University of Rochester Medical Center) confirming the Qiu paper is real and not a review fabrication. CONFIDENCE: HIGH that Qiu et al. (2014), DOI 10.1017/S1460396914000284, is the correct and only real primary source for this case, now further corroborated by two DIRECT Europe PMC API queries dispatched 2026-08-28 (fetch-literature.yml run 33178734185, slug=emc-rt-pmid-41323055): `AUTH:\"Takagawa\" AND PUB_YEAR:2022 AND (TITLE/ABSTRACT:\"myxoid chondrosarcoma\")` returns hitCount=1, and that ONE hit IS PMID 35494187 -- empirical, not just bibliography-based, confirmation that Takagawa has no second 2022 EMC paper for the lung-SBRT case to belong to. The mirror query for `AUTH:\"Qiu\" AND PUB_YEAR:2014 AND (TITLE/ABSTRACT:\"myxoid chondrosarcoma\")` returns hitCount=0, confirming Qiu's paper is genuinely absent from Europe PMC's index (not merely unfound by search) -- consistent with, not contradicting, its real existence at Cambridge Core, since Europe PMC's coverage of small non-MEDLINE journals like Journal of Radiotherapy in Practice is incomplete. So PMID/PMCID are UNKNOWN -- the DOI and the matching Cambridge Core page are the citation. The Cambridge Core full text itself was NOT read directly (egress-blocked from this environment, same 403-class block as every other Cambridge/Wiley/Elsevier page this repo has tried), so the dose numbers below are still one layer removed from the primary text -- read from the review's paraphrase of it, cross-checked against the review's bibliography, not from the paper itself.",
       "why_it_matters": "It is the only reported EMC LUNG metastasis treated with SBRT and given an explicit dose, and the patient far exceeded the 17.8-month figure."
     },
     {
@@ -224,14 +225,61 @@
       },
       {
         "pmid": "41323055",
-        "modality": "SABR alternating with surgical excision",
-        "dose": "UNKNOWN",
-        "fractions": "UNKNOWN",
-        "dose_per_fraction": "UNKNOWN",
-        "bed_gy_ab4": null,
-        "sites_treated": "all metastatic sites, 3 separate occasions",
-        "local_control_duration": "UNKNOWN precisely -- 'complete or major response each time', no duration given in the abstract",
-        "source_confidence": "abstract only; full text is open access and retrievable at $0 per this artifact's own outstanding list -- not fetched this pass"
+        "modality": "SABR (3 occasions, 4 dose plans) alternating with one surgical excision",
+        "resolved_by": "AUT-RT-001, 2026-08-28 -- full text fetched at $0 via PMC plain HTTP (see direct_evidence entry above for the exact route and run id)",
+        "superseded_2026_08_28": "⚠ RESOLVED. This row previously read UNKNOWN across dose/fractions/duration ('full text ... not fetched this pass'). The four rows immediately below replace it with every dose the paper reports.",
+        "occasions": [
+          {
+            "occasion": 1,
+            "date": "September 2023",
+            "sabr_course_number_table1": "1st SABR",
+            "sites_treated": "two abdominal nodules: a 10-mm hypodermic right-lumbar nodule and a 21-mm nodule posterior to the right psoas muscle, near the right sacroiliac joint",
+            "dose": "40 Gy",
+            "fractions": 5,
+            "dose_per_fraction": "8 Gy",
+            "bed_gy_ab4": 120.0,
+            "bed_computed_here": "5 x 8 x (1 + 8/4) = 120 Gy, alpha/beta = 4 -- arithmetic performed here, not read from the source.",
+            "local_control_duration": "Complete response confirmed at the May 2024 restaging (~8 months post-SABR); both sites remained free of local relapse through the paper's last reported restaging in March 2025 (~18 months post-SABR) -- new lesions kept appearing elsewhere (oligoprogression) but never at these two sites."
+          },
+          {
+            "occasion": 2,
+            "date": "December 2024 (course A of 2)",
+            "sabr_course_number_table1": "2nd SABR",
+            "sites_treated": "3 abdominal-wall nodules (12, 9 and 16 mm), found at an October 2024 restaging",
+            "dose": "40 Gy",
+            "fractions": 5,
+            "dose_per_fraction": "8 Gy",
+            "bed_gy_ab4": 120.0,
+            "bed_computed_here": "5 x 8 x (1 + 8/4) = 120 Gy, alpha/beta = 4.",
+            "local_control_duration": "At the March 2025 restaging (~3 months post-SABR): complete response in 2 of these 3 nodules and a major/partial response in the third (16 mm shrank to 6 mm); the paper notes further reduction may yet appear on later imaging. No relapse reported at any of the three."
+          },
+          {
+            "occasion": 2,
+            "date": "December 2024 (course B of 2, same clinical episode as course A -- lower dose to respect small-bowel dose constraints)",
+            "sabr_course_number_table1": "3rd SABR",
+            "sites_treated": "2 intra-abdominal-cavity nodules (6 and 9 mm), found at the same October 2024 restaging",
+            "dose": "35 Gy",
+            "fractions": 5,
+            "dose_per_fraction": "7 Gy",
+            "bed_gy_ab4": 96.25,
+            "bed_computed_here": "5 x 7 x (1 + 7/4) = 96.25 Gy, alpha/beta = 4. Lower than the other three courses BECAUSE of the bowel constraint, not because of a different local-control intent -- Table 1 records this as the only course where the small-bowel Dmax (34.7 Gy) approaches its <35 Gy limit.",
+            "local_control_duration": "Included in the same March 2025 restaging as course A above: complete or major response reported across the 5 December-2024-treated nodules collectively; the paper does not separately break out these 2 nodules' response from the other 3."
+          },
+          {
+            "occasion": 3,
+            "date": "March 2025",
+            "sabr_course_number_table1": "4th SABR",
+            "sites_treated": "one new oligoprogressive 10-mm nodule of the left abdominal wall",
+            "dose": "40 Gy",
+            "fractions": 5,
+            "dose_per_fraction": "8 Gy",
+            "bed_gy_ab4": 120.0,
+            "bed_computed_here": "5 x 8 x (1 + 8/4) = 120 Gy, alpha/beta = 4.",
+            "local_control_duration": "UNKNOWN -- this was the most recent treatment reported (paper received 2025-07-04, accepted 2025-08-20); no follow-up restaging after this course is described in the text."
+          }
+        ],
+        "not_a_sabr_occasion": "Between occasion 1 and occasion 2, a NEW 12-mm subcutaneous left-abdominal-wall nodule found in May 2024 was managed with SURGICAL EXCISION in June 2024 (pathologically confirmed EMC, Ki-67 40%), not SABR. This is the 'surgical excision' half of the abstract's 'surgical excision or SABR alone' -- no dose/fractionation applies to it.",
+        "source_confidence": "FULL TEXT, read directly (PMC plain HTTP fetch, 2026-08-28 -- see direct_evidence entry above). All four dose/fractionation figures are also independently confirmed by the paper's own Table 1 ('Dosimetric data of the SABR courses': Prescription dose (Gy) = 40 / 40 / 35 / 40 for the 1st-4th SABR courses respectively), so this is not resting on the running-text description alone."
       },
       {
         "pmid": "36944557",
@@ -262,15 +310,35 @@
         "fractions": 10,
         "dose_per_fraction": "4 Gy",
         "bed_gy_ab4": "NOT COMPUTED -- excluded by design",
-        "why_excluded": "This artifact's own prior note is explicit: the 2025 review tells this case twice, attributed to two different papers ('Qiu et al. 2014' and 'Takagawa et al. 2022'), and at least one attribution is wrong. Computing a BED from a case whose primary source is unidentified would launder an attribution error into an arithmetic fact. Retrieve the correct primary before this row can be added."
+        "why_excluded": "This artifact's own prior note is explicit: the 2025 review tells this case twice, attributed to two different papers ('Qiu et al. 2014' and 'Takagawa et al. 2022'), and at least one attribution is wrong. Computing a BED from a case whose primary source is unidentified would launder an attribution error into an arithmetic fact. Retrieve the correct primary before this row can be added.",
+        "superseded_2026_08_28": "⚠ RESOLVED by AUT-RT-002 -- see the row immediately below and additional_deliveries_found_in_the_review[0].attribution_resolved_2026_08_28. This row is left in place as the record of what was unresolved before that pass; it is no longer the live answer."
+      },
+      {
+        "pmid": "UNKNOWN -- not indexed in PubMed or Europe PMC as of 2026-08-28 (checked; Journal of Radiotherapy in Practice appears not to be indexed in either)",
+        "doi": "10.1017/S1460396914000284",
+        "authors": "Qiu H, Hare M, Chen Y",
+        "journal": "Journal of Radiotherapy in Practice",
+        "year": "2014",
+        "resolved_by": "AUT-RT-002, 2026-08-28 -- resolves the twice-attributed case excluded in the row above",
+        "citation_as_given_in_review_bibliography": "Qiu H, Hare M, Chen Y (2014) A case report of long-term survival of metastatic extraskeletal myxoid chondrosarcoma treated with surgery and hypofractionated radiotherapy. J Radiother Pract 13:493-497. 10.1017/s1460396914000284",
+        "modality": "SBRT to lung metastases (one component of a multi-site, multi-year radiotherapy course also covering spine, pelvis, limb, chest wall and clavicle)",
+        "dose": "40 Gy",
+        "fractions": 10,
+        "dose_per_fraction": "4 Gy",
+        "bed_gy_ab4": 80.0,
+        "bed_computed_here": "10 x 4 x (1 + 4/4) = 80 Gy, alpha/beta = 4 -- arithmetic performed here from the dose/fractionation as paraphrased by the review, not read from the primary text.",
+        "sites_treated": "lung metastases (M1) -- ONE of many sites this same patient received RT to over 10 years (spine x2 courses, pelvis/limb, thorax, clavicle); see additional_deliveries_found_in_the_review for the full course",
+        "local_control_duration": "UNKNOWN precisely for the lung site alone -- the review states only 'a partial radiographic response'; no lung-specific duration-of-control figure is given. The patient's OVERALL survival across the whole course exceeded the 17.8-month metastatic-EMC benchmark this artifact uses elsewhere, but that is a course-wide figure, not a lung-lesion-specific one.",
+        "source_confidence": "SECONDARY -- read from the review's (PMID 41055792) own retrieved full text and cross-checked against the review's own bibliography line (above), which independently identifies the same title/authors/journal/DOI. A live WebSearch on 2026-08-28 confirmed a real Cambridge Core landing page exists at this exact title/author/journal, so the paper is not a review fabrication. The Cambridge Core primary text itself was NOT read directly (egress-blocked from this environment). Confidence is HIGH that this is the correct and only real primary source for the case and for the 40 Gy/10fx lung figure; the dose numbers carry one layer of indirection (review's paraphrase, not the primary text)."
       }
     ],
     "decision": "NO -- the assembled table does not surface anything the 2025 review has not already said, and it is thinner than the concept paper's own §8(b) estimate implied. Of the four independently-sourced reported deliveries, only ONE (PMID 35494187) has a dose and fractionation specific enough to compute a BED, and that computation (142.5 Gy at alpha/beta=4) lands almost exactly on the review's own headline figure of '142 Gy (alpha/beta=4)' for HDR-ISBT -- which this artifact's provenance notes had NOT previously identified as the same case, since the review's quoted passage names no PMID. That identification is the one piece of new synthesis this pass produced: the review's central BED number IS PMID 35494187, not a separate unstated data point. The other three sourced deliveries (41323055, 36944557, 40885991) all lack dose and/or fractionation in what has been read so far -- two behind a full-text fetch this repository has not yet made ($0, open access, per the artifact's own outstanding list), one genuinely unreported in the source. A fifth candidate case (the twice-attributed SBRT delivery) is excluded outright rather than tabulated with an unverified attribution. A table this data-poor cannot support a dose-response argument and was never going to (concept paper §8(b) already said so); it also cannot yet support the weaker 'here is every dose anyone has reported' descriptive-appendix framing, because three of four sourced cases have no dose to report. That appendix is buildable, but only after the two outstanding $0 fetches land -- filed as new ledger items rather than dispatched in this pass.",
     "outstanding_fetches_this_decision_depends_on": [
-      "PMID 41323055 full text (open access, $0, not yet fetched) -- would add dose/fractionation/duration for the one case with three separate treated occasions",
+      "PMID 41323055 full text (open access, $0, not yet fetched) -- would add dose/fractionation/duration for the one case with three separate treated occasions. ⚠ Superseded 2026-08-28, see `decision_update_2026_08_28` below for what this pass found.",
       "PMID 36944557 full text (Cloudflare-blocked at sandbox and CI runner; needs a route this repository does not have, e.g. a library copy or a co-author with institutional access)",
-      "The correct primary source for the twice-attributed 40 Gy/10fx SBRT case, to replace the excluded row above"
-    ]
+      "The correct primary source for the twice-attributed 40 Gy/10fx SBRT case, to replace the excluded row above. ⚠ RESOLVED 2026-08-28 by AUT-RT-002 -- see the new row above and additional_deliveries_found_in_the_review[0].attribution_resolved_2026_08_28. Retained as the record of what was outstanding before that pass."
+    ],
+    "decision_update_2026_08_28": "Two of the three outstanding items above closed in one pass (AUT-RT-001, AUT-RT-002), both by finding sources rather than by search: PMID 41323055's full text was one PMC domain away from what had already been tried (Karger 403s; plain PMC did not), and the Qiu/Takagawa conflict was resolved by reading the review's own already-cached full text rather than by fetching anything new. The table now has FOUR independently-sourced deliveries with a real dose and fractionation (PMID 35494187, PMID 41323055 x4 occasions, and the corrected Qiu-2014 lung case), against one two days ago. The doses span 4 Gy/fraction (Qiu 2014, conventional-leaning hypofractionation) through 7-8 Gy/fraction (PMID 41323055's four SABR courses, BED 96-120 Gy at alpha/beta=4) to 15 Gy/fraction (PMID 35494187's HDR-ISBT, BED 142.5 Gy) -- a real spread, not a repeat of one number, and PMID 41323055 alone now contributes four independently dosed, independently outcome-tracked deliveries in a single patient, which is more same-patient dose-response signal than this table held in total before this pass. ⛔ This does NOT by itself flip the 2026-08-27 'NO' above to a 'YES': the original decision's core objection -- that a dose-response ARGUMENT needs deliveries that vary in a way that lets outcome be compared against dose, not just deliveries that HAVE a dose -- is a judgement this update does not attempt to make, and PMID 36944557 (whole-lung EBRT, the single most on-point paper for the artifact's original lung-metastasis question) remains completely unread, still Cloudflare-blocked. What changed is factual completeness of what is already sourced, not a re-litigation of whether it adds up to a paper. That call belongs to whoever next reads this table with the concept memo in hand."
   },
   "the_discrepancy_nobody_has_reconciled": {
     "statement": "Median overall survival after metastasis in EMC is quoted as 17.8 months in the 2008 two-referral-centre series and as '5-7 years in modern series' by the 2025 review, which also reports a SEER-derived median OS of 48 months with 10-year OS of 10% for metastatic disease. These differ by roughly fourfold and the review uses the 17.8-month figure as the benchmark a treated patient exceeded while elsewhere stating the 5-7 year figure.",

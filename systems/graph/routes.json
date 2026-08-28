@@ -2449,7 +2449,7 @@
       "junction neoantigen"
     ],
     "grade": {
-      "value": "○ drafted — and now carrying a correction owed",
+      "value": "○ drafted — the correction is PAID (2026-08-07) and the route is graded on COVERAGE. ⭐ RE-GRADED 2026-08-28 AGAINST THE COMMITTED ARTIFACTS AND THE GRADE DOES NOT MOVE UP. ⚠ Superseded, retained: \"○ drafted — and now carrying a correction owed\", which contradicted this record's own `correction_owed` and the grade owner's table row in the same breath. ⛔ ALL THREE ITEMS THIS ROUTE LISTED AS WITHHELD WERE FALSE against the committed tree, checked artifact by artifact rather than inherited: patient-cd4-demo.json and patient-neoepitopes-taf15-demo.json each carry `source.coordinate_system` TRANSCRIPT with `source.grade` EMITTABLE at the corrected seam; patient_neoepitopes.py builds every junction through `junction_aso.transcript_model` / `mrna_junction_generic` and grades it with `junction_aso.grade_junction`; and re-running vaccine_construct.py and coverage_scan.py offline reproduces vaccine-construct.json and coverage-curve.json BYTE-FOR-BYTE. ⭐ THE DISCRIMINATING OBSERVATION for the third item, which no earlier reading had taken: coverage_scan.py emits coverage-curve.json and epitope-allele-matrix.json and has never emitted a file named coverage-scan.json, and the matrix's peptide count is exactly the 8–11-mer set of the CORRECTED breakpoint artifact — so its class-I scan was run on the repaired input, not the retracted one. ⛔ WHAT THE RE-GRADE FINDS IS NOT BETTER NEWS. Coverage is the ceiling and it is low at every level: the public e7::e3 junction, the pooled class-I panel, the class-II arm — ONE strong binder on ONE allele of the full DR/DP/DQ panel screened, with every declared allele scored and `alleles_without_a_model` empty — and the both-arms figure, which is the PRODUCT of the two arms and is therefore the smallest number on the route. Every figure is owned by ART-HLA-COVERAGE, by research/modalities/coverage-curve.json and by emc-vaccine-development-path.md §B4, and none is re-typed here. ⚠ AND THE REVIVAL TRIGGER'S FIRST DISJUNCT IS ALREADY MET ON ITS LETTER — the 34-allele scan finds the lead peptide strong on a second common allele — while its second is decisively NOT met, and the coverage that first disjunct bought is too small to reopen anything. That is recorded as a defect in the trigger STRING, and the string is deliberately NOT rewritten by the cycle it fired in.",
       "owner": {
         "file": "research/manuscripts/program/target-route-options.md",
         "anchor": "#route-7--junction-neoantigen-vaccine--tcr-t--soluble-tcr"
@@ -2526,21 +2526,21 @@
     "purpose": "Does the fusion junction produce a peptide the immune system could see — and is it presented?",
     "state": {
       "work_state": "complete",
-      "status": "blocked",
+      "status": "ready",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-08-28"
     },
-    "rationale": "The junction is tumour-exclusive at the sequence level. ⚠ Whether ONE peptide is shared across breakpoints is UNSETTLED — the committed analysis found no pan-EMC epitope (the most-shared candidate appears in 2 of 7 junctions and is a weak binder) — and it was computed on seams the corrected exon index does not produce, so even that reading is void pending regeneration.",
+    "rationale": "The junction is tumour-exclusive at the sequence level, and the committed analysis finds NO pan-EMC epitope: the most-shared candidate is a weak binder, and every strong binder it emits is specific to a single breakpoint. ⚠ Superseded, retained (corrected 2026-08-28): \"Whether ONE peptide is shared across breakpoints is UNSETTLED — the committed analysis found no pan-EMC epitope (the most-shared candidate appears in 2 of 7 junctions and is a weak binder) — and it was computed on seams the corrected exon index does not produce, so even that reading is void pending regeneration.\" The regeneration happened on 2026-08-07 and the counts that replaced those are owned by research/modalities/fusion-breakpoint-neoantigens.json and by the abstract of research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md, so they are not re-typed here. What is unsettled is no longer the seam. It is COVERAGE — a public junction that reaches a small minority of patients — and, above that, presentation, which has never been measured on EMC tissue.",
     "supporting_evidence": [],
     "remaining_unknowns": [
-      "The breakpoint-RESOLVED predictions remain VOID: they span seams the corrected exon index does not produce, and that artifact is not regenerated. The SINGLE-junction artifact WAS regenerated 2026-08-06 at the corrected mRNA junction (EWSR1 e7 :: NR4A3 e3): the seam carries a novel codon (AAT = Asn) from 1 leftover EWSR1 nt plus 2 retained acceptor-5'UTR nt, then NR4A3 Met1 — giving 38 junction peptides, 3 predicted binders and a lead of NMPCVQAQY on HLA-B*15:01. ⛔ Predicted binding is a SCREEN, not presentation and not immunogenicity.",
+      "⚠ Superseded, retained (corrected 2026-08-28 against the committed artifact): \"The breakpoint-RESOLVED predictions remain VOID: they span seams the corrected exon index does not produce, and that artifact is not regenerated.\" research/modalities/fusion-breakpoint-neoantigens.json IS regenerated on the transcript model — its own `_coordinate_system` field says so — and every junction it emits grades EMITTABLE. The seam, the per-junction peptide counts and the lead binder are owned by that artifact and by the abstract of research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md and are not re-typed here. ⛔ Predicted binding is a SCREEN, not presentation and not immunogenicity.",
       "Whether a junction peptide is presented at all, and at what level — EMC is antigen-cold.",
       "Whether the peptide-HLA is strong enough to be a target rather than merely present."
     ],
     "required_validation": [
       {
-        "what": "Regeneration of the predictions against the corrected exon index",
+        "what": "⛔ TAKEN 2026-08-07 and re-verified 2026-08-28 — regeneration of the predictions against the corrected exon index. Every downstream artifact is on the transcript model too, and vaccine-construct.json and coverage-curve.json reproduce byte-for-byte when their generators are re-run offline. Nothing free remains in this row.",
         "feasible_today": true,
         "blocked_by": []
       },
@@ -2555,23 +2555,22 @@
     ],
     "readiness": {
       "attainable_today": "internal_note",
-      "why_not_higher": "The breakpoint-resolved artifact is regenerated and its banner is cleared. What remains is DOWNSTREAM: patient-cd4-demo.json, the TAF15 panel (patient_neoepitopes.py), vaccine_construct.py and coverage_scan.py were all built on the retracted seam and are NOT repaired by regenerating their input.",
+      "why_not_higher": "The breakpoint-resolved artifact is regenerated and its banner is cleared — and so is everything this record listed as downstream of it. ⚠ Superseded, retained: \"What remains is DOWNSTREAM: patient-cd4-demo.json, the TAF15 panel (patient_neoepitopes.py), vaccine_construct.py and coverage_scan.py were all built on the retracted seam and are NOT repaired by regenerating their input.\" ⛔ THAT SENTENCE WAS FALSE AGAINST THE COMMITTED TREE and had been since the regenerations landed; it is corrected 2026-08-28 with the evidence in `next.best_next_action` and in the grade. The one surviving `fusion_breakpoints.gene_model` call in patient_neoepitopes.py is the NOVELTY FILTER's parent wild-type protein lookup, which is that instrument's correct use and is not the junction builder. What is missing now is a WIDER class-I panel, which is free, and above it measured presentation, which is not.",
       "missing": [
-        "patient-cd4-demo.json regenerated at the corrected junction — the class-II arm and every CD8∧CD4 figure are withheld until it is",
-        "the TAF15::NR4A3 panel regenerated — patient_neoepitopes.py still builds through fusion_breakpoints.gene_model, the CDS/protein instrument",
-        "vaccine_construct.py and coverage_scan.py re-run (vaccine_construct currently emits an incoherent half-corrected artifact)"
+        "HLA-C in the class-I coverage panel — coverage_scan.py's `PANEL` is common HLA-A and HLA-B alleles only, with no HLA-C at all, and emc-vaccine-development-path.md's Table 2 caption names HLA-C as the first extension that could raise the figures at the fixed 0.5-percentile cut. Free, and it needs MHCflurry, so it belongs to the modalities-run.yml step that already runs coverage_scan.py. ⚠ Whether the predictor scores HLA-C alleles at all is UNKNOWN from this tree and is the first thing that run would establish; coverage_scan.py records no `alleles_without_a_model` equivalent, so an allele it could not score would leave the panel silently rather than as a reading.",
+        "measured presentation of a junction peptide on EMC tissue — BLK-ANTIGEN-COLD and BLK-NO-EMC-DATA, and not free"
       ]
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "The blocking defect is an input error this program made and can fix for nothing. Waiting on any external capability while a free self-inflicted defect stands unrepaired is the wrong order.",
-      "six_month_delta": "None — the fix is available now.",
-      "two_year_delta": "Presentation prediction is improving, but the void result must be repaired first regardless.",
+      "rationale": "⚠ Superseded, retained: \"The blocking defect is an input error this program made and can fix for nothing. Waiting on any external capability while a free self-inflicted defect stands unrepaired is the wrong order.\" The input error was fixed on 2026-08-07; what kept this row reading `blocked` until 2026-08-28 was a stale record of it, not the defect. The recommendation stays `pursue_now` for a different reason: one free step remains — widening the class-I panel to HLA-C — and it is the route's own revival condition, so parking the row would be a false park.",
+      "six_month_delta": "None — the one free step, widening the class-I panel to HLA-C, is available now. ⚠ Superseded, retained: \"None — the fix is available now.\", written when the step was the seam regeneration, which was paid on 2026-08-07.",
+      "two_year_delta": "Presentation prediction is improving, and a measured presentation result is the only thing that would move this route materially. ⚠ Superseded, retained: \"Presentation prediction is improving, but the void result must be repaired first regardless.\" Nothing on this route is void: every artifact is regenerated on the transcript model.",
       "cost_trend": "flat",
-      "automation_outlook": "Fully automatable; it is a regeneration."
+      "automation_outlook": "Fully automatable — the remaining free step is a panel widening plus a re-run of an existing CI job. The measurement above it is not computational at all."
     },
     "next": {
-      "best_next_action": "Regenerate patient-cd4-demo.json and the TAF15 panel at the corrected junction, then re-grade the route on COVERAGE rather than on a defective input.",
+      "best_next_action": "⭐ THE RE-GRADE THIS FIELD ASKED FOR IS DONE (2026-08-28), AND THE ROUTE IS BLOCKED ON NOTHING THIS PROGRAM OWES. ⚠ Superseded, retained: \"Regenerate patient-cd4-demo.json and the TAF15 panel at the corrected junction, then re-grade the route on COVERAGE rather than on a defective input.\" ⛔ BOTH REGENERATIONS WERE ALREADY COMMITTED WHEN THAT SENTENCE WAS SITTING IN THE QUEUE AT `status: blocked` AND `cost: $0`, and so was the third item — so the row looked healthy while telling every reader that finished work was owed and that the class-II arm was withheld. THE RE-GRADE'S OUTCOME is in `grade`: coverage is the ceiling, it is low, and it moved AGAINST the route rather than for it. NEXT, AND IT IS FREE: add HLA-C to coverage_scan.py's class-I panel, re-run it in modalities-run.yml, and re-grade the coverage again. ⛔ DELIBERATELY NOT DONE IN THE CYCLE THAT FOUND THIS: changing the panel moves figures registered in research/manuscripts/pinned-figures.json and quoted in a manuscript under hardening, and CLAUDE.md rule 1.3 requires every home of a changed pinned figure updated in the same commit — which needs the CI run's numbers first.",
       "cost": "$0"
     }
   },
@@ -2583,7 +2582,7 @@
       "HLA-coverage paper"
     ],
     "grade": {
-      "value": "PARKED — done, not a treatment path; a self-adjacent junction in a cold tumour is a weak immunogen",
+      "value": "PARKED — done, not a treatment path; a self-adjacent junction in a cold tumour is a weak immunogen ⭐ RE-GRADED ON THE RECOMPUTED COVERAGE (2026-08-28) AND THE PARKING SURVIVES — COVERAGE MOVED AGAINST THE ROUTE, NOT FOR IT. Class I fell on the corrected transcript-model junction: the public e7::e3 junction is presented on HLA-B*15:01 alone, and the any-strong-binder set lost two alleles. ⛔ AND THE CLASS-II ARM IS NO LONGER WITHHELD — that claim was FALSE against the committed artifacts and had been since 2026-08-22. patient-cd4-demo.json is rebuilt on the corrected seam (`QYSQQSSSYGQQ|NMPCVQAQYSPS`, grade EMITTABLE), hla_coverage.py's own ⛔_class_ii_provenance records `matches_corrected_seam: true` with no banner, and the coverage artifact carries class-II and both-arms figures. The class-II result is itself weak: ONE strong binder on ONE allele across a 23-allele DR/DP/DQ panel in which every declared allele was scored. ⚠ The re-grade therefore changes nothing about the parking, which rests on BLK-ANTIGEN-COLD — immunogenicity of a self-adjacent junction in a cold tumour — and not on coverage. Figures are owned by ART-HLA-COVERAGE and are not re-typed here.",
       "owner": {
         "file": "research/manuscripts/neoantigen/hla-coverage-emc.md",
         "anchor": null
@@ -2654,7 +2653,7 @@
       "status": "parked",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-05"
+      "last_verified": "2026-08-28"
     },
     "rationale": "If the junction peptide is presented, a vaccine is the cheapest way to point the immune system at it, and its HLA-coverage analysis is reusable regardless of whether the vaccine itself proceeds.",
     "supporting_evidence": [],
@@ -2673,7 +2672,7 @@
     ],
     "readiness": {
       "attainable_today": "internal_note",
-      "why_not_higher": "its antigen input is no longer void — it is regenerated. What now blocks it is COVERAGE: ≈8.5% on the public junction, ≈27% pooled, and a class-II arm still on the retracted seam.",
+      "why_not_higher": "its antigen input is no longer void — it is regenerated. What now blocks it is COVERAGE on the public junction and, above that, immunogenicity. ⚠ Superseded, retained: \"≈8.5% on the public junction, ≈27% pooled, and a class-II arm still on the retracted seam.\" The two class-I figures are unchanged and are owned by ART-HLA-COVERAGE; the class-II half of that sentence was FALSE when this record last carried it — the demo was rebuilt on the corrected seam and the coverage module records the match — and the arm is reported rather than withheld. Corrected 2026-08-28 against the committed artifacts.",
       "missing": [
         "an immunogenicity argument"
       ]
@@ -2690,7 +2689,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Re-grade on the recomputed coverage. The HLA-coverage output is reusable but its class-I figures moved by ~3× and its class-II figures are withheld.",
+      "best_next_action": "⭐ THE RE-GRADE THIS FIELD ASKED FOR IS DONE (2026-08-28) AND THE ROUTE STAYS PARKED. Superseded, retained: \"Re-grade on the recomputed coverage. The HLA-coverage output is reusable but its class-I figures moved by ~3× and its class-II figures are withheld.\" ⛔ THE SECOND HALF OF THAT SENTENCE WAS ALREADY FALSE WHEN IT WAS WRITTEN INTO THE QUEUE: the class-II figures are computed and committed. The re-grade's outcome is that coverage moved AGAINST the route and immunogenicity — BLK-ANTIGEN-COLD — is unchanged, so `parked` is the right state and TECH-JUNCTION-PMHC remains what would reopen it. Nothing free is left open on this route; the reusable half is the coverage computation, which feeds TCR-T eligibility through RT-JUNCTION-NEOANTIGEN.",
       "cost": "$0"
     }
   },
@@ -5685,7 +5684,7 @@
       }
     ],
     "remaining_unknowns": [
-      "Whether the chimera is a chaperone CLIENT, which is the route's actual premise and a co-immunoprecipitation question that no expression read can reach. \u26d4 The literature was assessed on 2026-08-27 and NO FET-family fusion protein is a documented client: no binding assay exists for any FUS, EWSR1 or TAF15 fusion, and NR4A3 fusions have no chaperone literature at all. What does exist is dependence without binding \u2014 EWS::FLI1 protein falls on HSP90 inhibition and on knockdown of the co-chaperone SGT1. The assay is not the obstacle: AML1-ETO was shown to bind the chaperonin TRiC directly. See research/literature/fet-fusion-chaperone-clientship-2026-08-27.json.",
+      "Whether the chimera is a chaperone CLIENT, which is the route's actual premise and a co-immunoprecipitation question that no expression read can reach. ⛔ The literature was assessed on 2026-08-27 and NO FET-family fusion protein is a documented client: no binding assay exists for any FUS, EWSR1 or TAF15 fusion, and NR4A3 fusions have no chaperone literature at all. What does exist is dependence without binding — EWS::FLI1 protein falls on HSP90 inhibition and on knockdown of the co-chaperone SGT1. The assay is not the obstacle: AML1-ETO was shown to bind the chaperonin TRiC directly. See research/literature/fet-fusion-chaperone-clientship-2026-08-27.json.",
       "Why the HSP90 and HSP70 arms move in opposite directions here, which is unexplained and is the reason this is not graded as support.",
       "Whether any therapeutic index exists for this class — its clinical record is dominated by toxicity, and nothing here assumes otherwise.",
       "Whether the two HSP90 paralogues are mutually redundant, which would make their individually low dependency scores an artefact of single-gene knockout rather than a statement about the chaperone — a dual-knockout question no public panel answers."
@@ -5725,7 +5724,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Fetch IntAct/BioGRID dataset IM-22301, the deposited interaction set of the published human chaperone-interaction network (PMID 25036637), and record whether FUS, EWSR1 or TAF15 appear in its query panel at all \u2014 a $0 fetch, and the last cheap observation left on this route now that the FET-fusion clientship literature has been assessed and come back empty.",
+      "best_next_action": "Fetch IntAct/BioGRID dataset IM-22301, the deposited interaction set of the published human chaperone-interaction network (PMID 25036637), and record whether FUS, EWSR1 or TAF15 appear in its query panel at all — a $0 fetch, and the last cheap observation left on this route now that the FET-fusion clientship literature has been assessed and come back empty.",
       "cost": "$0"
     }
   },
@@ -6706,7 +6705,7 @@
     "kind": "route",
     "title": "Hormonal therapy for hormone-responsive 5′ fusion partners",
     "grade": {
-      "value": "⛔ THE PRINCIPLE SURVIVES AND THE REACH DOES NOT (graded 2026-08-09 from a lane that ran 2026-08-07). A hormone-responsive 5′ partner is reported in ONE EMC patient in the world literature and in ZERO of the 84 partner-genotyped EMC cases across the two cohorts this repository cites — Wilson 95% upper bound 4.4%. The dominant partner, which carries roughly four in five cases, answers NO: across 345 retrieved full-text records no source characterises the EWSR1 promoter as responsive to any druggable stimulus. ⭐ What survives is the general mechanism, which the sweep strengthened rather than merely repeated: across every partner retrieved, the imported regulatory input is the PARTNER's and never NR4A3's own — 12 partners across 3 tumour types, including a second disease where the imported element is an enhancer.",
+      "value": "⛔ THE PRINCIPLE SURVIVES AND THE REACH DOES NOT (graded 2026-08-09 from a lane that ran 2026-08-07). A hormone-responsive 5′ partner is reported in ONE EMC patient in the world literature and in ZERO of the 84 partner-genotyped EMC cases across the two cohorts this repository cites — Wilson 95% upper bound 4.4%. The dominant partner, which carries roughly four in five cases, answers NO: across 345 retrieved full-text records no source characterises the EWSR1 promoter as responsive to any druggable stimulus. ⭐ What survives is the general mechanism, which the sweep strengthened rather than merely repeated: across every partner retrieved, the imported regulatory input is the PARTNER's and never NR4A3's own — 12 partners across 3 tumour types, including a second disease where the imported element is an enhancer. ⭐ THE LAST UNGRADED PARTNER IS NOW GRADED, AND IT ANSWERS NO (2026-08-28). HSPA8 — the one partner whose gene family plausibly carried an inducible element — has no reported hormone response element in its promoter. Across every PubMed record returned by three intersecting queries, read exhaustively (7 on the HSC70/HSPA8 promoter, 8 on hormone-response-element language, 13 on the intersection), the only cis-elements ever localised in a mammalian hsc70 promoter are Sp1 sites, and the one inducible input ever mapped there is ETHANOL. ⛔ THE DISCRIMINATING RECORD IS THE ONE THAT DOES FIND AN OESTROGEN LINK: in a human ER-positive line the mapped site is the HSPA8 3′UTR, reached by an oestrogen-regulated microRNA — a segment an HSPA8::NR4A fusion transcript does not carry, because such a fusion takes its 3′ end from the NR4A gene. ⚠ This is a RETRIEVAL negative, not a measurement: nobody has asked whether the human HSPA8 promoter contains an ERE. Grade and every identifier: ART-HSPA8-PROMOTER-GRADE.",
       "owner": {
         "file": "research/modalities/hormone-partner-lane.json"
       }
@@ -6742,7 +6741,7 @@
       "status": "parked",
       "maturity": "computed",
       "confidence": "moderate",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-28"
     },
     "rationale": "A 5′ partner can bring its own promoter and its own regulation, and the repository already holds a reported instance of exactly that with durable benefit on an approved agent. No hormonal route exists among the forty-three, which makes this a registered lane with nowhere to live.",
     "supporting_evidence": [
@@ -6750,11 +6749,16 @@
         "ref": "ART-HORMONE-PARTNER-LANE",
         "what_it_supports": "the hormone-responsive-partner fraction in EMC is zero of 84 partner-genotyped cases with a Wilson 95% upper bound of 4.4%, and no retrieved source gives the dominant partner's promoter a druggable inducible input",
         "strength": "direct"
+      },
+      {
+        "ref": "ART-HSPA8-PROMOTER-GRADE",
+        "what_it_supports": "the HSPA8 promoter is not characterised anywhere in PubMed-indexed literature as carrying a hormone response element or as driven by a nuclear-receptor ligand, so the route's last ungraded partner imports no druggable hormonal input",
+        "strength": "direct"
       }
     ],
     "remaining_unknowns": [
       "Whether an unbiased RNA-seq-genotyped EMC series would move the reach figure in either direction — the cited denominators come from targeted assays that one of the source reports states would have missed its own case, and this is the single observation that could move it.",
-      "Whether the one partner whose gene family plausibly carries a druggable inducible input (HSPA8) has one, which is ungraded because nothing was retrieved for it.",
+      "⭐ ANSWERED 2026-08-28, AND THE ANSWER IS NO. Superseded, retained: \"Whether the one partner whose gene family plausibly carries a druggable inducible input (HSPA8) has one, which is ungraded because nothing was retrieved for it.\" It is no longer ungraded — ART-HSPA8-PROMOTER-GRADE records the retrieval. ⚠ WHAT REPLACES IT IS A NARROWER UNKNOWN AND IT IS REAL: whether the human HSPA8 promoter contains a hormone response element NOBODY HAS LOOKED FOR. Every study that dissected that promoter was asking about something else — ethanol, oxidative stress, a cystic-fibrosis corrector, a transgenic cassette — so the absence is an absence of asking, not a measured negative. A response-element scan of the promoter sequence, or a nuclear-receptor cistrome read at the HSPA8 TSS, would close it and neither was run.",
       "Whether any anti-oestrogen outcome exists in a hormone-partnered UTERINE tumour, which would take the axis past n = 1 in a different disease."
     ],
     "required_validation": [
@@ -6764,7 +6768,7 @@
         "blocked_by": []
       },
       {
-        "what": "One targeted literature query for whether the HSPA8 promoter carries a druggable inducible element — the only partner left ungraded, and $0",
+        "what": "⛔ TAKEN 2026-08-28 and returned a negative — the targeted literature query for whether the HSPA8 promoter carries a druggable inducible element, the last partner left ungraded. No hormone response element is reported; the promoter's only localised cis-elements are Sp1 sites. ART-HSPA8-PROMOTER-GRADE.",
         "feasible_today": true,
         "blocked_by": []
       },
@@ -6792,7 +6796,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Run the one $0 Europe PMC query on the HSPA8 promoter to close the last ungraded partner, then report the reach negative in the nuclear-receptor paper.",
+      "best_next_action": "⭐ THE $0 STEP THIS FIELD NAMED IS DONE (2026-08-28) AND THE ROUTE IS NOW GENUINELY PARKED. Superseded, retained: \"Run the one $0 Europe PMC query on the HSPA8 promoter to close the last ungraded partner, then report the reach negative in the nuclear-receptor paper.\" ⚠ THAT SENTENCE IS WHY THIS ROUTE WAS MIS-PARKED: it named a takeable free step beside `status: parked`, and once the queue began trusting `state.status` the route was hidden with the step still open (AUT-PD-086). The query was run — through PubMed rather than Europe PMC, which 403s at this sandbox's egress — and it returned NO. What is left is a paragraph in PUB-NR-OUTSIDE-NR4A3, not a lane: no validation this route names is both open and feasible today, the wet-lab confirmation is blocked by BLK-NO-WET-LAB, and only somebody else's RNA-seq-genotyped EMC series (TECH-EMC-EXPRESSION-DATA) can move the reach figure.",
       "cost": "$0"
     }
   },
@@ -6929,7 +6933,7 @@
       "status": "parked",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-09"
+      "last_verified": "2026-08-28"
     },
     "rationale": "The matrix has been treated here as a barrier and, once, as an address. This is the third option nobody had considered: stop the tumour building it. The gel is the disease's defining phenotype and it is a manufactured product with a named biosynthetic pathway. The pathway is shared with normal chondrogenesis, so selectivity is the open question rather than an assumption.",
     "supporting_evidence": [
@@ -6945,7 +6949,7 @@
     ],
     "required_validation": [
       {
-        "what": "The expression lookup that grades this route's premise",
+        "what": "⛔ TAKEN 2026-08-09 and returned against the premise — the expression lookup that grades this route's premise. It is what produced the grade above, and it is recorded here as taken so the row stops reading as an open feasible-today step (AUT-PD-086).",
         "feasible_today": true,
         "blocked_by": []
       },
@@ -6974,7 +6978,7 @@
       ]
     },
     "next": {
-      "best_next_action": "Restate the premise, or report the contradiction as the result.",
+      "best_next_action": "Report the contradiction as the result. ⛔ AND THE OTHER HALF OF THIS SENTENCE IS NOT TAKEABLE — checked 2026-08-28. Superseded, retained: \"Restate the premise, or report the contradiction as the result.\" A restatement is what this route's own `readiness.missing` and `timing.rationale` say it lacks, and they also say why it cannot be produced here: the restated premise is about matrix TURNOVER rather than enzyme transcript, and no available dataset supplies that. So the only free step left is writing up a finished negative, which CLAUDE.md §0 ranks behind anything live. `parked` is correct and TECH-EMC-EXPRESSION-DATA is what reopens it.",
       "cost": "$0"
     }
   },
@@ -7786,7 +7790,7 @@
       "status": "parked",
       "maturity": "computed",
       "confidence": "moderate",
-      "last_verified": "2026-08-26"
+      "last_verified": "2026-08-28"
     },
     "rationale": "The registry curates several agents with disease-specific activity and says nothing about the order to give them in. In a disease where decisions are years apart, ordering is one of the few variables a clinician actually controls, and no prior sweep treated it as a question at all.",
     "supporting_evidence": [
@@ -7803,7 +7807,7 @@
     ],
     "required_validation": [
       {
-        "what": "The $0 analysis or registry sweep named in this route's next action",
+        "what": "⛔ TAKEN 2026-08-09 and sharpened 2026-08-26 — the $0 analysis and registry sweep this route named. It produced the pooling artifact's refusal to report an all-regimen figure, and the check against the field's most recent comprehensive EMC review. Recorded as taken so the row stops reading as an open feasible-today step (AUT-PD-086).",
         "feasible_today": true,
         "blocked_by": []
       },

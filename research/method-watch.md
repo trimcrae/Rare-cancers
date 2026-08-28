@@ -520,3 +520,13 @@ triggers not yet integrated into the curated sections above — review + fold in
   capable model found since 2026-07-13 that out-measures Opus 5 for scientific/biology reasoning (xAI Grok 4.6
   and Alibaba Qwen3.5-Max shipped in-window with no head-to-head showing them ahead; treat as UNKNOWN, not
   inferior). https://www.anthropic.com/news/claude-opus-5
+- **2026-08-28 — RDKit 2026.03.6 (released today).** Adds a "synthon space shape search" feature, a BertzCT
+  descriptor speed-up (no value change, safely re-runnable) and bug fixes (numpy dtype handling, Boost 1.92
+  build compat). No default-affecting change to numbers we've already produced; the shape-search feature is a
+  candidate to evaluate for de-novo/warhead-pool work. https://github.com/rdkit/rdkit/releases/tag/Release_2026_03_6
+- **2026-08-24 — VERAXA/Secarna AOC alliance: positive in-vitro proof-of-concept.** A conjugated
+  oligonucleotide candidate showed greater potency than the naked oligo, reported as validating VERAXA's
+  click-chemistry conjugation platform (platform's stated primary focus is solid tumors, though this specific
+  readout is an immunology indication). A second AOC delivery-TECHNOLOGY data point alongside TAC-001 for the
+  fusion-junction ASO route's dominant delivery gate — not EMC-specific, and not yet a candidate named for our
+  route. https://www.biospace.com/press-releases/veraxa-biotech-and-secarna-pharmaceuticals-achieve-research-milestone-in-antibody-oligonucleotide-conjugate-aoc-alliance

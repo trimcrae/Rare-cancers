@@ -1,0 +1,34 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0048-cyc0048s",
+  "session_id": "CYC-0047-schedule",
+  "utc": "2026-08-28T13:40:00Z",
+  "shape": "This session (single driver), second cycle within max_cycles_per_session=2 (no create_session/handoff available). Small, bounded free items rather than another 5-seat hardening round, since this session already ran one full round-trip cycle (CYC-0047).",
+  "took": "AUT-PD-053 (run the rescore activating the anti-starvation age term) and AUT-PD-051 (widen already_landed() to cover held/in_progress rows, not only ready ones).",
+  "took_what": "The stop hook (ready-work-at-turn-end.sh / continuity.py) correctly refused to let the turn end with 92 ready items and nothing running after CYC-0047's work was pushed. Picked the top-scored, genuinely small items rather than launching another full hardening round in the same session.",
+  "changed": [
+    "AUT-PD-053: no dedicated action needed -- this session's own `priority.py --write` calls during CYC-0047 (re-scoring after ledger edits, after an id-rename, after a rebase) already activated the age term as a side effect, with no other session holding a lease at any of those moments. Verified: AUT-046 reads 199.0 exactly as AUT-PD-053 predicted; read the re-ranked top-10 before marking it done, nothing looks broken. Marked done.",
+    "AUT-PD-051: `research/autonomy/queue_view.py`'s already_landed() check only ever scanned READY rows for a deliverable that had already shipped to origin/main. AUT-PROP-032 (a HELD, in_progress, owned row) was the second same-day instance of exactly this defect and would never have been caught by the ready-only check. Added queue_view.held_full_rows() (pulls the full ledger row for every live lease, since held()'s summary dict lacks the fields already_landed() scans) and wired it into main() as a new report section, folded into --check's exit code. Report-only, matches the module's own documented limit (never auto-closes). Regression-tested: research/autonomy/tests/test_the_arbitration_half_of_the_queue_is_visible.py gained 3 cases; the key one models AUT-PROP-032's exact shape and asserts the ready-only check misses it while the new held-row check catches it. All 3 confirmed failing against the pre-fix module (AttributeError) before being trusted."
+  ],
+  "cost": "$0. Engineering and CPU only, no subagents this cycle.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [
+    "AUT-PROP-042 (round 13 of PUB-ASO hardening, formerly misfiled as AUT-PROP-041 before the id-collision rename) remains the top live item for the ASO route once nothing else is mid-flight against that manuscript family.",
+    "AUT-PD-052 (CI never runs research/autonomy/tests) is explicitly scoped by its own text as needing a dedicated cycle, not a quick fix within this one -- left queued rather than started here."
+  ],
+  "blocked_by": [],
+  "route_advanced": "none",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context. This is this session's second cycle, at the max_cycles_per_session cap; ending the session here rather than taking a third."
+  }
+}

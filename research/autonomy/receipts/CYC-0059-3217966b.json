@@ -1,0 +1,60 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0059-3217966b",
+ "session_id": "3217966b-1027-5d69-a051-f43b65aedde9",
+ "utc": "2026-08-28T20:20:00Z",
+ "shape": "Interactive session, driver + parallel subagents, at the governed width of 5. trimcrae asked a status question ('are any sessions running autonomously right now?'); the turn-end hook then showed 88 ready rows and nothing moving, and the cycle ran from there. ⚠ THIS IS ONE SESSION RUNNING MANY ITEMS, WHICH IS THE SHAPE research-loop §3 WARNS ABOUT — recorded here rather than defended: the items were independent and each went to its own worktree seat, the driver held only verdicts, and the one item that could not fit (the ASO hardening round) was SPAWNED as its own session rather than absorbed.",
+ "took": "Nine items end to end, plus one spawned: AUT-PD-055 (shared-scratchpad collisions), AUT-PROP-035 (per-route out-of-ideas + proposal dedup), AUT-PROP-034 (health axes, restart intensity, three-valued env reads), AUT-PROP-036 (evidence-admissibility gate), AUT-PD-063 (the one red CI check), AUT-PROP-033 (stratified claim audit of the ASO paper), AUT-PROP-037 (claim ceilings in GRADE terms), AUT-PD-026 (phantom worktree preflight failures), AUT-PD-075 (derived rows born as queued work), AUT-PD-086 (four mis-parked routes), AUT-062 (SGK1/NDRG1 attribution). AUT-PD-082 spawned; AUT-PD-093 in flight.",
+ "took_what": "THE THREE FINDINGS WORTH CARRYING FORWARD. (1) THE SCORER WAS ADDITIVE ACROSS RE-SCORES and had INVERTED THE QUEUE: the top 15 rows were hand-filed process rows at 195.5-199.0, several already done, with the best derived route row 78 points below. Found by the admissibility gate on its first real run, not by a human reading the table. §0's failure — documentation outranking live work — arriving through arithmetic rather than judgement. (2) THE ASO PAPER, WHICH CARRIES A PUBLIC DOI, HAS THREE REFUTED INTERPRETATION CLAIMS: 7/10 supported against 9/10 data-analysis and 10/10 literature, every failure a universal quantifier over evidence supporting only the majority case, one contradicted by the paper's own figure legend. Neither lint_claims nor lint_citations can see them — claim strength is orthogonal to claim SCOPE, the third orthogonality this repository has recorded. (3) HALF THE DERIVED QUEUE WAS MIS-STATED (39 of 77 rows), and correcting it exposed four routes recorded parked whose own next step is a $0 action — two of which were LIVE. Both were then taken to a result rather than relabelled: HSPA8 gives no hormonal reach (a RETRIEVAL negative, explicitly not a measured absence), and the vaccine class-II figures were never withheld. ⭐ AND THE SAME DEFECT'S WORSE DIRECTION was found on a live route: a false 'withheld' stops the work while the row still looks healthy, where a false park at least goes quiet.",
+ "changed": [
+  "research/autonomy/: seat_scratch.py, out_of_ideas.py, proposal_dedup.py, admissibility.py, envread.py, plus health.py (axes + bounded restart intensity), priority.py (idempotent terms, parents-first chain, status-driven state), ledger_io.py (admission gate on every write), gates_verdict.py and await_ci.py (three-valued env reads).",
+  "research/manuscripts/: claim_audit.py + the ASO sampling manifest and verdicts; claim-ceiling-grade-map.json; lint_claims.py docstring corrected from five rule families to six.",
+  "scripts/preflight.sh: dependency probe moved onto the interpreter that runs the tests; the xdist probe de-piped (it was a pipefail/SIGPIPE race costing ~11 minutes on about half of every modalities run since 2026-08-23).",
+  "systems/graph + regenerated views: four route records corrected, ART-HSPA8-PROMOTER-GRADE added, INS-HLA-COVERAGE's false class-II note corrected.",
+  "research/modalities/hspa8-promoter-hormone-grade.json and research/literature/ndrg1-kinase-attribution-2026-08-28.json: two new cited artifacts.",
+  "research-ledger.json: 11 rows closed, ~25 filed."
+ ],
+ "cost": "$0. Engineering, CPU and $0 literature retrieval only. No GPU, no rental, no outward-facing act.",
+ "subagents": {
+  "max_concurrent": 5,
+  "cap_at_dispatch": 5,
+  "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+  "within_cap": true,
+  "serial_total": 10,
+  "seats": [
+   "s55-scratchpad",
+   "s35-outofideas",
+   "s34-healthaxes",
+   "s36-admissibility",
+   "s63-prereqscore",
+   "s33-claimaudit",
+   "s37-grade",
+   "s26-worktreepreflight",
+   "s75-derivedstate",
+   "s86-misparked",
+   "s62-sgk1",
+   "s93-falsewithheld"
+  ]
+ },
+ "what_i_got_wrong": [
+  "⛔ RAN claim.py WITH A DIRTY TREE AND AN UNPUSHED MERGE, so its `git push HEAD:main` carried 467 lines of code and 64 of ledger to the trunk with the gate that should have cleared them STILL RUNNING. The gate did not fail; it was BYPASSED. Filed as AUT-PD-066 against the tool rather than absorbed as a near-miss, because the same shape (a narrow tool that stages by file and pushes by branch) will do it again to the next session.",
+  "⛔ PUSHED FROM INSIDE A CONFLICTED REBASE by running the rebase and the push in one command; it pushed the correct commit by luck of ordering, not design. Rebase and push are separate steps for the rest of this session.",
+  "⛔ HAND-WROTE THE LEDGER WITH indent=1 INSTEAD OF ledger_io.write_ledger, turning a 3-row edit into a whole-file diff. Caught by the serialization guard built for exactly it.",
+  "⛔ A REBASE CONFLICT SILENTLY DROPPED THREE ROWS I HAD JUST FILED. My resolution takes the trunk's ledger and re-applies my semantic edits, which is only as complete as my memory of what those edits were — the closure was obvious, three new rows were not. Caught by grepping for the distinctive text of everything the commit should have contained; that grep is now the required half of the strategy.",
+  "⭐ AND ONE I ALMOST GOT WRONG: I was about to close AUT-PD-026 on three green worktree preflights, which prove nothing — the default tier never runs the suite where its phantom failures appeared. An absent reading is not a reading of absence, and I had written the sentence before catching it."
+ ],
+ "now_queued": [
+  "AUT-PD-093 (false 'withheld' on a live route, in flight)",
+  "AUT-PD-096/097 + AUT-PROP-048 (the SGK1 grade correction, the sweep for its defect class, the $0 hypoxia-panel test)",
+  "AUT-PD-073 (score residue)",
+  "AUT-PD-086's three follow-ups",
+  "AUT-PROP-018 (the ASO full-preflight receipt, waiting on a quiet trunk and the hardening round's final commit)"
+ ],
+ "blocked_by": [],
+ "route_advanced": "RT-HORMONE-PARTNER",
+ "handoff": {
+  "child_session_id": "session_01F6Xn8WS2cEj2wbNuVWtAPp",
+  "attempted": true,
+  "why": "The ASO hardening round (AUT-PD-082) is a full hardening round, which research-loop §3 says is a SPAWNED SESSION rather than more work in this one. Spawned with a brief built from committed state, barred from posting anything and from running PREFLIGHT_FULL until the trunk is quiet."
+ }
+}

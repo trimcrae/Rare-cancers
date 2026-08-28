@@ -91,6 +91,10 @@ LEDGER = os.path.join(HERE, "research-ledger.json")
 # flat set of scripts, not a package.
 sys.path.insert(0, HERE)
 import ledger_io  # noqa: E402
+import priority  # noqa: E402 — AUT-PD-014: shares priority.py's evidence_fingerprint() so the
+# fingerprint stamped HERE, at dispatch, and the one `fruitless_attempts_count()` reads back later
+# are computed by the same function. `priority.py` has no import-time side effects (see its own
+# module docstring; it only defines paths/functions), so this import is safe.
 
 #: The verdicts. ⛔ EACH ONE EXISTS BECAUSE ITS CORRECT RESPONSE DIFFERS FROM EVERY OTHER'S.
 #: TAKEN is internal (the trunk says the row is free); the other four are what a caller sees.
@@ -290,6 +294,16 @@ def apply_claim(ledger_path: str, entry_id: str, me: str, when: str) -> None:
             e["owner"] = me
             e["claimed_utc"] = when
             e["state"] = "in_progress"
+            # ⛔⛔ AUT-PD-014: stamp the evidence fingerprint THIS CLAIM IS DISPATCHED AGAINST, now,
+            # before any work happens. This is the one moment the true "before" fingerprint is
+            # knowable — computing it later (the next time some other module happens to notice the
+            # claim) could capture the POST-work fingerprint instead and call a genuine advance
+            # fruitless by construction. See priority.py's `evidence_fingerprint` /
+            # `fruitless_attempts_count` for the read side of this field.
+            e.setdefault("dispatch_log", []).append({
+                "utc": when,
+                "fingerprint_at_dispatch": priority.evidence_fingerprint(e),
+            })
             break
     else:
         raise KeyError(f"{entry_id} is not in {ledger_path}")

@@ -309,7 +309,8 @@ def check_objects(m, f):
 
 
 # The file kinds a claim can live in. `.png` and the like carry no readable claim, and the git
-# index is swept rather than the filesystem so that untracked scratch files cannot fail a build.
+# index is swept rather than the raw filesystem so that a GITIGNORED scratch file cannot fail a
+# build — that half of the original rationale is UNCHANGED by the widening below.
 SWEEPABLE_SUFFIXES = (".md", ".py", ".json", ".yml", ".yaml", ".txt")
 
 
@@ -318,11 +319,37 @@ _BODY_CACHE = {}
 
 
 def _tracked_files():
-    """Every file git tracks, or None if git is unavailable (then O4 downgrades to a warning)."""
+    """Every file git tracks OR is about to track, or None if git is unavailable (then O4
+    downgrades to a warning).
+
+    ⛔⛔ WIDENED 2026-08-28 (AUT-PD-041), RESOLVING A DECISION AUT-PD-036 DELIBERATELY LEFT OPEN.
+    This function used to run a bare `git ls-files` — tracked-committed files only — and this
+    docstring's own predecessor called that a considered choice, citing "any TRACKED file that
+    names it without being classified fails the build" and a neighbouring comment about sweeping
+    the git index "so that untracked scratch files cannot fail a build". AUT-PD-036 widened three
+    SIBLING gates with the identical `git ls-files` blindness (lint_citations.py,
+    instrument_register_renumber.py, the duplicate-key guard) after measuring the failure this
+    causes: a brand-new document naming a disputed-identity object with no classification passes
+    O4 clean while uncommitted, and only goes red the run AFTER it is committed and shared — gate
+    12's own "fires after the mistake is shared" problem, reproduced here.
+    ⭐ THE TWO RATIONALES DO NOT ACTUALLY CONFLICT. `--cached --others --exclude-standard` still
+    respects `.gitignore` — a gitignored scratch file stays invisible, so "untracked scratch files
+    cannot fail a build" is UNCHANGED. What newly becomes visible is a real, non-ignored manuscript
+    file about to be committed — exactly the file this gate will fail on the very next run anyway,
+    just caught one run earlier, before the mistake reaches `origin/main`. Verified with the same
+    live-probe methodology AUT-PD-036 used (an isolated tmp git repo, never the real tree): a
+    committed file plus an untracked-but-not-ignored file naming a disputed object — the
+    tracked-only scan misses the second, the widened one catches it. Zero collateral pre-existing
+    findings on the real, clean, fully-committed working tree (a scan-set diff on this tree is
+    itself unmeasurable, by construction: widening only changes anything at the moment an
+    untracked file actually exists, which a clean tree by definition does not have).
+    """
     if _TRACKED_CACHE:
         return _TRACKED_CACHE[0]
     try:
-        out = subprocess.run(["git", "-C", REPO, "ls-files"], capture_output=True, check=True)
+        out = subprocess.run(
+            ["git", "-C", REPO, "ls-files", "--cached", "--others", "--exclude-standard"],
+            capture_output=True, check=True)
         val = [p for p in out.stdout.decode("utf-8", "replace").splitlines() if p]
     except (OSError, subprocess.CalledProcessError):
         val = None

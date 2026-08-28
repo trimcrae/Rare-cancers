@@ -1,0 +1,40 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0055-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T18:05:00Z",
+  "shape": "This session, dispatched a worktree seat for AUT-COV-001, reviewed and independently re-verified its branch before merging.",
+  "took": "AUT-COV-001 — audit claim_coverage.py's census pattern for notation blind spots (RT-AUTONOMY-adjacent manuscript hardening, free, left OPEN with real progress rather than closed)",
+  "took_what": "The seat found one reusable notation shape the census could not see at all (a fold-change printed with '×'), confirmed via grep across 40+ manuscript files, and added it to _CENSUS_STATS. It also found and fixed a second, distinct defect while auditing: two real, artifact-owned figures (SEMA3C fold-change ratios, an EMC library count) sat in DECLARED_NOT_ARTIFACT_OWNED as 'foreign-artifact' only because bind()'s callable had never opened the second JSON file that owns them (GSE28866) — promoted both to real bindings. Independently re-verified before merging: pulled research/modalities/gse28866-tumour-vs-normal.json myself and confirmed emc_over_normal=1.8175 (rounds to the claimed 1.8), emc_over_sarcoma=1.6622 (rounds to 1.7), and _n_emc_libs=4, exactly matching the seat's claims. Re-ran the full guard + mutation suites myself: 153 passed, 94/94 mutations caught. Left the ledger row QUEUED rather than done, per AUT-PD-051's own lesson that a partly-landed deliverable stays open — the seat's own report named a further, larger scope (kcal/mol, kJ/mol, Å, ns, bracketed CIs — a separate hardening round's worth of per-document binding work) that this pass deliberately did not attempt, and the item's original 22-of-32-endpoints-uninstrumented headline is unchanged by this one-document deepening.",
+  "changed": [
+    "research/manuscripts/tests/test_fusion_partner_prose_matches_its_artifact.py: +1 census notation (fold-change), 2 DECLARED rows promoted to real bindings against a second artifact file.",
+    "research/manuscripts/tests/mutate_fusion_partner_guard.py: +5 mutations (F.5) covering the new pattern and bindings.",
+    "research/manuscripts/claim-coverage.json: regenerated (83/270 -> 84/270 on the fusion-partner stratification doc).",
+    "research/autonomy/amendments.jsonl: 2 entries declaring the governed test-file changes (already on the seat's branch, verified present).",
+    "research/autonomy/research-ledger.json: AUT-COV-001 left queued (not done) with the increment and remaining scope both recorded; scores refreshed via priority.py --write."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 1,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 1,
+    "seats": [
+      "aut-cov-001-predicate-guards (agentId a4027037beeede805, completed, worktree-isolated, pushed branch aut-cov-001-predicate-guards, head e87b36b93f0dfe9ac964a06c4263ca327e7b98bb, merged clean fast-forward)"
+    ]
+  },
+  "what_i_got_wrong": [
+    "First attempt at correcting AUT-COV-001's state from 'done' to 'queued' by hand (editing `what`/`state` directly) tripped a brand-new gate this session hadn't seen before: research/autonomy/admissibility.py (AUT-PROP-036, landed by a concurrent session between my prior ledger writes and this one) refuses a ledger write whose score_inputs.age_factor no longer matches what recomputing from last_evidence_utc would give. Fixed by also nulling score/score_inputs before the write and immediately re-running priority.py --write to recompute fresh. Lesson banked: any hand edit to a ledger row's last_evidence_utc (or anything score-relevant) must either null score/score_inputs in the same write or be followed immediately by priority.py --write, since a new admissibility check now enforces that the two never drift apart."
+  ],
+  "now_queued": [
+    "AUT-COV-001 remains queued: kcal/mol, kJ/mol, angstrom, ns-duration and bracketed-CI notations are confirmed reusable and dense in nr4a3-degrader-paper.md and siblings per the seat's logged findings (scratchpad/aut-cov-001/blind-spot-audit-findings.md, preserved in the merged commit) but need a dedicated hardening round to verify each occurrence against its owning artifact, not a pattern-set extension alone."
+  ],
+  "blocked_by": [],
+  "route_advanced": "none",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context (AUT-PD-045)."
+  }
+}

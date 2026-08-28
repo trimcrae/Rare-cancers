@@ -1,0 +1,35 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0059-18394002",
+  "session_id": "18394002-4f40-54ac-951c-755538d54467",
+  "utc": "2026-08-28T16:40:00Z",
+  "shape": "This session, second cycle within the cap of 2. Driver only, no subagents; dispatched a GitHub Actions workflow (ci-escape-hatches rung 1) rather than running PREFLIGHT_FULL=1 locally, per that workflow's own header (a ~25-minute run is not reliable in this dev container).",
+  "took": "AUT-PROP-018 -- run PREFLIGHT_FULL=1 at the final ASO v2 commit, record the receipt with record_bar_evidence.py; closes publish_bar clause 2 for PUB-ASO (RT-ASO-JUNCTION, free, in_progress).",
+  "took_what": "A Stop hook correctly overrode this cycle's own earlier judgement (CYC-0058) to defer this item on 'active concurrent churn' grounds -- CLAUDE.md §0/§4: deferring on contention risk, not genuine block-on-human evidence, is exactly the unevidenced 'blocked' claim the loop refuses. Claimed AUT-PROP-018 (claim.py, CLAIMED on attempt 1) at a quiet moment on main (own commit 4212abfcd was the tip). Refreshed the stale commit pointer (ready_to_post.py --write; CYC-0058 had already found the old one, eed563d6, pointed at a stranded branch) and committed/pushed that refresh (5964fa24d), settling on that sha as the actual PREFLIGHT_FULL target since nothing else about the ASO document is changing. Dispatched .github/workflows/preflight-full-record.yml (run 33190817704) via workflow_dispatch with sha=5964fa24da222d7557a3073fccb8ddf0be048cd6 -- this workflow already exists on main for exactly this purpose (a prior successful run, 33107744620/64fdc665b, exists but at a commit that is ALSO no longer reachable from main, so its evidence cannot satisfy clause 2 against the current tree either; a fresh run against a currently-reachable commit was needed regardless). Armed a background poller (Bash run_in_background, not a subagent -- does not count toward subagents.max_concurrent) against the public Actions API so this session's own backgrounded-command exit is the wake, per ci-escape-hatches's self-wake pattern.",
+  "changed": [
+    "research/autonomy/research-ledger.json: claimed AUT-PROP-018 (owner=CYC-0059-18394002, claimed_utc stamped).",
+    "research/autonomy/ready-to-post.json: refreshed PUB-ASO's commit pointer from the stranded eed563d6 to 0f78b7405 (current main at refresh time), then committed at 5964fa24d.",
+    "Dispatched GitHub Actions run 33190817704 (preflight-full-record.yml) at sha 5964fa24da222d7557a3073fccb8ddf0be048cd6. Not yet landed -- see in-flight board in this cycle's final message."
+  ],
+  "cost": "$0. GitHub Actions minutes on a public repo; no GPU.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [
+    "CYC-0058 (this same session, prior cycle) deferred this exact item citing concurrent-churn risk rather than a genuine block. The Stop hook was right to reject that as unevidenced deferral; engineering/CI cost is free (CLAUDE.md §5) and the honest move was to start it, not to reason about whether it was worth the risk of a wasted run."
+  ],
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-ASO-JUNCTION",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": true,
+    "mechanism_unavailable": "Checked for a spawn/create_session tool this cycle (ToolSearch \"create_session remote session spawn\", and ListAgents) before writing this field -- neither this scheduled-Routine session's tool surface nor its reachable-agents list exposes anything of that shape (matches CYC-0057-1ef8c95a's earlier finding, AUT-PD-045: 'No create_session/handoff mechanism available in this scheduled-Routine context'). There is no tool to call, so no platform refusal string exists to quote; this session is at the cap of 2 with no way to spawn a successor.",
+    "_why_not_a_stopping_point": "A CI run (Actions run 33190817704) plus this session's own armed background poller are in flight and are the mechanism that brings this session back on completion -- the cap names cycles taken in THIS session, not whether work continues."
+  }
+}

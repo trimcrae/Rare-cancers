@@ -1,0 +1,44 @@
+AUT-COV-001: a fold-change is a fifth notation the census could not see
+
+⛔ THE BLIND SPOT, GENERALISED THE SAME WAY CYC-0013's FOUR WERE. Sampling real sentences from
+the zero-coverage documents named in AUT-COV-001 (the fusion-output manuscript's "11.9× threshold",
+"55-121× the deepest previously available"; the degrader manuscript's "~34× the statistical
+uncertainty") turned up a printed x-fold-change as a reusable notation shape claim_coverage.py's
+pattern set could not recognize at all -- confirmed by grep across 40+ manuscript files, not local
+to one document. Added as a fifth alternative to _CENSUS_STATS in
+test_fusion_partner_prose_matches_its_artifact.py, next to CYC-0013's n=, p-value, HR and
+cm/months.
+
+Separately, and found while auditing that same file for this notation: two GSE28866 SEMA3C figures
+("1.8x normal tissue and 1.7x other sarcomas", "n = 4 EMC libraries") sat in
+DECLARED_NOT_ARTIFACT_OWNED as "foreign-artifact" -- true only in the narrow sense that bind()'s
+`value` callable only ever received the fusion-partner pooling artifact, not because the numbers
+were unbindable. Verified against research/modalities/gse28866-tumour-vs-normal.json's
+ratio_calibration.per_gene.SEMA3C (emc_over_normal=1.8175, emc_over_sarcoma=1.6622, both round to
+the prose's 1.8/1.7) and per_gene.values.SEMA3C._n_emc_libs=4. Both promoted to real bindings that
+open the second artifact directly.
+
+MEASURED: coverage on emc-fusion-partner-stratification.md moved 83/270 -> 84/270 sentences
+(82/201 -> 83/201 numbered); claim-coverage.json regenerated to match. 5 new mutations added to
+mutate_fusion_partner_guard.py (two single-arm drifts, one arm-swap, one library-count drift, one
+unbound-fold-change control mirroring the existing unbound n=99 control) -- 94/94 caught, positive
+control green, working-tree mode. The real ablation sweep
+(test_the_census_word_covered_survives_ablation.py and siblings) also passes clean: 50 passed.
+
+SCOPED DELIBERATELY, NOT A DOCUMENT SWEEP. AUT-COV-001's own text warns against list-scoped fixes
+(paper-hardening §8b.2) and against re-running existing patterns over more documents instead of
+auditing the pattern set itself. Several other reusable shapes were found and confirmed
+(kcal/mol and kJ/mol free-energy values, Angstrom distances, nanosecond simulation durations, a
+bracketed 95% CI/t-interval) but are NOT added here: a bare regex added to the census without a
+real BINDING behind every occurrence would be exactly the false-positive failure mode
+paper-hardening §8b documents -- coverage credited to nothing. Building those properly means
+locating and verifying the specific artifact behind each of ~50-100 occurrences across the
+degrader/occupancy/TCIP manuscript families, which is a separate hardening round's worth of
+per-document work. Full findings, including the exact sentences and grep evidence for each shape:
+scratchpad/aut-cov-001/blind-spot-audit-findings.md.
+
+Amendment declared for both governed test-file edits in research/autonomy/amendments.jsonl
+(cycle_id AUT-COV-001-seat).
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01TfNevtr32dZWftnuDeSdtH

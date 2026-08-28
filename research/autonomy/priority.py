@@ -51,6 +51,13 @@ GRAPH = REPO / "systems" / "graph"
 WEIGHTS_FILE = HERE / "priority-weights.json"
 LEDGER_FILE = HERE / "research-ledger.json"
 
+#: AUT-PD-014. The ceiling `apply_fruitless_attempts` counts down from. Was a literal `3` typed
+#: separately into `build_entries`'s default and nowhere else, which is exactly the "one fact, one
+#: place" defect CLAUDE.md rule 1 names — `handoff.py:top_items` and `health.py:c_queue_is_takeable`
+#: both already read the resulting field (`retry_budget > 0`); neither needed to change, because
+#: nothing was ever writing a real number into it.
+DEFAULT_RETRY_BUDGET = 3
+
 # Route state values that mean "this route is not itself dead". The route may still be
 # blocked or parked — CLAUDE.md §0 is explicit that a blocked row is usually waiting on a
 # free check, so blocked is emphatically not dead.
@@ -61,6 +68,52 @@ OPEN_CLOSURES = {"open", "", None}
 LIVE_OUTCOME = "live_positive"
 NEGATIVE_OUTCOMES = {"negative_or_methods"}
 
+# ⛔⛔ ROUTE STATUSES THAT MEAN "THERE IS NO STEP A SESSION CAN TAKE ON THIS TODAY" (AUT-PD-075).
+# ⚠ THE DEFECT THIS FIXES: the derived row's state was invented here, from `next.blocked_on` alone
+# — a field 11 of 77 routes carry — so every other route was born `queued` no matter what the graph
+# said about it, and the queue offered rows whose own text says there is nothing to do. Measured on
+# the corrected ranking 2026-08-28 by CYC-0053: of 77 derived rows, 39 name a CONCLUSION ("the
+# ex-vivo result is banked and needs no further lookup", "Report it as a closed line", "Nothing.
+# Cite the closure") or a REGISTRATION waiting on the outside world ("Keep registered for automatic
+# re-grade when EMC expression data lands"), and 36 of those 39 were `queued`. That is HALF the
+# derived queue, not a handful of rows — AUT-013 was the top-scoring row in the whole ledger.
+#
+# ⭐ THE DISCRIMINATOR IS A FIELD THE GRAPH ALREADY OWNS, NOT A PHRASE. `state.status` is a closed
+# controlled vocabulary defined in systems/CONVENTIONS.md §4.1 and enforced by the route schema:
+# `parked` = "failed with today's tools; has a named TECH-* to reopen it", `closed` =
+# "conclusively unworkable; carries no TECH-*", `delegated` = "someone else's to answer",
+# `superseded` = "replaced by another object, which is named". Each of those, in the vocabulary's
+# own words, says the route has no takeable next step. Reading it is a one-line lookup that the
+# next re-wording of a `best_next_action` cannot defeat.
+# ⛔ THE ALTERNATIVE WAS MATCHING THE ENGLISH ("no further lookup", "closed line", "keep
+# registered") AND IT IS REFUSED. It is a grep over prose that a synonym silently defeats — the
+# class of guard this repository has already paid for twice (AUT-PD-013's fan-out key,
+# AUT-PROP-013's ids: an agreement written in prose that nothing enforced).
+#
+# ⭐ AND IT FAILS TOWARD OFFERING THE WORK, WHICH IS THE ONLY SAFE DIRECTION HERE. Measured against
+# a hand classification of all 77 next-action texts (2026-08-28), with the `next.blocked_on`
+# precedence below applied: this set parks 28 rows, 24 of them correctly, 4 of them ACTION rows
+# whose route is recorded `parked` while its own next action is a $0 step — AUT-030, AUT-039,
+# AUT-061, AUT-076. Wider sets score better on recall and worse here: adding
+# `timing.recommendation in {monitor, wait, closed}` lifts recall 0.72 → 0.87 and DOUBLES the false
+# parks to 9, hiding live $0 work — CLAUDE.md §0's named failure. A missed row keeps the status
+# quo; a false park hides a live route, so precision wins.
+# ⛔ THE RESIDUE IS A GRAPH RECORD, NOT A CASE TO ADD HERE. Twelve rows in the class stay `queued`
+# because no committed field distinguishes them: RT-CARFILZOMIB is recorded `status: ready`
+# (= "nothing blocks it") and `recommendation: pursue_now` while its own next action reads "needs
+# no further lookup". Per this module's contract, that is a wrong graph record and it is fixed in
+# systems/graph — never by a special case here.
+# ⚠ AND `blockers_inherited` / `required_validation[].blocked_by` DO NOT RESCUE THOSE ROWS, tested
+# rather than assumed: 13 routes recorded `ready` name a blocker under one of those keys, and they
+# include RT-MTAP-PRMT5 ("post the preprint"), the top-scoring live row. Both fields describe the
+# route's ultimate VALIDATION, not its next step, so they carry no signal about takeability.
+NOT_TAKEABLE_STATUSES = frozenset({"parked", "closed", "delegated", "superseded"})
+
+#: ⛔ AND A PARKED ROW IS NEVER DISPOSED OF. It keeps its id, its score and its `what`; only its
+#: state changes, so it stops being OFFERED without being closed. AUT-PD-051's rule: an artifact on
+#: the trunk is not the same as the item being finished, and a report is not a closure. Deleting or
+#: auto-`done`-ing these rows would take the route's record with them.
+PARKED_STATE = "parked"
 
 def _load(name: str) -> Any:
     with (GRAPH / name).open() as fh:
@@ -88,6 +141,31 @@ def _cost_class(route: dict) -> str:
     if any(tok in raw for tok in ("gpu", "fleet", "leg", "multi", "k)", "000")):
         return "expensive"
     return "cheap"
+
+
+def _parked(route: dict) -> bool:
+    """Whether this route derives a `parked` row. One predicate, so the state and the two fields
+    that explain it can never disagree about which rows are parked."""
+    if (route.get("next") or {}).get("blocked_on"):
+        return False
+    return (route.get("state") or {}).get("status") in NOT_TAKEABLE_STATUSES
+
+
+def parked_on(route: dict) -> list[str] | None:
+    """What the graph says would reopen a route it has already stood down (AUT-PD-075).
+
+    ⭐ NAMING WHAT IT WAITS ON IS THE POINT, not the state string. A row that reads `parked` with
+    nothing beside it is the same unanswered question in a new costume (CLAUDE.md §4: a row reading
+    UNKNOWN or "will check next cycle" is an unanswered question wearing the costume of a status).
+    Both registers are read because they answer different halves and neither is complete alone:
+    `timing.revisit_trigger` names the TECH-* whose arrival is being scanned for (schema-REQUIRED
+    for any recommendation other than `pursue_now`), and `revival_trigger` names the TR-* result
+    that would revive the route. A `closed` route may legitimately have neither, and `None` then
+    says so honestly rather than inventing a condition.
+    """
+    triggers = list((route.get("timing") or {}).get("revisit_trigger") or [])
+    triggers += list(route.get("revival_trigger") or [])
+    return sorted(set(triggers)) or None
 
 
 def _blocked_on_human(route: dict) -> bool:
@@ -180,6 +258,14 @@ def build_entries(weights: dict | None = None) -> list[dict]:
             "blocker_leverage": lever,
             "cost_class": cost_class,
             "blocked_on_human": bool(human),
+            # ⛔ AUT-PD-014: this was HARDCODED and never recomputed — priority-weights.json declares
+            # a real weight for this term and nothing ever fed it. It stays 0 HERE on purpose: a
+            # freshly-derived row has no access to research-ledger.json's own history
+            # (`build_entries` reads only `systems/graph`, per the module docstring), so the true
+            # count can only be known once this row's `dispatch_log` — carried across re-scores by
+            # `merge()`'s forward-compat `setdefault` loop — has been merged in. The real value is
+            # computed post-merge by `apply_fruitless_attempts`, which OVERWRITES this 0 exactly the
+            # way `apply_age_factor` overwrites the age term it does not set here either.
             "fruitless_attempts": 0,
         }
         score = (
@@ -205,13 +291,35 @@ def build_entries(weights: dict | None = None) -> list[dict]:
                     "strategy": route.get("strategy"),
                 },
                 "kind": kind,
-                "state": "blocked" if (route.get("next") or {}).get("blocked_on") else "queued",
+                # ⛔ THE GRAPH'S OWN `state.status` DECIDES FIRST (AUT-PD-075). Before this, the
+                # only input was `next.blocked_on`, so a route the graph records as parked, closed
+                # or delegated was still born `queued` and offered as takeable work every cycle.
+                # ⛔ AND `next.blocked_on` OUTRANKS THE STATUS, WHICH IS NOT THE ORDER I WROTE
+                # FIRST. `state.status` describes the ROUTE; `next.blocked_on` names a blocker on
+                # THE NEXT STEP, and clamp 3 turns an unevidenced one into a free re-test
+                # (CLAUDE.md §0: a blocked row is usually waiting on a $0 observation). Parking
+                # first suppressed that re-test — caught by
+                # systems/tests/test_autonomy_priority.py's clamp-3 test on RT-SYNLETH-DEP, the one
+                # route that is `parked` AND names a blocker. The $0 re-test of BLK-NO-EMC-DATA is
+                # exactly the observation its "keep registered until EMC expression data lands"
+                # registration is waiting on, so the specific statement wins over the general one.
+                "state": (
+                    "blocked" if (route.get("next") or {}).get("blocked_on")
+                    else PARKED_STATE if state.get("status") in NOT_TAKEABLE_STATUSES
+                    else "queued"
+                ),
+                # ⛔ ALWAYS WRITTEN, INCLUDING AS None. `merge()` ends with a `setdefault` over every
+                # key of the previous row — forward-compat, so an unknown key is never dropped — and
+                # a key this function omits on a later run would therefore be RESURRECTED from the
+                # stale row. A route that leaves NOT_TAKEABLE_STATUSES must lose this field.
+                "parked_on": parked_on(route) if _parked(route) else None,
+                "parked_by_graph_status": state.get("status") if _parked(route) else None,
                 "owner": None,
                 "cost_class": cost_class,
                 "cost_points_at": "research/compute/pricing.md",
                 "blocked_by": (route.get("next") or {}).get("blocked_on") or None,
                 "blocked_evidence": None,
-                "retry_budget": 3,
+                "retry_budget": DEFAULT_RETRY_BUDGET,
                 "attempts": 0,
                 "last_evidence_utc": state.get("last_verified"),
                 "score": round(score, 2),
@@ -257,7 +365,10 @@ def apply_clamps(entries: list[dict], weights: dict) -> list[dict]:
 # would be overwritten anyway. Everything else on an entry belongs to the SESSION that touched it.
 SESSION_OWNED = ("owner", "claimed_utc", "attempts", "retry_budget", "blocked_evidence", "blocked_by",
                  "prerequisite_of")
-# States a session sets. `queued`/`blocked` are re-derived from the graph; these are not.
+# States a session sets. `queued`/`blocked`/`parked` are re-derived from the graph; these are not.
+# ⛔ AND THAT ORDERING IS THE AUT-PD-051 GUARANTEE: a session that finished a row wrote `done`
+# here, and `merge()` lets that WIN over the graph's re-derived `parked`, so a re-score can never
+# quietly un-finish work — nor can it finish work by parking it.
 SESSION_STATES = {"running", "done", "abandoned"}
 
 
@@ -296,6 +407,91 @@ def load_existing() -> dict | None:
             return json.load(fh)
     except Exception:
         return None
+
+
+def age_factor(row: dict, weights: dict, today=None) -> float:
+    """A BOUNDED wait bonus in [0, 1] — Slurm's age factor, and the bound is the whole point.
+
+    ⛔⛔ WHY THIS EXISTS. The 2026-08-27 `/deep-research` pass tried to refute the claim and could
+    not, 3-0: **no verified orchestrator implements any anti-starvation mechanism.** Every shipped
+    default is priority-then-FIFO or bare FIFO — no ageing, no quota, no wait-time bound. AlabOS is a
+    two-pass stable sort on (submitted_at, priority) and a repo-wide grep for
+    `starvation|starve|aging|ageing|fairness|round-robin` returns ZERO hits. ⛔ THIS LEDGER HAD THE
+    SAME DEFECT AND THE SAME SYMPTOM: it ranks on score alone, and carried 70+ queued rows with
+    several filed weeks earlier and never taken.
+
+    ⭐ SATURATING, NOT UNBOUNDED, AND THAT IS THE DESIGN. Slurm's factor rises linearly to
+    `PriorityMaxAge` and then stops. An unbounded age term does not fix a starving queue — it INVERTS
+    it into pure FIFO, and a live patient-facing route would sit behind a stale one purely for being
+    younger. Read the ceiling from `priority-weights.json`; never restate it here.
+
+    ⚠ FAIR-SHARE WAS DELIBERATELY NOT TAKEN. It arbitrates between competing USERS and there is one
+    operator, so it would be ceremony. Take the age term, leave the scheduler.
+
+    ⚠ THE CLOCK IS `last_evidence_utc`, WHICH IS A DATE THE ROW ALREADY CARRIES — not a new field and
+    not a git walk on every scoring run. A row with no readable date scores 0.0: unreadable buys
+    nothing, the same direction every other cap in this loop fails.
+    """
+    import datetime as _dt
+    sat = ((weights.get("age_saturates_days") or {}).get("value"))
+    if not isinstance(sat, (int, float)) or sat <= 0:
+        return 0.0
+    raw = row.get("last_evidence_utc")
+    if not isinstance(raw, str) or not raw.strip():
+        return 0.0
+    try:
+        seen = _dt.date.fromisoformat(raw.strip()[:10])
+    except ValueError:
+        return 0.0
+    now = today or _dt.date.today()
+    days = (now - seen).days
+    if days <= 0:
+        return 0.0
+    return min(days / float(sat), 1.0)
+
+
+def apply_age_factor(entries: list[dict], weights: dict, today=None) -> list[dict]:
+    """Add the bounded wait bonus to every OPEN row, echoing the input beside the score.
+
+    ⛔ OPEN ROWS ONLY. Ageing a closed row would raise the score of finished work, which is how a
+    ranker starts recommending things that are already done.
+    ⭐ AND THE INPUT IS ECHOED into `score_inputs`, because this file's own contract is that every
+    term a reader sees is one they can re-derive — a score that moved for a reason nobody can check
+    is the thing `_scores_are_not_evidence` warns about.
+    """
+    w = ((weights.get("terms") or {}).get("age") or {}).get("weight")
+    if not isinstance(w, (int, float)):
+        return entries
+    for e in entries:
+        if (e.get("state") or "queued") in ("done", "abandoned", "superseded"):
+            continue
+        f = round(age_factor(e, weights, today=today), 4)
+        # ⛔⛔ THE SECOND HALF OF THE SAME DEFECT, AND THE ONE THAT WAS ACTIVELY MOVING THE QUEUE
+        # (AUT-PROP-036). This was `score = score + w * f`, so on a hand-filed row — whose score
+        # `merge()` carries forward — the bonus was added AGAIN on every re-score rather than once
+        # per day. Measured across eight consecutive commits in 92 minutes on 2026-08-28:
+        # AUT-PROP-036 climbed 158.0 → 158.9 → 159.8 → 160.7 → 161.6 → 162.5 → 163.4 → 164.3 →
+        # 165.2 (+0.9 each) while its `age_factor` stayed 0.0714 and its `last_evidence_utc` stayed
+        # 2026-08-27. Nothing about the row's evidence changed; only the number did. By then the
+        # top 15 rows of the ranked table were all hand-filed process/proposal rows, several already
+        # marked "✅ DONE", and the best DERIVED route row was 78 points below them — CLAUDE.md §0's
+        # named failure arriving as arithmetic rather than as a judgement.
+        # ⭐ APPLY THE DELTA AGAINST WHAT IS ALREADY ON THE ROW. The previously-applied factor is
+        # echoed in `score_inputs` and carried by `merge()`; a derived row has none (its inputs are
+        # rebuilt each run) so it gets the full term exactly as before. This also makes the term
+        # correctly REVERSIBLE: refreshing a row's evidence lowers its age factor, and the bonus now
+        # shrinks with it instead of being a ratchet.
+        prev = (e.get("score_inputs") or {}).get("age_factor")
+        prev = float(prev) if isinstance(prev, (int, float)) and not isinstance(prev, bool) else 0.0
+        if not f and not prev:
+            continue
+        if f:
+            e.setdefault("score_inputs", {})["age_factor"] = f
+        else:
+            (e.get("score_inputs") or {}).pop("age_factor", None)
+        if isinstance(e.get("score"), (int, float)):
+            e["score"] = round(e["score"] + w * (f - prev), 1)
+    return entries
 
 
 def merge(generated: list[dict], existing: dict | None) -> list[dict]:
@@ -401,6 +597,23 @@ def merge(generated: list[dict], existing: dict | None) -> list[dict]:
     return merged
 
 
+def _own_age_bonus(entry: dict, terms: dict) -> float:
+    """What `apply_age_factor` has already put into THIS row's score, so an assignment can put it
+    back. AUT-PD-063.
+
+    ⚠ READ DEFENSIVELY, LIKE `apply_age_factor`'s OWN READ OF THE SAME NUMBER: a missing or
+    malformed weights file must disable the anti-starvation term rather than crash the ranker
+    (`test_an_unreadable_saturation_disables_the_term_rather_than_dividing_by_zero`). This is a
+    second READER of the weight, not a second copy of it — the value still lives only in
+    `priority-weights.json`.
+    """
+    w = ((terms.get("age") or {}).get("weight"))
+    f = (entry.get("score_inputs") or {}).get("age_factor")
+    if not isinstance(w, (int, float)) or not isinstance(f, (int, float)) or isinstance(f, bool):
+        return 0.0
+    return w * f
+
+
 def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
     """Score adjustments that depend on SESSION state, so they cannot run inside build_entries().
 
@@ -423,40 +636,239 @@ def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
         # every re-score, so a session writing state="blocked" saw it reverted to "queued" on the
         # very next run and the penalty never fired — the item stayed at the top of the queue with
         # its own block recorded underneath it. The recorded observation IS the block.
-        if str(entry.get("blocked_evidence") or "").strip():
-            if entry.get("score") is not None:
-                entry["score"] = round(entry["score"] + penalty, 2)
-                # ⛔ `setdefault`, BECAUSE A HAND-FILED ENTRY HAS NO SCORE INPUTS AND NEVER DID.
-                # `score_inputs` is the DERIVED scorer's audit trail: `build_entries` writes it for
-                # the rows it computes from systems/graph, and `merge()` deliberately carries
-                # hand-filed rows through untouched (its docstring: "the ledger's own `_role` says a
-                # session may add one the graph cannot express"). This line then indexed it on every
-                # merged row and `priority.py` DIED — `KeyError: 'score_inputs'` — on the committed
-                # ledger, where 47 of 124 entries are hand-filed. ⚠ Measured 2026-08-27 on a clean
-                # tree at origin/main, so it was not a working-tree artifact; nothing caught it
-                # because no gate ran the ranker (AUT-PD-018, the same day, the same shape).
-                # ⭐ AND THE DICT IS CREATED EMPTY RATHER THAN FILLED WITH DEFAULTS. Giving a
-                # hand-scored row a full set of zeroed inputs would make it look computed — a
-                # populated field that is not a measured one (CLAUDE.md §4) — and the arithmetic
-                # printed beside it would be arithmetic nobody did. What goes in is only the flag
-                # this function actually observed.
-                entry.setdefault("score_inputs", {})["blocked_with_evidence"] = True
+        evidenced = bool(str(entry.get("blocked_evidence") or "").strip())
+        # ⛔⛔ IDEMPOTENT, AND IT WAS NOT (AUT-PROP-036, measured 2026-08-28). This was
+        # `score = score + penalty` applied on EVERY re-score. For a DERIVED row that is correct —
+        # `build_entries` rebuilds its base from `systems/graph` each run, so the term lands on a
+        # fresh number. For a HAND-FILED row `merge()` carries the previous `score` forward, by
+        # design, because the graph cannot rebuild it — so the penalty compounded. Traced through 25
+        # commits of `research-ledger.json`: AUT-PROP-026 went -1344.0 → -2506.8 in one day, -90.0
+        # per re-score, while the derived AUT-049 sat unmoved at 117.0 across the same eight runs.
+        # That contrast is the observation that discriminates a wrong TERM from a reused BASE.
+        # ⭐ THE FLAG IN `score_inputs` IS THE STATE, AND IT IS ALREADY WRITTEN AND ALREADY CARRIED:
+        # a derived row's `score_inputs` is rebuilt fresh by `build_entries` (so the flag is absent
+        # and the penalty applies), a hand-filed row's is carried by `merge()` (so the flag is
+        # present and the penalty is not applied twice). No new field, and the toggle runs BOTH
+        # ways — clearing the evidence removes the penalty instead of leaving it baked in forever.
+        applied = bool((entry.get("score_inputs") or {}).get("blocked_with_evidence"))
+        if evidenced != applied and entry.get("score") is not None:
+            entry["score"] = round(entry["score"] + (penalty if evidenced else -penalty), 2)
+        if evidenced:
+            # ⛔ `setdefault`, BECAUSE A HAND-FILED ENTRY HAS NO SCORE INPUTS AND NEVER DID.
+            # `score_inputs` is the DERIVED scorer's audit trail: `build_entries` writes it for
+            # the rows it computes from systems/graph, and `merge()` deliberately carries
+            # hand-filed rows through untouched (its docstring: "the ledger's own `_role` says a
+            # session may add one the graph cannot express"). This line then indexed it on every
+            # merged row and `priority.py` DIED — `KeyError: 'score_inputs'` — on the committed
+            # ledger, where 47 of 124 entries are hand-filed. ⚠ Measured 2026-08-27 on a clean
+            # tree at origin/main, so it was not a working-tree artifact; nothing caught it
+            # because no gate ran the ranker (AUT-PD-018, the same day, the same shape).
+            # ⭐ AND THE DICT IS CREATED EMPTY RATHER THAN FILLED WITH DEFAULTS. Giving a
+            # hand-scored row a full set of zeroed inputs would make it look computed — a
+            # populated field that is not a measured one (CLAUDE.md §4) — and the arithmetic
+            # printed beside it would be arithmetic nobody did. What goes in is only the flag
+            # this function actually observed.
+            entry.setdefault("score_inputs", {})["blocked_with_evidence"] = True
+        elif applied:
+            # The evidence was cleared. Drop the flag with the penalty it accounted for, so the row
+            # is again a fixed point of this function rather than carrying a term nothing explains.
+            (entry.get("score_inputs") or {}).pop("blocked_with_evidence", None)
 
     bonus = weights["prerequisite_bonus"]["value"]
-    for entry in entries:
+
+    # ⛔⛔ PARENTS FIRST, AND THE ASSIGNED SET IS THE OTHER HALF OF THE FIX (AUT-PROP-036).
+    # This loop used to walk `entries` in list order and read `parent["score"]` wherever it found
+    # it. Two things then went wrong together on a CHAIN — a prerequisite whose parent is itself a
+    # prerequisite, which the committed ledger has four of:
+    #   (1) ORDER. A child processed before its parent inherited the parent's PREVIOUS value, so
+    #       the chain resolved to a different number depending on where the rows happened to sort.
+    #   (2) THE PENALTY ADD-BACK BECAME A LIE. `base = parent.score + 90` is right only while the
+    #       parent's score actually CONTAINS one application of the evidenced-block penalty. A row
+    #       this loop has just re-assigned holds `grandparent_base + bonus`, which contains none —
+    #       yet its `score_inputs.blocked_with_evidence` flag is still set, so +90 was added to a
+    #       penalty that was not there. Measured 2026-08-28 on the committed ledger: AUT-PROP-021
+    #       and AUT-PROP-022 moved 196.9 → 286.9 and 196.0 → 286.0 on a re-score that changed no
+    #       evidence, which would have put two hand-filed rows 90 points clear of every route in
+    #       the portfolio.
+    # ⭐ RESOLVE DEPTH-FIRST WITH A CYCLE GUARD, and take a re-assigned parent's score as ALREADY
+    # pre-penalty. `admissibility.write_verdict` is what caught this: the row was not a fixed point
+    # of its own pipeline, which is the whole signature that module exists to name.
+    assigned: set[str] = set()
+    resolving: set[str] = set()
+
+    def _resolve(entry: dict) -> None:
+        eid = entry.get("id")
         parent_id = entry.get("prerequisite_of")
         parent = by_id.get(parent_id) if parent_id else None
         if parent is None or parent.get("score") is None:
-            continue
+            return
+        if eid in assigned or eid in resolving:
+            return  # already done, or this is a `prerequisite_of` cycle — leave the score alone
+        resolving.add(eid)
+        if parent.get("prerequisite_of"):
+            _resolve(parent)
+        resolving.discard(eid)
         # Inherit the parent's PRE-penalty value: the prerequisite is worth what the parent is worth
         # once unblocked, which is the whole reason to do it.
-        # ⚠ THE SIBLING OF THE LINE ABOVE, AND IT WOULD HAVE BEEN THE NEXT CRASH: a hand-filed
-        # prerequisite naming a hand-filed parent reaches here with no `score_inputs` on either.
-        # `paper-hardening` §8b.2 measured six of eleven list-scoped fixes missing exactly this.
+        # ⚠ A hand-filed prerequisite naming a hand-filed parent reaches here with no `score_inputs`
+        # on either. `paper-hardening` §8b.2 measured six of eleven list-scoped fixes missing this.
         parent_inputs = parent.get("score_inputs") or {}
+        # ⛔⛔ EVERY BLOCKED ROW'S SCORE NOW CARRIES EXACTLY ONE PENALTY, ASSIGNED OR NOT — so this
+        # reads the flag and nothing else. It used to read `... and parent_id not in assigned`,
+        # because an ASSIGNED parent's freshly-written score genuinely did not contain a penalty:
+        # the assignment below overwrote it. That is the half of AUT-PD-063 fixed here — see the
+        # re-application four lines down — and once the penalty survives the assignment, exempting
+        # assigned parents would subtract a penalty that IS there.
         base = parent["score"] - (penalty if parent_inputs.get("blocked_with_evidence") else 0)
-        entry["score"] = round(base + bonus, 2)
+        # ⭐ THE ROW'S OWN AGE SURVIVES THE ASSIGNMENT. `apply_age_factor` runs BEFORE this function
+        # (see `build_ledger`) so a parent's wait reaches its child; an assignment that dropped the
+        # child's own wait would leave `score_inputs["age_factor"]` advertising a term the printed
+        # score does not contain — the one thing `_scores_are_not_evidence` promises never happens.
+        entry["score"] = round(base + bonus + _own_age_bonus(entry, terms), 2)
+        # ⛔⛔ AND THE ROW THEN ANSWERS FOR ITS OWN BLOCK. AUT-PD-063, measured 2026-08-28: the
+        # assignment above is what rule 1 writes to, so a row that is BOTH a prerequisite AND
+        # blocked-with-evidence had its -90 silently overwritten while `score_inputs` went on
+        # saying `blocked_with_evidence: true`. On the committed ledger that left AUT-PROP-018,
+        # -019, -020, -040 and -042 — five rows carrying their own recorded block — at ranks 6, 7,
+        # 9, 11 and 12 of a queue rule 1 exists to remove them from, and
+        # `test_an_evidenced_block_drops_out_of_the_queue` watched it happen because it checks only
+        # the top THREE. Inheriting is what the row is WORTH; the block is what can be DONE about it
+        # this cycle. They are different questions and the row answers both.
+        if str(entry.get("blocked_evidence") or "").strip():
+            entry["score"] = round(entry["score"] + penalty, 2)
         entry["_score_basis"] = f"inherited from {parent_id} (+{bonus}) — it is the work that unblocks it"
+        assigned.add(eid)
+
+    for entry in entries:
+        _resolve(entry)
+    return entries
+
+
+# ═════════════════════════════════════════════════════════════════════════════════════════════
+# AUT-PD-014 — PROGRESS-AWARE RETRY BUDGET, PORTED FROM research/modalities/work_ledger.py
+# ═════════════════════════════════════════════════════════════════════════════════════════════
+# ⛔⛔ THE DEFECT THIS CLOSES, DIAGNOSED BY A PRIOR CYCLE AND CONFIRMED HERE BEFORE CHANGING
+# ANYTHING. Three things were true of this file and of research-ledger.json's schema simultaneously:
+#   1. `score_inputs["fruitless_attempts"]` was hardcoded to 0 in `build_entries` — never computed —
+#      even though `priority-weights.json` already declares a real weight for it.
+#   2. The ledger's `attempts` (a bare int) is incremented in exactly ONE place —
+#      `release_stale_claims`, on an EXPIRED LEASE — so it counts sessions that died holding a claim,
+#      never sessions that claimed a row, worked it seriously, and released it having learned
+#      nothing new. This module's own comment already said as much: "a route could be retried
+#      forever and the scorer's fruitless_attempts penalty could never fire."
+#   3. Nothing anywhere decremented or enforced `retry_budget`. It was set to a literal `3` in
+#      `build_entries` and never moved again, for any row, ever.
+#
+# ⭐ THE MODEL: research/modalities/work_ledger.py's `Entry.fruitless_attempts()` — a DIFFERENT
+# ledger, for GPU/modality work, whose schema already carries this correctly. Its idea, ported
+# rather than copied (the two ledgers' schemas differ — that ledger's `attempts` IS already a list
+# of per-dispatch records; this one's `attempts` is a bare int with an unrelated meaning, so a NEW
+# field is used here rather than repurposing one that already means something else):
+#
+#     an attempt is FRUITLESS iff the evidence fingerprint it was DISPATCHED against is still the
+#     CURRENT fingerprint. Count backwards through the dispatch history and stop at the first
+#     attempt whose recorded fingerprint differs — "a dispatch that worked costs nothing."
+#
+# WHAT "EVIDENCE" MEANS FOR ONE OF THIS LEDGER'S ROWS, stated once so a reader can check the
+# arithmetic: `last_evidence_utc` and `blocked_evidence`, concatenated. Those are exactly the two
+# fields step 9 of the `research-loop` cycle contract requires a session to write back when it
+# OBSERVES something — "set the new state and `last_evidence_utc`... and for a failure the
+# *diagnostic*" (which lands in `blocked_evidence`, per `apply_session_penalties`'s own comment:
+# "the recorded observation IS the block"). A row whose fingerprint has not moved since it was last
+# dispatched has, by construction, produced nothing a reader could point at as new.
+#
+# THE STAMP HAS TO HAPPEN AT CLAIM TIME, NOT LAZILY LATER. `claim.py`'s `apply_claim()` appends
+# `{"utc": <claimed_utc>, "fingerprint_at_dispatch": evidence_fingerprint(entry)}` to a NEW
+# `dispatch_log` list field the moment a claim lands — BEFORE any work happens — because the only
+# fingerprint that is honest to compare against later is the one the row carried at the instant of
+# dispatch. Recomputing it lazily, the next time this module happens to notice the claim, would
+# sometimes capture the POST-work fingerprint and call a genuine advance fruitless by construction.
+# `dispatch_log` survives every re-score via `merge()`'s forward-compat `setdefault` loop with no
+# change needed there — a key `build_entries` never sets on a freshly-derived row is exactly what
+# that loop exists to carry forward from the row's own prior committed state.
+#
+# ⛔⛔ THE HONEST CAVEAT THIS LEDGER ITEM ASKS TO BE PRESERVED, NOT LOST: a progress-aware counter
+# WOULD NOT have penalised AUT-PROP-002, which moved `last_evidence_utc` every cycle — its
+# fingerprint changes on every real cycle, so its fruitless streak resets to 0 every time, exactly
+# as intended. **This defect did not cause the three-cycle stall CYC-0015 found; it is a separate
+# governance instrument that was inert, and fixing it here does not retroactively explain that
+# stall.** What this DOES fix: a row that is claimed and released, over and over, with nothing new
+# ever recorded about it, now decays its own priority and eventually stops being offered as ready
+# work — instead of being retried by automation forever, silently, which is the defect actually
+# named above.
+#
+# WHAT THIS DELIBERATELY DOES NOT DO (scoped down, named rather than silently skipped):
+#   * `claim.py`'s `SUSPENDED` verdict (a push/merge race exhausting its attempts) is a DIFFERENT
+#     terminal state for a different reason and is not touched or conflated with this one.
+#   * `claim.py` is NOT taught to refuse claiming a budget-exhausted row. `continuity.py`'s `ready()`
+#     already excludes it (see `_retry_budget_spent` there), which is the same "a session should not
+#     be OFFERED this row" property, reached through the read side rather than the write side. If a
+#     session claims one anyway (by id, deliberately, bypassing `ready()`) that is a human decision
+#     this module does not need to prevent.
+#   * `research-ledger.json`'s committed content is not migrated. `dispatch_log` is read everywhere
+#     as `entry.get("dispatch_log") or []`, so an existing row with no such key behaves exactly as a
+#     row that has never been dispatched under the new mechanism — correct, and needs no backfill.
+
+
+def evidence_fingerprint(entry: dict) -> str:
+    """What "the evidence changed" MEANS for one research-ledger.json row. See the module-section
+    docstring above for why these two fields and not `attempts`, `owner` or `score`."""
+    return f"{entry.get('last_evidence_utc')}|{entry.get('blocked_evidence')}"
+
+
+def fruitless_attempts_count(entry: dict) -> int:
+    """How many of this row's MOST RECENT dispatches produced no new evidence.
+
+    Ported from `research/modalities/work_ledger.py:Entry.fruitless_attempts` — counts backwards
+    through `dispatch_log` and stops at the first attempt whose recorded fingerprint differs from
+    the row's CURRENT one. A row never dispatched (`dispatch_log` absent or empty) scores 0, never
+    an error — the common case, and it must not look penalised for having simply never been tried.
+    """
+    current = evidence_fingerprint(entry)
+    n = 0
+    for attempt in reversed(entry.get("dispatch_log") or []):
+        if not isinstance(attempt, dict) or attempt.get("fingerprint_at_dispatch") != current:
+            break
+        n += 1
+    return n
+
+
+def apply_fruitless_attempts(entries: list[dict], weights: dict) -> list[dict]:
+    """Feed `priority-weights.json`'s `fruitless_attempts` term from real history, and recompute
+    `retry_budget` as the ceiling minus that count — the field `handoff.py:top_items` and
+    `health.py:c_queue_is_takeable` already read as `> 0` and were, until now, never given a real
+    number to read.
+
+    ⛔ CLOSED ROWS ARE NEVER TOUCHED, mirroring `apply_age_factor`'s
+    `test_a_closed_row_never_ages_upward` — a `done`/`abandoned`/`superseded` row's `retry_budget`
+    is not this function's business.
+
+    ⭐ THE SCORE TERM IS APPLIED AS A DELTA AGAINST THE PREVIOUSLY-ECHOED INPUT, exactly like
+    `apply_age_factor`, and for the identical reason: a DERIVED row's `score_inputs` is rebuilt fresh
+    every run by `build_entries` (so `prev` is always 0 there and the full term lands cleanly), while
+    a HAND-FILED row's `score` and `score_inputs` are carried forward unchanged by `merge()` — adding
+    the full term again on top of an already-applied one would compound it every re-score, which is
+    the exact AUT-PROP-036 shape `apply_age_factor`'s own docstring measures in detail.
+
+    ⛔ `retry_budget` IS OVERWRITTEN, NOT DECREMENTED, and that is deliberate: it is set fresh each
+    run to `max(0, DEFAULT_RETRY_BUDGET - fruitless_attempts_count(entry))`, a pure function of
+    `dispatch_log`. An incrementally-decremented counter could drift from the history it is supposed
+    to summarise (double-decrementing on a re-score, or under-decrementing after a lost write);
+    recomputing it fresh cannot drift, by construction — the same reasoning `age_factor` and
+    `fruitless_attempts` in `score_inputs` already rely on.
+    """
+    w = ((weights.get("terms") or {}).get("fruitless_attempts") or {}).get("weight")
+    for e in entries:
+        if (e.get("state") or "queued") in ("done", "abandoned", "superseded"):
+            continue
+        n = fruitless_attempts_count(e)
+        prev = (e.get("score_inputs") or {}).get("fruitless_attempts")
+        prev = prev if isinstance(prev, (int, float)) and not isinstance(prev, bool) else 0
+        if n or prev:
+            e.setdefault("score_inputs", {})["fruitless_attempts"] = n
+        if isinstance(w, (int, float)) and isinstance(e.get("score"), (int, float)) and n != prev:
+            e["score"] = round(e["score"] + w * (n - prev), 2)
+        e["retry_budget"] = max(0, DEFAULT_RETRY_BUDGET - n)
     return entries
 
 
@@ -506,7 +918,37 @@ def build_ledger() -> dict:
     existing = load_existing()
     interval_h = _cycle_interval_hours()
     entries = release_stale_claims(merge(build_entries(weights), existing), weights, interval_h)
+    # ⭐⭐ AGE RUNS FIRST — A DELIBERATE DECISION, MEASURED 2026-08-28 (AUT-PD-063). Rule 2 of
+    # `apply_session_penalties` ASSIGNS a prerequisite's score from what its parent is worth, so
+    # anything added to the parent AFTER that assignment is invisible to the child. With age applied
+    # last, a starved parent climbed points the only row able to clear it never saw: on the committed
+    # ledger AUT-049 aged to +12.0 while AUT-PROP-018 — the single path to it — got only its own
+    # +0.86, which drops the prerequisite BELOW the item it unblocks the moment that item's own block
+    # penalty stops being erased. You cannot take a blocked row, so raising it buys nothing unless
+    # its prerequisite rises with it; ageing first is what makes the wait bonus flow down the chain.
+    # ⚠ THE ROW'S OWN AGE IS NOT LOST TO THE ASSIGNMENT — `apply_session_penalties` re-adds it from
+    # the `age_factor` echoed in `score_inputs`, so the printed inputs still re-derive the score.
+    # ⛔ THE ANTI-STARVATION TERM MUST RUN BEFORE THE SORT, or it is dead
+    # code — the defect class this repository has paid for repeatedly (`subagent_width` governed
+    # nothing for a fortnight because no code read it; the census lane's exempt flag; the watchdog
+    # wired to an env var that does not exist). Its own test asserts this call site exists.
+    entries = apply_age_factor(entries, weights)
     entries = apply_session_penalties(entries, weights)
+    # ⛔ AUT-PD-014, DELIBERATELY PLACED AFTER `apply_session_penalties` AND NOT ALONGSIDE
+    # `apply_age_factor` ABOVE IT, EVEN THOUGH BOTH ARE PER-ROW DECAY TERMS. AUT-PD-063 (immediately
+    # above) had to teach `apply_session_penalties`'s prerequisite ASSIGNMENT to explicitly re-add
+    # the child's own age bonus and re-apply its own blocked_with_evidence penalty, because that
+    # assignment OVERWRITES `entry["score"]` and would otherwise erase a term applied before it ran.
+    # Running `apply_fruitless_attempts` before the assignment would reproduce the identical hazard
+    # for THIS term the same day it was fixed for the other two, and fixing it would mean editing
+    # `_resolve()`'s assignment formula — the exact code AUT-PD-063 just hardened. Running it AFTER
+    # instead means it is applied on top of the assignment and nothing after it can overwrite it, at
+    # the honest cost that a prerequisite inherits its parent's fruitless-attempts decay one re-score
+    # late rather than in the same cycle the parent's decay is computed. Retry-budget exhaustion needs
+    # `DEFAULT_RETRY_BUDGET` dispatches to accrue, so a one-cycle lag here is a defensible trade
+    # against destabilising machinery fixed the same day this was written — scoped down deliberately,
+    # not an oversight.
+    entries = apply_fruitless_attempts(entries, weights)
     entries.sort(key=lambda e: (-(e.get("score") if e.get("score") is not None else -1e9),
                                 str(e.get("serves", {}).get("route") or e["id"])))
     return {

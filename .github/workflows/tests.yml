@@ -127,6 +127,17 @@ jobs:
         run: python3 research/manuscripts/lint_citations.py
       - name: Manuscript prose style (journal register, not repository register)
         run: python3 research/manuscripts/lint_style.py
+      # ⛔ ADDED 2026-08-28 WITH PREFLIGHT GATE 16 (AUT-PROP-032), AND IT IS HERE FOR THE REASON THE
+      # BLOCK ABOVE GIVES IN ITS OWN WORDS: a gate that only fires when somebody remembers to run
+      # preflight locally is a gate that will be green on the day it matters. arXiv applies a
+      # one-year submission ban for incontrovertible evidence of unverified LLM output, and its named
+      # triggers are hallucinated references, residual model meta-comments and unremoved placeholder
+      # text. This step covers the second and third, over the documents that actually go out; the
+      # first is the citation-provenance step above, and is partial (the module names the gaps).
+      # ⚠ The policy is SEARCH-grade here — arxiv.org is refused at the sandbox's egress proxy — so
+      # the CHECKLIST is implemented and the policy's wording, date and scope stay UNKNOWN.
+      - name: Unverified-output residue in the documents that go out
+        run: python3 research/manuscripts/lint_submission_residue.py
       # ⛔ A LINE-NUMBER CITATION IS A CLAIM AND IT ROTS SILENTLY. `check_links` validates that a FILE and
       # an ANCHOR exist; neither reaches inside a file to a LINE, so a citation that has drifted still
       # resolves — it just points at a sentence that does not say what it is cited for. Measured
@@ -475,6 +486,18 @@ jobs:
         # three suites were written as guards against defects that had already happened. This is the
         # same shape as `scripts/tests` (unrun until 2026-08-22) and as `subagent_width` itself,
         # which CLAUDE.md §1 records as a governed number no code read.
+        # ⭐ AUT-PD-052 (filed 2026-08-28, three days after the line above) asked for this exact
+        # wiring on the strength of a stale evidence pointer — the directory-absent state it cited
+        # predates this very commit. Re-verified rather than re-added: run 33173323019 (2026-08-28,
+        # this file's HEAD at the time) shows the pytest job executing this line with 0 failures
+        # inside research/autonomy/tests (its 4 failures are all in systems/tests, pre-existing and
+        # unrelated — a `test_autonomy_priority.py`/weights-file drift, tracked separately). And a
+        # genuine `git clone --depth 1` of this HEAD — the actions/checkout@v4 default this suite
+        # never gets to see locally — still passes all 264: `test_stuck_clock_a_retry_is_not_an_advance.py`
+        # and `test_stalls_are_named_reaches_the_board.py` already carry the shallow-horizon
+        # degrade-gracefully path this row asked someone to go build. ~100 tests landed the same day
+        # this row was filed (session_cap, learning_rate, queue_view, stuck_clock, the priority age
+        # term) and all are already covered by the line below, which they never had to be added to.
         run: >-
           python -m pytest research/modalities/tests research/manuscripts/tests systems/tests scripts/tests
           research/autonomy/tests
