@@ -207,9 +207,10 @@ designs carry a sense-strand near-match in parent precursor RNA pairing the gap 
 rather than a sum the two screens condemn 93 of the 190. A design whose gap carries a mismatch is
 scored zero rather than short, so the 87 bound the fully-paired class, not the whole parent
 liability. Re-scored on duplex stability rather than on mismatch count, 8 designs carry a fully paired
-sixteen-base-pair off-target duplex and 45 one inside 2 kcal/mol of their own; neither named
-reagent is in either class, the closest to each being 3.2 and 3.0 kcal/mol weaker — upper bounds on that
-separation, since scoring the longest paired run ignores pairing either side of a mismatch.
+sixteen-base-pair off-target duplex and 45 one inside 2 kcal/mol of their own. Neither named
+reagent is in either class, the closest to each being 3.2 and 3.0 kcal/mol weaker. These are upper
+bounds on that separation, since scoring the longest paired run ignores pairing either side of a
+mismatch.
 
 Lengthening the catalytic gap does not remove this liability, because every base inside the gap comes from the donor or the acceptor exon. Across three geometries the liable count holds at 87, 88 and 87 while the panel grows from 190
 designs to 266 and 342, so the rate falls from 45.8% to 33.1% and 25.4%: a longer gap buys margin

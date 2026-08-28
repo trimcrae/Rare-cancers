@@ -22,8 +22,8 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 106,
-    "in_progress": 5,
+    "done": 107,
+    "in_progress": 4,
     "parked": 28,
     "queued": 129,
     "ready": 1,
@@ -3075,52 +3075,6 @@
       }
     },
     {
-      "id": "AUT-049",
-      "_derived": true,
-      "what": "Post the preprint at research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md, and in the same pass send the three paywalled-table requests named in its section 6 to the corresponding authors.",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "kind": "write",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-0070-ba841eee",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "research/autonomy/publish_bar.py"
-      ],
-      "blocked_evidence": "publish_bar --paper PUB-FUSION-PARTNER --sha cc53a6987a58 2026-08-26: BLOCKED 3/6. Clauses 1, 2, 6 UNVERIFIABLE — no hardening record, no PREFLIGHT_FULL receipt on the posted commit, no blind seat. AUT-PROP-002/003 produce exactly those.",
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-08",
-      "score": 117.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "clinical_adoption",
-        "patient_path_scaled": 0.9,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": true,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0,
-        "blocked_with_evidence": true
-      },
-      "claimed_utc": "2026-08-28T22:06:30Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:06:30Z",
-          "fingerprint_at_dispatch": "2026-08-08|publish_bar --paper PUB-FUSION-PARTNER --sha cc53a6987a58 2026-08-26: BLOCKED 3/6. Clauses 1, 2, 6 UNVERIFIABLE — no hardening record, no PREFLIGHT_FULL receipt on the posted commit, no blind seat. AUT-PROP-002/003 produce exactly those."
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-023",
       "kind": "process_defect",
       "process_defect": true,
@@ -3145,6 +3099,52 @@
       "_score_basis": "the ranker and the continuity checker disagreed about which work was runnable",
       "depends_on_evidence": "AUT-PROP-018 offered as ready with blocked_evidence recorded; 79 tests in research/autonomy/tests",
       "closes_clause": null
+    },
+    {
+      "id": "AUT-049",
+      "_derived": true,
+      "what": "Post the preprint at research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md, and in the same pass send the three paywalled-table requests named in its section 6 to the corresponding authors.",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "kind": "write",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "CYC-0070-ba841eee",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "research/autonomy/publish_bar.py"
+      ],
+      "blocked_evidence": "publish_bar --paper PUB-FUSION-PARTNER --sha cc53a6987a58 2026-08-26: BLOCKED 3/6. Clauses 1, 2, 6 UNVERIFIABLE — no hardening record, no PREFLIGHT_FULL receipt on the posted commit, no blind seat. AUT-PROP-002/003 produce exactly those.",
+      "retry_budget": 2,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-08",
+      "score": 109.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "clinical_adoption",
+        "patient_path_scaled": 0.9,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": true,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0,
+        "blocked_with_evidence": true
+      },
+      "claimed_utc": "2026-08-28T22:06:30Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:06:30Z",
+          "fingerprint_at_dispatch": "2026-08-08|publish_bar --paper PUB-FUSION-PARTNER --sha cc53a6987a58 2026-08-26: BLOCKED 3/6. Clauses 1, 2, 6 UNVERIFIABLE — no hardening record, no PREFLIGHT_FULL receipt on the posted commit, no blind seat. AUT-PROP-002/003 produce exactly those."
+        }
+      ]
     },
     {
       "id": "AUT-PROP-041",
@@ -5996,17 +5996,15 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "in_progress",
-      "owner": "CYC-0070-225452b4",
+      "state": "done",
+      "owner": null,
       "claimed_utc": "2026-08-28T21:52:00Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "deposit-artifact-family-regeneration"
-      ],
-      "blocked_evidence": "⚠ THE PROSE FIX IS WRITTEN AND VERIFIED BUT NOT LANDED, AND THE REASON IS A BLAST RADIUS I MIS-SIZED. The patch is one sentence split into three (>60w 1 -> 0, max 63 -> 54, caution 40 markers / 9.3 per 1000w unchanged with an identical breakdown). Held at <session-scratchpad>/cyc0069-driver/cyc0069-driver-d9-prose.patch. ⛔ EDITING THIS ARTICLE INVALIDATES SEVEN GUARDS ACROSS ITS WHOLE DEPOSIT FAMILY, not the two generated artifacts I expected: test_claim_coverage_has_not_regressed; test_no_submission_part_is_stale_against_its_manuscript for BOTH aso-journal-title-page and aso-journal-figure-legends; test_the_word_file_is_not_stale; test_the_condensed_submission_is_within_its_page_budget[fusion-junction-aso-journal-article.pdf]; test_every_stamped_pdf_renders_the_documents_its_stamp_names; and test_the_deposited_pdfs_are_not_stale. Named generators: build_submission_parts.py, build_submission_docx.py, plus the PDF build and the claim-coverage census. ⭐ ESTABLISHED AS MINE RATHER THAN ASSUMED (CLAUDE.md §6): the same 37 tests run in a detached worktree at clean origin/main pass 37/37. So this is the cost of the edit, not a pre-existing red. ★ AND IT IS THE SAME FINDING AS AUT-PD-138, ONE SIZE LARGER — the archive manifest was only the first of a family, and the page-budget guard means a re-typeset can FAIL on length rather than merely need regenerating, which is a real possibility a splitter must check rather than assume.",
+      "blocked_by": null,
+      "blocked_evidence": "⭐ RESOLVED 2026-08-28 by CYC-0070-225452b4, and the block was real while it stood: seven guards across the article's deposit family went red on the edit. All seven are green now — 55 passed across the five guard modules. ⚠ THE FIRST ATTEMPT'S DIAGNOSIS WAS INCOMPLETE IN A WAY WORTH KEEPING: it treated the rebuild as a list of generators to run, when the repository already owns a CANONICAL CHAIN, `scripts/regenerate_aso_chain.sh`, which the PDF guard's own failure message names. Running the generators piecemeal missed three PDF variants entirely (-anonymized, -manuscript, -preprint), because `build_submission_pdf.py` with no --paper builds the default styles only.",
       "retry_budget": 3,
-      "attempts": 1,
+      "attempts": 2,
       "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0069-225452b4",
       "depends_on_evidence": "publish_bar.py --paper PUB-ASO --sha 2334df915005: clause 7 readable_enough_to_review FAIL, '1 sentence(s) over 60 words ... longest 63w'. lint_readability before: 178 sentences, mean 24.1, max 63, >60w=1. After: 180 sentences, mean 23.8, max 54, >60w=0.",
@@ -6016,7 +6014,7 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a prose split inside a manuscript already public under its own DOI; nothing posted, submitted or deposited by this change",
-      "what": "⛔ WRITTEN AND MEASURED, NOT LANDED — publish_bar CLAUSE 7 (readable_enough_to_review) FOR PUB-ASO IS STILL OPEN. See blocked_evidence for why the patch is parked. It is the ONE clause of the four open ones that is not sha-bound to a quiet head, so it was takeable while clauses 1, 2 and 6 were not. A single 63-word sentence in research/manuscripts/aso/fusion-junction-aso-journal-article.md was three ideas joined by a semicolon and an em dash (the duplex-stability re-score, the two named reagents' margin, and the upper-bound caveat); it is now three sentences of 27, 17 and 20 words. ⛔ NO CLAIM, NUMBER OR HEDGE MOVED, AND THAT IS MEASURED RATHER THAN ASSERTED: `lint_readability.py --caution` reads 40 markers / 9.3 per 1000 words before AND after, with an identical marker breakdown (11 'is not', 7 'does not', 7 'neither', 3 'may', 2 'could', 2 'are not', 2 'cannot', 2 'range', 1 'do not'). scientific-writing §4 is explicit that a readability pass which buys its score by dropping caution is worse than the dense original, so the count is the check that it did not. ⭐ SEQUENCING, AND IT IS THE REASON THIS WAS THE RIGHT ITEM: clauses 1 (hardening_converged), 2 (PREFLIGHT_FULL) and 6 (blind seat) are all sha-bound to the posted commit, and AUT-PROP-019's own evidence says they need ONE spawned session against a single pinned commit on a quiet head. A prose fix MOVES the head, so it had to land BEFORE that session pins, not after — running the sha-bound three first would have bought three receipts this commit then staled. ⚠ PUB-ASO IS STILL NOT POSTABLE and this is not an escalation: the bar reads BLOCKED 3/7 at 2334df915005, and `authority: NO` — trimcrae excluded PUB-ASO from the aiXiv grant, verbatim 2026-08-27: 'That's the only paper that shouldn't auto ship to aiXiv.'",
+      "what": "⭐ CLOSED publish_bar CLAUSE 7 (readable_enough_to_review) FOR PUB-ASO — the ONE clause of the four open ones that is not sha-bound to a quiet head, so it was takeable while clauses 1, 2 and 6 were not. A single 63-word sentence in research/manuscripts/aso/fusion-junction-aso-journal-article.md was three ideas joined by a semicolon and an em dash (the duplex-stability re-score, the two named reagents' margin, and the upper-bound caveat); it is now three sentences of 27, 17 and 20 words. ⛔ NO CLAIM, NUMBER OR HEDGE MOVED, AND THAT IS MEASURED RATHER THAN ASSERTED: `lint_readability.py --caution` reads 40 markers / 9.3 per 1000 words before AND after, with an identical marker breakdown (11 'is not', 7 'does not', 7 'neither', 3 'may', 2 'could', 2 'are not', 2 'cannot', 2 'range', 1 'do not'). scientific-writing §4 is explicit that a readability pass which buys its score by dropping caution is worse than the dense original, so the count is the check that it did not. ⭐ SEQUENCING, AND IT IS THE REASON THIS WAS THE RIGHT ITEM: clauses 1 (hardening_converged), 2 (PREFLIGHT_FULL) and 6 (blind seat) are all sha-bound to the posted commit, and AUT-PROP-019's own evidence says they need ONE spawned session against a single pinned commit on a quiet head. A prose fix MOVES the head, so it had to land BEFORE that session pins, not after — running the sha-bound three first would have bought three receipts this commit then staled. ⚠ PUB-ASO IS STILL NOT POSTABLE and this is not an escalation: the bar reads BLOCKED 3/7 at 2334df915005, and `authority: NO` — trimcrae excluded PUB-ASO from the aiXiv grant, verbatim 2026-08-27: 'That's the only paper that shouldn't auto ship to aiXiv.'",
       "_score_basis": "inherited from AUT-049 as a publish_bar clause closer for PUB-ASO; the only non-sha-bound clause of the four open",
       "score_inputs": {
         "blocked_with_evidence": true
