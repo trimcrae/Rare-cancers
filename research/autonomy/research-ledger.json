@@ -21,10 +21,10 @@
     "write": 6
   },
   "n_by_state": {
-    "done": 79,
+    "done": 80,
     "in_progress": 2,
     "parked": 28,
-    "queued": 111,
+    "queued": 110,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -1953,9 +1953,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0057-1ef8c95a",
-      "claimed_utc": "2026-08-28T19:20:00Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1970,7 +1970,7 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⚠ VERIFY `CLAUDE_CODE_SESSION_ID` IS SET INSIDE A SCHEDULED-ROUTINE SESSION — one receipt settles it and the whole session-cap fix (AUT-PD-045) turns on the answer. Set: a Routine-fired session can show it is at its cap and stop. Unset: session_cap.verdict() answers MUST NOT STOP and those sessions keep running cycles exactly as before — inert rather than wrong, the safe direction, which is why it fails that way. ★ THE CHECK IS TRIVIAL: read the next scheduled cycle's receipt. A real id means it works; the literal 'scheduled-routine-session' means the skill's step-10 change did not reach that path and the id needs a different source. ⛔ Do not record AUT-PD-045 as fixed for the scheduled path until a receipt written by one shows a real session id.",
+      "what": "⚠ VERIFY `CLAUDE_CODE_SESSION_ID` IS SET INSIDE A SCHEDULED-ROUTINE SESSION — one receipt settles it and the whole session-cap fix (AUT-PD-045) turns on the answer. Set: a Routine-fired session can show it is at its cap and stop. Unset: session_cap.verdict() answers MUST NOT STOP and those sessions keep running cycles exactly as before — inert rather than wrong, the safe direction, which is why it fails that way. ★ THE CHECK IS TRIVIAL: read the next scheduled cycle's receipt. A real id means it works; the literal 'scheduled-routine-session' means the skill's step-10 change did not reach that path and the id needs a different source. ⛔ Do not record AUT-PD-045 as fixed for the scheduled path until a receipt written by one shows a real session id. ✅ CLOSED 2026-08-28 by CYC-0057-1ef8c95a. SETTLED, first-hand, from inside a genuine scheduled-Routine session (not inferred, not assumed): `CLAUDE_CODE_SESSION_ID` IS set here -- confirmed via `env | grep CLAUDE_CODE_SESSION_ID` (returns '1ef8c95a-24d8-5fea-a441-6295a15751f9') and independently via `session_cap.session_id_read()`, which reports status='set' and the same value. This is the answer AUT-PD-045's whole session-cap fix depends on, and it is the SAFE-but-not-yet-taken direction: the mechanism CAN work for scheduled sessions. ⚠ BUT IT WAS NOT YET WORKING IN PRACTICE, and this row's own investigation is what found why: every receipt this scheduled session wrote before this one (CYC-0033-schedule through CYC-0056-schedule) used the LITERAL STRING 'scheduled-routine-session' as their `session_id` field -- the exact placeholder PLACEHOLDER_IDS in session_cap.py exists to reject -- instead of reading the real env var. Live proof: `python3 research/autonomy/session_cap.py --check` reported 'this session has written 0 receipt(s) against a cap of 2' from INSIDE this very session, immediately after it had already written 8 real receipts this cycle-cluster -- because `mine()` correctly could not match any of them to the real session id. The research-loop skill was independently updated earlier today (line ~97-100, by a concurrent session) to instruct exactly the right practice -- `ids.next_receipt(..., session_cap.session_id() or '')` for the receipt filename AND `session_id` field both -- but this session had not re-read that update closely enough to adopt it until this row surfaced the gap concretely. FIXED GOING FORWARD: this closing receipt (CYC-0057-1ef8c95a) uses the real id in both places, and `session_cap.py --check` now correctly counts it. AUT-PD-045's session-cap mechanism is CONFIRMED WORKING for the scheduled path as of this receipt, per this row's own explicit condition ('do not record AUT-PD-045 as fixed... until a receipt written by one shows a real session id') -- though this session's own historical receipts remain uncounted by session_cap and there is no retroactive fix for already-pushed history.",
       "dispatch_log": [
         {
           "utc": "2026-08-28T19:20:00Z",

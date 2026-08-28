@@ -1,0 +1,33 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0057-1ef8c95a",
+  "session_id": "1ef8c95a-24d8-5fea-a441-6295a15751f9",
+  "utc": "2026-08-28T19:25:00Z",
+  "shape": "This session, closing a small self-diagnostic item (AUT-PD-056) that turned out to expose a real defect in this same session's own receipt-writing practice.",
+  "took": "AUT-PD-056 — verify CLAUDE_CODE_SESSION_ID is set inside a scheduled-routine session (RT-AUTONOMY, free, $0, closing).",
+  "took_what": "Checked `env | grep CLAUDE_CODE_SESSION_ID` and `session_cap.session_id_read()` directly from inside this genuine scheduled-Routine session: CONFIRMED SET, real value `1ef8c95a-24d8-5fea-a441-6295a15751f9`. Then ran `python3 research/autonomy/session_cap.py --check` and got 'this session has written 0 receipt(s) against a cap of 2' -- despite this session having already written 8 real receipts earlier this cycle-cluster. Root cause: every prior receipt this session wrote (CYC-0033-schedule through CYC-0056-schedule) used the literal placeholder string 'scheduled-routine-session' as `session_id`, which is exactly what `session_cap.PLACEHOLDER_IDS` exists to reject, instead of the real env var. The research-loop skill was already updated today (by a concurrent session) to instruct the correct practice; this session had not caught up to it. Fixed going forward: this receipt (and its own id, computed via `ids.next_receipt('research/autonomy/receipts', session_cap.session_id() or '')` as the skill now instructs) uses the real session id in both the filename and the session_id field.",
+  "changed": [
+    "research/autonomy/research-ledger.json: closed AUT-PD-056 (done), with the concrete evidence and the practice-gap finding recorded.",
+    "This session's own future receipts: now use the real CLAUDE_CODE_SESSION_ID for both the receipt id discriminator and the session_id field, per the research-loop skill's already-updated instruction."
+  ],
+  "cost": "$0. A few env/module checks.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [
+    "This session wrote 'scheduled-routine-session' as a literal placeholder into every receipt's session_id field for its entire duration, despite the real env var being available the whole time -- inherited from an earlier convention without re-checking whether a better mechanism existed. AUT-PD-056's own investigation is what caught it, by the accident of the ledger item itself asking exactly the question this session's practice had gotten wrong. Lesson: when a skill file is noted as having been updated by a concurrent session mid-cycle-cluster, re-read the specific section rather than continuing on the version read at session start."
+  ],
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context (AUT-PD-045). session_cap.py's cap check confirms this session has not yet exceeded max_cycles_per_session under the corrected counting; no handoff is due."
+  }
+}
