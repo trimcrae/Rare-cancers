@@ -179,8 +179,10 @@ def test_the_panels_own_rate_is_the_screens_rate(prose, null):
     """45.8% is 87/190 read off the screen, not a figure typed beside it."""
     rate = _pct(null["observed"]["rate_liable"])
     what = "the panel's own liability rate at the adopted criterion (observed.rate_liable)"
-    # The abstract states it beside the chimeric null; §3 states it beside the weakest null; §3's
-    # geometry sentence opens the 5-6-5 / 5-8-5 / 5-10-5 series with it. All three are this rate.
+    # The abstract states it beside the chimeric null, and §3 states it beside the chimeric null
+    # too — until 2026-08-28 that second site sat beside the WEAKEST null instead, and it moved
+    # when that sentence was cut for the page budget. §3's geometry sentence opened the
+    # 5-6-5 / 5-8-5 / 5-10-5 series with the same rate before its own move (see below).
     _every_site(prose, r"same screen at \d+\.\d% against the panel's (\d+\.\d%)", rate, what)
     _every_site(prose, r"against (\d+\.\d%) for the panel", rate, what)
     # ⚠ ONE SITE IS GONE ON PURPOSE (2026-08-22, page budget). §3's three-geometry series — the
@@ -208,14 +210,32 @@ def test_the_chimeric_null_the_abstract_quotes_is_the_exon_terminus_arm(prose, n
     chimera = _pct(arms["exon_terminus_chimera"]["rate_liable"])
     _every_site(prose, r"same screen at (\d+\.\d%) against the panel's \d+\.\d%", chimera,
                 "the exon-terminus chimeric null, as the abstract states it")
-    _every_site(prose, r"meet it at (\d+\.\d%)", chimera,
+    # ⚠ THE §3 SENTENCE WAS REWORDED, NOT DROPPED (2026-08-28, page budget). It read "meet it at
+    # 40.6%", whose "it" was the parent screen named in the preceding weakest-null sentence; that
+    # sentence is gone, so the antecedent went with it and the clause now names the screen itself.
+    # The pattern follows the wording; the quantity and the arm it binds are unchanged.
+    _every_site(prose, r"meet the parent screen at (\d+\.\d%)", chimera,
                 "the exon-terminus chimeric null, as §3 states it")
-    weakest = min(a["rate_liable"] for a in arms.values())
-    _every_site(prose, r"at (\d+\.\d%) against \d+\.\d% for the panel", _pct(weakest),
-                f"the weakest of the {len(arms)} nulls screened")
-    assert arms["scrambled_mononucleotide"]["rate_liable"] == weakest, \
-        "the article names mononucleotide scrambles as the weakest null; the artifact now makes a " \
-        "different arm weakest, so the sentence names the wrong one"
+    # ⛔ THE WEAKEST-NULL BINDING IS DELETED, NOT LOOSENED, AND THE NUMBER IS STILL GUARDED.
+    # §3's "Mononucleotide scrambles meet the parent screen at 6.2% against 45.8% for the panel.
+    # They are the weakest of the ten nulls screened…" came out of the journal article on
+    # 2026-08-28 to buy the seventh typeset page back; the deposit's §2.5 ladder carries it, and
+    # `test_the_printed_cut_ladder_is_the_measured_one` asserts that table's scramble column
+    # (`c[5]`) against `aso-parent-null.json` at every cut, which is a stronger binding than this
+    # prose pattern was. Keeping the pattern alive would be a guard reporting on nothing; keeping
+    # the `scrambled_mononucleotide is weakest` assertion would be a guard on a sentence this
+    # document no longer prints.
+    # ⚠ AND THE PATTERN COULD NOT HAVE STAYED EVEN IF THAT WERE WANTED: §3's reworded chimera
+    # sentence now reads "at 40.6% against 45.8% for the panel", which the deleted pattern matches
+    # while expecting the weakest arm's rate — it would have failed on the right number.
+    # ⭐ THE ARM COUNT MOVED INTO §8 AND WOULD OTHERWISE HAVE ARRIVED UNBOUND. §3 used to say
+    # "the weakest of the ten nulls screened"; when that sentence went, "ten" was carried into the
+    # Methods sentence that builds the ensembles so the paper still states how many arms it ran.
+    # `lint_changed_prose` flagged it as a new universal, which is exactly the moment to bind it:
+    # a count that reaches the page in a sentence no instrument reads is how this file's own
+    # docstring says numbers drift.
+    _every_site(prose, r"(\w+) null ensembles were built", _word(len(arms)).capitalize(),
+                "how many null ensembles §8 says were built and screened")
 
 
 def test_the_junction_clearing_ladder_is_the_artifacts_ladder(prose, null):
@@ -260,37 +280,27 @@ def test_the_junction_clearing_ladder_is_the_artifacts_ladder(prose, null):
                 "the loose rungs of the cut ladder, each with its published-breakpoint count")
 
 
-def test_the_loose_cuts_are_printed_with_the_null_that_makes_them_chance(prose, null):
-    """⭐ A LIABILITY RATE WITHOUT ITS NULL IS NOT A READING (round 12).
-
-    The 6 and 7 bp rungs condemn almost the whole panel, and the scrambled null condemns almost the
-    whole panel too — so the loose readings are at chance. Both halves have to be present; the count
-    alone reads as a finding.
-    """
-    cs = null["cut_sensitivity"]["observed_cut_ladder"]
-
-    def strongest(cut):
-        """⭐ 'THE STRONGEST NULL' IS A DERIVATION OVER THE ARMS, NOT AN ARM NAME.
-
-        The article does not name which of the ten arms is strongest at the loose cuts, and it
-        should not have to: whichever it is, it is the one the comparison has to survive. Binding
-        this to `exon_terminus_chimera` by name would pass silently on the day another arm
-        overtakes it and the sentence stops being true.
-        """
-        return max(a["cut_ladder"][cut]["rate_liable"] for a in null["null_ensembles"].values())
-
-    for cut in ("6", "7"):
-        assert re.search(rf"\b{cs[cut]['n_liable']}\b", prose), \
-            f"the {cut} bp rung condemns {cs[cut]['n_liable']} designs and the article omits it"
-    # ⭐ ONE CONSTRUCTION, BOTH RATES, so the pair cannot drift apart. The sentence's whole force is
-    # that these two numbers are close; checking them separately would let a repair move one.
-    _every_site(prose,
-                r"strongest null\s+reaches (\d+\.\d%) at seven against the panel's (\d+\.\d%)",
-                (_pct(strongest("7")), _pct(cs["7"]["rate_liable"])),
-                "the strongest null's rate at a seven-base-pair cut, beside the panel's own")
-    assert strongest("6") > cs["6"]["rate_liable"], \
-        "the article says that at six the null exceeds the panel outright; the artifact no longer " \
-        f"agrees ({_pct(strongest('6'))} null against {_pct(cs['6']['rate_liable'])} panel)"
+# ⛔ DELETED 2026-08-28, WITH ITS PROSE: `test_the_loose_cuts_are_printed_with_the_null_that_makes
+# _them_chance`. It bound §3's loose-cut pair — "the loose cuts condemn almost everything: 175 of
+# 190 at seven and 181 at six" and "the strongest null reaches 91.4% at seven against the panel's
+# 92.1%" — and required both halves to be present, because a liability count without its null reads
+# as a finding. BOTH HALVES LEFT THIS DOCUMENT TOGETHER, which is the only way that property can
+# survive a cut: the journal article is a 6-typeset-page budget backed by a per-page charge, it was
+# rendering at 7, and the null ensemble's apparatus is what the gate's own remedy text says to move.
+#
+# ⭐ THE NUMBERS ARE NOT NOW UNBOUND, AND THAT WAS CHECKED RATHER THAN ASSUMED. The deposit's §2.5
+# cut-ladder table carries every one of them, and `test_the_printed_cut_ladder_is_the_measured_one`
+# asserts that table CELL BY CELL against `aso-parent-null.json` at every cut: `c[1]` is the
+# observed liable count (175 at seven, 181 at six), `c[2]` the panel's own rate (92.1 at seven),
+# `c[4]` the strongest null (91.4 at seven, with the arm named because the arms change places), and
+# `c[5]` the scramble null. That is a stronger binding than the prose patterns deleted here.
+#
+# ⛔ WHAT IS NOT PRESERVED, SAID PLAINLY: the PROSE property — that whichever document prints a
+# loose-cut liability count must print its null beside it — is now enforced in no document. It held
+# here only because both halves were in one sentence pair. It is not re-created against the deposit
+# because the deposit states the same facts in its own constructions, which is the whole reason this
+# file exists (see the module docstring), and a pattern guessed at rather than read would be a guard
+# on nothing. Restoring either half to the journal article without the other is the defect to watch.
 
 
 def test_the_adopted_cut_is_not_exempt_from_its_own_null(prose, null):
@@ -539,21 +549,32 @@ def test_the_two_named_reagents_carry_their_own_dtm_floor(prose):
             f"{THERMO} now computes {expected} ({pair[0]} - {pair[1]})")
 
 
-def test_the_loose_cut_rungs_are_bound_to_the_cut_each_is_claimed_for(prose, null):
-    """⛔ ONE-OF-A-PAIR INSIDE THE FIX FOR ONE-OF-A-PAIR (round 15 seat 2).
+def test_the_loose_cut_ladder_is_monotone_in_the_artifact(null):
+    """⛔ THE ARTIFACT HALF OF A GUARD WHOSE PROSE HALF LEFT THIS DOCUMENT (2026-08-28).
 
-    Round 14 replaced bare-presence rungs with construction bindings — for
-    `n_junctions_with_a_clearing_design_by_cut`, and not for `observed_cut_ladder[...]["n_liable"]`
-    in the next test down, which kept `assert re.search(rf"\\b{n}\\b", prose)`. So swapping the two
-    rungs passed every gate, leaving the article saying a LOOSER cut condemns FEWER designs, which
-    is impossible for a monotone ladder; and the denominator was read at neither site.
+    It was `test_the_loose_cut_rungs_are_bound_to_the_cut_each_is_claimed_for`, and it did two
+    separable things: it bound §3's sentence "the loose cuts condemn almost everything: 175 of 190
+    at seven and 181 at six" to the ladder, and it asserted the ladder itself is monotone. The
+    sentence was cut on 2026-08-28 to bring the paper inside its 6-typeset-page budget — together
+    with the null that made those counts readable as chance, because the two are only meaningful
+    as a pair (see the deleted-guard note above).
+
+    ⭐ THE MONOTONICITY ASSERTION IS KEPT AND IS NOT ABOUT ANY DOCUMENT. It reads the screen, so
+    it stays true and stays useful whatever prose quotes it; deleting it with the prose binding
+    would have thrown away the half that never depended on the paper.
+
+    ⛔ THE COUNTS THEMSELVES ARE STILL BOUND, in the deposit rather than here:
+    `test_the_printed_cut_ladder_is_the_measured_one` asserts §2.5's ladder cell by cell, and
+    `c[1]` at cuts 6 and 7 is exactly 181 and 175, recomputed from `aso-parent-null.json`.
+
+    ⚠ ORIGINAL FINDING, RETAINED because it is why the binding existed at all (round 15 seat 2):
+    round 14 replaced bare-presence rungs with construction bindings for
+    `n_junctions_with_a_clearing_design_by_cut` and not for `observed_cut_ladder[...]["n_liable"]`,
+    so swapping the two rungs passed every gate — leaving the article saying a LOOSER cut condemns
+    FEWER designs, which is impossible for a monotone ladder, with the denominator read at neither
+    site.
     """
     cs = null["cut_sensitivity"]["observed_cut_ladder"]
-    n = null["cut_sensitivity"]["n_designs"]
-    _every_site(prose,
-                rf"the loose cuts condemn almost everything: (\d+) of (\d+) at seven and (\d+) at six",
-                (str(cs["7"]["n_liable"]), str(n), str(cs["6"]["n_liable"])),
-                "the loose-cut design counts, each against the cut it is claimed for")
     assert cs["6"]["n_liable"] >= cs["7"]["n_liable"], (
         "the artifact now condemns fewer designs at six than at seven, which is impossible for a "
         "monotone ladder — the screen, not the prose, has gone wrong")

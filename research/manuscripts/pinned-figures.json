@@ -1116,21 +1116,6 @@
    "regenerate": "python3 research/modalities/aso_parent_null.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
   },
   {
-   "id": "aso_parent_null_scrambled_mononucleotide_journal",
-   "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
-   "artifact": "research/modalities/aso-parent-null.json",
-   "key": "null_ensembles.scrambled_mononucleotide.rate_liable",
-   "match": "flattened",
-   "format": "{:.1f}",
-   "scale": 100.0,
-   "tolerance": 0.051,
-   "context": "Mononucleotide scrambles [^.]*meet the parent screen at ([\\d.]+)%",
-   "must_appear_in": [
-    "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
-   ],
-   "regenerate": "python3 research/modalities/aso_parent_null.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
-  },
-  {
    "id": "aso_parent_null_exon_terminus_chimera_journal",
    "description": "★ THE JOURNAL ARTICLE IS A SECOND HOME FOR THE SPINE, REGISTERED 2026-08-20. The condensed submission restates the four counts the whole argument rests on. A parallel condensed draft drifted out of sync and self-contradicted once in this programme already, so every number the short paper shares with the preprint is pinned at BOTH homes: a correction reaching one and not the other is now a gate-1 failure rather than a discovery a reviewer makes.",
    "artifact": "research/modalities/aso-parent-null.json",
@@ -1139,7 +1124,7 @@
    "format": "{:.1f}",
    "scale": 100.0,
    "tolerance": 0.051,
-   "context": "reported in a patient, meet it at ([\\d.]+)%",
+   "context": "reported in a patient, meet the parent screen at ([\\d.]+)%",
    "must_appear_in": [
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
    ],
@@ -1875,6 +1860,16 @@
   "★ IT CHECKS THE COMMITTED SNAPSHOT, NOT A LIVE RECOMPUTATION. The lanes bill continuously, so",
   "a live figure moves several times an hour and a rule chasing it would be red almost always —",
   "the ignored-linter failure. The snapshot moves only when someone runs `--write`, so this fires",
-  "exactly when a refresh happened and the doc was not updated in the same commit."
+  "exactly when a refresh happened and the doc was not updated in the same commit.",
+  "",
+  "⛔ ONE HOME RETIRED, 2026-08-28: `aso_parent_null_scrambled_mononucleotide_journal`. The journal",
+  "article's weakest-null sentence — \"Mononucleotide scrambles meet the parent screen at 6.2%\" —",
+  "was cut to bring the paper back inside its 6-typeset-page budget, which is backed by a per-page",
+  "charge and whose own remedy text says to move a result out. The FIGURE is not retired and its",
+  "number has not changed: `aso_parent_null_scrambled_mononucleotide` still pins 6.2% in the extended",
+  "report, and the deposit's §2.5 cut-ladder table binds the same arm cell by cell at every cut",
+  "(`test_the_printed_cut_ladder_is_the_measured_one`, column `c[5]`). What is retired is the claim",
+  "that the CONDENSED paper carries this arm — it no longer does, and a `must_appear_in` naming a",
+  "document that does not state the figure is a gate reporting on nothing."
  ]
 }

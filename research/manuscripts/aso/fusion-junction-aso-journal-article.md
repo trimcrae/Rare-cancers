@@ -92,7 +92,7 @@ question from overall similarity, and it is the one this work puts to all 190 de
 retrieved: off-target effects are taken to be seen more often where an oligonucleotide's mismatches
 fall in its wings than where they fall in its central gap, on which reading a flanking mismatch is
 the more important one to avoid. An industry working group's 2025 off-target
-recommendations<sup>13</sup><!--PMID:39912803--> set five steps, as their abstract states: in-silico identification with transcriptomics, a focus on cell types showing
+recommendations<sup>13</sup><!--PMID:39912803--> set five steps, as their abstract states: identification in silico with transcriptomics, a focus on cell types showing
 activity, in-vitro verification and margin assessment, risk assessment of what is confirmed, and
 management of what remains. This work performs the in-silico half of the first step and stops there;
 the margin measurement of the third is what the Discussion specifies, against the wild-type parent
@@ -124,9 +124,9 @@ or more of its 16 positions. Each alignment
 was re-scored on the nearest-neighbour stability of its longest contiguous paired run — the
 energy-based second stage adopted here — and only separations are reported. A design is
 liable where a wild-type parent pairs its whole catalytic gap over a contiguous run of ten base
-pairs or more, ten being adopted rather than measured. Null ensembles were built as scrambles of
-each design and as chimeras joining the same two parent transcripts at real exon termini, screened
-identically. Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at
+pairs or more, ten being adopted rather than measured. Ten null ensembles were built as scrambles
+of each design and as chimeras joining the same two parent transcripts at real exon termini,
+screened identically. Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at
 250 nM strand.<sup>15</sup><!--PMID:7545436--> That is not a locked phosphorothioate
 oligonucleotide, so no absolute melting point is reported. Only the fusion-versus-parent separation
 is, and as a floor: the fusion duplex pairs all ten locked residues where each parent pairs five.
@@ -136,7 +136,7 @@ is, and as a floor: the fusion duplex pairs all ten locked residues where each p
 ### The reagents
 
 The two reagents named for synthesis are the best available designs at the two junctions with a
-published exon-resolved breakpoint and the highest reported prevalence. They are
+published exon-resolved breakpoint and the highest reported prevalence:
 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 joined to *NR4A3* exon 3, and 5′-GGGCATATCTTGTGTG-3′ at
 *TAF15* exon 6 joined to *NR4A3* exon 3 (Table 1). Exon numbers throughout are transcript exon indices counted
 from the transcript 5′ end, including non-coding exons; an acceptor exon number read under the
@@ -163,7 +163,7 @@ cost of the same ten shared donor bases that let one oligonucleotide span the *E
 Both loads are predictions from sequence search rather than measured activity.
 
 Both reagents are phosphorothioate throughout, with wings of five contiguous β-D-oxy-locked
-residues — a high locked content against the two to four per wing taken here as usual, so these are
+residues, a high locked content against the two to four per wing taken here as usual, so these are
 not conventional locked-nucleic-acid reagents and their matched-duplex melting temperatures are
 correspondingly high. That cuts against the screens: a high-affinity chemistry is taken here to
 retain knockdown at more extensively mismatched sites than a conventional design
@@ -222,20 +222,17 @@ than across the panel is what makes the two named reagents available: 35 of the 
 clears the parent screen, and all five junctions with a published exon-resolved breakpoint have one.
 At nine base pairs 31 of the 38 still clear and three of the five published ones do; at eight, 23
 and two; at seven, 9 and none; at six, 6 and none. These are whole-duplex run lengths rather than the enzyme's own unit, and the availability the
-named reagents rest on fails at nine, where the *TAF15* junction's best design is itself liable. As design counts
-the loose cuts condemn almost everything: 175 of 190 at seven and 181 at six.
+named reagents rest on fails at nine, where the *TAF15* junction's best design is itself liable.
 
 The comparison against null models does not resolve an excess specific to this
-disease. Mononucleotide scrambles meet the parent screen at 6.2%
-against 45.8% for the panel. They are the weakest of the ten nulls screened, and not the
-dinucleotide-preserving control prescribed below. Chimeras built at real exon termini of the same
-two transcripts, at junctions almost never reported in a patient, meet it at 40.6%. Each null rate is
-38,000 draws with a Wilson 95% interval. The adopted cut does not escape that comparison: at ten the
-strongest null's 40.6% falls inside the panel's own 95% interval on 45.8%, as at every cut from
-seven to thirteen but eleven, and the strongest null reaches 91.4% at seven against the panel's
-92.1%. The comparison is narrower than it reads, the panel arm being itself mostly unreported
-junctions — the property the chimeric null is discounted for. Most of the liability is therefore what joining two exon termini of these genes gives, and across
-cuts of six to thirteen base pairs the excess over the strongest null changes sign four times.
+disease. Chimeras built at real exon termini of the same two transcripts, at junctions almost never
+reported in a patient, meet the parent screen at 40.6% against 45.8% for the panel. The adopted cut
+does not escape that comparison: at ten the strongest null's 40.6% falls inside the panel's own 95%
+interval on 45.8%, as at every cut from seven to thirteen but eleven. The comparison is narrower
+than it reads, the panel arm being itself mostly unreported junctions — the property the chimeric
+null is discounted for. Most of the liability is therefore what joining two exon termini of these
+genes gives, and across cuts of six to thirteen base pairs the excess over the strongest null
+changes sign four times.
 
 ### Test articles
 
@@ -258,8 +255,7 @@ nothing is designed there because no patient is reported there.
 
 Three are engineered constructs from a published functional study,<sup>20</sup><!--PMID:31020999-->
 whose exon spans that paper states verbatim; two of them, E-N and T-N*, carry exactly the junctions
-the reagents above span, so both named reagents have a stated test article. Rebuilding them is the faster route, but a complementary DNA
-over-expressed in a heterologous background speaks to junction-selective knockdown of the intended
+the reagents above span, so both named reagents have a stated test article. Rebuilding them is the faster route, but a heterologously over-expressed complementary DNA speaks to junction-selective knockdown of the intended
 transcript, not to activity at an endogenous locus.
 
 The other two are patient-derived, identity-clean models reported with two EMC
@@ -404,9 +400,9 @@ literature, and to draft and revise this manuscript. Every reference's bibliogra
 retrieved from PubMed rather than written from model output, and each citation was checked against
 the retrieved record. The author directed all work reported here and is responsible for its content.
 
-**Data availability.** All code, graded artefacts and per-design tables are deposited under
-[doi:10.5281/zenodo.22061075](https://doi.org/10.5281/zenodo.22061075). That deposit carries
-every screen's parameters and the complete bounds on each claim, and is the citable record for
+**Data availability.** All code, graded artefacts, per-design tables, every screen's parameters and
+the complete bounds on each claim are deposited under
+[doi:10.5281/zenodo.22061075](https://doi.org/10.5281/zenodo.22061075), the citable record for
 them. An earlier version
 of these analyses placed the acceptor junction incorrectly through a coding-versus-transcript exon
 indexing error and was withdrawn in full; the panels were rebuilt and verified, and the complete

@@ -1,0 +1,61 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0061-d60caf7b",
+ "session_id": "d60caf7b-1472-58ce-a4b4-8451374fc919",
+ "utc": "2026-08-28T19:00:00Z",
+ "shape": "Fresh session, first and only cycle. Driver-only: no subagent was warranted because the work was one tight measure-edit-rebuild loop on a single manuscript, where every candidate edit had to be scored against three gates that only a rebuild can evaluate. Handing that to a seat would have paid a worktree round trip per variant and returned a verdict the driver would have had to re-measure anyway.",
+ "took": "AUT-PD-106 (claimed via claim.py, CLAIMED on attempt 1) -- the two red manuscript-tier gates on the ASO journal article. Independently confirmed as this cycle's correct work before taking it: the completed CI run preceding main's head was conclusion=failure, and both gates were reproduced on a clean origin/main with this session's work stashed. research-loop §1 makes a red trunk the cycle.",
+ "took_what": "Both gates are green on the tree committed: journal PDF 7 -> 6 typeset pages, and justification 13/383 blown lines (33.94 per 1,000) -> 8/376 (21.28) against a 23.5 ceiling. Neither ceiling was touched. The route to it was measurement, not reasoning: a bisect established the page budget needed ~8 more words than the apparatus cut freed and that words removed late in the flow are worth more than words removed on page 4; a five-way variant harness scored each candidate rewording against all three gates, and three of the five candidates made justification WORSE by lowering the median (the threshold is 2x the median, so a tighter build counts more lines as blown). One candidate that passed on metrics was rejected on meaning.",
+ "changed": [
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.md -- the null-ensemble apparatus removed (weakest null and its rate, the 38,000-draw Wilson construction, the loose-cut pair 175/181 with its 91.4/92.1 null); the concession that carries the argument, its robustness qualifier, the narrowness caveat and the four-sign-changes sentence all KEPT; the arm count 'ten' carried into §8 Methods; three measured rewordings; Data availability de-duplicated against the Methods pointer; one em-dash to a comma for lint_style.",
+  "research/manuscripts/tests/test_journal_article_numbers.py -- chimera binding re-anchored, weakest-null binding deleted with reason, one loose-cut test deleted with reason, a second reduced to its artifact half and renamed, one binding ADDED (the arm count, mutation-tested 3/3).",
+  "research/manuscripts/pinned-figures.json -- chimera context re-anchored; the mononucleotide arm's JOURNAL home retired with a note; the figure itself still pinned in the extended report.",
+  "research/manuscripts/aso/*.pdf and build stamps (journal, manuscript, preprint, anonymized), claim-coverage.json, submission-metrics.json, SUBMISSION-PACKET.md -- regenerated.",
+  "research/autonomy/research-ledger.json -- AUT-PD-106 done and claim released; measured corrections appended to AUT-PD-004 and AUT-PD-105.",
+  "research/autonomy/amendments.jsonl -- two governed edits declared, self_serving_check answered on both."
+ ],
+ "cost": {
+  "real_dollars": 0.0,
+  "gpu_hours": 0.0,
+  "note": "CPU and engineering only. No rental, no dispatch that bills."
+ },
+ "subagents": {
+  "max_concurrent": 0,
+  "launched": 0
+ },
+ "rate_limit_info": {
+  "status": "allowed_warning",
+  "rateLimitType": "seven_day",
+  "resetsAt_utc": "2026-09-02T09:00:00Z",
+  "isUsingOverage": false,
+  "note": "Read from get_session, not inferred. allowed_warning is a warning, not a limit, and isUsingOverage is false, so CLAUDE.md §5's 'engineering is free' still holds."
+ },
+ "what_i_got_wrong": [
+  "THE ROW'S NAMED DESTINATION, AND I NEARLY FOLLOWED IT. AUT-PD-106 said to relocate the apparatus 'to the SI'. The journal article has no SI -- build_submission_pdf.py says so in terms -- and the file by that name belongs to the extended report. Moving a result there would have deleted it from the submission while looking like a relocation. Caught by reading the builder's PAPERS entry before editing, not by the gates, which would all have stayed green.",
+  "I MISSED ONE OF A PAIR, INSIDE THE FIX FOR ONE-OF-A-PAIR. Two guards bound the same loose-cut sentence; I found one by reading and re-pointed only it. The manuscripts suite caught the other. Reading is not an instrument.",
+  "I ALMOST INHERITED A WRONG FINDING. The census-ablation failure in my preflight matched AUT-PD-105 and AUT-PD-004 exactly, and both rows call it pre-existing. Run alone against a detached worktree at origin/main it PASSES -- so those rows' premise is spent and the failure in my run was a transient mid-edit state. Had I trusted the rows, I would have shipped a red I caused, labelled as somebody else's.",
+  "THE HARNESS REPORTED EXIT 0 TWICE FOR COMMANDS WHOSE OWN MARKER SAID EXIT=1 (the regeneration chain, and the preflight run). The marker was right both times. This is the third recorded instance."
+ ],
+ "now_queued": [
+  "AUT-PD-004 carries the measured current trunk-red set: three tests, none named by any row before now, and all three the same shape -- a guard whose prose moved and was not re-anchored.",
+  "AUT-PD-105 re-measured; not closed, because it was filed off PREFLIGHT_FULL and this reading is of the scoped suite."
+ ],
+ "blocked_by": [
+  {
+   "what": "The three LibreOffice-built .docx submission parts are stale against the edited manuscript and cannot be rebuilt here.",
+   "path": "research/manuscripts/build_submission_docx.py, research/manuscripts/build_submission_parts.py",
+   "evidence": "Both fail with 'Error: source file could not be loaded'. Root-caused with a positive control in CYC-0026 (soffice --convert-to docx on a three-line HTML file fails identically): the install is broken, not absent. Not re-diagnosed.",
+   "remedy": ".github/workflows/aso-submission-parts.yml, workflow_dispatch, which rebuilds them and commits to main. Dispatched after this push."
+  },
+  {
+   "what": "aso_priorart_evidence.py refused on a shallow clone missing origin/literature-cache.",
+   "path": "research/manuscripts/aso_priorart_evidence.py",
+   "evidence": "'REFUSED: origin/literature-cache does not carry [...]'. Resolved in-cycle by fetching that branch; the step then wrote its artifact and agrees_with_manuscript=True."
+  }
+ ],
+ "route_advanced": "RT-AUTONOMY",
+ "handoff": {
+  "child_session_id": null,
+  "note": "Filled in before the turn ends; this session is at 1 of its 2 permitted cycles."
+ }
+}
