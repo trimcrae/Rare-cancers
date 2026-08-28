@@ -2242,9 +2242,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "SEAT-s1-1f1a2449",
+      "claimed_utc": "2026-08-28T20:34:34Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2259,7 +2259,13 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "queue mechanics; nothing published, submitted or deposited",
-      "what": "⚠ TWENTY-FOUR LEDGER ROWS CARRY NO SCORE AT ALL, so no ranking term can order them — including the anti-starvation age factor added in AUT-PD-048, which is precisely the term meant to rescue exactly these rows. Found while dry-running that change, not by looking for it. Sample: AUT-COV-001, AUT-COV-002, AUT-INC-001, AUT-PD-011, AUT-PD-012. ⛔ THE SORT ALREADY KNOWS: build_ledger sorts with `-(score if score is not None else -1e9)`, i.e. an unscored row is pinned to the BOTTOM forever by construction — a starving class the age term cannot reach. ★ The question to answer first is whether these rows SHOULD be scored (hand-filed rows get a hand score) or whether the scorer should derive one; do not paper over it by defaulting them to zero, which just makes the starvation silent instead of visible."
+      "what": "⚠ TWENTY-FOUR LEDGER ROWS CARRY NO SCORE AT ALL, so no ranking term can order them — including the anti-starvation age factor added in AUT-PD-048, which is precisely the term meant to rescue exactly these rows. Found while dry-running that change, not by looking for it. Sample: AUT-COV-001, AUT-COV-002, AUT-INC-001, AUT-PD-011, AUT-PD-012. ⛔ THE SORT ALREADY KNOWS: build_ledger sorts with `-(score if score is not None else -1e9)`, i.e. an unscored row is pinned to the BOTTOM forever by construction — a starving class the age term cannot reach. ★ The question to answer first is whether these rows SHOULD be scored (hand-filed rows get a hand score) or whether the scorer should derive one; do not paper over it by defaulting them to zero, which just makes the starvation silent instead of visible.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:34:34Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "id": "AUT-015",
