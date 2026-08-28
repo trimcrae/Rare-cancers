@@ -167,6 +167,18 @@ PAPERS = {rel: os.path.join(REPO, rel) for rel in NAMED_BY}
 COVERAGE_FLOOR = {
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md":
         {"covered": 66, "with_a_number_covered": 44},
+    #: ⭐ FIRST FLOOR FOR THIS DOCUMENT, 2026-08-28 (AUT-PD-132), AND IT WAS REQUIRED BY A GUARD
+    #: RATHER THAN REMEMBERED. Registering an ablation exemption here failed
+    #: `test_every_ablation_exemption_names_a_censused_sentence_and_says_why`, whose point is exact:
+    #: exempting a sentence in a document with NO floor is not an exemption from one gate, it is a
+    #: document with no gate at all. ⚠ The numbers are MEASURED at the commit that added them —
+    #: 7 covered of 267 sentences, 4 of them stating a number — not chosen. A low floor is an honest
+    #: floor: this manuscript's coverage is thin, and pinning it is what makes a regression visible.
+    #: ⛔ The 4 include the reference list's identifiers, bound this cycle in
+    #: `test_the_endpoint_reference_list_binds_to_what_was_fetched.py` after the ablation harness
+    #: showed PMID 27714541 and its DOI could drift with nothing going red.
+    "research/manuscripts/endpoint/response-endpoint-indolent-tumours.md":
+        {"covered": 7, "with_a_number_covered": 4},
     "research/manuscripts/aso/fusion-junction-aso-journal-tables.md":
         {"covered": 4, "with_a_number_covered": 1},
     "research/manuscripts/aso/fusion-junction-aso-cover-letter.md":
@@ -264,6 +276,20 @@ ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE = {
         "That was necessary because the publisher's edge blocks automation":
             "credited only by `HTTP \\d{3}`, matching the sentence's HTTP 403; measured 2026-08-27 "
             "at 2ca11bfe8, 2023 -> 2027, 03 -> 07, 21 -> 27, 403 -> 407 and 2 -> 7 turned nothing red",
+        "Each citation entry records the source's licence and it is respected":
+            "the fourth of the `HTTP \\d{3}` family above, recovered 2026-08-28 when the locator was "
+            "fixed (AUT-PD-132) and blind for the same reason as its three siblings: 403 -> 407, "
+            "56 -> 57 and 000 -> 007 all turned nothing red, and the only pattern crediting the "
+            "sentence is the wildcard",
+    },
+    "research/manuscripts/endpoint/response-endpoint-indolent-tumours.md": {
+        #: ⛔ A SPLITTER ARTEFACT, NOT A CLAIM. `sentences()` joins across a `---` rule and a bold
+        #: run-in heading, so this "sentence" is an AI-assistance footer glued to the first line of
+        #: **Background.** Its only digits are the cross-reference `section 2.4`.
+        "Analyses were carried out with AI assistance":
+            "the only digits are the cross-reference `section 2.4`; measured 2026-08-28 after the "
+            "locator fix, 2 -> 7 and 4 -> 7 turned nothing red. The sentence states no quantity — "
+            "it is a footer merged with the next heading by the flattener",
     },
 }
 
@@ -294,6 +320,84 @@ def _prose(path):
     keep = [ln for ln in text.splitlines()
             if ln.strip() and not ln.lstrip().startswith(("#", "|", ">", "```"))]
     return re.sub(r"\s+", " ", " ".join(keep))
+
+
+#: ⛔ THE LINES `_prose` DROPS WHOLE: headings, table rows, block quotes and fence markers. A censused
+#: sentence can therefore span one of them — the abstract's first sentence sits across the `## Abstract`
+#: heading — and a locator that tolerates only whitespace will never find it.
+_DROPPED_LINE = re.compile(r"^[ \t]*(?:#|\||>|```)[^\n]*$", re.M)
+
+#: ⛔⛔ EVERYTHING `_prose` REMOVES BETWEEN TWO SURVIVING TOKENS, AS ONE PATTERN, DERIVED FROM THE
+#: SAME REGEXES RATHER THAN RETYPED. If `_prose` learns to strip something new and this does not,
+#: the sentences carrying it silently stop being testable — which is the defect below, exactly.
+#: ⚠ EACH ALTERNATIVE CARRIES ITS OWN FLAG SCOPE. `_COMMENT` and `_SUP` are compiled `re.S` so
+#: they may span lines; `_DROPPED_LINE` is compiled `re.M` so its `^`/`$` mean line edges. Inlining
+#: the patterns without those scopes silently changes what they match — measured: without `(?m:)`
+#: the dropped-line branch anchored to the ends of the WHOLE FILE and matched nothing, leaving 9 of
+#: the 15 sentences still unlocatable, every one of them across a heading, a table row or a quote.
+_GAP = "(?:\\s|(?s:%s)|(?s:%s)|(?m:%s))*" % (_COMMENT.pattern, _SUP.pattern, _DROPPED_LINE.pattern)
+
+
+def stripped_spans(fragment):
+    """The (start, end) regions of `fragment` that `_prose` deletes — comments, `<sup>` runs, and
+    whole dropped lines.
+
+    ⛔⛔ THE REASON THIS EXISTS IS A FALSE *RED*, WHICH IS THE DANGEROUS DIRECTION. Once `locate`
+    could match across a stripped construct, the span handed to `claim_ablation.ablate` could contain
+    a citation marker — `<sup>16</sup>`, `<!--PMID:12378528-->`, a numbered heading. `ablate`
+    perturbs every digit run in the span, so it would have mutated the CITATION NUMBER of a sentence
+    and watched a citation guard go red, then reported the sentence bound. The claim's own number
+    would still have been unwatched, and the gate would have said the opposite.
+    ★ A perturbation may only touch text that survives flattening, because that is the only text the
+    census ever claimed to cover.
+    """
+    spans = []
+    for rx in (_COMMENT, _SUP, _DROPPED_LINE):
+        spans.extend((m.start(), m.end()) for m in rx.finditer(fragment))
+    return spans
+
+
+def locate(text, sentence):
+    """Find a censused sentence in the RAW file, tolerating everything `_prose` stripped out of it.
+
+    ⛔⛔ MEASURED 2026-08-28 (AUT-PD-132), AND THE BIAS RAN THE WRONG WAY. The ablation harness could
+    not find 8 of 62 censused numbered sentences in the ASO journal article, 7 of 80 in the
+    fusion-partner synthesis, and reported them NOT-APPLIED — counted as covered, perturbed by
+    nothing, unfalsifiable. Every one of them broke at a citation marker:
+
+        after "…breakpoint distribution of an 18-case series,"
+          raw: '<sup>16</sup><!--PMID:12378528--> the two junctions account for 68.4%…'
+
+    ★ SO THE SENTENCES THE HARNESS COULD NOT TEST WERE THE ONES CARRYING CITATIONS — the
+    best-evidenced claims in the paper, including a pinned figure. A hole that selects for
+    well-supported prose is worse than a random one.
+
+    ⚠ THE OLD LOCATOR WAS RIGHT ABOUT ITS OWN LESSON AND TOO NARROW BY ONE STEP: it already knew
+    `sentence in text` fails because the flattener joins lines, and answered with `\s+` between
+    tokens. `_prose` also strips comments, `<sup>` runs and whole dropped lines, and those gaps are
+    not whitespace.
+
+    ⭐ THE MATCH IS VERIFIED, NOT TRUSTED. A span is returned only if re-flattening it reproduces the
+    censused sentence exactly, so a pattern that wanders can never hand back the wrong region for a
+    caller to mutate.
+    """
+    toks = sentence.split()
+    if not toks:
+        return None
+    rx = re.compile(_GAP.join(re.escape(tok) for tok in toks))
+    for m in rx.finditer(text):
+        if _flatten(m.group(0)) == " ".join(toks):
+            return m
+    return None
+
+
+def _flatten(fragment):
+    """`_prose`'s transformation applied to a fragment, for the round-trip check in `locate`."""
+    fragment = _COMMENT.sub("", fragment)
+    fragment = _SUP.sub("", fragment)
+    keep = [ln for ln in fragment.splitlines()
+            if ln.strip() and not ln.lstrip().startswith(("#", "|", ">", "```"))]
+    return re.sub(r"\s+", " ", " ".join(keep)).strip()
 
 
 def sentences(path):

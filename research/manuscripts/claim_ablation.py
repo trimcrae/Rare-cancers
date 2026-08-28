@@ -89,9 +89,15 @@ def _locate(text, sentence):
     red", and would have been read as "these guards are blind" — a fabricated measurement about to be
     used to justify narrowing the census.
     ★ Matching with `\s+` between tokens is what makes the mutation actually land.
+
+    ⛔⛔ AND WHITESPACE WAS NOT THE ONLY THING REMOVED (AUT-PD-132, 2026-08-28). `_prose` also strips
+    `<!--…-->`, `<sup>…</sup>` and whole heading/table/quote lines, so every sentence carrying a
+    citation marker — 15 across the two censused papers, one of them a pinned figure — was
+    unlocatable and scored NOT-APPLIED: counted as covered and perturbed by nothing. The locator now
+    lives next to the flattener it inverts, is derived from the same regexes, and verifies its match
+    by re-flattening it. See `claim_coverage.locate`.
     """
-    rx = re.compile(r"\s+".join(re.escape(tok) for tok in sentence.split()))
-    return rx.search(text)
+    return cc.locate(text, sentence)
 
 
 def _witness_cmd(witness):
@@ -319,7 +325,13 @@ def ablate(paper_key, row, witnesses=None):
                 "reason": "the censused sentence has no home in the raw file even allowing for line "
                           "wrapping — the flattener and the file have diverged"}
     span = original[hit.start():hit.end()]
-    runs = list(re.finditer(r"\d+", span))
+    # ⛔⛔ ONLY THE DIGITS THAT SURVIVE FLATTENING (AUT-PD-132, 2026-08-28). The span may now cross a
+    # citation marker or a dropped heading, and perturbing a `<sup>16</sup>` would turn a citation
+    # guard red and report the SENTENCE bound while its own number stayed unwatched — a false RED,
+    # which is the direction that lies in the reassuring direction. See `claim_coverage.stripped_spans`.
+    _skip = cc.stripped_spans(span)
+    runs = [m for m in re.finditer(r"\d+", span)
+            if not any(s <= m.start() < e for s, e in _skip)]
     if not runs:
         return {"status": NOT_APPLIED, "red": [], "witnesses": ws,
                 "reason": "the sentence states no number, so this module defines no perturbation"}
