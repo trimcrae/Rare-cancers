@@ -3052,10 +3052,10 @@
         "strategy": "ST-REPURPOSING"
       },
       "kind": "write",
-      "state": "queued",
+      "state": "in_progress",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": null,
+      "owner": "CYC-0070-ba841eee",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": [
@@ -3079,7 +3079,14 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "blocked_with_evidence": true
-      }
+      },
+      "claimed_utc": "2026-08-28T22:06:30Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:06:30Z",
+          "fingerprint_at_dispatch": "2026-08-08|publish_bar --paper PUB-FUSION-PARTNER --sha cc53a6987a58 2026-08-26: BLOCKED 3/6. Clauses 1, 2, 6 UNVERIFIABLE — no hardening record, no PREFLIGHT_FULL receipt on the posted commit, no blind seat. AUT-PROP-002/003 produce exactly those."
+        }
+      ]
     },
     {
       "id": "AUT-PD-023",
