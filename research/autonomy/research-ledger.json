@@ -7071,6 +7071,30 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-108",
+      "what": "⛔ THE TRUNK IS RED AND IT IS NOT ROUND 18's DOING — research/autonomy/tests/test_a_score_must_derive_from_its_own_inputs.py::test_the_scoring_pipeline_is_a_fixed_point_of_itself fails on AUT-013, whose score oscillates between 164.0 and 172.0 across successive `priority.py --write` runs. ⭐ PROVEN PRE-EXISTING, not inferred: `git archive origin/main | tar -x` into a directory sharing NO inodes and NO .git reproduces the identical failure with the identical pair (164.0, 172.0) on the trunk's own committed ledger. ⚠ A first attempt to establish this used a `cp -al` hardlink clone, which shares .git with the live repository and tangled the index — do not repeat that; `git archive` is the clean instrument. ⛔ WHY IT MATTERS BEYOND ONE ROW: a score that is not a fixed point of its own pipeline means the queue's ORDER is not reproducible, so two cycles re-scoring the same committed ledger can rank the backlog differently and neither is wrong. research-loop §1 makes this the next cycle's first item: preflight red on main and not by your hand IS the cycle. ⛔ FIX THE PIPELINE, never the row — pinning AUT-013's score to one of the two values hides the defect and leaves every other row exposed to it.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "fix",
+      "state": "ready",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A scoring-pipeline bug in this repository. No spend, no outward-facing act.",
+      "claimed_utc": null,
+      "evidence": "Round 18 applied. All three REFUTED interpretation claims narrowed in research/manuscripts/aso/fusion-junction-aso-journal-article.md, plus the Introduction sibling the audit did not sample and two siblings in the extended report. Five blind-seat blockers verified against the artifacts and fixed. Record: research/autonomy/hardening-state/PUB-ASO.json (round 18, 5 blockers all fixed, 7 P1s of which 2 closed). Journal article 4613 -> 4634 words by wc -w. NOT DONE: the 6-page budget is exceeded by one page and test_the_journal_pdf_fits_its_page_budget.py is red; see AUT-PD-083. Nothing was posted.",
+      "closes_clause": null
     }
   ]
 }
