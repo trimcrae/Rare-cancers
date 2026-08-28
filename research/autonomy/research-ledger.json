@@ -10,11 +10,11 @@
     "code": 1,
     "experiment": 23,
     "fetch": 19,
-    "fix": 12,
+    "fix": 13,
     "harden": 21,
     "negative": 32,
     "process": 7,
-    "process_defect": 109,
+    "process_defect": 110,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
@@ -23,7 +23,7 @@
   "n_by_state": {
     "blocked": 1,
     "done": 98,
-    "in_progress": 1,
+    "in_progress": 3,
     "parked": 28,
     "queued": 128,
     "ready": 1,
@@ -5753,7 +5753,7 @@
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
-      "retry_budget": 3,
+      "retry_budget": 2,
       "attempts": 0,
       "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0060-18394002",
@@ -5773,7 +5773,10 @@
           "utc": "2026-08-28T20:26:42Z",
           "fingerprint_at_dispatch": "2026-08-28|None"
         }
-      ]
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
     },
     {
       "id": "AUT-PROP-015",
@@ -7149,6 +7152,62 @@
       "closes_clause": null
     },
     {
+      "id": "AUT-PD-127",
+      "what": "⛔ THE SCORER AND THE HANDOFF GENERATOR DO NOT READ `requires_trimcrae`, SO THE TOP OF THE QUEUE IS RESERVED FOR trimcrae AND EVERY FRESH CYCLE IS POINTED AT IT FIRST. Three sites answer the one question 'may a cycle take this row?' and only ONE was fixed: `continuity.py::_why_not_ready` returns \"outward-facing — trimcrae's act (CLAUDE.md §3)\", while `priority.py::_blocked_on_human` and `handoff.py::_takeable` do not read the field at all. `_blocked_on_human` reads ONLY systems/graph/routes.json (`state.authorization == 'needs_decision'`, or `next.blocked_on` matching a keyword), so the −25 `blocked_on_human` weight — whose own `why` in priority-weights.json reads 'The loop cannot advance it this cycle' — fires on 0 of the 12 rows that declare the field. `_takeable` filters on owner/state/retry_budget/score/exclude_ids and nothing else. FIX BOTH READERS to consult the entry's own `requires_trimcrae`, and guard each so the trio cannot drift apart again.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "fix",
+      "state": "in_progress",
+      "owner": "CYC-0066-7cda2d61",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Loop instrumentation in research/autonomy/. Nothing outward-facing; it REMOVES incorrectly-offered outward acts rather than performing one.",
+      "claimed_utc": "2026-08-28T20:24:24Z",
+      "evidence": "MEASURED ON 86098c2, NOT INFERRED. (1) Over the committed ledger: 12 rows declare `requires_trimcrae: true`; the `blocked_on_human` penalty is present in the `score_inputs` of 0 of them (the single row carrying that penalty earns it via routes.json instead). (2) The re-scored queue's first EIGHT rows — AUT-046 199.0, AUT-010 190.9, AUT-042/057/058/064/065 181.7, AUT-073 172.0 — all declare the field; the first row a cycle may actually take is AUT-025 at 152.0. (3) The handoff prompt that started session 7cda2d61 lists five rows under 'WHAT IS WAITING' and all five declare it — `handoff.py::_takeable` produced that list, and AUT-010 was dropped from it only by the unrelated `stuck_clock` exclusion, not by this field. ⚠ THIS IS THE ONE-OF-A-PAIR CLASS AT n=3: `continuity.py` lines 80–95 record this exact incident being found by the Stop hook on 2026-08-27 — its top two rows were 'Publish the assessment…' and 'Post the preprint and put the MTAP stain…', 'both offered as ready work because readiness was modelled on SPEND and never on WHO MAY ACT' — and fixed THERE; the two other readers of the same question were never touched.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:24:24Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
+    },
+    {
+      "id": "AUT-PD-128",
+      "what": "⛔ `continuity.py --check` IS STEP 12 OF THE CYCLE CONTRACT AND A CORRECTLY-HANDED-OFF CYCLE CANNOT PASS IT. Its own message names three acceptable ways to end a turn — 'something actually running (a subagent, a dispatched workflow, a spawned session), an item genuinely blocked, or an empty list' — but the CODE has exactly one exit-0 path: `at_capacity`, which is true only when the number of LEDGER LEASES (rows carrying an `owner`) is >= autonomy-state.json `subagent_width`. A spawned successor session holds no lease; neither does a dispatched workflow. So the two things the text invites a cycle to do are both invisible to the check that grades it. ⚠ THIS IS THE SAME SHAPE AS THE TWO DEFECTS research-loop §1 ALREADY RECORDS (`cycles_are_sized`, `fanout_is_governed`): an instrument whose green state is unreachable by correct behaviour, which trains cycles to ignore it. ⭐ WHAT THE FIX IS NOT: raising the exit-0 surface to 'a receipt mentions a handoff' would make the check pass on a SENTENCE, which is the v1 defect its own header records ('it asked whether the work was WRITTEN DOWN rather than whether it was MOVING'). The honest options are to count a committed `handoff.child_session_id` from THIS cycle as a running worker, or to accept a caller-supplied declaration of what was dispatched — the header considers and rejects a `--what-is-running` flag, so that rejection is the thing to re-argue, not to route around. Decide which, and mutation-test that a cycle which spawned NOTHING still fails.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
+      "claimed_utc": null,
+      "evidence": "MEASURED 2026-08-28 by CYC-0066-1f1a2449 at its own step 12, after doing exactly what the message asks. The cycle spawned successor session_018A9rdUZLrexk1HJrKtDCd2 via handoff.py and recorded it under handoff.child_session_id in a COMMITTED receipt; `continuity.py --check` still exited 1, listing 100 ready items. Read at the source: continuity.py's `--check` returns 0 only under `at_capacity`, computed from rows carrying an `owner` counted against `width_cap()`. Counted on the trunk at that moment: 3 leases (AUT-PD-049, AUT-PD-105, AUT-PD-127) against subagent_width 5, so at_capacity was False and the exit was 1 — and would have been 1 no matter what the cycle spawned, because spawning does not create a lease. ⚠ The three concurrent loop SESSIONS live at that moment were also invisible to it for the same reason.",
+      "closes_clause": null
+    },
+    {
       "id": "AUT-PD-112",
       "what": "SUBMISSION-GATE ITEM for PUB-REPURPOSING: §4.1 and Table 3 must cite EV-MAKI-2005 as the class-level clinical bound and EV-BOKLAN-2025 as the existing carfilzomib combination schedule. ⚠ NO SENTENCE IN repurposing-hypotheses.md IS FALSE TODAY — the defect is INCOMPLETENESS: an evidence-graded review that lists carfilzomib as untried, without the class's own closed sarcoma trial, misleads by omission in a way each individual sentence survives. ⛔ A correction REPLACES text and does not append (paper-hardening), and this is a venue-capped manuscript under an active hardening program that reviews a PINNED COMMIT — so it needs a new numbered reference, an Appendix A row and the word budget, not a paragraph bolted on.",
       "serves": {
@@ -7602,35 +7661,6 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-127",
-      "what": "⛔ THE SCORER AND THE HANDOFF GENERATOR DO NOT READ `requires_trimcrae`, SO THE TOP OF THE QUEUE IS RESERVED FOR trimcrae AND EVERY FRESH CYCLE IS POINTED AT IT FIRST. Three sites answer the one question 'may a cycle take this row?' and only ONE was fixed: `continuity.py::_why_not_ready` returns \"outward-facing — trimcrae's act (CLAUDE.md §3)\", while `priority.py::_blocked_on_human` and `handoff.py::_takeable` do not read the field at all. `_blocked_on_human` reads ONLY systems/graph/routes.json (`state.authorization == 'needs_decision'`, or `next.blocked_on` matching a keyword), so the −25 `blocked_on_human` weight — whose own `why` in priority-weights.json reads 'The loop cannot advance it this cycle' — fires on 0 of the 12 rows that declare the field. `_takeable` filters on owner/state/retry_budget/score/exclude_ids and nothing else. FIX BOTH READERS to consult the entry's own `requires_trimcrae`, and guard each so the trio cannot drift apart again.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "fix",
-      "state": "in_progress",
-      "owner": "CYC-0066-7cda2d61",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "Loop instrumentation in research/autonomy/. Nothing outward-facing; it REMOVES incorrectly-offered outward acts rather than performing one.",
-      "claimed_utc": "2026-08-28T20:24:24Z",
-      "evidence": "MEASURED ON 86098c2, NOT INFERRED. (1) Over the committed ledger: 12 rows declare `requires_trimcrae: true`; the `blocked_on_human` penalty is present in the `score_inputs` of 0 of them (the single row carrying that penalty earns it via routes.json instead). (2) The re-scored queue's first EIGHT rows — AUT-046 199.0, AUT-010 190.9, AUT-042/057/058/064/065 181.7, AUT-073 172.0 — all declare the field; the first row a cycle may actually take is AUT-025 at 152.0. (3) The handoff prompt that started session 7cda2d61 lists five rows under 'WHAT IS WAITING' and all five declare it — `handoff.py::_takeable` produced that list, and AUT-010 was dropped from it only by the unrelated `stuck_clock` exclusion, not by this field. ⚠ THIS IS THE ONE-OF-A-PAIR CLASS AT n=3: `continuity.py` lines 80–95 record this exact incident being found by the Stop hook on 2026-08-27 — its top two rows were 'Publish the assessment…' and 'Post the preprint and put the MTAP stain…', 'both offered as ready work because readiness was modelled on SPEND and never on WHO MAY ACT' — and fixed THERE; the two other readers of the same question were never touched.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T20:24:24Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
     }
   ]
 }
