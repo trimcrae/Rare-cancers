@@ -25,12 +25,34 @@
     "detail": "Repository work, one public Actions log read, one unauthenticated API read. No rental."
   },
   "subagents": {
-    "max_concurrent": 0,
+    "max_concurrent": 3,
     "cap_at_dispatch": 5,
     "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
     "within_cap": true,
-    "serial_total": 0,
-    "seats": []
+    "serial_total": 3,
+    "launched_in_one_message": true,
+    "seats": [
+      {
+        "seat": "s1",
+        "item": "AUT-PD-050",
+        "owner": "SEAT-s1-1f1a2449",
+        "scratch": "/tmp/claude-0/-home-user-Rare-cancers/1f1a2449-a087-5338-b7d0-a35a6856b58a/scratchpad/s1-AUT-PD-050/"
+      },
+      {
+        "seat": "s2",
+        "item": "AUT-PD-058",
+        "owner": "SEAT-s2-1f1a2449",
+        "scratch": "/tmp/claude-0/-home-user-Rare-cancers/1f1a2449-a087-5338-b7d0-a35a6856b58a/scratchpad/s2-AUT-PD-058/"
+      },
+      {
+        "seat": "s3",
+        "item": "AUT-PD-031",
+        "owner": "SEAT-s3-1f1a2449",
+        "scratch": "/tmp/claude-0/-home-user-Rare-cancers/1f1a2449-a087-5338-b7d0-a35a6856b58a/scratchpad/s3-AUT-PD-031/"
+      }
+    ],
+    "_why": "Dispatched at the turn's end in response to the ready-work Stop hook, which is a report this session had ready, unclaimed, unblocked work and nothing observably running. Each item was CLAIMED AND PUSHED in the same action that spawned its seat, so the leases are visible on the trunk and falsifiable — an unpushed claim protects nothing, and unclaimed dispatched agents are what made this hook cry wolf once before. Items were chosen to touch DISJOINT files (priority.py / stuck_clock.py / line_citations.py) so three concurrent worktrees cannot collide, and health.py was excluded from all three because this session changed it today.",
+    "_merge_owner": "Each seat pushes a BRANCH and does not touch the shared tree. The driver ends its turn rather than waiting (research-loop §3), so merging the branches and closing or re-opening the three rows belongs to the successor cycle, session_018A9rdUZLrexk1HJrKtDCd2."
   },
   "rate_limit_info": {
     "status": "allowed_warning",
