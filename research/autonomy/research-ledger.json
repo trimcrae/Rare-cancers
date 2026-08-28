@@ -2591,9 +2591,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "SEAT-s1-ba841eee",
+      "claimed_utc": "2026-08-28T22:31:26Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2609,7 +2609,12 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a generated artifact and the gate that pairs it; nothing outward-facing",
       "what": "⛔ A COMMIT THAT WIDENS A GUARD'S PATTERNS INVALIDATES claim-coverage.json, AND NOTHING PAIRS THEM — MEASURED 2026-08-28 (CYC-0069, fixed in d8e40d8). 83aede1 closed AUT-PD-119 by widening three guards; two of them witness the ASO journal article; the census HARVESTS ITS PATTERNS FROM THE TEST CORPUS, so `covered` moved 99 -> 101 with no manuscript byte touched, and `main` went red on a clean tree for ~35 minutes. ⭐ THE PAIRING THAT USUALLY CATCHES THIS DID NOT APPLY: the article and the census artifact were last written by the SAME commit, so a doc-touches-artifact rule sees nothing wrong — the invalidating edit is in research/manuscripts/tests/, a different directory from the artifact it stales. ⛔⛔ AND THE RED IS NOT COSMETIC: claim_ablation._baseline_reds correctly subtracts a witness already red on the unmutated clone, so while that guard is red every sentence whose only witness is that module scores BLIND — the false-BLIND mechanism the module's own docstring records from 2026-08-23, reached by a new route, and it points a reader at the paper rather than at the instrument. WHAT TO DO: make the pairing structural rather than remembered. The candidate is a preflight/CI check that any commit touching research/manuscripts/tests/*.py (or anything else claim_coverage._test_patterns reads) either regenerates claim-coverage.json or proves the census output is unchanged — the census is a ~1.5 s pure-CPU screen, so recomputing it is cheaper than the rule. ⚠ DO NOT instead relax test_claim_coverage_has_not_regressed: it is the only thing that noticed.",
-      "dispatch_log": [],
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:31:26Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
       "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me."
     },
     {
