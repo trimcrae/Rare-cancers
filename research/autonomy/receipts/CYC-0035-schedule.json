@@ -1,0 +1,38 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0035-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T09:45:00Z",
+  "shape": "Third cycle in the same fired session — over the research-loop skill's intended max_cycles_per_session (2), taken as a DISPATCH-ONLY cycle rather than a full driver-executed one, specifically to stay within that cap's spirit (bounding the driver's own context growth) while `continuity.py --check` and the ready-work stop hook both refused to let the turn end with 80+ free ready items and nothing running. No create_session/handoff mechanism was available as a tool in this scheduled-Routine context (same finding as CYC-031/032/033/034), so a background Agent-tool subagent working in an isolated git worktree stands in for the spawned-session shape research-loop §3 calls for when the cap is reached.",
+  "took": "AUT-PD-036 — every gate that enumerates with `git ls-files` is blind to an uncommitted new file (RT-AUTONOMY, loop mechanism)",
+  "took_what": "Re-scored the queue; AUT-PD-036 (score 182) was held by a stale lease from CYC-0030-6be7fd5a past its 8h claim_lease, so claim.py correctly YIELDED on first attempt against origin/main (my local priority.py rescore had released it locally but that release was not yet pushed — committed and pushed it first as its own small commit, then claimed cleanly on the second attempt). This is the item's THIRD attempt (retry_budget: 3, attempts now 3) — its own text already establishes the mechanism with cited evidence (a real incident: research/method-watch-autonomy-prior-art-2.md passed two full preflight runs while untracked, then failed the next run once committed) and names 14 remaining `git ls-files` call sites (of 15; one already fixed) each needing a probe-verify-widen-verify-delete-probe pass rather than a bulk sed, since some call sites intentionally want tracked-only semantics.",
+  "changed": [
+    "NOTHING LANDED YET — this cycle is DISPATCH-ONLY, by design (see `shape` above). Claimed AUT-PD-036 and launched one background Agent-tool subagent (isolation: worktree, run_in_background: true) with a full self-contained brief: read the ledger entry itself as the authoritative spec, find the 14 remaining call sites via `grep -rln \"ls-files\" --include=*.py research systems scripts`, apply the probe/widen/verify methodology per file, leave call sites alone where tracked-only semantics are intentional (an archive manifest, a test selector), add regression tests in this repo's mutation-tested house style, run existing tests for every file touched, and — critically — NOT touch research-ledger.json/receipts/amendments.jsonl (driver-owned coordination state). It must commit to a new branch (`aut-pd-036-ls-files-scope` suggested) and push it, then report a per-call-site table plus an honest count of how many of the 14 it actually closed. Per CLAUDE.md/research-loop's 'the driver never waits' rule, this receipt is being written and the turn ended at DISPATCH, not at completion.",
+    "The ledger row for AUT-PD-036 was NOT further edited beyond the claim (owner/claimed_utc set by claim.py itself) — its state stays `in_progress` with real content pending the subagent's branch. A follow-up wake (subagent completion notification) will review the branch, run full preflight, update the ledger with the actual per-call-site outcome, and merge — that follow-up is what closes this ledger item, not this receipt."
+  ],
+  "cost": "$0. Engineering, CPU and one Claude subagent — no GPU, no rental.",
+  "subagents": {
+    "max_concurrent": 1,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 1,
+    "seats": [
+      "aut-pd-036-worktree-fix (agentId a5615208585f3213f, still running at receipt time — isolation: worktree, will push branch aut-pd-036-ls-files-scope or similar and report back; not yet observed)"
+    ]
+  },
+  "what_i_got_wrong": [
+    "Attempted claim.py on AUT-PD-036 before pushing the local priority.py rescore that had released its stale lease — claim.py correctly reads origin/main only, so the first attempt YIELDED against a lease that was already expired locally but not yet reflected on the remote. Fixed by committing and pushing the rescore first, then re-claiming. Lesson: a lease release from a local `priority.py --write` is not real until pushed; don't attempt a claim against it beforehand.",
+    "Manually ran `python3 research/manuscripts/aso_archive_manifest.py --check` (the strict, revision-inclusive check) rather than `--check-archive` (the stable, preflight-safe inventory check) while diagnosing an apparent post-rebase staleness, which is by the generator's own documented design ALWAYS stale immediately after any commit (git_revision moves). This cost one unnecessary extra commit (re-regenerating the manifest a second time after a rebase) before `--check-archive` confirmed the archive was actually fine both times. The extra commit is harmless (it makes the manifest's self-recorded git_revision accurate to the post-rebase sha) but was not strictly necessary."
+  ],
+  "now_queued": [
+    "Merge the aut-pd-036-ls-files-scope branch (or whatever the subagent names it) once its completion notification arrives: review its per-call-site report, run full preflight (PREFLIGHT_TESTS=1 at minimum, since it touches gate modules and their tests), then update research-ledger.json for AUT-PD-036 (done if all 14 sites closed, or a partial-progress note plus new ledger entries for any call site whose widening surfaced real pre-existing findings that need separate handling — per the item's own instruction not to silently absorb a cascade), write a receipt for that follow-up cycle, and push."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism was available as a tool in this scheduled-Routine context. Used a background Agent-tool subagent in an isolated worktree instead, which achieves the same goal (bounding this driver's own context growth past its 2-cycle-per-session cap) without a dedicated session-spawn primitive."
+  }
+}
