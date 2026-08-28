@@ -114,6 +114,39 @@ PATTERNS = {
     "DOI": (r"\b(10\.\d{4,9}/[^\s\)\]\},;\"'>]+)",),
     "NCT": (r"\b(NCT\d{8})\b",),
     "GEO": (r"\b(GS[EM]\d{3,7})\b",),
+    #: ⛔ ADDED 2026-08-28 (AUT-PD-057). BEFORE THIS, EVERY arXiv IDENTIFIER IN THIS REPOSITORY WAS
+    #: OUTSIDE THE GATE ENTIRELY — not baselined, not anchored, not counted; simply invisible. The
+    #: repository's method-watch documents cite arXiv preprints by the dozen, so a mistyped or
+    #: fabricated arXiv id passed every gate the same way the 2026-08-07 PMID did, and for a weaker
+    #: reason: nothing was even looking.
+    #: ⛔⛔ AND THE BARE FORM IS NOT MATCHED, DELIBERATELY — THIS IS THE WHOLE SAFETY ARGUMENT.
+    #: A modern arXiv id is `YYMM.NNNNN`, which is four-to-five digits either side of a dot, and
+    #: THAT SHAPE OCCURS INSIDE ORDINARY DOIs. Measured over this corpus on the day the pattern was
+    #: written, a bare `\d{4}\.\d{4,5}` matched three prose "identifiers" that are not arXiv ids at
+    #: all, every one a fragment of a real DOI: `10.1002/1878-0261.13558` -> `0261.13558`,
+    #: `10.1111/j.1349-7006.2012.02370.x` -> `7006.2012`, `10.1111/1759-7714.14613` -> `7714.14613`.
+    #: Each would have been reported as an unanchored citation — a fabrication alarm on a correctly
+    #: cited paper, which §7 records as the fastest way to get a gate switched off. It also bought
+    #: NOTHING: over every prose line in this repository that mentions arXiv, the three contextual
+    #: forms below capture every id-shaped token on the line, residue zero. So the bare form adds
+    #: only false positives, exactly as the same reasoning already deleted a bare-digit PMID rule.
+    #: ⚠ THE OLD (pre-2007) SCHEME `hep-th/9901001`, `math.GT/0309136` IS MATCHED AND THIS
+    #: REPOSITORY CONTAINS NONE — measured, zero hits in any tracked file. It costs nothing because
+    #: it is context-anchored like the rest, and a citation to a 2003 paper is exactly the case a
+    #: reader would assume is covered.
+    #: ⚠ THE VERSION SUFFIX IS STRIPPED, NOT CAPTURED. `arXiv:2605.10246v2` in prose and
+    #: `arxiv.org/abs/2605.10246` in a fetch product are ONE paper; capturing the version would make
+    #: them two and re-create the "one identifier read as three" defect the PMID note above exists
+    #: to stop. arXiv itself resolves the unversioned id to the latest version.
+    #: ⚠ THE `arxiv` TOKEN IS CASE-INSENSITIVE (`arXiv`, `arxiv`, `ARXIV` all occur in this tree) BUT
+    #: THE FLAG IS SCOPED TO IT — a global `(?i)` would also fold the old scheme's `math.GT` archive
+    #: suffix, whose case is part of the identifier.
+    "ARXIV": (r"(?i:arxiv)[:\s]\s*(\d{4}\.\d{4,5}|[a-z-]+(?:\.[A-Z]{2})?/\d{7})(?:v\d+)?\b",
+              r"(?i:arxiv\.org)/(?:abs|pdf|html)/"
+              r"(\d{4}\.\d{4,5}|[a-z-]+(?:\.[A-Z]{2})?/\d{7})(?:v\d+)?\b",
+              #: arXiv's own DOI prefix. Also matched by the DOI pattern above, which is correct:
+              #: the two kinds are independent questions about the same string and both must anchor.
+              r"10\.48550/(?i:arxiv)\.(\d{4}\.\d{4,5}|[a-z-]+(?:\.[A-Z]{2})?/\d{7})(?:v\d+)?\b"),
 }
 
 #: Trailing punctuation a DOI picks up from prose. Stripped on BOTH sides or the same DOI compares

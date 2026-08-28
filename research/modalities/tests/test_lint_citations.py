@@ -276,3 +276,135 @@ def test_tracked_still_honours_gitignore_for_untracked_files(tmp_path, monkeypat
     files = lc._tracked()
 
     assert "ignored.md" not in files
+
+
+# ---------------------------------------------------------------------------
+# arXiv — AUT-PD-057, 2026-08-28. ⛔ THE DEFECT: `PATTERNS` had PMID / PMCID / DOI / NCT / GEO and
+# NO arXiv entry, so every arXiv identifier in this repository's prose sat OUTSIDE this gate — not
+# anchored, not baselined, not counted, simply invisible. 67 of them were in prose on the day the
+# pattern went in. A fabricated or mistyped arXiv id passed every gate, which is the 2026-08-07
+# incident's shape with a weaker excuse: nothing was even looking.
+# ---------------------------------------------------------------------------
+
+def test_an_arxiv_identifier_is_extracted_in_every_form_this_repository_writes():
+    """The prefixed form, both URL forms and arXiv's own DOI are ONE identifier.
+
+    The version suffix is stripped for the reason the PMID test above gives: `arXiv:2605.10246v2` in
+    prose and `arxiv.org/abs/2605.10246` in a fetch product are the same paper, and a checker that
+    treats them as two reports a fabrication that is not there while missing its own anchor.
+    """
+    for form in ("arXiv:2605.10246", "arXiv 2605.10246", "arXiv:2605.10246v2",
+                 "arxiv:2605.10246", "ARXIV:2605.10246",
+                 "https://arxiv.org/abs/2605.10246", "https://arxiv.org/pdf/2605.10246v1",
+                 "https://arxiv.org/html/2605.10246", "doi:10.48550/arXiv.2605.10246"):
+        assert lc.extract("ARXIV", form) == ["2605.10246"], form
+    # The pre-2007 scheme. This repository contains none (measured 2026-08-28, zero hits in any
+    # tracked file), and it is matched anyway because a citation to a 2003 paper is exactly the case
+    # a reader would assume is covered. The archive suffix's case is part of the identifier, which is
+    # why the case-insensitive flag is scoped to the literal `arxiv` token and not applied globally.
+    assert lc.extract("ARXIV", "arXiv:math.GT/0309136") == ["math.GT/0309136"]
+    assert lc.extract("ARXIV", "https://arxiv.org/abs/hep-th/9901001v2") == ["hep-th/9901001"]
+
+
+def test_a_bare_number_shaped_like_an_arxiv_id_is_not_treated_as_one():
+    """⛔⛔ THE SINGLE MOST IMPORTANT NEGATIVE CONTROL ON THIS PATTERN, AND IT IS NOT HYPOTHETICAL.
+
+    A modern arXiv id is `YYMM.NNNNN` — four-to-five digits either side of a dot — and THAT SHAPE
+    OCCURS INSIDE ORDINARY DOIs. Measured over this repository's prose on 2026-08-28, a bare
+    `\\d{4}\\.\\d{4,5}` matched three "identifiers" that are fragments of real, correctly cited DOIs.
+    Each would have been reported as an unanchored citation, i.e. a fabrication alarm on honest work,
+    which §7 records as the fastest route to a gate being switched off. It also bought nothing: over
+    every prose line in this repository mentioning arXiv, the contextual forms capture every
+    id-shaped token on the line, residue zero.
+
+    ⚠ THIS TEST IS THE THING THAT GOES RED IF SOMEBODY "IMPROVES" THE PATTERN BY LOOSENING IT.
+    """
+    for doi_fragment_source in ("[Mol Oncol, DOI 10.1002/1878-0261.13558, PMID 37997254]",
+                                "doi:10.1111/j.1349-7006.2012.02370.x. PMID 22726592.",
+                                "doi:10.1111/1759-7714.14613. PMID 35974707."):
+        assert lc.extract("ARXIV", doi_fragment_source) == [], doi_fragment_source
+    # And a plain number in running prose — a year-and-decimal, a run id — is not an identifier.
+    assert lc.extract("ARXIV", "the run reported 2026.08281 as its seed") == []
+
+
+def test_a_fabricated_arxiv_id_is_caught(monkeypatch):
+    """⛔ THE CASE THE PATTERN EXISTS FOR: an arXiv id in prose and in no fetch product."""
+    monkeypatch.setattr(lc, "survey", lambda: (
+        {"ARXIV": {"2699.99999": {"research/method-watch-invented.md"}}}, {}))
+    assert lc.check() == 1
+
+
+def test_and_that_control_can_actually_pass_when_the_arxiv_id_is_anchored(monkeypatch):
+    """⚠ The control above is worthless if it goes red no matter what — same shape, anchored."""
+    monkeypatch.setattr(lc, "survey", lambda: (
+        {"ARXIV": {"2699.99999": {"research/method-watch-invented.md"}}},
+        {"ARXIV": {"2699.99999": {"research/method-watch-trigger-hits.json"}}}))
+    assert lc.check() == 0
+
+
+def test_the_arxiv_pattern_still_matches_this_repositorys_own_prose():
+    """⛔⛔ THE FAILURE MODE THIS CLASS OF GUARD ACTUALLY HAS: a regex that silently stops matching.
+
+    Every other test here feeds the extractor a string the test itself wrote, so a pattern edited
+    into uselessness against REAL prose — a lost alternative, a boundary that no longer fires on a
+    markdown link, a scoped case flag dropped — passes all of them while the gate quietly sees
+    nothing. A guard that cannot go red is indistinguishable from an absent guard, which is the
+    lesson this whole file is built on.
+
+    So this asserts against the corpus: every `kind: ARXIV` row in the ledger must still be findable
+    by `extract` in the files that row names. Those rows span both forms this repository actually
+    writes (the `arXiv:NNNN.NNNNN` token and the `arxiv.org/abs|pdf/` URL), so losing either one
+    takes this red.
+    """
+    led = lc.load_ledger()
+    rows = [e for e in led["entries"] if e["kind"] == "ARXIV"]
+    assert rows, "the ledger records no ARXIV rows — the identifier class went missing"
+    for e in rows:
+        seen = False
+        for rel in e["files"]:
+            path = os.path.join(lc.ROOT, rel)
+            if not os.path.exists(path):
+                continue
+            if e["id"] in lc.extract("ARXIV", open(path, encoding="utf-8",
+                                                   errors="replace").read()):
+                seen = True
+                break
+        assert seen, (
+            "ARXIV %s is ledgered against %s but the extractor no longer finds it there — the "
+            "pattern stopped matching this repository's own prose" % (e["id"], e["files"]))
+
+    # And a floor on the whole corpus, so a pattern narrowed to exactly the ledgered ids cannot hide
+    # behind the loop above. 67 arXiv identifiers were in prose on 2026-08-28; the floor is set well
+    # under that so ordinary prose churn does not fire it, and a broken pattern still does.
+    # ⚠ THE PROSE HALF ONLY, AND THAT IS A DELIBERATE COST CHOICE, NOT A WEAKER TEST. `survey()`
+    # scans the prose files AND every tracked .json/.jsonl fetch product: 34.2 s, measured
+    # 2026-08-28, against 1.5 s for the prose half alone. This assertion is about whether the
+    # PATTERN sees the corpus, which lives entirely on the prose side, so paying 34 s to re-derive
+    # an anchor set nothing here reads would put half a minute on every run of the manuscripts
+    # suite for no additional power.
+    prose = lc._scan([f for f in lc._tracked() if f.endswith(lc.PROSE_SUFFIXES)])
+    assert len(prose.get("ARXIV", {})) >= 40, (
+        "only %d arXiv identifier(s) found in prose — the pattern has stopped seeing the corpus"
+        % len(prose.get("ARXIV", {})))
+
+
+def test_every_arxiv_ledger_row_records_how_it_was_checked():
+    """⛔ THE ROWS ADDED FOR THIS CLASS ARE NOT PART OF THE 2026-08-07 BASELINE AND MUST NOT LOOK
+    LIKE IT.
+
+    `unverified_at_baseline` is the honest status for them — arxiv.org and export.arxiv.org are both
+    egress-blocked from this sandbox, so nothing in this repository corroborates them — but a row
+    added later with a blank note is an amnesty wearing a baseline's clothes. Each carries the date
+    and the channel it was checked through, the shape the `known_absent_upstream` NCT row already
+    established, so the next reader can tell a triaged row from a waved-through one.
+    """
+    led = lc.load_ledger()
+    rows = [e for e in led["entries"] if e["kind"] == "ARXIV"]
+    assert rows
+    for e in rows:
+        assert e.get("checked_on"), "ARXIV %s has no checked_on" % e["id"]
+        assert e.get("checked_by"), "ARXIV %s has no checked_by" % e["id"]
+        assert e.get("note"), "ARXIV %s has a blank note" % e["id"]
+    assert "_arxiv_class_added_2026_08_28" in led, (
+        "the ledger must say, in one place, that the ARXIV rows post-date the baseline and why "
+        "their status is what it is")

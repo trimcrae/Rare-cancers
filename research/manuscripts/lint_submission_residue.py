@@ -111,10 +111,16 @@ _POLICY_PROVENANCE = {
 #:   * A reference with NO machine-readable identifier is invisible. `PATTERNS` matches PMID, PMCID,
 #:     DOI, NCT and GEO only, so an author-title-journal-year reference carrying none of those is
 #:     never extracted and can be wholly invented. Gate 6 reads no author, title or year.
-#:   * arXiv identifiers are matched by NO pattern. `arXiv:2606.27687` appears in this repository's
-#:     own prose and anchors nothing; adding the pattern was declined here because it would newly
-#:     flag every existing arXiv citation at once, which is a separate, deliberate act with its own
-#:     baseline — not a side effect of this gate.
+#:   * ✅ CLOSED 2026-08-28, AUT-PD-057 — arXiv identifiers ARE now matched. This bullet used to
+#:     read that `arXiv:2606.27687` appeared in this repository's own prose and anchored nothing,
+#:     and that adding the pattern was declined HERE because it would newly flag every existing
+#:     arXiv citation at once — a separate, deliberate act with its own baseline rather than a side
+#:     effect of this gate. That act has now happened: `lint_citations.PATTERNS` gained an `ARXIV`
+#:     entry (three context-anchored forms, no bare-digit form — the bare shape collides with real
+#:     DOI fragments), 67 arXiv identifiers surfaced in prose, 54 were already anchored by fetch
+#:     products, and the remaining 13 were checked one at a time and ledgered with the date and
+#:     channel of the check. The gap is removed from `UNCOVERED_BY_LINT_CITATIONS` below rather
+#:     than reworded, which is what that list's guard asks for when a gap genuinely closes.
 #:   * An ANCHORED identifier is not a VERIFIED one. The anchor proves a fetch happened for that
 #:     identifier; the author list, title, journal and year printed beside it in prose are unread.
 #:   * The prose-only identifiers carried as `unverified_at_baseline` in the provenance ledger pass.
@@ -133,7 +139,6 @@ _POLICY_PROVENANCE = {
 #: only. This gate adds nothing to it, and says so rather than implying the checklist is complete.
 UNCOVERED_BY_LINT_CITATIONS = (
     "a reference carrying no PMID/PMCID/DOI/NCT/GEO identifier is never extracted",
-    "arXiv identifiers match no pattern in lint_citations.PATTERNS",
     "an anchored identifier's author list, title, journal and year are unchecked",
     "prose-only identifiers baselined as unverified_at_baseline pass",
     "a known-negative control identifier in a fetch corpus anchors itself",
