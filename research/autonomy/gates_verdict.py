@@ -33,14 +33,65 @@ import datetime
 import json
 import os
 import pathlib
+import sys
 import urllib.error
 import urllib.request
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import envread  # noqa: E402
 
 #: The authority on whether the trunk is green. CLAUDE.md §6: `tests.yml` runs BOTH suites in full on
 #: every push with the real dependencies, and it — not a local preflight — is what decides `main`.
 WORKFLOW = "tests.yml"
-REPO = os.environ.get("GITHUB_REPOSITORY", "trimcrae/Rare-cancers")
 BRANCH = "main"
+
+#: The repository this verdict is ABOUT when `GITHUB_REPOSITORY` is unset — running by hand in a dev
+#: sandbox, which is the only place that happens.
+DEFAULT_REPO = "trimcrae/Rare-cancers"
+
+
+def repo_read() -> envread.EnvRead:
+    """Which repository's trunk this reads, three-valued (AUT-PROP-034).
+
+    ⛔⛔ WHY THIS IS NO LONGER `os.environ.get("GITHUB_REPOSITORY", DEFAULT_REPO)`, AND THE REASON IS
+    SPECIFIC TO THIS FILE. Everything downstream of the fetch treats an empty run list as a
+    MEASUREMENT: `decide()` reads "no completed, graded run" and returns `_no_verdict`, `main()` then
+    writes no file, and `health.py`'s `gates_green` row stays `unmeasured`. That chain is right for
+    "the API answered and nothing is graded yet" and WRONG for "we asked the wrong server". A
+    `GITHUB_REPOSITORY` exported empty — a `${VAR}` that expanded to nothing, an `env:` whose value
+    did not resolve — makes `os.environ.get` return `""` rather than the default (see `envread`), the
+    URL becomes `repos//actions/...`, and the trunk's gate verdict silently becomes a question nobody
+    asked. ⚠ The unmeasured row that results is INDISTINGUISHABLE from the honest one, which is the
+    property that makes this read worth changing and most others in this directory not.
+
+    ⭐ AND `unset` IS STILL FINE AND STILL SAYS SO. Running this by hand in a sandbox has no
+    `GITHUB_REPOSITORY`; that is `unset-using-default`, a reading rather than an absence of one.
+    """
+    return envread.read("GITHUB_REPOSITORY", default=DEFAULT_REPO,
+                        validate=envread.repo_slug,
+                        what="whose trunk gate verdict this writes")
+
+
+def token_read() -> envread.EnvRead:
+    """The API credential, three-valued.
+
+    ⚠ UNSET IS LEGITIMATE AND IS NOT AN ERROR: this repository is public, so an unauthenticated read
+    works at a lower rate limit. ⛔ EXPORTED-AND-EMPTY IS NOT. It sends `Authorization: Bearer ` with
+    nothing after it, GitHub answers 401, and the 401 lands in `main()`'s `except` clause — which
+    writes nothing and prints "could NOT read", reporting an API problem when the real cause is a
+    variable somebody set to nothing. ⚠ `GITHUB_TOKEN or GH_TOKEN` also SKIPS an empty
+    `GITHUB_TOKEN` and quietly uses `GH_TOKEN`, hiding the same fact; `envread.first_set` stops at
+    the broken one rather than stepping over it.
+    """
+    return envread.first_set(("GITHUB_TOKEN", "GH_TOKEN"),
+                             validate=envread.opaque_token, secret=True,
+                             what="the Actions API credential")
+
+
+#: ⚠ MODULE-LEVEL, AND IT CARRIES A VALUE ONLY WHEN THE READ IS USABLE — `None` otherwise, which is
+#: itself the signal. Kept because callers and tests refer to `gates_verdict.REPO`; `main()` refuses
+#: rather than substituting anything for a None.
+REPO = repo_read().value
 
 #: ⚠ `cancelled` and `skipped` are NOT verdicts. A cancelled run says the trunk was never tested, not
 #: that it passed and not that it failed, and letting one stand as either is how a concurrency-group
@@ -94,9 +145,12 @@ def decide(runs: list, now: datetime.datetime) -> dict:
     }
 
 
-def fetch(token: str | None, per_page: int = 40) -> list:
+def fetch(token: str | None, per_page: int = 40, repo: str | None = None) -> list:
+    # ⚠ `repo` is a PARAMETER with the module constant as its fallback, so a caller that has already
+    # taken the three-valued read passes the value it validated rather than trusting a global that
+    # was computed at import time under a different environment.
     url = ("https://api.github.com/repos/%s/actions/workflows/%s/runs"
-           "?branch=%s&status=completed&per_page=%d" % (REPO, WORKFLOW, BRANCH, per_page))
+           "?branch=%s&status=completed&per_page=%d" % (repo or REPO, WORKFLOW, BRANCH, per_page))
     req = urllib.request.Request(url, headers={
         "Accept": "application/vnd.github+json",
         "X-GitHub-Api-Version": "2022-11-28",
@@ -114,8 +168,24 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
 
     now = datetime.datetime.now(datetime.timezone.utc)
+
+    # ⛔ FAIL CLOSED ON THE ENVIRONMENT, EXACTLY AS THIS FILE ALREADY FAILS CLOSED ON THE API. An
+    # unusable `GITHUB_REPOSITORY` or an unusable token means we cannot take the reading, and this
+    # module's whole contract is that a reading it could not take leaves `gates_green` UNMEASURED
+    # rather than guessed. Both print WHY, both write nothing, and both still exit 0 — the exit code
+    # belongs to the tick, which must go on to publish the board and send the stall alarm.
+    repo = repo_read()
+    token = token_read()
+    for r in (repo, token):
+        if not r.usable:
+            print("[gates-verdict] %s Writing nothing, so `gates_green` stays `unmeasured`, which is "
+                  "the honest state." % r.detail)
+            return 0
+    if repo.defaulted:
+        print("[gates-verdict] %s" % repo.detail)
+
     try:
-        runs = fetch(os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN"))
+        runs = fetch(token.value, repo=repo.value)
     except (urllib.error.URLError, urllib.error.HTTPError, OSError, ValueError, KeyError) as exc:
         # ⛔ FAIL CLOSED. No file -> health.py reports `gates_green` unmeasured, which is what we
         # actually know. Never substitute a guess for a reading.

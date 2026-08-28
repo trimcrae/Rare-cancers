@@ -37,7 +37,18 @@ import time
 import urllib.error
 import urllib.request
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import envread  # noqa: E402
+
 API = "https://api.github.com/repos/{repo}/actions/runs?head_sha={sha}&per_page=50"
+
+#: ⛔ THE SAME SLUG `gates_verdict.DEFAULT_REPO` CARRIES, AND A TEST ASSERTS THEY MATCH. Two modules
+#: in this directory poll the same Actions API about the same repository, and before AUT-PROP-034
+#: they spelled it differently (`trimcrae/rare-cancers` here, `trimcrae/Rare-cancers` there). The API
+#: is case-insensitive on the path so nothing broke — which is exactly the shape of drift that goes
+#: unnoticed until the day it does not (AUT-PD-013: a name agreed in prose between two readers is not
+#: agreed at all).
+DEFAULT_REPO = "trimcrae/Rare-cancers"
 
 #: GitHub reports a run as queued/in_progress/waiting/requested before it decides.
 UNDECIDED = {"queued", "in_progress", "waiting", "requested", "pending", None}
@@ -132,7 +143,15 @@ def main(argv=None) -> int:
         description="Wait until every Actions run for a commit has concluded, then exit with a "
                     "verdict. Run it with run_in_background so its exit wakes the session.")
     ap.add_argument("--sha", required=True, help="the commit to watch")
-    ap.add_argument("--repo", default=os.environ.get("EMC_CI_REPO", "trimcrae/rare-cancers"))
+    # ⛔ RESOLVED AFTER PARSING, NOT AS AN ARGPARSE DEFAULT (AUT-PROP-034). An `os.environ.get(X, d)`
+    # in a `default=` is the two-valued collapse in its most invisible form: it runs at parser
+    # construction, its result is printed in `--help`, and an EXPORTED-EMPTY `EMC_CI_REPO` yields
+    # `""` rather than `d` — so the poller would build `repos//actions/runs?...`, get zero runs, and
+    # wait out its entire 2400 s deadline before reporting UNKNOWN. That is precisely the fake stall
+    # this file's own docstring says it exists to remove, arriving through the environment instead of
+    # through a short sha. `None` here means "not given on the command line", nothing more.
+    ap.add_argument("--repo", default=None,
+                    help=f"owner/name to poll (default: $EMC_CI_REPO, else {DEFAULT_REPO})")
     ap.add_argument("--deadline", type=int, default=2400, help="seconds before returning UNKNOWN (default 2400)")
     ap.add_argument("--interval", type=int, default=45, help="seconds between polls (default 45)")
     ap.add_argument("--require", type=int, default=1,
@@ -155,8 +174,35 @@ def main(argv=None) -> int:
               f"{args.sha or 'HEAD'})", flush=True)
         return 2
 
-    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
-    return poll(args.repo, args.sha, args.deadline, args.interval, token,
+    # ⛔ THE THREE-VALUED READS, AND BOTH FAIL CLOSED IN THIS FILE'S OWN VOCABULARY — exit 2, which
+    # its docstring defines as "the deadline passed with runs still going, which is NOT a pass". An
+    # environment we cannot read is the same class of answer: UNKNOWN, never green. Exiting 0 here
+    # would report a commit's CI as clean because a variable was empty.
+    if args.repo is None:
+        repo_read = envread.read("EMC_CI_REPO", default=DEFAULT_REPO, validate=envread.repo_slug,
+                                 what="the repository whose CI runs are polled")
+        if not repo_read.usable:
+            print(f"[await-ci] {repo_read.detail} Refusing to poll — an unreadable repository "
+                  f"returns zero runs, which this poller would wait out and report as UNKNOWN "
+                  f"anyway, {args.deadline}s later and with the cause hidden.", flush=True)
+            return 2
+        if repo_read.defaulted and not args.quiet:
+            print(f"[await-ci] {repo_read.detail}", flush=True)
+        repo = repo_read.value
+    else:
+        repo = args.repo
+
+    # ⚠ UNSET IS FINE — the repository is public and an unauthenticated read works at a lower rate
+    # limit. EXPORTED-AND-EMPTY is not: it sends `Authorization: Bearer ` and earns a 401, which this
+    # poller's HTTP handling would report as an API hiccup rather than as the quoting accident it is.
+    token_read = envread.first_set(("GITHUB_TOKEN", "GH_TOKEN"), validate=envread.opaque_token,
+                                   secret=True, what="the Actions API credential")
+    if not token_read.usable:
+        print(f"[await-ci] {token_read.detail} Refusing to poll — an unusable credential returns "
+              f"401s that read as an API problem rather than as an environment one.", flush=True)
+        return 2
+
+    return poll(repo, args.sha, args.deadline, args.interval, token_read.value,
                 require=args.require, quiet=args.quiet)
 
 

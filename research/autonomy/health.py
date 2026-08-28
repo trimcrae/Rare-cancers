@@ -49,6 +49,7 @@ Usage:
     python3 research/autonomy/health.py                 # the board, as a table
     python3 research/autonomy/health.py --write         # (re)write research/autonomy/health.json
     python3 research/autonomy/health.py --check         # exit 1 if any condition needs attention
+    python3 research/autonomy/health.py --escalations   # exit 1 if a restart budget is spent (§3)
 """
 from __future__ import annotations
 
@@ -197,6 +198,137 @@ CONDITION_ON_RED = {
     # an ever-growing window of immutable history, so it needs no windowing against latching.
     "stalls_are_named": "advises",
 }
+
+# ═══════════════════════════════════ the three axes, and the one bug they exist to make catchable ══
+#: ⛔⛔ WHAT `CONDITION_ON_RED` DOES NOT SAY, AND WHY A SECOND TABLE IS NOT A DUPLICATE OF IT.
+#: `CONDITION_ON_RED` records what a red DOES to the loop. It says nothing about what the row is a
+#: reading OF, and those are different questions with different failure modes. Kubernetes' own probe
+#: documentation names the one this table exists to make catchable by machine
+#: (`research/method-watch-autonomy-prior-art-2.md` §2, the "health board" row):
+#:
+#:   liveness   SELF ONLY. A red means the thing is DEAD; the right response is a restart.
+#:   readiness  SELF **PLUS DEPENDENCIES**. A red means route work away, and **NEVER restart** —
+#:              restarting cannot repair a dependency, and doing it on every replica at once sends a
+#:              cold-start herd at the very dependency that just blipped. k8s' words:
+#:              *"incorrect implementation of liveness probes can lead to cascading failures."*
+#:   progress   IS WORK ADVANCING. Neither probe covers it; a process can be alive and ready and
+#:              moving nothing, which is this loop's largest failure mode (§0).
+#:
+#: ⭐ THE AXIS IS NOT COSMETIC — IT IS THE PREDICATE `test_a_dependency_red_never_restarts_the_loop`
+#: RUNS. Before this table the k8s failure mode could not be ruled out by inspection: eleven rows in
+#: a flat list, none saying whether its subject was the loop's own pulse or somebody else's server.
+#:
+#: ⛔ WHAT A "RESTART" IS IN THIS REPOSITORY, STATED SO THE GUARD MEANS SOMETHING. There is no
+#: container to kill. The two restart-shaped responses are:
+#:   1. a cycle REFUSING TO START (`research-loop` §1, driven by `--check` exit 1, which fires on a
+#:      red `blocks` row and nothing else) — the session ends, and the driver Routine's next firing
+#:      spins up a FRESH session, which is a respawn in everything but name;
+#:   2. a session's automatic hand-off/respawn (`handoff.py` building a child-session prompt).
+#: Neither reads `health.json` to decide to respawn, so (2) is not wired to any condition. (1) is,
+#: and it is wired to exactly one row — see READINESS_MAY_BLOCK.
+CONDITION_AXIS = {
+    # LIVENESS — the loop's own pulse, with nothing external in the reading. "Did a fired cycle
+    # write a receipt?" is answerable from this repository alone. ⚠ And note the restart this axis
+    # would prescribe is the one thing nothing here can do: the driver Routine lives in claude.ai,
+    # so `stall_alarm.py`'s mail is the whole response, which is why this row is `advises`.
+    "cycle_delivering": "liveness",
+    # PROGRESS — these ask whether, and how, work moved. None is a statement about being alive or
+    # about a dependency being up.
+    "advancing_live_work": "progress",     # routes advanced, or documentation drift
+    "evidence_moving": "progress",         # in-flight work producing new evidence, not heartbeats
+    "stalls_are_named": "progress",        # stuck_clock's advance clock: a row retried and not moved
+    # ⚠ THESE TWO ARE THE AWKWARD ONES AND THE TAG IS ARGUED, NOT ASSUMED. `cycles_are_sized` and
+    # `fanout_is_governed` grade the SHAPE of work already done — a session that ran nine cycles was
+    # alive, was ready, and did advance things. So they are neither liveness (a red does not mean
+    # dead) nor readiness (a red does not mean route away). The axis is chosen on the operational
+    # question the three tags actually answer — *does a red mean restart, route away, or report?* —
+    # and for both the answer is report. ⛔ Tagging either LIVENESS would be the k8s bug in its worst
+    # form here: the prescribed response to an over-wide fan-out would be to respawn and fan out
+    # again, which is the 107-agent incident rebuilt as a policy.
+    "cycles_are_sized": "progress",
+    "fanout_is_governed": "progress",
+    # READINESS — every one of these reads something the loop does not control, and for every one
+    # the correct response is to route work away rather than to restart into it.
+    "blocks_are_real": "readiness",        # a ledger row that is not takeable as written
+    "queue_is_takeable": "readiness",      # the classic readiness question: can I accept work at all
+    "budget_recovering": "readiness",      # the ACCOUNT's rate limit — restarting into it is the herd
+    "gates_green": "readiness",            # GitHub Actions' verdict on the trunk. A pure dependency.
+    "authority_respected": "readiness",    # publication-authority.json, which only a HUMAN may edit
+}
+
+AXES = ("liveness", "readiness", "progress")
+
+#: ⛔⛔ THE ONE DECLARED EXCEPTION, AND THE AUDIT ANSWER IT RECORDS.
+#: `authority_respected` is READINESS-shaped — half its reading is a grant file the loop is forbidden
+#: to write (§6.3) — and it is the single row wired to `blocks`, this repository's refuse-and-respawn
+#: response. By k8s' rule that is the bug. It is nonetheless CORRECT here, and the reason is a
+#: property k8s' rule does not model: **k8s forbids restarting on a dependency because restarting
+#: cannot FIX it. It has nothing to say about a dependency whose red means CONTINUING DOES
+#: IRREVERSIBLE HARM.** An outward act with no grant behind it is the one permission this loop may
+#: never self-issue, and another cycle could compound it under trimcrae's name and ORCID.
+#: ⭐ SO THE EXCEPTION IS KEPT AND BOUNDED RATHER THAN REMOVED — which is exactly what the prior
+#: art's next primitive is for. A refusal that repeats forever is still the cold-start herd, just
+#: slowed to the driver Routine's period: fire, read the red board, refuse, die, fire again. The
+#: bound is RESTART_INTENSITY below, and this table is what makes it MANDATORY: a readiness row may
+#: be `blocks` only if it is declared here AND its refusals are counted.
+READINESS_MAY_BLOCK = {
+    "authority_respected": (
+        "continuing compounds an irreversible outward act taken under a human's name (CLAUDE.md §3, "
+        "architecture §6.3), which is a harm k8s' never-restart-on-a-dependency rule does not model. "
+        "Bounded by RESTART_INTENSITY: after that many consecutive refusals the loop stops refusing "
+        "silently and escalates to trimcrae."
+    ),
+}
+
+# ═══════════════════════════════════════════════════════ restart intensity — OTP and systemd, ported
+#: ⛔⛔ NEITHER OTP NOR SYSTEMD NOR KUBERNETES LETS A SUPERVISED THING FAIL FOREVER IN SILENCE, AND
+#: THIS LOOP DID. Before this constant, a red `blocks` row produced: the driver Routine fires, the
+#: cycle runs `--check`, gets exit 1, writes a receipt saying so, and stops — every cycle period,
+#: indefinitely, with no counter anywhere and no rung above "another refusal". Verified 2026-08-28 by
+#: grep over the whole repository: `restart_intensity`, `StartLimitBurst` and `max_restarts` matched
+#: nothing in `research/autonomy/` — only prose mentions of escalation, no computed bound.
+#:
+#: ⭐ N IS TAKEN FROM THE PRIOR ART, NOT INVENTED. Three systems, read at their own documentation:
+#:   systemd   `StartLimitBurst=`/`StartLimitIntervalSec=`, defaulting to `DefaultStartLimitBurst=`
+#:             = **5** in `systemd-system.conf` (with `DefaultStartLimitIntervalSec=10s`). Past the
+#:             burst systemd stops trying and the unit sits failed until a human intervenes.
+#:   OTP       `intensity`/`period`, defaulting to **1 restart per 5 seconds**: *"if more than MaxR
+#:             restarts occur within MaxT seconds, the supervisor terminates all child processes and
+#:             then itself."*
+#:   k8s       CrashLoopBackOff — the COUNTER-EXAMPLE. It backs the retries off, never stops, and
+#:             never tells anybody, which is the behaviour this constant exists to not have.
+#: ⭐ **5, systemd's number.** OTP's 1 is the tighter bound and is wrong here: a single transient red
+#: — a board graded against a half-written ledger, a mid-cycle read — would escalate, and this
+#: repository has already paid the full price for an alarm that cries too often (every push channel
+#: stripped out of `lane-staleness-watch.yml` after 1,476 commits in 24 h; a muted alarm is worse
+#: than none, because it also carries the belief that somebody is watching). 5 sits between OTP's 1
+#: and k8s' infinity, and it is a number somebody else already defended.
+#: ⚠ AND THE PERIOD IS NOT A SECOND PARAMETER HERE, DELIBERATELY. OTP and systemd need one because
+#: they count restarts in a sliding window; this counts CONSECUTIVE reds, and consecutiveness is
+#: already a window — one green or one unmeasured run resets it to zero. Adding a period on top could
+#: only let a genuine, unbroken outage age out of its own alarm.
+RESTART_INTENSITY = 5
+
+#: ⛔ WHAT THE COUNTER'S UNIT ACTUALLY IS — STATED, BECAUSE THE HONEST ANSWER IS NOT THE OBVIOUS ONE.
+#: The unit is ONE GRADING OF THIS BOARD (`autonomy-tick.yml` running `health.py --write`), not one
+#: research cycle. That is a deliberate choice between two clocks:
+#:   the CYCLE clock is the literal reading of "consecutive dispatches", and it is unusable — a cycle
+#:     that refuses is not guaranteed to leave a receipt at all, and the case that most needs this
+#:     bound is exactly the one where the loop has stopped producing anything;
+#:   the TICK clock keeps running when the loop is dead, which is the entire reason `stall_alarm.py`
+#:     lives on it (a supervisor sharing a clock with what it supervises cannot report that the clock
+#:     stopped).
+#: ⚠ SO N RUNS IS NOT N HOURS AND MUST NEVER BE REPORTED AS IF IT WERE. The tick's cron is a REQUEST,
+#: not a cadence — delivered gaps of 125-222 min against a `*/15` are recorded in this repository's
+#: own workflow headers — so N runs is a LOWER BOUND in wall-clock terms. `bad_for_h` is the measured
+#: age and travels beside the count everywhere the count is reported.
+RESTART_INTENSITY_UNIT = "board runs (autonomy-tick gradings)"
+
+#: Which `on_red` classes are being RETRIED, and so can exhaust an intensity budget. An `advises` row
+#: is retried by nothing — no caller acts on it — so counting its "refusals" would be counting an
+#: event that does not occur. Those rows are already covered by `stall_alarm.py`, which mails on any
+#: sustained red at its own, lower threshold.
+RETRIED_ON_RED = ("blocks", "redirects")
 
 #: §5.2 thresholds. Each is the doc's number, in one place, named after the row it governs.
 CYCLE_MISS_PERIODS = 2.0        # "no receipt within 2 expected cycle periods"
@@ -1100,10 +1232,76 @@ def merge(previous, conditions, now):
             c["bad_since_utc"] = (_z(now) if (p.get("ok", True) or not p.get("bad_since_utc"))
                                   else p["bad_since_utc"])
             c["consecutive_bad_runs"] = 1 if p.get("ok", True) else int(p.get("consecutive_bad_runs", 0)) + 1
+        # ⛔ A SECOND, NARROWER COUNTER — AND THE TWO ARE NOT REDUNDANT, THEY ANSWER DIFFERENT
+        # QUESTIONS. `consecutive_bad_runs` counts NOT-OK runs and therefore counts `unmeasured` ones
+        # too, which is what makes "unmeasured for six runs" visible; `stall_alarm.py` ages its mail
+        # on it, correctly. RESTART_INTENSITY must not: four unmeasured runs followed by one red is
+        # not five refusals, and escalating it as if it were would put a §3 interrupt in front of
+        # trimcrae for a reading nobody has taken yet. The fix for an unmeasured row is to make the
+        # reading possible, which is the distinction this whole module is built around.
+        # ⚠ ONE EXPRESSION, AND THE FIRST DRAFT HAD TWO. It also re-checked the PREVIOUS row's state
+        # before carrying the count forward — belt and braces that a mutation proved was neither: a
+        # previous row that was ok or unmeasured already carries `consecutive_red_runs: 0`, so the
+        # extra clause could not change any answer, and no test could be written that failed without
+        # it. Unreachable defensive code reads like a mechanism and is not one.
+        c["consecutive_red_runs"] = (0 if (c["ok"] or c["unmeasured"])
+                                     else int(p.get("consecutive_red_runs", 0)) + 1)
         since = _parse_ts(c["bad_since_utc"] or "")
         c["bad_for_h"] = round(_hours(now, since), 2) if since else None
         c["bad_since_et"] = _et(since)
     return conditions
+
+
+def intensity_of(condition):
+    """The restart-intensity block for one already-merged condition row. Pure, no I/O.
+
+    ⛔ THE ESCALATION IS DUE ON `>=`, NOT `>`. OTP escalates when *more than* MaxR restarts occur in
+    the period, i.e. on the (MaxR+1)th; systemd stops *at* the burst. The half-open choice is
+    arbitrary either way, so it is made explicitly here rather than left to whoever reads the
+    comparison: the Nth consecutive red is the one that escalates, so N is the number of refusals
+    trimcrae is asked to accept before he hears about it, which is the number the docstring above
+    argues for.
+    """
+    runs = int(condition.get("consecutive_red_runs") or 0)
+    on_red = condition.get("on_red")
+    counted = on_red in RETRIED_ON_RED
+    exhausted = bool(counted and condition.get("needs_attention") and runs >= RESTART_INTENSITY)
+    if not counted:
+        why = (f"`{on_red}` rows are retried by nothing, so there is no restart budget to spend — "
+               f"a sustained red here is `stall_alarm.py`'s mail, not a §3 escalation")
+    elif exhausted:
+        why = (f"⛔ INTENSITY EXHAUSTED — red on {runs} consecutive {RESTART_INTENSITY_UNIT} against a "
+               f"limit of {RESTART_INTENSITY}. The loop has been responding to this by refusing and "
+               f"respawning, and that response has now demonstrably not fixed it. ESCALATE TO "
+               f"TRIMCRAE under CLAUDE.md §3 instead of refusing again.")
+    else:
+        why = (f"red on {runs} of {RESTART_INTENSITY} {RESTART_INTENSITY_UNIT}; the loop may keep "
+               f"responding on its own until the budget is spent")
+    return {
+        "axis": condition.get("axis"),
+        "counter": "consecutive_red_runs",
+        "unit": RESTART_INTENSITY_UNIT,
+        "n": runs,
+        "limit": RESTART_INTENSITY,
+        "counted": counted,
+        "exhausted": exhausted,
+        # ⚠ The measured age travels with the count, always. N runs is a lower bound in wall-clock
+        # terms because the tick's cron is a request rather than a cadence.
+        "bad_for_h": condition.get("bad_for_h"),
+        "why": why,
+    }
+
+
+def escalations_due(board):
+    """The condition keys whose restart budget is spent. This is the §3 trigger, as a list.
+
+    ⛔ A SEPARATE ANSWER FROM `blocking`, AND THE DIFFERENCE IS THE WHOLE POINT. `blocking` says *do
+    not start a cycle*; this says *stop answering this with another automated refusal and put it in
+    front of a human*. A row can be blocking for one run (normal, self-healing) and it can be
+    blocking for fifty (an outage nobody has been told about). Only the second is an escalation.
+    """
+    return [c["key"] for c in board.get("conditions", [])
+            if (c.get("intensity") or {}).get("exhausted")]
 
 
 def commit_worthy(previous, board, interval_h, now):
@@ -1122,7 +1320,14 @@ def commit_worthy(previous, board, interval_h, now):
     if not isinstance(previous, dict) or not previous.get("conditions"):
         return True, "no committed board exists yet"
     def surface(b):
-        return sorted((c.get("key"), c.get("verdict"), bool(c.get("ok")), bool(c.get("unmeasured")))
+        # ⛔ `exhausted` IS PART OF THE SURFACE, AND LEAVING IT OUT WOULD HAVE MADE THE ESCALATION
+        # UNREACHABLE. A row red for five runs carries the SAME verdict string on each of them, so a
+        # surface built from verdicts alone is unchanged at the exact moment the restart budget is
+        # spent — the board would say "escalate" and this function would answer "carries no
+        # information the last one did not", and the committed copy would never say it. That is the
+        # unrun-guard shape this repository has paid for repeatedly (AUT-PD-018, `subagent_width`).
+        return sorted((c.get("key"), c.get("verdict"), bool(c.get("ok")), bool(c.get("unmeasured")),
+                       bool((c.get("intensity") or {}).get("exhausted")))
                       for c in b.get("conditions", []))
     if surface(previous) != surface(board):
         return True, "a verdict changed"
@@ -1178,6 +1383,11 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
     # paid for that shape twice today.
     for c in conditions:
         c["on_red"] = CONDITION_ON_RED.get(c["key"], "blocks")
+        # ⚠ SAME ONE-TABLE STAMPING AS `on_red`, FOR THE SAME REASON. And the default is the axis
+        # whose response is the most conservative available: an unclassified row must never be
+        # readable as "self-only, safe to restart into".
+        c["axis"] = CONDITION_AXIS.get(c["key"], "readiness")
+        c["intensity"] = intensity_of(c)
     blocking = [c["key"] for c in conditions if c["needs_attention"]
                 and c.get("on_red") == "blocks"]
 
@@ -1225,6 +1435,20 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
             "but must never stop the loop, because a cycle cannot act on it. On 2026-08-27 the "
             "distinction did not exist, every red stopped the loop, and two retrospective conditions "
             "about immutable committed history wedged it permanently."),
+        # ⛔ THE RESTART-INTENSITY ANSWER: rows the loop has now retried past its budget. Empty is the
+        # normal state and is not the same as `blocking` being empty — see `escalations_due`.
+        "escalations": [],                                  # filled below; the board must exist first
+        "_escalations_means": (
+            f"⛔ A §3 ESCALATION IS DUE. Each key here has been RED on {RESTART_INTENSITY} or more "
+            f"consecutive {RESTART_INTENSITY_UNIT} while the loop's only response was to refuse or "
+            f"redirect — OTP's `intensity`/`period` and systemd's `StartLimitBurst`, ported: neither "
+            f"lets a supervised thing fail forever in silence, and before this counter existed this "
+            f"loop did. The correct next act is NOT another cycle and NOT another refusal; it is a "
+            f"CLAUDE.md §3 block put to trimcrae. `stall_alarm.py` mails it from the Actions clock, "
+            f"and `research-loop` §1 makes a cycle that reads it produce the block rather than a "
+            f"twelfth identical receipt. ⚠ The count is in board runs, not hours — read `bad_for_h` "
+            f"beside it for the measured age."),
+        "_restart_intensity": RESTART_INTENSITY,
         "unmeasured": unmeasured_keys,
         "_unmeasured_means": (
             "⛔ A VERDICT THAT COULD NOT BE REACHED — NOT a condition that is fine. It is listed apart "
@@ -1233,6 +1457,7 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
             "unmeasured condition as green has manufactured a green board out of missing data."),
         "conditions": sorted(conditions, key=lambda c: (c["ok"], CONDITION_ORDER.index(c["key"]))),
     }
+    board["escalations"] = escalations_due(board)
     if unreadable:
         board["_receipts_unreadable"] = unreadable
         board["_receipts_unreadable_means"] = (
@@ -1268,12 +1493,21 @@ def render(board, now=None):
         glyph = "🔎" if c["unmeasured"] else _GLYPH[c["ok"]]
         age = (f" · bad for {c['bad_for_h']:.1f} h ({c['consecutive_bad_runs']} run(s))"
                if c.get("bad_for_h") else "")
-        lines.append(f"[loop-health] {glyph} {c['key']:<21} {c['verdict']:<24} {c['label']}{age}")
+        axis = f" [{c.get('axis', '?')[:4]}]"
+        lines.append(f"[loop-health] {glyph} {c['key']:<21}{axis} {c['verdict']:<24} {c['label']}{age}")
         if not c["ok"]:
             lines.append(f"[loop-health]      {c['detail']}")
+        if (c.get("intensity") or {}).get("exhausted"):
+            lines.append(f"[loop-health]      {c['intensity']['why']}")
     att, unm = board.get("needs_attention", []), board.get("unmeasured", [])
     lines.append(f"[loop-health] {len(att)} need attention {att or ''} · {len(unm)} UNMEASURED "
                  f"{unm or ''} — unmeasured is not ok · {board.get('n_conditions')} condition(s)")
+    esc = board.get("escalations", [])
+    lines.append(
+        f"[loop-health] ⛔ ESCALATE TO TRIMCRAE (§3) — restart intensity spent on {esc}"
+        if esc else
+        f"[loop-health] restart intensity: no condition has been retried past "
+        f"{board.get('_restart_intensity', RESTART_INTENSITY)} consecutive red runs")
     lines.append(f"[loop-health] commit-worthy: {board.get('_commit_worthy')} — "
                  f"{board.get('_commit_worthy_why')}")
     return "\n".join(lines)
@@ -1298,6 +1532,11 @@ def main(argv=None) -> int:
                     help="exit 0 if this board says something the committed one did not, 10 if not. "
                          "For autonomy-tick.yml's no-work-no-commit step — 10 rather than 1 because "
                          "'nothing to say' is the rule working, not a failure")
+    ap.add_argument("--escalations", action="store_true",
+                    help="exit 1 if any condition has been red past RESTART_INTENSITY consecutive "
+                         "runs while the loop kept refusing or redirecting — the §3 trigger. A "
+                         "SEPARATE question from --check: --check asks whether a cycle may start, "
+                         "this asks whether a human must now be told")
     ap.add_argument("--check-any", action="store_true",
                     help="exit 1 if ANY condition is red, blocking or not (the pre-2026-08-27 "
                          "behaviour; not what a cycle's stop condition should use)")
@@ -1327,6 +1566,11 @@ def main(argv=None) -> int:
         worth, why = commit_worthy(previous or {}, board, interval_h, now)
         print(f"[loop-health] commit-worthy: {worth} — {why}")
         return 0 if worth else 10
+    if a.escalations:
+        # ⚠ INDEPENDENT of `--check` and `--check-any`, and placed BEFORE both on purpose — a caller
+        # passing two gates gets the stronger statement, and a gate nested inside another is a gate
+        # that silently never fires (the `--check-any` defect recorded below, found on its first run).
+        return 1 if board.get("escalations") else 0
     if a.check:
         # ⚠ The ONLY non-zero path in this module. Everything else exits 0 on purpose: a red run is a
         # push channel (GitHub mails the repo owner), and reintroducing that is what alarm_state.py's
