@@ -14,7 +14,7 @@
     "harden": 21,
     "negative": 32,
     "process": 7,
-    "process_defect": 118,
+    "process_defect": 119,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
@@ -25,7 +25,7 @@
     "done": 107,
     "in_progress": 4,
     "parked": 28,
-    "queued": 129,
+    "queued": 130,
     "ready": 1,
     "superseded": 1
   },
@@ -6020,6 +6020,34 @@
       "score_inputs": {
         "blocked_with_evidence": true
       }
+    },
+    {
+      "id": "AUT-PD-140",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0070-225452b4",
+      "score": null,
+      "_score_basis": "the deposit artifact whose entire job is provenance can lose it to a routine rebase, and every guard it has stays green",
+      "depends_on_evidence": "CYC-0070, 2026-08-28. Manifest regenerated against clean tree at 6a4c833fd (flag true, --check-archive exit 0, 11/11 on both manifest guard modules). 12 commits then landed; the rebase rewrote that commit to 656ff2a29992 and 6a4c833fd survived only in the local reflog. The manifest still read git_revision 6a4c833fd, clean flag true, inventory current.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a generated deposit artifact and its guards; nothing published, submitted or deposited",
+      "what": "⛔ A REBASE SILENTLY INVALIDATES THE ARCHIVE MANIFEST'S PROVENANCE, AND EVERY GUARD IT HAS STAYS GREEN — MEASURED 2026-08-28 (CYC-0070). AUT-PD-138's ordering says regenerate the manifest against a clean tree as the session's LAST commit, so `git_revision` names the content commit it describes. That is what happened: the manifest named 6a4c833fd, `git_tree_is_clean_apart_from_this_manifest: true`, --check-archive exit 0, and both manifest guard modules 11/11. ⛔ THEN TWELVE COMMITS LANDED FROM A CONCURRENT SESSION AND THE REBASE REWROTE 6a4c833fd TO 656ff2a29992. The manifest was now naming a sha that exists ONLY in this container's reflog — unreachable for anybody who clones — while its clean flag still read true and its inventory was still current. ⭐ THE THREE THINGS THAT WOULD CATCH IT ALL LOOK RIGHT: the cleanliness flag is about the TREE, not the ref; --check-archive explicitly does not compare repository-state fields; and `test_the_manifest_revision_is_a_commit_a_reader_can_resolve` passes locally because the orphaned sha still resolves through the local reflog. It was caught by hand, by comparing git_revision against `git rev-parse HEAD~1` after the rebase, and nothing required that. ⚠ AND THIS IS THE NORMAL CASE, NOT AN EDGE ONE. A concurrent loop session pushed 12 commits during the ~20 minutes this cycle spent rebuilding a deposit family, and the trunk moved under it three separate times. Any manifest commit that has to be rebased has this defect. WHAT TO DO: the candidate is to make the revision check ask git whether the named sha is an ANCESTOR OF THE COMMITTED BRANCH rather than merely resolvable — `git merge-base --is-ancestor <git_revision> HEAD` — which is false for an orphan and true for a real parent, and which the reflog cannot fake. ⚠ Note it must run against the committed history, not the working tree, or it reintroduces AUT-PD-138's ordering trap. ⛔ DO NOT 'fix' this by regenerating the manifest after every rebase as a convention: that is the remembered pairing AUT-PD-130 is about, and it failed there for the same reason it would fail here."
     },
     {
       "id": "AUT-PROP-015",
