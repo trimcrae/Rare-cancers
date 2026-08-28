@@ -64,19 +64,47 @@ reading of absence.
 
 ---
 
-## Creating it
+## Creating it — ANSWERED 2026-08-28, AND THE ANSWER IS "IN THE UI"
 
-⛔ **A prior Routine in this repository was agent-created, carried no repo source, and delivered
-nothing for six weeks** — its own first step, `git checkout main`, had nothing to check out. See
-[`field-scan-routine-prompt.md`](./field-scan-routine-prompt.md), which concludes: *"Recreate it in
-the UI, not with `create_trigger`."*
+⛔ **`create_trigger` DOES NOT PRODUCE A WORKING ROUTINE FOR THIS REPOSITORY. TESTED, NOT ASSUMED.**
+An agent-minted Routine was created (`trig_018DLzTW1bGunfsWe25vd8hB`) and fired once. It ran for
+**26 minutes** and ended `ROUTINE_RUN_STATUS_FAILED` (session `cse_01NxD3njB5r3UApS4FZFetGn`, fired
+22:31:04Z, finished 22:57:02Z), having pushed nothing.
 
-⚠ **That conclusion was drawn about a claude.ai Routine and may not transfer to a Claude Code
-Remote session, which is a different mechanism** — a CCR session fires into an environment that
-already has this repository cloned, which is exactly the thing the field-scan Routine lacked. The
-two are not the same failure until somebody checks. **Whichever way it is created, the test is the
-same and it is cheap: fire it once and read whether the queue landed.** A Routine that fires and
-delivers nothing looks identical to one that was never created, which is how six weeks went by.
+★ **The discriminating observation is one field, and it is visible before the run ends.** Compare
+the two `session_context` blocks from `get_session`:
+
+| | `session_context.sources` |
+|---|---|
+| trimcrae's UI-created Routine (`EMC research loop — driver`) | `[{git_repository: {url: .../Rare-cancers}}]` |
+| this agent-created Routine | **absent** |
+
+That is exactly the defect [`field-scan-routine-prompt.md`](./field-scan-routine-prompt.md)
+records — *"it was agent-created, so it carries no repo source, and its own STEP 0 `git checkout
+main` has nothing to check out"* — and its conclusion, **"recreate it in the UI, not with
+`create_trigger`"**, now has a second measurement behind it rather than one.
+⚠ **Superseded, retained:** this section previously said that conclusion *"was drawn about a
+claude.ai Routine and may not transfer to a Claude Code Remote session"*. It transfers. A CCR
+session fired from `create_trigger` gets a container and no repository, which is the same failure
+wearing a different mechanism.
+
+⛔ **AND THE FAILURE LOOKS LIKE HEALTH FROM OUTSIDE, WHICH IS THE WHOLE POINT.** For 25 of those 26
+minutes the session reported `SESSION_STATUS_RUNNING` with `updated_at` advancing — a liveness
+signal that reads as progress and is not one. That is how the field-scan Routine went six weeks
+undetected. ★ **The test that works is cheap and is the only one that does: fire it once and read
+whether the artifact landed.** `list_triggers` reports `last_run.status` per Routine; a repeatedly
+non-SUCCEEDED row is the signal.
+
+**So: create this Routine from the claude.ai Routines UI, with `trimcrae/Rare-cancers` attached as a
+source.** That is the one step an agent cannot do for itself here.
+
+⚠ **AND PIN THE MODEL WHILE CREATING IT, BECAUSE NOTHING IN THIS ACCOUNT PINS ONE.** Measured the
+same day across all 13 Routines: **every one has an empty `model` field**, so each firing takes
+whatever the runtime default is. That default served **`claude-sonnet-5`** to this test AND to
+trimcrae's own `EMC research loop — driver` run at 20:15Z the same day. ⛔ **Do not read that as a
+setting anybody chose** — it is the absence of a setting, everywhere, and it is worth a decision
+here specifically: this Routine's whole purpose is to stop MISSING things, which is the failure mode
+a weaker judge produces.
 
 **Cadence:** weekly, after the Friday digest (`method-watch.yml`, 11:00 UTC Fridays). The digest is
 the input, so firing before it publishes matches last week's news against this week's papers.
