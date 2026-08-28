@@ -245,8 +245,29 @@ def test_stuck_clock_points_at_the_script_that_actually_fixes_it():
 # ------------------------------------------------------------------------------------------------
 
 
-@pytest.mark.skipif(shutil.which("git") is None, reason="git is required to build the fixture")
+def _git_or_fail():
+    """⛔ DELIBERATELY NOT A `skipif`, AND THE DIFFERENCE IS THE WHOLE POINT.
+
+    The three behavioural tests below were originally decorated
+    `@pytest.mark.skipif(shutil.which("git") is None, ...)`. That is a check that can evaporate with
+    its input: git is not optional anywhere this suite runs — `preflight.sh` shells out to it, the
+    module under test IS a git operation, and CI's runner always has it — so the guard could never
+    legitimately fire, and on the one day it did it would take three real guards with it in silence.
+    ⚠ Caught by research/manuscripts/tests/test_no_guard_can_silently_not_run.py on the merge that
+    landed this file, which is the guard doing exactly its job: a skip nobody decided on is a check
+    nobody can tell stopped running. Its own first remedy is 'turn it into a pytest.fail', and that
+    is strictly stronger than annotating the skip as deliberate, so that is what this does.
+    """
+    if shutil.which("git") is None:
+        pytest.fail(
+            "git is not on PATH, so the three behavioural guards in this file cannot build their "
+            "fixtures. This is a FAILURE rather than a skip on purpose: git is a hard dependency of "
+            "the thing under test (a shallow-clone deepen), so its absence means the environment is "
+            "broken, not that these checks are inapplicable.")
+
+
 def test_a_shallow_clone_is_actually_deepened_past_the_readers_window():
+    _git_or_fail()
     with tempfile.TemporaryDirectory() as tmp:
         src_repo = _fixture_repo(tmp, [{"id": "OLD-1", "state": "queued", "score": 1}])
         now = int(time.time())
@@ -280,9 +301,9 @@ def test_a_shallow_clone_is_actually_deepened_past_the_readers_window():
         )
 
 
-@pytest.mark.skipif(shutil.which("git") is None, reason="git is required to build the fixture")
 def test_a_clone_that_already_reaches_far_enough_is_left_alone():
     """A step that re-fetches when the bound is already conclusive is one someone deletes for noise."""
+    _git_or_fail()
     with tempfile.TemporaryDirectory() as tmp:
         repo = _fixture_repo(tmp, [])
         _commit(repo, f"{int(time.time()) - int(_need_hours(repo) * 1.2) * 3600} +0000")
@@ -294,7 +315,6 @@ def test_a_clone_that_already_reaches_far_enough_is_left_alone():
         )
 
 
-@pytest.mark.skipif(shutil.which("git") is None, reason="git is required to build the fixture")
 def test_a_full_clone_is_never_deepened_however_short_its_history():
     """⛔ THE `--is-shallow-repository` GUARD, WHICH THE AGE GUARD ALONE DOES NOT COVER.
 
@@ -305,6 +325,7 @@ def test_a_full_clone_is_never_deepened_however_short_its_history():
     the ledger is young: `fetch-depth: 0` with nothing older to fetch. A deepen there is a network
     round trip that can buy nothing, every run, forever.
     """
+    _git_or_fail()
     with tempfile.TemporaryDirectory() as tmp:
         repo = _fixture_repo(tmp, [])
         _commit(repo, f"{int(time.time())} +0000")         # NOW: the age guard would happily fire
