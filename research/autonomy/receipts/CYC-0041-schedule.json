@@ -1,0 +1,37 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0041-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T13:05:00Z",
+  "shape": "Follow-up wake on the CYC-0040 subagent's completion notification. Reviewed the branch diff-by-diff before merging, verified its claims empirically (re-ran the crash live, checked AUT-PROP-031's cited commit myself rather than trusting the report), updated the ledger, and closes the session's work.",
+  "took": "AUT-PD-046 — merge and close the ledger what-field backfill and priority.py hardening (RT-AUTONOMY)",
+  "took_what": "Reviewed branch aut-pd-046-ledger-what-backfill (commit 29e0fb8f5): the priority.py diff (one line, entry.get with a placeholder), the ledger diff (confirmed via line-count check that only `what` fields were added — no score/state/owner/claimed_utc touched on any of the ten rows), and the new regression test. Merged clean, no conflicts.",
+  "changed": [
+    "Merged to main: priority.py's _table() now degrades gracefully on a missing `what` instead of raising KeyError; ten ledger rows (AUT-PROP-029, 030, 031, 032-038) backfilled with real, section-specific descriptions rather than restated score_basis text; new mutation-tested regression test research/autonomy/tests/test_priority_ranks_the_hand_filed_entries_too.py.",
+    "Independently verified rather than trusting the subagent's self-report: ran `python3 research/autonomy/priority.py --limit 25` myself post-merge and confirmed no crash, with AUT-PROP-029's row showing real content. Checked the cited commit for AUT-PROP-031's closure (0ecc85a8e) myself and confirmed it is genuine, substantial work — the first-ever instance of the ls-files-blindness class this session's own AUT-PD-036 later generalized to 14 call sites, a nice continuity between two otherwise-unrelated items this session touched.",
+    "Ledger: AUT-PD-046 marked done with the full outcome (backfill content, the two already-built proposals it surfaced — AUT-PROP-029's stuck_clock.py sitting unwired, AUT-PROP-030's claim.py fencing token already live but with a separately-documented lost-race bug — and the AUT-PROP-031 missing-receipt finding, recorded here rather than spawning a further ledger entry since it's a fully-explained one-off historical gap). Re-scored.",
+    "Full manuscripts + selector suite green post-merge (1379 + 292 passed); lint_citations' unanchored count dropped 98 -> 95 as a side effect of the backfilled prose (harmless, in the honest direction)."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [
+    "AUT-PROP-029: wire stuck_clock.py's terminal_rows() into health.py/priority.py — it's built and tested but nothing calls it.",
+    "AUT-PROP-030: the lost-race-leaves-stale-work-falsely-reported-as-conflict bug documented in claim.py's own module, separate from the fencing-token mechanism itself which already works.",
+    "The other seven backfilled proposals (032-038) are now genuinely actionable cold by a future cycle."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "Review-and-merge of an already-completed subagent's branch; no new large or open-ended work spawned. This session now ends: 9 cycles run (CYC-0033 through CYC-0041), 5 fixes delivered and merged, 5 follow-up items filed with real evidence, no create_session tool available (AUT-PD-045), no reachable peer session (ListAgents checked). The next scheduled Routine firing is the actual successor."
+  }
+}
