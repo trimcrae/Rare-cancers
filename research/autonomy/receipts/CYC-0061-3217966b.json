@@ -48,8 +48,10 @@
  ],
  "route_advanced": "RT-CARFILZOMIB",
  "handoff": {
-  "child_session_id": "session_01F6Xn8WS2cEj2wbNuVWtAPp",
+  "child_session_id": "session_01AiEBt1BhjfPMi9rCZ4rZ53",
   "attempted": true,
-  "why": "The ASO hardening round was spawned in this session's first cycle and is still running; it writes its own receipt."
+  "why": "This session reached its two-cycle cap, so it created its own successor rather than leaving the queue to a schedule. Prompt built with handoff.py --json from COMMITTED state and passed with that command's own create_session arguments (environment env_01AFwLH33U3ZprSgZf2nbV7S, https://github.com/trimcrae/Rare-cancers at main). It carries the mechanics and NO findings: the successor re-scores and re-reads the receipts itself, because a successor that inherits its predecessor's reasoning inherits its mistakes.",
+  "sibling_session_id": "session_01F6Xn8WS2cEj2wbNuVWtAPp",
+  "sibling_why": "The ASO hardening round (AUT-PD-082) spawned in this session's FIRST cycle and still running at handoff. It owns the ASO manuscript, the five manuscripts tests currently red on main, and the archive manifest at its own final commit — the successor is told to expect that tree to move."
  }
 }
