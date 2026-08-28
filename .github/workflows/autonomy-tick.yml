@@ -63,19 +63,34 @@ jobs:
           python3 research/autonomy/gates_verdict.py --out /tmp/gates.json \
             | tee -a "$GITHUB_STEP_SUMMARY"
 
+      - name: Read the ledger's stall verdict — the one condition health.py cannot measure itself either
+        # ★ AUT-PROP-029, wired in. `stuck_clock.py` derives two clocks per open ledger row from git
+        # history — a row claimed, abandoned, re-queued and re-claimed forever looks maximally alive
+        # on the touch clock and is correctly declared `stalled_needs_human` on the advance clock — and
+        # it was fully built and fully tested with NOTHING calling it: no board condition read it, and
+        # no scheduled job ever ran `--check`. Same shape as the gate-verdict step above, for the same
+        # reason: `stuck_clock.py` needs `git log`/`git show`, and `health.py` has no subprocess by
+        # design. This checkout is `fetch-depth: 0` (a FULL clone), so stuck_clock's own shallow-clone
+        # censoring never triggers here — unlike in a dev sandbox's shallow worktree.
+        # ⛔ No `--fail-on-terminal`: this step only produces a READING, it never gates the job — the
+        # verdict is `advises` in health.py (CONDITION_ON_RED), and it always exits 0 either way.
+        run: |
+          python3 research/autonomy/stuck_clock.py --check --json > /tmp/stall.json
+
       - name: Grade the loop's health
         id: grade
         run: |
           set -o pipefail
-          # ⚠ `--gates-verdict` points at a file that MAY NOT EXIST — that is the fail-closed path,
-          # not an error. health.py treats an absent verdict as `unmeasured`, never as green.
+          # ⚠ `--gates-verdict`/`--stall-verdict` point at files that MAY NOT EXIST — that is the
+          # fail-closed path, not an error. health.py treats an absent verdict as `unmeasured`, never
+          # as green.
           python3 research/autonomy/health.py --write --gates-verdict /tmp/gates.json \
-            | tee /tmp/health.txt
+            --stall-verdict /tmp/stall.json | tee /tmp/health.txt
           # ⛔ The exit code is NOT masked, but a red board is not a failed job: red is the SIGNAL this
           # workflow exists to publish, and a failing job would bury it behind a red X nobody reads.
           # `--check` is run separately below purely to surface the verdict in the summary.
           python3 research/autonomy/health.py --check --gates-verdict /tmp/gates.json \
-            > /tmp/check.txt 2>&1 || true
+            --stall-verdict /tmp/stall.json > /tmp/check.txt 2>&1 || true
           {
             echo '## Autonomy loop health'
             echo '```'
@@ -119,7 +134,7 @@ jobs:
           # That exact shape is why preflight.sh captures each check's status explicitly, and it bit
           # this step once during development.
           if python3 research/autonomy/health.py --commit-worthy \
-               --gates-verdict /tmp/gates.json; then
+               --gates-verdict /tmp/gates.json --stall-verdict /tmp/stall.json; then
             bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
               "autonomy tick: loop health board" \
               research/autonomy/health.json

@@ -46,6 +46,11 @@ LEDGER = HERE / "research-ledger.json"
 STATE = HERE / "autonomy-state.json"
 RECEIPTS = HERE / "receipts"
 
+# ⚠ sys.path, not a package import — see priority.py's identical comment; this directory is a flat
+# set of scripts run as `python3 research/autonomy/<tool>.py` from the repo root.
+sys.path.insert(0, str(HERE))
+import stuck_clock  # noqa: E402
+
 #: How many queued items the successor is handed. Enough to choose from; not so many that the prompt
 #: becomes a plan the successor follows instead of re-scoring the queue itself, which is step 2 of
 #: its own contract.
@@ -130,19 +135,56 @@ def _read(path: pathlib.Path):
         return None, f"{type(exc).__name__}: {exc}"
 
 
-def top_items(ledger: dict | None, n: int = TOP_N) -> list[dict]:
+def terminal_ids(repo: str | None = None, path: str | None = None) -> frozenset[str]:
+    """Ids `stuck_clock.py` currently reports `stalled_needs_human`, or an empty set on ANY failure.
+
+    ⛔⛔ FAIL OPEN, NEVER CLOSED, AND THE DIRECTION IS DELIBERATE (AUT-PROP-029, wiring stuck_clock in).
+    stuck_clock derives both clocks by shelling out to `git log`/`git show` on the COMMITTED ledger; a
+    missing git binary, an unset identity, a detached worktree or a shallow clone below its own
+    censoring threshold must never turn into "hide the highest-scoring row from the successor". A row
+    wrongly kept because this read failed costs nothing that was not already true before this function
+    existed; a row wrongly HIDDEN because a subprocess errored is a false absence of work — CLAUDE.md
+    §4's "an absent reading is not a reading of absence", applied to a queue rather than a status.
+
+    ⚠ CALLED LIVE, NOT FROM A COMMITTED HEALTH BOARD, AND ON PURPOSE. `handoff.py`'s own docstring:
+    "every fact here is read from a committed artifact AT BUILD TIME" — a health board is one more
+    hop and one more chance to be stale between the ledger this ranks and the verdict about it, and a
+    handoff is rare enough (only at a session's cycle cap) that a fresh `git log` walk here costs
+    nothing worth optimising away.
+    """
+    try:
+        kwargs = {}
+        if repo is not None:
+            kwargs["repo"] = repo
+        if path is not None:
+            kwargs["path"] = path
+        return frozenset(clock.entry_id for clock, _ in stuck_clock.terminal_rows(**kwargs))
+    except Exception:
+        return frozenset()
+
+
+def top_items(ledger: dict | None, n: int = TOP_N, exclude_ids=None) -> list[dict]:
     """The highest-scoring TAKEABLE entries — the same predicate `queue_is_takeable` uses.
 
     ⚠ Takeable, not merely high-scoring: handing a successor an item that is owned, blocked or out of
     retry budget wastes its first act on discovering that, which is the cost the ledger exists to
     remove.
+
+    ⛔ `exclude_ids` (AUT-PROP-029) drops a row `stuck_clock.py` reports `stalled_needs_human` — it is
+    not queued work any more, it is a human decision (re-scope, hand off, or close it), and handing it
+    to a fresh session would spend that session's first act re-discovering exactly the stall the model
+    already proved. ⚠ IT DOES NOT TOUCH THE LEDGER OR THIS FUNCTION'S OTHER PREDICATES: a caller that
+    passes nothing gets the pre-AUT-PROP-029 behaviour exactly, and the excluded row is still `queued`
+    on disk — this filters what is HANDED OVER, never what IS.
     """
     entries = (ledger or {}).get("entries") or []
+    exclude = exclude_ids or frozenset()
     takeable = [e for e in entries
                 if not e.get("owner")
                 and str(e.get("state") or "queued") in {"queued", "blocked"}
                 and int(e.get("retry_budget") or 0) > 0
-                and e.get("score") is not None]
+                and e.get("score") is not None
+                and e.get("id") not in exclude]
     return sorted(takeable, key=lambda e: -float(e.get("score") or 0))[:n]
 
 
@@ -160,10 +202,15 @@ def build(reason: str = "", ledger=None, state=None) -> str:
     if state is None:
         state, _ = _read(STATE)
 
-    items = top_items(ledger)
+    excluded = terminal_ids()
+    items = top_items(ledger, exclude_ids=excluded)
     queue = "\n".join(
         f"  {e['id']}  score {e.get('score')}  [{e.get('kind')}]  {str(e.get('what') or '')[:150]}"
         for e in items) or "  (the ledger holds nothing takeable — that is itself the finding; see below)"
+    if excluded:
+        queue += (f"\n  ⛔ EXCLUDED as `stalled_needs_human` (stuck_clock.py --check, AUT-PROP-029): "
+                  f"{', '.join(sorted(excluded))} — a human decision, not queued work; do not re-claim "
+                  f"it on the strength of its score alone.")
 
     interval = (state or {}).get("cycle_interval_hours", "?")
     backoff = (state or {}).get("backoff_level", "?")
@@ -254,7 +301,7 @@ def main(argv=None) -> int:
     prompt = build(a.reason)
     if a.json:
         ledger, _ = _read(LEDGER)
-        top = top_items(ledger, 1)
+        top = top_items(ledger, 1, exclude_ids=terminal_ids())
         focus = top[0]["id"] if top else "queue empty"
         title = f"EMC research loop — cycle ({focus})"
         # ⭐ THE WHOLE `create_session` CALL, NOT JUST THE PROMPT. The docstring's promise is that

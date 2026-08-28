@@ -142,6 +142,14 @@ def test_all_5_2_conditions_are_present(health, tmp_path):
         # defining it and one test asserting it equals 5 — while architecture §9 records it as the dial
         # that failed catastrophically (a 107-agent fan-out: 40 completed, 67 errored, synthesis lost).
         "fanout_is_governed",
+        # ⭐ ADDED 2026-08-28, AUT-PROP-029: `stuck_clock.py`'s two-clock stall model (a row claimed,
+        # abandoned, re-queued and re-claimed forever, looking maximally alive on the touch clock and
+        # correctly dead on the advance clock) was fully built and fully tested and NOTHING called it
+        # — no board condition read it, `priority.py`/`handoff.py` did not exclude a terminal row from
+        # ready work, and no job ran `--check`. This condition reads the verdict from a caller-supplied
+        # file (the same `gates_green` shape, since stuck_clock needs `git log` and this file has no
+        # subprocess by design) and reports which rows, if any, have gone `stalled_needs_human`.
+        "stalls_are_named",
     }, "the condition set drifted from the architecture §5.2 table — that is a DECLARED change (§10.4)"
     assert board["n_conditions"] == len(health.CONDITION_ORDER)
 
@@ -638,6 +646,23 @@ def test_the_tick_actually_passes_the_verdict_to_every_health_call():
     for ln in calls:
         idx = tick.index(ln)
         assert "--gates-verdict" in tick[idx:idx + 400], f"no --gates-verdict for: {ln.strip()}"
+
+
+def test_the_tick_also_passes_the_stall_verdict_to_every_health_call():
+    """★ AUT-PROP-029's SAME REGRESSION, ONE FLAG LATER. `stalls_are_named` is exactly as unmeasured
+    as `gates_green` was until the gate-verdict pair above existed — a caller-supplied file health.py
+    cannot produce for itself. Written as its own test, deliberately not folded into the one above, so
+    a future third verdict this shape is added under gets its own guard rather than silently riding
+    the coattails of a check that says nothing about it."""
+    tick = (REPO / ".github" / "workflows" / "autonomy-tick.yml").read_text()
+    assert "stuck_clock.py" in tick, "nothing computes the stall verdict"
+    assert "--check --json" in tick, "the stall verdict must be the machine-readable form"
+    calls = [ln for ln in tick.splitlines()
+             if "health.py" in ln and "--" in ln and not ln.strip().startswith("#")]
+    assert len(calls) == 3
+    for ln in calls:
+        idx = tick.index(ln)
+        assert "--stall-verdict" in tick[idx:idx + 400], f"no --stall-verdict for: {ln.strip()}"
 
 
 # ──────────────────────────────────── the session-shape rule, which failed by being UNREACHABLE
