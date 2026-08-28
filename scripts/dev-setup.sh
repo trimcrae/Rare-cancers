@@ -134,6 +134,149 @@ _missing_in() {   # $1 = interpreter, $2 = module list; echoes what it cannot im
   printf '%s' "$out"
 }
 
+# --------------------------------------------------------------------------------------------
+# ⛔⛔ THE GIT HISTORY IS A DEPENDENCY OF THE GATES TOO, AND A SHALLOW CLONE BREAKS ONE SILENTLY.
+#
+# Every sandbox is handed a SHALLOW clone, and `research/autonomy/stuck_clock.py` derives both of
+# its per-row clocks by walking `git log --follow` over every committed version of the ledger. What
+# git cannot see, the clock cannot measure: a row already present in the oldest visible version is
+# stamped `stuck_at = horizon` and marked `censored`, a right-censored LOWER BOUND. That is the
+# honest behaviour and it stays — but a bound below the clock's own threshold decides nothing, so
+# the instrument reports "no row is stalled" while measuring only the clone depth.
+#
+# ⚠ AND stuck_clock IS ONE OF THREE. `learning_rate.py` refuses to grade a window the horizon
+# falls inside, and `out_of_ideas.py` returns `unmeasurable` for a route with no improvement in
+# the visible history — both correct, both useless while the horizon is hours deep. Their windows
+# are 16 h and 336 h against stuck_clock's 24 h, so the fetch below is sized off the LARGEST,
+# not off the one that happened to be diagnosed first.
+#
+# ⛔ AND IT IS NOT COSMETIC — IT CHANGES WHAT A FRESH SESSION IS HANDED. `handoff.py::terminal_ids()`
+# calls `stuck_clock.terminal_rows()` LIVE and fails OPEN, so a censored verdict silently excludes
+# nothing. Measured 2026-08-28 in this sandbox, same ledger, three clones side by side:
+#
+#   session's shallow clone   horizon 3.2 h   142/161 rows censored   0 terminal
+#   after the fetch below     horizon 53.4 h    47/160 rows censored   3 terminal
+#   a full clone (what CI has) horizon 53.4 h    0/161 rows censored   3 terminal
+#
+# The three are AUT-010, AUT-049 and AUT-PROP-019, and the shallow run handed AUT-010 — the
+# top-scoring row at 190.9 — to the successor as ready work, while the full clone printed
+# "⛔ EXCLUDED as `stalled_needs_human`" for exactly those three. CI is unaffected: `autonomy-tick.yml`
+# checks out at `fetch-depth: 0`, and its 18:45 UTC run that day named AUT-052 and AUT-049 on the
+# board with `0 UNMEASURED`. So the censoring is a SESSION-path defect only, and this is the session
+# path's setup script.
+#
+# ⭐ WHY `--shallow-since` AND NOT `git fetch --unshallow`, WHICH IS WHAT stuck_clock USED TO PRINT.
+# The clocks need history that outruns their own longest window, not all of it. Measured the same day, from
+# a fresh `--depth 1` clone: `--unshallow` is 1.5 GB and 80 s; the fetch below is +16 MB (107.5 ->
+# 124.0 MB, 716 commits) and it produced the IDENTICAL terminal set to that full clone. Wall time
+# across five runs was 5-37 s, the spread being contention with sibling seats rather than the fetch;
+# a repeat that finds nothing new was 3-9 s. It does not need a checkout: the graft point moves, so
+# `git log` from the existing HEAD walks straight through.
+#
+# ⚠ WHY IT SITS ABOVE THE `--if-needed` EARLY EXIT, AND THIS FILE HAS ALREADY PAID FOR THE LESSON
+# ONCE: the ghostscript step was first written BELOW it, so on a sandbox whose interpreters were
+# already complete `--if-needed` printed "nothing to do" and never reached it. A dependency the probe
+# does not ask about must not sit behind the probe's answer. This step carries its own guard instead.
+#
+# ⚠ WHAT THIS DOES NOT DO, stated here rather than discovered later:
+#   * it never fails the script or the SessionStart hook. A refused fetch (no network, another seat
+#     holding `shallow.lock`, a fork without the branch) leaves the clock reporting censored bounds,
+#     which is what we would actually know — an absent reading, not a reading of absence.
+#   * it does not make the clone non-shallow. `is_shallow()` stays true and every row at the horizon
+#     stays flagged `censored`; the horizon simply outruns the readers' windows, which is the
+#     condition stuck_clock itself names as the one that makes a bound conclusive.
+#   * ⚠ IT CANNOT SATISFY out_of_ideas YET, AND SAYS SO RATHER THAN LOOKING LIKE IT DID. The ledger
+#     was created 2026-08-26, so its ENTIRE history is ~53 h against that module's 336 h budget:
+#     until the ledger is 14 days old this fetches every session (3-9 s, silent) and out_of_ideas
+#     keeps returning `unmeasurable`, which is the honest reading. The guard cannot tell "nothing
+#     older exists" from "not fetched yet", and a stamp claiming the past instead of asking git is
+#     the alternative this repository has already refused.
+#   * two workflows also run this script — `preflight-full-record.yml` and `aso-submission-parts.yml`,
+#     both at the checkout default of `fetch-depth: 1` — so they will pay the same one-off fetch.
+#     Left in deliberately rather than special-cased on `$CI`: neither reads the clock, so it buys
+#     them nothing, but a branch that only ever runs in a sandbox is a branch nothing exercises.
+# --------------------------------------------------------------------------------------------
+
+# ⛔ THE MARGIN, NOT THE WINDOW. Every number the window is built from has its own home and is READ
+# below, never typed here (CLAUDE.md §1): `stuck_clock.stuck_threshold_hours()`,
+# `learning_rate.window_hours()` and `out_of_ideas.budget_days()` — the last itself read from
+# `priority-weights.json:age_saturates_days`. This is only the safety factor applied to the LARGEST
+# of them, so one deepen overshoots the boundary instead of landing on it.
+# ⚠ IT IS 2, NOT 14, AND THAT IS A CORRECTION MADE BEFORE THIS SHIPPED. The first cut sized the
+# window off stuck_clock's threshold alone and reached 336 h — which is EXACTLY out_of_ideas' budget,
+# so the instrument with the longest memory would have been left sitting on the edge of the horizon
+# it needs. Sizing off the max is what lets the factor be small.
+LEDGER_HISTORY_MARGIN=2
+
+# ⛔ ONE PROBE FOR EVERY READER OF THE HISTORY, NOT ONE PER READER. Three modules derive verdicts
+# from the ledger's git history and each has its own memory; the clone has to satisfy the longest.
+# Each import is guarded separately, so a module that is renamed or unimportable narrows the window
+# rather than aborting setup — and the answer never falls below what the modules that DID load need.
+_ledger_history_need_hours() {
+  python3 - <<'NEEDPY' 2>/dev/null || true
+import os, sys
+sys.path.insert(0, os.path.join("research", "autonomy"))
+need = 0.0
+try:
+    import stuck_clock                       # the stall clock
+    need = max(need, float(stuck_clock.stuck_threshold_hours()))
+except Exception:
+    pass
+try:
+    import learning_rate                     # is the loop learning? the shortest window
+    need = max(need, float(learning_rate.window_hours()))
+except Exception:
+    pass
+try:
+    import out_of_ideas                      # THE LONG ONE: age_saturates_days
+    need = max(need, float(out_of_ideas.budget_days()) * 24.0)
+except Exception:
+    pass
+print(int(need))
+NEEDPY
+}
+
+_deepen_ledger_history() {
+  command -v git >/dev/null 2>&1 || return 0
+  [ "$(git rev-parse --is-shallow-repository 2>/dev/null || echo false)" = "true" ] || return 0
+
+  local need_h
+  need_h="$(_ledger_history_need_hours)"
+  case "$need_h" in ''|*[!0-9]*) return 0 ;; esac
+  [ "$need_h" -gt 0 ] || return 0
+
+  # The horizon is the OLDEST commit git can still see for the ledger — `stuck_clock`'s own
+  # `versions[0].when`, asked of git directly rather than restated.
+  local oldest
+  oldest="$(git log --format=%ct --follow -- research/autonomy/research-ledger.json 2>/dev/null | tail -1)"
+  case "$oldest" in ''|*[!0-9]*) return 0 ;; esac
+
+  local age_h=$(( ( $(date -u +%s) - oldest ) / 3600 ))
+  if [ "$age_h" -ge "$need_h" ]; then
+    return 0            # the bound already outruns every reader's window: nothing left to buy
+  fi
+
+  # ⚠ SILENT UNLESS IT MOVED. While the ledger's whole life is shorter than the longest window, the
+  # guard above cannot tell "nothing more exists" from "not fetched yet", so this runs each session.
+  # The wall times and bytes are in the header block above, which is their one home (CLAUDE.md §1).
+  # Announcing a no-op every session is how a step earns a deletion it does not deserve.
+  local window_h=$(( need_h * LEDGER_HISTORY_MARGIN ))
+  if git fetch --quiet --shallow-since="${window_h} hours ago" origin main 2>/dev/null; then
+    local deepened new_age_h
+    deepened="$(git log --format=%ct --follow -- research/autonomy/research-ledger.json 2>/dev/null | tail -1)"
+    case "$deepened" in ''|*[!0-9]*) return 0 ;; esac
+    new_age_h=$(( ( $(date -u +%s) - deepened ) / 3600 ))
+    if [ "$new_age_h" -gt "$age_h" ]; then
+      echo "dev-setup: deepening the ledger history — the clocks could see back ${age_h} h against a ${need_h} h window; git now reaches ${new_age_h} h."
+    fi
+  else
+    echo "dev-setup: the deepen fetch did not succeed — the ledger clocks will keep reporting censored lower bounds, which is honest, not wrong."
+  fi
+  return 0
+}
+
+_deepen_ledger_history || true
+
 if [ "${1:-}" = "--if-needed" ]; then
   sys_missing="$(_missing_in python3 "$SYSTEM_PROBE")"
   tool_py="$(_pytest_python || true)"

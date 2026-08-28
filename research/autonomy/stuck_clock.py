@@ -101,9 +101,24 @@ row already present in the oldest visible version, git can prove only `stuck_at 
 right-censored lower bound, not a measurement. Such a row is marked `censored` and it is NEVER
 declared terminal while the horizon itself is younger than the threshold, because a bound below the
 threshold decides nothing. Once the horizon is older than the threshold the bound becomes conclusive
-and censored rows can be declared. ⭐ The remedy is one command and it is printed rather than
-described: `git fetch --unshallow`. An absent reading is not a reading of absence (CLAUDE.md §4);
+and censored rows can be declared. An absent reading is not a reading of absence (CLAUDE.md §4);
 this module says which rows it cannot yet measure instead of printing a young number for them.
+
+⭐ THE REMEDY IS NOW RUN FOR YOU, AND IT IS NOT `git fetch --unshallow`. `scripts/dev-setup.sh` —
+which the SessionStart hook already runs — deepens the clone before anything reads this module. ⚠ Its
+window is NOT this module's threshold: three modules read the same history with different memories
+(this one, `learning_rate.py`, `out_of_ideas.py`) and the deepen is sized off the LONGEST of them, so
+do not infer the fetched depth from the number above. That script's comment block owns the window,
+the guard and the measurement that chose `--shallow-since` over `--unshallow`, including the
+three-way clone comparison behind it; none of it is restated here (CLAUDE.md §1). This module still
+only REPORTS the limit and names that script — a measuring instrument does not write to the object
+store it is measuring.
+
+⚠ A DEEPENED CLONE IS STILL SHALLOW, AND THAT IS THE POINT RATHER THAN A GAP. `is_shallow()` stays
+true and every row at the horizon stays flagged `censored`; what changes is that the horizon outruns
+the threshold — exactly the condition named two paragraphs up as the one that makes a bound
+conclusive. So do not read `shallow_clone: true` in the JSON as "this verdict is censored": read the
+`censored` flag on the row and the horizon against the threshold, which is what `terminal()` does.
 
 Usage:
     python3 research/autonomy/stuck_clock.py --check            # rows, longest-stuck first
@@ -536,7 +551,11 @@ def main(argv: list[str] | None = None) -> int:
               "BOUND, not a measurement" + ("" if age >= threshold else
               " — and no censored row can be declared terminal until that bound passes the "
               "threshold") + ".")
-        print("   ⭐ To measure them: git fetch --unshallow")
+        print("   ⭐ To measure them: ./scripts/dev-setup.sh — it deepens the clone past every "
+              "window read off this history, not just this module's (it owns that window and "
+              "the measurement behind it; the SessionStart hook runs it, so a sandbox still "
+              "reading short is one the hook did not reach). A full `git fetch --unshallow` "
+              "also works and costs ~90x more.")
 
     header = f"{'stuck':>9}  {'id':<16} {'state':<12} {'stuck_at':<17} {'updated_at':<17} flags"
     print()
