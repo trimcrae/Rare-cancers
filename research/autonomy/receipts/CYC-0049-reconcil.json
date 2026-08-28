@@ -1,0 +1,37 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0049-reconcil",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T15:40:00Z",
+  "shape": "This session, reconciling a repeated concurrent-session collision on research-ledger.json/amendments.jsonl (second reset this session) rather than taking a fresh ledger item.",
+  "took": "Finish landing continuity.py's stuck_clock wiring (originally filed as AUT-PD-047, then AUT-PD-060, then briefly AUT-PD-061 under receipt CYC-0048-reconcil) after origin/main advanced 3 more commits during the first attempt's push, including a fully independent CYC-0048-cyc0048s session's own work (AUT-PD-051, a queue_view.py widening, and a health.json refresh) that had nothing to do with this fix but touched the same ledger file.",
+  "took_what": "First reconciliation attempt (receipt CYC-0048-reconcil.json, now superseded and removed since it never reached origin/main) reset onto d9489dd6a, re-filed AUT-PD-061/AUT-PD-062, committed as c0b639cb2, and on `git rebase origin/main` hit a fresh conflict in research-ledger.json because CYC-0048-cyc0048s had pushed 3 more commits in the meantime (aa67f4747 AUT-PD-051, 34ed1eb72 re-score, 3883c55d4 health board). Rather than resolve the conflict by hand in a file that gets fully rewritten by priority.py --write on every cycle, ran `git rebase --abort`, `git reset --hard origin/main`, and restored only continuity.py and its test file (already saved to /tmp) onto the new base at 3883c55d4. Re-verified live (AUT-PROP-012 in ready: False, total ready: 87) and re-derived both ledger ids fresh: AUT-PD-061 was still free (CYC-0048-cyc0048s did not use it), so this cycle's own two entries kept the same ids as the superseded attempt, but are now filed against the current trunk rather than a stale base.",
+  "changed": [
+    "research/autonomy/continuity.py: _why_not_ready()/ready()/blocked() now take a terminal_ids frozenset (from handoff.terminal_ids(), fail-open) and report a stalled row as blocked ('stalled_needs_human (stuck_clock.py) — a human decision, not queued work') instead of ready.",
+    "research/autonomy/tests/test_continuity_has_no_green_state_recording_can_buy.py: +3 tests (stalled row excluded from ready, its reason named in blocked, terminal_ids failing open still shows everything). Declared in amendments.jsonl under cycle_id CYC-0049-reconcil (the earlier CYC-0048-reconcil declaration for the same file/change never reached origin/main and is superseded by this one).",
+    "research/autonomy/research-ledger.json: filed AUT-PD-061 (documents this fix, state done) and AUT-PD-062 (re-files the arXiv sanction-policy WebSearch corroboration lead from the abandoned AUT-PROP-032 duplicate-work episode, for independent re-verification) against the current trunk.",
+    "research/autonomy/amendments.jsonl: declared the test-file change (self_serving_check: NO — tests added make the readiness/blocked branches harder to pass falsely-green on, and this cycle was not blocked by this file)."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [
+    "Held this fix across three receipt attempts (originally AUT-PD-047/AUT-PD-060 under earlier cycle ids, then CYC-0048-reconcil, now CYC-0049-reconcil) because the shared ledger file is being written by multiple concurrent sessions faster than any one push can land. The robust pattern -- reset to fresh origin/main, restore only the small non-ledger files from /tmp, re-derive ledger ids fresh each time -- worked cleanly both times it was needed and should be the default response to a research-ledger.json conflict rather than attempting a manual line-level resolution."
+  ],
+  "now_queued": [
+    "AUT-PD-062: independently re-verify the arXiv sanction-policy WebSearch lead (named outlets, May-2026 Dietterich announcement, ban+reinstatement-condition specifics) before touching lint_submission_residue.py's docstring."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context (AUT-PD-045). This cycle stayed within one context window; no cap reached."
+  }
+}

@@ -119,6 +119,47 @@ def test_your_own_lease_does_not_hide_your_own_work(led):
         "be a way to stop seeing it")
 
 
+# ---------------------------------------------------------------------------------------------
+# AUT-PROP-029's stuck_clock, wired in here the same way `handoff.top_items` already reads it.
+# ---------------------------------------------------------------------------------------------
+
+def test_a_stalled_row_is_excluded_from_ready(led, monkeypatch):
+    """⛔⛔ THE GAP THIS CLOSES, MEASURED THE DAY IT WAS FOUND. `handoff.py`'s ready-work selector
+    started excluding a `stalled_needs_human` row (AUT-PROP-029), but THIS tool — the one the Stop
+    hook actually calls every turn — kept offering it, because nothing here read the same verdict.
+    AUT-PROP-012 sat at the top of this tool's own ready list for a full session after it had
+    already gone terminal. Two files agreeing in prose that a stalled row should not be offered as
+    work, and disagreeing in code, is the exact defect class this file's own history already
+    documents twice above (AUT-PD-013/AUT-PD-017's reader/writer mismatches)."""
+    monkeypatch.setattr(C.handoff, "terminal_ids", lambda *a, **k: frozenset({"A"}))
+    led([_item(id="A"), _item(id="B")])
+    ids = [e["id"] for e in C.ready()]
+    assert ids == ["B"], (
+        "a row stuck_clock.py reports stalled_needs_human must not appear on the ready list, and "
+        "an unaffected row must still appear")
+
+
+def test_a_stalled_rows_reason_is_named_in_the_blocked_report(led, monkeypatch):
+    """CLAUDE.md §0: 'blocked' is a claim that needs evidence, checkable rather than a silent drop.
+    A row excluded for being terminal must show up in `blocked()` with a reason naming stuck_clock,
+    not just vanish from `ready()`."""
+    monkeypatch.setattr(C.handoff, "terminal_ids", lambda *a, **k: frozenset({"A"}))
+    led([_item(id="A")])
+    [(entry, why)] = C.blocked()
+    assert entry["id"] == "A"
+    assert "stalled_needs_human" in why and "stuck_clock" in why
+
+
+def test_terminal_ids_failing_open_still_shows_everything(led, monkeypatch):
+    """⚠ THE FAIL-OPEN DIRECTION, PINNED. `handoff.terminal_ids()` already returns an empty set on
+    ANY failure (missing git, a shallow clone, a bad repo path) rather than raising — this asserts
+    THIS caller doesn't add a second failure mode on top by, say, crashing on an empty set or
+    treating 'no verdict' as 'everything is stalled'."""
+    monkeypatch.setattr(C.handoff, "terminal_ids", lambda *a, **k: frozenset())
+    led([_item(id="A"), _item(id="B")])
+    assert {e["id"] for e in C.ready()} == {"A", "B"}
+
+
 def test_an_empty_backlog_is_the_honest_zero(led, capsys):
     """The positive control. Without it the suite would pass on a tool that fails everything."""
     led([_item(id="A", state="done")])
