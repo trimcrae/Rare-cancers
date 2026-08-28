@@ -145,7 +145,17 @@ jobs:
           # research-loop §1 sends every cycle to that board before it starts.
           # ⭐ `--stored-commit-worthy` reads the `_commit_worthy` the write step recorded, which was
           # computed against the genuinely previous board — the only moment that comparison exists.
-          if python3 research/autonomy/health.py --stored-commit-worthy; then
+          # ⚠ THE VERDICT FILES ARE PASSED HERE TOO, AND NOT AS CEREMONY. The exit code comes from
+          # the RECORDED `_commit_worthy` and ignores them — but `main()` still builds and RENDERS a
+          # board before any flag is handled, so a call without them prints a board reading
+          # `gates_green: NO-GATE-VERDICT / unmeasured` into this step's log while the grading step
+          # above printed the real one. Two contradictory boards in one job is how a reader learns to
+          # trust neither. ⛔ Caught by systems/tests/test_autonomy_health.py, which asserts every
+          # non-comment `health.py` call in this file carries both verdicts; the first version of the
+          # --stored-commit-worthy change omitted them and turned that guard red on the trunk. The
+          # guard was right and was NOT relaxed to fit the change.
+          if python3 research/autonomy/health.py --stored-commit-worthy \
+               --gates-verdict /tmp/gates.json --stall-verdict /tmp/stall.json; then
             bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
               "autonomy tick: loop health board" \
               research/autonomy/health.json
