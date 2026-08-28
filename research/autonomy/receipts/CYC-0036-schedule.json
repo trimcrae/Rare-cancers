@@ -1,0 +1,36 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0036-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T10:35:00Z",
+  "shape": "Follow-up wake on the CYC-0035 subagent's completion notification. The driver reviewed the pushed branch, merged it (the one writer to the shared tree), ran full targeted tests plus PREFLIGHT_TESTS=1, updated the ledger, and pushed. No new subagent spawned this cycle.",
+  "took": "AUT-PD-036 — merge and close the subagent's ls-files-scope fix (RT-AUTONOMY)",
+  "took_what": "Reviewed branch `aut-pd-036-ls-files-scope` (commit 8aeeea201) pushed by the CYC-0035 background subagent (agentId a5615208585f3213f). Read the full diff of all 4 changed files before merging — did not merge blind off the subagent's own report. Verified the branch was based on the correct parent (my CYC-0035 claim commit, itself built on the already-landed CYC-0034 citation-gate fix), so no conflict with that earlier work.",
+  "changed": [
+    "Merged the branch to main (--no-ff, commit 197a82298): 3 of 14 remaining `git ls-files`-blindness call sites widened to `--cached --others --exclude-standard` (lint_citations.py `_tracked()`, instrument_register_renumber.py `tracked_files()`, scripts/tests/test_no_hand_authored_json_has_a_duplicate_key.py `_tracked()`), each with a live probe proving miss-before/catch-after on an isolated tmp git repo, zero collateral pre-existing findings, and a new mutation-tested regression test.",
+    "Verified independently rather than trusting the subagent's self-report: read the diffs myself (all defensible — minimal, well-documented, isolated test fixtures never touching the real working tree), re-ran the three touched test suites standalone (30 passed) and the full manuscripts + selector suites post-merge (1379 + 282 passed, only the expected archive-manifest staleness failing preflight, per the now-familiar two-commit ordering requirement).",
+    "Ledger: AUT-PD-036 marked `done` with the full outcome recorded (3 widened / 6 correctly left alone / 5 not-actual-call-sites / 1 genuinely contested). Filed two new free items rather than silently resolving or dropping the subagent's two honest findings: AUT-PD-041 (emc_systems_map_check.py's O4 guard has the identical defect shape but a documented tracked-only design choice directly in tension with the fix just applied elsewhere — a real decision, not a mechanical follow-up, so left unresolved rather than picked either way by the driver alone) and AUT-PD-042 (census_novelty_audit.py's committed output is stale against its own generator for reasons unrelated to ls-files, found in passing, deliberately not blindly regenerated without first understanding why the counts moved).",
+    "Archive manifest regenerated as an isolated follow-up commit (per its own documented ordering requirement: it refuses to record clean provenance while other changes are uncommitted) — see the immediately following commit in this cycle."
+  ],
+  "cost": "$0. Engineering and CPU only — the review, merge and gate runs. The AUT-PD-036 subagent's own compute cost was recorded in CYC-0035's receipt at dispatch time.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [
+    "AUT-PD-041: decide (and act on) whether emc_systems_map_check.py's O4 guard should widen its git ls-files scope the same way, given a documented design choice pulling the other way.",
+    "AUT-PD-042: understand why census-novelty-audit.json's counts moved before regenerating and committing it."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "Review-and-merge of an already-completed subagent's branch; no new large or open-ended work spawned this cycle."
+  }
+}
