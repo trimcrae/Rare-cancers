@@ -53,8 +53,8 @@ last_verified: 2026-08-09
 |---:|---|---|---|---:|---:|---:|---:|---:|---|
 | 1 | [**PUB-MTAP-PRMT5**](../../research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md) | ⭐ could still help a patient | 🧪 **bench, pre-built** | **15.0** | 1 | 0 | 0 | 0% of 3 | ◐ `drafted` |
 | 2 | [**PUB-ATR-PANEL-ASK**](../../research/manuscripts/dependency/emc-atr-collaborator-package.md) | ⭐ could still help a patient | 🧪 **bench, pre-built** | **14.0** | 0 | 0 | 0 | 0% of 1 | ◐ `drafted` |
-| 3 | [**PUB-REPURPOSING**](../../research/manuscripts/repurposing/repurposing-hypotheses.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.5** | 2 | 0 | 0 | 20% of 5 | ◐ `drafted` |
-| 4 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.5** | 2 | 3 | 0 | 0% of 8 | ◐ `drafted` |
+| 3 | [**PUB-SURFACE-TARGETS**](../../research/manuscripts/surface-targets/emc-surface-target-landscape.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.5** | 2 | 3 | 0 | 0% of 8 | ◐ `drafted` |
+| 4 | [**PUB-REPURPOSING**](../../research/manuscripts/repurposing/repurposing-hypotheses.md) | ⭐ could still help a patient | 🧪 bench, to build | **12.0** | 2 | 0 | 0 | 20% of 5 | ◐ `drafted` |
 | 5 | **PUB-CARE-DELIVERY** | ⭐ could still help a patient | 🏥 clinical adoption | **11.5** | 4 | 0 | 0 | 29% of 7 | ○ `unwritten` |
 | 6 | [**PUB-STRATEGY-ARCH**](../../research/manuscripts/care-delivery/emc-trial-reachability.md) | ⭐ could still help a patient | ⭐ **no bench needed** | **11.5** | 1 | 2 | 0 | 57% of 7 | ◐ `drafted` · ✎ short report |
 | 7 | **PUB-IPD-SURVIVAL** | ⭐ could still help a patient | ⭐ **no bench needed** | **11.0** | 1 | 0 | 0 | 100% of 2 | ○ `unwritten` |
@@ -91,13 +91,13 @@ last_verified: 2026-08-09
 **PUB-MTAP-PRMT5** — score 15.0
 - [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md) — *Does this tumour carry the copy-number state that selects the PRMT5 axis?* — `ready` / `computed` / confidence `moderate` · last verified `2026-08-09`
 
-**PUB-REPURPOSING** — score 12.5
-- [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) — *Could a PPARγ-directed agent act on a downstream effector of the fusion?* — `blocked` / `concept` / confidence `low` · last verified `2026-08-05`
-- [RT-CARFILZOMIB](L2-rt-carfilzomib.md) — *Does the best ex-vivo EMC drug-sensitivity evidence point at a proteasome inhibitor combination?* — `ready` / `concept` / confidence `low` · last verified `2026-08-09`
-
 **PUB-SURFACE-TARGETS** — score 12.5
 - [RT-PRAME-IMMTAC](L2-rt-prame-immtac.md) — *Is a PRAME-directed T-cell engager or receptor therapy applicable to EMC?* — `blocked` / `computed` / confidence `moderate` · last verified `2026-08-05`
 - [RT-FAP-RLT](L2-rt-fap-rlt.md) — *Could a fibroblast-activation-protein radioligand reach EMC through its stroma?* — `blocked` / `concept` / confidence `unknown` · last verified `2026-08-05`
+
+**PUB-REPURPOSING** — score 12.0
+- [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md) — *Could a PPARγ-directed agent act on a downstream effector of the fusion?* — `blocked` / `concept` / confidence `low` · last verified `2026-08-05`
+- [RT-CARFILZOMIB](L2-rt-carfilzomib.md) — *Does the best ex-vivo EMC drug-sensitivity evidence point at a proteasome inhibitor combination?* — `blocked` / `concept` / confidence `low` · last verified `2026-08-28`
 
 **PUB-CARE-DELIVERY** — score 11.5
 - [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) — *How much of EMC's survival is decided by whether the first operation cleared the tumour, and by where it was performed?* — `ready` / `concept` / confidence `low` · last verified `2026-08-26`

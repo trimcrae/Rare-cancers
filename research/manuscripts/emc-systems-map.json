@@ -596,6 +596,41 @@
           "role": "assertion"
         }
       ]
+    },
+    {
+      "id": "EV-BOKLAN-2025",
+      "canonical": {
+        "pmid": "40941020",
+        "doi": "10.3390/cancers17172924",
+        "pmcid": "PMC12428389",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40941020/"
+      },
+      "citation": "Boklan J, Langevin AM, Bielamowicz K, Neville K, Trippett T, Brown V, DuBois SG, Eshun F, Gelfond J, Zomet A, Narendran A, Lacayo NJ. A Phase I Study of Carfilzomib with Cyclophosphamide and Etoposide in Relapsed and Refractory Leukemia and Solid Tumors. Cancers (Basel) 2025;17(17):2924. PMID 40941020 · PMC12428389 · doi 10.3390/cancers17172924.",
+      "what_it_supports": "The only record found in which carfilzomib ITSELF has been given to sarcoma patients: a dose-escalation of carfilzomib with cyclophosphamide and etoposide in relapsed or refractory leukaemia (stratum A, n=14) and non-CNS solid tumours (stratum B, n=24), aged 6 months to under 30 years. No maximum tolerated dose was reached in stratum B and a recommended phase 2 dose is reported. ⛔ IT IS A DOSE-FINDING STUDY AND NOT AN EFFICACY RESULT: the abstract reports no response rate, no comparator and no sarcoma denominator, and PubMed types the record `Journal Article`. Its closing sentence, quoted rather than paraphrased, is \"Patients with sarcomas benefited most, warranting further evaluation\". ⚠ NOT EMC data, and its partner drugs are cyclophosphamide and etoposide rather than the anthracycline the ex-vivo EMC screen pairs carfilzomib with.",
+      "aliases": [
+        "Boklan 2025",
+        "the carfilzomib paediatric phase 1"
+      ],
+      "misattributed_as": [],
+      "cited_in": [],
+      "resolution_note": "RETRIEVED 2026-08-28 from PubMed through the PubMed MCP connector; queries and verbatim abstract quotations in research/literature/carfilzomib-class-clinical-2026-08-28.json. ⚠ ABSTRACT ONLY — PMC12428389 exists and was NOT fetched, so any per-histology outcome table it may carry is unread."
+    },
+    {
+      "id": "EV-MAKI-2005",
+      "canonical": {
+        "pmid": "15739208",
+        "doi": "10.1002/cncr.20968",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/15739208/"
+      },
+      "citation": "Maki RG, Kraft AS, Scheu K, Yamada J, Wadler S, Antonescu CR, Wright JJ, Schwartz GK. A multicenter Phase II study of bortezomib in recurrent or metastatic sarcomas. Cancer 2005;103(7):1431-8. PMID 15739208 · doi 10.1002/cncr.20968.",
+      "what_it_supports": "⛔ IT DOES NOT SUPPORT RT-CARFILZOMIB — IT BOUNDS IT, and it is the only human read on proteasome inhibition in the parent histology this repository holds. Two arms, Simon two-stage: arm A osteogenic sarcoma, Ewing sarcoma and rhabdomyosarcoma; arm B other soft tissue sarcomas. One confirmed partial response among 21 evaluable patients in arm B, in a patient with leiomyosarcoma; closed after the first stage of accrual; stated conclusion that bortezomib has minimal activity in soft tissue sarcoma AS A SINGLE AGENT and should be studied further in sarcoma only in combination with agents showing demonstrated preclinical synergy. ⚠ SCOPE: bortezomib, not carfilzomib; monotherapy; NOT EMC data, so it moves BLK-NO-EMC-DATA not at all. Whether any EMC patient was enrolled in arm B is UNREAD — abstract only.",
+      "aliases": [
+        "Maki 2005",
+        "the bortezomib sarcoma phase II"
+      ],
+      "misattributed_as": [],
+      "cited_in": [],
+      "resolution_note": "RETRIEVED 2026-08-28 from PubMed through the PubMed MCP connector; queries, verbatim abstract quotations and the reading are in research/literature/carfilzomib-class-clinical-2026-08-28.json. ⚠ ABSTRACT ONLY. Its PubMed record carries no PMCID, so no PubMed Central full text was reachable, and no full text was retrieved from anywhere — so every statement above is what PubMed returned and nothing is inferred from the title."
     }
   ],
   "objects": [
@@ -3992,7 +4027,7 @@
         "carfilzomib"
       ],
       "grade": {
-        "value": "◐ THE OBSERVATION STANDS AND BOTH IN-SILICO RATIONALES FOR IT FAILED (regraded 2026-08-09, first time this route's axis has ever been read). ⭐ WHAT IS UNCHANGED AND IS STILL THIS PORTFOLIO'S BEST EVIDENCE: carfilzomib, with venetoclax, was active across two PATIENT-DERIVED EMC models. It is the only agent in this programme measured on cells that carry this disease, and nothing below touches that. ⛔ DEPENDENCY SAYS THERE IS NOTHING TO SELECT ON. Across the 91 screened sarcoma lines PSMB1, PSMC1, PSMD1 and VCP are dependencies in 100%, and carfilzomib's own target PSMB5 in 97.8%, with selectivity against the rest of DepMap between -0.10 and +0.17. A target required in every line of the class and equally required outside it cannot be the basis of a selective argument. SQSTM1 at 0% and NFE2L1 at 7.7% are the internal control and behave. ⛔ AND THE PROTEOSTATIC-LOAD EXPLANATION IS NOT SUPPORTED. Read 18 was built to test whether this myxoid, matrix-secreting tumour carries the folding and disposal burden that would make degradative capacity limiting, with the grading rule written and committed BEFORE the fetch returned. On the 35-tumour platform the rule fired on the unfolded-protein response (+2.11) while the secretory/matrix-load proxy - the module carrying the actual argument - was FLAT at -0.20; on the 16-tumour platform everything was null. ⚠ IT STAYS OPEN because the ex-vivo result is a measurement in the right cells and outranks two failed in-silico rationales for it; what has collapsed is the case for SELECTIVITY, not the observation. Confidence drops from moderate to low. Superseded, retained: 'NEAR-TERM LEAD - best ex-vivo EMC evidence', which was graded 2026-08-05 before any of this was measured.",
+        "value": "◐ THE OBSERVATION STANDS AND BOTH IN-SILICO RATIONALES FOR IT FAILED (regraded 2026-08-09, first time this route's axis has ever been read). ⭐ WHAT IS UNCHANGED AND IS STILL THIS PORTFOLIO'S BEST EVIDENCE: carfilzomib, with venetoclax, was active across two PATIENT-DERIVED EMC models. It is the only agent in this programme measured on cells that carry this disease, and nothing below touches that. ⛔ DEPENDENCY SAYS THERE IS NOTHING TO SELECT ON. Across the 91 screened sarcoma lines PSMB1, PSMC1, PSMD1 and VCP are dependencies in 100%, and carfilzomib's own target PSMB5 in 97.8%, with selectivity against the rest of DepMap between -0.10 and +0.17. A target required in every line of the class and equally required outside it cannot be the basis of a selective argument. SQSTM1 at 0% and NFE2L1 at 7.7% are the internal control and behave. ⛔ AND THE PROTEOSTATIC-LOAD EXPLANATION IS NOT SUPPORTED. Read 18 was built to test whether this myxoid, matrix-secreting tumour carries the folding and disposal burden that would make degradative capacity limiting, with the grading rule written and committed BEFORE the fetch returned. On the 35-tumour platform the rule fired on the unfolded-protein response (+2.11) while the secretory/matrix-load proxy - the module carrying the actual argument - was FLAT at -0.20; on the 16-tumour platform everything was null. ⚠ IT STAYS OPEN because the ex-vivo result is a measurement in the right cells and outranks two failed in-silico rationales for it; what has collapsed is the case for SELECTIVITY, not the observation. Confidence drops from moderate to low. Superseded, retained: 'NEAR-TERM LEAD - best ex-vivo EMC evidence', which was graded 2026-08-05 before any of this was measured. ⭐ RE-GRADED 2026-08-28 ON THE LOOKUP THIS ROW SAID WAS UNNECESSARY, AND IT IS THE FIRST HUMAN READ THIS ROUTE HAS EVER CARRIED. A $0 PubMed query returned two clinical records this repository had never held; neither is EMC, and both are about the DRUG CLASS in the PARENT HISTOLOGY, which is the query every EMC-scoped screen here was structurally unable to run (root cause and the discriminating observation: research/literature/carfilzomib-class-clinical-2026-08-28.json). ⛔ (1) THE CLASS HAS ALREADY FAILED A TRIAL IN THIS TUMOUR FAMILY. EV-MAKI-2005 is a multicentre study of the reversible proteasome inhibitor bortezomib in recurrent or metastatic sarcoma; its soft-tissue arm recorded one confirmed partial response among 21 evaluable patients and was closed after the first stage of accrual, and its own stated conclusion is that bortezomib has minimal activity in soft tissue sarcoma AS A SINGLE AGENT and that any further sarcoma study should be in combination with agents showing demonstrated preclinical synergy. ⚠ READ ITS SCOPE BEFORE SPENDING IT: bortezomib is not carfilzomib, and it is not EMC data. ⛔ AND DO NOT SOFTEN IT WITH 'BUT OURS IS A COMBINATION' — that is the friendly reading rather than the accurate one. The Bangerter result carries SINGLE-AGENT carfilzomib sensitivity in BOTH models, in triplicate six-point dose-response, as well as combination additivity and synergy, so the monotherapy framing this trial closed is one half of what this route rests on. Whether any EMC patient was enrolled in that soft-tissue arm is UNREAD — its PubMed record carries no PMCID, so no PubMed Central full text was reachable and only the abstract was retrieved. ◐ (2) A carfilzomib COMBINATION has since been dose-escalated in solid tumours. EV-BOKLAN-2025 reached no maximum tolerated dose in its solid-tumour stratum of 24 patients and carries a recommended phase 2 dose, and its abstract's closing words are \"Patients with sarcomas benefited most, warranting further evaluation\". ⛔ THAT IS A DOSE-FINDING STUDY QUOTED AS ONE: no response rate, no comparator and no sarcoma denominator is reported, PubMed types the record `Journal Article` and nothing here asserts efficacy for any agent. Its partner drugs are cyclophosphamide and etoposide, not an anthracycline. ⛔ (3) A THIRD READING WAS ALREADY COMMITTED IN THIS REPOSITORY AND THIS ROUTE CITED NEITHER THE NUMBER NOR THE FILE: in the FET-line GDSC2 8.5 contrast in research/manuscripts/program/emc-post-degrader-options.md, bortezomib was carried across 57 FET-rearranged lines as a NULL CONTROL and behaved as one — general-sensitivity-corrected Δ +0.087 (t +0.88) — which is an independent modality, drug response rather than CRISPR dependency, saying what the DepMap read above already said. ★ NET, AND NOTHING MEASURED IS WITHDRAWN: the ex-vivo observation stands exactly as it did, none of this is EMC data, and BLK-NO-EMC-DATA is untouched. What changes is that the route's one remaining unknown — whether ex-vivo sensitivity transfers — now has a partial, class-level, human answer; it is negative for the monotherapy framing, which is one of the two framings the ex-vivo result supports; and the framing left standing is the COMBINATION one, which is also the only sarcoma path that trial's own authors recommended pursuing. Confidence stays low. ⛔ Superseded, retained: the route's next action read 'Treat as landscape context; the ex-vivo result is banked and needs no further lookup' — the lookup was taken and it returned two records older than the grade that dismissed it.",
         "owner": {
           "file": "research/manuscripts/repurposing/repurposing-hypotheses.md",
           "anchor": null
@@ -4017,7 +4052,9 @@
       },
       "objects": [],
       "evidence": [
-        "EV-BANGERTER-2023"
+        "EV-BANGERTER-2023",
+        "EV-BOKLAN-2025",
+        "EV-MAKI-2005"
       ],
       "artifacts": [],
       "distinct_from": [
