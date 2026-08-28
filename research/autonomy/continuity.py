@@ -65,6 +65,7 @@ QUEUE = os.path.join(HERE, "ready-to-post.json")
 # ⚠ sys.path, not a package import — see priority.py's identical comment; this directory is a flat
 # set of scripts run as `python3 research/autonomy/<tool>.py` from the repo root.
 sys.path.insert(0, HERE)
+import envread  # noqa: E402 — AUT-PD-140: the session id is READ three-valued
 import handoff  # noqa: E402
 import priority  # noqa: E402 — AUT-PD-014: reuses priority.py's progress-aware retry-budget
 # arithmetic (`fruitless_attempts_count`, `DEFAULT_RETRY_BUDGET`) so this file's exclusion and
@@ -199,6 +200,37 @@ def live_leases() -> list[tuple[str, str]]:
     """
     return [(e.get("id"), e.get("owner")) for e in _entries()
             if e.get("state") in OPEN_STATES and e.get("owner")]
+
+
+def own_cycle_owners(me: str | None = None) -> set[str]:
+    """Lease owners that are THIS SESSION'S OWN CYCLE — the caller itself, not a worker it sent.
+
+    ⛔⛔ MEASURED 2026-08-28, AND THE STALL WAS MANUFACTURED BY THE CLAIM THAT WAS SUPPOSED TO PREVENT
+    IT. A session finished one cycle, claimed `AUT-PD-132` for its second, wrote no code and stopped.
+    The `Stop` hook that exists for exactly that moment said nothing, because this file returned 0:
+    the claim had taken the lease count from four to five against a `subagent_width` of 5, so the
+    tool read AT CAPACITY — "a WORKER must finish first" — and the worker it was waiting for was the
+    session reading the message. 39 minutes, and trimcrae found it.
+
+    ★ A WORKER IS NEVER BLOCKED BY ITSELF, which is the whole rule. `CYC-…-<session>` names the
+    session as the worker: if that session is stopping, nothing is running for that row. A seat
+    (`SEAT-s1-…`) or another session's cycle is a DIFFERENT worker and still counts — the capacity
+    reading was right about them and is left exactly as it was.
+
+    ⚠ AND THE HOOK'S OWN REMEDY POINTED HERE: "CLAIM THE ITEM, so this stops asking." That sentence
+    was written for a driver that dispatched agents, where the claim records who is running. Applied
+    to a session claiming for ITSELF it is a silencer, and the guard cannot tell the two apart from
+    the ledger alone — so the owner-id shape is what tells them apart.
+    """
+    owners = {o for _, o in live_leases() if o}
+    mine = {o for o in owners if me and o == me}
+    read = envread.read("CLAUDE_CODE_SESSION_ID",
+                        what="this session's id; its first 8 characters are the discriminator every "
+                             "cycle id this session writes carries")
+    sid = read.value or ""
+    if len(sid) >= 8:
+        mine |= {o for o in owners if o.startswith("CYC-") and o.endswith("-" + sid[:8])}
+    return mine
 
 
 def width_cap() -> int | None:
@@ -444,8 +476,13 @@ def main(argv=None) -> int:
     # ⚠ THIS IS A DECLARATION, NOT A MEASUREMENT, and it says so. The authoritative agent count lives
     # in ListAgents, which a Stop hook cannot call. An under-declared fan-out still under-counts —
     # so `claim_workers` is a floor on honesty, not a guarantee of it.
+    # ⛔⛔ THIS SESSION'S OWN CYCLE IS NOT ONE OF THE WORKERS IT IS WAITING FOR (AUT-PD-140). See
+    # `own_cycle_owners`: counting it let a session's own claim fill the cap and buy it a silent stop.
+    mine = own_cycle_owners(args.me)
     by_owner = {}
     for entry_id, owner in leases:
+        if owner in mine:
+            continue
         by_owner.setdefault(owner, 1)
     for e in _entries():
         owner = e.get("owner")
@@ -463,13 +500,37 @@ def main(argv=None) -> int:
               f"finishes:")
         for eid, owner in sorted(leases)[:args.limit]:
             print(f"      {eid}  held by {owner}")
-        print("   ⛔ THIS IS NOT PERMISSION TO STOP WORKING. It is a claim that a WORKER must finish\n"
-              "      first, and it is falsifiable: every holder is named above, each lease carries a\n"
-              "      `claimed_utc` that priority.py ages out, and one completion re-opens the list.\n"
-              "      If a lease above names a worker that is not actually running, that is litter —\n"
-              "      release it (`owner: null`) and the work is startable again.")
+        # ⛔⛔ THE WORDS AND THE EXIT CODE MUST SAY THE SAME THING (AUT-PD-140). This block used to
+        # read "THIS IS NOT PERMISSION TO STOP WORKING" and then `return 0` four lines later — and
+        # inside a `Stop` hook the exit code is the ONLY half that is read, because the hook exits
+        # before it prints anything. A caveat the caller never sees is not a caveat.
+        # ★ What a full cap actually licenses is narrow and is now said in those words: no NEW work
+        # can start. It has never licensed leaving a row you already hold unworked.
+        print("   ⛔ THIS STOPS NEW WORK STARTING; IT DOES NOT EXCUSE WORK ALREADY HELD. It is a\n"
+              "      claim that a WORKER must finish first, and it is falsifiable: every holder is\n"
+              "      named above, each lease carries a `claimed_utc` that priority.py ages out, and\n"
+              "      one completion re-opens the list. If a lease above names a worker that is not\n"
+              "      actually running, that is litter — release it (`owner: null`) and the work is\n"
+              "      startable again.")
 
     if args.check:
+        # ⛔⛔ A ROW THIS SESSION HOLDS IS WORK THAT HAS NO WORKER THE MOMENT THIS SESSION STOPS
+        # (AUT-PD-140). It is checked BEFORE capacity because it is the case capacity was hiding.
+        if mine:
+            held = sorted(eid for eid, owner in leases if owner in mine)
+            print(f"\n⛔⛔ YOU HOLD {len(held)} OPEN ROW(S) AND YOU ARE THE WORKER: "
+                  f"{', '.join(held)}.\n"
+                  "   A lease names WHICH worker holds WHICH item. These name THIS session, so if\n"
+                  "   this session stops, nothing is running for them — the lease is then a hold on\n"
+                  "   work nobody is doing, and every other worker reads the row as taken.\n"
+                  "   ★ TWO HONEST ENDINGS, AND SILENCE IS NEITHER: work the row now, or release it\n"
+                  "     (`owner: null`) so somebody else can. If the work IS running somewhere this\n"
+                  "     cannot see — a subagent, a dispatched workflow, a spawned session — say so\n"
+                  "     and say where.\n"
+                  "   ⚠ Your own lease is NOT counted toward the capacity below: a worker is never\n"
+                  "     blocked by itself, and counting it is what made this exit 0 on 2026-08-28\n"
+                  "     while a claimed row sat untouched for 39 minutes.")
+            return 1
         if at_capacity:
             return 0
         print("\n⛔⛔ THIS IS NOT A FAILURE TO RECORD THE WORK. The work is recorded — that is how it\n"

@@ -2968,7 +2968,8 @@
       "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
       "claimed_utc": null,
       "evidence": "Measured 2026-08-28 by seat s3 while working AUT-PD-031, and filed rather than fixed because it is a different defect from the one that row names. Logs under the seat's scratch directory s3-AUT-PD-031/ (s3-inventory.log, s3-danger.log).",
-      "closes_clause": null
+      "closes_clause": null,
+      "_score_correction": "150.0 -> 118.0 on 2026-08-28 is a RENUMBERING ARTEFACT, not a re-score. This id briefly and locally carried a different row (CYC-0070's stall fix, score 150) filed against a ledger that could not yet see this one; that row was renumbered at the rebase and this row — the one that reached the trunk first — is unchanged at its own 118.0. No input of this score moved."
     },
     {
       "serves": {
@@ -8053,6 +8054,37 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-140",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0070-c84c64dd",
+      "score": 150.0,
+      "_score_basis": "the guard against stalling was disarmed by the act its own remedy recommends, and the disarm is silent",
+      "depends_on_evidence": "continuity.py --check returned 0 with 5 leases against subagent_width 5, the fifth being CYC-0070-c84c64dd's own claim on AUT-PD-132; transcript shows the hook's last firing at 5:10 PM ET and the claim at 5:19 PM ET",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "the loop's own stop condition; nothing outward-facing",
+      "what": "⛔⛔ A SESSION'S OWN CLAIM FILLED THE CONCURRENCY CAP AND BOUGHT IT A SILENT STOP — FIXED IN THE SAME CYCLE. Measured 2026-08-28: CYC-0070 finished one cycle, claimed AUT-PD-132 for its second, wrote nothing and ended the turn. The ready-work Stop hook stayed silent because `continuity.py --check` returned 0: `live_leases()` counted 5 distinct owners against a governed `subagent_width` of 5, so the tool read AT CAPACITY — 'a WORKER must finish first' — and the worker it was waiting for was the session reading the verdict. 39 minutes; trimcrae found it. ⭐ THREE DEFECTS, ONE CAUSE. (1) A worker was counted among the workers blocking it. (2) The at-capacity branch printed 'THIS IS NOT PERMISSION TO STOP WORKING' and returned 0 — and inside a Stop hook the exit code is the ONLY channel read, because the hook returns on it before printing anything, so the caveat was delivered to nobody. (3) The hook's own remedy #1 said 'CLAIM THE ITEM, so this stops asking', which is right for a driver recording a dispatched seat and is a silencer for a session claiming for itself. FIX: continuity.own_cycle_owners() identifies this session's own cycle leases (from --me or CLAUDE_CODE_SESSION_ID, failing closed when neither is readable), excludes them from the capacity count, and returns 1 naming the rows you hold; the at-capacity wording now says what it means (it stops NEW work, it does not excuse work already held); the hook text no longer teaches the silencer. 15 tests, both mutations caught on a copy. ⚠ SEATS AND OTHER SESSIONS ARE UNCHANGED — the capacity reading was right about them, and a driver that claims at dispatch is still doing the correct thing.",
+      "dispatch_log": [],
+      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
+      "_id_collision": "Filed as AUT-PD-134 and renumbered AUT-PD-140 at the rebase. Another session filed its own AUT-PD-134 on the trunk while this cycle was working. `ids.next_entry_id` is max+1 over the ledger it can see and says so in its own docstring: concurrent filings collide and are caught at the merge. Nothing was lost — both rows exist, and every reference in continuity.py, the Stop hook and the two test files was moved with it."
     }
   ]
 }
