@@ -14,7 +14,7 @@
     "harden": 14,
     "negative": 32,
     "process": 7,
-    "process_defect": 37,
+    "process_defect": 38,
     "proposal": 10,
     "regrade": 7,
     "verify": 1,
@@ -23,7 +23,7 @@
   "n_by_state": {
     "done": 51,
     "in_progress": 5,
-    "queued": 109,
+    "queued": 110,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -2206,6 +2206,34 @@
       "_score_basis": "three tests red on the trunk, none caused by this session, all fixed at the cause",
       "depends_on_evidence": "systems/tests/test_autonomy_priority.py and test_autonomy_publish_bar.py: 54 passed after the fixes",
       "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-045",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0038-schedule",
+      "score": 130.0,
+      "_score_basis": "extends AUT-PD-032's own candidate fix (2) with the missing evidence that made it undecidable: cycles_are_sized cannot distinguish 'refused by depth limit' from 'tool absent' from 'session behaved badly', and this session confirms the third shape exists too, in the one launch context (scheduled Routine) the loop actually runs unattended in",
+      "depends_on_evidence": "AUT-PD-032 (done, 2026-08-27): documented create_session REFUSING at lineage depth 8, leaving cycles_are_sized permanently unclearable from a spawned-chain session, and left candidate fix (2) open ('cycles_are_sized should read a refused-handoff record and grade it as UNMEASURED rather than RED'). This session (CYC-0033 through CYC-0038, a scheduled Routine firing, not an interactive session) ran ToolSearch for 'create_session'/'get_session' multiple times across multiple cycles and got 'No matching deferred tools found' every time -- not a depth-limit refusal, the tool is simply absent from this launch context's surface. Same absence independently found and recorded in CYC-031, CYC-032, CYC-033 and CYC-034's own receipts before this one, each treating it as a one-off note rather than a standing ledger item.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a health-check grading rule and/or a scheduled-Routine prompt fix; nothing published, submitted or deposited",
+      "what": "⛔⛔ IN A SCHEDULED-ROUTINE SESSION, create_session/get_session ARE NOT PRESENT AS TOOLS AT ALL -- A STRONGER FAILURE THAN AUT-PD-032's DEPTH-LIMIT REFUSAL, AND cycles_are_sized CANNOT TELL THE TWO APART. AUT-PD-032 found create_session callable but refused past lineage depth 8; this session (six cycles, all fired from the same 'scheduled Routine' launch context CLAUDE.md's own trigger prompt describes) found the tool absent from ToolSearch entirely, at depth 1 (no prior handoff chain at all) -- so the platform-side gap AUT-PD-032 candidate-fix (2) asked cycles_are_sized to account for is not one failure mode, it is at least two, and the scheduled-Routine one is the MORE common launch shape for an unattended cycle, not an edge case. ⭐ THE PRACTICAL CONSEQUENCE, MEASURED THIS SESSION: every cycle here dispatched a background Agent-tool subagent in an isolated worktree instead of a spawned session (matching research-loop §3's parallel-subagents shape), which keeps the DRIVER's own context bounded for any one item, but does nothing about the health check's real complaint -- the DRIVER itself still personally executed six full cycles (claim, review, merge, gate, ledger, receipt, push) end to end with no context-fresh reset in between, because there was never an available point to hand its OWN role to a fresh session. A subagent shape substitutes for a spawned WORKER; it cannot substitute for a spawned DRIVER. ⭐ WHAT TO DO, extending AUT-PD-032's own open candidates: (1) `health.py`'s cycles_are_sized should grade an over-cap session as UNMEASURED (not RED) whenever the session's own receipts show create_session was checked-for-and-absent (not merely refused) -- 'the platform does not offer this tool here' is a different fact from 'this session ran too long by choice', and only the second is a real defect to fix in the loop's behaviour. (2) Separately, and more directly useful: since the SCHEDULED ROUTINE ITSELF already fires a fresh session every `cycle_interval_hours` (4h at backoff 0), the real successor for an over-cap scheduled-Routine session already exists and needs no spawn at all -- it is the next scheduled firing. The fix may be as simple as `cycles_are_sized` checking whether the calling context IS a scheduled Routine (a fact `research-loop`'s own trigger prompt already asserts every time) and, if so, treating 'ended cleanly with a receipt, no handoff needed' as sufficient rather than demanding a handoff mechanism that launch context does not have and does not need."
     },
     {
       "id": "AUT-PD-031",
@@ -4417,7 +4445,7 @@
       "id": "AUT-PROP-026",
       "kind": "harden",
       "prerequisite_of": null,
-      "score": -1434.0,
+      "score": -1524.0,
       "closes_clause": null,
       "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text.",
       "score_inputs": {

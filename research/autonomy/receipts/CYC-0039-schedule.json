@@ -1,0 +1,33 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0039-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T12:15:00Z",
+  "shape": "Session-close housekeeping, not a new work item taken. Ran health.py per the cycle contract's own step 1/11 obligations, found a real advisory-graded finding, filed it, and stops.",
+  "took": "none — this is the session's closing health check and one filed finding, not a claimed ledger item",
+  "took_what": "Ran research/autonomy/health.py --check as part of closing out this session (6 cycles: CYC-0033 through CYC-0038). It reported cycles_are_sized RED: 'session scheduled-routine-sessio ran 6 cycles against a cap of 2 AND STARTED NO SUCCESSOR.' Verified this is classified `advises` in health.py's own CONDITION_ON_RED table (report and escalate if it persists, never blocks the loop) — not a stop condition. Verified the remedy it names (create_session + handoff.py) is genuinely unavailable in this launch context: ToolSearch for create_session/get_session returned 'No matching deferred tools found' (checked at the start of this session too, and by CYC-031/032/033/034 before it — this is the fourth-plus independent confirmation, never previously turned into its own ledger item). ListAgents confirmed no other session is reachable to hand off to either.",
+  "changed": [
+    "Filed AUT-PD-045: extends the existing AUT-PD-032 (done) with the sharper finding that in a scheduled-Routine launch context, create_session/get_session are not merely depth-limited (AUT-PD-032's finding) but ABSENT from the tool surface entirely — a distinction cycles_are_sized cannot currently make, and proposes two fixes: grade an over-cap session as UNMEASURED rather than RED when its receipts show the tool was checked-for-and-absent, and/or have cycles_are_sized recognize that a scheduled-Routine session's real successor is simply its next scheduled firing, needing no spawn at all.",
+    "No content, gate, bar or threshold changed — this is a documentation-of-a-measured-constraint entry, filed using the new (this session's own) ledger_io.write_ledger, producing a clean 31-line diff."
+  ],
+  "cost": "$0.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [
+    "AUT-PD-045: decide and implement one of its two proposed fixes to health.py's cycles_are_sized so a scheduled-Routine session's honest report of 'no handoff tool available' stops reading as an uncleared defect."
+  ],
+  "blocked_by": [],
+  "route_advanced": "none",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "Confirmed absent from the tool surface this session (ToolSearch: no match) and no reachable peer session (ListAgents: none). This session ends here; the next scheduled Routine firing (cycle_interval_hours: 4 at backoff 0) is the actual successor, per AUT-PD-045's own second proposed fix."
+  }
+}
