@@ -1,0 +1,32 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0053-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T17:10:00Z",
+  "shape": "This session. Dispatched a worktree seat for AUT-PROP-012 (attempt 3), then independently re-verified its finding rather than trusting it, catching and correcting a wrong commit citation before writing it into the ledger.",
+  "took": "AUT-PROP-012 — bind the relation half of the fusion-partner claims (RT-PARTNER-STRAT, free, attempt 3 of 3, closing)",
+  "took_what": "The seat found the deliverable already existed (attempt 1, dispatched from a different session hours earlier, had actually finished and merged — the ledger row was simply never marked done, which is why attempts 2 and 3 were dispatched at nothing). The seat re-ran the full test suite itself rather than trusting docstrings and reported 151 passed + 89/89 mutations caught. It also cited a specific commit sha (e3a23f311) as the merge point. Independently checked that citation with `git merge-base --is-ancestor e3a23f311 origin/main` before writing anything to the ledger: FALSE — e3a23f311 sits only on a stray unmerged branch (aut-pd-036-ls-files-scope). Traced the actual merge point instead (`git log --oneline origin/main -- <the test file>`): commit 38fe62809, oddly labeled 'account census: what the Vast account holds (CI)' — content byte-identical to e3a23f311's version, confirming the SUBSTANCE was right even though the cited sha was wrong. Re-ran the test suite myself on the current tree: 151 passed, `emc_fusion_partner_pooling.py --check` OK, matching the seat's numbers exactly.",
+  "changed": [
+    "research/autonomy/research-ledger.json: closed AUT-PROP-012 (done), citing the verified commit (38fe62809) rather than the seat's uncorroborated one, and noting the lesson for the next session."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 1,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 1,
+    "seats": [
+      "aut-prop-012-relation-guards (agentId a89efac52ba66845e, completed — found nothing to build, no branch pushed since there was no diff against origin/main to push)"
+    ]
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-PARTNER-STRAT",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context (AUT-PD-045)."
+  }
+}
