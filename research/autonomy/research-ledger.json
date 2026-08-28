@@ -298,9 +298,9 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0047-schedule",
+      "claimed_utc": "2026-08-28T12:20:23Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": [
@@ -4483,7 +4483,7 @@
       "id": "AUT-PROP-026",
       "kind": "harden",
       "prerequisite_of": null,
-      "score": -1884.0,
+      "score": -1974.0,
       "closes_clause": null,
       "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text.",
       "score_inputs": {
