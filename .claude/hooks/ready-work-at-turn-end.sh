@@ -79,6 +79,25 @@ if [[ -f "$STALLED" && -n "$TASKS_DIR" ]]; then
   fi
 fi
 
+# ⛔⛔ AND A ROW WHOSE DELIVERABLE IS ALREADY ON THE TRUNK MUST NOT BE OFFERED AS READY WORK
+# (AUT-PD-051, measured TWICE on 2026-08-28). A seat's branch is merged locally, the row stays open
+# on the trunk, and a scheduled cycle claims it and dispatches an agent to rebuild what exists:
+# AUT-PROP-029 (stuck_clock.py) and AUT-PROP-032 (1,110 lines, preflight gate 16). The ledger records
+# who HOLDS a row and nothing records that one is FINISHED, so the only guard was a human remembering
+# to close it during a merge.
+# ⭐ queue_view.already_landed() is the comparison nobody was making: a row's named deliverable
+# against origin/main, discriminated by whether the path was ADDED after the row was filed — an
+# existence test alone flagged 33 true statements and would have been turned off in a week.
+# ⚠ IT REPORTS AND NEVER CLOSES. An artifact on the trunk is not the same as the item being finished,
+# and a row whose deliverable partly landed must stay open. This block is silent when it finds
+# nothing, which is the normal case.
+QUEUE_VIEW="$REPO/research/autonomy/queue_view.py"
+if [[ -f "$QUEUE_VIEW" ]]; then
+  if landed=$(cd "$REPO" && timeout 30 python3 "$QUEUE_VIEW" --check 2>/dev/null); then :; else
+    { echo "$landed" | sed -n '/ALREADY ON/,$p'; echo; } >&2
+  fi
+fi
+
 out=$(cd "$REPO" && timeout 25 python3 "$CONTINUITY" --check --limit 5 2>/dev/null)
 rc=$?
 [[ $rc -eq 1 ]] || exit 0

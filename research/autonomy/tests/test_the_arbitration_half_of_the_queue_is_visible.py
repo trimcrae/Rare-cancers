@@ -88,3 +88,19 @@ def test_it_reports_and_never_closes():
     src = inspect.getsource(Q)
     for forbidden in ('"state"] = "done"', "state='done'", 'state="done"', "write_ledger"):
         assert forbidden not in src, f"queue_view mutates the ledger ({forbidden})"
+
+
+def test_the_turn_end_hook_actually_consults_it():
+    """⛔⛔ THE UNREACHABLE-GUARD TEST, AND THIS REPOSITORY HAS PAID FOR IT FOUR TIMES: subagent_width
+    governed nothing for a fortnight, the census lane's exempt flag, the watchdog wired to a
+    non-existent env var, and stuck_clock.py sitting unread while a session rebuilt it. A detector
+    nobody calls is not a detector — it is a file that makes the problem look solved."""
+    import os
+    repo = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
+    hook = os.path.join(repo, ".claude", "hooks", "ready-work-at-turn-end.sh")
+    with open(hook, encoding="utf-8") as fh:
+        body = fh.read()
+    live = [ln for ln in body.split("\n") if not ln.lstrip().startswith("#")]
+    assert any("queue_view.py" in ln for ln in live), "the turn-end hook does not call queue_view.py"
+    assert any("QUEUE_VIEW" in ln and "--check" in ln for ln in live), \
+        "the hook does not run queue_view's --check"

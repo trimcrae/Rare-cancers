@@ -1705,7 +1705,7 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -1722,7 +1722,8 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⭐ RUN THE RESCORE THAT ACTIVATES THE ANTI-STARVATION TERM (AUT-PD-048). The age factor dry-runs correctly — 106 rows gain a bounded bonus, AUT-046 rises to 199.0 — but `--write` was DELIBERATELY not run on 2026-08-28 because another session was mid-cycle on this ledger and a full regeneration would have collided. ⛔ UNTIL IT RUNS THE TERM CHANGES NOTHING: every live score is still the pre-age one and the rows it exists to rescue rank as if they had never waited. ⚠ Run it when no session holds a lease (queue_view.py names holders), expect a large diff by construction, and READ the top of the re-ranked list before committing — a scoring change that reorders the queue is exactly the kind whose effect should be looked at rather than assumed."
+      "what": "⭐ RUN THE RESCORE THAT ACTIVATES THE ANTI-STARVATION TERM (AUT-PD-048). The age factor dry-runs correctly — 106 rows gain a bounded bonus, AUT-046 rises to 199.0 — but `--write` was DELIBERATELY not run on 2026-08-28 because another session was mid-cycle on this ledger and a full regeneration would have collided. ⛔ UNTIL IT RUNS THE TERM CHANGES NOTHING: every live score is still the pre-age one and the rows it exists to rescue rank as if they had never waited. ⚠ Run it when no session holds a lease (queue_view.py names holders), expect a large diff by construction, and READ the top of the re-ranked list before committing — a scoring change that reorders the queue is exactly the kind whose effect should be looked at rather than assumed.",
+      "lease_released": "✅ RUN 2026-08-28. `priority.py --write`: 182 entries in, 182 out, none lost, 11 clamped. 84 rows moved and AUT-046 — fully aged at factor 1.0 — rose 187.0 -> 199.0 to the top of the queue, which is the starved-row rescue the term exists for. ⭐ THE ANTI-STARVATION TERM IS NOW LIVE RATHER THAN DORMANT; before this the code was committed and every score was still the pre-age one. ⚠ AND THE STATED REASON FOR DEFERRING IT DID NOT SURVIVE EXAMINATION: 'another session is mid-cycle' was true — CYC-0047-schedule held AUT-PROP-040, claimed 18 minutes earlier — but the regeneration PRESERVED that lease (merge() carries owner across a re-score, verified after the write), and the ledger conflict it risks is one this session had already resolved three times with a lease-preserving union. A deferral is only honest while the thing deferred is actually unsafe."
     },
     {
       "id": "AUT-PROP-034",
@@ -1764,7 +1765,7 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -1781,7 +1782,8 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⚠ WIRE THE TWO NEW DETECTORS TO SOMETHING, OR DECIDE OUT LOUD NOT TO. learning_rate.py (is the loop advancing anything, or only itself) and queue_view.py (what is waiting on what, and which ready rows already shipped) are consulted by NOTHING. ⛔ THIS REPOSITORY HAS PAID FOR EXACTLY THIS THREE TIMES: subagent_width governed nothing for a fortnight, the census lane's exempt flag, the watchdog wired to a non-existent env var. A measurement nobody consults is not a measurement. ★ AND THE DECISION IS GENUINELY OPEN — make it deliberately: queue_view's already-landed check is cheap and specific and belongs beside the stalled-holder check in the turn-end hook; learning_rate's verdict is a PORTFOLIO judgement, and a gate that blocks a commit on 'you have only been working on yourself' is a larger risk than one that names it. The Friday digest may be the right home for the second."
+      "what": "⚠ WIRE THE TWO NEW DETECTORS TO SOMETHING, OR DECIDE OUT LOUD NOT TO. learning_rate.py (is the loop advancing anything, or only itself) and queue_view.py (what is waiting on what, and which ready rows already shipped) are consulted by NOTHING. ⛔ THIS REPOSITORY HAS PAID FOR EXACTLY THIS THREE TIMES: subagent_width governed nothing for a fortnight, the census lane's exempt flag, the watchdog wired to a non-existent env var. A measurement nobody consults is not a measurement. ★ AND THE DECISION IS GENUINELY OPEN — make it deliberately: queue_view's already-landed check is cheap and specific and belongs beside the stalled-holder check in the turn-end hook; learning_rate's verdict is a PORTFOLIO judgement, and a gate that blocks a commit on 'you have only been working on yourself' is a larger risk than one that names it. The Friday digest may be the right home for the second.",
+      "lease_released": "✅ HALF DONE AND THE OTHER HALF DECIDED, 2026-08-28. ⭐ WIRED: queue_view's already-landed check now runs in `.claude/hooks/ready-work-at-turn-end.sh`, beside the stalled-holder check and before the ready-work demand, so a row whose deliverable is already on the trunk is named at the turn end that would otherwise offer it. That is the direct guard for AUT-PD-051, which happened TWICE on 2026-08-28. Silent when it finds nothing (verified: 0 lines on a clean queue), and a test asserts the hook calls it — mutation-tested by pointing the hook at a missing file, which goes red. ⛔ NOT WIRED, AND THIS IS THE DECISION RATHER THAN AN OMISSION: learning_rate.py stays a REPORT. Its verdict is a portfolio judgement — 'you have only been working on yourself for a window' — and a gate that blocks a commit on that is a different and larger risk than one that names it: it would block the very self-maintenance cycles that fix the loop, which the module's own docstring says are real work. Its home is a digest or a human's read, not a gate. ⚠ Revisit if the distribution stays concentrated across several windows; one window is not a trajectory."
     },
     {
       "id": "AUT-PROP-035",
