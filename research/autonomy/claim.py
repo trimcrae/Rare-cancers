@@ -75,6 +75,11 @@ REPO = os.path.dirname(os.path.dirname(HERE))
 LEDGER_REL = "research/autonomy/research-ledger.json"
 LEDGER = os.path.join(HERE, "research-ledger.json")
 
+# ⚠ sys.path, not a package import — see priority.py's identical comment; this directory is a
+# flat set of scripts, not a package.
+sys.path.insert(0, HERE)
+import ledger_io  # noqa: E402
+
 #: The verdicts. ⛔ EACH ONE EXISTS BECAUSE ITS CORRECT RESPONSE DIFFERS FROM EVERY OTHER'S.
 #: TAKEN is internal (the trunk says the row is free); the other four are what a caller sees.
 TAKEN, CLAIMED, YIELDED = "TAKEN", "CLAIMED", "YIELDED"
@@ -276,8 +281,10 @@ def apply_claim(ledger_path: str, entry_id: str, me: str, when: str) -> None:
             break
     else:
         raise KeyError(f"{entry_id} is not in {ledger_path}")
-    with open(ledger_path, "w", encoding="utf-8") as fh:
-        fh.write(json.dumps(d, indent=2, ensure_ascii=False) + "\n")
+    # ⛔ AUT-PD-037: this used to type `indent=2, ensure_ascii=False` out by hand, which happened to
+    # match the committed convention but proved nothing — `priority.py`'s own "generator" typed
+    # different parameters right next to it. `ledger_io.write_ledger` is the one place that is pinned.
+    ledger_io.write_ledger(ledger_path, d)
 
 
 def withdraw_claim(ledger_path: str, before: str) -> None:

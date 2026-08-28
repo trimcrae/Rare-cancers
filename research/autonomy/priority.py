@@ -43,6 +43,7 @@ from typing import Any
 # research/autonomy/<tool>.py` from the repo root, and every sibling here resolves the same way.
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import ids  # noqa: E402
+import ledger_io  # noqa: E402
 
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent.parent
@@ -588,9 +589,12 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.write:
-        with LEDGER_FILE.open("w") as fh:
-            json.dump(ledger, fh, indent=2)
-            fh.write("\n")
+        # ⛔⛔ AUT-PD-037: this used to be `json.dump(ledger, fh, indent=2)` — `ensure_ascii`
+        # defaults to `True`, so this "documented generator" would escape every ⛔ ⭐ ⚠ ★ and
+        # em-dash in the file on its next run and rewrite all ~9,000 lines. `ledger_io.write_ledger`
+        # is the one place the real, committed serialization is pinned; nothing here may type
+        # `indent=`/`ensure_ascii=` again.
+        ledger_io.write_ledger(LEDGER_FILE, ledger)
         print(f"wrote {LEDGER_FILE.relative_to(REPO)}: {len(entries)} entries, "
               f"{ledger['n_clamped']} clamped")
         return 0
