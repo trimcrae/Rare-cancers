@@ -29,8 +29,15 @@
   ],
   "route_advanced": "RT-PPARG-DOWNSTREAM",
   "handoff": {
-    "child_session_id": null,
-    "attempted": false,
-    "_why": "Filled in below once the successor is created — this session is at its two-cycle cap and the handoff is owed before it ends."
+    "child_session_id": "session_011FQNGgHipBkXZL62gbCugs",
+    "attempted": true,
+    "created_utc": "2026-08-28T18:56:48Z",
+    "title": "EMC research loop — cycle (successor to CYC-0063)",
+    "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+    "source": "https://github.com/trimcrae/Rare-cancers @ main",
+    "parent_session_id": "session_01AiEBt1BhjfPMi9rCZ4rZ53",
+    "prompt_built_by": "python3 research/autonomy/handoff.py --json --reason '...' — built from COMMITTED state after CYC-0063 was pushed, never from this session's context, and carrying no findings or conclusions.",
+    "prompt_log": "/tmp/claude-0/-home-user-Rare-cancers/757d4e91-a56a-5571-83ce-07bfacec30b5/scratchpad/cyc0063/cyc0063-handoff2.json",
+    "_one_addition_to_the_generated_prompt": "The successor is told to check the ledger for duplicate ids after every rebase. Both cycles in this session hit trunk movement mid-cycle and one hit an actual id collision that was invisible in the diff and surfaced only as a priority.py ValueError. The generated prompt warns about rebasing; it does not warn about that."
   }
 }
