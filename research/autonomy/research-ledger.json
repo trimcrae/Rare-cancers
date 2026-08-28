@@ -2428,15 +2428,15 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "SEAT-s4-1f1a2449",
-      "claimed_utc": "2026-08-28T22:02:59Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 136.0,
@@ -2454,7 +2454,8 @@
       ],
       "score_inputs": {
         "fruitless_attempts": 1
-      }
+      },
+      "evidence": " ⭐ WORKED BY SEAT s4 AND THE ROW WAS STALE IN THE DIRECTION THAT MATTERED. It said the checker 'downgrades both to UNMEASURED'; measured against the two real receipts on the trunk it graded them OPPOSITE ways — CYC-0030-6be7fd5a (handoff.refused_by) unmeasured/HANDOFF-REFUSED, and CYC-0058-1ef8c95a (handoff.mechanism_unavailable) needs_attention/SESSION-OVERLOADED-NO-HANDOFF. health.py read only `refused_by`, so the ABSENT-TOOL shape fell through to the RED branch and was recorded as the session's own defect — while session_cap.py, already on the trunk from a different cycle, ALREADY read `mechanism_unavailable` on that same receipt and accepted it as an earned reason to stop. Two modules read one receipt and disagreed about whether stopping was correct behaviour or a failure, and the punished shape is the ordinary launch for an unattended cycle, not an edge case. MERGED (s4-AUT-PD-059-blocked-handoff-says-which): a distinct HANDOFF-MECHANISM-ABSENT verdict with its own remedy, the handoff PROMPT now names both failure fields, and session_cap.py stops hand-rolling the literal it had also declared. Mutation-tested 11/11, including an absence buying GREEN and an absence falling through to RED (the original defect). ⚠ The seat killed a false alarm it raised itself — it reported the autonomy suite 'stalled'; preflight ran it to completion, 631 passed in 331 s, and the apparent stall was three concurrent seats sharing this container, reproduced on a clean origin/main control. ⚠ The seat guessed a cycle_id for its two amendment records; the driver re-keyed them at merge. STILL OPEN, small: the red branch's remedy text does not yet name the two honest fields (the prompt does, which is where a session reads it), and ~20 trunk receipts record the fact under invented spellings like `_why_not_attempted` that nothing reads — deliberately not credited, since crediting invented spellings makes the field unfalsifiable."
     },
     {
       "id": "AUT-071",
@@ -2724,15 +2725,15 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "SEAT-s6-1f1a2449",
-      "claimed_utc": "2026-08-28T22:02:59Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 1,
-      "attempts": 1,
+      "attempts": 2,
       "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 124.0,
@@ -2755,7 +2756,7 @@
       "score_inputs": {
         "fruitless_attempts": 2
       },
-      "evidence": "WORKED BY SEAT s1 (CYC-0066-1f1a2449 fan-out). Branch `s1-aut-pd-050-unscored-rows` @ d082c01a78, rebased on origin/main, pushed, NOT MERGED — the row stays queued because a branch is not the trunk. FINDING: the row's '24 unscored' was stale by 4x. 99 of 263 committed rows carry no `score`, ALL of them hand-filed, and the seat read every one of the 32 ledger commits in the observable history: 24 rows filed in that window, 24 of 24 unscored, and no pre-existing unscored row has ever acquired one, so the population is monotone. build_ledger sorts a missing score at -1e9, so they occupy the bottom ranks ordered by ID STRING; 75 of the 98 rows continuity.ready() offers were unscored. The anti-starvation term is dead code against them — apply_age_factor computes an age factor, writes it into score_inputs and cannot apply it, so the row advertises an input its score does not contain. Two live crashes on `priority.py --limit 300` and `continuity.py --limit 30` (TypeError on NoneType.__format__), reachable only past the default limits. `admissibility.UNSCORED` existed and was referenced in no file but its own. Fix: 6 files, 12 tests, mutation-tested 15/15 including the one edit that would make it self-serving; 2 amendments declared, guard PERMITTED; preflight EXIT=0. ⛔⛔ BLAST RADIUS — READ BEFORE MERGING, AND THIS IS WHY THE DRIVER DID NOT MERGE IT. The branch adds a ratchet MAX_UNSCORED_OPEN = 80 against 78-79 open unscored rows, i.e. one or two of headroom, while three concurrent sessions file roughly one unscored row every eight minutes. Merged as-is it will turn preflight red on the trunk within about an hour, for whichever session files next, on a gate it did not cause and whose remedy is not in its prompt — and research-loop §1 makes that red stop every cycle. ⛔ The ceiling must NOT simply be raised to fit: the seat's own mutation M9 (80 -> 200) is caught by test_the_ratchet_is_not_vacuous, which is the guard working. The real options are to score the open rows first, to land the crash fixes and the reporting without the ratchet, or to teach the filing path to write a score — a decision with a cost either way, which is why it is named here rather than taken quietly at the end of a session already past its cycle cap."
+      "evidence": "WORKED BY SEAT s1 (CYC-0066-1f1a2449 fan-out). Branch `s1-aut-pd-050-unscored-rows` @ d082c01a78, rebased on origin/main, pushed, NOT MERGED — the row stays queued because a branch is not the trunk. FINDING: the row's '24 unscored' was stale by 4x. 99 of 263 committed rows carry no `score`, ALL of them hand-filed, and the seat read every one of the 32 ledger commits in the observable history: 24 rows filed in that window, 24 of 24 unscored, and no pre-existing unscored row has ever acquired one, so the population is monotone. build_ledger sorts a missing score at -1e9, so they occupy the bottom ranks ordered by ID STRING; 75 of the 98 rows continuity.ready() offers were unscored. The anti-starvation term is dead code against them — apply_age_factor computes an age factor, writes it into score_inputs and cannot apply it, so the row advertises an input its score does not contain. Two live crashes on `priority.py --limit 300` and `continuity.py --limit 30` (TypeError on NoneType.__format__), reachable only past the default limits. `admissibility.UNSCORED` existed and was referenced in no file but its own. Fix: 6 files, 12 tests, mutation-tested 15/15 including the one edit that would make it self-serving; 2 amendments declared, guard PERMITTED; preflight EXIT=0. ⛔⛔ BLAST RADIUS — READ BEFORE MERGING, AND THIS IS WHY THE DRIVER DID NOT MERGE IT. The branch adds a ratchet MAX_UNSCORED_OPEN = 80 against 78-79 open unscored rows, i.e. one or two of headroom, while three concurrent sessions file roughly one unscored row every eight minutes. Merged as-is it will turn preflight red on the trunk within about an hour, for whichever session files next, on a gate it did not cause and whose remedy is not in its prompt — and research-loop §1 makes that red stop every cycle. ⛔ The ceiling must NOT simply be raised to fit: the seat's own mutation M9 (80 -> 200) is caught by test_the_ratchet_is_not_vacuous, which is the guard working. The real options are to score the open rows first, to land the crash fixes and the reporting without the ratchet, or to teach the filing path to write a score — a decision with a cost either way, which is why it is named here rather than taken quietly at the end of a session already past its cycle cap. ⭐ RESOLVED BY SEAT s6 AS A SPLIT, DECIDED BY MEASUREMENT THAT CORRECTED THE DRIVER. The driver recorded the ratchet as 'red within the hour'; s6 re-read all 253 ledger commits and found open-unscored at 82 against the branch's ceiling of 80 — RED ON ARRIVAL, proven by running the ratchet's own assertion against live origin/main. It also verified the blast-radius MECHANISM rather than assuming it: preflight.sh runs research/autonomy/tests with `|| true`, which looks non-gating, but the lines below parse the summary and set rc=1, so it would have red the COMMIT LOOP, not only CI. Filing rate +1.5/h over 2 h, +3.2/h over 5 h; 64 -> 82 across 17:26-22:12 UTC. Pinning at the current 82 was legal under the vacuity guard and REFUSED as the forbidden edit taken in instalments. MERGED (s6-aut-pd-050-crash-fixes): crash fixes, score_rank ordering, reporting. Ratchet + vacuity test deferred TOGETHER, UNMODIFIED, recoverable at d082c01a78. ⚠ s6 corrected a figure it inherited — `continuity.py --limit 30` no longer reproduces the TypeError because the ready list outgrew 30 scored rows; the same defect reproduces at --limit 300, and the stale limit was fixed in the comment and docstring so a later reader would not call the guard bogus. It also caught its own FALSE mutation run: an unrecognised --timeout flag made every pytest exit on a usage error, so a first 10/10 was 'caught' for the wrong reason; the harness now asserts a green baseline first."
     },
     {
       "id": "AUT-PD-028",
@@ -7574,19 +7575,19 @@
         "strategy": null
       },
       "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "SEAT-s5-1f1a2449",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
-      "claimed_utc": "2026-08-28T22:02:59Z",
-      "evidence": "MEASURED 2026-08-28 (CYC-0065-1f1a2449), not inferred from reading the code. The reaper was run per step 11 and returned archive=[] with two IDLE sessions flagged `idle with NO committed receipt`: session_017VDt2MMZnksnnHSebkKbbY and session_01AiEBt1BhjfPMi9rCZ4rZ53. The first is CYC-0061, whose receipt research/autonomy/receipts/CYC-0061-d60caf7b.json is committed on main and carries session_id `d60caf7b-1472-58ce-a4b4-8451374fc919`. A census of all 66 receipts carrying the field gives THREE namespaces: 23 raw uuids, 12 `session_...` ids (the only shape committed_session_ids can match), and 31 prose labels (the defect the contract already names). Verdict log: driver-reap.json in this cycle's scratchpad directory.",
+      "claimed_utc": null,
+      "evidence": "MEASURED 2026-08-28 (CYC-0065-1f1a2449), not inferred from reading the code. The reaper was run per step 11 and returned archive=[] with two IDLE sessions flagged `idle with NO committed receipt`: session_017VDt2MMZnksnnHSebkKbbY and session_01AiEBt1BhjfPMi9rCZ4rZ53. The first is CYC-0061, whose receipt research/autonomy/receipts/CYC-0061-d60caf7b.json is committed on main and carries session_id `d60caf7b-1472-58ce-a4b4-8451374fc919`. A census of all 66 receipts carrying the field gives THREE namespaces: 23 raw uuids, 12 `session_...` ids (the only shape committed_session_ids can match), and 31 prose labels (the defect the contract already names). Verdict log: driver-reap.json in this cycle's scratchpad directory. ⛔ THIS ROW'S HEADLINE WAS FALSIFIED BY THE SEAT THAT WORKED IT, RECORDED RATHER THAN DROPPED. 'Can never match' stopped being true when AUT-PD-129 landed a two-field join (CCR_ID_FIELDS) at CYC-0068: against the live session list the reaper now archives session_018A9rdUZLrexk1HJrKtDCd2 on the strength of its committed receipt. The filed census (23/12/31 over 66) is superseded by s5's re-measurement over 76 receipts: 26 raw uuids, 8 bare CCR ids, 3 prose containing one, 39 prose with no id at all, 2 carrying ccr_session_id — 13 joinable, 63 unjoinable. ⭐ WHAT WAS STILL BROKEN IS THE HALF THIS ROW SAID TO PROTECT: AUT-PD-129 softens the verdict whenever ANY committed receipt cannot join, and that count is over IMMUTABLE history and can never fall, so the softening never expires and the 'idle with NO committed receipt' alarm — the thing the module exists for — went UNREACHABLE in production the day it was added. MERGED (aut-pd-124-reaper-join-horizon): a DERIVED join horizon, not a new pinned constant — the reaper softens only for sessions created at or before the commit time of the newest unjoinable receipt, so it expires by itself once every receipt carries a CCR id, and cycles keep writing exactly what they write today. 'Receipts carry BOTH' was chosen over 'the reaper resolves the namespaces' ON MEASUREMENT: across all 40 rows of list_sessions the only uuids anywhere are artifact ids and get_session returns no uuid field, so the namespaces are unresolvable from the API side. Mutation-tested 10/10, including the property this row demanded — a session no committed receipt names stays a FINDING and is never archived.",
       "closes_clause": null,
       "dispatch_log": [
         {
@@ -8297,6 +8298,58 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-145",
+      "what": "⛔ LAND THE UNSCORED-ROW RATCHET, WHICH IS DEFERRED AND NOT ABANDONED. AUT-PD-050 landed in two halves: the crash fixes, the score_rank ordering and the reporting are on the trunk; the ratchet MAX_UNSCORED_OPEN and its vacuity test are held UNMODIFIED at commit d082c01a78 on branch s1-aut-pd-050-unscored-rows. Held because the population (82) had already passed the ceiling (80), so merging would have red the COMMIT LOOP for whichever session committed next, on a gate it did not cause. ⛔ THE ENTRY CONDITION IS TWO THINGS AND NEITHER IS 'RAISE THE NUMBER': (1) the filing path supplies the remedy — `ledger_io.write_ledger` is the single serialization every ledger writer passes through and already runs `admissibility.check_write` there, so a row appended with no `score` and no `prerequisite_of` should be refused AT THE WRITE, which makes the ceiling reachable rather than merely enforced; and (2) open-unscored is flat or falling across at least a two-hour window of trunk commits. Pin the ceiling at the count measured in the same commit that lands it. ⚠ Pinning at the then-current number was considered on 2026-08-28 and refused: legal under the vacuity guard, red again within ~20 minutes at the measured rate, and re-pinning on each break is the forbidden edit taken in instalments.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "score": 140.0,
+      "_score_basis": "Inherits AUT-PD-050's score (140.0): same defect, deferred half; the ranking should not drop because the work was split.",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
+      "claimed_utc": null,
+      "evidence": "Measured by seat s6 over all 253 ledger commits: open-unscored 64 -> 82 across 17:26-22:12 UTC, +1.5/h over 2 h and +3.2/h over 5 h, and the ratchet's own assertion FAILS against live origin/main. Logs: scratchpad/s6-AUT-PD-050/.",
+      "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-146",
+      "what": "⛔ THE CYCLE CONTRACT NEVER NAMES `ccr_session_id`, BUT PREFLIGHT NOW FAILS WITHOUT IT. `receipt_schema.py` REQUIRES that field from `FIRST_CCR_GOVERNED_CYCLE = 70` and preflight sets rc=1 when it is missing, while `.claude/skills/research-loop/SKILL.md` step 10 — the text a cycle follows when writing its receipt — does not mention the field at all, nor how to obtain it. ⚠ NOT YET A BREAK: CYC-0070-225452b4 landed carrying it. But a required field named only in the checker is every 'rule measured by nothing' this loop has paid for, run in reverse — a checker enforcing something the contract does not ask for. ⭐ THE REMEDY IS ONE SENTENCE IN STEP 10, and the way to obtain the value was measured on 2026-08-28: the claude-code-remote `get_session` tool called with NO arguments returns `.ccr.id`. Add it beside the existing instruction to read `session_cap.session_id()` from the environment, and say plainly that the two are DIFFERENT ids in different namespaces rather than alternatives — that confusion is AUT-PD-124's whole subject.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "score": 132.0,
+      "_score_basis": "Just below the deferred ratchet (140.0) and above the citation instrument rows: it can fail a commit loop, which those cannot, but it is not failing one.",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository documentation and tooling; no outward-facing act.",
+      "claimed_utc": null,
+      "evidence": "Found by seat s5 while working AUT-PD-124 and filed rather than fixed, because editing the cycle contract is a cross-boundary change the seat was not given.",
+      "closes_clause": null
     }
   ]
 }
