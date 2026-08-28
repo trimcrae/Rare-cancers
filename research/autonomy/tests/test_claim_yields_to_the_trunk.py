@@ -12,6 +12,10 @@ being lost, has rebuilt the defect with a checker on top.
 
 ⛔ AND NO TEST HERE TOUCHES THE REAL REMOTE. A test that pushes is a test that changes the trunk, and
 racing writers on the trunk is this module's entire subject.
+⚠ THAT CONSTRAINT IS ABOUT *THIS* REPOSITORY'S REMOTE AND NOTHING ELSE, AND READING IT AS "use a
+fake" COST THIS MODULE THREE DEFECTS. The real-remote half of the suite lives in
+`test_a_lost_push_is_a_lost_lease.py`, which builds a bare repo in a tmp_path and races two real
+workers on it. This file keeps the decision logic, where a fake is the right instrument.
 """
 
 from __future__ import annotations
@@ -41,13 +45,17 @@ class FakeGit:
     """A git that records what it was asked to do and never leaves the process.
 
     `push_results` is consumed one per push, so a test states the race it wants directly:
-    `[False, True]` is "the first push lost, the second won".
+    `[False, True]` is "the first push lost, the second won". A member may also be one of the
+    module's own `PUSH_*` constants, which is how a test asks for the third outcome — a push that
+    never reached the remote, which is NOT a lost race and must not be reported as one.
     """
 
     def __init__(self, trunk_states, push_results):
         self.trunk_states = list(trunk_states)
         self.push_results = list(push_results)
         self.calls = []
+        self.last_push_error = "fake stderr"
+        self.last_merge_error = "fake stderr"
 
     def fetch(self):
         self.calls.append("fetch")
@@ -60,18 +68,22 @@ class FakeGit:
         self.calls.append(f"commit:{message}")
 
     def push(self):
-        ok = self.push_results.pop(0)
-        self.calls.append(f"push:{'ok' if ok else 'rejected'}")
-        return ok
+        result = self.push_results.pop(0)
+        if result is True:
+            result = C.PUSH_OK
+        elif result is False:
+            result = C.PUSH_LOST
+        self.calls.append(f"push:{result}")
+        return result
 
     def undo_last_commit(self):
         self.calls.append("undo")
 
     def integrate(self):
         self.calls.append("integrate")
-        return self.integrate_ok
+        return self.integrate_result
 
-    integrate_ok = True
+    integrate_result = C.MERGE_OK
 
 
 @pytest.fixture
@@ -150,9 +162,12 @@ def test_losing_the_push_race_yields_and_withdraws_the_claim(led):
     verdict, why = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=led)
     assert verdict == C.YIELDED and THEM in why
     assert "undo" in git.calls, "the losing claim was left committed locally"
-    assert git.calls.index("undo") < git.calls.index("read-trunk", git.calls.index("push:rejected")), (
+    assert git.calls.index("undo") < git.calls.index("read-trunk", git.calls.index("push:lost")), (
         "it re-read the trunk BEFORE withdrawing its losing commit, so a retry would push a claim "
         "it had already conceded")
+    assert json.load(open(led, encoding="utf-8"))["entries"][0]["owner"] is None, (
+        "the conceded claim was left in the WORKING TREE. AUT-PROP-030: that stale write is what "
+        "blocks the integration, and the loop then cannot converge — see the real-git suite.")
 
 
 def test_a_rejection_that_was_somebody_elses_commit_retries_and_wins(led):
@@ -189,11 +204,15 @@ def test_a_rejected_push_integrates_the_remote_before_retrying(led):
 
 def test_a_conflicting_integration_reports_rather_than_auto_resolving(led):
     """⚠ THE LEDGER IS THE FILE TWO SESSIONS COLLIDE ON, and a claim is not worth risking a wrong
-    automatic resolution of it. Abort and say so; the human or the driver resolves it."""
+    automatic resolution of it. Abort and say so; the human or the driver resolves it.
+
+    ⭐ AMENDED BY AUT-PROP-030: the verdict is SUSPENDED, not RETRY. A merge a human has to resolve
+    is not a thing to try again — it is automation stopping, which is the only honest name for it.
+    """
     git = FakeGit([_ledger([("AUT-X", None)])], [False])
-    git.integrate_ok = False
+    git.integrate_result = C.MERGE_CONFLICT
     verdict, why = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=led)
-    assert verdict == C.RETRY
+    assert verdict == C.SUSPENDED
     assert "conflict" in why and "resolve the merge yourself" in why
 
 
@@ -203,7 +222,7 @@ def test_endless_rejection_reports_rather_than_pretending_to_have_claimed(led):
     harm, arrived at from the other direction."""
     git = FakeGit([_ledger([("AUT-X", None)])], [False] * C.MAX_ATTEMPTS)
     verdict, why = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=led)
-    assert verdict == C.RETRY
+    assert verdict == C.SUSPENDED
     assert "even after merging origin/main" in why, (
         "the exhausted-retry message must say that integration was tried, or the next reader "
         "repeats the diagnosis this defect already produced once: 'the remote is moving too fast', "

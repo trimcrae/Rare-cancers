@@ -56,8 +56,14 @@ Check before anything else. A loop that works through its own alarm is the alarm
    ⭐ **CLAIM IT WITH THE TOOL, NOT BY HAND:**
    `python3 research/autonomy/claim.py --id <AUT-...> --me <your cycle id> --utc <now>`.
    It reads the row from **`origin/main`, never your working tree**, and the **push is the arbiter** —
-   a rejected push means the remote moved, so the claim is withdrawn and the question re-asked. It
-   prints `CLAIMED`, `YIELDED` (somebody else holds it — take the next item) or `RETRY`.
+   ⭐ **a rejected push means "I LOST THE LEASE", never "retry harder"** (AUT-PROP-030): the claim is
+   withdrawn, the base re-read, and the claim **re-applied to the base just read** before the next
+   attempt. It prints one of four verdicts, and each has a different correct response — the exit code
+   carries the same distinction (`0/1/2/3`):
+   **`CLAIMED`** (exit 0) · **`YIELDED`** (1 — somebody else holds it, take the next item) ·
+   **`UNREACHABLE`** (2 — the remote could not be reached, so *nothing was decided*; the one verdict
+   a plain retry answers) · **`SUSPENDED`** (3 — ⛔ terminal, automation has stopped and a human
+   clears it: an exhausted attempt bound, or a merge only a person should resolve).
    ⛔ *Measured 2026-08-27 (AUT-PD-021): a seat claimed AUT-PROP-009 at 20:10:00Z and a concurrent
    session claimed the SAME item at 20:15:00Z from state fetched before that lease landed. Both
    worked; the collision surfaced as a merge conflict AFTER ~20 minutes of duplicated effort. A local
