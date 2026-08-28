@@ -14,7 +14,7 @@
     "harden": 21,
     "negative": 32,
     "process": 7,
-    "process_defect": 108,
+    "process_defect": 109,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
@@ -22,7 +22,7 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 96,
+    "done": 97,
     "parked": 28,
     "queued": 130,
     "ready": 1,
@@ -7107,6 +7107,30 @@
       "claimed_utc": null,
       "closes_clause": null,
       "evidence": "research/autonomy/review-seats/ (33 records across three papers; PUB-FUSION-PARTNER has four reviewed commits with 2, 5, 5 and 5 blind seats). The classification and the two implemented constraints are emc-autonomy-architecture.md §6.5; the source finding is method-watch-autonomy-prior-art-2.md §4.3."
+    },
+    {
+      "id": "AUT-PD-126",
+      "what": "⛔ THE HEALTH BOARD ON `main` WAS FROZEN BY THE STEP THAT DECIDES WHETHER TO COMMIT IT, AND THE ROW IT FROZE IS THE ONE EVERY CYCLE READS FIRST. `autonomy-tick.yml` ran `health.py --write` (which REPLACES research/autonomy/health.json with this run's board) and then, as a separate step, `health.py --commit-worthy`. The second recomputes the board and compares it to the file at --health — the file the first step had just overwritten — so it compared the board against itself, answered 'every verdict is unchanged', and the board reached the trunk ONLY through the keep-alive expiry path, never on a verdict change. ⛔ THE COST WAS NOT COSMETIC: the committed board read `gates_green: NO-GATE-VERDICT / unmeasured` from 2026-08-26 onward while CI measured that row correctly on every tick, and research-loop §1 sends every cycle to that board before it starts. ⭐ FIXED, and the fix is at the CALLER because it cannot be at the callee: `--write` records its decision in `_commit_worthy`, and a new `--stored-commit-worthy` flag obeys it; the tick's publish step calls that instead. ⛔ A HEURISTIC INSIDE `--commit-worthy` WOULD HAVE BEEN WRONG — 'is this board my own output?' has no safe answer, because a genuinely committed board also carries `_commit_worthy: true` (that is why it was committed), so trusting the stored flag whenever the surface matched would commit an unchanged board every tick, which is the 1,476-commits-in-24-h defect `commit_worthy()` exists to prevent. ⭐ FOLLOW-THROUGH, NOT YET OBSERVED: the next tick should commit a board whose `gates_green` row carries a real verdict. Confirm on the trunk that research/autonomy/health.json has a `gates_green` verdict other than NO-GATE-VERDICT and an expiry newer than 2026-08-28T12:58:48Z. Until that is seen, this is a fix that passed its tests and has not run in production.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "done",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository tooling and CI wiring; no outward-facing act.",
+      "claimed_utc": null,
+      "evidence": "MEASURED, THEN REPRODUCED IN ISOLATION, THEN MUTATION-TESTED. (1) The tick's own log for run 33200659155 carries both halves seconds apart on the same data: `commit-worthy: True — a verdict changed` from --write, then `commit-worthy: False — every verdict is unchanged` from --commit-worthy, then 'board unchanged ... nothing to commit'. That same log shows the row IS measurable in CI — `✅ gates_green [read] RED-BUT-FRESH`, `0 UNMEASURED` — while the committed board carried `NO-GATE-VERDICT`, bad_since 2026-08-26T21:05:29Z. The instrument was working and its output was never published. (2) Reproduced offline from the committed board plus a fresh verdict: --write says True and writes; --commit-worthy on identical inputs exits 10. (3) The false lead was ruled out first — `gates_verdict.py --dry-run`, unauthenticated from the sandbox, returned a correct verdict ('the trunk is RED: tests.yml concluded failure'), so the writer was never the problem; the local `health.py --check` that reported the row unmeasured had been invoked with no --gates-verdict flag, which is an absent reading rather than a reading of absence. (4) Guard: research/autonomy/tests/test_the_board_reaches_main_when_a_verdict_changes.py, 6 tests, mutation-tested 4/4 in a detached worktree — reverting the workflow flag; --stored-commit-worthy forced to always-commit; forced to always-decline; --write no longer recording the decision — each caught, baseline restored. Log: driver-mutate.log in this cycle's scratchpad. ⚠ FILED AS 125 AND RENUMBERED TO 126: a concurrent session landed its own AUT-PD-125 (the blind seats' miss rate) while this cycle was gating, and the collision surfaced as a rebase conflict, not as anything the diff showed.",
+      "closes_clause": null
     },
     {
       "id": "AUT-PD-112",

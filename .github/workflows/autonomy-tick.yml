@@ -133,8 +133,19 @@ jobs:
           # command's, so `health.py --commit-worthy | tee log && commit` commits unconditionally.
           # That exact shape is why preflight.sh captures each check's status explicitly, and it bit
           # this step once during development.
-          if python3 research/autonomy/health.py --commit-worthy \
-               --gates-verdict /tmp/gates.json --stall-verdict /tmp/stall.json; then
+          # ⛔⛔ `--stored-commit-worthy`, NOT `--commit-worthy`, AND THE DIFFERENCE FROZE THE BOARD
+          # FOR TWO DAYS. This step runs AFTER the grading step's `health.py --write`, which replaced
+          # research/autonomy/health.json with this run's board. `--commit-worthy` recomputes the
+          # board and compares it to that file — i.e. to itself — so it answered "every verdict is
+          # unchanged" on every tick, and the board reached `main` only via the keep-alive expiry
+          # path. ⚠ MEASURED in run 33200659155's own log, which carries both halves seconds apart:
+          # "commit-worthy: True — a verdict changed" from --write, then "commit-worthy: False" here.
+          # The cost was not cosmetic: the committed board read `gates_green: NO-GATE-VERDICT /
+          # unmeasured` from 2026-08-26 while CI measured that row correctly on every tick, and
+          # research-loop §1 sends every cycle to that board before it starts.
+          # ⭐ `--stored-commit-worthy` reads the `_commit_worthy` the write step recorded, which was
+          # computed against the genuinely previous board — the only moment that comparison exists.
+          if python3 research/autonomy/health.py --stored-commit-worthy; then
             bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
               "autonomy tick: loop health board" \
               research/autonomy/health.json

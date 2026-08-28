@@ -1,0 +1,48 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0066-1f1a2449",
+  "session_id": "1f1a2449-a087-5338-b7d0-a35a6856b58a",
+  "utc": "2026-08-28T20:12:00Z",
+  "shape": "this session, driver only, no subagents. Second and last cycle permitted to this session (autonomy-state.json max_cycles_per_session = 2), so a handoff is owed and recorded below.",
+  "took": "AUT-PD-126 — filed and closed in this cycle. It did not exist when the cycle started: it was found while orienting, because the board research-loop §1 tells a cycle to read was reporting `gates_green` unmeasured for 46.5 h and that turned out to be false. No claim was taken because there was no row for anyone to race on: the id was allocated and the row landed in the same commit as its fix.",
+  "took_what": {
+    "id": "AUT-PD-126",
+    "route": "RT-AUTONOMY",
+    "publication": null,
+    "cost_class": "free",
+    "why_this_and_not_the_queue": "The takeable queue's top rows are process defects scoring 136-152; this one outranks them on the only axis that matters here — it is the instrument the loop's own stop condition reads. AUT-PROP-019 (118.4) is the highest-value takeable row on a PAPER path, and it is a hardening round, which research-loop §3 says is a SPAWNED SESSION rather than work in this one."
+  },
+  "changed": [
+    "research/autonomy/health.py — new `--stored-commit-worthy` flag, which exits 0/10 on the `_commit_worthy` that `--write` already recorded instead of recomputing it against a file `--write` has overwritten. `--commit-worthy` is left as it was and is now documented as correct only BEFORE a write.",
+    ".github/workflows/autonomy-tick.yml — the publish step calls `--stored-commit-worthy`.",
+    "research/autonomy/tests/test_the_board_reaches_main_when_a_verdict_changes.py — 6 tests, new. Pins the trap itself (so the two flags are never collapsed into one), the fix, the negative control, the absent-decision case, and the wiring.",
+    "research/autonomy/research-ledger.json — AUT-PD-126 filed done with its evidence."
+  ],
+  "cost": {
+    "usd": 0.0,
+    "gpu_hours": 0.0,
+    "detail": "Repository work, one public Actions log read, one unauthenticated API read. No rental."
+  },
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "rate_limit_info": {
+    "status": "allowed_warning",
+    "rateLimitType": "seven_day",
+    "isUsingOverage": false,
+    "read_from": "list_sessions external_metadata for this session"
+  },
+  "what_i_got_wrong": [
+    "I ACCEPTED MY OWN INSTRUMENT'S SILENCE AS A MEASUREMENT FOR MOST OF AN HOUR. The cycle opened by running `health.py --check` with NO --gates-verdict and NO --stall-verdict, read `gates_green: NO-GATE-VERDICT ... bad for 46.5 h`, and carried that as a fact. It is an absent reading, not a reading of absence — CLAUDE.md §4, in the one file that exists to make that distinction. The real state was the opposite: CI had been measuring the row correctly the whole time and the board was simply never committed. I only caught it because the committed board and my local one disagreed, and I checked which was which instead of averaging them.",
+    "AND MY FIRST HYPOTHESIS FOR THE CAUSE WAS WRONG. I suspected `gates_verdict.py` was failing closed against the API. Running it (--dry-run, unauthenticated, from the sandbox) refuted that in one command: it returned a correct RED verdict. The discriminating observation cost nothing and was available before the hypothesis was."
+  ],
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {}
+}

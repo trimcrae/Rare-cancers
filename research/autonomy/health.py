@@ -1532,6 +1532,11 @@ def main(argv=None) -> int:
                     help="exit 0 if this board says something the committed one did not, 10 if not. "
                          "For autonomy-tick.yml's no-work-no-commit step — 10 rather than 1 because "
                          "'nothing to say' is the rule working, not a failure")
+    ap.add_argument("--stored-commit-worthy", action="store_true",
+                    help="exit 0/10 on the `_commit_worthy` ALREADY RECORDED in --health, instead of "
+                         "recomputing it. This is what a caller that has just run --write must use: "
+                         "after --write the file is this run's own output, so --commit-worthy would "
+                         "compare the board against itself and always answer 'unchanged'")
     ap.add_argument("--escalations", action="store_true",
                     help="exit 1 if any condition has been red past RESTART_INTENSITY consecutive "
                          "runs while the loop kept refusing or redirecting — the §3 trigger. A "
@@ -1555,7 +1560,38 @@ def main(argv=None) -> int:
             json.dump(board, fh, indent=2)
             fh.write("\n")
         print(f"[loop-health] wrote {a.health}")
+    if a.stored_commit_worthy:
+        # ⭐⭐ THE DECISION IS READ, NOT RECOMPUTED, AND THAT IS THE WHOLE POINT OF THIS FLAG.
+        # `--write` computes `commit_worthy()` against the board that was on disk BEFORE it wrote,
+        # i.e. the committed one, and stores the answer in `_commit_worthy`. That is the only moment
+        # the comparison can be made, because writing destroys the thing being compared against.
+        # ⛔ MEASURED 2026-08-28, and it had silently frozen the trunk's board. `autonomy-tick.yml`
+        # ran `--write` and then `--commit-worthy` as a separate step on the same `--health` path.
+        # The second invocation re-read the file the first had just overwritten, found it identical
+        # to what it had just computed, and answered "every verdict is unchanged" — so the board was
+        # committed only via the keep-alive expiry path, never on a verdict change. One tick's log
+        # carries both lines: "commit-worthy: True — a verdict changed" from --write, then
+        # "commit-worthy: False" from --commit-worthy, on the same data seconds apart. The trunk's
+        # committed board therefore read `gates_green: NO-GATE-VERDICT / unmeasured` from
+        # 2026-08-26 onward while CI was measuring that row correctly on every tick — and
+        # research-loop §1 tells every cycle to read that board before it starts.
+        # ⛔ AND THIS IS NOT FIXABLE BY GUESSING INSIDE `--commit-worthy`. "Is the board on disk my
+        # own output?" has no safe answer: a genuinely committed board ALSO carries
+        # `_commit_worthy: true`, because that is why it was committed. A heuristic that trusted the
+        # stored flag whenever the surface matched would commit an unchanged board on every tick —
+        # the 1,476-commits-in-24-h defect `commit_worthy` exists to prevent. So the ordering is
+        # fixed at the CALLER, and this flag is how the caller obeys the decision already made.
+        stored, _ = _read_json(a.health)
+        worth = bool((stored or {}).get("_commit_worthy"))
+        why = (stored or {}).get("_commit_worthy_why") or (
+            "no `_commit_worthy` recorded in %s — nothing was written there by a --write run" % a.health)
+        print(f"[loop-health] commit-worthy (as recorded by --write): {worth} — {why}")
+        return 0 if worth else 10
     if a.commit_worthy:
+        # ⛔⛔ NEVER CALL THIS AFTER `--write` ON THE SAME `--health` PATH — USE `--stored-commit-worthy`.
+        # It compares the board it just computed against the file at `--health`, so once `--write` has
+        # replaced that file the comparison is the board against itself and the answer is always
+        # "unchanged". See the block above for the measurement; this flag is correct only BEFORE a write.
         # ⭐ Exposes `commit_worthy()` to a shell caller so `autonomy-tick.yml` obeys the no-work-no-commit
         # rule by ASKING this module rather than reimplementing its four-argument plumbing in YAML — a
         # second copy of that logic is exactly the drift `fleet_armed.py` was consolidated to end.
