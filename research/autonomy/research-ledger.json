@@ -14,7 +14,7 @@
     "harden": 14,
     "negative": 32,
     "process": 7,
-    "process_defect": 38,
+    "process_defect": 39,
     "proposal": 10,
     "regrade": 7,
     "verify": 1,
@@ -23,7 +23,7 @@
   "n_by_state": {
     "done": 51,
     "in_progress": 5,
-    "queued": 110,
+    "queued": 111,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -2518,6 +2518,34 @@
       "closes_clause": null
     },
     {
+      "id": "AUT-PD-046",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0040-schedule",
+      "score": 90.0,
+      "_score_basis": "10 ledger rows are effectively unreadable (no task description) and one crashes priority.py's own table printer -- a readability/tooling defect, not a research finding, so scored below the live research items it sits beside",
+      "depends_on_evidence": "research/autonomy/research-ledger.json: ['AUT-PROP-029', 'AUT-PROP-030', 'AUT-PROP-031', 'AUT-PROP-032', 'AUT-PROP-033', 'AUT-PROP-034', 'AUT-PROP-035', 'AUT-PROP-036', 'AUT-PROP-037', 'AUT-PROP-038'] all lack a `what` field entirely (confirmed by direct scan this cycle). All ten cite research/method-watch-autonomy-prior-art-2.md as depends_on_evidence (sections 2 through 5), suggesting they were filed in one batch from that document's findings and the `what` field was simply never written for any of them. AUT-PROP-031 is already marked `done` despite having no `what` -- worth checking in passing whether it was actually completed against a real task description or done blind against only a score and an evidence pointer. Also confirmed this cycle: `priority.py --limit` (the ranked-table CLI view) crashes with `KeyError: 'what'` on any of these ten rows rather than reporting on them, e.g. `python3 research/autonomy/priority.py --limit 25`.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "backfilling ledger metadata from an already-committed document and hardening a CLI script; nothing published, submitted or deposited",
+      "what": "⛔ TEN LEDGER ROWS HAVE NO `what` FIELD, SO THEY ARE UNREADABLE WITHOUT OPENING A SEPARATE DOCUMENT, AND ONE OF THEM CRASHES THE LEDGER'S OWN CLI VIEWER. AUT-PROP-029 through AUT-PROP-038 (ten consecutive ids, all filed by CYC-0030) each carry only a score, a `_score_basis` one-liner and a `depends_on_evidence` pointer into research/method-watch-autonomy-prior-art-2.md — none says what the proposed WORK actually is. A cycle (or a human) scanning the ready-work list sees a score and nothing else for these rows, which is exactly the 'filing an item is not progress on it' failure CLAUDE.md's continuity check exists to catch, one level up: these items cannot even be TAKEN by a cold-context cycle, because there is nothing to read. Separately and mechanically, `research/autonomy/priority.py --limit N`'s table printer (`_table()`) does `entry[\"what\"]` unconditionally and throws `KeyError` the moment N is large enough to reach one of these ten rows, rather than printing '(no description)' or similar and moving on — the CLI view for the whole ledger is broken by ANY future row that also happens to omit `what` for any reason, not just these ten specifically. ⭐ WHAT TO DO: (1) read research/method-watch-autonomy-prior-art-2.md sections 2, 3, 4.1, 4.2, 4.3, 4.4 and 5 (the sections each of the ten rows cites) and write a real, specific `what` for each of the nine still-open rows (029, 030, 032-038), describing the concrete proposal or finding that section makes and what building/adopting it would mean for this repository's autonomy tooling — not a restatement of the score basis, an actual task description someone could act on cold. (2) For AUT-PROP-031 (already done), check research/autonomy/receipts/ for whichever cycle closed it and confirm it was closed against real understanding of §5's finding, not against an empty description — if the receipt shows real work, just backfill `what` from that receipt for the historical record; if it does not, flag that as a second, separate finding rather than silently accepting a possibly-blind closure. (3) Harden `priority.py`'s `_table()` (or wherever it reads `entry[\"what\"]`) to use `entry.get(\"what\", \"(no description)\")` or similar, and add a regression test that constructs a ledger with a `what`-less entry and asserts `--limit` does not crash on it — this is the smaller, more durable half of the fix, since it prevents the NEXT accidental omission from breaking the same way."
+    },
+    {
       "id": "AUT-011",
       "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-NO-WET-LAB']. Original next action: Send the ask with the assessment. It is the strongest taker-fit in the portfolio.",
@@ -4445,7 +4473,7 @@
       "id": "AUT-PROP-026",
       "kind": "harden",
       "prerequisite_of": null,
-      "score": -1524.0,
+      "score": -1614.0,
       "closes_clause": null,
       "what": "⛔ THE FUSION-PARTNER PAPER HAS NO READABILITY GATE ARMED ON IT AT ALL, AND IS RED ON THE ONE THAT EXISTS. Measured 2026-08-27 during the P1 pass, and unchanged by it: 17 sentences over 60 words, the longest 167 WORDS at line 201. ⚠ TWO SEPARATE DEFECTS, and the second is the worse one: (a) preflight runs lint_readability only as --report for this document (informational, `|| true`), so the red never blocks anything; (b) the document has NO PINNED CAUTION BASELINE, so the ratchet that stops a readability pass buying clarity with honesty IS NOT ARMED — meaning whoever eventually splits those sentences has nothing stopping them dropping a hedge to do it. ★ ARM THE RATCHET FIRST, THEN SPLIT. Pin the baseline at the current 187 markers / 18.4 per 1000 words BEFORE touching prose; splitting first and pinning after would bake in whatever was lost. ⛔ This is a prose pass over the whole paper, NOT a P1 application — scientific-writing §1.4 and §4. Do it before round 11's re-seat, so the seats read the readable text.",
       "score_inputs": {
