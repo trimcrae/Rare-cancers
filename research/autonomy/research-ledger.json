@@ -1713,9 +1713,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0065-f5c9b5f2",
+      "claimed_utc": "2026-08-28T19:49:56Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1733,7 +1733,13 @@
       "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §4.3 (PUBMED 10.1016/j.jclinepi.2017.08.008, Simmonds et al. 2017, Living systematic reviews: 3). THE FINDING: repeated looks at accumulating evidence inflate type I error — 'the chance of incorrectly concluding that any updated meta-analysis is statistically significant when there is no effect increases rapidly as more updates are performed.' Four published fixes exist: the law of the iterated logarithm and the Shuster method (type I error only), and trial sequential analysis / sequential meta-analysis (type I AND II, with heterogeneity). SIMMONDS' OWN DECISION RULE IS THE PART TO STEAL: if the review only reports the CURRENT BEST PICTURE and readers know results may change, standard methods are fine; if the updated conclusion FEEDS A DECISION, the sequential correction is required.\n\nWHY THIS BEARS ON THE AUTONOMY LOOP SPECIFICALLY (not just the manuscripts): this repository's research loop repeatedly RE-EXAMINES THE SAME CLAIMS as new evidence accumulates across cycles — a route's score is re-derived from `systems/graph` on every ledger `--write`, a blocker's status is re-checked cycle over cycle, and `research/method-watch.md` explicitly re-grades settled findings on a schedule as methods improve (CLAUDE.md §4: 'that licenses keeping the option open and re-grading it on a schedule; it never licenses claiming a result early'). That is structurally identical to a living systematic review's repeated-look problem, and §4.3's own framing is direct: 'nobody in the LLM wave has this.' Verified: no sequential-testing or repeated-look correction exists anywhere in this codebase (grepped for 'sequential test', 'type I error', 'iterated logarithm', 'Shuster' — no hits outside the survey document itself).\n\nTASK: apply Simmonds' decision rule to distinguish the loop's two kinds of repeated evidence-reading — (a) a route STATUS or health-board reading that is reported as a current snapshot readers already know may change (no correction needed), versus (b) a re-examination whose updated verdict FEEDS A DECISION with consequences that don't get revisited on the next cycle — closing a route, clearing a `blocked_by` entry, satisfying a `publish_bar.py` clause, or admitting a manuscript claim strengthened by newly-accumulated evidence. For every instance of (b) found (start with `publish_bar.py`'s clauses and any route-closure logic in the ledger/graph pipeline), document or implement the sequential correction the repeated look requires, rather than treating every fresh re-check as an independent, uncorrected test.",
       "score_inputs": {
         "age_factor": 0.0714
-      }
+      },
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T19:49:56Z",
+          "fingerprint_at_dispatch": "2026-08-27|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-055",
