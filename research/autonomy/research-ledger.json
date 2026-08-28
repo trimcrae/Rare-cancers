@@ -14,7 +14,7 @@
     "harden": 15,
     "negative": 32,
     "process": 7,
-    "process_defect": 66,
+    "process_defect": 67,
     "proposal": 14,
     "regrade": 8,
     "verify": 1,
@@ -23,7 +23,7 @@
   "n_by_state": {
     "done": 73,
     "in_progress": 5,
-    "queued": 123,
+    "queued": 124,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -5116,9 +5116,9 @@
     {
       "id": "AUT-COV-001",
       "kind": "process",
-      "state": "in_progress",
-      "owner": "CYC-0055-schedule",
-      "what": "⛔ 22 OF 32 PUBLICATION ENDPOINTS ARE READ BY NO INSTRUMENT AT ALL, AND EVERY CORRECTION ROUND MAKES IT WORSE. Measured 2026-08-27 by `python3 research/manuscripts/claim_coverage.py`: nr4a3-fusion-transcriptional-output.md 0/382, emc-surface-target-landscape.md 0/297, repurposing-hypotheses.md 0/216, emc-icdo-9231-classification.md 0/146, emc-atr-collaborator-package.md 0/144 — and nr4a3-degrader-paper.md 3/964, which is coverage in name only. ★ THE MECHANISM THIS ENTRY EXISTS FOR WAS MEASURED ON A REAL ROUND, NOT INFERRED: CYC-0011's round 4 on PUB-FUSION-PARTNER fixed nine defects and moved coverage 46/259 -> 50/271. The covered count did not move and the document grew twelve sentences, so the UNCOVERED surface ROSE 213 -> 221. Prose written to fix a defect is itself unwatched, so a hardening round without an instrumenting half enlarges exactly the surface `paper-hardening` §8a calls the remaining blocker risk. ⛔ THE WORK IS NOT 'INSTRUMENT EVERY ENDPOINT' — that is a list, and §8b.2's 33-mutation result says list-scoped fixes regress at the sibling nobody named. The work is a PREDICATE-scoped guard family plus the rule that a round which adds a sentence adds its guard in the same commit. ⭐ CYC-0013 ADDED THE MISSING HALF OF THE DIAGNOSIS, MEASURED ON ONE PAPER: the shortfall is not only that most endpoints have NO instrument, it is that an endpoint WITH one can still be unread, because the instrument's census pattern bounds what it can ever see. emc-fusion-partner-stratification.md scored 50/271 while its guard reported zero unbound figures, and 35 statistical quantities were outside both. ⛔ SO THE PREDICATE-SCOPED GUARD FAMILY THIS ENTRY ASKS FOR MUST BE AUDITED BY ITS PATTERN FIRST: ask what NOTATION a census cannot see before asking which documents it does not cover. The four notations CYC-0013 added (n = N, p-values in both printed forms, HR, cm/months) are reusable across every endpoint; nothing about them is specific to this paper.",
+      "state": "queued",
+      "owner": null,
+      "what": "⛔ 22 OF 32 PUBLICATION ENDPOINTS ARE READ BY NO INSTRUMENT AT ALL, AND EVERY CORRECTION ROUND MAKES IT WORSE. Measured 2026-08-27 by `python3 research/manuscripts/claim_coverage.py`: nr4a3-fusion-transcriptional-output.md 0/382, emc-surface-target-landscape.md 0/297, repurposing-hypotheses.md 0/216, emc-icdo-9231-classification.md 0/146, emc-atr-collaborator-package.md 0/144 — and nr4a3-degrader-paper.md 3/964, which is coverage in name only. ★ THE MECHANISM THIS ENTRY EXISTS FOR WAS MEASURED ON A REAL ROUND, NOT INFERRED: CYC-0011's round 4 on PUB-FUSION-PARTNER fixed nine defects and moved coverage 46/259 -> 50/271. The covered count did not move and the document grew twelve sentences, so the UNCOVERED surface ROSE 213 -> 221. Prose written to fix a defect is itself unwatched, so a hardening round without an instrumenting half enlarges exactly the surface `paper-hardening` §8a calls the remaining blocker risk. ⛔ THE WORK IS NOT 'INSTRUMENT EVERY ENDPOINT' — that is a list, and §8b.2's 33-mutation result says list-scoped fixes regress at the sibling nobody named. The work is a PREDICATE-scoped guard family plus the rule that a round which adds a sentence adds its guard in the same commit. ⭐ CYC-0013 ADDED THE MISSING HALF OF THE DIAGNOSIS, MEASURED ON ONE PAPER: the shortfall is not only that most endpoints have NO instrument, it is that an endpoint WITH one can still be unread, because the instrument's census pattern bounds what it can ever see. emc-fusion-partner-stratification.md scored 50/271 while its guard reported zero unbound figures, and 35 statistical quantities were outside both. ⛔ SO THE PREDICATE-SCOPED GUARD FAMILY THIS ENTRY ASKS FOR MUST BE AUDITED BY ITS PATTERN FIRST: ask what NOTATION a census cannot see before asking which documents it does not cover. The four notations CYC-0013 added (n = N, p-values in both printed forms, HR, cm/months) are reusable across every endpoint; nothing about them is specific to this paper. ⚠ LEFT OPEN 2026-08-28 by CYC-0055-schedule (state stays queued, not done -- AUT-PD-051's own lesson: a partly-landed deliverable stays open). One real, verified, mutation-tested increment landed this pass; substantial scope remains (see below), so this row is NOT closed. A worktree seat audited claim_coverage.py's pattern set for blind spots (per this row's own instruction: audit the PATTERN, not the document list) and found one reusable notation shape the census could not see at all: a fold-change printed with '×' (e.g. '1.8× normal tissue'), confirmed via grep across 40+ manuscript files, not local to one document. Added it to _CENSUS_STATS in test_fusion_partner_prose_matches_its_artifact.py as a fifth alternative alongside CYC-0013's four (n=, p-value, HR, cm/months) -- independently re-verified: 153 passed, 94/94 mutations caught (including 5 new ones for this pass). Separately promoted two DECLARED_NOT_ARTIFACT_OWNED rows (SEMA3C fold-change ratios, EMC library count) to real bindings against research/modalities/gse28866-tumour-vs-normal.json, which this session independently confirmed contains exactly the claimed values (emc_over_normal=1.8175->1.8, emc_over_sarcoma=1.6622->1.7, _n_emc_libs=4). Coverage on emc-fusion-partner-stratification.md moved 83/270 -> 84/270. WHAT REMAINS OPEN, EXPLICITLY: the seat found (and logged in the merged scratchpad/aut-cov-001/blind-spot-audit-findings.md, preserved in the commit) further reusable notation shapes it deliberately did NOT build guards for this pass -- kcal/mol, kJ/mol, angstrom distances, ns simulation durations, bracketed 95% CI/t-intervals, all confirmed dense in nr4a3-degrader-paper.md and siblings -- because building real bindings for those means verifying ~50-100 occurrences against specific committed artifacts, which is a separate hardening round's worth of work, not a pattern-set extension. The 22-of-32-endpoints-uninstrumented headline number is UNCHANGED by this pass (this fix only deepened coverage on one already-instrumented document); a future pass should pick up from the logged findings file rather than re-auditing from zero.",
       "serves": {
         "route": null,
         "publication": null,
@@ -5130,12 +5130,11 @@
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
+      "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0011",
-      "claimed_utc": "2026-08-28T17:40:00Z",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
+      "claimed_utc": null,
+      "score_inputs": null,
+      "score": null
     },
     {
       "id": "AUT-COV-002",
@@ -5778,6 +5777,26 @@
       "last_evidence_utc": "2026-08-28"
     },
     {
+      "id": "AUT-PD-075",
+      "what": "⛔ THE DERIVED-ROW GENERATOR TURNS A ROUTE'S CONCLUSION INTO QUEUED WORK, so the queue offers rows whose own text says there is nothing to do. Measured 2026-08-28 by CYC-0053-3217966b immediately after the additive-score fix (a660303) corrected the ranking — THREE OF THE TOP FIVE ready rows are this shape, and the top row overall is: AUT-013 (172.0, `kind: experiment`, `state: queued`, `_derived: true`) reads \"Treat as landscape context; the ex-vivo result is banked and NEEDS NO FURTHER LOOKUP\"; AUT-074 (152.0) reads \"Report it as a CLOSED LINE: elevated and pan-essential is not an opportunity\"; AUT-025 (152.0) reads \"KEEP REGISTERED for automatic re-grade when EMC expression data lands\" — a row that is waiting on the outside world by construction. All three are derived from systems/graph, all three carry last_evidence_utc in early August, and all three have been offered as takeable work every cycle since. ⚠ THIS IS THE MIRROR IMAGE OF THE DEFECT JUST FIXED, and it survives it: the scores are now honest and the STATE is not, so a corrected ranking still points a cycle at non-work. It is also AUT-PD-051's family (a row that is effectively finished still being offered), reached through the generator rather than through a missed closure. ⛔ DO NOT FIX BY HAND-EDITING THE ROWS — they are regenerated from the graph, so a hand edit is erased on the next priority.py --write and the lesson with it. ★ THE FIX BELONGS IN THE GENERATOR OR THE GRAPH: a route whose next action is a conclusion (\"needs no further lookup\", \"closed line\") or a registration waiting on the world (\"keep registered for automatic re-grade\") must derive a row in a parked or blocked state naming what it waits on, never `queued`. ⚠ AND THE HARD PART IS THE DISCRIMINATOR, not the state change: keying on phrases would be a grep over prose that the next re-wording defeats. Prefer a field on the graph node that says whether its next action is an ACTION, a CONCLUSION, or a REGISTRATION — and then the generator reads a field instead of guessing at English. Check whether systems/graph already carries something equivalent before adding one.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "in_progress",
+      "owner": "CYC-0053-3217966b",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "claimed_utc": "2026-08-28T14:50:03Z"
+    },
+    {
       "id": "AUT-PD-005",
       "kind": "fix",
       "serves": {
@@ -6033,26 +6052,6 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
-    },
-    {
-      "id": "AUT-PD-075",
-      "what": "⛔ THE DERIVED-ROW GENERATOR TURNS A ROUTE'S CONCLUSION INTO QUEUED WORK, so the queue offers rows whose own text says there is nothing to do. Measured 2026-08-28 by CYC-0053-3217966b immediately after the additive-score fix (a660303) corrected the ranking — THREE OF THE TOP FIVE ready rows are this shape, and the top row overall is: AUT-013 (172.0, `kind: experiment`, `state: queued`, `_derived: true`) reads \"Treat as landscape context; the ex-vivo result is banked and NEEDS NO FURTHER LOOKUP\"; AUT-074 (152.0) reads \"Report it as a CLOSED LINE: elevated and pan-essential is not an opportunity\"; AUT-025 (152.0) reads \"KEEP REGISTERED for automatic re-grade when EMC expression data lands\" — a row that is waiting on the outside world by construction. All three are derived from systems/graph, all three carry last_evidence_utc in early August, and all three have been offered as takeable work every cycle since. ⚠ THIS IS THE MIRROR IMAGE OF THE DEFECT JUST FIXED, and it survives it: the scores are now honest and the STATE is not, so a corrected ranking still points a cycle at non-work. It is also AUT-PD-051's family (a row that is effectively finished still being offered), reached through the generator rather than through a missed closure. ⛔ DO NOT FIX BY HAND-EDITING THE ROWS — they are regenerated from the graph, so a hand edit is erased on the next priority.py --write and the lesson with it. ★ THE FIX BELONGS IN THE GENERATOR OR THE GRAPH: a route whose next action is a conclusion (\"needs no further lookup\", \"closed line\") or a registration waiting on the world (\"keep registered for automatic re-grade\") must derive a row in a parked or blocked state naming what it waits on, never `queued`. ⚠ AND THE HARD PART IS THE DISCRIMINATOR, not the state change: keying on phrases would be a grep over prose that the next re-wording defeats. Prefer a field on the graph node that says whether its next action is an ACTION, a CONCLUSION, or a REGISTRATION — and then the generator reads a field instead of guessing at English. Check whether systems/graph already carries something equivalent before adding one.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "CYC-0053-3217966b",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "claimed_utc": "2026-08-28T14:50:03Z"
     }
   ]
 }
