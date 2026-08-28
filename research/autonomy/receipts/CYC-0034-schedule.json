@@ -1,0 +1,36 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0034-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T09:10:00Z",
+  "shape": "Second cycle in the same fired session (within max_cycles_per_session: 2), one ledger item claimed and worked, no subagents.",
+  "took": "AUT-PD-038 — a failed fetch can anchor a citation (RT-AUTONOMY, loop mechanism)",
+  "took_what": "The stop hook (`ready-work-at-turn-end.sh`) and `continuity.py --check` both refused to let the cycle end after AUT-PROP-017: 80 free, unclaimed, unblocked ledger items and nothing running. Re-scored the queue; the next three top-scored items (AUT-PROP-018/019/040) are PUB-ASO's three remaining publish_bar clauses, each explicitly sha-bound and each saying 'run this LAST, once nothing else is mid-flight against the ASO family' — not independently takeable as a single free item right now. AUT-PD-038 (score 186, queued, unclaimed, free, requires_trimcrae: false) was the next clean, independently-actionable item. Claimed it with claim.py (CLAIMED on attempt 1).",
+  "changed": [
+    "Fixed the defect in research/manuscripts/lint_citations.py: the anchor predicate treated PRESENCE of an identifier in a tracked .json as proof someone had read it, so a 403's stored bot-protection interstitial anchored a real DOI in fusion-junction-aso-journal-references.md exactly as well as a genuine 200 would have. Added `_is_fetch_record` (three-key signature: `url` + `attempts` list + `status`, chosen because a bare int `attempts` retry counter — this repo's own ledger rows use one — must not be mistaken for an HTTP fetch log), `_fetch_succeeded` (status must be an int in [200,300)), and `_redact_failed_fetches` (walks the parsed JSON tree, blanks any failed-fetch record to `{url: null, status: <code>}` before the existing PATTERNS regex runs — never deletes the record, since a recorded 403 is real evidence a route is closed, just not evidence a citation is real). Wired into `_scan` for `.json` files only (measured: no tracked `.jsonl` currently uses this record shape).",
+    "Verified safety on the current tree rather than assuming it: diffed raw-text vs redacted-text identifier extraction across all seven named corpora (arxiv-aso-route, browser-fetch, preprint-host-eligibility, venue-fee-pages-2026-08-24, venue-policy-browser-fetch, emc-ret-cistrome{,-inputs}) — zero identifiers removed by redaction on any of them. The specific DOI the defect named had already lost its false anchor via an unrelated CI rewrite of browser-fetch.json (recorded in the ledger row itself), so this cycle closes the general hole with no residual instance and no new ledger entries needed. `lint_citations.py` unchanged at 98 unanchored / exit 0 before and after.",
+    "Added four regression tests to research/modalities/tests/test_lint_citations.py: a failed-fetch record (403, and a never-resolved `status: None`) anchors nothing; a successful (200) record still anchors, so the fix can't blind every record; a non-fetch-shaped record (no url+attempts+status triple) is untouched, protecting the ledger's own int `attempts` field from being swept up; and a check that the pre-existing lit-targets-*.json bare-digit-key mechanism still reads raw text rather than being silently detoured through the new JSON round-trip. 14 passed (up from 10).",
+    "Mutation-tested `_is_fetch_record` and `_fetch_succeeded` single-site (each mutated to a constant, both new negative-control tests failed as expected, both restored to the real implementation, full suite re-confirmed green at 14/14).",
+    "Ledger: AUT-PD-038 marked `done`, claim released, evidence appended. Re-ran priority.py --write."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [
+    "First attempt at the ledger `what`-field update for this same item was written via a bash heredoc-free `python3 -c \"...\"` string containing backticked code identifiers (e.g. `_is_fetch_record`); the shell executed the backtick contents as command substitutions before python ever saw the string, silently deleting every backticked term from the stored text (caught by re-reading the field back before committing, not by any gate). Reverted with `git checkout --` and redone via a standalone .py script file, which is now the safer default for any ledger `what` text containing inline code identifiers."
+  ],
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "Single well-scoped guard fix fit comfortably in one session's context; no hardening round, no large corpus read."
+  }
+}

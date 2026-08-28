@@ -153,6 +153,47 @@ def extract(kind, text):
     return out
 
 
+def _is_fetch_record(node):
+    """Is `node` shaped like one `venue_policy_browser_fetch.py`-style HTTP fetch record?
+
+    Every corpus of this shape writes `{"url": ..., "attempts": [{"n", "status", ...}, ...],
+    "status": ...}` per target — `status` mirrors the outcome of the last attempt (a 2xx int on
+    success, `None` if every attempt errored before getting a status, a 4xx/5xx otherwise). The
+    three keys together are the signature: `attempts` alone also appears on unrelated records
+    (an int retry counter on a ledger row, a GPU launch log) that are not fetch outcomes at all.
+    """
+    return (isinstance(node, dict) and "url" in node and "status" in node
+            and isinstance(node.get("attempts"), list))
+
+
+def _fetch_succeeded(node):
+    status = node.get("status")
+    return isinstance(status, int) and 200 <= status < 300
+
+
+def _redact_failed_fetches(node):
+    """`node` with every failed-fetch record's content blanked out before it is text-scanned.
+
+    ⛔⛔ A FETCH THAT FAILED CAN ANCHOR A CITATION, AND ONE DID (AUT-PD-038, 2026-08-27). The
+    anchor test used to be "this identifier appears in a tracked .json", which a 403 satisfies as
+    easily as a 200: a bot-protection interstitial stored under a failed record's `text` field
+    reads as a fetch product exactly like a real one. `fusion-junction-aso-journal-references.md`
+    cited a DOI anchored by three straight 403s in `browser-fetch.json`, each one's own note
+    reading "not fixable by retrying" — three records saying WE COULD NOT READ THIS, satisfying a
+    gate that exists to establish that somebody did (CLAUDE.md §4: presence is never provenance).
+    A record only anchors what it actually retrieved, so a failed one is walked down to its
+    boring, content-free shell before extraction ever sees it — never deleted outright, because a
+    recorded 403 is real evidence a route is closed; it is simply not evidence a CITATION is real.
+    """
+    if _is_fetch_record(node) and not _fetch_succeeded(node):
+        return {"url": None, "status": node.get("status")}
+    if isinstance(node, dict):
+        return {k: _redact_failed_fetches(v) for k, v in node.items()}
+    if isinstance(node, list):
+        return [_redact_failed_fetches(v) for v in node]
+    return node
+
+
 def _scan(paths):
     """{kind: {identifier: {files}}} over `paths`."""
     found = collections.defaultdict(lambda: collections.defaultdict(set))
@@ -162,8 +203,19 @@ def _scan(paths):
             text = open(p, encoding="utf-8", errors="replace").read()
         except (OSError, IsADirectoryError):
             continue
+        scan_text = text
+        # ⚠ SCOPED TO .json, NOT ANCHOR_SUFFIXES: no tracked .jsonl currently holds a fetch record
+        # (measured 2026-08-28 — every `"attempts"` hit among tracked .jsonl is a different shape),
+        # and a whole-document `json.loads` cannot parse one anyway. Extend here if that changes.
+        if rel.endswith(".json"):
+            try:
+                parsed = json.loads(text)
+            except ValueError:
+                parsed = None
+            if parsed is not None:
+                scan_text = json.dumps(_redact_failed_fetches(parsed), ensure_ascii=False)
         for kind in PATTERNS:
-            for ident in extract(kind, text):
+            for ident in extract(kind, scan_text):
                 found[kind][ident].add(rel)
         # ⛔ A THIRD FORM: A FETCH CORPUS KEYED BY THE BARE IDENTIFIER (measured 2026-08-08).
         # `lit-targets-endpoint-benchmarks.json` stores rows as {"10913809": {...}} — no `PMID`

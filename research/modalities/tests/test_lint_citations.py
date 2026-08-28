@@ -160,3 +160,63 @@ def test_the_ledger_does_not_anchor_itself():
     known = {lc._norm_stored_key(e["key"]) for e in led["entries"]}
     missing = [lc._key(k, i) for k, i, _ in un if lc._key(k, i) not in known]
     assert not missing, "unanchored identifiers absent from the ledger: %s" % missing[:5]
+
+
+def test_a_failed_fetch_record_does_not_anchor_its_own_interstitial_text():
+    """⛔⛔ THE EXACT INCIDENT (AUT-PD-038, 2026-08-27): a 403's stored bot-protection page anchored
+    a real citation, because the anchor test was "this identifier is inside a tracked .json", not
+    "a fetch that actually retrieved something put it there". Three straight 403s on
+    `browser-fetch.json` — each one's own note reading "not fixable by retrying" — satisfied a gate
+    that exists to establish somebody could read the page. This is the negative control: a fetch
+    record whose own `status` is not 2xx must contribute nothing to the anchor set.
+    """
+    node = {"url": "https://example.com/blocked", "status": 403,
+            "attempts": [{"n": 1, "status": 403, "chars": 40}],
+            "text": "security check DOI 10.1089/nat.2024.0072 interstitial"}
+    assert lc._is_fetch_record(node)
+    assert not lc._fetch_succeeded(node)
+    redacted = lc._redact_failed_fetches(node)
+    assert lc.extract("DOI", str(redacted)) == []
+    # A never-resolved attempt (every retry errored before a status came back) is `status: None`,
+    # not an int — must fail the same way, not slip past an `isinstance` check that assumes int.
+    never_resolved = {"url": "https://example.com/dead", "status": None,
+                       "attempts": [{"n": 1, "status": 404}],
+                       "text": "PMID 12345678 in the 404 body"}
+    assert not lc._fetch_succeeded(never_resolved)
+    assert lc.extract("PMID", str(lc._redact_failed_fetches(never_resolved))) == []
+
+
+def test_a_successful_fetch_record_still_anchors():
+    """⚠ THE CONTROL ABOVE IS WORTHLESS IF REDACTION BLINDS EVERY RECORD, FAILED OR NOT.
+
+    Same shape, `status: 200` — the identifier must survive, or the fix trades a false anchor for
+    a false fabrication alarm on every real citation this repository has ever fetched.
+    """
+    node = {"url": "https://example.com/ok", "status": 200,
+            "attempts": [{"n": 1, "status": 200, "chars": 40}],
+            "text": "retrieved: DOI 10.1089/nat.2024.0072 in full"}
+    assert lc._fetch_succeeded(node)
+    redacted = lc._redact_failed_fetches(node)
+    assert lc.extract("DOI", str(redacted)) == ["10.1089/nat.2024.0072"]
+
+
+def test_redaction_leaves_non_fetch_records_untouched():
+    """A record with no `attempts`/`status`/`url` triple — a registry row, a graph edit — is not a
+    fetch outcome at all, and must anchor exactly as it always has. The three-key signature exists
+    so this stays true: `attempts` as a bare retry counter (this repo's own ledger rows) must not
+    be mistaken for an HTTP fetch log and blanked.
+    """
+    registry_row = {"pmid": "12345678", "attempts": 2, "note": "PMID 12345678 curated by hand"}
+    assert not lc._is_fetch_record(registry_row)
+    assert lc._redact_failed_fetches(registry_row) == registry_row
+
+
+def test_lit_targets_bare_digit_keys_are_unaffected_by_redaction():
+    """The `lit-targets-*.json` bare-numeric-key convention is a different anchor mechanism (a
+    quoted digit-run KEY, not a PATTERNS match) and is scanned from the raw file text on purpose —
+    confirm the fix did not silently detour it through the JSON round-trip too.
+    """
+    import inspect
+    src = inspect.getsource(lc._scan)
+    after_bare_digit_comment = src.split("A THIRD FORM", 1)[1]
+    assert 're.findall(r\'"(\\d{6,9})"\\s*:\', text)' in after_bare_digit_comment
