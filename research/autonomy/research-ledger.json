@@ -1198,16 +1198,16 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0053-3217966b",
-      "claimed_utc": "2026-08-28T13:55:14Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
+      "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 178.1,
       "_score_basis": "measures whether our blind spot is where somebody else measured theirs",
@@ -1215,7 +1215,7 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §4.1 and §4.2 (SEARCH-grade — arXiv:2511.02824 for Kosmos, blocked at egress; PUBMED 10.1038/s41586-026-10652-y for Robin). THE FINDING (§4.1): Kosmos had 102 statements from 3 reports independently classified Supported/Refuted by expert scientists who had to reproduce the analysis or find the literature support, STRATIFIED BY STATEMENT TYPE — data-analysis claims 85.5% supported, literature claims 82.1%, and INTERPRETATION CLAIMS ONLY 57.9%. Named failure modes: conflating statistical significance with scientific value, excessively strong claims, unorthodox invented metrics. §4.2 gives the two cheapest mechanisms to steal: (1) Robin's blinded citation re-find — a reviewer BLINDED TO SOURCE takes N proposals and tries to re-find every reference online, labelling anything not confidently identifiable as hallucinated; (2) Kosmos's own stratified-audit protocol — sample N statements from a finished paper, classify each Supported/Refuted by an independent party who actually reproduces or re-finds it, report the rate BY TYPE.\n\n⛔ READ AGAINST OUR OWN GATES, THIS IS UNCOMFORTABLE IN A SPECIFIC WAY (the document's own framing, worth repeating here): `lint_citations` covers the 82.1%-category axis (does the cited work exist and say roughly what we say it says) and `lint_claims` R1–R5 covers claim STRENGTH (verb discipline, never-imply bans) — but the 57.9% category, INTERPRETIVE sentences ('this supports X', 'this suggests Y'), is the one axis this repository's guards touch least. Verified: no stratified claim-audit tool exists anywhere under research/manuscripts or research/autonomy (grepped for 'stratified', 'Supported'/'Refuted' classification, 'interpretation claim' — no hits outside the survey document itself).\n\nTASK: pick a finished, hardened manuscript (the ASO paper or the degrader paper are the obvious targets, both already through multiple `paper-hardening` rounds), sample N of its interpretive sentences plus a comparison set of data-analysis and literature-claim sentences, dispatch a BLIND seat (per `paper-hardening`'s existing seat-design conventions) to classify each Supported/Refuted by actually reproducing the analysis or re-finding the source — never by re-reading the prose — and report the rate stratified by type. The finding to test for is specifically whether this repository's own interpretation-claim support rate sits near Kosmos's 57.9%, which would mean the existing gates (`lint_citations`, `lint_claims`) are silent on exactly the claim type most likely to be wrong.",
+      "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §4.1 and §4.2 (SEARCH-grade — arXiv:2511.02824 for Kosmos, blocked at egress; PUBMED 10.1038/s41586-026-10652-y for Robin). THE FINDING (§4.1): Kosmos had 102 statements from 3 reports independently classified Supported/Refuted by expert scientists who had to reproduce the analysis or find the literature support, STRATIFIED BY STATEMENT TYPE — data-analysis claims 85.5% supported, literature claims 82.1%, and INTERPRETATION CLAIMS ONLY 57.9%. Named failure modes: conflating statistical significance with scientific value, excessively strong claims, unorthodox invented metrics. §4.2 gives the two cheapest mechanisms to steal: (1) Robin's blinded citation re-find — a reviewer BLINDED TO SOURCE takes N proposals and tries to re-find every reference online, labelling anything not confidently identifiable as hallucinated; (2) Kosmos's own stratified-audit protocol — sample N statements from a finished paper, classify each Supported/Refuted by an independent party who actually reproduces or re-finds it, report the rate BY TYPE.\n\n⛔ READ AGAINST OUR OWN GATES, THIS IS UNCOMFORTABLE IN A SPECIFIC WAY (the document's own framing, worth repeating here): `lint_citations` covers the 82.1%-category axis (does the cited work exist and say roughly what we say it says) and `lint_claims` R1–R5 covers claim STRENGTH (verb discipline, never-imply bans) — but the 57.9% category, INTERPRETIVE sentences ('this supports X', 'this suggests Y'), is the one axis this repository's guards touch least. Verified: no stratified claim-audit tool exists anywhere under research/manuscripts or research/autonomy (grepped for 'stratified', 'Supported'/'Refuted' classification, 'interpretation claim' — no hits outside the survey document itself).\n\nTASK: pick a finished, hardened manuscript (the ASO paper or the degrader paper are the obvious targets, both already through multiple `paper-hardening` rounds), sample N of its interpretive sentences plus a comparison set of data-analysis and literature-claim sentences, dispatch a BLIND seat (per `paper-hardening`'s existing seat-design conventions) to classify each Supported/Refuted by actually reproducing the analysis or re-finding the source — never by re-reading the prose — and report the rate stratified by type. The finding to test for is specifically whether this repository's own interpretation-claim support rate sits near Kosmos's 57.9%, which would mean the existing gates (`lint_citations`, `lint_claims`) are silent on exactly the claim type most likely to be wrong.  ✅ RUN 2026-08-28 (CYC-0053-3217966b, seat s33-claimaudit, merged at f7f393cd8): research/manuscripts/claim_audit.py samples and STRATIFIES only — a guard test refuses any verdict heuristic, because a tool that scores its own paper is the failure this item exists to catch. ⛔⛔ THE RESULT, ON THE ASO JOURNAL ARTICLE (seed 20260828, 10 per stratum): data-analysis 9/10 supported, literature 10/10, INTERPRETATION 7/10 — THREE REFUTED. ⚠ At n=10 the rate (70.0%, Wilson 39.7–89.2%) CANNOT be distinguished from Kosmos's 57.9%, and that is stated rather than smoothed: 57.9% is inside the interval and so is 90%. WHAT THE SAMPLE ESTABLISHES IS THE SHAPE — three refutations in ten interpretation claims, ZERO IN TWENTY data and literature claims — and all three are Kosmos's named failure mode, a universal quantifier over evidence that supports only the majority case. THE THREE, each with a reproduced observation: (1) ':194 invisible at any threshold that instrument is normally run at' — 7 of 87 liable designs sit at 14/16 identity INSIDE the paper's own threshold, and a 3-mismatch budget returns 42.5%; (2) ':295 every design here being specific to the exon pair it was tiled at' — 9 sequences occur at >1 exon pair, 23 of 190 rows, INCLUDING THE LEAD REAGENT, and THE PAPER'S OWN FIGURE 1 LEGEND SAYS SO; (3) ':348 most plausible wild-type liability is its own parent' — 175/190 designs have a gap-paired non-parent near-match, 8 at ΔΔG 0.000, six against CURATED RefSeq records. ⛔⛔ AND NEITHER EXISTING GATE COULD HAVE CAUGHT ANY OF THEM: all three carry no citation for lint_citations to resolve, and all three are already hedged IN FORM so lint_claims passes them. CLAIM STRENGTH IS ORTHOGONAL TO CLAIM SCOPE — the third direction of that orthogonality this repository has now recorded, after strength-vs-provenance and strength-vs-direction. ⛔ NOT ONE WORD OF THE MANUSCRIPT WAS CHANGED: a correction REPLACES text under paper-hardening discipline and two of the three are load-bearing sentences, so applying them is a hardening round, not a seat's edit.",
       "score_inputs": {
         "age_factor": 0.0714
       }
@@ -1911,16 +1911,16 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0053-3217966b",
-      "claimed_utc": "2026-08-28T14:32:54Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
+      "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0030-6be7fd5a",
       "score": 158.1,
       "_score_basis": "makes an existing bespoke ceiling legible outside this repository at no cost",
@@ -1928,7 +1928,7 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §5's governance verdict ('Anti-gaming, claim strength, provenance: Behind. All three reinvent named standards with large literatures'), with the concrete mechanism named in §10 action #9 and its caveat in §11's UNKNOWNs. THE FINDING: this repository's claim-strength gate, `research/manuscripts/lint_claims.py` R1–R5 (R1 earned-phrase substitutions, R2 a never-imply ban-list, R3 novelty right-sizing, R4 evidentiary-verb discipline, R5 measured-vs-projected numbers), is a BESPOKE, repo-specific verb-ban/phrase-substitution system — verified by reading its rule table. GRADE (endorsed by 110+ organisations) already provides a STANDARD VOCABULARY for exactly this — High / Moderate / Low / Very Low certainty of evidence — and the GRADE working group's own automation, GRADErater, is a prototype already built.\n\nTASK: express this repository's claim ceilings IN GRADE TERMS, not necessarily by adopting GRADErater itself — e.g. map each R1–R5 category, or each claim scoped to a `TECH-*` readiness tag, to the GRADE certainty rating its evidence actually supports, so a reviewer or outside reader can tell how strong a claim is allowed to be WITHOUT first learning this repository's own R1–R5 glossary. This is a translation/labelling layer on top of the existing gate, not a replacement for it — `lint_claims.py`'s enforcement mechanism (grep-and-substitute against a closed rule list) stays; what changes is the vocabulary the ceiling is EXPRESSED in.\n\n⛔ THE EXPLICIT CAVEAT, from this row's own depends_on_evidence: 'GRADErater status is SEARCH-grade and its paper was not read.' §11 confirms: GRADErater's status beyond 'prototype built and undergoing testing' is UNKNOWN — no release date, no accuracy figures, no publisher or venue known to have adopted it. Do not wire GRADErater itself into any gate; the safe, buildable half is the manual GRADE-vocabulary mapping, and integrating a third-party automation tool with no measured accuracy would be exactly the kind of unverified dependency CLAUDE.md §4 warns against.",
+      "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §5's governance verdict ('Anti-gaming, claim strength, provenance: Behind. All three reinvent named standards with large literatures'), with the concrete mechanism named in §10 action #9 and its caveat in §11's UNKNOWNs. THE FINDING: this repository's claim-strength gate, `research/manuscripts/lint_claims.py` R1–R5 (R1 earned-phrase substitutions, R2 a never-imply ban-list, R3 novelty right-sizing, R4 evidentiary-verb discipline, R5 measured-vs-projected numbers), is a BESPOKE, repo-specific verb-ban/phrase-substitution system — verified by reading its rule table. GRADE (endorsed by 110+ organisations) already provides a STANDARD VOCABULARY for exactly this — High / Moderate / Low / Very Low certainty of evidence — and the GRADE working group's own automation, GRADErater, is a prototype already built.\n\nTASK: express this repository's claim ceilings IN GRADE TERMS, not necessarily by adopting GRADErater itself — e.g. map each R1–R5 category, or each claim scoped to a `TECH-*` readiness tag, to the GRADE certainty rating its evidence actually supports, so a reviewer or outside reader can tell how strong a claim is allowed to be WITHOUT first learning this repository's own R1–R5 glossary. This is a translation/labelling layer on top of the existing gate, not a replacement for it — `lint_claims.py`'s enforcement mechanism (grep-and-substitute against a closed rule list) stays; what changes is the vocabulary the ceiling is EXPRESSED in.\n\n⛔ THE EXPLICIT CAVEAT, from this row's own depends_on_evidence: 'GRADErater status is SEARCH-grade and its paper was not read.' §11 confirms: GRADErater's status beyond 'prototype built and undergoing testing' is UNKNOWN — no release date, no accuracy figures, no publisher or venue known to have adopted it. Do not wire GRADErater itself into any gate; the safe, buildable half is the manual GRADE-vocabulary mapping, and integrating a third-party automation tool with no measured accuracy would be exactly the kind of unverified dependency CLAUDE.md §4 warns against.  ✅ BUILT 2026-08-28 (CYC-0053-3217966b, seat s37-grade, merged at 105679e6a): research/manuscripts/claim-ceiling-grade-map.json plus its coverage test. Keyed on Rule.rid, not TECH-* — checked before choosing: TECH-* exists only in systems/graph and nothing attaches a readiness tag to a CLAIM. 17 rules mapped: 11 rated, 6 DECLARED UNMAPPABLE WITH REASONS (a completeness test over chemistry artifacts, a development-stage claim, two priority claims settled by literature search — i.e. PROVENANCE, which §7 already keeps orthogonal to strength — a compute-cost figure, and a descriptive claim about the field). Forcing any of them onto the scale would tell a reader a weak effect estimate exists where none does. The four efficacy/safety bans map to NO_EVIDENCE, labelled as THIS REPOSITORY'S OWN TERM and never as a GRADE rung, because Cochrane states very low is the floor for a body of evidence that EXISTS and these rules' only legal use scopes the claim out. GRADErater wired nowhere; a test asserts no gate references it. ⛔⛔ AND THE ITEM'S OWN PREMISE WAS STALE, WHICH IS THE MORE IMPORTANT FINDING: the linter has 17 rules in SIX families, not five — R6-unsurveyed-field-practice landed 2026-08-15 — and 'R1–R5' was still written in the linter's own docstring rule table (fixed here) and in eleven further places (see the follow-up row). Twelve days, every gate green: a rule table that describes itself inaccurately is invisible to every check that reads it. ⭐ The seat's own vocabulary check fired on its FIRST DRAFT (two justifications too thin) and it fixed the document rather than the threshold. All six GRADE sources are 403 at this sandbox's egress, so they were fetched on a runner (CI run 33181002075) and every quote re-extracted FROM DISK after an API interruption rather than recalled. 15/15 mutations caught, including 'wire the map into the linter' and 'put GRADErater in a gate', both of which the tests refuse.",
       "score_inputs": {
         "age_factor": 0.0714
       }
@@ -6155,6 +6155,107 @@
       "serves": {
         "route": "RT-AUTONOMY",
         "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-082",
+      "what": "⛔⛔ APPLY THE THREE REFUTED INTERPRETATION CLAIMS TO THE ASO MANUSCRIPT AS A HARDENING ROUND — AND THIS IS THE ONE ROW ON THIS LIST THAT TOUCHES A PAPER WITH A PUBLIC DOI (PUB-ASO, Qeios 10.32388/VL3LJR). Evidence: research/manuscripts/aso/fusion-junction-aso-claim-audit-verdicts.json, seat s33-claimaudit, 2026-08-28. Each is fixed by NARROWING A QUANTIFIER, not by deleting a claim, and two are contradicted by the paper's own text — ':295' by its own Figure 1 legend, ':348' by its own next sentence. ⛔ IT IS A HARDENING ROUND, NOT AN EDIT: a correction REPLACES text (paper-hardening), two of the three sentences are load-bearing, and the round must re-run the seats rather than patch three lines. ⛔⛔ AND THE ACT AFTER IT IS NOT OURS: posting a revised version of a paper that already carries a DOI under trimcrae's name requires that HE named THAT paper for THAT act, and PUB-ASO is explicitly excluded from the standing aiXiv grant — verbatim, 2026-08-27: 'That's the only paper that shouldn't auto ship to aiXiv.' Fix the text, gate it, then it is his call.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "harden",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Applying the three refutations to the manuscript text and gating it is ours — a hardening round on a file in this repository. ⛔ POSTING THE REVISED VERSION IS NOT: PUB-ASO carries a public DOI under trimcrae's name and is explicitly excluded from the standing aiXiv grant ('That's the only paper that shouldn't auto ship to aiXiv', 2026-08-27), so a new public version requires that he named THAT paper for THAT act. Fix the text, gate it, then it is his call — and being unable to finish the route without him is never itself authorisation."
+    },
+    {
+      "id": "AUT-PD-083",
+      "what": "⛔ AN ARTIFACT IN THE ZENODO DEPOSIT CONTRADICTS ITSELF ABOUT ITS OWN CONTROLS: aso-control-oligos.json's `⛔_not_a_claim_of_inertness` field says a control 'FAILS the specificity screen the reagent passes', while its `_what` says controls are emitted only if they clear the ten-base-pair criterion — and the data show 6 bp and 7 bp against a cut of 10, i.e. CLEARING. ⚠ Both fields ship in the released deposit, so a reviewer reads both. The manuscript sentence resting on it is CORRECT; it is the artifact's wording that is wrong, which is the harder half to notice. Found by seat s33-claimaudit while verifying an unrelated claim.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "The FIX is in-repo and ours: correcting the wording of a committed artifact so it stops contradicting itself. ⛔ What is NOT ours, and is deliberately not in this row's scope, is re-depositing the corrected artifact to Zenodo or amending the DOI record — that is an outward-facing act under CLAUDE.md §3 and needs trimcrae to name THAT deposit for THAT act. File the re-deposit as its own row when a corrected set exists; do not let it ride along on this one."
+    },
+    {
+      "id": "AUT-PD-084",
+      "what": "⛔ ONE FACT, TWO SOURCES, BOTH IN THE RELEASED DEPOSIT: aso-parent-gap-pairing.json attributes the seven-to-ten hybridised-nucleotide RNase-H1 range to PMID 35664704, while the journal article attributes 'seven to ten the working range' to PMID 24981949. ★ Decide which is the source and make it one fact in one place — and note that lint_citations cannot see this, because BOTH identifiers resolve: the defect is that two different works are credited for one number, not that either is fabricated. Separately: the journal article has NO committed PMID→title artifact (journal-reference-authors.json holds authors and no titles), so any tool resolving that manuscript's citations gets an empty record — PMID 39912803 did. Emit fusion-junction-aso-journal-references.json alongside the markdown.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "The FIX is in-repo and ours: correcting the wording of a committed artifact so it stops contradicting itself. ⛔ What is NOT ours, and is deliberately not in this row's scope, is re-depositing the corrected artifact to Zenodo or amending the DOI record — that is an outward-facing act under CLAUDE.md §3 and needs trimcrae to name THAT deposit for THAT act. File the re-deposit as its own row when a corrected set exists; do not let it ride along on this one."
+    },
+    {
+      "id": "AUT-PROP-047",
+      "what": "RUN claim_audit.py ON THE DEGRADER PAPER. One manuscript is one manuscript: the ASO draw found a 3-refutation shape in interpretation claims and zero in twenty data/literature claims, and a second paper is what turns that from an observation into a pattern (or refutes it). The sampler is committed, deterministic under a seed, and free to run. ⚠ Score it the same way: report the Wilson interval, and do NOT claim a rate is 'near' Kosmos's 57.9% when n=10 cannot distinguish 57.9% from 90%.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "proposal",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-085",
+      "what": "THE MANUSCRIPTS SUITE INTERMITTENTLY REPORTS A WHOLE FILE AS ERROR UNDER xdist: 15 items of test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py errored in one of three runs on 2026-08-28, passing standalone and on re-run. Under `--dist loadfile` a dead worker fails an ENTIRE FILE, and preflight's summary line cannot distinguish that from a real defect — which is the dangerous half: a session that sees it either chases a phantom or learns to discount real reds. ★ FIX: retry-once on worker crash, or a verdict line that names a worker crash as what it is. ⚠ Do NOT 'fix' it by loosening the summary.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
         "strategy": null
       },
       "kind": "process_defect",
