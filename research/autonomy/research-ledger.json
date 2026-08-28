@@ -2528,9 +2528,9 @@
         "publication": "PUB-STRATEGY-ARCH",
         "strategy": "ST-STRATEGY"
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0072-1681f3fa",
+      "claimed_utc": "2026-08-28T22:59:48Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2547,7 +2547,13 @@
       "depends_on_evidence": "research/autonomy/priority.py:325 (sole score writer), :1008 (-1e9 sentinel), :1047 (_table TypeError); research/autonomy/health.py:731; research/autonomy/handoff.py:186; counts reproduced against 95071429c from git AND after `priority.py --write`",
       "what": "⛔⛔ A HAND-FILED LEDGER ROW NEVER ACQUIRES A SCORE, AND FOUR READERS TREAT THAT ABSENCE AS 'NOT WORK' — SO 94 OF 271 ROWS (35%) HAVE NEVER BEEN OFFERED TO ANY CYCLE. Measured 2026-08-28 at 95071429c. `priority.py:325` is the ONLY place a score is CREATED — verified by enumerating every writer of the field (:346, :493, :655, :727, :738, :870, :921 all ADJUST an existing score and each guards on `score is not None`) — and it sits inside `build_entries`, which reads systems/graph and produces DERIVED rows only. `merge()` carries a hand-filed row forward verbatim, so a row filed without a `score` key can never gain one. Instrumented, not argued: `git show HEAD:research/autonomy/research-ledger.json` and the tree after a fresh `priority.py --write` BOTH report 271 entries / 103 with `score is None` / 94 with no `score` key, and the SET of unscored ids is IDENTICAL before and after — re-scoring moves none of them.\n⛔ FOUR READERS THEN EXCLUDE EXACTLY THAT SET. `priority.py:1008` sorts them out behind a -1e9 sentinel; `priority.py:_table` CRASHES on one (`TypeError: unsupported format string passed to NoneType.__format__` — reproduce with `python3 research/autonomy/priority.py --limit 300`), so the ranker's own view cannot render them at all; `health.py:731` requires a score before it will count a row TAKEABLE; `handoff.py:186` requires one before it will put a row in the successor's queue. ⚠ THE SENTINEL IS THE TELL — somebody knew scores could be None and made the SORT tolerate it, while the same run's renderer was left unable to print them. And `health.py:queue_is_takeable` cannot see any of this: it reports TAKEABLE off the scored rows, so the ledger could reach 100% unscored real work and the stall condition would still print green on one derived row. An absent score is being read as a reading of absence (CLAUDE.md §4).\n⚠ THE COST IS POINTED STRAIGHT AT CLAUDE.md §0. Of the 79 open unowned unscored rows, 26 are NOT RT-AUTONOMY and several are live in-silico work: AUT-PROP-048 (RT-SGK1, '$0 AND THE INPUTS ARE ON DISK: score NDRG1 against HIF-1 and PPARγ target panels in the two committed expression series'), AUT-PD-110 (RT-ALK-HIT re-grade against PMID 42660639), AUT-PD-005 (RT-DEGRADER-TERNARY), AUT-079 / AUT-PD-100 / AUT-PD-102 (RT-JUNCTION-NEOANTIGEN HLA panel). Meanwhile the RANKED queue's top takeable rows are RT-AUTONOMY process defects at 123–132. THE LOOP HAS BEEN DOCUMENTING ITSELF BECAUSE THE RESEARCH WAS STRUCTURALLY INVISIBLE, not because any cycle chose it.\n⭐ THE FIX IS MEASURED AND IT IS §0-POSITIVE, WHICH WAS NOT OBVIOUS AND HAD TO BE CHECKED. The principled derivation already exists here: `apply_session_penalties._resolve` inherits a prerequisite's score from its parent and writes `_score_basis` WITHOUT writing `score_inputs`, and `admissibility.py:315` models exactly that as UNACCOUNTED rather than a failure — so an inherited score is an established, non-fabricated shape. Applying the same idiom by `serves.route` gives RT-SGK1 140.0, RT-ALK-HIT 140.0, RT-PARTNER-STRAT 109.0, RT-JUNCTION-NEOANTIGEN 44.0: live research work would enter ABOVE the 123–132 autonomy rows. ⛔ AND THE FLOODING RISK IS ABSENT FOR A MEASURED REASON — RT-AUTONOMY HAS NO DERIVED ROW AT ALL (it is not a route in systems/graph), so the 53 RT-AUTONOMY rows cannot inherit and stay exactly as hand-scored today; same for RT-ASO-JUNCTION and RT-DEGRADER-TERNARY. ⚠ Place the pass LAST in `build_ledger`, immediately before the sort, so no later pass overwrites the assignment — the placement `_resolve` needed AUT-PD-063 to learn. ⛔ The residue (rows whose route has no derived sibling) is NOT scorable and must be REPORTED, never invented: that is a new health condition's job, and it must be `advises`, not `redirects` — ~60 rows redirecting every cycle is the death spiral CONDITION_ON_RED already warns about.",
       "_renamed_from": "AUT-PD-142",
-      "_renamed_why": "re-allocated at the rebase onto 469e8944d: a concurrent session had taken the id this row was first filed under. AUT-PD-143's own finding is why the count was re-derived explicitly rather than assumed."
+      "_renamed_why": "re-allocated at the rebase onto 469e8944d: a concurrent session had taken the id this row was first filed under. AUT-PD-143's own finding is why the count was re-derived explicitly rather than assumed.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:59:48Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "kind": "process_defect",
