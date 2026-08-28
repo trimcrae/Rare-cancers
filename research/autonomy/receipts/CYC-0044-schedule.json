@@ -1,0 +1,35 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0044-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T14:00:00Z",
+  "shape": "Dispatch-only, continuing this session's steady rhythm: one subagent always in flight, merge-and-immediately-redispatch on each notification. The ready-work-at-turn-end hook fires on every turn regardless of prior delivered work (it checks live state, not history), so rather than re-litigate that each time, settled into keeping one background subagent perpetually running against the backlog until it thins or a real escalation trigger fires.",
+  "took": "AUT-PROP-029 — wire the already-built stuck_clock.py two-clock stall model into health.py (RT-AUTONOMY)",
+  "took_what": "This session's own AUT-PD-046 backfill made this row readable for the first time. It documents a build-but-never-wired gap: research/autonomy/stuck_clock.py fully implements a git-history-derived two-clock model for detecting ledger rows retried forever without real progress (tested, working), but nothing outside its own test calls its terminal-row function — health.py has no board condition reading it, priority.py doesn't exclude a terminal row from ready-work, no preflight gate surfaces a fresh verdict. A row could compute as needing human attention today and nothing in the loop would show that to anyone. Claimed cleanly on attempt 1.",
+  "changed": [
+    "NOTHING LANDED YET — dispatch-only. Launched a background Agent-tool subagent (isolation: worktree) with a brief: add a new health.py board condition calling stuck_clock's terminal-row function, matching the file's own existing condition pattern and correctly justifying its CONDITION_ON_RED classification (most likely 'advises', by analogy with the file's other retrospective conditions, but told to verify against the actual reasoning rather than assume); decide whether priority.py's ready-work table should exclude a terminal row (display-only — the verdict must stay computed, never written into the ledger, per stuck_clock's own design constraint); check whether a preflight surfacing point fits cleanly without inventing a new tier; and fix stuck_clock.py itself only if a real bug is found while wiring it in, not speculatively.",
+    "Per 'the driver never waits', this receipt is written and the turn ends at dispatch."
+  ],
+  "cost": "$0. Engineering, CPU and one Claude subagent.",
+  "subagents": {
+    "max_concurrent": 1,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 5,
+    "seats": [
+      "aut-prop-029-wire-stuck-clock (agentId ae5e42d1ae10f6893, still running at receipt time — isolation: worktree, will push branch aut-prop-029-wire-stuck-clock or similar and report back; not yet observed). Serial total 5 counts this alongside four earlier subagents this session; only one was ever concurrent (max_concurrent: 1)."
+    ]
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [
+    "Merge the aut-prop-029-wire-stuck-clock branch once its completion notification arrives: verify the new health.py condition actually runs and reports (not just exists), run full preflight, update the ledger, write a receipt, push."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "No create_session/handoff mechanism available in this scheduled-Routine context (AUT-PD-045). This is the fifth background-subagent dispatch this session."
+  }
+}
