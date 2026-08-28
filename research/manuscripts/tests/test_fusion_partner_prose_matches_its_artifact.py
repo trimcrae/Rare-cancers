@@ -224,6 +224,30 @@ def _load_artifact():
                           encoding="utf-8"))
 
 
+#: ⛔⛔ A SECOND, FOREIGN ARTIFACT — AUT-COV-001's BLIND-SPOT AUDIT (2026-08-28). §3.6's SEMA3C
+#: fold-change ratios sat in `DECLARED_NOT_ARTIFACT_OWNED` as "foreign-artifact": true in the sense
+#: that this file's `bind()` machinery only ever receives the POOLING artifact via `art`, false in
+#: the sense that mattered — the numbers ARE owned, by this file, two sentences after they are
+#: quoted. `ratio_calibration.per_gene.SEMA3C` gives `emc_over_normal = 1.8175` and
+#: `emc_over_sarcoma = 1.6622`, which round to exactly the prose's 1.8 and 1.7, and `per_gene.values`
+#: -> `SEMA3C._n_emc_libs` gives 4, exactly the "n = 4 EMC libraries" three sentences later. A
+#: declaration written because binding a SECOND file looked like more plumbing than one number was
+#: worth is the same failure CLAUDE.md rule 1.1 names for a caller: a number asserted in prose about
+#: an artifact nobody read it against is a hope, not a property. So it is loaded here, once, and the
+#: two DECLARED rows are promoted to bindings below.
+GSE28866 = os.path.join(os.path.dirname(MANUSCRIPTS), "modalities", "gse28866-tumour-vs-normal.json")
+
+
+def _load_gse28866():
+    return json.load(open(_required(GSE28866, "the GSE28866 tumour-vs-normal deposit"),
+                          encoding="utf-8"))
+
+
+def _xfold(x):
+    """A fold-change as the prose prints it: one decimal, no unit — the × is in the pattern."""
+    return f"{float(x):.1f}"
+
+
 def _flat(text):
     """The prose with hard wrapping collapsed and markdown emphasis removed.
 
@@ -1627,6 +1651,23 @@ bind("Agaram's published follow-up range, at both sites establishing it publishe
      r"follow-up range \((\d+)[–-](\d+) months\)",
      lambda a: _agaram_followup_range(a))
 
+# ---- F.4 · a fold-change over a FOREIGN artifact, promoted from declared to bound (AUT-COV-001) --
+#
+# ⛔ BOTH ROWS BELOW USED TO BE DECLARED_NOT_ARTIFACT_OWNED, CLASS "foreign-artifact". Read narrowly
+# that class is correct — `art` above is only ever the pooling artifact, and these two figures come
+# from GSE28866 — but read for what it actually licenses, it let two artifact-owned numbers sit
+# unwatched because the artifact that owns them is a different file than the one `bind()`'s `value`
+# callable already had open. `_load_gse28866()` closes that gap by opening the second file itself;
+# nothing about the BINDING contract required `art` to be the only thing a callable may read.
+bind("§3.6's GSE28866 fold-change over normal tissue and over other sarcomas — the third expression "
+     "cohort's SEMA3C ratios, whose one home is named two sentences after them",
+     r"SEMA3C reads (\d+\.\d+)× normal tissue and (\d+\.\d+)× other sarcomas",
+     lambda a: (_xfold(_load_gse28866()["ratio_calibration"]["per_gene"]["SEMA3C"]["emc_over_normal"]),
+                _xfold(_load_gse28866()["ratio_calibration"]["per_gene"]["SEMA3C"]["emc_over_sarcoma"])))
+
+bind("§3.6's GSE28866 EMC library count backing the SEMA3C ratio above",
+     r"n = (\d+) EMC libraries",
+     lambda a: str(_load_gse28866()["per_gene"]["values"]["SEMA3C"]["_n_emc_libs"]))
 
 
 # ⚠ DECLARED NOT-ARTIFACT-OWNED NUMBERS.
@@ -1698,12 +1739,12 @@ DECLARED_NOT_ARTIFACT_OWNED = [
      "`git show <PIN>:<path> | wc -w` — and they are stated in the REGISTER, which explains why it "
      "is a separate document, not in the manuscript's own argument."),
 
-    ("foreign-artifact",
-     r"SEMA3C reads 1\.8× normal tissue and 1\.7× other sarcomas",
-     "GSE28866's expression ratios. Their one home is "
-     "`research/modalities/gse28866-tumour-vs-normal.json` -> `per_gene.values`, named in the same "
-     "sentence. §3.6 states four separate times that this deposit touches no clinical claim, so it "
-     "is not a fusion-partner pooled quantity."),
+    # ⛔ RETIRED 2026-08-28 (AUT-COV-001), NOT DELETED WITHOUT A TRACE: "SEMA3C reads 1.8× normal
+    # tissue and 1.7× other sarcomas" and "n = 4 EMC libraries" both stood here as class
+    # "foreign-artifact" — true that `art` above never carries GSE28866, false that the figures were
+    # unbindable. Section F.4 above opens the second file directly and binds both; the fold-change
+    # notation this row used to excuse for this document is now in `_CENSUS_STATS` itself, which is
+    # what makes it reusable rather than a fact about this one sentence.
 
     # ---- declared against the STATISTICAL-NOTATION census (section F) ----------------------------
 
@@ -1715,13 +1756,6 @@ DECLARED_NOT_ARTIFACT_OWNED = [
      "attribution' — a statement about how many cohorts stand behind a claim, not a count this "
      "synthesis pools. The artifact records the Bangerter record with no `n` at all, which is the "
      "honest state and must not be filled in to make this bindable."),
-
-    ("foreign-artifact",
-     r"n = 4 EMC libraries",
-     "GSE28866's library count. Its home is "
-     "`research/modalities/gse28866-tumour-vs-normal.json`, named two sentences earlier, and §3.6 "
-     "states four times that this deposit touches no clinical claim — same class as the SEMA3C "
-     "ratios declared above."),
 
     ("source-quoted",
      r"40 cm buttock tumour",
@@ -1995,11 +2029,28 @@ _CENSUS = re.compile(r"\d+/\d+|\d+(?:\.\d+)? ?%")
 #: prints it ("P = .004"); a Fisher value computed here prints with the leading zero
 #: ("p = 0.0034"). Reading only one form would leave the other class entirely unwatched, which is
 #: the same one-of-a-pair defect this file already carries seven instances of.
+#:
+#: ⭐ A FIFTH NOTATION, ADDED 2026-08-28 (AUT-COV-001) — a fold-change printed with the
+#: multiplication sign. It is not paper-specific: the zero-coverage fusion-output manuscript's
+#: SET-SPECIFIC enrichment reads "11.9× threshold" and "55–121× the deepest previously available",
+#: and the same shape recurs across the degrader and TCIP families (grep `[0-9.]+×` across
+#: `research/manuscripts` before assuming it is local to one document). ⚠ Named in words rather than
+#: by filename, deliberately — `claim_coverage.py`'s harvester credits a test module's literals to
+#: any document whose BASENAME appears anywhere in that module's source, comments included (CYC-0014
+#: found this the hard way: a filename in a comment here once read as 82 sentences of false
+#: coverage on a document this file opens none of). Reusable exactly the way CYC-0013's four were:
+#: the SHAPE is generic, and each document that ends up with a numbers guard inherits it the day
+#: that guard opens the document, with no further edit here.
+#: ⚠ SPELLED-OUT "N-fold" IS A DIFFERENT NOTATION AND IS DELIBERATELY NOT INCLUDED HERE: this
+#: document's two instances are the word form ("two-fold in mean follow-up"), which a digit-anchored
+#: pattern must not match — matching it would credit a sentence this file binds nothing in, the
+#: exact false-positive AUT-COV-001 was filed to stop, not to add another instance of.
 _CENSUS_STATS = re.compile(
     r"\bn = \d+"                            # a cohort size
     r"|\b[Pp] ?[=<] ?0?\.\d+"               # a published or post-hoc p-value, either printed form
     r"|\bHR ?=? ?\d+(?:\.\d+)?"            # a hazard ratio
     r"|\d+(?:\.\d+)? ?(?:cm|months)\b"     # a size or a duration
+    r"|\d+(?:\.\d+)?×"                      # a fold-change, printed with the multiplication sign
 )
 
 
