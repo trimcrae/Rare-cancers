@@ -6881,8 +6881,8 @@
         "strategy": null
       },
       "kind": "harden",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "CYC-0064-1f1a2449",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -6892,9 +6892,15 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Repository and CI work; no outward-facing act and no access only trimcrae has.",
-      "claimed_utc": null,
+      "claimed_utc": "2026-08-28T19:38:30Z",
       "evidence": "Dispatched 2026-08-28 ~19:15 UTC by CYC-0061-d60caf7b, ref=main, reason names 86c68dfbb. The workflow rebuilds the parts and runs aso_archive_manifest.py (line 83) and commits to main by design — its own header explains why it writes to the trunk rather than a branch. Preflight at 86c68dfbb was red on exactly those three staleness tests and on three further tests that reproduce on clean origin/main (see AUT-PD-004).",
-      "closes_clause": null
+      "closes_clause": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T19:38:30Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-118",
