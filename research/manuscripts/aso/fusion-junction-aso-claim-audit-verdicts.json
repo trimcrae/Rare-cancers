@@ -1,0 +1,1067 @@
+{
+ "_what": "The claim-audit sampling manifest for the ASO journal article WITH VERDICTS FILLED IN. Each verdict was reached by reproducing the number from the artifact that owns it, or by re-finding the source on PubMed — never by re-reading the manuscript's own prose.",
+ "_what_this_is_not": [
+  "NOT produced by claim_audit.py. That tool emits verdict: null and must never fill one in; a tool that scored its own paper is the failure mode this audit exists to catch. The sampling half is machine-made and regenerable; this half is not.",
+  "NOT an independent audit in Kosmos's sense. Kosmos's 57.9% came from expert scientists OUTSIDE the system. This was done by an agent seat inside the same repository that wrote the paper, with no access to the wet-lab facts, so it can catch a claim the artifacts contradict and cannot catch a claim the artifacts and the prose are wrong about together. Read every rate below with that ceiling attached.",
+  "NOT a re-review of the manuscript. Ten sentences per stratum, drawn uniformly at seed 20260828. Sentences outside the sample were not examined and nothing here says they are fine."
+ ],
+ "_generated_by": "hand-filled from research/manuscripts/claim_audit.py's manifest; see _verdict_protocol",
+ "_protocol_source": "research/method-watch-autonomy-prior-art-2.md §4.1, §4.2",
+ "manuscript": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+ "manuscript_sha256": "40ace959a67c4ffdb5cb660d7541ae19d548444c97efdaf45ba27d7874b25319",
+ "seed": 20260828,
+ "n_per_type_requested": 10,
+ "reproduce": "python3 research/manuscripts/claim_audit.py --manuscript research/manuscripts/aso/fusion-junction-aso-journal-article.md --seed 20260828 --n-per-type 10 --write <out.json>",
+ "population_by_type": {
+  "DATA-ANALYSIS": 74,
+  "LITERATURE": 24,
+  "INTERPRETATION": 62
+ },
+ "excluded_non_claim": 27,
+ "strata": {
+  "DATA-ANALYSIS": {
+   "population": 74,
+   "sampled": 10,
+   "sampled_all": false
+  },
+  "LITERATURE": {
+   "population": 24,
+   "sampled": 10,
+   "sampled_all": false
+  },
+  "INTERPRETATION": {
+   "population": 62,
+   "sampled": 10,
+   "sampled_all": false
+  }
+ },
+ "sample": [
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 43,
+   "section": "abstract",
+   "sentence": "That junction is in no normal transcript, so an antisense gapmer could in principle cleave the fusion, sparing its parents; none is reported for any *NR4A3* fusion in the literature retrieved here.",
+   "text_plain": "That junction is in no normal transcript, so an antisense gapmer could in principle cleave the fusion, sparing its parents; none is reported for any NR4A3 fusion in the literature retrieved here.",
+   "claim_id": "C-3dfe5fe4f1df",
+   "type": "LITERATURE",
+   "signals": [
+    "uncited-literature-scope",
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "in principle",
+    "could"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [],
+    "note": "No PMID annotation is carried on this sentence"
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Re-searched rather than re-read. A PubMed search run for this audit on 2026-08-28 for (NR4A3 fusion OR EWSR1-NR4A3 OR EWSR1::NR4A3 OR TAF15-NR4A3 OR EWS-CHN) AND (antisense OR gapmer OR 'antisense oligonucleotide' OR siRNA OR knockdown) returned exactly ONE record, PMID 29377304 (doi 10.1002/jcb.26721), which is NR4A3 knockdown in trophoblast syncytialisation — wild-type NR4A3, no fusion, no junction-directed design. A broader query over NR4A3/CHN/TEC x antisense-family terms returned 91 records, none a fusion-junction design. ⚠ BOUND: a PubMed re-search is not exhaustive over patents, preprints or non-indexed journals, which the sentence's own 'in the literature retrieved here' already concedes. ⚠ Recorded: this abstract sentence carries no citation, while the same fact is cited in the Introduction (PMIDs 8634690, 32572850) — an abstract-level uncited-literature pattern the sampler flagged as uncited-literature-scope.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 80,
+   "section": "introduction",
+   "sentence": "No such design is reported for any *NR4A3* fusion in the literature retrieved here.",
+   "text_plain": "No such design is reported for any NR4A3 fusion in the literature retrieved here.",
+   "claim_id": "C-7feeee312316",
+   "type": "LITERATURE",
+   "signals": [
+    "uncited-literature-scope"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [],
+    "note": "No PMID annotation is carried on this sentence"
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Same re-search as C-3dfe5fe4f1df, and the same bound. No reported antisense or RNA-interference design against an NR4A3 fusion junction was found on PubMed on 2026-08-28.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 85,
+   "section": "introduction",
+   "sentence": "That parent liability is the one this work screens for directly.",
+   "text_plain": "That parent liability is the one this work screens for directly.",
+   "claim_id": "C-31ff650b44cd",
+   "type": "INTERPRETATION",
+   "signals": [],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "introduction",
+     "pmids_cited_in_section": [
+      "1794439",
+      "21846246",
+      "23052253",
+      "24345066",
+      "24981949",
+      "31331701",
+      "32572850",
+      "33241214",
+      "37980543",
+      "39912803",
+      "41055792",
+      "8634690",
+      "9049825"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced. research/modalities/aso_parent_gap_pairing.py computes exactly this liability: MIN_DUPLEX_BP = 10 (line 108) and counts_as_liability = run >= MIN_DUPLEX_BP (line 164), over the six mature wild-type parent transcripts. aso-parent-gap-pairing.json carries 190 per_design rows each with longest_parent_duplex_bp_through_gap. A direct screen for this liability exists.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 104,
+   "section": "materials and methods",
+   "sentence": "All analyses are computational and use public data; no laboratory work was performed.",
+   "text_plain": "All analyses are computational and use public data; no laboratory work was performed.",
+   "claim_id": "C-40bb57c0455a",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "methods-section"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": "UNVERIFIABLE",
+   "verdict_evidence": "Not settleable by reproduction. It is a claim about the absence of an event outside the repository. Every artifact opened for this audit records a computational method and a _cost of CPU only, and no wet-lab artifact was found under research/modalities — but an absent reading is not a reading of absence (CLAUDE.md §4), and no committed record can establish that no laboratory work was performed. Recorded UNVERIFIABLE rather than guessed.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 108,
+   "section": "materials and methods",
+   "sentence": "Canonical transcripts for the five partner genes, and for *NR4A3*, were obtained from Ensembl.<sup>14</sup><!--PMID:39656687-->",
+   "text_plain": "Canonical transcripts for the five partner genes, and for NR4A3, were obtained from Ensembl.",
+   "claim_id": "C-2b8508242ff7",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid",
+    "methods-section"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "39656687"
+   ],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "39656687",
+      "title": "Ensembl 2025.",
+      "journal": "Nucleic acids research",
+      "year": 2025,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Re-found on PubMed: PMID 39656687, 'Ensembl 2025.', Nucleic Acids Research, 2025, doi 10.1093/nar/gkae1071. The record exists, matches the committed reference entry field for field, and is the correct citation for obtaining canonical transcripts from Ensembl.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 126,
+   "section": "materials and methods",
+   "sentence": "A design is liable where a wild-type parent pairs its whole catalytic gap over a contiguous run of ten base pairs or more, ten being adopted rather than measured.",
+   "text_plain": "A design is liable where a wild-type parent pairs its whole catalytic gap over a contiguous run of ten base pairs or more, ten being adopted rather than measured.",
+   "claim_id": "C-4e022d38fa13",
+   "type": "INTERPRETATION",
+   "signals": [
+    "adoption-marker",
+    "own-quantity",
+    "quantity-form:numeral-word",
+    "methods-section",
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "rather than"
+   ],
+   "adoption_markers": [
+    "adopted rather than",
+    "rather than measured",
+    "being adopted"
+   ],
+   "pmids": [],
+   "pins": [],
+   "mixed": true,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "materials and methods",
+     "pmids_cited_in_section": [
+      "24981949",
+      "39656687",
+      "7545436"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced. The predicate is aso_parent_gap_pairing.py line 164 with MIN_DUPLEX_BP = 10 at line 108, and aso-parent-gap-pairing.json _what_this_is_not states verbatim: 'MIN_DUPLEX_BP is a STATED threshold, not a measured one'. ⚠ PROVENANCE DISCREPANCY, recorded not graded: the artifact attributes the seven-to-ten hybridised-nucleotide range to PMID 35664704; the manuscript attributes 'seven to ten the working range' to PMID 24981949. Two different sources for the same range; neither is refuted here.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 130,
+   "section": "materials and methods",
+   "sentence": "Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at 250 nM strand.<sup>15</sup><!--PMID:7545436-->",
+   "text_plain": "Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at 250 nM strand.",
+   "claim_id": "C-fbf1c77059b0",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid",
+    "own-quantity",
+    "quantity-form:digit",
+    "methods-section"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "7545436"
+   ],
+   "pins": [],
+   "mixed": true,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "7545436",
+      "title": "Thermodynamic parameters to predict stability of RNA/DNA hybrid duplexes.",
+      "journal": "Biochemistry",
+      "year": 1995,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Re-found on PubMed: PMID 7545436, 'Thermodynamic parameters to predict stability of RNA/DNA hybrid duplexes.', Biochemistry, 1995, doi 10.1021/bi00035a029; the abstract states the nearest-neighbour parameters for RNA/DNA hybrid duplexes. The manuscript's own condition is reproduced from junction-aso-thermo.json: conditions.strand_conc_nm = 250.0, temperature_k 310.15, table Bio.SeqUtils.MeltingTemp.R_DNA_NN1, primary_source pmid 7545436.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 132,
+   "section": "materials and methods",
+   "sentence": "Only the fusion-versus-parent separation is, and as a floor: the fusion duplex pairs all ten locked residues where each parent pairs five.",
+   "text_plain": "Only the fusion-versus-parent separation is, and as a floor: the fusion duplex pairs all ten locked residues where each parent pairs five.",
+   "claim_id": "C-9622ae797c75",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:numeral-word",
+    "methods-section"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced from the committed geometry plus a direct measurement. aso-parent-gap-pairing.json method gives oligo_len 16, wing 5, gap_positions_0based [5, 10], and one design per register at which the breakpoint falls INSIDE the gap. Each five-residue locked wing therefore lies wholly on one side of the gap, so each parent supplies exactly one wing (5 locked residues) while the fusion supplies both (10). Measured at the recorded parent liability sites of the two named reagents, a parent pairs 3/10 and 4/10 locked residues — below the stated five, so the 'as a floor' framing is not violated. (The best locked-pairing parent windows anywhere, 8/10 and 10/10, pair 1/6 and 0/6 gap positions and so form no duplex.)",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 144,
+   "section": "the reagents",
+   "sentence": "Both hold the panel's top gap-level margin of three: three junction-unique bases inside the catalytic gap on the shorter side of the breakpoint, and neither pairs a wild-type parent through the gap at the ten-base-pair criterion below.",
+   "text_plain": "Both hold the panel's top gap-level margin of three: three junction-unique bases inside the catalytic gap on the shorter side of the breakpoint, and neither pairs a wild-type parent through the gap at the ten-base-pair criterion below.",
+   "claim_id": "C-6f6088d15ce2",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:numeral-word"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced. aso-parent-gap-pairing.json rows for EWSR1_e12__NR4A3_e3 / GGGCATATCATCAAAC and TAF15_e6__NR4A3_e3 / GGGCATATCTTGTGTG: gap_specificity_margin 3 and counts_as_liability False for both. Panel maximum margin is 3 (38 of 190 designs hold it), so 'the panel's top' is correct.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 148,
+   "section": "the reagents",
+   "sentence": "Both reagents sit close to that ten-base-pair criterion.",
+   "text_plain": "Both reagents sit close to that ten-base-pair criterion.",
+   "claim_id": "C-df54316d151a",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:numeral-word"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced. longest_parent_duplex_bp_through_gap is 8 for the EWSR1 reagent and 9 for the TAF15 reagent against a criterion of 10 — one and two base pairs short. Independently corroborated by aso-control-oligos.json, whose reagent_longest_parent_duplex_through_gap_bp fields are 8 and 9, both against TFG.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 159,
+   "section": "the reagents",
+   "sentence": "Predicted transcriptome load separates the two: 123 gap-paired sense-strand near-matches for the *EWSR1* reagent at a deeper search ceiling than the default, against eight for the *TAF15* one.",
+   "text_plain": "Predicted transcriptome load separates the two: 123 gap-paired sense-strand near-matches for the EWSR1 reagent at a deeper search ceiling than the default, against eight for the TAF15 one.",
+   "claim_id": "C-d4a34cd96203",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:digit"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced exactly. junction-aso-offtarget-e12n3-deep500-b1.json n_true_cleavage_risk = 123 for GGGCATATCATCAAAC; junction-aso-offtarget-taf15e6n3-deep500-b1.json n_true_cleavage_risk = 8 for GGGCATATCTTGTGTG. Both files are the deeper (deep500) ceiling, matching 'a deeper search ceiling than the default'.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 178,
+   "section": "the reagents",
+   "sentence": "Discounted by the breakpoint distribution of an 18-case series,<sup>16</sup><!--PMID:12378528--> the two junctions account for 68.4% of molecularly confirmed cases in a 58-case cohort.<sup>17</sup><!--PMID:36948401-->",
+   "text_plain": "Discounted by the breakpoint distribution of an 18-case series, the two junctions account for 68.4% of molecularly confirmed cases in a 58-case cohort.",
+   "claim_id": "C-21c9803193bb",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid",
+    "pinned-figure",
+    "own-quantity",
+    "quantity-form:digit"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "12378528",
+    "36948401"
+   ],
+   "pins": [
+    "aso_reagent_coverage_percent_journal"
+   ],
+   "mixed": true,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "12378528",
+      "title": "Molecular genetic characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid chondrosarcoma.",
+      "journal": "Genes, chromosomes & cancer",
+      "year": 2002,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     },
+     {
+      "pmid": "36948401",
+      "title": "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion.",
+      "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+      "year": 2023,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Both sources re-found on PubMed and the arithmetic reproduced. PMID 12378528 (doi 10.1002/gcc.10127): 18 EMCs, EWS exon 12 to CHN exon 3 the most frequent transcript (type 1, 10 tumours) of 15 EWS/CHN cases, and RBP56 exon 6 to CHN exon 3 in all 3 RBP56 cases. PMID 36948401 (doi 10.1016/j.modpat.2023.100161): 58 FISH-confirmed EMCs, 46 (79%) EWSR1::NR4A3 and 9 (16%) TAF15::NR4A3. Discounting: 46/58 x 10/15 + 9/58 = 0.5287 + 0.1552 = 0.6839 = 68.4%. Exact.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 194,
+   "section": "selection from a panel of 190 designs",
+   "sentence": "The parent liability the Introduction describes is invisible to the instrument a designer would ordinarily use, at any threshold that instrument is normally run at.",
+   "text_plain": "The parent liability the Introduction describes is invisible to the instrument a designer would ordinarily use, at any threshold that instrument is normally run at.",
+   "claim_id": "C-47599ea7dec4",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "would",
+    "is invisible"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "selection from a panel of 190 designs",
+     "pmids_cited_in_section": [],
+     "pinned_figures_in_section": [
+      "aso_energy_closest_ddg_ewsr1_reagent",
+      "aso_energy_closest_ddg_taf15_reagent",
+      "aso_energy_designs_with_a_fully_paired_offtarget",
+      "aso_energy_designs_within_2_kcal",
+      "aso_liable_against_wildtype_nr4a3_journal_selection",
+      "aso_liable_designs_journal_selection",
+      "aso_panel_designs_total_journal_selection",
+      "aso_panel_junctions_in_frame_journal_selection",
+      "aso_parent_null_exon_terminus_chimera_journal",
+      "aso_parent_null_observed_rate_journal",
+      "aso_parent_null_scrambled_mononucleotide_journal"
+     ]
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": "REFUTED",
+   "verdict_evidence": "Two independent observations from this repository's own artifacts contradict the universal 'at any threshold that instrument is normally run at'. (1) Recomputing identity at the parent liability site each row of aso-parent-gap-pairing.json names (parent, parent_start_0based, against the mature parents spliced from aso-premrna-sequences.json): the 87 liable designs sit at 10-14/16 identity, median 12/16, and SEVEN are at 14/16 — inside the manuscript's own near-match threshold of >=14/16, not below it. A three-mismatch budget returns 37 of 87 (42.5%). (2) The same blastn >=14/16 screen at the deeper result ceiling returns n_parent_or_intended_hits of 3, 1, 3, 3, 2 and 3 for e10n3, e15n3, taf15e6n3, tcf12e11n3, tfge5n3 and tfge7n3, where the default ceiling returned 0 for five of the six and 1 for e10n3. (The seventh, taf15e14n3, returns 0 at both ceilings.) The threshold is identical in both files (method.near_match_threshold '>= 14/16 identical'); what removes parents from the off-target list is method.parent_set.names_excluded and accessions_excluded, an explicit exclusion, not the threshold. ⚠ BOUND: n_parent_or_intended_hits conflates parent with intended-target hits and so bounds parent visibility from above; observation (1) does not depend on that field. WHAT SURVIVES: the mechanism holds for the large majority of designs at a one- or two-mismatch budget. The universal quantifier does not.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 205,
+   "section": "selection from a panel of 190 designs",
+   "sentence": "Of those, 87 let one of six mature wild-type parent transcripts pair their entire catalytic gap over a contiguous duplex of at least ten base pairs, and 61 of the 87 do so against wild-type *NR4A3*; 85 are paired by one of the design's own two parent genes.",
+   "text_plain": "Of those, 87 let one of six mature wild-type parent transcripts pair their entire catalytic gap over a contiguous duplex of at least ten base pairs, and 61 of the 87 do so against wild-type NR4A3; 85 are paired by one of the design's own two parent genes.",
+   "claim_id": "C-33810cc7e63d",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "pinned-figure",
+    "own-quantity",
+    "quantity-form:digit"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [
+    "aso_liable_designs_journal_selection",
+    "aso_liable_against_wildtype_nr4a3_journal_selection"
+   ],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [
+     {
+      "pin_id": "aso_liable_designs_journal_selection",
+      "artifact": "research/modalities/aso-parent-gap-pairing.json",
+      "key": "corpus.n_with_parent_duplex_through_gap",
+      "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+     },
+     {
+      "pin_id": "aso_liable_against_wildtype_nr4a3_journal_selection",
+      "artifact": "research/modalities/aso-parent-gap-pairing.json",
+      "key": "corpus.which_parent_supplies_it.NR4A3",
+      "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+     }
+    ],
+    "note": null
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "All three numbers reproduced from aso-parent-gap-pairing.json per_design. 87 rows with counts_as_liability; the liable parent is NR4A3 in 61 of them; and in 85 of the 87 the liable parent is one of the design's own two parent genes (computed by parsing each row's junction label and comparing to its parent field).",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 217,
+   "section": "selection from a panel of 190 designs",
+   "sentence": "Across three geometries the liable count does not fall; the archived deposit gives the series.",
+   "text_plain": "Across three geometries the liable count does not fall; the archived deposit gives the series.",
+   "claim_id": "C-344422179c06",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "does not"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "selection from a panel of 190 designs",
+     "pmids_cited_in_section": [],
+     "pinned_figures_in_section": [
+      "aso_energy_closest_ddg_ewsr1_reagent",
+      "aso_energy_closest_ddg_taf15_reagent",
+      "aso_energy_designs_with_a_fully_paired_offtarget",
+      "aso_energy_designs_within_2_kcal",
+      "aso_liable_against_wildtype_nr4a3_journal_selection",
+      "aso_liable_designs_journal_selection",
+      "aso_panel_designs_total_journal_selection",
+      "aso_panel_junctions_in_frame_journal_selection",
+      "aso_parent_null_exon_terminus_chimera_journal",
+      "aso_parent_null_observed_rate_journal",
+      "aso_parent_null_scrambled_mononucleotide_journal"
+     ]
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced across the three committed geometries. aso-parent-gap-pairing.json (5-6-5, 16-mer): 87 liable of 190. aso-parent-gap-pairing-18mer-5-8-5.json: 88 of 266. aso-parent-gap-pairing-20mer-5-10-5.json: 87 of 342. The count does not fall. ⚠ Recorded: as a FRACTION it falls sharply, 45.8% -> 33.1% -> 25.4%. The sentence says count, and the count is what was reproduced.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 225,
+   "section": "selection from a panel of 190 designs",
+   "sentence": "These are whole-duplex run lengths rather than the enzyme's own unit, and the availability the named reagents rest on fails at nine, where the *TAF15* junction's best design is itself liable.",
+   "text_plain": "These are whole-duplex run lengths rather than the enzyme's own unit, and the availability the named reagents rest on fails at nine, where the TAF15 junction's best design is itself liable.",
+   "claim_id": "C-a55bfc38a084",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:digit",
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "rather than"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced. Applying the cut junction by junction over aso-parent-gap-pairing.json: at 10 bp, 35 of the 38 junctions have at least one clearing design; at 9 bp, 31 of 38. The five designs at TAF15_e6__NR4A3_e3 have runs 9, 11, 11, 12, 12, so its best design is exactly 9 and becomes liable at a nine-base-pair cut — 'the availability the named reagents rest on fails at nine', verbatim.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 244,
+   "section": "test articles",
+   "sentence": "Five test articles bear on the junctions this panel designs against, and they divide into two sources with opposite limits.",
+   "text_plain": "Five test articles bear on the junctions this panel designs against, and they divide into two sources with opposite limits.",
+   "claim_id": "C-67d491055058",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:numeral-word"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced against both sources. Source one, PubMed / PMC6766969, doi 10.1002/path.5284, 'Cells and constructs', names THREE constructs verbatim: 'E-N, corresponding to (exons 1-12)-(exons 3-8); T-N, corresponding to (exons 1-6)-(intron 2-exon 8) and T-N*, corresponding to the commonest (exons 1-6)-(exons 3-8) fusion.' Source two, PubMed / PMC9813045, doi 10.1007/s13577-022-00818-x, establishes TWO patient-derived models, USZ20-EMC1 and USZ22-EMC2. Three plus two is five, from two sources.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 261,
+   "section": "test articles",
+   "sentence": "Three are engineered constructs from a published functional study,<sup>20</sup><!--PMID:31020999--> whose exon spans that paper states verbatim; two of them, E-N and T-N*, carry exactly the junctions the reagents above span, so both named reagents have a stated test article.",
+   "text_plain": "Three are engineered constructs from a published functional study, whose exon spans that paper states verbatim; two of them, E-N and T-N*, carry exactly the junctions the reagents above span, so both named reagents have a stated test article.",
+   "claim_id": "C-ce728be528ce",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid",
+    "own-quantity",
+    "quantity-form:numeral-word"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "31020999"
+   ],
+   "pins": [],
+   "mixed": true,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "31020999",
+      "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas.",
+      "journal": "J Pathol",
+      "year": 2019,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Re-found in full text: PubMed / PMC6766969, doi 10.1002/path.5284, 'Cells and constructs' states verbatim 'E-N, corresponding to (exons 1-12)-(exons 3-8); T-N, corresponding to (exons 1-6)-(intron 2-exon 8) and T-N*, corresponding to the commonest (exons 1-6)-(exons 3-8) fusion.' Three constructs, exon spans stated verbatim; E-N is EWSR1 exon 12 to NR4A3 exon 3 and T-N* is TAF15 exon 6 to NR4A3 exon 3 — exactly the junctions the two named reagents span.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 269,
+   "section": "test articles",
+   "sentence": "They are available on request with no repository deposit, and are slow, at reported doubling times of five to six days.",
+   "text_plain": "They are available on request with no repository deposit, and are slow, at reported doubling times of five to six days.",
+   "claim_id": "C-6404178e92b9",
+   "type": "LITERATURE",
+   "signals": [
+    "uncited-literature-scope"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [],
+    "note": "No PMID annotation is carried on this sentence"
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Re-found in full text: PubMed / PMC9813045, doi 10.1007/s13577-022-00818-x states 'Inference of their cell growth indicated a doubling time of 5.09 days for [USZ20-EMC1] and 6.05 days for [USZ22-EMC2]' — five to six days, exact. The same text says the cells 'were biobanked in our living biobank in the Department of Pathology and Molecular Pathology, University Hospital Zurich' and names no repository accession, corroborating 'no repository deposit'. ⚠ The phrase 'available on request' was not located in the retrieved full text, whose availability statement is not in the PMC body; it is not contradicted. ⚠ Recorded: the sentence carries no citation marker of its own — the PMID sits on the preceding sentence — so a quantitative claim about a source is uncited at the point it is made.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 277,
+   "section": "test articles",
+   "sentence": "EMC's defining lesion produces a chimeric transcription factor.<sup>1,20</sup><!--PMID:8634690,31020999-->",
+   "text_plain": "EMC's defining lesion produces a chimeric transcription factor.",
+   "claim_id": "C-dfc934238c5f",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "31020999",
+    "8634690"
+   ],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "31020999",
+      "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas.",
+      "journal": "J Pathol",
+      "year": 2019,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     },
+     {
+      "pmid": "8634690",
+      "title": "Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation.",
+      "journal": "Human molecular genetics",
+      "year": 1995,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Both sources re-found on PubMed. PMID 8634690 (doi 10.1093/hmg/4.12.2219) abstract: the fusion product 'contained the amino-terminal transactivation domain of EWS linked to the entire TEC protein' and 'the predicted TEC protein contains a DNA-binding domain characteristic of nuclear receptors' — a transactivation domain joined to a DNA-binding domain is a chimeric transcription factor. PMID 31020999 (doi 10.1002/path.5284) full text: 'As EMC chimeras retain the DNA binding domain of NR4A3, they potentially recognize NBRE consensus sites', and its ChAP-qPCR shows the chimeras binding the SEMA3C regulatory region.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 283,
+   "section": "test articles",
+   "sentence": "This is an inference and not a determination, and the requirement below is unchanged.",
+   "text_plain": "This is an inference and not a determination, and the requirement below is unchanged.",
+   "claim_id": "C-27b2a58b2cff",
+   "type": "INTERPRETATION",
+   "signals": [],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "test articles",
+     "pmids_cited_in_section": [
+      "29937513",
+      "31020999",
+      "36103645",
+      "36316541",
+      "41055792",
+      "8634690"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Re-found rather than re-read. The full text of the cell-model report (PubMed / PMC9813045, doi 10.1007/s13577-022-00818-x) contains no exon number, no transcript accession and no junction sequence anywhere in its body; it reports only 'an [EWSR1] rearrangement' and 'a [TAF15] rearrangement ... confirmed on the RNA level' by FoundationOne HEME. So no determination exists that the sentence could be overstating, and the requirement it defers to is stated unconditionally at the end of the same section.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 288,
+   "section": "test articles",
+   "sentence": "Reagents exist at both acceptors: 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6 to exon 2, both at the panel's top margin.",
+   "text_plain": "Reagents exist at both acceptors: 5′-AGTGGGCTCTCCACGG-3′ at EWSR1 exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at TAF15 exon 6 to exon 2, both at the panel's top margin.",
+   "claim_id": "C-c8f1bc6656cb",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:digit",
+    "named-sequence"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced. aso-parent-gap-pairing-noncoding-acceptor.json holds AGTGGGCTCTCCACGG at EWSR1_e13__NR4A3_e2 (margin 3, longest parent duplex 8 bp against EWSR1, not liable) and AGTGGGCTCTTGTGTG at TAF15_e6__NR4A3_e2 (margin 3, longest parent duplex 9 bp against NR4A3, not liable). Set maximum margin is 3, so 'the panel's top margin' is correct, and both the base-pair figures and the parent each is against match the following sentence exactly.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 295,
+   "section": "test articles",
+   "sentence": "One requirement is upstream of all of them: the breakpoint of the test article must be established at nucleotide resolution by RNA sequencing before any oligonucleotide is ordered, every design here being specific to the exon pair it was tiled at.",
+   "text_plain": "One requirement is upstream of all of them: the breakpoint of the test article must be established at nucleotide resolution by RNA sequencing before any oligonucleotide is ordered, every design here being specific to the exon pair it was tiled at.",
+   "claim_id": "C-273f873792d6",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "must"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "test articles",
+     "pmids_cited_in_section": [
+      "29937513",
+      "31020999",
+      "36103645",
+      "36316541",
+      "41055792",
+      "8634690"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": "REFUTED",
+   "verdict_evidence": "The reason clause 'every design here being specific to the exon pair it was tiled at' fails on the panel it describes. Grouping aso-parent-gap-pairing.json's 190 per_design rows by antisense sequence gives 176 distinct sequences, of which NINE occur at more than one exon pair, covering 23 of the 190 rows (12.1%). One of the nine is the manuscript's own lead reagent GGGCATATCATCAAAC, which appears at EWSR1_e12__NR4A3_e3, FUS_e10__NR4A3_e3 and TAF15_e11__NR4A3_e3. The manuscript states this itself in the Figure 1 legend ('One 16-mer spans three partners' breakpoints'), so the two sentences contradict each other. WHAT SURVIVES: the requirement the clause supports — sequence the breakpoint before ordering — is unaffected and, given a sequence that spans three junctions, strengthened.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 307,
+   "section": "controls for the knockdown experiment",
+   "sentence": "Clearing the screen is not a claim of inertness; it is the property a negative control has to have.",
+   "text_plain": "Clearing the screen is not a claim of inertness; it is the property a negative control has to have.",
+   "claim_id": "C-0b7578cf51a7",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "is not"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "controls for the knockdown experiment",
+     "pmids_cited_in_section": [],
+     "pinned_figures_in_section": [
+      "aso_parent_null_scrambled_dinucleotide_journal",
+      "aso_parent_null_scrambled_dinucleotide_nr4a3_journal"
+     ]
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced. research/modalities/aso-control-oligos.json carries a field literally named '⛔_not_a_claim_of_inertness': 'Nothing establishes that it has no biological activity, and nothing here has been synthesised or tested.' Both emitted controls clear the criterion — control_longest_parent_duplex_through_gap_bp 6 (control-1) and 7 (control-2) against a cut of 10. ⚠ DEFECT FOUND IN THE ARTIFACT, NOT THE MANUSCRIPT: that same field's first clause says a control 'FAILS the specificity screen the reagent passes', while the artifact's own _what says controls are 'emitted only if it clears the ten-base-pair criterion' and the data show 6 and 7 bp, i.e. clearing. The artifact contradicts itself in one field. Raised as a ledger row.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 321,
+   "section": "the falsification experiment",
+   "sentence": "Comparing the two half-maximal concentrations is the margin assessment of the third step.<sup>13</sup><!--PMID:39912803-->",
+   "text_plain": "Comparing the two half-maximal concentrations is the margin assessment of the third step.",
+   "claim_id": "C-bd17f45275cf",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid",
+    "own-quantity",
+    "quantity-form:numeral-word"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "39912803"
+   ],
+   "pins": [],
+   "mixed": true,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "39912803",
+      "title": null,
+      "journal": null,
+      "year": null,
+      "record_source": "research/manuscripts/aso/journal-reference-authors.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Re-found on PubMed: PMID 39912803, 'Assessing Hybridization-Dependent Off-Target Risk for Therapeutic Oligonucleotides: Updated Industry Recommendations.', Nucleic Acid Therapeutics, 2025, doi 10.1089/nat.2024.0072. Its abstract lists 'five key steps' and step (3) is verbatim 'verification and margin assessment', so 'the margin assessment of the third step' is correct. ⚠ Recorded: this PMID resolved to an EMPTY record on the first run of the sampler, because the journal article has no committed PMID-to-title artifact of its own — see the finding artifact.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 327,
+   "section": "the falsification experiment",
+   "sentence": "Above a realised standard deviation of about 0.65 at three replicates — 1.53 at six, 2.25 at ten — no observed ratio at or above one can put the upper limit of a two-sided 95% interval below 5, so the test can fail only on an anti-selective reading.",
+   "text_plain": "Above a realised standard deviation of about 0.65 at three replicates — 1.53 at six, 2.25 at ten — no observed ratio at or above one can put the upper limit of a two-sided 95% interval below 5, so the test can fail only on an anti-selective reading.",
+   "claim_id": "C-3c35ca7f9d07",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:digit",
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "reading"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced by running research/manuscripts/aso_falsification_power.py (scipy installed for the run): void_sd 0.648 at n=3, 1.534 at n=6, 2.250 at n=10, against the manuscript's 'about 0.65 ... 1.53 at six, 2.25 at ten'. The same module's power figures, 30.42% and 81.28%, also match the manuscript's 'about 30%' and 'about 80%'.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 331,
+   "section": "the falsification experiment",
+   "sentence": "Those figures are computed on that interval; a normal-approximation interval would move them.",
+   "text_plain": "Those figures are computed on that interval; a normal-approximation interval would move them.",
+   "claim_id": "C-cc220cdfdd94",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "would"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "the falsification experiment",
+     "pmids_cited_in_section": [
+      "37370737",
+      "39912803"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced by running research/manuscripts/aso_falsification_power.py: void_sd uses stats.t.ppf(0.975, n-1) and returns 0.648 / 1.534 / 2.250 at n = 3 / 6 / 10, against the manuscript's 0.65 / 1.53 / 2.25. Substituting the normal quantile z = 1.959964 for the t quantile gives 1.422 / 2.011 / 2.597 — shifts of +0.774 / +0.478 / +0.347. Both halves hold: the figures are computed on the t interval, and a normal approximation moves them.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 348,
+   "section": "interpretation and limits",
+   "sentence": "A junction design's most plausible wild-type liability is its own parent, in the mature transcript or across a splice junction in precursor RNA.",
+   "text_plain": "A junction design's most plausible wild-type liability is its own parent, in the mature transcript or across a splice junction in precursor RNA.",
+   "claim_id": "C-fd96ba7190ad",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "plausible"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "interpretation and limits",
+     "pmids_cited_in_section": [
+      "21846246",
+      "23052253",
+      "33241214",
+      "36265509"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": "REFUTED",
+   "verdict_evidence": "Refuted as a comparative ranking, on this repository's own artifacts. aso-offtarget-duplex-energy.json: 175 of 190 designs carry a gap-paired NON-parent near-match; 45 carry one within 2 kcal/mol of their intended duplex; 8 carry a fully paired 16/16 off-target duplex at ddG 0.000, and 6 of those 8 are CURATED RefSeq records — LYPD6B NM_001317003 and ZNF215 NM_001354853 — not predicted models, so the manuscript's own 'mostly predicted transcript models' caveat does not dispose of them. The parent screen never produces a run longer than 13 bp anywhere in the panel. On count, on run length and on stability the strongest predicted wild-type liability is a non-parent transcript. ⚠ HONEST BOUND: the alignment screen excludes parent records by name and accession, so the energy artifact contains no parent record at all and the two arms are not on a common scale — which the manuscript's own next sentence concedes ('not on comparable terms'). This refutes the comparative as written, not the a-priori argument, for which no committed evidence exists either way.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 352,
+   "section": "interpretation and limits",
+   "sentence": "Neither restates the other, and their counts may not be added: a design condemned in both is one design.",
+   "text_plain": "Neither restates the other, and their counts may not be added: a design condemned in both is one design.",
+   "claim_id": "C-cd7b937ff91f",
+   "type": "INTERPRETATION",
+   "signals": [],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "interpretation and limits",
+     "pmids_cited_in_section": [
+      "21846246",
+      "23052253",
+      "33241214",
+      "36265509"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced. Keying each design by (junction, antisense_5to3): mature-parent liable set from aso-parent-gap-pairing.json counts_as_liability = 87; precursor liable set from aso-premrna-offtarget.json n_hybridisable_gap_fully_paired > 0 = 19; sum 106; UNION 93; intersection 13. The counts may not be added and 13 designs are condemned by both, exactly as stated. (Keying by sequence alone instead gives 82 / 17 / 87, because nine sequences recur across junctions — a second reason the sentence's caution is correct.)",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 362,
+   "section": "interpretation and limits",
+   "sentence": "Whether sparing wild-type *NR4A3* is worth a specificity cost is itself unsettled, the reported paralogue redundancy and dosage effects pointing in opposite directions; the archived deposit gives that literature and does not resolve it either.",
+   "text_plain": "Whether sparing wild-type NR4A3 is worth a specificity cost is itself unsettled, the reported paralogue redundancy and dosage effects pointing in opposite directions; the archived deposit gives that literature and does not resolve it either.",
+   "claim_id": "C-8dc8a8d57418",
+   "type": "LITERATURE",
+   "signals": [
+    "uncited-literature-scope",
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "does not",
+    "unsettled",
+    "does not resolve",
+    "worth"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [],
+    "note": "No PMID annotation is carried on this sentence"
+   },
+   "verdict": "SUPPORTED",
+   "verdict_evidence": "Reproduced against the committed corpus. research/manuscripts/aso/lit-targets-nr4a-redundancy.json holds four Europe PMC records verified verbatim, and they do point in opposite directions: PMID 29343483 (doi 10.1182/blood-2017-07-795757) identifies 'NR4A1 and NR4A3 (NR4A1/3) as functionally redundant suppressors of acute myeloid leukemia (AML) development' — redundancy, so sparing may not matter; PMID 21205929, 'Reduced NR4A gene dosage leads to mixed myelodysplastic/myeloproliferative neoplasms in mice' — dosage, so it may. The artifact also states 'Whether NR4A3 loss is tolerated in the tissue an EMC arises in is not addressed by any of them', which is the 'does not resolve it either' half. ⚠ Recorded: the sentence carries no citation marker; the evidence is committed but not cited at the point of claim.",
+   "verdict_by": "seat s33-claimaudit, cycle CYC-0053-3217966b, 2026-08-28"
+  }
+ ],
+ "_verdict_protocol": {
+  "source": "research/method-watch-autonomy-prior-art-2.md §4.1, §4.2 — Kosmos's stratified audit",
+  "rule": "SUPPORTED requires the number reproduced from the owning artifact, or the source re-found and read. REFUTED requires a discriminating observation that contradicts the sentence as written, stated with what survives. UNVERIFIABLE is recorded where no observation available to this seat can settle it, with the reason — never as a soft SUPPORTED.",
+  "verifier": "seat s33-claimaudit, cycle CYC-0053-3217966b",
+  "verified_date": "2026-08-28",
+  "literature_re_finds_via": "PubMed (MCP), including PMC full text for PMC6766969 and PMC9813045"
+ }
+}

@@ -1,0 +1,1061 @@
+{
+ "_what": "A stratified sample of this manuscript's claim sentences, each with the type that decides what a verifier would have to DO, and the evidence handle they would have to reproduce or re-find. Kosmos's audit protocol, sampling half only.",
+ "_what_this_is_not": [
+  "NOT a support verdict. Every `verdict` is null and this tool never fills one in. Classifying Supported/Refuted/Unverifiable is the human or blind-seat step; a tool that scored its own paper would be the exact failure mode the audit exists to catch.",
+  "NOT a claim that any evidence handle SUPPORTS the sentence it is attached to. It is a claim about what a verifier would have to go to.",
+  "NOT a risk ranking. The draw is uniform within stratum and seeded; a hand-picked sample measures the picker.",
+  "NOT a reading of the PDF. It reads the markdown the PDF is built from."
+ ],
+ "_generated_by": "research/manuscripts/claim_audit.py",
+ "_protocol_source": "research/method-watch-autonomy-prior-art-2.md §4.1, §4.2",
+ "manuscript": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+ "manuscript_sha256": "40ace959a67c4ffdb5cb660d7541ae19d548444c97efdaf45ba27d7874b25319",
+ "seed": 20260828,
+ "n_per_type_requested": 10,
+ "reproduce": "python3 research/manuscripts/claim_audit.py --manuscript research/manuscripts/aso/fusion-junction-aso-journal-article.md --seed 20260828 --n-per-type 10 --write <out.json>",
+ "population_by_type": {
+  "DATA-ANALYSIS": 74,
+  "LITERATURE": 24,
+  "INTERPRETATION": 62
+ },
+ "excluded_non_claim": 27,
+ "strata": {
+  "DATA-ANALYSIS": {
+   "population": 74,
+   "sampled": 10,
+   "sampled_all": false
+  },
+  "LITERATURE": {
+   "population": 24,
+   "sampled": 10,
+   "sampled_all": false
+  },
+  "INTERPRETATION": {
+   "population": 62,
+   "sampled": 10,
+   "sampled_all": false
+  }
+ },
+ "sample": [
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 43,
+   "section": "abstract",
+   "sentence": "That junction is in no normal transcript, so an antisense gapmer could in principle cleave the fusion, sparing its parents; none is reported for any *NR4A3* fusion in the literature retrieved here.",
+   "text_plain": "That junction is in no normal transcript, so an antisense gapmer could in principle cleave the fusion, sparing its parents; none is reported for any NR4A3 fusion in the literature retrieved here.",
+   "claim_id": "C-3dfe5fe4f1df",
+   "type": "LITERATURE",
+   "signals": [
+    "uncited-literature-scope",
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "in principle",
+    "could"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [],
+    "note": "No PMID annotation is carried on this sentence"
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 80,
+   "section": "introduction",
+   "sentence": "No such design is reported for any *NR4A3* fusion in the literature retrieved here.",
+   "text_plain": "No such design is reported for any NR4A3 fusion in the literature retrieved here.",
+   "claim_id": "C-7feeee312316",
+   "type": "LITERATURE",
+   "signals": [
+    "uncited-literature-scope"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [],
+    "note": "No PMID annotation is carried on this sentence"
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 85,
+   "section": "introduction",
+   "sentence": "That parent liability is the one this work screens for directly.",
+   "text_plain": "That parent liability is the one this work screens for directly.",
+   "claim_id": "C-31ff650b44cd",
+   "type": "INTERPRETATION",
+   "signals": [],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "introduction",
+     "pmids_cited_in_section": [
+      "1794439",
+      "21846246",
+      "23052253",
+      "24345066",
+      "24981949",
+      "31331701",
+      "32572850",
+      "33241214",
+      "37980543",
+      "39912803",
+      "41055792",
+      "8634690",
+      "9049825"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 104,
+   "section": "materials and methods",
+   "sentence": "All analyses are computational and use public data; no laboratory work was performed.",
+   "text_plain": "All analyses are computational and use public data; no laboratory work was performed.",
+   "claim_id": "C-40bb57c0455a",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "methods-section"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 108,
+   "section": "materials and methods",
+   "sentence": "Canonical transcripts for the five partner genes, and for *NR4A3*, were obtained from Ensembl.<sup>14</sup><!--PMID:39656687-->",
+   "text_plain": "Canonical transcripts for the five partner genes, and for NR4A3, were obtained from Ensembl.",
+   "claim_id": "C-2b8508242ff7",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid",
+    "methods-section"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "39656687"
+   ],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "39656687",
+      "title": "Ensembl 2025.",
+      "journal": "Nucleic acids research",
+      "year": 2025,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 126,
+   "section": "materials and methods",
+   "sentence": "A design is liable where a wild-type parent pairs its whole catalytic gap over a contiguous run of ten base pairs or more, ten being adopted rather than measured.",
+   "text_plain": "A design is liable where a wild-type parent pairs its whole catalytic gap over a contiguous run of ten base pairs or more, ten being adopted rather than measured.",
+   "claim_id": "C-4e022d38fa13",
+   "type": "INTERPRETATION",
+   "signals": [
+    "adoption-marker",
+    "own-quantity",
+    "quantity-form:numeral-word",
+    "methods-section",
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "rather than"
+   ],
+   "adoption_markers": [
+    "adopted rather than",
+    "rather than measured",
+    "being adopted"
+   ],
+   "pmids": [],
+   "pins": [],
+   "mixed": true,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "materials and methods",
+     "pmids_cited_in_section": [
+      "24981949",
+      "39656687",
+      "7545436"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 130,
+   "section": "materials and methods",
+   "sentence": "Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at 250 nM strand.<sup>15</sup><!--PMID:7545436-->",
+   "text_plain": "Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at 250 nM strand.",
+   "claim_id": "C-fbf1c77059b0",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid",
+    "own-quantity",
+    "quantity-form:digit",
+    "methods-section"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "7545436"
+   ],
+   "pins": [],
+   "mixed": true,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "7545436",
+      "title": "Thermodynamic parameters to predict stability of RNA/DNA hybrid duplexes.",
+      "journal": "Biochemistry",
+      "year": 1995,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 132,
+   "section": "materials and methods",
+   "sentence": "Only the fusion-versus-parent separation is, and as a floor: the fusion duplex pairs all ten locked residues where each parent pairs five.",
+   "text_plain": "Only the fusion-versus-parent separation is, and as a floor: the fusion duplex pairs all ten locked residues where each parent pairs five.",
+   "claim_id": "C-9622ae797c75",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:numeral-word",
+    "methods-section"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 144,
+   "section": "the reagents",
+   "sentence": "Both hold the panel's top gap-level margin of three: three junction-unique bases inside the catalytic gap on the shorter side of the breakpoint, and neither pairs a wild-type parent through the gap at the ten-base-pair criterion below.",
+   "text_plain": "Both hold the panel's top gap-level margin of three: three junction-unique bases inside the catalytic gap on the shorter side of the breakpoint, and neither pairs a wild-type parent through the gap at the ten-base-pair criterion below.",
+   "claim_id": "C-6f6088d15ce2",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:numeral-word"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 148,
+   "section": "the reagents",
+   "sentence": "Both reagents sit close to that ten-base-pair criterion.",
+   "text_plain": "Both reagents sit close to that ten-base-pair criterion.",
+   "claim_id": "C-df54316d151a",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:numeral-word"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 159,
+   "section": "the reagents",
+   "sentence": "Predicted transcriptome load separates the two: 123 gap-paired sense-strand near-matches for the *EWSR1* reagent at a deeper search ceiling than the default, against eight for the *TAF15* one.",
+   "text_plain": "Predicted transcriptome load separates the two: 123 gap-paired sense-strand near-matches for the EWSR1 reagent at a deeper search ceiling than the default, against eight for the TAF15 one.",
+   "claim_id": "C-d4a34cd96203",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:digit"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 178,
+   "section": "the reagents",
+   "sentence": "Discounted by the breakpoint distribution of an 18-case series,<sup>16</sup><!--PMID:12378528--> the two junctions account for 68.4% of molecularly confirmed cases in a 58-case cohort.<sup>17</sup><!--PMID:36948401-->",
+   "text_plain": "Discounted by the breakpoint distribution of an 18-case series, the two junctions account for 68.4% of molecularly confirmed cases in a 58-case cohort.",
+   "claim_id": "C-21c9803193bb",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid",
+    "pinned-figure",
+    "own-quantity",
+    "quantity-form:digit"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "12378528",
+    "36948401"
+   ],
+   "pins": [
+    "aso_reagent_coverage_percent_journal"
+   ],
+   "mixed": true,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "12378528",
+      "title": "Molecular genetic characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid chondrosarcoma.",
+      "journal": "Genes, chromosomes & cancer",
+      "year": 2002,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     },
+     {
+      "pmid": "36948401",
+      "title": "Extraskeletal Myxoid Chondrosarcomas: The Uncommon Clinicopathologic Manifestations and Significance of TAF15::NR4A3 Fusion.",
+      "journal": "Modern pathology : an official journal of the United States and Canadian Academy of Pathology, Inc",
+      "year": 2023,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 194,
+   "section": "selection from a panel of 190 designs",
+   "sentence": "The parent liability the Introduction describes is invisible to the instrument a designer would ordinarily use, at any threshold that instrument is normally run at.",
+   "text_plain": "The parent liability the Introduction describes is invisible to the instrument a designer would ordinarily use, at any threshold that instrument is normally run at.",
+   "claim_id": "C-47599ea7dec4",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "would",
+    "is invisible"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "selection from a panel of 190 designs",
+     "pmids_cited_in_section": [],
+     "pinned_figures_in_section": [
+      "aso_energy_closest_ddg_ewsr1_reagent",
+      "aso_energy_closest_ddg_taf15_reagent",
+      "aso_energy_designs_with_a_fully_paired_offtarget",
+      "aso_energy_designs_within_2_kcal",
+      "aso_liable_against_wildtype_nr4a3_journal_selection",
+      "aso_liable_designs_journal_selection",
+      "aso_panel_designs_total_journal_selection",
+      "aso_panel_junctions_in_frame_journal_selection",
+      "aso_parent_null_exon_terminus_chimera_journal",
+      "aso_parent_null_observed_rate_journal",
+      "aso_parent_null_scrambled_mononucleotide_journal"
+     ]
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 205,
+   "section": "selection from a panel of 190 designs",
+   "sentence": "Of those, 87 let one of six mature wild-type parent transcripts pair their entire catalytic gap over a contiguous duplex of at least ten base pairs, and 61 of the 87 do so against wild-type *NR4A3*; 85 are paired by one of the design's own two parent genes.",
+   "text_plain": "Of those, 87 let one of six mature wild-type parent transcripts pair their entire catalytic gap over a contiguous duplex of at least ten base pairs, and 61 of the 87 do so against wild-type NR4A3; 85 are paired by one of the design's own two parent genes.",
+   "claim_id": "C-33810cc7e63d",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "pinned-figure",
+    "own-quantity",
+    "quantity-form:digit"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [
+    "aso_liable_designs_journal_selection",
+    "aso_liable_against_wildtype_nr4a3_journal_selection"
+   ],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [
+     {
+      "pin_id": "aso_liable_designs_journal_selection",
+      "artifact": "research/modalities/aso-parent-gap-pairing.json",
+      "key": "corpus.n_with_parent_duplex_through_gap",
+      "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+     },
+     {
+      "pin_id": "aso_liable_against_wildtype_nr4a3_journal_selection",
+      "artifact": "research/modalities/aso-parent-gap-pairing.json",
+      "key": "corpus.which_parent_supplies_it.NR4A3",
+      "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+     }
+    ],
+    "note": null
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 217,
+   "section": "selection from a panel of 190 designs",
+   "sentence": "Across three geometries the liable count does not fall; the archived deposit gives the series.",
+   "text_plain": "Across three geometries the liable count does not fall; the archived deposit gives the series.",
+   "claim_id": "C-344422179c06",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "does not"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "selection from a panel of 190 designs",
+     "pmids_cited_in_section": [],
+     "pinned_figures_in_section": [
+      "aso_energy_closest_ddg_ewsr1_reagent",
+      "aso_energy_closest_ddg_taf15_reagent",
+      "aso_energy_designs_with_a_fully_paired_offtarget",
+      "aso_energy_designs_within_2_kcal",
+      "aso_liable_against_wildtype_nr4a3_journal_selection",
+      "aso_liable_designs_journal_selection",
+      "aso_panel_designs_total_journal_selection",
+      "aso_panel_junctions_in_frame_journal_selection",
+      "aso_parent_null_exon_terminus_chimera_journal",
+      "aso_parent_null_observed_rate_journal",
+      "aso_parent_null_scrambled_mononucleotide_journal"
+     ]
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 225,
+   "section": "selection from a panel of 190 designs",
+   "sentence": "These are whole-duplex run lengths rather than the enzyme's own unit, and the availability the named reagents rest on fails at nine, where the *TAF15* junction's best design is itself liable.",
+   "text_plain": "These are whole-duplex run lengths rather than the enzyme's own unit, and the availability the named reagents rest on fails at nine, where the TAF15 junction's best design is itself liable.",
+   "claim_id": "C-a55bfc38a084",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:digit",
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "rather than"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 244,
+   "section": "test articles",
+   "sentence": "Five test articles bear on the junctions this panel designs against, and they divide into two sources with opposite limits.",
+   "text_plain": "Five test articles bear on the junctions this panel designs against, and they divide into two sources with opposite limits.",
+   "claim_id": "C-67d491055058",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:numeral-word"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 261,
+   "section": "test articles",
+   "sentence": "Three are engineered constructs from a published functional study,<sup>20</sup><!--PMID:31020999--> whose exon spans that paper states verbatim; two of them, E-N and T-N*, carry exactly the junctions the reagents above span, so both named reagents have a stated test article.",
+   "text_plain": "Three are engineered constructs from a published functional study, whose exon spans that paper states verbatim; two of them, E-N and T-N*, carry exactly the junctions the reagents above span, so both named reagents have a stated test article.",
+   "claim_id": "C-ce728be528ce",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid",
+    "own-quantity",
+    "quantity-form:numeral-word"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "31020999"
+   ],
+   "pins": [],
+   "mixed": true,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "31020999",
+      "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas.",
+      "journal": "J Pathol",
+      "year": 2019,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 269,
+   "section": "test articles",
+   "sentence": "They are available on request with no repository deposit, and are slow, at reported doubling times of five to six days.",
+   "text_plain": "They are available on request with no repository deposit, and are slow, at reported doubling times of five to six days.",
+   "claim_id": "C-6404178e92b9",
+   "type": "LITERATURE",
+   "signals": [
+    "uncited-literature-scope"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [],
+    "note": "No PMID annotation is carried on this sentence"
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 277,
+   "section": "test articles",
+   "sentence": "EMC's defining lesion produces a chimeric transcription factor.<sup>1,20</sup><!--PMID:8634690,31020999-->",
+   "text_plain": "EMC's defining lesion produces a chimeric transcription factor.",
+   "claim_id": "C-dfc934238c5f",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "31020999",
+    "8634690"
+   ],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "31020999",
+      "title": "NR4A3 fusion proteins trigger an axon guidance switch that marks the difference between EWSR1 and TAF15 translocated extraskeletal myxoid chondrosarcomas.",
+      "journal": "J Pathol",
+      "year": 2019,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     },
+     {
+      "pmid": "8634690",
+      "title": "Oncogenic conversion of a novel orphan nuclear receptor by chromosome translocation.",
+      "journal": "Human molecular genetics",
+      "year": 1995,
+      "record_source": "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 283,
+   "section": "test articles",
+   "sentence": "This is an inference and not a determination, and the requirement below is unchanged.",
+   "text_plain": "This is an inference and not a determination, and the requirement below is unchanged.",
+   "claim_id": "C-27b2a58b2cff",
+   "type": "INTERPRETATION",
+   "signals": [],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "test articles",
+     "pmids_cited_in_section": [
+      "29937513",
+      "31020999",
+      "36103645",
+      "36316541",
+      "41055792",
+      "8634690"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 288,
+   "section": "test articles",
+   "sentence": "Reagents exist at both acceptors: 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6 to exon 2, both at the panel's top margin.",
+   "text_plain": "Reagents exist at both acceptors: 5′-AGTGGGCTCTCCACGG-3′ at EWSR1 exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at TAF15 exon 6 to exon 2, both at the panel's top margin.",
+   "claim_id": "C-c8f1bc6656cb",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:digit",
+    "named-sequence"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 295,
+   "section": "test articles",
+   "sentence": "One requirement is upstream of all of them: the breakpoint of the test article must be established at nucleotide resolution by RNA sequencing before any oligonucleotide is ordered, every design here being specific to the exon pair it was tiled at.",
+   "text_plain": "One requirement is upstream of all of them: the breakpoint of the test article must be established at nucleotide resolution by RNA sequencing before any oligonucleotide is ordered, every design here being specific to the exon pair it was tiled at.",
+   "claim_id": "C-273f873792d6",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "must"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "test articles",
+     "pmids_cited_in_section": [
+      "29937513",
+      "31020999",
+      "36103645",
+      "36316541",
+      "41055792",
+      "8634690"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 307,
+   "section": "controls for the knockdown experiment",
+   "sentence": "Clearing the screen is not a claim of inertness; it is the property a negative control has to have.",
+   "text_plain": "Clearing the screen is not a claim of inertness; it is the property a negative control has to have.",
+   "claim_id": "C-0b7578cf51a7",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "is not"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "controls for the knockdown experiment",
+     "pmids_cited_in_section": [],
+     "pinned_figures_in_section": [
+      "aso_parent_null_scrambled_dinucleotide_journal",
+      "aso_parent_null_scrambled_dinucleotide_nr4a3_journal"
+     ]
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 321,
+   "section": "the falsification experiment",
+   "sentence": "Comparing the two half-maximal concentrations is the margin assessment of the third step.<sup>13</sup><!--PMID:39912803-->",
+   "text_plain": "Comparing the two half-maximal concentrations is the margin assessment of the third step.",
+   "claim_id": "C-bd17f45275cf",
+   "type": "LITERATURE",
+   "signals": [
+    "cited-pmid",
+    "own-quantity",
+    "quantity-form:numeral-word"
+   ],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [
+    "39912803"
+   ],
+   "pins": [],
+   "mixed": true,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [
+     {
+      "pmid": "39912803",
+      "title": null,
+      "journal": null,
+      "year": null,
+      "record_source": "research/manuscripts/aso/journal-reference-authors.json",
+      "resolved_from_committed_record": true
+     }
+    ],
+    "note": null
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 327,
+   "section": "the falsification experiment",
+   "sentence": "Above a realised standard deviation of about 0.65 at three replicates — 1.53 at six, 2.25 at ten — no observed ratio at or above one can put the upper limit of a two-sided 95% interval below 5, so the test can fail only on an anti-selective reading.",
+   "text_plain": "Above a realised standard deviation of about 0.65 at three replicates — 1.53 at six, 2.25 at ten — no observed ratio at or above one can put the upper limit of a two-sided 95% interval below 5, so the test can fail only on an anti-selective reading.",
+   "claim_id": "C-3c35ca7f9d07",
+   "type": "DATA-ANALYSIS",
+   "signals": [
+    "own-quantity",
+    "quantity-form:digit",
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "reading"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "REPRODUCE the number from the artifact that owns it — read the named key, or re-run the named regeneration. Do not settle this by re-reading the manuscript.",
+    "artifacts": [],
+    "note": "UNPINNED: this sentence states a quantity that no artifact_figures pin claims. The verifier has to locate the producing artifact first, and the absence of a pin is itself a finding."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 331,
+   "section": "the falsification experiment",
+   "sentence": "Those figures are computed on that interval; a normal-approximation interval would move them.",
+   "text_plain": "Those figures are computed on that interval; a normal-approximation interval would move them.",
+   "claim_id": "C-cc220cdfdd94",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "would"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "the falsification experiment",
+     "pmids_cited_in_section": [
+      "37370737",
+      "39912803"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 348,
+   "section": "interpretation and limits",
+   "sentence": "A junction design's most plausible wild-type liability is its own parent, in the mature transcript or across a splice junction in precursor RNA.",
+   "text_plain": "A junction design's most plausible wild-type liability is its own parent, in the mature transcript or across a splice junction in precursor RNA.",
+   "claim_id": "C-fd96ba7190ad",
+   "type": "INTERPRETATION",
+   "signals": [
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "plausible"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "interpretation and limits",
+     "pmids_cited_in_section": [
+      "21846246",
+      "23052253",
+      "33241214",
+      "36265509"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 352,
+   "section": "interpretation and limits",
+   "sentence": "Neither restates the other, and their counts may not be added: a design condemned in both is one design.",
+   "text_plain": "Neither restates the other, and their counts may not be added: a design condemned in both is one design.",
+   "claim_id": "C-cd7b937ff91f",
+   "type": "INTERPRETATION",
+   "signals": [],
+   "interpretive_markers": [],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "JUDGE whether the inference follows from the artifacts and sources it rests on. There is no number to reproduce and no citation on this sentence, so the verifier must reconstruct the antecedents below and ask whether they carry it. Do not settle this by re-reading the manuscript — agreeing with the prose is the failure mode this stratum exists to measure.",
+    "antecedents_in_same_section": {
+     "section": "interpretation and limits",
+     "pmids_cited_in_section": [
+      "21846246",
+      "23052253",
+      "33241214",
+      "36265509"
+     ],
+     "pinned_figures_in_section": []
+    },
+    "note": "An interpretation claim has no committed evidence handle of its own. That is the point: lint_citations and lint_claims are both silent here."
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  },
+  {
+   "file": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+   "line": 362,
+   "section": "interpretation and limits",
+   "sentence": "Whether sparing wild-type *NR4A3* is worth a specificity cost is itself unsettled, the reported paralogue redundancy and dosage effects pointing in opposite directions; the archived deposit gives that literature and does not resolve it either.",
+   "text_plain": "Whether sparing wild-type NR4A3 is worth a specificity cost is itself unsettled, the reported paralogue redundancy and dosage effects pointing in opposite directions; the archived deposit gives that literature and does not resolve it either.",
+   "claim_id": "C-8dc8a8d57418",
+   "type": "LITERATURE",
+   "signals": [
+    "uncited-literature-scope",
+    "interpretive-marker"
+   ],
+   "interpretive_markers": [
+    "does not",
+    "unsettled",
+    "does not resolve",
+    "worth"
+   ],
+   "adoption_markers": [],
+   "pmids": [],
+   "pins": [],
+   "mixed": false,
+   "evidence": {
+    "verification_action": "RE-FIND each source independently and check it states what the sentence attributes to it. Do not settle this by re-reading the manuscript.",
+    "sources": [],
+    "note": "No PMID annotation is carried on this sentence"
+   },
+   "verdict": null,
+   "verdict_evidence": null,
+   "verdict_by": null
+  }
+ ]
+}
