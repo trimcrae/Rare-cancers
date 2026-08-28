@@ -1,3 +1,17 @@
+---
+id: DOC-AUT-COV-001-AUDIT
+title: AUT-COV-001 blind-spot audit — full findings, including what was NOT fixed this round
+level: —
+kind: memo
+status: historical
+canonical_for: []
+purpose: Record a dispatched seat's full audit of claim_coverage.py's census pattern for notation blind spots, including the reusable shapes found but deliberately not built this pass.
+scope: One seat's working log for ledger item AUT-COV-001 (2026-08-28) — not a durable reference; a future hardening round should read it rather than re-audit from zero.
+audience: [autonomous research agents]
+date: 2026-08-28
+last_verified: 2026-08-28
+---
+
 SEAT=AUT-COV-001-seat
 WORKTREE=/home/user/Rare-cancers/.claude/worktrees/agent-a4027037beeede805
 
