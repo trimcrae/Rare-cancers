@@ -61,9 +61,9 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0059-18394002",
+      "claimed_utc": "2026-08-28T16:35:43Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -88,7 +88,13 @@
         "age_factor": 0.0714
       },
       "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question.",
-      "_commit_pointer_correction": "2026-08-28T16:31:00Z CYC-0058-18394002: the pinned `commit` (eed563d6b5114f0879c8bcb285f1b67ba9d677e5, from research/autonomy/ready-to-post.json, written by ready_to_post.py's `_head()` as whatever HEAD was in some earlier session's checkout) is UNREACHABLE from origin/main -- `git merge-base origin/claude/dreamy-hawking-vcvlhk origin/main` exits 1, no common ancestor. That branch is a stranded scratch/session branch (144 commits ahead, 88 behind, disjoint root commit), stopped at 'ASO round 11'. DO NOT attempt to recover or merge it: diffing its tip against origin/main shows the ASO journal article text is BYTE-IDENTICAL already, and main additionally carries fusion-junction-aso-paper-redteam-round12.md plus the claim-audit manifest/verdicts JSON that the branch does not have -- main is the more current state, not the branch. The stale pointer is why this row has already burned two PREFLIGHT_FULL attempts: a receipt at that sha could never satisfy publish_bar clause 2 (`record.get('sha') != sha`) because that sha is not where the current work lives. NEXT ATTEMPT: run `ready_to_post.py --write` to refresh the `commit` pointer against a clean, QUIET origin/main checkout (not mid-push), THEN immediately PREFLIGHT_FULL=1 at that same HEAD before anything else lands. Not attempted this cycle: origin/main had 3 concurrent commits land from CYC-0053-3217966b within the ~15 minutes of this session's own work, and a 25-minute FULL run started into that churn would very likely be a third throwaway."
+      "_commit_pointer_correction": "2026-08-28T16:31:00Z CYC-0058-18394002: the pinned `commit` (eed563d6b5114f0879c8bcb285f1b67ba9d677e5, from research/autonomy/ready-to-post.json, written by ready_to_post.py's `_head()` as whatever HEAD was in some earlier session's checkout) is UNREACHABLE from origin/main -- `git merge-base origin/claude/dreamy-hawking-vcvlhk origin/main` exits 1, no common ancestor. That branch is a stranded scratch/session branch (144 commits ahead, 88 behind, disjoint root commit), stopped at 'ASO round 11'. DO NOT attempt to recover or merge it: diffing its tip against origin/main shows the ASO journal article text is BYTE-IDENTICAL already, and main additionally carries fusion-junction-aso-paper-redteam-round12.md plus the claim-audit manifest/verdicts JSON that the branch does not have -- main is the more current state, not the branch. The stale pointer is why this row has already burned two PREFLIGHT_FULL attempts: a receipt at that sha could never satisfy publish_bar clause 2 (`record.get('sha') != sha`) because that sha is not where the current work lives. NEXT ATTEMPT: run `ready_to_post.py --write` to refresh the `commit` pointer against a clean, QUIET origin/main checkout (not mid-push), THEN immediately PREFLIGHT_FULL=1 at that same HEAD before anything else lands. Not attempted this cycle: origin/main had 3 concurrent commits land from CYC-0053-3217966b within the ~15 minutes of this session's own work, and a 25-minute FULL run started into that churn would very likely be a third throwaway.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T16:35:43Z",
+          "fingerprint_at_dispatch": "2026-08-27|None"
+        }
+      ]
     },
     {
       "serves": {
