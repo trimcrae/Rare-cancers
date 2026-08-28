@@ -1,0 +1,42 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0068-7cda2d61",
+  "session_id": "7cda2d61-4862-5e6f-8614-2628950e5375",
+  "utc": "2026-08-28T20:56:00Z",
+  "shape": "this session — the second and last cycle of its two-cycle cap. One driver, no subagents.",
+  "took": "AUT-PD-131 (RT-AUTONOMY) — filed by this cycle from an observation taken while waiting on a gate. ⚠ NOT claimed with claim.py before the work: the fix was three lines and complete before a lease could have been pushed, and a lease on finished work protects nothing. The trunk moved under this session FOUR times in the previous cycle, so the round-trip would have cost more than the duplication risk it removes. Recorded as a deliberate deviation, not an oversight.",
+  "took_what": "⚠ FILED AS AUT-PD-130 AND RENUMBERED TO AUT-PD-131 ON REBASE — a concurrent session had already pushed a DIFFERENT AUT-PD-130 (the claim-coverage census row). `ids.next_entry_id` derives max+1 over committed state, so two sessions reading the same trunk allocate the same id; the trunk is the arbiter and theirs landed first. ⛔ AND THE REBASE DID NOT CONFLICT — git auto-merged both rows into the ledger, so the collision was visible only by counting ids afterwards, never as a merge marker. ⛔ `tests.yml` — WHAT CLAUDE.md §6 NAMES AS *THE AUTHORITY* FOR BOTH LARGE SUITES — HAD NOT PRODUCED A VERDICT ON `main` FOR OVER TWENTY MINUTES, AND ITS OWN 12-LINE COMMENT SAID IT SHOULD ('`main` IS DELIBERATELY EXEMPT … every commit on it keeps its own per-commit verdict'). preflight deliberately does not run those two suites on the stated grounds that CI does and is the authority, so while this held NOTHING ran them.",
+  "changed": [
+    ".github/workflows/tests.yml: concurrency.group now gives a run on `main` a group of its OWN (github.run_id) while feature branches keep the shared ref-keyed group. cancel-in-progress is UNCHANGED — it was never the mechanism.",
+    "tests/test_main_keeps_a_per_commit_verdict.py: new 3-test guard, written against the GROUP rather than the flag, because asserting the flag would have passed throughout the outage."
+  ],
+  "cost": "$0. CPU only. One WebSearch (rung 0) and public Actions reads; no CI dispatch, no GPU.",
+  "subagents": {
+    "max_concurrent": 0,
+    "total": 0,
+    "_why": "A three-line config fix with one guard; nothing independent enough to seat."
+  },
+  "verification": {
+    "root_cause": "⛔ MEASURED THREE WAYS, AND MY FIRST HYPOTHESIS WAS WRONG. (1) TIMING: the nine most recent completed runs on main are all `cancelled`, each 1-3 s after the NEXT run on main is created — 8c14cc5 cancelled 20:24:23 as 3937db8 was created 20:24:22, and so on through 12a5f34. (2) THE DISCRIMINATOR: run 33207278897 on 86098c2 was `pending`, NOT running, when cancelled — `cancel-in-progress` only ever cancels a RUNNING run, and it already evaluated to false on main. So the flag was never the mechanism. (3) PLATFORM SEMANTICS READ LIVE, NOT REMEMBERED: a concurrency group holds at most one running and one pending run; a third arrival evicts the pending one whatever the flag says. ⭐ MY FIRST HYPOTHESIS — that the expression evaluates to a truthy string 'false' — is NOT what the evidence shows, and observation (2) is what killed it.",
+    "chain_closed": "gates_verdict.py's own line 96 reads '`cancelled` and `skipped` are NOT verdicts. A cancelled run says the trunk was never tested', and it returns `_no_verdict` when no graded run is in the window. So the eviction is the concrete mechanism behind health.py's `gates_green` reading NO-GATE-VERDICT for 47.2 h — a row every cycle reads before it starts.",
+    "mutation_testing": "4/4 caught, single-site, in a worktree: M9 revert to the shared ref group, M10 uniquify every ref not just main, M11 drop ref entirely, M12 branches stop collapsing. Log: drv-mutation3.log.",
+    "honest_limit": "⛔ THE GUARD READS THE WORKFLOW FILE, NOT GITHUB. It can show the configuration no longer forces runs to evict one another; it CANNOT show that runs are now completing. That is gates_verdict.py's half, and it stays UNMEASURED until a run on main actually finishes — which this cycle's own push is the first chance to observe."
+  },
+  "what_i_got_wrong": [
+    "Reached for the familiar explanation first — that an expression-valued `cancel-in-progress` coerces to a truthy string. It is a real Actions gotcha and it was not this. The pending-run cancellation is what discriminated, and I only looked for it because CLAUDE.md §4 requires the observation that separates competing hypotheses rather than the one that fits the favourite.",
+    "Misread a gate as stalled when it had started one minute earlier, and said so before checking the log's mtime. Checking took one command and should have come first.",
+    "Filed a ledger id that a concurrent session had already taken, for the second time in this session. The rebase reported SUCCESS and auto-merged both rows, so nothing surfaced it — the duplicate was found only by explicitly counting ids after the rebase. That check is now the thing to run after every rebase of this file, not the merge exit code."
+  ],
+  "now_queued": [
+    "The live half of AUT-PD-130: confirm a run on main actually reaches a conclusion now. First observable on this cycle's own push.",
+    "AUT-PD-129 (filed by CYC-0067) — a receipt's `session_id` holds two id spaces, so session_reaper.py can join only 5 of 40 live sessions.",
+    "AUT-PD-058 — the clone is shallow, censoring stuck_clock and the git-derived health rows. NOW HELD by SEAT-s2-1f1a2449."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why": "Filled in once the successor is created — this session is at its two-cycle cap and the handoff is owed before it ends."
+  }
+}

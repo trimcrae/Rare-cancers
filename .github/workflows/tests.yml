@@ -33,8 +33,25 @@ permissions:
 # runner time by giving up exactly the history that gets consulted when a lane goes red.
 # The same idiom is already in `modalities-run.yml`, which has carried `cancel-in-progress` since it
 # was written; this workflow is the one that never got it.
+# ⛔⛔ AND THE EXEMPTION ABOVE DID NOT WORK — MEASURED 2026-08-28 (AUT-PD-130). The nine most recent
+# completed runs on `main` were ALL `cancelled`, each within 1-3 s of the NEXT run on main being
+# created (8c14cc5 at 20:24:23 as 3937db8 was created at 20:24:22; and so on through 12a5f34).
+# ⭐ THE OBSERVATION THAT NAMES THE CAUSE, and it refutes the obvious guess: run 33207278897 on
+# 86098c2 was `pending`, NOT running, when it was cancelled. `cancel-in-progress` only ever cancels
+# a RUNNING run, so the flag was never the mechanism. A concurrency group holds at most ONE running
+# and ONE pending run; a third arrival EVICTS THE PENDING ONE whatever the flag says. With every
+# push to main sharing one ref-keyed group, and this loop pushing every 2-4 minutes against a
+# ~17-minute suite, main's runs evicted each other and the trunk went >20 minutes with NO verdict.
+# ⛔ THAT IS THE AUTHORITY GATE SILENTLY OFF: preflight deliberately does not run the two large
+# suites on the stated grounds that "CI runs both on push and it is the authority" — so while this
+# held, nothing ran them at all. It is also the mechanism behind health.py's `gates_green` reading
+# NO-GATE-VERDICT for 47.2 h.
+# ★ THE FIX IS TO THE GROUP, NOT THE FLAG. A run on `main` gets a group of its OWN (`run_id`), so
+# main runs never queue against one another and each commit keeps the per-commit verdict the
+# comment above always intended. Feature branches keep sharing a ref-keyed group, so they still
+# collapse to the tip and the runner-time saving that motivated this block is unchanged.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref == 'refs/heads/main' && github.run_id || github.ref }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 # ⛔ ONE LIST, ONE PLACE (CLAUDE.md §1). This install list is not a convenience — every entry below
