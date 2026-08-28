@@ -1,0 +1,34 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0033-schedule",
+  "session_id": "scheduled-routine-session",
+  "utc": "2026-08-28T08:30:00Z",
+  "shape": "One fired session (scheduled Routine, `research-loop` cycle contract), one ledger item claimed and worked, no subagents (single merge-and-regenerate task, no `Skill`/`Agent`-shaped parallelism needed).",
+  "took": "AUT-PROP-017 — merge the fusion-partner round-9 P1 fixes to main (RT-PARTNER-STRAT / PUB-FUSION-PARTNER)",
+  "took_what": "Re-scored the queue (priority.py --write). Top-scored items (195.5, all `prerequisite_of: AUT-049`) were four: AUT-PROP-018/019/040 (PUB-ASO's three remaining publish_bar clauses, all three explicitly sha-bound and each saying 'run this LAST, once nothing else is mid-flight against the ASO family' — not independently takeable right now) and AUT-PROP-017, whose row said the work was DONE and pushed to branch `aut-prop-017-fusion-partner-p1s` (commit 3e580f41b) and blocked only on AUT-PROP-024/AUT-PROP-025 landing. Checked both: both read `state: done` on main already. So AUT-PROP-017's blocker was stale evidence, not a live block — CLAUDE.md §0: 'blocked' is usually wrong, and this was. Claimed it with claim.py (CLAIMED on attempt 2). Repo was a shallow clone with no merge-base to origin/main from the feature branch; ran `git fetch --unshallow` to get real history before merging.",
+  "changed": [
+    "Merged origin/aut-prop-017-fusion-partner-p1s into main (commit 9b67db864). Three files conflicted, all resolved per the ledger row's own instruction rather than by hand-picking either side's numbers:",
+    "  1. research/manuscripts/fusion-partner/emc-fusion-partner-correction-register.md — pure addition on each side at adjacent lines (main's new row A33 vs. nothing on the branch). Kept A33.",
+    "  2. research/manuscripts/fusion-partner/emc-fusion-partner-pooling.json — only the `_generated_utc` timestamp conflicted; the generator script itself (emc_fusion_partner_pooling.py) merged cleanly and carries both branches' prose fixes (A32's follow_up_warning rewrite and A33's most-quoted/usually-attributed-to rewrite). Kept the later timestamp, then verified with `emc_fusion_partner_pooling.py --check` (OK, artifact reproduces from the generator).",
+    "  3. research/manuscripts/claim-coverage.json — regenerated via `claim_coverage.py --write` rather than hand-merged, per the row's own note. Fusion-partner-stratification.md coverage came back 83/270 (82/201 with-number), matching neither conflict side by coincidence-proofing: it's the value the generator actually computes post-merge.",
+    "Ledger: AUT-PROP-017 marked `done`, claim released (owner: null), blocked_by cleared, `what` field appended with the merge commit and conflict-resolution method. Re-ran priority.py --write to refresh derived scores after the state change."
+  ],
+  "cost": "$0. Engineering and CPU only — a merge, two regenerations, one preflight run. No GPU, no rental, no spend.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-PARTNER-STRAT",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why_not_attempted": "Single small merge task fit comfortably in one session's context; no hardening round, no large corpus read, no reason to spawn."
+  }
+}
