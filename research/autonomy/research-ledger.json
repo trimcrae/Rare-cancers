@@ -8005,8 +8005,8 @@
         "strategy": null
       },
       "state": "in_progress",
-      "owner": null,
-      "claimed_utc": null,
+      "owner": "CYC-0072-2e57571a",
+      "claimed_utc": "2026-08-28T23:44:31Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -8026,7 +8026,12 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop-internal lease accounting; nothing outward-facing",
       "what": "⛔⛔ A LEASE WHOSE HOLDER'S SESSION HAS BEEN ARCHIVED IS INVISIBLE TO EVERY INSTRUMENT THE LOOP HAS, AND IT PARKS THE QUEUE FOR THE FULL 8 h LEASE. Measured 2026-08-28T23:30Z (CYC-0072-2e57571a) on live state. `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (receipt discriminator `ba841eee`) is SESSION_STATUS_ARCHIVED, updated 23:17:54Z, its last post_turn_summary reading verbatim 'landing loop attempt 2/4; gate re-gating on b94d4bc1c; 4 seats finishing'. Archiving RELEASES THE CONTAINER, so its subagents provably cannot be running — yet SEAT-s1/s2/s4/s5-ba841eee still held SEVEN open leases (AUT-PD-130, AUT-PD-133, AUT-007, AUT-008, AUT-011, AUT-016, AUT-045). ⛔ CONSEQUENCE, AND IT IS THE WHOLE-LOOP KIND: `continuity.py` counted those four dead seats plus one live cycle as 5 concurrent workers against a governed `subagent_width` of 5 and reported AT CAPACITY — 109 rows 'ready in the ledger and startable by nobody'. ⭐ WHY NOTHING CAUGHT IT, AND THE TWO INSTRUMENTS FAIL DIFFERENTLY. (1) `stalled_holder.py` joins an open claim against its holder's TRANSCRIPT, and a transcript lives in the holder's own container — which archiving has released. It needs `--tasks-dir`, and there is no directory to point it at, so the cross-session case is not merely unmeasured, it is UNMEASURABLE by that design. (2) `priority.py:release_stale_claims` does expire leases, but by `claimed_utc` against periods x the cycle interval = 8.0 h; `continuity.py --leases` reported all seven as 'within lease' at 0.8-1.0 h old. So the clock would not have freed them until ~06:45Z, roughly seven hours of a fully parked queue. ⚠ THIS IS AUT-PD-024'S FAILURE RECURRING THROUGH A DOOR THAT ROW DID NOT CLOSE. That row fixed `continuity.py` reporting capacity the loop did not have when seats FINISHED without releasing; this is the same harm when the seat's whole SESSION dies, where the finish signal never arrives at all. ⭐ AND THE WORK WAS NOT LOST, WHICH IS THE ONE PIECE OF GOOD NEWS AND ALSO THE SECOND DEFECT: three of the four seats had already pushed branches — `seat/s1-aut-pd-130` (e0847032, 23:07:53Z), `seat/s4-aut-045` (c8944f76, 23:09:04Z), `seat/s5-retest-blocks` (da4247dc, 22:52:45Z), plus `seat/s3-unscreened-endpoints` (88ac1c78, 23:09:54Z) whose seat held no lease — and NONE of the four is an ancestor of `origin/main`. CLAUDE.md §7 calls branch drift a data-loss bug; four finished seats' work sat on unmerged branches named in no ledger row. SEAT-s2-ba841eee (AUT-PD-133) pushed NOTHING, so that one seat's work IS lost and its row must go back to the queue unstarted. ⛔ WHAT THIS ROW ASKS FOR, AND THE RELEASE IS ALREADY DONE. This cycle released the seven dead leases and recorded each stranded branch on its own row, so the queue is startable now. What is NOT done is the DETECTION: nothing offline can observe that a CCR session has been archived, so the fix has to follow the house pattern `health.py` and `stalled_holder.py` already use — the checker takes a VERDICT it was handed rather than reaching for the network itself. A `--holder-verdict` input naming which holder sessions are archived, and a `continuity.py` capacity count that discounts them, is the shape. ⚠ AND THE REAPER IS IMPLICATED, WHICH IS WHY THIS IS NOT ONLY A CONTINUITY ROW. `research-loop` §11 says the reaper ONLY EVER CLEARS A SESSION WHOSE RECEIPT IS ON THE TRUNK, and reports one that died holding uncommitted work as a FINDING it refuses to clear. `CYC-0070-ba841eee.json` is on the trunk, but that receipt is the session's FIRST cycle (started_utc 21:56:00Z, `seats: []`); the leases were taken 22:31-22:45Z by a SECOND cycle whose receipt was never written. So a per-SESSION receipt check passes while the session's live cycle is unrecorded — an archived session can satisfy the reaper on the strength of an earlier cycle's receipt. Whether the reaper actually made this call or a human did is UNKNOWN and is not guessed here.",
-      "dispatch_log": [],
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T23:44:31Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
       "evidence": ""
     },
     {
