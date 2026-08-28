@@ -622,6 +622,52 @@ def _mature(seqs, gene):
     return "".join(g["sequence"][a:b + 1] for a, b in g["exon_spans_0based_inclusive"])
 
 
+PREMRNA_OFFTARGET = os.path.join(MOD, "aso-premrna-offtarget.json")
+
+_JUNCTION = re.compile(r"^([A-Z0-9]+)_e\d+__([A-Z0-9]+)_e\d+$")
+
+
+def _longest_run(a, b):
+    best = cur = 0
+    for x, y in zip(a, b):
+        cur = cur + 1 if x == y else 0
+        best = max(best, cur)
+    return best
+
+
+def _own_parent_runs(pairing):
+    """The longest run a design's OWN parent forms, over BOTH compartments the sentence names.
+
+    ⛔⛔ WHY BOTH. The first version of this guard read `longest_parent_duplex_bp_through_gap` alone
+    and so measured the MATURE arm only, while the sentence it bound named the mature transcript AND
+    the precursor splice junction in its own antecedent. A blind regression seat found the gap on the
+    commit that introduced it: the precursor arm carries a 14-base-pair hybridisable run, one longer
+    than the mature maximum, so an unscoped "no parent pairs more than 13" was false as written.
+
+    ★ AND THE SCOPE THAT MAKES IT TRUE IS "ITS OWN PARENT", NOT "A PARENT". That 14-mer is TCF12
+    against a TFG::NR4A3 design — TCF12 is a parent gene of the panel and not a parent of that
+    design. Both readings are defensible English and only one of them is what the paragraph is
+    about, so the guard computes the one the sentence claims and the prose says which it means.
+    """
+    runs = [d["longest_parent_duplex_bp_through_gap"] for d in pairing["per_design"]
+            if d.get("counts_as_liability")]
+    seqs = json.load(open(_required(PREMRNA_SEQS, "the parent transcript sequences")))
+    pre = json.load(open(_required(PREMRNA_OFFTARGET, "the precursor-RNA off-target screen")))
+    for d in pre["per_design"]:
+        m = _JUNCTION.match(d["junction_label"])
+        assert m, f"{d['junction_label']!r} is not a junction label this guard can read"
+        parents = set(m.groups())
+        target = _revcomp(d["antisense_5to3"])
+        for hit in d.get("hits", ()):
+            if not hit.get("hybridisable") or hit["gene"] not in parents:
+                continue
+            site = seqs["genes"][hit["gene"]]["sequence"][
+                hit["premrna_start_0based"]:hit["premrna_end_0based"] + 1]
+            runs.append(_longest_run(site, target))
+    assert runs, "no own-parent runs were measured at all, so the bound below is unmeasured"
+    return runs
+
+
 @pytest.fixture(scope="module")
 def parent_site_identity(pairing):
     """Identity of each liable design against its parent, at the site the screen names.
@@ -718,7 +764,7 @@ def test_the_strongest_returned_liability_is_the_two_screens_own(prose, pairing)
     """
     energy = json.load(open(_required(ENERGY, "the off-target duplex-energy re-evaluation")))
     n = pairing["method"]["oligo_len"]
-    longest_parent = max(d["longest_parent_duplex_bp_through_gap"] for d in pairing["per_design"])
+    longest_parent = max(_own_parent_runs(pairing))
     full = [d for d in energy["designs"] if d.get("max_run_len_hybridisable") == n]
     assert len(full) == energy["summary"]["n_designs_with_a_fully_paired_offtarget_duplex"], (
         "the fully-paired designs recomputed from max_run_len_hybridisable disagree with the "
@@ -740,9 +786,9 @@ def test_the_strongest_returned_liability_is_the_two_screens_own(prose, pairing)
         f"a parent now pairs {longest_parent} of {n} bases, so the comparison the sentence draws "
         "between the two arms no longer runs in the direction it states")
     _every_site(prose,
-                r"no parent pairs more than (\d+) base pairs anywhere in the panel, against the "
-                r"whole (\d+) for the (\w+) fully paired off-target duplexes above, (\w+) of them "
-                r"curated records",
+                r"no design's own parent pairs more than (\d+) base pairs in either compartment, "
+                r"against the whole (\d+) for the (\w+) fully paired off-target duplexes above, "
+                r"(\w+) of them curated records",
                 (str(longest_parent), str(n), _word(len(full)), _word(curated)),
                 "the two arms' strongest returns, and how many of the fully paired are curated")
 
@@ -773,11 +819,11 @@ NARROWED_QUANTIFIERS = [
      r"|returns?\s+no\s+parent"
      r"|cannot\s+return\s+(?:a|the|any)\s+parent"),
     ("§Selection's account of how visible the parent liability is",
-     "is mostly, not wholly, invisible to the instrument",
+     "is mostly but not wholly invisible to the instrument",
      r"invisible[^.]{0,80}\bat\s+(?:any|every|all|whatever)\s+(?:threshold|cut|setting)"
      r"|\bat\s+(?:any|every|all|whatever)\s+(?:threshold|setting)[^.]{0,80}invisible"),
     ("§Test articles' account of how junction-specific the panel is",
-     "most designs here being specific to the exon pair they were tiled at",
+     "most designs here are specific to the exon pair they were tiled at",
      r"\b(?:every|each|all|any)\s+designs?\s+(?:here\s+)?(?:being\s+|is\s+|are\s+|was\s+|were\s+)?"
      r"specific\s+to\s+(?:the|its|their)\s+(?:exon\s+pair|junction)"),
     ("§Interpretation's account of which wild-type liability is strongest",
@@ -812,3 +858,74 @@ def test_the_narrowed_quantifiers_stay_narrow(prose, what, require, forbid):
     assert not found, (
         f"{what} has gone universal again: {found.group(0)!r} is the wording the claim audit refuted, "
         "and the artifacts that refuted it have not changed")
+
+
+GAP_TRADEOFF = os.path.join(MOD, "aso-gap-length-tradeoff.json")
+
+
+def test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count(prose):
+    """⛔ THE RAW COUNT POINTED THE OPPOSITE WAY FROM THE DENOMINATED ONE (round 18, seat 3).
+
+    The article said "across three geometries the liable count does not fall", which is true — 87,
+    88, 87 — and it was the whole evidence that a longer catalytic gap does not buy the design out
+    of the liability. The three panels are 190, 266 and 342 designs, sizes the article never printed,
+    so the rate falls 45.8% -> 33.1% -> 25.4% and the count is not even monotone. A statistic whose
+    denominator is withheld is not a weaker version of the claim; it is the reverse of it.
+
+    ★ AND THE LAST FIGURE IS A CONSTRUCTION ARTEFACT, WHICH THE PROSE NOW SAYS. MIN_DUPLEX_BP is an
+    absolute hybrid length that does not scale with the gap, so at 5-10-5 the catalytic gap alone is
+    already a ten-base-pair hybrid and every gap-pairing window clears the criterion by construction
+    — the artifact's own `_threshold_note`, and visible here as the two counts converging.
+    """
+    geoms = json.load(open(_required(GAP_TRADEOFF, "the gap-length trade-off series")))["geometries"]
+    present = [g for g in geoms if g.get("present")]
+    assert len(present) == 3, (
+        f"the series now holds {len(present)} measured geometries, not the three the article "
+        "reports — the sentence names its own denominators and must follow the artifact")
+    counts = [g["mature_parent_whole_gap_duplex"]["n_at_or_above_min_duplex_bp"] for g in present]
+    sizes = [g["n_fusion_specific_designs"] for g in present]
+    rates = [_pct(c / n) for c, n in zip(counts, sizes)]
+    _every_site(prose,
+                r"the liable count holds at (\d+), (\d+) and (\d+) while the panel grows from (\d+) "
+                r"designs to (\d+) and (\d+), so the rate falls from ([\d.]+%) to ([\d.]+%) and "
+                r"([\d.]+%)",
+                tuple(str(c) for c in counts) + tuple(str(n) for n in sizes) + tuple(rates),
+                "the three geometries' liable counts, their panel sizes and the resulting rates")
+    last = present[-1]["mature_parent_whole_gap_duplex"]
+    assert last["n_with_any_gap_pairing_window"] == last["n_at_or_above_min_duplex_bp"], (
+        "the two counts no longer converge at the longest geometry, so the article's 'met by the "
+        "catalytic gap alone, so that last figure is a floor' has lost the observation behind it")
+
+
+def test_the_ddg_separations_are_reported_with_the_direction_their_artifact_records(prose):
+    """⛔ A ONE-DIRECTIONAL BOUND QUOTED AS A POINT VALUE READS AS MARGIN (round 18, seat 5).
+
+    The article's evidence that neither named reagent falls in the fully-paired or within-2-kcal
+    classes is "the closest to each being 3.2 and 3.0 kcal/mol weaker". Its own artifact says, in a
+    field written for exactly this: scoring only the longest perfectly paired run "UNDERSTATES a
+    near-match's true stability and therefore OVERSTATES its separation from the intended duplex.
+    Every ddG here is an upper bound on that separation." Beside a concern band the paper itself
+    sets at 2 kcal/mol, dropping that direction turns a ceiling into a clearance.
+
+    ⚠ AND THE OTHER BOUND MUST NOT BE MERGED IN. The artifact also records that unmodelled LNA
+    points the other way and that the two "are not a range and must not be quoted as one", so this
+    guard requires the run-length direction and does NOT ask for a two-sided interval.
+
+    ★ THE REQUIREMENT IS DERIVED FROM THE ARTIFACT'S OWN FIELD, so if that field is ever rewritten
+    to say something else, this fails rather than going on enforcing a sentence nobody stands behind.
+    """
+    energy = json.load(open(_required(ENERGY, "the off-target duplex-energy re-evaluation")))
+    field = next((v for k, v in energy.items()
+                  if "bound" in k and "one_way" in k and isinstance(v, str)), None)
+    assert field and "upper bound on that separation" in field, (
+        "the energy artifact no longer records that its ddG values are upper bounds on the "
+        "separation; the article's wording below was derived from that field and must be re-derived "
+        "rather than left standing")
+    flat = _flat(prose)
+    assert "upper bounds on" in flat and "that separation" in flat, (
+        "the article quotes the ddG separations without the direction its artifact records. Every "
+        "ddG there is an UPPER bound on the separation, so a bare 3.2 / 3.0 reads as more margin "
+        "than was measured — beside a concern band this paper sets at 2 kcal/mol.")
+    assert "range" not in flat.split("upper bounds on")[1][:200], (
+        "the two bounds point opposite ways and the artifact says they must not be quoted as a "
+        "range; this sentence appears to have merged them")

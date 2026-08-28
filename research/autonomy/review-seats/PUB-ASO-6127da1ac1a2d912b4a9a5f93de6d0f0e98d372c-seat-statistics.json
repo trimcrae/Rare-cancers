@@ -1,0 +1,79 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c",
+  "blind": true,
+  "seat": "statistics",
+  "lens": "Whether every screen count, null comparison, interval and power figure in the paper says exactly as much as the artifact that produced it, and no more.",
+  "utc": "2026-08-28T16:37:34Z",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md (at the pin)",
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+    "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+    "research/manuscripts/aso_falsification_power.py",
+    "research/manuscripts/pinned-figures.json",
+    "research/manuscripts/tests/test_journal_article_numbers.py",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso_parent_null.py",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso_parent_gap_pairing.py",
+    "research/modalities/aso-parent-gap-pairing-noncoding-acceptor.json",
+    "research/modalities/aso-premrna-offtarget.json",
+    "research/modalities/aso-premrna-offtarget-noncoding-acceptor.json",
+    "research/modalities/aso-premrna-sequences.json",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/aso-insilico-evaluation.json",
+    "research/modalities/aso-control-oligos.json",
+    "research/modalities/aso-per-junction-table.json",
+    "research/modalities/aso-independent-verification.json",
+    "research/modalities/aso-gap-length-tradeoff.json",
+    "research/modalities/junction-aso-offtarget-e12n3-deep500-b1.json",
+    "research/modalities/tests/test_aso_parent_null.py"
+  ],
+  "central_claim": "Every count, rate, interval and power figure the article prints is bounded by, and no wider than, the artifact that produced it — in particular the 87/190 parent-liability screen, the ten null ensembles, the coverage arithmetic, and the power and void-SD arithmetic of the pre-registrable falsification experiment.",
+  "verdict": "not_supported",
+  "recommendation": "minor_revision",
+  "blockers": [
+    {
+      "summary": "The gap-length sentence compares raw liable COUNTS across three panels of different sizes (190, 266, 342 designs) on a criterion that is not comparable across them, and neither the sizes nor the rates appear anywhere in the article. Normalised, the liability rate falls by nearly half.",
+      "quote": "Lengthening the catalytic gap does not remove this liability, because every base inside the gap comes from the donor or the acceptor exon. Across three geometries the liable count does not fall; the archived deposit gives the series.",
+      "evidence": "research/modalities/aso-gap-length-tradeoff.json, geometries[].mature_parent_whole_gap_duplex.n_at_or_above_min_duplex_bp against geometries[].n_fusion_specific_designs: 5-6-5 = 87 of 190 (45.8%), 5-8-5 = 88 of 266 (33.1%), 5-10-5 = 87 of 342 (25.4%). The article states only the 5-6-5 panel and its construction ('one design per register ... which admits five per junction', line 112-113 of the pinned file), and never prints 266 or 342 — grep of the pinned document for '266', '342', '5-8-5', '5-10-5', '18-mer', '20-mer' returns nothing. Three further facts from the same artifact: (i) the counts are not monotone even as counts — 88 at 5-8-5 falls to 87 at 5-10-5; (ii) the criterion changes stringency with the geometry, because MIN_DUPLEX_BP is an absolute 10 bp while the gap grows — the artifact's own `_threshold_note` records 'at a gap of 10 the catalytic gap alone is already a 10 bp hybrid and every gap-pairing window clears the threshold by construction', and indeed at 5-10-5 n_with_any_gap_pairing_window == n_at_or_above_min_duplex_bp == 87, against 181 vs 87 at 5-6-5; (iii) the underlying liability (a parent can pair the whole gap at all) falls 181/190 = 95.3% -> 130/266 = 48.9% -> 87/342 = 25.4%. No guard binds this sentence: git grep for 'does not fall' / 'three geometries' over research/manuscripts/tests and research/modalities/tests returns no assertion on it, and pinned-figures.json holds no entry for it.",
+      "why_a_reader_would_be_misled": "This is the only sentence in the paper that closes off a longer catalytic gap as a design alternative, and a laboratory reads it as 'the same panel re-geometried yields the same number of liable designs, so a longer gap buys nothing on this axis'. On the deposit's own numbers the per-design liability rate falls from 45.8% to 25.4%, and the flat count at 5-10-5 is produced by a threshold that geometry satisfies by construction rather than by any property of the sequences. The conclusion 'does not REMOVE the liability' is true; the statistic offered as its support points the other way once denominated."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "The one OUTSIDE claim in the null comparison — 'but eleven' — rests on the nominal Wilson interval, whose independence assumption the repository itself rejects for these units; the guard that pins the sentence uses the same nominal field, and its own docstring says that field is the wrong one for an outside assertion.",
+      "evidence": "The article states: 'at ten the strongest null's 40.6% falls inside the panel's own 95% interval on 45.8%, as at every cut from seven to thirteen but eleven'. I reproduced this against research/modalities/aso-parent-null.json: at every cut 7-13 the maximum over null_ensembles[*].cut_ladder[cut].rate_liable lies inside observed_cut_ladder[cut].rate_liable_wilson95, except cut 11 (strongest null 0.34679 against the panel's [0.37333, 0.51318]). But aso-parent-null.json._what_this_is_not says in terms: 'The 190 design records are 176 distinct molecules tiled at overlapping registers across 38 junctions, so they are not independent draws and no test treating them as such would be right about its own denominator', and the artifact's cut_sensitivity._why calls the interval NOMINAL. research/manuscripts/tests/test_journal_article_numbers.py::test_the_adopted_cut_is_not_exempt_from_its_own_null carries the design-effect-corrected reading (effective sample 133.57, giving 37.6-54.2% at cut 10) and states 'It would be the wrong field the day this test is inverted to assert something falls OUTSIDE'. Recomputing Wilson at n_eff = 133.57 reproduces 0.3758-0.5424 at cut 10 (matching that docstring) and gives 0.3607-0.5268 at cut 11 — so the null at 0.34679 is still outside, by 1.4 percentage points against a nominal margin of 2.7. The claim survives today; the margin is half what the printed interval implies, and the article prints '95% interval' with no 'nominal'.",
+      "what_edit_would_break_it": "Any regeneration that moves cut 11 by ~1.5 percentage points — a different seed or draw count in aso_parent_null.py, one more null ensemble, or folding the four exon-2 junctions into the panel and changing the denominator — flips the corrected interval to contain the strongest null while the nominal interval still excludes it. The guard asserts `inside == expected` on rate_liable_wilson95 (the nominal field), so it would stay green and the article's sole separation claim would be false under the interval the repository says is the one to read."
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "'Two bounds apply to every panel count below' over-scopes: the alignment-screen censoring bounds the alignment-derived counts only, not the parent-screen counts that dominate the section, and the same sentence's 'the alignment screen censors the rest' is contradicted by its own '47 of 183'.",
+      "evidence": "The article: 'Two bounds apply to every panel count below. First, seven of the 190 screens never returned, and the alignment screen censors the rest, leaving 47 of 183 assessable at all.' The research-article sibling gives the underlying measurement: '136 of the 183 filtered designs carry right-censored counts' — so 47 of the 183 are uncensored, and 'censors the rest' is a universal over a set of which a quarter is not censored. Separately, the counts that follow (87 of 190, 61, 85, 19, 93, 175 at seven, 181 at six) come from the mature-parent screen, which ran complete over the whole panel: research/modalities/aso-parent-gap-pairing.json carries 190 scored per_design rows with no censoring field, and research/modalities/aso-independent-verification.json checks.D_mature_parent_screen records designs_checked = 190, run_length_disagreements = 0. The over-scoping is in the conservative direction, but it invites a reader to discount counts that are complete."
+    },
+    {
+      "summary": "The pre-registration gates the replicate count on VOIDNESS rather than on power, and the article states power at only one assumed SD — so the prescription admits an n=6 design with under 20% power that is not void.",
+      "evidence": "Running research/manuscripts/aso_falsification_power.py's own functions with sigma varied: power to falsify a true selectivity of 3 at n=6 is 81.3% at the article's assumed sigma 0.35 (its 'about 80%'), but 52.3% at 0.50, 34.6% at 0.65 and 17.5% at 1.00 — every one of those below the n=6 void SD of 1.534 the article prints. The article's only quantitative gate is keyed to that void figure: 'Where a one-sided 95% chi-square bound on the pilot's standard deviation lies at or above the void figure for the count proposed, the decision is a larger replicate count, or no falsification test at all, and never three.' A reader pre-registering against that gate can pass it at a realised SD near 1.4 and run a test with roughly one chance in ten of falsifying. Both the void arithmetic (0.648 / 1.534 / 2.250 at n = 3 / 6 / 10) and the power figures (30.4% and 81.3%) reproduce exactly from the module, so the numbers are right; what is missing is the power-versus-sigma statement that connects them."
+    },
+    {
+      "summary": "The scramble-control screening rates are the panel-wide ensemble rates, not rates for scrambles of the two named reagents, which is what 'such scrambles' reads as.",
+      "evidence": "The article: 'a dinucleotide-preserving scramble of each reagent ... 10.0% of such scrambles pair a parent's whole catalytic gap at the ten-base-pair criterion and 3.9% do so against wild-type NR4A3.' Both figures are research/modalities/aso-parent-null.json null_ensembles.scrambled_dinucleotide.rate_liable = 0.09987 and .rate_liable_against_NR4A3 = 0.03911, measured over 38,000 draws taken 200 per design across all 190 panel designs (method.draws_per_design_per_ensemble = 200). The artifact carries a per-design breakdown only for the mononucleotide arm (per_design_scrambled_mononucleotide), so no per-reagent dinucleotide rate exists for the two sequences the sentence is about."
+    },
+    {
+      "summary": "'no parent pairs more than 13 base pairs anywhere in the panel' is wider than the instrument, which only scores runs containing the whole catalytic gap.",
+      "evidence": "research/modalities/aso-parent-gap-pairing.json: the maximum of longest_parent_duplex_bp_through_gap over the 190 per_design rows is 13 (histogram 0:9, 6:6, 7:32, 8:45, 9:11, 10:3, 11:49, 12:29, 13:6). aso_parent_gap_pairing.py states the rule: 'A hit counts only if all six gap positions are paired; its size is then the longest contiguous run of perfect pairing that CONTAINS the whole gap', and a design whose gap carries a mismatch is scored 0 rather than short (9 designs sit at 0). A longer contiguous parent match that does not span the gap is therefore invisible to the number, so 'anywhere in the panel' claims more than 13 bounds. The qualifier does arrive two sentences later ('The mature-transcript screen condemns on a ten-base-pair duplex through the gap'), which is why this is a P2 and not higher."
+    },
+    {
+      "summary": "'Each null rate is 38,000 draws with a Wilson 95% interval' presents 38,000 as an effective sample when the draws are 190 clusters of 200 sharing a design's junction and parents; and no null interval is actually printed.",
+      "evidence": "research/modalities/aso-parent-null.json method.draws_per_design_per_ensemble = 200 with 190 designs; research/modalities/tests/test_aso_parent_null.py asserts n_draws == 190 * draws_per_design_per_ensemble. The same non-independence the artifact concedes for the panel arm applies within each design's 200 draws, so the printed 'Wilson 95% interval' on 38,000 overstates precision. Nothing in the article's argument turns on a null interval — only null point estimates are compared to the panel's interval — so the cost is confined to the precision the sentence implies."
+    },
+    {
+      "summary": "The 79.0% three-reagent coverage figure is quoted without the range that accompanies the 68.4% two-reagent figure.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json: coverage.percent = 68.4 with percent_range [39.9, 82.8] (which the article prints, correctly labelled 'not a confidence interval'), and if_a_third_published_breakpoint_were_added.percent = 79.0 with percent_range [50.3, 89.2] (which the article does not print). A reader comparing 68.4% with its 39.9-82.8% band against a bare 79.0% reads the second as the better-determined of the two."
+    }
+  ]
+}

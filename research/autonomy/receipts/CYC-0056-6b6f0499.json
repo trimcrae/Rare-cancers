@@ -1,0 +1,50 @@
+{
+  "cycle_id": "CYC-0056-6b6f0499",
+  "session_id": "6b6f0499-f9a5-5941-8d7e-f2d4c1f2c937",
+  "utc": "2026-08-28",
+  "kind": "hardening round (spawned session, research-loop §3)",
+  "spawned_by": "CYC-0053-3217966b",
+  "took": "AUT-PD-082 — apply the three REFUTED interpretation claims to the ASO journal article as a hardening round",
+  "what_changed": [
+    "Journal article: four sentences REPLACED (the three audited claims plus the Introduction sibling the audit did not sample), then five more corrections from the blind seats. 4613 -> 4634 words by wc -w; abstract 205 -> 200 against its own 200-word limit.",
+    "Extended report: three sentences replaced — two siblings of the audited claims, found by grepping the packet rather than by the audit, and one standing arithmetic premise the round's own recomputation contradicted, at both of its sites.",
+    "Claim-audit verdicts: two verdict_correction fields, because re-deriving a verdict is part of applying it. 'six of those 8 curated' is FIVE of 8; 'taf15e14n3 returns 0 at both ceilings' returns 2 and 5.",
+    "Six new derived guards across three modules, plus one new property-scoped module that forbids the refuted universals in every shipped document that MAKES the claim rather than in a list somebody must remember to extend.",
+    "hardening-state/PUB-ASO.json written — the clause it feeds moved from UNMEASURED to a measured FAIL, which is the honest direction."
+  ],
+  "verification": {
+    "seats": "4 of 5 returned (regression, arithmetic, statistics, hostile referee); the citations/guard-coverage seat had not returned when this receipt was written and its silence is recorded as absent, not clean.",
+    "blockers": "5, every one reproduced from the committed artifacts before being acted on, every one fixed.",
+    "p1s": "7, of which 2 closed here.",
+    "mutation_testing": "21 caught / 21 on a hardlink clone, every mutation asserted to have landed before its result was read, positive control green. Included five synonym reinstatements and three cross-document ones.",
+    "arithmetic_seat": "0 blockers — every printed quantity re-derived from its producing artifact, including this round's new 7-of-87."
+  },
+  "cost": {
+    "real_dollars": 0,
+    "gpu_hours": 0,
+    "note": "CPU, local builds and model time only. No rental, no dispatch, no metered job."
+  },
+  "subagents": {
+    "max_concurrent": 5,
+    "launched": 5,
+    "note": "Five blind seats dispatched in one message at the governed width read from autonomy-state.json (backoff_level 0 -> subagent_width 5). Each had its own scratch directory and seat-prefixed filenames."
+  },
+  "blocked_by": [
+    {
+      "what": "the journal article is 7 typeset pages against a 6-page budget backed by a per-page charge",
+      "path": "research/manuscripts/tests/test_the_journal_pdf_fits_its_page_budget.py",
+      "queued_as": "AUT-PD-086"
+    }
+  ],
+  "route_advanced": "RT-AUTONOMY",
+  "queued": [
+    "AUT-PD-086",
+    "AUT-PD-087",
+    "AUT-PD-088"
+  ],
+  "not_done": [
+    "The page budget. Every action that does not remove a bound has been taken; the remaining one — relocating the null-ensemble apparatus to the supplementary information — needs at least three guards re-pointed across two documents and was NOT attempted at the end of this context. AUT-PD-086.",
+    "PREFLIGHT_FULL=1 (AUT-PROP-018) deliberately not run: publish_bar's three open clauses are pinned to ONE commit, clause 1 cannot close this round, and a FULL run spent before that is a run that gets discarded — which has already happened twice.",
+    "Nothing was posted, submitted or published. PUB-ASO carries a public DOI under trimcrae's name and is excluded by name from the standing aiXiv grant."
+  ]
+}
