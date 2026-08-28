@@ -1,0 +1,837 @@
+{
+  "_status": "COMPLETE 2026-08-28 by seat s62-sgk1 for cycle CYC-0053-3217966b, ledger item AUT-062, which is route RT-SGK1's own named next action: 'Read which other kinases phosphorylate the substrate, to size how much of the signal SGK1 could account for.' The substrate is NDRG1. THE ANSWER IS NOT THE ONE THE QUESTION EXPECTED. The question presumes RT-SGK1's reading is a phosphorylation reading, so that the other kinases acting on those sites would divide a shared signal. It is not: the reading is NDRG1 TRANSCRIPT ABUNDANCE in bulk tumour tissue. The kinase-multiplicity question therefore does not apply to the reading RT-SGK1 holds, and a separate multiplicity answer is recorded here for the phospho reading the route does not have.",
+  "_readme": "One home for what the published record says about (a) which kinases phosphorylate NDRG1 and at which residues, (b) what controls NDRG1 transcript and protein ABUNDANCE, and (c) how much of the NDRG1 signal read in EMC tumour tissue by research/modalities/census-route-expression-grading.json can be attributed to SGK1. Every identifier below traces to a PubMed metadata fetch made on 2026-08-28 through the PubMed MCP connector; nothing is written from recollection. This file changes no graph record and no manuscript; graph edits are PROPOSED at the end, not applied.",
+  "_not_medical_advice": "A record of literature reads and a re-reading of expression artifacts already committed here. NOT medical advice. Nothing in this file claims that any agent — an SGK1 inhibitor, an mTOR inhibitor, an Akt inhibitor or any other — has efficacy, selectivity, safety, a therapeutic window or clinical readiness in EMC or in any patient. No target here is validated in EMC by any experiment.",
+  "_attribution": "According to PubMed. Every bibliographic record below was retrieved from PubMed (NCBI) through the PubMed MCP connector's search_articles and get_article_metadata on 2026-08-28. PubMed's terms of use require attribution and a resolvable DOI link wherever its metadata travels, so every row carries doi_url where PubMed returned a DOI, and any document or message quoting a row must carry both. One record (pmid 19082468) carries no DOI in the returned metadata and its doi field is null for that reason — it is an absent field in the source, not an omission here.",
+  "document_date_et": "2026-08-28",
+  "produced_by": {
+    "seat": "s62-sgk1",
+    "cycle": "CYC-0053-3217966b",
+    "ledger_item": "AUT-062",
+    "branch": "claude/s62-sgk1"
+  },
+  "headline": "THE SIGNAL RT-SGK1 RESTS ON CARRIES NO KINASE ATTRIBUTION TO DIVIDE. The route reads NDRG1 TRANSCRIPT ABUNDANCE; every published mechanism linking SGK1 to NDRG1 is a PHOSPHORYLATION of NDRG1 protein. The discriminating observation is direct — in SGK1-null mouse dendritic cells NDRG1 was 'similarly expressed' in sgk1(+/+) and sgk1(-/-) cells while its phosphorylation fell (pmid 25200670) — and one perturbation moves the two in OPPOSITE directions, Hsp90 inhibition raising NDRG1 transcript while lowering its phosphorylation by SGK1 and GSK3beta (pmid 19682504). ⚠ NOT ZERO, AND SAID SO DELIBERATELY: one glioma study names an mTORC2/SGK1 route to NDRG1 INDUCTION as one of three, alongside HIF-1alpha and p53 (pmid 24367102). So the honest statement is that NO FRACTION of an abundance reading can be assigned to SGK1 from published work — not that SGK1 contributes nothing to NDRG1 abundance. What is established to drive NDRG1 abundance is hypoxia through HIF-1 (pmid 15341671), and this repository's own reading has all six published hypoxia signatures higher in EMC on BOTH platforms, with NDRG1 a core member of four of the six. ⭐ SEPARATELY, for the phospho reading RT-SGK1 does not have: the SGK1-attributable fraction of p-NDRG1 is UNKNOWN and is bounded away from neither 0 nor 1 by published work — SGK1, SGK3 and Akt have each been shown individually sufficient to carry the NDRG1 phospho signal in some human cell background, so which kinase dominates is a property of the cell measured, never of the substrate.",
+  "question": {
+    "as_the_ledger_states_it": "Read which other kinases phosphorylate the substrate, to size how much of the signal SGK1 could account for.",
+    "ledger_id": "AUT-062",
+    "route": "RT-SGK1",
+    "publication_endpoint": "PUB-KINASE-LEADS",
+    "strategy": "ST-DEPENDENCY",
+    "the_substrate_is": "NDRG1",
+    "how_the_substrate_was_established": "From the repository, not from the prompt and not from background knowledge. RT-SGK1's grade in systems/graph/routes.json names it, its generated view systems/views/L2-rt-sgk1.md repeats it, and research/modalities/census-route-expression-grading.json — the artifact that OWNS the grade — carries the per-platform numbers under routes/RT-SGK1/genes/NDRG1. The repository is not ambiguous: NDRG1 is the only substrate named anywhere on this route."
+  },
+  "the_claim_being_sized": {
+    "_what": "The exact repository sentences this seat was asked to size, quoted verbatim with their file homes.",
+    "quotes": [
+      {
+        "file": "systems/graph/routes.json",
+        "path": "routes[RT-SGK1]/grade/value",
+        "verbatim": "◐ DISCORDANT ON THE KINASE, CONCORDANT ON ITS SUBSTRATE (2026-08-09). SGK1 itself reads LOWER on one platform and HIGHER on the other, so the transcript does not corroborate the published antibody series. ⭐ Its canonical substrate NDRG1 is higher on BOTH, at the 98th percentile on one — which is an activity-shaped reading rather than an abundance one."
+      },
+      {
+        "file": "research/modalities/census-route-expression-grading.json",
+        "path": "routes/RT-SGK1/what_this_does_not_settle",
+        "verbatim": "NDRG1 is phosphorylated by several kinases, so a substrate elevation is not attributable to SGK1, and a discordant kinase read across two platforms is exactly the case where a third series decides and nothing else does."
+      },
+      {
+        "file": "systems/graph/routes.json",
+        "path": "routes[RT-SGK1]/remaining_unknowns[0]",
+        "verbatim": "Whether elevated substrate output reflects SGK1 activity or one of the other kinases that phosphorylate the same substrate — the reading cannot attribute it."
+      },
+      {
+        "file": "systems/graph/routes.json",
+        "path": "routes[RT-SGK1]/supporting_evidence[0]/what_it_supports",
+        "verbatim": "SGK1 transcript is discordant across the two platforms while its canonical substrate NDRG1 is concordantly higher on both, at the 98th array percentile on one"
+      }
+    ],
+    "⭐_the_load_bearing_phrase": "'which is an activity-shaped reading rather than an abundance one'. That clause is the entire inferential step from a transcript number to a statement about SGK1, and it is the clause this file finds unsupported. The two sentences beside it are correct and are strengthened, not weakened, by what follows: the grade's own 'not attributable to SGK1' and the unknowns row's 'the reading cannot attribute it' both survive intact."
+  },
+  "what_the_reading_actually_is": {
+    "_source": "research/modalities/census-route-expression-grading.json, routes/RT-SGK1/genes — restated here for the argument, OWNED there.",
+    "_kind": "Per-gene z-scores and array percentiles from bulk archival tumour transcript measurements on two microarray platforms. Transcript abundance. No protein, no phospho-epitope, no kinase assay.",
+    "NDRG1": {
+      "GSE24369_series_matrix.txt.gz": {
+        "emc_mean_z": 2.194,
+        "emc_array_percentile": 0.9813,
+        "comparator_mean_z": 1.7712,
+        "delta_emc_minus_comparator": 0.4228
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "emc_mean_z": 0.5036,
+        "emc_array_percentile": 0.684,
+        "comparator_mean_z": -0.1962,
+        "delta_emc_minus_comparator": 0.6998
+      }
+    },
+    "SGK1": {
+      "GSE24369_series_matrix.txt.gz": {
+        "emc_mean_z": -0.032,
+        "delta_emc_minus_comparator": -0.1807
+      },
+      "GSE4303-GPL3290_series_matrix.txt.gz": {
+        "emc_mean_z": -0.608,
+        "delta_emc_minus_comparator": 0.6156
+      }
+    },
+    "⛔_the_type_error": "A transcript level is an ABUNDANCE measurement of NDRG1. Every published mechanism connecting SGK1 to NDRG1 is a PHOSPHORYLATION of NDRG1 protein at specific residues. Nothing in the retrieved record connects SGK1 to how much NDRG1 message a cell carries. The route's grade calls the NDRG1 number 'an activity-shaped reading rather than an abundance one'; it is literally an abundance one, and that is the finding."
+  },
+  "A_which_kinases_phosphorylate_NDRG1": {
+    "_what": "Kinases reported to phosphorylate NDRG1, with the residues each is reported to act on. Rows are what the retrieved record states, not a consensus.",
+    "_sites_of_record": {
+      "SGK1_sites": [
+        "Thr328",
+        "Ser330",
+        "Thr346",
+        "Thr356",
+        "Thr366"
+      ],
+      "GSK3_sites": [
+        "Ser342",
+        "Ser352",
+        "Ser362"
+      ],
+      "_relationship": "Sequential, not competing: SGK1 phosphorylation of the three-fold GTRSRSHTSE repeat PRIMES NDRG1 for GSK3, which then phosphorylates the serines. Stated by pmid 15461589.",
+      "_source": "pmid 15461589 abstract, verbatim: 'SGK1 also phosphorylated the related NDRG1 isoform at Thr328, Ser330 and Thr346 (equivalent to Thr330, Ser332 and Thr348 of NDRG2), as well as Thr356 and Thr366. Residues Thr346, Thr356 and Thr366 are located within identical decapeptide sequences GTRSRSHTSE, repeated three times in NDRG1.'"
+    },
+    "kinases": [
+      {
+        "kinase": "SGK1",
+        "sites": [
+          "Thr328",
+          "Ser330",
+          "Thr346",
+          "Thr356",
+          "Thr366"
+        ],
+        "evidence_pmids": [
+          "15461589",
+          "15710380",
+          "20416281",
+          "25128767",
+          "25200670"
+        ],
+        "strongest_form": "SGK1-/- mice: Thr346/Thr356/Thr366 phosphorylated in liver, lung, spleen and skeletal muscle of wild-type mice but NOT in SGK1-/- mice; siRNA knockdown of SGK1 in HeLa cells also suppressed it (pmid 15461589).",
+        "⚠_bound": "That knockout result is in NORMAL MOUSE TISSUES and one human cervical carcinoma line. It establishes SGK1 as the dominant kinase at those residues in those tissues. It does not establish it in any tumour, and nothing in the retrieved record extends it to a sarcoma."
+      },
+      {
+        "kinase": "GSK3 (GSK3alpha/beta)",
+        "sites": [
+          "Ser342",
+          "Ser352",
+          "Ser362"
+        ],
+        "evidence_pmids": [
+          "15461589",
+          "38983911",
+          "36594086",
+          "19682504"
+        ],
+        "strongest_form": "Primed by SGK1 in vitro and in HeLa cells; the GSK3 inhibitor CT 99021 shifted NDRG1 mobility in cells (pmid 15461589). Mitochondrially targeted iron chelators induce NDRG1 phosphorylation partially via GSK3alpha/beta in breast cancer cells (pmid 38983911).",
+        "⚠_bound": "Different residues from SGK1's. GSK3 divides no signal with SGK1 at Thr346/356/366; it acts downstream of them."
+      },
+      {
+        "kinase": "Akt / PKBalpha",
+        "sites": [
+          "NDRG1 phospho-sites, cell-context dependent"
+        ],
+        "evidence_pmids": [
+          "23581296",
+          "15710380"
+        ],
+        "strongest_form": "pmid 23581296 abstract, verbatim: 'Intriguingly, despite low SGK1 levels, several Akt-inhibitor-sensitive cells showed marked NDRG1 phosphorylation that was, unlike in the resistant cells, suppressed by Akt inhibitors.' That is human breast cancer cells in which the NDRG1 phospho signal is Akt-driven.",
+        "⛔_the_contradiction_and_its_resolution": "pmid 15710380 reports the opposite at peptide level — the NDRG1 nonapeptide is phosphorylated by SGK1 but NOT by PKBalpha or RSK1 in vitro, and the block traces to residues n+1, n+2 and n-4. Both are correct and they are not about the same thing: peptide specificity in vitro is not kinase attribution in a cell, where expression level, localisation and priming decide. THE PRACTICAL CONSEQUENCE IS THE ONE THAT MATTERS HERE — a p-NDRG1 signal in an unfamiliar tumour cannot be assigned to SGK1 by citing the peptide result."
+      },
+      {
+        "kinase": "SGK3",
+        "sites": [
+          "NDRG1 phospho-sites, cell-context dependent"
+        ],
+        "evidence_pmids": [
+          "31461270",
+          "27481935"
+        ],
+        "strongest_form": "A PROTAC degrading SGK3 and not SGK1 or SGK2 caused 'a loss of phosphorylation of NDRG1, an SGK3 substrate' in SGK3-dependent breast cancer cells (pmid 31461270). SGK3 rises and substitutes for Akt under sustained PI3K/Akt inhibition (pmid 27481935).",
+        "⚠_bound": "Breast cancer cell lines. ⭐ AND THIS IS THE SHARPEST SINGLE FACT FOR RT-SGK1: an isoform-selective degrader that leaves SGK1 and SGK2 intact still abolishes the NDRG1 phospho signal in those cells, which is a direct demonstration that the readout does not report SGK1."
+      },
+      {
+        "kinase": "mTORC2 (RICTOR/SIN1/mLST8)",
+        "sites": [
+          "Thr346 (as the reported readout)"
+        ],
+        "evidence_pmids": [
+          "18925875",
+          "21413931",
+          "37298315",
+          "34866401",
+          "25519700",
+          "37607215"
+        ],
+        "strongest_form": "RICTOR knockdown lowered total and phospho-NDRG1 Thr346 without lowering NDRG1 mRNA, Torin 2 reduced phospho-NDRG1 Thr346 by ~100%, and rapamycin had no effect, in clear cell renal cell carcinoma (pmid 37298315). NDRG1 phosphorylation is abolished in rictor-, Sin1- or mLST8-deficient fibroblasts (pmid 18925875).",
+        "⛔_this_is_not_a_competing_direct_kinase": "mTORC2 phosphorylates the SGK1 hydrophobic motif Ser422 and thereby ACTIVATES SGK1 (pmid 18925875); it is upstream, not a parallel NDRG1 kinase. The reason it belongs in this list anyway is that the SAME readout is claimed in the literature as an mTORC2 biomarker — pmid 18925875's own words are that 'NDRG1 phosphorylation represents an excellent biomarker for mTORC2 activity' — so a p-NDRG1 elevation is read by one field as SGK1 activity and by another as mTORC2 activity, and the measurement cannot distinguish them without an SGK-directed perturbation."
+      }
+    ],
+    "⚠_one_retrieved_record_is_retracted_and_is_not_used": {
+      "pmid": "28453552",
+      "doi": "10.1371/journal.pone.0176599",
+      "doi_url": "https://doi.org/10.1371/journal.pone.0176599",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Retracted Publication"
+      ],
+      "why_recorded_anyway": "It is returned by the obvious query 'NDRG1 phosphorylation Thr346' and reports mTORC2-inhibitor suppression of NDRG1 Thr346 in glioblastoma. PubMed's returned article_types marks it Retracted Publication. It is listed here so a later session that runs the same query does not read it as support, and NO claim in this file rests on it."
+    },
+    "⭐_how_many_kinases_is_the_honest_count": "Four kinases are reported to phosphorylate NDRG1 directly: SGK1 and its isoform SGK3 and Akt at the repeat threonines, and GSK3 at the primed serines downstream of them. mTORC2 is a fifth name in the same readout's literature and is upstream of SGK1 rather than parallel to it. ⛔ The count is not the finding — the finding is that THREE of them (SGK1, SGK3, Akt) have each been shown individually SUFFICIENT to carry the whole p-NDRG1 signal in some human cell background, so the identity of the responsible kinase is a property of the cell being measured."
+  },
+  "B_what_controls_NDRG1_abundance": {
+    "_why_this_section_exists": "Because it is the section the question needed and did not ask for. RT-SGK1's reading is abundance, so the attribution question for that reading is 'what raises NDRG1 message', not 'which kinase phosphorylates NDRG1'.",
+    "⭐_the_two_discriminating_observations": [
+      {
+        "pmid": "25200670",
+        "doi": "10.1159/000366311",
+        "doi_url": "https://doi.org/10.1159/000366311",
+        "verbatim": "NDRG1 was similarly expressed in sgk1(+/+) and sgk1(-/-)BMDCs, but SGK1-dependent phosphorylation of NDRG-1 was decreased in sgk1(-/-)BMDCs.",
+        "what_it_discriminates": "Removing SGK1 entirely leaves NDRG1 ABUNDANCE unchanged and lowers only its PHOSPHORYLATION. This is the single observation that separates the two hypotheses — 'NDRG1 transcript is high in EMC because SGK1 is active' against 'NDRG1 transcript is high in EMC for reasons unrelated to SGK1' — and it goes against the first. Mouse bone-marrow-derived dendritic cells, not a tumour."
+      },
+      {
+        "pmid": "19682504",
+        "doi": "10.1016/j.bbamcr.2009.08.002",
+        "doi_url": "https://doi.org/10.1016/j.bbamcr.2009.08.002",
+        "verbatim": "inhibition of Hsp90 led to a transcriptional increase of NDRG1 protein which was associated with cell growth arrest. We also observed that GA inhibited the phosphorylation of NDRG1 by targeting its regulating kinases, serum- and glucocorticoid-induced kinase 1 (SGK1) and glycogen synthase kinase 3 beta (GSK3beta).",
+        "what_it_discriminates": "One perturbation moves NDRG1 abundance UP and NDRG1 phosphorylation DOWN in the same cells. The two readouts are not merely distinct; they can be ANTI-correlated. A high NDRG1 transcript is therefore not weak evidence of SGK1 activity — it is not evidence of it in a defined direction at all."
+      }
+    ],
+    "reported_drivers_of_NDRG1_abundance": [
+      {
+        "driver": "Hypoxia, largely through HIF-1",
+        "pmids": [
+          "15341671",
+          "19082468",
+          "24367102"
+        ],
+        "verbatim": "Hypoxia and its mimetics induce in vitro expression of NDRG1 gene and cause the accumulation of Ndrg1 protein. Protein levels remain high even after cells revert to normoxia. Although HIF-1 is involved in the regulation of NDRG1, long term hypoxia induces the gene to some extent in HIF-1 knock-out cells. (pmid 15341671)"
+      },
+      {
+        "driver": "Low oxygen in a CHONDROSARCOMA cell line — the nearest lineage match retrieved",
+        "pmids": [
+          "28865129"
+        ],
+        "verbatim": "Increased ones included NDUFA4L2, P4HA1, NDRG1, MIF, LDHA, PYGL ... during the long-term low oxygen atmosphere. (pmid 28865129, human chondrosarcoma HCS-2/8 cells at 5% oxygen, label-free proteomics)",
+        "⚠_bound": "HCS-2/8 is a conventional chondrosarcoma line, NOT an EMC line and not NR4A3-fusion-positive. It is offered as the closest cartilage-lineage measurement retrieved, not as an EMC result."
+      },
+      {
+        "driver": "PPARgamma activation",
+        "pmids": [
+          "28775290"
+        ],
+        "verbatim": "Moreover, Pparγ activation promotes Ndrg1 expression. (pmid 28775290)",
+        "⭐_why_this_one_matters_here": "This repository's RT-FUSION-OUTPUT route holds PPARG as a fusion-transactivated promoter with a band-shift, a reporter and a single-nucleotide NBRE mutant behind it, and reads PPARG activity as elevated in the SAME two EMC series. If PPARgamma raises NDRG1 expression, then a PPARgamma-driven NDRG1 elevation in EMC is a live alternative that has nothing to do with any kinase. This file does not test it and does not assert it."
+      },
+      {
+        "driver": "Glucocorticoid, which raises NDRG1 and SGK1 transcripts TOGETHER",
+        "pmids": [
+          "16825705"
+        ],
+        "verbatim": "our previous microarray studies identified 66 transcripts as being rapidly induced in the jejunum following dexamethasone (Dex) administration ... Transcripts studied included Ndrg1, Sgk1, Fos (pmid 16825705)",
+        "⛔_why_it_is_a_trap": "A shared upstream transcriptional stimulus makes NDRG1 and SGK1 transcripts co-vary WITHOUT any kinase-substrate relationship between them. A correlated pair of transcripts is therefore not evidence of the pathway; here the two are not even correlated, because SGK1 reads discordant across the two EMC platforms while NDRG1 reads up on both."
+      },
+      {
+        "driver": "Hsp90 inhibition (transcript UP, phospho DOWN)",
+        "pmids": [
+          "19682504"
+        ],
+        "verbatim": "see the discriminating observations above"
+      },
+      {
+        "driver": "HIF-1alpha, p53 and the mTORC2/SGK1 pathway as three distinct routes to NDRG1 induction",
+        "pmids": [
+          "24367102"
+        ],
+        "verbatim": "driven by hypoxia but also by therapeutic measures such as irradiation, corticosteroids, and chronic exposure to alkylating agents via distinct molecular routes involving hypoxia-inducible factor (HIF)-1alpha, p53, and the mTOR complex 2 (mTORC2)/serum glucocorticoid-induced protein kinase 1 (SGK1) pathway (pmid 24367102)",
+        "⚠_read_this_row_carefully": "This is the one retrieved record that names an mTORC2/SGK1 route to NDRG1 INDUCTION rather than phosphorylation, and it names it as one of three alongside HIF-1alpha and p53. It is the strongest published support for the route's framing, and it is a glioma study, its abstract does not separate transcript from protein for that arm, and it is not an attribution of any fraction. It is recorded at full strength and it does not overturn pmid 25200670, which measured abundance directly in an SGK1-null background and found it unchanged."
+      }
+    ],
+    "the_repositorys_own_reading_that_bears_on_this": {
+      "_source": "research/modalities/emc-expression-panels.json read_5_HYPOXIA and research/modalities/emc-hypoxia-confounds.json cross_platform/C7_signature_independence — both already committed, NOT recomputed here.",
+      "hypoxia_signatures_higher_in_EMC": "All six published hypoxia signatures scored in that artifact — buffa, winter, harris, elvidge, gobp_response and hallmark — read HIGHER in EMC than in comparators on BOTH platforms (GSE24369 deltas 0.0616-0.2062 SD; GSE4303-GPL3290 deltas 0.2307-0.5403 SD). A separately curated canonical-HIF-target group in the same read is also higher on both (0.4168 and 0.9597 SD) and is NOT one of the six.",
+      "NDRG1_is_a_core_member": "NDRG1 appears in the repository's own list of genes present in at least 4 of those 6 signature sets, alongside CA9, SLC2A1, VEGFA, LDHA, PGK1 and BNIP3.",
+      "⭐_what_this_means_for_the_route": "The NDRG1 elevation RT-SGK1 rests on is not an isolated substrate reading. It is one gene of a co-elevated hypoxia programme in the same samples, on the same platforms, in the same artifact family. That is a complete alternative explanation for the number, requiring no kinase.",
+      "⛔_what_it_does_NOT_mean": "It does not mean EMC is hypoxic. emc-hypoxia-confounds.json states in terms that a metagene is a transcriptional shadow, that no oxygen was measured, and that no hypoxia signature has been calibrated in EMC or in any myxoid sarcoma. It also records that the six signatures' scores are highly correlated, so 'all six positive' is ONE observation per platform, not six. This row inherits every one of those bounds.",
+      "and_the_upstream_group_reads_the_other_way": "read_15_SGK1's own upstream_context group (MTOR, RICTOR, PDPK1) reads LOWER in EMC than in comparators on BOTH platforms (-0.150 SD, t=-5.65 on GSE24369; -0.023 SD, t=-0.246 on GSE4303-GPL3290). ⚠ Transcript abundance of RICTOR is not mTORC2 activity, so this refutes nothing; it is recorded because the mTORC2/SGK1 framing would have predicted the opposite and did not get it."
+    }
+  },
+  "C_the_sizing_answer": {
+    "_the_question_restated": "How much of the phosphorylation attributed to SGK1 could other kinases account for?",
+    "answer_for_the_reading_RT_SGK1_ACTUALLY_HOLDS": {
+      "verdict": "NO FRACTION CAN BE ASSIGNED, AND THE REASON IS A TYPE MISMATCH RATHER THAN MISSING DATA.",
+      "why": "The reading is NDRG1 transcript abundance in bulk tumour tissue. There is no phosphorylation in it for kinases to divide, so the question 'how much of this could other kinases account for' has no denominator. The nearest well-posed question is whether SGK1 controls NDRG1 ABUNDANCE, and the one retrieved study that measured abundance in an SGK1-null background found it unchanged (pmid 25200670), while another moved abundance up and phosphorylation down with one perturbation (pmid 19682504).",
+      "⛔_stated_at_full_strength": "RT-SGK1's grade sentence 'which is an activity-shaped reading rather than an abundance one' is not supported by the retrieved record and should be retracted. The two sentences around it are unaffected: NDRG1 IS higher in EMC on both platforms at the numbers recorded, and the grade's own 'not attributable to SGK1' was already correct — it was correct for a narrower reason than it gave.",
+      "⚠_and_this_is_not_a_zero": "pmid 24367102 names an mTORC2/SGK1 pathway among three routes (with HIF-1alpha and p53) to NDRG1 induction in malignant glioma. It is recorded at full strength in section B and it is the reason this verdict says NO FRACTION CAN BE ASSIGNED rather than SGK1 CONTRIBUTES NOTHING. Manufacturing a clean zero here would be the mirror of the overclaim this file is correcting."
+    },
+    "answer_for_the_phospho_reading_THE_ROUTE_DOES_NOT_HAVE": {
+      "verdict": "UNKNOWN, and not bounded away from 0% or from 100% by anything published.",
+      "why_no_range_can_be_given": "A fraction would need a study that perturbs one kinase and measures the residual p-NDRG1 in the tissue of interest. No such study exists for EMC, for any sarcoma, or for any cartilage-lineage tumour. What the record instead shows is that the answer SWINGS WITH THE CELL: SGK1-/- mouse tissues lose the repeat-threonine signal entirely (pmid 15461589, SGK1 ~100%); Akt-inhibitor-sensitive breast cancer lines with low SGK1 lose it to an Akt inhibitor (pmid 23581296, SGK1 near 0%); SGK3-dependent breast cancer lines lose it to a degrader that spares SGK1 and SGK2 (pmid 31461270, SGK1 near 0%). Averaging those into a range would invent a number that describes no tissue.",
+      "⛔_the_honest_statement_a_manuscript_can_carry": "SGK1's contribution to NDRG1 phosphorylation in EMC cannot be sized from published work. NDRG1 phosphorylation has never been measured in EMC material, in any sarcoma, or in any NR4A3-fusion-positive cell, and in the tissues where it HAS been apportioned the responsible kinase differs between cell backgrounds — SGK1 in normal mouse tissue, Akt or SGK3 in particular human tumour lines. This is a statement about what nobody has measured, not a prediction that SGK1 contributes little.",
+      "measured_absence_of_a_sarcoma_reading": {
+        "_method": "PubMed searches on 2026-08-28, exact query strings in the retrieval section.",
+        "NDRG1 AND (extraskeletal AND myxoid AND chondrosarcoma)": 0,
+        "SGK1 AND NDRG1 AND sarcoma": 0,
+        "NDRG1 AND chondrosarcoma": 1,
+        "NDRG1 AND sarcoma": 6,
+        "what_the_seven_are": "The one chondrosarcoma record is pmid 28865129, a low-oxygen proteomics study of HCS-2/8 in which NDRG1 protein rises — not a kinase study. Of the six 'sarcoma' records, two are Kaposi's-sarcoma-associated herpesvirus papers about NDRG1 as a viral replication scaffold (pmids 30811506, 34077484), one is an osteosarcoma HER4 interaction paper and its own erratum (pmids 29524631, 32173158), one is an Ewing sarcoma prognostic gene signature (pmid 32968877), and one is an mTOR-kinase-inhibitor study across sarcoma subtypes that uses NDRG1 phosphorylation as an mTOR readout (pmid 25519700). NONE measures SGK1-attributable NDRG1 phosphorylation in a sarcoma.",
+        "⚠_an_absent_reading_is_not_a_reading_of_absence": "These zeros are properties of PubMed title/abstract/index retrieval on 2026-08-28 with the stated queries. A paper that measured p-NDRG1 in a sarcoma without naming NDRG1 or the sarcoma word in an indexed field would not appear. Read the count as a floor on 'nobody has published this prominently', never as proof that no such measurement exists."
+      }
+    },
+    "what_would_settle_it": [
+      {
+        "observation": "A phospho-NDRG1 measurement (Thr346 and Ser330) in EMC tumour material or in a fusion-positive EMC model, beside total NDRG1.",
+        "settles": "Whether the substrate is phosphorylated at all in this disease — which is currently unmeasured and is the prior question to any apportionment.",
+        "feasible_today_here": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB",
+          "BLK-NO-EMC-DATA"
+        ]
+      },
+      {
+        "observation": "The same measurement under an SGK-directed perturbation (SGK1 knockdown, an SGK inhibitor, or the isoform-selective SGK3 degrader of pmid 31461270) with an Akt inhibitor arm as the discriminating control.",
+        "settles": "The apportionment itself. Residual p-NDRG1 under SGK1 loss IS the fraction the other kinases account for; the Akt arm is what makes a residual interpretable rather than ambiguous.",
+        "feasible_today_here": false,
+        "blocked_by": [
+          "BLK-NO-WET-LAB"
+        ]
+      },
+      {
+        "observation": "A proteomic or phospho-proteomic deposit on EMC material of any kind.",
+        "settles": "Whether the transcript-level readings on this route have any protein correlate at all.",
+        "feasible_today_here": false,
+        "blocked_by": [
+          "BLK-NO-EMC-DATA"
+        ]
+      },
+      {
+        "observation": "⭐ FREE AND NOT BLOCKED: score a HIF-1 target panel and a PPARgamma target panel against NDRG1's per-sample values in the two series this repository already holds, and report whether NDRG1's elevation is separable from either.",
+        "settles": "Not the kinase question — the ABUNDANCE question, which is the one the route's number actually poses. It cannot prove the fusion or SGK1 drives NDRG1, and a null would remove one alternative explanation.",
+        "feasible_today_here": true,
+        "blocked_by": [],
+        "⚠": "The inputs are on disk in research/modalities/emc-expression-panels-inputs.json. This seat did not run it — scope, not blockage."
+      }
+    ]
+  },
+  "D_effect_on_the_RT_SGK1_premise": {
+    "verdict": "WEAKENS, and it weakens the SPECIFIC clause rather than the route.",
+    "what_is_weakened": "The claim that the NDRG1 reading is 'activity-shaped'. That clause is the only thing carrying RT-SGK1 from 'the kinase transcript is discordant' to 'but its downstream signal is there', and the retrieved record does not support it. Without it the route's 2026-08-09 reading is: the kinase transcript is discordant across two platforms, and a gene whose abundance is controlled by hypoxia, PPARgamma and Hsp90 — and, on one report, partly by an mTORC2/SGK1 route among three — is higher in EMC alongside the rest of the hypoxia programme.",
+    "what_is_NOT_weakened": [
+      "The 2006 primary source and its 10-of-10 IHC series with a within-section control (pmid 16756948). Untouched — this file read no EMC tissue and no antibody.",
+      "The route's own two correct sentences, which said the substrate reading is not attributable to SGK1. They are now supported by a mechanism rather than by caution.",
+      "The route's registration. A druggable AGC kinase reported positive across a full small series of a rare tumour with an internal negative control, never followed up in twenty years, is still that.",
+      "PUB-KINASE-LEADS. ⭐ The paper's thesis is that four EMC kinase observations exist that nobody has followed up, each traced to what was actually MEASURED, with the gap between the citation and the measurement stated. A fourth lead whose downstream corroboration turns out to rest on a transcript-for-phospho substitution is not damage to that paper — it is the fourth instance of exactly what the paper is about."
+    ],
+    "what_this_does_not_claim": [
+      "⛔ It does not claim SGK1 is inactive in EMC. Nobody has measured SGK1 activity in EMC by any method.",
+      "⛔ It does not claim NDRG1 is not phosphorylated in EMC. Nobody has measured that either.",
+      "⛔ It does not claim the 2006 IHC result is wrong.",
+      "⛔ It does not claim EMC is hypoxic, and it asserts nothing about radioresistance, hypoxia-activated agents or any intervention.",
+      "⛔ It is not an efficacy, selectivity, safety, therapeutic-window or clinical-readiness statement about SGK1 inhibitors, mTOR inhibitors, Akt inhibitors or any agent, in EMC or anywhere.",
+      "⛔ It does not claim SGK1 contributes nothing to NDRG1 abundance. One retrieved report (pmid 24367102) names an mTORC2/SGK1 route to NDRG1 induction among three. The finding is that no fraction is assignable from published work, which is weaker than a zero and is what the evidence supports."
+    ]
+  },
+  "records_read": [
+    {
+      "pmid": "16756948",
+      "doi": "10.1016/j.bbrc.2006.05.134",
+      "doi_url": "https://doi.org/10.1016/j.bbrc.2006.05.134",
+      "year": 2006,
+      "journal": "Biochem Biophys Res Commun",
+      "title": "Serum- and glucocorticoid-regulated kinase 1 (SGK1) induction by the EWS/NOR1(NR4A3) fusion protein.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "The route's primary source: SGK1 mRNA up on tet-regulated EWS/NOR1 in rat CFK2 cells; SGK1 protein over-expressed in 10 of 10 fusion-positive EMC tumours by IHC against non-neoplastic cells in the same biopsies.",
+      "strength_for_this_question": "Establishes the SGK1/EMC premise. Says nothing about NDRG1, which is named nowhere in it."
+    },
+    {
+      "pmid": "15461589",
+      "doi": "10.1042/BJ20041057",
+      "doi_url": "https://doi.org/10.1042/BJ20041057",
+      "year": 2004,
+      "journal": "Biochem J",
+      "title": "Exploitation of KESTREL to identify NDRG family members as physiological substrates for SGK1 and GSK3.",
+      "pubmed_article_types": [
+        "Comparative Study",
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "SGK1 phosphorylates NDRG1 at Thr328, Ser330, Thr346, Thr356, Thr366; those threonines are absent in SGK1-/- mouse liver, lung, spleen and skeletal muscle; SGK1 priming makes NDRG1 a GSK3 substrate at Ser342/352/362.",
+      "strength_for_this_question": "The founding attribution, and the strongest pro-SGK1 evidence retrieved. Normal mouse tissue plus HeLa.",
+      "pmcid": "PMC1134133"
+    },
+    {
+      "pmid": "15710380",
+      "doi": "10.1016/j.febslet.2004.12.069",
+      "doi_url": "https://doi.org/10.1016/j.febslet.2004.12.069",
+      "year": 2005,
+      "journal": "FEBS Lett",
+      "title": "Identification of different specificity requirements between SGK1 and PKBalpha.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "The NDRG1 nonapeptide is phosphorylated by SGK1 but not by PKBalpha or RSK1 in vitro; the block traces to residues n+1, n+2 and n-4.",
+      "strength_for_this_question": "The peptide-level specificity claim. In vitro, and contradicted at cell level by pmid 23581296."
+    },
+    {
+      "pmid": "18925875",
+      "doi": "10.1042/BJ20081668",
+      "doi_url": "https://doi.org/10.1042/BJ20081668",
+      "year": 2008,
+      "journal": "Biochem J",
+      "title": "mTOR complex 2 (mTORC2) controls hydrophobic motif phosphorylation and activation of serum- and glucocorticoid-induced protein kinase 1 (SGK1).",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "SGK1 Ser422 phosphorylation and activity, and NDRG1 phosphorylation, are abolished in rictor-, Sin1- or mLST8-deficient fibroblasts; rapamycin does not affect SGK1.",
+      "strength_for_this_question": "Places mTORC2 upstream of SGK1 and states NDRG1 phosphorylation as an mTORC2 biomarker — the reason one readout carries two attributions."
+    },
+    {
+      "pmid": "21413931",
+      "doi": "10.1042/BJ20102103",
+      "doi_url": "https://doi.org/10.1042/BJ20102103",
+      "year": 2011,
+      "journal": "Biochem J",
+      "title": "Protor-1 is required for efficient mTORC2-mediated activation of SGK1 in the kidney.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "Protor-1 knockout mice show reduced SGK1 hydrophobic-motif phosphorylation and reduced NDRG1 phosphorylation in the kidney, with Akt and PKCalpha unaffected.",
+      "strength_for_this_question": "Shows the mTORC2 arm feeding NDRG1 is separable and tissue-specific."
+    },
+    {
+      "pmid": "23581296",
+      "doi": "10.1042/BJ20130342",
+      "doi_url": "https://doi.org/10.1042/BJ20130342",
+      "year": 2013,
+      "journal": "Biochem J",
+      "title": "Elevated SGK1 predicts resistance of breast cancer cells to Akt inhibitors.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "Akt-inhibitor-resistant breast cancer lines carry high SGK1 and NDRG1 phosphorylation; several Akt-inhibitor-SENSITIVE lines with low SGK1 also show marked NDRG1 phosphorylation, suppressed by Akt inhibitors.",
+      "strength_for_this_question": "⭐ The direct demonstration that a p-NDRG1 signal in a human tumour cell can be Akt's rather than SGK1's.",
+      "pmcid": "PMC3671793"
+    },
+    {
+      "pmid": "27481935",
+      "doi": "10.15252/embj.201693929",
+      "doi_url": "https://doi.org/10.15252/embj.201693929",
+      "year": 2016,
+      "journal": "EMBO J",
+      "title": "The hVps34-SGK3 pathway alleviates sustained PI3K/Akt inhibition by stimulating mTORC1 and tumour growth.",
+      "pubmed_article_types": [
+        "Journal Article"
+      ],
+      "what_it_measured": "SGK3 expression and activation rise under prolonged PI3K or Akt inhibition and SGK3 substitutes for Akt.",
+      "strength_for_this_question": "Shows the kinase carrying an SGK-substrate signal can change within one cell line over time.",
+      "pmcid": "PMC5007552"
+    },
+    {
+      "pmid": "31461270",
+      "doi": "10.1021/acschembio.9b00505",
+      "doi_url": "https://doi.org/10.1021/acschembio.9b00505",
+      "year": 2019,
+      "journal": "ACS Chem Biol",
+      "title": "Design and Characterization of SGK3-PROTAC1, an Isoform Specific SGK3 Kinase PROTAC Degrader.",
+      "pubmed_article_types": [
+        "Journal Article"
+      ],
+      "what_it_measured": "A degrader that removes SGK3 but not SGK1 or SGK2 causes loss of NDRG1 phosphorylation in SGK3-dependent breast cancer cells; proteomics found SGK3 the only significantly reduced protein.",
+      "strength_for_this_question": "⭐ The cleanest isoform-level demonstration that p-NDRG1 does not report SGK1 specifically.",
+      "pmcid": "PMC6757289"
+    },
+    {
+      "pmid": "37298315",
+      "doi": "10.3390/ijms24119364",
+      "doi_url": "https://doi.org/10.3390/ijms24119364",
+      "year": 2023,
+      "journal": "Int J Mol Sci",
+      "title": "mTOR Regulation of N-Myc Downstream Regulated 1 (NDRG1) Phosphorylation in Clear Cell Renal Cell Carcinoma.",
+      "pubmed_article_types": [
+        "Journal Article"
+      ],
+      "what_it_measured": "p-NDRG1 Thr346 3.3-fold higher in ccRCC than matched normal kidney; RICTOR knockdown lowered total and phospho-NDRG1 but NOT NDRG1 mRNA; Torin 2 reduced p-NDRG1 Thr346 by ~100% and rapamycin had no effect.",
+      "strength_for_this_question": "⭐ Contains its own transcript-versus-phospho dissociation: the perturbation moved the phospho signal and left the mRNA alone.",
+      "pmcid": "PMC10253553"
+    },
+    {
+      "pmid": "34866401",
+      "doi": "10.1152/ajpendo.00389.2021",
+      "doi_url": "https://doi.org/10.1152/ajpendo.00389.2021",
+      "year": 2021,
+      "journal": "Am J Physiol Endocrinol Metab",
+      "title": "Exercise increases phosphorylation of the putative mTORC2 activity readout NDRG1 in human skeletal muscle.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, N.I.H., Intramural",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "Exercise raised p-NDRG1 Thr346 in human soleus, gastrocnemius and vastus lateralis without changing p-Akt Ser473, p-Akt Thr450 or p-mTOR Ser2481.",
+      "strength_for_this_question": "Shows p-NDRG1 Thr346 responds to ordinary physiology in human tissue, so an elevation is not by itself a tumour-specific or kinase-specific signal.",
+      "pmcid": "PMC8759970"
+    },
+    {
+      "pmid": "36594086",
+      "doi": "10.7150/ijbs.78738",
+      "doi_url": "https://doi.org/10.7150/ijbs.78738",
+      "year": 2023,
+      "journal": "Int J Biol Sci",
+      "title": "TGFβ Governs the Pleiotropic Activity of NDRG1 in Triple-Negative Breast Cancer Progression.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "TGFβ1 enhanced p-NDRG1 Thr346, with NDRG1 placed downstream of GSK3β and upstream of NF-κB in 81 patient tissue microarrays.",
+      "strength_for_this_question": "A non-SGK1 upstream input to the same phospho-site.",
+      "pmcid": "PMC9760438"
+    },
+    {
+      "pmid": "38983911",
+      "doi": "10.3389/fphar.2024.1422369",
+      "doi_url": "https://doi.org/10.3389/fphar.2024.1422369",
+      "year": 2024,
+      "journal": "Front Pharmacol",
+      "title": "NDRG1 acts as an oncogene in triple-negative breast cancer and its loss sensitizes cells to mitochondrial iron chelation.",
+      "pubmed_article_types": [
+        "Journal Article"
+      ],
+      "what_it_measured": "Mitochondrially targeted iron chelators induce NDRG1 without inducing other NDRG family members, an effect at least partly mediated by GSK3α/β leading to NDRG1 phosphorylation.",
+      "strength_for_this_question": "A drug-induced route to NDRG1 induction and phosphorylation with no SGK1 in it.",
+      "pmcid": "PMC11231402"
+    },
+    {
+      "pmid": "20416281",
+      "doi": "10.1016/j.bbrc.2010.04.100",
+      "doi_url": "https://doi.org/10.1016/j.bbrc.2010.04.100",
+      "year": 2010,
+      "journal": "Biochem Biophys Res Commun",
+      "title": "Identification of sites subjected to serine/threonine phosphorylation by SGK1 affecting N-myc downstream-regulated gene 1 (NDRG1)/Cap43-dependent suppression of angiogenic CXC chemokine expression in human pancreatic cancer cells.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "Alanine mutants at Thr328, Ser330 and Thr346 in human pancreatic cancer cells; only the Ser330A/Thr346A double mutant lost NDRG1's suppression of NF-κB signalling and CXC chemokine production.",
+      "strength_for_this_question": "Confirms Ser330 and Thr346 as the functionally load-bearing SGK1 sites in a human cancer cell."
+    },
+    {
+      "pmid": "25128767",
+      "doi": "10.1016/j.etap.2014.07.004",
+      "doi_url": "https://doi.org/10.1016/j.etap.2014.07.004",
+      "year": 2014,
+      "journal": "Environ Toxicol Pharmacol",
+      "title": "Increased expression and activation of serum- and glucocorticoid-inducible kinase-1 (SGK1) by cadmium in HK-2 renal proximal tubular epithelial cells.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "Cadmium raised SGK1 protein but not SGK2 or SGK3; SGK1 inhibitor EMD638683 or SGK1 siRNA suppressed the induced NDRG1 phosphorylation.",
+      "strength_for_this_question": "An SGK1-attributable p-NDRG1 signal in a human cell line, and the counterweight to the Akt and SGK3 rows."
+    },
+    {
+      "pmid": "25200670",
+      "doi": "10.1159/000366311",
+      "doi_url": "https://doi.org/10.1159/000366311",
+      "year": 2014,
+      "journal": "Cell Physiol Biochem",
+      "title": "Serum- and glucocorticoid-inducible kinase 1 sensitive NF-κB signaling in dendritic cells.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "NDRG1 similarly EXPRESSED in sgk1(+/+) and sgk1(-/-) bone-marrow dendritic cells while SGK1-dependent NDRG1 PHOSPHORYLATION was decreased in the knockout.",
+      "strength_for_this_question": "⭐⭐ The single discriminating observation for this file's headline: SGK1 loss moves NDRG1 phosphorylation and leaves NDRG1 abundance alone."
+    },
+    {
+      "pmid": "19682504",
+      "doi": "10.1016/j.bbamcr.2009.08.002",
+      "doi_url": "https://doi.org/10.1016/j.bbamcr.2009.08.002",
+      "year": 2009,
+      "journal": "Biochim Biophys Acta",
+      "title": "Hsp90 transcriptionally and post-translationally regulates the expression of NDRG1 and maintains the stability of its modifying kinase GSK3beta.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "Hsp90 inhibition by geldanamycin raised NDRG1 transcriptionally while inhibiting NDRG1 phosphorylation through its regulating kinases SGK1 and GSK3β.",
+      "strength_for_this_question": "⭐⭐ One perturbation, opposite directions for abundance and phosphorylation."
+    },
+    {
+      "pmid": "16825705",
+      "doi": "10.1152/ajpgi.00139.2006",
+      "doi_url": "https://doi.org/10.1152/ajpgi.00139.2006",
+      "year": 2006,
+      "journal": "Am J Physiol Gastrointest Liver Physiol",
+      "title": "Diverse patterns of cell-specific gene expression in response to glucocorticoid in the developing small intestine.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "Dexamethasone rapidly induced both Ndrg1 and Sgk1 transcripts in mouse jejunum, in different epithelial compartments.",
+      "strength_for_this_question": "Shows NDRG1 and SGK1 transcripts share an upstream transcriptional stimulus, so their co-variation is not evidence of the kinase-substrate relationship."
+    },
+    {
+      "pmid": "15341671",
+      "doi": "10.1186/1471-2156-5-27",
+      "doi_url": "https://doi.org/10.1186/1471-2156-5-27",
+      "year": 2004,
+      "journal": "BMC Genet",
+      "title": "Hypoxia upregulates the expression of the NDRG1 gene leading to its overexpression in various human cancers.",
+      "pubmed_article_types": [
+        "Comparative Study",
+        "Journal Article"
+      ],
+      "what_it_measured": "Hypoxia and its mimetics induce NDRG1 gene expression and Ndrg1 protein accumulation; induction is mostly HIF-1-dependent with HIF-1-independent routes under chronic hypoxia; Ndrg1 protein is overexpressed in most cancers studied versus normal tissue.",
+      "strength_for_this_question": "⭐ The principal published driver of NDRG1 ABUNDANCE, and it involves no kinase.",
+      "pmcid": "PMC518960"
+    },
+    {
+      "pmid": "19082468",
+      "doi": null,
+      "doi_url": null,
+      "year": 2009,
+      "journal": "Oncol Rep",
+      "title": "Oxygen-dependent regulation of NDRG1 in human glioblastoma cells in vitro and in vivo.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "NDRG1 induction listed as occurring via hypoxia, differentiation, heavy metal, N-myc and neoplasia, modulating transcription, mRNA stability and translation; HIF-1α binding at hypoxia-responsive elements shown in glioblastoma cells.",
+      "strength_for_this_question": "Corroborates the abundance-control picture. ⚠ PubMed returned NO DOI for this record, so doi and doi_url are null here rather than guessed."
+    },
+    {
+      "pmid": "24367102",
+      "doi": "10.1073/pnas.1314469111",
+      "doi_url": "https://doi.org/10.1073/pnas.1314469111",
+      "year": 2013,
+      "journal": "Proc Natl Acad Sci U S A",
+      "title": "mTOR target NDRG1 confers MGMT-dependent resistance to alkylating chemotherapy.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "NDRG1 induction by hypoxia, irradiation, corticosteroids and chronic alkylating exposure via distinct routes involving HIF-1α, p53 and the mTORC2/SGK1 pathway, in malignant glioma.",
+      "strength_for_this_question": "The one retrieved record naming an mTORC2/SGK1 route to NDRG1 INDUCTION — recorded at full strength as the strongest support for the route's framing, and it names that route as one of three."
+    },
+    {
+      "pmid": "28775290",
+      "doi": "10.1038/s41598-017-07497-x",
+      "doi_url": "https://doi.org/10.1038/s41598-017-07497-x",
+      "year": 2017,
+      "journal": "Sci Rep",
+      "title": "Ndrg1 promotes adipocyte differentiation and sustains their function.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "Ndrg1 expression and its Sgk1-dependent phosphorylation are both induced during adipogenesis; Pparγ activation promotes Ndrg1 EXPRESSION while Sgk1 supplies the PHOSPHORYLATION.",
+      "strength_for_this_question": "⭐ Splits the two readouts onto two different upstream owners in one system, and names PPARγ as the expression owner — which this repository holds as elevated in EMC on a separate route.",
+      "pmcid": "PMC5543145"
+    },
+    {
+      "pmid": "29679718",
+      "doi": "10.1016/j.bbadis.2018.04.011",
+      "doi_url": "https://doi.org/10.1016/j.bbadis.2018.04.011",
+      "year": 2018,
+      "journal": "Biochim Biophys Acta Mol Basis Dis",
+      "title": "Identification of differential phosphorylation and sub-cellular localization of the metastasis suppressor, NDRG1.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "p-NDRG1 at Ser330 and Thr346 detected across all cancer cell types examined, with different subcellular distributions; PTEN silencing altered p-NDRG1 Thr346 differently between tumour cell types.",
+      "strength_for_this_question": "Shows p-NDRG1 is ubiquitous across cancer cell types and its regulation is cell-type-specific, so an elevation is not disease-specific."
+    },
+    {
+      "pmid": "28865129",
+      "doi": "10.1002/jcb.26394",
+      "doi_url": "https://doi.org/10.1002/jcb.26394",
+      "year": 2017,
+      "journal": "J Cell Biochem",
+      "title": "Effects of long-term low oxygen tension in human chondrosarcoma cells.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, Non-U.S. Gov't"
+      ],
+      "what_it_measured": "Label-free proteomics of human chondrosarcoma HCS-2/8 at 5% oxygen: NDRG1 among the proteins increased, alongside NDUFA4L2, P4HA1, MIF, LDHA and PYGL.",
+      "strength_for_this_question": "⭐ The nearest cartilage-lineage measurement retrieved of NDRG1 rising with low oxygen. NOT EMC and NOT fusion-positive."
+    },
+    {
+      "pmid": "25519700",
+      "doi": "10.1158/1535-7163.MCT-14-0711",
+      "doi_url": "https://doi.org/10.1158/1535-7163.MCT-14-0711",
+      "year": 2014,
+      "journal": "Mol Cancer Ther",
+      "title": "MLN0128, an ATP-competitive mTOR kinase inhibitor with potent in vitro and in vivo antitumor activity, as potential therapy for bone and soft-tissue sarcoma.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "what_it_measured": "Across rhabdomyosarcoma, Ewing sarcoma, MPNST, synovial sarcoma, osteosarcoma and liposarcoma, MLN0128 but not rapamycin inhibited phosphorylation of 4EBP1 and NDRG1.",
+      "strength_for_this_question": "The only retrieved sarcoma study using NDRG1 phosphorylation as a readout, and it reads it as mTOR-axis rather than SGK1-specific. No EMC in it.",
+      "pmcid": "PMC4332837"
+    },
+    {
+      "pmid": "37607215",
+      "doi": "10.1165/rcmb.2023-0131OC",
+      "doi_url": "https://doi.org/10.1165/rcmb.2023-0131OC",
+      "year": 2024,
+      "journal": "Am J Respir Cell Mol Biol",
+      "title": "The mTORC2/SGK1/NDRG1 Signaling Axis Is Critical for the Mesomesenchymal Transition of Pleural Mesothelial Cells and the Progression of Pleural Fibrosis.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "what_it_measured": "Rictor knockdown but not Raptor attenuated TGF-β-induced mesomesenchymal transition; siRNA and small-molecule targeting of SGK1 and NDRG1 attenuated it.",
+      "strength_for_this_question": "A named mTORC2/SGK1/NDRG1 axis in a non-malignant mesothelial system. Cited to show the axis is real where it has been tested, and it has not been tested in a sarcoma.",
+      "pmcid": "PMC10768834"
+    },
+    {
+      "pmid": "39896456",
+      "doi": "10.1101/2025.01.22.634323",
+      "doi_url": "https://doi.org/10.1101/2025.01.22.634323",
+      "year": 2025,
+      "journal": "bioRxiv",
+      "title": "A novel DNA repair protein, N-Myc downstream regulated gene 1 (NDRG1), links stromal tumour microenvironment to chemoresistance.",
+      "pubmed_article_types": [
+        "Journal Article",
+        "Preprint"
+      ],
+      "what_it_measured": "Places NDRG1 downstream of an integrin-Src-SGK1 axis in pancreatic cancer and reports that inhibiting NDRG1 phosphorylation by SGK1 causes replication fork stalling.",
+      "strength_for_this_question": "⚠ A PREPRINT, marked as such by PubMed's article_types, and NOT peer-reviewed. Recorded because it is the most recent SGK1-NDRG1 mechanism claim retrieved; no statement in this file rests on it."
+    }
+  ],
+  "retrieval": {
+    "tool": "PubMed MCP connector (search_articles, get_article_metadata)",
+    "date_utc": "2026-08-28",
+    "why_not_europe_pmc": "Europe PMC and most publisher hosts are 403 at this sandbox's egress proxy; the PubMed connector works from here and was used for every fetch.",
+    "queries_run_verbatim": [
+      "NDRG1 phosphorylation SGK1 GSK3 substrate",
+      "NDRG1 phosphorylation kinase Thr346 Thr356 Thr366 Ser330",
+      "NDRG1 phosphorylation Thr346",
+      "NDRG1 phosphorylated by kinase",
+      "NDRG1 SGK1 mTORC2",
+      "NDRG1 SGK1 Akt phosphorylation",
+      "SGK3 NDRG1 phosphorylation",
+      "Cap43 NDRG1 protein kinase A phosphorylation",
+      "SGK1 induces NDRG1 expression transcription",
+      "NDRG1 transcriptional induction hypoxia HIF-1 N-myc",
+      "NDRG1 extraskeletal myxoid chondrosarcoma",
+      "SGK1 NDRG1 sarcoma",
+      "NDRG1 chondrosarcoma",
+      "NDRG1 sarcoma",
+      "NDRG1 expression PPARG agonist induction"
+    ],
+    "hit_counts_that_are_findings_rather_than_bookkeeping": {
+      "NDRG1 extraskeletal myxoid chondrosarcoma": 0,
+      "SGK1 NDRG1 sarcoma": 0,
+      "NDRG1 chondrosarcoma": 1,
+      "NDRG1 sarcoma": 6,
+      "NDRG1 phosphorylation Thr346": 8,
+      "NDRG1 phosphorylated by kinase": 102
+    },
+    "⚠_a_hit_count_is_not_a_finding": "Every record behind the small counts above was opened and read; the 102-record count was NOT read exhaustively and is reported as a corpus size, not as a claim about its contents.",
+    "what_was_NOT_done": [
+      "No full text was fetched. Every quotation in this file is from a PubMed abstract or from PubMed structured metadata, and is marked as such at the point of use.",
+      "No PKA row is recorded. The 'Cap43 NDRG1 protein kinase A phosphorylation' query returned 3 records and none of them reports PKA phosphorylating NDRG1 — two are NF-κB/angiogenesis papers and one is a PKC-signalling conference proceeding. Recorded as a checked-and-empty line rather than as an omission.",
+      "No new expression computation. Every EMC number quoted here is restated from an already-committed artifact and is owned there.",
+      "No graph record, manuscript or ledger file was edited."
+    ]
+  },
+  "proposed_graph_edits_ROUTED_NOT_APPLIED": {
+    "_why_routed": "CLAUDE.md §7: systems/graph/*.json is the source of truth and this seat does not own RT-SGK1's grade. Proposed here for the driver to apply or refuse.",
+    "edits": [
+      {
+        "id": "S62-1",
+        "target": "systems/graph/routes.json → routes[RT-SGK1]/grade/value",
+        "kind": "retraction_with_replacement",
+        "retract": "which is an activity-shaped reading rather than an abundance one",
+        "replace_with": "and NDRG1 abundance is not a readout of SGK1 activity: SGK1 acts on NDRG1 by phosphorylation, and in SGK1-null cells NDRG1 expression is unchanged while its phosphorylation falls (pmid 25200670). NDRG1 is also a core member of four of six published hypoxia signatures, all six of which read higher in EMC on both of these platforms. ⚠ One glioma study does name an mTORC2/SGK1 route to NDRG1 induction among three (pmid 24367102), so the bound is that no fraction of this number can be assigned to SGK1 — not that SGK1 contributes none of it.",
+        "why": "The retracted clause is the route's only bridge from a transcript number to a claim about kinase activity, and the retrieved record contradicts it."
+      },
+      {
+        "id": "S62-2",
+        "target": "systems/graph/routes.json → routes[RT-SGK1]/remaining_unknowns",
+        "kind": "amend_row",
+        "current": "Whether elevated substrate output reflects SGK1 activity or one of the other kinases that phosphorylate the same substrate — the reading cannot attribute it.",
+        "proposed": "Whether NDRG1 is phosphorylated at all in EMC. The reading in hand is transcript abundance, and no phospho-NDRG1 measurement exists for EMC, for any sarcoma, or for any NR4A3-fusion-positive cell. Were such a measurement made, SGK1's share still could not be predicted: SGK1, SGK3 and Akt have each been shown individually sufficient to carry the NDRG1 phospho signal in some human cell background (pmids 15461589, 31461270, 23581296).",
+        "why": "The current row asks a question the route's data cannot pose, because that data contains no phosphorylation."
+      },
+      {
+        "id": "S62-3",
+        "target": "systems/graph/routes.json → routes[RT-SGK1]/next/best_next_action",
+        "kind": "replace",
+        "current": "Read which other kinases phosphorylate the substrate, to size how much of the signal SGK1 could account for.",
+        "proposed": "Score NDRG1's per-sample values in the two committed EMC series against a HIF-1 target panel and a PPARgamma target panel, and report whether its elevation is separable from either. $0, inputs already on disk in research/modalities/emc-expression-panels-inputs.json. It cannot attribute NDRG1 to the fusion or to SGK1; a null would remove one alternative explanation for the number the route rests on.",
+        "why": "AUT-062 is done and its answer retires the action. The successor is the free abundance-side question the finding exposes."
+      },
+      {
+        "id": "S62-4",
+        "target": "research/modalities/census-route-expression-grading.json → routes/RT-SGK1/observed and /verdict",
+        "kind": "flag_for_owner",
+        "note": "This artifact OWNS the grade, so S62-1's text has to land here first and propagate. Its what_this_does_not_settle sentence needs no change — it was already correct.",
+        "why": "One fact, one place. Editing the graph copy without the owner would create the drift CLAUDE.md §1 exists to prevent."
+      }
+    ]
+  },
+  "proposed_ledger_rows": [
+    {
+      "proposed_id": "AUT-062",
+      "action": "close",
+      "state": "done",
+      "evidence": "research/literature/ndrg1-kinase-attribution-2026-08-28.json",
+      "note": "Answered. The answer is that the question's premise does not hold for this route's data; recorded at full strength rather than softened."
+    },
+    {
+      "proposed_id": "NEW-A",
+      "kind": "experiment",
+      "cost_class": "free",
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "what": "Score NDRG1 in the two committed EMC series against a HIF-1 target panel and a PPARgamma target panel, and report whether NDRG1's elevation is separable from either. Inputs on disk; no dispatch, no money."
+    },
+    {
+      "proposed_id": "NEW-B",
+      "kind": "curation",
+      "cost_class": "free",
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "what": "Apply routed edits S62-1 to S62-4 — owner artifact first, then the graph, then regenerate systems/views."
+    },
+    {
+      "proposed_id": "NEW-C",
+      "kind": "audit",
+      "cost_class": "free",
+      "serves": {
+        "route": "RT-FUSION-OUTPUT",
+        "publication": "PUB-FUSION-OUTPUT",
+        "strategy": "ST-DISSEMINATION"
+      },
+      "what": "Sweep every route grade in systems/graph/routes.json for the same defect class this seat found — a transcript-abundance number described as reporting a protein's ACTIVITY. RT-SGK1's was found by reading one route; nobody has checked whether it is the only one."
+    }
+  ],
+  "_limits": [
+    "Abstract-level reading only. No full text was fetched, and every quotation is from a PubMed abstract or structured record.",
+    "The kinase list is what PubMed returned for the stated queries on 2026-08-28. A kinase reported to phosphorylate NDRG1 in a paper those queries miss would not appear, so the list is a floor.",
+    "No claim here is a measurement in EMC. The only EMC-specific numbers restated are transcript readings from n=6 and n=10 tumours on two array platforms, owned by other artifacts, uncorrected for multiple testing, from bulk archival tissue with no deconvolution.",
+    "The hypoxia alternative is a transcriptional shadow, not an oxygen measurement, and it inherits every bound emc-hypoxia-confounds.json places on itself — including that the six signatures' scores are correlated and count as ONE observation per platform.",
+    "The PPARgamma alternative is stated as a live alternative and is NOT tested here. One mouse adipocyte study (pmid 28775290) reports PPARγ promoting Ndrg1 expression; that is a lead, not a result in EMC.",
+    "⛔ Nothing here is an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim for any agent, target or gene, and neither literature retrieval nor expression data can become that evidence."
+  ]
+}
