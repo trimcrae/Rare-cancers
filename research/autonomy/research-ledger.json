@@ -14,7 +14,7 @@
     "harden": 21,
     "negative": 32,
     "process": 7,
-    "process_defect": 117,
+    "process_defect": 118,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 103,
-    "in_progress": 2,
+    "done": 106,
+    "in_progress": 5,
     "parked": 28,
-    "queued": 134,
+    "queued": 129,
     "ready": 1,
     "superseded": 1
   },
@@ -2074,40 +2074,6 @@
       "requires_trimcrae_why": "publishes the eligibility map. ⚠ §3 is per paper, per act: he must name THIS one for THIS act."
     },
     {
-      "id": "AUT-PD-059",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "SEAT-s4-1f1a2449",
-      "claimed_utc": "2026-08-28T22:02:59Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0030-6be7fd5a",
-      "score": 144.0,
-      "_score_basis": "a health condition that cannot tell two different failures apart will grade one of them wrongly forever",
-      "depends_on_evidence": "health.py c_cycles_are_sized's HANDOFF-REFUSED branch; AUT-PD-032 (depth-8 refusal) vs AUT-PD-045 (tool absent).",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
-      "what": "⚠ `c_cycles_are_sized` CANNOT DISTINGUISH A DEPTH-LIMIT REFUSAL FROM AN ABSENT TOOL, and they are different failures. AUT-PD-032 found create_session CALLABLE but refused past lineage depth 8; AUT-PD-045 found it NOT PRESENT AS A TOOL AT ALL in a scheduled-Routine session. The condition downgrades both to UNMEASURED. ⭐ session_cap.py accepts both DELIBERATELY, because for the STOP decision they are the same fact — the loop cannot hand off — and that is not the defect here. ★ For DIAGNOSIS they are not the same: one says the loop ran too deep and a fresh root session fixes it; the other says the platform never gave this context the tool and restarting cannot help. Recording which occurred is what tells a future session whether to spawn shallower or to stop expecting a handoff.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:02:59Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-057",
       "kind": "process_defect",
       "process_defect": true,
@@ -2393,7 +2359,7 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -2420,7 +2386,44 @@
       "score_inputs": {
         "fruitless_attempts": 1
       },
-      "evidence": "WORKED BY SEAT s2 (CYC-0066-1f1a2449 fan-out). Branch `aut-pd-058-deepen-ledger-history` @ 4a56de2f, rebased on origin/main, pushed, NOT MERGED. FINDING, and it narrows the row: the censoring is SESSION-PATH ONLY and CI was never affected — autonomy-tick.yml checks out at fetch-depth 0, and run 33200659155's log shows stalls_are_named = STALLED-ROWS naming real rows with 0 UNMEASURED. Measured three ways: shallow session horizon 3.2 h, 142/161 rows censored, 0 terminal; after the deepen 53.4 h, 47/160, 3 terminal; full clone 53.4 h, 0/161, 3 terminal — the deepen reproduces the full clone's terminal set exactly. ⛔ NOT COSMETIC: handoff.py::terminal_ids() reads the clock live and fails open, so in a shallow session `handoff.py --json` hands AUT-010 (score 190.9, the top row) to the successor as ready work, while the same call in a full clone prints EXCLUDED as stalled_needs_human for AUT-010, AUT-049 and AUT-PROP-019. The loop has been re-handing stalled rows to successors. Cost of the remedy: --unshallow is 1.5 GB / 80 s; the windowed deepen is +16 MB / 5-37 s and a repeat that finds nothing is 3-9 s. stuck_clock is one of THREE readers of that history (learning_rate 16 h, out_of_ideas 336 h), so the window is sized off the largest, each read from its own home. 8 new guards, mutation-tested 10/10, two guard defects found BY the mutation run and fixed; preflight EXIT=0. STILL OPEN: the live sandbox clone is still shallow (one additive `./scripts/dev-setup.sh` fixes it); out_of_ideas cannot be satisfied until the ledger is 14 days old (created 2026-08-26) and correctly returns unmeasurable meanwhile; out_of_ideas.py:531,620 still print `git fetch --unshallow` as their remedy with a test pinned on the word."
+      "evidence": "WORKED BY SEAT s2 (CYC-0066-1f1a2449 fan-out). Branch `aut-pd-058-deepen-ledger-history` @ 4a56de2f, rebased on origin/main, pushed, NOT MERGED. FINDING, and it narrows the row: the censoring is SESSION-PATH ONLY and CI was never affected — autonomy-tick.yml checks out at fetch-depth 0, and run 33200659155's log shows stalls_are_named = STALLED-ROWS naming real rows with 0 UNMEASURED. Measured three ways: shallow session horizon 3.2 h, 142/161 rows censored, 0 terminal; after the deepen 53.4 h, 47/160, 3 terminal; full clone 53.4 h, 0/161, 3 terminal — the deepen reproduces the full clone's terminal set exactly. ⛔ NOT COSMETIC: handoff.py::terminal_ids() reads the clock live and fails open, so in a shallow session `handoff.py --json` hands AUT-010 (score 190.9, the top row) to the successor as ready work, while the same call in a full clone prints EXCLUDED as stalled_needs_human for AUT-010, AUT-049 and AUT-PROP-019. The loop has been re-handing stalled rows to successors. Cost of the remedy: --unshallow is 1.5 GB / 80 s; the windowed deepen is +16 MB / 5-37 s and a repeat that finds nothing is 3-9 s. stuck_clock is one of THREE readers of that history (learning_rate 16 h, out_of_ideas 336 h), so the window is sized off the largest, each read from its own home. 8 new guards, mutation-tested 10/10, two guard defects found BY the mutation run and fixed; preflight EXIT=0. STILL OPEN: the live sandbox clone is still shallow (one additive `./scripts/dev-setup.sh` fixes it); out_of_ideas cannot be satisfied until the ledger is 14 days old (created 2026-08-26) and correctly returns unmeasurable meanwhile; out_of_ideas.py:531,620 still print `git fetch --unshallow` as their remedy with a test pinned on the word. ⭐ MERGED TO THE TRUNK 2026-08-28 by the CYC-0066 driver (branch aut-pd-058-deepen-ledger-history), gated at PREFLIGHT_TESTS=1 with EXIT=0 by its own marker, 1469 passed. Confirmed present on origin/main: the deepen step is in scripts/dev-setup.sh. ⛔ ONE DEFECT WAS FOUND BY THE MERGE AND FIXED BEFORE IT LANDED: the branch's new test file carried three `@pytest.mark.skipif(shutil.which('git') is None)` decorators, which turned test_no_guard_can_silently_not_run.py red — reproduced, not assumed (that guard PASSES on clean origin/main bfdf124142 and failed on the merge, so it was the merge's). The guard was right: git is not optional anywhere this suite runs, so the skipif could never legitimately fire and would have taken three behavioural guards with it in silence on the day it did. Fixed the way the guard's own message asks FIRST — turned into a `pytest.fail` via `_git_or_fail()`, not annotated as a deliberate skip, because annotating would clear the red while leaving the checks able to evaporate. STILL OPEN as a small follow-up, not blocking: out_of_ideas.py:531,620 still print `git fetch --unshallow` as their remedy, with a test pinned on the word."
+    },
+    {
+      "id": "AUT-PD-059",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "SEAT-s4-1f1a2449",
+      "claimed_utc": "2026-08-28T22:02:59Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "score": 136.0,
+      "_score_basis": "a health condition that cannot tell two different failures apart will grade one of them wrongly forever",
+      "depends_on_evidence": "health.py c_cycles_are_sized's HANDOFF-REFUSED branch; AUT-PD-032 (depth-8 refusal) vs AUT-PD-045 (tool absent).",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "what": "⚠ `c_cycles_are_sized` CANNOT DISTINGUISH A DEPTH-LIMIT REFUSAL FROM AN ABSENT TOOL, and they are different failures. AUT-PD-032 found create_session CALLABLE but refused past lineage depth 8; AUT-PD-045 found it NOT PRESENT AS A TOOL AT ALL in a scheduled-Routine session. The condition downgrades both to UNMEASURED. ⭐ session_cap.py accepts both DELIBERATELY, because for the STOP decision they are the same fact — the loop cannot hand off — and that is not the defect here. ★ For DIAGNOSIS they are not the same: one says the loop ran too deep and a fresh root session fixes it; the other says the platform never gave this context the tool and restarting cannot help. Recording which occurred is what tells a future session whether to spawn shallower or to stop expecting a handoff.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:02:59Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
     },
     {
       "id": "AUT-071",
@@ -2522,49 +2525,7 @@
           "fingerprint_at_dispatch": "2026-08-27|None"
         }
       ],
-      "evidence": "WORKED BY SEAT s3 (CYC-0066-1f1a2449 fan-out). Branch `s3/aut-pd-031-line-citations-enumerate-carriers` @ 429241264f, rebased on origin/main, pushed, NOT MERGED. ⛔ THE ROW STAYS OPEN AND THE SEAT ARGUES WHY: its deliverable research/modalities/instrument-census.json existed and was in sync, and the defect was still fully live — an artifact on the trunk is not a finished item. Reproduced end to end: insert one blank line in nr4a3-degrader-paper.md, `line_citations.py --fix` prints 'rewrote 18 citation(s)', EXITS 0, and instrument_census.py --check immediately goes red. The fixer scanned 1 of the 19 tracked files carrying the syntax (466 occurrences). Second half, unguarded in the commit loop: `instrument_census.py --check` existed and NOTHING in preflight.sh ran it — its only enforcement was the opt-in modalities suite, which is why the original incident surfaced three commits late; now added to the generated-artifact loop at a measured 0.032 s. ⭐ THE FIX NAMES RATHER THAN REPAIRS, DELIBERATELY, and the decisive reason is measured not argued: the resolver is context-dependent, and for `:2140-2142` the roadmap's context yields a different quote than the census's because the census table has a column the roadmap does not — one ordinary edit and a 'repair' silently repoints a citation at a sentence it does not quote. Also, the largest hand-written carrier (program/map-audit-strategy.md, 131 citations) pins its line numbers to commit f67d0781 in its own header, and a fixer cannot tell a pinned reference from a rotted one. 10 tests, mutation-tested 9/9 with two earlier survivors fixed as real test defects; preflight EXIT=0 at PREFLIGHT_TESTS=1, 1467 passed. STILL OPEN: the tool now NAMES 16 hand-written carriers and CHECKS none — that surface is unmeasured rather than measured-clean, and deciding which are pinned-by-design is a reading job nobody has done."
-    },
-    {
-      "id": "AUT-PD-050",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "SEAT-s6-1f1a2449",
-      "claimed_utc": "2026-08-28T22:02:59Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0030-6be7fd5a",
-      "score": 132.0,
-      "_score_basis": "a row with no score is invisible to every ranking term, including the anti-starvation one just added",
-      "depends_on_evidence": "priority.build_ledger() dry run 2026-08-28: 24 entries with score=None",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "queue mechanics; nothing published, submitted or deposited",
-      "what": "⚠ TWENTY-FOUR LEDGER ROWS CARRY NO SCORE AT ALL, so no ranking term can order them — including the anti-starvation age factor added in AUT-PD-048, which is precisely the term meant to rescue exactly these rows. Found while dry-running that change, not by looking for it. Sample: AUT-COV-001, AUT-COV-002, AUT-INC-001, AUT-PD-011, AUT-PD-012. ⛔ THE SORT ALREADY KNOWS: build_ledger sorts with `-(score if score is not None else -1e9)`, i.e. an unscored row is pinned to the BOTTOM forever by construction — a starving class the age term cannot reach. ★ The question to answer first is whether these rows SHOULD be scored (hand-filed rows get a hand score) or whether the scorer should derive one; do not paper over it by defaulting them to zero, which just makes the starvation silent instead of visible.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T20:34:34Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        },
-        {
-          "utc": "2026-08-28T22:02:59Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ],
-      "score_inputs": {
-        "fruitless_attempts": 1
-      },
-      "evidence": "WORKED BY SEAT s1 (CYC-0066-1f1a2449 fan-out). Branch `s1-aut-pd-050-unscored-rows` @ d082c01a78, rebased on origin/main, pushed, NOT MERGED — the row stays queued because a branch is not the trunk. FINDING: the row's '24 unscored' was stale by 4x. 99 of 263 committed rows carry no `score`, ALL of them hand-filed, and the seat read every one of the 32 ledger commits in the observable history: 24 rows filed in that window, 24 of 24 unscored, and no pre-existing unscored row has ever acquired one, so the population is monotone. build_ledger sorts a missing score at -1e9, so they occupy the bottom ranks ordered by ID STRING; 75 of the 98 rows continuity.ready() offers were unscored. The anti-starvation term is dead code against them — apply_age_factor computes an age factor, writes it into score_inputs and cannot apply it, so the row advertises an input its score does not contain. Two live crashes on `priority.py --limit 300` and `continuity.py --limit 30` (TypeError on NoneType.__format__), reachable only past the default limits. `admissibility.UNSCORED` existed and was referenced in no file but its own. Fix: 6 files, 12 tests, mutation-tested 15/15 including the one edit that would make it self-serving; 2 amendments declared, guard PERMITTED; preflight EXIT=0. ⛔⛔ BLAST RADIUS — READ BEFORE MERGING, AND THIS IS WHY THE DRIVER DID NOT MERGE IT. The branch adds a ratchet MAX_UNSCORED_OPEN = 80 against 78-79 open unscored rows, i.e. one or two of headroom, while three concurrent sessions file roughly one unscored row every eight minutes. Merged as-is it will turn preflight red on the trunk within about an hour, for whichever session files next, on a gate it did not cause and whose remedy is not in its prompt — and research-loop §1 makes that red stop every cycle. ⛔ The ceiling must NOT simply be raised to fit: the seat's own mutation M9 (80 -> 200) is caught by test_the_ratchet_is_not_vacuous, which is the guard working. The real options are to score the open rows first, to land the crash fixes and the reporting without the ratchet, or to teach the filing path to write a score — a decision with a cost either way, which is why it is named here rather than taken quietly at the end of a session already past its cycle cap."
+      "evidence": "WORKED BY SEAT s3 (CYC-0066-1f1a2449 fan-out). Branch `s3/aut-pd-031-line-citations-enumerate-carriers` @ 429241264f, rebased on origin/main, pushed, NOT MERGED. ⛔ THE ROW STAYS OPEN AND THE SEAT ARGUES WHY: its deliverable research/modalities/instrument-census.json existed and was in sync, and the defect was still fully live — an artifact on the trunk is not a finished item. Reproduced end to end: insert one blank line in nr4a3-degrader-paper.md, `line_citations.py --fix` prints 'rewrote 18 citation(s)', EXITS 0, and instrument_census.py --check immediately goes red. The fixer scanned 1 of the 19 tracked files carrying the syntax (466 occurrences). Second half, unguarded in the commit loop: `instrument_census.py --check` existed and NOTHING in preflight.sh ran it — its only enforcement was the opt-in modalities suite, which is why the original incident surfaced three commits late; now added to the generated-artifact loop at a measured 0.032 s. ⭐ THE FIX NAMES RATHER THAN REPAIRS, DELIBERATELY, and the decisive reason is measured not argued: the resolver is context-dependent, and for `:2140-2142` the roadmap's context yields a different quote than the census's because the census table has a column the roadmap does not — one ordinary edit and a 'repair' silently repoints a citation at a sentence it does not quote. Also, the largest hand-written carrier (program/map-audit-strategy.md, 131 citations) pins its line numbers to commit f67d0781 in its own header, and a fixer cannot tell a pinned reference from a rotted one. 10 tests, mutation-tested 9/9 with two earlier survivors fixed as real test defects; preflight EXIT=0 at PREFLIGHT_TESTS=1, 1467 passed. STILL OPEN: the tool now NAMES 16 hand-written carriers and CHECKS none — that surface is unmeasured rather than measured-clean, and deciding which are pinned-by-design is a reading job nobody has done. ⭐ BRANCH MERGED TO THE TRUNK 2026-08-28 by the CYC-0066 driver (s3/aut-pd-031-line-citations-enumerate-carriers), gated at PREFLIGHT_TESTS=1, EXIT=0, 1469 passed. Confirmed present on origin/main: `instrument_census` is now in preflight.sh's generated-artifact loop, so the census check runs in the COMMIT LOOP rather than only in the opt-in modalities suite — which is the half that let the original incident surface three commits late. ⛔ THE ROW REMAINS QUEUED, on the seat's own argument and not by oversight: the fixer now NAMES 16 hand-written carriers and CHECKS none of them, so that surface is UNMEASURED rather than measured-clean, and deciding which are pinned-by-design (map-audit-strategy.md pins its line numbers to commit f67d0781 in its own header) versus genuinely rotted is a reading job nobody has done."
     },
     {
       "id": "AUT-PD-022",
@@ -2688,6 +2649,48 @@
         "fruitless_attempts": 0,
         "age_factor": 0.2143
       }
+    },
+    {
+      "id": "AUT-PD-050",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "SEAT-s6-1f1a2449",
+      "claimed_utc": "2026-08-28T22:02:59Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 1,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0030-6be7fd5a",
+      "score": 124.0,
+      "_score_basis": "a row with no score is invisible to every ranking term, including the anti-starvation one just added",
+      "depends_on_evidence": "priority.build_ledger() dry run 2026-08-28: 24 entries with score=None",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "queue mechanics; nothing published, submitted or deposited",
+      "what": "⚠ TWENTY-FOUR LEDGER ROWS CARRY NO SCORE AT ALL, so no ranking term can order them — including the anti-starvation age factor added in AUT-PD-048, which is precisely the term meant to rescue exactly these rows. Found while dry-running that change, not by looking for it. Sample: AUT-COV-001, AUT-COV-002, AUT-INC-001, AUT-PD-011, AUT-PD-012. ⛔ THE SORT ALREADY KNOWS: build_ledger sorts with `-(score if score is not None else -1e9)`, i.e. an unscored row is pinned to the BOTTOM forever by construction — a starving class the age term cannot reach. ★ The question to answer first is whether these rows SHOULD be scored (hand-filed rows get a hand score) or whether the scorer should derive one; do not paper over it by defaulting them to zero, which just makes the starvation silent instead of visible.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:34:34Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        },
+        {
+          "utc": "2026-08-28T22:02:59Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 2
+      },
+      "evidence": "WORKED BY SEAT s1 (CYC-0066-1f1a2449 fan-out). Branch `s1-aut-pd-050-unscored-rows` @ d082c01a78, rebased on origin/main, pushed, NOT MERGED — the row stays queued because a branch is not the trunk. FINDING: the row's '24 unscored' was stale by 4x. 99 of 263 committed rows carry no `score`, ALL of them hand-filed, and the seat read every one of the 32 ledger commits in the observable history: 24 rows filed in that window, 24 of 24 unscored, and no pre-existing unscored row has ever acquired one, so the population is monotone. build_ledger sorts a missing score at -1e9, so they occupy the bottom ranks ordered by ID STRING; 75 of the 98 rows continuity.ready() offers were unscored. The anti-starvation term is dead code against them — apply_age_factor computes an age factor, writes it into score_inputs and cannot apply it, so the row advertises an input its score does not contain. Two live crashes on `priority.py --limit 300` and `continuity.py --limit 30` (TypeError on NoneType.__format__), reachable only past the default limits. `admissibility.UNSCORED` existed and was referenced in no file but its own. Fix: 6 files, 12 tests, mutation-tested 15/15 including the one edit that would make it self-serving; 2 amendments declared, guard PERMITTED; preflight EXIT=0. ⛔⛔ BLAST RADIUS — READ BEFORE MERGING, AND THIS IS WHY THE DRIVER DID NOT MERGE IT. The branch adds a ratchet MAX_UNSCORED_OPEN = 80 against 78-79 open unscored rows, i.e. one or two of headroom, while three concurrent sessions file roughly one unscored row every eight minutes. Merged as-is it will turn preflight red on the trunk within about an hour, for whichever session files next, on a gate it did not cause and whose remedy is not in its prompt — and research-loop §1 makes that red stop every cycle. ⛔ The ceiling must NOT simply be raised to fit: the seat's own mutation M9 (80 -> 200) is caught by test_the_ratchet_is_not_vacuous, which is the guard working. The real options are to score the open rows first, to land the crash fixes and the reporting without the ratchet, or to teach the filing path to write a score — a decision with a cost either way, which is why it is named here rather than taken quietly at the end of a session already past its cycle cap."
     },
     {
       "id": "AUT-PD-028",
@@ -2833,6 +2836,35 @@
       "what": "⛔ CITATION YEARS IN THE FUSION-PARTNER SYNTHESIS ARE UNBOUND, AND ONE SENTENCE'S COVERAGE NOW RESTS ENTIRELY ON ITS §-REFERENCE. Measured 2026-08-28 (CYC-0069): perturbing 'Huang 2023' -> 'Huang 2027' in '**Neither found the partner to carry the prognosis.**' turned NO guard red. That sentence is no longer BLIND only because AUT-PD-105 bound its §-references in the same cycle, and the ablation harness stops at the first trip — so the gate is now green over an unwatched year. ⛔ THIS IS THE HONEST RESIDUAL OF THAT FIX AND IS FILED RATHER THAN LEFT FOR THE GATE'S SILENCE TO IMPLY COVERAGE. WHAT TO DO: bind author-year mentions in the prose to the reference list the way test_journal_references_match_the_prose.py does for the ASO article — the fusion-partner documents have no equivalent. Mutation-test with a year drift, not only a nonsense one.",
       "dispatch_log": [],
       "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me."
+    },
+    {
+      "id": "AUT-PD-139",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-TCIP",
+        "publication": "PUB-TCIP",
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0069-8226e21b",
+      "score": 120.0,
+      "_score_basis": "the instrument that reports whether a described edit is owed was reporting four false positives, one of them for weeks",
+      "depends_on_evidence": "nr4a3-tcip-reach.json -> map_edits_required, read against the live files 2026-08-28",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "an instrument fix; nothing published, submitted or deposited",
+      "what": "⛔⛔ THE MAP-EDIT STATE MACHINE CANNOT SEE AN EDIT APPLIED THE WAY THIS REPOSITORY REQUIRES, SO IT REPORTED FOUR FALSE 'PENDING' ROWS — one of them for three weeks. `map_edits_required` decides PENDING by asking whether the text an edit meant to REPLACE is still in the file. CLAUDE.md rule 1.2 requires a corrected passage to CARRY its superseded wording (\"Superseded, retained: '<old sentence>'\"), so applying an edit correctly leaves that text findable and the row never clears. The convention and the checker were in direct conflict.\nTWO MORE SHAPES FAIL IDENTICALLY, each found only by fixing the one before it: (a) an ADDITIVE edit's anchor survives its own application — RT-TCIP.artifacts proposes '\"ART-TCIP-REACH\"' -> '\"ART-TCIP-REACH\", \"ART-TCIP-EFFECTOR-ARMS\"', so the old string is a SUBSTRING of the new one and the row could never reach APPLIED by any action; (b) the proposal for that same row spans TWO LINES, and the search is line-at-a-time, so the applied check could only ever answer no.\nFIXED: the PENDING question is asked only of each line's LIVE part (up to any supersession marker); an uninformative additive anchor is overridden only by a POSITIVE applied reading; multi-line needles are matched across lines with whitespace collapsed.\n⚠ AND THE FIRST TWO ATTEMPTS AT THIS WERE EACH WRONG IN A WAY THE TESTS CAUGHT: ignoring an additive anchor outright dropped the 'closure_kind — NO EDIT REQUIRED' row to STALE_ANCHOR, the one state that FAILS THE BUILD, for a row whose point is that nothing is owed; and the multi-line branch was written correctly but tested AFTER `_strip_emphasis`, which collapses newlines — so the branch read correctly and never ran.\n⛔ MUTATION-TESTED, AND THE FIRST PASS WAS A FALSE PASS. Three reverts were run against a COPY: two 'were not caught', and re-running with an assertion that the mutation had actually applied showed one of those had silently not applied at all. Of the genuine two, one was a real gap — nothing asserted that the STATE MACHINE passes the live-only flag, only that the helper honours it when handed it, so the helper could be correct and unused. A test was added and all three reverts now fail.",
+      "_what_is_left": "Nothing. 12 tests in research/modalities/tests/test_a_described_map_edit_resolves_through_the_correction_convention.py, including the negative control that a genuinely owed edit still reads PENDING and a genuinely stale anchor still reads STALE_ANCHOR — three narrowings must not buy a green board by deleting the alarm."
     },
     {
       "serves": {
@@ -3540,51 +3572,6 @@
       }
     },
     {
-      "id": "AUT-068",
-      "_derived": true,
-      "what": "Re-run the reach enumeration with the staged BCL6 arm and restate the result as named-effector rather than size-class. The staging is done; what is outstanding is the re-run and the document restatement.",
-      "serves": {
-        "route": "RT-TCIP",
-        "publication": "PUB-TCIP",
-        "strategy": "ST-PROXIMITY"
-      },
-      "kind": "negative",
-      "state": "done",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-28",
-      "score": 63.0,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": true,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 1,
-        "age_factor": 1.0
-      },
-      "claimed_utc": null,
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T21:05:15Z",
-          "fingerprint_at_dispatch": "2026-08-06|None"
-        }
-      ],
-      "_closed_by": "CYC-0069-8226e21b",
-      "_resolution": "DONE, AND THE TWO HALVES WERE IN OPPOSITE STATES. ⭐ THE RE-RUN WAS ALREADY COMPLETE and had been since 2026-08-06, the same date this row's own last_evidence carried: nr4a3-tcip-reach.json holds a ★_named_effector block computed from bcl6's and brd4_bd1's own cells (BCL6 BTB homodimer 7LWG, 243 res; BRD4 BD1 4ZC9, 127 res), both admitting at the 12-atom gate with a shortest linker of 6 backbone atoms, and nr4a3-tcip-reach.md §1b plus the route memo §7b already carry the named-effector restatement with the line on what may NOT be upgraded. Nothing was re-sampled: the enumeration costs 8805 s and re-running it would have re-derived numbers that had not moved.\n⛔ THE DOCUMENT HALF WAS NOT DONE, AND THE ARTIFACT'S OWN map_edits_required SAID SO: 4 of 9 edits PENDING. Applied here, verbatim from the described proposals: systems/graph/artifacts.json's ART-TCIP-REACH note (which still asserted 'no effector arm is staged in this repository', now false) and a new ART-TCIP-EFFECTOR-ARMS record; systems/graph/routes.json's RT-TCIP.artifacts, readiness.why_not_higher and closure_note. research/manuscripts/emc-systems-map.json reprojected, because systems_check polices legacy/graph agreement on closure_note and artifacts. Views regenerated. ⛔ NO blocker, grade or closure_kind moved: staging a body is an INPUT, not a result.\n⚠ ONE JUDGEMENT CALL, RECORDED BECAUSE IT DEVIATES FROM THE DESCRIBED EDIT: dropping the one entry in readiness.missing would have left it EMPTY, which asserts 'nothing missing' — stronger than the evidence supports, since the paired SIZE comparison is still computed on the four E3 bodies alone. It was REPLACED with that remaining limit rather than emptied.\n⛔ AND THE 4 PENDING ROWS WERE NOT ALL REAL WORK — the state machine was misreporting, which is filed and fixed as part of this row (see AUT-PD-139 in the receipt's diagnostic). One of the four had been applied weeks earlier in better wording than proposed."
-    },
-    {
       "id": "AUT-043",
       "_derived": true,
       "what": "Write it — no scientific blocker. ⚠ But the FRAMING choice (P1 vs P6) is trimcrae's and is not settled here.",
@@ -3709,6 +3696,50 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "regenerating and verifying a standalone, ungated advisory report; nothing published, submitted or deposited",
       "what": "⚠ census-novelty-audit.json (generated by research/modalities/census_novelty_audit.py, a standalone advisory script not wired into any gate, test or workflow) is STALE against its own generator on the current committed tree — a fresh, unmodified run of the script reports 127->111 never_searched rows and 73->71 candidate collisions against what is currently committed. ⛔ DO NOT BLINDLY REGENERATE AND COMMIT: this was found in passing by an unrelated task (AUT-PD-036) and never investigated — first confirm WHY the counts moved (a census this script reads changed underneath it? a since-resolved 'never searched' item that should have been removed from the count already? a bug in the script itself introduced by an unrelated edit?) before trusting the new numbers enough to commit them. Regenerating without understanding the delta risks the exact 'total is derived, never typed, but never NAIVELY regenerated either' failure CLAUDE.md rule 1 warns against — a derived number is only as trustworthy as the inputs that produced it. Once the delta is understood, this is a $0, few-minutes fix: regenerate, diff against the committed version, confirm the diff matches the explained mechanism, commit."
+    },
+    {
+      "id": "AUT-068",
+      "_derived": true,
+      "what": "Re-run the reach enumeration with the staged BCL6 arm and restate the result as named-effector rather than size-class. The staging is done; what is outstanding is the re-run and the document restatement.",
+      "serves": {
+        "route": "RT-TCIP",
+        "publication": "PUB-TCIP",
+        "strategy": "ST-PROXIMITY"
+      },
+      "kind": "negative",
+      "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "score": 59.0,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": true,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T21:05:15Z",
+          "fingerprint_at_dispatch": "2026-08-06|None"
+        }
+      ],
+      "_closed_by": "CYC-0069-8226e21b",
+      "_resolution": "DONE, AND THE TWO HALVES WERE IN OPPOSITE STATES. ⭐ THE RE-RUN WAS ALREADY COMPLETE and had been since 2026-08-06, the same date this row's own last_evidence carried: nr4a3-tcip-reach.json holds a ★_named_effector block computed from bcl6's and brd4_bd1's own cells (BCL6 BTB homodimer 7LWG, 243 res; BRD4 BD1 4ZC9, 127 res), both admitting at the 12-atom gate with a shortest linker of 6 backbone atoms, and nr4a3-tcip-reach.md §1b plus the route memo §7b already carry the named-effector restatement with the line on what may NOT be upgraded. Nothing was re-sampled: the enumeration costs 8805 s and re-running it would have re-derived numbers that had not moved.\n⛔ THE DOCUMENT HALF WAS NOT DONE, AND THE ARTIFACT'S OWN map_edits_required SAID SO: 4 of 9 edits PENDING. Applied here, verbatim from the described proposals: systems/graph/artifacts.json's ART-TCIP-REACH note (which still asserted 'no effector arm is staged in this repository', now false) and a new ART-TCIP-EFFECTOR-ARMS record; systems/graph/routes.json's RT-TCIP.artifacts, readiness.why_not_higher and closure_note. research/manuscripts/emc-systems-map.json reprojected, because systems_check polices legacy/graph agreement on closure_note and artifacts. Views regenerated. ⛔ NO blocker, grade or closure_kind moved: staging a body is an INPUT, not a result.\n⚠ ONE JUDGEMENT CALL, RECORDED BECAUSE IT DEVIATES FROM THE DESCRIBED EDIT: dropping the one entry in readiness.missing would have left it EMPTY, which asserts 'nothing missing' — stronger than the evidence supports, since the paired SIZE comparison is still computed on the four E3 bodies alone. It was REPLACED with that remaining limit rather than emptied.\n⛔ AND THE 4 PENDING ROWS WERE NOT ALL REAL WORK — the state machine was misreporting, which is filed and fixed as part of this row (see AUT-PD-139 in the receipt's diagnostic). One of the four had been applied weeks earlier in better wording than proposed."
     },
     {
       "id": "AUT-009",
@@ -7307,7 +7338,7 @@
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
-      "retry_budget": 3,
+      "retry_budget": 2,
       "attempts": 0,
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
@@ -7320,7 +7351,10 @@
           "utc": "2026-08-28T22:02:59Z",
           "fingerprint_at_dispatch": "2026-08-28|None"
         }
-      ]
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
     },
     {
       "id": "AUT-PD-125",
@@ -8021,35 +8055,6 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
-    },
-    {
-      "id": "AUT-PD-139",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-TCIP",
-        "publication": "PUB-TCIP",
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0069-8226e21b",
-      "score": 120.0,
-      "_score_basis": "the instrument that reports whether a described edit is owed was reporting four false positives, one of them for weeks",
-      "depends_on_evidence": "nr4a3-tcip-reach.json -> map_edits_required, read against the live files 2026-08-28",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "an instrument fix; nothing published, submitted or deposited",
-      "what": "⛔⛔ THE MAP-EDIT STATE MACHINE CANNOT SEE AN EDIT APPLIED THE WAY THIS REPOSITORY REQUIRES, SO IT REPORTED FOUR FALSE 'PENDING' ROWS — one of them for three weeks. `map_edits_required` decides PENDING by asking whether the text an edit meant to REPLACE is still in the file. CLAUDE.md rule 1.2 requires a corrected passage to CARRY its superseded wording (\"Superseded, retained: '<old sentence>'\"), so applying an edit correctly leaves that text findable and the row never clears. The convention and the checker were in direct conflict.\nTWO MORE SHAPES FAIL IDENTICALLY, each found only by fixing the one before it: (a) an ADDITIVE edit's anchor survives its own application — RT-TCIP.artifacts proposes '\"ART-TCIP-REACH\"' -> '\"ART-TCIP-REACH\", \"ART-TCIP-EFFECTOR-ARMS\"', so the old string is a SUBSTRING of the new one and the row could never reach APPLIED by any action; (b) the proposal for that same row spans TWO LINES, and the search is line-at-a-time, so the applied check could only ever answer no.\nFIXED: the PENDING question is asked only of each line's LIVE part (up to any supersession marker); an uninformative additive anchor is overridden only by a POSITIVE applied reading; multi-line needles are matched across lines with whitespace collapsed.\n⚠ AND THE FIRST TWO ATTEMPTS AT THIS WERE EACH WRONG IN A WAY THE TESTS CAUGHT: ignoring an additive anchor outright dropped the 'closure_kind — NO EDIT REQUIRED' row to STALE_ANCHOR, the one state that FAILS THE BUILD, for a row whose point is that nothing is owed; and the multi-line branch was written correctly but tested AFTER `_strip_emphasis`, which collapses newlines — so the branch read correctly and never ran.\n⛔ MUTATION-TESTED, AND THE FIRST PASS WAS A FALSE PASS. Three reverts were run against a COPY: two 'were not caught', and re-running with an assertion that the mutation had actually applied showed one of those had silently not applied at all. Of the genuine two, one was a real gap — nothing asserted that the STATE MACHINE passes the live-only flag, only that the helper honours it when handed it, so the helper could be correct and unused. A test was added and all three reverts now fail.",
-      "_what_is_left": "Nothing. 12 tests in research/modalities/tests/test_a_described_map_edit_resolves_through_the_correction_convention.py, including the negative control that a genuinely owed edit still reads PENDING and a genuinely stale anchor still reads STALE_ANCHOR — three narrowings must not buy a green board by deleting the alarm."
     }
   ]
 }
