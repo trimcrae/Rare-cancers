@@ -1977,3 +1977,82 @@ def test_the_genome_scans_bound_counts_mismatches_and_not_positions_outside_the_
     assert within_budget == 5 and "five sit at exactly two" in txt, (
         f"{within_budget} design(s) sit inside the scan's two-mismatch budget; the paper must name "
         "the exception rather than conclude the class is bounded")
+
+
+def test_the_extended_report_carries_round_18s_counts_derived_not_copied():
+    """⛔ THE ONE-OF-A-PAIR SHAPE, CLOSED FOR ROUND 18'S OWN NUMBERS (AUT-PD-107).
+
+    Round 18 put three new counts into BOTH submission documents. The journal article's copies are
+    bound by `research/manuscripts/tests/test_journal_article_numbers.py`; this document's copies were
+    bound by nothing, which is precisely the defect that round found twice in this packet — a
+    correction reaching one document of a pair and not the other, with nothing reading either.
+
+    ★ EVERY VALUE IS RECOMPUTED HERE, and two of them exist in no committed field: the alignment
+    screens exclude parent records by NAME before they ever report identity, so identity at a parent
+    site has to be re-derived by splicing the mature parents from their own exon spans. That is why
+    the claim could be wrong in the first place and why copying the journal article's numbers across
+    would guard nothing.
+    """
+    pairing = json.load(open(_required(
+        os.path.join(MOD, "aso-parent-gap-pairing.json"), "the mature-parent gap-pairing screen")))
+    seqs = json.load(open(_required(
+        os.path.join(MOD, "aso-premrna-sequences.json"), "the parent transcript sequences")))
+    pre = json.load(open(_required(
+        os.path.join(MOD, "aso-premrna-offtarget.json"), "the precursor-RNA off-target screen")))
+    energy = json.load(open(_required(
+        os.path.join(MOD, "aso-offtarget-duplex-energy.json"), "the duplex-energy re-evaluation")))
+    screen = json.load(open(_required(
+        os.path.join(MOD, "junction-aso-offtarget-e10n3.json"), "an alignment screen, for its threshold")))
+
+    n = pairing["method"]["oligo_len"]
+    cut, denom = (int(x) for x in re.search(
+        r"(\d+)\s*/\s*(\d+)", screen["method"]["near_match_threshold"]).groups())
+    assert denom == n, "the screen's near-match denominator and the panel geometry have diverged"
+
+    comp = str.maketrans("ACGTU", "TGCAA")
+    mature = {g: "".join(r["sequence"][a:b + 1] for a, b in r["exon_spans_0based_inclusive"])
+              for g, r in seqs["genes"].items()}
+    liable = [d for d in pairing["per_design"] if d.get("counts_as_liability")]
+    ident = []
+    for d in liable:
+        site = mature[d["parent"]][d["parent_start_0based"]:d["parent_start_0based"] + n]
+        target = d["antisense_5to3"].translate(comp)[::-1]
+        ident.append(sum(1 for a, b in zip(site, target) if a == b))
+    reaching = sum(1 for i in ident if i >= cut)
+
+    def _run(a, b):
+        best = cur = 0
+        for x, y in zip(a, b):
+            cur = cur + 1 if x == y else 0
+            best = max(best, cur)
+        return best
+
+    own = [d["longest_parent_duplex_bp_through_gap"] for d in liable]
+    for d in pre["per_design"]:
+        parents = set(re.match(r"^([A-Z0-9]+)_e\d+__([A-Z0-9]+)_e\d+$", d["junction_label"]).groups())
+        target = d["antisense_5to3"].translate(comp)[::-1]
+        for hit in d.get("hits", ()):
+            if hit.get("hybridisable") and hit["gene"] in parents:
+                site = seqs["genes"][hit["gene"]]["sequence"][
+                    hit["premrna_start_0based"]:hit["premrna_end_0based"] + 1]
+                own.append(_run(site, target))
+    own_max = max(own)
+
+    full = [d for d in energy["designs"] if d.get("max_run_len_hybridisable") == n]
+    curated = sum(1 for d in full
+                  if (d.get("closest_gap_paired_record") or {}).get("acc", "").startswith(("NM_", "NR_")))
+
+    txt = _flat(_paper())
+    assert (f"identity runs {min(ident)} to {max(ident)} of {n}, so {_spelt(reaching)} of the "
+            f"{len(liable)} reach the {cut}-of-{n} near-match threshold") in txt, (
+        f"the report's parent-visibility sentence has drifted from the recomputation "
+        f"({min(ident)}-{max(ident)}/{n}, {reaching} of {len(liable)} at >={cut})")
+    assert f"no design's own parent pairs more than {own_max} base pairs in either compartment" in txt, (
+        f"the own-parent bound recomputed over BOTH compartments is {own_max} base pairs and the "
+        "report no longer states it — the first version of this claim was wrong precisely because it "
+        "was derived from the mature arm alone while naming both")
+    assert (f"against the whole {n} for the {_spelt(len(full))} designs carrying a fully paired "
+            f"off-target duplex, {_spelt(curated)} of them in curated records") in txt, (
+        f"{len(full)} fully paired off-targets of which {curated} are curated (NM_/NR_) — the report "
+        "no longer states the pair, and the curated half is what answers the paper's own "
+        "'mostly predicted transcript models' caveat")
