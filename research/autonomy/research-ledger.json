@@ -10,11 +10,11 @@
     "code": 1,
     "experiment": 23,
     "fetch": 19,
-    "fix": 15,
+    "fix": 16,
     "harden": 21,
     "negative": 32,
     "process": 7,
-    "process_defect": 114,
+    "process_defect": 117,
     "proposal": 16,
     "regrade": 8,
     "verify": 1,
@@ -23,9 +23,9 @@
   "n_by_state": {
     "blocked": 1,
     "done": 103,
-    "in_progress": 1,
+    "in_progress": 2,
     "parked": 28,
-    "queued": 131,
+    "queued": 134,
     "ready": 1,
     "superseded": 1
   },
@@ -5939,6 +5939,40 @@
       }
     },
     {
+      "id": "AUT-PD-135",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-ASO-JUNCTION",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "in_progress",
+      "owner": "CYC-0070-225452b4",
+      "claimed_utc": "2026-08-28T21:52:00Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "deposit-artifact-family-regeneration"
+      ],
+      "blocked_evidence": "⚠ THE PROSE FIX IS WRITTEN AND VERIFIED BUT NOT LANDED, AND THE REASON IS A BLAST RADIUS I MIS-SIZED. The patch is one sentence split into three (>60w 1 -> 0, max 63 -> 54, caution 40 markers / 9.3 per 1000w unchanged with an identical breakdown). Held at <session-scratchpad>/cyc0069-driver/cyc0069-driver-d9-prose.patch. ⛔ EDITING THIS ARTICLE INVALIDATES SEVEN GUARDS ACROSS ITS WHOLE DEPOSIT FAMILY, not the two generated artifacts I expected: test_claim_coverage_has_not_regressed; test_no_submission_part_is_stale_against_its_manuscript for BOTH aso-journal-title-page and aso-journal-figure-legends; test_the_word_file_is_not_stale; test_the_condensed_submission_is_within_its_page_budget[fusion-junction-aso-journal-article.pdf]; test_every_stamped_pdf_renders_the_documents_its_stamp_names; and test_the_deposited_pdfs_are_not_stale. Named generators: build_submission_parts.py, build_submission_docx.py, plus the PDF build and the claim-coverage census. ⭐ ESTABLISHED AS MINE RATHER THAN ASSUMED (CLAUDE.md §6): the same 37 tests run in a detached worktree at clean origin/main pass 37/37. So this is the cost of the edit, not a pre-existing red. ★ AND IT IS THE SAME FINDING AS AUT-PD-138, ONE SIZE LARGER — the archive manifest was only the first of a family, and the page-budget guard means a re-typeset can FAIL on length rather than merely need regenerating, which is a real possibility a splitter must check rather than assume.",
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0069-225452b4",
+      "depends_on_evidence": "publish_bar.py --paper PUB-ASO --sha 2334df915005: clause 7 readable_enough_to_review FAIL, '1 sentence(s) over 60 words ... longest 63w'. lint_readability before: 178 sentences, mean 24.1, max 63, >60w=1. After: 180 sentences, mean 23.8, max 54, >60w=0.",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "readable_enough_to_review"
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a prose split inside a manuscript already public under its own DOI; nothing posted, submitted or deposited by this change",
+      "what": "⛔ WRITTEN AND MEASURED, NOT LANDED — publish_bar CLAUSE 7 (readable_enough_to_review) FOR PUB-ASO IS STILL OPEN. See blocked_evidence for why the patch is parked. It is the ONE clause of the four open ones that is not sha-bound to a quiet head, so it was takeable while clauses 1, 2 and 6 were not. A single 63-word sentence in research/manuscripts/aso/fusion-junction-aso-journal-article.md was three ideas joined by a semicolon and an em dash (the duplex-stability re-score, the two named reagents' margin, and the upper-bound caveat); it is now three sentences of 27, 17 and 20 words. ⛔ NO CLAIM, NUMBER OR HEDGE MOVED, AND THAT IS MEASURED RATHER THAN ASSERTED: `lint_readability.py --caution` reads 40 markers / 9.3 per 1000 words before AND after, with an identical marker breakdown (11 'is not', 7 'does not', 7 'neither', 3 'may', 2 'could', 2 'are not', 2 'cannot', 2 'range', 1 'do not'). scientific-writing §4 is explicit that a readability pass which buys its score by dropping caution is worse than the dense original, so the count is the check that it did not. ⭐ SEQUENCING, AND IT IS THE REASON THIS WAS THE RIGHT ITEM: clauses 1 (hardening_converged), 2 (PREFLIGHT_FULL) and 6 (blind seat) are all sha-bound to the posted commit, and AUT-PROP-019's own evidence says they need ONE spawned session against a single pinned commit on a quiet head. A prose fix MOVES the head, so it had to land BEFORE that session pins, not after — running the sha-bound three first would have bought three receipts this commit then staled. ⚠ PUB-ASO IS STILL NOT POSTABLE and this is not an escalation: the bar reads BLOCKED 3/7 at 2334df915005, and `authority: NO` — trimcrae excluded PUB-ASO from the aiXiv grant, verbatim 2026-08-27: 'That's the only paper that shouldn't auto ship to aiXiv.'",
+      "_score_basis": "inherited from AUT-049 as a publish_bar clause closer for PUB-ASO; the only non-sha-bound clause of the four open",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
+    },
+    {
       "id": "AUT-PROP-015",
       "kind": "fix",
       "serves": {
@@ -7423,6 +7457,90 @@
       "requires_trimcrae_why": "A CI workflow file. Nothing outward-facing; it restores a gate rather than relaxing one.",
       "claimed_utc": null,
       "evidence": "MEASURED 2026-08-28 BY CYC-0068-7cda2d61, THREE INDEPENDENT WAYS, AND THE FIRST HYPOTHESIS WAS WRONG. (1) TIMING: the nine most recent completed `tests` runs on `main` are all `cancelled`, and each is cancelled 1–3 s after the NEXT run on main is created — 8c14cc5 cancelled 20:24:23 as 3937db8 was created 20:24:22; 3937db8 cancelled 20:24:30 as e958d85 created 20:24:28; e958d85 cancelled 20:26:50 as d18f8dc created 20:26:49; d18f8dc cancelled 20:27:39 as 54aeece created 20:27:37; 54aeece cancelled 20:33:06 as 5bb4e86 created 20:33:05; 5bb4e86 cancelled 20:34:42 as 12a5f34 created 20:34:41. (2) THE DISCRIMINATING CASE: run 33207278897 on 86098c2 was `pending`, NOT running, when it was cancelled at 20:17:54 — so this is not `cancel-in-progress` firing, which only ever cancels a RUNNING run. (3) PLATFORM SEMANTICS, READ LIVE RATHER THAN REMEMBERED: a concurrency group holds at most one running and one pending run, so a third arrival EVICTS THE PENDING ONE whatever `cancel-in-progress` says. ⚠ MY FIRST HYPOTHESIS — that the expression evaluates to the string 'false' and is truthy — IS NOT WHAT THE EVIDENCE SHOWS, and (2) is the observation that killed it. ⭐ CORROBORATING: `tests.yml` is the ONLY workflow in .github/workflows/ with an expression-valued `cancel-in-progress`; every other uses a literal. ⛔ CONSEQUENCE: this is the concrete mechanism behind health.py's `gates_green` reading NO-GATE-VERDICT for 47.2 h, and it means the two large suites — the ones preflight deliberately does NOT run, on the stated grounds that 'CI runs both on push and it is the authority' — have not actually gated any recent commit. ⭐ DONE 2026-08-28 by CYC-0068-7cda2d61: concurrency.group now gives a run on `main` a group of its own (github.run_id) while feature branches keep the shared ref-keyed group; cancel-in-progress is UNCHANGED because it was never the mechanism. Guarded by test_main_keeps_a_per_commit_verdict.py, written against the GROUP rather than the flag because asserting the flag would have passed throughout the outage; mutation-tested 4/4. ⭐ LIVE HALF NOW MEASURED: at 20:52Z, immediately after the push, TWO runs on `main` were `in_progress` simultaneously — 2334df9 (created 20:52:16) and 4cb2c64b (created 20:47:16, still alive) — where the old shared group would have evicted the second. ⛔ STILL NOT OBSERVED: that a run on main reaches a CONCLUSION. Coexistence is necessary, not sufficient, and `gates_verdict.py` needs a graded run before `gates_green` reads anything but NO-GATE-VERDICT."
+    },
+    {
+      "id": "AUT-PD-136",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0069-225452b4",
+      "score": null,
+      "_score_basis": "the three highest-ranked rows in the queue are unactionable by construction, so every cycle's first decision is made against a ranking whose top it must silently discard",
+      "depends_on_evidence": "priority.py --write 2026-08-28: AUT-025 152.0, AUT-044 147.0, AUT-071 136.0, all `_derived: true`; their last_evidence_utc are 2026-08-05, 2026-08-09, 2026-08-05. continuity.py --check lists the same three at the head of '99 ledger item(s) are READY TO RUN RIGHT NOW'.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "what": "⛔ THE QUEUE'S TOP THREE ROWS ARE DISPOSITIONS, NOT WORK, AND THEY HAVE BEEN FOR THREE WEEKS — MEASURED 2026-08-28 (CYC-0069). AUT-025 (152.0), AUT-044 (147.0) and AUT-071 (136.0) outrank every takeable row in the ledger. All three are `_derived: true`, so their `what` is a systems-graph `next_action` field, and in these three cases that field records a DECISION ALREADY TAKEN rather than an act: 'Keep registered for automatic re-grade when EMC expression data lands.' (AUT-025), 'Keep as cited landscape context. Do not overstate a single response.' (AUT-071), and 'Decide the framing and the venue, which is an outward-facing call.' (AUT-044). ⛔ TWO OF THEM INSTRUCT A CYCLE TO DO NOTHING, so a cycle that 'takes' one has no way to finish it and no way to fail it. ⛔⛔ AND THE THIRD IS WORSE THAN UNACTIONABLE — IT IS MISFILED. AUT-044's own text says the act is 'an outward-facing call', which CLAUDE.md §3 reserves for trimcrae, yet the row carries no `requires_trimcrae` flag, so AUT-PD-127's withholding never sees it. The same shape is on AUT-049 ('Post the preprint … and in the same pass send the three paywalled-table requests … to the corresponding authors') — posting and emailing strangers, sitting unflagged at 117.0 in the takeable queue. ⚠ THE CENSUS: 77 derived rows, of which only 13 carry the key at all; among non-derived rows 98 of 186 carry it. The gap is structural — the flag is written by hand on rows a cycle files, and derived rows are generated from the graph, which has no such field. ⭐ THE EFFECT IS NOT COSMETIC: every cycle re-scores, reads a top it cannot use, discards it SILENTLY, and starts from row four. `health.py`'s `queue_is_takeable` reads TAKEABLE throughout, because 99 rows below them are. A ranking whose head is routinely discarded is not ranking the decision it is used for. WHAT TO DO: two separable fixes. (1) `continuity.py` already carries an `_OUTWARD_LOOKING` regex for rows that lack the key but look outward — run it over DERIVED rows too and set the flag, or fail the row. (2) A derived row whose `next_action` is a disposition ('Keep …', 'Do not …', 'Report … as the result') is not a queue item; it needs a state that is neither `queued` nor `done` — AUT-039 and AUT-076 already use `parked` for exactly this. ⛔ DO NOT simply down-weight derived rows: the score is not wrong, the STATE is."
+    },
+    {
+      "id": "AUT-PD-137",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0069-225452b4",
+      "score": null,
+      "_score_basis": "this is the alarm CLAUDE.md §0 is built on, and it cannot fire on the failure mode §0 names",
+      "depends_on_evidence": "route_advanced over the seven most recent receipts: CYC-0064-f5c9b5f2 `none`, CYC-0065-1f1a2449 RT-AUTONOMY, CYC-0065-f5c9b5f2 RT-AUTONOMY, CYC-0066-1f1a2449 RT-AUTONOMY, CYC-0067-165c2385 RT-AUTONOMY, CYC-0067-7cda2d61 RT-AUTONOMY, CYC-0068-7cda2d61 RT-AUTONOMY. health.py --check read ✅ ADVANCING on every one of those runs.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
+      "what": "⛔⛔ `advancing_live_work` CANNOT SEE THE LOOP AUDITING ITSELF, WHICH IS THE ONE THING CLAUDE.md §0 ASKS IT TO CATCH — MEASURED 2026-08-28 (CYC-0069). The condition asks 'are cycles moving LIVE routes, or just documenting?' and grades `route_advanced` from the last N receipts. The seven most recent receipts read RT-AUTONOMY six times and `none` once, and the row read ✅ ADVANCING throughout — because RT-AUTONOMY is a route in the graph like RT-ASO-JUNCTION or RT-PARTNER-STRAT, so a cycle that improved the loop's own machinery scores identically to one that moved a paper toward a reader. ⚠ THE STANDING BACKLOG SHOWS THE SAME SHAPE, SO THIS IS A TREND AND NOT A RUN OF LUCK: of 131 open rows, 63 serve RT-AUTONOMY and 69 are `kind: process_defect`. The next largest route has 7. ⭐ THE LOOP IS NOT IDLE AND THE WORK IS NOT WASTED — every one of those cycles fixed something real, and three of them fixed instruments this cycle then used. The defect is that the INSTRUMENT POINTED AT THE FAILURE MODE IS BLIND TO IT: §0 says 'silently falling back to writing up closed routes looks identical to progress', and to this checker self-maintenance also looks identical to progress. `route_advanced: none` was built as 'the loop's own honesty instrument' with a three-in-a-row escalation, and a cycle that writes RT-AUTONOMY honestly never trips it. WHAT TO DO: grade RT-AUTONOMY (and any route whose work is the loop itself) as a SEPARATE class from the science portfolio — not excluded, since the maintenance is real, but counted so that N consecutive self-maintenance cycles is visible as such. The natural threshold already exists in the file: the same three-in-a-row rule `route_advanced: none` uses. ⛔ DO NOT fix this by forbidding RT-AUTONOMY work — a red trunk, a broken claim tool and an evicting CI run are all RT-AUTONOMY and all were correctly taken. The requirement is that the loop can SEE the ratio, not that the ratio be zero. ⚠ AND THE HONEST COUNTER-READING, RECORDED SO A LATER CYCLE DOES NOT HAVE TO REDISCOVER IT: some of those cycles were §1-mandated (a red trunk makes fixing it the whole cycle), so a naive counter would fire on cycles that had no choice. Whatever counts must exempt, or at least mark, a cycle the stop conditions forced."
+    },
+    {
+      "id": "AUT-PD-138",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0069-225452b4",
+      "score": null,
+      "_score_basis": "an unavoidable red on a documented, correct procedure teaches cycles that a red archive row is normal, which is how a real provenance failure gets waved through",
+      "depends_on_evidence": "CYC-0069, 2026-08-28. `aso_archive_manifest.py --check-archive` exit 1 in BOTH reachable states of a tree with an edited archived manuscript: manifest at HEAD -> 'STALE: the archive inventory would change'; manifest regenerated -> the provenance refusal (`git_tree_is_clean_apart_from_this_manifest: false`). Same commit, clean HEAD 2334df9 in a detached worktree -> exit 0, 'manifest inventory is current'. preflight.sh line ~707 wires --check-archive as a gate.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop mechanism and a generated artifact; nothing published, submitted or deposited",
+      "what": "⛔ A COMMIT THAT EDITS AN ARCHIVED MANUSCRIPT CANNOT HAVE A GREEN PREFLIGHT, AND THE GENERATOR'S OWN DOCUMENTED FIX REQUIRES MAKING THAT COMMIT ANYWAY — MEASURED 2026-08-28 (CYC-0069), on a one-sentence split in the ASO journal article. ⭐ THE TRAP IS THAT BOTH REACHABLE STATES ARE RED, so there is no ordering inside ONE commit that clears it. (a) Leave the manifest at HEAD: the inventory no longer matches the edited article, and --check-archive reports STALE. (b) Regenerate it: the tree is necessarily dirty (the article, and whatever else the commit carries), so the manifest records `git_tree_is_clean_apart_from_this_manifest: false` and --check-archive REFUSES it as a provenance failure — correctly, and that refusal is AUT-PD-016's guard doing its job. ⭐ THE GENERATOR PRINTS THE RIGHT ANSWER AND IT IS A TWO-COMMIT ANSWER: 'commit (or stash) every other change FIRST, then regenerate the manifest against the clean tree as the session's LAST commit.' ⛔ THAT MAKES THE FIRST COMMIT'S PREFLIGHT RED BY CONSTRUCTION — CLAUDE.md §6 says preflight must pass before committing, and here the documented procedure says it cannot. ⚠ STASH IS NOT AN ESCAPE, THOUGH THE GENERATOR OFFERS IT: stashing the article edit makes the tree clean, but then the manifest regenerates against the UNEDITED article and is stale again the moment the stash comes back. Only committing works. ⚠ AND THE PRECEDENT ON `main` SHOWS THE COST IS ALREADY BEING PAID SILENTLY: 86c68df edited this same article and did not touch the manifest at all; the manifest was reconciled two commits later by an unrelated CI lane tick (0d009f1, 'selcal reap: lane tick (CI)'). So the trunk's manifest is routinely stale for a window nobody declares, and the repair is incidental to a job that exists for another purpose. WHAT TO DO — the options, none of them free, and the choice is a real one rather than obvious. (1) Let --check-archive distinguish 'stale because THIS working tree edited an archived file' (expected, and clears on the follow-up commit) from 'stale on a clean tree' (a real red), and report the first as a WARN naming the required follow-up commit. (2) Have preflight accept a declared two-commit sequence — a marker the first commit carries and the second clears — so the window is explicit and a forgotten follow-up is itself a red. (3) Move the manifest out of the commit loop entirely and make the CI lane that already fixes it the declared owner, which is the de-facto state today and should be written down or abandoned rather than left implicit. ⛔ DO NOT weaken the `false`-flag refusal to get a green: that flag is the whole content of AUT-PD-016, where a manifest on `main` asserted a sha256 for content that was in no commit."
     },
     {
       "id": "AUT-PD-112",
