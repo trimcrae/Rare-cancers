@@ -1,0 +1,32 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0058-1ef8c95a",
+  "session_id": "1ef8c95a-24d8-5fea-a441-6295a15751f9",
+  "utc": "2026-08-28T19:50:00Z",
+  "shape": "This session, worked directly (investigation + judgement call, not dispatched) since the item was a design decision with a clear methodology already specified.",
+  "took": "AUT-PD-041 — decide whether emc_systems_map_check.py's O4 disputed-identity-recurrence guard should widen its _tracked_files() to match 3 sibling gates AUT-PD-036 already fixed (RT-AUTONOMY, free, closing).",
+  "took_what": "Attempted the row's own suggested method (git blame the docstring/comment to find when and why tracked-only was chosen) and found it structurally impossible: this repository's history is a squashed import, and `git log --follow` on this file returns exactly one commit (an oddly-labeled bulk commit unrelated to its content) — worth recording since the row explicitly asked for this and it cannot be done. Made the decision on the actual reasoning instead: the two stated tracked-only rationales don't conflict with widening, since --exclude-standard still respects .gitignore. Independently re-verified the probe methodology (isolated tmp git repo): tracked-only misses an untracked-but-not-ignored file naming a disputed object, widened catches it. Confirmed zero collateral on the real committed tree (0 ERROR, 0 WARN, unchanged) before and after.",
+  "changed": [
+    "research/manuscripts/emc_systems_map_check.py: widened _tracked_files() to `git ls-files --cached --others --exclude-standard`; docstring updated to name the decision explicitly.",
+    "research/manuscripts/tests/test_emc_systems_map_check.py: +2 tests mirroring test_lint_citations.py's AUT-PD-036 convention, mutation-tested. Declared in amendments.jsonl.",
+    "research/autonomy/research-ledger.json: closed AUT-PD-041 (done) and AUT-PD-056 (done, from the prior receipt this cycle)."
+  ],
+  "cost": "$0. Engineering and CPU only.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "mechanism_unavailable": "create_session/get_session are not present as tools at all inside this scheduled-Routine session's toolset (AUT-PD-045) -- not merely refused past a lineage-depth limit (AUT-PD-032's shape), an absence with no mechanism to attempt. Corrected field name from an earlier ad hoc `_why_not_attempted` this session used before catching, via AUT-PD-056, that session_cap.py's blocked_handoff() specifically reads `handoff.mechanism_unavailable`."
+  }
+}

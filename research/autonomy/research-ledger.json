@@ -21,10 +21,10 @@
     "write": 6
   },
   "n_by_state": {
-    "done": 80,
+    "done": 81,
     "in_progress": 2,
     "parked": 28,
-    "queued": 110,
+    "queued": 109,
     "superseded": 1
   },
   "n_clamped": 11,
@@ -2124,9 +2124,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0057-1ef8c95a",
-      "claimed_utc": "2026-08-28T19:30:00Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2141,7 +2141,7 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a gate's scan-scope design tradeoff; nothing published, submitted or deposited, but the two readings genuinely conflict and a wrong pick is a real cost either way",
-      "what": "⚠ A GENUINE DESIGN DECISION, NOT A BUG: does emc_systems_map_check.py's O4 disputed-identity-recurrence guard widen its `_tracked_files()` to `--cached --others --exclude-standard` (matching the fix just applied to lint_citations.py, instrument_register_renumber.py and the duplicate-key guard in AUT-PD-036), or stay tracked-only? ⭐ THE CASE FOR WIDENING: it has the IDENTICAL defect shape those three just closed — a brand-new manuscript naming a disputed-identity object's alias with no classification marker currently passes this gate clean while uncommitted, and only goes red the run AFTER it is committed and shared, which is precisely the 'fires after the mistake is shared' failure gate 12 exists to prevent. Live-probed and confirmed by the AUT-PD-036 subagent (widening caught it, zero collateral on the clean committed tree). ⛔ THE CASE FOR LEAVING IT ALONE: the module's own top-of-file docstring states the scope explicitly — 'any TRACKED file that names it without being classified fails the build' — and a second comment on `SWEEPABLE_SUFFIXES` explains the git index is swept 'so that untracked scratch files cannot fail a build.' That is a written, dated design choice already made once, not an oversight discovered now. ⭐ WHAT TO DO: read that docstring and comment in full (git blame them to find when and why the tracked-only choice was made — it may itself have been a response to a real incident, the way aso_archive_manifest.py's tracked-only choice is), decide whether the reasoning still holds against the 'fires after the mistake is shared' argument, and either widen it (with the same probe-verify methodology as AUT-PD-036, checking for collateral pre-existing findings first) or record explicitly why tracked-only wins here and update the docstring to name this decision so a future sweep doesn't re-raise it as a fresh defect. Either answer closes this row; leaving it unread does not.",
+      "what": "⚠ A GENUINE DESIGN DECISION, NOT A BUG: does emc_systems_map_check.py's O4 disputed-identity-recurrence guard widen its `_tracked_files()` to `--cached --others --exclude-standard` (matching the fix just applied to lint_citations.py, instrument_register_renumber.py and the duplicate-key guard in AUT-PD-036), or stay tracked-only? ⭐ THE CASE FOR WIDENING: it has the IDENTICAL defect shape those three just closed — a brand-new manuscript naming a disputed-identity object's alias with no classification marker currently passes this gate clean while uncommitted, and only goes red the run AFTER it is committed and shared, which is precisely the 'fires after the mistake is shared' failure gate 12 exists to prevent. Live-probed and confirmed by the AUT-PD-036 subagent (widening caught it, zero collateral on the clean committed tree). ⛔ THE CASE FOR LEAVING IT ALONE: the module's own top-of-file docstring states the scope explicitly — 'any TRACKED file that names it without being classified fails the build' — and a second comment on `SWEEPABLE_SUFFIXES` explains the git index is swept 'so that untracked scratch files cannot fail a build.' That is a written, dated design choice already made once, not an oversight discovered now. ⭐ WHAT TO DO: read that docstring and comment in full (git blame them to find when and why the tracked-only choice was made — it may itself have been a response to a real incident, the way aso_archive_manifest.py's tracked-only choice is), decide whether the reasoning still holds against the 'fires after the mistake is shared' argument, and either widen it (with the same probe-verify methodology as AUT-PD-036, checking for collateral pre-existing findings first) or record explicitly why tracked-only wins here and update the docstring to name this decision so a future sweep doesn't re-raise it as a fresh defect. Either answer closes this row; leaving it unread does not. ✅ CLOSED 2026-08-28 by CYC-0057-1ef8c95a. DECISION: WIDEN, matching the 3 sibling gates. git blame could not settle 'when and why' as the row suggested -- this repository's entire history is a squashed import (confirmed: `git log --follow` on this file returns exactly ONE commit, 38fe62809, an oddly-labeled bulk commit unrelated to its message -- the same shape already noted elsewhere this session for a different file). So the decision was made on the actual reasoning instead: the two stated rationales for tracked-only (the docstring's design choice; the SWEEPABLE_SUFFIXES comment about scratch files) do not actually conflict with widening, because `--exclude-standard` still respects .gitignore -- a genuine scratch file stays invisible either way. What newly becomes visible under widening is a real, non-ignored manuscript about to be committed, which is exactly the file O4 will fail on the very next run regardless; widening only moves the catch one run earlier, before the mistake reaches origin/main. Independently re-verified the probe (isolated tmp git repo, never the real tree): tracked-only misses an untracked-but-not-ignored file naming a disputed object, widened catches it. Real committed tree: `emc_systems_map_check.py --check` -> 0 ERROR, 0 WARN, unchanged (zero collateral, as predicted -- widening is unmeasurable from a clean tree by construction, same finding AUT-PD-036 already made for the 3 siblings). Widened _tracked_files() to `--cached --others --exclude-standard`; updated its docstring to name this decision explicitly (so a future sweep does not re-raise it as a fresh defect, per the row's own instruction); added 2 regression tests mirroring test_lint_citations.py's exact AUT-PD-036 convention, mutation-tested (reverting the widened git command makes the new test fail, confirmed live). Full test_emc_systems_map_check.py suite: 50 passed.",
       "dispatch_log": [
         {
           "utc": "2026-08-28T19:30:00Z",

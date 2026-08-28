@@ -13,6 +13,7 @@ import copy
 import importlib.util
 import json
 import os
+import subprocess
 
 import pytest
 
@@ -386,6 +387,59 @@ def test_the_implicit_uses_are_registered_at_all(m):
         "the object must state that O4 is name-based and therefore incomplete -- a guard whose "
         "limit is undocumented reads as a guard with no limit"
     )
+
+
+def _init_git_repo(path):
+    for cmd in (["git", "init", "-q"],
+                ["git", "config", "user.email", "probe@example.com"],
+                ["git", "config", "user.name", "probe"]):
+        subprocess.run(cmd, cwd=path, check=True, capture_output=True)
+
+
+def test_tracked_files_sees_an_untracked_file_before_it_is_committed(tmp_path, monkeypatch):
+    """AUT-PD-041, 2026-08-28. `_tracked_files()` used to run a bare `git ls-files` -- tracked-
+    committed files only -- so a brand-new manuscript naming a disputed-identity object with no
+    classification passed O4 clean while uncommitted, and only went red the run AFTER it reached
+    `origin/main`. The identical shape AUT-PD-036 fixed in lint_citations.py and two siblings.
+
+    Isolated tmp git repo, never the real working tree, per this repo's own §6 hazard.
+
+    ⚠ MUTATION-TESTED: reverting to a bare `["git", "-C", REPO, "ls-files"]` makes this fail (the
+    untracked file drops out), confirming the test has power rather than passing regardless.
+    """
+    _init_git_repo(tmp_path)
+    (tmp_path / "committed.md").write_text("names nothing disputed\n", encoding="utf-8")
+    subprocess.run(["git", "add", "committed.md"], cwd=tmp_path, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-q", "-m", "init"], cwd=tmp_path, check=True, capture_output=True)
+    (tmp_path / "draft.md").write_text("names OBJ-DISPUTED-EXAMPLE with no classification\n",
+                                        encoding="utf-8")
+
+    monkeypatch.setattr(chk, "REPO", str(tmp_path))
+    chk._TRACKED_CACHE.clear()
+    files = chk._tracked_files()
+
+    assert "committed.md" in files
+    assert "draft.md" in files, (
+        "an untracked-but-not-ignored file must be visible to O4 before it is committed, or a "
+        "brand-new unclassified use is caught only one commit too late")
+
+
+def test_tracked_files_still_honours_gitignore_for_untracked_files(tmp_path, monkeypatch):
+    """The widened scan adds `--others --exclude-standard`, not `--others` alone -- the original
+    rationale for sweeping the git index ('untracked scratch files cannot fail a build') survives
+    the widening intact: a gitignored file must stay invisible."""
+    _init_git_repo(tmp_path)
+    (tmp_path / ".gitignore").write_text("ignored.md\n", encoding="utf-8")
+    subprocess.run(["git", "add", ".gitignore"], cwd=tmp_path, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-q", "-m", "init"], cwd=tmp_path, check=True, capture_output=True)
+    (tmp_path / "ignored.md").write_text("names OBJ-DISPUTED-EXAMPLE but must not be scanned\n",
+                                          encoding="utf-8")
+
+    monkeypatch.setattr(chk, "REPO", str(tmp_path))
+    chk._TRACKED_CACHE.clear()
+    files = chk._tracked_files()
+
+    assert "ignored.md" not in files
 
 
 def test_all_three_classifications_are_actually_used(m):
