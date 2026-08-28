@@ -2024,24 +2024,24 @@
     {
       "id": "AUT-062",
       "_derived": true,
-      "what": "Read which other kinases phosphorylate the substrate, to size how much of the signal SGK1 could account for.",
+      "what": "Read which other kinases phosphorylate the substrate, to size how much of the signal SGK1 could account for.  ✅ ANSWERED 2026-08-28 (CYC-0053-3217966b, seat s62-sgk1, merged at b3700d21f; artifact research/literature/ndrg1-kinase-attribution-2026-08-28.json). Substrate established from the repository, not assumed: NDRG1. ⛔⛔ THE QUESTION'S PREMISE DOES NOT HOLD FOR THIS ROUTE'S DATA, AND THAT IS THE RESULT: RT-SGK1 reads NDRG1 TRANSCRIPT ABUNDANCE, while every SGK1→NDRG1 mechanism in the literature is PHOSPHORYLATION OF PROTEIN, so there is no phosphorylation in the number for other kinases to divide. No fraction is assignable to SGK1 — which is NOT 'SGK1 contributes nothing', and the seat corrected its own first draft for overstating it as 'zero by construction'. Discriminating observations: in sgk1−/− cells NDRG1 is 'similarly expressed' while its phosphorylation falls (PMID 25200670); Hsp90 inhibition moves abundance UP and phosphorylation DOWN (PMID 19682504) — the two readouts can be ANTI-correlated. What drives NDRG1 abundance is hypoxia via HIF-1 (PMID 15341671), and this repository's own data has all six published hypoxia signatures higher in EMC on both platforms with NDRG1 a core member of four of six. ⭐ FOR THE PHOSPHO READING THE ROUTE DOES NOT HAVE: UNKNOWN, bounded away from BOTH 0% and 100% — SGK1, SGK3 and Akt have each been shown individually SUFFICIENT to carry p-NDRG1 in some human cell background (PMIDs 15461589, 31461270, 23581296), so the answer is a property of the cell rather than a constant. One retrieved record is typed Retracted Publication by PubMed and is recorded as excluded, carrying no claim. Settled by a p-NDRG1 (Thr346/Ser330) measurement in EMC material under an SGK-directed perturbation WITH AN AKT ARM AS CONTROL — blocked on BLK-NO-WET-LAB. ★ EFFECT: WEAKENS ONE CLAUSE, NOT THE ROUTE. The grade's 'which is an activity-shaped reading rather than an abundance one' is the entire inferential step from a number to a statement about SGK1, and it is unsupported; the grade's own 'not attributable to SGK1' was already right, for a NARROWER reason than it gave. PUB-KINASE-LEADS is unharmed — a lead whose corroboration rests on a transcript-for-phospho substitution is a fourth instance of exactly what that paper is about.",
       "serves": {
         "route": "RT-SGK1",
         "publication": "PUB-KINASE-LEADS",
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "experiment",
-      "state": "queued",
+      "state": "done",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "CYC-0053-3217966b",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
+      "last_evidence_utc": "2026-08-28",
       "score": 152.0,
       "score_inputs": {
         "live": true,
@@ -2056,7 +2056,7 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0
       },
-      "claimed_utc": "2026-08-28T15:59:20Z"
+      "claimed_utc": null
     },
     {
       "id": "AUT-074",
