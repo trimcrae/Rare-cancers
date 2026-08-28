@@ -83,16 +83,79 @@ PREFLIGHT_PYCACHE="$(mktemp -d)"
 export PYTHONPYCACHEPREFIX="$PREFLIGHT_PYCACHE"
 trap 'rm -rf "$PREFLIGHT_PYCACHE"' EXIT
 
-# ⛔ AUT-PD-026, 2026-08-27: A FRESH GIT WORKTREE NEVER GETS THE SessionStart HOOK, SO
-# dev-setup.sh NEVER RUNS THERE, AND THIS SCRIPT SILENTLY FALLS BACK TO AN INCOMPLETE
-# INTERPRETER. Two independent seats hit the identical signature (50 failed, ~8046 of 8113
-# collected) from the same cause: the 2026-08-27 worktree-in/branch-out contract puts every
-# seat in exactly the environment the hook cannot reach. `_dep_hint()` below only prints a
-# message after the damage is done -- a seat has to notice the hint, read it correctly, and
-# run the command itself, which is precisely the class of failure CLAUDE.md §4 exists for
-# ("an absent reading is not a reading of absence"). `--if-needed` is built to be cheap and
-# idempotent (an import check, exit 0 immediately if already satisfied), so running it
-# unconditionally here costs ~nothing on a healthy box and fixes the worktree case outright.
+# ⛔ AUT-PD-026 — THE CALL BELOW IS RIGHT AND THE MECHANISM THIS COMMENT USED TO NAME WAS WRONG.
+# ⚠ Superseded, retained (CLAUDE.md rule 1.2): "AUT-PD-026, 2026-08-27: A FRESH GIT WORKTREE NEVER
+# GETS THE SessionStart HOOK, SO dev-setup.sh NEVER RUNS THERE, AND THIS SCRIPT SILENTLY FALLS BACK
+# TO AN INCOMPLETE INTERPRETER ... the 2026-08-27 worktree-in/branch-out contract puts every seat in
+# exactly the environment the hook cannot reach." That was the SECOND of three guesses on this entry
+# and it is disproved: a worktree shares /usr/local/lib/python3.11/dist-packages and /root/.local
+# with the main tree and has no venv, no PYTHONPATH and no per-tree pytest config, so there is
+# nothing for it to miss. Measured 2026-08-28 in both trees at once: identical `python3`, identical
+# `sys.path`, identical pymbar file.
+#
+# ⭐⭐ THE MEASURED MECHANISM (2026-08-28, CYC-0053): THE INTERPRETER THIS SCRIPT RUNS THE SUITES IN
+# IS CHOSEN FROM MUTABLE GLOBAL STATE, AND dev-setup PROVISIONS ONLY THE INTERPRETER THAT STATE
+# NAMED AT THE MOMENT dev-setup RAN. Nothing re-asks afterwards, and the answer moves.
+#   * The image ships system python3 EMPTY. On a container booted 13:50:37 UTC that day, every
+#     dist-info under /usr/local/lib/python3.11/dist-packages carried a post-boot timestamp and the
+#     only pre-boot entry was uno.pth (2026-03-31). The baked uv `pytest` tool venv carried plain
+#     pytest and nothing scientific (iniconfig/packaging/pluggy/pygments, all 2026-03-31).
+#   * dev-setup's `_preflight_python` mirrors the `if python3 -c "import pytest"` branch below. While
+#     system python3 has no pytest it answers "the tool venv", so dev-setup's step 3 — TEST_DEPS into
+#     the RUN interpreter — is skipped as a correct no-op, and the scientific stack lands only in the
+#     tool venv.
+#   * ⭐ THE DISCRIMINATING OBSERVATION, same container: the SessionStart dev-setup ran 13:51:07–13:51:16
+#     (SYSTEM_DEPS into python3, then `uv tool install --force` into the tool venv) and wrote NOTHING
+#     scientific into system python3. That absence is proof its `run_py != tool_py` test was FALSE,
+#     i.e. the run interpreter was the tool venv. pytest then entered system python3 at 14:10:58 and
+#     pymbar at 14:11:42. For those 44 seconds the branch below resolved to an interpreter holding
+#     pytest and no pymbar — the reported condition, in this container, with no worktree involved.
+#   * The window is not bounded by that pip run. It lasts as long as system python3 holds pytest and
+#     lacks the scientific stack, and several ordinary acts open it: this file's own advice above the
+#     `$PYTEST` branch to `python3 -m pip install pytest`, any install that pulls pytest transitively
+#     (pytest-xdist does), or one sibling seat installing one package.
+#   * ⭐⭐ AND THE WHOLE MECHANISM IS PRESERVED, IN FULL, IN A LOG NOBODY HAD READ: GitHub Actions run
+#     33104631542 (2026-08-27 18:41–19:12 UTC, sha 8b3fb54a2c7d5a5562b456103b0c57412ec71de0). That
+#     day's `preflight-full-record.yml` ran `./scripts/dev-setup.sh --if-needed || pip install -q
+#     pypdf pdfminer.six jsonschema pytest`. dev-setup announced the hole correctly — "the pytest
+#     tool venv is missing: (pytest interpreter not found)", "the interpreter preflight RUNS THE
+#     SUITES in — is missing: (no interpreter would run the suites)" — and then FAILED, because a
+#     vanilla runner has no `uv`. ⛔ The `||` fallback then installed pytest into system python3 AND
+#     NOTHING SCIENTIFIC, which is the flip, executed explicitly in one line of YAML. `PREFLIGHT_FULL=1`
+#     then reported **53 failed, 7893 passed, 98 skipped**, named in full: 11 in
+#     test_abfe_diagnostics.py (pymbar), the rest in test_nr4a3_5bt / test_step1_map_diag /
+#     test_short_linker_probe (rdkit), test_slow_cv (numpy/scipy) and test_nrv04_retro_* (boto3).
+#     ⭐ THAT RUNNER HAD NO WORKTREE — a detached-HEAD `git checkout` on ubuntu-latest — which is the
+#     independent refutation the dev sandbox could not give, and it dates the same day as both seats.
+#     ⚠ It also shows the failures are NOT pymbar-specific: pymbar is merely alphabetically first,
+#     which is why every report of this defect has been filed under its name.
+#   * ⭐ AND IT REPRODUCES ON DEMAND IN TWO SECONDS, WITH A CONTROL, WITHOUT BREAKING THE SANDBOX --
+#     put a `pymbar/__init__.py` that raises ModuleNotFoundError on PYTHONPATH and run
+#     `research/modalities/tests/test_abfe_diagnostics.py`. Measured 2026-08-28: **11 failed, 10
+#     passed** shadowed against **21 passed** unshadowed, the 11 being the same 11 names CI run
+#     33104631542 printed, and 11+10=21 being exactly what dev-setup.sh's own header records for
+#     2026-08-24 ("11 failures ... installing it into python3 alone took the file to 21 passed").
+#     The traceback is verbatim the one every report of this quotes:
+#     `nr4a3_abfe.py:69: in _solve_mbar / from pymbar import MBAR / ModuleNotFoundError`.
+#     ⛔ Do this rather than uninstalling anything: the interpreters are SHARED with every
+#     concurrent seat, so a real uninstall breaks their runs and heals before you can read yours --
+#     which is precisely why this defect went undiagnosed from 2026-08-24 to 2026-08-28, across
+#     three environments, and attracted three wrong mechanisms in the meantime.
+# ⚠ SO THE WORKTREE WAS A CONFOUND, NOT A CAUSE. What the worktree correlates with is WHO ran: seats
+# run concurrently and install things, and until the call below existed the SessionStart hook was the
+# only thing that re-ran dev-setup — at most once, at session start. Measured on that container:
+# dev-setup at 13:51:07–13:51:16, no further write into either interpreter until 14:09:30, and the
+# flip at 14:10:58. Twenty minutes in which the chosen interpreter could move and nothing re-asked.
+# ⛔ UNKNOWN, and left unknown rather than guessed a fourth time: which process installed pytest into
+# system python3 at 14:10:58. The mechanism does not rest on it — `_preflight_python` is a function of
+# mutable global state, so ANY writer flips it. `_dep_hint()` below only prints
+# after the damage is done — a seat has to notice the hint, read it correctly and act on it, which is
+# the class CLAUDE.md §4 exists for ("an absent reading is not a reading of absence").
+# ⭐ The call below is what actually closes it, for a reason the old comment did not state: it re-asks
+# at the moment the answer is USED, which is the only moment that can be right. `--if-needed` is
+# cheap and idempotent (an import check, exit 0 if already satisfied), and `set -euo pipefail`
+# (line 49) makes a dev-setup that CANNOT repair the run interpreter abort this script rather than
+# let it report a manufactured number.
 if [ -x ./scripts/dev-setup.sh ]; then
   ./scripts/dev-setup.sh --if-needed
 fi
@@ -314,14 +377,38 @@ echo "   pytest: $PYTEST_BRANCH"
 # so the bare form raises AttributeError, the probe exits non-zero with EMPTY stdout, and the
 # branch below reports "MISSING: unknown" on a perfectly healthy environment. That is exactly what
 # this block was written to prevent, and it did it to itself on its first run.
-if ! _dep_probe="$(python3 -c "
+# ⛔⛔ AND THE PROBE ASKS THE INTERPRETER THAT WILL RUN THE TESTS, NOT `python3`.
+# ⚠ ONE-OF-A-PAIR (paper-hardening §8b.2), and the sibling sits ~20 lines BELOW: the xdist probe was
+# moved onto `$PYTEST` on 2026-08-23 for precisely this trap, and this probe -- immediately above it,
+# in the same file, written against the same incident -- was left hard-coding `python3`. When the
+# branch above takes the console-script fallback, `$PYTEST` is the uv tool venv and `python3` is a
+# DIFFERENT interpreter with a different site-packages, so the banner answered about an interpreter
+# no test would import from. Measured 2026-08-28: pymbar resolves to
+# /usr/local/lib/python3.11/dist-packages/pymbar/__init__.py under `python3` and to
+# /root/.local/share/uv/tools/pytest/lib/python3.11/site-packages/pymbar/__init__.py under the tool
+# venv -- two interpreters, two answers, and only one of them is about the run.
+# ⭐ MEASURED FALSE-OK, not reasoned (2026-08-28): with `$PYTEST` a console script whose shebang named
+# a venv holding none of the seven, the hard-coded form printed `OK  every probed package imports`
+# while the resolved form printed all seven MISSING. Same box, same second. A green banner over a run
+# that could not import one of them is worse than no banner -- it is the "reports while measuring
+# nothing" defect in the line written to prevent it.
+# ⛔ Asserted by scripts/tests/test_the_dep_probe_asks_the_interpreter_that_runs_the_tests.py, which
+# gate 13 runs on every commit, because this is the third time in this file that a probe and the run
+# it describes have drifted apart (pytest 2026-08-15, xdist 2026-08-23, this one).
+_PYTEST_PYTHON="$(command -v python3)"
+if [ "$PYTEST" = "pytest" ]; then
+  # the console script's shebang names the interpreter whose site-packages the tests actually see
+  _PYTEST_PYTHON="$(head -1 "$(command -v pytest)" | sed 's/^#!//' | awk '{print $1}')"
+fi
+if ! _dep_probe="$("$_PYTEST_PYTHON" -c "
 import importlib.util, sys
 missing = [m for m in ('pytest','numpy','scipy','pymbar','yaml','pdfminer','pypdf')
            if importlib.util.find_spec(m) is None]
 print(' '.join(missing))
 sys.exit(1 if missing else 0)
 " 2>/dev/null)"; then
-  echo "   ⛔ MISSING, and this run's failures are SUSPECT until traced: ${_dep_probe:-probe itself failed}"
+  echo "   ⛔ MISSING in $_PYTEST_PYTHON -- the interpreter this run's tests import from -- and this"
+  echo "      run's failures are SUSPECT until traced: ${_dep_probe:-probe itself failed}"
   echo "      Run ./scripts/dev-setup.sh --if-needed BEFORE believing any failure below."
   echo "      ⛔ Do NOT add these to research/modalities/tests/sandbox-failure-baseline.txt —"
   echo "         that grants a permanent amnesty to guards that are healthy."
@@ -349,10 +436,35 @@ fi
 # run that found it: the modalities suite took **1090.4 s serial** where this file's own note
 # records 336.9 s at `-n 4`. ⭐ So the probe now runs under the same interpreter as the tests, via
 # pytest's own plugin list — the one answer that cannot disagree with what the run will do.
+# ⛔⛔ AND THE PROBE MUST NOT BE A `grep -q` PIPE, BECAUSE `set -o pipefail` TURNS A SUCCESSFUL MATCH
+# INTO A FAILURE ROUGHLY HALF THE TIME. ⚠ Superseded, retained (CLAUDE.md rule 1.2):
+#     if [ "${PREFLIGHT_SERIAL:-0}" != "1" ] && $PYTEST --version --version 2>/dev/null | grep -q xdist
+# ⭐ MEASURED 2026-08-28, and it was caught in the act: this script's own modalities stage was
+# observed running `python3 -m pytest research/modalities/tests/ …` with NO `-n`, on a box where
+# `python3 -m pytest --version --version` prints `pytest-xdist-3.8.0` twice and `nproc` is 4.
+# 60 samples of the exact pipeline under `set -uo pipefail`: **34 of 60 answered NO XDIST, and in
+# every one of the 34 it was PYTEST that exited non-zero — `PIPESTATUS=(1 0)`, grep matched every
+# single time.** `grep -q` exits the instant it matches, pytest's stdout becomes EPIPE, Python exits
+# 1, and `set -euo pipefail` (line 49) reports the pipeline as failed. So the branch answered "no
+# xdist" on a machine that has xdist, non-deterministically, at a rate near a coin flip.
+# ⛔ THE COST IS THIS FILE'S OWN MEASUREMENT: the modalities suite is 968.9 s serial against 336.9 s
+# at `-n 4`. Roughly half of every scoped-or-full modalities run has silently been paying ~11 extra
+# minutes since the probe was moved onto `$PYTEST` on 2026-08-23 to fix a DIFFERENT defect — which
+# is the third repeat of this file's recurring shape: the answer was about the pipeline, not the run.
+# ⭐ THE FIX IS TO NOT PIPE. Capture once, match with `case`; no second process, so nothing can be
+# killed early and nothing can race. `|| true` keeps a genuinely broken `$PYTEST` from aborting the
+# script here rather than at the gate that needs it, and the empty string then falls through to
+# serial, which is the safe direction.
+# ⛔ Asserted by scripts/tests/test_the_dep_probe_asks_the_interpreter_that_runs_the_tests.py.
 PYTEST_PAR=""
-if [ "${PREFLIGHT_SERIAL:-0}" != "1" ] && $PYTEST --version --version 2>/dev/null | grep -q xdist; then
-  _cores=$(nproc 2>/dev/null || echo 1)
-  [ "$_cores" -gt 1 ] && PYTEST_PAR="-n $_cores --dist loadfile"
+_pytest_selftest="$($PYTEST --version --version 2>/dev/null || true)"
+if [ "${PREFLIGHT_SERIAL:-0}" != "1" ]; then
+  case "$_pytest_selftest" in
+    *xdist*)
+      _cores=$(nproc 2>/dev/null || echo 1)
+      [ "$_cores" -gt 1 ] && PYTEST_PAR="-n $_cores --dist loadfile" || true
+      ;;
+  esac
 fi
 
 
