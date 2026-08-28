@@ -49,7 +49,17 @@
     "published_to": [
       "main"
     ],
-    "note": "The paired anchor-plus-effector reach enumeration in the TCIP configuration, run 2026-08-06 at $0 on CPU. Deterministic: two runs under differing PYTHONHASHSEED produce byte-identical JSON after the per-cell seeds moved off salted hash() to zlib.crc32. Its two size-class bodies (birc2, mdm2) are SIZE-AND-SHAPE PROXIES, not transcriptional effectors — no effector arm is staged in this repository."
+    "note": "The paired anchor-plus-effector reach enumeration in the TCIP configuration, run 2026-08-06 at $0 on CPU. Deterministic: two runs under differing PYTHONHASHSEED produce byte-identical JSON after the per-cell seeds moved off salted hash() to zlib.crc32. Its two size-class bodies (birc2, mdm2) are SIZE-AND-SHAPE PROXIES, not transcriptional effectors, and they alone carry the paired size comparison. From 2026-08-06 the enumeration ALSO runs 2 NAMED transcriptional effectors staged in ART-TCIP-EFFECTOR-ARMS; the admissibility statement is upgraded for those arms and the size comparison is NOT. Superseded, retained: 'no effector arm is staged in this repository.'"
+  },
+  {
+    "id": "ART-TCIP-EFFECTOR-ARMS",
+    "path": "research/modalities/nr4a3-effector-arm-registry.json",
+    "produced_by": "research/modalities/nr4a3_effector_stage.py",
+    "workflow": ".github/workflows/fusion-cpu-extras.yml",
+    "published_to": [
+      "main"
+    ],
+    "note": "The input RT-TCIP was blocked on: staged rigid bodies for NAMED transcriptional effectors, so the route can speak about an effector rather than a size class. BCL6 BTB homodimer (7LWG, chains A+B, 243 res, ligand YN7) and BRD4 BD1 (4ZC9, 127 res, ligand 4MW). Discovery is by UniProt accession — this module supplies NO PDB id — and the rigid body is DERIVED from the chains the chosen ligand actually contacts, because the BCL6 groove spans the dimer and a one-chain body would be half a binding site. ⚠ The body is the LIGAND-BINDING DOMAIN, not the protein, and no DNA or chromatin is present, so any admitting answer computed on it is an UPPER bound. ⚠ brd4_bd1's exit-atom exposure (13.65 A) is OUTSIDE the committed E3 arms' range (5.00-5.79 A) and its acceptance may not be pooled with or ranked against theirs; bcl6 (5.44 A) is inside it. The citation that motivates the CHOICE of effector (10.1021/jacs.5c05634) has NOT cleared verify-refs and supplies no number."
   },
   {
     "id": "ART-FUSION-OBJECT-INVENTORY",

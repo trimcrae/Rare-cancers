@@ -3532,17 +3532,17 @@
         "strategy": "ST-PROXIMITY"
       },
       "kind": "negative",
-      "state": "queued",
+      "state": "done",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "CYC-0069-8226e21b",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-06",
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
       "score": 63.0,
       "score_inputs": {
         "live": false,
@@ -3557,13 +3557,15 @@
         "fruitless_attempts": 1,
         "age_factor": 1.0
       },
-      "claimed_utc": "2026-08-28T21:05:15Z",
+      "claimed_utc": null,
       "dispatch_log": [
         {
           "utc": "2026-08-28T21:05:15Z",
           "fingerprint_at_dispatch": "2026-08-06|None"
         }
-      ]
+      ],
+      "_closed_by": "CYC-0069-8226e21b",
+      "_resolution": "DONE, AND THE TWO HALVES WERE IN OPPOSITE STATES. ⭐ THE RE-RUN WAS ALREADY COMPLETE and had been since 2026-08-06, the same date this row's own last_evidence carried: nr4a3-tcip-reach.json holds a ★_named_effector block computed from bcl6's and brd4_bd1's own cells (BCL6 BTB homodimer 7LWG, 243 res; BRD4 BD1 4ZC9, 127 res), both admitting at the 12-atom gate with a shortest linker of 6 backbone atoms, and nr4a3-tcip-reach.md §1b plus the route memo §7b already carry the named-effector restatement with the line on what may NOT be upgraded. Nothing was re-sampled: the enumeration costs 8805 s and re-running it would have re-derived numbers that had not moved.\n⛔ THE DOCUMENT HALF WAS NOT DONE, AND THE ARTIFACT'S OWN map_edits_required SAID SO: 4 of 9 edits PENDING. Applied here, verbatim from the described proposals: systems/graph/artifacts.json's ART-TCIP-REACH note (which still asserted 'no effector arm is staged in this repository', now false) and a new ART-TCIP-EFFECTOR-ARMS record; systems/graph/routes.json's RT-TCIP.artifacts, readiness.why_not_higher and closure_note. research/manuscripts/emc-systems-map.json reprojected, because systems_check polices legacy/graph agreement on closure_note and artifacts. Views regenerated. ⛔ NO blocker, grade or closure_kind moved: staging a body is an INPUT, not a result.\n⚠ ONE JUDGEMENT CALL, RECORDED BECAUSE IT DEVIATES FROM THE DESCRIBED EDIT: dropping the one entry in readiness.missing would have left it EMPTY, which asserts 'nothing missing' — stronger than the evidence supports, since the paired SIZE comparison is still computed on the four E3 bodies alone. It was REPLACED with that remaining limit rather than emptied.\n⛔ AND THE 4 PENDING ROWS WERE NOT ALL REAL WORK — the state machine was misreporting, which is filed and fixed as part of this row (see AUT-PD-139 in the receipt's diagnostic). One of the four had been applied weeks earlier in better wording than proposed."
     },
     {
       "id": "AUT-043",
@@ -7996,6 +7998,35 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-139",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-TCIP",
+        "publication": "PUB-TCIP",
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0069-8226e21b",
+      "score": 120.0,
+      "_score_basis": "the instrument that reports whether a described edit is owed was reporting four false positives, one of them for weeks",
+      "depends_on_evidence": "nr4a3-tcip-reach.json -> map_edits_required, read against the live files 2026-08-28",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "an instrument fix; nothing published, submitted or deposited",
+      "what": "⛔⛔ THE MAP-EDIT STATE MACHINE CANNOT SEE AN EDIT APPLIED THE WAY THIS REPOSITORY REQUIRES, SO IT REPORTED FOUR FALSE 'PENDING' ROWS — one of them for three weeks. `map_edits_required` decides PENDING by asking whether the text an edit meant to REPLACE is still in the file. CLAUDE.md rule 1.2 requires a corrected passage to CARRY its superseded wording (\"Superseded, retained: '<old sentence>'\"), so applying an edit correctly leaves that text findable and the row never clears. The convention and the checker were in direct conflict.\nTWO MORE SHAPES FAIL IDENTICALLY, each found only by fixing the one before it: (a) an ADDITIVE edit's anchor survives its own application — RT-TCIP.artifacts proposes '\"ART-TCIP-REACH\"' -> '\"ART-TCIP-REACH\", \"ART-TCIP-EFFECTOR-ARMS\"', so the old string is a SUBSTRING of the new one and the row could never reach APPLIED by any action; (b) the proposal for that same row spans TWO LINES, and the search is line-at-a-time, so the applied check could only ever answer no.\nFIXED: the PENDING question is asked only of each line's LIVE part (up to any supersession marker); an uninformative additive anchor is overridden only by a POSITIVE applied reading; multi-line needles are matched across lines with whitespace collapsed.\n⚠ AND THE FIRST TWO ATTEMPTS AT THIS WERE EACH WRONG IN A WAY THE TESTS CAUGHT: ignoring an additive anchor outright dropped the 'closure_kind — NO EDIT REQUIRED' row to STALE_ANCHOR, the one state that FAILS THE BUILD, for a row whose point is that nothing is owed; and the multi-line branch was written correctly but tested AFTER `_strip_emphasis`, which collapses newlines — so the branch read correctly and never ran.\n⛔ MUTATION-TESTED, AND THE FIRST PASS WAS A FALSE PASS. Three reverts were run against a COPY: two 'were not caught', and re-running with an assertion that the mutation had actually applied showed one of those had silently not applied at all. Of the genuine two, one was a real gap — nothing asserted that the STATE MACHINE passes the live-only flag, only that the helper honours it when handed it, so the helper could be correct and unused. A test was added and all three reverts now fail.",
+      "_what_is_left": "Nothing. 12 tests in research/modalities/tests/test_a_described_map_edit_resolves_through_the_correction_convention.py, including the negative control that a genuinely owed edit still reads PENDING and a genuinely stale anchor still reads STALE_ANCHOR — three narrowings must not buy a green board by deleting the alarm."
     }
   ]
 }

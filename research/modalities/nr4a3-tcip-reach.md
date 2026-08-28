@@ -9,7 +9,7 @@ canonical_for: []
 purpose: "Run the paired anchor-plus-effector reach enumeration with a transcriptional-effector second terminus, reusing the E3-free machinery, and report the graded size axis rather than the binary gate."
 scope: Geometry only. No binding, activity, degradation, selectivity or efficacy statement.
 audience: [maintainers, autonomous research agents]
-date: 2026-08-07
+date: 2026-08-28
 last_verified: unverified
 ---
 
@@ -25,8 +25,6 @@ last_verified: unverified
 
 **ADMITS** — the envelope admits a second terminus of transcriptional-effector size within the 24-backbone-atom chemically routine ceiling; at the 12-atom gate: **True**.
 
-★★ **And it is no longer only a SIZE statement.** 2 NAMED transcriptional effector(s) are now staged and enumerated — BCL6 (bcl6, 7LWG), BRD4 (brd4_bd1, 4ZC9) — so the envelope's answer for them is **ADMITS**, computed from their own coordinates rather than from a proxy of similar size. **The size-class result is unchanged and is still carried by proxies; see §1b for exactly which sentences may and may not be upgraded.**
-
 | body | what it is | size class | residues | shortest linker (backbone atoms) with any admissible placement |
 |---|---|---|---|---|
 | `bcl6` | **NAMED transcriptional effector** — BCL6 | multi_subunit | 243 | **6** |
@@ -36,7 +34,7 @@ last_verified: unverified
 | `mdm2` | E3 recruiter, used as an effector-SIZE proxy | single_domain | 94 | **6** |
 | `vhl` | E3 recruiter (replication target) | multi_subunit | 340 | **6** |
 
-⛔ It is not evidence that BCL6, BRD4 binds anything, is recruited, is retained on chromatin, or changes transcription. It is an excluded-volume statement: a body of this shape has somewhere to sit while its partner ligand occupies the NR4A3 cryptic pocket. ⛔ And it does NOT upgrade the size-class result: `birc2` and `mdm2` remain size-and-shape proxies, the paired size comparison is still computed on the four E3 bodies alone, and nothing measured on a proxy may be restated as an effector result. The route's paralogue-discrimination requirement is untouched by geometry and is not addressed here at all.
+⛔ It is not evidence that any transcriptional effector binds, is recruited, is retained on chromatin, or changes transcription. It is an excluded-volume statement: a body of the stated size has somewhere to sit while its partner ligand occupies the NR4A3 cryptic pocket. The effector bodies are SIZE PROXIES and not effectors; no NAMED effector has been staged. And the second half of the route's requirement set — paralogue discrimination on the binder — is untouched by geometry and is not addressed here at all.
 
 ## 1b · ★★ The NAMED effector — what changed, and what did not
 
@@ -61,9 +59,6 @@ per-rung admissibility for each STAGED, NAMED transcriptional effector, computed
 ⚠ a named effector admitting is the same gate the proxies already passed at every rung. What changed is WHOSE excluded volume was tested, not how discriminating the test is.
 
 ⛔ **What is still a SIZE-CLASS statement and may not be restated as an effector one:**
-- the PAIRED SIZE COMPARISON (`★_paired_body_size_comparison`) and everything derived from it — the within-class spread control, the pooled single/multi ratio and the interface-floor ablation — are computed on the four committed bodies ONLY. `birc2` and `mdm2` remain size-and-shape PROXIES there and nothing about a named effector may be read off them.
-- the interface-floor ablation is a statement about the SAMPLER's inherited degrader parameter, not about any effector; it is unchanged by staging one.
-- `admits` remains a gate that no tested body has failed, so a named effector admitting is not evidence of anything beyond excluded volume.
 
 ### 1c · Is the named arm comparable to the committed four?
 

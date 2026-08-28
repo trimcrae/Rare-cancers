@@ -106,10 +106,10 @@ A transcriptional chemical inducer of proximity brings an effector to a DNA-boun
 
 **`preprint`**
 
-The enumeration has now run and the route holds a computed result of its own, so the geometric half of PUB-TCIP is reportable. What it cannot yet name is an effector: the second-terminus bodies staged in this repository are all E3 ligase recruiters, and the two used at effector size are size-and-shape proxies. A statement about a named transcriptional effector still needs that effector staged from a deposited structure, which is a CI-only RCSB fetch.
+The enumeration has now run and the route holds a computed result of its own, so the geometric half of PUB-TCIP is reportable. It can now name an effector: 2 transcriptional-effector bodies are staged (bcl6, brd4_bd1) and the enumeration runs on them, so the admissibility statement is no longer proxy-carried. What is still proxy-carried is the SIZE comparison, which is computed on the four E3 bodies alone. No blocker, grade or closure_kind moved: staging a body is an INPUT, not a result. Superseded, retained: 'What it cannot yet name is an effector: the second-terminus bodies staged in this repository are all E3 ligase recruiters, and the two used at effector size are size-and-shape proxies. A statement about a named transcriptional effector still needs that effector staged from a deposited structure, which is a CI-only RCSB fetch.'
 
 **Missing:**
-- a staged transcriptional-effector body, so the result can name an effector rather than a size class
+- a NAMED-effector size comparison: the paired size result and everything derived from it (the within-class spread control, the pooled single/multi ratio, the interface-floor ablation) are still computed on the four E3 bodies alone, so birc2 and mdm2 remain size-and-shape proxies there and no named-effector claim may be read off them
 
 ## Where this route ends — the paper
 
@@ -156,6 +156,6 @@ Re-run the reach enumeration with the staged BCL6 arm and restate the result as 
 
 **L5 evidence:** [EV-EB-TCIP-2025](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
-**L5 artifacts:** [ART-TCIP-REACH](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
+**L5 artifacts:** [ART-TCIP-EFFECTOR-ARMS](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against), [ART-TCIP-REACH](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-PROXIMITY](L1-st-proximity.md) · [← L0](L0-ecosystem.md)
