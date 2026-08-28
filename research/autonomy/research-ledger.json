@@ -205,7 +205,7 @@
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
-      "blocked_evidence": "NOT blocked in the strict sense -- CLOSED at 64fdc665b0263ec0dfeae821d4c9938e0330a520 (publish_bar clause preflight_full_green reads OK there: research/autonomy/preflight-receipts/64fdc665b0263ec0dfeae821d4c9938e0330a520.json, FULL run exit 0, 2026-08-27T19:46:18Z). But main advanced 5+ commits after that sha (unrelated infra work from other concurrent cycles; the ASO manuscript itself is byte-identical), so publish_bar at fresh HEAD reads the clause ???? again -- sha-exact by design, not a defect. AUT-PROP-020 (hardening round 10) has not yet run and will itself change the manuscript text before posting, so re-chasing PREFLIGHT_FULL at every intermediate HEAD is premature. The correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands its findings, against whatever commit is then final. .github/workflows/preflight-full-record.yml now does this in ~25-30 min for $0 real dollars -- dispatch it with the final sha once round 10 converges.",
+      "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 2,
       "last_evidence_utc": "2026-08-27",
@@ -225,7 +225,8 @@
       "score_inputs": {
         "blocked_with_evidence": true,
         "age_factor": 0.0714
-      }
+      },
+      "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question."
     },
     {
       "serves": {
@@ -2302,9 +2303,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0053-3217966b",
-      "claimed_utc": "2026-08-28T14:19:08Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2319,7 +2320,7 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "internal scoring-engine bugfix; nothing published, submitted or deposited",
-      "what": "research/autonomy/priority.py's apply_session_penalties() resolves prerequisite chains in a SINGLE linear pass over `entries`, with no topological ordering: for a chain AUT-049 (blocked) <- AUT-PROP-018 (prerequisite of AUT-049, itself ALSO blocked_with_evidence) <- AUT-PROP-021 (prerequisite of AUT-PROP-018), the loop's correctness depends on iteration order and on how many times a node's score has already been mutated when a downstream child reads `parent[\"score\"]`. Concretely reproduced on the current committed ledger: AUT-PROP-018 and AUT-PROP-021 are hand-filed rows (filed_by CYC-0020) whose score/score_inputs are carried forward by merge() from a past --write rather than freshly derived, and AUT-PROP-018's `blocked_evidence` field holds stale text ('NOT blocked in the strict sense -- CLOSED at 64fdc665...') that nonetheless still triggers the penalty every run because the code is deliberately KEYED ON PRESENCE OF ANY TEXT, not on what the text says (a correct design for the common case, but it means this specific row's block can never self-clear without a session editing blocked_evidence to null). Separately, apply_age_factor running AFTER apply_session_penalties means a prerequisite's inherited score is locked in BEFORE its parent receives that cycle's age bonus, so a long-waited parent's true value grows past what its child already inherited. WHAT TO DO: (1) first, as a real, separate question: should AUT-PROP-018's `blocked_evidence` field be cleared (it reads as already-resolved prose, not a live blocker) -- if so this specific instance of the test failure may simply disappear, and that is worth checking BEFORE touching any scoring code. (2) If the underlying chain-resolution bug is still real after that, the correct fix is almost certainly to resolve apply_session_penalties' prerequisite loop to a FIXPOINT (iterate until no score changes, or topologically sort by prerequisite_of depth first) rather than a single pass, and to reconsider whether apply_age_factor should run once before AND the inheritance recomputed after, or whether age should be folded into the same fixpoint iteration. (3) Whatever the fix, verify against BOTH test_a_prerequisite_inherits_the_parents_value_not_its_penalty AND the two tests a naive reorder broke (test_an_evidenced_block_drops_out_of_the_queue, test_a_prerequisite_outranks_the_thing_it_unblocks) plus the full systems/tests + research/autonomy/tests suites, not just the one row that was red."
+      "what": "research/autonomy/priority.py's apply_session_penalties() resolves prerequisite chains in a SINGLE linear pass over `entries`, with no topological ordering: for a chain AUT-049 (blocked) <- AUT-PROP-018 (prerequisite of AUT-049, itself ALSO blocked_with_evidence) <- AUT-PROP-021 (prerequisite of AUT-PROP-018), the loop's correctness depends on iteration order and on how many times a node's score has already been mutated when a downstream child reads `parent[\"score\"]`. Concretely reproduced on the current committed ledger: AUT-PROP-018 and AUT-PROP-021 are hand-filed rows (filed_by CYC-0020) whose score/score_inputs are carried forward by merge() from a past --write rather than freshly derived, and AUT-PROP-018's `blocked_evidence` field holds stale text ('NOT blocked in the strict sense -- CLOSED at 64fdc665...') that nonetheless still triggers the penalty every run because the code is deliberately KEYED ON PRESENCE OF ANY TEXT, not on what the text says (a correct design for the common case, but it means this specific row's block can never self-clear without a session editing blocked_evidence to null). Separately, apply_age_factor running AFTER apply_session_penalties means a prerequisite's inherited score is locked in BEFORE its parent receives that cycle's age bonus, so a long-waited parent's true value grows past what its child already inherited. WHAT TO DO: (1) first, as a real, separate question: should AUT-PROP-018's `blocked_evidence` field be cleared (it reads as already-resolved prose, not a live blocker) -- if so this specific instance of the test failure may simply disappear, and that is worth checking BEFORE touching any scoring code. (2) If the underlying chain-resolution bug is still real after that, the correct fix is almost certainly to resolve apply_session_penalties' prerequisite loop to a FIXPOINT (iterate until no score changes, or topologically sort by prerequisite_of depth first) rather than a single pass, and to reconsider whether apply_age_factor should run once before AND the inheritance recomputed after, or whether age should be folded into the same fixpoint iteration. (3) Whatever the fix, verify against BOTH test_a_prerequisite_inherits_the_parents_value_not_its_penalty AND the two tests a naive reorder broke (test_an_evidenced_block_drops_out_of_the_queue, test_a_prerequisite_outranks_the_thing_it_unblocks) plus the full systems/tests + research/autonomy/tests suites, not just the one row that was red.  ✅ FIXED 2026-08-28 (CYC-0053-3217966b, seat s63-prereqscore, code on main at f9e19b4f3). ⛔ THE SIBLING FIX (a660303d1) ALONE DID NOT CLOSE IT — verified in a read-only clone at that commit with its own unmodified test: still red, only the failing PAIR moved. That fix addressed the ORDER; what kept the guard red is the ERASURE. Rule 2 ASSIGNS entry['score'], so a row that is both blocked-with-evidence and a prerequisite lost rule 1's −90 while its score_inputs went on saying blocked_with_evidence: true. Five rows carrying their own recorded block sat at ranks 6,7,9,11,12; test_an_evidenced_block_drops_out_of_the_queue checks only the TOP THREE, so it watched this and stayed green. After the fix they sit at 92–96. ⭐ THE ASSERTION'S SIGN IS INTENDED, NOT A BUG: penalty is −90, so `parent - penalty/2` reads parent+45, the MIDPOINT between the parent's penalised and unpenalised score — a child that inherited the penalty lands at the bottom of that interval, one that inherited the value at the top. ⛔ What WAS wrong is the other side: it compared the parent's unpenalised value against the child's FINAL score, which includes any penalty the CHILD carries for a block OF ITS OWN, so it read a correct scorer as broken. The tempting fix would have been deleting the child's own penalty — the bug, not the fix. It never fired that way before only because the penalty was being erased. ⭐ AND THE CHEAP FIRST QUESTION WAS A TRAP: clearing AUT-PROP-018's blocked_evidence under the OLD code went green by MINTING 90 points from a stale flag, taking that row to first place by 87 — a one-field edit would have closed the CI check and left the scorer broken. Age now runs BEFORE the penalties, deliberately: an assignment cannot see what is added to its parent afterwards. 752 passed, 0 failed; 6 mutants all caught; re-scoring twice moves 0 rows."
     },
     {
       "id": "AUT-044",
@@ -6052,6 +6053,120 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
+    },
+    {
+      "id": "AUT-PD-076",
+      "what": "⛔⛔ THE RANKER'S QUEUE HEAD IS DOMINATED BY ROWS THAT ARE ALREADY CLOSED — measured 2026-08-28 by seat s63-prereqscore: 7 of the top 10 at origin/main, and 10 of 10 AFTER the prerequisite fix, because a `prerequisite_of` row inherits its parent's value REGARDLESS OF `state` while apply_age_factor already refuses to age closed rows for exactly that reason. ★ HIGHEST-LEVERAGE ROW THIS CYCLE FILED: it is what a driver reads at step 4 of the cycle contract, so a queue head of finished work sends every fresh cycle at nothing — CLAUDE.md §0's failure reached through the ranker rather than through judgement. Two candidate fixes: skip closed rows in the inheritance, or filter them out of `_table` and the driver's pick. ⚠ EITHER REQUIRES RE-SCOPING test_a_prerequisite_outranks_the_thing_it_unblocks, which today binds EVERY prerequisite row including done ones — a decision with a guard change attached. Do not narrow that guard without mutation-testing the narrowed form.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-077",
+      "what": "⛔ A BLOCK KEYED ON THE PRESENCE OF TEXT CAN NEVER SELF-CLEAR. The −90 fires on ANY non-empty blocked_evidence, deliberately (a session writing state: blocked gets it reverted by the next re-derivation) — but only a human or a session nulling the field can end a block. Measured 2026-08-28: three rows (AUT-PROP-018, -019, -020) carried conditions that cleared DAYS earlier and kept taking the penalty every re-score; AUT-PROP-020 is `done` and still carries the field, so a FINISHED row takes −90 forever. AUT-PROP-018 was cleared this cycle with a recorded correction; -019 and -020 were left because each needs its own evidence read, not a batch edit. ★ FIX: a machine-checkable `blocked_until` / `recheck` predicate the scorer re-evaluates, so a block states the observable condition that ends it rather than resting on prose nobody re-reads.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-078",
+      "what": "LATENT, CHEAP TO CLOSE: a self-referential `prerequisite_of` (a row naming itself) is not idempotent under the committed `_resolve` — it gains +bonus on every re-score, resolving once per call from its own base. No such row exists today and the ranker terminates, so nothing is wrong right now; it is filed because the point of the idempotence work that landed this cycle is that a re-score must be a fixed point, and a latent non-fixed-point is one bad ledger edit away from being live. Found by seat s63-prereqscore while proving the chain terminates.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-079",
+      "what": "⛔ THE LINTER'S OWN RULE TABLE IS STALE, AND EVERY GATE STAYED GREEN OVER IT FOR TWELVE DAYS. Measured 2026-08-28 by seat s37-grade: research/manuscripts/lint_claims.py has 17 rules in SIX families — R6-unsurveyed-field-practice landed 2026-08-15 — while 'R1–R5' is still written in the linter's own docstring rule table (fixed on the seat's branch) and in ELEVEN further places: scripts/preflight.sh's gate heading (derived by systems_check.check_preflight_gate_list and hard-coded in four documents), publish_bar.py's clause docstring, fast_checks.py, lint_citation_types.py, four tests and three modality files. ⭐ THE POINT IS NOT THE TYPO: a rule table that describes itself inaccurately is INVISIBLE to every check that reads it, which is why twelve days passed with a green build — the same unmeasured-agreement shape as the fan-out receipt key and subagent_width. ★ FIX: one sweep, with the preflight heading's four hard-coding documents updated together. Left by the seat that found it because it is a multi-file edit with sibling-seat collision risk — a separate task to raise, not to absorb.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-080",
+      "what": "DATED-SUPERSESSION NOTE, not an inline rewrite: '110+ organisations' for GRADE endorsement is UNDERSTATED — the live reading fetched 2026-08-28 (CI run 33181002075, gradeworkinggroup.org) is 'More than 120 organizations from over 20 countries'. It appears in research/method-watch-autonomy-prior-art-2.md §10 #9 and in AUT-PROP-037's ledger text. ⭐ FILED BECAUSE IT IS CLAUDE.md §4's ONE-DIRECTIONAL STALENESS CAUGHT IN THE ACT, in a number this repository was about to carry into an artifact: a remembered figure about any field's adoption almost always understates, and this one did. Correct it as a dated supersession (the survey record keeps what it observed and when), never by silently overwriting the old number.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
+    },
+    {
+      "id": "AUT-PD-081",
+      "what": "TOOLING GAP IN THE SEAT-LOG CHECKER, found by using it: research/autonomy/seat_scratch.py --verify-log should flag a log whose `EXIT=` marker is not at line start. Measured 2026-08-28 by seat s37-grade — a command whose output lacked a trailing newline had its marker appended to the end of the last output line, so `grep '^EXIT='` counted zero and a REAL marker read exactly like a MISSING one. ⚠ That is the wrong direction of failure for this checker: it turns a completed run into an apparently-abandoned one, and the standing rule is that a log with no EXIT= marker is not a result. Cheap fix; the value is that the checker stops lying about which of its own logs are results.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28"
     }
   ]
 }
