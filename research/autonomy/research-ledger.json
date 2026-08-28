@@ -6563,15 +6563,15 @@
     },
     {
       "id": "AUT-PD-093",
-      "what": "⛔⛔ THE SAME DEFECT AS AUT-PD-086, ON A LIVE ROUTE, AND IT IS THE WORSE DIRECTION. RT-JUNCTION-NEOANTIGEN is `status: blocked` + `pursue_now` + `next.cost: $0`, so it sits IN the queue looking healthy — and its next action is ALREADY DONE. It reads 'Regenerate patient-cd4-demo.json and the TAF15 panel at the corrected junction, then re-grade', and readiness.missing[0] says 'the class-II arm and every CD8∧CD4 figure are WITHHELD until it is'. ⛔ BOTH NAMED REGENERATIONS ARE COMMITTED AND ON THE TRANSCRIPT MODEL: patient-cd4-demo.json carries the corrected junction_context, source.grade EMITTABLE, n_alleles_screened 23, alleles_without_a_model []; the TAF15 panel carries coordinate_system TRANSCRIPT and grade EMITTABLE; hla-coverage.json records matches_corrected_seam true with a null banner. ★★ A FALSE 'WITHHELD' ON A LIVE ROUTE IS WORSE THAN A FALSE PARK: a false park hides work and the row goes quiet, which is at least visible AS silence; a false 'withheld' STOPS the work while leaving the row in the queue looking healthy, so an agent takes it, redoes finished work, and the false claim propagates to every reader. ⚠ NOT VERIFIED by the seat that found this: the third item in readiness.missing (vaccine_construct.py / coverage_scan.py) — coverage-scan.json is ABSENT and vaccine-construct.json carries no source block to grade a seam from, so establish that first rather than assuming it is also stale.",
+      "what": "⛔⛔ THE SAME DEFECT AS AUT-PD-086, ON A LIVE ROUTE, AND IT IS THE WORSE DIRECTION. RT-JUNCTION-NEOANTIGEN is `status: blocked` + `pursue_now` + `next.cost: $0`, so it sits IN the queue looking healthy — and its next action is ALREADY DONE. It reads 'Regenerate patient-cd4-demo.json and the TAF15 panel at the corrected junction, then re-grade', and readiness.missing[0] says 'the class-II arm and every CD8∧CD4 figure are WITHHELD until it is'. ⛔ BOTH NAMED REGENERATIONS ARE COMMITTED AND ON THE TRANSCRIPT MODEL: patient-cd4-demo.json carries the corrected junction_context, source.grade EMITTABLE, n_alleles_screened 23, alleles_without_a_model []; the TAF15 panel carries coordinate_system TRANSCRIPT and grade EMITTABLE; hla-coverage.json records matches_corrected_seam true with a null banner. ★★ A FALSE 'WITHHELD' ON A LIVE ROUTE IS WORSE THAN A FALSE PARK: a false park hides work and the row goes quiet, which is at least visible AS silence; a false 'withheld' STOPS the work while leaving the row in the queue looking healthy, so an agent takes it, redoes finished work, and the false claim propagates to every reader. ⚠ NOT VERIFIED by the seat that found this: the third item in readiness.missing (vaccine_construct.py / coverage_scan.py) — coverage-scan.json is ABSENT and vaccine-construct.json carries no source block to grade a seam from, so establish that first rather than assuming it is also stale.  ✅ RESOLVED 2026-08-28 (CYC-0053-3217966b, seat s93-falsewithheld, merged at 13105be5d). ALL THREE readiness.missing ENTRIES ARE FALSE, verified independently rather than inherited — and the sibling's description of the third was itself wrong in its premises: NO FILE NAMED coverage-scan.json HAS EVER EXISTED in this history (the tool emits coverage-curve.json and epitope-allele-matrix.json), so the reported 'absence' was the absence of a filename the tool does not use; and vaccine-construct.json DOES carry a graded seam block, named `_inputs.cd4_junction` rather than `source`. ⭐ THE DISCRIMINATING OBSERVATION: epitope-allele-matrix.json records n_peptides 174, exactly the unique 8–11-mer set of the CORRECTED five-junction input, recomputed by the seat — so that scan ran on the repaired data. Stronger still, re-running vaccine_construct.py and coverage_scan.py offline reproduces both artifacts BYTE-FOR-BYTE. ⭐ ROUTE UNBLOCKED BUT NOT PARKED (status blocked → ready, pursue_now retained): one free step genuinely remains — the class-I PANEL is HLA-A/HLA-B only and the route's own table names HLA-C as the first extension — and parking it would have been the mirror of the defect this row exists to fix. ⛔ THE RE-GRADE DOES NOT MOVE THE ROUTE UP, and the numbers are pointed at rather than re-typed: class I public junction 8.51% (one allele) rising to 12.3% on the 34-allele scan; class I pooled 27.4–30.4%; class II 6.5% (44 binders, ONE strong, 23 alleles all scored); both arms 1.8%, a PRODUCT and so the smallest number on the route. The global coverage curve reaches NONE of 50/80/90/95% at any point. ⛔⛔ COLLATERAL AND WORSE THAN THE ROW ITSELF: the neoantigen paper asserted IN RUNNING PROSE, outside any marker, that the class-II helper alleles are DRB1*03:01/DRB1*07:01 covering 28.4% GLOBALLY — a pre-regeneration reading that appears NOWHERE in the committed artifact, whose two named alleles present no strong binder at the corrected seam, in a paper whose own banner says every number is quoted from a committed pipeline output. It overstates by ROUGHLY 4×. ⭐ AND THE CORRECTED READING MAKES THE PARAGRAPH'S OWN THESIS — that CD4 help is the limiting arm — STRONGER, which is why the argument was not rewritten, only the figures replaced with supersession markers. Root cause fixed at source: hla_coverage.py built its note as a HARDCODED COUNT beside an interpolated list ('only a 3-allele DR panel (' + 23 alleles), the list made dynamic when the panel widened and the number beside it left behind. ⛔ The revival trigger's first disjunct is already met ON ITS LETTER by a committed artifact while buying ~4 points of coverage — recorded as a defect in the trigger STRING and deliberately NOT rewritten, because sharpening a trigger in the cycle it fired in is what amendment_guard forbids.",
       "serves": {
         "route": "RT-JUNCTION-NEOANTIGEN",
         "publication": null,
         "strategy": "ST-IMMUNO"
       },
       "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "CYC-0053-3217966b",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -6581,7 +6581,7 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "A graph or pointer correction against committed artifacts; no outward-facing act.",
-      "claimed_utc": "2026-08-28T16:18:28Z",
+      "claimed_utc": null,
       "dispatch_log": [
         {
           "utc": "2026-08-28T16:18:28Z",
@@ -6856,6 +6856,132 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-100",
+      "what": "$0 CI: dispatch modalities-run.yml to regenerate hla-coverage.json, so its `_class_ii_note` stops saying '3-allele DR panel' beside a list of twenty-three. ⭐ THE SCRIPT IS ALREADY FIXED (hla_coverage.py now derives the count) AND THE ARTIFACT IS NOT — which is the gap worth naming: a source fix does not correct a committed generated artifact, and the stale string is what every reader sees until the generator re-runs. The regeneration needs the AFND fetch, which is 403 at this sandbox's egress, so it is a CI job rather than a sandbox edit.",
+      "serves": {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "publication": "PUB-NEOANTIGEN",
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
+    },
+    {
+      "id": "AUT-079",
+      "what": "ADD HLA-C TO coverage_scan.py's class-I PANEL (today HLA-A/HLA-B only), re-run in modalities-run.yml, then update EVERY home of every changed pinned figure IN ONE COMMIT and re-grade the route. This is RT-JUNCTION-NEOANTIGEN's own corrected next step and the route's table names HLA-C as the first extension that could raise the figures at a fixed acceptance threshold. ⛔ FIRST ESTABLISH WHETHER MHCflurry 2.1.4 SCORES HLA-C AT ALL — UNKNOWN from this tree, and the whole item collapses if it does not. ⚠ It moves figures registered in pinned-figures.json and quoted in a manuscript under hardening, so rule 1.3 binds: the old numbers get registered in the same commit that changes them, or CI finds the copies you missed.",
+      "serves": {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "publication": "PUB-NEOANTIGEN",
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-101",
+      "what": "⛔ A REVIVAL TRIGGER THAT DOES NOT DISCRIMINATE: TR-NEOANTIGEN-BROADER-ALLELE-COVERAGE's first disjunct ('an epitope on more than one common allele') is ALREADY SATISFIED by a committed artifact — the 34-allele scan — while buying about 4 points of coverage (8.5% → 12.3% public), nowhere near enough to reopen anything; the second disjunct (raise combined above 27.4%) is decisively unmet and arithmetically cannot be met by allele breadth alone. ⭐ A trigger that fires on evidence already in the repository is not a trigger, it is a label. ⛔ DELIBERATELY NOT REWRITTEN BY THE CYCLE THAT FIRED IT — sharpening a bar in the cycle it just cleared is what amendment_guard exists to refuse, so this needs a later cycle and a declared amendment.",
+      "serves": {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "publication": null,
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-102",
+      "what": "⛔ AN ABSENT READING RENDERED AS AN ABSENCE, in coverage_scan.greedy_curve: any allele with no AFND frequency is dropped SILENTLY (`af_of(a) is None`), with no `alleles_without_a_model` equivalent recorded — so a coverage curve computed over fewer alleles than were screened is indistinguishable from one computed over all of them. ⭐ THE FIX ALREADY EXISTS ONE FILE OVER: patient_cd4_epitopes.py records exactly that field and this repository's class-II reporting is trustworthy because of it. CLAUDE.md §4 — an absent reading is not a reading of absence — and the coverage numbers are the ones this route is graded on.",
+      "serves": {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "publication": "PUB-NEOANTIGEN",
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-103",
+      "what": "⛔ `TR-*` REVIVAL TRIGGERS ARE DEFINED ONLY IN THE LEGACY emc-systems-map.json: systems/graph carries NO TR-* records, and nothing validates that a route's `revival_trigger` id resolves to anything. Three routes point at one such id. ⚠ CLAUDE.md §7 says systems/graph is the source of truth and everything under systems/views is generated — a route whose reopening condition lives only in the legacy projection is a condition the source of truth cannot see, and a dangling id would be silent. ★ FIX: move TR-* into the graph (or record explicitly that the legacy file owns them and add the resolution check), then validate every reference.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
+    },
+    {
+      "id": "AUT-PD-104",
+      "what": "★★ AUDIT EVERY ROUTE FOR A STATUS OR `readiness.missing` CLAIM THAT A COMMITTED ARTIFACT REFUTES. THIS IS THE THIRD INSTANCE IN ONE DAY and the trend is what matters: AUT-PD-086 (four routes parked while their own next step was $0), AUT-PD-093 (three blockers all false on a live route), and — worst — the neoantigen paper's 28.4% class-II figure, which shows the defect PROPAGATING OUT OF THE GRAPH INTO A MANUSCRIPT, where it was asserted in running prose outside any marker and overstated by roughly 4×. ⭐ THE CLASS IS 'A RECORD ABOUT WHETHER WORK IS DONE, DISAGREEING WITH THE ARTIFACT THAT WOULD SETTLE IT', and no existing gate reads it: lint_citations checks that identifiers resolve, lint_claims checks strength, systems_check checks internal consistency — none compares a readiness claim against the artifact it names. ★ THE CHECK IS MECHANICAL where the claim names a file: does the named artifact exist, and does its grade/seam/allele count match what the record says is missing?",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act."
     }
   ]
 }
