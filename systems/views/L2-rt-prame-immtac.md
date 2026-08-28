@@ -18,9 +18,9 @@ last_verified: 2026-08-05
 
 # RT-PRAME-IMMTAC — PRAME-directed brenetafusp (ImmTAC) / PRAME CAR-TCR
 
-**Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ○ blocked · computed · confidence moderate · verified 2026-08-05
+**Family:** [ST-IMMUNO](L1-st-immuno.md) · **state:** ○ parked · computed · confidence low · verified 2026-08-28
 
-**Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.md)): NEW antigen-directed lead — best of the CTAs
+**Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.md)): DOWNGRADED 2026-08-28 — the owed EMC-tissue expression confirm had already been taken and PRAME reads at the floor of every readable cohort, flat against comparator sarcomas on both array platforms. The DepMap sarcoma-class ordering that raised this row survives as a surrogate; what it predicted for EMC tissue did not hold.
 
 ## What has to land for this route to move
 
@@ -58,17 +58,21 @@ This uses an antigen with an existing clinical-stage agent, so the reagent probl
 | ref | supports | strength |
 |---|---|---|
 | `ART-CTA-EXPRESSION` | surrogate expression came back favourable, unlike every other cancer-testis antigen examined | `surrogate` |
+| `ART-EMC-EXPRESSION-PANELS` | The owed EMC-tissue expression read, and it points against this route rather than for it: EMC tumour tissue on two archival array platforms and one sequencing cohort: GPL6244 (GSE24369, 6 EMC vs 29 comparator sarcomas) delta = -0.004 (t = -0.05) at the 30th array percentile; GPL3290 (GSE4303, 10 EMC vs 5 comparator) delta = +0.868 (t = +1.43) at the 11th percentile of log-ratios; sequencing EMC median 0.102 against an other-sarcoma median 0.194 on a single peak. Flat on both arrays and at the floor of every readable cohort. | `direct` |
 
 ## Remaining unknowns
 
-- Whether the surrogate expression holds on real EMC tissue — the measurement was on cell-line surrogates.
+- Whether PRAME protein is present on EMC tumour cells. The transcript question is answered and came back flat (ART-EMC-EXPRESSION-PANELS); a flat or single-platform transcript row does not demonstrate that an antigen is absent, and no EMC PRAME immunohistochemistry series exists.
+- Whether the SLLQHLIGL peptide is presented at all in EMC — unmeasured, and separate from expression.
 - HLA restriction limits which patients are eligible.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| Expression confirmation on EMC tissue | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| Expression confirmation on EMC tissue — ANSWERED at transcript level, see supporting_evidence ART-EMC-EXPRESSION-PANELS | ⛔ none built | yes | — |
+| A protein-level read (immunohistochemistry on an EMC series), because a flat transcript row does not demonstrate that an antigen is absent and brenetafusp reads a peptide-HLA rather than a transcript | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| Measured presentation of SLLQHLIGL on HLA-A*02:01 in EMC tissue, which no expression read of any kind can establish | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-ANTIGEN-COLD |
 
 ## Blockers
 
@@ -94,10 +98,11 @@ This uses an antigen with an existing clinical-stage agent, so the reagent probl
 
 **`experimental_proposal`**
 
-The reagent exists clinically and an expression read on EMC tissue is owed; presentation on HLA-A*02:01 is a separate and unaddressed question. That makes it a proposal rather than a paper.
+The transcript-level confirm this route owed has been taken and is flat at the floor of every readable EMC cohort, so the surrogate read that raised the row is not corroborated in the disease. What would revive it is a protein or presentation measurement, and both are bench acts we cannot run.
 
 **Missing:**
-- expression confirmation on EMC tissue
+- a protein-level PRAME read on an EMC series
+- any measurement of peptide-HLA presentation in EMC
 
 **Experiment required:**
 - immunohistochemistry or expression readout on EMC tissue
@@ -114,14 +119,14 @@ The reagent exists clinically and an expression read on EMC tissue is owed; pres
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `pursue_now`**
+**Recommendation: `monitor`**
 
-The best-supported antigen-directed row on the board and the one where someone else has already solved the hard part. The confirm is small and the agent already exists, so the value of asking now is high.
+The small confirm that made asking worthwhile has been done at no cost and returned flat, so a collaborator ask on transcript grounds no longer has a premise. The remaining question is protein and presentation, which is a bench act with no taker.
 
 | horizon | effect |
 |---|---|
 | Six months | None on our side. |
-| Two years | An EMC expression dataset would settle it without anyone running anything. |
+| Two years | An EMC PRAME immunohistochemistry series, or EMC immunopeptidomics, would settle it. ⚠ SUPERSEDED, RETAINED: 'An EMC expression dataset would settle it without anyone running anything' — an EMC expression dataset arrived and did not settle it in this route's favour. |
 | Cost trend | flat |
 | Automation outlook | The confirm is a bench readout, not computation. |
 
@@ -141,5 +146,11 @@ The best-supported antigen-directed row on the board and the one where someone e
 Include in the collaborator ask: an expression confirm on EMC tissue is small, and the therapeutic already exists.
 
 *Cost:* $0
+
+## What this route rests on — drill down
+
+*L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
+
+**L5 artifacts:** [ART-EMC-EXPRESSION-PANELS](L5-evidence-base.md#artifacts--the-files-a-claim-can-be-checked-against)
 
 [← ST-IMMUNO](L1-st-immuno.md) · [← L0](L0-ecosystem.md)

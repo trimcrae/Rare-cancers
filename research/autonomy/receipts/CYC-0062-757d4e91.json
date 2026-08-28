@@ -1,0 +1,50 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0062-757d4e91",
+  "session_id": "757d4e91-a56a-5571-83ce-07bfacec30b5",
+  "utc": "2026-08-28T18:40:00Z",
+  "shape": "Fresh spawned session, first cycle of two. Driver only, no fan-out: the whole item resolved against artifacts already committed in this repository, so there was nothing for a seat to search.",
+  "took": "AUT-053 (RT-PRAME-IMMTAC, PUB-SURFACE-TARGETS, ST-IMMUNO) -- free, tied top of the takeable queue at 172.0. The seven rows scoring above it (AUT-046, AUT-010, AUT-042, AUT-057, AUT-058, AUT-064, AUT-065) all carry requires_trimcrae:true, so they are not takeable by a cycle. AUT-052 is the equal-scoring sibling and was deliberately left unclaimed.",
+  "took_what": "The row's instruction was 'RE-TEST THE BLOCK before doing anything else -- it is recorded without evidence', clamped by priority.py's blocked_without_evidence_becomes_a_check. The block was false, and false in the dangerous direction. RT-PRAME-IMMTAC carried required_validation 'Expression confirmation on EMC tissue' as feasible_today:false / blocked_by BLK-NO-EMC-DATA, last_verified 2026-08-05, evidence:[] and artifacts:[], while graded 'NEW antigen-directed lead -- best of the CTAs' on a cell-line surrogate (ART-CTA-EXPRESSION: 131 sarcoma lines, ZERO EMC lines). That owed confirm had already been taken, for free, and had been sitting uncited since 2026-08-24. research/modalities/emc-expression-panels.json (ART-EMC-EXPRESSION-PANELS) reads PRAME on EMC tumour tissue in three cohorts: GPL6244 (GSE24369, 6 EMC vs 29 comparator sarcomas) delta = -0.004 (t = -0.05) at the 30th array percentile; GPL3290 (GSE4303, 10 EMC vs 5 comparator) delta = +0.868 (t = +1.43) at the 11th percentile of log-ratios; sequencing EMC median 0.102 against an other-sarcoma median 0.194, on a single peak. emc-surface-target-landscape.md Table 4 and its prose ('PRAME reads at the floor of every readable cohort') already carried the reading; the route record in the graph never received it. No new computation was run and none was needed -- this was a $0 read of committed artifacts, per CLAUDE.md section 4.",
+  "changed": "systems/graph/routes.json RT-PRAME-IMMTAC: grade re-set to a downgrade naming the tissue read; required_validation split into the ANSWERED transcript half (feasible_today:true) and two unanswered halves -- a protein-level IHC read and a measured presentation of SLLQHLIGL on HLA-A*02:01 -- both blocked_by BLK-NO-WET-LAB rather than BLK-NO-EMC-DATA; supporting_evidence gains ART-EMC-EXPRESSION-PANELS at strength direct; artifacts populated; state.status blocked -> parked, confidence moderate -> low, last_verified 2026-08-28; timing.recommendation pursue_now -> monitor; revival_trigger named (a protein-level PRAME series, or EMC immunopeptidomics finding SLLQHLIGL). research/IDEAS.md route status board row re-graded at its owner with the superseded wording retained verbatim, and its next-action cell rewritten -- the confirm it asked for is done. research/manuscripts/emc-systems-map.json reprojected (systems_check L3 gate). Five generated views plus emc-systems-map.md regenerated. AUT-053 closed with the full diagnostic in blocked_evidence. AUT-PD-116 filed with the class measurement (filed as AUT-PD-115, renamed on rebase — see now_queued).",
+  "cost": "$0. CPU and repository reads only. No CI dispatch, no GPU, no network fetch.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": []
+  },
+  "what_i_got_wrong": "Invented two enum values when editing the graph -- closure_kind 'parked_pending_capability' and timing.recommendation 'park' -- neither of which exists in systems/schema/research-object.schema.json. systems_check caught both immediately and they were corrected to 'open' and 'monitor' before anything was committed. The graph should have been read against its schema before being written to, not after.",
+  "now_queued": "AUT-PD-116 (queued, unclaimed): sixteen routes carry a required_validation marked feasible_today:false on BLK-NO-EMC-DATA whose own text names an expression or tissue read, and NOT ONE cites ART-EMC-EXPRESSION-PANELS. Six of them name a gene the artifact already reads on EMC tumour tissue (RT-SSTR2, RT-B7H3, RT-FAP-RLT, RT-JUNCTION-NEOANTIGEN, RT-FUSION-OUTPUT, RT-MTAP-PRMT5). The entry says explicitly that readable is NOT answered and that each route needs its own adjudication -- RT-MTAP-PRMT5 asks for copy number, which an expression panel cannot answer at all. AUT-052 (RT-PPARG-DOWNSTREAM), the equal-scoring sibling of the row taken here, is named in it as the natural next adjudication. ⚠ Filed as AUT-PD-115 and RENAMED to AUT-PD-116 on rebase: the concurrent session's c024c8a had already taken that string for an unrelated session_cap row. priority.py refuses a duplicated id outright, so the collision surfaced as a hard ValueError on the next re-score rather than silently. Precedence per 51d4aa8 — the row that reached the trunk first keeps the id; _renamed_from records it. This is the second instance of the race ids.next_entry_id has no session discriminator for (AUT-PD-097).",
+  "blocked_by": [
+    {
+      "what": "./scripts/preflight.sh with PREFLIGHT_TESTS=1 exited 1 on the tree this cycle commits, and the red is NOT this change's.",
+      "path": "/tmp/claude-0/-home-user-Rare-cancers/757d4e91-a56a-5571-83ce-07bfacec30b5/scratchpad/cyc0062-preflight.log",
+      "failures": [
+        "research/manuscripts/tests/test_round6_fixes_landed.py::test_the_journal_article_keeps_both_branches_of_the_pilot_gate",
+        "research/manuscripts/tests/test_the_numbered_claims_no_instrument_read.py::test_the_panel_size_is_the_screens_at_every_site_that_states_it",
+        "research/manuscripts/tests/test_paired_numeric_lists_are_bound_in_the_right_order.py::test_run_length_and_unpaired_count_always_sum_to_the_oligonucleotide_length",
+        "research/manuscripts/tests/test_the_journal_pdf_fits_its_page_budget.py::test_the_condensed_submission_is_within_its_page_budget[fusion-junction-aso-journal-article.pdf]",
+        "research/manuscripts/tests/test_justification_does_not_degrade.py::test_justification_does_not_degrade_past_the_accepted_baseline"
+      ],
+      "reproduction": "REPRODUCED, NOT ASSUMED. A detached worktree at origin/main (c024c8a) with this cycle's work absent fails all five identically: '5 failed in 1.19s'. Log: /tmp/claude-0/-home-user-Rare-cancers/757d4e91-a56a-5571-83ce-07bfacec30b5/scratchpad/cyc0062-cleanmain-repro2.log (stamped SEAT=CYC-0062-driver, WORKTREE=.../cyc0062-cleanmain, EXIT=1). ⚠ A first attempt used the worktree's bare python3, which has no pytest, and returned 'No module named pytest' with EXIT=1 — an EXIT=1 that says nothing about the manuscripts; retained here because a red from a missing interpreter and a red from a failing test are indistinguishable from an exit code alone (repro log 1).",
+      "owner": "All five are the in-flight state of the ASO journal-article hardening round. AUT-PD-106 is in_progress under a live lease held by CYC-0061-d60caf7b, and its own text is the page-budget failure ('THE ASO JOURNAL ARTICLE IS 7 TYPESET PAGES AGAINST A 6-PAGE BUDGET'). Fixing them here would take work out from under another session's lease, so this cycle did not touch them. ⭐ CONFIRMED BY OBSERVATION, not only by the ledger: the step-11 session reap (list_sessions -> session_reaper.py --self-id 757d4e91-...) returned session_017VDt2MMZnksnnHSebkKbbY, title 'EMC research loop — cycle (AUT-PD-106, ASO page + justificat…', status SESSION_STATUS_RUNNING at the time this cycle committed. The session that owns these five failures is working on them right now, so they are in-flight state and not an abandoned red.",
+      "gates_this_change_owns": "GREEN: lint_consistency, systems model invariants/pointers/view drift, EMC systems map, claim strength R1-R5, changed prose, citation provenance, manuscript prose style, parser guard, registry evidence contract, all twelve generated deposit artifacts, receipt schema, and the selector/loop suite (547 passed)."
+    }
+  ],
+  "route_advanced": "RT-PRAME-IMMTAC",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why": "First of two cycles permitted to this session (autonomy-state.json max_cycles_per_session = 2). The handoff is owed at the cap, not here."
+  },
+  "reaped_sessions": {
+    "n_in": 40,
+    "n_archived": 0,
+    "n_kept": 40,
+    "verdict": "0 safe to archive — the only two live rows are this session and the AUT-PD-106 ASO session, both SESSION_STATUS_RUNNING; the reaper refuses to touch a running session or the caller.",
+    "log": "/tmp/claude-0/-home-user-Rare-cancers/757d4e91-a56a-5571-83ce-07bfacec30b5/scratchpad/cyc0062-sessions.json"
+  }
+}
