@@ -1243,7 +1243,9 @@ Clean designs are much scarcer than the default search depth implies, and two in
 converge on that. One is search depth, measured in §2.4 and bounded corpus-wide in §5. The other
 is invisible to depth at any setting: five of the nine designs form an eleven- or twelve-base-pair
 duplex with a mature wild-type parent that pairs the whole catalytic gap, one of them with *NR4A3*
-itself, where no screen filtering on global identity can see it. Three designs survive every screen
+itself, which a screen filtering on global identity mostly cannot see — across the panel, five of
+the 78 designs whose parent duplex runs eleven or twelve base pairs still reach the 14-of-16
+near-match threshold. Three designs survive every screen
 applied here, two of them at any parent-duplex threshold (§2.7).
 
 The limiting step is discrimination between the fusion and its parents, and it is not resolved here.
@@ -1261,9 +1263,15 @@ residues, where destabilisation is largest and where no penalty is modelled anyw
 Table 4's nine carries such a site of the strict class §2.5 defines, and that section is silent on
 whether any sits in the wider sense-strand forty. In
 mature parent sequence 87 designs pair a wild-type parent (any of the six, not *NR4A3* alone,
-which 61 of them pair) over a contiguous duplex of at least ten base pairs. The general point is that a fusion-junction design's most
-plausible wild-type liability is its own parent, reached either across a splice junction or in the
-mature transcript, and both are invisible to a screen that ranks candidates by global identity. A
+which 61 of them pair) over a contiguous duplex of at least ten base pairs. The general point is that the wild-type liability a
+fusion-junction design's construction implies is its own parent, reached either across a splice
+junction or in the mature transcript, and that a screen ranking candidates by global identity is
+mostly but not wholly blind to it: recomputed at each liable design's own parent site, identity
+runs 10 to 14 of 16, so seven of the 87 reach the 14-of-16 near-match threshold these screens use
+and are removed from their output by an explicit exclusion of parent records rather than by that
+threshold. Nor is it the strongest liability those screens return: no parent pairs more than 13
+base pairs anywhere in the panel, against the whole 16 for the eight designs carrying a fully
+paired off-target duplex, five of them in curated records. A
 third compartment is invisible to all of them: at a seam whose acceptor half is not exonic in the
 mature transcript, the patient's own un-rearranged *NR4A3* allele carries the same sequence behind an
 intron, and three designs the mature-parent screen clears or cannot read — the pre-mRNA screen
