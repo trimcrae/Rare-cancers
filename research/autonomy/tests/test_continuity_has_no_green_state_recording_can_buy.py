@@ -160,6 +160,53 @@ def test_terminal_ids_failing_open_still_shows_everything(led, monkeypatch):
     assert {e["id"] for e in C.ready()} == {"A", "B"}
 
 
+# ---------------------------------------------------------------------------------------------
+# AUT-PD-014's progress-aware retry budget — reuses priority.py's own arithmetic (`_retry_budget_spent`
+# in continuity.py) so the two files can never disagree about what "budget spent" means.
+# ---------------------------------------------------------------------------------------------
+
+def _spent_row(id="A", n=None):
+    """A row dispatched `n` times (default: the whole budget) against evidence that never moved."""
+    n = C.priority.DEFAULT_RETRY_BUDGET if n is None else n
+    fp = C.priority.evidence_fingerprint({"last_evidence_utc": "2026-08-01", "blocked_evidence": None})
+    return _item(id=id, last_evidence_utc="2026-08-01", blocked_evidence=None,
+                dispatch_log=[{"utc": "x", "fingerprint_at_dispatch": fp}] * n)
+
+
+def test_a_budget_spent_row_is_excluded_from_ready(led):
+    """⛔⛔ THE SAME SHAPE AS THE STALLED-ROW EXCLUSION ABOVE, for a different terminal condition. A
+    row dispatched DEFAULT_RETRY_BUDGET times with nothing ever learned is not ready work."""
+    led([_spent_row(id="A"), _item(id="B")])
+    assert [e["id"] for e in C.ready()] == ["B"], (
+        "a row whose progress-aware retry budget is spent must not appear on the ready list, and an "
+        "unaffected row must still appear")
+
+
+def test_a_budget_spent_rows_reason_is_named_in_the_blocked_report(led):
+    led([_spent_row(id="A")])
+    [(entry, why)] = C.blocked()
+    assert entry["id"] == "A"
+    assert "retry budget spent" in why
+
+
+def test_a_row_one_dispatch_short_of_the_budget_is_still_ready(led):
+    """The boundary. Spending the budget is `>= DEFAULT_RETRY_BUDGET`, not `> DEFAULT_RETRY_BUDGET`
+    — one short must still be offered."""
+    led([_spent_row(id="A", n=C.priority.DEFAULT_RETRY_BUDGET - 1)])
+    assert [e["id"] for e in C.ready()] == ["A"]
+
+
+def test_a_budget_spent_row_recovers_the_moment_its_evidence_moves(led):
+    """★ Mirrors work_ledger.py's 'returns to open by itself' — nothing here should need a human to
+    clear a flag; a fresh `last_evidence_utc` is enough."""
+    row = _spent_row(id="A")
+    led([row])
+    assert C.ready() == []
+    row["last_evidence_utc"] = "2026-08-27"  # evidence advanced since the last dispatch
+    led([row])
+    assert [e["id"] for e in C.ready()] == ["A"]
+
+
 def test_an_empty_backlog_is_the_honest_zero(led, capsys):
     """The positive control. Without it the suite would pass on a tool that fails everything."""
     led([_item(id="A", state="done")])

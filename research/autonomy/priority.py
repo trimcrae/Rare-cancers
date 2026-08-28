@@ -51,6 +51,13 @@ GRAPH = REPO / "systems" / "graph"
 WEIGHTS_FILE = HERE / "priority-weights.json"
 LEDGER_FILE = HERE / "research-ledger.json"
 
+#: AUT-PD-014. The ceiling `apply_fruitless_attempts` counts down from. Was a literal `3` typed
+#: separately into `build_entries`'s default and nowhere else, which is exactly the "one fact, one
+#: place" defect CLAUDE.md rule 1 names — `handoff.py:top_items` and `health.py:c_queue_is_takeable`
+#: both already read the resulting field (`retry_budget > 0`); neither needed to change, because
+#: nothing was ever writing a real number into it.
+DEFAULT_RETRY_BUDGET = 3
+
 # Route state values that mean "this route is not itself dead". The route may still be
 # blocked or parked — CLAUDE.md §0 is explicit that a blocked row is usually waiting on a
 # free check, so blocked is emphatically not dead.
@@ -251,6 +258,14 @@ def build_entries(weights: dict | None = None) -> list[dict]:
             "blocker_leverage": lever,
             "cost_class": cost_class,
             "blocked_on_human": bool(human),
+            # ⛔ AUT-PD-014: this was HARDCODED and never recomputed — priority-weights.json declares
+            # a real weight for this term and nothing ever fed it. It stays 0 HERE on purpose: a
+            # freshly-derived row has no access to research-ledger.json's own history
+            # (`build_entries` reads only `systems/graph`, per the module docstring), so the true
+            # count can only be known once this row's `dispatch_log` — carried across re-scores by
+            # `merge()`'s forward-compat `setdefault` loop — has been merged in. The real value is
+            # computed post-merge by `apply_fruitless_attempts`, which OVERWRITES this 0 exactly the
+            # way `apply_age_factor` overwrites the age term it does not set here either.
             "fruitless_attempts": 0,
         }
         score = (
@@ -304,7 +319,7 @@ def build_entries(weights: dict | None = None) -> list[dict]:
                 "cost_points_at": "research/compute/pricing.md",
                 "blocked_by": (route.get("next") or {}).get("blocked_on") or None,
                 "blocked_evidence": None,
-                "retry_budget": 3,
+                "retry_budget": DEFAULT_RETRY_BUDGET,
                 "attempts": 0,
                 "last_evidence_utc": state.get("last_verified"),
                 "score": round(score, 2),
@@ -729,6 +744,134 @@ def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
     return entries
 
 
+# ═════════════════════════════════════════════════════════════════════════════════════════════
+# AUT-PD-014 — PROGRESS-AWARE RETRY BUDGET, PORTED FROM research/modalities/work_ledger.py
+# ═════════════════════════════════════════════════════════════════════════════════════════════
+# ⛔⛔ THE DEFECT THIS CLOSES, DIAGNOSED BY A PRIOR CYCLE AND CONFIRMED HERE BEFORE CHANGING
+# ANYTHING. Three things were true of this file and of research-ledger.json's schema simultaneously:
+#   1. `score_inputs["fruitless_attempts"]` was hardcoded to 0 in `build_entries` — never computed —
+#      even though `priority-weights.json` already declares a real weight for it.
+#   2. The ledger's `attempts` (a bare int) is incremented in exactly ONE place —
+#      `release_stale_claims`, on an EXPIRED LEASE — so it counts sessions that died holding a claim,
+#      never sessions that claimed a row, worked it seriously, and released it having learned
+#      nothing new. This module's own comment already said as much: "a route could be retried
+#      forever and the scorer's fruitless_attempts penalty could never fire."
+#   3. Nothing anywhere decremented or enforced `retry_budget`. It was set to a literal `3` in
+#      `build_entries` and never moved again, for any row, ever.
+#
+# ⭐ THE MODEL: research/modalities/work_ledger.py's `Entry.fruitless_attempts()` — a DIFFERENT
+# ledger, for GPU/modality work, whose schema already carries this correctly. Its idea, ported
+# rather than copied (the two ledgers' schemas differ — that ledger's `attempts` IS already a list
+# of per-dispatch records; this one's `attempts` is a bare int with an unrelated meaning, so a NEW
+# field is used here rather than repurposing one that already means something else):
+#
+#     an attempt is FRUITLESS iff the evidence fingerprint it was DISPATCHED against is still the
+#     CURRENT fingerprint. Count backwards through the dispatch history and stop at the first
+#     attempt whose recorded fingerprint differs — "a dispatch that worked costs nothing."
+#
+# WHAT "EVIDENCE" MEANS FOR ONE OF THIS LEDGER'S ROWS, stated once so a reader can check the
+# arithmetic: `last_evidence_utc` and `blocked_evidence`, concatenated. Those are exactly the two
+# fields step 9 of the `research-loop` cycle contract requires a session to write back when it
+# OBSERVES something — "set the new state and `last_evidence_utc`... and for a failure the
+# *diagnostic*" (which lands in `blocked_evidence`, per `apply_session_penalties`'s own comment:
+# "the recorded observation IS the block"). A row whose fingerprint has not moved since it was last
+# dispatched has, by construction, produced nothing a reader could point at as new.
+#
+# THE STAMP HAS TO HAPPEN AT CLAIM TIME, NOT LAZILY LATER. `claim.py`'s `apply_claim()` appends
+# `{"utc": <claimed_utc>, "fingerprint_at_dispatch": evidence_fingerprint(entry)}` to a NEW
+# `dispatch_log` list field the moment a claim lands — BEFORE any work happens — because the only
+# fingerprint that is honest to compare against later is the one the row carried at the instant of
+# dispatch. Recomputing it lazily, the next time this module happens to notice the claim, would
+# sometimes capture the POST-work fingerprint and call a genuine advance fruitless by construction.
+# `dispatch_log` survives every re-score via `merge()`'s forward-compat `setdefault` loop with no
+# change needed there — a key `build_entries` never sets on a freshly-derived row is exactly what
+# that loop exists to carry forward from the row's own prior committed state.
+#
+# ⛔⛔ THE HONEST CAVEAT THIS LEDGER ITEM ASKS TO BE PRESERVED, NOT LOST: a progress-aware counter
+# WOULD NOT have penalised AUT-PROP-002, which moved `last_evidence_utc` every cycle — its
+# fingerprint changes on every real cycle, so its fruitless streak resets to 0 every time, exactly
+# as intended. **This defect did not cause the three-cycle stall CYC-0015 found; it is a separate
+# governance instrument that was inert, and fixing it here does not retroactively explain that
+# stall.** What this DOES fix: a row that is claimed and released, over and over, with nothing new
+# ever recorded about it, now decays its own priority and eventually stops being offered as ready
+# work — instead of being retried by automation forever, silently, which is the defect actually
+# named above.
+#
+# WHAT THIS DELIBERATELY DOES NOT DO (scoped down, named rather than silently skipped):
+#   * `claim.py`'s `SUSPENDED` verdict (a push/merge race exhausting its attempts) is a DIFFERENT
+#     terminal state for a different reason and is not touched or conflated with this one.
+#   * `claim.py` is NOT taught to refuse claiming a budget-exhausted row. `continuity.py`'s `ready()`
+#     already excludes it (see `_retry_budget_spent` there), which is the same "a session should not
+#     be OFFERED this row" property, reached through the read side rather than the write side. If a
+#     session claims one anyway (by id, deliberately, bypassing `ready()`) that is a human decision
+#     this module does not need to prevent.
+#   * `research-ledger.json`'s committed content is not migrated. `dispatch_log` is read everywhere
+#     as `entry.get("dispatch_log") or []`, so an existing row with no such key behaves exactly as a
+#     row that has never been dispatched under the new mechanism — correct, and needs no backfill.
+
+
+def evidence_fingerprint(entry: dict) -> str:
+    """What "the evidence changed" MEANS for one research-ledger.json row. See the module-section
+    docstring above for why these two fields and not `attempts`, `owner` or `score`."""
+    return f"{entry.get('last_evidence_utc')}|{entry.get('blocked_evidence')}"
+
+
+def fruitless_attempts_count(entry: dict) -> int:
+    """How many of this row's MOST RECENT dispatches produced no new evidence.
+
+    Ported from `research/modalities/work_ledger.py:Entry.fruitless_attempts` — counts backwards
+    through `dispatch_log` and stops at the first attempt whose recorded fingerprint differs from
+    the row's CURRENT one. A row never dispatched (`dispatch_log` absent or empty) scores 0, never
+    an error — the common case, and it must not look penalised for having simply never been tried.
+    """
+    current = evidence_fingerprint(entry)
+    n = 0
+    for attempt in reversed(entry.get("dispatch_log") or []):
+        if not isinstance(attempt, dict) or attempt.get("fingerprint_at_dispatch") != current:
+            break
+        n += 1
+    return n
+
+
+def apply_fruitless_attempts(entries: list[dict], weights: dict) -> list[dict]:
+    """Feed `priority-weights.json`'s `fruitless_attempts` term from real history, and recompute
+    `retry_budget` as the ceiling minus that count — the field `handoff.py:top_items` and
+    `health.py:c_queue_is_takeable` already read as `> 0` and were, until now, never given a real
+    number to read.
+
+    ⛔ CLOSED ROWS ARE NEVER TOUCHED, mirroring `apply_age_factor`'s
+    `test_a_closed_row_never_ages_upward` — a `done`/`abandoned`/`superseded` row's `retry_budget`
+    is not this function's business.
+
+    ⭐ THE SCORE TERM IS APPLIED AS A DELTA AGAINST THE PREVIOUSLY-ECHOED INPUT, exactly like
+    `apply_age_factor`, and for the identical reason: a DERIVED row's `score_inputs` is rebuilt fresh
+    every run by `build_entries` (so `prev` is always 0 there and the full term lands cleanly), while
+    a HAND-FILED row's `score` and `score_inputs` are carried forward unchanged by `merge()` — adding
+    the full term again on top of an already-applied one would compound it every re-score, which is
+    the exact AUT-PROP-036 shape `apply_age_factor`'s own docstring measures in detail.
+
+    ⛔ `retry_budget` IS OVERWRITTEN, NOT DECREMENTED, and that is deliberate: it is set fresh each
+    run to `max(0, DEFAULT_RETRY_BUDGET - fruitless_attempts_count(entry))`, a pure function of
+    `dispatch_log`. An incrementally-decremented counter could drift from the history it is supposed
+    to summarise (double-decrementing on a re-score, or under-decrementing after a lost write);
+    recomputing it fresh cannot drift, by construction — the same reasoning `age_factor` and
+    `fruitless_attempts` in `score_inputs` already rely on.
+    """
+    w = ((weights.get("terms") or {}).get("fruitless_attempts") or {}).get("weight")
+    for e in entries:
+        if (e.get("state") or "queued") in ("done", "abandoned", "superseded"):
+            continue
+        n = fruitless_attempts_count(e)
+        prev = (e.get("score_inputs") or {}).get("fruitless_attempts")
+        prev = prev if isinstance(prev, (int, float)) and not isinstance(prev, bool) else 0
+        if n or prev:
+            e.setdefault("score_inputs", {})["fruitless_attempts"] = n
+        if isinstance(w, (int, float)) and isinstance(e.get("score"), (int, float)) and n != prev:
+            e["score"] = round(e["score"] + w * (n - prev), 2)
+        e["retry_budget"] = max(0, DEFAULT_RETRY_BUDGET - n)
+    return entries
+
+
 def release_stale_claims(entries: list[dict], weights: dict, interval_h, now=None) -> list[dict]:
     """A claim is a LEASE. Expire it, or one dead cycle parks an item forever.
 
@@ -791,6 +934,21 @@ def build_ledger() -> dict:
     # wired to an env var that does not exist). Its own test asserts this call site exists.
     entries = apply_age_factor(entries, weights)
     entries = apply_session_penalties(entries, weights)
+    # ⛔ AUT-PD-014, DELIBERATELY PLACED AFTER `apply_session_penalties` AND NOT ALONGSIDE
+    # `apply_age_factor` ABOVE IT, EVEN THOUGH BOTH ARE PER-ROW DECAY TERMS. AUT-PD-063 (immediately
+    # above) had to teach `apply_session_penalties`'s prerequisite ASSIGNMENT to explicitly re-add
+    # the child's own age bonus and re-apply its own blocked_with_evidence penalty, because that
+    # assignment OVERWRITES `entry["score"]` and would otherwise erase a term applied before it ran.
+    # Running `apply_fruitless_attempts` before the assignment would reproduce the identical hazard
+    # for THIS term the same day it was fixed for the other two, and fixing it would mean editing
+    # `_resolve()`'s assignment formula — the exact code AUT-PD-063 just hardened. Running it AFTER
+    # instead means it is applied on top of the assignment and nothing after it can overwrite it, at
+    # the honest cost that a prerequisite inherits its parent's fruitless-attempts decay one re-score
+    # late rather than in the same cycle the parent's decay is computed. Retry-budget exhaustion needs
+    # `DEFAULT_RETRY_BUDGET` dispatches to accrue, so a one-cycle lag here is a defensible trade
+    # against destabilising machinery fixed the same day this was written — scoped down deliberately,
+    # not an oversight.
+    entries = apply_fruitless_attempts(entries, weights)
     entries.sort(key=lambda e: (-(e.get("score") if e.get("score") is not None else -1e9),
                                 str(e.get("serves", {}).get("route") or e["id"])))
     return {

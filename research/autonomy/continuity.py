@@ -66,6 +66,9 @@ QUEUE = os.path.join(HERE, "ready-to-post.json")
 # set of scripts run as `python3 research/autonomy/<tool>.py` from the repo root.
 sys.path.insert(0, HERE)
 import handoff  # noqa: E402
+import priority  # noqa: E402 — AUT-PD-014: reuses priority.py's progress-aware retry-budget
+# arithmetic (`fruitless_attempts_count`, `DEFAULT_RETRY_BUDGET`) so this file's exclusion and
+# priority.py's own `retry_budget` field can never disagree about what "budget spent" means.
 #: ⛔ The governed concurrency dial lives in ONE file and is READ, never remembered — CLAUDE.md §1
 #: records that `subagent_width` governed nothing for a fortnight precisely because no code read it.
 STATE = os.path.join(HERE, "autonomy-state.json")
@@ -109,6 +112,19 @@ def _entries() -> list[dict]:
         return json.load(fh)["entries"]
 
 
+def _retry_budget_spent(e: dict) -> bool:
+    """AUT-PD-014 — a row automation has genuinely given up on: it has been dispatched
+    `DEFAULT_RETRY_BUDGET` times in a row with the evidence fingerprint never moving.
+
+    ⛔ RECOMPUTED LIVE FROM `dispatch_log`, NEVER READ FROM THE ON-DISK `retry_budget` FIELD ALONE.
+    That field is only refreshed when `priority.py --write` runs; this file reads
+    `research-ledger.json` directly and must not report a row as takeable just because nobody has
+    re-scored since its last dispatch. The two can never disagree for long, because both are the
+    same pure function of the same `dispatch_log`.
+    """
+    return priority.fruitless_attempts_count(e) >= priority.DEFAULT_RETRY_BUDGET
+
+
 def _why_not_ready(e: dict, me: str | None, terminal: frozenset | None = None) -> str | None:
     """None if the item is ready to run now; otherwise the reason it is not.
 
@@ -130,6 +146,15 @@ def _why_not_ready(e: dict, me: str | None, terminal: frozenset | None = None) -
         return "finished"
     if terminal and e.get("id") in terminal:
         return "stalled_needs_human (stuck_clock.py) — a human decision, not queued work"
+    # ⛔⛔ AUT-PD-014, WIRED IN THE SAME SHAPE AS `terminal` ABOVE: a row whose progress-aware retry
+    # budget is spent is not ready work — it is automation that has already tried and produced
+    # nothing new `fruitless_attempts_count()` times in a row. Unlike `terminal`, this needs no git
+    # history walk and is cheap enough to recompute per row rather than threading through the caller.
+    if _retry_budget_spent(e):
+        return (f"retry budget spent ({priority.fruitless_attempts_count(e)} of "
+                f"{priority.DEFAULT_RETRY_BUDGET} dispatches against unchanged evidence) — "
+                "automation stopped retrying this row; a human clears it by advancing the evidence "
+                "or filing a fresh item")
     if e.get("blocked_by"):
         return f"blocked_by {e['blocked_by']}"
     # ⛔⛔ AND `blocked_evidence` ALONE IS A STOP TOO, BECAUSE THIS FILE AND `priority.py` WERE
