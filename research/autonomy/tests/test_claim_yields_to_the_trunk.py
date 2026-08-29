@@ -79,6 +79,21 @@ class FakeGit:
         self.calls.append("read-trunk")
         return self.trunk_states[0] if len(self.trunk_states) == 1 else self.trunk_states.pop(0)
 
+    #: AUT-PD-165: the index at entry, and what the claim commit is built from. The defaults are
+    #: the clean case — nothing staged, and staging recorded rather than performed — so every
+    #: pre-existing test keeps its meaning. ⚠ A fake reaches only the DECISION; that the committed
+    #: BYTES are the trunk's rather than the tree's is a property only a real repository can show,
+    #: and it is asserted in `test_a_lost_push_is_a_lost_lease.py`.
+    staged = ()
+
+    def staged_paths(self):
+        self.calls.append("staged-vs-head")
+        return list(self.staged)
+
+    def stage_ledger_blob(self, text):
+        self.calls.append("stage-trunk-blob")
+        self.staged_text = text
+
     def commit_ledger(self, message):
         self.calls.append(f"commit:{message}")
 

@@ -644,3 +644,99 @@ def test_the_head_check_is_asked_once_so_the_modules_own_merge_cannot_trip_it(wo
         f"the retry path no longer converges — the door is being re-checked after this module's own "
         f"commit or merge: {verdict}: {why}")
     assert len(asked) == 1, f"the HEAD check was asked {len(asked)} times, not once"
+
+# =================================================================================================
+# ⛔⛔ AUT-PD-165. THE WORKING-TREE DOOR. AUT-PD-160 shut the one HEAD walks through; this is the one
+# the driver uses every cycle, because the cycle contract edits the ledger at step 3 and step 9 and
+# claims at step 4.
+# =================================================================================================
+
+
+def test_a_claim_does_not_publish_the_uncommitted_ledger_edits_it_found(world):
+    """⛔⛔ THE INCIDENT AUT-PD-165 NAMES. The worker's ledger holds an UNCOMMITTED, UNGATED edit —
+    a row filed locally, exactly what `priority.py --write` and step 9's write-back leave behind.
+    The row it wants is free and the push will succeed. The push must carry the claim and NOTHING
+    ELSE.
+
+    ★ THE ASSERTION THAT CARRIES IT IS ON THE TRUNK'S BYTES, NOT ON A VERDICT. `CLAIMED` is the
+    correct verdict here and was the verdict before the fix too — the defect was never visible in
+    what the caller was told.
+    """
+    mine = world.worker("worker-a")
+    path = world.ledger_path(mine)
+    with open(path, encoding="utf-8") as fh:
+        d = json.load(fh)
+    d["entries"].append({"id": "AUT-UNGATED", "owner": None, "claimed_utc": None,
+                         "state": "queued"})
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(json.dumps(d, indent=2) + "\n")
+
+    verdict, why = C.claim("AUT-X", ME, WHEN, git=C.Git(repo=mine), ledger_path=path)
+
+    assert verdict == C.CLAIMED, f"the ordinary dirty-ledger claim no longer lands: {verdict}: {why}"
+    trunk = json.loads(_git("show", f"origin/main:{C.LEDGER_REL}", cwd=mine).stdout)
+    ids = [e["id"] for e in trunk["entries"]]
+    assert "AUT-UNGATED" not in ids, (
+        "the claim published the driver's uncommitted ledger edit to `main`. That is a tree no gate "
+        "ever saw reaching the trunk through a claim — AUT-PD-160's harm through the other door.")
+    assert {e["id"]: e["owner"] for e in trunk["entries"]}["AUT-X"] == ME
+
+    with open(path, encoding="utf-8") as fh:
+        after = json.load(fh)
+    assert "AUT-UNGATED" in [e["id"] for e in after["entries"]], (
+        "the claim destroyed the driver's uncommitted edit instead of publishing it. Keeping the "
+        "work out of the COMMIT must not mean deleting it from the TREE.")
+    assert {e["id"]: e["owner"] for e in after["entries"]}["AUT-X"] == ME, (
+        "the working tree does not carry the claim, so the driver's own next commit would revert "
+        "the lease it holds — and take the dispatch_log priority.py scores on with it.")
+
+
+def test_without_the_trunk_blob_the_claim_publishes_the_edits_it_found(world):
+    """⭐ THE MUTATION, SINGLE-SITE: stage the ledger from the TREE, which is what `git add` did.
+
+    ⚠ APPLIED TO THIS TEST'S OWN `Git` SUBCLASS, NEVER TO THE MODULE OR THE TREE (research-loop §3:
+    13 inverted claims reached origin/main inside a mutation window).
+    """
+    mine = world.worker("worker-a")
+    path = world.ledger_path(mine)
+    with open(path, encoding="utf-8") as fh:
+        d = json.load(fh)
+    d["entries"].append({"id": "AUT-UNGATED", "owner": None, "claimed_utc": None,
+                         "state": "queued"})
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(json.dumps(d, indent=2) + "\n")
+
+    class StagesFromTheTree(C.Git):
+        def stage_ledger_blob(self, text):
+            self._run("add", C.LEDGER_REL)
+
+    verdict, why = C.claim("AUT-X", ME, WHEN, git=StagesFromTheTree(repo=mine), ledger_path=path)
+
+    assert verdict == C.CLAIMED, (
+        f"the mutant did not get as far as claiming, so this proves nothing: {verdict}: {why}")
+    trunk = json.loads(_git("show", f"origin/main:{C.LEDGER_REL}", cwd=mine).stdout)
+    assert "AUT-UNGATED" in [e["id"] for e in trunk["entries"]], (
+        "the mutant did NOT publish the uncommitted edit, so staging from the trunk blob is not "
+        "what stops it and the real mechanism is somewhere this suite has not found")
+
+
+def test_a_claim_over_someone_elses_staged_work_refuses_instead_of_committing_it(world):
+    """⛔ THE THIRD ENTRANCE, SHUT IN THE SAME PASS. `git commit` commits the INDEX, so anything the
+    driver had already staged rides along in the claim commit — the identical harm, reached without
+    touching the ledger at all. The precondition is now: HEAD is origin/main AND the index is HEAD.
+    """
+    mine = world.worker("worker-a")
+    with open(os.path.join(mine, "staged.txt"), "w", encoding="utf-8") as fh:
+        fh.write("staged, gated by nothing\n")
+    _git("add", "staged.txt", cwd=mine)
+
+    verdict, why = C.claim("AUT-X", ME, WHEN, git=C.Git(repo=mine),
+                           ledger_path=world.ledger_path(mine))
+
+    assert verdict == C.SUSPENDED, f"the claim did not refuse: {verdict}: {why}"
+    assert "staged.txt" in why, (
+        f"the refusal does not name what is staged, so the reader cannot act on it: {why}")
+    assert world.owners_on_trunk(mine)["AUT-X"] is None, (
+        "the row was claimed on the trunk despite the refusal")
+    assert "staged.txt" not in _git("show", "--stat", "--oneline", "origin/main",
+                                    cwd=mine).stdout, "the staged file reached the trunk"

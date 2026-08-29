@@ -1,0 +1,49 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0082-381d0696",
+  "session_id": "381d0696-dff4-528d-8468-0fe7b27e4fb4",
+  "ccr_session_id": "session_01Mfu3suzekFUhjmY5uB3spC",
+  "utc": "2026-08-29T08:00:00Z",
+  "shape": "One driver, no fan-out. FIRST of 2 cycles allowed in this session (max_cycles_per_session=2). Started as the successor to session_01HcEoACbH8wWVoTo2je896N, which reached its cap at CYC-0081.",
+  "took": "AUT-PD-165 (score 134.0, the queue's top takeable row after re-score), claimed with claim.py — CLAIMED on attempt 2 (the trunk moved under attempt 1 and integrate() fast-forwarded, which is the ordinary case this repository's CI ticks produce). Released to `owner: null`, state `done`.",
+  "why_this_over_the_live_route": "⭐ CLAUDE.md §0 SAYS A LIVE ROUTE OUTRANKS A FINISHED-NEGATIVE OR DOCUMENTATION ITEM, AND THIS IS NEITHER. It is a correctness defect in the gate that stands between every cycle's working tree and `main`, it outscores the highest live-route row by 27 points (134.0 against AUT-PROP-042's 107.26), and it was the state THIS cycle was standing in at step 3: a `priority.py --write` re-score, 103 insertions, uncommitted, that a claim would have published to the trunk ungated.",
+  "the_defect": "⛔ `Git.commit_ledger` was `git add research/autonomy/research-ledger.json` followed by `git commit`. `git add` stages the file AS IT STANDS, so a claim made while the ledger held uncommitted, ungated edits committed those edits and pushed them to `main` inside a commit whose message reads `claim AUT-...`. AUT-PD-160's `commits_not_on_trunk()` cannot see it by construction — nothing is ahead of the trunk until that very commit exists. ⚠ It is the ORDINARY shape: the cycle contract edits the ledger at step 3 and step 9 and claims at step 4.",
+  "what_shipped": "Option (a), the shape AUT-PD-165 called stronger and more invasive. `stamp_claim()` is now the one claim stamp and it is applied to TWO DIFFERENT BASES on purpose: `claim_only_text(trunk, ...)` builds the trunk's ledger plus this one claim and `Git.stage_ledger_blob()` puts it straight into the index by plumbing (`git hash-object -w --path` + `git update-index --cacheinfo`), while `apply_claim()` stamps the caller's own on-disk ledger, edits and all. So the claim commit has no content it COULD carry beyond the claim, and the caller's uncommitted work is neither published nor destroyed.",
+  "the_plumbing_is_not_an_optimisation": "⭐ Writing the trunk's bytes into the WORKING TREE and calling `git add` reaches the same index and would, for the width of one function call, replace the driver's uncommitted work with content it did not write — a container reclaimed in that window destroys it. `hash-object -w` never touches the tree, so there is no window to lose. That is the same class of loss `withdraw_claim` was built to avoid (AUT-PROP-030).",
+  "the_half_that_would_have_been_a_quieter_bug": "⚠ THE WORKING TREE IS STAMPED TOO. With only the commit stamped, the caller's ledger still reads the row as free — so the driver's own next commit REVERTS the lease it holds and takes the `dispatch_log` entry `priority.py` scores fruitless attempts on with it. A claim that silently un-claims itself one commit later is worse than one that publishes too much, because nothing reports it.",
+  "a_third_entrance_the_row_did_not_name": "⭐ FOUND WHILE READING THE FIX, SHUT IN THE SAME PASS. `git commit` commits the INDEX, so anything the caller had already staged rode along in the claim commit — the identical harm, reached without touching the ledger at all. `Git.staged_paths()` is read ONCE at entry, beside `commits_not_on_trunk()`, and refuses with SUSPENDED naming the staged paths and the remedy. The precondition is now the whole of it: HEAD is origin/main AND the index is HEAD.",
+  "option_b_rejected_on_the_rows_own_evidence": "AUT-PD-165 offered (b): refuse when the ledger's uncommitted diff touches any row other than the one being claimed. Rejected because a `priority.py --write` re-score touches ~100 rows and that is the state a driver is ALWAYS in at step 4 — (b) would refuse every cycle and leave the measured 9-minute wait in place rather than removing it.",
+  "a_correction_to_this_modules_own_audit": "⚠ claim.py's docstring carried AUT-PROP-030's audit conclusion — *\"There is no second door: every mutation that could let two workers both succeed is gated by the one push\"*. That audit is SOUND and its sentence reads wider than it was argued: it asked only about CONCURRENCY (two workers both succeeding), and the ledger's working-tree copy was correctly cleared on that question while being a door onto a different harm entirely. The scope is now stated inline rather than left for the next reader to re-derive.",
+  "changed": [
+    "research/autonomy/claim.py — NEW `Git.stage_ledger_blob()`, `Git.staged_paths()`, `stamp_claim()`, `claim_only_text()`; `Git.commit_ledger()` no longer runs `git add`; `claim()` gains the index precondition and stages the trunk-derived blob",
+    "research/autonomy/tests/test_a_lost_push_is_a_lost_lease.py — 3 new real-git tests, one of them the single-site mutation",
+    "research/autonomy/tests/test_claim_yields_to_the_trunk.py — FakeGit gains the two new seams, defaulted to the clean case so every pre-existing test keeps its meaning",
+    "research/autonomy/research-ledger.json — AUT-PD-165 closed with what was shipped and what was rejected"
+  ],
+  "verification": {
+    "suites": "38 passed — test_a_lost_push_is_a_lost_lease.py + test_claim_yields_to_the_trunk.py, run with /root/.local/bin/pytest",
+    "mutation": "single-site, in-test, never applied to the module or the tree: `StagesFromTheTree` overrides `stage_ledger_blob` back to `git add`, and the uncommitted row REACHES the bare remote — so staging from the trunk blob is what stops it, not something else",
+    "the_pinned_regression_the_row_warned_about": "test_the_withdrawal_keeps_an_unrelated_local_edit_it_did_not_make PASSES. AUT-PD-165 said option (a) must not be attempted without re-running it; the withdrawal path is untouched because the tree write and its restore stayed exactly where they were, and the test's SUSPENDED/'NOT a conflict' assertions still hold.",
+    "the_fix_was_also_exercised_live": "the claim of AUT-PD-165 itself ran through the OLD code, from a deliberately cleaned tree; the new code's dirty-tree behaviour is proved against a real bare remote in the suite rather than against origin/main, which no test here may touch."
+  },
+  "cost": {
+    "real_dollars": 0.0,
+    "gpu_hours": 0.0,
+    "class": "free",
+    "note": "CPU and engineering only (CLAUDE.md §5, research/compute/pricing.md)."
+  },
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "One module, one defect, one suite. The reading that decided between the row's two candidate fixes was a $0 read of claim.py and of the pinned regression test."
+  },
+  "blocked_by": [],
+  "an_observation_recorded_rather_than_acted_on": "AUT-PD-002 says `TaskStop` on a backgrounded preflight kills the harness wrapper and leaves `preflight.sh` running. Stopping this cycle's first preflight run left NO surviving `preflight`/`pytest` process (checked by walking `ps -eo pid,etimes,args` in python rather than `pgrep -f`, which matches its own shell). ⚠ ONE OBSERVATION, AND THE WRAPPER SHAPE DIFFERED — this run was inside a `( ... )` subshell so the marker could be appended. That is not a refutation and the row is left open; it is recorded so the next cycle to touch AUT-PD-002 has a second data point rather than one.",
+  "queued_next": [
+    "AUT-PD-158 (133.0) — decide what RT-AUTONOMY is in systems/graph; the row that makes every loop-machinery item rankable, and the one `scores_are_reachable` has been advising on",
+    "AUT-PD-134 (118.9) — line_citations.py checks fewer than half the citations in its own file",
+    "AUT-PD-164 (112.0) — the commit loop is no longer ~75 s; measured again this cycle, gate 13 had not finished after ~20 minutes on a tree that was being edited under it"
+  ],
+  "route_advanced": "none",
+  "_route_advanced_why": "⛔ HONEST RATHER THAN GENEROUS, BECAUSE THIS FIELD IS THE LOOP'S OWN ALARM. This is RT-AUTONOMY machinery: it removes a way for ungated content to reach `main` and it removes the wait that made a driver stop mid-cycle, but it moved no EMC route and produced no new evidence about the disease. The two neighbouring cycles read RT-SGK1, so this does not put three `none` in a row — and it would still be `none` if it did."
+}

@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 144,
+    "process_defect": 145,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 124,
-    "in_progress": 5,
+    "done": 126,
+    "in_progress": 6,
     "parked": 28,
-    "queued": 141,
+    "queued": 139,
     "ready": 1,
     "superseded": 1
   },
@@ -2728,9 +2728,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
-      "claimed_utc": null,
+      "claimed_utc": "2026-08-29T07:47:47Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2747,9 +2747,66 @@
       "depends_on_evidence": [
         "research/autonomy/claim.py `commit_ledger`: `git add LEDGER_REL` then `git commit` — it stages the ledger AS IT STANDS, whatever else is in it",
         "research/autonomy/claim.py `commits_not_on_trunk` (AUT-PD-160, origin/main 4b4f150a0): reads `git rev-list origin/main..HEAD`, which is blind to an UNCOMMITTED working-tree edit",
-        "observed first-hand by CYC-0078-531dbb8b at 06:40Z: the driver held a gated-but-uncommitted ledger carrying a closed row and two new filings, and could not claim a further item without publishing them ahead of preflight"
+        "observed first-hand by CYC-0078-531dbb8b at 06:40Z: the driver held a gated-but-uncommitted ledger carrying a closed row and two new filings, and could not claim a further item without publishing them ahead of preflight",
+        "research/autonomy/tests/test_a_lost_push_is_a_lost_lease.py::test_a_claim_does_not_publish_the_uncommitted_ledger_edits_it_found and ::test_without_the_trunk_blob_the_claim_publishes_the_edits_it_found (the mutation) and ::test_a_claim_over_someone_elses_staged_work_refuses_instead_of_committing_it — 38 passed against a real bare remote, 2026-08-29"
       ],
-      "what": "⛔⛔ AUT-PD-160 CLOSED THE COMMIT DOOR AND LEFT THE WORKING-TREE DOOR OPEN, AND IT IS THE ONE A DRIVER USES EVERY CYCLE. `claim.py` now refuses when HEAD carries commits `origin/main` does not. It does NOT look at the working tree — and `commit_ledger()` is `git add research/autonomy/research-ledger.json` followed by `git commit`, which stages that file AS IT STANDS. So a claim made while the ledger holds UNCOMMITTED, UNGATED edits publishes those edits to `main` inside the claim commit, and `commits_not_on_trunk` sees nothing wrong because there is nothing ahead of the trunk yet. ⭐ SAME HARM, SAME MODULE, DIFFERENT ENTRANCE: a tree no gate ever saw reaching `main` through a claim. ⚠ AND THIS IS THE ORDINARY SHAPE, NOT AN EDGE CASE. The cycle contract's step 3 (`priority.py --write`) and step 9 (write back what you observed) BOTH edit the ledger, and step 4 claims. A driver taking a second item in one session is holding exactly this state — measured first-hand by the cycle that filed this, which had to stop and wait ~9 minutes for a gate rather than claim over its own uncommitted write-back. ⛔ THE FIX IS A CHOICE, WHICH IS WHY THIS IS FILED RATHER THAN PATCHED, AND THE OBVIOUS ONE IS WRONG. Refusing on ANY dirty ledger would break the module's own retry loop: `withdraw_claim` deliberately restores pre-existing uncommitted bytes and `integrate()` already reports MERGE_REFUSED for exactly that case, so a blanket refusal would forbid the very state AUT-PROP-030 built the loop to survive. The candidates are (a) commit ONLY the claim's own one-row change — e.g. stage the ledger from `origin/main` plus `apply_claim`, rather than from the tree — which is the narrow analogue of AUT-PD-160's invariant and keeps the working tree untouched; or (b) refuse when the ledger's uncommitted diff touches any row OTHER than the one being claimed, which permits the withdraw/retry state and forbids the publishing one. ⚠ (a) is the stronger shape and the more invasive; it must not be attempted without re-running `test_the_withdrawal_keeps_an_unrelated_local_edit_it_did_not_make`, which pins the behaviour either option could destroy."
+      "what": "⛔⛔ AUT-PD-160 CLOSED THE COMMIT DOOR AND LEFT THE WORKING-TREE DOOR OPEN, AND IT IS THE ONE A DRIVER USES EVERY CYCLE. `claim.py` now refuses when HEAD carries commits `origin/main` does not. It does NOT look at the working tree — and `commit_ledger()` is `git add research/autonomy/research-ledger.json` followed by `git commit`, which stages that file AS IT STANDS. So a claim made while the ledger holds UNCOMMITTED, UNGATED edits publishes those edits to `main` inside the claim commit, and `commits_not_on_trunk` sees nothing wrong because there is nothing ahead of the trunk yet. ⭐ SAME HARM, SAME MODULE, DIFFERENT ENTRANCE: a tree no gate ever saw reaching `main` through a claim. ⚠ AND THIS IS THE ORDINARY SHAPE, NOT AN EDGE CASE. The cycle contract's step 3 (`priority.py --write`) and step 9 (write back what you observed) BOTH edit the ledger, and step 4 claims. A driver taking a second item in one session is holding exactly this state — measured first-hand by the cycle that filed this, which had to stop and wait ~9 minutes for a gate rather than claim over its own uncommitted write-back. ⛔ THE FIX IS A CHOICE, WHICH IS WHY THIS IS FILED RATHER THAN PATCHED, AND THE OBVIOUS ONE IS WRONG. Refusing on ANY dirty ledger would break the module's own retry loop: `withdraw_claim` deliberately restores pre-existing uncommitted bytes and `integrate()` already reports MERGE_REFUSED for exactly that case, so a blanket refusal would forbid the very state AUT-PROP-030 built the loop to survive. The candidates are (a) commit ONLY the claim's own one-row change — e.g. stage the ledger from `origin/main` plus `apply_claim`, rather than from the tree — which is the narrow analogue of AUT-PD-160's invariant and keeps the working tree untouched; or (b) refuse when the ledger's uncommitted diff touches any row OTHER than the one being claimed, which permits the withdraw/retry state and forbids the publishing one. ⚠ (a) is the stronger shape and the more invasive; it must not be attempted without re-running `test_the_withdrawal_keeps_an_unrelated_local_edit_it_did_not_make`, which pins the behaviour either option could destroy.\n\n⭐ CLOSED 2026-08-29 by CYC-0082-381d0696, WITH OPTION (a) — the shape this row called stronger and more invasive. `claim.py` no longer stages the ledger from the working tree at all: `claim_only_text(trunk, ...)` builds the TRUNK's ledger plus this one claim and `Git.stage_ledger_blob` puts it straight into the index by plumbing (`hash-object -w` + `update-index`), so the claim commit has no content it COULD carry beyond the claim. AUT-PD-160's invariant is now structural rather than checked. ⚠ THE TREE IS STAMPED TOO, AND LEAVING IT OUT WOULD HAVE BEEN A QUIETER BUG THAN THE ONE FIXED: with only the commit stamped, the caller's ledger still reads the row as free, so the driver's own next commit reverts the lease it holds and deletes the `dispatch_log` entry priority.py scores on. `stamp_claim` is the one stamp, applied to two different bases on purpose. ⭐ AND A THIRD ENTRANCE WAS FOUND AND SHUT IN THE SAME PASS, WHICH THIS ROW DID NOT NAME: `git commit` commits the INDEX, so anything the caller had already staged rode along in the claim commit without the ledger being involved at all. `Git.staged_paths()` is read once at entry beside `commits_not_on_trunk()`, and the precondition is now the whole of it — HEAD is origin/main AND the index is HEAD. ⚠ OPTION (b) WAS REJECTED ON THE ROW'S OWN EVIDENCE: refusing on a ledger diff that touches another row still refuses the driver mid-cycle, because a `priority.py --write` re-score touches a hundred rows and that is the state a driver is always in. ★ THE PINNED REGRESSION THIS ROW WARNED ABOUT WAS RE-RUN AND PASSES — `test_the_withdrawal_keeps_an_unrelated_local_edit_it_did_not_make` — because the withdrawal path is untouched: the tree write and its restore are exactly where they were. Three new real-git tests, one of them a single-site mutation (`StagesFromTheTree`) that reproduces the publication exactly, so the guard is load-bearing rather than decorative. 38 passed.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T07:47:47Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ],
+      "closed_by": "CYC-0082-381d0696"
+    },
+    {
+      "id": "AUT-PD-166",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0080-b272f286",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop-internal handoff defect; nothing outward-facing",
+      "score": 134.0,
+      "_score_basis": "Filed beside AUT-PD-160 (134.9), which is the same failure family — a door that publishes or hands over state no gate saw — reached through a different tool. This one is ranked marginally below it only because AUT-PD-160's door reached `origin/main` while this one reaches the successor's prompt; the loss it caused is measured rather than hypothetical, which is why it is not lower.",
+      "depends_on_evidence": [
+        "the successor prompt that started CYC-0080 named `AUT-PD-165  score 134.0  [process_defect]` as the queue's top item",
+        "`git log -8 -- research/autonomy/research-ledger.json` then `git show <c>:… | grep -c AUT-PD-165` returns 0 for all eight commits: the id has never existed on the trunk",
+        "`ids.next_entry_id('AUT-PD', entries)` on committed state returns AUT-PD-165 — the id was minted in a working tree and never landed, and the id space had already reissued it",
+        "handoff.py:45 `LEDGER = HERE / 'research-ledger.json'`; build() line 263 `ledger, _ = _read(LEDGER)`; _read() line 175-179 is `path.read_text()` — a working-tree read on every path",
+        "handoff.py module docstring asserts the opposite: 'every fact here is read from a committed artifact at build time: the queue from research-ledger.json'",
+        "the emitted prompt asserts it too: '⭐ WHAT IS WAITING, read from the committed ledger when this prompt was built'",
+        "controlled reproduction: an AUT-PD-999 row written ONLY to a scratch copy of the ledger (never committed, never in the live tree) is named by the generated prompt at line 34 — cyc80-repro, scratchpad/cyc80/repro/",
+        "the same reproduction first returned 0 hits with no retry_budget, which located top_items' four-part takeable predicate (handoff.py:226-232) rather than a false negative",
+        "FIXED by CYC-0080-b272f286: handoff.py reads `origin/main:` for the ledger, the posture and the receipt list, and main() exits 3 over rows the trunk does not carry",
+        "the refusal fired on the live incident before its own fix was committed: `handoff.py --reason probe` → EXIT=3 naming AUT-PD-165 itself",
+        "research/autonomy/tests/test_a_handoff_never_hands_over_what_it_did_not_push.py: 17 passed",
+        "mutation-tested 8/8 caught, single-site, in an isolated copy — scratchpad/cyc80/cyc80-mutation.log",
+        "⛔ M6 (--json focus title falls back to disk) SURVIVED the first round: the fixture gave both rows equal scores, so a stable sort produced the right answer for the wrong reason. The fixture was the defect, not the code; fixed and re-run",
+        "test_stalls_are_named_reaches_the_board.py::test_json_mode_also_applies_the_exclusion needed a trunk fixture — its synthetic rows are exactly the divergence shape the new check refuses; its assertion is untouched",
+        "⛔ ID COLLISION, AND IT IS EVIDENCE FOR THIS ROW: while this cycle held AUT-PD-165 locally, origin/main 1684f79f9 landed a DIFFERENT defect under that id — the predecessor session returning to push the row its own handoff had named and not committed",
+        "so the loss was recovered by that session coming back, which is luck rather than a mechanism: had its container been reclaimed first (the ordinary reason a session hands off at all), the row would be gone",
+        "the same shape AUT-PD-160 records for itself — filed as AUT-PD-154, re-allocated twice — because `ids.next_entry_id` is collision-safe only while an allocation lands promptly"
+      ],
+      "closes_clause": null,
+      "what": "⛔⛔ THE HANDOFF PROMPT'S QUEUE IS READ FROM THE WORKING TREE WHILE BOTH THE MODULE AND THE PROMPT ASSERT IT IS READ FROM COMMITTED STATE, SO A LEDGER ROW FILED AND NOT PUSHED IS HANDED TO A SUCCESSOR THAT CANNOT SEE IT. Measured 2026-08-29 by CYC-0080 on its own inherited prompt, which named AUT-PD-165 at score 134.0 as the top takeable item; that id has never appeared in any committed copy of the ledger, and `ids.next_entry_id` re-issued it to this row. ⭐ THE ROW CAME BACK AND THAT DOES NOT SOFTEN THE FINDING — origin/main 1684f79f9, pushed forty minutes later by the same predecessor session returning, carries it (a claim.py working-tree defect, unrelated to this one). ⛔ RECOVERY BY THE AUTHOR COMING BACK IS LUCK, NOT A MECHANISM: a session hands off precisely because it is at its cap and its container is about to be reclaimed, so the ordinary case is that it does not return. The two rows then collided on the id and THIS one moved to AUT-PD-166, which is the third recorded instance of `ids.next_entry_id` colliding because an allocation did not land promptly (AUT-PROP-013, AUT-PD-160). ⛔ AND THE SECOND HALF IS WORSE THAN THE LOSS: handoff.py already warns the successor about this exact symptom — 'its re-score produced a ledger in which the queue's top item DID NOT EXIST' — and attributes it, in the prompt, to a stale checkout on a detached HEAD (CYC-0019). A successor that verifies its HEAD against origin/main, as this one did and as that paragraph instructs, clears the named cause and is left with a symptom the prompt says cannot happen. The warning is a misdiagnosis waiting to be believed. ⭐ THE FIX HAS TWO PARTS AND THE SECOND IS THE ONE THAT PREVENTS LOSS: (1) build the handed queue, posture and receipt list from `origin/main`, so the provenance sentence is true — and when git cannot be read, say in the prompt that the working tree was used and why, rather than claiming committed provenance anyway (CLAUDE.md §4: an absent reading is not a reading of absence); (2) REFUSE to emit a prompt when the working tree carries takeable ledger rows `origin/main` does not, because that is the outgoing session about to discard filed work — with an explicit escape that names the ids that will not survive, so a driver blocked from committing can still hand off but cannot do it silently. Reading committed state alone would have hidden this incident instead of preventing it.",
+      "_outcome": "⭐ CLOSED. Both halves shipped, and the second is the one that saves work: reading the trunk makes the provenance sentence true, refusing over unpushed rows is what stops the loss. ⛔ AND THE CLASS IS NOT CLOSED BY THIS FIX: every other tool that reads the ledger off disk and reports about the trunk has the same door. `priority.py --write`, `health.py` and `continuity.py` all read the working tree by design and are correct to — they describe the tree they are in. The defect is specific to a producer whose READER is a different container.",
+      "_correction": "⚠ ONE EVIDENCE LINE ABOVE WAS TRUE WHEN TAKEN AND IS NOW STALE, AND IT IS CORRECTED HERE RATHER THAN EDITED AWAY. `git show <c>:… | grep -c AUT-PD-165` returned 0 across all eight then-current commits at 06:20Z, which is what the reading says; origin/main 1684f79f9 at 06:25Z then filed that id. The measurement stands, the id is no longer free, and this row moved. ⛔ WHAT DOES NOT CHANGE IS THE FINDING: the prompt that started this cycle named a row no committed ledger carried at the moment it was read, which is exactly the defect — a successor is handed a queue its own clone cannot reproduce.",
+      "_the_id_this_row_does_not_carry": "⚠ AUT-PD-165 is a DIFFERENT defect and is on the trunk under that id — `claim.py:commit_ledger` staging the ledger as it stands, so a claim publishes uncommitted edits. This row was filed as AUT-PD-165 at 06:45Z from a trunk that did not carry it, and moved when 1684f79f9 landed. Anything citing 'AUT-PD-165' for the handoff defect predates that move."
     },
     {
       "id": "AUT-PD-031",
@@ -2896,7 +2953,7 @@
       },
       "kind": "process_defect",
       "state": "in_progress",
-      "owner": null,
+      "owner": "CYC-0083-381d0696",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "score": 132.9,
@@ -2908,7 +2965,7 @@
       "last_evidence_utc": "2026-08-29",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
-      "claimed_utc": "2026-08-29T01:41:48Z",
+      "claimed_utc": "2026-08-29T08:09:57Z",
       "evidence": "Measured by seat s6 over all 253 ledger commits: open-unscored 64 -> 82 across 17:26-22:12 UTC, +1.5/h over 2 h and +3.2/h over 5 h, and the ratchet's own assertion FAILS against live origin/main. Logs: scratchpad/s6-AUT-PD-050/.",
       "closes_clause": null,
       "score_inputs": {
@@ -2922,6 +2979,10 @@
         },
         {
           "utc": "2026-08-29T01:41:48Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        },
+        {
+          "utc": "2026-08-29T08:09:57Z",
           "fingerprint_at_dispatch": "2026-08-29|None"
         }
       ],
@@ -3487,56 +3548,6 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
-    },
-    {
-      "id": "AUT-PROP-051",
-      "kind": "fetch",
-      "process_defect": false,
-      "serves": {
-        "route": "RT-SGK1",
-        "publication": "PUB-KINASE-LEADS",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0078-531dbb8b",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a $0 CI dispatch against public GEO series matrices; nothing outward-facing",
-      "closes_clause": null,
-      "score": 118.0,
-      "_score_basis": "Filed just under AUT-PD-134's 118.9. It is the direct widening of a result that already exists rather than a new question, so it ranks below the open guard defects but above the rest of the RT-AUTONOMY tail.",
-      "depends_on_evidence": [
-        "research/modalities/ndrg1-panel-attribution.json: every panel scored on 9-41 members against published sets of 44-231",
-        "research/modalities/emc-expression-panels.json `_execution_model`: $0, public GEO series matrices on a GitHub-hosted CPU runner",
-        "⭐ THE NARROWING IS NOT WHERE THE ROW ASSUMED. `signature_scores` ALREADY scores each published set over its full readable membership (_score_gene_list uses the whole `readable` list); the narrowing is only in ndrg1_panel_attribution.py, which re-derives per-sample panel scores from `gene_reads`",
-        "emc_expression_panels.py:1962 `all_genes = sorted({g for p in PANELS.values() for gs in p['groups'].values() for g in gs})` — gene_reads IS the curated union, 479 genes, and nothing else was ever going to be in it",
-        "so no new MSigDB fetch and no wider accession bridge are needed: the bridge is platform-wide and already built, and the sets are already resolved",
-        "measured gap: readable members of the hypoxia/PPARγ sets over both platforms = 1431, of which 129 are already in gene_reads; over ALL 30 resolved sets = 2051, of which 200 are",
-        "worst panels: hypoxia_buffa scored on 11 of 49 readable; pparg_chip_chea on 18 of 188 — about a tenth of each set",
-        "⚠ NO PANEL'S `genes_readable` LIST IS TRUNCATED. The list is capped at 250 in _score_gene_list and pparg_perturbation_OE_UP sits at exactly 250 readable, which looks like the cap and is not — checked against `n_genes_readable` for every panel on both platforms, 0 truncated. An alarm that was raised and then disproved, recorded so it is not raised again.",
-        "size, measured before choosing: a gene_reads record is ~7.2 kB across the two platforms and 81%/67% of it is `per_sample`, so adding these genes there costs about +13 MB on a 7.4 MB artifact",
-        "the committed shape instead states the sample order ONCE per matrix and gives each gene a positional array of z alone — about 1.4 MB for all 30 sets",
-        "research/modalities/tests/test_ndrg1_panel_widening_is_declared.py: 12 passed; 9/9 single-site mutations caught (scratchpad/cyc80/cyc80-mutation2.log)",
-        "⭐ THE FETCH DELIVERED: run 33240876317 succeeded and pushed origin/main aa6d9d9a9; emc-expression-panels.json now carries `signature_member_reads` — 2017 readable members on GPL6244 (42 samples), 1802 on GPL3290 (16). Artifact 7.37 -> 9.45 MB.",
-        "⚠ THE SIZE ESTIMATE WAS LOW AND IS CORRECTED HERE: predicted ~1.4 MB for the block, measured +2.08 MB. The shape argument holds (the +13 MB alternative was the one rejected); the number was an estimate and is now a measurement."
-      ],
-      "what": "⭐ WIDEN AUT-PROP-048 FROM THE 479 COMMITTED GENES TO THE FULL PANELS, WHICH IS A $0 CI DISPATCH AND NOT A NEW QUESTION. `ndrg1-panel-attribution.json` answers whether NDRG1's per-sample level tracks hypoxia or PPARγ programmes, and its answer (one of two series separates) is sound — but every panel score rests on the SUBSET of its members that carries a per-sample value in `emc-expression-panels.json`: 9 to 41 genes against published sets of 44 to 231. ⛔ THAT IS A REAL NARROWING AND IT CUTS BOTH WAYS: the large series' separation could strengthen or vanish on full panels, and the small series' uselessly wide null could narrow enough to discriminate. Neither is predictable from the subset. ⭐ THE WORK: re-read the two GEO series matrices on an Actions runner (the same execution model `emc-expression-panels.json` already documents), compute per-sample scores over the FULL readable membership of each panel, and re-run `ndrg1_panel_attribution.py` against them. ⚠ KEEP BOTH CONTROLS — leave-one-out and the size-matched null — and expect the null to move, since it is computed from the same pool that just grew. ⛔ DO NOT report a strengthened result without re-running the mutation tests: a bigger pool changes the null, and the null is what the verdict rests on.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T06:50:15Z",
-          "fingerprint_at_dispatch": "2026-08-29|None"
-        }
-      ],
-      "_the_choice_made": "⭐ THREE OPTIONS, DECIDED ON MEASURED SIZE RATHER THAN TASTE. (a) widen `all_genes` so the signature members land in `gene_reads`: simplest and uniform, +13 MB per regeneration. (b) lean records in `gene_reads` for signature-only genes: rejected once measured — `per_sample` is 81%/67% of a record, so dropping the Welch and probe blocks saves only about a fifth, and it buys two shapes in one map. (c) a separate positional block, `signature_member_reads`: ~1.4 MB for the same z values, no existing consumer perturbed, and it is what shipped. ⛔ (d) computing the correlation inside the fetch was rejected outright: it would move the arithmetic to where `--check` cannot re-derive it, and offline reproducibility is the property this module is built around.",
-      "_outcome": "⭐ THE WIDENING IS DONE AND IT WORKED. What it produced is NOT this row's to adjudicate and is filed as AUT-PD-167: under full membership the committed verdict REVERSES, and the null moved at the same time, so the two reads are not cleanly comparable. ⛔ The trunk is RED until that is settled — see AUT-PD-167 for both self-consistent states and why neither is green."
     },
     {
       "id": "AUT-081",
@@ -6685,6 +6696,56 @@
       }
     },
     {
+      "id": "AUT-PROP-051",
+      "kind": "fetch",
+      "process_defect": false,
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0078-531dbb8b",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a $0 CI dispatch against public GEO series matrices; nothing outward-facing",
+      "closes_clause": null,
+      "score": 118.0,
+      "_score_basis": "Filed just under AUT-PD-134's 118.9. It is the direct widening of a result that already exists rather than a new question, so it ranks below the open guard defects but above the rest of the RT-AUTONOMY tail.",
+      "depends_on_evidence": [
+        "research/modalities/ndrg1-panel-attribution.json: every panel scored on 9-41 members against published sets of 44-231",
+        "research/modalities/emc-expression-panels.json `_execution_model`: $0, public GEO series matrices on a GitHub-hosted CPU runner",
+        "⭐ THE NARROWING IS NOT WHERE THE ROW ASSUMED. `signature_scores` ALREADY scores each published set over its full readable membership (_score_gene_list uses the whole `readable` list); the narrowing is only in ndrg1_panel_attribution.py, which re-derives per-sample panel scores from `gene_reads`",
+        "emc_expression_panels.py:1962 `all_genes = sorted({g for p in PANELS.values() for gs in p['groups'].values() for g in gs})` — gene_reads IS the curated union, 479 genes, and nothing else was ever going to be in it",
+        "so no new MSigDB fetch and no wider accession bridge are needed: the bridge is platform-wide and already built, and the sets are already resolved",
+        "measured gap: readable members of the hypoxia/PPARγ sets over both platforms = 1431, of which 129 are already in gene_reads; over ALL 30 resolved sets = 2051, of which 200 are",
+        "worst panels: hypoxia_buffa scored on 11 of 49 readable; pparg_chip_chea on 18 of 188 — about a tenth of each set",
+        "⚠ NO PANEL'S `genes_readable` LIST IS TRUNCATED. The list is capped at 250 in _score_gene_list and pparg_perturbation_OE_UP sits at exactly 250 readable, which looks like the cap and is not — checked against `n_genes_readable` for every panel on both platforms, 0 truncated. An alarm that was raised and then disproved, recorded so it is not raised again.",
+        "size, measured before choosing: a gene_reads record is ~7.2 kB across the two platforms and 81%/67% of it is `per_sample`, so adding these genes there costs about +13 MB on a 7.4 MB artifact",
+        "the committed shape instead states the sample order ONCE per matrix and gives each gene a positional array of z alone — about 1.4 MB for all 30 sets",
+        "research/modalities/tests/test_ndrg1_panel_widening_is_declared.py: 12 passed; 9/9 single-site mutations caught (scratchpad/cyc80/cyc80-mutation2.log)",
+        "⭐ THE FETCH DELIVERED: run 33240876317 succeeded and pushed origin/main aa6d9d9a9; emc-expression-panels.json now carries `signature_member_reads` — 2017 readable members on GPL6244 (42 samples), 1802 on GPL3290 (16). Artifact 7.37 -> 9.45 MB.",
+        "⚠ THE SIZE ESTIMATE WAS LOW AND IS CORRECTED HERE: predicted ~1.4 MB for the block, measured +2.08 MB. The shape argument holds (the +13 MB alternative was the one rejected); the number was an estimate and is now a measurement."
+      ],
+      "what": "⭐ WIDEN AUT-PROP-048 FROM THE 479 COMMITTED GENES TO THE FULL PANELS, WHICH IS A $0 CI DISPATCH AND NOT A NEW QUESTION. `ndrg1-panel-attribution.json` answers whether NDRG1's per-sample level tracks hypoxia or PPARγ programmes, and its answer (one of two series separates) is sound — but every panel score rests on the SUBSET of its members that carries a per-sample value in `emc-expression-panels.json`: 9 to 41 genes against published sets of 44 to 231. ⛔ THAT IS A REAL NARROWING AND IT CUTS BOTH WAYS: the large series' separation could strengthen or vanish on full panels, and the small series' uselessly wide null could narrow enough to discriminate. Neither is predictable from the subset. ⭐ THE WORK: re-read the two GEO series matrices on an Actions runner (the same execution model `emc-expression-panels.json` already documents), compute per-sample scores over the FULL readable membership of each panel, and re-run `ndrg1_panel_attribution.py` against them. ⚠ KEEP BOTH CONTROLS — leave-one-out and the size-matched null — and expect the null to move, since it is computed from the same pool that just grew. ⛔ DO NOT report a strengthened result without re-running the mutation tests: a bigger pool changes the null, and the null is what the verdict rests on.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T06:50:15Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ],
+      "_the_choice_made": "⭐ THREE OPTIONS, DECIDED ON MEASURED SIZE RATHER THAN TASTE. (a) widen `all_genes` so the signature members land in `gene_reads`: simplest and uniform, +13 MB per regeneration. (b) lean records in `gene_reads` for signature-only genes: rejected once measured — `per_sample` is 81%/67% of a record, so dropping the Welch and probe blocks saves only about a fifth, and it buys two shapes in one map. (c) a separate positional block, `signature_member_reads`: ~1.4 MB for the same z values, no existing consumer perturbed, and it is what shipped. ⛔ (d) computing the correlation inside the fetch was rejected outright: it would move the arithmetic to where `--check` cannot re-derive it, and offline reproducibility is the property this module is built around.",
+      "_outcome": "⭐ THE WIDENING IS DONE AND IT WORKED. What it produced is NOT this row's to adjudicate and is filed as AUT-PD-167: under full membership the committed verdict REVERSES, and the null moved at the same time, so the two reads are not cleanly comparable. ⛔ The trunk is RED until that is settled — see AUT-PD-167 for both self-consistent states and why neither is green."
+    },
+    {
       "id": "AUT-PD-094",
       "what": "⛔ A POINTER THAT DRIFTED FROM ITS OWN DECLARED OWNER, MISREPORTING THREE FIGURES: research/manuscripts/neoantigen/hla-coverage-emc.md's correction block says the class-II arm is 'negative: 2 predicted binders, none strong, on three DRB1 alleles' and that the both-arms figure is 'NOT COMPUTED rather than withheld'. ⛔ All three are stale — the committed artifact records 44 binders, 1 strong (SYGQQNMPCVQAQYS on DRB1*14:01, IC50 66.1 nM) over a 23-allele panel, and the coverage script computes both the class-II and the combined figure rather than leaving them empty. ⭐ THE DECLARED OWNER IS CORRECT AND CURRENT — the same paragraph names emc-vaccine-development-path.md §B4, which reads '44 binders, 1 strong … over 14 of 23 alleles; class II coverage 6.5%, combined 1.8%' and already carries a withdrawal row retiring the 'not computed' statement. So this is not a disagreement about the science; it is A POINTER THAT WAS NOT UPDATED WHEN ITS OWNER WAS, which is exactly what ONE FACT, ONE PLACE exists to prevent — and the failure mode is that a restatement silently becomes a second, wrong home. ★ FIX: rewrite the paragraph to POINT at §B4 rather than restate it, superseded-retained. ⚠ RELATED, NOT THE SAME ROW: hla-coverage.json's own _class_ii_note says '3-allele DR panel' and then lists 23 — a stale sentence inside the GENERATOR, so it is fixed in code and cleared by a regeneration that needs the AFND fetch, i.e. CI.",
       "serves": {
@@ -9578,55 +9639,6 @@
       "score_inputs": {
         "age_factor": 0.1429
       }
-    },
-    {
-      "id": "AUT-PD-166",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0080-b272f286",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop-internal handoff defect; nothing outward-facing",
-      "score": 134.0,
-      "_score_basis": "Filed beside AUT-PD-160 (134.9), which is the same failure family — a door that publishes or hands over state no gate saw — reached through a different tool. This one is ranked marginally below it only because AUT-PD-160's door reached `origin/main` while this one reaches the successor's prompt; the loss it caused is measured rather than hypothetical, which is why it is not lower.",
-      "depends_on_evidence": [
-        "the successor prompt that started CYC-0080 named `AUT-PD-165  score 134.0  [process_defect]` as the queue's top item",
-        "`git log -8 -- research/autonomy/research-ledger.json` then `git show <c>:… | grep -c AUT-PD-165` returns 0 for all eight commits: the id has never existed on the trunk",
-        "`ids.next_entry_id('AUT-PD', entries)` on committed state returns AUT-PD-165 — the id was minted in a working tree and never landed, and the id space had already reissued it",
-        "handoff.py:45 `LEDGER = HERE / 'research-ledger.json'`; build() line 263 `ledger, _ = _read(LEDGER)`; _read() line 175-179 is `path.read_text()` — a working-tree read on every path",
-        "handoff.py module docstring asserts the opposite: 'every fact here is read from a committed artifact at build time: the queue from research-ledger.json'",
-        "the emitted prompt asserts it too: '⭐ WHAT IS WAITING, read from the committed ledger when this prompt was built'",
-        "controlled reproduction: an AUT-PD-999 row written ONLY to a scratch copy of the ledger (never committed, never in the live tree) is named by the generated prompt at line 34 — cyc80-repro, scratchpad/cyc80/repro/",
-        "the same reproduction first returned 0 hits with no retry_budget, which located top_items' four-part takeable predicate (handoff.py:226-232) rather than a false negative",
-        "FIXED by CYC-0080-b272f286: handoff.py reads `origin/main:` for the ledger, the posture and the receipt list, and main() exits 3 over rows the trunk does not carry",
-        "the refusal fired on the live incident before its own fix was committed: `handoff.py --reason probe` → EXIT=3 naming AUT-PD-165 itself",
-        "research/autonomy/tests/test_a_handoff_never_hands_over_what_it_did_not_push.py: 17 passed",
-        "mutation-tested 8/8 caught, single-site, in an isolated copy — scratchpad/cyc80/cyc80-mutation.log",
-        "⛔ M6 (--json focus title falls back to disk) SURVIVED the first round: the fixture gave both rows equal scores, so a stable sort produced the right answer for the wrong reason. The fixture was the defect, not the code; fixed and re-run",
-        "test_stalls_are_named_reaches_the_board.py::test_json_mode_also_applies_the_exclusion needed a trunk fixture — its synthetic rows are exactly the divergence shape the new check refuses; its assertion is untouched",
-        "⛔ ID COLLISION, AND IT IS EVIDENCE FOR THIS ROW: while this cycle held AUT-PD-165 locally, origin/main 1684f79f9 landed a DIFFERENT defect under that id — the predecessor session returning to push the row its own handoff had named and not committed",
-        "so the loss was recovered by that session coming back, which is luck rather than a mechanism: had its container been reclaimed first (the ordinary reason a session hands off at all), the row would be gone",
-        "the same shape AUT-PD-160 records for itself — filed as AUT-PD-154, re-allocated twice — because `ids.next_entry_id` is collision-safe only while an allocation lands promptly"
-      ],
-      "closes_clause": null,
-      "what": "⛔⛔ THE HANDOFF PROMPT'S QUEUE IS READ FROM THE WORKING TREE WHILE BOTH THE MODULE AND THE PROMPT ASSERT IT IS READ FROM COMMITTED STATE, SO A LEDGER ROW FILED AND NOT PUSHED IS HANDED TO A SUCCESSOR THAT CANNOT SEE IT. Measured 2026-08-29 by CYC-0080 on its own inherited prompt, which named AUT-PD-165 at score 134.0 as the top takeable item; that id has never appeared in any committed copy of the ledger, and `ids.next_entry_id` re-issued it to this row. ⭐ THE ROW CAME BACK AND THAT DOES NOT SOFTEN THE FINDING — origin/main 1684f79f9, pushed forty minutes later by the same predecessor session returning, carries it (a claim.py working-tree defect, unrelated to this one). ⛔ RECOVERY BY THE AUTHOR COMING BACK IS LUCK, NOT A MECHANISM: a session hands off precisely because it is at its cap and its container is about to be reclaimed, so the ordinary case is that it does not return. The two rows then collided on the id and THIS one moved to AUT-PD-166, which is the third recorded instance of `ids.next_entry_id` colliding because an allocation did not land promptly (AUT-PROP-013, AUT-PD-160). ⛔ AND THE SECOND HALF IS WORSE THAN THE LOSS: handoff.py already warns the successor about this exact symptom — 'its re-score produced a ledger in which the queue's top item DID NOT EXIST' — and attributes it, in the prompt, to a stale checkout on a detached HEAD (CYC-0019). A successor that verifies its HEAD against origin/main, as this one did and as that paragraph instructs, clears the named cause and is left with a symptom the prompt says cannot happen. The warning is a misdiagnosis waiting to be believed. ⭐ THE FIX HAS TWO PARTS AND THE SECOND IS THE ONE THAT PREVENTS LOSS: (1) build the handed queue, posture and receipt list from `origin/main`, so the provenance sentence is true — and when git cannot be read, say in the prompt that the working tree was used and why, rather than claiming committed provenance anyway (CLAUDE.md §4: an absent reading is not a reading of absence); (2) REFUSE to emit a prompt when the working tree carries takeable ledger rows `origin/main` does not, because that is the outgoing session about to discard filed work — with an explicit escape that names the ids that will not survive, so a driver blocked from committing can still hand off but cannot do it silently. Reading committed state alone would have hidden this incident instead of preventing it.",
-      "_outcome": "⭐ CLOSED. Both halves shipped, and the second is the one that saves work: reading the trunk makes the provenance sentence true, refusing over unpushed rows is what stops the loss. ⛔ AND THE CLASS IS NOT CLOSED BY THIS FIX: every other tool that reads the ledger off disk and reports about the trunk has the same door. `priority.py --write`, `health.py` and `continuity.py` all read the working tree by design and are correct to — they describe the tree they are in. The defect is specific to a producer whose READER is a different container.",
-      "_correction": "⚠ ONE EVIDENCE LINE ABOVE WAS TRUE WHEN TAKEN AND IS NOW STALE, AND IT IS CORRECTED HERE RATHER THAN EDITED AWAY. `git show <c>:… | grep -c AUT-PD-165` returned 0 across all eight then-current commits at 06:20Z, which is what the reading says; origin/main 1684f79f9 at 06:25Z then filed that id. The measurement stands, the id is no longer free, and this row moved. ⛔ WHAT DOES NOT CHANGE IS THE FINDING: the prompt that started this cycle named a row no committed ledger carried at the moment it was read, which is exactly the defect — a successor is handed a queue its own clone cannot reproduce.",
-      "_the_id_this_row_does_not_carry": "⚠ AUT-PD-165 is a DIFFERENT defect and is on the trunk under that id — `claim.py:commit_ledger` staging the ledger as it stands, so a claim publishes uncommitted edits. This row was filed as AUT-PD-165 at 06:45Z from a trunk that did not carry it, and moved when 1684f79f9 landed. Anything citing 'AUT-PD-165' for the handoff defect predates that move."
     },
     {
       "id": "AUT-PD-167",

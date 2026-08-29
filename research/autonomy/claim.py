@@ -90,13 +90,42 @@ trunk, which is what every other session reads, moves only through `git.push()`'
 There is no second door: every mutation that could let two workers both succeed is gated by the one
 push this module already treats as the fencing check. **So Chubby's lock-delay fallback does not
 apply to this module and none was built** — adding one would be a mechanism for a gap that an audit,
-not a guess, shows does not exist here. Re-open this only if a future write path is added that lands
+not a guess, shows does not exist here. ⚠ THAT AUDIT IS SOUND AND ITS SENTENCE "there is no second
+door" READS WIDER THAN IT WAS ARGUED — see AUT-PD-165 below. It asked only whether a write path could
+let TWO WORKERS BOTH SUCCEED, which is a question about concurrency; the ledger's working-tree copy
+was correctly cleared on that question and was a door onto a different harm entirely.
+Re-open this only if a future write path is added that lands
 on the trunk some way other than this module's own `git push`.
+
+⛔⛔ AUT-PD-165: AUT-PD-160 SHUT THE COMMIT DOOR AND LEFT THE WORKING-TREE DOOR OPEN, AND IT IS THE
+ONE A DRIVER WALKS THROUGH EVERY CYCLE. `commit_ledger` was `git add research/autonomy/research-
+ledger.json` followed by `git commit`, and `git add` stages the file AS IT STANDS — so a claim made
+while the ledger held UNCOMMITTED, UNGATED edits published those edits to `main` inside a commit whose
+message reads `claim AUT-...`. `commits_not_on_trunk()` is blind to it by construction: nothing is
+ahead of the trunk until that commit exists.
+⚠ AND IT IS THE ORDINARY SHAPE RATHER THAN AN EDGE CASE, WHICH IS WHY IT RATES ITS OWN ROW. The cycle
+contract edits the ledger at step 3 (`priority.py --write`) and again at step 9 (the write-back), and
+claims at step 4; a driver taking a second item in one session is holding exactly this state. The
+cycle that filed the row measured itself stopping to wait ~9 minutes for a gate rather than claim over
+its own write-back.
+⭐ THE FIX IS THE STRONGER OF THE TWO THE ROW OFFERED, AND IT IS STRUCTURAL RATHER THAN A CHECK: the
+claim commit is built from the TRUNK's ledger plus the one claim (`claim_only_text` →
+`stage_ledger_blob`, straight into the index by plumbing), so there is no longer any content it COULD
+carry beyond the claim — AUT-PD-160's invariant made true instead of merely tested. The rejected
+alternative was to refuse on any ledger diff touching another row; that reads the same evidence and
+still leaves the driver unable to claim while holding a re-score, which is the state it is always in.
+⚠ THE WORKING TREE IS STAMPED TOO, AND SKIPPING THAT WOULD HAVE BEEN A QUIETER BUG THAN THE ONE FIXED.
+With only the commit stamped, the caller's ledger still says the row is free, so the driver's own next
+commit REVERTS the lease it holds — and takes the `dispatch_log` entry `priority.py` scores on with it.
+⛔ AND THE INDEX IS CHECKED AT ENTRY (`staged_paths`), because `git commit` commits the index: work the
+caller had already staged rode along in the claim commit without the ledger being involved at all. The
+precondition is now the whole of it — **HEAD is origin/main AND the index is HEAD.**
 """
 
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import os
 import subprocess
@@ -215,8 +244,46 @@ class Git:
     def trunk_ledger(self) -> dict:
         return json.loads(self._run("show", f"origin/main:{LEDGER_REL}").stdout)
 
+    def stage_ledger_blob(self, text: str) -> None:
+        """Put `text` in the INDEX at `LEDGER_REL` WITHOUT writing the working tree (AUT-PD-165).
+
+        ⛔⛔ THE `git add` THIS REPLACES IS THE WORKING-TREE DOOR. `git add <path>` stages the file
+        AS IT STANDS, so a claim made while the ledger held the driver's UNCOMMITTED edits committed
+        those edits and pushed them to `main` — ungated, inside a commit whose message says
+        `claim AUT-...`. `commits_not_on_trunk()` cannot see it: there is nothing ahead of the trunk
+        until this very commit creates it. ⚠ AND IT IS THE ORDINARY SHAPE, NOT AN EDGE CASE — the
+        cycle contract edits the ledger at step 3 (`priority.py --write`) and step 9 (the
+        write-back), and claims at step 4.
+        ⭐ THE PLUMBING IS THE POINT, NOT AN OPTIMISATION. Writing the trunk's bytes into the
+        WORKING TREE and calling `git add` would reach the same index and would, for the width of
+        one function call, replace the driver's uncommitted work with content it did not write — and
+        a container reclaimed in that window destroys it. `hash-object -w` + `update-index` never
+        touches the tree, so there is no window to lose.
+        ⚠ `--path` is passed so any clean filter configured for this path applies exactly as it
+        would to a `git add`; the blob must be what git would have stored, not what we happened to
+        hand it.
+        """
+        proc = subprocess.run(["git", "hash-object", "-w", "--path", LEDGER_REL, "--stdin"],
+                              cwd=self.repo, input=text, capture_output=True, text=True,
+                              check=True, env={**os.environ, **self.C_LOCALE})
+        self._run("update-index", "--add", "--cacheinfo",
+                  f"100644,{proc.stdout.strip()},{LEDGER_REL}")
+
+    def staged_paths(self) -> list[str]:
+        """Every path the INDEX holds differently from HEAD, staged by somebody other than us.
+
+        ⛔ THE THIRD ENTRANCE, AND IT DOES NOT INVOLVE THE LEDGER AT ALL. `git commit` commits the
+        INDEX, so anything the caller had already staged rides along in the claim commit and reaches
+        `main` with no gate — the same harm as the two doors above, reached without touching the
+        file this module owns. Read ONCE at entry, beside `commits_not_on_trunk()`, so the
+        precondition is the whole of it: **HEAD is origin/main AND the index is HEAD**, and the only
+        thing that can then be in the claim commit is what this module itself stages.
+        """
+        return [p for p in self._run("diff", "--cached", "--name-only", "HEAD").stdout.split() if p]
+
     def commit_ledger(self, message: str):
-        self._run("add", LEDGER_REL)
+        """⛔ COMMITS THE INDEX, AND THE ABSENT `git add` IS THE FIX (AUT-PD-165) — see
+        `stage_ledger_blob`, which is what put the claim there."""
         self._run("commit", "-q", "-m", message)
 
     def commits_not_on_trunk(self) -> list[str]:
@@ -332,10 +399,17 @@ def decide(trunk: dict, entry_id: str, me: str) -> tuple[str, str]:
     return TAKEN, f"{entry_id} is free on the trunk"
 
 
-def apply_claim(ledger_path: str, entry_id: str, me: str, when: str) -> None:
-    with open(ledger_path, encoding="utf-8") as fh:
-        d = json.load(fh)
-    for e in d["entries"]:
+def stamp_claim(ledger: dict, entry_id: str, me: str, when: str) -> bool:
+    """Mark `entry_id` as held by `me` in an in-memory ledger. `False` if the row is not there.
+
+    ⭐ SPLIT OUT FOR AUT-PD-165 SO ONE STAMP SERVES TWO DESTINATIONS, AND THE TWO ARE DELIBERATELY
+    DIFFERENT LEDGERS. The COMMIT gets the trunk's ledger with this stamp and nothing else
+    (`claim_only_text`); the WORKING TREE gets the caller's own ledger — whatever uncommitted work it
+    holds — with the same stamp (`apply_claim`). ⛔ A version that stamps once and uses the result
+    for both has chosen one of the two harms: commit the tree and it publishes ungated work; write
+    the trunk's bytes to the tree and it deletes work the caller had not committed yet.
+    """
+    for e in ledger["entries"]:
         if e.get("id") == entry_id:
             e["owner"] = me
             e["claimed_utc"] = when
@@ -350,13 +424,38 @@ def apply_claim(ledger_path: str, entry_id: str, me: str, when: str) -> None:
                 "utc": when,
                 "fingerprint_at_dispatch": priority.evidence_fingerprint(e),
             })
-            break
-    else:
+            return True
+    return False
+
+
+def apply_claim(ledger_path: str, entry_id: str, me: str, when: str) -> None:
+    """Stamp the claim onto the ledger ON DISK — the caller's own copy, edits and all."""
+    with open(ledger_path, encoding="utf-8") as fh:
+        d = json.load(fh)
+    if not stamp_claim(d, entry_id, me, when):
         raise KeyError(f"{entry_id} is not in {ledger_path}")
     # ⛔ AUT-PD-037: this used to type `indent=2, ensure_ascii=False` out by hand, which happened to
     # match the committed convention but proved nothing — `priority.py`'s own "generator" typed
     # different parameters right next to it. `ledger_io.write_ledger` is the one place that is pinned.
     ledger_io.write_ledger(ledger_path, d)
+
+
+def claim_only_text(trunk: dict, entry_id: str, me: str, when: str) -> str:
+    """The TRUNK's ledger with this one claim stamped on it, in the canonical serialization.
+
+    ⛔⛔ THIS IS WHAT THE CLAIM COMMIT CONTAINS, AND ITS BASE IS THE TRUNK RATHER THAN THE TREE
+    (AUT-PD-165). Built fresh inside every attempt, from the trunk that attempt just read, so the
+    re-application invariant in `claim()`'s docstring holds for the committed bytes and not merely
+    for the file on disk.
+    ⚠ SERIALIZED WITH `dumps_ledger`, WHICH DOES NOT RUN admissibility's WRITE GATE — and it does not
+    need to: `apply_claim` puts the identical one-row stamp through `write_ledger` on the same
+    attempt, so the gate still sees this claim exactly once. What must never drift is the FORMAT, and
+    that is why this calls `ledger_io` rather than `json.dumps` (AUT-PD-037).
+    """
+    d = copy.deepcopy(trunk)
+    if not stamp_claim(d, entry_id, me, when):
+        raise KeyError(f"{entry_id} is not on the trunk")
+    return ledger_io.dumps_ledger(d)
 
 
 def withdraw_claim(ledger_path: str, before: str) -> None:
@@ -418,13 +517,33 @@ def claim(entry_id: str, me: str, when: str, git: Git | None = None,
                 "work, plus any merge git makes to do it, on `main` without a gate having seen the "
                 "tree that results. Push those commits yourself through ./scripts/preflight.sh "
                 "first, or claim from a checkout of origin/main; then claim again.")
+        # ⛔ AUT-PD-165's third entrance, and the cheapest of the three to shut. `git commit` commits
+        # the INDEX, so anything already staged rides along in the claim commit — same harm, and it
+        # never touches the ledger. Asked ONCE, here, for the same reason as the reading above: this
+        # module stages the claim itself moments later, and re-asking inside the loop would refuse
+        # its own work.
+        staged = git.staged_paths()
+        if staged:
+            return SUSPENDED, (
+                f"{entry_id} was not claimed: {len(staged)} path(s) are already staged in the index "
+                f"({', '.join(staged[:4])}{', and more' if len(staged) > 4 else ''}), and `git "
+                "commit` commits the INDEX — so the claim commit would carry that work to `main` "
+                "with no gate having seen it. Commit it yourself through ./scripts/preflight.sh, or "
+                "unstage it (`git restore --staged`); then claim again.")
         for attempt in range(1, MAX_ATTEMPTS + 1):
             git.fetch()
-            verdict, why = decide(git.trunk_ledger(), entry_id, me)
+            trunk = git.trunk_ledger()
+            verdict, why = decide(trunk, entry_id, me)
             if verdict != TAKEN:
                 return verdict, why
 
+            # ⛔⛔ TWO DESTINATIONS, TWO BASES — AUT-PD-165. The COMMIT gets the trunk plus this one
+            # claim, so a push can carry nothing the caller had not already published; the WORKING
+            # TREE gets the caller's own ledger plus the same claim, so the uncommitted work it was
+            # holding survives AND its next commit does not revert the lease it now holds. Dropping
+            # the second line publishes ungated work; dropping the first deletes it.
             apply_claim(ledger_path, entry_id, me, when)
+            git.stage_ledger_blob(claim_only_text(trunk, entry_id, me, when))
             git.commit_ledger(f"claim {entry_id} for {me}")
             outcome = git.push()
             if outcome == PUSH_OK:
