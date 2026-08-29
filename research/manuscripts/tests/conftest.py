@@ -11,3 +11,20 @@ def pytest_configure(config):
     config.addinivalue_line(
         "markers",
         "committed_artifact: asserts a committed artifact's contents, not a function's behaviour")
+
+
+# ⛔⛔ NO TEST MAY WRITE TO A GIT-TRACKED FILE — installed here so it covers this whole suite
+# whatever the entry point. The rule, its measurement and the fix a firing guard is asking for all
+# live in `tracked_tree_guard`; this is only the binding.
+import os  # noqa: E402
+import sys  # noqa: E402
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import tracked_tree_guard  # noqa: E402
+
+tracked_tree_guard.install(os.path.dirname(os.path.abspath(__file__)))
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """The leak half of the tracked-tree guard — see `tracked_tree_guard.assert_tree_unchanged`."""
+    tracked_tree_guard.assert_tree_unchanged()

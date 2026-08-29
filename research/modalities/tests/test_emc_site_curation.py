@@ -111,16 +111,19 @@ def test_the_committed_artifact_matches_the_generator():
         assert json.load(fh) == mod.build()
 
 
-def test_check_refuses_a_perturbed_artifact(tmp_path):
+def test_check_refuses_a_perturbed_artifact(tmp_path, monkeypatch):
     import shutil
-    backup = str(tmp_path / "b.json")
-    shutil.copy(mod.OUT, backup)
-    try:
-        with open(mod.OUT, encoding="utf-8") as fh:
-            doc = json.load(fh)
-        doc["pooled_extremity_fraction"]["extremity_strict"]["percent"] = 99.9
-        with open(mod.OUT, "w", encoding="utf-8") as fh:
-            json.dump(doc, fh)
-        assert mod.check() == 1
-    finally:
-        shutil.copy(backup, mod.OUT)
+    # ⛔ ISOLATED 2026-08-29 (AUT-PD-187). This mutated the LIVE tracked artifact and restored it in
+    # a `finally` — safe only while nothing else reads it, and this suite runs under xdist. See
+    # research/manuscripts/tests/tracked_tree_guard.py for what that cost. The producer's OUT is
+    # redirected at a private copy, so what is under test is unchanged and the tree is never written.
+    copy = tmp_path / os.path.basename(mod.OUT)
+    shutil.copyfile(mod.OUT, copy)
+    monkeypatch.setattr(mod, "OUT", str(copy))
+
+    with open(mod.OUT, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    doc["pooled_extremity_fraction"]["extremity_strict"]["percent"] = 99.9
+    with open(mod.OUT, "w", encoding="utf-8") as fh:
+        json.dump(doc, fh)
+    assert mod.check() == 1

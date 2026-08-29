@@ -1,6 +1,6 @@
 ---
 name: paper-hardening
-description: The repeatable cycle that takes a manuscript from "the science is done" to "submission ready" — iterated blind adversarial review rounds, applied and re-run until convergence, WITHOUT the paper ballooning in length. Load when starting or continuing a hardening cycle, before launching a review round, before applying a round's findings to the prose, before deciding whether another round is warranted, and any time you are about to add a sentence to a manuscript that is already under review. Covers: the per-round word budget as a hard gate on VENUE-CAPPED submissions and why it does not apply to aiXiv, which caps nothing; why thirteen rounds grew one article monotonically 2,914 to 5,976 words; a correction REPLACES text and never appends; the five blind seats and the regression lens that found the only round-13 blocker; review a PINNED COMMIT, never the working tree; refute by default; why a verifier's pasteable fix is not pre-verified prose; the one-of-a-pair defect class (seven found, the seventh inside the test selector itself); mutation-testing every guard you write, single-site mutations included; the four process defects that cost real rounds; and the convergence test — no blockers AND no P1s. Commit and gate mechanics live in `repo-gates`, not here.
+description: The repeatable cycle that takes a manuscript from "the science is done" to "submission ready" — iterated blind adversarial review rounds, applied and re-run until convergence, WITHOUT the paper ballooning in length. Load when starting or continuing a hardening cycle, before launching a review round, before applying a round's findings to the prose, before deciding whether another round is warranted, and any time you are about to add a sentence to a manuscript that is already under review. Covers: the per-round word budget as a hard gate on VENUE-CAPPED submissions and why it does not apply to aiXiv, which caps nothing; why thirteen rounds grew one article monotonically 2,914 to 5,976 words; a correction REPLACES text and never appends; the five blind seats and the regression lens that found the only round-13 blocker; review a PINNED COMMIT, never the working tree; refute by default; why a verifier's pasteable fix is not pre-verified prose; the one-of-a-pair defect class (seven found, the seventh inside the test selector itself); mutation-testing every guard you write, single-site mutations included; the four process defects that cost real rounds; and the convergence test — no blockers on the posted commit, with the open P1 count reported beside it rather than gating (changed 2026-08-29). Commit and gate mechanics live in `repo-gates`, not here.
 ---
 
 # Hardening a paper: adversarial rounds without prose inflation
@@ -363,12 +363,38 @@ inflated grade made the work look more urgent than it was.** ⚠ Report the two 
 never merge them: **defects found in the artifact**, and **coverage gaps found**.
 
 
-**⛔ STOP WHEN A ROUND RETURNS NO BLOCKERS *AND* NO P1s.**
+**⛔ STOP WHEN A ROUND RETURNS NO BLOCKERS, ON THE COMMIT THAT GETS POSTED. REPORT THE OPEN P1 COUNT
+BESIDE THAT VERDICT — IT DOES NOT GATE.**
 
-⚠ *Superseded, retained: "a round with no blockers is converged."* **Round 12 was the first round with
-no blockers from any seat** (`9476171b`) — and **round 13 found a blocker** (`40fc3c82`), plus eight
-P1s, of which all but two were damage from round 12's own repairs. A zero-blocker round with live P1s
-in it is a round whose repairs have not yet been reviewed.
+⚠ *Superseded, retained (rule 1.2): "STOP WHEN A ROUND RETURNS NO BLOCKERS **AND** NO P1s", and
+before that "a round with no blockers is converged."*
+
+⛔⛔ **THE P1 HALF WAS REMOVED 2026-08-29, ON TRIMCRAE'S DECISION, BECAUSE IT CONTRADICTED §8b ABOVE.**
+That section argues that grading coverage gaps as blockers is wrong **precisely because the count can
+never reach zero** — there is always another unguarded sentence — so the number stops tracking paper
+defects and starts tracking instrument coverage; and it ends *"report the two counts separately and
+never merge them."* **This rule merged them**, and `publish_bar`'s `hardening_converged` enforced the
+merge as a publication gate, which is the same defect one level up: closing a P1 ships a new guard, a
+new guard is new machinery, and the next round finds gaps in **that**. ⚠ *Measured on PUB-ASO,
+2026-08-29: round 18's three guard-coverage P1s were closed, the work was real, and not one of them
+was a wrong statement in the paper.* He put it himself — *"'This number is true but not anchored'
+doesn't seem like it should be a blocker"* — and it does not.
+
+★★ **AND THE ROUND-13 OBJECTION SURVIVES INTACT, THROUGH A DIFFERENT MECHANISM.** **Round 12 was the
+first round with no blockers from any seat** (`9476171b`) — and **round 13 found a blocker**
+(`40fc3c82`), plus eight P1s, of which all but two were damage from round 12's own repairs. That is
+still true, and it is still the reason a clean round is not automatically a converged one. But the
+protection never came from the P1 count: it comes from **reviewing the exact commit that gets
+posted**. `publish_bar` requires `reviewed_commit == sha`, so every repair is inside what the seats
+read, and **a round whose own repairs have not been reviewed cannot clear the clause however few P1s
+it declares.** ⛔ So the pinned-commit rule below is now load-bearing twice over — do not relax it to
+"a recent commit".
+
+⚠ **THIS IS A LOOSENING, SO IT IS DECLARED RATHER THAN QUIET:** `amendment_guard` forbids a bar being
+changed by the cycle it blocked, the 2026-08-29 cycle **was** blocked by it, and the change is
+therefore recorded in `amendments.jsonl` as trimcrae's rather than the loop's. **A P1 is still a
+finding, still written down, still worth closing** — the open count now travels on the line that
+clears the paper, so a paper passing with live coverage gaps says so.
 
 **Track the blocker trend; it is the signal, not the round number:**
 

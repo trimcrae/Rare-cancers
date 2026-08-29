@@ -186,7 +186,42 @@ def _look_history(pub_id: str) -> dict:
 
 
 def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
-    """`paper-hardening`'s convergence test: no blockers AND no P1s, on THIS commit.
+    """`paper-hardening`'s convergence test: no BLOCKERS, on THIS commit. P1s are reported, not gated.
+
+    ⛔⛔ THE P1 HALF WAS REMOVED 2026-08-29 ON TRIMCRAE'S EXPLICIT DECISION, and it is a
+    LOOSENING, so the reasoning is here rather than in a commit message.
+
+    The two grades mean different things. A BLOCKER is text that is wrong now — a reader acting on
+    the committed paper would be misled. A P1 is text that is CORRECT now but that an ordinary
+    future edit would silently falsify, because nothing reads it. `paper-hardening` §8b argues at
+    length that grading coverage gaps as blockers is wrong precisely because the count can never
+    reach zero — there is always another unguarded sentence — so the number stops tracking paper
+    defects and starts tracking instrument coverage. It then says, in terms, to report the two
+    counts separately and never merge them.
+
+    ⛔ THIS CLAUSE MERGED THEM. Requiring zero P1s made an unbounded quantity a publication
+    gate, which is the same defect the skill diagnoses, one level up: closing a P1 ships a new
+    guard, a new guard is new machinery, and the next round finds gaps in that. Measured on PUB-ASO,
+    2026-08-29: round 18's three guard-coverage P1s were closed, the work was real, and not one of
+    them was a wrong statement in the paper.
+
+    ★ WHAT IS NOT LOST, AND IT IS THE OBJECTION THAT MATTERED. Round 13 found a blocker after
+    round 12 came back clean, and all but two of its P1s were damage from round 12's OWN repairs —
+    which is why the rule used to read "no blockers AND no P1s". That protection does not come from
+    the P1 count and never did: it comes from `reviewed_commit == sha` below. The seats must have
+    reviewed the exact commit being posted, so every repair is inside what they read. A round whose
+    repairs have not been reviewed cannot satisfy this clause however few P1s it declares.
+
+    ⚠ AND THE COUNTS ARE STILL LOAD-BEARING. The record must still declare its P1s, they must still
+    not under-report the seats, and the passing evidence line PRINTS the open P1 count — so a paper
+    clearing this clause with live coverage gaps says so, on the line that clears it. What changed
+    is that the number no longer refuses; it informs.
+
+    ⛔ AUTHORITY. `amendment_guard` forbids a bar being changed by the cycle it blocked, and this
+    cycle WAS blocked by it. The change is therefore trimcrae's, taken 2026-08-29 after he put the
+    question himself — "What severity is P1 supposed to represent? 'This number is true but not
+    anchored' doesn't seem like it should be a blocker" — and then directed the fix. Declared in
+    `amendments.jsonl`.
 
     Reviewing a pinned commit is the skill's own rule — round 13's seats hit working-tree drift
     mid-review. So a hardening record for a DIFFERENT commit does not clear this paper; it clears
@@ -200,7 +235,7 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
     counts are still required (absent is not empty) and are used only to catch a record that
     disagrees with the evidence underneath it.
     """
-    label = "hardening converged (no blockers, no P1s)"
+    label = "hardening converged (no blockers on this commit; P1s reported)"
     record, err = _read_json(HARDENING_DIR / f"{pub_id}.json")
     if record is None:
         return _clause("hardening_converged", label, UNVERIFIABLE,
@@ -251,10 +286,14 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
                        f"record under-reports its own seats: it declares {len(blockers)} blocker(s) "
                        f"and {len(p1s)} P1(s), the seats record {len(seat_blockers)} and "
                        f"{len(seat_p1s)}")
-    if blockers or p1s or seat_blockers or seat_p1s:
+    # ⛔ BLOCKERS REFUSE. P1s DO NOT — see this function's docstring for why, and for whose
+    # decision that was. The P1 count travels with the verdict either way.
+    open_p1s = max(len(p1s), len(seat_p1s))
+    if blockers or seat_blockers:
         return _clause("hardening_converged", label, FAIL,
-                       f"{len(blockers)} blocker(s), {len(p1s)} P1(s) open at round "
-                       f"{record.get('last_round')}")
+                       f"{max(len(blockers), len(seat_blockers))} blocker(s) open at round "
+                       f"{record.get('last_round')} ({open_p1s} P1(s) alongside, which do not "
+                       "refuse this clause)")
 
     # ⛔ THE ROUND THAT DECLARES CONVERGENCE MAY NOT BE THE WEAKEST ONE. Rounds repeat until one
     # comes back clean, so the loop stops on the first favourable draw; stopping on a THIN round
@@ -274,9 +313,15 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
                        "seat records). Rounds are repeated until one comes back clean, so a clean "
                        "round narrower than the ones before it is the loop stopping on its weakest "
                        "look")
+    # ⛔ THE OPEN P1 COUNT IS PART OF THE PASS, NOT A FOOTNOTE TO IT. This clause no longer refuses
+    # on coverage gaps, so the line that clears the paper is the one place a reader is guaranteed to
+    # see how many it is clearing with. A silent PASS would turn "reported, not gated" into
+    # "ignored", which is the loosening this change is NOT.
+    coverage = ("0 open P1s" if not open_p1s else
+                f"{open_p1s} open P1(s) — coverage gaps, reported and not gating")
     return _clause("hardening_converged", label, PASS,
-                   f"round {rounds} on {sha[:12]}: 0 blockers, 0 P1s across {len(seats)} blind "
-                   f"seat(s), and no earlier round on record fielded more "
+                   f"round {rounds} on {sha[:12]}: 0 blockers across {len(seats)} blind seat(s), "
+                   f"{coverage}, and no earlier round on record fielded more "
                    f"({len(priors)} earlier round(s) with seat records, widest {widest})")
 
 

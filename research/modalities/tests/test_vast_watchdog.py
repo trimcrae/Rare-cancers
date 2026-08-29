@@ -850,21 +850,22 @@ def test_an_empty_branch_name_is_a_no_op_not_a_crash():
     assert "unchanged" in msg
 
 
-def test_merging_a_real_branch_leaves_a_valid_watch_list():
+def test_merging_a_real_branch_leaves_a_valid_watch_list(tmp_path, monkeypatch):
     """Whatever it does, the result must still pass the same validation the tick gates on."""
-    import hashlib
-    before = open(vw.WATCH_FILE, "rb").read()
-    try:
-        msg = vw.merge_branch_watch_list("main")
-        assert "⚠" not in msg or "could not read" in msg, msg
-        doc = json.load(open(vw.WATCH_FILE))
-        assert isinstance(doc.get("watch"), list) and doc["watch"]
-        assert not wdv.validate(doc, known_kinds=set(vw.KINDS))
-    finally:
-        with open(vw.WATCH_FILE, "wb") as fh:
-            fh.write(before)
-    assert hashlib.sha256(open(vw.WATCH_FILE, "rb").read()).hexdigest() == \
-        hashlib.sha256(before).hexdigest()
+    import shutil
+    # ⛔ ISOLATED 2026-08-29 (AUT-PD-187). This mutated the LIVE tracked artifact and restored it in
+    # a `finally` — safe only while nothing else reads it, and this suite runs under xdist. See
+    # research/manuscripts/tests/tracked_tree_guard.py for what that cost. The producer's OUT is
+    # redirected at a private copy, so what is under test is unchanged and the tree is never written.
+    copy = tmp_path / os.path.basename(vw.WATCH_FILE)
+    shutil.copyfile(vw.WATCH_FILE, copy)
+    monkeypatch.setattr(vw, "WATCH_FILE", str(copy))
+
+    msg = vw.merge_branch_watch_list("main")
+    assert "⚠" not in msg or "could not read" in msg, msg
+    doc = json.load(open(vw.WATCH_FILE))
+    assert isinstance(doc.get("watch"), list) and doc["watch"]
+    assert not wdv.validate(doc, known_kinds=set(vw.KINDS))
 
 
 def test_the_workflow_folds_the_branch_list_in_before_it_validates_or_ticks():

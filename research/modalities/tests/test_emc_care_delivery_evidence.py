@@ -29,29 +29,32 @@ def test_check_passes_on_the_committed_artifact():
     assert mod.main(["--check"]) == 0
 
 
-def test_check_refuses_a_perturbed_claim_and_writes_nothing(tmp_path):
+def test_check_refuses_a_perturbed_claim_and_writes_nothing(tmp_path, monkeypatch):
+    # ⛔ ISOLATED 2026-08-29 (AUT-PD-187). This mutated the LIVE tracked artifact and restored it in
+    # a `finally` — safe only while nothing else reads it, and this suite runs under xdist. See
+    # research/manuscripts/tests/tracked_tree_guard.py for what that cost. The producer's OUT is
+    # redirected at a private copy, so what is under test is unchanged and the tree is never written.
     assert os.path.exists(mod.OUT), "run the generator first"
-    backup = tmp_path / "artifact.json"
-    shutil.copy(mod.OUT, backup)
-    try:
-        with open(mod.OUT, encoding="utf-8") as fh:
-            payload = json.load(fh)
-        # the exact edit the banner forbids: a hazard ratio changed by hand
-        payload["findings"][0]["what_it_says"] = "surgery had no effect"
-        with open(mod.OUT, "w", encoding="utf-8") as fh:
-            json.dump(payload, fh, indent=2, ensure_ascii=False)
-            fh.write("\n")
-        mtime_before = os.path.getmtime(mod.OUT)
+    copy = tmp_path / os.path.basename(mod.OUT)
+    shutil.copyfile(mod.OUT, copy)
+    monkeypatch.setattr(mod, "OUT", str(copy))
 
-        assert mod.main(["--check"]) == 1, "--check accepted a hand-edited clinical claim"
+    with open(mod.OUT, encoding="utf-8") as fh:
+        payload = json.load(fh)
+    # the exact edit the banner forbids: a hazard ratio changed by hand
+    payload["findings"][0]["what_it_says"] = "surgery had no effect"
+    with open(mod.OUT, "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+    mtime_before = os.path.getmtime(mod.OUT)
 
-        with open(mod.OUT, encoding="utf-8") as fh:
-            assert json.load(fh)["findings"][0]["what_it_says"] == "surgery had no effect", (
-                "--check rewrote the artifact instead of refusing it"
-            )
-        assert os.path.getmtime(mod.OUT) == mtime_before
-    finally:
-        shutil.copy(backup, mod.OUT)
+    assert mod.main(["--check"]) == 1, "--check accepted a hand-edited clinical claim"
+
+    with open(mod.OUT, encoding="utf-8") as fh:
+        assert json.load(fh)["findings"][0]["what_it_says"] == "surgery had no effect", (
+            "--check rewrote the artifact instead of refusing it"
+        )
+    assert os.path.getmtime(mod.OUT) == mtime_before
 
 
 def test_every_row_carries_a_provenance_label():
