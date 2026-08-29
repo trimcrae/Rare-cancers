@@ -42,7 +42,16 @@
     "AUT-PD-151 — four stranded seat branches, one carrying an id collision.",
     "AUT-PD-145 — the unscored-row ratchet, still deferred on its own entry condition."
   ],
-  "blocked_by": [],
+  "blocked_by": [
+    {
+      "path": "research/autonomy/session_cap.py",
+      "what": "session_cap.verdict() returned may_stop: false AFTER this session wrote 2 receipts against a cap of 2 and created successor session_01G6maQEKfLfVi8TqsraQVse.",
+      "why": "blocked_handoff() returns None both for a SUCCESSFUL handoff and for one never attempted, and verdict() reads that falsy value as 'did not try'. Only a FAILED handoff earns may_stop.",
+      "filed_as": "AUT-PD-153",
+      "not_fixed_here": "research-loop §6 — a bar may not be changed by the cycle it just blocked, and this bar was blocking this cycle when it was found. amendment_guard would have returned PERMITTED only because session_cap.py is missing from GOVERNED, which is the second half of the same row; treating that omission as permission would be gaming it.",
+      "ending": "Stopped with the successor RUNNING, which is the substance the cap exists to guarantee. Recorded rather than worked around: this cycle ended against a MUST NOT STOP verdict it believes is wrong and was not permitted to correct."
+    }
+  ],
   "route_advanced": "RT-AUTONOMY",
   "handoff": {
     "child_session_id": "session_01G6maQEKfLfVi8TqsraQVse",
