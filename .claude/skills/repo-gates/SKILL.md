@@ -183,7 +183,14 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   triggers a preprint server applies a one-year submission ban over; the third, hallucinated
   references, is gate 6's and is not duplicated. **APPENDED LAST SO NO ORDINAL MOVED**, since gates
   13–15's numbers are written into `research/autonomy/ids.py`, `research/autonomy/priority.py` and
-  committed ledger rows. Its exit code cannot be masked. **Do not
+  committed ledger rows.
+  **(17)** the cycle contract against gate 12 (`research/autonomy/contract_check.py`) — gate 12
+  refuses a receipt missing `ccr_session_id`, and `.claude/skills/research-loop` §2 step 10, the text
+  a cycle follows when it hand-authors that receipt, did not name the field, so a cycle obeying the
+  contract exactly could not commit (AUT-PD-146). It DERIVES what gate 12 requires by deleting each
+  field from receipts the enforcer accepts, and reds the build when step 10 does not name one.
+  **ALSO APPENDED LAST, FOR THE SAME REASON** — it belongs beside gate 12 by subject and sits at the
+  end by necessity, because these ordinals are positional and four of them are referenced by number. Its exit code cannot be masked. **Do not
   re-type an ordinal from memory** — `[P1]` derives it from the script and fails the build on any document
   that disagrees. *(It did exactly that when the citation gate was inserted, catching four documents in one run.)*
   ⚠ *Superseded 2026-08-22, TWICE OVER: `lint_claims.py` WAS CI-only, and a manuscript repair then shipped a word that fires R2 — preflight green, CI red at that step, and the 26 steps behind it skipped. The note that added it here then said it was **gate 7** and `lint_changed_prose.py` **gate 8**, typed from the intended reading rather than derived from the script, which runs both BEFORE the citation gate: they are **4** and **5**, and everything from citations to parser guard shifted down by two. `[P1]` did not catch it because it only ever derived the REGISTRY VALIDATOR's ordinal — the one number four documents had already got wrong once — and nothing checked the enumerated list this very sentence lives in. It does now.* *Superseded, retained: "It runs the registry evidence contract

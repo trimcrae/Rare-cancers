@@ -1199,6 +1199,37 @@ else
   rc=1
 fi
 
+# ⛔ THE CYCLE CONTRACT AND THE RECEIPT GATE, CHECKED AGAINST EACH OTHER (AUT-PD-146, 2026-08-29).
+# Gate 12 above refuses a receipt missing `ccr_session_id`. The text a cycle actually follows when it
+# hand-authors that receipt -- `.claude/skills/research-loop/SKILL.md` §2 step 10 -- did not name the
+# field, so a cycle that followed the contract EXACTLY wrote a receipt this script rejected, and
+# learned the requirement from a red build. One cycle complied, and only because it had opened
+# receipt_schema.py for an unrelated reason. That is compliance by luck.
+# ⭐ A SENTENCE IN THE CONTRACT WOULD HAVE BEEN THE FOURTH SUCH SENTENCE. This repository has lost
+# the same writer/reader agreement four times (AUT-PD-013's fan-out key, AUT-PROP-013's ids,
+# AUT-PD-037's serialization, this). `contract_check.py` DERIVES the required set -- it deletes each
+# field from receipts the enforcer accepts and re-runs it -- and reds the build when the contract
+# does not name every field so derived. It fails closed on a contract it cannot read, and its
+# fixtures stop complying the moment receipt_schema grows a requirement, so a new required field
+# cannot reach a cycle before the contract does.
+# ⛔⛔ APPENDED LAST SO NO ORDINAL MOVED, for the reason gate 16's own note gives: these headings are
+# numbered BY POSITION, and gates 13-15 are referenced by number in `research/autonomy/ids.py`,
+# `research/autonomy/priority.py` and committed ledger rows. Placing this beside gate 12, where it
+# belongs by subject, would have silently renumbered four gates and falsified those references --
+# which is the same class of defect as the one this gate exists to catch.
+# ⚠ Pure stdlib, one file read plus a few dozen in-memory schema evaluations; unmeasurable cost.
+echo "== the cycle contract names every receipt field gate 12 requires =="
+if contract_out="$(python3 research/autonomy/contract_check.py --check 2>&1)"; then
+  echo "$contract_out" | sed 's/^/   /'
+  echo "   OK"
+else
+  echo "$contract_out" | sed 's/^/   /'
+  echo "   FAILED -- receipt_schema.py refuses a receipt for a field the cycle contract never names,"
+  echo "            so a cycle that follows the contract exactly cannot commit. Fix the CONTRACT"
+  echo "            (.claude/skills/research-loop/SKILL.md §2 step 10) -- never the requirement."
+  rc=1
+fi
+
 # The run reached its own verdict, so an exit from here on is the verdict rather than an abort.
 _preflight_summary_reached=1
 
