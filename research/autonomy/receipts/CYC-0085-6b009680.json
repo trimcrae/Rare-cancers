@@ -1,0 +1,56 @@
+{
+  "cycle_id": "CYC-0085-6b009680",
+  "session_id": "6b009680-c325-5cfa-bbfa-bb1af76fa8bf",
+  "ccr_session_id": "session_01CUYirsUYqbaxCWGsX3iYMq",
+  "base_sha": "b01f1843f",
+  "took": "AUT-PD-170",
+  "took_why": "Top of the open queue at 149.0 and free — the read AUT-PD-167 established as the only one that settles whether NDRG1's elevation is hypoxia-shaped. It is this session's second and final cycle under max_cycles_per_session=2.",
+  "health_at_start": {
+    "exit": 0,
+    "red": [
+      "advancing_live_work",
+      "scores_are_reachable"
+    ],
+    "red_on_red_posture": "both `advises` — reported, not a stop. advancing_live_work reads the newest three receipts and two of them (CYC-0083-381d0696, CYC-0084-e2d78138 from a concurrent session) carry route_advanced: none. Taking a live-route item is the response either way.",
+    "unmeasured": [
+      "gates_green",
+      "stalls_are_named"
+    ]
+  },
+  "what_changed": [
+    "research/modalities/emc_expression_panels.py — `_background_reads` writes a `background_reads` block: an UNFILTERED random sample of every symbol each platform's probes resolve to (BACKGROUND_N=3000, seeded per matrix), with sampling_frame / n_frame / seed / n_requested recorded so the draw is re-derivable. It is the only pool in this artifact whose selection rule is 'whatever the array can read'.",
+    "research/modalities/ndrg1_panel_attribution.py — MEMBERSHIP_SOURCES gains `full_membership_background_null`, implemented and NOT pinned. The null's pool is now a separate object from the scoring cache; under the two older reads they were the same object, which is the structural half of AUT-PD-167. Selecting the new read without the block RAISES and names the matrix missing it. An undersized null pool is now a refusal that says which pool, which panel and which sizes.",
+    "research/modalities/tests/test_the_null_pool_is_a_background.py — new, 10 tests, all passing. Mutation-tests the 'unfiltered' claim and the separation itself in both directions.",
+    "research/modalities/ndrg1-panel-attribution.json — regenerated. ONE field added (`panel_membership_source.null_pool`), ZERO numeric results moved: the refactor is behaviour-preserving under the current pin.",
+    ".github/workflows/emc-expression-datasets.yml — regenerates and publishes the ASO archive manifest in its shared publish step, because it writes a file the archive inventories. A POINT FIX for the one workflow this cycle needed to dispatch, not AUT-PD-168's answer.",
+    "research/autonomy/research-ledger.json — AUT-PD-168 carries the audit it asked for; AUT-PD-170 records what landed and what remains; AUT-PD-172 filed."
+  ],
+  "finding": "TWO, AND BOTH CAME FROM MEASURING RATHER THAN REASONING. (1) THE AUDIT AUT-PD-168 ASKED FOR CHOOSES ITS FIX: intersecting every workflow's text and `git add` targets with the manifest's 484-path inventory, 33 of 34 workflows can write an inventoried file and exactly 2 mention the manifest at all — one of which only checks it. Six commit with a broad `git add -A`, so they can sweep any inventoried file rather than a listed one, which means a path-listing fix cannot be complete even in principle. Option (a) is 31 edits and a 32nd chance to forget; the derive-the-set answer is the right one and the row stays open for it. (2) THE COMMIT LOOP COSTS TWELVE TIMES ITS PINNED FIGURE: CLAUDE.md §6 pins gate 13 at 39.3 s over 55 tests and the whole loop at ~75 s; measured twice with markers on 2026-08-29 that stage is 501.6 s over 811 tests and the manuscripts suite adds ~430 s. Nothing is broken, both runs were green, and that is exactly why it rots quietly — the only symptom is every session budgeting its turn against a number that has not been true for days. Filed as AUT-PD-172, with the one thing NOT measured said plainly: whether that is suite growth or a per-test regression needs both timed on one machine.",
+  "what_it_cost": "$0 in this session. CPU only: two artifact regenerations, four scoped pytest runs, one preflight. The dispatched `panels` workflow is GitHub Actions minutes on a public repository — no metered spend.",
+  "gates": {
+    "scoped_suites": "10 passed (background-null guards) + 16 passed (pinned-read guards and the existing controls, re-run in cycle 1)",
+    "preflight": "see preflight_marker below"
+  },
+  "anti_gaming": {
+    "invariant": "research-loop §6 — a bar may not be changed by the cycle the bar just blocked.",
+    "how_it_was_honoured": "The four control tests that pin AUT-PROP-048's narrow finding were again NOT touched, and MEMBERSHIP_SOURCE was NOT moved: this cycle built the read and dispatched the fetch, and left the decision to the cycle that will hold the numbers. AUT-PD-170 now says explicitly that a later cycle MAY move those bars, and that moving them without the measurement is not permitted.",
+    "self_serving_check": "Does this change make it easier for me to report success? The honest risk is the opposite one: this cycle wrote the instrument most likely to overturn this repository's own positive result and dispatched it, which is why the row it leaves behind says in its own words that the answer may be that NDRG1 separates in NEITHER series and that the taker must not prefer the read that keeps the finding. The one place a self-serving edit could hide is the background's sampling rule — a filter that quietly enriched the pool would move every null — so `sampling_frame` is recorded in the block and the 'unfiltered' claim is mutation-tested rather than asserted."
+  },
+  "escalated": "nothing. research-loop §5's five triggers: no journal submission, no spend, no goal-changing fact, no health condition past its deadline, no paper ready to post.",
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "One item and one dependency chain — the audit decided whether the dispatch was safe, and the dispatch is the deliverable. Nothing here was independent enough to fan out."
+  },
+  "now_queued": [
+    "AUT-PD-170",
+    "AUT-PD-172"
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-SGK1",
+  "route_advanced_why": "The route's only positive result was shown by CYC-0084 to rest on a selection artifact. This cycle built the measurement that decides it — full panel membership against a null drawn from the array background, which neither existing read had — and dispatched the $0 fetch it needs. The instrument exists and is running; the answer is one cycle away.",
+  "corrections": [
+    "⚠ AUT-PD-170's row was first written saying 'FETCH DISPATCHED' before the dispatch had happened — written ahead of the act because the act was next in the plan. Caught by the turn-end hook before it reached a commit; the running preflight was killed rather than protected (CLAUDE.md §6: the run you report green must be the run that saw the tree you commit) and the row now says the fetch is the next act and will carry the run id as its owner once it is.",
+    "⛔ THE WORKFLOW FIX WAS WRONG ON ITS FIRST WRITING AND WAS CAUGHT BEFORE IT SHIPPED. It regenerated the manifest inline before `publish_artifacts.sh`, i.e. over an uncommitted tree, which writes `git_tree_is_clean_apart_from_this_manifest: false` — a provenance failure `--check-archive` refuses. It would have caused the exact red trunk it was written to prevent. Found by reading `publish_artifacts.sh` after the LOCAL archive gate refused the same mistake in my own tree, not by CI. Rewritten as a second publish call after the artifacts are committed; the running preflight was killed rather than protected."
+  ]
+}

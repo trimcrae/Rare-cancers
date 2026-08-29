@@ -94,9 +94,16 @@ N_DRAWS = 2000
 #: read of the same two series matrices. It is ledger row AUT-PD-170.
 MEMBERSHIP_SOURCE = "curated_only"
 
-#: The reads this module knows how to take. `curated_plus_signature_members` is implemented and
-#: reachable by changing the constant above; it is not dead code and it is not adopted.
-MEMBERSHIP_SOURCES = ("curated_only", "curated_plus_signature_members")
+#: The reads this module knows how to take. All three are implemented and reachable by changing the
+#: constant above; none of the unpinned ones is dead code and none is adopted.
+#: ⭐ `full_membership_background_null` IS THE ONE AUT-PD-170 BUILDS AND THE ONLY ONE WHOSE NULL IS
+#: A BACKGROUND: panels scored over their full readable membership, and the size-matched null drawn
+#: from `background_reads` — a random sample of the ARRAY, not from a curated roster and not from
+#: the union of the signature sets. It cannot be pinned until a `panels` dispatch puts that block in
+#: `emc-expression-panels.json`, and selecting it without the block is a hard error rather than a
+#: silent narrowing, because a silent narrowing is exactly what AUT-PD-167 was.
+MEMBERSHIP_SOURCES = ("curated_only", "curated_plus_signature_members",
+                      "full_membership_background_null")
 
 #: Draws for the within-panel selection diagnostic. A quarter of `N_DRAWS`: it answers a percentile
 #: rather than a p-value, and it runs once per scored panel on top of the null itself.
@@ -202,6 +209,21 @@ def member_z(src: dict, matrix: str) -> dict:
     return {} if MEMBERSHIP_SOURCE == "curated_only" else signature_member_z(src, matrix)
 
 
+def background_z(src: dict, matrix: str) -> dict:
+    """`{gene: {gsm: z}}` from `background_reads` — the random sample of the array — or `{}`.
+
+    ⛔ THIS IS A NULL POOL AND NEVER A SCORING SOURCE. A panel is scored over its own members; the
+    background exists only to answer "what would ANY k genes off this array do?", which is the
+    question the size-matched null is supposed to ask and could not while its pool was a curated
+    roster or the union of the signature sets (AUT-PD-167)."""
+    blk = ((src.get("background_reads") or {}).get(matrix) or {})
+    gsms, z = blk.get("gsms") or [], blk.get("z") or {}
+    if not gsms or not z:
+        return {}
+    return {g: {gsms[i]: v for i, v in enumerate(row) if v is not None and i < len(gsms)}
+            for g, row in z.items()}
+
+
 def signature_member_z(src: dict, matrix: str) -> dict:
     """The block itself, read WHATEVER the pin says. Used by the selection diagnostic, which has to
     enumerate each panel's full readable membership in order to report how the scored subset sits
@@ -266,6 +288,15 @@ def build(n_draws: int = N_DRAWS) -> dict:
         "wide_block_present": wide_present,
         "source": ("gene_reads only" if MEMBERSHIP_SOURCE == "curated_only"
                    else "gene_reads + signature_member_reads"),
+        "null_pool": ("the SCORED POOL ITSELF — every gene carrying a per-sample value under this "
+                      "read. ⛔ That is a convenience pool and not a background: under "
+                      "`curated_only` it is a 479-gene roster curated for six unrelated EMC reads, "
+                      "under `curated_plus_signature_members` it is mostly the signature sets being "
+                      "tested. AUT-PD-167."
+                      if MEMBERSHIP_SOURCE != "full_membership_background_null" else
+                      "⭐ `background_reads` — a random, unfiltered sample of the symbols this "
+                      "platform's probes resolve to. The only pool here whose selection rule is "
+                      "'whatever the array can read'."),
         "means": (
             "⛔ THE NARROW READ, PINNED ON PURPOSE AND NOT FOR WANT OF DATA (AUT-PD-167). Each "
             "published set is scored over `curated ∩ published`; how thin that is per panel is "
@@ -274,7 +305,12 @@ def build(n_draws: int = N_DRAWS) -> dict:
             "which is a different fact from its being absent."
             if MEMBERSHIP_SOURCE == "curated_only" else
             "⭐ THE WIDE READ. Each published set is scored over every member the platform can "
-            "read, and the size-matched null is drawn from that same widened pool."),
+            "read, and the size-matched null is drawn from that same widened pool."
+            if MEMBERSHIP_SOURCE == "curated_plus_signature_members" else
+            "⭐⭐ FULL MEMBERSHIP AGAINST AN ARRAY BACKGROUND (AUT-PD-170). Each published set is "
+            "scored over every member the platform can read — the right membership — and the "
+            "size-matched null is drawn from a random sample of the array instead of from a "
+            "convenience pool. This is the read the other two were confounded relative to."),
         "why_pinned": (
             "Neither available read is sound and they fail in OPPOSITE directions, so switching "
             "would substitute one confound for another while reversing a published verdict. The "
@@ -314,12 +350,27 @@ def build(n_draws: int = N_DRAWS) -> dict:
                                         "instrument statement, never a biological negative."}
             continue
         gsms = sorted(subject_z)
-        # ⚠ THE NULL'S POOL GROWS WITH THE CACHE, AND THAT IS THE POINT RATHER THAN A SIDE EFFECT.
-        # The size-matched null draws from whatever genes carry a per-sample value, so widening the
-        # membership widens the null too — a random panel of k genes is drawn from a different,
-        # larger pool. The verdict rests on the null, so it MUST be re-derived here and never
-        # carried over from the narrow run.
-        pool = sorted(g for g in cache if g != SUBJECT and cache.get(g))
+        # ⛔⛔ WHERE THE NULL DRAWS FROM IS A SEPARATE DECISION FROM WHAT THE PANELS ARE SCORED
+        # OVER, AND CONFLATING THEM IS AUT-PD-167. Under the first two reads the null's pool IS the
+        # scored pool, so widening the membership silently widens the null: a random panel of k
+        # genes is then drawn from a different, larger, differently-composed pool, and the verdict
+        # rests on that pool. Under `full_membership_background_null` the two are pulled apart —
+        # panels are scored over their full membership, the null draws from the array background.
+        if MEMBERSHIP_SOURCE == "full_membership_background_null":
+            bg = background_z(src, matrix)
+            if not bg:
+                raise SystemExit(
+                    f"MEMBERSHIP_SOURCE={MEMBERSHIP_SOURCE!r} needs a `background_reads` block for "
+                    f"{matrix} and {os.path.basename(PANELS)} carries none. ⛔ REFUSING rather than "
+                    "falling back to a convenience pool: a silent narrowing under the same field "
+                    "names is exactly the defect AUT-PD-167 records. Dispatch the `panels` mode of "
+                    ".github/workflows/emc-expression-datasets.yml, then re-run this.")
+            # ⭐ `gene_reads` STILL WINS where a background gene also has a curated read, for the
+            # same reason it wins in the scoring cache: one gene must not carry two values.
+            null_cache = {g: (cache.get(g) or zs) for g, zs in bg.items() if (cache.get(g) or zs)}
+        else:
+            null_cache = cache
+        pool = sorted(g for g in null_cache if g != SUBJECT and null_cache.get(g))
         rng = random.Random(SEED)
         # ⛔ ITS OWN GENERATOR. Sharing `rng` would make every null downstream of the diagnostic
         # depend on how many panels happened to be diagnosed before it — the artifact would stop
@@ -361,10 +412,22 @@ def build(n_draws: int = N_DRAWS) -> dict:
                 continue
 
             k = len(members)
+            if k > len(pool):
+                # ⛔ AN OPAQUE `ValueError: Sample larger than population` FROM random.py IS NOT A
+                # DIAGNOSIS, AND THIS IS REACHABLE: the null's pool no longer grows with the scored
+                # membership, so a background block smaller than the largest panel is a shape a
+                # truncated or partially-fetched fetch can produce. Found by a guard's own fixture
+                # (AUT-PD-170) — say which pool, which panel and which sizes.
+                rows[panel] = {"family": fam, "scored": False,
+                               "n_panel_members": k, "n_panel_readable": len(readable),
+                               "why": f"the null pool carries {len(pool)} gene(s), fewer than this "
+                                      f"panel's {k} members, so no size-matched null can be drawn. "
+                                      "That is a statement about the POOL, never about the panel."}
+                continue
             if k not in nulls:
                 draws = []
                 for _ in range(n_draws):
-                    r, _n = panel_rho(rng.sample(pool, k), subject_z, gsms, cache)
+                    r, _n = panel_rho(rng.sample(pool, k), subject_z, gsms, null_cache)
                     if r is not None:
                         draws.append(r)
                 nulls[k] = sorted(draws)

@@ -1365,6 +1365,39 @@ jobs:
                  research/modalities/accession-symbol-cache.json"
           bash research/compute/publish_artifacts.sh "$BR" "$MSG" $PATHS
 
+          # ⛔⛔ AND THEN, IN A SECOND PUBLISH, REGENERATE THE ASO ARCHIVE MANIFEST — BECAUSE THIS
+          # WORKFLOW WRITES FILES IT INVENTORIES AND THE STALENESS LANDS ON SOMEBODY ELSE
+          # (AUT-PD-168). Measured 2026-08-29: aa6d9d9a9 rewrote
+          # `research/modalities/emc-expression-panels.json`, which is in the inventory; the pushing
+          # commit ran no tests of its own, so the manifest went stale invisibly and the next two
+          # commits — a claim and a merge, neither touching an archived file — both went red on BOTH
+          # jobs. Two sessions then raced to regenerate it.
+          #
+          # ⛔⛔ IT IS A SECOND CALL AND NOT `PUBLISH_REGEN` ON THE FIRST, AND THAT ORDERING IS THE
+          # WHOLE CONTENT OF THE FIX. `aso_archive_manifest.py` hashes the LIVE TREE and records
+          # `git_tree_is_clean_apart_from_this_manifest`; `PUBLISH_REGEN` runs after the artifacts
+          # are staged but BEFORE they are committed, so a manifest built there would record `false`
+          # — hashes describing content in no commit. `--check-archive` REFUSES that outright, so
+          # the obvious one-line fix would have caused the very red trunk it was written to prevent.
+          # By the time this second call runs, the artifacts above are committed and pushed, the
+          # loop resets to that new tip, and the regen sees a tree clean apart from the manifest.
+          # ⚠ `--check` compares `git_revision`, which advances on every commit and so reports STALE
+          # on a current manifest; the gate is `--check-archive`. Hence an unconditional regen and
+          # `PUBLISH_IF_CHANGED` left off — the manifest legitimately changes every run.
+          #
+          # ⚠ THIS IS A POINT FIX AND NOT AUT-PD-168'S ANSWER. That row asked first for the audit,
+          # and the audit says the blast radius is not this workflow: of 34 workflows, 33 can write
+          # an inventoried file (6 of them through a broad `git add -A`, so they can sweep one that
+          # is nowhere listed) and exactly 2 mention the manifest at all — `tests.yml`, which only
+          # CHECKS it, and `aso-submission-parts.yml`. Adding this to each of 31 more is not a fix,
+          # it is 31 chances to forget; the answer is one shared publish step that owns the
+          # regeneration, and that row stays open for it.
+          PUBLISH_FAIL_HARD=1 \
+          PUBLISH_REGEN="python3 research/manuscripts/aso_archive_manifest.py" \
+          PUBLISH_REGEN_ADD="research/manuscripts/aso/fusion-junction-aso-archive-manifest.json" \
+            bash research/compute/publish_artifacts.sh "$BR" \
+              "regenerate the ASO archive manifest after the ${{ inputs.mode }} publish (CI)"
+
       - name: "Summary — gse-series"
         if: always() && inputs.mode == 'gse-series'
         run: |

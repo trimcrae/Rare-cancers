@@ -59,6 +59,7 @@ Usage:
 import argparse
 import json
 import os
+import random
 import re
 import sys
 from bisect import bisect_left
@@ -1707,6 +1708,74 @@ def _signature_member_reads(sig, live):
     return out
 
 
+#: ⛔⛔ THE BACKGROUND SAMPLE'S SIZE AND SEED ARE PART OF THE ARTIFACT, NOT RUN-TIME CHOICES
+#: (AUT-PD-170). A null pool whose composition changes between runs is not a null — the bar every
+#: panel is judged against would move for a reason no reader could see. Both are recorded in the
+#: block so a consumer can re-derive the same pool from the same matrix.
+BACKGROUND_N = 3000
+BACKGROUND_SEED = 20260829
+
+
+def _background_reads(live):
+    """⛔⛔ A RANDOM SAMPLE OF THE ARRAY, WHICH IS THE ONLY HONEST REFERENCE POPULATION FOR A
+    SIZE-MATCHED NULL — AND NEITHER POOL THIS ARTIFACT PREVIOUSLY OFFERED WAS ONE (AUT-PD-167).
+
+    ★ WHAT THE TWO EXISTING POOLS ARE, MEASURED RATHER THAN ASSERTED. A consumer scoring published
+    signature sets against NDRG1 had a choice of two gene pools to draw its null from, and both are
+    convenience pools that carry the hypothesis they are supposed to exclude:
+
+      * `gene_reads` — 479 genes hand-curated for six unrelated targeted EMC reads. Because the
+        curation had nothing to do with hypoxia or PPARγ, the members it happens to contribute to
+        each published panel are a SELECTED subset of that panel rather than a thin-but-fair one:
+        in GSE24369 the curated subset of every hypoxia panel sits in the upper tail of its own
+        panel's within-panel distribution, one of them at the 100th percentile.
+      * `signature_member_reads` — the union of the signature sets themselves, so a majority of the
+        pool IS panel members and most of those belong to one of the two families under test. A
+        draw from it is a diluted mixture of the two hypotheses.
+
+    ⛔ THE SIZE-MATCHED NULL CANNOT REPAIR EITHER, because it draws random genes from a POOL and
+    never random members from a PANEL — a non-random reference population passes straight through
+    it. That is why this block exists and why it is a separate one: it is the only pool here whose
+    selection rule is 'whatever the platform can read', which is the sampling frame a background
+    is supposed to have.
+
+    ⚠ AND THE FRAME IS RECORDED, because a background pool whose selection rule is unwritten is the
+    same confound wearing a better name. `sampling_frame` says what was sampled FROM, `n_frame` how
+    large that was, and `seed`/`n_requested` make the draw reproducible from the same matrix.
+
+    ⚠ WHAT IT IS NOT. Same shape and same limits as `signature_member_reads`: no contrast, no
+    Welch, no probe diagnostic, no raw value, so nothing here can support a statement about EMC
+    versus the comparator sarcomas. A `null` in a `z` array is a sample with no value for that
+    probe; an absent reading is not a zero (CLAUDE.md §4).
+
+    ⛔ IT IS NOT FILTERED FOR EXPRESSION, ABUNDANCE OR VARIANCE, and that is deliberate. Every such
+    filter is a selection rule, and this block's whole purpose is to be the one pool with none.
+    A consumer that wants a filtered background must apply the filter itself and say so.
+    """
+    out = {}
+    for mf, (tgt, _classes, _emc, _comp) in live.items():
+        frame = sorted(tgt.get("genes") or {})
+        rng = random.Random(f"{BACKGROUND_SEED}:{mf}")
+        drawn = sorted(rng.sample(frame, min(BACKGROUND_N, len(frame))))
+        out[mf] = {
+            "platform": tgt.get("platform"),
+            "gsms": [s["gsm"] for s in tgt["samples"]],
+            "_z_is": "within-sample z over ALL probes on that array — the same reduction "
+                     "`gene_reads[...].per_sample.z_vs_array` and `signature_member_reads` report, "
+                     "positionally aligned to `gsms`. A null is a sample with no value for this "
+                     "gene's probe(s).",
+            "sampling_frame": "every symbol this platform's probes resolve to, unfiltered — no "
+                              "expression, abundance or variance cut, because each of those is a "
+                              "selection rule and this pool exists to have none.",
+            "seed": f"{BACKGROUND_SEED}:{mf}",
+            "n_frame": len(frame),
+            "n_requested": BACKGROUND_N,
+            "n_drawn": len(drawn),
+            "z": {g: [None if x is None else round(x, 4) for x in _zrow(tgt, g)] for g in drawn},
+        }
+    return out
+
+
 def _mapping_rate_reading(tgt):
     """Two DIFFERENT mapping rates, kept apart, and only one of them is comparable to the prior.
 
@@ -2015,6 +2084,9 @@ def derive(inp):
 
     # --- per-sample z for SIGNATURE-SET members (AUT-PROP-051) ------------------------------------
     res["signature_member_reads"] = _signature_member_reads(sig, live)
+
+    # --- a random sample of the ARRAY, the only pool here that is a background (AUT-PD-170) -------
+    res["background_reads"] = _background_reads(live)
 
     # --- the empirical null's self-check ---------------------------------------------------------
     # ⭐ DOUBLE ENTRY. The genome-wide null recomputes, from the full matrix, the same statistic the

@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 148,
+    "process_defect": 149,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
@@ -22,7 +22,7 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 129,
+    "done": 130,
     "in_progress": 5,
     "parked": 28,
     "queued": 142,
@@ -2095,43 +2095,6 @@
       "_resolution": "The trunk was red because the generator inherited its read from whichever files a workflow had pushed. Pinning the read makes the committed artifact re-derive without adopting a reversal and without touching the four control tests that pin the narrow finding — research-loop §6's invariant, which forbids the blocked cycle from moving its own bars. The pin is explicitly temporary and AUT-PD-170 is the row that removes it."
     },
     {
-      "id": "AUT-PD-170",
-      "kind": "fetch",
-      "process_defect": false,
-      "serves": {
-        "route": "RT-SGK1",
-        "publication": "PUB-KINASE-LEADS",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "state": "in_progress",
-      "owner": "CYC-0085-6b009680",
-      "claimed_utc": "2026-08-29T09:26:59Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0084-6b009680",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a $0 CI read of two GEO series matrices this repository already parses; nothing outward-facing",
-      "closes_clause": null,
-      "score": 149.0,
-      "_score_basis": "Immediately below AUT-PD-167 (150.0), the row it inherits: that row established that neither available read answers the question and named this as the read that does. It is the only live path to a real RT-SGK1 result, it is free, and until it lands the committed verdict stays pinned as conditional.",
-      "depends_on_evidence": [
-        "AUT-PD-167, measured 2026-08-29 on origin/main b24cb6e22: the curated read's panel members are a SELECTED subset of each panel (all six hypoxia panels in the upper tail of their own within-panel distribution in GSE24369) and the wide read's null pool is 61.5% panel members and 43.1% PPARγ members. Neither is a background.",
-        ".github/workflows/emc-expression-datasets.yml already parses both series matrices in full — it produced `signature_member_reads` (2,017 and 1,802 genes) in aa6d9d9a9 — so the background sample is the same parse with a different gene list and costs nothing new."
-      ],
-      "what": "⛔ TAKE THE READ THAT ACTUALLY SETTLES AUT-PROP-048: FULL PANEL MEMBERSHIP AGAINST A NULL DRAWN FROM THE ARRAY BACKGROUND. Both reads this repository holds are confounded and they fail in opposite directions (AUT-PD-167), and the reason is the same in both cases — the null's reference population is a convenience pool rather than the array. The curated pool is 479 genes chosen for six unrelated EMC reads; the wide pool is the union of the signature sets being tested. ⭐ WHAT TO FETCH: add a `background_reads` block to `emc-expression-panels.json` carrying the same within-sample z reduction for a RANDOM sample of the readable probes on each platform (a few thousand is ample; record the seed and the sampling frame in the block, because a background pool whose selection rule is unrecorded is the confound again with a better name). Then score every panel over its FULL readable membership against a size-matched null drawn from that background, and report `within_panel_percentile` alongside — the two controls answer different questions and neither replaces the other. ⛔ THE ANSWER MAY BE THAT NDRG1 SEPARATES IN NEITHER SERIES, AND THAT IS A RESULT. Do not prefer the read that keeps the finding: AUT-PD-167 exists because preferring a read is how the current state was reached. ⚠ WHOEVER TAKES THIS MAY THEN MOVE `MEMBERSHIP_SOURCE` and the four control tests in `test_ndrg1_panel_attribution_controls.py`, because a later cycle is not the cycle those bars blocked — but the move must be argued from this measurement in the commit message, and `test_the_larger_series_hypoxia_subsets_are_selected_rather_than_thin_but_fair` says in its own docstring what a change to it has to establish.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T09:26:59Z",
-          "fingerprint_at_dispatch": "2026-08-29|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PROP-038",
       "kind": "proposal",
       "process_defect": false,
@@ -2239,6 +2202,51 @@
         {
           "utc": "2026-08-28T17:02:10Z",
           "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
+    },
+    {
+      "id": "AUT-PD-170",
+      "kind": "fetch",
+      "process_defect": false,
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "in_progress",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0084-6b009680",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a $0 CI read of two GEO series matrices this repository already parses; nothing outward-facing",
+      "closes_clause": null,
+      "score": 141.0,
+      "_score_basis": "Immediately below AUT-PD-167 (150.0), the row it inherits: that row established that neither available read answers the question and named this as the read that does. It is the only live path to a real RT-SGK1 result, it is free, and until it lands the committed verdict stays pinned as conditional.",
+      "depends_on_evidence": [
+        "AUT-PD-167, measured 2026-08-29 on origin/main b24cb6e22: the curated read's panel members are a SELECTED subset of each panel (all six hypoxia panels in the upper tail of their own within-panel distribution in GSE24369) and the wide read's null pool is 61.5% panel members and 43.1% PPARγ members. Neither is a background.",
+        ".github/workflows/emc-expression-datasets.yml already parses both series matrices in full — it produced `signature_member_reads` (2,017 and 1,802 genes) in aa6d9d9a9 — so the background sample is the same parse with a different gene list and costs nothing new.",
+        "⭐ THE CODE LANDED 2026-08-29 (CYC-0085-6b009680); WHAT REMAINS IS THE FETCH ITSELF. Producer: `emc_expression_panels._background_reads` writes a `background_reads` block — an unfiltered random sample of every symbol each platform's probes resolve to, BACKGROUND_N=3000, seeded per matrix, with `sampling_frame`/`n_frame`/`seed`/`n_requested` recorded so the draw is re-derivable. Consumer: `ndrg1_panel_attribution.MEMBERSHIP_SOURCES` gains `full_membership_background_null`, which scores panels over full membership and draws the null from that block. The null's pool is now a SEPARATE object from the scoring cache — under the two older reads they were the same object, which is the structural half of AUT-PD-167.",
+        "⛔ SELECTING THE NEW READ WITHOUT THE BLOCK RAISES rather than falling back, and the refusal names the matrix that is missing it — a background present on one platform and absent on the other would give the two series nulls of different provenance under identical field names.",
+        "Guards: research/modalities/tests/test_the_null_pool_is_a_background.py, 10 tests, all passing. It mutation-tests the 'unfiltered' claim (flat near-zero profiles must survive the draw at ~their share) and the separation itself (replacing the background wholesale must move the null while leaving each panel's own rho untouched).",
+        "⭐ TWO DEFECTS FOUND BY THOSE GUARDS' OWN FIXTURES AND FIXED, BOTH REACHABLE IN PRODUCTION: a null pool smaller than the largest panel (231 members) raised `ValueError: Sample larger than population` out of random.py instead of refusing — a truncated or partially-fetched background is a real shape now that the null's pool no longer grows with the membership; and the single-matrix case above. Both are now assertions.",
+        "⚠ PREREQUISITE CLEARED FOR THIS WORKFLOW ONLY: `emc-expression-datasets.yml` now regenerates and publishes the ASO archive manifest in its shared publish step, because it writes `emc-expression-panels.json`, which the archive inventories (AUT-PD-168). Without that the dispatch below reproduces the red trunk of 2026-08-29 exactly."
+      ],
+      "what": "⭐ CODE LANDED, PIN NOT YET MOVED, AND THE FETCH IS THE NEXT ACT — when it has been dispatched this row carries the run id as its owner, and until then it does not. ⚠ AN EARLIER DRAFT OF THIS SENTENCE SAID 'FETCH DISPATCHED' BEFORE THE DISPATCH HAPPENED, which is the plausible-looking record CLAUDE.md §4 warns about — written ahead of the act because the act was next in the plan. Caught by the turn-end hook before it reached a commit. ⛔ WHOEVER TAKES THIS: the answer may be that NDRG1 separates in NEITHER series, and that is a result. Do not prefer the read that keeps the finding. Set `MEMBERSHIP_SOURCE = 'full_membership_background_null'`, regenerate, and report what comes out — then, and only then, move the four control tests in `test_ndrg1_panel_attribution_controls.py` as the RECORDED CONSEQUENCE, argued from the numbers in the commit message. A later cycle is not the cycle those bars blocked, so moving them is permitted; moving them without the measurement is not. ★ ORIGINAL FILING BELOW — ⛔ TAKE THE READ THAT ACTUALLY SETTLES AUT-PROP-048: FULL PANEL MEMBERSHIP AGAINST A NULL DRAWN FROM THE ARRAY BACKGROUND. Both reads this repository holds are confounded and they fail in opposite directions (AUT-PD-167), and the reason is the same in both cases — the null's reference population is a convenience pool rather than the array. The curated pool is 479 genes chosen for six unrelated EMC reads; the wide pool is the union of the signature sets being tested. ⭐ WHAT TO FETCH: add a `background_reads` block to `emc-expression-panels.json` carrying the same within-sample z reduction for a RANDOM sample of the readable probes on each platform (a few thousand is ample; record the seed and the sampling frame in the block, because a background pool whose selection rule is unrecorded is the confound again with a better name). Then score every panel over its FULL readable membership against a size-matched null drawn from that background, and report `within_panel_percentile` alongside — the two controls answer different questions and neither replaces the other. ⛔ THE ANSWER MAY BE THAT NDRG1 SEPARATES IN NEITHER SERIES, AND THAT IS A RESULT. Do not prefer the read that keeps the finding: AUT-PD-167 exists because preferring a read is how the current state was reached. ⚠ WHOEVER TAKES THIS MAY THEN MOVE `MEMBERSHIP_SOURCE` and the four control tests in `test_ndrg1_panel_attribution_controls.py`, because a later cycle is not the cycle those bars blocked — but the move must be argued from this measurement in the commit message, and `test_the_larger_series_hypoxia_subsets_are_selected_rather_than_thin_but_fair` says in its own docstring what a change to it has to establish.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T09:26:59Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
         }
       ],
       "score_inputs": {
@@ -3406,7 +3414,13 @@
         "research/modalities/emc-expression-panels.json IS in the ASO archive inventory (fusion-junction-aso-archive-manifest.json); the -inputs.json sibling is not",
         ".github/workflows/emc-expression-datasets.yml writes research/modalities/junction-aso-regen-manifest.json and NEVER calls research/manuscripts/aso_archive_manifest.py — grepped 2026-08-29",
         "no tests.yml run exists for aa6d9d9a9 (runs 6103=e7be9940c success, 6104=7f987b6fb failure, 6105=f96f509e5 failure), so the pushing commit was never gated on its own tree",
-        "Actions run 33241669985 on f96f509e5: BOTH jobs failed on it — `gates` with 'STALE: the archive inventory would change' and `pytest` with '1 failed, 10856 passed' on N.main(['--check']) == 0"
+        "Actions run 33241669985 on f96f509e5: BOTH jobs failed on it — `gates` with 'STALE: the archive inventory would change' and `pytest` with '1 failed, 10856 passed' on N.main(['--check']) == 0",
+        "⭐ THE AUDIT THIS ROW ASKED FOR, TAKEN 2026-08-29 BY CYC-0085-6b009680 AND IT CHOOSES THE FIX. Intersecting every workflow's text and `git add` targets with the manifest's 484-path inventory: of 34 workflows in .github/workflows, 33 can write an inventoried file and exactly 2 mention `aso_archive_manifest` at all — `tests.yml`, which only CHECKS it, and `aso-submission-parts.yml`. So option (a) is not one edit, it is 31, and every future workflow is a 32nd chance to forget.",
+        "⛔ SIX OF THEM COMMIT WITH A BROAD `git add -A/./--all` — deepternary-blind-controls, deepternary-inspect-io, deepternary-qualify, deepternary-source-inputs, fetch-literature, gpu-nr4a-paralogue-md-vast, rung5aks-cofold — so they can sweep ANY inventoried file, not a listed one. That is CLAUDE.md §6's mutation-window rule pointed at CI, and it means a path-listing fix cannot be complete even in principle.",
+        "⚠ WHAT THE AUDIT CANNOT SEE, stated rather than left to be found: a workflow that computes its commit paths at runtime is invisible to a text intersection, so 33 is a LOWER bound. The audit script is /tmp/claude-0/-home-user-Rare-cancers/6b009680-c325-5cfa-bbfa-bb1af76fa8bf/scratchpad/cyc84-driver/cyc85-wf-audit.log.",
+        "⚠ AND REGENERATING THE MANIFEST MID-FLIGHT IS ITSELF UNSOUND — measured the same session, by accident: `aso_archive_manifest.py` hashes the LIVE TREE, so running it over a dirty checkout wrote `git_tree_is_clean_apart_from_this_manifest: false` and a digest over uncommitted edits. Whatever owns the regeneration must own it at a point where the tree is the published state.",
+        "⭐ A POINT FIX LANDED 2026-08-29 for `emc-expression-datasets.yml` ONLY — the workflow that caused this incident and the one CYC-0085 needed to dispatch — which regenerates and publishes the manifest in its shared publish step. That closes the specific hole and closes NOTHING ELSE; this row stays open for the derive-the-set answer.",
+        "⛔⛔ AND THE OBVIOUS ONE-LINE FIX CAUSES THE VERY RED TRUNK IT PREVENTS — caught 2026-08-29 before it shipped, by reading `publish_artifacts.sh` rather than assuming. Its `PUBLISH_REGEN` hook runs AFTER the artifacts are staged and BEFORE they are committed, so a manifest regenerated there records `git_tree_is_clean_apart_from_this_manifest: false` — hashes describing content in no commit — and `--check-archive` REFUSES that outright rather than reporting it as staleness. The same trap catches a session doing it by hand: regenerating over a dirty checkout writes `false`, and the gate's own message says the remedy is an ORDERING, not a regeneration. ⭐ THE SHAPE THAT WORKS is a SECOND `publish_artifacts.sh` call after the artifacts are committed and pushed, with PUBLISH_REGEN + PUBLISH_REGEN_ADD + PUBLISH_FAIL_HARD=1 — the loop resets to the new tip, so the regen sees a tree clean apart from the manifest. Whatever owns the shared fix must have this ordering, and a naive `run: python3 aso_archive_manifest.py` step in each workflow does not."
       ],
       "what": "⛔⛔ A WORKFLOW WRITES A FILE INSIDE THE ASO ARCHIVE INVENTORY AND NEVER REGENERATES THE MANIFEST, SO THE TRUNK GOES RED ON THE NEXT COMMIT — WHICH IS ALWAYS SOMEBODY ELSE'S. Measured 2026-08-29 (CYC-0083-381d0696). `.github/workflows/emc-expression-datasets.yml` pushed aa6d9d9a9, rewriting `research/modalities/emc-expression-panels.json` (+121,324 lines), a file the ASO archive manifest inventories. The workflow regenerates `junction-aso-regen-manifest.json` and does not touch `aso_archive_manifest.py` at all. ⛔ THE PUSHING COMMIT WAS ITSELF NEVER GATED — no tests.yml run exists for aa6d9d9a9 — so the staleness was invisible until the NEXT commit, and the next commits were a claim.py merge (7f987b6fb) and a claim (f96f509e5), neither of which touched an archived file. Both went red, on BOTH jobs: `gates` on 'STALE: the archive inventory would change' and `pytest` on one assertion out of 10,857.\n\n⭐ THIS IS THE CAUSE OF AUT-PD-028, NOT A DUPLICATE OF IT. That row is two sessions COLLIDING on the regeneration; this is what creates the staleness they both then race to clear — and it did so again the same hour: CYC-0083 pushed 6aa7ebb91 ('regenerate the ASO archive manifest against a clean tree') while another session pushed 7bd190bcc ('regenerate the ASO archive manifest after the panels CI push'), two regenerations of one file for one incident. ⚠ It is also NOT AUT-PD-141 (a rebase invalidating provenance) and NOT AUT-PD-036 (`git ls-files` blind to an uncommitted file): here the file is committed, tracked, and inventoried, and the writer is a scheduled workflow with no human in the loop.\n\n⛔ THE FIX IS A CHOICE AND THE OBVIOUS ONE MAY BE WRONG. (a) Have every workflow that writes a tracked file run `aso_archive_manifest.py` before committing — correct but it must be added to each workflow separately, and the next new workflow reintroduces the defect silently. (b) Derive the set: make the archive gate name WHICH inventoried file moved and have one shared publish step own the regeneration, so a workflow cannot write an archived file without passing through it. ⚠ AND MEASURE FIRST WHICH WORKFLOWS ACTUALLY WRITE INVENTORIED FILES — the inventory is 483 files and this was found from one incident, not from an audit. That audit is a $0 read: intersect each workflow's committed paths with the manifest's inventory.\n\n⚠ ONE FALSE LEAD RECORDED SO THE NEXT READER DOES NOT REPEAT IT: the bare `aso_archive_manifest.py --check` compares `git_revision`, which advances on EVERY commit, so it reports STALE on a perfectly current manifest. The gate preflight and tests.yml actually run is `--check-archive`, which compares the inventory and skips the repository-state fields. `scripts/preflight.sh` line 671 already says so. Use `--check-archive` when asking whether the archive is stale; `--check` answers a different question.\n\n⛔ A CORRECTION TO THIS CYCLE'S OWN COMMIT MESSAGE, RECORDED HERE BECAUSE A PUSHED COMMIT MESSAGE CANNOT BE EDITED AND THIS IS THE ROW A LATER READER WILL OPEN. `6aa7ebb91` ('regenerate the ASO archive manifest against a clean tree') states that `research/autonomy/claim.py` is in the archive inventory and that AUT-PD-165's change to it moved the digest. ⛔ THAT IS FALSE: `claim.py` is NOT in the inventory, checked directly against the manifest. The regeneration was still correct and still necessary — the manifest genuinely was stale — but the cause was `emc-expression-panels.json` from the CI push aa6d9d9a9, which this row documents, and which had not yet been diagnosed when that message was written. ⚠ THE SHAPE OF THE ERROR IS THE REUSABLE PART: a stale manifest was observed, the file this session happened to be editing was assumed to be the cause, and the assumption was written into a commit message as a fact without the one-line check that refutes it. CLAUDE.md §4 — the $0 observation was available the whole time. ⭐ WHAT IS ACTUALLY TRUE, MEASURED: of the three files worth checking, only `research/modalities/emc-expression-panels.json` is inventoried; `research/autonomy/claim.py` and `research/autonomy/research-ledger.json` are not — which also means an ordinary ledger commit never makes the archive stale, and a session seeing a stale archive should look at what a WORKFLOW pushed, not at its own edits.",
       "_cycle_row_key": "workflow-writes-archived-file-without-regenerating-manifest"
@@ -3519,6 +3533,39 @@
       "score_inputs": {
         "age_factor": 0.1429
       }
+    },
+    {
+      "id": "AUT-PD-172",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0085-6b009680",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a re-measurement and a pinned-figure update in CLAUDE.md plus pinned-figures.json; nothing outward-facing",
+      "closes_clause": null,
+      "score": 122.0,
+      "_score_basis": "Below AUT-PD-028 (124.0) because nothing is WRONG in the repository — the gates all pass — but above the ordinary process_defect band because the stale figure is in the file that loads every session and it is what every cycle plans its turn shape around. A cycle that budgets 75 s and spends 16 min mis-sequences its work.",
+      "depends_on_evidence": [
+        "CLAUDE.md §6 pins the commit loop: 'it costs about 75 seconds' — 'Measured 2026-08-24: fast gates 31.4 s + gate 13 39.3 s = 77.5 s', over '55 tests'.",
+        "Measured 2026-08-29 by CYC-0084-6b009680 over TWO full runs of `PREFLIGHT_TESTS=1 ./scripts/preflight.sh` in this sandbox, each with its own EXIT= marker and both green: the pure-logic suite (`scripts/tests research/autonomy/tests`, the gate 13 stage) reported '811 passed in 501.57s' on run 1; the manuscripts suite reported '1545 passed, 3 skipped in 423.71s' on run 1 and '441.72s' on run 2. So that stage is 12.8x its pinned time and its test count is 14.7x the pinned 55.",
+        "⚠ The default tier is NOT 75 s either, because gate 13 is IN it (CLAUDE.md says so explicitly: 'it is half the loop'). A default `preflight.sh` in this sandbox is therefore ~8.5 min, not ~31 s + 39 s. Logs: /tmp/claude-0/-home-user-Rare-cancers/6b009680-c325-5cfa-bbfa-bb1af76fa8bf/scratchpad/cyc84-driver/cyc84-preflight.log and cyc84-preflight2.log.",
+        "⚠ NOT MEASURED HERE, and it is the fork the fix turns on: whether the growth is the suite genuinely being 811 tests now, or a per-test cost regression. 55 -> 811 tests at 39.3 -> 501.6 s is 0.71 s/test then against 0.62 s/test now, which would make it pure growth — but the 2026-08-24 figure was taken on a different container and this is arithmetic over two numbers from different machines, not a measurement. Time the suite per-test on one machine before concluding either."
+      ],
+      "what": "⚠ THE COMMIT LOOP'S PINNED COST IS OUT BY AN ORDER OF MAGNITUDE, AND IT IS IN THE FILE THAT LOADS EVERY SESSION. CLAUDE.md §6 says `./scripts/preflight.sh` 'costs about 75 seconds' and pins gate 13 at 39.3 s over 55 tests; measured twice on 2026-08-29 that stage is 501.6 s over 811 tests, and the manuscripts suite adds ~430 s, so the loop a cycle actually pays is ~8.5 min by default and ~16 min with PREFLIGHT_TESTS=1. ⛔ NOTHING IS BROKEN — both runs were green — WHICH IS EXACTLY WHY THIS ROTS QUIETLY: no gate fails, and the only symptom is every session budgeting its turn against a number that has not been true for days. That is what §6's whole 'a gate running is not a reason to stop working' section is calibrated against, and CLAUDE.md §4 says a remembered figure must never carry an argument. ⭐ THE FIX IS A MEASUREMENT AND A PIN, NOT AN OPTIMISATION: time both tiers on one machine, register the old figures in `pinned-figures.json` in the SAME commit that changes them (§1.3), and say which tier each number describes — the current text conflates 'the default run' with 'fast gates', and gate 13 sits in the default tier. ⛔ DO NOT MOVE GATE 13 BEHIND A FLAG AS PART OF THIS: CLAUDE.md already records that as trimcrae's call and not a silent one to make inside a merge. Whether an 811-test pure-logic suite still belongs in the commit loop is a real question and it is HIS, not this row's."
     },
     {
       "id": "AUT-044",
