@@ -1,0 +1,121 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "9d5b4defef94425c91ac7dcdfa6cf898a196a8ac",
+  "document_sha256": "e01aa79fdcf5b448732778c3ef938dce1d19adf34a63e7c5ff1d726f35d3ffda",
+  "document_sha256_verified": "yes -- verified by the seat against the pin before review",
+  "blind": true,
+  "utc": "2026-08-29T12:12:00Z",
+  "cycle_id": "CYC-0086-f7394a99",
+  "round": 11,
+  "seat": "hostile-referee",
+  "verdict": "supported-with-corrections",
+  "recommendation": "major revision",
+  "central_claim_as_understood": "The NR4A3 5' fusion partner (TAF15 vs EWSR1) is a CANDIDATE - explicitly not established - stratification variable in EMC. Two sub-claims are held at deliberately different strengths: (a) PROGNOSIS - pooled over two cohorts and 73 patients, crude disease-specific death is 7/15 = 46.7% (TAF15) vs 6/58 = 10.3% (EWSR1), a magnitude the paper states is confounded because the larger contributing cohort's own multivariable model drops the partner in favour of tumour size (>10 cm, HR 30.60) and metastasis at presentation; (b) TREATMENT RESPONSE - 0 of 3-5 TAF15 patients responded to an antiangiogenic TKI, a direction with no magnitude, whose Wilson upper bound (43.4-56.1%) sits above the comparator arm's own point estimate in both analyses, so equality cannot be excluded. The paper makes no treatment recommendation and its ask is a reporting ask.",
+  "defects_found": 16,
+  "coverage_gaps_found": 4,
+  "blockers": [
+    {
+      "id": "REF-B-1",
+      "where": "Abstract (line 75) and S3.3 (line 340)",
+      "what": "'That is the first magnitude this contrast has ever had' / 'This is the first magnitude the prognostic contrast has ever had' - an unqualified historical superlative over the entire published literature, stated flat in the Abstract.",
+      "why_blocking": "S2.3a concedes that no database was queried, no registered search string was run, no screening flow existed and no second reader checked inclusion - so no statement of the form 'the first ever' is supported. S2.3a names four at-risk absolutes and bounds them in place; this one is left to a blanket clause buried 265 lines away in Methods. The paper's own correction register A16 established the standard being violated: it retracted 'No TAF15::NR4A3 patient has EVER been reported to respond' precisely because it was stated flat in the Abstract with its qualifier 140 lines away, and fixed it IN PLACE. The same defect is uncorrected here, in the sentence carrying the paper's single most quotable number."
+    },
+    {
+      "id": "REF-B-2",
+      "where": "S3.1 secondary-analysis table (line 276), S4.6, and cohorts[sunitinib-2014].strata in emc-fusion-partner-pooling.json",
+      "what": "The sunitinib series' comparator arm is labelled EWSR1::NR4A3 (6/8 = 75.0%) on an inference the quoted evidence does not license, while the paper refuses that exact label for the pazopanib arm. S4.6 scopes the caveat to the primary analysis only, leaving the secondary analysis' sunitinib half asserted as verified EWSR1.",
+      "why_blocking": "The stratum is reconstructed by subtraction from three secondary sources. The held quotations support only: 6 PR / 2 SD / 2 PD; the 2 progressors are the 2 TAF15 patients; 'all responsive cases turned out to express the typical EWSR1-NR4A3 fusion'; and Davis 2017's 'all patients with the classical translocation had stable or responsive disease.' That last sentence runs classical -> SD/PR; it does NOT license SD/PR -> classical. The two SD patients' partner is stated by no source held. The 8-patient arm can therefore contain FUS, TCF12 or untyped NR4A3-rearranged cases - verbatim the reason S3.1 and S4.6 give for refusing to call the pazopanib arm EWSR1. Counts do not change; the label does, and it feeds the 37.0% pooled comparator, the 75.0% per-cohort rate, and the Abstract's 'sits above the comparator arm's point estimate in both analyses.' Asymmetric caution applied to two structurally identical arms is not a wording issue in a paper whose subject is whether the partner label carries information."
+    },
+    {
+      "id": "REF-B-3",
+      "where": "S5 claims list (line 709), and correction register row A2",
+      "what": "S5 claims as a contribution: 'That the field's own hedge is misattributed: the sentence quoted as the sunitinib series' caveat is from the 2012 two-case report' - with the misattributing party unnamed. S1.3 and S3.8 establish that the only holder of the misattribution is this repository's own lane memo. Register A2 compounds it by naming 'the review literature' as a misattributing party.",
+      "why_blocking": "A residual instance of a defect class the register has already retracted twice. A30 retracted a claim about what 'the field routinely quotes' because no source for the quoting practice was ever held; A33 retracted 'most-quoted' and 'usually attributed to' for the same reason, stating the repository 'holds no record of who quotes what', and repaired S1.3 and S3.8 - stopping short of S5 and of A2. The artifact's own primary_authors_hedge.attribution_correction says the record HELD NO RECORD OF WHO ELSE ATTRIBUTES IT THAT WAY, directly contradicting A2's 'the review literature'. As it stands, a fix to an internal memo is presented in the claims section as a correction to the literature, and the register contains an unsourced attribution the register itself has ruled out elsewhere."
+    }
+  ],
+  "p1s": [
+    {
+      "id": "REF-P1-1",
+      "where": "Abstract; S3.2 table rows for Suemitsu 2025 and Sjogren 2003; S5; S6",
+      "what": "Two partner-stratified outcome series that point null appear only inside cells of the exclusion table. Suemitsu 2025 (MSK, n=18, PMID 40828003): 'no statistically significant correlation was detected between OS and fusion subtypes.' Sjogren 2003: three TAF15 patients with no tumour-related death. Neither reaches the Abstract, the S5 claims list, S6, or the L3 endpoint sentence. The Abstract's 'two cohorts now publish outcome event counts by partner' is true and leaves that reader unaware that the third and fourth partner-stratified outcome series both run null."
+    },
+    {
+      "id": "REF-P1-2",
+      "where": "S3.3 and S5, against S3.5 and S3.1",
+      "what": "No sensitivity analysis of the headline death contrast against its own excluded cohorts, although the paper supplies exactly that treatment elsewhere (prevalence gets 31/163 = 19.0% with Sjogren added; TKI strata get the 0/2 case and the 3-to-5 denominator range). The one endpoint with a small p-value is the one endpoint whose exclusions are never re-included. The seat ran both omitted checks and they would have HELPED the paper: stratified CMH gives p = 0.0036 against the collapsed 0.0034, and adding Sjogren gives 7/18 vs 6/63, p = 0.0067. The omission is asymmetric in the direction that protects the headline."
+    },
+    {
+      "id": "REF-P1-3",
+      "where": "S3.8 opening sentence; S5 'Does not claim' bullet 3",
+      "what": "'The investigators who reported the correlation do not believe the fusion causes it' - a present-tense assertion about investigator belief resting on one 2012 sentence written before any TAF15 patient existed, repeated in S5 as 'The primary authors say the opposite.' The same investigators' 2014 abstract, quoted three lines later, states that genotype/phenotype analyses SUPPORT a correlation between response and EWSR1-NR4A3 fusion. S3.8 additionally asserts the authors' reasoning (analogy to alveolar soft part sarcoma) with no quotation held for it."
+    },
+    {
+      "id": "REF-P1-4",
+      "where": "S4.5, S6 falsifier #3, S6 resolved-items block",
+      "what": "The paper reports having retrieved NCT02066285's exclusion criterion ('Patients who have received previous antiangiogenic agents', corroborated on the EU CTR), which makes the sunitinib series' patients protocol-ineligible for the trial - and then keeps falsifier #3 alive ('Confirmation that the sunitinib series' TAF15 patients re-enrolled on the pazopanib trial'). The falsifier list and the paper's own retrieved evidence are out of step, and the stated reason for not acting is a repository process reason, not a scientific one. Direction is conservative (acting on it would make 0/5 primary), but a reader cannot be asked to hold an analysis choice the same section reports as superseded."
+    },
+    {
+      "id": "REF-P1-5",
+      "where": "Abstract, defeater sentence",
+      "what": "'and 78 % of TAF15 tumours were > 10 cm' carries no denominator and no cohort attribution at the point of statement. It is 7/9 within Huang 2023 only, not a property of the 15 pooled TAF15 patients the preceding sentence introduces. This is the sentence a reader carries away as the confound; S3.3 and S4.1a give it correctly, the Abstract does not."
+    },
+    {
+      "id": "REF-P1-6",
+      "where": "S3.1, S3.2, S4.4",
+      "what": "Neither TKI stratum is a published partner-stratified 2x2. The pazopanib arm is derived as 19 = 22 - 3; the sunitinib arm is assembled across three secondary sources. S4.4 discloses secondary provenance but never states the separate fact that NO source anywhere publishes a partner-stratified response table and that both strata are reconstructions. The artifact carries a derivation field for the pazopanib cohort and none for the sunitinib cohort."
+    },
+    {
+      "id": "REF-P1-7",
+      "where": "S1.2 (line 131) and S3.1 (line 284)",
+      "what": "'Each is repeated in review after review, and often flatly' and 'that includes reviews that state it flatly' - a frequency claim over the review literature that is load-bearing, because the paper's stated contribution is that the field states this more firmly than the pooled data support. Exactly one held quotation supports a flat statement (Remiszewski 2025), and reference [15] is not cited at either sentence; the other two held reviews restate the trial counts with denominators attached, which is not flat. Same construction as retracted rows A30 and A33, and no register row addresses it."
+    }
+  ],
+  "p2s": [
+    {
+      "id": "REF-P2-1",
+      "where": "S3.3 table, S2.4, S4.8",
+      "what": "The pooled Fisher p = 0.0034 is computed on a collapsed 73-patient table and ignores cohort stratification; neither cohort reaches it alone (Agaram p = 0.0672, Huang p = 0.0264). The paper should name the test and say why collapsing is acceptable. Verified not an artefact (CMH p = 0.0036), but the reader is given no way to know that."
+    },
+    {
+      "id": "REF-P2-2",
+      "where": "S3.3, S5",
+      "what": "'the largest series to test metastasis by partner directly reports P = .728' never names the series in that sentence (Huang 2023's three-way table); the reader must reconstruct why Paioli 2021's n = 67 is not 'largest'. An unattributed p-value in the sentence carrying the metastasis negative."
+    },
+    {
+      "id": "REF-P2-3",
+      "where": "Title and YAML title",
+      "what": "'Fusion-variant stratification in EMC' asserts stratification as the subject, while the body insists 'candidate - not established' must always travel with the finding. The title is what a reader searches and cites."
+    },
+    {
+      "id": "REF-P2-4",
+      "where": "S2.6, S7, S8",
+      "what": "'Verified this session' (three occurrences) is a repository-internal locution with no meaning to an external reader, and S7's byte-for-byte regeneration claim is unverifiable without the repository checkout."
+    },
+    {
+      "id": "REF-P2-5",
+      "where": "S7 and S8",
+      "what": "Roughly a page of engineering-process narrative inside a clinical manuscript. Belongs in a data-availability statement or SI, not the body a clinical reviewer reads."
+    },
+    {
+      "id": "REF-P2-6",
+      "where": "S1.2 evidence table, TKI row",
+      "what": "Cites [1,3,4,5,6] for 'responders are EWSR1, non-responders include every TAF15 patient'. Reference [6] (Davis 2017) is a 6-case NGS series whose own artifact record says it is cited only for its reading of the sunitinib series; bundling it inflates the apparent number of supporting reports."
+    }
+  ],
+  "what_i_could_not_break": [
+    "Arithmetic. Every printed proportion, Wilson interval and Fisher p reproduces exactly from the stated integer counts, recomputed independently. Not one figure moved.",
+    "Falsifier #5's derived threshold: 34 is exactly the smallest TAF15 denominator bringing the point estimate to or below the comparator's Wilson upper bound of 20.8%, so '19 further TAF15 patients' is correct, measured against the upper bound with the comparator held fixed - the choice that makes the falsifier easier to trigger.",
+    "Robustness of the headline contrast: not an artefact of collapsing cohorts (CMH p = 0.0036 vs 0.0034) and it survives adding the excluded, null-leaning Sjogren cohort (7/18 vs 6/63, p = 0.0067).",
+    "The size confound is carried all the way to the conclusion rather than conceded and dropped - Abstract, S3.3, S3.4, S4.1a, the S5 claims bullet, the 'Does not claim' list and the L3 endpoint sentence.",
+    "No treatment implication is smuggled. The ask is that the partner be REPORTED; the endpoint sentence says the field should start reporting the partner rather than acting on it. No sentence would let a clinician manage a TAF15 patient differently on this paper's authority.",
+    "No mechanism is implied. S3.6 refuses to borrow strength from GSE28866 and gives four reasons; S3.7 reports the only matched model pair as reading AGAINST the hypothesis; S4.10 declares consortium non-independence; S5's first bullet withdraws the 'four converging independent lines' framing down to one, then says that one is the confounded one.",
+    "Sample size is honest everywhere checked, including the Abstract and the ask.",
+    "S8's provenance self-audit is exactly reproducible against the pinned artifact (17 citation records, 13 with a verification_note, exactly 4 naming both a cache slug and an HTTP status, 16 cohort records carrying none).",
+    "Internal cohort accounting ties out end to end.",
+    "The local-recurrence direction flip is reported as a cancellation rather than a small shared effect, and the previously claimed metastasis 'reversal' is retracted in favour of a two-cohort null - a correction removing one of the paper's own novel findings."
+  ],
+  "referee_note": "Major revision, not reject. The central claim - candidate, not established - is WEAKER than the evidence assembled, the correct direction for a paper of this size, and the confounding is carried honestly to the last sentence. Every number reproduces. But three statements in the committed text overclaim, and two sit in the Abstract and the claims list where a reader stops. None requires new data or reanalysis - the material is already held - but it is more than copy-editing, and the stratum relabel must go through the generator rather than the prose.",
+  "scope_note": "A seat record, not a decision. Nothing here authorises an outward-facing act."
+}
