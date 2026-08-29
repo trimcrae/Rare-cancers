@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 134,
+    "process_defect": 137,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -22,16 +22,16 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 114,
+    "done": 115,
     "in_progress": 4,
     "parked": 28,
-    "queued": 141,
+    "queued": 143,
     "ready": 1,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 111,
-  "n_unscored_open": 87,
+  "n_unscored": 112,
+  "n_unscored_open": 88,
   "entries": [
     {
       "serves": {
@@ -2494,7 +2494,39 @@
       "_requires_trimcrae_why": "a coordination tool; nothing published or deposited"
     },
     {
-      "id": "AUT-PD-155",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0071-61dd9024",
+      "requires_trimcrae": false,
+      "closes_clause": null,
+      "id": "AUT-PD-144",
+      "score": 134.9,
+      "_score_basis": "same family as AUT-PD-144 and equally cheap, but it has already cost a trunk outage and ~40 minutes of duplicated diagnosis; set one point below it.",
+      "depends_on_evidence": "commits e901ae619 and 170314393 (`git rev-parse 170314393^` = e901ae619); `priority.py --limit 3` ValueError on the committed trunk; `pytest research/autonomy/tests/test_ids_cannot_collide.py` on the stashed trunk = 1 failed, 10 passed; the independent second fix at 960dd822b",
+      "what": "⛔⛔ A REBASE-THEN-PUSH LANDS A TREE NO GATE EVER SAW, AND IT PUT A DUPLICATE ID ON `main` THAT CRASHED EVERY CYCLE'S STEP 3. Measured 2026-08-28. Two sessions filed AUT-PD-140 four minutes apart: CYC-0070-c84c64dd at e901ae619, then CYC-0070-225452b4 at 170314393 — and `git rev-parse 170314393^` IS e901ae619, so these were NOT divergent branches meeting at a merge. The second session allocated its id from state fetched before e901ae619, REBASED onto it, and pushed; the ledger's rows are separate array elements, so the rebase produced no conflict and no marker. ⛔ THE COST WAS TOTAL: `priority.py:merge` REFUSES a duplicated ledger (`ValueError: duplicate ledger ids: AUT-PD-140`), so `python3 research/autonomy/priority.py --write` — step 3 of the cycle contract, run before any item is taken — crashed on committed `main` for every session until it was renamed.\n⭐ THE GUARD WAS CORRECT AND WAS SIMPLY NOT RUN AT THE MOMENT THAT MATTERED. Verified by stashing the fix and running the committed trunk: `research/autonomy/tests/test_ids_cannot_collide.py::test_the_committed_ledger_has_no_duplicate_ids` FAILS (1 failed, 10 passed), and it is inside preflight gate 13's scope — so a preflight run AFTER the rebase would have caught it before the push. ⛔ SO THIS IS NOT A MISSING GATE. IT IS A GAP IN WHAT 'THE TREE YOU COMMIT' MEANS. CLAUDE.md §6 requires that the run you report green is the run that saw the tree you commit; a rebase performed at push time creates a THIRD tree — neither session's gated one — and nothing re-gates it. Every id here derives from max+1 over committed state (AUT-PROP-013), so a rebase is precisely when a collision becomes possible and precisely when nothing looks.\n⚠ AND THE DUPLICATED-EFFORT HALF REPEATED WHILE THIS WAS BEING WRITTEN, WHICH IS EVIDENCE THE FIX MUST BE MECHANICAL RATHER THAN A RULE. CYC-0071 diagnosed the collision and renamed the later row to AUT-PD-141; a concurrent session shipped the SAME diagnosis and the SAME rename to the SAME id at 960dd822b, minutes apart. CYC-0071 discarded its own version at the rebase. That is CYC-0069's recorded loss repeating: two sessions can both be right, both be gated, and still waste the work. ⭐ THE CHEAP FIX IS A PRE-PUSH CHECK, NOT A NEW TEST: after any rebase that touched research-ledger.json, re-run the id guard (0.04 s) and refuse the push on a duplicate.\n\n✅ DONE 2026-08-29 (CYC-0074-bdf8c881). Built the pre-push check this row asked for: `research/autonomy/prepush_ledger_guard.py` wraps `ids.duplicate_ids()` (already correct, never the problem) as a `--check` script; `.githooks/pre-push` runs it against the working tree's `research-ledger.json` at push time — the one moment a rebase can build a tree no preflight run ever saw; `scripts/dev-setup.sh` now sets `git config core.hooksPath .githooks` idempotently so any session that has run setup gets it without a manual step. Pinned by `research/autonomy/tests/test_prepush_ledger_guard_catches_duplicate_ids.py` (6 tests, including the exact AUT-PD-140 two-array-elements shape), mutation-tested: flipping `ok = not dupes` to `ok = True` reproduces silent pass-through and fails 2 of 6 tests; restoring the correct comparison passes all 6. ⚠ `.git/hooks/` itself is never tracked by git and a fresh sandbox never has it — that is why this is `core.hooksPath` pointed at a committed directory, not a hook installed by hand.",
+      "_renamed_from": "AUT-PD-143",
+      "_renamed_why": "re-allocated at the rebase onto 469e8944d: a concurrent session had taken the id this row was first filed under. AUT-PD-143's own finding is why the count was re-derived explicitly rather than assumed.",
+      "score_inputs": {
+        "age_factor": 0.0714
+      }
+    },
+    {
+      "id": "AUT-PD-158",
       "kind": "process_defect",
       "process_defect": true,
       "serves": {
@@ -2528,7 +2560,7 @@
         "branch s1-aut-pd-144 @ 3f4a41080: push_guard replays the incident as a NOTICE, with a test pinning the non-refusal"
       ],
       "closes_clause": null,
-      "what": "⚠ FILED AS AUT-PD-154 AND RE-ALLOCATED TO AUT-PD-155 ON 2026-08-29 AFTER AN ID COLLISION — AND THE COLLISION IS ITSELF EVIDENCE FOR THIS ROW. CYC-0074-5a21085f independently filed a DIFFERENT defect under AUT-PD-154 (the reaper's archive refusal) while this row sat in an unpushable local commit. `ids.next_entry_id` allocates from the entries it is given, so it is collision-safe only while an allocation LANDS promptly; this driver was overtaken on the push six times across ~40 minutes and its id went stale exactly as AUT-PROP-013 describes — 'the derivation collides on its own'. ⛔ AND THE NEAR-MISS IS WORSE THAN THE COLLISION: the driver's own conflict resolution tested `if id not in ids` and skipped, which would have SILENTLY DROPPED this row's content while leaving a row of that id on the trunk looking intact. `priority.py:merge` refuses a duplicated ledger and would have caught a double-add; nothing at all catches a silent drop.\n\n⛔⛔ A SEAT RUNNING `claim.py` IN THE SHARED REPOSITORY ROOT PUSHES THE DRIVER'S UNPUSHED COMMITS, AND THE MERGE IT MAKES TO DO SO IS GATED BY NOBODY. Measured 2026-08-29 (CYC-0073-d4ccfde4), first-hand and by the driver's own instruction. ⭐ THE MECHANISM, WHICH IS NOT A BUG IN claim.py: `claim.py` is CORRECT to merge `origin/main` and push `main` — the push is its compare-and-swap arbiter (AUT-PROP-030) and a claim that is not on the trunk protects nothing. But `git push` publishes the BRANCH, not the claim, so when it runs in a working tree whose `main` carries commits the driver has not yet pushed, it publishes those too, plus a merge commit it creates on the spot. Observed: seat s1's claim produced 005b837b8 and 818c472f0 and carried the driver's ee17c39a2 to `main`. The driver's own `git push` was REJECTED moments later because its work was already there — which is how this was noticed at all. ⛔ THE OUTCOME WAS BENIGN AND THAT IS THE DANGEROUS PART: the driver's commits had each passed `preflight.sh` with EXIT=0 read from their own markers, so `main` is sound. But 818c472f0 is a MERGE no gate ever saw, and nothing anywhere would have said so. AUT-PD-144 names this exact class for a REBASE by a session; this is the same class reached by a SUBAGENT's claim, and the two should be fixed together. ⛔ THE DRIVER CAUSED IT, IN THE SEAT PROMPT, AND THE RULE IT BROKE WAS ONE THE SAME PROMPT STATED: research-loop §3 says the shared tree has ONE writer, the driver, and the prompt told the seat to `cd /home/user/Rare-cancers` for the claim step BEFORE creating its worktree — because §2 step 4 insists the claim happen at dispatch. So the two rules point opposite ways for a seat, and nothing resolves it. ⭐ THE FIX IS A CHOICE, NOT AN OBVIOUS PATCH, and it is why this is filed rather than patched: either the seat claims from an isolated checkout (and `claim.py` must then push only the claim, e.g. HEAD:main from a branch based on origin/main), or the DRIVER claims on the seat's behalf before dispatching and the seat never runs claim.py at all. The second is closer to what §3 already says about who writes to the shared tree. ⚠ AND `claim.py --check` CANNOT SEE THIS: it reports a claim the trunk cannot see, which is the opposite failure. Nothing reports a push that carried more than it meant to.\n\n⭐⭐ CORRECTION 2026-08-29, FROM SEAT s1 (AUT-PD-144), AND IT NARROWS THIS ROW RATHER THAN CONFIRMING IT. Two claims above are wrong and the driver has verified the correction against the source rather than accepting it. (1) THIS ROW SAYS `claim.py` \"pushes `main`\". IT DOES NOT: `claim.py:204` is `PUSH_REFSPEC = (\"push\", \"-q\", \"origin\", \"HEAD:main\")`, deliberately, since AUT-PD-029 on 2026-08-27 — checked in the file, not taken from the report. So candidate shape 1 above (\"claim.py must then push only the claim, e.g. HEAD:main from a branch based on origin/main\") WAS ALREADY HALF-IMPLEMENTED AND DID NOT PREVENT THIS, because HEAD *was* the driver's shared branch. A refspec cannot fix this; nothing about `HEAD:main` limits what HEAD contains. (2) THE \"TWO RULES POINT OPPOSITE WAYS FOR A SEAT\" FRAMING IS ALSO WRONG, and it let the driver file its own mistake as a rule conflict. `research-loop` §2 step 4 already says the claim happens \"in the same action that spawns the worker\" — the claimant is WHOEVER SPAWNS, i.e. the driver. There is no tension; the driver's seat prompt simply told the seat to do the driver's job, in the shared tree, which §3 forbids in the same breath. ⛔ BUT THE DEFECT SURVIVES BOTH CORRECTIONS, AND THIS IS THE PART THAT MATTERS: s1's measurement shows a DRIVER running `claim.py` from the shared tree while holding unpushed commits reproduces it identically. So this was never about seats. ★ THE INVARIANT, STATED PROPERLY AT LAST AND NARROWER THAN ANYTHING ABOVE: `claim.py` must run where HEAD contains NOTHING BUT `origin/main` PLUS THE CLAIM — which is mechanically checkable inside `claim.py` (refuse when HEAD is ahead of `origin/main` by anything else) and needs no change to the seat/driver division at all. ⚠ s1 deliberately did NOT implement it: changing `claim.py`'s push semantics mid-cycle while sibling seats depend on that tool is the wrong trade, and it judged the refusing half to be this row's work, not AUT-PD-144's. ⭐ WHAT s1 DID LAND INSTEAD, on branch `s1-aut-pd-144`: its push guard replays this exact incident and emits \"⚠ this push introduces merge 818c472f0 (22 files from its second parent)\" as a NOTICE, never a refusal, with a test pinning the non-refusal. So the \"no signal at all\" half of this row is now covered; the refusing half is still open and is what remains here."
+      "what": "⚠ FILED AS AUT-PD-154 AND RE-ALLOCATED TO AUT-PD-158 ON 2026-08-29 AFTER AN ID COLLISION — AND THE COLLISION IS ITSELF EVIDENCE FOR THIS ROW. CYC-0074-5a21085f independently filed a DIFFERENT defect under AUT-PD-154 (the reaper's archive refusal) while this row sat in an unpushable local commit. `ids.next_entry_id` allocates from the entries it is given, so it is collision-safe only while an allocation LANDS promptly; this driver was overtaken on the push six times across ~40 minutes and its id went stale exactly as AUT-PROP-013 describes — 'the derivation collides on its own'. ⛔ AND THE NEAR-MISS IS WORSE THAN THE COLLISION: the driver's own conflict resolution tested `if id not in ids` and skipped, which would have SILENTLY DROPPED this row's content while leaving a row of that id on the trunk looking intact. `priority.py:merge` refuses a duplicated ledger and would have caught a double-add; nothing at all catches a silent drop.\n\n⛔⛔ A SEAT RUNNING `claim.py` IN THE SHARED REPOSITORY ROOT PUSHES THE DRIVER'S UNPUSHED COMMITS, AND THE MERGE IT MAKES TO DO SO IS GATED BY NOBODY. Measured 2026-08-29 (CYC-0073-d4ccfde4), first-hand and by the driver's own instruction. ⭐ THE MECHANISM, WHICH IS NOT A BUG IN claim.py: `claim.py` is CORRECT to merge `origin/main` and push `main` — the push is its compare-and-swap arbiter (AUT-PROP-030) and a claim that is not on the trunk protects nothing. But `git push` publishes the BRANCH, not the claim, so when it runs in a working tree whose `main` carries commits the driver has not yet pushed, it publishes those too, plus a merge commit it creates on the spot. Observed: seat s1's claim produced 005b837b8 and 818c472f0 and carried the driver's ee17c39a2 to `main`. The driver's own `git push` was REJECTED moments later because its work was already there — which is how this was noticed at all. ⛔ THE OUTCOME WAS BENIGN AND THAT IS THE DANGEROUS PART: the driver's commits had each passed `preflight.sh` with EXIT=0 read from their own markers, so `main` is sound. But 818c472f0 is a MERGE no gate ever saw, and nothing anywhere would have said so. AUT-PD-144 names this exact class for a REBASE by a session; this is the same class reached by a SUBAGENT's claim, and the two should be fixed together. ⛔ THE DRIVER CAUSED IT, IN THE SEAT PROMPT, AND THE RULE IT BROKE WAS ONE THE SAME PROMPT STATED: research-loop §3 says the shared tree has ONE writer, the driver, and the prompt told the seat to `cd /home/user/Rare-cancers` for the claim step BEFORE creating its worktree — because §2 step 4 insists the claim happen at dispatch. So the two rules point opposite ways for a seat, and nothing resolves it. ⭐ THE FIX IS A CHOICE, NOT AN OBVIOUS PATCH, and it is why this is filed rather than patched: either the seat claims from an isolated checkout (and `claim.py` must then push only the claim, e.g. HEAD:main from a branch based on origin/main), or the DRIVER claims on the seat's behalf before dispatching and the seat never runs claim.py at all. The second is closer to what §3 already says about who writes to the shared tree. ⚠ AND `claim.py --check` CANNOT SEE THIS: it reports a claim the trunk cannot see, which is the opposite failure. Nothing reports a push that carried more than it meant to.\n\n⭐⭐ CORRECTION 2026-08-29, FROM SEAT s1 (AUT-PD-144), AND IT NARROWS THIS ROW RATHER THAN CONFIRMING IT. Two claims above are wrong and the driver has verified the correction against the source rather than accepting it. (1) THIS ROW SAYS `claim.py` \"pushes `main`\". IT DOES NOT: `claim.py:204` is `PUSH_REFSPEC = (\"push\", \"-q\", \"origin\", \"HEAD:main\")`, deliberately, since AUT-PD-029 on 2026-08-27 — checked in the file, not taken from the report. So candidate shape 1 above (\"claim.py must then push only the claim, e.g. HEAD:main from a branch based on origin/main\") WAS ALREADY HALF-IMPLEMENTED AND DID NOT PREVENT THIS, because HEAD *was* the driver's shared branch. A refspec cannot fix this; nothing about `HEAD:main` limits what HEAD contains. (2) THE \"TWO RULES POINT OPPOSITE WAYS FOR A SEAT\" FRAMING IS ALSO WRONG, and it let the driver file its own mistake as a rule conflict. `research-loop` §2 step 4 already says the claim happens \"in the same action that spawns the worker\" — the claimant is WHOEVER SPAWNS, i.e. the driver. There is no tension; the driver's seat prompt simply told the seat to do the driver's job, in the shared tree, which §3 forbids in the same breath. ⛔ BUT THE DEFECT SURVIVES BOTH CORRECTIONS, AND THIS IS THE PART THAT MATTERS: s1's measurement shows a DRIVER running `claim.py` from the shared tree while holding unpushed commits reproduces it identically. So this was never about seats. ★ THE INVARIANT, STATED PROPERLY AT LAST AND NARROWER THAN ANYTHING ABOVE: `claim.py` must run where HEAD contains NOTHING BUT `origin/main` PLUS THE CLAIM — which is mechanically checkable inside `claim.py` (refuse when HEAD is ahead of `origin/main` by anything else) and needs no change to the seat/driver division at all. ⚠ s1 deliberately did NOT implement it: changing `claim.py`'s push semantics mid-cycle while sibling seats depend on that tool is the wrong trade, and it judged the refusing half to be this row's work, not AUT-PD-144's. ⭐ WHAT s1 DID LAND INSTEAD, on branch `s1-aut-pd-144`: its push guard replays this exact incident and emits \"⚠ this push introduces merge 818c472f0 (22 files from its second parent)\" as a NOTICE, never a refusal, with a test pinning the non-refusal. So the \"no signal at all\" half of this row is now covered; the refusing half is still open and is what remains here.\n\n⚠ RE-ALLOCATED A SECOND TIME on 2026-08-29: filed as AUT-PD-154, renamed AUT-PD-155, landed as AUT-PD-158. Each rename was forced by a DIFFERENT concurrent session taking the id while this row waited on a push that was refused seven times in ~75 minutes. Two other sessions were reconciling their own collisions in the same window (`rename AUT-PD-154 collision to AUT-PD-156`, `rename AUT-PD-155 collision to AUT-PD-157` — neither of those was this row). ⭐ THAT IS THE MEASUREMENT THIS ROW WANTED: id allocation is not the defect, PUSH LATENCY IS. `ids.next_entry_id` is collision-safe exactly as long as an allocation lands promptly, and a driver honouring the re-gate rule on a trunk moving faster than its ~700 s gate cannot land promptly. Fix the latency, or allocation collisions keep arriving no matter how the allocator is written."
     },
     {
       "id": "AUT-PD-031",
@@ -2568,6 +2600,36 @@
         }
       ],
       "evidence": "WORKED BY SEAT s3 (CYC-0066-1f1a2449 fan-out). Branch `s3/aut-pd-031-line-citations-enumerate-carriers` @ 429241264f, rebased on origin/main, pushed, NOT MERGED. ⛔ THE ROW STAYS OPEN AND THE SEAT ARGUES WHY: its deliverable research/modalities/instrument-census.json existed and was in sync, and the defect was still fully live — an artifact on the trunk is not a finished item. Reproduced end to end: insert one blank line in nr4a3-degrader-paper.md, `line_citations.py --fix` prints 'rewrote 18 citation(s)', EXITS 0, and instrument_census.py --check immediately goes red. The fixer scanned 1 of the 19 tracked files carrying the syntax (466 occurrences). Second half, unguarded in the commit loop: `instrument_census.py --check` existed and NOTHING in preflight.sh ran it — its only enforcement was the opt-in modalities suite, which is why the original incident surfaced three commits late; now added to the generated-artifact loop at a measured 0.032 s. ⭐ THE FIX NAMES RATHER THAN REPAIRS, DELIBERATELY, and the decisive reason is measured not argued: the resolver is context-dependent, and for `:2140-2142` the roadmap's context yields a different quote than the census's because the census table has a column the roadmap does not — one ordinary edit and a 'repair' silently repoints a citation at a sentence it does not quote. Also, the largest hand-written carrier (program/map-audit-strategy.md, 131 citations) pins its line numbers to commit f67d0781 in its own header, and a fixer cannot tell a pinned reference from a rotted one. 10 tests, mutation-tested 9/9 with two earlier survivors fixed as real test defects; preflight EXIT=0 at PREFLIGHT_TESTS=1, 1467 passed. STILL OPEN: the tool now NAMES 16 hand-written carriers and CHECKS none — that surface is unmeasured rather than measured-clean, and deciding which are pinned-by-design is a reading job nobody has done. ⭐ BRANCH MERGED TO THE TRUNK 2026-08-28 by the CYC-0066 driver (s3/aut-pd-031-line-citations-enumerate-carriers), gated at PREFLIGHT_TESTS=1, EXIT=0, 1469 passed. Confirmed present on origin/main: `instrument_census` is now in preflight.sh's generated-artifact loop, so the census check runs in the COMMIT LOOP rather than only in the opt-in modalities suite — which is the half that let the original incident surface three commits late. ⛔ THE ROW REMAINS QUEUED, on the seat's own argument and not by oversight: the fixer now NAMES 16 hand-written carriers and CHECKS none of them, so that surface is UNMEASURED rather than measured-clean, and deciding which are pinned-by-design (map-audit-strategy.md pins its line numbers to commit f67d0781 in its own header) versus genuinely rotted is a reading job nobody has done."
+    },
+    {
+      "id": "AUT-PD-157",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0074-bdf8c881",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "a preflight gate fix; nothing leaves the repo",
+      "closes_clause": null,
+      "score": 133.0,
+      "_score_basis": "same family and severity as AUT-PD-144/146: a gate that would otherwise refuse every future scheduled-Routine cycle's commit once FIRST_CCR_GOVERNED_CYCLE is reached, not merely a documentation gap.",
+      "what": "⛔⛔ A SCHEDULED-ROUTINE SESSION HAS NO `get_session` TOOL AT ALL, SO IT CAN NEVER SATISFY `receipt_schema.py`'S `ccr_session_id` REQUIREMENT (FIRST_CCR_GOVERNED_CYCLE=70) THE WAY AUT-PD-146 DESCRIBES. Measured 2026-08-29 in CYC-0073/CYC-0074, a session fired by the driver Routine: `ToolSearch` for \"get_session\", \"create_session\" and \"session info ccr claude-code-remote\" each returned no matching deferred tool. AUT-PD-146 correctly measured HOW to obtain the id (`get_session` with no args -> `.ccr.id`) but assumed the tool is reachable from any session; it is not, and a scheduled-Routine session's narrower tool surface is exactly the shape research-loop's own prompt already warns may lack `Skill` or `Task`. Left unfixed, gate 12 (`receipt_schema.py --check`, run inside `./scripts/preflight.sh`) would refuse EVERY receipt a scheduled cycle writes from here on -- not a documentation gap but a hard commit-time wall with no legal way through it, the same LATCHING shape research-loop §1 already names for a health condition keyed to immutable history. ⭐ FIX: `research/autonomy/receipt_schema.py` gained `CCR_UNAVAILABLE_FIELD = \"ccr_session_id_unavailable\"`, mirroring the already-accepted `handoff.mechanism_unavailable` pattern -- a receipt whose `ccr_session_id` is absent may instead carry a non-empty string here naming why the tool could not be reached, and `problems()` treats that as satisfying the field. Not GOVERNED (receipt_schema.py is not in amendment_guard.py's GOVERNED tuple), so no declaration was required, though the two new test files ARE governed (`**/tests/**`) and are declared in amendments.jsonl. Pinned by 5 new tests in `research/autonomy/tests/test_receipt_schema.py` (40 total, up from 35): a valid ccr_session_id still passes; missing both fields still fails; a named unavailable reason passes; an empty/whitespace/non-string reason does NOT satisfy the valve (same rigor as `handoff.mechanism_unavailable`); both fields present together passes. Mutation-tested: collapsing the new `isinstance(...) and .strip()` condition to `if True` makes 6 of 40 tests fail (exactly the escape-valve tests); restoring it passes all 40. CYC-0073's and CYC-0074's own receipts use this field, since this session has no CCR id to give.",
+      "depends_on_evidence": "ToolSearch(\"get_session\", 5) -> no match; ToolSearch(\"create_session\", 10) -> no match; ToolSearch(\"session info ccr claude-code-remote\", 10) -> no match (only ExitWorktree, CronCreate/List/Delete, EnterWorktree, ListConnectors, Monitor, SearchMcpRegistry, SendMessage, SuggestConnectors -- none of them a session-identity tool); pytest research/autonomy/tests/test_receipt_schema.py -q = 40 passed post-fix, 6 failed with the escape-valve condition mutated to `if True`.",
+      "_renamed_from": "AUT-PD-155",
+      "_renamed_why": "AUT-PD-155 was independently allocated by a concurrent session (CYC-0074-5a21085f) for a different defect (commit-loop cost drift / gate 13 timing) and landed on origin/main first. Re-allocated to avoid a duplicate ledger id."
     },
     {
       "id": "AUT-PD-145",
@@ -2668,6 +2730,36 @@
       "_requires_trimcrae_why": "a health-check grading rule and/or a scheduled-Routine prompt fix; nothing published, submitted or deposited",
       "what": "⛔⛔ IN A SCHEDULED-ROUTINE SESSION, create_session/get_session ARE NOT PRESENT AS TOOLS AT ALL -- A STRONGER FAILURE THAN AUT-PD-032's DEPTH-LIMIT REFUSAL, AND cycles_are_sized CANNOT TELL THE TWO APART. AUT-PD-032 found create_session callable but refused past lineage depth 8; this session (six cycles, all fired from the same 'scheduled Routine' launch context CLAUDE.md's own trigger prompt describes) found the tool absent from ToolSearch entirely, at depth 1 (no prior handoff chain at all) -- so the platform-side gap AUT-PD-032 candidate-fix (2) asked cycles_are_sized to account for is not one failure mode, it is at least two, and the scheduled-Routine one is the MORE common launch shape for an unattended cycle, not an edge case. ⭐ THE PRACTICAL CONSEQUENCE, MEASURED THIS SESSION: every cycle here dispatched a background Agent-tool subagent in an isolated worktree instead of a spawned session (matching research-loop §3's parallel-subagents shape), which keeps the DRIVER's own context bounded for any one item, but does nothing about the health check's real complaint -- the DRIVER itself still personally executed six full cycles (claim, review, merge, gate, ledger, receipt, push) end to end with no context-fresh reset in between, because there was never an available point to hand its OWN role to a fresh session. A subagent shape substitutes for a spawned WORKER; it cannot substitute for a spawned DRIVER. ⭐ WHAT TO DO, extending AUT-PD-032's own open candidates: (1) `health.py`'s cycles_are_sized should grade an over-cap session as UNMEASURED (not RED) whenever the session's own receipts show create_session was checked-for-and-absent (not merely refused) -- 'the platform does not offer this tool here' is a different fact from 'this session ran too long by choice', and only the second is a real defect to fix in the loop's behaviour. (2) Separately, and more directly useful: since the SCHEDULED ROUTINE ITSELF already fires a fresh session every `cycle_interval_hours` (4h at backoff 0), the real successor for an over-cap scheduled-Routine session already exists and needs no spawn at all -- it is the next scheduled firing. The fix may be as simple as `cycles_are_sized` checking whether the calling context IS a scheduled Routine (a fact `research-loop`'s own trigger prompt already asserts every time) and, if so, treating 'ended cleanly with a receipt, no handoff needed' as sufficient rather than demanding a handoff mechanism that launch context does not have and does not need.",
       "lease_released": "✅ CLOSED 2026-08-28, but NOT by restoring create_session — by removing the loop's dependence on it. ⭐ THE REFRAME: the driver Routine fires `13 */4 * * *`, so a session that runs its cycles and STOPS is not stalling — the cron IS the successor. Handoff makes the next cycle start sooner than four hours; it was never what keeps the loop alive. ⛔ THE ACTUAL DAMAGE WAS THE STOP HOOK, NOT THE MISSING TOOL. `.claude/hooks/ready-work-at-turn-end.sh` accepted three answers — something running, blocked on a human, or START ONE — with 'A SCHEDULED ROUTINE IS NOT AN ANSWER' written in. Exhaustive only for a session that CAN hand off. A capped Routine session with no handoff had NO legal answer, so the only move that satisfied the hook was another cycle in the same context: CYC-0033 … CYC-0041, NINE cycles in one session against max_cycles_per_session=2, and one receipt named this hook in its own `shape` field. ⭐ FIXED: research/autonomy/session_cap.py is the fourth answer, and the hook consults it BEFORE demanding another cycle. EARNED AND FALSIFIABLE, never a flag — `cap` receipts FROM THIS SESSION, plus a handoff attempted and blocked either in the platform's verbatim words (AUT-PD-032's depth-8 refusal) or as a named absent mechanism (this item's shape). An absent record is a session that did not try and stays red; every unreadable input answers MUST NOT STOP. 15 tests, 6 mutations all caught, restore verified by sha256. ⛔ AND THE HALF WITHOUT WHICH THE FIX WAS INERT: scheduled cycles typed the literal 'scheduled-routine-session' into the receipt's session_id, so nine cycles were indistinguishable from one session's to both readers that matter — cycles_are_sized and session_cap. A session whose receipts do not name it cannot show it is at its cap. research-loop §10 now reads the id from CLAUDE_CODE_SESSION_ID via session_cap.session_id(), and the placeholder is treated as NO id so it can never be inherited as another session's cap. ⚠ STILL TRUE AND NOT CLOSED BY THIS: cycles_are_sized cannot distinguish a depth-limit refusal from an absent tool. session_cap accepts both deliberately, because for the STOP decision they are the same fact — the loop cannot hand off. Telling them apart still matters for diagnosis."
+    },
+    {
+      "id": "AUT-PD-156",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0074-bdf8c881",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "a preflight/guard tooling gap; nothing leaves the repo",
+      "closes_clause": null,
+      "score": 130.0,
+      "_score_basis": "same family as AUT-PD-152/153: a silent gap in a gate meant to catch exactly this class of thing, though not yet observed to have let anything through.",
+      "what": "⛔ `amendment_guard.py`'s `changed_paths()` runs `git diff --name-only <sha> --`, and `git diff` NEVER lists untracked files, staged or not -- so a brand-new file under a GOVERNED glob (a new `**/tests/**` file, a new file that happened to be named `CLAUDE.md`, etc.) is invisible to the anti-gaming guard until it has been `git add`-ed at least once. Measured 2026-08-29 (CYC-0074): three new files this session (research/autonomy/prepush_ledger_guard.py, .githooks/pre-push, research/autonomy/tests/test_prepush_ledger_guard_catches_duplicate_ids.py) were completely absent from `python3 research/autonomy/amendment_guard.py --receipt ... --diff-from 76702fbfa` even though one of them matches `**/tests/**` -- confirmed directly: `git diff --name-only 76702fbfa --` omits all three; `git add`-ing them first makes them appear. This was caught only because this session happened to `git add` before its final check, not because the guard itself would have refused a quiet new governed file. ⭐ THE FIX IS LIKELY SMALL: `changed_paths()` should union in untracked files (`git status --porcelain --untracked-files=all` or `git ls-files --others --exclude-standard`) alongside the tracked diff, or the tool's own usage instructions should say 'stage everything before running this' loudly enough that it cannot be missed the way it almost was here. ⚠ NOT FIXED THIS CYCLE: this session already landed three defect fixes (AUT-PD-152, AUT-PD-144, AUT-PD-153) and is at its 2-cycle session cap; filed rather than fixed to stay within scope.",
+      "depends_on_evidence": "git diff --name-only 76702fbfaeb1f7776f48b7897d19e3bc43b4973b -- (before staging) omitted 3 new files including one matching **/tests/**; the identical command after `git add` on those 3 paths included all 3. amendment_guard.py --receipt/--diff-from run both before and after staging, on the same base sha, confirming the omission was the diff mechanism and not a receipt/declaration issue.",
+      "_renamed_from": "AUT-PD-154",
+      "_renamed_why": "AUT-PD-154 was independently allocated by a concurrent session (CYC-0074-5a21085f) for a different defect (step 11 CCR archive refusal in an auto-permission session) and landed on origin/main first. Re-allocated to avoid a duplicate ledger id."
     },
     {
       "id": "AUT-071",
@@ -2788,45 +2880,6 @@
         "fruitless_attempts": 0,
         "age_factor": 0.2857
       }
-    },
-    {
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": "PUB-STRATEGY-ARCH",
-        "strategy": "ST-STRATEGY"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": "2026-08-29T00:58:47Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0071-61dd9024",
-      "requires_trimcrae": false,
-      "closes_clause": null,
-      "id": "AUT-PD-144",
-      "score": 126.9,
-      "_score_basis": "same family as AUT-PD-144 and equally cheap, but it has already cost a trunk outage and ~40 minutes of duplicated diagnosis; set one point below it.",
-      "depends_on_evidence": "commits e901ae619 and 170314393 (`git rev-parse 170314393^` = e901ae619); `priority.py --limit 3` ValueError on the committed trunk; `pytest research/autonomy/tests/test_ids_cannot_collide.py` on the stashed trunk = 1 failed, 10 passed; the independent second fix at 960dd822b",
-      "what": "⛔⛔ A REBASE-THEN-PUSH LANDS A TREE NO GATE EVER SAW, AND IT PUT A DUPLICATE ID ON `main` THAT CRASHED EVERY CYCLE'S STEP 3. Measured 2026-08-28. Two sessions filed AUT-PD-140 four minutes apart: CYC-0070-c84c64dd at e901ae619, then CYC-0070-225452b4 at 170314393 — and `git rev-parse 170314393^` IS e901ae619, so these were NOT divergent branches meeting at a merge. The second session allocated its id from state fetched before e901ae619, REBASED onto it, and pushed; the ledger's rows are separate array elements, so the rebase produced no conflict and no marker. ⛔ THE COST WAS TOTAL: `priority.py:merge` REFUSES a duplicated ledger (`ValueError: duplicate ledger ids: AUT-PD-140`), so `python3 research/autonomy/priority.py --write` — step 3 of the cycle contract, run before any item is taken — crashed on committed `main` for every session until it was renamed.\n⭐ THE GUARD WAS CORRECT AND WAS SIMPLY NOT RUN AT THE MOMENT THAT MATTERED. Verified by stashing the fix and running the committed trunk: `research/autonomy/tests/test_ids_cannot_collide.py::test_the_committed_ledger_has_no_duplicate_ids` FAILS (1 failed, 10 passed), and it is inside preflight gate 13's scope — so a preflight run AFTER the rebase would have caught it before the push. ⛔ SO THIS IS NOT A MISSING GATE. IT IS A GAP IN WHAT 'THE TREE YOU COMMIT' MEANS. CLAUDE.md §6 requires that the run you report green is the run that saw the tree you commit; a rebase performed at push time creates a THIRD tree — neither session's gated one — and nothing re-gates it. Every id here derives from max+1 over committed state (AUT-PROP-013), so a rebase is precisely when a collision becomes possible and precisely when nothing looks.\n⚠ AND THE DUPLICATED-EFFORT HALF REPEATED WHILE THIS WAS BEING WRITTEN, WHICH IS EVIDENCE THE FIX MUST BE MECHANICAL RATHER THAN A RULE. CYC-0071 diagnosed the collision and renamed the later row to AUT-PD-141; a concurrent session shipped the SAME diagnosis and the SAME rename to the SAME id at 960dd822b, minutes apart. CYC-0071 discarded its own version at the rebase. That is CYC-0069's recorded loss repeating: two sessions can both be right, both be gated, and still waste the work. ⭐ THE CHEAP FIX IS A PRE-PUSH CHECK, NOT A NEW TEST: after any rebase that touched research-ledger.json, re-run the id guard (0.04 s) and refuse the push on a duplicate.\n\n✅ DONE 2026-08-29 by seat s1-CYC-0073-d4ccfde4, branch s1-aut-pd-144 @ 3f4a41080, merged by the driver. ⭐ THE SHAPE IS NOT A RE-GATE, AND THE SEAT'S REASON FOR REFUSING THAT IS THE VALUABLE PART: a re-gate needs preflight to record the tree it gated, but sessions legitimately commit a SUBSET of the working tree (CLAUDE.md §6 requires staging by path while subagents run) and `claim.py` structurally cannot gate before pushing — so any 'the tip must be a gated tree' rule needs a carve-out for exactly the path that produced the incident, and the carve-out is the hole. Instead `research/autonomy/push_guard.py` + `scripts/git-hooks/pre-push` check at the push only what a LINE-BASED MERGE CANNOT SEE: the ledger parses and carries no duplicated id (unconditional), and every research/autonomy JSON/JSONL file THIS PUSH TOUCHES parses (scoped, so an already-broken file on the trunk cannot brick the push that repairs it — a property with its own test). Distinct named remedy per failure; fails OPEN and loudly on its own machinery. 21 tests; mutation 12/12 after a first pass of 11/12 in which removing the all-zeros ref-deletion skip SURVIVED all 19 tests, because every downstream git call also fails on that sha and swallows it — 'passes because there is nothing to check' and 'passes because of three unreadable-object errors' were indistinguishable from outside. Fixed by extracting `protocol_pairs()` so the skip is a property a test can see. ⚠ ARMED BY CONFIG, AND CONFIG IS NOT TRACKED: `core.hooksPath=scripts/git-hooks`, set by `dev-setup.sh` above its --if-needed early exit. A worktree from a commit before this has no hook, and `--no-verify` bypasses. Both fail-open and are named in the hook; closing them properly is server-side branch protection, which is trimcrae's. ⭐ AND IT CAUGHT THE REAL INCIDENT ON REPLAY: '⚠ this push introduces merge 818c472f0 (22 files from its second parent)'. ⚠ ALSO REPORTED BY THE SEAT AND NOT YET ACTED ON: preflight's comment that CI never runs research/autonomy/tests is STALE — tests.yml:519-520 has run it since 2026-08-27.",
-      "_renamed_from": "AUT-PD-143",
-      "_renamed_why": "re-allocated at the rebase onto 469e8944d: a concurrent session had taken the id this row was first filed under. AUT-PD-143's own finding is why the count was re-derived explicitly rather than assumed.",
-      "score_inputs": {
-        "age_factor": 0.0714,
-        "fruitless_attempts": 1
-      },
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T00:58:47Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
     },
     {
       "id": "AUT-PD-146",
@@ -8623,6 +8676,32 @@
       "closes_clause": null,
       "filed_by": "CYC-0074-5a21085f",
       "evidence": "research/autonomy/receipts/CYC-0074-5a21085f.json -> `reaped` and `blocked_by[0]`, which carry the reaper's full stdout verdict and the denial text verbatim."
+    },
+    {
+      "id": "AUT-PD-155",
+      "what": "⛔⛔ THE COMMIT LOOP COSTS ~5x WHAT CLAUDE.md §6 SAYS IT DOES, AND GATE 13 — THE ONE ADDED AS 'A FAST, OFFLINE, PURE-LOGIC SUITE' — HAS DRIFTED 9.4x. Measured 2026-08-29 (CYC-0074) across THREE runs on two different trees, consistent to within 2%:\n  pure-logic suite (gate 13): 369.68 s and 373.95 s, at 697 tests. CLAUDE.md §6 records 39.3 s at 55 tests (measured 2026-08-24). -> 9.4x slower, 12.7x more tests.\n  manuscripts suite: 406.17 s and 397.58 s. CLAUDE.md §6 records 176.1 s (measured 2026-08-23). -> 2.3x.\n  DEFAULT TIER (fast gates + gate 13, no PREFLIGHT_TESTS): CLAUDE.md records 77.5 s. A foreground run was killed at the 120 s harness ceiling still inside gate 13, so the default commit loop now exceeds 120 s and, from the gate-13 figure above, is ~400 s.\n⛔ WHY THIS IS NOT BOOKKEEPING. §6's ENTIRE TIERING ARGUMENT IS ARITHMETIC OVER THESE NUMBERS. The manuscripts suite was moved behind PREFLIGHT_TESTS=1 because 176.1 s 'on every single commit' was judged the gate; the modalities suite was moved out at 481-535 s against that same 176.1 s baseline, described as '62% of a 13.5-minute gate'. Every one of those comparisons is now wrong, and in the direction that makes the DEFAULT tier — the one nobody opted into — the expensive one. §6 also explicitly flags 'moving gate 13 behind PREFLIGHT_TESTS=1 would take the commit loop back to ~31 s' as trimcrae's call; that call was priced at 39.3 s and the real price is ~372 s.\n⚠ AND IT IS THE COMPLAINT trimcrae HAS ALREADY MADE TWICE: 'it absolutely murders our wall clock time when we wait for preflight when we KNOW there's more work to be done' (2026-08-25) and 'change the rules so that it's not constantly running and blocking things' (2026-08-23). Both fixes were priced against figures that have since drifted an order of magnitude.\n⭐ THE WORK: re-measure all four tiers cleanly and RE-PIN the figures in CLAUDE.md §6 in one commit, registering each superseded number in pinned-figures.json so CI finds the copies. ⛔ DO NOT RE-TIER ANYTHING ON THIS ROW'S AUTHORITY — §6 records that the default/opt-in split is trimcrae's call, and a cycle that re-tiered while holding the measurement that justified it would be the amendment_guard case exactly. Measure, re-pin, and put the tiering question to him with the new arithmetic. ⚠ ALSO WORTH ESTABLISHING AND NOT ASSUMED HERE: whether the 12.7x test-count growth is real coverage or duplication, and whether these timings are container-contention artifacts — three concurrent seats were running during two of the three measurements, and the third (drv-preflight2, 406.17 s) was taken with NO seats running, which is the observation that argues against contention.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "kind": "process_defect",
+      "process_defect": true,
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Measuring and re-pinning is self-doable. Only the DECISION to re-tier the default/opt-in split is his, and §6 already says so.",
+      "closes_clause": null,
+      "filed_by": "CYC-0074-5a21085f",
+      "evidence": "Three preflight runs by CYC-0074, logs retained outside any worktree at /tmp/claude-0/-home-user-Rare-cancers/5a21085f-4408-5052-8d10-2eec20a6219a/scratchpad/driver-cyc/ : drv-preflight2.log (EXIT=0, no seats running), drv-preflight3.log (EXIT=0), drv-preflight5.log (EXIT=0, default tier). drv-preflight4.log is the foreground run killed at the 120 s ceiling inside gate 13 and carries NO EXIT marker, so it is reported as a timeout observation, not as a result."
     },
     {
       "id": "AUT-PD-112",

@@ -1,0 +1,18 @@
+#!/bin/sh
+# AUT-PD-144's mechanical fix: a rebase performed at push time can build a tree that no preflight
+# run ever saw, so the duplicate-id check has to be bound to the push itself, not to a gate a rebase
+# can outrun. See research/autonomy/prepush_ledger_guard.py for the full incident and reasoning.
+#
+# ⛔ THIS ONLY FIRES IF `core.hooksPath` POINTS HERE. `scripts/dev-setup.sh` sets it
+# (`git config core.hooksPath .githooks`) so any session that has run setup gets it automatically;
+# `.git/hooks/` itself is never tracked by git and cannot be shipped any other way.
+set -eu
+
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo .)"
+cd "$REPO_ROOT"
+
+if [ ! -f research/autonomy/research-ledger.json ]; then
+  exit 0
+fi
+
+python3 research/autonomy/prepush_ledger_guard.py --check
