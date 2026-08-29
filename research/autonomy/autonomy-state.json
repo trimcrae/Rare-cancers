@@ -68,6 +68,16 @@
       "max_items_per_cycle": 1,
       "max_cycles_per_session": 1
     },
+    "authorised_exceptions": [
+      {
+        "what": "ONE PUB-ASO hardening round \u2014 five blind seats at width 5, plus one PREFLIGHT_FULL=1 \u2014 against one pinned commit.",
+        "granted_by": "trimcrae, 2026-08-29, in session, answering AskUserQuestion 'Your budget hold from this morning blocks the hardening round the goal needs': he chose 'Except this one round'. He had set the goal 'get the ASO paper ready to post v2 of the preprint' minutes earlier, and this hold \u2014 which he set the same day \u2014 was what blocked it.",
+        "scope": "\u26d4 THIS ROUND AND NOTHING ELSE. It does NOT lift the hold, does NOT lower `floor_backoff_level`, and does NOT license a second round: a round that comes back with blockers and needs re-running is a NEW request, not a continuation of this grant.",
+        "spend_shape": "Five concurrent subagents and one ~25-minute Actions run. Everything else remaining for the goal \u2014 the Zenodo version reservation, the manuscript's Data availability edit, the archive rebuild and the gates \u2014 is CI and local work that consumes no Claude plan budget.",
+        "_why_it_is_recorded_here": "\u26d4 THE LOOP MAY NOT LIFT ITS OWN BUDGET HOLD (`_review_after_utc_means`, architecture \u00a710.4), so an exception has to be visibly HIS rather than inferred from a conversation nobody can read later. An exception granted in chat and written nowhere is the same failure as an escalation named in a reply and never sent (CLAUDE.md \u00a73): the record is the act. \u26a0 AND IT IS DELIBERATELY NOT A WIDTH CHANGE \u2014 `subagent_width` stays 1 in this file, because the dial governs the LOOP and this grant governs one named round. A session running this round reads the exception, not the dial.",
+        "utc": "2026-08-29T21:30:00Z"
+      }
+    ],
     "review_after_utc": "2026-09-02T11:51:07Z",
     "_review_after_utc_means": "\u26d4 AN EXPIRY INTO A REVIEW, NOT INTO FULL CADENCE. Past this stamp the hold is not lifted \u2014 a cycle must take a FRESH utilisation reading and write it to `last_utilisation_report` before clearing it. With no fresh reading the correct move is ONE step down the ladder (level 2 \u2192 1: 8 h, width 2), never a jump back to full: the architecture's rule that a dial moves down faster than it moves up applies to the budget dial too. \u26a0 \u00a710.4 also bites here \u2014 the loop may not lift its own budget hold merely because the hold is inconvenient to the work it wants to do. A stamp passing is not evidence that the budget recovered.",
     "driver_routine": {

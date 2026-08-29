@@ -309,7 +309,44 @@ skim.** Ranked:
 
 ## 3 · Open, and blocking the journal submission
 
-**✅ THE ITEM THAT BLOCKED IS CLOSED. What stands here now is TRACKED, and it does not block.**
+⚠ *Superseded, retained (rule 1.2): "**✅ THE ITEM THAT BLOCKED IS CLOSED. What stands here now is
+TRACKED, and it does not block.**" That was true from 2026-08-23 until 2026-08-29, when the
+published deposit was measured against the papers and found behind. Item 3-i below is open again.*
+
+### 3-i · THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS, and two acts are needed, in this order
+
+⛔⛔ **MEASURED 2026-08-29, AND THE DRIFT RAN IN THE OVERCLAIMING DIRECTION.** Diffing the archive
+manifest's own 483-path inventory between the published record's `git_revision` (`091721519`) and
+HEAD returned **55 changed files**, the extended report among them. The DEPOSITED copy still read
+*"both are invisible to a screen that ranks candidates by global identity"* and *"a contiguous run
+of eleven or twelve base pairs inside a 16-mer leaves five or four positions **unpaired**"*; this
+repository had already corrected those to *"mostly but not wholly blind"* and *"positions outside
+that run — which are **not all unpaired**"*, each with its recomputation. The journal article, the
+tables, the sequences CSV and all three figures had moved too. **A reader following the cited DOI
+would have been handed artefacts making stronger claims than the paper citing them** — round 15's
+defect recurring, and `--check-archive` cannot see it because it compares the manifest to the
+WORKING TREE, so it goes green exactly as the tree walks away from the deposit.
+
+★ **WHAT IS ALREADY DONE.** A new version was reserved — **`10.5281/zenodo.22166420`**, draft
+deposition 22166420, inheriting the concept DOI (Actions run 33276135878). Both papers and
+`aso_archive_manifest.py` now cite it, and the chain was regenerated against it, so the rebuilt
+6-page PDF carries the new DOI and no trace of the old one. Nothing is published.
+
+⛔ **WHAT REMAINS, AND THE ORDER IS THE WHOLE POINT:**
+
+1. **Refresh the draft before publishing it.** The archive currently sitting in draft 22166420 was
+   uploaded at `7bca5a77e`, BEFORE the DOI substitution — digest `386c1add1a60`, against this
+   tree's `ee3de86e8386`. So **re-run the deposit**: dispatch `deposit-zenodo.yml` with
+   `new_version=false` (it UPDATES this draft rather than opening a second one), then update
+   `uploaded_manifest_digest` and `uploaded_at_git_revision` in
+   [`deposit-state.json`](./deposit-state.json). ⚠ A stale draft between commits is normal and is
+   not the defect; **publishing one is**, because publication is irreversible and would freeze an
+   archive that is already behind.
+2. **Publish the Zenodo version, by hand** — <https://zenodo.org/deposit/22166420>. trimcrae's act.
+3. **Only then post Qeios v2.** v2's Data availability cites `10.5281/zenodo.22166420`, so a reader
+   who follows it before step 2 gets nothing. ⛔ **The Qeios post is trimcrae's act and only his:**
+   PUB-ASO is excluded by name from the standing aiXiv grant, and it carries a public DOI
+   (`10.32388/VL3LJR`) and a version history under his ORCID.
 
 ### 3-ii · The extended report is a historical checkpoint, and the 6-page article must stand alone
 

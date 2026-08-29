@@ -1288,7 +1288,7 @@ def build():
         # ⚠ NOT DERIVED — it is issued by Zenodo and can only be transcribed. It is pinned so that
         # a transcription error appears as a linter failure rather than as a citation that resolves
         # to somebody else's record.
-        "deposition_doi": "10.5281/zenodo.22061075",
+        "deposition_doi": "10.5281/zenodo.22166420",
         "git_revision": _git("rev-parse", "HEAD"),
         # ⚠ EXCLUDES THE MANIFEST ITSELF, AND THE EXCLUSION IS THE WHOLE POINT — see
         # `_tree_clean_apart_from_this_manifest`. `null` means "no git available", never "clean".
