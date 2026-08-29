@@ -64,47 +64,65 @@ reading of absence.
 
 ---
 
-## Creating it — ANSWERED 2026-08-28, AND THE ANSWER IS "IN THE UI"
+## Creating it — PROGRAMMATIC, IN TWO CALLS
 
-⛔ **`create_trigger` DOES NOT PRODUCE A WORKING ROUTINE FOR THIS REPOSITORY. TESTED, NOT ASSUMED.**
-An agent-minted Routine was created (`trig_018DLzTW1bGunfsWe25vd8hB`) and fired once. It ran for
-**26 minutes** and ended `ROUTINE_RUN_STATUS_FAILED` (session `cse_01NxD3njB5r3UApS4FZFetGn`, fired
-22:31:04Z, finished 22:57:02Z), having pushed nothing.
+⭐ **THIS SECTION SAID "CREATE IT IN THE UI, AN AGENT CANNOT DO THIS" AND THAT WAS WRONG**
+(trimcrae, 2026-08-28: *"Are you sure there's no programmatic way to make a routine? … Seems like a
+big oversight to make it need to be manual"*). It was, and the error was **generalising from one
+tool's schema to the toolset**: `create_trigger` has no `source_url` parameter, that much is true,
+and the conclusion "so it cannot be done" was drawn without looking at the neighbouring call.
+**`create_session` HAS one.** Superseded, retained, because the wrong conclusion is the instructive
+part: a tested negative about one route is not a negative about the goal.
 
-★ **The discriminating observation is one field, and it is visible before the run ends.** Compare
-the two `session_context` blocks from `get_session`:
+**The working path is two calls, and the first one is where the repository comes from:**
 
-| | `session_context.sources` |
-|---|---|
-| trimcrae's UI-created Routine (`EMC research loop — driver`) | `[{git_repository: {url: .../Rare-cancers}}]` |
-| this agent-created Routine | **absent** |
+```
+create_session(
+    source_url      = "https://github.com/trimcrae/Rare-cancers",
+    source_revision = "<branch>",
+    outcome_branch  = "<branch to push to>",
+    model           = "claude-opus-5",        # pinnable HERE — see below
+    prompt          = "<a setup check; make it prove it has the repo before you trust it>")
 
-That is exactly the defect [`field-scan-routine-prompt.md`](./field-scan-routine-prompt.md)
-records — *"it was agent-created, so it carries no repo source, and its own STEP 0 `git checkout
-main` has nothing to check out"* — and its conclusion, **"recreate it in the UI, not with
-`create_trigger`"**, now has a second measurement behind it rather than one.
-⚠ **Superseded, retained:** this section previously said that conclusion *"was drawn about a
-claude.ai Routine and may not transfer to a Claude Code Remote session"*. It transfers. A CCR
-session fired from `create_trigger` gets a container and no repository, which is the same failure
-wearing a different mechanism.
+create_trigger(
+    persistent_session_id = "<that session id>",   # mode 2: fire INTO it, do not spawn a bare one
+    cron_expression       = "0 14 * * 5",
+    prompt                = "<the weekly prompt, written for a session that CONTINUES>")
+```
 
-⛔ **AND THE FAILURE LOOKS LIKE HEALTH FROM OUTSIDE, WHICH IS THE WHOLE POINT.** For 25 of those 26
-minutes the session reported `SESSION_STATUS_RUNNING` with `updated_at` advancing — a liveness
-signal that reads as progress and is not one. That is how the field-scan Routine went six weeks
-undetected. ★ **The test that works is cheap and is the only one that does: fire it once and read
-whether the artifact landed.** `list_triggers` reports `last_run.status` per Routine; a repeatedly
-non-SUCCEEDED row is the signal.
+★ **THE DISCRIMINATING FIELD IS `session_context.sources`, AND IT IS READABLE THE MOMENT THE
+SESSION IS CREATED** — long before anything runs. Three records, same environment
+(`env_01AFwLH33U3ZprSgZf2nbV7S`), same day:
 
-**So: create this Routine from the claude.ai Routines UI, with `trimcrae/Rare-cancers` attached as a
-source.** That is the one step an agent cannot do for itself here.
+| how it was made | `session_context.sources` | outcome |
+|---|---|---|
+| trimcrae's UI-created Routine (`EMC research loop — driver`) | `[{git_repository: …}]` | works |
+| `create_trigger` alone, `create_new_session_on_fire` | **absent** | ran 26 min, `FAILED`, pushed nothing |
+| `create_session` with `source_url`, then `create_trigger` bound to it | `[{git_repository: …, revision: …}]` | setup check passed in 76 s |
 
-⚠ **AND PIN THE MODEL WHILE CREATING IT, BECAUSE NOTHING IN THIS ACCOUNT PINS ONE.** Measured the
-same day across all 13 Routines: **every one has an empty `model` field**, so each firing takes
-whatever the runtime default is. That default served **`claude-sonnet-5`** to this test AND to
-trimcrae's own `EMC research loop — driver` run at 20:15Z the same day. ⛔ **Do not read that as a
-setting anybody chose** — it is the absence of a setting, everywhere, and it is worth a decision
-here specifically: this Routine's whole purpose is to stop MISSING things, which is the failure mode
-a weaker judge produces.
+⛔ **CHECK THAT FIELD BEFORE BINDING A SCHEDULE TO ANYTHING.** It is the cheapest possible test and
+it distinguishes the two failures that look identical from outside — a Routine that fires into a
+container with no repository reports `RUNNING` with an advancing timestamp for as long as it flails,
+which reads as progress and is not. That is how the field-scan Routine went six weeks undetected,
+and it is what a 26-minute run cost here before anyone read `last_run.status`.
+⚠ **And a populated field is still only a declaration.** Verify with a setup check the session must
+answer — does it have the checkout, on which branch, does the module run — before trusting it with
+work. `list_triggers` then reports `last_run.status` per Routine; a repeatedly non-SUCCEEDED row is
+the standing signal.
+
+⭐ **THE MODEL IS PINNABLE, AND ON THIS PATH IT IS PINNED AT `create_session`.** ⚠ Measured
+2026-08-28 across all 13 Routines in this account: **every one has an empty `model` field**, so each
+firing takes whatever the runtime default is — and that default served `claude-sonnet-5` both to the
+failed test AND to trimcrae's own `EMC research loop — driver` run at 20:15Z the same evening.
+⛔ **That is the absence of a setting, not a choice anybody made**, and it matters here specifically:
+this Routine exists to stop things being MISSED, which is the failure a weaker judge produces. The
+runner is pinned to `claude-opus-5` and `last_served_model` confirms Opus actually served it.
 
 **Cadence:** weekly, after the Friday digest (`method-watch.yml`, 11:00 UTC Fridays). The digest is
 the input, so firing before it publishes matches last week's news against this week's papers.
+
+⚠ **One property of mode 2 to watch.** A persistent session accumulates context across firings, so
+this Routine reuses one conversation rather than starting clean each week. That is fine for a small
+weekly task and is the reason it can skip re-establishing its checkout — but if the runner ever gets
+slow, confused, or starts referring to a previous week's headlines, the fix is to create a fresh
+runner with `create_session` and re-bind, not to debug the conversation.

@@ -208,17 +208,16 @@ that is trimcrae's call, and the matcher no longer needs it.
 source, and the API judge only ever saw a headline. Steps:
 [`news-match-routine-prompt.md`](routines/news-match-routine-prompt.md).
 
-⛔ **THE ROUTINE MUST BE CREATED FROM THE claude.ai ROUTINES UI, NOT BY AN AGENT — TESTED
-2026-08-28.** An agent-minted Routine was created and fired once: it ran **26 minutes** and ended
-`FAILED`, having pushed nothing. The discriminating field is `session_context.sources` —
-trimcrae's UI-created Routines carry `[{git_repository: ...}]`; the agent-created one carried
-**nothing**, so it had a container and no repository. That is the same defect that left the
-field-scan Routine delivering nothing for six weeks, and for 25 of those 26 minutes it reported
-`RUNNING` with a advancing timestamp, which reads as progress and is not.
-⚠ **Nothing in this account pins a model** — all 13 Routines have an empty `model` field, and the
-runtime default served `claude-sonnet-5` both to that test and to the `EMC research loop — driver`
-run the same evening. Worth pinning deliberately here, where a MISS is the failure being fixed.
-Details and the exact creation steps: [`news-match-routine-prompt.md`](routines/news-match-routine-prompt.md).
+⭐ **THE ROUTINE IS SCHEDULED, AND IT WAS CREATED PROGRAMMATICALLY — IN TWO CALLS, NOT ONE.**
+`create_trigger` alone spawns a session with **no repository** (`session_context.sources` absent):
+tested 2026-08-28, it ran 26 minutes reporting `RUNNING` and ended `FAILED`, which is the same
+defect that left the field-scan Routine delivering nothing for six weeks. But `create_session` takes
+`source_url`, and `create_trigger` can bind to an existing session — so the working path is
+`create_session` (repo attached, model pinned) then `create_trigger(persistent_session_id=…)`.
+⚠ **The discriminating field is `session_context.sources`, readable the moment a session is created
+and long before anything runs. Check it before binding a schedule to anything** — a Routine firing
+into an empty container looks healthy for as long as it flails. Both routes, the evidence table and
+the model-pinning note: [`news-match-routine-prompt.md`](routines/news-match-routine-prompt.md).
 
 ⭐ **Validated end to end 2026-08-28, by a session doing exactly what the Routine will do**: 47 fresh
 headlines against 32 publication claims → 15 distinct stories matched, 19 explicitly bearing on
