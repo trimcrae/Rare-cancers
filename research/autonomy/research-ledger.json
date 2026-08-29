@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 130,
+    "process_defect": 131,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -23,15 +23,15 @@
   "n_by_state": {
     "blocked": 1,
     "done": 112,
-    "in_progress": 1,
+    "in_progress": 2,
     "parked": 28,
     "queued": 141,
     "ready": 1,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 107,
-  "n_unscored_open": 84,
+  "n_unscored": 108,
+  "n_unscored_open": 85,
   "entries": [
     {
       "serves": {
@@ -2152,8 +2152,8 @@
         "strategy": null
       },
       "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "CYC-0073-d4ccfde4",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "score": 140.9,
@@ -2165,12 +2165,18 @@
       "last_evidence_utc": "2026-08-28",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
-      "claimed_utc": null,
+      "claimed_utc": "2026-08-29T00:27:44Z",
       "evidence": "Measured by seat s6 over all 253 ledger commits: open-unscored 64 -> 82 across 17:26-22:12 UTC, +1.5/h over 2 h and +3.2/h over 5 h, and the ratchet's own assertion FAILS against live origin/main. Logs: scratchpad/s6-AUT-PD-050/.",
       "closes_clause": null,
       "score_inputs": {
         "age_factor": 0.0714
-      }
+      },
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T00:27:44Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "id": "AUT-003",
@@ -8439,6 +8445,47 @@
       }
     },
     {
+      "id": "AUT-PD-152",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "CYC-0073-2e57571a",
+      "claimed_utc": "2026-08-29T00:21:00Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0073-2e57571a",
+      "depends_on_evidence": [
+        "priority.py --write -> TypeError at apply_age_factor, 2026-08-29T00:02Z",
+        "claim.py --id AUT-PD-147 -> exit 1, 5x refused_stale_input (the deadlock's other half)",
+        "AUT-COV-001 on origin/main carries \"score_inputs\": null (filed_by CYC-0011)",
+        "research/autonomy/tests/test_a_null_score_inputs_does_not_stop_the_loop.py (10 assertions, 5/5 mutations caught)"
+      ],
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop-internal ranker crash; nothing outward-facing",
+      "what": "⛔⛔ A ROW CARRYING `\"score_inputs\": null` CRASHED `priority.py --write` — STEP 3 OF EVERY CYCLE — AND THE CALENDAR PULLED THE TRIGGER, SO NO COMMIT LOOKS GUILTY. Measured 2026-08-29T00:02Z (CYC-0073-2e57571a). `apply_age_factor` wrote through `e.setdefault(\"score_inputs\", {})[\"age_factor\"] = f`, and `setdefault` RETURNS THE EXISTING VALUE when the key is present — so on `AUT-COV-001`, filed by CYC-0011 and sitting on the trunk for days, it evaluated `None[\"age_factor\"] = f` and raised `TypeError: 'NoneType' object does not support item assignment`. ⭐ WHY IT FIRED WHEN IT DID, WHICH IS THE INTERESTING HALF. Two lines above, `prev` was ALREADY read defensively (`(e.get(\"score_inputs\") or {})`), and the guard `if not f and not prev: continue` skipped this row for as long as its age factor rounded to zero. The date rolling from 08-28 to 08-29 made `f` non-zero for the first time, the row reached the write, and step 3 began failing on state no cycle had touched. A latent null plus a clock is a time bomb with no author. ⛔⛔ AND IT DEADLOCKED THE LOOP RATHER THAN MERELY FAILING IT — THE TWO FAILURES EACH BLOCKED THE OTHER'S FIX. With the re-score dead, every stored `score_inputs.age_factor` was stale against the new date, so `admissibility.check_write` refused EVERY ledger write as `refused_stale_input`. Observed directly: `claim.py --id AUT-PD-147` exited 1 with five `refused_stale_input` rows. So a cycle could not re-score (crash) and could not claim (refused), and step 4 of the contract was unreachable. ⭐ FIXED, AND THE CLASS CLOSED RATHER THAN THE INSTANCE. The write now type-checks instead of relying on `setdefault`; and the READ was hardened in the same edit, because `(x or {})` is a FALSINESS test wearing a type check's clothes — it survives None, '', 0 and [] and raises on a truthy non-dict (`'str' object has no attribute 'get'`). That second hole was found by this fix's own regression test, not by inspection. `AUT-COV-001` now normalises to `{'age_factor': 0.0714}` on the next write. ⚠ THIS IS A SURVIVOR OF AUT-PD-050, WHICH FIXED CRASHES IN THIS SAME FUNCTION. It survived because `null` is not `absent`: `setdefault` handles the absent key, which is the case anyone testing by hand reaches for, and there was no row with an explicit null until CYC-0011 wrote one. ★ EVIDENCE: 10 assertions in `research/autonomy/tests/test_a_null_score_inputs_does_not_stop_the_loop.py`, including one that re-scores the REAL committed ledger at today's date and at today+400 days — a synthetic row would not have caught this, because the row that broke the loop was real state nobody had touched. 5/5 mutations caught, including reverting each half of the fix independently. Full loop-instrument suite 570 passed.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T00:21:00Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ],
+      "evidence": "",
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
+    },
+    {
       "id": "AUT-PD-112",
       "what": "SUBMISSION-GATE ITEM for PUB-REPURPOSING: §4.1 and Table 3 must cite EV-MAKI-2005 as the class-level clinical bound and EV-BOKLAN-2025 as the existing carfilzomib combination schedule. ⚠ NO SENTENCE IN repurposing-hypotheses.md IS FALSE TODAY — the defect is INCOMPLETENESS: an evidence-graded review that lists carfilzomib as untried, without the class's own closed sarcoma trial, misleads by omission in a way each individual sentence survives. ⛔ A correction REPLACES text and does not append (paper-hardening), and this is a venue-capped manuscript under an active hardening program that reviews a PINNED COMMIT — so it needs a new numbered reference, an Appendix A row and the word budget, not a paragraph bolted on.",
       "serves": {
@@ -8918,44 +8965,6 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
-    },
-    {
-      "id": "AUT-PD-152",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "CYC-0073-2e57571a",
-      "claimed_utc": "2026-08-29T00:21:00Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0073-2e57571a",
-      "depends_on_evidence": [
-        "priority.py --write -> TypeError at apply_age_factor, 2026-08-29T00:02Z",
-        "claim.py --id AUT-PD-147 -> exit 1, 5x refused_stale_input (the deadlock's other half)",
-        "AUT-COV-001 on origin/main carries \"score_inputs\": null (filed_by CYC-0011)",
-        "research/autonomy/tests/test_a_null_score_inputs_does_not_stop_the_loop.py (10 assertions, 5/5 mutations caught)"
-      ],
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "loop-internal ranker crash; nothing outward-facing",
-      "what": "⛔⛔ A ROW CARRYING `\"score_inputs\": null` CRASHED `priority.py --write` — STEP 3 OF EVERY CYCLE — AND THE CALENDAR PULLED THE TRIGGER, SO NO COMMIT LOOKS GUILTY. Measured 2026-08-29T00:02Z (CYC-0073-2e57571a). `apply_age_factor` wrote through `e.setdefault(\"score_inputs\", {})[\"age_factor\"] = f`, and `setdefault` RETURNS THE EXISTING VALUE when the key is present — so on `AUT-COV-001`, filed by CYC-0011 and sitting on the trunk for days, it evaluated `None[\"age_factor\"] = f` and raised `TypeError: 'NoneType' object does not support item assignment`. ⭐ WHY IT FIRED WHEN IT DID, WHICH IS THE INTERESTING HALF. Two lines above, `prev` was ALREADY read defensively (`(e.get(\"score_inputs\") or {})`), and the guard `if not f and not prev: continue` skipped this row for as long as its age factor rounded to zero. The date rolling from 08-28 to 08-29 made `f` non-zero for the first time, the row reached the write, and step 3 began failing on state no cycle had touched. A latent null plus a clock is a time bomb with no author. ⛔⛔ AND IT DEADLOCKED THE LOOP RATHER THAN MERELY FAILING IT — THE TWO FAILURES EACH BLOCKED THE OTHER'S FIX. With the re-score dead, every stored `score_inputs.age_factor` was stale against the new date, so `admissibility.check_write` refused EVERY ledger write as `refused_stale_input`. Observed directly: `claim.py --id AUT-PD-147` exited 1 with five `refused_stale_input` rows. So a cycle could not re-score (crash) and could not claim (refused), and step 4 of the contract was unreachable. ⭐ FIXED, AND THE CLASS CLOSED RATHER THAN THE INSTANCE. The write now type-checks instead of relying on `setdefault`; and the READ was hardened in the same edit, because `(x or {})` is a FALSINESS test wearing a type check's clothes — it survives None, '', 0 and [] and raises on a truthy non-dict (`'str' object has no attribute 'get'`). That second hole was found by this fix's own regression test, not by inspection. `AUT-COV-001` now normalises to `{'age_factor': 0.0714}` on the next write. ⚠ THIS IS A SURVIVOR OF AUT-PD-050, WHICH FIXED CRASHES IN THIS SAME FUNCTION. It survived because `null` is not `absent`: `setdefault` handles the absent key, which is the case anyone testing by hand reaches for, and there was no row with an explicit null until CYC-0011 wrote one. ★ EVIDENCE: 10 assertions in `research/autonomy/tests/test_a_null_score_inputs_does_not_stop_the_loop.py`, including one that re-scores the REAL committed ledger at today's date and at today+400 days — a synthetic row would not have caught this, because the row that broke the loop was real state nobody had touched. 5/5 mutations caught, including reverting each half of the fix independently. Full loop-instrument suite 570 passed.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T00:21:00Z",
-          "fingerprint_at_dispatch": "2026-08-29|None"
-        }
-      ],
-      "evidence": ""
     }
   ]
 }
