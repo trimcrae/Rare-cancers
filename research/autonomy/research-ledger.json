@@ -3019,9 +3019,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "s5-aut-pd-148-CYC-0074-5a21085f",
+      "claimed_utc": "2026-08-29T02:20:05Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3037,7 +3037,12 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "manuscript guards and a census instrument; nothing outward-facing",
       "what": "⚠ THE ABLATION HARNESS PERTURBS DIGITS ONLY, SO A QUANTITY WRITTEN IN WORDS IS UNFALSIFIABLE BY CONSTRUCTION. Found 2026-08-28 (CYC-0070) while reading a BLIND verdict rather than trusting it: the fusion-partner endpoint sentence's real quantitative claim is 'three to five TAF15 patients with no events', and the only digits in it are NR4A3, L3, 5′ and a list marker. The instrument reported BLIND on the identifiers and never touched the claim. ⛔ THIS IS NOT THE SAME AS AN UNBOUND NUMBER: the sentence may be perfectly well guarded and the harness cannot tell, which makes every word-number sentence's verdict — RED or BLIND — uninformative about the quantity it states. WHAT TO DO: extend the perturbation set to number WORDS (three -> seven, five -> seven, and the ordinals), or report such sentences as a distinct status rather than folding them into BLIND. ⚠ Prefer the second first: a status the reader can count is worth more than a mutation that might rewrite prose into nonsense.",
-      "dispatch_log": [],
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T02:20:05Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
       "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
       "_id_collision": "Filed as AUT-PD-142 and renumbered AUT-PD-148 at the merge — the SECOND collision this session. AUT-PD-142 on the trunk was filed by CYC-0070-ba841eee. `ids.next_entry_id` is max+1 over the ledger the caller can see, and with five sessions filing concurrently that snapshot is stale before it is written. Both rows exist; every reference moved with mine.",
       "score_inputs": {
