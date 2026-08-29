@@ -6,16 +6,20 @@
   "base_sha": "b762280c5",
   "took": "AUT-PD-110",
   "took_why": "Dispatched to it explicitly and it was already claimed for this worker on the trunk (owner w-aut-pd-110-01Hz2k29M2WJiUN9KMuy9386, claimed_utc 2026-08-29T12:18:06Z). Nothing was re-claimed and nothing else was taken.",
-
   "health_at_start": {
     "exit": 0,
-    "red": ["advancing_live_work", "scores_are_reachable"],
-    "unmeasured": ["gates_green", "stalls_are_named"],
+    "red": [
+      "advancing_live_work",
+      "scores_are_reachable"
+    ],
+    "unmeasured": [
+      "gates_green",
+      "stalls_are_named"
+    ],
     "red_on_red_posture": "advises/redirects — neither is BLOCKING, so research-loop §1 says run the cycle",
     "escalations": "none — no condition past its 5-run restart intensity",
     "⚠ note": "`advancing_live_work` was red on three consecutive `route_advanced: none` receipts. This cycle does not clear it: see `route_advanced` below, which is honest rather than convenient."
   },
-
   "what_changed": [
     "research/literature/alk-ihc-fet-tumours-2026-08-29.json — NEW. The live PubMed retrieval of PMID 42660639 (whole abstract verbatim, the italic-stripping artifact recorded, the absence of PMC full text MEASURED via convert_article_ids rather than assumed), exact binomial arithmetic over its own counts, and the re-grade of RT-ALK-HIT.",
     "systems/graph/routes.json — RT-ALK-HIT: the re-grade appended to the grade; the FALSE readability sentence corrected inline and the correction registered; supporting-evidence rows rewritten (one carried the claim, one carried the superseded 176 denominator); two new `remaining_unknowns`; `last_verified` 2026-08-09 → 2026-08-29; ART-ALK-IHC-FET-2026 added as direct evidence. SEPARATELY, RT-TXN-CDK's supporting-evidence row corrected 176 → 91 SCREENED.",
@@ -28,38 +32,35 @@
     "systems/views/** — regenerated (`systems_check.py --write-views`, 104 views).",
     "research/autonomy/research-ledger.json — AUT-PD-110 closed `done` with its outcome and the lease released; AUT-PD-177 and AUT-PD-178 filed; scores rewritten by `priority.py --write`."
   ],
-
   "finding": "⛔ THE RE-GRADE IS A NEGATIVE AND THE ROUTE STAYS PARKED. PMID 42660639 establishes ALK PROTEIN at D5F3 IHC 2+/3+ in 2 of 4 EMC cases and, by its own confirmation step, establishes that those cases LACK ALK gene rearrangement. A stain is not a fusion. It reports no activation, no dependency, no drug response, nothing on ROS1 and nothing about the model the 221-drug screen ran on, so it cannot attribute the hit — which is RT-ALK-HIT's whole question. ⭐ ARITHMETIC OVER THE PAPER'S OWN COUNTS IS WHAT DECIDES IT: 2/4 carries an exact 95% interval of 6.8%–93.2%, and EMC is not distinguishable from the rest of the cohort (32/115; Fisher two-sided p = 0.32), so the abstract's phrase 'a high overexpression rate' is a rank in a table and not an EMC-selective signal. The paper's headline is family-wide, 34/119 across 20 tumour types, and the largest positive denominator in it belongs to Ewing sarcoma. ⛔⛔ AND THE ITEM'S OWN PREMISE WAS FALSE, WHICH IS THE LARGER FINDING. AUT-PD-110 was queued on the reasoning that ALK and ROS1 have NO PROBE on either expression platform, making IHC 'exactly the protein-level modality the arrays could not supply'. research/modalities/emc-expression-panels.json — the artifact that OWNS those reads — has ALK readable on GPL6244 (one probe) and unreadable on GPL3290, ROS1 readable on BOTH, and the brigatinib target group at full 3/3 coverage on GPL6244 with a score emitted. The false sentence was hand-typed prose inside census_route_expression_grading.py, sitting in the same generated file as the per-gene table contradicting it, and in 20 days it propagated by copy into the route grade, the generated view, a downstream literature record and the ledger row that commissioned this cycle. ⚠ THE CORRECTION ENLARGES THE EVIDENCE BASE AND IMPROVES NOTHING: where ALK is readable it sits below the array median in EMC and level with the comparators. The route moves from 'we cannot see it' to 'we can see it on one platform and it is unremarkable there'. ⭐ What IHC genuinely adds is PROTEIN where the arrays give TRANSCRIPT — a real second modality, and a smaller gain than the item's framing claimed.",
-
   "what_it_cost": "$0. Two PubMed MCP calls (get_article_metadata, convert_article_ids), stdlib arithmetic, two artifact regenerations, one views regeneration, one priority re-score and one preflight. No GPU, no paid API, no subagents.",
-
   "gates": {
     "regenerations": "census_route_expression_grading.py re-run (exit 0); systems_check.py --write-views re-run twice, 104 views each, exit 0; priority.py --write exit 0 (314 entries, 12 clamped); claim.py --check reports every local claim visible on the trunk.",
     "preflight": "run once on the settled tree immediately before the commit, exit code unmasked. This receipt was written before that run and asserts no result for it.",
     "⚠ not_run": "PREFLIGHT_TESTS / PREFLIGHT_MODALITIES / PREFLIGHT_FULL were not set. No manuscript or SI was touched (research/manuscripts/dependency/emc-kinase-leads-source-verification.md was deliberately NOT edited — it is filed as AUT-PD-178). tests.yml is the authority on both suites."
   },
-
   "anti_gaming": {
     "invariant": "research-loop §6 — a bar may not be changed by the cycle the bar just blocked.",
     "how_it_applies": "No bar was in play and none was touched. Nothing blocked this cycle: the item is a $0 literature re-grade. `publish_bar.py`, `amendment_guard.py`, `health.py`'s thresholds and every guard test are byte-unchanged.",
     "the_edit_that_could_have_looked_self_serving": "⛔ CORRECTING THE ROUTE'S OWN INSTRUMENT STATEMENT MAKES A RED READING LESS BLIND, WHICH IS THE SHAPE OF A CONVENIENT EDIT. It is not one, and the test is the direction of the correction's effect: it turns 'the instrument could not see the target' into 'the instrument saw the target and found it unremarkable', which is WORSE for the route, not better. It was made against the machine-derived table in the same file, and the route's state is unchanged at `parked`."
   },
-
   "escalated": "nothing. None of research-loop §5's five triggers applies: no journal submission, no spend, no goal-changing fact, no health condition past its deadline, no paper ready to post.",
-
   "subagents": {
     "max_concurrent": 0,
     "launched": 0,
     "why": "One literature record, one route node and two generated artifacts. It fits one context and a seat would have cost more to brief than to do."
   },
-
   "now_queued": [
-    "AUT-PD-177 — derive or assert the readability sentences in census_route_expression_grading.py against the module's own `genes_readable`/`genes_not_readable`, fail the build on disagreement, and sweep its other 15 route blocks for the same drift. This is the mechanism fix for the defect above; RT-NR2F1 carries the one other absolute readability claim and must be CHECKED, not assumed wrong.",
-    "AUT-PD-178 — update emc-kinase-leads-source-verification.md §4's 'still live elsewhere' list: the three files it names are now correct, and the two live copies fixed today (routes.json's RT-TXN-CDK row and emc_proteostasis_read.py's docstring) were not on it. Needs PREFLIGHT_TESTS=1."
+    "AUT-PD-178 — derive or assert the readability sentences in census_route_expression_grading.py against the module's own `genes_readable`/`genes_not_readable`, fail the build on disagreement, and sweep its other 15 route blocks for the same drift. This is the mechanism fix for the defect above; RT-NR2F1 carries the one other absolute readability claim and must be CHECKED, not assumed wrong.",
+    "AUT-PD-179 — update emc-kinase-leads-source-verification.md §4's 'still live elsewhere' list: the three files it names are now correct, and the two live copies fixed today (routes.json's RT-TXN-CDK row and emc_proteostasis_read.py's docstring) were not on it. Needs PREFLIGHT_TESTS=1.",
+    "⚠ ID REALLOCATION, RECORDED RATHER THAN SILENT: both rows were first filed as AUT-PD-177 and AUT-PD-178 and committed under those ids (35fb816f5). In the interval CYC-0087-4ce79c2a landed AUT-PD-176 and AUT-PD-177 on the trunk for different defects, so the merge re-allocated these two to 178 and 179 with `ids.next_entry_id` against the merged ledger. This cycle's own commit message therefore names the pre-merge ids; the ledger and this field name the real ones. Same collision class as AUT-PD-158's four renames — concurrent sessions allocating from the same committed state."
   ],
-
   "blocked_by": [],
-
   "route_advanced": "none",
-  "route_advanced_why": "⛔ HONEST, AND IT KEEPS `advancing_live_work` RED FOR A FOURTH RECEIPT. RT-ALK-HIT was re-graded and did not move: its state, authorization, maturity and confidence are all unchanged, and the new evidence is a stain in tumours confirmed to lack the rearrangement, at n=4, indistinguishable from its own tumour family. Recording this as an advance because a grade got longer is exactly the inflation that disables the only alarm pointed at CLAUDE.md §0. ⚠ THE ALARM IS READING TRUE: four consecutive cycles have graded, corrected and documented rather than moved a live route, and the next cycle should take a LIVE item off the top of the queue rather than another re-grade."
+  "route_advanced_why": "⛔ HONEST, AND IT KEEPS `advancing_live_work` RED FOR A FOURTH RECEIPT. RT-ALK-HIT was re-graded and did not move: its state, authorization, maturity and confidence are all unchanged, and the new evidence is a stain in tumours confirmed to lack the rearrangement, at n=4, indistinguishable from its own tumour family. Recording this as an advance because a grade got longer is exactly the inflation that disables the only alarm pointed at CLAUDE.md §0. ⚠ THE ALARM IS READING TRUE: four consecutive cycles have graded, corrected and documented rather than moved a live route, and the next cycle should take a LIVE item off the top of the queue rather than another re-grade.",
+  "merge": {
+    "what": "Merged origin/main (ccbda801e → the trunk at merge time) after the commit. One conflict, research-ledger.json, resolved by taking the TRUNK version whole and re-applying this cycle's three ledger edits onto it programmatically — the AUT-PD-110 close, and the two follow-ups under freshly allocated ids.",
+    "why_that_resolution": "Hand-merging a 10k-line JSON hunk risks dropping a concurrent session's row silently. Taking theirs and re-applying mine cannot lose a row that was on the trunk, and `priority.py` refuses a duplicated id, so the re-allocation is checked rather than trusted.",
+    "⚠": "preflight was re-run on the merged tree; the merge commit is gated by that run, not by the pre-merge one."
+  }
 }

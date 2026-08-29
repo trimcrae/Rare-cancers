@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 155,
+    "process_defect": 156,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
@@ -23,7 +23,7 @@
   "n_by_state": {
     "blocked": 1,
     "done": 132,
-    "in_progress": 7,
+    "in_progress": 8,
     "parked": 28,
     "queued": 144,
     "ready": 1,
@@ -3014,7 +3014,8 @@
       "_score_basis": "inherited from the lowest-scoring derived row on RT-ALK-HIT (140.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
       "_score_inherited_from_route": "RT-ALK-HIT",
       "_lease_released_by": "CYC-0075-6d9383a0 released this lease after ARCHIVING its holder's session (session_01RLHV3tB87qndM7qGE9jZa7 = CYC-0074-5a21085f, cleared by session_reaper.py and archived 2026-08-29T03:15Z). Archiving releases the container, so the seat named in `owner` is definitively not running — which is continuity.py's own test for litter: 'if a lease names a worker that is not actually running, that is litter — release it and the work is startable again.' No claim of the WORK being done is made or implied; only the lease is cleared.",
-      "outcome": "⛔ NEGATIVE RE-GRADE, RECORDED AT THAT WEIGHT. PMID 42660639 (doi 10.1136/jcp-2026-210760, J Clin Pathol 2026) establishes ALK PROTEIN at D5F3 IHC 2+/3+ in 2 of 4 EMC cases and, by its own confirmation step, establishes that those cases LACK ALK gene rearrangement. A stain is not a fusion: it reports no activation, no dependency, no drug response, nothing on ROS1, and nothing about the model the 221-drug screen ran on, so it cannot attribute the hit — which is RT-ALK-HIT's whole question. The route STAYS PARKED. ⭐ Arithmetic over the paper's own counts is what decides it: 2/4 has an exact 95% interval of 6.8-93.2%, and EMC is not distinguishable from the rest of the cohort (32/115, Fisher two-sided p = 0.32), so the abstract's 'high overexpression rate' is a rank in a table and not an EMC-selective signal; the paper's headline is family-wide (34/119). ⛔ AND THIS ITEM'S OWN PREMISE WAS FALSE. It was filed on the reasoning that ALK and ROS1 have no probe on either expression platform, so IHC is 'exactly the protein-level modality the arrays could not supply'. research/modalities/emc-expression-panels.json — which OWNS those reads — has ALK readable on GPL6244 and ROS1 readable on BOTH, with the brigatinib target group at full 3/3 coverage on GPL6244 and a score emitted there. The false sentence was hand-typed prose in census_route_expression_grading.py sitting in the same generated file as the table contradicting it, and it had propagated by copy into the route grade, the generated view, the seat record that surfaced this lead and this row's own `what`. Corrected at source, in the route grade and in the regenerated view; flagged as superseded-and-retained in the seat record; this row's `what` is left exactly as filed, because a spec rewritten after the fact hides the propagation it is evidence of. ⚠ The correction enlarges the evidence base and improves nothing: where ALK is readable it is below the array median in EMC and level with the comparators. Deliverables: research/literature/alk-ihc-fet-tumours-2026-08-29.json (retrieval, verbatim quotes, arithmetic, re-grade), EV-LI-GONG-2026, ART-ALK-IHC-FET-2026, and the amended RT-ALK-HIT node."
+      "closed_by": "CYC-0087-1c9f0963",
+      "outcome": "⛔ NEGATIVE RE-GRADE, RECORDED AT THAT WEIGHT. PMID 42660639 (doi 10.1136/jcp-2026-210760, J Clin Pathol 2026) establishes ALK PROTEIN at D5F3 IHC 2+/3+ in 2 of 4 EMC cases and, by its own confirmation step, establishes that those cases LACK ALK gene rearrangement. A stain is not a fusion: it reports no activation, no dependency, no drug response, nothing on ROS1, and nothing about the model the 221-drug screen ran on, so it cannot attribute the hit — which is RT-ALK-HIT's whole question. The route STAYS PARKED. ⭐ Arithmetic over the paper's own counts is what decides it: 2/4 has an exact 95% interval of 6.8-93.2%, and EMC is not distinguishable from the rest of the cohort (32/115, Fisher two-sided p = 0.32), so the abstract's 'high overexpression rate' is a rank in a table and not an EMC-selective signal; the paper's headline is family-wide (34/119). ⛔ AND THIS ITEM'S OWN PREMISE WAS FALSE. It was filed on the reasoning that ALK and ROS1 have no probe on either expression platform, so IHC is 'exactly the protein-level modality the arrays could not supply'. research/modalities/emc-expression-panels.json — which OWNS those reads — has ALK readable on GPL6244 and ROS1 readable on BOTH, with the brigatinib target group at full 3/3 coverage on GPL6244 and a score emitted. The false sentence was hand-typed prose in census_route_expression_grading.py sitting in the same generated file as the table contradicting it, and it had propagated by copy into the route grade, the generated view, the seat record that surfaced this lead and this row's own `what`. Corrected at source, in the route grade and in the regenerated view; flagged as superseded-and-retained in the seat record; this row's `what` is left exactly as filed, because a spec rewritten after the fact hides the propagation it is evidence of. ⚠ The correction enlarges the evidence base and improves nothing: where ALK is readable it is below the array median in EMC and level with the comparators. Deliverables: research/literature/alk-ihc-fet-tumours-2026-08-29.json (retrieval, verbatim quotes, arithmetic, re-grade), EV-LI-GONG-2026, ART-ALK-IHC-FET-2026, and the amended RT-ALK-HIT node."
     },
     {
       "id": "AUT-PD-145",
@@ -3211,6 +3212,7 @@
       ]
     },
     {
+      "id": "AUT-PD-177",
       "kind": "process_defect",
       "process_defect": true,
       "serves": {
@@ -3228,19 +3230,23 @@
       "retry_budget": 3,
       "attempts": 0,
       "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0085-6b009680",
+      "filed_by": "CYC-0087-4ce79c2a",
       "requires_trimcrae": false,
+      "_requires_trimcrae_why": "repairing broken references in the ledger; the targets are determined by the graph, not chosen",
       "closes_clause": null,
-      "id": "AUT-PD-173",
-      "_requires_trimcrae_why": "a change to how the loop spawns; nothing outward-facing. ⚠ If the answer turns out to be a UI-created Routine, THAT half is his.",
-      "score": 130.0,
-      "_score_basis": "Above AUT-PD-169 (128.0), the other handoff defect, because this one ENDS the chain rather than mis-claiming inside it. Below AUT-PD-158 (133.0) because the loop still runs — the driver Routine's 4 h firing restarts at depth 1 — so this costs continuity, not delivery.",
+      "score": 128.5,
+      "_score_basis": "Above AUT-PD-176 (122.0) and just under AUT-PD-169 (128.0). It is cheap and fully determined, and it is the only row here that DEMOTES REAL RESEARCH: eight rows of live paper work are invisible to every route-keyed reader, which is CLAUDE.md §0's named failure with a typo as its cause.",
+      "score_inputs": {
+        "age_factor": 0.0,
+        "fruitless_attempts": 0
+      },
       "depends_on_evidence": [
-        "Measured 2026-08-29 by CYC-0085-6b009680. `create_session` returned VERBATIM: 'create_session: caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions'. The call carried exactly the arguments handoff.py emitted and handoff.py itself exited 0.",
-        "The chain this session sits at the end of, read from parent_session_id in the session list: session_01WPGnj7aYczWrf5rinni5yX -> 01F6Xn8WS2cEj2wbNuVWtAPp -> 017VDt2MMZnksnnHSebkKbbY -> 01CYvZx1rzd5y3AaHjuAAU4o -> 01Fg7WnZ8Kc3wmysc7tpAfTy -> 01HcEoACbH8wWVoTo2je896N -> 01Mfu3suzekFUhjmY5uB3spC -> 01CUYirsUYqbaxCWGsX3iYMq (this one).",
-        "⚠ NOT MEASURED: whether archiving an ancestor shortens the chain. The reaper archived two ancestors earlier in this same session and the refusal still fired afterwards, which is SUGGESTIVE that depth is fixed at creation rather than computed over live sessions — but the archives and the refusal were not ordered as an experiment, so it is a lead and not a result."
+        "Measured 2026-08-29 by CYC-0087-4ce79c2a while taking AUT-PD-158. Three route ids appear in `serves.route` and in NO route in systems/graph/routes.json (77 routes): RT-ASO-JUNCTION (6 open rows), RT-FUSION-PARTNER (1), RT-DEGRADER-TERNARY (1).",
+        "⛔ THESE ARE NOT PROCESS ROWS. All eight are live publication work — PREFLIGHT_FULL at the final ASO v2 commit, a blind seat on the ASO v2 pinned commit, round 13 of PUB-ASO, a manuscript cross-reference guard, the archive manifest's provenance, the fusion-partner paper's readability gate, and the degrader paper's step-1 fan-out map.",
+        "⭐ THE TARGETS ARE DETERMINED BY THE GRAPH RATHER THAN CHOSEN. RT-FUSION-PARTNER -> RT-PARTNER-STRAT, whose `publication.endpoint` IS `PUB-FUSION-PARTNER`. RT-DEGRADER-TERNARY -> RT-DEGRADER, the primary for PUB-DEGRADER, which is the paper those rows name. RT-ASO-JUNCTION -> RT-ASO and NOT RT-ASO-ASK: both point at PUB-ASO, but RT-ASO is `role: primary` while RT-ASO-ASK is `role: contributing` and is the WET-LAB ASK — and every one of the six rows is manuscript or gate work.",
+        "⛔⛔ THE CONSEQUENCE THAT MAKES THIS ITS OWN COMMIT RATHER THAN A ONE-LINE FIX, FORESEEN NOT DISCOVERED: four of the eight (AUT-PD-005, 006, 040, 141) carry no `score`, so repairing the id hands them their route's floor via `apply_route_inheritance` and they LEAVE the open-unscored population — 73 -> ~69. `MAX_UNSCORED_OPEN` is pinned at 73 and `test_the_ratchet_is_not_vacuous` permits at most 2 of slack, so the repair REDS THE TRUNK unless the ceiling is re-pinned DOWN in the same commit. ⭐ That is permitted and is the documented procedure (AUT-PD-145: pin at the count measured in the landing commit); the anti-gaming invariant forbids RAISING a bar, and this lowers it. The taker must verify the post-repair count itself rather than trusting the ~69 estimated here."
       ],
-      "what": "⛔⛔ THE SELF-PERPETUATING HANDOFF HAS A HARD CEILING OF 8 AND THIS LOOP NOW REACHES IT. `research-loop` §3 requires the cycle at its session cap to create its own successor, and CLAUDE.md records that a loop needing a human to start its next session 'is not automated, it just has a longer fuse'. Measured 2026-08-29: the 8th link's `create_session` is refused on a lineage-depth limit, so the chain terminates every 8 cycles — 4 sessions x 2 cycles is not the shape anybody chose, it is what the ceiling imposes. ⭐ THE LOOP DOES NOT STOP: the UI-created driver Routine fires a fresh depth-1 session every 4 h, so the cost is CONTINUITY (a gap of up to one cycle interval, with whatever was mid-flight unattended) rather than delivery. ⚠ WHICH IS WHY THIS IS NOT AN ESCALATION and must not be reported as the loop being down. ⭐ WHAT TO ESTABLISH FIRST, because the fix depends on it and neither is known: (a) is depth computed at creation or over LIVE sessions — if the latter, the step-11 reaper already shortens the chain and the fix is to reap before handing off, which is nearly free; (b) does a session created by a Routine reset to depth 1 — the driver's firings suggest yes. Test (a) by archiving an ancestor and immediately retrying `create_session` as an ordered experiment; this cycle archived two and then saw the refusal, but not in that order, so it proves nothing. ⛔ DO NOT 'FIX' THIS BY LENGTHENING SESSIONS. The cap exists because context runs out silently and the session spending it is the one that cannot tell; raising max_cycles_per_session to dodge a spawn ceiling trades a visible gap for an invisible degradation, which is the worse trade."
+      "what": "⛔ EIGHT ROWS OF LIVE PAPER WORK NAME A ROUTE THAT EXISTS IN NO GRAPH, SO EVERY ROUTE-KEYED READER TREATS THEM AS ROUTELESS PROCESS WORK. `RT-ASO-JUNCTION`, `RT-FUSION-PARTNER` and `RT-DEGRADER-TERNARY` are in `serves.route` and in none of the 77 routes in systems/graph/routes.json. ⛔ THE HARM IS NOT COSMETIC: `apply_route_inheritance` gives an unscored row the floor OF ITS ROUTE, so a row naming a route the graph lacks can never inherit one — which is why four of the eight are unscored and unrankable, and the work they name is the ASO v2 and fusion-partner papers.\n\n⭐ THE REPAIR IS DETERMINED, NOT A JUDGEMENT — see `depends_on_evidence` for the mapping and the field that fixes each one. ⛔ BUT IT IS NOT A ONE-LINE FIX: it shrinks the open-unscored population below the pinned ceiling and reds the vacuity guard unless the ceiling moves DOWN in the same commit. Re-count, re-pin at the measured number, and never upward.\n\n⚠ FOUND WHILE TAKING AUT-PD-158, AND IT CORRECTS THAT ROW'S FRAMING: AUT-PD-158 asks how to rank work that serves no treatment route, and 8 of the rows that look that way are not that — they are research work with a broken reference. A ceiling keyed on 'serves no graph route' would have capped them."
     },
     {
       "id": "AUT-PD-169",
@@ -3442,45 +3448,6 @@
       "_cycle_row_key": "workflow-writes-archived-file-without-regenerating-manifest"
     },
     {
-      "id": "AUT-PD-158",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": "PUB-STRATEGY-ARCH",
-        "strategy": "ST-STRATEGY"
-      },
-      "state": "in_progress",
-      "owner": "CYC-0087-4ce79c2a",
-      "claimed_utc": "2026-08-29T12:14:28Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0072-1681f3fa",
-      "requires_trimcrae": false,
-      "closes_clause": null,
-      "score": 125.0,
-      "_score_basis": "filed WITH a score, which is the row's own subject. Below the open RT-AUTONOMY fix rows: AUT-PD-143 has made the set visible and AUT-PD-145 owns the write-time gate, so this is a JUDGEMENT to put to a person, not a fix to race.",
-      "_renamed_from": "AUT-PD-145, then AUT-PD-147, then AUT-PD-152 — all taken by concurrent sessions, then AUT-PD-153, then AUT-PD-154, then AUT-PD-155, then AUT-PD-156",
-      "_renamed_why": "re-allocated at the THIRD rebase of this cycle. Every id this row was previously filed under was taken by a concurrent session in the interval — AUT-PD-152 by CYC-0073-2e57571a, which used it for the null-score_inputs crash this cycle was fixing at the same moment. Ids were counted explicitly after EVERY rebase (AUT-PD-144's rule) and the count caught a collision each time.",
-      "depends_on_evidence": "research/autonomy/health.py c_scores_are_reachable on the committed ledger; research/autonomy/priority.py route_score_floor; systems/graph/routes.json (RT-AUTONOMY is not among its routes)",
-      "what": "⛔ DECIDE WHAT RT-AUTONOMY IS IN systems/graph, BECAUSE THE OPEN ROWS ABOUT THE LOOP'S OWN MACHINERY CAN NEVER BE RANKED AGAINST ANYTHING. AUT-PD-143 gives an unscored row the floor of its route; RT-AUTONOMY is not a route in the graph, so no floor exists and those rows stay rankable only if their filer types a number by hand — which is how most came to have none. AUT-PD-145 owns the write-time gate that stops the count growing; this row owns the question that gate cannot answer. ⭐ THE TWO OPTIONS ARE NOT SYMMETRIC. (a) Give RT-AUTONOMY a route row and the graph ranks the loop's self-maintenance against treatment routes on the same axes — CLAUDE.md §0 has an opinion, and a `live`/`patient_path` score for loop machinery would be a fabrication, not a low number. (b) Make 'serves no treatment route' an EXPLICIT scored class with a stated ceiling, so process work is ordered among itself and can never outrank live research — which is what the hand-typed 105-135 range already does by accident, unstated and unenforced. ⛔ THIS IS A JUDGEMENT ABOUT WHAT THE LOOP MAY RANK ITS OWN MAINTENANCE ABOVE, and a cycle taking it is choosing its own priority — the shape `amendment_guard` exists to catch. Prepare both options with their measured consequences and put the choice to trimcrae.",
-      "_cycle_row_key": "rt-autonomy-is-not-a-route",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T12:14:28Z",
-          "fingerprint_at_dispatch": "2026-08-29|None"
-        }
-      ],
-      "score_inputs": {
-        "fruitless_attempts": 1
-      }
-    },
-    {
       "id": "AUT-PD-175",
       "kind": "process_defect",
       "process_defect": true,
@@ -3622,6 +3589,47 @@
       }
     },
     {
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "CYC-0087-45cefa3b",
+      "claimed_utc": "2026-08-29T12:26:08Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0085-6b009680",
+      "requires_trimcrae": false,
+      "closes_clause": null,
+      "id": "AUT-PD-173",
+      "_requires_trimcrae_why": "a change to how the loop spawns; nothing outward-facing. ⚠ If the answer turns out to be a UI-created Routine, THAT half is his.",
+      "score": 122.0,
+      "_score_basis": "Above AUT-PD-169 (128.0), the other handoff defect, because this one ENDS the chain rather than mis-claiming inside it. Below AUT-PD-158 (133.0) because the loop still runs — the driver Routine's 4 h firing restarts at depth 1 — so this costs continuity, not delivery.",
+      "depends_on_evidence": [
+        "Measured 2026-08-29 by CYC-0085-6b009680. `create_session` returned VERBATIM: 'create_session: caller session is at lineage depth 8 (limit 8); cannot spawn or re-arm further child sessions'. The call carried exactly the arguments handoff.py emitted and handoff.py itself exited 0.",
+        "The chain this session sits at the end of, read from parent_session_id in the session list: session_01WPGnj7aYczWrf5rinni5yX -> 01F6Xn8WS2cEj2wbNuVWtAPp -> 017VDt2MMZnksnnHSebkKbbY -> 01CYvZx1rzd5y3AaHjuAAU4o -> 01Fg7WnZ8Kc3wmysc7tpAfTy -> 01HcEoACbH8wWVoTo2je896N -> 01Mfu3suzekFUhjmY5uB3spC -> 01CUYirsUYqbaxCWGsX3iYMq (this one).",
+        "⚠ NOT MEASURED: whether archiving an ancestor shortens the chain. The reaper archived two ancestors earlier in this same session and the refusal still fired afterwards, which is SUGGESTIVE that depth is fixed at creation rather than computed over live sessions — but the archives and the refusal were not ordered as an experiment, so it is a lead and not a result."
+      ],
+      "what": "⛔⛔ THE SELF-PERPETUATING HANDOFF HAS A HARD CEILING OF 8 AND THIS LOOP NOW REACHES IT. `research-loop` §3 requires the cycle at its session cap to create its own successor, and CLAUDE.md records that a loop needing a human to start its next session 'is not automated, it just has a longer fuse'. Measured 2026-08-29: the 8th link's `create_session` is refused on a lineage-depth limit, so the chain terminates every 8 cycles — 4 sessions x 2 cycles is not the shape anybody chose, it is what the ceiling imposes. ⭐ THE LOOP DOES NOT STOP: the UI-created driver Routine fires a fresh depth-1 session every 4 h, so the cost is CONTINUITY (a gap of up to one cycle interval, with whatever was mid-flight unattended) rather than delivery. ⚠ WHICH IS WHY THIS IS NOT AN ESCALATION and must not be reported as the loop being down. ⭐ WHAT TO ESTABLISH FIRST, because the fix depends on it and neither is known: (a) is depth computed at creation or over LIVE sessions — if the latter, the step-11 reaper already shortens the chain and the fix is to reap before handing off, which is nearly free; (b) does a session created by a Routine reset to depth 1 — the driver's firings suggest yes. Test (a) by archiving an ancestor and immediately retrying `create_session` as an ordered experiment; this cycle archived two and then saw the refusal, but not in that order, so it proves nothing. ⛔ DO NOT 'FIX' THIS BY LENGTHENING SESSIONS. The cap exists because context runs out silently and the session spending it is the one that cannot tell; raising max_cycles_per_session to dodge a spawn ceiling trades a visible gap for an invisible degradation, which is the worse trade.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T12:26:08Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
+    },
+    {
       "id": "AUT-PD-172",
       "kind": "process_defect",
       "process_defect": true,
@@ -3732,33 +3740,6 @@
       "_requires_trimcrae_why": "Its own text is 'Decide the framing and the venue, which is an outward-facing call' — CLAUDE.md §3 reserves exactly that for trimcrae. The flag was unset, so priority.py ranked it 147.0 and the CYC-0075 handoff prompt offered it as the top takeable item. Set by CYC-0075-6d9383a0."
     },
     {
-      "id": "AUT-PD-177",
-      "what": "⛔ A GENERATOR'S HAND-TYPED PROSE SUMMARY CAN CONTRADICT THE MACHINE-DERIVED TABLE IT SITS BESIDE IN THE SAME GENERATED FILE, AND NOTHING MEASURES THE AGREEMENT. ⚠ MEASURED 2026-08-29 (AUT-PD-110): research/modalities/census_route_expression_grading.py's RT-ALK-HIT block said 'ALK and ROS1 have no probe on GPL6244 or GPL3290' while the per-gene `genes` table emitted by the SAME function, from the SAME source artifact, carried ALK readable on GPL6244 and ROS1 readable on both — and the panel group in that file recorded coverage 1.0 with a score emitted. The false sentence stood for 20 days and propagated by copy into systems/graph/routes.json's grade, the generated route view, a downstream literature record and a ledger item that was queued BECAUSE of it. ⭐ THE FIX IS NOT PROOFREADING: every route block in that module makes readability claims in prose that the module itself already knows the truth of, so a check can DERIVE the readability sentence, or assert the prose against `genes_readable`/`genes_not_readable` and fail the build on disagreement. Do that, then sweep the module's other 15 route blocks for the same class of drift (RT-NR2F1's 'NOT READABLE on either platform' is the one other absolute readability claim and should be confirmed against its own table, not assumed wrong). ⛔ THE GENERALISATION IS THE POINT: this repository already records the same shape twice — a prose figure duplicating a computed one — and the grade text beside a table is the case nobody instrumented.",
-      "serves": {
-        "route": "RT-ALK-HIT",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction; no spend and no outward-facing act.",
-      "score_inputs": {
-        "age_factor": 0.0,
-        "fruitless_attempts": 0
-      },
-      "score": 120.0,
-      "_score_basis": "scored below the lowest RT-ALK-HIT derived row (132.9, AUT-PD-110's own inherited floor) because it is a mechanism fix rather than a route observation, and the incident it prevents has now been corrected everywhere it was found"
-    },
-    {
       "id": "AUT-PROP-010",
       "kind": "write",
       "serves": {
@@ -3838,6 +3819,37 @@
         "It was caught only because CYC-0084 read a sibling session's post_turn_summary while running the step-11 reaper and noticed the string 'AUT-PD-169' in it. Nothing checked."
       ],
       "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time."
+    },
+    {
+      "id": "AUT-PD-178",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0087-1c9f0963",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "one derivation and its guard test inside research/modalities; nothing outward-facing",
+      "closes_clause": null,
+      "score": 120.0,
+      "_score_basis": "a false claim that stood 20 days and propagated into four files, including the ledger row that commissioned a cycle. Placed at AUT-PD-171's level — a coordination defect whose cost is one session's rework — rather than above it, because the incident it prevents has now been corrected everywhere it was found.",
+      "score_inputs": {
+        "age_factor": 0.0,
+        "fruitless_attempts": 0
+      },
+      "what": "⛔ A GENERATOR'S HAND-TYPED PROSE SUMMARY CAN CONTRADICT THE MACHINE-DERIVED TABLE IT SITS BESIDE IN THE SAME GENERATED FILE, AND NOTHING MEASURES THE AGREEMENT. ⚠ MEASURED 2026-08-29 (AUT-PD-110): research/modalities/census_route_expression_grading.py's RT-ALK-HIT block said 'ALK and ROS1 have no probe on GPL6244 or GPL3290' while the per-gene `genes` table emitted by the SAME function, from the SAME source artifact, carried ALK readable on GPL6244 and ROS1 readable on both — and the panel group in that file recorded coverage 1.0 with a score emitted. The false sentence stood for 20 days and propagated by copy into systems/graph/routes.json's grade, the generated route view, a downstream literature record and a ledger item that was queued BECAUSE of it. ⭐ THE FIX IS NOT PROOFREADING: every route block in that module makes readability claims in prose that the module itself already knows the truth of, so a check can DERIVE the readability sentence, or assert the prose against `genes_readable`/`genes_not_readable` and fail the build on disagreement. Do that, then sweep the module's other 15 route blocks for the same class of drift — RT-NR2F1's 'NOT READABLE on either platform' is the one other absolute readability claim and must be CHECKED against its own table, not assumed wrong. ⛔ THE GENERALISATION IS THE POINT: this repository already records the same shape twice — a prose figure duplicating a computed one — and the grade text beside a table is the case nobody instrumented."
     },
     {
       "id": "AUT-PD-139",
@@ -4020,6 +4032,53 @@
       ],
       "_the_choice_made": "⭐ THREE OPTIONS, DECIDED ON MEASURED SIZE RATHER THAN TASTE. (a) widen `all_genes` so the signature members land in `gene_reads`: simplest and uniform, +13 MB per regeneration. (b) lean records in `gene_reads` for signature-only genes: rejected once measured — `per_sample` is 81%/67% of a record, so dropping the Welch and probe blocks saves only about a fifth, and it buys two shapes in one map. (c) a separate positional block, `signature_member_reads`: ~1.4 MB for the same z values, no existing consumer perturbed, and it is what shipped. ⛔ (d) computing the correlation inside the fetch was rejected outright: it would move the arithmetic to where `--check` cannot re-derive it, and offline reproducibility is the property this module is built around.",
       "_outcome": "⭐ THE WIDENING IS DONE AND IT WORKED. What it produced is NOT this row's to adjudicate and is filed as AUT-PD-167: under full membership the committed verdict REVERSES, and the null moved at the same time, so the two reads are not cleanly comparable. ⛔ The trunk is RED until that is settled — see AUT-PD-167 for both self-consistent states and why neither is green."
+    },
+    {
+      "id": "AUT-PD-158",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "state": "in_progress",
+      "owner": "session_015ot2aSG28GM5Y9zBXcjmKb",
+      "claimed_utc": "2026-08-29T12:34:30Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 1,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0072-1681f3fa",
+      "requires_trimcrae": false,
+      "closes_clause": null,
+      "score": 117.0,
+      "_score_basis": "filed WITH a score, which is the row's own subject. Below the open RT-AUTONOMY fix rows: AUT-PD-143 has made the set visible and AUT-PD-145 owns the write-time gate, so this is a JUDGEMENT to put to a person, not a fix to race.",
+      "_renamed_from": "AUT-PD-145, then AUT-PD-147, then AUT-PD-152 — all taken by concurrent sessions, then AUT-PD-153, then AUT-PD-154, then AUT-PD-155, then AUT-PD-156",
+      "_renamed_why": "re-allocated at the THIRD rebase of this cycle. Every id this row was previously filed under was taken by a concurrent session in the interval — AUT-PD-152 by CYC-0073-2e57571a, which used it for the null-score_inputs crash this cycle was fixing at the same moment. Ids were counted explicitly after EVERY rebase (AUT-PD-144's rule) and the count caught a collision each time.",
+      "depends_on_evidence": "research/autonomy/health.py c_scores_are_reachable on the committed ledger; research/autonomy/priority.py route_score_floor; systems/graph/routes.json (RT-AUTONOMY is not among its routes)",
+      "what": "⛔ DECIDE WHAT RT-AUTONOMY IS IN systems/graph, BECAUSE THE OPEN ROWS ABOUT THE LOOP'S OWN MACHINERY CAN NEVER BE RANKED AGAINST ANYTHING. AUT-PD-143 gives an unscored row the floor of its route; RT-AUTONOMY is not a route in the graph, so no floor exists and those rows stay rankable only if their filer types a number by hand — which is how most came to have none. AUT-PD-145 owns the write-time gate that stops the count growing; this row owns the question that gate cannot answer. ⭐ THE TWO OPTIONS ARE NOT SYMMETRIC. (a) Give RT-AUTONOMY a route row and the graph ranks the loop's self-maintenance against treatment routes on the same axes — CLAUDE.md §0 has an opinion, and a `live`/`patient_path` score for loop machinery would be a fabrication, not a low number. (b) Make 'serves no treatment route' an EXPLICIT scored class with a stated ceiling, so process work is ordered among itself and can never outrank live research — which is what the hand-typed 105-135 range already does by accident, unstated and unenforced. ⛔ THIS IS A JUDGEMENT ABOUT WHAT THE LOOP MAY RANK ITS OWN MAINTENANCE ABOVE, and a cycle taking it is choosing its own priority — the shape `amendment_guard` exists to catch. Prepare both options with their measured consequences and put the choice to trimcrae.\n\n⭐⭐ DECIDED BY trimcrae 2026-08-29, ANSWERING THIS ROW'S OWN QUESTION: **a stated scored class WITH a narrow exemption.** Routeless work becomes an explicit class with a stated, enforced ceiling; upkeep that BLOCKS THE LOOP ITSELF — a red trunk, an unusable commit loop, an inability to spawn a successor — is exempt and keeps top priority. Option (a) (a route row for RT-AUTONOMY) was refused, and so was leaving the band unstated.\n\n⛔ THE EXEMPTION IS THE LOAD-BEARING HALF AND IT IS WHY A BARE CEILING WAS REFUSED: without it a cap set below the research median would rank a RED TRUNK below routine research, and the loop would stall with its own fix sitting mid-queue. ⛔ THE EXEMPTION IS ALSO THE ABUSE SURFACE — every process row will read as 'blocking' to its filer — so it must be a NARROW, TESTED PREDICATE over an observable state (is the trunk red? does preflight fail? did a handoff refuse?), never a self-declared flag on the row. A row asserting its own exemption is the queue back where it started.\n\n⛔ THE NUMBER IS STILL NOT SET AND MUST BE DERIVED, NOT PREFERRED. The implementer re-measures and derives the ceiling from the observed research distribution (research median was 45.8 and max 174.0 on 2026-08-29), records the derivation in `_score_basis`, and pins it in ONE place. ⛔ A ceiling at today's process maximum (133.1) preserves the current ordering exactly while looking like a fix — refuse it deliberately. ⚠ And re-measure rather than reusing these figures: they are a dated observation, and AUT-PD-177's repair alone moves them.\n\n⛔ 27 SCORED PROCESS ROWS EXIST TODAY AND A REAL CEILING DEMOTES MOST OF THEM. That is the intended effect, not a regression — but it is a large one-time reordering of the live queue, so it lands with the before/after distribution recorded and the guard mutation-tested.",
+      "_cycle_row_key": "rt-autonomy-is-not-a-route",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T12:14:28Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        },
+        {
+          "utc": "2026-08-29T12:34:30Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ],
+      "_observations": [
+        "2026-08-29, CYC-0087-4ce79c2a: MEASURED, and the numbers reframe the question the row was filed with.\n⛔ SCALE: 100 of the 180 open rows name a route systems/graph does not carry — 83 RT-AUTONOMY, 9 naming no route at all, and 8 with a BROKEN id (filed as AUT-PD-177, and they are research work, not process). RT-AUTONOMY alone is 60 of the 73 rows in the open-unscored population, so this row is what lets that population SHRINK; AUT-PD-145's ratchet only stops it growing.\n⛔⛔ OPTION (b)'s PREMISE IS HALF TRUE, AND THE HALF THAT FAILS IS THE ONE IT RESTS ON. Scored open rows: research (route in graph) n=80, min 12.0, max 174.0, median 45.8; process (no graph route) n=27, min -2595.0, max 133.1, median 114.9. 0 of 27 process rows outrank the HIGHEST research row — so 'process can never outrank live research' is true at the top and is the only part the hand-typed band delivers. But 25 of 27 process rows outrank the research MEDIAN. The unstated 105-135 band does not order process work among itself; it places nearly all of it above nearly all live research, which is why a cycle reading the queue sees process defects and why `advancing_live_work` has been NOT-ADVANCING for four receipts.\n⛔ OPTION (a) COSTS FABRICATION, AND THE ROW WAS RIGHT ABOUT THAT. A route row in the graph carries `purpose`, `rationale`, `supporting_evidence`, `remaining_unknowns`, `required_validation`, `readiness.attainable_today`, `publication.endpoint` and `state.maturity/confidence` — evidence fields about treatment science. RT-AUTONOMY has no patient path and no publication endpoint, so most would be invented, and CLAUDE.md §7 makes systems/graph the source of truth every generated view is built from. ⚠ It is not free of merit: the loop's machinery IS described by emc-autonomy-architecture.md, so a route row is not literally unwritable — it would just assert things about a treatment route that are not true of it.\n⭐ WHAT THE MEASUREMENT ADDS THAT NEITHER OPTION CONTAINS: the two are not exhaustive. The band could be stated AND set below the research median rather than at today's max (133.1), which is the only variant that changes what a cycle actually sees. Pinning a ceiling at 133.1 preserves today's ordering exactly and fixes nothing; that is the option most likely to be chosen by accident, so it is named here to be refused deliberately. ⛔ Choosing the NUMBER is the whole decision and it is his: it is a cycle setting how far its own work may outrank research.",
+        "2026-08-29, CYC-0087-4ce79c2a: trimcrae answered the escalation — stated class + narrow exemption for loop-blocking upkeep. ⛔ THE CHOICE OF SHAPE IS HIS AND IS NOW RECORDED; the CEILING NUMBER is still unset and is to be DERIVED from a fresh measurement by whoever implements, never typed as a preference. This row stays open as implementation work, no longer as a decision."
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 2
+      }
     },
     {
       "id": "AUT-081",
@@ -6195,16 +6254,17 @@
       "clamp": "blocked_without_evidence_becomes_a_check"
     },
     {
-      "id": "AUT-PD-178",
-      "what": "⛔ THE '176 SARCOMA LINES' CORRECTION SWEEP IS NOW COMPLETE IN THE TRUNK BUT ITS OWN 'STILL LIVE ELSEWHERE' LIST IS STALE, AND A STALE LIST OF KNOWN ERRORS READS AS OPEN WORK. research/manuscripts/dependency/emc-kinase-leads-source-verification.md §4 names census_route_expression_grading.py, its generated artifact and emc-transcriptional-proteostatic-dependency.md as still carrying the superseded denominator; all three now read '91 screened sarcoma lines (of 176 sarcoma models)'. ⭐ AND THE LAST TWO LIVE COPIES WERE FIXED 2026-08-29 (AUT-PD-110) — systems/graph/routes.json's RT-TXN-CDK supporting-evidence row ('dependencies in 100% of 176 sarcoma lines') and research/modalities/emc_proteostasis_read.py's docstring ('94.5% and 96.7% of 176 sarcoma lines'), neither of which that list named. ⚠ THE ITEM IS THE LIST, NOT THE NUMBER: update §4 to say the sweep closed and on what date, and record the two files the list missed so the next census of this error starts from what is true. ⚠ It touches a manuscript-adjacent memo, so it needs PREFLIGHT_TESTS=1.",
+      "id": "AUT-PD-179",
+      "kind": "process_defect",
+      "process_defect": true,
       "serves": {
         "route": null,
         "publication": null,
         "strategy": null
       },
-      "kind": "process_defect",
       "state": "queued",
       "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -6212,14 +6272,17 @@
       "retry_budget": 3,
       "attempts": 0,
       "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0087-1c9f0963",
       "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction; no spend and no outward-facing act.",
+      "_requires_trimcrae_why": "editing one memo's status paragraph; nothing outward-facing",
+      "closes_clause": null,
+      "score": 40.0,
+      "_score_basis": "documentation hygiene on a closed correction; below every live-route row by construction",
       "score_inputs": {
         "age_factor": 0.0,
         "fruitless_attempts": 0
       },
-      "score": 40.0,
-      "_score_basis": "documentation hygiene on a closed correction; below every live-route row by construction"
+      "what": "⛔ THE '176 SARCOMA LINES' CORRECTION SWEEP IS NOW COMPLETE IN THE TRUNK BUT ITS OWN 'STILL LIVE ELSEWHERE' LIST IS STALE, AND A STALE LIST OF KNOWN ERRORS READS AS OPEN WORK. research/manuscripts/dependency/emc-kinase-leads-source-verification.md §4 names census_route_expression_grading.py, its generated artifact and emc-transcriptional-proteostatic-dependency.md as still carrying the superseded denominator; all three now read '91 screened sarcoma lines (of 176 sarcoma models)'. ⭐ AND THE LAST TWO LIVE COPIES WERE FIXED 2026-08-29 (AUT-PD-110) — systems/graph/routes.json's RT-TXN-CDK supporting-evidence row ('dependencies in 100% of 176 sarcoma lines') and research/modalities/emc_proteostasis_read.py's docstring ('94.5% and 96.7% of 176 sarcoma lines'), neither of which that list named. ⚠ THE ITEM IS THE LIST, NOT THE NUMBER: update §4 to say the sweep closed and on what date, and record the two files the list missed so the next census of this error starts from what is true. ⚠ It touches a manuscript-adjacent memo, so it needs PREFLIGHT_TESTS=1."
     },
     {
       "id": "AUT-061",
