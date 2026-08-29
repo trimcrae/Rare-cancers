@@ -530,5 +530,15 @@
       "main"
     ],
     "note": "Asks whether NDRG1's per-sample level in EMC-containing series tracks HYPOXIA programme proxies or PPARγ/adipogenic ones — the positive half of the negative AUT-062 and AUT-PD-099 established for RT-SGK1 (the reading is transcript ABUNDANCE, so it is not attributable to SGK1 activity). ⭐ ONE OF THE TWO SERIES SEPARATES THE PROGRAMMES, NOT BOTH, and it must never be written as a replication: in GSE24369 (n=35) all six hypoxia panels exceed their own size-matched random null and none of the six PPARγ panels do; in GSE4303 (n=16) a RANDOM size-matched panel already reaches rho +0.25 to +0.42, so that series cannot discriminate at all. ⛔ TWO CONTROLS, EITHER OF WHICH MISSING MANUFACTURES THE ANSWER: NDRG1 is itself a member of several published hypoxia sets and is excluded from every panel; and the null is what produced the one-series verdict. Both are mutation-tested in research/modalities/tests/test_ndrg1_panel_attribution_controls.py. ⚠ Every panel is scored on the SUBSET of its members carrying a per-sample value in emc-expression-panels.json — 9 to 41 genes against published sets of 44 to 231 — so the panels are programme PROXIES, not the published signatures. Widening that is AUT-PROP-051. ⚠ An association between a transcript and a programme proxy in archival tissue is not a mechanism and not a dependency; direction is not settled."
+  },
+  {
+    "id": "ART-ALK-IHC-FET-2026",
+    "path": "research/literature/alk-ihc-fet-tumours-2026-08-29.json",
+    "produced_by": "A live PubMed retrieval of PMID 42660639 through this container's PubMed MCP connector, plus exact binomial arithmetic (Clopper-Pearson intervals and Fisher's exact test) over that record's own quoted integer counts, computed with the standard library",
+    "workflow": null,
+    "published_to": [
+      "main"
+    ],
+    "note": "⛔ THE RE-GRADE OF RT-ALK-HIT, AND IT IS A NEGATIVE. ALK D5F3 IHC in 119 FET-rearranged tumours establishes ALK PROTEIN at 2+/3+ in 2 of 4 EMC cases and, by its own confirmation step, establishes that those cases LACK ALK rearrangement — a stain, not a fusion, and the route does not move on it. No activation, no dependency, no drug response, nothing on ROS1, nothing about the model the ex-vivo screen ran on. ⭐ The arithmetic is the part that decides it: 2/4 carries an exact 95% interval of 6.8-93.2%, and EMC is not distinguishable from the rest of the cohort (Fisher p = 0.32), so the abstract's phrase 'a high overexpression rate' describes a rank in a table and not an EMC-selective signal. ⭐ AND THE RE-GRADE FOUND THE ROUTE'S OWN INSTRUMENT STATEMENT FALSE: the claim that ALK and ROS1 have no probe on either expression platform is contradicted by the per-gene table of emc-expression-panels.json, which has ALK readable on GPL6244 and ROS1 readable on both — a hand-typed sentence in census_route_expression_grading.py that propagated by copy into the route grade and the generated view, corrected here and there. ⚠ Abstract level only; the absence of PMC full text was measured, not assumed."
   }
 ]

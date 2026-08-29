@@ -53,7 +53,7 @@ The driver acts by transactivating target promoters, and transcriptional CDK dep
 
 | ref | supports | strength |
 |---|---|---|
-| `ART-CENSUS-ROUTE-GRADING` | the transcriptional CDK modules are elevated in EMC on both platforms AND are dependencies in 100% of 176 sarcoma lines — the second reading is what closes the route | `class_inherited` |
+| `ART-CENSUS-ROUTE-GRADING` | the transcriptional CDK modules are elevated in EMC on both platforms AND are dependencies in 100% of the 91 SCREENED sarcoma lines — the second reading is what closes the route (denominator corrected from 176 on 2026-08-29; 176 is the number of sarcoma MODELS in DepMap 24Q4 and only 91 carry CRISPR gene-effect data) | `class_inherited` |
 
 ## Remaining unknowns
 

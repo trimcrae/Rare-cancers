@@ -473,5 +473,35 @@
     "misattributed_as": [],
     "provenance_flag": "RETRIEVED 2026-08-28 from PubMed through the PubMed MCP connector; queries and verbatim abstract quotations in research/literature/carfilzomib-class-clinical-2026-08-28.json. ⚠ ABSTRACT ONLY — PMC12428389 exists and was NOT fetched, so any per-histology outcome table it may carry is unread.",
     "cited_in": []
+  },
+  {
+    "id": "EV-LI-GONG-2026",
+    "canonical": {
+      "pmid": "42660639",
+      "doi": "10.1136/jcp-2026-210760",
+      "pmcid": null,
+      "url": "https://pubmed.ncbi.nlm.nih.gov/42660639/"
+    },
+    "citation": "Li L, Gong L. ALK overexpression without rearrangement widely exists in FET-rearranged soft tissue tumours. J Clin Pathol 2026 (published 2026-08-27). PMID 42660639 · doi 10.1136/jcp-2026-210760.",
+    "what_it_supports": "⛔ IT SUPPORTS AN ABUNDANCE STATEMENT AND NOTHING FUNCTIONAL, AND THE DISTINCTION IS THE WHOLE POINT OF THE PAPER. ALK D5F3 immunohistochemistry across 119 FET-rearranged tumours of 20 types: 34/119 at 2+/3+ overall, with 2 of 4 extraskeletal myxoid chondrosarcoma cases positive. Its confirmation step is that the overexpressing cases were checked and LACK ALK gene rearrangement — so what it establishes in EMC is ALK PROTEIN, in tumours in which the fusion that would have made ALK a target was looked for and not found. It reports no activation, no dependency, no drug response and nothing on ROS1. ⚠ EMC is not separable from the family in it: 2/4 has an exact 95% interval of 6.8-93.2% and Fisher's exact against the rest of the cohort (32/115) is p = 0.32; the paper's headline finding is family-wide, and Ewing sarcoma carries the largest positive denominator (22/43). ⚠ Its closing clause about therapeutic opportunity is the authors' speculation with no treatment arm, model or functional endpoint behind it in this study.",
+    "aliases": [
+      "Li & Gong 2026",
+      "the ALK IHC FET series",
+      "PMID 42660639"
+    ],
+    "misattributed_as": [],
+    "provenance_flag": "RETRIEVED 2026-08-29 from PubMed through the PubMed MCP connector (get_article_metadata, convert_article_ids); verbatim abstract quotations, the derived arithmetic and the route re-grade are in research/literature/alk-ihc-fet-tumours-2026-08-29.json. ⚠ ABSTRACT ONLY, and the absence of full text was MEASURED rather than assumed: convert_article_ids returned a record carrying no PMCID, so no PubMed Central full text exists to fetch. Per-case scores, the antibody protocol, the rearrangement assay and the EMC cases' fusion partners are unread. ⚠ The retrieved text has italicised gene symbols STRIPPED, visible in the title and in the fusion-partner sentence, so which partner carried the strongest overexpression is UNKNOWN from this retrieval and is not guessed.",
+    "cited_in": [
+      {
+        "file": "research/literature/alk-ihc-fet-tumours-2026-08-29.json",
+        "as": "PMID 42660639",
+        "role": "assertion"
+      },
+      {
+        "file": "systems/graph/routes.json",
+        "as": "PMID 42660639",
+        "role": "assertion"
+      }
+    ]
   }
 ]
