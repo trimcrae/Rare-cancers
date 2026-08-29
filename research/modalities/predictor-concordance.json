@@ -383,17 +383,20 @@
     "conventional_cut_percentile": 0.5,
     "at_conventional_cut": {
       "threshold": 0.5,
-      "n_presenting_alleles": 4,
-      "coverage": 0.304,
+      "n_presenting_alleles": 7,
+      "coverage": 0.4782,
       "coverage_95ci": [
-        0.2951,
-        0.3132
+        0.4661,
+        0.4906
       ],
       "alleles": [
         "HLA-A*01:01",
         "HLA-A*30:02",
         "HLA-B*07:02",
-        "HLA-B*15:01"
+        "HLA-B*15:01",
+        "HLA-C*03:03",
+        "HLA-C*03:04",
+        "HLA-C*12:02"
       ]
     },
     "steps": [
@@ -428,23 +431,85 @@
         ]
       },
       {
+        "threshold": 0.4438,
+        "alleles_added": [
+          "HLA-C*03:04"
+        ],
+        "coverage_after": 0.3317,
+        "peptides": [
+          "AAVEWFDDM"
+        ]
+      },
+      {
         "threshold": 0.458,
         "alleles_added": [
           "HLA-B*07:02"
         ],
-        "coverage_after": 0.304,
+        "coverage_after": 0.3943,
         "peptides": [
           "MPPPLRGDM"
         ]
       },
       {
+        "threshold": 0.4614,
+        "alleles_added": [
+          "HLA-C*12:02"
+        ],
+        "coverage_after": 0.4283,
+        "peptides": [
+          "AAVEWFDDM"
+        ]
+      },
+      {
+        "threshold": 0.4865,
+        "alleles_added": [
+          "HLA-C*03:03"
+        ],
+        "coverage_after": 0.4782,
+        "peptides": [
+          "AAVEWFDDM"
+        ]
+      },
+      {
+        "threshold": 0.5058,
+        "alleles_added": [
+          "HLA-C*17:01"
+        ],
+        "coverage_after": 0.5007,
+        "peptides": [
+          "AAVEWFDDM"
+        ]
+      },
+      {
         "threshold": 0.5094,
         "alleles_added": [
-          "HLA-B*13:02"
+          "HLA-B*13:02",
+          "HLA-C*16:01"
         ],
-        "coverage_after": 0.3317,
+        "coverage_after": 0.5534,
         "peptides": [
+          "AAVEWFDDM",
           "GQQNMPCVQA"
+        ]
+      },
+      {
+        "threshold": 0.538,
+        "alleles_added": [
+          "HLA-C*02:02"
+        ],
+        "coverage_after": 0.5893,
+        "peptides": [
+          "AAVEWFDDM"
+        ]
+      },
+      {
+        "threshold": 0.5491,
+        "alleles_added": [
+          "HLA-C*12:03"
+        ],
+        "coverage_after": 0.6219,
+        "peptides": [
+          "AAVEWFDDM"
         ]
       },
       {
@@ -452,9 +517,49 @@
         "alleles_added": [
           "HLA-A*26:01"
         ],
-        "coverage_after": 0.3729,
+        "coverage_after": 0.6452,
         "peptides": [
           "DMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 0.5962,
+        "alleles_added": [
+          "HLA-C*03:02"
+        ],
+        "coverage_after": 0.6655,
+        "peptides": [
+          "AAVEWFDDM"
+        ]
+      },
+      {
+        "threshold": 0.651,
+        "alleles_added": [
+          "HLA-C*04:01"
+        ],
+        "coverage_after": 0.7395,
+        "peptides": [
+          "WFDDMPCVQA"
+        ]
+      },
+      {
+        "threshold": 0.793,
+        "alleles_added": [
+          "HLA-C*01:02"
+        ],
+        "coverage_after": 0.7774,
+        "peptides": [
+          "GMPPPLRGDM"
+        ]
+      },
+      {
+        "threshold": 0.8378,
+        "alleles_added": [
+          "HLA-C*15:02"
+        ],
+        "coverage_after": 0.793,
+        "peptides": [
+          "AAVEWFDDM"
         ]
       },
       {
@@ -462,7 +567,7 @@
         "alleles_added": [
           "HLA-B*35:01"
         ],
-        "coverage_after": 0.4433,
+        "coverage_after": 0.8163,
         "peptides": [
           "MPPPLRGDM"
         ]
@@ -472,9 +577,19 @@
         "alleles_added": [
           "HLA-B*44:02"
         ],
-        "coverage_after": 0.4775,
+        "coverage_after": 0.8276,
         "peptides": [
           "GDMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 0.9711,
+        "alleles_added": [
+          "HLA-C*05:01"
+        ],
+        "coverage_after": 0.8402,
+        "peptides": [
+          "RGDMPCVQA"
         ]
       },
       {
@@ -482,7 +597,7 @@
         "alleles_added": [
           "HLA-B*44:03"
         ],
-        "coverage_after": 0.5166,
+        "coverage_after": 0.8522,
         "peptides": [
           "GDMPCVQAQY"
         ]
@@ -492,9 +607,29 @@
         "alleles_added": [
           "HLA-B*46:01"
         ],
-        "coverage_after": 0.5686,
+        "coverage_after": 0.8681,
         "peptides": [
           "NMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 1.224,
+        "alleles_added": [
+          "HLA-C*14:02"
+        ],
+        "coverage_after": 0.8747,
+        "peptides": [
+          "NMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 1.3034,
+        "alleles_added": [
+          "HLA-C*08:02"
+        ],
+        "coverage_after": 0.882,
+        "peptides": [
+          "RGDMPCVQA"
         ]
       },
       {
@@ -502,7 +637,7 @@
         "alleles_added": [
           "HLA-B*40:02"
         ],
-        "coverage_after": 0.6108,
+        "coverage_after": 0.8935,
         "peptides": [
           "VEWFDDMPCV"
         ]
@@ -512,7 +647,7 @@
         "alleles_added": [
           "HLA-B*08:01"
         ],
-        "coverage_after": 0.6414,
+        "coverage_after": 0.9019,
         "peptides": [
           "MPPPLRGDM"
         ]
@@ -522,9 +657,19 @@
         "alleles_added": [
           "HLA-A*32:01"
         ],
-        "coverage_after": 0.6586,
+        "coverage_after": 0.9066,
         "peptides": [
           "NMPCVQAQY"
+        ]
+      },
+      {
+        "threshold": 1.6372,
+        "alleles_added": [
+          "HLA-C*18:01"
+        ],
+        "coverage_after": 0.9087,
+        "peptides": [
+          "WFDDMPCVQA"
         ]
       },
       {
@@ -532,9 +677,19 @@
         "alleles_added": [
           "HLA-B*53:01"
         ],
-        "coverage_after": 0.6764,
+        "coverage_after": 0.9134,
         "peptides": [
           "MPPPLRGDM"
+        ]
+      },
+      {
+        "threshold": 1.6663,
+        "alleles_added": [
+          "HLA-C*07:02"
+        ],
+        "coverage_after": 0.9331,
+        "peptides": [
+          "NMPCVQAQY"
         ]
       },
       {
@@ -542,7 +697,7 @@
         "alleles_added": [
           "HLA-B*14:02"
         ],
-        "coverage_after": 0.6921,
+        "coverage_after": 0.9363,
         "peptides": [
           "MPPPLRGDM"
         ]
@@ -552,7 +707,7 @@
         "alleles_added": [
           "HLA-B*51:01"
         ],
-        "coverage_after": 0.7256,
+        "coverage_after": 0.9432,
         "peptides": [
           "MPPPLRGDM"
         ]
@@ -562,7 +717,7 @@
         "alleles_added": [
           "HLA-A*02:06"
         ],
-        "coverage_after": 0.7454,
+        "coverage_after": 0.9474,
         "peptides": [
           "AAVEWFDDM"
         ]
@@ -572,9 +727,19 @@
         "alleles_added": [
           "HLA-A*02:03"
         ],
-        "coverage_after": 0.7612,
+        "coverage_after": 0.9506,
         "peptides": [
           "PLRGDMPCV"
+        ]
+      },
+      {
+        "threshold": 2.2611,
+        "alleles_added": [
+          "HLA-C*06:02"
+        ],
+        "coverage_after": 0.9582,
+        "peptides": [
+          "AAVEWFDDM"
         ]
       },
       {
@@ -582,7 +747,7 @@
         "alleles_added": [
           "HLA-B*27:05"
         ],
-        "coverage_after": 0.7704,
+        "coverage_after": 0.9598,
         "peptides": [
           "RGDMPCVQAQY"
         ]
@@ -592,7 +757,7 @@
         "alleles_added": [
           "HLA-B*18:01"
         ],
-        "coverage_after": 0.7865,
+        "coverage_after": 0.9627,
         "peptides": [
           "DDMPCVQAQY"
         ]
@@ -602,7 +767,7 @@
         "alleles_added": [
           "HLA-A*02:01"
         ],
-        "coverage_after": 0.8464,
+        "coverage_after": 0.9731,
         "peptides": [
           "GQQNMPCVQA"
         ]
@@ -612,9 +777,19 @@
         "alleles_added": [
           "HLA-B*57:01"
         ],
-        "coverage_after": 0.8525,
+        "coverage_after": 0.9742,
         "peptides": [
           "SSSYGQQNM"
+        ]
+      },
+      {
+        "threshold": 3.2968,
+        "alleles_added": [
+          "HLA-C*07:01"
+        ],
+        "coverage_after": 0.9787,
+        "peptides": [
+          "LRGDMPCVQA"
         ]
       },
       {
@@ -622,7 +797,7 @@
         "alleles_added": [
           "HLA-A*68:01"
         ],
-        "coverage_after": 0.8618,
+        "coverage_after": 0.98,
         "peptides": [
           "DMPCVQAQY"
         ]
@@ -632,7 +807,7 @@
         "alleles_added": [
           "HLA-B*38:01"
         ],
-        "coverage_after": 0.8658,
+        "coverage_after": 0.9806,
         "peptides": [
           "GQQNMPCV"
         ]
@@ -642,7 +817,7 @@
         "alleles_added": [
           "HLA-A*03:01"
         ],
-        "coverage_after": 0.88,
+        "coverage_after": 0.9826,
         "peptides": [
           "NMPCVQAQY"
         ]
@@ -652,7 +827,7 @@
         "alleles_added": [
           "HLA-A*68:02"
         ],
-        "coverage_after": 0.8851,
+        "coverage_after": 0.9834,
         "peptides": [
           "DLDLDMPCV"
         ]
@@ -662,7 +837,7 @@
         "alleles_added": [
           "HLA-B*40:01"
         ],
-        "coverage_after": 0.895,
+        "coverage_after": 0.9848,
         "peptides": [
           "GQQNMPCV"
         ]
@@ -672,7 +847,7 @@
         "alleles_added": [
           "HLA-A*23:01"
         ],
-        "coverage_after": 0.9018,
+        "coverage_after": 0.9858,
         "peptides": [
           "GQQNMPCV"
         ]

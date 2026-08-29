@@ -1,40 +1,61 @@
 {
-  "_note": "Coverage vs number of HLA-A/-B alleles presented, for a public EWSR1::NR4A3 junction vaccine. Presenting alleles (>=1 strong MHCflurry binder) added in descending AFND frequency (= greedy-optimal under 1-prod(1-af)^2). Class I only; CD4/class-II handled separately. Sources as in hla-coverage.json.",
-  "panel_size": 34,
-  "n_presenting_alleles": 4,
+  "_note": "Coverage vs number of HLA-A/-B/-C alleles presented, for a public EWSR1::NR4A3 junction vaccine. Presenting alleles (>=1 strong MHCflurry binder) added in descending AFND frequency (= greedy-optimal under 1-prod(1-af)^2). Class I only; CD4/class-II handled separately. Sources as in hla-coverage.json.",
+  "panel_size": 52,
+  "n_presenting_alleles": 7,
   "presenting_alleles": [
     "HLA-A*01:01",
     "HLA-A*30:02",
     "HLA-B*07:02",
-    "HLA-B*15:01"
+    "HLA-B*15:01",
+    "HLA-C*03:03",
+    "HLA-C*03:04",
+    "HLA-C*12:02"
   ],
   "global_curve": [
     {
       "n_alleles": 1,
-      "allele_added": "HLA-A*01:01",
-      "af": 0.0641,
-      "cumulative_coverage": 0.1241
+      "allele_added": "HLA-C*03:04",
+      "af": 0.0671,
+      "cumulative_coverage": 0.1297
     },
     {
       "n_alleles": 2,
-      "allele_added": "HLA-B*07:02",
-      "af": 0.048,
-      "cumulative_coverage": 0.2062
+      "allele_added": "HLA-A*01:01",
+      "af": 0.0641,
+      "cumulative_coverage": 0.2377
     },
     {
       "n_alleles": 3,
-      "allele_added": "HLA-B*15:01",
-      "af": 0.0435,
-      "cumulative_coverage": 0.2737
+      "allele_added": "HLA-B*07:02",
+      "af": 0.048,
+      "cumulative_coverage": 0.3091
     },
     {
       "n_alleles": 4,
+      "allele_added": "HLA-C*03:03",
+      "af": 0.0446,
+      "cumulative_coverage": 0.3694
+    },
+    {
+      "n_alleles": 5,
+      "allele_added": "HLA-B*15:01",
+      "af": 0.0435,
+      "cumulative_coverage": 0.423
+    },
+    {
+      "n_alleles": 6,
+      "allele_added": "HLA-C*12:02",
+      "af": 0.0285,
+      "cumulative_coverage": 0.4555
+    },
+    {
+      "n_alleles": 7,
       "allele_added": "HLA-A*30:02",
       "af": 0.0211,
-      "cumulative_coverage": 0.304
+      "cumulative_coverage": 0.4782
     }
   ],
-  "global_max_coverage": 0.304,
+  "global_max_coverage": 0.4782,
   "global_alleles_to_reach": {
     "50pct": null,
     "80pct": null,
@@ -64,14 +85,85 @@
         },
         {
           "n_alleles": 4,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0448,
+          "cumulative_coverage": 0.639
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0436,
+          "cumulative_coverage": 0.6698
+        },
+        {
+          "n_alleles": 6,
           "allele_added": "HLA-A*30:02",
           "af": 0.0085,
-          "cumulative_coverage": 0.611
+          "cumulative_coverage": 0.6753
+        },
+        {
+          "n_alleles": 7,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0068,
+          "cumulative_coverage": 0.6797
         }
       ],
-      "max_coverage": 0.611,
+      "max_coverage": 0.6797,
       "alleles_to_reach": {
         "50pct": 2,
+        "80pct": null,
+        "90pct": null,
+        "95pct": null
+      }
+    },
+    "Eastern Europe": {
+      "curve": [
+        {
+          "n_alleles": 1,
+          "allele_added": "HLA-A*01:01",
+          "af": 0.1149,
+          "cumulative_coverage": 0.2166
+        },
+        {
+          "n_alleles": 2,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0902,
+          "cumulative_coverage": 0.3515
+        },
+        {
+          "n_alleles": 3,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0729,
+          "cumulative_coverage": 0.4427
+        },
+        {
+          "n_alleles": 4,
+          "allele_added": "HLA-B*07:02",
+          "af": 0.0699,
+          "cumulative_coverage": 0.5179
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-B*15:01",
+          "af": 0.0361,
+          "cumulative_coverage": 0.5521
+        },
+        {
+          "n_alleles": 6,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0213,
+          "cumulative_coverage": 0.571
+        },
+        {
+          "n_alleles": 7,
+          "allele_added": "HLA-A*30:02",
+          "af": 0.0007,
+          "cumulative_coverage": 0.5716
+        }
+      ],
+      "max_coverage": 0.5716,
+      "alleles_to_reach": {
+        "50pct": 4,
         "80pct": null,
         "90pct": null,
         "95pct": null
@@ -93,55 +185,38 @@
         },
         {
           "n_alleles": 3,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.054,
+          "cumulative_coverage": 0.4302
+        },
+        {
+          "n_alleles": 4,
           "allele_added": "HLA-B*15:01",
           "af": 0.0421,
-          "cumulative_coverage": 0.4159
+          "cumulative_coverage": 0.4773
         },
         {
-          "n_alleles": 4,
+          "n_alleles": 5,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0343,
+          "cumulative_coverage": 0.5125
+        },
+        {
+          "n_alleles": 6,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0075,
+          "cumulative_coverage": 0.5198
+        },
+        {
+          "n_alleles": 7,
           "allele_added": "HLA-A*30:02",
           "af": 0.006,
-          "cumulative_coverage": 0.4228
+          "cumulative_coverage": 0.5256
         }
       ],
-      "max_coverage": 0.4228,
+      "max_coverage": 0.5256,
       "alleles_to_reach": {
-        "50pct": null,
-        "80pct": null,
-        "90pct": null,
-        "95pct": null
-      }
-    },
-    "Eastern Europe": {
-      "curve": [
-        {
-          "n_alleles": 1,
-          "allele_added": "HLA-A*01:01",
-          "af": 0.1149,
-          "cumulative_coverage": 0.2166
-        },
-        {
-          "n_alleles": 2,
-          "allele_added": "HLA-B*07:02",
-          "af": 0.0699,
-          "cumulative_coverage": 0.3223
-        },
-        {
-          "n_alleles": 3,
-          "allele_added": "HLA-B*15:01",
-          "af": 0.0361,
-          "cumulative_coverage": 0.3704
-        },
-        {
-          "n_alleles": 4,
-          "allele_added": "HLA-A*30:02",
-          "af": 0.0007,
-          "cumulative_coverage": 0.3713
-        }
-      ],
-      "max_coverage": 0.3713,
-      "alleles_to_reach": {
-        "50pct": null,
+        "50pct": 5,
         "80pct": null,
         "90pct": null,
         "95pct": null
@@ -151,30 +226,154 @@
       "curve": [
         {
           "n_alleles": 1,
-          "allele_added": "HLA-A*01:01",
-          "af": 0.0723,
-          "cumulative_coverage": 0.1393
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0875,
+          "cumulative_coverage": 0.1674
         },
         {
           "n_alleles": 2,
-          "allele_added": "HLA-B*07:02",
-          "af": 0.0708,
-          "cumulative_coverage": 0.2569
+          "allele_added": "HLA-A*01:01",
+          "af": 0.0723,
+          "cumulative_coverage": 0.2834
         },
         {
           "n_alleles": 3,
-          "allele_added": "HLA-B*15:01",
-          "af": 0.0406,
-          "cumulative_coverage": 0.3161
+          "allele_added": "HLA-B*07:02",
+          "af": 0.0708,
+          "cumulative_coverage": 0.3813
         },
         {
           "n_alleles": 4,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0469,
+          "cumulative_coverage": 0.438
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-B*15:01",
+          "af": 0.0406,
+          "cumulative_coverage": 0.4828
+        },
+        {
+          "n_alleles": 6,
           "allele_added": "HLA-A*30:02",
           "af": 0.0244,
-          "cumulative_coverage": 0.349
+          "cumulative_coverage": 0.5077
+        },
+        {
+          "n_alleles": 7,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0119,
+          "cumulative_coverage": 0.5194
         }
       ],
-      "max_coverage": 0.349,
+      "max_coverage": 0.5194,
+      "alleles_to_reach": {
+        "50pct": 6,
+        "80pct": null,
+        "90pct": null,
+        "95pct": null
+      }
+    },
+    "Eastern Asia": {
+      "curve": [
+        {
+          "n_alleles": 1,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.1117,
+          "cumulative_coverage": 0.2109
+        },
+        {
+          "n_alleles": 2,
+          "allele_added": "HLA-B*15:01",
+          "af": 0.0802,
+          "cumulative_coverage": 0.3325
+        },
+        {
+          "n_alleles": 3,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0758,
+          "cumulative_coverage": 0.4298
+        },
+        {
+          "n_alleles": 4,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0523,
+          "cumulative_coverage": 0.488
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-B*07:02",
+          "af": 0.015,
+          "cumulative_coverage": 0.5032
+        },
+        {
+          "n_alleles": 6,
+          "allele_added": "HLA-A*01:01",
+          "af": 0.0125,
+          "cumulative_coverage": 0.5155
+        },
+        {
+          "n_alleles": 7,
+          "allele_added": "HLA-A*30:02",
+          "af": 0.0014,
+          "cumulative_coverage": 0.5168
+        }
+      ],
+      "max_coverage": 0.5168,
+      "alleles_to_reach": {
+        "50pct": 5,
+        "80pct": null,
+        "90pct": null,
+        "95pct": null
+      }
+    },
+    "Latin America and the Caribbean": {
+      "curve": [
+        {
+          "n_alleles": 1,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.1059,
+          "cumulative_coverage": 0.2006
+        },
+        {
+          "n_alleles": 2,
+          "allele_added": "HLA-B*15:01",
+          "af": 0.04,
+          "cumulative_coverage": 0.2633
+        },
+        {
+          "n_alleles": 3,
+          "allele_added": "HLA-A*01:01",
+          "af": 0.0396,
+          "cumulative_coverage": 0.3205
+        },
+        {
+          "n_alleles": 4,
+          "allele_added": "HLA-B*07:02",
+          "af": 0.0365,
+          "cumulative_coverage": 0.3693
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0301,
+          "cumulative_coverage": 0.4067
+        },
+        {
+          "n_alleles": 6,
+          "allele_added": "HLA-A*30:02",
+          "af": 0.0179,
+          "cumulative_coverage": 0.4277
+        },
+        {
+          "n_alleles": 7,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0077,
+          "cumulative_coverage": 0.4364
+        }
+      ],
+      "max_coverage": 0.4364,
       "alleles_to_reach": {
         "50pct": null,
         "80pct": null,
@@ -198,18 +397,130 @@
         },
         {
           "n_alleles": 3,
-          "allele_added": "HLA-B*15:01",
-          "af": 0.0302,
-          "cumulative_coverage": 0.3212
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0316,
+          "cumulative_coverage": 0.3232
         },
         {
           "n_alleles": 4,
+          "allele_added": "HLA-B*15:01",
+          "af": 0.0302,
+          "cumulative_coverage": 0.3635
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.023,
+          "cumulative_coverage": 0.3925
+        },
+        {
+          "n_alleles": 6,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0185,
+          "cumulative_coverage": 0.4148
+        },
+        {
+          "n_alleles": 7,
           "allele_added": "HLA-A*30:02",
           "af": 0.0156,
-          "cumulative_coverage": 0.3422
+          "cumulative_coverage": 0.4328
         }
       ],
-      "max_coverage": 0.3422,
+      "max_coverage": 0.4328,
+      "alleles_to_reach": {
+        "50pct": null,
+        "80pct": null,
+        "90pct": null,
+        "95pct": null
+      }
+    },
+    "Melanesia": {
+      "curve": [
+        {
+          "n_alleles": 1,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.1062,
+          "cumulative_coverage": 0.2012
+        },
+        {
+          "n_alleles": 2,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0907,
+          "cumulative_coverage": 0.3395
+        },
+        {
+          "n_alleles": 3,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0484,
+          "cumulative_coverage": 0.4018
+        },
+        {
+          "n_alleles": 4,
+          "allele_added": "HLA-B*15:01",
+          "af": 0.0043,
+          "cumulative_coverage": 0.407
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-B*07:02",
+          "af": 0.0026,
+          "cumulative_coverage": 0.41
+        }
+      ],
+      "max_coverage": 0.41,
+      "alleles_to_reach": {
+        "50pct": null,
+        "80pct": null,
+        "90pct": null,
+        "95pct": null
+      }
+    },
+    "Southern Asia": {
+      "curve": [
+        {
+          "n_alleles": 1,
+          "allele_added": "HLA-A*01:01",
+          "af": 0.0915,
+          "cumulative_coverage": 0.1747
+        },
+        {
+          "n_alleles": 2,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0687,
+          "cumulative_coverage": 0.2842
+        },
+        {
+          "n_alleles": 3,
+          "allele_added": "HLA-B*07:02",
+          "af": 0.0279,
+          "cumulative_coverage": 0.3235
+        },
+        {
+          "n_alleles": 4,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.022,
+          "cumulative_coverage": 0.3529
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-B*15:01",
+          "af": 0.0201,
+          "cumulative_coverage": 0.3787
+        },
+        {
+          "n_alleles": 6,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0149,
+          "cumulative_coverage": 0.3971
+        },
+        {
+          "n_alleles": 7,
+          "allele_added": "HLA-A*30:02",
+          "af": 0.0094,
+          "cumulative_coverage": 0.4083
+        }
+      ],
+      "max_coverage": 0.4083,
       "alleles_to_reach": {
         "50pct": null,
         "80pct": null,
@@ -233,18 +544,36 @@
         },
         {
           "n_alleles": 3,
-          "allele_added": "HLA-A*30:02",
-          "af": 0.0197,
-          "cumulative_coverage": 0.288
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0321,
+          "cumulative_coverage": 0.3059
         },
         {
           "n_alleles": 4,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0263,
+          "cumulative_coverage": 0.3419
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-A*30:02",
+          "af": 0.0197,
+          "cumulative_coverage": 0.3676
+        },
+        {
+          "n_alleles": 6,
           "allele_added": "HLA-B*15:01",
           "af": 0.0131,
-          "cumulative_coverage": 0.3065
+          "cumulative_coverage": 0.384
+        },
+        {
+          "n_alleles": 7,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0109,
+          "cumulative_coverage": 0.3973
         }
       ],
-      "max_coverage": 0.3065,
+      "max_coverage": 0.3973,
       "alleles_to_reach": {
         "50pct": null,
         "80pct": null,
@@ -274,12 +603,136 @@
         },
         {
           "n_alleles": 4,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0471,
+          "cumulative_coverage": 0.3553
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0108,
+          "cumulative_coverage": 0.3691
+        },
+        {
+          "n_alleles": 6,
           "allele_added": "HLA-B*15:01",
           "af": 0.0101,
-          "cumulative_coverage": 0.3042
+          "cumulative_coverage": 0.3818
+        },
+        {
+          "n_alleles": 7,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0081,
+          "cumulative_coverage": 0.3918
         }
       ],
-      "max_coverage": 0.3042,
+      "max_coverage": 0.3918,
+      "alleles_to_reach": {
+        "50pct": null,
+        "80pct": null,
+        "90pct": null,
+        "95pct": null
+      }
+    },
+    "Australia and New Zealand": {
+      "curve": [
+        {
+          "n_alleles": 1,
+          "allele_added": "HLA-A*01:01",
+          "af": 0.0641,
+          "cumulative_coverage": 0.1241
+        },
+        {
+          "n_alleles": 2,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0588,
+          "cumulative_coverage": 0.2241
+        },
+        {
+          "n_alleles": 3,
+          "allele_added": "HLA-B*07:02",
+          "af": 0.0437,
+          "cumulative_coverage": 0.2905
+        },
+        {
+          "n_alleles": 4,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0306,
+          "cumulative_coverage": 0.3333
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-B*15:01",
+          "af": 0.0252,
+          "cumulative_coverage": 0.3664
+        },
+        {
+          "n_alleles": 6,
+          "allele_added": "HLA-A*30:02",
+          "af": 0.0047,
+          "cumulative_coverage": 0.3723
+        },
+        {
+          "n_alleles": 7,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0032,
+          "cumulative_coverage": 0.3762
+        }
+      ],
+      "max_coverage": 0.3762,
+      "alleles_to_reach": {
+        "50pct": null,
+        "80pct": null,
+        "90pct": null,
+        "95pct": null
+      }
+    },
+    "South-eastern Asia": {
+      "curve": [
+        {
+          "n_alleles": 1,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0649,
+          "cumulative_coverage": 0.1256
+        },
+        {
+          "n_alleles": 2,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0421,
+          "cumulative_coverage": 0.1977
+        },
+        {
+          "n_alleles": 3,
+          "allele_added": "HLA-A*01:01",
+          "af": 0.0397,
+          "cumulative_coverage": 0.2601
+        },
+        {
+          "n_alleles": 4,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0222,
+          "cumulative_coverage": 0.2926
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-B*15:01",
+          "af": 0.0185,
+          "cumulative_coverage": 0.3186
+        },
+        {
+          "n_alleles": 6,
+          "allele_added": "HLA-B*07:02",
+          "af": 0.0163,
+          "cumulative_coverage": 0.3406
+        },
+        {
+          "n_alleles": 7,
+          "allele_added": "HLA-A*30:02",
+          "af": 0.0,
+          "cumulative_coverage": 0.3406
+        }
+      ],
+      "max_coverage": 0.3406,
       "alleles_to_reach": {
         "50pct": null,
         "80pct": null,
@@ -309,12 +762,30 @@
         },
         {
           "n_alleles": 4,
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0214,
+          "cumulative_coverage": 0.3066
+        },
+        {
+          "n_alleles": 5,
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0161,
+          "cumulative_coverage": 0.3287
+        },
+        {
+          "n_alleles": 6,
           "allele_added": "HLA-B*15:01",
           "af": 0.0038,
-          "cumulative_coverage": 0.2813
+          "cumulative_coverage": 0.3337
+        },
+        {
+          "n_alleles": 7,
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0032,
+          "cumulative_coverage": 0.338
         }
       ],
-      "max_coverage": 0.2813,
+      "max_coverage": 0.338,
       "alleles_to_reach": {
         "50pct": null,
         "80pct": null,
@@ -322,174 +793,28 @@
         "95pct": null
       }
     },
-    "Southern Asia": {
+    "Unassigned": {
       "curve": [
         {
           "n_alleles": 1,
-          "allele_added": "HLA-A*01:01",
-          "af": 0.0915,
-          "cumulative_coverage": 0.1747
+          "allele_added": "HLA-C*03:04",
+          "af": 0.0828,
+          "cumulative_coverage": 0.1587
         },
         {
           "n_alleles": 2,
-          "allele_added": "HLA-B*07:02",
-          "af": 0.0279,
-          "cumulative_coverage": 0.2201
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0472,
+          "cumulative_coverage": 0.2362
         },
         {
           "n_alleles": 3,
-          "allele_added": "HLA-B*15:01",
-          "af": 0.0201,
-          "cumulative_coverage": 0.2511
-        },
-        {
-          "n_alleles": 4,
-          "allele_added": "HLA-A*30:02",
-          "af": 0.0094,
-          "cumulative_coverage": 0.2651
+          "allele_added": "HLA-C*12:02",
+          "af": 0.0041,
+          "cumulative_coverage": 0.2425
         }
       ],
-      "max_coverage": 0.2651,
-      "alleles_to_reach": {
-        "50pct": null,
-        "80pct": null,
-        "90pct": null,
-        "95pct": null
-      }
-    },
-    "Australia and New Zealand": {
-      "curve": [
-        {
-          "n_alleles": 1,
-          "allele_added": "HLA-A*01:01",
-          "af": 0.0641,
-          "cumulative_coverage": 0.1241
-        },
-        {
-          "n_alleles": 2,
-          "allele_added": "HLA-B*07:02",
-          "af": 0.0437,
-          "cumulative_coverage": 0.199
-        },
-        {
-          "n_alleles": 3,
-          "allele_added": "HLA-B*15:01",
-          "af": 0.0252,
-          "cumulative_coverage": 0.2388
-        },
-        {
-          "n_alleles": 4,
-          "allele_added": "HLA-A*30:02",
-          "af": 0.0047,
-          "cumulative_coverage": 0.2459
-        }
-      ],
-      "max_coverage": 0.2459,
-      "alleles_to_reach": {
-        "50pct": null,
-        "80pct": null,
-        "90pct": null,
-        "95pct": null
-      }
-    },
-    "Latin America and the Caribbean": {
-      "curve": [
-        {
-          "n_alleles": 1,
-          "allele_added": "HLA-B*15:01",
-          "af": 0.04,
-          "cumulative_coverage": 0.0784
-        },
-        {
-          "n_alleles": 2,
-          "allele_added": "HLA-A*01:01",
-          "af": 0.0396,
-          "cumulative_coverage": 0.15
-        },
-        {
-          "n_alleles": 3,
-          "allele_added": "HLA-B*07:02",
-          "af": 0.0365,
-          "cumulative_coverage": 0.2109
-        },
-        {
-          "n_alleles": 4,
-          "allele_added": "HLA-A*30:02",
-          "af": 0.0179,
-          "cumulative_coverage": 0.2389
-        }
-      ],
-      "max_coverage": 0.2389,
-      "alleles_to_reach": {
-        "50pct": null,
-        "80pct": null,
-        "90pct": null,
-        "95pct": null
-      }
-    },
-    "Eastern Asia": {
-      "curve": [
-        {
-          "n_alleles": 1,
-          "allele_added": "HLA-B*15:01",
-          "af": 0.0802,
-          "cumulative_coverage": 0.154
-        },
-        {
-          "n_alleles": 2,
-          "allele_added": "HLA-B*07:02",
-          "af": 0.015,
-          "cumulative_coverage": 0.1792
-        },
-        {
-          "n_alleles": 3,
-          "allele_added": "HLA-A*01:01",
-          "af": 0.0125,
-          "cumulative_coverage": 0.1995
-        },
-        {
-          "n_alleles": 4,
-          "allele_added": "HLA-A*30:02",
-          "af": 0.0014,
-          "cumulative_coverage": 0.2017
-        }
-      ],
-      "max_coverage": 0.2017,
-      "alleles_to_reach": {
-        "50pct": null,
-        "80pct": null,
-        "90pct": null,
-        "95pct": null
-      }
-    },
-    "South-eastern Asia": {
-      "curve": [
-        {
-          "n_alleles": 1,
-          "allele_added": "HLA-A*01:01",
-          "af": 0.0397,
-          "cumulative_coverage": 0.0779
-        },
-        {
-          "n_alleles": 2,
-          "allele_added": "HLA-B*15:01",
-          "af": 0.0185,
-          "cumulative_coverage": 0.1117
-        },
-        {
-          "n_alleles": 3,
-          "allele_added": "HLA-B*07:02",
-          "af": 0.0163,
-          "cumulative_coverage": 0.1404
-        },
-        {
-          "n_alleles": 4,
-          "allele_added": "HLA-A*30:02",
-          "af": 0.0,
-          "cumulative_coverage": 0.1404
-        }
-      ],
-      "max_coverage": 0.1404,
+      "max_coverage": 0.2425,
       "alleles_to_reach": {
         "50pct": null,
         "80pct": null,
@@ -501,35 +826,18 @@
       "curve": [
         {
           "n_alleles": 1,
-          "allele_added": "HLA-B*07:02",
-          "af": 0.0098,
-          "cumulative_coverage": 0.0195
-        }
-      ],
-      "max_coverage": 0.0195,
-      "alleles_to_reach": {
-        "50pct": null,
-        "80pct": null,
-        "90pct": null,
-        "95pct": null
-      }
-    },
-    "Melanesia": {
-      "curve": [
-        {
-          "n_alleles": 1,
-          "allele_added": "HLA-B*15:01",
-          "af": 0.0043,
-          "cumulative_coverage": 0.0086
+          "allele_added": "HLA-C*03:03",
+          "af": 0.0196,
+          "cumulative_coverage": 0.0388
         },
         {
           "n_alleles": 2,
           "allele_added": "HLA-B*07:02",
-          "af": 0.0026,
-          "cumulative_coverage": 0.0137
+          "af": 0.0098,
+          "cumulative_coverage": 0.0576
         }
       ],
-      "max_coverage": 0.0137,
+      "max_coverage": 0.0576,
       "alleles_to_reach": {
         "50pct": null,
         "80pct": null,

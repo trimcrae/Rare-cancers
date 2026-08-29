@@ -1,5 +1,5 @@
 {
-  "_note": "Strong MHC-I binders (presentation_percentile<=0.5) of EWSR1::NR4A3 junction peptides across a broad HLA-A/-B panel (MHCflurry-2.0).",
+  "_note": "Strong MHC-I binders (presentation_percentile<=0.5) of EWSR1::NR4A3 junction peptides across a broad HLA-A/-B/-C panel (MHCflurry-2.0).",
   "panel": [
     "HLA-A*01:01",
     "HLA-A*02:01",
@@ -34,7 +34,25 @@
     "HLA-B*51:01",
     "HLA-B*53:01",
     "HLA-B*57:01",
-    "HLA-B*58:01"
+    "HLA-B*58:01",
+    "HLA-C*01:02",
+    "HLA-C*02:02",
+    "HLA-C*03:02",
+    "HLA-C*03:03",
+    "HLA-C*03:04",
+    "HLA-C*04:01",
+    "HLA-C*05:01",
+    "HLA-C*06:02",
+    "HLA-C*07:01",
+    "HLA-C*07:02",
+    "HLA-C*08:02",
+    "HLA-C*12:02",
+    "HLA-C*12:03",
+    "HLA-C*14:02",
+    "HLA-C*15:02",
+    "HLA-C*16:01",
+    "HLA-C*17:01",
+    "HLA-C*18:01"
   ],
   "rank_column": "presentation_percentile",
   "n_peptides": 174,
@@ -63,12 +81,32 @@
       "peptide": "QQNMPCVQAQY",
       "allele": "HLA-B*15:01",
       "percentile": 0.4986
+    },
+    {
+      "peptide": "AAVEWFDDM",
+      "allele": "HLA-C*03:03",
+      "percentile": 0.4865
+    },
+    {
+      "peptide": "AAVEWFDDM",
+      "allele": "HLA-C*03:04",
+      "percentile": 0.4438
+    },
+    {
+      "peptide": "AAVEWFDDM",
+      "allele": "HLA-C*12:02",
+      "percentile": 0.4614
     }
   ],
   "presenting_alleles": [
     "HLA-A*01:01",
     "HLA-A*30:02",
     "HLA-B*07:02",
-    "HLA-B*15:01"
-  ]
+    "HLA-B*15:01",
+    "HLA-C*03:03",
+    "HLA-C*03:04",
+    "HLA-C*12:02"
+  ],
+  "alleles_without_a_model": [],
+  "\u26a0_missing_model_is_not_a_negative": "every panel allele was scored"
 }
