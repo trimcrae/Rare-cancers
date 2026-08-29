@@ -1,0 +1,57 @@
+{
+  "cycle_id": "CYC-0089-2403efbb",
+  "session_id": "2403efbb-dc36-5a13-89d8-afc30e9465f5",
+  "ccr_session_id": "session_01XjQPkofZvZf1ci3XG2fq7C",
+  "started_utc": "2026-08-29T13:41:00Z",
+  "base_sha": "6e093294b",
+  "took": "AUT-PD-184",
+  "took_why": "⛔ WHAT THIS CYCLE SET OUT TO DO AND WHAT IT DELIVERED ARE DIFFERENT THINGS, AND THE RECEIPT RECORDS THE SECOND. It started on the red trunk, because tests.yml run 33255017088 on be77d4acb was failing 5 of 10,888 modalities tests and research-loop §1 makes that the cycle's whole job. It produced a complete, gated repair — and on push discovered the trunk already carried AUT-PD-182, an independent repair of the SAME five tests, committed 13:36:06Z and pushed while this cycle worked. The repair was DISCARDED rather than merged. What is filed instead is the two things that were genuinely new: why the collision happened at all (AUT-PD-184) and a live-route measurement taken in the gate's dead time (AUT-PD-185).",
+  "health_at_start": {
+    "exit": 0,
+    "red": [
+      "advancing_live_work",
+      "scores_are_reachable"
+    ],
+    "unmeasured": [
+      "gates_green",
+      "stalls_are_named"
+    ],
+    "red_on_red_posture": "advises for both reds. `gates_green` is `redirects` and was UNMEASURED; this cycle settled it by reading Actions directly and found the trunk red."
+  },
+  "what_changed": [
+    "research/autonomy/research-ledger.json — AUT-PD-184 filed (the budget hold did not bind because it lived off the trunk) and AUT-PD-185 filed (AUT-PD-170's blocker is cleared; the three reads measured).",
+    "NOTHING ELSE. The guard repair this cycle built, gated and committed locally was discarded on discovering AUT-PD-182; test_ndrg1_panel_widening_is_declared.py is the trunk's version, byte-for-byte."
+  ],
+  "finding": "⛔⛔ THE HEADLINE IS NOT THE RED TRUNK — IT IS THAT trimcrae's BUDGET HOLD DID NOT BIND, AND THIS SESSION IS THE PROOF. He set it at 11:51:07Z; it was committed as 858289119 at 12:48:39Z onto the branch `claude/token-consumption-rate-lv0x9n` and reached `main` only by a later merge. This session's base is 6e093294b at 13:39:38Z — FIFTY-ONE MINUTES LATER — and `git merge-base --is-ancestor 858289119 6e093294b` exits non-zero. So step 1 of the contract, done exactly as written, read backoff_level 0 / 4 h / width 5 / 2 cycles and NO `budget_hold` key. The handoff prompt that started this session carried the same stale posture for the same reason. Under the real posture only `fetch` and `regrade` items are takeable; this cycle took a `process_defect`, spent a full context and ran a 21-minute modalities gate. ★ THE HOLD'S OWN COMMIT MESSAGE SAYS THE TWO NUMBERS IT REPLACED 'GOVERNED NOTHING' — and it then governed nothing itself, for a third reason neither it nor health.py checks: WHICH REF IT WAS ON. `budget_hold.declared_posture` is verified against the live dials in the SAME FILE, so a hold absent from a session's tree is not loose, it is invisible, and every readback agrees with itself.\n⭐ SECOND FINDING, THE COLLISION ITSELF. Two sessions independently diagnosed and repaired the same five tests within the same hour, neither able to see the other. Both reached the same root cause (AUT-PD-167 pinned MEMBERSHIP_SOURCE and left the guards for the behaviour it replaced), and — worth recording because it is the strongest evidence the finding is real — BOTH independently found the deeper hole underneath it: `test_gene_reads_wins_where_both_sources_carry_a_gene` promised value-precedence in its docstring and asserted only `readable_pool == 8`, a cardinality, which a mutation deleting the precedence check passes. AUT-PD-182's fix is BETTER than the discarded one and that is why it was kept: it asserts directly on `scoring_cache` values rather than through a scored panel's rho, it points the round-trip at `signature_member_z` (the unconditional decoder) instead of pinning `member_z` — which is the sounder argument, since a round-trip through the pinned wrapper asserts the pin and not the encoding — and it adds a dedicated 180-line file for the decline-not-absent contract.\n⭐ THIRD, TAKEN IN THE GATE'S DEAD TIME AND $0: AUT-PD-170's 're-dispatch first' blocker is already cleared, and the read it says settles AUT-PROP-048 does not reproduce the published finding. Numbers on AUT-PD-185, not restated here.",
+  "what_it_cost": "⛔ REAL AND LARGELY WASTED, AND COUNTED RATHER THAN OMITTED. $0 of compute — CPU only — but a full session context, one 21-minute PREFLIGHT_TESTS+PREFLIGHT_MODALITIES gate, 14 mutation runs and a detached worktree, nearly all of it duplicating AUT-PD-182. The cycle ran at all only because of AUT-PD-184.",
+  "gates": {
+    "preflight": "EXIT=0 from the run's OWN marker, not the harness exit code — modalities FULL 8179 passed / 0 failed, manuscripts 1545 passed / 3 skipped. It gated a commit that was then discarded, so it certifies a tree that no longer exists.",
+    "post_discard": "The tree now differs from origin/main only by the two new ledger rows and this receipt; the guard file is the trunk's own.",
+    "logs": [
+      "scratchpad/cyc-driver/driver-ndrg1-repro.log (5 failed, 7 passed — the reproduction on 6e093294b)",
+      "scratchpad/cyc-driver/driver-mutation.log (6/7 — M6 SURVIVED, the hole AUT-PD-182 also found)",
+      "scratchpad/cyc-driver/driver-mutation2.log (7/7)",
+      "scratchpad/cyc-driver/driver-preflight-2.log (EXIT=0)",
+      "scratchpad/cyc-driver/driver-bgnull-probe.log (the three reads)"
+    ],
+    "_logs_root": "/tmp/claude-0/-home-user-Rare-cancers/2403efbb-dc36-5a13-89d8-afc30e9465f5/scratchpad/"
+  },
+  "anti_gaming": {
+    "invariant": "research-loop §6 — a bar may not be changed by the cycle that the bar just blocked.",
+    "how_it_applies": "⭐ THE EDIT THIS CYCLE MOST WANTED TO MAKE IS THE ONE IT REFUSED. AUT-PD-184 names three ways to stop a budget hold being invisible (read the posture from `origin/main`; commit governance artifacts only to `main`; a health row diffing tree against trunk). This session is precisely the session that benefited from the hold being invisible, so implementing any of them here would be the cycle repairing the bar that failed to stop it — filed with the evidence and deliberately not taken. The amendments.jsonl entry written for the discarded guard repair was REMOVED rather than left standing, because it declares a change that no longer exists and a declaration pointing at nothing is a false record. No producer code was changed by this cycle at any point."
+  },
+  "escalated": "⭐ ONE, and it is research-loop §5 trigger 4 — the loop itself is unhealthy. Not the budget (trimcrae set the hold himself and knows the number) but the fact that his hold did not take effect for 51 minutes, plus the one dial only he can move: the driver Routine's cron is still `13 */4 * * *`, six fires a day against a declared 24 h cadence, and `update_trigger` refuses it because it was created via http_api. rate_limit_info at start: status `allowed`, five_hour, isUsingOverage false — which is exactly the instrument blindness 858289119 records as architecture §9.1a, since the WEEKLY window is invisible to it.",
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "Under the real posture (`subagent_width` 1 while the budget hold is active) a fan-out would have breached it. Under the stale posture this cycle actually read, width was 5 and it still launched none: the work was one localised repair whose verification chain the driver could run directly."
+  },
+  "now_queued": [
+    "AUT-PD-184",
+    "AUT-PD-185"
+  ],
+  "blocked_by": [],
+  "route_advanced": "none",
+  "route_advanced_why": "⛔ HONEST, AND IT IS A FOURTH CONSECUTIVE `none` THAT WILL KEEP `advancing_live_work` RED. No science was written, no manuscript moved, no number in any artifact changed. The one genuinely live thing this cycle produced — the three-read probe on AUT-PD-185 — is a MEASUREMENT RECORDED, not a route advanced: it did not regenerate the artifact, move the pin, or change what PUB-KINASE-LEADS may claim. Inflating this field would disable the only alarm pointed at the failure mode CLAUDE.md §0 cares most about, and this cycle is the exact case the alarm is for.",
+  "notes": "⚠ THREE THINGS RECORDED RATHER THAN FIXED. (1) `ids.next_entry_id` COLLIDED LIVE, exactly as AUT-PD-171 predicts: this cycle allocated AUT-PD-179, and by the time it rebased another session had filed a DIFFERENT AUT-PD-179 (health.py's receipt sort). Caught only because the id was re-derived after the rebase instead of trusted. AUT-PD-171 is already queued and is not re-filed. (2) THE DISCARDED REPAIR HAD ONE THING AUT-PD-182's DOES NOT: its `_pin` helper `assert`ed the pinned name against `MEMBERSHIP_SOURCES`, so a guard pinned to a read the producer later renames fails loudly instead of silently testing a constant nobody implements. AUT-PD-182 uses bare `monkeypatch.setattr`. Not added — it would be churn on a repair that landed minutes ago, and it is small. Named here so it is not lost. (3) NO SECOND CYCLE AND NO HANDOFF. `max_cycles_per_session` is 1 under the hold and this session has run one; the 24 h cadence means spawning a successor now would breach the hold this cycle exists to report. continuity.py --check will exit non-zero with ready work listed, and that is the CORRECT state here rather than a defect to clear — the work is blocked on a human decision about the Routine cron."
+}

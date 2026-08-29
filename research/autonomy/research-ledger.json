@@ -9,12 +9,12 @@
     "build": 1,
     "code": 1,
     "experiment": 24,
-    "fetch": 21,
+    "fetch": 22,
     "fix": 17,
     "harden": 23,
     "negative": 32,
     "process": 7,
-    "process_defect": 158,
+    "process_defect": 159,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
@@ -25,7 +25,7 @@
     "done": 136,
     "in_progress": 6,
     "parked": 28,
-    "queued": 146,
+    "queued": 148,
     "ready": 1,
     "superseded": 1
   },
@@ -1407,6 +1407,30 @@
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
       "what": "⚠ WIRE THE TWO NEW DETECTORS TO SOMETHING, OR DECIDE OUT LOUD NOT TO. learning_rate.py (is the loop advancing anything, or only itself) and queue_view.py (what is waiting on what, and which ready rows already shipped) are consulted by NOTHING. ⛔ THIS REPOSITORY HAS PAID FOR EXACTLY THIS THREE TIMES: subagent_width governed nothing for a fortnight, the census lane's exempt flag, the watchdog wired to a non-existent env var. A measurement nobody consults is not a measurement. ★ AND THE DECISION IS GENUINELY OPEN — make it deliberately: queue_view's already-landed check is cheap and specific and belongs beside the stalled-holder check in the turn-end hook; learning_rate's verdict is a PORTFOLIO judgement, and a gate that blocks a commit on 'you have only been working on yourself' is a larger risk than one that names it. The Friday digest may be the right home for the second.",
       "lease_released": "✅ HALF DONE AND THE OTHER HALF DECIDED, 2026-08-28. ⭐ WIRED: queue_view's already-landed check now runs in `.claude/hooks/ready-work-at-turn-end.sh`, beside the stalled-holder check and before the ready-work demand, so a row whose deliverable is already on the trunk is named at the turn end that would otherwise offer it. That is the direct guard for AUT-PD-051, which happened TWICE on 2026-08-28. Silent when it finds nothing (verified: 0 lines on a clean queue), and a test asserts the hook calls it — mutation-tested by pointing the hook at a missing file, which goes red. ⛔ NOT WIRED, AND THIS IS THE DECISION RATHER THAN AN OMISSION: learning_rate.py stays a REPORT. Its verdict is a portfolio judgement — 'you have only been working on yourself for a window' — and a gate that blocks a commit on that is a different and larger risk than one that names it: it would block the very self-maintenance cycles that fix the loop, which the module's own docstring says are real work. Its home is a digest or a human's read, not a gate. ⚠ Revisit if the distribution stays concentrated across several windows; one window is not a trajectory."
+    },
+    {
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0089-2403efbb",
+      "depends_on_evidence": "`git merge-base --is-ancestor 858289119 6e093294b` exits NON-ZERO. `git show 6e093294b:research/autonomy/autonomy-state.json` -> backoff_level 0, cycle_interval_hours 4, subagent_width 5, max_cycles_per_session 2, and NO `budget_hold` key at all. ALSO: `git cat-file -e 6e093294b:research/autonomy/cadence.py` fails; `python3 research/autonomy/cadence.py --check` on the trunk returns exit 4 '⛔ DO NOT START'.",
+      "id": "AUT-PD-184",
+      "kind": "process_defect",
+      "what": "⛔⛔ THE BUDGET HOLD DID NOT BIND FOR ~50 MINUTES BECAUSE IT LIVED OFF THE TRUNK, AND THE SESSION IT WAS MEANT TO STOP READ THE OLD POSTURE AND RAN. Measured 2026-08-29 by CYC-0089-2403efbb, on itself.\n★ THE CHAIN, EACH LINK A COMMAND RATHER THAN AN INFERENCE. trimcrae set the hold at 11:51:07Z; it was committed as 858289119 at 12:48:39Z ('budget hold: throttle the loop 6x, and make the throttle bind') onto the branch `claude/token-consumption-rate-lv0x9n`, and reached `main` only by a later merge. This session's base was 6e093294b (13:39:38Z) — FIFTY-ONE MINUTES AFTER the hold commit — and `git merge-base --is-ancestor` says the hold is NOT an ancestor of it. So the state file this cycle read at step 1, exactly as the contract instructs, said backoff_level 0 / 4 h / width 5 / 2 cycles per session and carried no `budget_hold` key. The handoff prompt that started this session carried the same stale posture, because handoff.py reads the same file.\n⛔ THE COST IS MEASURED, NOT HYPOTHETICAL. Under the real posture (`backoff_level` 2) a cycle may take ONLY `fetch` and `regrade` items; this cycle took a `process_defect`, spent a full context, ran a 21-minute PREFLIGHT_MODALITIES gate, and produced a repair that DUPLICATED AUT-PD-182 in its entirety — see AUT-PD-185. CYC-0088's receipt independently records interrupting this same session for the same reason and notes $5.39 already spent before it stopped; it then resumed and spent more.\n⛔⛔ AND THE IRONY IS THE MECHANISM, NOT A JOKE: the hold's own commit message says the two numbers it replaced 'governed nothing', and the hold then governed nothing for fifty-one minutes for a THIRD reason neither it nor `health.py` checks — WHICH REF IT WAS ON. CLAUDE.md §7 already calls branch drift a data-loss bug and says to check which ref a producing workflow writes to; nothing applies that rule to the governance artifacts a cycle reads BEFORE it does anything. `budget_hold.declared_posture` is checked against the LIVE DIALS IN THE SAME FILE, so a hold that is absent from a session's tree is not loose — it is invisible, and every readback agrees with itself.\n★ WHAT WOULD ACTUALLY FIX IT, stated as options and not chosen here: a cycle's step-1 posture read comes from `origin/main` rather than the working tree (the same repair `claim.py` already got for the same class of bug, AUT-PD-160); or a governance artifact is committed straight to `main` and never to a branch; or `health.py` gains a row that compares the tree's `autonomy-state.json` against `origin/main`'s and refuses when they differ. ⛔ A CYCLE MUST NOT PICK ONE OF THESE WHILE THE HOLD IT WOULD ENFORCE IS ACTIVE AND IT IS ITSELF THE SESSION THAT BENEFITED — research-loop §6, a bar may not be changed by the cycle the bar just blocked. Filed for a later cycle, with the evidence, deliberately not taken.\n★★ THE PROOF, AND IT IS EXACT RATHER THAN CIRCUMSTANTIAL: THE GATE BUILT TO STOP THIS SESSION EXISTED AND THIS SESSION COULD NOT SEE IT. `research/autonomy/cadence.py` is on the trunk and the trunk's `research-loop` SKILL.md makes it the FIRST stop condition — 'RUN IT FIRST, BEFORE THE HEALTH BOARD … Exit immediately. Write no receipt, take no item, claim nothing.' `git cat-file -e 6e093294b:research/autonomy/cadence.py` FAILS: it is absent from this session's base, and the SKILL.md this session loaded — the one in its own tree — does not mention it. Run retroactively on the current trunk it returns exit 4, `⛔ DO NOT START`. So the correct behaviour was available, was mandatory, was first in the contract, and was unreachable, for exactly the same reason the hold was: it had not reached `main` when this session's tree was cut.\n⛔⛔ AND THE TRAP CLOSES ON THE FIX: THIS ROW IS NOT TAKEABLE BY THE LOOP THAT NEEDS IT. While the hold is active (`backoff_level` 2) a cycle may take ONLY `fetch` and `regrade` items, and this is a `process_defect`. So the defect that lets a stale session ignore the hold cannot be repaired by any cycle running under the hold — it waits for `review_after_utc` (2026-09-02T11:51:07Z) or for a human. ⭐ That is stated as a fact about the queue, not as an argument for taking it anyway.",
+      "_score_basis": "Above every open process_defect on the trunk. It is the only row about the artifact that governs SPEND, it is the root cause of the breach CYC-0088 recorded as a symptom, and it recurs on every fired session until fixed — each one costing a full context at the pre-hold posture.",
+      "score": 160.0
     },
     {
       "id": "AUT-PD-032",
@@ -3244,6 +3268,30 @@
       ],
       "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time.",
       "_concurrent_fix_note": "⚠ TWO SESSIONS FIXED THIS ROW'S NULL SCORE IN THE SAME HOUR AND NEITHER COULD SEE THE OTHER — CLAUDE.md §7's branch-drift cost, arriving through the gate window rather than through a branch. 620280791 ('Fix a red trunk: AUT-PD-171 lost its score and broke the unscored ratchet') landed on the trunk while CYC-0087-1c9f0963 held the identical fix behind a ~12-minute preflight. THE TRUNK'S SCORE AND BASIS STAND; the losing session deferred to them rather than overwriting, and contributed only the two occurrences it had measured and the trunk could not have. ⭐ Both diagnoses agreed independently — a null score, an unreachable route floor, and the ratchet's own remedy taken rather than the ceiling raised — which is corroboration, and it still cost one of the two sessions its afternoon. It is the same defect this row is ABOUT, one layer up: allocation and validation are far enough apart that concurrent cycles collide inside the gap."
+    },
+    {
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0089-2403efbb",
+      "depends_on_evidence": "Read-only in-process probe at 6e093294b over the COMMITTED emc-expression-panels.json, N.build() with MEMBERSHIP_SOURCE set to each of the three reads in turn, SEED 20260829, n_draws 2000, nothing written. Log: the CYC-0089-2403efbb receipt names it.",
+      "id": "AUT-PD-185",
+      "kind": "fetch",
+      "what": "⭐ AUT-PD-170's BLOCKER IS CLEARED AND THE ANSWER LOOKS LIKE A NEGATIVE — NUMBERS RECORDED HERE SO THE NEXT CYCLE INHERITS THE MEASUREMENT AND NOT THIS ONE'S READING OF IT.\n⛔ FIRST, THE ROW'S OWN 'RE-DISPATCH FIRST' IS STALE. AUT-PD-170 says the `background_reads` block on the trunk is the fabricated one AUT-PD-178 caught and must be re-dispatched. It has already been re-dispatched: run 33253509586 completed SUCCESS at 13:02:09Z on head_sha bd0181f7e, which is after the producer fix ba12a1f8a (12:49:57Z). The committed block now reads n_frame 18697 / 14928 with n_drawn 3000 each and n_drawn_also_wanted 338 / 411 — about 87% of drawn genes fall OUTSIDE the panels and the curated roster, against MIN_BACKGROUND_OUTSIDE_PANELS of 0.5. The AUT-PD-178 floor passes.\n⭐ THE THREE READS, ON THAT DATA (hypoxia panels above their null p95 / scored, then PPARγ, per series):\n  curated_only (WHAT IS PUBLISHED): GSE24369 pool 463, hypoxia 6/6, PPARγ 0/6 -> SEPARATES. GSE4303 pool 417, hypoxia 1/6, PPARγ 1/6 -> does not. Headline 1 of 2.\n  curated_plus_signature_members: GSE24369 pool 2283, hypoxia 2/6, PPARγ 3/6. GSE4303 pool 2033, hypoxia 5/6, PPARγ 2/6. Headline 0 of 2.\n  full_membership_background_null (THE READ AUT-PD-170 SAYS SETTLES IT): GSE24369 pool 3000, hypoxia 2/6, PPARγ 3/6. GSE4303 pool 2995, hypoxia 5/6, PPARγ 0/6. Headline 0 of 2.\n⛔ WHAT THAT IS AND IS NOT. The published one-series finding does not survive either alternative read, and the two alternatives agree on the headline from differently-composed pools. But 0 of 2 is NOT 'no signal': under the background null GSE4303 puts 5 of 6 hypoxia panels above their null with ZERO PPARγ panels above — the cleanest hypoxia-leaning pattern any read produces — and fails only because `separates` requires EVERY hypoxia panel to clear. A near-miss on a strict joint criterion is a different fact from a null and must not be reported as one. ⚠ AND THE TWO SERIES POINT OPPOSITE WAYS: GSE24369, the series carrying the published finding, leans PPARγ (3/6) over hypoxia (2/6) under the background null.\n⛔ THIS IS A PROBE, NOT THE DELIVERABLE. Nothing was regenerated and no pin was moved. AUT-PD-170 remains the row that flips MEMBERSHIP_SOURCE, regenerates ndrg1-panel-attribution.json, and moves the four control tests in test_ndrg1_panel_attribution_controls.py as the RECORDED CONSEQUENCE argued from the numbers in its commit message. ⭐ Whoever takes it: AUT-PD-170's own warning applies — do not prefer the read that keeps the finding.",
+      "_score_basis": "Just under AUT-PD-170 (which it unblocks) and above the open process_defects: it is a LIVE-ROUTE measurement on the route CLAUDE.md §0 asks cycles to advance, its blocker is already cleared, and the act it enables is a regeneration rather than a spend.",
+      "score": 130.0
     },
     {
       "id": "AUT-PD-169",
