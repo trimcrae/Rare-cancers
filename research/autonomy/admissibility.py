@@ -193,8 +193,10 @@ REFUSED_UNREADABLE = "refused_unreadable"
 REFUSED_UNDERIVABLE = "refused_underivable"
 REFUSED_ACCUMULATED = "refused_accumulated"
 REFUSED_STALE_INPUT = "refused_stale_input"
+REFUSED_UNSCORED_NEW = "refused_unscored_new"
 
-REFUSALS = (REFUSED_UNREADABLE, REFUSED_UNDERIVABLE, REFUSED_ACCUMULATED, REFUSED_STALE_INPUT)
+REFUSALS = (REFUSED_UNREADABLE, REFUSED_UNDERIVABLE, REFUSED_ACCUMULATED, REFUSED_STALE_INPUT,
+            REFUSED_UNSCORED_NEW)
 
 
 class InadmissibleWrite(Exception):
@@ -413,6 +415,72 @@ def write_verdict(before: dict, after: dict, weights: dict):
 
 
 # ---------------------------------------------------------------------------------------------
+# R5. The ratchet: the open-unscored population may only SHRINK.
+# ---------------------------------------------------------------------------------------------
+
+def is_unscored_open(row: dict) -> bool:
+    """Is this row a member of the population `priority.py` publishes as `n_unscored_open`?
+
+    ⛔ AN UNSCORED ROW IS ORDERED BY NOTHING (AUT-PD-050). `priority.score_rank` pins a missing
+    score below every scored row, so no ranking term can reach it — the anti-starvation age factor
+    included, which is the one term meant to rescue exactly these rows. A row filed without a
+    number is therefore not "ranked low"; it is outside the ranking, and it stays there.
+
+    ⚠ THE THREE EXEMPTIONS ARE THE FILING CONTRACT ALREADY WRITTEN IN `research-ledger.json`'s
+    `_role`, not new policy: a row carries a `score` (with a `_score_basis`), or a
+    `prerequisite_of` naming the row it unblocks — which derives one from that parent every run —
+    or it is CLOSED, and a closed row is never offered to a session and never ranked.
+
+    ⚠ THIS PREDICATE AND `priority.py`'s COUNTER MUST AGREE, AND ONE TEST HOLDS THEM TOGETHER.
+    The counter does not test `prerequisite_of`, because no unscored row has ever carried one — a
+    prerequisite is scored from its parent. `test_the_unscored_population_can_only_shrink.py`
+    asserts the two agree on the committed ledger, so the day that stops being true it is a red
+    build rather than a silent divergence between the gate and the number it is pinned to.
+    """
+    if not isinstance(row, dict):
+        return False
+    if _num(row.get("score")) is not None:
+        return False
+    if row.get("prerequisite_of"):
+        return False
+    return str(row.get("state") or "queued").strip() not in CLOSED_STATES
+
+
+def refuse_population_growth(old: "dict | None", new: dict) -> str:
+    """R5. Empty string unless this write puts a row INTO the open-unscored population.
+
+    ⭐⭐ A RATCHET, NOT A CEILING, AND THAT IS THE WHOLE DESIGN. Refusing every unscored row would
+    red the trunk on its first use: 85 open rows carry no score today, and a gate that cannot be
+    satisfied by the tree it guards is an outage. So membership is GRANDFATHERED and only ENTRY is
+    refused — the set can shrink freely and can never grow, which is what makes a pinned ceiling
+    reachable instead of merely enforced (AUT-PD-145's entry condition 1).
+
+    ⛔ ENTRY HAS THREE DOORS AND THIS CLOSES ALL THREE, because closing one is the one-of-a-pair
+    defect class `paper-hardening` names. A row can be APPENDED unscored; a committed row's
+    `score` can be REMOVED; and a committed unscored row that was CLOSED — and so exempt — can be
+    REOPENED. All three end with one more row nothing can rank, so all three are the same finding
+    and none of them is a special case of the others.
+    """
+    if not is_unscored_open(new):
+        return ""
+    if old is None:
+        return ("appended with no `score` and no `prerequisite_of`. An unscored row is pinned below "
+                "every scored row by `priority.score_rank` and no ranking term can reach it, the "
+                "anti-starvation age factor included — so this row would be filed already starving. "
+                "File it with a `score` and a `_score_basis`, or with a `prerequisite_of` naming "
+                "the row it unblocks. See research-ledger.json `_role`.")
+    if not is_unscored_open(old):
+        if _num(old.get("score")) is not None:
+            return (f"its committed `score` ({old.get('score')!r}) is removed by this write, which "
+                    "moves the row out of the ranking entirely. A score that is wrong is "
+                    "re-derived, never deleted.")
+        return ("it was exempt on the trunk and this write ends that exemption while the row still "
+                "carries no `score` — reopening a closed row, or clearing its `prerequisite_of`, "
+                "puts it into the population nothing can rank. Give it a score in the same write.")
+    return ""
+
+
+# ---------------------------------------------------------------------------------------------
 # The gate itself.
 # ---------------------------------------------------------------------------------------------
 
@@ -445,6 +513,15 @@ def refuse_inadmissible_write(before: dict | None, after: dict, weights: dict, t
             findings.append((kind, rid, why))
             continue
         old = prior.get(rid)
+        # R5 runs only with a real baseline. `before is None` means there is no committed ledger to
+        # compare against, so EVERY row reads as newly appended and the rule would refuse the whole
+        # file — the one case where it must stay silent rather than fail closed, because it cannot
+        # tell growth from the population it is meant to grandfather.
+        if before is not None:
+            why = refuse_population_growth(old, row)
+            if why:
+                findings.append((REFUSED_UNSCORED_NEW, rid, why))
+                continue
         if old is None:
             continue
         kind, why = write_verdict(old, row, weights)
