@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 17 evidence items · 53 artifacts · 14 pinned claims.**
+**19 objects · 17 evidence items · 54 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -113,6 +113,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-JUNCTION-ASO-OFFTARGET** | `research/modalities/junction-aso-offtarget-e12n3.json` | `research/modalities/junction_aso_offtarget.py` | [RT-ASO](L2-rt-aso.md) |
 | **ART-LOCOREGIONAL-ELIGIBILITY** | `research/modalities/emc-locoregional-eligibility.json` | `research/modalities/emc_locoregional_eligibility.py` | [RT-LIMB-PERFUSION](L2-rt-limb-perfusion.md), [RT-LUNG-DIRECTED](L2-rt-lung-directed.md), [RT-RT-INTENSIFY](L2-rt-rt-intensify.md) |
 | **ART-MONOVALENT-REACH** | `research/modalities/nr4a3-monovalent-reach.json` | `research/modalities/nr4a3_monovalent_reach.py` | `CLM-MONOVALENT-CROSSCHECK`, `CLM-MONOVALENT-VERDICT`, [RT-MONOVALENT](L2-rt-monovalent.md) |
+| **ART-NDRG1-PANEL-ATTRIBUTION** | `research/modalities/ndrg1-panel-attribution.json` | `research/modalities/ndrg1_panel_attribution.py` | [RT-SGK1](L2-rt-sgk1.md) |
 | **ART-NR4A-PARALOGUE-DYNAMICS** | `research/modalities/nr4a-paralogue-dynamics.json` | `research/modalities/nr4a_paralogue_dynamics.py` | [LANE-13](registers/lanes.md) |
 | **ART-NRV04-RETRO-CRITERIA-AUDIT** | `research/modalities/nrv04-retro-criteria-audit.json` | `research/modalities/nrv04_retro_criteria_audit.py` | [LANE-8](registers/lanes.md) |
 | **ART-NRV04-RETRO-PRESPEND-AUDIT** | `research/modalities/nrv04-retro-prespend-audit.json` | `research/modalities/nrv04_retro_prespend_audit.py` | [LANE-8](registers/lanes.md) |

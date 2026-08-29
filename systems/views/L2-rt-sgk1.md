@@ -56,6 +56,7 @@ A registered lane with no route: a druggable AGC kinase reported positive across
 | ref | supports | strength |
 |---|---|---|
 | `ART-CENSUS-ROUTE-GRADING` | SGK1 transcript is discordant across the two platforms while its canonical substrate NDRG1 is concordantly higher on both, at the 98th array percentile on one | `direct` |
+| `ART-NDRG1-PANEL-ATTRIBUTION` | In the LARGER of the two series (GSE24369, n=35) NDRG1's per-sample level tracks all six hypoxia programme proxies above their own size-matched random nulls, and none of the six PPARγ/adipogenic proxies. ⛔ IN THE SMALLER SERIES (n=16) IT SETTLES NOTHING — a random size-matched panel already reaches rho +0.25 to +0.42 there — so this is a ONE-SERIES reading and must not be written as a replication. ⚠ It is an association with a programme proxy, not a mechanism and not a direction: consistent with HIF-driven abundance and equally consistent with both being downstream of something else. | `direct` |
 
 ## Remaining unknowns
 

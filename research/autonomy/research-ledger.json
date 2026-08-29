@@ -9,12 +9,12 @@
     "build": 1,
     "code": 1,
     "experiment": 24,
-    "fetch": 19,
+    "fetch": 20,
     "fix": 16,
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 142,
+    "process_defect": 143,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 122,
-    "in_progress": 6,
+    "done": 124,
+    "in_progress": 5,
     "parked": 28,
-    "queued": 139,
+    "queued": 140,
     "ready": 1,
     "superseded": 1
   },
@@ -2905,29 +2905,29 @@
     },
     {
       "id": "AUT-PROP-048",
-      "what": "$0 AND THE INPUTS ARE ON DISK: score NDRG1 against HIF-1 and PPARγ target panels in the two committed expression series. Grounded in AUT-062's finding that what actually drives NDRG1 ABUNDANCE is hypoxia via HIF-1 (PMID 15341671), together with this repository's own reading that all six published hypoxia signatures are higher in EMC on both platforms with NDRG1 a core member of four of six. ⭐ THIS IS THE POSITIVE HALF OF AUT-062's NEGATIVE: if NDRG1's elevation tracks the hypoxia panels rather than an SGK-shaped pattern, that is a mechanistic reading the route can actually support, and it costs nothing to test. Report it at its true weight either way — a panel that does not separate is also an answer.",
+      "what": "$0 AND THE INPUTS ARE ON DISK: score NDRG1 against HIF-1 and PPARγ target panels in the two committed expression series. Grounded in AUT-062's finding that what actually drives NDRG1 ABUNDANCE is hypoxia via HIF-1 (PMID 15341671), together with this repository's own reading that all six published hypoxia signatures are higher in EMC on both platforms with NDRG1 a core member of four of six. ⭐ THIS IS THE POSITIVE HALF OF AUT-062's NEGATIVE: if NDRG1's elevation tracks the hypoxia panels rather than an SGK-shaped pattern, that is a mechanistic reading the route can actually support, and it costs nothing to test. Report it at its true weight either way — a panel that does not separate is also an answer.\n\n✅ RUN 2026-08-29 BY CYC-0078-531dbb8b. Artifact: research/modalities/ndrg1-panel-attribution.json, generator research/modalities/ndrg1_panel_attribution.py (seeded, `--check` re-derives). ⭐ THE ANSWER, AT ITS TRUE WEIGHT: ONE OF THE TWO SERIES SEPARATES THE PROGRAMMES, NOT BOTH. In GSE24369 (n=35) all six hypoxia panels exceed their own size-matched random null (p_emp 0.0005-0.029) and none of the six PPARγ/adipogenic panels do (p_emp 0.11-0.50); the PPARγ knockout-UP CONTROL set sits at the 63rd percentile, which is where a control belongs. In GSE4303 (n=16) the series CANNOT DISCRIMINATE: a RANDOM size-matched panel already reaches rho +0.25 to +0.42 there, so raw rhos of +0.6 carry no information — one hypoxia panel and one PPARγ panel clear, which is the shape of noise, not of replication. ⛔ SO THIS IS A ONE-SERIES RESULT AND MUST NEVER BE WRITTEN AS A REPLICATION. ⛔⛔ TWO CONTROLS, AND THE ANSWER IS MANUFACTURED WITHOUT EITHER. (1) NDRG1 IS ITSELF A MEMBER OF SEVERAL PUBLISHED HYPOXIA SETS (the Buffa metagene among them), so every panel excludes it; including it raises rho on every containing panel, which the test suite demonstrates by mutation rather than asserting. (2) The size-matched null is what produced the one-series verdict — without it the small series reads as a clean second replication. ⚠ AND A NAIVE RAW-RHO THRESHOLD IS NOT A SUBSTITUTE: no single global threshold reproduces the verdict on both series, because in the small series the PPARγ maximum EXCEEDS the hypoxia minimum. ⚠ WHAT THIS DOES NOT SETTLE, AND IT IS MOST OF WHAT ONE WOULD WANT: direction and mechanism. A transcript tracking a hypoxia proxy is equally consistent with HIF-driven abundance and with both being downstream of something else. Nor does it settle the published signatures themselves — each panel is only the SUBSET of its members carrying a per-sample value in the committed artifact, 9-41 genes against sets of 44-231. Recomputing full per-sample scores needs the GEO series matrices, which is a $0 CI dispatch and is deliberately NOT done here; it is the obvious next step and is filed as such rather than absorbed into this row.",
       "serves": {
         "route": "RT-SGK1",
         "publication": "PUB-KINASE-LEADS",
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "proposal",
-      "state": "in_progress",
-      "owner": "CYC-0078-531dbb8b",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
+      "last_evidence_utc": "2026-08-29",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act.",
       "score_inputs": {
         "age_factor": 0.0714,
         "fruitless_attempts": 1
       },
-      "claimed_utc": "2026-08-29T05:53:51Z",
+      "claimed_utc": null,
       "dispatch_log": [
         {
           "utc": "2026-08-29T02:53:12Z",
@@ -2941,7 +2941,11 @@
       "score": 132.9,
       "_score_basis": "inherited from the lowest-scoring derived row on RT-SGK1 (140.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
       "_score_inherited_from_route": "RT-SGK1",
-      "_lease_released_by": "CYC-0075-6d9383a0 released this lease after ARCHIVING its holder's session (session_01RLHV3tB87qndM7qGE9jZa7 = CYC-0074-5a21085f, cleared by session_reaper.py and archived 2026-08-29T03:15Z). Archiving releases the container, so the seat named in `owner` is definitively not running — which is continuity.py's own test for litter: 'if a lease names a worker that is not actually running, that is litter — release it and the work is startable again.' No claim of the WORK being done is made or implied; only the lease is cleared."
+      "_lease_released_by": "CYC-0075-6d9383a0 released this lease after ARCHIVING its holder's session (session_01RLHV3tB87qndM7qGE9jZa7 = CYC-0074-5a21085f, cleared by session_reaper.py and archived 2026-08-29T03:15Z). Archiving releases the container, so the seat named in `owner` is definitively not running — which is continuity.py's own test for litter: 'if a lease names a worker that is not actually running, that is litter — release it and the work is startable again.' No claim of the WORK being done is made or implied; only the lease is cleared.",
+      "depends_on_evidence": [
+        "research/modalities/ndrg1-panel-attribution.json (generator --check re-derives it)",
+        "research/modalities/tests/test_ndrg1_panel_attribution_controls.py: 7 passed — both controls mutation-tested"
+      ]
     },
     {
       "id": "AUT-PD-022",
@@ -3453,6 +3457,37 @@
       }
     },
     {
+      "id": "AUT-PROP-051",
+      "kind": "fetch",
+      "process_defect": false,
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0078-531dbb8b",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a $0 CI dispatch against public GEO series matrices; nothing outward-facing",
+      "closes_clause": null,
+      "score": 118.0,
+      "_score_basis": "Filed just under AUT-PD-134's 118.9. It is the direct widening of a result that already exists rather than a new question, so it ranks below the open guard defects but above the rest of the RT-AUTONOMY tail.",
+      "depends_on_evidence": [
+        "research/modalities/ndrg1-panel-attribution.json: every panel scored on 9-41 members against published sets of 44-231",
+        "research/modalities/emc-expression-panels.json `_execution_model`: $0, public GEO series matrices on a GitHub-hosted CPU runner"
+      ],
+      "what": "⭐ WIDEN AUT-PROP-048 FROM THE 479 COMMITTED GENES TO THE FULL PANELS, WHICH IS A $0 CI DISPATCH AND NOT A NEW QUESTION. `ndrg1-panel-attribution.json` answers whether NDRG1's per-sample level tracks hypoxia or PPARγ programmes, and its answer (one of two series separates) is sound — but every panel score rests on the SUBSET of its members that carries a per-sample value in `emc-expression-panels.json`: 9 to 41 genes against published sets of 44 to 231. ⛔ THAT IS A REAL NARROWING AND IT CUTS BOTH WAYS: the large series' separation could strengthen or vanish on full panels, and the small series' uselessly wide null could narrow enough to discriminate. Neither is predictable from the subset. ⭐ THE WORK: re-read the two GEO series matrices on an Actions runner (the same execution model `emc-expression-panels.json` already documents), compute per-sample scores over the FULL readable membership of each panel, and re-run `ndrg1_panel_attribution.py` against them. ⚠ KEEP BOTH CONTROLS — leave-one-out and the size-matched null — and expect the null to move, since it is computed from the same pool that just grew. ⛔ DO NOT report a strengthened result without re-running the mutation tests: a bigger pool changes the null, and the null is what the verdict rests on."
+    },
+    {
       "id": "AUT-081",
       "what": "⛔ THE ONLY EMC TISSUE EVER FAP-STAINED IN THE LITERATURE IS ONE CASE, AND ITS SCORES ARE UNREPORTED. Measured 2026-08-29 from the PMC full text of PMID 38964294 / PMC11797935 (Umakoshi M et al., DOI 10.1159/000539855): Table 1 'Details of all enrolled cases' gives Extraskeletal myxoid chondrosarcoma = 1 of 133. The paper's only subtype-level FAP analyses are well-differentiated liposarcoma and undifferentiated pleomorphic sarcoma (Table 5), so that one case's intratumoral and marginal FAP scores are genuinely not published and no per-case data is deposited. THE ACT: ask the Akita University group (corresponding author Michinobu Umakoshi) for that single case's two scores. ⛔ IT IS OUTWARD-FACING — contacting a named research group under trimcrae's name is CLAUDE.md §3, so no cycle may perform it. ⚠ AND IT MUST NOT BE RECORDED AS A PATH TO CLOSING THE GAP: a fully successful ask returns two ordinal scores (0-6 each) on a single specimen, which is a case-level observation, not a measurement of FAP in EMC — RT-FAP-RLT.readiness.missing = ['any measurement in EMC'] would still stand afterwards. ⚠ A third limit the authors state themselves: in the intratumoral area 'None of the CAF markers was able to completely distinguish CAFs from sarcoma cells', so an intratumoral FAP score is not a reading of the CAF compartment a FAP radioligand targets, and anti-FAP staining 'was somewhat weak, making it difficult to evaluate'.",
       "serves": {
@@ -3637,6 +3672,40 @@
         "checked": "git ls-remote --heads origin 'refs/heads/seat/*', 2026-08-28T23:35Z",
         "⛔": "THIS SEAT PUSHED NOTHING. `git ls-remote` shows no branch for SEAT-s2-ba841eee, so whatever it did died with its container. The row returns to the queue UNSTARTED — that is a real loss, recorded rather than papered over."
       }
+    },
+    {
+      "id": "AUT-PD-164",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0078-531dbb8b",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a commit-loop cost measurement and a decision about gate scope; loop-internal",
+      "closes_clause": null,
+      "score": 112.0,
+      "_score_basis": "Filed just below AUT-PD-133's 112.9. It costs every cycle real wall-clock on every commit, which is the complaint trimcrae has already made twice about this loop, but it breaks nothing — so it ranks with the open documentation-rot defects rather than above them.",
+      "depends_on_evidence": [
+        "measured 2026-08-29 (CYC-0078) on origin/main 4b4f150a0, wall clock from `ps lstart`: preflight started 05:44:14, gate 13 started 05:45:22, so the fast gates cost 68 s",
+        "gate 13's own line: `789 passed in 446.28s (0:07:26)`",
+        "scripts/preflight.sh:77 comment: `Cost, measured 2026-08-27 on scripts/tests research/autonomy/tests (213 tests) ... 32.5 s`",
+        "CLAUDE.md §6: the commit loop `costs about 75 seconds`, of which gate 13 is recorded as 39.3 s",
+        "file counts at that commit: research/autonomy/tests 43 files, scripts/tests 10"
+      ],
+      "what": "⚠ THE COMMIT LOOP IS NO LONGER ~75 SECONDS AND NOTHING NOTICED — GATE 13 HAS GROWN 11x IN TWO DAYS. Measured 2026-08-29 (CYC-0078) on a clean run of `./scripts/preflight.sh` at origin/main 4b4f150a0: fast gates **68 s**, gate 13 **446.28 s (7 min 26 s)**, total **8 min 34 s**. ⛔ THE DOCUMENTED FIGURES ARE 39.3 s AND 213 TESTS, AND BOTH ARE STALE: gate 13 now collects **789 tests** over `scripts/tests research/autonomy/tests`, and `scripts/preflight.sh` line 77 still records `(213 tests) ... 32.5 s` from 2026-08-27. CLAUDE.md §6 tells every session the loop costs about 75 seconds; it costs about seven times that. ⭐ WHY THIS MATTERS MORE THAN THE MINUTES: §6's whole tiering argument rests on the default run being cheap — that is why the manuscripts and modalities suites were moved behind flags, twice, after trimcrae complained that waiting for preflight `absolutely murders our wall clock time`. The cost came back through the tier that was supposed to stay fast, by accretion rather than by a decision anybody took. ⚠ AND IT COMPOUNDS THE ONE DEFECT THIS LOOP KEEPS PAYING FOR: AUT-PD-160's own last paragraph names PUSH LATENCY as the cause of repeated id-allocation collisions — a driver honouring the re-gate rule cannot land promptly on a trunk moving faster than its gate. A 514 s gate is that latency. ⛔ THE FIX IS A CHOICE AND IT IS NOT OBVIOUS, WHICH IS WHY THIS IS FILED RATHER THAN PATCHED. The candidates: scope gate 13 by changed paths (`affected_tests.py` already exists and already fails safe to FULL — and §6 records that its validation hashes are STALE and only a `PREFLIGHT_FULL=1` run re-stamps them, which is a separate open diagnosis); or split the loop's own instruments behind a flag the way the two large suites already are, which costs the same 'caught minutes later by CI' trade §6 has twice accepted; or accept the number and correct CLAUDE.md §6 and the preflight comment so no session is told 75 s again. ⛔ WHATEVER IS CHOSEN, THE STALE MEASUREMENTS ARE A DEFECT ON THEIR OWN — a cost figure nothing re-measures is exactly the class of rot this repository has now paid for in AUT-PD-163 and AUT-PD-143."
     },
     {
       "id": "AUT-PD-023",

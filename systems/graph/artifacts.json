@@ -520,5 +520,15 @@
     "workflow": null,
     "published_to": [],
     "note": "⭐ THE 'LIVE CONTRADICTION' RT-RT-INTENSIFY IS BUILT ON DOES NOT SURVIVE BEING PUT ON ONE SCALE. Bishop 2019 reports surgery ALONE as the adverse exposure for local control, HR 12.7 (1.4-115.3), p = 0.02; inverted to a radiotherapy effect that is 0.079 (0.0087-0.71). Masunaga 2025 reports (neo)adjuvant radiotherapy at 0.50 (0.11-2.25), p = 0.365. Both point estimates protective, intervals overlapping across 0.11-0.71. The disagreement is in SIGNIFICANCE, not direction, between two underpowered studies -- 5 local relapses in one, 16 in the other. ⛔ THIS IS NOT A CLAIM THAT RADIOTHERAPY WORKS: it shows the reachable evidence fails to establish the disagreement, and a test forbids an efficacy claim appearing. ⚠ Masunaga's confounding runs AGAINST radiotherapy (its treated arm carried R1/R2 margins at 41.7 % against 18.2 %), so 0.50 is conservative. ⭐ PARTICLE/BRACHYTHERAPY CENSUS RUN: brachytherapy and proton beam each reported ONCE in this histology, as case reports rather than registry arms; carbon ion does not appear in this histology anywhere in a 354-paper open-access corpus. ⛔ Provenance is split primary/secondary throughout and a test fails if a record read only in a review loses its not-read-directly marker (POLICY-evidence 1.3)."
+  },
+  {
+    "id": "ART-NDRG1-PANEL-ATTRIBUTION",
+    "path": "research/modalities/ndrg1-panel-attribution.json",
+    "produced_by": "research/modalities/ndrg1_panel_attribution.py",
+    "workflow": "none — it reads a committed artifact and runs anywhere. Seeded, so `--check` re-derives it byte-for-byte; the modalities suite runs that check on every push.",
+    "published_to": [
+      "main"
+    ],
+    "note": "Asks whether NDRG1's per-sample level in EMC-containing series tracks HYPOXIA programme proxies or PPARγ/adipogenic ones — the positive half of the negative AUT-062 and AUT-PD-099 established for RT-SGK1 (the reading is transcript ABUNDANCE, so it is not attributable to SGK1 activity). ⭐ ONE OF THE TWO SERIES SEPARATES THE PROGRAMMES, NOT BOTH, and it must never be written as a replication: in GSE24369 (n=35) all six hypoxia panels exceed their own size-matched random null and none of the six PPARγ panels do; in GSE4303 (n=16) a RANDOM size-matched panel already reaches rho +0.25 to +0.42, so that series cannot discriminate at all. ⛔ TWO CONTROLS, EITHER OF WHICH MISSING MANUFACTURES THE ANSWER: NDRG1 is itself a member of several published hypoxia sets and is excluded from every panel; and the null is what produced the one-series verdict. Both are mutation-tested in research/modalities/tests/test_ndrg1_panel_attribution_controls.py. ⚠ Every panel is scored on the SUBSET of its members carrying a per-sample value in emc-expression-panels.json — 9 to 41 genes against published sets of 44 to 231 — so the panels are programme PROXIES, not the published signatures. Widening that is AUT-PROP-051. ⚠ An association between a transcript and a programme proxy in archival tissue is not a mechanism and not a dependency; direction is not settled."
   }
 ]

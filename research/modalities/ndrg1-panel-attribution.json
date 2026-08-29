@@ -1,0 +1,394 @@
+{
+  "_what": "Does NDRG1's per-sample level in EMC-containing expression series track HYPOXIA programme proxies or PPARγ/adipogenic ones? Every panel excludes NDRG1 itself and is graded against a size-matched random null.",
+  "_route": "RT-SGK1",
+  "_ledger_item": "AUT-PROP-048",
+  "_language_discipline": "⛔ NOT an efficacy, selectivity, safety, therapeutic-window or clinical-readiness claim. An association between a transcript and a programme proxy in archival tissue is not a mechanism and not a dependency.",
+  "_the_two_controls": {
+    "leave_one_out": "NDRG1 is a member of several published hypoxia sets, so it is removed from every panel before scoring. Without this the comparison is a variable against itself.",
+    "size_matched_null": "2000 random panels of the same size from the same readable pool. Without this the array-level shared component reads as signal — and in the smaller series it fully accounts for a raw rho of +0.6."
+  },
+  "_what_this_does_not_settle": "Direction and mechanism. A transcript tracking a hypoxia proxy is consistent with HIF-driven abundance and equally consistent with both being downstream of something else in these tumours; nothing here separates them. It also does not settle the published signatures themselves — each panel is the SUBSET of its members carrying a per-sample value in the committed artifact, 9 to 41 genes against sets of 44 to 231.",
+  "_inputs": {
+    "panels": "research/modalities/emc-expression-panels.json",
+    "seed": 20260829,
+    "n_draws": 2000,
+    "min_panel_members": 5,
+    "min_samples": 6
+  },
+  "series": {
+    "GSE24369_series_matrix.txt.gz": {
+      "subject_readable": true,
+      "n_samples": 35,
+      "readable_pool": 463,
+      "classes": {
+        "EMC": 6,
+        "LGFMS": 17,
+        "desmoid_fibromatosis": 6,
+        "fibrosarcoma": 6
+      },
+      "panels": {
+        "adipogenesis_process_proxy": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 10,
+          "n_panel_readable": 189,
+          "n_samples_scored": 35,
+          "rho": 0.3563,
+          "null_median": 0.0133,
+          "null_p95": 0.4759,
+          "null_draws": 2000,
+          "p_empirical": 0.1164,
+          "above_null_p95": false
+        },
+        "hypoxia_buffa": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 10,
+          "n_panel_readable": 48,
+          "n_samples_scored": 35,
+          "rho": 0.6361,
+          "null_median": 0.0133,
+          "null_p95": 0.4759,
+          "null_draws": 2000,
+          "p_empirical": 0.0065,
+          "above_null_p95": true
+        },
+        "hypoxia_elvidge": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 19,
+          "n_panel_readable": 158,
+          "n_samples_scored": 35,
+          "rho": 0.6796,
+          "null_median": -0.0008,
+          "null_p95": 0.4367,
+          "null_draws": 2000,
+          "p_empirical": 0.0025,
+          "above_null_p95": true
+        },
+        "hypoxia_gobp_response": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 22,
+          "n_panel_readable": 72,
+          "n_samples_scored": 35,
+          "rho": 0.7445,
+          "null_median": -0.0018,
+          "null_p95": 0.4532,
+          "null_draws": 2000,
+          "p_empirical": 0.0005,
+          "above_null_p95": true
+        },
+        "hypoxia_hallmark": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 36,
+          "n_panel_readable": 188,
+          "n_samples_scored": 35,
+          "rho": 0.4782,
+          "null_median": -0.0105,
+          "null_p95": 0.4246,
+          "null_draws": 2000,
+          "p_empirical": 0.032,
+          "above_null_p95": true
+        },
+        "hypoxia_harris": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 24,
+          "n_panel_readable": 80,
+          "n_samples_scored": 35,
+          "rho": 0.6588,
+          "null_median": -0.0039,
+          "null_p95": 0.4336,
+          "null_draws": 2000,
+          "p_empirical": 0.0005,
+          "above_null_p95": true
+        },
+        "hypoxia_winter": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 41,
+          "n_panel_readable": 231,
+          "n_samples_scored": 35,
+          "rho": 0.4941,
+          "null_median": -0.0088,
+          "null_p95": 0.4129,
+          "null_draws": 2000,
+          "p_empirical": 0.0245,
+          "above_null_p95": true
+        },
+        "pparg_chip_chea": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 18,
+          "n_panel_readable": 188,
+          "n_samples_scored": 35,
+          "rho": 0.349,
+          "null_median": 0.0127,
+          "null_p95": 0.4395,
+          "null_draws": 2000,
+          "p_empirical": 0.1084,
+          "above_null_p95": false
+        },
+        "pparg_consensus_encode_chea": {
+          "family": "pparg",
+          "scored": false,
+          "why": "the signature set was never RETRIEVED. That is a failure to fetch, which says nothing about the set's existence."
+        },
+        "pparg_curated_trrust": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 15,
+          "n_panel_readable": 63,
+          "n_samples_scored": 35,
+          "rho": 0.0081,
+          "null_median": 0.0011,
+          "null_p95": 0.4669,
+          "null_draws": 2000,
+          "p_empirical": 0.4908,
+          "above_null_p95": false
+        },
+        "pparg_perturbation_KO_DOWN": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 13,
+          "n_panel_readable": 188,
+          "n_samples_scored": 35,
+          "rho": 0.2258,
+          "null_median": 0.0155,
+          "null_p95": 0.4627,
+          "null_draws": 2000,
+          "p_empirical": 0.2249,
+          "above_null_p95": false
+        },
+        "pparg_perturbation_KO_UP_CONTROL": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 19,
+          "n_panel_readable": 231,
+          "n_samples_scored": 35,
+          "rho": 0.1006,
+          "null_median": -0.0008,
+          "null_p95": 0.4367,
+          "null_draws": 2000,
+          "p_empirical": 0.3768,
+          "above_null_p95": false
+        },
+        "pparg_perturbation_OE_UP": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 16,
+          "n_panel_readable": 250,
+          "n_samples_scored": 35,
+          "rho": 0.2104,
+          "null_median": 0.012,
+          "null_p95": 0.4742,
+          "null_draws": 2000,
+          "p_empirical": 0.2604,
+          "above_null_p95": false
+        }
+      },
+      "n_hypoxia_scored": 6,
+      "n_hypoxia_above_null_p95": 6,
+      "n_pparg_scored": 6,
+      "n_pparg_above_null_p95": 0,
+      "null_median_range": [
+        -0.0105,
+        0.0155
+      ],
+      "separates_hypoxia_from_pparg": true,
+      "_separates_means": "TRUE only when EVERY scored hypoxia panel exceeds its own size-matched null p95 and NO PPARγ panel does. It is a joint statement about both families, so one PPARγ panel clearing makes it false however strong the hypoxia side is."
+    },
+    "GSE4303-GPL3290_series_matrix.txt.gz": {
+      "subject_readable": true,
+      "n_samples": 16,
+      "readable_pool": 417,
+      "classes": {
+        "DFSP": 3,
+        "EMC": 10,
+        "GIST": 3
+      },
+      "panels": {
+        "adipogenesis_process_proxy": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 10,
+          "n_panel_readable": 176,
+          "n_samples_scored": 16,
+          "rho": 0.6206,
+          "null_median": 0.2809,
+          "null_p95": 0.7059,
+          "null_draws": 2000,
+          "p_empirical": 0.1184,
+          "above_null_p95": false
+        },
+        "hypoxia_buffa": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 9,
+          "n_panel_readable": 44,
+          "n_samples_scored": 16,
+          "rho": 0.6,
+          "null_median": 0.2529,
+          "null_p95": 0.7235,
+          "null_draws": 2000,
+          "p_empirical": 0.1399,
+          "above_null_p95": false
+        },
+        "hypoxia_elvidge": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 17,
+          "n_panel_readable": 149,
+          "n_samples_scored": 16,
+          "rho": 0.7706,
+          "null_median": 0.3176,
+          "null_p95": 0.7324,
+          "null_draws": 2000,
+          "p_empirical": 0.033,
+          "above_null_p95": true
+        },
+        "hypoxia_gobp_response": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 21,
+          "n_panel_readable": 66,
+          "n_samples_scored": 16,
+          "rho": 0.7088,
+          "null_median": 0.35,
+          "null_p95": 0.7412,
+          "null_draws": 2000,
+          "p_empirical": 0.0765,
+          "above_null_p95": false
+        },
+        "hypoxia_hallmark": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 35,
+          "n_panel_readable": 174,
+          "n_samples_scored": 16,
+          "rho": 0.6882,
+          "null_median": 0.4191,
+          "null_p95": 0.7382,
+          "null_draws": 2000,
+          "p_empirical": 0.092,
+          "above_null_p95": false
+        },
+        "hypoxia_harris": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 23,
+          "n_panel_readable": 73,
+          "n_samples_scored": 16,
+          "rho": 0.5676,
+          "null_median": 0.3735,
+          "null_p95": 0.7353,
+          "null_draws": 2000,
+          "p_empirical": 0.2399,
+          "above_null_p95": false
+        },
+        "hypoxia_winter": {
+          "family": "hypoxia",
+          "scored": true,
+          "n_panel_members": 39,
+          "n_panel_readable": 219,
+          "n_samples_scored": 16,
+          "rho": 0.6441,
+          "null_median": 0.4147,
+          "null_p95": 0.7412,
+          "null_draws": 2000,
+          "p_empirical": 0.1619,
+          "above_null_p95": false
+        },
+        "pparg_chip_chea": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 17,
+          "n_panel_readable": 169,
+          "n_samples_scored": 16,
+          "rho": 0.65,
+          "null_median": 0.3176,
+          "null_p95": 0.7324,
+          "null_draws": 2000,
+          "p_empirical": 0.1074,
+          "above_null_p95": false
+        },
+        "pparg_consensus_encode_chea": {
+          "family": "pparg",
+          "scored": false,
+          "why": "the signature set was never RETRIEVED. That is a failure to fetch, which says nothing about the set's existence."
+        },
+        "pparg_curated_trrust": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 15,
+          "n_panel_readable": 57,
+          "n_samples_scored": 16,
+          "rho": 0.2176,
+          "null_median": 0.3294,
+          "null_p95": 0.7294,
+          "null_draws": 2000,
+          "p_empirical": 0.6112,
+          "above_null_p95": false
+        },
+        "pparg_perturbation_KO_DOWN": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 11,
+          "n_panel_readable": 157,
+          "n_samples_scored": 16,
+          "rho": 0.7706,
+          "null_median": 0.2618,
+          "null_p95": 0.7147,
+          "null_draws": 2000,
+          "p_empirical": 0.02,
+          "above_null_p95": true
+        },
+        "pparg_perturbation_KO_UP_CONTROL": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 19,
+          "n_panel_readable": 196,
+          "n_samples_scored": 16,
+          "rho": -0.1147,
+          "null_median": 0.3382,
+          "null_p95": 0.7382,
+          "null_draws": 2000,
+          "p_empirical": 0.8796,
+          "above_null_p95": false
+        },
+        "pparg_perturbation_OE_UP": {
+          "family": "pparg",
+          "scored": true,
+          "n_panel_members": 15,
+          "n_panel_readable": 230,
+          "n_samples_scored": 16,
+          "rho": 0.0882,
+          "null_median": 0.3294,
+          "null_p95": 0.7294,
+          "null_draws": 2000,
+          "p_empirical": 0.7176,
+          "above_null_p95": false
+        }
+      },
+      "n_hypoxia_scored": 6,
+      "n_hypoxia_above_null_p95": 1,
+      "n_pparg_scored": 6,
+      "n_pparg_above_null_p95": 1,
+      "null_median_range": [
+        0.2529,
+        0.4191
+      ],
+      "separates_hypoxia_from_pparg": false,
+      "_separates_means": "TRUE only when EVERY scored hypoxia panel exceeds its own size-matched null p95 and NO PPARγ panel does. It is a joint statement about both families, so one PPARγ panel clearing makes it false however strong the hypoxia side is."
+    }
+  },
+  "verdict": {
+    "separating_series": [
+      "GSE24369_series_matrix.txt.gz"
+    ],
+    "n_series_usable": 2,
+    "headline": "1 of 2 series separate the two programmes."
+  }
+}

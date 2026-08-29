@@ -1,0 +1,34 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0079-531dbb8b",
+  "session_id": "531dbb8b-683e-5c25-b8d6-b1ecb605d3f5",
+  "ccr_session_id": "session_01Fg7WnZ8Kc3wmysc7tpAfTy",
+  "utc": "2026-08-29T06:35:00Z",
+  "shape": "One driver, no fan-out. SECOND of 2 cycles allowed in this session (autonomy-state.json max_cycles_per_session=2). First was CYC-0078-531dbb8b (AUT-PD-160), receipt committed at 4b4f150a0. This session is now AT ITS CAP and hands off.",
+  "took": "AUT-PROP-048 (score 132.9). ⭐ CHOSEN OVER THE HIGHER-SCORING AUT-PD-158 (133.0) ON CLAUDE.md §0: this is live-route work that could produce a result, that row is a process defect, and §0 says a live route outranks a finished-negative or documentation item. Claimed with claim.py (CLAIMED on attempt 1 — and the claim exercised the guard cycle 1 had just shipped, from a HEAD equal to origin/main), released to `owner: null`, state `done`.",
+  "took_what": "AUT-062 established what NDRG1's elevation is NOT (transcript abundance, so not attributable to SGK1 activity) and AUT-PD-099 retracted RT-SGK1's activity-shaped clause. That left the positive half open: if not SGK-shaped, what shape? This scores NDRG1's per-sample level against six hypoxia programme proxies and six PPARγ/adipogenic ones in the two committed expression series.",
+  "result": "⭐ ONE OF THE TWO SERIES SEPARATES THE PROGRAMMES, NOT BOTH — and that is the whole finding, stated at its true weight. GSE24369 (n=35): all six hypoxia panels exceed their own size-matched random null (p_emp 0.0005–0.029); none of the six PPARγ panels do (p_emp 0.11–0.50); the PPARγ knockout-UP CONTROL set sits at the 63rd percentile, where a control belongs. GSE4303 (n=16): the series CANNOT DISCRIMINATE — a random size-matched panel already reaches rho +0.25 to +0.42, so raw rhos of +0.6 carry no information; one hypoxia and one PPARγ panel clear, which is the shape of noise. ⛔ MUST NEVER BE WRITTEN AS A TWO-SERIES REPLICATION.",
+  "the_two_controls": "⛔ WITHOUT EITHER, THE ANSWER IS MANUFACTURED. (1) NDRG1 is itself a member of several published hypoxia sets (the Buffa metagene among them), so every panel excludes it — a panel containing the subject correlates with itself and returns a large positive number for any composition. (2) The size-matched null is what produced the one-series verdict; without it the small series reads as a clean second replication. Both are mutation-tested rather than asserted.",
+  "changed": [
+    "research/modalities/ndrg1_panel_attribution.py — NEW generator. Seeded (SEED is part of the artifact so `--check` is possible at all), 2000 draws, leave-one-out, size-matched null, `--check` re-derives. Spearman written out rather than imported: this runs in CI with no scientific stack.",
+    "research/modalities/ndrg1-panel-attribution.json — NEW artifact. Every row prints n_panel_members/n_panel_readable so the subset limitation is on the face of the result.",
+    "research/modalities/tests/test_ndrg1_panel_attribution_controls.py — NEW, 7 tests. Both controls mutation-tested; the re-derive check runs here rather than being duplicated into a CI step, because the modalities suite runs in full on every push.",
+    "research/autonomy/research-ledger.json — AUT-PROP-048 closed with the result and its limits; AUT-PROP-051 and AUT-PD-164 filed (below); re-scored."
+  ],
+  "a_test_i_wrote_was_wrong_and_the_run_caught_it": "⚠ RECORDED BECAUSE IT IS THE ARGUMENT FOR EXECUTING MUTATIONS RATHER THAN REASONING ABOUT THEM. The first version of the null's mutation test asserted that a naive raw-rho threshold would flip the SMALL series to 'separating'. It does not — it calls that series non-separating too, for the wrong reason (three PPARγ panels are also high there). The test failed, the numbers were re-derived, and the true statement is stronger: NO single global rho threshold reproduces the committed verdict on both series, because in the small series the PPARγ maximum (+0.771) EXCEEDS the hypoxia minimum (+0.568). Had that assertion been reasoned about instead of run, a false claim about the method would have shipped inside a test that passed.",
+  "left_open": "Direction and mechanism — a transcript tracking a hypoxia proxy is equally consistent with HIF-driven abundance and with both being downstream of something else, and nothing here separates them. And the subset limitation: each panel is scored on 9–41 members against published sets of 44–231, because the committed artifact carries per-sample values for 479 genes only. Filed as AUT-PROP-051 rather than absorbed.",
+  "filed": [
+    "AUT-PROP-051 (score 118.0, fetch, RT-SGK1) — widen this from the 479 committed genes to the full panels via a $0 Actions re-read of the two GEO matrices. ⛔ It cuts BOTH ways and neither direction is predictable from the subset: the large series' separation could strengthen or vanish, and the small series' null could narrow enough to discriminate.",
+    "AUT-PD-164 (score 112.0, process_defect, RT-AUTONOMY) — the commit loop is no longer ~75 s. Measured this cycle from `ps lstart` on a clean run: fast gates 68 s, gate 13 446.28 s, total 8 min 34 s. Gate 13 now collects 789 tests; scripts/preflight.sh:77 still records 213 tests / 32.5 s and CLAUDE.md §6 still tells every session ~75 s. It compounds AUT-PD-160's own named-but-unfixed finding, PUSH LATENCY."
+  ],
+  "cost": "$0 — CPU only. Generator 35 s, test suite 40 s. No GPU, no rental, no CI dispatch beyond the push's own tests.yml run.",
+  "queued_next": "AUT-PD-158 (133.0), AUT-PD-110 (132.9, live RT-ALK-HIT re-grade against PMID 42660639), AUT-PD-145 (132.9), AUT-PD-134 (118.9), AUT-PROP-051 (118.0, filed this cycle).",
+  "blocked_by": [],
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "One analysis over one committed artifact. Nothing independent enough to justify a seat, and research-loop §3 puts the shared tree under one writer."
+  },
+  "route_advanced": "RT-SGK1",
+  "_route_advanced_note": "A real systems/graph route, not the loop's own machinery — the first such in five receipts. The route is NOT upgraded and no grade changed: this adds a positive reading beside the negative AUT-062 and AUT-PD-099 established. Whether it belongs in routes.json as supporting_evidence is a separate call and was not made unilaterally in this cycle."
+}
