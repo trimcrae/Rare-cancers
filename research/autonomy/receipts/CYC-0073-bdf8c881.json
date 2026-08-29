@@ -1,0 +1,44 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0073-bdf8c881",
+  "session_id": "bdf8c881-1bd5-5daa-ad43-6d0f3f8c170b",
+  "ccr_session_id_unavailable": "No get_session-style tool is on this scheduled-Routine session's tool surface: ToolSearch for \"get_session\" and \"create_session\" and \"session info ccr claude-code-remote\" all returned no matching deferred tool (see AUT-PD-153, filed and fixed this session). The harness env session id (CLAUDE_CODE_SESSION_ID) is used for `session_id` above; there is no platform CCR id (`session_...`) reachable from this session to put here.",
+  "utc": "2026-08-29T00:14:00Z",
+  "shape": "One driver, no fan-out. Cycle 1 of 2 in this session (autonomy-state.json max_cycles_per_session=2).",
+  "took": "Not a ledger item claimed via claim.py -- found while orienting, before step 4. python3 research/autonomy/priority.py --write (step 3, mandatory before any item can be taken) crashed on the committed trunk with TypeError: 'NoneType' object does not support item assignment at apply_age_factor's e.setdefault(\"score_inputs\", {})[\"age_factor\"] = f. Root-caused to entry AUT-COV-001, which carries \"score_inputs\": null explicitly (present, not absent) -- dict.setdefault only installs its default when the key is ABSENT, so it returned the existing None and the following [...] = f crashed. Fixing what blocks step 3 for every cycle outranks doing one of the blocked things (same reasoning as CYC-0072's AUT-PD-150).",
+  "took_what": "AUT-PD-152",
+  "changed": [
+    "research/autonomy/priority.py -- apply_age_factor's bare `e.setdefault(\"score_inputs\", {})[\"age_factor\"] = f` replaced with an explicit isinstance(..., dict) check that normalises a non-dict score_inputs to {} before indexing, matching the defensive shape already used on the two neighbouring lines in the same function.",
+    "research/autonomy/tests/test_priority_ranks_the_hand_filed_entries_too.py -- new test test_apply_age_factor_survives_a_row_whose_score_inputs_is_explicitly_null, pinning the fix. Mutation-tested: reverting to the bare setdefault line reproduces the exact TypeError and fails only this test; restoring the fix passes all 6 in the file.",
+    "research/autonomy/research-ledger.json -- filed AUT-PD-152 (this defect, state done) recording the root cause and the fix.",
+    "research/autonomy/amendments.jsonl -- declared the governed-path test edit (matches **/tests/**) with an answered self_serving_check: the new test only ever fails on a real crash path, and this cycle was not blocked by any governed path before this fix, so there is no bar being moved under pressure."
+  ],
+  "cost": "free -- local reads and edits only, no compute rented, no model spend beyond this session.",
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "launched_in_one_message": false,
+    "seats": [],
+    "_why": "A single-file crash fix plus its own pinning test, in the shared tree. No parallel work to dispatch."
+  },
+  "rate_limit_info": {
+    "status": "UNKNOWN",
+    "_why": "No get_session-style tool is on this scheduled-Routine session's tool surface (verified via ToolSearch), so rate_limit_info cannot be read at all -- CLAUDE.md §4: an absent reading is not a reading of absence, recorded UNKNOWN rather than assumed 'allowed'."
+  },
+  "what_i_got_wrong": [],
+  "now_queued": [
+    "AUT-PD-152 closed by this cycle.",
+    "AUT-PD-144 (a related step-3-crash defect, also process_defect/RT-AUTONOMY) picked up as this session's cycle 2 -- see CYC-0074-bdf8c881.",
+    "AUT-PD-153 (this cycle's own ccr_session_id gap, discovered while preparing THIS receipt, fixed in cycle 2 -- see CYC-0074-bdf8c881)."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-AUTONOMY",
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why": "Cycle 1 of 2 in this session. Owed only at the cap -- see CYC-0074-bdf8c881, this session's final cycle."
+  }
+}
