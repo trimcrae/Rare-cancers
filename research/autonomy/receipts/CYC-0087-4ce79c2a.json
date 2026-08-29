@@ -1,0 +1,43 @@
+{
+  "cycle_id": "CYC-0087-4ce79c2a",
+  "session_id": "4ce79c2a-4770-5e00-97a4-7af911d591ac",
+  "ccr_session_id": "session_01CJoStjVsLioRPNisDBxdgR",
+  "started_utc": "2026-08-29T12:16:00Z",
+  "base_sha": "79074001d",
+  "took": "AUT-PD-158",
+  "took_why": "Top of the ranked queue at 133.0, free and unclaimed. ⛔ TAKEN BECAUSE THE TURN-END HOOK REFUSED THIS SESSION'S FIRST ANSWER AND WAS RIGHT TO: after CYC-0086 landed, 115 items were ready and nothing was running, and the answer offered was a one-shot trigger to wake the idle driver — which is the deferral-with-a-citation the hook names. The driver was re-read afterwards and was still IDLE and disconnected, so the trigger had moved nothing.",
+  "health_at_start": {
+    "exit": 0,
+    "red": [
+      "advancing_live_work",
+      "scores_are_reachable"
+    ],
+    "note": "carried from CYC-0086 earlier this session; `scores_are_reachable` is the condition THIS item exists to settle."
+  },
+  "what_changed": [
+    "research/autonomy/research-ledger.json — AUT-PD-158 carries the full measurement and is now `blocked` on trimcrae for the one part that is his, with the lease released; AUT-PD-177 filed."
+  ],
+  "finding": "⛔ THE ROW'S TWO OPTIONS ARE NOT THE WHOLE CHOICE, AND ITS OWN PREMISE IS HALF FALSE. Measured over the live ledger: 100 of 180 open rows name a route systems/graph does not carry (83 RT-AUTONOMY, 9 routeless, 8 with a broken id). RT-AUTONOMY is 60 of the 73 open-unscored rows, so this row is the one that lets that population SHRINK — AUT-PD-145's ratchet only stops it growing. ⛔⛔ Option (b) claims the hand-typed band keeps process work from outranking live research: 0 of 27 process rows beat the highest research row (174.0), but 25 of 27 beat the research MEDIAN (45.8) — process median 114.9 against research median 45.8. So the band does not order process work among itself; it puts nearly all of it above nearly all research, which is why `advancing_live_work` has read NOT-ADVANCING for four receipts. ⭐ The decision is therefore not (a)-or-(b) but WHAT NUMBER, and a ceiling pinned at today's max (133.1) preserves the current ordering exactly while looking like a fix — named explicitly so it is refused deliberately rather than chosen by accident.",
+  "what_it_cost": "$0. CPU only: three read-only ledger/graph sweeps, one claim push, and preflight.",
+  "gates": {
+    "preflight": "run once on the settled tree immediately before the commit, exit code unmasked; this receipt asserts no result for it.",
+    "no_new_guard": "⛔ NO GUARD, NO TEST AND NO PRODUCTION CODE WAS WRITTEN BY THIS CYCLE, so there is nothing to mutation-test. The deliverable is a measurement and an escalation. Recorded explicitly because a receipt with no mutation line otherwise reads as a cycle that skipped one."
+  },
+  "anti_gaming": {
+    "invariant": "research-loop §6 — a bar may not be changed by the cycle the bar just blocked.",
+    "how_it_applies": "⛔⛔ THIS IS THE ROW WHERE IT BINDS HARDEST AND IT IS WHY THE CYCLE STOPPED WHERE IT DID. The open question is how highly the loop may rank its OWN maintenance, and this cycle IS the loop's maintenance. Setting that number myself is a cycle choosing its own priority — the exact shape `amendment_guard` exists to catch — so the number was measured and NOT set. No weight, ceiling, score or guard was changed."
+  },
+  "escalated": "AUT-PD-158's remaining half went to trimcrae in the same turn (PushNotification + AskUserQuestion, CLAUDE.md §3), per research-loop §5 trigger 3 — it reorders the whole work queue. ⭐ HE ANSWERED WITHIN THE TURN: a stated scored class WITH a narrow exemption for upkeep that blocks the loop itself; option (a), a route row for RT-AUTONOMY, refused, and leaving the band unstated refused. Recorded on the row, so the row is now IMPLEMENTATION work and not a pending decision. ⛔ THE CEILING NUMBER REMAINS UNSET BY DESIGN — he chose the shape; the number is to be derived from a fresh measurement by the implementer, never typed as a preference, and a ceiling at today's process maximum (133.1) is named on the row as the trap to refuse.",
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "One measurement chain over the committed ledger and graph; nothing independent to parallelise."
+  },
+  "now_queued": [
+    "AUT-PD-177",
+    "AUT-PD-158 (now implementation, decision recorded)"
+  ],
+  "blocked_by": [],
+  "route_advanced": "none",
+  "route_advanced_why": "⛔ HONEST, AND THE FIFTH `none` IN A ROW. This cycle measured the loop's own ranking and filed a defect that demotes eight rows of real paper work; it moved no route in systems/graph. ⭐ AND THE ALARM IS NOW POINTING AT ITS OWN CAUSE: the measurement in this cycle says the queue puts 25 of 27 process rows above the median research row, so a cycle taking the top item keeps landing on process work. `advancing_live_work` is not misfiring — it is reading the ordering AUT-PD-158 exists to fix."
+}
