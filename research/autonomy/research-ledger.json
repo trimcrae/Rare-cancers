@@ -3497,9 +3497,9 @@
         "publication": "PUB-KINASE-LEADS",
         "strategy": "ST-DEPENDENCY"
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0081-b272f286",
+      "claimed_utc": "2026-08-29T06:50:15Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3517,7 +3517,13 @@
         "research/modalities/ndrg1-panel-attribution.json: every panel scored on 9-41 members against published sets of 44-231",
         "research/modalities/emc-expression-panels.json `_execution_model`: $0, public GEO series matrices on a GitHub-hosted CPU runner"
       ],
-      "what": "⭐ WIDEN AUT-PROP-048 FROM THE 479 COMMITTED GENES TO THE FULL PANELS, WHICH IS A $0 CI DISPATCH AND NOT A NEW QUESTION. `ndrg1-panel-attribution.json` answers whether NDRG1's per-sample level tracks hypoxia or PPARγ programmes, and its answer (one of two series separates) is sound — but every panel score rests on the SUBSET of its members that carries a per-sample value in `emc-expression-panels.json`: 9 to 41 genes against published sets of 44 to 231. ⛔ THAT IS A REAL NARROWING AND IT CUTS BOTH WAYS: the large series' separation could strengthen or vanish on full panels, and the small series' uselessly wide null could narrow enough to discriminate. Neither is predictable from the subset. ⭐ THE WORK: re-read the two GEO series matrices on an Actions runner (the same execution model `emc-expression-panels.json` already documents), compute per-sample scores over the FULL readable membership of each panel, and re-run `ndrg1_panel_attribution.py` against them. ⚠ KEEP BOTH CONTROLS — leave-one-out and the size-matched null — and expect the null to move, since it is computed from the same pool that just grew. ⛔ DO NOT report a strengthened result without re-running the mutation tests: a bigger pool changes the null, and the null is what the verdict rests on."
+      "what": "⭐ WIDEN AUT-PROP-048 FROM THE 479 COMMITTED GENES TO THE FULL PANELS, WHICH IS A $0 CI DISPATCH AND NOT A NEW QUESTION. `ndrg1-panel-attribution.json` answers whether NDRG1's per-sample level tracks hypoxia or PPARγ programmes, and its answer (one of two series separates) is sound — but every panel score rests on the SUBSET of its members that carries a per-sample value in `emc-expression-panels.json`: 9 to 41 genes against published sets of 44 to 231. ⛔ THAT IS A REAL NARROWING AND IT CUTS BOTH WAYS: the large series' separation could strengthen or vanish on full panels, and the small series' uselessly wide null could narrow enough to discriminate. Neither is predictable from the subset. ⭐ THE WORK: re-read the two GEO series matrices on an Actions runner (the same execution model `emc-expression-panels.json` already documents), compute per-sample scores over the FULL readable membership of each panel, and re-run `ndrg1_panel_attribution.py` against them. ⚠ KEEP BOTH CONTROLS — leave-one-out and the size-matched null — and expect the null to move, since it is computed from the same pool that just grew. ⛔ DO NOT report a strengthened result without re-running the mutation tests: a bigger pool changes the null, and the null is what the verdict rests on.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T06:50:15Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ]
     },
     {
       "id": "AUT-081",
