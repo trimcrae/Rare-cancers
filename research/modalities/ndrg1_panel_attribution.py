@@ -62,6 +62,46 @@ SUBJECT = "NDRG1"
 SEED = 20260829
 N_DRAWS = 2000
 
+#: ⛔⛔ WHICH MEMBERSHIP THE PANELS ARE SCORED OVER IS A PINNED CHOICE, NEVER A CONSEQUENCE OF
+#: WHICH FILES A WORKFLOW HAPPENED TO PUSH (AUT-PD-167). Until 2026-08-29 this module widened its
+#: entire scientific reading the moment `emc-expression-panels.json` grew a `signature_member_reads`
+#: block — so a scheduled CI fetch (aa6d9d9a9) reversed a committed verdict with no commit, no gate
+#: and no argument. The read is now a constant here and moving it is an edit somebody makes on
+#: purpose and defends in a commit message.
+#:
+#: ⛔ NEITHER AVAILABLE READ IS SOUND, AND THEY FAIL IN OPPOSITE DIRECTIONS. Both were measured on
+#: `origin/main` b24cb6e22; every figure lives on ledger row AUT-PD-167 and is not retyped here.
+#:
+#:   * `curated_only` (this pin) scores each published set over `curated ∩ published`. That subset is
+#:     NOT a thin-but-fair sample of the panel: the 479-gene roster was curated for six targeted EMC
+#:     reads that have nothing to do with this question, and in the LARGER series it picks, out of
+#:     every hypoxia panel, members that track the subject far better than the panel itself does —
+#:     while picking mid-pack members out of the PPARγ panels. ⛔ The size-matched null CANNOT absorb
+#:     this: it draws random genes from a POOL, never random members from the PANEL, so a non-random
+#:     choice of members passes straight through it. `within_panel_percentile` on every scored row
+#:     measures it, and that field is the one home for the size of the effect.
+#:   * `curated_plus_signature_members` (the wide read) scores each set over its full readable
+#:     membership, which is the right membership — but the null's pool then becomes the union of the
+#:     signature sets themselves, so a majority of it IS panel members and most of those are PPARγ
+#:     members. A draw from that pool is a diluted mixture of the two hypotheses rather than a
+#:     background, and the pool centroid's correlation with the subject moves from negative to
+#:     positive. ⛔ That shift is a POOL effect and not a panel-size one: swept over k = 10…231 the
+#:     null median is flat within each pool and differs between them at every k.
+#:
+#: ★ SO THE PIN IS NOT A VERDICT ON WHICH READ IS RIGHT — IT HOLDS THE PUBLISHED ONE STILL WHILE THE
+#: MEASUREMENT THAT SETTLES IT IS TAKEN. That measurement is full membership scored against a null
+#: drawn from a RANDOM SAMPLE OF THE ARRAY BACKGROUND, which neither read has and which is a $0 CI
+#: read of the same two series matrices. It is ledger row AUT-PD-170.
+MEMBERSHIP_SOURCE = "curated_only"
+
+#: The reads this module knows how to take. `curated_plus_signature_members` is implemented and
+#: reachable by changing the constant above; it is not dead code and it is not adopted.
+MEMBERSHIP_SOURCES = ("curated_only", "curated_plus_signature_members")
+
+#: Draws for the within-panel selection diagnostic. A quarter of `N_DRAWS`: it answers a percentile
+#: rather than a p-value, and it runs once per scored panel on top of the null itself.
+SELECTION_DRAWS = N_DRAWS // 4
+
 #: A panel needs enough per-sample members to be a programme proxy at all. Below this the score is
 #: one or two genes wearing a signature's name. ⚠ A tuning constant, not a principled threshold —
 #: it is pinned here in one place and the artifact records which panels it excluded and why.
@@ -148,6 +188,10 @@ def panel_rho(members, subject_z, gsms, cache):
 def member_z(src: dict, matrix: str) -> dict:
     """`{gene: {gsm: z}}` from the panels artifact's compact `signature_member_reads`, or `{}`.
 
+    ⛔ RETURNS `{}` WHENEVER `MEMBERSHIP_SOURCE` IS PINNED NARROW, EVEN THOUGH THE BLOCK IS PRESENT
+    AND READABLE — and `panel_membership_source` in the artifact says so in those words, because a
+    read declined on purpose and a read that could not be taken are different facts (CLAUDE.md §4).
+
     ⛔⛔ AN ABSENT BLOCK IS AN ABSENT READING, NOT A NARROW ONE BY CHOICE (AUT-PROP-051). Until a
     `panels` dispatch regenerates the artifact this returns `{}` and every score below is the OLD,
     NARROW read — a published set scored over `curated ∩ published`. That state is legible in the
@@ -155,6 +199,13 @@ def member_z(src: dict, matrix: str) -> dict:
     under the same field names, and a reader who cannot tell which one they hold has the worse of
     both.
     """
+    return {} if MEMBERSHIP_SOURCE == "curated_only" else signature_member_z(src, matrix)
+
+
+def signature_member_z(src: dict, matrix: str) -> dict:
+    """The block itself, read WHATEVER the pin says. Used by the selection diagnostic, which has to
+    enumerate each panel's full readable membership in order to report how the scored subset sits
+    against it — a diagnostic that could only run under the read it is diagnosing would be useless."""
     blk = ((src.get("signature_member_reads") or {}).get(matrix) or {})
     gsms, z = blk.get("gsms") or [], blk.get("z") or {}
     if not gsms or not z:
@@ -163,25 +214,81 @@ def member_z(src: dict, matrix: str) -> dict:
             for g, row in z.items()}
 
 
+def within_panel_percentile(members, readable_full, subject_z, gsms, diag_cache, rng):
+    """⛔⛔ THE CONTROL THE SIZE-MATCHED NULL CANNOT PROVIDE, AND THE ONE THAT DECIDES HOW MUCH THIS
+    ARTIFACT'S VERDICT IS WORTH (AUT-PD-167).
+
+    The null asks "would ANY k genes do this?" — it draws from a POOL. It therefore says nothing
+    about whether THESE k members are a fair sample of the panel they are named after. This asks the
+    other question: where does the scored subset's rho fall in the distribution of rho over k members
+    drawn at random from the SAME panel's full readable membership?
+
+    ⚠ A percentile near 50 means the subset is thin but fair. A percentile near 100 means the subset
+    was selected — and a roster curated for other purposes can select without anybody intending it.
+    Returns None when the full membership is no larger than the scored subset, because there is then
+    no distribution to sit in.
+    """
+    full = [g for g in readable_full if diag_cache.get(g)]
+    k = len(members)
+    if len(full) <= k:
+        return None
+    rho, _n = panel_rho(members, subject_z, gsms, diag_cache)
+    if rho is None:
+        return None
+    draws = []
+    for _ in range(SELECTION_DRAWS):
+        r, _x = panel_rho(rng.sample(full, k), subject_z, gsms, diag_cache)
+        if r is not None:
+            draws.append(r)
+    if not draws:
+        return None
+    return {
+        "n_panel_full": len(full),
+        "rho_over_full_panel": round(panel_rho(full, subject_z, gsms, diag_cache)[0], 4),
+        "percentile": round(100.0 * sum(1 for r in draws if r < rho) / len(draws), 1),
+        "draws": len(draws),
+        "_means": "where this row's scored subset falls among random subsets of the SAME size drawn "
+                  "from this panel's own full readable membership. 50 = a fair thin sample; 100 = the "
+                  "subset is the top of its own panel and the score is a selection effect.",
+    }
+
+
 def build(n_draws: int = N_DRAWS) -> dict:
     src = _load()
     gene_reads, sig = src["gene_reads"], src["signature_scores"]
     matrices = sorted({m for v in gene_reads.values() for m in v})
 
     wide_present = bool(src.get("signature_member_reads"))
-    membership_source = ({
-        "source": "gene_reads + signature_member_reads",
-        "means": "⭐ THE WIDE READ. Each published set is scored over every member the platform "
-                 "can read, and the size-matched null is drawn from that same widened pool.",
-    } if wide_present else {
-        "source": "gene_reads only",
-        "means": "⛔ THE NARROW READ, AND IT IS THE ONE AUT-PROP-051 EXISTS TO REPLACE. The panels "
-                 "artifact carries no `signature_member_reads` block, so each published set is "
-                 "scored over `curated ∩ published` — measured at 11 of 49 readable members for the "
-                 "Buffa metagene and 18 of 188 for pparg_chip_chea. Regenerate the panels artifact "
-                 "with the `panels` workflow mode, then re-run this. ⚠ Numbers under this source "
-                 "are NOT comparable with numbers under the wide one: the null's pool differs.",
-    })
+    if MEMBERSHIP_SOURCE not in MEMBERSHIP_SOURCES:
+        raise SystemExit(f"MEMBERSHIP_SOURCE={MEMBERSHIP_SOURCE!r} is not one of {MEMBERSHIP_SOURCES}")
+    membership_source = {
+        "pinned": MEMBERSHIP_SOURCE,
+        "wide_block_present": wide_present,
+        "source": ("gene_reads only" if MEMBERSHIP_SOURCE == "curated_only"
+                   else "gene_reads + signature_member_reads"),
+        "means": (
+            "⛔ THE NARROW READ, PINNED ON PURPOSE AND NOT FOR WANT OF DATA (AUT-PD-167). Each "
+            "published set is scored over `curated ∩ published`; how thin that is per panel is "
+            "`n_panel_members / n_panel_readable` on each row. The wide block IS present in the "
+            "panels artifact and is DECLINED here, "
+            "which is a different fact from its being absent."
+            if MEMBERSHIP_SOURCE == "curated_only" else
+            "⭐ THE WIDE READ. Each published set is scored over every member the platform can "
+            "read, and the size-matched null is drawn from that same widened pool."),
+        "why_pinned": (
+            "Neither available read is sound and they fail in OPPOSITE directions, so switching "
+            "would substitute one confound for another while reversing a published verdict. The "
+            "narrow read's members are a SELECTED subset of each panel (see `within_panel_percentile` "
+            "on every row); the wide read's null pool is a majority of panel members, most of them "
+            "PPARγ members, which makes it a diluted mixture of the two hypotheses rather than a "
+            "background — the figures are on ledger row AUT-PD-167. The "
+            "measurement that settles it — full membership against a null drawn from a random sample "
+            "of the array background — is ledger row AUT-PD-170 and is a $0 CI read."),
+        "not_comparable": "⚠ Numbers under the two sources are NOT comparable: the null's pool differs, "
+                          "and the shift is a POOL effect rather than a panel-size one — swept over "
+                          "k = 10…231 the null median is flat within each pool and differs between "
+                          "them at every k (AUT-PD-167).",
+    }
 
     series = {}
     for matrix in matrices:
@@ -193,6 +300,13 @@ def build(n_draws: int = N_DRAWS) -> dict:
         for g, zs in wide.items():
             if not cache.get(g):
                 cache[g] = zs
+        # ⭐ THE DIAGNOSTIC'S CACHE IS ALWAYS WIDE, WHATEVER THE PIN. It never feeds a score, a null
+        # or the verdict — only `within_panel_percentile`, which has to see the membership the pin
+        # is declining in order to say what declining it costs.
+        diag_cache = dict(cache)
+        for g, zs in signature_member_z(src, matrix).items():
+            if not diag_cache.get(g):
+                diag_cache[g] = zs
         subject_z = cache.get(SUBJECT)
         if not subject_z:
             series[matrix] = {"subject_readable": False,
@@ -207,6 +321,10 @@ def build(n_draws: int = N_DRAWS) -> dict:
         # carried over from the narrow run.
         pool = sorted(g for g in cache if g != SUBJECT and cache.get(g))
         rng = random.Random(SEED)
+        # ⛔ ITS OWN GENERATOR. Sharing `rng` would make every null downstream of the diagnostic
+        # depend on how many panels happened to be diagnosed before it — the artifact would stop
+        # re-deriving the moment a panel was added, for a reason that is not a defect.
+        diag_rng = random.Random(SEED)
         nulls: dict[int, list] = {}
         rows = {}
 
@@ -264,6 +382,8 @@ def build(n_draws: int = N_DRAWS) -> dict:
                 "null_draws": len(null),
                 "p_empirical": round(p_emp, 4),
                 "above_null_p95": rho > null[int(0.95 * len(null))],
+                "within_panel_percentile": within_panel_percentile(
+                    members, readable, subject_z, gsms, diag_cache, diag_rng),
             }
 
         scored = {p: r for p, r in rows.items() if r.get("scored")}
@@ -315,12 +435,28 @@ def build(n_draws: int = N_DRAWS) -> dict:
                                  "rho of +0.6.",
         },
         "_what_this_does_not_settle": (
-            "Direction and mechanism. A transcript tracking a hypoxia proxy is consistent with "
-            "HIF-driven abundance and equally consistent with both being downstream of something "
-            "else in these tumours; nothing here separates them. It also does not settle the "
-            "published signatures themselves. ⚠ HOW MUCH OF EACH SET WAS ACTUALLY SCORED IS "
-            "`panel_membership_source` below and `n_panel_members / n_panel_readable` on every "
-            "row — read those rather than assuming either the narrow or the wide read."),
+            "⛔⛔ FIRST AND LOUDEST: WHETHER THE SEPARATION BELOW IS THE BIOLOGY OR THE ROSTER "
+            "(AUT-PD-167, measured 2026-08-29). Every panel here is scored over the members that "
+            "happen to sit in a 479-gene roster curated for six unrelated targeted EMC reads, and "
+            "`within_panel_percentile` on each row reports that this subset is NOT a fair thin "
+            "sample of its panel in the larger series: there the curated subset of EVERY hypoxia "
+            "panel lands in the upper tail of its own panel's distribution — read the six "
+            "`within_panel_percentile` values below rather than a number retyped here — while the "
+            "PPARγ subsets straddle the middle. ⛔ The "
+            "size-matched null cannot absorb that, because it draws random genes from a POOL and "
+            "never random members from the PANEL. Read `separating_series` as CONDITIONAL ON THIS "
+            "ROSTER and not as a statement about the published signatures. "
+            "⚠ The obvious repair — score the full membership, which this repository now holds — is "
+            "NOT sound either: its null pool becomes the union of the signature sets, a majority of "
+            "which IS panel members and most of those PPARγ members, so it is a diluted mixture of "
+            "the two hypotheses rather than a background (AUT-PD-167). Both reads are confounded "
+            "and they fail in opposite "
+            "directions; the read that settles it is AUT-PD-170. "
+            "Direction and mechanism are not settled either. A transcript tracking a hypoxia proxy "
+            "is consistent with HIF-driven abundance and equally consistent with both being "
+            "downstream of something else in these tumours; nothing here separates them. ⚠ HOW MUCH "
+            "OF EACH SET WAS ACTUALLY SCORED IS `panel_membership_source` below and "
+            "`n_panel_members / n_panel_readable` on every row."),
         "_inputs": {"panels": "research/modalities/emc-expression-panels.json",
                     "seed": SEED, "n_draws": N_DRAWS,
                     "min_panel_members": MIN_MEMBERS, "min_samples": MIN_SAMPLES},
@@ -330,8 +466,13 @@ def build(n_draws: int = N_DRAWS) -> dict:
             "separating_series": separating,
             "n_series_usable": len(usable),
             "headline": (
-                f"{len(separating)} of {len(usable)} series separate the two programmes."
+                f"{len(separating)} of {len(usable)} series separate the two programmes, CONDITIONAL "
+                "ON THE CURATED ROSTER — see `_what_this_does_not_settle` before quoting this."
                 if usable else "no series carries a readable subject probe"),
+            "_weight": "⛔ NOT a confirmed one-series finding. The subset each panel is scored over "
+                       "is selected rather than thin-but-fair (`within_panel_percentile`), and the "
+                       "wide alternative is confounded the other way. This artifact is the best "
+                       "available read and it is not yet a result.",
         },
     }
 

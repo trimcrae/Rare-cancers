@@ -1,0 +1,60 @@
+{
+  "cycle_id": "CYC-0084-6b009680",
+  "session_id": "6b009680-c325-5cfa-bbfa-bb1af76fa8bf",
+  "ccr_session_id": "session_01CUYirsUYqbaxCWGsX3iYMq",
+  "started_utc": "2026-08-29T08:42:12Z",
+  "base_sha": "b24cb6e22 (rebased onto 78501699e before committing)",
+  "took": "AUT-PD-167",
+  "took_why": "Top of the open queue at 150.0, free, AND the red trunk. research-loop §1: preflight red on `main` and not by my hand makes fixing it the cycle, and this row IS that red — tests.yml has failed on every commit since e7be9940c, the one assertion being ndrg1-panel-attribution.json failing to re-derive.",
+  "health_at_start": {
+    "exit": 0,
+    "red": [
+      "scores_are_reachable"
+    ],
+    "red_on_red_posture": "advises — reported, not a stop (73 of 175 open rows unscored, the ratchet AUT-PD-145 pinned)",
+    "unmeasured": [
+      "gates_green",
+      "stalls_are_named"
+    ],
+    "escalations": "none; no condition past its restart budget"
+  },
+  "trunk_verdict_read_from_actions": {
+    "last_green": "e7be9940c (run 33242...; 2026-08-29T07:37Z)",
+    "red_since": "7f987b6fb 2026-08-29T07:47Z — six consecutive failures",
+    "failing_assertion": "research/modalities/tests/test_ndrg1_panel_attribution_controls.py::test_the_committed_artifact_rederives_from_its_generator — 1 failed, 10859 passed",
+    "gates_job": "green throughout; only the pytest job was red"
+  },
+  "what_changed": [
+    "research/modalities/ndrg1_panel_attribution.py — MEMBERSHIP_SOURCE is now a pinned constant with the argument for the pin beside it, so a CI fetch can no longer reverse a committed verdict with no commit and no gate; member_z declines the wide block explicitly while signature_member_z still reads it; within_panel_percentile computes the selection control on every scored row, on its own RNG so the null's draw sequence is untouched.",
+    "research/modalities/ndrg1-panel-attribution.json — regenerated. 29 fields added, 3 prose fields changed, 0 numeric results moved against b24cb6e22 (checked field by field).",
+    "research/modalities/tests/test_the_panel_read_is_pinned_not_inherited.py — new, 9 tests. Pins the decline-not-absence property, mutation-tests the diagnostic in BOTH directions (a deliberately-best subset must exceed the 95th percentile, a deliberately-worst must fall below the 5th), and pins the finding itself.",
+    "systems/graph/routes.json — RT-SGK1 supporting_evidence[1] states the one-series reading as NOT CONFIRMED with the selection confound named. `strength` left at `direct` on purpose: it labels the KIND of evidence, not its weight, and downgrading it would be a category error.",
+    "systems/views/L2-rt-sgk1.md — regenerated from the graph.",
+    "research/autonomy/research-ledger.json — AUT-PD-167 done with all five measurements; AUT-PD-170 filed at 149.0 as the read that settles it."
+  ],
+  "finding": "NEITHER AVAILABLE READ SETTLES AUT-PROP-048, AND THEY ARE CONFOUNDED IN OPPOSITE DIRECTIONS — so no refutation was written and no control test was relaxed. (1) The two blocks are the same reduction: over 197 (GSE24369) and 185 (GSE4303) genes present in both, z agrees to max |delta| 0.000000, so the wide read is not a normalisation artifact. (2) The null's move is a POOL effect and not a panel-size one: swept over k = 10..231 at 500 draws the null median is flat at -0.067..+0.008 in the curated pool and +0.086..+0.129 in the wide one, tracking rho(NDRG1, whole-pool centroid) of -0.0543 and +0.0882. (3) The wide read's null pool is mostly the panels it is a null for: 61.5% panel members, 43.1% PPARg members, against 27.2% / 14.9% curated. (4) AND THE CURATED READ'S MEMBERS ARE A SELECTED SUBSET OF EACH PANEL, which is the confound that manufactures the committed verdict and the one the size-matched null structurally cannot see, because it draws from a POOL and never from the PANEL: in GSE24369 all six hypoxia panels' curated subsets sit in the upper tail of their own panel's within-panel distribution (100.0th, 97.3rd, 89.9th, 86.4th, 77.6th, 72.3rd) while the PPARg subsets straddle the middle (3.9 to 82.6, median 55). hypoxia_gobp_response scores +0.7445 over its 22 curated members and +0.2353 over all 72. (5) On GSE4303 that asymmetry is absent, consistent with the curation having been driven by the larger series rather than by chance.",
+  "what_it_cost": "$0. CPU only: one artifact regeneration (43 s), four diagnostic sweeps and one scoped pytest run (60 s), all local.",
+  "gates": {
+    "scoped_suite": "16 passed / 0 failed — the 9 new tests plus all 7 existing controls, including the 4 that pin the narrow finding and the re-derive assertion that was red on the trunk",
+    "preflight": "see preflight_marker below"
+  },
+  "anti_gaming": {
+    "invariant": "research-loop §6 — a bar may not be changed by the cycle the bar just blocked.",
+    "how_it_was_honoured": "The four control tests that pin the narrow finding were NOT touched, NOT relaxed and NOT skipped; they pass unchanged. The wide read was not adopted. The only bar that moved is upward: a new guard file, and a new assertion that our own committed verdict rests on a selected subset. AUT-PD-170 records that a LATER cycle may move MEMBERSHIP_SOURCE and those four tests, because a later cycle is not the cycle they blocked.",
+    "self_serving_check": "Does this change make it easier for me to report success? The pin makes a red test green, so the honest answer is that it could. Against that: it adopts no reversal, it weakens no assertion, it adds a control that DOWNGRADES the repository's own result, and the verdict headline and systems/graph now say the reading is conditional where they previously stated it flat. The defect being fixed is the silent inheritance itself — a generator that switched its entire scientific reading because a workflow pushed a file — and that is a defect whichever value the constant takes."
+  },
+  "escalated": "nothing. research-loop §5 names five triggers and none applies: no journal submission, no spend, no goal-changing fact, no health condition past its deadline, no paper ready to post.",
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "One item, one diagnostic chain, each step's question set by the previous step's answer. Nothing here was independent enough to fan out, and the driver had to hold the argument."
+  },
+  "now_queued": [
+    "AUT-PD-170",
+    "AUT-PD-171"
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-SGK1",
+  "route_advanced_why": "The route's only committed positive result was measured and found to rest on a selection artifact its own control could not see; the artifact, the graph and the ledger now state it at that weight, and the read that settles it is filed and free. Correcting the strength of a live route's own claim, with the deciding experiment named, is advancing it — the alternative was a manuscript inheriting an overclaim.",
+  "collision_hit": "⛔ `ids.next_entry_id` handed this cycle AUT-PD-169 at 09:15Z while CYC-0083-381d0696 had already committed a DIFFERENT AUT-PD-169 at 08:58:24Z (24987a47b), 21 commits ahead. Renumbered to AUT-PD-170 across the generator, the artifact, this receipt and the amendment declaration, and filed the defect as AUT-PD-171 — `ids.next_receipt` in the same module already carries a session discriminator and `ids.next_entry_id` does not. Caught by reading a sibling session's post_turn_summary during the step-11 reaper, which is luck, not a mechanism."
+}
