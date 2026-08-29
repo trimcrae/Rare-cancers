@@ -2572,9 +2572,9 @@
         "publication": "PUB-STRATEGY-ARCH",
         "strategy": "ST-STRATEGY"
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "s1-CYC-0073-d4ccfde4",
+      "claimed_utc": "2026-08-29T00:58:47Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2594,7 +2594,13 @@
       "_renamed_why": "re-allocated at the rebase onto 469e8944d: a concurrent session had taken the id this row was first filed under. AUT-PD-143's own finding is why the count was re-derived explicitly rather than assumed.",
       "score_inputs": {
         "age_factor": 0.0714
-      }
+      },
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T00:58:47Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-031",
