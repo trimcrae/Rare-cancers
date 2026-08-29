@@ -170,6 +170,72 @@ below, do the paired action and open the follow-up; otherwise no action.
 > checker now reads the query as evidence and reports 0 `[Z5]`. This table stays the one home of the **capability → action** pairing; the
 > map owns the **closure → trigger → what-it-reopens** graph, and neither restates the other.
 
+## How an item gets from a feed to a document
+
+Three layers, and they are not interchangeable. **The feeds** (this file's watched topics, run by
+`scripts/method-watch.mjs`) are broad and catch what a query was never written for. **The
+reopening-trigger scan** ([`method-watch-triggers.json`](method-watch-triggers.json)) is narrow,
+deterministic and free, and answers *"did the specific named capability we are parked on arrive?"*.
+**The matcher** ([`scripts/news_match.py`](../scripts/news_match.py), added 2026-08-28) is one model
+call over the week's headlines and `what_it_would_claim` for all 32 rows of
+[`publications.json`](../systems/graph/publications.json), and answers the question neither of the
+others could — *"which of OUR documents does this bear on?"*
+
+⛔ **The matcher proposes; nothing cites automatically.** It has seen a headline, not a paper. Its
+output is `research/literature/news-match-queue.json`, an unvalidated queue — **not linked here
+because it does not exist until the first CI run writes one**, and seeding it by hand would be a
+plausible-looking record of a model run that never happened. Rows that survive a human read become
+`open` rows in
+[`citation-debt.json`](literature/citation-debt.json), which refuses a row that names no
+`blocked_on`. ⚠ **It reports `supports` against `complicates` and prints the census**, because a
+watch list kept by people who want these routes to work under-reports the results that cut against
+them — the count is what makes that question askable.
+
+⭐ **THE JUDGE IS A SCHEDULED CLAUDE SESSION, NOT AN API CALL** (trimcrae, 2026-08-28: *"Why on
+earth would I use an additional API key from a Claude code session. Obviously use a scheduled
+session"*). The first build called `api.anthropic.com` with `secrets.ANTHROPIC_API_KEY` — a second
+bill for a capability this project already pays for. It was also inert: that secret does not exist,
+which the first CI run
+([33215625481](https://github.com/trimcrae/Rare-cancers/actions/runs/33215625481)) showed by
+printing `ANTHROPIC_API_KEY:` **empty** beside `GITHUB_TOKEN: ***` for a secret that is defined.
+⚠ **Three call sites still reference that secret** — `email_digest.py`'s summary fallback and
+`daily-degrader-email.yml` — so the API fallback in both emails has almost certainly never fired
+once. Nobody noticed because the newsletter's summary comes from the `email-outbox` branch, written
+by a scheduled session, so the fallback was never reached. Same shape as the SES branch documented
+in `mailer.py`: a code path that looked like coverage and had never run. Recorded, not fixed —
+that is trimcrae's call, and the matcher no longer needs it.
+⭐ **The session was the better mechanism anyway, not just the cheaper one**: a session can read the
+source, and the API judge only ever saw a headline. Steps:
+[`news-match-routine-prompt.md`](routines/news-match-routine-prompt.md).
+
+⭐ **THE ROUTINE IS SCHEDULED, AND IT WAS CREATED PROGRAMMATICALLY — IN TWO CALLS, NOT ONE.**
+`create_trigger` alone spawns a session with **no repository** (`session_context.sources` absent):
+tested 2026-08-28, it ran 26 minutes reporting `RUNNING` and ended `FAILED`, which is the same
+defect that left the field-scan Routine delivering nothing for six weeks. But `create_session` takes
+`source_url`, and `create_trigger` can bind to an existing session — so the working path is
+`create_session` (repo attached, model pinned) then `create_trigger(persistent_session_id=…)`.
+⭐ **Proven end to end 2026-08-29:** a scheduled firing reached the bound repo-attached runner, on
+the pinned Opus, with `sources` intact. ⛔ **A manual `fire_trigger` does NOT** — it ignores the
+binding and spawns a fresh unattached Sonnet session, so it is not a valid test of the schedule
+and reading it as one gives the opposite answer. Probe a schedule with a schedule (`run_once_at`).
+⚠ **The discriminating field is `session_context.sources`, readable the moment a session is created
+and long before anything runs. Check it before binding a schedule to anything** — a Routine firing
+into an empty container looks healthy for as long as it flails. Both routes, the evidence table and
+the model-pinning note: [`news-match-routine-prompt.md`](routines/news-match-routine-prompt.md).
+
+⭐ **Validated end to end 2026-08-28, by a session doing exactly what the Routine will do**: 47 fresh
+headlines against 32 publication claims → 15 distinct stories matched, 19 explicitly bearing on
+nothing, 0 unreached, 0 verdicts rejected. Running it also found a defect no amount of design would
+have: one Phase 3 readout arrived from **eleven outlets**, so the census counted eleven `supports`
+where there was one story. `duplicate_of` now collapses a story to one row and excludes the copies
+from the census — the bias instrument counts stories, not headlines, or it inflates the exact number
+it exists to watch, in the exact direction it is watching for.
+
+⚠ **Why the matcher is not inside the trigger scan.** That scan's bottleneck is its Europe PMC
+*query*, not its title filter: the API returns only what the query asked for, so a model placed
+downstream of a narrow query still never sees the paper the query missed. The newsletter's feeds are
+broad, and are the layer that actually caught PMID 42570981.
+
 ## Capability → action trigger table
 | When this capability becomes usable | …do this |
 |---|---|
@@ -190,9 +256,10 @@ below, do the paired action and open the follow-up; otherwise no action.
 | new **patient-derived EMC / FET-fusion-sarcoma model** (cell line / organoid / PDX) | **enables the decisive wet-lab experiment** — junction-ASO knockdown + parental-sparing in EMC cells (`fusion-junction-aso-working-record.md` §4) — and a fusion-dependence readout |
 | improved **perturbation / DepMap-transfer** models | re-test synthetic-lethal / nominate new EMC dependencies |
 | **remote-controlled / cloud robotic wet lab** a solo researcher can rent by the experiment (Emerald Cloud Lab, Strateos/Transcriptic-class, or an autonomous "self-driving"/lab-in-the-loop service) reaches solo-affordable, EMC-runnable scope | **re-grade the whole "no wet lab" operating regime** — the wet-lab-gated experiments become *runnable by us*, not just by a hypothetical collaborator. Scope + price the **cheapest decisive experiment** (junction-ASO knockdown + parental-sparing in an EMC/FET-fusion line — ASO paper §4) and the degrader/delivery validations; ask trimcrae before committing spend. **Honest caveat:** a cloud lab unlocks *robotic execution*, not the *reagents/biology* — you still need the EMC cell line or organoid (couples to the patient-derived-model row) and antibodies/oligos, so this flips the *execution* gate, not automatically the *material* gate. |
-| a **second independent phase-behaviour force field** (Mpipi or a CALVADOS successor) shown to resolve differences between closely related disordered sequences **finer than 0.06 in the Flory scaling exponent ν**, OR a published **EMC condensate measurement stratified by 5′ fusion partner** (EWSR1 vs TAF15 vs TCF12) rather than pooled | **re-grade the shelved condensate arm.** It ran to its prespecified standard on 2026-08-24 — 55 CPU runs, both controls passing — and returned a bounded null: no partner window separated from any other, nor from wild-type NR4A3's own disordered region. It was shelved on expected value, not on failure. ⛔ **A re-run of the same arm with more sampling does NOT fire this row** — that arm's own prespecification forbids extending it after seeing the numbers, and the reason to reopen is *resolution*, not repetition. Searchable form: [`method-watch-triggers.json`](method-watch-triggers.json) → `TRG-CONDENSATE-PARTNER-RESOLUTION` (registry `TR-CONDENSATE-PARTNER-SIGNAL`, instrument `INS-CALVADOS-SINGLE-CHAIN`, capability `TECH-CONDENSATE-RESOLUTION` — what a hit lands on). Evidence: [`emc-condensate-calvados-findings.md`](modalities/emc-condensate-calvados-findings.md) |
+| a **second independent phase-behaviour force field** (Mpipi or a CALVADOS successor) shown to resolve differences between closely related disordered sequences **finer than 0.06 in the Flory scaling exponent ν**, OR a published **EMC condensate measurement stratified by 5′ fusion partner** (EWSR1 vs TAF15 vs TCF12) rather than pooled | **re-grade the shelved condensate arm.** It ran to its prespecified standard on 2026-08-24 — 55 CPU runs, both controls passing — and returned a bounded null: no partner window separated from any other, nor from wild-type NR4A3's own disordered region. It was shelved on expected value, not on failure. ⛔ **A re-run of the same arm with more sampling does NOT fire this row** — that arm's own prespecification forbids extending it after seeing the numbers, and the reason to reopen is *resolution*, not repetition. Searchable form: [`method-watch-triggers.json`](method-watch-triggers.json) → `TRG-CONDENSATE-PARTNER-RESOLUTION` (registry `TR-CONDENSATE-PARTNER-SIGNAL`, instrument `INS-CALVADOS-SINGLE-CHAIN`, capability `TECH-CONDENSATE-RESOLUTION` — what a hit lands on). ⛔ **AND THAT SEARCHABLE FORM WAS A NAME WITH NOTHING BEHIND IT UNTIL 2026-08-28**: the trigger was `scan_enabled: true` with **no `search` block at all**, so it rendered on every board as a watched row while searching for nothing. `trigger_scan.py --check` had been reporting it and no gate ran `--check`; both halves are fixed — the queries exist now, and `scripts/preflight.sh` runs the checker in the ordinary commit loop. Evidence: [`emc-condensate-calvados-findings.md`](modalities/emc-condensate-calvados-findings.md) |
 | ⛔ **NOT AN IN-SILICO CAPABILITY — A FREE ROUTE TO THE SIX CLOSED EMC SERIES.** Any of `meisKindblom1999` (n=117), `ussc2022` (n=60), `uMich2023`, `china2016`, `stacchiotti2019pazopanib` or `stacchiotti2014sunitinib` becoming readable at no cost — an author manuscript or repository deposit appearing, a publisher opening its archive, or an institutional route this project gains. ⚠ It fires only on a copy that is genuinely free or genuinely licensed; it is never a licence to route around a paywall | **Read that series' survival figures and its SITE table.** ⭐ The site tables are the half that has already moved a route — they gave RT-LIMB-PERFUSION its extremity fraction — and they are printed by series whose curves are useless, so a paper that fails the Kaplan-Meier test can still be worth reading. Searchable form: [`method-watch-triggers.json`](method-watch-triggers.json) → `TRG-CLOSED-EMC-SERIES-ACCESS`. ⚠ `scan_enabled: false` deliberately — a literature scan cannot see this, and the discriminating observation is a $0 Unpaywall re-check of six known DOIs |
 | any direct **chemical/biological matter against NR4A3** or the fusion | fold into the relevant route memo immediately |
+| a **human clinical readout for a therapy aimed at a fusion BREAKPOINT** — any fusion, any cancer, any modality that targets the junction sequence itself (peptide or mRNA vaccine, TCR-T, soluble TCR/ImmTAC, adoptive transfer). ⛔ **This is an OUTCOME IN A PERSON and it is NOT the predictor row the three antigen routes are otherwise parked on** — a tool would let us COMPUTE something we cannot; a readout moves the PRIOR on whether the class does anything, supplying no method at all | **Grade it on three axes before any artifact moves**: which fusion (EMC, a sibling FET fusion, or unrelated); n and whether there was a control arm; immunologic readout or clinical one — because the headline word *clinical* inflates into efficacy at the slightest encouragement. Then write it into every path in the trigger's `cite_into` and record the outcome in [`citation-debt.json`](literature/citation-debt.json). ⛔ **A NEGATIVE READOUT FIRES THIS ROW TOO**, and is the direction a watch list kept by people who want the route to work will quietly under-report. ⚠ **PARTIALLY FIRED — the fired half is n = 1.** PMID 42570981: an off-the-shelf multi-peptide vaccine spanning the type 1 EWSR1-FLI1 breakpoint, de novo polyfunctional CD4⁺ responses against all four fusion-derived peptides persisting beyond two years, in ONE patient, uncontrolled, after multimodal therapy. It raises the prior and clears nothing: `BLK-ANTIGEN-COLD` is a claim about how much junction peptide-HLA an EMC cell displays, which no peripheral T-cell readout measures. The counterweight is carried at equal weight — the modality's largest human series (PMID 22726592, n = 21, SYT-SSX) has a published evaluation reporting no robust immune response to the target epitope. Searchable form: [`method-watch-triggers.json`](method-watch-triggers.json) → `TRG-FUSION-JUNCTION-CLINICAL` (routes `RT-VACCINE` / `RT-JUNCTION-NEOANTIGEN` / `RT-TCR-IMMTAC` / `RT-VACCINE-COMBINATION`, capability `TECH-JUNCTION-CLINICAL-PRECEDENT`). ⚠ **ADDED 2026-08-28 BECAUSE NOTHING COULD SEE THIS CLASS.** The word *vaccine* appeared in ZERO of the 38 trigger queries; `TRG-JUNCTION-PHLA` missed PMID 42570981 twice over (its query is anchored on TITLE:neoantigen / peptide-HLA / pMHC / immunopeptidome, and its title filter on the same terms — none of which is in that title). The paper reached this repository through the clinical/treatment-news feed instead, four days after that feed was built |
 
 The **delivery** rows are load-bearing: the ASO/siRNA route is gated by tumour delivery, which
 we cannot solve in-silico today. There are **two distinct ways this unblocks**, so there are two
