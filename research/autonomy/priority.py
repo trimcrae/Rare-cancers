@@ -512,16 +512,39 @@ def apply_age_factor(entries: list[dict], weights: dict, today=None) -> list[dic
         # rebuilt each run) so it gets the full term exactly as before. This also makes the term
         # correctly REVERSIBLE: refreshing a row's evidence lowers its age factor, and the bonus now
         # shrinks with it instead of being a ratchet.
-        prev = (e.get("score_inputs") or {}).get("age_factor")
+        # ⭐ ONE TYPE-CHECKED READ SERVING BOTH THE READ AND THE WRITE BELOW (AUT-PD-152). The old
+        # spelling was `(e.get("score_inputs") or {}).get(...)`, which survives a FALSY non-dict
+        # (None, "", 0, []) and raises on a truthy one — `'str' object has no attribute 'get'`,
+        # found by this fix's own regression test. `or {}` is a falsiness test wearing a type
+        # check's clothes; `isinstance` is the type check.
+        si = e.get("score_inputs")
+        si = si if isinstance(si, dict) else None
+        prev = si.get("age_factor") if si is not None else None
         prev = float(prev) if isinstance(prev, (int, float)) and not isinstance(prev, bool) else 0.0
         if not f and not prev:
             continue
         if f:
-            if not isinstance(e.get("score_inputs"), dict):
-                e["score_inputs"] = {}
-            e["score_inputs"]["age_factor"] = f
-        else:
-            (e.get("score_inputs") or {}).pop("age_factor", None)
+            # ⛔⛔ `setdefault` RETURNS THE EXISTING VALUE, AND A ROW REALLY DOES CARRY
+            # `"score_inputs": null` — so this line was `None["age_factor"] = f` and took the whole
+            # loop down. Measured 2026-08-29T00:02Z (AUT-PD-152) on `AUT-COV-001`, filed by CYC-0011
+            # and sitting harmlessly on the trunk for days. ⭐ THE TRIGGER WAS THE CALENDAR, NOT A
+            # COMMIT: two lines up, `prev` is read defensively (`or {}`) and the guard
+            # `if not f and not prev: continue` skipped this row for as long as its age factor
+            # rounded to zero. The date rolling to 08-29 made `f` non-zero for the first time, the
+            # row reached this write, and `priority.py --write` — step 3 of EVERY cycle — began
+            # crashing on state no cycle had touched. ⛔ It deadlocked the loop rather than merely
+            # failing: `admissibility.check_write` then refuses every ledger write as
+            # `refused_stale_input` (the stored age factors no longer match the date), so a cycle
+            # could not re-score AND could not claim, and the two failures each blocked the other's
+            # fix. ★ The defensive READ two lines up is the shape this WRITE should always have had;
+            # AUT-PD-050 fixed the crashes in this function and this one survived because a null
+            # `score_inputs` is a different thing from an absent one.
+            if si is None:
+                si = {}
+                e["score_inputs"] = si
+            si["age_factor"] = f
+        elif si is not None:
+            si.pop("age_factor", None)
         if isinstance(e.get("score"), (int, float)):
             e["score"] = round(e["score"] + w * (f - prev), 1)
     return entries

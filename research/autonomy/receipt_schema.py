@@ -82,7 +82,7 @@ FIRST_GOVERNED_CYCLE = 23
 #: The field that lets `session_reaper.py` join a receipt to a row in the session list.
 CCR_ID_KEY = "ccr_session_id"
 
-#: ⛔⛔ THE ESCAPE VALVE FOR A SESSION WHOSE TOOL SURFACE HAS NO `get_session` AT ALL (AUT-PD-153,
+#: ⛔⛔ THE ESCAPE VALVE FOR A SESSION WHOSE TOOL SURFACE HAS NO `get_session` AT ALL (AUT-PD-155,
 #: 2026-08-29). AUT-PD-146 measured how to OBTAIN `ccr_session_id` (`get_session` with no args ->
 #: `.ccr.id`) and assumed the tool is always reachable. It is not: a scheduled-Routine session's tool
 #: surface is narrower than an interactive one's and can omit `get_session`/`create_session`
@@ -222,7 +222,7 @@ def problems(receipt: dict, path: str) -> list[str]:
         unavailable = receipt.get(CCR_UNAVAILABLE_FIELD)
         if not (isinstance(ccr, str) and _CCR_ID.search(ccr)):
             if isinstance(unavailable, str) and unavailable.strip():
-                pass  # AUT-PD-153: a named, non-empty reason the tool could not be reached at all.
+                pass  # AUT-PD-155: a named, non-empty reason the tool could not be reached at all.
             else:
                 out.append(
                     f"{rid}: no `{CCR_ID_KEY}` naming a CCR session id (`session_...`), and no "
