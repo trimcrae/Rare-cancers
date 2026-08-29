@@ -14,18 +14,18 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 145,
+    "process_defect": 146,
     "proposal": 17,
     "regrade": 8,
-    "verify": 1,
+    "verify": 2,
     "write": 6
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 127,
+    "done": 128,
     "in_progress": 5,
     "parked": 28,
-    "queued": 139,
+    "queued": 140,
     "ready": 1,
     "superseded": 1
   },
@@ -2046,6 +2046,41 @@
       "_id_collision": "Filed as AUT-PD-134 and renumbered AUT-PD-140 at the rebase. Another session filed its own AUT-PD-134 on the trunk while this cycle was working. `ids.next_entry_id` is max+1 over the ledger it can see and says so in its own docstring: concurrent filings collide and are caught at the merge. Nothing was lost — both rows exist, and every reference in continuity.py, the Stop hook and the two test files was moved with it."
     },
     {
+      "id": "AUT-PD-167",
+      "kind": "verify",
+      "process_defect": false,
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0081-b272f286",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "an in-silico re-derivation and a judgement about which null is sound; nothing outward-facing",
+      "score": 150.0,
+      "_score_basis": "Above every open process_defect (top is 134.0) because it is a LIVE-ROUTE result that a committed artifact and systems/graph both currently state more strongly than the evidence now supports, AND the trunk is red until it is resolved. CLAUDE.md §0 ranks live-route work first; §1's one-fact-one-place makes a wrong claim in the graph the most expensive kind here.",
+      "depends_on_evidence": [
+        "WIDE read, computed 2026-08-29 on origin/main aa6d9d9a9 (scratchpad/cyc80/EVIDENCE-wide-read.log): GSE24369 n=35 pool=2283 hypoxia 2/6 over null, PPARγ 3/6, null median [+0.095,+0.130]; GSE4303 n=16 pool=2033 hypoxia 5/6, PPARγ 2/6, null median [+0.171,+0.274]. VERDICT 0 of 2 series separate.",
+        "NARROW read, committed: GSE24369 hypoxia 6/6, PPARγ 0/6, null median [-0.011,+0.016]; GSE4303 1/6 and 1/6. VERDICT 1 of 2.",
+        "systems/graph/routes.json [51].supporting_evidence[1].what_it_supports states the one-series reading verbatim, and systems/views/L2-rt-sgk1.md is generated from it",
+        "test_ndrg1_panel_attribution_controls.py against the WIDE artifact: 4 failed / 15 passed — test_the_verdict_reports_one_series_not_two, test_every_scored_panel_counts_its_members_after_the_exclusion, test_the_smaller_series_null_is_high_enough_to_swallow_the_raw_correlations, test_no_single_raw_rho_threshold_reproduces_the_committed_verdict",
+        "against the NARROW artifact on the current trunk: 1 failed / 6 passed — test_the_committed_artifact_rederives_from_its_generator, because its input moved under it when the CI fetch landed"
+      ],
+      "closes_clause": null,
+      "what": "⛔⛔ WIDENING THE PANELS REVERSES AUT-PROP-048's VERDICT, AND THE NULL MOVED IN THE SAME STEP — SO THIS IS NOT YET A REFUTATION AND MUST NOT BE WRITTEN AS ONE. Scored over full published membership instead of the 479-gene curated subset, NEITHER series separates hypoxia from PPARγ proxies; the committed artifact and systems/graph both say the larger series does. ⚠ THE CONFOUND IS EXACTLY THE ONE AUT-PROP-048's OWN CONTROL WAS BUILT TO CATCH, now pointed at the new read: the size-matched null is drawn from the pool, the pool grew 479 -> ~2,283, and the LARGER series' null median moved from ≈0.00 to +0.095..+0.130. Its own guard says so in words: 'the LARGER series' null is no longer centred near zero, so its separation may be array structure too'. A pool of 2,000 genes off one array carries more shared component than a curated 479, so BOTH the panel scores and the bar they are judged against moved together. ⛔ WHICH READ IS SOUND IS THE QUESTION, AND IT IS NOT ANSWERED BY PREFERRING THE BIGGER NUMBER. ★ THE TRUNK IS RED EITHER WAY AND THERE ARE ONLY TWO SELF-CONSISTENT STATES: (a) commit the wide artifact — 4 control tests fail, because they pin the narrow finding; (b) keep the narrow artifact — 1 test fails, because it no longer re-derives from the input the CI fetch replaced. The trunk is in (b), which is the smaller red and the one that points at this row rather than silently adopting a reversal. ⛔⛔ WHOEVER TAKES THIS MAY NOT RELAX THOSE FOUR TESTS TO ADOPT THE WIDE READ — that is the anti-gaming invariant (research-loop §6: a bar may not be changed by the cycle it blocked), and these are the bars that blocked this one. Argue the null first, in a commit message and on this row; change a test only as the recorded consequence of that argument, declared in amendments.jsonl. ⭐ WHAT WOULD ACTUALLY SETTLE IT: the null's pool and the panel membership are two separate choices that this change moved together, so separate them — score FULL membership against a null drawn from the ORIGINAL 479-gene pool, and the curated subset against the widened pool. Two runs, $0, and they say which of the two changes carries the reversal. Until that exists this row states a conflict, not a result.",
+      "_language_discipline": "⛔ Neither read may be reported as an efficacy, selectivity, safety or mechanism claim, and the reversal may not be written as 'NDRG1 is not hypoxia-associated' — a failure to separate two proxy families under one null is not evidence of absence."
+    },
+    {
       "id": "AUT-PROP-038",
       "kind": "proposal",
       "process_defect": false,
@@ -3256,6 +3291,41 @@
       }
     },
     {
+      "id": "AUT-PD-168",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0083-381d0696",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a workflow edit and a gate ordering; nothing outward-facing",
+      "closes_clause": null,
+      "score": 126.0,
+      "_score_basis": "Filed just above AUT-PD-028 (124.0), which is the COLLISION this defect causes: two sessions both regenerating the manifest is what happens downstream of an unattended workflow leaving it stale. Whoever takes one should see the other beside it. Below AUT-PD-165's family (134-135) because the harm is a red trunk that a regeneration clears, not ungated content reaching `main`.",
+      "depends_on_evidence": [
+        "origin/main aa6d9d9a9 'EMC expression panels: targeted reads in the two readable series (CI)' changed research/modalities/emc-expression-panels.json (+121,324 lines) and research/modalities/emc-expression-panels-inputs.json, and nothing else",
+        "research/modalities/emc-expression-panels.json IS in the ASO archive inventory (fusion-junction-aso-archive-manifest.json); the -inputs.json sibling is not",
+        ".github/workflows/emc-expression-datasets.yml writes research/modalities/junction-aso-regen-manifest.json and NEVER calls research/manuscripts/aso_archive_manifest.py — grepped 2026-08-29",
+        "no tests.yml run exists for aa6d9d9a9 (runs 6103=e7be9940c success, 6104=7f987b6fb failure, 6105=f96f509e5 failure), so the pushing commit was never gated on its own tree",
+        "Actions run 33241669985 on f96f509e5: BOTH jobs failed on it — `gates` with 'STALE: the archive inventory would change' and `pytest` with '1 failed, 10856 passed' on N.main(['--check']) == 0"
+      ],
+      "what": "⛔⛔ A WORKFLOW WRITES A FILE INSIDE THE ASO ARCHIVE INVENTORY AND NEVER REGENERATES THE MANIFEST, SO THE TRUNK GOES RED ON THE NEXT COMMIT — WHICH IS ALWAYS SOMEBODY ELSE'S. Measured 2026-08-29 (CYC-0083-381d0696). `.github/workflows/emc-expression-datasets.yml` pushed aa6d9d9a9, rewriting `research/modalities/emc-expression-panels.json` (+121,324 lines), a file the ASO archive manifest inventories. The workflow regenerates `junction-aso-regen-manifest.json` and does not touch `aso_archive_manifest.py` at all. ⛔ THE PUSHING COMMIT WAS ITSELF NEVER GATED — no tests.yml run exists for aa6d9d9a9 — so the staleness was invisible until the NEXT commit, and the next commits were a claim.py merge (7f987b6fb) and a claim (f96f509e5), neither of which touched an archived file. Both went red, on BOTH jobs: `gates` on 'STALE: the archive inventory would change' and `pytest` on one assertion out of 10,857.\n\n⭐ THIS IS THE CAUSE OF AUT-PD-028, NOT A DUPLICATE OF IT. That row is two sessions COLLIDING on the regeneration; this is what creates the staleness they both then race to clear — and it did so again the same hour: CYC-0083 pushed 6aa7ebb91 ('regenerate the ASO archive manifest against a clean tree') while another session pushed 7bd190bcc ('regenerate the ASO archive manifest after the panels CI push'), two regenerations of one file for one incident. ⚠ It is also NOT AUT-PD-141 (a rebase invalidating provenance) and NOT AUT-PD-036 (`git ls-files` blind to an uncommitted file): here the file is committed, tracked, and inventoried, and the writer is a scheduled workflow with no human in the loop.\n\n⛔ THE FIX IS A CHOICE AND THE OBVIOUS ONE MAY BE WRONG. (a) Have every workflow that writes a tracked file run `aso_archive_manifest.py` before committing — correct but it must be added to each workflow separately, and the next new workflow reintroduces the defect silently. (b) Derive the set: make the archive gate name WHICH inventoried file moved and have one shared publish step own the regeneration, so a workflow cannot write an archived file without passing through it. ⚠ AND MEASURE FIRST WHICH WORKFLOWS ACTUALLY WRITE INVENTORIED FILES — the inventory is 483 files and this was found from one incident, not from an audit. That audit is a $0 read: intersect each workflow's committed paths with the manifest's inventory.\n\n⚠ ONE FALSE LEAD RECORDED SO THE NEXT READER DOES NOT REPEAT IT: the bare `aso_archive_manifest.py --check` compares `git_revision`, which advances on EVERY commit, so it reports STALE on a perfectly current manifest. The gate preflight and tests.yml actually run is `--check-archive`, which compares the inventory and skips the repository-state fields. `scripts/preflight.sh` line 671 already says so. Use `--check-archive` when asking whether the archive is stale; `--check` answers a different question.\n\n⛔ A CORRECTION TO THIS CYCLE'S OWN COMMIT MESSAGE, RECORDED HERE BECAUSE A PUSHED COMMIT MESSAGE CANNOT BE EDITED AND THIS IS THE ROW A LATER READER WILL OPEN. `6aa7ebb91` ('regenerate the ASO archive manifest against a clean tree') states that `research/autonomy/claim.py` is in the archive inventory and that AUT-PD-165's change to it moved the digest. ⛔ THAT IS FALSE: `claim.py` is NOT in the inventory, checked directly against the manifest. The regeneration was still correct and still necessary — the manifest genuinely was stale — but the cause was `emc-expression-panels.json` from the CI push aa6d9d9a9, which this row documents, and which had not yet been diagnosed when that message was written. ⚠ THE SHAPE OF THE ERROR IS THE REUSABLE PART: a stale manifest was observed, the file this session happened to be editing was assumed to be the cause, and the assumption was written into a commit message as a fact without the one-line check that refutes it. CLAUDE.md §4 — the $0 observation was available the whole time. ⭐ WHAT IS ACTUALLY TRUE, MEASURED: of the three files worth checking, only `research/modalities/emc-expression-panels.json` is inventoried; `research/autonomy/claim.py` and `research/autonomy/research-ledger.json` are not — which also means an ordinary ledger commit never makes the archive stale, and a session seeing a stale archive should look at what a WORKFLOW pushed, not at its own edits.",
+      "_cycle_row_key": "workflow-writes-archived-file-without-regenerating-manifest"
+    },
+    {
       "id": "AUT-PD-146",
       "what": "⛔ THE CYCLE CONTRACT NEVER NAMES `ccr_session_id`, BUT PREFLIGHT NOW FAILS WITHOUT IT. `receipt_schema.py` REQUIRES that field from `FIRST_CCR_GOVERNED_CYCLE = 70` and preflight sets rc=1 when it is missing, while `.claude/skills/research-loop/SKILL.md` step 10 — the text a cycle follows when writing its receipt — does not mention the field at all, nor how to obtain it. ⚠ NOT YET A BREAK: CYC-0070-225452b4 landed carrying it. But a required field named only in the checker is every 'rule measured by nothing' this loop has paid for, run in reverse — a checker enforcing something the contract does not ask for. ⭐ THE REMEDY IS ONE SENTENCE IN STEP 10, and the way to obtain the value was measured on 2026-08-28: the claude-code-remote `get_session` tool called with NO arguments returns `.ccr.id`. Add it beside the existing instruction to read `session_cap.session_id()` from the environment, and say plainly that the two are DIFFERENT ids in different namespaces rather than alternatives — that confusion is AUT-PD-124's whole subject.",
       "serves": {
@@ -3549,6 +3619,56 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
+    },
+    {
+      "id": "AUT-PROP-051",
+      "kind": "fetch",
+      "process_defect": false,
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0078-531dbb8b",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a $0 CI dispatch against public GEO series matrices; nothing outward-facing",
+      "closes_clause": null,
+      "score": 118.0,
+      "_score_basis": "Filed just under AUT-PD-134's 118.9. It is the direct widening of a result that already exists rather than a new question, so it ranks below the open guard defects but above the rest of the RT-AUTONOMY tail.",
+      "depends_on_evidence": [
+        "research/modalities/ndrg1-panel-attribution.json: every panel scored on 9-41 members against published sets of 44-231",
+        "research/modalities/emc-expression-panels.json `_execution_model`: $0, public GEO series matrices on a GitHub-hosted CPU runner",
+        "⭐ THE NARROWING IS NOT WHERE THE ROW ASSUMED. `signature_scores` ALREADY scores each published set over its full readable membership (_score_gene_list uses the whole `readable` list); the narrowing is only in ndrg1_panel_attribution.py, which re-derives per-sample panel scores from `gene_reads`",
+        "emc_expression_panels.py:1962 `all_genes = sorted({g for p in PANELS.values() for gs in p['groups'].values() for g in gs})` — gene_reads IS the curated union, 479 genes, and nothing else was ever going to be in it",
+        "so no new MSigDB fetch and no wider accession bridge are needed: the bridge is platform-wide and already built, and the sets are already resolved",
+        "measured gap: readable members of the hypoxia/PPARγ sets over both platforms = 1431, of which 129 are already in gene_reads; over ALL 30 resolved sets = 2051, of which 200 are",
+        "worst panels: hypoxia_buffa scored on 11 of 49 readable; pparg_chip_chea on 18 of 188 — about a tenth of each set",
+        "⚠ NO PANEL'S `genes_readable` LIST IS TRUNCATED. The list is capped at 250 in _score_gene_list and pparg_perturbation_OE_UP sits at exactly 250 readable, which looks like the cap and is not — checked against `n_genes_readable` for every panel on both platforms, 0 truncated. An alarm that was raised and then disproved, recorded so it is not raised again.",
+        "size, measured before choosing: a gene_reads record is ~7.2 kB across the two platforms and 81%/67% of it is `per_sample`, so adding these genes there costs about +13 MB on a 7.4 MB artifact",
+        "the committed shape instead states the sample order ONCE per matrix and gives each gene a positional array of z alone — about 1.4 MB for all 30 sets",
+        "research/modalities/tests/test_ndrg1_panel_widening_is_declared.py: 12 passed; 9/9 single-site mutations caught (scratchpad/cyc80/cyc80-mutation2.log)",
+        "⭐ THE FETCH DELIVERED: run 33240876317 succeeded and pushed origin/main aa6d9d9a9; emc-expression-panels.json now carries `signature_member_reads` — 2017 readable members on GPL6244 (42 samples), 1802 on GPL3290 (16). Artifact 7.37 -> 9.45 MB.",
+        "⚠ THE SIZE ESTIMATE WAS LOW AND IS CORRECTED HERE: predicted ~1.4 MB for the block, measured +2.08 MB. The shape argument holds (the +13 MB alternative was the one rejected); the number was an estimate and is now a measurement."
+      ],
+      "what": "⭐ WIDEN AUT-PROP-048 FROM THE 479 COMMITTED GENES TO THE FULL PANELS, WHICH IS A $0 CI DISPATCH AND NOT A NEW QUESTION. `ndrg1-panel-attribution.json` answers whether NDRG1's per-sample level tracks hypoxia or PPARγ programmes, and its answer (one of two series separates) is sound — but every panel score rests on the SUBSET of its members that carries a per-sample value in `emc-expression-panels.json`: 9 to 41 genes against published sets of 44 to 231. ⛔ THAT IS A REAL NARROWING AND IT CUTS BOTH WAYS: the large series' separation could strengthen or vanish on full panels, and the small series' uselessly wide null could narrow enough to discriminate. Neither is predictable from the subset. ⭐ THE WORK: re-read the two GEO series matrices on an Actions runner (the same execution model `emc-expression-panels.json` already documents), compute per-sample scores over the FULL readable membership of each panel, and re-run `ndrg1_panel_attribution.py` against them. ⚠ KEEP BOTH CONTROLS — leave-one-out and the size-matched null — and expect the null to move, since it is computed from the same pool that just grew. ⛔ DO NOT report a strengthened result without re-running the mutation tests: a bigger pool changes the null, and the null is what the verdict rests on.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T06:50:15Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ],
+      "_the_choice_made": "⭐ THREE OPTIONS, DECIDED ON MEASURED SIZE RATHER THAN TASTE. (a) widen `all_genes` so the signature members land in `gene_reads`: simplest and uniform, +13 MB per regeneration. (b) lean records in `gene_reads` for signature-only genes: rejected once measured — `per_sample` is 81%/67% of a record, so dropping the Welch and probe blocks saves only about a fifth, and it buys two shapes in one map. (c) a separate positional block, `signature_member_reads`: ~1.4 MB for the same z values, no existing consumer perturbed, and it is what shipped. ⛔ (d) computing the correlation inside the fetch was rejected outright: it would move the arithmetic to where `--check` cannot re-derive it, and offline reproducibility is the property this module is built around.",
+      "_outcome": "⭐ THE WIDENING IS DONE AND IT WORKED. What it produced is NOT this row's to adjudicate and is filed as AUT-PD-167: under full membership the committed verdict REVERSES, and the null moved at the same time, so the two reads are not cleanly comparable. ⛔ The trunk is RED until that is settled — see AUT-PD-167 for both self-consistent states and why neither is green."
     },
     {
       "id": "AUT-081",
@@ -3999,41 +4119,6 @@
       }
     },
     {
-      "id": "AUT-PD-004",
-      "kind": "fix",
-      "serves": {
-        "route": "RT-PARTNER-STRAT",
-        "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-REPURPOSING"
-      },
-      "state": "in_progress",
-      "owner": "CYC-manual-20260829T081937Z",
-      "claimed_utc": "2026-08-29T08:19:37Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
-      "what": "⛔ THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING — research-loop §1 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the §6 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n⚠ ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT — never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening §8b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. ⛔ DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. ⭐ These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them — which is exactly why they could sit red unnoticed.",
-      "_score_basis": "inherited from the lowest-scoring derived row on RT-PARTNER-STRAT (105.9) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
-      "score_inputs": {
-        "age_factor": 0.0714
-      },
-      "evidence": "\n\n⭐ RE-MEASURED 2026-08-28 (CYC-0061-d60caf7b) IN A DETACHED WORKTREE AT origin/main, and ALL THREE OF THIS ROW'S NAMED FAILURES NOW PASS THERE: test_pinned_figures_every_home, and both census-ablation parametrisations (fusion-junction-aso-journal-article.md, fusion-junction-aso-cover-letter.md). ⛔ THE TRUNK IS STILL RED, ON THREE DIFFERENT TESTS, and no ledger row names them: test_round6_fixes_landed::test_the_journal_article_keeps_both_branches_of_the_pilot_gate; test_the_numbered_claims_no_instrument_read::test_the_panel_size_is_the_screens_at_every_site_that_states_it (its pattern /the procedure that produced the (\\d+) designs/ matches nothing in the article on the trunk either — confirmed with git show, so the sentence was reworded or dropped and the guard was not followed); and test_paired_numeric_lists_are_bound_in_the_right_order::test_run_length_and_unpaired_count_always_sum_to_the_oligonucleotide_length (its own message says §2.7's screen-5 scoping sentence was reworded). ⚠ ALL THREE ARE THE SAME SHAPE — a guard whose prose moved and which was not re-anchored — which is the shape this cycle just spent itself on. Root cause NOT diagnosed here and must not be guessed: each needs its sentence found in git history before its pattern is touched, because re-anchoring a guard to new wording is exactly how a real finding disappears.",
-      "score": 106.8,
-      "_score_inherited_from_route": "RT-PARTNER-STRAT",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T08:19:37Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
-    },
-    {
       "serves": {
         "route": "RT-ASO-JUNCTION",
         "publication": "PUB-ASO",
@@ -4210,6 +4295,42 @@
       "_score_basis": "the checker that decides whether the turn may end was reading capacity it could not see",
       "depends_on_evidence": "continuity.py live_leases()/width_cap(); 89 tests in research/autonomy/tests",
       "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-004",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "in_progress",
+      "owner": "CYC-manual-20260829T081937Z",
+      "claimed_utc": "2026-08-29T08:19:37Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "pytest on a detached worktree at origin/main, 2026-08-27 ~7:30 AM ET: 3 failed, 3 passed in 207s",
+      "what": "⛔ THE TRUNK IS RED, AND IT IS NOT ANY ONE CYCLE'S DOING — research-loop §1 MAKES FIXING IT THE NEXT CYCLE'S WHOLE JOB. Three tests fail on CLEAN origin/main, verified by checking out a detached worktree at origin/main and running them there (the §6 cascade procedure), not by inference from a dirty tree:\n  1. test_pinned_figures_every_home::test_every_pinned_figure_agrees_in_every_home[step1_fanout_edges_complete]\n  2. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-journal-article.md]\n  3. test_the_census_word_covered_survives_ablation::…[research/manuscripts/aso/fusion-junction-aso-cover-letter.md]\n⚠ ROOT CAUSE IS NOT DIAGNOSED HERE AND MUST NOT BE GUESSED. (1) is a pinned figure disagreeing across its homes, which CLAUDE.md rule 1.3 says is fixed by correcting the doc and registering the old value in pinned-figures.json IN THE SAME COMMIT — never by loosening the check. (2) and (3) are the ABLATION gate reporting that a sentence the census calls covered has no witness that actually goes red, which paper-hardening §8b.1a warns can be the INSTRUMENT rather than the paper: when a batched witness command is red at baseline the whole batch gets excluded and the gate then points at the manuscript for a hole that was never open. ⛔ DECOMPOSE THE BATCH AND RE-MEASURE BEFORE WRITING A SINGLE NEW GUARD. ⭐ These are on the ASO and GPU-lane surfaces, not PUB-FUSION-PARTNER, so a fusion-partner cycle will not trip over them — which is exactly why they could sit red unnoticed.",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-PARTNER-STRAT (105.9) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "fruitless_attempts": 1
+      },
+      "evidence": "\n\n⭐ RE-MEASURED 2026-08-28 (CYC-0061-d60caf7b) IN A DETACHED WORKTREE AT origin/main, and ALL THREE OF THIS ROW'S NAMED FAILURES NOW PASS THERE: test_pinned_figures_every_home, and both census-ablation parametrisations (fusion-junction-aso-journal-article.md, fusion-junction-aso-cover-letter.md). ⛔ THE TRUNK IS STILL RED, ON THREE DIFFERENT TESTS, and no ledger row names them: test_round6_fixes_landed::test_the_journal_article_keeps_both_branches_of_the_pilot_gate; test_the_numbered_claims_no_instrument_read::test_the_panel_size_is_the_screens_at_every_site_that_states_it (its pattern /the procedure that produced the (\\d+) designs/ matches nothing in the article on the trunk either — confirmed with git show, so the sentence was reworded or dropped and the guard was not followed); and test_paired_numeric_lists_are_bound_in_the_right_order::test_run_length_and_unpaired_count_always_sum_to_the_oligonucleotide_length (its own message says §2.7's screen-5 scoping sentence was reworded). ⚠ ALL THREE ARE THE SAME SHAPE — a guard whose prose moved and which was not re-anchored — which is the shape this cycle just spent itself on. Root cause NOT diagnosed here and must not be guessed: each needs its sentence found in git history before its pattern is touched, because re-anchoring a guard to new wording is exactly how a real finding disappears.",
+      "score": 98.8,
+      "_score_inherited_from_route": "RT-PARTNER-STRAT",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T08:19:37Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-149",
@@ -6701,56 +6822,6 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0
       }
-    },
-    {
-      "id": "AUT-PROP-051",
-      "kind": "fetch",
-      "process_defect": false,
-      "serves": {
-        "route": "RT-SGK1",
-        "publication": "PUB-KINASE-LEADS",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0078-531dbb8b",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a $0 CI dispatch against public GEO series matrices; nothing outward-facing",
-      "closes_clause": null,
-      "score": 118.0,
-      "_score_basis": "Filed just under AUT-PD-134's 118.9. It is the direct widening of a result that already exists rather than a new question, so it ranks below the open guard defects but above the rest of the RT-AUTONOMY tail.",
-      "depends_on_evidence": [
-        "research/modalities/ndrg1-panel-attribution.json: every panel scored on 9-41 members against published sets of 44-231",
-        "research/modalities/emc-expression-panels.json `_execution_model`: $0, public GEO series matrices on a GitHub-hosted CPU runner",
-        "⭐ THE NARROWING IS NOT WHERE THE ROW ASSUMED. `signature_scores` ALREADY scores each published set over its full readable membership (_score_gene_list uses the whole `readable` list); the narrowing is only in ndrg1_panel_attribution.py, which re-derives per-sample panel scores from `gene_reads`",
-        "emc_expression_panels.py:1962 `all_genes = sorted({g for p in PANELS.values() for gs in p['groups'].values() for g in gs})` — gene_reads IS the curated union, 479 genes, and nothing else was ever going to be in it",
-        "so no new MSigDB fetch and no wider accession bridge are needed: the bridge is platform-wide and already built, and the sets are already resolved",
-        "measured gap: readable members of the hypoxia/PPARγ sets over both platforms = 1431, of which 129 are already in gene_reads; over ALL 30 resolved sets = 2051, of which 200 are",
-        "worst panels: hypoxia_buffa scored on 11 of 49 readable; pparg_chip_chea on 18 of 188 — about a tenth of each set",
-        "⚠ NO PANEL'S `genes_readable` LIST IS TRUNCATED. The list is capped at 250 in _score_gene_list and pparg_perturbation_OE_UP sits at exactly 250 readable, which looks like the cap and is not — checked against `n_genes_readable` for every panel on both platforms, 0 truncated. An alarm that was raised and then disproved, recorded so it is not raised again.",
-        "size, measured before choosing: a gene_reads record is ~7.2 kB across the two platforms and 81%/67% of it is `per_sample`, so adding these genes there costs about +13 MB on a 7.4 MB artifact",
-        "the committed shape instead states the sample order ONCE per matrix and gives each gene a positional array of z alone — about 1.4 MB for all 30 sets",
-        "research/modalities/tests/test_ndrg1_panel_widening_is_declared.py: 12 passed; 9/9 single-site mutations caught (scratchpad/cyc80/cyc80-mutation2.log)",
-        "⭐ THE FETCH DELIVERED: run 33240876317 succeeded and pushed origin/main aa6d9d9a9; emc-expression-panels.json now carries `signature_member_reads` — 2017 readable members on GPL6244 (42 samples), 1802 on GPL3290 (16). Artifact 7.37 -> 9.45 MB.",
-        "⚠ THE SIZE ESTIMATE WAS LOW AND IS CORRECTED HERE: predicted ~1.4 MB for the block, measured +2.08 MB. The shape argument holds (the +13 MB alternative was the one rejected); the number was an estimate and is now a measurement."
-      ],
-      "what": "⭐ WIDEN AUT-PROP-048 FROM THE 479 COMMITTED GENES TO THE FULL PANELS, WHICH IS A $0 CI DISPATCH AND NOT A NEW QUESTION. `ndrg1-panel-attribution.json` answers whether NDRG1's per-sample level tracks hypoxia or PPARγ programmes, and its answer (one of two series separates) is sound — but every panel score rests on the SUBSET of its members that carries a per-sample value in `emc-expression-panels.json`: 9 to 41 genes against published sets of 44 to 231. ⛔ THAT IS A REAL NARROWING AND IT CUTS BOTH WAYS: the large series' separation could strengthen or vanish on full panels, and the small series' uselessly wide null could narrow enough to discriminate. Neither is predictable from the subset. ⭐ THE WORK: re-read the two GEO series matrices on an Actions runner (the same execution model `emc-expression-panels.json` already documents), compute per-sample scores over the FULL readable membership of each panel, and re-run `ndrg1_panel_attribution.py` against them. ⚠ KEEP BOTH CONTROLS — leave-one-out and the size-matched null — and expect the null to move, since it is computed from the same pool that just grew. ⛔ DO NOT report a strengthened result without re-running the mutation tests: a bigger pool changes the null, and the null is what the verdict rests on.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T06:50:15Z",
-          "fingerprint_at_dispatch": "2026-08-29|None"
-        }
-      ],
-      "_the_choice_made": "⭐ THREE OPTIONS, DECIDED ON MEASURED SIZE RATHER THAN TASTE. (a) widen `all_genes` so the signature members land in `gene_reads`: simplest and uniform, +13 MB per regeneration. (b) lean records in `gene_reads` for signature-only genes: rejected once measured — `per_sample` is 81%/67% of a record, so dropping the Welch and probe blocks saves only about a fifth, and it buys two shapes in one map. (c) a separate positional block, `signature_member_reads`: ~1.4 MB for the same z values, no existing consumer perturbed, and it is what shipped. ⛔ (d) computing the correlation inside the fetch was rejected outright: it would move the arithmetic to where `--check` cannot re-derive it, and offline reproducibility is the property this module is built around.",
-      "_outcome": "⭐ THE WIDENING IS DONE AND IT WORKED. What it produced is NOT this row's to adjudicate and is filed as AUT-PD-167: under full membership the committed verdict REVERSES, and the null moved at the same time, so the two reads are not cleanly comparable. ⛔ The trunk is RED until that is settled — see AUT-PD-167 for both self-consistent states and why neither is green."
     },
     {
       "id": "AUT-PD-094",
@@ -9646,41 +9717,6 @@
       "score_inputs": {
         "age_factor": 0.1429
       }
-    },
-    {
-      "id": "AUT-PD-167",
-      "kind": "verify",
-      "process_defect": false,
-      "serves": {
-        "route": "RT-SGK1",
-        "publication": "PUB-KINASE-LEADS",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0081-b272f286",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "an in-silico re-derivation and a judgement about which null is sound; nothing outward-facing",
-      "score": 150.0,
-      "_score_basis": "Above every open process_defect (top is 134.0) because it is a LIVE-ROUTE result that a committed artifact and systems/graph both currently state more strongly than the evidence now supports, AND the trunk is red until it is resolved. CLAUDE.md §0 ranks live-route work first; §1's one-fact-one-place makes a wrong claim in the graph the most expensive kind here.",
-      "depends_on_evidence": [
-        "WIDE read, computed 2026-08-29 on origin/main aa6d9d9a9 (scratchpad/cyc80/EVIDENCE-wide-read.log): GSE24369 n=35 pool=2283 hypoxia 2/6 over null, PPARγ 3/6, null median [+0.095,+0.130]; GSE4303 n=16 pool=2033 hypoxia 5/6, PPARγ 2/6, null median [+0.171,+0.274]. VERDICT 0 of 2 series separate.",
-        "NARROW read, committed: GSE24369 hypoxia 6/6, PPARγ 0/6, null median [-0.011,+0.016]; GSE4303 1/6 and 1/6. VERDICT 1 of 2.",
-        "systems/graph/routes.json [51].supporting_evidence[1].what_it_supports states the one-series reading verbatim, and systems/views/L2-rt-sgk1.md is generated from it",
-        "test_ndrg1_panel_attribution_controls.py against the WIDE artifact: 4 failed / 15 passed — test_the_verdict_reports_one_series_not_two, test_every_scored_panel_counts_its_members_after_the_exclusion, test_the_smaller_series_null_is_high_enough_to_swallow_the_raw_correlations, test_no_single_raw_rho_threshold_reproduces_the_committed_verdict",
-        "against the NARROW artifact on the current trunk: 1 failed / 6 passed — test_the_committed_artifact_rederives_from_its_generator, because its input moved under it when the CI fetch landed"
-      ],
-      "closes_clause": null,
-      "what": "⛔⛔ WIDENING THE PANELS REVERSES AUT-PROP-048's VERDICT, AND THE NULL MOVED IN THE SAME STEP — SO THIS IS NOT YET A REFUTATION AND MUST NOT BE WRITTEN AS ONE. Scored over full published membership instead of the 479-gene curated subset, NEITHER series separates hypoxia from PPARγ proxies; the committed artifact and systems/graph both say the larger series does. ⚠ THE CONFOUND IS EXACTLY THE ONE AUT-PROP-048's OWN CONTROL WAS BUILT TO CATCH, now pointed at the new read: the size-matched null is drawn from the pool, the pool grew 479 -> ~2,283, and the LARGER series' null median moved from ≈0.00 to +0.095..+0.130. Its own guard says so in words: 'the LARGER series' null is no longer centred near zero, so its separation may be array structure too'. A pool of 2,000 genes off one array carries more shared component than a curated 479, so BOTH the panel scores and the bar they are judged against moved together. ⛔ WHICH READ IS SOUND IS THE QUESTION, AND IT IS NOT ANSWERED BY PREFERRING THE BIGGER NUMBER. ★ THE TRUNK IS RED EITHER WAY AND THERE ARE ONLY TWO SELF-CONSISTENT STATES: (a) commit the wide artifact — 4 control tests fail, because they pin the narrow finding; (b) keep the narrow artifact — 1 test fails, because it no longer re-derives from the input the CI fetch replaced. The trunk is in (b), which is the smaller red and the one that points at this row rather than silently adopting a reversal. ⛔⛔ WHOEVER TAKES THIS MAY NOT RELAX THOSE FOUR TESTS TO ADOPT THE WIDE READ — that is the anti-gaming invariant (research-loop §6: a bar may not be changed by the cycle it blocked), and these are the bars that blocked this one. Argue the null first, in a commit message and on this row; change a test only as the recorded consequence of that argument, declared in amendments.jsonl. ⭐ WHAT WOULD ACTUALLY SETTLE IT: the null's pool and the panel membership are two separate choices that this change moved together, so separate them — score FULL membership against a null drawn from the ORIGINAL 479-gene pool, and the curated subset against the widened pool. Two runs, $0, and they say which of the two changes carries the reversal. Until that exists this row states a conflict, not a result.",
-      "_language_discipline": "⛔ Neither read may be reported as an efficacy, selectivity, safety or mechanism claim, and the reversal may not be written as 'NDRG1 is not hypoxia-associated' — a failure to separate two proxy families under one null is not evidence of absence."
     }
   ]
 }
