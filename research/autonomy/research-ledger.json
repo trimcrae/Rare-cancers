@@ -21,11 +21,11 @@
     "write": 6
   },
   "n_by_state": {
-    "blocked": 1,
+    "blocked": 2,
     "done": 136,
     "in_progress": 6,
     "parked": 28,
-    "queued": 149,
+    "queued": 148,
     "ready": 1,
     "superseded": 1
   },
@@ -1407,30 +1407,6 @@
       "_requires_trimcrae_why": "loop mechanism; nothing published, submitted or deposited",
       "what": "⚠ WIRE THE TWO NEW DETECTORS TO SOMETHING, OR DECIDE OUT LOUD NOT TO. learning_rate.py (is the loop advancing anything, or only itself) and queue_view.py (what is waiting on what, and which ready rows already shipped) are consulted by NOTHING. ⛔ THIS REPOSITORY HAS PAID FOR EXACTLY THIS THREE TIMES: subagent_width governed nothing for a fortnight, the census lane's exempt flag, the watchdog wired to a non-existent env var. A measurement nobody consults is not a measurement. ★ AND THE DECISION IS GENUINELY OPEN — make it deliberately: queue_view's already-landed check is cheap and specific and belongs beside the stalled-holder check in the turn-end hook; learning_rate's verdict is a PORTFOLIO judgement, and a gate that blocks a commit on 'you have only been working on yourself' is a larger risk than one that names it. The Friday digest may be the right home for the second.",
       "lease_released": "✅ HALF DONE AND THE OTHER HALF DECIDED, 2026-08-28. ⭐ WIRED: queue_view's already-landed check now runs in `.claude/hooks/ready-work-at-turn-end.sh`, beside the stalled-holder check and before the ready-work demand, so a row whose deliverable is already on the trunk is named at the turn end that would otherwise offer it. That is the direct guard for AUT-PD-051, which happened TWICE on 2026-08-28. Silent when it finds nothing (verified: 0 lines on a clean queue), and a test asserts the hook calls it — mutation-tested by pointing the hook at a missing file, which goes red. ⛔ NOT WIRED, AND THIS IS THE DECISION RATHER THAN AN OMISSION: learning_rate.py stays a REPORT. Its verdict is a portfolio judgement — 'you have only been working on yourself for a window' — and a gate that blocks a commit on that is a different and larger risk than one that names it: it would block the very self-maintenance cycles that fix the loop, which the module's own docstring says are real work. Its home is a digest or a human's read, not a gate. ⚠ Revisit if the distribution stays concentrated across several windows; one window is not a trajectory."
-    },
-    {
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0089-2403efbb",
-      "depends_on_evidence": "`git merge-base --is-ancestor 858289119 6e093294b` exits NON-ZERO. `git show 6e093294b:research/autonomy/autonomy-state.json` -> backoff_level 0, cycle_interval_hours 4, subagent_width 5, max_cycles_per_session 2, and NO `budget_hold` key at all. ALSO: `git cat-file -e 6e093294b:research/autonomy/cadence.py` fails; `python3 research/autonomy/cadence.py --check` on the trunk returns exit 4 '⛔ DO NOT START'.",
-      "id": "AUT-PD-184",
-      "kind": "process_defect",
-      "what": "⛔⛔ THE BUDGET HOLD DID NOT BIND FOR ~50 MINUTES BECAUSE IT LIVED OFF THE TRUNK, AND THE SESSION IT WAS MEANT TO STOP READ THE OLD POSTURE AND RAN. Measured 2026-08-29 by CYC-0089-2403efbb, on itself.\n★ THE CHAIN, EACH LINK A COMMAND RATHER THAN AN INFERENCE. trimcrae set the hold at 11:51:07Z; it was committed as 858289119 at 12:48:39Z ('budget hold: throttle the loop 6x, and make the throttle bind') onto the branch `claude/token-consumption-rate-lv0x9n`, and reached `main` only by a later merge. This session's base was 6e093294b (13:39:38Z) — FIFTY-ONE MINUTES AFTER the hold commit — and `git merge-base --is-ancestor` says the hold is NOT an ancestor of it. So the state file this cycle read at step 1, exactly as the contract instructs, said backoff_level 0 / 4 h / width 5 / 2 cycles per session and carried no `budget_hold` key. The handoff prompt that started this session carried the same stale posture, because handoff.py reads the same file.\n⛔ THE COST IS MEASURED, NOT HYPOTHETICAL. Under the real posture (`backoff_level` 2) a cycle may take ONLY `fetch` and `regrade` items; this cycle took a `process_defect`, spent a full context, ran a 21-minute PREFLIGHT_MODALITIES gate, and produced a repair that DUPLICATED AUT-PD-182 in its entirety — see AUT-PD-185. CYC-0088's receipt independently records interrupting this same session for the same reason and notes $5.39 already spent before it stopped; it then resumed and spent more.\n⛔⛔ AND THE IRONY IS THE MECHANISM, NOT A JOKE: the hold's own commit message says the two numbers it replaced 'governed nothing', and the hold then governed nothing for fifty-one minutes for a THIRD reason neither it nor `health.py` checks — WHICH REF IT WAS ON. CLAUDE.md §7 already calls branch drift a data-loss bug and says to check which ref a producing workflow writes to; nothing applies that rule to the governance artifacts a cycle reads BEFORE it does anything. `budget_hold.declared_posture` is checked against the LIVE DIALS IN THE SAME FILE, so a hold that is absent from a session's tree is not loose — it is invisible, and every readback agrees with itself.\n★ WHAT WOULD ACTUALLY FIX IT, stated as options and not chosen here: a cycle's step-1 posture read comes from `origin/main` rather than the working tree (the same repair `claim.py` already got for the same class of bug, AUT-PD-160); or a governance artifact is committed straight to `main` and never to a branch; or `health.py` gains a row that compares the tree's `autonomy-state.json` against `origin/main`'s and refuses when they differ. ⛔ A CYCLE MUST NOT PICK ONE OF THESE WHILE THE HOLD IT WOULD ENFORCE IS ACTIVE AND IT IS ITSELF THE SESSION THAT BENEFITED — research-loop §6, a bar may not be changed by the cycle the bar just blocked. Filed for a later cycle, with the evidence, deliberately not taken.\n★★ THE PROOF, AND IT IS EXACT RATHER THAN CIRCUMSTANTIAL: THE GATE BUILT TO STOP THIS SESSION EXISTED AND THIS SESSION COULD NOT SEE IT. `research/autonomy/cadence.py` is on the trunk and the trunk's `research-loop` SKILL.md makes it the FIRST stop condition — 'RUN IT FIRST, BEFORE THE HEALTH BOARD … Exit immediately. Write no receipt, take no item, claim nothing.' `git cat-file -e 6e093294b:research/autonomy/cadence.py` FAILS: it is absent from this session's base, and the SKILL.md this session loaded — the one in its own tree — does not mention it. Run retroactively on the current trunk it returns exit 4, `⛔ DO NOT START`. So the correct behaviour was available, was mandatory, was first in the contract, and was unreachable, for exactly the same reason the hold was: it had not reached `main` when this session's tree was cut.\n⛔⛔ AND THE TRAP CLOSES ON THE FIX: THIS ROW IS NOT TAKEABLE BY THE LOOP THAT NEEDS IT. While the hold is active (`backoff_level` 2) a cycle may take ONLY `fetch` and `regrade` items, and this is a `process_defect`. So the defect that lets a stale session ignore the hold cannot be repaired by any cycle running under the hold — it waits for `review_after_utc` (2026-09-02T11:51:07Z) or for a human. ⭐ That is stated as a fact about the queue, not as an argument for taking it anyway.",
-      "_score_basis": "Above every open process_defect on the trunk. It is the only row about the artifact that governs SPEND, it is the root cause of the breach CYC-0088 recorded as a symptom, and it recurs on every fired session until fixed — each one costing a full context at the pre-hold posture.",
-      "score": 160.0
     },
     {
       "id": "AUT-PD-032",
@@ -5385,6 +5361,34 @@
         "merged_into_main": false,
         "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
         "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
+    },
+    {
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "blocked",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": "budget_hold (autonomy-state.json), by trimcrae's decision 2026-08-29T15:40:46Z",
+      "blocked_evidence": "⭐ DECIDED BY trimcrae, 2026-08-29T15:40:46Z, ASKED AND ANSWERED RATHER THAN ASSUMED. He was given three options — exempt this row from the hold so the next eligible cycle takes it, leave it until the review, or make the change himself — and chose LEAVE IT UNTIL THE 2026-09-02 REVIEW. So this row is blocked ON PURPOSE and by a human, not stalled: do NOT re-raise it, and do NOT take it under the hold on the strength of its score. ⛔ THE RESIDUAL EXPOSURE HE ACCEPTED, STATED SO IT IS NOT REDISCOVERED AS NEWS: until this lands, any session whose base commit is cut before a FUTURE governance change reaches `main` repeats what CYC-0089 did. The common case is already covered — `cadence.py` is on the trunk now and correctly returns exit 3 (next eligible 11:03 AM ET Aug 30) — so what remains is the narrower window where the gate itself, or the hold, is the thing that has not yet landed. ⭐ REOPEN AT `budget_hold.review_after_utc` = 2026-09-02T11:51:07Z.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0089-2403efbb",
+      "depends_on_evidence": "`git merge-base --is-ancestor 858289119 6e093294b` exits NON-ZERO. `git show 6e093294b:research/autonomy/autonomy-state.json` -> backoff_level 0, cycle_interval_hours 4, subagent_width 5, max_cycles_per_session 2, and NO `budget_hold` key at all. ALSO: `git cat-file -e 6e093294b:research/autonomy/cadence.py` fails; `python3 research/autonomy/cadence.py --check` on the trunk returns exit 4 '⛔ DO NOT START'.",
+      "id": "AUT-PD-184",
+      "kind": "process_defect",
+      "what": "⛔⛔ THE BUDGET HOLD DID NOT BIND FOR ~50 MINUTES BECAUSE IT LIVED OFF THE TRUNK, AND THE SESSION IT WAS MEANT TO STOP READ THE OLD POSTURE AND RAN. Measured 2026-08-29 by CYC-0089-2403efbb, on itself.\n★ THE CHAIN, EACH LINK A COMMAND RATHER THAN AN INFERENCE. trimcrae set the hold at 11:51:07Z; it was committed as 858289119 at 12:48:39Z ('budget hold: throttle the loop 6x, and make the throttle bind') onto the branch `claude/token-consumption-rate-lv0x9n`, and reached `main` only by a later merge. This session's base was 6e093294b (13:39:38Z) — FIFTY-ONE MINUTES AFTER the hold commit — and `git merge-base --is-ancestor` says the hold is NOT an ancestor of it. So the state file this cycle read at step 1, exactly as the contract instructs, said backoff_level 0 / 4 h / width 5 / 2 cycles per session and carried no `budget_hold` key. The handoff prompt that started this session carried the same stale posture, because handoff.py reads the same file.\n⛔ THE COST IS MEASURED, NOT HYPOTHETICAL. Under the real posture (`backoff_level` 2) a cycle may take ONLY `fetch` and `regrade` items; this cycle took a `process_defect`, spent a full context, ran a 21-minute PREFLIGHT_MODALITIES gate, and produced a repair that DUPLICATED AUT-PD-182 in its entirety — see AUT-PD-185. CYC-0088's receipt independently records interrupting this same session for the same reason and notes $5.39 already spent before it stopped; it then resumed and spent more.\n⛔⛔ AND THE IRONY IS THE MECHANISM, NOT A JOKE: the hold's own commit message says the two numbers it replaced 'governed nothing', and the hold then governed nothing for fifty-one minutes for a THIRD reason neither it nor `health.py` checks — WHICH REF IT WAS ON. CLAUDE.md §7 already calls branch drift a data-loss bug and says to check which ref a producing workflow writes to; nothing applies that rule to the governance artifacts a cycle reads BEFORE it does anything. `budget_hold.declared_posture` is checked against the LIVE DIALS IN THE SAME FILE, so a hold that is absent from a session's tree is not loose — it is invisible, and every readback agrees with itself.\n★ WHAT WOULD ACTUALLY FIX IT, stated as options and not chosen here: a cycle's step-1 posture read comes from `origin/main` rather than the working tree (the same repair `claim.py` already got for the same class of bug, AUT-PD-160); or a governance artifact is committed straight to `main` and never to a branch; or `health.py` gains a row that compares the tree's `autonomy-state.json` against `origin/main`'s and refuses when they differ. ⛔ A CYCLE MUST NOT PICK ONE OF THESE WHILE THE HOLD IT WOULD ENFORCE IS ACTIVE AND IT IS ITSELF THE SESSION THAT BENEFITED — research-loop §6, a bar may not be changed by the cycle the bar just blocked. Filed for a later cycle, with the evidence, deliberately not taken.\n★★ THE PROOF, AND IT IS EXACT RATHER THAN CIRCUMSTANTIAL: THE GATE BUILT TO STOP THIS SESSION EXISTED AND THIS SESSION COULD NOT SEE IT. `research/autonomy/cadence.py` is on the trunk and the trunk's `research-loop` SKILL.md makes it the FIRST stop condition — 'RUN IT FIRST, BEFORE THE HEALTH BOARD … Exit immediately. Write no receipt, take no item, claim nothing.' `git cat-file -e 6e093294b:research/autonomy/cadence.py` FAILS: it is absent from this session's base, and the SKILL.md this session loaded — the one in its own tree — does not mention it. Run retroactively on the current trunk it returns exit 4, `⛔ DO NOT START`. So the correct behaviour was available, was mandatory, was first in the contract, and was unreachable, for exactly the same reason the hold was: it had not reached `main` when this session's tree was cut.\n⛔⛔ AND THE TRAP CLOSES ON THE FIX: THIS ROW IS NOT TAKEABLE BY THE LOOP THAT NEEDS IT. While the hold is active (`backoff_level` 2) a cycle may take ONLY `fetch` and `regrade` items, and this is a `process_defect`. So the defect that lets a stale session ignore the hold cannot be repaired by any cycle running under the hold — it waits for `review_after_utc` (2026-09-02T11:51:07Z) or for a human. ⭐ That is stated as a fact about the queue, not as an argument for taking it anyway.",
+      "_score_basis": "Above every open process_defect on the trunk. It is the only row about the artifact that governs SPEND, it is the root cause of the breach CYC-0088 recorded as a symptom, and it recurs on every fired session until fixed — each one costing a full context at the pre-hold posture.",
+      "score": 70.0,
+      "notified_utc": "2026-08-29T15:40:46Z",
+      "score_inputs": {
+        "blocked_with_evidence": true
       }
     },
     {
