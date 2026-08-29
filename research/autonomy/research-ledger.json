@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 132,
+    "process_defect": 135,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 113,
-    "in_progress": 3,
+    "done": 114,
+    "in_progress": 4,
     "parked": 28,
-    "queued": 140,
+    "queued": 141,
     "ready": 1,
     "superseded": 1
   },
@@ -1766,49 +1766,6 @@
       ]
     },
     {
-      "id": "AUT-025",
-      "_derived": true,
-      "what": "Keep registered for automatic re-grade when EMC expression data lands.",
-      "serves": {
-        "route": "RT-FAP-RLT",
-        "publication": "PUB-SURFACE-TARGETS",
-        "strategy": "ST-RADIOLIGAND"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-DRV-5a21085f",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 152.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "claimed_utc": "2026-08-29T01:00:28Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T01:00:28Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-074",
       "_derived": true,
       "what": "Report it as a closed line: elevated and pan-essential is not an opportunity.",
@@ -2114,6 +2071,49 @@
       "requires_trimcrae_why": "publishes the eligibility map. ⚠ §3 is per paper, per act: he must name THIS one for THIS act."
     },
     {
+      "id": "AUT-025",
+      "_derived": true,
+      "what": "Keep registered for automatic re-grade when EMC expression data lands.",
+      "serves": {
+        "route": "RT-FAP-RLT",
+        "publication": "PUB-SURFACE-TARGETS",
+        "strategy": "ST-RADIOLIGAND"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "CYC-DRV-5a21085f",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-05",
+      "score": 144.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0
+      },
+      "claimed_utc": "2026-08-29T01:00:28Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T01:00:28Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ]
+    },
+    {
       "id": "AUT-PD-057",
       "kind": "process_defect",
       "process_defect": true,
@@ -2149,51 +2149,6 @@
       "score_inputs": {
         "fruitless_attempts": 1
       }
-    },
-    {
-      "id": "AUT-PD-145",
-      "what": "⛔ LAND THE UNSCORED-ROW RATCHET, WHICH IS DEFERRED AND NOT ABANDONED. AUT-PD-050 landed in two halves: the crash fixes, the score_rank ordering and the reporting are on the trunk; the ratchet MAX_UNSCORED_OPEN and its vacuity test are held UNMODIFIED at commit d082c01a78 on branch s1-aut-pd-050-unscored-rows. Held because the population (82) had already passed the ceiling (80), so merging would have red the COMMIT LOOP for whichever session committed next, on a gate it did not cause. ⛔ THE ENTRY CONDITION IS TWO THINGS AND NEITHER IS 'RAISE THE NUMBER': (1) the filing path supplies the remedy — `ledger_io.write_ledger` is the single serialization every ledger writer passes through and already runs `admissibility.check_write` there, so a row appended with no `score` and no `prerequisite_of` should be refused AT THE WRITE, which makes the ceiling reachable rather than merely enforced; and (2) open-unscored is flat or falling across at least a two-hour window of trunk commits. Pin the ceiling at the count measured in the same commit that lands it. ⚠ Pinning at the then-current number was considered on 2026-08-28 and refused: legal under the vacuity guard, red again within ~20 minutes at the measured rate, and re-pinning on each break is the forbidden edit taken in instalments.\n\n⭐ HALF LANDED 2026-08-29 BY CYC-0073-d4ccfde4 — ENTRY CONDITION 1 IS MET, CONDITION 2 IS NOT, AND THE ROW STAYS OPEN BECAUSE OF IT. The filing-path remedy is on the trunk: `admissibility.py` now carries R5 — `is_unscored_open()` names the population `priority.py` publishes as `n_unscored_open`, and `refuse_population_growth()` refuses any ledger write that puts a row INTO it, via `ledger_io.write_ledger`, the one serialization every writer already passes through. ⛔ ENTRY HAS THREE DOORS AND ALL THREE ARE CLOSED, because closing one is the one-of-a-pair class: a row APPENDED unscored, a committed `score` REMOVED, and a closed-and-exempt unscored row REOPENED. Membership is GRANDFATHERED — the 85 rows already on the trunk still write, which is the property that stops this landing as an outage the way the bare ceiling would have. ⚠ THE CEILING `MAX_UNSCORED_OPEN` IS STILL NOT MERGED, AND THE MEASUREMENT SAYS WHY. Across all 120 ledger commits in the observable trunk history (2026-08-28T13:55Z -> 2026-08-29T00:27Z) open-unscored rose 22 -> 85: +63 in 10.5 h, ~6 rows/hour, and NO pre-existing unscored row acquired a score in that window. Condition 2 asks for flat or falling over >=2 h and the series is rising, so pinning at 85 today would go red in roughly ten minutes — the instalment edit this row already refused once. ⭐ WHAT REMAINS, AND IT IS NOW A WAIT ON EVIDENCE RATHER THAN ON CODE: re-run the same series over >=2 h of trunk history that is entirely AFTER this commit; if it is flat or falling, pin the ceiling at the count measured in the same commit that lands it and merge the held vacuity test from d082c01a78. R5 is what makes that series able to be flat. ⚠ R5 CANNOT SHRINK THE EXISTING 85 AND DOES NOT CLAIM TO — those clear one row at a time, by scoring them, and `n_unscored_open` is the number that says whether that is happening.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "s2-aut-pd-145-CYC-0074-5a21085f",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "score": 140.9,
-      "_score_basis": "Inherits AUT-PD-050's score (140.0): same defect, deferred half; the ranking should not drop because the work was split.",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
-      "claimed_utc": "2026-08-29T01:41:48Z",
-      "evidence": "Measured by seat s6 over all 253 ledger commits: open-unscored 64 -> 82 across 17:26-22:12 UTC, +1.5/h over 2 h and +3.2/h over 5 h, and the ratchet's own assertion FAILS against live origin/main. Logs: scratchpad/s6-AUT-PD-050/.",
-      "closes_clause": null,
-      "score_inputs": {
-        "age_factor": 0.0,
-        "fruitless_attempts": 0
-      },
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T00:27:44Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        },
-        {
-          "utc": "2026-08-29T01:41:48Z",
-          "fingerprint_at_dispatch": "2026-08-29|None"
-        }
-      ],
-      "depends_on_evidence": [
-        "open-unscored 22 -> 85 across 120 trunk ledger commits, 2026-08-28T13:55Z -> 2026-08-29T00:27Z (~6/h, rising)",
-        "research/autonomy/tests/test_the_unscored_population_can_only_shrink.py (14 tests, 10/10 single-site mutations caught on a copy)",
-        "admissibility.refuse_population_growth / is_unscored_open, wired into refuse_inadmissible_write"
-      ]
     },
     {
       "id": "AUT-003",
@@ -2512,49 +2467,6 @@
       "evidence": " ⭐ WORKED BY SEAT s4 AND THE ROW WAS STALE IN THE DIRECTION THAT MATTERED. It said the checker 'downgrades both to UNMEASURED'; measured against the two real receipts on the trunk it graded them OPPOSITE ways — CYC-0030-6be7fd5a (handoff.refused_by) unmeasured/HANDOFF-REFUSED, and CYC-0058-1ef8c95a (handoff.mechanism_unavailable) needs_attention/SESSION-OVERLOADED-NO-HANDOFF. health.py read only `refused_by`, so the ABSENT-TOOL shape fell through to the RED branch and was recorded as the session's own defect — while session_cap.py, already on the trunk from a different cycle, ALREADY read `mechanism_unavailable` on that same receipt and accepted it as an earned reason to stop. Two modules read one receipt and disagreed about whether stopping was correct behaviour or a failure, and the punished shape is the ordinary launch for an unattended cycle, not an edge case. MERGED (s4-AUT-PD-059-blocked-handoff-says-which): a distinct HANDOFF-MECHANISM-ABSENT verdict with its own remedy, the handoff PROMPT now names both failure fields, and session_cap.py stops hand-rolling the literal it had also declared. Mutation-tested 11/11, including an absence buying GREEN and an absence falling through to RED (the original defect). ⚠ The seat killed a false alarm it raised itself — it reported the autonomy suite 'stalled'; preflight ran it to completion, 631 passed in 331 s, and the apparent stall was three concurrent seats sharing this container, reproduced on a clean origin/main control. ⚠ The seat guessed a cycle_id for its two amendment records; the driver re-keyed them at merge. STILL OPEN, small: the red branch's remedy text does not yet name the two honest fields (the prompt does, which is where a session reads it), and ~20 trunk receipts record the fact under invented spellings like `_why_not_attempted` that nothing reads — deliberately not credited, since crediting invented spellings makes the field unfalsifiable."
     },
     {
-      "id": "AUT-071",
-      "_derived": true,
-      "what": "Keep as cited landscape context. Do not overstate a single response.",
-      "serves": {
-        "route": "RT-TRABECTEDIN",
-        "publication": "PUB-EMC-PROGRAM",
-        "strategy": "ST-REPURPOSING"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "s1-CYC-0074-5a21085f",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 136.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "claimed_utc": "2026-08-29T01:25:07Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T01:25:07Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-033",
       "kind": "process_defect",
       "process_defect": true,
@@ -2622,6 +2534,51 @@
       "evidence": "WORKED BY SEAT s3 (CYC-0066-1f1a2449 fan-out). Branch `s3/aut-pd-031-line-citations-enumerate-carriers` @ 429241264f, rebased on origin/main, pushed, NOT MERGED. ⛔ THE ROW STAYS OPEN AND THE SEAT ARGUES WHY: its deliverable research/modalities/instrument-census.json existed and was in sync, and the defect was still fully live — an artifact on the trunk is not a finished item. Reproduced end to end: insert one blank line in nr4a3-degrader-paper.md, `line_citations.py --fix` prints 'rewrote 18 citation(s)', EXITS 0, and instrument_census.py --check immediately goes red. The fixer scanned 1 of the 19 tracked files carrying the syntax (466 occurrences). Second half, unguarded in the commit loop: `instrument_census.py --check` existed and NOTHING in preflight.sh ran it — its only enforcement was the opt-in modalities suite, which is why the original incident surfaced three commits late; now added to the generated-artifact loop at a measured 0.032 s. ⭐ THE FIX NAMES RATHER THAN REPAIRS, DELIBERATELY, and the decisive reason is measured not argued: the resolver is context-dependent, and for `:2140-2142` the roadmap's context yields a different quote than the census's because the census table has a column the roadmap does not — one ordinary edit and a 'repair' silently repoints a citation at a sentence it does not quote. Also, the largest hand-written carrier (program/map-audit-strategy.md, 131 citations) pins its line numbers to commit f67d0781 in its own header, and a fixer cannot tell a pinned reference from a rotted one. 10 tests, mutation-tested 9/9 with two earlier survivors fixed as real test defects; preflight EXIT=0 at PREFLIGHT_TESTS=1, 1467 passed. STILL OPEN: the tool now NAMES 16 hand-written carriers and CHECKS none — that surface is unmeasured rather than measured-clean, and deciding which are pinned-by-design is a reading job nobody has done. ⭐ BRANCH MERGED TO THE TRUNK 2026-08-28 by the CYC-0066 driver (s3/aut-pd-031-line-citations-enumerate-carriers), gated at PREFLIGHT_TESTS=1, EXIT=0, 1469 passed. Confirmed present on origin/main: `instrument_census` is now in preflight.sh's generated-artifact loop, so the census check runs in the COMMIT LOOP rather than only in the opt-in modalities suite — which is the half that let the original incident surface three commits late. ⛔ THE ROW REMAINS QUEUED, on the seat's own argument and not by oversight: the fixer now NAMES 16 hand-written carriers and CHECKS none of them, so that surface is UNMEASURED rather than measured-clean, and deciding which are pinned-by-design (map-audit-strategy.md pins its line numbers to commit f67d0781 in its own header) versus genuinely rotted is a reading job nobody has done."
     },
     {
+      "id": "AUT-PD-145",
+      "what": "⛔ LAND THE UNSCORED-ROW RATCHET, WHICH IS DEFERRED AND NOT ABANDONED. AUT-PD-050 landed in two halves: the crash fixes, the score_rank ordering and the reporting are on the trunk; the ratchet MAX_UNSCORED_OPEN and its vacuity test are held UNMODIFIED at commit d082c01a78 on branch s1-aut-pd-050-unscored-rows. Held because the population (82) had already passed the ceiling (80), so merging would have red the COMMIT LOOP for whichever session committed next, on a gate it did not cause. ⛔ THE ENTRY CONDITION IS TWO THINGS AND NEITHER IS 'RAISE THE NUMBER': (1) the filing path supplies the remedy — `ledger_io.write_ledger` is the single serialization every ledger writer passes through and already runs `admissibility.check_write` there, so a row appended with no `score` and no `prerequisite_of` should be refused AT THE WRITE, which makes the ceiling reachable rather than merely enforced; and (2) open-unscored is flat or falling across at least a two-hour window of trunk commits. Pin the ceiling at the count measured in the same commit that lands it. ⚠ Pinning at the then-current number was considered on 2026-08-28 and refused: legal under the vacuity guard, red again within ~20 minutes at the measured rate, and re-pinning on each break is the forbidden edit taken in instalments.\n\n⭐ HALF LANDED 2026-08-29 BY CYC-0073-d4ccfde4 — ENTRY CONDITION 1 IS MET, CONDITION 2 IS NOT, AND THE ROW STAYS OPEN BECAUSE OF IT. The filing-path remedy is on the trunk: `admissibility.py` now carries R5 — `is_unscored_open()` names the population `priority.py` publishes as `n_unscored_open`, and `refuse_population_growth()` refuses any ledger write that puts a row INTO it, via `ledger_io.write_ledger`, the one serialization every writer already passes through. ⛔ ENTRY HAS THREE DOORS AND ALL THREE ARE CLOSED, because closing one is the one-of-a-pair class: a row APPENDED unscored, a committed `score` REMOVED, and a closed-and-exempt unscored row REOPENED. Membership is GRANDFATHERED — the 85 rows already on the trunk still write, which is the property that stops this landing as an outage the way the bare ceiling would have. ⚠ THE CEILING `MAX_UNSCORED_OPEN` IS STILL NOT MERGED, AND THE MEASUREMENT SAYS WHY. Across all 120 ledger commits in the observable trunk history (2026-08-28T13:55Z -> 2026-08-29T00:27Z) open-unscored rose 22 -> 85: +63 in 10.5 h, ~6 rows/hour, and NO pre-existing unscored row acquired a score in that window. Condition 2 asks for flat or falling over >=2 h and the series is rising, so pinning at 85 today would go red in roughly ten minutes — the instalment edit this row already refused once. ⭐ WHAT REMAINS, AND IT IS NOW A WAIT ON EVIDENCE RATHER THAN ON CODE: re-run the same series over >=2 h of trunk history that is entirely AFTER this commit; if it is flat or falling, pin the ceiling at the count measured in the same commit that lands it and merge the held vacuity test from d082c01a78. R5 is what makes that series able to be flat. ⚠ R5 CANNOT SHRINK THE EXISTING 85 AND DOES NOT CLAIM TO — those clear one row at a time, by scoring them, and `n_unscored_open` is the number that says whether that is happening.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "in_progress",
+      "owner": "s2-aut-pd-145-CYC-0074-5a21085f",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "score": 132.9,
+      "_score_basis": "Inherits AUT-PD-050's score (140.0): same defect, deferred half; the ranking should not drop because the work was split.",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
+      "claimed_utc": "2026-08-29T01:41:48Z",
+      "evidence": "Measured by seat s6 over all 253 ledger commits: open-unscored 64 -> 82 across 17:26-22:12 UTC, +1.5/h over 2 h and +3.2/h over 5 h, and the ratchet's own assertion FAILS against live origin/main. Logs: scratchpad/s6-AUT-PD-050/.",
+      "closes_clause": null,
+      "score_inputs": {
+        "age_factor": 0.0,
+        "fruitless_attempts": 1
+      },
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T00:27:44Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        },
+        {
+          "utc": "2026-08-29T01:41:48Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ],
+      "depends_on_evidence": [
+        "open-unscored 22 -> 85 across 120 trunk ledger commits, 2026-08-28T13:55Z -> 2026-08-29T00:27Z (~6/h, rising)",
+        "research/autonomy/tests/test_the_unscored_population_can_only_shrink.py (14 tests, 10/10 single-site mutations caught on a copy)",
+        "admissibility.refuse_population_growth / is_unscored_open, wired into refuse_inadmissible_write"
+      ]
+    },
+    {
       "id": "AUT-PD-022",
       "kind": "process_defect",
       "process_defect": true,
@@ -2675,6 +2632,49 @@
       "_requires_trimcrae_why": "a health-check grading rule and/or a scheduled-Routine prompt fix; nothing published, submitted or deposited",
       "what": "⛔⛔ IN A SCHEDULED-ROUTINE SESSION, create_session/get_session ARE NOT PRESENT AS TOOLS AT ALL -- A STRONGER FAILURE THAN AUT-PD-032's DEPTH-LIMIT REFUSAL, AND cycles_are_sized CANNOT TELL THE TWO APART. AUT-PD-032 found create_session callable but refused past lineage depth 8; this session (six cycles, all fired from the same 'scheduled Routine' launch context CLAUDE.md's own trigger prompt describes) found the tool absent from ToolSearch entirely, at depth 1 (no prior handoff chain at all) -- so the platform-side gap AUT-PD-032 candidate-fix (2) asked cycles_are_sized to account for is not one failure mode, it is at least two, and the scheduled-Routine one is the MORE common launch shape for an unattended cycle, not an edge case. ⭐ THE PRACTICAL CONSEQUENCE, MEASURED THIS SESSION: every cycle here dispatched a background Agent-tool subagent in an isolated worktree instead of a spawned session (matching research-loop §3's parallel-subagents shape), which keeps the DRIVER's own context bounded for any one item, but does nothing about the health check's real complaint -- the DRIVER itself still personally executed six full cycles (claim, review, merge, gate, ledger, receipt, push) end to end with no context-fresh reset in between, because there was never an available point to hand its OWN role to a fresh session. A subagent shape substitutes for a spawned WORKER; it cannot substitute for a spawned DRIVER. ⭐ WHAT TO DO, extending AUT-PD-032's own open candidates: (1) `health.py`'s cycles_are_sized should grade an over-cap session as UNMEASURED (not RED) whenever the session's own receipts show create_session was checked-for-and-absent (not merely refused) -- 'the platform does not offer this tool here' is a different fact from 'this session ran too long by choice', and only the second is a real defect to fix in the loop's behaviour. (2) Separately, and more directly useful: since the SCHEDULED ROUTINE ITSELF already fires a fresh session every `cycle_interval_hours` (4h at backoff 0), the real successor for an over-cap scheduled-Routine session already exists and needs no spawn at all -- it is the next scheduled firing. The fix may be as simple as `cycles_are_sized` checking whether the calling context IS a scheduled Routine (a fact `research-loop`'s own trigger prompt already asserts every time) and, if so, treating 'ended cleanly with a receipt, no handoff needed' as sufficient rather than demanding a handoff mechanism that launch context does not have and does not need.",
       "lease_released": "✅ CLOSED 2026-08-28, but NOT by restoring create_session — by removing the loop's dependence on it. ⭐ THE REFRAME: the driver Routine fires `13 */4 * * *`, so a session that runs its cycles and STOPS is not stalling — the cron IS the successor. Handoff makes the next cycle start sooner than four hours; it was never what keeps the loop alive. ⛔ THE ACTUAL DAMAGE WAS THE STOP HOOK, NOT THE MISSING TOOL. `.claude/hooks/ready-work-at-turn-end.sh` accepted three answers — something running, blocked on a human, or START ONE — with 'A SCHEDULED ROUTINE IS NOT AN ANSWER' written in. Exhaustive only for a session that CAN hand off. A capped Routine session with no handoff had NO legal answer, so the only move that satisfied the hook was another cycle in the same context: CYC-0033 … CYC-0041, NINE cycles in one session against max_cycles_per_session=2, and one receipt named this hook in its own `shape` field. ⭐ FIXED: research/autonomy/session_cap.py is the fourth answer, and the hook consults it BEFORE demanding another cycle. EARNED AND FALSIFIABLE, never a flag — `cap` receipts FROM THIS SESSION, plus a handoff attempted and blocked either in the platform's verbatim words (AUT-PD-032's depth-8 refusal) or as a named absent mechanism (this item's shape). An absent record is a session that did not try and stays red; every unreadable input answers MUST NOT STOP. 15 tests, 6 mutations all caught, restore verified by sha256. ⛔ AND THE HALF WITHOUT WHICH THE FIX WAS INERT: scheduled cycles typed the literal 'scheduled-routine-session' into the receipt's session_id, so nine cycles were indistinguishable from one session's to both readers that matter — cycles_are_sized and session_cap. A session whose receipts do not name it cannot show it is at its cap. research-loop §10 now reads the id from CLAUDE_CODE_SESSION_ID via session_cap.session_id(), and the placeholder is treated as NO id so it can never be inherited as another session's cap. ⚠ STILL TRUE AND NOT CLOSED BY THIS: cycles_are_sized cannot distinguish a depth-limit refusal from an absent tool. session_cap accepts both deliberately, because for the STOP decision they are the same fact — the loop cannot hand off. Telling them apart still matters for diagnosis."
+    },
+    {
+      "id": "AUT-071",
+      "_derived": true,
+      "what": "Keep as cited landscape context. Do not overstate a single response.",
+      "serves": {
+        "route": "RT-TRABECTEDIN",
+        "publication": "PUB-EMC-PROGRAM",
+        "strategy": "ST-REPURPOSING"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "s1-CYC-0074-5a21085f",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-05",
+      "score": 128.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0
+      },
+      "claimed_utc": "2026-08-29T01:25:07Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T01:25:07Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ]
     },
     {
       "kind": "process_defect",
@@ -2801,16 +2801,16 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "s3-aut-pd-147-CYC-0074-5a21085f",
+      "state": "done",
+      "owner": null,
       "claimed_utc": "2026-08-29T01:41:55Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
       "filed_by": "CYC-0070-c84c64dd",
       "score": 126.9,
       "_score_basis": "a wrong gene symbol in a submission text is the error class CLAUDE.md §7 calls unfixable after publication, and lint_claims cannot see it — claim strength is orthogonal to identifier provenance",
@@ -2825,11 +2825,12 @@
           "fingerprint_at_dispatch": "2026-08-28|None"
         }
       ],
-      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
+      "evidence": "CLOSED 2026-08-29 by seat s3-aut-pd-147-CYC-0074-5a21085f, branch claude/aut-pd-147-s3-CYC-0074. BUILT: research/manuscripts/tests/test_the_fusion_partner_gene_identifiers_are_ones_an_artifact_names.py — the fusion-partner sibling of the ASO submission's identifier guard, 10 tests. It binds every identifier-shaped token in EVERY prose document of this lane (the manuscript, the correction register and the retrieval register) to the same committed artifact corpus the ASO guard reads (research/{modalities,data,literature}, ~105,600 distinct tokens); holds a MUST_APPEAR floor against a partner simply vanishing, which the set check cannot see; and — new relative to the ASO guard — checks every `5'::3'` fusion pair against the pairs emc-fusion-partner-pooling.json itself names, which is the only thing that can see a drift between two symbols that are BOTH attested. Scope is a directory predicate plus asserted completeness, and the pair check is scoped by the front matter's own `kind:` rather than by a file list. MEASURED BEFORE THE RULE WAS WRITTEN (paper-hardening §8b.1): all three prose documents already carry ZERO unattested identifier-shaped tokens, so CITED_ONLY is empty and nothing needed declaring; and the pair predicate WOULD have red on true input at partner-event-counts-2026-08-08.md, which quotes PMID 41755350's novel FUS::NR4A2 and ACTB::NR4A3 verbatim — that measurement is why registers are out of its scope. MUTATION-TESTED, ALL SINGLE-SITE: 7 mutations added to the committed harness research/manuscripts/tests/mutate_fusion_partner_guard.py (which now runs three guard modules and names which one fired). They include the measured defect itself restored verbatim — NR4A3 -> NR4A7 in the endpoint declaration — the same corruption at a second site one section away, TAF15 -> TAF19 at 1 of its 100 sites, EWSR1 -> EWSR7 at 1 of its 46, the same corruption inside the correction register, and two pair mutations that leave every token on the page attested (EWSR1::NR4A3 written backwards; TAF15::NR4A3 -> TAF15::NR4A2). The floor was mutation-tested by hand in an isolated clone rather than by the harness, because a deletion cannot be single-site and the harness's exactly-once invariant was not weakened to admit it: a global TAF15 -> TAF-15 in the register fired the floor ALONE with the attestation check still green, and a global EWSR1 -> EWSR in the manuscript fired the floor, the pair check and the vacuity check; both restored to their pristine sha256. claim-coverage.json was regenerated and did not move — the new patterns are non-selective and the census correctly declines to credit them, so no coverage was inflated. ⛔ WHAT IS NOT CLOSED, MEASURED RATHER THAN ESTIMATED: a drift between two ATTESTED symbols outside a `::` construction remains unguarded — 31 of the manuscript's 71 NR4A3 sites, 34 of 46 EWSR1, 74 of 100 TAF15 and 5 of 6 TCF12 are bare. Filed separately rather than left to look covered.",
       "_id_collision": "Filed as AUT-PD-141 and renumbered AUT-PD-147 at the merge — the SECOND collision this session. AUT-PD-141 on the trunk was filed by CYC-0070-225452b4. `ids.next_entry_id` is max+1 over the ledger the caller can see, and with five sessions filing concurrently that snapshot is stale before it is written. Both rows exist; every reference moved with mine.",
       "score_inputs": {
         "age_factor": 0.0714
-      }
+      },
+      "_evidence_was_misfiled": "The evidence field on this row when the seat opened it described `lease_arbitration()` in research/autonomy/continuity.py — another item's work entirely. It is byte-identical (sha256 b6d6cda689a7…) on EIGHT unrelated rows. Replaced here with what this seat actually observed; the eight-row misfiling is filed as its own row."
     },
     {
       "id": "AUT-PD-146",
@@ -3028,6 +3029,33 @@
       }
     },
     {
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0074-5a21085f",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a ledger hygiene defect and a guard for it; nothing outward-facing",
+      "depends_on_evidence": "research/autonomy/research-ledger.json, research/autonomy/ids.py",
+      "score": 122.9,
+      "_score_basis": "three QUEUED rows carry a finished-looking 'BUILT AND TESTED' receipt for work nobody did, so the next seat to open one reads a false DONE — the AUT-PD-093 failure in the direction that hides live work rather than the one that stops it",
+      "what": "⛔⛔ ONE ITEM'S EVIDENCE IS STAMPED ON EIGHT UNRELATED LEDGER ROWS, AND THREE OF THEM ARE STILL QUEUED. Measured 2026-08-29 while closing AUT-PD-147: the identical 1,743-character string (sha256 b6d6cda689a7…), which describes building `lease_arbitration()` in research/autonomy/continuity.py, is the `evidence` field of AUT-PD-049, AUT-PD-130, AUT-PD-132, AUT-PD-133, AUT-PD-140, AUT-PD-147, AUT-PD-148 and AUT-PD-149 — rows about claim-coverage staleness, citation years, fenced-block prose, a concurrency cap and a gene identifier. ⛔ THE DAMAGE IS NOT UNTIDINESS, IT IS A FALSE 'DONE' ON LIVE WORK: the text opens 'BUILT AND TESTED', so a seat opening AUT-PD-130, AUT-PD-133, AUT-PD-148 or AUT-PD-149 reads a finished-looking receipt for work that has not started, which is AUT-PD-093's false-'withheld' failure in the opposite direction — a false DONE hides work while leaving the row looking healthy. ⭐ AND IT IS A POPULATED FIELD THAT WAS NEVER MEASURED (CLAUDE.md §4): presence is not provenance, and a plausible-looking record is more dangerous than an empty one. WHAT TO DO: (1) find the write that did this — one bulk ledger update, since the copies are byte-identical — and say which cycle; (2) restore or blank the seven rows other than AUT-PD-147, which this seat already replaced with its own observation; (3) add the assertion that would have caught it at the commit that made it, beside `ids.duplicate_ids()`, which is the existing home for exactly this shape of ledger invariant: no two rows share a non-empty `evidence` string.",
+      "id": "AUT-PD-155"
+    },
+    {
       "id": "AUT-PROP-010",
       "kind": "write",
       "serves": {
@@ -3133,6 +3161,60 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
+    },
+    {
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0074-5a21085f",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a test harness's anchors; nothing outward-facing",
+      "depends_on_evidence": "research/manuscripts/tests/mutate_fusion_partner_guard.py, emc-fusion-partner-stratification.md",
+      "score": 118.9,
+      "_score_basis": "eight committed mutations no longer land, so eight bindings whose coverage the repository has recorded as measured are in fact currently unmeasured, and the harness that would say so exits 1 on the trunk",
+      "what": "⛔ EIGHT OF THE 94 MUTATIONS IN mutate_fusion_partner_guard.py NO LONGER LAND, SO THE HARNESS EXITS 1 ON origin/main. Measured 2026-08-29 by running the COMMITTED harness against a pristine clone of 8edd15fe: positive control GREEN, 86 caught, 0 survived, and 8 reported as HARNESS ERRORS — `anchor occurs 0 times`. The eight are the three §4.7a mutations (Huang's 78 %, the published p beside it, and the covariate ARM SWAP), the §5 claims-bullet round-6 blocker restoration, the three §2.3a one-of-a-pair count mutations, and §1.3's 'most-quoted'. ⭐ THE HARNESS IS BEHAVING CORRECTLY AND THAT IS THE POINT — it refuses to score a mutation that did not land, because a mutation that never lands reports exactly what a guard that never fires reports (paper-hardening §8b). ⛔ BUT THE CONSEQUENCE IS REAL: eight bindings the guards' docstrings record as mutation-proven are currently PROVEN BY NOTHING, and a seat running the harness sees exit 1 and has to decide for itself whether that is its own doing — this seat had to build a pristine baseline clone to find out. WHAT TO DO: re-anchor each of the eight against the prose as it now stands, ⚠ and check the MEANING before the regex (paper-hardening §8b.1's remedy-text rule) — an anchor that stopped matching because a sentence was reworded is a re-anchor, and an anchor that stopped matching because the claim LEFT the paper is a mutation that should be retired and said so. A dead anchor cannot tell you which.",
+      "id": "AUT-PD-156"
+    },
+    {
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0074-5a21085f",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a manuscript guard; nothing outward-facing",
+      "depends_on_evidence": "test_the_fusion_partner_gene_identifiers_are_ones_an_artifact_names.py, emc-fusion-partner-stratification.md, emc-fusion-partner-pooling.json",
+      "score": 116.9,
+      "_score_basis": "the surface AUT-PD-147 measured and did not close, in the same paper: 144 sites at which a swap between two real gene symbols passes every guard, and one of them (TAF15 <-> EWSR1) inverts the comparison the paper exists to state",
+      "what": "⛔ A GENE SYMBOL CAN DRIFT TO ANOTHER REAL SYMBOL AND THE NEW IDENTIFIER GUARD CANNOT SEE IT. AUT-PD-147 closed the unattested-slip class for the fusion-partner synthesis (NR4A3 -> NR4A7 and the like): the attestation corpus is sparse, so a one-digit slip lands outside it and fires. ⛔ BUT AN ATTESTED-TO-ATTESTED DRIFT IS INVISIBLE TO AN ATTESTATION CHECK BY CONSTRUCTION — NR4A3 -> NR4A1, NR4A3 -> NR4A2 and TAF15 -> EWSR1 are all real symbols the corpus names, and the last one INVERTS the comparison this whole paper is about while leaving every character on the page a genuine gene. Inside a `5'::3'` construction that hole is closed, because the pair is read out of emc-fusion-partner-pooling.json rather than the token out of a corpus. ⭐ MEASURED 2026-08-29, NOT ESTIMATED: 31 of the manuscript's 71 NR4A3 sites are bare rather than in a pair, 34 of 46 EWSR1, 74 of 100 TAF15 and 5 of 6 TCF12 — 144 sites where the swap would pass every guard, every linter and the pooling check. WHAT TO DO: bind the ARM at the sites that state a per-partner result, the way the relation guard binds a comparative — the artifact already knows which arm each figure belongs to, so the expectation is derivable and need not be typed. ⚠ Do NOT reach for a blanket 'every bare NR4A3 must be NR4A3' rule: the manuscript legitimately names NR4A1 and other paralogues, so that predicate would red on true input, which is worse than not guarding it (paper-hardening §8b.1).",
+      "id": "AUT-PD-154"
     },
     {
       "id": "AUT-PD-133",
