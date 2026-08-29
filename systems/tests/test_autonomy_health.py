@@ -37,6 +37,7 @@ import pytest
 
 REPO = pathlib.Path(__file__).resolve().parent.parent.parent
 HEALTH_PY = REPO / "research" / "autonomy" / "health.py"
+ARCH_MD = REPO / "research" / "manuscripts" / "program" / "emc-autonomy-architecture.md"
 STATE_JSON = REPO / "research" / "autonomy" / "autonomy-state.json"
 
 NOW = datetime.datetime(2026, 8, 26, 12, 0, 0, tzinfo=datetime.timezone.utc)
@@ -116,41 +117,58 @@ def _receipt(route_advanced="RT-X", hours_ago=1, **extra):
 
 
 # ────────────────────────────────────────────────────────────────────────── the nine, and their shape
+def _declared_conditions():
+    """Parse §5.2's condition table out of the architecture, in the order it lists them.
+
+    ⛔⛔ THE TABLE IS THE DECLARATION, AND UNTIL 2026-08-29 THIS TEST DID NOT READ IT. It compared
+    `CONDITION_ORDER` against a literal set hand-copied INTO THIS FILE while printing "the condition
+    set drifted from the architecture §5.2 table" on failure — so it asserted something it never
+    checked, and the table was free to rot. It did: measured at df529936a, the table listed TEN
+    conditions against `health.py`'s twelve. `stalls_are_named` (2026-08-28) reached the literal and
+    never reached the table, so the drift was invisible; `scores_are_reachable` (2026-08-28, CYC-0072)
+    reached neither, and reddened `main` for five consecutive commits. One duplicate caught the
+    second addition by luck and missed the first entirely, which is the argument for having no
+    duplicate at all (CLAUDE.md §1: one fact, one place).
+    """
+    rows, in_table = {}, False
+    for line in ARCH_MD.read_text(encoding="utf-8").split("\n"):
+        if line.startswith("| condition | on red |"):
+            in_table = True
+            continue
+        if in_table:
+            if line.startswith("|---"):
+                continue
+            if not line.startswith("| `"):
+                break
+            cells = [c.strip() for c in line.strip().strip("|").split("|")]
+            rows[cells[0].strip("`")] = cells[1].strip("*")
+    return rows
+
+
 def test_all_5_2_conditions_are_present(health, tmp_path):
     """§5.2's table is the contract. A condition that quietly stops being emitted is a dimension of
     failure nobody is watching any more — and it would look identical to a healthy board."""
     board = health.build(**_lab(tmp_path))
     assert [c["key"] for c in sorted(board["conditions"], key=lambda c: c["key"])] == sorted(
         health.CONDITION_ORDER)
-    assert set(health.CONDITION_ORDER) == {
-        "cycle_delivering", "advancing_live_work", "evidence_moving", "blocks_are_real",
-        "budget_recovering", "gates_green", "authority_respected",
-        # ⭐ ADDED 2026-08-26, DECLARED in amendments.jsonl. Every other condition asks whether the
-        # loop works WELL; this one asks whether there is work it CAN do. A queue where everything is
-        # owned, blocked or out of retry budget makes a loop that fires, finds nothing, writes a
-        # receipt saying so, and repeats — a stall wearing the costume of a quiet week.
-        "queue_is_takeable",
-        # ⭐ ADDED 2026-08-26, DECLARED in amendments.jsonl. The session-shape rule had lived only in
-        # `.claude/skills/research-loop/SKILL.md` §3, and a skill binds only when it is loaded —
-        # every one of that skill's load triggers was a Routine firing, so on the interactive path
-        # the rule was UNREACHABLE rather than merely unheeded. `"name":"Skill"` appears 0 times in
-        # the transcript of the session that broke it. Reachability was repaired in CLAUDE.md; this
-        # condition is the enforcement half, because a rule nothing measures decays to a suggestion.
-        "cycles_are_sized",
-        # ⭐ ADDED 2026-08-26, DECLARED in amendments.jsonl. `subagent_width` had been a number in a
-        # state file connected to NO code path — `grep -rn subagent_width` returned two hits, the JSON
-        # defining it and one test asserting it equals 5 — while architecture §9 records it as the dial
-        # that failed catastrophically (a 107-agent fan-out: 40 completed, 67 errored, synthesis lost).
-        "fanout_is_governed",
-        # ⭐ ADDED 2026-08-28, AUT-PROP-029: `stuck_clock.py`'s two-clock stall model (a row claimed,
-        # abandoned, re-queued and re-claimed forever, looking maximally alive on the touch clock and
-        # correctly dead on the advance clock) was fully built and fully tested and NOTHING called it
-        # — no board condition read it, `priority.py`/`handoff.py` did not exclude a terminal row from
-        # ready work, and no job ran `--check`. This condition reads the verdict from a caller-supplied
-        # file (the same `gates_green` shape, since stuck_clock needs `git log` and this file has no
-        # subprocess by design) and reports which rows, if any, have gone `stalled_needs_human`.
-        "stalls_are_named",
-    }, "the condition set drifted from the architecture §5.2 table — that is a DECLARED change (§10.4)"
+
+    declared = _declared_conditions()
+    assert declared, "§5.2's condition table did not parse — the contract cannot be read at all"
+    # ⭐ ORDER, not just membership: `health.py`'s CONDITION_ORDER comment claims it lists the
+    # conditions "in the order the architecture table lists them", and a claim nothing checks is
+    # exactly what this whole test exists to stop being true.
+    assert list(declared) == list(health.CONDITION_ORDER), (
+        "the condition set drifted from the architecture §5.2 table — that is a DECLARED change "
+        "(§10.4). Add or remove the row in emc-autonomy-architecture.md §5.2; the table is the "
+        "declaration and this test only reads it.")
+    # ⛔ AND THE `on red` COLUMN, WHICH NOTHING BOUND UNTIL 2026-08-29 AND WHICH WAS THEREFORE EMPTY
+    # IN EVERY SINGLE ROW while the header advertised it. That column is not decoration: `research-loop`
+    # §1 branches on it, and its ABSENCE from the model is what killed the loop on 2026-08-27 — two
+    # conditions reading immutable committed history were added as de-facto `blocks`, no session could
+    # ever clear them, and the driver refused forever.
+    assert declared == {k: health.CONDITION_ON_RED[k] for k in health.CONDITION_ORDER}, (
+        "§5.2's `on red` column disagrees with health.py's CONDITION_ON_RED — a row's declared "
+        "response to a red is what decides whether a cycle stops, redirects or reports")
     assert board["n_conditions"] == len(health.CONDITION_ORDER)
 
 

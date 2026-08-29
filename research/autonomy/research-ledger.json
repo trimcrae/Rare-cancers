@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 141,
+    "process_defect": 142,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -22,7 +22,7 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 120,
+    "done": 121,
     "in_progress": 7,
     "parked": 28,
     "queued": 139,
@@ -2514,6 +2514,33 @@
           "fingerprint_at_dispatch": "2026-08-29|None"
         }
       ]
+    },
+    {
+      "id": "AUT-PD-163",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0076-718151ec",
+      "requires_trimcrae": false,
+      "closes_clause": null,
+      "score": 137.0,
+      "_score_basis": "filed WITH a score, at AUT-PD-159's 137.0: same class exactly (a defect that reddens the trunk for EVERY session, which research-loop §1 makes a whole cycle's work) and it had in fact done so for five commits when this row was filed.",
+      "depends_on_evidence": "Actions job 99042491482 (run 33230549448, head 8dd561be0) and the four preceding `tests (modalities)` runs back to e0c100475; local repro d76-repro.log; mutation log d76-mutate.log; the §5.2 table at df529936a carrying 10 rows against health.py CONDITION_ORDER's 12.",
+      "what": "⛔⛔ A CONTRACT TEST NAMED A DOCUMENT IT NEVER READ, SO THE DOCUMENT ROTTED FOR THREE DAYS AND THEN REDDENED `main` FOR FIVE CONSECUTIVE COMMITS. `systems/tests/test_autonomy_health.py::test_all_5_2_conditions_are_present` failed on `main` from e0c100475 (CYC-0072, 2026-08-29T02:43Z) through 8dd561be0, five runs of `tests (modalities)`, every one of them `1 failed, 10802 passed`. Read from Actions job 99042491482: `AssertionError: the condition set drifted from the architecture §5.2 table — that is a DECLARED change (§10.4) ... Extra items in the left set: 'scores_are_reachable'`. Reproduced locally at df529936a before any edit (d76-repro.log, `1 failed, 74 passed`, EXIT=1).\n⛔ THE MECHANISM IS A DUPLICATE, NOT A MISSING EDIT. The test compared `health.py`'s CONDITION_ORDER against a LITERAL SET HAND-COPIED INTO THE TEST FILE, while its failure message told the reader the architecture §5.2 table was the contract. It never opened that file. So there were three declaration sites (health.py, the test literal, the §5.2 table) and only the first two were bound to each other — CLAUDE.md §1's one-fact-one-place violated in the one place that then FAILS CLOSED onto the trunk.\n⭐ AND THE DRIFT WAS ALREADY TWO ROWS DEEP, WHICH IS WHAT PROVES IT IS THE DUPLICATE AND NOT THE SLIP. `stalls_are_named` (added 2026-08-28, AUT-PROP-029) reached the test literal and NEVER reached the §5.2 table — so it drifted silently and no gate ever noticed. `scores_are_reachable` (added 2026-08-28, CYC-0072/AUT-PD-143) reached NEITHER, and only that second omission was loud. The duplicate caught one addition by luck and missed the other completely.\n⭐ A THIRD DRIFT IN THE SAME TABLE, FOUND WHILE FIXING IT: the header advertised an `on red` column and EVERY ONE OF THE TEN ROWS HAD THREE CELLS, NOT FOUR — the column was added to the header when CONDITION_ON_RED was introduced (2026-08-27, the day its absence killed the loop) and never filled in for a single row. Nothing bound it, so the classification that `research-loop` §1 branches on existed in code only.\n✅ CLOSED by CYC-0076-718151ec: the §5.2 table now carries all twelve conditions in CONDITION_ORDER order with the `on red` column populated, and the test PARSES that table instead of a literal, asserting key order against CONDITION_ORDER and on-red values against CONDITION_ON_RED. Mutation-tested 5/5 in a git worktree (d76-mutate.log): a deleted row, an added row, a flipped on-red value, a reordering, and a condition dropped from CONDITION_ORDER are each caught, against a green baseline. ⚠ WHAT THIS DOES NOT FIX, said plainly: nothing binds the table's `red when` and `why it exists` prose to the code, so those two columns can still go stale without a gate noticing — only the key set, their order, and the on-red classification are machine-checked."
     },
     {
       "id": "AUT-PD-059",

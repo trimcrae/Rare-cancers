@@ -1,0 +1,97 @@
+{
+ "_schema": "emc-autonomy-receipt/1",
+ "cycle_id": "CYC-0076-718151ec",
+ "session_id": "718151ec-4575-5085-8973-02c383757bcf",
+ "ccr_session_id": "session_01QozkfPFys7ferRoCACbdTU",
+ "_ccr_session_id_why": "READ from the claude-code-remote `get_session` tool called with no arguments (.ccr.id), never typed. `session_id` is the harness CLAUDE_CODE_SESSION_ID, read from the environment.",
+ "utc": "2026-08-29T03:55:00Z",
+ "shape": "driver session, cycle 1 of the 2 this session may run (autonomy-state.json max_cycles_per_session).",
+ "trunk_at_start": "df529936a, verified against `git log origin/main -1` before anything else.",
+ "took": "THE RED TRUNK, which research-loop §1 makes this cycle's work whether or not anything else is queued. No ledger item was claimed: the top queued rows (AUT-PD-099 at 140.9, AUT-PD-159 at 137.0) were left untouched and unclaimed. Filed AUT-PD-163 for the defect found, in state `done`.",
+ "why_this_and_not_the_queue": "`tests (modalities)` had failed on `main` for five consecutive commits — e0c100475, e70b49a44, b2af97ba0, efd729edf, 8dd561be0 — every run reporting `1 failed, 10802 passed`. research-loop §1: preflight red on `main` and not by my hand means fixing that IS the cycle, and nothing else lands until it is green.",
+ "changed": {
+  "diagnosis": "Read from Actions job 99042491482, not inferred: `systems/tests/test_autonomy_health.py::test_all_5_2_conditions_are_present` — `AssertionError: the condition set drifted from the architecture §5.2 table ... Extra items in the left set: 'scores_are_reachable'`. The `gates` job of the same run was GREEN on all 30 steps; only `pytest` failed, so this was never a preflight-tier failure and the local commit loop could not have caught it. Reproduced at df529936a before any edit: `1 failed, 74 passed`, EXIT=1.",
+  "mechanism": "The test compared health.py's CONDITION_ORDER against a literal set hand-copied into the test file while its failure message named the architecture §5.2 table as the contract. It never opened that file. Three declaration sites, two of them bound to each other, and the third — the one the message pointed at — free to rot. It had rotted twice: `stalls_are_named` reached the literal and never the table (silent), `scores_are_reachable` reached neither (loud, five commits red). A third drift in the same table: the header advertised an `on red` column and all ten rows carried three cells, so CONDITION_ON_RED — the classification research-loop §1 branches on, added the day its absence killed the loop — had never been written into a single row.",
+  "fix": "§5.2's table now carries all twelve conditions in CONDITION_ORDER order with the on-red column populated from CONDITION_ON_RED, and the test PARSES that table instead of a literal, asserting key order against CONDITION_ORDER and on-red values against CONDITION_ON_RED. The duplicate is gone.",
+  "verification": "MUTATION-TESTED 5/5 in a git worktree against a green baseline — deleted row, added row, flipped on-red value, reordered table, and a condition dropped from CONDITION_ORDER, each CAUGHT. Logs named below; the worktree is gone, the scratchpad is not.",
+  "not_fixed_and_said_plainly": "Nothing binds the table's `red when` and `why it exists` prose columns to the code, so those two can still go stale with no gate noticing. Only the key set, its order, and the on-red classification are machine-checked."
+ },
+ "artifacts_touched": [
+  "research/manuscripts/program/emc-autonomy-architecture.md (§5.2 table: 10 rows -> 12, on-red column filled)",
+  "systems/tests/test_autonomy_health.py (literal set -> parse of §5.2; ARCH_MD constant; _declared_conditions helper)",
+  "research/autonomy/research-ledger.json (AUT-PD-163 filed, state done)",
+  "research/autonomy/amendments.jsonl (2 governed edits declared, self_serving_check answered on both)"
+ ],
+ "logs": {
+  "_where": "/tmp/claude-0/-home-user-Rare-cancers/718151ec-4575-5085-8973-02c383757bcf/scratchpad/driver-cyc0076/",
+  "repro_before_fix": "d76-repro.log (1 failed, 74 passed, EXIT=1)",
+  "after_fix": "d76-fix2.log (75 passed, EXIT=0)",
+  "mutation": "d76-mutate.log (BASELINE rc=0; 5/5 CAUGHT)",
+  "stall_verdict": "d76-stall.json (stuck_clock.py --check --json)",
+  "preflight": "d76-preflight.log",
+  "preflight_run_1_failed": "d76-preflight.log (EXIT=1, harness reported 0 — see harness_exit_code_disagreed_with_the_marker)",
+  "preflight_run_2": "d76-preflight2.log",
+  "serialization_recheck": "d76-serial.log (9 passed, EXIT=0)"
+ },
+ "cost": "$0. No GPU, no rental, no paid API. CPU and agent time only (CLAUDE.md §5: engineering effort is free).",
+ "subagents": {
+  "max_concurrent": 1,
+  "cap_at_dispatch": 5,
+  "cap_source": "research/autonomy/autonomy-state.json subagent_width, READ this cycle at backoff_level 0, not remembered",
+  "within_cap": true,
+  "serial_total": 1,
+  "launched_in_one_message": true,
+  "seats": [
+   {
+    "seat": "s76-sgk1",
+    "item": "AUT-PD-099",
+    "shape": "worktree off origin/main, branch claude/s76-sgk1",
+    "scratch": "/tmp/claude-0/-home-user-Rare-cancers/718151ec-4575-5085-8973-02c383757bcf/scratchpad/s76-sgk1-autpd099/",
+    "claims_for_itself": "the seat runs claim.py --me s76-sgk1 as its step 0, in its own worktree. The lease names the WORKER, not this driver — a claim reading this session's id would name a session that is about to stop (AUT-PD-140)."
+   }
+  ],
+  "_why": "The trunk fix itself needed no fan-out. This seat is a SECOND, INDEPENDENT item (AUT-PD-099, RT-SGK1) dispatched so the cycle does not end with 115 ready rows and nothing moving — the condition ready-work-at-turn-end.sh fired on. Width 1 against a cap of 5.",
+  "_driver_did_not_wait": "Dispatch, record, end the turn (research-loop §3). The driver holds uncommitted trunk-fix work and must not block on a seat."
+ },
+ "rate_limit_info": {
+  "status": "allowed",
+  "rateLimitType": "five_hour",
+  "resetsAt": 1787980200,
+  "isUsingOverage": false,
+  "_read_from": "claude-code-remote get_session on self, external_metadata.rate_limit_info — read, never inferred (research-loop §4)"
+ },
+ "health_at_start": {
+  "check_exit": 0,
+  "needs_attention": [
+   "scores_are_reachable"
+  ],
+  "unmeasured": [
+   "gates_green",
+   "stalls_are_named"
+  ],
+  "_note": "scores_are_reachable is CONDITION_ON_RED `advises` — report and carry on, never stop (research-loop §1). No escalation was listed and no restart budget was spent. The two UNMEASURED rows are the board's own $0 observations: the stall verdict was produced this cycle (d76-stall.json) and the gate verdict was taken directly from Actions, which is what found the red trunk."
+ },
+ "what_i_got_wrong": "TWO, and the second is the more useful one.\n(1) The first version of the table parser broke on the markdown separator row `|---|---|---|---|` and returned an empty dict, so the new assertion fired its own `did not parse` guard rather than passing. Caught by running the test, not by reading it. That guard existing at all is why the failure was legible instead of a vacuous pass over an empty table — an empty parse must never read as agreement.\n(2) ⛔ I WROTE THE LEDGER WITH MY OWN `json.dump(..., indent=1, ensure_ascii=False)` INSTEAD OF THE REPO'S PINNED WRITER, AND PREFLIGHT CAUGHT IT: `test_the_ledger_has_one_serialization.py::test_write_ledger_reproduces_the_committed_file_byte_for_byte` failed on the first run. This is AUT-PD-037's defect class exactly, and the guard filed for it did its job. Fixed by re-running `priority.py --write`, which routes through `ledger_io.write_ledger` — the one place the committed serialization is pinned. AUT-PD-163 survived the rewrite with its score and state intact; the serialization suite then passed 9/9. ⭐ THE LESSON IS NARROW AND WORTH STATING: a hand-filed ledger row must be written by re-running the ranker, never by a bespoke json.dump, because `indent=` and `ensure_ascii=` are pinned somewhere this cycle never opened.\n(3) I wrote `subagents.max_concurrent: 0` into this receipt and then dispatched a seat, which would have made the receipt false in exactly the field `health.py`'s `fanout_is_governed` reads. Corrected before the commit, and the preflight run that was in flight against the old tree was KILLED rather than protected — an invalidated run is cheap and an idle wait is not (CLAUDE.md §6).",
+ "now_queued": {
+  "AUT-PD-163": "done, filed and closed this cycle.",
+  "_untouched_top_of_queue": "AUT-PD-099 (140.9), AUT-PD-159 (137.0), AUT-PD-160 (134.9), AUT-PD-158 (133.0), AUT-PD-156 (130.0) — all left unclaimed and unowned for the next cycle."
+ },
+ "blocked_by": [],
+ "route_advanced": "RT-AUTONOMY",
+ "_route_advanced_why": "The trunk was red for every session, which is the condition research-loop §1 says stops every cycle at step 8. This restores the loop's own ability to commit and closes the duplicate that let a declared contract rot unnoticed. It advanced no in-silico research route, and that is recorded honestly rather than inflated — RT-AUTONOMY is the route this work serves.",
+ "handoff": {
+  "child_session_id": null,
+  "attempted": false,
+  "_why": "Filled in by the handoff step only if this session reaches its 2-cycle cap. This is cycle 1."
+ },
+ "harness_exit_code_disagreed_with_the_marker": "⛔⛔ MEASURED THIS CYCLE, NOT INHERITED. The first preflight run was backgrounded, and the harness reported `completed (exit code 0)` while the log's own marker, written by `echo \"EXIT=$?\" >> log`, said `EXIT=1` — and the log's last line was `PREFLIGHT FAILED -- do not commit.` The marker was right and the harness was wrong. Committing on the harness's word would have pushed a ledger that fails the trunk's own serialization gate, on the very cycle whose whole subject is a guard that went unnoticed for five commits. This is the third rule in the cycle prompt and it is not theoretical: READ THE MARKER, NEVER THE REPORTED EXIT CODE.",
+ "reaped": {
+  "cleared_by_reaper": [
+   "session_01NsMER9Gsh1jLUTPYS1561F"
+  ],
+  "archived": [
+   "session_01NsMER9Gsh1jLUTPYS1561F"
+  ],
+  "_note": "12 sessions in, 1 safe to archive, 11 kept. The one cleared is this cycle's own parent (CYC-0075), whose receipt is on the trunk. Archived successfully — note CYC-0074 recorded this same call being refused by the auto-mode classifier, so that block did not recur."
+ }
+}
