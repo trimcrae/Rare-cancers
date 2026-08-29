@@ -22,6 +22,7 @@ artifact's current value in as a literal to make it green.
 """
 import csv
 import json
+import math
 import os
 import re
 import sys
@@ -174,6 +175,19 @@ def test_the_panel_and_its_liable_count_are_the_screens_own(prose, pairing):
     # every gate — the article stating one count four times and another once.
     _every_site(prose, r"and (\d+) of the (\d+) do so against wild-type", (str(nr4a3), str(liable)),
                 "the wild-type NR4A3 attribution, with the denominator it is a share of")
+    # ⛔ TWO MORE SITES, FOUND BY MUTATION 2026-08-29 AND BOUND BY NOTHING UNTIL THEN. The three
+    # assertions above are membership tests (`re.search`), so they stay green while ONE site drifts
+    # — the one-of-a-pair shape this file's `_every_site` exists for, here on the paper's two
+    # headline counts. The two that walked through:
+    #
+    #   · the §3 heading "Selection from a panel of 190 designs" — a heading is what a skimming
+    #     referee reads, and it restates the panel size with no binding at all;
+    #   · "so the 87 bound the fully-paired class, not the whole parent liability" — the sentence
+    #     that says what the liable count MEANS, which is the one a reader takes the number from.
+    _every_site(prose, r"from a panel of (\d+) designs", str(n),
+                "the panel size, at the section heading that states it")
+    _every_site(prose, r"so the (\d+) bound the fully-paired class", str(liable),
+                "the liable count, at the sentence that scopes what it bounds")
 
 
 def test_the_panels_own_rate_is_the_screens_rate(prose, null):
@@ -339,6 +353,22 @@ def test_the_adopted_cut_is_not_exempt_from_its_own_null(prose, null):
     assert inside == expected, (
         "the article says 'every cut from seven to thirteen but eleven'; the artifact now puts the "
         f"strongest null inside the panel's interval at {inside} rather than {expected}")
+    # ⛔⛔ AND THE SAME RELATION UNDER THE INTERVAL THE REPOSITORY SAYS IS THE ONE TO READ.
+    #
+    # The docstring above says the nominal field "would be the wrong field the day this test is
+    # inverted to assert something falls OUTSIDE" — and `inside == expected` IS that inversion for
+    # cut eleven, which is the article's sole separation claim. Round 18, seat 3 found the guard
+    # standing exactly where its own docstring said it must not. Containment in the nominal implies
+    # containment in the wider corrected interval, so the "inside" half is safe either way; the
+    # "but eleven" half is not, and until now nothing tested it against the wider one.
+    #
+    # ★ THE DESIGN EFFECT IS RECOMPUTED FROM THE PANEL, NOT TAKEN FROM THE PROSE. The extended
+    # report states 1.42 and an effective sample of 133.57 at the adopted cut; the block below
+    # re-derives both from `aso-parent-gap-pairing.json` by the one-way analysis of variance that
+    # report names — clusters are junctions, the unit is a distinct design — and reproduces
+    # 1.4225 / 133.57 and the printed 37.6-54.2%. A number typed here would be the defect this
+    # file exists to prevent.
+    _assert_the_cut_ladder_survives_the_clustering_correction(cs, arms, expected)
     # ⛔ THE THIRD SITE OF BOTH FIGURES, WHICH IS THIS SENTENCE. 45.8% and 40.6% are each stated
     # three times in this article and the other two tests bind two sites each; this sentence prints
     # the third of each, and until 2026-08-22 nothing read it.
@@ -1024,3 +1054,219 @@ def test_the_tiled_geometry_the_methods_state_is_the_one_the_canonical_file_carr
     assert stated_mers == {str(length)}, (
         f"the article states {sorted(stated_mers)}-mer where the canonical file's tiled designs are "
         f"{length} nt; one of the sites has drifted from the others")
+
+
+#: The non-coding-acceptor (exon-2) arm. Its own screens, separate from the exon-3 panel above.
+NONCODING_PAIRING = os.path.join(MOD, "aso-parent-gap-pairing-noncoding-acceptor.json")
+ATLAS = os.path.join(MOD, "nr4a3-fusion-junction-atlas.json")
+
+
+def test_the_noncoding_acceptor_arms_quantities_are_the_noncoding_screens_own(prose):
+    """⛔⛔ THE EXON-2 ARM PRINTED FOUR QUANTITIES AND NO GUARD READ ITS SCREEN (round 18, seat 2).
+
+    `aso-parent-gap-pairing-noncoding-acceptor.json` was referenced by no module that binds this
+    article and by no entry in `pinned-figures.json`. So the exon-2 paragraph's two sequences, its
+    "both at the panel's top margin", its ten-base-pair criterion and — the dangerous one — its
+    "eight base pairs against wild-type *EWSR1* and nine against wild-type *NR4A3*" could all drift
+    or invert with every gate in this repository green.
+
+    ⛔ THE INVERSION IS THE POINT, NOT THE DRIFT. Swapping which parent carries 8 and which carries
+    9 is the acceptor-substitution error this paper's own §5 says the withdrawn version arose from,
+    and 8 and 9 are both still-plausible numerals in a still-grammatical sentence — the exact shape
+    `lint_claims` cannot see, because claim strength is orthogonal to claim direction. The exon-3
+    sibling guard (`test_the_two_named_reagents_carry_their_own_seams_and_their_own_duplex_lengths`)
+    records in its own comment that its pattern "deliberately does not reach" this construction.
+    This is the guard that reaches it.
+
+    ★ EVERY EXPECTED VALUE IS DERIVED: the two reagents are selected by JUNCTION and by the panel's
+    own maximum margin, never by the sequence the prose prints, so a corrupted sequence in the
+    article cannot select the row that would vindicate it.
+    """
+    screen = json.load(open(_required(NONCODING_PAIRING, "the non-coding-acceptor gap-pairing "
+                                                         "screen")))
+    rows = screen["per_design"]
+    assert rows, "the non-coding-acceptor screen carries no per_design rows, so this guard is blind"
+
+    top_margin = max(r["gap_specificity_margin"] for r in rows)
+
+    #: The two junctions the paragraph names, in the order it introduces them. The DONOR is what
+    #: names each reagent; the PARENT its duplex is measured against is read off the row, because
+    #: that assignment is the thing an edit can invert.
+    named = []
+    for junction in ("EWSR1_e13__NR4A3_e2", "TAF15_e6__NR4A3_e2"):
+        at_top = [r for r in rows
+                  if r["junction"] == junction and r["gap_specificity_margin"] == top_margin]
+        assert len(at_top) == 1, (
+            f"{junction} has {len(at_top)} rows at the panel's top margin ({top_margin}); the "
+            "article names exactly one reagent there, so either the screen changed or the "
+            "paragraph is describing a panel that no longer exists")
+        named.append(at_top[0])
+
+    flat = _flat(prose)
+
+    # 1 · The two sequences, each at the acceptor the screen gives it.
+    for row in named:
+        assert row["antisense_5to3"] in flat, (
+            f"the screen puts {row['antisense_5to3']} at {row['junction']} on the panel's top "
+            "margin and the article does not print it; the exon-2 paragraph and its screen have "
+            "diverged")
+
+    # 2 · "both at the panel's top margin" — a relation, not a value: BOTH must be maximal.
+    assert all(r["gap_specificity_margin"] == top_margin for r in named), (
+        "the article says both exon-2 reagents sit at the panel's top margin and the screen "
+        "disagrees")
+    assert "both at the panel's top margin" in flat, (
+        "the exon-2 paragraph no longer states that both reagents sit at the panel's top margin — "
+        "either the sentence was reworded and this guard must follow it, or the claim was dropped")
+
+    # 3 · The criterion neither reagent reaches, read off the screen's own method block.
+    #
+    # ⛔ EVERY SITE, AND THE FIRST DRAFT OF THIS BLOCK USED `in flat` AND WAS BLIND — caught by its
+    # own single-site mutation test. The article states this criterion at FIVE sites; a membership
+    # test stays green while one of them says nine and the other four say ten, which is the
+    # one-of-a-pair defect this file's `_every_site` exists for.
+    cut = screen["method"]["min_duplex_bp"]
+    assert all(r["longest_parent_duplex_bp_through_gap"] < cut for r in named), (
+        f"the article says neither exon-2 reagent reaches the {cut}-base-pair criterion, and the "
+        "screen returns a duplex that does")
+    #: The two screens are one criterion, so the article states one number. Asserted rather than
+    #: assumed: if the arms ever diverge, binding all five prose sites to one value would be wrong.
+    exon3_cut = json.load(open(_required(GAP_PAIRING, "the mature-parent gap-pairing screen")))[
+        "method"]["min_duplex_bp"]
+    assert exon3_cut == cut, (
+        f"the exon-3 screen cuts at {exon3_cut} base pairs and the exon-2 screen at {cut}; the "
+        "article states a single criterion for both, so one of them has moved")
+    _every_site(prose, r"(\w+)-base-pair criterion", _word(cut),
+                "the gap-pairing criterion the screens applied")
+
+    # 4 ·⛔ THE ASSIGNMENT, EVERY SITE. Which numeral goes with which parent gene is the claim.
+    _every_site(
+        prose,
+        r"duplexes through the whole gap are (\w+) base pairs against wild-type \*(\w+)\* and "
+        r"(\w+) against wild-type \*(\w+)\*",
+        (_word(named[0]["longest_parent_duplex_bp_through_gap"]), named[0]["parent"],
+         _word(named[1]["longest_parent_duplex_bp_through_gap"]), named[1]["parent"]),
+        "the exon-2 reagents' longest wild-type parent duplexes and the parents they are measured "
+        "against",
+    )
+
+
+def test_the_shared_donor_bases_are_counted_from_the_atlas(prose):
+    """⛔ "THE SAME TEN SHARED DONOR BASES" LICENSES THE THREE-PARTNER CLAIM AND WAS BOUND BY NOTHING.
+
+    Round 18, seat 2: the numeral "ten" in that clause is read by no test and by no pin. It is the
+    number that explains why ONE oligonucleotide spans three partners' breakpoints, so a transcript
+    refresh that moved a donor's terminal exon — or an editorial rounding — would take the Figure 1
+    claim with it silently.
+
+    ★ BOTH HALVES ARE DERIVED FROM ARTIFACTS, and neither from the sentence. The three junctions
+    come from the panel itself (the junctions at which one design recurs); the count is the longest
+    common 3′ suffix of those three junctions' donor tails in the atlas. Nothing here is typed.
+    """
+    panel = json.load(open(_required(GAP_PAIRING, "the mature-parent gap-pairing screen")))
+    atlas = json.load(open(_required(ATLAS, "the fusion-junction atlas")))
+
+    #: The design that recurs — the one oligonucleotide the sentence is about. Derived as the
+    #: sequence appearing at the most distinct junctions, so no reagent is named here by hand.
+    at_junctions = {}
+    for row in panel["per_design"]:
+        at_junctions.setdefault(row["antisense_5to3"], set()).add(row["junction"])
+    spanning, junctions = max(at_junctions.items(), key=lambda kv: (len(kv[1]), kv[0]))
+    assert len(junctions) >= 3, (
+        "no design in the panel spans three junctions, so the article's three-partner claim has "
+        "lost its basis in the screen")
+
+    context = {g["junction_label"]: g["junction_context_mRNA"] for g in atlas["graded_pairs"]}
+    missing = sorted(j for j in junctions if j not in context)
+    assert not missing, f"the atlas carries no junction context for {missing}"
+
+    donor_tails = [context[j].split("|")[0] for j in sorted(junctions)]
+    shared = 0
+    for i in range(1, min(len(t) for t in donor_tails) + 1):
+        if len({t[-i:] for t in donor_tails}) == 1:
+            shared = i
+        else:
+            break
+    assert shared, (
+        f"the donor tails at {sorted(junctions)} share no 3′ suffix at all, so one oligonucleotide "
+        "cannot span them and the sentence's mechanism is gone")
+
+    flat = _flat(prose)
+    _every_site(
+        prose,
+        r"the same (\w+) shared donor bases",
+        _word(shared),
+        f"the shared donor-base count ({shared} nt, the longest common 3′ suffix of the donor "
+        f"tails at {sorted(junctions)})",
+    )
+
+    #: ⛔ AND THE PARTNERS NAMED MUST BE THE PARTNERS THAT SHARE THEM. A correct count beside the
+    #: wrong three genes is the one-of-a-pair defect on the other half of the same sentence.
+    donors = {j.split("_")[0] for j in junctions}
+    clause = flat.split("shared donor bases")[1][:200]
+    named = set(re.findall(r"\*(\w+)\*", clause.split("breakpoints")[0]))
+    assert named == donors, (
+        f"the sentence credits the shared donor bases to {sorted(named)} and the panel puts "
+        f"{spanning} at {sorted(junctions)}, whose donors are {sorted(donors)}")
+
+
+def _design_effect(cut):
+    """The panel's clustering correction at one cut, by the extended report's own method.
+
+    Junctions are the clusters and a distinct design is the unit, so the 190 records collapse to
+    190 designs over 38 junctions. Returns (design effect, n, observed rate).
+    """
+    pairing = json.load(open(_required(GAP_PAIRING, "the mature-parent gap-pairing screen")))
+    longest = {}
+    for row in pairing["per_design"]:
+        key = (row["junction"], row["antisense_5to3"])
+        longest[key] = max(longest.get(key, 0), row["longest_parent_duplex_bp_through_gap"])
+
+    clusters = {}
+    for (junction, _), reach in longest.items():
+        clusters.setdefault(junction, []).append(1 if reach >= cut else 0)
+
+    k = len(clusters)
+    n = sum(len(v) for v in clusters.values())
+    grand = sum(sum(v) for v in clusters.values()) / n
+    between = sum(len(v) * (sum(v) / len(v) - grand) ** 2 for v in clusters.values()) / (k - 1)
+    within = sum(sum((x - sum(v) / len(v)) ** 2 for x in v)
+                 for v in clusters.values()) / (n - k)
+    m = (n - sum(len(v) ** 2 for v in clusters.values()) / n) / (k - 1)
+    icc = (between - within) / (between + (m - 1) * within)
+    return 1 + (n / k - 1) * icc, n, grand
+
+
+def _wilson(p, n):
+    z = 1.959963984540054
+    denominator = 1 + z * z / n
+    centre = p + z * z / (2 * n)
+    half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
+    return ((centre - half) / denominator, (centre + half) / denominator)
+
+
+def _assert_the_cut_ladder_survives_the_clustering_correction(cs, arms, expected):
+    #: The method reproduces the extended report's published pair at the adopted cut. If this
+    #: drifts, the correction below is no longer the one the paper describes and the assertions
+    #: after it are measuring something else.
+    deff_10, n_10, _ = _design_effect(10)
+    assert round(deff_10, 2) == 1.42 and round(n_10 / deff_10, 2) == 133.57, (
+        f"the clustering correction re-derives a design effect of {deff_10:.4f} and an effective "
+        f"sample of {n_10 / deff_10:.2f}, where the extended report states 1.42 and 133.57 — the "
+        "method here and the method the paper describes have parted company")
+
+    corrected_inside = []
+    for cut in sorted(cs, key=int):
+        if not 7 <= int(cut) <= 13:
+            continue
+        deff, n, rate = _design_effect(int(cut))
+        low, high = _wilson(rate, n / deff)
+        strongest = max(a["cut_ladder"][cut]["rate_liable"] for a in arms.values())
+        if low <= strongest <= high:
+            corrected_inside.append(cut)
+    assert corrected_inside == expected, (
+        "the article's 'every cut from seven to thirteen but eleven' does not survive the "
+        "design-effect correction the extended report calls the interval to read: corrected, the "
+        f"strongest null falls inside at {corrected_inside} rather than {expected}. The separation "
+        "at eleven is the one claim in this comparison that points OUTSIDE, so it is the one the "
+        "nominal interval cannot be trusted to certify")
