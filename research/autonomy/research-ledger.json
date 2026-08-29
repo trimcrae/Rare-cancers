@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 131,
+    "process_defect": 132,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -22,15 +22,15 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 112,
-    "in_progress": 2,
+    "done": 113,
+    "in_progress": 1,
     "parked": 28,
-    "queued": 141,
+    "queued": 142,
     "ready": 1,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 108,
+  "n_unscored": 109,
   "n_unscored_open": 85,
   "entries": [
     {
@@ -2169,7 +2169,8 @@
       "evidence": "Measured by seat s6 over all 253 ledger commits: open-unscored 64 -> 82 across 17:26-22:12 UTC, +1.5/h over 2 h and +3.2/h over 5 h, and the ratchet's own assertion FAILS against live origin/main. Logs: scratchpad/s6-AUT-PD-050/.",
       "closes_clause": null,
       "score_inputs": {
-        "age_factor": 0.0
+        "age_factor": 0.0,
+        "fruitless_attempts": 0
       },
       "dispatch_log": [
         {
@@ -8458,9 +8459,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0073-2e57571a",
-      "claimed_utc": "2026-08-29T00:21:00Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -8485,10 +8486,43 @@
           "fingerprint_at_dispatch": "2026-08-29|None"
         }
       ],
-      "evidence": "",
+      "evidence": "✅ DONE 2026-08-29, commit f8eb2bd68 (fix) — and the claim that followed it is the proof the deadlock is broken: `claim.py --id AUT-PD-152` returned CLAIMED on attempt 1, where the same tool against AUT-PD-147 had exited 1 with five `refused_stale_input` rows twenty minutes earlier. ⛔ THE CLAIM CAME AFTER THE FIX, DELIBERATELY, AND THAT IS A DEPARTURE FROM CONTRACT STEP 4 WORTH NAMING RATHER THAN HIDING. Step 4 says claim before any work. The claim mechanism was the thing that was broken — `claim.py` writes the lease through `ledger_io.write_ledger`, which runs `admissibility.check_write`, which refused every write while the stored age factors were stale, and they were stale because the re-score that refreshes them was the crash. There was no ordering that claims first. The exposure this leaves is real and bounded: between the fix and the claim another session could have taken the row, and the answer to that is the push, which is the arbiter (AUT-PD-021). ⭐ TWO HOLES CLOSED, NOT ONE. The write no longer leans on `setdefault` (which returns the existing value, hence `None['age_factor'] = f`). The read no longer leans on `(x or {})`, which is a falsiness test wearing a type check's clothes — it survives None, '', 0 and [] and raises on a truthy non-dict. The second hole was found by the regression test written for the first, not by inspection. ★ 10 assertions in test_a_null_score_inputs_does_not_stop_the_loop.py, one of which re-scores the REAL committed ledger at today and at today+400 days — a synthetic row would not have caught this, because the row that broke the loop was real state nobody had touched. 5/5 mutations caught (each half of the fix reverted independently, plus prev-double-counting and the closed-row skip). Loop-instrument suite 570 passed; preflight green.",
       "score_inputs": {
         "fruitless_attempts": 1
       }
+    },
+    {
+      "id": "AUT-PD-153",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0073-2e57571a",
+      "depends_on_evidence": [
+        "session_cap.blocked_handoff() called on three receipt shapes, 2026-08-29T00:35Z",
+        "session_cap.py --json with 2 receipts and a recorded child -> may_stop: false",
+        "research/autonomy/receipts/CYC-0073-2e57571a.json (handoff.child_session_id present)",
+        "amendment_guard.GOVERNED does not contain research/autonomy/session_cap.py"
+      ],
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop-internal stop gate; a later cycle may make the change §6 forbids this one",
+      "what": "⛔⛔ `session_cap.verdict()` IS INVERTED ON THE SUCCESS CASE: A SESSION THAT HANDS OFF CORRECTLY IS TOLD **MUST NOT STOP**, AND ONE WHOSE HANDOFF FAILED IS TOLD **MAY STOP**. Measured 2026-08-29T00:35Z (CYC-0073-2e57571a) against the module's own functions, not by reading: `blocked_handoff({'handoff':{'child_session_id':'session_CHILD','attempted':True}})` -> `None`; `blocked_handoff({'handoff':{'attempted':True,'refused_by':'platform said no'}})` -> the reason; `blocked_handoff({'handoff':{'attempted':False}})` -> `None`. `verdict()` then does `why = blocked_handoff(ours[-1]); if not why: return False, '…records no handoff attempt — an absent record is a session that did not try'`. So A SUCCESSFUL HANDOFF AND A HANDOFF NEVER ATTEMPTED ARE THE SAME VALUE AT THE ONE PLACE THAT DECIDES, and only the FAILED handoff earns the right to stop. ⭐ THE INTENT IS NOT IN DOUBT AND THE COMMENT SAYS IT OUT LOUD, WHICH IS WHY THIS IS A WIRING SLIP AND NOT A DESIGN DISAGREEMENT. `blocked_handoff`'s docstring: *'A receipt that HANDED OFF is not blocked — `child_session_id` present means the ordinary path applies and this module has nothing to say.'* It correctly returns None to mean 'not my case'. The CALLER never implemented that ordinary path, so 'not my case' silently became 'did not try'. `verdict()` needs the handed-off case checked FIRST, before the blocked case, and it is missing entirely. ⛔ THE HARM IS THE CAP DOING THE OPPOSITE OF ITS JOB. `max_cycles_per_session` exists so a session stops and a FRESH context takes over — research-loop §3, and autonomy-state.json calls the third cycle 'the signal that the driver should have spawned'. As wired, every session that obeys the rule is told to keep going, and the only sessions permitted to stop are the ones that failed to produce a successor. Observed live: this session wrote 2 receipts against a cap of 2 and created session_01G6maQEKfLfVi8TqsraQVse, and `session_cap.py` still returned `may_stop: false`. ⛔⛔ AND `research/autonomy/session_cap.py` IS ABSENT FROM `amendment_guard.GOVERNED`, WHICH IS A SECOND DEFECT AND THE MORE DANGEROUS ONE. That tuple governs priority-weights.json, publish_bar.py, health.py, CLAUDE.md, the architecture, the skills and the tests — every file that decides whether a cycle may claim success. `session_cap.py` decides whether a session has earned the right to STOP, which is exactly that kind of file, and the guard's own header says an unsure case is treated as GOVERNED because 'a misfiled governed edit is an annoyance; a misfiled free edit' is not. ⚠ WHY CYC-0073 DID NOT FIX EITHER HALF, AND THIS IS THE POINT OF THE ROW. research-loop §6: *a bar may not be changed by the cycle that the bar just blocked.* This bar was blocking THIS cycle at the moment it was found, and §6's honest test — *does this change make it easier for me to report success?* — answers yes without qualification: the edit flips this session's own verdict from MUST NOT STOP to MAY STOP. `amendment_guard --diff-from` would have returned PERMITTED, because the path is not in the list — and taking that as permission would be using the second defect to excuse editing under the first. A LATER CYCLE MAY MAKE THE IDENTICAL CHANGE (§6 says so in as many words); this one may not, and a fresh session is already running. ★ THE FIX, WRITTEN OUT SO THE TAKER NEED NOT RE-DERIVE IT: in `verdict()`, after the receipt-count check, `if handoff.child_session_id_of(ours[-1]): return True, '<n> receipt(s) at a cap of <c>, and the handoff produced <child>'` — then fall through to the existing blocked/absent logic unchanged. Add `research/autonomy/session_cap.py` to `amendment_guard.GOVERNED` in the same commit, and pin BOTH with tests: `test_a_capped_session_may_stop.py` exists and did not catch this, so read why before adding to it.",
+      "dispatch_log": [],
+      "evidence": ""
     },
     {
       "id": "AUT-PD-112",
