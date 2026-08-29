@@ -2168,8 +2168,8 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "s76-sgk1",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2184,7 +2184,14 @@
       },
       "score": 140.9,
       "_score_basis": "inherited from the lowest-scoring derived row on RT-SGK1 (140.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
-      "_score_inherited_from_route": "RT-SGK1"
+      "_score_inherited_from_route": "RT-SGK1",
+      "claimed_utc": "2026-08-29T04:06:52Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T04:06:52Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "id": "AUT-003",
