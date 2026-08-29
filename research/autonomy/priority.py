@@ -332,6 +332,33 @@ def build_entries(weights: dict | None = None) -> list[dict]:
     return entries
 
 
+def _score_inputs(entry: dict) -> dict:
+    """The row's `score_inputs` dict, created if it is absent OR EXPLICITLY NULL.
+
+    ⛔ `dict.setdefault("score_inputs", {})` IS WRONG HERE AND WAS WRONG IN FOUR PLACES.
+    `setdefault` inserts only when the key is ABSENT; a row carrying `"score_inputs": null` has the
+    key, so it returns None and the subscript that follows raises
+    `TypeError: 'NoneType' object does not support item assignment`. Measured 2026-08-28: exactly
+    ONE row in a 265-row ledger (AUT-COV-001) carries an explicit null, and it took out four tests
+    in the commit loop — `test_every_committed_derived_score_reproduces_from_its_own_inputs`,
+    `test_the_scoring_pipeline_is_a_fixed_point_of_itself`, `test_a_third_application_still_moves_nothing`
+    and `test_the_ranker_runs_against_the_committed_ledger` — so NOTHING could be committed until it
+    was fixed.
+    ⚠ THE ONE-OF-A-PAIR DEFECT, AT FOUR. The read side two lines above the first crash site already
+    guarded it correctly (`(e.get("score_inputs") or {})`), which is the tell: the same expression
+    written defensively in one place and carelessly in another, in the same function. All four write
+    sites shared the careless form and only the first one had been reached, so fixing that line alone
+    would have left three latent copies of a bug already proven to stop the repository.
+    ★ A row is null rather than absent because a writer emitted the key with no value; that is
+    legitimate JSON and this reader's job is to accept it, not to demand the ledger be rewritten.
+    """
+    got = entry.get("score_inputs")
+    if not isinstance(got, dict):
+        got = {}
+        entry["score_inputs"] = got
+    return got
+
+
 def apply_clamps(entries: list[dict], weights: dict) -> list[dict]:
     """The two rules that weights cannot express. See the module docstring."""
     clamps = weights["clamps"]
@@ -724,7 +751,7 @@ def apply_session_penalties(entries: list[dict], weights: dict) -> list[dict]:
             # populated field that is not a measured one (CLAUDE.md §4) — and the arithmetic
             # printed beside it would be arithmetic nobody did. What goes in is only the flag
             # this function actually observed.
-            entry.setdefault("score_inputs", {})["blocked_with_evidence"] = True
+            _score_inputs(entry)["blocked_with_evidence"] = True
         elif applied:
             # The evidence was cleared. Drop the flag with the penalty it accounted for, so the row
             # is again a fixed point of this function rather than carrying a term nothing explains.
@@ -921,7 +948,7 @@ def apply_fruitless_attempts(entries: list[dict], weights: dict) -> list[dict]:
         prev = (e.get("score_inputs") or {}).get("fruitless_attempts")
         prev = prev if isinstance(prev, (int, float)) and not isinstance(prev, bool) else 0
         if n or prev:
-            e.setdefault("score_inputs", {})["fruitless_attempts"] = n
+            _score_inputs(e)["fruitless_attempts"] = n
         if isinstance(w, (int, float)) and isinstance(e.get("score"), (int, float)) and n != prev:
             e["score"] = round(e["score"] + w * (n - prev), 2)
         e["retry_budget"] = max(0, DEFAULT_RETRY_BUDGET - n)
@@ -968,7 +995,7 @@ def apply_requires_trimcrae(entries: list[dict], weights: dict) -> list[dict]:
     for e in entries:
         if not e.get("requires_trimcrae"):
             continue
-        inputs = e.setdefault("score_inputs", {})
+        inputs = _score_inputs(e)
         prev = bool(inputs.get("blocked_on_human"))
         if prev:
             continue

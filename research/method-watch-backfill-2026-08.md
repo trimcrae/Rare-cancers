@@ -57,6 +57,18 @@ efficacy, and the headline word "clinical" must not be allowed to inflate into o
 premise has, and adding it is a substantive edit to a **named** manuscript mid-iteration — CLAUDE.md §3
 territory, and a live collision risk. **Raised, not applied.**
 
+⭐ **UPDATE 2026-08-28 — WHERE THIS RECORD ACTUALLY STANDS, AND THE MACHINERY THAT NOW TRACKS IT.**
+`research/modalities/vaccine-construct.json` cites PMID 42570981 as of today, in a `_clinical_prior_art`
+block written into its generator, with the counterweight (PMID 22726592 / 23252384 — no robust immune
+response to the target epitope in the modality's largest human series) carried at the same weight.
+⛔ **The §3 half of the owed action above is UNCHANGED and still trimcrae's**: nothing here touches what
+is posted to aiXiv. What changed is that the gap is no longer invisible — [`research/literature/citation-debt.json`](literature/citation-debt.json) names every artifact this
+record is owed to and `scripts/citation_debt.py --check` fails the build if a destination stops citing
+it, and [`TRG-FUSION-JUNCTION-CLINICAL`](method-watch-triggers.json) exists because the reopening scan
+could not have found this paper at all. ⚠ **That is the finding worth keeping from this episode:** the
+record was captured, triaged as the most important item in the sweep, and cited in two manuscripts,
+while the artifact proposing its exact design class said nothing about it for four days under green gates.
+
 ## 2 · Prior art the repository never had
 
 Surfaced by the same Europe PMC fetch. **None of these PMIDs appears anywhere in this repository**, and the

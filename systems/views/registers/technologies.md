@@ -47,6 +47,7 @@ unlabelled forecast is indistinguishable from a measurement.
 | 4 | **TECH-E3-RECRUITER-STRUCTURE** | `structure_prediction` | `absent` | 2030 | **2028** | 2027 | `speculative` | `moderate` | yes |
 | 4 | **TECH-NONCOVALENT-PARALOGUE-CONTROL** | `published_measurement` | `absent` | beyond-2031 | **2028** | 2027 | `speculative` | `large` | yes |
 | 4 | **TECH-JUNCTION-PMHC** | `foundation_model_biology` | `absent` | 2032 | **2029** | 2027H2 | `extrapolated` | `large` | yes |
+| 4 | **TECH-JUNCTION-CLINICAL-PRECEDENT** | `published_measurement` | `partially_landed` | beyond-2032 | **2029** | 2027H1 | `extrapolated` | `moderate` | yes |
 | 3 | **TECH-OLIGO-DELIVERY** | `lab_automation` | `early_signals` | beyond-2031 | **2029** | 2027H2 | `extrapolated` | `transformative` | yes |
 | 3 | **TECH-ANTITARGET-PROTOCOL** | `structure_prediction` | `absent` | 2028 | **2027** | 2026H2 | `extrapolated` | `moderate` | yes |
 | 3 | **TECH-ATOM-MAPPER** | `free_energy_method` | `absent` | 2028 | **2027** | 2026H2 | `extrapolated` | `marginal` | yes |
@@ -678,6 +679,37 @@ WHAT WATCHES IT INSTEAD: `curves_supplied` in research/modalities/emc-ipd-surviv
 **⚠ Adoption note.** ⛔ A hit on a DIFFERENT fusion is not this capability. The trigger's on_fire text is explicit: state whether the evidence is about presentation, about abundance, or only about another fusion. EMC's junction is a specific sequence on specific alleles, and a general advance in neoantigen prediction has repeatedly not transferred to it — which is why the repo's own coverage instrument is disclosed as failing rather than quietly dropped.
 
 *Scanned by:* `TRG-JUNCTION-PHLA`
+
+### TECH-JUNCTION-CLINICAL-PRECEDENT — fan-out 4
+
+**A human clinical readout for a therapy directed at a fusion breakpoint — any fusion, any modality that targets the junction sequence itself**
+
+*Category:* `published_measurement` · *state:* `partially_landed` · *confidence in that state:* `high`
+
+**Why it matters.** The three antigen routes are parked on TECH-JUNCTION-PMHC, which is a TOOL: a predictor or a discovery platform. This row is the other half of the same bet and it is not the same question. A tool would let this program COMPUTE something it currently cannot; a human readout moves the PRIOR on whether immunising against a fusion junction does anything in a person, and moves it supplying no method at all. Keeping them in one row would mean a clinical result could be read as progress on a predictor, or a predictor as evidence that the class works — the two substitutions this register exists to prevent.
+
+**What the state assessment rests on:**
+- WHICH HALF LANDED: that a shared, off-the-shelf multi-peptide vaccine spanning a fusion breakpoint can be built, given, and raise durable junction-specific T-cell responses in a human. PMID 42570981 — type 1 EWSR1-FLI1, de novo polyfunctional CD4+ responses against all four fusion-derived peptides, first detectable by month 7 and persisting beyond two years.
+- WHICH HALF DID NOT: anything powered. That report is n = 1 and uncontrolled. The only larger human experience of the modality is two SYT-SSX junction-peptide trials from 2005 and 2012 (PMID 15647119, n = 6; PMID 22726592, n = 21), and the published evaluation of the larger one (PMID 23252384) reports that no robust immune response to the target epitope was demonstrated.
+- AND NEITHER HALF IS EMC. Every record is a different fusion. Nothing here bears on EWSR1::NR4A3 except by class inheritance, and nothing here measures how much junction peptide-HLA an EMC cell displays — which is BLK-ANTIGEN-COLD, a permanent blocker this row does not touch.
+
+**Unblocks.** routes: RT-VACCINE, RT-JUNCTION-NEOANTIGEN, RT-TCR-IMMTAC, RT-VACCINE-COMBINATION
+
+**Forecast.**
+
+| scenario | band | confidence | rationale |
+|---|---|---|---|
+| conservative | `beyond-2032` | moderate | The powered half may simply not arrive. Fusion-driven sarcomas are rare enough that a breakpoint-specific vaccine trial has to be run per fusion, and the two SYT-SSX trials — the only ones ever run — are 14 and 21 years old with no successor. A single-patient report does not start a programme, and a shared off-the-shelf peptide vaccine failing its Phase 2 in a commoner indication is the kind of result that removes commercial appetite for the whole class. |
+| expected | `2029` | low | Two things that were not true for the SYT-SSX trials are true now: individualised neoantigen vaccines have a positive Phase 3 behind them, which pulls money and regulatory familiarity toward cancer vaccines generally, and fusion breakpoints are being enumerated routinely in clinical genomics (PMID 36900411) so a fixed off-the-shelf panel is orderable rather than bespoke. The expected band assumes a small investigator-initiated basket in fusion-positive sarcoma reads out, not a registrational trial. |
+| optimistic | `2027H1` | low | The Tübingen group behind PMID 42570981 already has the construct, the adjuvant combination and one long-followed patient. A case series from the same centre is the cheapest possible next step and needs nobody's permission but an ethics committee's. |
+
+*Basis:* `extrapolated` · *impact here:* `moderate` · *last reviewed:* 2026-08-28
+
+**What would move this.** A registered trial of a fusion-breakpoint-directed vaccine or TCR-T opening in any fusion-driven sarcoma — free to detect, since method-watch.yml already queries ClinicalTrials.gov v2. ⛔ AND A NEGATIVE READOUT MOVES IT JUST AS FAR: a powered trial of this modality reporting no immunologic or clinical signal would push the conservative band toward `never`, and is the direction a watch list maintained by people who want the route to work will under-report.
+
+**⚠ Adoption note.** ⚠ THE DATE IS FOR A READOUT EXISTING, NOT FOR EMC BENEFITING FROM ONE. Every plausible readout is in a different fusion, so what lands is a stronger class-inheritance argument — which is BLK-CLASS-INHERITANCE, still standing — and never an EMC measurement. A landed forecast here licenses raising the prior on the three antigen routes and licenses nothing about EWSR1::NR4A3 junction abundance.
+
+*Scanned by:* `TRG-FUSION-JUNCTION-CLINICAL`
 
 ### TECH-OLIGO-DELIVERY — fan-out 3
 

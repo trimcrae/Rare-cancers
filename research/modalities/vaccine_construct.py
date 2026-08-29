@@ -22,6 +22,12 @@ Method:
      multi-epitope design [Livingston 2002 (AAY); used widely for GPGPG class-II spacers].
 
 Output: vaccine-construct.json
+
+The output also carries `_clinical_prior_art`: the human clinical reports of this MODALITY
+(peptide vaccination against a fusion breakpoint), by identifier, with the counterweight
+carried at the same weight as the positive. Identifiers only -- records live in
+research/literature/. Which artifacts a captured record is owed to is declared in
+research/literature/citation-debt.json and checked by scripts/citation_debt.py.
 """
 
 import json
@@ -35,6 +41,115 @@ OUT = os.path.join(HERE, "vaccine-construct.json")
 
 CD8_LINKER = "AAY"      # favours C-terminal proteasomal cleavage between class-I epitopes
 CD4_SPACER = "GPGPG"    # flexible spacer that limits junctional (neo-)epitopes for class II
+
+# ── CLINICAL PRIOR ART FOR THE MODALITY ────────────────────────────────────────────────
+# ⛔ THIS FILE PROPOSED A FUSION-BREAKPOINT PEPTIDE VACCINE AND CITED NO HUMAN WORK ON THE
+# SAME MODALITY (added 2026-08-28). The gap was not that the records were missing from the
+# repository -- research/literature/ has carried them since 2026-08-24 -- but that nothing
+# connected a captured record to the artifact whose central bet it is evidence about. That
+# routing gap is now checked by scripts/citation_debt.py; this block is the discharge of the
+# one row it was built for.
+#
+# ⛔ IDENTIFIERS ONLY. Every bibliographic record lives in research/literature/ (one fact,
+# one place) and nothing here is typed from recollection -- CLAUDE.md section 7.
+#
+# ⛔ AND EVERY READING BELOW IS ABOUT A DIFFERENT FUSION. The strongest item is a SINGLE
+# PATIENT with EWSR1-FLI1; the next two are SYT-SSX in synovial sarcoma. None is an EMC
+# result, none is an efficacy result, and the counterweight is carried at the same weight
+# as the positive -- the larger SYT-SSX trial's own published evaluation reports that no
+# robust immune response to the target epitope was demonstrated.
+CLINICAL_PRIOR_ART = {
+    "_what": "Human clinical reports of the MODALITY this file proposes: active immunisation "
+             "with peptides spanning a tumour-specific fusion breakpoint. Identifiers only; "
+             "the bibliographic records live in research/literature/.",
+    "_why_it_is_here": "This file's lead_public_construct is an off-the-shelf, junction-spanning "
+                       "synthetic long peptide carrying a CD4 epitope in native context. That "
+                       "design class has now been given to humans against two other fusions, and "
+                       "an artifact proposing it should say what happened when it was.",
+    "_weight": "⛔ NOT EFFICACY, NOT EMC, AND NOT A CLEARED BLOCKER. The Ewing report is n = 1 "
+               "and uncontrolled; the two SYT-SSX trials are 6 and 21 patients, single-arm, and "
+               "the published evaluation of the larger one reports that no robust immune response "
+               "to the target epitope was demonstrated. What this prior art establishes is that "
+               "the class can be built off the shelf and given, and that in one patient it raised "
+               "durable junction-specific CD4 T-cell responses. It establishes nothing about "
+               "EWSR1::NR4A3, and it does not address BLK-ANTIGEN-COLD, which is a claim about "
+               "how much junction peptide-HLA a tumour cell actually displays -- a quantity no "
+               "peripheral T-cell readout in any of these reports measures.",
+    "records": [
+        {
+            "pmid": "42570981",
+            "doi": "10.1038/s41698-026-01642-4",
+            "record_home": "research/literature/shared-vs-individualized-neoantigen-sources-2026-08-24.json",
+            "fusion": "EWSR1-FLI1 (type 1 breakpoint)",
+            "design_match": "CLOSEST PRIOR ART. Off-the-shelf multi-peptide vaccine spanning the "
+                            "fusion breakpoint -- the same shared, non-individualised design class "
+                            "as lead_public_construct, in a sibling FET fusion.",
+            "reported": "De novo polyfunctional CD4+ T-cell responses against all four "
+                        "fusion-derived peptides, first detectable by month 7 and persisting "
+                        "beyond two years; grade 1 local reactions; disease stability reported "
+                        "beyond 26 months. Adjuvants: GM-CSF and topical imiquimod.",
+            "n": 1,
+            "controlled": False,
+            "bears_on": "The CD4 half of this construct. The responses reported were CD4+, which "
+                        "is the arm carried here by cd4_strong_epitopes and by the decision to "
+                        "keep the epitopes in native junction context rather than as minimal "
+                        "beads. It raises the prior that a shared junction peptide can be "
+                        "immunogenic in a human; it does not measure surface presentation.",
+            "does_not_support": [
+                "any efficacy claim for this or any junction vaccine",
+                "any claim about EWSR1::NR4A3 specifically",
+                "retirement or weakening of BLK-ANTIGEN-COLD",
+            ],
+        },
+        {
+            "pmid": "22726592",
+            "doi": "10.1111/j.1349-7006.2012.02370.x",
+            "record_home": "research/literature/shared-vs-individualized-neoantigen-sources-2026-08-24.json",
+            "fusion": "SYT-SSX",
+            "design_match": "Junction-peptide vaccination, HLA-A24-restricted, four single-arm "
+                            "protocols, 21 patients -- the largest clinical experience of this "
+                            "modality.",
+            "reported": "DTH negative in all patients; 9 with a greater than twofold rise in "
+                        "tetramer-positive CTLs; half of the 12 patients on the adjuvant-plus-"
+                        "interferon protocols with stable disease during vaccination; one "
+                        "intracerebral haemorrhage after the second vaccination.",
+            "n": 21,
+            "controlled": False,
+            "bears_on": "THE COUNTERWEIGHT, and it is carried at the same weight as the Ewing "
+                        "report. This is the modality's largest human series and its published "
+                        "evaluation (PMID 23252384) reports no robust immune response to the "
+                        "target epitope.",
+            "does_not_support": [],
+        },
+        {
+            "pmid": "15647119",
+            "doi": "10.1186/1479-5876-3-1",
+            "record_home": "research/literature/shared-vs-individualized-neoantigen-sources-2026-08-24.json",
+            "fusion": "SYT-SSX",
+            "design_match": "The phase I junction-peptide trial that preceded PMID 22726592.",
+            "reported": "6 patients, 16 vaccinations; peptide-specific CTLs induced in some; no "
+                        "serious adverse effects and no DTH reactions reported.",
+            "n": 6,
+            "controlled": False,
+            "bears_on": "Feasibility of the modality only.",
+            "does_not_support": [],
+        },
+        {
+            "pmid": "23252384",
+            "doi": "10.1586/erv.12.122",
+            "record_home": "research/literature/fusion-junction-vaccine-prior-art-2026-08-24.json",
+            "fusion": "SYT-SSX (commentary)",
+            "design_match": "Published evaluation of PMID 22726592.",
+            "reported": "The source of the reading that no robust evidence of immune response to "
+                        "the target epitope was detected in that trial.",
+            "n": None,
+            "controlled": False,
+            "bears_on": "It is the reason the counterweight above is stated as a finding rather "
+                        "than as this repository's own re-reading of someone else's trial.",
+            "does_not_support": [],
+        },
+    ],
+}
 
 
 def _overlap(a, b):
@@ -139,6 +254,7 @@ def main():
                  "linkers (AAY for class I, GPGPG spacers for class II).",
         "_inputs": {"cd8": os.path.basename(BREAKPOINTS), "cd4": os.path.basename(CD4_DEMO),
                     "cd4_junction": cd4_src},
+        "_clinical_prior_art": CLINICAL_PRIOR_ART,
         "lead_public_construct": lead,
         "all_junction_constructs": constructs,
     }

@@ -1455,6 +1455,108 @@
           "identif",
           "discovery"
         ]
+      },
+      "cite_into": [
+        "research/modalities/vaccine-construct.json",
+        "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+        "research/manuscripts/neoantigen/shared-vs-individualized-neoantigen-evidence.md"
+      ]
+    },
+    {
+      "id": "TRG-FUSION-JUNCTION-CLINICAL",
+      "title": "A human clinical readout for a therapy aimed at a fusion BREAKPOINT",
+      "capability": "A clinical report — trial, cohort or single-patient — in which a therapy directed at the amino-acid sequence spanning a tumour-specific gene-fusion breakpoint was given to a human and an immunologic or clinical outcome was measured. Any fusion, any cancer, any modality that targets the junction itself: peptide or mRNA vaccine, TCR-T, soluble TCR/ImmTAC, adoptive transfer. It is the class this repository's three junction-antigen routes bet on, and until 2026-08-28 no trigger here could see it.",
+      "trigger_kind": "external_capability",
+      "status": "watching",
+      "scan_enabled": true,
+      "_why_it_is_separate_from_TRG_JUNCTION_PHLA": "⛔ THEY ARE DIFFERENT KINDS OF EVIDENCE AND ONE CANNOT STAND IN FOR THE OTHER. TRG-JUNCTION-PHLA watches for a TOOL — a presentation/immunogenicity predictor validated on fusion junctions, or a discovery platform for low-abundance peptide-HLA. This trigger watches for an OUTCOME IN A PERSON. A tool would let this repository compute something it currently cannot; a human readout changes the PRIOR on whether the class works at all, and changes it without supplying any method. ⚠ MEASURED, WHICH IS WHY THIS EXISTS: the title 'Durable clinical and immunologic response to an off-the-shelf EWSR1-FLI1 peptide vaccine in metastatic Ewing sarcoma' (PMID 42570981) was run against all 31 scan-enabled triggers on 2026-08-28. TRG-JUNCTION-PHLA missed it TWICE — its Europe PMC query is anchored on TITLE:neoantigen / peptide-HLA / pMHC / immunopeptidome / 'fusion peptide', none of which is in that title, so the record would never have been returned; and its must_match list is neoantigen / hla / pmhc / immunopeptidom / tcr / immtac, so the filter would have dropped it even if it had been. The word 'vaccine' appeared in ZERO of the 38 triggers' queries. The paper reached this repository through method-watch.yml's clinical/treatment-news feed instead — a layer that had existed for four days.",
+      "evidence_home": [
+        {
+          "file": "research/method-watch-backfill-2026-08.md",
+          "anchor": "#1--the-finding-that-matters-most",
+          "what": "the triage entry for PMID 42570981 and the reasoning that it is the closest prior art this route's central premise has"
+        },
+        {
+          "file": "research/modalities/vaccine-construct.json",
+          "what": "_clinical_prior_art — the records themselves, at their true weight, in the artifact that proposes the design class"
+        }
+      ],
+      "reopens": {
+        "roadmap_rows": [],
+        "registry_routes": [
+          "RT-VACCINE",
+          "RT-JUNCTION-NEOANTIGEN",
+          "RT-TCR-IMMTAC",
+          "RT-VACCINE-COMBINATION"
+        ],
+        "registry_blockers": [],
+        "bears_on_permanent_blocker": [
+          "BLK-ANTIGEN-COLD"
+        ],
+        "note": "⛔ A HIT HERE RAISES A PRIOR AND CLEARS NOTHING. BLK-ANTIGEN-COLD is a claim about how much junction peptide-HLA an EMC cell actually displays. A peripheral T-cell response in a patient with a DIFFERENT fusion measures immunogenicity of the injected peptide, not surface abundance on the tumour — so this trigger sits in bears_on_permanent_blocker, alongside TRG-JUNCTION-PHLA, and never in registry_blockers. [B1] fails the build if a technology claims to retire a permanent blocker; the same discipline is owed here, in prose, because the temptation is strongest exactly when the news is good."
+      },
+      "on_fire": "Read the report and grade it on three axes BEFORE any artifact moves: (1) which fusion — EMC, a sibling FET fusion, or an unrelated one; (2) n, and whether there was a control arm; (3) whether the readout is immunologic (peripheral T-cell response) or clinical (tumour response, survival), because the headline word 'clinical' inflates into efficacy at the slightest encouragement. THEN write it into every path in cite_into, at that graded weight, and record the outcome in research/literature/citation-debt.json. ⛔ A NEGATIVE READOUT FIRES THIS TRIGGER TOO and is owed the same treatment — a failed junction-vaccine trial is exactly as much evidence about this route as a successful one, and is the direction a watch list built by people who want the route to work will quietly under-report.",
+      "cite_into": [
+        "research/modalities/vaccine-construct.json",
+        "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+        "research/manuscripts/neoantigen/shared-vs-individualized-neoantigen-evidence.md"
+      ],
+      "search": {
+        "europepmc": [
+          "(TITLE:\"peptide vaccine\" OR TITLE:\"neoantigen vaccine\" OR TITLE:\"cancer vaccine\" OR TITLE:vaccination OR TITLE:vaccine) AND (TITLE:sarcoma OR TITLE:fusion OR TITLE:breakpoint OR TITLE:junction OR TITLE:translocation OR TITLE:Ewing OR TITLE:neoantigen)",
+          "(TITLE:\"TCR-T\" OR TITLE:\"TCR T cell\" OR TITLE:ImmTAC OR TITLE:\"soluble TCR\" OR TITLE:adoptive OR TITLE:immunotherapy) AND (TITLE:fusion OR TITLE:breakpoint OR TITLE:junction OR TITLE:translocation OR TITLE:sarcoma)",
+          "(TITLE:EWSR1 OR TITLE:\"EWS-FLI1\" OR TITLE:\"EWSR1-FLI1\" OR TITLE:\"SYT-SSX\" OR TITLE:\"SS18-SSX\" OR TITLE:\"PAX3-FOXO1\" OR TITLE:\"BCR-ABL\" OR TITLE:\"EWSR1-NR4A3\") AND (TITLE:vaccine OR TITLE:vaccination OR TITLE:immunotherapy OR TITLE:immunogenicity OR TITLE:\"T cell\" OR TITLE:\"T-cell\")"
+        ],
+        "arxiv": [],
+        "must_match": [
+          "vaccin",
+          "immunotherap",
+          "immunogenic",
+          "tcr",
+          "immtac",
+          "t-cell",
+          "t cell",
+          "adoptive",
+          "peptide"
+        ],
+        "_exclude_match_note": "⛔ 'vaccine' is the noisiest term in this whole file — infectious-disease vaccinology dwarfs oncology on it — so this list does real work rather than decorating the entry.",
+        "exclude_match": [
+          "vaccinia",
+          "covid",
+          "sars-cov",
+          "influenza",
+          "hiv",
+          "malaria",
+          "tuberculosis",
+          "hepatitis",
+          "respiratory syncytial",
+          "vaccine hesitancy",
+          "vaccination coverage",
+          "measles",
+          "dengue",
+          "pneumococcal",
+          "meningococcal"
+        ],
+        "also_match": [
+          "fusion",
+          "breakpoint",
+          "junction",
+          "translocation",
+          "chimeric",
+          "ewsr1",
+          "ews-",
+          "ewing",
+          "syt-ssx",
+          "ss18",
+          "pax3",
+          "pax7",
+          "bcr-abl",
+          "sarcoma",
+          "chondrosarcoma",
+          "dsrct",
+          "neoantigen"
+        ],
+        "window_days": 180
       }
     },
     {
@@ -1505,6 +1607,9 @@
       },
       "registry_trigger_ids": [
         "TR-NR4A3-RXR-HETERODIMER-REPORT"
+      ],
+      "cite_into": [
+        "research/manuscripts/emc-systems-map.json"
       ]
     },
     {
@@ -1867,7 +1972,60 @@
           "file": "research/modalities/emc-condensate-calvados-findings.md",
           "what": "the 55-run null, its controls, and the resolution floor it establishes"
         }
-      ]
+      ],
+      "_repair_2026_08_28": "⛔ THIS TRIGGER WAS `scan_enabled: true` WITH NO `search` BLOCK, NO `reopens` AND NO `on_fire`, AND HAD BEEN SINCE IT LANDED. It therefore searched for NOTHING while rendering in every board as a watched row — the exact costume-of-a-status failure CLAUDE.md §4 names. `trigger_scan.py --check` had detected it (`scan_enabled with no queries`) and NO GATE RAN `--check`, so the detection never reached anybody. Both halves fixed in the same commit: the queries below, and the gate in scripts/preflight.sh.",
+      "reopens": {
+        "roadmap_rows": [],
+        "registry_routes": [
+          "RT-PARTNER-STRAT",
+          "RT-FET-LC-LIGAND"
+        ],
+        "registry_blockers": [],
+        "note": "The 55-run CALVADOS 2 null is a RESOLUTION FLOOR, not an absence of difference: it establishes that this repository cannot separate EWSR1 / TAF15 / TCF12 below about 0.06 in nu with that force field. A second independent force field, or a wet-lab measurement stratified by 5' partner, is what would let the partner-stratification question be asked again. A paper reporting a better-resolving model does NOT by itself say the partners differ."
+      },
+      "on_fire": "Re-run the partner comparison on the new force field, or read the stratified measurement, and state whether the 0.06 floor moved. ⛔ A hit is evidence about RESOLUTION; it is not evidence that the partners differ, and the re-grade must not be allowed to slide from one to the other.",
+      "cite_into": [
+        "research/modalities/emc-condensate-calvados-findings.md"
+      ],
+      "search": {
+        "europepmc": [
+          "(TITLE:condensate OR TITLE:\"phase separation\" OR TITLE:\"liquid-liquid\" OR TITLE:\"coarse-grained\" OR TITLE:Mpipi OR TITLE:CALVADOS) AND (TITLE:\"intrinsically disordered\" OR TITLE:disordered OR TITLE:\"force field\" OR TITLE:simulation OR TITLE:\"scaling exponent\" OR TITLE:model OR TITLE:sequence)",
+          "(TITLE:condensate OR TITLE:\"phase separation\" OR TITLE:FRAP OR TITLE:\"saturation concentration\") AND (TITLE:EWSR1 OR TITLE:FUS OR TITLE:TAF15 OR TITLE:FET OR TITLE:sarcoma OR TITLE:fusion OR TITLE:TCF12)"
+        ],
+        "arxiv": [
+          "all:\"coarse-grained\" AND all:\"phase separation\" AND all:\"disordered\""
+        ],
+        "must_match": [
+          "condensate",
+          "phase separation",
+          "liquid-liquid",
+          "coarse-grained",
+          "mpipi",
+          "calvados",
+          "disordered",
+          "saturation concentration"
+        ],
+        "exclude_match": [],
+        "also_match": [
+          "force field",
+          "simulation",
+          "model",
+          "scaling",
+          "frap",
+          "saturation",
+          "ewsr1",
+          "taf15",
+          "tcf12",
+          "fet",
+          "sarcoma",
+          "fusion",
+          "sequence",
+          "predict",
+          "resolution",
+          "partner"
+        ],
+        "window_days": 180
+      }
     },
     {
       "id": "TRG-CLOSED-EMC-SERIES-ACCESS",
@@ -1966,5 +2124,7 @@
       },
       "not_searchable_because": "⛔ NOT a technology, and the scan's join goes through systems/graph/technologies.json. check_scan_interop's [X3] requires every SCANNED trigger to be named by a TECH-*, so a hit has a recorded consequence — and a venue change's consequence lands in research/autonomy/venue-fit.json and publication-authority.json instead, which that check cannot see. Forcing a TECH-* record to exist for a journal's fee page would be exactly the conflation the technology taxonomy exists to prevent (see the internal_work exemption's own comment). ⭐ THE CHECK SHOULD LEARN THE `venue` KIND — that is the real fix and it is FILED AS A PROPOSAL, NOT APPLIED: this trigger's cycle was BLOCKED by [X3], and research/autonomy/amendment_guard.py refuses a cycle that edits the check standing in front of it. A later cycle may make the identical change. Until then these three are registered and readable but not scanned, and this sentence is why."
     }
-  ]
+  ],
+  "_cite_into": "⭐ ADDED 2026-08-28, AND IT IS THE HALF THIS FILE WAS MISSING. Every field above answers WHAT to watch for and WHICH ROUTE a hit would reopen. None of them answers WHERE A CONFIRMED HIT IS OWED — which committed artifact makes a claim that the new evidence bears on and must therefore cite it. That gap is not hypothetical: PMID 42570981 (an off-the-shelf peptide vaccine spanning the EWSR1-FLI1 breakpoint, the closest human prior art this repository's junction-vaccine route has) was captured into research/literature/ on 2026-08-24 and was still absent from research/modalities/vaccine-construct.json four days later, which is the artifact that PROPOSES that exact design class. Nothing was broken; nothing was watching. `cite_into` names those destinations so a graded hit carries them, and research/literature/citation-debt.json + scripts/citation_debt.py turn a destination that never received the citation into a red build. ⛔ IT IS NOT AN INSTRUCTION TO CITE. A scan hit is an UNVALIDATED TITLE MATCH and may never enter an artifact unread; `cite_into` says where the QUESTION goes once a human or a session has actually read the paper, and the debt file records the answer — including `declined`, which is a legitimate answer that must be written down rather than forgotten.",
+  "_keyword_matching_is_the_FLOOR_not_the_ceiling": "⭐ ADDED 2026-08-28 (trimcrae: the keyword search 'seems fragile'). It is, and the fragility is measured rather than suspected — the closest human prior art the junction-vaccine route has matched none of these queries because none of them contained the word 'vaccine', and no amount of curation makes a hand-written word list keep up with a field nobody can enumerate in advance. scripts/news_match.py now does the relevance judgement with a model, against `what_it_would_claim` for all 32 rows of systems/graph/publications.json.\n⛔ THAT DOES NOT RETIRE THESE QUERIES, AND SWAPPING ONE FOR THE OTHER WOULD BE A DOWNGRADE. They do different jobs. A keyword hit is DETERMINISTIC and REPRODUCIBLE: it costs nothing, it answers the same way next year, and it is the right instrument for a trigger whose criterion is already a precise phrase somebody chose ('CALVADOS', 'ImmTAC', a named benchmark). A model's verdict is better at judgement and worse at being re-derived — rerunning it costs an API call and does not return the same answer, which is why its output is committed and attributed to a model rather than regenerated on demand. Keywords are the floor; the matcher is the ceiling.\n⚠ AND THE MATCHER IS DELIBERATELY NOT PLACED HERE. This scan's bottleneck is the Europe PMC QUERY, not the title filter downstream of it: the API returns only what the query asked for, so a model reading these results would still never see the paper the query missed. It runs on the newsletter's broad feeds instead — the layer that did catch it."
 }

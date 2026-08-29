@@ -634,6 +634,32 @@
     "last_reviewed": "2026-08-05"
   },
   {
+    "id": "FC-JUNCTION-CLINICAL-PRECEDENT",
+    "tech_ref": "TECH-JUNCTION-CLINICAL-PRECEDENT",
+    "scenarios": {
+      "conservative": {
+        "date_band": "beyond-2032",
+        "rationale": "The powered half may simply not arrive. Fusion-driven sarcomas are rare enough that a breakpoint-specific vaccine trial has to be run per fusion, and the two SYT-SSX trials — the only ones ever run — are 14 and 21 years old with no successor. A single-patient report does not start a programme, and a shared off-the-shelf peptide vaccine failing its Phase 2 in a commoner indication is the kind of result that removes commercial appetite for the whole class.",
+        "confidence": "moderate"
+      },
+      "expected": {
+        "date_band": "2029",
+        "rationale": "Two things that were not true for the SYT-SSX trials are true now: individualised neoantigen vaccines have a positive Phase 3 behind them, which pulls money and regulatory familiarity toward cancer vaccines generally, and fusion breakpoints are being enumerated routinely in clinical genomics (PMID 36900411) so a fixed off-the-shelf panel is orderable rather than bespoke. The expected band assumes a small investigator-initiated basket in fusion-positive sarcoma reads out, not a registrational trial.",
+        "confidence": "low"
+      },
+      "optimistic": {
+        "date_band": "2027H1",
+        "rationale": "The Tübingen group behind PMID 42570981 already has the construct, the adjuvant combination and one long-followed patient. A case series from the same centre is the cheapest possible next step and needs nobody's permission but an ethics committee's.",
+        "confidence": "low"
+      }
+    },
+    "expected_impact": "moderate",
+    "basis": "extrapolated",
+    "what_would_move_this": "A registered trial of a fusion-breakpoint-directed vaccine or TCR-T opening in any fusion-driven sarcoma — free to detect, since method-watch.yml already queries ClinicalTrials.gov v2. ⛔ AND A NEGATIVE READOUT MOVES IT JUST AS FAR: a powered trial of this modality reporting no immunologic or clinical signal would push the conservative band toward `never`, and is the direction a watch list maintained by people who want the route to work will under-report.",
+    "adoption_note": "⚠ THE DATE IS FOR A READOUT EXISTING, NOT FOR EMC BENEFITING FROM ONE. Every plausible readout is in a different fusion, so what lands is a stronger class-inheritance argument — which is BLK-CLASS-INHERITANCE, still standing — and never an EMC measurement. A landed forecast here licenses raising the prior on the three antigen routes and licenses nothing about EWSR1::NR4A3 junction abundance.",
+    "last_reviewed": "2026-08-28"
+  },
+  {
     "id": "FC-RECONSTRUCTED-IPD",
     "tech_ref": "TECH-RECONSTRUCTED-IPD",
     "scenarios": {
