@@ -1,0 +1,45 @@
+{
+  "cycle_id": "CYC-0088-f7394a99",
+  "session_id": "f7394a99-17ce-5aa8-a2e7-8d32595bcbff",
+  "ccr_session_id": "session_01Kre2Fzpmw11MjsKYE24txo",
+  "started_utc": "2026-08-29T13:25:00Z",
+  "base_sha": "620280791",
+  "took": "AUT-PD-177",
+  "took_why": "Top ranked row (128.5) and directly downstream of what CYC-0086 hit an hour earlier: AUT-PD-171 lost its score because RT-AUTONOMY has no graph row, which took the TRUNK red for every session. AUT-PD-177 is the same mechanism against LIVE PAPER work rather than loop machinery.",
+  "health_at_start": {
+    "exit": 0,
+    "red": [
+      "advancing_live_work",
+      "scores_are_reachable"
+    ],
+    "unmeasured": [
+      "gates_green",
+      "stalls_are_named"
+    ],
+    "red_on_red_posture": "advises"
+  },
+  "what_changed": [
+    "research/autonomy/research-ledger.json \u2014 remapped `serves.route` on 19 rows naming a route absent from systems/graph: RT-ASO-JUNCTION -> RT-ASO (17), RT-FUSION-PARTNER -> RT-PARTNER-STRAT (1), RT-DEGRADER-TERNARY -> RT-DEGRADER (1). Each row keeps `_route_was` and a note saying why.",
+    "research/autonomy/tests/test_an_unscored_row_is_ranked_by_nothing.py \u2014 MAX_UNSCORED_OPEN lowered 73 -> 69, re-pinned at the count measured in this commit."
+  ],
+  "finding": "\u2b50 THE MAPPING IS DETERMINED BY THE GRAPH, NOT CHOSEN BY THIS CYCLE, and that was verified rather than taken from the item: all three ids are absent from the 77 routes in routes.json, and each target is the `primary` route for the publication those rows name \u2014 RT-ASO (primary, PUB-ASO) NOT RT-ASO-ASK (contributing, the wet-lab ask); RT-PARTNER-STRAT (primary, PUB-FUSION-PARTNER); RT-DEGRADER (primary, PUB-DEGRADER). \u2605 THE HARM WAS REAL AND MEASURED: four rows could never be scored at all, because apply_route_inheritance gives an unscored row the floor OF ITS ROUTE and a route the graph lacks has no floor. After the remap they inherit 71.71, 70.86, 70.86 and 35.71 \u2014 AUT-PD-006, AUT-PD-040 and AUT-PD-141 are ASO v2 manuscript and gate work, AUT-PD-005 is degrader-paper work. They were invisible to the queue, not deprioritised by it. \u26d4 AND THE FIX COULD NOT BE LANDED ALONE: shrinking the population to 69 puts the pinned ceiling of 73 four above the real count, and test_the_ratchet_is_not_vacuous allows at most 2 of slack. The ceiling had to move DOWN in the same commit. That coupling is the good kind \u2014 it means a repair that shrinks the population is forced to re-pin, so the constant can only ever tighten by neglect, never loosen.",
+  "what_it_cost": "$0. CPU only: one graph read, one re-score, one 12-test suite, one preflight.",
+  "gates": {
+    "scoped_suite": "12 passed \u2014 test_an_unscored_row_is_ranked_by_nothing, both the ratchet and its vacuity guard"
+  },
+  "anti_gaming": {
+    "invariant": "research-loop \u00a76 \u2014 a bar may not be changed by the cycle the bar just blocked.",
+    "how_it_applies": "\u2b50 A BAR WAS CHANGED AND THE DIRECTION IS WHAT MAKES IT LEGAL: MAX_UNSCORED_OPEN moved DOWN, 73 -> 69, which makes the guard STRICTER and makes this cycle's own future filings harder, not easier. The self-serving version of this edit is raising the ceiling to fit a filing, which is what the test's own docstring forbids and what amendment_guard refuses. \u26d4 AND THE BAR DID NOT BLOCK THIS CYCLE: the ratchet was already green at 73 when this cycle started (CYC-0086 had just repaired it); lowering it was FORCED BY THE FIX, not by a refusal. The number is the measured count in this commit, so the vacuity guard has zero slack."
+  },
+  "escalated": "nothing. None of research-loop \u00a75's five triggers applies: no submission, $0 spend, no goal-changing fact, no paper ready to post, no health condition red past its deadline.",
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "One determined repair with a verification chain the driver could run directly \u2014 a graph read, a re-score and a 12-test suite. Nothing was independent enough to be worth a seat, and the mapping was checkable in one command."
+  },
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "RT-ASO",
+  "route_advanced_why": "\u2b50 HONEST, AND NARROWER THAN IT LOOKS. This cycle wrote no science and moved no manuscript. What it did is make three ASO-v2 manuscript-and-gate rows (AUT-PD-006, AUT-PD-040, AUT-PD-141) RANKABLE for the first time \u2014 they had no score and no ranking term could reach them, so no cycle could ever be offered them. Work that the queue cannot see is work that does not happen, and the paper those rows serve is PUB-ASO, the only one with a public DOI. \u26d4 It did NOT advance the ASO manuscript itself, and this field is not claiming it did.",
+  "notes": "\u26a0 ONE THING FOUND AND DELIBERATELY NOT FIXED: AUT-PROP-026 scores -2595.0, a value so far below every other row that it is unrankable in practice for the same reason an unscored row is \u2014 but it IS scored, so neither the ratchet nor scores_are_reachable can see it. That is a separate defect from AUT-PD-177 and absorbing it silently into this repair would be scope creep; it is named here so the next cycle can file it with this evidence."
+}

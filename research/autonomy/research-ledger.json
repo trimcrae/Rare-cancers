@@ -22,22 +22,24 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 133,
+    "done": 134,
     "in_progress": 7,
     "parked": 28,
-    "queued": 144,
+    "queued": 143,
     "ready": 1,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 93,
-  "n_unscored_open": 73,
+  "n_unscored": 87,
+  "n_unscored_open": 69,
   "entries": [
     {
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "done",
       "owner": null,
@@ -87,9 +89,11 @@
     },
     {
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "done",
       "owner": null,
@@ -112,9 +116,11 @@
     },
     {
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "done",
       "owner": null,
@@ -139,9 +145,11 @@
     },
     {
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "done",
       "owner": null,
@@ -164,9 +172,11 @@
     },
     {
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "done",
       "owner": null,
@@ -398,9 +408,11 @@
     },
     {
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "done",
       "owner": null,
@@ -485,9 +497,11 @@
       "kind": "harden",
       "process_defect": true,
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "done",
       "owner": null,
@@ -3156,49 +3170,6 @@
       ]
     },
     {
-      "id": "AUT-PD-177",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "CYC-0088-f7394a99",
-      "claimed_utc": "2026-08-29T13:26:07Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0087-4ce79c2a",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "repairing broken references in the ledger; the targets are determined by the graph, not chosen",
-      "closes_clause": null,
-      "score": 128.5,
-      "_score_basis": "Above AUT-PD-176 (122.0) and just under AUT-PD-169 (128.0). It is cheap and fully determined, and it is the only row here that DEMOTES REAL RESEARCH: eight rows of live paper work are invisible to every route-keyed reader, which is CLAUDE.md §0's named failure with a typo as its cause.",
-      "score_inputs": {
-        "age_factor": 0.0,
-        "fruitless_attempts": 0
-      },
-      "depends_on_evidence": [
-        "Measured 2026-08-29 by CYC-0087-4ce79c2a while taking AUT-PD-158. Three route ids appear in `serves.route` and in NO route in systems/graph/routes.json (77 routes): RT-ASO-JUNCTION (6 open rows), RT-FUSION-PARTNER (1), RT-DEGRADER-TERNARY (1).",
-        "⛔ THESE ARE NOT PROCESS ROWS. All eight are live publication work — PREFLIGHT_FULL at the final ASO v2 commit, a blind seat on the ASO v2 pinned commit, round 13 of PUB-ASO, a manuscript cross-reference guard, the archive manifest's provenance, the fusion-partner paper's readability gate, and the degrader paper's step-1 fan-out map.",
-        "⭐ THE TARGETS ARE DETERMINED BY THE GRAPH RATHER THAN CHOSEN. RT-FUSION-PARTNER -> RT-PARTNER-STRAT, whose `publication.endpoint` IS `PUB-FUSION-PARTNER`. RT-DEGRADER-TERNARY -> RT-DEGRADER, the primary for PUB-DEGRADER, which is the paper those rows name. RT-ASO-JUNCTION -> RT-ASO and NOT RT-ASO-ASK: both point at PUB-ASO, but RT-ASO is `role: primary` while RT-ASO-ASK is `role: contributing` and is the WET-LAB ASK — and every one of the six rows is manuscript or gate work.",
-        "⛔⛔ THE CONSEQUENCE THAT MAKES THIS ITS OWN COMMIT RATHER THAN A ONE-LINE FIX, FORESEEN NOT DISCOVERED: four of the eight (AUT-PD-005, 006, 040, 141) carry no `score`, so repairing the id hands them their route's floor via `apply_route_inheritance` and they LEAVE the open-unscored population — 73 -> ~69. `MAX_UNSCORED_OPEN` is pinned at 73 and `test_the_ratchet_is_not_vacuous` permits at most 2 of slack, so the repair REDS THE TRUNK unless the ceiling is re-pinned DOWN in the same commit. ⭐ That is permitted and is the documented procedure (AUT-PD-145: pin at the count measured in the landing commit); the anti-gaming invariant forbids RAISING a bar, and this lowers it. The taker must verify the post-repair count itself rather than trusting the ~69 estimated here."
-      ],
-      "what": "⛔ EIGHT ROWS OF LIVE PAPER WORK NAME A ROUTE THAT EXISTS IN NO GRAPH, SO EVERY ROUTE-KEYED READER TREATS THEM AS ROUTELESS PROCESS WORK. `RT-ASO-JUNCTION`, `RT-FUSION-PARTNER` and `RT-DEGRADER-TERNARY` are in `serves.route` and in none of the 77 routes in systems/graph/routes.json. ⛔ THE HARM IS NOT COSMETIC: `apply_route_inheritance` gives an unscored row the floor OF ITS ROUTE, so a row naming a route the graph lacks can never inherit one — which is why four of the eight are unscored and unrankable, and the work they name is the ASO v2 and fusion-partner papers.\n\n⭐ THE REPAIR IS DETERMINED, NOT A JUDGEMENT — see `depends_on_evidence` for the mapping and the field that fixes each one. ⛔ BUT IT IS NOT A ONE-LINE FIX: it shrinks the open-unscored population below the pinned ceiling and reds the vacuity guard unless the ceiling moves DOWN in the same commit. Re-count, re-pin at the measured number, and never upward.\n\n⚠ FOUND WHILE TAKING AUT-PD-158, AND IT CORRECTS THAT ROW'S FRAMING: AUT-PD-158 asks how to rank work that serves no treatment route, and 8 of the rows that look that way are not that — they are research work with a broken reference. A ceiling keyed on 'serves no graph route' would have capped them.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T13:26:07Z",
-          "fingerprint_at_dispatch": "2026-08-29|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-169",
       "kind": "process_defect",
       "process_defect": true,
@@ -3784,6 +3755,50 @@
       "_requires_trimcrae_why": "Its own text is 'Decide the framing and the venue, which is an outward-facing call' — CLAUDE.md §3 reserves exactly that for trimcrae. The flag was unset, so priority.py ranked it 147.0 and the CYC-0075 handoff prompt offered it as the top takeable item. Set by CYC-0075-6d9383a0."
     },
     {
+      "id": "AUT-PD-177",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0087-4ce79c2a",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "repairing broken references in the ledger; the targets are determined by the graph, not chosen",
+      "closes_clause": null,
+      "score": 120.5,
+      "_score_basis": "Above AUT-PD-176 (122.0) and just under AUT-PD-169 (128.0). It is cheap and fully determined, and it is the only row here that DEMOTES REAL RESEARCH: eight rows of live paper work are invisible to every route-keyed reader, which is CLAUDE.md §0's named failure with a typo as its cause.",
+      "score_inputs": {
+        "age_factor": 0.0,
+        "fruitless_attempts": 1
+      },
+      "depends_on_evidence": [
+        "Measured 2026-08-29 by CYC-0087-4ce79c2a while taking AUT-PD-158. Three route ids appear in `serves.route` and in NO route in systems/graph/routes.json (77 routes): RT-ASO-JUNCTION (6 open rows), RT-FUSION-PARTNER (1), RT-DEGRADER-TERNARY (1).",
+        "⛔ THESE ARE NOT PROCESS ROWS. All eight are live publication work — PREFLIGHT_FULL at the final ASO v2 commit, a blind seat on the ASO v2 pinned commit, round 13 of PUB-ASO, a manuscript cross-reference guard, the archive manifest's provenance, the fusion-partner paper's readability gate, and the degrader paper's step-1 fan-out map.",
+        "⭐ THE TARGETS ARE DETERMINED BY THE GRAPH RATHER THAN CHOSEN. RT-FUSION-PARTNER -> RT-PARTNER-STRAT, whose `publication.endpoint` IS `PUB-FUSION-PARTNER`. RT-DEGRADER-TERNARY -> RT-DEGRADER, the primary for PUB-DEGRADER, which is the paper those rows name. RT-ASO-JUNCTION -> RT-ASO and NOT RT-ASO-ASK: both point at PUB-ASO, but RT-ASO is `role: primary` while RT-ASO-ASK is `role: contributing` and is the WET-LAB ASK — and every one of the six rows is manuscript or gate work.",
+        "⛔⛔ THE CONSEQUENCE THAT MAKES THIS ITS OWN COMMIT RATHER THAN A ONE-LINE FIX, FORESEEN NOT DISCOVERED: four of the eight (AUT-PD-005, 006, 040, 141) carry no `score`, so repairing the id hands them their route's floor via `apply_route_inheritance` and they LEAVE the open-unscored population — 73 -> ~69. `MAX_UNSCORED_OPEN` is pinned at 73 and `test_the_ratchet_is_not_vacuous` permits at most 2 of slack, so the repair REDS THE TRUNK unless the ceiling is re-pinned DOWN in the same commit. ⭐ That is permitted and is the documented procedure (AUT-PD-145: pin at the count measured in the landing commit); the anti-gaming invariant forbids RAISING a bar, and this lowers it. The taker must verify the post-repair count itself rather than trusting the ~69 estimated here."
+      ],
+      "what": "⛔ EIGHT ROWS OF LIVE PAPER WORK NAME A ROUTE THAT EXISTS IN NO GRAPH, SO EVERY ROUTE-KEYED READER TREATS THEM AS ROUTELESS PROCESS WORK. `RT-ASO-JUNCTION`, `RT-FUSION-PARTNER` and `RT-DEGRADER-TERNARY` are in `serves.route` and in none of the 77 routes in systems/graph/routes.json. ⛔ THE HARM IS NOT COSMETIC: `apply_route_inheritance` gives an unscored row the floor OF ITS ROUTE, so a row naming a route the graph lacks can never inherit one — which is why four of the eight are unscored and unrankable, and the work they name is the ASO v2 and fusion-partner papers.\n\n⭐ THE REPAIR IS DETERMINED, NOT A JUDGEMENT — see `depends_on_evidence` for the mapping and the field that fixes each one. ⛔ BUT IT IS NOT A ONE-LINE FIX: it shrinks the open-unscored population below the pinned ceiling and reds the vacuity guard unless the ceiling moves DOWN in the same commit. Re-count, re-pin at the measured number, and never upward.\n\n⚠ FOUND WHILE TAKING AUT-PD-158, AND IT CORRECTS THAT ROW'S FRAMING: AUT-PD-158 asks how to rank work that serves no treatment route, and 8 of the rows that look that way are not that — they are research work with a broken reference. A ceiling keyed on 'serves no graph route' would have capped them.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T13:26:07Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ],
+      "outcome": "Fixed. 19 rows remapped off three route ids absent from systems/graph (RT-ASO-JUNCTION -> RT-ASO x17, RT-FUSION-PARTNER -> RT-PARTNER-STRAT, RT-DEGRADER-TERNARY -> RT-DEGRADER), each keeping `_route_was`. The four rows that could never be scored now inherit 71.71 / 70.86 / 70.86 / 35.71 — three are ASO v2 manuscript and gate work, one is degrader-paper work. Open unscored population 73 -> 69 and MAX_UNSCORED_OPEN re-pinned DOWN to 69 in the same commit, as this row specified, because test_the_ratchet_is_not_vacuous allows at most 2 of slack. Amendment declared and amendment_guard PERMITTED. ⚠ Not fixed and named for a successor: AUT-PROP-026 scores -2595.0, unrankable in practice but invisible to both the ratchet and scores_are_reachable because it IS scored."
+    },
+    {
       "id": "AUT-PROP-010",
       "kind": "write",
       "serves": {
@@ -4343,9 +4358,11 @@
     },
     {
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "blocked",
       "owner": null,
@@ -4385,9 +4402,11 @@
     },
     {
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "queued",
       "owner": null,
@@ -4511,9 +4530,11 @@
       "id": "AUT-PROP-042",
       "kind": "harden",
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "queued",
       "owner": null,
@@ -4545,9 +4566,11 @@
     },
     {
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "done",
       "owner": null,
@@ -4580,9 +4603,11 @@
     },
     {
       "serves": {
-        "route": "RT-ASO-JUNCTION",
+        "route": "RT-ASO",
         "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "done",
       "owner": null,
@@ -5040,6 +5065,104 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0
       }
+    },
+    {
+      "id": "AUT-PD-006",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/manuscripts/claim_ablation.py::_baseline_reds and the two red ablation params on the ASO documents",
+      "what": "⭐ THE ABLATION GATE'S BATCH DECOMPOSITION STOPS ONE LEVEL TOO HIGH, AND IT IS CURRENTLY POINTING AT A PAPER THAT IS CORRECT. paper-hardening §8b.1a already says 'THE UNIT OF EXCLUSION MUST BE THE FAILING WITNESS, NEVER THE BATCH THAT CONTAINS IT', and `_baseline_reds` implements exactly that — for MODULES. A PARAMETRIZED MODULE IS STILL A BATCH: `test_pinned_figures_every_home.py` is red at baseline on ONE param (`step1_fanout_edges_complete`, a GPU-lane pin — see the sibling item), so the whole module is subtracted, and every pin it carries stops counting as a witness.\n⚠ THE VISIBLE COST, MEASURED: the gate reports that two sentences in `fusion-junction-aso-journal-article.md` and its cover letter are 'counted as covered and are not'. They ARE covered. Both pins were re-run by hand against the live document and both bind correctly — `aso_panel_junctions_in_frame_journal_selection` captures 38 and `aso_panel_designs_total_journal_selection` captures 190 from the flattened text, and both match their artifacts (`nr4a3-fusion-junction-atlas.json:n_emittable_junctions` = 38, `aso-parent-gap-pairing.json:corpus.n_designs` = 190). ⛔ SO THE BLINDNESS VERDICT IS MANUFACTURED BY THE HARNESS, exactly as §8b.1a warns — and it points a reader at the manuscript instead of at the instrument, which now matters more than it did, because that manuscript is PUBLISHED (doi 10.32388/VL3LJR).\n★ THE FIX: decompose a red parametrized module to its PARAMS, not just to its file, so only the failing param is subtracted. ⛔ Do not fix this by lowering a coverage floor, and do not write a new guard for the two sentences — they already have working ones.",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "score_inputs": {
+        "age_factor": 0.1429
+      },
+      "score": 71.7,
+      "_score_inherited_from_route": "RT-ASO"
+    },
+    {
+      "id": "AUT-PD-040",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-ROUTINE-0828a",
+      "depends_on_evidence": "Round 11 seat 1 found the ASO journal-article family's informal cross-references ('The Controls section above') were unguarded and this cycle fixed that (lint_changed_prose.py, _SECTION_REF). Seat 1 also noted the ORIGINAL round-10 defect used the spelled-out digit form 'Section 5', not '§5' — that form is STILL unguarded for this document family: the fix added only covers 'the <Word> section' (a heading name), not 'Section <N>' (a heading number written as a word+digit). Deliberately not added in the same commit: binding it via the existing `sections` anchor set would also start firing (or silently mis-firing) against emc-vaccine-development-path.md's 50 'Section N' uses, which depends on AUT-PD-039 being fixed first so that document's own numbered-heading extraction is correct before a spelled-out-digit checker is turned on repo-wide.",
+      "what": "After AUT-PD-039 lands, add a 'Section \\d+' (spelled-out) cross-reference check to lint_changed_prose.py's per-document `sections` anchor set, symmetric with the existing '§N' check. Mutation-test against both the ASO journal-article family (which has ZERO numbered sections, so any 'Section N' there should always error) and the emc-vaccine document (which has real numbered sections and must not false-positive on its 50 correct uses).",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "a repository lint fix; nothing leaves the repo",
+      "score_inputs": {
+        "age_factor": 0.0714
+      },
+      "score": 70.9,
+      "_score_inherited_from_route": "RT-ASO"
+    },
+    {
+      "id": "AUT-PD-141",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": null,
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0070-225452b4",
+      "score": 70.9,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "depends_on_evidence": "CYC-0070, 2026-08-28. Manifest regenerated against clean tree at 6a4c833fd (flag true, --check-archive exit 0, 11/11 on both manifest guard modules). 12 commits then landed; the rebase rewrote that commit to 656ff2a29992 and 6a4c833fd survived only in the local reflog. The manifest still read git_revision 6a4c833fd, clean flag true, inventory current.",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a generated deposit artifact and its guards; nothing published, submitted or deposited",
+      "what": "⛔ A REBASE SILENTLY INVALIDATES THE ARCHIVE MANIFEST'S PROVENANCE, AND EVERY GUARD IT HAS STAYS GREEN — MEASURED 2026-08-28 (CYC-0070). AUT-PD-138's ordering says regenerate the manifest against a clean tree as the session's LAST commit, so `git_revision` names the content commit it describes. That is what happened: the manifest named 6a4c833fd, `git_tree_is_clean_apart_from_this_manifest: true`, --check-archive exit 0, and both manifest guard modules 11/11. ⛔ THEN TWELVE COMMITS LANDED FROM A CONCURRENT SESSION AND THE REBASE REWROTE 6a4c833fd TO 656ff2a29992. The manifest was now naming a sha that exists ONLY in this container's reflog — unreachable for anybody who clones — while its clean flag still read true and its inventory was still current. ⭐ THE THREE THINGS THAT WOULD CATCH IT ALL LOOK RIGHT: the cleanliness flag is about the TREE, not the ref; --check-archive explicitly does not compare repository-state fields; and `test_the_manifest_revision_is_a_commit_a_reader_can_resolve` passes locally because the orphaned sha still resolves through the local reflog. It was caught by hand, by comparing git_revision against `git rev-parse HEAD~1` after the rebase, and nothing required that. ⚠ AND THIS IS THE NORMAL CASE, NOT AN EDGE ONE. A concurrent loop session pushed 12 commits during the ~20 minutes this cycle spent rebuilding a deposit family, and the trunk moved under it three separate times. Any manifest commit that has to be rebased has this defect. WHAT TO DO: the candidate is to make the revision check ask git whether the named sha is an ANCESTOR OF THE COMMITTED BRANCH rather than merely resolvable — `git merge-base --is-ancestor <git_revision> HEAD` — which is false for an orphan and true for a real parent, and which the reflog cannot fake. ⚠ Note it must run against the committed history, not the working tree, or it reintroduces AUT-PD-138's ordering trap. ⛔ DO NOT 'fix' this by regenerating the manifest after every rebase as a convention: that is the remembered pairing AUT-PD-130 is about, and it failed there for the same reason it would fail here.",
+      "_renamed_from": "AUT-PD-140",
+      "_renamed_why": "⛔ ID COLLISION WITH A CONCURRENT SESSION, AND IT REACHED origin/main. CYC-0070-c84c64dd filed a DIFFERENT AUT-PD-140 and landed on the trunk first, so that string is theirs. `ids.next_entry_id` derives max+1 over committed state, so two sessions reading the same trunk allocate the same id; the rebase AUTO-MERGED both rows with no conflict marker, and `priority.py` then refused the whole ledger. ⚠ I PRINTED THE DUPLICATE CHECK AND PUSHED ANYWAY — the check and the push were in one command and the push was not gated on it, so the guard ran and its answer went unread. The handoff prompt names counting ids after a rebase as one of three measured rules; the failure was not knowing it, it was not WIRING it.",
+      "score_inputs": {
+        "age_factor": 0.0714
+      },
+      "_score_inherited_from_route": "RT-ASO"
     },
     {
       "id": "AUT-007",
@@ -7106,6 +7229,36 @@
       }
     },
     {
+      "id": "AUT-PD-005",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-DEGRADER",
+        "publication": "PUB-DEGRADER",
+        "strategy": "ST-DEGRADER",
+        "_route_was": "RT-DEGRADER-TERNARY",
+        "_route_remap_note": "AUT-PD-177: `RT-DEGRADER-TERNARY` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-DEGRADER`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "git show 1fd33bb:research/modalities/step1-fanout-map.json vs the same file at 91df57d",
+      "what": "⛔⛔ A CI TICK EMPTIED THE STEP-1 FAN-OUT MAP AND THE DEGRADER PAPER'S COMPLETENESS CLAIM NOW HAS NOTHING BEHIND IT. Measured 2026-08-27 by diffing the artifact across the commit that changed it, not inferred: at 1fd33bb `n_complete=18`, `n_computable=18`, `results` held 18 entries; at 91df57d ('step1 fan-out autoscale tick', 2026-08-27T09:36:35Z) `n_complete=0`, `n_computable=19`, `results=[]`. Eighteen computed RBFE edges left the committed map. ⚠ `nr4a3-degrader-paper.md:1426` still reads 'The congeneric map is COMPLETE at 18 computed edges of the 18 that are computable, in a 19-edge map', so a paper claim and its own artifact now disagree — which is what `test_pinned_figures_every_home[step1_fanout_edges_complete]` is red about, and it is RIGHT to be red.\n⛔ WHAT IS NOT ESTABLISHED, AND MUST BE THE FIRST THING CHECKED RATHER THAN ASSUMED EITHER WAY: whether the UNDERLYING per-edge results still exist (S3, the per-unit ddg.json files, a prior commit) and only this derived INDEX was clobbered, or whether the fan-out state itself was reset. Those have completely different remedies — regenerate the index, versus 18 edges of GPU spend to redo. ⛔ Do not 'fix' the red by editing the paper down to 0 until that is known; the paper may be the only surviving record of the count.\n⚠ AND THE MECHANISM IS THE REAL BUG: a scheduled tick that can overwrite a committed results artifact with an empty one is a data-loss path, and it ran unattended. Whatever the recovery, the tick must not be able to reduce `n_complete` without saying so loudly.",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-DEGRADER (34.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "score_inputs": {
+        "age_factor": 0.1429
+      },
+      "score": 35.7,
+      "_score_inherited_from_route": "RT-DEGRADER"
+    },
+    {
       "id": "AUT-019",
       "_derived": true,
       "what": "RE-TEST THE BLOCK before doing anything else — it is recorded without evidence. Blocked on: ['BLK-SELECTIVITY-CONTROL-UNAUTHORIZED']. Original next action: Ask for the decision on the binary selectivity control. It is the highest-leverage unrun item in the portfolio and it costs a conversation.",
@@ -7727,6 +7880,86 @@
       "what": "Fixed research/autonomy/admissibility.py: added the `fruitless_attempts` term to both `expected_score()` (R2, full-derived-row reproduction) and `_explained_delta()` (R3, delta-accounting for hand-filed/session-state rows), applied LAST at 2dp, matching `priority.py:apply_fruitless_attempts`'s own place at the end of `build_ledger`'s pipeline and its own rounding. Without this, `priority.py --write` could not complete a re-score once any row picked up a nonzero fruitless-attempts count -- the very first cycle to try after the term was wired in was blocked outright, unable to even reach step 4 (claim/take an item). Verified: `pytest research/autonomy/tests/test_a_score_must_derive_from_its_own_inputs.py` 29 passed; `python3 research/autonomy/priority.py --write` now completes cleanly against the full 221-entry corpus (11 clamped, none refused). Also updated the now-stale prediction paragraph in admissibility.py's own module docstring to record that it came true, rather than leave it describing a gap that no longer exists."
     },
     {
+      "id": "AUT-PD-105",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": "2026-08-28T20:26:42Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": "⭐ ASO HALF DONE AND MEASURED (CYC-0069, 2026-08-28). Reproduced with a per-sentence sweep rather than the sampled gate: 62 covered numbered sentences, 2 BLIND, 8 NOT-APPLIED, 52 red. ⛔ FIRST READING WAS FABRICATED BY THE SANDBOX AND IS RECORDED SO NOBODY REPEATS IT: claim_ablation runs each witness with `sys.executable`, so a sweep launched with the SYSTEM python3 (no pytest — dev-setup installs into the uv tool venv, deliberately) scores 22 of 23 witness commands red at baseline, _baseline_reds correctly subtracts them, and nearly every sentence reads BLIND. Under /root/.local/share/uv/tools/pytest/bin/python3 it is 1 of 23. ⭐ THAT ONE was test_the_paper_states_what_its_own_claims_depend_on.py, red on CLEAN `main` since 83aede1 because a guard-pattern widening moved the census (99 -> 101 covered) without regenerating claim-coverage.json — fixed in d8e40d8, filed as AUT-PD-130. So this row's original '1 of 53' may itself have been that artifact; it is not knowable from here (the CI sha is not in this shallow clone) and it does not matter, because the two blinds below are measured on a repaired tree. ⭐ BOTH BLINDS WERE REAL AND ARE NOW BOUND: (1) 'At 5-10-5 the criterion is met by the catalytic gap alone' — a guard bound the EVIDENCE to the artifact's longest geometry but never asked that the prose name it; (2) 'The released builder emits an exon-2 acceptor in two cases only' — the scope sentence for the released tool, its exon number unwatched, in the module whose sibling cites an exon-numbering withdrawal. Both credited only to test_universal_claims_are_scoped_to_what_was_measured.py, whose pattern is scoping language rather than the number (claim_coverage._binds_literal_text's 'structure rather than content'). Expected values DERIVED (longest geometry; the minority acceptor, 20 designs at e2 against 750 at e3), mutation-tested 4/4 including the drift to the OTHER REAL value (5-10-5 -> 5-8-5, exon-2 -> exon-3). Re-ablated: both now RED. ⭐ FUSION-PARTNER HALF ALSO CLOSED. Sweep: 80 covered numbered sentences, 2 BLIND, 7 NOT-APPLIED, 71 red. Both blinds' only numbers are §-REFERENCES, and NOTHING checked this synthesis's cross-references at all: lint_changed_prose.py checks §-refs for the ASO targets only, off a git diff, so it cannot run in the ablation clone (no .git) and does not reach this document anyway. Wrote test_every_section_cross_reference_names_a_section_this_synthesis_has: anchors from the PAPER (numbered headings plus the bolded 4.x/2.3a sub-blocks it also references), references from BOTH prose documents, because the correction register carries 32 §-refs and no headings of its own — the pairing lint_changed_prose._known_anchors records getting backwards. Four references are qualified by another file (`emc-unexplored-treatment-lanes.md` §3.2, `paper-hardening` §7b) and are excluded by a documented rule; the other 59 all resolve. Mutation-tested on BOTH halves of the pair (paper §2.3 -> §7.3, register §3.3 -> §9.3), both red. Re-ablated: both sentences now RED. ⚠ HONEST RESIDUAL, RECORDED RATHER THAN IMPLIED: the second sentence also carries citation years (Huang 2023, Paioli 2021) and the gate counts a sentence bound if ANY perturbation trips something, so binding the §-ref clears it while a year drift stays unwatched — filed separately.",
+      "retry_budget": 2,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0060-18394002",
+      "score": -20.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "depends_on_evidence": "PREFLIGHT_FULL=1 Actions run https://github.com/trimcrae/Rare-cancers/actions/runs/33190817704 (sha 5964fa24da222d7557a3073fccb8ddf0be048cd6), the FIRST real (non-infra) run this row has ever produced -- two prior runs (33101598851, 33104631542) failed on workflow/environment bugs before the gates could even run cleanly, and the run before this one (33107744620) was green but at a commit no longer reachable from main. Full manuscripts suite: 1451 passed, 2 failed, both test_the_census_word_covered_survives_ablation.py::test_a_covered_sentence_has_a_witness_that_actually_goes_red[...]. Every other gate (8106 modalities tests, 543 selector/loop-instrument tests, lint_citations, lint_claims, claim strength, systems model, generated-artifact reproduction) was clean.",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "preflight_full_green"
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "content-integrity work on a manuscript's own numeric-claims coverage; nothing published, submitted or deposited by fixing it",
+      "what": "Two documents fail the ablation-coverage falsifiability gate: for each perturbed (number-mutated) sentence the census calls 'covered', the gate checks that at least one registered witness (a guard, a binding) actually goes red when that sentence's number is mutated. research/manuscripts/aso/fusion-junction-aso-journal-article.md has 1 of 53 perturbed sentences with NO witness firing; research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md has 2 of 73. The ASO article is PUB-ASO's own text and this is the second of its three remaining publish_bar blockers (preflight_full_green) -- a real, not cosmetic, gap: a number in that sentence could drift and nothing would catch it. WHAT TO DO: reproduce locally or via a scoped Actions dispatch -- `pytest research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py -k 'fusion-junction-aso-journal-article or fusion-partner-stratification' -v` -- to get the itemized sentence/witness detail the truncated Actions console log did not preserve (this row's own CI run's full pytest verbose output was not recoverable after the fact; the short summary line only names the file and count). Then either add/fix the binding or witness that should cover the drifted sentence (the AUT-PD-036/041 sibling pattern: a guard's scope not reaching a real prose location), or, if the sentence is genuinely not a claim needing a witness, correct the census's own classification -- following the same methodology those rows used (mutation-test the fix, verify zero collateral on the rest of the corpus). Closing this closes one of PUB-ASO's three remaining publish_bar clauses (the other two, hardening_converged and independent_adversarial_seat, are separate rows). ⭐ 2026-08-28 (CYC-0069): the ASO half is CLOSED — see blocked_evidence for the two bindings and their mutation tests. The row stays open for emc-fusion-partner-stratification.md's 2 of 73, and ⛔ A SECOND DEFECT WAS FOUND WHILE MEASURING AND IS NOT THIS ROW'S: 8 of the 62 sentences are NOT-APPLIED — the census hands the harness a sentence with 'no home in the raw file even allowing for line wrapping', so it is counted as covered and can never be perturbed. One is the pinned 68.4% coverage figure. The gate is silent on this by construction (it asserts only that SOMETHING was applied), so a document could in principle reach zero measurable sentences and stay green.",
+      "evidence": "\n\n⭐ RE-MEASURED 2026-08-28 (CYC-0061-d60caf7b): the ASO journal article half of this row is GREEN on clean origin/main — the parametrisation was run alone in a detached worktree at origin/main and passed in 135 s. The fusion-partner-stratification.md half was not run against the trunk separately, but passed in a full manuscripts-suite run on a tree that differs from the trunk only in the ASO article, its PDFs, pinned-figures.json and test_journal_article_numbers.py, none of which that document reads. ⛔ SO THIS ROW'S PREMISE IS PROBABLY SPENT, BUT IT IS NOT CLOSED HERE: it was filed off a PREFLIGHT_FULL run, this reading is of the scoped suite, and the two are not the same instrument. Re-run under PREFLIGHT_FULL before closing it.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:26:42Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "score_inputs": {
+        "blocked_with_evidence": true
+      },
+      "_score_inherited_from_route": "RT-ASO"
+    },
+    {
+      "id": "AUT-PD-135",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": "2026-08-28T21:52:00Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": "⭐ RESOLVED 2026-08-28 by CYC-0070-225452b4, and the block was real while it stood: seven guards across the article's deposit family went red on the edit. All seven are green now — 55 passed across the five guard modules. ⚠ THE FIRST ATTEMPT'S DIAGNOSIS WAS INCOMPLETE IN A WAY WORTH KEEPING: it treated the rebuild as a list of generators to run, when the repository already owns a CANONICAL CHAIN, `scripts/regenerate_aso_chain.sh`, which the PDF guard's own failure message names. Running the generators piecemeal missed three PDF variants entirely (-anonymized, -manuscript, -preprint), because `build_submission_pdf.py` with no --paper builds the default styles only.",
+      "retry_budget": 3,
+      "attempts": 2,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0069-225452b4",
+      "depends_on_evidence": "publish_bar.py --paper PUB-ASO --sha 2334df915005: clause 7 readable_enough_to_review FAIL, '1 sentence(s) over 60 words ... longest 63w'. lint_readability before: 178 sentences, mean 24.1, max 63, >60w=1. After: 180 sentences, mean 23.8, max 54, >60w=0.",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "readable_enough_to_review"
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a prose split inside a manuscript already public under its own DOI; nothing posted, submitted or deposited by this change",
+      "what": "⭐ CLOSED publish_bar CLAUSE 7 (readable_enough_to_review) FOR PUB-ASO — the ONE clause of the four open ones that is not sha-bound to a quiet head, so it was takeable while clauses 1, 2 and 6 were not. A single 63-word sentence in research/manuscripts/aso/fusion-junction-aso-journal-article.md was three ideas joined by a semicolon and an em dash (the duplex-stability re-score, the two named reagents' margin, and the upper-bound caveat); it is now three sentences of 27, 17 and 20 words. ⛔ NO CLAIM, NUMBER OR HEDGE MOVED, AND THAT IS MEASURED RATHER THAN ASSERTED: `lint_readability.py --caution` reads 40 markers / 9.3 per 1000 words before AND after, with an identical marker breakdown (11 'is not', 7 'does not', 7 'neither', 3 'may', 2 'could', 2 'are not', 2 'cannot', 2 'range', 1 'do not'). scientific-writing §4 is explicit that a readability pass which buys its score by dropping caution is worse than the dense original, so the count is the check that it did not. ⭐ SEQUENCING, AND IT IS THE REASON THIS WAS THE RIGHT ITEM: clauses 1 (hardening_converged), 2 (PREFLIGHT_FULL) and 6 (blind seat) are all sha-bound to the posted commit, and AUT-PROP-019's own evidence says they need ONE spawned session against a single pinned commit on a quiet head. A prose fix MOVES the head, so it had to land BEFORE that session pins, not after — running the sha-bound three first would have bought three receipts this commit then staled. ⚠ PUB-ASO IS STILL NOT POSTABLE and this is not an escalation: the bar reads BLOCKED 3/7 at 2334df915005, and `authority: NO` — trimcrae excluded PUB-ASO from the aiXiv grant, verbatim 2026-08-27: 'That's the only paper that shouldn't auto ship to aiXiv.'",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      },
+      "score": -20.0,
+      "_score_inherited_from_route": "RT-ASO"
+    },
+    {
       "id": "AUT-079",
       "what": "ADD HLA-C TO coverage_scan.py's class-I PANEL (today HLA-A/HLA-B only), re-run in modalities-run.yml, then update EVERY home of every changed pinned figure IN ONE COMMIT and re-grade the route. This is RT-JUNCTION-NEOANTIGEN's own corrected next step and the route's table names HLA-C as the first extension that could raise the figures at a fixed acceptance threshold. ⛔ FIRST ESTABLISH WHETHER MHCflurry 2.1.4 SCORES HLA-C AT ALL — UNKNOWN from this tree, and the whole item collapses if it does not. ⚠ It moves figures registered in pinned-figures.json and quoted in a manuscript under hardening, so rule 1.3 binds: the old numbers get registered in the same commit that changes them, or CI finds the copies you missed.",
       "serves": {
@@ -7763,9 +7996,11 @@
     },
     {
       "serves": {
-        "route": "RT-FUSION-PARTNER",
+        "route": "RT-PARTNER-STRAT",
         "publication": "PUB-FUSION-PARTNER",
-        "strategy": "ST-EVIDENCE"
+        "strategy": "ST-EVIDENCE",
+        "_route_was": "RT-FUSION-PARTNER",
+        "_route_remap_note": "AUT-PD-177: `RT-FUSION-PARTNER` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-PARTNER-STRAT`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
       },
       "state": "queued",
       "owner": null,
@@ -8052,167 +8287,6 @@
       "what": "PROPOSAL (filed, not applied): teach systems_check.check_scan_interop the `venue` trigger_kind, then re-enable scan_enabled on the three TRG-VENUE-* triggers. Not applied by its own cycle: [X3] blocked that cycle and amendment_guard refuses a cycle that edits the check blocking it.",
       "score_inputs": {
         "age_factor": 0.2143
-      }
-    },
-    {
-      "id": "AUT-PD-006",
-      "kind": "fix",
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/manuscripts/claim_ablation.py::_baseline_reds and the two red ablation params on the ASO documents",
-      "what": "⭐ THE ABLATION GATE'S BATCH DECOMPOSITION STOPS ONE LEVEL TOO HIGH, AND IT IS CURRENTLY POINTING AT A PAPER THAT IS CORRECT. paper-hardening §8b.1a already says 'THE UNIT OF EXCLUSION MUST BE THE FAILING WITNESS, NEVER THE BATCH THAT CONTAINS IT', and `_baseline_reds` implements exactly that — for MODULES. A PARAMETRIZED MODULE IS STILL A BATCH: `test_pinned_figures_every_home.py` is red at baseline on ONE param (`step1_fanout_edges_complete`, a GPU-lane pin — see the sibling item), so the whole module is subtracted, and every pin it carries stops counting as a witness.\n⚠ THE VISIBLE COST, MEASURED: the gate reports that two sentences in `fusion-junction-aso-journal-article.md` and its cover letter are 'counted as covered and are not'. They ARE covered. Both pins were re-run by hand against the live document and both bind correctly — `aso_panel_junctions_in_frame_journal_selection` captures 38 and `aso_panel_designs_total_journal_selection` captures 190 from the flattened text, and both match their artifacts (`nr4a3-fusion-junction-atlas.json:n_emittable_junctions` = 38, `aso-parent-gap-pairing.json:corpus.n_designs` = 190). ⛔ SO THE BLINDNESS VERDICT IS MANUFACTURED BY THE HARNESS, exactly as §8b.1a warns — and it points a reader at the manuscript instead of at the instrument, which now matters more than it did, because that manuscript is PUBLISHED (doi 10.32388/VL3LJR).\n★ THE FIX: decompose a red parametrized module to its PARAMS, not just to its file, so only the failing param is subtracted. ⛔ Do not fix this by lowering a coverage floor, and do not write a new guard for the two sentences — they already have working ones.",
-      "_score_basis": "an instrument manufacturing a blindness finding against a PUBLISHED paper whose numbers verify correct",
-      "score_inputs": {
-        "age_factor": 0.1429
-      }
-    },
-    {
-      "id": "AUT-PD-040",
-      "kind": "process_defect",
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-ROUTINE-0828a",
-      "depends_on_evidence": "Round 11 seat 1 found the ASO journal-article family's informal cross-references ('The Controls section above') were unguarded and this cycle fixed that (lint_changed_prose.py, _SECTION_REF). Seat 1 also noted the ORIGINAL round-10 defect used the spelled-out digit form 'Section 5', not '§5' — that form is STILL unguarded for this document family: the fix added only covers 'the <Word> section' (a heading name), not 'Section <N>' (a heading number written as a word+digit). Deliberately not added in the same commit: binding it via the existing `sections` anchor set would also start firing (or silently mis-firing) against emc-vaccine-development-path.md's 50 'Section N' uses, which depends on AUT-PD-039 being fixed first so that document's own numbered-heading extraction is correct before a spelled-out-digit checker is turned on repo-wide.",
-      "what": "After AUT-PD-039 lands, add a 'Section \\d+' (spelled-out) cross-reference check to lint_changed_prose.py's per-document `sections` anchor set, symmetric with the existing '§N' check. Mutation-test against both the ASO journal-article family (which has ZERO numbered sections, so any 'Section N' there should always error) and the emc-vaccine document (which has real numbered sections and must not false-positive on its 50 correct uses).",
-      "_score_basis": "free process_defect, closes the exact defect class round 11 found, but sequenced behind AUT-PD-039 to avoid a cross-paper false positive",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "a repository lint fix; nothing leaves the repo",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
-    },
-    {
-      "id": "AUT-PD-105",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": "2026-08-28T20:26:42Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": "⭐ ASO HALF DONE AND MEASURED (CYC-0069, 2026-08-28). Reproduced with a per-sentence sweep rather than the sampled gate: 62 covered numbered sentences, 2 BLIND, 8 NOT-APPLIED, 52 red. ⛔ FIRST READING WAS FABRICATED BY THE SANDBOX AND IS RECORDED SO NOBODY REPEATS IT: claim_ablation runs each witness with `sys.executable`, so a sweep launched with the SYSTEM python3 (no pytest — dev-setup installs into the uv tool venv, deliberately) scores 22 of 23 witness commands red at baseline, _baseline_reds correctly subtracts them, and nearly every sentence reads BLIND. Under /root/.local/share/uv/tools/pytest/bin/python3 it is 1 of 23. ⭐ THAT ONE was test_the_paper_states_what_its_own_claims_depend_on.py, red on CLEAN `main` since 83aede1 because a guard-pattern widening moved the census (99 -> 101 covered) without regenerating claim-coverage.json — fixed in d8e40d8, filed as AUT-PD-130. So this row's original '1 of 53' may itself have been that artifact; it is not knowable from here (the CI sha is not in this shallow clone) and it does not matter, because the two blinds below are measured on a repaired tree. ⭐ BOTH BLINDS WERE REAL AND ARE NOW BOUND: (1) 'At 5-10-5 the criterion is met by the catalytic gap alone' — a guard bound the EVIDENCE to the artifact's longest geometry but never asked that the prose name it; (2) 'The released builder emits an exon-2 acceptor in two cases only' — the scope sentence for the released tool, its exon number unwatched, in the module whose sibling cites an exon-numbering withdrawal. Both credited only to test_universal_claims_are_scoped_to_what_was_measured.py, whose pattern is scoping language rather than the number (claim_coverage._binds_literal_text's 'structure rather than content'). Expected values DERIVED (longest geometry; the minority acceptor, 20 designs at e2 against 750 at e3), mutation-tested 4/4 including the drift to the OTHER REAL value (5-10-5 -> 5-8-5, exon-2 -> exon-3). Re-ablated: both now RED. ⭐ FUSION-PARTNER HALF ALSO CLOSED. Sweep: 80 covered numbered sentences, 2 BLIND, 7 NOT-APPLIED, 71 red. Both blinds' only numbers are §-REFERENCES, and NOTHING checked this synthesis's cross-references at all: lint_changed_prose.py checks §-refs for the ASO targets only, off a git diff, so it cannot run in the ablation clone (no .git) and does not reach this document anyway. Wrote test_every_section_cross_reference_names_a_section_this_synthesis_has: anchors from the PAPER (numbered headings plus the bolded 4.x/2.3a sub-blocks it also references), references from BOTH prose documents, because the correction register carries 32 §-refs and no headings of its own — the pairing lint_changed_prose._known_anchors records getting backwards. Four references are qualified by another file (`emc-unexplored-treatment-lanes.md` §3.2, `paper-hardening` §7b) and are excluded by a documented rule; the other 59 all resolve. Mutation-tested on BOTH halves of the pair (paper §2.3 -> §7.3, register §3.3 -> §9.3), both red. Re-ablated: both sentences now RED. ⚠ HONEST RESIDUAL, RECORDED RATHER THAN IMPLIED: the second sentence also carries citation years (Huang 2023, Paioli 2021) and the gate counts a sentence bound if ANY perturbation trips something, so binding the §-ref clears it while a year drift stays unwatched — filed separately.",
-      "retry_budget": 2,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0060-18394002",
-      "score": null,
-      "_score_basis": "unaccounted -- hand-filed, no derivation to check yet",
-      "depends_on_evidence": "PREFLIGHT_FULL=1 Actions run https://github.com/trimcrae/Rare-cancers/actions/runs/33190817704 (sha 5964fa24da222d7557a3073fccb8ddf0be048cd6), the FIRST real (non-infra) run this row has ever produced -- two prior runs (33101598851, 33104631542) failed on workflow/environment bugs before the gates could even run cleanly, and the run before this one (33107744620) was green but at a commit no longer reachable from main. Full manuscripts suite: 1451 passed, 2 failed, both test_the_census_word_covered_survives_ablation.py::test_a_covered_sentence_has_a_witness_that_actually_goes_red[...]. Every other gate (8106 modalities tests, 543 selector/loop-instrument tests, lint_citations, lint_claims, claim strength, systems model, generated-artifact reproduction) was clean.",
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "preflight_full_green"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "content-integrity work on a manuscript's own numeric-claims coverage; nothing published, submitted or deposited by fixing it",
-      "what": "Two documents fail the ablation-coverage falsifiability gate: for each perturbed (number-mutated) sentence the census calls 'covered', the gate checks that at least one registered witness (a guard, a binding) actually goes red when that sentence's number is mutated. research/manuscripts/aso/fusion-junction-aso-journal-article.md has 1 of 53 perturbed sentences with NO witness firing; research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md has 2 of 73. The ASO article is PUB-ASO's own text and this is the second of its three remaining publish_bar blockers (preflight_full_green) -- a real, not cosmetic, gap: a number in that sentence could drift and nothing would catch it. WHAT TO DO: reproduce locally or via a scoped Actions dispatch -- `pytest research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py -k 'fusion-junction-aso-journal-article or fusion-partner-stratification' -v` -- to get the itemized sentence/witness detail the truncated Actions console log did not preserve (this row's own CI run's full pytest verbose output was not recoverable after the fact; the short summary line only names the file and count). Then either add/fix the binding or witness that should cover the drifted sentence (the AUT-PD-036/041 sibling pattern: a guard's scope not reaching a real prose location), or, if the sentence is genuinely not a claim needing a witness, correct the census's own classification -- following the same methodology those rows used (mutation-test the fix, verify zero collateral on the rest of the corpus). Closing this closes one of PUB-ASO's three remaining publish_bar clauses (the other two, hardening_converged and independent_adversarial_seat, are separate rows). ⭐ 2026-08-28 (CYC-0069): the ASO half is CLOSED — see blocked_evidence for the two bindings and their mutation tests. The row stays open for emc-fusion-partner-stratification.md's 2 of 73, and ⛔ A SECOND DEFECT WAS FOUND WHILE MEASURING AND IS NOT THIS ROW'S: 8 of the 62 sentences are NOT-APPLIED — the census hands the harness a sentence with 'no home in the raw file even allowing for line wrapping', so it is counted as covered and can never be perturbed. One is the pinned 68.4% coverage figure. The gate is silent on this by construction (it asserts only that SOMETHING was applied), so a document could in principle reach zero measurable sentences and stay green.",
-      "evidence": "\n\n⭐ RE-MEASURED 2026-08-28 (CYC-0061-d60caf7b): the ASO journal article half of this row is GREEN on clean origin/main — the parametrisation was run alone in a detached worktree at origin/main and passed in 135 s. The fusion-partner-stratification.md half was not run against the trunk separately, but passed in a full manuscripts-suite run on a tree that differs from the trunk only in the ASO article, its PDFs, pinned-figures.json and test_journal_article_numbers.py, none of which that document reads. ⛔ SO THIS ROW'S PREMISE IS PROBABLY SPENT, BUT IT IS NOT CLOSED HERE: it was filed off a PREFLIGHT_FULL run, this reading is of the scoped suite, and the two are not the same instrument. Re-run under PREFLIGHT_FULL before closing it.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T20:26:42Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ],
-      "score_inputs": {
-        "fruitless_attempts": 1,
-        "blocked_with_evidence": true
-      }
-    },
-    {
-      "id": "AUT-PD-135",
-      "kind": "fix",
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": "2026-08-28T21:52:00Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": "⭐ RESOLVED 2026-08-28 by CYC-0070-225452b4, and the block was real while it stood: seven guards across the article's deposit family went red on the edit. All seven are green now — 55 passed across the five guard modules. ⚠ THE FIRST ATTEMPT'S DIAGNOSIS WAS INCOMPLETE IN A WAY WORTH KEEPING: it treated the rebuild as a list of generators to run, when the repository already owns a CANONICAL CHAIN, `scripts/regenerate_aso_chain.sh`, which the PDF guard's own failure message names. Running the generators piecemeal missed three PDF variants entirely (-anonymized, -manuscript, -preprint), because `build_submission_pdf.py` with no --paper builds the default styles only.",
-      "retry_budget": 3,
-      "attempts": 2,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0069-225452b4",
-      "depends_on_evidence": "publish_bar.py --paper PUB-ASO --sha 2334df915005: clause 7 readable_enough_to_review FAIL, '1 sentence(s) over 60 words ... longest 63w'. lint_readability before: 178 sentences, mean 24.1, max 63, >60w=1. After: 180 sentences, mean 23.8, max 54, >60w=0.",
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "readable_enough_to_review"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a prose split inside a manuscript already public under its own DOI; nothing posted, submitted or deposited by this change",
-      "what": "⭐ CLOSED publish_bar CLAUSE 7 (readable_enough_to_review) FOR PUB-ASO — the ONE clause of the four open ones that is not sha-bound to a quiet head, so it was takeable while clauses 1, 2 and 6 were not. A single 63-word sentence in research/manuscripts/aso/fusion-junction-aso-journal-article.md was three ideas joined by a semicolon and an em dash (the duplex-stability re-score, the two named reagents' margin, and the upper-bound caveat); it is now three sentences of 27, 17 and 20 words. ⛔ NO CLAIM, NUMBER OR HEDGE MOVED, AND THAT IS MEASURED RATHER THAN ASSERTED: `lint_readability.py --caution` reads 40 markers / 9.3 per 1000 words before AND after, with an identical marker breakdown (11 'is not', 7 'does not', 7 'neither', 3 'may', 2 'could', 2 'are not', 2 'cannot', 2 'range', 1 'do not'). scientific-writing §4 is explicit that a readability pass which buys its score by dropping caution is worse than the dense original, so the count is the check that it did not. ⭐ SEQUENCING, AND IT IS THE REASON THIS WAS THE RIGHT ITEM: clauses 1 (hardening_converged), 2 (PREFLIGHT_FULL) and 6 (blind seat) are all sha-bound to the posted commit, and AUT-PROP-019's own evidence says they need ONE spawned session against a single pinned commit on a quiet head. A prose fix MOVES the head, so it had to land BEFORE that session pins, not after — running the sha-bound three first would have bought three receipts this commit then staled. ⚠ PUB-ASO IS STILL NOT POSTABLE and this is not an escalation: the bar reads BLOCKED 3/7 at 2334df915005, and `authority: NO` — trimcrae excluded PUB-ASO from the aiXiv grant, verbatim 2026-08-27: 'That's the only paper that shouldn't auto ship to aiXiv.'",
-      "_score_basis": "inherited from AUT-049 as a publish_bar clause closer for PUB-ASO; the only non-sha-bound clause of the four open",
-      "score_inputs": {
-        "blocked_with_evidence": true
-      }
-    },
-    {
-      "id": "AUT-PD-141",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-ASO-JUNCTION",
-        "publication": "PUB-ASO",
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0070-225452b4",
-      "score": null,
-      "_score_basis": "the deposit artifact whose entire job is provenance can lose it to a routine rebase, and every guard it has stays green",
-      "depends_on_evidence": "CYC-0070, 2026-08-28. Manifest regenerated against clean tree at 6a4c833fd (flag true, --check-archive exit 0, 11/11 on both manifest guard modules). 12 commits then landed; the rebase rewrote that commit to 656ff2a29992 and 6a4c833fd survived only in the local reflog. The manifest still read git_revision 6a4c833fd, clean flag true, inventory current.",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a generated deposit artifact and its guards; nothing published, submitted or deposited",
-      "what": "⛔ A REBASE SILENTLY INVALIDATES THE ARCHIVE MANIFEST'S PROVENANCE, AND EVERY GUARD IT HAS STAYS GREEN — MEASURED 2026-08-28 (CYC-0070). AUT-PD-138's ordering says regenerate the manifest against a clean tree as the session's LAST commit, so `git_revision` names the content commit it describes. That is what happened: the manifest named 6a4c833fd, `git_tree_is_clean_apart_from_this_manifest: true`, --check-archive exit 0, and both manifest guard modules 11/11. ⛔ THEN TWELVE COMMITS LANDED FROM A CONCURRENT SESSION AND THE REBASE REWROTE 6a4c833fd TO 656ff2a29992. The manifest was now naming a sha that exists ONLY in this container's reflog — unreachable for anybody who clones — while its clean flag still read true and its inventory was still current. ⭐ THE THREE THINGS THAT WOULD CATCH IT ALL LOOK RIGHT: the cleanliness flag is about the TREE, not the ref; --check-archive explicitly does not compare repository-state fields; and `test_the_manifest_revision_is_a_commit_a_reader_can_resolve` passes locally because the orphaned sha still resolves through the local reflog. It was caught by hand, by comparing git_revision against `git rev-parse HEAD~1` after the rebase, and nothing required that. ⚠ AND THIS IS THE NORMAL CASE, NOT AN EDGE ONE. A concurrent loop session pushed 12 commits during the ~20 minutes this cycle spent rebuilding a deposit family, and the trunk moved under it three separate times. Any manifest commit that has to be rebased has this defect. WHAT TO DO: the candidate is to make the revision check ask git whether the named sha is an ANCESTOR OF THE COMMITTED BRANCH rather than merely resolvable — `git merge-base --is-ancestor <git_revision> HEAD` — which is false for an orphan and true for a real parent, and which the reflog cannot fake. ⚠ Note it must run against the committed history, not the working tree, or it reintroduces AUT-PD-138's ordering trap. ⛔ DO NOT 'fix' this by regenerating the manifest after every rebase as a convention: that is the remembered pairing AUT-PD-130 is about, and it failed there for the same reason it would fail here.",
-      "_renamed_from": "AUT-PD-140",
-      "_renamed_why": "⛔ ID COLLISION WITH A CONCURRENT SESSION, AND IT REACHED origin/main. CYC-0070-c84c64dd filed a DIFFERENT AUT-PD-140 and landed on the trunk first, so that string is theirs. `ids.next_entry_id` derives max+1 over committed state, so two sessions reading the same trunk allocate the same id; the rebase AUTO-MERGED both rows with no conflict marker, and `priority.py` then refused the whole ledger. ⚠ I PRINTED THE DUPLICATE CHECK AND PUSHED ANYWAY — the check and the push were in one command and the push was not gated on it, so the guard ran and its answer went unread. The handoff prompt names counting ids after a rebase as one of three measured rules; the failure was not knowing it, it was not WIRING it.",
-      "score_inputs": {
-        "age_factor": 0.0714
       }
     },
     {
@@ -10163,32 +10237,6 @@
       "closes_clause": null,
       "filed_by": "CYC-0074-5a21085f",
       "evidence": "Three preflight runs by CYC-0074, logs retained outside any worktree at /tmp/claude-0/-home-user-Rare-cancers/5a21085f-4408-5052-8d10-2eec20a6219a/scratchpad/driver-cyc/ : drv-preflight2.log (EXIT=0, no seats running), drv-preflight3.log (EXIT=0), drv-preflight5.log (EXIT=0, default tier). drv-preflight4.log is the foreground run killed at the 120 s ceiling inside gate 13 and carries NO EXIT marker, so it is reported as a timeout observation, not as a result."
-    },
-    {
-      "id": "AUT-PD-005",
-      "kind": "fix",
-      "serves": {
-        "route": "RT-DEGRADER-TERNARY",
-        "publication": "PUB-DEGRADER",
-        "strategy": "ST-DEGRADER"
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "git show 1fd33bb:research/modalities/step1-fanout-map.json vs the same file at 91df57d",
-      "what": "⛔⛔ A CI TICK EMPTIED THE STEP-1 FAN-OUT MAP AND THE DEGRADER PAPER'S COMPLETENESS CLAIM NOW HAS NOTHING BEHIND IT. Measured 2026-08-27 by diffing the artifact across the commit that changed it, not inferred: at 1fd33bb `n_complete=18`, `n_computable=18`, `results` held 18 entries; at 91df57d ('step1 fan-out autoscale tick', 2026-08-27T09:36:35Z) `n_complete=0`, `n_computable=19`, `results=[]`. Eighteen computed RBFE edges left the committed map. ⚠ `nr4a3-degrader-paper.md:1426` still reads 'The congeneric map is COMPLETE at 18 computed edges of the 18 that are computable, in a 19-edge map', so a paper claim and its own artifact now disagree — which is what `test_pinned_figures_every_home[step1_fanout_edges_complete]` is red about, and it is RIGHT to be red.\n⛔ WHAT IS NOT ESTABLISHED, AND MUST BE THE FIRST THING CHECKED RATHER THAN ASSUMED EITHER WAY: whether the UNDERLYING per-edge results still exist (S3, the per-unit ddg.json files, a prior commit) and only this derived INDEX was clobbered, or whether the fan-out state itself was reset. Those have completely different remedies — regenerate the index, versus 18 edges of GPU spend to redo. ⛔ Do not 'fix' the red by editing the paper down to 0 until that is known; the paper may be the only surviving record of the count.\n⚠ AND THE MECHANISM IS THE REAL BUG: a scheduled tick that can overwrite a committed results artifact with an empty one is a data-loss path, and it ran unattended. Whatever the recovery, the tick must not be able to reduce `n_complete` without saying so loudly.",
-      "_score_basis": "a committed results artifact was emptied by automation, and a paper claim now disagrees with its artifact",
-      "score_inputs": {
-        "age_factor": 0.1429
-      }
     }
   ]
 }
