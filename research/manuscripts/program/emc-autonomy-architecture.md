@@ -644,6 +644,48 @@ So property 3's backoff ladder stays as the fallback for what the reading cannot
 the one signal that is always available, a cycle that ended without a receipt. An absent reading is not
 a reading of absence (CLAUDE.md §4).
 
+### 9.1a · ⛔⛔ THE ENDPOINT ANSWERS ABOUT THE FIVE-HOUR WINDOW. THE BUDGET THAT RUNS OUT IS WEEKLY.
+
+⚠ **Measured 2026-08-29, and it is the mechanism behind the first budget overrun this loop has had.**
+A session read `rate_limit_info` on itself at the moment trimcrae reported the weekly Max-plan budget
+**71% spent three days into a seven-day window**, and the endpoint said:
+
+```
+{"isUsingOverage": false, "rateLimitType": "five_hour", "resetsAt": 1788016200, "status": "allowed"}
+```
+
+**A clean verdict, on the wrong window.** §9.1's *"the limit is DIRECTLY READABLE"* is true and stays
+true — of the five-hour limit. Nothing in it reads the weekly one, so a governor built on it sees
+`allowed` at every fire, all the way in. ⛔ **The consequence, stated so no future session re-derives
+it: a green `status` says NOTHING about the week.** The only weekly reading that has ever existed
+here came from a human in conversation, and it is recorded as such in `autonomy-state.json`'s
+`last_utilisation_report` — inputs, source and derivation in one place, with the window's anchor
+marked UNKNOWN because he said "three days in" and not which day it opens.
+
+⭐ **Two things were built that day, and both exist because the numbers governed nothing.**
+
+- **`budget_hold` in `autonomy-state.json`.** `backoff_level` is a FAILURE counter — raised by a
+  cycle that ends without a receipt, **lowered by a clean one** — so a level raised for BUDGET
+  reasons is undone by the first cycle that goes well, which is precisely the cycle you least want
+  licensing the next six. The hold pins a floor under it, declares the dials it claims to have set,
+  and carries its own reason and expiry. `health.py`'s `budget_recovering` reads it back off the
+  same file and goes red if the live dials are looser — a hold that governs nothing is
+  `subagent_width` all over again. It also stops that row calling a deliberate multi-day hold
+  *stuck*: its whole condition is a duration, so before this it would have gone red at 24 h and
+  stayed red at a governor doing exactly what it was told.
+- **`cadence.py`, the cadence gate.** The dial that fires a cycle is a Routine, and **an agent
+  cannot edit a Routine a human created** — `update_trigger` refused both a cron change and a bare
+  `enabled: false` that day. `cycle_interval_hours` therefore described a cadence it did not set.
+  The gate is where the two are reconciled: `research-loop` §1's first row runs it, and a fire
+  arriving inside the interval exits without taking an item. ⭐ The driver prompt could not be
+  patched, but it had already said *"you can improve that file and cannot improve this prompt"* —
+  the escape was designed in, and this is the first use of it.
+
+⛔ **The hold expires into a REVIEW, never into full cadence.** Past `review_after_utc` a cycle must
+take a fresh reading before lifting it; with none, it steps down one level rather than dropping it.
+§10.4 bites here — a stamp passing is not evidence the budget recovered, and a hold is not lifted
+because it is inconvenient to the work the loop wanted to do.
+
 ### 9.2 · The target — trimcrae's "about 80% of the max budget" (D3)
 
 ⭐ **He did not pick a cadence, and that is a better instruction than the ones offered.** A fixed 4-hour

@@ -10,11 +10,11 @@
     "code": 1,
     "experiment": 24,
     "fetch": 21,
-    "fix": 16,
+    "fix": 17,
     "harden": 23,
     "negative": 32,
     "process": 7,
-    "process_defect": 157,
+    "process_defect": 156,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
@@ -3884,39 +3884,6 @@
       ],
       "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time.",
       "_concurrent_fix_note": "⚠ TWO SESSIONS FIXED THIS ROW'S NULL SCORE IN THE SAME HOUR AND NEITHER COULD SEE THE OTHER — CLAUDE.md §7's branch-drift cost, arriving through the gate window rather than through a branch. 620280791 ('Fix a red trunk: AUT-PD-171 lost its score and broke the unscored ratchet') landed on the trunk while CYC-0087-1c9f0963 held the identical fix behind a ~12-minute preflight. THE TRUNK'S SCORE AND BASIS STAND; the losing session deferred to them rather than overwriting, and contributed only the two occurrences it had measured and the trunk could not have. ⭐ Both diagnoses agreed independently — a null score, an unreachable route floor, and the ratchet's own remedy taken rather than the ceiling raised — which is corroboration, and it still cost one of the two sessions its afternoon. It is the same defect this row is ABOUT, one layer up: allocation and validation are far enough apart that concurrent cycles collide inside the gap."
-    },
-    {
-      "id": "AUT-PD-179",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0087-1c9f0963",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "one derivation and its guard test inside research/modalities; nothing outward-facing",
-      "closes_clause": null,
-      "score": 120.0,
-      "_score_basis": "a false claim that stood 20 days and propagated into four files, including the ledger row that commissioned a cycle. Placed at AUT-PD-171's level — a coordination defect whose cost is one session's rework — rather than above it, because the incident it prevents has now been corrected everywhere it was found.",
-      "score_inputs": {
-        "age_factor": 0.0,
-        "fruitless_attempts": 0
-      },
-      "what": "⛔ A GENERATOR'S HAND-TYPED PROSE SUMMARY CAN CONTRADICT THE MACHINE-DERIVED TABLE IT SITS BESIDE IN THE SAME GENERATED FILE, AND NOTHING MEASURES THE AGREEMENT. ⚠ MEASURED 2026-08-29 (AUT-PD-110): research/modalities/census_route_expression_grading.py's RT-ALK-HIT block said 'ALK and ROS1 have no probe on GPL6244 or GPL3290' while the per-gene `genes` table emitted by the SAME function, from the SAME source artifact, carried ALK readable on GPL6244 and ROS1 readable on both — and the panel group in that file recorded coverage 1.0 with a score emitted. The false sentence stood for 20 days and propagated by copy into systems/graph/routes.json's grade, the generated route view, a downstream literature record and a ledger item that was queued BECAUSE of it. ⭐ THE FIX IS NOT PROOFREADING: every route block in that module makes readability claims in prose that the module itself already knows the truth of, so a check can DERIVE the readability sentence, or assert the prose against `genes_readable`/`genes_not_readable` and fail the build on disagreement. Do that, then sweep the module's other 15 route blocks for the same class of drift — RT-NR2F1's 'NOT READABLE on either platform' is the one other absolute readability claim and must be CHECKED against its own table, not assumed wrong. ⛔ THE GENERALISATION IS THE POINT: this repository already records the same shape twice — a prose figure duplicating a computed one — and the grade text beside a table is the case nobody instrumented.",
-      "_renamed_from": "AUT-PD-178",
-      "_renamed_why": "re-allocated at merge: every id this row has been filed under was taken by a concurrent session in the interval (first AUT-PD-177/178 in 35fb816f5, then AUT-PD-178 at the first merge). Ids are counted against the MERGED ledger after each rebase, which is what caught the collision each time."
     },
     {
       "id": "AUT-PD-139",
@@ -7948,6 +7915,30 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a bugfix to an internal ledger-scoring gate; nothing published or outward-facing",
       "what": "Fixed research/autonomy/admissibility.py: added the `fruitless_attempts` term to both `expected_score()` (R2, full-derived-row reproduction) and `_explained_delta()` (R3, delta-accounting for hand-filed/session-state rows), applied LAST at 2dp, matching `priority.py:apply_fruitless_attempts`'s own place at the end of `build_ledger`'s pipeline and its own rounding. Without this, `priority.py --write` could not complete a re-score once any row picked up a nonzero fruitless-attempts count -- the very first cycle to try after the term was wired in was blocked outright, unable to even reach step 4 (claim/take an item). Verified: `pytest research/autonomy/tests/test_a_score_must_derive_from_its_own_inputs.py` 29 passed; `python3 research/autonomy/priority.py --write` now completes cleanly against the full 221-entry corpus (11 clamped, none refused). Also updated the now-stale prediction paragraph in admissibility.py's own module docstring to record that it came true, rather than leave it describing a gap that no longer exists."
+    },
+    {
+      "id": "AUT-PD-179",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-DEGRADER-TERNARY",
+        "publication": "PUB-DEGRADER",
+        "strategy": "ST-DEGRADER"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "INTERACTIVE-2026-08-29-budget",
+      "depends_on_evidence": "python3 -c \"import sys;sys.path.insert(0,'research/autonomy');import health;print([r['_file'] for r in health.load_receipts()[0]][-4:])\" against `ls research/autonomy/receipts | tail -4`",
+      "what": "⛔⛔ `health.py`'s RECEIPT SORT PUTS EVERY UNDATED RECEIPT BEFORE EVERY DATED ONE, SO `advancing_live_work`'s \"LAST THREE\" IS NOT THE LAST THREE — AND IT IS CURRENTLY PRINTING A FALSE RED. Measured 2026-08-29, not inferred. `load_receipts` sorts on `(_receipt_ts_raw(r) or \"\", r[\"_file\"])`. §4.2 step 10 never named the receipt's time field, so almost every receipt on disk carries none of `RECEIPT_TIME_KEYS` and sorts under the empty string; the handful that DO carry one sort after all of them regardless of when they ran. ⚠ THE OBSERVATION THAT DISCRIMINATES: `load_receipts()` returns CYC-0084-e2d78138 as the newest of 101 receipts while CYC-0085-6b009680 exists, is committed, and is plainly later. Consequence: `advancing_live_work` reads route_advanced over none/none/none and reports NOT-ADVANCING, while the true last three are RT-SGK1 / none / RT-SGK1. `cycle_delivering` dates the loop off the same wrong receipt. ⭐ THE FIX IS NOT OBVIOUS AND THAT IS WHY THIS IS FILED RATHER THAN PATCHED: making the filename primary contradicts the docstring's own claim that the stamp is the source of truth, and a mixed population has no single correct key. The candidate answers are (a) filename primary with the stamp as tiebreak, (b) fall back to the receipt file's git committer time, which is clone-stable and is what `cadence.py` already uses, or (c) make a receipt time field REQUIRED by `receipt_schema` and backfill from git once. ⛔ FILED, NOT ABSORBED, AND THE REASON IS THE DIRECTION: fixing it flips a RED to GREEN, and the session that found it was the one reporting on whether the loop's spend bought anything — CLAUDE.md §6 says a pre-existing failure you did not cause is a separate task to RAISE, not to absorb silently into the one you were asked for, and §10.4 is sharper still about a bar moved by the party it grades.",
+      "_score_basis": "⭐ DERIVED WITH `priority.py`'s OWN TERMS AND WEIGHTS, NOT PICKED — and every route term is 0 because this row serves the LOOP'S INSTRUMENTS, not a science route: live 0, patient_path 0, pursue_now 0, tier_one 0, endpoint_reachable 0, blocker_leverage 0 (it unblocks no graph row), cost -12.0 × cost_class_rank['free'] = 0, blocked_on_human 0. Sum 0.0, and it rises only by `apply_age_factor`. ⛔ THE LOW NUMBER IS THE POINT: CLAUDE.md §0 says a live route outranks loop housekeeping, and the session that filed this is the session that found it — scoring one's own filing up to the band live work occupies (118–149 on the last eight receipts) is the self-serving version of this edit. ⚠ STATED SO A LATER RE-SCORE IS DELIBERATE RATHER THAN A DRIFT: 0.0 arguably UNDER-rates it, because the defect is printing a FALSE RED on `advancing_live_work` right now and that row is the loop's own honesty instrument. If a human or a later cycle judges a false red on the advancement guard to be worth more than the terms can express, re-score it with that reason written here — do not raise `MAX_UNSCORED_OPEN`.",
+      "score": 0.0
     },
     {
       "id": "AUT-PD-105",

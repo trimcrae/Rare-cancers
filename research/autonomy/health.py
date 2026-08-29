@@ -1100,6 +1100,54 @@ def c_fanout_is_governed(receipts, state, state_err):
                   f"{payload['worst']} against a cap of {cap}.", payload)
 
 
+#: ⛔⛔ THE DIALS A BUDGET HOLD CLAIMS, AND THE ONE PLACE THEY ARE CHECKED AGAINST WHAT IS LIVE.
+#: Each key of `budget_hold.declared_posture` names a ceiling; the value beside it is the state-file
+#: key that must not exceed it. Written as a table rather than four `if`s because the failure this
+#: guards against is a posture key added to the JSON and quietly checked by nothing — the exact way
+#: `subagent_width` governed nothing for a fortnight (CLAUDE.md §1). An unknown posture key is
+#: therefore UNMEASURED and says so, never silently skipped.
+HOLD_POSTURE_DIALS = {
+    "max_cycle_interval_hours": ("cycle_interval_hours", "min"),
+    "max_subagent_width": ("subagent_width", "max"),
+    "max_items_per_cycle": ("items_per_cycle", "max"),
+    "max_cycles_per_session": ("max_cycles_per_session", "max"),
+}
+
+
+def hold_posture_violations(state):
+    """Which dials are LOOSER than the active hold declares — plus the posture keys nobody checks.
+
+    Returns ``(violations, unknown_keys)``. ``violations`` is a list of
+    ``(state_key, live_value, bound, sense)``. ``sense`` is ``"min"`` when the declared number is a
+    FLOOR the live dial must meet or exceed (a cadence: 24 h means *at least* 24 h between cycles)
+    and ``"max"`` when it is a CEILING the live dial must not exceed (a width, a count).
+
+    ⚠ A dial that is absent or non-numeric counts as a VIOLATION, not as a pass. A hold whose
+    posture cannot be read is a hold that is not in force, and the whole point of this function is
+    that the softer reading — "nothing to check, therefore fine" — is how a guard becomes decorative.
+    """
+    hold = (state or {}).get("budget_hold") or {}
+    posture = hold.get("declared_posture") or {}
+    violations, unknown = [], []
+    for pkey, bound in posture.items():
+        if pkey.startswith("_"):
+            continue
+        dial = HOLD_POSTURE_DIALS.get(pkey)
+        if dial is None:
+            unknown.append(pkey)
+            continue
+        skey, sense = dial
+        live = (state or {}).get(skey)
+        if not isinstance(bound, (int, float)) or isinstance(bound, bool):
+            unknown.append(pkey)
+            continue
+        if not isinstance(live, (int, float)) or isinstance(live, bool):
+            violations.append((skey, live, bound, sense))
+        elif (sense == "min" and live < bound) or (sense == "max" and live > bound):
+            violations.append((skey, live, bound, sense))
+    return violations, unknown
+
+
 def c_budget_recovering(state, state_err, now):
     """Red when `backoff_level` has been > 0 for more than 24 h — §9's stuck-loop row.
 
@@ -1111,7 +1159,8 @@ def c_budget_recovering(state, state_err, now):
     backoff. That is a reading, and it is the difference between this row and an absent state file.
     """
     key, label = "budget_recovering", "is the budget governor RECOVERING, or stuck in backoff?"
-    source = "research/autonomy/autonomy-state.json `backoff_level`/`backoff_since_utc`"
+    source = ("research/autonomy/autonomy-state.json `backoff_level`/`backoff_since_utc`, and "
+              "`budget_hold` — a DELIBERATE hold is read separately from a stuck one")
     if not isinstance(state, dict):
         return _unmeasured(key, label, source, "STATE-UNREADABLE", f"{state_err}.")
     level = state.get("backoff_level")
@@ -1133,6 +1182,52 @@ def c_budget_recovering(state, state_err, now):
     held_h = _hours(now, since)
     payload = {"backoff_level": level, "backoff_since_et": _et(since), "held_h": round(held_h, 2),
                "grace_h": BACKOFF_GRACE_H, "last_limit_flip": state.get("last_limit_flip")}
+    # ⭐⭐ A DELIBERATE BUDGET HOLD IS NOT A STUCK LOOP, AND UNTIL 2026-08-29 THIS ROW COULD NOT TELL
+    # THEM APART. Its whole condition is a DURATION, so a hold meant to last the rest of a weekly
+    # window would have gone red at 24 h and stayed red for three days — a permanent red on a
+    # governor that was working exactly as instructed. The discriminating observation is not the
+    # duration; it is whether the state file carries a REASON and an EXPIRY beside the level.
+    hold = state.get("budget_hold") or {}
+    if isinstance(hold, dict) and hold.get("active"):
+        review_after = _parse_ts(hold.get("review_after_utc"))
+        floor = hold.get("floor_backoff_level")
+        violations, unknown = hold_posture_violations(state)
+        payload = dict(payload, budget_hold={
+            "reason": hold.get("reason"), "floor_backoff_level": floor,
+            "review_after_et": _et(review_after) if review_after else hold.get("review_after_utc"),
+            "posture_violations": [
+                {"dial": k, "live": v, "bound": b, "sense": s} for k, v, b, s in violations] or None,
+            "posture_keys_checked_by_nothing": unknown or None,
+        })
+        # ⛔ THE HOLD MUST GOVERN THE DIALS, OR IT IS DECORATION. Checked BEFORE the expiry, because
+        # a hold that was never in force does not become correct by also being current.
+        if violations or unknown:
+            bits = [f"`{k}`={v!r} against a declared {'floor' if s == 'min' else 'ceiling'} of {b}"
+                    for k, v, b, s in violations]
+            bits += [f"`declared_posture.{k}` is read by nothing in HOLD_POSTURE_DIALS" for k in unknown]
+            return _red(key, label, source, "HOLD-NOT-IN-FORCE",
+                        f"a budget hold ({hold.get('reason')!r}) is active but the live dials do not "
+                        f"honour it: " + "; ".join(bits) + ". A hold that governs nothing is "
+                        "`subagent_width` again — defined in JSON, asserted by one test, read by no "
+                        "code for a fortnight. Set the dials, or drop the hold; never leave both.",
+                        payload)
+        if isinstance(floor, int) and not isinstance(floor, bool) and level < floor:
+            return _red(key, label, source, "HOLD-FLOOR-BREACHED",
+                        f"the hold pins `backoff_level` at {floor} or above and it reads {level}. A "
+                        "clean cycle decrements the level (§9 property 3), so this is what that "
+                        "decrement looks like when it runs through a hold it should have stopped at.",
+                        payload)
+        if review_after is not None and now >= review_after:
+            return _red(key, label, source, "HOLD-NEEDS-A-FRESH-READING",
+                        f"the hold's review stamp ({_et(review_after)}) has passed. ⛔ It expires into "
+                        "a REVIEW, not into full cadence: take a fresh utilisation reading, write it "
+                        "to `last_utilisation_report`, and only then lift or step the hold down one "
+                        "level. A stamp passing is not evidence that the budget recovered.", payload)
+        return _green(key, label, source, "BUDGET-HELD",
+                      f"backoff is held at level {level} by a deliberate budget hold "
+                      f"({hold.get('reason')!r}), reviewable {_et(review_after) if review_after else '?'}. "
+                      f"The dials honour it. Held ≠ stuck: this is §9 property 4 doing its job, and the "
+                      f"{BACKOFF_GRACE_H:g} h grace below is for a limit nobody chose.", payload)
     if held_h > BACKOFF_GRACE_H:
         return _red(key, label, source, "STUCK",
                     f"backoff has been at level {level} for {held_h:.1f} h (> {BACKOFF_GRACE_H:g} h). A "
