@@ -1,0 +1,60 @@
+{
+ "_schema": "emc-autonomy-receipt/1",
+ "cycle_id": "CYC-0069-8226e21b",
+ "session_id": "8226e21b-fa7b-5a99-9783-ee71d497cf6c",
+ "ccr_session_id": "session_018A9rdUZLrexk1HJrKtDCd2",
+ "utc": "2026-08-28T21:20:00Z",
+ "shape": "this session (driver), second and final cycle under max_cycles_per_session=2. No subagents.",
+ "took": "AUT-068 (RT-TCIP / PUB-TCIP) — claimed with claim.py BEFORE any investigation (CLAIMED, pushed on attempt 2; it lost the lease once and correctly re-applied to the re-read base). Deliberately a SCIENCE route: CYC-0065 x2, CYC-0066 and CYC-0068 all read route_advanced RT-AUTONOMY, and CYC-0068's own receipt flagged that the next cycle should take a paper path.",
+ "took_what": {
+  "id": "AUT-068",
+  "route": "RT-TCIP",
+  "publication": "PUB-TCIP",
+  "cost_class": "free",
+  "what_it_asked": "re-run the reach enumeration with the staged BCL6 arm, and restate the result as named-effector rather than size-class"
+ },
+ "changed": [
+  "systems/graph/artifacts.json — ART-TCIP-REACH's note no longer asserts 'no effector arm is staged in this repository', which was false; new ART-TCIP-EFFECTOR-ARMS record for the staged registry.",
+  "systems/graph/routes.json — RT-TCIP.artifacts, readiness.why_not_higher, readiness.missing and closure_note. No blocker, grade or closure_kind moved.",
+  "research/manuscripts/emc-systems-map.json — reprojected (systems_check polices legacy/graph agreement on closure_note and artifacts; it went 2 ERROR before this and 0 after).",
+  "systems/views/ — regenerated (104 views written; 3 changed).",
+  "research/modalities/nr4a3_tcip_reach.py — the map-edit state machine, three narrowings (AUT-PD-134).",
+  "research/modalities/nr4a3-tcip-reach.json/.md — refreshed via --refresh-derived, which recomputes the derived blocks from the 576 stored cells. NO sampling re-run, so no measured number moved.",
+  "research/modalities/tests/test_a_described_map_edit_resolves_through_the_correction_convention.py — 12 tests, new.",
+  "research/autonomy/research-ledger.json — AUT-068 closed; AUT-PD-134 filed done."
+ ],
+ "diagnostic": "THE ROW'S TWO HALVES WERE IN OPPOSITE STATES, AND ONLY READING THE ARTIFACT SHOWED IT. The RE-RUN was already done and had been since 2026-08-06 — the same date the row's own last_evidence_utc carried. ★_named_effector holds bcl6 (BCL6 BTB homodimer, 7LWG, 243 res) and brd4_bd1 (BRD4 BD1, 4ZC9, 127 res), both admitting at the 12-atom gate with a shortest linker of 6 backbone atoms, and the .md §1b and route memo §7b already carried the named-effector restatement WITH the line on what may not be upgraded. Re-running would have cost 8805 s to reproduce numbers that had not moved.\nTHE DOCUMENT HALF WAS GENUINELY OWED, and the artifact's own map_edits_required named it: 4 of 9 edits PENDING, including a systems-graph note still asserting 'no effector arm is staged in this repository' — false since the day the staging landed, and it is the note a reader consults to decide whether the artifact may be quoted about an effector at all.\n⛔ BUT THE 4 PENDING ROWS WERE NOT 4 PIECES OF WORK — THE INSTRUMENT WAS MISREPORTING, and that is the finding worth more than the edits. The state machine calls an edit PENDING while the text it meant to replace is still findable; CLAUDE.md rule 1.2 REQUIRES a correction to carry its superseded wording, so applying an edit the mandated way guarantees the row never clears. One of the four had been applied three weeks earlier, in better wording than the proposal. Filed and fixed as AUT-PD-134.",
+ "cost": "$0. CPU only — no re-sampling (--refresh-derived), no GPU, no rental, no paid API.",
+ "subagents": {
+  "max_concurrent": 0,
+  "cap_at_dispatch": 5,
+  "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+  "within_cap": true,
+  "serial_total": 0,
+  "seats": []
+ },
+ "blocked_by": [],
+ "route_advanced": "RT-TCIP",
+ "_route_advanced_why": "The route's registered artifacts, readiness and closure argument now match what was actually measured, and the graph no longer denies that a named effector is staged. ⛔ NO scientific claim strengthened: staging a body is an input, `admits` remains a gate no tested body has failed, and the paired SIZE comparison is still carried by the four E3 proxies. That limit is now stated in readiness.missing rather than implied.",
+ "verification": [
+  "test_nr4a3_tcip_reach.py 19/19 pass, including test_every_described_map_edit_resolves_against_its_live_file — which was RED mid-cycle and is the reason the last edit was chased rather than declared.",
+  "12/12 in the new suite. All three fixes mutation-tested against a COPY of the module, never the live tree; each revert now fails the suite.",
+  "systems_check.py --check: 2 ERROR before the legacy reprojection, 0 ERROR after.",
+  "map_edits_required now reads 8 APPLIED / 1 PENDING, the PENDING being the 'ALREADY CORRECT — NO EDIT REQUIRED' row, which is its correct state."
+ ],
+ "what_i_got_wrong": [
+  "⛔ I ALMOST 'APPLIED' AN EDIT THAT WAS ALREADY APPLIED. The prose row for target-route-options.md reported PENDING and I was about to rewrite the sentence; reading the file first showed the correction had landed weeks earlier and that the anchor the checker matched was the old text quoted INSIDE its own 'Superseded, retained' note. Editing it would have corrupted a correct correction register. The lesson is the same one this session opened with: read the file, not the status field.",
+  "I PARAPHRASED THREE DESCRIBED EDITS INSTEAD OF APPLYING THEM VERBATIM, and the checker then read all three as STALE_ANCHOR — the one state that fails the build. The proposals had been written to be applied; improving their wording in passing cost a full extra diagnose-and-redo loop.",
+  "TWO OF MY OWN FIXES WERE WRONG FIRST TIME AND THE TESTS ARE THE ONLY REASON I KNOW: ignoring an additive anchor outright dropped a 'no edit required' row into STALE_ANCHOR, and the multi-line branch was tested after `_strip_emphasis` collapsed the newline, so it read correctly and never ran.",
+  "⛔ AND MY FIRST MUTATION RUN WAS A FALSE PASS. Two mutations reported 'not caught'; re-running with an assertion that the mutation had actually applied showed one of them had never applied. A mutation that does not mutate reports as a passing guard. Of the two genuine ones, one was a real gap: nothing asserted the STATE MACHINE passes the live-only flag — only that the helper honours it when handed it, so the helper could have been correct and unused."
+ ],
+ "now_queued": [],
+ "handoff": {
+  "child_session_id": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+  "attempted": true,
+  "created_utc": "2026-08-28T21:55:56Z",
+  "reason": "CYC-0068 and CYC-0069 reached this session's 2-cycle cap (autonomy-state.json max_cycles_per_session=2).",
+  "prompt_built_by": "research/autonomy/handoff.py --json (from committed state, never from memory)",
+  "_carried_forward": "One OPERATIONAL fact was appended to the generated prompt and no findings: a clean auto-merge of the ledger can still produce a duplicate id, so dedupe unconditionally after every rebase rather than only on conflict. It cost this session a red preflight."
+ }
+}

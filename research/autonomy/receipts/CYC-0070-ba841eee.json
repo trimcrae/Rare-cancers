@@ -1,0 +1,72 @@
+{
+  "cycle_id": "CYC-0070-ba841eee",
+  "session_id": "ba841eee-529e-5b9e-9403-aa327556bed0",
+  "ccr_session_id": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+  "started_utc": "2026-08-28T21:56:00Z",
+  "finished_utc": "2026-08-28T22:35:00Z",
+  "took": "AUT-049 (RT-PARTNER-STRAT / PUB-FUSION-PARTNER), claimed with claim.py on the trunk BEFORE any work — CLAIMED on attempt 1. Deliberately a PAPER route: the handoff recorded five of the last six receipts reading route_advanced RT-AUTONOMY. The item was chosen by reading publish_bar for PUB-FUSION-PARTNER rather than by score: it is the one paper in the portfolio whose `authority` clause already reads OK (inside the standing aiXiv grant), and of its four open clauses exactly one — clause 7, readable_enough_to_review — was not sha-bound, so it was the only one takeable while three other sessions held leases and the trunk moved every 2-3 minutes.",
+  "route_advanced": "RT-PARTNER-STRAT",
+  "what_changed": [
+    "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md — 17 sentences over the 60-word ceiling split into 39 sentences. Measured before -> after: 399 -> 438 sentences, mean 25.4 -> 23.2 words, p90 49 -> 43, longest 167 -> 60, >60w 17 -> 0, FKGL 13.2 -> 12.4. `lint_readability --check` now passes on the file. publish_bar clause 7 CLOSED.",
+    "NO CAUTION WAS LOST, AND THAT IS MEASURED RATHER THAN ASSERTED (scientific-writing §4): `lint_readability --caution` reports 186 markers / 18.3 per 1000 words before AND after, with a byte-identical breakdown across all 25 marker types (41 'is not', 28 'does not', 21 'p =', 19 'cannot', 19 'neither', ...). Every number, interval, hedge, null and UNKNOWN was moved, never dropped; the diff is 79 insertions / 73 deletions in one file.",
+    "The endpoint summary was the one site that could not be split without a structural change: it was one 82-word sentence labelled 'Endpoint, one sentence'. It is now three sentences and the label reads 'Endpoint for ...'. No guard binds that phrase (grepped) and the L3 registration it points at is itself multi-sentence, so the label was describing the manuscript's own formatting, not a contract.",
+    "research/autonomy/research-ledger.json — AUT-049 lease released and its blocked_evidence re-derived from a live bar reading; AUT-PROP-049 filed (the sha-bound round that closes the remaining three clauses as ONE act); AUT-PD-142 filed (the lint_readability splitter defect, filed NOT fixed — see below).",
+    "⚠ SPLITTING A LONG SENTENCE CAN UN-CLEAR A `lint_claims` RULE, AND IT DID HERE — caught by preflight, root-caused, and fixed in the prose rather than in the rule. R2-treats-cures carries `clears_on=\"disclaimer\"`, and the clearing scope is the SENTENCE: the word 'treats' in \"§6's falsifier #1 treats a single counter-report as sufficient to overturn it\" had been sitting inside the 167-word sentence, whose many 'no'/'not' markers cleared it. Splitting that sentence left 'treats' alone in a sentence with no negation, so the rule fired as a real ERROR. Reworded to 'counts' — identical meaning, no regulated word, pattern untouched (CLAUDE.md §1: fix the doc, don't loosen the pattern). lint_claims: 1 ERROR -> 0 ERROR, 165 WARN unchanged. ⭐ NO NEW RULE IS OWED: scientific-writing §3 step 5 already says to re-run the screen and the content gates together, and that is exactly what caught it.",
+    "⚠ SPLITTING SENTENCES DILUTES CLAIM COVERAGE, AND THE NUMBER IS RECORDED RATHER THAN LEFT FOR SOMEONE TO DISCOVER. research/manuscripts/claim-coverage.json regenerated (it is a deposit artifact and preflight refuses a stale one): this document goes 270 -> 303 censused sentences and 84 -> 89 covered, so the COUNT of covered sentences rose while the RATIO fell 0.311 -> 0.294. The mechanism is structural, not a lapse: a guard witnessing one long sentence witnesses only one of the parts it is split into, and the other parts land uncovered. ⛔ ANY LATER CLAUSE-7 PASS ON ANOTHER PAPER WILL DO THE SAME THING — 270 over-ceiling sentences remain across the portfolio, so this is a standing interaction between two bars and not a one-off. It is not hidden by a floor: test_claim_coverage_has_not_regressed compares the committed artifact against a fresh computation, so the ratio move is visible in the diff of every such commit.",
+    "⭐ ONE BOUND SENTENCE WAS RESTORED RATHER THAN THE GUARD RE-ANCHORED. test_fusion_partner_prose_matches_its_artifact binds §3.1's two counts through the literal construction `— (\\w+), of which (\\w+) enters the primary pool`, and the split had removed it. That guard's own docstring permits re-anchoring when the sentence says the same thing in different words — but re-anchoring a guard to fit the edit that broke it is the move this loop distrusts, so the construction was put back instead, attached to the end of a 36-word sentence. NOT ONE CHARACTER OF ANY GUARD WAS EDITED THIS CYCLE, and the readability check still passes."
+  ],
+  "evidence": {
+    "publish_bar_before": "PUB-FUSION-PARTNER @ 191fae2ad955 -> BLOCKED (3/7). FAIL clause 1 hardening_converged; absent clause 2 PREFLIGHT_FULL receipt; OK 3,4,5; absent clause 6 blind seat; FAIL clause 7 '17 sentence(s) over 60 words (longest 167w at line 201)'. authority: OK.",
+    "readability_before": "399 sentences, mean 25.4, p90 49, max 167, >60w 17, FKGL 13.2, caution 18.3/1000w",
+    "readability_after": "438 sentences, mean 23.2, p90 43, max 60, >60w 0, FKGL 12.4, caution 18.3/1000w",
+    "caution_diff": "byte-identical apart from the EXIT marker the driver appended to the before-file",
+    "health_board": "0 need attention, 0 UNMEASURED, 11 conditions. gates_green and stalls_are_named were UNMEASURED for 48.9 h and 9.0 h respectively; this cycle settled BOTH at $0 rather than reporting them again — stuck_clock.py --check --json for the stall verdict, and the Actions read for the gate verdict.",
+    "gates_verdict": "tests.yml on main: last three COMPLETED runs all success (bfdf124, 731d732, c481b2b); the red streak ended at c481b2b 2026-08-28T21:24Z. Six runs were in_progress at read time, so the verdict is the last CONCLUSIVE reading and says so.",
+    "scratchpad": "/tmp/claude-0/-home-user-Rare-cancers/ba841eee-529e-5b9e-9403-aa327556bed0/scratchpad/drv-cyc0070/ — drv-bar-fp.log, drv-read-before.txt, drv-caution-before.txt, drv-caution-after.txt, drv-longsent.txt, drv-glyphsplit.txt, drv-edits.py, drv-ledger.py, drv-preflight.log",
+    "lint_claims_after": "0 ERROR, 165 WARN across 130 file(s)",
+    "preflight_first_run": "PREFLIGHT_TESTS=1 EXIT=1, read from the run's OWN marker while the harness reported exit code 0 — the divergence the handoff prompt warns about, observed. 3 failed / 1466 passed: test_fusion_partner_prose_matches_its_artifact[the same two counts as §3.1 states them], test_claim_coverage_has_not_regressed, and test_the_census_word_covered_survives_ablation[emc-fusion-partner-stratification.md]. All three are the blast radius of the prose edit, which is the same finding AUT-PD-135 recorded for PUB-ASO one size smaller."
+  },
+  "the_bar_was_not_moved": "⛔ THE TEMPTING SHORTCUT WAS AVAILABLE AND WAS REFUSED, AND IT IS RECORDED BECAUSE IT WAS MEASURED FIRST. `lint_readability.sentences()` does not break before a callout glyph (⛔ ⭐ ⚠ ★), before a `§`, or after a period sitting inside a closing quote, so it glues two sentences into one and overstates the length. Re-splitting the 17 findings on the glyph boundary showed 2 of them are ENTIRELY an artefact (86w whose real parts are 46w and 40w; 70w whose real parts are 15w and 55w) and 5 more were reported longer than any real sentence in them. Fixing the splitter would have retired 2 findings without touching a word of prose — and lint_readability IS the instrument behind clause 7, which had just blocked this paper, so research-loop §6's invariant forbids this cycle making that change. All 17 were split in the prose instead, the 2 artefacts included. The defect is filed as AUT-PD-142 with its measurement, for a later cycle.",
+  "cost": {
+    "real_dollars": 0.0,
+    "gpu_hours": 0.0,
+    "detail": "CPU and agent time only. One Actions read, no dispatch."
+  },
+  "subagents": {
+    "max_concurrent": 0,
+    "cap_at_dispatch": 5,
+    "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+    "within_cap": true,
+    "serial_total": 0,
+    "seats": [],
+    "_why": "One manuscript, 17 sites, and research-loop §3 gives the shared tree ONE writer. Parallel seats on one file are collisions, not parallelism. The round that DOES want five seats is filed as AUT-PROP-049 and needs a pinned commit this cycle had to move first."
+  },
+  "blocked_by": [],
+  "queued_next": [
+    {
+      "id": "AUT-PROP-049",
+      "what": "five blind seats + PREFLIGHT_FULL at ONE pinned commit, closing PUB-FUSION-PARTNER clauses 1, 2 and 6 together",
+      "closes_clause": {
+        "paper": "PUB-FUSION-PARTNER",
+        "clause": "independent_adversarial_seat"
+      }
+    },
+    {
+      "id": "AUT-PD-142",
+      "what": "extend lint_readability's sentence splitter to callout glyphs, `§` and quote-final periods; mutation-test it and re-pin the baseline in the same commit"
+    }
+  ],
+  "handoff": {
+    "child_session_id": null,
+    "attempted": false,
+    "_why": "Cycle 1 of 2 in this session. Owed only if this session reaches its cap."
+  },
+  "rate_limit_info": {
+    "status": "allowed",
+    "rateLimitType": "five_hour",
+    "resetsAt": 1787962200,
+    "isUsingOverage": false,
+    "_read_utc": "2026-08-28T22:35:00Z",
+    "_note": "read from get_session, not inferred (research-loop §4)"
+  }
+}

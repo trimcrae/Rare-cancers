@@ -433,7 +433,16 @@ def test_a_full_cap_is_a_real_stop_and_names_every_holder(led, monkeypatch, tmp_
     assert "seat-one" in out and "seat-two" in out, (
         "the capacity claim did not name its holders, so nobody can tell a running worker from a "
         "stale lease — and an unfalsifiable capacity claim IS v1's permission slip")
-    assert "NOT PERMISSION TO STOP WORKING" in out
+    # ⛔⛔ THIS LINE USED TO READ `assert "NOT PERMISSION TO STOP WORKING" in out`, SIX LINES BELOW
+    # `assert C.main(["--check"]) == 0` — the test asserted both halves of a contradiction and passed
+    # (AUT-PD-140, 2026-08-28). Inside the Stop hook the exit code is the only channel read: the hook
+    # returns on it before printing a byte of this text, so "you must keep working" was delivered to
+    # nobody while 0 said "you may stop". The exit code is the half that was right for THIS state —
+    # a full cap of OTHER workers is a real stop — so the words moved to match it.
+    assert "THIS STOPS NEW WORK STARTING" in out
+    assert "NOT PERMISSION TO STOP WORKING" not in out, (
+        "a branch that returns 0 must not also tell the reader to keep working; see "
+        "test_no_output_demands_work_while_the_exit_code_permits_stopping")
 
 
 def test_an_unreadable_cap_buys_nothing(led, monkeypatch, tmp_path):

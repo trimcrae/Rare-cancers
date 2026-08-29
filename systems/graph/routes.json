@@ -984,7 +984,8 @@
       "EV-EB-TCIP-2025"
     ],
     "artifacts": [
-      "ART-TCIP-REACH"
+      "ART-TCIP-REACH",
+      "ART-TCIP-EFFECTOR-ARMS"
     ],
     "distinct_from": [
       {
@@ -1020,7 +1021,7 @@
       "TR-FE-CRYPTIC-POCKET",
       "TR-COFOLD-ASSEMBLY"
     ],
-    "closure_note": "Demoted for an UNRUN computation, not a failed one. ⭐ THE COMPUTATION HAS NOW RUN (2026-08-06, $0, ART-TCIP-REACH) and the route holds a computed result of its own. What it does NOT yet hold is a named effector: 0 transcriptional-effector bodies are staged. Superseded, retained: this note read only 'Demoted for an UNRUN computation' after the run had landed.",
+    "closure_note": "Demoted for an UNRUN computation, not a failed one. ⭐ THE COMPUTATION HAS NOW RUN (2026-08-06, $0, ART-TCIP-REACH) and the route holds a computed result of its own. ⭐ AND ON 2026-08-06 IT ALSO GAINED THE INPUT IT WAS MISSING: two NAMED transcriptional-effector bodies are staged (BCL6 BTB, BRD4 BD1 — ART-TCIP-EFFECTOR-ARMS), so the admissibility statement is no longer proxy-carried. ⛔ The size comparison still is, and none of the route's blockers moved. ⚠ Superseded, retained: 'What it does NOT yet hold is a named effector: 0 transcriptional-effector bodies are staged.' Superseded, retained: this note read only 'Demoted for an UNRUN computation' after the run had landed.",
     "strategy": "ST-PROXIMITY",
     "publication": {
       "endpoint": "PUB-TCIP",
@@ -1071,9 +1072,9 @@
     ],
     "readiness": {
       "attainable_today": "preprint",
-      "why_not_higher": "The enumeration has now run and the route holds a computed result of its own, so the geometric half of PUB-TCIP is reportable. What it cannot yet name is an effector: the second-terminus bodies staged in this repository are all E3 ligase recruiters, and the two used at effector size are size-and-shape proxies. A statement about a named transcriptional effector still needs that effector staged from a deposited structure, which is a CI-only RCSB fetch.",
+      "why_not_higher": "The enumeration has now run and the route holds a computed result of its own, so the geometric half of PUB-TCIP is reportable. It can now name an effector: 2 transcriptional-effector bodies are staged (bcl6, brd4_bd1) and the enumeration runs on them, so the admissibility statement is no longer proxy-carried. What is still proxy-carried is the SIZE comparison, which is computed on the four E3 bodies alone. No blocker, grade or closure_kind moved: staging a body is an INPUT, not a result. Superseded, retained: 'What it cannot yet name is an effector: the second-terminus bodies staged in this repository are all E3 ligase recruiters, and the two used at effector size are size-and-shape proxies. A statement about a named transcriptional effector still needs that effector staged from a deposited structure, which is a CI-only RCSB fetch.'",
       "missing": [
-        "a staged transcriptional-effector body, so the result can name an effector rather than a size class"
+        "a NAMED-effector size comparison: the paired size result and everything derived from it (the within-class spread control, the pooled single/multi ratio, the interface-floor ablation) are still computed on the four E3 bodies alone, so birc2 and mdm2 remain size-and-shape proxies there and no named-effector claim may be read off them"
       ]
     },
     "timing": {

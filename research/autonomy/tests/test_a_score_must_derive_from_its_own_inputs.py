@@ -184,11 +184,19 @@ def test_a_closed_rows_frozen_age_factor_is_not_graded_stale(weights, state):
 
 def test_the_closed_state_scope_matches_the_states_the_scorer_itself_skips():
     """One fact, one place: if `apply_age_factor` ever ages a state this module exempts, the two
-    disagree and the exemption becomes a hole rather than a scope."""
-    source = open(os.path.join(AUTONOMY, "priority.py"), encoding="utf-8").read()
-    assert '("done", "abandoned", "superseded")' in source, (
+    disagree and the exemption becomes a hole rather than a scope.
+
+    ⚠ THE LIST MOVED OFF THE CALL SITE ON 2026-08-28 (AUT-PD-050): `priority.py` gained a second
+    reader of the same fact (`n_unscored_open`), so the states are now the module constant
+    `priority.CLOSED_STATES` and `apply_age_factor` reads it. The assertion below therefore binds
+    the VALUE rather than searching this file's source text for a literal, which is strictly
+    stronger — a source search would have gone green on a constant nobody used."""
+    assert priority.CLOSED_STATES == ("done", "abandoned", "superseded"), (
         "apply_age_factor's skip list moved — re-derive admissibility.CLOSED_STATES from it")
-    assert A.CLOSED_STATES == {"done", "abandoned", "superseded"}
+    source = open(os.path.join(AUTONOMY, "priority.py"), encoding="utf-8").read()
+    assert "in CLOSED_STATES:" in source, (
+        "apply_age_factor no longer reads the shared constant, so the two readers can drift")
+    assert A.CLOSED_STATES == set(priority.CLOSED_STATES)
 
 
 # 7 ------------------------------------------------------------------------------------------

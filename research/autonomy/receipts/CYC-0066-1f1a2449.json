@@ -17,7 +17,10 @@
     ".github/workflows/autonomy-tick.yml — the publish step calls `--stored-commit-worthy`.",
     "research/autonomy/tests/test_the_board_reaches_main_when_a_verdict_changes.py — 6 tests, new. Pins the trap itself (so the two flags are never collapsed into one), the fix, the negative control, the absent-decision case, and the wiring.",
     "research/autonomy/research-ledger.json — AUT-PD-126 filed done with its evidence.",
-    "research/autonomy/research-ledger.json — AUT-PD-123 closed: the two-pass ASO rebuild was verified in production by run 33206223315, which rebuilt for real and produced a manifest with clean=true at git_revision d12af75 (pass 1's commit, on main). This is cycle CYC-0065's fix, followed through here rather than left as unrun code."
+    "research/autonomy/research-ledger.json — AUT-PD-123 closed: the two-pass ASO rebuild was verified in production by run 33206223315, which rebuilt for real and produced a manifest with clean=true at git_revision d12af75 (pass 1's commit, on main). This is cycle CYC-0065's fix, followed through here rather than left as unrun code.",
+    "MERGED two of round 1's three branches to the trunk (AUT-PD-058, AUT-PD-031) after gating them together at PREFLIGHT_TESTS=1 — a branch is not the trunk, and leaving finished work on one is the branch-drift data-loss bug. The merge surfaced a real defect (three skips that could never fire) which was fixed before the push rather than annotated away.",
+    "research/autonomy/research-ledger.json — AUT-PD-058 closed; AUT-PD-031 left QUEUED on its seat's argument despite its branch landing; AUT-PD-134 filed with a score.",
+    "MERGED all three round-2 branches (AUT-PD-050 crash fixes, AUT-PD-124 join horizon, AUT-PD-059 blocked-handoff verdicts) and closed all three rows. Six seats across two rounds, six branches, six rows closed, zero code conflicts — the file-ownership split named in each prompt held both times."
   ],
   "cost": {
     "usd": 0.0,
@@ -29,7 +32,7 @@
     "cap_at_dispatch": 5,
     "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
     "within_cap": true,
-    "serial_total": 3,
+    "serial_total": 6,
     "launched_in_one_message": true,
     "seats": [
       {
@@ -49,10 +52,36 @@
         "item": "AUT-PD-031",
         "owner": "SEAT-s3-1f1a2449",
         "scratch": "/tmp/claude-0/-home-user-Rare-cancers/1f1a2449-a087-5338-b7d0-a35a6856b58a/scratchpad/s3-AUT-PD-031/"
+      },
+      {
+        "seat": "s4",
+        "item": "AUT-PD-059",
+        "owner": "SEAT-s4-1f1a2449",
+        "round": 2,
+        "owns_files": "research/autonomy/health.py",
+        "scratch": "/tmp/claude-0/-home-user-Rare-cancers/1f1a2449-a087-5338-b7d0-a35a6856b58a/scratchpad/s4-AUT-PD-059/"
+      },
+      {
+        "seat": "s5",
+        "item": "AUT-PD-124",
+        "owner": "SEAT-s5-1f1a2449",
+        "round": 2,
+        "owns_files": "research/autonomy/session_reaper.py",
+        "scratch": "/tmp/claude-0/-home-user-Rare-cancers/1f1a2449-a087-5338-b7d0-a35a6856b58a/scratchpad/s5-AUT-PD-124/"
+      },
+      {
+        "seat": "s6",
+        "item": "AUT-PD-050",
+        "owner": "SEAT-s6-1f1a2449",
+        "round": 2,
+        "owns_files": "research/autonomy/priority.py, continuity.py, admissibility.py",
+        "scratch": "/tmp/claude-0/-home-user-Rare-cancers/1f1a2449-a087-5338-b7d0-a35a6856b58a/scratchpad/s6-AUT-PD-050/"
       }
     ],
     "_why": "Dispatched at the turn's end in response to the ready-work Stop hook, which is a report this session had ready, unclaimed, unblocked work and nothing observably running. Each item was CLAIMED AND PUSHED in the same action that spawned its seat, so the leases are visible on the trunk and falsifiable — an unpushed claim protects nothing, and unclaimed dispatched agents are what made this hook cry wolf once before. Items were chosen to touch DISJOINT files (priority.py / stuck_clock.py / line_citations.py) so three concurrent worktrees cannot collide, and health.py was excluded from all three because this session changed it today.",
-    "_merge_owner": "Each seat pushes a BRANCH and does not touch the shared tree. The driver ends its turn rather than waiting (research-loop §3), so merging the branches and closing or re-opening the three rows belongs to the successor cycle, session_018A9rdUZLrexk1HJrKtDCd2."
+    "_merge_owner": "Each seat pushes a BRANCH and does not touch the shared tree. The driver ends its turn rather than waiting (research-loop §3), so merging the branches and closing or re-opening the three rows belongs to the successor cycle, session_018A9rdUZLrexk1HJrKtDCd2.",
+    "_second_round": "A SECOND round of 3 was dispatched after the first three landed and their branches were handled. Peak concurrency stayed 3 — the rounds did not overlap — so max_concurrent is 3 and the serial total is 6. Recorded separately because the cap governs CONCURRENCY and the serial total is ungoverned: six launched one round at a time and six launched together are the same number and different acts.",
+    "_file_ownership_declared_to_each_seat": "Round 1 chose disjoint files and merged with ZERO conflicts, so round 2 does it explicitly: each seat's prompt names the files it owns AND the files its siblings own. Round 2's three items would otherwise all have converged on health.py / the autonomy instruments."
   },
   "rate_limit_info": {
     "status": "allowed_warning",
@@ -62,7 +91,12 @@
   },
   "what_i_got_wrong": [
     "I ACCEPTED MY OWN INSTRUMENT'S SILENCE AS A MEASUREMENT FOR MOST OF AN HOUR. The cycle opened by running `health.py --check` with NO --gates-verdict and NO --stall-verdict, read `gates_green: NO-GATE-VERDICT ... bad for 46.5 h`, and carried that as a fact. It is an absent reading, not a reading of absence — CLAUDE.md §4, in the one file that exists to make that distinction. The real state was the opposite: CI had been measuring the row correctly the whole time and the board was simply never committed. I only caught it because the committed board and my local one disagreed, and I checked which was which instead of averaging them.",
-    "AND MY FIRST HYPOTHESIS FOR THE CAUSE WAS WRONG. I suspected `gates_verdict.py` was failing closed against the API. Running it (--dry-run, unauthenticated, from the sandbox) refuted that in one command: it returned a correct RED verdict. The discriminating observation cost nothing and was available before the hypothesis was."
+    "AND MY FIRST HYPOTHESIS FOR THE CAUSE WAS WRONG. I suspected `gates_verdict.py` was failing closed against the API. Running it (--dry-run, unauthenticated, from the sandbox) refuted that in one command: it returned a correct RED verdict. The discriminating observation cost nothing and was available before the hypothesis was.",
+    "I TURNED THE TRUNK RED WITH THE FIX ITSELF, AND A SUBAGENT FOUND IT, NOT ME. AUT-PD-126 added `health.py --stored-commit-worthy` to autonomy-tick.yml without the two verdict files, which broke two guards in systems/tests/test_autonomy_health.py asserting every non-comment health.py call in that workflow carries both. My preflight was green because the default tier does not run systems/tests/. It surfaced ~40 minutes later inside seat s2's report on an unrelated item, filed there as 'pre-existing on clean origin/main, not mine' — which was right about clean origin/main and wrong about whose it was, because by then it WAS origin/main. ⭐ A seat's attribution of a red it did not cause is a hypothesis, and the driver is the only one holding the history to check it against. Fixed by passing the verdicts rather than relaxing the guard: main() renders a board before any flag is handled, so the call without them printed a second, contradictory board into the same job log — the guard was right for a reason I had not seen.",
+    "AND I BLOCKED MY OWN FOREGROUND ON A GATE, which is the rule I had been keeping all session. After the seats landed I ran ./scripts/preflight.sh directly with a 5-minute tool timeout instead of backgrounding it; it hit the timeout and was killed at exit 143, wasting the run and the window. CLAUDE.md §1: the test is how long trimcrae's message would have sat unread, and the answer was five minutes.",
+    "I LEFT THREE FINISHED BRANCHES UNMERGED AND CALLED IT A HANDOFF, AND THE HOOK CAUGHT IT. Ending the turn that way put AUT-PD-058 straight back on the ready list — the work was done, pushed and invisible to every instrument that reads the trunk, which is CLAUDE.md §7's branch drift with the merge missing. Assigning the merge to a successor was a real decision for the one branch with a blast radius (AUT-PD-050's ratchet) and a deferral for the two that were clean. Merged them this turn instead; only the contested one is still held, and its sequencing is now a seat's explicit task rather than a note.",
+    "I PUSHED A TREE I HAD NOT GATED, AND ONLY A CONFIRMING RUN CAUGHT IT. Four rebases died on the two append-only files while the trunk moved every minute or two under three other sessions, so I switched to REBUILDING onto the current trunk instead of rebasing — reset, re-merge, re-apply the ledger edits idempotently with freshly allocated ids. That is the right method for append-only files and I would use it again, but it has a cost I did not price: the tree that gets pushed is rebuilt AFTER the gate ran, so it is not the tree the gate saw. The push then landed on a base already carrying a red systems view (drift in a generated register, reproduced at f6bbd439b7 with my commit absent, so not mine) and the trunk was red under my name. A confirming preflight on the PUSHED tree found it in about a minute and it was fixed with the regeneration the error itself names. ⭐ THE RULE THIS YIELDS: rebuild-instead-of-rebase is only safe WITH a confirming gate on the pushed head. The two go together; the first without the second is how a session pushes red and reports green.",
+    "AND I DUPLICATED A CONCURRENT SESSION'S REPAIR FOR THE SECOND TIME IN ONE SESSION. I found the trunk carrying two rows called AUT-PD-140 — which blocks `priority.py`, i.e. step 3 of EVERY cycle — and renamed the later filer per the error message's instruction. While I gated, another session made the IDENTICAL rename, same target id, same `_renamed_from`. My copy was dropped. Both duplications this session were on shared generated or append-only state, and both surfaced only at the push. The lease protects a LEDGER ROW; it does not protect a FILE, and nothing currently announces 'I am repairing this artifact right now'."
   ],
   "now_queued": [],
   "blocked_by": [],

@@ -20,6 +20,7 @@ computes what the prose should say, and looks for that. A failure means the jour
 evidence have diverged — fix whichever is wrong, but do not relax the assertion, and do not paste the
 artifact's current value in as a literal to make it green.
 """
+import csv
 import json
 import os
 import re
@@ -963,3 +964,63 @@ def test_the_ddg_separations_are_reported_with_the_direction_their_artifact_reco
     assert "range" not in flat.split("upper bounds on")[1][:200], (
         "the two bounds point opposite ways and the artifact says they must not be quoted as a "
         "range; this sentence appears to have merged them")
+
+
+def test_the_tiled_geometry_the_methods_state_is_the_one_the_canonical_file_carries(prose):
+    """⛔⛔ THE REAGENT'S OWN GEOMETRY WAS WATCHED BY NOTHING UNTIL 2026-08-28 (AUT-PD-132).
+
+    "Junction-spanning 16-mer gapmers were tiled in a 5-6-5 …/DNA/… geometry … the six-nucleotide
+    DNA gap". Perturbing 16 -> 17, and each segment of 5-6-5, turned NO guard red. This is the
+    Methods sentence that says what was designed; a drift in it misstates every reagent in the paper.
+
+    ⚠ IT WAS INVISIBLE FOR A REASON WORTH KEEPING: the sentence carries two citation superscripts,
+    so the ablation harness could not locate it in the raw file at all and scored it NOT-APPLIED —
+    counted as covered, tested by nothing. The locator fix is what surfaced it.
+
+    ★ EVERY EXPECTED VALUE IS DERIVED FROM THE CANONICAL CSV, never typed: the geometry string, the
+    length that geometry implies, and the gap width are read off the artifact's own rows.
+    ⛔ WHAT THIS DELIBERATELY DOES NOT BIND is the sentence's "which admits five per junction". The
+    artifact carries 2-5 designs per junction at this geometry — consistent with registers dropped
+    for other reasons, not with a flat five — so asserting five here would pin a number the record
+    does not support. It is named as unbound rather than quietly implied to be checked.
+    """
+    rows = [r for r in csv.DictReader(open(_required(SEQUENCES, "the canonical sequence file"),
+                                           encoding="utf-8"))
+            if (r.get("geometry") or "").strip()]
+    assert rows, "the canonical sequence file carries no geometry column, so this guard is blind"
+
+    by_geometry = {}
+    for r in rows:
+        by_geometry.setdefault(r["geometry"].strip(), set()).add((r.get("length_nt") or "").strip())
+
+    # The artifact invariant that makes the manuscript binding meaningful.
+    for geometry, lengths in sorted(by_geometry.items()):
+        segments = [int(x) for x in geometry.split("-")]
+        assert lengths == {str(sum(segments))}, (
+            f"the canonical file gives geometry {geometry} the length(s) {sorted(lengths)}, which is "
+            f"not the {sum(segments)} its own segments sum to")
+
+    shortest = min(by_geometry, key=lambda g: sum(int(x) for x in g.split("-")))
+    length = sum(int(x) for x in shortest.split("-"))
+    gap = int(shortest.split("-")[1])
+    words = {6: "six", 8: "eight", 10: "ten"}
+
+    flat = _flat(prose)
+    assert f"{length}-mer gapmers were tiled in a {shortest}" in flat, (
+        f"the Methods say something other than the canonical file's shortest tiled geometry. The "
+        f"file carries {shortest} at {length} nt; the manuscript must state that pairing, because "
+        f"every design it prints was built to it.")
+    # ⛔⛔ EVERY OCCURRENCE, NOT "AT LEAST ONE" — CAUGHT BY A SINGLE-SITE MUTATION, WHICH IS WHY
+    # THE SKILL INSISTS ON THEM. The article states this gap twice and the 16-mer four times. A
+    # membership test (`X in flat`) passes as long as ONE site still says the right thing, so
+    # changing the other site to "eight-nucleotide DNA gap" left this guard green on the first run
+    # of its own mutation test. A guard that only proves an occurrence EXISTS cannot detect a drift.
+    stated_gaps = set(re.findall(r"([a-z]+)-nucleotide DNA gap", flat))
+    assert stated_gaps == {words[gap]}, (
+        f"the article states DNA gap width(s) {sorted(stated_gaps)} where the {shortest} geometry "
+        f"in the canonical file defines {words[gap]} ({gap}) — and the gap width is what the "
+        f"RNase-H1 argument in this paper rests on")
+    stated_mers = set(re.findall(r"(\d+)-mer", flat))
+    assert stated_mers == {str(length)}, (
+        f"the article states {sorted(stated_mers)}-mer where the canonical file's tiled designs are "
+        f"{length} nt; one of the sites has drifted from the others")

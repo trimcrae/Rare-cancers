@@ -1,0 +1,72 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0071-c84c64dd",
+ "session_id": "c84c64dd-64ab-5333-a9ee-09837d80ad76",
+ "utc": "2026-08-28T23:05:00Z",
+ "shape": "this session, driver only, no subagents. SECOND AND LAST cycle of this session (autonomy-state.json max_cycles_per_session = 2). Every mutation test ran on a COPY under the scratchpad, never the live tree — CLAUDE.md §6, the 13-inverted-claims rule.",
+ "took": "AUT-PD-132, claimed on the trunk before the work and released at the end. Filed by this session's own previous cycle: sweeping every censused sentence instead of the gate's sample of 6 showed sentences the ablation harness could not perturb at all.",
+ "took_what": {
+  "id": "AUT-PD-132",
+  "route": "RT-ASO",
+  "publication": "PUB-ASO",
+  "cost_class": "free",
+  "why_this_and_not_the_queue": "It is the falsifiability instrument the PUB-ASO coverage floors rest on, and the row was filed with a measurement rather than a hunch. It also turned out to hide an unbound Methods claim in the paper itself."
+ },
+ "changed": [
+  "research/manuscripts/claim_coverage.py — `locate()` and `_flatten()`: the locator is now the INVERSE of the flattener, built from `_COMMENT`/`_SUP`/`_DROPPED_LINE` rather than retyped, and verifies every match by re-flattening the span. `stripped_spans()` marks the regions a perturbation may not touch. Two false positives registered with their measured perturbations.",
+  "research/manuscripts/claim_ablation.py — `_locate` delegates to `claim_coverage.locate`; `ablate` perturbs only digit runs that survive flattening.",
+  "research/manuscripts/tests/test_every_censused_sentence_can_be_found_in_its_own_file.py — 50 tests, new. The floor asks one question of every covered sentence in every censused document in ~2 s: can the harness find you at all? Plus the false-RED guards and the flag-scope regression.",
+  "research/manuscripts/tests/test_the_endpoint_reference_list_binds_to_what_was_fetched.py — 23 tests, new. Every PMID and DOI in the endpoint manuscript's reference list bound to the fetch record that returned it.",
+  "research/manuscripts/tests/test_journal_article_numbers.py — the ASO Methods geometry (16-mer, 5-6-5, six-nucleotide gap) bound to the canonical sequence CSV, every value derived.",
+  "research/autonomy/research-ledger.json — AUT-PD-132 closed; AUT-PD-147/142/143 filed.",
+  "research/manuscripts/claim_coverage.py — COVERAGE_FLOOR gains response-endpoint-indolent-tumours.md (7 covered of 267, 4 stating a number, MEASURED at this commit). Required by test_every_ablation_exemption_names_a_censused_sentence_and_says_why: exempting a sentence in a document with no floor is a document with no gate at all.",
+  "research/manuscripts/tests/test_endpoint_manuscript_figures.py — the Results headline '552 arms from 138 trials' bound to endpoint-corpus.json's C6_counts. Found because the new floor brought the document into the sampled ablation gate, which failed on its first run."
+ ],
+ "cost": {
+  "usd": 0.0,
+  "gpu_hours": 0.0,
+  "detail": "Local CPU only: three full ablation passes over the recovered sentences, seven mutation clones, four preflight runs. No rental, no CI dispatch, no fetch."
+ },
+ "subagents": {
+  "max_concurrent": 0,
+  "cap_at_dispatch": 5,
+  "cap_source": "research/autonomy/autonomy-state.json subagent_width, backoff_level 0",
+  "within_cap": true,
+  "serial_total": 0,
+  "launched_in_one_message": false,
+  "seats": [],
+  "_why": "One instrument, edited in one place at a time; every measurement had to read the tree the previous edit produced. A seat would have been a second writer for no parallelism."
+ },
+ "rate_limit_info": {
+  "status": "allowed",
+  "rateLimitType": "five_hour",
+  "isUsingOverage": false,
+  "read_from": "get_session on self, external_metadata.rate_limit_info"
+ },
+ "what_i_got_wrong": [
+  "I REPORTED '19 of 22 already watched' AND IT WAS WRONG, BECAUSE MY OWN FIX HAD MADE A FALSE RED POSSIBLE. Letting the locator cross a stripped construct meant the span handed to `ablate` could contain `<sup>16</sup>` or `<!--PMID:…-->`, and `ablate` perturbs every digit run it is given — so a mutated CITATION NUMBER could turn a citation guard red and the SENTENCE would be reported bound while its own number stayed unwatched. Corrected reading: 14 RED, 4 BLIND, 4 stating no number the census covers. A false BLIND wastes a session; a false RED retires a real gap.",
+  "AND MY FIRST VERSION OF THE LOCATOR WAS WRONG IN A WAY ONLY THE NUMBERS SHOWED. I inlined three patterns into one alternation and scoped the flags of only two, so `^`/`$` in the dropped-line branch anchored to the ends of the whole file. 9 of 15 sentences stayed unlocatable. A pattern inlined without its flags is a different pattern, and reading it again would not have found it.",
+  "A GUARD I WROTE PASSED ITS OWN FIRST MUTATION TEST AND WAS STILL TOO WEAK. `assert \"six-nucleotide DNA gap\" in flat` proves an occurrence EXISTS; the article states it twice and `16-mer` four times, so mutating the other site left it green. It now asserts the SET of stated values, re-tested at all six sites.",
+  "I ALMOST REGISTERED AN EXEMPTION IN A DOCUMENT THAT HAD NO GATE. The exemption guard refused it and was right: response-endpoint-indolent-tumours.md carried no COVERAGE_FLOOR, so an 'exemption' there exempted a sentence from nothing. Adding the floor immediately failed the ablation gate on '552 arms from 138 trials' — the Results sentence, the denominator every rate in the paper divides by, watched by nothing. A document that was never gated is not a document that passed."
+ ],
+ "now_queued": [
+  "AUT-PD-147",
+  "AUT-PD-148",
+  "AUT-PD-149"
+ ],
+ "blocked_by": [],
+ "route_advanced": "RT-ASO",
+ "ccr_session_id": "session_01V57XfFBDdusymFL1K7x2C4",
+ "_ccr_session_id_why": "The CCR session id, which is what joins this receipt to a row in the session list so session_reaper.py can see this session's work reached the trunk. NOT a duplicate of `session_id`, which is the harness UUID (c84c64dd-…). The receipt gate began requiring this between this session's first and second cycle — CYC-0069-c84c64dd, written 90 minutes earlier, carries no such field.",
+ "handoff": {
+  "child_session_id": "session_01GEFbqguVTYsLJrg8EAFYfG",
+  "attempted": true,
+  "succeeded": true,
+  "created_utc": "2026-08-28T23:27:54Z",
+  "title": "EMC research loop — cycle (successor to CYC-0071-c84c64dd)",
+  "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+  "parent_session_id": "session_01V57XfFBDdusymFL1K7x2C4",
+  "prompt_summary": "The four rows this cycle filed and did not work (AUT-PD-147/148/149, AUT-PD-130), and the two traps it paid for: run anything shelling out to pytest with the uv interpreter, because claim_ablation uses sys.executable and the system python3 has no pytest; and expect to renumber ledger ids at the merge. It is told to pick its own row from continuity.py rather than treat that list as the queue.",
+  "_why": "This session reached max_cycles_per_session = 2. The successor is a SPAWNED SESSION rather than a third cycle here — research-loop §3, and CLAUDE.md §6's context row, which records one session running nine cycles against a cap of 2."
+ }
+}

@@ -12271,31 +12271,12 @@
  "verdict": {
   "\u2605_the_named_effector": {
    "_what": "what the enumeration can say about a NAMED transcriptional effector, as opposed to a body of effector SIZE. This is the distinction the route memo turns on.",
-   "status": "STAGED",
-   "n_named_effectors_enumerated": 2,
-   "effectors": {
-    "bcl6": {
-     "effector": "BCL6",
-     "source_pdb_id": "7LWG",
-     "n_residues": 243,
-     "shortest_linker_atoms": 6,
-     "admits_at_the_12_atom_gate": true
-    },
-    "brd4_bd1": {
-     "effector": "BRD4",
-     "source_pdb_id": "4ZC9",
-     "n_residues": 127,
-     "shortest_linker_atoms": 6,
-     "admits_at_the_12_atom_gate": true
-    }
-   },
-   "answer": "ADMITS",
+   "status": "NO_NAMED_EFFECTOR_STAGED",
+   "n_named_effectors_enumerated": 0,
+   "effectors": {},
+   "answer": "NOT ASKED \u2014 none staged",
    "\u26a0_the_gate_still_cannot_fail": "a named effector admitting is the same gate the proxies already passed at every rung. What changed is WHOSE excluded volume was tested, not how discriminating the test is.",
-   "_what_remains_a_size_class_statement": [
-    "the PAIRED SIZE COMPARISON (`\u2605_paired_body_size_comparison`) and everything derived from it \u2014 the within-class spread control, the pooled single/multi ratio and the interface-floor ablation \u2014 are computed on the four committed bodies ONLY. `birc2` and `mdm2` remain size-and-shape PROXIES there and nothing about a named effector may be read off them.",
-    "the interface-floor ablation is a statement about the SAMPLER's inherited degrader parameter, not about any effector; it is unchanged by staging one.",
-    "`admits` remains a gate that no tested body has failed, so a named effector admitting is not evidence of anything beyond excluded volume."
-   ]
+   "_what_remains_a_size_class_statement": []
   },
   "\u2605_the_size_axis": {
    "_what": "the paired comparison that can return either way: does a single-domain effector-size second terminus get MORE, LESS or the SAME admissible orientation space as a multi-subunit E3, from identical anchors in the same pass?",
@@ -12343,7 +12324,7 @@
    },
    "\u26a0_no_tcip_specific_distance_is_used": "the route's only TCIP citation is an unverified auto-captured lead, so no published TCIP linker length enters this module. If one is later verified it can only tighten the ceiling, never loosen it, so an 'admits' answer read at 24 atoms is the permissive reading and an 'admits at the 12-atom gate' answer is the one that survives any tightening."
   },
-  "\u26d4_what_this_answer_is_not": "It is not evidence that BCL6, BRD4 binds anything, is recruited, is retained on chromatin, or changes transcription. It is an excluded-volume statement: a body of this shape has somewhere to sit while its partner ligand occupies the NR4A3 cryptic pocket. \u26d4 And it does NOT upgrade the size-class result: `birc2` and `mdm2` remain size-and-shape proxies, the paired size comparison is still computed on the four E3 bodies alone, and nothing measured on a proxy may be restated as an effector result. The route's paralogue-discrimination requirement is untouched by geometry and is not addressed here at all.",
+  "\u26d4_what_this_answer_is_not": "It is not evidence that any transcriptional effector binds, is recruited, is retained on chromatin, or changes transcription. It is an excluded-volume statement: a body of the stated size has somewhere to sit while its partner ligand occupies the NR4A3 cryptic pocket. The effector bodies are SIZE PROXIES and not effectors; no NAMED effector has been staged. And the second half of the route's requirement set \u2014 paralogue discrimination on the binder \u2014 is untouched by geometry and is not addressed here at all.",
   "_e3_comparator": "the same test on the two downselected E3 bodies, run in the same pass from the same anchors, is the paired comparator; both admit"
  },
  "map_edits_required": [
@@ -12369,7 +12350,7 @@
    "applied_check": {
     "file_present": true,
     "current_text_found": true,
-    "line": 3703,
+    "line": 3704,
     "matched_ignoring_markdown_emphasis": true
    },
    "state": "APPLIED",
@@ -12411,7 +12392,7 @@
    "applied_check": {
     "file_present": true,
     "current_text_found": true,
-    "line": 3731,
+    "line": 3732,
     "matched_ignoring_markdown_emphasis": true
    },
    "state": "APPLIED",
@@ -12442,21 +12423,22 @@
    "file": "research/manuscripts/program/target-route-options.md",
    "anchor": "Route 6 \u2014 TCIP, prose",
    "current_text": "so it retires `R9`",
-   "proposed_text": "so it retires `R12`, and `R9`/`R10` survive unchanged",
+   "proposed_text": "`R9` and `R10` survive unchanged",
    "why": "this section contradicts itself two paragraphs later \u2014 'It inherits the same induced-complex modelling problem as `R9` (an assembled ternary-like complex nobody has built), which is the roadmap's largest gap'. Both sentences cannot stand, and the second one is the one the graph agrees with.",
    "status": "DESCRIBED, NOT APPLIED",
    "anchor_check": {
     "file_present": true,
-    "current_text_found": true,
-    "line": 523,
-    "matched_ignoring_markdown_emphasis": false
-   },
-   "applied_check": {
-    "file_present": true,
     "current_text_found": false,
     "line": null
    },
-   "state": "PENDING"
+   "applied_check": {
+    "file_present": true,
+    "current_text_found": true,
+    "line": 546,
+    "matched_ignoring_markdown_emphasis": true
+   },
+   "state": "APPLIED",
+   "_applied_note": "the text this edit asked for is IN the file and the text it asked to replace is gone \u2014 applied by another lane, verified here by reading the file rather than by trusting a status field"
   },
   {
    "file": "systems/graph/routes.json",
@@ -12467,16 +12449,17 @@
    "status": "DESCRIBED, NOT APPLIED \u2014 systems/graph is off-limits to this lane",
    "anchor_check": {
     "file_present": true,
-    "current_text_found": true,
-    "line": 1047,
-    "matched_ignoring_markdown_emphasis": false
-   },
-   "applied_check": {
-    "file_present": true,
     "current_text_found": false,
     "line": null
    },
-   "state": "PENDING"
+   "applied_check": {
+    "file_present": true,
+    "current_text_found": true,
+    "line": 1075,
+    "matched_ignoring_markdown_emphasis": true
+   },
+   "state": "APPLIED",
+   "_applied_note": "the text this edit asked for is IN the file and the text it asked to replace is gone \u2014 applied by another lane, verified here by reading the file rather than by trusting a status field"
   },
   {
    "file": "systems/graph/routes.json",
@@ -12488,15 +12471,18 @@
    "anchor_check": {
     "file_present": true,
     "current_text_found": true,
-    "line": 960,
+    "line": 987,
     "matched_ignoring_markdown_emphasis": false
    },
    "applied_check": {
     "file_present": true,
-    "current_text_found": false,
-    "line": null
+    "current_text_found": true,
+    "line": null,
+    "matched_ignoring_markdown_emphasis": true,
+    "matched_across_lines_ignoring_whitespace": true
    },
-   "state": "PENDING"
+   "state": "APPLIED",
+   "_applied_note": "the text this edit asked for is IN the file and the text it asked to replace is gone \u2014 applied by another lane, verified here by reading the file rather than by trusting a status field"
   },
   {
    "file": "systems/graph/artifacts.json",
@@ -12507,16 +12493,17 @@
    "status": "DESCRIBED, NOT APPLIED \u2014 systems/graph is off-limits to this lane",
    "anchor_check": {
     "file_present": true,
-    "current_text_found": true,
-    "line": 52,
-    "matched_ignoring_markdown_emphasis": false
-   },
-   "applied_check": {
-    "file_present": true,
     "current_text_found": false,
     "line": null
    },
-   "state": "PENDING"
+   "applied_check": {
+    "file_present": true,
+    "current_text_found": true,
+    "line": 52,
+    "matched_ignoring_markdown_emphasis": true
+   },
+   "state": "APPLIED",
+   "_applied_note": "the text this edit asked for is IN the file and the text it asked to replace is gone \u2014 applied by another lane, verified here by reading the file rather than by trusting a status field"
   },
   {
    "file": "systems/graph/routes.json (ALREADY CORRECT \u2014 recorded so it is not 'fixed' twice)",

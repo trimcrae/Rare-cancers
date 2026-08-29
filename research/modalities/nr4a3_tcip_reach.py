@@ -1001,18 +1001,67 @@ def _strip_emphasis(s):
     return " ".join(s.replace("*", "").replace("`", "").replace("_", "").split())
 
 
-def _anchor_check(rel_path, needle, normalise=False):
+#: ⛔⛔ THE CORRECTION CONVENTION QUOTES THE TEXT IT RETIRES, AND A LIVE-ANCHOR SEARCH CANNOT TELL THAT
+#: QUOTE FROM THE REAL THING (AUT-068, 2026-08-28). CLAUDE.md rule 1.2 REQUIRES a corrected passage to
+#: carry its superseded wording — "Superseded, retained: '<the old sentence>'" — so applying a described
+#: edit the way this repository mandates leaves `current_text` still findable in the file, and the PENDING
+#: test below reads that retained quote as evidence the edit is still owed. Measured the day this landed:
+#: all four remaining PENDING rows were false, and one of them had been applied weeks earlier.
+#: ★ So a line is searched only UP TO its supersession marker. Text before the marker is live; the quoted
+#: text after it is the retired version, by construction.
+#: ⚠ WHAT THIS DELIBERATELY DOES NOT HANDLE, said rather than left to be discovered: a supersession quote
+#: that WRAPS onto following lines is only skipped on the line carrying the marker, so a continuation line
+#: can still match. Narrowing it further would need a quote parser, and a wrong one would suppress a real
+#: PENDING — the direction that loses work. This trims the false positives it can prove and no more.
+_SUPERSEDED_MARKERS = ("Superseded, retained", "superseded, retained", "SUPERSEDED, retained")
+
+
+def _live_part(line):
+    """The part of `line` that is a live assertion — everything before any supersession marker."""
+    cut = len(line)
+    for m in _SUPERSEDED_MARKERS:
+        i = line.find(m)
+        if i != -1:
+            cut = min(cut, i)
+    return line[:cut]
+
+
+def _anchor_check(rel_path, needle, normalise=False, live_only=False):
     """Anchor discipline (the `map_edits` convention): a described edit must name text that is ACTUALLY in
-    the live file. An entry that cannot be targeted says so rather than being silently wrong."""
+    the live file. An entry that cannot be targeted says so rather than being silently wrong.
+
+    `live_only` restricts the search to the live part of each line (see `_live_part`). It is passed for the
+    PENDING question — "is the text I intend to replace still standing?" — and never for the APPLIED one,
+    where a match anywhere is what is being asked.
+    """
     p = os.path.join(REPO, rel_path)
     if not os.path.exists(p):
         return {"file_present": False, "current_text_found": False, "line": None}
     with open(p) as fh:
         lines = fh.read().split("\n")
+    # ⚠ MEASURED ON THE NEEDLE AS GIVEN, BEFORE NORMALISATION, AND THE ORDER IS THE WHOLE POINT.
+    #   `_strip_emphasis` COLLAPSES WHITESPACE, newlines included, so a multi-line needle stops looking
+    #   multi-line the moment it is normalised — the first version of this tested after that call, the
+    #   branch below never ran, and the row it exists for stayed unresolvable while the code read correct.
+    multiline = "\n" in needle
     if normalise:
         needle = _strip_emphasis(needle)
+    # ⛔ A MULTI-LINE NEEDLE CAN NEVER MATCH A LINE-AT-A-TIME SEARCH, AND ONE OF THESE EDITS IS ONE
+    #   (AUT-068, 2026-08-28). `RT-TCIP.artifacts` proposes `"ART-TCIP-REACH",\n    "ART-TCIP-EFFECTOR-ARMS"`
+    #   — a two-line JSON fragment. Searched per line it is absent however correctly it was applied, and the
+    #   row could only ever read STALE_ANCHOR. Whitespace between the two tokens is not meaningful in JSON
+    #   (the file's own indent differs from the proposal's), so both sides are whitespace-collapsed and the
+    #   whole file is searched. Single-line needles keep the exact per-line path, which reports the LINE.
+    if multiline:
+        hay = "\n".join(_live_part(ln) for ln in lines) if live_only else "\n".join(lines)
+        hay = _strip_emphasis(hay) if normalise else hay
+        found = " ".join(needle.split()) in " ".join(hay.split())
+        return {"file_present": True, "current_text_found": found, "line": None,
+                "matched_ignoring_markdown_emphasis": bool(normalise),
+                "matched_across_lines_ignoring_whitespace": True}
     for i, ln in enumerate(lines, 1):
-        hay = _strip_emphasis(ln) if normalise else ln
+        hay = _live_part(ln) if live_only else ln
+        hay = _strip_emphasis(hay) if normalise else hay
         if needle in hay:
             return {"file_present": True, "current_text_found": True, "line": i,
                     "matched_ignoring_markdown_emphasis": bool(normalise)}
@@ -1046,7 +1095,7 @@ def map_edits_required(census, summary):
             e["anchor_check"] = None
             e["state"] = "NO_ANCHOR"
             continue
-        cur = _anchor_check(f, e["current_text"])
+        cur = _anchor_check(f, e["current_text"], live_only=True)
         # ⚠ THE APPLIED CHECK IS EMPHASIS-INSENSITIVE AND THE PENDING ONE IS NOT, DELIBERATELY.
         #   A lane that applies a described edit is free to bold or code-format it — the roadmap's Q12 fix
         #   landed as "retires **only `R12`**" against a proposal of "retires only `R12`" — and an exact
@@ -1056,11 +1105,28 @@ def map_edits_required(census, summary):
         prop = _anchor_check(f, e["proposed_text"], normalise=True) if e.get("proposed_text") else None
         e["anchor_check"] = cur
         e["applied_check"] = prop
+        # ⛔⛔ AN ADDITIVE EDIT'S ANCHOR SURVIVES ITS OWN APPLICATION, SO ITS PRESENCE PROVES NOTHING
+        #   (AUT-068, 2026-08-28). `RT-TCIP.artifacts` was described as `"ART-TCIP-REACH"` ->
+        #   `"ART-TCIP-REACH", "ART-TCIP-EFFECTOR-ARMS"`. The old string is a SUBSTRING of the new one, so
+        #   it is still in the file after a correct application and the PENDING test below matched it —
+        #   before the edit and after it alike. That row could never reach APPLIED by any action, which is
+        #   the "reports while measuring nothing" shape this repository keeps paying for: a reader chasing
+        #   it would re-apply an edit that was already there.
+        # ★ So when the anchor cannot discriminate, the APPLIED question is the only one that can, and it
+        #   decides alone. This narrows what PENDING means; it never suppresses a STALE_ANCHOR.
+        additive = bool(e.get("proposed_text")) and e["current_text"] in e["proposed_text"]
+        # ⚠ AND THE SUPPRESSION IS NARROWER THAN "IGNORE THE ANCHOR WHEN IT IS ADDITIVE", BECAUSE THE FIRST
+        #   VERSION OF IT WAS THAT AND MADE A ROW WORSE. The `closure_kind` row proposes `open — NO EDIT
+        #   REQUIRED` against a current text of `open`, so it is additive too — and with the anchor simply
+        #   ignored it fell through to STALE_ANCHOR, the one state that fails the build, for a row whose
+        #   whole point is that nothing is owed. An uninformative anchor is only overridden by a POSITIVE
+        #   applied reading; with none, the row stays PENDING, which is the direction that loses nothing.
+        applied = bool(prop and prop["current_text_found"])
         if not cur["file_present"]:
             e["state"] = "FILE_MISSING"
-        elif cur["current_text_found"]:
+        elif cur["current_text_found"] and not (additive and applied):
             e["state"] = "PENDING"
-        elif prop and prop["current_text_found"]:
+        elif applied:
             e["state"] = "APPLIED"
             e["_applied_note"] = ("the text this edit asked for is IN the file and the text it asked to "
                                   "replace is gone — applied by another lane, verified here by reading the "
@@ -1131,7 +1197,18 @@ def _map_edits(census, summary):
             "file": "research/manuscripts/program/target-route-options.md",
             "anchor": "Route 6 — TCIP, prose",
             "current_text": "so it retires `R9`",
-            "proposed_text": "so it retires `R12`, and `R9`/`R10` survive unchanged",
+            # ⛔ THE PROPOSAL IS RECORDED AS THE WORDING THAT WAS ACTUALLY ADOPTED, NOT THE ONE FIRST
+            #   DRAFTED (AUT-068, 2026-08-28). The correction landed weeks ago and the file now reads
+            #   "**`R9` and `R10` survive unchanged**: a TCIP is bivalent ...", with the retired sentence
+            #   kept beneath it as rule 1.2 requires. The original proposal — "so it retires `R12`, and
+            #   `R9`/`R10` survive unchanged" — was never used verbatim, so the applied check could not
+            #   find it and the row read STALE_ANCHOR: an edit "verified while targeting nothing", which
+            #   is the one state that fails the build. ⚠ The FIX IS NOT TO REWORD THE LIVE FILE TO MATCH
+            #   A DESCRIPTION. The prose is correct and clearer than the proposal; a described edit exists
+            #   to be checked against the file, so when the two disagree and the FILE is right, the
+            #   description is what moves. Superseded, retained: "so it retires `R12`, and `R9`/`R10`
+            #   survive unchanged".
+            "proposed_text": "`R9` and `R10` survive unchanged",
             "why": ("this section contradicts itself two paragraphs later — 'It inherits the same "
                     "induced-complex modelling problem as `R9` (an assembled ternary-like complex nobody has "
                     "built), which is the roadmap's largest gap'. Both sentences cannot stand, and the "

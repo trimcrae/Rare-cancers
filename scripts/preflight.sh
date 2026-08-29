@@ -696,6 +696,16 @@ gen_fail=""
 # ⚠ ITS FAILURE IS NOT STALENESS AND THE ROW'S GENERIC REMEDY BELOW IS WRONG FOR IT, exactly as it
 # is for the archive manifest; the module prints its own remedy, which AUT-PD-016 is why a reader
 # now sees.
+# ⭐ THE INSTRUMENT-CENSUS ROW IS AUT-PD-031, AND IT IS THE SAME SHAPE AS THE SERIES-MISMATCH ROW
+# ABOVE: a `--check` that already existed, that nothing in the commit loop ran. Measured 2026-08-27 --
+# `line_citations.py --fix` repaired the roadmap's 18 drifted line citations, printed "18 rewritten",
+# exited 0, and left `instrument-census.json`/`.md`, which embed those same citations verbatim, stale.
+# It was found THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in
+# the modalities suite -- opt-in locally, and in CI only after the commit that ships the stale copy.
+# Trunk was red for hours. This row is the one that fires BEFORE the mistake is shared, and it costs
+# 0.032 s (measured 2026-08-28, this sandbox). The fixer now names its downstream copies too; that is
+# the other half and it does not replace this one, because a hand edit to the roadmap never runs the
+# fixer at all.
 # ⭐ THE LAST TWO ROWS ARE THE LITERATURE-ROUTING PAIR, ADDED 2026-08-28, AND THE FIRST OF THEM IS
 # THIS GATE'S OWN LESSON REPEATING ITSELF. `trigger_scan.py --check` had existed for weeks, was the
 # only thing that could catch a reopening trigger pointing at a renamed route or watching with no
@@ -734,6 +744,7 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/modalities/emc_condensate_report.py|condensate CALVADOS findings|--check" \
          "research/modalities/atr_hrd_sarcoma_series.py|ATR HRD sarcoma series|--check" \
          "research/modalities/single_slot_identity.py|single-slot artifact identity|--check" \
+         "research/modalities/instrument_census.py|instrument census|--check" \
          "scripts/trigger_scan.py|reopening-trigger registry join|--check" \
          "scripts/citation_debt.py|literature citation debt|--check" \
          "scripts/news_match.py|news-match queue|--check"; do

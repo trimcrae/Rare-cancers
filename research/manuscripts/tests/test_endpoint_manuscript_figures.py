@@ -178,3 +178,34 @@ def test_every_reference_entry_carries_its_identifier(paper):
         if not line.strip():
             continue
         assert re.search(r"PMID \d{6,9}", line), f"reference without a PMID: {line[:80]}"
+
+
+def test_the_results_headline_counts_are_the_corpus_artifacts_own(paper):
+    """⛔⛔ THE RESULTS SENTENCE OF THIS PAPER WAS WATCHED BY NOTHING UNTIL 2026-08-28 (AUT-PD-132).
+
+    "**Results.** 552 arms from 138 trials carried a complete table." Perturbing 552 -> 557 and
+    138 -> 137 turned NO guard red. It is the sentence a reader quotes when they describe what this
+    manuscript did, and both numbers are the denominators every later rate divides by.
+
+    ★ FOUND BY GIVING THE DOCUMENT A GATE AT ALL. The paper carried no `COVERAGE_FLOOR` row, so it
+    sat outside the sampled ablation gate entirely; adding the floor — which
+    `test_every_ablation_exemption_names_a_censused_sentence_and_says_why` demanded before it would
+    accept an exemption here — brought the document in, and the gate failed on its first run with
+    this sentence. A document with no floor is not a document that passed.
+
+    ⭐ BOTH VALUES DERIVED from `endpoint-corpus.json`'s `C6_counts`, whose field names say what the
+    prose says: `arms_with_a_complete_four_cell_table` and `distinct_trials`.
+    """
+    corpus = _load("endpoint-corpus.json")
+    counts = corpus["C6_counts"]
+    arms = counts["arms_with_a_complete_four_cell_table"]
+    trials = counts["distinct_trials"]
+    assert isinstance(arms, int) and isinstance(trials, int), (
+        "the corpus artifact no longer states these counts as integers, so this guard cannot bind "
+        "the Results sentence to them")
+
+    stated = set(re.findall(r"(\d+) arms from (\d+) trials", paper))
+    assert stated == {(str(arms), str(trials))}, (
+        f"the manuscript states {sorted(stated)} arms-from-trials where endpoint-corpus.json's "
+        f"C6_counts holds ({arms}, {trials}). These are the denominators every rate in the paper "
+        f"divides by, so a drift here misstates the whole Results section.")

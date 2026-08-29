@@ -49,10 +49,12 @@ antiangiogenic tyrosine-kinase inhibitors (TKIs), outcome by partner, partner pr
 mechanism — each report a difference between the two variants. None of the four had been combined with any
 other, and no source pools the response data at all.
 
-**Methods.** The EMC reports giving an outcome stratified by *NR4A3* 5′ partner that this repository's
-citation set contains — no database was queried and no screening flow was run (§2.3a) — were pooled under a single pre-existing, binding evidence contract: crude denominator-weighted proportions with
-Wilson score 95 % intervals, explicit integer `{events, denom}` required, non-overlapping populations only, and
-the smaller cohort held out wherever overlap could not be excluded. Heterogeneity is reported as the range of
+**Methods.** This synthesis pooled the EMC reports in this repository's citation set that give an
+outcome stratified by *NR4A3* 5′ partner. No database was queried and no screening flow was run
+(§2.3a). Pooling followed a single pre-existing, binding evidence contract: crude denominator-weighted
+proportions with Wilson score 95 % intervals, explicit integer `{events, denom}` required,
+non-overlapping populations only, and the smaller cohort held out wherever overlap could not be
+excluded. Heterogeneity is reported as the range of
 per-cohort rates. A random-effects model was deliberately **not** fitted. Fisher exact p-values are reported as
 post-hoc descriptive statistics and license nothing.
 
@@ -69,8 +71,8 @@ Post-hoc Fisher exact two-sided p = 0.155 pooled, 1.0 for the trial alone. **On 
 different, because two cohorts now publish outcome event counts by partner** (Agaram 2014, PMID 24746215; and
 Huang 2023, PMID 36948401, whose Table 1 was read from the published PDF on 2026-08-08). Pooled over 73
 patients, disease-specific death is **7/15 = 46.7 % (95 % CI 24.8–69.9)** with TAF15::NR4A3 against
-**6/58 = 10.3 % (95 % CI 4.8–20.8)** with EWSR1::NR4A3 — a 36.3-point gap, post-hoc Fisher p = 0.0034, and the
-first magnitude this contrast has ever had. ⛔ **It arrives with its own defeater, from the larger cohort's own
+**6/58 = 10.3 % (95 % CI 4.8–20.8)** with EWSR1::NR4A3 — a 36.3-point gap, post-hoc Fisher p = 0.0034.
+That is the first magnitude this contrast has ever had. ⛔ **It arrives with its own defeater, from the larger cohort's own
 authors:** adjusted for tumour size and metastasis at presentation, TAF15::NR4A3 is **not** an independent
 predictor of disease-specific survival, and 78 % of TAF15 tumours were > 10 cm. Local recurrence
 (26.7 % vs 22.4 %) and distant metastasis (33.3 % vs 24.1 %) show no material separation. Pooling four
@@ -132,12 +134,13 @@ more firmly in the field's prose than the pooled data support.
 ### 1.3 · What this synthesis adds
 
 Pooling changes the conclusion's **strength**, not its **direction**. It also surfaces five things that no
-individual source says out loud: a response contrast whose confidence interval overlaps its own comparator; the
-first pooled magnitude for the prognostic contrast, immediately beside the multivariable analysis that defeats
-it; a metastasis claim that **neither** cohort with counts establishes, in **either** direction; a prevalence
-**interval** where the literature carries point figures, containing the share this paper's own cited sources
-state and placing the single referral-centre cohort above it; and an attribution correction to a hedge this
-repository's own lane memo attached to the wrong report (§3.8).
+individual source says out loud. First, a response contrast whose confidence interval overlaps its own
+comparator. Second, the first pooled magnitude for the prognostic contrast, immediately beside the
+multivariable analysis that defeats it. Third, a metastasis claim that **neither** cohort with counts
+establishes, in **either** direction. Fourth, a prevalence **interval** where the literature carries point
+figures, containing the share this paper's own cited sources state and placing the single referral-centre
+cohort above it. Fifth, an attribution correction to a hedge this repository's own lane memo attached to
+the wrong report (§3.8).
 
 ⚠ **And it makes explicit a separation the literature blurs.** This paper asks two questions, and as of
 2026-08-08 they are in different states:
@@ -199,27 +202,26 @@ denominator, **both analyses are reported**: the POLICY-conformant primary (tria
 information secondary (both cohorts, valid only if no patient appears in both), with the bounds that follow.
 
 ⛔ **2.3a · No systematic search strategy was run, and EVERY claim in this paper that depends on
-exhaustiveness is bounded by that fact — the two absolute statements qualified below, and equally every
-count and every superlative taken over the literature: §3.3's "**Two** cohorts publish EMC outcome event
-counts by *NR4A3* partner", §5's "the only two cohorts that publish event counts by partner" and its claims
-bullet's "the two cohorts publishing partner-stratified event counts", and "the largest series to test
-metastasis by partner *directly*" (§3.3, §5, [correction register](./emc-fusion-partner-correction-register.md) A7). Each reads *within the citation set this
+exhaustiveness is bounded by that fact.** The bound covers the two absolute statements qualified below,
+and equally every count and every superlative taken over the literature. They are named here: §3.3's
+"**Two** cohorts publish EMC outcome event counts by *NR4A3* partner"; §5's "the only two cohorts that
+publish event counts by partner"; its claims bullet's "the two cohorts publishing partner-stratified
+event counts"; and "the largest series to test metastasis by partner *directly*" (§3.3, §5, [correction register](./emc-fusion-partner-correction-register.md) A7). **Each reads *within the citation set this
 synthesis examined*; none is a census of the literature.** The candidate literature was assembled from this repository's
 existing EMC citation set — the review articles already cited here [4,5,15], the reports they cite, and the
 reports that cite them — read against the `literature-cache` branch populated by
 [`.github/workflows/fetch-literature.yml`](../../../.github/workflows/fetch-literature.yml) (§2.6). **No
 database (PubMed, Europe PMC, Embase) was queried with a registered search string across a defined date range,
-no PRISMA-style screening flow was run, and no second reader checked the inclusion decisions.** The two sentences
-most at risk of being read as a census are stated more absolutely than that process can support and are
-qualified here rather than
-softened where they are quoted, because a reader who meets only §3.1 or the Abstract should not have to find
-this paragraph to know the limit: **"no source pools the response data at all"** (Abstract, §1.2) is a
+no PRISMA-style screening flow was run, and no second reader checked the inclusion decisions.** Two sentences in this paper are most at risk of being read as a census, and both are stated more
+absolutely than that process can support. They are qualified here rather than softened where they are
+quoted, because a reader who meets only §3.1 or the Abstract should not have to find this paragraph to
+know the limit. The first is **"no source pools the response data at all"** (Abstract, §1.2); it is a
 statement about the reviews and series already in this repository's citation set, not a claim that no such
-pooling exists anywhere in the unindexed literature; and **"no TAF15::NR4A3 patient has ever been reported to
-respond"** — which the Abstract and §3.1 now state in that bounded form directly rather than relying on a
-reader reaching this paragraph — means *no such report was found in the sources this synthesis examined*,
-which is exactly why §6's falsifier #1 treats a single counter-report as sufficient to overturn it — the paper
-already behaves as if this could be wrong, and this paragraph is why.
+pooling exists anywhere in the unindexed literature. The second is **"no TAF15::NR4A3 patient has ever
+been reported to respond"**, which means *no such report was found in the sources this synthesis
+examined*; the Abstract and §3.1 now state it in that bounded form directly, rather than relying on a
+reader reaching this paragraph. That is exactly why §6's falsifier #1 counts a single counter-report as
+sufficient to overturn it: the paper already behaves as if this could be wrong, and this paragraph is why.
 
 ### 2.4 · Significance testing, declared as post-hoc
 
@@ -234,9 +236,9 @@ otherwise, and printing them with their status attached is more honest than with
   ([`research/meta/meta-analysis.mjs`](../../meta/meta-analysis.mjs)) and it is the wrong instrument here. Across
   the TKI-response and outcome-by-partner strata (§3.1, §3.3) the per-stratum denominator runs from three
   (TAF15, primary TKI analysis) to fifty-eight (EWSR1, pooled outcome) and the event count from zero (TAF15
-  response, either analysis) to fourteen (EWSR1 distant metastasis); a between-study variance is not estimable
-  at that scale, a τ² from these counts would be an artefact, and quoting a random-effects interval would
-  manufacture precision the data cannot support.
+  response, either analysis) to fourteen (EWSR1 distant metastasis). A between-study variance is not
+  estimable at that scale, a τ² from these counts would be an artefact, and quoting a random-effects
+  interval would manufacture precision the data cannot support.
 - **I².** Not computed, for the same reason. The honest heterogeneity signal at this scale is the **range of
   per-cohort rates**, printed beside every pooled figure — §3.1 for the TKI-response secondary pool, §3.3 for
   each of the three outcome rows, §3.5 for prevalence — and computed in the artifact's `heterogeneity` blocks,
@@ -262,11 +264,10 @@ accounting: §8.
 
 ### 3.1 · Objective response to an antiangiogenic TKI, by partner
 
-Across every published EMC report **this synthesis examined** that gives an objective-response outcome by
-*NR4A3* partner — **three**, of which **one enters the primary pool**, one is held out of it for population
-overlap and contributes to the secondary analysis only, and one is contained in that held-out series and
-excluded from both (§3.2) — **no TAF15::NR4A3 patient is reported to respond to an antiangiogenic TKI in any
-of them.** ⚠ *No systematic search was run (§2.3a), so "every published report" here means every report in
+**No TAF15::NR4A3 patient is reported to respond to an antiangiogenic TKI** in any published EMC report
+**this synthesis examined** that gives an objective-response outcome by *NR4A3* partner — **three**, of
+which **one enters the primary pool**. One is held out of it for population overlap and contributes to the
+secondary analysis only. One is contained in that held-out series and excluded from both (§3.2). ⚠ *No systematic search was run (§2.3a), so "every published report" here means every report in
 this repository's citation set, not every report that exists.*
 
 | analysis | TAF15 arm | comparator arm | TAF15 95 % upper bound | Fisher (post-hoc) |
@@ -344,8 +345,9 @@ table was read, the "pool" was a single-cohort Wilson interval and this document
 survival retains only **size > 10 cm (P = .004, HR 30.60)** and **metastasis at presentation (P = .032,
 HR 8.14)**; **TAF15::NR4A3 loses significance under adjustment**. The same table shows the mechanism: **78 % of
 TAF15 tumours were > 10 cm** against 12/46 of EWSR1 ones (P = .025), and mean size was 13.7 ± 6.2 cm vs
-7.3 ± 4.7 cm (P = .024). In the authors' own words — transcribed in the same human PDF read as the counts, and under the same provenance caveat (§4.7a) — the TAF15 survival difference *"might be partly
-attributable to the predominance of large tumors > 10 cm in TAF15-rearranged EMCs."* So the honest reading is:
+7.3 ± 4.7 cm (P = .024). In the authors' own words, the TAF15 survival difference *"might be partly attributable to the
+predominance of large tumors > 10 cm in TAF15-rearranged EMCs."* That sentence was transcribed in the same
+human PDF read as the counts, and carries the same provenance caveat (§4.7a). So the honest reading is:
 **the crude partner effect on death is real and now measured; the independent partner effect is not
 established, and the one series positioned to test it says the partner is standing in for size.**
 
@@ -354,13 +356,14 @@ reviews' claim.** Agaram alone has distant
 recurrence 6/16 = 37.5 % in EWSR1 against 2/7 = 28.6 % in TAF15 — EWSR1 higher, the reversal. **Huang runs the
 other way** (8/42 = 19.0 % EWSR1 vs 3/8 = 37.5 % TAF15 for metastasis developing after presentation), i.e. in
 the reviews' own direction. Pooled, the gap is 9.2 points with overlapping intervals and post-hoc p = 0.5163.
-⭐ **What survives is the negative, and it is stronger than the reversal was:** the largest series to test
-metastasis by partner *directly* reports **P = .728** on its own three-way table, so the metastasis claim attributed to a
-single review (PMC7563993 alone — the only actual review among the four PMCIDs previously cited for it; the
-other three were **misattributed rather than fabricated** and have been removed, [correction register](./emc-fusion-partner-correction-register.md) A11) **is not established by either cohort, in either
-direction**. ⚠ *That review's verbatim sentence is not held in this repository, so the attribution is by
-record and not by quotation — the standard §8 asserts for every count is not met for this one claim, and it
-rests on n = 1 rather than on a literature.* A single-cohort reversal quoted as a finding was always one cohort away from being overturned; a
+⭐ **What survives is the negative, and it is stronger than the reversal was.** The largest series to test
+metastasis by partner *directly* reports **P = .728** on its own three-way table. So the metastasis claim
+attributed to a single review **is not established by either cohort, in either direction**. That review is
+PMC7563993 alone — the only actual review among the four PMCIDs previously cited for it; the other three
+were **misattributed rather than fabricated** and have been removed ([correction register](./emc-fusion-partner-correction-register.md) A11).
+⚠ *That review's verbatim sentence is not held in this repository, so the attribution is by record and not
+by quotation.* *The standard §8 asserts for every count is not met for this one claim, and it rests on
+n = 1 rather than on a literature.* A single-cohort reversal quoted as a finding was always one cohort away from being overturned; a
 two-cohort null does not depend on which cohort you happen to hold. Paioli 2021, the only cohort treating
 metastasis as a **time-to-event** endpoint, agrees that nothing is established: DMFS p = 0.09.
 
@@ -533,9 +536,9 @@ retrospective caveat added once the partner correlation appeared. **That makes i
 weaker**, and it belongs in the abstract of any paper on this question.
 
 Three later observations are consistent with reading the partner as a **surrogate for something downstream**
-rather than as a mechanism, and all three are above: the prognostic effect is absorbed by tumour size in the
-one series that ran a multivariable model (§3.4), Paioli 2021 cannot reach significance on it at all (§3.4),
-and the matched ex vivo pair shows partner-independent drug response for the one class it tested (§3.7).
+rather than as a mechanism, and all three are above. The prognostic effect is absorbed by tumour size in the
+one series that ran a multivariable model (§3.4). Paioli 2021 cannot reach significance on it at all (§3.4).
+The matched ex vivo pair shows partner-independent drug response for the one class it tested (§3.7).
 
 ---
 
@@ -627,11 +630,11 @@ recorded. Huang 2023's Table 1 counts came from a person reading the published P
 edge returns 403 to automation while designating the same PDF free (§8). The same read supplied the single Discussion sentence quoted
 verbatim in §3.3. The identity of the paper behind them was machine-verified against the Europe PMC core
 record; neither the counts nor that quotation was, and neither can be until the block lifts. ⛔ **That
-quotation does not occur in the Europe PMC abstract record** — the only fetched document this paper holds for
-Huang 2023 — which nonetheless corroborates its substance independently (*"only size >10 cm (P = .004) and
-metastasis at presentation (P = .032) remained prognostically independent"*; *"TAF15::NR4A3 was significantly
-associated with size >10 cm (78%, P = .025)"*), so the defeater in §3.3 does not rest on the unverifiable
-transcription. A reader who wants to check them must open the PDF.
+quotation does not occur in the Europe PMC abstract record**, the only fetched document this paper holds
+for Huang 2023. That record nonetheless corroborates its substance independently: *"only size >10 cm
+(P = .004) and metastasis at presentation (P = .032) remained prognostically independent"*;
+*"TAF15::NR4A3 was significantly associated with size >10 cm (78%, P = .025)"*. So the defeater in §3.3
+does not rest on the unverifiable transcription. A reader who wants to check them must open the PDF.
 
 **4.8 · The Fisher p-values are post-hoc.** They were not prespecified, are not performed in any source report,
 are not corrected for the several endpoints reported here, and license nothing. **The single most quotable
@@ -655,11 +658,11 @@ context, not corroboration.
 **absent** for both rather than inferred from publication year. What the pooled sources do state are two
 *treatment* windows, neither of them a diagnosis window: Paioli 2021, which enters the prevalence pool and
 not the outcome pool, was surgically treated 1989–2016, and the pazopanib trial enrolled 24 Jun 2014 –
-17 Jan 2017. The synthesis therefore spans an era in which EMC systemic options changed materially —
-antiangiogenic TKIs are themselves largely a post-2011 development in this disease — but §4.3's
-conservative-floor reading applies to the outcome pool **on assumption rather than on measurement**: older
-outcome data most likely understate the outlook of a patient diagnosed today, and these two sources do not
-say how old theirs is. No number here has been adjusted upward to compensate, because inventing optimism is
+17 Jan 2017. The synthesis therefore spans an era in which EMC systemic options changed materially, and
+antiangiogenic TKIs are themselves largely a post-2011 development in this disease. Even so, the
+conservative-floor reading of §4.3 applies to the outcome pool **on assumption rather than on
+measurement**: older outcome data most likely understate the outlook of a patient diagnosed today, and
+these two sources do not say how old theirs is. No number here has been adjusted upward to compensate, because inventing optimism is
 as dishonest as inventing pessimism.
 
 **4.12 · No treatment recommendation is made, and none follows.** ⛔ Nothing in this document recommends,
@@ -690,12 +693,14 @@ record actually support?* — is not the individual question a clinician faces.
   partner-stratified event counts, disease-specific death is **7/15 = 46.7 % (95 % CI 24.8–69.9)** with TAF15
   against **6/58 = 10.3 % (4.8–20.8)** with EWSR1 — stated **only** together with the claim below, never alone.
 - That the partner's prognostic effect **does not survive adjustment for tumour size** in the one series that
-  ran a multivariable model (Huang 2023), while the second series to test the partner (Paioli 2021) reaches no conventional significance on it in an analysis in which size does and whose adjustment structure is UNKNOWN (§3.4, [correction register](./emc-fusion-partner-correction-register.md) A17) — so the
+  ran a multivariable model (Huang 2023). The second series to test the partner (Paioli 2021) reaches no
+  conventional significance on it, in an analysis in which size does and whose adjustment structure is
+  UNKNOWN (§3.4, [correction register](./emc-fusion-partner-correction-register.md) A17). So the
   magnitude above is a **crude, confounded** quantity that the larger of its own two cohorts declines to
   attribute to the partner.
 - That the metastasis association asserted by **one review** (Stacchiotti 2020, PMC7563993 — the only source
   this synthesis holds for it, by record and not by quotation; §3.3, [correction register](./emc-fusion-partner-correction-register.md) A11) **is not established by
-  either cohort with counts, in either direction**: the two disagree on sign, the pooled gap is 9.2 points
+  either cohort with counts, in either direction**. The two disagree on sign, the pooled gap is 9.2 points
   with overlapping intervals, and the largest series to test it directly reports P = .728. **That is a
   refutation of an n = 1 attribution, not of a literature.**
 - That TAF15::NR4A3 affects **18.2 % (95 % CI 12.9–25.0)** of partner-assigned EMC — an interval over four
@@ -725,12 +730,12 @@ record actually support?* — is not the individual question a clinician faces.
   proportions with mixed follow-up and no censoring.
 - **Not** a meta-analysis with heterogeneity modelling (§4.2).
 
-**Endpoint, one sentence, for [`systems/views/L3-publications.md`](../../../systems/views/L3-publications.md):**
-*the NR4A3 5′ fusion partner is a candidate — not established — stratification variable in EMC: it tracks
-disease-specific death across the only two cohorts that publish event counts by partner and is not independent
-of tumour size in the one series that ran a multivariable model, while its entire published antiangiogenic-response
-evidence base is three to five TAF15 patients with no events — so the field should start reporting the partner
-rather than acting on it.*
+**Endpoint for [`systems/views/L3-publications.md`](../../../systems/views/L3-publications.md):**
+*The NR4A3 5′ fusion partner is a candidate — not established — stratification variable in EMC. It tracks
+disease-specific death across the only two cohorts that publish event counts by partner, and it is not
+independent of tumour size in the one series that ran a multivariable model. Its entire published
+antiangiogenic-response evidence base is three to five TAF15 patients with no events, so the field should
+start reporting the partner rather than acting on it.*
 
 ---
 
@@ -750,7 +755,7 @@ rather than acting on it.*
    2023 already points.
 5. A **third** outcome cohort with per-partner event counts in which TAF15 mortality is not elevated. The
    pooled crude death contrast rests on two TAF15 arms of 7 and 8 patients. ⚠ **One such cohort would not
-   overturn it, and that belongs in the falsifier rather than outside it:** a third cohort of 7 or 8 TAF15
+   overturn it, and that belongs in the falsifier rather than outside it.** A third cohort of 7 or 8 TAF15
    patients with no disease-specific deaths at all still leaves the pooled point estimate at **31.8 %** and
    **30.4 %**, against the comparator arm's Wilson upper bound of **20.8 %**. Reconciling the two would take
    **19 further TAF15 patients with zero deaths — a total TAF15 denominator of 34**, more than twice the
@@ -787,13 +792,13 @@ answers the question: ClinicalTrials.gov v2, Exclusion Criteria, verbatim *"Pati
 antiangiogenic agents"*, corroborated on the EU Clinical Trials Register under EudraCT 2013-005456-15 (GEIS-32)
 as principal exclusion criterion 3, on a record first entered 2014-02-27 against an actual start of 2014-06.
 Sunitinib is an antiangiogenic agent, so the sunitinib series' patients were **ineligible** for the trial.
-⚠ **Three limits travel with that, and this document has not yet acted on it** (§3.1's held-out cohort and the
-3–5 range are unchanged): it is the **protocol's rule, not a patient-level audit** — registries publish
-eligibility criteria, not enrolment decisions, so the honest form is *"the trial's own eligibility criterion
-excludes it"* and never *"no patient appeared in both"*; it changes which denominator is primary and **not**
-whether the TAF15 arm has any events, so it produces no magnitude; and it is a change to a **pooling
-decision**, which lives in the generator's `COHORTS` table and must be regenerated rather than written into
-prose. Retrieval record: `resolved_2026_08_08` in the artifact, and
+⚠ **Three limits travel with that, and this document has not yet acted on it** (§3.1's held-out cohort and
+the 3–5 range are unchanged). First, it is the **protocol's rule, not a patient-level audit**: registries
+publish eligibility criteria, not enrolment decisions, so the honest form is *"the trial's own eligibility
+criterion excludes it"* and never *"no patient appeared in both"*. Second, it changes which denominator is
+primary and **not** whether the TAF15 arm has any events, so it produces no magnitude. Third, it is a change
+to a **pooling decision**, which lives in the generator's `COHORTS` table and must be regenerated rather
+than written into prose. Retrieval record: `resolved_2026_08_08` in the artifact, and
 [`partner-event-counts-2026-08-08.md`](./partner-event-counts-2026-08-08.md) §3.
 
 ---

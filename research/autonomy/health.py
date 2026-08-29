@@ -826,24 +826,67 @@ def c_cycles_are_sized(receipts, state, state_err):
     # session's; unmeasured says the loop cannot be graded on this because the mechanism was gone.
     # ⛔ AND THE REFUSAL MUST BE RECORDED VERBATIM. An absent record stays RED — otherwise "I could
     # not" becomes a free pass claimable by any session that simply never tried.
-    refused = {sid for sid in counts
-               for r in receipts
-               if (r.get("session_id") or "").strip().split()[:1] == [sid]
-               and handoff.refusal_of(r)}
+    # ⭐⭐ A REFUSAL AND AN ABSENCE ARE TWO DIFFERENT FAILURES AND THIS ROW USED TO GRADE THEM
+    # OPPOSITE WAYS (AUT-PD-059, measured 2026-08-28 against the two real receipts).
+    # AUT-PD-032: `create_session` EXISTS, was called, and the platform refused it at a lineage-depth
+    # ceiling — recorded verbatim under `handoff.refused_by`, and graded UNMEASURED right below.
+    # AUT-PD-045: in a scheduled-Routine session `create_session` is NOT ON THE TOOL SURFACE AT ALL,
+    # at depth 1, with no chain to have exhausted — recorded under `handoff.mechanism_unavailable`,
+    # the field `session_cap.py` already honours as an earned reason such a session MAY STOP.
+    # ⛔ THIS FILE READ ONLY THE FIRST FIELD, so the second shape fell through to RED: measured, a
+    # receipt carrying a real `mechanism_unavailable` string scored SESSION-OVERLOADED-NO-HANDOFF.
+    # Two modules therefore disagreed about the same receipt — `session_cap` told the session it had
+    # earned the right to stop, and this row called stopping its defect — and the shape that took the
+    # punitive reading is the MORE common launch for an unattended cycle, not an edge case.
+    # ★ THE REMEDIES ARE DIFFERENT, WHICH IS THE WHOLE REASON TO SEPARATE THEM RATHER THAN WIDEN ONE
+    # BRANCH: a depth refusal says start the successor nearer the root; an absence says spawning
+    # cannot help from this launch shape at all and the driver Routine's next firing IS the successor.
+    # A future session reading a merged verdict would retry something that cannot work, or abandon
+    # something that would have.
+    # ⚠ BOTH DOWNGRADE TO UNMEASURED AND NEITHER EVER REACHES GREEN. No successor exists in either
+    # case, so the work did not continue in a fresh context; what is untrue is that the session chose
+    # not to try. And an ABSENT record stays RED under both, which is the anti-gaming half: otherwise
+    # "I could not" — in either flavour — becomes a free pass claimable by a session that never looked.
+    # ⚠ THE ABSENCE EVIDENCE IS THE WEAKER OF THE TWO AND SAYS SO. A refusal quotes the platform; an
+    # absence produces no words to quote, so its string is the session's own account of a check it
+    # says it ran. That is a reason it can never buy green — not a reason to collapse it back to red.
+    def _sessions_where(reader):
+        return {sid for sid in counts
+                for r in receipts
+                if (r.get("session_id") or "").strip().split()[:1] == [sid] and reader(r)}
+
+    def _first(sid, reader):
+        return next((reader(r) for r in receipts
+                     if (r.get("session_id") or "").strip().split()[:1] == [sid] and reader(r)), "")
+
+    refused = _sessions_where(handoff.refusal_of)
+    # ⛔ REFUSAL WINS A TIE. A session recording both fields made a call and got words back; that is
+    # the stronger evidence, and classifying it as an absence would discard the platform's own answer.
+    absent = _sessions_where(handoff.mechanism_unavailable_of) - refused
     over = {sid: cids for sid, cids in counts.items()
             if len(cids) > cap and sid not in handed_off}
     over_but_refused = {sid: cids for sid, cids in over.items() if sid in refused}
-    over = {sid: cids for sid, cids in over.items() if sid not in refused}
+    over_but_absent = {sid: cids for sid, cids in over.items() if sid in absent}
+    over = {sid: cids for sid, cids in over.items()
+            if sid not in refused and sid not in absent}
     payload = {"cap": cap, "sessions": {k: len(v) for k, v in counts.items()},
                "unstamped_receipts": unstamped or None,
                "handed_off": sorted(handed_off) or None,
                "over_cap_but_handoff_refused": sorted(over_but_refused) or None,
+               "over_cap_but_mechanism_absent": sorted(over_but_absent) or None,
                "worst": max((len(v) for v in counts.values()), default=0)}
+    # ⚠ When both blocked shapes are present the verdict line can only name one, so it names the
+    # refusal — the one carrying the platform's own words — and the detail carries the other's count.
+    # The payload always carries both lists, so a machine reader is never routed through the prose.
+    also = ""
+    if over_but_refused and over_but_absent:
+        also = (f" ⚠ A FURTHER {len(over_but_absent)} over-cap session(s) were blocked the OTHER way "
+                "— no spawn mechanism on the tool surface at all, listed in the payload under "
+                "`over_cap_but_mechanism_absent`. Different failure, different remedy; do not read "
+                "this verdict as covering them.")
     if not over and over_but_refused:
         sid = sorted(over_but_refused)[0]
-        why = next((handoff.refusal_of(r) for r in receipts
-                    if (r.get("session_id") or "").strip().split()[:1] == [sid]
-                    and handoff.refusal_of(r)), "")
+        why = _first(sid, handoff.refusal_of)
         return _unmeasured(key, label, source, "HANDOFF-REFUSED",
                            f"session {sid[:24]} ran {len(over_but_refused[sid])} cycles against a "
                            f"cap of {cap} and its handoff was REFUSED BY THE PLATFORM, verbatim: "
@@ -853,7 +896,26 @@ def c_cycles_are_sized(receipts, state, state_err):
                            "red — that would be a defect no future cycle could clear. ⚠ The "
                            "scheduled driver Routine is the designed fallback here, and it is only "
                            "a fallback rather than a deferral BECAUSE the handoff was attempted "
-                           "first.", payload)
+                           "first. ★ REMEDY, AND IT IS NOT AN ABSENT MECHANISM'S: the tool exists "
+                           "and works nearer the root, so the next successor should be started at a "
+                           "shallower lineage rather than chained off this one." + also, payload)
+    if not over and over_but_absent:
+        sid = sorted(over_but_absent)[0]
+        why = _first(sid, handoff.mechanism_unavailable_of)
+        return _unmeasured(key, label, source, "HANDOFF-MECHANISM-ABSENT",
+                           f"session {sid[:24]} ran {len(over_but_absent[sid])} cycles against a "
+                           f"cap of {cap} and recorded NO SPAWN MECHANISM ON ITS TOOL SURFACE under "
+                           f"`{handoff.UNAVAILABLE_FIELD}`: {why[:160]}. ⭐ THIS IS NOT THE DEPTH "
+                           "REFUSAL (AUT-PD-032) AND THE DIFFERENCE DECIDES WHAT TO DO NEXT: nothing "
+                           "was refused because nothing could be called, so starting a successor "
+                           "nearer the root does not help and there is no chain to shorten. The "
+                           "driver Routine's next firing is the successor, and for this launch shape "
+                           "it is the ONLY one. ⚠ Not green — no successor exists and the work did "
+                           "not continue in a fresh context. Not red — the platform withheld the "
+                           "mechanism, so no future cycle in this launch shape could clear it by "
+                           "behaving better. ⛔ And this evidence is weaker than a quoted refusal: an "
+                           "absence leaves no platform words, so the string above is the session's "
+                           "own account of the check it ran. An ABSENT record stays RED.", payload)
     if over:
         worst = max(over.items(), key=lambda kv: len(kv[1]))
         return _red(key, label, source, "SESSION-OVERLOADED-NO-HANDOFF",

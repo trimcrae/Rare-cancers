@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 17 evidence items · 52 artifacts · 14 pinned claims.**
+**19 objects · 17 evidence items · 53 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -127,6 +127,7 @@ omitted, and why `[L5]` reports the count.
 | **ART-SURGICAL-QUALITY** | `research/modalities/emc-surgical-quality.json` | `research/modalities/emc_surgical_quality.py` | [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) |
 | **ART-SYSTEMIC-THERAPY-POOLING** | `research/manuscripts/endpoint/emc-systemic-therapy-pooling.json` | `research/manuscripts/emc_systemic_therapy_pooling.py` | [RT-SCHEDULING](L2-rt-scheduling.md), [RT-SEQUENCING](L2-rt-sequencing.md) |
 | **ART-TARGET-ROUTE-CENSUS** | `research/modalities/target-route-census.json` | `research/modalities/target_route_census.py` | `CLM-AF1-LC-SWAP`, `CLM-FUSION-MODEL-DISAGREEMENT`, `OBJ-NR4A3-AF1`, `OBJ-NR4A3-DBD`, [RT-6MP](L2-rt-6mp.md), [RT-ASYMMETRIC](L2-rt-asymmetric.md), [RT-DBD](L2-rt-dbd.md), [RT-RXR](L2-rt-rxr.md) |
+| **ART-TCIP-EFFECTOR-ARMS** | `research/modalities/nr4a3-effector-arm-registry.json` | `research/modalities/nr4a3_effector_stage.py` | [RT-TCIP](L2-rt-tcip.md) |
 | **ART-TCIP-REACH** | `research/modalities/nr4a3-tcip-reach.json` | `research/modalities/nr4a3_tcip_reach.py` | [RT-TCIP](L2-rt-tcip.md) |
 | **ART-TRIAL-REACH-ADJUDICATION** | `research/literature/emc-trial-reachability-adjudication-2026-08-09.json` | `per-trial ClinicalTrials.gov API v2 reads, adjudicated against the eligibility text and quoted verbatim` | [RT-TRIAL-REACH](L2-rt-trial-reach.md) |
 | **ART-VALB-PSERIES-CHEM** | `research/modalities/valb-pseries-chem.json` | `research/modalities/valb_pseries_chem.py` | [LANE-5](registers/lanes.md) |

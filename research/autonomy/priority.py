@@ -399,6 +399,37 @@ SESSION_OWNED = ("owner", "claimed_utc", "attempts", "retry_budget", "blocked_ev
 SESSION_STATES = {"running", "done", "abandoned"}
 
 
+#: The states `apply_age_factor` refuses to age, and the states `n_unscored_open` refuses to count.
+#: ⛔ ONE HOME (AUT-PD-050). This was an inline literal at a single call site, pinned by
+#: `test_the_closed_state_scope_matches_the_states_the_scorer_itself_skips` as a SUBSTRING SEARCH of
+#: this file's source — which binds the text, not the value. A second reader of the same fact
+#: arrived with `n_unscored_open`, so the fact now has a name; that test now compares the VALUE
+#: against `admissibility.CLOSED_STATES`, which a substring search could never have done.
+CLOSED_STATES = ("done", "abandoned", "superseded")
+
+
+def score_rank(entry: dict) -> float:
+    """The ASCENDING sort component that orders one row by its score — best (highest) first.
+
+    ⛔⛔ ONE HOME, BECAUSE THE TWO FILES THAT RANK THE QUEUE RANKED A MISSING SCORE DIFFERENTLY
+    (AUT-PD-050). `build_ledger` sorted with `-(score if score is not None else -1e9)` — an unscored
+    row strictly last. `continuity.ready`, the list a session actually picks work FROM, sorted with
+    `-(e.get("score") or 0)` — an unscored row ordered as if it had scored exactly zero, i.e. ABOVE
+    every negatively-scored row, and indistinguishable from the two committed rows that really do
+    score 0.0. The divergence was latent rather than live (measured 2026-08-28: every ready row
+    scored 36.0 to 152.0, so nothing negative was ready that hour) and `apply_fruitless_attempts`
+    alone can take a ready row below zero at any time.
+    ⚠ THE TIEBREAK IS DELIBERATELY NOT HERE. The ranker breaks ties on route and the ready list on
+    id; those are genuinely different questions and folding them together would be inventing a
+    shared fact rather than sharing one. What the two must agree on is where a row with NO score
+    goes, which is this function and nothing else.
+    ⭐ AN UNSCORED ROW SORTS LAST, WHICH IS HONEST AND IS ALSO THE STARVATION: no ranking term can
+    move it from there, so the fix for a starved row is a `score`, never a change to this ordering.
+    """
+    score = entry.get("score")
+    return -float(score) if isinstance(score, (int, float)) and not isinstance(score, bool) else 1e9
+
+
 def _utcnow():
     import datetime
     return datetime.datetime.now(datetime.timezone.utc)
@@ -490,7 +521,7 @@ def apply_age_factor(entries: list[dict], weights: dict, today=None) -> list[dic
     if not isinstance(w, (int, float)):
         return entries
     for e in entries:
-        if (e.get("state") or "queued") in ("done", "abandoned", "superseded"):
+        if (e.get("state") or "queued") in CLOSED_STATES:
             continue
         f = round(age_factor(e, weights, today=today), 4)
         # ⛔⛔ THE SECOND HALF OF THE SAME DEFECT, AND THE ONE THAT WAS ACTIVELY MOVING THE QUEUE
@@ -508,14 +539,39 @@ def apply_age_factor(entries: list[dict], weights: dict, today=None) -> list[dic
         # rebuilt each run) so it gets the full term exactly as before. This also makes the term
         # correctly REVERSIBLE: refreshing a row's evidence lowers its age factor, and the bonus now
         # shrinks with it instead of being a ratchet.
-        prev = (e.get("score_inputs") or {}).get("age_factor")
+        # ⭐ ONE TYPE-CHECKED READ SERVING BOTH THE READ AND THE WRITE BELOW (AUT-PD-152). The old
+        # spelling was `(e.get("score_inputs") or {}).get(...)`, which survives a FALSY non-dict
+        # (None, "", 0, []) and raises on a truthy one — `'str' object has no attribute 'get'`,
+        # found by this fix's own regression test. `or {}` is a falsiness test wearing a type
+        # check's clothes; `isinstance` is the type check.
+        si = e.get("score_inputs")
+        si = si if isinstance(si, dict) else None
+        prev = si.get("age_factor") if si is not None else None
         prev = float(prev) if isinstance(prev, (int, float)) and not isinstance(prev, bool) else 0.0
         if not f and not prev:
             continue
         if f:
-            _score_inputs(e)["age_factor"] = f
-        else:
-            (e.get("score_inputs") or {}).pop("age_factor", None)
+            # ⛔⛔ `setdefault` RETURNS THE EXISTING VALUE, AND A ROW REALLY DOES CARRY
+            # `"score_inputs": null` — so this line was `None["age_factor"] = f` and took the whole
+            # loop down. Measured 2026-08-29T00:02Z (AUT-PD-152) on `AUT-COV-001`, filed by CYC-0011
+            # and sitting harmlessly on the trunk for days. ⭐ THE TRIGGER WAS THE CALENDAR, NOT A
+            # COMMIT: two lines up, `prev` is read defensively (`or {}`) and the guard
+            # `if not f and not prev: continue` skipped this row for as long as its age factor
+            # rounded to zero. The date rolling to 08-29 made `f` non-zero for the first time, the
+            # row reached this write, and `priority.py --write` — step 3 of EVERY cycle — began
+            # crashing on state no cycle had touched. ⛔ It deadlocked the loop rather than merely
+            # failing: `admissibility.check_write` then refuses every ledger write as
+            # `refused_stale_input` (the stored age factors no longer match the date), so a cycle
+            # could not re-score AND could not claim, and the two failures each blocked the other's
+            # fix. ★ The defensive READ two lines up is the shape this WRITE should always have had;
+            # AUT-PD-050 fixed the crashes in this function and this one survived because a null
+            # `score_inputs` is a different thing from an absent one.
+            if si is None:
+                si = {}
+                e["score_inputs"] = si
+            si["age_factor"] = f
+        elif si is not None:
+            si.pop("age_factor", None)
         if isinstance(e.get("score"), (int, float)):
             e["score"] = round(e["score"] + w * (f - prev), 1)
     return entries
@@ -1032,14 +1088,18 @@ def build_ledger() -> dict:
     # `apply_session_penalties` for that function's stated reason: rule 2 of the penalties pass
     # ASSIGNS a prerequisite's score from its parent's, overwriting anything applied before it.
     entries = apply_requires_trimcrae(entries, weights)
-    entries.sort(key=lambda e: (-(e.get("score") if e.get("score") is not None else -1e9),
+    entries.sort(key=lambda e: (score_rank(e),
                                 str(e.get("serves", {}).get("route") or e["id"])))
     return {
         "_schema": "emc-research-ledger/1",
         "_role": (
             "The autonomy loop's work queue. GENERATED by research/autonomy/priority.py from "
             "systems/graph — re-run it rather than hand-editing a score. A session may add an "
-            "entry the graph cannot express; it may not edit a `score`."
+            "entry the graph cannot express; it may not edit a `score`. ⛔ AN ENTRY A SESSION ADDS "
+            "MUST CARRY A `score` AND A `_score_basis` (or a `prerequisite_of`, which derives one "
+            "from the row it unblocks): a row with no score is pinned BELOW every scored row by the "
+            "sort and no ranking term can reach it — including the anti-starvation age factor, "
+            "which is the one term meant to rescue exactly these rows. See `n_unscored`."
         ),
         "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#3--layer-b--the-queue-and-how-it-ranks-work",
         "_generated_by": "python3 research/autonomy/priority.py --write",
@@ -1050,6 +1110,16 @@ def build_ledger() -> dict:
         "n_by_kind": _count(entries, "kind"),
         "n_by_state": _count(entries, "state"),
         "n_clamped": sum(1 for e in entries if "clamp" in e),
+        # ⛔⛔ AUT-PD-050. `admissibility.py --report` could already grade a row `unscored` and did —
+        # 97 of 260 on 2026-08-28 — but that grade was a constant nothing counted anywhere a reader
+        # looks, its own report's closing sentence explained `admitted` and `unaccounted` and omitted
+        # the LARGEST bucket, and nothing in preflight or CI ran it. The population is therefore a
+        # DERIVED number in the artifact itself, beside the other counts, so it cannot go back to
+        # being a thing you have to know to go looking for.
+        "n_unscored": sum(1 for e in entries if e.get("score") is None),
+        "n_unscored_open": sum(1 for e in entries
+                               if e.get("score") is None
+                               and (e.get("state") or "queued") not in CLOSED_STATES),
         "entries": entries,
     }
 
@@ -1061,6 +1131,13 @@ def _count(entries: list[dict], key: str) -> dict[str, int]:
     return dict(sorted(out.items()))
 
 
+#: How an UNSCORED row renders wherever a score would print. ⛔ NOT `0.0`, AND THAT IS THE WHOLE
+#: POINT (AUT-PD-050). `continuity.py` printed `e.get("score", 0)` for these rows, so 91 rows with
+#: no score at all rendered as a computed-looking `0.0` in the list the driver reads to pick work —
+#: CLAUDE.md §4's "a populated field is not a measured one", in the one view that chooses the work.
+NO_SCORE = "unscored"
+
+
 def _table(entries: list[dict], limit: int) -> str:
     lines = [f"{'score':>7}  {'kind':<10} {'cost':<9} {'route':<28} what"]
     lines.append("-" * 110)
@@ -1070,9 +1147,25 @@ def _table(entries: list[dict], limit: int) -> str:
         what = entry.get("what", "(no description)").replace("\n", " ")
         if len(what) > 52:
             what = what[:49] + "..."
+        # ⛔⛔ AUT-PD-050, AND IT IS AUT-PD-046'S OWN SIBLING LINE — the defect that comment describes,
+        # in the same statement, left unfixed because only `what` was missing from the ten rows that
+        # prompted it. Measured 2026-08-28 on the committed ledger: 97 of 260 rows carry NO `score`,
+        # and `entry['score']:>7.1f` raises `TypeError: unsupported format string passed to
+        # NoneType.__format__` on the first one. The sort pins every unscored row to the BOTTOM
+        # (`-1e9` in `build_ledger`), so they occupy ranks 164-260 and the default `--limit 20` never
+        # reaches them: `--limit 300` — the view a reader uses precisely BECAUSE they are looking for
+        # the starved rows — is the invocation that dies. A view that crashes only when pointed at
+        # the forgotten work is how the work stays forgotten.
+        # ⚠ AND `serves.route` IS THE SAME LINE'S THIRD BARE INDEX, unfixed for the same reason: nine
+        # committed rows carry no `serves.route`, and each would have been the NEXT crash the moment
+        # the score one was fixed alone (`paper-hardening` §8b.2's one-of-a-pair class).
+        score = entry.get("score")
+        cell = f"{score:>7.1f}" if isinstance(score, (int, float)) else f"{NO_SCORE:>7}"
+        serves = entry.get("serves")
+        route = (serves or {}).get("route") or "(no route)"
         lines.append(
-            f"{entry['score']:>7.1f}  {entry['kind']:<10} {entry['cost_class']:<9} "
-            f"{entry['serves']['route']:<28} {what}"
+            f"{cell}  {str(entry.get('kind') or '?'):<10} {str(entry.get('cost_class') or '?'):<9} "
+            f"{route:<28} {what}"
         )
     return "\n".join(lines)
 
@@ -1132,7 +1225,9 @@ def main(argv: list[str] | None = None) -> int:
 
     print(_table(entries, args.limit))
     print()
-    print(f"{len(entries)} entries · by kind {ledger['n_by_kind']} · {ledger['n_clamped']} clamped")
+    print(f"{len(entries)} entries · by kind {ledger['n_by_kind']} · {ledger['n_clamped']} clamped "
+          f"· {ledger['n_unscored']} UNSCORED ({ledger['n_unscored_open']} of them open), which no "
+          f"ranking term can order — see `_role`")
     return 0
 
 

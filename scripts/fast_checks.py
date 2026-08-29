@@ -32,11 +32,27 @@ that satisfies (a)-(d) and is missing from `MEMBERS` is a bug in this file, and
 `tests/test_fast_checks.py` is what makes that consequential: it fails if the count moves without this
 file moving with it.
 
-⭐ THE SET IS NOT `preflight.sh`, AND THE DIFFERENCE IS THE POINT. `lint_claims.py` is a member and is
-**not** a preflight gate -- CLAUDE.md §7 flags exactly that: *"`lint_claims.py` is NOT in preflight -- it
-runs only in CI, so a green preflight does not mean the language rules passed."* Same for
-`line_citations.py`. So "the fast six" is the set that closes that gap, and preflight's `pytest` gate --
-which is neither fast nor a document check -- is not in it. Run BOTH; neither contains the other.
+⭐ THE SET IS NOT `preflight.sh`, AND THE DIFFERENCE IS THE POINT -- BUT THE DIFFERENCE HAS NARROWED,
+AND HALF OF WHAT THIS PARAGRAPH SAID IS NOW FALSE. It read that `lint_claims.py` is a member and is
+**not** a preflight gate, quoting a CLAUDE.md §7 sentence -- *"`lint_claims.py` is NOT in preflight -- it
+runs only in CI, so a green preflight does not mean the language rules passed."* -- that CLAUDE.md has
+since retired. Measured 2026-08-28 against `scripts/preflight.sh`: `lint_claims.py` IS invoked, on lines
+571 and 574, as its own gate. Preflight is no longer blind to the language rules, and this set no longer
+closes that half of the gap.
+
+⭐ WHAT IS STILL TRUE, AND IT IS WHY THE SET SURVIVES: `line_citations.py` IS STILL NOT A PREFLIGHT GATE.
+It appears in `preflight.sh` exactly once, on line 701, INSIDE A COMMENT recounting a past incident --
+zero invocations. A green preflight therefore still says nothing about drifted line citations, and this
+set is what closes that. Preflight's `pytest` gate -- neither fast nor a document check -- is still not
+in it. Run BOTH; neither contains the other.
+
+⛔ AND THE STALENESS TRIPWIRE THAT CAUGHT THIS COULD NOT TELL RUNNING FROM MENTIONING, WHICH IS WHY IT
+FIRED ON A HALF-TRUTH. `tests/test_fast_checks.py::test_the_two_checks_preflight_does_not_run_are_members`
+tested the claim by substring over the WHOLE of `preflight.sh`, comments included, so the moment somebody
+wrote a comment naming `line_citations.py` the guard announced that preflight now ran it. It does not, and
+never did; `main` was red on that announcement. Presence is not provenance (CLAUDE.md §4), and a shell
+comment is presence. The tripwire now reads INVOCATIONS -- non-comment lines only -- and it reads them
+against `ALSO_A_PREFLIGHT_GATE` below rather than against this prose, so the fact has one home.
 
 Usage:
     python3 scripts/fast_checks.py            # run all six, print N/6, exit non-zero on any failure
@@ -100,6 +116,22 @@ EXCLUDED = (
 )
 
 EXPECTED_N = 6
+
+#: ⛔ WHICH MEMBERS `scripts/preflight.sh` ALSO RUNS — DATA, NOT PROSE, BECAUSE THE PROSE WENT STALE AND
+#: THE TEST THAT WATCHED IT COULD NOT TELL RUNNING FROM MENTIONING (2026-08-28; `main` red on the
+#: difference). The value is whether preflight INVOKES the tool — whether it appears on a NON-COMMENT
+#: line — never whether the string occurs in the file. `research/modalities/tests/test_fast_checks.py`
+#: re-derives both sides from `preflight.sh` and fails naming whichever one moved, so this table and the
+#: header paragraph above it cannot drift apart silently the way the header and reality just did.
+#: ⭐ A `True` here does NOT retire the member: overlap is fine and the sets are allowed to intersect.
+#: What it changes is the SET'S STATED REASON FOR EXISTING, which is the thing the tripwire guards.
+ALSO_A_PREFLIGHT_GATE = {
+    # invoked at preflight.sh:571 and :574 — added deliberately; see that gate's own comment for why.
+    "lint_claims.py": True,
+    # appears at preflight.sh:701 and ONLY there, inside a comment recounting an incident. Zero
+    # invocations, so a green preflight still says nothing about drifted line citations.
+    "line_citations.py": False,
+}
 
 
 def _run(cmd):

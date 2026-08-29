@@ -8,12 +8,12 @@ canonical_for: []
 purpose: "Unrefereed preprints matching a named reopening trigger, grouped by the blocker they would reopen — a leading indicator for the forecast bands in the blocker register."
 scope: "Preprints only (Europe PMC SRC:PPR, arXiv, ChemRxiv). The published corpus is on the trigger-scan board."
 audience: [maintainers, autonomous research agents]
-date: 2026-08-21
+date: 2026-08-28
 last_verified: unverified
 ---
 # Preprint pipeline — what is coming, by blocker
 
-**Last run: 2026-08-21** (UTC date stamp from the runner).
+**Last run: 2026-08-28** (UTC date stamp from the runner).
 
 ⛔ **EVERYTHING HERE IS UNREFEREED, TITLE-MATCHED AND UNREAD.** A preprint is the weakest lead this repository records. It cannot move a forecast band, it is not evidence, and nothing here may be cited. Its value is WARNING — it is the earliest point at which a capability becomes visible, often months before the journal version.
 
@@ -27,6 +27,9 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-26 | [A multi-scale structural and biophysical atlas of TCR-peptide-HLA recognition dynamics](https://europepmc.org/article/PPR/PPR1306072) | PPR | `TRG-JUNCTION-PHLA` ⚠ |
+| 2026-08-25 | [AUTONOMOUS LOOP CONSTRUCTION AND SUPERVISION FOR CLINICIAN-ORIENTED MEDICAL-AI RESEARCH](https://europepmc.org/article/PPR/PPR1305118) | PPR | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
+| 2026-08-23 | [Classifying CRISPR-Cas9 Off-Target Cleavage Sites from GUIDE-seq Data: A Class-Imbalanced Machine Learning Ben](https://europepmc.org/article/PPR/PPR1304122) | PPR | `TRG-ANTITARGET-PANEL-PROTOCOL` ⚠ |
 | 2026-08-15 | [Andy: A Mathematical Agent for Rigorous Proof and Autonomous Research](http://arxiv.org/abs/2608.15052v2) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-08-14 | [Autonomous Spatial Transcriptomics Analysis (ASTA): Demonstrating Performance Improvements through Clustering,](https://europepmc.org/article/PPR/PPR1299132) | PPR | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
 | 2026-08-14 | [The Past and Future of AI Scientists](http://arxiv.org/abs/2608.14407v1) | arXiv | `TRG-AUTONOMOUS-RESEARCH-AGENT` ⚠ |
@@ -92,6 +95,18 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-02-17 | [RNAiSpline: A Deep learning model for siRNA efficacy prediction](https://europepmc.org/article/PPR/PPR1223467) | PPR | `TRG-ASO-EFFICACY-ACCESSIBILITY` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**A multi-scale structural and biophysical atlas of TCR-peptide-HLA recognition dynamics** — PPR, 2026-08-26
+
+> Dynamic interactions between T cell receptor (TCR) and peptide-human leukocyte antigen (pHLA) complexes are central to peptide-specific immune recognition, influencing T cell activation and immune responses. While structural biology has provided valuable static structures of TCR-pHLA complexes, systematic datasets capturing their dynamic and interaction patterns remain limited. Here, we present DynaTPH, a curated structural dynamics dataset of human TCR-pHLA complexes. DynaTPH integrates TCR-pHLA structures, covering both HLA class I and class II complexes, and extends these static structural resources with standardized molecular dynamics simulations and derived biophysical properties. Through a multi-stage filtering procedure, we identified 256 representative complexes and performed standardized all-atom molecular dynamics simulations for each system, corresponding to a cumulative simulation time of 38.4 μs. The dataset includes static structures, trajectories, corresponding frames, and derived physicochemical properties, including hydrogen bonds, intermolecular contacts, solvent accessibility, and backbone flexibility. By capturing the conformational flexibility and dynamic interaction patterns across diverse TCR-pHLA interfaces, DynaTPH extends static structural resources with multidimensional biophysical information. This dataset enables systematic investigation of TCR-pHLA
+
+**AUTONOMOUS LOOP CONSTRUCTION AND SUPERVISION FOR CLINICIAN-ORIENTED MEDICAL-AI RESEARCH** — PPR, 2026-08-25
+
+> Medical AI models have made a great impact on biomedical research and real-world clinical applications, but conducting interdisciplinary medical AI research remains challenging, requiring close collaboration between clinicians and AI experts. Recent advances in large language models (LLMs) and autonomous code agents present an opportunity for low cost medical AI development, where clinicians can build AI tailored to their own research questions, even without continuous support from dedicated AI experts. However, enabling code agents to autonomously tackle complex multimodal medical AI development tasks requires clinicians to construct and supervise an AI research loop with detailed technical specifics, demanding substantial expertise in AI and computer science that they often lack. To address this challenge, we introduce the Medical AI Research Loop Agent (MARLA), an agentic framework that completely abstracts the construction and supervision of medical AI research loops from clinicians. Given a clinician-defined research intent, MARLA automatically translates high-level research goals into executable hierarchical research loops, decomposes them into verifiable sub-loops, and specifies the models, datasets, tools, and evaluation protocols required for each task. During execution, MARLA coordinates specialized code agents, monitors progress, diagnoses failures, and iteratively r
+
+**Classifying CRISPR-Cas9 Off-Target Cleavage Sites from GUIDE-seq Data: A Class-Imbalanced Machine Learning Benchmark** — PPR, 2026-08-23
+
+> Off-target cleavage is a central safety concern for CRISPR-Cas9 genome editing, particularly in therapeutic applications where unintended double-strand breaks carry clinical risk. We benchmarked five machine learning classifiers: logistic regression on mismatch-count summary features, a random forest and a gradient boosting model on one-hot-encoded sgRNA/candidate-site sequence pairs, a one-dimensional convolutional neural network (CNN) over the positional mismatch map, and a gradient-boosting/CNN ensemble: on a real, published GUIDE-seq off-target dataset (Kleinstiver et al., 2016, Nature) comprising 95,829 candidate off-target sites for five sgRNAs, of which only 54 (0.06%) were experimentally validated as true cleavage sites. On a held-out, stratified test split (n = 19,166; 11 true positives), gradient boosting on combined mismatch and sequence features performed best (ROC-AUC = 0.997, PR-AUC = 0.355, best F1 = 0.50), outperforming a random forest on raw sequence encoding alone (PR-AUC = 0.083) and a sequence CNN (PR-AUC = 0.129). Because the positive class is extremely rare, we report precision-recall AUC as the primary metric rather than ROC-AUC, which is inflated by the large negative class. A positional mismatch analysis showed that experimentally validated off-target sites carried substantially fewer mismatches overall than non-cleaved candidate sites (mean 3.6 vs. 5.9
 
 **Andy: A Mathematical Agent for Rigorous Proof and Autonomous Research** — arXiv, 2026-08-15
 
@@ -351,6 +366,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-24 | [DeMixPert: Decomposed Response Modeling with Gaussian Mixtures for OOD Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.23114v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-15 | [$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.15288v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-07 | [SLIM: A small linear model with STRING embeddings for single-cell genetic perturbation prediction](https://europepmc.org/article/PPR/PPR1294148) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-07 | [Control-Anchored Residual Flow Matching Conditioned on Gene Geometry for Virtual Cell Perturbation Modeling](http://arxiv.org/abs/2608.06824v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -392,6 +408,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**DeMixPert: Decomposed Response Modeling with Gaussian Mixtures for OOD Single-Cell Perturbation Prediction** — arXiv, 2026-08-24
+
+> Predicting transcriptome-wide responses to unseen genetic perturbations remains a major computational challenge because accurate prediction requires recovering both perturbation-specific transcriptional shifts and heterogeneous cellular responses. Existing methods often entangle deterministic response structure with stochastic population-level variation, causing dominant shared patterns to mask weaker perturbation-specific signals and impair distributional modeling. To address these challenges, we propose \textbf{DeMixPert}, an approach for Decomposed response Modeling with Gaussian Mixtures for Out-Of-Distribution (OOD) single-cell Perturbation prediction. DeMixPert decomposes perturbation-induced changes into a basal-state-dependent systematic response, a perturbation-specific response, and population-level variation. The systematic component is derived from the basal state encoded from control-cell expression, whereas the perturbation-specific component is inferred from pretrained target embeddings for unseen-target generalization. DeMixPert models population-level variation using a Gaussian prototype Invertible Network and adaptively combines reusable Gaussian prototypes according to the basal state and perturbation condition. The resulting mixture is mapped to a condition-specific variation distribution. Sampled variations are integrated with the systematic and perturbatio
 
 **$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction** — arXiv, 2026-08-15
 
@@ -597,6 +617,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-24 | [DeMixPert: Decomposed Response Modeling with Gaussian Mixtures for OOD Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.23114v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-08-15 | [$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.15288v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-08-07 | [SLIM: A small linear model with STRING embeddings for single-cell genetic perturbation prediction](https://europepmc.org/article/PPR/PPR1294148) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 | 2026-08-07 | [Control-Anchored Residual Flow Matching Conditioned on Gene Geometry for Virtual Cell Perturbation Modeling](http://arxiv.org/abs/2608.06824v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
@@ -637,6 +658,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-04-21 | [AblateCell: A Reproduce-then-Ablate Agent for Virtual Cell Repositories](http://arxiv.org/abs/2604.19606v2) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**DeMixPert: Decomposed Response Modeling with Gaussian Mixtures for OOD Single-Cell Perturbation Prediction** — arXiv, 2026-08-24
+
+> Predicting transcriptome-wide responses to unseen genetic perturbations remains a major computational challenge because accurate prediction requires recovering both perturbation-specific transcriptional shifts and heterogeneous cellular responses. Existing methods often entangle deterministic response structure with stochastic population-level variation, causing dominant shared patterns to mask weaker perturbation-specific signals and impair distributional modeling. To address these challenges, we propose \textbf{DeMixPert}, an approach for Decomposed response Modeling with Gaussian Mixtures for Out-Of-Distribution (OOD) single-cell Perturbation prediction. DeMixPert decomposes perturbation-induced changes into a basal-state-dependent systematic response, a perturbation-specific response, and population-level variation. The systematic component is derived from the basal state encoded from control-cell expression, whereas the perturbation-specific component is inferred from pretrained target embeddings for unseen-target generalization. DeMixPert models population-level variation using a Gaussian prototype Invertible Network and adaptively combines reusable Gaussian prototypes according to the basal state and perturbation condition. The resulting mixture is mapped to a condition-specific variation distribution. Sampled variations are integrated with the systematic and perturbatio
 
 **$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction** — arXiv, 2026-08-15
 
@@ -850,6 +875,7 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-24 | [DeMixPert: Decomposed Response Modeling with Gaussian Mixtures for OOD Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.23114v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-15 | [$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction](http://arxiv.org/abs/2608.15288v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-07 | [SLIM: A small linear model with STRING embeddings for single-cell genetic perturbation prediction](https://europepmc.org/article/PPR/PPR1294148) | PPR | `TRG-VIRTUAL-CELL-NO-LINE` |
 | 2026-08-07 | [Control-Anchored Residual Flow Matching Conditioned on Gene Geometry for Virtual Cell Perturbation Modeling](http://arxiv.org/abs/2608.06824v1) | arXiv | `TRG-VIRTUAL-CELL-NO-LINE` |
@@ -892,6 +918,10 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-03-10 | [Preoperative HALP Score as a Marker of Tumor Aggressiveness and Survival in Surgically Treated Soft Tissue Sar](https://europepmc.org/article/PPR/PPR1163941) | PPR | `TRG-EMC-EXPRESSION-DATASET` |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**DeMixPert: Decomposed Response Modeling with Gaussian Mixtures for OOD Single-Cell Perturbation Prediction** — arXiv, 2026-08-24
+
+> Predicting transcriptome-wide responses to unseen genetic perturbations remains a major computational challenge because accurate prediction requires recovering both perturbation-specific transcriptional shifts and heterogeneous cellular responses. Existing methods often entangle deterministic response structure with stochastic population-level variation, causing dominant shared patterns to mask weaker perturbation-specific signals and impair distributional modeling. To address these challenges, we propose \textbf{DeMixPert}, an approach for Decomposed response Modeling with Gaussian Mixtures for Out-Of-Distribution (OOD) single-cell Perturbation prediction. DeMixPert decomposes perturbation-induced changes into a basal-state-dependent systematic response, a perturbation-specific response, and population-level variation. The systematic component is derived from the basal state encoded from control-cell expression, whereas the perturbation-specific component is inferred from pretrained target embeddings for unseen-target generalization. DeMixPert models population-level variation using a Gaussian prototype Invertible Network and adaptively combines reusable Gaussian prototypes according to the basal state and perturbation condition. The resulting mixture is mapped to a condition-specific variation distribution. Sampled variations are integrated with the systematic and perturbatio
 
 **$D^{2}R^{2}$: Discrete Diffusion with Regulation Reinforcement for Single-Cell Perturbation Prediction** — arXiv, 2026-08-15
 
@@ -1135,6 +1165,8 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 
 | posted | preprint | venue | via trigger |
 |---|---|---|---|
+| 2026-08-24 | [PHASE: encoding global protein ensembles with local Hamiltonians and all-atom backmapping](http://arxiv.org/abs/2608.23490v1) | arXiv | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
+| 2026-08-18 | [NR4A3 mediates Coal Dust Nanoparticle-induced Immunopathogenesis in Rheumatoid Arthritis](https://europepmc.org/article/PPR/PPR1300191) | PPR | `TRG-NR4A3-DIRECT-MATTER` ⚠ |
 | 2026-07-29 | [Mavchen 1: A Conformational Ensemble Platform for Protein Ligand Pose Prediction That Substantially Outperform](https://europepmc.org/article/PPR/PPR1288818) | PPR | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
 | 2026-07-20 | [UniFlow: Unifying protein conformational ensemble generation and machine-learned force fields with a scalable ](https://europepmc.org/article/PPR/PPR1281868) | PPR | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
 | 2026-06-30 | [NR4A3 knockdown ameliorates metabolic dysfunction-associated steatotic liver disease through ATF3 transcriptio](https://europepmc.org/article/PPR/PPR1262777) | PPR | `TRG-NR4A3-DIRECT-MATTER` ⚠ |
@@ -1146,6 +1178,14 @@ Forecast bands for each blocker: [`systems/views/registers/blockers.md`](../syst
 | 2026-05-05 | [From Enhanced Sampling to Human-Readable Representations of Protein Dynamics](http://arxiv.org/abs/2605.03394v2) | arXiv | `TRG-GENERATIVE-ENSEMBLE` ⚠ |
 
 <details><summary>Abstracts (fetched, still unrefereed and ungraded)</summary>
+
+**PHASE: encoding global protein ensembles with local Hamiltonians and all-atom backmapping** — arXiv, 2026-08-24
+
+> Protein function is governed by conformational ensembles, which can be viewed as high-dimensional probability distributions over molecular conformations. Yet the statistical organization of these distributions is often represented only implicitly, either through collections of simulation trajectories or within high-capacity generative models. Here, we introduce PHASE (Protein Hamiltonians for Sampling of Ensembles), a system-specific framework that converts atomistic conformational ensembles into an explicit and interpretable statistical model. Applied to ten conformational ensembles derived from approximately 37$μ$s of atomistic simulations of the adenosine A2A receptor, Hamiltonians containing only local residue couplings within 6$\mathring{A}$ reproduce residue-wise and pairwise microstate statistics, including correlations between residues that are not directly coupled in the model. Moreover, independently fitted inactive and active reference Hamiltonians define an endpoint preference coordinate that organizes newly sampled ligand-, effector- and conformation-dependent ensembles along the A2A activation landscape without receiving these biochemical labels as model inputs. Finally, a cluster-conditioned all-atom reconstruction model preserves the prescribed residue microstate patterns of newly sampled configurations, closing the coarse-graining-sampling-backmapping cycle. Th
+
+**NR4A3 mediates Coal Dust Nanoparticle-induced Immunopathogenesis in Rheumatoid Arthritis** — PPR, 2026-08-18
+
+> Abstract      Coal miners with chronic coal dust exposure have elevated rheumatoid arthritis (RA) risk, yet the molecular mechanisms underlying this association remain poorly understood. Here we identify the orphan nuclear receptor NR4A3 as a central mediator linking coal dust nanoparticles (CD-NPs) to RA immunopathogenesis. Intranasal exposure of adjuvant-induced arthritis rats to CD-NPs for three weeks markedly exacerbates synovial inflammation and joint destruction in dose- and time-dependent manners. In primary synovial fibroblasts from RA patients, CD-NPs uptake induces a pathogenic phenotype characterized by enhanced migration, invasion, inflammatory cytokine and chemokine production, and impaired collagen synthesis. Mechanistically, NR4A3 stabilizes STAT3 dimers, thereby sustaining STAT3 signaling and promoting pathogenic activation of synovial fibroblasts. We further identify NR4A3   high   synovial fibroblasts as a previously unrecognized immunopathogenic subpopulation associated with disease progression. In summary, our findings establish NR4A3 as a central pathogenic driver in coal dust-associated RA, positioning it as a promising therapeutic target.
 
 **Mavchen 1: A Conformational Ensemble Platform for Protein Ligand Pose Prediction That Substantially Outperforms Static Structure Prediction in a Category-Stratified Benchmark** — PPR, 2026-07-29
 
