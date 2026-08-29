@@ -30,8 +30,10 @@ an array cannot see it at all. Nothing here can assert that any proteasome inhib
 selective, or is safe in EMC.
 
 ⚠ AND THE DEPENDENCY SIDE WILL PROBABLY ARGUE AGAINST THE ROUTE, WHICH IS THE POINT OF READING IT.
-The same panel already caught this once: PRMT5 and MAT2A are dependencies in 94.5% and 96.7% of 176
-sarcoma lines, so the PRMT5 manuscript prints its dependency prior against its own route. A
+The same panel already caught this once: PRMT5 and MAT2A are dependencies in 94.5% and 96.7% of the
+91 SCREENED sarcoma lines, so the PRMT5 manuscript prints its dependency prior against its own route.
+(Denominator corrected 2026-08-29: this docstring said 176, which is the number of sarcoma MODELS in
+DepMap 24Q4; only 91 of them carry CRISPR gene-effect data. The percentages are unchanged.) A
 proteasome subunit required in every line offers nothing to select on either, and if that is what
 comes back it belongs in the repurposing paper in the same position and with the same prominence.
 

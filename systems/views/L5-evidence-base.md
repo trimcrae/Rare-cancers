@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 17 evidence items · 54 artifacts · 14 pinned claims.**
+**19 objects · 18 evidence items · 55 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -65,6 +65,7 @@ omitted, and why `[L5]` reports the count.
 | **EV-FET-ATR-2023**<br/>PMID 37205599 | FET fusion oncoproteins impair ATM activation at double-strand breaks through their shared N-terminal IDR, leaving the ATR axis load-bearing. | The synthetic-lethality premise the ATR route inherits, and the structural precondition (retain the N-terminal IDR, lose the C-terminal RGG repeats) that emc_fet_idr_cens | [RT-ATR-ASSESS](L2-rt-atr-assess.md), [RT-ATR-PANEL](L2-rt-atr-panel.md) |
 | **EV-FILION-2009**<br/>— | Filion C et al. (2009) — the EWSR1::NR4A3 fusion transactivates a PPARG-promoter response element. | That the fusion is a functional transcriptional driver acting through its DNA-binding domain; the fusion→PPARG axis both PPARG routes rest on; the DBD filter in fusion_ob | `OBJ-NR4A3-DBD`, [RT-FUSION-OUTPUT](L2-rt-fusion-output.md), [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md), [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) |
 | **EV-HIGUCHI-2023**<br/>PMID 36636023 | Higuchi T et al. (2023) — the only functional test of the PPARγ intervention direction in an EMC model. | The single functional experiment anywhere testing the DIRECTION of PPARγ intervention in EMC; it favours AGONISM. ⛔ Carries a model-identity caveat: it uses H-EMC-SS (OBJ | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md), [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) |
+| **EV-LI-GONG-2026**<br/>PMID 42660639 | Li L, Gong L. ALK overexpression without rearrangement widely exists in FET-rearranged soft tissue tumours. J Clin Pathol 2026 (published 2026-08-27). | ⛔ IT SUPPORTS AN ABUNDANCE STATEMENT AND NOTHING FUNCTIONAL, AND THE DISTINCTION IS THE WHOLE POINT OF THE PAPER. ALK D5F3 immunohistochemistry across 119 FET-rearranged  | ⚠ **nothing** |
 | **EV-MAKI-2005**<br/>PMID 15739208 | Maki RG, Kraft AS, Scheu K, Yamada J, Wadler S, Antonescu CR, Wright JJ, Schwartz GK. A multicenter Phase II study of bortezomib in recurrent or metas | ⛔ IT DOES NOT SUPPORT RT-CARFILZOMIB — IT BOUNDS IT, and it is the only human read on proteasome inhibition in the parent histology this repository holds. Two arms, Simon | [RT-CARFILZOMIB](L2-rt-carfilzomib.md) |
 | **EV-PIOGLITAZONE-TRABECTEDIN-2019**<br/>10.1158/1078-0432.CCR-19-0976 | Pioglitazone + trabectedin induced adipocyte differentiation and overcame trabectedin resistance in myxoid liposarcoma. Clin Cancer Res 2019;25:7565. | That the combination already worked in the sibling myxoid sarcoma — the class-extension interest that gives the trabectedin+PPARγ route its taker. | [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) |
 | **EV-PMC2395470**<br/>— | A counted series: 10 of 15 EWS/CHN tumours were exon 12 :: exon 3; 2 of 15 were type 5. | That type 1 is the commonest reported EWSR1::NR4A3 junction, on a counted series rather than an assertion. | `OBJ-FUS-T1`, `OBJ-FUS-T5`, `OBJ-FUS-TAF15` |
@@ -81,6 +82,7 @@ omitted, and why `[L5]` reports the count.
 
 | artifact | path | produced by | cited by |
 |---|---|---|---|
+| **ART-ALK-IHC-FET-2026** | `research/literature/alk-ihc-fet-tumours-2026-08-29.json` | `A live PubMed retrieval of PMID 42660639 through this container's PubMed MCP connector, plus exact binomial arithmetic (Clopper-Pearson intervals and Fisher's exact test) over that record's own quoted integer counts, computed with the standard library` | [RT-ALK-HIT](L2-rt-alk-hit.md) |
 | **ART-APO-POSE-SITE** | `research/modalities/apo-pose-site-in-regime.json` | `research/modalities/apo_pose_recovery.py` | `CLM-APO-SITE-IN-REGIME`, [RT-DEGRADER](L2-rt-degrader.md) |
 | **ART-ATR-VULNERABILITY** | `research/modalities/emc-atr-vulnerability.json` | `research/modalities/emc_atr_vulnerability.py` | [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **ART-CARE-DELIVERY-EVIDENCE** | `research/modalities/emc-care-delivery-evidence.json` | `research/modalities/emc_care_delivery_evidence.py` | [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md), [RT-METASTASECTOMY](L2-rt-metastasectomy.md), [RT-POPULATION-REGISTRY](L2-rt-population-registry.md), [RT-RISK-MODEL](L2-rt-risk-model.md), [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md), [RT-SURVEILLANCE](L2-rt-surveillance.md) |

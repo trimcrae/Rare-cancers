@@ -14,7 +14,7 @@
     "harden": 23,
     "negative": 32,
     "process": 7,
-    "process_defect": 155,
+    "process_defect": 156,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 134,
-    "in_progress": 7,
+    "done": 135,
+    "in_progress": 6,
     "parked": 28,
-    "queued": 144,
+    "queued": 145,
     "ready": 1,
     "superseded": 1
   },
@@ -2295,7 +2295,7 @@
     {
       "id": "AUT-003",
       "_derived": true,
-      "what": "Report it in the kinase paper as a CORRECTED reading of a lead: the screen's dominant signal is a class the board already holds, and the arrays structurally cannot attribute the kinase hit.",
+      "what": "Report it in the kinase paper as a CORRECTED reading of a lead: the screen's dominant signal is a class the board already holds; the arrays can read the named targets on one of two platforms and find them unremarkable there; and the one protein-level read that exists (PMID 42660639) is a stain in tumours confirmed to lack the rearrangement, at a denominator of four.",
       "serves": {
         "route": "RT-ALK-HIT",
         "publication": "PUB-KINASE-LEADS",
@@ -2314,7 +2314,7 @@
       "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
+      "last_evidence_utc": "2026-08-29",
       "score": 140.0,
       "score_inputs": {
         "live": true,
@@ -3463,15 +3463,15 @@
         "strategy": null
       },
       "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "w-aut-pd-110-01Hz2k29M2WJiUN9KMuy9386",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 1,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act.",
       "score_inputs": {
@@ -3492,7 +3492,9 @@
       "score": 124.9,
       "_score_basis": "inherited from the lowest-scoring derived row on RT-ALK-HIT (140.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
       "_score_inherited_from_route": "RT-ALK-HIT",
-      "_lease_released_by": "CYC-0075-6d9383a0 released this lease after ARCHIVING its holder's session (session_01RLHV3tB87qndM7qGE9jZa7 = CYC-0074-5a21085f, cleared by session_reaper.py and archived 2026-08-29T03:15Z). Archiving releases the container, so the seat named in `owner` is definitively not running — which is continuity.py's own test for litter: 'if a lease names a worker that is not actually running, that is litter — release it and the work is startable again.' No claim of the WORK being done is made or implied; only the lease is cleared."
+      "_lease_released_by": "CYC-0075-6d9383a0 released this lease after ARCHIVING its holder's session (session_01RLHV3tB87qndM7qGE9jZa7 = CYC-0074-5a21085f, cleared by session_reaper.py and archived 2026-08-29T03:15Z). Archiving releases the container, so the seat named in `owner` is definitively not running — which is continuity.py's own test for litter: 'if a lease names a worker that is not actually running, that is litter — release it and the work is startable again.' No claim of the WORK being done is made or implied; only the lease is cleared.",
+      "closed_by": "CYC-0087-1c9f0963",
+      "outcome": "⛔ NEGATIVE RE-GRADE, RECORDED AT THAT WEIGHT. PMID 42660639 (doi 10.1136/jcp-2026-210760, J Clin Pathol 2026) establishes ALK PROTEIN at D5F3 IHC 2+/3+ in 2 of 4 EMC cases and, by its own confirmation step, establishes that those cases LACK ALK gene rearrangement. A stain is not a fusion: it reports no activation, no dependency, no drug response, nothing on ROS1, and nothing about the model the 221-drug screen ran on, so it cannot attribute the hit — which is RT-ALK-HIT's whole question. The route STAYS PARKED. ⭐ Arithmetic over the paper's own counts is what decides it: 2/4 has an exact 95% interval of 6.8-93.2%, and EMC is not distinguishable from the rest of the cohort (32/115, Fisher two-sided p = 0.32), so the abstract's 'high overexpression rate' is a rank in a table and not an EMC-selective signal; the paper's headline is family-wide (34/119). ⛔ AND THIS ITEM'S OWN PREMISE WAS FALSE. It was filed on the reasoning that ALK and ROS1 have no probe on either expression platform, so IHC is 'exactly the protein-level modality the arrays could not supply'. research/modalities/emc-expression-panels.json — which OWNS those reads — has ALK readable on GPL6244 and ROS1 readable on BOTH, with the brigatinib target group at full 3/3 coverage on GPL6244 and a score emitted. The false sentence was hand-typed prose in census_route_expression_grading.py sitting in the same generated file as the table contradicting it, and it had propagated by copy into the route grade, the generated view, the seat record that surfaced this lead and this row's own `what`. Corrected at source, in the route grade and in the regenerated view; flagged as superseded-and-retained in the seat record; this row's `what` is left exactly as filed, because a spec rewritten after the fact hides the propagation it is evidence of. ⚠ The correction enlarges the evidence base and improves nothing: where ALK is readable it is below the array median in EMC and level with the comparators. Deliverables: research/literature/alk-ihc-fet-tumours-2026-08-29.json (retrieval, verbatim quotes, arithmetic, re-grade), EV-LI-GONG-2026, ART-ALK-IHC-FET-2026, and the amended RT-ALK-HIT node."
     },
     {
       "id": "AUT-PD-146",
@@ -3877,9 +3879,11 @@
         "⭐ THE ASYMMETRY IS THE WHOLE POINT: `ids.next_receipt` ALREADY carries a session discriminator for exactly this reason (AUT-PROP-013, where two sessions 50 s apart both took CYC-0016), and `ids.next_entry_id` in the same module does not. The fix for one half was never applied to the other.",
         "It was caught only because CYC-0084 read a sibling session's post_turn_summary while running the step-11 reaper and noticed the string 'AUT-PD-169' in it. Nothing checked.",
         "⛔ SECOND OCCURRENCE, SAME SESSION, 2026-08-29. CYC-0085-6b009680 filed AUT-PD-176 while CYC-0086-4ce79c2a committed a DIFFERENT AUT-PD-176 (5c50402a0) during the ~16-minute gate that stood between filing and pushing. Renumbered to AUT-PD-177. ⭐ THE SECOND ONE IS THE EVIDENCE THAT MATTERS: the first collision could be read as bad luck between sessions hours apart; two in one session, both inside a gate window, makes it structural. AUT-PD-174 is why the window exists — a cycle cannot publish its row until its gate passes — so these two rows compound and should be fixed together or the fix for one will not hold.",
-        "⛔⛔ THIRD OCCURRENCE, SAME SESSION, WITHIN ~90 MINUTES. CYC-0085-6b009680 filed a row as AUT-PD-176 (taken by CYC-0086-4ce79c2a), renumbered to AUT-PD-177 (taken on the trunk by the time the rebase completed), and landed as AUT-PD-178. Each renumber touched the ledger, two modules, a test file and an amendment record, and each was invalidated by the next gate window. ⭐ THE FIX SHAPE THE THIRD ONE MAKES OBVIOUS, AND IT IS NOT 'DERIVE HARDER': the id is allocated when the row is WRITTEN and validated when it is PUSHED, and those are ~16 minutes apart (AUT-PD-172, AUT-PD-174) on a trunk that moves every ~2 minutes. Any allocator reading committed state loses that race by construction. Either the id carries a session discriminator — which `ids.next_receipt` in the SAME MODULE already does, and which makes collision impossible rather than unlikely — or allocation moves to push time behind the same compare-and-swap `claim.py` uses. ⛔ The renumber is not cheap and it is not local: an id appears in ledger cross-references, module docstrings, refusal messages, test assertions and amendment declarations, so every collision is a multi-file edit that must then be re-gated."
+        "⛔⛔ THIRD OCCURRENCE, SAME SESSION, WITHIN ~90 MINUTES. CYC-0085-6b009680 filed a row as AUT-PD-176 (taken by CYC-0086-4ce79c2a), renumbered to AUT-PD-177 (taken on the trunk by the time the rebase completed), and landed as AUT-PD-178. Each renumber touched the ledger, two modules, a test file and an amendment record, and each was invalidated by the next gate window. ⭐ THE FIX SHAPE THE THIRD ONE MAKES OBVIOUS, AND IT IS NOT 'DERIVE HARDER': the id is allocated when the row is WRITTEN and validated when it is PUSHED, and those are ~16 minutes apart (AUT-PD-172, AUT-PD-174) on a trunk that moves every ~2 minutes. Any allocator reading committed state loses that race by construction. Either the id carries a session discriminator — which `ids.next_receipt` in the SAME MODULE already does, and which makes collision impossible rather than unlikely — or allocation moves to push time behind the same compare-and-swap `claim.py` uses. ⛔ The renumber is not cheap and it is not local: an id appears in ledger cross-references, module docstrings, refusal messages, test assertions and amendment declarations, so every collision is a multi-file edit that must then be re-gated.",
+        "⛔⛔ FOURTH AND FIFTH OCCURRENCES, IN A DIFFERENT SESSION, 2026-08-29 (CYC-0087-1c9f0963). Two follow-up rows were filed and committed as AUT-PD-177/178 in 35fb816f5. During the first gate window CYC-0087-4ce79c2a landed AUT-PD-176 and AUT-PD-177 for unrelated defects, so they were renumbered to 178/179; during the SECOND gate window another cycle landed AUT-PD-178, so they were renumbered again to 179/180. Two renumbers, two ledger conflict resolutions and two extra preflight runs for one $0 literature re-grade. ⭐ THIS IS EVIDENCE FROM A SESSION WITH NO STAKE IN THE ORIGINAL FILING, which is what the first three occurrences lacked — all three were CYC-0084/0085's own. The defect is not one session's bad luck with the trunk; it reproduces for any cycle whose gate window overlaps another's push, and this trunk moved twice inside a ~10-minute window."
       ],
-      "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time."
+      "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time.",
+      "_concurrent_fix_note": "⚠ TWO SESSIONS FIXED THIS ROW'S NULL SCORE IN THE SAME HOUR AND NEITHER COULD SEE THE OTHER — CLAUDE.md §7's branch-drift cost, arriving through the gate window rather than through a branch. 620280791 ('Fix a red trunk: AUT-PD-171 lost its score and broke the unscored ratchet') landed on the trunk while CYC-0087-1c9f0963 held the identical fix behind a ~12-minute preflight. THE TRUNK'S SCORE AND BASIS STAND; the losing session deferred to them rather than overwriting, and contributed only the two occurrences it had measured and the trunk could not have. ⭐ Both diagnoses agreed independently — a null score, an unreachable route floor, and the ratchet's own remedy taken rather than the ceiling raised — which is corroboration, and it still cost one of the two sessions its afternoon. It is the same defect this row is ABOUT, one layer up: allocation and validation are far enough apart that concurrent cycles collide inside the gap."
     },
     {
       "id": "AUT-PD-139",
@@ -6423,6 +6427,39 @@
         "age_factor": 0.0714
       },
       "clamp": "blocked_without_evidence_becomes_a_check"
+    },
+    {
+      "id": "AUT-PD-180",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0087-1c9f0963",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "editing one memo's status paragraph; nothing outward-facing",
+      "closes_clause": null,
+      "score": 40.0,
+      "_score_basis": "documentation hygiene on a closed correction; below every live-route row by construction",
+      "score_inputs": {
+        "age_factor": 0.0,
+        "fruitless_attempts": 0
+      },
+      "what": "⛔ THE '176 SARCOMA LINES' CORRECTION SWEEP IS NOW COMPLETE IN THE TRUNK BUT ITS OWN 'STILL LIVE ELSEWHERE' LIST IS STALE, AND A STALE LIST OF KNOWN ERRORS READS AS OPEN WORK. research/manuscripts/dependency/emc-kinase-leads-source-verification.md §4 names census_route_expression_grading.py, its generated artifact and emc-transcriptional-proteostatic-dependency.md as still carrying the superseded denominator; all three now read '91 screened sarcoma lines (of 176 sarcoma models)'. ⭐ AND THE LAST TWO LIVE COPIES WERE FIXED 2026-08-29 (AUT-PD-110) — systems/graph/routes.json's RT-TXN-CDK supporting-evidence row ('dependencies in 100% of 176 sarcoma lines') and research/modalities/emc_proteostasis_read.py's docstring ('94.5% and 96.7% of 176 sarcoma lines'), neither of which that list named. ⚠ THE ITEM IS THE LIST, NOT THE NUMBER: update §4 to say the sweep closed and on what date, and record the two files the list missed so the next census of this error starts from what is true. ⚠ It touches a manuscript-adjacent memo, so it needs PREFLIGHT_TESTS=1.",
+      "_renamed_from": "AUT-PD-179",
+      "_renamed_why": "re-allocated at merge: every id this row has been filed under was taken by a concurrent session in the interval (first AUT-PD-177/178 in 35fb816f5, then AUT-PD-179 at the first merge). Ids are counted against the MERGED ledger after each rebase, which is what caught the collision each time."
     },
     {
       "id": "AUT-061",

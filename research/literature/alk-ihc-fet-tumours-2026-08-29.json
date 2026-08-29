@@ -1,0 +1,117 @@
+{
+  "_what": "The full-record retrieval of PMID 42660639 (ALK D5F3 IHC across 119 FET-rearranged soft tissue tumours, J Clin Pathol 2026) and the re-grade of route RT-ALK-HIT against it. Taken for ledger item AUT-PD-110, which the seat that surfaced the record (research/literature/carfilzomib-class-clinical-2026-08-28.json) filed rather than grading inside an unrelated item.",
+
+  "_the_distinction_this_whole_record_turns_on": "⛔ PROTEIN STAINING IS NOT A FUSION, AND THE PAPER ESTABLISHES THE FIRST WHILE EXPLICITLY EXCLUDING THE SECOND. Its own design sentence is 'Cases with ALK overexpression by IHC were further confirmed to lack ALK gene rearrangements.' So what is established in the 2 EMC cases is ALK PROTEIN ABUNDANCE at D5F3 IHC 2+/3+. What is established about ALK REARRANGEMENT in those same cases is that there is none. Every grade below is written against the first and never the second, because the two are the difference between a target and a stain.",
+
+  "_attribution": "According to PubMed. Metadata and the abstract were retrieved from PubMed (NCBI). PubMed's terms require attribution and a resolvable DOI link wherever its metadata travels; `doi_url` is carried on the record below.",
+
+  "_scope_and_what_this_is_not": "⛔ ABSTRACT-LEVEL ONLY, AND THE ABSENCE OF FULL TEXT WAS MEASURED RATHER THAN ASSUMED. `convert_article_ids` on PMID 42660639 returned a record carrying NO pmcid (live call 2026-08-29 08:22 ET, response-date '2026-08-29 08:22:25'), so no PubMed Central full text exists to fetch and none was fetched. The per-case IHC scores, the antibody protocol, the rearrangement assay used for confirmation, the EMC cases' fusion partners and any survival or treatment data are UNREAD. An absent reading is not a reading of absence.",
+
+  "_retrieval": {
+    "date_et": "2026-08-29",
+    "time_et": "8:22 AM ET",
+    "endpoint": "PubMed E-utilities via the PubMed MCP connector",
+    "tools": ["get_article_metadata", "convert_article_ids"],
+    "cycle": "CYC-0088-1c9f0963",
+    "ledger_item": "AUT-PD-110",
+    "why_a_second_retrieval_when_the_record_was_already_held": "carfilzomib-class-clinical-2026-08-28.json held two quoted sentences of this abstract, taken as a side observation of a different sweep. A re-grade may not run on two sentences another item happened to quote, so the full record was pulled live and the whole abstract is carried here."
+  },
+
+  "record": {
+    "pmid": "42660639",
+    "pmcid": null,
+    "doi": "10.1136/jcp-2026-210760",
+    "doi_url": "https://doi.org/10.1136/jcp-2026-210760",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/42660639/",
+    "title": "ALK overexpression without rearrangement widely exists in/-rearranged soft tissue tumours.",
+    "journal": "Journal of clinical pathology (J Clin Pathol)",
+    "publication_date": "2026-08-27",
+    "authors": [
+      "Li, Lihong — Department of Pathology, National Cancer Center/National Clinical Research Center for Cancer/Cancer Hospital, Chinese Academy of Medical Sciences and Peking Union Medical College, Beijing, China",
+      "Gong, Lihua — same affiliation (corresponding)"
+    ],
+    "article_types": ["Journal Article"],
+    "keywords": ["IMMUNOHISTOCHEMISTRY", "Sarcoma", "Soft Tissue Neoplasms"],
+
+    "⚠_the_retrieved_text_has_gene_symbols_STRIPPED_and_that_is_visible_in_the_title": "The title reads 'widely exists in/-rearranged soft tissue tumours' and the abstract reads 'FET (//) family rearrangements (and)' and '-rearranged rhabdomyosarcoma'. Those gaps are where italicised gene symbols stood in the source markup; the retrieval returned the text with the italic spans removed. This is an artifact of the retrieval, NOT of the paper. ⛔ Its one consequence for this record is stated where it bites: the fusion-partner sentence below names a partner whose symbol was stripped, so THIS RECORD CANNOT SAY WHICH FUSION PARTNER carried the strongest overexpression, and it does not guess.",
+
+    "quoted_verbatim_from_the_pubmed_abstract": [
+      "Anaplastic lymphoma kinase (ALK) is implicated in ALK fusion-positive non-small cell lung cancer and inflammatory myofibroblastic tumours.",
+      "In this study, we analysed 119 FET-rearranged tumours spanning 20 tumour types. Using ALK D5F3 immunohistochemistry (IHC), ALK overexpression was defined as positive only for scores of 2+ or 3+. Cases with ALK overexpression by IHC were further confirmed to lack ALK gene rearrangements.",
+      "Among the cases, 28.6% (34/119) demonstrated ALK overexpression (≥2+). 9 disease types displayed ALK overexpression (≥2+), including soft tissue sarcomas and salivary gland carcinomas.",
+      "Notably, Ewing sarcoma had the highest ALK overexpression rate (51%, 22/43). Both analysed clear cell sarcoma-like tumour of the gastrointestinal tract (GNET) cases (2/2) were strongly positive (3+), while extraskeletal myxoid chondrosarcoma exhibited a high overexpression rate (50%, 2/4). Additionally, angiomatoid fibrous histiocytoma showed moderate staining (75%, 3/4, 2+).",
+      "The other tumours with ALK overexpression were pulmonary myoepithelial carcinoma (1/1),-rearranged rhabdomyosarcoma (1/1), desmoplastic small round cell tumour (25%, 1/4), clear cell sarcoma of soft tissue (7.7%, 1/13) and myxoid liposarcoma (6.7%, 1/15).",
+      "Among fusion partners,-rearranged cases had the strongest ALK overexpression (70%, 7/10).",
+      "Our findings demonstrate that ALK overexpression is frequent in FET-rearranged tumours, warranting caution to avoid misdiagnosis, while also presenting potential therapeutic opportunities."
+    ]
+  },
+
+  "derived_arithmetic_over_the_quoted_counts": {
+    "_what_this_is": "Exact binomial arithmetic over the integer counts quoted above, computed with the standard library (Clopper-Pearson intervals; Fisher's exact test, two-sided). It introduces no new data and re-states no figure the paper owns — it puts the paper's own counts at the width their denominators actually support.",
+    "emc_rate": {
+      "count": "2/4",
+      "point": 0.5,
+      "clopper_pearson_95_ci": [0.0676, 0.9324],
+      "reading": "⛔ THE INTERVAL SPANS 6.8% TO 93.2%. At n=4 the point estimate carries essentially no information about the rate in EMC. The paper's phrase for it is 'a high overexpression rate (50%, 2/4)'; that phrase is the authors' description of their own two cases and is not an estimate this repository can use as one."
+    },
+    "whole_cohort_rate": {
+      "count": "34/119",
+      "point": 0.2857,
+      "clopper_pearson_95_ci": [0.2067, 0.3757]
+    },
+    "is_EMC_distinguishable_from_the_rest_of_the_cohort": {
+      "table": "EMC 2 positive / 2 negative (n=4) against all other FET-rearranged tumours 32 positive / 83 negative (n=115)",
+      "fisher_exact_two_sided_p": 0.3221,
+      "reading": "⛔ NO. EMC's 50% is not distinguishable from the 27.8% of the rest of the cohort. ⭐ THIS IS THE DECISIVE READING FOR THIS ROUTE AND IT IS THE ONE THE ABSTRACT'S WORDING INVITES A READER TO MISS: 'extraskeletal myxoid chondrosarcoma exhibited a high overexpression rate' describes a rank within the table, and the paper's own headline finding is that ALK overexpression is a property of the FET-rearranged FAMILY (28.6% across 119 tumours of 20 types). There is no EMC-SELECTIVE signal here to build a route on. Anything a therapeutic hypothesis could claim from this observation, it would claim for Ewing sarcoma (22/43) first, on a denominator ten times larger."
+    },
+    "⚠_what_the_arithmetic_does_not_repair": "A wider interval is still an interval around a stain. None of this makes the observation functional; see the next block."
+  },
+
+  "regrade_of_RT-ALK-HIT": {
+    "route": "RT-ALK-HIT",
+    "route_question": "Which kinase produced the multi-target inhibitor's hit in a patient-derived model of this disease?",
+    "state_before": "parked · complete · confidence low · last_verified 2026-08-09",
+    "verdict": "⛔ DOES NOT MOVE THE ROUTE, AND THE PREMISE THAT PUT IT ON THE QUEUE IS ITSELF PART FALSE. The paper supplies a protein-level abundance read on ALK in EMC tissue and supplies nothing else the route needs: no rearrangement (excluded by the paper's own design), no activation, no dependency, no drug response, and no read on ROS1 at all. It does not attribute the screen hit, which is the route's whole question, and it cannot: the hit was an IC50 in one patient-derived model, and this is IHC on four archival tumours from a different series.",
+
+    "what_the_paper_DOES_establish_for_this_route": [
+      "⭐ A protein-level read on ALK in EMC TISSUE now exists in the literature: D5F3 IHC scored 2+/3+ in 2 of 4 EMC cases. Before this record the repository held ALK in EMC only as archival array transcript.",
+      "⛔ AND IT ESTABLISHES THE ABSENCE OF THE THING THAT WOULD HAVE BEEN A TARGET. The overexpressing cases were confirmed to lack ALK gene rearrangement. A route built on 'an ALK/ROS1-class inhibitor was a screen hit' gains no fusion from this paper; it gains a stain, in cases the authors checked for a fusion and did not find one.",
+      "⚠ The abundance is not EMC-specific. It is a family-wide property of FET-rearranged tumours (34/119) and EMC's share of it is not distinguishable from the rest of the family (Fisher p = 0.32, above)."
+    ],
+
+    "what_the_paper_does_NOT_establish": [
+      "Not a rearrangement — explicitly excluded in the positive cases by the paper's own confirmation step.",
+      "Not an activation. The abstract reports staining intensity and reports no phosphorylation, no downstream pathway readout and no kinase-activity assay. Abundance of a receptor tyrosine kinase protein is not evidence that it is signalling.",
+      "Not a dependency and not a drug response. No ALK inhibitor was given to anything in this study and no viability, knockdown or treatment endpoint appears in the abstract.",
+      "Nothing about ROS1, which is half of the class name this route carries.",
+      "Nothing about the model the 221-drug screen ran on. Different cases, different material, different assay."
+    ],
+
+    "the_authors_own_therapeutic_sentence_and_why_it_is_not_evidence": "The abstract closes 'warranting caution to avoid misdiagnosis, while also presenting potential therapeutic opportunities.' ⛔ The first clause is what the study's design supports — a diagnostic caution about reading a D5F3 stain as a fusion. The second is the authors' speculation and carries no data in this paper: there is no treatment arm, no model and no functional endpoint anywhere in it. It is quoted here because it is the sentence a re-grade would be tempted to lean on, and leaning on it would be citing an aspiration as a result.",
+
+    "the_cautionary_parallel_this_disease_already_owns": {
+      "what": "EMC's own CD117/KIT history is the same shape: a marker that stains and a mutation that is rare, with the drug acting on the mutation rather than the protein.",
+      "⛔_figures_are_NOT_restated_here": "The CD117 positivity range and the KIT mutation count are owned by research/manuscripts/repurposing/repurposing-hypotheses.md §1.1 and its correction register, which already records that an earlier single cherry-picked figure was wrong and mis-cited. Read them there. Typing them again here would make a second home for a number this repository has already had to correct once.",
+      "why_it_binds_here": "The generic error is identical — treating an immunohistochemical positive as a target — and this repository has already paid for it once on this disease."
+    },
+
+    "⭐_AND_THE_RE-GRADE_FOUND_THE_ROUTE'S_OWN_INSTRUMENT_STATEMENT_TO_BE_FALSE": {
+      "the_claim_as_it_stood": "The route's grade, its generated view, the census artifact's `observed` prose and this ledger item's own justification all said that ALK and ROS1 have NO PROBE on EITHER expression platform, so the brigatinib target group emits no score — 'an instrument statement, never a biological negative'.",
+      "the_discriminating_observation": "research/modalities/emc-expression-panels.json — the artifact that OWNS these reads — says otherwise in its own machine-written fields. `gene_reads.ALK` carries readable: true on GSE24369 (GPL6244, probe 8051241, 6 EMC vs 29 comparator) and readable: false only on GPL3290. `gene_reads.ROS1` carries readable: true on BOTH platforms (GPL6244 probe 8129134). The brigatinib_targets panel on GPL6244 records genes_readable ['ALK','EGFR','ROS1'], genes_not_readable [], coverage 1.0, and it EMITTED A SCORE. Only GPL3290 emits none, and its genes_not_readable list contains exactly one symbol: ALK.",
+      "the_cause": "The sentence is hand-typed prose inside research/modalities/census_route_expression_grading.py's RT-ALK-HIT block, sitting in the same generated file as the per-gene table that contradicts it. It was never derived from the data it summarises, so nothing could catch it drifting from it. It then propagated by copy into systems/graph/routes.json's grade, into the generated view, and into the ledger item that commissioned this re-grade.",
+      "what_is_true_instead": "ALK is readable on GPL6244 and not on GPL3290. ROS1 is readable on both. The named target group emits no score on GPL3290 ONLY, and the reason is the single missing ALK probe taking coverage to 2/3, below the panel's 3-gene floor. On GPL6244 the group scores and is LOWER in EMC than in comparator sarcomas.",
+      "⚠_what_this_correction_does_NOT_do": "It does not turn a null into a positive. On the platform where ALK IS readable it sits slightly BELOW the array median in EMC and level with comparator sarcomas — every figure owned by emc-expression-panels.json, not restated here. The correction makes the route's evidence base larger and its verdict no better: the route was parked on 'we cannot see it', and the honest statement is 'we can see it on one platform and it is unremarkable there'.",
+      "⛔_and_it_removes_the_reason_this_item_was_queued": "AUT-PD-110 was filed on the reasoning that IHC 'is exactly the protein-level modality the arrays could not supply'. The arrays could and did supply an ALK read. What IHC supplies that they do not is PROTEIN rather than transcript — a real second modality, and a smaller gain than the item's framing claimed."
+    },
+
+    "what_would_actually_move_this_route": [
+      "An attribution experiment in the model the screen ran on — knockdown or a target-selective agent. Blocked by BLK-NO-WET-LAB and unchanged by this paper.",
+      "A functional read on ALK in EMC material: phospho-ALK, an ALK-inhibitor response, or an ALK dependency in an EMC model. None exists; the DepMap prior over 91 screened sarcoma lines has ALK and ROS1 dependent in zero of them (owned by research/modalities/depmap-sarcoma-dependency.json).",
+      "An EMC series large enough for the IHC rate to mean something. n=4 is the whole of the EMC evidence in this paper."
+    ],
+
+    "route_action": "no change to state: RT-ALK-HIT stays parked. The grade is amended to (a) carry this paper as a protein-level observation recorded at its true weight, and (b) correct the false readability sentence found above."
+  },
+
+  "⚠_language_discipline": "Nothing in this record asserts efficacy, selectivity, safety, a therapeutic window or clinical readiness for any ALK-directed agent in this disease or any other. It reports one immunohistochemical study read at abstract level, arithmetic over that study's own counts, and what a route may and may not conclude from it."
+}
