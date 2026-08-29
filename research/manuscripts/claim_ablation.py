@@ -55,6 +55,26 @@ guard wins. That answers "would anything notice a change here?", which is the qu
 a proxy for. It does NOT answer "is this sentence's own claim watched?" — a sentence can pass on an
 exon number while its rate goes unread. Reported, not hidden: `claim_coverage.json` records the
 per-sentence witness list, and the gap between the two questions is the honest residue.
+
+⛔⛔ AND THE PERTURBATION IS DIGITS ONLY, SO A QUANTITY WRITTEN IN WORDS IS UNFALSIFIABLE BY
+CONSTRUCTION (AUT-PD-148, found 2026-08-28 by reading a BLIND verdict instead of trusting it). The
+case that found it: a fusion-partner sentence whose claim is "three to five TAF15 patients with no
+events", whose only digit runs — re-measured 2026-08-29 — are `15` out of the identifier TAF15 and
+`1` off a list marker. Both verdicts lie about such a sentence, in opposite directions:
+
+  BLIND on the digits   reads as "nothing watches this claim". Nothing touched the claim.
+  RED on the digits     reads as "this claim is watched". An identifier moved, not the quantity.
+
+★ THE ANSWER IS A STATUS THE READER CAN COUNT, NOT A NOISIER MUTATOR. Every return now carries
+`word_quantities`, the words no perturbation reaches, and the reason string says which verdict it is
+qualifying; `claim_coverage.json` counts the population per document
+(`with_a_word_quantity_covered`, and `with_a_word_quantity_and_no_digit_covered` for the sharper
+subset the gate's digit-requiring sample never reaches). ⛔ NO STATUS MOVED AND NOTHING LEFT THE
+BLIND LIST. Rewriting number words in the manuscript would let the census credit coverage it never
+won — a guard that appears to cover more because its mutator got louder is worse than the gap it
+replaced, and it would rewrite prose into nonsense on the way. Measured 2026-08-29 over all 32
+censused documents: `sentences`, `covered`, `with_a_number`, `with_a_number_covered`, `uncovered`
+and `uncovered_with_a_number` are unchanged to the digit.
 """
 from __future__ import annotations
 
@@ -304,8 +324,10 @@ def _baseline_reds(witnesses, workspace):
 def ablate(paper_key, row, witnesses=None):
     """Perturb the sentence IN A CLONE, run its guards there, and report whether anything noticed.
 
-    Returns `{"status", "red", "witnesses", "reason"}`. A caller reading `red` without first checking
-    `status == APPLIED` is reading absence as evidence.
+    Returns `{"status", "red", "witnesses", "word_quantities", "reason"}`. A caller reading `red`
+    without first checking `status == APPLIED` is reading absence as evidence — and a caller reading
+    either without checking `word_quantities` is reading a verdict about digits as a verdict about a
+    claim stated in words.
 
     ⛔⛔ EVERY DIGIT RUN IS TRIED, NOT JUST THE FIRST (2026-08-22). Perturbing only the first one
     manufactured false BLIND verdicts wherever a sentence opens with an incidental number — a
@@ -318,10 +340,22 @@ def ablate(paper_key, row, witnesses=None):
     path = cc.PAPERS[paper_key]
     original = io.open(path, encoding="utf-8").read()
     ws = list(witnesses) if witnesses is not None else guards_reading(os.path.basename(path))
+    #: ⛔⛔ WHAT THIS MODULE CANNOT REACH, REPORTED ON EVERY RETURN RATHER THAN LEFT IMPLICIT
+    #: (AUT-PD-148). Every perturbation below moves a DIGIT, so a quantity written out in words is
+    #: unfalsifiable here by construction and both verdicts lie about it in different ways: BLIND
+    #: reads as "nothing watches this claim" when the claim was never touched, and RED reads as
+    #: "this claim is watched" when what went red was an exon number or an identifier.
+    #: ★ The caller is told which words those are, so the fact is COUNTABLE instead of a silence.
+    #: ⛔ AND THIS DOES NOT SOFTEN A VERDICT: no status changes, nothing leaves the blind list, and
+    #: `covered` is untouched. Widening the mutator to rewrite words would inflate what counts as
+    #: covered without binding anything — the census would report more coverage because its mutator
+    #: got noisier, which is worse than the gap it replaces.
+    unreachable = cc.quantity_words(row["sentence"])
 
     hit = _locate(original, row["sentence"])
     if hit is None:
         return {"status": NOT_APPLIED, "red": [], "witnesses": ws,
+                "word_quantities": unreachable,
                 "reason": "the censused sentence has no home in the raw file even allowing for line "
                           "wrapping — the flattener and the file have diverged"}
     span = original[hit.start():hit.end()]
@@ -333,8 +367,19 @@ def ablate(paper_key, row, witnesses=None):
     runs = [m for m in re.finditer(r"\d+", span)
             if not any(s <= m.start() < e for s, e in _skip)]
     if not runs:
+        #: ⛔ TWO DIFFERENT SILENCES, AND FOLDING THEM TOGETHER IS THE DEFECT. "States no number" is
+        #: a sentence with nothing quantitative to falsify; "states its quantity only in words" is a
+        #: sentence whose claim is exactly the thing this module cannot touch. The second is a gap
+        #: in the instrument, the first is not, and one reason string for both hides which.
+        #: ⚠ These sentences do not even reach the gate today: its sample requires a digit. The
+        #: census counts them — `with_a_word_quantity_and_no_digit_covered`.
         return {"status": NOT_APPLIED, "red": [], "witnesses": ws,
-                "reason": "the sentence states no number, so this module defines no perturbation"}
+                "word_quantities": unreachable,
+                "reason": ("the sentence states its quantity only in WORDS — "
+                           + ", ".join(unreachable)
+                           + " — and no digit this module can perturb, so no verdict here would be "
+                             "about its claim") if unreachable else
+                          "the sentence states no number, so this module defines no perturbation"}
 
     workspace = _workspace()
     mirror = _mirror(path, workspace)
@@ -348,6 +393,7 @@ def ablate(paper_key, row, witnesses=None):
     cmds, already_red = _baseline_reds(ws, workspace)
     if cmds and len(already_red) == len(cmds):
         return {"status": NOT_APPLIED, "red": [], "witnesses": ws,
+                "word_quantities": unreachable,
                 "reason": f"all {len(cmds)} guard(s) reading this document are ALREADY red on the "
                           "unmutated tree, so nothing here can be measured. Fix the tree first — a "
                           "red baseline makes every sentence look bound."}
@@ -363,8 +409,17 @@ def ablate(paper_key, row, witnesses=None):
             fired = [i for i, cmd in enumerate(cmds)
                      if i not in already_red and _run(cmd, workspace)]
             if fired:
+                #: ⛔ A RED ON A DIGIT IS NOT A READING OF A QUANTITY STATED IN WORDS, AND SAYING SO
+                #: HERE IS THE WHOLE POINT: this is the direction that reassures. `15` inside an
+                #: identifier moves, a guard notices, and the sentence reports bound while
+                #: "three to five" goes on unread.
                 return {"status": APPLIED, "red": ws, "witnesses": ws,
-                        "reason": f"{run} -> {new_run}"}
+                        "word_quantities": unreachable,
+                        "reason": f"{run} -> {new_run}" + (
+                            "; ⚠ the sentence ALSO states a quantity in words — "
+                            + ", ".join(unreachable)
+                            + " — which no perturbation touched, so this red is not a reading of it"
+                            if unreachable else "")}
     finally:
         _write_without_following_the_link(mirror, original)
         after = hashlib.sha256(io.open(path, encoding="utf-8").read().encode()).hexdigest()
@@ -373,4 +428,10 @@ def ablate(paper_key, row, witnesses=None):
                 f"FATAL: the REAL {os.path.basename(path)} changed during an ablation "
                 f"({before[:12]} -> {after[:12]}). Recover it from git before doing anything else.")
     return {"status": APPLIED, "red": [], "witnesses": ws,
-            "reason": "no guard reading this file noticed any of: " + ", ".join(tried)}
+            "word_quantities": unreachable,
+            "reason": "no guard reading this file noticed any of: " + ", ".join(tried) + (
+                "; ⚠ and the quantity this sentence states is in WORDS — "
+                + ", ".join(unreachable)
+                + " — so the digits tried above are not its claim and this BLIND verdict is "
+                  "uninformative about the claim rather than evidence against it"
+                if unreachable else "")}

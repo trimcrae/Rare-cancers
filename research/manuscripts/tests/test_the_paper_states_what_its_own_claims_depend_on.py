@@ -362,16 +362,22 @@ def test_claim_coverage_has_not_regressed():
     # ⚠ ALL FOUR FIELDS, not just the two the floors use: `sentences` and `with_a_number` are
     # committed too, and a committed number nothing compares is exactly the kind of plausible-looking
     # record that carried a fabricated verdict out of this repository once already.
-    live = {}
-    for paper in claim_coverage.PAPERS:
-        rows = claim_coverage.census(paper)
-        numbered = [r for r in rows if r["has_number"]]
-        cov = sum(1 for r in rows if r["covered"])
-        ncov = sum(1 for r in numbered if r["covered"])
-        live[paper] = {"sentences": len(rows), "covered": cov,
-                       "with_a_number": len(numbered), "with_a_number_covered": ncov,
-                       "uncovered": len(rows) - cov,
-                       "uncovered_with_a_number": len(numbered) - ncov}
+    # ⛔⛔ AND THE FIELDS ARE READ FROM THE PRODUCER, NOT RE-DERIVED HERE (AUT-PD-148, measured
+    # 2026-08-29 by mutation). This block used to recompute the arithmetic `claim_coverage.main`
+    # performs, so the guard against a stale artifact compared the committed file to ITS OWN COPY of
+    # the derivation and never to the code that wrote the file. Proven, not argued: inverting a
+    # predicate inside `main`'s arithmetic left this test GREEN. The mutation only ever surfaces
+    # after somebody regenerates, and then as a red reading "the deposit is stale" — pointing at the
+    # artifact instead of at the two disagreeing copies.
+    # ★ `claim_coverage.counts` is now the single derivation and both sides call it. The test is
+    # unweakened: it still RUNS the census on the live tree, which is what makes a stale deposit
+    # fail, and it no longer certifies arithmetic nobody uses.
+    # ⚠ THE WORD-QUANTITY FIELDS ARE HELD FOR THE REASON EVERY OTHER FIELD IS, AND NOT BECAUSE A
+    # FLOOR USES THEM — none does. They are a GAP count: sentences the census credits whose stated
+    # quantity is written out, so `claim_ablation` perturbs digits that are not the claim and its
+    # verdict, red or blind, is uninformative about it. A committed number nothing compares is the
+    # plausible-looking record CLAUDE.md §4 names, and a gap count is a comfortable thing to let rot.
+    live = {paper: claim_coverage.counts(paper) for paper in claim_coverage.PAPERS}
 
     committed = json.load(io.open(COVERAGE, encoding="utf-8"))["papers"]
     stale = [f"{p}.{f}: committed {committed.get(p, {}).get(f)!r}, census now reports {v!r}"

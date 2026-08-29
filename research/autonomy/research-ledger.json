@@ -11,7 +11,7 @@
     "experiment": 24,
     "fetch": 19,
     "fix": 16,
-    "harden": 22,
+    "harden": 23,
     "negative": 32,
     "process": 7,
     "process_defect": 136,
@@ -22,16 +22,16 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 115,
-    "in_progress": 4,
+    "done": 116,
+    "in_progress": 5,
     "parked": 28,
-    "queued": 142,
-    "ready": 1,
+    "queued": 140,
+    "ready": 2,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 112,
-  "n_unscored_open": 88,
+  "n_unscored": 113,
+  "n_unscored_open": 89,
   "entries": [
     {
       "serves": {
@@ -2952,65 +2952,6 @@
       }
     },
     {
-      "id": "AUT-PD-130",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "s4-aut-pd-130-CYC-0074-5a21085f",
-      "claimed_utc": "2026-08-29T02:20:00Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0069-c84c64dd",
-      "score": 122.9,
-      "_score_basis": "a red `main` nobody sees, whose second-order effect is fabricated BLIND verdicts pointing at a manuscript instead of at the instrument",
-      "depends_on_evidence": "commit 83aede1 (three guard-pattern widenings) vs 86c68df (article + census written together); the red is test_the_paper_states_what_its_own_claims_depend_on.py::test_claim_coverage_has_not_regressed",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a generated artifact and the gate that pairs it; nothing outward-facing",
-      "what": "⛔ A COMMIT THAT WIDENS A GUARD'S PATTERNS INVALIDATES claim-coverage.json, AND NOTHING PAIRS THEM — MEASURED 2026-08-28 (CYC-0069, fixed in d8e40d8). 83aede1 closed AUT-PD-119 by widening three guards; two of them witness the ASO journal article; the census HARVESTS ITS PATTERNS FROM THE TEST CORPUS, so `covered` moved 99 -> 101 with no manuscript byte touched, and `main` went red on a clean tree for ~35 minutes. ⭐ THE PAIRING THAT USUALLY CATCHES THIS DID NOT APPLY: the article and the census artifact were last written by the SAME commit, so a doc-touches-artifact rule sees nothing wrong — the invalidating edit is in research/manuscripts/tests/, a different directory from the artifact it stales. ⛔⛔ AND THE RED IS NOT COSMETIC: claim_ablation._baseline_reds correctly subtracts a witness already red on the unmutated clone, so while that guard is red every sentence whose only witness is that module scores BLIND — the false-BLIND mechanism the module's own docstring records from 2026-08-23, reached by a new route, and it points a reader at the paper rather than at the instrument. WHAT TO DO: make the pairing structural rather than remembered. The candidate is a preflight/CI check that any commit touching research/manuscripts/tests/*.py (or anything else claim_coverage._test_patterns reads) either regenerates claim-coverage.json or proves the census output is unchanged — the census is a ~1.5 s pure-CPU screen, so recomputing it is cheaper than the rule. ⚠ DO NOT instead relax test_claim_coverage_has_not_regressed: it is the only thing that noticed.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:31:26Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        },
-        {
-          "utc": "2026-08-29T02:20:00Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ],
-      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
-      "score_inputs": {
-        "fruitless_attempts": 1,
-        "age_factor": 0.0714
-      },
-      "_lease_released": {
-        "by": "CYC-0072-2e57571a",
-        "utc": "2026-08-28T23:45Z",
-        "former_owner": "SEAT-s1-ba841eee",
-        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
-        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
-        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
-      },
-      "_stranded_work": {
-        "branch": "seat/s1-aut-pd-130",
-        "sha": "e0847032ddc262d020fe528af66e52fe35aa2204",
-        "detail": "2 commits, head dated 2026-08-28T23:07:53Z. Touches research/manuscripts/claim_coverage.py, research/manuscripts/tests/test_the_census_artifact_and_the_guard_corpus_are_a_pair.py, scripts/preflight.sh, .github/workflows/tests.yml, scripts/regenerate_aso_chain.sh and the ASO archive manifest.",
-        "merged_into_main": false,
-        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
-        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
-      }
-    },
-    {
       "id": "AUT-PD-148",
       "kind": "process_defect",
       "process_defect": true,
@@ -3019,16 +2960,16 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "s5-aut-pd-148-CYC-0074-5a21085f",
-      "claimed_utc": "2026-08-29T02:20:05Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
       "filed_by": "CYC-0070-c84c64dd",
       "score": 122.9,
       "_score_basis": "the instrument's verdict is currently silent about the exact sentences a scientist would check first, and it does not say so",
@@ -3043,7 +2984,7 @@
           "fingerprint_at_dispatch": "2026-08-28|None"
         }
       ],
-      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
+      "evidence": "BUILT, MEASURED AND MUTATION-TESTED (CYC-0074, seat s5, branch claude/aut-pd-148-s5-CYC-0074). ⛔ THE DEFECT REPRODUCES, WITH THE DIAGNOSTIC RATHER THAN A DESCRIPTION. The sentence the row names censuses today as `covered:false, read_by:[], has_number:true`, and its digit runs are exactly `['15','1']` — the 15 of the identifier TAF15 and the 1 of a numbered list marker. `claim_ablation.ablate` perturbs those two and returns a verdict about them; the quantity 'three to five' is untouched by construction, so BLIND reads as 'nothing watches this claim' when nothing touched it, and RED reads as 'this claim is watched' when an identifier moved. ⭐ THE ROW'S PREFERRED OPTION WAS TAKEN AND THE MUTATOR WAS NOT WIDENED. `claim_coverage.quantity_words()` names the quantity words in a sentence; every `ablate` return now carries `word_quantities` and a reason string that says which verdict it is qualifying (the no-digit silence is split from the generic 'states no number' one); and `claim-coverage.json` gained three per-document fields — `with_a_word_quantity`, `with_a_word_quantity_covered`, `with_a_word_quantity_and_no_digit_covered`. ⛔ THE INFLATION TRAP WAS MEASURED, NOT ASSUMED: over all 32 censused documents, `sentences`, `covered`, `with_a_number`, `with_a_number_covered`, `uncovered` and `uncovered_with_a_number` are UNCHANGED TO THE DIGIT before vs after (6 fields x 32 documents, zero diffs). No status moved, nothing left the blind list of `test_the_census_word_covered_survives_ablation.py`, and no floor was touched. ★ THE FINDING THE NEW FIELDS PRODUCE: 133 covered sentences across the census state a quantity in words that no perturbation reaches, and 27 of those state NO DIGIT AT ALL — the ablation gate's sample requires a digit, so those 27 are counted as covered and have never been perturbed by anything. They include 'Ten null ensembles were built as scrambles of each design', 'The ten-base-pair criterion is adopted rather than measured' and 'Three designs clear every screen applied here, none at a junction any patient is reported to carry'. Per floored document: journal article 65 covered / 22 with no digit, fusion-partner 43 / 2, cover letter 4 / 1, journal tables 2 / 1, endpoint 1 / 1. ⛔ `one`, `first` AND `second` ARE EXCLUDED ON A MEASUREMENT: admitting them adds 21 covered sentences in the floored documents, of which a read of all 21 finds THREE stating a quantity and 18 using the pronoun or an ordering word. The under-count is named in the code, not hidden, and a test pins the exclusion so it cannot be widened silently. ⭐ A PRE-EXISTING DEFECT FELL OUT OF THE MUTATION TESTING AND IS FIXED HERE. Mutation M5 SURVIVED on the first pass: `claim_coverage.main` derived the per-document counts and `test_claim_coverage_has_not_regressed` RE-DERIVED them inline, so the guard against a stale artifact compared the committed file to its own copy of the arithmetic and never to the producer — inverting a predicate inside `main` left every test green. Extracted `claim_coverage.counts()` as the single derivation; both callers read it. Re-run, M5 is caught, and so is M5b, which miscounts a PRE-EXISTING field (`with_a_number_covered`) — that blind spot covered all six original fields too. The refactor changed no value: regenerating the artifact before and after is byte-identical. ✅ 12 new tests in research/manuscripts/tests/test_a_quantity_written_in_words_is_counted_not_perturbed.py (it names no manuscript, so it cannot credit itself as coverage or be re-run inside an ablation clone), and 9 of 9 single-site mutations caught on a hard-linked scratch clone — closing word boundary, case folding, admitting the pronoun token, the census row's field, the single derivation's new subset, the single derivation's pre-existing field, the split NOT_APPLIED reason, the APPLIED return's word list, and the committed artifact's own new number. Harness: scratchpad s5-mutate.py; every mutation restored and sha256-verified; no manuscript was mutated at any point. ⚠ WHAT IS NOT DONE, NAMED: this makes the gap COUNTABLE, it does not bind a single word-quantity claim. Binding the 27 is a separate item, filed.",
       "_id_collision": "Filed as AUT-PD-142 and renumbered AUT-PD-148 at the merge — the SECOND collision this session. AUT-PD-142 on the trunk was filed by CYC-0070-ba841eee. `ids.next_entry_id` is max+1 over the ledger the caller can see, and with five sessions filing concurrently that snapshot is stale before it is written. Both rows exist; every reference moved with mine.",
       "score_inputs": {
         "age_factor": 0.0714
@@ -3194,6 +3135,65 @@
       "_score_correction": "150.0 -> 118.0 on 2026-08-28 is a RENUMBERING ARTEFACT, not a re-score. This id briefly and locally carried a different row (CYC-0070's stall fix, score 150) filed against a ledger that could not yet see this one; that row was renumbered at the rebase and this row — the one that reached the trunk first — is unchanged at its own 118.0. No input of this score moved.",
       "score_inputs": {
         "age_factor": 0.0714
+      }
+    },
+    {
+      "id": "AUT-PD-130",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "s4-aut-pd-130-CYC-0074-5a21085f",
+      "claimed_utc": "2026-08-29T02:20:00Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 1,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0069-c84c64dd",
+      "score": 114.9,
+      "_score_basis": "a red `main` nobody sees, whose second-order effect is fabricated BLIND verdicts pointing at a manuscript instead of at the instrument",
+      "depends_on_evidence": "commit 83aede1 (three guard-pattern widenings) vs 86c68df (article + census written together); the red is test_the_paper_states_what_its_own_claims_depend_on.py::test_claim_coverage_has_not_regressed",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a generated artifact and the gate that pairs it; nothing outward-facing",
+      "what": "⛔ A COMMIT THAT WIDENS A GUARD'S PATTERNS INVALIDATES claim-coverage.json, AND NOTHING PAIRS THEM — MEASURED 2026-08-28 (CYC-0069, fixed in d8e40d8). 83aede1 closed AUT-PD-119 by widening three guards; two of them witness the ASO journal article; the census HARVESTS ITS PATTERNS FROM THE TEST CORPUS, so `covered` moved 99 -> 101 with no manuscript byte touched, and `main` went red on a clean tree for ~35 minutes. ⭐ THE PAIRING THAT USUALLY CATCHES THIS DID NOT APPLY: the article and the census artifact were last written by the SAME commit, so a doc-touches-artifact rule sees nothing wrong — the invalidating edit is in research/manuscripts/tests/, a different directory from the artifact it stales. ⛔⛔ AND THE RED IS NOT COSMETIC: claim_ablation._baseline_reds correctly subtracts a witness already red on the unmutated clone, so while that guard is red every sentence whose only witness is that module scores BLIND — the false-BLIND mechanism the module's own docstring records from 2026-08-23, reached by a new route, and it points a reader at the paper rather than at the instrument. WHAT TO DO: make the pairing structural rather than remembered. The candidate is a preflight/CI check that any commit touching research/manuscripts/tests/*.py (or anything else claim_coverage._test_patterns reads) either regenerates claim-coverage.json or proves the census output is unchanged — the census is a ~1.5 s pure-CPU screen, so recomputing it is cheaper than the rule. ⚠ DO NOT instead relax test_claim_coverage_has_not_regressed: it is the only thing that noticed.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:31:26Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        },
+        {
+          "utc": "2026-08-29T02:20:00Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
+      "score_inputs": {
+        "fruitless_attempts": 2,
+        "age_factor": 0.0714
+      },
+      "_lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s1-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s1-aut-pd-130",
+        "sha": "e0847032ddc262d020fe528af66e52fe35aa2204",
+        "detail": "2 commits, head dated 2026-08-28T23:07:53Z. Touches research/manuscripts/claim_coverage.py, research/manuscripts/tests/test_the_census_artifact_and_the_guard_corpus_are_a_pair.py, scripts/preflight.sh, .github/workflows/tests.yml, scripts/regenerate_aso_chain.sh and the ASO archive manifest.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
       }
     },
     {
@@ -8674,6 +8674,35 @@
       "closes_clause": null,
       "filed_by": "CYC-0074-5a21085f",
       "evidence": "Three preflight runs by CYC-0074, logs retained outside any worktree at /tmp/claude-0/-home-user-Rare-cancers/5a21085f-4408-5052-8d10-2eec20a6219a/scratchpad/driver-cyc/ : drv-preflight2.log (EXIT=0, no seats running), drv-preflight3.log (EXIT=0), drv-preflight5.log (EXIT=0, default tier). drv-preflight4.log is the foreground run killed at the 120 s ceiling inside gate 13 and carries NO EXIT marker, so it is reported as a timeout observation, not as a result."
+    },
+    {
+      "id": "AUT-PD-158",
+      "kind": "harden",
+      "process_defect": false,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "ready",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0074-5a21085f",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository guards over committed manuscripts; nothing outward-facing.",
+      "closes_clause": null,
+      "what": "⭐ BIND THE QUANTITIES THAT ARE WRITTEN IN WORDS — the gap AUT-PD-148 made countable rather than closed. `claim-coverage.json` now reports, per document, how many CREDITED sentences state their quantity in words that no perturbation reaches: 133 across the census, and 27 of them state NO DIGIT AT ALL, which means the ablation gate has never touched them (its sample requires a digit) and `claim_ablation.ablate` answers NOT_APPLIED for them. Those 27 are counted as covered and are falsified by nothing. They are not obscure: 'Ten null ensembles were built as scrambles of each design', 'The ten-base-pair criterion is adopted rather than measured', 'A design is liable where a wild-type parent pairs its whole catalytic gap over a contiguous run of ten base pairs or more', and 'Three designs clear every screen applied here, none at a junction any patient is reported to carry, which makes them mechanism controls rather than candidates' — the last of which is one of the 13 sentences a mutation-testing seat inverted onto origin/main on 2026-08-27, where the inversion turned a caveat into an overclaim and no guard could see it. ⛔ THE WORK IS TO WRITE GUARDS THAT READ THE WORD, NOT TO WIDEN THE MUTATOR. A guard that asserts the criterion is ten, spelled, against the artifact that sets it is a real binding; teaching `claim_ablation` to rewrite number words would let the census credit coverage it never won and would rewrite prose into nonsense — AUT-PD-148 measured that trap and refused it, and `test_a_quantity_written_in_words_is_counted_not_perturbed.py` goes red if a later change takes it. ★ THE READING IS FREE AND ALREADY ON DISK: the 27 are `covered and quantity_words and not has_number` over `claim_coverage.census(paper)`, and progress is visible as `with_a_word_quantity_and_no_digit_covered` falling. Start with the 22 in the journal article, which is the floored document with the deepest hole.",
+      "depends_on_evidence": "research/manuscripts/claim-coverage.json, fields `with_a_word_quantity_covered` (133 census-wide) and `with_a_word_quantity_and_no_digit_covered` (27 census-wide, 22 of them in the ASO journal article), measured 2026-08-29 at the commit that added them.",
+      "score_inputs": {
+        "age_factor": 0.0
+      }
     },
     {
       "id": "AUT-PD-112",

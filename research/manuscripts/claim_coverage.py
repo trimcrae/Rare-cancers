@@ -407,6 +407,58 @@ def sentences(path):
     return [s.strip() for s in parts if len(s.split()) >= 6]
 
 
+#: ⛔⛔ THE QUANTITY WORDS, BECAUSE `claim_ablation` PERTURBS DIGITS AND NOTHING ELSE, SO A QUANTITY
+#: WRITTEN OUT IS UNFALSIFIABLE BY CONSTRUCTION (AUT-PD-148, found 2026-08-28 in CYC-0070 by reading
+#: a BLIND verdict instead of trusting it). The fusion-partner endpoint sentence's real claim is
+#: "three to five TAF15 patients with no events"; re-measured here 2026-08-29, its only digit runs
+#: are `15` from the identifier TAF15 and `1` from a list marker. The harness perturbs those two and
+#: reports a verdict about them, and that verdict — RED or BLIND — says NOTHING about the quantity a
+#: reviewer would check first.
+#: ⚠ THIS IS NOT THE SAME DEFECT AS AN UNBOUND NUMBER, and conflating them is the trap. The sentence
+#: may be perfectly well guarded; the instrument cannot tell either way. So the honest move is to
+#: COUNT these sentences as a status of their own, not to widen the mutator until the census reports
+#: more "coverage" it never won — a guard that appears to cover more because its mutator got noisier
+#: is worse than the gap it replaced. Nothing here touches `covered`, `has_number` or any floor:
+#: measured 2026-08-29 across all 32 censused documents, every one of those fields is unchanged to
+#: the digit by this addition, and the new fields are additive.
+#:
+#: ⛔ `one`, `first` AND `second` ARE DELIBERATELY OUT, AND THE COST IS MEASURED RATHER THAN ARGUED.
+#: Adding them takes the covered word-quantity sentences of the five floored documents up by 21.
+#: All 21 were read: three state a quantity a reviewer would check — "the disease's one
+#: tumour-exclusive feature", "the one series that ran a multivariable model", "One published
+#: TAF15::NR4A3 objective response" — and the other 18 are the pronoun ("the wrong one", "would not
+#: yield one", "the only one until 2026") or an ordering word ("the first coding exon", "a second
+#: class", "the energy-based second stage"). A status whose population is 18-in-21 not-a-quantity
+#: is one readers learn to ignore, which is the failure this module exists to stop.
+#: ★ THE RESIDUE IS NAMED, NOT HIDDEN: a claim resting on the word "one" is NOT flagged by this
+#: field, and those three sentences are the known under-count. Widening the set is a deliberate,
+#: measured act — and `test_a_quantity_written_in_words_is_counted_not_perturbed.py` pins the
+#: exclusion so it cannot be widened silently.
+_QUANTITY_WORDS = (
+    "zero two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen "
+    "sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety "
+    "hundred thousand million billion dozen "
+    "third fourth fifth sixth seventh eighth ninth tenth eleventh twelfth thirteenth fourteenth "
+    "fifteenth sixteenth seventeenth eighteenth nineteenth twentieth"
+).split()
+
+#: ⚠ THE TRAILING `\b` IS LOAD-BEARING AND SO IS THE ALTERNATION'S BACKTRACKING. `re` takes the
+#: leftmost alternative that lets the WHOLE pattern match, so "nineteen" is not shadowed by "nine"
+#: and "tenth" is not shadowed by "ten": the short branch matches, the closing boundary fails against
+#: the next letter, and the engine tries the longer one. Dropping the boundary would silently
+#: relabel every "nineteen" as "nine".
+_QUANTITY_WORD = re.compile(r"\b(?:%s)\b" % "|".join(_QUANTITY_WORDS), re.I)
+
+
+def quantity_words(sentence):
+    """The quantities this sentence states in WORDS — exactly what no digit perturbation reaches.
+
+    Case-insensitive, so a sentence-initial "Ten" is the same claim as "ten", and reported in lower
+    case so a caller counting distinct quantities does not count one twice.
+    """
+    return sorted({m.group(0).lower() for m in _QUANTITY_WORD.finditer(sentence)})
+
+
 def _pin_patterns():
     """Every `context` regex a pin uses, with the document it is pinned to."""
     pins = json.load(io.open(PINS, encoding="utf-8"))["artifact_figures"]
@@ -600,6 +652,11 @@ def census(paper_key):
     for s in sents:
         hits = sorted({w for rx, w in compiled if rx.search(s)})
         rows.append({"sentence": s, "has_number": bool(re.search(r"\d", s)),
+                     #: ⛔ A SEPARATE FIELD, NEVER FOLDED INTO `has_number`. `has_number` is what
+                     #: `claim_ablation` can perturb; this is what it cannot. Merging them would
+                     #: move `with_a_number_covered` — a floored field — on a definition change
+                     #: rather than on a binding won, which is a floor moved on a refactor.
+                     "quantity_words": quantity_words(s),
                      "read_by": hits, "covered": bool(hits)})
     return rows
 
@@ -619,6 +676,51 @@ def uncovered(paper_key):
     return {"with_a_number": [r["sentence"] for r in rows if r["has_number"] and not r["covered"]],
             "without_a_number": [r["sentence"] for r in rows
                                  if not r["has_number"] and not r["covered"]]}
+
+
+def counts(paper_key, rows=None):
+    """The per-document row of the committed report — the ONE derivation of these nine numbers.
+
+    ⛔⛔ THIS FUNCTION EXISTS BECAUSE THE ARITHMETIC WAS WRITTEN TWICE, AND A MUTATION PROVED THE
+    SECOND COPY WAS NOT WATCHING THE FIRST (AUT-PD-148, measured 2026-08-29). `main` derived the
+    counts, and `test_claim_coverage_has_not_regressed` — the guard whose whole job is to catch a
+    stale artifact — RE-DERIVED them inline and compared the committed file against its own copy.
+    So it compared a file to itself-recomputed, and never to the producer at all: inverting a
+    predicate in `main`'s arithmetic left every test green, and would have stayed green until
+    somebody regenerated the artifact and got a red that reads "the deposit is stale" rather than
+    "your two copies of one derivation disagree".
+    ★ CLAUDE.md §1: a total is DERIVED, never typed — and deriving it twice is a way of typing it.
+    Both callers now read this function, so a mutation here is caught by the guard directly.
+    ⚠ `rows` is an argument only so a caller already holding a census does not pay for a second one;
+    passing rows from a DIFFERENT document would produce a coherent-looking row about nothing, which
+    is why nothing in this repository passes it except a caller that just called `census(paper_key)`.
+    """
+    rows = census(paper_key) if rows is None else rows
+    n = len(rows)
+    cov = sum(1 for r in rows if r["covered"])
+    num = [r for r in rows if r["has_number"]]
+    num_cov = sum(1 for r in num if r["covered"])
+    #: ⛔ THE THREE WORD-QUANTITY FIELDS ARE A GAP COUNT, NOT A COVERAGE COUNT, AND NOTHING RATCHETS
+    #: THEM. `with_a_word_quantity_covered` says how many sentences the census credits whose stated
+    #: quantity no perturbation can reach, so the ablation verdict on each of them — RED or BLIND —
+    #: is uninformative about the claim. The third is the sharper subset: those with no digit at all,
+    #: which `test_the_census_word_covered_survives_ablation.py` never even samples (it requires a
+    #: digit) and which `claim_ablation.ablate` answers NOT_APPLIED for.
+    #: A FLOOR ON THESE WOULD BE PERVERSE — the honest direction of travel is DOWN, by binding the
+    #: quantities in words, and a ratchet would hold the gap open.
+    wq = [r for r in rows if r["quantity_words"]]
+    wq_cov = sum(1 for r in wq if r["covered"])
+    return {
+        "sentences": n, "covered": cov,
+        "with_a_number": len(num), "with_a_number_covered": num_cov,
+        #: The uncovered sentences themselves are `--uncovered=<path>`, not a field here — see
+        #: `uncovered()` for the 1.1 MB measurement that took them out of the artifact.
+        "uncovered": n - cov, "uncovered_with_a_number": len(num) - num_cov,
+        "with_a_word_quantity": len(wq),
+        "with_a_word_quantity_covered": wq_cov,
+        "with_a_word_quantity_and_no_digit_covered":
+            sum(1 for r in wq if r["covered"] and not r["has_number"]),
+    }
 
 
 def main(argv=None):
@@ -646,20 +748,13 @@ def main(argv=None):
                         "`claim_coverage.endpoint_documents`.",
               "named_by": NAMED_BY, "papers": {}}
     for key in PAPERS:
-        rows = census(key)
-        n = len(rows)
-        cov = sum(r["covered"] for r in rows)
-        num = [r for r in rows if r["has_number"]]
-        num_cov = sum(r["covered"] for r in num)
-        report["papers"][key] = {
-            "sentences": n, "covered": cov,
-            "with_a_number": len(num), "with_a_number_covered": num_cov,
-            #: The uncovered sentences themselves are `--uncovered=<path>`, not a field here — see
-            #: `uncovered()` for the 1.1 MB measurement that took them out of the artifact.
-            "uncovered": n - cov, "uncovered_with_a_number": len(num) - num_cov,
-        }
-        print(f"{key}: {cov}/{n} sentences read by something "
-              f"({num_cov}/{len(num)} of those stating a number)")
+        row = counts(key)
+        report["papers"][key] = row
+        print(f"{key}: {row['covered']}/{row['sentences']} sentences read by something "
+              f"({row['with_a_number_covered']}/{row['with_a_number']} of those stating a number; "
+              f"{row['with_a_word_quantity_covered']} covered state a quantity in words no "
+              f"perturbation reaches, {row['with_a_word_quantity_and_no_digit_covered']} of them "
+              f"stating no digit at all)")
     if write:
         #: ⚠ THIS ARTIFACT MOVED OUT OF `aso/` ON 2026-08-26 AND THE MOVE IS THE POINT. While the
         #: census read one submission it was an ASO deposit artifact; it now reads every publication
