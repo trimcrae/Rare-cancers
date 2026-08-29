@@ -680,6 +680,138 @@ def merge(generated: list[dict], existing: dict | None) -> list[dict]:
     return merged
 
 
+def route_score_floor(entries: list[dict]) -> dict[str, float]:
+    """The lowest score the GRAPH itself puts on each route, read off that route's derived rows.
+
+    ⭐ THE FLOOR IS THE AGGREGATOR, AND THE CHOICE IS CONSERVATIVE ON PURPOSE. A derived row is the
+    graph's own enumerated next step for a route, scored by `build_entries` from the route's inputs.
+    A hand-filed row on the same route is a step the graph does not express, so its per-step terms
+    are UNKNOWN and cannot be computed. Taking the minimum says the only thing the evidence supports:
+    this row is worth no more than the least the graph already values on its own route. Taking the
+    max, or a mean, would put a number on the row that no derived sibling justifies.
+    ⚠ AND THE AGGREGATOR IS CURRENTLY UNEXERCISED, WHICH IS SAID HERE RATHER THAN LEFT TO BE
+    DISCOVERED: on the ledger this was written against every route with any derived row has EXACTLY
+    ONE, so min, max and mean are the same number today. `test_the_floor_is_the_lowest_sibling`
+    binds the rule against a synthetic multi-sibling route, because the committed data cannot.
+    ⛔ A ROUTE WITH NO DERIVED ROW GETS NO ENTRY HERE, and that absence must be REPORTED rather than
+    filled — `health.py`'s `scores_are_reachable` is what reports it. RT-AUTONOMY is not a route in
+    systems/graph, so its rows can never inherit; that is the measured reason this pass cannot flood
+    the queue with the loop's own process defects (AUT-PD-143).
+    """
+    seen: dict[str, float] = {}
+    for entry in entries:
+        if not entry.get("_derived"):
+            continue
+        score = entry.get("score")
+        if not isinstance(score, (int, float)) or isinstance(score, bool):
+            continue
+        route = (entry.get("serves") or {}).get("route")
+        if not route:
+            continue
+        if route not in seen or score < seen[route]:
+            seen[route] = float(score)
+    return seen
+
+
+#: The `score_inputs` keys that mean "a penalty has ALREADY been charged against this row's score".
+#: `apply_route_inheritance` clears them when it replaces the score, because after that replacement
+#: the statement they make is false — see its docstring. `age_factor` is deliberately NOT here: it
+#: is a term the pass puts back itself, so its echo stays true.
+CHARGED_AGAINST_SCORE = ("blocked_with_evidence", "fruitless_attempts", "blocked_on_human")
+
+
+def apply_route_inheritance(entries: list[dict], weights: dict) -> list[dict]:
+    """Give an unscored hand-filed row the floor of its own route, so it can be OFFERED at all.
+
+    ⛔⛔ THE DEFECT (AUT-PD-143, measured 2026-08-28): `build_entries` is the only place a `score` is
+    CREATED and it derives rows from systems/graph, while `merge()` carries a hand-filed row forward
+    verbatim — so a row filed without a `score` key could never gain one, on any re-score, ever. Four
+    readers then treated that absence as "not work": the sort behind a -1e9 sentinel, `_table` (which
+    CRASHED on such a row rather than printing it), `health.py`'s `queue_is_takeable`, and
+    `handoff.py`'s successor queue. 104 of 277 rows carried no score and 74 of those were OPEN, so a
+    third of the ledger had never been offered to any cycle — including live in-silico work on
+    RT-SGK1, RT-ALK-HIT, RT-JUNCTION-NEOANTIGEN and RT-PARTNER-STRAT, while the ranked queue's top
+    takeable rows were the loop's own process defects. CLAUDE.md §0's named failure arriving as a
+    missing dict key rather than as a judgement.
+
+    ★ THE IDIOM IS NOT NEW HERE. `apply_session_penalties`'s rule 2 already ASSIGNS a prerequisite's
+    score from its parent's and records `_score_basis` WITHOUT writing `score_inputs`, and
+    `admissibility.py` models exactly that shape as UNACCOUNTED rather than as a failure. This pass
+    is that idiom applied along `serves.route` instead of along `prerequisite_of`.
+    ⛔ IT NEVER FABRICATES `score_inputs`. A full set of zeroed inputs would make an inherited score
+    look computed, which is what `test_priority_ranks_the_hand_filed_entries_too` exists to forbid;
+    the row carries `_score_basis` in prose instead, exactly as a hand-scored row does.
+
+    ⛔⛔ IT RUNS LAST, AND THE FIRST ATTEMPT RAN IT MID-PIPELINE — THE DIFFERENCE WAS 90 POINTS AND
+    IT POINTED THE WRONG WAY (measured this cycle, before either version was committed). Placed
+    after `apply_age_factor` and before the penalty passes, the pass reads a derived sibling's
+    PRE-PENALTY score, so RT-PARTNER-STRAT's floor read 195.0 while the same row, AUT-049, stands at
+    105.0 in the ledger a reader holds. Two consequences, and the second is the serious one:
+      1. `_score_basis` would cite a number that appears nowhere in the file it is written into —
+         CLAUDE.md §1's one-fact-one-place violated by the very field added to make the score
+         checkable.
+      2. Five hand-filed rows (AUT-PD-001..004, AUT-PROP-004 — sandbox and trunk process defects)
+         would have entered at ~195.9, ABOVE every live research row the pass exists to surface,
+         including RT-SGK1 and RT-ALK-HIT at 140.0. The fix would have been §0-NEGATIVE for that
+         route: process defects outranking in-silico work is the exact failure this is curing.
+    ⭐ So the floor is the sibling's FINISHED score, and the row's own row-specific terms are then
+    charged by the passes that own them — never re-implemented here.
+
+    ⭐ HOW THE ROW'S OWN TERMS GET CHARGED, WITHOUT A FOURTH COPY OF THREE FORMULAS. Replacing a
+    score invalidates the `score_inputs` flags that say a penalty is already inside it: on the
+    committed ledger AUT-PROP-004 carried `blocked_with_evidence: True` beside `score: null`, and
+    with a fresh base under that stale flag `apply_session_penalties` REMOVES a 90-point penalty the
+    score never contained. So the pass clears `CHARGED_AGAINST_SCORE`, then calls
+    `apply_session_penalties`, `apply_fruitless_attempts` and `apply_requires_trimcrae` on the newly
+    scored rows ALONE. Each is written as a delta against its echoed input and is therefore a no-op
+    on a row that already carries it, which is the property `test_a_score_must_derive_from_its_own_inputs`
+    already binds; passing the subset also keeps rule 2's `by_id` from re-resolving the whole ledger.
+    ⚠ A row naming a `prerequisite_of` parent is never in that subset — `_resolve` scores it from the
+    parent whatever its own score was, and naming a parent is more specific evidence than sharing a
+    route.
+    ⭐ `age_factor` is the one echoed input the pass keeps and re-adds itself, exactly as `_resolve`
+    does for the identical reason (AUT-PD-063): `apply_age_factor` writes the echo even on a row
+    whose score is None while adding nothing to the score, so without `_own_age_bonus` the row would
+    advertise a term its score does not contain — the one thing `_scores_are_not_evidence` promises
+    never happens.
+
+    ⛔ ASSIGNED ONCE, NEVER RE-DERIVED. Only a row whose score is None is touched, so from the next
+    re-score on it behaves exactly like a row whose filer typed a number, and every downstream
+    flag-guarded penalty stays single-applied. Re-deriving each run would overwrite a base those
+    flags say has already been charged, which is the AUT-PD-063 ratchet with a new name.
+    """
+    terms = weights.get("terms") or {}
+    floors = route_score_floor(entries)
+    assigned: list[dict] = []
+    for entry in entries:
+        if entry.get("score") is not None:
+            continue
+        route = (entry.get("serves") or {}).get("route")
+        floor = floors.get(route)
+        if floor is None:
+            # ⛔ RESIDUE. Not scorable from anything the graph holds, so it gets NO number here — an
+            # invented one would be worse than the invisibility it cures (CLAUDE.md §4). `health.py`'s
+            # `scores_are_reachable` counts these rows and names what would settle each.
+            continue
+        inputs = entry.get("score_inputs")
+        if isinstance(inputs, dict):
+            for flag in CHARGED_AGAINST_SCORE:
+                inputs.pop(flag, None)
+        entry["score"] = round(floor + _own_age_bonus(entry, terms), 2)
+        entry["_score_basis"] = (
+            f"inherited from the lowest-scoring derived row on {route} ({floor}) plus this row's own "
+            "age bonus, then charged its own penalties — the graph does not express this row, so it "
+            "is worth no more than the least the graph already values on the same route (AUT-PD-143)"
+        )
+        entry["_score_inherited_from_route"] = route
+        assigned.append(entry)
+    if assigned:
+        apply_session_penalties(assigned, weights)
+        apply_fruitless_attempts(assigned, weights)
+        apply_requires_trimcrae(assigned, weights)
+    return entries
+
+
 def _own_age_bonus(entry: dict, terms: dict) -> float:
     """What `apply_age_factor` has already put into THIS row's score, so an assignment can put it
     back. AUT-PD-063.
@@ -1088,6 +1220,17 @@ def build_ledger() -> dict:
     # `apply_session_penalties` for that function's stated reason: rule 2 of the penalties pass
     # ASSIGNS a prerequisite's score from its parent's, overwriting anything applied before it.
     entries = apply_requires_trimcrae(entries, weights)
+    # ⛔ AUT-PD-143 RUNS LAST, AND "LAST" IS A MEASUREMENT, NOT A PREFERENCE — see
+    # `apply_route_inheritance`'s docstring for the run that decided it. It reads the DERIVED rows'
+    # finished scores, so it must sit downstream of every pass that moves one. ⛔ AND IT IS STILL
+    # BEFORE THE SORT, or it is dead code — the defect class this repository has paid for repeatedly
+    # (`subagent_width` governed nothing for a fortnight because no code read it). Its own test
+    # asserts this call site exists.
+    # ⭐ AND IT RUNS BEFORE `score_rank` RATHER THAN CHANGING IT. AUT-PD-050 (immediately upstream)
+    # settled that an unscored row sorts LAST and said the fix for a starved row is a `score`,
+    # never a change to that ordering. This is that fix: the ordering rule is untouched and the
+    # rows simply stop being unscored.
+    entries = apply_route_inheritance(entries, weights)
     entries.sort(key=lambda e: (score_rank(e),
                                 str(e.get("serves", {}).get("route") or e["id"])))
     return {
@@ -1144,7 +1287,11 @@ def _table(entries: list[dict], limit: int) -> str:
     for entry in entries[:limit]:
         # AUT-PD-046: a row missing `what` (e.g. a freshly-filed proposal nobody has described yet)
         # must degrade the table, never crash the whole --limit view for every other row alongside it.
-        what = entry.get("what", "(no description)").replace("\n", " ")
+        # ⚠ `what` is read through `str(... or ...)` rather than `get(key, default)` because a row
+        # carrying an explicit `"what": null` is not a row missing the key, and only the first of
+        # those two was handled. AUT-PD-143 found this concurrently with AUT-PD-050 below, which
+        # owns the account of the same defect on the other three cells — one fact, one place.
+        what = str(entry.get("what") or "(no description)").replace("\n", " ")
         if len(what) > 52:
             what = what[:49] + "..."
         # ⛔⛔ AUT-PD-050, AND IT IS AUT-PD-046'S OWN SIBLING LINE — the defect that comment describes,

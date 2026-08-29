@@ -260,6 +260,7 @@ def test_the_scoring_pipeline_is_a_fixed_point_of_itself():
         entries = priority.apply_session_penalties(entries, w)
         entries = priority.apply_fruitless_attempts(entries, w)
         entries = priority.apply_requires_trimcrae(entries, w)
+        entries = priority.apply_route_inheritance(entries, w)
         return {"entries": entries}
     second = _again(first)
     was = {e["id"]: e.get("score") for e in first["entries"]}
@@ -279,6 +280,7 @@ def test_a_third_application_still_moves_nothing():
         entries = priority.apply_session_penalties(entries, w)
         entries = priority.apply_fruitless_attempts(entries, w)
         entries = priority.apply_requires_trimcrae(entries, w)
+        entries = priority.apply_route_inheritance(entries, w)
         state = {"entries": entries}
         scores.append({e["id"]: e.get("score") for e in entries})
     assert scores[0] == scores[1] == scores[2]
