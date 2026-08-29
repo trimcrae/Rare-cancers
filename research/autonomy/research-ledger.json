@@ -2935,9 +2935,9 @@
         "publication": "PUB-STRATEGY-ARCH",
         "strategy": "ST-STRATEGY"
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0087-4ce79c2a",
+      "claimed_utc": "2026-08-29T12:14:28Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2954,7 +2954,13 @@
       "_renamed_why": "re-allocated at the THIRD rebase of this cycle. Every id this row was previously filed under was taken by a concurrent session in the interval — AUT-PD-152 by CYC-0073-2e57571a, which used it for the null-score_inputs crash this cycle was fixing at the same moment. Ids were counted explicitly after EVERY rebase (AUT-PD-144's rule) and the count caught a collision each time.",
       "depends_on_evidence": "research/autonomy/health.py c_scores_are_reachable on the committed ledger; research/autonomy/priority.py route_score_floor; systems/graph/routes.json (RT-AUTONOMY is not among its routes)",
       "what": "⛔ DECIDE WHAT RT-AUTONOMY IS IN systems/graph, BECAUSE THE OPEN ROWS ABOUT THE LOOP'S OWN MACHINERY CAN NEVER BE RANKED AGAINST ANYTHING. AUT-PD-143 gives an unscored row the floor of its route; RT-AUTONOMY is not a route in the graph, so no floor exists and those rows stay rankable only if their filer types a number by hand — which is how most came to have none. AUT-PD-145 owns the write-time gate that stops the count growing; this row owns the question that gate cannot answer. ⭐ THE TWO OPTIONS ARE NOT SYMMETRIC. (a) Give RT-AUTONOMY a route row and the graph ranks the loop's self-maintenance against treatment routes on the same axes — CLAUDE.md §0 has an opinion, and a `live`/`patient_path` score for loop machinery would be a fabrication, not a low number. (b) Make 'serves no treatment route' an EXPLICIT scored class with a stated ceiling, so process work is ordered among itself and can never outrank live research — which is what the hand-typed 105-135 range already does by accident, unstated and unenforced. ⛔ THIS IS A JUDGEMENT ABOUT WHAT THE LOOP MAY RANK ITS OWN MAINTENANCE ABOVE, and a cycle taking it is choosing its own priority — the shape `amendment_guard` exists to catch. Prepare both options with their measured consequences and put the choice to trimcrae.",
-      "_cycle_row_key": "rt-autonomy-is-not-a-route"
+      "_cycle_row_key": "rt-autonomy-is-not-a-route",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T12:14:28Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-170",
