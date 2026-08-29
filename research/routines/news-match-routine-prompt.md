@@ -90,6 +90,18 @@ create_trigger(
     prompt                = "<the weekly prompt, written for a session that CONTINUES>")
 ```
 
+⭐ **PROVEN END TO END 2026-08-29, INCLUDING THE HALF THAT NEARLY GOT REPORTED WRONG.**
+A `run_once_at` firing bound to the runner reached **the existing session**: its `updated_at`
+advanced past the fire time, its `post_turn_summary` changed to a fresh answer, it still carried
+`sources`, and `last_served_model` was still `claude-opus-5`.
+
+⛔ **BUT `fire_trigger` IS NOT A VALID TEST OF THIS, AND USING IT AS ONE PRODUCES THE OPPOSITE
+ANSWER.** A manual force-fire on the same session-bound Routine spawned a **fresh session with no
+`sources`, served by Sonnet** (`cse_01U3CTU5g4y2iq98E9XH2YSx`) — it did not route into the bound
+session at all. Taken at face value that reads as "`persistent_session_id` does not work", which is
+false. ⚠ **The two paths differ, so test the schedule with a schedule:** `run_once_at` a few minutes
+out is the cheap probe. A force-fire tells you nothing about where the weekly run will land.
+
 ★ **THE DISCRIMINATING FIELD IS `session_context.sources`, AND IT IS READABLE THE MOMENT THE
 SESSION IS CREATED** — long before anything runs. Three records, same environment
 (`env_01AFwLH33U3ZprSgZf2nbV7S`), same day:
@@ -98,7 +110,8 @@ SESSION IS CREATED** — long before anything runs. Three records, same environm
 |---|---|---|
 | trimcrae's UI-created Routine (`EMC research loop — driver`) | `[{git_repository: …}]` | works |
 | `create_trigger` alone, `create_new_session_on_fire` | **absent** | ran 26 min, `FAILED`, pushed nothing |
-| `create_session` with `source_url`, then `create_trigger` bound to it | `[{git_repository: …, revision: …}]` | setup check passed in 76 s |
+| `create_session` with `source_url`, then `create_trigger` bound to it | `[{git_repository: …, revision: …}]` | setup check passed in 76 s; a **scheduled** firing reached this same session |
+| `fire_trigger` on that same bound Routine | **absent** | force-fire ignores the binding — spawns a fresh Sonnet session |
 
 ⛔ **CHECK THAT FIELD BEFORE BINDING A SCHEDULE TO ANYTHING.** It is the cheapest possible test and
 it distinguishes the two failures that look identical from outside — a Routine that fires into a

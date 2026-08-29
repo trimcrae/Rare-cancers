@@ -214,6 +214,10 @@ tested 2026-08-28, it ran 26 minutes reporting `RUNNING` and ended `FAILED`, whi
 defect that left the field-scan Routine delivering nothing for six weeks. But `create_session` takes
 `source_url`, and `create_trigger` can bind to an existing session — so the working path is
 `create_session` (repo attached, model pinned) then `create_trigger(persistent_session_id=…)`.
+⭐ **Proven end to end 2026-08-29:** a scheduled firing reached the bound repo-attached runner, on
+the pinned Opus, with `sources` intact. ⛔ **A manual `fire_trigger` does NOT** — it ignores the
+binding and spawns a fresh unattached Sonnet session, so it is not a valid test of the schedule
+and reading it as one gives the opposite answer. Probe a schedule with a schedule (`run_once_at`).
 ⚠ **The discriminating field is `session_context.sources`, readable the moment a session is created
 and long before anything runs. Check it before binding a schedule to anything** — a Routine firing
 into an empty container looks healthy for as long as it flails. Both routes, the evidence table and
