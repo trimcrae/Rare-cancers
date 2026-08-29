@@ -34,8 +34,14 @@
  ],
  "route_advanced": "RT-AUTONOMY",
  "handoff": {
-  "child_session_id": null,
-  "attempted": false,
-  "_why": "Cycle 1 of 2 in this session (autonomy-state.json max_cycles_per_session=2). Owed only at the cap."
+  "child_session_id": "session_01NsMER9Gsh1jLUTPYS1561F",
+  "attempted": true,
+  "succeeded": true,
+  "created_utc": "2026-08-29T02:34:29Z",
+  "title": "EMC research loop — cycle (successor to CYC-0073-d4ccfde4)",
+  "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+  "parent_session_id": "session_01G6maQEKfLfVi8TqsraQVse",
+  "prompt_built_by": "research/autonomy/handoff.py --json, from committed state — never from this session's context",
+  "prompt_summary": "Standard generated handoff plus six OPERATIONAL pointers and no findings: (1) branch cyc0073-d4ccfde4-work is gated green, is NOT on main, and merging it is the successor's first job, with an instruction to verify that against git rather than believe it; (2) it could not be landed by its own push, pointing at AUT-PD-159 rather than restating it; (3) push every gated commit to a branch early, because it removes the pressure that makes breaching the gate rule tempting; (4) nproc=4 and a driver gating while its own seats gate oversubscribes it — with the explicit warning that whether this explains the gate's wall time is UNKNOWN and two mechanisms were already guessed WRONG, so do not inherit either; (5) `git add` aborts entirely on an unmatched pathspec and stderr must never be suppressed on a staging command; (6) re-read the trunk before trusting an id allocated earlier."
  }
 }
