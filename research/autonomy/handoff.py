@@ -41,6 +41,8 @@ import pathlib
 import subprocess
 import sys
 
+import cadence
+
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 LEDGER = HERE / "research-ledger.json"
@@ -505,6 +507,17 @@ Escalate only what the skill's §5 names. Everything else is silent. Your final 
 you took, what changed, and `route_advanced`."""
 
 
+def cadence_verdict():
+    """`(exit_code, why, payload)` from the cadence gate, read against THIS module's `STATE`.
+
+    ⭐ A NAMED SEAM, ON PURPOSE. It exists so a test about the DIVERGENCE refusal can neutralise the
+    CADENCE refusal without either becoming untested — the same hermeticity problem the stuck-clock
+    suite hit the same day, where four assertions graded fixed fixtures against a config file the
+    budget governor moves. Production keeps the real path; a test patches this one function.
+    """
+    return cadence.check(state_path=str(STATE))
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--reason", default="", help="why the handoff is happening")
@@ -513,6 +526,9 @@ def main(argv=None) -> int:
                     help="emit the prompt even though filed ledger rows will not survive the handoff, "
                          "naming them in it. For a builder that genuinely cannot commit — not a way "
                          "past the check.")
+    ap.add_argument("--ignore-cadence", action="store_true",
+                    help="build the successor even though the cadence gate refuses. For a successor "
+                         "genuinely due whose last-cycle stamp is wrong — not a way past the hold.")
     a = ap.parse_args(argv)
 
     # ⛔⛔ THE REFUSAL, AND IT IS THE POINT OF THIS MODULE'S 2026-08-29 REPAIR (AUT-PD-166). Reading
@@ -536,6 +552,27 @@ def main(argv=None) -> int:
               f"{TRUNK}; anything not there died with this container. To hand off anyway and record "
               f"the loss in the prompt, re-run with --allow-divergence.", file=sys.stderr)
         return 3
+
+    # ⛔⛔ THE SECOND REFUSAL, AND IT COST $5.39 TO LEARN (CYC-0088, 2026-08-29). A handoff SPAWNS A
+    # SESSION, so it is a cadence event as much as a fire from the Routine is — and nothing here
+    # checked the cadence. trimcrae's budget hold landed at 11:51Z; CYC-0088 built a handoff at
+    # 13:41Z, minutes after its own cycle, and the successor spent $5.39 before it was interrupted.
+    # ⚠ THE PROVENANCE WAS NOT THE BUG. `build` reads `origin/main` and did so correctly; the hold
+    # simply had not been pushed when it read. What was missing is that a successor created inside
+    # the interval breaches the cadence WHATEVER the posture said — the gate belongs on the spawn,
+    # not only on the fire, because those are the two ways a cycle starts.
+    # ⭐ It fails OPEN exactly where `cadence.check` does: unreadable state, no declared interval, or
+    # no prior cycle. A handoff that cannot read the governor must still be possible.
+    code, why, _ = cadence_verdict()
+    if code != cadence.MAY_START and not a.ignore_cadence:
+        print("REFUSED: a handoff creates a session, so it is a cadence event.", file=sys.stderr)
+        print(f"  {why}", file=sys.stderr)
+        print("REMEDY: end this session without a successor. The Routine fires again on its own "
+              "schedule and a fresh session re-reads the ledger — that is the whole recovery "
+              "mechanism (architecture §9 property 2), and nothing is lost by not spawning. "
+              "⛔ --ignore-cadence exists for a successor that is genuinely due and mis-dated, not "
+              "for one that is merely wanted.", file=sys.stderr)
+        return 4
 
     prompt = build(a.reason, lost=lost)
     if a.json:
