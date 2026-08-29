@@ -2,7 +2,7 @@
   "_schema": "emc-cycle-receipt/1",
   "cycle_id": "CYC-0073-bdf8c881",
   "session_id": "bdf8c881-1bd5-5daa-ad43-6d0f3f8c170b",
-  "ccr_session_id_unavailable": "No get_session-style tool is on this scheduled-Routine session's tool surface: ToolSearch for \"get_session\" and \"create_session\" and \"session info ccr claude-code-remote\" all returned no matching deferred tool (see AUT-PD-155, filed and fixed this session). The harness env session id (CLAUDE_CODE_SESSION_ID) is used for `session_id` above; there is no platform CCR id (`session_...`) reachable from this session to put here.",
+  "ccr_session_id_unavailable": "No get_session-style tool is on this scheduled-Routine session's tool surface: ToolSearch for \"get_session\" and \"create_session\" and \"session info ccr claude-code-remote\" all returned no matching deferred tool (see AUT-PD-157, filed and fixed this session). The harness env session id (CLAUDE_CODE_SESSION_ID) is used for `session_id` above; there is no platform CCR id (`session_...`) reachable from this session to put here.",
   "utc": "2026-08-29T00:14:00Z",
   "shape": "One driver, no fan-out. Cycle 1 of 2 in this session (autonomy-state.json max_cycles_per_session=2).",
   "took": "Not a ledger item claimed via claim.py -- found while orienting, before step 4. python3 research/autonomy/priority.py --write (step 3, mandatory before any item can be taken) crashed on the committed trunk with TypeError: 'NoneType' object does not support item assignment at apply_age_factor's e.setdefault(\"score_inputs\", {})[\"age_factor\"] = f. Root-caused to entry AUT-COV-001, which carries \"score_inputs\": null explicitly (present, not absent) -- dict.setdefault only installs its default when the key is ABSENT, so it returned the existing None and the following [...] = f crashed, and drafted a fix along the same lines already used on the two neighbouring lines of that function. ⛔ ON MERGING origin/main before push (see CYC-0074-bdf8c881, this session's final cycle, for the merge itself), discovered CYC-0073-2e57571a had independently diagnosed and fixed the IDENTICAL defect concurrently, filed under the same ledger id (AUT-PD-152) -- and their fix is strictly more complete: it also hardens the `else` branch's `(e.get(\"score_inputs\") or {}).pop(...)`, which raises on a truthy non-dict exactly the way the line this cycle fixed did, and which this cycle's own fix left unfixed. Adopted their fix and their AUT-PD-152 ledger entry in full on merge; this cycle's own draft fix and ledger entry were dropped rather than kept as a duplicate.",
@@ -32,7 +32,7 @@
   "now_queued": [
     "AUT-PD-152 closed by CYC-0073-2e57571a (adopted on this session's merge).",
     "AUT-PD-144 (a related step-3-crash defect, also process_defect/RT-AUTONOMY) picked up as this session's cycle 2 -- see CYC-0074-bdf8c881.",
-    "AUT-PD-155 (this cycle's own ccr_session_id gap, discovered while preparing THIS receipt, fixed in cycle 2 -- see CYC-0074-bdf8c881; renamed from AUT-PD-153 on merge after colliding with a different, concurrently-filed defect under that id)."
+    "AUT-PD-157 (this cycle's own ccr_session_id gap, discovered while preparing THIS receipt, fixed in cycle 2 -- see CYC-0074-bdf8c881; renamed from AUT-PD-153 on merge after colliding with a different, concurrently-filed defect under that id)."
   ],
   "blocked_by": [],
   "route_advanced": "RT-AUTONOMY",

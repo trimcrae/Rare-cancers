@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 135,
+    "process_defect": 136,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -25,13 +25,13 @@
     "done": 115,
     "in_progress": 4,
     "parked": 28,
-    "queued": 141,
+    "queued": 142,
     "ready": 1,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 111,
-  "n_unscored_open": 87,
+  "n_unscored": 112,
+  "n_unscored_open": 88,
   "entries": [
     {
       "serves": {
@@ -2565,7 +2565,7 @@
       "evidence": "WORKED BY SEAT s3 (CYC-0066-1f1a2449 fan-out). Branch `s3/aut-pd-031-line-citations-enumerate-carriers` @ 429241264f, rebased on origin/main, pushed, NOT MERGED. ⛔ THE ROW STAYS OPEN AND THE SEAT ARGUES WHY: its deliverable research/modalities/instrument-census.json existed and was in sync, and the defect was still fully live — an artifact on the trunk is not a finished item. Reproduced end to end: insert one blank line in nr4a3-degrader-paper.md, `line_citations.py --fix` prints 'rewrote 18 citation(s)', EXITS 0, and instrument_census.py --check immediately goes red. The fixer scanned 1 of the 19 tracked files carrying the syntax (466 occurrences). Second half, unguarded in the commit loop: `instrument_census.py --check` existed and NOTHING in preflight.sh ran it — its only enforcement was the opt-in modalities suite, which is why the original incident surfaced three commits late; now added to the generated-artifact loop at a measured 0.032 s. ⭐ THE FIX NAMES RATHER THAN REPAIRS, DELIBERATELY, and the decisive reason is measured not argued: the resolver is context-dependent, and for `:2140-2142` the roadmap's context yields a different quote than the census's because the census table has a column the roadmap does not — one ordinary edit and a 'repair' silently repoints a citation at a sentence it does not quote. Also, the largest hand-written carrier (program/map-audit-strategy.md, 131 citations) pins its line numbers to commit f67d0781 in its own header, and a fixer cannot tell a pinned reference from a rotted one. 10 tests, mutation-tested 9/9 with two earlier survivors fixed as real test defects; preflight EXIT=0 at PREFLIGHT_TESTS=1, 1467 passed. STILL OPEN: the tool now NAMES 16 hand-written carriers and CHECKS none — that surface is unmeasured rather than measured-clean, and deciding which are pinned-by-design is a reading job nobody has done. ⭐ BRANCH MERGED TO THE TRUNK 2026-08-28 by the CYC-0066 driver (s3/aut-pd-031-line-citations-enumerate-carriers), gated at PREFLIGHT_TESTS=1, EXIT=0, 1469 passed. Confirmed present on origin/main: `instrument_census` is now in preflight.sh's generated-artifact loop, so the census check runs in the COMMIT LOOP rather than only in the opt-in modalities suite — which is the half that let the original incident surface three commits late. ⛔ THE ROW REMAINS QUEUED, on the seat's own argument and not by oversight: the fixer now NAMES 16 hand-written carriers and CHECKS none of them, so that surface is UNMEASURED rather than measured-clean, and deciding which are pinned-by-design (map-audit-strategy.md pins its line numbers to commit f67d0781 in its own header) versus genuinely rotted is a reading job nobody has done."
     },
     {
-      "id": "AUT-PD-155",
+      "id": "AUT-PD-157",
       "kind": "process_defect",
       "process_defect": true,
       "serves": {
@@ -2591,8 +2591,8 @@
       "_score_basis": "same family and severity as AUT-PD-144/146: a gate that would otherwise refuse every future scheduled-Routine cycle's commit once FIRST_CCR_GOVERNED_CYCLE is reached, not merely a documentation gap.",
       "what": "⛔⛔ A SCHEDULED-ROUTINE SESSION HAS NO `get_session` TOOL AT ALL, SO IT CAN NEVER SATISFY `receipt_schema.py`'S `ccr_session_id` REQUIREMENT (FIRST_CCR_GOVERNED_CYCLE=70) THE WAY AUT-PD-146 DESCRIBES. Measured 2026-08-29 in CYC-0073/CYC-0074, a session fired by the driver Routine: `ToolSearch` for \"get_session\", \"create_session\" and \"session info ccr claude-code-remote\" each returned no matching deferred tool. AUT-PD-146 correctly measured HOW to obtain the id (`get_session` with no args -> `.ccr.id`) but assumed the tool is reachable from any session; it is not, and a scheduled-Routine session's narrower tool surface is exactly the shape research-loop's own prompt already warns may lack `Skill` or `Task`. Left unfixed, gate 12 (`receipt_schema.py --check`, run inside `./scripts/preflight.sh`) would refuse EVERY receipt a scheduled cycle writes from here on -- not a documentation gap but a hard commit-time wall with no legal way through it, the same LATCHING shape research-loop §1 already names for a health condition keyed to immutable history. ⭐ FIX: `research/autonomy/receipt_schema.py` gained `CCR_UNAVAILABLE_FIELD = \"ccr_session_id_unavailable\"`, mirroring the already-accepted `handoff.mechanism_unavailable` pattern -- a receipt whose `ccr_session_id` is absent may instead carry a non-empty string here naming why the tool could not be reached, and `problems()` treats that as satisfying the field. Not GOVERNED (receipt_schema.py is not in amendment_guard.py's GOVERNED tuple), so no declaration was required, though the two new test files ARE governed (`**/tests/**`) and are declared in amendments.jsonl. Pinned by 5 new tests in `research/autonomy/tests/test_receipt_schema.py` (40 total, up from 35): a valid ccr_session_id still passes; missing both fields still fails; a named unavailable reason passes; an empty/whitespace/non-string reason does NOT satisfy the valve (same rigor as `handoff.mechanism_unavailable`); both fields present together passes. Mutation-tested: collapsing the new `isinstance(...) and .strip()` condition to `if True` makes 6 of 40 tests fail (exactly the escape-valve tests); restoring it passes all 40. CYC-0073's and CYC-0074's own receipts use this field, since this session has no CCR id to give.",
       "depends_on_evidence": "ToolSearch(\"get_session\", 5) -> no match; ToolSearch(\"create_session\", 10) -> no match; ToolSearch(\"session info ccr claude-code-remote\", 10) -> no match (only ExitWorktree, CronCreate/List/Delete, EnterWorktree, ListConnectors, Monitor, SearchMcpRegistry, SendMessage, SuggestConnectors -- none of them a session-identity tool); pytest research/autonomy/tests/test_receipt_schema.py -q = 40 passed post-fix, 6 failed with the escape-valve condition mutated to `if True`.",
-      "_renamed_from": "AUT-PD-153",
-      "_renamed_why": "AUT-PD-153 was independently allocated by a concurrent session (CYC-0073-2e57571a) for a different defect (session_cap.verdict()'s success-case inversion) and landed on origin/main first. Re-allocated to avoid a duplicate ledger id (the exact AUT-PD-140 failure shape prepush_ledger_guard.py, filed this same session, exists to catch)."
+      "_renamed_from": "AUT-PD-155",
+      "_renamed_why": "AUT-PD-155 was independently allocated by a concurrent session (CYC-0074-5a21085f) for a different defect (commit-loop cost drift / gate 13 timing) and landed on origin/main first. Re-allocated to avoid a duplicate ledger id."
     },
     {
       "id": "AUT-PD-145",
@@ -8639,6 +8639,32 @@
       "closes_clause": null,
       "filed_by": "CYC-0074-5a21085f",
       "evidence": "research/autonomy/receipts/CYC-0074-5a21085f.json -> `reaped` and `blocked_by[0]`, which carry the reaper's full stdout verdict and the denial text verbatim."
+    },
+    {
+      "id": "AUT-PD-155",
+      "what": "⛔⛔ THE COMMIT LOOP COSTS ~5x WHAT CLAUDE.md §6 SAYS IT DOES, AND GATE 13 — THE ONE ADDED AS 'A FAST, OFFLINE, PURE-LOGIC SUITE' — HAS DRIFTED 9.4x. Measured 2026-08-29 (CYC-0074) across THREE runs on two different trees, consistent to within 2%:\n  pure-logic suite (gate 13): 369.68 s and 373.95 s, at 697 tests. CLAUDE.md §6 records 39.3 s at 55 tests (measured 2026-08-24). -> 9.4x slower, 12.7x more tests.\n  manuscripts suite: 406.17 s and 397.58 s. CLAUDE.md §6 records 176.1 s (measured 2026-08-23). -> 2.3x.\n  DEFAULT TIER (fast gates + gate 13, no PREFLIGHT_TESTS): CLAUDE.md records 77.5 s. A foreground run was killed at the 120 s harness ceiling still inside gate 13, so the default commit loop now exceeds 120 s and, from the gate-13 figure above, is ~400 s.\n⛔ WHY THIS IS NOT BOOKKEEPING. §6's ENTIRE TIERING ARGUMENT IS ARITHMETIC OVER THESE NUMBERS. The manuscripts suite was moved behind PREFLIGHT_TESTS=1 because 176.1 s 'on every single commit' was judged the gate; the modalities suite was moved out at 481-535 s against that same 176.1 s baseline, described as '62% of a 13.5-minute gate'. Every one of those comparisons is now wrong, and in the direction that makes the DEFAULT tier — the one nobody opted into — the expensive one. §6 also explicitly flags 'moving gate 13 behind PREFLIGHT_TESTS=1 would take the commit loop back to ~31 s' as trimcrae's call; that call was priced at 39.3 s and the real price is ~372 s.\n⚠ AND IT IS THE COMPLAINT trimcrae HAS ALREADY MADE TWICE: 'it absolutely murders our wall clock time when we wait for preflight when we KNOW there's more work to be done' (2026-08-25) and 'change the rules so that it's not constantly running and blocking things' (2026-08-23). Both fixes were priced against figures that have since drifted an order of magnitude.\n⭐ THE WORK: re-measure all four tiers cleanly and RE-PIN the figures in CLAUDE.md §6 in one commit, registering each superseded number in pinned-figures.json so CI finds the copies. ⛔ DO NOT RE-TIER ANYTHING ON THIS ROW'S AUTHORITY — §6 records that the default/opt-in split is trimcrae's call, and a cycle that re-tiered while holding the measurement that justified it would be the amendment_guard case exactly. Measure, re-pin, and put the tiering question to him with the new arithmetic. ⚠ ALSO WORTH ESTABLISHING AND NOT ASSUMED HERE: whether the 12.7x test-count growth is real coverage or duplication, and whether these timings are container-contention artifacts — three concurrent seats were running during two of the three measurements, and the third (drv-preflight2, 406.17 s) was taken with NO seats running, which is the observation that argues against contention.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "kind": "process_defect",
+      "process_defect": true,
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Measuring and re-pinning is self-doable. Only the DECISION to re-tier the default/opt-in split is his, and §6 already says so.",
+      "closes_clause": null,
+      "filed_by": "CYC-0074-5a21085f",
+      "evidence": "Three preflight runs by CYC-0074, logs retained outside any worktree at /tmp/claude-0/-home-user-Rare-cancers/5a21085f-4408-5052-8d10-2eec20a6219a/scratchpad/driver-cyc/ : drv-preflight2.log (EXIT=0, no seats running), drv-preflight3.log (EXIT=0), drv-preflight5.log (EXIT=0, default tier). drv-preflight4.log is the foreground run killed at the 120 s ceiling inside gate 13 and carries NO EXIT marker, so it is reported as a timeout observation, not as a result."
     },
     {
       "id": "AUT-PD-112",

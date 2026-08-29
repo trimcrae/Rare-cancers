@@ -283,7 +283,7 @@ def test_a_receipt_spelling_route_advanced_differently_is_unmeasured_not_silentl
 
 
 # ---------------------------------------------------------------------------------------------
-# ⛔⛔ AUT-PD-155: A SESSION WITH NO `get_session` TOOL AT ALL MUST STILL BE ABLE TO PASS THIS GATE.
+# ⛔⛔ AUT-PD-157: A SESSION WITH NO `get_session` TOOL AT ALL MUST STILL BE ABLE TO PASS THIS GATE.
 # ---------------------------------------------------------------------------------------------
 
 def _ccr_doc(name, **extra):
