@@ -332,21 +332,28 @@ deposition 22166420, inheriting the concept DOI (Actions run 33276135878). Both 
 `aso_archive_manifest.py` now cite it, and the chain was regenerated against it, so the rebuilt
 6-page PDF carries the new DOI and no trace of the old one. Nothing is published.
 
-⛔ **WHAT REMAINS, AND THE ORDER IS THE WHOLE POINT:**
+✅ **THE DRAFT IS REFRESHED AND CURRENT WITH THE TREE (2026-08-29).** Dispatched
+`deposit-zenodo.yml` with `new_version=false` at `f6e313d98` (Actions run 33279143126). Its log:
+*"updating existing draft 22166420 (10.5281/zenodo.22166420) — not creating a second one"*,
+*"DRAFT deposition 22166420 updated. NOTHING IS PUBLISHED."*, *"The archive now carries the
+manuscript that cites this DOI."* ⛔ **THE ORDER MATTERED AND IS WORTH KEEPING:** the refresh had to
+follow the `.docx` rebuild, because the Word build stamps are themselves deposited files, so
+rebuilding them moved the archive digest (`ee3de86e8386` → `bb5655ba9f1a`). A draft refreshed before
+that rebuild would have been stale again the moment it landed.
 
-1. **Refresh the draft before publishing it.** The archive currently sitting in draft 22166420 was
-   uploaded at `7bca5a77e`, BEFORE the DOI substitution — digest `386c1add1a60`, against this
-   tree's `ee3de86e8386`. So **re-run the deposit**: dispatch `deposit-zenodo.yml` with
-   `new_version=false` (it UPDATES this draft rather than opening a second one), then update
-   `uploaded_manifest_digest` and `uploaded_at_git_revision` in
-   [`deposit-state.json`](./deposit-state.json). ⚠ A stale draft between commits is normal and is
-   not the defect; **publishing one is**, because publication is irreversible and would freeze an
-   archive that is already behind.
-2. **Publish the Zenodo version, by hand** — <https://zenodo.org/deposit/22166420>. trimcrae's act.
-3. **Only then post Qeios v2.** v2's Data availability cites `10.5281/zenodo.22166420`, so a reader
-   who follows it before step 2 gets nothing. ⛔ **The Qeios post is trimcrae's act and only his:**
-   PUB-ASO is excluded by name from the standing aiXiv grant, and it carries a public DOI
-   (`10.32388/VL3LJR`) and a version history under his ORCID.
+⛔ **WHAT REMAINS IS TWO ACTS, BOTH TRIMCRAE'S, AND THE ORDER IS THE WHOLE POINT:**
+
+1. **Publish the Zenodo version, by hand** — <https://zenodo.org/deposit/22166420>. Irreversible: a
+   published version's files cannot be edited, only superseded.
+2. **Then post Qeios v2.** v2's Data availability cites `10.5281/zenodo.22166420`, so a reader who
+   follows it before step 1 gets nothing. ⛔ **The Qeios post is trimcrae's and only his:** PUB-ASO
+   is excluded by name from the standing aiXiv grant, and carries a public DOI (`10.32388/VL3LJR`)
+   and a version history under his ORCID.
+
+⚠ **AND ONE THING IS STILL OPEN ON OUR SIDE BEFORE EITHER:** `publish_bar` is at 4/7 for PUB-ASO.
+The three open clauses — `hardening_converged`, `preflight_full_green`, `independent_adversarial_seat`
+— are all bound to the commit that gets posted, and are closed by one hardening round against one
+pinned commit. Neither act above should happen before that round comes back without blockers.
 
 ### 3-ii · The extended report is a historical checkpoint, and the 6-page article must stand alone
 
