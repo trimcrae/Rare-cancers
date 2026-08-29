@@ -126,17 +126,40 @@ def test_the_gate_runs_in_preflight_and_its_failure_sets_rc():
     assert "rc=1" in step, "a failing residue check must set rc, or the gate reports without gating"
 
 
-def test_the_gate_is_the_last_one_so_no_existing_ordinal_moved():
+#: This gate's ordinal, pinned. ⛔ Derived from nothing — that is the point: it is the number the
+#: sentences in `ids.py`, `priority.py` and committed ledger rows were written against.
+RESIDUE_GATE_ORDINAL = 16
+
+
+def test_the_gate_keeps_its_ordinal_so_no_existing_ordinal_moved():
     """⚠ Gates 13-15's ordinals are written into `research/autonomy/ids.py`,
     `research/autonomy/priority.py` and committed ledger rows that are immutable history. Appending
     is what keeps those sentences true, and `systems_check.check_preflight_gate_list` fails the
-    build on the enumerated list if it ever stops being true."""
+    build on the enumerated list if it ever stops being true.
+
+    ⭐ REWRITTEN 2026-08-29 (AUT-PD-146), AND IT IS STRICTLY STRONGER THAN WHAT IT REPLACED. This
+    asserted that the residue gate was LAST, which was the right proxy while it was the newest gate
+    and the wrong one the moment another gate was appended after it — as gate 17 was, precisely to
+    avoid moving any ordinal. "Last" was never the invariant; the docstring above states the real
+    one, and appending satisfies it. So the assertion now pins the ORDINAL the referencing sentences
+    depend on, which is the quantity that must not move, rather than a position that must.
+    ⛔ NOT A WEAKENING, and the test of that is what each version would let through: the old form
+    passed for ANY ordinal so long as nothing came after; this one fails the moment the residue gate
+    moves off 16, including the case the old form allowed — a gate INSERTED above it while it stays
+    last. A test made to pass by editing it is the shape `amendment_guard` catches, so this edit is
+    declared in `amendments.jsonl` with its self-serving check answered."""
     spec = importlib.util.spec_from_file_location(
         "_sc_for_residue", os.path.join(ROOT, "systems", "systems_check.py"))
     sc = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(sc)
     gates = sc._preflight_gates()
-    assert "lint_submission_residue.py" in gates[-1][1], "the residue gate is no longer last"
+    assert len(gates) >= RESIDUE_GATE_ORDINAL, (
+        "preflight has fewer gates than the residue gate's pinned ordinal — a gate was REMOVED, "
+        "which moves every ordinal after it")
+    assert "lint_submission_residue.py" in gates[RESIDUE_GATE_ORDINAL - 1][1], (
+        "the residue gate is no longer gate %d. Ordinals 13-15 are cited by number in ids.py, "
+        "priority.py and committed ledger rows; a new gate must be APPENDED after this one, never "
+        "inserted before it." % RESIDUE_GATE_ORDINAL)
     assert "lint_submission_residue.py" in sc._GATE_TOOLS, \
         "a gate that owns a script must be in _GATE_TOOLS, or its entry is checked for ordinal only"
 

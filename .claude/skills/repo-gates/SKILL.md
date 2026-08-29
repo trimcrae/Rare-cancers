@@ -163,7 +163,7 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     gate; `scripts/tests/test_affected_tests.py` asserts each of those directions, and the
     baseline-pruning readout is suppressed on a scoped run because **a subset cannot say a test it
     never executed is fixed.**
-- **Before committing:** `./scripts/preflight.sh` must pass. **Sixteen gates, in this order:** (1) the consistency
+- **Before committing:** `./scripts/preflight.sh` must pass. **Seventeen gates, in this order:** (1) the consistency
   linter (`research/manuscripts/lint_consistency.py`), (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
   (4) claim strength (`lint_claims.py`), (5) changed prose (`lint_changed_prose.py`, warnings only),
   (6) citation provenance AND publication type — `research/manuscripts/lint_citations.py`, which since
@@ -183,7 +183,14 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   triggers a preprint server applies a one-year submission ban over; the third, hallucinated
   references, is gate 6's and is not duplicated. **APPENDED LAST SO NO ORDINAL MOVED**, since gates
   13–15's numbers are written into `research/autonomy/ids.py`, `research/autonomy/priority.py` and
-  committed ledger rows. Its exit code cannot be masked. **Do not
+  committed ledger rows.
+  **(17)** the cycle contract against the receipt-schema gate
+  (`research/autonomy/contract_check.py`) — gate 12 refuses a receipt missing `ccr_session_id`, and `.claude/skills/research-loop` §2 step 10, the text
+  a cycle follows when it hand-authors that receipt, did not name the field, so a cycle obeying the
+  contract exactly could not commit (AUT-PD-146). It DERIVES what gate 12 requires by deleting each
+  field from receipts the enforcer accepts, and reds the build when step 10 does not name one.
+  **ALSO APPENDED LAST, FOR THE SAME REASON** — it belongs beside gate 12 by subject and sits at the
+  end by necessity, because these ordinals are positional and four of them are referenced by number. Its exit code cannot be masked. **Do not
   re-type an ordinal from memory** — `[P1]` derives it from the script and fails the build on any document
   that disagrees. *(It did exactly that when the citation gate was inserted, catching four documents in one run.)*
   ⚠ *Superseded 2026-08-22, TWICE OVER: `lint_claims.py` WAS CI-only, and a manuscript repair then shipped a word that fires R2 — preflight green, CI red at that step, and the 26 steps behind it skipped. The note that added it here then said it was **gate 7** and `lint_changed_prose.py` **gate 8**, typed from the intended reading rather than derived from the script, which runs both BEFORE the citation gate: they are **4** and **5**, and everything from citations to parser guard shifted down by two. `[P1]` did not catch it because it only ever derived the REGISTRY VALIDATOR's ordinal — the one number four documents had already got wrong once — and nothing checked the enumerated list this very sentence lives in. It does now.* *Superseded, retained: "It runs the registry evidence contract
@@ -196,7 +203,9 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   **"Fourteen gates"**, written before the receipt-schema gate and before `research/autonomy/tests`
   joined the last entry — 53 assertions guarding the loop's own instruments that neither this script
   nor `tests.yml` ran, which is round 14 seat 4's finding recurring in a different directory, and
-  **"Fifteen gates"**, written before the unverified-output residue gate (AUT-PROP-032, 2026-08-28).
+  **"Fifteen gates"**, written before the unverified-output residue gate (AUT-PROP-032, 2026-08-28),
+  and **"Sixteen gates"**, written before the cycle-contract gate (AUT-PD-146, 2026-08-29) — which
+  `[P1]` caught within the same commit, exactly as this note's own last line says it would.
   The count above is not typed twice: `[P1]` derives it from `preflight.sh`, and `check_preflight_gate_list`
   derives the enumerated list beside it.
   were run locally at all — CI had run them since 2026-08-03 and this script had not, so a green
