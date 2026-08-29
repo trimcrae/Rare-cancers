@@ -1,0 +1,41 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0078-531dbb8b",
+  "session_id": "531dbb8b-683e-5c25-b8d6-b1ecb605d3f5",
+  "ccr_session_id": "session_01Fg7WnZ8Kc3wmysc7tpAfTy",
+  "utc": "2026-08-29T06:00:00Z",
+  "shape": "One driver, no fan-out. First of 2 cycles allowed in this session (autonomy-state.json max_cycles_per_session=2). Fresh session spawned by CYC-0076-718151ec.",
+  "took": "AUT-PD-160 (score 134.9, top takeable free row after `priority.py --write` on the pushed trunk; every higher-scoring row is either `requires_trimcrae` or `stalled_needs_human`). Claimed with claim.py (CLAIMED on attempt 1), released to `owner: null`, state `done`.",
+  "took_what": "A claim pushes the BRANCH, not the claim. `claim.py`'s push refspec is `HEAD:main` (correct, AUT-PD-029) but nothing about `HEAD:main` limits what HEAD CONTAINS, so a claim run in a working tree holding unpushed commits publishes them plus whatever merge git makes on the spot — a tree no gate ever saw. Measured on origin/main 2026-08-29: ee17c39a2 carried to `main` by merges 005b837b8 and 818c472f0. Seat s1 had already landed the NOTICE half (push_guard.carried_merges) and deliberately left the REFUSING half open; that half is what this cycle did.",
+  "changed": [
+    "research/autonomy/claim.py — NEW `Git.commits_not_on_trunk()` reads `git rev-list origin/main..HEAD`; `claim()` asks it ONCE, before the ledger is touched, and returns SUSPENDED naming the stray sha and the remedy when the list is non-empty. NEW `HeadUnverifiable` exception so a rev-list this module cannot read also returns SUSPENDED rather than UNREACHABLE — the unknown case fails CLOSED, because UNREACHABLE invites the plain retry that would push blind. Module docstring records the incident, the two invariants s1 disproved, and the live consequence below.",
+    "research/autonomy/tests/test_a_lost_push_is_a_lost_lease.py — +5 tests (18 -> 23), all against a real bare remote with real workers: the incident replay (refuses, and the stray commit is NOT in the bare repo); the single-site MUTATION (override `commits_not_on_trunk` on a subclass -> the stray DOES reach the remote, so the guard is load-bearing); the ordinary clean claim still lands and its push touches only the ledger; an unreadable HEAD refuses rather than pushing blind; and the retry path still converges, which is what proves the door is asked once and not re-asked after this module's own commit or merge.",
+    "research/autonomy/tests/test_a_lost_push_is_a_lost_lease.py::test_a_real_content_conflict_is_reported_as_one_and_leaves_no_merge_in_progress — RETARGETED, not weakened. With the door closed `integrate()` can only fast-forward, so MERGE_CONFLICT is unreachable through `claim()` in production; the test now drives `integrate()` directly and keeps every assertion it made, and additionally asserts the new claim-level refusal on the same fixture.",
+    "research/autonomy/tests/test_claim_yields_to_the_trunk.py — FakeGit learns `commits_not_on_trunk` (default: the clean case, so every pre-existing test keeps its meaning) plus a `carried` / `carried_raises` hook.",
+    ".claude/skills/research-loop/SKILL.md §2 step 4 — the SUSPENDED verdict list named two causes and now names three. The new one is the one a cycle will actually hit, because it fires on the ordinary shape of a driver mid-cycle: push your gated work first, or claim from a checkout of origin/main.",
+    "research/autonomy/research-ledger.json — AUT-PD-160 closed with what was implemented, what was deliberately NOT (see `left_open`), and the mutation evidence."
+  ],
+  "left_open": "PUSH LATENCY, which the row's own last paragraph calls the bigger finding: id-allocation collisions arrive because a driver honouring the re-gate rule cannot land promptly on a trunk moving faster than its ~700 s gate. Nothing in this change touches that and it is NOT claimed as fixed. Also NOT changed: `claim.py --check`, which still does not report a tree ahead of the trunk — being ahead is the ordinary state of a driver mid-cycle and is harmful only at the moment this module pushes, which is where the refusal now lives.",
+  "cost": "$0 — CPU only. No GPU, no rental, no CI dispatch beyond the push's own tests.yml run.",
+  "queued_next": "Unchanged by this cycle. Top takeable rows after the close: AUT-PD-158 (133.0, decide what RT-AUTONOMY is in systems/graph), AUT-PD-134 (118.9, line_citations.py checks fewer than half the citations in its own file), AUT-PD-133 (112.9, unbound citation years in the fusion-partner synthesis).",
+  "blocked_by": [],
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "A single-file guard with a real-git test suite already in the repository. Nothing here was independent enough to be worth a seat's context, and research-loop §3 puts the shared tree under one writer."
+  },
+  "health": {
+    "check_exit": 0,
+    "red_advises": [
+      "scores_are_reachable — 73 of 175 open rows carry no score; `advises`, so reported and carried past, not taken as this cycle's work"
+    ],
+    "unmeasured": [
+      "gates_green (no verdict file supplied)",
+      "stalls_are_named (verdict produced by hand this cycle from stuck_clock.py --check --json, not wired)"
+    ]
+  },
+  "gates_verdict_observed": "⛔ THE TRUNK WAS RED WHEN THIS CYCLE STARTED AND WAS ALREADY FIXED. `tests (modalities)` failed on every push to main from 01:48Z to 05:10Z (12+ runs) on systems/tests/test_autonomy_health.py::test_all_5_2_conditions_are_present — `scores_are_reachable` (added 2026-08-28, CYC-0072) reached health.py and never reached the architecture §5.2 table. Read from the job log of run 33235540736 (job 99055756722) rather than inferred. CYC-0076's 095e5db95 landed the fix one commit before this session's head: the test now PARSES the table instead of comparing against a hand-copied literal, and the table carries all 12 rows. Verified locally: `pytest systems/tests/test_autonomy_health.py` -> 75 passed at 61231a22c. So §1's red-trunk redirect did not apply and this cycle took a ledger item.",
+  "route_advanced": "RT-AUTONOMY",
+  "_route_advanced_note": "The row's own `serves.route`. ⚠ Stated plainly rather than dressed up: no systems/graph research route moved this cycle — RT-AUTONOMY is the loop's own machinery and is not a route in systems/graph, which is precisely what AUT-PD-158 exists to settle. Four consecutive receipts now read RT-AUTONOMY.",
+  "base_sha": "dc084b936"
+}

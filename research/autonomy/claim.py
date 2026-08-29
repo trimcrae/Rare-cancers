@@ -61,6 +61,26 @@ that one are the two halves: one stops two workers starting, the other stops one
 queue forever. ⚠ And per the finding above, that half is a LIVENESS device and can never be a safety
 one; the push is what makes the safety claim, not the stamp.
 
+⛔⛔ AND A CLAIM PUSHES THE BRANCH, NOT THE CLAIM (AUT-PD-160, measured on origin/main 2026-08-29).
+`claim.py` run in a working tree holding the driver's unpushed commits carried ee17c39a2 to `main`
+and created merges 005b837b8 and 818c472f0 on the spot. ⛔ THE OUTCOME WAS BENIGN AND THAT IS THE
+DANGEROUS PART: every carried commit had passed its own preflight, so `main` was sound — but the
+MERGE was a tree no gate ever saw, and nothing anywhere would have said so. It surfaced only because
+the driver's own push was rejected moments later as redundant.
+⭐ THE INVARIANT IS NARROWER THAN THE TWO THE ROW TRIED FIRST, AND BOTH OF THOSE WERE WRONG. It is
+not "seats must not run this" — `research-loop` §2 step 4 already makes the claimant whoever spawns,
+so the driver that told a seat otherwise was filing its own mistake as a rule conflict. And it is not
+a refspec: `HEAD:main` had been in place since AUT-PD-029 and did not prevent this, because nothing
+about `HEAD:main` limits what HEAD CONTAINS. It is: **this module must run where HEAD is origin/main
+plus the claim**, which `commits_not_on_trunk()` checks once, before anything is touched.
+⚠ ONE LIVE CONSEQUENCE, STATED RATHER THAN LEFT TO BE FOUND: with that door closed, `integrate()`
+can only ever fast-forward, so `MERGE_CONFLICT` is unreachable through `claim()` in production. The
+branch is kept — a caller supplying its own `Git` still reaches it — and its test now drives
+`integrate()` directly rather than quietly guarding nothing.
+⚠ AND `--check` STILL DOES NOT REPORT THIS, DELIBERATELY. Being ahead of the trunk is the ordinary
+state of a driver mid-cycle; it is harmful only at the moment this module pushes, which is where the
+refusal lives. `--check` reports the opposite failure — a claim the trunk cannot see.
+
 ⭐ DECIDED, NOT BUILT (AUT-PROP-030's remaining open question): does any write path in this loop reach
 the ledger WITHOUT going through the fencing check, the way Chubby's lock-delay covers a write path
 that genuinely cannot check a sequencer? Audited every place this module writes: `apply_claim` only
@@ -141,6 +161,15 @@ class RemoteUnreachable(RuntimeError):
     """git could not talk to the remote at all. ⛔ NOT the same as the remote saying no."""
 
 
+class HeadUnverifiable(RuntimeError):
+    """git could not say what HEAD carries that `origin/main` does not.
+
+    ⛔ NOT a benign "nothing extra". `fetch()` has just succeeded, so `origin/main` exists and this
+    question is answerable; a failure here means the repository is in a shape this module cannot
+    reason about, and CLAUDE.md §4 is explicit that an absent reading is not a reading of absence.
+    """
+
+
 class Git:
     """The git operations this needs, behind an interface so the decision logic can be tested.
 
@@ -189,6 +218,23 @@ class Git:
     def commit_ledger(self, message: str):
         self._run("add", LEDGER_REL)
         self._run("commit", "-q", "-m", message)
+
+    def commits_not_on_trunk(self) -> list[str]:
+        """`origin/main..HEAD` — every commit HEAD carries that the trunk does not, newest first.
+
+        ⛔⛔ THIS IS THE READING THAT MAKES AUT-PD-160's INVARIANT CHECKABLE, AND IT IS DELIBERATELY
+        ABOUT HEAD RATHER THAN ABOUT THE PUSH. `PUSH_REFSPEC` is already `HEAD:main` and that is
+        correct (AUT-PD-029) — but nothing about `HEAD:main` limits what HEAD CONTAINS, which is
+        the correction seat s1 made to the row: a refspec cannot fix this.
+        ⚠ It is called ONCE, before the first attempt. After that `integrate()` legitimately puts a
+        merge here, and the claim commit itself is one — so re-asking inside the loop would refuse
+        this module's own work.
+        """
+        proc = self._run("rev-list", "origin/main..HEAD", check=False)
+        if proc.returncode != 0:
+            raise HeadUnverifiable((proc.stderr or "").strip() or
+                                   f"git rev-list exited {proc.returncode} with no message")
+        return [line for line in proc.stdout.split() if line]
 
     #: ⛔ `HEAD:main`, NEVER `main` (AUT-PD-029, found by another session 2026-08-27).
     #: `git push origin main` pushes whatever LOCAL BRANCH IS LITERALLY NAMED `main` — which is
@@ -349,6 +395,29 @@ def claim(entry_id: str, me: str, when: str, git: Git | None = None,
     with open(ledger_path, encoding="utf-8") as fh:
         before = fh.read()
     try:
+        # ⛔⛔ AUT-PD-160: REFUSE BEFORE TOUCHING ANYTHING IF HEAD CARRIES WORK THE TRUNK DOES NOT.
+        # `git push` publishes the BRANCH, not the claim. Measured on origin/main 2026-08-29: a
+        # claim run in a working tree holding the driver's unpushed commits carried ee17c39a2 to
+        # `main` and created merges 005b837b8 and 818c472f0 on the spot — a merge no gate ever saw,
+        # and the outcome was BENIGN, which is the dangerous part: nothing anywhere would have said
+        # so, and it surfaced only because the driver's own push was then rejected as redundant.
+        # ⭐ THIS IS THE INVARIANT SEAT s1 ARRIVED AT AFTER TWO WRONGER ONES WERE DISCARDED. It is
+        # not "seats must not claim" (research-loop §2 step 4 already says the claimant is whoever
+        # spawns) and it is not a refspec (`HEAD:main` was already in place since AUT-PD-029 and did
+        # not prevent this). It is: **claim.py must run where HEAD is origin/main plus the claim.**
+        # ⚠ AND THE COMPLEMENT ALREADY EXISTS AND CANNOT COVER THIS. `--check` reports a claim the
+        # trunk cannot SEE; this is the opposite failure — a push that carried more than it meant to.
+        git.fetch()
+        carried = git.commits_not_on_trunk()
+        if carried:
+            return SUSPENDED, (
+                f"{entry_id} was not claimed: HEAD carries {len(carried)} commit(s) that "
+                f"origin/main does not ({carried[0][:9]}"
+                f"{' and ' + str(len(carried) - 1) + ' more' if len(carried) > 1 else ''}), and a "
+                "push publishes the BRANCH, not the claim — so claiming from here would land that "
+                "work, plus any merge git makes to do it, on `main` without a gate having seen the "
+                "tree that results. Push those commits yourself through ./scripts/preflight.sh "
+                "first, or claim from a checkout of origin/main; then claim again.")
         for attempt in range(1, MAX_ATTEMPTS + 1):
             git.fetch()
             verdict, why = decide(git.trunk_ledger(), entry_id, me)
@@ -400,6 +469,15 @@ def claim(entry_id: str, me: str, when: str, git: Git | None = None,
     except RemoteUnreachable as exc:
         return UNREACHABLE, (f"the remote could not be reached, so nothing was decided about "
                              f"{entry_id} and no claim was made. git said: {exc}")
+    except HeadUnverifiable as exc:
+        # ⛔ SUSPENDED, NOT UNREACHABLE, AND THE DIRECTION IS THE POINT. `fetch()` has already
+        # succeeded here, so the remote is reachable and this is not a transport fault a retry can
+        # answer: it is this module being unable to establish the precondition above. Failing open
+        # would push whatever HEAD happens to hold, which is the whole incident.
+        return SUSPENDED, (
+            f"{entry_id} was not claimed: git could not report what HEAD carries beyond "
+            f"origin/main, so the precondition that this push contains nothing but the claim could "
+            f"not be established, and it is not safe to push blind. git said: {exc}")
     return SUSPENDED, (
         f"{entry_id} was still free after {MAX_ATTEMPTS} attempts and every push lost the "
         "compare-and-swap even after merging origin/main each time. Automation has stopped: this is "

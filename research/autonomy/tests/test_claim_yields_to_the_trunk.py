@@ -60,6 +60,21 @@ class FakeGit:
     def fetch(self):
         self.calls.append("fetch")
 
+    #: AUT-PD-160: what HEAD carries that origin/main does not. The default is the clean case — a
+    #: worker whose only pending work IS the claim — so every pre-existing test keeps its meaning.
+    #: A test that wants the refusal sets it, and a test that wants git itself to fail sets the
+    #: exception. ⚠ A fake can only reach the DECISION here; the real-git half lives in
+    #: `test_a_lost_push_is_a_lost_lease.py`, which is where all three of this module's shipped
+    #: defects were actually visible.
+    carried = ()
+    carried_raises = None
+
+    def commits_not_on_trunk(self):
+        self.calls.append("head-vs-trunk")
+        if self.carried_raises is not None:
+            raise self.carried_raises
+        return list(self.carried)
+
     def trunk_ledger(self):
         self.calls.append("read-trunk")
         return self.trunk_states[0] if len(self.trunk_states) == 1 else self.trunk_states.pop(0)

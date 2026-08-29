@@ -461,8 +461,20 @@ def test_the_withdrawal_keeps_an_unrelated_local_edit_it_did_not_make(world):
 
 def test_a_real_content_conflict_is_reported_as_one_and_leaves_no_merge_in_progress(world):
     """The other side of the pair. A committed local change that genuinely collides with the trunk
-    must be reported as a conflict — and the merge must be aborted, so the worker's tree is left
-    usable rather than half-merged."""
+    must be classified as a CONFLICT rather than as git's dirty-tree REFUSAL — and the merge must be
+    aborted, so the worker's tree is left usable rather than half-merged.
+
+    ⛔⛔ THIS TEST DROVE `claim()` UNTIL AUT-PD-160 (2026-08-29), AND IT CANNOT ANY MORE — WHICH IS A
+    FACT ABOUT THE MODULE, NOT A SOFTENING OF THIS GUARD. `claim()` now refuses at the door when HEAD
+    carries anything origin/main does not, and a committed local divergence is exactly that, so the
+    conflict branch is no longer reachable THROUGH `claim()` in production. The classification it
+    guards is still live code reached by `integrate()`, so this drives `integrate()` directly and
+    keeps every assertion it made; the claim-level half is asserted below, on the same fixture, so
+    the pair still fails if either behaviour regresses.
+    ⭐ `integrate()`'s conflict branch is kept rather than deleted as unreachable: a caller supplying
+    its own `Git` still reaches it (the sibling fake suite does), and removing a classifier because a
+    new precondition happens to shadow it trades a named verdict for silence.
+    """
     mine = world.worker("worker-a")
     path = world.ledger_path(mine)
     with open(path, "w", encoding="utf-8") as fh:
@@ -473,9 +485,162 @@ def test_a_real_content_conflict_is_reported_as_one_and_leaves_no_merge_in_progr
     git = C.Git(repo=mine)
     git.fetch()
     world.push_a_claim("worker-b", "AUT-Y", THEM)
-    verdict, why = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=path)
 
-    assert verdict == C.SUSPENDED and "conflicts with this branch" in why
+    verdict, why = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=path)
+    assert verdict == C.SUSPENDED and "HEAD carries" in why, (
+        f"a tree holding a committed local divergence was allowed past the AUT-PD-160 door: "
+        f"{verdict}: {why}")
+
+    git.fetch()
+    assert git.integrate() == C.MERGE_CONFLICT, (
+        "a genuine content collision on the ledger was not classified as a conflict. Reporting it "
+        "as git's dirty-tree REFUSAL sends a reader to stash a tree that is already clean.")
     assert not os.path.exists(os.path.join(mine, ".git", "MERGE_HEAD")), (
         "a conflicted merge was left in progress, so the worker's tree is wedged")
     assert _clean(mine) == "", "the aborted merge left the working tree dirty"
+
+
+# =================================================================================================
+# ⛔⛔ AUT-PD-160 — A CLAIM PUSHES THE BRANCH, NOT THE CLAIM.
+#
+# Measured on origin/main 2026-08-29 (CYC-0073-d4ccfde4). A `claim.py` run in a working tree that
+# held the driver's unpushed commits carried ee17c39a2 to `main` and created merges 005b837b8 and
+# 818c472f0 on the spot. ⛔ THE OUTCOME WAS BENIGN AND THAT IS THE DANGEROUS PART: each carried
+# commit had passed its own preflight, so `main` was sound — but the MERGE was a tree no gate ever
+# saw, and nothing anywhere would have said so. It surfaced only because the driver's own push was
+# then rejected as redundant.
+#
+# ⭐ THE INVARIANT IS SEAT s1's, AND IT IS NARROWER THAN THE TWO THE ROW TRIED FIRST. Not "seats must
+# not run claim.py" (research-loop §2 step 4 already makes the claimant whoever spawns) and not a
+# refspec (`HEAD:main` had been in place since AUT-PD-029 and did not prevent this — nothing about
+# `HEAD:main` limits what HEAD CONTAINS). It is: claim.py must run where HEAD is origin/main plus
+# the claim. s1 measured that a DRIVER reproduces it identically, so this was never about seats.
+# =================================================================================================
+
+def test_a_claim_from_a_tree_holding_unpushed_work_refuses_instead_of_publishing_it(world):
+    """⛔⛔ THE INCIDENT, REPLAYED. The worker holds one commit the trunk does not have; the row it
+    wants is free and the push would succeed. It must refuse anyway.
+
+    ★ THE ASSERTION THAT CARRIES IT IS THAT THE STRAY COMMIT IS NOT ON THE TRUNK. A verdict alone
+    would not distinguish this from a refusal that happened after the push.
+    """
+    mine = world.worker("worker-a")
+    with open(os.path.join(mine, "ungated.txt"), "w", encoding="utf-8") as fh:
+        fh.write("work the driver has not pushed\n")
+    _git("add", "-A", cwd=mine)
+    _git("commit", "-qm", "driver work, gated locally, not yet pushed", cwd=mine)
+    stray = _git("rev-parse", "HEAD", cwd=mine).stdout.strip()
+
+    git = C.Git(repo=mine)
+    verdict, why = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=world.ledger_path(mine))
+
+    assert verdict == C.SUSPENDED, f"the claim did not refuse: {verdict}: {why}"
+    assert "HEAD carries" in why and stray[:9] in why, (
+        f"the refusal does not name what HEAD is carrying, so the reader cannot act on it: {why}")
+    assert "preflight" in why, (
+        "the refusal states no remedy. push_guard.py's Refusal already establishes that the remedy "
+        "is part of the refusal rather than a courtesy.")
+    assert world.owners_on_trunk(mine)["AUT-X"] is None, (
+        "the row was claimed on the trunk despite the refusal")
+    assert _git("cat-file", "-e", stray, cwd=world.bare, check=False).returncode != 0, (
+        "the stray commit reached the bare remote. That is the incident: a push publishes the "
+        "BRANCH, and the merge git makes to do it is a tree no gate ever saw.")
+
+
+def test_without_the_head_check_the_claim_publishes_the_strays_it_was_asked_not_to(world):
+    """⭐ THE MUTATION, AND IT IS SINGLE-SITE. Remove the one reading the refusal is built on and the
+    incident reproduces exactly — which is what makes the guard above load-bearing rather than
+    decorative (`paper-hardening`: seven one-of-a-pair defects were found precisely this way).
+
+    ⚠ THE MUTATION IS APPLIED TO THIS TEST'S OWN `Git` INSTANCE, NEVER TO THE MODULE OR THE TREE. A
+    mutation-testing seat that edits the live file is research-loop §3's measured incident — 13
+    inverted claims reached origin/main inside a `git add -A` mutation window.
+    """
+    mine = world.worker("worker-a")
+    with open(os.path.join(mine, "ungated.txt"), "w", encoding="utf-8") as fh:
+        fh.write("work the driver has not pushed\n")
+    _git("add", "-A", cwd=mine)
+    _git("commit", "-qm", "driver work, gated locally, not yet pushed", cwd=mine)
+    stray = _git("rev-parse", "HEAD", cwd=mine).stdout.strip()
+
+    class BlindGit(C.Git):
+        def commits_not_on_trunk(self):
+            return []
+
+    verdict, why = C.claim("AUT-X", ME, WHEN, git=BlindGit(repo=mine),
+                           ledger_path=world.ledger_path(mine))
+
+    assert verdict == C.CLAIMED, (
+        f"the mutant did not even get as far as claiming, so this proves nothing about the guard: "
+        f"{verdict}: {why}")
+    assert _git("cat-file", "-e", stray, cwd=world.bare, check=False).returncode == 0, (
+        "the mutant did NOT publish the stray commit, so the guard above is not what stops it and "
+        "the real mechanism is somewhere this suite has not found")
+
+
+def test_the_ordinary_claim_from_a_clean_checkout_still_lands(world):
+    """⭐ THE OTHER HALF OF THE PAIR: the refusal must not cost the normal case. A worker whose only
+    pending work IS the claim claims, and the push carries the ledger and nothing else."""
+    mine = world.worker("worker-a")
+    base = _git("rev-parse", "origin/main", cwd=mine).stdout.strip()
+
+    verdict, why = C.claim("AUT-X", ME, WHEN, git=C.Git(repo=mine),
+                           ledger_path=world.ledger_path(mine))
+
+    assert verdict == C.CLAIMED, f"a clean checkout could not claim: {verdict}: {why}"
+    assert world.owners_on_trunk(mine)["AUT-X"] == ME
+    _git("fetch", "-q", "origin", "main", cwd=mine)
+    touched = _git("diff", "--name-only", base, "origin/main", cwd=mine).stdout.split()
+    assert touched == [C.LEDGER_REL], (
+        f"the claim's push carried files beyond the ledger: {touched}")
+
+
+def test_a_head_that_cannot_be_read_refuses_rather_than_pushing_blind(world):
+    """⛔ THE UNKNOWN CASE FAILS CLOSED, AND THE DIRECTION IS THE WHOLE VALUE. `fetch()` has already
+    succeeded when this reading is taken, so a failure here is not a transport fault a retry can
+    answer — it is the precondition being unestablishable. Failing open would push whatever HEAD
+    happens to hold, which is the incident this guard exists for.
+    ⚠ SUSPENDED rather than UNREACHABLE for the same reason: UNREACHABLE means nothing was decided
+    and a plain retry may answer it, and that would send the caller straight back into the blind push.
+    """
+    mine = world.worker("worker-a")
+
+    class BrokenGit(C.Git):
+        def commits_not_on_trunk(self):
+            raise C.HeadUnverifiable("fatal: bad revision 'origin/main..HEAD'")
+
+    verdict, why = C.claim("AUT-X", ME, WHEN, git=BrokenGit(repo=mine),
+                           ledger_path=world.ledger_path(mine))
+
+    assert verdict == C.SUSPENDED, f"an unreadable HEAD did not stop the claim: {verdict}: {why}"
+    assert "bad revision" in why, "the refusal characterises git instead of quoting it"
+    assert world.owners_on_trunk(mine)["AUT-X"] is None, "the row was claimed anyway"
+
+
+def test_the_head_check_is_asked_once_so_the_modules_own_merge_cannot_trip_it(world):
+    """⛔ THE ONE-OF-A-PAIR TRAP THIS GUARD HAS. `integrate()` legitimately puts a merge on HEAD, and
+    the claim commit is itself a commit origin/main does not have — so a check re-asked inside the
+    retry loop would refuse this module's own work on attempt 2 and the loop could never converge.
+
+    ★ THE MEASUREMENT IS THE VERDICT, NOT THE CALL COUNT. This drives the real retry path (another
+    worker moves the base), and a converging CLAIMED is only possible if the door was not re-checked.
+    """
+    mine = world.worker("worker-a")
+    git = C.Git(repo=mine)
+    git.fetch()
+    world.push_a_claim("worker-b", "AUT-Y", THEM)   # the base moves under me
+
+    asked = []
+    real = git.commits_not_on_trunk
+
+    def counting():
+        asked.append(1)
+        return real()
+
+    git.commits_not_on_trunk = counting
+    verdict, why = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=world.ledger_path(mine))
+
+    assert verdict == C.CLAIMED, (
+        f"the retry path no longer converges — the door is being re-checked after this module's own "
+        f"commit or merge: {verdict}: {why}")
+    assert len(asked) == 1, f"the HEAD check was asked {len(asked)} times, not once"

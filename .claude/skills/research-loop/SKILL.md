@@ -64,7 +64,14 @@ Check before anything else. A loop that works through its own alarm is the alarm
    **`CLAIMED`** (exit 0) · **`YIELDED`** (1 — somebody else holds it, take the next item) ·
    **`UNREACHABLE`** (2 — the remote could not be reached, so *nothing was decided*; the one verdict
    a plain retry answers) · **`SUSPENDED`** (3 — ⛔ terminal, automation has stopped and a human
-   clears it: an exhausted attempt bound, or a merge only a person should resolve).
+   clears it: an exhausted attempt bound, a merge only a person should resolve, or **a HEAD that
+   carries commits `origin/main` does not**).
+   ⛔ *That last one is AUT-PD-160 and it is the one you will actually hit, because it fires on the
+   ordinary shape of a driver mid-cycle. A push publishes the BRANCH, not the claim: measured on
+   origin/main 2026-08-29, a claim run over unpushed commits carried them to `main` along with a
+   merge git made on the spot — a tree no gate ever saw, benign that time and invisible either way.
+   **Push your gated work first, or claim from a checkout of `origin/main`.** The refusal names the
+   remedy; it is not a retry.*
    ⛔ *Measured 2026-08-27 (AUT-PD-021): a seat claimed AUT-PROP-009 at 20:10:00Z and a concurrent
    session claimed the SAME item at 20:15:00Z from state fetched before that lease landed. Both
    worked; the collision surfaced as a merge conflict AFTER ~20 minutes of duplicated effort. A local
