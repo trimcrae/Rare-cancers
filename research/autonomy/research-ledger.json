@@ -23,9 +23,9 @@
   "n_by_state": {
     "blocked": 1,
     "done": 113,
-    "in_progress": 1,
+    "in_progress": 3,
     "parked": 28,
-    "queued": 142,
+    "queued": 140,
     "ready": 1,
     "superseded": 1
   },
@@ -1775,10 +1775,10 @@
         "strategy": "ST-RADIOLIGAND"
       },
       "kind": "experiment",
-      "state": "queued",
+      "state": "in_progress",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": null,
+      "owner": "CYC-DRV-5a21085f",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1799,7 +1799,14 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0,
         "age_factor": 1.0
-      }
+      },
+      "claimed_utc": "2026-08-29T01:00:28Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T01:00:28Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ]
     },
     {
       "id": "AUT-074",
@@ -2565,44 +2572,6 @@
       "_requires_trimcrae_why": "a coordination tool; nothing published or deposited"
     },
     {
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": "PUB-STRATEGY-ARCH",
-        "strategy": "ST-STRATEGY"
-      },
-      "state": "in_progress",
-      "owner": "s1-CYC-0073-d4ccfde4",
-      "claimed_utc": "2026-08-29T00:58:47Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0071-61dd9024",
-      "requires_trimcrae": false,
-      "closes_clause": null,
-      "id": "AUT-PD-144",
-      "score": 134.9,
-      "_score_basis": "same family as AUT-PD-144 and equally cheap, but it has already cost a trunk outage and ~40 minutes of duplicated diagnosis; set one point below it.",
-      "depends_on_evidence": "commits e901ae619 and 170314393 (`git rev-parse 170314393^` = e901ae619); `priority.py --limit 3` ValueError on the committed trunk; `pytest research/autonomy/tests/test_ids_cannot_collide.py` on the stashed trunk = 1 failed, 10 passed; the independent second fix at 960dd822b",
-      "what": "⛔⛔ A REBASE-THEN-PUSH LANDS A TREE NO GATE EVER SAW, AND IT PUT A DUPLICATE ID ON `main` THAT CRASHED EVERY CYCLE'S STEP 3. Measured 2026-08-28. Two sessions filed AUT-PD-140 four minutes apart: CYC-0070-c84c64dd at e901ae619, then CYC-0070-225452b4 at 170314393 — and `git rev-parse 170314393^` IS e901ae619, so these were NOT divergent branches meeting at a merge. The second session allocated its id from state fetched before e901ae619, REBASED onto it, and pushed; the ledger's rows are separate array elements, so the rebase produced no conflict and no marker. ⛔ THE COST WAS TOTAL: `priority.py:merge` REFUSES a duplicated ledger (`ValueError: duplicate ledger ids: AUT-PD-140`), so `python3 research/autonomy/priority.py --write` — step 3 of the cycle contract, run before any item is taken — crashed on committed `main` for every session until it was renamed.\n⭐ THE GUARD WAS CORRECT AND WAS SIMPLY NOT RUN AT THE MOMENT THAT MATTERED. Verified by stashing the fix and running the committed trunk: `research/autonomy/tests/test_ids_cannot_collide.py::test_the_committed_ledger_has_no_duplicate_ids` FAILS (1 failed, 10 passed), and it is inside preflight gate 13's scope — so a preflight run AFTER the rebase would have caught it before the push. ⛔ SO THIS IS NOT A MISSING GATE. IT IS A GAP IN WHAT 'THE TREE YOU COMMIT' MEANS. CLAUDE.md §6 requires that the run you report green is the run that saw the tree you commit; a rebase performed at push time creates a THIRD tree — neither session's gated one — and nothing re-gates it. Every id here derives from max+1 over committed state (AUT-PROP-013), so a rebase is precisely when a collision becomes possible and precisely when nothing looks.\n⚠ AND THE DUPLICATED-EFFORT HALF REPEATED WHILE THIS WAS BEING WRITTEN, WHICH IS EVIDENCE THE FIX MUST BE MECHANICAL RATHER THAN A RULE. CYC-0071 diagnosed the collision and renamed the later row to AUT-PD-141; a concurrent session shipped the SAME diagnosis and the SAME rename to the SAME id at 960dd822b, minutes apart. CYC-0071 discarded its own version at the rebase. That is CYC-0069's recorded loss repeating: two sessions can both be right, both be gated, and still waste the work. ⭐ THE CHEAP FIX IS A PRE-PUSH CHECK, NOT A NEW TEST: after any rebase that touched research-ledger.json, re-run the id guard (0.04 s) and refuse the push on a duplicate.",
-      "_renamed_from": "AUT-PD-143",
-      "_renamed_why": "re-allocated at the rebase onto 469e8944d: a concurrent session had taken the id this row was first filed under. AUT-PD-143's own finding is why the count was re-derived explicitly rather than assumed.",
-      "score_inputs": {
-        "age_factor": 0.0714
-      },
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T00:58:47Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-031",
       "kind": "process_defect",
       "process_defect": true,
@@ -2640,43 +2609,6 @@
         }
       ],
       "evidence": "WORKED BY SEAT s3 (CYC-0066-1f1a2449 fan-out). Branch `s3/aut-pd-031-line-citations-enumerate-carriers` @ 429241264f, rebased on origin/main, pushed, NOT MERGED. ⛔ THE ROW STAYS OPEN AND THE SEAT ARGUES WHY: its deliverable research/modalities/instrument-census.json existed and was in sync, and the defect was still fully live — an artifact on the trunk is not a finished item. Reproduced end to end: insert one blank line in nr4a3-degrader-paper.md, `line_citations.py --fix` prints 'rewrote 18 citation(s)', EXITS 0, and instrument_census.py --check immediately goes red. The fixer scanned 1 of the 19 tracked files carrying the syntax (466 occurrences). Second half, unguarded in the commit loop: `instrument_census.py --check` existed and NOTHING in preflight.sh ran it — its only enforcement was the opt-in modalities suite, which is why the original incident surfaced three commits late; now added to the generated-artifact loop at a measured 0.032 s. ⭐ THE FIX NAMES RATHER THAN REPAIRS, DELIBERATELY, and the decisive reason is measured not argued: the resolver is context-dependent, and for `:2140-2142` the roadmap's context yields a different quote than the census's because the census table has a column the roadmap does not — one ordinary edit and a 'repair' silently repoints a citation at a sentence it does not quote. Also, the largest hand-written carrier (program/map-audit-strategy.md, 131 citations) pins its line numbers to commit f67d0781 in its own header, and a fixer cannot tell a pinned reference from a rotted one. 10 tests, mutation-tested 9/9 with two earlier survivors fixed as real test defects; preflight EXIT=0 at PREFLIGHT_TESTS=1, 1467 passed. STILL OPEN: the tool now NAMES 16 hand-written carriers and CHECKS none — that surface is unmeasured rather than measured-clean, and deciding which are pinned-by-design is a reading job nobody has done. ⭐ BRANCH MERGED TO THE TRUNK 2026-08-28 by the CYC-0066 driver (s3/aut-pd-031-line-citations-enumerate-carriers), gated at PREFLIGHT_TESTS=1, EXIT=0, 1469 passed. Confirmed present on origin/main: `instrument_census` is now in preflight.sh's generated-artifact loop, so the census check runs in the COMMIT LOOP rather than only in the opt-in modalities suite — which is the half that let the original incident surface three commits late. ⛔ THE ROW REMAINS QUEUED, on the seat's own argument and not by oversight: the fixer now NAMES 16 hand-written carriers and CHECKS none of them, so that surface is UNMEASURED rather than measured-clean, and deciding which are pinned-by-design (map-audit-strategy.md pins its line numbers to commit f67d0781 in its own header) versus genuinely rotted is a reading job nobody has done."
-    },
-    {
-      "id": "AUT-PD-146",
-      "what": "⛔ THE CYCLE CONTRACT NEVER NAMES `ccr_session_id`, BUT PREFLIGHT NOW FAILS WITHOUT IT. `receipt_schema.py` REQUIRES that field from `FIRST_CCR_GOVERNED_CYCLE = 70` and preflight sets rc=1 when it is missing, while `.claude/skills/research-loop/SKILL.md` step 10 — the text a cycle follows when writing its receipt — does not mention the field at all, nor how to obtain it. ⚠ NOT YET A BREAK: CYC-0070-225452b4 landed carrying it. But a required field named only in the checker is every 'rule measured by nothing' this loop has paid for, run in reverse — a checker enforcing something the contract does not ask for. ⭐ THE REMEDY IS ONE SENTENCE IN STEP 10, and the way to obtain the value was measured on 2026-08-28: the claude-code-remote `get_session` tool called with NO arguments returns `.ccr.id`. Add it beside the existing instruction to read `session_cap.session_id()` from the environment, and say plainly that the two are DIFFERENT ids in different namespaces rather than alternatives — that confusion is AUT-PD-124's whole subject.",
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "done",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "score": 132.9,
-      "_score_basis": "Just below the deferred ratchet (140.0) and above the citation instrument rows: it can fail a commit loop, which those cannot, but it is not failing one.",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-29",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "Repository documentation and tooling; no outward-facing act.",
-      "claimed_utc": "2026-08-29T00:59:09Z",
-      "evidence": "Found by seat s5 while working AUT-PD-124 and filed rather than fixed, because editing the cycle contract is a cross-boundary change the seat was not given.",
-      "closes_clause": null,
-      "score_inputs": {
-        "age_factor": 0.0714
-      },
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T00:59:09Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ],
-      "_closed_by": "s2-CYC-0073-d4ccfde4",
-      "_resolution": "FIXED, AND NOT BY THE ONE SENTENCE THE ROW PROPOSED. The row's remedy — a sentence in step 10 — would have been the FOURTH prose agreement of this exact shape (AUT-PD-013's fan-out key, AUT-PROP-013's ids, AUT-PD-037's serialization, this), and receipt_schema.py's own docstring already records that prose could not hold a convention this loop had got right twice. So the sentence landed AND the agreement is now measured.\nMECHANISM: research/autonomy/contract_check.py, run by preflight beside the receipt gate it guards. Direction A DERIVES what receipt_schema.py requires — it deletes each field in turn from receipts problems() accepts and re-runs the enforcer, so a deletion that produces a complaint proves that field is required; nothing is asserted about the enforcer's internals and no list is kept. Direction B additionally requires the contract to name every module-level `*_KEY`, as a backstop for a requirement conditioned on something no fixture exercises; that enumeration is complete only because no_literal_key_lookups() now refuses a receipt field name spelled as a string literal off a function's own argument. ⭐ THE FAIL-CLOSED HALF IS THE FIXTURES: a new requirement in receipt_schema.py makes them non-compliant, so the build reds on the commit that ADDS the requirement rather than on the cycle that later trips over it.\nREPRODUCED BEFORE FIXING: contract_check --check on the unmodified trunk exited 1 naming `ccr_session_id` (s2-contract-check-before.log); after the step-10 edit it exits 0 (s2-contract-check-after.log).\nVERIFIED, NOT INHERITED: the dispatch note's claim that `get_session` with NO arguments returns the CCR id was re-checked live on 2026-08-29 — it returns `.ccr.id` = a `session_01…` value, while CLAUDE_CODE_SESSION_ID in the same container is a bare UUID. Two id spaces, confirmed, so collapsing them stays the wrong fix.\nSECOND GAP FOUND AND CLOSED IN PASSING: `cycle_id` was read as a string literal in two places in receipt_schema.py and named nowhere in step 10. It is now CYCLE_ID_KEY (behaviour-preserving — problems() still falls back to the filename, so it is NOT in the derived required set) and step 10 names it. It is the one field where directions A and B diverge, and a test pins that.\nMUTATION-TESTED ON A COPY of research/autonomy plus the skill (never the live tree): 16 single-site mutations, 15 caught. ⛔ SURVIVOR REPORTED RATHER THAN FOOTNOTED: M5a — dropping ONE of the two CCR-governed fixtures — survives, and on inspection it is an equivalent mutant: the other CCR fixture still exercises that branch, every derived requirement is unchanged and the coverage invariant still holds, so no verdict moves. Two mutants that DID survive the first pass were real and are now caught: dropping every CCR-governed fixture, and dropping the only fixture with a non-zero fan-out, both left all 22 tests green because no requirement hangs off those branches TODAY while silently removing the coverage that would catch the NEXT one; test_the_fixtures_span_every_condition_the_enforcer_branches_on now asserts both sides of both branches.\n⛔ WHAT IS NOT COVERED, AND IT IS NOT SMALL: this checks the ONE enforcer that fails the commit. health.py (`handoff.child_session_id`, `session_id`, `route_advanced`), session_cap.py and holder_liveness.py (`ccr_session_id`) all read receipt fields too; all are named in the contract today and none is checked here, because a reader that only GRADES a receipt produces a wrong number rather than a red build. Extending contract_check to them is a separate item, not something to absorb silently into this one. And the checker can prove the contract NAMES a field; it cannot prove what the contract SAYS about it is true — only the two identifying tokens of the get_session instruction are pinned."
     },
     {
       "id": "AUT-PD-022",
@@ -2811,6 +2743,45 @@
       }
     },
     {
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "state": "in_progress",
+      "owner": "s1-CYC-0073-d4ccfde4",
+      "claimed_utc": "2026-08-29T00:58:47Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0071-61dd9024",
+      "requires_trimcrae": false,
+      "closes_clause": null,
+      "id": "AUT-PD-144",
+      "score": 126.9,
+      "_score_basis": "same family as AUT-PD-144 and equally cheap, but it has already cost a trunk outage and ~40 minutes of duplicated diagnosis; set one point below it.",
+      "depends_on_evidence": "commits e901ae619 and 170314393 (`git rev-parse 170314393^` = e901ae619); `priority.py --limit 3` ValueError on the committed trunk; `pytest research/autonomy/tests/test_ids_cannot_collide.py` on the stashed trunk = 1 failed, 10 passed; the independent second fix at 960dd822b",
+      "what": "⛔⛔ A REBASE-THEN-PUSH LANDS A TREE NO GATE EVER SAW, AND IT PUT A DUPLICATE ID ON `main` THAT CRASHED EVERY CYCLE'S STEP 3. Measured 2026-08-28. Two sessions filed AUT-PD-140 four minutes apart: CYC-0070-c84c64dd at e901ae619, then CYC-0070-225452b4 at 170314393 — and `git rev-parse 170314393^` IS e901ae619, so these were NOT divergent branches meeting at a merge. The second session allocated its id from state fetched before e901ae619, REBASED onto it, and pushed; the ledger's rows are separate array elements, so the rebase produced no conflict and no marker. ⛔ THE COST WAS TOTAL: `priority.py:merge` REFUSES a duplicated ledger (`ValueError: duplicate ledger ids: AUT-PD-140`), so `python3 research/autonomy/priority.py --write` — step 3 of the cycle contract, run before any item is taken — crashed on committed `main` for every session until it was renamed.\n⭐ THE GUARD WAS CORRECT AND WAS SIMPLY NOT RUN AT THE MOMENT THAT MATTERED. Verified by stashing the fix and running the committed trunk: `research/autonomy/tests/test_ids_cannot_collide.py::test_the_committed_ledger_has_no_duplicate_ids` FAILS (1 failed, 10 passed), and it is inside preflight gate 13's scope — so a preflight run AFTER the rebase would have caught it before the push. ⛔ SO THIS IS NOT A MISSING GATE. IT IS A GAP IN WHAT 'THE TREE YOU COMMIT' MEANS. CLAUDE.md §6 requires that the run you report green is the run that saw the tree you commit; a rebase performed at push time creates a THIRD tree — neither session's gated one — and nothing re-gates it. Every id here derives from max+1 over committed state (AUT-PROP-013), so a rebase is precisely when a collision becomes possible and precisely when nothing looks.\n⚠ AND THE DUPLICATED-EFFORT HALF REPEATED WHILE THIS WAS BEING WRITTEN, WHICH IS EVIDENCE THE FIX MUST BE MECHANICAL RATHER THAN A RULE. CYC-0071 diagnosed the collision and renamed the later row to AUT-PD-141; a concurrent session shipped the SAME diagnosis and the SAME rename to the SAME id at 960dd822b, minutes apart. CYC-0071 discarded its own version at the rebase. That is CYC-0069's recorded loss repeating: two sessions can both be right, both be gated, and still waste the work. ⭐ THE CHEAP FIX IS A PRE-PUSH CHECK, NOT A NEW TEST: after any rebase that touched research-ledger.json, re-run the id guard (0.04 s) and refuse the push on a duplicate.",
+      "_renamed_from": "AUT-PD-143",
+      "_renamed_why": "re-allocated at the rebase onto 469e8944d: a concurrent session had taken the id this row was first filed under. AUT-PD-143's own finding is why the count was re-derived explicitly rather than assumed.",
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "fruitless_attempts": 1
+      },
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T00:58:47Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
+    },
+    {
       "id": "AUT-PD-147",
       "kind": "process_defect",
       "process_defect": true,
@@ -2843,6 +2814,44 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
+    },
+    {
+      "id": "AUT-PD-146",
+      "what": "⛔ THE CYCLE CONTRACT NEVER NAMES `ccr_session_id`, BUT PREFLIGHT NOW FAILS WITHOUT IT. `receipt_schema.py` REQUIRES that field from `FIRST_CCR_GOVERNED_CYCLE = 70` and preflight sets rc=1 when it is missing, while `.claude/skills/research-loop/SKILL.md` step 10 — the text a cycle follows when writing its receipt — does not mention the field at all, nor how to obtain it. ⚠ NOT YET A BREAK: CYC-0070-225452b4 landed carrying it. But a required field named only in the checker is every 'rule measured by nothing' this loop has paid for, run in reverse — a checker enforcing something the contract does not ask for. ⭐ THE REMEDY IS ONE SENTENCE IN STEP 10, and the way to obtain the value was measured on 2026-08-28: the claude-code-remote `get_session` tool called with NO arguments returns `.ccr.id`. Add it beside the existing instruction to read `session_cap.session_id()` from the environment, and say plainly that the two are DIFFERENT ids in different namespaces rather than alternatives — that confusion is AUT-PD-124's whole subject.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "done",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "score": 124.9,
+      "_score_basis": "Just below the deferred ratchet (140.0) and above the citation instrument rows: it can fail a commit loop, which those cannot, but it is not failing one.",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository documentation and tooling; no outward-facing act.",
+      "claimed_utc": "2026-08-29T00:59:09Z",
+      "evidence": "Found by seat s5 while working AUT-PD-124 and filed rather than fixed, because editing the cycle contract is a cross-boundary change the seat was not given.",
+      "closes_clause": null,
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "fruitless_attempts": 1
+      },
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T00:59:09Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "_closed_by": "s2-CYC-0073-d4ccfde4",
+      "_resolution": "FIXED, AND NOT BY THE ONE SENTENCE THE ROW PROPOSED. The row's remedy — a sentence in step 10 — would have been the FOURTH prose agreement of this exact shape (AUT-PD-013's fan-out key, AUT-PROP-013's ids, AUT-PD-037's serialization, this), and receipt_schema.py's own docstring already records that prose could not hold a convention this loop had got right twice. So the sentence landed AND the agreement is now measured.\nMECHANISM: research/autonomy/contract_check.py, run by preflight as GATE 17. Direction A DERIVES what receipt_schema.py requires — it deletes each field in turn from receipts problems() accepts and re-runs the enforcer, so a deletion that produces a complaint proves that field is required; nothing is asserted about the enforcer's internals and no list is kept. Direction B additionally requires the contract to name every module-level `*_KEY`, as a backstop for a requirement conditioned on something no fixture exercises; that enumeration is complete only because no_literal_key_lookups() now refuses a receipt field name spelled as a string literal off a function's own argument. ⭐ THE FAIL-CLOSED HALF IS THE FIXTURES: a new requirement in receipt_schema.py makes them non-compliant, so the build reds on the commit that ADDS the requirement rather than on the cycle that later trips over it.\nREPRODUCED BEFORE FIXING: contract_check --check on the unmodified trunk exited 1 naming `ccr_session_id` (s2-contract-check-before.log); after the step-10 edit it exits 0 (s2-contract-check-after.log).\nVERIFIED, NOT INHERITED: the dispatch note's claim that `get_session` with NO arguments returns the CCR id was re-checked live on 2026-08-29 — it returns `.ccr.id` = a `session_01…` value, while CLAUDE_CODE_SESSION_ID in the same container is a bare UUID. Two id spaces, confirmed, so collapsing them stays the wrong fix.\nSECOND GAP FOUND AND CLOSED IN PASSING: `cycle_id` was read as a string literal in two places in receipt_schema.py and named nowhere in step 10. It is now CYCLE_ID_KEY (behaviour-preserving — problems() still falls back to the filename, so it is NOT in the derived required set) and step 10 names it. It is the one field where directions A and B diverge, and a test pins that.\nMUTATION-TESTED ON A COPY of research/autonomy plus the skill (never the live tree): 16 single-site mutations, 15 caught. ⛔ SURVIVOR REPORTED RATHER THAN FOOTNOTED: M5a — dropping ONE of the two CCR-governed fixtures — survives, and on inspection it is an equivalent mutant: the other CCR fixture still exercises that branch, every derived requirement is unchanged and the coverage invariant still holds, so no verdict moves. Two mutants that DID survive the first pass were real and are now caught: dropping every CCR-governed fixture, and dropping the only fixture with a non-zero fan-out, both left all 22 tests green because no requirement hangs off those branches TODAY while silently removing the coverage that would catch the NEXT one; test_the_fixtures_span_every_condition_the_enforcer_branches_on now asserts both sides of both branches.\n⛔ ORDINAL COLLISION CAUGHT BEFORE THE COMMIT, NOT AFTER: the gate was first placed beside gate 12, where it belongs by subject. preflight.sh's gate headings are numbered BY POSITION, and ids.py and priority.py both say 'preflight gate 15' in prose about research/autonomy/tests, so that placement would have silently renumbered four gates and falsified those references — the same doc/code drift this item is about. It is APPENDED LAST instead, for the reason gate 16's own note already gives, and .claude/skills/repo-gates/SKILL.md now lists it as (17).\n⛔ WHAT IS NOT COVERED, AND IT IS NOT SMALL: this checks the ONE enforcer that fails the commit. health.py (`handoff.child_session_id`, `session_id`, `route_advanced`), session_cap.py and holder_liveness.py (`ccr_session_id`) all read receipt fields too; all are named in the contract today and none is checked here, because a reader that only GRADES a receipt produces a wrong number rather than a red build. Extending contract_check to them is a separate item, not something to absorb silently into this one. And the checker can prove the contract NAMES a field; it cannot prove what the contract SAYS about it is true — only the two identifying tokens of the get_session instruction are pinned."
     },
     {
       "id": "AUT-PD-050",
