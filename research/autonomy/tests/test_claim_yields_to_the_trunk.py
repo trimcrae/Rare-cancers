@@ -278,3 +278,104 @@ def test_a_claim_the_trunk_agrees_with_is_not_reported():
     and a check that cries wolf is one this repository has already lost the value of several times."""
     same = _ledger([("AUT-X", ME)])
     assert C.unpushed_claims(same, same) == []
+
+
+# ---------------------------------------------------------------------------------------------
+# ⛔⛔ FINISHED WORK IS NOT FREE WORK (AUT-PD-176).
+#
+# THE INCIDENT: `AUT-PD-145` was closed by `CYC-0083-381d0696` at 2026-08-29T08:25:54Z — the ratchet
+# it asked for was on the trunk and its suite was green. At 11:47:29Z commit 5856839fe, a claim
+# written by `claim.py` itself, flipped it `done -> in_progress` while LEAVING `closed_by` in place,
+# and a worker session was dispatched to redo work that had landed 3.4 hours earlier.
+#
+# ★ THE PROPERTY UNDER TEST IS NOT "a closed row may never reopen". A census of all 348 trunk ledger
+# commits found 40 `closed -> open` transitions, of which 37 are ordinary re-derivation; refusing
+# those at the write would be an outage. It is the narrower and exactly-measured claim that a
+# FINISHED row cannot be CLAIMED — three of the 40 carried a `closed_by`, and the one this module
+# wrote is the one that stuck.
+# ---------------------------------------------------------------------------------------------
+
+def _closed(entry_id="AUT-X", owner=None, state="done", closed_by="CYC-0083-381d0696"):
+    return {"entries": [{"id": entry_id, "owner": owner, "claimed_utc": None,
+                         "state": state, "closed_by": closed_by}]}
+
+
+def test_a_row_a_cycle_closed_is_never_claimable():
+    """⛔ THE REGRESSION, IN THE SHAPE IT ACTUALLY LANDED IN."""
+    verdict, why = C.decide(_closed(), "AUT-X", ME)
+    assert verdict == C.YIELDED, "a finished row was offered as claimable work"
+    assert "CYC-0083-381d0696" in why, "the refusal does not name the cycle that closed the row"
+
+
+def test_a_finished_row_is_unclaimable_even_by_the_cycle_that_closed_it():
+    """⛔⛔ THE ORDERING, WHICH IS THE HALF A GUARD WRITTEN LOWER DOWN WOULD HAVE MISSED.
+
+    `decide()` answers CLAIMED for a row the trunk already shows as yours. A cycle that closed an
+    item still holds it until step 9 releases the lease, so a guard placed after the ownership
+    questions would hand a completed item straight back to its own closer and report CLAIMED —
+    reopening it exactly as before, with the verdict that says nothing is wrong.
+    """
+    verdict, _ = C.decide(_closed(owner=ME), "AUT-X", ME)
+    assert verdict == C.YIELDED, (
+        "a finished row was handed back to the cycle that closed it, because the ownership test ran "
+        "before the completion test")
+
+
+def test_a_closed_state_with_no_closing_cycle_is_still_not_free():
+    """⚠ A row can be finished before any cycle names itself in it, and `priority.py` already refuses
+    to RANK such a row. No selector offers a closed row, so no legitimate claim can want one."""
+    verdict, why = C.decide(_closed(closed_by=None), "AUT-X", ME)
+    assert verdict == C.YIELDED and "done" in why
+
+
+def test_the_closed_states_are_shared_with_the_ranker_and_not_re_typed_here():
+    """⛔ CLAUDE.md §1 — one fact, one place. A second hand-typed copy of this set is how the two
+    halves drift until a state the ranker skips is a state the claim path still offers."""
+    import priority
+    assert C.finished_by.__module__ == "claim"
+    for state in priority.CLOSED_STATES:
+        assert C.finished_by({"state": state}) is not None, (
+            f"`{state}` is closed to the ranker but open to the claim path")
+
+
+def test_an_ordinary_open_row_is_still_claimable():
+    """⭐ THE POSITIVE CONTROL. Without it every assertion above passes on a `decide()` that yields to
+    everything, which would stop the loop taking any work at all."""
+    verdict, _ = C.decide(_closed(state="queued", closed_by=None), "AUT-X", ME)
+    assert verdict == C.TAKEN
+
+
+def test_the_claim_path_never_pushes_a_reopening(led):
+    """⛔⛔ THE END-TO-END HALF, AND IT COVERS THE MUTATION `decide()` ALONE CANNOT.
+
+    The reopening is written by `stamp_claim`, which sets `state = "in_progress"` unconditionally and
+    has no idea what it is overwriting. What must be true is not merely that the verdict is YIELDED
+    but that NOTHING WAS WRITTEN and NOTHING WAS PUSHED — the trunk's completion record survives.
+    """
+    git = FakeGit([_closed()], [])
+    verdict, _ = C.claim("AUT-X", ME, WHEN, git=git, ledger_path=led)
+    assert verdict == C.YIELDED
+    assert not any(c.startswith("push") for c in git.calls), (
+        "it pushed a claim that reopens finished work")
+    assert not any(c.startswith("commit") for c in git.calls), (
+        "it committed a claim that reopens finished work")
+    assert json.load(open(led, encoding="utf-8"))["entries"][0]["state"] == "queued", (
+        "the working ledger was mutated for a claim that yielded")
+
+
+def test_a_row_already_reopened_once_is_still_refused():
+    """⛔⛔ THE ONE-OF-A-PAIR CASE, AND IT IS THE LIVE SHAPE OF THE INCIDENT RATHER THAN A HYPOTHETICAL.
+
+    After the defect fires, the row on the trunk reads `state: in_progress` WITH `closed_by` still
+    populated — that is exactly what `AUT-PD-145` looked like at 9d5b4defe. Every other test here
+    pairs a closed `state` with a `closed_by`, so a guard reading only `state` passes all of them
+    while leaving the resurrected row claimable forever: each fresh dispatch re-stamps it and it
+    never heals. `closed_by` is the durable record, so it is read on its own and not merely as a
+    label on a closed state.
+    """
+    verdict, why = C.decide(_closed(state="in_progress"), "AUT-X", ME)
+    assert verdict == C.YIELDED, (
+        "a row that had ALREADY been reopened by this defect was offered as claimable work — the "
+        "guard is reading `state`, which the reopening overwrote, rather than `closed_by`, which it "
+        "left behind")
+    assert "CYC-0083-381d0696" in why
