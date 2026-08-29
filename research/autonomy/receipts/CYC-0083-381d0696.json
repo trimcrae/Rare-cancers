@@ -1,0 +1,45 @@
+{
+  "_schema": "emc-cycle-receipt/1",
+  "cycle_id": "CYC-0083-381d0696",
+  "session_id": "381d0696-dff4-528d-8468-0fe7b27e4fb4",
+  "ccr_session_id": "session_01Mfu3suzekFUhjmY5uB3spC",
+  "utc": "2026-08-29T08:45:00Z",
+  "shape": "One driver, no fan-out. SECOND of 2 cycles allowed in this session (max_cycles_per_session=2). First was CYC-0082-381d0696 (AUT-PD-165), on the trunk at ca0f138f3. This session is now AT ITS CAP and hands off.",
+  "took": "AUT-PD-145 (score 132.9), claimed with claim.py — CLAIMED on attempt 1, from a HEAD equal to origin/main, and this was the FIRST claim run through the fix CYC-0082 had just landed. Released to `owner: null`, state `done`.",
+  "why_this_one": "⭐ CHOSEN ON A $0 OBSERVATION TAKEN BEFORE THE ITEM WAS PICKED, NOT ON ITS SCORE. AUT-PD-145 was held on an entry condition — 'open-unscored flat or falling across at least a two-hour window of trunk commits' — that was last measured RISING at ~6 rows/hour. Nobody had re-measured it since R5 landed. The re-measurement is a git-history read costing nothing, and it had flipped.",
+  "the_measurement": "⛔ THE WHOLE CYCLE RESTS ON THIS SERIES AND IT IS RE-RUNNABLE. `git log --format='%H %cI' origin/main -- research/autonomy/research-ledger.json`, then `admissibility.is_unscored_open` over each blob: `n_unscored_open` = 73 at EVERY ONE of the 18 consecutive trunk ledger commits from 2026-08-29T03:29:55Z (df529936a) to 07:47:50Z (f96f509e5) — 4.3 hours flat against a required window of 2, entirely after R5's commit, with no rise anywhere inside it. The population stepped 88 → 73 when R5 landed and has not moved since. ⚠ The prior reading, from CYC-0073-d4ccfde4 nine hours earlier, was 22 → 85 over 10.5 h, ~6 rows/hour and rising. The condition did not become true by argument; it became true because R5 stopped the growth, which is exactly what condition 1 was for.",
+  "what_shipped": "`MAX_UNSCORED_OPEN = 73` and the two held tests — `test_the_open_unscored_population_does_not_grow` and `test_the_ratchet_is_not_vacuous` — landed TOGETHER and VERBATIM from d082c01a78 apart from the pinned number, which is the count measured in this very commit. A ratchet without its vacuity guard is the self-serving version of the same change, which is why the pair was held together for a day.",
+  "the_number_went_DOWN": "⭐ 73 IS SEVEN LOWER THAN THE 80 THE PAIR WAS WRITTEN AGAINST. This row refused a re-pin twice — on 2026-08-28 when 80 would have had to become 82, and on 2026-08-29 when it would have had to become 85 — on the ground that re-pinning on each break is the forbidden edit taken in instalments. It never had to be raised: the population fell to meet the ceiling and then went past it.",
+  "the_slack_that_was_available_and_not_used": "⚠ RECORDED BECAUSE THE GUARD WOULD NOT HAVE CAUGHT IT. `test_the_ratchet_is_not_vacuous` permits up to 2 of slack, so a pin of 74 or 75 would have passed it today and bought headroom for two future unscored rows. 73 is the strictest legal pin, not the safest one. A tolerance is not a licence to use it, and a later reader should know the softer pin was legal rather than assume it was blocked.",
+  "changed": [
+    "research/autonomy/tests/test_an_unscored_row_is_ranked_by_nothing.py — the constant, the two held tests, and the module docstring's DEFERRED section rewritten as LANDED with the whole deferral history kept",
+    "research/autonomy/research-ledger.json — AUT-PD-145 closed with the series that licensed the pin",
+    "research/autonomy/amendments.jsonl — the declaration"
+  ],
+  "verification": {
+    "suites": "26 passed — test_an_unscored_row_is_ranked_by_nothing.py + test_the_unscored_population_can_only_shrink.py",
+    "mutation": "6/6 caught on a repo-shaped COPY (CLAUDE.md §6, never the live tree): ceiling → 200, ceiling → 76, one unscored row appended, one open row's score removed, `_unscored_open` inverted, its closed-state exclusion removed. Log: scratchpad/drv-aut-pd-145/drv145-mutation.log",
+    "the_baseline_caught_the_harness": "⚠ THE FIRST RUN WENT RED AT THE BASELINE, NOT AT A MUTATION: the copy held research/autonomy alone and the suite reaches systems/graph/routes.json, so all six 'caught' verdicts would have been caught for the wrong reason. That is CYC-0073-d4ccfde4's recorded failure arriving from the other direction, and the assert-green-first rule it added is what stopped it.",
+    "the_pin_matches_the_landing_commit": "re-measured AFTER the ledger write-back and the re-score: n_unscored_open = 73 against a ceiling of 73, zero slack."
+  },
+  "cost": {
+    "real_dollars": 0.0,
+    "gpu_hours": 0.0,
+    "class": "free",
+    "note": "CPU and engineering only (CLAUDE.md §5, research/compute/pricing.md). The decisive measurement was a $0 read of committed git history."
+  },
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "One held branch, one constant, two tests, one series to measure. Nothing here was searchable work worth a seat's context."
+  },
+  "blocked_by": [],
+  "what_this_does_NOT_do": "⚠ R5 CANNOT SHRINK THE GRANDFATHERED 73 AND THIS RATCHET DOES NOT EITHER. It stops the population growing and pins the ceiling on it; the 73 clear one row at a time, by somebody scoring them, and `n_unscored_open` is the number that says whether that is happening. `health.py`'s `scores_are_reachable` stays RED until they do, and it is `advises`, so it does not stop a cycle.",
+  "queued_next": [
+    "AUT-PD-158 (133.0) — decide what RT-AUTONOMY is in systems/graph. ⭐ MEASURED THIS CYCLE AND NOT YET FILED ON THE ROW: 76 of 145 open rows serve RT-AUTONOMY and 59 of those are unscored, RT-AUTONOMY is absent from the graph's 77 routes, and the scored RT-AUTONOMY rows span 40.9–133.1 — which already OUTRANKS whole live treatment routes (RT-PARTNER-STRAT tops at 107.6, RT-JUNCTION-NEOANTIGEN at 45.8). The row's option (b), an explicit ceiling for work serving no treatment route, is therefore not hypothetical tidying: the unstated range is already doing the thing CLAUDE.md §0 forbids.",
+    "AUT-PD-134 (118.9) — line_citations.py checks fewer than half the citations in its own file",
+    "AUT-PD-164 (112.0) — the commit loop is no longer ~75 s"
+  ],
+  "route_advanced": "none",
+  "_route_advanced_why": "⛔ HONEST. This is RT-AUTONOMY: it lands a bar on the loop's own queue hygiene and moves no EMC evidence. ⚠ AND IT IS THE SECOND `none` IN THIS SESSION, WHICH IS WORTH SAYING OUT LOUD RATHER THAN LEAVING FOR THE HEALTH CHECKER: CYC-0082 was `none` too, CYC-0081 before it was RT-SGK1, so the run is 2 and the alarm fires at 3. A successor that takes another process_defect trips it. The queue's top rows are all RT-AUTONOMY, which is itself the finding AUT-PD-158 is about."
+}

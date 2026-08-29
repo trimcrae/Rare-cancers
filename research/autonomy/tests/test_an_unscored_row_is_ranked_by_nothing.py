@@ -46,16 +46,35 @@ WHAT EACH TEST HOLDS DOWN
   4    neither view prints a NUMBER for a row that has none. `continuity.py` printed `[   0.0]`.
   5    the two rankers order a missing score the SAME way — they did not.
   6    the generator counts the population into the artifact.
-  7    NOT LANDED HERE — see DEFERRED below. The ratchet belongs to a follow-up row.
+  7    the open unscored population does not GROW — the ratchet, landed 2026-08-29 on the
+       follow-up row AUT-PD-145, together with its vacuity guard. See LANDED below.
 
-⛔⛔ DEFERRED, AND SEQUENCING IS THE ONLY REASON (AUT-PD-050, seat s6, 2026-08-28).
+⭐⭐ LANDED 2026-08-29 (AUT-PD-145, CYC-0083-381d0696), AND THE HISTORY BELOW IS KEPT RATHER
+THAN DELETED, BECAUSE THE ENTRY CONDITION IS THE ONLY THING THAT MAKES THIS A DEFERRAL AND NOT
+A RE-PINNING. `MAX_UNSCORED_OPEN` and `test_the_ratchet_is_not_vacuous` are now in this file,
+verbatim from d082c01a78 apart from the pinned number, which is **73 — SEVEN LOWER than the 80
+they were written against, not higher.** Both entry conditions were met and measured, not argued:
+  (1) R5 landed on the trunk 2026-08-29 (CYC-0073-d4ccfde4): `admissibility.refuse_population_growth`
+      refuses, at `ledger_io.write_ledger`, any write that puts a row INTO this population —
+      appended unscored, a committed `score` removed, or a closed-and-exempt row reopened.
+      Membership is grandfathered, which is why landing it was not an outage.
+  (2) The population is FLAT, read the way condition (2) prescribes: `n_unscored_open` was 73 at
+      every one of the 18 consecutive trunk ledger commits from 03:29:55Z to 07:47:50Z on
+      2026-08-29 — 4.3 hours against a required window of 2, with no rise anywhere in it. It had
+      fallen 88 -> 73 when R5 landed and has not moved since. ⚠ That series is what condition (2)
+      asks for and it is the ONLY thing that licenses this pin; a flat window shorter than two
+      hours, or any rise inside it, would put the pair back on the branch.
+⛔ AND THE NUMBER WAS NOT CHOSEN TO FIT. 73 is the count in this very commit, so
+`test_the_ratchet_is_not_vacuous` has zero slack — the strictest legal pin, not the safest one.
+
+⛔⛔ WHY IT WAS DEFERRED IN THE FIRST PLACE, KEPT VERBATIM (AUT-PD-050, seat s6, 2026-08-28).
 The suite as first written on branch `s1-aut-pd-050-unscored-rows` @ d082c01a78 carried an eighth
 and ninth test — `test_the_open_unscored_population_does_not_grow`, a ratchet pinned at
 `MAX_UNSCORED_OPEN = 80`, and `test_the_ratchet_is_not_vacuous`, the guard that stops that ceiling
-being raised to fit. **They are correct and they are not weakened here; they are not landed here.**
-Neither has ever been on the trunk, so nothing on `main` loses a guard by their absence, and the
-pair must land TOGETHER and VERBATIM from that commit — a ratchet without its vacuity guard is the
-self-serving version of the same change.
+being raised to fit. **They are correct and they were not weakened; they were not landed THEN.**
+Neither had ever been on the trunk, so nothing on `main` lost a guard by their absence, and the
+pair had to land TOGETHER and VERBATIM from that commit — a ratchet without its vacuity guard is
+the self-serving version of the same change. They landed together, as required.
 
 ★ WHY NOT NOW, MEASURED RATHER THAN ARGUED. The ceiling was pinned at 80 against the population
 `s1` measured at 20:34 UTC. Re-measured by reading back all 248 commits of `research-ledger.json`
@@ -106,6 +125,20 @@ import priority  # noqa: E402
 
 LEDGER = os.path.join(AUTONOMY, "research-ledger.json")
 
+
+
+#: ⛔⛔ THE RATCHET, AND IT MAY ONLY EVER BE LOWERED. The count of OPEN ledger rows carrying no
+#: `score`, measured on the tree this test was committed against. Closing a row lowers it; filing an
+#: unscored row raises it and turns this red. **Lower it in the same commit that scores rows. Raising
+#: it is weakening the bar to make a filing pass, which is the one edit `amendment_guard.py` exists
+#: to refuse** — and there is no case for it, because the remedy costs one field on the row you just
+#: filed. The number is NOT a target and not a budget: the honest end state is 0, at which point this
+#: constant should be deleted and the assertion made absolute.
+#: ⭐ LANDED 2026-08-29 BY CYC-0083-381d0696, PINNED AT THE COUNT MEASURED IN THIS COMMIT, which is
+#: what AUT-PD-145 required and is 73 rather than the 80 the pair was written against. The ceiling
+#: was NOT raised to fit — it was LOWERED by seven, because the population fell. See the DEFERRED
+#: section of this module's docstring for the entry condition and the series that met it.
+MAX_UNSCORED_OPEN = 73
 
 
 def _committed():
@@ -287,3 +320,34 @@ def test_the_scoring_audit_explains_the_grade_it_reports():
         "the report names a population it does not tell the reader how to clear")
 
 
+# 7 -------------------------------------------------------------------------------------------
+def test_the_open_unscored_population_does_not_grow():
+    """⛔⛔ THE RATCHET, AND IT IS THE ONLY PART OF THIS SUITE THAT STOPS THE BLEEDING. Every one of
+    the 24 rows filed in the observable trunk history joined this population; nothing has ever left
+    it. A view that renders these rows and a report that counts them are both worth having and
+    neither prevents the 25th.
+
+    ★ IF THIS IS RED ON YOUR COMMIT, YOU FILED A LEDGER ROW WITH NO SCORE. The remedy is one field
+    on that row — a `score` and a `_score_basis` saying why, or a `prerequisite_of` naming the row it
+    unblocks, which derives one from the parent. ⛔ Do NOT raise `MAX_UNSCORED_OPEN`: that is
+    weakening a bar so a filing passes, `amendment_guard.py` refuses it, and there is no version of
+    this where a typed number is more expensive than the queue never seeing the work."""
+    entries = _committed()["entries"]
+    ids = _unscored_open(entries)
+    assert len(ids) <= MAX_UNSCORED_OPEN, (
+        f"{len(ids)} open ledger rows carry no `score` — up from the {MAX_UNSCORED_OPEN} this "
+        f"ratchet was pinned at. A row with no score sorts below every scored row and no ranking "
+        f"term can reach it, the anti-starvation age factor included, so it will never be picked. "
+        f"Give the row(s) you filed a `score` and a `_score_basis`, or a `prerequisite_of`. "
+        f"Newest unscored ids: {sorted(ids)[-6:]}")
+
+
+def test_the_ratchet_is_not_vacuous():
+    """⚠ A ceiling far above the real count asserts nothing (the vacuous-guard failure
+    `paper-hardening` §8b names, and the one that let an emptied constant pass a parametrised test).
+    The pin must sit ON the measured population, not above it."""
+    ids = _unscored_open(_committed()["entries"])
+    assert ids, "no open unscored rows at all — delete MAX_UNSCORED_OPEN and assert `not ids`"
+    assert MAX_UNSCORED_OPEN - len(ids) <= 2, (
+        f"MAX_UNSCORED_OPEN is {MAX_UNSCORED_OPEN} against a real population of {len(ids)}: the "
+        "ratchet has slack it was never meant to have. Lower it to the measured count.")
