@@ -130,6 +130,38 @@ Check before anything else. A loop that works through its own alarm is the alarm
       and refuses the commit that lands a receipt without it. A field name agreed in prose between
       two files is a hope; this loop had already got this one right twice and lost it twice.
 
+    - ⛔ **AND `ccr_session_id` — THE *OTHER* SESSION ID, WHICH IS NOT AN ALTERNATIVE TO
+      `session_id` BUT A SECOND FIELD ALONGSIDE IT.** From
+      `receipt_schema.FIRST_CCR_GOVERNED_CYCLE` onward, a receipt without it FAILS PREFLIGHT and
+      therefore the commit. **Two id spaces, two sets of readers, and neither substitutes for the
+      other:** `session_id` stays the harness `CLAUDE_CODE_SESSION_ID` — a bare UUID — because
+      `health.py`'s `cycles_are_sized` and `session_cap.py` both key on it; `ccr_session_id` is the
+      `session_01…` id the SESSION LIST speaks, and it is the only thing `session_reaper.py` and
+      `holder_liveness.py` can use to join this receipt to a session row.
+      ⭐ **READ IT, NEVER TYPE IT, exactly as for `session_id`** — the claude-code-remote
+      `get_session` tool called with **no arguments** returns your own row and the value is
+      `.ccr.id` (re-verified 2026-08-29).
+      ⚠ *Measured 2026-08-28 (AUT-PD-124): most committed receipts carried no joinable id at all,
+      so the reaper could not show that a single modern session had delivered — it archived nothing
+      and reported delivered cycles as ones that may have died holding uncommitted work.*
+      ⭐ **Spell the receipt's own id in `cycle_id` too.** `receipt_schema.audit` falls back to the
+      FILENAME when that key is absent, so a receipt whose two disagree is graded under whichever
+      one the reader reached for.
+    - ⭐⭐ **AND THIS PARAGRAPH IS NOW MEASURED AGAINST THE GATE, WHICH IS WHY AUT-PD-146 COULD NOT BE
+      CLOSED BY WRITING IT** (2026-08-29). `python3 research/autonomy/contract_check.py --check`
+      DERIVES — by deleting fields from receipts the enforcer accepts and re-running it — the set of
+      fields `receipt_schema.py` refuses a receipt for, and fails the build when THIS STEP does not
+      name every one of them. ⚠ *`ccr_session_id` has been a commit-failing requirement since
+      CYC-0070 while this text never mentioned it. All seven receipts written since do carry it —
+      so the gap cost no build — but CYC-0073-d4ccfde4 recorded that it wrote the field only
+      because it had opened `receipt_schema.py` for an unrelated reason. That is compliance by
+      luck, and luck is not a mechanism.* **A field name agreed in prose between two files
+      is a hope** — this repository has now lost that agreement four separate times (AUT-PD-013's
+      fan-out key, AUT-PROP-013's ids, AUT-PD-037's serialization, AUT-PD-146's) — **so the
+      agreement is checked rather than restated, and a new requirement in the enforcer reds the
+      build until this step names it.**
+
+
 11. **Reap the finished sessions you left behind.** List sessions, pass them to the reaper, archive
     what it clears:
 

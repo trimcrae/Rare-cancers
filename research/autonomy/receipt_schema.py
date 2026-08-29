@@ -49,6 +49,20 @@ well-behaved sessions left both rows red, and "a row that can never go green tea
 skip it"). The cutoff is a NUMBER, not a hand-maintained exemption list, so it cannot rot; and the
 pre-cutoff drift is REPORTED rather than hidden, because the ledger item was filed against a checker
 that hid what it could not read.
+
+⭐ AND WHAT THIS MODULE REQUIRES IS NOW CHECKED AGAINST WHAT THE CONTRACT ASKS FOR (AUT-PD-146,
+2026-08-29). Owning the name for the reader and the checker fixed half the problem and created the
+other half: `ccr_session_id` became a commit-failing requirement that `.claude/skills/research-loop`
+§2 step 10 -- the text a cycle follows when it hand-authors the receipt -- never mentioned, so a
+cycle obeying the contract exactly would write a receipt this file rejects. (Measured: every receipt
+since the cutoff does carry it, so nothing went red; what was absent is the guarantee.)
+`contract_check.py` closes
+that direction: it DERIVES the required set by deleting fields from receipts `problems()` accepts,
+and reds the build when the contract does not name one. ⛔ TWO CONSEQUENCES FOR ANYONE EDITING HERE:
+a new required field must be added to `contract_check._fixtures()` (its absence there is itself a
+red build, by design), and every field name must live in a module-level `*_KEY` constant -- a name
+spelled in a string literal is one that checker cannot enumerate, and `no_literal_key_lookups()`
+refuses it.
 """
 
 from __future__ import annotations
@@ -78,6 +92,12 @@ _CCR_ID = re.compile(r"\bsession_[A-Za-z0-9]{6,}\b")
 #: CYC-0023 -- the next cycle written under a schema that exists -- is the first that can comply.
 #: ⛔ Do NOT lower this to "catch" history: see the latching argument in the module docstring.
 FIRST_GOVERNED_CYCLE = 23
+
+#: The receipt's own id. ⚠ NOT in the derived required set and that is correct: `problems()`
+#: falls back to the FILENAME when the key is absent, so removing it changes no verdict. It is
+#: a constant anyway because `contract_check.py` enumerates this module's field names from the
+#: `*_KEY` constants, and a name spelled in a string literal is a field that checker cannot see.
+CYCLE_ID_KEY = "cycle_id"
 
 #: The field that lets `session_reaper.py` join a receipt to a row in the session list.
 CCR_ID_KEY = "ccr_session_id"
@@ -203,7 +223,7 @@ def problems(receipt: dict, path: str) -> list[str]:
     `audit`; calling it directly on one is legitimate (that is how the drift report is built).
     """
     out = []
-    rid = receipt.get("cycle_id") or os.path.basename(path).removesuffix(".json")
+    rid = receipt.get(CYCLE_ID_KEY) or os.path.basename(path).removesuffix(".json")
 
     # ⛔ CHECKED FIRST AND UNCONDITIONALLY (AUT-PD-017). This must not be short-circuited by the
     # `subagents`-block early return just below -- a missing route_advanced and a missing subagents
@@ -281,7 +301,7 @@ def audit(receipt_dir: str = RECEIPT_DIR) -> dict:
             # loader that swallows it turns a broken record into a clean board.
             unparsed.append(f"{os.path.basename(path)}: unreadable -- {exc}")
             continue
-        rid = receipt.get("cycle_id") or os.path.basename(path).removesuffix(".json")
+        rid = receipt.get(CYCLE_ID_KEY) or os.path.basename(path).removesuffix(".json")
         n = cycle_number(rid) if isinstance(rid, str) else None
         if n is None or n < FIRST_GOVERNED_CYCLE:
             drift = drift_in(receipt)

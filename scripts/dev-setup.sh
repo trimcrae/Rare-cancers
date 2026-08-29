@@ -41,6 +41,42 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# --------------------------------------------------------------------------------------------
+# ⛔⛔ THE PUSH GUARD IS WIRED HERE BECAUSE A HOOK NOBODY INSTALLS IS PROSE (AUT-PD-144).
+#
+# `research/autonomy/push_guard.py` refuses a push whose tip carries a duplicated ledger id or an
+# unparseable loop-state file — the class a line-based merge cannot see, and the class that put
+# `AUT-PD-140` on `main` twice on 2026-08-28 and crashed step 3 of the cycle contract for every
+# session. git only runs it if `core.hooksPath` points at the tracked hook directory, and nothing
+# in a fresh sandbox sets that.
+#
+# ⚠ IT SITS ABOVE THE `--if-needed` EARLY EXIT for the same reason the ghostscript and shallow-clone
+# steps do, and that reason was PAID FOR ONCE ALREADY: the probe below asks about python imports, so
+# anything it does not ask about must not sit behind its answer. This costs one `git config` call.
+#
+# ⚠ AND IT IS RELATIVE, NOT ABSOLUTE, ON PURPOSE. git resolves a relative `core.hooksPath` against
+# the top of the working tree, so each worktree runs ITS OWN checkout's hook — which is what we
+# want: the guard that runs is the one belonging to the tree being pushed. A worktree checked out
+# from a commit before the hook existed has no hook and pushes as before.
+#
+# ⚠ Never fails setup. `.git` may be absent (a tarball, a docs build), and a session that cannot
+# configure a hook must still get its interpreters.
+if git rev-parse --git-dir >/dev/null 2>&1; then
+  # ⛔⛔ ONE hooksPath, ARMED HERE — ABOVE the `--if-needed` early exit. RECONCILED 2026-08-29
+  # (CYC-0073-d4ccfde4) after AUT-PD-144 was solved twice concurrently: seat s1 armed
+  # `scripts/git-hooks` HERE, CYC-0074-bdf8c881 armed `.githooks` far below. git honours ONE
+  # hooksPath, so two settings meant LAST WRITE WINS and one fully-tested guard would never fire.
+  # ⭐ THE DIRECTORY IS `.githooks` (CYC-0074's, already on the trunk) BUT THE PLACEMENT IS s1's,
+  # AND THE PLACEMENT IS THE HALF THAT MATTERED: the other arming sat at line ~424, BELOW the
+  # `--if-needed` early exit at line ~310 — and `--if-needed` is what the SessionStart hook runs.
+  # Armed only there, the guard would have been inert on every ordinary session. Keeping the
+  # landed directory and discarding the landed placement is deliberate.
+  if [ "$(git config --get core.hooksPath || true)" != ".githooks" ]; then
+    git config core.hooksPath .githooks && echo "dev-setup: core.hooksPath -> .githooks (both push guards armed)"
+  fi
+fi
+# --------------------------------------------------------------------------------------------
+
 # ⛔ TWO INTERPRETERS, TWO LISTS, AND THEY ARE GENUINELY DIFFERENT — MEASURED, NOT TIDIED.
 # The first cut installed one list into both and then reported `pypdf` and `pdfplumber` as still
 # missing from system python3 after a successful install. The cause is not pip: this image's
@@ -390,8 +426,12 @@ fi
 # if already set to this value.
 if [ -d .githooks ]; then
   echo
-  echo "== git hooks (core.hooksPath -> .githooks, so pre-push re-checks the ledger for duplicate ids) =="
-  git config core.hooksPath .githooks
+  # ⛔ THE ARMING MOVED UP, IT DID NOT GO AWAY (2026-08-29, CYC-0073-d4ccfde4). It used to sit
+  # HERE — below the `--if-needed` early exit, which is the path the SessionStart hook takes —
+  # so on an ordinary session the hook was never armed and the guard never fired. It is now set
+  # once, above that exit. A second assignment of that config key anywhere in this file reds
+  # test_dev_setup_arms_the_hook_above_its_own_early_exit.
+  echo "== git hooks (core.hooksPath armed above the --if-needed exit; both push guards run) =="
   echo "   OK: $(git config --get core.hooksPath)"
 fi
 
