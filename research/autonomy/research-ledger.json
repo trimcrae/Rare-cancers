@@ -8,13 +8,13 @@
     "analysis": 2,
     "build": 1,
     "code": 1,
-    "experiment": 23,
+    "experiment": 24,
     "fetch": 19,
     "fix": 16,
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 132,
+    "process_defect": 133,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -25,13 +25,13 @@
     "done": 113,
     "in_progress": 3,
     "parked": 28,
-    "queued": 140,
+    "queued": 142,
     "ready": 1,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 109,
-  "n_unscored_open": 85,
+  "n_unscored": 111,
+  "n_unscored_open": 87,
   "entries": [
     {
       "serves": {
@@ -1766,49 +1766,6 @@
       ]
     },
     {
-      "id": "AUT-025",
-      "_derived": true,
-      "what": "Keep registered for automatic re-grade when EMC expression data lands.",
-      "serves": {
-        "route": "RT-FAP-RLT",
-        "publication": "PUB-SURFACE-TARGETS",
-        "strategy": "ST-RADIOLIGAND"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-DRV-5a21085f",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 152.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "claimed_utc": "2026-08-29T01:00:28Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T01:00:28Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-074",
       "_derived": true,
       "what": "Report it as a closed line: elevated and pan-essential is not an opportunity.",
@@ -2333,6 +2290,48 @@
       },
       "claimed_utc": null,
       "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (kinase-leads patch landed)"
+    },
+    {
+      "id": "AUT-025",
+      "_derived": true,
+      "what": "Keep registered for automatic re-grade when EMC expression data lands.",
+      "serves": {
+        "route": "RT-FAP-RLT",
+        "publication": "PUB-SURFACE-TARGETS",
+        "strategy": "ST-RADIOLIGAND"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "score": 140.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T01:00:28Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-020",
@@ -8562,6 +8561,32 @@
       "evidence": ""
     },
     {
+      "id": "AUT-PD-154",
+      "what": "⛔ STEP 11 OF THE CYCLE CONTRACT CANNOT COMPLETE IN AN AUTO-PERMISSION CCR SESSION — THE REAPER DECIDES AND THE ARCHIVE IS REFUSED. Measured 2026-08-29 (CYC-0074-5a21085f). `session_reaper.py` ran correctly on 40 sessions and cleared exactly one, session_01GEFbqguVTYsLJrg8EAFYfG ('successor to CYC-0071-c84c64dd'). The follow-up `archive_session` call returned VERBATIM: 'Permission for this action was denied by the Claude Code auto mode classifier. Reason: Blocked by classifier.' The session is still idle and unreaped.\n⚠ THIS IS A LAUNCH-SHAPE PROPERTY, NOT A ONE-OFF: this session runs with `permission_mode: auto` (get_session -> session_context.permission_mode), and every fired cycle inherits that shape, so the deciding half of step 11 runs and the acting half fails for every cycle in this shape. ⛔ THE COST IS THE ONE THE REAPER WAS BUILT FOR: trimcrae had to ask, and 32 sessions were archived by hand, at roughly six new idle rows a day on a 4-hour cadence — a loop that cannot clean up after itself makes its owner the janitor.\n⭐ WHAT TO ESTABLISH FIRST, AND IT IS $0: whether the denial is the tool or the classifier's read of it. If a settings.json permission rule for `mcp__*__archive_session` clears it, this is a one-line fix; if the classifier refuses outward session-lifecycle calls categorically in `auto` mode, then step 11's archive half belongs to trimcrae or to a differently-shaped session, and the contract should say so rather than instruct every cycle to attempt a call that cannot succeed. ⚠ DO NOT ROUTE AROUND THE DENIAL to test this.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "kind": "process_defect",
+      "process_defect": true,
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository configuration and contract text; the DIAGNOSTIC is self-doable. Only a decision to grant a new standing permission would be his.",
+      "closes_clause": null,
+      "filed_by": "CYC-0074-5a21085f",
+      "evidence": "research/autonomy/receipts/CYC-0074-5a21085f.json -> `reaped` and `blocked_by[0]`, which carry the reaper's full stdout verdict and the denial text verbatim."
+    },
+    {
       "id": "AUT-PD-112",
       "what": "SUBMISSION-GATE ITEM for PUB-REPURPOSING: §4.1 and Table 3 must cite EV-MAKI-2005 as the class-level clinical bound and EV-BOKLAN-2025 as the existing carfilzomib combination schedule. ⚠ NO SENTENCE IN repurposing-hypotheses.md IS FALSE TODAY — the defect is INCOMPLETENESS: an evidence-graded review that lists carfilzomib as untried, without the class's own closed sarcoma trial, misleads by omission in a way each individual sentence survives. ⛔ A correction REPLACES text and does not append (paper-hardening), and this is a venue-capped manuscript under an active hardening program that reviews a PINNED COMMIT — so it needs a new numbered reference, an Appendix A row and the word budget, not a paragraph bolted on.",
       "serves": {
@@ -8609,6 +8634,34 @@
       "_score_basis": "a committed results artifact was emptied by automation, and a paper claim now disagrees with its artifact",
       "score_inputs": {
         "age_factor": 0.1429
+      }
+    },
+    {
+      "id": "AUT-081",
+      "what": "⛔ THE ONLY EMC TISSUE EVER FAP-STAINED IN THE LITERATURE IS ONE CASE, AND ITS SCORES ARE UNREPORTED. Measured 2026-08-29 from the PMC full text of PMID 38964294 / PMC11797935 (Umakoshi M et al., DOI 10.1159/000539855): Table 1 'Details of all enrolled cases' gives Extraskeletal myxoid chondrosarcoma = 1 of 133. The paper's only subtype-level FAP analyses are well-differentiated liposarcoma and undifferentiated pleomorphic sarcoma (Table 5), so that one case's intratumoral and marginal FAP scores are genuinely not published and no per-case data is deposited. THE ACT: ask the Akita University group (corresponding author Michinobu Umakoshi) for that single case's two scores. ⛔ IT IS OUTWARD-FACING — contacting a named research group under trimcrae's name is CLAUDE.md §3, so no cycle may perform it. ⚠ AND IT MUST NOT BE RECORDED AS A PATH TO CLOSING THE GAP: a fully successful ask returns two ordinal scores (0-6 each) on a single specimen, which is a case-level observation, not a measurement of FAP in EMC — RT-FAP-RLT.readiness.missing = ['any measurement in EMC'] would still stand afterwards. ⚠ A third limit the authors state themselves: in the intratumoral area 'None of the CAF markers was able to completely distinguish CAFs from sarcoma cells', so an intratumoral FAP score is not a reading of the CAF compartment a FAP radioligand targets, and anti-FAP staining 'was somewhat weak, making it difficult to evaluate'.",
+      "serves": {
+        "route": "RT-FAP-RLT",
+        "publication": "PUB-SURFACE-TARGETS",
+        "strategy": "ST-RADIOLIGAND"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "Outward-facing contact with a named external research group under trimcrae's name and identity. CLAUDE.md §3 reserves outward-facing acts for him.",
+      "closes_clause": null,
+      "filed_by": "CYC-DRV-5a21085f",
+      "evidence": "research/manuscripts/surface-targets/fap-rlt-2026-regrade.md §3(a), corrected 2026-08-29 from the PMC full text. The superseded reading — 'the number of EMC cases is not stated in the retrieved text' — is retained in that section under CLAUDE.md rule 1.2.",
+      "score_inputs": {
+        "blocked_on_human": true
       }
     },
     {
