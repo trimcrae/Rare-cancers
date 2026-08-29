@@ -3497,13 +3497,13 @@
         "publication": "PUB-KINASE-LEADS",
         "strategy": "ST-DEPENDENCY"
       },
-      "state": "in_progress",
-      "owner": "gha-run-33240876317",
-      "claimed_utc": "2026-08-29T07:27:17Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": "GitHub Actions run 33240876317 (emc-expression-datasets.yml, mode=panels) on 625c1f3c8",
-      "blocked_evidence": "DISPATCHED and in_progress at 07:27:17Z on 625c1f3c8 — the first head carrying the generator that emits `signature_member_reads`. https://github.com/trimcrae/Rare-cancers/actions/runs/33240876317. ⛔ THE LEASE NAMES THE RUN, NOT THIS SESSION: this session is at its cycle cap and stops, so a lease reading `CYC-…-b272f286` would name a worker that is not running (AUT-PD-140). ⭐ WHAT THE NEXT CYCLE DOES: read the run; if it succeeded, the regenerated emc-expression-panels.json carries `signature_member_reads` — re-run `python3 research/modalities/ndrg1_panel_attribution.py` and confirm `panel_membership_source` flips to `gene_reads + signature_member_reads`. ⛔ DO NOT REPORT A STRENGTHENED RESULT WITHOUT RE-RUNNING THE MUTATION TESTS: the null's pool grows with the membership, and the verdict rests on the null. Expect the small series' null to move most — it is the one a random size-matched panel already clears.",
+      "blocked_by": null,
+      "blocked_evidence": null,
       "retry_budget": 3,
       "attempts": 1,
       "last_evidence_utc": "2026-08-29",
@@ -3524,7 +3524,9 @@
         "⚠ NO PANEL'S `genes_readable` LIST IS TRUNCATED. The list is capped at 250 in _score_gene_list and pparg_perturbation_OE_UP sits at exactly 250 readable, which looks like the cap and is not — checked against `n_genes_readable` for every panel on both platforms, 0 truncated. An alarm that was raised and then disproved, recorded so it is not raised again.",
         "size, measured before choosing: a gene_reads record is ~7.2 kB across the two platforms and 81%/67% of it is `per_sample`, so adding these genes there costs about +13 MB on a 7.4 MB artifact",
         "the committed shape instead states the sample order ONCE per matrix and gives each gene a positional array of z alone — about 1.4 MB for all 30 sets",
-        "research/modalities/tests/test_ndrg1_panel_widening_is_declared.py: 12 passed; 9/9 single-site mutations caught (scratchpad/cyc80/cyc80-mutation2.log)"
+        "research/modalities/tests/test_ndrg1_panel_widening_is_declared.py: 12 passed; 9/9 single-site mutations caught (scratchpad/cyc80/cyc80-mutation2.log)",
+        "⭐ THE FETCH DELIVERED: run 33240876317 succeeded and pushed origin/main aa6d9d9a9; emc-expression-panels.json now carries `signature_member_reads` — 2017 readable members on GPL6244 (42 samples), 1802 on GPL3290 (16). Artifact 7.37 -> 9.45 MB.",
+        "⚠ THE SIZE ESTIMATE WAS LOW AND IS CORRECTED HERE: predicted ~1.4 MB for the block, measured +2.08 MB. The shape argument holds (the +13 MB alternative was the one rejected); the number was an estimate and is now a measurement."
       ],
       "what": "⭐ WIDEN AUT-PROP-048 FROM THE 479 COMMITTED GENES TO THE FULL PANELS, WHICH IS A $0 CI DISPATCH AND NOT A NEW QUESTION. `ndrg1-panel-attribution.json` answers whether NDRG1's per-sample level tracks hypoxia or PPARγ programmes, and its answer (one of two series separates) is sound — but every panel score rests on the SUBSET of its members that carries a per-sample value in `emc-expression-panels.json`: 9 to 41 genes against published sets of 44 to 231. ⛔ THAT IS A REAL NARROWING AND IT CUTS BOTH WAYS: the large series' separation could strengthen or vanish on full panels, and the small series' uselessly wide null could narrow enough to discriminate. Neither is predictable from the subset. ⭐ THE WORK: re-read the two GEO series matrices on an Actions runner (the same execution model `emc-expression-panels.json` already documents), compute per-sample scores over the FULL readable membership of each panel, and re-run `ndrg1_panel_attribution.py` against them. ⚠ KEEP BOTH CONTROLS — leave-one-out and the size-matched null — and expect the null to move, since it is computed from the same pool that just grew. ⛔ DO NOT report a strengthened result without re-running the mutation tests: a bigger pool changes the null, and the null is what the verdict rests on.",
       "dispatch_log": [
@@ -3533,7 +3535,8 @@
           "fingerprint_at_dispatch": "2026-08-29|None"
         }
       ],
-      "_the_choice_made": "⭐ THREE OPTIONS, DECIDED ON MEASURED SIZE RATHER THAN TASTE. (a) widen `all_genes` so the signature members land in `gene_reads`: simplest and uniform, +13 MB per regeneration. (b) lean records in `gene_reads` for signature-only genes: rejected once measured — `per_sample` is 81%/67% of a record, so dropping the Welch and probe blocks saves only about a fifth, and it buys two shapes in one map. (c) a separate positional block, `signature_member_reads`: ~1.4 MB for the same z values, no existing consumer perturbed, and it is what shipped. ⛔ (d) computing the correlation inside the fetch was rejected outright: it would move the arithmetic to where `--check` cannot re-derive it, and offline reproducibility is the property this module is built around."
+      "_the_choice_made": "⭐ THREE OPTIONS, DECIDED ON MEASURED SIZE RATHER THAN TASTE. (a) widen `all_genes` so the signature members land in `gene_reads`: simplest and uniform, +13 MB per regeneration. (b) lean records in `gene_reads` for signature-only genes: rejected once measured — `per_sample` is 81%/67% of a record, so dropping the Welch and probe blocks saves only about a fifth, and it buys two shapes in one map. (c) a separate positional block, `signature_member_reads`: ~1.4 MB for the same z values, no existing consumer perturbed, and it is what shipped. ⛔ (d) computing the correlation inside the fetch was rejected outright: it would move the arithmetic to where `--check` cannot re-derive it, and offline reproducibility is the property this module is built around.",
+      "_outcome": "⭐ THE WIDENING IS DONE AND IT WORKED. What it produced is NOT this row's to adjudicate and is filed as AUT-PD-167: under full membership the committed verdict REVERSES, and the null moved at the same time, so the two reads are not cleanly comparable. ⛔ The trunk is RED until that is settled — see AUT-PD-167 for both self-consistent states and why neither is green."
     },
     {
       "id": "AUT-081",
@@ -9624,6 +9627,41 @@
       "_outcome": "⭐ CLOSED. Both halves shipped, and the second is the one that saves work: reading the trunk makes the provenance sentence true, refusing over unpushed rows is what stops the loss. ⛔ AND THE CLASS IS NOT CLOSED BY THIS FIX: every other tool that reads the ledger off disk and reports about the trunk has the same door. `priority.py --write`, `health.py` and `continuity.py` all read the working tree by design and are correct to — they describe the tree they are in. The defect is specific to a producer whose READER is a different container.",
       "_correction": "⚠ ONE EVIDENCE LINE ABOVE WAS TRUE WHEN TAKEN AND IS NOW STALE, AND IT IS CORRECTED HERE RATHER THAN EDITED AWAY. `git show <c>:… | grep -c AUT-PD-165` returned 0 across all eight then-current commits at 06:20Z, which is what the reading says; origin/main 1684f79f9 at 06:25Z then filed that id. The measurement stands, the id is no longer free, and this row moved. ⛔ WHAT DOES NOT CHANGE IS THE FINDING: the prompt that started this cycle named a row no committed ledger carried at the moment it was read, which is exactly the defect — a successor is handed a queue its own clone cannot reproduce.",
       "_the_id_this_row_does_not_carry": "⚠ AUT-PD-165 is a DIFFERENT defect and is on the trunk under that id — `claim.py:commit_ledger` staging the ledger as it stands, so a claim publishes uncommitted edits. This row was filed as AUT-PD-165 at 06:45Z from a trunk that did not carry it, and moved when 1684f79f9 landed. Anything citing 'AUT-PD-165' for the handoff defect predates that move."
+    },
+    {
+      "id": "AUT-PD-167",
+      "kind": "verify",
+      "process_defect": false,
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0081-b272f286",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "an in-silico re-derivation and a judgement about which null is sound; nothing outward-facing",
+      "score": 150.0,
+      "_score_basis": "Above every open process_defect (top is 134.0) because it is a LIVE-ROUTE result that a committed artifact and systems/graph both currently state more strongly than the evidence now supports, AND the trunk is red until it is resolved. CLAUDE.md §0 ranks live-route work first; §1's one-fact-one-place makes a wrong claim in the graph the most expensive kind here.",
+      "depends_on_evidence": [
+        "WIDE read, computed 2026-08-29 on origin/main aa6d9d9a9 (scratchpad/cyc80/EVIDENCE-wide-read.log): GSE24369 n=35 pool=2283 hypoxia 2/6 over null, PPARγ 3/6, null median [+0.095,+0.130]; GSE4303 n=16 pool=2033 hypoxia 5/6, PPARγ 2/6, null median [+0.171,+0.274]. VERDICT 0 of 2 series separate.",
+        "NARROW read, committed: GSE24369 hypoxia 6/6, PPARγ 0/6, null median [-0.011,+0.016]; GSE4303 1/6 and 1/6. VERDICT 1 of 2.",
+        "systems/graph/routes.json [51].supporting_evidence[1].what_it_supports states the one-series reading verbatim, and systems/views/L2-rt-sgk1.md is generated from it",
+        "test_ndrg1_panel_attribution_controls.py against the WIDE artifact: 4 failed / 15 passed — test_the_verdict_reports_one_series_not_two, test_every_scored_panel_counts_its_members_after_the_exclusion, test_the_smaller_series_null_is_high_enough_to_swallow_the_raw_correlations, test_no_single_raw_rho_threshold_reproduces_the_committed_verdict",
+        "against the NARROW artifact on the current trunk: 1 failed / 6 passed — test_the_committed_artifact_rederives_from_its_generator, because its input moved under it when the CI fetch landed"
+      ],
+      "closes_clause": null,
+      "what": "⛔⛔ WIDENING THE PANELS REVERSES AUT-PROP-048's VERDICT, AND THE NULL MOVED IN THE SAME STEP — SO THIS IS NOT YET A REFUTATION AND MUST NOT BE WRITTEN AS ONE. Scored over full published membership instead of the 479-gene curated subset, NEITHER series separates hypoxia from PPARγ proxies; the committed artifact and systems/graph both say the larger series does. ⚠ THE CONFOUND IS EXACTLY THE ONE AUT-PROP-048's OWN CONTROL WAS BUILT TO CATCH, now pointed at the new read: the size-matched null is drawn from the pool, the pool grew 479 -> ~2,283, and the LARGER series' null median moved from ≈0.00 to +0.095..+0.130. Its own guard says so in words: 'the LARGER series' null is no longer centred near zero, so its separation may be array structure too'. A pool of 2,000 genes off one array carries more shared component than a curated 479, so BOTH the panel scores and the bar they are judged against moved together. ⛔ WHICH READ IS SOUND IS THE QUESTION, AND IT IS NOT ANSWERED BY PREFERRING THE BIGGER NUMBER. ★ THE TRUNK IS RED EITHER WAY AND THERE ARE ONLY TWO SELF-CONSISTENT STATES: (a) commit the wide artifact — 4 control tests fail, because they pin the narrow finding; (b) keep the narrow artifact — 1 test fails, because it no longer re-derives from the input the CI fetch replaced. The trunk is in (b), which is the smaller red and the one that points at this row rather than silently adopting a reversal. ⛔⛔ WHOEVER TAKES THIS MAY NOT RELAX THOSE FOUR TESTS TO ADOPT THE WIDE READ — that is the anti-gaming invariant (research-loop §6: a bar may not be changed by the cycle it blocked), and these are the bars that blocked this one. Argue the null first, in a commit message and on this row; change a test only as the recorded consequence of that argument, declared in amendments.jsonl. ⭐ WHAT WOULD ACTUALLY SETTLE IT: the null's pool and the panel membership are two separate choices that this change moved together, so separate them — score FULL membership against a null drawn from the ORIGINAL 479-gene pool, and the curated subset against the widened pool. Two runs, $0, and they say which of the two changes carries the reversal. Until that exists this row states a conflict, not a result.",
+      "_language_discipline": "⛔ Neither read may be reported as an efficacy, selectivity, safety or mechanism claim, and the reversal may not be written as 'NDRG1 is not hypoxia-associated' — a failure to separate two proxy families under one null is not evidence of absence."
     }
   ]
 }
