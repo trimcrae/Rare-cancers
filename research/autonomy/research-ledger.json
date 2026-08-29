@@ -2103,9 +2103,9 @@
         "publication": "PUB-KINASE-LEADS",
         "strategy": "ST-DEPENDENCY"
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0085-6b009680",
+      "claimed_utc": "2026-08-29T09:26:59Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2123,7 +2123,13 @@
         "AUT-PD-167, measured 2026-08-29 on origin/main b24cb6e22: the curated read's panel members are a SELECTED subset of each panel (all six hypoxia panels in the upper tail of their own within-panel distribution in GSE24369) and the wide read's null pool is 61.5% panel members and 43.1% PPARγ members. Neither is a background.",
         ".github/workflows/emc-expression-datasets.yml already parses both series matrices in full — it produced `signature_member_reads` (2,017 and 1,802 genes) in aa6d9d9a9 — so the background sample is the same parse with a different gene list and costs nothing new."
       ],
-      "what": "⛔ TAKE THE READ THAT ACTUALLY SETTLES AUT-PROP-048: FULL PANEL MEMBERSHIP AGAINST A NULL DRAWN FROM THE ARRAY BACKGROUND. Both reads this repository holds are confounded and they fail in opposite directions (AUT-PD-167), and the reason is the same in both cases — the null's reference population is a convenience pool rather than the array. The curated pool is 479 genes chosen for six unrelated EMC reads; the wide pool is the union of the signature sets being tested. ⭐ WHAT TO FETCH: add a `background_reads` block to `emc-expression-panels.json` carrying the same within-sample z reduction for a RANDOM sample of the readable probes on each platform (a few thousand is ample; record the seed and the sampling frame in the block, because a background pool whose selection rule is unrecorded is the confound again with a better name). Then score every panel over its FULL readable membership against a size-matched null drawn from that background, and report `within_panel_percentile` alongside — the two controls answer different questions and neither replaces the other. ⛔ THE ANSWER MAY BE THAT NDRG1 SEPARATES IN NEITHER SERIES, AND THAT IS A RESULT. Do not prefer the read that keeps the finding: AUT-PD-167 exists because preferring a read is how the current state was reached. ⚠ WHOEVER TAKES THIS MAY THEN MOVE `MEMBERSHIP_SOURCE` and the four control tests in `test_ndrg1_panel_attribution_controls.py`, because a later cycle is not the cycle those bars blocked — but the move must be argued from this measurement in the commit message, and `test_the_larger_series_hypoxia_subsets_are_selected_rather_than_thin_but_fair` says in its own docstring what a change to it has to establish."
+      "what": "⛔ TAKE THE READ THAT ACTUALLY SETTLES AUT-PROP-048: FULL PANEL MEMBERSHIP AGAINST A NULL DRAWN FROM THE ARRAY BACKGROUND. Both reads this repository holds are confounded and they fail in opposite directions (AUT-PD-167), and the reason is the same in both cases — the null's reference population is a convenience pool rather than the array. The curated pool is 479 genes chosen for six unrelated EMC reads; the wide pool is the union of the signature sets being tested. ⭐ WHAT TO FETCH: add a `background_reads` block to `emc-expression-panels.json` carrying the same within-sample z reduction for a RANDOM sample of the readable probes on each platform (a few thousand is ample; record the seed and the sampling frame in the block, because a background pool whose selection rule is unrecorded is the confound again with a better name). Then score every panel over its FULL readable membership against a size-matched null drawn from that background, and report `within_panel_percentile` alongside — the two controls answer different questions and neither replaces the other. ⛔ THE ANSWER MAY BE THAT NDRG1 SEPARATES IN NEITHER SERIES, AND THAT IS A RESULT. Do not prefer the read that keeps the finding: AUT-PD-167 exists because preferring a read is how the current state was reached. ⚠ WHOEVER TAKES THIS MAY THEN MOVE `MEMBERSHIP_SOURCE` and the four control tests in `test_ndrg1_panel_attribution_controls.py`, because a later cycle is not the cycle those bars blocked — but the move must be argued from this measurement in the commit message, and `test_the_larger_series_hypoxia_subsets_are_selected_rather_than_thin_but_fair` says in its own docstring what a change to it has to establish.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T09:26:59Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ]
     },
     {
       "id": "AUT-PROP-038",
