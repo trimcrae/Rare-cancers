@@ -493,10 +493,21 @@ def build():
         "observed": "⚠ SGK1 itself is DISCORDANT — lower on one platform, higher on the other. Its "
                     "canonical substrate NDRG1 is higher on both, at the 98th percentile on one.",
         "verdict": "DISCORDANT ON THE KINASE, CONCORDANT ON ITS SUBSTRATE.",
-        "what_this_does_not_settle": "NDRG1 is phosphorylated by several kinases, so a substrate "
-                                     "elevation is not attributable to SGK1, and a discordant kinase "
-                                     "read across two platforms is exactly the case where a third "
-                                     "series decides and nothing else does.",
+        # ⚠ THE CONCLUSION WAS ALWAYS RIGHT AND THE REASON WAS NOT (corrected 2026-08-29,
+        # AUT-PD-099; evidence research/literature/ndrg1-kinase-attribution-2026-08-28.json).
+        # Superseded, retained: "NDRG1 is phosphorylated by several kinases, so a substrate
+        # elevation is not attributable to SGK1". Kinase multiplicity is the reason a PHOSPHO
+        # reading cannot be apportioned; this row reads TRANSCRIPT ABUNDANCE, which contains no
+        # phosphorylation to apportion, so the old reason cited a division that is not in the
+        # data. "Not attributable to SGK1" stands and is now carried by the type mismatch.
+        "what_this_does_not_settle": "A transcript level is an ABUNDANCE measurement, and every "
+                                     "published mechanism connecting SGK1 to NDRG1 is a "
+                                     "PHOSPHORYLATION of NDRG1 protein — so this substrate "
+                                     "elevation is not attributable to SGK1, and the "
+                                     "kinase-multiplicity question does not apply to it, there "
+                                     "being no phosphorylation in the reading to divide. A "
+                                     "discordant kinase read across two platforms is exactly the "
+                                     "case where a third series decides and nothing else does.",
         "route_action": "keep at concept; the corroboration this route was registered for did not arrive",
     }
     routes["RT-POLQ"] = {

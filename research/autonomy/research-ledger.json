@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 118,
+    "done": 119,
     "in_progress": 6,
     "parked": 28,
-    "queued": 142,
+    "queued": 141,
     "ready": 1,
     "superseded": 1
   },
@@ -2168,15 +2168,15 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "s76-sgk1",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act.",
       "score_inputs": {
@@ -2191,7 +2191,8 @@
           "utc": "2026-08-29T04:06:52Z",
           "fingerprint_at_dispatch": "2026-08-28|None"
         }
-      ]
+      ],
+      "_outcome": "DONE 2026-08-29 by seat s76-sgk1. The unsupported clause 'which is an activity-shaped reading rather than an abundance one' is retracted in systems/graph/routes.json → routes[RT-SGK1], in grade.value and in the four places in the same record that restated the same inferential step (required_validation[2].what, readiness.missing[0], timing.rationale, remaining_unknowns[0]). The census GENERATOR's RT-SGK1 what_this_does_not_settle now gives the type-mismatch reason instead of the kinase-multiplicity one; its 'not attributable to SGK1' conclusion is unchanged, and neither the route nor its grade is withdrawn or downgraded. Views regenerated with systems_check.py --write-views. ⛔ THIS ROW'S OWN INSTRUCTION DOES NOT SURVIVE CONTACT WITH THE TREE AND WAS CORRECTED RATHER THAN FOLLOWED: 'THE CORRECTION LANDS IN census-route-expression-grading.json FIRST, not in the graph.' The offending clause appears NOWHERE in that artifact — grep for 'activity-shaped' over the tree returns systems/graph/routes.json (2 sites), the GENERATED systems/views/L2-rt-sgk1.md (2 sites) and the evidence file, and nothing else. That artifact is itself GENERATED (research/modalities/census_route_expression_grading.py, OUT=), so no correction can be typed into it at all; it can only be typed into the generator, which is where the one census-side change landed. And nothing propagates text from the census to the graph: the only enforced coupling is systems/tests/test_modality_census.py::test_a_graded_route_carries_its_grading_as_evidence, which requires the route to CITE ART-CENSUS-ROUTE-GRADING, not to copy its wording — that test's own docstring calls the two 'two homes for one fact' that must be kept in step by hand. The graph's grade.value is hand-written prose whose grade.owner.file merely POINTS at the census artifact. The same finding refutes the evidence file's edit S62-4, which asserted the census artifact 'OWNS the grade, so S62-1's text has to land here first and propagate'. ⚠ S62-4 also said the census what_this_does_not_settle sentence 'needs no change — it was already correct'. That contradicts the same file's own headline and its ⛔_the_type_error section: the sentence's CONCLUSION was correct and its REASON was not, and only the reason was changed. ⛔ S62-3 (replace next.best_next_action) WAS APPLIED, MEASURED AND REVERTED, and the measurement is the finding: AUT-062 is a `_derived: true` ledger row whose `what` is regenerated from routes[RT-SGK1]/next/best_next_action on every `priority.py --write`. AUT-062 is state=done for the OLD action, so rewriting the graph field silently re-labelled a closed row as the NEW, UNDONE action — a false 'done' in the ledger — and duplicated AUT-PROP-048, which already carries that action. The graph field is left as it stands; retiring a completed best_next_action without corrupting its derived row is a separate defect nobody has filed."
     },
     {
       "id": "AUT-003",
