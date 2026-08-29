@@ -20,7 +20,7 @@ last_verified: 2026-08-05
 
 **Family:** [ST-DEPENDENCY](L1-st-dependency.md) · **state:** ✓ blocked · computed · confidence low · verified 2026-08-09
 
-**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ DISCORDANT ON THE KINASE, CONCORDANT ON ITS SUBSTRATE (2026-08-09). SGK1 itself reads LOWER on one platform and HIGHER on the other, so the transcript does not corroborate the published antibody series. ⭐ Its canonical substrate NDRG1 is higher on BOTH, at the 98th percentile on one — which is an activity-shaped reading rather than an abundance one.
+**Grade** (owned by [`research/modalities/census-route-expression-grading.json`](../../research/modalities/census-route-expression-grading.json)): ◐ DISCORDANT ON THE KINASE, CONCORDANT ON ITS SUBSTRATE (2026-08-09). SGK1 itself reads LOWER on one platform and HIGHER on the other, so the transcript does not corroborate the published antibody series. ⭐ Its canonical substrate NDRG1 is higher on BOTH, at the 98th percentile on one — and that number is NDRG1 TRANSCRIPT ABUNDANCE, which is not a readout of SGK1 activity. ⚠ Superseded, retained (corrected 2026-08-29): 'which is an activity-shaped reading rather than an abundance one'. Every published mechanism connecting SGK1 to NDRG1 is a phosphorylation of NDRG1 protein, removing SGK1 entirely left NDRG1 expression unchanged while its phosphorylation fell (pmid 25200670), and one perturbation moves abundance up while moving phosphorylation down (pmid 19682504). NDRG1 is also a core member of the co-elevated hypoxia programme this repository reads higher in EMC on both of these platforms, which is an alternative explanation for the number that needs no kinase — research/modalities/emc-hypoxia-confounds.json owns that reading and its bounds. ⚠ AND THIS IS NOT A ZERO: one glioma report names an mTORC2/SGK1 route to NDRG1 induction among three (pmid 24367102), so the bound is that no fraction of this number can be assigned to SGK1, not that SGK1 contributes none of it. Evidence: research/literature/ndrg1-kinase-attribution-2026-08-28.json.
 
 ## What has to land for this route to move
 
@@ -59,7 +59,7 @@ A registered lane with no route: a druggable AGC kinase reported positive across
 
 ## Remaining unknowns
 
-- Whether elevated substrate output reflects SGK1 activity or one of the other kinases that phosphorylate the same substrate — the reading cannot attribute it.
+- Whether NDRG1 is phosphorylated at all in EMC. The reading in hand is transcript abundance, and no phospho-NDRG1 measurement exists for EMC, for any sarcoma, or for any NR4A3-fusion-positive cell. Were one made, SGK1's share still could not be predicted: SGK1, SGK3 and Akt have each been shown individually sufficient to carry the NDRG1 phospho signal in some human cell background (pmids 15461589, 31461270, 23581296).
 - Why the kinase transcript disagrees between platforms while its substrate does not, which is unexplained.
 - Whether the published antibody series is corroborated at all — this pass did not corroborate it and did not refute it.
 
@@ -69,7 +69,7 @@ A registered lane with no route: a druggable AGC kinase reported positive across
 |---|---|---|---|
 | The $0 corroboration named in this route's next action | ⛔ none built | yes | — |
 | A functional measurement in a fusion-positive EMC model | ⛔ none built | **no** | BLK-NO-WET-LAB |
-| A phospho-substrate or kinase-activity readout in an EMC model — the substrate signal is activity-shaped and abundance cannot attribute it to SGK1 rather than to another kinase acting on the same substrate | ⛔ none built | **no** | BLK-NO-WET-LAB |
+| A phospho-substrate or kinase-activity readout in an EMC model — the reading in hand is NDRG1 transcript abundance, which carries no phosphorylation for any kinase to be credited with, and no phospho-NDRG1 measurement exists for EMC, for any sarcoma, or for any NR4A3-fusion-positive cell | ⛔ none built | **no** | BLK-NO-WET-LAB |
 
 ## Blockers
 
@@ -85,7 +85,7 @@ A registered lane with no route: a druggable AGC kinase reported positive across
 A discordant primary gene with a concordant downstream signal is genuinely ambiguous, and reporting it as either support or refutation would overstate it.
 
 **Missing:**
-- a phospho-substrate or activity readout, which is what the substrate signal hints at and abundance cannot deliver
+- a phospho-substrate or activity readout, which abundance cannot deliver and which nobody has made in EMC
 
 ## Where this route ends — the paper
 
@@ -103,7 +103,7 @@ A discordant primary gene with a concordant downstream signal is genuinely ambig
 
 **Recommendation: `monitor`**
 
-The substrate reading makes an activity assay the decisive step, and that needs a model.
+An activity assay is the decisive step because nothing in hand reads activity at all, and that assay needs a model.
 
 | horizon | effect |
 |---|---|

@@ -22,8 +22,8 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 121,
-    "in_progress": 7,
+    "done": 122,
+    "in_progress": 6,
     "parked": 28,
     "queued": 139,
     "ready": 1,
@@ -2160,6 +2160,41 @@
       }
     },
     {
+      "id": "AUT-PD-099",
+      "what": "⛔ CORRECT RT-SGK1's GRADE CLAUSE: 'its canonical substrate NDRG1 is higher on BOTH … WHICH IS AN ACTIVITY-SHAPED READING RATHER THAN AN ABUNDANCE ONE' is unsupported, and it is the entire inferential step from a number to a statement about SGK1 (evidence: research/literature/ndrg1-kinase-attribution-2026-08-28.json, seat s62-sgk1, 2026-08-28). The reading is transcript ABUNDANCE; the mechanism it is offered as evidence of is PHOSPHORYLATION, and the two are published as anti-correlated under Hsp90 inhibition (PMID 19682504). ⛔ THE CORRECTION LANDS IN census-route-expression-grading.json FIRST, not in the graph: that file owns the grade, and editing the graph copy would create a second home for a fact this repository keeps in one place. Then regenerate the views with the repo's own tooling. ⚠ Do NOT withdraw the route or the grade's 'not attributable to SGK1' conclusion — that conclusion was already correct, for a narrower reason than it gave, and over-correcting trades one wrong sentence for another.",
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "kind": "process_defect",
+      "state": "done",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act.",
+      "score_inputs": {
+        "age_factor": 0.0714
+      },
+      "score": 140.9,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-SGK1 (140.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-SGK1",
+      "claimed_utc": "2026-08-29T04:06:52Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T04:06:52Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "_outcome": "DONE 2026-08-29 by seat s76-sgk1. The unsupported clause 'which is an activity-shaped reading rather than an abundance one' is retracted in systems/graph/routes.json → routes[RT-SGK1], in grade.value and in the four places in the same record that restated the same inferential step (required_validation[2].what, readiness.missing[0], timing.rationale, remaining_unknowns[0]). The census GENERATOR's RT-SGK1 what_this_does_not_settle now gives the type-mismatch reason instead of the kinase-multiplicity one; its 'not attributable to SGK1' conclusion is unchanged, and neither the route nor its grade is withdrawn or downgraded. Views regenerated with systems_check.py --write-views. ⛔ THIS ROW'S OWN INSTRUCTION DOES NOT SURVIVE CONTACT WITH THE TREE AND WAS CORRECTED RATHER THAN FOLLOWED: 'THE CORRECTION LANDS IN census-route-expression-grading.json FIRST, not in the graph.' The offending clause appears NOWHERE in that artifact — grep for 'activity-shaped' over the tree returns systems/graph/routes.json (2 sites), the GENERATED systems/views/L2-rt-sgk1.md (2 sites) and the evidence file, and nothing else. That artifact is itself GENERATED (research/modalities/census_route_expression_grading.py, OUT=), so no correction can be typed into it at all; it can only be typed into the generator, which is where the one census-side change landed. And nothing propagates text from the census to the graph: the only enforced coupling is systems/tests/test_modality_census.py::test_a_graded_route_carries_its_grading_as_evidence, which requires the route to CITE ART-CENSUS-ROUTE-GRADING, not to copy its wording — that test's own docstring calls the two 'two homes for one fact' that must be kept in step by hand. The graph's grade.value is hand-written prose whose grade.owner.file merely POINTS at the census artifact. The same finding refutes the evidence file's edit S62-4, which asserted the census artifact 'OWNS the grade, so S62-1's text has to land here first and propagate'. ⚠ S62-4 also said the census what_this_does_not_settle sentence 'needs no change — it was already correct'. That contradicts the same file's own headline and its ⛔_the_type_error section: the sentence's CONCLUSION was correct and its REASON was not, and only the reason was changed. ⛔ S62-3 (replace next.best_next_action) WAS APPLIED, MEASURED AND REVERTED, and the measurement is the finding: AUT-062 is a `_derived: true` ledger row whose `what` is regenerated from routes[RT-SGK1]/next/best_next_action on every `priority.py --write`. AUT-062 is state=done for the OLD action, so rewriting the graph field silently re-labelled a closed row as the NEW, UNDONE action — a false 'done' in the ledger — and duplicated AUT-PROP-048, which already carries that action. The graph field is left as it stands; retiring a completed best_next_action without corrupting its derived row is a separate defect nobody has filed."
+    },
+    {
       "id": "AUT-003",
       "_derived": true,
       "what": "Report it in the kinase paper as a CORRECTED reading of a lead: the screen's dominant signal is a class the board already holds, and the arrays structurally cannot attribute the kinase hit.",
@@ -2860,41 +2895,6 @@
         "2026-08-29, CYC-0072-1681f3fa (AUT-PD-143): the FIRST falling observation of open-unscored, which is half of this row's own entry condition (2). `apply_route_inheritance` took open-unscored 81 → 65 by giving 20 rows their route's floor. ⛔ THE REMAINDER IS STRUCTURAL, NOT A BACKLOG: most serve RT-AUTONOMY, which is not a route in systems/graph and can never inherit a floor; the rest serve no route at all. Entry condition (1) — the remedy at `ledger_io.write_ledger` — is now the binding one, and a write-time refusal must accept an explicit `score` as the remedy for a route the graph does not carry, or it refuses every RT-AUTONOMY row this loop files about itself. ⛔ NOTHING ELSE ON THIS ROW WAS TOUCHED."
       ],
       "_lease_released_by": "CYC-0075-6d9383a0 released this lease after ARCHIVING its holder's session (session_01RLHV3tB87qndM7qGE9jZa7 = CYC-0074-5a21085f, cleared by session_reaper.py and archived 2026-08-29T03:15Z). Archiving releases the container, so the seat named in `owner` is definitively not running — which is continuity.py's own test for litter: 'if a lease names a worker that is not actually running, that is litter — release it and the work is startable again.' No claim of the WORK being done is made or implied; only the lease is cleared."
-    },
-    {
-      "id": "AUT-PD-099",
-      "what": "⛔ CORRECT RT-SGK1's GRADE CLAUSE: 'its canonical substrate NDRG1 is higher on BOTH … WHICH IS AN ACTIVITY-SHAPED READING RATHER THAN AN ABUNDANCE ONE' is unsupported, and it is the entire inferential step from a number to a statement about SGK1 (evidence: research/literature/ndrg1-kinase-attribution-2026-08-28.json, seat s62-sgk1, 2026-08-28). The reading is transcript ABUNDANCE; the mechanism it is offered as evidence of is PHOSPHORYLATION, and the two are published as anti-correlated under Hsp90 inhibition (PMID 19682504). ⛔ THE CORRECTION LANDS IN census-route-expression-grading.json FIRST, not in the graph: that file owns the grade, and editing the graph copy would create a second home for a fact this repository keeps in one place. Then regenerate the views with the repo's own tooling. ⚠ Do NOT withdraw the route or the grade's 'not attributable to SGK1' conclusion — that conclusion was already correct, for a narrower reason than it gave, and over-correcting trades one wrong sentence for another.",
-      "serves": {
-        "route": "RT-SGK1",
-        "publication": "PUB-KINASE-LEADS",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "s76-sgk1",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act.",
-      "score_inputs": {
-        "age_factor": 0.0714,
-        "fruitless_attempts": 1
-      },
-      "score": 132.9,
-      "_score_basis": "inherited from the lowest-scoring derived row on RT-SGK1 (140.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
-      "_score_inherited_from_route": "RT-SGK1",
-      "claimed_utc": "2026-08-29T04:06:52Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T04:06:52Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
     },
     {
       "id": "AUT-PROP-048",

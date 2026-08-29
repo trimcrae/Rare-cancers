@@ -89,7 +89,7 @@ the other. Where a route cannot reach an output, the missing items are a work li
 | [RT-RXR](L2-rt-rxr.md) | ST-REPURPOSING | `internal_note` | — |
 | [RT-SCHEDULING](L2-rt-scheduling.md) | ST-STRATEGY | `internal_note` | nothing to start — the inputs are committed, and their shape is now known to be four separate medians rather than one pooled value |
 | [RT-SEQUENCING](L2-rt-sequencing.md) | ST-STRATEGY | `internal_note` | nothing at the analysis level — the question was asked and the record answered that it cannot support the claim |
-| [RT-SGK1](L2-rt-sgk1.md) | ST-DEPENDENCY | `internal_note` | a phospho-substrate or activity readout, which is what the substrate signal hints at and abundance cannot deliver |
+| [RT-SGK1](L2-rt-sgk1.md) | ST-DEPENDENCY | `internal_note` | a phospho-substrate or activity readout, which abundance cannot deliver and which nobody has made in EMC |
 | [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md) | ST-CARE-DELIVERY | `internal_note` | treatment setting, which is unobtainable from the reachable literature rather than merely un-curated -- see remaining_unknowns; the intent of each operation, without which no margi |
 | [RT-SURVEILLANCE](L2-rt-surveillance.md) | ST-CARE-DELIVERY | `internal_note` | a hazard function, which no reachable publication prints and which summary statistics cannot be turned into; resectability at detection, reported by no EMC series; ⚠ Superseded, re |
 | [RT-SYNLETH-DEP](L2-rt-synleth-dep.md) | ST-DEPENDENCY | `internal_note` | EMC-specific functional-genomics data |
