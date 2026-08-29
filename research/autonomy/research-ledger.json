@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 146,
+    "process_defect": 147,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
@@ -25,7 +25,7 @@
     "done": 128,
     "in_progress": 5,
     "parked": 28,
-    "queued": 140,
+    "queued": 141,
     "ready": 1,
     "superseded": 1
   },
@@ -2074,7 +2074,8 @@
         "NARROW read, committed: GSE24369 hypoxia 6/6, PPARγ 0/6, null median [-0.011,+0.016]; GSE4303 1/6 and 1/6. VERDICT 1 of 2.",
         "systems/graph/routes.json [51].supporting_evidence[1].what_it_supports states the one-series reading verbatim, and systems/views/L2-rt-sgk1.md is generated from it",
         "test_ndrg1_panel_attribution_controls.py against the WIDE artifact: 4 failed / 15 passed — test_the_verdict_reports_one_series_not_two, test_every_scored_panel_counts_its_members_after_the_exclusion, test_the_smaller_series_null_is_high_enough_to_swallow_the_raw_correlations, test_no_single_raw_rho_threshold_reproduces_the_committed_verdict",
-        "against the NARROW artifact on the current trunk: 1 failed / 6 passed — test_the_committed_artifact_rederives_from_its_generator, because its input moved under it when the CI fetch landed"
+        "against the NARROW artifact on the current trunk: 1 failed / 6 passed — test_the_committed_artifact_rederives_from_its_generator, because its input moved under it when the CI fetch landed",
+        "⛔ THE TRUNK IS RED ON THIS, MEASURED 2026-08-29T08:30Z BY CYC-0083-381d0696 — evidence only, no interpretation: tests.yml `pytest` FAILS on research/modalities/tests/test_ndrg1_panel_attribution_controls.py::test_the_committed_artifact_rederives_from_its_generator, verbatim 'AssertionError: ndrg1-panel-attribution.json does not re-derive. Regenerate it and commit the result.' (1 failed, 10859 passed, 54 skipped). Red on BOTH heads checked: run 33242504628 on 6aa7ebb91 and run 33242510437 on ddf764583. The `gates` job PASSES on both — this is the only failing test on the trunk. ⭐ The preceding green head is e7be9940c (run 33241269937); the first commit after it is aa6d9d9a9, the emc-expression-datasets.yml push that widened research/modalities/emc-expression-panels.json, and aa6d9d9a9 has no tests.yml run of its own. ⚠ THE REGENERATION IS NOT MECHANICAL AND THAT IS WHY THIS ROW EXISTS — this note records WHICH test is red and on WHICH runs, and deliberately says nothing about what the regenerated numbers mean."
       ],
       "closes_clause": null,
       "what": "⛔⛔ WIDENING THE PANELS REVERSES AUT-PROP-048's VERDICT, AND THE NULL MOVED IN THE SAME STEP — SO THIS IS NOT YET A REFUTATION AND MUST NOT BE WRITTEN AS ONE. Scored over full published membership instead of the 479-gene curated subset, NEITHER series separates hypoxia from PPARγ proxies; the committed artifact and systems/graph both say the larger series does. ⚠ THE CONFOUND IS EXACTLY THE ONE AUT-PROP-048's OWN CONTROL WAS BUILT TO CATCH, now pointed at the new read: the size-matched null is drawn from the pool, the pool grew 479 -> ~2,283, and the LARGER series' null median moved from ≈0.00 to +0.095..+0.130. Its own guard says so in words: 'the LARGER series' null is no longer centred near zero, so its separation may be array structure too'. A pool of 2,000 genes off one array carries more shared component than a curated 479, so BOTH the panel scores and the bar they are judged against moved together. ⛔ WHICH READ IS SOUND IS THE QUESTION, AND IT IS NOT ANSWERED BY PREFERRING THE BIGGER NUMBER. ★ THE TRUNK IS RED EITHER WAY AND THERE ARE ONLY TWO SELF-CONSISTENT STATES: (a) commit the wide artifact — 4 control tests fail, because they pin the narrow finding; (b) keep the narrow artifact — 1 test fails, because it no longer re-derives from the input the CI fetch replaced. The trunk is in (b), which is the smaller red and the one that points at this row rather than silently adopting a reversal. ⛔⛔ WHOEVER TAKES THIS MAY NOT RELAX THOSE FOUR TESTS TO ADOPT THE WIDE READ — that is the anti-gaming invariant (research-loop §6: a bar may not be changed by the cycle it blocked), and these are the bars that blocked this one. Argue the null first, in a commit message and on this row; change a test only as the recorded consequence of that argument, declared in amendments.jsonl. ⭐ WHAT WOULD ACTUALLY SETTLE IT: the null's pool and the panel membership are two separate choices that this change moved together, so separate them — score FULL membership against a null drawn from the ORIGINAL 479-gene pool, and the curated subset against the widened pool. Two runs, $0, and they say which of the two changes carries the reversal. Until that exists this row states a conflict, not a result.",
@@ -3166,6 +3167,41 @@
           "fingerprint_at_dispatch": "2026-08-29|None"
         }
       ]
+    },
+    {
+      "id": "AUT-PD-169",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0083-381d0696",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a hook's wording and a contract's; nothing outward-facing",
+      "closes_clause": null,
+      "score": 128.0,
+      "_score_basis": "Above AUT-PD-168 (126.0) because it fires on the loop's most structural act — every handoff — and below AUT-PD-158 (133.0) because that one blocks ranking for 76 rows. Pinned here rather than higher because the CONSEQUENCE today is a noisy hook rather than lost work: no cycle has yet followed the instruction, which is the only reason it has cost nothing.",
+      "depends_on_evidence": [
+        "research/autonomy/claim.py decide(): `if owner and owner != me: return YIELDED, f\"{entry_id} is already held by {owner}\"` — read on origin/main 2026-08-29",
+        "a successor claims as its own cycle id (CYC-00NN-<discriminator from ITS harness session uuid>, allocated by ids.next_receipt in the child), which cannot equal any owner string the spawning session is able to write before the child exists",
+        ".claude/hooks/ready-work-at-turn-end.sh option 1: 'CLAIM THE ITEM FOR THE WORKER THAT IS RUNNING IT: set `owner` and `claimed_utc` on its ledger row ... CLAIM AT DISPATCH, in the same action that spawns the agent'",
+        "observed at this handoff: the hook listed AUT-PD-167 (150.0) as ready-and-not-moving immediately after session_01CUYirsUYqbaxCWGsX3iYMq was created to run it",
+        "AUT-PD-165's own trunk state when CYC-0082 took it: owner null, claimed_utc null — so the predecessor handoffs did not pre-claim either, and the hook has been firing at every one of them"
+      ],
+      "what": "⛔⛔ THE TURN-END HOOK TELLS A SPAWNING SESSION TO CLAIM THE ITEM FOR ITS SUCCESSOR, AND DOING SO WOULD MAKE THE SUCCESSOR YIELD ITS OWN TOP ITEM. Measured 2026-08-29 (CYC-0083-381d0696) at the handoff itself. `ready-work-at-turn-end.sh` option 1 says to set `owner` and `claimed_utc` on the row the dispatched worker will run, at dispatch. `claim.py:decide()` answers `YIELDED` for any row whose `owner` is set and is not the caller's own `me`. A spawned successor calls `claim.py` with a cycle id built from ITS OWN harness session uuid, which does not exist when the parent spawns it — so no owner string the parent can write will ever match, and a pre-claimed top row is one the successor is guaranteed to hand back.\n\n⭐ THE HOOK IS NOT WRONG, IT IS SCOPED TO A DIFFERENT WORKER. For a SUBAGENT the driver holds the lease and the subagent never calls `claim.py`, so claiming at dispatch is exactly right and the hook's own evidence (two dispatched agents unclaimed, 2026-08-27) is real. For a SPAWNED SESSION running the full twelve-step contract, step 3 re-scores and step 4 claims — the successor's prompt says in terms that the queue it was handed 'is a pointer, not a plan' — so a parent claim both breaks the mechanism and asserts something not yet true: the successor may legitimately take a different row.\n\n⚠ THE COST TODAY IS NOISE, NOT LOST WORK, AND THAT IS PRECISELY THE DANGER THE HOOK'S OWN TEXT NAMES: 'a guard that cries wolf is a guard that gets tuned out — which is how this repository has already lost the value of several.' Every handoff ends with a correct spawn and a hook saying the work is not moving. No cycle has followed the instruction yet, which is the only reason it has cost nothing.\n\n⛔ THE FIX IS A CHOICE. (a) Teach the hook the difference: a row is 'moving' if a session spawned in this turn was created to run it — but the hook cannot see session ids, so this needs the handoff to leave a mark it CAN see. (b) Give the row a `dispatched_to` field, distinct from `owner`, that the hook reads and `decide()` ignores — a claim is a lease held by a worker, and 'a successor has been spawned pointed at this' is a different fact that currently has no home. (c) Have `decide()` treat a `session_*` owner as claimable by any cycle whose session matches — ⛔ REJECTED ON READING: it widens the one predicate the whole mutual-exclusion argument rests on, for a convenience, and AUT-PROP-030's analysis is explicit that safety is enforced at the resource.\n⭐ (b) IS THE SHAPE THAT ADDS A FACT RATHER THAN OVERLOADING ONE. Whoever takes this should check first whether `continuity.ready()` and `priority.release_stale_claims` also need to read it, because a `dispatched_to` that nothing ages out is the immortal-claim defect (CYC-0003) with a new field name.",
+      "_cycle_row_key": "hook-tells-spawner-to-claim-for-a-successor-that-claims-itself"
     },
     {
       "id": "AUT-071",
