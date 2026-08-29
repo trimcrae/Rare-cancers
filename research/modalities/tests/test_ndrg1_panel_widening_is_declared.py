@@ -13,14 +13,27 @@ against NDRG1 over `curated ∩ published` — 11 of 49 readable members for the
   1. `_signature_member_reads` emitting rows that are not positionally aligned to their `gsms`, or
      silently dropping a readable member — the block is a positional encoding, so an off-by-one is
      invisible in the JSON and fatal in the arithmetic.
-  2. `member_z` mis-decoding it, or treating an ABSENT block as an empty one WITHOUT saying so.
+  2. The decoder mis-reading it, or treating an ABSENT block as an empty one WITHOUT saying so.
+     ⛔ THE DECODER IS `signature_member_z`, AND SINCE AUT-PD-167 IT IS NOT `member_z` (AUT-PD-182).
+     `member_z` is that decoder PLUS the pin, so under `curated_only` it returns `{}` however well
+     the decoding works. A round-trip pointed at it asserts the pin and proves nothing about the
+     encoding — which is exactly how the five assertions below went red on `main` and stayed red.
   3. The null's pool failing to grow with the cache. The verdict rests on the size-matched null, so
      a wide membership scored against a narrow null is the worst of both — more signal in the panel,
      the same easy bar to clear.
-  4. ⛔ THE TWO READS RENDERING ALIKE. They produce different numbers under the same field names.
-     Until a `panels` dispatch lands the block, this repository holds the NARROW read, and a reader
-     who cannot tell which one they have has the worse of both. `panel_membership_source` is that
-     tell, and it is asserted here rather than trusted.
+  4. ⛔ THE TWO READS RENDERING ALIKE. They produce different numbers under the same field names,
+     and a reader who cannot tell which one they hold has the worse of both.
+     `panel_membership_source` is that tell, and it is asserted here rather than trusted.
+     ⛔⛔ THE TELL KEYS OFF THE PIN, NEVER OFF WHETHER THE BLOCK HAPPENED TO BE THERE (AUT-PD-167).
+     It once keyed off block presence, which is how a scheduled CI fetch reversed a committed
+     verdict with no commit, no gate and no argument. So every test below that varies the read
+     holds the block PRESENT in both arms and moves `MEMBERSHIP_SOURCE` instead — varying presence
+     would re-assert the inheritance behaviour AUT-PD-167 deleted on purpose.
+
+★ WHAT THIS FILE DELIBERATELY DOES NOT ASSERT, so the pair does not drift again: that the pin
+DECLINES a block it can read, and what the COMMITTED artifact's pin is, both belong to
+test_the_panel_read_is_pinned_not_inherited.py. These two files are one pair and AUT-PD-182 is
+what it cost to leave one half of it behind.
 """
 
 from __future__ import annotations
@@ -91,16 +104,22 @@ def test_an_unresolved_set_contributes_nothing():
 
 # ---------------------------------------------------------------- the decoder
 
-def test_member_z_round_trips_the_block_it_was_written_from():
+def test_signature_member_z_round_trips_the_block_it_was_written_from():
+    """⛔ THE DECODER IS `signature_member_z`, AND IT IS THE ONE ASSERTED HERE BECAUSE IT IS THE ONE
+    THAT ALWAYS DECODES (AUT-PD-182). `member_z` is the decoder PLUS the pin, so under a narrow pin
+    it returns `{}` however well the decoding works — pointing a round-trip at it would assert the
+    pin and prove nothing about the encoding. That the pin declines a block it CAN read is a
+    separate property and lives in test_the_panel_read_is_pinned_not_inherited.py."""
     b = _block(["s1", "s2"], {"A": [1.0, None]}, {"s": {"genes": ["A"]}})
-    got = N.member_z({"signature_member_reads": {MATRIX: b}}, MATRIX)
+    got = N.signature_member_z({"signature_member_reads": {MATRIX: b}}, MATRIX)
     assert got == {"A": {"s1": 1.0}}, "a null must drop the sample, not impute it"
 
 
 def test_an_absent_block_decodes_to_empty_rather_than_raising():
-    assert N.member_z({}, MATRIX) == {}
-    assert N.member_z({"signature_member_reads": {}}, MATRIX) == {}
-    assert N.member_z({"signature_member_reads": {MATRIX: {"gsms": [], "z": {}}}}, MATRIX) == {}
+    for decode in (N.signature_member_z, N.member_z):
+        assert decode({}, MATRIX) == {}
+        assert decode({"signature_member_reads": {}}, MATRIX) == {}
+        assert decode({"signature_member_reads": {MATRIX: {"gsms": [], "z": {}}}}, MATRIX) == {}
 
 
 # ---------------------------------------------------------------- the two reads must not look alike
@@ -115,18 +134,32 @@ def _src(with_block):
 
 
 def test_the_artifact_says_which_read_produced_it(monkeypatch):
-    for with_block, expect in ((False, "gene_reads only"), (True, "gene_reads + signature_member_reads")):
-        monkeypatch.setattr(N, "_load", lambda w=with_block: _src(w))
+    """⛔ THE TELL KEYS OFF THE PIN, NOT OFF WHETHER THE BLOCK HAPPENED TO BE THERE (AUT-PD-167).
+    It used to key off block presence, which is precisely how a scheduled CI fetch reversed a
+    committed verdict with no commit and no gate. The block is held PRESENT across both rows below
+    so that the only thing varying is the pinned choice."""
+    monkeypatch.setattr(N, "_load", lambda: _src(True))
+    for pin, expect in (("curated_only", "gene_reads only"),
+                        ("curated_plus_signature_members", "gene_reads + signature_member_reads")):
+        monkeypatch.setattr(N, "MEMBERSHIP_SOURCE", pin)
         out = N.build(n_draws=1)
         assert out["panel_membership_source"]["source"] == expect
+        assert out["panel_membership_source"]["pinned"] == pin
+        assert out["panel_membership_source"]["wide_block_present"] is True
 
 
-def test_the_narrow_source_says_it_is_the_one_this_item_exists_to_replace(monkeypatch):
-    monkeypatch.setattr(N, "_load", lambda: _src(False))
-    means = N.build(n_draws=1)["panel_membership_source"]["means"]
-    assert "AUT-PROP-051" in means
-    assert "NOT comparable" in means, (
+def test_the_narrow_source_says_it_is_a_decline_and_not_an_absence(monkeypatch):
+    """★ A READ DECLINED ON PURPOSE AND A READ THAT COULD NOT BE TAKEN ARE DIFFERENT FACTS
+    (CLAUDE.md §4), and under the narrow pin the artifact must say which one it holds."""
+    monkeypatch.setattr(N, "MEMBERSHIP_SOURCE", "curated_only")
+    monkeypatch.setattr(N, "_load", lambda: _src(True))
+    ms = N.build(n_draws=1)["panel_membership_source"]
+    assert "AUT-PD-167" in ms["means"]
+    assert "DECLINED" in ms["means"], (
+        "the narrow read must state that the wide block was declined, not that it was missing")
+    assert "NOT comparable" in ms["not_comparable"], (
         "the two reads differ in the null's pool, so a reader must be told not to compare them")
+    assert ms["why_pinned"], "a pin with no recorded argument is a preference"
 
 
 def test_the_committed_artifact_declares_its_own_source():
@@ -158,21 +191,37 @@ def _src_pool(with_block, n_wide=6):
 
 def test_the_nulls_pool_grows_with_the_widened_membership(monkeypatch):
     """⛔ A WIDE PANEL SCORED AGAINST A NARROW NULL IS THE WORST OF BOTH — more genes in the panel
-    and the same easy bar to clear. The verdict rests entirely on the null, so the pool it is drawn
-    from must widen with the cache. This is the mutation that would otherwise pass every other test
-    in this file."""
-    monkeypatch.setattr(N, "_load", lambda: _src_pool(False))
-    narrow = N.build(n_draws=2)["series"][MATRIX]["readable_pool"]
+    and the same easy bar to clear. Under the first two reads the null's pool IS the scored pool, so
+    the pool must move with the read. This is the mutation that would otherwise pass every other
+    test in this file.
+
+    ⚠ THE BLOCK IS HELD PRESENT IN BOTH ARMS AND ONLY THE PIN MOVES (AUT-PD-182). Varying block
+    presence instead would assert the inheritance behaviour AUT-PD-167 deleted on purpose, and that
+    is what left this file red on `main`."""
     monkeypatch.setattr(N, "_load", lambda: _src_pool(True))
+    monkeypatch.setattr(N, "MEMBERSHIP_SOURCE", "curated_only")
+    narrow = N.build(n_draws=2)["series"][MATRIX]["readable_pool"]
+    monkeypatch.setattr(N, "MEMBERSHIP_SOURCE", "curated_plus_signature_members")
     wide = N.build(n_draws=2)["series"][MATRIX]["readable_pool"]
     assert narrow == 2, narrow
     assert wide == 8, f"the wide members never reached the null's pool (got {wide})"
 
 
 def test_gene_reads_wins_where_both_sources_carry_a_gene(monkeypatch):
-    """A widened run must not silently move a number already published from the curated block."""
+    """A widened run must not silently move a number already published from the curated block.
+
+    ⛔⛔ THE ASSERTION IS ON THE VALUES, AND IT USED TO BE ON THE COUNT (AUT-PD-182). `readable_pool`
+    is 8 whichever source wins — the SET of genes is the same and only the numbers differ — so the
+    count-only version of this test passed a mutation that deleted the precedence entirely. It was
+    checking that C1 is not counted twice, which is a weaker claim wearing this one's name."""
     src = _src_pool(True)
     src["signature_member_reads"][MATRIX]["z"]["C1"] = [99.0] * 7
+    monkeypatch.setattr(N, "MEMBERSHIP_SOURCE", "curated_plus_signature_members")
+    cache = N.scoring_cache(src["gene_reads"], src, MATRIX)
+    curated = N.sample_z(src["gene_reads"], "C1", MATRIX)
+    assert cache["C1"] == curated, "the wide block overwrote a gene gene_reads already carried"
+    assert 99.0 not in cache["C1"].values(), "the wide value reached the scoring cache"
+    assert len(cache) == 9, "subject + 2 curated + 6 wide-only, each exactly once"
+
     monkeypatch.setattr(N, "_load", lambda: src)
-    out = N.build(n_draws=2)
-    assert out["series"][MATRIX]["readable_pool"] == 8, "C1 must not be counted twice"
+    assert N.build(n_draws=2)["series"][MATRIX]["readable_pool"] == 8, "C1 must not be counted twice"
