@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 17 evidence items · 53 artifacts · 14 pinned claims.**
+**19 objects · 18 evidence items · 53 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -66,6 +66,7 @@ omitted, and why `[L5]` reports the count.
 | **EV-FILION-2009**<br/>— | Filion C et al. (2009) — the EWSR1::NR4A3 fusion transactivates a PPARG-promoter response element. | That the fusion is a functional transcriptional driver acting through its DNA-binding domain; the fusion→PPARG axis both PPARG routes rest on; the DBD filter in fusion_ob | `OBJ-NR4A3-DBD`, [RT-FUSION-OUTPUT](L2-rt-fusion-output.md), [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md), [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) |
 | **EV-HIGUCHI-2023**<br/>PMID 36636023 | Higuchi T et al. (2023) — the only functional test of the PPARγ intervention direction in an EMC model. | The single functional experiment anywhere testing the DIRECTION of PPARγ intervention in EMC; it favours AGONISM. ⛔ Carries a model-identity caveat: it uses H-EMC-SS (OBJ | [RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md), [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) |
 | **EV-MAKI-2005**<br/>PMID 15739208 | Maki RG, Kraft AS, Scheu K, Yamada J, Wadler S, Antonescu CR, Wright JJ, Schwartz GK. A multicenter Phase II study of bortezomib in recurrent or metas | ⛔ IT DOES NOT SUPPORT RT-CARFILZOMIB — IT BOUNDS IT, and it is the only human read on proteasome inhibition in the parent histology this repository holds. Two arms, Simon | [RT-CARFILZOMIB](L2-rt-carfilzomib.md) |
+| **EV-PALMERINI-2022**<br/>PMID 36568164 | Palmerini E, Sanfilippo R, Grignani G, Buonadonna A, Romanini A, Badalamenti G, Ferraresi V, Vincenzi B, Comandone A, Pizzolorusso A, Brunello A, Gels | ⭐ THE SECOND EMC-SPECIFIC TRABECTEDIN RESPONSE DENOMINATOR THAT EXISTS, and the only one carrying an EMC patient with progressive disease on the drug. A post-hoc case ser | [RT-TRABECTEDIN](L2-rt-trabectedin.md) |
 | **EV-PIOGLITAZONE-TRABECTEDIN-2019**<br/>10.1158/1078-0432.CCR-19-0976 | Pioglitazone + trabectedin induced adipocyte differentiation and overcame trabectedin resistance in myxoid liposarcoma. Clin Cancer Res 2019;25:7565. | That the combination already worked in the sibling myxoid sarcoma — the class-extension interest that gives the trabectedin+PPARγ route its taker. | [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) |
 | **EV-PMC2395470**<br/>— | A counted series: 10 of 15 EWS/CHN tumours were exon 12 :: exon 3; 2 of 15 were type 5. | That type 1 is the commonest reported EWSR1::NR4A3 junction, on a counted series rather than an assertion. | `OBJ-FUS-T1`, `OBJ-FUS-T5`, `OBJ-FUS-TAF15` |
 | **EV-PMC3335514**<br/>— | "The most common fusion transcript contains exon 12 of EWSR1 fused to exon 3 of NR4A3 (type 1), whereas exon 7 of EWSR1 is fused to exon 2 of NR4A3 in | The exon-level definitions of EWSR1::NR4A3 type 1 and type 2, and of TAF15::NR4A3. | `OBJ-FUS-T1`, `OBJ-FUS-T2`, `OBJ-FUS-TAF15` |

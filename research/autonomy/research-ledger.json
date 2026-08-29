@@ -9,12 +9,12 @@
     "build": 1,
     "code": 1,
     "experiment": 23,
-    "fetch": 19,
+    "fetch": 20,
     "fix": 16,
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 132,
+    "process_defect": 133,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -22,16 +22,16 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 113,
+    "done": 114,
     "in_progress": 3,
     "parked": 28,
-    "queued": 140,
+    "queued": 141,
     "ready": 1,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 109,
-  "n_unscored_open": 85,
+  "n_unscored": 111,
+  "n_unscored_open": 87,
   "entries": [
     {
       "serves": {
@@ -1766,49 +1766,6 @@
       ]
     },
     {
-      "id": "AUT-025",
-      "_derived": true,
-      "what": "Keep registered for automatic re-grade when EMC expression data lands.",
-      "serves": {
-        "route": "RT-FAP-RLT",
-        "publication": "PUB-SURFACE-TARGETS",
-        "strategy": "ST-RADIOLIGAND"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-DRV-5a21085f",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 152.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "claimed_utc": "2026-08-29T01:00:28Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T01:00:28Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-074",
       "_derived": true,
       "what": "Report it as a closed line: elevated and pan-essential is not an opportunity.",
@@ -2112,6 +2069,49 @@
       },
       "requires_trimcrae": true,
       "requires_trimcrae_why": "publishes the eligibility map. ⚠ §3 is per paper, per act: he must name THIS one for THIS act."
+    },
+    {
+      "id": "AUT-025",
+      "_derived": true,
+      "what": "Keep registered for automatic re-grade when EMC expression data lands.",
+      "serves": {
+        "route": "RT-FAP-RLT",
+        "publication": "PUB-SURFACE-TARGETS",
+        "strategy": "ST-RADIOLIGAND"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "CYC-DRV-5a21085f",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-05",
+      "score": 144.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0
+      },
+      "claimed_utc": "2026-08-29T01:00:28Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T01:00:28Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-057",
@@ -2508,49 +2508,6 @@
       "evidence": " ⭐ WORKED BY SEAT s4 AND THE ROW WAS STALE IN THE DIRECTION THAT MATTERED. It said the checker 'downgrades both to UNMEASURED'; measured against the two real receipts on the trunk it graded them OPPOSITE ways — CYC-0030-6be7fd5a (handoff.refused_by) unmeasured/HANDOFF-REFUSED, and CYC-0058-1ef8c95a (handoff.mechanism_unavailable) needs_attention/SESSION-OVERLOADED-NO-HANDOFF. health.py read only `refused_by`, so the ABSENT-TOOL shape fell through to the RED branch and was recorded as the session's own defect — while session_cap.py, already on the trunk from a different cycle, ALREADY read `mechanism_unavailable` on that same receipt and accepted it as an earned reason to stop. Two modules read one receipt and disagreed about whether stopping was correct behaviour or a failure, and the punished shape is the ordinary launch for an unattended cycle, not an edge case. MERGED (s4-AUT-PD-059-blocked-handoff-says-which): a distinct HANDOFF-MECHANISM-ABSENT verdict with its own remedy, the handoff PROMPT now names both failure fields, and session_cap.py stops hand-rolling the literal it had also declared. Mutation-tested 11/11, including an absence buying GREEN and an absence falling through to RED (the original defect). ⚠ The seat killed a false alarm it raised itself — it reported the autonomy suite 'stalled'; preflight ran it to completion, 631 passed in 331 s, and the apparent stall was three concurrent seats sharing this container, reproduced on a clean origin/main control. ⚠ The seat guessed a cycle_id for its two amendment records; the driver re-keyed them at merge. STILL OPEN, small: the red branch's remedy text does not yet name the two honest fields (the prompt does, which is where a session reads it), and ~20 trunk receipts record the fact under invented spellings like `_why_not_attempted` that nothing reads — deliberately not credited, since crediting invented spellings makes the field unfalsifiable."
     },
     {
-      "id": "AUT-071",
-      "_derived": true,
-      "what": "Keep as cited landscape context. Do not overstate a single response.",
-      "serves": {
-        "route": "RT-TRABECTEDIN",
-        "publication": "PUB-EMC-PROGRAM",
-        "strategy": "ST-REPURPOSING"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "s1-CYC-0074-5a21085f",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 136.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "claimed_utc": "2026-08-29T01:25:07Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T01:25:07Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-033",
       "kind": "process_defect",
       "process_defect": true,
@@ -2928,6 +2885,49 @@
       "score_inputs": {
         "age_factor": 0.1429
       }
+    },
+    {
+      "id": "AUT-071",
+      "_derived": true,
+      "what": "Keep as cited landscape context. Do not overstate a single response.",
+      "serves": {
+        "route": "RT-TRABECTEDIN",
+        "publication": "PUB-EMC-PROGRAM",
+        "strategy": "ST-REPURPOSING"
+      },
+      "kind": "experiment",
+      "state": "done",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "score": 124.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T01:25:07Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ],
+      "observed": "⭐ THE DISPOSITION HOLDS AND IS NOW RE-VERIFIED AGAINST THE LIVE LITERATURE, and the row was stale in a way the disposition itself did not reveal. Four $0 PubMed queries were taken on 2026-08-29 (all recorded verbatim in research/literature/trabectedin-emc-clinical-2026-08-29.json). All of PubMed on trabectedin-and-EMC is EIGHT records. TWO FINDINGS, both diagnostics rather than readings of absence. (1) A SECOND EMC-SPECIFIC TRABECTEDIN RESPONSE TABLE EXISTS AND THIS ROUTE DID NOT HOLD IT: PMID 36568164 / PMC9780071 / doi 10.3389/fonc.2022.1042479 (Palmerini 2022, the TrObs ultra-rare sub-analysis, NCT02793050). Its Table 2 EMC row is 3 evaluable patients, 0 objective responses, 2 stable disease, 1 progressive disease. The PMID was already in the repository — as an incidental search hit inside research/literature/rt-lung-mets-probe.json, a probe about radiotherapy to lung metastases — and nothing connected it to the route it bears on. It is now EV-PALMERINI-2022, a registry citation and a systemicEvidence row. ⛔ IT DOES NOT STRENGTHEN THE ROUTE: it enlarges the EMC denominator on which the objective-response count for trabectedin is still ZERO, and it adds the first EMC patient recorded as progressing on the drug. That is the item's own warning — 'do not overstate a single response' — holding on more evidence than it had. No EMC-specific PFS or OS is reported by the source; that is an absence in the paper. ⚠ Population overlap with the repository's existing chiusole2020 trabectedin figure is UNRESOLVED, so the row is context and not pooled (systems/POLICY-evidence.md §2.3); queued as AUT-PROP-051. (2) THE ROUTE WAS QUOTING RETRACTED FIGURES. RT-TRABECTEDIN's rationale and supporting_evidence read 'n=5, secondary provenance, median PFS ~12.5 months' and cited the registry — which had already retracted all three (n=2 EMC, provenance primary, the 12.5-month median withdrawn as an EMC figure). Corrected in place with the old text retained as superseded; the missing gate is queued as AUT-PD-154. ⛔ WHAT WAS NOT TOUCHED: the grade 'NEAR-TERM LEAD — approved, mechanism-fit' (owner research/IDEAS.md). This read supplies no evidence for a grade change in either direction and the grade is not this seat's to write. ⚠ UNKNOWN, stated rather than guessed: the Palmerini/Chiusole overlap; EMC-specific time-to-event on trabectedin, which no source reports; and the identifier of the TrObs primary report (Palmerini, Cancers 2021), which is not held here and was NOT written from recollection."
     },
     {
       "id": "AUT-PD-130",
@@ -9008,6 +9008,51 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
+    },
+    {
+      "id": "AUT-PD-154",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-TRABECTEDIN",
+        "publication": "PUB-EMC-PROGRAM",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "s1-CYC-0074-5a21085f (AUT-071)",
+      "what": "⛔ A ROUTE WENT ON QUOTING THREE FIGURES ITS OWN CITED SOURCE HAD ALREADY RETRACTED, AND NOTHING IN THE REPOSITORY COULD SEE IT. Measured 2026-08-29 while taking AUT-071. `systems/graph/routes.json` -> RT-TRABECTEDIN.rationale and .supporting_evidence[0] both read 'n=5, secondary provenance, median PFS ~12.5 months' and named ART-EMC-CLINICAL-REGISTRY as the thing they were quoting. All three figures had been retracted IN THAT REGISTRY — `research/data/emc-clinical-registry.json` -> treatments.systemicEvidenceCorrections, row `Trabectedin`: n is 2 EMC not 5, provenance is `primary` not `secondary`, and the 12.5-month median PFS is withdrawn as an EMC figure. The generated view `systems/views/L2-rt-trabectedin.md` carried both sentences forward verbatim. ⚠ THE DEFECT IS THE MISSING WIRE, NOT THE STALE SENTENCE. `lint_consistency.py` pins figures registered in research/manuscripts/pinned-figures.json and none of these three is registered there; `lint_claims.py` grades claim STRENGTH and every one of these sentences is correctly hedged; `validate-registry.mjs` reads the registry and never reads the graph. So a route that restates a retracted registry number is invisible to all three, and the only reason this was caught is that a $0 literature read happened to open the registry beside the route. ⛔ SECOND INSTANCE OF THE SAME CLASS IN TWO DAYS: RT-CARFILZOMIB's 2026-08-28 regrade found the same shape — a route asserting a state of the evidence that a file already in the repository contradicted. ⭐ THE PROPOSED FIX, and it is cheap: a `supporting_evidence.ref: ART-EMC-CLINICAL-REGISTRY` entry whose `what_it_supports` restates a NUMBER is the pattern to refuse. Either (a) a gate that flags any digit-bearing `what_it_supports` on a ref that names a machine-readable artifact, telling the author to point rather than restate (CLAUDE.md §1: one fact, one place), or (b) a narrower gate that greps every route's prose for strings appearing in a `systemicEvidenceCorrections[].was` field, which is an exact-match check against the repository's own list of what it has retracted. (b) is the one this instance would have been caught by and it needs no new data.",
+      "depends_on_evidence": "Diagnostic, not inference: `git log -1 --format=%cI -S \"n=5, secondary provenance\" -- systems/graph/routes.json` dates the stale sentence, and the retraction it contradicts is committed in research/data/emc-clinical-registry.json -> treatments.systemicEvidenceCorrections row `Trabectedin`. Both were on origin/main at 8a1f5058a simultaneously. The route's `state.last_verified` read 2026-08-05 throughout."
+    },
+    {
+      "id": "AUT-PROP-051",
+      "kind": "fetch",
+      "serves": {
+        "route": "RT-TRABECTEDIN",
+        "publication": "PUB-EMC-PROGRAM",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "s1-CYC-0074-5a21085f (AUT-071)",
+      "what": "Settle, or record as unsettleable, whether EV-PALMERINI-2022's three EMC patients are the same three EMC patients as the `second line ... trabectedin 66% of 3` figure this repository already carries from chiusole2020 (PMID 32612944). ⚠ THIS IS WHY IT MATTERS AND IT IS NOT BOOKKEEPING: until the overlap is excluded, systems/POLICY-evidence.md §2.3 keeps the newer row as CONTEXT, so the EMC trabectedin denominator cannot grow past the 2 patients of morioka2016trabectedin in anything pooled. ⭐ WHAT MAKES OVERLAP LIVE RATHER THAN PEDANTIC: both series report n=3 EMC and both report 2-of-3 disease control; TrObs enrolled at 20 Italian sites in 2010-2015 and Chiusole covers Istituto Oncologico Veneto (Padova) over 1980-2018, a window containing all of TrObs's; and A. Brunello (IOV Padova) is an author on both papers. ⛔ NEITHER FULL TEXT CAN SETTLE IT — neither names its EMC patients' treating centre; this was checked, not assumed (PMC9780071 full text was read in full; PMC7308468 is already held here). THE STEPS, all $0: (1) retrieve the TrObs PRIMARY report (Palmerini et al., Cancers 2021 — ⛔ its identifier is NOT held in this repository and must be looked up, never written from recollection) and check whether it carries a per-centre or per-histology table; (2) if it does not, record the overlap as UNSETTLEABLE FROM THE PUBLISHED RECORD, which is a real finding and closes the question honestly rather than leaving a row reading `will check next cycle` (CLAUDE.md §4). Either outcome updates research/literature/trabectedin-emc-clinical-2026-08-29.json -> the_overlap_question_this_opens and the `pool: false` / `contextReason` on the registry row.",
+      "depends_on_evidence": "research/literature/trabectedin-emc-clinical-2026-08-29.json -> the_overlap_question_this_opens, which records the three concurrences and what would discriminate."
     },
     {
       "id": "AUT-PD-094",

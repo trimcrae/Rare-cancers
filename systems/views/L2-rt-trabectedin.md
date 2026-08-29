@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-TRABECTEDIN — Trabectedin (± RT or combination)
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-05
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-29
 
 **Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.md)): NEAR-TERM LEAD — approved, mechanism-fit
 
@@ -45,19 +45,21 @@ flowchart LR
 
 ## Scientific rationale
 
-Trabectedin is approved and used in sarcoma, and this repo's clinical registry records DISEASE CONTROL in EMC — n=5, secondary provenance, median PFS ~12.5 months, mostly stable disease, with NO response rate recorded. ⚠ The single 'impressive response' in the literature is a RADIOTHERAPY + trabectedin case, so it does not support this route, whose alias is trabectedin MONOTHERAPY. No efficacy, safety, eligibility or clinical-readiness claim is made for EMC.
+Trabectedin is approved and used in sarcoma, and this repository's clinical registry records DISEASE CONTROL in EMC across two small EMC-specific series with NO OBJECTIVE RESPONSE IN EITHER. The counts have one home — research/data/emc-clinical-registry.json -> treatments.systemicEvidence, rows `Trabectedin` and `Trabectedin (second EMC-specific series)` — and are not restated here. ⚠ The single 'impressive response' in the literature is a RADIOTHERAPY + trabectedin case, so it does not support this route, whose alias is trabectedin MONOTHERAPY. No efficacy, safety, eligibility or clinical-readiness claim is made for EMC. ⛔ SUPERSEDED, RETAINED (CLAUDE.md §1.2): until 2026-08-29 this sentence read 'n=5, secondary provenance, median PFS ~12.5 months, mostly stable disease, with NO response rate recorded'. All three of those figures had already been RETRACTED by the registry the sentence claimed to be quoting — the arm is 2 EMC and 3 mesenchymal chondrosarcoma, its provenance is `primary`, and the 12.5-month median PFS is withdrawn as an EMC figure — and the route went on quoting the pre-correction reading. The retraction and its reasoning live in that registry's `treatments.systemicEvidenceCorrections`, row `Trabectedin`.
 
 ## Supporting evidence
 
 | ref | supports | strength |
 |---|---|---|
-| `ART-EMC-CLINICAL-REGISTRY` | a 5-patient SECONDARY-provenance series reporting disease control (median PFS ~12.5 months, mostly stable disease); no response rate is recorded, and the registry's own intro says cytotoxic chemotherapy mainly stabilises disease | `transferred` |
+| `ART-EMC-CLINICAL-REGISTRY` | the two EMC-specific trabectedin series this repository holds, each with its own primary source, its own denominator and its own caveats — that file owns every count and none is restated here. What both share is the finding that matters to this route: no objective response to trabectedin has been reported in an EMC patient in any series located here, and the registry's own intro says cytotoxic chemotherapy mainly stabilises disease. | `transferred` |
+| `EV-PALMERINI-2022` | The second EMC-specific trabectedin denominator, added 2026-08-29, and the first EMC patient recorded as progressing on the drug. ⛔ IT DOES NOT STRENGTHEN THIS ROUTE — it enlarges the denominator on which the EMC objective-response count is still zero — and it is carried as CONTEXT rather than pooled evidence because population overlap with the repository's existing chiusole2020 trabectedin figure is unresolved. Its scope, the overlap question and what would settle it are in research/literature/trabectedin-emc-clinical-2026-08-29.json. | `direct` |
 
 ## Remaining unknowns
 
 - Whether the mechanistic fit is real or a post-hoc story fitted to a single response.
 - How the agent interacts with the fusion's specific programme, which has never been measured in EMC.
-- The '± RT' half of this route is unaddressed, and the only impressive-response case is an RT COMBINATION — the registry records radiotherapy in localized EMC as `contested` and adjuvant chemotherapy as `consensus-against`.
+- The '± RT' half of this route is unaddressed, and the only impressive-response case is an RT COMBINATION — the registry records radiotherapy in localized EMC as `contested` and adjuvant chemotherapy as `consensus-against`. ⭐ 2026-08-29: no record returned by any of the four PubMed queries in research/literature/trabectedin-emc-clinical-2026-08-29.json pairs radiotherapy with trabectedin in an EMC patient. The trabectedin-plus-radiotherapy evidence reachable here is in myxoid LIPOSARCOMA, a different disease.
+- Whether the three EMC patients in EV-PALMERINI-2022 are the same three EMC patients as the `second line ... trabectedin 66% of 3` figure this repository already carries from chiusole2020. UNKNOWN and NOT resolvable from either full text — neither names its EMC patients' treating centre. Until it is excluded, systems/POLICY-evidence.md §2.3 keeps the newer row as context.
 
 ## Required validation
 
@@ -138,5 +140,7 @@ Keep as cited landscape context. Do not overstate a single response.
 *L4 instruments and L5 objects, evidence and artifacts. Every row here is asserted by this route; the [evidence base](L5-evidence-base.md) shows the same edges from the other end.*
 
 **L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
+
+**L5 evidence:** [EV-PALMERINI-2022](L5-evidence-base.md#evidence--the-literature-this-program-cites)
 
 [← ST-REPURPOSING](L1-st-repurposing.md) · [← L0](L0-ecosystem.md)
