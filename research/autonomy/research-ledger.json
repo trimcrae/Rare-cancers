@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 132,
+    "process_defect": 133,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -25,7 +25,7 @@
     "done": 113,
     "in_progress": 3,
     "parked": 28,
-    "queued": 140,
+    "queued": 141,
     "ready": 1,
     "superseded": 1
   },
@@ -1766,49 +1766,6 @@
       ]
     },
     {
-      "id": "AUT-025",
-      "_derived": true,
-      "what": "Keep registered for automatic re-grade when EMC expression data lands.",
-      "serves": {
-        "route": "RT-FAP-RLT",
-        "publication": "PUB-SURFACE-TARGETS",
-        "strategy": "ST-RADIOLIGAND"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "CYC-DRV-5a21085f",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-05",
-      "score": 152.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "claimed_utc": "2026-08-29T01:00:28Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T01:00:28Z",
-          "fingerprint_at_dispatch": "2026-08-05|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-074",
       "_derived": true,
       "what": "Report it as a closed line: elevated and pan-essential is not an opportunity.",
@@ -2112,6 +2069,49 @@
       },
       "requires_trimcrae": true,
       "requires_trimcrae_why": "publishes the eligibility map. ⚠ §3 is per paper, per act: he must name THIS one for THIS act."
+    },
+    {
+      "id": "AUT-025",
+      "_derived": true,
+      "what": "Keep registered for automatic re-grade when EMC expression data lands.",
+      "serves": {
+        "route": "RT-FAP-RLT",
+        "publication": "PUB-SURFACE-TARGETS",
+        "strategy": "ST-RADIOLIGAND"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "CYC-DRV-5a21085f",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-05",
+      "score": 144.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0
+      },
+      "claimed_utc": "2026-08-29T01:00:28Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T01:00:28Z",
+          "fingerprint_at_dispatch": "2026-08-05|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-057",
@@ -2570,6 +2570,39 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a coordination tool; nothing published or deposited"
+    },
+    {
+      "id": "AUT-PD-154",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0073-d4ccfde4",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop-internal dispatch/gating defect; nothing outward-facing",
+      "score": 134.9,
+      "_score_basis": "Filed at AUT-PD-144's score. It is the same failure — a tree reaching `main` that no gate saw — reached by a different door, and whoever takes one should see the other beside it rather than ranked apart from it.",
+      "depends_on_evidence": [
+        "origin/main 818c472f0 and 005b837b8: merge commits created by a SEAT's claim.py run, gated by nobody",
+        "origin/main 552782888 / 0fd33223a: the two seat claim commits that carried them",
+        "ee17c39a2 (driver's gated work) reached main inside that push, not by the driver's own `git push`",
+        "claim.py `integrate()` merges origin/main and `push()` writes to main — by design, and correct for a claim"
+      ],
+      "closes_clause": null,
+      "what": "⛔⛔ A SEAT RUNNING `claim.py` IN THE SHARED REPOSITORY ROOT PUSHES THE DRIVER'S UNPUSHED COMMITS, AND THE MERGE IT MAKES TO DO SO IS GATED BY NOBODY. Measured 2026-08-29 (CYC-0073-d4ccfde4), first-hand and by the driver's own instruction. ⭐ THE MECHANISM, WHICH IS NOT A BUG IN claim.py: `claim.py` is CORRECT to merge `origin/main` and push `main` — the push is its compare-and-swap arbiter (AUT-PROP-030) and a claim that is not on the trunk protects nothing. But `git push` publishes the BRANCH, not the claim, so when it runs in a working tree whose `main` carries commits the driver has not yet pushed, it publishes those too, plus a merge commit it creates on the spot. Observed: seat s1's claim produced 005b837b8 and 818c472f0 and carried the driver's ee17c39a2 to `main`. The driver's own `git push` was REJECTED moments later because its work was already there — which is how this was noticed at all. ⛔ THE OUTCOME WAS BENIGN AND THAT IS THE DANGEROUS PART: the driver's commits had each passed `preflight.sh` with EXIT=0 read from their own markers, so `main` is sound. But 818c472f0 is a MERGE no gate ever saw, and nothing anywhere would have said so. AUT-PD-144 names this exact class for a REBASE by a session; this is the same class reached by a SUBAGENT's claim, and the two should be fixed together. ⛔ THE DRIVER CAUSED IT, IN THE SEAT PROMPT, AND THE RULE IT BROKE WAS ONE THE SAME PROMPT STATED: research-loop §3 says the shared tree has ONE writer, the driver, and the prompt told the seat to `cd /home/user/Rare-cancers` for the claim step BEFORE creating its worktree — because §2 step 4 insists the claim happen at dispatch. So the two rules point opposite ways for a seat, and nothing resolves it. ⭐ THE FIX IS A CHOICE, NOT AN OBVIOUS PATCH, and it is why this is filed rather than patched: either the seat claims from an isolated checkout (and `claim.py` must then push only the claim, e.g. HEAD:main from a branch based on origin/main), or the DRIVER claims on the seat's behalf before dispatching and the seat never runs claim.py at all. The second is closer to what §3 already says about who writes to the shared tree. ⚠ AND `claim.py --check` CANNOT SEE THIS: it reports a claim the trunk cannot see, which is the opposite failure. Nothing reports a push that carried more than it meant to."
     },
     {
       "id": "AUT-PD-031",
