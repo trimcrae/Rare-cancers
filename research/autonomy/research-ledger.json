@@ -2728,9 +2728,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0082-381d0696",
+      "claimed_utc": "2026-08-29T07:47:47Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2749,7 +2749,13 @@
         "research/autonomy/claim.py `commits_not_on_trunk` (AUT-PD-160, origin/main 4b4f150a0): reads `git rev-list origin/main..HEAD`, which is blind to an UNCOMMITTED working-tree edit",
         "observed first-hand by CYC-0078-531dbb8b at 06:40Z: the driver held a gated-but-uncommitted ledger carrying a closed row and two new filings, and could not claim a further item without publishing them ahead of preflight"
       ],
-      "what": "⛔⛔ AUT-PD-160 CLOSED THE COMMIT DOOR AND LEFT THE WORKING-TREE DOOR OPEN, AND IT IS THE ONE A DRIVER USES EVERY CYCLE. `claim.py` now refuses when HEAD carries commits `origin/main` does not. It does NOT look at the working tree — and `commit_ledger()` is `git add research/autonomy/research-ledger.json` followed by `git commit`, which stages that file AS IT STANDS. So a claim made while the ledger holds UNCOMMITTED, UNGATED edits publishes those edits to `main` inside the claim commit, and `commits_not_on_trunk` sees nothing wrong because there is nothing ahead of the trunk yet. ⭐ SAME HARM, SAME MODULE, DIFFERENT ENTRANCE: a tree no gate ever saw reaching `main` through a claim. ⚠ AND THIS IS THE ORDINARY SHAPE, NOT AN EDGE CASE. The cycle contract's step 3 (`priority.py --write`) and step 9 (write back what you observed) BOTH edit the ledger, and step 4 claims. A driver taking a second item in one session is holding exactly this state — measured first-hand by the cycle that filed this, which had to stop and wait ~9 minutes for a gate rather than claim over its own uncommitted write-back. ⛔ THE FIX IS A CHOICE, WHICH IS WHY THIS IS FILED RATHER THAN PATCHED, AND THE OBVIOUS ONE IS WRONG. Refusing on ANY dirty ledger would break the module's own retry loop: `withdraw_claim` deliberately restores pre-existing uncommitted bytes and `integrate()` already reports MERGE_REFUSED for exactly that case, so a blanket refusal would forbid the very state AUT-PROP-030 built the loop to survive. The candidates are (a) commit ONLY the claim's own one-row change — e.g. stage the ledger from `origin/main` plus `apply_claim`, rather than from the tree — which is the narrow analogue of AUT-PD-160's invariant and keeps the working tree untouched; or (b) refuse when the ledger's uncommitted diff touches any row OTHER than the one being claimed, which permits the withdraw/retry state and forbids the publishing one. ⚠ (a) is the stronger shape and the more invasive; it must not be attempted without re-running `test_the_withdrawal_keeps_an_unrelated_local_edit_it_did_not_make`, which pins the behaviour either option could destroy."
+      "what": "⛔⛔ AUT-PD-160 CLOSED THE COMMIT DOOR AND LEFT THE WORKING-TREE DOOR OPEN, AND IT IS THE ONE A DRIVER USES EVERY CYCLE. `claim.py` now refuses when HEAD carries commits `origin/main` does not. It does NOT look at the working tree — and `commit_ledger()` is `git add research/autonomy/research-ledger.json` followed by `git commit`, which stages that file AS IT STANDS. So a claim made while the ledger holds UNCOMMITTED, UNGATED edits publishes those edits to `main` inside the claim commit, and `commits_not_on_trunk` sees nothing wrong because there is nothing ahead of the trunk yet. ⭐ SAME HARM, SAME MODULE, DIFFERENT ENTRANCE: a tree no gate ever saw reaching `main` through a claim. ⚠ AND THIS IS THE ORDINARY SHAPE, NOT AN EDGE CASE. The cycle contract's step 3 (`priority.py --write`) and step 9 (write back what you observed) BOTH edit the ledger, and step 4 claims. A driver taking a second item in one session is holding exactly this state — measured first-hand by the cycle that filed this, which had to stop and wait ~9 minutes for a gate rather than claim over its own uncommitted write-back. ⛔ THE FIX IS A CHOICE, WHICH IS WHY THIS IS FILED RATHER THAN PATCHED, AND THE OBVIOUS ONE IS WRONG. Refusing on ANY dirty ledger would break the module's own retry loop: `withdraw_claim` deliberately restores pre-existing uncommitted bytes and `integrate()` already reports MERGE_REFUSED for exactly that case, so a blanket refusal would forbid the very state AUT-PROP-030 built the loop to survive. The candidates are (a) commit ONLY the claim's own one-row change — e.g. stage the ledger from `origin/main` plus `apply_claim`, rather than from the tree — which is the narrow analogue of AUT-PD-160's invariant and keeps the working tree untouched; or (b) refuse when the ledger's uncommitted diff touches any row OTHER than the one being claimed, which permits the withdraw/retry state and forbids the publishing one. ⚠ (a) is the stronger shape and the more invasive; it must not be attempted without re-running `test_the_withdrawal_keeps_an_unrelated_local_edit_it_did_not_make`, which pins the behaviour either option could destroy.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T07:47:47Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-031",
