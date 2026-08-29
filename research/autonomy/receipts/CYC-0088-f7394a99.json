@@ -41,5 +41,23 @@
   "blocked_by": [],
   "route_advanced": "RT-ASO",
   "route_advanced_why": "\u2b50 HONEST, AND NARROWER THAN IT LOOKS. This cycle wrote no science and moved no manuscript. What it did is make three ASO-v2 manuscript-and-gate rows (AUT-PD-006, AUT-PD-040, AUT-PD-141) RANKABLE for the first time \u2014 they had no score and no ranking term could reach them, so no cycle could ever be offered them. Work that the queue cannot see is work that does not happen, and the paper those rows serve is PUB-ASO, the only one with a public DOI. \u26d4 It did NOT advance the ASO manuscript itself, and this field is not claiming it did.",
-  "notes": "\u26a0 ONE THING FOUND AND DELIBERATELY NOT FIXED: AUT-PROP-026 scores -2595.0, a value so far below every other row that it is unrankable in practice for the same reason an unscored row is \u2014 but it IS scored, so neither the ratchet nor scores_are_reachable can see it. That is a separate defect from AUT-PD-177 and absorbing it silently into this repair would be scope creep; it is named here so the next cycle can file it with this evidence."
+  "notes": "\u26a0 ONE THING FOUND AND DELIBERATELY NOT FIXED: AUT-PROP-026 scores -2595.0, a value so far below every other row that it is unrankable in practice for the same reason an unscored row is \u2014 but it IS scored, so neither the ratchet nor scores_are_reachable can see it. That is a separate defect from AUT-PD-177 and absorbing it silently into this repair would be scope creep; it is named here so the next cycle can file it with this evidence.",
+  "handoff": {
+    "child_session_id": "session_01XjQPkofZvZf1ci3XG2fq7C",
+    "created_utc": "2026-08-29T13:41:08Z",
+    "reason": "CYC-0086 and CYC-0088 both ran in session f7394a99; max_cycles_per_session is 2, so the next cycle needs a fresh context.",
+    "prompt_built_by": "python3 research/autonomy/handoff.py --json --reason ... \u2014 built from COMMITTED state, carrying no findings and no conclusions from this session.",
+    "environment_id": "env_01AFwLH33U3ZprSgZf2nbV7S",
+    "parent_session_id": "session_01Kre2Fzpmw11MjsKYE24txo",
+    "note": "\u2b50 THE LINEAGE CEILING DID NOT BITE. AUT-PD-173 records that the self-perpetuating handoff has a hard ceiling of 8 and that this loop now reaches it; create_session was accepted here and returned SESSION_STATUS_PENDING, so this launch shape is still below the ceiling. Recorded as an observation, not as evidence the ceiling is gone."
+  },
+  "session_cap": {
+    "cycles_run_in_this_session": 2,
+    "cap": 2,
+    "cycles": [
+      "CYC-0086-f7394a99",
+      "CYC-0088-f7394a99"
+    ],
+    "note": "At the cap, not over it. The successor was created BEFORE this session ended, which research-loop \u00a73 requires: a loop that needs a human to start its next session is not automated, it just has a longer fuse."
+  }
 }
