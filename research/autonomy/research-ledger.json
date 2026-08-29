@@ -2969,9 +2969,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0076-7e7b2570",
+      "claimed_utc": "2026-08-29T04:52:07Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2988,7 +2988,13 @@
       "what": "⛔ `amendment_guard.py`'s `changed_paths()` runs `git diff --name-only <sha> --`, and `git diff` NEVER lists untracked files, staged or not -- so a brand-new file under a GOVERNED glob (a new `**/tests/**` file, a new file that happened to be named `CLAUDE.md`, etc.) is invisible to the anti-gaming guard until it has been `git add`-ed at least once. Measured 2026-08-29 (CYC-0074): three new files this session (research/autonomy/prepush_ledger_guard.py, .githooks/pre-push, research/autonomy/tests/test_prepush_ledger_guard_catches_duplicate_ids.py) were completely absent from `python3 research/autonomy/amendment_guard.py --receipt ... --diff-from 76702fbfa` even though one of them matches `**/tests/**` -- confirmed directly: `git diff --name-only 76702fbfa --` omits all three; `git add`-ing them first makes them appear. This was caught only because this session happened to `git add` before its final check, not because the guard itself would have refused a quiet new governed file. ⭐ THE FIX IS LIKELY SMALL: `changed_paths()` should union in untracked files (`git status --porcelain --untracked-files=all` or `git ls-files --others --exclude-standard`) alongside the tracked diff, or the tool's own usage instructions should say 'stage everything before running this' loudly enough that it cannot be missed the way it almost was here. ⚠ NOT FIXED THIS CYCLE: this session already landed three defect fixes (AUT-PD-152, AUT-PD-144, AUT-PD-153) and is at its 2-cycle session cap; filed rather than fixed to stay within scope.",
       "depends_on_evidence": "git diff --name-only 76702fbfaeb1f7776f48b7897d19e3bc43b4973b -- (before staging) omitted 3 new files including one matching **/tests/**; the identical command after `git add` on those 3 paths included all 3. amendment_guard.py --receipt/--diff-from run both before and after staging, on the same base sha, confirming the omission was the diff mechanism and not a receipt/declaration issue.",
       "_renamed_from": "AUT-PD-154",
-      "_renamed_why": "AUT-PD-154 was independently allocated by a concurrent session (CYC-0074-5a21085f) for a different defect (step 11 CCR archive refusal in an auto-permission session) and landed on origin/main first. Re-allocated to avoid a duplicate ledger id."
+      "_renamed_why": "AUT-PD-154 was independently allocated by a concurrent session (CYC-0074-5a21085f) for a different defect (step 11 CCR archive refusal in an auto-permission session) and landed on origin/main first. Re-allocated to avoid a duplicate ledger id.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T04:52:07Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ]
     },
     {
       "id": "AUT-071",
