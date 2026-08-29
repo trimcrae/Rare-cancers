@@ -517,7 +517,9 @@ def apply_age_factor(entries: list[dict], weights: dict, today=None) -> list[dic
         if not f and not prev:
             continue
         if f:
-            e.setdefault("score_inputs", {})["age_factor"] = f
+            if not isinstance(e.get("score_inputs"), dict):
+                e["score_inputs"] = {}
+            e["score_inputs"]["age_factor"] = f
         else:
             (e.get("score_inputs") or {}).pop("age_factor", None)
         if isinstance(e.get("score"), (int, float)):

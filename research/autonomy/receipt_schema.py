@@ -82,6 +82,23 @@ FIRST_GOVERNED_CYCLE = 23
 #: The field that lets `session_reaper.py` join a receipt to a row in the session list.
 CCR_ID_KEY = "ccr_session_id"
 
+#: ⛔⛔ THE ESCAPE VALVE FOR A SESSION WHOSE TOOL SURFACE HAS NO `get_session` AT ALL (AUT-PD-153,
+#: 2026-08-29). AUT-PD-146 measured how to OBTAIN `ccr_session_id` (`get_session` with no args ->
+#: `.ccr.id`) and assumed the tool is always reachable. It is not: a scheduled-Routine session's tool
+#: surface is narrower than an interactive one's and can omit `get_session`/`create_session`
+#: entirely -- verified here by `ToolSearch` for "get_session", "create_session" and "session info
+#: ccr claude-code-remote" all returning no match, not merely by the field being absent from one
+#: receipt. Requiring the id unconditionally would make FIRST_CCR_GOVERNED_CYCLE a wall no scheduled
+#: cycle could ever pass again, which is the exact LATCHING failure `research-loop` §1 already names
+#: for a health condition keyed to immutable history -- except here it would latch every future
+#: commit rather than one board row. Mirrors `handoff.UNAVAILABLE_FIELD`: a call that could not be
+#: REACHED is recorded as absent-and-named, distinct from `session_id` (unreadable env var) and from
+#: a refusal (a call was made and answered). A receipt carrying a non-empty string here is treated as
+#: compliant for this field -- the same trust boundary this architecture already accepts for
+#: `handoff.mechanism_unavailable`, `blocked_evidence` and every other self-reported "I could not"
+#: in the loop: verified by audit over receipts, not by cryptographic proof.
+CCR_UNAVAILABLE_FIELD = "ccr_session_id_unavailable"
+
 #: ⭐ FIRST CYCLE REQUIRED TO CARRY `ccr_session_id` (AUT-PD-129, 2026-08-28).
 #: ⛔ WHY A SECOND ID FIELD RATHER THAN REUSING `session_id`: they are different id spaces and each
 #: has a reader that needs its own. `session_id` must stay the harness `CLAUDE_CODE_SESSION_ID` --
@@ -202,13 +219,19 @@ def problems(receipt: dict, path: str) -> list[str]:
     n = cycle_number(rid)
     if n is not None and n >= FIRST_CCR_GOVERNED_CYCLE:
         ccr = receipt.get(CCR_ID_KEY)
+        unavailable = receipt.get(CCR_UNAVAILABLE_FIELD)
         if not (isinstance(ccr, str) and _CCR_ID.search(ccr)):
-            out.append(
-                f"{rid}: no `{CCR_ID_KEY}` naming a CCR session id (`session_...`). It is what joins "
-                "this receipt to a row in the session list, and without it `session_reaper.py` cannot "
-                "show this session's work reached the trunk -- so the session is never archived and "
-                "is reported as one that may have died holding uncommitted work. ⛔ This is NOT a "
-                "duplicate of `session_id`, which is the harness UUID and must stay that.")
+            if isinstance(unavailable, str) and unavailable.strip():
+                pass  # AUT-PD-153: a named, non-empty reason the tool could not be reached at all.
+            else:
+                out.append(
+                    f"{rid}: no `{CCR_ID_KEY}` naming a CCR session id (`session_...`), and no "
+                    f"`{CCR_UNAVAILABLE_FIELD}` naming why the tool could not be reached. It is what "
+                    "joins this receipt to a row in the session list, and without it "
+                    "`session_reaper.py` cannot show this session's work reached the trunk -- so the "
+                    "session is never archived and is reported as one that may have died holding "
+                    "uncommitted work. ⛔ This is NOT a duplicate of `session_id`, which is the "
+                    "harness UUID and must stay that.")
 
     block = receipt.get(BLOCK_KEY)
     if not isinstance(block, dict):

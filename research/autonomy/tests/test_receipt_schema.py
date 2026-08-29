@@ -283,6 +283,60 @@ def test_a_receipt_spelling_route_advanced_differently_is_unmeasured_not_silentl
 
 
 # ---------------------------------------------------------------------------------------------
+# ⛔⛔ AUT-PD-153: A SESSION WITH NO `get_session` TOOL AT ALL MUST STILL BE ABLE TO PASS THIS GATE.
+# ---------------------------------------------------------------------------------------------
+
+def _ccr_doc(name, **extra):
+    n = R.cycle_number(name)
+    assert n is not None and n >= R.FIRST_CCR_GOVERNED_CYCLE, "fixture must be CCR-governed"
+    doc = {"cycle_id": name, "route_advanced": "RT-TEST", "subagents": {R.WIDTH_KEY: 0}}
+    doc.update(extra)
+    return doc
+
+
+def _ccr_id():
+    return f"CYC-{R.FIRST_CCR_GOVERNED_CYCLE:04d}"
+
+
+def test_a_valid_ccr_session_id_passes(tmp_path):
+    doc = _ccr_doc(_ccr_id(), ccr_session_id="session_01ABCDEFGHIJ")
+    (tmp_path / f"{doc['cycle_id']}.json").write_text(json.dumps(doc))
+    assert R.problems(doc, str(tmp_path)) == []
+
+
+def test_missing_both_ccr_fields_fails(tmp_path):
+    doc = _ccr_doc(_ccr_id())
+    problems = R.problems(doc, str(tmp_path))
+    assert any(R.CCR_ID_KEY in p and R.CCR_UNAVAILABLE_FIELD in p for p in problems), problems
+
+
+def test_ccr_unavailable_with_a_named_reason_passes(tmp_path):
+    """★ THE ESCAPE VALVE. A session whose tool surface has no `get_session` at all (verified via
+    ToolSearch, not merely a field the writer forgot) may name that instead of the id."""
+    doc = _ccr_doc(_ccr_id(), ccr_session_id_unavailable=(
+        "ToolSearch for get_session/create_session returned no match on this scheduled-Routine "
+        "session's tool surface"))
+    assert R.problems(doc, str(tmp_path)) == []
+
+
+@pytest.mark.parametrize("value", ["", "   ", None, 0, False])
+def test_an_empty_or_non_string_unavailable_reason_does_not_satisfy_the_valve(tmp_path, value):
+    doc = _ccr_doc(_ccr_id(), ccr_session_id_unavailable=value)
+    problems = R.problems(doc, str(tmp_path))
+    assert any(R.CCR_ID_KEY in p for p in problems), (
+        "an unnamed or blank 'unavailable' reason must not be treated as a declaration -- the same "
+        "rigor `handoff.mechanism_unavailable` already applies")
+
+
+def test_a_ccr_id_wins_over_an_unavailable_claim_if_both_are_present(tmp_path):
+    """Both fields present is not a contradiction worth failing on -- a real id is simply the
+    stronger of the two and is what matters to session_reaper.py."""
+    doc = _ccr_doc(_ccr_id(), ccr_session_id="session_01ABCDEFGHIJ",
+                   ccr_session_id_unavailable="stale note from an earlier draft")
+    assert R.problems(doc, str(tmp_path)) == []
+
+
+# ---------------------------------------------------------------------------------------------
 # The trunk, as it stands.
 # ---------------------------------------------------------------------------------------------
 

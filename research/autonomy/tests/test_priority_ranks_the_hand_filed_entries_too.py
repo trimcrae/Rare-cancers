@@ -112,6 +112,33 @@ def test_the_table_survives_a_row_with_no_what_field(capsys):
         "the fix must not blank out a `what` that IS present on a sibling row")
 
 
+def test_apply_age_factor_survives_a_row_whose_score_inputs_is_explicitly_null(weights):
+    """⛔⛔ THE AUT-COV-001 CRASH. `priority.py --write` exited non-zero on the committed ledger:
+    `TypeError: 'NoneType' object does not support item assignment` at
+    `e.setdefault("score_inputs", {})["age_factor"] = f`. `dict.setdefault` only installs its default
+    when the KEY IS ABSENT — it returns the existing value untouched when the key is present, even if
+    that value is `None`. AUT-COV-001 carries `"score_inputs": null` (not a missing key), a shape
+    left behind by an entry that was hand-edited rather than derived, so `setdefault` handed back
+    `None` and the subsequent `[...] = f` crashed. The two neighbouring lines (`prev = (e.get(...)
+    or {}).get(...)` and the `else` branch's `.pop`) already guard against exactly this shape; this
+    line was the one spot that did not.
+
+    ★ THE FIX replaces the bare `setdefault` with an explicit `isinstance(..., dict)` check that
+    rewrites a non-dict `score_inputs` to `{}` before indexing into it — the same defensive shape
+    already used on the surrounding lines.
+
+    ⚠ MUTATION-TESTED: reverting to `e.setdefault("score_inputs", {})["age_factor"] = f` reproduces
+    the `TypeError` on the row below and fails this test."""
+    import datetime as _dt
+    row = {"id": "AUT-COV-001", "state": "queued", "last_evidence_utc": "2020-01-01",
+           "score": 50.0, "score_inputs": None}
+    out = P.apply_age_factor([row], weights, today=_dt.date(2026, 8, 29))
+    assert isinstance(out[0]["score_inputs"], dict), (
+        "a null score_inputs must be normalised to a dict before the age factor is recorded on it")
+    assert out[0]["score_inputs"].get("age_factor"), (
+        "the age bonus should have been recorded once normalisation happened")
+
+
 def test_the_ledger_still_holds_hand_filed_entries_without_score_inputs():
     """★ THE PRECONDITION, PINNED. If a later change starts writing `score_inputs` onto every entry,
     the two tests above stop exercising the branch they were written for and go green for the wrong

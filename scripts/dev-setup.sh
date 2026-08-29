@@ -379,5 +379,21 @@ if ! command -v gs >/dev/null 2>&1; then
   fi
 fi
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# GIT HOOKS — TRACKED, NOT `.git/hooks/` (WHICH GIT NEVER SHIPS)
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# ⛔ AUT-PD-144. `.git/hooks/` is local-only and a fresh clone in a fresh sandbox never has it, so a
+# hook that matters has to live under version control and be pointed at explicitly. `.githooks/pre-push`
+# re-runs the ledger duplicate-id guard (research/autonomy/prepush_ledger_guard.py) at push time,
+# which is the one moment a rebase-then-push can build a tree no preflight run ever saw — the exact
+# mechanism that let two sessions' `AUT-PD-140` collide on `main`. Idempotent: `git config` is a no-op
+# if already set to this value.
+if [ -d .githooks ]; then
+  echo
+  echo "== git hooks (core.hooksPath -> .githooks, so pre-push re-checks the ledger for duplicate ids) =="
+  git config core.hooksPath .githooks
+  echo "   OK: $(git config --get core.hooksPath)"
+fi
+
 echo
 echo "DEV SETUP OK — ./scripts/preflight.sh should now measure the repository rather than the sandbox."
