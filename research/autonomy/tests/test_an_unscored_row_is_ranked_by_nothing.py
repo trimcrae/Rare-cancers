@@ -138,7 +138,19 @@ LEDGER = os.path.join(AUTONOMY, "research-ledger.json")
 #: what AUT-PD-145 required and is 73 rather than the 80 the pair was written against. The ceiling
 #: was NOT raised to fit — it was LOWERED by seven, because the population fell. See the DEFERRED
 #: section of this module's docstring for the entry condition and the series that met it.
-MAX_UNSCORED_OPEN = 73
+#: ⭐ LOWERED AGAIN 2026-08-29 BY CYC-0088-f7394a99, 73 -> 69, AND THE DIRECTION IS THE WHOLE POINT.
+#: AUT-PD-177: three route ids in `serves.route` — `RT-ASO-JUNCTION`, `RT-FUSION-PARTNER` and
+#: `RT-DEGRADER-TERNARY` — appear in NONE of the 77 routes in systems/graph/routes.json, so
+#: `apply_route_inheritance` had no floor to give the rows naming them and four could never be
+#: scored at all. Remapping each to the route the graph itself determines (the `primary` route for
+#: the publication those rows name: RT-ASO, RT-PARTNER-STRAT, RT-DEGRADER) let all four inherit a
+#: score, and the open unscored population fell 73 -> 69.
+#: ⛔ THE CEILING HAD TO MOVE IN THE SAME COMMIT OR `test_the_ratchet_is_not_vacuous` GOES RED: it
+#: allows at most 2 of slack, and 73 against a real 69 is 4. That coupling is deliberate and it only
+#: ever forces the ceiling DOWN — a fix that shrinks the population must re-pin at the new count,
+#: which is why this constant cannot drift upward by neglect. Superseded, retained: **73**, and
+#: before it **80**. The honest end state is still 0.
+MAX_UNSCORED_OPEN = 69
 
 
 def _committed():
