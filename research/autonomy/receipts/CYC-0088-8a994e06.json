@@ -1,0 +1,57 @@
+{
+  "cycle_id": "CYC-0088-8a994e06",
+  "session_id": "8a994e06-094e-5cc1-896f-4d96bea8611c",
+  "ccr_session_id": "session_015ot2aSG28GM5Y9zBXcjmKb",
+  "started_utc": "2026-08-29T12:35:00Z",
+  "base_sha": "7cbb7d5de",
+  "took": "AUT-PD-182",
+  "took_why": "⛔ NOT THE QUEUE'S TOP ITEM, AND THAT IS THE CONTRACT RATHER THAN A DEVIATION. research-loop §1: `main` red and not by this cycle's hand means fixing it IS the cycle. The prompt named AUT-PD-158 at 133.0; the Actions record for `main` showed `tests (modalities)` runs 6123 and 6124 both CONCLUSION=failure, so the trunk-red row outranked it. No row existed for the failure, so this cycle filed AUT-PD-182 and fixed it in the same commit. ⚠ THE CLAIM CAME AFTER THE WORK, NOT BEFORE IT, AND THAT IS A REAL DEPARTURE FROM STEP 4: claim.py reads the row from origin/main and the row did not exist there to be claimed, while filing it first would have cost a second ~13.5-minute preflight on a red trunk. Recorded rather than smoothed over.",
+  "health_at_start": {
+    "exit": 0,
+    "blocking_red": null,
+    "advises_red": [
+      "advancing_live_work (NOT-ADVANCING, 3 receipts of `route_advanced: none`)",
+      "scores_are_reachable (73 of 181 open rows unscorable)"
+    ],
+    "unmeasured": [
+      "gates_green (no verdict supplied — settled by hand this cycle from the Actions record, which is how the red trunk was found)",
+      "stalls_are_named"
+    ],
+    "escalations": "none — `health.py --escalations` exit 0, no condition past its restart budget",
+    "rate_limit": "status=allowed, rateLimitType=five_hour, isUsingOverage=false — read from get_session, not inferred"
+  },
+  "what_changed": [
+    "research/modalities/tests/test_ndrg1_panel_widening_is_declared.py — the five stale assertions rewritten against the pinned contract. The round-trip now targets `signature_member_z` (the decoder that always decodes) rather than `member_z` (the decoder PLUS the pin); the two read-dependent tests hold the wide block PRESENT in both arms and move `MEMBERSHIP_SOURCE` instead of varying block presence, which is the inheritance behaviour AUT-PD-167 deleted on purpose. Module docstring updated to the contract the file now asserts, including an explicit note of what it leaves to its pair file so the two do not drift apart again.",
+    "research/modalities/ndrg1_panel_attribution.py — `scoring_cache(gene_reads, src, matrix)` extracted from `build()`. Behaviour-preserving: `--check` re-derives the committed artifact byte-identically. It exists because the gene_reads-wins precedence was untestable while inline.",
+    "research/autonomy/research-ledger.json — AUT-PD-182 filed and closed (the trunk red), AUT-PD-183 filed and queued (gate 13's cost).",
+    "research/autonomy/research-ledger.json — AUT-PD-171 RAISED to 130.0, its existing basis preserved and the raise appended. ⛔ THE SCORE RESTORATION ITSELF WAS NOT THIS CYCLE'S WORK AND IS NOT CLAIMED AS IT. This cycle hit the same second trunk red independently (origin/main carrying 74 open unscored rows against the ratchet's 73, blocking its commit) and diagnosed the same cause — ba12a1f8a nulling the score on a row `priority.py` cannot re-derive, because inheritance needs a route row in systems/graph and RT-AUTONOMY has none. But while this cycle was in its ~13.5-minute gate, two other cycles landed the fix on the trunk (620280791, d45067c00), restoring 120.0. That restoration stands untouched. What this cycle adds is the RAISE, on evidence the restoration did not have: occurrences four and five of the id collision, both measured live here. ⚠ THREE SESSIONS diagnosed one trunk red within the same hour without being able to see each other — the same duplicated-effort pattern CLAUDE.md §7 records for AUT-PD-160, reproduced exactly."
+  ],
+  "finding": "⛔⛔ THE TRUNK WAS RED AND NOTHING WAS LOOKING AT IT. `main` had been failing since b01f1843f (AUT-PD-167): 5 of 10,888 modalities tests, all in one file. Root cause taken as an observation rather than a reading of the diff — the same file gives `12 passed` in a detached worktree at b01f1843f^ and `5 failed, 7 passed` at ef3fe1a8b. AUT-PD-167 pinned MEMBERSHIP_SOURCE to `curated_only`, so `member_z()` returns {} by design and `panel_membership_source` re-keys off the pin; the five assertions are the pre-pin contract verbatim. ⭐ THE CLASS IS THE FINDING, NOT THE FAILURE. b01f1843f DID write a guard for the behaviour it introduced — test_the_panel_read_is_pinned_not_inherited.py, 180 lines, same commit — and never touched the guard for the behaviour it replaced. Seventh instance of the one-of-a-pair defect in this repository, and the second filed on 2026-08-29 alone (AUT-PD-171 is the same shape). ⚠ AND THE COMMIT LOOP COULD NOT HAVE CAUGHT IT, BY DESIGN: the modalities suite left preflight on 2026-08-25, so b01f1843f's own preflight was green and correct. tests.yml is the authority and it went red on schedule. The accepted trade in CLAUDE.md §6 worked exactly as written — with nobody reading the result for the whole interval. ⛔⛔ THE SIXTH DEFECT, WHICH THE FIVE FAILURES WERE HIDING, IS THE PART WORTH KEEPING. `test_gene_reads_wins_where_both_sources_carry_a_gene` asserted only `readable_pool == 8`, and that counts GENES — it is 8 whichever source wins, since the set is identical and only the values differ. A mutation deleting the precedence outright SURVIVED it, in the original file as much as in the rewrite: the test's name and docstring claimed a value invariant while its assertion checked set membership. The invariant was unobservable because the merge was inline in `build()`, so it is now a named function and the test asserts the values. Mutation set: 4 of 5 caught before, 5 of 5 after. ⛔⛔ AND A SECOND TRUNK RED, IN A DIFFERENT GATE, FOUND ONLY BECAUSE IT BLOCKED THIS COMMIT. `origin/main` carries 74 open unscored ledger rows against the AUT-PD-145 ratchet's pinned 73, so gate 13 is red on the trunk too — a second red nobody was reading, in the suite that DOES run in the commit loop. Cause: ba12a1f8a nulled AUT-PD-171's score expecting the scorer to re-derive it, and on an RT-AUTONOMY row a nulled score is a silent deletion. ⚠ THE TWO REDS SHARE A SHAPE WORTH NAMING: in both, a cycle changed one half of a coupled pair — a contract without its guard, a score without the deriver that would restore it — and the gate that would have caught it fires later, in someone else's commit loop. ⚠ AND THE TWO DEFECTS FILED HERE COMPOUND, WHICH THIS CYCLE PAID FOR TWICE. `ids.next_entry_id` collides (AUT-PD-171) and gate 13 now costs ~13.5 minutes (AUT-PD-183), so the collision window is not the derivation instant but the whole gate: this cycle derived AUT-PD-178, lost it, renumbered to AUT-PD-179, gated again, and lost that too. The second collision was caught only by an explicit pre-check written into this cycle's own conflict resolver — a plain rebase would have produced a ledger with two AUT-PD-179s, which `priority.py` refuses to rank.",
+  "what_it_cost": "$0. CPU only: one Actions read, one detached worktree, ten mutation runs of a 12-test file, one artifact --check, and FIVE preflight runs — one invalidated by a concurrent push, one red on the trunk's own ratchet, three lost to push races. At ~13.5 min each (AUT-PD-183) that is over an hour of wall clock in gates, against a trunk committing every 2–5 minutes. ⛔ THAT RATIO IS THE REPORTABLE NUMBER: a gated commit loop longer than the trunk's inter-commit interval cannot converge by rebasing, and this cycle lost the race three times in a row before landing.",
+  "gates": {
+    "preflight_1": "EXIT=0, read from the run's own marker rather than the harness's exit code. Superseded: a concurrent cycle pushed AUT-PD-178 and 7cbb7d5de under this cycle, the rebase conflicted on the ledger, and the commit was reset and re-applied to the new base.",
+    "preflight_2": "see `gates.final` — run once on the settled tree carrying all three paths.",
+    "targeted": "research/modalities/tests/test_ndrg1_panel_widening_is_declared.py + its pair file: 21 passed. Artifact: `ndrg1_panel_attribution.py --check` OK — the committed JSON re-derives from the refactored module.",
+    "mutation": "5 of 5 caught after the fix (the pin ceasing to decline; the null's pool ceasing to widen; the decoder imputing a null instead of dropping the sample; the narrow read ceasing to say DECLINED; gene_reads ceasing to win). Module restored and verified by sha256 -c, not by inspection.",
+    "note": "⚠ MEASURED AND FILED AS AUT-PD-183: the commit loop took ~13.5 minutes, of which gate 13 was ~12.5. CLAUDE.md §6 pins gate 13 at 39.3 s and the loop at ~75 s. Checked for a hang rather than assumed: one xdist worker held ~165 s utime with work in hand while the other three sat in futex_do_wait, which is what `--dist loadfile` does when one FILE is slow.",
+    "final": "⛔ THE FIRST RUN ON THE SETTLED TREE FAILED, AND THE HARNESS SAID IT PASSED. The backgrounded job was reported to this session with exit code 0; the run's own marker said EXIT=1 and gate 13 said `1 failed, 817 passed in 826.28s`. A live instance of the exact trap the dispatch warns about, and reading the marker is what caught it. The failure was test_the_open_unscored_population_does_not_grow, on the trunk rather than on this change."
+  },
+  "anti_gaming": {
+    "amendment_guard": "not applicable — no bar, clause, threshold or guard was loosened. The one guard file touched was made STRICTER: a mutation that survived it now fails it, and no assertion was deleted.",
+    "self_serving_check": "The tempting shortcut here was to delete the five failing assertions, which would have turned the trunk green in one edit and destroyed three real invariants. Refused: every property was re-homed onto the decoder and the pin that now carry it, and the file gained coverage it never had."
+  },
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "One diagnosis and one small fix in one file pair. Nothing independent to parallelise, and every step needed the shared tree."
+  },
+  "now_queued": [
+    "AUT-PD-183 (121.0) — name the file that costs gate 13 its 12.5 minutes, with --durations=15 on clean origin/main, un-contended.",
+    "AUT-PD-158 (133.0) — the prompt's top item, untouched by this cycle and still queued.",
+    "AUT-PD-171 (130.0, raised from 120.0) — the id collision, now on its FIFTH occurrence. Three were this cycle's own: AUT-PD-178 -> AUT-PD-179 -> AUT-PD-182/181, renumbered twice because each ~13.5-minute preflight was long enough for the trunk to take the id again."
+  ],
+  "blocked_by": [],
+  "route_advanced": "none",
+  "route_advanced_why": "⛔ HONEST, AND THE FOURTH `none` IN A ROW. This cycle repaired a guard and an instrument on RT-SGK1's NDRG1 attribution; it moved no route's science and produced no new result. The trunk being red is loop maintenance, and research-loop §1 makes it mandatory rather than optional — so this is a `none` the contract itself required, which is different from a cycle that chose documentation over live work. ⭐ Recorded at its true weight either way: inflating it would disable the only alarm pointed at CLAUDE.md §0's failure mode.",
+  "handoff": {}
+}
