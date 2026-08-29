@@ -14,7 +14,7 @@
     "harden": 23,
     "negative": 32,
     "process": 7,
-    "process_defect": 156,
+    "process_defect": 157,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
@@ -25,7 +25,7 @@
     "done": 135,
     "in_progress": 6,
     "parked": 28,
-    "queued": 145,
+    "queued": 146,
     "ready": 1,
     "superseded": 1
   },
@@ -3884,6 +3884,38 @@
       ],
       "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time.",
       "_concurrent_fix_note": "⚠ TWO SESSIONS FIXED THIS ROW'S NULL SCORE IN THE SAME HOUR AND NEITHER COULD SEE THE OTHER — CLAUDE.md §7's branch-drift cost, arriving through the gate window rather than through a branch. 620280791 ('Fix a red trunk: AUT-PD-171 lost its score and broke the unscored ratchet') landed on the trunk while CYC-0087-1c9f0963 held the identical fix behind a ~12-minute preflight. THE TRUNK'S SCORE AND BASIS STAND; the losing session deferred to them rather than overwriting, and contributed only the two occurrences it had measured and the trunk could not have. ⭐ Both diagnoses agreed independently — a null score, an unreachable route floor, and the ratchet's own remedy taken rather than the ceiling raised — which is corroboration, and it still cost one of the two sessions its afternoon. It is the same defect this row is ABOUT, one layer up: allocation and validation are far enough apart that concurrent cycles collide inside the gap."
+    },
+    {
+      "id": "AUT-PD-181",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0087-1c9f0963",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "one derivation and its guard test inside research/modalities; nothing outward-facing",
+      "closes_clause": null,
+      "score": 120.0,
+      "_score_basis": "a false claim that stood 20 days and propagated into four files, including the ledger row that commissioned a cycle. Placed level with AUT-PD-171 (120.0) — a coordination defect whose cost is one session's rework — rather than above it, because the incident it prevents has now been corrected everywhere it was found.",
+      "score_inputs": {
+        "age_factor": 0.0,
+        "fruitless_attempts": 0
+      },
+      "_refiled_note": "⛔ RE-FILED 2026-08-29 AFTER BEING SILENTLY DROPPED BY THIS CYCLE'S OWN MERGE RESOLVER, WHICH IS THE SECOND DEFECT OF THE SAME FAMILY IN ONE CYCLE. First filed as AUT-PD-177 (35fb816f5), renumbered to 178, then to 179 as concurrent sessions took each id. At the fourth merge the resolver's carry-over guard read `row['id'] in have` as 'already carried' when it actually meant 'the trunk gave that id to a different row', so the row was SKIPPED instead of re-allocated — and its sibling AUT-PD-180 landed, which is what made the loss look like success. ⭐ A ONE-OF-A-PAIR DEFECT: the guard and the re-allocator three lines below it disagreed about what `in have` meant, and the re-allocator was therefore dead code. Caught by verifying rows on the TRUNK by `filed_by` after the push rather than trusting the resolver's own 'no duplicate ids' assertion, which was true and irrelevant. ⚠ THE ASSERTION THAT WOULD HAVE CAUGHT IT is that every row filed by the cycle appears on the trunk exactly once — a count of what SURVIVED, not a check that what survived is well-formed.",
+      "what": "⛔ A GENERATOR'S HAND-TYPED PROSE SUMMARY CAN CONTRADICT THE MACHINE-DERIVED TABLE IT SITS BESIDE IN THE SAME GENERATED FILE, AND NOTHING MEASURES THE AGREEMENT. ⚠ MEASURED 2026-08-29 (AUT-PD-110): research/modalities/census_route_expression_grading.py's RT-ALK-HIT block said 'ALK and ROS1 have no probe on GPL6244 or GPL3290' while the per-gene `genes` table emitted by the SAME function, from the SAME source artifact, carried ALK readable on GPL6244 and ROS1 readable on both — and the panel group in that file recorded coverage 1.0 with a score emitted. The false sentence stood for 20 days and propagated by copy into systems/graph/routes.json's grade, the generated route view, a downstream literature record and a ledger item that was queued BECAUSE of it. ⭐ THE FIX IS NOT PROOFREADING: every route block in that module makes readability claims in prose that the module itself already knows the truth of, so a check can DERIVE the readability sentence, or assert the prose against `genes_readable`/`genes_not_readable` and fail the build on disagreement. Do that, then sweep the module's other 15 route blocks for the same class of drift — RT-NR2F1's 'NOT READABLE on either platform' is the one other absolute readability claim and must be CHECKED against its own table, not assumed wrong. ⛔ THE GENERALISATION IS THE POINT: this repository already records the same shape twice — a prose figure duplicating a computed one — and the grade text beside a table is the case nobody instrumented."
     },
     {
       "id": "AUT-PD-139",
