@@ -284,7 +284,15 @@ def _selective_excerpt(paper):
         pattern = "(?:" + re.escape(excerpt) + ")"
         if claim_coverage.is_selective(pattern, sents):
             return pattern
-    pytest.skip(f"no sentence of {paper} yields a selective excerpt")
+    #: ⛔ A FAIL, NOT A SKIP. `test_no_guard_can_silently_not_run` refused the skip that stood here
+    #: and it was right to: the reproduction below is the only test in this module that shows the
+    #: incident itself, so a skip would delete it silently on the day no excerpt could be derived.
+    #: `_a_censused_paper` picks the document with the MOST sentences, so an excerpt that binds one
+    #: of them and nothing else is not a marginal expectation — its absence is a finding about the
+    #: census, not a reason to stand down.
+    pytest.fail(f"no sentence of {paper} yields a selective excerpt, so the reproduction below "
+                f"cannot be built — this is a finding about `claim_coverage.is_selective` or about "
+                f"the document, not a reason to skip the only test that reproduces the incident")
 
 
 def test_a_widened_guard_pattern_alone_turns_the_check_red(clone):
