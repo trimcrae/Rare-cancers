@@ -1,0 +1,55 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0081-b272f286",
+ "session_id": "b272f286-7fb0-53ff-9f73-df6611b90550",
+ "ccr_session_id": "session_01HcEoACbH8wWVoTo2je896N",
+ "utc": "2026-08-29T07:45:00Z",
+ "shape": "One driver, no fan-out. SECOND of 2 cycles allowed in this session (max_cycles_per_session=2). First was CYC-0080-b272f286 (AUT-PD-166), committed at c2dfbd2a6. This session is now AT ITS CAP and hands off.",
+ "took": "AUT-PROP-051 (score 118.0), claimed with claim.py — CLAIMED on attempt 1 from a HEAD equal to origin/main. ⭐ CHOSEN OVER THE HIGHER-SCORING AUT-PD-158 (133.0) ON CLAUDE.md §0: this is the one live-route row near the top of the queue and that one is a process defect. §0 says a route that could still produce a result outranks a documentation or finished-negative item.",
+ "took_what": "AUT-PROP-048 found NDRG1's elevation hypoxia-shaped in one of two series. Every panel in that result was scored on the SUBSET of its members carrying a per-sample value. This widens the membership.",
+ "result": "⛔ THE ROW'S PREMISE WAS WRONG IN A WAY THAT MADE THE JOB SMALLER AND THE ANSWER SHARPER. It reads as though the published sets were fetched narrow. They were not: `signature_scores` already scores each set over its FULL readable membership. The narrowing is one file downstream — `ndrg1_panel_attribution.py` re-derives per-sample panel scores from `gene_reads`, which is by construction the union of PANELS' hand-curated groups (479 genes). So each published set was correlated against NDRG1 over `curated ∩ published`: 11 of 49 readable members for the Buffa metagene, 18 of 188 for pparg_chip_chea. About a tenth of each panel, under the panel's name. ⭐ No new MSigDB fetch and no wider accession bridge are needed — the bridge is platform-wide and already built.",
+ "what_shipped": "The generator now emits `signature_member_reads`: per-sample within-array z for every readable member of every RESOLVED set, sample order stated once per matrix and each gene a positional array of z alone. The attribution reads it, merges it under `gene_reads` (which wins on a gene in both, so a widened run cannot silently move a published number), and — the part that decides the verdict — DRAWS THE SIZE-MATCHED NULL FROM THE WIDENED POOL.",
+ "the_size_decision": "⭐ MEASURED BEFORE CHOOSING, NOT AFTER. The obvious fix (add the genes to `gene_reads`) costs +13 MB on a 7.4 MB artifact regenerated whole every dispatch, because a record is ~7.2 kB and 81%/67% of it is `per_sample` repeating gsm/class/value as JSON keys per row. Lean records there save only about a fifth — `per_sample` IS the bulk — and buy two shapes in one map. The positional block is ~1.4 MB for the same z values across all 30 sets, perturbs no existing consumer, and stays inside `derive()`, the OFFLINE half, so `--check` still re-derives it.",
+ "what_is_NOT_done": "⛔ THE DATA. The sandbox cannot reach GEO (the egress proxy 403s it — the standing reason this workflow mode exists), so the widened numbers do not exist yet. The regenerated attribution artifact is byte-identical in EVERY number and gained only `panel_membership_source`, which reads `gene_reads only` — the narrow read, saying so on its own face. It becomes the wide read on the first `panels` dispatch carrying this generator.",
+ "why_that_field_exists": "⛔ THE TWO READS PRODUCE DIFFERENT NUMBERS UNDER THE SAME FIELD NAMES, and the null's pool differs between them, so they are not comparable. A reader who cannot tell which one they are holding has the worse of both. The field is asserted by a test rather than trusted, in both directions.",
+ "changed": [
+  "research/modalities/emc_expression_panels.py — NEW `_signature_member_reads()`, emitted from `derive()` so the offline `--check` still reproduces it",
+  "research/modalities/ndrg1_panel_attribution.py — NEW `member_z()`; cache merged with gene_reads winning; the null's pool now drawn from the merged cache; `panel_membership_source` emitted",
+  "research/modalities/ndrg1-panel-attribution.json — regenerated: every number identical, one key added",
+  "research/modalities/tests/test_ndrg1_panel_widening_is_declared.py — NEW, 12 tests",
+  "research/autonomy/research-ledger.json — AUT-PROP-051 in_progress, claim released, blocked_by naming the dispatch"
+ ],
+ "verification": {
+  "new_suite": "12 passed",
+  "mutation": "9/9 caught, single-site, isolated copy (scratchpad/cyc80/mut2/, log cyc80-mutation2.log)",
+  "mutation_targets": "the two that would otherwise pass everything else: M6 (the null's pool stays narrow while the cache widens — a wide panel against a narrow null is the worst of both) and M5 (the decoder off by one against the gsm order, which is invisible in a positional encoding)",
+  "no_numeric_drift": "the regenerated artifact's `series` and `verdict` blocks compare EQUAL to the committed ones, checked by serialising both sorted",
+  "sibling_suite": "test_ndrg1_panel_attribution_controls.py (AUT-PROP-048's two controls) — run and green, untouched"
+ },
+ "a_false_alarm_recorded_rather_than_dropped": "`genes_readable` is capped at 250 in `_score_gene_list`, and pparg_perturbation_OE_UP has exactly 250 readable — which looks like a truncated list and is not. Checked against `n_genes_readable` for every panel on both platforms: 0 truncated. Recorded on the row so the next reader does not re-raise it.",
+ "cost": {
+  "real_dollars": 0.0,
+  "gpu_hours": 0.0,
+  "class": "free",
+  "note": "CPU and engineering only. The pending dispatch is a GitHub-hosted CPU runner — $0 (CLAUDE.md §5, research/compute/pricing.md)."
+ },
+ "subagents": {
+  "max_concurrent": 0,
+  "launched": 0,
+  "why": "One item, one generator, one consumer; the measurements that decided the design were all $0 reads of a committed artifact."
+ },
+ "blocked_by": [
+  {
+   "what": "the widened numbers",
+   "path": ".github/workflows/emc-expression-datasets.yml (mode: panels)",
+   "why": "GEO is unreachable from the sandbox; the fetch is a $0 Actions dispatch and is the next act on this row"
+  }
+ ],
+ "queued_next": [
+  "AUT-PROP-051 — in_progress, awaiting the `panels` dispatch; the successor reads `panel_membership_source` in the regenerated artifact to know which read it holds, and re-runs the attribution",
+  "AUT-PD-158 (133.0) — top takeable process_defect row, untouched by this session",
+  "AUT-PD-165 (134.0) — the predecessor's recovered row: claim.py's commit_ledger stages the ledger as it stands"
+ ],
+ "route_advanced": "RT-SGK1",
+ "_route_advanced_why": "⭐ AND THIS ONE IS HONEST RATHER THAN GENEROUS, WHICH MATTERS BECAUSE THE FIELD IS THE LOOP'S OWN ALARM. It is claimed on a MEASUREMENT, not on the code: the route's committed result was scored over about a tenth of each published panel, and this cycle measured exactly how much (11/49, 18/188, 1431 readable members against 129 available) and put the shortfall on the artifact's face where a reader meets it. ⚠ WHAT IT IS NOT: the widened numbers do not exist yet and the verdict is unchanged. If the field required a moved verdict this would read `none`."
+}

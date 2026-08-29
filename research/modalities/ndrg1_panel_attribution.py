@@ -145,14 +145,54 @@ def panel_rho(members, subject_z, gsms, cache):
     return spearman([a for a, _ in pairs], [b for _, b in pairs]), len(pairs)
 
 
+def member_z(src: dict, matrix: str) -> dict:
+    """`{gene: {gsm: z}}` from the panels artifact's compact `signature_member_reads`, or `{}`.
+
+    ⛔⛔ AN ABSENT BLOCK IS AN ABSENT READING, NOT A NARROW ONE BY CHOICE (AUT-PROP-051). Until a
+    `panels` dispatch regenerates the artifact this returns `{}` and every score below is the OLD,
+    NARROW read — a published set scored over `curated ∩ published`. That state is legible in the
+    artifact's `panel_membership_source`, never silent: the two reads produce different numbers
+    under the same field names, and a reader who cannot tell which one they hold has the worse of
+    both.
+    """
+    blk = ((src.get("signature_member_reads") or {}).get(matrix) or {})
+    gsms, z = blk.get("gsms") or [], blk.get("z") or {}
+    if not gsms or not z:
+        return {}
+    return {g: {gsms[i]: v for i, v in enumerate(row) if v is not None and i < len(gsms)}
+            for g, row in z.items()}
+
+
 def build(n_draws: int = N_DRAWS) -> dict:
     src = _load()
     gene_reads, sig = src["gene_reads"], src["signature_scores"]
     matrices = sorted({m for v in gene_reads.values() for m in v})
 
+    wide_present = bool(src.get("signature_member_reads"))
+    membership_source = ({
+        "source": "gene_reads + signature_member_reads",
+        "means": "⭐ THE WIDE READ. Each published set is scored over every member the platform "
+                 "can read, and the size-matched null is drawn from that same widened pool.",
+    } if wide_present else {
+        "source": "gene_reads only",
+        "means": "⛔ THE NARROW READ, AND IT IS THE ONE AUT-PROP-051 EXISTS TO REPLACE. The panels "
+                 "artifact carries no `signature_member_reads` block, so each published set is "
+                 "scored over `curated ∩ published` — measured at 11 of 49 readable members for the "
+                 "Buffa metagene and 18 of 188 for pparg_chip_chea. Regenerate the panels artifact "
+                 "with the `panels` workflow mode, then re-run this. ⚠ Numbers under this source "
+                 "are NOT comparable with numbers under the wide one: the null's pool differs.",
+    })
+
     series = {}
     for matrix in matrices:
+        # ⭐ TWO SOURCES, `gene_reads` WINNING. Both carry the same within-array z for a gene that
+        # is in both; gene_reads is preferred so a widened run cannot silently change a number that
+        # was already published from the curated block.
+        wide = member_z(src, matrix)
         cache = {g: sample_z(gene_reads, g, matrix) for g in gene_reads}
+        for g, zs in wide.items():
+            if not cache.get(g):
+                cache[g] = zs
         subject_z = cache.get(SUBJECT)
         if not subject_z:
             series[matrix] = {"subject_readable": False,
@@ -160,7 +200,12 @@ def build(n_draws: int = N_DRAWS) -> dict:
                                         "instrument statement, never a biological negative."}
             continue
         gsms = sorted(subject_z)
-        pool = sorted(g for g in gene_reads if g != SUBJECT and cache.get(g))
+        # ⚠ THE NULL'S POOL GROWS WITH THE CACHE, AND THAT IS THE POINT RATHER THAN A SIDE EFFECT.
+        # The size-matched null draws from whatever genes carry a per-sample value, so widening the
+        # membership widens the null too — a random panel of k genes is drawn from a different,
+        # larger pool. The verdict rests on the null, so it MUST be re-derived here and never
+        # carried over from the narrow run.
+        pool = sorted(g for g in cache if g != SUBJECT and cache.get(g))
         rng = random.Random(SEED)
         nulls: dict[int, list] = {}
         rows = {}
@@ -273,11 +318,13 @@ def build(n_draws: int = N_DRAWS) -> dict:
             "Direction and mechanism. A transcript tracking a hypoxia proxy is consistent with "
             "HIF-driven abundance and equally consistent with both being downstream of something "
             "else in these tumours; nothing here separates them. It also does not settle the "
-            "published signatures themselves — each panel is the SUBSET of its members carrying a "
-            "per-sample value in the committed artifact, 9 to 41 genes against sets of 44 to 231."),
+            "published signatures themselves. ⚠ HOW MUCH OF EACH SET WAS ACTUALLY SCORED IS "
+            "`panel_membership_source` below and `n_panel_members / n_panel_readable` on every "
+            "row — read those rather than assuming either the narrow or the wide read."),
         "_inputs": {"panels": "research/modalities/emc-expression-panels.json",
                     "seed": SEED, "n_draws": N_DRAWS,
                     "min_panel_members": MIN_MEMBERS, "min_samples": MIN_SAMPLES},
+        "panel_membership_source": membership_source,
         "series": series,
         "verdict": {
             "separating_series": separating,

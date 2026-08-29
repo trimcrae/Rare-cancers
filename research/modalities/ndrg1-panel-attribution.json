@@ -7,13 +7,17 @@
     "leave_one_out": "NDRG1 is a member of several published hypoxia sets, so it is removed from every panel before scoring. Without this the comparison is a variable against itself.",
     "size_matched_null": "2000 random panels of the same size from the same readable pool. Without this the array-level shared component reads as signal — and in the smaller series it fully accounts for a raw rho of +0.6."
   },
-  "_what_this_does_not_settle": "Direction and mechanism. A transcript tracking a hypoxia proxy is consistent with HIF-driven abundance and equally consistent with both being downstream of something else in these tumours; nothing here separates them. It also does not settle the published signatures themselves — each panel is the SUBSET of its members carrying a per-sample value in the committed artifact, 9 to 41 genes against sets of 44 to 231.",
+  "_what_this_does_not_settle": "Direction and mechanism. A transcript tracking a hypoxia proxy is consistent with HIF-driven abundance and equally consistent with both being downstream of something else in these tumours; nothing here separates them. It also does not settle the published signatures themselves. ⚠ HOW MUCH OF EACH SET WAS ACTUALLY SCORED IS `panel_membership_source` below and `n_panel_members / n_panel_readable` on every row — read those rather than assuming either the narrow or the wide read.",
   "_inputs": {
     "panels": "research/modalities/emc-expression-panels.json",
     "seed": 20260829,
     "n_draws": 2000,
     "min_panel_members": 5,
     "min_samples": 6
+  },
+  "panel_membership_source": {
+    "source": "gene_reads only",
+    "means": "⛔ THE NARROW READ, AND IT IS THE ONE AUT-PROP-051 EXISTS TO REPLACE. The panels artifact carries no `signature_member_reads` block, so each published set is scored over `curated ∩ published` — measured at 11 of 49 readable members for the Buffa metagene and 18 of 188 for pparg_chip_chea. Regenerate the panels artifact with the `panels` workflow mode, then re-run this. ⚠ Numbers under this source are NOT comparable with numbers under the wide one: the null's pool differs."
   },
   "series": {
     "GSE24369_series_matrix.txt.gz": {

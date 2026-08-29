@@ -1658,6 +1658,55 @@ def _zrow(tgt, gene):
             (v[i] - bg[i]["mean"]) / max(1e-9, bg[i]["sd"]) for i in range(n_s)]
 
 
+def _signature_member_reads(sig, live):
+    """Per-sample within-array z for every readable member of every RESOLVED signature set.
+
+    ⛔⛔ WHY THIS EXISTS (AUT-PROP-051, measured 2026-08-29). `signature_scores` above already
+    scores each published set over its FULL readable membership — that half was never narrowed. The
+    narrowing is downstream: `ndrg1_panel_attribution.py` re-derives a per-sample panel score from
+    `gene_reads`, and `gene_reads` is the union of `PANELS`' hand-curated groups (479 genes). So a
+    published set was correlated against NDRG1 over `curated ∩ published`, not over the set —
+    measured at 11 of 49 readable members for the Buffa metagene and 18 of 188 for
+    `pparg_chip_chea`. Roughly a tenth of each panel, wearing the panel's name.
+
+    ⭐ WHY IT IS A SEPARATE BLOCK IN A DIFFERENT SHAPE, AND THE SHAPE IS THE WHOLE POINT. The
+    obvious fix — add these 1,851 genes to `gene_reads` — was measured before it was rejected: a
+    `gene_reads` record is ~7.2 kB across the two platforms, of which 81% / 67% is `per_sample`,
+    because every row repeats its `gsm`, `class`, raw `value` and `array_percentile` as JSON keys.
+    That fix costs about +13 MB on a 7.4 MB artifact, regenerated whole on every dispatch. Here the
+    sample order is stated ONCE per matrix and each gene carries a positional array of z alone —
+    the one field the attribution reads — for about 1.4 MB. Same data for this purpose, an order of
+    magnitude smaller.
+
+    ⚠ WHAT IT IS NOT. It is not a second copy of `gene_reads` and must not be read as one: there is
+    no contrast, no Welch, no probe diagnostic and no raw value here, so nothing in this block can
+    support a statement about EMC vs the comparator sarcomas. It answers exactly one question —
+    what did this gene do ACROSS SAMPLES — and `readable`/`n_probes_mapping` for a gene that has
+    them live in `gene_reads`. ⛔ A `null` in a `z` array is a sample with no value for that probe;
+    an absent reading is not a zero (CLAUDE.md §4), so a consumer drops it rather than imputing.
+
+    ⚠ IT COVERS EVERY RESOLVED SET, not only the two families that motivated it. The same narrowing
+    applies to every signature scored here, and covering the rest costs about 0.4 MB more than
+    covering the two — cheaper than a second dispatch when the next attribution wants one.
+    """
+    out = {}
+    members = {g for rec in (sig.get("slots") or {}).values() for g in (rec.get("genes") or [])}
+    for mf, (tgt, _classes, _emc, _comp) in live.items():
+        have = tgt.get("genes") or {}
+        readable = sorted(members & set(have))
+        out[mf] = {
+            "platform": tgt.get("platform"),
+            "gsms": [s["gsm"] for s in tgt["samples"]],
+            "_z_is": "within-sample z over ALL probes on that array — the same reduction "
+                     "`gene_reads[...].per_sample.z_vs_array` reports, positionally aligned to "
+                     "`gsms`. A null is a sample with no value for this gene's probe(s).",
+            "n_members_requested": len(members),
+            "n_members_readable": len(readable),
+            "z": {g: [None if x is None else round(x, 4) for x in _zrow(tgt, g)] for g in readable},
+        }
+    return out
+
+
 def _mapping_rate_reading(tgt):
     """Two DIFFERENT mapping rates, kept apart, and only one of them is comparable to the prior.
 
@@ -1963,6 +2012,9 @@ def derive(inp):
     for gene in all_genes:
         res["gene_reads"][gene] = {mf: _gene_read(gene, tgt, classes, emc, comp)
                                    for mf, (tgt, classes, emc, comp) in live.items()}
+
+    # --- per-sample z for SIGNATURE-SET members (AUT-PROP-051) ------------------------------------
+    res["signature_member_reads"] = _signature_member_reads(sig, live)
 
     # --- the empirical null's self-check ---------------------------------------------------------
     # ⭐ DOUBLE ENTRY. The genome-wide null recomputes, from the full matrix, the same statistic the
