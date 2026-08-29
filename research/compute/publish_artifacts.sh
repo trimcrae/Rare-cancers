@@ -8,6 +8,10 @@
 #   PUBLISH_FAIL_HARD  1 = exit non-zero when every attempt failed. Default 0 = ::error:: annotation only.
 #   PUBLISH_TRIES      attempts (default 5)
 #
+# ⚠ A FAILED PUBLISH_REGEN ALWAYS EXITS 1, EVEN THOUGH THE PRIMARY ARTIFACTS STILL PUBLISH (AUT-PD-159).
+# This is unconditional — there is no soft mode — because a soft-failed regen is exactly what let a
+# workflow publish a graph without its generated view three times while reporting SUCCESS.
+#
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
 # ⛔ WHY `git pull --rebase` IS THE WRONG OPERATION, AND WHY A COMMENT SAYING SO WAS NOT ENOUGH
 # ═══════════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -187,6 +191,9 @@ for attempt in $(seq 1 "$TRIES"); do
   done
   [ ${#SKIPPED[@]} -gt 0 ] && echo "[publish] not ours to publish, upstream's kept: ${SKIPPED[*]}"
 
+  # ⛔ RESET EVERY ATTEMPT, NOT JUST ONCE. Only the attempt that actually publishes matters, and the
+  # tree (and therefore the regen's inputs) is reset fresh on each pass through this loop.
+  REGEN_FAILED=0
   if [ -n "${PUBLISH_REGEN:-}" ]; then
     # Failure here must not lose the artifacts above: the regen is a DERIVED convenience, they are the work.
     # ⚠ ITS OUTPUT IS KEPT, PREFIXED, NOT BLACKHOLED (2026-08-02). This was `>/dev/null 2>&1`, and that cost
@@ -194,10 +201,24 @@ for attempt in $(seq 1 "$TRIES"); do
     # thing that would have said which of the three outcomes happened — `rate --sync-doc` prints "regenerated"
     # / "already current" / "NOT synced" precisely so a silent no-op is distinguishable from a fix — had been
     # discarded by the caller. A regen whose result you cannot read is a regen you cannot trust ran.
-    eval "$PUBLISH_REGEN" 2>&1 | sed 's/^/[publish-regen] /' \
-      || echo "::warning title=PUBLISH REGEN FAILED::\`$PUBLISH_REGEN\` did not run; the primary artifacts are still being published."
-    if [ "${PIPESTATUS[0]:-0}" != 0 ]; then
-      echo "::warning title=PUBLISH REGEN FAILED::\`$PUBLISH_REGEN\` exited non-zero; the primary artifacts are still being published."
+    # ⚠ CAPTURE THE PIPE'S EXIT STATUS BEFORE ANY OTHER COMMAND RUNS. `PIPESTATUS` is overwritten by the
+    # very next pipeline bash executes — including a bare `echo` on the `||` side of this same statement
+    # — so checking it after an `A | B || echo …` always reads the `echo`'s own success. That is why the
+    # equivalent check here previously never fired: read `PIPESTATUS[0]` on the line immediately after the
+    # pipe, into a variable, before doing anything else.
+    eval "$PUBLISH_REGEN" 2>&1 | sed 's/^/[publish-regen] /'
+    REGEN_RC="${PIPESTATUS[0]:-0}"
+    if [ "$REGEN_RC" != 0 ]; then
+      echo "::warning title=PUBLISH REGEN FAILED::\`$PUBLISH_REGEN\` exited $REGEN_RC; the primary artifacts are still being published."
+      # ⛔⛔ A FAILED REGEN USED TO BE A WARNING INSIDE AN OTHERWISE-GREEN JOB (AUT-PD-159). Soft-failing
+      # here is correct — a missing DEPENDENCY must not cost the primary artifacts, which is why the
+      # commit below still happens — but the derived file named in PUBLISH_REGEN_ADD is now MISSING or
+      # STALE relative to what just published, and nothing downstream is told. Three times running,
+      # that silence was the whole incident: a green `publish-regen` job committed a graph without its
+      # generated view, and every session's preflight failed G2 until a human noticed and hand-repaired
+      # the drift. The primary artifacts still publish (below); this job must still go red so CI, not a
+      # human's preflight three commits later, is where the drift is caught.
+      REGEN_FAILED=1
     fi
     for p in ${PUBLISH_REGEN_ADD:-}; do [ -e "$p" ] && git add -f -- "$p" 2>/dev/null || true; done
   fi
@@ -217,6 +238,20 @@ done
 
 if [ "$PUBLISHED" = 1 ]; then
   echo "[publish] published to $BRANCH at $(git log -1 --format=%cI): ${PATHS[*]:-<regen only>}"
+  if [ "${REGEN_FAILED:-0}" = 1 ]; then
+    # ⛔⛔ PUBLISH AND FAIL THE STEP (AUT-PD-159). The primary artifacts above are real work and are
+    # published regardless — that part of the soft-fail design was always correct. What was wrong is
+    # that a workflow could publish a graph WITHOUT its generated view and still report SUCCESS: this
+    # exact shape happened three times (8591224fd, 197770ccc, and the commit that filed this fix),
+    # each caught only when a LATER session's preflight failed G2 and a human hand-repaired the drift.
+    # Unlike a push race (transient, self-heals on retry, and already watched by staleness alarms —
+    # see the block below), a failed regen leaves a specific derived file wrong RIGHT NOW with nothing
+    # downstream told, and no supervision alarm watches `systems/views` for exactly this. So this exits
+    # non-zero unconditionally — there is no PUBLISH_REGEN_FAIL_SOFT escape hatch, because the soft
+    # path is what produced the incident this fixes.
+    echo "::error title=PUBLISH REGEN FAILED::\`$PUBLISH_REGEN\` did not run cleanly on the attempt that published. The primary artifacts (${PATHS[*]:-none}) are on $BRANCH; the derived file(s) in PUBLISH_REGEN_ADD (${PUBLISH_REGEN_ADD:-none}) may now be missing or stale relative to what just published. Fix the regen command (often a missing dependency — see the earlier [publish-regen] lines) and re-run."
+    exit 1
+  fi
   exit 0
 fi
 
