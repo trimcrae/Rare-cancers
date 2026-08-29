@@ -209,9 +209,14 @@ run_step "submission packet"   "python3 $MAN/submission_packet.py"              
 # RECOMPUTATION. `test_claim_coverage_has_not_regressed` runs the census itself and diffs it against
 # the committed artifact, so every edit to a manuscript leaves the artifact stale and the whole
 # manuscripts suite goes red on a file no step rebuilt — which is how it went red on this change,
-# reporting 76 committed against 79 counted. It takes under a second and has no --check of its own:
-# re-running it IS the check.
-run_step "claim coverage census" "python3 $MAN/claim_coverage.py --write"               ""
+# reporting 76 committed against 79 counted.
+# ⚠ Superseded, retained (CLAUDE.md rule 1.2): "It takes under a second and has no --check of its
+# own: re-running it IS the check." It has one as of AUT-PD-130 (2026-08-28), so this step no longer
+# prints NOT VERIFIED. "Re-running it IS the check" was true of the SUITE and false of the COMMIT
+# LOOP, which ran neither: the census went stale from a guard-pattern widening in
+# research/manuscripts/tests/ and `main` was red on a clean tree for ~35 minutes.
+run_step "claim coverage census" "python3 $MAN/claim_coverage.py --write" \
+                                 "python3 $MAN/claim_coverage.py --check"
 # ⛔ THE CANONICAL SEQUENCE FILE IS DERIVED, AND IT RUNS BEFORE THE MANIFEST HASHES IT. Added
 # 2026-08-17: the deposited PDF prints table sequences without their delimiters, so whether a
 # copy-pasted oligo carries a trailing digit is a property of the reader's PDF extractor. The
