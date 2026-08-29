@@ -131,6 +131,38 @@ failed test AND to trimcrae's own `EMC research loop — driver` run at 20:15Z t
 this Routine exists to stop things being MISSED, which is the failure a weaker judge produces. The
 runner is pinned to `claude-opus-5` and `last_served_model` confirms Opus actually served it.
 
+### The live Routine, and four mechanics that each invert an obvious conclusion
+
+**Runner** `cse_01Kre2Fzpmw11MjsKYE24txo` — `create_session` with `source_url`, `source_revision=main`,
+`outcome_branch=main`, `model=claude-opus-5`. **Routine** `trig_01TKTB1wdNRLfU9jPMTqLUpx`, Fridays
+14:00 UTC, bound with `persistent_session_id`.
+
+⛔ **SOURCE THE RUNNER FROM `main`, NEVER A FEATURE BRANCH.** The first runner was pointed at the
+branch this work was developed on — a scheduled job whose only source is a branch, which is CLAUDE.md
+§7's data-loss bug with a timer attached. Fixing that cost a whole new runner; see mechanics 2 and 3.
+
+⛔ **1. `fire_trigger` IGNORES THE BINDING.** A force-fire on a session-bound Routine spawns a
+**fresh, unattached session on the default model** — no `sources`. So the convenient way to test the
+schedule answers the OPPOSITE of the truth: read at face value it says `persistent_session_id` does
+not work. **Probe a schedule with a schedule** (`run_once_at` a few minutes out). That is how the
+binding was actually proven.
+
+⛔ **2. `update_trigger` REFUSES to edit the prompt** of a Routine bound to a session that is not
+your own — *"editing the prompt of a routine whose fires deliver into a session that is not your own
+is not available via this tool"*. A prompt change is delete-and-recreate.
+
+⛔ **3. DELETING ITS ONLY TRIGGER ARCHIVES THE BOUND SESSION**, and an archived session cannot be
+bound. So 2 + 3 means **changing the prompt costs a new runner too.** Learned by doing exactly that.
+
+⛔ **4. THE RUNNER STARTS ON A DETACHED HEAD.** Its own setup check reported it: repo present, three
+of four checks clean, `current_branches: null`. This is the CYC-0019 failure mode — on a detached
+HEAD a `pull` rebases HEAD and leaves the `main` branch where it was, so a later `checkout main`
+lands on a **stale commit while every command reports success**. CYC-0019 spent six tool calls 33
+commits behind that way.
+★ **So step 1 of the Routine prompt is `git checkout -B main origin/main`, unconditional, and it is
+not interchangeable with `checkout main && git pull`.** `handoff.py` already prescribes this form for
+exactly this reason; the first draft of this Routine used the weaker one.
+
 **Cadence:** weekly, after the Friday digest (`method-watch.yml`, 11:00 UTC Fridays). The digest is
 the input, so firing before it publishes matches last week's news against this week's papers.
 
