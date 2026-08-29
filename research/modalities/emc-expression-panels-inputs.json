@@ -1,5 +1,5 @@
 {
- "_generated_utc": "2026-08-24T01:29:58+00:00",
+ "_generated_utc": "2026-08-29T07:27:44+00:00",
  "signature_sets": {
   "_source": "Enrichr-served published collections and the MSigDB .jsp download path; every set records its library, its VERBATIM matched term and its citation",
   "_enrichr_library_diagnostics": {
@@ -6424,7 +6424,7 @@
      }
     ],
     "n_distinct_accessions": 62204,
-    "n_accessions_from_committed_cache": 61134,
+    "n_accessions_from_committed_cache": 61221,
     "curated_dictionary": [
      {
       "platform": "GPL570",
@@ -6450,35 +6450,26 @@
     ],
     "unigene_dictionary_size": 6365381,
     "n_accessions_resolved_by_unigene_archive": 51071,
-    "n_accessions_from_cross_platform_cache": 61134,
-    "n_accessions_newly_queried": 1070,
-    "ncbi_n_accessions_queried": 1070,
+    "n_accessions_from_cross_platform_cache": 61221,
+    "n_accessions_newly_queried": 983,
+    "ncbi_n_accessions_queried": 983,
     "ncbi_route": "esearch(accession[ACCN]) -> nuccore UID; esummary(nuccore) -> caption so the UID can be tied back to its accession; elink(nuccore->gene); esummary(gene) -> symbol",
-    "ncbi_accessions_resolved_to_a_uid": 1070,
-    "ncbi_errors_total": 2,
+    "ncbi_accessions_resolved_to_a_uid": 983,
+    "ncbi_errors_total": 1,
     "ncbi_errors": [
      {
       "endpoint": "elink.fcgi",
       "attempt": 0,
       "error": "IncompleteRead(0 bytes read)"
-     },
-     {
-      "endpoint": "elink.fcgi",
-      "attempt": 0,
-      "error": "HTTP Error 502: Bad Gateway"
      }
     ],
-    "ncbi_accessions_linked_to_a_gene": 89,
-    "ncbi_genes_named": 89,
-    "ncbi_mapped": 87,
-    "ncbi_n_accessions_answered": 1070,
-    "ncbi_elapsed_s": 166.8,
+    "ncbi_accessions_linked_to_a_gene": 2,
+    "ncbi_genes_named": 2,
+    "ncbi_mapped": 0,
+    "ncbi_n_accessions_answered": 983,
+    "ncbi_elapsed_s": 169.8,
     "n_accessions_resolved_total": 61221,
     "accession_resolution_rate": 0.984,
-    "committed_accession_cache": {
-     "written": 99133,
-     "added": 87
-    },
     "n_mapped": 20649,
     "source_used": "acc.cgi?acc=GPL6244&targ=self&form=text&view=full + accession->symbol resolution"
    },
@@ -235637,9 +235628,23 @@
     "n_accessions_newly_queried": 27268,
     "ncbi_n_accessions_queried": 27268,
     "ncbi_route": "esearch(accession[ACCN]) -> nuccore UID; esummary(nuccore) -> caption so the UID can be tied back to its accession; elink(nuccore->gene); esummary(gene) -> symbol",
-    "ncbi_accessions_resolved_to_a_uid": 27267,
-    "ncbi_errors_total": 2,
+    "ncbi_errors_total": 5,
     "ncbi_errors": [
+     {
+      "endpoint": "esummary.fcgi",
+      "attempt": 0,
+      "error": "HTTP Error 502: Bad Gateway"
+     },
+     {
+      "endpoint": "elink.fcgi",
+      "attempt": 0,
+      "error": "IncompleteRead(0 bytes read)"
+     },
+     {
+      "endpoint": "elink.fcgi",
+      "attempt": 0,
+      "error": "IncompleteRead(0 bytes read)"
+     },
      {
       "endpoint": "elink.fcgi",
       "attempt": 0,
@@ -235651,19 +235656,16 @@
       "error": "IncompleteRead(0 bytes read)"
      }
     ],
+    "ncbi_accessions_resolved_to_a_uid": 27267,
     "ncbi_elink_abandoned_for_zero_yield_at": 1200,
     "\u26a0_what_that_means": "12 consecutive elink chunks (1200 UIDs) returned no gene link at all, so the remaining 26067 were not queried. This is a reading about the ENDPOINT, not about the accessions: it says NCBI stopped answering, and it does NOT mean those accessions have no gene. The resolution rate below is a floor.",
     "ncbi_accessions_linked_to_a_gene": 0,
     "ncbi_genes_named": 0,
     "ncbi_mapped": 0,
     "ncbi_n_accessions_answered": 27268,
-    "ncbi_elapsed_s": 430.5,
+    "ncbi_elapsed_s": 600.4,
     "n_accessions_resolved_total": 37912,
     "accession_resolution_rate": 0.582,
-    "committed_accession_cache": {
-     "written": 99133,
-     "added": 87
-    },
     "n_mapped": 27197,
     "source_used": "acc.cgi?acc=GPL3290&targ=self&form=text&view=full + accession->symbol resolution"
    },
