@@ -2159,8 +2159,8 @@
         "strategy": null
       },
       "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "s2-aut-pd-145-CYC-0074-5a21085f",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "score": 140.9,
@@ -2172,7 +2172,7 @@
       "last_evidence_utc": "2026-08-29",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
-      "claimed_utc": "2026-08-29T00:27:44Z",
+      "claimed_utc": "2026-08-29T01:41:48Z",
       "evidence": "Measured by seat s6 over all 253 ledger commits: open-unscored 64 -> 82 across 17:26-22:12 UTC, +1.5/h over 2 h and +3.2/h over 5 h, and the ratchet's own assertion FAILS against live origin/main. Logs: scratchpad/s6-AUT-PD-050/.",
       "closes_clause": null,
       "score_inputs": {
@@ -2183,6 +2183,10 @@
         {
           "utc": "2026-08-29T00:27:44Z",
           "fingerprint_at_dispatch": "2026-08-28|None"
+        },
+        {
+          "utc": "2026-08-29T01:41:48Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
         }
       ],
       "depends_on_evidence": [
