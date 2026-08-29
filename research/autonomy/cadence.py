@@ -126,13 +126,21 @@ def last_cycle_start(state, receipts_dir=RECEIPTS):
     return ts, f"git committer time of receipts/{names[-1]}", None
 
 
-def check(state=None, now=None, receipts_dir=RECEIPTS):
-    """Return ``(exit_code, message, payload)``. Pure — takes its clock and its state as arguments."""
+def check(state=None, now=None, receipts_dir=RECEIPTS, state_path=None):
+    """Return ``(exit_code, message, payload)``. Pure — takes its clock and its state as arguments.
+
+    ⛔ `state_path` NAMES WHICH GOVERNOR FILE TO READ, AND IT EXISTS BECAUSE `state=None` DOES NOT
+    MEAN "UNREADABLE" — it means "load it yourself". A caller that loaded the file, got None because
+    the file was absent, and passed that None through was not exercising the fail-open branch: it was
+    silently falling back to THIS module's `STATE`, i.e. the real repository file. Measured
+    2026-08-29 by `test_the_gate_reads_handoffs_own_state_path`, which is exactly the test that would
+    have believed it. Pass `state_path` and the fail-open branch is reachable and honest.
+    """
     if state is None:
         # ⚠ `STATE` is read here rather than bound as a default argument: a default is evaluated at
         # import, so the module global could be repointed and this call would still read the old
         # path — a test that thinks it is exercising the fail-open branch and is not.
-        state, err = load_state(STATE)
+        state, err = load_state(state_path or STATE)
         if state is None:
             return MAY_START, (f"⚠ NOT GATED — autonomy-state.json is unreadable ({err}), so the "
                                f"declared cadence is unknown. Failing open: a gate that cannot read "
