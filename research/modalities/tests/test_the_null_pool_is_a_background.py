@@ -78,68 +78,96 @@ def _subject_row(src, mf, gsms, sign=1.0):
     return row
 
 
-def _fake_tgt(n_genes=50, n_samples=8, seed=7):
-    """A matrix shaped like the real one and nothing like it in content. `_zrow` needs `n_samples`,
-    `background_per_sample` and `genes[g]['values']`; `_background_reads` needs `samples` too."""
+def _fake_matrix(n_symbols=300, n_probes_per=2, n_samples=8, seed=7):
+    """A parsed matrix shaped like `_read_target`'s locals: probes, values, sym, bg, n_s, samples.
+
+    ⛔ IT DELIBERATELY HAS FAR MORE SYMBOLS THAN ANY `want` PASSED TO IT, because the defect this
+    file now guards was a producer that sampled the WANTED genes and reported the result as the
+    array. A fixture where the two coincide cannot see that, and the first version of these tests
+    was exactly such a fixture — it passed against a producer that was fabricating its frame."""
     rng = random.Random(seed)
-    return {
-        "platform": "GPLFAKE",
-        "n_samples": n_samples,
-        "samples": [{"gsm": f"GSM{i:03d}"} for i in range(n_samples)],
-        "background_per_sample": [{"mean": 5.0, "sd": 2.0} for _ in range(n_samples)],
-        "genes": {f"G{i:03d}": {"values": [rng.uniform(0, 10) for _ in range(n_samples)]}
-                  for i in range(n_genes)},
-    }
-
-
-def _live(**tgts):
-    return {mf: (t, None, None, None) for mf, t in tgts.items()}
+    syms = [f"SYM{i:04d}" for i in range(n_symbols)]
+    probes, sym, values = [], {}, []
+    for g in syms:
+        for k in range(n_probes_per):
+            pid = f"{g}_p{k}"
+            probes.append(pid)
+            sym[pid] = g
+            values.append([rng.uniform(0, 10) for _ in range(n_samples)])
+    samples = [{"gsm": f"GSM{i:03d}"} for i in range(n_samples)]
+    bg = [{"mean": 5.0, "sd": 2.0} for _ in range(n_samples)]
+    return samples, probes, values, sym, bg, n_samples, syms
 
 
 # ------------------------------------------------------------------ 1. the producer
+def test_the_frame_is_the_whole_array_and_not_the_wanted_genes():
+    """⛔⛔ THE REGRESSION TEST FOR AUT-PD-178, AND THE ONE THAT MATTERS MOST IN THIS FILE. The
+    producer drew from `rec["genes"]`, which `_read_target` filters to `g in want`, so the published
+    "background" was 100.0% the union of the curated roster and the signature members — 2,284 of
+    2,284 on GSE24369 — while its own `sampling_frame` said the opposite. Ten of 300 symbols are
+    wanted here; the frame must be 300."""
+    samples, probes, values, sym, bg, n_s, syms = _fake_matrix()
+    want = set(syms[:10])
+    blk = P._background_draw(samples, probes, values, sym, bg, n_s, want, "M1")
+    assert blk["n_frame"] == 300, f"frame is {blk['n_frame']}, not the array's 300 symbols"
+    assert len(set(blk["z"]) - want) > 200, "almost everything drawn is a WANTED gene"
+    assert blk["n_drawn_also_wanted"] <= 10
+
+
 def test_the_background_is_reproducible_and_matrix_specific():
-    live = _live(a=_fake_tgt(), b=_fake_tgt(seed=99))
-    first = P._background_reads(live)
-    second = P._background_reads(live)
-    assert set(first["a"]["z"]) == set(second["a"]["z"]), "the same seed drew a different pool"
-    assert first["a"]["seed"] != first["b"]["seed"], (
-        "both matrices share a seed, so their pools are drawn in lockstep rather than independently")
+    m = _fake_matrix()
+    first = P._background_draw(*m[:6], set(), "M1")
+    second = P._background_draw(*m[:6], set(), "M1")
+    other = P._background_draw(*m[:6], set(), "M2")
+    assert set(first["z"]) == set(second["z"]), "the same seed drew a different pool"
+    assert first["seed"] != other["seed"], "two matrices share a seed"
 
 
 def test_the_background_carries_the_same_z_the_rest_of_the_artifact_reports():
     """⛔ IF THIS DRIFTS, THE NULL AND THE PANELS ARE ON DIFFERENT SCALES and every comparison
-    between them is meaningless — the failure mode ruled out by measurement in AUT-PD-167, kept
-    ruled out here by construction."""
-    tgt = _fake_tgt()
-    blk = P._background_reads(_live(a=tgt))["a"]
+    between them is meaningless. The `genes` block rounds the probe mean to 4 dp BEFORE
+    standardising; so must this, or a symbol in both carries two different numbers."""
+    samples, probes, values, sym, bg, n_s, syms = _fake_matrix(n_symbols=40)
+    blk = P._background_draw(samples, probes, values, sym, bg, n_s, set(), "M1")
     for g, row in blk["z"].items():
-        expected = [None if x is None else round(x, 4) for x in P._zrow(tgt, g)]
-        assert row == expected, f"{g} disagrees with _zrow"
+        rows = [v for pid, v in zip(probes, values) if sym[pid] == g]
+        expected = []
+        for i in range(n_s):
+            v = round(sum(r[i] for r in rows) / len(rows), 4)
+            expected.append(round((v - bg[i]["mean"]) / max(1e-9, bg[i]["sd"]), 4))
+        assert row == expected, f"{g} is not the same reduction the genes block uses"
 
 
 def test_the_background_records_the_frame_it_sampled_from():
-    """A pool with no recorded selection rule is not auditable, and an unauditable null is the whole
-    defect this block was built to remove."""
-    blk = P._background_reads(_live(a=_fake_tgt(n_genes=50)))["a"]
+    samples, probes, values, sym, bg, n_s, syms = _fake_matrix(n_symbols=50)
+    blk = P._background_draw(samples, probes, values, sym, bg, n_s, set(), "M1")
     assert blk["n_frame"] == 50
     assert blk["n_drawn"] == min(P.BACKGROUND_N, 50) == 50
     assert blk["n_requested"] == P.BACKGROUND_N
     assert "unfiltered" in blk["sampling_frame"]
-    assert set(blk["z"]) <= set(_fake_tgt(n_genes=50)["genes"]), "drew a gene not in the frame"
+    assert "n_drawn_also_wanted" in blk
 
 
 def test_the_background_is_not_filtered_toward_the_expressed_or_the_variable():
-    """★ THE MUTATION FOR THE 'UNFILTERED' CLAIM. Give half the frame a flat, near-zero profile —
-    exactly what an expression or variance cut would remove — and require it to survive the draw at
-    roughly its share. A producer that quietly filtered would pass every test above and fail this."""
-    tgt = _fake_tgt(n_genes=400)
-    dead = sorted(tgt["genes"])[:200]
-    for g in dead:
-        tgt["genes"][g]["values"] = [5.0] * tgt["n_samples"]
-    drawn = set(P._background_reads(_live(a=tgt))["a"]["z"])
-    share = len(drawn & set(dead)) / len(drawn)
-    assert 0.35 < share < 0.65, (
-        f"flat-profile genes are {share:.0%} of the draw, not ~50% — something is filtering")
+    """★ THE MUTATION FOR THE 'UNFILTERED' CLAIM. Give half the frame a flat profile — what an
+    expression or variance cut removes — and require it to survive the draw at roughly its share."""
+    samples, probes, values, sym, bg, n_s, syms = _fake_matrix(n_symbols=400)
+    dead = set(syms[:200])
+    for k, pid in enumerate(probes):
+        if sym[pid] in dead:
+            values[k] = [5.0] * n_s
+    drawn = set(P._background_draw(samples, probes, values, sym, bg, n_s, set(), "M1")["z"])
+    share = len(drawn & dead) / len(drawn)
+    assert 0.35 < share < 0.65, f"flat-profile genes are {share:.0%} of the draw — something filters"
+
+
+def test_the_collector_never_draws():
+    """⛔ `_background_reads` GATHERS; it must not sample. It drew once, from the reduced record,
+    and that is the whole of AUT-PD-178. A `live` entry with no stored block yields nothing."""
+    tgt = {"genes": {f"G{i}": {"values": [1.0]} for i in range(50)}}
+    assert P._background_reads({"m": (tgt, None, None, None)}) == {}
+    tgt["background_reads_block"] = {"z": {"A": [1.0]}}
+    assert P._background_reads({"m": (tgt, None, None, None)}) == {"m": {"z": {"A": [1.0]}}}
 
 
 # ------------------------------------------------------------------ 2. the consumer refuses
@@ -248,3 +276,71 @@ def test_the_refusal_names_the_matrix_that_is_missing_its_background(monkeypatch
     with pytest.raises(SystemExit) as e:
         N.build(n_draws=5)
     assert SMALL in str(e.value), "the refusal does not say which matrix is missing its background"
+
+
+def test_a_background_contained_in_the_panels_is_refused(monkeypatch, tmp_path):
+    """⛔⛔ THE CONSUMER HALF OF AUT-PD-178, AND IT MUST NOT TRUST THE PRODUCER'S SELF-REPORT.
+
+    The block that reached the trunk was well-formed, fully populated, and carried a
+    `sampling_frame` string asserting it was drawn from the whole array. Nothing about its FORM was
+    wrong — only its CONTENT, which was 100.0% the union of the curated roster and the signature
+    members. So the check is made against the panels and the roster, data this module already holds,
+    and never against `n_frame` or `sampling_frame`: a producer with the wrong frame reports those
+    just as confidently as a correct one."""
+    with open(N.PANELS, encoding="utf-8") as fh:
+        src = json.load(fh)
+    smr = (src.get("signature_member_reads") or {}).get(BIG) or {}
+    gsms = smr.get("gsms") or []
+    if not gsms:
+        pytest.skip("no signature_member_reads on this matrix to borrow a sample order from")
+    # ⛔ A background made ENTIRELY of real signature members — the exact published shape.
+    members = sorted(smr.get("z") or {})[:600]
+    if len(members) < 400:
+        pytest.skip("too few signature members on this matrix to reproduce the shape")
+    row = _subject_row(src, BIG, gsms)
+    src["background_reads"] = {}
+    for mf in sorted(src.get("signature_member_reads") or {}):
+        g2 = ((src["signature_member_reads"].get(mf) or {}).get("gsms")) or []
+        if not g2:
+            continue
+        mem = sorted(src["signature_member_reads"][mf].get("z") or {})[:600]
+        src["background_reads"][mf] = {
+            "platform": "GPLFAKE", "gsms": g2, "seed": "test",
+            "sampling_frame": "every symbol ANY probe on this array maps to, unfiltered",
+            "n_frame": 20000, "n_requested": 3000, "n_drawn": len(mem),
+            "z": {g: _subject_row(src, mf, g2) for g in mem},
+        }
+    patched = tmp_path / "panels.json"
+    patched.write_text(json.dumps(src), encoding="utf-8")
+    monkeypatch.setattr(N, "PANELS", str(patched))
+    monkeypatch.setattr(N, "MEMBERSHIP_SOURCE", "full_membership_background_null")
+    with pytest.raises(SystemExit) as e:
+        N.build(n_draws=5)
+    msg = str(e.value)
+    assert "not a background" in msg
+    assert "AUT-PD-178" in msg, "the refusal does not point at the incident that motivates it"
+
+
+def test_the_floor_admits_a_real_background(monkeypatch, tmp_path):
+    """★ THE OTHER HALF OF THE MUTATION. A guard that refused every background would pass the test
+    above while making the read unusable, so the same floor must ADMIT a pool that overlaps the
+    panels at a realistic share rather than being contained in them."""
+    with open(N.PANELS, encoding="utf-8") as fh:
+        src = json.load(fh)
+    full = _background_for(src, lambda mf, gsms: (_subject_row(src, mf, gsms), 400))
+    if BIG not in full:
+        pytest.skip("no signature_member_reads on the large matrix")
+    for mf, blk in full.items():
+        g2 = blk["gsms"]
+        mem = sorted((src["signature_member_reads"].get(mf) or {}).get("z") or {})[:40]
+        # ~10% panel members, the share a real array background would carry.
+        for g in mem:
+            blk["z"][g] = _subject_row(src, mf, g2)
+        blk["n_drawn"] = len(blk["z"])
+    src["background_reads"] = full
+    patched = tmp_path / "panels.json"
+    patched.write_text(json.dumps(src), encoding="utf-8")
+    monkeypatch.setattr(N, "PANELS", str(patched))
+    monkeypatch.setattr(N, "MEMBERSHIP_SOURCE", "full_membership_background_null")
+    doc = N.build(n_draws=20)          # must NOT raise
+    assert doc["series"][BIG]["panels"], "a legitimate background was refused"
