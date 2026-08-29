@@ -54,7 +54,9 @@ that hid what it could not read.
 2026-08-29). Owning the name for the reader and the checker fixed half the problem and created the
 other half: `ccr_session_id` became a commit-failing requirement that `.claude/skills/research-loop`
 §2 step 10 -- the text a cycle follows when it hand-authors the receipt -- never mentioned, so a
-cycle obeying the contract exactly wrote a receipt this file rejected. `contract_check.py` closes
+cycle obeying the contract exactly would write a receipt this file rejects. (Measured: every receipt
+since the cutoff does carry it, so nothing went red; what was absent is the guarantee.)
+`contract_check.py` closes
 that direction: it DERIVES the required set by deleting fields from receipts `problems()` accepts,
 and reds the build when the contract does not name one. ⛔ TWO CONSEQUENCES FOR ANYONE EDITING HERE:
 a new required field must be added to `contract_check._fixtures()` (its absence there is itself a

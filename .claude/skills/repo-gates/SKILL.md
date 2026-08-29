@@ -163,7 +163,7 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     gate; `scripts/tests/test_affected_tests.py` asserts each of those directions, and the
     baseline-pruning readout is suppressed on a scoped run because **a subset cannot say a test it
     never executed is fixed.**
-- **Before committing:** `./scripts/preflight.sh` must pass. **Sixteen gates, in this order:** (1) the consistency
+- **Before committing:** `./scripts/preflight.sh` must pass. **Seventeen gates, in this order:** (1) the consistency
   linter (`research/manuscripts/lint_consistency.py`), (2) `systems/systems_check.py --check`, (3) `research/manuscripts/emc_systems_map_check.py --check`,
   (4) claim strength (`lint_claims.py`), (5) changed prose (`lint_changed_prose.py`, warnings only),
   (6) citation provenance AND publication type — `research/manuscripts/lint_citations.py`, which since
@@ -184,8 +184,8 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   references, is gate 6's and is not duplicated. **APPENDED LAST SO NO ORDINAL MOVED**, since gates
   13–15's numbers are written into `research/autonomy/ids.py`, `research/autonomy/priority.py` and
   committed ledger rows.
-  **(17)** the cycle contract against gate 12 (`research/autonomy/contract_check.py`) — gate 12
-  refuses a receipt missing `ccr_session_id`, and `.claude/skills/research-loop` §2 step 10, the text
+  **(17)** the cycle contract against the receipt-schema gate
+  (`research/autonomy/contract_check.py`) — gate 12 refuses a receipt missing `ccr_session_id`, and `.claude/skills/research-loop` §2 step 10, the text
   a cycle follows when it hand-authors that receipt, did not name the field, so a cycle obeying the
   contract exactly could not commit (AUT-PD-146). It DERIVES what gate 12 requires by deleting each
   field from receipts the enforcer accepts, and reds the build when step 10 does not name one.
@@ -203,7 +203,9 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
   **"Fourteen gates"**, written before the receipt-schema gate and before `research/autonomy/tests`
   joined the last entry — 53 assertions guarding the loop's own instruments that neither this script
   nor `tests.yml` ran, which is round 14 seat 4's finding recurring in a different directory, and
-  **"Fifteen gates"**, written before the unverified-output residue gate (AUT-PROP-032, 2026-08-28).
+  **"Fifteen gates"**, written before the unverified-output residue gate (AUT-PROP-032, 2026-08-28),
+  and **"Sixteen gates"**, written before the cycle-contract gate (AUT-PD-146, 2026-08-29) — which
+  `[P1]` caught within the same commit, exactly as this note's own last line says it would.
   The count above is not typed twice: `[P1]` derives it from `preflight.sh`, and `check_preflight_gate_list`
   derives the enumerated list beside it.
   were run locally at all — CI had run them since 2026-08-03 and this script had not, so a green

@@ -1200,25 +1200,40 @@ else
 fi
 
 # ⛔ THE CYCLE CONTRACT AND THE RECEIPT GATE, CHECKED AGAINST EACH OTHER (AUT-PD-146, 2026-08-29).
-# Gate 12 above refuses a receipt missing `ccr_session_id`. The text a cycle actually follows when it
+# The receipt-schema gate above refuses a receipt missing `ccr_session_id`. ⛔ NAMED, NEVER
+# NUMBERED, HERE AND IN THE HEADING BELOW: these headings are numbered BY POSITION, so an ordinal
+# typed into a heading is wrong the moment a gate is inserted above it -- and that is this gate's
+# own subject.
+# The text a cycle actually follows when it
 # hand-authors that receipt -- `.claude/skills/research-loop/SKILL.md` §2 step 10 -- did not name the
-# field, so a cycle that followed the contract EXACTLY wrote a receipt this script rejected, and
-# learned the requirement from a red build. One cycle complied, and only because it had opened
-# receipt_schema.py for an unrelated reason. That is compliance by luck.
+# field, so a cycle that followed the contract EXACTLY would write a receipt this script rejects
+# and learn the requirement from a red build.
+# ⚠ MEASURED, NOT ASSUMED: all seven receipts at or after CYC-0070 DO carry the field, so the gap
+# has cost no build yet. What it cost is the guarantee -- CYC-0073-d4ccfde4 recorded that it wrote
+# the field only because it had opened receipt_schema.py for an unrelated reason, which is
+# compliance by luck, and luck is not a mechanism.
 # ⭐ A SENTENCE IN THE CONTRACT WOULD HAVE BEEN THE FOURTH SUCH SENTENCE. This repository has lost
 # the same writer/reader agreement four times (AUT-PD-013's fan-out key, AUT-PROP-013's ids,
-# AUT-PD-037's serialization, this). `contract_check.py` DERIVES the required set -- it deletes each
+# AUT-PD-037's serialization, this). The checker `contract_check` DERIVES the required set -- it deletes each
 # field from receipts the enforcer accepts and re-runs it -- and reds the build when the contract
 # does not name every field so derived. It fails closed on a contract it cannot read, and its
 # fixtures stop complying the moment receipt_schema grows a requirement, so a new required field
 # cannot reach a cycle before the contract does.
-# ⛔⛔ APPENDED LAST SO NO ORDINAL MOVED, for the reason gate 16's own note gives: these headings are
-# numbered BY POSITION, and gates 13-15 are referenced by number in `research/autonomy/ids.py`,
-# `research/autonomy/priority.py` and committed ledger rows. Placing this beside gate 12, where it
-# belongs by subject, would have silently renumbered four gates and falsified those references --
-# which is the same class of defect as the one this gate exists to catch.
+# ⛔⛔ APPENDED LAST SO NO ORDINAL MOVED, for the reason the residue gate's own note gives: these
+# headings are numbered BY POSITION, and four of those ordinals are referenced by number in
+# `research/autonomy/ids.py`, `research/autonomy/priority.py`, committed ledger rows and
+# `repo-gates`. Placing this beside the receipt-schema gate, where it belongs by subject, would have
+# silently renumbered them and falsified those references -- the same class of defect as the one
+# this gate exists to catch. ⚠ It was written that way first, and `systems_check`'s [P1] caught the
+# resulting count mismatch inside the same commit.
+# ⛔ AND THE TOOL'S FILENAME IS DELIBERATELY NOT SPELLED IN THIS COMMENT, ONLY BELOW THE HEADING.
+# `systems_check._preflight_gates` slices the script BY HEADING, so text above a heading belongs
+# to the PREVIOUS gate's body -- and `check_preflight_gate_list` maps a tool to the first gate
+# whose body contains its filename. ⚠ Measured 2026-08-29: spelling it here made [P1] report
+# this gate as running at 16, inside the residue gate. Name the module without `.py` above the
+# heading; the real invocation below is what the checker must see.
 # ⚠ Pure stdlib, one file read plus a few dozen in-memory schema evaluations; unmeasurable cost.
-echo "== the cycle contract names every receipt field gate 12 requires =="
+echo "== the cycle contract names every receipt field the receipt-schema gate requires =="
 if contract_out="$(python3 research/autonomy/contract_check.py --check 2>&1)"; then
   echo "$contract_out" | sed 's/^/   /'
   echo "   OK"

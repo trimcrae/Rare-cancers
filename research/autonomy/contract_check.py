@@ -5,9 +5,14 @@
 receipt from `FIRST_CCR_GOVERNED_CYCLE` onward that does not carry `ccr_session_id`. The cycle
 contract -- `.claude/skills/research-loop/SKILL.md` §2 step 10, the text a cycle actually follows
 when it hand-authors the receipt -- **never named that field**. A cycle that followed the contract
-exactly wrote a receipt that failed the gate, and learned the requirement only from a red build.
-CYC-0073-d4ccfde4 hit precisely this and wrote the field only because it had opened
-`receipt_schema.py` for an unrelated reason. That is compliance by luck.
+exactly would write a receipt that fails the gate, and would learn the requirement only from a red
+build.
+⚠ MEASURED, NOT ASSUMED, AND IT IS THE WEAKER STATEMENT: all seven receipts at or after
+`FIRST_CCR_GOVERNED_CYCLE` DO carry the field, so no build has actually gone red over this. What was
+missing is the GUARANTEE -- CYC-0073-d4ccfde4 recorded that it wrote the field only because it had
+opened `receipt_schema.py` for an unrelated reason. That is compliance by luck, and luck is not a
+mechanism; it is the same finding CLAUDE.md §1 records about `subagent_width` governing nothing for
+a fortnight.
 
 ⭐ AND THE FIX COULD NOT BE THE SENTENCE ALONE. This repository has now lost the same
 agreement-in-prose four separate times, each time between a writer and a reader of the same field:

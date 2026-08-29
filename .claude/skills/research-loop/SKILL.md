@@ -151,9 +151,11 @@ Check before anything else. A loop that works through its own alarm is the alarm
       CLOSED BY WRITING IT** (2026-08-29). `python3 research/autonomy/contract_check.py --check`
       DERIVES — by deleting fields from receipts the enforcer accepts and re-running it — the set of
       fields `receipt_schema.py` refuses a receipt for, and fails the build when THIS STEP does not
-      name every one of them. ⚠ *`ccr_session_id` was required by the gate for three cycles while
-      this text never mentioned it; the one cycle that complied did so because it had opened
-      `receipt_schema.py` for an unrelated reason.* **A field name agreed in prose between two files
+      name every one of them. ⚠ *`ccr_session_id` has been a commit-failing requirement since
+      CYC-0070 while this text never mentioned it. All seven receipts written since do carry it —
+      so the gap cost no build — but CYC-0073-d4ccfde4 recorded that it wrote the field only
+      because it had opened `receipt_schema.py` for an unrelated reason. That is compliance by
+      luck, and luck is not a mechanism.* **A field name agreed in prose between two files
       is a hope** — this repository has now lost that agreement four separate times (AUT-PD-013's
       fan-out key, AUT-PROP-013's ids, AUT-PD-037's serialization, AUT-PD-146's) — **so the
       agreement is checked rather than restated, and a new requirement in the enforcer reds the

@@ -3,10 +3,13 @@
 ⛔⛔ WHY THIS EXISTS (AUT-PD-146, 2026-08-29). `receipt_schema.py` fails the commit of any receipt
 from `FIRST_CCR_GOVERNED_CYCLE` onward that omits `ccr_session_id`. `.claude/skills/research-loop`
 §2 step 10 — the text a cycle actually follows when it hand-authors that receipt — did not name the
-field, nor say how to obtain it. **A cycle that followed the contract exactly wrote a receipt the
-commit gate refused**, and found out only from a red build. CYC-0073-d4ccfde4 hit it and complied
-only because it had opened `receipt_schema.py` for an unrelated reason: compliance by luck, which is
-the same finding CLAUDE.md §1 records about `subagent_width` governing nothing for a fortnight.
+field, nor say how to obtain it. **A cycle that followed the contract exactly would write a receipt
+the commit gate refuses**, and would find out only from a red build.
+⚠ MEASURED, AND THE HONEST VERSION IS WEAKER THAN THE ALARMING ONE: every receipt at or after the
+cutoff does carry the field, so no build has gone red over this. What was missing is the GUARANTEE —
+CYC-0073-d4ccfde4 complied only because it had opened `receipt_schema.py` for an unrelated reason.
+Compliance by luck is the same finding CLAUDE.md §1 records about `subagent_width` governing nothing
+for a fortnight.
 
 ⭐ AND THE ONE-SENTENCE FIX WOULD HAVE BEEN THE FOURTH SUCH SENTENCE. This repository has lost the
 same writer/reader agreement four separate times — AUT-PD-013's `subagents.max_concurrent` (three
