@@ -1,0 +1,73 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "9d5b4defef94425c91ac7dcdfa6cf898a196a8ac",
+  "document_sha256": "e01aa79fdcf5b448732778c3ef938dce1d19adf34a63e7c5ff1d726f35d3ffda",
+  "document_sha256_verified": "yes -- verified by the seat against the pin before review",
+  "blind": true,
+  "_blind_constraint_disclosure": "THE SEAT DISCLOSED A LEAK ON ITS OWN INITIATIVE AND IT IS RECORDED RATHER THAN QUIETLY DROPPED. A repo-wide `grep 36563884` incidentally surfaced content from research/autonomy/review-seats/PUB-FUSION-PARTNER-475ad7d0...-seat-citations-and-instruments.json, a PRIOR seat at a DIFFERENT pin. The seat states it had already established CITE-B-1 independently via lookup_article_by_citation -> NOT_FOUND in the preceding tool call, and that it excluded research/autonomy/ and .claude/skills/ from every subsequent grep and read no other seat output. \u26a0 The blindness of THIS seat's CITE-B-1 is therefore argued rather than structural. The driver independently re-derived CITE-B-1 from the committed tree without reading any seat output (see driver_verification), so the finding does not rest on the seat's blindness.",
+  "utc": "2026-08-29T12:32:00Z",
+  "cycle_id": "CYC-0086-f7394a99",
+  "round": 11,
+  "seat": "citations-and-instruments",
+  "verdict": "supported-with-corrections",
+  "central_claim_as_understood": "The NR4A3 5' fusion partner is a candidate - not established - stratification variable in EMC: prognosis has a crude pooled magnitude (disease-specific death 7/15 TAF15 vs 6/58 EWSR1) that its own larger cohort defeats by adjusting for tumour size, while treatment response has only a direction (0 of 3-5 TAF15 patients) and can have no magnitude at any denominator; the two questions must not be conflated.",
+  "identifiers_checked": 43,
+  "type_claims_checked": 15,
+  "defects_found": 6,
+  "coverage_gaps_found": 3,
+  "blockers": [
+    {
+      "id": "CITE-B-1",
+      "where": "References [10], line 926 of the pinned manuscript",
+      "what": "Lenz 2023 is printed as Hum Pathol 2023;132:88-97. PubMed records PMID 36563884 / doi 10.1016/j.humpath.2022.12.005 as Hum Pathol 134:19-29. A citation lookup on {Hum Pathol, 2023, vol 132, first_page 88} returns NOT_FOUND, so the printed locator resolves to NOTHING rather than to a different paper. The PMID and DOI in the same entry are both correct. The repository holds the CORRECT locator elsewhere (research/manuscripts/surface-targets/emc-surface-target-landscape.md:645, '2023;134:19-29'), so this is a one-fact-two-places drift with the manuscript holding the wrong copy. It is the only one of the fifteen entries that fails: [1] 50:1657-64, [2] 2:22, [3] 20:1252-62, [4] 12:2703, [5] 11:512, [6] 8:21770-7, [7] 45:1084-91, [8] 36:100161, [9] 28:1142-50, [11] 249:90-101 all match exactly, and [12]-[15] print no volume.",
+      "why_blocking": "Wrong committed text in a reference list destined for submission - the one artefact that reaches an outside reader. No instrument covers it: lint_citation_types never reads volume/pages, and lint_citations classes PMID 36563884 as 'unverified_at_baseline' in the provenance ledger, i.e. it checks ORIGIN, not correctness."
+    }
+  ],
+  "p1s": [
+    {
+      "id": "CITE-P1-1",
+      "where": "S3.2 exclusion table; S3.5 ('Pooling it would give 31/163 = 19.0 %'); S7",
+      "what": "Sjogren 2003 carries a named exclusion decision and a named sensitivity calculation but has NO identifier anywhere in the manuscript and no reference-list entry. S7 asserts 'each is traceable to a resolvable identifier (PMID, PMCID, DOI or NCT)'; within the manuscript this source is not. The artifact does carry it (PMID 12598313, PMC1868116, doi 10.1016/S0002-9440(10)63875-8 - verified real: Am J Pathol 2003;162(3):781-92). Coverage gap: lint_citations scans identifiers PRESENT in prose, so a source with no identifier at all is invisible to it."
+    },
+    {
+      "id": "CITE-P1-2",
+      "where": "S3.2 Suemitsu row",
+      "what": "Suemitsu 2025 is cited with inline PMID 40828003 + doi 10.1002/gcc.70076 (both verified correct) but has no reference-list entry, unlike every other named source."
+    },
+    {
+      "id": "CITE-P1-3",
+      "where": "research/manuscripts/tests/mutate_fusion_partner_guard.py",
+      "what": "The committed mutation harness exits RC=1 at the pin: 94 declared mutations, 86 caught, 0 survived, and 8 UN-RUN ('anchor occurs 0 times'). Diagnosis: 5 anchors fail only on line-wrapping (whitespace-normalised count is exactly 1); 3 fail on rewording. The seat re-anchored six and ran the two guard modules directly - ALL SIX CAUGHT - so guard coverage is intact and the defect is confined to the harness. But NOTHING INVOKES IT: it is absent from scripts/preflight.sh and .github/workflows/tests.yml, and pytest will not collect it (no test_ prefix), so its red state is unobservable. Consequently the coverage claims in the two guard files' docstrings ('24 of 24 caught', '36 of 36 ... 22 SINGLE-SITE') are REMEMBERED NUMBERS the runnable harness no longer reproduces - precisely the failure mode its own header says it exists to prevent. The orphaned sites include S3.4/S4.7a's 78 % size cell and the P=.004/P=.032 covariate arm swap, i.e. the defeater machinery the paper says must never be quoted without.",
+      "driver_confirmed": "YES -- the driver ran the harness at the pin and reproduced MUTATE_EXIT=1 with the un-run anchors named, including three of the 'one of a pair' S2.3a mutations, which is this paper's own recurring failure mode."
+    }
+  ],
+  "p2s": [
+    {
+      "id": "CITE-P2-1",
+      "where": "S3.3, 'comparator-arm spread is 22.4 points'",
+      "what": "The generator derives this by subtracting already-rounded percents (28.6 - 6.2 = 22.4) and the artifact agrees, so prose and artifact are consistent. But exact arithmetic on the printed integers 12/42 and 1/16 gives 22.3, so a reader recomputing from the same table gets a different figure. INDEPENDENTLY CONVERGENT with the arithmetic seat's ARI-P1-1, found by a different lens."
+    },
+    {
+      "id": "CITE-P2-2",
+      "where": "S4.1a, 'Agaram 2014 is titled for that very association'",
+      "what": "The factor at issue is Huang's 'moderate-to-severe nuclear pleomorphism'; Agaram's title is '...correlate with rhabdoid phenotype and high-grade morphology'. Its abstract's 'cytologic atypia' is adjacent but not the same descriptor, so 'titled for that very association' is slightly loose."
+    }
+  ],
+  "what_i_could_not_break": [
+    "TYPE CLAIMS - all 15 correct against PubMed. PMC7563993 called 'a review' at three sites -> [Journal Article, Review]. PMID 23058004 called 'the 2012 two-case report' -> [Case Reports]. PMID 31331701 called 'the pazopanib phase 2 trial' -> [Clinical Trial Phase II, Multicenter Study]. PMID 32572850 'multicenter retrospective study' -> [Multicenter Study]. PMC12504171 and PMC7999686 inside 'the review articles' -> both [Review]. Erratum PMID 31579002 -> [Published Erratum], Lancet Oncol 20(10):e559, exactly as printed.",
+    "The [13]/[14] shared PMCID/DOI is NOT a duplication error: PMC9379246 is the '34th European Congress of Pathology - Abstracts' book, Virchows Arch 481(Suppl 1):1-364 - one abstract book legitimately carrying both congress abstracts.",
+    "The S3.3/S5 metastasis attribution, hedged as held 'by record and not by quotation'. PMC7563993 does contain it in the stated direction. The hedge is over-cautious rather than wrong.",
+    "Every verbatim quotation reachable. Both S1.2 quotes exact in PMC7999686; S3.8's hedge exact in PMC3534218 and ABSENT from the 2014 abstract, which instead says 'Genotype/phenotype analyses support a correlation between response and EWSR1-NR4A3 fusion' - exactly as S3.8 claims; S3.6's two Brenca quotes and S3.7's three Bangerter quotes exact.",
+    "S3.5's 'approximately 20 %' attribution to BOTH sources: Bangerter's Introduction says '(approximately 20%)' and Stacchiotti 2020 says '(about 20% of cases)'.",
+    "S3.5's falsifiable author claim: complete lists are 5, 20, 18 and 16 names and all six pairwise intersections are EMPTY on surname alone as well as surname-plus-initials.",
+    "Every number in the paper recomputed independently (Wilson + Fisher from raw counts), including falsifier #5's 19 further patients / total denominator 34.",
+    "Agaram 2014's event counts against its own text, including one death of UNKNOWN cause correctly excluded from the disease-specific arm.",
+    "The whole count structure reconciles to the last patient: prevalence 24+57+11+62 = 154 = 120+28+5+1; outcome 16+42 = 58 EWSR1 and 7+8 = 15 TAF15; Huang's 9-8 and 46-42 give exactly the 'five without follow-up' S4.7 declares.",
+    "The Sjogren tumour-vs-patient distinction: the source reports TAF2N-TEC in FOUR of 10 tumours, the paper says 3 of 9 'at patient level' - internally consistent and explicitly labelled.",
+    "S8's entire self-audit on a hostile reading, including the near-miss: suemitsu2025 names an HTTP status but no cache slug, so 4 is correct and 5 would be wrong.",
+    "The instruments: lint_citations green (1062 identifiers, 106 unanchored, all ledgered); lint_citation_types green (22 type claims, 0 errors, no baseline and no amnesty list) with a correct retraction advisory that does not set the exit code; its 29 tests all pass and all 16 test functions carry real assertions; the generator's --check reproduces the artifact."
+  ],
+  "scope_note": "A seat record, not a decision. Nothing here authorises an outward-facing act."
+}
