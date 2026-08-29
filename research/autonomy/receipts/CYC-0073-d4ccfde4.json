@@ -1,0 +1,30 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0073-d4ccfde4",
+ "session_id": "d4ccfde4-6ba7-5f3a-8c9f-ff680f877b04",
+ "ccr_session_id": "session_01G6maQEKfLfVi8TqsraQVse",
+ "_ccr_session_id_why": "READ from CLAUDE_CODE_SESSION_ID via session_cap.session_id() and from list_sessions on this session, never typed as a label.",
+ "utc": "2026-08-29T00:40:00Z",
+ "shape": "One driver, no fan-out. ⚠ THE ORDINAL CYC-0073 IS SHARED WITH A CONCURRENT CYCLE AND THAT IS BY DESIGN: CYC-0073-2e57571a (session_01GEFbqguVTYsLJrg8EAFYfG, my parent) was still RUNNING when this session started — verified by list_sessions, task_summary 'cycle 2 step 3: fixed priority.py crash on stale age_factor' — and holds AUT-PD-152. ids.next_receipt's discriminator is what lets two genuinely-Nth cycles share an ordinal without sharing a file (AUT-PROP-013).",
+ "took": "AUT-PD-145, claimed with claim.py (CLAIMED on attempt 1) and released to `owner: null` at the end. ⛔ NOT CLOSED — see `now_queued`. The handoff nominated it third; the two rows above it were not takeable and the reason is recorded rather than assumed: AUT-025 ('keep registered for automatic re-grade when EMC expression data lands') and AUT-071 ('keep as cited landscape context') are parked notes with no action, and AUT-044 is by its own text 'an outward-facing call', which CLAUDE.md §3 reserves for trimcrae.",
+ "took_what": "AUT-PD-145 entry condition 1: the filing path must supply the remedy, so that the held ceiling MAX_UNSCORED_OPEN becomes reachable rather than merely enforced.",
+ "changed": "R5 on the ledger write path. `admissibility.is_unscored_open(row)` names the population priority.py publishes as `n_unscored_open`; `admissibility.refuse_population_growth(old, new)` refuses any write that puts a row INTO it, wired into `refuse_inadmissible_write` and reached through `ledger_io.write_ledger`, the one serialization every ledger writer already passes through. New verdict `REFUSED_UNSCORED_NEW`, in `REFUSALS`. ⛔ ENTRY HAS THREE DOORS AND ALL THREE ARE CLOSED — appended unscored, a committed `score` removed, a closed-and-exempt unscored row reopened — because closing only the first is the one-of-a-pair class. Membership is GRANDFATHERED: the 85 rows already on the trunk still write, which is exactly why this lands green where the bare ceiling would have landed red. The rule is skipped when there is no committed baseline, the one case where growth cannot be told from the population it must grandfather. New suite research/autonomy/tests/test_the_unscored_population_can_only_shrink.py, 14 tests. Amendment declared in amendments.jsonl with the self-serving check answered.",
+ "cost": "$0. No GPU, no CI dispatch, no rental, no network fetch. CPU and engineering only.",
+ "subagents": {
+  "max_concurrent": 0,
+  "total": 0,
+  "_why": "A single focused code change in one file plus its test suite — research-loop §3's ordinary case, where the driver reads narrowly and does the work itself. Nothing here was independent enough to be worth a seat."
+ },
+ "rate_limit_info": {
+  "status": "allowed",
+  "rateLimitType": "five_hour",
+  "resetsAt": 1787980200,
+  "isUsingOverage": false,
+  "_read_from": "list_sessions external_metadata.rate_limit_info for this session, per research-loop §4 — read, not inferred."
+ },
+ "what_i_got_wrong": "TWO THINGS, BOTH CAUGHT BY RUNNING THE THING RATHER THAN READING IT. (1) The first draft of test_a_grandfathered_row_may_still_be_edited bumped `last_evidence_utc` as its edit, which trips R4 (the echoed score_inputs.age_factor stops matching the row's own date) — a real and SEPARATE rule, so a green run would have meant 'R4 is quiet', not 'R5 grandfathers this row'. The edit is now `what` only, and the reason is written next to it. (2) Mutation M4 — disabling the score-removal branch — SURVIVED the first pass at 9/10. It was not a harmless mutant: the write was still refused, but it fell through to the reopened-exemption message and handed back the WRONG remedy ('give it a score in the same write' instead of 'a score that is wrong is re-derived, never deleted'). The suite now pins the refusal REASON and not just the verdict; second pass 10/10. ⚠ A verdict-only assertion cannot see a guard that is right for the wrong reason.",
+ "now_queued": "AUT-PD-145, RE-QUEUED AND STILL OPEN, because its second entry condition is measured and unmet. Across all 120 ledger commits in the observable trunk history (2026-08-28T13:55Z -> 2026-08-29T00:27Z) open-unscored rose 22 -> 85: +63 in 10.5 h, ~6 rows/hour, and no pre-existing unscored row acquired a score in that window. Condition 2 asks for flat or falling over >= 2 h, so pinning the ceiling at today's 85 would be red within roughly ten minutes — the instalment edit this row already refused once on 2026-08-28. What remains is a WAIT ON EVIDENCE, not on code: re-run that series over >= 2 h of trunk history entirely after this commit, and if it is flat or falling, pin MAX_UNSCORED_OPEN at the count measured in the same commit that lands it and merge the held vacuity test from d082c01a78. R5 is what makes that series able to be flat.",
+ "blocked_by": [],
+ "route_advanced": "RT-AUTONOMY",
+ "handoff": {}
+}
