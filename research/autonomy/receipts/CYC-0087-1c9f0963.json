@@ -59,7 +59,7 @@
   ],
   "blocked_by": [],
   "route_advanced": "none",
-  "route_advanced_why": "⛔ HONEST, AND IT KEEPS `advancing_live_work` RED FOR A FOURTH RECEIPT. RT-ALK-HIT was re-graded and did not move: its state, authorization, maturity and confidence are all unchanged, and the new evidence is a stain in tumours confirmed to lack the rearrangement, at n=4, indistinguishable from its own tumour family. Recording this as an advance because a grade got longer is exactly the inflation that disables the only alarm pointed at CLAUDE.md §0. ⚠ THE ALARM IS READING TRUE: four consecutive cycles have graded, corrected and documented rather than moved a live route, and the next cycle should take a LIVE item off the top of the queue rather than another re-grade.",
+  "route_advanced_why": "⛔ HONEST, AND IT KEEPS `advancing_live_work` RED FOR A FOURTH RECEIPT. RT-ALK-HIT was re-graded and did not move: its state, authorization, maturity and confidence are all unchanged, and the new evidence is a stain in tumours confirmed to lack the rearrangement, at n=4, indistinguishable from its own tumour family. Recording this as an advance because a grade got longer is exactly the inflation that disables the only alarm pointed at CLAUDE.md §0. ⚠ THE ALARM IS READING TRUE AND THE HONEST DIAGNOSIS IS UNCOMFORTABLE: four consecutive cycles have graded, corrected and documented rather than moved a live route — and this one spent most of its wall clock inside the commit loop rather than on the research. The successor should take a LIVE item off the top of the queue rather than another re-grade or another process defect.",
   "merge": {
     "what": "Merged origin/main FOUR times — the trunk moved under this cycle in every gate window (ccbda801e, 7cbb7d5de, 89af777c3, be77d4acb). Three conflicts, all research/autonomy/research-ledger.json, all resolved identically: take the TRUNK version whole and re-apply this cycle's edits programmatically.",
     "why_that_resolution": "Hand-merging a 10k-line JSON hunk risks dropping a concurrent session's row silently. Taking theirs and re-applying mine cannot lose a row that was on the trunk, and `priority.py` refuses a duplicated id, so each re-allocation is checked rather than trusted. Ledger parses at 316 entries with no duplicate id.",
@@ -81,5 +81,21 @@
     "how_it_was_caught": "By reading the TRUNK back after the push and listing rows by `filed_by`, rather than trusting the resolver's report: two rows filed, one present.",
     "the_fix": "The row is re-filed as AUT-PD-181 with its history recorded on it. The resolver's guard now tests `row['id'] in {rows on the trunk filed by ME}` instead of `in have`, so a trunk-side id collision re-allocates rather than skips. ⭐ THE ASSERTION THAT WOULD HAVE CAUGHT IT, and the one worth generalising: every row a cycle files must appear on the trunk exactly once — a count of what SURVIVED, not a check that what survived is well-formed.",
     "⚠ the_class": "One-of-a-pair: the guard and the re-allocator three lines apart disagreed about what `in have` meant. That is this repository's most-repeated defect shape, and this is the second instance in a single cycle — the first being the hand-typed prose contradicting the table beside it, which is what AUT-PD-181 is about."
+  },
+  "handoff": {
+    "child_session_id": "session_01QEP94zP9byx3aFnnbKFiTE",
+    "title": "EMC research loop — cycle (AUT-025)",
+    "built_by": "python3 research/autonomy/handoff.py --json --reason ... — exit 0, prompt built from origin/main and passed to create_session VERBATIM. No findings and no conclusions from this cycle were added to it.",
+    "created_with": "claude-code-remote create_session, environment env_01AFwLH33U3ZprSgZf2nbV7S, source https://github.com/trimcrae/Rare-cancers at revision main, outcome_branch main",
+    "verified": "The returned row carries session_context.sources populated with the git_repository at main — the check that separates a real runner from the agent-minted lineage that fires, reports SUCCEEDED and delivers nothing (architecture §2.2). Confirmed connected on the next list_sessions.",
+    "why": "114 ledger rows were ready, free and unclaimed while this session's remaining context was going to merge races rather than research. A successor with a clean context is research-loop §3's shape for that, and spawning is an act rather than a note."
+  },
+  "reaped": {
+    "ran": "python3 research/autonomy/session_reaper.py --self-id 1c9f0963-d03d-5175-9b03-f570bfadb22a, with the live session list on stdin",
+    "verdict": "8 sessions in, 1 safe to archive, 7 kept.",
+    "archived": [
+      "session_015ot2aSG28GM5Y9zBXcjmKb — EMC research loop cycle (AUT-PD-158)"
+    ],
+    "kept_and_why": "The newly spawned successor (PENDING), the AUT-PD-169 cycle (RUNNING), and this session (RUNNING) were all reported 'not positively idle' and left alone. The reaper decided; this cycle only executed its one archive."
   }
 }
