@@ -289,6 +289,26 @@ def within_panel_percentile(members, readable_full, subject_z, gsms, diag_cache,
     }
 
 
+def scoring_cache(gene_reads: dict, src: dict, matrix: str) -> dict:
+    """`{gene: {gsm: z}}` the panels are actually scored over: `gene_reads`, widened by whatever
+    `member_z` yields under the current pin, WITH `gene_reads` WINNING on a gene carried by both.
+
+    ⛔⛔ THE PRECEDENCE IS THE INVARIANT, NOT AN IMPLEMENTATION DETAIL. Both sources carry the same
+    within-array z for a gene in both, so preferring `gene_reads` is what stops a widened run
+    silently moving a number that was already published from the curated block.
+
+    ⭐ IT IS A NAMED FUNCTION BECAUSE THE INVARIANT WAS OTHERWISE UNTESTABLE (AUT-PD-182). Inline in
+    `build`, the only thing a caller could observe was `readable_pool`, which counts genes and is
+    identical whichever source wins — so the guard that claimed to assert precedence was asserting
+    set membership, and a mutation making the wide block win survived it.
+    """
+    cache = {g: sample_z(gene_reads, g, matrix) for g in gene_reads}
+    for g, zs in member_z(src, matrix).items():
+        if not cache.get(g):
+            cache[g] = zs
+    return cache
+
+
 def build(n_draws: int = N_DRAWS) -> dict:
     src = _load()
     gene_reads, sig = src["gene_reads"], src["signature_scores"]
@@ -342,14 +362,8 @@ def build(n_draws: int = N_DRAWS) -> dict:
 
     series = {}
     for matrix in matrices:
-        # ⭐ TWO SOURCES, `gene_reads` WINNING. Both carry the same within-array z for a gene that
-        # is in both; gene_reads is preferred so a widened run cannot silently change a number that
-        # was already published from the curated block.
-        wide = member_z(src, matrix)
-        cache = {g: sample_z(gene_reads, g, matrix) for g in gene_reads}
-        for g, zs in wide.items():
-            if not cache.get(g):
-                cache[g] = zs
+        # ⭐ TWO SOURCES, `gene_reads` WINNING — the rule and its argument live in `scoring_cache`.
+        cache = scoring_cache(gene_reads, src, matrix)
         # ⭐ THE DIAGNOSTIC'S CACHE IS ALWAYS WIDE, WHATEVER THE PIN. It never feeds a score, a null
         # or the verdict — only `within_panel_percentile`, which has to see the membership the pin
         # is declining in order to say what declining it costs.
