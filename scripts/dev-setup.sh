@@ -41,6 +41,33 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# --------------------------------------------------------------------------------------------
+# ⛔⛔ THE PUSH GUARD IS WIRED HERE BECAUSE A HOOK NOBODY INSTALLS IS PROSE (AUT-PD-144).
+#
+# `research/autonomy/push_guard.py` refuses a push whose tip carries a duplicated ledger id or an
+# unparseable loop-state file — the class a line-based merge cannot see, and the class that put
+# `AUT-PD-140` on `main` twice on 2026-08-28 and crashed step 3 of the cycle contract for every
+# session. git only runs it if `core.hooksPath` points at the tracked hook directory, and nothing
+# in a fresh sandbox sets that.
+#
+# ⚠ IT SITS ABOVE THE `--if-needed` EARLY EXIT for the same reason the ghostscript and shallow-clone
+# steps do, and that reason was PAID FOR ONCE ALREADY: the probe below asks about python imports, so
+# anything it does not ask about must not sit behind its answer. This costs one `git config` call.
+#
+# ⚠ AND IT IS RELATIVE, NOT ABSOLUTE, ON PURPOSE. git resolves a relative `core.hooksPath` against
+# the top of the working tree, so each worktree runs ITS OWN checkout's hook — which is what we
+# want: the guard that runs is the one belonging to the tree being pushed. A worktree checked out
+# from a commit before the hook existed has no hook and pushes as before.
+#
+# ⚠ Never fails setup. `.git` may be absent (a tarball, a docs build), and a session that cannot
+# configure a hook must still get its interpreters.
+if git rev-parse --git-dir >/dev/null 2>&1; then
+  if [ "$(git config --get core.hooksPath || true)" != "scripts/git-hooks" ]; then
+    git config core.hooksPath scripts/git-hooks && echo "dev-setup: core.hooksPath -> scripts/git-hooks (push guard armed)"
+  fi
+fi
+# --------------------------------------------------------------------------------------------
+
 # ⛔ TWO INTERPRETERS, TWO LISTS, AND THEY ARE GENUINELY DIFFERENT — MEASURED, NOT TIDIED.
 # The first cut installed one list into both and then reported `pypdf` and `pdfplumber` as still
 # missing from system python3 after a successful install. The cause is not pip: this image's
