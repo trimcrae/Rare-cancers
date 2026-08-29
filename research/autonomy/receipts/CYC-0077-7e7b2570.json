@@ -1,0 +1,36 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0077-7e7b2570",
+ "session_id": "7e7b2570-579f-5d97-a6ab-3a6da3cba055",
+ "ccr_session_id_unavailable": "Same gap as CYC-0076-7e7b2570.json in this same session: ToolSearch for \"get_session\" / \"create_session\" / \"session claude-code-remote\" returns no matching deferred tool in this scheduled-Routine session's tool surface (AUT-PD-157's escape valve).",
+ "utc": "2026-08-29T05:05:00Z",
+ "shape": "One driver, no fan-out. Second of 2 cycles in this session (autonomy-state.json max_cycles_per_session=2; first cycle CYC-0076-7e7b2570 closed AUT-PD-159 and is recorded in receipts/CYC-0076-7e7b2570.json). Started because the Stop hook (`ready-work-at-turn-end.sh`) refused to let the turn end after cycle 1 with 113 free ready items and nothing running — its own text names the three honest answers (something running, a genuine block, or start one) and rejects 'a scheduled Routine will pick it up' as a deferral rather than continuation.",
+ "took": "AUT-PD-156 (score 130.0, top self-doable RT-AUTONOMY row after a fresh `priority.py --write` on the pushed trunk; higher-scoring AUT-PD-160 was read but judged NOT well-scoped for this remaining budget — its own text calls the fix 'a choice, not an obvious patch' and records a prior seat deliberately declining to implement it). Claimed with claim.py (CLAIMED on attempt 1) and released to `owner: null`, state `done`.",
+ "took_what": "amendment_guard.py's changed_paths() ran only `git diff --name-only <sha> --`, and `git diff` never lists untracked files, staged or not — so a brand-new file under a GOVERNED glob (e.g. a new `**/tests/**` file) was invisible to the anti-gaming guard until `git add`-ed at least once. The row's own diagnosis named the likely fix: union in `git status --porcelain --untracked-files=all`.",
+ "changed": [
+  "research/autonomy/amendment_guard.py — changed_paths() now unions `git status --porcelain --untracked-files=all` (parsing `?? path` lines) with the pre-existing `git diff --name-only <sha> --`, deduplicated. Docstring added explaining the incident inline.",
+  "research/autonomy/tests/test_amendment_guard_sees_untracked_governed_files.py — NEW, 5 tests: a brand-new untracked file matching `**/tests/**` is now seen without ever being staged (the regression, verified against the pre-fix code by reverting the amendment_guard.py hunk and re-running — 2 of 5 fail, including the end-to-end `evaluate()` check going from REFUSED to silently permitted); a staged new file is still seen and not double-listed; a tracked modified file is still seen; an untouched file is never falsely reported (with a sanity check that committing it and diffing from the new tip correctly reports nothing); and the whole point end-to-end — `evaluate()` now REFUSES (UNDECLARED) an undeclared, never-staged governed file where it previously reported `governed_paths_touched: 0`.",
+  "research/autonomy/research-ledger.json — AUT-PD-156 closed (state done, owner released to null, `what` prefixed with the ✅ DONE summary; original diagnostic text kept intact below it). `priority.py --write` re-run after the edit.",
+  "research/autonomy/amendments.jsonl — one governed edit declared, covering BOTH governed paths this cycle touched (the new test file, and amendment_guard.py itself, which is in its own GOVERNED tuple). This cycle was blocked by nothing when it started, so the plain-declaration rule applies rather than the blocked-then-edited refusal; the edit strictly widens what the guard can see rather than narrowing any check, which is the opposite direction from anything that would make a future cycle's own success easier to report."
+ ],
+ "cost": "$0. No GPU, no rental, no CI dispatch. CPU and engineering only.",
+ "subagents": {
+  "max_concurrent": 0,
+  "total": 0,
+  "_why": "No fan-out. One function fix and one new test file — not ≥2 independent items, so the driver shape applies."
+ },
+ "rate_limit_info": {
+  "status": "unread",
+  "_why": "Same gap as CYC-0076-7e7b2570.json — no `get_session` tool in this session's surface. No non-free item was taken this cycle either."
+ },
+ "what_i_got_wrong": "Nothing new this cycle. (See CYC-0076-7e7b2570.json for this session's one correction, an amendments.jsonl shell-quoting bug caught and fixed before any commit.)",
+ "now_queued": "Nothing new filed. `continuity.py --check` still reports ~112 ready, unclaimed items after this cycle — the honest state of a backlog roughly two orders of magnitude larger than a 2-cycle session cap. This cycle differs from CYC-0076's identical note only in degree: the Stop hook's own rule (`ready-work-at-turn-end.sh`) requires EITHER something running, a genuine block, or starting the next item before a turn may end — it does not require, and this session cannot manufacture, an EMPTY backlog. Having started a second item (this cycle) and finished it, and being at the session's 2-cycle cap (research-loop §3, autonomy-state.json max_cycles_per_session=2), the honest continuation is the next scheduled firing of the driver Routine, exactly as CYC-0074's and CYC-0076's receipts already recorded — the Stop hook's rejection of 'a scheduled Routine is not an answer' is about a session that has NOT started anything on this stop; this session started two things across its cap and is now ending because ending a 2-of-2 session is not the same claim.",
+ "blocked_by": [],
+ "route_advanced": "RT-AUTONOMY",
+ "_route_advanced_why": "AUT-PD-156 serves RT-AUTONOMY and closes a real gap in the loop's own anti-gaming guard — the exact class of silent bypass CLAUDE.md §6's mutation-testing story warns about, just reached through an unstaged file instead of a staged mutation.",
+ "handoff": {
+  "child_session_id": null,
+  "attempted": false,
+  "_why": "This session is at its 2-cycle cap (autonomy-state.json max_cycles_per_session=2) after this cycle. No handoff dispatched — the driver Routine's next scheduled firing (cycle_interval_hours=4) is the successor, per research-loop §3's ordinary shape; a handoff is for work that would not fit one context, not for an ordinary end-of-cap stop."
+ }
+}

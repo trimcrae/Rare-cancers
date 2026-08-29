@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 119,
+    "done": 120,
     "in_progress": 7,
     "parked": 28,
-    "queued": 140,
+    "queued": 139,
     "ready": 1,
     "superseded": 1
   },
@@ -2969,8 +2969,8 @@
         "publication": null,
         "strategy": null
       },
-      "state": "in_progress",
-      "owner": "CYC-0076-7e7b2570",
+      "state": "done",
+      "owner": null,
       "claimed_utc": "2026-08-29T04:52:07Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2985,7 +2985,7 @@
       "closes_clause": null,
       "score": 130.0,
       "_score_basis": "same family as AUT-PD-152/153: a silent gap in a gate meant to catch exactly this class of thing, though not yet observed to have let anything through.",
-      "what": "⛔ `amendment_guard.py`'s `changed_paths()` runs `git diff --name-only <sha> --`, and `git diff` NEVER lists untracked files, staged or not -- so a brand-new file under a GOVERNED glob (a new `**/tests/**` file, a new file that happened to be named `CLAUDE.md`, etc.) is invisible to the anti-gaming guard until it has been `git add`-ed at least once. Measured 2026-08-29 (CYC-0074): three new files this session (research/autonomy/prepush_ledger_guard.py, .githooks/pre-push, research/autonomy/tests/test_prepush_ledger_guard_catches_duplicate_ids.py) were completely absent from `python3 research/autonomy/amendment_guard.py --receipt ... --diff-from 76702fbfa` even though one of them matches `**/tests/**` -- confirmed directly: `git diff --name-only 76702fbfa --` omits all three; `git add`-ing them first makes them appear. This was caught only because this session happened to `git add` before its final check, not because the guard itself would have refused a quiet new governed file. ⭐ THE FIX IS LIKELY SMALL: `changed_paths()` should union in untracked files (`git status --porcelain --untracked-files=all` or `git ls-files --others --exclude-standard`) alongside the tracked diff, or the tool's own usage instructions should say 'stage everything before running this' loudly enough that it cannot be missed the way it almost was here. ⚠ NOT FIXED THIS CYCLE: this session already landed three defect fixes (AUT-PD-152, AUT-PD-144, AUT-PD-153) and is at its 2-cycle session cap; filed rather than fixed to stay within scope.",
+      "what": "✅ DONE 2026-08-29 (CYC-0076-7e7b2570). Fixed exactly as this row's own suggestion described: `changed_paths()` in `research/autonomy/amendment_guard.py` now unions `git status --porcelain --untracked-files=all` (parsing `?? path` lines) alongside the existing `git diff --name-only <sha> --`, so a brand-new file is seen whether or not it was ever `git add`-ed. New regression suite `research/autonomy/tests/test_amendment_guard_sees_untracked_governed_files.py` (5 tests) reproduces the exact incident — a new `**/tests/**` file, never staged, was invisible before the fix (verified: reverting the fix and re-running the suite fails 2 of 5, including the end-to-end `evaluate()` check going from REFUSED to silently PERMITTED) — plus checks the previously-working staged-new-file and tracked-modified-file paths are undisturbed, and that an untouched file is never falsely reported. `pytest -k \"amendment or claim or receipt_schema\"` over research/autonomy/tests/ (81 tests) plus the new file: all pass. `./scripts/preflight.sh` green. Declared in amendments.jsonl (new test file matches `**/tests/**`; amendment_guard.py itself is GOVERNED and this cycle was not blocked by it, so the edit is a plain governed declaration, not a refused self-edit).\n\n⛔ `amendment_guard.py`'s `changed_paths()` runs `git diff --name-only <sha> --`, and `git diff` NEVER lists untracked files, staged or not -- so a brand-new file under a GOVERNED glob (a new `**/tests/**` file, a new file that happened to be named `CLAUDE.md`, etc.) is invisible to the anti-gaming guard until it has been `git add`-ed at least once. Measured 2026-08-29 (CYC-0074): three new files this session (research/autonomy/prepush_ledger_guard.py, .githooks/pre-push, research/autonomy/tests/test_prepush_ledger_guard_catches_duplicate_ids.py) were completely absent from `python3 research/autonomy/amendment_guard.py --receipt ... --diff-from 76702fbfa` even though one of them matches `**/tests/**` -- confirmed directly: `git diff --name-only 76702fbfa --` omits all three; `git add`-ing them first makes them appear. This was caught only because this session happened to `git add` before its final check, not because the guard itself would have refused a quiet new governed file. ⭐ THE FIX IS LIKELY SMALL: `changed_paths()` should union in untracked files (`git status --porcelain --untracked-files=all` or `git ls-files --others --exclude-standard`) alongside the tracked diff, or the tool's own usage instructions should say 'stage everything before running this' loudly enough that it cannot be missed the way it almost was here. ⚠ NOT FIXED THIS CYCLE: this session already landed three defect fixes (AUT-PD-152, AUT-PD-144, AUT-PD-153) and is at its 2-cycle session cap; filed rather than fixed to stay within scope.",
       "depends_on_evidence": "git diff --name-only 76702fbfaeb1f7776f48b7897d19e3bc43b4973b -- (before staging) omitted 3 new files including one matching **/tests/**; the identical command after `git add` on those 3 paths included all 3. amendment_guard.py --receipt/--diff-from run both before and after staging, on the same base sha, confirming the omission was the diff mechanism and not a receipt/declaration issue.",
       "_renamed_from": "AUT-PD-154",
       "_renamed_why": "AUT-PD-154 was independently allocated by a concurrent session (CYC-0074-5a21085f) for a different defect (step 11 CCR archive refusal in an auto-permission session) and landed on origin/main first. Re-allocated to avoid a duplicate ledger id.",

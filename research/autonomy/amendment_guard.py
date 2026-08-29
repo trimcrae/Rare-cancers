@@ -72,14 +72,40 @@ def is_governed(path: str) -> bool:
 
 
 def changed_paths(from_sha: str) -> list[str]:
-    proc = subprocess.run(
+    """Every path this cycle touched, tracked or not.
+
+    ⛔ `git diff` ALONE NEVER LISTS UNTRACKED FILES, STAGED OR NOT (AUT-PD-156, 2026-08-29). A
+    brand-new file under a GOVERNED glob — a new `**/tests/**` file, a new file that happened to be
+    named `CLAUDE.md` — was invisible to this guard until `git add`-ed at least once. Measured
+    2026-08-29 (CYC-0074): three new files including one matching `**/tests/**` were completely
+    absent from `git diff --name-only <sha> --` and appeared only after staging. That means a quiet
+    new governed file could reach a commit unrefused, caught only by the accident of the session
+    remembering to `git add` before its own final check — not by the guard itself.
+    So `git status --porcelain --untracked-files=all` is unioned in: it reports a brand-new file
+    whether or not it has ever been staged, which is exactly the gap `git diff` cannot close.
+    """
+    tracked = subprocess.run(
         ["git", "diff", "--name-only", from_sha, "--"],
         capture_output=True, text=True, cwd=str(REPO),
     )
-    if proc.returncode != 0:
+    if tracked.returncode != 0:
         # Cannot read the diff -> cannot clear the change. Fail closed.
-        raise RuntimeError(f"git diff failed against {from_sha}: {proc.stderr.strip()}")
-    return [line for line in proc.stdout.splitlines() if line.strip()]
+        raise RuntimeError(f"git diff failed against {from_sha}: {tracked.stderr.strip()}")
+
+    untracked_proc = subprocess.run(
+        ["git", "status", "--porcelain", "--untracked-files=all"],
+        capture_output=True, text=True, cwd=str(REPO),
+    )
+    if untracked_proc.returncode != 0:
+        # Same fail-closed rule as above: cannot read the status -> cannot clear the change.
+        raise RuntimeError(f"git status failed: {untracked_proc.stderr.strip()}")
+    # Porcelain status lines are "XY path" (or "XY orig -> new" for a rename); an untracked file's
+    # status is always "?? path". Anything else here is already covered by the tracked diff above.
+    untracked = [line[3:] for line in untracked_proc.stdout.splitlines() if line.startswith("?? ")]
+
+    out = [line for line in tracked.stdout.splitlines() if line.strip()]
+    out.extend(p for p in untracked if p not in out)
+    return out
 
 
 def blocked_by_paths(receipt: dict) -> list[str]:
