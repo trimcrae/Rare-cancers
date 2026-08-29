@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 137,
+    "process_defect": 138,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -23,9 +23,9 @@
   "n_by_state": {
     "blocked": 1,
     "done": 116,
-    "in_progress": 3,
+    "in_progress": 5,
     "parked": 28,
-    "queued": 143,
+    "queued": 142,
     "ready": 1,
     "superseded": 1
   },
@@ -2466,6 +2466,39 @@
       "evidence": " ⭐ WORKED BY SEAT s4 AND THE ROW WAS STALE IN THE DIRECTION THAT MATTERED. It said the checker 'downgrades both to UNMEASURED'; measured against the two real receipts on the trunk it graded them OPPOSITE ways — CYC-0030-6be7fd5a (handoff.refused_by) unmeasured/HANDOFF-REFUSED, and CYC-0058-1ef8c95a (handoff.mechanism_unavailable) needs_attention/SESSION-OVERLOADED-NO-HANDOFF. health.py read only `refused_by`, so the ABSENT-TOOL shape fell through to the RED branch and was recorded as the session's own defect — while session_cap.py, already on the trunk from a different cycle, ALREADY read `mechanism_unavailable` on that same receipt and accepted it as an earned reason to stop. Two modules read one receipt and disagreed about whether stopping was correct behaviour or a failure, and the punished shape is the ordinary launch for an unattended cycle, not an edge case. MERGED (s4-AUT-PD-059-blocked-handoff-says-which): a distinct HANDOFF-MECHANISM-ABSENT verdict with its own remedy, the handoff PROMPT now names both failure fields, and session_cap.py stops hand-rolling the literal it had also declared. Mutation-tested 11/11, including an absence buying GREEN and an absence falling through to RED (the original defect). ⚠ The seat killed a false alarm it raised itself — it reported the autonomy suite 'stalled'; preflight ran it to completion, 631 passed in 331 s, and the apparent stall was three concurrent seats sharing this container, reproduced on a clean origin/main control. ⚠ The seat guessed a cycle_id for its two amendment records; the driver re-keyed them at merge. STILL OPEN, small: the red branch's remedy text does not yet name the two honest fields (the prompt does, which is where a session reads it), and ~20 trunk receipts record the fact under invented spellings like `_why_not_attempted` that nothing reads — deliberately not credited, since crediting invented spellings makes the field unfalsifiable."
     },
     {
+      "id": "AUT-PD-159",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0073-d4ccfde4",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop-internal throughput defect; nothing outward-facing",
+      "score": 136.0,
+      "_score_basis": "Filed just above AUT-PD-158 (134.9), which it CAUSED. This is the upstream defect: the id collisions, the stale allocations and the repeated re-merges downstream of it are all symptoms of the same latency, so it must not rank below its own consequences.",
+      "depends_on_evidence": [
+        "9 preflight runs this cycle; 8 push rejections between 01:29Z and 02:30Z, logged in cyc0073-push-attempts.log",
+        "measured gate wall time, single cycle: 692 s, 699 s, 655 s (WALL_SECONDS, timed in-job)",
+        "AUT-PD-158 re-allocated TWICE (AUT-PD-154 -> 155 -> 158), each rename forced by a concurrent session taking the id while this driver waited to push",
+        "CLAUDE.md §6 pins the commit loop at 77.5 s (31.4 s fast gates + 39.3 s gate 13), measured 2026-08-24"
+      ],
+      "closes_clause": null,
+      "what": "⛔⛔ THE COMMIT LOOP IS SLOWER THAN THE TRUNK'S PUSH INTERVAL, SO A DRIVER THAT OBEYS THE GATING RULE CAN BE STARVED INDEFINITELY. Measured end-to-end 2026-08-29 (CYC-0073-d4ccfde4): NINE full `preflight.sh` runs, EIGHT push rejections in ~61 minutes, and the cycle's code never reached `main` by its own push. Gate wall time was timed in-job at 692 s / 699 s / 655 s against the 77.5 s CLAUDE.md §6 records for this loop. With 3+ sessions active the trunk moved every few minutes, so every merge invalidated the gate in flight and the next gate outlived the next push.\n\n⭐ THE RULE IS NOT THE BUG AND MUST NOT BE THE THING THAT YIELDS. CLAUDE.md §6 — 'the run you report green must be the run that saw the tree you commit' — is what AUT-PD-144 and AUT-PD-158 both exist to defend, and this cycle twice caught ITSELF about to breach it under exactly this pressure (once by writing a merge-then-push retry loop, once by nearly reasoning that a ledger-only merge 'cannot' break a gate). A driver under starvation will keep finding those arguments, and they are always available. ⛔ SO THE FIX IS LATENCY OR SCOPE, NEVER A LICENCE.\n\n⛔ WHAT IT ALREADY COST, ALL DOWNSTREAM OF THE SAME LATENCY: two forced id re-allocations (AUT-PD-154 -> 155 -> 158) because `ids.next_entry_id` is collision-safe only while an allocation LANDS promptly; AUT-PD-144 solved TWICE concurrently, whose two fixes then armed `core.hooksPath` to different directories so one fully-tested guard would never have fired; and a conflict resolution that tested `if id not in ids` and would have SILENTLY DROPPED a row's content.\n\n★ CANDIDATE DIRECTIONS, NONE ASSERTED AND NONE MEASURED — the first job is to measure, not to pick. (a) Find out why the gate is ~650-700 s against a documented 77.5 s: `--durations=20` on gate 13's exact command on an IDLE container is the one observation nobody has taken, and this cycle produced TWO wrong mechanisms guessing at it (history-walking cost, refuted at ~2.5 s; then CPU contention, which two seats measured as real — `nproc`=4 against 3 concurrent `pytest -n 4` fleets, 18 processes, loadavg 6.19 — but which cannot be shown to explain the earlier readings, since nobody looked at the process table then). (b) SERIALIZE THE CONTAINER: a driver holding a gate open while its own seats gate is self-inflicted oversubscription, and that half is free to fix today. (c) Scope what a merge must re-gate: a merge bringing ONLY ledger/receipt data is not the same risk as one bringing code, and §6 does not currently distinguish them — but that is a change to the gating rule and belongs in a row with evidence, never in a quiet exception a blocked driver grants itself. (d) A merge queue, so gating and landing are not the same race.\n\n⚠ WHAT SAVED THE WORK, AND IT IS THE CHEAP MITIGATION ANY BLOCKED DRIVER SHOULD TAKE FIRST: pushing every commit to a branch (`cyc0073-d4ccfde4-work`) the moment it is gated. CLAUDE.md §7 calls branch drift a data-loss bug; work living only in a container is the same bug with the branch missing. With the branch pushed, being overtaken costs a merge and never the work — which also removes the pressure that makes breaching the gate rule tempting."
+    },
+    {
       "id": "AUT-PD-033",
       "kind": "process_defect",
       "process_defect": true,
@@ -2991,104 +3024,6 @@
       }
     },
     {
-      "id": "AUT-PD-130",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "s4-aut-pd-130-CYC-0074-5a21085f",
-      "claimed_utc": "2026-08-29T02:20:00Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0069-c84c64dd",
-      "score": 122.9,
-      "_score_basis": "a red `main` nobody sees, whose second-order effect is fabricated BLIND verdicts pointing at a manuscript instead of at the instrument",
-      "depends_on_evidence": "commit 83aede1 (three guard-pattern widenings) vs 86c68df (article + census written together); the red is test_the_paper_states_what_its_own_claims_depend_on.py::test_claim_coverage_has_not_regressed",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a generated artifact and the gate that pairs it; nothing outward-facing",
-      "what": "⛔ A COMMIT THAT WIDENS A GUARD'S PATTERNS INVALIDATES claim-coverage.json, AND NOTHING PAIRS THEM — MEASURED 2026-08-28 (CYC-0069, fixed in d8e40d8). 83aede1 closed AUT-PD-119 by widening three guards; two of them witness the ASO journal article; the census HARVESTS ITS PATTERNS FROM THE TEST CORPUS, so `covered` moved 99 -> 101 with no manuscript byte touched, and `main` went red on a clean tree for ~35 minutes. ⭐ THE PAIRING THAT USUALLY CATCHES THIS DID NOT APPLY: the article and the census artifact were last written by the SAME commit, so a doc-touches-artifact rule sees nothing wrong — the invalidating edit is in research/manuscripts/tests/, a different directory from the artifact it stales. ⛔⛔ AND THE RED IS NOT COSMETIC: claim_ablation._baseline_reds correctly subtracts a witness already red on the unmutated clone, so while that guard is red every sentence whose only witness is that module scores BLIND — the false-BLIND mechanism the module's own docstring records from 2026-08-23, reached by a new route, and it points a reader at the paper rather than at the instrument. WHAT TO DO: make the pairing structural rather than remembered. The candidate is a preflight/CI check that any commit touching research/manuscripts/tests/*.py (or anything else claim_coverage._test_patterns reads) either regenerates claim-coverage.json or proves the census output is unchanged — the census is a ~1.5 s pure-CPU screen, so recomputing it is cheaper than the rule. ⚠ DO NOT instead relax test_claim_coverage_has_not_regressed: it is the only thing that noticed.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T22:31:26Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        },
-        {
-          "utc": "2026-08-29T02:20:00Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ],
-      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
-      "score_inputs": {
-        "fruitless_attempts": 1,
-        "age_factor": 0.0714
-      },
-      "_lease_released": {
-        "by": "CYC-0072-2e57571a",
-        "utc": "2026-08-28T23:45Z",
-        "former_owner": "SEAT-s1-ba841eee",
-        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
-        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
-        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
-      },
-      "_stranded_work": {
-        "branch": "seat/s1-aut-pd-130",
-        "sha": "e0847032ddc262d020fe528af66e52fe35aa2204",
-        "detail": "2 commits, head dated 2026-08-28T23:07:53Z. Touches research/manuscripts/claim_coverage.py, research/manuscripts/tests/test_the_census_artifact_and_the_guard_corpus_are_a_pair.py, scripts/preflight.sh, .github/workflows/tests.yml, scripts/regenerate_aso_chain.sh and the ASO archive manifest.",
-        "merged_into_main": false,
-        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
-        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
-      }
-    },
-    {
-      "id": "AUT-PD-148",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "in_progress",
-      "owner": "s5-aut-pd-148-CYC-0074-5a21085f",
-      "claimed_utc": "2026-08-29T02:20:05Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0070-c84c64dd",
-      "score": 122.9,
-      "_score_basis": "the instrument's verdict is currently silent about the exact sentences a scientist would check first, and it does not say so",
-      "depends_on_evidence": "drv-recovered2.json; 'three to five TAF15 patients with no events' perturbed by nothing",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "manuscript guards and a census instrument; nothing outward-facing",
-      "what": "⚠ THE ABLATION HARNESS PERTURBS DIGITS ONLY, SO A QUANTITY WRITTEN IN WORDS IS UNFALSIFIABLE BY CONSTRUCTION. Found 2026-08-28 (CYC-0070) while reading a BLIND verdict rather than trusting it: the fusion-partner endpoint sentence's real quantitative claim is 'three to five TAF15 patients with no events', and the only digits in it are NR4A3, L3, 5′ and a list marker. The instrument reported BLIND on the identifiers and never touched the claim. ⛔ THIS IS NOT THE SAME AS AN UNBOUND NUMBER: the sentence may be perfectly well guarded and the harness cannot tell, which makes every word-number sentence's verdict — RED or BLIND — uninformative about the quantity it states. WHAT TO DO: extend the perturbation set to number WORDS (three -> seven, five -> seven, and the ordinals), or report such sentences as a distinct status rather than folding them into BLIND. ⚠ Prefer the second first: a status the reader can count is worth more than a mutation that might rewrite prose into nonsense.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T02:20:05Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ],
-      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
-      "_id_collision": "Filed as AUT-PD-142 and renumbered AUT-PD-148 at the merge — the SECOND collision this session. AUT-PD-142 on the trunk was filed by CYC-0070-ba841eee. `ids.next_entry_id` is max+1 over the ledger the caller can see, and with five sessions filing concurrently that snapshot is stale before it is written. Both rows exist; every reference moved with mine.",
-      "score_inputs": {
-        "age_factor": 0.0714
-      }
-    },
-    {
       "id": "AUT-PROP-010",
       "kind": "write",
       "serves": {
@@ -3233,6 +3168,105 @@
       "_score_correction": "150.0 -> 118.0 on 2026-08-28 is a RENUMBERING ARTEFACT, not a re-score. This id briefly and locally carried a different row (CYC-0070's stall fix, score 150) filed against a ledger that could not yet see this one; that row was renumbered at the rebase and this row — the one that reached the trunk first — is unchanged at its own 118.0. No input of this score moved.",
       "score_inputs": {
         "age_factor": 0.0714
+      }
+    },
+    {
+      "id": "AUT-PD-130",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "s4-aut-pd-130-CYC-0074-5a21085f",
+      "claimed_utc": "2026-08-29T02:20:00Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 1,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0069-c84c64dd",
+      "score": 114.9,
+      "_score_basis": "a red `main` nobody sees, whose second-order effect is fabricated BLIND verdicts pointing at a manuscript instead of at the instrument",
+      "depends_on_evidence": "commit 83aede1 (three guard-pattern widenings) vs 86c68df (article + census written together); the red is test_the_paper_states_what_its_own_claims_depend_on.py::test_claim_coverage_has_not_regressed",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a generated artifact and the gate that pairs it; nothing outward-facing",
+      "what": "⛔ A COMMIT THAT WIDENS A GUARD'S PATTERNS INVALIDATES claim-coverage.json, AND NOTHING PAIRS THEM — MEASURED 2026-08-28 (CYC-0069, fixed in d8e40d8). 83aede1 closed AUT-PD-119 by widening three guards; two of them witness the ASO journal article; the census HARVESTS ITS PATTERNS FROM THE TEST CORPUS, so `covered` moved 99 -> 101 with no manuscript byte touched, and `main` went red on a clean tree for ~35 minutes. ⭐ THE PAIRING THAT USUALLY CATCHES THIS DID NOT APPLY: the article and the census artifact were last written by the SAME commit, so a doc-touches-artifact rule sees nothing wrong — the invalidating edit is in research/manuscripts/tests/, a different directory from the artifact it stales. ⛔⛔ AND THE RED IS NOT COSMETIC: claim_ablation._baseline_reds correctly subtracts a witness already red on the unmutated clone, so while that guard is red every sentence whose only witness is that module scores BLIND — the false-BLIND mechanism the module's own docstring records from 2026-08-23, reached by a new route, and it points a reader at the paper rather than at the instrument. WHAT TO DO: make the pairing structural rather than remembered. The candidate is a preflight/CI check that any commit touching research/manuscripts/tests/*.py (or anything else claim_coverage._test_patterns reads) either regenerates claim-coverage.json or proves the census output is unchanged — the census is a ~1.5 s pure-CPU screen, so recomputing it is cheaper than the rule. ⚠ DO NOT instead relax test_claim_coverage_has_not_regressed: it is the only thing that noticed.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T22:31:26Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        },
+        {
+          "utc": "2026-08-29T02:20:00Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
+      "score_inputs": {
+        "fruitless_attempts": 2,
+        "age_factor": 0.0714
+      },
+      "_lease_released": {
+        "by": "CYC-0072-2e57571a",
+        "utc": "2026-08-28T23:45Z",
+        "former_owner": "SEAT-s1-ba841eee",
+        "holder_session": "session_01SVfJ6HmD2f5u4Z2TPwfTCG",
+        "holder_session_status": "SESSION_STATUS_ARCHIVED @ 2026-08-28T23:17:54Z",
+        "why": "⛔ LEASE RELEASED BY CYC-0072-2e57571a AS LITTER, NOT AS A JUDGEMENT ABOUT THE WORK. Its holder was a seat of `session_01SVfJ6HmD2f5u4Z2TPwfTCG` (discriminator `ba841eee`), which `get_session` reports SESSION_STATUS_ARCHIVED as of 2026-08-28T23:17:54Z. Archiving releases the container, so that seat provably cannot be running; `continuity.py --leases` still called the lease 'within lease' (1.2 h against an 8.0 h threshold), so `priority.py` would not have freed it until ~06:45Z and the row was parked meanwhile. `continuity.py --check` was reporting AT CAPACITY on the strength of four such dead seats. Mechanism and evidence: AUT-PD-150. ⚠ `last_evidence_utc` AND `attempts` ARE DELIBERATELY NOT TOUCHED. Releasing a lease is an observation about the HOLDER, not about the row's subject, so resetting its staleness clock would make a parked row look freshly evidenced, and charging an attempt would spend retry budget for a container death the row did not cause. The first of those two was caught by `admissibility.py:refused_stale_input` on this cycle's own first attempt at this write, which is the guard working."
+      },
+      "_stranded_work": {
+        "branch": "seat/s1-aut-pd-130",
+        "sha": "e0847032ddc262d020fe528af66e52fe35aa2204",
+        "detail": "2 commits, head dated 2026-08-28T23:07:53Z. Touches research/manuscripts/claim_coverage.py, research/manuscripts/tests/test_the_census_artifact_and_the_guard_corpus_are_a_pair.py, scripts/preflight.sh, .github/workflows/tests.yml, scripts/regenerate_aso_chain.sh and the ASO archive manifest.",
+        "merged_into_main": false,
+        "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
+        "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
+      }
+    },
+    {
+      "id": "AUT-PD-148",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "s5-aut-pd-148-CYC-0074-5a21085f",
+      "claimed_utc": "2026-08-29T02:20:05Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0070-c84c64dd",
+      "score": 114.9,
+      "_score_basis": "the instrument's verdict is currently silent about the exact sentences a scientist would check first, and it does not say so",
+      "depends_on_evidence": "drv-recovered2.json; 'three to five TAF15 patients with no events' perturbed by nothing",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "manuscript guards and a census instrument; nothing outward-facing",
+      "what": "⚠ THE ABLATION HARNESS PERTURBS DIGITS ONLY, SO A QUANTITY WRITTEN IN WORDS IS UNFALSIFIABLE BY CONSTRUCTION. Found 2026-08-28 (CYC-0070) while reading a BLIND verdict rather than trusting it: the fusion-partner endpoint sentence's real quantitative claim is 'three to five TAF15 patients with no events', and the only digits in it are NR4A3, L3, 5′ and a list marker. The instrument reported BLIND on the identifiers and never touched the claim. ⛔ THIS IS NOT THE SAME AS AN UNBOUND NUMBER: the sentence may be perfectly well guarded and the harness cannot tell, which makes every word-number sentence's verdict — RED or BLIND — uninformative about the quantity it states. WHAT TO DO: extend the perturbation set to number WORDS (three -> seven, five -> seven, and the ordinals), or report such sentences as a distinct status rather than folding them into BLIND. ⚠ Prefer the second first: a status the reader can count is worth more than a mutation that might rewrite prose into nonsense.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T02:20:05Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "evidence": "BUILT AND TESTED. Added `lease_arbitration()` to research/autonomy/continuity.py, plus a `--leases` CLI flag. For every OPEN row an OTHER worker's lease is holding back, it computes the same claim_lease arithmetic `priority.release_stale_claims` uses (periods x the cycle interval, read live from priority-weights.json / autonomy-state.json, never restated) and reports the lease's age against that threshold, whether it is already past expiry (would be released on the next `priority.py --write` but has not been yet), and whether the row would read as ready right now if that lease were gone (`would_be_ready_if_released`, checked against a copy so the view mutates nothing). This is the arbitration the item asked for: between a lease that LOOKS alive because nobody has re-scored yet, and a ready row sitting behind it. 11 new tests in test_continuity_has_no_green_state_recording_can_buy.py (54 total, all green): self-exclusion of the caller's own lease, within/past the lease window, an unstamped claim treated as stale immediately (mirrors release_stale_claims' fail-toward-releasing direction), would_be_ready_if_released against a second real block vs. the lease being the only block, finished rows excluded, sort order (unstamped first), and the CLI's own output. Mutation-tested by hand against the live tree (no subagent, no concurrent mutation window): reverting the self-exclusion check and reverting the unstamped-is-stale branch each made the corresponding new test fail, then both were restored and the full suite reconfirmed green (54 passed). Verified read against the real ledger: `continuity.py --leases` on the committed ledger correctly reported zero other-held leases once this cycle's own claim was excluded via --me.",
+      "_id_collision": "Filed as AUT-PD-142 and renumbered AUT-PD-148 at the merge — the SECOND collision this session. AUT-PD-142 on the trunk was filed by CYC-0070-ba841eee. `ids.next_entry_id` is max+1 over the ledger the caller can see, and with five sessions filing concurrently that snapshot is stale before it is written. Both rows exist; every reference moved with mine.",
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "fruitless_attempts": 1
       }
     },
     {
