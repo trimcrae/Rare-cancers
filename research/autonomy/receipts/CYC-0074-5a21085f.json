@@ -1,0 +1,53 @@
+{
+  "cycle_id": "CYC-0074-5a21085f",
+  "session_id": "5a21085f-4408-5052-8d10-2eec20a6219a",
+  "ccr_session_id": "session_01RLHV3tB87qndM7qGE9jZa7",
+  "started_utc": "2026-08-29T00:57:27Z",
+  "trunk_at_start": "0fd33223a",
+  "took": "AUT-025, claimed with claim.py (CLAIMED on attempt 1) and released to `owner: null` at the end. It stays `queued` — it is a standing registration for re-grade, not a task that closes.",
+  "why_this_and_not_the_queue": "⛔ AUT-025 WAS THE TOP TAKEABLE ROW AND THREE CONSECUTIVE CYCLES HAD DECLINED IT AS 'WATCH-ONLY, NOTHING TO ACT ON TODAY'. CYC-0067-165c2385 wrote 'AUT-025 at 152.0 has pursue_now:false, endpoint_reachable:false — nothing to act on today'; CYC-0069-225452b4 filed AUT-PD-136 calling its `what` a DISPOSITION rather than an act; CYC-0073-d4ccfde4 wrote that it is a 'parked note with no action'. ⭐ ALL THREE READINGS WERE WRONG IN THE SAME DIRECTION, AND CLAUDE.md §4 NAMES THE ERROR EXACTLY: a row reading 'keep registered until X lands' is 'an unanswered question wearing the costume of a status'. The row's own canonical memo already contained a specific, named, answerable question, and answering it cost one $0 PMC fetch. AUT-046/AUT-010/AUT-042/AUT-057/AUT-058/AUT-064/AUT-065/AUT-073 all outscore it and are all `requires_trimcrae`; AUT-044 is by its own text 'an outward-facing call'; AUT-PD-146 was claimed by a concurrent session (s2-CYC-0073-d4ccfde4) 5 commits into this session's start.",
+  "what_changed": "⭐ THE EMC CASE COUNT IN THE ONLY PUBLISHED COHORT THAT HAS EVER FAP-STAINED EMC TISSUE IS NOT MISSING — IT IS 1 OF 133, PRINTED IN TABLE 1. Read from the PMC full text of PMID 38964294 / PMC11797935 (Umakoshi M et al., 'Prognostic Value of Cancer-Associated Fibroblast Marker Expression in the Intratumoral and Marginal Areas of Soft Tissue Sarcoma', DOI 10.1159/000539855), retrieved via the PubMed MCP server. Table 1 'Details of all enrolled cases' lists Extraskeletal myxoid chondrosarcoma = 1, alongside Ewing sarcoma 1, fibrosarcoma 1, poorly differentiated leiomyosarcoma 1, against well-differentiated liposarcoma 34 and undifferentiated pleomorphic sarcoma 28.\n\n⛔ WHY THE EARLIER READ MISSED IT, MECHANISM NOT GUESS: fap-rlt-2026-regrade.md §3(a) records that the paper was found by 'a proximity scan of all 483 retrieved full texts — an EMC term within 1,500 characters of a FAP term'. Table 1 names the subtype and never names FAP, so the count sat outside every window that scan could open. The scan found the Methods subtype list and stopped there.\n\n⛔ AND THE CORRECTION MOVES THE ROUTE THE UNFAVOURABLE WAY, WHICH IS THE FINDING. The memo had recorded the gap as 'a request for an existing measurement, not a request for a new experiment — which is a materially better position than the route was recorded as being in'. That is now sized: a fully successful extraction returns TWO ORDINAL SCORES (0-6 each) ON ONE SPECIMEN. `RT-FAP-RLT.readiness.missing = [\"any measurement in EMC\"]` would still stand after it succeeds.\n\n⚠ A THIRD LIMIT, STATED BY THE AUTHORS AND NOT PREVIOUSLY RECORDED HERE: in the intratumoral area 'None of the CAF markers was able to completely distinguish CAFs from sarcoma cells', so 'all cells that were positive for any of the three CAF markers' — sarcoma cells included — were scored together. An intratumoral FAP score in this cohort is therefore NOT a reading of the CAF compartment that a FAP radioligand targets; only the marginal score is scored on spindle-shaped CAF-marker-positive cells alone, and the authors add that anti-FAP staining 'was somewhat weak, making it difficult to evaluate'.",
+  "artifacts_touched": [
+    "research/manuscripts/surface-targets/fap-rlt-2026-regrade.md — §3(a) rewritten with the measured count and both new limits; §5's `EMC-specific evidence` row and the `evidence_required` paragraph re-sized to n = 1. The superseded sentence ('the number of EMC cases is not stated in the retrieved text') and the superseded framing are both retained in place under CLAUDE.md rule 1.2, following this document's own established `⚠ Superseded, retained` pattern.",
+    "research/manuscripts/surface-targets/fap-rlt-map-edits.json — three `proposed_text` blobs corrected. ⭐ THESE ARE UNAPPLIED PROPOSALS (`_not_applied_and_why`: DRY RUN ONLY), so `systems/graph/**` never carried the wrong statement and no graph edit or view regeneration was needed — verified by `grep -c` for the superseded sentence in systems/graph/routes.json = 0. Correcting them now is what stops the known-wrong text landing whenever they are applied. No `current_text` anchor was touched.",
+    "research/autonomy/research-ledger.json — AUT-025 released and `last_evidence_utc` moved to 2026-08-29 against a real observation; AUT-081 filed."
+  ],
+  "cost": "$0. One PubMed MCP full-text fetch, one GitHub Actions read, local CPU. No GPU, no rental, no CI dispatch.",
+  "subagents": {
+    "max_concurrent": 0,
+    "total": 0
+  },
+  "route_advanced": "RT-FAP-RLT",
+  "route_advanced_why": "⛔ NOT A PROMOTION, AND THE HONEST DIRECTION IS DOWN. The route's single named, dated, answerable evidence ask was measured and shrank from 'a per-subtype extraction from a 133-case cohort' to 'two ordinal scores on one specimen, which cannot close the row'. A route whose cheapest remaining evidence path is now known to be insufficient has moved: the next session does not have to rediscover the count, does not have to re-argue the ask's value, and will not read the memo's earlier 'materially better position' framing as a reason to promote the grade.",
+  "now_queued": [
+    "AUT-081 — ask the Akita University group (corresponding author Michinobu Umakoshi) for the single EMC case's intratumoral and marginal FAP scores. `requires_trimcrae: true`: contacting a named external research group under trimcrae's name is an outward-facing act (CLAUDE.md §3), so no cycle may perform it. ⚠ Filed WITH its own limit recorded in the entry text, so it can never be picked up as a path to closing `missing: ['any measurement in EMC']`.",
+    "AUT-PD-154 — establish whether the auto-mode classifier's refusal of `archive_session` is a settings gap (one permission rule) or categorical for this launch shape. Until it is settled, step 11's archive half fails silently-by-refusal in every fired cycle."
+  ],
+  "blocked_by": [
+    {
+      "what": "Archiving the one session the reaper cleared (session_01GEFbqguVTYsLJrg8EAFYfG).",
+      "refused_by": "claude-code-remote `archive_session` tool -> 'Permission for this action was denied by the Claude Code auto mode classifier. Reason: Blocked by classifier.'",
+      "path": "mcp__bf7c680d-5fdc-5ef4-b4a0-abadb619bf0a__archive_session",
+      "not_worked_around": "The denial was recorded rather than routed around. Step 11 says the reaper decides and the cycle acts; the acting half is what is blocked, and the deciding half ran and is recorded above."
+    }
+  ],
+  "escalated": "Nothing. No §5 trigger fired: no journal submission recommended, no spend, no goal-changing fact (the route moved DOWN within its existing grade, which the memo already framed as unmeasured in EMC), no health condition red past deadline, no paper ready to post. AUT-081 is outward-facing and is recorded as trimcrae's act in the ledger rather than announced — research-loop §5 reserves the interrupt for a paper that is READY, not for a queued ask.",
+  "health_at_start": {
+    "exit": 0,
+    "blocking_red": [],
+    "unmeasured": [
+      "gates_green",
+      "stalls_are_named"
+    ],
+    "note": "⭐ BOTH UNMEASURED ROWS WERE SETTLED THIS CYCLE RATHER THAN RE-REPORTED, because each is a $0 observation and CLAUDE.md §4 forbids deferring one. `stuck_clock.py --check --json` produced the stall verdict. `gates_green`: the most recent COMPLETED tests.yml run on `main` at cycle start was 457002e96 = success (three newer heads were still in_progress, pushed by a concurrent cycle). ⚠ The two rows stay UNMEASURED on the committed board because health.py takes these verdicts as CLI arguments and nothing in the repository currently passes them — that plumbing gap is what the board's own remediation text describes and it is NOT closed by this cycle.",
+    "restart_intensity": "no condition retried past 5 consecutive red runs"
+  },
+  "rate_limit_at_start": {
+    "status": "allowed",
+    "rateLimitType": "five_hour",
+    "isUsingOverage": false,
+    "read_from": "claude-code-remote get_session -> external_metadata.rate_limit_info"
+  },
+  "concurrency_observed": "⚠ A CONCURRENT CYCLE WAS LIVE THROUGHOUT. `origin/main` moved 005b837b8 -> 0fd33223a (5 commits) between this session's first fetch and its claim, and the head commit was 'claim AUT-PD-146 for s2-CYC-0073-d4ccfde4'. Handled by re-fetching and re-basing before claiming rather than by forcing, per the handoff prompt. This is why AUT-PD-146 was not taken.",
+  "reaped": "40 sessions in, 1 safe to archive, 39 kept. ⛔ THE ARCHIVE WAS REFUSED BY THE HARNESS, NOT SKIPPED: `archive_session(session_01GEFbqguVTYsLJrg8EAFYfG)` returned verbatim 'Permission for this action was denied by the Claude Code auto mode classifier. Reason: Blocked by classifier.' The reaper's verdict stands and the session is still idle and unreaped. Filed as AUT-PD-154.\n⭐ AND THE REAPER REPORTED ITS OWN JOIN AS DEGRADED, WHICH CORROBORATES AUT-PD-146 FROM A SECOND DIRECTION: '63 committed receipt(s) record no CCR session id at all, so this join is DEGRADED and cannot tell \"died holding work\" from \"delivered, unmatchable\"'. It therefore refused to archive session_01K2cMqfMrMvPcj6wJU4Fixs and refused to report it as a death — the correct answer in both directions. This receipt carries `ccr_session_id`, so it is joinable; AUT-PD-146 (the contract text that would make that universal) was claimed this cycle by s2-CYC-0073-d4ccfde4 and is not this cycle's to fix."
+}
