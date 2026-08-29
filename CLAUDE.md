@@ -446,7 +446,27 @@ act you'd commit *before* thinking to consult anything:
   ⚠ **A hedged sentence on a fabricated PMID passes `lint_claims`** — claim STRENGTH is orthogonal to citation
   PROVENANCE. **Never write an identifier from recollection.**
 - **★★ KEEP EVERYTHING SYNCED TO `main` — BRANCH DRIFT IS A DATA-LOSS BUG.** Merge early and often, rebase
-  before every push, **never let a branch a workflow runs from be the only home of an artifact.** ⛔ **Before
+  before every push, **never let a branch a workflow runs from be the only home of an artifact.**
+  ⛔⛔ **AND MERGING TO `main` NEEDS NO PERMISSION — A SESSION INSTRUCTION NAMING A DEVELOPMENT
+  BRANCH DOES NOT GATE IT.** §6 already says a merge or push to `main` is the COMMIT LOOP, not
+  publication: ordinary work, gated by `preflight.sh` and nothing else. An instruction to develop on
+  a named branch says where work **lands**; it does not say the trunk goes unsynced, and it is not a
+  reason to ask (§3: *a gate you could resolve is never an escalation*).
+  ⚠ *Added 2026-08-29 because that exact misreading happened and nobody could see it.* A session
+  carried a branch instruction, read it as gating the merge, resolved the tension silently, ran eight
+  commits while `main` moved 53 ahead, and then put the merge to trimcrae as a decision. **The cost
+  was measured, not hypothetical: another cycle diagnosed and fixed the SAME null-`score_inputs`
+  crash on the trunk within the same hour** — two sessions, one bug, one night, neither able to see
+  the other, each finding something the other missed. A census the same day found **20+ branches on
+  `origin` carrying unmerged commits, most a month stale**, so this is the normal outcome rather than
+  one session's slip.
+  ★ **Enforced by [`merge-debt-at-turn-end.sh`](.claude/hooks/merge-debt-at-turn-end.sh), a `Stop`
+  hook, because this rule lived in prose and was measured by nothing.** Two checkers have already
+  failed at this class of problem in this repository — one printed a green tick over the failure, the
+  other was never consulted — and the stopping moment is precisely when nobody runs one more command.
+  The harness runs a Stop hook whether or not anyone remembers to. **It has no green state that
+  recording can buy:** the only ways past it are to be on `main`, to have nothing ahead of it, or to
+  merge. ⛔ **Before
   writing ANY claim from a committed artifact, check which ref the producing workflow actually writes to.**
 - **⛔ THE PATIENT-FACING SITE IS RETIRED AND DELETED (2026-08-05), NOT SHELVED. DO NOT RECREATE IT.** The
   registry ([`emc-clinical-registry.json`](./research/data/emc-clinical-registry.json)) and its validator
