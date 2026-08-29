@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 136,
+    "process_defect": 137,
     "proposal": 17,
     "regrade": 8,
     "verify": 1,
@@ -23,9 +23,9 @@
   "n_by_state": {
     "blocked": 1,
     "done": 115,
-    "in_progress": 4,
+    "in_progress": 3,
     "parked": 28,
-    "queued": 142,
+    "queued": 144,
     "ready": 1,
     "superseded": 1
   },
@@ -2526,6 +2526,39 @@
       }
     },
     {
+      "id": "AUT-PD-158",
+      "what": "⛔⛔ R5 IS ON THE TRUNK AND THE OPEN-UNSCORED POPULATION STILL GREW — MEASURED, NOT SUSPECTED. `admissibility.refuse_population_growth` (R5) landed at ee17c39a2 on 2026-08-29T00:49:39Z and refuses any ledger write that puts a row INTO the population `priority.py` publishes as `n_unscored_open`. Measured on trunk first-parent history at 02:15Z, 1.4 h later: the population went 84 -> 88, and FOUR rows entered it after R5 — AUT-081, AUT-PD-153, AUT-PD-154, AUT-PD-155, every one appended with no `score` and no `prerequisite_of`, the exact write R5 exists to refuse. ⭐ THE HALF THAT IS SETTLED: two of the four (AUT-PD-153 at ce09205fc, AUT-PD-154 at eab55e405) were introduced by commits whose trees do NOT contain R5 at all — work that started before 00:49:39Z and merged after. That half needs no fix and will age out on its own. ⛔ THE HALF THAT IS NOT: AUT-081 (22e40ad4e, 01:48Z) and AUT-PD-155 (bc4899efc, 01:59Z) were introduced by commits whose trees DO contain `refuse_population_growth`, and the rows are unscored on the trunk anyway. ⚠ AND THE CAUSE IS GENUINELY UNKNOWN — THE TWO HYPOTHESES ARE NOT SEPARABLE FROM COMMITTED HISTORY, WHICH IS ITSELF THE FINDING. (H1) THE WRITE WAS UNGATED IN TIME: a seat writes the ledger in a worktree based before R5, then rebases or merges onto trunk before committing, so the COMMIT's tree carries R5 while the WRITE never met it. (H2) THE WRITE BYPASSED THE PATH: something wrote `research-ledger.json` without going through `ledger_io.write_ledger` — a hand edit, a `json.dump` one-liner, or a call passing `check=False` — which R5 cannot see, because R5 is a gate on one function and the file is a file. ⛔ NOTHING IN THE REPOSITORY RECORDS WHICH `admissibility.py` WAS PRESENT AT WRITE TIME, so neither hypothesis can be confirmed or refuted from `git`. ★ THE DISCRIMINATOR, AND IT IS THE FIX FOR BOTH HYPOTHESES AT ONCE: have the write path STAMP ITS OWN PRESENCE — `ledger_io.write_ledger` records the gate it ran (a name and a version) into the ledger it just wrote, so a file written by an ungated path is distinguishable from one written by a gated path, by reading the artifact rather than by arguing about branches. H1 then shows as an OLD stamp and H2 as NO stamp. ⚠ Until that exists, `n_unscored_open` rising is unattributable, and AUT-PD-145's entry condition 2 — 'flat or falling over >= 2 h of trunk history after R5' — cannot be met OR diagnosed: measured at 02:15Z it RISES at 3 of 5 first-parent steps. ⛔ THIS IS NOT A REASON TO PIN THE CEILING ANYWAY. A ceiling over a population that is still growing is red on arrival, which is the finding that held it on 2026-08-28 and again on 2026-08-29.",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "prerequisite_of": "AUT-PD-145",
+      "_score_basis": "inherited from AUT-PD-145 (+0.5) — it is the work that unblocks it",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
+      "filed_by": "CYC-0074-5a21085f",
+      "evidence": "CYC-0074 seat s2, 2026-08-29T02:15Z. Population at ee17c39a2 (R5): 85 open-unscored. On origin/main 1.4 h later: 88. ENTERED since R5: AUT-081, AUT-PD-153, AUT-PD-154, AUT-PD-155. LEFT: AUT-PD-152. Introducing commits and whether their tree contains `refuse_population_growth`: AUT-081 22e40ad4e PRESENT, AUT-PD-153 ce09205fc ABSENT, AUT-PD-154 eab55e405 ABSENT, AUT-PD-155 bc4899efc PRESENT. First-parent series after R5: 84, 85, 85, 85, 87, 88 — rises at 3 steps. Logs: scratchpad/s2-aut-pd-145/.",
+      "depends_on_evidence": [
+        "two of the four rows that entered the open-unscored population after R5 were introduced by commits whose trees contain `admissibility.refuse_population_growth`",
+        "no artifact records which `admissibility.py` was present in the worktree at write time, so H1 (ungated in time) and H2 (bypassed the path) are not separable from committed history",
+        "research/autonomy/unscored_ratchet.py (first-parent series, ADMIT/HOLD)"
+      ],
+      "closes_clause": null,
+      "score": 133.4
+    },
+    {
       "id": "AUT-PD-031",
       "kind": "process_defect",
       "process_defect": true,
@@ -2596,15 +2629,15 @@
     },
     {
       "id": "AUT-PD-145",
-      "what": "⛔ LAND THE UNSCORED-ROW RATCHET, WHICH IS DEFERRED AND NOT ABANDONED. AUT-PD-050 landed in two halves: the crash fixes, the score_rank ordering and the reporting are on the trunk; the ratchet MAX_UNSCORED_OPEN and its vacuity test are held UNMODIFIED at commit d082c01a78 on branch s1-aut-pd-050-unscored-rows. Held because the population (82) had already passed the ceiling (80), so merging would have red the COMMIT LOOP for whichever session committed next, on a gate it did not cause. ⛔ THE ENTRY CONDITION IS TWO THINGS AND NEITHER IS 'RAISE THE NUMBER': (1) the filing path supplies the remedy — `ledger_io.write_ledger` is the single serialization every ledger writer passes through and already runs `admissibility.check_write` there, so a row appended with no `score` and no `prerequisite_of` should be refused AT THE WRITE, which makes the ceiling reachable rather than merely enforced; and (2) open-unscored is flat or falling across at least a two-hour window of trunk commits. Pin the ceiling at the count measured in the same commit that lands it. ⚠ Pinning at the then-current number was considered on 2026-08-28 and refused: legal under the vacuity guard, red again within ~20 minutes at the measured rate, and re-pinning on each break is the forbidden edit taken in instalments.\n\n⭐ HALF LANDED 2026-08-29 BY CYC-0073-d4ccfde4 — ENTRY CONDITION 1 IS MET, CONDITION 2 IS NOT, AND THE ROW STAYS OPEN BECAUSE OF IT. The filing-path remedy is on the trunk: `admissibility.py` now carries R5 — `is_unscored_open()` names the population `priority.py` publishes as `n_unscored_open`, and `refuse_population_growth()` refuses any ledger write that puts a row INTO it, via `ledger_io.write_ledger`, the one serialization every writer already passes through. ⛔ ENTRY HAS THREE DOORS AND ALL THREE ARE CLOSED, because closing one is the one-of-a-pair class: a row APPENDED unscored, a committed `score` REMOVED, and a closed-and-exempt unscored row REOPENED. Membership is GRANDFATHERED — the 85 rows already on the trunk still write, which is the property that stops this landing as an outage the way the bare ceiling would have. ⚠ THE CEILING `MAX_UNSCORED_OPEN` IS STILL NOT MERGED, AND THE MEASUREMENT SAYS WHY. Across all 120 ledger commits in the observable trunk history (2026-08-28T13:55Z -> 2026-08-29T00:27Z) open-unscored rose 22 -> 85: +63 in 10.5 h, ~6 rows/hour, and NO pre-existing unscored row acquired a score in that window. Condition 2 asks for flat or falling over >=2 h and the series is rising, so pinning at 85 today would go red in roughly ten minutes — the instalment edit this row already refused once. ⭐ WHAT REMAINS, AND IT IS NOW A WAIT ON EVIDENCE RATHER THAN ON CODE: re-run the same series over >=2 h of trunk history that is entirely AFTER this commit; if it is flat or falling, pin the ceiling at the count measured in the same commit that lands it and merge the held vacuity test from d082c01a78. R5 is what makes that series able to be flat. ⚠ R5 CANNOT SHRINK THE EXISTING 85 AND DOES NOT CLAIM TO — those clear one row at a time, by scoring them, and `n_unscored_open` is the number that says whether that is happening.",
+      "what": "⛔ LAND THE UNSCORED-ROW RATCHET, WHICH IS DEFERRED AND NOT ABANDONED. AUT-PD-050 landed in two halves: the crash fixes, the score_rank ordering and the reporting are on the trunk; the ratchet MAX_UNSCORED_OPEN and its vacuity test are held UNMODIFIED at commit d082c01a78 on branch s1-aut-pd-050-unscored-rows. Held because the population (82) had already passed the ceiling (80), so merging would have red the COMMIT LOOP for whichever session committed next, on a gate it did not cause. ⛔ THE ENTRY CONDITION IS TWO THINGS AND NEITHER IS 'RAISE THE NUMBER': (1) the filing path supplies the remedy — `ledger_io.write_ledger` is the single serialization every ledger writer passes through and already runs `admissibility.check_write` there, so a row appended with no `score` and no `prerequisite_of` should be refused AT THE WRITE, which makes the ceiling reachable rather than merely enforced; and (2) open-unscored is flat or falling across at least a two-hour window of trunk commits. Pin the ceiling at the count measured in the same commit that lands it. ⚠ Pinning at the then-current number was considered on 2026-08-28 and refused: legal under the vacuity guard, red again within ~20 minutes at the measured rate, and re-pinning on each break is the forbidden edit taken in instalments.\n\n⭐ HALF LANDED 2026-08-29 BY CYC-0073-d4ccfde4 — ENTRY CONDITION 1 IS MET, CONDITION 2 IS NOT, AND THE ROW STAYS OPEN BECAUSE OF IT. The filing-path remedy is on the trunk: `admissibility.py` now carries R5 — `is_unscored_open()` names the population `priority.py` publishes as `n_unscored_open`, and `refuse_population_growth()` refuses any ledger write that puts a row INTO it, via `ledger_io.write_ledger`, the one serialization every writer already passes through. ⛔ ENTRY HAS THREE DOORS AND ALL THREE ARE CLOSED, because closing one is the one-of-a-pair class: a row APPENDED unscored, a committed `score` REMOVED, and a closed-and-exempt unscored row REOPENED. Membership is GRANDFATHERED — the 85 rows already on the trunk still write, which is the property that stops this landing as an outage the way the bare ceiling would have. ⚠ THE CEILING `MAX_UNSCORED_OPEN` IS STILL NOT MERGED, AND THE MEASUREMENT SAYS WHY. Across all 120 ledger commits in the observable trunk history (2026-08-28T13:55Z -> 2026-08-29T00:27Z) open-unscored rose 22 -> 85: +63 in 10.5 h, ~6 rows/hour, and NO pre-existing unscored row acquired a score in that window. Condition 2 asks for flat or falling over >=2 h and the series is rising, so pinning at 85 today would go red in roughly ten minutes — the instalment edit this row already refused once. ⭐ WHAT REMAINS, AND IT IS NOW A WAIT ON EVIDENCE RATHER THAN ON CODE: re-run the same series over >=2 h of trunk history that is entirely AFTER this commit; if it is flat or falling, pin the ceiling at the count measured in the same commit that lands it and merge the held vacuity test from d082c01a78. R5 is what makes that series able to be flat. ⚠ R5 CANNOT SHRINK THE EXISTING 85 AND DOES NOT CLAIM TO — those clear one row at a time, by scoring them, and `n_unscored_open` is the number that says whether that is happening.\n\n⭐ 2026-08-29, CYC-0074 SEAT s2 — ENTRY CONDITION 2 IS A COMMAND NOW, AND ITS FIRST REAL RUN SAYS THE SERIES RISES. `research/autonomy/unscored_ratchet.py` computes the condition: it walks the TRUNK'S OWN STATES (`git log --first-parent`) after R5 (ee17c39a2, 2026-08-29T00:49:39Z), cutting the window by TIMESTAMP rather than by ancestry, counts the population with `admissibility.is_unscored_open` — ONE definition across the whole series, never each commit's published `n_unscored_open`, which measures when `priority.py --write` last ran — and prints ADMIT with the count to pin, or HOLD with the reason and, when the reason is only time, the UTC at which it could pass. ⛔ MEASURED AT 02:15Z ON FIRST-PARENT TRUNK HISTORY: 84, 85, 85, 85, 87, 88 — RISING AT 3 OF 5 STEPS. Four rows entered the population after R5 (AUT-081, AUT-PD-153, AUT-PD-154, AUT-PD-155), and TWO of them were introduced by commits whose trees CONTAIN R5. That is filed as AUT-PD-158, a prerequisite of this row: the ceiling cannot be pinned while the population it would cap is still growing past the gate meant to stop it, and the cause is not separable from committed history because nothing records which `admissibility.py` was in the worktree at write time. ⛔ CONDITION 2 IS THEREFORE STILL UNMET, AND NOT MERELY ON THE CLOCK — a rise is not a reason to wait longer. ⚠ CORRECTION, RECORDED RATHER THAN OVERWRITTEN, BECAUSE THE METHOD WAS WRONG AND NOT ONLY THE NUMBER: this seat's FIRST reading at 01:44Z was 'flat at 85 across 7 commits / 0.85 h' and it used a plain ancestry range. Over the same window an ancestry range returns 17 commits and oscillates 84 -> 85 -> 84 -> 85 in four minutes, because a side-branch commit's ledger is missing every OTHER branch's rows — its count is the population of a state the trunk was never in. `--first-parent` returns 6 commits and is monotone. The flat reading was an artifact of the range, and both the earlier hand derivations (s6, CYC-0073) used the same ancestry range. ⭐ WHAT THE NEXT CYCLE DOES, IN ONE COMMAND: `python3 research/autonomy/unscored_ratchet.py` (exit 0 = ADMIT, 1 = HOLD, 2 = the measurement itself failed). On ADMIT, pin `MAX_UNSCORED_OPEN` at the printed count, merge the held vacuity test UNMODIFIED from d082c01a78, and mutation-test both. On HOLD for a RISE, read the commits it names and work AUT-PD-158 first. ⛔ `MIN_WINDOW_HOURS` WAS NOT SHORTENED TO FIT THE WINDOW THIS CYCLE HAD — that is the instalment edit this row has refused twice — and test 9 of the new suite makes that edit visible.",
       "serves": {
         "route": "RT-AUTONOMY",
         "publication": null,
         "strategy": null
       },
       "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "s2-aut-pd-145-CYC-0074-5a21085f",
+      "state": "queued",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "score": 132.9,
@@ -2617,7 +2650,7 @@
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Repository tooling; no outward-facing act.",
       "claimed_utc": "2026-08-29T01:41:48Z",
-      "evidence": "Measured by seat s6 over all 253 ledger commits: open-unscored 64 -> 82 across 17:26-22:12 UTC, +1.5/h over 2 h and +3.2/h over 5 h, and the ratchet's own assertion FAILS against live origin/main. Logs: scratchpad/s6-AUT-PD-050/.",
+      "evidence": "CYC-0074 seat s2, 2026-08-29T02:15Z: entry condition 2 measured and HOLD, on a RISING series — not on the clock. Trunk first-parent history after R5 (ee17c39a2), window cut by timestamp: 84, 85, 85, 85, 87, 88 across 00:51:28Z-02:09:05Z, rising at 3 of 5 steps. Four rows entered the open-unscored population after R5; two were introduced by commits whose trees contain R5. Filed as AUT-PD-158 (prerequisite of this row). Built research/autonomy/unscored_ratchet.py and tests/test_the_ratchet_entry_condition_is_measured.py (11 tests, 12/12 single-site mutations caught on a COPY; a first pass caught 8 of 10 — a stable-sort mutant and a one-sample mutant both reached the right verdict by the wrong reasoning, so the tests now assert the REASON, not only the verdict). ⚠ THIS SEAT'S OWN FIRST READING (01:44Z, 'flat at 85 over 0.85 h') WAS WRONG IN METHOD: it used a plain ancestry range, which interleaves side-branch commits whose ledgers are states the trunk was never in and oscillates 84->85->84->85 in four minutes. The ceiling is still not pinned and was deliberately not pinned. Logs: scratchpad/s2-aut-pd-145/ (s2-mutation.log, s2-newtests.log, s2-entry-check.json, s2-series-after-r5.log, s2-preflight.log).",
       "closes_clause": null,
       "score_inputs": {
         "age_factor": 0.0,
@@ -2634,8 +2667,11 @@
         }
       ],
       "depends_on_evidence": [
-        "open-unscored 22 -> 85 across 120 trunk ledger commits, 2026-08-28T13:55Z -> 2026-08-29T00:27Z (~6/h, rising)",
-        "research/autonomy/tests/test_the_unscored_population_can_only_shrink.py (14 tests, 10/10 single-site mutations caught on a copy)",
+        "trunk FIRST-PARENT series after R5: 84, 85, 85, 85, 87, 88 (00:51:28Z-02:09:05Z) — RISING at 3 of 5 steps, so condition 2 fails on shape, not on elapsed time",
+        "AUT-PD-158 — four rows entered the population after R5 and two came from commits whose trees contain R5; the cause is not separable from committed history",
+        "research/autonomy/unscored_ratchet.py (first-parent series, ADMIT/HOLD, the count to pin)",
+        "research/autonomy/tests/test_the_ratchet_entry_condition_is_measured.py (11 tests, 12/12 single-site mutations caught on a copy)",
+        "research/autonomy/tests/test_the_unscored_population_can_only_shrink.py (14 tests)",
         "admissibility.refuse_population_growth / is_unscored_open, wired into refuse_inadmissible_write"
       ]
     },
