@@ -1,0 +1,42 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0075-6d9383a0",
+ "session_id": "6d9383a0-7306-5643-baf1-43b9c0ce0b40",
+ "ccr_session_id": "session_01NsMER9Gsh1jLUTPYS1561F",
+ "_ccr_session_id_why": "READ from CLAUDE_CODE_SESSION_ID via session_cap.session_id() and from get_session on this session, never typed as a label.",
+ "utc": "2026-08-29T03:15:00Z",
+ "shape": "One driver, no fan-out. Two cycles in this session (autonomy-state.json max_cycles_per_session=2): cycle 1 fixed the red trunk, cycle 2 took AUT-PROP-015.",
+ "took": "CYCLE 1: the red trunk, which research-loop §1 makes the cycle whether or not anything else is queued. CYCLE 2: AUT-PROP-015 (score 168.41, the top takeable row after a fresh `priority.py --write`), claimed with claim.py (CLAIMED on attempt 1) and released to `owner: null`, state `done`.",
+ "took_what": "Cycle 1: `main` was red on tests.yml for 13 consecutive runs. Cycle 2: make `gse-series` write a path that varies with the series, then delete the refusal that stood in for it.",
+ "changed": [
+  "MERGED cyc0073-d4ccfde4-work (16 commits) to `main`, which is what carried the trunk-red fix. Verified the claim before acting on it rather than inheriting it: `git log origin/main..origin/cyc0073-d4ccfde4-work` showed 16 unmerged commits at 8883adacc.",
+  "ROOT CAUSE OF THE RED TRUNK, read off the job log (mcp__github__get_job_logs job 99037332253), not inferred: the `gates` job was GREEN and only the `pytest` job failed, on exactly ONE test of 10731 — systems/tests/test_systems_check.py::test_a_dead_code_pointer_still_fires_after_the_external_allowance. `systems_check.CODE_DIRS` omitted `.claude`, so the tracked Stop hook `merge-debt-at-turn-end.sh` that CLAUDE.md §7 names read as a DEAD POINTER. Red continuously from 005b837b8 (00:53:30Z) to b5331e1fc (02:20:05Z); last green ce09205fc (00:47:02Z).",
+  "research/modalities/atr_hrd_sarcoma_series.py — AUT-PROP-015. New `paths_for(series)` derives artifact + both caches from the accession; `_GRANDFATHERED` keeps GSE299349 on the unsuffixed filenames that emc-systems-map.json, PUB-ATR §8 and emc-expression-panels.json cite literally, so no citation moved (the row forbids moving the artifact). `_stem()` validates GSE<digits> before the value becomes a filename. CYC-0018's refusal DELETED. main() resolves per-series paths; both SERIES MISMATCH guards now compare against `args.series` rather than the module constant; the single_slot_identity binding is scoped to the declared series and prints IDENTITY NOT APPLICABLE for a fresh accession rather than skipping silently.",
+  "research/modalities/tests/test_atr_hrd_sarcoma_series.py — the refusal test REPLACED (not removed) by one that runs the fetch half for a foreign series and asserts byte-for-byte that the committed GSE299349 artifact is untouched while the foreign artifact IS written; plus a grandfathered-path test and an accession-validation test. The self-consistent-pair test's monkeypatch seam moved from the module globals to `paths_for`, because main() no longer reads those globals — left alone it passed while asserting nothing (measured: returned 0).",
+  "research/autonomy/research-ledger.json — AUT-PD-160 (id re-allocated to clear a real duplicate found by the merge), AUT-PD-161 and AUT-PD-162 filed, AUT-PROP-015 closed, AUT-044 flagged requires_trimcrae.",
+  "research/autonomy/amendments.jsonl — merge conflict resolved keeping ALL 11 records from both cycles, ordered by their own `utc`; two new governed edits declared with the self-serving check answered."
+ ],
+ "cost": "$0. No GPU, no rental, no CI dispatch. CPU, engineering and two public Actions reads only.",
+ "subagents": {
+  "max_concurrent": 0,
+  "total": 0,
+  "_why": "No fan-out. The trunk fix was a merge plus a verification, and AUT-PROP-015 was one module and its test file — neither is ≥2 independent items, so research-loop §3's driver shape applies. Cap at dispatch would have been 5 (autonomy-state.json subagent_width, READ this cycle at backoff_level 0, not remembered)."
+ },
+ "rate_limit_info": {
+  "status": "allowed",
+  "rateLimitType": "five_hour",
+  "resetsAt": 1787980200,
+  "isUsingOverage": false,
+  "_read_from": "get_session on this session, external_metadata.rate_limit_info, per research-loop §4 — read, not inferred."
+ },
+ "what_i_got_wrong": "FOUR THINGS, ALL CAUGHT BY RUNNING RATHER THAN READING. (1) I reported the trunk-red test as still failing on the merged tree. It was not: `python3 -m pytest` is not this repository's interpreter (pytest is a uv tool in its own venv), so the run died on `No module named pytest` and EXIT=1 looked exactly like a real failure. Re-run with the bare console script: 113 passed. ⚠ A wrong interpreter and a wrong verdict are indistinguishable from the exit code alone. (2) I rewrote the ledger with `indent=1` against its `indent=2`, producing a 9289-line diff that would have buried the two lines that actually changed — the tell CLAUDE.md §6 names for a commit that sweeps in more than it says. Reverted and redone: 2 insertions, 2 deletions. (3) I claimed AUT-PD-159 'exists on no ref'. That was true when I swept, and it stopped being true minutes later: CYC-0072 landed a DIFFERENT AUT-PD-159 on the trunk. The finding survives and is worse than I first stated — the handoff's id now resolves confidently to the wrong defect instead of dangling — but the sentence needed correcting, not repeating. (4) I twice mis-estimated elapsed time and nearly called a healthy gate a stall; the process table said pytest had run 3m47s with all four workers busy, so I investigated instead of reassuring and the answer was 'normal'.",
+ "now_queued": "AUT-PD-161 — handoff.py reads the WORKING TREE while its own docstring and research-loop §3 both promise committed state (handoff.py:45 sets LEDGER to the working-tree path; 245/263/386 read it). This is why the prompt that started this session advertised `AUT-PD-159 score 136.0` and told me to 'See AUT-PD-159' for a row that existed on no ref. Remedy already written elsewhere in the same directory: claim.py:187 reads `git show origin/main:<ledger>`. Verified that call works here despite the shallow clone (rc=0). NOT fixed by this cycle — I am its filer and the fix belongs to a later one. AUT-PD-162 — the commit loop (~11.6 min, gate-13 dominated) is ~4x the trunk's MEDIAN inter-push gap (2.7 min; 22 of 24 gaps under 13 min), and 10 of the last 40 trunk commits are cheap `claim` lease-writes plus automated ticks that never pay the gate. That is starvation between two classes of writer, and it is why this cycle was rejected twice on a push it had gated green.",
+ "blocked_by": [],
+ "route_advanced": "RT-ATR",
+ "_route_advanced_why": "AUT-PROP-015 restores the `gse-series` workflow's advertised capability — characterising ANY GEO series — which had been reduced to a single hard-coded accession. That is live research capability rather than documentation. The trunk fix in cycle 1 unblocks every route's ability to commit at all, but the route moved is RT-ATR.",
+ "handoff": {
+  "child_session_id": null,
+  "attempted": false,
+  "_why": "Filled in below by the handoff step before this session ends; this session is at its 2-cycle cap."
+ }
+}

@@ -54,11 +54,55 @@ import urllib.parse
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ART = os.path.join(HERE, "atr-hrd-sarcoma-series.json")
-INPUTS = os.path.join(HERE, "atr-hrd-sarcoma-series-inputs.json")
-QUANT_INPUTS = os.path.join(HERE, "atr-hrd-sarcoma-series-quant-inputs.json")
 
 SERIES = "GSE299349"
+
+#: ⭐ THE GRANDFATHERED NAME, AND IT IS A COMPATIBILITY CONSTRAINT RATHER THAN A DEFAULT.
+#: `research/manuscripts/emc-systems-map.json`, PUB-ATR §8 and `emc-expression-panels.json` all name
+#: `research/modalities/atr-hrd-sarcoma-series.json` literally. Deriving THIS series' path like every
+#: other one would rename the file those three documents cite, so AUT-PROP-015 is explicit that the
+#: GSE299349 artifact keeps the unsuffixed name and only OTHER series get a derived one. A rename
+#: that does not carry every citation with it swaps one silent wrongness for another.
+_GRANDFATHERED = {SERIES: "atr-hrd-sarcoma-series"}
+
+
+def _stem(series):
+    """The filename stem for `series` — the grandfathered one for GSE299349, derived otherwise.
+
+    ⛔ THE ACCESSION IS VALIDATED BEFORE IT REACHES A PATH. `series` arrives from `--series`, which
+    is user input that becomes a filename; anything but a GEO accession is refused here rather than
+    allowed to escape `HERE` via `..` or an absolute path.
+    """
+    if series in _GRANDFATHERED:
+        return _GRANDFATHERED[series]
+    if not re.fullmatch(r"GSE\d+", series or ""):
+        raise ValueError(
+            f"not a GEO series accession: {series!r}. Expected GSE<digits> (e.g. GSE299349); this "
+            f"value becomes a filename, so it is refused rather than sanitised.")
+    return f"atr-hrd-sarcoma-series-{series}"
+
+
+def paths_for(series):
+    """(artifact, inputs cache, quant cache) for `series`.
+
+    ⭐ THIS FUNCTION IS THE WHOLE OF AUT-PROP-015. Until it existed the three paths were module-level
+    literals that did NOT vary with `--series`, so a run handed another accession overwrote the
+    committed characterisation of GSE299349 and every reader downstream kept citing the path as
+    though nothing had moved. That happened twice in opposite directions (2026-08-07 325258cb8, and
+    the 2026-08-27 repair a8caba9), and CYC-0018 stopped it by REFUSING every other accession — a
+    correct stop-gap and a capability loss, because the workflow advertises `gse-series` as
+    "characterise ONE GEO series" with a free `series` input. Series-derived paths are what let the
+    refusal be deleted instead of merely documented.
+    """
+    stem = _stem(series)
+    return (os.path.join(HERE, f"{stem}.json"),
+            os.path.join(HERE, f"{stem}-inputs.json"),
+            os.path.join(HERE, f"{stem}-quant-inputs.json"))
+
+
+#: The declared series' paths, kept as module-level names because importers and `fetch_quant`'s
+#: default already bind to them. They are `paths_for(SERIES)` and nothing else.
+ART, INPUTS, QUANT_INPUTS = paths_for(SERIES)
 # The mechanism paper route 1 rests on. Fetched here for ONE reason: Q3 asks whether a 2026 sarcoma
 # ATR programme is selecting on a biomarker that paper argues AGAINST, and that comparison has to be
 # made against the paper's own words rather than against this repo's summary of them.
@@ -1211,14 +1255,13 @@ def main(argv=None):
     ap.add_argument("--check", action="store_true",
                     help="offline: re-derive from the inputs cache and diff against the artifact")
     ap.add_argument("--series", default=SERIES,
-                    help=f"must be {SERIES}. This module writes ONE fixed path; see the refusal "
-                         f"below for why any other value is rejected rather than honoured.")
+                    help=f"GEO series accession to characterise (default {SERIES}). Each series "
+                         f"writes its OWN artifact and caches; {SERIES} keeps the grandfathered "
+                         f"unsuffixed filenames that the systems map and PUB-ATR §8 cite.")
     args = ap.parse_args(argv)
 
-    # ⛔⛔ ONE FIXED OUTPUT PATH AND A FREE `--series` IS A CLOBBER WAITING FOR A DISPATCH, AND IT
-    # HAS ALREADY HAPPENED TWICE IN OPPOSITE DIRECTIONS. `ART` does not vary with `--series`, so a
-    # run handed a different accession overwrites the committed characterisation of THIS one and
-    # every reader downstream keeps citing the path as though nothing moved.
+    # ⭐ EVERY SERIES NOW WRITES ITS OWN PATHS (AUT-PROP-015). The history this replaces is worth
+    # keeping, because it is why the paths are derived rather than fixed:
     #   2026-08-07, 325258cb8: `--series GSE28866` overwrote the GSE299349 record. PUB-ATR §8's
     #     entire evidence base then cited an artifact holding a different series. Caught three
     #     weeks later by a blind arithmetic seat (CYC-0016), not by any instrument here — `--check`
@@ -1227,38 +1270,39 @@ def main(argv=None):
     #   2026-08-27, a8caba9: the repair re-fetched GSE299349 and removed the GSE28866 samples that
     #     `emc_cohort_search._known_gsms()` had been reading since 2026-08-08 as dedup level 3.
     #     The EMC re-deposit guard lost its 3SEQ arm; CI caught it, hours later (CYC-0018).
-    # Both readers were right about a filename that could only be right for one of them. Until this
-    # module writes a series-derived path, the honest behaviour is to refuse the other series
-    # rather than to serve it destructively.
-    if args.series != SERIES:
-        print(f"REFUSED: --series {args.series!r}. This module's output path "
-              f"{os.path.basename(ART)} is fixed and its content is the committed "
-              f"characterisation of {SERIES}; writing {args.series} here would overwrite it "
-              f"silently and leave every citation of that path pointing at another series. "
-              f"Give the other series its own module or its own output path.", file=sys.stderr)
+    # CYC-0018 stopped the clobber by REFUSING any accession but the declared one. That was correct
+    # and it was also a capability loss: the `gse-series` workflow advertises a free `series` input
+    # and "characterise ONE GEO series", which was a lie for every accession but GSE299349. The
+    # refusal is deleted here because the condition it stood in for — one fixed path — is gone.
+    # ⛔ THE CLOBBER IS PREVENTED BY THE PATHS, NOT BY A CHECK THAT COULD BE SWITCHED OFF: two
+    # different accessions can no longer name the same file.
+    try:
+        art_path, inputs_path, quant_path = paths_for(args.series)
+    except ValueError as exc:
+        print(f"REFUSED: {exc}", file=sys.stderr)
         return 2
 
     if args.fetch_quant:
-        if not os.path.exists(ART):
+        if not os.path.exists(art_path):
             print("no artifact yet — run --fetch first", file=sys.stderr)
             return 2
-        q = fetch_quant()
-        with open(QUANT_INPUTS, "w") as f:
+        q = fetch_quant(art_path)
+        with open(quant_path, "w") as f:
             json.dump(q, f, indent=1, sort_keys=True)
-        with open(INPUTS) as f:
+        with open(inputs_path) as f:
             inp = json.load(f)
         res = derive(inp, q)
-        with open(ART, "w") as f:
+        with open(art_path, "w") as f:
             json.dump(res, f, indent=1, sort_keys=True)
         print(json.dumps(res["emc_model_identity_check"], indent=1)[:2500])
         return 0
 
     if args.fetch:
         inp = fetch(args.series)
-        with open(INPUTS, "w") as f:
+        with open(inputs_path, "w") as f:
             json.dump(inp, f, indent=1, sort_keys=True)
         res = derive(inp, _load_quant())
-        with open(ART, "w") as f:
+        with open(art_path, "w") as f:
             json.dump(res, f, indent=1, sort_keys=True)
         print(json.dumps({k: res.get(k) for k in
                           ("verdict", "readable", "n_samples_parsed", "material_type_counts",
@@ -1279,39 +1323,53 @@ def main(argv=None):
     # modalities suite green (13/13) and the default preflight byte-identical to its control run.
     # `single_slot_identity` binds those too, over a REGISTRY, so the next single-slot artifact is
     # covered by an entry rather than by another hand-written check in another module.
+    # ⛔ SCOPED TO THE DECLARED SERIES, AND THE SCOPING IS NOT A WEAKENING. The registry binds a
+    # PRODUCER to the records that cite its fixed output path; GSE299349 is the only series any
+    # document declares, so it is the only one for which "does the slot still hold it?" is a
+    # question with a subject. Demanding a slot for a freshly-characterised accession would fail
+    # closed on every new series and leave the capability exactly as unusable as the refusal this
+    # replaces. ⚠ AND SILENCE IS NOT THE ALTERNATIVE: a non-declared series says so out loud, so an
+    # absent binding is never mistaken for a checked one (CLAUDE.md §4).
     rc = 0
-    if HERE not in sys.path:
-        sys.path.insert(0, HERE)
-    import single_slot_identity as _ssi                                        # noqa: E402
-    _me = os.path.abspath(__file__)
-    _slot = next((s for s in _ssi.SLOTS
-                  if os.path.abspath(os.path.join(_ssi.REPO, s["producer"])) == _me), None)
-    if _slot is None:
-        # ⛔ FAIL CLOSED. An unregistered slot is an UNMEASURED one, and this module is the exact
-        # shape the registry exists for; silently skipping would restore the blind spot.
-        print(f"IDENTITY UNCHECKED — no slot in single_slot_identity.SLOTS names "
-              f"{os.path.basename(__file__)} as its producer, so nothing binds this fixed output "
-              f"path to {SERIES}", file=sys.stderr)
-        rc = 1
+    if args.series != SERIES:
+        print(f"IDENTITY NOT APPLICABLE — {args.series} is not the declared single-slot series "
+              f"({SERIES}); no entry in single_slot_identity.SLOTS names its artifact and no "
+              f"document cites it, so there is no binding to verify. The derive-reproduces and "
+              f"series-identity checks below still run against {args.series}.")
+        _ssi = _slot = None
     else:
-        _fails = _ssi.check_slot(_slot)
-        if _fails:
-            print(f"IDENTITY UNBOUND — {_slot['id']} does not hold {SERIES}", file=sys.stderr)
-            for _f in _fails:
-                print(f"    {_f}", file=sys.stderr)
+        if HERE not in sys.path:
+            sys.path.insert(0, HERE)
+        import single_slot_identity as _ssi                                    # noqa: E402
+        _me = os.path.abspath(__file__)
+        _slot = next((s for s in _ssi.SLOTS
+                      if os.path.abspath(os.path.join(_ssi.REPO, s["producer"])) == _me), None)
+        if _slot is None:
+            # ⛔ FAIL CLOSED. An unregistered slot is an UNMEASURED one, and this module is the
+            # exact shape the registry exists for; silently skipping would restore the blind spot.
+            print(f"IDENTITY UNCHECKED — no slot in single_slot_identity.SLOTS names "
+                  f"{os.path.basename(__file__)} as its producer, so nothing binds this fixed "
+                  f"output path to {SERIES}", file=sys.stderr)
             rc = 1
         else:
-            print(f"OK — the slot is bound to {SERIES} (artifact, caches, systems map, "
-                  f"{len(_slot.get('declared_by', []))} declaring document(s))")
+            _fails = _ssi.check_slot(_slot)
+            if _fails:
+                print(f"IDENTITY UNBOUND — {_slot['id']} does not hold {SERIES}", file=sys.stderr)
+                for _f in _fails:
+                    print(f"    {_f}", file=sys.stderr)
+                rc = 1
+            else:
+                print(f"OK — the slot is bound to {SERIES} (artifact, caches, systems map, "
+                      f"{len(_slot.get('declared_by', []))} declaring document(s))")
 
-    if not os.path.exists(INPUTS):
-        print(f"no inputs cache at {INPUTS} — run --fetch in CI first", file=sys.stderr)
+    if not os.path.exists(inputs_path):
+        print(f"no inputs cache at {inputs_path} — run --fetch in CI first", file=sys.stderr)
         return 2
-    with open(INPUTS) as f:
+    with open(inputs_path) as f:
         inp = json.load(f)
     fresh = derive(inp, _load_quant())
     # ⛔⛔ AND THE SAME QUESTION ASKED OF THE CACHE, BECAUSE THE COMMITTED-ARTIFACT CHECK BELOW HAS
-    # A DOOR IT CANNOT COVER (measured 2026-08-27, on a copy). The `if not os.path.exists(ART)`
+    # A DOOR IT CANNOT COVER (measured 2026-08-27, on a copy). The `if not os.path.exists(art_path)`
     # branch a few lines down WRITES `fresh` into the slot and returns 0, and it runs BEFORE
     # anything reads the committed artifact -- so with the artifact absent and the inputs cache
     # holding GSE28866, `--check` wrote a GSE28866 artifact into GSE299349's fixed path and exited
@@ -1322,31 +1380,31 @@ def main(argv=None):
     # whose remedy is "regenerate", which would regenerate the artifact FROM the wrong cache. The
     # remedy for an identity failure is to re-fetch the DECLARED series, and a reader sent to the
     # wrong one loses the incident twice.
-    if fresh.get("series") != SERIES:
-        print(f"SERIES MISMATCH — the inputs cache at {os.path.basename(INPUTS)} derives "
-              f"series={fresh.get('series')!r}, but this module's SERIES constant is {SERIES!r}. "
+    if fresh.get("series") != args.series:
+        print(f"SERIES MISMATCH — the inputs cache at {os.path.basename(inputs_path)} derives "
+              f"series={fresh.get('series')!r}, but the series requested is {args.series!r}. "
               f"The cache this artifact is re-derived FROM is for another series, so every "
               f"re-derivation from it writes another series into this fixed path. Re-fetch the "
               f"declared series: python3 {os.path.basename(__file__)} --fetch", file=sys.stderr)
         return 1
-    if not os.path.exists(ART):
-        with open(ART, "w") as f:
+    if not os.path.exists(art_path):
+        with open(art_path, "w") as f:
             json.dump(fresh, f, indent=1, sort_keys=True)
         print("artifact written from the cache")
         return rc
-    with open(ART) as f:
+    with open(art_path) as f:
         committed = json.load(f)
     # ⛔⛔ AUT-PROP-009, THE HALF THE DERIVE-REPRODUCES CHECK CANNOT SEE. The 2026-08-07 incident
     # (325258cb8) was a restore that swept in a stale snapshot of the inputs cache AND the artifact
     # TOGETHER, both self-consistently describing GSE28866 instead of GSE299349 -- so `a == b` below
     # stayed green for three weeks, because it only asks whether the artifact reproduces from ITS OWN
-    # cache, never whether that cache is for the series this module's SOURCE says it is. `SERIES`
-    # lives in this .py file, which a restore of research/modalities/*.json data does not touch, so
-    # it is the one thing such a restore cannot silently carry backwards along with it.
+    # cache, never whether that cache is for the series this module's SOURCE says it is. The series being characterised comes from
+    # `--series` (defaulting to this .py file's `SERIES`), which a restore of research/modalities/*.json
+    # data does not touch, so it is the one thing such a restore cannot silently carry backwards.
     committed_series = committed.get("series")
-    if committed_series != SERIES:
-        print(f"SERIES MISMATCH — the committed artifact at {os.path.basename(ART)} records "
-              f"series={committed_series!r}, but this module's SERIES constant is {SERIES!r}. A "
+    if committed_series != args.series:
+        print(f"SERIES MISMATCH — the committed artifact at {os.path.basename(art_path)} records "
+              f"series={committed_series!r}, but the series requested is {args.series!r}. A "
               f"restore or an unrelated dispatch has silently overwritten this artifact with "
               f"another series' data (measured 2026-08-07, 325258cb8: GSE28866 overwrote GSE299349, "
               f"undetected for three weeks because the derive-reproduces check alone cannot see a "

@@ -13,6 +13,8 @@ import json
 import os
 import sys
 
+import pytest
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import atr_hrd_sarcoma_series as M  # noqa: E402
@@ -184,29 +186,70 @@ def test_identity_check_reports_cannot_determine_when_nothing_read():
     assert r["verdict"].startswith("CANNOT_DETERMINE")
 
 
-def test_a_foreign_series_is_refused_rather_than_written_over_this_one(capsys, monkeypatch):
-    """One fixed output path plus a free `--series` clobbered this artifact twice, both ways.
+def test_a_foreign_series_writes_its_own_paths_and_never_this_one(tmp_path, monkeypatch):
+    """AUT-PROP-015: the clobber is prevented by the PATHS now, not by a refusal.
 
+    One fixed output path plus a free `--series` clobbered this artifact twice, both ways.
     2026-08-07 (325258cb8) `--series GSE28866` overwrote the GSE299349 record, and PUB-ATR §8 then
     spent three weeks citing an artifact holding another series; `--check` was green throughout,
     because it only asks whether the artifact reproduces from ITS OWN cache. 2026-08-27 (a8caba9)
     the repair ran the other way and took with it the GSE28866 samples `emc_cohort_search` reads as
-    dedup level 3. Refusal is the only honest answer while the output path does not vary with the
-    series -- and it must come BEFORE the fetch, so it is testable with no network.
+    dedup level 3.
+
+    ⭐ CYC-0018 answered that by REFUSING every other accession, and this test used to pin the
+    refusal. That was a correct stop-gap and a capability loss: the `gse-series` workflow
+    advertises a free `series` input and "characterise ONE GEO series", which was a lie for every
+    accession but GSE299349. The refusal is gone; what replaces it is STRONGER, because it removes
+    the condition rather than guarding it -- two accessions can no longer name the same file, so
+    there is no ordering to get wrong and no check to switch off.
+
+    ⛔ THIS RUNS THE FETCH HALF FOR REAL (stubbed at the network boundary only) RATHER THAN
+    ASSERTING A REFUSAL BEFORE IT. That is deliberate: the old test could only prove the writer was
+    never reached, which says nothing about where a foreign series writes once it IS allowed to.
+    `HERE` is redirected so the derived files land in tmp_path, and the REAL committed artifact --
+    an absolute path captured at import -- is compared byte-for-byte afterwards.
     """
-    # ⛔ THE FETCH IS STUBBED TO EXPLODE, AND THAT IS THE POINT OF THE TEST, NOT A CONVENIENCE.
-    # The guarantee being pinned is ORDER: refuse BEFORE anything reaches the network or the
-    # writer. Stubbing makes a violation fail loudly instead of quietly, and it also keeps this
-    # test safe to MUTATE — measured 2026-08-27, when mutating the refusal away made an earlier
-    # version of this test run the real fetch half, which wrote GSE28866 over the committed
-    # GSE299349 artifact and reproduced, live, the incident the refusal exists to prevent.
-    def _must_not_run(*a, **k):
-        raise AssertionError("refused too late: a foreign series reached the fetch half")
-    monkeypatch.setattr(M, "fetch", _must_not_run)
+    with open(M.INPUTS) as fh:
+        foreign_inputs = json.load(fh)
+    foreign_inputs["series"] = "GSE28866"
+    monkeypatch.setattr(M, "fetch", lambda series: dict(foreign_inputs, series=series))
+    monkeypatch.setattr(M, "HERE", str(tmp_path))
+
     before = open(M.ART, "rb").read()
-    assert M.main(["--fetch", "--series", "GSE28866"]) == 2
-    assert "REFUSED" in capsys.readouterr().err
-    assert open(M.ART, "rb").read() == before, "the artifact must be untouched by a refused run"
+    assert M.main(["--fetch", "--series", "GSE28866"]) == 0
+    assert open(M.ART, "rb").read() == before, (
+        "a foreign series must not touch the committed GSE299349 artifact -- this is the "
+        "2026-08-07 incident, and it is what the derived paths exist to make impossible")
+
+    written = tmp_path / "atr-hrd-sarcoma-series-GSE28866.json"
+    assert written.exists(), "the foreign series must actually be characterised, not silently skipped"
+    assert json.loads(written.read_text())["series"] == "GSE28866"
+
+
+def test_the_grandfathered_path_is_the_one_three_documents_cite(tmp_path):
+    """AUT-PROP-015 forbids renaming THIS series' artifact, and the reason is citations.
+
+    `research/manuscripts/emc-systems-map.json`, PUB-ATR §8 and `emc-expression-panels.json` all
+    name `research/modalities/atr-hrd-sarcoma-series.json` literally, so deriving GSE299349's path
+    like every other one would break three documents at once. A rename that does not carry every
+    citation with it swaps one silent wrongness for another.
+    """
+    art, inputs, quant = M.paths_for(M.SERIES)
+    assert os.path.basename(art) == "atr-hrd-sarcoma-series.json"
+    assert os.path.basename(inputs) == "atr-hrd-sarcoma-series-inputs.json"
+    assert os.path.basename(quant) == "atr-hrd-sarcoma-series-quant-inputs.json"
+    assert (art, inputs, quant) == (M.ART, M.INPUTS, M.QUANT_INPUTS)
+
+    # and no other series may collide with any of those three names
+    other = M.paths_for("GSE28866")
+    assert not set(other) & {art, inputs, quant}
+
+
+def test_an_accession_that_is_not_one_is_refused_before_it_becomes_a_filename():
+    """`--series` is user input that becomes a path, so it is validated rather than sanitised."""
+    for bad in ("../../etc/passwd", "/etc/passwd", "GSE", "", "GSE1;rm -rf /", "gse299349"):
+        with pytest.raises(ValueError):
+            M.paths_for(bad)
 
 
 def test_the_declared_series_is_the_one_the_committed_artifact_holds():
@@ -249,8 +292,13 @@ def test_check_would_have_caught_the_incident_the_drift_check_missed(tmp_path, m
     fake_inputs.write_text(json.dumps(mutated_inputs))
     fake_art.write_text(json.dumps(committed_from_mutated_inputs))
 
-    monkeypatch.setattr(M, "INPUTS", str(fake_inputs))
-    monkeypatch.setattr(M, "ART", str(fake_art))
+    # ⚠ THE SEAM MOVED WITH AUT-PROP-015 AND THE GUARANTEE DID NOT. `main()` used to read the
+    # module-level `INPUTS`/`ART`; it now resolves all three paths through `paths_for(--series)` so
+    # that each series writes its own. Patching the old globals would leave `main()` reading the
+    # REAL cache and this test would pass while asserting nothing -- measured, it returned 0. The
+    # assertions below are unchanged; only the injection point is.
+    monkeypatch.setattr(M, "paths_for",
+                        lambda series: (str(fake_art), str(fake_inputs), str(tmp_path / "q.json")))
 
     rc = M.main([])
     err = capsys.readouterr().err
