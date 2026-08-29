@@ -125,17 +125,41 @@ all **483** retrieved full texts — an EMC term within 1,500 characters of a FA
 > ***"synovial sarcoma, extraskeletal myxoid chondrosarcoma, Ewings sarcoma…"***
 
 ⚠ **So EMC tissue HAS been stained for FAP, in a published cohort.** What does **not** exist is an
-EMC-*specific* readout: the paper reports pooled and grade-stratified analyses, its only
+EMC-*specific* readout: the paper reports pooled and grade-stratified analyses, and its only
 subtype-level analyses are of well-differentiated liposarcoma and undifferentiated pleomorphic
-sarcoma (*"for which we collected a relatively large number of cases"*), and **the number of EMC
-cases is not stated in the retrieved text**.
+sarcoma (*"for which we collected a relatively large number of cases"*, Table 5).
 
-⭐ **This changes the ask from a void into a specific, answerable question addressed to a named
-group:** *how many EMC cases were in the Akita University cohort, and what were their intratumoral
-and marginal FAP scores?* That is a request for an existing measurement, not a request for a new
-experiment — which is a materially better position than the route was recorded as being in.
-*Superseded, retained: this section's own first reading, that FAP had never been measured in EMC
-tissue at all.*
+⛔⛔ **AND HALF THE ASK IS ALREADY ANSWERED IN THE PAPER, WHICH SHRINKS THE OTHER HALF TO n = 1.**
+Re-read against the PMC full text on 2026-08-29: **Table 1 (*"Details of all enrolled cases"*)
+reports the enrolled histology counts, and `Extraskeletal myxoid chondrosarcoma` is **1**.** Of the
+133 cases, one is EMC — alongside Ewing sarcoma at 1, fibrosarcoma at 1 and poorly differentiated
+leiomyosarcoma at 1, against well-differentiated liposarcoma at 34 and undifferentiated pleomorphic
+sarcoma at 28. The count was never missing; it was in a table the earlier proximity scan did not
+reach, because that scan matched an EMC term near a FAP term and Table 1 names the subtype without
+naming FAP.
+
+⛔ **THE CONSEQUENCE IS UNFAVOURABLE AND IT IS THE POINT OF THIS RE-READ.** The extraction ask
+survives — the EMC case's intratumoral and marginal FAP scores are genuinely not reported, and no
+per-case data is deposited — but what it would return is **two ordinal scores (0–6 each) on a single
+specimen**. That is a case-level observation, not a measurement of FAP in EMC, and it cannot
+establish, refute or grade FAP as a target in this disease. **An answered extraction ask would leave
+`missing: ["any measurement in EMC"]` standing.**
+
+⚠ **A second limit, stated by the authors, applies to that single case if the scores ever arrive.**
+The paper is explicit that in the intratumoral area *"None of the CAF markers was able to completely
+distinguish CAFs from sarcoma cells"*, so *"all cells that were positive for any of the three CAF
+markers"* — sarcoma cells included — were scored together. **An intratumoral FAP score in this cohort
+is therefore not a measurement of the CAF compartment**, which is the compartment a FAP radioligand
+targets. Only the marginal score is scored on spindle-shaped CAF-marker-positive cells alone, and the
+authors add that anti-FAP staining *"was somewhat weak, making it difficult to evaluate"*.
+
+⚠ *Superseded, retained (CLAUDE.md rule 1.2): "**the number of EMC cases is not stated in the
+retrieved text**"; and the framing that the ask is "**a request for an existing measurement, not a
+request for a new experiment — which is a materially better position than the route was recorded as
+being in**". The first is wrong — Table 1 states it. The second is true as far as it goes and was
+read too favourably: an existing measurement at n = 1 is cheaper to obtain and no more able to
+settle the question. Retained before that: this section's own first reading, that FAP had never been
+measured in EMC tissue at all.*
 
 The same paper is also the honest statement of where the field is: *"**Few studies have examined FAP
 in sarcoma**"*, and *"FAP is not a specific marker of certain types of sarcoma"*.
@@ -198,7 +222,7 @@ arguments, and they are recorded as arguments.
 | axis | before | after | why |
 |---|---|---|---|
 | class-level clinical evidence | inferred from one 2022 ⁹⁰Y series | **measured in sarcoma, and weak** — first therapy readout has no objective response, median OS 4 months, and FAP-PET did not separate from FDG | §2 |
-| EMC-specific evidence | none | **still none REPORTED** — but a published 133-case FAP-IHC sarcoma cohort **includes EMC** and never broke it out, so what is missing is an extraction, not an experiment. The one figure that looked like an EMC reading is a retracted cell line | §3 |
+| EMC-specific evidence | none | **still none REPORTED, and the extraction that would change that is n = 1** — a published 133-case FAP-IHC sarcoma cohort includes EMC, and its Table 1 reports **exactly one** EMC case (measured 2026-08-29); that case's FAP scores are unreported, so the ask is real and what it would return cannot settle the question. The one figure that looked like an EMC reading is a retracted cell line | §3 |
 | external monitorable event | none | **ATLAS recruiting, FAP-positivity-selected, primary completion est. Jan 2028** | §1 |
 | instrument coverage | screen "does not answer the question" | screen **cannot** answer it — measured, `L1`/`L5` | [`surfaceome-instrument-limits.json`](../../modalities/surfaceome-instrument-limits.json) |
 
@@ -213,6 +237,12 @@ survives verbatim** — that was the explicit test this re-grade had to pass, an
 *reported* EMC measurement. EMC tissue has been FAP-stained inside a published cohort (§3a), so
 `evidence_required` gains a **named extraction ask** rather than an experiment — a materially cheaper
 thing to be blocked on, and something a future session should not have to rediscover.
+⛔ **AND ON THE 2026-08-29 RE-READ THAT ASK IS n = 1, WHICH IS WHY IT DOES NOT PROMOTE THE ROUTE
+EITHER.** Table 1 of PMID 38964294 reports one EMC case in 133. An extraction request that succeeds
+returns two ordinal scores on one specimen, and the authors' own method note says the intratumoral
+score cannot separate CAFs from sarcoma cells. **`missing: ["any measurement in EMC"]` would still
+stand after a fully successful ask** — so the ask is worth making and must not be recorded as a path
+to closing the gap. §3.
 `state.maturity` stays `concept`: nothing about EMC was computed. What changes is that
 `supporting_evidence` stops being empty and starts naming what the rationale actually rests on, at
 `strength: class_inherited`, which is the field that exists precisely to keep transferred evidence
