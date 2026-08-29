@@ -8929,8 +8929,8 @@
         "strategy": null
       },
       "state": "in_progress",
-      "owner": null,
-      "claimed_utc": null,
+      "owner": "CYC-0073-2e57571a",
+      "claimed_utc": "2026-08-29T00:21:00Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -8949,7 +8949,12 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "loop-internal ranker crash; nothing outward-facing",
       "what": "⛔⛔ A ROW CARRYING `\"score_inputs\": null` CRASHED `priority.py --write` — STEP 3 OF EVERY CYCLE — AND THE CALENDAR PULLED THE TRIGGER, SO NO COMMIT LOOKS GUILTY. Measured 2026-08-29T00:02Z (CYC-0073-2e57571a). `apply_age_factor` wrote through `e.setdefault(\"score_inputs\", {})[\"age_factor\"] = f`, and `setdefault` RETURNS THE EXISTING VALUE when the key is present — so on `AUT-COV-001`, filed by CYC-0011 and sitting on the trunk for days, it evaluated `None[\"age_factor\"] = f` and raised `TypeError: 'NoneType' object does not support item assignment`. ⭐ WHY IT FIRED WHEN IT DID, WHICH IS THE INTERESTING HALF. Two lines above, `prev` was ALREADY read defensively (`(e.get(\"score_inputs\") or {})`), and the guard `if not f and not prev: continue` skipped this row for as long as its age factor rounded to zero. The date rolling from 08-28 to 08-29 made `f` non-zero for the first time, the row reached the write, and step 3 began failing on state no cycle had touched. A latent null plus a clock is a time bomb with no author. ⛔⛔ AND IT DEADLOCKED THE LOOP RATHER THAN MERELY FAILING IT — THE TWO FAILURES EACH BLOCKED THE OTHER'S FIX. With the re-score dead, every stored `score_inputs.age_factor` was stale against the new date, so `admissibility.check_write` refused EVERY ledger write as `refused_stale_input`. Observed directly: `claim.py --id AUT-PD-147` exited 1 with five `refused_stale_input` rows. So a cycle could not re-score (crash) and could not claim (refused), and step 4 of the contract was unreachable. ⭐ FIXED, AND THE CLASS CLOSED RATHER THAN THE INSTANCE. The write now type-checks instead of relying on `setdefault`; and the READ was hardened in the same edit, because `(x or {})` is a FALSINESS test wearing a type check's clothes — it survives None, '', 0 and [] and raises on a truthy non-dict (`'str' object has no attribute 'get'`). That second hole was found by this fix's own regression test, not by inspection. `AUT-COV-001` now normalises to `{'age_factor': 0.0714}` on the next write. ⚠ THIS IS A SURVIVOR OF AUT-PD-050, WHICH FIXED CRASHES IN THIS SAME FUNCTION. It survived because `null` is not `absent`: `setdefault` handles the absent key, which is the case anyone testing by hand reaches for, and there was no row with an explicit null until CYC-0011 wrote one. ★ EVIDENCE: 10 assertions in `research/autonomy/tests/test_a_null_score_inputs_does_not_stop_the_loop.py`, including one that re-scores the REAL committed ledger at today's date and at today+400 days — a synthetic row would not have caught this, because the row that broke the loop was real state nobody had touched. 5/5 mutations caught, including reverting each half of the fix independently. Full loop-instrument suite 570 passed.",
-      "dispatch_log": [],
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T00:21:00Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ],
       "evidence": ""
     }
   ]
