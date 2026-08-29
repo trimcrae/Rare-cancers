@@ -30,8 +30,8 @@
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 94,
-  "n_unscored_open": 74,
+  "n_unscored": 93,
+  "n_unscored_open": 73,
   "entries": [
     {
       "serves": {
@@ -3824,6 +3824,41 @@
       "_score_basis": "the instance cost one permanently-unmeasurable governance row on the dial the architecture calls the most important; the class is every other row like it",
       "depends_on_evidence": "research/autonomy/receipt_schema.py and its 21-test suite — the worked instance",
       "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-171",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0084-6b009680",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "one function in research/autonomy/ids.py and its test; nothing outward-facing",
+      "closes_clause": null,
+      "score": 120.0,
+      "_score_basis": "EXPLICIT, RESTORED. This row carried score 120.0 until ba12a1f8a, which set it to None while leaving this basis field in place, taking the open-unscored population from 73 to 74 and turning test_the_open_unscored_population_does_not_grow RED ON THE TRUNK. It cannot be re-derived: it serves RT-AUTONOMY, which has no row in systems/graph, so priority.apply_route_inheritance has no floor to inherit and every re-score leaves it None. That is AUT-PD-158's and AUT-PD-177's defect, not this row's. ⛔ The ratchet was NOT raised -- the test's own docstring forbids that and amendment_guard refuses it. The value is the one the row demonstrably held at ba12a1f8a^, not a new number. Restored by CYC-0086-f7394a99 while fixing a red trunk it did not cause.",
+      "depends_on_evidence": [
+        "Measured 2026-08-29 by CYC-0084-6b009680, live and against itself. `ids.next_entry_id('AUT-PD', entries)` returned AUT-PD-169 at 09:15Z; CYC-0083-381d0696 had already committed a DIFFERENT AUT-PD-169 at 08:58:24Z in 24987a47b ('record the handoff, the red trunk's evidence, and AUT-PD-169') and CYC-0084 was 21 commits behind at the time. Both derivations were correct.",
+        "The two rows are unrelated: CYC-0083's is a process_defect on RT-AUTONOMY about the turn-end hook telling a spawning session to claim its successor's item; CYC-0084's was a fetch on RT-SGK1. Nothing about their content would have collided — only the id.",
+        "⭐ THE ASYMMETRY IS THE WHOLE POINT: `ids.next_receipt` ALREADY carries a session discriminator for exactly this reason (AUT-PROP-013, where two sessions 50 s apart both took CYC-0016), and `ids.next_entry_id` in the same module does not. The fix for one half was never applied to the other.",
+        "It was caught only because CYC-0084 read a sibling session's post_turn_summary while running the step-11 reaper and noticed the string 'AUT-PD-169' in it. Nothing checked.",
+        "⛔ SECOND OCCURRENCE, SAME SESSION, 2026-08-29. CYC-0085-6b009680 filed AUT-PD-176 while CYC-0086-4ce79c2a committed a DIFFERENT AUT-PD-176 (5c50402a0) during the ~16-minute gate that stood between filing and pushing. Renumbered to AUT-PD-177. ⭐ THE SECOND ONE IS THE EVIDENCE THAT MATTERS: the first collision could be read as bad luck between sessions hours apart; two in one session, both inside a gate window, makes it structural. AUT-PD-174 is why the window exists — a cycle cannot publish its row until its gate passes — so these two rows compound and should be fixed together or the fix for one will not hold.",
+        "⛔⛔ THIRD OCCURRENCE, SAME SESSION, WITHIN ~90 MINUTES. CYC-0085-6b009680 filed a row as AUT-PD-176 (taken by CYC-0086-4ce79c2a), renumbered to AUT-PD-177 (taken on the trunk by the time the rebase completed), and landed as AUT-PD-178. Each renumber touched the ledger, two modules, a test file and an amendment record, and each was invalidated by the next gate window. ⭐ THE FIX SHAPE THE THIRD ONE MAKES OBVIOUS, AND IT IS NOT 'DERIVE HARDER': the id is allocated when the row is WRITTEN and validated when it is PUSHED, and those are ~16 minutes apart (AUT-PD-172, AUT-PD-174) on a trunk that moves every ~2 minutes. Any allocator reading committed state loses that race by construction. Either the id carries a session discriminator — which `ids.next_receipt` in the SAME MODULE already does, and which makes collision impossible rather than unlikely — or allocation moves to push time behind the same compare-and-swap `claim.py` uses. ⛔ The renumber is not cheap and it is not local: an id appears in ledger cross-references, module docstrings, refusal messages, test assertions and amendment declarations, so every collision is a multi-file edit that must then be re-gated."
+      ],
+      "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time."
     },
     {
       "id": "AUT-PD-139",
@@ -8173,41 +8208,6 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
-    },
-    {
-      "id": "AUT-PD-171",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0084-6b009680",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "one function in research/autonomy/ids.py and its test; nothing outward-facing",
-      "closes_clause": null,
-      "score": null,
-      "_score_basis": "⭐ RAISED 2026-08-29 after a THIRD occurrence in one session. Re-scored on the next run; the basis is that this is no longer a tidiness defect — it is the reason a cycle's last hour was renumbering instead of working.",
-      "depends_on_evidence": [
-        "Measured 2026-08-29 by CYC-0084-6b009680, live and against itself. `ids.next_entry_id('AUT-PD', entries)` returned AUT-PD-169 at 09:15Z; CYC-0083-381d0696 had already committed a DIFFERENT AUT-PD-169 at 08:58:24Z in 24987a47b ('record the handoff, the red trunk's evidence, and AUT-PD-169') and CYC-0084 was 21 commits behind at the time. Both derivations were correct.",
-        "The two rows are unrelated: CYC-0083's is a process_defect on RT-AUTONOMY about the turn-end hook telling a spawning session to claim its successor's item; CYC-0084's was a fetch on RT-SGK1. Nothing about their content would have collided — only the id.",
-        "⭐ THE ASYMMETRY IS THE WHOLE POINT: `ids.next_receipt` ALREADY carries a session discriminator for exactly this reason (AUT-PROP-013, where two sessions 50 s apart both took CYC-0016), and `ids.next_entry_id` in the same module does not. The fix for one half was never applied to the other.",
-        "It was caught only because CYC-0084 read a sibling session's post_turn_summary while running the step-11 reaper and noticed the string 'AUT-PD-169' in it. Nothing checked.",
-        "⛔ SECOND OCCURRENCE, SAME SESSION, 2026-08-29. CYC-0085-6b009680 filed AUT-PD-176 while CYC-0086-4ce79c2a committed a DIFFERENT AUT-PD-176 (5c50402a0) during the ~16-minute gate that stood between filing and pushing. Renumbered to AUT-PD-177. ⭐ THE SECOND ONE IS THE EVIDENCE THAT MATTERS: the first collision could be read as bad luck between sessions hours apart; two in one session, both inside a gate window, makes it structural. AUT-PD-174 is why the window exists — a cycle cannot publish its row until its gate passes — so these two rows compound and should be fixed together or the fix for one will not hold.",
-        "⛔⛔ THIRD OCCURRENCE, SAME SESSION, WITHIN ~90 MINUTES. CYC-0085-6b009680 filed a row as AUT-PD-176 (taken by CYC-0086-4ce79c2a), renumbered to AUT-PD-177 (taken on the trunk by the time the rebase completed), and landed as AUT-PD-178. Each renumber touched the ledger, two modules, a test file and an amendment record, and each was invalidated by the next gate window. ⭐ THE FIX SHAPE THE THIRD ONE MAKES OBVIOUS, AND IT IS NOT 'DERIVE HARDER': the id is allocated when the row is WRITTEN and validated when it is PUSHED, and those are ~16 minutes apart (AUT-PD-172, AUT-PD-174) on a trunk that moves every ~2 minutes. Any allocator reading committed state loses that race by construction. Either the id carries a session discriminator — which `ids.next_receipt` in the SAME MODULE already does, and which makes collision impossible rather than unlikely — or allocation moves to push time behind the same compare-and-swap `claim.py` uses. ⛔ The renumber is not cheap and it is not local: an id appears in ledger cross-references, module docstrings, refusal messages, test assertions and amendment declarations, so every collision is a multi-file edit that must then be re-gated."
-      ],
-      "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time."
     },
     {
       "id": "AUT-BIX-001",
