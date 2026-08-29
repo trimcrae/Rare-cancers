@@ -3253,9 +3253,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0087-45cefa3b",
+      "claimed_utc": "2026-08-29T12:26:08Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3275,7 +3275,13 @@
         "The chain this session sits at the end of, read from parent_session_id in the session list: session_01WPGnj7aYczWrf5rinni5yX -> 01F6Xn8WS2cEj2wbNuVWtAPp -> 017VDt2MMZnksnnHSebkKbbY -> 01CYvZx1rzd5y3AaHjuAAU4o -> 01Fg7WnZ8Kc3wmysc7tpAfTy -> 01HcEoACbH8wWVoTo2je896N -> 01Mfu3suzekFUhjmY5uB3spC -> 01CUYirsUYqbaxCWGsX3iYMq (this one).",
         "⚠ NOT MEASURED: whether archiving an ancestor shortens the chain. The reaper archived two ancestors earlier in this same session and the refusal still fired afterwards, which is SUGGESTIVE that depth is fixed at creation rather than computed over live sessions — but the archives and the refusal were not ordered as an experiment, so it is a lead and not a result."
       ],
-      "what": "⛔⛔ THE SELF-PERPETUATING HANDOFF HAS A HARD CEILING OF 8 AND THIS LOOP NOW REACHES IT. `research-loop` §3 requires the cycle at its session cap to create its own successor, and CLAUDE.md records that a loop needing a human to start its next session 'is not automated, it just has a longer fuse'. Measured 2026-08-29: the 8th link's `create_session` is refused on a lineage-depth limit, so the chain terminates every 8 cycles — 4 sessions x 2 cycles is not the shape anybody chose, it is what the ceiling imposes. ⭐ THE LOOP DOES NOT STOP: the UI-created driver Routine fires a fresh depth-1 session every 4 h, so the cost is CONTINUITY (a gap of up to one cycle interval, with whatever was mid-flight unattended) rather than delivery. ⚠ WHICH IS WHY THIS IS NOT AN ESCALATION and must not be reported as the loop being down. ⭐ WHAT TO ESTABLISH FIRST, because the fix depends on it and neither is known: (a) is depth computed at creation or over LIVE sessions — if the latter, the step-11 reaper already shortens the chain and the fix is to reap before handing off, which is nearly free; (b) does a session created by a Routine reset to depth 1 — the driver's firings suggest yes. Test (a) by archiving an ancestor and immediately retrying `create_session` as an ordered experiment; this cycle archived two and then saw the refusal, but not in that order, so it proves nothing. ⛔ DO NOT 'FIX' THIS BY LENGTHENING SESSIONS. The cap exists because context runs out silently and the session spending it is the one that cannot tell; raising max_cycles_per_session to dodge a spawn ceiling trades a visible gap for an invisible degradation, which is the worse trade."
+      "what": "⛔⛔ THE SELF-PERPETUATING HANDOFF HAS A HARD CEILING OF 8 AND THIS LOOP NOW REACHES IT. `research-loop` §3 requires the cycle at its session cap to create its own successor, and CLAUDE.md records that a loop needing a human to start its next session 'is not automated, it just has a longer fuse'. Measured 2026-08-29: the 8th link's `create_session` is refused on a lineage-depth limit, so the chain terminates every 8 cycles — 4 sessions x 2 cycles is not the shape anybody chose, it is what the ceiling imposes. ⭐ THE LOOP DOES NOT STOP: the UI-created driver Routine fires a fresh depth-1 session every 4 h, so the cost is CONTINUITY (a gap of up to one cycle interval, with whatever was mid-flight unattended) rather than delivery. ⚠ WHICH IS WHY THIS IS NOT AN ESCALATION and must not be reported as the loop being down. ⭐ WHAT TO ESTABLISH FIRST, because the fix depends on it and neither is known: (a) is depth computed at creation or over LIVE sessions — if the latter, the step-11 reaper already shortens the chain and the fix is to reap before handing off, which is nearly free; (b) does a session created by a Routine reset to depth 1 — the driver's firings suggest yes. Test (a) by archiving an ancestor and immediately retrying `create_session` as an ordered experiment; this cycle archived two and then saw the refusal, but not in that order, so it proves nothing. ⛔ DO NOT 'FIX' THIS BY LENGTHENING SESSIONS. The cap exists because context runs out silently and the session spending it is the one that cannot tell; raising max_cycles_per_session to dodge a spawn ceiling trades a visible gap for an invisible degradation, which is the worse trade.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T12:26:08Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-169",
