@@ -1,0 +1,85 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "a9dd5d34ce66145b99df2a581130f5523cc5a9ec",
+  "document_sha256": "ae3014ae5f65ada06814e772c25979ed3508c08618691acfa1aec7efd6b22799",
+  "blind": true,
+  "seat": "statistics",
+  "lens": "What each stated bound actually bounds, whether comparisons are made on comparable terms and denominated where the comparison is made, and whether the corrections the packet computes elsewhere (clustering/design effect, noncentral-t power, Wilson intervals) are applied at the sentences that need them.",
+  "utc": "2026-08-29T23:32:21Z",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso-gap-length-tradeoff.json",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/aso-per-junction-table.json",
+    "research/modalities/aso-insilico-evaluation-e12n3-deep500-b1.json",
+    "research/modalities/aso-insilico-evaluation-taf15e6n3-deep500-b1.json",
+    "research/modalities/coverage-uncertainty.json",
+    "research/modalities/coverage-curve.json",
+    "research/manuscripts/aso_falsification_power.py",
+    "research/manuscripts/tests/test_journal_article_numbers.py",
+    "research/manuscripts/tests/test_clustered_intervals_are_computed_not_typed.py",
+    "research/manuscripts/tests/test_the_printed_cut_ladder_is_the_measured_one.py",
+    "research/manuscripts/tests/test_the_numbered_claims_no_instrument_read.py"
+  ],
+  "central_claim": "That the panel's parent-liability rate is not resolved above the strongest null at the adopted ten-base-pair cut -- 'at ten the strongest null's 40.6% falls inside the panel's own 95% interval on 45.8%, as at every cut from seven to thirteen but eleven', with the excess changing sign four times over cuts six to thirteen -- and that the pre-registrable falsification design's power and void-standard-deviation figures bound what the proposed experiment could show.",
+  "verdict": "supported",
+  "recommendation": "minor_revision",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The range and the exception in the paper's sole separation claim -- 'as at every cut from seven to thirteen but eleven' -- are bound by no instrument. `test_the_adopted_cut_is_not_exempt_from_its_own_null` derives the containment set from the artifact but compares it to a HARDCODED `expected = [c for c in sorted(cs) if 7 <= int(c) <= 13 and c != \"11\"]`; the prose-side `_every_site` pattern binds only the two percentages (40.6%, 45.8%). Neither the range words nor the excepted cut are read from the document.",
+      "evidence": "Re-derived from research/modalities/aso-parent-null.json (cut_sensitivity.observed_cut_ladder[c].rate_liable_wilson95 vs max over null_ensembles[*].cut_ladder[c].rate_liable): strongest null INSIDE at 7,8,9,10,12,13; OUTSIDE at 6 (98.16% above 91.2-97.5%) and at 11 (34.68% below 37.3-51.3%). The text is CORRECT at the pin. Mutation-tested in an isolated clone at the pin (/tmp/.../s19c-pubaso19/s19c-clone, `git diff` asserted each time): (1) 'seven to thirteen' -> 'six to thirteen' (false: cut 6 is outside) and (2) 'but eleven' -> 'but twelve' (false: 12 is inside, 11 is outside) each left 709 passed, 2 skipped across the 24 committed guards that read this document plus lint_claims and lint_style; the only red was `test_the_journal_pdf_fits_its_page_budget`, a build-freshness gate that fires on any .md edit and clears on rebuild. Positive control: 40.6% -> 41.6% in the same sentence turns `test_the_adopted_cut_is_not_exempt_from_its_own_null` red, so the harness works.",
+      "what_edit_would_break_it": "Widening the range to 'six to thirteen', narrowing it, or moving the exception to any other cut. The guard's own docstring says it exists 'so that neither the exemption nor the range can drift back in', and it enforces that on the artifact side only."
+    },
+    {
+      "summary": "The DIRECTION of the pre-registered decision statistic is unbound. 'Selectivity is the ratio of two half-maximal knockdown concentrations: wild-type *NR4A3* over the fusion' can be inverted to 'the fusion over wild-type *NR4A3*' -- which reverses the entire falsification experiment, since a good reagent would then score below 1 against a cut of 5.0 -- and no instrument in the repository reads it.",
+      "evidence": "Mutation in the isolated clone at the pin, landing asserted by `git diff`: the sentence now reads 'the ratio of two half-maximal knockdown concentrations: the fusion over wild-type *NR4A3*'. Run against 25 test modules (every committed test that names the journal article, per `git grep -l fusion-junction-aso-journal-article -- '*.py'` at the pin) plus research/manuscripts/lint_claims.py and lint_style.py: 710 passed, 2 skipped, lint_claims 0 ERROR, lint_style 0 ERROR. `aso_falsification_power.CUT`, `SIGMA` and `TRUE_SELECTIVITY` are bound to the derived figures but nothing binds the numerator/denominator order the cut is defined against. The direction is correct at the pin (research article §4.4: 'the wild-type *NR4A3* half-maximal knockdown concentration divided by the fusion's').",
+      "what_edit_would_break_it": "Any reordering of the two arms in the selectivity definition, or a rewrite of that sentence during copy-editing. The three power/void figures would continue to check out because they depend only on |ln(cut) - ln(true)| and sigma."
+    },
+    {
+      "summary": "In the void-condition sentence the cut ('below 5') and the interval type ('a two-sided 95% interval') are unbound, although the three void standard deviations printed in the SAME sentence -- 0.65, 1.53, 2.25 -- are computed from both. The sentence can be made self-contradicting without any gate firing.",
+      "evidence": "I re-derived void_sd(n) = ln(cut)*sqrt(n)/t_{0.975,n-1}: 0.648, 1.534, 2.250 at n = 3, 6, 10 -- exactly the printed 0.65, 1.53, 2.25 (research/manuscripts/aso_falsification_power.py::void_sd). At cut 4 the same formula gives 0.558/1.321/1.938; at a one-sided 95% bound it gives 0.955/1.956/2.776. Two mutations in the isolated clone, both landed and confirmed by `git diff`: 'two-sided 95% interval below 5' -> 'below 4', and 'two-sided 95%' -> 'one-sided 95%'. Each leaves the printed void figures wrong and each ran 709 passed, 2 skipped over the same guard set. `test_the_falsification_power_figures_are_derived_not_typed` binds only the regex 'about (d.dd) at three replicates - (d.dd) at six, (d.dd) at ten'.",
+      "what_edit_would_break_it": "Changing the cut at this second site while `test_the_falsification_cut_is_the_stated_value` keeps pinning the first ('The cut of 5.0 is adopted as a convention'), or a copy-edit from 'two-sided 95%' to 'one-sided 95%' -- which the extended report explicitly says changes the figures ('the figures above are for that bound and change if a one-sided 95% bound is used instead')."
+    },
+    {
+      "summary": "Two bound-DIRECTION words in Results are unbound and invertible: 'a count of clean designs is a floor over that subset, not a total over the panel' (the 47-of-183 censoring bound) and 'At 5-10-5 the criterion is met by the catalytic gap alone, so that last figure is a floor'. Either can be flipped to 'ceiling' with every gate green, which reverses what the reader is told the number bounds.",
+      "evidence": "Mutations in the isolated clone, both landed per `git diff`: 'is a floor over that subset' -> 'is a ceiling over that subset', and 'so that last figure is a floor' -> 'so that last figure is a ceiling'. Each: 709 passed, 2 skipped over the 24 guards reading this document. `test_the_cleanliness_bounds_are_the_screens_own_counts` binds the four counts (seven, 190, 47, 183) but not the direction word; `test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count` binds the counts 87/88/87, the sizes 190/266/342, the rates 45.8%/33.1%/25.4%, the architecture string '5-10-5' and the artifact's convergence (n_with_any_gap_pairing_window == n_at_or_above_min_duplex_bp == 87 at 5-10-5, verified in research/modalities/aso-gap-length-tradeoff.json), but not the word 'floor'. By contrast the analogous direction word in the ddG sentence IS bound (`test_the_ddg_separations_are_reported_with_the_direction_their_artifact_records` requires 'upper bounds on' ... 'that separation'), which shows the packet treats these words as load-bearing.",
+      "what_edit_would_break_it": "Any copy-edit swapping 'floor' for 'ceiling' or 'bound' in either sentence, or a rewrite that drops the direction word entirely."
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "The journal article's containment sentence uses the NOMINAL Wilson interval and never tells the reader so, while the extended report says the design-effect-corrected interval is the one to read for this rate. I checked that the conclusion survives the correction, so this is a disclosure gap and not an error.",
+      "evidence": "I recomputed the one-way-ANOVA design effect from research/modalities/aso-parent-gap-pairing.json (38 junctions, 5 registers each, deff = 1 + (m-1)*ICC, Wilson at n/deff), reproducing the packet's own 1.42 / neff 134 / 37.6-54.2% at the adopted cut. Extending it to every cut: deff = 1.76, 1.85, 1.92, 1.87, 1.42, 1.23, 0.96, 0.89 at cuts 6-13, giving clustered intervals 89.5-97.9, 85.3-95.9, 65.9-82.7, 42.0-61.1, 37.6-54.2, 36.6-52.1, 13.6-24.4, 1.5-6.5%. The inside/outside verdicts are IDENTICAL to the nominal ones at every cut, including the sole separation at eleven (34.68% still below 36.6%). The journal article states 'the panel's own 95% interval' with no qualifier and carries no design-effect discussion, no statement that the 190 records are 176 distinct molecules clustered in 38 junctions at that point in the text, and no pointer that the corrected interval exists."
+    },
+    {
+      "summary": "Cut six -- the one rung where the strongest null significantly EXCEEDS the panel, the least favourable comparison in the ladder -- is excluded from the journal article's containment sentence, whose stated range begins at seven, while the one exception that IS reported (eleven) is the rung favourable to the panel.",
+      "evidence": "From research/modalities/aso-parent-null.json: at cut 6 the panel is 181/190 = 95.26% (Wilson 91.2-97.5%) and the strongest null (exon_terminus_chimera_novel_acceptor) is 98.16% -- outside, ABOVE. The journal article's sentence reads 'as at every cut from seven to thirteen but eleven', so it is true as written and the omission is by an explicitly stated range. The next sentence does cover 'cuts of six to thirteen' for the four sign changes (which I reproduced: excess = -2.9, +0.7, -1.0, -5.2, +5.2, +9.5, +3.9, -1.6 percentage points), and the extended report's §2.5 ladder prints cut six's 'outside, above' verdict. So the least favourable comparison is carried, but only in the deposit and not beside the sentence that quotes the adopted cut."
+    },
+    {
+      "summary": "The journal article states 'an assumed replicate standard deviation of 0.35 on the natural-log scale' without saying it is the standard deviation of the log selectivity RATIO; on the natural alternative reading (0.35 per arm, arms independent) the same design gives about 63% power at six replicates rather than the stated 80%.",
+      "evidence": "research/manuscripts/aso_falsification_power.py implements SE = sigma/sqrt(n) with df = n-1, which reproduces 81.28% / 30.42% at n = 6 / 3 -- the printed 'about 80%' and 'about 30%'. Reading 0.35 as a per-arm log-IC50 SD with independent arms gives SE = 0.35*sqrt(2/n), df = 2n-2, and noncentral-t power of 62.60% at n = 6 and 28.04% at n = 3. The extended report removes the ambiguity ('the replicate standard deviation of its natural logarithm ... taken across independent biological replicates of the same matched dose-response, in the same wells'); the journal article does not carry that clause, though its preceding sentence does say 'from a matched dose-response in the same wells'."
+    },
+    {
+      "summary": "'These are upper bounds on that separation' is a one-directional bound where the producing artifact records two unmodelled terms pointing opposite ways and says they must not be quoted as a range. The paper takes the reader-protective side, so this is a note rather than an objection.",
+      "evidence": "research/modalities/aso-offtarget-duplex-energy.json carries both '_the_bound_runs_one_way' (longest-run scoring understates a near-match's stability and therefore OVERSTATES its separation) and '_lna_not_modelled' plus '_and_the_two_bounds_point_opposite_ways' ('unmodelled LNA understates it where the intended duplex pairs more locked residues than the near-match does'). For both named reagents `locked_residues_paired_by_closest` = 8 against ten locked residues in the intended duplex, so the LNA term does run the other way here. The journal article reports only the run-length direction; the guard `test_the_ddg_separations_are_reported_with_the_direction_their_artifact_records` requires exactly that and forbids merging the two into a range, so the omission is deliberate. I confirmed the quoted values: closest_gap_paired_ddg = 3.206 and 2.991 kcal/mol, and 8 fully paired / 45 within 2 kcal/mol across the 190-design panel."
+    },
+    {
+      "summary": "Everything else my lens tested re-derived exactly from the artifacts, including the comparisons that cross unequal panels.",
+      "evidence": "Reproduced from the pin: 87/190 = 45.8% and 61 against wild-type NR4A3 (aso-parent-gap-pairing.json); chimera null 40.568% -> 40.6% and scramble control 9.987% -> 10.0% / 3.911% -> 3.9% (aso-parent-null.json, 38,000 draws each, so both cross-panel comparisons are made as rates); the three-geometry series 87/190, 88/266, 87/342 = 45.8/33.1/25.4% (aso-gap-length-tradeoff.json); junctions with a clearing design by cut 6,9,23,31,35 and published-breakpoint junctions 0,0,2,3,5 (recomputed from per_design longest_parent_duplex_bp_through_gap); the TAF15 e6 junction's five registers at 9,11,11,12,12 bp, so its best design is indeed liable at a cut of nine; 176 distinct sequences with nine spanning more than one junction; the reagents' 8 and 9 bp parent duplexes against wild-type TFG and the condemned one-slide neighbour at 11 bp against wild-type NR4A3; 123 against 8 gap-paired near-matches, both from the SAME deep500-b1 screen (186,185 transcripts scanned in each), so that comparison is on comparable terms; coverage 0.7931*0.6667 + 0.1552*1.0 = 68.4% with the composed range 39.9-82.8% and the two partner shares held fixed exactly as the text says ('two of its four inputs do not vary'), and 79.0% for the three-reagent set."
+    }
+  ],
+  "logs": [
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19c-pubaso19/s19c-read.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19c-pubaso19/s19c-derive.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19c-pubaso19/s19c-power.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19c-pubaso19/s19c-guards.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19c-pubaso19/s19c-mutate.log"
+  ]
+}

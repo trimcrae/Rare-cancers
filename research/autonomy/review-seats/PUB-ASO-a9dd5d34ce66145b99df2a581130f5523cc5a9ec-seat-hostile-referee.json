@@ -1,0 +1,99 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "a9dd5d34ce66145b99df2a581130f5523cc5a9ec",
+  "document_sha256": "ae3014ae5f65ada06814e772c25979ed3508c08618691acfa1aec7efd6b22799",
+  "blind": true,
+  "seat": "hostile-referee",
+  "lens": "One referee verdict for a specialist journal, reading only the packet: whether the two named reagents, the falsifying experiment and the negative result are supported at the weight they are stated, and whether anything about efficacy, potency, tolerability, delivery or clinical readiness is claimed or implied that this work does not support.",
+  "utc": "2026-08-29T23:28:00Z",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+    "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+    "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+    "research/manuscripts/aso/fusion-junction-aso-data-sources.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
+    "research/manuscripts/tests/test_figure_render_is_not_truncated.py",
+    "research/manuscripts/tests/test_pdf_text_layer_is_orderable.py",
+    "research/manuscripts/tests/test_the_journal_display_items_say_what_their_rows_say.py",
+    "research/manuscripts/tests/test_the_anonymized_build_hides_only_identity.py",
+    "research/manuscripts/tests/test_build_submission_pdf.py",
+    "research/manuscripts/tests/test_the_journal_pdf_fits_its_page_budget.py"
+  ],
+  "central_claim": "That the packet as committed justifies the two reagents it names for synthesis, states a genuinely falsifiable and pre-registrable knockdown experiment, reports its own negative result at full weight, and claims nothing about efficacy, potency, tolerability, delivery or clinical readiness that the work does not support.",
+  "verdict": "supported",
+  "recommendation": "minor_revision",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "Nothing compares a built-PDF table cell's text against the source markdown cell it renders, so a cell that outgrows its typeset column loses characters silently. The safety-bearing 'WT gap duplex (bp)' cells are correct at the pin, but one gene name longer and the journal build would drop the gene the parent liability is against.",
+      "evidence": "fusion-junction-aso-journal-tables.md line 11 sources the cell 'E-N, engineered construct'; the two-column build renders it as three drawn runs at x=536.3pt — 'E-N,' / 'engin' / 'const' — and the header 'test article' as 'test a' (pypdf text-matrix positions, s19e-truncation.log). test_the_journal_display_items_say_what_their_rows_say.py reads TABLES = fusion-junction-aso-journal-tables.md, i.e. the markdown, never the PDF. test_pdf_text_layer_is_orderable.py does read the PDF but asserts only (a) that each canonical sequence appears with 5′-/-3′ delimiters and is not fused or split, and (b) test_no_two_lines_of_the_pdf_are_printed_on_top_of_each_other, which measures line-box OVERLAP; a clipped cell overlaps nothing, so it passes. test_figure_render_is_not_truncated.py covers only the SVG→PNG figure renders. The suite is green while the cell is already truncated, which demonstrates the mechanism is live and uncovered.",
+      "what_edit_would_break_it": "Lengthening any non-sequence table cell — e.g. a reagent whose longest mature-parent duplex is against wild-type *NR4A3* rather than *TFG*, making the cell '9 bp, wild-type *NR4A3*' instead of '8 bp, wild-type *TFG*' — would clip the gene name out of the journal and anonymized PDFs, leaving a bare '9 bp, wild-' beside a reagent named for synthesis, with every guard still green. Sequence cells alone are protected, because the delimiter guard would notice a clipped 16-mer."
+    },
+    {
+      "summary": "The anonymized build — the one PDF a blinded referee actually reads — is outside every text-layer guard. Its sequences and Declarations are intact at the pin; nothing asserts they stay that way.",
+      "evidence": "test_pdf_text_layer_is_orderable.py's PDFS map holds exactly three keys — 'journal-article', 'journal-article-manuscript', 'journal-article-preprint' — so the delimiter, fusion/split and line-overlap assertions never read fusion-junction-aso-journal-article-anonymized.pdf. Its own guard, test_the_anonymized_build_hides_only_identity.py, has five tests over redaction rules plus test_the_pdf_metadata_is_blinded_too; none reads the rendered text layer for sequence integrity or overprinting. Measured at the pin (s19e-anonguard.log): all 8 canonical sequences appear in the anonymized PDF each wrapped in '5′-' and '-3′', identical to the journal build, and the Declarations block, the research-use-only sentence and 'none has been synthesised or tested' are all present exactly once (s19e-decl.log).",
+      "what_edit_would_break_it": "Any change to the anonymizing redaction path or to the journal-style typesetting that fused a 16-mer to the digit beside it, split a sequence across a line, or overprinted the table — the exact defects the guard exists for, which it has caught twice before per its own docstring — would ship undetected in the copy the referee reads, because that copy is in no key of the map."
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "PRODUCTION DEFECT I WOULD DEMAND FIXED BEFORE PUBLICATION: the two-column journal build and the anonymized review copy clip Table 1's last column, printing the header as 'test a' and the cells as 'E-N, engin const' and 'T-N*, engin const'. Characters are dropped, not merely visually cut. The single-column manuscript and preprint builds render the same cells in full, so this is specific to the journal style — the artifact a referee and a copy-editor open.",
+      "evidence": "s19e-truncation.log and the 150-dpi render of page 2: source cell 'E-N, engineered construct' (fusion-junction-aso-journal-tables.md line 11) vs drawn runs at x=536.3pt in fusion-junction-aso-journal-article.pdf and -anonymized.pdf; fusion-junction-aso-journal-article-manuscript.pdf and -preprint.pdf both draw 'test article' and 'E-N, engineered' intact. Nothing safety-bearing is lost — the reagent sequences, margins, gap-duplex lengths, ΔTm floors and the caption's 'no sequence may be administered to any person or animal' all render complete — which is why this is not graded a blocker."
+    },
+    {
+      "summary": "The submitted article points at no Supplementary Information at all, so the SI shipped in this packet is orphaned. A referee handed both would find its cross-references unresolvable.",
+      "evidence": "grep of the article at the pin for 'Supplement', 'supplementary', 'SI', '§' returns nothing (s19e-grep.log); the only external pointers are the Zenodo DOI and fusion-junction-aso-journal-tables.md. fusion-junction-aso-supplementary-information.md states 'Cross-references of the form \"§n\" point to the main text (fusion-junction-aso-research-article.md)' and its §S6 cites '§4.1', '§2.6', '§6' and 'Table 5' — none of which exists in the journal article, which has no numbered sections and one table pair. Either route the article to the SI (the accessibility rationale, the Tm cross-check and the coverage second basis are all material a referee would ask for) or leave the SI out of the submission."
+    },
+    {
+      "summary": "The falsification decision rule is never stated as a rule in the journal article; it is only recoverable by inference from the void-variance sentence. Three conditions the extended report treats as binding are absent.",
+      "evidence": "The article gives the ratio, the cut of 5.0, sd = 0.35 on the log scale, the 80%/30% power figures and the void thresholds, but never writes 'the ranking is falsified where the upper bound of a two-sided 95% interval lies below 5' — the reader must extract it from 'no observed ratio at or above one can put the upper limit of a two-sided 95% interval below 5'. fusion-junction-aso-research-article.md states it explicitly and adds three conditions the article drops: the ratio is reportable only where the wild-type knockdown is resolved above a pre-stated limit of quantification; the dose range must resolve the wild-type midpoint (at the 58% knockdown of the analogous published experiment the wild-type transcript is only 21.6% knocked down); and the wild-type amplicon placement must be declared with the result. All are re-derivable and none is dangerous in the article's version — only falsification is defined there, so an unbounded ratio simply fails to falsify rather than passing by default — but the title promises 'a pre-registrable knockdown experiment' and what is delivered is a threshold plus a power calculation."
+    },
+    {
+      "summary": "Table 1 omits predicted transcriptome load, the single largest practical difference between the two reagents it names.",
+      "evidence": "The article reports '123 gap-paired sense-strand near-matches for the *EWSR1* reagent at a deeper search ceiling than the default, against eight for the *TAF15* one' — a fifteen-fold separation — in prose only. Table 1's columns are seam, reagent, margin, WT gap duplex (bp), ΔTm floor, test article. A laboratory choosing which of the two to order first would want that column beside the others; the article's own text says 'Predicted transcriptome load separates the two', and then does not print it where the reader decides."
+    },
+    {
+      "summary": "Structure is out of proportion to the result. 'Test articles' — a literature reconciliation of an exon-numbering mismatch, carrying no screen output of this work — is the longest section in the paper, and the falsification experiment named in the title is the shortest substantive one.",
+      "evidence": "Word counts over the body at the pin (s19e-structure.log): Test articles 731, Selection from a panel of 190 designs 696 (the section carrying the central negative), The reagents 657, Interpretation and limits 400, Materials and Methods 363, The falsification experiment 267, Controls 76. On a fixed six-page budget the section that carries no result of this work outweighs the one that carries it, and outweighs the title's experiment by 2.7×."
+    },
+    {
+      "summary": "Table 1's caption and the Test articles section give a reader opposite answers on whether either named reagent has a patient-derived test article.",
+      "evidence": "Table 1 caption: 'the two patient-derived models of Bangerter et al. (PMID:36316541) are REPORTED at an NR4A3 exon-2 acceptor and match different designs, not these two.' Body: 'On that reading USZ22-EMC2 carries the junction the *TAF15* reagent spans'. The capitalised REPORTED is doing the scoping work, and the body labels the alternative 'an inference and not a determination', so the caption is defensible and errs conservatively — but a referee reading the display item alone takes away that neither named reagent has a patient-derived model, which the body's own preferred reading contradicts for one of them. Reconcile in the caption."
+    },
+    {
+      "summary": "The article quotes 'the panel's own 95% interval on 45.8%' without saying which interval; the extended report says the nominal one is not the one to read.",
+      "evidence": "fusion-junction-aso-research-article.md: 'Eighty-seven of 190 is 45.8%, with a nominal binomial Wilson 95% interval of 38.9–52.9% — nominal because it treats the 190 records as independent draws, which the close of this section states they are not... an interval of 37.6–54.2%, which is the one to read.' The journal article's conclusion is unaffected — the strongest null at 40.6% is inside either interval, and inside the clustered one more comfortably (I reproduce Wilson(87,190) = 38.9–52.9% in s19e-coverage.log) — but the article should name the interval it is quoting."
+    },
+    {
+      "summary": "WHAT I VERIFIED AND FOUND SOUND, recorded so the absence of blockers is legible as a measurement rather than as silence.",
+      "evidence": "Re-derived from the packet: 68.4% coverage and its 39.9–82.8% composed range (partner shares 46/58 and 9/58 held fixed, Wilson bounds on 10/15 and 3/3), 79.0% with the third design, 94.8% ceiling, and the SI's 67.1%/82.9%/57.5–90.7% — all exact (s19e-coverage.log). 190/266/342 = 38 × (5,7,9); 87/190 = 45.8%, 88/266 = 33.1%, 87/342 = 25.4% — exact. The four sign changes in observed-minus-strongest-null across cuts 6–13 and 'inside at every cut from seven to thirteen but eleven' both check against the extended report's cut ladder. The void standard deviations 0.65/1.53/2.25 are exactly ln5·√n/t(0.975,n−1) for n = 3/6/10, and the 80%/30% power figures reproduce by simulation of the same t-interval rule with a random sample SD (81.2% at six, 30.5% at three) — s19e-power.log. Both named reagents, the third design, the two exon-2 reagents and the condemned single-base slide are the exact reverse complements of donor8|acceptor8 windows whose donor halves match the independent coverage-ladder artifact's 12-nt donor contexts; the ten-base shared FET donor run is TGGTTTGATG in both (s19e-seqcheck.log). Both controls are genuine dinucleotide-preserving scrambles — same length, first and last base, base composition and dinucleotide counts — exactly as Table 2's caption claims. The 23 references are all cited, contiguously numbered by first citation, every superscript's PMID matches its entry, and the typeset PDF's printed numbering matches the markdown (s19e-refs.log). The research-use-only statement, 'none has been synthesised or tested', the Declarations block and the per-page footer are intact and un-inverted in all four built PDFs, and the anonymized build strips author, ORCID, e-mail and DOI while keeping every declaration (s19e-decl.log). I found no claim of efficacy, potency, knockdown, therapeutic window, tolerability, delivery or clinical readiness anywhere in the article; the delivery gate, the hybridisation-not-cleavage limit and the nil method-level novelty are all conceded in the body, and the paper's strongest concession — that its adopted ten-base-pair cut does not separate the panel from a chimera of two real exon termini — is in the abstract."
+    }
+  ],
+  "logs": [
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-packet.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-grep.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-research-grep.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-pdf.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-truncation.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-decl.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-anonguard.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-guard.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-power.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-coverage.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-seqcheck.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-counts.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-refs.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-xcheck.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-xcheck2.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19e-pubaso19/s19e-structure.log"
+  ]
+}

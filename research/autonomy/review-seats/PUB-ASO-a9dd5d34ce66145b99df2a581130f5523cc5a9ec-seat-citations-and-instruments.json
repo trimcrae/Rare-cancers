@@ -1,0 +1,142 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "a9dd5d34ce66145b99df2a581130f5523cc5a9ec",
+  "document_sha256": "ae3014ae5f65ada06814e772c25979ed3508c08618691acfa1aec7efd6b22799",
+  "blind": true,
+  "seat": "citations-and-instruments",
+  "lens": "Citations, provenance, built artifacts and instruments: every reference entry end to end against PubMed and against the repository's committed fetch products, every fact attributed to a cited paper against what that paper says and what kind of paper it is, and what the built PDFs and .docx actually carry, byte for byte, against what the markdown carries. Then: which guard modules read this document, proved by mutation on an isolated clone.",
+  "utc": "2026-08-29T23:40:00Z",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-references.json",
+    "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+    "research/manuscripts/aso/journal-reference-authors.json",
+    "research/manuscripts/aso/journal-abbreviations.json",
+    "research/manuscripts/aso/fusion-junction-aso-2026-citation-resolution.json",
+    "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+    "research/manuscripts/aso/lit-targets-aso-gap-length.json",
+    "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+    "research/manuscripts/aso/deposit-state.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-title-page.docx",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-figure-legends.docx",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-title-page.docx.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-figure-legends.docx.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+    "research/manuscripts/figures/aso-multipartner-seam.svg",
+    "research/manuscripts/figures/aso-multipartner-seam.png",
+    "research/manuscripts/citation-provenance-ledger.json",
+    "research/manuscripts/lint_citation_types.py",
+    "research/manuscripts/lint_citations.py",
+    "research/manuscripts/tests/test_journal_references_match_the_prose.py",
+    "research/manuscripts/tests/test_pdf_text_layer_is_orderable.py",
+    "research/manuscripts/tests/test_the_journal_display_items_say_what_their_rows_say.py",
+    "research/manuscripts/tests/test_aso_deposition_doi_is_one_fact.py",
+    "research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py",
+    "research/modalities/emc-model-junction-evidence.json",
+    "research/modalities/emc-fet-construct-designs.json"
+  ],
+  "central_claim": "Every identifier and bibliographic field in the journal article's 23-entry reference list is correct and resolves to the paper the sentence attributes it to; every fact the prose quotes from a cited work is what that work says and the kind of work it says it is; and the built PDFs and .docx at the pin carry what the markdown carries.",
+  "verdict": "not_supported",
+  "recommendation": "major_revision",
+  "blockers": [
+    {
+      "summary": "Table 1's last column is TRUNCATED MID-WORD in two of the four built PDFs at the pin — fusion-junction-aso-journal-article.pdf (the canonical submission artifact) and fusion-junction-aso-journal-article-anonymized.pdf (what a double-blind reviewer receives). The column header prints 'test a' instead of 'test article' and both cells print 'E-N,/engin/const' and 'T-N*,/engin/const' instead of 'E-N, engineered construct' and 'T-N*, engineered construct'. That column is the one that tells a laboratory which published construct is the test article for which named reagent — the paper's own 'both named reagents have a stated test article'.",
+      "quote": "Table 1\\nseam reagent margin WT\\ngap\\nduplex\\n(bp)\\nΔTm\\nfloor\\n(°C)\\ntest a\\nEWSR1\\ne12::NR4A3\\ne3\\n5′-GGGCATATCATCAAAC-3′ 3 8 bp,\\nwild-\\ntype\\nTFG\\n≥\\n26.6\\nE-N,\\nengin\\nconst\\nTAF15\\ne6::NR4A3\\ne3\\n5′-GGGCATATCTTGTGTG-3′ 3 9 bp,\\nwild-\\ntype\\nTFG\\n≥\\n36.0\\nT-N*,\\nengin\\nconst   [extracted from research/manuscripts/aso/fusion-junction-aso-journal-article.pdf at the pin]",
+      "evidence": "Extracted at the pin with `git show <PIN>:research/manuscripts/aso/fusion-junction-aso-journal-article.pdf`. pypdf's per-show-text visitor gives the emitted glyph runs verbatim: standalone text items 'test a' (x=694.7,y=1077), 'E-N,' 'engin' 'const' (y=1128/1139/1150) and 'T-N*,' 'engin' 'const' (y=1178/1190/1201). Counted across whole files: 'engineered construct' occurs 2x in fusion-junction-aso-journal-article.pdf and -anonymized.pdf (both in the caption prose) against 4x in -preprint.pdf and -manuscript.pdf, where the table cells are emitted whole as ' E-N, engineered construct', ' T-N*, engineered construct' and ' test article'. The strings 'engineered', 'construct' and 'test article' are absent from the table region of the two clipped builds. This is NOT staleness: research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json records built_from aso/fusion-junction-aso-journal-article.md = ae3014ae5f65ada06814e772c25979ed3508c08618691acfa1aec7efd6b22799, which is the pin's own digest, and I re-derived every other input hash in the stamp at the pin (references.md cf14470408..., tables.md 3deeea494c..., sequences.csv 8094a3eb71..., figure SVG 89259b6450...) — all match, so both PDFs are current with their sources and the defect is in the typesetting. Table 2, which has four columns rather than six, renders complete in the same files. Logs: s19d-tabletrunc.log, s19d-tabletrunc2.log, s19d-tabletrunc3.log, s19d-tabletrunc4.log, s19d-tablecells.log, s19d-table2b.log, s19d-buildstamp.log, s19d-stampverify.log.",
+      "why_it_misleads": "A reviewer or depositor opening the committed submission PDF sees Table 1's sixth column headed 'test a' with cells reading 'E-N, engin const'. The reagent-to-test-article assignment — which the Results section leans on and which the caption warns is a literature fact, not a CSV column — cannot be recovered from what a reader receives. This is the same production-fault class an external reviewer already reported against a shipped build of this paper (item A14: 'test articlense-strand near-matches', 'constructEWSR1 reagent'); that report produced a geometric overlap guard, and this clipping is a different mechanism that the guard does not see."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "No instrument reads a table CELL out of any built PDF. The display-item guard reads the markdown tables file; the PDF guards read reference numbering, sequence delimiters, line-box collisions, page budget and build-stamp freshness. Nothing asserts that a table cell survives typesetting intact.",
+      "evidence": "Cloned the repo to my own scratch (`git clone --shared`, checkout of the pin) and ran, unmutated, every tests/ module that opens a .pdf plus the display-item guard: test_pdf_text_layer_is_orderable.py, test_the_journal_display_items_say_what_their_rows_say.py, test_the_journal_pdf_fits_its_page_budget.py, test_no_page_is_nearly_empty.py, test_justification_does_not_degrade.py, test_build_submission_pdf.py, test_the_word_manuscript_is_current_and_whole.py, test_journal_references_match_the_prose.py, test_aso_figures_are_vector_not_raster.py, test_the_anonymized_build_hides_only_identity.py. Result: '172 passed in 38.60s', EXIT=0 — green over the truncation documented in the blocker above, which is present in the very PDF several of those modules open. Selection rationale: those are the only modules that read a built PDF at all; the display-item guard is included because it is the one that owns Table 1's contents. Log: s19d-baseline-pdfguards.log; module inventory in s19d-pdfguards.log.",
+      "what_edit_would_break_it": "Any future edit that widens a display item, adds a column, or lengthens a cell past the column width the two-column CSS gives it. The cell is silently clipped at render time, the markdown still reads correctly, every guard stays green, and the deposited PDF ships a garbled column. The fix is a guard that reads each generated table row out of the built PDF and asserts every cell's text is present."
+    },
+    {
+      "summary": "A reference entry's TITLE, YEAR, VOLUME and PAGES are bound by nothing. Only the author segment (against journal-reference-authors.json), the journal name (against journal-abbreviations.json), the PMID (against the prose's own <!--PMID:--> comment) and the DOI (via the anchoring gate) are checked. All 23 entries are correct at the pin — I verified every one against live PubMed — but a typo in any of those four fields would ship.",
+      "evidence": "Mutation on my own clone at the pin, git diff asserted before reading any result. MUTATION A2 falsified four bibliographic fields in research/manuscripts/aso/fusion-junction-aso-journal-references.md with no identifier touched: ref 1 pages 2219–2226 -> 2219–2246; ref 5 volume 20 -> 21; ref 12 year 2005 -> 2007; ref 17 volume 36 -> 37. Ran every tests/ module that reads a reference list or citation (test_journal_references_match_the_prose, test_the_endpoint_reference_list_binds_to_what_was_fetched, test_submission_citations, test_citation_type_guard, test_line_citations, test_display_items_are_cited_in_order, test_the_deposit_the_papers_cite_is_current, test_the_manuscripts_gene_identifiers_are_ones_an_artifact_names) plus lint_citations.py (which chains lint_citation_types), submission_citations.py --check, journal_reference_authors.py --check and journal_abbreviations.py --check. Result: '114 passed', PYTEST_EXIT=0, LINT_CITATIONS_EXIT=0, SUBMISSION_CITATIONS_EXIT=0, AUTHORS_EXIT=0, ABBREV_EXIT=0. Control: the same run with a DOI mutated instead (MUTATION A, ref 11 doi ...11.012 -> ...11.099) DID go red — 'UNANCHORED DOI 10.1016/j.ymthe.2023.11.099', LINT_CITATIONS_EXIT=1 — so the DOI axis is covered and these four are not. Correctness at the pin was established separately: PubMed get_article_metadata on all 23 PMIDs, every author list, journal, year, volume, pages and DOI matching the printed entry (a network-backed check). Logs: s19d-mutA.log, s19d-mutA2.log, s19d-refcheck.log.",
+      "what_edit_would_break_it": "Hand-adding or hand-editing an entry — which the file's own banner says is how every field but two is maintained. A mistyped volume or year points a reader at a real journal issue that does not contain the paper, and no gate in the repository reads it."
+    },
+    {
+      "summary": "The RRID-to-cell-model assignment in the manuscript is read by no instrument. Swapping USZ20-EMC1's and USZ22-EMC2's RRIDs changes nothing any guard measures, and would send a laboratory to the wrong Cellosaurus entry for the only fusion-positive EMC cells the paper identifies.",
+      "evidence": "MUTATION B on my own clone at the pin, git diff asserted: 'USZ20-EMC1 (RRID:CVCL_C6MX) and USZ22-EMC2 (RRID:CVCL_C6MY)' -> 'USZ20-EMC1 (RRID:CVCL_C6MY) and USZ22-EMC2 (RRID:CVCL_C6MX)'. Selection: all 27 tests/ modules that name fusion-junction-aso-journal-article.md, plus lint_citations. Result: '4 failed, 580 passed, 2 skipped'; LINT_CITATIONS_EXIT=0. The four failures are test_pdf_text_layer_is_orderable::test_every_stamped_pdf_renders_the_documents_its_stamp_names, ::test_the_deposited_pdfs_are_not_stale, test_the_journal_pdf_fits_its_page_budget::test_the_condensed_submission_is_within_its_page_budget, and test_the_word_manuscript_is_current_and_whole::test_the_word_file_is_not_stale — every message reads 'was built from a different version of', i.e. build-stamp staleness. CONTROL MUTATION: one trailing space added after '## Keywords', semantically null, produced exactly the same four failures and no others ('4 failed, 580 passed, 2 skipped'). So nothing reads the RRIDs; the only red is a byte-level freshness gate that a rebuild clears. The correct assignment at the pin is confirmed by research/modalities/emc-model-junction-evidence.json, which carries verbatim Cellosaurus lines ('ID USZ20-EMC1' / 'AC CVCL_C6MX', 'ID USZ22-EMC2' / 'AC CVCL_C6MY') and the Bangerter figure-4 legend for each model's junction; no test file under research/manuscripts/tests names an RRID at all. Logs: s19d-mutB.log, s19d-mutB-control.log, s19d-rrid.log.",
+      "what_edit_would_break_it": "Any reordering or re-typing of that sentence. A swapped RRID resolves — to the other cell line — so it cannot be caught by reading the page, which is precisely the hazard test_aso_deposition_doi_is_one_fact.py was written for on the Zenodo DOI and which nothing does for the cell models."
+    },
+    {
+      "summary": "lint_citation_types — the guard built for the 'real, anchored identifier attached to the wrong KIND of paper' failure — reads ZERO type claims in this manuscript, and zero in the extended report, because both documents put their PMIDs inside HTML comments and the comment opener '<!--' contains '!', a character excluded by the scanner's clause-boundary class.",
+      "evidence": "On my clean clone at the pin, `python3 research/manuscripts/lint_citation_types.py --report` lists 22 type claims across 12 files — aso-citations-priorart, the working record, the round-8 red-team file, fusion-partner, endpoint, systems/views — and not one line from research/manuscripts/aso/fusion-junction-aso-journal-article.md. Driving the module directly: `lint_citation_types.claims(paths=['research/manuscripts/aso/fusion-junction-aso-journal-article.md'])` returns [] while the file IS in the linter's tracked prose set (True), and the extended report likewise returns 0. Mechanism re-derived by isolating the regex: _SCAN's connector is `[^.;!?|]{0,70}?`; on the manuscript's own sentence \"from the review's response categories<sup>3</sup><!--PMID:41055792--> rather\" it returns NO MATCH, on the same sentence with the '!' of '<!--' removed it MATCHES pmid=41055792, and on '... categories (PMID: 41055792) rather' it MATCHES. Every kind-descriptor in the paper is nonetheless correct at the pin: ref 3 (PMID 41055792) is PubMed-typed ['Journal Article','Review'] and the prose calls it 'the review'; ref 16 'an 18-case series' (Panagopoulos abstract: '18 EMCs were studied'); ref 17 'a 58-case cohort' (Huang: '58 EMCs'); ref 18 'one of five EWSR1-rearranged tumours of a whole-transcriptome series' (Urbini: 'whole transcriptome sequencing in five EMC cases', and the committed census quotes 'exon13/exon3 and exon7/exon2 were detected respectively in samples #4 and #1'); ref 22 'an isogenic fusion-positive against fusion-negative comparison' (Li: 'engineered to harbor the characteristic NAB2-STAT6 fusion using the CRISPR/SpCas9 system ... as compared to the fusion-absent parent cells'). Logs: s19d-citetypes.log, s19d-citetype-scope.log, s19d-citetype-mechanism.log.",
+      "what_edit_would_break_it": "Re-pointing any type-word sentence at a differently-typed paper, with the superscript and the reference entry renumbered together so test_journal_references_match_the_prose stays green. The guard that exists for exactly that failure would report 22 claims checked, 0 errors, having looked at neither submission document."
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "The DOI the manuscript's Data availability prints, 10.5281/zenodo.22166420, is an UNPUBLISHED Zenodo draft at the pin, so the archive link in the committed manuscript and in all four built PDFs resolves to nothing. The manuscript states it in the present tense — '... are deposited under doi:10.5281/zenodo.22166420, the citable record for them.'",
+      "evidence": "research/manuscripts/aso/deposit-state.json at the pin puts 22166420 under `pending` (drafted 2026-08-29), with `_what_remains`: 'Publishing, by hand, on Zenodo ... Until then the papers cite a DOI that does not yet resolve'; the `published` record is 10.5281/zenodo.22061075. research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py says the same in its own failure text: 'version {pending doi} has been drafted and the papers cite it, but it is NOT published — so every archive link in both manuscripts currently resolves to nothing.' Graded P2 rather than BLOCKER because the state is openly tracked and guarded, and the remedy is one manual publish outside CI. I could not settle it by network: doi.org and zenodo.org are both blocked by this container's egress proxy (s19d-doi-resolve.log, EXIT=56 / EGRESS_BLOCKED). The one observation that would settle it is an HTTP GET of https://zenodo.org/api/records/22166420. Logs: s19d-deposit.log, s19d-depositguard.log, s19d-doi-resolve.log."
+    },
+    {
+      "summary": "The build strips 'PMID: nnnnnnnn.' from every printed reference entry, so the identifier the repository treats as each reference's provenance anchor reaches no reader. Reference 6 (Skórski 1991, which has no DOI in PubMed) consequently prints with no persistent identifier at all.",
+      "evidence": "23 PMIDs in research/manuscripts/aso/fusion-junction-aso-journal-references.md; 0 survive into the reference list of fusion-junction-aso-journal-article.pdf, -anonymized.pdf, -preprint.pdf or -manuscript.docx (the two PMIDs that do appear in the .docx/-manuscript.pdf are in the Table 1 caption, not in an entry). Entry 6 prints as 'Skórski T, C Szczylik, L Malaguarnera and B Calabretta. (1991). Gene-targeted specific inhibition ... Folia Histochem Cytobiol 29:85–89.' with no DOI line — PubMed confirms PMID 1794439 carries no DOI. Note that test_journal_references_match_the_prose's own comment says the PMID tails 'are the provenance of every citation in this repository' and are 'kept' — they are kept in the markdown and dropped in the artefact. Log: s19d-pmidstrip.log."
+    },
+    {
+      "summary": "test_the_printed_pdf_numbers_the_references_as_the_prose_cites_them reads only fusion-junction-aso-journal-article.pdf. The reference numbering of the anonymized, preprint and manuscript builds is checked by nothing, though all three are committed deposit artifacts.",
+      "evidence": "The guard hard-codes `pdf = os.path.join(MANUSCRIPTS, 'aso', 'fusion-junction-aso-journal-article.pdf')`. I checked all four builds independently at the pin: each prints entries 1..23 in exactly the order Labelle, Paioli, Remiszewski, Stacchiotti, Stacchiotti, Skórski, Toretsky, Parker Kerrigan, Ward, Shao, Neumayer, Kauppinen, Andersson, Dyer, Sugimoto, Panagopoulos, Huang, Urbini, Wilbur, Brenca, Bangerter, Li, Lee, matching the markdown's first-citation order and its 24 superscript groups (rendered as [1]…[8-10,23] in both the PDFs and the .docx, in the same order). Correct today, unwatched in three of four. Logs: s19d-pdfrefs.log, s19d-cites.log, s19d-docxcite.log."
+    },
+    {
+      "summary": "Everything else in this lens checked out and is recorded here so the round knows it was looked at: all 23 references verified field-by-field against live PubMed and against the repository's committed fetch products; every quoted fact re-derived; both built .docx and all four PDFs faithful apart from the Table 1 clipping.",
+      "evidence": "References: PubMed get_article_metadata on all 23 PMIDs — authors, title, journal ISO abbreviation, year, volume, pages and DOI all agree with the printed entries (ref 19's doi case difference is immaterial; ref 18's 'E1855' is the MEDLINE elocation form). Cross-check against fusion-junction-aso-submission-references.json / fusion-junction-aso-references.json: 22 of 23 have a fetch record there, and the 23rd (PMID 39912803) is anchored in journal-abbreviations.json and journal-reference-authors.json and carries a `verified` row in citation-provenance-ledger.json. Facts: the 5 steps attributed to ref 13 are verbatim its abstract; ref 12 supports 'a DNA gap of at least six nucleotides, with seven to ten the working range' verbatim via lit-targets-aso-gap-length.json quoting PMC7105916; 68.4% and 79.0% reproduce exactly from Huang's 46/9/2/1 of 58 and Panagopoulos's 10/2 of 15 EWSR1 and 3 of 3 TAF15; E-N = EWSR1 exons 1-12 :: NR4A3 exons 3-8 and T-N* = TAF15 exons 1-6 :: NR4A3 exons 3-8 are quoted verbatim from PMID 31020999 in emc-fet-construct-designs.json, matching Table 1's assignment; doubling times 5.09 d and 6.05 d support 'five to six days'. Build: all seven build stamps name the pin's own input digests, which I re-derived; the Figure 1 raster in the .docx hashes to 3ef0be4474c3a00b0a823e70c386cb09883e6956ee383874c430038dbb8a911a, the committed figures/aso-multipartner-seam.png, and the figure's own text ('FUS · no exon-resolved report at all', 'target mRNA (sense, 5′ to 3′)') is present as vector text in all four PDFs; every named sequence, both control sequences, both RRIDs, the research-use-only statement, the withdrawal disclosure and the AI-use statement are present byte-for-byte in every build that should carry them, and the anonymized build correctly omits ORCID, e-mail and the Zenodo DOI. A PubMed search for any NR4A3-fusion-directed ASO or siRNA returned 0 records, consistent with the novelty claim as scoped. Logs: s19d-refcheck.log, s19d-anchor.log, s19d-coverage.log, s19d-doubling.log, s19d-figure.log, s19d-keyphrases.log, s19d-pdffidelity2.log, s19d-docx.log, s19d-buildstamp.log, s19d-stampverify.log."
+    }
+  ],
+  "logs": [
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-verify.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-cites.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-refcheck.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-anchor.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-buildstamp.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-stampverify.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-pdf.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-pdfrefs.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-pdffidelity2.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-keyphrases.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-tablecells.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-tabletrunc.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-tabletrunc2.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-tabletrunc3.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-tabletrunc4.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-table2b.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-docx.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-docxcite.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-figure.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-guards.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-pdfguards.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-baseline-pdfguards.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-mutA.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-mutA2.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-mutB.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-mutB-control.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-rrid.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-citetypes.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-citetype-scope.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-citetype-mechanism.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-deposit.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-depositguard.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-doi-resolve.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-pmidstrip.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-coverage.log",
+    "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19d-pubaso19/s19d-doubling.log"
+  ]
+}

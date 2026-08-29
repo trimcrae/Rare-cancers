@@ -1,0 +1,125 @@
+{
+ "_schema": "emc-review-seat/1",
+ "paper": "PUB-ASO",
+ "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+ "reviewed_commit": "a9dd5d34ce66145b99df2a581130f5523cc5a9ec",
+ "document_sha256": "ae3014ae5f65ada06814e772c25979ed3508c08618691acfa1aec7efd6b22799",
+ "blind": true,
+ "seat": "regression",
+ "lens": "Whether the repairs made to this packet since 6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c introduced new defects, broke cross-references, orphaned claims, or left the packet stating two different things in two places — read against the diff, with particular attention to the Zenodo DOI substitution and to the sentences the page-budget condensation replaced or deleted.",
+ "utc": "2026-08-29T23:55:00Z",
+ "what_i_read": [
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+  "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
+  "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",
+  "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+  "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+  "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+  "research/manuscripts/aso/fusion-junction-aso-data-sources.json",
+  "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+  "research/manuscripts/aso/fusion-junction-aso-guard-coverage-audit.md",
+  "research/manuscripts/aso/deposit-state.json",
+  "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+  "research/manuscripts/aso/fusion-junction-aso-sequences.fasta",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-title-page.docx",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-figure-legends.docx",
+  "research/modalities/aso-gap-length-tradeoff.json",
+  "research/modalities/aso-parent-null.json",
+  "research/modalities/aso_parent_null.py",
+  "research/modalities/aso-premrna-offtarget.json",
+  "research/modalities/aso-parent-gap-pairing.json",
+  "research/modalities/aso-offtarget-duplex-energy.json",
+  "research/modalities/emc-site-curation.json",
+  "research/modalities/emc_site_curation.py",
+  "research/manuscripts/aso_archive_manifest.py",
+  "research/manuscripts/lint_submission_residue.py",
+  "research/manuscripts/claim_coverage.py",
+  "research/manuscripts/claim-coverage.json",
+  "research/manuscripts/submission_metrics.py",
+  "research/manuscripts/tests/test_journal_article_numbers.py",
+  "research/manuscripts/tests/test_aso_deposition_doi_is_one_fact.py",
+  "research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py",
+  "research/manuscripts/tests/test_round6_fixes_landed.py",
+  "research/manuscripts/tests/test_submission_residue_guard.py",
+  "research/manuscripts/tests/test_the_exon2_reading_stands_without_an_unpublished_sequence.py",
+  "research/manuscripts/tests/test_line_citations.py",
+  "research/manuscripts/tests/test_paired_numeric_lists_are_bound_in_the_right_order.py",
+  "research/manuscripts/tests/test_the_manuscript_asserts_the_relation_its_artifacts_compute.py",
+  "research/manuscripts/tests/test_the_numbered_claims_no_instrument_read.py",
+  "research/manuscripts/tests/test_the_paper_states_what_its_own_claims_depend_on.py",
+  "research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py",
+  "research/manuscripts/tests/test_the_journal_pdf_fits_its_page_budget.py",
+  "research/manuscripts/tests/test_justification_does_not_degrade.py",
+  "research/manuscripts/tests/test_no_page_is_nearly_empty.py",
+  "scripts/zenodo_verify.py",
+  "scripts/zenodo_preprint.py",
+  "origin/literature-cache:literature/oswg-offtarget-2025/epmc_core_39912803.txt",
+  "(diff 6127da1a..a9dd5d34 over research/manuscripts/aso and research/manuscripts/tests)",
+  "(ACCIDENTAL, DISCLOSED: two lines of research/autonomy/amendments.jsonl and research/autonomy/research-ledger.json surfaced by an un-scoped repo-wide `git grep` for a pin identifier. Nothing in this record derives from them; every finding below was already derived from the manuscripts, the artifacts and the guard modules.)"
+ ],
+ "central_claim": "The repairs made to the PUB-ASO packet between 6127da1a and a9dd5d34 — the Zenodo DOI substitution to 10.5281/zenodo.22166420, the page-budget condensation of the journal article's Results and Discussion, and the guards re-anchored with them — left the packet internally consistent and left every re-anchored guard binding the claim it names.",
+ "verdict": "not_supported",
+ "recommendation": "minor_revision",
+ "blockers": [
+  {
+   "summary": "The Zenodo DOI substitution to 10.5281/zenodo.22166420 was carried into both manuscripts, the sequence files, the archive manifest and the rebuilt PDFs, but NOT into the cover letter. At the pin the cover letter still declares — as live status, not as superseded — that the archive blocker is closed and that every archive link in both papers resolves. Both papers now cite an UNPUBLISHED Zenodo DRAFT, and deposit-state.json, the preprint checklist and the repository's own deposit guard all say so in terms. The cover letter is inside the deposited archive's own inventory, so the false sentence ships with the deposit the papers cite.",
+   "quote": "*Sendable once the brackets below are filled. ✅ The item that used to block it is closed: Zenodo\ndeposition 22061075 was published on 2026-08-23 and read back (checklist §3), so every archive link\nin both papers now resolves. What remains is the date and the editor's name from the journal's\ncurrent masthead.*",
+   "evidence": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md@a9dd5d34ce66145b99df2a581130f5523cc5a9ec lines 25-28 (quoted). The very next block of the SAME file retains the now-true sentence marked SUPERSEDED: “Before submitting: publish Zenodo deposition 22061075 — the corrected archive is drafted and every archive link in both papers resolves to nothing until it is published.” | Counted at the pin over every tracked file: 10.5281/zenodo.22061075 occurs 0 times in fusion-junction-aso-journal-article.md and 0 times in fusion-junction-aso-research-article.md; 10.5281/zenodo.22166420 occurs 1 and 2 times respectively, and once each in fusion-junction-aso-journal-article.pdf, -manuscript.pdf, -preprint.pdf, -manuscript.docx, fusion-junction-aso-sequences.csv, fusion-junction-aso-sequences.fasta and fusion-junction-aso-archive-manifest.json (deposition_doi). Log: /tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-doi.log | research/manuscripts/aso/deposit-state.json: pending.doi = “10.5281/zenodo.22166420”, pending._what_remains = “Publishing, by hand, on Zenodo — https://zenodo.org/deposit/22166420. Irreversible … Until then the papers cite a DOI that does not yet resolve”; published.doi is still 10.5281/zenodo.22061075. | research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md, section 3-i added in this same diff, replaces the file's “✅ THE ITEM THAT BLOCKED IS CLOSED” line with “Item 3-i below is open again” and “v2's Data availability cites 10.5281/zenodo.22166420, so a reader who follows it before step 1 gets nothing.” | research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py::test_an_unpublished_version_or_a_drifted_tree_is_openly_tracked states the contrary in its own assertion message: “version {pending['doi']} has been drafted and the papers cite it, but it is NOT published — so every archive link in both manuscripts currently resolves to nothing.” That guard is GREEN at the pin, because it reads the checklist and not the letter. | research/manuscripts/aso/fusion-junction-aso-archive-manifest.json `files` contains research/manuscripts/aso/fusion-junction-aso-cover-letter.md (verified by loading the manifest and testing membership), so the stale sentence is inside the 483-file deposit.",
+   "why_it_misleads": "This paragraph is the packet's only statement of whether the letter may be sent, and it says the one item that blocked sending is closed. It is not. The identifier both papers now print is a Zenodo DRAFT that resolves to nothing, and publishing it is an irreversible manual act nobody has performed at this commit. Someone acting on the committed text fills in the two remaining brackets and sends a submission whose Data availability statement points an editor at a dead DOI — which is the failure this same file already records having committed once (“the letter carried a false statement to a journal for three days”). The packet now says two opposite things about the same fact in two files, the false one is the live one, and the true one sits four lines below it under a ‘Superseded, retained’ marker."
+  }
+ ],
+ "p1s": [
+  {
+   "summary": "No instrument binds any packet document other than the two manuscripts to the deposit identifier or to deposit-state.json's published/pending state, so a DOI substitution can leave every other packet document — the cover letter above, and the same class next time — asserting the previous deposit's status with nothing red.",
+   "evidence": "research/manuscripts/tests/test_aso_deposition_doi_is_one_fact.py scopes every one of its three tests to ARTICLES = [fusion-junction-aso-research-article.md, fusion-junction-aso-journal-article.md]; its own header records that this list was widened once already for exactly this one-of-a-pair defect, and it stops at the two manuscripts. research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py opens only MANIFEST, STATE and CHECKLIST. research/manuscripts/tests/test_the_paper_states_what_its_own_claims_depend_on.py's only DOI row is a bare presence pattern, r“zenodo|doi:”, which the stale sentence satisfies. research/manuscripts/claim-coverage.json at the pin scores fusion-junction-aso-cover-letter.md at 10 covered / 56 uncovered sentences (24 stating a number, 16 of those uncovered). MUTATION-TESTED in a private clone at the pin ( /tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-clone, git checkout a9dd5d34ce66145b99df2a581130f5523cc5a9ec ): changing ‘deposition 22061075 was published’ to ‘deposition 29999999 was published’ in the cover letter — mutation asserted landed by `git diff` before the run — and running the whole research/manuscripts/tests suite gives 1556 passed, 2 skipped, 0 failed (/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-mutationA.log). The one module excluded from that run, test_the_census_word_covered_survives_ablation.py, did not finish inside a 40-minute timeout on the mutated tree and did not finish inside 150s at the pristine pin either (/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-mutationA-ablation.log, /tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-perfile-baseline.log), so it is INCONCLUSIVE in both directions; by construction it perturbs sentences the census already calls covered and re-runs their witnesses, so it does not test whether the cover letter's deposit sentence is bound.. All eight research/manuscripts/lint_*.py return rc=0 on the mutated tree and on a pristine clone of the pin (/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-linters2.log, /tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-linters-pin.log). The harness is demonstrably live: in the same clone a control mutation (45.8% -> 45.9% in the journal article's three-geometry sentence) turned test_journal_article_numbers.py::test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count red.",
+   "what_edit_would_break_it": "The next deposit version, or the publication of 22166420 itself, moves the deposit state again. The cover letter's status paragraph will then assert the state before that move — as it does now — and no gate in the repository will be red. The same is true of any other packet document that mentions the deposit: nothing outside the two manuscripts is read."
+  },
+  {
+   "summary": "The direction word in the sentence this round added — “At 5-10-5 the criterion is met by the catalytic gap alone, so that last figure is a floor” — is unbound. The guard that names the sentence binds the counts, the panel sizes, the rates, the architecture string and the convergence of two artifact fields, but nothing reads whether the bound points up or down, and the gap-length artifact carries no field that states a direction.",
+   "evidence": "research/manuscripts/tests/test_journal_article_numbers.py::test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count binds (87, 88, 87), (190, 266, 342), (45.8%, 33.1%, 25.4%) and present[-1][‘architecture’], then asserts last[‘n_with_any_gap_pairing_window’] == last[‘n_at_or_above_min_duplex_bp’] (87 == 87 in research/modalities/aso-gap-length-tradeoff.json). None of those moves when ‘floor’ becomes ‘ceiling’. Its sibling in the same file, test_the_ddg_separations_are_reported_with_the_direction_their_artifact_records, DOES bind its direction word, to research/modalities/aso-offtarget-duplex-energy.json's ‘⚠_the_bound_runs_one_way’ field (‘Every ddG here is an upper bound on that separation’). aso-gap-length-tradeoff.json has no counterpart: its _threshold_note states only that ‘at a gap of 10 the catalytic gap alone is already a 10 bp hybrid and every gap-pairing window clears the threshold by construction’, which is the convergence, not the direction. The extended report's parallel passage (fusion-junction-aso-research-article.md, ‘the two criteria coinciding at a gap of ten’) states no direction either, so the word is journal-article-only. MUTATION-TESTED in a separate clone at the pin (/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-clone-b): ‘so that last figure is a floor’ -> ‘… a ceiling’ produced EXACTLY the same failure set as a semantically neutral reword of the same sentence (‘the deposit gives the series’ -> ‘the deposit provides the series’) — four staleness catches (test_pdf_text_layer_is_orderable x2, test_the_journal_pdf_fits_its_page_budget, test_the_word_manuscript_is_current_and_whole), 798 passed in both runs, over the 41 test modules that name either mutated document or glob a directory. Both mutations asserted landed by `git diff` first. Log: /tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-mutationB.log. ⚠ I could NOT refute the word itself: ‘floor’ is defensible if it is read as inheriting the article's own earlier convention that a gap-mismatched design is scored zero (‘the 87 bound the fully-paired class, not the whole parent liability’), and ‘ceiling’ is defensible if it is read from the clause's own stated reason, that the ten-base-pair filter removes nothing at 5-10-5. This is filed as a coverage gap, not as a wrong fact.",
+   "what_edit_would_break_it": "Inverting the bound (floor <-> ceiling), or attaching the clause to a different geometry's figure, leaves every bound number correct and every assertion green. The observation that would settle which word is right — and which a guard could then read — is a field in aso-gap-length-tradeoff.json recording the sign of the bias the non-scaling MIN_DUPLEX_BP introduces at each geometry, in the form aso-offtarget-duplex-energy.json already uses."
+  }
+ ],
+ "p2s": [
+  {
+   "summary": "The preprint checklist now carries TWO different sections both headed ‘### 3-i’, with ‘### 3-ii’ between them, and they say different things about the same subject. Any cross-reference to §3-i is now ambiguous.",
+   "evidence": "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md@a9dd5d34ce66145b99df2a581130f5523cc5a9ec: line 316 ‘### 3-i · THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS, and two acts are needed, in this order’ (added by this diff), line 358 ‘### 3-ii · The extended report is a historical checkpoint…’, line 385 ‘### 3-i · The published deposit is behind the repository again — and this time it is ordinary’. At 6127da1ac1a2d912b4a9a5f93de6d0f0e98d372c only the second existed (line 341). The older 3-i carries no ‘Superseded, retained’ marker, still ends ‘**Closed 2026-08-23, in the order the item itself specified.**’ and still quotes ‘*PUBLISHED. The DOI both papers cite resolves to this record.*’ — a statement about 22061075 that is no longer true of the DOI the papers cite. The cover letter cross-references ‘(checklist §3)’, which now resolves to a section containing two contradictory 3-i items."
+  },
+  {
+   "summary": "The abstract's closing sentence lost its antecedent in the condensation: ‘The procedure producing them is released.’ — the nearest plural nouns are the five test articles and the two patient-derived EMC cell models, neither of which any released procedure produced.",
+   "evidence": "At 6127da1a the abstract ended ‘Also released is the procedure that produced the 190 designs.’ At a9dd5d34ce66145b99df2a581130f5523cc5a9ec it reads ‘Five test articles are named; the two fusion-positive EMC cell models are reported at an *NR4A3* exon-2 acceptor, not this panel's. The procedure producing them is released.’ The intended referent, ‘a panel of 190 junction-spanning 16-mers’, is three sentences earlier with two intervening plural nouns. The guard that used to bind this site, research/manuscripts/tests/test_the_numbered_claims_no_instrument_read.py::test_the_panel_size_is_the_screens_at_every_site_that_states_it, now requires only that SOME sentence match r‘procedure (?:that produced|producing|behind) (?:the |them\\b)’ and checks the count only ‘at every site that states it’, via a new _any_site_that_states_it helper that passes vacuously when no site does; its own comment describes the result as ‘an anaphor three sentences after’ its antecedent. Fix: restore an explicit noun (‘the procedure that produced the panel’ costs three words and no number)."
+  },
+  {
+   "summary": "Moving the count ‘ten’ into the Methods sentence that describes how the nulls were built turned a partial characterisation into an exhaustive one that the null artifact's own generator contradicts for at least three of the ten arms.",
+   "evidence": "Journal article Methods at a9dd5d34ce66145b99df2a581130f5523cc5a9ec: ‘Ten null ensembles were built as scrambles of each design and as chimeras joining the same two parent transcripts at real exon termini, screened identically.’ At 6127da1a the same sentence carried no count and read as partial (‘Null ensembles were built as …’); ‘ten’ came from the deleted §3 sentence ‘They are the weakest of the ten nulls screened’. The COUNT is right and is bound: research/modalities/aso-parent-null.json null_ensembles has exactly 10 members and test_journal_article_numbers.py binds _word(len(arms)).capitalize(). The CHARACTERISATION is not: research/modalities/aso_parent_null.py's header describes random_uniform as ‘16-mers drawn i.i.d. from equal base frequencies’ and random_composition_matched as ‘16-mers drawn i.i.d. from the pooled base composition of the 190 real target windows’ — neither is a scramble of a design — and random_parent_chimera as joining ‘a random window of a real donor parent to a random window of real NR4A3 … destroying … that the two pieces meet at a REPORTED breakpoint’, i.e. not at real exon termini. The same header calls three of the ten ‘NOT NULLS BUT A DECOMPOSITION’."
+  },
+  {
+   "summary": "The condensed article no longer states how the null rates were estimated, while still comparing one of them to a 95% interval.",
+   "evidence": "The condensation deleted ‘Each null rate is 38,000 draws with a Wilson 95% interval.’ At a9dd5d34ce66145b99df2a581130f5523cc5a9ec the journal article contains no occurrence of ‘draws’, ‘38,000’ or ‘Wilson’ (grep over the pinned file), yet §Selection still reads ‘at ten the strongest null's 40.6% falls inside the panel's own 95% interval on 45.8%, as at every cut from seven to thirteen but eleven.’ Re-derived from research/modalities/aso-parent-null.json: method.draws_per_design_per_ensemble = 200, every arm n_draws = 38000, exon_terminus_chimera rate_liable = 0.40568 (Wilson95 [0.40076, 0.41063]), observed 87/190 = 0.45789 (Wilson95 [0.38859, 0.52887]). The reader of the condensed article cannot now tell how precise the 40.6% is."
+  }
+ ],
+ "logs": [
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-setup.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-journal-diff.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-other-diff.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-doi.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-manifest.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-perfile-baseline.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-pdfgates.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-pdfgates2.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-pdfgates3.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-linters-pin.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-linters2.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-mutation-targeted.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-mutationA.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-mutationA-ablation.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-mutationB.log",
+  "/tmp/claude-0/-home-user/f5b71cda-3db6-5b4e-82b5-c9c66af53cfb/scratchpad/s19a-pubaso19/s19a-mutation2.log"
+ ]
+}
