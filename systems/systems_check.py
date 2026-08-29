@@ -1899,7 +1899,22 @@ CODE_CITE = re.compile(r"`([a-z0-9][a-z0-9._-]*\.(?:py|yml|yaml|mjs|sh))`", re.I
 
 #: Directories a backticked code name may live in. A citation is only checkable if we know where to
 #: look; anything outside these is somebody else's repository and is not this check's business.
-CODE_DIRS = ("research", "systems", "scripts", ".github/workflows", "sagemaker_src", "deploy", "tests")
+#: ⛔ `.claude` IS A CODE DIRECTORY OF THIS REPOSITORY AND ITS ABSENCE HERE REDDED THE TRUNK
+#: (2026-08-29, CYC-0073-d4ccfde4). `.claude/hooks/` holds tracked, executable, load-bearing hooks
+#: wired by `.claude/settings.json`; K3 walks only these directories to decide what this repository
+#: HAS, so every one of them was unknowable and any bare backticked reference to one read as a DEAD
+#: POINTER. Measured: `tests.yml` failed on `main` at 264d7a7b1 with one K3 warning naming
+#: `merge-debt-at-turn-end.sh` — a file that exists, is tracked, and landed in the SAME commit
+#: (e9876959e) as the sentence citing it. A false positive, not a stale doc.
+#: ⚠ WHY IT LAY DORMANT, WHICH IS THE PART WORTH KEEPING: `CODE_CITE` matches a BARE backticked
+#: filename. CLAUDE.md cites `.claude/hooks/no-detached-background.py` as a backticked PATH, which
+#: the regex never matched, so the blind spot was invisible until someone wrote a markdown link
+#: whose backticked text is the bare filename. The trigger was citation FORMAT, not file existence.
+#: ⭐ THIS RESOLVES REAL FILES; IT DOES NOT SWITCH THE CHECK OFF. A name in no CODE_DIR is still
+#: flagged, and `test_a_claude_hook_is_not_a_dead_pointer.py` pins BOTH halves so this cannot decay
+#: into a blanket exemption.
+CODE_DIRS = ("research", "systems", "scripts", ".github/workflows", "sagemaker_src", "deploy",
+             "tests", ".claude")
 ARTIFACT_DIRS = ("research/modalities", "research/manuscripts", "research/data", "research/compute",
                  "research/hypotheses", "research/meta", "systems/graph", "results")
 
