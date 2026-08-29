@@ -105,6 +105,20 @@ MEMBERSHIP_SOURCE = "curated_only"
 MEMBERSHIP_SOURCES = ("curated_only", "curated_plus_signature_members",
                       "full_membership_background_null")
 
+#: ⛔⛔ A BACKGROUND MUST CONTAIN GENES THE PANELS DO NOT (AUT-PD-178). Measured 2026-08-29, on a
+#: `background_reads` block this repository generated and published itself: 100.0% of it was the
+#: union of the curated roster and the signature members — 2,284 of 2,284 on GSE24369, 2,035 of
+#: 2,035 on GSE4303, not one gene outside — because the producer sampled the already-reduced
+#: `rec["genes"]` instead of the full probe matrix. The block was well-formed, populated, and
+#: carried a `sampling_frame` string asserting the opposite, so nothing about its FORM gave it away.
+#: ⭐ THIS FLOOR IS CHECKED AGAINST DATA THE CONSUMER ALREADY HOLDS — the panels and the roster —
+#: and therefore does not trust the producer's self-report. `n_frame` cannot do that job: a producer
+#: with the wrong frame reports the wrong `n_frame` just as confidently.
+#: ⚠ A TUNING CONSTANT, NOT A PRINCIPLED THRESHOLD. A real array background overlaps the panels by
+#: roughly the panels' share of the transcriptome — order 10% — so anything above half is far
+#: outside that and the failure it guards was at 100%. Pinned here, in one place.
+MIN_BACKGROUND_OUTSIDE_PANELS = 0.5
+
 #: Draws for the within-panel selection diagnostic. A quarter of `N_DRAWS`: it answers a percentile
 #: rather than a p-value, and it runs once per scored panel on top of the null itself.
 SELECTION_DRAWS = N_DRAWS // 4
@@ -365,6 +379,26 @@ def build(n_draws: int = N_DRAWS) -> dict:
                     "falling back to a convenience pool: a silent narrowing under the same field "
                     "names is exactly the defect AUT-PD-167 records. Dispatch the `panels` mode of "
                     ".github/workflows/emc-expression-datasets.yml, then re-run this.")
+            # ⛔⛔ REFUSE A BACKGROUND THAT IS THE SCORED POOL WEARING ANOTHER NAME (AUT-PD-178).
+            # Checked against the panels and the roster — data this module already holds — rather
+            # than against the block's own `sampling_frame` or `n_frame`, because a producer with
+            # the wrong frame reports both of those just as confidently as a correct one.
+            panel_members = {g for p_, s_ in sig.items()
+                             if family_of(p_) and (s_.get("per_platform") or {}).get(matrix)
+                             for g in (s_["per_platform"][matrix].get("genes_readable") or [])}
+            inside = panel_members | set(cache)
+            outside = [g for g in bg if g not in inside]
+            frac_outside = len(outside) / max(1, len(bg))
+            if frac_outside < MIN_BACKGROUND_OUTSIDE_PANELS:
+                raise SystemExit(
+                    f"`background_reads` for {matrix} is not a background: only {len(outside)} of "
+                    f"{len(bg)} genes ({frac_outside:.1%}) fall outside the panels and the curated "
+                    f"roster, under a floor of {MIN_BACKGROUND_OUTSIDE_PANELS:.0%}. ⛔ REFUSING: a "
+                    "null drawn from this pool is a diluted mixture of the hypotheses under test, "
+                    "which is the confound AUT-PD-167 measured — and a block in this shape has been "
+                    "published once already (AUT-PD-178), well-formed and claiming otherwise in its "
+                    "own `sampling_frame`. Regenerate the panels artifact with a producer that draws "
+                    "from the full probe matrix, then re-run this.")
             # ⭐ `gene_reads` STILL WINS where a background gene also has a curated read, for the
             # same reason it wins in the scoring cache: one gene must not carry two values.
             null_cache = {g: (cache.get(g) or zs) for g, zs in bg.items() if (cache.get(g) or zs)}

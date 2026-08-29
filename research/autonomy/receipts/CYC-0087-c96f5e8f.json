@@ -1,0 +1,57 @@
+{
+  "cycle_id": "CYC-0087-c96f5e8f",
+  "session_id": "c96f5e8f-763e-5ed7-9867-8b23dd675ebf",
+  "ccr_session_id": "session_01DnUAFxFY4g5Cnf1MnbowQb",
+  "started_utc": "2026-08-29T12:14:00Z",
+  "base_sha": "75f6e8b9e",
+  "took": "AUT-079",
+  "took_why": "Top-scored (45.8, later re-derived) self-doable item off RT-JUNCTION-NEOANTIGEN not requiring trimcrae, after the top two candidates by raw score (AUT-PD-110, then a wave of RT-AUTONOMY process_defect rows) were claimed by concurrent sessions before this session's claim landed (YIELDED on AUT-PD-110). health.py's advancing_live_work was NOT-ADVANCING for the prior 3 receipts, and its own text said the fix is a live item off the top of the ledger, not another process_defect on the loop's own machinery — AUT-079 serves an actual research route (RT-JUNCTION-NEOANTIGEN), not RT-AUTONOMY.",
+  "health_at_start": {
+    "exit": 0,
+    "red": [
+      "advancing_live_work",
+      "scores_are_reachable"
+    ],
+    "unmeasured": [
+      "gates_green",
+      "stalls_are_named"
+    ],
+    "red_on_red_posture": "advises/redirects — neither is BLOCKING, so research-loop §1 says run the cycle",
+    "escalations": "none — no condition past its 5-run restart intensity"
+  },
+  "what_changed": [
+    "research/modalities/coverage_scan.py — added an 18-allele HLA-C panel (PANEL_C) alongside the existing 34-allele HLA-A/-B panel (PANEL_AB), widening PANEL to 52 alleles. predict_matrix() now filters PANEL against the loaded MHCflurry predictor's own supported_alleles before the batched predict() call and records anything unsupported in alleles_without_a_model, so one unmodeled C allele cannot abort scoring for the whole panel or silently read as a non-presenter (AUT-PD-102's pattern, applied here for a different failure mode).",
+    "research/modalities/coverage_threshold_curve.py — the '34-allele panel' description in its output is now read from the committed matrix's own panel length (panel_size) instead of hardcoded, so it tracks the panel size instead of going stale.",
+    "research/autonomy/research-ledger.json — AUT-079 updated: lease released (owner: null), blocked_by/blocked_evidence record the landed commit and the dispatched CI run so the next cycle does not re-derive what already happened.",
+    "GitHub Actions: dispatched modalities-run.yml (workflow_dispatch, ref=main) to regenerate epitope-allele-matrix.json and coverage-curve.json against the widened panel — run 33252894785, still in_progress when this cycle ended."
+  ],
+  "finding": "AUT-079's own blocking question — does MHCflurry 2.1.4 score HLA-C at all — was UNKNOWN from this tree (no mhcflurry installed in the sandbox, by design; CI-only). Settled at rung 0 (WebSearch, ci-escape-hatches §0) rather than dispatching CI blind to find out: MHCflurry's pan-allele Class1PresentationPredictor publishes per-allele motif documentation for individual HLA-C alleles (e.g. the mhcflurry-motifs HLA-C*05:01 page), so HLA-C is scored by the pan-allele models and the item does not collapse. The panel itself (18 common two-field HLA-C alleles) is a good-faith common-allele list, not a cited reference panel — no HLA-C analogue of the A/B panel's '≈IEDB reference breadth' framing was found, and the code comment says so plainly rather than inventing a citation. Because coverage_scan.py calls predictor.predict() ONCE over the whole panel as a batch, an allele MHCflurry cannot score would otherwise raise inside that single call and (under the workflow step's continue-on-error) silently zero out results for every OTHER allele too — not just the unsupported one. Filtered against predictor.supported_alleles before predicting, with the drops named, to avoid that failure mode entirely rather than discover it after a wasted CI run.",
+  "what_it_cost": "$0 Claude-side (CPU + two WebSearch queries + two scoped preflight runs, ~464s and ~185s, both backgrounded). One GitHub Actions run of modalities-run.yml dispatched (fpocket + MHCflurry + MHCnuggets install, multiple modality steps) — free CI minutes, not a paid GPU rental; still in progress at cycle end.",
+  "gates": {
+    "preflight_1": "PREFLIGHT OK, exit 0 (fast gates + selector's contract + loop's instruments; pytest 818 passed in 464s) — gated the coverage_scan.py / coverage_threshold_curve.py code change before it was pushed to main.",
+    "preflight_2": "PREFLIGHT OK, exit 0 — gated the AUT-079 ledger status update (lease release + blocked_by) before it was pushed to main.",
+    "no_pinned_figures_touched": "This cycle changed no quoted number in any manuscript or pinned-figures.json entry — only the code and the ledger. The committed epitope-allele-matrix.json / coverage-curve.json artifacts are unchanged, so nothing they feed is out of sync yet; the moment they DO change (once run 33252894785 lands), pinned-figures.json and the manuscript's quoted coverage numbers must move in that same commit per rule 1.3 — recorded as the explicit next step in AUT-079's blocked_evidence."
+  },
+  "anti_gaming": {
+    "invariant": "research-loop §6 — a bar may not be changed by the cycle the bar just blocked.",
+    "how_it_applies": "No guard, gate, ceiling or bar was touched this cycle. The new alleles_without_a_model field is an ADDITION that can only make a future silent-failure harder to produce, not easier to pass, and nothing about it was written to make this cycle's own reported outcome look better."
+  },
+  "escalated": "nothing. research-loop §5's five triggers: no journal submission, no spend (this cycle is $0; the CI run is free Actions minutes on a public repo, not GPU spend), no goal-changing fact, no paper ready to post, and no health condition red past its restart-intensity deadline.",
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "Scheduled-Routine session with no Task/Agent tool surface confirmed at dispatch; single sequential item as instructed (\"take ONE item and do it properly\")."
+  },
+  "now_queued": [
+    "AUT-079 itself, still open: blocked_by ci-regeneration-in-flight (run 33252894785). Next cycle to pick this up should check the run's conclusion, and if success, fetch the modalities-cache branch, snapshot epitope-allele-matrix.json / coverage-curve.json onto main, update every pinned-figures.json home of the moved coverage numbers IN THE SAME COMMIT (rule 1.3), and re-grade RT-JUNCTION-NEOANTIGEN. If the run failed (e.g. an HLA-C allele the panel filter did not catch, or an unrelated CI break), diagnose from the run's own log before re-dispatching."
+  ],
+  "blocked_by": [
+    {
+      "item": "AUT-079",
+      "path": "GitHub Actions run https://github.com/trimcrae/Rare-cancers/actions/runs/33252894785",
+      "why": "The real work (MHCflurry scoring of the widened panel) can only happen in CI, which this sandbox cannot run (no mhcflurry, by design). Dispatched and released rather than held, per research-loop §3's driver-never-waits rule."
+    }
+  ],
+  "route_advanced": "RT-JUNCTION-NEOANTIGEN",
+  "route_advanced_why": "Landed a real code change to the route's own coverage-scan instrument (HLA-C added to the class-I panel, the route's own table-named next step) and dispatched the CI regeneration that will produce the route's next graded number. Not yet a re-grade — that lands once the CI run completes and the pinned figures move — but the prior 3-receipt run of route_advanced: none is broken here with a live route, not a process_defect on the loop's own machinery."
+}
