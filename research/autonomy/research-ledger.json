@@ -3164,9 +3164,9 @@
         "publication": null,
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0088-f7394a99",
+      "claimed_utc": "2026-08-29T13:26:07Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3190,7 +3190,13 @@
         "⭐ THE TARGETS ARE DETERMINED BY THE GRAPH RATHER THAN CHOSEN. RT-FUSION-PARTNER -> RT-PARTNER-STRAT, whose `publication.endpoint` IS `PUB-FUSION-PARTNER`. RT-DEGRADER-TERNARY -> RT-DEGRADER, the primary for PUB-DEGRADER, which is the paper those rows name. RT-ASO-JUNCTION -> RT-ASO and NOT RT-ASO-ASK: both point at PUB-ASO, but RT-ASO is `role: primary` while RT-ASO-ASK is `role: contributing` and is the WET-LAB ASK — and every one of the six rows is manuscript or gate work.",
         "⛔⛔ THE CONSEQUENCE THAT MAKES THIS ITS OWN COMMIT RATHER THAN A ONE-LINE FIX, FORESEEN NOT DISCOVERED: four of the eight (AUT-PD-005, 006, 040, 141) carry no `score`, so repairing the id hands them their route's floor via `apply_route_inheritance` and they LEAVE the open-unscored population — 73 -> ~69. `MAX_UNSCORED_OPEN` is pinned at 73 and `test_the_ratchet_is_not_vacuous` permits at most 2 of slack, so the repair REDS THE TRUNK unless the ceiling is re-pinned DOWN in the same commit. ⭐ That is permitted and is the documented procedure (AUT-PD-145: pin at the count measured in the landing commit); the anti-gaming invariant forbids RAISING a bar, and this lowers it. The taker must verify the post-repair count itself rather than trusting the ~69 estimated here."
       ],
-      "what": "⛔ EIGHT ROWS OF LIVE PAPER WORK NAME A ROUTE THAT EXISTS IN NO GRAPH, SO EVERY ROUTE-KEYED READER TREATS THEM AS ROUTELESS PROCESS WORK. `RT-ASO-JUNCTION`, `RT-FUSION-PARTNER` and `RT-DEGRADER-TERNARY` are in `serves.route` and in none of the 77 routes in systems/graph/routes.json. ⛔ THE HARM IS NOT COSMETIC: `apply_route_inheritance` gives an unscored row the floor OF ITS ROUTE, so a row naming a route the graph lacks can never inherit one — which is why four of the eight are unscored and unrankable, and the work they name is the ASO v2 and fusion-partner papers.\n\n⭐ THE REPAIR IS DETERMINED, NOT A JUDGEMENT — see `depends_on_evidence` for the mapping and the field that fixes each one. ⛔ BUT IT IS NOT A ONE-LINE FIX: it shrinks the open-unscored population below the pinned ceiling and reds the vacuity guard unless the ceiling moves DOWN in the same commit. Re-count, re-pin at the measured number, and never upward.\n\n⚠ FOUND WHILE TAKING AUT-PD-158, AND IT CORRECTS THAT ROW'S FRAMING: AUT-PD-158 asks how to rank work that serves no treatment route, and 8 of the rows that look that way are not that — they are research work with a broken reference. A ceiling keyed on 'serves no graph route' would have capped them."
+      "what": "⛔ EIGHT ROWS OF LIVE PAPER WORK NAME A ROUTE THAT EXISTS IN NO GRAPH, SO EVERY ROUTE-KEYED READER TREATS THEM AS ROUTELESS PROCESS WORK. `RT-ASO-JUNCTION`, `RT-FUSION-PARTNER` and `RT-DEGRADER-TERNARY` are in `serves.route` and in none of the 77 routes in systems/graph/routes.json. ⛔ THE HARM IS NOT COSMETIC: `apply_route_inheritance` gives an unscored row the floor OF ITS ROUTE, so a row naming a route the graph lacks can never inherit one — which is why four of the eight are unscored and unrankable, and the work they name is the ASO v2 and fusion-partner papers.\n\n⭐ THE REPAIR IS DETERMINED, NOT A JUDGEMENT — see `depends_on_evidence` for the mapping and the field that fixes each one. ⛔ BUT IT IS NOT A ONE-LINE FIX: it shrinks the open-unscored population below the pinned ceiling and reds the vacuity guard unless the ceiling moves DOWN in the same commit. Re-count, re-pin at the measured number, and never upward.\n\n⚠ FOUND WHILE TAKING AUT-PD-158, AND IT CORRECTS THAT ROW'S FRAMING: AUT-PD-158 asks how to rank work that serves no treatment route, and 8 of the rows that look that way are not that — they are research work with a broken reference. A ceiling keyed on 'serves no graph route' would have capped them.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T13:26:07Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-169",
