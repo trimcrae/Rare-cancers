@@ -4005,9 +4005,9 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-manual-20260829T081937Z",
+      "claimed_utc": "2026-08-29T08:19:37Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -4024,7 +4024,13 @@
       },
       "evidence": "\n\n⭐ RE-MEASURED 2026-08-28 (CYC-0061-d60caf7b) IN A DETACHED WORKTREE AT origin/main, and ALL THREE OF THIS ROW'S NAMED FAILURES NOW PASS THERE: test_pinned_figures_every_home, and both census-ablation parametrisations (fusion-junction-aso-journal-article.md, fusion-junction-aso-cover-letter.md). ⛔ THE TRUNK IS STILL RED, ON THREE DIFFERENT TESTS, and no ledger row names them: test_round6_fixes_landed::test_the_journal_article_keeps_both_branches_of_the_pilot_gate; test_the_numbered_claims_no_instrument_read::test_the_panel_size_is_the_screens_at_every_site_that_states_it (its pattern /the procedure that produced the (\\d+) designs/ matches nothing in the article on the trunk either — confirmed with git show, so the sentence was reworded or dropped and the guard was not followed); and test_paired_numeric_lists_are_bound_in_the_right_order::test_run_length_and_unpaired_count_always_sum_to_the_oligonucleotide_length (its own message says §2.7's screen-5 scoping sentence was reworded). ⚠ ALL THREE ARE THE SAME SHAPE — a guard whose prose moved and which was not re-anchored — which is the shape this cycle just spent itself on. Root cause NOT diagnosed here and must not be guessed: each needs its sentence found in git history before its pattern is touched, because re-anchoring a guard to new wording is exactly how a real finding disappears.",
       "score": 106.8,
-      "_score_inherited_from_route": "RT-PARTNER-STRAT"
+      "_score_inherited_from_route": "RT-PARTNER-STRAT",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T08:19:37Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "serves": {
