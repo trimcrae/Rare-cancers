@@ -14,7 +14,7 @@
     "harden": 22,
     "negative": 32,
     "process": 7,
-    "process_defect": 156,
+    "process_defect": 157,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
@@ -22,10 +22,10 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 132,
-    "in_progress": 8,
+    "done": 133,
+    "in_progress": 7,
     "parked": 28,
-    "queued": 144,
+    "queued": 145,
     "ready": 1,
     "superseded": 1
   },
@@ -2172,6 +2172,41 @@
       "requires_trimcrae_why": "publishes the eligibility map. ⚠ §3 is per paper, per act: he must name THIS one for THIS act."
     },
     {
+      "id": "AUT-PD-178",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0085-6b009680",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a producer fix and a consumer guard, both landed; nothing outward-facing",
+      "closes_clause": null,
+      "score": 145.0,
+      "_score_basis": "Just under AUT-PD-170 (149.0), which it blocks outright: until the producer is fixed the read that settles AUT-PROP-048 cannot be taken, and taking it against the published block would have produced a fabricated verdict rather than a wrong one.",
+      "depends_on_evidence": [
+        "Measured 2026-08-29 on origin/main 0efcf2f3e, the artifact Actions run 33247348819 published. `background_reads` frames: GSE24369 n_frame=2284, GSE4303 n_frame=2035. Intersecting each drawn set with the union of `signature_member_reads` and the readable `gene_reads`: 2284 of 2284 (100.0%) and 2035 of 2035 (100.0%). NOT ONE GENE outside the pool it was built to escape.",
+        "The mechanism, read at the source rather than inferred: `_read_target` fills `rec[\"genes\"]` under `if g and g in want`, so the reduced record holds only the wanted genes. `_background_reads(live)` sampled that record. The full probe matrix — the only place the real frame exists — has been discarded by then.",
+        "⭐ THE FILE SAID SO THREE LINES BELOW THE BUG. `_genome_wide_null`'s own comment: 'Computed here and nowhere else, because this is the only point in the program where the FULL probe matrix is in memory; by the time the artifact is written it has been reduced to the wanted genes and the question can no longer be asked.' The background is the same kind of question and was placed on the wrong side of that line.",
+        "⛔ WHY THE GUARDS DID NOT CATCH IT, AND THIS WAS PREDICTED IN WRITING: the amendment declaration for those guards (amendments.jsonl, CYC-0085) records the residual risk verbatim — 'these guards run against synthetic matrices, so they prove the producer's LOGIC and not that the real GEO parse hands it what it expects. Only the dispatched fetch settles that, and the next cycle reads its output rather than trusting this one.' The fixture built `tgt[\"genes\"]` as the whole frame, so the two coincided and the defect was invisible to it.",
+        "Fix verified against the real published artifact: with MEMBERSHIP_SOURCE pinned to the background read, `build()` now refuses with '0 of 2284 genes (0.0%) fall outside the panels and the curated roster, under a floor of 50%'. 14 guards pass, including both halves of the floor mutation — the contained pool is refused, a pool overlapping the panels at ~10% is admitted.",
+        "⚠ FILED FIRST AS AUT-PD-178 AND RENUMBERED: CYC-0086-4ce79c2a committed a different AUT-PD-178 ('a finished ledger row was claimable, and claiming it reopened the work') in 5c50402a0 while this one was being gated. That is AUT-PD-171 recurring — SECOND occurrence in a single session, both against `ids.next_entry_id`, and this time the loser was found by a rebase conflict rather than by reading a sibling's summary. ⛔ The commit message of the commit that lands this row still says AUT-PD-178, because it was written before the collision was visible; THIS row is the id."
+      ],
+      "what": "⛔⛔ THE `background_reads` BLOCK THIS REPOSITORY PUBLISHED WAS NOT A BACKGROUND — IT WAS THE CONFOUNDED POOL WITH A NEW NAME AND A `sampling_frame` STRING ASSERTING OTHERWISE. Measured 2026-08-29 on the run that produced it: 100.0% of the drawn genes were the curated roster plus the signature members, on both matrices, not one gene outside. ⛔ AND IT WAS WELL-FORMED — populated, seeded, reproducible, with `n_requested=3000, n_drawn=2284` reading exactly like a sample that met a smaller-than-expected frame rather than a wrong one. CLAUDE.md §4: a plausible-looking record is more dangerous than an empty one, and presence is never evidence of provenance. Had the next cycle pinned the read and regenerated, it would have reported a verdict 'measured against the array background' that was measured against the same pool AUT-PD-167 condemned — the identical failure one level deeper, and this time with a field name vouching for it. ⭐ FIXED IN TWO PLACES, DELIBERATELY. (1) PRODUCER: the draw moved into `_read_target`, beside `_genome_wide_null`, where the full probe matrix is still in memory; `_background_reads` now only GATHERS and its docstring says it must never draw. (2) CONSUMER: `ndrg1_panel_attribution.build` refuses a background whose genes are contained in the panels plus the roster, checked against data the consumer already holds rather than against the block's own `n_frame` or `sampling_frame` — because a producer with the wrong frame reports both of those just as confidently. ★ THE CONSUMER GUARD IS THE LOAD-BEARING HALF: the producer bug is fixed once, but the class returns whenever anyone regenerates that artifact with a different parser."
+    },
+    {
       "id": "AUT-PD-057",
       "kind": "process_defect",
       "process_defect": true,
@@ -2927,97 +2962,6 @@
       "_renamed_why": "AUT-PD-155 was independently allocated by a concurrent session (CYC-0074-5a21085f) for a different defect (commit-loop cost drift / gate 13 timing) and landed on origin/main first. Re-allocated to avoid a duplicate ledger id."
     },
     {
-      "id": "AUT-PD-170",
-      "kind": "fetch",
-      "process_defect": false,
-      "serves": {
-        "route": "RT-SGK1",
-        "publication": "PUB-KINASE-LEADS",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "state": "in_progress",
-      "owner": "CI-panels-run-33247348819",
-      "claimed_utc": "2026-08-29T10:14:30Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 1,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0084-6b009680",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a $0 CI read of two GEO series matrices this repository already parses; nothing outward-facing",
-      "closes_clause": null,
-      "score": 133.0,
-      "_score_basis": "Immediately below AUT-PD-167 (150.0), the row it inherits: that row established that neither available read answers the question and named this as the read that does. It is the only live path to a real RT-SGK1 result, it is free, and until it lands the committed verdict stays pinned as conditional.",
-      "depends_on_evidence": [
-        "AUT-PD-167, measured 2026-08-29 on origin/main b24cb6e22: the curated read's panel members are a SELECTED subset of each panel (all six hypoxia panels in the upper tail of their own within-panel distribution in GSE24369) and the wide read's null pool is 61.5% panel members and 43.1% PPARγ members. Neither is a background.",
-        ".github/workflows/emc-expression-datasets.yml already parses both series matrices in full — it produced `signature_member_reads` (2,017 and 1,802 genes) in aa6d9d9a9 — so the background sample is the same parse with a different gene list and costs nothing new.",
-        "⭐ THE CODE LANDED 2026-08-29 (CYC-0085-6b009680); WHAT REMAINS IS THE FETCH ITSELF. Producer: `emc_expression_panels._background_reads` writes a `background_reads` block — an unfiltered random sample of every symbol each platform's probes resolve to, BACKGROUND_N=3000, seeded per matrix, with `sampling_frame`/`n_frame`/`seed`/`n_requested` recorded so the draw is re-derivable. Consumer: `ndrg1_panel_attribution.MEMBERSHIP_SOURCES` gains `full_membership_background_null`, which scores panels over full membership and draws the null from that block. The null's pool is now a SEPARATE object from the scoring cache — under the two older reads they were the same object, which is the structural half of AUT-PD-167.",
-        "⛔ SELECTING THE NEW READ WITHOUT THE BLOCK RAISES rather than falling back, and the refusal names the matrix that is missing it — a background present on one platform and absent on the other would give the two series nulls of different provenance under identical field names.",
-        "Guards: research/modalities/tests/test_the_null_pool_is_a_background.py, 10 tests, all passing. It mutation-tests the 'unfiltered' claim (flat near-zero profiles must survive the draw at ~their share) and the separation itself (replacing the background wholesale must move the null while leaving each panel's own rho untouched).",
-        "⭐ TWO DEFECTS FOUND BY THOSE GUARDS' OWN FIXTURES AND FIXED, BOTH REACHABLE IN PRODUCTION: a null pool smaller than the largest panel (231 members) raised `ValueError: Sample larger than population` out of random.py instead of refusing — a truncated or partially-fetched background is a real shape now that the null's pool no longer grows with the membership; and the single-matrix case above. Both are now assertions.",
-        "⚠ PREREQUISITE CLEARED FOR THIS WORKFLOW ONLY: `emc-expression-datasets.yml` now regenerates and publishes the ASO archive manifest in its shared publish step, because it writes `emc-expression-panels.json`, which the archive inventories (AUT-PD-168). Without that the dispatch below reproduces the red trunk of 2026-08-29 exactly."
-      ],
-      "what": "⭐ CODE LANDED, PIN NOT YET MOVED, AND THE FETCH IS THE NEXT ACT — when it has been dispatched this row carries the run id as its owner, and until then it does not. ⚠ AN EARLIER DRAFT OF THIS SENTENCE SAID 'FETCH DISPATCHED' BEFORE THE DISPATCH HAPPENED, which is the plausible-looking record CLAUDE.md §4 warns about — written ahead of the act because the act was next in the plan. Caught by the turn-end hook before it reached a commit. ⛔ WHOEVER TAKES THIS: the answer may be that NDRG1 separates in NEITHER series, and that is a result. Do not prefer the read that keeps the finding. Set `MEMBERSHIP_SOURCE = 'full_membership_background_null'`, regenerate, and report what comes out — then, and only then, move the four control tests in `test_ndrg1_panel_attribution_controls.py` as the RECORDED CONSEQUENCE, argued from the numbers in the commit message. A later cycle is not the cycle those bars blocked, so moving them is permitted; moving them without the measurement is not. ★ ORIGINAL FILING BELOW — ⛔ TAKE THE READ THAT ACTUALLY SETTLES AUT-PROP-048: FULL PANEL MEMBERSHIP AGAINST A NULL DRAWN FROM THE ARRAY BACKGROUND. Both reads this repository holds are confounded and they fail in opposite directions (AUT-PD-167), and the reason is the same in both cases — the null's reference population is a convenience pool rather than the array. The curated pool is 479 genes chosen for six unrelated EMC reads; the wide pool is the union of the signature sets being tested. ⭐ WHAT TO FETCH: add a `background_reads` block to `emc-expression-panels.json` carrying the same within-sample z reduction for a RANDOM sample of the readable probes on each platform (a few thousand is ample; record the seed and the sampling frame in the block, because a background pool whose selection rule is unrecorded is the confound again with a better name). Then score every panel over its FULL readable membership against a size-matched null drawn from that background, and report `within_panel_percentile` alongside — the two controls answer different questions and neither replaces the other. ⛔ THE ANSWER MAY BE THAT NDRG1 SEPARATES IN NEITHER SERIES, AND THAT IS A RESULT. Do not prefer the read that keeps the finding: AUT-PD-167 exists because preferring a read is how the current state was reached. ⚠ WHOEVER TAKES THIS MAY THEN MOVE `MEMBERSHIP_SOURCE` and the four control tests in `test_ndrg1_panel_attribution_controls.py`, because a later cycle is not the cycle those bars blocked — but the move must be argued from this measurement in the commit message, and `test_the_larger_series_hypoxia_subsets_are_selected_rather_than_thin_but_fair` says in its own docstring what a change to it has to establish.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T09:26:59Z",
-          "fingerprint_at_dispatch": "2026-08-29|None"
-        },
-        {
-          "utc": "2026-08-29T10:14:30Z",
-          "fingerprint_at_dispatch": "2026-08-29|None"
-        }
-      ],
-      "score_inputs": {
-        "fruitless_attempts": 2
-      }
-    },
-    {
-      "id": "AUT-PD-110",
-      "what": "⛔ RE-GRADE RT-ALK-HIT AGAINST PMID 42660639 (doi 10.1136/jcp-2026-210760, J Clin Pathol 2026): ALK D5F3 IHC OVEREXPRESSION WITHOUT REARRANGEMENT IN 2 OF 4 EMC CASES, among 119 FET-rearranged tumours. ⭐ WHY THIS SPECIFICALLY MATTERS: that route is parked because ALK and ROS1 have NO PROBE on either expression platform — the route's own text calls that 'an instrument statement, never a biological negative' — and this is exactly the protein-level modality the arrays could not supply. ⚠ GRADE IT HONESTLY AND EXPECT IT TO BE THIN: n=4, IHC overexpression is not a dependency, and this disease's own CD117/KIT history is the cautionary parallel — a marker that stained and led nowhere. Recorded ungraded by the seat that found it (research/literature/carfilzomib-class-clinical-2026-08-28.json) rather than absorbed into an unrelated item.",
-      "serves": {
-        "route": "RT-ALK-HIT",
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "done",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-29",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act.",
-      "score_inputs": {
-        "age_factor": 0.0714,
-        "fruitless_attempts": 1
-      },
-      "claimed_utc": "2026-08-29T12:18:06Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T02:59:59Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        },
-        {
-          "utc": "2026-08-29T12:18:06Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ],
-      "score": 132.9,
-      "_score_basis": "inherited from the lowest-scoring derived row on RT-ALK-HIT (140.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
-      "_score_inherited_from_route": "RT-ALK-HIT",
-      "_lease_released_by": "CYC-0075-6d9383a0 released this lease after ARCHIVING its holder's session (session_01RLHV3tB87qndM7qGE9jZa7 = CYC-0074-5a21085f, cleared by session_reaper.py and archived 2026-08-29T03:15Z). Archiving releases the container, so the seat named in `owner` is definitively not running — which is continuity.py's own test for litter: 'if a lease names a worker that is not actually running, that is litter — release it and the work is startable again.' No claim of the WORK being done is made or implied; only the lease is cleared.",
-      "closed_by": "CYC-0087-1c9f0963",
-      "outcome": "⛔ NEGATIVE RE-GRADE, RECORDED AT THAT WEIGHT. PMID 42660639 (doi 10.1136/jcp-2026-210760, J Clin Pathol 2026) establishes ALK PROTEIN at D5F3 IHC 2+/3+ in 2 of 4 EMC cases and, by its own confirmation step, establishes that those cases LACK ALK gene rearrangement. A stain is not a fusion: it reports no activation, no dependency, no drug response, nothing on ROS1, and nothing about the model the 221-drug screen ran on, so it cannot attribute the hit — which is RT-ALK-HIT's whole question. The route STAYS PARKED. ⭐ Arithmetic over the paper's own counts is what decides it: 2/4 has an exact 95% interval of 6.8-93.2%, and EMC is not distinguishable from the rest of the cohort (32/115, Fisher two-sided p = 0.32), so the abstract's 'high overexpression rate' is a rank in a table and not an EMC-selective signal; the paper's headline is family-wide (34/119). ⛔ AND THIS ITEM'S OWN PREMISE WAS FALSE. It was filed on the reasoning that ALK and ROS1 have no probe on either expression platform, so IHC is 'exactly the protein-level modality the arrays could not supply'. research/modalities/emc-expression-panels.json — which OWNS those reads — has ALK readable on GPL6244 and ROS1 readable on BOTH, with the brigatinib target group at full 3/3 coverage on GPL6244 and a score emitted. The false sentence was hand-typed prose in census_route_expression_grading.py sitting in the same generated file as the table contradicting it, and it had propagated by copy into the route grade, the generated view, the seat record that surfaced this lead and this row's own `what`. Corrected at source, in the route grade and in the regenerated view; flagged as superseded-and-retained in the seat record; this row's `what` is left exactly as filed, because a spec rewritten after the fact hides the propagation it is evidence of. ⚠ The correction enlarges the evidence base and improves nothing: where ALK is readable it is below the array median in EMC and level with the comparators. Deliverables: research/literature/alk-ihc-fet-tumours-2026-08-29.json (retrieval, verbatim quotes, arithmetic, re-grade), EV-LI-GONG-2026, ART-ALK-IHC-FET-2026, and the amended RT-ALK-HIT node."
-    },
-    {
       "id": "AUT-PD-145",
       "what": "⛔ LAND THE UNSCORED-ROW RATCHET, WHICH IS DEFERRED AND NOT ABANDONED. AUT-PD-050 landed in two halves: the crash fixes, the score_rank ordering and the reporting are on the trunk; the ratchet MAX_UNSCORED_OPEN and its vacuity test are held UNMODIFIED at commit d082c01a78 on branch s1-aut-pd-050-unscored-rows. Held because the population (82) had already passed the ceiling (80), so merging would have red the COMMIT LOOP for whichever session committed next, on a gate it did not cause. ⛔ THE ENTRY CONDITION IS TWO THINGS AND NEITHER IS 'RAISE THE NUMBER': (1) the filing path supplies the remedy — `ledger_io.write_ledger` is the single serialization every ledger writer passes through and already runs `admissibility.check_write` there, so a row appended with no `score` and no `prerequisite_of` should be refused AT THE WRITE, which makes the ceiling reachable rather than merely enforced; and (2) open-unscored is flat or falling across at least a two-hour window of trunk commits. Pin the ceiling at the count measured in the same commit that lands it. ⚠ Pinning at the then-current number was considered on 2026-08-28 and refused: legal under the vacuity guard, red again within ~20 minutes at the measured rate, and re-pinning on each break is the forbidden edit taken in instalments.\n\n⭐ HALF LANDED 2026-08-29 BY CYC-0073-d4ccfde4 — ENTRY CONDITION 1 IS MET, CONDITION 2 IS NOT, AND THE ROW STAYS OPEN BECAUSE OF IT. The filing-path remedy is on the trunk: `admissibility.py` now carries R5 — `is_unscored_open()` names the population `priority.py` publishes as `n_unscored_open`, and `refuse_population_growth()` refuses any ledger write that puts a row INTO it, via `ledger_io.write_ledger`, the one serialization every writer already passes through. ⛔ ENTRY HAS THREE DOORS AND ALL THREE ARE CLOSED, because closing one is the one-of-a-pair class: a row APPENDED unscored, a committed `score` REMOVED, and a closed-and-exempt unscored row REOPENED. Membership is GRANDFATHERED — the 85 rows already on the trunk still write, which is the property that stops this landing as an outage the way the bare ceiling would have. ⚠ THE CEILING `MAX_UNSCORED_OPEN` IS STILL NOT MERGED, AND THE MEASUREMENT SAYS WHY. Across all 120 ledger commits in the observable trunk history (2026-08-28T13:55Z -> 2026-08-29T00:27Z) open-unscored rose 22 -> 85: +63 in 10.5 h, ~6 rows/hour, and NO pre-existing unscored row acquired a score in that window. Condition 2 asks for flat or falling over >=2 h and the series is rising, so pinning at 85 today would go red in roughly ten minutes — the instalment edit this row already refused once. ⭐ WHAT REMAINS, AND IT IS NOW A WAIT ON EVIDENCE RATHER THAN ON CODE: re-run the same series over >=2 h of trunk history that is entirely AFTER this commit; if it is flat or falling, pin the ceiling at the count measured in the same commit that lands it and merge the held vacuity test from d082c01a78. R5 is what makes that series able to be flat. ⚠ R5 CANNOT SHRINK THE EXISTING 85 AND DOES NOT CLAIM TO — those clear one row at a time, by scoring them, and `n_unscored_open` is the number that says whether that is happening.\n\n⭐⭐ CLOSED 2026-08-29 BY CYC-0083-381d0696: THE RATCHET IS ON THE TRUNK, PINNED AT 73 — SEVEN LOWER THAN THE 80 IT WAS WRITTEN AGAINST, NOT HIGHER. `MAX_UNSCORED_OPEN` and `test_the_ratchet_is_not_vacuous` landed TOGETHER and VERBATIM from d082c01a78 apart from the number, which is the count measured in the landing commit, exactly as this row required. ⛔ THE SECOND ENTRY CONDITION WAS MET BY MEASUREMENT, NOT BY ARGUMENT, AND IT IS THE ONLY THING THAT LICENSES THE PIN: `n_unscored_open` was 73 at EVERY ONE of the 18 consecutive trunk ledger commits from 2026-08-29T03:29:55Z to 07:47:50Z — 4.3 hours flat against a required window of 2, with no rise anywhere inside it. The population fell 88 → 73 when R5 landed (CYC-0073-d4ccfde4) and has not moved since, which is precisely the mechanism condition 1 was for: R5 cannot shrink the grandfathered members, but it stops new ones, and a population that cannot grow is a population a ceiling can sit on. ⚠ THE SERIES IS THE EVIDENCE AND IT IS RE-RUNNABLE: `git log --format='%H %cI' origin/main -- research/autonomy/research-ledger.json`, then `admissibility.is_unscored_open` over each blob. The window read here is entirely AFTER R5's commit, as this row demanded. ⭐ MUTATION-TESTED 6/6 ON A REPO-SHAPED COPY, NEVER THE LIVE TREE, AGAINST AN ASSERTED-GREEN BASELINE: the ceiling raised to 200 and to 76 (both caught by the vacuity guard), one unscored row appended, one open row's score removed, `_unscored_open` inverted, and its closed-state exclusion removed. ⚠ THE FIRST HARNESS RUN WENT RED AT THE BASELINE — it copied research/autonomy alone and the suite reaches systems/graph/routes.json — so every 'caught' would have been caught for the wrong reason. That is CYC-0073-d4ccfde4's recorded failure arriving from the other direction, and the baseline assertion is what caught it. ⚠ HONEST LIMIT OF THE VACUITY GUARD, STATED RATHER THAN LEFT TO BE FOUND: it permits up to 2 of slack, so a pin of 74 or 75 would pass it today. 73 is the strictest legal pin, not the safest one, and the guard's tolerance is not a licence to use it.\n\n⛔⛔ RE-OPENED IN ERROR AT 11:47:29Z AND RESTORED BY CYC-0086-4ce79c2a, WHICH VERIFIED THE WORK RATHER THAN REDOING IT. This row was `done` with `closed_by: CYC-0083-381d0696` from 08:25:54Z (5b64d476e). Commit 5856839fe at 11:47:29Z — a `claim.py` claim — flipped it `done → in_progress` and stamped an owner, and a worker session was dispatched against it. ⛔ NOTHING WAS WRONG WITH THE LANDED WORK AND NO PART OF IT WAS REDONE: measured on the trunk at 9d5b4defe, `MAX_UNSCORED_OPEN = 73` is in `test_an_unscored_row_is_ranked_by_nothing.py:141`, `n_unscored_open` is 73, and the two guard suites are 26 passed. The population sits EXACTLY on the ceiling — zero slack, which is what pinning at the measured count means and is not a new finding. ⭐ THE RESURRECTION ITSELF IS THE ONLY DEFECT THIS DISPATCH FOUND, and it is filed as AUT-PD-176 with the guard that stops it; `closed_by` stays CYC-0083-381d0696, which did the work.",
       "serves": {
@@ -3210,6 +3154,42 @@
           "fingerprint_at_dispatch": "2026-08-29|None"
         }
       ]
+    },
+    {
+      "id": "AUT-PD-171",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0084-6b009680",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "one function in research/autonomy/ids.py and its test; nothing outward-facing",
+      "closes_clause": null,
+      "score": 129.0,
+      "_score_basis": "⭐ SCORED 2026-08-29 BY CYC-0087-1c9f0963, WHICH IS NOT THE CYCLE THAT FILED IT. The row was deliberately left `score: null` by CYC-0084-6b009680 with the note 'Re-scored on the next run'. `priority.py --write` cannot supply it: RT-AUTONOMY has no row in systems/graph, so `apply_route_inheritance` has no floor to inherit — which is AUT-PD-158's subject, not this row's. The null therefore survived every re-score and took the open-unscored population to 74 against a ratchet pinned at 73, which is a RED TRUNK: test_an_unscored_row_is_ranked_by_nothing::test_the_open_unscored_population_does_not_grow fails on a clean origin/main, measured 2026-08-29 (origin/main 314 entries, 74 unscored open; the same set, id for id, as the tree that found it). ⛔ THE RATCHET'S OWN REMEDY WAS TAKEN AND THE FORBIDDEN ONE WAS NOT: the test says the fix is a `score` and a `_score_basis` on the row, and says explicitly do not raise MAX_UNSCORED_OPEN. The ceiling is byte-unchanged. ⭐ THE NUMBER, DERIVED RATHER THAN PREFERRED. Its neighbours are the coordination-defect band whose cost is one session's rework: AUT-PD-176 at 122.0 (one occurrence), AUT-PD-172 at 122.0, AUT-PD-175 at 125.0, AUT-PD-168 at 126.0, AUT-PD-169 at 128.0, AUT-PD-177 at 128.5. This sits one notch above the band's top on the one fact that separates it: it is the only row in the band with FIVE measured occurrences, and the only one that taxes the landing of every other row rather than costing its own cycle once. ⛔ It is deliberately NOT set at or above the current process maximum (133.1): the band is not re-ordered by this edit, and AUT-PD-158's undecided ceiling is untouched. ⚠ THE SCORER HAS AN INTEREST AND IT IS DECLARED: scoring this row is what let CYC-0087-1c9f0963's own commit land. The check that this is not self-serving is that the alternative — raising the ratchet — was the cheaper route to the same green and was refused, and that the number chosen is inside the existing band rather than at its top.",
+      "depends_on_evidence": [
+        "Measured 2026-08-29 by CYC-0084-6b009680, live and against itself. `ids.next_entry_id('AUT-PD', entries)` returned AUT-PD-169 at 09:15Z; CYC-0083-381d0696 had already committed a DIFFERENT AUT-PD-169 at 08:58:24Z in 24987a47b ('record the handoff, the red trunk's evidence, and AUT-PD-169') and CYC-0084 was 21 commits behind at the time. Both derivations were correct.",
+        "The two rows are unrelated: CYC-0083's is a process_defect on RT-AUTONOMY about the turn-end hook telling a spawning session to claim its successor's item; CYC-0084's was a fetch on RT-SGK1. Nothing about their content would have collided — only the id.",
+        "⭐ THE ASYMMETRY IS THE WHOLE POINT: `ids.next_receipt` ALREADY carries a session discriminator for exactly this reason (AUT-PROP-013, where two sessions 50 s apart both took CYC-0016), and `ids.next_entry_id` in the same module does not. The fix for one half was never applied to the other.",
+        "It was caught only because CYC-0084 read a sibling session's post_turn_summary while running the step-11 reaper and noticed the string 'AUT-PD-169' in it. Nothing checked.",
+        "⛔ SECOND OCCURRENCE, SAME SESSION, 2026-08-29. CYC-0085-6b009680 filed AUT-PD-176 while CYC-0086-4ce79c2a committed a DIFFERENT AUT-PD-176 (5c50402a0) during the ~16-minute gate that stood between filing and pushing. Renumbered to AUT-PD-177. ⭐ THE SECOND ONE IS THE EVIDENCE THAT MATTERS: the first collision could be read as bad luck between sessions hours apart; two in one session, both inside a gate window, makes it structural. AUT-PD-174 is why the window exists — a cycle cannot publish its row until its gate passes — so these two rows compound and should be fixed together or the fix for one will not hold.",
+        "⛔⛔ THIRD OCCURRENCE, SAME SESSION, WITHIN ~90 MINUTES. CYC-0085-6b009680 filed a row as AUT-PD-176 (taken by CYC-0086-4ce79c2a), renumbered to AUT-PD-177 (taken on the trunk by the time the rebase completed), and landed as AUT-PD-178. Each renumber touched the ledger, two modules, a test file and an amendment record, and each was invalidated by the next gate window. ⭐ THE FIX SHAPE THE THIRD ONE MAKES OBVIOUS, AND IT IS NOT 'DERIVE HARDER': the id is allocated when the row is WRITTEN and validated when it is PUSHED, and those are ~16 minutes apart (AUT-PD-172, AUT-PD-174) on a trunk that moves every ~2 minutes. Any allocator reading committed state loses that race by construction. Either the id carries a session discriminator — which `ids.next_receipt` in the SAME MODULE already does, and which makes collision impossible rather than unlikely — or allocation moves to push time behind the same compare-and-swap `claim.py` uses. ⛔ The renumber is not cheap and it is not local: an id appears in ledger cross-references, module docstrings, refusal messages, test assertions and amendment declarations, so every collision is a multi-file edit that must then be re-gated.",
+        "⛔⛔ FOURTH AND FIFTH OCCURRENCES, IN A DIFFERENT SESSION, 2026-08-29 (CYC-0087-1c9f0963). Two follow-up rows were filed and committed as AUT-PD-177/178 in 35fb816f5. During the first gate window CYC-0087-4ce79c2a landed AUT-PD-176 and AUT-PD-177 for unrelated defects, so they were renumbered to 178/179; during the SECOND gate window another cycle landed AUT-PD-178, so they were renumbered again to 179/180. Two renumbers, two ledger conflict resolutions and two extra preflight runs for one $0 literature re-grade. ⭐ THIS IS EVIDENCE FROM A SESSION WITH NO STAKE IN THE ORIGINAL FILING, which is what the first three occurrences lacked — all three were CYC-0084/0085's own. The defect is not one session's bad luck with the trunk; it reproduces for any cycle whose gate window overlaps another's push, and this trunk moved twice inside a ~10-minute window."
+      ],
+      "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time."
     },
     {
       "id": "AUT-PD-177",
@@ -3478,6 +3458,102 @@
         "⭐ THE ASYMMETRY THAT IS THE FIX: origin's history is not rewritten, so a revision recorded at origin/main's tip survives any later rebase as an ancestor. A revision recorded at a LOCAL commit does not survive the rebase that publishes it. `publish_artifacts.sh` already gets this right by accident of shape — it resets to the fetched tip before its regen — which is why CI has never hit this and a session doing it by hand does."
       ],
       "what": "⛔⛔ REGENERATING THE ARCHIVE MANIFEST AT A LOCAL COMMIT PUBLISHES A `git_revision` THAT DIES IN THE REBASE THAT PUSHES IT. AUT-PD-168 established the ordering rule — commit the work first, then regenerate against a clean tree — and following it exactly is still not sufficient, because 'clean' and 'published' are different properties and only the first is checked. Measured 2026-08-29: a manifest generated at local HEAD, then rebased onto a moved origin/main, reached the trunk naming a commit no clone can resolve. ⭐ THE MISSING HALF OF THE RULE, IN ONE LINE: regenerate with HEAD at a PUSHED commit — fetch, rebase, THEN regenerate, commit and push — because origin's history is never rewritten and a recorded tip therefore survives as an ancestor of whatever comes next. ⚠ AND IF THE PUSH RACES, the rebase that resolves it must be followed by another regeneration, not just a retry. ⛔ THE HONEST COST HERE WAS SMALL — one preflight and one extra commit — but the artifact is the ASO deposit's provenance record and its whole purpose is that a reader can check out `git_revision` and verify the hashes. A manifest naming an unresolvable commit fails at precisely the moment it is supposed to work. ⭐ WHERE TO PUT IT: `aso_archive_manifest.py`'s own header, beside the ordering rule it already carries, and in the `--check-archive` refusal message that already teaches the ordering — a reader who hits one of these needs both halves."
+    },
+    {
+      "id": "AUT-PD-170",
+      "kind": "fetch",
+      "process_defect": false,
+      "serves": {
+        "route": "RT-SGK1",
+        "publication": "PUB-KINASE-LEADS",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "in_progress",
+      "owner": "CI-panels-run-33253509586",
+      "claimed_utc": "2026-08-29T12:50:52Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 0,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0084-6b009680",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a $0 CI read of two GEO series matrices this repository already parses; nothing outward-facing",
+      "closes_clause": null,
+      "score": 125.0,
+      "_score_basis": "Immediately below AUT-PD-167 (150.0), the row it inherits: that row established that neither available read answers the question and named this as the read that does. It is the only live path to a real RT-SGK1 result, it is free, and until it lands the committed verdict stays pinned as conditional.",
+      "depends_on_evidence": [
+        "AUT-PD-167, measured 2026-08-29 on origin/main b24cb6e22: the curated read's panel members are a SELECTED subset of each panel (all six hypoxia panels in the upper tail of their own within-panel distribution in GSE24369) and the wide read's null pool is 61.5% panel members and 43.1% PPARγ members. Neither is a background.",
+        ".github/workflows/emc-expression-datasets.yml already parses both series matrices in full — it produced `signature_member_reads` (2,017 and 1,802 genes) in aa6d9d9a9 — so the background sample is the same parse with a different gene list and costs nothing new.",
+        "⭐ THE CODE LANDED 2026-08-29 (CYC-0085-6b009680); WHAT REMAINS IS THE FETCH ITSELF. Producer: `emc_expression_panels._background_reads` writes a `background_reads` block — an unfiltered random sample of every symbol each platform's probes resolve to, BACKGROUND_N=3000, seeded per matrix, with `sampling_frame`/`n_frame`/`seed`/`n_requested` recorded so the draw is re-derivable. Consumer: `ndrg1_panel_attribution.MEMBERSHIP_SOURCES` gains `full_membership_background_null`, which scores panels over full membership and draws the null from that block. The null's pool is now a SEPARATE object from the scoring cache — under the two older reads they were the same object, which is the structural half of AUT-PD-167.",
+        "⛔ SELECTING THE NEW READ WITHOUT THE BLOCK RAISES rather than falling back, and the refusal names the matrix that is missing it — a background present on one platform and absent on the other would give the two series nulls of different provenance under identical field names.",
+        "Guards: research/modalities/tests/test_the_null_pool_is_a_background.py, 10 tests, all passing. It mutation-tests the 'unfiltered' claim (flat near-zero profiles must survive the draw at ~their share) and the separation itself (replacing the background wholesale must move the null while leaving each panel's own rho untouched).",
+        "⭐ TWO DEFECTS FOUND BY THOSE GUARDS' OWN FIXTURES AND FIXED, BOTH REACHABLE IN PRODUCTION: a null pool smaller than the largest panel (231 members) raised `ValueError: Sample larger than population` out of random.py instead of refusing — a truncated or partially-fetched background is a real shape now that the null's pool no longer grows with the membership; and the single-matrix case above. Both are now assertions.",
+        "⚠ PREREQUISITE CLEARED FOR THIS WORKFLOW ONLY: `emc-expression-datasets.yml` now regenerates and publishes the ASO archive manifest in its shared publish step, because it writes `emc-expression-panels.json`, which the archive inventories (AUT-PD-168). Without that the dispatch below reproduces the red trunk of 2026-08-29 exactly.",
+        "⛔ THE FIRST FETCH LANDED AND ITS BACKGROUND BLOCK WAS FABRICATED — see AUT-PD-178. Actions run 33247348819 completed SUCCESSFULLY at 10:27:44Z and published 0efcf2f3e; the block it wrote is 100.0% the pool it was meant to escape, because the producer sampled the already-reduced record. ⭐ READING THE RUN RECORD WOULD HAVE CALLED THIS A DELIVERY (research-loop §8.4). Producer and consumer are both fixed and the consumer now REFUSES the published block; a second dispatch is required before this row can be taken."
+      ],
+      "what": "⛔ RE-DISPATCH FIRST: THE BLOCK ON THE TRUNK IS FABRICATED AND THE CONSUMER NOW REFUSES IT (AUT-PD-178). The producer fix is committed but the artifact predates it, so the `panels` mode of `.github/workflows/emc-expression-datasets.yml` must be dispatched again and its OUTPUT read — check `background_reads[...].n_frame` against the platform's mapped-symbol count and `n_drawn_also_wanted` against `n_drawn` before believing anything. ★ ORIGINAL FILING BELOW — ⭐ CODE LANDED, PIN NOT YET MOVED, AND THE FETCH IS THE NEXT ACT — when it has been dispatched this row carries the run id as its owner, and until then it does not. ⚠ AN EARLIER DRAFT OF THIS SENTENCE SAID 'FETCH DISPATCHED' BEFORE THE DISPATCH HAPPENED, which is the plausible-looking record CLAUDE.md §4 warns about — written ahead of the act because the act was next in the plan. Caught by the turn-end hook before it reached a commit. ⛔ WHOEVER TAKES THIS: the answer may be that NDRG1 separates in NEITHER series, and that is a result. Do not prefer the read that keeps the finding. Set `MEMBERSHIP_SOURCE = 'full_membership_background_null'`, regenerate, and report what comes out — then, and only then, move the four control tests in `test_ndrg1_panel_attribution_controls.py` as the RECORDED CONSEQUENCE, argued from the numbers in the commit message. A later cycle is not the cycle those bars blocked, so moving them is permitted; moving them without the measurement is not. ★ ORIGINAL FILING BELOW — ⛔ TAKE THE READ THAT ACTUALLY SETTLES AUT-PROP-048: FULL PANEL MEMBERSHIP AGAINST A NULL DRAWN FROM THE ARRAY BACKGROUND. Both reads this repository holds are confounded and they fail in opposite directions (AUT-PD-167), and the reason is the same in both cases — the null's reference population is a convenience pool rather than the array. The curated pool is 479 genes chosen for six unrelated EMC reads; the wide pool is the union of the signature sets being tested. ⭐ WHAT TO FETCH: add a `background_reads` block to `emc-expression-panels.json` carrying the same within-sample z reduction for a RANDOM sample of the readable probes on each platform (a few thousand is ample; record the seed and the sampling frame in the block, because a background pool whose selection rule is unrecorded is the confound again with a better name). Then score every panel over its FULL readable membership against a size-matched null drawn from that background, and report `within_panel_percentile` alongside — the two controls answer different questions and neither replaces the other. ⛔ THE ANSWER MAY BE THAT NDRG1 SEPARATES IN NEITHER SERIES, AND THAT IS A RESULT. Do not prefer the read that keeps the finding: AUT-PD-167 exists because preferring a read is how the current state was reached. ⚠ WHOEVER TAKES THIS MAY THEN MOVE `MEMBERSHIP_SOURCE` and the four control tests in `test_ndrg1_panel_attribution_controls.py`, because a later cycle is not the cycle those bars blocked — but the move must be argued from this measurement in the commit message, and `test_the_larger_series_hypoxia_subsets_are_selected_rather_than_thin_but_fair` says in its own docstring what a change to it has to establish.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T09:26:59Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        },
+        {
+          "utc": "2026-08-29T10:14:30Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        },
+        {
+          "utc": "2026-08-29T12:50:52Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 3
+      }
+    },
+    {
+      "id": "AUT-PD-110",
+      "what": "⛔ RE-GRADE RT-ALK-HIT AGAINST PMID 42660639 (doi 10.1136/jcp-2026-210760, J Clin Pathol 2026): ALK D5F3 IHC OVEREXPRESSION WITHOUT REARRANGEMENT IN 2 OF 4 EMC CASES, among 119 FET-rearranged tumours. ⭐ WHY THIS SPECIFICALLY MATTERS: that route is parked because ALK and ROS1 have NO PROBE on either expression platform — the route's own text calls that 'an instrument statement, never a biological negative' — and this is exactly the protein-level modality the arrays could not supply. ⚠ GRADE IT HONESTLY AND EXPECT IT TO BE THIN: n=4, IHC overexpression is not a dependency, and this disease's own CD117/KIT history is the cautionary parallel — a marker that stained and led nowhere. Recorded ungraded by the seat that found it (research/literature/carfilzomib-class-clinical-2026-08-28.json) rather than absorbed into an unrelated item.",
+      "serves": {
+        "route": "RT-ALK-HIT",
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "done",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 1,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 literature query; no outward-facing act.",
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "fruitless_attempts": 2
+      },
+      "claimed_utc": "2026-08-29T12:18:06Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T02:59:59Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        },
+        {
+          "utc": "2026-08-29T12:18:06Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "score": 124.9,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ALK-HIT (140.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-ALK-HIT",
+      "_lease_released_by": "CYC-0075-6d9383a0 released this lease after ARCHIVING its holder's session (session_01RLHV3tB87qndM7qGE9jZa7 = CYC-0074-5a21085f, cleared by session_reaper.py and archived 2026-08-29T03:15Z). Archiving releases the container, so the seat named in `owner` is definitively not running — which is continuity.py's own test for litter: 'if a lease names a worker that is not actually running, that is litter — release it and the work is startable again.' No claim of the WORK being done is made or implied; only the lease is cleared.",
+      "closed_by": "CYC-0087-1c9f0963",
+      "outcome": "⛔ NEGATIVE RE-GRADE, RECORDED AT THAT WEIGHT. PMID 42660639 (doi 10.1136/jcp-2026-210760, J Clin Pathol 2026) establishes ALK PROTEIN at D5F3 IHC 2+/3+ in 2 of 4 EMC cases and, by its own confirmation step, establishes that those cases LACK ALK gene rearrangement. A stain is not a fusion: it reports no activation, no dependency, no drug response, nothing on ROS1, and nothing about the model the 221-drug screen ran on, so it cannot attribute the hit — which is RT-ALK-HIT's whole question. The route STAYS PARKED. ⭐ Arithmetic over the paper's own counts is what decides it: 2/4 has an exact 95% interval of 6.8-93.2%, and EMC is not distinguishable from the rest of the cohort (32/115, Fisher two-sided p = 0.32), so the abstract's 'high overexpression rate' is a rank in a table and not an EMC-selective signal; the paper's headline is family-wide (34/119). ⛔ AND THIS ITEM'S OWN PREMISE WAS FALSE. It was filed on the reasoning that ALK and ROS1 have no probe on either expression platform, so IHC is 'exactly the protein-level modality the arrays could not supply'. research/modalities/emc-expression-panels.json — which OWNS those reads — has ALK readable on GPL6244 and ROS1 readable on BOTH, with the brigatinib target group at full 3/3 coverage on GPL6244 and a score emitted. The false sentence was hand-typed prose in census_route_expression_grading.py sitting in the same generated file as the table contradicting it, and it had propagated by copy into the route grade, the generated view, the seat record that surfaced this lead and this row's own `what`. Corrected at source, in the route grade and in the regenerated view; flagged as superseded-and-retained in the seat record; this row's `what` is left exactly as filed, because a spec rewritten after the fact hides the propagation it is evidence of. ⚠ The correction enlarges the evidence base and improves nothing: where ALK is readable it is below the array median in EMC and level with the comparators. Deliverables: research/literature/alk-ihc-fet-tumours-2026-08-29.json (retrieval, verbatim quotes, arithmetic, re-grade), EV-LI-GONG-2026, ART-ALK-IHC-FET-2026, and the amended RT-ALK-HIT node."
     },
     {
       "id": "AUT-PD-146",
@@ -3788,40 +3864,7 @@
       "closes_clause": null
     },
     {
-      "id": "AUT-PD-171",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0084-6b009680",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "one function in research/autonomy/ids.py and its test; nothing outward-facing",
-      "closes_clause": null,
-      "score": 120.0,
-      "_score_basis": "Just below AUT-PD-028 (124.0), the other collision defect this loop keeps paying for. It is cheap and the fix already exists one function away, but the harm is one session's rework rather than ungated content on `main`.",
-      "depends_on_evidence": [
-        "Measured 2026-08-29 by CYC-0084-6b009680, live and against itself. `ids.next_entry_id('AUT-PD', entries)` returned AUT-PD-169 at 09:15Z; CYC-0083-381d0696 had already committed a DIFFERENT AUT-PD-169 at 08:58:24Z in 24987a47b ('record the handoff, the red trunk's evidence, and AUT-PD-169') and CYC-0084 was 21 commits behind at the time. Both derivations were correct.",
-        "The two rows are unrelated: CYC-0083's is a process_defect on RT-AUTONOMY about the turn-end hook telling a spawning session to claim its successor's item; CYC-0084's was a fetch on RT-SGK1. Nothing about their content would have collided — only the id.",
-        "⭐ THE ASYMMETRY IS THE WHOLE POINT: `ids.next_receipt` ALREADY carries a session discriminator for exactly this reason (AUT-PROP-013, where two sessions 50 s apart both took CYC-0016), and `ids.next_entry_id` in the same module does not. The fix for one half was never applied to the other.",
-        "It was caught only because CYC-0084 read a sibling session's post_turn_summary while running the step-11 reaper and noticed the string 'AUT-PD-169' in it. Nothing checked."
-      ],
-      "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time."
-    },
-    {
-      "id": "AUT-PD-178",
+      "id": "AUT-PD-179",
       "kind": "process_defect",
       "process_defect": true,
       "serves": {
@@ -3849,7 +3892,9 @@
         "age_factor": 0.0,
         "fruitless_attempts": 0
       },
-      "what": "⛔ A GENERATOR'S HAND-TYPED PROSE SUMMARY CAN CONTRADICT THE MACHINE-DERIVED TABLE IT SITS BESIDE IN THE SAME GENERATED FILE, AND NOTHING MEASURES THE AGREEMENT. ⚠ MEASURED 2026-08-29 (AUT-PD-110): research/modalities/census_route_expression_grading.py's RT-ALK-HIT block said 'ALK and ROS1 have no probe on GPL6244 or GPL3290' while the per-gene `genes` table emitted by the SAME function, from the SAME source artifact, carried ALK readable on GPL6244 and ROS1 readable on both — and the panel group in that file recorded coverage 1.0 with a score emitted. The false sentence stood for 20 days and propagated by copy into systems/graph/routes.json's grade, the generated route view, a downstream literature record and a ledger item that was queued BECAUSE of it. ⭐ THE FIX IS NOT PROOFREADING: every route block in that module makes readability claims in prose that the module itself already knows the truth of, so a check can DERIVE the readability sentence, or assert the prose against `genes_readable`/`genes_not_readable` and fail the build on disagreement. Do that, then sweep the module's other 15 route blocks for the same class of drift — RT-NR2F1's 'NOT READABLE on either platform' is the one other absolute readability claim and must be CHECKED against its own table, not assumed wrong. ⛔ THE GENERALISATION IS THE POINT: this repository already records the same shape twice — a prose figure duplicating a computed one — and the grade text beside a table is the case nobody instrumented."
+      "what": "⛔ A GENERATOR'S HAND-TYPED PROSE SUMMARY CAN CONTRADICT THE MACHINE-DERIVED TABLE IT SITS BESIDE IN THE SAME GENERATED FILE, AND NOTHING MEASURES THE AGREEMENT. ⚠ MEASURED 2026-08-29 (AUT-PD-110): research/modalities/census_route_expression_grading.py's RT-ALK-HIT block said 'ALK and ROS1 have no probe on GPL6244 or GPL3290' while the per-gene `genes` table emitted by the SAME function, from the SAME source artifact, carried ALK readable on GPL6244 and ROS1 readable on both — and the panel group in that file recorded coverage 1.0 with a score emitted. The false sentence stood for 20 days and propagated by copy into systems/graph/routes.json's grade, the generated route view, a downstream literature record and a ledger item that was queued BECAUSE of it. ⭐ THE FIX IS NOT PROOFREADING: every route block in that module makes readability claims in prose that the module itself already knows the truth of, so a check can DERIVE the readability sentence, or assert the prose against `genes_readable`/`genes_not_readable` and fail the build on disagreement. Do that, then sweep the module's other 15 route blocks for the same class of drift — RT-NR2F1's 'NOT READABLE on either platform' is the one other absolute readability claim and must be CHECKED against its own table, not assumed wrong. ⛔ THE GENERALISATION IS THE POINT: this repository already records the same shape twice — a prose figure duplicating a computed one — and the grade text beside a table is the case nobody instrumented.",
+      "_renamed_from": "AUT-PD-178",
+      "_renamed_why": "re-allocated at merge: every id this row has been filed under was taken by a concurrent session in the interval (first AUT-PD-177/178 in 35fb816f5, then AUT-PD-178 at the first merge). Ids are counted against the MERGED ledger after each rebase, which is what caught the collision each time."
     },
     {
       "id": "AUT-PD-139",
@@ -6254,7 +6299,7 @@
       "clamp": "blocked_without_evidence_becomes_a_check"
     },
     {
-      "id": "AUT-PD-179",
+      "id": "AUT-PD-180",
       "kind": "process_defect",
       "process_defect": true,
       "serves": {
@@ -6282,7 +6327,9 @@
         "age_factor": 0.0,
         "fruitless_attempts": 0
       },
-      "what": "⛔ THE '176 SARCOMA LINES' CORRECTION SWEEP IS NOW COMPLETE IN THE TRUNK BUT ITS OWN 'STILL LIVE ELSEWHERE' LIST IS STALE, AND A STALE LIST OF KNOWN ERRORS READS AS OPEN WORK. research/manuscripts/dependency/emc-kinase-leads-source-verification.md §4 names census_route_expression_grading.py, its generated artifact and emc-transcriptional-proteostatic-dependency.md as still carrying the superseded denominator; all three now read '91 screened sarcoma lines (of 176 sarcoma models)'. ⭐ AND THE LAST TWO LIVE COPIES WERE FIXED 2026-08-29 (AUT-PD-110) — systems/graph/routes.json's RT-TXN-CDK supporting-evidence row ('dependencies in 100% of 176 sarcoma lines') and research/modalities/emc_proteostasis_read.py's docstring ('94.5% and 96.7% of 176 sarcoma lines'), neither of which that list named. ⚠ THE ITEM IS THE LIST, NOT THE NUMBER: update §4 to say the sweep closed and on what date, and record the two files the list missed so the next census of this error starts from what is true. ⚠ It touches a manuscript-adjacent memo, so it needs PREFLIGHT_TESTS=1."
+      "what": "⛔ THE '176 SARCOMA LINES' CORRECTION SWEEP IS NOW COMPLETE IN THE TRUNK BUT ITS OWN 'STILL LIVE ELSEWHERE' LIST IS STALE, AND A STALE LIST OF KNOWN ERRORS READS AS OPEN WORK. research/manuscripts/dependency/emc-kinase-leads-source-verification.md §4 names census_route_expression_grading.py, its generated artifact and emc-transcriptional-proteostatic-dependency.md as still carrying the superseded denominator; all three now read '91 screened sarcoma lines (of 176 sarcoma models)'. ⭐ AND THE LAST TWO LIVE COPIES WERE FIXED 2026-08-29 (AUT-PD-110) — systems/graph/routes.json's RT-TXN-CDK supporting-evidence row ('dependencies in 100% of 176 sarcoma lines') and research/modalities/emc_proteostasis_read.py's docstring ('94.5% and 96.7% of 176 sarcoma lines'), neither of which that list named. ⚠ THE ITEM IS THE LIST, NOT THE NUMBER: update §4 to say the sweep closed and on what date, and record the two files the list missed so the next census of this error starts from what is true. ⚠ It touches a manuscript-adjacent memo, so it needs PREFLIGHT_TESTS=1.",
+      "_renamed_from": "AUT-PD-179",
+      "_renamed_why": "re-allocated at merge: every id this row has been filed under was taken by a concurrent session in the interval (first AUT-PD-177/178 in 35fb816f5, then AUT-PD-179 at the first merge). Ids are counted against the MERGED ledger after each rebase, which is what caught the collision each time."
     },
     {
       "id": "AUT-061",
@@ -6323,41 +6370,6 @@
       },
       "requires_trimcrae": true,
       "requires_trimcrae_why": "same shape: 'whether and where to publish that is a judgement call about what we publish'. The negative itself is already characterised."
-    },
-    {
-      "id": "AUT-079",
-      "what": "ADD HLA-C TO coverage_scan.py's class-I PANEL (today HLA-A/HLA-B only), re-run in modalities-run.yml, then update EVERY home of every changed pinned figure IN ONE COMMIT and re-grade the route. This is RT-JUNCTION-NEOANTIGEN's own corrected next step and the route's table names HLA-C as the first extension that could raise the figures at a fixed acceptance threshold. ⛔ FIRST ESTABLISH WHETHER MHCflurry 2.1.4 SCORES HLA-C AT ALL — UNKNOWN from this tree, and the whole item collapses if it does not. ⚠ It moves figures registered in pinned-figures.json and quoted in a manuscript under hardening, so rule 1.3 binds: the old numbers get registered in the same commit that changes them, or CI finds the copies you missed.",
-      "serves": {
-        "route": "RT-JUNCTION-NEOANTIGEN",
-        "publication": "PUB-NEOANTIGEN",
-        "strategy": "ST-IMMUNO"
-      },
-      "kind": "experiment",
-      "state": "in_progress",
-      "owner": "CYC-0087-c96f5e8f",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act.",
-      "score_inputs": {
-        "age_factor": 0.0714,
-        "fruitless_attempts": 1
-      },
-      "score": 37.8,
-      "_score_basis": "inherited from the lowest-scoring derived row on RT-JUNCTION-NEOANTIGEN (44.9) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
-      "_score_inherited_from_route": "RT-JUNCTION-NEOANTIGEN",
-      "claimed_utc": "2026-08-29T12:19:16Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-29T12:19:16Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
     },
     {
       "id": "AUT-001",
@@ -7743,6 +7755,41 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a bugfix to an internal ledger-scoring gate; nothing published or outward-facing",
       "what": "Fixed research/autonomy/admissibility.py: added the `fruitless_attempts` term to both `expected_score()` (R2, full-derived-row reproduction) and `_explained_delta()` (R3, delta-accounting for hand-filed/session-state rows), applied LAST at 2dp, matching `priority.py:apply_fruitless_attempts`'s own place at the end of `build_ledger`'s pipeline and its own rounding. Without this, `priority.py --write` could not complete a re-score once any row picked up a nonzero fruitless-attempts count -- the very first cycle to try after the term was wired in was blocked outright, unable to even reach step 4 (claim/take an item). Verified: `pytest research/autonomy/tests/test_a_score_must_derive_from_its_own_inputs.py` 29 passed; `python3 research/autonomy/priority.py --write` now completes cleanly against the full 221-entry corpus (11 clamped, none refused). Also updated the now-stale prediction paragraph in admissibility.py's own module docstring to record that it came true, rather than leave it describing a gap that no longer exists."
+    },
+    {
+      "id": "AUT-079",
+      "what": "ADD HLA-C TO coverage_scan.py's class-I PANEL (today HLA-A/HLA-B only), re-run in modalities-run.yml, then update EVERY home of every changed pinned figure IN ONE COMMIT and re-grade the route. This is RT-JUNCTION-NEOANTIGEN's own corrected next step and the route's table names HLA-C as the first extension that could raise the figures at a fixed acceptance threshold. ⛔ FIRST ESTABLISH WHETHER MHCflurry 2.1.4 SCORES HLA-C AT ALL — UNKNOWN from this tree, and the whole item collapses if it does not. ⚠ It moves figures registered in pinned-figures.json and quoted in a manuscript under hardening, so rule 1.3 binds: the old numbers get registered in the same commit that changes them, or CI finds the copies you missed.",
+      "serves": {
+        "route": "RT-JUNCTION-NEOANTIGEN",
+        "publication": "PUB-NEOANTIGEN",
+        "strategy": "ST-IMMUNO"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": "ci-regeneration-in-flight",
+      "blocked_evidence": "CODE LANDED (commit ef3fe1a8b on main): PANEL_C (18 common HLA-C alleles) added to coverage_scan.py, gated behind predictor.supported_alleles so an unmodeled allele cannot abort the whole batched predict() call or read as a false negative -- missing ones are recorded in alleles_without_a_model (AUT-PD-102's pattern). MHCflurry HLA-C support confirmed via WebSearch (mhcflurry-motifs publishes per-allele motif pages for HLA-C, e.g. C*05:01), so the item does not collapse. modalities-run.yml dispatched on main to regenerate epitope-allele-matrix.json / coverage-curve.json with the widened panel: run https://github.com/trimcrae/Rare-cancers/actions/runs/33252894785 (queued 2026-08-29T12:35Z). NOT YET DONE: once that run lands on modalities-cache, snapshot the regenerated JSON onto main, update every pinned-figures.json home of the moved coverage numbers IN THE SAME COMMIT (rule 1.3), and re-grade RT-JUNCTION-NEOANTIGEN. Released rather than held: the CI run is where the work is actually happening now, not this session.",
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo correction or a $0 CI regeneration; no outward-facing act.",
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "blocked_with_evidence": true
+      },
+      "score": -44.2,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-JUNCTION-NEOANTIGEN (44.9) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-JUNCTION-NEOANTIGEN",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T12:19:16Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
     },
     {
       "serves": {

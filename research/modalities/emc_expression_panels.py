@@ -1507,6 +1507,12 @@ def _read_target(target, want, sym_diag=None):
     # program where the FULL probe matrix is in memory; by the time the artifact is written it has
     # been reduced to the wanted genes and the question can no longer be asked.
     rec["genome_wide_null"] = _genome_wide_null(samples, probes, values, sym, bg, n_s, want)
+    # ⛔ SAME REASON, SAME PLACE (AUT-PD-178). The background's frame is the platform's whole mapped
+    # symbol set, which exists only here — `rec["genes"]` below is already reduced to `want`.
+    blk = _background_draw(samples, probes, values, sym, bg, n_s, want, mf)
+    if blk:
+        blk["platform"] = plat
+        rec["background_reads_block"] = blk
     rec["_status"] = "read"
     print(f"  {gse}/{plat}: {n_s} samples, {len(probes)} probes, "
           f"{rec['n_probes_mapped_to_a_symbol']} mapped "
@@ -1717,63 +1723,113 @@ BACKGROUND_SEED = 20260829
 
 
 def _background_reads(live):
-    """⛔⛔ A RANDOM SAMPLE OF THE ARRAY, WHICH IS THE ONLY HONEST REFERENCE POPULATION FOR A
-    SIZE-MATCHED NULL — AND NEITHER POOL THIS ARTIFACT PREVIOUSLY OFFERED WAS ONE (AUT-PD-167).
+    """Collect the per-series background block each `_read_target` drew WHILE THE FULL PROBE MATRIX
+    WAS STILL IN MEMORY. This function only gathers; it must never draw.
 
-    ★ WHAT THE TWO EXISTING POOLS ARE, MEASURED RATHER THAN ASSERTED. A consumer scoring published
-    signature sets against NDRG1 had a choice of two gene pools to draw its null from, and both are
-    convenience pools that carry the hypothesis they are supposed to exclude:
+    ⛔⛔ IT DREW HERE ONCE AND THE RESULT WAS A FABRICATED BACKGROUND (AUT-PD-178). `tgt["genes"]`
+    holds ONLY the WANTED genes — `_read_target` filters on `g in want` — so sampling it produced a
+    "background" that was, measured on the run of 2026-08-29, 100.0% the union of the curated roster
+    and the signature members: 2,284 of 2,284 on GSE24369 and 2,035 of 2,035 on GSE4303, not one
+    gene outside. That is the confounded pool AUT-PD-167 measured, published under a
+    `sampling_frame` string asserting the opposite. ⚠ The block was well-formed, populated and
+    plausible, which is exactly why it was dangerous (CLAUDE.md §4: a plausible-looking record is
+    more dangerous than an empty one).
 
-      * `gene_reads` — 479 genes hand-curated for six unrelated targeted EMC reads. Because the
-        curation had nothing to do with hypoxia or PPARγ, the members it happens to contribute to
-        each published panel are a SELECTED subset of that panel rather than a thin-but-fair one:
-        in GSE24369 the curated subset of every hypoxia panel sits in the upper tail of its own
-        panel's within-panel distribution, one of them at the 100th percentile.
-      * `signature_member_reads` — the union of the signature sets themselves, so a majority of the
-        pool IS panel members and most of those belong to one of the two families under test. A
-        draw from it is a diluted mixture of the two hypotheses.
-
-    ⛔ THE SIZE-MATCHED NULL CANNOT REPAIR EITHER, because it draws random genes from a POOL and
-    never random members from a PANEL — a non-random reference population passes straight through
-    it. That is why this block exists and why it is a separate one: it is the only pool here whose
-    selection rule is 'whatever the platform can read', which is the sampling frame a background
-    is supposed to have.
-
-    ⚠ AND THE FRAME IS RECORDED, because a background pool whose selection rule is unwritten is the
-    same confound wearing a better name. `sampling_frame` says what was sampled FROM, `n_frame` how
-    large that was, and `seed`/`n_requested` make the draw reproducible from the same matrix.
-
-    ⚠ WHAT IT IS NOT. Same shape and same limits as `signature_member_reads`: no contrast, no
-    Welch, no probe diagnostic, no raw value, so nothing here can support a statement about EMC
-    versus the comparator sarcomas. A `null` in a `z` array is a sample with no value for that
-    probe; an absent reading is not a zero (CLAUDE.md §4).
-
-    ⛔ IT IS NOT FILTERED FOR EXPRESSION, ABUNDANCE OR VARIANCE, and that is deliberate. Every such
-    filter is a selection rule, and this block's whole purpose is to be the one pool with none.
-    A consumer that wants a filtered background must apply the filter itself and say so.
+    ★ THE FILE ALREADY SAID SO, THREE LINES BELOW THE BUG. `_genome_wide_null`'s comment: "Computed
+    here and nowhere else, because this is the only point in the program where the FULL probe matrix
+    is in memory; by the time the artifact is written it has been reduced to the wanted genes and the
+    question can no longer be asked." The background is the same kind of question.
     """
     out = {}
     for mf, (tgt, _classes, _emc, _comp) in live.items():
-        frame = sorted(tgt.get("genes") or {})
-        rng = random.Random(f"{BACKGROUND_SEED}:{mf}")
-        drawn = sorted(rng.sample(frame, min(BACKGROUND_N, len(frame))))
-        out[mf] = {
-            "platform": tgt.get("platform"),
-            "gsms": [s["gsm"] for s in tgt["samples"]],
-            "_z_is": "within-sample z over ALL probes on that array — the same reduction "
-                     "`gene_reads[...].per_sample.z_vs_array` and `signature_member_reads` report, "
-                     "positionally aligned to `gsms`. A null is a sample with no value for this "
-                     "gene's probe(s).",
-            "sampling_frame": "every symbol this platform's probes resolve to, unfiltered — no "
-                              "expression, abundance or variance cut, because each of those is a "
-                              "selection rule and this pool exists to have none.",
-            "seed": f"{BACKGROUND_SEED}:{mf}",
-            "n_frame": len(frame),
-            "n_requested": BACKGROUND_N,
-            "n_drawn": len(drawn),
-            "z": {g: [None if x is None else round(x, 4) for x in _zrow(tgt, g)] for g in drawn},
-        }
+        blk = tgt.get("background_reads_block")
+        if blk:
+            out[mf] = blk
     return out
+
+
+def _background_draw(samples, probes, values, sym, bg, n_s, want, key):
+    """⛔⛔ A RANDOM SAMPLE OF THE ARRAY — THE ONLY HONEST REFERENCE POPULATION FOR A SIZE-MATCHED
+    NULL, AND NEITHER POOL THIS ARTIFACT PREVIOUSLY OFFERED WAS ONE (AUT-PD-167).
+
+    ★ WHAT THE TWO EXISTING POOLS ARE, MEASURED RATHER THAN ASSERTED. A consumer scoring published
+    signature sets against a subject gene had a choice of two pools to draw its null from, and both
+    are convenience pools carrying the hypothesis they are supposed to exclude:
+
+      * `gene_reads` — a few hundred genes hand-curated for six unrelated targeted EMC reads. The
+        members it contributes to each published panel are a SELECTED subset of that panel rather
+        than a thin-but-fair one: in GSE24369 the curated subset of every hypoxia panel sits in the
+        upper tail of its own panel's within-panel distribution, one at the 100th percentile.
+      * `signature_member_reads` — the union of the signature sets themselves, so a majority of the
+        pool IS panel members and most belong to one of the families under test.
+
+    ⛔ THE SIZE-MATCHED NULL CANNOT REPAIR EITHER, because it draws random genes from a POOL and
+    never random members from a PANEL — a non-random reference population passes straight through it.
+
+    ⛔⛔ AND THIS MUST BE CALLED WITH THE FULL PROBE MATRIX, NEVER WITH THE REDUCED RECORD. The frame
+    is every symbol ANY probe on this array maps to, which exists only here; `rec["genes"]` is the
+    WANTED genes and sampling it reproduces the confound with a better name. That is AUT-PD-178 and
+    it reached the trunk once.
+
+    ⚠ THE FRAME IS RECORDED because a background pool whose selection rule is unwritten is the same
+    confound wearing a better name, and `n_drawn_also_wanted` is recorded because a background that
+    OVERLAPS the panels is honest while one CONTAINED IN them is not — a reader must be able to tell
+    those apart without re-deriving.
+
+    ⛔ IT IS NOT FILTERED FOR EXPRESSION, ABUNDANCE OR VARIANCE, deliberately: every such filter is a
+    selection rule and this pool exists to have none. It is also NOT stripped of panel members —
+    excluding them would itself be a selection rule, and the overlap is reported instead.
+
+    ⚠ WHAT IT IS NOT. Same shape and limits as `signature_member_reads`: no contrast, no Welch, no
+    probe diagnostic, no raw value, so nothing here supports a statement about EMC versus the
+    comparator arms. A `null` in a `z` array is a sample with no value for that probe.
+    """
+    by_gene = {}
+    for pid, row in zip(probes, values):
+        g = sym.get(pid)
+        if not g:
+            continue
+        by_gene.setdefault(g, []).append(row[:n_s])
+    frame = sorted(by_gene)
+    if not frame:
+        return None
+    rng = random.Random(f"{BACKGROUND_SEED}:{key}")
+    drawn = sorted(rng.sample(frame, min(BACKGROUND_N, len(frame))))
+    z = {}
+    for g in drawn:
+        rows, col = by_gene[g], []
+        for i in range(n_s):
+            got = [r[i] for r in rows if i < len(r) and r[i] is not None]
+            if not got or not bg[i]:
+                col.append(None)
+                continue
+            # ⭐ ROUNDED BEFORE STANDARDISING, exactly as the `genes` block does, so a symbol present
+            # in both carries the identical number. A z taken from an unrounded mean would differ in
+            # the 4th decimal and quietly break the guarantee that this is the SAME reduction.
+            v = round(sum(got) / len(got), 4)
+            col.append(round((v - bg[i]["mean"]) / max(1e-9, bg[i]["sd"]), 4))
+        z[g] = col
+    return {
+        "platform": None,
+        "gsms": [x["gsm"] for x in samples],
+        "_z_is": "within-sample z over ALL probes on that array — the same reduction "
+                 "`gene_reads[...].per_sample.z_vs_array` and `signature_member_reads` report, "
+                 "positionally aligned to `gsms`. A null is a sample with no value for this gene's "
+                 "probe(s).",
+        "sampling_frame": "every symbol ANY probe on this array maps to, unfiltered — no expression, "
+                          "abundance or variance cut, and panel members NOT removed. Drawn from the "
+                          "full probe matrix at parse time, which is the only point where that frame "
+                          "exists (AUT-PD-178).",
+        "seed": f"{BACKGROUND_SEED}:{key}",
+        "n_frame": len(frame),
+        "n_requested": BACKGROUND_N,
+        "n_drawn": len(drawn),
+        "n_drawn_also_wanted": len([g for g in drawn if g in want]),
+        "_n_drawn_also_wanted_means": "how many of the drawn genes are also panel or curated genes. "
+                                      "A background OVERLAPS the panels — that is expected and "
+                                      "honest. A background CONTAINED IN them is not a background, "
+                                      "and this field is how a consumer tells the two apart.",
+    } | {"z": z}
 
 
 def _mapping_rate_reading(tgt):
