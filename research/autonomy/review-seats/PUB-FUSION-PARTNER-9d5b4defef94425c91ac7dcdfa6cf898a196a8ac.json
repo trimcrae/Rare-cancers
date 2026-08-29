@@ -1,0 +1,62 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "The CANONICAL round-11 record for this commit. It merges five blind seats and deliberately carries EMPTY tallies, so clause 1's derivation over the seat glob counts each finding exactly once.",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "9d5b4defef94425c91ac7dcdfa6cf898a196a8ac",
+  "document_sha256": "e01aa79fdcf5b448732778c3ef938dce1d19adf34a63e7c5ff1d726f35d3ffda",
+  "blind": true,
+  "_blind_means": "Each seat was given the document path and the pinned sha and nothing else, told the tree may drift and that the PIN is the subject, and forbidden research/autonomy/, CLAUDE.md, AGENTS.md, STRATEGY.md, the program map, every skill file and every other seat's output. Instructed to refute by default and told there is no wanted answer. Dispatched CONCURRENTLY at subagent_width=5 by CYC-0086-f7394a99.",
+  "_one_seat_disclosed_a_leak": "The citations-and-instruments seat self-reported that a repo-wide grep incidentally surfaced a PRIOR seat's file at a DIFFERENT pin, after it had already established CITE-B-1 independently. Recorded in that seat's record rather than dropped. Its blindness is therefore ARGUED, not structural; the driver re-derived CITE-B-1 from the committed tree without reading seat output, so the finding does not rest on it.",
+  "utc": "2026-08-29T13:10:00Z",
+  "cycle_id": "CYC-0086-f7394a99",
+  "round": 11,
+  "_round_basis": "Round 9 was the last blind seating (commit 0743ac15): 0 blockers, 6 P1s. Round 10 was the APPLY round; all six of round 9's P1s were verified closed at this pin before seating. This is the re-seating, round 11.",
+  "seat": "five blind seats -- regression, arithmetic, statistics, citations-and-instruments, hostile-referee",
+  "verdict": "NOT CONVERGED",
+  "_verdict_note": "paper-hardening: stop when a round returns no blockers AND no P1s. This round returned NINE distinct blockers across four of the five seats, plus 25 P1 instances. Round 9 returned zero blockers; this round returns nine. That is not a regression in the paper -- round 10 closed every round-9 P1 and no round-9 finding recurs -- it is four lenses reaching surfaces round 9 did not: the Abstract read as a standalone artefact (REF-B-1, STAT-B-1), the estimand behind a stated conservatism claim (STAT-B-2), the reference list's locators (CITE-B-1), and the guards' own justifying comments (REG-B-1, REG-B-2).",
+  "central_claim": "The NR4A3 5' fusion partner is a CANDIDATE and not an established stratification variable in EMC. Treatment response is a direction-only signal at zero events (0/3-5 TAF15 patients); the disease-specific-death prognostic contrast has a crude pooled magnitude (7/15 = 46.7% vs 6/58 = 10.3%) that the paper itself flags as confounded with tumour size and not separable from it in any published source; and TAF15::NR4A3 covers 28/154 = 18.2% (12.9-25.0) of partner-assigned EMC, an interval the paper states CONTAINS rather than corrects the ~20% the cited literature repeats.",
+  "blockers_distinct": [],
+  "p1s": [],
+  "p2s": [],
+  "_tallies_are_deliberately_empty": "blockers/p1s/p2s are empty here so the per-seat glob is the single counting surface. See the five PUB-FUSION-PARTNER-<sha>-seat-*.json files for the real findings.",
+  "distinct_findings": {
+    "blockers_distinct": 9,
+    "blocker_instances_across_seats": 9,
+    "p1_instances_across_seats": 25,
+    "p2_instances_across_seats": 22,
+    "seats_returning_a_blocker": 4,
+    "seats_returning_none": [
+      "arithmetic"
+    ],
+    "note": "The arithmetic seat returned ZERO blockers having re-derived 112 of 113 figures from raw cohort counts with independently constructed Wilson and Fisher implementations. The paper's numbers are not in question; its SUMMARY of them is."
+  },
+  "driver_verification": {
+    "_why": "CLAUDE.md section 4: a seat's report is evidence, not a verdict. Six findings were re-derived by the driver from the committed tree without reading any seat output.",
+    "confirmed": [
+      "REF-B-1 -- register A16 retracted an identical Abstract superlative for being 'stated flat in the Abstract, with its qualifier 140 lines away in 2.3a' and fixed it IN PLACE; a second unqualified superlative remains.",
+      "STAT-B-1 -- register A32 closes with 'no manuscript sentence was wrong', reached by inspecting 3.3's prose only; its own corrected artifact field says the null is not evidence the endpoints do not differ, and the Abstract states it as a finding.",
+      "REF-B-3 -- 5 claims 'the field's own hedge is misattributed' while A33 established the only holder is this repository's own lane memo and repaired 1.3 and 3.8; register row A2's `where` column still reads 'the review literature'.",
+      "CITE-B-1 -- the manuscript prints Hum Pathol 2023;132:88-97 while this repository's own emc-surface-target-landscape.md:645 prints 134:19-29 with the identical DOI and PMID.",
+      "CITE-P1-3 -- mutate_fusion_partner_guard.py reproduced at EXIT=1 with 8 anchors un-run, three of them the 2.3a 'one of a pair' mutations.",
+      "REG-B-2 -- 7/26 = 26.9% against Agaram 7/24 = 29.2% and Sjogren 3/9 = 33.3%; the manuscript's own 3.5 prints the range as '15.8 - 29.2', which the artifact's superlative contradicts."
+    ],
+    "narrowed": [
+      "STAT-B-3 -- the seat called the 2.5 sentence flatly false and contradicted three times. On re-reading in full context the referent of 'the two cohorts' is ambiguous and could mean Paioli and Suemitsu, under which the 'without event counts' half is defensible. What does not survive either reading is the COUNT: at least three series ran time-to-event analyses. Recorded as an undercount with an ambiguous referent, not a three-way contradiction."
+    ]
+  },
+  "convergence_across_seats": "Two independent convergences, and they point the same way. (1) The arithmetic seat (ARI-P1-1) and the citations seat (CITE-P2-1) independently found the same 22.4-vs-22.3 rounding drift in the local-recurrence comparator spread, by different routes -- one re-deriving from raw counts, one recomputing from the printed table. (2) The regression seat proved the REFERENCE LIST is an entirely unread surface (REG-P2-4: journal, volume, page and year bound by nothing), and the citations seat independently found a LIVE WRONG LOCATOR sitting in it (CITE-B-1). One lens found the hole; another found what had already fallen through it. That pairing is the strongest signal this arrangement produces.",
+  "structural_finding": "THE RECURRING CLASS IS AN INCOMPLETE REPAIR, AND THE INSTRUMENT MEANT TO CATCH IT IS RED AND WIRED INTO NOTHING. Three of the nine blockers are corrections applied to some copies of a claim and not others -- A16 bounded one Abstract superlative and left a second (REF-B-1); A32 inspected 3.3 and never the Abstract (STAT-B-1); A33 repaired 1.3 and 3.8 but not 5 or its own row A2 (REF-B-3). This is the same one-of-a-pair shape the paper's own correction history repeatedly names as its recurring failure mode. The guard built for it, mutate_fusion_partner_guard.py, exits 1 at the pin with 8 of 94 mutations UN-RUN on stale anchors -- three of which are precisely the 2.3a one-of-a-pair mutations -- and it is absent from preflight.sh and tests.yml and carries no test_ prefix, so pytest never collects it and its red state has been unobservable. The coverage figures quoted in the guard docstrings are therefore remembered numbers the runnable harness no longer reproduces, which is the failure mode its own header says it exists to prevent.",
+  "what_the_seats_could_not_break": [
+    "The arithmetic. 112 of 113 figures re-derived from raw cohort counts (not the pre-computed analyses block) by an independent implementation -- Wilson by direct quadratic roots at 50-digit Decimal precision, Fisher by exact rational enumeration -- with one 0.08-point rounding drift found. A second seat mutated all 1,298 numeric tokens and confirmed every arm, interval, gap and Fisher p in the three Results tables is genuinely bound.",
+    "The central claim's weight. The hostile referee found NO treatment implication, no mechanism overclaim and no under-reported null in the body, and recommends major revision rather than rejection: the claim as stated is WEAKER than the evidence assembled, which is the correct direction.",
+    "The identifier layer's provenance and types. All 15 publication-type claims correct against PubMed; every verbatim quotation exact; the [13]/[14] shared PMCID is a legitimate shared abstract book, not a duplication error.",
+    "Reproducibility. The generator's --check reproduces the committed artifact byte-for-byte apart from _generated_utc; the manuscripts suite is 1545 passed / 3 skipped at the pin; lint_citations and lint_claims both exit 0.",
+    "The confound's carriage. The tumour-size defeater is carried from the Abstract through 3.3, 3.4, 4.1a, the claims list and the endpoint sentence -- conceded and then NOT dropped, which is the failure this class of paper usually commits."
+  ],
+  "recommendations": {
+    "hostile_referee": "major revision"
+  },
+  "next": "Round 12 is an APPLY round. All nine blockers are fixable from material already held -- no new data, no reanalysis. Two of them (REF-B-2's stratum relabel, REG-B-2's artifact superlative) must go through the generator and be regenerated, not edited in prose. After round 12 the paper must be RE-PINNED and re-seated as round 13; clause 1, clause 2 and clause 6 are all sha-bound and none of them may be bought against a head that then moves.",
+  "scope_note": "A round record, not a decision. Nothing here authorises an outward-facing act, and publish_bar clause 1 reads NOT CONVERGED off this file."
+}

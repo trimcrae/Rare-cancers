@@ -1,0 +1,119 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "9d5b4defef94425c91ac7dcdfa6cf898a196a8ac",
+  "document_sha256": "e01aa79fdcf5b448732778c3ef938dce1d19adf34a63e7c5ff1d726f35d3ffda",
+  "document_sha256_verified": "yes -- verified by the seat against the pin before review",
+  "blind": true,
+  "utc": "2026-08-29T13:05:00Z",
+  "cycle_id": "CYC-0086-f7394a99",
+  "round": 11,
+  "seat": "regression",
+  "verdict": "supported-with-corrections",
+  "central_claim_as_understood": "The NR4A3 5' fusion partner is a CANDIDATE - not established - stratification variable in EMC. Prognosis now has a crude two-cohort magnitude (7/15 = 46.7% TAF15 vs 6/58 = 10.3% EWSR1 over 73 patients, post-hoc Fisher p = 0.0034) arriving with its own defeater. Treatment response has a DIRECTION only - 0 of 3-5 TAF15 patients, a zero-event arm that yields no magnitude at any denominator. Prevalence is 28/154 = 18.2% (12.9-25.0).",
+  "defects_found": 2,
+  "coverage_gaps_found": 8,
+  "method": "An enumerated single-token mutation sweep over ALL 1,298 numeric tokens in the pinned manuscript (609 caught, 689 survived), cross-checked against a direct span analysis of the two guards' BINDINGS, DECLARED_NOT_ARTIFACT_OWNED and COUNT_WORDS patterns, with every hypothesis re-proved by an isolated mutation run against the full 1,545-test manuscripts suite plus lint_citations and lint_claims. Two private detached worktrees at the pin, both verified clean and removed; the shared tree was never written to.",
+  "blockers": [
+    {
+      "id": "REG-B-1",
+      "where": "research/manuscripts/tests/test_fusion_partner_prose_matches_its_artifact.py lines 2214-2218 (the identifier census's stated scope), at the pin",
+      "what": "The comment that justifies excluding PMC ids from the identifier census contains three statements that are false at the pin. (1) 'the three the pooling artifact holds a structured field for: pmid, doi, nct ... the artifact has no `pmc` field' - the artifact holds `pmcid` on 11 of its 17 citation records, including stacchiotti2020review -> PMC7563993. (2) 'a PMC id is printed 23 times in this manuscript' - it is printed 12 times in the manuscript and 25 times across the two prose documents the guard actually reads. (3) 'Widening to PMC would mean either inventing a home for it or declaring 23 sites' - the home exists, EVERY PMCID the manuscript prints is already owned by that field (0 declarations), and the only unowned ones are the 3 in the correction register, which are precisely the three papers register row A11 names in order to say they are NOT the review - the same shape as the existing DECLARED_IDENTIFIERS_NOT_POOLED rows.",
+      "why_blocking": "The false premise is load-bearing: it is the whole stated reason a surface goes unread, and the census's own header three lines above says 'IT CANNOT SEE ATTACHMENT, AND ATTACHMENT IS THE DEFECT THIS DOCUMENT HAS ALREADY MADE ONCE' - an attribution error that was itself about PMCIDs (register A11). PROVEN, not asserted: swapping the two real, anchored PMCIDs on reference entries [7] Agaram 2014 (PMC4015728) and [11] Brenca 2019 (PMC6766969) leaves the whole manuscripts suite at 1545 passed / 3 skipped - byte-identical to the clean baseline - plus lint_citations exit 0 and lint_claims exit 0. Swapping PMC7563993 for another real review's PMCID at S3.3/S5 - the n=1 attribution the paper's entire metastasis negative rests on - is caught only incidentally, because the word 'review' happens to sit beside it."
+    },
+    {
+      "id": "REG-B-2",
+      "where": "emc-fusion-partner-pooling.json, cohorts[llombart-bosch-2022-prevalence].context_note (generated from emc_fusion_partner_pooling.py line 1127)",
+      "what": "'Its TAF15 share over assigned cases (7 of 26) is the highest of any series here' is FALSE. 7/26 = 26.9%; the artifact holds Agaram 2014 at 7/24 = 29.2% (pooled) and Sjogren 2003 at 3/9 = 33.3% (excluded). It is third, not highest.",
+      "why_blocking": "A wrong comparative claim in the artifact the manuscript declares (S7) to be 'the one home of every number in this paper'. It was already false when written - Agaram was 29.2% before Sjogren was added - and adding Sjogren made it false twice over. It is the exact shape the relations guard was built for ('a superlative carries no digit for a numbers guard to read'), and nothing reads it: the generator's _self_check is arithmetic-only and no test evaluates artifact prose. The manuscript's own version of the same comparison (S3.5) is CORRECT, so no manuscript claim is wrong today - the defect is confined to the artifact.",
+      "driver_confirmed": "YES -- 7/26 = 26.9% against Agaram 7/24 = 29.2% and Sjogren 3/9 = 33.3%, and the manuscript's own S3.5 prints the per-cohort range as '15.8 - 29.2', which the artifact's superlative contradicts."
+    }
+  ],
+  "p1s": [
+    {
+      "id": "REG-P1-1",
+      "where": "S1.3's two-question table, lines 150-151",
+      "what": "Both headline denominators are restated here and neither is bound. '73 patients' is _pool_n() and is bound at its three other sites (Abstract, S4.1, S5); this is the fourth and only unbound one. '0 of 3-5 TAF15 patients' is bound at S5 and S4.5. Mutating either passes the whole suite. Textbook one-of-a-pair."
+    },
+    {
+      "id": "REG-P1-2",
+      "where": "S3.2's inclusion/exclusion table, lines 316, 318, 320; S3.5 lines 451-452",
+      "what": "The table restates cohort integers the artifact owns and the guard binds at their OTHER homes: Brenca '(7 EWSR1 vs 5 TAF15)' unbound while S3.6's identical figures are bound; Sjogren '10 EMCs from nine patients; EWSR1 5, TAF15 3, TCF12 1' unbound while S3.5's 3/9 = 33.3% is bound; Llombart-Bosch's 'its 5-case residue' unbound; S3.5's 'four of its nine patients entered on an already-published fusion transcript' unbound. S3.2 is the table that carries every pooling decision and it is the least-read table in the paper."
+    },
+    {
+      "id": "REG-P1-3",
+      "where": "S3.5, line 427",
+      "what": "'complete author lists - 5, 20, 18 and 16 names ... intersect in nobody'. All four counts are unbound and the disjointness RELATION is checked by nothing, although the artifact holds the four lists verbatim and the claim is fully decidable from them. Verified independently TRUE today - so it is read by nothing. This is the independence argument for the entire prevalence pool."
+    },
+    {
+      "id": "REG-P1-4",
+      "where": "S6 falsifier #5, line 758",
+      "what": "'A third cohort of 7 or 8 TAF15 patients' is unbound. Every OUTPUT of that counterfactual is bound (31.8%, 30.4%, 20.8%, 19, 34, 'more than twice') but the two INPUTS the sentence prints are not, even though the sentence immediately before IS bound. A correction to either per-cohort TAF15 death arm would move the projection and leave this sentence standing."
+    },
+    {
+      "id": "REG-P1-5",
+      "where": "the 3-5 denominator range: 11 sites, 7 unbound (lines 86, 151, 303, 607, 737, 752, 796)",
+      "what": "The digit form is bound at 4 sites. Unbound: the Abstract's 'three to five patients', S1.3's table, the 'entire TAF15 antiangiogenic experience is three patients' worst case, 'The 3-to-5 range', 'the 3-5 range are unchanged', and - line 737 - the S5 Endpoint sentence registered for L3-publications. The word form is systematically unread even though _word() exists for exactly this."
+    },
+    {
+      "id": "REG-P1-6",
+      "where": "S3.7, lines 504-507",
+      "what": "'The 40-drug panel', the verbatim quotation, 'not the 40-drug screen' and 'Only three agents' are all unbound, although the artifact holds the whole passage verbatim. S3.7 exists SOLELY to record the correction of an overstatement about that screen's scope, so the numbers defining the scope are the ones a repeat of the same error would move - and nothing would notice."
+    },
+    {
+      "id": "REG-P1-7",
+      "where": "7 sites citing a correction-register row: lines 209 (A7), 363 (A11), 561 (A4), 698 (A17), 702 (A11), 872 (A8), 881 (A9)",
+      "what": "Cross-document register row ids resolve against nothing. Round 8 moved the appendix into its own file, converting in-document anchors into cross-document row references; the relations guard gained a resolver for section cross-references and none for A-rows. PROVEN: renumbering register row A11 to A41 - leaving S3.3 and S5 pointing at a row that no longer exists - passes 1545 tests, lint_citations and lint_claims. All 7 resolve today, so this is a gap, not a wrong statement."
+    },
+    {
+      "id": "REG-P1-8",
+      "where": "S3.3 line 327 and S4.9 line 647",
+      "what": "'15 Taiwanese institutions' and 'fifteen-institution' are both unbound, in two different notations, although the artifact states the figure twice. It is the operand of the S3.3 non-overlap argument that permits the outcome pool at all."
+    }
+  ],
+  "p2s": [
+    {
+      "id": "REG-P2-1",
+      "where": "systems/graph/routes.json lines 5575 and 5582 and the generated copies - OUTSIDE the named subject set, reported because it is a live wrong statement about S6 of the subject",
+      "what": "'send the three paywalled-table requests named in its section 6' and 'the three tables ... are already written and simply not public'. S6 names TWO unreachable documents (Stacchiotti 2019; Paioli 2021). The 'three' was correct when written 2026-08-07; S6 dropped Huang 2023 from the list on 2026-08-12 and routes.json was never updated. A silent regression across the document/graph boundary, and it is also the route's best_next_action."
+    },
+    {
+      "id": "REG-P2-2",
+      "where": "test_the_guard_binds_a_material_share_of_the_documents_figures",
+      "what": "The two ratchets are mis-tensioned in opposite directions. only_declared <= 20 sits at exactly 20 with ZERO headroom, so the next figure landing inside a declaration-only span turns the census red and the tempting fix is to raise the ceiling. Meanwhile in_bindings >= 90 sits at 162 - 72 of slack - so the anti-deletion ratchet cannot fire until roughly half the guard's coverage has been removed along with its sentences."
+    },
+    {
+      "id": "REG-P2-3",
+      "where": "test_every_section_cross_reference_names_a_section_this_synthesis_has",
+      "what": "The section resolver checks EXISTENCE, not correctness - a weaker property than the claim. Mutating S2.3 -> S2.4 and S3.3 -> S3.4 both pass, because the target sections exist."
+    },
+    {
+      "id": "REG-P2-4",
+      "where": "reference list, lines 908-936",
+      "what": "Journal, volume, page and year in every reference entry are unbound although the artifact holds journal/year (and volume/pages for several). Mutating '2014;50:1657-64' or '2019;20:1252-62' passes. CONVERGENT with the citations seat's CITE-B-1, which found a live wrong locator in exactly this unread surface."
+    },
+    {
+      "id": "REG-P2-5",
+      "where": "S2.6 line 255, S4.7a line 630, S6 line 784, S8 lines 858-869",
+      "what": "Retrieval status codes - 'HTTP 403' (3 sites), 'HTTP 200', 'HTTP 000', 'curl exit 56' - are all unbound. They are the evidence for the paper's provenance story."
+    },
+    {
+      "id": "REG-P2-6",
+      "where": "S4.8 line 642",
+      "what": "'a post-hoc description of a 7-versus-6-event table' is unbound; both integers are the pooled death arms bound everywhere else. Same class as REG-P1-1, at the sentence the paper itself calls its most-quotable number's caveat."
+    }
+  ],
+  "what_i_could_not_break": [
+    "S7's reproducibility claim verifies exactly as written: --check returns OK, and regenerating reproduces the committed artifact byte-for-byte apart from _generated_utc.",
+    "S7's claim about test_emc_fusion_partner_pooling_check verifies: all five named perturbations are real tests, plus the 'writes nothing' assertion.",
+    "Every pooled figure in S3.1/S3.3/S3.5 is genuinely bound. All 1,298 numeric tokens mutated one at a time; 609 caught, and the caught set includes every arm, interval, gap, Fisher p and per-cohort cell in the three Results tables (S3.3 82% caught, S3.5 79%). Survivors are overwhelmingly gene names, section numbers, years, reference markers and identifiers.",
+    "The arithmetic all recomputes independently, including the falsifier threshold (7/34 = 20.6% <= 20.8% while 7/33 = 21.2% > 20.8%, so 34 total and 19 further, 2.27x = 'more than twice') and the 58 -> 53 -> 50 follow-up nesting.",
+    "S3.5's author-disjointness claim is TRUE (verified pairwise on full names and on surnames alone); S4.1's '67 patients / 2-8 patients', S3.5's '2-10 patients' and S3.1's 'July 2011 - January 2017' all recompute correctly - they are unread, not wrong.",
+    "PMID, DOI and NCT attachment IS caught: mutating a PMID goes red in the focused guards, and lint_citations catches an invented PMCID. It is only the PMCID SWAP - a real id moved to the wrong paper - that is invisible.",
+    "All 7 correction-register row ids the manuscript cites exist today; no artifact JSON pointer is dangling; no section cross-reference names a section that does not exist; no share above 100% reaches the page.",
+    "The manuscript's argument: NO wrong, unsupported or overclaimed statement was found in the prose itself by this lens. The prognosis/response separation, the defeater's inseparability, the metastasis null, the 'candidate not established' framing and the 'zero-event arm yields no magnitude' line all hold against the artifact and the sources it records.",
+    "Baselines: the two focused guards 163 passed at the pin; the whole manuscripts suite 1545 passed / 3 skipped; lint_citations and lint_claims both exit 0."
+  ],
+  "scope_note": "A seat record, not a decision. Nothing here authorises an outward-facing act."
+}

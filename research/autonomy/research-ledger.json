@@ -11,7 +11,7 @@
     "experiment": 24,
     "fetch": 21,
     "fix": 17,
-    "harden": 22,
+    "harden": 23,
     "negative": 32,
     "process": 7,
     "process_defect": 155,
@@ -22,7 +22,7 @@
   },
   "n_by_state": {
     "blocked": 1,
-    "done": 132,
+    "done": 133,
     "in_progress": 8,
     "parked": 28,
     "queued": 144,
@@ -3156,43 +3156,6 @@
       ]
     },
     {
-      "id": "AUT-PD-177",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0087-4ce79c2a",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "repairing broken references in the ledger; the targets are determined by the graph, not chosen",
-      "closes_clause": null,
-      "score": 128.5,
-      "_score_basis": "Above AUT-PD-176 (122.0) and just under AUT-PD-169 (128.0). It is cheap and fully determined, and it is the only row here that DEMOTES REAL RESEARCH: eight rows of live paper work are invisible to every route-keyed reader, which is CLAUDE.md §0's named failure with a typo as its cause.",
-      "score_inputs": {
-        "age_factor": 0.0,
-        "fruitless_attempts": 0
-      },
-      "depends_on_evidence": [
-        "Measured 2026-08-29 by CYC-0087-4ce79c2a while taking AUT-PD-158. Three route ids appear in `serves.route` and in NO route in systems/graph/routes.json (77 routes): RT-ASO-JUNCTION (6 open rows), RT-FUSION-PARTNER (1), RT-DEGRADER-TERNARY (1).",
-        "⛔ THESE ARE NOT PROCESS ROWS. All eight are live publication work — PREFLIGHT_FULL at the final ASO v2 commit, a blind seat on the ASO v2 pinned commit, round 13 of PUB-ASO, a manuscript cross-reference guard, the archive manifest's provenance, the fusion-partner paper's readability gate, and the degrader paper's step-1 fan-out map.",
-        "⭐ THE TARGETS ARE DETERMINED BY THE GRAPH RATHER THAN CHOSEN. RT-FUSION-PARTNER -> RT-PARTNER-STRAT, whose `publication.endpoint` IS `PUB-FUSION-PARTNER`. RT-DEGRADER-TERNARY -> RT-DEGRADER, the primary for PUB-DEGRADER, which is the paper those rows name. RT-ASO-JUNCTION -> RT-ASO and NOT RT-ASO-ASK: both point at PUB-ASO, but RT-ASO is `role: primary` while RT-ASO-ASK is `role: contributing` and is the WET-LAB ASK — and every one of the six rows is manuscript or gate work.",
-        "⛔⛔ THE CONSEQUENCE THAT MAKES THIS ITS OWN COMMIT RATHER THAN A ONE-LINE FIX, FORESEEN NOT DISCOVERED: four of the eight (AUT-PD-005, 006, 040, 141) carry no `score`, so repairing the id hands them their route's floor via `apply_route_inheritance` and they LEAVE the open-unscored population — 73 -> ~69. `MAX_UNSCORED_OPEN` is pinned at 73 and `test_the_ratchet_is_not_vacuous` permits at most 2 of slack, so the repair REDS THE TRUNK unless the ceiling is re-pinned DOWN in the same commit. ⭐ That is permitted and is the documented procedure (AUT-PD-145: pin at the count measured in the landing commit); the anti-gaming invariant forbids RAISING a bar, and this lowers it. The taker must verify the post-repair count itself rather than trusting the ~69 estimated here."
-      ],
-      "what": "⛔ EIGHT ROWS OF LIVE PAPER WORK NAME A ROUTE THAT EXISTS IN NO GRAPH, SO EVERY ROUTE-KEYED READER TREATS THEM AS ROUTELESS PROCESS WORK. `RT-ASO-JUNCTION`, `RT-FUSION-PARTNER` and `RT-DEGRADER-TERNARY` are in `serves.route` and in none of the 77 routes in systems/graph/routes.json. ⛔ THE HARM IS NOT COSMETIC: `apply_route_inheritance` gives an unscored row the floor OF ITS ROUTE, so a row naming a route the graph lacks can never inherit one — which is why four of the eight are unscored and unrankable, and the work they name is the ASO v2 and fusion-partner papers.\n\n⭐ THE REPAIR IS DETERMINED, NOT A JUDGEMENT — see `depends_on_evidence` for the mapping and the field that fixes each one. ⛔ BUT IT IS NOT A ONE-LINE FIX: it shrinks the open-unscored population below the pinned ceiling and reds the vacuity guard unless the ceiling moves DOWN in the same commit. Re-count, re-pin at the measured number, and never upward.\n\n⚠ FOUND WHILE TAKING AUT-PD-158, AND IT CORRECTS THAT ROW'S FRAMING: AUT-PD-158 asks how to rank work that serves no treatment route, and 8 of the rows that look that way are not that — they are research work with a broken reference. A ceiling keyed on 'serves no graph route' would have capped them."
-    },
-    {
       "id": "AUT-PD-169",
       "kind": "process_defect",
       "process_defect": true,
@@ -3778,6 +3741,49 @@
       "_requires_trimcrae_why": "Its own text is 'Decide the framing and the venue, which is an outward-facing call' — CLAUDE.md §3 reserves exactly that for trimcrae. The flag was unset, so priority.py ranked it 147.0 and the CYC-0075 handoff prompt offered it as the top takeable item. Set by CYC-0075-6d9383a0."
     },
     {
+      "id": "AUT-PD-177",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "CYC-0088-f7394a99",
+      "claimed_utc": "2026-08-29T13:26:07Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0087-4ce79c2a",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "repairing broken references in the ledger; the targets are determined by the graph, not chosen",
+      "closes_clause": null,
+      "score": 120.5,
+      "_score_basis": "Above AUT-PD-176 (122.0) and just under AUT-PD-169 (128.0). It is cheap and fully determined, and it is the only row here that DEMOTES REAL RESEARCH: eight rows of live paper work are invisible to every route-keyed reader, which is CLAUDE.md §0's named failure with a typo as its cause.",
+      "score_inputs": {
+        "age_factor": 0.0,
+        "fruitless_attempts": 1
+      },
+      "depends_on_evidence": [
+        "Measured 2026-08-29 by CYC-0087-4ce79c2a while taking AUT-PD-158. Three route ids appear in `serves.route` and in NO route in systems/graph/routes.json (77 routes): RT-ASO-JUNCTION (6 open rows), RT-FUSION-PARTNER (1), RT-DEGRADER-TERNARY (1).",
+        "⛔ THESE ARE NOT PROCESS ROWS. All eight are live publication work — PREFLIGHT_FULL at the final ASO v2 commit, a blind seat on the ASO v2 pinned commit, round 13 of PUB-ASO, a manuscript cross-reference guard, the archive manifest's provenance, the fusion-partner paper's readability gate, and the degrader paper's step-1 fan-out map.",
+        "⭐ THE TARGETS ARE DETERMINED BY THE GRAPH RATHER THAN CHOSEN. RT-FUSION-PARTNER -> RT-PARTNER-STRAT, whose `publication.endpoint` IS `PUB-FUSION-PARTNER`. RT-DEGRADER-TERNARY -> RT-DEGRADER, the primary for PUB-DEGRADER, which is the paper those rows name. RT-ASO-JUNCTION -> RT-ASO and NOT RT-ASO-ASK: both point at PUB-ASO, but RT-ASO is `role: primary` while RT-ASO-ASK is `role: contributing` and is the WET-LAB ASK — and every one of the six rows is manuscript or gate work.",
+        "⛔⛔ THE CONSEQUENCE THAT MAKES THIS ITS OWN COMMIT RATHER THAN A ONE-LINE FIX, FORESEEN NOT DISCOVERED: four of the eight (AUT-PD-005, 006, 040, 141) carry no `score`, so repairing the id hands them their route's floor via `apply_route_inheritance` and they LEAVE the open-unscored population — 73 -> ~69. `MAX_UNSCORED_OPEN` is pinned at 73 and `test_the_ratchet_is_not_vacuous` permits at most 2 of slack, so the repair REDS THE TRUNK unless the ceiling is re-pinned DOWN in the same commit. ⭐ That is permitted and is the documented procedure (AUT-PD-145: pin at the count measured in the landing commit); the anti-gaming invariant forbids RAISING a bar, and this lowers it. The taker must verify the post-repair count itself rather than trusting the ~69 estimated here."
+      ],
+      "what": "⛔ EIGHT ROWS OF LIVE PAPER WORK NAME A ROUTE THAT EXISTS IN NO GRAPH, SO EVERY ROUTE-KEYED READER TREATS THEM AS ROUTELESS PROCESS WORK. `RT-ASO-JUNCTION`, `RT-FUSION-PARTNER` and `RT-DEGRADER-TERNARY` are in `serves.route` and in none of the 77 routes in systems/graph/routes.json. ⛔ THE HARM IS NOT COSMETIC: `apply_route_inheritance` gives an unscored row the floor OF ITS ROUTE, so a row naming a route the graph lacks can never inherit one — which is why four of the eight are unscored and unrankable, and the work they name is the ASO v2 and fusion-partner papers.\n\n⭐ THE REPAIR IS DETERMINED, NOT A JUDGEMENT — see `depends_on_evidence` for the mapping and the field that fixes each one. ⛔ BUT IT IS NOT A ONE-LINE FIX: it shrinks the open-unscored population below the pinned ceiling and reds the vacuity guard unless the ceiling moves DOWN in the same commit. Re-count, re-pin at the measured number, and never upward.\n\n⚠ FOUND WHILE TAKING AUT-PD-158, AND IT CORRECTS THAT ROW'S FRAMING: AUT-PD-158 asks how to rank work that serves no treatment route, and 8 of the rows that look that way are not that — they are research work with a broken reference. A ceiling keyed on 'serves no graph route' would have capped them.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-29T13:26:07Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ]
+    },
+    {
       "id": "AUT-PROP-010",
       "kind": "write",
       "serves": {
@@ -3824,6 +3830,41 @@
       "_score_basis": "the instance cost one permanently-unmeasurable governance row on the dial the architecture calls the most important; the class is every other row like it",
       "depends_on_evidence": "research/autonomy/receipt_schema.py and its 21-test suite — the worked instance",
       "closes_clause": null
+    },
+    {
+      "id": "AUT-PD-171",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0084-6b009680",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "one function in research/autonomy/ids.py and its test; nothing outward-facing",
+      "closes_clause": null,
+      "score": 120.0,
+      "_score_basis": "EXPLICIT, RESTORED. This row carried score 120.0 until ba12a1f8a, which set it to None while leaving this basis field in place, taking the open-unscored population from 73 to 74 and turning test_the_open_unscored_population_does_not_grow RED ON THE TRUNK. It cannot be re-derived: it serves RT-AUTONOMY, which has no row in systems/graph, so priority.apply_route_inheritance has no floor to inherit and every re-score leaves it None. That is AUT-PD-158's and AUT-PD-177's defect, not this row's. ⛔ The ratchet was NOT raised -- the test's own docstring forbids that and amendment_guard refuses it. The value is the one the row demonstrably held at ba12a1f8a^, not a new number. Restored by CYC-0086-f7394a99 while fixing a red trunk it did not cause.",
+      "depends_on_evidence": [
+        "Measured 2026-08-29 by CYC-0084-6b009680, live and against itself. `ids.next_entry_id('AUT-PD', entries)` returned AUT-PD-169 at 09:15Z; CYC-0083-381d0696 had already committed a DIFFERENT AUT-PD-169 at 08:58:24Z in 24987a47b ('record the handoff, the red trunk's evidence, and AUT-PD-169') and CYC-0084 was 21 commits behind at the time. Both derivations were correct.",
+        "The two rows are unrelated: CYC-0083's is a process_defect on RT-AUTONOMY about the turn-end hook telling a spawning session to claim its successor's item; CYC-0084's was a fetch on RT-SGK1. Nothing about their content would have collided — only the id.",
+        "⭐ THE ASYMMETRY IS THE WHOLE POINT: `ids.next_receipt` ALREADY carries a session discriminator for exactly this reason (AUT-PROP-013, where two sessions 50 s apart both took CYC-0016), and `ids.next_entry_id` in the same module does not. The fix for one half was never applied to the other.",
+        "It was caught only because CYC-0084 read a sibling session's post_turn_summary while running the step-11 reaper and noticed the string 'AUT-PD-169' in it. Nothing checked.",
+        "⛔ SECOND OCCURRENCE, SAME SESSION, 2026-08-29. CYC-0085-6b009680 filed AUT-PD-176 while CYC-0086-4ce79c2a committed a DIFFERENT AUT-PD-176 (5c50402a0) during the ~16-minute gate that stood between filing and pushing. Renumbered to AUT-PD-177. ⭐ THE SECOND ONE IS THE EVIDENCE THAT MATTERS: the first collision could be read as bad luck between sessions hours apart; two in one session, both inside a gate window, makes it structural. AUT-PD-174 is why the window exists — a cycle cannot publish its row until its gate passes — so these two rows compound and should be fixed together or the fix for one will not hold.",
+        "⛔⛔ THIRD OCCURRENCE, SAME SESSION, WITHIN ~90 MINUTES. CYC-0085-6b009680 filed a row as AUT-PD-176 (taken by CYC-0086-4ce79c2a), renumbered to AUT-PD-177 (taken on the trunk by the time the rebase completed), and landed as AUT-PD-178. Each renumber touched the ledger, two modules, a test file and an amendment record, and each was invalidated by the next gate window. ⭐ THE FIX SHAPE THE THIRD ONE MAKES OBVIOUS, AND IT IS NOT 'DERIVE HARDER': the id is allocated when the row is WRITTEN and validated when it is PUSHED, and those are ~16 minutes apart (AUT-PD-172, AUT-PD-174) on a trunk that moves every ~2 minutes. Any allocator reading committed state loses that race by construction. Either the id carries a session discriminator — which `ids.next_receipt` in the SAME MODULE already does, and which makes collision impossible rather than unlikely — or allocation moves to push time behind the same compare-and-swap `claim.py` uses. ⛔ The renumber is not cheap and it is not local: an id appears in ledger cross-references, module docstrings, refusal messages, test assertions and amendment declarations, so every collision is a multi-file edit that must then be re-gated."
+      ],
+      "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time."
     },
     {
       "id": "AUT-PD-139",
@@ -4618,6 +4659,38 @@
       ]
     },
     {
+      "id": "AUT-PROP-052",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-REPURPOSING"
+      },
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0086-f7394a99",
+      "requires_trimcrae": false,
+      "closes_clause": {
+        "paper": "PUB-FUSION-PARTNER",
+        "clause": "hardening_converged"
+      },
+      "depends_on_evidence": "publish_bar --paper PUB-FUSION-PARTNER --sha 9d5b4defef94 2026-08-29: BLOCKED 4/7. Clause 1 FAIL (9 blockers, 25 P1s at round 11), clause 6 FAIL, clause 2 absent. Round-11 seats: research/autonomy/review-seats/PUB-FUSION-PARTNER-9d5b4defef94425c91ac7dcdfa6cf898a196a8ac*.json",
+      "what": "ROUND 12 IS AN APPLY ROUND: CLOSE THE NINE ROUND-11 BLOCKERS, THEN RE-PIN AND RE-SEAT AS ROUND 13. ⛔ NONE of the nine needs new data or reanalysis -- every fix is from material already held, which is why this is an apply round and not a research one. ★ THREE OF THE NINE ARE ONE CLASS AND SHOULD BE FIXED AS ONE: an INCOMPLETE REPAIR, where a correction was applied to some copies of a claim and not others. REF-B-1 (register A16 bounded one Abstract superlative in place and left 'the first magnitude this contrast has ever had' standing, in the sentence carrying the paper's most quotable number); STAT-B-1 (register A32 inspected 3.3's prose only and concluded 'no manuscript sentence was wrong', while the Abstract's 'show no material separation' states an absence-of-effect the intervals cannot carry -- RD +4.3 pts (-15.7 to +31.0) and +9.2 pts (-12.8 to +35.8) -- and A32's own corrected artifact field says the null is not evidence the endpoints do not differ); REF-B-3 (register A33 repaired 1.3 and 3.8 but not 5's 'the field's own hedge is misattributed' nor its own register row A2, whose `where` column still reads 'the review literature' when the only holder is this repository's lane memo). ⛔ TWO MUST GO THROUGH THE GENERATOR AND BE REGENERATED, NOT EDITED IN PROSE: REF-B-2 (the sunitinib comparator arm is labelled EWSR1 on an inference that runs backwards -- the source licenses classical -> SD/PR, never SD/PR -> classical -- while the paper refuses that exact label for the pazopanib arm; cohorts[sunitinib-2014].strata) and REG-B-2 (cohorts[llombart-bosch-2022-prevalence].context_note asserts 7/26 = 26.9% 'is the highest of any series here' when Agaram is 7/24 = 29.2% and Sjogren 3/9 = 33.3%; the manuscript's own 3.5 prints the range as 15.8-29.2, which the artifact contradicts). ★ THE REMAINING FOUR: STAT-B-2 (6 falsifier #5's 'both choices make this falsifier easier to trigger' is a completeness claim that is false -- a third undeclared degree of freedom dominates: under INTERVAL OVERLAP, the criterion 3.3/5 themselves use to mark non-establishment, the threshold is 3 further patients rather than 19; state the third choice and print k under each criterion, or drop the sentence); STAT-B-3 (2.5's 'the two cohorts that ran time-to-event analyses' UNDERCOUNTS -- at least three series ran survival analyses -- and the referent is ambiguous; ⚠ NARROWED by the driver from the seat's stronger 'flatly false, contradicted three times', because under the reading where 'the two' means Paioli and Suemitsu the 'without event counts' half is defensible); CITE-B-1 (reference [10] prints Hum Pathol 2023;132:88-97; PubMed and this repository's own emc-surface-target-landscape.md:645 both say 134:19-29, same DOI and PMID -- a one-fact-two-places drift with the manuscript holding the wrong copy); REG-B-1 (the identifier census's justifying comment is false in three statements at the pin, and PMCID ATTACHMENT is provably unread -- swapping the PMCIDs on references [7] and [11] leaves the whole 1545-test suite byte-identical).",
+      "score": 105.9,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-PARTNER-STRAT (105.9) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-PARTNER-STRAT"
+    },
+    {
       "id": "AUT-PD-024",
       "kind": "process_defect",
       "process_defect": true,
@@ -4687,16 +4760,16 @@
         "publication": "PUB-FUSION-PARTNER",
         "strategy": "ST-REPURPOSING"
       },
-      "state": "in_progress",
-      "owner": "CYC-0086-f7394a99",
-      "claimed_utc": "2026-08-29T11:48:40Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
       "filed_by": "CYC-0070-ba841eee",
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a review round and a gate run; it posts nothing. The POST that these clauses would unlock is separately governed and stays on AUT-049.",
@@ -4720,7 +4793,8 @@
           "utc": "2026-08-29T11:48:40Z",
           "fingerprint_at_dispatch": "2026-08-28|None"
         }
-      ]
+      ],
+      "outcome": "Round 11 seated at pin 9d5b4defef94: 5 blind seats at subagent_width=5 returned 9 distinct blockers across 4 of 5 seats and 25 P1 instances, so clause 6 is now RECORDED and clause 1 reads NOT CONVERGED. Clause 2 was NOT bought: the PREFLIGHT_FULL run at this pin was killed once the blockers made the pin unpostable, because clause 2's receipt must name the POSTED commit and this commit will be superseded by round 12. The item's premise -- that all three sha-bound clauses could be taken together against one quiet head -- held; the round simply did not converge. Successor: AUT-PROP-052"
     },
     {
       "id": "AUT-PD-149",
@@ -7651,41 +7725,6 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a bugfix to an internal ledger-scoring gate; nothing published or outward-facing",
       "what": "Fixed research/autonomy/admissibility.py: added the `fruitless_attempts` term to both `expected_score()` (R2, full-derived-row reproduction) and `_explained_delta()` (R3, delta-accounting for hand-filed/session-state rows), applied LAST at 2dp, matching `priority.py:apply_fruitless_attempts`'s own place at the end of `build_ledger`'s pipeline and its own rounding. Without this, `priority.py --write` could not complete a re-score once any row picked up a nonzero fruitless-attempts count -- the very first cycle to try after the term was wired in was blocked outright, unable to even reach step 4 (claim/take an item). Verified: `pytest research/autonomy/tests/test_a_score_must_derive_from_its_own_inputs.py` 29 passed; `python3 research/autonomy/priority.py --write` now completes cleanly against the full 221-entry corpus (11 clamped, none refused). Also updated the now-stale prediction paragraph in admissibility.py's own module docstring to record that it came true, rather than leave it describing a gap that no longer exists."
-    },
-    {
-      "id": "AUT-PD-171",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": "RT-AUTONOMY",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-29",
-      "filed_by": "CYC-0084-6b009680",
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "one function in research/autonomy/ids.py and its test; nothing outward-facing",
-      "closes_clause": null,
-      "score": 0.0,
-      "_score_basis": "⭐ SCORED BY A DIFFERENT SESSION THAN FILED IT, AND ONLY BECAUSE THE TRUNK WAS RED ON ITS OWN RATCHET. Filed unscored by CYC-0084-6b009680; measured 2026-08-29, `origin/main` carried 74 open unscored rows against `MAX_UNSCORED_OPEN = 73`, so `test_the_open_unscored_population_does_not_grow` was failing for every session's commit loop, not just the filer's. The guard's own remedy is a `score` and a `_score_basis` on the row, and that is what this is — ⛔ the ratchet was NOT raised. ⭐ DERIVED WITH `priority.py`'s OWN TERMS AND WEIGHTS, identically to AUT-PD-179: every route term is 0 because this row serves the loop's id allocator and not a science route (live 0, patient_path 0, pursue_now 0, tier_one 0, endpoint_reachable 0, blocker_leverage 0, cost -12.0 × cost_class_rank['free'] = 0, blocked_on_human 0). Sum 0.0; it rises by `apply_age_factor`. ⚠ EVIDENCE THAT MAY WARRANT A DELIBERATE RE-SCORE ABOVE THE MECHANICAL 0.0, RECORDED RATHER THAN ACTED ON BY A SESSION THAT IS NOT THE FILER: this defect fired THREE TIMES in one interactive session on 2026-08-29 — AUT-PD-176 collided twice and AUT-PD-178 once, each against a row a concurrent cycle had committed to `main` in the interim. It is live, not theoretical.",
-      "depends_on_evidence": [
-        "Measured 2026-08-29 by CYC-0084-6b009680, live and against itself. `ids.next_entry_id('AUT-PD', entries)` returned AUT-PD-169 at 09:15Z; CYC-0083-381d0696 had already committed a DIFFERENT AUT-PD-169 at 08:58:24Z in 24987a47b ('record the handoff, the red trunk's evidence, and AUT-PD-169') and CYC-0084 was 21 commits behind at the time. Both derivations were correct.",
-        "The two rows are unrelated: CYC-0083's is a process_defect on RT-AUTONOMY about the turn-end hook telling a spawning session to claim its successor's item; CYC-0084's was a fetch on RT-SGK1. Nothing about their content would have collided — only the id.",
-        "⭐ THE ASYMMETRY IS THE WHOLE POINT: `ids.next_receipt` ALREADY carries a session discriminator for exactly this reason (AUT-PROP-013, where two sessions 50 s apart both took CYC-0016), and `ids.next_entry_id` in the same module does not. The fix for one half was never applied to the other.",
-        "It was caught only because CYC-0084 read a sibling session's post_turn_summary while running the step-11 reaper and noticed the string 'AUT-PD-169' in it. Nothing checked.",
-        "⛔ SECOND OCCURRENCE, SAME SESSION, 2026-08-29. CYC-0085-6b009680 filed AUT-PD-176 while CYC-0086-4ce79c2a committed a DIFFERENT AUT-PD-176 (5c50402a0) during the ~16-minute gate that stood between filing and pushing. Renumbered to AUT-PD-177. ⭐ THE SECOND ONE IS THE EVIDENCE THAT MATTERS: the first collision could be read as bad luck between sessions hours apart; two in one session, both inside a gate window, makes it structural. AUT-PD-174 is why the window exists — a cycle cannot publish its row until its gate passes — so these two rows compound and should be fixed together or the fix for one will not hold.",
-        "⛔⛔ THIRD OCCURRENCE, SAME SESSION, WITHIN ~90 MINUTES. CYC-0085-6b009680 filed a row as AUT-PD-176 (taken by CYC-0086-4ce79c2a), renumbered to AUT-PD-177 (taken on the trunk by the time the rebase completed), and landed as AUT-PD-178. Each renumber touched the ledger, two modules, a test file and an amendment record, and each was invalidated by the next gate window. ⭐ THE FIX SHAPE THE THIRD ONE MAKES OBVIOUS, AND IT IS NOT 'DERIVE HARDER': the id is allocated when the row is WRITTEN and validated when it is PUSHED, and those are ~16 minutes apart (AUT-PD-172, AUT-PD-174) on a trunk that moves every ~2 minutes. Any allocator reading committed state loses that race by construction. Either the id carries a session discriminator — which `ids.next_receipt` in the SAME MODULE already does, and which makes collision impossible rather than unlikely — or allocation moves to push time behind the same compare-and-swap `claim.py` uses. ⛔ The renumber is not cheap and it is not local: an id appears in ledger cross-references, module docstrings, refusal messages, test assertions and amendment declarations, so every collision is a multi-file edit that must then be re-gated."
-      ],
-      "what": "⛔⛔ `ids.next_entry_id` COLLIDES ACROSS CONCURRENT SESSIONS AND `ids.next_receipt`, IN THE SAME FILE, ALREADY DOES NOT — THE FIX WAS APPLIED TO ONE HALF OF A PAIR. Measured live 2026-08-29: CYC-0084 derived AUT-PD-169 from committed state that was correct when it read it, while CYC-0083 had committed a different AUT-PD-169 seventeen minutes earlier. Both derivations were right; the derivation is what is wrong, and `priority.py` REFUSES a ledger with a duplicated id, so the loser's whole commit is blocked until it renumbers by hand — every reference in its code, its artifact, its receipt and its amendment declaration. ⚠ AND THE LOSER IS WHOEVER PUSHES SECOND, WHICH IS NOT KNOWN UNTIL THE PUSH: this is the same compare-and-swap-on-the-remote logic `claim.py` was built around (AUT-PD-021), so the shape of the answer is already in this repository. ⭐ THE CHEAP FIX IS THE ONE ITS OWN SIBLING ALREADY USES — give the id a discriminator from the filing session, as `ids.next_receipt` does for CYC ids, so two cycles can both be the Nth filing without sharing a name. ⛔ DO NOT INSTEAD MAKE `priority.py` TOLERANT OF DUPLICATES: it refuses them because a duplicated id makes the queue unrankable, and that refusal is the only reason this was visible at all. ⚠ WHAT THIS COST, HONESTLY: one renumbering, no lost work and no wrong number on the trunk. It is filed because the collision was found by a human-shaped accident rather than by anything that would find it next time."
     },
     {
       "id": "AUT-PD-179",
