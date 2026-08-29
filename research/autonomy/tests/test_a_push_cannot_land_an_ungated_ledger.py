@@ -32,7 +32,7 @@ import push_guard as G  # noqa: E402
 
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 LEDGER = "research/autonomy/research-ledger.json"
-HOOK = os.path.join(REPO, "scripts", "git-hooks", "pre-push")
+HOOK = os.path.join(REPO, ".githooks", "pre-push")  # reconciled 2026-08-29: one hooksPath
 DEV_SETUP = os.path.join(REPO, "scripts", "dev-setup.sh")
 
 GOOD = {"_schema": "emc-research-ledger/1",
@@ -272,7 +272,7 @@ def test_a_push_with_no_merge_reports_nothing(repo, capsys):
 # ---------------------------------------------------------------------------------------------
 
 def test_the_hook_exists_is_executable_and_calls_the_guard():
-    assert os.path.exists(HOOK), "scripts/git-hooks/pre-push is what git invokes; without it nothing runs"
+    assert os.path.exists(HOOK), ".githooks/pre-push is what git invokes; without it nothing runs"
     assert os.access(HOOK, os.X_OK), "git silently ignores a non-executable hook — a fail-open with no message"
     assert "push_guard.py" in open(HOOK, encoding="utf-8").read()
 
@@ -282,7 +282,10 @@ def test_dev_setup_arms_the_hook_above_its_own_early_exit():
     what the SessionStart hook runs and it exits early on a sandbox whose interpreters are complete;
     a step below that exit never runs on the machines that need it most."""
     text = open(DEV_SETUP, encoding="utf-8").read()
-    assert "core.hooksPath" in text and "scripts/git-hooks" in text
+    assert "core.hooksPath" in text and ".githooks" in text
+    assert text.count("git config core.hooksPath") == 1, (
+        "two `core.hooksPath` settings means LAST WRITE WINS and one guard never fires — the exact "
+        "collision AUT-PD-144 produced when it was solved twice concurrently on 2026-08-29")
     arm = text.index("git config core.hooksPath")
     early_exit = text.index('if [ "${1:-}" = "--if-needed" ]')
     assert arm < early_exit, (

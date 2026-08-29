@@ -15,4 +15,23 @@ if [ ! -f research/autonomy/research-ledger.json ]; then
   exit 0
 fi
 
-python3 research/autonomy/prepush_ledger_guard.py --check
+# ⛔⛔ TWO GUARDS, ONE HOOK PATH — RECONCILED 2026-08-29 (CYC-0073-d4ccfde4) AFTER AUT-PD-144 WAS
+# SOLVED TWICE, CONCURRENTLY. CYC-0074-bdf8c881 built `prepush_ledger_guard.py` + this hook and armed
+# `core.hooksPath .githooks`; seat s1-CYC-0073-d4ccfde4 built `push_guard.py` + `scripts/git-hooks/`
+# and armed `core.hooksPath scripts/git-hooks`. Both landed in `scripts/dev-setup.sh`, which set the
+# config TWICE — and git honours ONE hooksPath, so LAST WRITE WINS and the other guard would have
+# existed, passed its own tests, and NEVER RUN. A guard that cannot fire is worse than no guard,
+# because its test suite says it works.
+# ⭐ So this hook is the single armed path and it runs both checks in order. They are complementary,
+# not redundant: the ledger duplicate-id check is unconditional on every pushed tip; push_guard adds
+# the JSON/JSONL parse check scoped to files THIS push touches, and reports carried merges as a
+# NOTICE rather than a refusal.
+# ⚠ STDIN IS READ ONCE AND REPLAYED. git hands the pre-push protocol on stdin and only push_guard
+# consumes it; running the ledger check first with stdin closed keeps the protocol intact for it.
+PROTOCOL="$(cat)"
+
+python3 research/autonomy/prepush_ledger_guard.py --check </dev/null || exit 1
+
+if [ -f research/autonomy/push_guard.py ]; then
+  printf '%s\n' "$PROTOCOL" | python3 research/autonomy/push_guard.py --repo "$REPO_ROOT" || exit 1
+fi
