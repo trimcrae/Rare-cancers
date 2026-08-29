@@ -363,9 +363,31 @@ change.
   ⭐ **This is why the cycle contract lives HERE and not in the Routine's prompt.** This file you can
   edit; that prompt is frozen at whatever trimcrae last pasted. Improvements to the contract land in
   this file, and the prompt only ever says "read it".
-- ⛔ **You cannot mint a fresh-session Routine that has the repo.** Agent-minted lineage carries no
-  `sources`; it fires, reports SUCCEEDED, and delivers nothing. Only trimcrae can, from the
-  claude.ai UI. Architecture §2.2.
+- ⛔ **You cannot mint a FRESH-SESSION Routine that has the repo.** Agent-minted lineage carries no
+  `sources`; it fires, reports SUCCEEDED, and delivers nothing. Architecture §2.2.
+  ⚠ *Re-measured 2026-08-29 and the first half holds exactly:* a `create_trigger` with
+  `create_new_session_on_fire` ran **26 minutes reporting `RUNNING`**, then `FAILED`, having pushed
+  nothing — `session_context.sources` **absent**, against `[{git_repository: …}]` on a UI-created
+  Routine in the same environment.
+  ⭐ **BUT "ONLY trimcrae CAN, FROM THE UI" IS NO LONGER TRUE, AND THAT SENTENCE COST A SESSION AN
+  EVENING.** `create_trigger` has no `source_url`; **`create_session` does**. So a Routine CAN be
+  minted with the repo, in two calls:
+
+      create_session(source_url=…, source_revision="main", outcome_branch="main", model=…)
+      create_trigger(persistent_session_id=<that session>, cron_expression=…)
+
+  Measured working: the runner came up with `sources` populated and `last_served_model` matching the
+  pinned model, and a **scheduled** firing reached that same session.
+  ⛔ **THREE MECHANICS THAT WILL BITE, ALL MEASURED THE SAME NIGHT.**
+  (1) **`fire_trigger` IGNORES THE BINDING** — a force-fire spawns a fresh unattached session on the
+  default model, so it is *not* a test of the schedule and answers the opposite of the truth. Probe
+  a schedule with a schedule (`run_once_at`).
+  (2) **`update_trigger` REFUSES to edit the prompt** of a Routine bound to a session that is not
+  your own, so changing the prompt means delete-and-recreate.
+  (3) **Deleting its only trigger ARCHIVES the bound session**, and an archived session cannot be
+  bound — so a prompt change costs a new runner too.
+  ★ **And source it from `main`, never a feature branch** — a scheduled job whose only source is a
+  branch is CLAUDE.md §7's data-loss bug with a timer attached.
 - ⛔ **Name every trigger you create with your cycle id**, and reap your own orphans in the
   retrospective. This repo has paid twice for orphan pollers he had to spot himself.
 - ⛔ **Never keep one long-lived hub session as the scheduler.** It works and it silently undoes §0.
