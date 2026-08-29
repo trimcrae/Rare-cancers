@@ -9,7 +9,7 @@ peptide; here we scan a broad common-allele panel and build the greedy coverage 
 
 Phases (each guarded so the script degrades gracefully):
   A. PREDICT (needs MHCflurry; CI only): run MHCflurry-2.0 over the junction-spanning
-     peptides (read from fusion-breakpoint-neoantigens.json) for a broad HLA-A/-B panel;
+     peptides (read from fusion-breakpoint-neoantigens.json) for a broad HLA-A/-B/-C panel;
      record every (peptide, allele) strong binder. Cache to epitope-allele-matrix.json.
      If MHCflurry is absent, reuse the cached matrix.
   B. CURVE (pure Python; runs anywhere): the set a vaccine "targets" is the alleles that
@@ -35,8 +35,8 @@ MATRIX = os.path.join(HERE, "epitope-allele-matrix.json")
 CURVE = os.path.join(HERE, "coverage-curve.json")
 CHART = os.path.join(HERE, "coverage-curve.png")
 
-# Broad common-allele panel (HLA-A/-B), spanning global diversity (≈ IEDB reference breadth).
-PANEL = [
+# Broad common-allele panel, HLA-A/-B half (spanning global diversity, ≈ IEDB reference breadth).
+PANEL_AB = [
     "HLA-A*01:01", "HLA-A*02:01", "HLA-A*02:03", "HLA-A*02:06", "HLA-A*03:01",
     "HLA-A*11:01", "HLA-A*23:01", "HLA-A*24:02", "HLA-A*26:01", "HLA-A*30:01",
     "HLA-A*30:02", "HLA-A*31:01", "HLA-A*32:01", "HLA-A*33:01", "HLA-A*68:01",
@@ -46,6 +46,18 @@ PANEL = [
     "HLA-B*40:02", "HLA-B*44:02", "HLA-B*44:03", "HLA-B*46:01", "HLA-B*51:01",
     "HLA-B*53:01", "HLA-B*57:01", "HLA-B*58:01",
 ]
+# AUT-079: HLA-C broadened the class-I panel from A/B-only. Common two-field C alleles spanning
+# global diversity, at roughly the same breadth as the A/B panel above — no equivalently
+# well-known "reference set" for the C locus was found, so this is a good-faith common-allele
+# list rather than a cited panel. It is not assumed to be fully scorable: MHCflurry support is
+# checked at predict time (see `alleles_without_a_model` below), never assumed.
+PANEL_C = [
+    "HLA-C*01:02", "HLA-C*02:02", "HLA-C*03:02", "HLA-C*03:03", "HLA-C*03:04",
+    "HLA-C*04:01", "HLA-C*05:01", "HLA-C*06:02", "HLA-C*07:01", "HLA-C*07:02",
+    "HLA-C*08:02", "HLA-C*12:02", "HLA-C*12:03", "HLA-C*14:02", "HLA-C*15:02",
+    "HLA-C*16:01", "HLA-C*17:01", "HLA-C*18:01",
+]
+PANEL = PANEL_AB + PANEL_C
 LENGTHS = [8, 9, 10, 11]
 RANK_STRONG = 0.5
 
@@ -62,7 +74,19 @@ def predict_matrix():
     if not peps:
         return None
     predictor = Class1PresentationPredictor.load()
-    df = predictor.predict(peptides=peps, alleles={a: [a] for a in PANEL}, verbose=0)
+    # ⚠ AN ALLELE MHCflurry HAS NO MODEL FOR IS NOT AN ALLELE THAT FAILS TO PRESENT (AUT-PD-102's
+    # pattern, applied here for AUT-079). HLA-C support varies by MHCflurry release, so the panel
+    # is filtered against the predictor's own `supported_alleles` before scoring rather than
+    # assumed — an unsupported allele would otherwise abort the whole batched `predict()` call and
+    # silently zero out every OTHER allele's result too (`continue-on-error` at the workflow step
+    # swallows the exception).
+    supported = getattr(predictor, "supported_alleles", None)
+    if supported is not None:
+        usable = [a for a in PANEL if a in supported]
+        missing = [a for a in PANEL if a not in supported]
+    else:
+        usable, missing = list(PANEL), []
+    df = predictor.predict(peptides=peps, alleles={a: [a] for a in usable}, verbose=0)
     rank_col = ("presentation_percentile" if "presentation_percentile" in df.columns
                 else "affinity_percentile")
     rows = []
@@ -72,10 +96,16 @@ def predict_matrix():
             rows.append({"peptide": r["peptide"], "allele": str(r["best_allele"]),
                          "percentile": round(rank, 4)})
     matrix = {"_note": "Strong MHC-I binders (presentation_percentile<=0.5) of EWSR1::NR4A3 "
-                       "junction peptides across a broad HLA-A/-B panel (MHCflurry-2.0).",
+                       "junction peptides across a broad HLA-A/-B/-C panel (MHCflurry-2.0).",
               "panel": PANEL, "rank_column": rank_col, "n_peptides": len(peps),
               "strong_binders": rows,
-              "presenting_alleles": sorted({x["allele"] for x in rows})}
+              "presenting_alleles": sorted({x["allele"] for x in rows}),
+              "alleles_without_a_model": sorted(missing),
+              "⚠_missing_model_is_not_a_negative": (
+                  "An allele listed in alleles_without_a_model was not scored at all — it was "
+                  "excluded from predict() because this MHCflurry build has no model for it. It "
+                  "must never be read as an allele that failed to present." if missing
+                  else "every panel allele was scored")}
     json.dump(matrix, open(MATRIX, "w"), indent=2)
     return matrix
 
@@ -140,7 +170,7 @@ def main():
                           key=lambda kv: -kv[1]["max_coverage"]))
 
     out = {
-        "_note": "Coverage vs number of HLA-A/-B alleles presented, for a public EWSR1::NR4A3 "
+        "_note": "Coverage vs number of HLA-A/-B/-C alleles presented, for a public EWSR1::NR4A3 "
                  "junction vaccine. Presenting alleles (>=1 strong MHCflurry binder) added in "
                  "descending AFND frequency (= greedy-optimal under 1-prod(1-af)^2). Class I "
                  "only; CD4/class-II handled separately. Sources as in hla-coverage.json.",
@@ -183,7 +213,7 @@ def render_chart(out):
         ax.plot([x["n_alleles"] for x in c], [x["cumulative_coverage"] * 100 for x in c],
                 lw=1.5, marker=".", ms=3, alpha=0.85, label=region)
     ax.axhline(90, ls="--", c="gray", lw=1)
-    ax.set_xlabel("Number of HLA-A/-B alleles presented by the vaccine")
+    ax.set_xlabel("Number of HLA-A/-B/-C alleles presented by the vaccine")
     ax.set_ylabel("Population coverage (% with ≥1 presenting allele)")
     ax.set_title("EWSR1::NR4A3 public fusion-neoantigen: coverage vs. alleles targeted")
     ax.set_ylim(0, 100)
