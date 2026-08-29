@@ -16,7 +16,16 @@
         "hooks": [
           {
             "type": "command",
-            "command": "printf '%s' '{\"systemMessage\":\"🔔 Claude finished its turn — over to you.\"}'"
+            "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/merge-debt-at-turn-end.sh\"",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '%s' '{\"systemMessage\":\"\ud83d\udd14 Claude finished its turn \u2014 over to you.\"}'"
           }
         ]
       }

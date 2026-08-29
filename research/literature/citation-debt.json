@@ -1,0 +1,141 @@
+{
+  "_schema": "citation-debt/1",
+  "_title": "Citation debt — captured evidence, and the artifacts each piece is owed to",
+  "_role": "THE ONE HOME FOR THE ANSWER TO 'did the paper we captured ever reach the document whose claim it bears on?'. It is NOT the home for bibliographic records (those live in research/literature/<fetch-product>.json, and this file carries identifiers only), and it is NOT the home for the search queries that found them (research/method-watch-triggers.json). It is the join between the two, and it is the join nothing was keeping.",
+  "_why_it_exists": "⛔ MEASURED 2026-08-28, AND THE GAP WAS INVISIBLE BECAUSE EVERY LAYER AROUND IT WAS GREEN. PMID 42570981 — an off-the-shelf multi-peptide vaccine spanning the EWSR1-FLI1 breakpoint, which is the closest human prior art this repository's junction-vaccine route has — was fetched into research/literature/ on 2026-08-24, triaged as 'the finding that matters most' in research/method-watch-backfill-2026-08.md, and cited in two manuscripts. It was still absent from research/modalities/vaccine-construct.json four days later: the artifact that PROPOSES that exact design class, off the shelf, with a CD4 epitope in native junction context. No gate was red, no linter was wrong, and nobody had forgotten anything — the repository simply had no field anywhere that said this record is owed to that file. The whole automation chain ended at 'a human has now been told'.",
+  "_what_it_does_NOT_do": "⛔ IT DOES NOT CITE ANYTHING AUTOMATICALLY, AND IT MUST NOT BE CHANGED TO. A scan hit is an unvalidated title match; a fetch product is a bibliographic record nobody has read. Both are inputs to a judgement — which fusion, what n, controlled or not, immunologic or clinical — that only a reader makes. This file records the judgement AFTER it is made, and makes the absence of one visible. Automating the citation would put unread evidence into manuscripts, which is a worse failure than the one it fixes.",
+  "_consumed_by": "scripts/citation_debt.py, run as `--check` by the generated-artifacts gate in scripts/preflight.sh (so it fires in the ordinary commit loop, not only in CI).",
+  "_status_values": {
+    "open": "The record is captured and a decision about this destination has NOT been made. ⛔ An open row MUST name `blocked_on` — what it is waiting for. An open row with no reason is not a decision to defer, it is a forgotten row wearing a status, and the checker fails on it.",
+    "discharged": "The destination cites the record. The checker VERIFIES this rather than believing it: the PMID or DOI must literally appear in the file, so a row cannot claim a discharge that a later edit removed.",
+    "declined": "A reader decided this destination should NOT cite the record, and `reason` says why. A legitimate answer — most captured papers are owed to nothing — but one that has to be written down, because 'we looked and decided no' and 'nobody looked' are indistinguishable otherwise."
+  },
+  "_scope": "SEEDED with the fusion-junction-vaccine cluster, which is the episode that produced this file. It is not a backfill of every record in research/literature/ and does not claim to be: a row here means somebody decided this record has destinations, and the absence of a row means nobody has asked, not that the answer is no.",
+  "rows": [
+    {
+      "id": "CD-0001",
+      "pmid": "42570981",
+      "doi": "10.1038/s41698-026-01642-4",
+      "title": "Durable clinical and immunologic response to an off-the-shelf EWSR1-FLI1 peptide vaccine in metastatic Ewing sarcoma.",
+      "record_home": "research/literature/shared-vs-individualized-neoantigen-sources-2026-08-24.json",
+      "captured_on": "2026-08-24",
+      "surfaced_by": "method-watch.yml — the clinical/treatment-news watch, four days after that watch was added. ⚠ The reopening-trigger scan could NOT have found it; see TRG-FUSION-JUNCTION-CLINICAL, which exists because of this record.",
+      "trigger": "TRG-FUSION-JUNCTION-CLINICAL",
+      "grade": "n = 1, uncontrolled, EWSR1-FLI1 rather than EWSR1::NR4A3. Immunologic readout (peripheral CD4+ T-cell responses); the reported disease stability is a single-patient observation and not an efficacy result.",
+      "owed_to": [
+        {
+          "path": "research/modalities/vaccine-construct.json",
+          "status": "discharged",
+          "on": "2026-08-28",
+          "note": "THE ROW THIS FILE WAS BUILT FOR — it was open for four days with nothing able to say so. Discharged in `_clinical_prior_art`, written into research/modalities/vaccine_construct.py because the JSON is generated."
+        },
+        {
+          "path": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+          "status": "discharged",
+          "on": "2026-08-28",
+          "note": "Cited in the reference list as prior art for the modality. The citation predates this ledger and was present when the row was written; the commit that added it is not datable in this clone."
+        },
+        {
+          "path": "research/manuscripts/neoantigen/shared-vs-individualized-neoantigen-evidence.md",
+          "status": "discharged",
+          "on": "2026-08-28",
+          "note": "Carried in the evidence table with `n = 1` stated in the row itself. The citation predates this ledger and was present when the row was written; the commit that added it is not datable in this clone."
+        }
+      ]
+    },
+    {
+      "id": "CD-0002",
+      "pmid": "22726592",
+      "doi": "10.1111/j.1349-7006.2012.02370.x",
+      "title": "SYT-SSX breakpoint peptide vaccines in patients with synovial sarcoma: a study from the Japanese Musculoskeletal Oncology Group.",
+      "record_home": "research/literature/shared-vs-individualized-neoantigen-sources-2026-08-24.json",
+      "captured_on": "2026-08-24",
+      "surfaced_by": "Europe PMC fetch, pulled in alongside PMID 42570981.",
+      "trigger": "TRG-FUSION-JUNCTION-CLINICAL",
+      "grade": "21 patients, four single-arm protocols, SYT-SSX rather than a FET fusion. ⭐ THE COUNTERWEIGHT: the largest human experience of this modality, and its published evaluation reports no robust immune response to the target epitope.",
+      "owed_to": [
+        {
+          "path": "research/modalities/vaccine-construct.json",
+          "status": "discharged",
+          "on": "2026-08-28",
+          "note": "Carried at the same weight as the positive, which is the point of including it."
+        },
+        {
+          "path": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+          "status": "discharged",
+          "on": "2026-08-28",
+          "note": "The citation predates this ledger and was present when the row was written; the commit that added it is not datable in this clone."
+        },
+        {
+          "path": "research/manuscripts/neoantigen/shared-vs-individualized-neoantigen-evidence.md",
+          "status": "discharged",
+          "on": "2026-08-28",
+          "note": "Evidence table row with the per-protocol numbers. The citation predates this ledger and was present when the row was written; the commit that added it is not datable in this clone."
+        }
+      ]
+    },
+    {
+      "id": "CD-0003",
+      "pmid": "15647119",
+      "doi": "10.1186/1479-5876-3-1",
+      "title": "Phase I vaccination trial of SYT-SSX junction peptide in patients with disseminated synovial sarcoma.",
+      "record_home": "research/literature/shared-vs-individualized-neoantigen-sources-2026-08-24.json",
+      "captured_on": "2026-08-24",
+      "surfaced_by": "Europe PMC fetch, pulled in alongside PMID 42570981.",
+      "trigger": "TRG-FUSION-JUNCTION-CLINICAL",
+      "grade": "6 patients, phase I, SYT-SSX. Feasibility of the modality only.",
+      "owed_to": [
+        {
+          "path": "research/modalities/vaccine-construct.json",
+          "status": "discharged",
+          "on": "2026-08-28",
+          "note": ""
+        },
+        {
+          "path": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+          "status": "discharged",
+          "on": "2026-08-28",
+          "note": "The citation predates this ledger and was present when the row was written; the commit that added it is not datable in this clone."
+        },
+        {
+          "path": "research/manuscripts/neoantigen/shared-vs-individualized-neoantigen-evidence.md",
+          "status": "discharged",
+          "on": "2026-08-28",
+          "note": "The citation predates this ledger and was present when the row was written; the commit that added it is not datable in this clone."
+        }
+      ]
+    },
+    {
+      "id": "CD-0004",
+      "pmid": "23252384",
+      "doi": "10.1586/erv.12.122",
+      "title": "Vaccination using peptides spanning the SYT-SSX tumor-specific translocation.",
+      "record_home": "research/literature/fusion-junction-vaccine-prior-art-2026-08-24.json",
+      "captured_on": "2026-08-24",
+      "surfaced_by": "Europe PMC fetch, pulled in alongside PMID 42570981.",
+      "trigger": "TRG-FUSION-JUNCTION-CLINICAL",
+      "grade": "Commentary, not a trial. It is the SOURCE of the reading that no robust immune response to the target epitope was demonstrated in PMID 22726592 — which is why that reading is attributable rather than this repository's own re-interpretation of somebody else's trial.",
+      "owed_to": [
+        {
+          "path": "research/modalities/vaccine-construct.json",
+          "status": "discharged",
+          "on": "2026-08-28",
+          "note": "Owed here specifically because this file states the counterweight as a finding."
+        },
+        {
+          "path": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+          "status": "discharged",
+          "on": "2026-08-28",
+          "note": "The citation predates this ledger and was present when the row was written; the commit that added it is not datable in this clone."
+        },
+        {
+          "path": "research/manuscripts/neoantigen/shared-vs-individualized-neoantigen-evidence.md",
+          "status": "declined",
+          "on": "2026-08-28",
+          "reason": "That manuscript reports PMID 22726592's PRIMARY numbers (per-protocol response, tetramer rises, DTH) and does not state the commentary's interpretation, so it does not rest on this source. ⛔ Recorded rather than left blank: this is the answer 'we looked and it is not owed', which is invisible otherwise."
+        }
+      ]
+    }
+  ],
+  "_what_on_means": "⛔ `on` IS THE DATE THIS LEDGER RECORDED AND VERIFIED THE DECISION — NOT THE DATE THE CITATION WAS WRITTEN, AND THE DIFFERENCE IS NOT PEDANTRY. The commit that added a citation is not datable in a working clone of this repository: the history arrives as a single squashed import, so `git log -S<pmid>` returns that import for every file and would hand back a confident wrong answer to anyone who asked. What IS measured, on every run of scripts/citation_debt.py, is whether the identifier is in the file TODAY. That is what these rows assert. Where a citation predates this ledger the row says so in its note rather than inventing a date for it (CLAUDE.md §4: an absent reading is not a reading of absence)."
+}

@@ -79,6 +79,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/method-watch.mjs research/method-watch-digest.md
 
+      # ── THE NEWS MATCHER IS NOT A STEP HERE, AND THAT IS THE SECOND DESIGN (2026-08-28) ──────
+      # The first version called api.anthropic.com from this job with secrets.ANTHROPIC_API_KEY.
+      # trimcrae, on seeing it: *"Why on earth would I use an additional API key from a Claude code
+      # session. Obviously use a scheduled session"*. He is right twice over — it is a second bill
+      # for a capability this project already pays for, and the secret did not exist, so the step
+      # ran for 0 seconds and wrote nothing (run 33215625481).
+      # The matcher now runs as a SCHEDULED CLAUDE SESSION against the digest this job publishes to
+      # `method-watch-cache`, the same pattern as the newsletter summary picked up below. Its four
+      # steps are research/routines/news-match-routine-prompt.md; its rules and guards are committed
+      # in scripts/news_match.py rather than in a Routine's stored config, which is the defect
+      # `mailer.py` records for the summary prompt — one that "no commit here can reach".
+      # ⚠ This job's only obligation to the matcher is the digest publish at the end, so DO NOT
+      # remove or rename research/method-watch-digest.md on method-watch-cache without reading that
+      # Routine prompt: it is the matcher's only input.
+
       # Pick up a Claude-written newsletter summary (the "LLM filter") if a scheduled Claude session
       # committed a fresh one to email-outbox. Weekly cadence, so accept up to ~2 days old. Mirrors the
       # daily email's "Pick up today's Claude-written summary" step.

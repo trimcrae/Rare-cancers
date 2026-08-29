@@ -2690,6 +2690,35 @@
     ]
   },
   {
+    "id": "TECH-JUNCTION-CLINICAL-PRECEDENT",
+    "name": "A human clinical readout for a therapy directed at a fusion breakpoint — any fusion, any modality that targets the junction sequence itself",
+    "category": "published_measurement",
+    "why_it_matters": "The three antigen routes are parked on TECH-JUNCTION-PMHC, which is a TOOL: a predictor or a discovery platform. This row is the other half of the same bet and it is not the same question. A tool would let this program COMPUTE something it currently cannot; a human readout moves the PRIOR on whether immunising against a fusion junction does anything in a person, and moves it supplying no method at all. Keeping them in one row would mean a clinical result could be read as progress on a predictor, or a predictor as evidence that the class works — the two substitutions this register exists to prevent.",
+    "unblocks": {
+      "blockers": [],
+      "routes": [
+        "RT-VACCINE",
+        "RT-JUNCTION-NEOANTIGEN",
+        "RT-TCR-IMMTAC",
+        "RT-VACCINE-COMBINATION"
+      ],
+      "requirements": [],
+      "instruments": []
+    },
+    "current_state": "partially_landed",
+    "evidence": [
+      "WHICH HALF LANDED: that a shared, off-the-shelf multi-peptide vaccine spanning a fusion breakpoint can be built, given, and raise durable junction-specific T-cell responses in a human. PMID 42570981 — type 1 EWSR1-FLI1, de novo polyfunctional CD4+ responses against all four fusion-derived peptides, first detectable by month 7 and persisting beyond two years.",
+      "WHICH HALF DID NOT: anything powered. That report is n = 1 and uncontrolled. The only larger human experience of the modality is two SYT-SSX junction-peptide trials from 2005 and 2012 (PMID 15647119, n = 6; PMID 22726592, n = 21), and the published evaluation of the larger one (PMID 23252384) reports that no robust immune response to the target epitope was demonstrated.",
+      "AND NEITHER HALF IS EMC. Every record is a different fusion. Nothing here bears on EWSR1::NR4A3 except by class inheritance, and nothing here measures how much junction peptide-HLA an EMC cell displays — which is BLK-ANTIGEN-COLD, a permanent blocker this row does not touch."
+    ],
+    "confidence": "high",
+    "forecast": "FC-JUNCTION-CLINICAL-PRECEDENT",
+    "scan_trigger": [
+      "TRG-FUSION-JUNCTION-CLINICAL"
+    ],
+    "pending_signals": []
+  },
+  {
     "id": "TECH-RECONSTRUCTED-IPD",
     "name": "Patient-level survival data recovered from published Kaplan-Meier curves, at a quality this disease's series can actually support",
     "category": "biological_dataset",
