@@ -14,7 +14,7 @@
     "harden": 23,
     "negative": 32,
     "process": 7,
-    "process_defect": 160,
+    "process_defect": 161,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
@@ -22,16 +22,15 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 136,
+    "done": 138,
     "in_progress": 6,
     "parked": 28,
     "queued": 148,
-    "ready": 1,
     "superseded": 1
   },
   "n_clamped": 12,
   "n_unscored": 87,
-  "n_unscored_open": 69,
+  "n_unscored_open": 68,
   "entries": [
     {
       "serves": {
@@ -86,6 +85,32 @@
       "requires_trimcrae": false,
       "requires_trimcrae_why": "a repository integrity guard; nothing leaves the repo",
       "score": 198.0
+    },
+    {
+      "id": "AUT-PD-186",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-INTERACTIVE-0829-aso-blockers",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "a test-suite integrity fix; nothing leaves the repository",
+      "_score_basis": "free, and it is the mutation-window class CLAUDE.md §6 records reaching origin/main once already — here a TEST does it, on every run of the suite",
+      "score": 198.0,
+      "depends_on_evidence": "Reproduced 3 of 3 runs of `pytest test_endpoint_producers_check.py test_endpoint_logic.py test_endpoint_manuscript_figures.py -q -n 3`, and once in the full manuscripts suite at -n 4 (1 failed, 1 error, 379.8 s). The failure is KeyError: 'G4_what_the_map_reads' raised in test_endpoint_logic.py on gw1 — the section test_check_refuses_a_deleted_section[endpoint_regime_map] had just deleted from the LIVE tracked artifact research/manuscripts/endpoint/endpoint-regime-map.json. Both named tests PASS standalone, which is the discriminating observation: a cross-worker read of a live mutation window, not a defect in either test's subject. ⛔ AND THE TREE WAS LEFT DIRTY — after one reproduction `git diff` showed \"conditions_placed\": 45 against the committed 44, a value invented by a tamper test sitting in a tracked artifact while the suite reported only a flake. A `git add -A` on top of that commits a falsified number.",
+      "what": "⛔⛔ FIVE PRODUCER-CHECK TESTS MUTATED LIVE TRACKED ARTIFACTS AND RESTORED THEM IN A `finally` — SAFE ONLY IF NOTHING ELSE READS THE FILE, AND THE SUITE RUNS UNDER xdist. Fixed 2026-08-29: test_endpoint_producers_check.py now copies each artifact to tmp_path and monkeypatches the producer's OUT at the copy, so the live tree is never written at all and the restore no longer has to win a race. Every producer's --check reads OUT and nothing else, so the check under test is unchanged; and the tests still fail if the redirection breaks, because --check on an unmutated artifact returns 0 while each assertion demands != 0. Verified: 4 consecutive -n 3 runs, 70 passed, tree clean, against 3 of 3 red before.\n★ THIS IS THE ATTRIBUTION AUT-PD-085 COULD NOT MAKE. That row records the manuscripts suite 'intermittently reporting a whole file as ERROR under xdist' and reads it as a dead worker under --dist loadfile. It is not: test_endpoint_manuscript_figures.py's module-scoped `figures` fixture reads endpoint-regime-map.json, so a fixture error inside the mutation window takes the whole module down as a collection ERROR. AUT-PD-085's proposed retry-once-on-worker-crash would have hidden this rather than found it.\n⛔ THE COST TO PUB-ASO, NAMED: publish_bar clause 2 wants a GREEN PREFLIGHT_FULL receipt at the posted commit. A suite red on a race no ASO artifact touches cannot produce one, and AUT-PROP-018 has already been thrown away twice.\n⚠ REMAINING, NOT FIXED HERE: the same pattern anywhere else in the suite. A `finally` beside a write to a tracked path is the sweep, and it is a separate row's work, not this one's."
     },
     {
       "serves": {
@@ -9573,19 +9598,19 @@
         "strategy": null
       },
       "kind": "harden",
-      "state": "ready",
+      "state": "done",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
       "requires_trimcrae": false,
       "requires_trimcrae_why": "Repository work on a file in this repository. Posting the result is NOT ours: PUB-ASO carries a public DOI under trimcrae's name and is excluded by name from the standing aiXiv grant.",
       "claimed_utc": null,
-      "evidence": "Round 18 applied. All three REFUTED interpretation claims narrowed in research/manuscripts/aso/fusion-junction-aso-journal-article.md, plus the Introduction sibling the audit did not sample and two siblings in the extended report. Five blind-seat blockers verified against the artifacts and fixed. Record: research/autonomy/hardening-state/PUB-ASO.json (round 18, 5 blockers all fixed, 7 P1s of which 2 closed). Journal article 4613 -> 4634 words by wc -w. NOT DONE: the 6-page budget is exceeded by one page and test_the_journal_pdf_fits_its_page_budget.py is red; see AUT-PD-083. Nothing was posted.",
+      "evidence": "DONE 2026-08-29. All three round-18 P1s closed, each by a guard MUTATION-TESTED before it was believed, and two further one-of-a-pair sites were found by that sweep and bound in the same pass.\n(1) seat 5, the Abstract/Results hand-typed numbers: MEASURED rather than assumed. Every exposure the seat named was mutated singly against the 16 guard modules claim_ablation.guards_reading returns for this document — 123 gap-paired near-matches, 'against eight' for the TAF15 reagent, 3.2/3.0 kcal/mol, 68.4%, 79.0%, 45.8% (4 sites), 40.6% (3 sites), 190 (2), 87 (8) — and all but three went RED. One of the three was the '87' inside PMID:39656687, an identifier guarded by lint_citations rather than a claim. The other TWO were real and are now bound in test_the_panel_and_its_liable_count_are_the_screens_own: the section heading 'Selection from a panel of 190 designs', and 'so the 87 bound the fully-paired class'. Both mutate RED now.\n(2) seat 2, the exon-2 non-coding-acceptor arm and 'ten shared donor bases': two new guards in test_journal_article_numbers.py. The first derives the two reagents from aso-parent-gap-pairing-noncoding-acceptor.json by JUNCTION and by the panel's own maximum margin — never by the sequence the prose prints — and binds the sequences, 'both at the panel's top margin', the ten-base-pair criterion at every one of its five sites, and, the inversion the seat flagged, which parent gene carries 8 and which carries 9. The second derives the shared donor-base count as the longest common 3′ suffix of the donor tails at the junctions where one design recurs (TGGTTTGATG, 10 nt) and binds the three partner genes named beside it. Eight single-site mutations, all RED — and the criterion assertion was GREEN on its first mutation test, being a membership test against five sites; it was rewritten to _every_site before it was kept.\n(3) seat 3, the 'but eleven' outside claim resting on the nominal Wilson interval: the guard now asserts the same relation under the design-effect-corrected interval, with the design effect RECOMPUTED from aso-parent-gap-pairing.json by the one-way analysis of variance the extended report names (clusters = junctions, unit = distinct design). It reproduces that report's published pair exactly — deff 1.4225 → 1.42, effective sample 133.57, interval 37.6–54.2% at cut 10 — and the relation holds under both intervals at every cut 7–13. Mutation-tested at the one value that discriminates them: a strongest null of 0.3700 at cut 11 is OUTSIDE the nominal [0.3733, 0.5132], so the old assertion stays green, and INSIDE the corrected [0.3662, 0.5208], so the new one goes red. The prose needed no change: the claim survives the correction.",
       "closes_clause": "PUB-ASO/hardening_converged",
       "score_inputs": {
         "age_factor": 0.0714

@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import sys
 
 import pytest
@@ -47,10 +48,41 @@ def _read(path):
         return fh.read()
 
 
-def _restore(path, original):
-    with open(path, "wb") as fh:
-        fh.write(original)
-    assert _read(path) == original, f"failed to restore {path}"
+@pytest.fixture
+def isolated(tmp_path, monkeypatch):
+    """⛔⛔ A MUTATION TEST WORKS ON A COPY. THIS ONE DID NOT, AND IT CORRUPTED THE TRACKED TREE.
+
+    ⚠ MEASURED 2026-08-29. Every perturbation below used to be written into the LIVE artifact under
+    `research/manuscripts/endpoint/` and undone in a `finally`. That is safe only while nothing else
+    reads the file during the window — and the manuscripts suite runs under `xdist`, so several
+    things do:
+
+      · `test_endpoint_logic.py::test_the_share_below_the_design_contour_excludes_undefined_conditions`
+        read `endpoint-regime-map.json` mid-window and raised `KeyError: 'G4_what_the_map_reads'` —
+        the section `test_check_refuses_a_deleted_section` had just removed;
+      · `test_endpoint_manuscript_figures.py`'s module-scoped `figures` fixture read the same file
+        and took the WHOLE MODULE down as a collection ERROR, which is the intermittent shape
+        AUT-PD-085 filed and could not attribute;
+      · the parametrized cases here raced EACH OTHER: two workers mutating and restoring one file
+        interleave, so a restore can lose.
+
+    ⛔ AND THE LOSS IS NOT CONFINED TO THE RUN. After one three-worker reproduction the working tree
+    was left carrying `"conditions_placed": 45` against the committed 44 — a value invented by a
+    tamper test, sitting in a tracked artifact, with the suite reporting only a flake. A `git add -A`
+    on top of that commits a falsified number, which is exactly the mutation-window incident
+    CLAUDE.md §6 records reaching `origin/main` on 2026-08-27.
+
+    ★ THE FIX IS THE RULE, APPLIED TO A TEST INSTEAD OF AN AGENT: copy the artifact to `tmp_path`,
+    point the producer's `OUT` at the copy, and mutate that. Every producer's `--check` reads `OUT`
+    and nothing else, so the check under test is unchanged; what changes is that the live tree is
+    never written to at all, and the restore this used to depend on no longer has to succeed.
+    """
+    def _make(module):
+        copy = tmp_path / os.path.basename(module.OUT)
+        shutil.copyfile(module.OUT, copy)
+        monkeypatch.setattr(module, "OUT", str(copy))
+        return str(copy)
+    return _make
 
 
 @pytest.mark.parametrize("module,artifact,keypath", JSON_PRODUCERS)
@@ -59,49 +91,45 @@ def test_check_passes_on_the_committed_artifact(module, artifact, keypath):
 
 
 @pytest.mark.parametrize("module,artifact,keypath", JSON_PRODUCERS)
-def test_check_refuses_a_perturbed_headline_number(module, artifact, keypath):
-    original = _read(artifact)
-    try:
-        doc = json.loads(original.decode("utf-8"))
-        section, key = keypath
-        assert section in doc, f"{section} missing from {artifact}"
-        assert key in doc[section], f"{key} missing from {artifact}[{section}]"
-        value = doc[section][key]
-        doc[section][key] = (value + 1) if isinstance(value, (int, float)) else "TAMPERED"
-        with open(artifact, "w", encoding="utf-8") as fh:
-            json.dump(doc, fh, indent=1, ensure_ascii=False)
-            fh.write("\n")
-        assert module.main(["--check"]) != 0, (
-            f"{artifact}: --check accepted a changed {section}.{key}, so it verifies nothing")
-    finally:
-        _restore(artifact, original)
+def test_check_refuses_a_perturbed_headline_number(module, artifact, keypath, isolated):
+    copy = isolated(module)
+    doc = json.loads(_read(copy).decode("utf-8"))
+    section, key = keypath
+    assert section in doc, f"{section} missing from {artifact}"
+    assert key in doc[section], f"{key} missing from {artifact}[{section}]"
+    value = doc[section][key]
+    doc[section][key] = (value + 1) if isinstance(value, (int, float)) else "TAMPERED"
+    with open(copy, "w", encoding="utf-8") as fh:
+        json.dump(doc, fh, indent=1, ensure_ascii=False)
+        fh.write("\n")
+    assert module.main(["--check"]) != 0, (
+        f"{artifact}: --check accepted a changed {section}.{key}, so it verifies nothing")
 
 
 @pytest.mark.parametrize("module,artifact,keypath", JSON_PRODUCERS)
-def test_check_refuses_a_deleted_section(module, artifact, keypath):
-    original = _read(artifact)
-    try:
-        doc = json.loads(original.decode("utf-8"))
-        doc.pop(keypath[0], None)
-        with open(artifact, "w", encoding="utf-8") as fh:
-            json.dump(doc, fh, indent=1, ensure_ascii=False)
-            fh.write("\n")
-        assert module.main(["--check"]) != 0, (
-            f"{artifact}: --check accepted a missing {keypath[0]}")
-    finally:
-        _restore(artifact, original)
+def test_check_refuses_a_deleted_section(module, artifact, keypath, isolated):
+    copy = isolated(module)
+    doc = json.loads(_read(copy).decode("utf-8"))
+    doc.pop(keypath[0], None)
+    with open(copy, "w", encoding="utf-8") as fh:
+        json.dump(doc, fh, indent=1, ensure_ascii=False)
+        fh.write("\n")
+    assert module.main(["--check"]) != 0, (
+        f"{artifact}: --check accepted a missing {keypath[0]}")
 
 
-def test_the_figure_check_passes_and_refuses_a_perturbation():
-    """The figure is an SVG rather than JSON, so it gets its own byte-level perturbation."""
+def test_the_figure_check_passes_and_refuses_a_perturbation(isolated):
+    """The figure is an SVG rather than JSON, so it gets its own byte-level perturbation.
+
+    Isolated for the same reason as the JSON producers above: the SVG is a tracked deposit artifact
+    and a lost restore leaves tampered bytes in the tree.
+    """
     assert F.main(["--check"]) == 0
-    original = _read(F.OUT)
-    try:
-        with open(F.OUT, "wb") as fh:
-            fh.write(original.replace(b"</svg>", b"<!-- tampered --></svg>"))
-        assert F.main(["--check"]) != 0, "the figure --check accepted altered bytes"
-    finally:
-        _restore(F.OUT, original)
+    copy = isolated(F)
+    original = _read(copy)
+    with open(copy, "wb") as fh:
+        fh.write(original.replace(b"</svg>", b"<!-- tampered --></svg>"))
+    assert F.main(["--check"]) != 0, "the figure --check accepted altered bytes"
 
 
 def test_every_producer_with_a_ci_check_is_in_the_regeneration_script():
