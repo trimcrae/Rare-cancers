@@ -1,0 +1,51 @@
+{
+  "cycle_id": "CYC-0086-4ce79c2a",
+  "session_id": "4ce79c2a-4770-5e00-97a4-7af911d591ac",
+  "ccr_session_id": "session_01CJoStjVsLioRPNisDBxdgR",
+  "started_utc": "2026-08-29T11:47:16Z",
+  "base_sha": "9d5b4defe",
+  "took": "AUT-PD-145",
+  "took_why": "Dispatched to it explicitly and it was already claimed for this worker on the trunk (5856839fe). ⛔ THE DISPATCH WAS AGAINST WORK THAT HAD ALREADY LANDED — see `finding`.",
+  "health_at_start": {
+    "exit": 0,
+    "red": [
+      "advancing_live_work",
+      "scores_are_reachable"
+    ],
+    "unmeasured": [
+      "gates_green",
+      "stalls_are_named"
+    ],
+    "red_on_red_posture": "advises/redirects — neither is BLOCKING, so research-loop §1 says run the cycle",
+    "escalations": "none — no condition past its 5-run restart intensity",
+    "⚠ when": "read mid-cycle, not at step 2. Recorded as measured rather than as the order it should have been taken in."
+  },
+  "what_changed": [
+    "research/autonomy/claim.py — `decide()` now refuses a FINISHED row before any ownership question is asked; new `row_of()` and `finished_by()` helpers. The closed-state set is taken from `priority.CLOSED_STATES`, not re-typed.",
+    "research/autonomy/tests/test_claim_yields_to_the_trunk.py — 7 new tests (19 total), including the ordering test, the already-reopened one-of-a-pair case, a shared-constant test and a positive control.",
+    "research/autonomy/research-ledger.json — AUT-PD-145 restored to `done` with the lease released and the erroneous reopening recorded on the row; AUT-PD-176 filed and closed."
+  ],
+  "finding": "⛔⛔ THE ITEM WAS ALREADY DONE, AND THE DISPATCH ITSELF WAS THE DEFECT. AUT-PD-145's ratchet landed at 08:25:54Z (5b64d476e, CYC-0083-381d0696): `MAX_UNSCORED_OPEN = 73`, pinned SEVEN BELOW the 80 it was written against, with its vacuity guard. At 11:47:29Z a `claim.py` claim flipped the row `done → in_progress`, leaving `closed_by` in place, and this session was dispatched to redo it. ⭐ THE HOLD CONDITION WAS RE-MEASURED BEFORE ANYTHING WAS DECIDED, as the dispatch required, and it is CLEARED: n_unscored_open = 73 against a ceiling of 73, guard suites 26 passed. The population sits EXACTLY on the ceiling — zero slack, which is what pinning at the measured count means, not a new problem. ⛔ NO CEILING WAS RAISED AND NO GUARD WAS TOUCHED; the anti-gaming invariant was never in play because nothing was blocking. ⭐ THE LIVE WORK WAS THEREFORE THE RESURRECTION MECHANISM, NOT THE RATCHET: `decide()` read `owner` and nothing else, so at the one place that reads the TRUNK specifically to defeat a stale read, a stale `state` went straight through. Filed and fixed as AUT-PD-176.",
+  "what_it_cost": "$0. CPU only: one 348-commit ledger-history census (~90 s, backgrounded), three scoped pytest runs (<1 s each), one 6-mutation harness on a git worktree copy, and preflight. No GPU, no network beyond git, no subagents.",
+  "gates": {
+    "scoped_suite": "45 passed / 0 failed — test_claim_yields_to_the_trunk (19, of which 7 new) plus both unscored-ratchet suites (26), which are the guards AUT-PD-145 landed.",
+    "mutation_test": "6/6 caught on a repo-shaped git worktree copy, NEVER the live tree, against an asserted-green baseline (19 passed) that was checked BEFORE the first mutation and re-checked after restore. Mutations: guard disabled; `closed_by` branch dropped; `state` branch dropped; guard demoted below the ownership questions; verdict flipped to TAKEN; guard block removed. Log: scratchpad d1-aut-pd-145/d1-mutate.log.",
+    "preflight": "run once on the settled tree immediately before the commit, exit code unmasked; this receipt was written before that run and asserts no result for it."
+  },
+  "anti_gaming": {
+    "invariant": "research-loop §6 — a bar may not be changed by the cycle the bar just blocked.",
+    "how_it_applies": "⛔ IT WAS THE CENTRAL RISK OF THE DISPATCH AND IT NEVER ACTIVATED. The prompt warned against raising `MAX_UNSCORED_OPEN` to make the gate green. Nothing was blocking: the ceiling was already green at 73/73 when measured. No bar was touched — the ceiling, the vacuity guard and R5 are all byte-unchanged by this cycle.",
+    "new_guard_is_stricter_not_looser": "AUT-PD-176 ADDS a refusal to the claim path and removes none. It can only make claiming harder, so it cannot make it easier for this cycle to report success — it is the reason this cycle's own dispatch could not have happened."
+  },
+  "escalated": "nothing. research-loop §5's five triggers: no journal submission, no spend (this cycle is $0), no goal-changing fact, no paper ready to post, and no health condition red past its deadline (restart intensity clean). The resurrection was a gate this cycle could resolve itself — CLAUDE.md §3.",
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "One item with one diagnostic chain, each step's question set by the previous answer. Nothing was independent enough to parallelise, and the driver held no context worth offloading."
+  },
+  "now_queued": [],
+  "blocked_by": [],
+  "route_advanced": "none",
+  "route_advanced_why": "⛔ WRITTEN HONESTLY AND IT IS THE FOURTH `none` IN A ROW, WHICH IS THE ALARM DOING ITS JOB RATHER THAN A NUMBER TO ROUND UP. This cycle repaired the loop's own claim path and its own completion record; it moved no route in systems/graph, and RT-AUTONOMY is not one. `health.py`'s `advancing_live_work` was ALREADY NOT-ADVANCING on the last 3 receipts before this one, and this cycle makes it 4 — reported in the final message per CLAUDE.md §0 rather than escalated, since it has not passed its restart intensity.",
+  "dispatch_defect": "⛔ THE ITEM NAMED IN THE DISPATCH HAD BEEN CLOSED 3.4 HOURS EARLIER, and the prompt's own summary of it (ceiling 80, population 82) was days stale — CLAUDE.md §4, a remembered number carrying a decision. The prompt's instruction to RE-MEASURE before deciding is the only reason this cost one verification instead of a re-implementation, and it is worth keeping in future dispatch prompts."
+}

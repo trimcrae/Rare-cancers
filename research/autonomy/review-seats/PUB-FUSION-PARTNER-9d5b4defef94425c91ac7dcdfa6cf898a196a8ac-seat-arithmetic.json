@@ -1,0 +1,69 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-FUSION-PARTNER",
+  "document": "research/manuscripts/fusion-partner/emc-fusion-partner-stratification.md",
+  "reviewed_commit": "9d5b4defef94425c91ac7dcdfa6cf898a196a8ac",
+  "document_sha256": "e01aa79fdcf5b448732778c3ef938dce1d19adf34a63e7c5ff1d726f35d3ffda",
+  "document_sha256_verified": "yes -- the seat verified it independently at the pin before reviewing",
+  "blind": true,
+  "_blind_means": "Given the document path and the pinned sha and nothing else; told the tree may drift and that the PIN is the subject; forbidden research/autonomy/, CLAUDE.md, AGENTS.md, STRATEGY.md, the program map, every skill file and every other seat's output. Instructed to refute by default and told there is no wanted answer. Dispatched CONCURRENTLY at subagent_width=5 by CYC-0086-f7394a99.",
+  "utc": "2026-08-29T12:10:00Z",
+  "cycle_id": "CYC-0086-f7394a99",
+  "round": 11,
+  "_round_basis": "Round 9 was the last blind seating (commit 0743ac15). Round 10 was the APPLY round that closed all six of round 9's P1s across earlier cycles. This is the re-seating, round 11.",
+  "seat": "arithmetic",
+  "verdict": "supported-with-corrections",
+  "central_claim_as_understood": "The NR4A3 5' fusion partner is a candidate - not established - stratification variable in EMC: pooled over two cohorts (73 patients) TAF15::NR4A3 carries crude disease-specific death 7/15 = 46.7% (95% CI 24.8-69.9) against EWSR1 6/58 = 10.3% (4.8-20.8), a 36.3-pt gap with post-hoc Fisher p = 0.0034 that its own larger cohort's multivariable model attributes to tumour size; the antiangiogenic-TKI response evidence is 0 of 3 (primary) to 0 of 5 (secondary) TAF15 patients whose Wilson upper bound (56.1% / 43.4%) sits above the comparator's point estimate (21.1% / 37.0%), so it is a direction and not a magnitude; TAF15 prevalence pools to 28/154 = 18.2% (12.9-25.0) over four independent series.",
+  "figures_rederived": 112,
+  "drift_found": 1,
+  "defects_found": 2,
+  "coverage_gaps_found": 2,
+  "blockers": [],
+  "p1s": [
+    {
+      "id": "ARI-P1-1",
+      "where": "S3.3 local-recurrence comparator spread; artifact analyses.B_outcome_by_partner.local_recurrence.heterogeneity_comparator_arm.spread_percent = 22.4; generator heterogeneity() at emc_fusion_partner_pooling.py:202",
+      "what": "Re-derived from raw counts the comparator-arm spread is 12/42 - 1/16 = 28.5714% - 6.2500% = 22.3214 pts, which prints 22.3, not 22.4. heterogeneity() computes spreads from ALREADY-ROUNDED per-cohort percents (reads r['percent'], which wilson() rounds to 1 dp); Python's round-half-to-even sends 6.25 -> 6.2, so 28.6 - 6.2 = 22.4. This is the only one of eight heterogeneity spreads in the document where rounding before subtracting changes the printed digit (death 7.1/5.7, LR TAF15 3.6, metastasis 8.9/18.5, TKI 53.9, prevalence 13.4 all agree with the raw derivation). The defect is systematic in the generator even though it currently bites once. Fix: compute the spread from unrounded proportions and round once at the end.",
+      "magnitude": "0.08 percentage points"
+    },
+    {
+      "id": "ARI-P1-2",
+      "where": "S3.2 inclusion table outcome rows vs S3.2/S3.5 prevalence rows; mirrored in the generator's assertion string and in S4.7",
+      "what": "'partner-assigned' carries two different denominators for the same cohort inside one table. For Huang, prevalence partner-assigned = 57 (46 EWSR1 + 9 TAF15 + 2 TCF12) but the outcome row's '50 partner-assigned with follow-up' excludes the 2 TCF12 cases that S4.7 confirms DO have follow-up - so on the document's own prevalence definition 52 partner-assigned Huang patients have follow-up, not 50. Same shape for Agaram (24 assigned vs 23). Both numbers are individually correct for what they denote and the composition is spelled out in S4.7, so nothing computed is wrong; but the inclusion table is precisely the artifact a reader checks denominators and selective reporting against, and the overloaded label makes 50 vs 57 look like an unexplained loss of 7 patients. Fix: label the outcome rows '50 in the two pooled arms (42 EWSR1 + 8 TAF15) of 53 followed'."
+    }
+  ],
+  "p2s": [
+    {
+      "id": "ARI-P2-1",
+      "where": "S3.1, 'five years of accrual (July 2011 - January 2017...)'",
+      "what": "July 2011 to January 2017 is 5 years 6-7 months, described as 'five years'. Understates rather than overstates and the endpoints are printed beside it, so no claim moves - but the word and the bracket disagree. Neither endpoint nor the span is bound by the prose-artifact guard."
+    },
+    {
+      "id": "ARI-P2-2",
+      "where": "S3.1 secondary-analysis comparator arm 10/27 = 37.0 %; S4.6",
+      "what": "The secondary comparator arm sums a non-TAF15 stratum (pazopanib 4/19) with an EWSR1 stratum (sunitinib 6/8) - two different stratum DEFINITIONS in one denominator. S4.6 flags the non-verified-EWSR1 problem for the PRIMARY analysis only, so the mixed definition of the secondary comparator is nowhere stated. Arithmetic is correct; the estimand label is not stated for the pooled arm."
+    }
+  ],
+  "what_i_could_not_break": [
+    "Pin verified independently: document sha256 at 9d5b4de matches the brief.",
+    "EVERY Wilson interval reproduces exactly under an independent implementation (direct quadratic roots at 50-digit Decimal precision, not the generator's centre+/-half form), including the three zero-event upper bounds 0/3->56.1, 0/5->43.4, 0/2->65.8.",
+    "EVERY Fisher exact p reproduces under an independent exact-rational implementation (fractions.Fraction with math.comb, min-likelihood two-sided; no lgamma, no floats): death 0.0034, LR 0.7389, metastasis 0.5163, TKI secondary 0.155, TKI primary 1.0.",
+    "All 28 'a/b = x %' conversions in the paper and 5 in the correction register are correct to printed precision.",
+    "All pooled denominators close from the raw strata (death/LR/metastasis, prevalence N=154, secondary TKI, sensitivity).",
+    "Falsifier #5's generator output re-derived from scratch: comparator Wilson upper 20.7881 -> 20.8; 7/22 = 31.8%, 7/23 = 30.4%; smallest reconciling denominator 34 (7/33 = 21.2% > 20.8 >= 7/34 = 20.6%), i.e. 19 further patients. Every printed digit matches, and the comparator-held-fixed choice is the conservative one as the text claims.",
+    "Sjogren counterfactual: 3/9 = 33.3%, pooled 31/163 = 19.0%; excluding it moves the estimate AWAY from the highest published shares, as claimed.",
+    "S2.5's stratum extent is DERIVED by _stratum_extent() over exactly the four pooled contrasts; the seat's objection is anticipated and answered in that function's docstring.",
+    "S8's artifact-structure counts exact: 17 citation records, 13 with verification_note, exactly 4 naming both a cache slug and an HTTP status, 16 cohort records with none carrying verified/verification_note/cache_path/http_status.",
+    "S3.5's author-list counts match the unabridged lists and the four series' surname sets are pairwise disjoint - the non-overlap claim holds.",
+    "The committed artifact reproduces from its generator: emc_fusion_partner_pooling.py --check exits 0 and writes nothing; 163 tests plus the two prose-vs-artifact guards pass at the pin."
+  ],
+  "method_note": "Raw {events, denom} integers were transcribed by hand from the generator's COHORTS table and every figure re-derived from those alone; no value was read out of the artifact's analyses block to check the prose against. Wilson and Fisher were implemented differently in construction from the generator's, so agreement is corroboration rather than a shared bug. Work was done in a throwaway detached worktree at the pin, removed and pruned afterwards; the shared tree was never written to.",
+  "logs": [
+    "/tmp/claude-0/-home-user-Rare-cancers/f7394a99-17ce-5aa8-a2e7-8d32595bcbff/scratchpad/s86-arithmetic-AUT-PROP-049/s86-arithmetic-rederive.log",
+    "/tmp/claude-0/-home-user-Rare-cancers/f7394a99-17ce-5aa8-a2e7-8d32595bcbff/scratchpad/s86-arithmetic-AUT-PROP-049/s86-arithmetic-intervals.log",
+    "/tmp/claude-0/-home-user-Rare-cancers/f7394a99-17ce-5aa8-a2e7-8d32595bcbff/scratchpad/s86-arithmetic-AUT-PROP-049/s86-arithmetic-fractions.log",
+    "/tmp/claude-0/-home-user-Rare-cancers/f7394a99-17ce-5aa8-a2e7-8d32595bcbff/scratchpad/s86-arithmetic-AUT-PROP-049/s86-arithmetic-check.log",
+    "/tmp/claude-0/-home-user-Rare-cancers/f7394a99-17ce-5aa8-a2e7-8d32595bcbff/scratchpad/s86-arithmetic-AUT-PROP-049/s86-arithmetic-tests.log"
+  ],
+  "scope_note": "A seat record, not a decision. Nothing here authorises an outward-facing act."
+}

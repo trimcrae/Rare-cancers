@@ -370,6 +370,18 @@ class Git:
         self._run("restore", "--staged", LEDGER_REL)
 
 
+def row_of(ledger: dict, entry_id: str):
+    """The entry itself, or `None` when this ledger does not carry it.
+
+    ⭐ SPLIT OUT FOR AUT-PD-176 so `decide()` can read fields other than `owner`. It used to be able
+    to read exactly one, which is the whole defect that row records.
+    """
+    for e in ledger.get("entries", []):
+        if e.get("id") == entry_id:
+            return e
+    return None
+
+
 def owner_of(ledger: dict, entry_id: str):
     """`(found, owner)` — `found` is False when the id is not in this ledger at all.
 
@@ -377,10 +389,50 @@ def owner_of(ledger: dict, entry_id: str):
     locally and not yet pushed; treating that as "free" would let a session claim a row nobody else
     can see, which is a claim that protects nothing.
     """
-    for e in ledger.get("entries", []):
-        if e.get("id") == entry_id:
-            return True, e.get("owner")
-    return False, None
+    e = row_of(ledger, entry_id)
+    if e is None:
+        return False, None
+    return True, e.get("owner")
+
+
+def finished_by(row: dict):
+    """The cycle that recorded this row as FINISHED, or `None` while it is still open work.
+
+    ⛔⛔ AUT-PD-176. A FINISHED ROW WAS INDISTINGUISHABLE FROM FREE WORK, BECAUSE `decide()` READ
+    `owner` AND NOTHING ELSE — and `stamp_claim` then wrote `state = "in_progress"` unconditionally,
+    so claiming a completed item SILENTLY REOPENED it. ⚠ Measured on origin/main 2026-08-29:
+    `AUT-PD-145` was closed by `CYC-0083-381d0696` at 08:25:54Z, with `MAX_UNSCORED_OPEN` and its
+    vacuity guard on the trunk and the suite green; at 11:47:29Z commit 5856839fe — a claim written
+    by THIS module — flipped it `done -> in_progress` while leaving `closed_by` in place, and a
+    whole worker session was then dispatched to redo work that had landed 3.4 hours earlier. The
+    row's own completion record was the thing that proved the work was already done.
+
+    ⛔ THE TWO SIGNALS ARE BOTH HERE, AND A CENSUS SAYS WHY NEITHER ALONE WOULD DO. Over all 348
+    ledger commits on the trunk there are 40 `closed -> open` transitions, so a blanket "a closed row
+    may never reopen" written at the WRITE — the shape R5 uses for the unscored population — would
+    have refused 37 ordinary re-derivations and been an outage. Exactly THREE of the 40 carried a
+    `closed_by`, which is the field a cycle sets when it deliberately closed the row against a
+    receipt: `AUT-PD-143`, `AUT-PD-165` and `AUT-PD-145`. The first two were transient and healed
+    back to `done` on their own; the third is the one this module wrote, and it is the one that
+    stuck. ⭐ So the guard lives HERE, in the claim path, and not in `ledger_io.write_ledger`:
+    re-deriving a closed row is routine, and CLAIMING one never is.
+    ⚠ `state` is read as well as `closed_by` because a row can be finished before any cycle names
+    itself in it, and `priority.py` already refuses to RANK such a row (`apply_age_factor`'s
+    "the ranker starts recommending things that are already done"). No selector offers a closed row,
+    so no legitimate claim can want one, and the broader half of this test costs nothing.
+
+    ⭐ AND THE REMEDY FOR WORK THAT GENUINELY MUST BE REDONE IS A NEW ROW, WHICH IS THIS REPOSITORY'S
+    OWN ESTABLISHED PATTERN AND NOT AN INVENTION HERE: `AUT-PD-145` exists precisely because
+    `AUT-PD-050` landed in halves and the deferred half was filed as its own entry rather than by
+    reopening the closed one.
+    """
+    if row.get("closed_by"):
+        return str(row["closed_by"])
+    state = row.get("state") or "queued"
+    if state in priority.CLOSED_STATES:
+        # ⚠ An honest description, not a cycle id: the row is finished and names no closer.
+        return f"(state {state}; no closing cycle named)"
+    return None
 
 
 def decide(trunk: dict, entry_id: str, me: str) -> tuple[str, str]:
@@ -388,10 +440,22 @@ def decide(trunk: dict, entry_id: str, me: str) -> tuple[str, str]:
 
     The working tree is the stale read that caused the incident, so it is not an input here.
     """
-    found, owner = owner_of(trunk, entry_id)
-    if not found:
+    row = row_of(trunk, entry_id)
+    if row is None:
         return YIELDED, (f"{entry_id} is not on the trunk. It was filed locally and never pushed, so "
                          "a claim on it is invisible to every other session — push the filing first.")
+    # ⛔⛔ FINISHED WORK IS NOT FREE WORK — AUT-PD-176, and this test comes FIRST because it holds
+    # however the `owner` field reads. A closed row is unclaimable by the cycle that closed it and by
+    # everyone else alike, so returning here before the ownership questions is not an ordering
+    # accident: "it is already yours" must not hand a completed item back to its own closer.
+    closed = finished_by(row)
+    if closed:
+        return YIELDED, (
+            f"{entry_id} is finished work — closed by {closed} — and claiming it would REOPEN it: "
+            "the claim writes `state = in_progress` over the completion record. Take the next item. "
+            "If the work genuinely must be redone, file a NEW row for it rather than reopening this "
+            "one, the way AUT-PD-145 was filed for the deferred half of AUT-PD-050.")
+    owner = row.get("owner")
     if owner and owner != me:
         return YIELDED, f"{entry_id} is already held by {owner}"
     if owner == me:

@@ -121,6 +121,7 @@ def main():
     if not os.path.exists(STRICT):
         print("  epitope-allele-matrix.json absent; run coverage_scan.py first", file=sys.stderr)
         return 1
+    panel_size = len(json.load(open(STRICT))["panel"])  # AUT-079: read, never hardcode, the size
     calls, ceiling, provenance = load_calls()
 
     alleles = sorted({c["allele"] for c in calls if c["percentile"] <= ceiling})
@@ -158,7 +159,7 @@ def main():
     result = {
         "_what": ("Predicted class I coverage of the EWSR1::NR4A3 junction as a continuous function "
                   "of the MHCflurry presentation-percentile acceptance threshold, over the fixed "
-                  "34-allele panel of epitope-allele-matrix.json."),
+                  f"{panel_size}-allele panel of epitope-allele-matrix.json."),
         "_why": ("The manuscript's coverage figures rest on a threshold it does not defend (§7) and "
                  "were stated at three points (§2.3). This is the function between and beyond them."),
         "⛔_what_this_is_not": (

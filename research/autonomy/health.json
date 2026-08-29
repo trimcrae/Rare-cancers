@@ -3,12 +3,12 @@
   "_read_this_when": "you want to know whether the unattended research loop is WORKING \u2014 not whether what it wrote is correct, which every preflight gate already covers (\u00a75.1). A loop can be perfectly correct and advance nothing.",
   "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#52--loop-health--new-and-it-is-what-never-check-in-actually-requires",
   "_this_channel_is_PULL_ONLY": "nothing here sends, opens an issue, comments, or fails a run. \u00a77 trigger 4 is the ONE push, and it is the caller's act, not this file's: a condition red past its deadline earns a PushNotification and a line in the Friday digest, nothing else.",
-  "_generated_utc": "2026-08-29T12:16:59Z",
-  "_generated_et": "8:16 AM ET Aug 29, 2026",
+  "_generated_utc": "2026-08-29T12:50:06Z",
+  "_generated_et": "8:50 AM ET Aug 29, 2026",
   "_cycle_interval_h": 24.0,
   "_stale_window_basis": "read from autonomy-state.json `cycle_interval_hours` = 24 h, which is its one home (the governor writes it \u2014 architecture \u00a79.2). Not typed here.",
-  "_stale_after_utc": "2026-09-01T12:16:59Z",
-  "_stale_after_et": "8:16 AM ET Sep 1, 2026",
+  "_stale_after_utc": "2026-09-01T12:50:06Z",
+  "_stale_after_et": "8:50 AM ET Sep 1, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS CHECKING THE LOOP and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a checker that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed cycles at 24 h. Restart it: `gh workflow run autonomy-tick.yml --ref main`.",
   "ok": false,
   "_ok_means": "no condition is FAILING. \u26d4 IT DOES NOT MEAN EVERY CONDITION WAS MEASURED \u2014 read `fully_measured` and `unmeasured` beside it. `ok: true, fully_measured: false` is the honest shape of a loop nobody can yet grade, and it is NOT a healthy loop.",
@@ -49,14 +49,14 @@
           "none",
           "none"
         ],
-        "receipts_seen": 101
+        "receipts_seen": 103
       },
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-29T11:08:21Z",
       "bad_since_utc": "2026-08-29T11:08:21Z",
-      "consecutive_bad_runs": 5,
-      "consecutive_red_runs": 5,
-      "bad_for_h": 1.14,
+      "consecutive_bad_runs": 7,
+      "consecutive_red_runs": 7,
+      "bad_for_h": 1.7,
       "bad_since_et": "7:08 AM ET Aug 29, 2026",
       "on_red": "advises",
       "axis": "progress",
@@ -64,11 +64,11 @@
         "axis": "progress",
         "counter": "consecutive_red_runs",
         "unit": "board runs (autonomy-tick gradings)",
-        "n": 5,
+        "n": 7,
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 1.14,
+        "bad_for_h": 1.7,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
       }
     },
@@ -113,12 +113,12 @@
           "AUT-PD-067"
         ]
       },
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-29T02:50:26Z",
       "bad_since_utc": "2026-08-29T02:50:26Z",
-      "consecutive_bad_runs": 6,
-      "consecutive_red_runs": 6,
-      "bad_for_h": 9.44,
+      "consecutive_bad_runs": 8,
+      "consecutive_red_runs": 8,
+      "bad_for_h": 9.99,
       "bad_since_et": "10:50 PM ET Aug 28, 2026",
       "on_red": "advises",
       "axis": "readiness",
@@ -126,11 +126,11 @@
         "axis": "readiness",
         "counter": "consecutive_red_runs",
         "unit": "board runs (autonomy-tick gradings)",
-        "n": 6,
+        "n": 8,
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 9.44,
+        "bad_for_h": 9.99,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
       }
     },
@@ -144,12 +144,12 @@
       "needs_attention": false,
       "detail": "no gate verdict was supplied. This checker has no network by design, so it cannot read Actions itself. Settle it: have the tick workflow write {\"ok\": bool, \"red_since_utc\": str|null, \"detail\": str} and pass it with --gates-verdict.",
       "payload": {},
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-29T11:57:10Z",
       "bad_since_utc": "2026-08-29T11:57:10Z",
-      "consecutive_bad_runs": 4,
+      "consecutive_bad_runs": 6,
       "consecutive_red_runs": 0,
-      "bad_for_h": 0.33,
+      "bad_for_h": 0.88,
       "bad_since_et": "7:57 AM ET Aug 29, 2026",
       "on_red": "redirects",
       "axis": "readiness",
@@ -161,7 +161,7 @@
         "limit": 5,
         "counted": true,
         "exhausted": false,
-        "bad_for_h": 0.33,
+        "bad_for_h": 0.88,
         "why": "red on 0 of 5 board runs (autonomy-tick gradings); the loop may keep responding on its own until the budget is spent"
       }
     },
@@ -175,12 +175,12 @@
       "needs_attention": false,
       "detail": "no stall verdict was supplied. This checker has no subprocess by design, so it cannot walk git history itself. Settle it: `python3 research/autonomy/stuck_clock.py --check --json > <path>` and pass it with --stall-verdict.",
       "payload": {},
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-29T11:57:10Z",
       "bad_since_utc": "2026-08-28T12:58:48Z",
-      "consecutive_bad_runs": 7,
+      "consecutive_bad_runs": 9,
       "consecutive_red_runs": 0,
-      "bad_for_h": 23.3,
+      "bad_for_h": 23.86,
       "bad_since_et": "8:58 AM ET Aug 28, 2026",
       "on_red": "advises",
       "axis": "progress",
@@ -192,7 +192,7 @@
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 23.3,
+        "bad_for_h": 23.86,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
       }
     },
@@ -204,15 +204,15 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "the last receipt (CYC-0084-e2d78138.json) landed 3.5 h ago, inside the 48.0 h deadline.",
+      "detail": "the last receipt (CYC-0084-e2d78138.json) landed 4.1 h ago, inside the 48.0 h deadline.",
       "payload": {
-        "receipts_seen": 101,
+        "receipts_seen": 103,
         "latest_receipt": "CYC-0084-e2d78138.json",
         "latest_receipt_et": "4:45 AM ET Aug 29, 2026",
-        "age_h": 3.53,
+        "age_h": 4.09,
         "deadline_h": 48.0
       },
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -243,10 +243,10 @@
       "needs_attention": false,
       "detail": "the ledger was read and no entry is in state `running`, so no entry can be frozen. Vacuously true, and stated as such: this row says the check ran, not that the loop is busy \u2014 `cycle_delivering` is the row that says that.",
       "payload": {
-        "entries": 312,
+        "entries": 314,
         "running": 0
       },
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -277,10 +277,10 @@
       "needs_attention": false,
       "detail": "all 1 blocked entr(ies) record what was observed to establish the block.",
       "payload": {
-        "entries": 312,
+        "entries": 314,
         "blocked": 1
       },
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-29T02:50:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -309,20 +309,19 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "74 of 312 entr(ies) are takeable now.",
+      "detail": "73 of 314 entr(ies) are takeable now.",
       "payload": {
-        "entries": 312,
-        "takeable": 74,
+        "entries": 314,
+        "takeable": 73,
         "owned": [
           "AUT-PD-170",
-          "AUT-PD-145",
+          "AUT-PD-110",
+          "AUT-PD-173",
+          "AUT-PD-158",
           "AUT-PROP-049"
-        ],
-        "retry_budget_spent": [
-          "AUT-PD-145"
         ]
       },
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -367,7 +366,7 @@
         ],
         "worst": 2
       },
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-29T02:50:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -409,7 +408,7 @@
         },
         "worst": 0
       },
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-27T20:00:21Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -442,7 +441,7 @@
       "payload": {
         "backoff_level": 2,
         "backoff_since_et": "7:51 AM ET Aug 29, 2026",
-        "held_h": 0.43,
+        "held_h": 0.98,
         "grace_h": 24.0,
         "budget_hold": {
           "reason": "weekly-budget-overpace",
@@ -452,7 +451,7 @@
           "posture_keys_checked_by_nothing": null
         }
       },
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-29T11:57:10Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -486,7 +485,7 @@
         "acts_seen": 0,
         "authority_file": "present"
       },
-      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_seen_utc": "2026-08-29T12:50:06Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
