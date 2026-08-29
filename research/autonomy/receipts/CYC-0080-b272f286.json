@@ -1,0 +1,55 @@
+{
+ "_schema": "emc-cycle-receipt/1",
+ "cycle_id": "CYC-0080-b272f286",
+ "session_id": "b272f286-7fb0-53ff-9f73-df6611b90550",
+ "ccr_session_id": "session_01HcEoACbH8wWVoTo2je896N",
+ "utc": "2026-08-29T07:05:00Z",
+ "shape": "One driver, no fan-out. FIRST of 2 cycles allowed in this session (autonomy-state.json max_cycles_per_session=2). Parent session_01Fg7WnZ8Kc3wmysc7tpAfTy (CYC-0078, CYC-0079).",
+ "took": "AUT-PD-166 (score 134.0) — FILED BY THIS CYCLE, not inherited, and filed first as AUT-PD-165 until an id collision moved it. ⛔ THE ITEM WAS THE PROMPT ITSELF: the successor prompt that started this session named `AUT-PD-165  score 134.0` as the queue's top item, and at 06:20Z no committed copy of the ledger carried that id. Verifying HEAD against origin/main (b4dda12d5, equal) cleared the only cause the prompt names for that symptom, which is what made it worth chasing rather than shrugging at.",
+ "why_not_the_scored_top": "The re-scored queue's top takeable row was AUT-PD-158 (133.0). This displaced it because it is the machinery the queue itself travels through: a defect that silently drops filed rows at the session boundary can lose AUT-PD-158 exactly as it lost the row this id first carried, and the evidence was in hand at zero cost. `research-loop` §6: improvement comes from receipts, and this was friction met head-on.",
+ "claim_shape": "⚠ FILED AND CLAIMED IN ONE COMMIT RATHER THAN TWO, AND THE DEVIATION IS DELIBERATE. The contract's claim-then-work order exists to stop two cycles racing for a PRE-EXISTING row; this row was minted here, so no other session could hold or want it, and `claim.py` cannot lease a row `origin/main` does not carry. The alternative was two full preflight runs for a lease with nothing to protect (CLAUDE.md §6: one run, tree settled). `ids.next_entry_id` on committed state returned AUT-PD-165, so the id was free.",
+ "diagnosis": "handoff.py:45 `LEDGER = HERE / 'research-ledger.json'`; `build()` called `_read(LEDGER)`, which is `path.read_text()`. Every fact in the prompt came from the BUILDER'S WORKING TREE, while the module docstring promised 'every fact here is read from a committed artifact at build time' and the emitted prompt said 'read from the committed ledger when this prompt was built'. The successor clones origin/main, so anything filed and unpushed is named to it and then absent.",
+ "reproduction": "A row written ONLY to a scratch copy of the ledger (scratchpad/cyc80/repro/, never committed, never in the live tree) is named by the generated prompt at line 34. ⭐ The first attempt returned 0 hits and that was NOT a refutation — it located top_items' four-part takeable predicate (handoff.py:226-232), which the probe row did not satisfy for lack of a retry_budget.",
+ "the_second_half_matters_more": "⛔ READING COMMITTED STATE ALONE WOULD HAVE HIDDEN THIS INCIDENT RATHER THAN PREVENTED IT. A trunk-only build simply stops mentioning the unpushed row: the loss is identical and nothing is left to notice. So main() now REFUSES (exit 3) when the working tree carries ledger rows or receipts origin/main does not, and names the remedy — one commit. `--allow-divergence` emits anyway with the lost ids printed into the prompt, for a builder that genuinely cannot commit.",
+ "the_misdiagnosis_that_was_waiting": "The prompt's stale-checkout paragraph describes this exact symptom ('its re-score produced a ledger in which the queue's top item DID NOT EXIST') and attributes it to a detached HEAD (CYC-0019). A successor that verifies HEAD as instructed clears that cause and is left with a symptom the prompt says cannot happen — so it must doubt its own verification or invent a third story. The paragraph now names both causes and gives the discriminating command.",
+ "changed": [
+  "research/autonomy/handoff.py — `_committed()`/`committed_receipts()` read `origin/main:`; `build()` computes and prints its own provenance; `unpushed_rows()`/`unpushed_receipt_files()` detect the loss; `main()` refuses with a remedy, `--allow-divergence` escapes and names what it drops; the stale-checkout paragraph gains its second cause",
+  "research/autonomy/tests/test_a_handoff_never_hands_over_what_it_did_not_push.py — NEW, 17 tests",
+  "research/autonomy/tests/test_stalls_are_named_reaches_the_board.py — its --json fixture now supplies a trunk; assertion untouched",
+  ".claude/skills/research-loop/SKILL.md §3 — the handoff call can now exit 3, and the remedy is the commit, never the flag",
+  "research/autonomy/research-ledger.json — AUT-PD-166 filed and closed"
+ ],
+ "verification": {
+  "new_suite": "17 passed",
+  "mutation": "8/8 caught, single-site, isolated copy (scratchpad/cyc80/mut/, log cyc80-mutation.log)",
+  "mutation_finding": "⛔ M6 SURVIVED THE FIRST ROUND AND THE FIXTURE WAS THE DEFECT: the --json focus title test gave both rows equal scores, so a stable sort returned the right id even when the mutant read the working tree. A test that passes for the wrong reason is exactly what mutation testing is for; the fixture now scores the unpushed row higher.",
+  "live_incident": "the guard fired on this cycle's own uncommitted row before the fix was committed — EXIT=3 naming AUT-PD-165",
+  "neighbouring_suites": "test_who_may_act_has_one_answer, test_a_blocked_handoff_says_which_block, test_handoff_child_id_shared_reader, test_a_concluded_route_is_not_queued_work, test_stalls_are_named_reaches_the_board — 72 passed"
+ },
+ "cost": {
+  "real_dollars": 0.0,
+  "gpu_hours": 0.0,
+  "class": "free",
+  "note": "CPU and engineering only (CLAUDE.md §5)."
+ },
+ "health_board": {
+  "blocking_red": "none — health.py --check exit 0, --escalations exit 0",
+  "advises_red": "scores_are_reachable UNRANKABLE-WORK (73 of 175 open rows unscored) — `on_red: advises`, so reported and carried past, not fixed here",
+  "unmeasured": "gates_green (no verdict wired) and stalls_are_named — the stall verdict WAS produced this cycle (stuck_clock.py --check --json, scratchpad/cyc80/cyc80-stall.json) but the board is generated by the tick workflow, not by a cycle, so it stays unmeasured until that workflow passes it"
+ },
+ "gates_verdict_read_directly": "Actions on origin/main: the head at cycle start, b4dda12d5, completed `tests (modalities)` SUCCESS at 06:13Z (in_progress when first read, re-read after). The four preceding heads all completed success. The trunk was not red, so §1's preflight-red redirect did not apply. ⚠ The trunk then moved to 1684f79f9 mid-cycle; this cycle merged it rather than force-pushing over it, per the prompt's own instruction.",
+ "subagents": {
+  "max_concurrent": 0,
+  "launched": 0,
+  "why": "One tightly-scoped defect with the evidence already in the driver's hands; a seat would have cost a dispatch to return what a git log already showed."
+ },
+ "blocked_by": [],
+ "queued_next": [
+  "AUT-PD-165 (134.0) — the predecessor's recovered row, now on the trunk and UNTOUCHED by this cycle: claim.py's commit_ledger stages the ledger as it stands, so a claim publishes uncommitted edits. A different door from this one, in a different module.",
+  "AUT-PD-158 (133.0) — remains the top takeable process_defect row",
+  "AUT-PROP-051 (118.0) — the one LIVE-route row near the top of the queue; CLAUDE.md §0 ranks it above the process_defect rows around it"
+ ],
+ "route_advanced": "none",
+ "_route_advanced_why": "⛔ HONESTLY none. RT-AUTONOMY is the loop's own machinery and is not a treatment route; this cycle moved no route that could produce a result for a patient. It is the loop's own honesty instrument (research-loop §2) and inflating it would disable the alarm CLAUDE.md §0 cares most about. ⚠ Two of the last three cycles DID advance live work (CYC-0079, AUT-PROP-048), so this is not a run of three.",
+ "the_id_collision": "⭐ MID-CYCLE, AND IT IS EVIDENCE RATHER THAN AN INCONVENIENCE. At 06:25Z origin/main 1684f79f9 landed a DIFFERENT defect under AUT-PD-165 — the predecessor session returning to push the row its own handoff had named and not committed. So the row was recovered, and the recovery is LUCK: a session hands off because it is at its cap and its container is about to be reclaimed, so the ordinary case is that it never comes back. This cycle's row moved to AUT-PD-166 (third recorded `ids.next_entry_id` collision from an allocation that did not land promptly — AUT-PROP-013, AUT-PD-160). ⚠ AND ONE OF THIS ROW'S OWN EVIDENCE LINES WENT STALE BECAUSE OF IT: 'the id has never existed on the trunk' was true when taken at 06:20Z and is not now. It is corrected in the row rather than deleted, because the measurement stands and only the id moved."
+}

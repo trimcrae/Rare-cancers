@@ -298,6 +298,14 @@ def test_json_mode_also_applies_the_exclusion(monkeypatch, tmp_path, capsys):
     monkeypatch.setattr(HF, "LEDGER", ledger_path)
     monkeypatch.setattr(HF, "STATE", tmp_path / "state.json")
     monkeypatch.setattr(HF, "terminal_ids", lambda *a, **k: frozenset({"AUT-STUCK"}))
+    # ⭐ AUT-PD-166 gave `main()` a second input: it compares the working ledger against
+    # `origin/main` and REFUSES to hand off over rows the trunk does not carry. This fixture's two
+    # synthetic rows are exactly that shape, so without a matching trunk the run now exits 3 and
+    # prints no JSON. Handing it the same content leaves the subject of this test — the
+    # `stalled_needs_human` exclusion reaching the `--json` branch — untouched.
+    trunk = json.loads(ledger_path.read_text())
+    monkeypatch.setattr(HF, "_committed", lambda rel: (trunk, None))
+    monkeypatch.setattr(HF, "unpushed_receipt_files", lambda: [])
     HF.main(["--json"])
     out = json.loads(capsys.readouterr().out)
     assert "AUT-NEXT" in out["title"], f"the excluded row was still picked as the focus: {out['title']}"

@@ -9559,6 +9559,55 @@
       "score_inputs": {
         "age_factor": 0.1429
       }
+    },
+    {
+      "id": "AUT-PD-166",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-29",
+      "filed_by": "CYC-0080-b272f286",
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "loop-internal handoff defect; nothing outward-facing",
+      "score": 134.0,
+      "_score_basis": "Filed beside AUT-PD-160 (134.9), which is the same failure family — a door that publishes or hands over state no gate saw — reached through a different tool. This one is ranked marginally below it only because AUT-PD-160's door reached `origin/main` while this one reaches the successor's prompt; the loss it caused is measured rather than hypothetical, which is why it is not lower.",
+      "depends_on_evidence": [
+        "the successor prompt that started CYC-0080 named `AUT-PD-165  score 134.0  [process_defect]` as the queue's top item",
+        "`git log -8 -- research/autonomy/research-ledger.json` then `git show <c>:… | grep -c AUT-PD-165` returns 0 for all eight commits: the id has never existed on the trunk",
+        "`ids.next_entry_id('AUT-PD', entries)` on committed state returns AUT-PD-165 — the id was minted in a working tree and never landed, and the id space had already reissued it",
+        "handoff.py:45 `LEDGER = HERE / 'research-ledger.json'`; build() line 263 `ledger, _ = _read(LEDGER)`; _read() line 175-179 is `path.read_text()` — a working-tree read on every path",
+        "handoff.py module docstring asserts the opposite: 'every fact here is read from a committed artifact at build time: the queue from research-ledger.json'",
+        "the emitted prompt asserts it too: '⭐ WHAT IS WAITING, read from the committed ledger when this prompt was built'",
+        "controlled reproduction: an AUT-PD-999 row written ONLY to a scratch copy of the ledger (never committed, never in the live tree) is named by the generated prompt at line 34 — cyc80-repro, scratchpad/cyc80/repro/",
+        "the same reproduction first returned 0 hits with no retry_budget, which located top_items' four-part takeable predicate (handoff.py:226-232) rather than a false negative",
+        "FIXED by CYC-0080-b272f286: handoff.py reads `origin/main:` for the ledger, the posture and the receipt list, and main() exits 3 over rows the trunk does not carry",
+        "the refusal fired on the live incident before its own fix was committed: `handoff.py --reason probe` → EXIT=3 naming AUT-PD-165 itself",
+        "research/autonomy/tests/test_a_handoff_never_hands_over_what_it_did_not_push.py: 17 passed",
+        "mutation-tested 8/8 caught, single-site, in an isolated copy — scratchpad/cyc80/cyc80-mutation.log",
+        "⛔ M6 (--json focus title falls back to disk) SURVIVED the first round: the fixture gave both rows equal scores, so a stable sort produced the right answer for the wrong reason. The fixture was the defect, not the code; fixed and re-run",
+        "test_stalls_are_named_reaches_the_board.py::test_json_mode_also_applies_the_exclusion needed a trunk fixture — its synthetic rows are exactly the divergence shape the new check refuses; its assertion is untouched",
+        "⛔ ID COLLISION, AND IT IS EVIDENCE FOR THIS ROW: while this cycle held AUT-PD-165 locally, origin/main 1684f79f9 landed a DIFFERENT defect under that id — the predecessor session returning to push the row its own handoff had named and not committed",
+        "so the loss was recovered by that session coming back, which is luck rather than a mechanism: had its container been reclaimed first (the ordinary reason a session hands off at all), the row would be gone",
+        "the same shape AUT-PD-160 records for itself — filed as AUT-PD-154, re-allocated twice — because `ids.next_entry_id` is collision-safe only while an allocation lands promptly"
+      ],
+      "closes_clause": null,
+      "what": "⛔⛔ THE HANDOFF PROMPT'S QUEUE IS READ FROM THE WORKING TREE WHILE BOTH THE MODULE AND THE PROMPT ASSERT IT IS READ FROM COMMITTED STATE, SO A LEDGER ROW FILED AND NOT PUSHED IS HANDED TO A SUCCESSOR THAT CANNOT SEE IT. Measured 2026-08-29 by CYC-0080 on its own inherited prompt, which named AUT-PD-165 at score 134.0 as the top takeable item; that id has never appeared in any committed copy of the ledger, and `ids.next_entry_id` re-issued it to this row. ⭐ THE ROW CAME BACK AND THAT DOES NOT SOFTEN THE FINDING — origin/main 1684f79f9, pushed forty minutes later by the same predecessor session returning, carries it (a claim.py working-tree defect, unrelated to this one). ⛔ RECOVERY BY THE AUTHOR COMING BACK IS LUCK, NOT A MECHANISM: a session hands off precisely because it is at its cap and its container is about to be reclaimed, so the ordinary case is that it does not return. The two rows then collided on the id and THIS one moved to AUT-PD-166, which is the third recorded instance of `ids.next_entry_id` colliding because an allocation did not land promptly (AUT-PROP-013, AUT-PD-160). ⛔ AND THE SECOND HALF IS WORSE THAN THE LOSS: handoff.py already warns the successor about this exact symptom — 'its re-score produced a ledger in which the queue's top item DID NOT EXIST' — and attributes it, in the prompt, to a stale checkout on a detached HEAD (CYC-0019). A successor that verifies its HEAD against origin/main, as this one did and as that paragraph instructs, clears the named cause and is left with a symptom the prompt says cannot happen. The warning is a misdiagnosis waiting to be believed. ⭐ THE FIX HAS TWO PARTS AND THE SECOND IS THE ONE THAT PREVENTS LOSS: (1) build the handed queue, posture and receipt list from `origin/main`, so the provenance sentence is true — and when git cannot be read, say in the prompt that the working tree was used and why, rather than claiming committed provenance anyway (CLAUDE.md §4: an absent reading is not a reading of absence); (2) REFUSE to emit a prompt when the working tree carries takeable ledger rows `origin/main` does not, because that is the outgoing session about to discard filed work — with an explicit escape that names the ids that will not survive, so a driver blocked from committing can still hand off but cannot do it silently. Reading committed state alone would have hidden this incident instead of preventing it.",
+      "_outcome": "⭐ CLOSED. Both halves shipped, and the second is the one that saves work: reading the trunk makes the provenance sentence true, refusing over unpushed rows is what stops the loss. ⛔ AND THE CLASS IS NOT CLOSED BY THIS FIX: every other tool that reads the ledger off disk and reports about the trunk has the same door. `priority.py --write`, `health.py` and `continuity.py` all read the working tree by design and are correct to — they describe the tree they are in. The defect is specific to a producer whose READER is a different container.",
+      "_correction": "⚠ ONE EVIDENCE LINE ABOVE WAS TRUE WHEN TAKEN AND IS NOW STALE, AND IT IS CORRECTED HERE RATHER THAN EDITED AWAY. `git show <c>:… | grep -c AUT-PD-165` returned 0 across all eight then-current commits at 06:20Z, which is what the reading says; origin/main 1684f79f9 at 06:25Z then filed that id. The measurement stands, the id is no longer free, and this row moved. ⛔ WHAT DOES NOT CHANGE IS THE FINDING: the prompt that started this cycle named a row no committed ledger carried at the moment it was read, which is exactly the defect — a successor is handed a queue its own clone cannot reproduce.",
+      "_the_id_this_row_does_not_carry": "⚠ AUT-PD-165 is a DIFFERENT defect and is on the trunk under that id — `claim.py:commit_ledger` staging the ledger as it stands, so a claim publishes uncommitted edits. This row was filed as AUT-PD-165 at 06:45Z from a trunk that did not carry it, and moved when 1684f79f9 landed. Anything citing 'AUT-PD-165' for the handoff defect predates that move."
     }
   ]
 }

@@ -38,6 +38,7 @@ from __future__ import annotations
 import argparse
 import json
 import pathlib
+import subprocess
 import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -179,6 +180,84 @@ def _read(path: pathlib.Path):
         return None, f"{type(exc).__name__}: {exc}"
 
 
+#: The ref a successor will actually be standing on. Not `HEAD`: the successor's first act is
+#: `checkout -B main origin/main`, so a commit this session made and did not push is as invisible to
+#: it as one never made. `claim.py` reached the same conclusion for the same reason — "the push is
+#: the arbiter" — and reads `origin/main:<path>` too.
+TRUNK = "origin/main"
+
+LEDGER_REL = "research/autonomy/research-ledger.json"
+STATE_REL = "research/autonomy/autonomy-state.json"
+RECEIPTS_REL = "research/autonomy/receipts"
+
+
+def _git(*args, check: bool = True) -> subprocess.CompletedProcess:
+    return subprocess.run(["git", "-C", str(REPO), *args],
+                          capture_output=True, text=True, check=check)
+
+
+def _committed(rel: str):
+    """`(parsed JSON at origin/main:<rel>, None)` or `(None, why it could not be read)`.
+
+    ⛔ NEVER FALLS BACK SILENTLY. A caller that cannot read the trunk gets `None` and a reason it
+    must carry into the prompt, because the failure this whole function exists to fix was a
+    working-tree read wearing a committed-state label (CLAUDE.md §4: an absent reading is not a
+    reading of absence).
+    """
+    try:
+        proc = _git("show", f"{TRUNK}:{rel}", check=False)
+        if proc.returncode != 0:
+            return None, (proc.stderr or proc.stdout or "").strip() or f"git show exited {proc.returncode}"
+        return json.loads(proc.stdout), None
+    except Exception as exc:                                  # noqa: BLE001
+        return None, f"{type(exc).__name__}: {exc}"
+
+
+def committed_receipts(n: int = RECENT_N) -> tuple[list[str], str | None]:
+    """The newest receipt FILENAMES the trunk carries, plus a reason if the trunk was unreadable."""
+    try:
+        proc = _git("ls-tree", "--name-only", f"{TRUNK}:{RECEIPTS_REL}", check=False)
+        if proc.returncode != 0:
+            return [], (proc.stderr or "").strip() or f"git ls-tree exited {proc.returncode}"
+        names = sorted(x for x in proc.stdout.split() if x.endswith(".json"))
+        return names[-n:], None
+    except Exception as exc:                                  # noqa: BLE001
+        return [], f"{type(exc).__name__}: {exc}"
+
+
+def unpushed_rows(working: dict | None, trunk: dict | None) -> list[str]:
+    """Ledger ids the WORKING TREE holds that `origin/main` does not — filed work about to be lost.
+
+    ⛔⛔ THIS IS THE HALF THAT PREVENTS THE LOSS, AND READING COMMITTED STATE ALONE WOULD HIDE IT
+    (AUT-PD-166, measured 2026-08-29). Building the queue from the trunk makes the prompt's
+    provenance sentence TRUE; it does nothing whatever for the row that never reached the trunk —
+    that row simply stops being mentioned, and a silent omission is a worse failure than a phantom
+    pointer because nothing is left to notice.
+
+    ⚠ IDS ONLY, DELIBERATELY, AND THE NARROWNESS IS THE POINT. A row whose CONTENT differs between
+    the two is usually `priority.py --write` having re-scored a derived field, which regenerates on
+    the successor's own step 3; a row whose ID is absent cannot regenerate from anything. Widening
+    this to content drift would fire on almost every handoff and be ignored within a week, which is
+    how a guard becomes ceremony.
+    """
+    if not isinstance(working, dict) or not isinstance(trunk, dict):
+        return []
+    have = {e.get("id") for e in (trunk.get("entries") or [])}
+    return [e.get("id") for e in (working.get("entries") or [])
+            if e.get("id") and e.get("id") not in have]
+
+
+def unpushed_receipt_files() -> list[str]:
+    """Receipt filenames on disk that `origin/main` does not carry. Same class as `unpushed_rows`."""
+    committed, err = committed_receipts(n=10 ** 6)
+    if err:
+        return []
+    try:
+        return sorted(p.name for p in RECEIPTS.glob("*.json") if p.name not in set(committed))
+    except Exception:                                         # noqa: BLE001
+        return []
+
+
 def terminal_ids(repo: str | None = None, path: str | None = None) -> frozenset[str]:
     """Ids `stuck_clock.py` currently reports `stalled_needs_human`, or an empty set on ANY failure.
 
@@ -251,18 +330,52 @@ def handed_to_trimcrae(ledger=None) -> list[dict]:
 
 
 def recent_receipts(n: int = RECENT_N) -> list[str]:
+    """The newest receipts the SUCCESSOR will find, which is what `origin/main` carries.
+
+    ⛔ SAME DEFECT AS THE QUEUE'S, ONE FILE OVER (AUT-PD-166). A receipt written and not pushed is
+    named here and absent from the successor's clone, and the successor is instructed to READ these
+    rather than ask what happened — so it spends its first act on a missing file. Falls back to the
+    working tree only when the trunk cannot be read at all, which `build` reports in the prompt.
+    """
+    committed, err = committed_receipts(n)
+    if not err:
+        return committed
     try:
         return sorted(p.name for p in RECEIPTS.glob("*.json"))[-n:]
     except Exception:                                          # noqa: BLE001
         return []
 
 
-def build(reason: str = "", ledger=None, state=None) -> str:
-    """The successor's prompt. Standalone: a fresh session knows nothing about this one."""
+def build(reason: str = "", ledger=None, state=None, lost=None) -> str:
+    """The successor's prompt. Standalone: a fresh session knows nothing about this one.
+
+    ⛔⛔ EVERY FACT HERE IS READ FROM `origin/main`, NOT FROM THE WORKING TREE, AND THAT SENTENCE
+    USED TO BE FALSE (AUT-PD-166, measured 2026-08-29). The module docstring above promised
+    committed provenance; `build` read `LEDGER` off disk. CYC-0079 filed a row, built its handoff
+    before pushing it, and handed CYC-0080 a queue whose TOP ITEM had never existed on the trunk —
+    under a heading reading "read from the committed ledger when this prompt was built".
+
+    ⚠ AND THE SUCCESSOR HAD BEEN TOLD THAT SYMPTOM MEANT SOMETHING ELSE. The stale-checkout
+    paragraph below describes exactly this symptom and attributes it to a detached HEAD; a
+    successor that verifies its HEAD against `origin/main`, as that paragraph instructs, clears the
+    named cause and is left holding a symptom the prompt says cannot happen. A warning that names
+    one of two causes is a misdiagnosis waiting to be believed, so it now names both.
+
+    ⭐ `lost` is the ids `origin/main` does not carry. Passing it does NOT make the handoff honest —
+    `main()` refuses outright unless the caller asked for the escape — it makes a deliberate loss
+    legible to the session that inherits it.
+    """
+    provenance = f"read from `{TRUNK}` when this prompt was built"
     if ledger is None:
-        ledger, _ = _read(LEDGER)
+        ledger, why = _committed(LEDGER_REL)
+        if ledger is None:
+            ledger, _ = _read(LEDGER)
+            provenance = (f"⚠ read from the BUILDER'S WORKING TREE, not from `{TRUNK}` — the trunk "
+                          f"could not be read ({why}). Trust it less than usual and re-score first")
     if state is None:
-        state, _ = _read(STATE)
+        state, why = _committed(STATE_REL)
+        if state is None:
+            state, _ = _read(STATE)
 
     excluded = terminal_ids()
     items = top_items(ledger, exclude_ids=excluded)
@@ -282,6 +395,13 @@ def build(reason: str = "", ledger=None, state=None) -> str:
                   f"reserved for trimcrae by CLAUDE.md §3, so no cycle may take one. ⭐ You may still "
                   f"PREPARE everything one needs and escalate it — `research-loop` §5 — but do not "
                   f"claim it as queued work.")
+
+    if lost:
+        queue += (f"\n  ⛔⛔ NOT HANDED OVER AND ALREADY LOST — the builder held {len(lost)} ledger "
+                  f"row(s) `{TRUNK}` does not carry, and emitted this prompt anyway: "
+                  f"{', '.join(sorted(str(i) for i in lost))}. Their content died with that "
+                  f"session's container. ⭐ Do not try to reconstruct them from this line; file what "
+                  f"you can re-derive yourself, and treat the ids as free.")
 
     interval = (state or {}).get("cycle_interval_hours", "?")
     backoff = (state or {}).get("backoff_level", "?")
@@ -320,11 +440,21 @@ DID NOT EXIST, and the eight most recent receipts were absent from disk. It was 
 grepping for an item this prompt had named and finding nothing. `checkout -B main origin/main`
 above is unconditional and cannot fail that way.
 
+⛔⛔ AND A STALE CHECKOUT IS ONLY ONE OF THE TWO CAUSES OF THAT SYMPTOM — DO NOT STOP WHEN YOU HAVE
+CLEARED IT. Measured 2026-08-29 (AUT-PD-166): CYC-0080 verified its HEAD against `origin/main`,
+found them equal, and STILL held a prompt whose top item did not exist, because this generator read
+its queue from the builder's working tree while claiming committed provenance. It is fixed here and
+the queue above now comes from `{TRUNK}`. ⭐ If you ever again find a named item missing on a HEAD
+you have verified, the remedy is NOT to re-check the checkout: run
+`git log -8 -- research/autonomy/research-ledger.json` and grep each commit for the id, and if it
+has never existed, that is a row somebody filed and did not push — say so rather than reasoning
+about your own tree.
+
 Then load the cycle contract and follow it — do not work from this prompt alone:
 
     the `research-loop` skill, or if you have no Skill tool:  cat .claude/skills/research-loop/SKILL.md
 
-⭐ WHAT IS WAITING, read from the committed ledger when this prompt was built. RE-SCORE IT YOURSELF
+⭐ WHAT IS WAITING, {provenance}. RE-SCORE IT YOURSELF
 (`python3 research/autonomy/priority.py --write`) rather than trusting this list — it is a pointer,
 not a plan:
 
@@ -379,11 +509,37 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--reason", default="", help="why the handoff is happening")
     ap.add_argument("--json", action="store_true", help="emit {title, prompt} for create_session")
+    ap.add_argument("--allow-divergence", action="store_true",
+                    help="emit the prompt even though filed ledger rows will not survive the handoff, "
+                         "naming them in it. For a builder that genuinely cannot commit — not a way "
+                         "past the check.")
     a = ap.parse_args(argv)
 
-    prompt = build(a.reason)
+    # ⛔⛔ THE REFUSAL, AND IT IS THE POINT OF THIS MODULE'S 2026-08-29 REPAIR (AUT-PD-166). Reading
+    # the trunk makes the prompt HONEST; only refusing to build one over unpushed rows makes the
+    # work SURVIVE. A handoff is the last act of a session whose container is about to be reclaimed,
+    # so this is the final moment anything filed in it can still be saved, and the remedy is one
+    # commit. ⚠ It fails OPEN when the trunk is unreadable — `unpushed_rows` returns [] on a None
+    # trunk — because a builder that cannot reach git must still be able to hand off; `build` then
+    # says so in the prompt rather than claiming committed provenance.
+    working, _ = _read(LEDGER)
+    trunk, _ = _committed(LEDGER_REL)
+    lost = unpushed_rows(working, trunk)
+    lost_receipts = unpushed_receipt_files()
+    if (lost or lost_receipts) and not a.allow_divergence:
+        print("REFUSED: this handoff would discard work the successor can never see.", file=sys.stderr)
+        for i in sorted(lost):
+            print(f"  ledger row filed in the working tree, absent from {TRUNK}: {i}", file=sys.stderr)
+        for f in lost_receipts:
+            print(f"  receipt on disk, absent from {TRUNK}: {f}", file=sys.stderr)
+        print(f"REMEDY: commit and push them, then build the handoff again. The successor clones "
+              f"{TRUNK}; anything not there died with this container. To hand off anyway and record "
+              f"the loss in the prompt, re-run with --allow-divergence.", file=sys.stderr)
+        return 3
+
+    prompt = build(a.reason, lost=lost)
     if a.json:
-        ledger, _ = _read(LEDGER)
+        ledger = trunk if trunk is not None else working
         top = top_items(ledger, 1, exclude_ids=terminal_ids())
         focus = top[0]["id"] if top else "queue empty"
         title = f"EMC research loop — cycle ({focus})"
