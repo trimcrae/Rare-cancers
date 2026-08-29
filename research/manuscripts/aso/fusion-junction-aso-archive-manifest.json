@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22061075",
-  "git_revision": "656ff2a29992d3e97f0675b774e2e16278d1e253",
+  "git_revision": "0f111f26504e6ea01df9781d92ee467321d6109b",
   "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "b8ec76b5d1e0d2634302679043c60eb383993c33f4fd29d181a09416e7afe872",
+  "archive_content_digest": "d2be81bd55ab2c53b89cc8999cfd0f530329c643f65644bcfbd043af7d221084",
   "n_files": 483,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,7 +24,7 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 43248113,
+  "total_bytes": 43248550,
   "total_mib": 41.245,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
@@ -63,7 +63,7 @@
       },
       ".sh": {
         "n_files": 1,
-        "bytes": 25280
+        "bytes": 25717
       }
     },
     "_readme_for_the_container": "Give the zip a plain-text README carrying the deposit title, the author, the statement that the manuscript is a preprint, and the archive DOI once reserved — the same four facts step 4 puts in the deposition record. Compose it from `_what_this_is` and `how_to_reproduce_offline` above rather than typing it: those are derived and this would not be."
@@ -4923,8 +4923,8 @@
     },
     {
       "path": "scripts/regenerate_aso_chain.sh",
-      "bytes": 25280,
-      "sha256": "7df516688f020343a53b22e64ce0c0e4b21392c77ca2259508b2ac91ea1d2126",
+      "bytes": 25717,
+      "sha256": "83bd613b73f9952f7846eacd3f7160df46f46420d33b9204f7f822b92a629717",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
