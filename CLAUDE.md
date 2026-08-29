@@ -156,18 +156,32 @@ free work, curation you can verify, ordering self-doable work, or cheap authoriz
 **This does not pause self-doable no-spend work**: produce the block only when the step is imminent, and keep
 building meanwhile.
 
-- **⭑ AMENDED 2026-08-26 FOR aiXiv ONLY — THE RULE BELOW IS OTHERWISE UNCHANGED AND STILL BINDS.**
-  trimcrae granted a **standing, bar-scoped** authority to post to **aiXiv** without naming the
-  paper: *"Broad: any paper meeting the bar"*. The bar is every clause in `CLAUSES` in
-  [`publish_bar.py`](./research/autonomy/publish_bar.py) — **read the count from the code, never from
-  a sentence** (it said "six" here for a day after a seventh clause landed) — each computed from a
-  committed artifact and
-  each failing closed; the grant, its edges and the backdrop it was given against live in
-  [`publication-authority.json`](./research/autonomy/publication-authority.json); the reasoning is
-  [the autonomy architecture](./research/manuscripts/program/emc-autonomy-architecture.md) §6.3.
-  ⛔ **The amendment reaches aiXiv and NOTHING else.** A journal submission, a Zenodo publication, a
-  release, a DOI and any outreach still require that he named THAT paper for THAT act. **And a bar
-  clause may never be loosened by the cycle it just blocked** — `amendment_guard.py` refuses that.
+- **⭑ aiXiv PREPRINTS ARE NOT GATED ON TRIMCRAE, AND NEVER HAVE BEEN. THE RULE BELOW IS ABOUT
+  EVERY OTHER VENUE.** (trimcrae, 2026-08-29, correcting how this section read: *"aixiv preprint
+  submissions are not blocked by me and never have been. That's an issue with your rules if you
+  think otherwise and it needs changing. The EMC ASO paper is the only exception to this."*)
+  ⚠ **Nothing about the authority changed here — only this file's framing of it, which was
+  wrong.** The grant has been `standing_grant: true` in
+  [`publication-authority.json`](./research/autonomy/publication-authority.json) since 2026-08-26
+  (*"Broad: any paper meeting the bar"*), and `publish_bar.py::authority_permits` has enforced it
+  and its edges throughout. This bullet previously called that an *"amendment ... for aiXiv ONLY"*
+  to a naming requirement, which reads as *"aiXiv is a carve-out from a gate"* — so a session doing
+  the honest thing and reading the strict rule first concluded it needed him. It did not. **The
+  code was right; the prose sent the reader the other way.**
+  ★ **What actually gates an aiXiv post:** every clause in `CLAUSES` in
+  [`publish_bar.py`](./research/autonomy/publish_bar.py) — **read the count from the code, never
+  from a sentence** (it said "six" here for a day after a seventh clause landed) — each computed
+  from a committed artifact and each failing closed. A bar, not a person.
+  ⛔ **THE ONE EXCEPTION IS `PUB-ASO`, AND IT IS ALREADY ENFORCED RATHER THAN MERELY WRITTEN.**
+  trimcrae, 2026-08-27: *"That's the only paper that shouldn't auto ship to aiXiv."* It lives on
+  Qeios with a DOI and a version history he controls; a second public home posted by the loop would
+  fragment one work under his ORCID. It sits in `scope.excluded_papers` and is checked in
+  `authority_permits`, which every outward path goes through — *"RECORDED IS NOT ENFORCED"*, and
+  this repository has already paid for that gap once with `subagent_width`.
+  ⛔ **The grant reaches aiXiv and NOTHING else.** A journal submission, a Zenodo publication, a
+  release, a DOI and any outreach still require that he named THAT paper for THAT act — that is
+  what the rule below is for.
+
 - **⛔⛔ PUBLISH ONLY THE PAPER TRIMCRAE NAMED, AS THE PAPER IT IS. PER PAPER, PER ACT**
   (trimcrae, 2026-08-23, after both halves were broken in one session). Submitting, posting a new
   version, or otherwise putting a manuscript in public under his name and ORCID requires that **he
@@ -195,6 +209,19 @@ changes yourself, then proceed.
 **📱 Notify in the SAME TURN** (trimcrae routes these elsewhere and is often away): **always**
 `PushNotification` (`status: proactive`, one line <200 chars, no markdown), **and** unless there is nothing to
 decide, `AskUserQuestion`. Block stays in the message text. Skip only if trimcrae is chatting right now.
+⛔⛔ **AND NAMING A DECISION IN A REPLY IS NOT SENDING IT** (trimcrae, 2026-08-29: *"If you need my
+attention for a decision that you are truly incapable of making yourself, it needs to be a real
+notification and not in an unmonitored session."*). ⚠ *That day a session named `AUT-044` as his in
+three consecutive replies and never fired a notification once — while this rule sat here, correct
+and measured by nothing.* A census the same hour found **fourteen** `requires_trimcrae` rows that
+had never been sent, the top one (**174.0**) outranking every item the loop's own workers were
+taking, and one — `AUT-PROP-041` — on a **clock that expires 2026-10-16** with nothing going red
+when it passes.
+★ **Enforced by [`escalation-debt-at-turn-end.sh`](.claude/hooks/escalation-debt-at-turn-end.sh),
+a `Stop` hook.** Each `requires_trimcrae` row must carry **`notified_utc`** — a falsifiable record
+of an outbound act, not an intention — and the hook fires on any row that has none, or that is
+still open a week after its last notice. ⛔ **Stamping a row you did not send is a false record,
+not a workaround** — the same status as a fabricated receipt.
 
 ## 4 · Evidence discipline
 
