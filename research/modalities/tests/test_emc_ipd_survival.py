@@ -219,26 +219,29 @@ def test_a_reading_that_fails_its_external_check_is_not_loaded(tmp_path, monkeyp
     assert mod.load_digitized_curves() == []
 
 
-def test_check_refuses_a_perturbed_artifact_and_writes_nothing(tmp_path):
+def test_check_refuses_a_perturbed_artifact_and_writes_nothing(tmp_path, monkeypatch):
+    # ⛔ ISOLATED 2026-08-29 (AUT-PD-187). This mutated the LIVE tracked artifact and restored it in
+    # a `finally` — safe only while nothing else reads it, and this suite runs under xdist. See
+    # research/manuscripts/tests/tracked_tree_guard.py for what that cost. The producer's OUT is
+    # redirected at a private copy, so what is under test is unchanged and the tree is never written.
     assert os.path.exists(mod.OUT), "run `python3 research/modalities/emc_ipd_survival.py` first"
-    backup = tmp_path / "artifact.json"
-    shutil.copy(mod.OUT, backup)
-    try:
-        with open(mod.OUT, encoding="utf-8") as fh:
-            payload = json.load(fh)
-        payload["curves_supplied"] = 99  # the kind of hand edit the banner forbids
-        with open(mod.OUT, "w", encoding="utf-8") as fh:
-            json.dump(payload, fh, indent=2, ensure_ascii=False)
-            fh.write("\n")
-        mtime_before = os.path.getmtime(mod.OUT)
+    copy = tmp_path / os.path.basename(mod.OUT)
+    shutil.copyfile(mod.OUT, copy)
+    monkeypatch.setattr(mod, "OUT", str(copy))
 
-        assert mod.main(["--check"]) == 1, "--check accepted a hand-edited artifact"
+    with open(mod.OUT, encoding="utf-8") as fh:
+        payload = json.load(fh)
+    payload["curves_supplied"] = 99  # the kind of hand edit the banner forbids
+    with open(mod.OUT, "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+    mtime_before = os.path.getmtime(mod.OUT)
 
-        with open(mod.OUT, encoding="utf-8") as fh:
-            assert json.load(fh)["curves_supplied"] == 99, "--check rewrote the artifact"
-        assert os.path.getmtime(mod.OUT) == mtime_before
-    finally:
-        shutil.copy(backup, mod.OUT)
+    assert mod.main(["--check"]) == 1, "--check accepted a hand-edited artifact"
+
+    with open(mod.OUT, encoding="utf-8") as fh:
+        assert json.load(fh)["curves_supplied"] == 99, "--check rewrote the artifact"
+    assert os.path.getmtime(mod.OUT) == mtime_before
 
 
 def test_check_passes_on_the_committed_artifact():

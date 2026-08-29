@@ -186,25 +186,28 @@ def test_the_floor_quote_assertion_can_actually_fire(monkeypatch):
 # the artifact guard, exercised against the real file and the real entry point
 # ---------------------------------------------------------------------------
 @pytest.mark.committed_artifact
-def test_check_refuses_a_perturbed_artifact_and_writes_nothing(tmp_path):
+def test_check_refuses_a_perturbed_artifact_and_writes_nothing(tmp_path, monkeypatch):
+    # ⛔ ISOLATED 2026-08-29 (AUT-PD-187). This mutated the LIVE tracked artifact and restored it in
+    # a `finally` — safe only while nothing else reads it, and this suite runs under xdist. See
+    # research/manuscripts/tests/tracked_tree_guard.py for what that cost. The producer's OUT is
+    # redirected at a private copy, so what is under test is unchanged and the tree is never written.
     if not os.path.exists(kd.OUT):
         pytest.skip("artifact not built in this checkout")
-    backup = str(tmp_path / "backup.json")
-    shutil.copy(kd.OUT, backup)
-    try:
-        with open(kd.OUT, encoding="utf-8") as fh:
-            doc = json.load(fh)
-        doc["control"]["summary"]["worst_max_abs_curve_error"] = 999.0
-        with open(kd.OUT, "w", encoding="utf-8") as fh:
-            json.dump(doc, fh)
-        before = os.path.getmtime(kd.OUT)
-        assert kd.main(["--check"]) == 1
-        with open(kd.OUT, encoding="utf-8") as fh:
-            after_doc = json.load(fh)
-        assert after_doc["control"]["summary"]["worst_max_abs_curve_error"] == 999.0
-        assert os.path.getmtime(kd.OUT) == before
-    finally:
-        shutil.copy(backup, kd.OUT)
+    copy = tmp_path / os.path.basename(kd.OUT)
+    shutil.copyfile(kd.OUT, copy)
+    monkeypatch.setattr(kd, "OUT", str(copy))
+
+    with open(kd.OUT, encoding="utf-8") as fh:
+        doc = json.load(fh)
+    doc["control"]["summary"]["worst_max_abs_curve_error"] = 999.0
+    with open(kd.OUT, "w", encoding="utf-8") as fh:
+        json.dump(doc, fh)
+    before = os.path.getmtime(kd.OUT)
+    assert kd.main(["--check"]) == 1
+    with open(kd.OUT, encoding="utf-8") as fh:
+        after_doc = json.load(fh)
+    assert after_doc["control"]["summary"]["worst_max_abs_curve_error"] == 999.0
+    assert os.path.getmtime(kd.OUT) == before
 
 
 def test_module_imports_cleanly_twice():

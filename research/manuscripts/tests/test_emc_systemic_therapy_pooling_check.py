@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -34,16 +35,43 @@ sys.path.insert(0, MANUSCRIPTS)
 
 import emc_systemic_therapy_pooling as P  # noqa: E402
 
-ARTIFACT = P.OUT
+import pytest
+
+#: ⛔⛔ THE PERTURBATIONS BELOW RUN ON A COPY, NEVER ON THE COMMITTED ARTIFACT.
+#:
+#: ⚠ MEASURED 2026-08-29, on the sibling `test_endpoint_producers_check.py`, which had this exact
+#: shape: mutate the LIVE tracked artifact, restore it in a `finally`. That is safe only while
+#: nothing else reads the file, and the manuscripts suite runs under `xdist`. Reproduced 3 of 3
+#: runs at `-n 3`: another worker read the artifact mid-window and raised `KeyError` on the section
+#: a tamper test had just deleted, and a module-scoped fixture reading the same file took its WHOLE
+#: module down as a collection ERROR. The parametrized cases also raced each other, so a restore
+#: can lose — and one reproduction left `"conditions_placed": 45` against the committed 44 in the
+#: working tree, a value invented by a tamper test, with the suite reporting only a flake. A
+#: `git add -A` on top of that commits a falsified number.
+#:
+#: ★ `_artifact` copies the committed file to `tmp_path` and points the producer's `OUT` at the
+#: copy. Every producer's `--check` reads `OUT` and nothing else, so what is under test does not
+#: change; what changes is that the live tree is never written to, and no restore has to win a race.
+#: The redirection is self-verifying: `--check` on an unmutated artifact returns 0, and every
+#: assertion below demands non-zero.
+
+
+@pytest.fixture(autouse=True)
+def _artifact(tmp_path, monkeypatch):
+    """Redirect the producer's OUT at a private copy for the duration of each test."""
+    copy = tmp_path / os.path.basename(P.OUT)
+    shutil.copyfile(P.OUT, copy)
+    monkeypatch.setattr(P, "OUT", str(copy))
+    return str(copy)
 
 
 def _original_bytes():
-    with open(ARTIFACT, "rb") as fh:
+    with open(P.OUT, "rb") as fh:
         return fh.read()
 
 
 def _write(doc):
-    with open(ARTIFACT, "w", encoding="utf-8") as fh:
+    with open(P.OUT, "w", encoding="utf-8") as fh:
         json.dump(doc, fh, indent=1, ensure_ascii=True)
         fh.write("\n")
 
@@ -60,7 +88,7 @@ def _perturb_and_assert_refusal(mutate, what):
             "--check returned %r after %s was perturbed. A verify mode that accepts a drifted "
             "clinical artifact is the defect it was written to remove." % (rc, what))
     finally:
-        with open(ARTIFACT, "wb") as fh:
+        with open(P.OUT, "wb") as fh:
             fh.write(original)
     assert _original_bytes() == original, "the artifact was not restored byte-for-byte"
 
@@ -130,7 +158,7 @@ def test_check_does_not_write_the_artifact():
             "--check MODIFIED the artifact. A verify mode that regenerates its own reference "
             "compares the generator against itself and can never fail.")
     finally:
-        with open(ARTIFACT, "wb") as fh:
+        with open(P.OUT, "wb") as fh:
             fh.write(original)
 
 
@@ -138,11 +166,11 @@ def test_check_reports_a_missing_artifact_rather_than_creating_one():
     """An absent artifact is a failure, never a silent regeneration."""
     original = _original_bytes()
     try:
-        os.remove(ARTIFACT)
+        os.remove(P.OUT)
         assert P.main(["--check"]) != 0
-        assert not os.path.exists(ARTIFACT), "--check created the artifact it was asked to verify"
+        assert not os.path.exists(P.OUT), "--check created the artifact it was asked to verify"
     finally:
-        with open(ARTIFACT, "wb") as fh:
+        with open(P.OUT, "wb") as fh:
             fh.write(original)
 
 
