@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# ⛔⛔ THE LAST MOMENT ANYTHING IS STILL LOCAL (AUT-PD-144).
+#
+# On 2026-08-28 a session rebased at push time and put a duplicate ledger id on `main`. The ledger's
+# rows are separate array elements, so the rebase produced no conflict and no marker; `priority.py`
+# then REFUSED the duplicated ledger, and step 3 of the cycle contract crashed for every session
+# until the row was renamed by hand. The guard that would have caught it existed and was correct —
+# it simply was not run at the moment that mattered, because an integration performed at push time
+# creates a THIRD tree that nothing ever gates.
+#
+# ★ WHY A GIT HOOK AND NOT A HARNESS HOOK. git hands this the EXACT refs and shas being pushed on
+# stdin, from any working directory and any worktree, with no refspec to guess at. A PreToolUse hook
+# would have to parse `git push`'s command line and would be blind to a push issued any other way.
+#
+# ⚠ ENABLED BY `core.hooksPath scripts/git-hooks`, which `scripts/dev-setup.sh` sets on every
+# SessionStart. A worktree checked out from a commit before this file existed simply has no hook and
+# pushes as before — a fail-open, and it is named here so nobody reads a silent pass as a check.
+#
+# Reads the pre-push protocol on stdin: <local ref> <local sha> <remote ref> <remote sha>.
+# Exit 1 refuses the push. `git push --no-verify` bypasses it, which is a deliberate act.
+exec python3 "$(git rev-parse --show-toplevel)/research/autonomy/push_guard.py" \
+     --repo "$(git rev-parse --show-toplevel)"
