@@ -45,6 +45,26 @@ sys.path.insert(0, os.path.dirname(HERE))
 
 import handoff as HF  # noqa: E402
 
+import pytest  # noqa: E402
+
+
+@pytest.fixture(autouse=True)
+def _cadence_is_not_this_suites_subject(monkeypatch):
+    """⛔ HERMETICITY, ADDED 2026-08-29 WITH THE CADENCE GATE. `handoff.main` now ALSO refuses when a
+    handoff would breach the cadence — a handoff CREATES A SESSION, and CYC-0088 spent $5.39 proving
+    that a successor spawned minutes after its parent is a cadence event nobody was checking.
+
+    That refusal reads the LIVE `autonomy-state.json`. Without this fixture every test below would
+    grade the DIVERGENCE guard against whatever the budget governor currently says — the same defect
+    the stuck-clock suite carried the same day, where four assertions got weaker every time a config
+    file moved. This suite's subject is the divergence refusal alone.
+
+    ⛔ THE CADENCE HALF IS NOT LEFT UNTESTED BY THIS: `test_a_handoff_is_a_cadence_event.py` owns it
+    and is deliberately NOT neutralised there.
+    """
+    monkeypatch.setattr(HF, "cadence_verdict", lambda: (0, "cadence not under test in this suite", {}))
+
+
 
 def _row(rid, score=100.0, **kw):
     r = {"id": rid, "kind": "process_defect", "state": "queued", "owner": None,
