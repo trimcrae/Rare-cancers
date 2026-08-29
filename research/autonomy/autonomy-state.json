@@ -3,15 +3,15 @@
   "_role": "The autonomy loop's POSTURE — the only thing a cycle reads before deciding whether to start (architecture §4.2 step 1). Written by the budget governor, read by research/autonomy/health.py. It is state, not a plan: what the loop is currently doing, never what it should do.",
   "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#92--the-target--trimcraes-about-80-of-the-max-budget-d3",
   "_why_this_lives_in_git": "§9 property 2: state lives in git, never in context. A killed session loses nothing but its turn — the next fired cycle re-reads this file and the ledger and continues. There is no resume protocol because there is no in-context state worth resuming.",
-  "backoff_level": 0,
+  "backoff_level": 2,
   "_backoff_level_means": "0 = full cadence and width. Raised by a cycle that ended without a receipt, lowered by a clean one (§9 property 3). Two dials hang off it: cycle interval (4 h -> 8 h -> 24 h) and subagent width (5 -> 2 -> 1). At level >= 2 the cycle takes only `fetch` and `regrade` items, which are dispatch-and-exit and consume no Claude budget — the loop keeps making progress on a spent budget instead of stopping.",
-  "backoff_since_utc": null,
+  "backoff_since_utc": "2026-08-29T11:51:07Z",
   "_backoff_since_utc_means": "The stamp the governor writes IN THE SAME WRITE that raises `backoff_level`. Null while the level is 0. It exists because §5.2's `budget_recovering` is entirely a DURATION ('backoff > 0 for > 24 h'), and a level with no start time cannot be graded — health.py reports that case as `unmeasured`, never as ok.",
-  "cycle_interval_hours": 4,
-  "subagent_width": 5,
+  "cycle_interval_hours": 24,
+  "subagent_width": 1,
   "_subagent_width_means": "⛔ THE UNIT IS MAXIMUM CONCURRENT SUBAGENTS, AND IT HAD NEVER BEEN STATED — which is why the cap was unenforceable rather than merely unenforced. Architecture §9 calls it 'parallel width' and the cycle contract says 'launch them in ONE message so they run concurrently', so CONCURRENT is the reading both texts support and it is now written down. The 107-agent incident (40 completed, 67 errored, synthesis lost) was one fan-out launched together, i.e. a concurrent width of 107 against this cap of 5. ⛔ WIDTH MOVES LAST AND MOVES DOWN FASTER THAN IT MOVES UP: 5 -> 2 -> 1 by backoff_level, because the architecture records it as the dial that failed catastrophically. ⚠ WHAT THIS DIAL DOES NOT GOVERN, SAID PLAINLY RATHER THAN LEFT TO BE DISCOVERED: the TOTAL number of subagents a cycle may spend serially. A cycle running 5, waiting, then 5 more, twenty times over, never exceeds this cap and can still exhaust a weekly budget. That total is UNGOVERNED and no number is invented for it here — inventing one would be a remembered figure standing in for a measurement (CLAUDE.md §4). The measurement that would settle it is `utilisation_denominator`, which is null until a window flip is OBSERVED.",
   "items_per_cycle": 1,
-  "max_cycles_per_session": 2,
+  "max_cycles_per_session": 1,
   "_max_cycles_per_session_means": "⛔ THE SESSION-SHAPE CAP, ADDED 2026-08-26 AFTER THE RULE FAILED IN THE WILD. The skill's §3 says a full hardening cycle is a SPAWNED SESSION, not more work in the current one, because context is the resource that silently runs out. Measured that day: one interactive session ran CYC-0005 and CYC-0006 end to end, compacted 23 times and reached a 7.6 MB transcript, and the rule never fired because it lives in a skill that was never loaded (\"name\":\"Skill\" appears 0 times in that session). 2 is a CAP, not a target: one cycle per session is the intended shape and the second is slack for a cycle that turns out to have a small follow-on. The third is the signal that the driver should have spawned. ⚠ It bounds CYCLES, which is a proxy for context and not context itself — a single enormous cycle passes it. The proxy is used because receipts already carry `session_id` and nothing in this repository can read a context window, and an imperfect measurement that fires beats a perfect one that does not exist.",
   "_start_point_means": "§9.2's start point, and it is DELIBERATELY BELOW TARGET: the controller's first job is to measure the ceiling by approaching it, not to find it by hitting it. Dials move in this order of preference — cycle frequency first (it is smooth), then items per cycle, and only then subagent width. Width moves last and moves down faster than it moves up: the 107-agent fan-out that hit the weekly cap (40 completed, 67 errored, synthesis lost) was a WIDTH failure, not a depth one.",
   "utilisation_target": 0.8,
@@ -21,5 +21,50 @@
   "last_cycle_id": null,
   "last_limit_flip": null,
   "_last_limit_flip_means": "The last observed flip of `rate_limit_info.status` away from `allowed`: {utc, rate_limit_type, resets_at_utc, is_using_overage, observed_consumption}. It is the calibration event for `utilisation_denominator` above. Null = never observed, which is why the denominator is still UNKNOWN.",
-  "_isUsingOverage_is_not_headroom": "Overage means the work has crossed from the flat-rate subscription into METERED DOLLARS, and CLAUDE.md §5's 'engineering effort is free' stops being true at that moment. A cycle that observes it treats it as a spend event under §7 trigger 2 — it is watched, never celebrated."
+  "_isUsingOverage_is_not_headroom": "Overage means the work has crossed from the flat-rate subscription into METERED DOLLARS, and CLAUDE.md §5's 'engineering effort is free' stops being true at that moment. A cycle that observes it treats it as a spend event under §7 trigger 2 — it is watched, never celebrated.",
+  "last_utilisation_report": {
+    "_means": "⭐⭐ THE FIRST UTILISATION READING THIS LOOP HAS EVER HAD, AND IT DID NOT COME FROM AN INSTRUMENT. trimcrae reported it in conversation on 2026-08-29: 71% of the weekly Max-plan budget spent 3 days into a 7-day window. ⛔ IT IS A HUMAN READOUT, NOT A LOOP MEASUREMENT — recorded as such because architecture §9.2 forbids inventing the denominator and this does NOT supply one. `rate_limit_info` returns a five-hour VERDICT; the weekly window it says nothing about is the one that was nearly spent. That gap is the mechanism (§9.1a).",
+    "observed_utc": "2026-08-29T11:51:07Z",
+    "source": "trimcrae, conversationally — his /usage readout, not read by any code here",
+    "reported_fraction_of_weekly_budget": 0.71,
+    "days_into_window": 3.0,
+    "window_days": 7.0,
+    "_window_anchor_is_unknown": "⚠ HE SAID 'THREE DAYS IN', NOT WHICH DAY THE WINDOW OPENS, so `days_left_in_window` is his figure carried forward and NOT an observed boundary. The hold below therefore expires into a REVIEW rather than into full cadence: a timer may not lift a budget hold, only a fresh reading may (CLAUDE.md §4 — an absent reading is not a reading of absence).",
+    "derived": {
+      "_note": "DERIVED AT WRITE TIME FROM THE FIELDS ABOVE — never hand-typed, never restated elsewhere (CLAUDE.md §1.1). Anything that needs one of these numbers cites this block.",
+      "burn_per_day": 0.2367,
+      "on_pace_fraction_at_observation": 0.3429,
+      "over_pace_multiple": 2.07,
+      "headroom_left_to_target": 0.09,
+      "days_left_in_window": 4.0,
+      "sustainable_burn_per_day": 0.0225,
+      "required_reduction_multiple": 10.5,
+      "days_to_exhaustion_at_observed_burn": 4.23
+    }
+  },
+  "budget_hold": {
+    "_means": "⛔⛔ A BUDGET HOLD IS NOT A BACKOFF, AND THE GOVERNOR HAD NO WAY TO SAY SO UNTIL NOW. `backoff_level` is defined as a FAILURE counter — raised by a cycle that ended without a receipt, LOWERED BY A CLEAN ONE. So a level raised for budget reasons is undone by the first cycle that goes well, which is exactly the cycle you least want to license the next six. This block is the missing half: it pins a FLOOR under `backoff_level` that a clean cycle may not decrement through, and it carries its own reason and expiry.",
+    "active": true,
+    "reason": "weekly-budget-overpace",
+    "_reason_evidence": "See `last_utilisation_report` above — inputs and derivation both. Do not restate its numbers here or anywhere else.",
+    "set_utc": "2026-08-29T11:51:07Z",
+    "set_by": "trimcrae, 2026-08-29: 'We're already at 71% usage of our weekly Claude max plan just 3 days into the week. Adjust the rate at which this autonomous system consumes tokens accordingly.'",
+    "floor_backoff_level": 2,
+    "_floor_backoff_level_means": "A clean cycle decrements `backoff_level` toward 0 (§9 property 3). While this hold is active it may not go below this floor. ⭐ Level 2 is chosen because it is the level that already means what is wanted: 24 h cadence, width 1, and — the part that actually saves the budget — `fetch`/`regrade` items ONLY, which are dispatch-and-exit against Actions and consume NO Claude budget at all (§9 property 4). Degrading to the free lane is the design's answer to a spent budget, and this is the first time it has been used for its stated purpose.",
+    "declared_posture": {
+      "_means": "⛔ THE DIALS THIS HOLD CLAIMS TO HAVE SET. `health.py`'s `budget_recovering` row reads them back off the same file and goes RED if the live dials are looser, because a hold that governs nothing is `subagent_width` all over again — a number defined in JSON, asserted by one test and read by no code, for a fortnight (CLAUDE.md §1).",
+      "max_cycle_interval_hours": 24,
+      "max_subagent_width": 1,
+      "max_items_per_cycle": 1,
+      "max_cycles_per_session": 1
+    },
+    "review_after_utc": "2026-09-02T11:51:07Z",
+    "_review_after_utc_means": "⛔ AN EXPIRY INTO A REVIEW, NOT INTO FULL CADENCE. Past this stamp the hold is not lifted — a cycle must take a FRESH utilisation reading and write it to `last_utilisation_report` before clearing it. With no fresh reading the correct move is ONE step down the ladder (level 2 → 1: 8 h, width 2), never a jump back to full: the architecture's rule that a dial moves down faster than it moves up applies to the budget dial too. ⚠ §10.4 also bites here — the loop may not lift its own budget hold merely because the hold is inconvenient to the work it wants to do. A stamp passing is not evidence that the budget recovered.",
+    "driver_routine": {
+      "_means": "⛔ THE DIAL THAT ACTUALLY FIRES SESSIONS LIVES OUTSIDE THIS REPOSITORY. `cycle_interval_hours` above is what the loop BELIEVES its cadence is; the Routine's cron is what the cadence IS. Changing only the JSON would have left six sessions a day firing while every committed artifact said one. Both were moved in the same change, and this field records the pair so the next session can check them against each other.",
+      "trigger_id": "trig_01P9ZNSAw7rNLcKLBFYCwuHp",
+      "cron_before": "13 */4 * * *",
+      "cron_after": "13 13 * * *"
+    }
+  }
 }

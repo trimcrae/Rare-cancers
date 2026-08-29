@@ -60,10 +60,25 @@ the same schedule. The cron strings below are the canonical form for anything cr
 
 ---
 
-## 1 · The driver — every 4 hours
+## 1 · The driver — fires every 4 hours, RUNS at the declared cadence
 
 **Name:** `EMC research loop — driver`
 **Cron:** `13 */4 * * *` *(off the hour on purpose; every scheduled job in the world asks for :00)*
+
+⛔⛔ **THE CRON IS NOT THE CADENCE, AND AN AGENT CANNOT CHANGE IT.** Measured 2026-08-29 against
+the live API, twice — a cron change and a bare `enabled: false` both refused:
+
+```
+update_trigger: this routine was created via "http_api", not by an agent. Agents can only
+update routines they created (via create_trigger).
+```
+
+So the cadence the loop actually runs at is `autonomy-state.json`'s `cycle_interval_hours`,
+enforced by [`cadence.py`](./cadence.py) from the FIRST row of `research-loop` §1: a fire that
+arrives inside the interval exits in two tool calls. **Six fires a day still happen; five of them
+cost almost nothing.** ⚠ Changing the cron is trimcrae's to do, and it is worth doing — a refused
+fire is cheap, not free. Until then the gate is where the number binds, and editing
+`cycle_interval_hours` alone would be `subagent_width` again: a governed number read by nothing.
 **Creates a new session on each fire:** yes
 
 ```

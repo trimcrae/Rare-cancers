@@ -3,28 +3,30 @@
   "_read_this_when": "you want to know whether the unattended research loop is WORKING \u2014 not whether what it wrote is correct, which every preflight gate already covers (\u00a75.1). A loop can be perfectly correct and advance nothing.",
   "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#52--loop-health--new-and-it-is-what-never-check-in-actually-requires",
   "_this_channel_is_PULL_ONLY": "nothing here sends, opens an issue, comments, or fails a run. \u00a77 trigger 4 is the ONE push, and it is the caller's act, not this file's: a condition red past its deadline earns a PushNotification and a line in the Friday digest, nothing else.",
-  "_generated_utc": "2026-08-29T11:08:21Z",
-  "_generated_et": "7:08 AM ET Aug 29, 2026",
-  "_cycle_interval_h": 4.0,
-  "_stale_window_basis": "read from autonomy-state.json `cycle_interval_hours` = 4 h, which is its one home (the governor writes it \u2014 architecture \u00a79.2). Not typed here.",
-  "_stale_after_utc": "2026-08-29T23:08:21Z",
-  "_stale_after_et": "7:08 PM ET Aug 29, 2026",
-  "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS CHECKING THE LOOP and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a checker that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed cycles at 4 h. Restart it: `gh workflow run autonomy-tick.yml --ref main`.",
+  "_generated_utc": "2026-08-29T12:16:59Z",
+  "_generated_et": "8:16 AM ET Aug 29, 2026",
+  "_cycle_interval_h": 24.0,
+  "_stale_window_basis": "read from autonomy-state.json `cycle_interval_hours` = 24 h, which is its one home (the governor writes it \u2014 architecture \u00a79.2). Not typed here.",
+  "_stale_after_utc": "2026-09-01T12:16:59Z",
+  "_stale_after_et": "8:16 AM ET Sep 1, 2026",
+  "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, NOTHING IS CHECKING THE LOOP and every verdict below is a memory, not a measurement. The deadline is written INTO the artifact because a checker that has stopped cannot report that it stopped \u2014 it needs no process, no API and no clock but yours. 3 missed cycles at 24 h. Restart it: `gh workflow run autonomy-tick.yml --ref main`.",
   "ok": false,
   "_ok_means": "no condition is FAILING. \u26d4 IT DOES NOT MEAN EVERY CONDITION WAS MEASURED \u2014 read `fully_measured` and `unmeasured` beside it. `ok: true, fully_measured: false` is the honest shape of a loop nobody can yet grade, and it is NOT a healthy loop.",
-  "fully_measured": true,
+  "fully_measured": false,
   "n_conditions": 12,
   "needs_attention": [
     "advancing_live_work",
-    "scores_are_reachable",
-    "stalls_are_named"
+    "scores_are_reachable"
   ],
   "blocking": [],
   "_blocking_means": "research-loop \u00a71's stop condition. A red row that is NOT here is reported and escalated but must never stop the loop, because a cycle cannot act on it. On 2026-08-27 the distinction did not exist, every red stopped the loop, and two retrospective conditions about immutable committed history wedged it permanently.",
   "escalations": [],
   "_escalations_means": "\u26d4 A \u00a73 ESCALATION IS DUE. Each key here has been RED on 5 or more consecutive board runs (autonomy-tick gradings) while the loop's only response was to refuse or redirect \u2014 OTP's `intensity`/`period` and systemd's `StartLimitBurst`, ported: neither lets a supervised thing fail forever in silence, and before this counter existed this loop did. The correct next act is NOT another cycle and NOT another refusal; it is a CLAUDE.md \u00a73 block put to trimcrae. `stall_alarm.py` mails it from the Actions clock, and `research-loop` \u00a71 makes a cycle that reads it produce the block rather than a twelfth identical receipt. \u26a0 The count is in board runs, not hours \u2014 read `bad_for_h` beside it for the measured age.",
   "_restart_intensity": 5,
-  "unmeasured": [],
+  "unmeasured": [
+    "gates_green",
+    "stalls_are_named"
+  ],
   "_unmeasured_means": "\u26d4 A VERDICT THAT COULD NOT BE REACHED \u2014 NOT a condition that is fine. It is listed apart from needs_attention because the fix is different: make the reading possible first. CLAUDE.md \u00a74: an absent reading is not a reading of absence. Anything that grades an unmeasured condition as green has manufactured a green board out of missing data.",
   "conditions": [
     {
@@ -49,12 +51,12 @@
         ],
         "receipts_seen": 101
       },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
+      "last_seen_utc": "2026-08-29T12:16:59Z",
       "last_change_utc": "2026-08-29T11:08:21Z",
       "bad_since_utc": "2026-08-29T11:08:21Z",
-      "consecutive_bad_runs": 1,
-      "consecutive_red_runs": 1,
-      "bad_for_h": 0.0,
+      "consecutive_bad_runs": 5,
+      "consecutive_red_runs": 5,
+      "bad_for_h": 1.14,
       "bad_since_et": "7:08 AM ET Aug 29, 2026",
       "on_red": "advises",
       "axis": "progress",
@@ -62,11 +64,11 @@
         "axis": "progress",
         "counter": "consecutive_red_runs",
         "unit": "board runs (autonomy-tick gradings)",
-        "n": 1,
+        "n": 5,
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 0.0,
+        "bad_for_h": 1.14,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
       }
     },
@@ -78,9 +80,9 @@
       "ok": false,
       "unmeasured": false,
       "needs_attention": true,
-      "detail": "73 of 180 open row(s) carry no score, so no cycle can be offered them and no successor prompt will list them. Settle each: file it with an explicit `score` and `_score_basis`, or give its route a row in systems/graph so priority.apply_route_inheritance has a floor to inherit.",
+      "detail": "73 of 182 open row(s) carry no score, so no cycle can be offered them and no successor prompt will list them. Settle each: file it with an explicit `score` and `_score_basis`, or give its route a row in systems/graph so priority.apply_route_inheritance has a floor to inherit.",
       "payload": {
-        "open": 180,
+        "open": 182,
         "unrankable": 73,
         "by_route": {
           "RT-AUTONOMY": 60,
@@ -111,12 +113,12 @@
           "AUT-PD-067"
         ]
       },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
+      "last_seen_utc": "2026-08-29T12:16:59Z",
       "last_change_utc": "2026-08-29T02:50:26Z",
       "bad_since_utc": "2026-08-29T02:50:26Z",
-      "consecutive_bad_runs": 2,
-      "consecutive_red_runs": 2,
-      "bad_for_h": 8.3,
+      "consecutive_bad_runs": 6,
+      "consecutive_red_runs": 6,
+      "bad_for_h": 9.44,
       "bad_since_et": "10:50 PM ET Aug 28, 2026",
       "on_red": "advises",
       "axis": "readiness",
@@ -124,47 +126,61 @@
         "axis": "readiness",
         "counter": "consecutive_red_runs",
         "unit": "board runs (autonomy-tick gradings)",
-        "n": 2,
+        "n": 6,
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 8.3,
+        "bad_for_h": 9.44,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
+      }
+    },
+    {
+      "key": "gates_green",
+      "label": "is `main` green, so a cycle can even commit?",
+      "source": "--gates-verdict (written by the workflow that can read Actions)",
+      "verdict": "NO-GATE-VERDICT",
+      "ok": false,
+      "unmeasured": true,
+      "needs_attention": false,
+      "detail": "no gate verdict was supplied. This checker has no network by design, so it cannot read Actions itself. Settle it: have the tick workflow write {\"ok\": bool, \"red_since_utc\": str|null, \"detail\": str} and pass it with --gates-verdict.",
+      "payload": {},
+      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_change_utc": "2026-08-29T11:57:10Z",
+      "bad_since_utc": "2026-08-29T11:57:10Z",
+      "consecutive_bad_runs": 4,
+      "consecutive_red_runs": 0,
+      "bad_for_h": 0.33,
+      "bad_since_et": "7:57 AM ET Aug 29, 2026",
+      "on_red": "redirects",
+      "axis": "readiness",
+      "intensity": {
+        "axis": "readiness",
+        "counter": "consecutive_red_runs",
+        "unit": "board runs (autonomy-tick gradings)",
+        "n": 0,
+        "limit": 5,
+        "counted": true,
+        "exhausted": false,
+        "bad_for_h": 0.33,
+        "why": "red on 0 of 5 board runs (autonomy-tick gradings); the loop may keep responding on its own until the budget is spent"
       }
     },
     {
       "key": "stalls_are_named",
       "label": "has any row gone `stalled_needs_human` \u2014 automation stopped trying and it needs a human?",
       "source": "stuck_clock.py --check --json (git history of research-ledger.json), via --stall-verdict",
-      "verdict": "STALLED-ROWS",
+      "verdict": "NO-STALL-VERDICT",
       "ok": false,
-      "unmeasured": false,
-      "needs_attention": true,
-      "detail": "11 row(s) are `stalled_needs_human`: AUT-025 (since 2026-08-27T15:15:07Z), AUT-071 (since 2026-08-27T15:15:07Z), AUT-011 (since 2026-08-27T15:15:07Z), AUT-007 (since 2026-08-27T15:15:07Z), AUT-008 (since 2026-08-27T15:15:07Z), AUT-045 (since 2026-08-27T15:15:07Z), AUT-016 (since 2026-08-27T15:15:07Z), AUT-010 (since 2026-08-28T19:33:23Z), AUT-PROP-019 (since 2026-08-28T20:29:18Z), AUT-PD-031 (since 2026-08-28T21:48:35Z), AUT-PD-028 (since 2026-08-28T22:11:42Z). Each is a human decision \u2014 re-scope it, hand it to a different route, or close it \u2014 not queued work for a cycle to keep retrying (stuck_clock.py: 'automation has stopped trying').",
-      "payload": {
-        "open_rows": 180,
-        "terminal_ids": [
-          "AUT-025",
-          "AUT-071",
-          "AUT-011",
-          "AUT-007",
-          "AUT-008",
-          "AUT-045",
-          "AUT-016",
-          "AUT-010",
-          "AUT-PROP-019",
-          "AUT-PD-031",
-          "AUT-PD-028"
-        ],
-        "shallow_clone": false,
-        "history_horizon_utc": "2026-08-26 15:15"
-      },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
-      "last_change_utc": "2026-08-29T02:50:26Z",
+      "unmeasured": true,
+      "needs_attention": false,
+      "detail": "no stall verdict was supplied. This checker has no subprocess by design, so it cannot walk git history itself. Settle it: `python3 research/autonomy/stuck_clock.py --check --json > <path>` and pass it with --stall-verdict.",
+      "payload": {},
+      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_change_utc": "2026-08-29T11:57:10Z",
       "bad_since_utc": "2026-08-28T12:58:48Z",
-      "consecutive_bad_runs": 3,
-      "consecutive_red_runs": 2,
-      "bad_for_h": 22.16,
+      "consecutive_bad_runs": 7,
+      "consecutive_red_runs": 0,
+      "bad_for_h": 23.3,
       "bad_since_et": "8:58 AM ET Aug 28, 2026",
       "on_red": "advises",
       "axis": "progress",
@@ -172,11 +188,11 @@
         "axis": "progress",
         "counter": "consecutive_red_runs",
         "unit": "board runs (autonomy-tick gradings)",
-        "n": 2,
+        "n": 0,
         "limit": 5,
         "counted": false,
         "exhausted": false,
-        "bad_for_h": 22.16,
+        "bad_for_h": 23.3,
         "why": "`advises` rows are retried by nothing, so there is no restart budget to spend \u2014 a sustained red here is `stall_alarm.py`'s mail, not a \u00a73 escalation"
       }
     },
@@ -188,15 +204,15 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "the last receipt (CYC-0084-e2d78138.json) landed 2.4 h ago, inside the 8.0 h deadline.",
+      "detail": "the last receipt (CYC-0084-e2d78138.json) landed 3.5 h ago, inside the 48.0 h deadline.",
       "payload": {
         "receipts_seen": 101,
         "latest_receipt": "CYC-0084-e2d78138.json",
         "latest_receipt_et": "4:45 AM ET Aug 29, 2026",
-        "age_h": 2.39,
-        "deadline_h": 8.0
+        "age_h": 3.53,
+        "deadline_h": 48.0
       },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
+      "last_seen_utc": "2026-08-29T12:16:59Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -227,10 +243,10 @@
       "needs_attention": false,
       "detail": "the ledger was read and no entry is in state `running`, so no entry can be frozen. Vacuously true, and stated as such: this row says the check ran, not that the loop is busy \u2014 `cycle_delivering` is the row that says that.",
       "payload": {
-        "entries": 311,
+        "entries": 312,
         "running": 0
       },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
+      "last_seen_utc": "2026-08-29T12:16:59Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -261,10 +277,10 @@
       "needs_attention": false,
       "detail": "all 1 blocked entr(ies) record what was observed to establish the block.",
       "payload": {
-        "entries": 311,
+        "entries": 312,
         "blocked": 1
       },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
+      "last_seen_utc": "2026-08-29T12:16:59Z",
       "last_change_utc": "2026-08-29T02:50:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -293,15 +309,20 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "74 of 311 entr(ies) are takeable now.",
+      "detail": "74 of 312 entr(ies) are takeable now.",
       "payload": {
-        "entries": 311,
+        "entries": 312,
         "takeable": 74,
         "owned": [
-          "AUT-PD-170"
+          "AUT-PD-170",
+          "AUT-PD-145",
+          "AUT-PROP-049"
+        ],
+        "retry_budget_spent": [
+          "AUT-PD-145"
         ]
       },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
+      "last_seen_utc": "2026-08-29T12:16:59Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -330,9 +351,9 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "4 session(s), worst carries 2 cycle(s) against a cap of 2.",
+      "detail": "4 session(s), worst carries 2 cycle(s) against a cap of 1.",
       "payload": {
-        "cap": 2,
+        "cap": 1,
         "sessions": {
           "531dbb8b-683e-5c25-b8d6-b1ecb605d3f5": 1,
           "b272f286-7fb0-53ff-9f73-df6611b90550": 2,
@@ -346,7 +367,7 @@
         ],
         "worst": 2
       },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
+      "last_seen_utc": "2026-08-29T12:16:59Z",
       "last_change_utc": "2026-08-29T02:50:26Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -375,9 +396,9 @@
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "6 cycle(s) recorded a fan-out; the widest was 0 against a cap of 5.",
+      "detail": "6 cycle(s) recorded a fan-out; the widest was 0 against a cap of 1.",
       "payload": {
-        "cap": 5,
+        "cap": 1,
         "measured": {
           "CYC-0079-531dbb8b": 0,
           "CYC-0080-b272f286": 0,
@@ -388,7 +409,7 @@
         },
         "worst": 0
       },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
+      "last_seen_utc": "2026-08-29T12:16:59Z",
       "last_change_utc": "2026-08-27T20:00:21Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -412,17 +433,27 @@
     {
       "key": "budget_recovering",
       "label": "is the budget governor RECOVERING, or stuck in backoff?",
-      "source": "research/autonomy/autonomy-state.json `backoff_level`/`backoff_since_utc`",
-      "verdict": "NO-BACKOFF",
+      "source": "research/autonomy/autonomy-state.json `backoff_level`/`backoff_since_utc`, and `budget_hold` \u2014 a DELIBERATE hold is read separately from a stuck one",
+      "verdict": "BUDGET-HELD",
       "ok": true,
       "unmeasured": false,
       "needs_attention": false,
-      "detail": "the governor records backoff level 0 \u2014 the loop is running at full cadence and width.",
+      "detail": "backoff is held at level 2 by a deliberate budget hold ('weekly-budget-overpace'), reviewable 7:51 AM ET Sep 2, 2026. The dials honour it. Held \u2260 stuck: this is \u00a79 property 4 doing its job, and the 24 h grace below is for a limit nobody chose.",
       "payload": {
-        "backoff_level": 0
+        "backoff_level": 2,
+        "backoff_since_et": "7:51 AM ET Aug 29, 2026",
+        "held_h": 0.43,
+        "grace_h": 24.0,
+        "budget_hold": {
+          "reason": "weekly-budget-overpace",
+          "floor_backoff_level": 2,
+          "review_after_et": "7:51 AM ET Sep 2, 2026",
+          "posture_violations": null,
+          "posture_keys_checked_by_nothing": null
+        }
       },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
-      "last_change_utc": "2026-08-26T21:05:29Z",
+      "last_seen_utc": "2026-08-29T12:16:59Z",
+      "last_change_utc": "2026-08-29T11:57:10Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
       "consecutive_red_runs": 0,
@@ -443,42 +474,6 @@
       }
     },
     {
-      "key": "gates_green",
-      "label": "is `main` green, so a cycle can even commit?",
-      "source": "--gates-verdict (written by the workflow that can read Actions)",
-      "verdict": "RED-BUT-FRESH",
-      "ok": true,
-      "unmeasured": false,
-      "needs_attention": false,
-      "detail": "the trunk is RED: tests.yml concluded 'failure' on main (run https://github.com/trimcrae/Rare-cancers/actions/runs/33247360929). Red for 3.3 h, inside the 24 h grace \u2014 the next cycle is expected to fix it, and this row goes red if it does not.",
-      "payload": {
-        "red_since_et": "3:47 AM ET Aug 29, 2026",
-        "held_h": 3.34,
-        "grace_h": 24.0,
-        "ref": "tests.yml @ 23a9509cc62d"
-      },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
-      "last_change_utc": "2026-08-29T02:50:26Z",
-      "bad_since_utc": null,
-      "consecutive_bad_runs": 0,
-      "consecutive_red_runs": 0,
-      "bad_for_h": null,
-      "bad_since_et": null,
-      "on_red": "redirects",
-      "axis": "readiness",
-      "intensity": {
-        "axis": "readiness",
-        "counter": "consecutive_red_runs",
-        "unit": "board runs (autonomy-tick gradings)",
-        "n": 0,
-        "limit": 5,
-        "counted": true,
-        "exhausted": false,
-        "bad_for_h": null,
-        "why": "red on 0 of 5 board runs (autonomy-tick gradings); the loop may keep responding on its own until the budget is spent"
-      }
-    },
-    {
       "key": "authority_respected",
       "label": "did every OUTWARD act have a grant behind it?",
       "source": "receipts `outward_acts[]` \u00d7 research/autonomy/publication-authority.json",
@@ -491,7 +486,7 @@
         "acts_seen": 0,
         "authority_file": "present"
       },
-      "last_seen_utc": "2026-08-29T11:08:21Z",
+      "last_seen_utc": "2026-08-29T12:16:59Z",
       "last_change_utc": "2026-08-26T21:05:29Z",
       "bad_since_utc": null,
       "consecutive_bad_runs": 0,
@@ -513,7 +508,7 @@
       }
     }
   ],
-  "_commit_worthy": true,
-  "_commit_worthy_why": "a verdict changed",
+  "_commit_worthy": false,
+  "_commit_worthy_why": "every verdict is unchanged and the committed board is not near its expiry \u2014 this run carries no information the last one did not",
   "_commit_worthy_means": "fleet_armed.py's discipline: the caller COMMITS this file only when this is true. A board whose verdicts are unchanged carries no information (measured cost of ignoring that: 1,476 commits in 24 h, 703 of them non-events), and the keep-alive clause makes sure a live checker can never be the reason the board looks dead."
 }

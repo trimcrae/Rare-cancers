@@ -34,6 +34,8 @@ Check before anything else. A loop that works through its own alarm is the alarm
 
 | condition | how to see it | what to do |
 |---|---|---|
+| ⛔⛔ **THE CADENCE GATE — RUN IT FIRST, BEFORE THE HEALTH BOARD** | `python3 research/autonomy/cadence.py --check` (exit 3 = too soon; exit 4 = a hold is active and the last cycle cannot be dated) | **Exit immediately. Write no receipt, take no item, claim nothing; say in one line when the next fire is eligible.** A skipped fire is the cadence working, not a failure. ⚠ *Added 2026-08-29, and it is HERE rather than in the driver prompt because an agent cannot edit that prompt.* Measured that day against the live API: the driver Routine was created via `http_api`, so `update_trigger` refuses both a cron change and a plain `enabled: false`. Its cron is `13 */4 * * *` — six fires a day — while `autonomy-state.json` declares `cycle_interval_hours: 24`. **This gate is the only place those two are reconciled**; without it the declared cadence is `subagent_width` all over again, a governed number read by nothing. It is first for a second reason: the health board is several tool calls of orientation, and a fire that should not have started must cost two. |
+| ⛔ **A `budget_hold` is active** | `autonomy-state.json` `budget_hold`; `health.py`'s `budget_recovering` row | **Honour the floor and every dial it declares, and do NOT lift it because it is inconvenient to the work you wanted** — §10.4, and `health.py` goes red if the live dials are looser than the declared posture. A hold expires into a REVIEW, never into full cadence: past `review_after_utc`, take a fresh utilisation reading, write it to `last_utilisation_report`, and only then lift it — with no fresh reading, step it down ONE level (2 → 1) rather than dropping it. **A stamp passing is not evidence that the budget recovered.** |
 | A **BLOCKING** §5.2 health condition is red | `python3 research/autonomy/health.py --check` (exit 1 = stop) | Write a receipt saying so, escalate per §5, stop. |
 | ⛔⛔ **The board lists an ESCALATION — do NOT just refuse again** | `python3 research/autonomy/health.py --escalations` (exit 1 = a restart budget is spent), or the board's `escalations` list | **Produce a CLAUDE.md §3 block and stop, and say in it that the loop's automated response is exhausted** — not another receipt reading "health red, refused". ⚠ *Added 2026-08-28 (AUT-PROP-034). A `blocks` red used to produce the same answer forever: refuse, write a receipt, die; the driver Routine fires again and a fresh session refuses identically. Nothing counted, so nothing ever rose above another refusal — the exact behaviour OTP's `intensity`/`period` and systemd's `StartLimitBurst` both exist to prevent, and the one Kubernetes' CrashLoopBackOff is the cautionary example of. `health.py` now counts consecutive RED board runs per condition (`RESTART_INTENSITY`, systemd's default of 5) and marks the row when the budget is spent; `stall_alarm.py` mails it from the Actions clock. **The refusal is still correct; a twelfth identical refusal is not a response, it is a loop.*** |
 | ⛔ **A red that is NOT blocking — DO NOT STOP** | the board's `on_red`: `advises` or `redirects` | **Run the cycle.** `redirects` means fixing that row IS this cycle's work; `advises` means report it and carry on. ⚠ *Added 2026-08-27 after this row's absence killed the loop: every red used to stop a cycle, two conditions were then added whose subject is IMMUTABLE COMMITTED HISTORY (`cycles_are_sized`, `fanout_is_governed`), and no cycle in any session could clear them. The driver fired, refused, and pushed "health check permanently red, needs your call." A stop condition keyed to history that cannot change is an outage with a virtuous name.* |
@@ -48,8 +50,12 @@ Check before anything else. A loop that works through its own alarm is the alarm
 
 **A cycle that cannot complete step 10 has failed, however much it wrote.**
 
-1. **Orient cheaply.** Read `research/autonomy/autonomy-state.json` and `research-ledger.json`.
-   Nothing else yet.
+1. **Orient cheaply, and stamp the start.** Read `research/autonomy/autonomy-state.json` and
+   `research-ledger.json`. Nothing else yet. Once §1 clears, run
+   `python3 research/autonomy/cadence.py --stamp` — it records `last_cycle_started_utc`, which is
+   what the cadence gate measures against. ⭐ **Stamped at the START, not at the receipt**, so a
+   cycle that dies mid-flight still counts as a fire; otherwise a crashing cycle is re-fired every
+   four hours forever, which is the herd the gate exists to stop.
 2. **Run §1's refusal checks.**
 3. **Re-score.** `python3 research/autonomy/priority.py --write`. It is $0 and deterministic —
    never trust a score you inherited.
@@ -331,6 +337,15 @@ rate limit can kill while holding uncommitted work. CLAUDE.md §1 and §6.
   resume protocol because there is no in-context state worth resuming.
 - **`isUsingOverage: true` is a SPEND EVENT**, not headroom — CLAUDE.md §5's "engineering is free"
   stops being true there. Escalate it.
+- **⛔⛔ WHAT `rate_limit_info` DOES NOT SAY IS THE HALF THAT BIT.** It returned
+  `status: allowed`, `rateLimitType: five_hour`, `isUsingOverage: false` on 2026-08-29 —
+  a clean verdict on the FIVE-HOUR window — at the same moment the WEEKLY budget was 71%
+  spent three days into seven. **The weekly window is invisible to every instrument this
+  loop has**, so a governor reading only this endpoint sees green all the way into the wall,
+  and the only reading that has ever existed came from trimcrae in conversation. Treat a
+  green `status` as saying nothing whatever about the week (`last_utilisation_report` in
+  `autonomy-state.json` carries the reading and its derivation), and read `budget_hold`
+  before concluding there is headroom.
 - **At backoff ≥ 2, take only `fetch` and `regrade` items.** Those are dispatch-and-exit against
   Actions, which costs **no Claude budget at all**. ⭐ The loop keeps making progress on a spent
   budget — that is the point.

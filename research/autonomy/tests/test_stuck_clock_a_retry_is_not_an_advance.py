@@ -35,6 +35,30 @@ sys.path.insert(0, os.path.dirname(HERE))
 
 import stuck_clock as S  # noqa: E402
 
+#: ⛔⛔ THE THRESHOLD THESE FIXTURES ARE GRADED AGAINST, PINNED HERE RATHER THAN READ OFF THE LIVE
+#: GOVERNOR. Every fixture below builds a row exactly 100 h old and then asserts terminal / not
+#: terminal against it, so the verdicts are only meaningful relative to a KNOWN threshold — and
+#: `stuck_clock.stuck_threshold_hours()` called with no argument reads
+#: `research/autonomy/autonomy-state.json`, a file the budget governor moves.
+#:
+#: ⚠ MEASURED 2026-08-29, and it is the failure this constant exists to stop: a budget hold took
+#: `cycle_interval_hours` from 4 to 24, the derived threshold went 24 h -> 144 h, and
+#: `test_a_row_touched_forever_without_advancing_is_stuck` went red — a 100 h row is not terminal
+#: against a 144 h bar. Nothing about the DETECTOR had changed. Worse, the three sibling assertions
+#: that read `is None` would have gone the other way and passed MORE easily at every widening, which
+#: is the silent direction: a unit test that gets weaker when a config file moves is not testing the
+#: unit.
+#:
+#: ⛔ 24.0 IS THE TIGHTEST THRESHOLD THIS REPOSITORY HAS RUN (6 cycles x the 4 h cadence), so pinning
+#: it here makes all four assertions bind harder than reading the live file ever did.
+#: ⛔ AND THE GOVERNOR-READING CONTRACT IS NOT WEAKENED BY THIS, IT IS JUST TESTED WHERE IT BELONGS:
+#: `test_the_threshold_is_read_from_the_governor_not_typed` owns it, passes its own `state_path`, is
+#: hermetic already, and is deliberately left untouched. It is also the test that ARGUES the
+#: threshold SHOULD widen with the cadence — "a hard-coded 24 would silently stop tracking a loop
+#: that moved to an 8 h cadence under backoff" — so this constant must never be pushed back into
+#: `stuck_clock.py` as a cap.
+THRESHOLD_H = 24.0
+
 T0 = datetime.datetime(2026, 8, 20, 12, 0, tzinfo=datetime.timezone.utc)
 LEDGER = "ledger.json"
 
@@ -110,7 +134,7 @@ def test_a_row_touched_forever_without_advancing_is_stuck(ledger_repo):
         "nine claims, retries and re-scores moved the ADVANCE clock. That is the failure the module "
         "exists to detect, rebuilt inside the module.")
     assert clock.stuck_hours(now) == pytest.approx(100.0)
-    verdict = clock.terminal(now, S.stuck_threshold_hours())
+    verdict = clock.terminal(now, THRESHOLD_H)
     assert verdict and verdict["state"] == S.TERMINAL_STATE, (
         "a row untouched by progress for 100 h was not declared terminal")
     assert verdict["since_utc"].startswith("2026-08-21"), (
@@ -138,7 +162,7 @@ def test_a_row_that_genuinely_advanced_is_not_stuck(ledger_repo):
         "IS the work, and priority.py already stands the item down for it")
     assert clock.updated_at == clock.stuck_at
     assert clock.stuck_hours(now) == pytest.approx(2.0)
-    assert clock.terminal(now, S.stuck_threshold_hours()) is None, (
+    assert clock.terminal(now, THRESHOLD_H) is None, (
         "a row that advanced two hours ago was declared stalled")
 
 
@@ -246,7 +270,7 @@ def test_a_row_nobody_ever_tried_is_starved_not_stalled(ledger_repo):
     clock = clocks["AUT-X"]
     assert clock.tried is False
     assert clock.stuck_hours(now) == pytest.approx(100.0)
-    assert clock.terminal(now, S.stuck_threshold_hours()) is None, (
+    assert clock.terminal(now, THRESHOLD_H) is None, (
         "a row nothing has ever attempted was declared terminal")
 
 
@@ -255,7 +279,7 @@ def test_a_finished_row_has_no_stall_clock(ledger_repo):
     ledger_repo([_row(state="done", what="✅ DONE", owner=None, attempts=1)], 1)
     clocks, now = _clocks(ledger_repo)
     assert clocks["AUT-X"].is_open() is False
-    assert clocks["AUT-X"].terminal(now, S.stuck_threshold_hours()) is None
+    assert clocks["AUT-X"].terminal(now, THRESHOLD_H) is None
 
 
 def test_the_threshold_is_read_from_the_governor_not_typed(tmp_path):
