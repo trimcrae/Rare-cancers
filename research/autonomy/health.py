@@ -101,6 +101,7 @@ CONDITION_ORDER = (
     "evidence_moving",
     "blocks_are_real",
     "queue_is_takeable",
+    "scores_are_reachable",
     "cycles_are_sized",
     "fanout_is_governed",
     "budget_recovering",
@@ -169,6 +170,15 @@ CONDITION_ON_RED = {
     # A cycle can add the missing observation, release the stale claim, fix the trunk.
     "blocks_are_real": "redirects",
     "queue_is_takeable": "redirects",
+    # ⛔⛔ "advises", AND THE ALTERNATIVE IS THE DEATH SPIRAL THIS TABLE'S OWN COMMENT NAMES.
+    # `scores_are_reachable` counts OPEN rows the ranker cannot rank at all (AUT-PD-143). On the
+    # ledger it was written against that is 66 rows, and 69 of the 84 unscorable rows serve
+    # RT-AUTONOMY — which is not a route in systems/graph, so no pass can ever derive a floor for
+    # them. "redirects" would hand every cycle from here the same unfixable errand instead of the
+    # research; "blocks" would stop the loop on a condition no cycle can clear, which is precisely
+    # what `cycles_are_sized` and `fanout_is_governed` did the day the loop died. The row is a
+    # READING, and its response is to be seen.
+    "scores_are_reachable": "advises",
     "gates_green": "redirects",
     # ⛔ RETROSPECTIVE. Their subject is receipts already committed; no cycle can undo one. These are
     # the two that killed the loop, and "advises" is the whole of that fix's first half.
@@ -251,6 +261,11 @@ CONDITION_AXIS = {
     # the correct response is to route work away rather than to restart into it.
     "blocks_are_real": "readiness",        # a ledger row that is not takeable as written
     "queue_is_takeable": "readiness",      # the classic readiness question: can I accept work at all
+    # READINESS for the same reason as the row above it, and for a second one that row does not
+    # have: whether an open ledger row can be ranked at all depends on `systems/graph` carrying its
+    # route, which is a DEPENDENCY outside the queue. A red says route work away from those rows;
+    # it never says the loop is dead.
+    "scores_are_reachable": "readiness",
     "budget_recovering": "readiness",      # the ACCOUNT's rate limit — restarting into it is the herd
     "gates_green": "readiness",            # GitHub Actions' verdict on the trunk. A pure dependency.
     "authority_respected": "readiness",    # publication-authority.json, which only a HUMAN may edit
@@ -742,6 +757,58 @@ def c_queue_is_takeable(entries, ledger_err):
                     "the costume of a quiet week.", payload)
     return _green(key, label, source, "TAKEABLE",
                   f"{len(takeable)} of {len(entries)} entr(ies) are takeable now.", payload)
+
+
+def c_scores_are_reachable(entries, ledger_err):
+    """Red when an OPEN row carries no score, because nothing can ever offer it (AUT-PD-143).
+
+    ⛔⛔ THIS IS THE ROW `queue_is_takeable` CANNOT SEE, AND THE TWO MUST BOTH EXIST. `queue_is_takeable`
+    counts rows that ARE rankable and reports TAKEABLE off them, so the ledger could reach 100%
+    unscored real work and that row would still print green on one derived entry. Measured
+    2026-08-28: 104 of 277 entries carried no score, 74 of them open, and the board said TAKEABLE
+    throughout. An absent score was being read as a reading of absence — CLAUDE.md §4, in the one
+    file whose job is to notice exactly that.
+
+    ⭐ WHAT IT MEASURES AFTER THE FIX, WHICH IS NOT THE SAME QUESTION. `priority.apply_route_inheritance`
+    now gives an unscored row the floor of its own route, so the rows counted HERE are the RESIDUE:
+    rows whose route has no derived sibling to inherit from, plus rows serving no route at all.
+    ⛔ THE RESIDUE IS REPORTED, NEVER INVENTED. A number pulled from nowhere would rank the row and
+    tell a reader it had been valued, which is worse than the invisibility it cures.
+
+    ⚠ WHAT WOULD SETTLE A ROW, said plainly because an unmeasured-looking red that names no remedy is
+    an unanswered question wearing the costume of a status: file the row with an explicit `score` and
+    a `_score_basis` in prose (AUT-PD-143 itself did), or give its route a row in `systems/graph` so
+    a floor exists to inherit. ⛔ DO NOT expect this to reach zero soon — most of the residue serves
+    RT-AUTONOMY, which is not a route in the graph. That is why it is `advises`.
+    """
+    key = "scores_are_reachable"
+    label = "can every OPEN row be ranked, or is some work invisible to the queue?"
+    source = "research/autonomy/research-ledger.json — open rows carrying no `score`"
+    if entries is None:
+        return _unmeasured(key, label, source, "LEDGER-UNREADABLE", f"{ledger_err}.")
+    # ⛔ THE CLOSED SET IS POINTED AT, NEVER RETYPED. `stuck_clock.CLOSED_STATES` is already imported
+    # by this module and is already the home two other readers use (`learning_rate`, `out_of_ideas`);
+    # a fifth literal here is the copy that drifts. AUT-PD-050 had just finished naming this exact
+    # fact in priority.py for the same reason.
+    open_rows = [e for e in entries
+                 if str(e.get("state") or "queued") not in stuck_clock.CLOSED_STATES]
+    unscored = [e for e in open_rows if e.get("score") is None]
+    by_route = {}
+    for e in unscored:
+        by_route[str((e.get("serves") or {}).get("route"))] = \
+            by_route.get(str((e.get("serves") or {}).get("route")), 0) + 1
+    payload = {"open": len(open_rows), "unrankable": len(unscored),
+               "by_route": dict(sorted(by_route.items(), key=lambda kv: -kv[1])) or None,
+               "ids": [e.get("id") for e in unscored][:20] or None}
+    if unscored:
+        return _red(key, label, source, "UNRANKABLE-WORK",
+                    f"{len(unscored)} of {len(open_rows)} open row(s) carry no score, so no cycle "
+                    "can be offered them and no successor prompt will list them. Settle each: file "
+                    "it with an explicit `score` and `_score_basis`, or give its route a row in "
+                    "systems/graph so priority.apply_route_inheritance has a floor to inherit.",
+                    payload)
+    return _green(key, label, source, "ALL-RANKABLE",
+                  f"every one of {len(open_rows)} open row(s) carries a score.", payload)
 
 
 def c_cycles_are_sized(receipts, state, state_err):
@@ -1430,6 +1497,7 @@ def build(*, ledger_path=DEFAULT_LEDGER, state_path=DEFAULT_STATE, receipts_dir=
         c_evidence_moving(entries, ledger_err, interval_h, now),
         c_blocks_are_real(entries, ledger_err),
         c_queue_is_takeable(entries, ledger_err),
+        c_scores_are_reachable(entries, ledger_err),
         c_cycles_are_sized(receipts, state, state_err),
         c_fanout_is_governed(receipts, state, state_err),
         c_budget_recovering(state, state_err, now),

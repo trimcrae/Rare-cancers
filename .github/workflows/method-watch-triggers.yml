@@ -137,6 +137,22 @@ jobs:
           PUBLISH_REGEN_ADD: systems/views
         run: |
           set -e
+          # ⛔⛔ pyyaml IS A DEPENDENCY OF `PUBLISH_REGEN`, NOT OF THE SCAN, AND ITS ABSENCE REDDENED
+          # THE TRUNK WHILE THIS JOB REPORTED SUCCESS. Measured 2026-08-28 in this workflow's own log
+          # (run 33218424772, step "Commit results to the triggering branch"):
+          #     [publish-regen] systems_check needs `pyyaml` ... (No module named 'yaml')
+          #     ##[warning] `python3 systems/systems_check.py --write-views` did not run
+          # `publish_artifacts.sh` soft-fails a failed regen ON PURPOSE, so the primary artifacts
+          # still publish — which is right for the artifacts and wrong for the DERIVED view. The
+          # commit that resulted (f6bbd439b) carried systems/graph/technologies.json WITHOUT
+          # systems/views/registers/technologies.md, and `systems_check --check` then failed G2 on
+          # every session's preflight: "technologies.md differs from what the graph renders".
+          # ⭐ AND THIS WAS THE SECOND TIME — 8591224fd is an earlier hand repair of the identical
+          # drift ("Regenerate technologies register — stale generated view, inherited red build").
+          # The step above this one installs only `pytest`, so `--write-views` could never have run
+          # here; the comment beside PUBLISH_REGEN promising it does was true of the intent and
+          # false of the job.
+          python3 -m pip install --quiet pyyaml
           bash research/compute/publish_artifacts.sh "${GITHUB_REF_NAME}" \
             "Reopening-trigger scan $(date -u +%Y-%m-%d) (CI)" \
             research/method-watch-trigger-scan.md \
