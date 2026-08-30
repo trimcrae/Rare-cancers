@@ -2,11 +2,29 @@ name: ASO submission parts (.docx via LibreOffice)
 
 # ⛔ WHY THIS EXISTS: LIBREOFFICE IS PRESENT IN THE DEV SANDBOX AND DOES NOT WORK THERE.
 # `build_submission_parts.py` and `build_submission_docx.py` shell out to `soffice` to produce the
-# journal's required double-spaced .docx files. Measured 2026-08-27 in the sandbox: `soffice` and
-# `java` are both installed, and every invocation — including `--convert-to docx` on a three-line
-# HTML file, with and without `--infilter`, `SAL_USE_VCLPLUGIN=svp`, `SAL_DISABLE_JAVALDX=1` and a
-# cleared `JAVA_TOOL_OPTIONS` — fails with "Error: source file could not be loaded". The install is
-# broken rather than absent, which is why this looked for a while like a bad input.
+# journal's required double-spaced .docx files.
+#
+# ⛔⛔ THE DIAGNOSIS BELOW WAS WRONG AND IS CORRECTED HERE (2026-08-30). The sandbox ships
+# `libreoffice-core` WITHOUT `libreoffice-writer`, so there is no HTML import filter and no Writer
+# export filter; `apt-get install -y libreoffice-writer` makes `build_submission_docx.py` succeed
+# first try. `scripts/dev-setup.sh` now installs it and probes for the filter registry rather than
+# for `soffice` on PATH. ⚠ The error message is what made this expensive: "source file could not be
+# loaded" points at the INPUT, and `soffice --version` answering normally reads like a working
+# install, so three sessions re-examined the HTML instead of the package list. The builder's own
+# docstring named the requirement — "REQUIRES LibreOffice WITH THE WRITER FILTERS (`soffice` plus
+# `libreoffice-writer`)" — and nothing probed for it.
+# ⚠ SUPERSEDED, RETAINED (rule 1.2): "Measured 2026-08-27 in the sandbox: `soffice` and `java` are
+# both installed, and every invocation — including `--convert-to docx` on a three-line HTML file,
+# with and without `--infilter`, `SAL_USE_VCLPLUGIN=svp`, `SAL_DISABLE_JAVALDX=1` and a cleared
+# `JAVA_TOOL_OPTIONS` — fails with 'Error: source file could not be loaded'. The install is broken
+# rather than absent, which is why this looked for a while like a bad input." Every OBSERVATION in
+# that paragraph is accurate; only the conclusion drawn from it was wrong.
+#
+# ★ THIS WORKFLOW STAYS, AND IS NOT MADE REDUNDANT. A session whose GitHub token lacks
+# `actions:write` cannot dispatch it, and a session that cannot `apt-get` cannot fix the sandbox —
+# measured this session: the dispatch API returned 403 "Resource not accessible by integration",
+# and the local install was the only route left. Keeping both means neither failure blocks the
+# rebuild on its own.
 #
 # ⚠ THE COST IT REMOVES IS RECURRING, NOT ONE-OFF. These parts are derived from the manuscript, so
 # EVERY prose edit to the ASO article re-stales all three and turns the trunk red on

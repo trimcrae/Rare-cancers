@@ -337,6 +337,11 @@ if [ "${1:-}" = "--if-needed" ]; then
   # narrower question than the script's job.
   bin_missing=""
   command -v gs >/dev/null 2>&1 || bin_missing=" ghostscript"
+  # ⛔ AND `soffice` ON PATH IS NOT THE QUESTION — THE WRITER FILTERS ARE (2026-08-30). The sandbox
+  # ships `libreoffice-core` WITHOUT `libreoffice-writer`, so `soffice --version` answers happily
+  # and every `--convert-to docx` dies with "Error: source file could not be loaded". Probe for the
+  # filter package, never for the binary.
+  [ -f /usr/lib/libreoffice/share/registry/writer.xcd ] || bin_missing="$bin_missing libreoffice-writer"
   if [ -z "$sys_missing" ] && [ -z "$tool_missing" ] && [ -z "$run_missing" ] && [ -z "$bin_missing" ]; then
     echo "dev-setup: every interpreter the gates use already imports what they need — nothing to do."
     exit 0
@@ -412,6 +417,39 @@ if ! command -v gs >/dev/null 2>&1; then
     # print-format step is affected, and it fails loudly with its own apt-get line. A hard exit here
     # would turn a missing figure format into a refusal to set up the sandbox at all.
     echo "   ⚠ could not install ghostscript — figures/svg_to_print_formats.py will refuse and say so" >&2
+  fi
+fi
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# LIBREOFFICE WRITER — THE .docx CHAIN, AND A DIAGNOSIS THIS REPOSITORY HAD WRONG FOR THREE DAYS
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# ⛔⛔ THE INSTALL IS NOT BROKEN. THE WRITER FILTERS WERE ABSENT. Measured 2026-08-30: `dpkg -l`
+# shows `libreoffice-common`, `libreoffice-core`, `libreoffice-style-colibre`,
+# `libreoffice-uiconfig-common` and the `uno`/`ure` runtime — and NO `libreoffice-writer`. Without
+# it there is no HTML import filter and no Writer export filter, so `soffice --convert-to docx`
+# fails with "Error: source file could not be loaded" no matter what flags it is given. That is
+# exactly the symptom `.github/workflows/aso-submission-parts.yml` records, under the conclusion
+# "The install is broken rather than absent, which is why this looked for a while like a bad input."
+# ⭐ `apt-get install -y libreoffice-writer` fixed it in about forty seconds, and
+# `build_submission_docx.py` then wrote the 216 KB .docx first try — the same command that had been
+# failing since 2026-08-27.
+# ⚠ THE ERROR MESSAGE IS WHAT MADE THIS EXPENSIVE, and it is worth naming: "source file could not
+# be loaded" points at the INPUT, so three sessions re-examined the HTML. `soffice --version`
+# answering normally sealed it, because a version string reads like a working install. The builder's
+# own docstring had said the answer all along — "REQUIRES LibreOffice WITH THE WRITER FILTERS
+# (`soffice` plus `libreoffice-writer`)" — and nothing probed for the package it named.
+# ★ THE WORKFLOW STAYS. A runner rebuild is still the right route when a session cannot install
+# packages, and `aso-submission-parts.yml` is the only remedy a token without `actions:write` has.
+# This makes the LOCAL path work as well, which is what removes the recurring red trunk.
+if [ ! -f /usr/lib/libreoffice/share/registry/writer.xcd ]; then
+  echo
+  echo "== libreoffice-writer (build_submission_docx.py / build_submission_parts.py: the .docx chain) =="
+  if apt-get install -y -qq libreoffice-writer >/dev/null 2>&1 || sudo apt-get install -y -qq libreoffice-writer >/dev/null 2>&1; then
+    echo "   installed: the Writer filters are present; .docx builds locally"
+  else
+    # ⚠ NOT FATAL, for the ghostscript reason: every Python gate still runs. The .docx steps fail
+    # loudly on their own, and aso-submission-parts.yml remains the escape hatch.
+    echo "   ⚠ could not install libreoffice-writer — the .docx steps will fail; dispatch aso-submission-parts.yml" >&2
   fi
 fi
 
