@@ -9,12 +9,12 @@
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
-  "deposition_doi": "10.5281/zenodo.22166420",
-  "git_revision": "628939e750664421eddfd64918c43c73f45932c5",
+  "deposition_doi": "10.5281/zenodo.22180100",
+  "git_revision": "d94b06409f7cff4fc4864fe6cf8c2ce86c04f8fb",
   "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "d8cc44aebe04173ab5bd3543de0e20851f2d5e3204bebcf6a370b13894f60a68",
-  "n_files": 485,
+  "archive_content_digest": "53d793d4c29d3a8132a3d3385a591dd553c020e1963187b305b9dc2492a7c7f4",
+  "n_files": 484,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
     "travels_with_the_deposit": true,
@@ -24,8 +24,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 48812349,
-  "total_mib": 46.551,
+  "total_bytes": 48798499,
+  "total_mib": 46.538,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -35,15 +35,15 @@
       },
       ".py": {
         "n_files": 69,
-        "bytes": 3139002
+        "bytes": 3140801
       },
       ".md": {
-        "n_files": 13,
-        "bytes": 751245
+        "n_files": 12,
+        "bytes": 730624
       },
       ".pdf": {
         "n_files": 8,
-        "bytes": 1970275
+        "bytes": 1975247
       },
       ".png": {
         "n_files": 4,
@@ -912,9 +912,8 @@
     {
       "id": "manuscript_and_figures",
       "promise_text": "the manuscript itself and the figures it prints",
-      "n_files": 24,
+      "n_files": 23,
       "files": [
-        "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
         "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
         "research/manuscripts/aso/fusion-junction-aso-research-article.md",
         "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
@@ -1020,14 +1019,6 @@
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
     },
     {
-      "path": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
-      "bytes": 20943,
-      "sha256": "0f32568ce71724a4eb3711c1a735d0fa50b71af191d56f40bcfcceaaa1e79861",
-      "serves": "manuscript_and_figures",
-      "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
-    },
-    {
       "path": "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
       "bytes": 118060,
       "sha256": "4a48fb5d132171b17b88cd02e64c13796df49b4816a5dde48cfd92c739c3dd55",
@@ -1046,15 +1037,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json",
       "bytes": 906,
-      "sha256": "249c5a3209ab9d42350759aa6b88c331169657ee829fec4717dfc0d0be38086d",
+      "sha256": "fe4e68f83a324f1a23fc4b6d8773445bf1bf90b631e309a161d0af65310a93b5",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
-      "bytes": 444968,
-      "sha256": "227eae16c0a7b307d5c98644002556aa36dd8c7a02f1462466a6cf44304ee597",
+      "bytes": 446307,
+      "sha256": "0554e2218eef76522d3bcbb01093661246572dab682b80febd6d501073a6f3c6",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1062,7 +1053,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-figure-legends.docx.build-stamp.json",
       "bytes": 688,
-      "sha256": "dfca21654b2cf22462ecc814c3e93dc746f8c93472ba1a83394d563599e9418b",
+      "sha256": "f349d41c83ee2e993f8f524d64b7ebc37f7eb8585a8aaba13acd01c8869fd878",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1070,7 +1061,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json",
       "bytes": 906,
-      "sha256": "1e35dc42aa8c97a9af9fd8fd32feaa103f75b3d1f3ff8e66fa44fcde80dc410f",
+      "sha256": "dad7cf5682027604c5cdfdf0b7a2ba19208a173045369c779d46189703d88cb7",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1078,15 +1069,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json",
       "bytes": 989,
-      "sha256": "d4f3dd14b6dd2bcc3147dedd76e21564fd96120155a1fb64b03a200c6e21e117",
+      "sha256": "74b0da03fccbebf45468ca6e280797ceecbd35fdce25cf27fde9e15ba47c4d3f",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
-      "bytes": 378972,
-      "sha256": "5bbb251a49f2664cb7c0e43144ef4d8072727aa8dde38dd49ad44093cc7b57bf",
+      "bytes": 379023,
+      "sha256": "8053aef8441962b86fb9d0469893d0d784ec880c06763d11da15aeefad6ec049",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1094,15 +1085,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.build-stamp.json",
       "bytes": 904,
-      "sha256": "3862175d5641104f01ece0a0ac7cfe617bac04cc483b52bfe3d7f9d9ab2e95ba",
+      "sha256": "54abeb3949d4827069aaec30d4ccb8bbb17ab30c59ffac7a53d347dd91f7dc98",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
-      "bytes": 364117,
-      "sha256": "d1e447b86d4ba752523b3bbadb66ccdaa39f731bbcc1d5d0836cd94d3ac6b61d",
+      "bytes": 365357,
+      "sha256": "2d40cebafd2b7fe987b49a20092aa3ea1195ce1cf16f5a52b5feff188497ef2c",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1110,7 +1101,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-title-page.docx.build-stamp.json",
       "bytes": 680,
-      "sha256": "d9cab39051dc0bbf94b41ee8228e860a8f52ef3826c2a14d4188c18ed844d228",
+      "sha256": "a537deb69aef07052c4ae67cd2813092e0744eab56f2893b58ffd06e64da1976",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1118,31 +1109,31 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json",
       "bytes": 895,
-      "sha256": "35da2d802d16a329b2fd502c77b8842b70861a135aafee8feacd5863dcc43bca",
+      "sha256": "1ae93d9e5dfb35b46305017eb5f4f58a52139846022018237ef7a47957c5d066",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
-      "bytes": 30861,
-      "sha256": "cd787880f23db3851c298948cf3773817f919d477d3c5ddc82b15145ae8521c8",
+      "bytes": 30963,
+      "sha256": "d97e8d517587f1b7a43a1fed066a215b1e3bcefe23d0a98b30af9841438f95c2",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
-      "bytes": 452707,
-      "sha256": "785ab5fe9ba40c8a35e4921e1dd96832022c63ee61d20aaf07eb2f7dece62913",
+      "bytes": 455049,
+      "sha256": "5ad8e7b6ade79ebc469779b188cd1792e3ad900015230c97997493a3ee7ac807",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
-      "bytes": 9770,
-      "sha256": "cf14470408410cea9437daf6487074574edae6c404b0824052bc8d628dd69584",
+      "bytes": 9990,
+      "sha256": "016ca116a554c9c21cc31f38d3d6d2aeb94ce86eaa49d84ecf7151edf3cca770",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
@@ -1198,15 +1189,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-research-article.md",
       "bytes": 245054,
-      "sha256": "be3c65a637c62ead70f99f7dcd0148f4051a9724ff7b17e682bc23df88cf1710",
+      "sha256": "416432a9c85b70adb25318cecafeb5f447a986180aa8d5ad8bea334d3ec6ef1f",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
       "bytes": 142911,
-      "sha256": "8094a3eb717354d520f2a57ecff4297abd9a32a6b4c7730664e9d7aa855d8f03",
+      "sha256": "efdd90d5fede1169674a69ca42dd278f894d667c548d1165bee3d51b0d231f17",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 257 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, 5 carry a sense-strand near-match in parent precursor RNA that pairs the gap in full, and 3 more pair the patient's own un-rearranged NR4A3 allele. ⛔ THIS COUNT IS HARD-TYPED AND HAS BEEN WRONG ONCE: it said 252 after the pre-mRNA class was added to the file, so the deposit's own description under-reported the flag a laboratory reads first. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
@@ -1214,7 +1205,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-sequences.fasta",
       "bytes": 233486,
-      "sha256": "f1f5d1920b5c653038f599007aac10dd5d564a9a66e5b253072424b04b15e908",
+      "sha256": "f0ab031aa7d97b377d0a0e8dcd397c3299791c00d93aca1e2ff311ca727679b5",
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 257 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, 5 carry a sense-strand near-match in parent precursor RNA that pairs the gap in full, and 3 more pair the patient's own un-rearranged NR4A3 allele. ⛔ THIS COUNT IS HARD-TYPED AND HAS BEEN WRONG ONCE: it said 252 after the pre-mRNA class was added to the file, so the deposit's own description under-reported the flag a laboratory reads first. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
@@ -1249,7 +1240,7 @@
       "sha256": "271550d42b259d6e8beea26540d3a6298385d6ca45c293c8924e249efd76028c",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-working-record.md",
@@ -1369,11 +1360,11 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 109675,
-      "sha256": "9b92c33b4825fc975bf8d15dbbd176f48e4e346d0a49907712cceba2316fea81",
+      "bytes": 110978,
+      "sha256": "6764ba7d885ee93984700e905e0cd5f3b81e59670bbb4d7d21c5d7a817a191d1",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso_coverage_ladder.py",
@@ -1429,7 +1420,7 @@
       "sha256": "c7cd22f093cafb35bf1a268c54f0aa2df03708daebce8ae6c70f29507deab550",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-chance-baseline.png",
@@ -1437,7 +1428,7 @@
       "sha256": "74ed9d734a2a1dfbc38cc66aad258a7d50f681144f2b2096b7cb347f9c20c991",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-chance-baseline.svg",
@@ -1445,7 +1436,7 @@
       "sha256": "4b8b6be605de587ceef833dd0b2d7af49294d9dcd63b4ebdb2a08d2c04c34edd",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-figure-provenance.json",
@@ -1461,7 +1452,7 @@
       "sha256": "784da28473533ad6da4d68b6dc2786f335f3103fd1f7fd682c6a0bde816fe639",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-gap-length-tradeoff.png",
@@ -1469,7 +1460,7 @@
       "sha256": "19de912fc67b0b58e906bd33177fe4fe366a0a7e89fd9b4c47322225678faf3c",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-gap-length-tradeoff.svg",
@@ -1477,7 +1468,7 @@
       "sha256": "72457e8f71b0095e9c90e4b54641591abca8a880e8616a71fb4e5688642821ee",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-junction-space.pdf",
@@ -1485,7 +1476,7 @@
       "sha256": "6b5b6e63ff736d06d79065ba13fa98f6e5df9a879c04cd979d990f556b2f6b03",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-junction-space.png",
@@ -1493,7 +1484,7 @@
       "sha256": "f867583b281774f0e24c896381ef8c4e2d60defd80e50b394d5e4367f2007111",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-junction-space.svg",
@@ -1501,7 +1492,7 @@
       "sha256": "0eb4cb9c730f77fb5babe058f267f17a2088f50a2501933f3f9c6f1cc3dc5b68",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.pdf",
@@ -1509,7 +1500,7 @@
       "sha256": "2dc81d8d52917556c3bc85a0e39e726af515bd862cd26f87e43672b8dba140da",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.png",
@@ -1517,7 +1508,7 @@
       "sha256": "3ef0be4474c3a00b0a823e70c386cb09883e6956ee383874c430038dbb8a911a",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso-multipartner-seam.svg",
@@ -1525,7 +1516,7 @@
       "sha256": "89259b6450e03af5b0bac15626d30aae94f80ae80c68907c15dc6538805c0a5b",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_chance_baseline_figure.py",
@@ -1533,7 +1524,7 @@
       "sha256": "acce7e0a80eca24f8ed72d82e41c47a7f171d5317ba79c20e0124758209fbc8b",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_figure_provenance.py",
@@ -1541,7 +1532,7 @@
       "sha256": "676fdd90f557bc11b53c9e6263622b16fd939f63f3303217c474e96ec4fdafcb",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_figure_text.py",
@@ -1557,7 +1548,7 @@
       "sha256": "bdc51459fead60c4928f3d6ca1cacc1d9323c6c96e4090bf5892c2ced9fd5392",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_junction_space_figure.py",
@@ -1565,7 +1556,7 @@
       "sha256": "d9569bb1a3de971cd163a2ee8cc6f77f9f4d5b5c1a0fed643c2887f178f47b6b",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/aso_multipartner_seam_figure.py",
@@ -1573,7 +1564,7 @@
       "sha256": "ff0442555ffdc0ebbe63ab5d17539ef540381b5aa216082971fc58f506c4949f",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/figures/svg_to_submission_formats.py",
@@ -1634,7 +1625,7 @@
     {
       "path": "research/manuscripts/submission-metrics.json",
       "bytes": 13057,
-      "sha256": "300c3dc0208efda46960273bc2a2a62b23a1fdadabe3a90d2b92ea3430fd8e5f",
+      "sha256": "053443b1f8cea923059ddca83c3d33bbb8ea034601deeba6fdf5d929ef2c7cf6",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -1657,8 +1648,8 @@
     },
     {
       "path": "research/manuscripts/submission_packet.py",
-      "bytes": 34197,
-      "sha256": "3218bf99ecc2e551fa70375f5f3191ee3e7ad68f4edde232478a81a2ea05bac0",
+      "bytes": 34693,
+      "sha256": "c97b9b7b485f88cdbe0b615f254915b552078f7ab5b4f6fea9954f3598e0ead6",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -1685,7 +1676,7 @@
       "sha256": "88710f780ab942f4d5dcbe66123d705cf13bb790a231dacb10531ca2f67584d0",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/tests/test_aso_figures_are_vector_not_raster.py",
@@ -1693,7 +1684,7 @@
       "sha256": "a85c0c317ac5bbf7d4dd333174e457c818456286a571ffb64d3a6e54e3ded2b5",
       "serves": "manuscript_and_figures",
       "also_serves": [],
-      "contributes": "The submission text, its Supporting Information, its cover letter, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
+      "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/tests/test_pdf_text_layer_is_orderable.py",
