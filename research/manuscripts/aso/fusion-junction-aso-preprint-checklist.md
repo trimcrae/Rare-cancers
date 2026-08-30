@@ -464,8 +464,12 @@ artifacts, whose own comment says withholding an ensemble *"leaves the one numbe
 most wants to recompute uncheckable."* Same defect, one screen over, three published versions long.
 
 ★ **THE SIZE OF THE DRIFT, MEASURED AGAINST THE MANIFEST'S OWN INVENTORY.** Diffing the deposited set
-between the published record's revision and HEAD returns **23 differences: 13 changed, 10 added, 0
-removed**, over 484 published paths and 494 now. The ten additions are the duplex-energy screen and
+between the published record's revision and HEAD returns **28 differences: 18 changed, 10 added, 0
+removed**, over 484 published paths and 494 now.
+⚠ *Superseded, retained (rule 1.2): "**23 differences: 13 changed, 10 added, 0 removed.**" True at
+`ba0ab8b1f`; the CI `.docx` rebuild that Table 1's caption fix staled moved five more deposited
+files. **That is the ordering rule biting for the fourth time on this record** — a count of the
+drift is only current until the next rebuild the change implies, exactly as a draft refresh is.* The ten additions are the duplex-energy screen and
 its producer; four packaging modules the chain invokes; and four artifacts a deposited test opens by
 name — `aso-genome-offtarget-noncoding-acceptor.json`, `fusion-neoantigen-retraction.json`,
 `hybrid-intron-model.json` and `nr4a3-deposited-junctions.json`. The changed thirteen are round 23's
