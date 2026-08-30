@@ -21,45 +21,17 @@
     "write": 6
   },
   "n_by_state": {
-    "blocked": 3,
+    "blocked": 2,
     "done": 139,
     "in_progress": 6,
     "parked": 28,
-    "queued": 149,
+    "queued": 150,
     "superseded": 1
   },
   "n_clamped": 12,
   "n_unscored": 87,
   "n_unscored_open": 68,
   "entries": [
-    {
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA",
-        "_route_was": "RT-ASO-JUNCTION",
-        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
-      },
-      "state": "done",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-27",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/manuscripts/build_submission_parts.py exits 1 in the dev sandbox: 'LibreOffice did not write a .docx / Error: source file could not be loaded'",
-      "id": "AUT-PROP-021",
-      "kind": "build",
-      "prerequisite_of": "AUT-PROP-018",
-      "what": "✅ DONE 2026-08-27. Dispatched aso-submission-parts.yml on main; run 33097825961 succeeded and committed df2bc4b02 'ASO submission parts rebuilt on a runner (CI)'. The LibreOffice positive control passed on the runner BEFORE the build ran, so a green build is not a dead tool reported as a malformed manuscript. All three staleness guards verified green after the fast-forward (test_the_word_file_is_not_stale, and both test_no_submission_part_is_stale_against_its_manuscript params). ⚠ The wake armed for this run died with a container restart; the run had already succeeded, so the row was honest by luck rather than by design — a wake armed inside a container is only as durable as the container.",
-      "_score_basis": "inherited from AUT-PROP-018 (+0.5) — it is the work that unblocks it",
-      "score": 200.27,
-      "closes_clause": null
-    },
     {
       "id": "AUT-PD-016",
       "kind": "process_defect",
@@ -137,6 +109,34 @@
       "score": 198.0,
       "depends_on_evidence": "Sweep after AUT-PD-186: `test_emc_fusion_partner_pooling_check.py` and `test_emc_systemic_therapy_pooling_check.py` carried the identical shape — write to a module-level ARTIFACT (= the producer's OUT, a tracked path), restore in a `finally`. Both isolated to tmp_path with the same monkeypatch pattern; ARTIFACT removed entirely so the redirected P.OUT is the single source of the path and no module global has to be juggled. ⭐ THE GUARD'S OWN MUTATION TEST FOUND TWO DEFECTS IN IT BEFORE IT SHIPPED, which is the whole argument for mutation-testing a guard: (1) `os.rename` checked the DESTINATION only, so moving a tracked file OUT of the tree was permitted — rename and shutil.move now check both ends, while shutil.copyfile deliberately checks the destination only, because copying a committed artifact INTO tmp_path is the isolation pattern the guard recommends and checking the source there would refuse its own remedy; (2) the repo root was computed by counting three `dirname`s from a conftest two directories deep, which lands on `research/` — `git ls-files` run there lists only what is under it, so the guard installed cleanly, reported a four-figure tracked set and was BLIND to scripts/, .github/ and systems/ with no symptom. Now resolved by `git rev-parse --show-toplevel`: 6420 tracked paths, scripts/preflight.sh among them.",
       "what": "⭐⭐ TWO THINGS, BOTH ON TRIMCRAE'S INSTRUCTION 2026-08-29 ('I don't want this issue to come up again').\n(1) THE TREE-TAMPERING CLASS IS CLOSED, NOT JUST ITS INSTANCES. research/manuscripts/tests/tracked_tree_guard.py installs a `sys.addaudithook` that REFUSES any write, delete, rename or overwrite of a git-tracked path from inside a test process, bound from all three suites' conftests (manuscripts, modalities, and a new one for autonomy). ⛔ AN AUDIT HOOK RATHER THAN A `git status` CHECK AT THE END, deliberately: a tidiness check catches the LEAK — a restore that lost — and says nothing about the WINDOW, which is the actual defect, since a test that mutates and successfully restores still exposed every concurrent reader. The hook fires at the open, so the window is refused rather than measured, and the traceback names the test. test_no_test_may_write_to_the_tracked_tree.py drives it in BOTH directions — five writing modes refused, delete/rename/overwrite refused, reads permitted, writes to tmp_path permitted, copying a tracked file OUT permitted — and asserts the hook is actually installed, because every other probe would still pass on its own registered path if the conftest binding were ever dropped. The allowlist is EMPTY and a test asserts every future entry carries a real reason.\n(2) THE CONVERGENCE BAR NO LONGER GATES ON P1s. publish_bar's clause 1 refused while ANY P1 was open, merging two grades that paper-hardening §8b says to report separately and never merge — and merging them made an unbounded quantity a publication gate, since closing a P1 ships a new guard and the next round finds gaps in that. Blockers still refuse; the P1 count is printed in both the FAIL and the PASS line so a paper clearing the clause with live coverage gaps says how many. The round-13 objection (a clean round whose own repairs were never reviewed) is untouched: it is carried by `reviewed_commit == sha`, not by the P1 count. ⛔ THIS IS A LOOSENING AND THIS CYCLE WAS BLOCKED BY THE CLAUSE, so it is trimcrae's change, not the loop's — he raised the severity question himself and then directed the fix. Declared in amendments.jsonl with the self-serving check written out."
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-27",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/manuscripts/build_submission_parts.py exits 1 in the dev sandbox: 'LibreOffice did not write a .docx / Error: source file could not be loaded'",
+      "id": "AUT-PROP-021",
+      "kind": "build",
+      "prerequisite_of": "AUT-PROP-018",
+      "what": "✅ DONE 2026-08-27. Dispatched aso-submission-parts.yml on main; run 33097825961 succeeded and committed df2bc4b02 'ASO submission parts rebuilt on a runner (CI)'. The LibreOffice positive control passed on the runner BEFORE the build ran, so a green build is not a dead tool reported as a malformed manuscript. All three staleness guards verified green after the fast-forward (test_the_word_file_is_not_stale, and both test_no_submission_part_is_stale_against_its_manuscript params). ⚠ The wake armed for this run died with a container restart; the run had already succeeded, so the row was honest by luck rather than by design — a wake armed inside a container is only as durable as the container.",
+      "_score_basis": "inherited from AUT-PROP-018 (+0.5) — it is the work that unblocks it",
+      "score": 197.7,
+      "closes_clause": null
     },
     {
       "serves": {
@@ -4577,126 +4577,6 @@
       "closes_clause": null
     },
     {
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA",
-        "_route_was": "RT-ASO-JUNCTION",
-        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
-      },
-      "state": "blocked",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": "AUT-PD-105",
-      "blocked_evidence": "STILL OPEN AND DELIBERATELY NOT RUN AT b53290b37e71. Round 20 found three blockers at that pin, so the pin is not the posted commit and a receipt there would be thrown away for the third time - which is exactly what this row's own text warns about. The environment side is now clear: AUT-PD-105's ablation-coverage failures are closed, and ./scripts/dev-setup.sh was run in this session so the gates measure the repository rather than the sandbox. Two further facts for whoever runs it: (a) build_submission_docx.py and build_submission_parts.py FAIL in this sandbox - LibreOffice reports 'source file could not be loaded' - so the .docx deliverable cannot be rebuilt locally and must come off a runner via aso-submission-parts.yml; (b) a PREFLIGHT_TESTS=1 run in this session was invalidated by the driver's own concurrent write to hardening-state/PUB-ASO.json, which the AUT-PD-186 tracked-tree guard correctly caught. Settle the tree, then run the gate ONCE, then do not touch the tree while it runs.",
-      "retry_budget": 3,
-      "attempts": 2,
-      "last_evidence_utc": "2026-08-30",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
-      "id": "AUT-PROP-018",
-      "kind": "harden",
-      "prerequisite_of": "AUT-049",
-      "what": "run PREFLIGHT_FULL=1 at the FINAL ASO v2 commit and RECORD the receipt with record_bar_evidence.py. ⭐ CLOSES publish_bar CLAUSE 2 FOR PUB-ASO. ⛔ IT MUST BE THE COMMIT THAT IS POSTED — a receipt at an earlier sha closes nothing, and this has already been restarted twice because the tree moved under a run in flight. Run it LAST, after the CI .docx rebuild has landed on main, or it is thrown away.",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "score": 109.77,
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "preflight_full_green"
-      },
-      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
-      "score_inputs": {
-        "age_factor": 0.2143,
-        "blocked_with_evidence": true
-      },
-      "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question.",
-      "_commit_pointer_correction": "2026-08-28T16:31:00Z CYC-0058-18394002: the pinned `commit` (eed563d6b5114f0879c8bcb285f1b67ba9d677e5, from research/autonomy/ready-to-post.json, written by ready_to_post.py's `_head()` as whatever HEAD was in some earlier session's checkout) is UNREACHABLE from origin/main -- `git merge-base origin/claude/dreamy-hawking-vcvlhk origin/main` exits 1, no common ancestor. That branch is a stranded scratch/session branch (144 commits ahead, 88 behind, disjoint root commit), stopped at 'ASO round 11'. DO NOT attempt to recover or merge it: diffing its tip against origin/main shows the ASO journal article text is BYTE-IDENTICAL already, and main additionally carries fusion-junction-aso-paper-redteam-round12.md plus the claim-audit manifest/verdicts JSON that the branch does not have -- main is the more current state, not the branch. The stale pointer is why this row has already burned two PREFLIGHT_FULL attempts: a receipt at that sha could never satisfy publish_bar clause 2 (`record.get('sha') != sha`) because that sha is not where the current work lives. NEXT ATTEMPT: run `ready_to_post.py --write` to refresh the `commit` pointer against a clean, QUIET origin/main checkout (not mid-push), THEN immediately PREFLIGHT_FULL=1 at that same HEAD before anything else lands. Not attempted this cycle: origin/main had 3 concurrent commits land from CYC-0053-3217966b within the ~15 minutes of this session's own work, and a 25-minute FULL run started into that churn would very likely be a third throwaway.",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T16:35:43Z",
-          "fingerprint_at_dispatch": "2026-08-27|None"
-        }
-      ]
-    },
-    {
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA",
-        "_route_was": "RT-ASO-JUNCTION",
-        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "quiet-head-for-the-sha-bound-aso-clauses"
-      ],
-      "blocked_evidence": "SEATS RAN AT b53290b37e71 AND THE CLAUSE IS STILL OPEN, deliberately. Five blind seat records plus the canonical aggregate PUB-ASO-b53290b37e7111761c10e1d2468f03143d418dc8.json are committed. Clause 6 requires verdict == 'supported'; the aggregate carries 'supported_with_reservations' because three blockers stand at that commit, one of them the paper's own Data availability pointing at an unpublished DOI. Writing 'supported' would have cleared a publication gate the evidence does not clear - the clause is a reading, not a formality. No seat found the central scientific claim unsupported, and the arithmetic seat returned fully clean. The next seat must read this round's repairs, which are unreviewed.",
-      "retry_budget": 3,
-      "attempts": 2,
-      "last_evidence_utc": "2026-08-30",
-      "filed_by": "CYC-0020",
-      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
-      "id": "AUT-PROP-019",
-      "kind": "harden",
-      "prerequisite_of": "AUT-049",
-      "what": "re-run a blind adversarial seat on the ASO v2 pinned commit. ⭐ CLOSES publish_bar CLAUSE 6 FOR PUB-ASO. ⚠ ROUND 9 RAN 2026-08-27 (five seats, pin 29f4e5e2, all five verified the digest) and its findings are APPLIED — research/manuscripts/aso/fusion-junction-aso-paper-redteam-round9.md. It does NOT close this clause: the bar wants a seat receipt at the CURRENT commit, and the text moved under it. ⛔ AND THE NEXT SEAT MUST READ WHAT ROUND 9 WROTE: the falsification section was substantially rewritten in response to review (readout, three controls, the delivery/dose/timepoint gap, the TFG mismatch, a success criterion), and paper-hardening is explicit that a verifier's pasteable fix is not pre-verified prose. Record under research/autonomy/review-seats/PUB-ASO-<sha>.json.",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "score": 109.77,
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "independent_adversarial_seat"
-      },
-      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
-      "score_inputs": {
-        "blocked_with_evidence": true,
-        "age_factor": 0.2143
-      }
-    },
-    {
-      "id": "AUT-PROP-042",
-      "kind": "harden",
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA",
-        "_route_was": "RT-ASO-JUNCTION",
-        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "quiet-head-for-the-sha-bound-aso-clauses"
-      ],
-      "blocked_evidence": "ROUND 20 RAN AT b53290b37e71 AND CAME BACK NOT CONVERGED, so this row stays open. Five blind seats, dispatched concurrently, each verifying the document digest ae3014ae5f65 before reading and each reporting the tree unmodified. Result: 3 DISTINCT BLOCKERS (4 instances) and 7 P1 instances; records at research/autonomy/review-seats/PUB-ASO-b53290b37e7111761c10e1d2468f03143d418dc8-seat-*.json, round record at hardening-state/PUB-ASO.json. (1) The Zenodo draft is behind the tree and deposit-state.json plus preprint-checklist 3-i both said it was current - reached INDEPENDENTLY by the regression seat (from the repair diff) and the citations-and-instruments seat (from the manifest digests). FIXED this round in both records, with an explicit refresh-first step 0. (2) The Methods sentence 'Ten null ensembles were built as scrambles of each design and as chimeras joining the same two parent transcripts at real exon termini' is a false enumeration: four of the ten arms are neither. FIXED by replacement; guard added, 8/8 mutations caught. (3) Data availability cites 10.5281/zenodo.22166420, which is reserved but unpublished - NOT FIXABLE BY THE LOOP, it needs trimcrae's Zenodo publish. The arithmetic seat re-derived every printed number and returned 0 blockers, 0 P1s, verdict 'supported', recommendation 'accept'. ROUND 21 IS WARRANTED and must review the commit that carries this round's own repairs, which no seat has seen (paper-hardening 8's round-13 shape). Note this row's own text still says clause 1 closes only with 'NO BLOCKERS AND NO P1s' - that P1 half was removed on trimcrae's decision 2026-08-29 and publish_bar gates on blockers only.",
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-30",
-      "filed_by": "CYC-0047-cyc0047s",
-      "prerequisite_of": "AUT-049",
-      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
-      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "hardening_converged"
-      },
-      "what": "ROUND 13 OF PUB-ASO — five blind seats confirming round 12's two fixes introduced no regression (paper-hardening §4's regression-seat lens is the load-bearing one here, exactly as it was for round 12 confirming round 11): (1) lint_style.py's rewritten HTML-comment handling (strips only the comment span, not the whole line) — check it doesn't now UNDER-exempt (i.e. does a genuinely decorative glyph purely inside a comment still pass clean?) and that it handles a comment with no trailing content, a comment spanning 3+ lines, and two comments on one line; (2) the corrected submission-metrics.json (main_words=3719) actually reproduces byte-for-byte against the pinned commit via `submission_metrics.py --check` run from a FRESH checkout, not the driver's shared working tree, so this round's own review cannot repeat the mutation-window mistake AUT-PD-047 documents. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s, anywhere — article prose AND its generated siblings (tables, references, submission-metrics.json). ⛔ Parallel Agent-tool subagents in the driver session (measured working for this shape of round in a scheduled-Routine context, CYC-031/032/047) unless create_session/handoff is available. ⛔ PIN THE COMMIT ONLY ONCE NOTHING ELSE IS MID-FLIGHT AGAINST THE ASO FAMILY, and if any seat wants to mutation-test a guard, give it an isolated git worktree (EnterWorktree or `git worktree add`) rather than relying on a self-reported scratch copy — AUT-PD-047's whole finding is that the plain instruction alone was not reliable.",
-      "score": 108.91,
-      "_renamed_from": "AUT-PROP-041",
-      "score_inputs": {
-        "blocked_with_evidence": true,
-        "age_factor": 0.1429
-      }
-    },
-    {
       "id": "AUT-PROP-041",
       "kind": "process_defect",
       "process_defect": true,
@@ -4783,6 +4663,123 @@
       },
       "score": 108.5,
       "_score_inherited_from_route": "RT-PARTNER-STRAT"
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
+      },
+      "state": "blocked",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": "AUT-PD-105",
+      "blocked_evidence": "STILL OPEN AND DELIBERATELY NOT RUN AT b53290b37e71. Round 20 found three blockers at that pin, so the pin is not the posted commit and a receipt there would be thrown away for the third time - which is exactly what this row's own text warns about. The environment side is now clear: AUT-PD-105's ablation-coverage failures are closed, and ./scripts/dev-setup.sh was run in this session so the gates measure the repository rather than the sandbox. Two further facts for whoever runs it: (a) build_submission_docx.py and build_submission_parts.py FAIL in this sandbox - LibreOffice reports 'source file could not be loaded' - so the .docx deliverable cannot be rebuilt locally and must come off a runner via aso-submission-parts.yml; (b) a PREFLIGHT_TESTS=1 run in this session was invalidated by the driver's own concurrent write to hardening-state/PUB-ASO.json, which the AUT-PD-186 tracked-tree guard correctly caught. Settle the tree, then run the gate ONCE, then do not touch the tree while it runs.",
+      "retry_budget": 3,
+      "attempts": 2,
+      "last_evidence_utc": "2026-08-30",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "id": "AUT-PROP-018",
+      "kind": "harden",
+      "prerequisite_of": "AUT-049",
+      "what": "run PREFLIGHT_FULL=1 at the FINAL ASO v2 commit and RECORD the receipt with record_bar_evidence.py. ⭐ CLOSES publish_bar CLAUSE 2 FOR PUB-ASO. ⛔ IT MUST BE THE COMMIT THAT IS POSTED — a receipt at an earlier sha closes nothing, and this has already been restarted twice because the tree moved under a run in flight. Run it LAST, after the CI .docx rebuild has landed on main, or it is thrown away.",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "score": 107.2,
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "preflight_full_green"
+      },
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      },
+      "_score_correction": "2026-08-28 CYC-0053-3217966b: blocked_evidence cleared. The condition its own text named — 'the correct next PREFLIGHT_FULL dispatch is AFTER AUT-PROP-020 lands' — has cleared: AUT-PROP-020 is done (a4cc04cab, 2026-08-27) and AUT-PROP-039 is done (2026-08-28). The row's state was never `blocked` and its text opens 'NOT blocked in the strict sense'. The +90 restored is an exact refund of the penalty the flag records, not a mint — verified by seat s63-prereqscore against the fixed scorer, where the same edit on the OLD code minted 90 points from a stale score_inputs flag and would have taken this row to first place by 87. ⛔ last_evidence_utc DELIBERATELY NOT BUMPED: that field is the age clock on how long the WORK has waited, and the work has not been done — clearing a stale block must not reset a starvation clock. The first attempt bumped it and admissibility.py refused the write (refused_stale_input). The gate was right and its refusal is what surfaced the question.",
+      "_commit_pointer_correction": "2026-08-28T16:31:00Z CYC-0058-18394002: the pinned `commit` (eed563d6b5114f0879c8bcb285f1b67ba9d677e5, from research/autonomy/ready-to-post.json, written by ready_to_post.py's `_head()` as whatever HEAD was in some earlier session's checkout) is UNREACHABLE from origin/main -- `git merge-base origin/claude/dreamy-hawking-vcvlhk origin/main` exits 1, no common ancestor. That branch is a stranded scratch/session branch (144 commits ahead, 88 behind, disjoint root commit), stopped at 'ASO round 11'. DO NOT attempt to recover or merge it: diffing its tip against origin/main shows the ASO journal article text is BYTE-IDENTICAL already, and main additionally carries fusion-junction-aso-paper-redteam-round12.md plus the claim-audit manifest/verdicts JSON that the branch does not have -- main is the more current state, not the branch. The stale pointer is why this row has already burned two PREFLIGHT_FULL attempts: a receipt at that sha could never satisfy publish_bar clause 2 (`record.get('sha') != sha`) because that sha is not where the current work lives. NEXT ATTEMPT: run `ready_to_post.py --write` to refresh the `commit` pointer against a clean, QUIET origin/main checkout (not mid-push), THEN immediately PREFLIGHT_FULL=1 at that same HEAD before anything else lands. Not attempted this cycle: origin/main had 3 concurrent commits land from CYC-0053-3217966b within the ~15 minutes of this session's own work, and a 25-minute FULL run started into that churn would very likely be a third throwaway.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T16:35:43Z",
+          "fingerprint_at_dispatch": "2026-08-27|None"
+        }
+      ]
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "quiet-head-for-the-sha-bound-aso-clauses"
+      ],
+      "blocked_evidence": "SEATS RAN AT b53290b37e71 AND THE CLAUSE IS STILL OPEN, deliberately. Five blind seat records plus the canonical aggregate PUB-ASO-b53290b37e7111761c10e1d2468f03143d418dc8.json are committed. Clause 6 requires verdict == 'supported'; the aggregate carries 'supported_with_reservations' because three blockers stand at that commit, one of them the paper's own Data availability pointing at an unpublished DOI. Writing 'supported' would have cleared a publication gate the evidence does not clear - the clause is a reading, not a formality. No seat found the central scientific claim unsupported, and the arithmetic seat returned fully clean. The next seat must read this round's repairs, which are unreviewed.",
+      "retry_budget": 3,
+      "attempts": 2,
+      "last_evidence_utc": "2026-08-30",
+      "filed_by": "CYC-0020",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "id": "AUT-PROP-019",
+      "kind": "harden",
+      "prerequisite_of": "AUT-049",
+      "what": "re-run a blind adversarial seat on the ASO v2 pinned commit. ⭐ CLOSES publish_bar CLAUSE 6 FOR PUB-ASO. ⚠ ROUND 9 RAN 2026-08-27 (five seats, pin 29f4e5e2, all five verified the digest) and its findings are APPLIED — research/manuscripts/aso/fusion-junction-aso-paper-redteam-round9.md. It does NOT close this clause: the bar wants a seat receipt at the CURRENT commit, and the text moved under it. ⛔ AND THE NEXT SEAT MUST READ WHAT ROUND 9 WROTE: the falsification section was substantially rewritten in response to review (readout, three controls, the delivery/dose/timepoint gap, the TFG mismatch, a success criterion), and paper-hardening is explicit that a verifier's pasteable fix is not pre-verified prose. Record under research/autonomy/review-seats/PUB-ASO-<sha>.json.",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "score": 107.2,
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "independent_adversarial_seat"
+      },
+      "lease_released": "claim by CYC-0020 released (never stamped with claimed_utc, so it could not be aged). A claim is a lease, not a deed — see priority-weights.json claim_lease.",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
+    },
+    {
+      "id": "AUT-PROP-042",
+      "kind": "harden",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA",
+        "_route_was": "RT-ASO-JUNCTION",
+        "_route_remap_note": "AUT-PD-177: `RT-ASO-JUNCTION` appears in no route of systems/graph/routes.json (77 routes), so apply_route_inheritance had no floor to give this row and every route-keyed reader treated it as routeless process work. Remapped to `RT-ASO`, which the graph determines rather than this cycle choosing: it is the `primary` route for the publication these rows name."
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "quiet-head-for-the-sha-bound-aso-clauses"
+      ],
+      "blocked_evidence": "ROUND 20 RAN AT b53290b37e71 AND CAME BACK NOT CONVERGED, so this row stays open. Five blind seats, dispatched concurrently, each verifying the document digest ae3014ae5f65 before reading and each reporting the tree unmodified. Result: 3 DISTINCT BLOCKERS (4 instances) and 7 P1 instances; records at research/autonomy/review-seats/PUB-ASO-b53290b37e7111761c10e1d2468f03143d418dc8-seat-*.json, round record at hardening-state/PUB-ASO.json. (1) The Zenodo draft is behind the tree and deposit-state.json plus preprint-checklist 3-i both said it was current - reached INDEPENDENTLY by the regression seat (from the repair diff) and the citations-and-instruments seat (from the manifest digests). FIXED this round in both records, with an explicit refresh-first step 0. (2) The Methods sentence 'Ten null ensembles were built as scrambles of each design and as chimeras joining the same two parent transcripts at real exon termini' is a false enumeration: four of the ten arms are neither. FIXED by replacement; guard added, 8/8 mutations caught. (3) Data availability cites 10.5281/zenodo.22166420, which is reserved but unpublished - NOT FIXABLE BY THE LOOP, it needs trimcrae's Zenodo publish. The arithmetic seat re-derived every printed number and returned 0 blockers, 0 P1s, verdict 'supported', recommendation 'accept'. ROUND 21 IS WARRANTED and must review the commit that carries this round's own repairs, which no seat has seen (paper-hardening 8's round-13 shape). Note this row's own text still says clause 1 closes only with 'NO BLOCKERS AND NO P1s' - that P1 half was removed on trimcrae's decision 2026-08-29 and publish_bar gates on blockers only.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-30",
+      "filed_by": "CYC-0047-cyc0047s",
+      "prerequisite_of": "AUT-049",
+      "depends_on_evidence": "research/autonomy/ready-to-post.json — PUB-ASO NOT-READY, 4/7 clauses",
+      "_score_basis": "inherited from AUT-049 (+0.5) — it is the work that unblocks it",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "what": "ROUND 13 OF PUB-ASO — five blind seats confirming round 12's two fixes introduced no regression (paper-hardening §4's regression-seat lens is the load-bearing one here, exactly as it was for round 12 confirming round 11): (1) lint_style.py's rewritten HTML-comment handling (strips only the comment span, not the whole line) — check it doesn't now UNDER-exempt (i.e. does a genuinely decorative glyph purely inside a comment still pass clean?) and that it handles a comment with no trailing content, a comment spanning 3+ lines, and two comments on one line; (2) the corrected submission-metrics.json (main_words=3719) actually reproduces byte-for-byte against the pinned commit via `submission_metrics.py --check` run from a FRESH checkout, not the driver's shared working tree, so this round's own review cannot repeat the mutation-window mistake AUT-PD-047 documents. ⭐ CLOSES publish_bar CLAUSE 1 (hardening_converged) ONLY IF IT COMES BACK WITH NO BLOCKERS AND NO P1s, anywhere — article prose AND its generated siblings (tables, references, submission-metrics.json). ⛔ Parallel Agent-tool subagents in the driver session (measured working for this shape of round in a scheduled-Routine context, CYC-031/032/047) unless create_session/handoff is available. ⛔ PIN THE COMMIT ONLY ONCE NOTHING ELSE IS MID-FLIGHT AGAINST THE ASO FAMILY, and if any seat wants to mutation-test a guard, give it an isolated git worktree (EnterWorktree or `git worktree add`) rather than relying on a self-reported scratch copy — AUT-PD-047's whole finding is that the plain instruction alone was not reliable.",
+      "score": 107.2,
+      "_renamed_from": "AUT-PROP-041",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
     },
     {
       "serves": {
