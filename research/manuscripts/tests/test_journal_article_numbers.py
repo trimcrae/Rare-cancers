@@ -253,6 +253,43 @@ def test_the_chimeric_null_the_abstract_quotes_is_the_exon_terminus_arm(prose, n
                 "how many null ensembles §8 says were built and screened")
 
 
+def test_the_null_ensemble_composition_is_the_artifacts_composition(prose, null):
+    """⛔⛔ THE COUNT WAS BOUND AND THE DESCRIPTION WAS NOT, AND THE DESCRIPTION WENT WRONG.
+
+    §8 stated "Ten null ensembles were built as scrambles of each design and as chimeras joining
+    the same two parent transcripts at real exon termini". The count was correct and guarded by the
+    assertion above; the SENTENCE AROUND IT enumerated ten arms as being of two kinds, and four of
+    the ten are neither — `random_uniform` and `random_composition_matched` are drawn i.i.d. and
+    are scrambles of nothing, `random_parent_chimera` joins random interior windows rather than
+    exon termini, and `draw_donor_terminus_chimera`'s own docstring has only the DONOR half ending
+    at a real terminus. Found by the round-20 regression seat; introduced when "ten" was carried
+    into this sentence and turned a partial description into an enumeration.
+
+    ★ SO THE CLASSES ARE DERIVED FROM THE ARTIFACT'S OWN ARM NAMES BY PREDICATE, NOT LISTED HERE.
+    A list would regress at the first new arm (§8b.2): adding `scrambled_trinucleotide` to the
+    module would leave a typed list saying four and the artifact holding five. The partition is
+    asserted exhaustive, so an arm that answers no predicate fails this test rather than being
+    silently dropped from a count the prose prints.
+    """
+    arms = null["null_ensembles"]
+    shuffles = [n for n in arms if "scrambled" in n]
+    chimeras = [n for n in arms if "chimera" in n]
+    termini = [n for n in chimeras if "exon_terminus" in n]
+    drawn = [n for n in arms if n not in shuffles and n not in chimeras]
+    assert len(shuffles) + len(chimeras) + len(drawn) == len(arms), (
+        "the three classes §8 names no longer partition the null ensembles: "
+        f"{sorted(set(arms) - set(shuffles) - set(chimeras) - set(drawn))} answer none of them, so "
+        "the sentence enumerates arms it does not describe")
+    _every_site(prose, r"(\w+) shuffles of each design", _word(len(shuffles)),
+                "how many null arms §8 says are shuffles of a design")
+    _every_site(prose, r"(\w+) drawn base by base", _word(len(drawn)),
+                "how many null arms §8 says are drawn base by base")
+    _every_site(prose, r"(\w+) chimeras of two real parent transcripts", _word(len(chimeras)),
+                "how many null arms §8 says are parent-parent chimeras")
+    _every_site(prose, r"(\w+) of them meeting at real exon termini", _word(len(termini)),
+                "how many chimeric null arms §8 says meet at real exon termini")
+
+
 def test_the_junction_clearing_ladder_is_the_artifacts_ladder(prose, null):
     """⛔ EVERY RUNG THE PROSE STATES, AGAINST THE CUT IT CLAIMS IT FOR.
 

@@ -1,0 +1,60 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "b53290b37e7111761c10e1d2468f03143d418dc8",
+  "document_sha256": "ae3014ae5f65ada06814e772c25979ed3508c08618691acfa1aec7efd6b22799",
+  "blind": true,
+  "seat": "statistics",
+  "lens": "Whether the screens, thresholds, intervals and the proposed falsifying experiment bound what the prose says they bound — recomputing every stated proportion, interval, power and void figure from the producing artifacts, and asking whether an independent laboratory reading only this manuscript would compute the same decision from the same result.",
+  "utc": "2026-08-30T00:00:00Z",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+    "research/manuscripts/aso/fusion-junction-aso-claim-audit-verdicts.json",
+    "research/manuscripts/aso_falsification_power.py",
+    "research/manuscripts/aso_reagent_coverage.py",
+    "research/manuscripts/tests/test_journal_article_numbers.py",
+    "research/manuscripts/tests/test_the_paper_states_what_its_own_claims_depend_on.py",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso-parent-gap-pairing-noncoding-acceptor.json",
+    "research/modalities/aso-gap-length-tradeoff.json",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/aso-premrna-offtarget.json",
+    "research/modalities/aso_screen_sets.py"
+  ],
+  "central_claim": "That the manuscript's screen counts, proportions and intervals are the ones its stated methods yield on its stated data; that its comparison of the 190-design panel against the exon-terminus chimeric null is reported in the direction the artifact records; and that the pre-registrable selectivity threshold and its power/void figures are specified well enough for an independent laboratory to reach the same decision from the same result.",
+  "verdict": "supported_with_reservations",
+  "recommendation": "minor_revision",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The assumed replicate standard deviation of 0.35 — the single input the manuscript's power figures are computed from — is stated twice, in the manuscript prose and as SIGMA in aso_falsification_power.py, and no instrument in the repository compares the two. Changing either alone leaves every test green and the manuscript internally inconsistent.",
+      "evidence": "The article states 'At an assumed replicate standard deviation of 0.35 on the natural-log scale ... six independent biological replicates give about 80% power to falsify a true selectivity of 3 and three give about 30%' (research/manuscripts/aso/fusion-junction-aso-journal-article.md line 319; present verbatim in the .docx). The producing module holds `SIGMA = 0.35` (research/manuscripts/aso_falsification_power.py line 43) and I reproduced its output exactly: n=3 power 30.42%, n=6 81.28%, void_sd 0.648/1.534/2.250 — matching every printed figure. The guard, `test_the_falsification_power_figures_are_derived_not_typed` in research/manuscripts/tests/test_journal_article_numbers.py, binds the OUTPUTS (power at 6 and 3, TRUE_SELECTIVITY, the three void SDs) but never reads '0.35' out of the prose. The sibling guard `test_the_falsification_cut_is_the_stated_value` in research/manuscripts/tests/test_the_paper_states_what_its_own_claims_depend_on.py line 216 pins the OTHER pre-registered constant, asserting `re.search(r'cut of 5\\.0', text)` against the article source — so CUT is guarded in both directions and SIGMA in neither. `git grep '0.35'` across research/manuscripts/tests and research/modalities/tests returns no assertion reading the article's stated SD.",
+      "what_edit_would_break_it": "Editing the prose alone to a different assumed SD — e.g. 'a replicate standard deviation of 0.45', a plausible revision after a pilot — leaves SIGMA=0.35 in the module, so the guard still recomputes 81.28%/30.42%, still finds 'about 80%'/'about 30%' in the prose, and passes; the printed power is then wrong for the printed assumption by a wide margin (at sigma=0.45 the true figures are 60.9% and 21.3%; at 0.50, 52.3% and 18.4%). The converse edit is equally silent: changing SIGMA in the module forces the prose power figures to be updated to match, and the prose '0.35' is then stale with nothing reading it. Note that void_sd does not depend on SIGMA, so the 0.65/1.53/2.25 figures would not move and would give no signal either way.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article.md (line 319) and its build product research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx — the Qeios deliverable; the unguarded pair is (that prose, research/manuscripts/aso_falsification_power.py SIGMA)."
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "The falsification decision rule is stated only obliquely in the journal article, and two conditions an independent laboratory would need to apply it are absent from the deliverable although the extended report fixes both — so two labs with the same data can reach different decisions.",
+      "evidence": "The .docx says only: 'Selectivity is the ratio of two half-maximal knockdown concentrations: wild-type NR4A3 over the fusion, from a matched dose-response in the same wells. The cut of 5.0 is adopted as a convention.' The rule that the cut applies to an interval bound rather than to the point estimate appears nowhere as a rule — it is recoverable only by inference from the void sentence, 'no observed ratio at or above one can put the upper limit of a two-sided 95% interval below 5'. The extended report states it outright (research/manuscripts/aso/fusion-junction-aso-research-article.md line 1841): 'The ranking is falsified only where the upper bound of the 95% confidence interval lies below the cut, never where a point estimate does.' Two further conditions are in the extended report and not in the .docx: (a) the case that decides most runs — 'The ratio is reportable only where the wild-type NR4A3 knockdown is itself resolved above a pre-stated limit of quantification ... a wild-type change indistinguishable from none returns an unbounded selectivity that would otherwise pass by default' (research-article.md ~line 1842); grep for 'quantification' and 'point estimate' in the journal article and in the extracted .docx text returns nothing. (b) The void gate is stated as applying to 'the upper confidence bound on a pilot's standard deviation' (journal-article.md line 327) with no confidence level named, in either document — a 90% and a 95% upper bound on the same pilot give different decisions at the same void figure.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx (Discussion, 'The falsification experiment'), built from research/manuscripts/aso/fusion-junction-aso-journal-article.md lines 314-329. The missing statements are present in research/manuscripts/aso/fusion-junction-aso-research-article.md, which Qeios does not receive."
+    },
+    {
+      "summary": "The prescribed falsification experiment names only the two negative controls; the positive/delivery control that the companion report calls required — the one whose job is to separate a delivery failure from a reagent that reached its target and did not cleave it — is absent from the deliverable, so a null result cannot be assigned to reagent versus delivery.",
+      "evidence": "The .docx says: 'It is specified here for these reagents, with the two screened controls above, which a knockdown assay alone cannot distinguish.' Its Controls section names two sequences only (Table 2, the two dinucleotide-preserving scrambles). The string 'positive control' does not occur anywhere in the extracted .docx text. The extended report contradicts the sufficiency of that set: 'Three assay controls are required, and a knockdown assay alone distinguishes none of them: a positive control gapmer against an abundant housekeeping transcript in the same cells, to separate failed delivery from a test reagent that reached its target and did not cleave it. It must be of the same 5-6-5 beta-D-oxy-LNA phosphorothioate geometry as the test articles ...' (research/manuscripts/aso/fusion-junction-aso-research-article.md lines 1687-1695). The same passage also records that the third required control, a fusion-negative isogenic comparator, is unavailable for two of the five named test articles — 'Neither patient-derived model of §3 has a fusion-negative counterpart reported or sourced anywhere here' — while the .docx prescribes 'An isogenic fusion-positive against fusion-negative comparison' without that qualification. Graded P2 and not BLOCKER because no printed sentence is false: 'Two controls are named as sequences' is precisely hedged, and a delivery failure yields no dose-response and therefore no ratio, so it cannot produce a false falsification — only an uninterpretable run the deliverable gives no rule for.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx (sections 'Controls for the knockdown experiment' and 'The falsification experiment'), built from research/manuscripts/aso/fusion-junction-aso-journal-article.md lines 305-329."
+    },
+    {
+      "summary": "The prescribed design runs two ranking tests against one cut; the journal article states single-test power and no error rate, while the extended report computes the familywise rate for exactly this roster.",
+      "evidence": "The .docx prescribes the experiment 'for these reagents' — both named reagents, one test each at the same cut of 5.0 — and states 'six independent biological replicates give about 80% power', a per-test figure, with no statement that the error rate quoted is per test. The extended report addresses the journal article's design by name (research/manuscripts/aso/fusion-junction-aso-research-article.md, ~lines 1857-1870): 'A closed sub-design is a different case, and the journal article prescribes one. That article's §5 sets out one experiment with a fixed roster ... the design holds two ranking tests, one per named reagent at its own junction ... Two tests at a nominal one-sided 2.5% carry a familywise error rate of 4.94%, and that is the rate the prescribed design runs at; reading the two exon-2 reagents against the same cut makes four tests at 9.63%, and adding the three control designs seven at 16.24%.' It also records the order effect — 'A falsification carries the full weight of its confidence statement for the first reagent tested against this cut and less for each one after it' — which is likewise absent from the deliverable. The .docx contains no occurrence of 'familywise', 'multiplic', 'one-sided' or '2.5%'. This is an omission, not an error: the per-test power figures reproduce exactly (81.28% and 30.42% from research/manuscripts/aso_falsification_power.py), and no familywise claim is made.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx (Discussion, 'The falsification experiment'), built from research/manuscripts/aso/fusion-junction-aso-journal-article.md lines 314-329."
+    }
+  ]
+}

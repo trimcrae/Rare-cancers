@@ -223,7 +223,20 @@ def test_a_pending_draft_still_matches_the_tree_it_was_built_from():
     # publish reading the opposite of what this guard believes they were told. Same shape as M10,
     # in the neighbouring assertion.
     section = _open_blocking_section(text)
-    assert re.search(r"re-?run the deposit|new_version=false|refresh the draft", section, re.I), (
+    # ⛔⛔ AND A REPORT THAT THE REFRESH ALREADY HAPPENED IS NOT AN INSTRUCTION TO PERFORM IT — the
+    # pattern here used to be `re-?run the deposit|new_version=false|refresh the draft`, and at
+    # b53290b37e71 it was satisfied by the blocking item's own sentence "Dispatched
+    # `deposit-zenodo.yml` with `new_version=false` at `f6e313d98`", i.e. by the claim that the
+    # draft was ALREADY CURRENT. The tree had moved one commit later (round 19's cover-letter
+    # repair), the draft was stale, and this guard — the one instrument whose whole job is to warn
+    # the publisher — read the stale-denying sentence as its own warning and went green.
+    # ⚠ Found by the round-20 `citations-and-instruments` seat. It is the same shape as the M16
+    # defect above: the phrase was present, in the right section, and meant the opposite.
+    # ★ SO THE VERB MUST BE IMPERATIVE. `\b` after the stem does the work: "Dispatched" and
+    # "Refreshed" are not matched by `\bdispatch\b` / `\brefresh\b`, in any case, because the
+    # following character is a word character and there is no boundary there.
+    assert re.search(r"\b(?:dispatch|refresh|re-?run)\b[^\n]{0,200}?"
+                     r"(?:deposit-zenodo\.yml|new_version=false|draft)", section, re.I), (
         f"the draft {pending['doi']} was built at archive digest {recorded[:16]}… and this tree is "
         f"at {str(manifest.get('archive_content_digest'))[:16]}…, which is expected between "
         "commits — but nothing in the preprint checklist tells whoever publishes it to refresh the "

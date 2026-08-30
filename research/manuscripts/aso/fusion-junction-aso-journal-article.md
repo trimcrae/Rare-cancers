@@ -124,9 +124,10 @@ or more of its 16 positions. Each alignment
 was re-scored on the nearest-neighbour stability of its longest contiguous paired run — the
 energy-based second stage adopted here — and only separations are reported. A design is
 liable where a wild-type parent pairs its whole catalytic gap over a contiguous run of ten base
-pairs or more, ten being adopted rather than measured. Ten null ensembles were built as scrambles
-of each design and as chimeras joining the same two parent transcripts at real exon termini,
-screened identically. Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at
+pairs or more, ten being adopted rather than measured. Ten null ensembles were built and screened
+identically: four shuffles of each design, two drawn base by base from uniform or
+composition-matched frequencies, and four chimeras of two real parent transcripts, two of
+them meeting at real exon termini. Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at
 250 nM strand.<sup>15</sup><!--PMID:7545436--> That is not a locked phosphorothioate
 oligonucleotide, so no absolute melting point is reported. Only the fusion-versus-parent separation
 is, and as a floor: the fusion duplex pairs all ten locked residues where each parent pairs five.

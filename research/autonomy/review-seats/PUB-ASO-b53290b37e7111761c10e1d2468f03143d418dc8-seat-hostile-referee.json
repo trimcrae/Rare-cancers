@@ -1,0 +1,81 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "b53290b37e7111761c10e1d2468f03143d418dc8",
+  "document_sha256": "ae3014ae5f65ada06814e772c25979ed3508c08618691acfa1aec7efd6b22799",
+  "blind": true,
+  "seat": "hostile-referee",
+  "lens": "I read this cold as a sceptical nucleic-acid-therapeutics referee, attacking the two named gapmers as 'best available', the boundedness of the tumour-exclusivity and coverage claims, the honesty of the delivery gate, and whether a laboratory has everything it needs (reagent identity, controls, decision threshold, sequences) to act without being misled.",
+  "utc": "2026-08-30T11:10:54Z",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+    "research/manuscripts/aso/fusion-junction-aso-claim-audit-verdicts.json",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+    "research/manuscripts/aso/deposit-state.json",
+    "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",
+    "research/manuscripts/aso/aso-delivery-evidence-2026-08.json",
+    "research/manuscripts/aso/lit-targets-aso-gap-length.json",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-per-junction-table.json",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/aso-premrna-offtarget.json",
+    "research/modalities/aso-independent-verification.json",
+    "research/modalities/nr4a3-fusion-junction-atlas.json",
+    "research/modalities/junction-aso-designs-e12n3.json",
+    "research/modalities/emc-model-junction-evidence.json",
+    "research/modalities/tests/test_aso_submission_numbers.py",
+    "research/manuscripts/tests/test_journal_article_numbers.py",
+    "research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py",
+    "research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py",
+    "research/manuscripts/tests/test_aso_deposition_doi_is_one_fact.py",
+    "research/manuscripts/aso_sequence_manifest.py",
+    "research/manuscripts/figures/aso-multipartner-seam.png",
+    "research/manuscripts/figures/aso-multipartner-seam.svg"
+  ],
+  "central_claim": "That two named 5-6-5 phosphorothioate LNA gapmers - 5'-GGGCATATCATCAAAC-3' at EWSR1 exon 12::NR4A3 exon 3 and 5'-GGGCATATCTTGTGTG-3' at TAF15 exon 6::NR4A3 exon 3 - are the best available junction-spanning designs at the two most frequently reported exon-resolved EMC breakpoints, that a five-screen in-silico off-target panel over 190 designs bounds their wild-type-parent liability at eight and nine base pairs of duplex through the catalytic gap, and that the paper asserts nothing about efficacy, delivery or clinical readiness.",
+  "verdict": "supported_with_reservations",
+  "recommendation": "minor_revision",
+  "blockers": [
+    {
+      "summary": "Data availability cites a Zenodo version DOI that is a DRAFT, not a published record, so at this commit every archive link in the Word deliverable resolves to nothing - and the Declarations route a laboratory's ordering safety through a file that reaches the reader only via that deposit.",
+      "quote": "**Data availability.** All code, graded artefacts, per-design tables, every screen's parameters and the complete bounds on each claim are deposited under [doi:10.5281/zenodo.22166420](https://doi.org/10.5281/zenodo.22166420), the citable record for them.   [and, in Declarations] Order from the canonical record, `fusion-junction-aso-sequences.csv`, which specifies the sequence, every locked residue and the backbone",
+      "evidence": "research/manuscripts/aso/deposit-state.json at the pin: `pending.doi` = \"10.5281/zenodo.22166420\", `pending.drafted` = \"2026-08-29\", and `pending._what_remains` = \"Publishing, by hand, on Zenodo - https://zenodo.org/deposit/22166420. Irreversible, and trimcrae's act. ... Until then the papers cite a DOI that does not yet resolve\"; the only PUBLISHED record is `published.doi` = \"10.5281/zenodo.22061075\" (2026-08-23). research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py states the same in its own failure message: \"version {pending['doi']} has been drafted and the papers cite it, but it is NOT published - so every archive link in both manuscripts currently resolves to nothing.\" research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md carries it as open item 3-i under '## 3 . Open, and blocking the journal submission'. The manuscript deliberately refuses the concept DOI (deposit-state.json `published._what_the_concept_doi_is_for`: \"whether a paper should cite it has an answer: NO\"), so there is no live fallback identifier in the text.",
+      "why_a_reader_would_be_misled": "The sentence is present tense and asserts a deposit exists. A reader who follows it today gets nothing. That is not merely a broken citation: the Statements and Declarations tell a laboratory to order the oligonucleotides from `fusion-junction-aso-sequences.csv` rather than from the page, because only that file carries the per-residue chemistry (5-methylcytosine on locked C, unmethylated dC in the gap, free 5'/3'-OH, sodium salt), the do_not_order verdicts, and the near-identical-neighbour warnings that a single-base transcription error would trip. The manuscript names that file by bare filename with no locator other than the dead DOI, so at this commit the paper's own ordering-safety instruction is unactionable and the reader is left with the bare base strings printed in Table 1 - which the table's caption itself says must not be used. One act settles it: publish Zenodo draft 22166420 and read the record back, BEFORE the Qeios v2 post, which is the order deposit-state.json and checklist item 3-i already require.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx (the Word file the Qeios v2 post consumes; the same text is in its source research/manuscripts/aso/fusion-junction-aso-journal-article.md and in all four PDF builds)"
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "The .docx - the deliverable the gated act consumes - has its sha256 recorded nowhere. Its build stamp pins only its INPUTS, the archive manifest omits every .docx while listing all four PDFs, and the completeness gate reads the builder's self-reported `measured` block rather than the file on disk. An out-of-band edit or re-save of the Word file leaves every gate green.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json carries `built_from` (four source hashes plus the figure raster) and `measured` = {headings: 19, images: 1, words: 5525}; it carries no digest of the .docx itself. research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py: `test_the_word_file_is_not_stale` hashes only the entries of `built_from`; `test_the_conversion_did_not_quietly_drop_the_manuscript` asserts on `_stamp().get(\"measured\", {})`, i.e. the number the builder wrote, not a recount from the archive. Only `test_the_figure_travels_as_bytes_rather_than_as_a_link` opens the .docx at all, and it inspects word/media and the rels, not the text. research/manuscripts/aso/fusion-junction-aso-archive-manifest.json `files` contains zero entries ending in .docx (I enumerated them) against eight ending in .pdf, so `--check-archive` does not cover it either. I verified the current file is faithful: extracting word/document.xml gives text matching the pinned .md section for section, including the reagent sequences, the eight/nine duplex lengths, both tables and the figure legend.",
+      "what_edit_would_break_it": "Anyone opening the .docx in Word or LibreOffice to adjust formatting for the Qeios upload and saving it - the single most likely thing to happen to this file between now and the post - can alter or drop text (a sequence digit, the 'not for administration' declaration, a whole section) and every guard stays green, because the inputs still hash correctly and the stamp still reports 5525 words. The same is true of a truncated or partially-written build whose stamp is left from a prior run. Recording the .docx's own sha256 in the stamp and asserting it, and recounting headings/words from the archive rather than from `measured`, closes it.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx, its .build-stamp.json, research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py, research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "'The best available designs' is asserted without its selection rule anywhere in the deliverable, and the properties the sentence does give (top gap-level margin of three, clears the parent screen) do not uniquely select the reagent at one of the two named junctions.",
+      "evidence": "Journal article, Results: \"The two reagents named for synthesis are the best available designs at the two junctions with a published exon-resolved breakpoint and the highest reported prevalence ... Both hold the panel's top gap-level margin of three ... and neither pairs a wild-type parent through the gap at the ten-base-pair criterion below.\" The actual rule appears only in the extended report, research/manuscripts/aso/fusion-junction-aso-research-article.md: \"Table 2 - from which the reagents of section 4.1 are taken - orders designs by parent liability first, then pre-mRNA sites, then distinct gene loci, with the margin breaking ties.\" research/modalities/aso-per-junction-table.json warns in its own header field `two_axes_not_one`: \"gap_specificity_margin ... and the transcriptome load move in opposite directions at some seams and are never combined into a single score.\" EWSR1_e12__NR4A3_e3 is such a seam: FOUR of its five registers clear the parent screen, and the named reagent GGGCATATCATCAAAC carries n_gap_paired 123 while the clean alternative GCATATCATCAAACCA carries 34 and GGCATATCATCAAACC carries 38. The journal article reports the 123 as a property that 'separates the two' reagents without saying that a design at the same junction, clearing the same screen, carries a third of it. research/manuscripts/aso_sequence_manifest.py records the general hazard in a code comment: \"The paper states exactly one selection rule for this file - rank by gap-level margin - and following it returns a design this file condemns at EIGHT of the 40 junctions it keys a row to.\" One sentence naming the ordering (parent liability, then pre-mRNA sites, then distinct gene loci, margin as tie-break) would close it. Nothing here is false; the claim is underdetermined in the deliverable, and the ordering hazard is mitigated because the CSV carries do_not_order beside every sequence.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article.md (Results, 'The reagents'), and its .docx build"
+    },
+    {
+      "summary": "The journal article justifies the 5-6-5 geometry only as a tooling constraint and drops the retrieved finding, present in its own extended report and literature cache, that shortening a 5-10-5 gapmer to 5-6-5 was reported to cost on-target activity and allele selectivity. That bears directly on a laboratory's decision to synthesise.",
+      "evidence": "Journal article, Methods: \"That gap is the shortest length the cited source credits rather than its preferred one, and six is used because the genome-wide arm is not available above a 16-mer.\" research/manuscripts/aso/lit-targets-aso-gap-length.json, PMID 39126066, verbatim quotes from the cached full text: \"The AOs with the six-base gap regions (7-6-7) and (5-6-5) caused the least knockdown of the off-target genes. These AOs, however, were also comparably ineffective at reducing expression of the FUS target gene\" and \"The AO with the six-base gap performed better when overall AO length was also reduced (5-6-5) but was still much less effective than the original 5-10-5 AO design.\" The extended report states it fully - research/manuscripts/aso/fusion-junction-aso-research-article.md: \"one series that shortened a 5-10-5 gapmer to 5-6-5 reported lower off-target knockdown but also lower on-target activity and lower allele selectivity\" - with the honest bound that those gapmers carry thiomorpholino rather than LNA wings and target a SNP rather than a junction. The journal article's adjacent sentence \"a longer gap buys margin per design without removing the liability\" reads as an argument for staying at 5-6-5, and the reader of the deliverable alone never sees the reported activity cost of doing so.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article.md (Materials and Methods; Results, 'Selection from a panel of 190 designs'), and its .docx build"
+    },
+    {
+      "summary": "A deposited screen artifact carries a stale bullet stating that the designs surviving every screen have a longest parent run of zero 'at any length', under a heading that says the result does not turn on the threshold - which is the opposite of what the manuscript says about the two named reagents.",
+      "evidence": "research/modalities/aso-parent-gap-pairing.json, `_what_this_is_not` bullet 4: \"Not a result that turns on that threshold. The two designs surviving every screen in the manuscript have a longest run of ZERO at any length, and the ordering by gap-level margin is monotone at every threshold from 6 to 12.\" The same file's own per_design rows give the two named reagents 8 bp (GGGCATATCATCAAAC, parent TFG) and 9 bp (GGGCATATCTTGTGTG, parent TFG); nine designs in the panel have a run of zero and neither reagent is among them. The manuscript states the contrary in three places, e.g. \"Both reagents sit close to that ten-base-pair criterion ... The cut therefore decides how they read. At eight, both fall inside the class this work marks as not to be ordered.\" The count is also stale: the extended report says \"Three designs survive every screen, two at any parent-duplex threshold\", so the intended reading is 'two OF the designs surviving every screen', not 'the two designs'. Not promoted, because a reader has the correct number in the abstract, in Results and in Table 1, and the CSV carries the per-design duplex length beside every sequence. The single observation that would promote it: any downstream document quoting that bullet as a bound on the named reagents.",
+      "artifact": "research/modalities/aso-parent-gap-pairing.json (a deposited artifact cited by the manuscript's Data availability), not the .docx"
+    }
+  ]
+}

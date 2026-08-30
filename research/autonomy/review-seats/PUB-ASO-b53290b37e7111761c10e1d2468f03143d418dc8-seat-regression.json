@@ -1,0 +1,107 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "b53290b37e7111761c10e1d2468f03143d418dc8",
+  "document_sha256": "ae3014ae5f65ada06814e772c25979ed3508c08618691acfa1aec7efd6b22799",
+  "blind": true,
+  "seat": "regression",
+  "lens": "Whether the recent repairs to this manuscript and its machinery (round-18/19 sentence replacements, the cover-letter correction, the Zenodo DOI substitution to 22166420, and the three new test guards) introduced new defects: wording that is now false or more sweeping than what it replaced, a broken cross-reference, a number that no longer agrees with its source, an identifier substituted unevenly, a statement about the paper's own artifacts that a repair falsified, or a guard that passes while the defect it names is present.",
+  "utc": "2026-08-30T11:07:50Z",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-title-page.docx.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-figure-legends.docx.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
+    "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",
+    "research/manuscripts/aso/deposit-state.json",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+    "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+    "research/manuscripts/tests/test_journal_article_numbers.py",
+    "research/manuscripts/tests/test_a_display_item_cell_is_not_clipped.py",
+    "research/manuscripts/tests/tracked_tree_guard.py",
+    "research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py",
+    "research/manuscripts/submission_metrics.py",
+    "research/manuscripts/aso_falsification_power.py",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso_parent_null.py",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso-parent-gap-pairing-noncoding-acceptor.json",
+    "research/modalities/nr4a3-fusion-junction-atlas.json",
+    "research/modalities/aso-gap-length-tradeoff.json",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/aso-premrna-offtarget.json",
+    "research/modalities/aso-premrna-sequences.json",
+    "research/modalities/junction-aso-thermo.json",
+    "research/modalities/junction-aso-offtarget-e10n3.json",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json@f6e313d98"
+  ],
+  "central_claim": "That the repairs made to this manuscript and its surrounding machinery between the round-18 blocker fixes and the pinned commit left every repaired statement, number, identifier and guard true and bound at the pin, so that the .docx built from this document is safe to post as Qeios v2 in the order the checklist prescribes.",
+  "verdict": "supported_with_reservations",
+  "recommendation": "minor_revision",
+  "blockers": [
+    {
+      "summary": "The last repair in the range (9bd466f, the cover-letter correction) changed a DEPOSITED file after the Zenodo draft had been refreshed, so the draft is behind the tree again — while deposit-state.json and the preprint checklist both still state, in the present tense, that it is current. The checklist's next instruction is the irreversible publish, and publishing would freeze the pre-repair cover letter into the archive that v2's Data availability cites.",
+      "quote": "deposit-state.json, pending._uploaded_fields_mean: \"⭐ THE DRAFT IS NOW CURRENT WITH THIS TREE: refreshed 2026-08-29 by dispatching deposit-zenodo.yml with new_version=false at f6e313d98 … ⚠ SUPERSEDED, RETAINED (rule 1.2): the first upload was taken at 7bca5a77e with digest 386c1add1a60 … It no longer is [behind].\"  and  fusion-junction-aso-preprint-checklist.md §3-i: \"✅ **THE DRAFT IS REFRESHED AND CURRENT WITH THE TREE (2026-08-29).** … ⛔ **WHAT REMAINS IS TWO ACTS, BOTH TRIMCRAE'S, AND THE ORDER IS THE WHOLE POINT:** 1. **Publish the Zenodo version, by hand** — https://zenodo.org/deposit/22166420. Irreversible\"",
+      "evidence": "At the pin, deposit-state.json pending.uploaded_manifest_digest = bb5655ba9f1afbc4cf74df41af98177cad9c3106e36419b13ec4ddf4bfb9902c and pending.uploaded_at_git_revision = f6e313d98; fusion-junction-aso-archive-manifest.json archive_content_digest = eff1258052fbd97462a119e4a99ab2b505f7906b0a4a8054ba331ce104ea15ec at git_revision 9bd466facb52a0f4ffd449cd2d0546f2e3de35c4. They differ. Diffing the two manifests' own 483-path inventories (uploaded revision vs pin) returns exactly one changed deposited file: research/manuscripts/aso/fusion-junction-aso-cover-letter.md, sha256 02311ec22d2e6af25fc5f576311cb27a0e15d4955372f579156489ab5721df40 -> 23da53456d259c269fe213c7a33a8e0a1edd6eef9ed4f5bf216e6cf4aba912af (manifest entry at the pin carries the second hash; total_bytes 48784721 -> 48785891, n_files unchanged at 483). That change is commit 9bd466f, which landed AFTER the refresh commit chain (ce648ab/f6e313d) and after a9dd5d3 wrote the checklist's ✅ line. The version now sitting in the draft is the pre-repair cover letter whose opening reads \"*Sendable once the brackets below are filled. ✅ The item that used to block it is closed: Zenodo deposition 22061075 was published on 2026-08-23 and read back (checklist §3), so every archive link in both papers now resolves.*\" — the exact sentence 9bd466f identified as a blocker and replaced with \"⛔ NOT SENDABLE.\" Reproduced in /tmp/claude-0/-home-user/4226f0d9-8e01-5f95-9863-7009cf142d59/scratchpad/s20-regression/s20-regression-log.txt (sections '=== manifest compare ===' and '=== guard replay ===').",
+      "why_a_reader_would_be_misled": "The operator performing step 1 is told by both the checklist and deposit-state.json that the draft already carries this tree, so they publish without re-dispatching deposit-zenodo.yml. Publication is irreversible. The archive that v2's Data availability sends readers to would then contain a cover letter asserting that the archive links resolve and that the deposit item is closed — a statement this repository corrected precisely because it was false. This is round 15's and round 19's defect recurring one commit later, and it recurred because the repair itself edited a deposited file without re-refreshing the draft or retiring the two status lines.",
+      "artifact": "research/manuscripts/aso/deposit-state.json and research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md (§3-i). The .docx that goes to Qeios is NOT itself defective; the defect is in the two records that gate the publish that must precede the Qeios post."
+    },
+    {
+      "summary": "A repair moved the null-arm count into the Methods sentence that describes how the null ensembles were built. The resulting sentence enumerates ten ensembles as being of two kinds; the artifact that produced them says four of the ten are neither, and calls three of them not nulls at all.",
+      "quote": "fusion-junction-aso-journal-article.md §Methods (and verbatim in the .docx): \"Ten null ensembles were built as scrambles of each design and as chimeras joining the same two parent transcripts at real exon termini, screened identically.\"",
+      "evidence": "aso-parent-null.json null_ensembles holds exactly ten arms: scrambled_mononucleotide, scrambled_dinucleotide, random_uniform, random_composition_matched, wings_scrambled_gap_held, gap_scrambled_wings_held, random_parent_chimera, donor_terminus_chimera, exon_terminus_chimera, exon_terminus_chimera_novel_acceptor. research/modalities/aso_parent_null.py describes them: random_uniform is \"16-mers drawn i.i.d. from equal base frequencies\" and random_composition_matched \"16-mers drawn i.i.d. from the pooled base composition of the 190 real target windows\" — neither is a scramble of any design; random_parent_chimera joins \"a random window of a real donor parent to a random window of real NR4A3\" — not exon termini; draw_donor_terminus_chimera's own docstring is \"Chimera whose donor half ENDS AT A REAL EXON 3' TERMINUS; NR4A3 half uniform interior\" — only one of the two ends is a real terminus. The same module heads three of these arms \"⭐ AND THREE THAT ARE NOT NULLS BUT A DECOMPOSITION\" (wings_scrambled_gap_held, gap_scrambled_wings_held, random_parent_chimera). Only exon_terminus_chimera and exon_terminus_chimera_novel_acceptor answer the sentence's chimera description and only scrambled_mononucleotide / scrambled_dinucleotide answer its scramble description. The diff that introduced it (9b67db864..pin on the .md) reads: \"- Null ensembles were built as scrambles of / + Ten null ensembles were built as scrambles of\"; the guard commentary in research/manuscripts/tests/test_journal_article_numbers.py records why (\"when that sentence went, 'ten' was carried into the Methods sentence that builds the ensembles so the paper still states how many arms it ran\"). Confirmed present in the deliverable: word/document.xml of fusion-junction-aso-journal-article-manuscript.docx contains the sentence verbatim.",
+      "why_a_reader_would_be_misled": "Methods is where a referee or a replicator learns what null models the central 45.8%-vs-40.6% comparison was run against. As written, the paper states that all ten ensembles are scrambles of the designs or same-parent exon-terminus chimeras. Four of them are not, including the two i.i.d. random arms a reader would most expect a null to be and the arm the module calls \"THE STRONGEST FORM OF THE ANCHOR\". The unquantified sentence it replaced (\"Null ensembles were built as scrambles … and as chimeras …\") read as a partial description; adding the count makes it an enumeration, and the enumeration is wrong.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx (the Qeios deliverable), built from research/manuscripts/aso/fusion-junction-aso-journal-article.md; the same sentence is in all four built PDFs."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "The escape hatch in test_a_pending_draft_still_matches_the_tree_it_was_built_from matches a HISTORICAL mention of the refresh, not an instruction to refresh — so the gate is green today while the checklist tells the publisher the opposite of what the gate believes it was told.",
+      "evidence": "research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py, lines 226-234: when the recorded upload digest differs from the manifest's digest, the test only requires re.search(r\"re-?run the deposit|new_version=false|refresh the draft\", section, re.I) over the §3 slice of the checklist. Replayed at the pin (log section '=== guard replay ==='): the digests DO differ (bb5655ba9f1a… vs eff1258052fb…) and the regex matches 'new_version=false' — inside the sentence \"✅ **THE DRAFT IS REFRESHED AND CURRENT WITH THE TREE (2026-08-29).** Dispatched `deposit-zenodo.yml` with `new_version=false` at `f6e313d98`\". That is a record of a refresh that already happened, and the paragraph three lines below it says the only remaining act is to publish. The guard's own docstring names this exact shape (\"the refresh instruction could be demoted to a 'superseded, retained' note further down while the blocking item itself said publish as it stands — every phrase still present, the gate still green\"); the failure it anticipated is live, because the same words appear in the completed-work line.",
+      "what_edit_would_break_it": "It is already broken in the direction that matters: nothing in the suite can now distinguish 'the checklist tells you to refresh' from 'the checklist tells you it was already refreshed'. Any future refresh whose record stays in §3 keeps the gate green forever, however far the tree walks. The fix is to require the instruction inside the remaining-acts list (or to compare the digest against the acts block), not a substring anywhere in §3.",
+      "artifact": "research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py"
+    },
+    {
+      "summary": "The new null-ensembles binding reads only the count, never the clause that says how the ensembles were built, so the construction description can be rewritten to anything and the suite stays green.",
+      "evidence": "research/manuscripts/tests/test_journal_article_numbers.py line ~252: _every_site(prose, r\"(\\w+) null ensembles were built\", _word(len(arms)).capitalize(), \"how many null ensembles §8 says were built and screened\"). The pattern stops at 'were built'; nothing reads 'as scrambles of each design and as chimeras joining the same two parent transcripts at real exon termini'. I confirmed by running the module against the pinned artifacts in a scratch copy: 25 passed, including this test, while that clause is false for four of the ten arms (see blocker 2). The suite also has no assertion tying any prose to aso-parent-null.json's arm NAMES.",
+      "what_edit_would_break_it": "Any rewording of the construction clause — including one that swaps 'scrambles' for 'random 16-mers' or drops the exon-terminus qualifier — passes silently, because the only bound token is the numeral. A guard that binds the count of a list while leaving the list's description unread is how a correct number ends up certifying a wrong sentence.",
+      "artifact": "research/manuscripts/tests/test_journal_article_numbers.py"
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "A replaced abstract sentence lost its antecedent: 'The procedure producing them is released' now attaches to the cell models / test articles rather than to the 190 designs the sentence it replaced named.",
+      "evidence": "Diff 9b67db864..pin on research/manuscripts/aso/fusion-junction-aso-journal-article.md: \"- models are reported at an *NR4A3* exon-2 acceptor, not this panel's. Also / - released is the procedure that produced the 190 designs. / + models are reported at an *NR4A3* exon-2 acceptor, not this panel's. The procedure producing them is released.\" At the pin the two preceding noun phrases in the abstract are 'Five test articles' and 'the two fusion-positive EMC cell models'; no procedure producing either is released. Present verbatim in fusion-junction-aso-journal-article-manuscript.docx.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx (and the .md it is built from)"
+    },
+    {
+      "summary": "The new clipping guard's header and its own code comment give two irreconcilable measurements of the same table in the same column, and the first one does not even close arithmetically.",
+      "evidence": "research/manuscripts/tests/test_a_display_item_cell_is_not_clipped.py, docstring: \"the table laid out at 100.99 mm inside a 99.10 mm column, and the last column's right edge fell 1.75 mm past the container … The repair took the in-column cell padding from 4.8pt to 3.6pt\". The KNOWN_CLIPPED comment forty lines later: \"Table 1's min-content is 100.99 mm inside an 84.35 mm column — over by 16.64 mm … no in-column lever closes 16.64 mm\". Both were added in the same commit (3497a6f, the file's only commit). 100.99 − 99.10 = 1.89, not the stated 1.75; 100.99 − 84.35 = 16.64. The header also asserts a repair that the comment says cannot exist. The guard's behaviour is correct — I reproduced it against the pinned PDFs: 'E-N, engineered construct' and 'T-N*, engineered construct' are absent from fusion-junction-aso-journal-article.pdf and -anonymized.pdf and present in the preprint and manuscript builds, so the strict xfails are earned — but its stated mechanism is not readable as one account.",
+      "artifact": "research/manuscripts/tests/test_a_display_item_cell_is_not_clipped.py"
+    },
+    {
+      "summary": "The cover-letter repair added a cross-reference to a checklist section number that occurs twice, and the second occurrence says the deposit does not block.",
+      "evidence": "The cover letter now reads \"Publishing deposition 22166420 by hand closes it — see the preprint checklist §3-i, which carries the ordering\" (added in 9bd466f). research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md carries two headings numbered 3-i: line 316 \"### 3-i · THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS, and two acts are needed, in this order\" and line 385 \"### 3-i · The published deposit is behind the repository again — and this time it is ordinary\", the latter concerning the superseded deposition 22061075 and stating \"**It still does not block the journal submission**\". The duplicate heading predates the repair; the pointer into it does not.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-cover-letter.md (target: research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md)"
+    },
+    {
+      "summary": "What the repairs got right, recorded so the negative result is on the file: the DOI substitution is complete and the builds are current.",
+      "evidence": "10.5281/zenodo.22166420 appears in the .md, all four built PDFs, the sequences CSV and FASTA headers, the archive manifest, aso_archive_manifest.py, the research article, the checklist and the cover letter; word/document.xml and word/_rels/document.xml.rels of fusion-junction-aso-journal-article-manuscript.docx carry it as the only zenodo string and the only zenodo hyperlink target. Every remaining occurrence of 22061075 is a deliberate historical reference (deposit-state.published, superseded-retained notes, submission_metrics.py's true statement that 22061075 is published). All seven build stamps under research/manuscripts/aso/ verify against the pinned sources (article .md digest ae3014ae…, tables 3deeea49…, journal references cf144704…, sequences 8094a3eb…, figure 3ef0be44…). All 21 display-item cells of fusion-junction-aso-journal-tables.md survive into the .docx. The 25 assertions of test_journal_article_numbers.py pass against the pinned artifacts, and I mutation-tested the four new bindings — panel size at the §3 heading, the liable count at the 'bound the fully-paired class' sentence, the exon-2 eight/nine parent assignment (swapped), and the shared-donor-base count — each went red.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx and research/manuscripts/tests/test_journal_article_numbers.py"
+    }
+  ]
+}

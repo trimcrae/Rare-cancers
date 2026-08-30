@@ -332,17 +332,39 @@ deposition 22166420, inheriting the concept DOI (Actions run 33276135878). Both 
 `aso_archive_manifest.py` now cite it, and the chain was regenerated against it, so the rebuilt
 6-page PDF carries the new DOI and no trace of the old one. Nothing is published.
 
-✅ **THE DRAFT IS REFRESHED AND CURRENT WITH THE TREE (2026-08-29).** Dispatched
-`deposit-zenodo.yml` with `new_version=false` at `f6e313d98` (Actions run 33279143126). Its log:
-*"updating existing draft 22166420 (10.5281/zenodo.22166420) — not creating a second one"*,
-*"DRAFT deposition 22166420 updated. NOTHING IS PUBLISHED."*, *"The archive now carries the
-manuscript that cites this DOI."* ⛔ **THE ORDER MATTERED AND IS WORTH KEEPING:** the refresh had to
-follow the `.docx` rebuild, because the Word build stamps are themselves deposited files, so
-rebuilding them moved the archive digest (`ee3de86e8386` → `bb5655ba9f1a`). A draft refreshed before
-that rebuild would have been stale again the moment it landed.
+⛔⛔ **THE DRAFT IS BEHIND THE TREE AGAIN AND MUST BE REFRESHED BEFORE IT IS PUBLISHED.** Measured
+at `b53290b37e71`: `deposit-state.json` `pending.uploaded_manifest_digest` is `bb5655ba9f1a…`, taken
+at `pending.uploaded_at_git_revision` `f6e313d98`; the archive manifest at this commit carries
+`archive_content_digest` `eff1258052fb…` at `git_revision` `9bd466fac`. Diffing the two manifests'
+own 483-path inventories returns exactly ONE changed deposited file —
+`research/manuscripts/aso/fusion-junction-aso-cover-letter.md`, `02311ec22d2e…` → `23da53456d25…`,
+`total_bytes` 48784721 → 48785891, `n_files` unchanged at 483. That file is round 19's own
+cover-letter repair (`9bd466f`), which landed AFTER the refresh. ⛔ **So the draft currently holds
+the PRE-REPAIR cover letter** — the one opening *"✅ The item that used to block it is closed …
+every archive link in both papers now resolves"* — which is the exact sentence `9bd466f` replaced
+with **"⛔ NOT SENDABLE."** Publishing without refreshing first would freeze a withdrawn claim into
+the archive that v2's Data availability sends readers to.
+⚠ *Superseded, retained (rule 1.2): "✅ **THE DRAFT IS REFRESHED AND CURRENT WITH THE TREE
+(2026-08-29).** Dispatched `deposit-zenodo.yml` with `new_version=false` at `f6e313d98` (Actions run
+33279143126). Its log: 'updating existing draft 22166420 — not creating a second one', 'DRAFT
+deposition 22166420 updated. NOTHING IS PUBLISHED.', 'The archive now carries the manuscript that
+cites this DOI.'" True at `f6e313d98`; false from `9bd466f` onward.*
+★ **AND THE PARAGRAPH THIS REPLACES ALREADY NAMED THE FAILURE MODE, ONE COMMIT BEFORE IT RECURRED:**
+*"the refresh had to follow the `.docx` rebuild, because the Word build stamps are themselves
+deposited files, so rebuilding them moved the archive digest (`ee3de86e8386` → `bb5655ba9f1a`). A
+draft refreshed before that rebuild would have been stale again the moment it landed."* Any commit
+touching a deposited file does this. **The refresh is not a one-time step — it is the LAST step
+before publishing, and its digest must be checked, not remembered.**
+⭐ Found by two independent round-20 blind seats (`regression`, `citations-and-instruments`), which
+reached it from the repair diff and from the manifest digests respectively.
 
-⛔ **WHAT REMAINS IS TWO ACTS, BOTH TRIMCRAE'S, AND THE ORDER IS THE WHOLE POINT:**
+⛔ **WHAT REMAINS IS THREE ACTS, ALL TRIMCRAE'S, AND THE ORDER IS THE WHOLE POINT:**
 
+0. **Refresh the draft, and only then look at step 1.** Dispatch `deposit-zenodo.yml` with
+   `new_version=false` at the commit being posted, then write the manifest's
+   `archive_content_digest` and that commit into `deposit-state.json` `pending`. ⛔ **The check is
+   that `pending.uploaded_manifest_digest` EQUALS the manifest's `archive_content_digest` at the
+   posted commit.** If they differ, the draft is stale and step 1 is unsafe.
 1. **Publish the Zenodo version, by hand** — <https://zenodo.org/deposit/22166420>. Irreversible: a
    published version's files cannot be edited, only superseded.
 2. **Then post Qeios v2.** v2's Data availability cites `10.5281/zenodo.22166420`, so a reader who

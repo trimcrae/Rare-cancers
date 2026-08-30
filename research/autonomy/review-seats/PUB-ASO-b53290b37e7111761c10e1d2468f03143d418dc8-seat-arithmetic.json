@@ -1,0 +1,51 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "b53290b37e7111761c10e1d2468f03143d418dc8",
+  "document_sha256": "ae3014ae5f65ada06814e772c25979ed3508c08618691acfa1aec7efd6b22799",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "Every number printed in the journal article and its display items, re-derived from the committed artifact that produces it — counts, fractions, percentages, intervals, base-pair lengths, thermodynamic separations, power and threshold figures — plus agreement between every copy of the same quantity across the article, tables, extended report, cover letter and the built .docx.",
+  "utc": "2026-08-30T11:12:28Z",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
+    "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+    "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+    "research/manuscripts/aso/fusion-junction-aso-data-sources.json",
+    "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json",
+    "research/manuscripts/pinned-figures.json",
+    "research/manuscripts/tests/test_journal_article_numbers.py",
+    "research/manuscripts/tests/test_two_prose_numbers_bind_to_their_sources.py",
+    "research/manuscripts/tests/test_the_numbered_claims_no_instrument_read.py",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-premrna-offtarget.json",
+    "research/modalities/aso-premrna-sequences.json",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/aso-gap-length-tradeoff.json",
+    "research/modalities/aso-per-junction-table.json",
+    "research/modalities/aso-independent-verification.json",
+    "research/modalities/aso-insilico-evaluation.json",
+    "research/modalities/nr4a3-fusion-junction-atlas.json"
+  ],
+  "central_claim": "Every quantity the journal article prints — the 190-design/38-junction panel and its 87/61/85 liability counts, the 45.8/33.1/25.4 geometry ladder, the 93-of-190 union, the 40.6-vs-45.8 null comparison and its Wilson containment, the 68.4%/39.9-82.8%/79.0% coverage figures, the 8 and 9 bp parent duplexes, the 3.2/3.0 kcal/mol separations, the 10.0%/3.9% scramble rates and the noncentral-t power and void-SD figures — is the number its own committed producing artifact actually yields when the derivation is re-run from the source rows rather than matched against a value stored beside it.",
+  "verdict": "supported",
+  "recommendation": "accept",
+  "blockers": [],
+  "p1s": [],
+  "p2s": [
+    {
+      "summary": "\"61 of the 87 do so against wild-type NR4A3\" is the screen's ATTRIBUTION (the parent supplying the longest duplex), not the count of designs that actually pair wild-type NR4A3 through the whole catalytic gap at the criterion, which is 62. The sentence's literal reading selects the larger number, and the article carries no word marking the difference.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-article.md: \"Of those, 87 let one of six mature wild-type parent transcripts pair their entire catalytic gap over a contiguous duplex of at least ten base pairs, and 61 of the 87 do so against wild-type *NR4A3*\" (Abstract restates it as \"61 against wild-type NR4A3 itself\"). The 61 is research/modalities/aso-parent-gap-pairing.json corpus.which_parent_supplies_it.NR4A3 = 61, a per-design attribution to the single gene giving the LONGEST run (per_design records carry one `parent` field only). research/modalities/aso-parent-null.json cut_sensitivity.observed_cut_ladder.10 carries BOTH readings side by side: n_liable_attributed_to_NR4A3 = 61 and n_pairing_NR4A3_specifically = 62. I re-derived the whole screen from raw sequence (mature transcripts rebuilt from research/modalities/aso-premrna-sequences.json exon_spans_0based_inclusive; longest gap-spanning exact substring per parent, min_duplex_bp = 10): 87 liable, 61 attributed to NR4A3, 85 own-parent, run-length distribution 0:9 6:6 7:32 8:45 9:11 10:3 11:49 12:29 13:6 — zero disagreements with the artifact's per-design runs — and 62 designs pair NR4A3's whole gap at >=10 bp. The 62nd is GCATATCAGCATCTGT at TAF15_e9__NR4A3_e3, which pairs wild-type NR4A3 over 11 bp through the gap but is attributed to TAF15 at 12 bp. The guard (research/manuscripts/tests/test_journal_article_numbers.py::test_the_panel_and_its_liable_count_are_the_screens_own) names it correctly as \"the screen's attribution\"; only the prose does not.",
+      "artifact": "research/manuscripts/aso/fusion-junction-aso-journal-article.md (and identically in the built Qeios deliverable research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx, which the build stamp shows was built from this exact .md sha256)"
+    }
+  ]
+}
