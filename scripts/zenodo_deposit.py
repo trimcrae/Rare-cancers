@@ -232,7 +232,7 @@ def main(argv=None):
     ap.add_argument("--new-version", action="store_true", dest="new_version",
                     help="the record named by the manifest is PUBLISHED and needs correcting: open "
                          "a NEW VERSION of it, reserve that version's own DOI and upload the "
-                         "current archive into it. Still never publishes. This is the only correct "
+                         "current archive into it. On its own it does not publish — that needs --publish and its approval. This is the only correct "
                          "route for a correction — a published version's files cannot be edited, "
                          "and --new would create an unrelated second record with its own concept "
                          "DOI, orphaning the citation trail.")
@@ -261,6 +261,23 @@ def main(argv=None):
                          "close each one or narrow the manuscript before depositing.")
 
     verify(manifest)
+
+    #: ⛔⛔ THE GATE RUNS HERE, BEFORE ANY NETWORK CALL — AND IT USED TO RUN AFTER THE UPLOAD.
+    #: Round 21's regression seat measured the defect: `--publish` reached `refuse_unless_publishable`
+    #: only at the bottom of `deposit()`, so the metadata PUT and the zip upload had ALREADY happened
+    #: by the time the digest check could refuse. A `--publish` against a drifted tree therefore did
+    #: not refuse harmlessly — it rewrote the draft's metadata, uploaded a new archive over it, and
+    #: only then raised. The draft was left holding a build `deposit-state.json` does not describe,
+    #: which is the exact "nothing records what was deposited" state that file was created to end.
+    #: ★ THE FLAG'S OWN HELP AND THE COMMENT AT THE PUBLISH STEP BOTH CLAIMED THIS ORDERING ALREADY
+    #: HELD ("Uploads nothing", "the digest check above has already refused"). They described the
+    #: intent; the code did the reverse. It is now true because the call site moved, not because the
+    #: sentence was reworded — a property asserted in prose about an ordering is not a property.
+    publish_grant = publish_pending = None
+    if args.publish:
+        publish_grant, publish_pending = refuse_unless_publishable(
+            args.paper, manifest, args.approved_by)
+
     os.makedirs(args.out_dir, exist_ok=True)
     zip_path = os.path.join(args.out_dir, paper["zip"])
     build_zip(manifest, paper["manifest"], zip_path)
@@ -311,15 +328,16 @@ def main(argv=None):
                     "A correction operates on an existing record, so it can only run where that "
                     "record lives. Everything before this point HAS been rehearsed: the manifest "
                     "verified against the tree, the archive built, the token accepted and the API "
-                    "reachable. Re-run without --sandbox to open the new version for real — it "
-                    "still does not publish.") from None
+                    "reachable. Re-run without --sandbox to open the new version for real — opening a "
+                    "version does not publish it.") from None
             raise
         if dep.get("submitted") and not args.new_version:
             raise SystemExit(
                 f"deposition {dep_id} ({declared}) is already PUBLISHED and its files cannot be "
                 "changed. A correction is a NEW VERSION of that record, which issues its own DOI "
                 "under the same concept DOI — not a re-upload. Re-run with --new-version to open "
-                "one (it still does not publish). Do NOT use --new: that makes an unrelated second "
+                "one; opening a version does not publish it. Do NOT use --new: that makes an unrelated "
+                "second "
                 "record with its own concept DOI, and the citation trail from the published paper "
                 "would not reach it.")
         if dep.get("submitted"):
@@ -365,8 +383,25 @@ def main(argv=None):
             {"relation": "isDerivedFrom", "scheme": "url",
              "identifier": f"{REPO_URL}/tree/{manifest['git_revision']}"},
         ],
-        "notes": (f"Built by scripts/zenodo_deposit.py from {os.path.basename(paper['manifest'])}. "
-                  f"Not published by that script: publishing is irreversible and is a human step."),
+        #: ⛔⛔ THIS FIELD IS WRITTEN INTO A PUBLIC RECORD UNDER THE AUTHOR'S ORCID, SO IT MUST BE
+        #: TRUE OF THE RUN THAT WRITES IT. Until 2026-08-30 it read, unconditionally, "Not published
+        #: by that script: publishing is irreversible and is a human step" — and the PUT carrying it
+        #: runs on EVERY non-build-only invocation, the publishing one included. So the run that
+        #: published 10.5281/zenodo.22166420 stamped that record with a sentence denying it had done
+        #: so. Round 21's regression seat found it; the note was true when written and was falsified
+        #: by the --publish path landing above it, which is the shape this repository keeps paying
+        #: for: a status sentence about an outside system, frozen in prose, invalidated by a change
+        #: somewhere else. It is now DERIVED from what this run is actually doing.
+        "notes": (
+            f"Built by scripts/zenodo_deposit.py from {os.path.basename(paper['manifest'])}. "
+            + ("Published by that script in the same run, under a recorded per-publication "
+               "approval: publishing is irreversible, and the gate that permits it "
+               "(refuse_unless_publishable) checks the standing authority, the approval for THIS "
+               "deposition, and that the archive still equals the one a committed manifest "
+               "describes."
+               if args.publish else
+               "Not published by this run: this invocation only reserves the DOI and refreshes the "
+               "draft.")),
     }
     dep = api(base, token, "PUT", f"/deposit/depositions/{dep_id}", payload={"metadata": meta})
     doi = dep["metadata"].get("prereserve_doi", {}).get("doi")
@@ -381,12 +416,16 @@ def main(argv=None):
     #: DOI is already in the manuscript — so the log of a successful second run read as an
     #: instruction to redo the first. A reader following it would have found nothing to paste and
     #: had to work out which half of the message was stale.
-    #: ⛔ THE IRREVERSIBLE STEP, AND IT UPLOADS NOTHING. `--publish` acts on the draft as it stands:
-    #: if the archive needed refreshing, the digest check above has already refused. Publishing and
-    #: uploading in one run would mean the thing being frozen was assembled by the same command that
-    #: froze it, with no committed record of it in between.
+    #: ⛔ THE IRREVERSIBLE STEP. `--publish` freezes the draft as this run has just left it, and the
+    #: gate that decides whether it may has ALREADY run, at the top of this function, before the
+    #: metadata PUT and the upload above.
+    #: ⚠ SO THIS RUN DID UPLOAD, AND SAYING OTHERWISE WAS THE OLD DEFECT. What the early gate buys is
+    #: the thing that actually matters: a refusal costs the draft nothing, because it happens before
+    #: anything is sent. What it cannot buy is the separation of assembling from freezing — that is
+    #: what the digest check enforces, by requiring the archive to equal one a COMMITTED manifest
+    #: already describes.
     if args.publish:
-        grant, pending = refuse_unless_publishable(args.paper, manifest, args.approved_by)
+        grant, pending = publish_grant, publish_pending
         print(f"  publishing deposition {dep_id} — IRREVERSIBLE")
         print(f"    approved by : {args.approved_by}")
         print(f"    digest      : {pending['uploaded_manifest_digest']} (matches the manifest)")

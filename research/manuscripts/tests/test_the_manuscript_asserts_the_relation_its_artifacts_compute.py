@@ -336,13 +336,29 @@ POLARITY = [
     # sentence is the paper's STATEMENT that they were retrieved rather than generated, which is
     # CLAUDE.md §7's core invariant said to the reader. Inverted, the paper admits fabricated
     # citations while every PMID in it still resolves and every linter stays green.
+    # ⚠ PATTERN AND `decided_by` BOTH CORRECTED 2026-08-30, ROUND 21, AND FOR TWO SEPARATE REASONS.
+    # (1) The sentence changed: it said every record "was retrieved from PubMed", which UNDERSTATES
+    # and mis-names the provenance. The citations seat measured it — journal-reference-authors.json
+    # records "Europe PMC and Crossref fetch products on branch literature-cache", all 23 printed
+    # author lists come from Europe PMC, and reference 1's AUTHOR COUNT (the field deciding whether
+    # "et al." prints) comes from Crossref DELIBERATELY, because PubMed's pre-1996 MEDLINE record
+    # caps that list at ten. The repository went past PubMed on purpose and the Declaration denied
+    # it. The direction this row guards — retrieved, never model-written — is unchanged and is what
+    # the widened pattern still requires.
+    # (2) The old `decided_by` named fusion-junction-aso-2026-citation-resolution.json as "the
+    # retrieval record lint_citations reads". Both halves were wrong: that file resolves three
+    # PMIDs, NONE of which appears in this article, and lint_citations does not read it specifically
+    # — it scans every tracked .json for anchors. A row whose stated witness cannot see the claim is
+    # a row nobody can check, even while its direction test works.
     ("citation-provenance-statement",
-     r"Every reference's bibliographic record was[^.]{0,200}\.",
-     r"retrieved from PubMed rather than written from model output",
-     r"written from model output rather than retrieved from PubMed|"
+     r"Every reference's bibliographic record was[^.]{0,240}\.",
+     r"retrieved from PubMed(?:, Europe PMC or Crossref)? rather than written from model output",
+     r"written from model output rather than retrieved|"
      r"no citation was checked|generated from model output",
-     "fusion-junction-aso-2026-citation-resolution.json, the retrieval record lint_citations "
-     "reads, and CLAUDE.md §7's never-write-an-identifier-from-recollection rule",
+     "lint_citations.py, which anchors every prose identifier to a tracked fetch product (46 of 46 "
+     "in this article), plus journal-abbreviations.json and journal-reference-authors.json, the "
+     "PubMed/Europe PMC/Crossref fetch products the printed fields are taken from; and CLAUDE.md "
+     "§7's never-write-an-identifier-from-recollection rule",
      "Every reference's bibliographic record was written from model output rather than retrieved "
      "from PubMed, and no citation was checked against a retrieved record."),
     # ─────────────────────────────────────────────────────────────────────────────────────────

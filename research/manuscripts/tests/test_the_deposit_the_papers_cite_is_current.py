@@ -183,6 +183,56 @@ def test_the_recorded_upload_digest_is_corroborated_by_git_rather_than_declared(
         "write both fields, and do not publish the draft in the meantime.")
 
 
+def test_the_published_record_is_corroborated_by_git_rather_than_declared():
+    """⛔⛔ THE SAME WITNESS AS THE PENDING BLOCK, ON THE BLOCK THAT OUTLIVES IT — AND IT WAS MISSING
+    WHILE A SENTENCE CLAIMED IT WAS HERE.
+
+    ⚠ Measured by round 21's regression seat, 2026-08-30. `deposit-state.json` `published._provenance`
+    ended: "git_revision is the commit at which the manifest held that digest, corroborated out of
+    git by tests/test_the_deposit_the_papers_cite_is_current.py rather than declared here." This file
+    read `published` for exactly two fields — `doi` and `manifest_digest` — and touched
+    `git_revision` nowhere. Its one git-corroboration test is scoped to `pending` and SKIPS when
+    nothing is drafted, which is the steady state between deposits. So the field was corroborated by
+    nothing, in a sentence asserting the opposite, written in the same commit that moved the block.
+
+    ★ THAT IS THE "RECORDED IS NOT ENFORCED" SHAPE THIS REPOSITORY HAS ALREADY PAID FOR TWICE
+    (`subagent_width`, and the census lane wired to a name nothing passed). The remedy is never to
+    soften the sentence — it is to make the sentence true, which costs one test.
+
+    ⚠ WHAT THIS PROVES AND WHAT IT DOES NOT. It proves `published.git_revision` names a commit in
+    this repository at which the archive manifest recorded `published.manifest_digest` — i.e. that
+    the pair is a fact about this history rather than two numbers typed together. It does NOT prove
+    those bytes reached Zenodo; nothing available offline can, and `_provenance` cites the
+    `record=verify` read-back for that half.
+    """
+    state = _json(STATE, "what was deposited")
+    pub = state["published"]
+    rev, recorded = pub.get("git_revision"), pub.get("manifest_digest")
+    assert rev and recorded, (
+        "deposit-state.json `published` records "
+        f"{'no git revision' if not rev else 'no manifest digest'}. Both are needed for the record "
+        "to be checkable at all, and `published` is the block every gate reads.")
+
+    exists = subprocess.run(["git", "cat-file", "-e", f"{rev}^{{commit}}"],
+                            cwd=REPO, capture_output=True)
+    assert exists.returncode == 0, (
+        f"`published.git_revision` is {rev[:12]}, which is not a commit in this repository. A "
+        "revision nobody can resolve corroborates nothing — and a reader who follows the DOI is "
+        "told this is the tree the archive was hashed from.")
+
+    shown = subprocess.run(
+        ["git", "show", f"{rev}:research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"],
+        cwd=REPO, capture_output=True, text=True)
+    assert shown.returncode == 0, (
+        f"the archive manifest cannot be read at {rev[:12]}, so the published digest has no witness.")
+    at_revision = json.loads(shown.stdout).get("archive_content_digest")
+    assert at_revision == recorded, (
+        f"deposit-state.json says the published version was built at {rev[:12]} with digest "
+        f"{recorded[:12]}, but the manifest AT that revision recorded {str(at_revision)[:12]}.\n\n"
+        "Those disagree, so one of the two was typed rather than taken from the build. The usual "
+        "cause is moving `pending` into `published` by hand and carrying the wrong field across.")
+
+
 def test_a_pending_draft_still_matches_the_tree_it_was_built_from():
     """⛔ PUBLISHING A DRAFT THAT IS ALREADY BEHIND WOULD FREEZE THE SAME DEFECT AGAIN.
 

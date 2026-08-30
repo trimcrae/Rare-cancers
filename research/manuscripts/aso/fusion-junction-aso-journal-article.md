@@ -43,12 +43,12 @@ Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma usually defin
 in-frame *NR4A3* fusion. That junction is in no normal transcript, so an antisense
 gapmer could in principle cleave it, sparing its parents; none is reported for any
 *NR4A3* fusion in the literature retrieved here. This work is computational, executing an industry off-target framework's in-silico
-step; every sequence named is a research reagent not for administration. It sets out what a laboratory needs: two reagents at the most reported
+step; every sequence named is a research reagent not for administration. It sets out what a laboratory needs — two reagents at the most reported
 breakpoints, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at
 *TAF15* exon 6, both to *NR4A3* exon 3, longest wild-type parent gap duplexes eight and nine base
 pairs; two screened controls; and a pre-registrable selectivity threshold. Both come from a panel of 190 junction-spanning 16-mers tiled at 5-6-5 across 38 in-frame junctions: 87 let a mature wild-type
-parent pair their whole catalytic gap over ten or more contiguous base pairs, 61 against wild-type
-*NR4A3* itself. Ten is a convention, not a measurement: exon-terminus chimeras meet the same screen
+parent pair their whole catalytic gap over ten or more contiguous base pairs, and for 61 that
+parent is wild-type *NR4A3* itself. Ten is a convention, not a measurement: exon-terminus chimeras meet the same screen
 at 40.6% against the panel's 45.8%. Five test articles are named; the two fusion-positive EMC cell
 models are reported at an *NR4A3* exon-2 acceptor, not this panel's. The procedure producing them is released.
 
@@ -104,7 +104,7 @@ All analyses are computational and use public data; no laboratory work was perfo
 parameters, the complete bounds on each claim and the per-design tables are in the archived
 deposit named under Data availability.
 
-Canonical transcripts for the five partner genes, and for *NR4A3*, were obtained from
+Canonical transcripts for the five partner genes and for *NR4A3* were obtained from
 Ensembl.<sup>14</sup><!--PMID:39656687--> Junction-spanning 16-mer gapmers were tiled in a 5-6-5
 β-D-oxy-locked-nucleic-acid/DNA/β-D-oxy-locked-nucleic-acid
 geometry,<sup>12</sup><!--PMID:24981949--> one design per register at which the breakpoint falls
@@ -202,8 +202,8 @@ default search ceiling are not clean at a deeper one.
 The two reagents above are what survived a screen applied uniformly to the whole panel. Across the
 38 in-frame junctions of five modelled partners, 190 junction-spanning designs were tiled and put
 through five specificity screens. Of those, 87 let one of six mature wild-type parent transcripts pair
-their entire catalytic gap over a contiguous duplex of at least ten base pairs, and 61 of the 87 do
-so against wild-type *NR4A3*; 85 are paired by one of the design's own two parent genes. A second class is invisible to any screen over mature transcripts: 19
+their entire catalytic gap over a contiguous duplex of at least ten base pairs, and for 61 of the 87 that
+parent is wild-type *NR4A3*; 85 are paired by one of the design's own two parent genes. A second class is invisible to any screen over mature transcripts: 19
 designs carry a sense-strand near-match in parent precursor RNA pairing the gap in full. As a union
 rather than a sum the two screens condemn 93 of the 190. A design whose gap carries a mismatch is
 scored zero rather than short, so the 87 bound the fully-paired class, not the whole parent
@@ -301,7 +301,7 @@ partner.<sup>3</sup><!--PMID:41055792-->
 Two controls are named as sequences (Table 2): a dinucleotide-preserving scramble of each reagent,
 drawn and then put through the same mature-parent screen the reagent passed. That screening is what
 makes a scramble a control — 10.0% of such scrambles pair a parent's whole catalytic gap at the
-ten-base-pair criterion and 3.9% do so against wild-type *NR4A3*. Clearing the
+ten-base-pair criterion, and for 3.9% that parent is wild-type *NR4A3*. Clearing the
 screen is not a claim of inertness; it is the property a negative control has to have.
 
 ## Discussion
@@ -399,8 +399,8 @@ person.
 **Use of artificial intelligence.** A large language model (Claude, Anthropic) was used throughout
 this work: to write and review the analysis code, to run the screens, to retrieve and check
 literature, and to draft and revise this manuscript. Every reference's bibliographic record was
-retrieved from PubMed rather than written from model output, and each citation was checked against
-the retrieved record. The author directed all work reported here and is responsible for its content.
+retrieved from PubMed, Europe PMC or Crossref rather than written from model output, and each
+citation was checked against the retrieved record. The author directed all work reported here and is responsible for its content.
 
 **Data availability.** All code, graded artefacts, per-design tables, every screen's parameters and
 the complete bounds on each claim are deposited under

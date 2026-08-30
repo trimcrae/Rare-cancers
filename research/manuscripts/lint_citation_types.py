@@ -129,8 +129,23 @@ _TYPE_ALT = (r"systematic review|meta-?analys[ie]s"
 #: the `Review` in one row and the PMCID in the NEXT, and reported the documentation of the bug as
 #: the bug. The 70-character ceiling is what stops a match reaching an unrelated identifier two
 #: clauses later.
+#: ⛔⛔ AND THE `!` IN THAT CLASS BLINDED THIS GATE TO EVERY SUBMISSION MANUSCRIPT IN THE REPOSITORY.
+#: Measured by round 21's citations seat, 2026-08-30, and reproduced: these papers write a citation
+#: as `<sup>N</sup><!--PMID:nnn-->`, so the connector had to cross `<!--` to reach the identifier —
+#: and `!` is excluded, which terminated the match every time. `_SCAN` returned 0 on
+#: fusion-junction-aso-journal-article.md (3 type words, 21 citations), 0 on the extended report
+#: (11 type words, 69 citations) and 0 on the SI, against 3 on emc-fusion-partner-stratification.md,
+#: which writes its identifiers inline. So the gate ran green on every commit while measuring NOTHING
+#: in the documents about to be posted — a step that reports while measuring nothing, which is the
+#: defect this repository has now hit in a workflow, a census lane and here.
+#: ⚠ IT SURVIVED BECAUSE THE POSITIVE FIXTURES SHARED THE BLIND SPOT. Every shape in
+#: `test_citation_type_guard.py::test_the_attributive_shapes_this_repository_actually_writes_are_bound`
+#: is bare-inline; not one uses the comment form the manuscripts actually use. A fixture set drawn
+#: from the same assumption as the code cannot falsify it.
+#: ★ THE FIX IS THE NARROWEST ONE THAT WORKS: `<!--` passes as a UNIT, and `!` alone still does not.
+#: The sentence boundary the class exists to hold is unchanged — a bare `!` still ends the claim.
 _SCAN = re.compile(
-    r"(?P<pre>[\w-]{0,12}\s?)(?P<type>%s)\b(?P<conn>[^.;!?|]{0,70}?)"
+    r"(?P<pre>[\w-]{0,12}\s?)(?P<type>%s)\b(?P<conn>(?:[^.;!?|]|<!--){0,70}?)"
     r"(?:PMID[:\s]*(?P<pmid>\d{6,9})|(?P<pmc>PMC\d{6,9})"
     r"|pubmed\.ncbi\.nlm\.nih\.gov/(?P<pmid2>\d{6,9}))" % _TYPE_ALT,
     re.I)

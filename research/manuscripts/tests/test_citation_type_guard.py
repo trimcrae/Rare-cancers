@@ -87,9 +87,45 @@ def _corpus(tmp_path, text, name="doc.md"):
     "figures read from the 2025 review's full text, PMC12504171.",
     "It is from the 2012 two-case report, PMID 23058004.",
     "the only randomised placebo-controlled trial in an indolent tumour (desmoid, PMID 30575484).",
+    #: ⛔⛔ THE SUBMISSION-MANUSCRIPT FORM, AND IT WAS ABSENT FROM THIS LIST WHILE THE GATE WAS BLIND
+    #: TO EVERY PAPER WRITTEN IN IT. Round 21's citations seat measured `_SCAN` returning 0 matches
+    #: on fusion-junction-aso-journal-article.md, 0 on the extended report and 0 on the SI — because
+    #: `!` was excluded from the connector and every citation in those documents crosses `<!--` to
+    #: reach its identifier. ★ THE FIXTURES SHARED THE CODE'S ASSUMPTION: all five shapes above are
+    #: bare-inline, so nothing here could have falsified it. A positive fixture in the form the
+    #: outgoing papers actually use is the only thing that makes the blindness detectable, which is
+    #: why these two are the first entries a reviewer of this list should check still exist.
+    "The 2025 comprehensive review<sup>3</sup><!--PMID:41055792--> names it.",
+    "It is from the 2012 two-case report<sup>11</sup><!--PMID:23058004--> read in full.",
 ])
 def test_the_attributive_shapes_this_repository_actually_writes_are_bound(tmp_path, text):
     assert _corpus(tmp_path, text), "a real committed shape must be seen as a type claim"
+
+
+def test_the_submission_manuscripts_are_actually_reachable_by_this_gate(tmp_path):
+    """⛔⛔ THE FIXTURE ABOVE PROVES THE SHAPE PARSES. THIS PROVES THE REAL DOCUMENTS ARE SEEN.
+
+    A synthetic fixture can pass while the gate still returns nothing on the committed papers — the
+    two are different claims, and it was the second that was false for as long as the comment form
+    has been in use. So this asserts against the tree: the journal article must yield at least one
+    type claim to `_SCAN`. If a future edit removes the last type word from that paper this test
+    fails and should be RE-ANCHORED to whichever outgoing document carries one — never deleted,
+    because a gate reporting `0 error(s)` over `0 claims` in the papers being posted is exactly the
+    state this catches.
+    """
+    import re as _re
+    art = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                       "aso", "fusion-junction-aso-journal-article.md")
+    text = open(art, encoding="utf-8").read()
+    n_comment_citations = len(_re.findall(r"<sup>\d+</sup><!--PMID:", text))
+    assert n_comment_citations > 0, (
+        f"{os.path.basename(art)} carries no comment-form citations, so this guard is watching for "
+        "a shape the document no longer uses — re-anchor it rather than deleting it")
+    seen = list(lct._SCAN.finditer(text))
+    assert seen, (
+        f"{os.path.basename(art)} has {n_comment_citations} comment-form citations and lint_citation_types "
+        "binds NONE of them. The gate will report '0 error(s)' having examined nothing in a paper "
+        "about to be posted. Check the connector class in _SCAN: it must let `<!--` through.")
 
 
 @pytest.mark.parametrize("text,why", [

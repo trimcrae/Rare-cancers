@@ -348,6 +348,44 @@ mutation was green BEFORE and red after — and "before" was the clean, correct 
 | **BLOCKER** | the artifact **as it stands now** is wrong, misleading or unsafe. A reader acting on the committed text would be misled. Quote the wrong text and the record that contradicts it. |
 | **P1** | the artifact is **correct now**, but an ordinary future edit would silently make it wrong and nothing would catch that. **Every guard gap belongs here, however central the claim.** |
 
+### 8.0a · ⛔⛔ *WHICH* ARTIFACT — THE HALF §8.0 NEVER SAID, AND THE ROUND THAT PAID FOR IT
+
+**§8.0 defines a BLOCKER as "the artifact **as it stands now** is wrong". It never says WHICH
+artifact, and a seat brief that repeats it without saying so hands every seat the choice.**
+
+⚠ **Measured round 21, PUB-ASO, 2026-08-30.** Five seats returned **four blockers, and three were
+not in the paper**: two in `scripts/zenodo_deposit.py` and one in `deposit-state.json`. The
+regression seat wrote *"the manuscript prose needs no change"* in its own scope note **and filed
+three blockers anyway** — correctly, under a brief that never told it what the artifact was. The
+three seats that read the paper as a paper returned **zero** blockers between them; the
+citations seat re-fetched all 23 PMIDs live and recommended **accept**.
+⛔ **AND THE DRIVER CAUSED IT TWICE OVER.** The brief said *"the artifact AS IT STANDS AT THE PIN is
+wrong"* with no artifact named, and the regression LENS then said *"pay particular attention to
+records that describe an OUTSIDE system — a DOI, a deposit, a submission status"*. That is an
+instruction to go and grade the tooling. The seats did as they were told.
+⚠ **The compounding fact: three of the four were defects the SAME SESSION had introduced hours
+earlier**, building the Zenodo publish path. The round was reviewing its own driver.
+
+★★ **THE OUTGOING ARTIFACT SET — name it in every brief, and let each seat's blockers be about it.**
+The manuscript being posted, its display items, its references, the built PDFs and `.docx`, and
+**what the DOIs it prints actually resolve to**. That last clause is deliberate and must not be
+trimmed: a false sentence inside the deposited archive IS reader-facing, and round 21 found one.
+
+⛔ **WHAT IS NOT IN IT: the repository's own tooling, tests, ledgers, receipts and state files.** A
+defect there is real, is worth fixing, and is **not a blocker on a paper**. Grade it and say where
+it lives. Nothing is lost by this — round 21's three all got fixed the same day.
+
+★ **EVERY BLOCKER NAMES THE OUTGOING ARTIFACT IT IS IN.** A blocker that cannot name one is, by that
+fact, not a blocker. This is the cheapest possible enforcement and it is a REPORTING requirement, so
+it binds the seat rather than the bar.
+
+⛔⛔ **AND DO NOT "FIX" THIS IN `publish_bar.py`.** The obvious move — have clause 1 count only
+in-scope blockers — is wrong three times over. It is a **GOVERNED path edited by the cycle that
+clause blocked**, which `amendment_guard` refuses by construction and should. It would **silently
+discard** findings like round 21's deposited-archive one, which is genuinely reader-facing, so it
+automates exactly the judgement a synthesis exists to make. And the bar was never miscounting: it
+counted what the seats filed, and **the seats were mis-briefed**. ★ Fix the input, never the meter.
+
 **⛔ "COULD BE INVERTED" / "NO INSTRUMENT READS IT" IS A P1 BY CONSTRUCTION.** The severity of what
 *would* happen never promotes a hypothetical to a defect. ⛔ **And the converse, which is the half
 that gets forgotten: text that is actually wrong today is a BLOCKER even when it looks small.** Round

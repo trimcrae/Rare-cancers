@@ -1080,11 +1080,15 @@
    "match": "flattened",
    "format": "{:.0f}",
    "tolerance": 0.5,
-   "context": "contiguous base pairs, ([\\d,]+) against wild-type NR4A3 itself",
+   "context": "contiguous base pairs, and for ([\\d,]+) that\\s+parent is wild-type NR4A3 itself",
    "must_appear_in": [
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
    ],
-   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them",
+   "_context_history": {
+    "superseded_pattern": "contiguous base pairs, ([\\d,]+) against wild-type NR4A3 itself",
+    "why": "⚠ CONTEXT REWRITTEN 2026-08-30, ROUND 21 — THE PASSAGE MOVED, THE VALUE DID NOT, SO THIS IS NOT A RULE 1.3 SUPERSESSION. The prose said '... do so against wild-type NR4A3', which states MEMBERSHIP (does NR4A3 pair this design's whole gap), over a value that is an ARGMAX (is NR4A3 the parent whose run is longest). Those differ by one design at the ten-base-pair cut and by eighty-one at six; aso_parent_null._ladder says so in its own words. The pin was bound to the right field under the wrong sentence, so the SENTENCE was repaired to name the predicate and this context follows it. ★ The new pattern will not match the old wording, which is the point: reverting the prose fails the pin instead of passing under a number that means something else."
+   }
   },
   {
    "id": "aso_liable_against_wildtype_nr4a3_journal_selection",
@@ -1094,11 +1098,15 @@
    "match": "flattened",
    "format": "{:.0f}",
    "tolerance": 0.5,
-   "context": "and ([\\d,]+) of the [\\d,]+ do so against wild-type NR4A3",
+   "context": "and for ([\\d,]+) of the [\\d,]+ that\\s+parent is wild-type NR4A3",
    "must_appear_in": [
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
    ],
-   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+   "regenerate": "python3 research/modalities/aso_parent_gap_pairing.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them",
+   "_context_history": {
+    "superseded_pattern": "and ([\\d,]+) of the [\\d,]+ do so against wild-type NR4A3",
+    "why": "⚠ CONTEXT REWRITTEN 2026-08-30, ROUND 21 — THE PASSAGE MOVED, THE VALUE DID NOT, SO THIS IS NOT A RULE 1.3 SUPERSESSION. The prose said '... do so against wild-type NR4A3', which states MEMBERSHIP (does NR4A3 pair this design's whole gap), over a value that is an ARGMAX (is NR4A3 the parent whose run is longest). Those differ by one design at the ten-base-pair cut and by eighty-one at six; aso_parent_null._ladder says so in its own words. The pin was bound to the right field under the wrong sentence, so the SENTENCE was repaired to name the predicate and this context follows it. ★ The new pattern will not match the old wording, which is the point: reverting the prose fails the pin instead of passing under a number that means something else."
+   }
   },
   {
    "id": "aso_parent_null_observed_rate_journal",
@@ -1168,11 +1176,15 @@
    "format": "{:.1f}",
    "scale": 100.0,
    "tolerance": 0.051,
-   "context": "criterion and ([\\d.]+)% do so against wild-type NR4A3",
+   "context": "criterion, and for ([\\d.]+)% that parent is wild-type NR4A3",
    "must_appear_in": [
     "research/manuscripts/aso/fusion-junction-aso-journal-article.md"
    ],
-   "regenerate": "python3 research/modalities/aso_parent_null.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them"
+   "regenerate": "python3 research/modalities/aso_parent_null.py, then update every home of the figure IN THE SAME COMMIT (CLAUDE.md rule 1.3) — the journal article is now one of them",
+   "_context_history": {
+    "superseded_pattern": "criterion and ([\\d.]+)% do so against wild-type NR4A3",
+    "why": "⚠ CONTEXT REWRITTEN 2026-08-30, ROUND 21 — THE PASSAGE MOVED, THE VALUE DID NOT, SO THIS IS NOT A RULE 1.3 SUPERSESSION. The prose said '... do so against wild-type NR4A3', which states MEMBERSHIP (does NR4A3 pair this design's whole gap), over a value that is an ARGMAX (is NR4A3 the parent whose run is longest). Those differ by one design at the ten-base-pair cut and by eighty-one at six; aso_parent_null._ladder says so in its own words. The pin was bound to the right field under the wrong sentence, so the SENTENCE was repaired to name the predicate and this context follows it. ★ The new pattern will not match the old wording, which is the point: reverting the prose fails the pin instead of passing under a number that means something else."
+   }
   },
   {
    "id": "aso_reagent_coverage_with_third_design_journal",

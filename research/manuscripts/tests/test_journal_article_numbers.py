@@ -167,13 +167,28 @@ def test_the_panel_and_its_liable_count_are_the_screens_own(prose, pairing):
     assert re.search(rf"\b{n}\b[^.]*?16-mers", prose), \
         f"the panel size {n} from {os.path.basename(GAP_PAIRING)} is not the one the abstract tiles"
     assert re.search(rf"\b{liable}\b", prose), f"the liable count {liable} is absent from the article"
-    assert re.search(rf"\b{nr4a3}\b of (?:the {liable}|those)", prose), \
-        f"{nr4a3} of {liable} against wild-type NR4A3 is the screen's attribution and the prose " \
-        "does not carry it"
+    assert re.search(rf"\b{nr4a3}\b(?: of (?:the {liable}|those))?\s+that\s*\n?\s*parent is wild-type",
+                     _flat(prose)), \
+        f"{nr4a3} is the screen's ATTRIBUTION — the count of designs whose longest run over all six " \
+        "parents falls in NR4A3 — and the prose must say so in the words that name that predicate"
     # ⛔ THE DENOMINATOR TOO, AT THE SITE THAT PRINTS IT. The line above accepts "61 of those"
     # from the abstract, so §3's own "61 of the 87" was never examined and `87 → 88` there passed
     # every gate — the article stating one count four times and another once.
-    _every_site(prose, r"and (\d+) of the (\d+) do so against wild-type", (str(nr4a3), str(liable)),
+    # ⛔⛔ THE PATTERN NAMES THE PREDICATE, NOT JUST THE NUMBERS — AND THAT IS THE REPAIR, NOT A
+    # REWORDING TO CHASE A MOVED SENTENCE. Round 21's arithmetic seat found the prose reading "61 of
+    # the 87 do so against wild-type NR4A3" while `n_pairing_NR4A3_specifically` is 62: "against
+    # NR4A3" states MEMBERSHIP (does NR4A3 pair this design's whole gap) and 61 is an ARGMAX (is
+    # NR4A3 the parent whose run is longest). The two differ by one design at the ten-base-pair cut
+    # and by EIGHTY-ONE at six. `aso_parent_null._ladder` says so in its own words — "A field named
+    # 'against_NR4A3' reads as the second and is the first" — and this guard, bound to the argmax
+    # field, therefore CERTIFIED the misreading, which is the same shape the cut-ladder guard's
+    # comment records.
+    # ★ The old pattern would match the ambiguous wording again. This one requires the sentence to
+    # name the parent-supplying predicate, so reverting to "do so against wild-type" fails here
+    # rather than passing under a number that means something else.
+    _every_site(prose,
+                r"and for (\d+) of the (\d+) that\s+parent is wild-type",
+                (str(nr4a3), str(liable)),
                 "the wild-type NR4A3 attribution, with the denominator it is a share of")
     # ⛔ TWO MORE SITES, FOUND BY MUTATION 2026-08-29 AND BOUND BY NOTHING UNTIL THEN. The three
     # assertions above are membership tests (`re.search`), so they stay green while ONE site drifts

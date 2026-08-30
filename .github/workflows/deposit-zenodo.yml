@@ -51,7 +51,7 @@ on:
         type: boolean
         default: true
       new_version:
-        description: "The record is already PUBLISHED and needs correcting: open a new VERSION of it and reserve that version's DOI. Still never publishes."
+        description: "The record is already PUBLISHED and needs correcting: open a new VERSION of it and reserve that version's DOI. On its own it does not publish — that needs `publish: true` and an approval."
         type: boolean
         default: false
       record:
