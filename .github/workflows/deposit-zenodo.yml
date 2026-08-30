@@ -116,6 +116,16 @@ jobs:
         if: inputs.record != 'verify'
         env:
           ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+          # ⛔ THE APPROVAL TRAVELS AS AN ENVIRONMENT VARIABLE, NOT AS INTERPOLATED SHELL TEXT.
+          # `${{ inputs.approved_by }}` pasted into a `run:` block is substituted BEFORE bash sees
+          # the line, so its spaces split it into separate argv entries and its quotes end up in
+          # the command itself. Measured 2026-08-30, run 33315651451: argparse answered
+          # "unrecognized arguments: 2026-08-30, AskUserQuestion ..." and the publish never
+          # happened — the failure was early and safe, but it was a failure.
+          # ⚠ AND THE QUOTING BUG IS THE SMALLER HALF. A dispatch input is attacker-controlled text
+          # in the general case; interpolating it into a shell command is script injection. An env
+          # var is passed as data and never re-parsed, which fixes both at once.
+          APPROVED_BY: ${{ inputs.approved_by }}
         # ⛔⛔ `shell: bash` IS LOAD-BEARING, AND ITS ABSENCE MADE THIS STEP REPORT SUCCESS ON A
         # FAILED DEPOSIT (measured 2026-08-22, run 32592438100). GitHub's DEFAULT shell for a `run:`
         # block is `bash -e {0}` — `-e` and NO `pipefail`. The command below ends `| tee
@@ -135,12 +145,13 @@ jobs:
             python3 scripts/zenodo_preprint.py \
               ${{ inputs.sandbox && '--sandbox' || '' }} | tee deposit.log
           else
-            python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" \
-              ${{ inputs.sandbox && '--sandbox' || '' }} \
-              ${{ inputs.new_version && '--new-version' || '' }} \
-              ${{ inputs.publish && '--publish' || '' }} \
-              ${{ inputs.publish && format('--approved-by={0}', inputs.approved_by) || '' }} \
-              | tee deposit.log
+            args=(--paper "${{ inputs.paper }}")
+            ${{ inputs.sandbox && 'args+=(--sandbox)' || ':' }}
+            ${{ inputs.new_version && 'args+=(--new-version)' || ':' }}
+            if [ "${{ inputs.publish }}" = "true" ]; then
+              args+=(--publish --approved-by "$APPROVED_BY")
+            fi
+            python3 scripts/zenodo_deposit.py "${args[@]}" | tee deposit.log
           fi
 
       - name: Put the reserved DOI in the job summary
