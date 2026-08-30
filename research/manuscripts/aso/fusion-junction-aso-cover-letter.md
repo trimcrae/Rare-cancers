@@ -22,13 +22,27 @@ last_verified: 2026-08-13
 
 # Cover letter
 
-*Sendable once the brackets below are filled. ✅ The item that used to block it is closed: Zenodo
-deposition 22061075 was published on 2026-08-23 and read back (checklist §3), so every archive link
-in both papers now resolves. What remains is the date and the editor's name from the journal's
+*⛔ NOT SENDABLE. The archive item is OPEN AGAIN, on a new deposition, and it blocks this letter
+exactly as its predecessor did. Both papers now cite **10.5281/zenodo.22166420**, which is a
+RESERVED BUT UNPUBLISHED draft: measured 2026-08-29 by reading the public records API with no token
+(deposit-zenodo.yml `record=verify`, Actions run 33279967090), which answered `404 … exactly what a
+RESERVED but unpublished DOI does`. So every archive link in both papers currently resolves to
+nothing. Publishing deposition 22166420 by hand closes it — see the preprint checklist §3-i, which
+carries the ordering. What remains after that is the date and the editor's name from the journal's
 current masthead.*
+
+⚠ *Superseded, retained (rule 1.2): "✅ The item that used to block it is closed: Zenodo deposition
+22061075 was published on 2026-08-23 and read back (checklist §3), so every archive link in both
+papers now resolves." That was true of **22061075** and stopped being true of THIS LETTER on
+2026-08-29, when the papers were re-pointed at a new version because the published archive had
+drifted 55 files behind them. ⛔ The sentence did not become false by being edited — it became false
+because something it described changed underneath it, which is why a status line about an outside
+system has to name the identifier it is a status FOR.*
+
 ⚠ *Superseded, retained: "Not yet sendable, and the blocking item is not in this letter. Before
 submitting: publish Zenodo deposition 22061075 — the corrected archive is drafted and every archive
-link in both papers resolves to nothing until it is published."*
+link in both papers resolves to nothing until it is published." Retained because it is TRUE AGAIN,
+of a different deposition: read 22166420 for 22061075 and it is this letter's current state.*
 
 ⛔ *AND THE BRACKETS MUST BE FILLED OR CUT BEFORE THIS IS SENT — each is a fact this repository
 cannot supply and must not invent.* `[DATE]`, and the extended report's status bracket, which needs
