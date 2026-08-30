@@ -309,82 +309,43 @@ skim.** Ranked:
 
 ## 3 · Open, and blocking the journal submission
 
-⚠ *Superseded, retained (rule 1.2): "**✅ THE ITEM THAT BLOCKED IS CLOSED. What stands here now is
-TRACKED, and it does not block.**" That was true from 2026-08-23 until 2026-08-29, when the
-published deposit was measured against the papers and found behind. Item 3-i below is open again.*
+⚠ *Superseded, retained (rule 1.2) — but in Appendix A rather than here, along with the whole
+drift history this section used to carry. That text names the retired blocker verbatim, and naming
+it inside this section re-asserts it to
+[`test_the_deposit_the_papers_cite_is_current.py`](../tests/test_the_deposit_the_papers_cite_is_current.py),
+which reads §3's slice and cannot tell a retraction from a live item. The appendix sets out why that
+placement is forced rather than tidy.*
 
-### 3-i · THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS, and two acts are needed, in this order
+### 3-i · ✅ CLOSED — the corrected archive version is published, and it was read back
 
-⛔⛔ **MEASURED 2026-08-29, AND THE DRIFT RAN IN THE OVERCLAIMING DIRECTION.** Diffing the archive
-manifest's own 483-path inventory between the published record's `git_revision` (`091721519`) and
-HEAD returned **55 changed files**, the extended report among them. The DEPOSITED copy still read
-*"both are invisible to a screen that ranks candidates by global identity"* and *"a contiguous run
-of eleven or twelve base pairs inside a 16-mer leaves five or four positions **unpaired**"*; this
-repository had already corrected those to *"mostly but not wholly blind"* and *"positions outside
-that run — which are **not all unpaired**"*, each with its recomputation. The journal article, the
-tables, the sequences CSV and all three figures had moved too. **A reader following the cited DOI
-would have been handed artefacts making stronger claims than the paper citing them** — round 15's
-defect recurring, and `--check-archive` cannot see it because it compares the manifest to the
-WORKING TREE, so it goes green exactly as the tree walks away from the deposit.
+**`10.5281/zenodo.22166420` is live as of 2026-08-30**, and it is the DOI both papers print. What it
+corrects is the drift measured on 2026-08-29: the record the papers cited had fallen 55 files behind
+them, in the overclaiming direction, and the deposited extended report still carried two statements
+this repository had already corrected. That finding is retained verbatim in Appendix A.
 
-★ **WHAT IS ALREADY DONE.** A new version was reserved — **`10.5281/zenodo.22166420`**, draft
-deposition 22166420, inheriting the concept DOI (Actions run 33276135878). Both papers and
-`aso_archive_manifest.py` now cite it, and the chain was regenerated against it, so the rebuilt
-6-page PDF carries the new DOI and no trace of the old one. Nothing is published.
+★ **PUBLISHED BY THE LOOP, UNDER AN APPROVAL THE GATE COULD NOT SATISFY ALONE.**
+`deposit-zenodo.yml` was dispatched with `publish=true` (Actions run 33316241659, job 99270114297).
+`refuse_unless_publishable` checked the standing Zenodo grant in
+[`publication-authority.json`](../../autonomy/publication-authority.json), the per-publication
+approval trimcrae gave that day, and the draft's digest against the manifest — all three before any
+API call, all three failing closed. The log reads *"publishing deposition 22166420 — IRREVERSIBLE"*,
+*"digest ... (matches the manifest)"*, and *"PUBLISHED deposition 22166420. This cannot be undone."*
 
-✅ **THE DRAFT IS CURRENT WITH THE TREE (2026-08-30, SECOND REFRESH).** `deposit-zenodo.yml` was
-dispatched with `new_version=false` at `c84bc23d251a` (Actions run 33310902661), and
-`deposit-state.json` `pending.uploaded_manifest_digest` `1ddbb1e8a036…` now EQUALS the archive
-manifest's `archive_content_digest`. ⛔ **THAT EQUALITY IS THE TEST, AND IT MUST BE RE-READ AT THE
-COMMIT BEING PUBLISHED — not inherited from this line**, because any later commit touching a
-deposited file makes the draft stale again without rewriting a word of this paragraph. That is
-how it went stale twice.
+⛔ **AND THE RECORD WAS READ BACK RATHER THAN TAKEN FROM THAT LOG.** Actions run 33316420890 (job
+99270602873) dispatched `record=verify`, which fetches the PUBLIC records API with no token:
+`state: done (submitted=True)`, `published: 2026-08-30`, `type: dataset`, one file
+`emc-aso-archive.zip` at 8,411,989 bytes, and *"PUBLISHED. The DOI both papers cite resolves to this
+record."* ⚠ *"The script said so"* is a report about an outside system; that is a reading of one.
+This checklist has already paid three days for the difference, carrying "⏳ Awaiting bioRxiv
+screening" after bioRxiv had declined.
 
-⚠ *Superseded, retained (rule 1.2) — the round-20 reading that produced the second refresh:*
-*"⛔⛔ THE DRAFT IS BEHIND THE TREE AGAIN AND MUST BE REFRESHED BEFORE IT IS PUBLISHED." Measured
-at `b53290b37e71`: `deposit-state.json` `pending.uploaded_manifest_digest` is `bb5655ba9f1a…`, taken
-at `pending.uploaded_at_git_revision` `f6e313d98`; the archive manifest at this commit carries
-`archive_content_digest` `eff1258052fb…` at `git_revision` `9bd466fac`. Diffing the two manifests'
-own 483-path inventories returns exactly ONE changed deposited file —
-`research/manuscripts/aso/fusion-junction-aso-cover-letter.md`, `02311ec22d2e…` → `23da53456d25…`,
-`total_bytes` 48784721 → 48785891, `n_files` unchanged at 483. That file is round 19's own
-cover-letter repair (`9bd466f`), which landed AFTER the refresh. ⛔ **So the draft currently holds
-the PRE-REPAIR cover letter** — the one opening *"✅ The item that used to block it is closed …
-every archive link in both papers now resolves"* — which is the exact sentence `9bd466f` replaced
-with **"⛔ NOT SENDABLE."** Publishing without refreshing first would freeze a withdrawn claim into
-the archive that v2's Data availability sends readers to.
-⚠ *Superseded, retained (rule 1.2): "✅ **THE DRAFT IS REFRESHED AND CURRENT WITH THE TREE
-(2026-08-29).** Dispatched `deposit-zenodo.yml` with `new_version=false` at `f6e313d98` (Actions run
-33279143126). Its log: 'updating existing draft 22166420 — not creating a second one', 'DRAFT
-deposition 22166420 updated. NOTHING IS PUBLISHED.', 'The archive now carries the manuscript that
-cites this DOI.'" True at `f6e313d98`; false from `9bd466f` onward.*
-★ **AND THE PARAGRAPH THIS REPLACES ALREADY NAMED THE FAILURE MODE, ONE COMMIT BEFORE IT RECURRED:**
-*"the refresh had to follow the `.docx` rebuild, because the Word build stamps are themselves
-deposited files, so rebuilding them moved the archive digest (`ee3de86e8386` → `bb5655ba9f1a`). A
-draft refreshed before that rebuild would have been stale again the moment it landed."* Any commit
-touching a deposited file does this. **The refresh is not a one-time step — it is the LAST step
-before publishing, and its digest must be checked, not remembered.**
-⭐ Found by two independent round-20 blind seats (`regression`, `citations-and-instruments`), which
-reached it from the repair diff and from the manifest digests respectively.
-
-⛔ **WHAT REMAINS IS THREE ACTS, ALL TRIMCRAE'S, AND THE ORDER IS THE WHOLE POINT:**
-
-0. **Refresh the draft, and only then look at step 1.** Dispatch `deposit-zenodo.yml` with
-   `new_version=false` at the commit being posted, then write the manifest's
-   `archive_content_digest` and that commit into `deposit-state.json` `pending`. ⛔ **The check is
-   that `pending.uploaded_manifest_digest` EQUALS the manifest's `archive_content_digest` at the
-   posted commit.** If they differ, the draft is stale and step 1 is unsafe.
-1. **Publish the Zenodo version, by hand** — <https://zenodo.org/deposit/22166420>. Irreversible: a
-   published version's files cannot be edited, only superseded.
-2. **Then post Qeios v2.** v2's Data availability cites `10.5281/zenodo.22166420`, so a reader who
-   follows it before step 1 gets nothing. ⛔ **The Qeios post is trimcrae's and only his:** PUB-ASO
-   is excluded by name from the standing aiXiv grant, and carries a public DOI (`10.32388/VL3LJR`)
-   and a version history under his ORCID.
-
-⚠ **AND ONE THING IS STILL OPEN ON OUR SIDE BEFORE EITHER:** `publish_bar` is at 4/7 for PUB-ASO.
-The three open clauses — `hardening_converged`, `preflight_full_green`, `independent_adversarial_seat`
-— are all bound to the commit that gets posted, and are closed by one hardening round against one
-pinned commit. Neither act above should happen before that round comes back without blockers.
+⚠ **THE DRAFT WENT STALE TWICE BEFORE THIS, AND THE ORDERING RULE THAT FIXED IT IS NOT SPENT.** A
+refresh is current only until the next commit touches a deposited file, and both manuscripts, the
+cover letter and the `.docx` build stamps all are — the manifest and this checklist are not, which
+§3-iv measures rather than assumes. **The refresh is the LAST
+act before a publish, after every rebuild the change implies, and the test is the digest comparison
+rather than any sentence recording one** — both stale readings had a paragraph saying the draft was
+current. [`deposit-state.json`](./deposit-state.json) carries the readings and their provenance.
 
 ### 3-ii · The extended report is a historical checkpoint, and the 6-page article must stand alone
 
@@ -413,77 +374,17 @@ compartment this paper does NOT screen, §7 and the availability statement say w
 tables live. ⚠ **The test to apply is whether a reader could ACT on the paper without the other
 one**, not whether the phrase "extended report" appears.
 
-### 3-i · The published deposit is behind the repository again — and this time it is ordinary
+### 3-iii · ⛔ STILL OPEN ON OUR SIDE — `publish_bar` is at 4/7 for PUB-ASO
 
-⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY**, by construction and within hours of being
-published: `archive_content_digest` moved from `989d462e…` to `859f044e…` while the record was
-still being written up. Declared here because
-[`test_the_deposit_the_papers_cite_is_current.py`](../tests/test_the_deposit_the_papers_cite_is_current.py)
-requires drift to be acknowledged rather than silent, which is the right rule and the reason that
-gate exists.
+The three open clauses — `hardening_converged`, `preflight_full_green`,
+`independent_adversarial_seat` — are each bound to the sha of the commit that gets posted, so **every
+commit invalidates all three.** They are closed by one hardening round run against one PINNED commit
+with nothing landing after it, which is the last thing standing between here and the post.
 
-★ **WHAT ACTUALLY MOVED — AND IT IS NOW THE JOURNAL ARTICLE'S TEXT.** The file SET is unchanged at
-483. The scaffolding drift is still there: the cover letter, this checklist, `deposit-state.json`,
-the coverage census, tooling and skills, plus the built PDFs, whose bytes move on every rebuild
-because the build stamps a creation time. **On top of it the condensed manuscript's source text has
-moved, over seven commits since the deposited revision** — `git diff 09172151 HEAD --
-fusion-junction-aso-journal-article.md` is 105 insertions and 80 deletions as of 2026-08-24. It
-begins with the external-review pass (`d2f714d17`) and the OSWG off-target framework (`9820f483a`),
-and ends with the exon-2 rationale in §2 and §4: the panel's exon-3-only acceptor set stated as a
-property of the grade that selected it rather than of the disease, the correction of which cell
-model each named reagent's junction belongs to, and reference 23 (PMID 29937513) added with them.
-**The extended report's source text is unchanged against `09172151`** — verified, not assumed.
-
-⚠ *Superseded, retained: "**Neither manuscript's source text changed**: `git diff 09172151 --
-fusion-junction-aso-journal-article.md fusion-junction-aso-research-article.md` is empty", and with
-it "**A reader following `10.5281/zenodo.22061075` gets the manuscripts as they stand**". Both were
-true when written on 2026-08-23 and both went stale within the day, at `d2f714d17` — not on
-2026-08-24 when someone finally re-ran the diff. ⛔ The lesson is the one this section already
-carries about outside-owned status: a claim of the form "the diff is empty" is a MEASUREMENT WITH A
-DATE, and writing it into prose freezes a reading that the next commit invalidates. It is exactly
-what `test_the_deposit_the_papers_cite_is_current.py` compares digests for, and the digest comparison
-never went stale — only the sentence did.*
-
-⛔ **SO THIS IS NO LONGER THE ORDINARY CASE, AND THE ITEM RE-OPENS ON ITS OWN STATED RULE.** The rule
-below is that a new deposit version is warranted when a MANUSCRIPT changes. One has. A reader
-following `10.5281/zenodo.22061075` now gets a journal article that predates the exon-2 rationale —
-which is the same shape as the 2026-08-20 defect, at a much smaller amplitude: not a retracted
-statement, but an argument the current text no longer rests on.
-
-**It still does not block the journal submission** — the submission carries its own current PDF, not
-the archive's copy — **and it does block any outward-facing act that cites the archive.** Re-run
-`deposit-zenodo.yml` with `new_version=true` before the submission goes out, so the DOI the paper
-prints resolves to the paper that was submitted. Publishing the drafted version is trimcrae's by-hand
-act, as it was on 2026-08-23.
-
-⚠ *Superseded by measurement, retained: the framing above replaced a straight "the deposit is
-behind" line. Both are true; only the second says whether anyone should care, and a gate that
-cannot distinguish "the papers are stale in the archive" from "a skill file changed" will be read
-as noise by the third week.*
-
-⚠ *The superseded wording is retained in Appendix A rather than here, and that placement is forced
-rather than tidy — see the appendix.*
-
-**Closed 2026-08-23, in the order the item itself specified.** The deposit was re-run first
-(Actions run 32664681847: 483 files verified, the existing draft updated rather than a second one
-opened) so the click would not freeze an archive already behind the tree — it was behind by
-exactly this round's Nucleic Acid Therapeutics conformance work. trimcrae then published
-deposition 22061075 by hand.
-
-★ **AND IT WAS READ BACK, NOT TAKEN ON HIS WORD.** Actions run 32666842965 fetched the public
-records API with no token: `state: done (submitted=True)`, `published: 2026-08-23`, one file
-`emc-aso-archive.zip` at 9,175,316 bytes, and *"PUBLISHED. The DOI both papers cite resolves to
-this record."* ⚠ That distinction is not ceremony — this checklist carried "⏳ Awaiting bioRxiv
-screening" for three days after bioRxiv had declined, and the lesson recorded there is that a
-status owned by an outside system decays silently. `record=verify` on `deposit-zenodo.yml` is how
-it is re-read, and it needs no secret.
-
-⭐ **THE READ ALSO SURFACED A FACT NOBODY HERE HAD: the record's CONCEPT DOI is
-`10.5281/zenodo.22028915`** — Zenodo's per-record identifier, which always resolves to the newest
-version. It is recorded in [`deposit-state.json`](./deposit-state.json) with the reason no paper
-may cite it: a Data availability statement must name a FROZEN version, or the archive it promises
-changes under the reader at the next correction. Both papers cite the version DOI and must go on
-doing so.
+⛔ **THE QEIOS POST ITSELF IS TRIMCRAE'S AND ONLY HIS.** PUB-ASO is excluded by name from the
+standing aiXiv grant and carries a public DOI (`10.32388/VL3LJR`) with a version history under his
+ORCID. ✅ The ordering constraint that made this two acts is now satisfied: v2's Data availability
+cites `10.5281/zenodo.22166420`, and that DOI resolves.
 
 ## 3a · What is open now, and it is one decision rather than a defect
 
@@ -598,3 +499,165 @@ papers resolves to nothing, which is why this item is blocking rather than infor
 It was the correct reading from 2026-08-20 to 2026-08-23 and it is spent: deposition 22061075 was
 re-run against the current tree and then published, and the record was read back — §3 carries the
 reading and [`deposit-state.json`](./deposit-state.json) carries its provenance.
+
+⚠ *Superseded, retained (rule 1.2), and true from 2026-08-23 to 2026-08-29:* "**✅ THE ITEM THAT
+BLOCKED IS CLOSED. What stands here now is TRACKED, and it does not block.**" *The published deposit
+was then measured against the papers and found behind, which reopened §3-i. §3-i is closed again
+now — by publication and a read-back, not by re-measurement.*
+
+### A-1 · The 2026-08-29 drift finding and the correction it forced, verbatim
+
+⛔ **RETAINED HERE RATHER THAN IN §3 FOR THE REASON THIS APPENDIX OPENS WITH.** The version it calls
+for was published on 2026-08-30 and the record was read back; §3-i carries that reading. What
+follows is the item as it stood while it was open. ★ Its ordering lesson — that a refresh is the
+LAST act before a publish, because any commit touching a deposited file stales the draft without
+rewriting a word of the paragraph claiming it is current — is **live guidance rather than history**,
+which is why §3-i restates it in its own words instead of pointing at this appendix for it.
+
+**3-i · THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS, and two acts are needed, in this order**
+
+⛔⛔ **MEASURED 2026-08-29, AND THE DRIFT RAN IN THE OVERCLAIMING DIRECTION.** Diffing the archive
+manifest's own 483-path inventory between the published record's `git_revision` (`091721519`) and
+HEAD returned **55 changed files**, the extended report among them. The DEPOSITED copy still read
+*"both are invisible to a screen that ranks candidates by global identity"* and *"a contiguous run
+of eleven or twelve base pairs inside a 16-mer leaves five or four positions **unpaired**"*; this
+repository had already corrected those to *"mostly but not wholly blind"* and *"positions outside
+that run — which are **not all unpaired**"*, each with its recomputation. The journal article, the
+tables, the sequences CSV and all three figures had moved too. **A reader following the cited DOI
+would have been handed artefacts making stronger claims than the paper citing them** — round 15's
+defect recurring, and `--check-archive` cannot see it because it compares the manifest to the
+WORKING TREE, so it goes green exactly as the tree walks away from the deposit.
+
+★ **WHAT IS ALREADY DONE.** A new version was reserved — **`10.5281/zenodo.22166420`**, draft
+deposition 22166420, inheriting the concept DOI (Actions run 33276135878). Both papers and
+`aso_archive_manifest.py` now cite it, and the chain was regenerated against it, so the rebuilt
+6-page PDF carries the new DOI and no trace of the old one. Nothing is published.
+
+✅ **THE DRAFT IS CURRENT WITH THE TREE (2026-08-30, SECOND REFRESH).** `deposit-zenodo.yml` was
+dispatched with `new_version=false` at `c84bc23d251a` (Actions run 33310902661), and
+`deposit-state.json` `pending.uploaded_manifest_digest` `1ddbb1e8a036…` now EQUALS the archive
+manifest's `archive_content_digest`. ⛔ **THAT EQUALITY IS THE TEST, AND IT MUST BE RE-READ AT THE
+COMMIT BEING PUBLISHED — not inherited from this line**, because any later commit touching a
+deposited file makes the draft stale again without rewriting a word of this paragraph. That is
+how it went stale twice.
+
+⚠ *Superseded, retained (rule 1.2) — the round-20 reading that produced the second refresh:*
+*"⛔⛔ THE DRAFT IS BEHIND THE TREE AGAIN AND MUST BE REFRESHED BEFORE IT IS PUBLISHED." Measured
+at `b53290b37e71`: `deposit-state.json` `pending.uploaded_manifest_digest` is `bb5655ba9f1a…`, taken
+at `pending.uploaded_at_git_revision` `f6e313d98`; the archive manifest at this commit carries
+`archive_content_digest` `eff1258052fb…` at `git_revision` `9bd466fac`. Diffing the two manifests'
+own 483-path inventories returns exactly ONE changed deposited file —
+`research/manuscripts/aso/fusion-junction-aso-cover-letter.md`, `02311ec22d2e…` → `23da53456d25…`,
+`total_bytes` 48784721 → 48785891, `n_files` unchanged at 483. That file is round 19's own
+cover-letter repair (`9bd466f`), which landed AFTER the refresh. ⛔ **So the draft currently holds
+the PRE-REPAIR cover letter** — the one opening *"✅ The item that used to block it is closed …
+every archive link in both papers now resolves"* — which is the exact sentence `9bd466f` replaced
+with **"⛔ NOT SENDABLE."** Publishing without refreshing first would freeze a withdrawn claim into
+the archive that v2's Data availability sends readers to.
+⚠ *Superseded, retained (rule 1.2): "✅ **THE DRAFT IS REFRESHED AND CURRENT WITH THE TREE
+(2026-08-29).** Dispatched `deposit-zenodo.yml` with `new_version=false` at `f6e313d98` (Actions run
+33279143126). Its log: 'updating existing draft 22166420 — not creating a second one', 'DRAFT
+deposition 22166420 updated. NOTHING IS PUBLISHED.', 'The archive now carries the manuscript that
+cites this DOI.'" True at `f6e313d98`; false from `9bd466f` onward.*
+★ **AND THE PARAGRAPH THIS REPLACES ALREADY NAMED THE FAILURE MODE, ONE COMMIT BEFORE IT RECURRED:**
+*"the refresh had to follow the `.docx` rebuild, because the Word build stamps are themselves
+deposited files, so rebuilding them moved the archive digest (`ee3de86e8386` → `bb5655ba9f1a`). A
+draft refreshed before that rebuild would have been stale again the moment it landed."* Any commit
+touching a deposited file does this. **The refresh is not a one-time step — it is the LAST step
+before publishing, and its digest must be checked, not remembered.**
+⭐ Found by two independent round-20 blind seats (`regression`, `citations-and-instruments`), which
+reached it from the repair diff and from the manifest digests respectively.
+
+⛔ **WHAT REMAINS IS THREE ACTS, ALL TRIMCRAE'S, AND THE ORDER IS THE WHOLE POINT:**
+
+0. **Refresh the draft, and only then look at step 1.** Dispatch `deposit-zenodo.yml` with
+   `new_version=false` at the commit being posted, then write the manifest's
+   `archive_content_digest` and that commit into `deposit-state.json` `pending`. ⛔ **The check is
+   that `pending.uploaded_manifest_digest` EQUALS the manifest's `archive_content_digest` at the
+   posted commit.** If they differ, the draft is stale and step 1 is unsafe.
+1. **Publish the Zenodo version, by hand** — <https://zenodo.org/deposit/22166420>. Irreversible: a
+   published version's files cannot be edited, only superseded.
+2. **Then post Qeios v2.** v2's Data availability cites `10.5281/zenodo.22166420`, so a reader who
+   follows it before step 1 gets nothing. ⛔ **The Qeios post is trimcrae's and only his:** PUB-ASO
+   is excluded by name from the standing aiXiv grant, and carries a public DOI (`10.32388/VL3LJR`)
+   and a version history under his ORCID.
+
+### A-2 · The ordinary-drift item that preceded it, verbatim
+
+⚠ **CLOSED 2026-08-23, AND RETAINED FOR ITS DIAGNOSIS RATHER THAN ITS STATUS.** It is where the
+distinction between drift that matters and drift that does not — a manuscript moving, against a
+skill file moving — was first drawn, and that distinction is what keeps the deposit gate readable
+instead of being read as noise by the third week. It reopened on its own stated rule six days
+later, which is A-1.
+
+**3-i · The published deposit is behind the repository again — and this time it is ordinary**
+
+⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY**, by construction and within hours of being
+published: `archive_content_digest` moved from `989d462e…` to `859f044e…` while the record was
+still being written up. Declared here because
+[`test_the_deposit_the_papers_cite_is_current.py`](../tests/test_the_deposit_the_papers_cite_is_current.py)
+requires drift to be acknowledged rather than silent, which is the right rule and the reason that
+gate exists.
+
+★ **WHAT ACTUALLY MOVED — AND IT IS NOW THE JOURNAL ARTICLE'S TEXT.** The file SET is unchanged at
+483. The scaffolding drift is still there: the cover letter, this checklist, `deposit-state.json`,
+the coverage census, tooling and skills, plus the built PDFs, whose bytes move on every rebuild
+because the build stamps a creation time. **On top of it the condensed manuscript's source text has
+moved, over seven commits since the deposited revision** — `git diff 09172151 HEAD --
+fusion-junction-aso-journal-article.md` is 105 insertions and 80 deletions as of 2026-08-24. It
+begins with the external-review pass (`d2f714d17`) and the OSWG off-target framework (`9820f483a`),
+and ends with the exon-2 rationale in §2 and §4: the panel's exon-3-only acceptor set stated as a
+property of the grade that selected it rather than of the disease, the correction of which cell
+model each named reagent's junction belongs to, and reference 23 (PMID 29937513) added with them.
+**The extended report's source text is unchanged against `09172151`** — verified, not assumed.
+
+⚠ *Superseded, retained: "**Neither manuscript's source text changed**: `git diff 09172151 --
+fusion-junction-aso-journal-article.md fusion-junction-aso-research-article.md` is empty", and with
+it "**A reader following `10.5281/zenodo.22061075` gets the manuscripts as they stand**". Both were
+true when written on 2026-08-23 and both went stale within the day, at `d2f714d17` — not on
+2026-08-24 when someone finally re-ran the diff. ⛔ The lesson is the one this section already
+carries about outside-owned status: a claim of the form "the diff is empty" is a MEASUREMENT WITH A
+DATE, and writing it into prose freezes a reading that the next commit invalidates. It is exactly
+what `test_the_deposit_the_papers_cite_is_current.py` compares digests for, and the digest comparison
+never went stale — only the sentence did.*
+
+⛔ **SO THIS IS NO LONGER THE ORDINARY CASE, AND THE ITEM RE-OPENS ON ITS OWN STATED RULE.** The rule
+below is that a new deposit version is warranted when a MANUSCRIPT changes. One has. A reader
+following `10.5281/zenodo.22061075` now gets a journal article that predates the exon-2 rationale —
+which is the same shape as the 2026-08-20 defect, at a much smaller amplitude: not a retracted
+statement, but an argument the current text no longer rests on.
+
+**It still does not block the journal submission** — the submission carries its own current PDF, not
+the archive's copy — **and it does block any outward-facing act that cites the archive.** Re-run
+`deposit-zenodo.yml` with `new_version=true` before the submission goes out, so the DOI the paper
+prints resolves to the paper that was submitted. Publishing the drafted version is trimcrae's by-hand
+act, as it was on 2026-08-23.
+
+⚠ *Superseded by measurement, retained: the framing above replaced a straight "the deposit is
+behind" line. Both are true; only the second says whether anyone should care, and a gate that
+cannot distinguish "the papers are stale in the archive" from "a skill file changed" will be read
+as noise by the third week.*
+
+⚠ *The superseded wording is retained in Appendix A rather than here, and that placement is forced
+rather than tidy — see the appendix.*
+
+**Closed 2026-08-23, in the order the item itself specified.** The deposit was re-run first
+(Actions run 32664681847: 483 files verified, the existing draft updated rather than a second one
+opened) so the click would not freeze an archive already behind the tree — it was behind by
+exactly this round's Nucleic Acid Therapeutics conformance work. trimcrae then published
+deposition 22061075 by hand.
+
+★ **AND IT WAS READ BACK, NOT TAKEN ON HIS WORD.** Actions run 32666842965 fetched the public
+records API with no token: `state: done (submitted=True)`, `published: 2026-08-23`, one file
+`emc-aso-archive.zip` at 9,175,316 bytes, and *"PUBLISHED. The DOI both papers cite resolves to
+this record."* ⚠ That distinction is not ceremony — this checklist carried "⏳ Awaiting bioRxiv
+screening" for three days after bioRxiv had declined, and the lesson recorded there is that a
+status owned by an outside system decays silently. `record=verify` on `deposit-zenodo.yml` is how
+it is re-read, and it needs no secret.
+
+⭐ **THE READ ALSO SURFACED A FACT NOBODY HERE HAD: the record's CONCEPT DOI is
+`10.5281/zenodo.22028915`** — Zenodo's per-record identifier, which always resolves to the newest
+version. It is recorded in [`deposit-state.json`](./deposit-state.json) with the reason no paper
+may cite it: a Data availability statement must name a FROZEN version, or the archive it promises
+changes under the reader at the next correction. Both papers cite the version DOI and must go on
+doing so.

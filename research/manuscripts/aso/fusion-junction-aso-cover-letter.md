@@ -22,14 +22,26 @@ last_verified: 2026-08-13
 
 # Cover letter
 
-*⛔ NOT SENDABLE. The archive item is OPEN AGAIN, on a new deposition, and it blocks this letter
-exactly as its predecessor did. Both papers now cite **10.5281/zenodo.22166420**, which is a
-RESERVED BUT UNPUBLISHED draft: measured 2026-08-29 by reading the public records API with no token
+*✅ THE ARCHIVE ITEM IS CLOSED, AND IT WAS READ BACK RATHER THAN ASSUMED. Both papers cite
+**10.5281/zenodo.22166420**, and that version was published on 2026-08-30: `deposit-zenodo.yml`
+`record=verify` (Actions run 33316420890) fetched the public records API with no token and answered
+`state: done (submitted=True)`, `published: 2026-08-30`, and "PUBLISHED. The DOI both papers cite
+resolves to this record." So every archive link in both papers resolves. ⛔ What still stands
+between this letter and a mailbox is NOT an archive item: `publish_bar` is at 4/7 for PUB-ASO —
+`hardening_converged`, `preflight_full_green` and `independent_adversarial_seat` are each bound to
+the sha of the commit that gets posted — plus the date and the editor's name from the journal's
+current masthead, which this repository cannot supply.*
+
+⚠ *Superseded, retained (rule 1.2): "⛔ NOT SENDABLE. The archive item is OPEN AGAIN, on a new
+deposition, and it blocks this letter exactly as its predecessor did. … which is a RESERVED BUT
+UNPUBLISHED draft: measured 2026-08-29 by reading the public records API with no token
 (deposit-zenodo.yml `record=verify`, Actions run 33279967090), which answered `404 … exactly what a
 RESERVED but unpublished DOI does`. So every archive link in both papers currently resolves to
-nothing. Publishing deposition 22166420 by hand closes it — see the preprint checklist §3-i, which
-carries the ordering. What remains after that is the date and the editor's name from the journal's
-current masthead.*
+nothing. Publishing deposition 22166420 by hand closes it." ⭐ True from 2026-08-29 until the
+publish; the reserve-then-rebuild window it describes is the mechanism working, not a defect, and
+"by hand" is retired for a second reason — the loop published this one under a standing grant and a
+per-publication approval, which is recorded in
+[`publication-authority.json`](../../autonomy/publication-authority.json).*
 
 ⚠ *Superseded, retained (rule 1.2): "✅ The item that used to block it is closed: Zenodo deposition
 22061075 was published on 2026-08-23 and read back (checklist §3), so every archive link in both
@@ -41,8 +53,12 @@ system has to name the identifier it is a status FOR.*
 
 ⚠ *Superseded, retained: "Not yet sendable, and the blocking item is not in this letter. Before
 submitting: publish Zenodo deposition 22061075 — the corrected archive is drafted and every archive
-link in both papers resolves to nothing until it is published." Retained because it is TRUE AGAIN,
-of a different deposition: read 22166420 for 22061075 and it is this letter's current state.*
+link in both papers resolves to nothing until it is published." ⭐ It was retained on 2026-08-29 on
+the grounds that it had become TRUE AGAIN of a different deposition — substitute 22166420 for
+22061075 — and that reading is itself now spent: 22166420 is published. Kept because the substitution
+is the reusable part. This letter has been sendable, then not, then sendable again, twice, on the
+same sentence with a different identifier in it, which is the argument for naming the identifier a
+status is a status FOR.*
 
 ⛔ *AND THE BRACKETS MUST BE FILLED OR CUT BEFORE THIS IS SENT — each is a fact this repository
 cannot supply and must not invent.* `[DATE]`, and the extended report's status bracket, which needs
