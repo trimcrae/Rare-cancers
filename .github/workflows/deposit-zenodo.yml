@@ -14,7 +14,16 @@
 # name a frozen snapshot. This workflow deposits ONE PAPER's artefacts, taken from that paper's own
 # archive manifest, as its own record with its own version history.
 #
-# ⛔ IT DOES NOT PUBLISH, AND THAT IS DELIBERATE. Publishing on Zenodo is irreversible: a published
+# ⛔ IT PUBLISHES ONLY WHEN `publish=true`, AND THAT PATH REFUSES WHAT IT CANNOT VERIFY.
+# ⚠ Superseded, retained (rule 1.2): "IT DOES NOT PUBLISH, AND THAT IS DELIBERATE." True until
+# 2026-08-30, when trimcrae widened the grant — "You should submit to zenodo on your own. That can
+# be as simple as a quick approval request to me when ready." The second sentence is implemented as
+# a gate: `publish=true` requires `approved_by`, and `refuse_unless_publishable` in the script also
+# demands that publication-authority.json names the act and that the draft's recorded digest still
+# equals the manifest's. ★ THAT LAST CHECK IS THE ONE A HUMAN CLICKING PUBLISH ON zenodo.org CANNOT
+# MAKE, and this draft went stale twice during the 2026-08-29/30 correction.
+#
+# ⛔ THE ORIGINAL REASONING BELOW STILL HOLDS FOR EVERY RUN THAT IS NOT `publish=true`. Publishing on Zenodo is irreversible: a published
 # version's files cannot be edited, only superseded. What this produces is a DRAFT with a RESERVED
 # DOI, printed in the job summary, so the manuscript can be rebuilt citing the identifier the
 # archive will actually carry. The publish click stays human.
@@ -50,6 +59,14 @@ on:
         type: choice
         options: [archive, preprint, verify]
         default: archive
+      publish:
+        description: "⛔ IRREVERSIBLE. PUBLISH the existing draft instead of updating it. A published version's files cannot be edited, only superseded. Refuses unless publication-authority.json grants it, approved_by is given, and the draft's digest still equals the manifest's."
+        type: boolean
+        default: false
+      approved_by:
+        description: "Who approved THIS publication, and when. Required when publish is true — an approval for one deposition is not an approval for the next."
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -120,7 +137,10 @@ jobs:
           else
             python3 scripts/zenodo_deposit.py --paper "${{ inputs.paper }}" \
               ${{ inputs.sandbox && '--sandbox' || '' }} \
-              ${{ inputs.new_version && '--new-version' || '' }} | tee deposit.log
+              ${{ inputs.new_version && '--new-version' || '' }} \
+              ${{ inputs.publish && '--publish' || '' }} \
+              ${{ inputs.publish && format('--approved-by={0}', inputs.approved_by) || '' }} \
+              | tee deposit.log
           fi
 
       - name: Put the reserved DOI in the job summary
