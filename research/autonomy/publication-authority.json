@@ -48,6 +48,21 @@
   },
   "everything_else": {
     "standing_grant": false,
-    "_covers": "Zenodo publication, a GitHub release, a DOI mint, email to a corresponding author, any outward-facing act not named above. Preparing them needs no permission; performing them does and was not granted."
+    "_covers": "A GitHub release, a DOI mint, email to a corresponding author, any outward-facing act not named above. Preparing them needs no permission; performing them does and was not granted. ⚠ ZENODO PUBLICATION WAS REMOVED FROM THIS LIST 2026-08-30 and now has its own block, `zenodo_archive_publication` — trimcrae widened it explicitly. Superseded, retained per rule 1.2: this field previously read 'Zenodo publication, a GitHub release, a DOI mint, email to a corresponding author, any outward-facing act not named above.'"
+  },
+  "zenodo_archive_publication": {
+    "standing_grant": true,
+    "granted_by": "trimcrae, 2026-08-30, in session, verbatim: 'You should submit to zenodo on your own. That can be as simple as a quick approval request to me when ready.' Given after he was told, with the evidence, that the loop could NOT do it — that `everything_else` named Zenodo publication as not granted, and that scripts/zenodo_deposit.py had no publish path by design. He is widening the grant, deliberately, in the knowledge of what it excluded.",
+    "_what_it_covers": "PUBLISHING an already-drafted Zenodo deposition for a paper in this repository — the irreversible click that turns a reserved DOI into a resolvable record. It does NOT cover minting a NEW record, a GitHub release, a journal submission, or any outreach; `everything_else` still governs those and stays false.",
+    "approval_is_required_per_publication": true,
+    "_approval_shape": "⛔ THIS IS A GRANT WITH A GATE, NOT A FREE HAND, AND THE GATE IS HIS OWN WORDING: 'a quick approval request to me when ready'. So the loop prepares everything, verifies everything, and then ASKS — one question, at the moment of publishing, naming the deposition and what it holds. It does not ask whether to do the work; it asks for the click. An approval for one deposition is not an approval for the next.",
+    "_why_a_gate_at_all_when_he_widened_the_grant": "Because he wrote the gate into the same sentence that widened it. Publishing is irreversible — a published version's files cannot be edited, only superseded — so the cost of a wrong publish is a permanent record he has to supersede in public, under his own ORCID. The grant removes the need for HIM to operate the tooling; it does not remove him from the decision.",
+    "preconditions": [
+      "The authority record names the act (this block).",
+      "⛔ The draft's uploaded_manifest_digest EQUALS the archive manifest's archive_content_digest at the commit being posted, re-read at publish time and never inherited from a status line. Publishing a stale draft freezes an archive already behind the paper — the exact defect the whole 2026-08-29/30 correction removed, and it has gone stale twice.",
+      "The deposition is a DRAFT of the record the paper cites, not a new record.",
+      "trimcrae's approval for THIS deposition."
+    ],
+    "recorded_utc": "2026-08-30T13:15:00Z"
   }
 }

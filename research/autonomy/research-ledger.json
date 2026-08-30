@@ -10617,6 +10617,34 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
+    },
+    {
+      "id": "AUT-PD-190",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "trimcrae"
+      ],
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-30",
+      "filed_by": "session_013jxh1csBMw3e6TeBNJGJX4",
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "It is an authority question about an IRREVERSIBLE outward act, and the loop is the party the bar is blocking. Only he can answer it.",
+      "notified_utc": "2026-08-30T13:05:00Z",
+      "_score_basis": "free, and it is the single remaining thing between PUB-ASO and 7/7",
+      "score": 198.0,
+      "depends_on_evidence": "publish_bar --paper PUB-ASO at f21722ddd2bd: BLOCKED 4/7. Round 20's surviving blocker is 'Data availability cites a Zenodo version DOI that is a DRAFT, not a published record, so at this commit every archive link resolves to nothing' — confirmed independently by deposit-zenodo.yml record=verify (run 33279967090), which read the PUBLIC records API with no token and answered '404 ... exactly what a RESERVED but unpublished DOI does'. research/autonomy/publication-authority.json lists, in terms, among what was NOT granted: 'Zenodo publication, a GitHub release, a DOI mint ... Preparing them needs no permission; performing them does and was not granted.' scripts/zenodo_deposit.py has no publish path at all — '⛔ THIS SCRIPT NEVER PUBLISHES.'",
+      "what": "⛔⛔ A CIRCULAR DEPENDENCY BETWEEN THE BAR AND THE HUMAN, AND IT IS THE LAST THING STANDING.\n`hardening_converged` requires ZERO blockers. One blocker remains and it is not a defect anyone can repair: the paper cites a reserved-but-unpublished DOI, so its archive links resolve to nothing. That clears ONLY when trimcrae publishes deposition 22166420. Meanwhile the preprint checklist tells him not to publish until the round comes back clean. So the bar waits on the publish and the publish waits on the bar.\n★ AND THE STATE THE SEAT GRADED AS A BLOCKER IS THE DESIGNED ONE. reserve-then-rebuild EXISTS to make the paper cite the identifier the archive will carry BEFORE the files are frozen — deposit-state.json calls that window 'deliberate and the whole point'. A window the design creates on purpose is arguably a known-and-accepted condition rather than a blocker; grading it as a blocker makes a clause permanently unsatisfiable by any amount of loop work.\n⛔ THE LOOP MAY NOT RESOLVE THIS ITSELF, AND THAT IS THE POINT. Both available routes are barred to the party being blocked: re-grading the blocker changes how the bar grades, and publishing changes what the loop may do outwardly. research-loop's anti-gaming invariant — a bar may not be changed by the cycle it blocked — covers exactly this shape.\n★ TRIMCRAE ASKED, 2026-08-30: 'I thought you could autonomously do the Zenodo deposition.' The honest answer, given rather than inferred: the RESERVE and REFRESH are already autonomous and have been done twice; the PUBLISH is not, on two independent grounds — publication-authority.json does not grant it, and zenodo_deposit.py has no publish path by design. ⛔ HIS QUESTION WAS NOT TREATED AS THE GRANT. CLAUDE.md §3: being blocked is not authorisation, and this is the one act that cannot be taken back.\nWHAT HE HAS BEEN ASKED FOR, and what each answer implies:\n  (a) publish 22166420 himself — one act, the draft is verified current at c84bc23d251a / 1ddbb1e8a036 and needs no checking first;\n  (b) grant the loop that act for THIS paper, recorded in publication-authority.json, which also needs a publish path added to zenodo_deposit.py — it should refuse unless the authority record names the act AND the draft's digest equals the manifest's at the commit being posted, so it cannot freeze a stale archive;\n  (c) re-grade the unpublished-DOI window as expected rather than blocking.\n⛔ NOTHING WAS BUILT FOR (b) IN ADVANCE. Adding a publish path to a script whose header says 'THIS SCRIPT NEVER PUBLISHES' is a change to a safety property, made by the party that property is blocking; if he answers 'keep it human' it would have been a bar weakened for nothing."
     }
   ]
 }

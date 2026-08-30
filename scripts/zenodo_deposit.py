@@ -18,11 +18,26 @@ per paper, built here from that paper's manifest. Later corrections to a paper's
 VERSIONS OF THAT PAPER'S RECORD, so a reader arriving from the published paper still lands on the
 version it was written against, with Zenodo offering them the newer one.
 
-⛔ THIS SCRIPT NEVER PUBLISHES. Publishing is irreversible — a published version's files cannot be
-edited, only superseded — and it is the step the manuscript's own placeholders are waiting on. What
-it does instead is the ordering fix the manifest's step 5 describes: create the draft, RESERVE the
-DOI, and print it, so the DOI can be pasted into the manuscript and the manuscript rebuilt BEFORE
-the files are frozen. The deposit and the paper that cites it then carry the same identifier.
+⛔ THIS SCRIPT DOES NOT PUBLISH UNLESS `--publish` IS PASSED, AND `--publish` REFUSES UNLESS THREE
+INDEPENDENT CONDITIONS HOLD. Publishing is irreversible — a published version's files cannot be
+edited, only superseded. The default path is unchanged and is the ordering fix the manifest's step 5
+describes: create the draft, RESERVE the DOI, and print it, so the DOI can be pasted into the
+manuscript and the manuscript rebuilt BEFORE the files are frozen. The deposit and the paper that
+cites it then carry the same identifier.
+
+⚠ SUPERSEDED, RETAINED (rule 1.2): "⛔ THIS SCRIPT NEVER PUBLISHES." That was true until 2026-08-30,
+when trimcrae widened the grant in terms — "You should submit to zenodo on your own. That can be as
+simple as a quick approval request to me when ready" — having just been told, with the evidence,
+that the loop could not do it. ⛔ THE SENTENCE HE ADDED IS A GATE, NOT A COURTESY, so `--publish`
+implements it: `publication-authority.json` must name the act, and the caller must pass
+`--approved-by` naming who approved THIS deposition. An approval for one is not an approval for the
+next.
+
+★ AND THE THIRD CONDITION IS THE ONE NO HUMAN CAN EYEBALL: the draft's recorded upload digest must
+EQUAL the archive manifest's `archive_content_digest`, re-read at publish time. Publishing a stale
+draft freezes an archive already behind the paper that cites it — the precise defect the 2026-08-29
+correction existed to remove, and the draft went stale TWICE during it, once because a repair landed
+after the refresh. A human clicking Publish on zenodo.org cannot see that; this can.
 
 ⚠ THE MANIFEST IS THE CONTRACT, NOT A HINT. Every path is taken from `files`, every file's SHA-256
 is re-read from disk and checked against the manifest, and a single mismatch aborts before anything
@@ -40,6 +55,7 @@ import os
 import re
 import subprocess
 import sys
+import io
 import urllib.error
 import urllib.request
 import zipfile
@@ -151,6 +167,61 @@ def api(base, token, method, path, payload=None, raw=None, ctype="application/js
         raise SystemExit(f"Zenodo {method} {path} -> {exc.code}: {exc.read().decode()[:800]}")
 
 
+def refuse_unless_publishable(paper_key, manifest, approved_by):
+    """⛔ THE THREE CONDITIONS FOR AN IRREVERSIBLE PUBLISH. Every one FAILS CLOSED.
+
+    ★ THEY ARE INDEPENDENT ON PURPOSE. Authority answers "may the loop do this at all"; the approval
+    answers "for THIS deposition"; the digest answers "is what we would freeze still the archive the
+    paper cites". No two of them substitute for the third, and the third is the one a human clicking
+    Publish on zenodo.org cannot check — which is the whole reason this path exists rather than the
+    click staying manual.
+    """
+    authority = json.load(io.open(os.path.join(
+        REPO, "research", "autonomy", "publication-authority.json"), encoding="utf-8"))
+    grant = authority.get("zenodo_archive_publication") or {}
+    if not grant.get("standing_grant"):
+        raise SystemExit(
+            "publication-authority.json does not grant Zenodo publication. Publishing is "
+            "irreversible and the grant is the record of who allowed it; without one, this refuses. "
+            "⛔ Do NOT add the block to make this run — the grant is trimcrae's to give.")
+
+    #: ⛔ THE APPROVAL IS PER PUBLICATION, WHICH IS trimcrae's OWN WORDING ("a quick approval request
+    #: to me when ready"). A standing grant that also carried standing approval would make the
+    #: sentence he added do nothing.
+    if grant.get("approval_is_required_per_publication") and not approved_by:
+        raise SystemExit(
+            "the grant requires an approval for THIS deposition and --approved-by was not given. "
+            "Ask, then pass what he said. An approval for one deposition is not an approval for "
+            "the next.")
+
+    #: deposit-state.json sits beside the paper's manifest. Derived rather than configured, so a
+    #: paper added to PAPERS cannot silently arrive without one and be published unchecked.
+    state_rel = os.path.join(os.path.dirname(PAPERS[paper_key]["manifest"]), "deposit-state.json")
+    state_abs = os.path.join(REPO, state_rel)
+    if not os.path.exists(state_abs):
+        raise SystemExit(
+            f"{state_rel} does not exist, so nothing records what the draft holds. A publish that "
+            "cannot be checked against the tree is the one this gate exists to refuse.")
+    state = json.load(io.open(state_abs, encoding="utf-8"))
+    pending = state.get("pending") or {}
+    uploaded = pending.get("uploaded_manifest_digest")
+    current = manifest.get("archive_content_digest")
+    if not uploaded:
+        raise SystemExit(
+            "deposit-state.json records no uploaded digest for the pending draft, so nothing can "
+            "say whether the draft matches this tree. Re-run the deposit, then publish.")
+    if uploaded != current:
+        raise SystemExit(
+            f"THE DRAFT IS BEHIND THIS TREE and publishing would freeze it that way.\n"
+            f"  draft holds : {uploaded}\n"
+            f"  tree is at  : {current}\n\n"
+            "Re-run this script WITHOUT --publish first (it updates the draft in place), update "
+            "uploaded_manifest_digest, and only then publish. ⚠ This has gone stale twice, once "
+            "because a repair landed AFTER the refresh — so the refresh must be the last act "
+            "before the publish, not merely a recent one.")
+    return grant, pending
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--paper", choices=sorted(PAPERS), required=True)
@@ -170,6 +241,13 @@ def main(argv=None):
                          "paper's first deposit after its manifest was populated by hand — a "
                          "re-run otherwise updates the draft the manuscript already cites.")
     ap.add_argument("--out-dir", default=os.path.join(REPO, ".cache", "zenodo"))
+    ap.add_argument("--publish", action="store_true",
+                    help="PUBLISH the existing draft — IRREVERSIBLE. Refuses unless the authority "
+                         "record grants it, --approved-by names who approved THIS deposition, and "
+                         "the draft's digest still equals the manifest's. Uploads nothing.")
+    ap.add_argument("--approved-by", default=None,
+                    help="Who approved THIS publication, and when. Required by --publish; recorded "
+                         "in the run's output so the approval is auditable after the fact.")
     args = ap.parse_args(argv)
 
     paper = PAPERS[args.paper]
@@ -303,6 +381,27 @@ def main(argv=None):
     #: DOI is already in the manuscript — so the log of a successful second run read as an
     #: instruction to redo the first. A reader following it would have found nothing to paste and
     #: had to work out which half of the message was stale.
+    #: ⛔ THE IRREVERSIBLE STEP, AND IT UPLOADS NOTHING. `--publish` acts on the draft as it stands:
+    #: if the archive needed refreshing, the digest check above has already refused. Publishing and
+    #: uploading in one run would mean the thing being frozen was assembled by the same command that
+    #: froze it, with no committed record of it in between.
+    if args.publish:
+        grant, pending = refuse_unless_publishable(args.paper, manifest, args.approved_by)
+        print(f"  publishing deposition {dep_id} — IRREVERSIBLE")
+        print(f"    approved by : {args.approved_by}")
+        print(f"    digest      : {pending['uploaded_manifest_digest']} (matches the manifest)")
+        published = api(base, token, "POST", f"/deposit/depositions/{dep_id}/actions/publish")
+        doi = published.get("doi") or (published.get("metadata") or {}).get("doi")
+        print("=" * 72)
+        print(f"PUBLISHED deposition {dep_id}. This cannot be undone.")
+        print(f"  DOI      : {doi}")
+        print(f"  record   : https://doi.org/{doi}" if doi else "")
+        print("=" * 72)
+        print("Next: move `pending` into `published` in deposit-state.json and delete `pending`,")
+        print("and READ THE RECORD BACK with record=verify rather than trusting this output —")
+        print("'the script said so' is a report about an outside system, not a reading of it.")
+        return 0
+
     updated = bool(existing and not args.new and not args.new_version)
     print("\n" + "=" * 72)
     print(f"DRAFT deposition {dep_id} {'updated' if updated else 'created'}. NOTHING IS PUBLISHED.")
