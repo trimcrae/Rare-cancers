@@ -14,7 +14,16 @@ can answer this question, which is the one the modality actually turns on:
 
 So a parent duplex that pairs the whole six-nucleotide DNA gap at 11 or 12 contiguous base pairs is
 invisible to all three, while being exactly what RNase-H1 needs. That is not a hypothetical: it is
-true of five of the nine designs the manuscript calls clean, one of them against wild-type NR4A3.
+true of 78 designs in this panel, 56 of them against wild-type NR4A3.
+
+⚠ THAT SENTENCE USED TO RESTATE THE MANUSCRIPT'S OWN CLEAN-DESIGN COUNT and went stale inside the
+DEPOSIT (round 23, 2026-08-30). It read "true of five of the nine designs the manuscript calls
+clean" — a count from a draft in which nine designs were called clean; the manuscript now says
+three, and this file is deposited under the DOI that manuscript prints, so the archive contradicted
+the paper it ships with. ⛔ THE FIX IS NOT A NEW NUMBER FOR THE OLD ONE: a module has no business
+restating a count whose one home is the paper (rule 1.2). The figures above are this artifact's own,
+re-derived from `per_design[].longest_parent_duplex_bp_through_gap` and `.parent`, and they cannot
+go stale when the manuscript's selection changes.
 
 ⛔⛔ AND IT IS THE GAP-LEVEL MARGIN'S BLIND SPOT, NOT AN UNRELATED RISK. The margin counts bases that
 are junction-unique AT THE SEAM — donor-side bases inside the gap. It never asks whether a parent
@@ -215,9 +224,14 @@ def build():
             f"and returns {sum(1 for r in rows if r['longest_parent_duplex_bp_through_gap'] >= 7)} "
             f"of {len(rows)} at a threshold of 7. Every design's raw longest "
             f"run is released so another threshold can be applied without re-running this.",
-            "Not a result that turns on that threshold. The two designs surviving every screen in "
-            "the manuscript have a longest run of ZERO at any length, and the ordering by "
-            "gap-level margin is monotone at every threshold from 6 to 12.",
+            # ⚠ THE COUNT WAS DROPPED, NOT UPDATED (round 23, 2026-08-30). This read "The two
+            # designs surviving every screen in the manuscript" while the manuscript said three —
+            # a stale restatement of the paper's own number, inside the archive the paper cites.
+            # The threshold-independence point never needed the count, and without it the sentence
+            # cannot go stale when the selection moves.
+            "Not a result that turns on that threshold. Every design that survives every screen "
+            "has a longest run of ZERO at any length, and the ordering by gap-level margin is "
+            "monotone at every threshold from 6 to 12.",
         ],
         "_cost": "$0 — offline, over two committed artifacts, no network and no credentials.",
         "method": {

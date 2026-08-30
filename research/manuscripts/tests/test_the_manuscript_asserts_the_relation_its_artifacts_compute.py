@@ -314,8 +314,17 @@ POLARITY = [
     # test_the_discussion_recommends_the_two_published_junctions` holds the same relation against
     # the same artifact — but its `PAPER` is the EXTENDED REPORT, so the journal article's copy is
     # one of a pair with nothing on this side of it.
+    # ⚠ RE-ANCHORED 2026-08-30 (round 23). The scope pattern read "Three designs clear every
+    # screen", and the sentence now reads "Three designs pair no wild-type parent through the gap
+    # at all and clear every other screen applied here" — reworded because the paper used "clear"
+    # to mean two different things: liability is defined at ten base pairs, and "35 of the 38
+    # junctions have a design that clears the parent screen" uses that reading, while THIS count
+    # is reproducible only if "clear" means a longest run of ZERO. Under the paper's own stated
+    # criterion the answer would be six. ⛔ THE RELATION IS UNCHANGED — the row still guards that
+    # these designs sit at junctions no patient is reported to carry, which is what makes them
+    # mechanism controls rather than candidates. Only the sentence's opening moved.
     ("three-clean-designs-are-mechanism-controls",
-     r"Three designs clear every screen[^.]{0,200}\.",
+     r"Three designs pair no wild-type parent[^.]{0,260}\.",
      r"none at a junction any patient is reported to carry",
      r"each at a junction patients are reported to carry|"
      r"at a junction patients are reported to carry|"
@@ -323,8 +332,9 @@ POLARITY = [
      "aso-per-junction-table.json:junctions[].clinical_tier — the five junctions tiered "
      "published_exon_resolved_breakpoint are EWSR1 e12/e13, TAF15 e6, TCF12 e5 and TFG e7, and "
      "none of the three designs clearing every screen is tiled at one of them",
-     "Three designs clear every screen applied here, each at a junction patients are reported to "
-     "carry, which makes them candidates rather than mechanism controls."),
+     "Three designs pair no wild-type parent through the gap at all and clear every other screen "
+     "applied here, each at a junction patients are reported to carry, which makes them candidates "
+     "rather than mechanism controls."),
     # ⛔ THE AI-USE PROVENANCE SENTENCE — audit item UNGUARDED 2 / MISCOVERED F, AND A WINDOW THAT
     # WAS SEVENTY CHARACTERS SHORT. `POLARITY["ai-use"]` above binds the DISCLOSURE (a model was
     # used); the sentence that says the citations are real is a different claim and sits outside

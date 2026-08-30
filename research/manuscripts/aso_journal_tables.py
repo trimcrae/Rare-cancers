@@ -47,14 +47,31 @@ LEADS = ("EWSR1_e12__NR4A3_e3", "TAF15_e6__NR4A3_e3")
 #: constructs are those of PMID:31020999, whose exon spans that paper states verbatim; the
 #: patient-derived models are those of PMID:36316541, whose fusions are reported at NR4A3 exon 2
 #: rather than exon 3, which is why neither lead below is matched to one.
+#: ⛔⛔ THIS WAS A TABLE COLUMN UNTIL 2026-08-30 AND IT CLIPPED MID-WORD IN THE SUBMISSION PDF
+#: (AUT-PD-188, closed by round 23). Table 1's min-content ran 16.64 mm past an 84.35 mm column, so
+#: the two-column builds printed the header as "test a" and the cells as "E-N, engin const" — in the
+#: PDF a reviewer receives, and in the anonymized copy too. ★ THE FIX WAS TO MOVE THE PAIRING INTO
+#: THE CAPTION, which already said what a test article IS, so the column's width pressure went with
+#: it and nothing was cut: the paper stayed at seven pages. The register had priced the repair at
+#: `column-span: all` plus a page, and by then that page was already spent on the FUS clause, so the
+#: priced repair had silently become an eighth page the budget forbids.
+#: ⚠ THE MAPPING IS STILL A KEYED DICT AND IS STILL GUARDED. `test_the_journal_display_items_say_
+#: what_their_rows_say.py` reads it out of the caption now and checks each label's initials against
+#: its seam's genes, because the swap it closes — E-N onto the TAF15 seam — names the wrong
+#: published comparator against a reader's reagent whether it sits in a cell or in a sentence.
+#: ⛔ NOT `T-N\\*`. The markdown escape survives the PDF pipeline as a LITERAL BACKSLASH (measured
+#: 2026-08-20 by reading the rendered PDF, invisible in the source), and the asterisk is part of the
+#: construct name — T-N* and T-N are different constructs in PMID:31020999.
 TEST_ARTICLE = {
-    "EWSR1_e12__NR4A3_e3": "E-N, engineered construct",
-    #: ⛔ NOT `T-N\\*`. The markdown escape survives the PDF pipeline as a LITERAL BACKSLASH in the
-    #: table cell (measured 2026-08-20 by reading the rendered PDF, invisible in the source), and
-    #: the asterisk is part of the construct name — T-N* and T-N are different constructs in
-    #: PMID:31020999, so this cell names a test article and must render exactly.
-    "TAF15_e6__NR4A3_e3": "T-N*, engineered construct",
+    "EWSR1_e12__NR4A3_e3": "E-N",
+    "TAF15_e6__NR4A3_e3": "T-N*",
 }
+
+#: Which reagent each construct is the test article for, rendered into the caption. Derived from
+#: TEST_ARTICLE's own keys so the two cannot drift.
+def _test_article_clause():
+    parts = [f"{label} for the *{key.split('_')[0]}* reagent" for key, label in TEST_ARTICLE.items()]
+    return " and ".join(parts) if len(parts) < 3 else ", ".join(parts[:-1]) + " and " + parts[-1]
 
 #: The near-twin pairs Table 2 prints, named by the CONDEMNED member. Each seam contributes one pair.
 #: ⚠ NAMED BY THE CONDEMNED MEMBER ON PURPOSE: the orderable twin is then read out of the canonical
@@ -179,12 +196,13 @@ def build() -> str:
     # two captions had grown to 350 words between them, restating §2 and §4 beside the rows. What a
     # caption owes the reader is what the columns mean and where the cells come from; the reasoning
     # lives in the section that cites the table.
-    out += ["**Table 1. The two reagents named for synthesis, with their parent-duplex label and "
-            "their test article.** The parent-duplex column is the longest contiguous duplex a "
+    out += ["**Table 1. The two reagents named for synthesis, with their parent-duplex label.** "
+            "The parent-duplex column is the longest contiguous duplex a "
             "mature wild-type parent forms through the catalytic gap; neither reagent reaches the "
-            "ten-base-pair criterion, so the length is printed rather than a pass mark. Test "
+            "ten-base-pair criterion, so the length is printed rather than a pass mark. The test "
             "articles are the engineered constructs of Brenca et al. "
-            "(PMID:31020999); the two patient-derived models of Bangerter et al. (PMID:36316541) are "
+            "(PMID:31020999) — " + _test_article_clause() +
+            "; the two patient-derived models of Bangerter et al. (PMID:36316541) are "
             "REPORTED at an NR4A3 exon-2 acceptor and match different designs, not these two. "
             "ΔTm separates the fusion duplex from the more stable half of the design's own "
             "target window, which is a different parent from the duplex column's searched "
@@ -193,13 +211,12 @@ def build() -> str:
             "phosphorothioate oligonucleotide. "
             "Nothing here has been synthesised or tested, and no sequence may be administered to "
             "any person or animal.", ""]
-    out += ["| seam | reagent | margin | WT gap duplex (bp) | ΔTm floor (°C) | "
-            "test article |",
-            "|---|---|---:|---|---:|---|"]
+    out += ["| seam | reagent | margin | WT gap duplex (bp) | ΔTm floor (°C) |",
+            "|---|---|---:|---|---:|"]
     for j in LEADS:
         r = _lead(rows, j)
         out.append(f"| {_seam(j)} | 5\u2032-{r['sequence']}-3\u2032 | {r['gap_level_margin']} | "
-                   f"{_duplex(r)} | {_tm(r)} | {TEST_ARTICLE[j]} |")
+                   f"{_duplex(r)} | {_tm(r)} |")
     out.append("")
 
     controls = _controls()

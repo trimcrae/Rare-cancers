@@ -129,7 +129,30 @@ PROMISES = [
                      "research/manuscripts/submission_packet.py",
                      "research/manuscripts/lint_consistency.py",
                      "research/manuscripts/lint_citations.py",
-                     "research/manuscripts/lint_style.py"],
+                     "research/manuscripts/lint_style.py",
+                     # ⛔⛔ FIVE MORE STEPS THE SCRIPT INVOKES WERE ABSENT (round 23, 2026-08-30),
+                     # and the row's own `contributes` promised "the script AND every step it
+                     # invokes that no other row here already carries" while they were missing —
+                     # so the manifest made a false statement about itself, INSIDE the deposit.
+                     # ⚠ THIS IS THE SAME DEFECT THE 2026-08-19 COMMENT ABOVE RECORDS, RECURRING
+                     # ON THE STEPS ADDED SINCE. The 2026-08-19 sweep enumerated the steps that
+                     # existed then; every step added afterwards arrived outside every promise
+                     # glob, because nothing measures the script's step list against the
+                     # inventory. `aso_offtarget_duplex_energy.py` is the one that matters — see
+                     # the `duplex_energy_rescore` row, which owns it and its output — and these
+                     # four are the packaging half.
+                     "research/manuscripts/claim_coverage.py",
+                     "research/manuscripts/build_submission_parts.py",
+                     "research/manuscripts/build_submission_docx.py",
+                     "research/manuscripts/figures/svg_to_print_formats.py",
+                     # ⛔ AND FOUR ARTIFACTS A DEPOSITED TEST OPENS BY NAME. Found by the guard
+                     # written for the missing STEPS, on its first run — a step present in the
+                     # archive whose INPUT is not is the same failure one level in, and the archive
+                     # carries the tests, so a reader running them hits it.
+                     "research/modalities/aso-genome-offtarget-noncoding-acceptor.json",
+                     "research/modalities/fusion-neoantigen-retraction.json",
+                     "research/modalities/hybrid-intron-model.json",
+                     "research/modalities/nr4a3-deposited-junctions.json"],
     },
     {
         "id": "graded_junction_atlas",
@@ -389,6 +412,39 @@ PROMISES = [
                      "research/modalities/aso_genome_offtarget.py",
                      "research/modalities/tests/test_aso_genome_offtarget.py",
                      "research/manuscripts/aso/lit-targets-aso-gap-length.json"],
+    },
+    {
+        # ⛔⛔ THE SCREEN BEHIND FOUR NUMBERS THE PAPER PRINTS WAS NOT IN THIS ARCHIVE, AND THE
+        # AVAILABILITY STATEMENT PROMISED IT WAS (round 23, 2026-08-30). Found by the
+        # citations-and-instruments seat. "All code, graded artefacts, per-design tables, every
+        # screen's parameters and the complete bounds on each claim are deposited under
+        # doi:10.5281/zenodo.22180100" — and neither `aso_offtarget_duplex_energy.py` nor
+        # `aso-offtarget-duplex-energy.json` was among the 484 paths. A reader who downloaded the
+        # DOI to check "8 designs carry a fully paired sixteen-base-pair off-target duplex and 45
+        # one inside 2 kcal/mol of their own", or the 3.2 and 3.0 kcal/mol margins the two named
+        # reagents rest on, found neither the numbers nor the code that produces them.
+        # ⚠ IT SURVIVED EVERY EARLIER VERSION: 482, 483 and 484 paths, none carrying it — including
+        # the 2026-08-19 sweep that fixed exactly this defect for five OTHER artifacts, whose own
+        # comment says withholding an ensemble "leaves the one number a sceptical reader most wants
+        # to recompute uncheckable". Same defect, one screen over, three published versions long.
+        # ⛔ AND THE ARCHIVE WAS INTERNALLY BROKEN BY IT, which is what makes this reader-facing
+        # rather than merely incomplete: `research/modalities/tests/test_aso_submission_numbers.py`
+        # IS deposited and loads the missing JSON, and `scripts/regenerate_aso_chain.sh` IS
+        # deposited and invokes the missing module at step "offtarget duplex energy" — so the
+        # command the paper tells a reader to run died on a clean download.
+        "id": "duplex_energy_rescore",
+        "verbatim": False,
+        "promise": ("the off-target screen re-scored on duplex stability rather than on mismatch "
+                    "count, and the margins the two named reagents rest on"),
+        "quote": "every screen's parameters and the complete bounds on each claim",
+        "contributes": ("The fifth screen's re-scoring arm: every design's closest gap-paired "
+                        "off-target duplex by free energy rather than by mismatch count, with the "
+                        "two named reagents' separations from theirs, and the producer that writes "
+                        "it. ⚠ ITS TWO BOUNDS POINT OPPOSITE WAYS and the artifact says so in its "
+                        "own headers rather than leaving a reader to find out — the manuscript "
+                        "states one of them, and the deposit is where the other lives."),
+        "patterns": ["research/modalities/aso-offtarget-duplex-energy.json",
+                     "research/modalities/aso_offtarget_duplex_energy.py"],
     },
     {
         "id": "censoring_test_and_genomic_attempt",

@@ -222,8 +222,9 @@ designs to 266 and 342, so the rate falls from 45.8% to 33.1% and 25.4%: a longe
 per design without removing the liability. At 5-10-5 the criterion is met by the catalytic gap
 alone, so that last figure is a floor; the deposit gives the series.
 
-Three designs clear every screen applied here, none at a junction any patient is reported to carry,
-which makes them mechanism controls rather than candidates. Selecting within each junction rather
+Three designs pair no wild-type parent through the gap at all and clear every other screen applied
+here, none at a junction any patient is reported to carry, which makes them mechanism controls
+rather than candidates. Selecting within each junction rather
 than across the panel is what makes the two named reagents available: 35 of the 38 junctions have a design that
 clears the parent screen, and all five junctions with a published exon-resolved breakpoint have one.
 At nine base pairs 31 of the 38 still clear and three of the five published ones do; at eight, 23
@@ -315,7 +316,8 @@ screen is not a claim of inertness; it is the property a negative control has to
 An isogenic fusion-positive against fusion-negative comparison has been run in an analogous fusion
 sarcoma, against *NAB2::STAT6* in solitary fibrous
 tumour.<sup>23</sup><!--PMID:37370737--> It is specified here for these reagents, with the two
-screened controls above, which a knockdown assay alone cannot distinguish.
+screened controls above; a knockdown assay alone separates none of the failure modes those controls
+exist to separate.
 
 Selectivity is the ratio of two half-maximal knockdown concentrations: wild-type *NR4A3* over the
 fusion, from a matched dose-response in the same wells. Its form and the cut of 5.0 are adopted
@@ -360,8 +362,8 @@ noted with the reagents, arriving from a compartment the panel's selection never
 
 The four junction-specificity reports cited
 here<sup>9,10,11,24</sup><!--PMID:33241214,21846246,23052253,36265509--> were all made on molecules
-already synthesised; no survey of design pipelines was performed, so the screen-before-synthesis
-claim is about this literature as retrieved and not a priority claim. Whether sparing wild-type *NR4A3* is worth a specificity cost is unsettled —
+already synthesised; no survey of design pipelines was performed, so nothing here is a priority
+claim about when such a screen was first applied. Whether sparing wild-type *NR4A3* is worth a specificity cost is unsettled —
 reported paralogue redundancy and dosage effects point in opposite directions — and the archived
 deposit does not resolve it.
 

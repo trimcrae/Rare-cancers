@@ -80,17 +80,29 @@ BUILDS = ("fusion-junction-aso-journal-article.pdf",
 #: purpose. The table does not fit in one column and no in-column lever closes 16.64 mm; the one
 #: rendering that is correct — `column-span: all` — costs a seventh page against a budget of six,
 #: at a journal that charges per page. That trade is not a builder's to make silently.
-KNOWN_CLIPPED = {"fusion-junction-aso-journal-article.pdf",
-                 "fusion-junction-aso-journal-article-anonymized.pdf"}
+#: ✅ EMPTY BECAUSE AUT-PD-188 IS CLOSED (2026-08-30, round 23). Table 1 was 16.64 mm too wide for
+#: an 84.35 mm column and its last column clipped mid-word in both two-column builds — the header
+#: printed "test a" for "test article" and the cells "E-N, engin const" for "E-N, engineered
+#: construct", in the PDF a reviewer receives.
+#: ★ THE FIX WAS CONTENT, NOT LAYOUT, AND THAT IS WHY IT COST NOTHING. The marker priced the repair
+#: at `column-span: all` and a seventh page; by the time it was fixed the seventh page was already
+#: spent on the FUS clause, so the priced repair had silently become an EIGHTH page, which
+#: `test_the_journal_pdf_fits_its_page_budget.py` forbids. The column carried "E-N" and "T-N*"
+#: under the header "test article", and the CAPTION already said what a test article is — so the
+#: column moved into the caption ("E-N for the *EWSR1* reagent and T-N* for the *TAF15* one") and
+#: the width pressure went with it. Nothing was cut and the paper stayed at seven pages.
+#: ⚠ KEEP THIS SET AND `_case` RATHER THAN INLINE THE PARAMETRISATION: the next display item that
+#: overflows needs a place to be registered, and a marker with nowhere to go becomes a deleted test.
+KNOWN_CLIPPED: set[str] = set()
 
 
 def _case(build):
     if build in KNOWN_CLIPPED:
         return pytest.param(build, marks=pytest.mark.xfail(
             strict=True,
-            reason="AUT-PD-188 open: Table 1 is 16.64 mm too wide for an 84.35 mm column, so its "
-                   "last column is clipped mid-word. Fixing it costs a seventh page against a "
-                   "budget of six. Delete this marker in the commit that fixes it."))
+            reason="a display item is known to overflow its column in this build. State the "
+                   "measurement, the page cost of the fix, and delete this entry in the commit "
+                   "that fixes it — strict=True means the suite goes red the day it is fixed."))
     return build
 
 #: A cell too short to be evidence of anything: "3", "≥ 26.6", a bare mark. A one- or two-character

@@ -442,6 +442,48 @@ absence is how 22166420 came to freeze an earlier copy of its own manuscript. It
 all** before this session and now has eight, both directions mutation-tested on a copy.
 
 
+### 3-v · ⛔ A THIRD ARCHIVE VERSION IS NEEDED, BECAUSE THE PUBLISHED ONE PROMISES CODE IT DOES NOT CONTAIN
+
+⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS AGAIN, AND THIS TIME IT IS AN OMISSION RATHER THAN A
+STALE COPY.** Round 23's citations-and-instruments seat found that `10.5281/zenodo.22180100` — live
+since 2026-08-30, §3-iv — carries neither `aso_offtarget_duplex_energy.py` nor its output, while the
+manuscript's Data availability promises *"All code, graded artefacts, per-design tables, every
+screen's parameters and the complete bounds on each claim are deposited"* there. Four numbers the
+Results print come from nowhere else: **8** designs with a fully paired sixteen-base-pair off-target
+duplex, **45** within 2 kcal/mol, and the **3.2** and **3.0** kcal/mol margins the two named reagents
+rest on. A reader who downloads the DOI to check them finds neither the numbers nor the code.
+
+⛔ **AND THE ARCHIVE WAS INTERNALLY BROKEN BY IT**, which is what makes this reader-facing rather
+than merely incomplete: the deposited `test_aso_submission_numbers.py` loads the missing JSON, and
+the deposited `scripts/regenerate_aso_chain.sh` — the command the Availability statement tells a
+reader to run — invokes the missing module. It died at that step on a clean download.
+
+⚠ **IT IS NOT A REGRESSION FROM THAT PUBLISH. IT SURVIVED EVERY VERSION**: 482, 483 and 484 paths,
+none carrying it — including the 2026-08-19 sweep that fixed this exact defect for five *other*
+artifacts, whose own comment says withholding an ensemble *"leaves the one number a sceptical reader
+most wants to recompute uncheckable."* Same defect, one screen over, three published versions long.
+
+★ **THE SIZE OF THE DRIFT, MEASURED AGAINST THE MANIFEST'S OWN INVENTORY.** Diffing the deposited set
+between the published record's revision and HEAD returns **23 differences: 13 changed, 10 added, 0
+removed**, over 484 published paths and 494 now. The ten additions are the duplex-energy screen and
+its producer; four packaging modules the chain invokes; and four artifacts a deposited test opens by
+name — `aso-genome-offtarget-noncoding-acceptor.json`, `fusion-neoantigen-retraction.json`,
+`hybrid-intron-model.json` and `nr4a3-deposited-junctions.json`. The changed thirteen are round 23's
+corrections and the rebuilt chain.
+
+★ **THE GAP IS CLOSED BY AN INSTRUMENT, NOT BY THIS PARAGRAPH.**
+[`test_the_deposited_chain_can_run_from_the_deposit.py`](../tests/test_the_deposited_chain_can_run_from_the_deposit.py)
+parses the chain's own invocations and compares them to the inventory, because the manifest's only
+backstop was `gaps.import_closure` — computed from Python **imports**, which no subprocess
+invocation appears in, so `promises_resolving_to_no_file` read `[]` however many steps were absent.
+⚠ It found the four test inputs on its first run, beyond the steps it was written for.
+
+⛔ **WHAT REMAINS: draft a new version from 22180100, refresh it as the LAST act, and publish.** The
+per-publication approval was retired on 2026-08-30, so the publish is the loop's; what still refuses
+is `refuse_unless_publishable`'s digest, grant and draft-identity check. Until it lands, the DOI both
+papers print resolves to a record missing the code behind four of their numbers.
+
+
 ## 3a · What is open now, and it is one decision rather than a defect
 
 **⛔ THE CONDENSED PREPRINT IS ON HOLD, BY THE AUTHOR'S DECISION** (trimcrae, 2026-08-23: *"I'm

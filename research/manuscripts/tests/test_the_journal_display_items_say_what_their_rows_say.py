@@ -532,24 +532,43 @@ def test_the_test_article_label_belongs_to_the_seam_its_row_names(tables):
     literature fact and its citation is the provenance. It closes the swap, which is the failure
     that puts a reader's reagent against the wrong published comparator.
     """
+    #: ⚠ THE MAPPING MOVED FROM A COLUMN TO THE CAPTION ON 2026-08-30 AND THIS GUARD FOLLOWED IT.
+    #: Table 1's last column clipped mid-word in both two-column builds (AUT-PD-188), and the
+    #: cheapest correct fix was to drop the column — the caption already said what a test article
+    #: is — and state the pairing there instead. ⛔ THE HAZARD IS UNCHANGED: a swap in the caption
+    #: names the wrong published construct against a reader's reagent exactly as a swapped cell
+    #: did, so the guard reads the caption rather than being deleted with the column.
     genes = set(_construct_gene_models())
-    rows = [r for t in tables.values() for r in t["rows"] if "test article" in
-            {k.lower() for k in r}]
-    assert rows, "no table carries a test-article column, so this guard is vacuous"
+    pairs = []
+    for t in tables.values():
+        #: ⚠ THE EMPHASIS MARKS ARE OPTIONAL BECAUSE `_plain` HAS ALREADY STRIPPED THEM. Requiring
+        #: `\*GENE\*` matched the raw file and nothing in the fixture, which is a guard reporting
+        #: vacuity rather than a pairing — caught by this file's own "no caption states…" assert.
+        for label, gene in re.findall(r"([A-Z]-[A-Z]\*?)\s+for the \*?([A-Z][A-Z0-9]+)\*?",
+                                      t.get("caption", "")):
+            pairs.append((gene, label, t))
+    assert pairs, (
+        "no table caption states which test article belongs to which reagent, so this guard is "
+        "vacuous. The pairing lives in Table 1's caption since the column was dropped; if it moved "
+        "again, point this guard at its new home rather than deleting it — the swap it closes puts "
+        "a reader's reagent against the wrong published comparator.")
 
     wrong = []
-    for row in rows:
-        cell = next(v for k, v in row.items() if k.lower() == "test article")
-        seam = next(v for k, v in row.items() if k.lower() == "seam")
-        label = cell.split(",")[0].strip()
-        initials = [p for p in re.split(r"[-–]", re.sub(r"\*", "", label)) if p]
+    for gene, label, table in pairs:
+        seams = [r for r in table["rows"]
+                 if any(k.lower() == "seam" and gene in v for k, v in r.items())]
+        if not seams:
+            wrong.append((gene, label, f"no row in this table has a seam naming {gene}"))
+            continue
+        seam = next(v for k, v in seams[0].items() if k.lower() == "seam")
+        initials = [q for q in re.split(r"[-–]", re.sub(r"\*", "", label)) if q]
         seam_genes = [g for g in re.findall(r"([A-Z][A-Z0-9]+)", seam) if g in genes]
         if len(initials) != len(seam_genes) or not seam_genes:
             wrong.append((seam, label, "the label and the seam name different numbers of genes"))
             continue
-        for got, gene in zip(initials, seam_genes):
-            if not gene.startswith(got):
-                wrong.append((seam, label, f"{got!r} is not the initial of {gene}"))
+        for got, g in zip(initials, seam_genes):
+            if not g.startswith(got):
+                wrong.append((seam, label, f"{got!r} is not the initial of {g}"))
 
     assert not wrong, (
         "a test-article label does not belong to the seam its row names:\n  "
