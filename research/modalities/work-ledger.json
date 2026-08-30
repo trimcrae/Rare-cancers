@@ -8,12 +8,12 @@
     "never_destructive": "no destroy, reap, condemn or blacklist \u2014 those stay in the lanes' own collect paths. Asserted by AST in tests/test_work_ledger.py.",
     "a_price_hold_is_not_a_stall": "\u00a76 makes a hold a SUCCESS. Held entries get no action, accrue no attempts, and can never decay into `blocked`."
   },
-  "_generated_utc": "2026-08-29T09:05:17Z",
-  "_generated_et": "5:05 AM ET Aug 29, 2026",
+  "_generated_utc": "2026-08-30T06:39:06Z",
+  "_generated_et": "2:39 AM ET Aug 30, 2026",
   "_expected_tick_min": 16.0,
   "_tick_workflow": "lane-staleness-watch.yml",
-  "_stale_after_utc": "2026-08-29T09:53:17Z",
-  "_stale_after_et": "5:53 AM ET Aug 29, 2026",
+  "_stale_after_utc": "2026-08-30T07:27:06Z",
+  "_stale_after_et": "3:27 AM ET Aug 30, 2026",
   "_stale_after_means": "IF THE CLOCK IS PAST THIS AND THIS FILE HAS NOT CHANGED, THE SUPERVISOR CHAIN HAS STOPPED and every item below is unwatched. A supervisor that has stopped cannot report that it stopped, so this deadline is written INTO the artifact: a reader who does nothing but open the file can tell. Restart with `gh workflow run step1-fanout-supervisor.yml --ref main`.",
   "_scanners": [
     {
@@ -33,9 +33,9 @@
     {
       "scanner": "handoff",
       "ran": true,
-      "found": 1,
+      "found": 2,
       "error": null,
-      "how": "paired every `dispatched` gate record in the launch ledger with what followed it; 1 unanswered past 40 min"
+      "how": "paired every `dispatched` gate record in the launch ledger with what followed it; 2 unanswered past 40 min"
     },
     {
       "scanner": "rung_gates",
@@ -2403,18 +2403,18 @@
       "notes": null
     },
     {
-      "id": "handoff:edge-reps:2026-08-28T18:39:35Z",
+      "id": "handoff:5aks:2026-08-29T09:04:46Z",
       "scanner": "handoff",
-      "what": "Hand-off never answered: the gate dispatched edge-reps at 2:39 PM ET and no rental, launch or terminal record followed",
+      "what": "Hand-off never answered: the gate dispatched 5aks at 5:04 AM ET and no rental, launch or terminal record followed",
       "owner": null,
       "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
       "state": "open",
-      "evidence_fingerprint": "2026-08-28T18:39:35Z",
-      "last_evidence_utc": "2026-08-28T18:39:35Z",
-      "last_evidence_et": "2:39 PM ET Aug 28, 2026",
-      "last_evidence_what": "ternary-vast-launch-attempts.json: stage='market-gate' outcome='dispatched' reason='board cleared both ceilings; dispatching task=edge-reps'",
-      "next_evidence_due_utc": "2026-08-28T19:19:35Z",
-      "next_evidence_due_et": "3:19 PM ET Aug 28, 2026",
+      "evidence_fingerprint": "2026-08-29T09:04:46Z",
+      "last_evidence_utc": "2026-08-29T09:04:46Z",
+      "last_evidence_et": "5:04 AM ET Aug 29, 2026",
+      "last_evidence_what": "ternary-vast-launch-attempts.json: stage='5aks-gate' outcome='dispatched' reason='board cleared both ceilings; dispatching task=5aks'",
+      "next_evidence_due_utc": "2026-08-29T09:44:46Z",
+      "next_evidence_due_et": "5:44 AM ET Aug 29, 2026",
       "blocked_by": [],
       "attempts": [],
       "n_fruitless_attempts": 0,
@@ -2426,10 +2426,40 @@
       "price_points_at": null,
       "blocked_cause": null,
       "board_group": "ternary",
-      "first_seen_utc": "2026-08-29T09:04:07Z",
+      "first_seen_utc": "2026-08-30T06:37:59Z",
       "unreadable": null,
       "notes": [
-        "unanswered for 866 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+        "unanswered for 1294 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
+      ]
+    },
+    {
+      "id": "handoff:triangle:2026-08-29T09:04:51Z",
+      "scanner": "handoff",
+      "what": "Hand-off never answered: the gate dispatched triangle at 5:04 AM ET and no rental, launch or terminal record followed",
+      "owner": null,
+      "owner_note": "UNOWNED \u2014 nothing is carrying this item; that is the condition this ledger exists to make visible",
+      "state": "open",
+      "evidence_fingerprint": "2026-08-29T09:04:51Z",
+      "last_evidence_utc": "2026-08-29T09:04:51Z",
+      "last_evidence_et": "5:04 AM ET Aug 29, 2026",
+      "last_evidence_what": "ternary-vast-launch-attempts.json: stage='triangle-gate' outcome='dispatched' reason='board cleared both ceilings; dispatching task=triangle'",
+      "next_evidence_due_utc": "2026-08-29T09:44:51Z",
+      "next_evidence_due_et": "5:44 AM ET Aug 29, 2026",
+      "blocked_by": [],
+      "attempts": [],
+      "n_fruitless_attempts": 0,
+      "retry_budget": 3,
+      "auto_action": null,
+      "auto_action_why_none": "overdue, but no dispatchable workflow is declared for this scanner. Recorded UNOWNED rather than dispatched at a guess.",
+      "hosts_points_at": null,
+      "cost_points_at": null,
+      "price_points_at": null,
+      "blocked_cause": null,
+      "board_group": "ternary",
+      "first_seen_utc": "2026-08-30T06:37:59Z",
+      "unreadable": null,
+      "notes": [
+        "unanswered for 1294 min against a 40 min acknowledgement window measured from today's real gate->rental hand-offs (0.7-22 min)"
       ]
     },
     {
@@ -2905,11 +2935,11 @@
       "owner_note": null,
       "state": "done",
       "evidence_fingerprint": "FINISHED||launch ledger: stage='market-gate' outcome='dispatched'",
-      "last_evidence_utc": "2026-08-28T18:39:35Z",
-      "last_evidence_et": "2:39 PM ET Aug 28, 2026",
+      "last_evidence_utc": "2026-08-30T06:38:31Z",
+      "last_evidence_et": "2:38 AM ET Aug 30, 2026",
       "last_evidence_what": "launch ledger: stage='market-gate' outcome='dispatched'",
-      "next_evidence_due_utc": "2026-08-28T19:24:35Z",
-      "next_evidence_due_et": "3:24 PM ET Aug 28, 2026",
+      "next_evidence_due_utc": "2026-08-30T07:23:31Z",
+      "next_evidence_due_et": "3:23 AM ET Aug 30, 2026",
       "blocked_by": [],
       "attempts": [
         {
@@ -3258,17 +3288,17 @@
       "owner_note": null,
       "state": "dispatched",
       "evidence_fingerprint": "IDLE-WITHIN-GRACE|16 outstanding / NO HOST:16|the lane's own tick wrote its in-flight-board fragment",
-      "last_evidence_utc": "2026-08-29T09:03:47Z",
-      "last_evidence_et": "5:03 AM ET Aug 29, 2026",
+      "last_evidence_utc": "2026-08-30T06:37:35Z",
+      "last_evidence_et": "2:37 AM ET Aug 30, 2026",
       "last_evidence_what": "the lane's own tick wrote its in-flight-board fragment",
-      "next_evidence_due_utc": "2026-08-29T09:48:47Z",
-      "next_evidence_due_et": "5:48 AM ET Aug 29, 2026",
+      "next_evidence_due_utc": "2026-08-30T07:22:35Z",
+      "next_evidence_due_et": "3:22 AM ET Aug 30, 2026",
       "blocked_by": [],
       "attempts": [],
       "n_fruitless_attempts": 0,
       "retry_budget": 3,
       "auto_action": null,
-      "auto_action_why_none": "evidence is not due until 5:48 AM ET Aug 29, 2026; nothing is overdue, so there is nothing to dispatch",
+      "auto_action_why_none": "evidence is not due until 3:22 AM ET Aug 30, 2026; nothing is overdue, so there is nothing to dispatch",
       "hosts_points_at": null,
       "cost_points_at": null,
       "price_points_at": null,
@@ -3375,7 +3405,7 @@
   "_dispatch_plan_is_a_request": "this module NEVER shells out. The workflow executes these with `gh workflow run`; each names a workflow and no price.",
   "n_by_state": {
     "blocked": 32,
-    "open": 12,
+    "open": 13,
     "unreadable": 1,
     "done": 6,
     "dispatched": 1
@@ -3428,7 +3458,8 @@
     "plan:fold-results-into-paper-language-discipline-qm-torsion-validation-at-l",
     "plan:final-red-team-review-response",
     "plan:post-submit-outward-facing-needs-trimcrae-sign-off",
-    "handoff:edge-reps:2026-08-28T18:39:35Z",
+    "handoff:5aks:2026-08-29T09:04:46Z",
+    "handoff:triangle:2026-08-29T09:04:51Z",
     "rung:valB_full",
     "rung:nrv04_feasibility_covalent",
     "rung:ternary_ensemble_refine",
@@ -3442,17 +3473,17 @@
     "rung:genmatched_null_generative_arm"
   ],
   "_self": {
-    "now_et": "5:05 AM ET Aug 29, 2026",
-    "generated_et": "5:05 AM ET Aug 29, 2026",
-    "stale_after_et": "5:53 AM ET Aug 29, 2026",
+    "now_et": "2:39 AM ET Aug 30, 2026",
+    "generated_et": "2:39 AM ET Aug 30, 2026",
+    "stale_after_et": "3:27 AM ET Aug 30, 2026",
     "age_min": 0.0,
     "verdict": "RUNNING",
     "ok": true,
-    "detail": "last run 0 min ago; this artifact declares itself stale after 5:53 AM ET Aug 29, 2026, so a reader who opens the file can tell it is dead without running anything.",
+    "detail": "last run 0 min ago; this artifact declares itself stale after 3:27 AM ET Aug 30, 2026, so a reader who opens the file can tell it is dead without running anything.",
     "generation_test": {
       "verdict": "FRESH",
       "ok": true,
-      "detail": "the last completed run (5:03 AM ET Aug 29, 2026) refreshed the artifact to 5:05 AM ET Aug 29, 2026, 0 min ago \u2014 the fleet really was measured.",
+      "detail": "the last completed run (2:36 AM ET Aug 30, 2026) refreshed the artifact to 2:39 AM ET Aug 30, 2026, 0 min ago \u2014 the fleet really was measured.",
       "workflow": "lane-staleness-watch.yml",
       "test": "did the last COMPLETED run advance this artifact's `_generated_utc` past its own start \u2014 the throttle-immune question, imported from fleet_supervision_alarm rather than answered a second time here"
     }
