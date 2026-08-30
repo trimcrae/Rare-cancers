@@ -1,83 +1,84 @@
 {
-  "_schema": "emc-publication-authority/1",
-  "_role": "The machine-readable record of what the autonomy loop may put in public without asking. Read by research/autonomy/publish_bar.py::authority_permits. It is NOT the grant — trimcrae is. This file only records his grant so a script can check it.",
-  "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#63--the-authority-model--researchautonomypublication-authorityjson",
-  "_read_this_when": "You are about to post anything, or you are about to edit this file. Editing it is a DECLARED change (architecture §10.4): it goes in amendments.jsonl, and it may not be made by the cycle that this file just blocked.",
-  "_this_file_disagreeing_with_claude_md_is_a_bug": "CLAUDE.md §3 and AGENTS.md were amended in the same commit that first set standing_grant to true. If a future reader finds this file permitting what those forbid, THIS file is wrong and the post does not happen.",
-  "aixiv": {
-    "standing_grant": true,
-    "granted_by": "trimcrae, 2026-08-26, AskUserQuestion D1, verbatim: 'Broad: any paper meeting the bar'",
-    "granted_against": [
-      "the bar is EVERY clause in CLAUSES in research/autonomy/publish_bar.py — read the count from the code, it is not typed here — and every one is computed from a committed artifact",
-      "aiXiv only — no other venue, ever",
-      "every journal submission still escalates immediately (decision D4)"
-    ],
-    "_re_ask_if": "ANY item in granted_against stops being true. The grant was given against that backdrop, not in general. Widening it is not an amendment the loop may make — it is a new grant, and only trimcrae issues one.",
-    "scope": {
-      "papers": "ANY publication endpoint passing all clauses, EXCEPT those in `excluded_papers`. Deliberately not an allow-list — see granted_by — but the deny-list is explicit and is checked before any post.",
-      "acts": [
-        "submit",
-        "new_version"
-      ],
-      "max_versions_per_paper": 3,
-      "_max_versions_why": "aixiv-submission §3, measured: ELEVEN versions of aixiv.260822.000005 never moved its rating above 6 and it trended DOWN as the paper improved. Iterating prose does not move the number, so an uncapped loop would rediscover that at trimcrae's expense and put ten near-identical versions under his ORCID. Three is enough for a real correction and too few for a rating chase.",
-      "notify_after_each_post": true,
-      "_notify_why": "Not a gate — he does not approve the post, he learns of it. Escalation trigger 1 covers journals; this covers aiXiv.",
-      "excluded_papers": {
-        "PUB-ASO": {
-          "why": "trimcrae, 2026-08-27, verbatim: 'That's the only paper that shouldn't auto ship to aiXiv.' PUB-ASO is posted on Qeios as a preprint with a DOI (10.32388/VL3LJR) and a version history he controls. Its versions are HIS act, on HIS venue; a second public home for the same paper, posted by the loop, would fragment the record under his ORCID and create two version histories for one work. ⛔ THIS IS A NARROWING OF THE STANDING GRANT, NOT A WIDENING — it removes a permission the loop had and adds none, so it is an amendment the loop may make. Re-widening it is NOT: that would be a new grant, and only trimcrae issues one.",
-          "excluded_from": [
-            "submit",
-            "new_version"
-          ],
-          "applies_to_venue": "aiXiv only. Qeios is unaffected and was never covered by this grant — every Qeios post remains trimcrae's own act, prepared by the loop and posted by him.",
-          "recorded_utc": "2026-08-27T12:42:54Z"
-        }
-      }
-    },
-    "forbidden_regardless_of_the_bar": [
-      "retitling or reframing a paper to clear a clause or chase a venue's taste — CLAUDE.md §3, the title is what a reader searches",
-      "posting a claim that exceeds its endpoint's recorded claim_ceiling — that is clause 3 and no grant overrides it",
-      "posting a review of our own paper to aiXiv, or any act that would place a fabricated review under trimcrae's name — aixiv-submission §0",
-      "treating an aiXiv Rating as evidence of anything"
-    ]
+ "_schema": "emc-publication-authority/1",
+ "_role": "The machine-readable record of what the autonomy loop may put in public without asking. Read by research/autonomy/publish_bar.py::authority_permits. It is NOT the grant — trimcrae is. This file only records his grant so a script can check it.",
+ "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#63--the-authority-model--researchautonomypublication-authorityjson",
+ "_read_this_when": "You are about to post anything, or you are about to edit this file. Editing it is a DECLARED change (architecture §10.4): it goes in amendments.jsonl, and it may not be made by the cycle that this file just blocked.",
+ "_this_file_disagreeing_with_claude_md_is_a_bug": "CLAUDE.md §3 and AGENTS.md were amended in the same commit that first set standing_grant to true. If a future reader finds this file permitting what those forbid, THIS file is wrong and the post does not happen.",
+ "aixiv": {
+  "standing_grant": true,
+  "granted_by": "trimcrae, 2026-08-26, AskUserQuestion D1, verbatim: 'Broad: any paper meeting the bar'",
+  "granted_against": [
+   "the bar is EVERY clause in CLAUSES in research/autonomy/publish_bar.py — read the count from the code, it is not typed here — and every one is computed from a committed artifact",
+   "aiXiv only — no other venue, ever",
+   "every journal submission still escalates immediately (decision D4)"
+  ],
+  "_re_ask_if": "ANY item in granted_against stops being true. The grant was given against that backdrop, not in general. Widening it is not an amendment the loop may make — it is a new grant, and only trimcrae issues one.",
+  "scope": {
+   "papers": "ANY publication endpoint passing all clauses, EXCEPT those in `excluded_papers`. Deliberately not an allow-list — see granted_by — but the deny-list is explicit and is checked before any post.",
+   "acts": [
+    "submit",
+    "new_version"
+   ],
+   "max_versions_per_paper": 3,
+   "_max_versions_why": "aixiv-submission §3, measured: ELEVEN versions of aixiv.260822.000005 never moved its rating above 6 and it trended DOWN as the paper improved. Iterating prose does not move the number, so an uncapped loop would rediscover that at trimcrae's expense and put ten near-identical versions under his ORCID. Three is enough for a real correction and too few for a rating chase.",
+   "notify_after_each_post": true,
+   "_notify_why": "Not a gate — he does not approve the post, he learns of it. Escalation trigger 1 covers journals; this covers aiXiv.",
+   "excluded_papers": {
+    "PUB-ASO": {
+     "why": "trimcrae, 2026-08-27, verbatim: 'That's the only paper that shouldn't auto ship to aiXiv.' PUB-ASO is posted on Qeios as a preprint with a DOI (10.32388/VL3LJR) and a version history he controls. Its versions are HIS act, on HIS venue; a second public home for the same paper, posted by the loop, would fragment the record under his ORCID and create two version histories for one work. ⛔ THIS IS A NARROWING OF THE STANDING GRANT, NOT A WIDENING — it removes a permission the loop had and adds none, so it is an amendment the loop may make. Re-widening it is NOT: that would be a new grant, and only trimcrae issues one.",
+     "excluded_from": [
+      "submit",
+      "new_version"
+     ],
+     "applies_to_venue": "aiXiv only. Qeios is unaffected and was never covered by this grant — every Qeios post remains trimcrae's own act, prepared by the loop and posted by him.",
+     "recorded_utc": "2026-08-27T12:42:54Z"
+    }
+   }
   },
-  "journal": {
-    "standing_grant": false,
-    "_constant": "Not a parameter. No bar reaches it, no amendment may set it true. A journal submission costs money, is slow to undo, and picks an identifier someone may cite. It escalates to trimcrae immediately (D4) with the venue shortlist and its evidence."
-  },
-  "everything_else": {
-    "standing_grant": false,
-    "_covers": "A GitHub release, a DOI mint, email to a corresponding author, any outward-facing act not named above. Preparing them needs no permission; performing them does and was not granted. ⚠ ZENODO PUBLICATION WAS REMOVED FROM THIS LIST 2026-08-30 and now has its own block, `zenodo_archive_publication` — trimcrae widened it explicitly. Superseded, retained per rule 1.2: this field previously read 'Zenodo publication, a GitHub release, a DOI mint, email to a corresponding author, any outward-facing act not named above.'"
-  },
-  "zenodo_archive_publication": {
-    "standing_grant": true,
-    "granted_by": "trimcrae, 2026-08-30, in session, verbatim: 'You should submit to zenodo on your own. That can be as simple as a quick approval request to me when ready.' Given after he was told, with the evidence, that the loop could NOT do it — that `everything_else` named Zenodo publication as not granted, and that scripts/zenodo_deposit.py had no publish path by design. He is widening the grant, deliberately, in the knowledge of what it excluded.",
-    "_what_it_covers": "PUBLISHING an already-drafted Zenodo deposition for a paper in this repository — the irreversible click that turns a reserved DOI into a resolvable record. It does NOT cover minting a NEW record, a GitHub release, a journal submission, or any outreach; `everything_else` still governs those and stays false.",
-    "approval_is_required_per_publication": true,
-    "_approval_shape": "⛔ THIS IS A GRANT WITH A GATE, NOT A FREE HAND, AND THE GATE IS HIS OWN WORDING: 'a quick approval request to me when ready'. So the loop prepares everything, verifies everything, and then ASKS — one question, at the moment of publishing, naming the deposition and what it holds. It does not ask whether to do the work; it asks for the click. An approval for one deposition is not an approval for the next.",
-    "_why_a_gate_at_all_when_he_widened_the_grant": "Because he wrote the gate into the same sentence that widened it. Publishing is irreversible — a published version's files cannot be edited, only superseded — so the cost of a wrong publish is a permanent record he has to supersede in public, under his own ORCID. The grant removes the need for HIM to operate the tooling; it does not remove him from the decision.",
-    "preconditions": [
-      "The authority record names the act (this block).",
-      "⛔ The draft's uploaded_manifest_digest EQUALS the archive manifest's archive_content_digest at the commit being posted, re-read at publish time and never inherited from a status line. Publishing a stale draft freezes an archive already behind the paper — the exact defect the whole 2026-08-29/30 correction removed, and it has gone stale twice.",
-      "The deposition is a DRAFT of the record the paper cites, not a new record.",
-      "trimcrae's approval for THIS deposition."
-    ],
-    "recorded_utc": "2026-08-30T13:15:00Z",
-    "_what_the_exercised_list_is": "⛔ EVERY TIME THIS GRANT WAS ACTUALLY USED, because a grant with no record of its exercise cannot be audited and cannot be revoked knowingly. Each row names the deposition, the approval that authorised it, and the run that READ THE RECORD BACK — the last of which is the only entry that is a reading rather than a report. ⚠ This list is a receipt, not a gate: nothing checks it before publishing, and adding a row here does not authorise anything. The gate is `zenodo_deposit.refuse_unless_publishable`.",
-    "exercised": [
-      {
-        "paper": "PUB-ASO",
-        "deposition": 22166420,
-        "doi": "10.5281/zenodo.22166420",
-        "published_utc": "2026-08-30T14:13:07Z",
-        "approved_by": "trimcrae 2026-08-30 approved publishing deposition 22166420 (AskUserQuestion, irreversibility stated)",
-        "dispatched_at_commit": "dfb5a125e080a5c9a3f50c9d6ff5381a1bd16695",
-        "publish_run": 33316241659,
-        "verify_run": 33316420890,
-        "_read_back": "record=verify, the PUBLIC records API with no token: state 'done (submitted=True)', published 2026-08-30, type dataset, one file emc-aso-archive.zip 8411989 bytes md5:fa91dfc9eb8a7912.",
-        "_supersedes": "10.5281/zenodo.22061075, published 2026-08-23 by trimcrae by hand — the last deposition this repository published without the grant."
-      }
-    ]
-  }
+  "forbidden_regardless_of_the_bar": [
+   "retitling or reframing a paper to clear a clause or chase a venue's taste — CLAUDE.md §3, the title is what a reader searches",
+   "posting a claim that exceeds its endpoint's recorded claim_ceiling — that is clause 3 and no grant overrides it",
+   "posting a review of our own paper to aiXiv, or any act that would place a fabricated review under trimcrae's name — aixiv-submission §0",
+   "treating an aiXiv Rating as evidence of anything"
+  ]
+ },
+ "journal": {
+  "standing_grant": false,
+  "_constant": "Not a parameter. No bar reaches it, no amendment may set it true. A journal submission costs money, is slow to undo, and picks an identifier someone may cite. It escalates to trimcrae immediately (D4) with the venue shortlist and its evidence."
+ },
+ "everything_else": {
+  "standing_grant": false,
+  "_covers": "A GitHub release, a DOI mint, email to a corresponding author, any outward-facing act not named above. Preparing them needs no permission; performing them does and was not granted. ⚠ ZENODO PUBLICATION WAS REMOVED FROM THIS LIST 2026-08-30 and now has its own block, `zenodo_archive_publication` — trimcrae widened it explicitly. Superseded, retained per rule 1.2: this field previously read 'Zenodo publication, a GitHub release, a DOI mint, email to a corresponding author, any outward-facing act not named above.'"
+ },
+ "zenodo_archive_publication": {
+  "standing_grant": true,
+  "granted_by": "trimcrae, 2026-08-30, in session, verbatim: 'You should submit to zenodo on your own. That can be as simple as a quick approval request to me when ready.' Given after he was told, with the evidence, that the loop could NOT do it — that `everything_else` named Zenodo publication as not granted, and that scripts/zenodo_deposit.py had no publish path by design. He is widening the grant, deliberately, in the knowledge of what it excluded.",
+  "_what_it_covers": "PUBLISHING an already-drafted Zenodo deposition for a paper in this repository — the irreversible click that turns a reserved DOI into a resolvable record. It does NOT cover minting a NEW record, a GitHub release, a journal submission, or any outreach; `everything_else` still governs those and stays false.",
+  "approval_is_required_per_publication": false,
+  "_approval_shape": "⛔ THE PER-PUBLICATION GATE WAS REMOVED BY TRIMCRAE ON 2026-08-30, verbatim, when it was put to him for deposition 22180100: \"On second thought, this is annoying. I don't want my approval to gate Zenodo. Just do it.\" That message did two things — it approved THAT deposition and it retired the gate — and both are his to give.\n★ WHAT REPLACES IT IS NOT NOTHING. Every other precondition below still holds and every one is computed from a committed artifact by `zenodo_deposit.refuse_unless_publishable`, which fails closed: the authority record must name the act, the draft's digest must equal the manifest's at the commit being posted, and the deposition must be a DRAFT of the record the paper cites rather than a new record. `--approved-by` is still REQUIRED and still recorded — it now records WHO authorised the act rather than gating it, which is what makes the `exercised` list auditable.\n⛔ AND THE GRANT IS NOT WIDENED BY ONE INCH. It covers publishing an already-drafted Zenodo deposition and nothing else. Minting a NEW record, a GitHub release, a journal submission and any outreach are still `everything_else`, still false, and a bar never reaches them.\n⚠ Superseded, retained (rule 1.2): \"⛔ THIS IS A GRANT WITH A GATE, NOT A FREE HAND, AND THE GATE IS HIS OWN WORDING: 'a quick approval request to me when ready'. So the loop prepares everything, verifies everything, and then ASKS — one question, at the moment of publishing, naming the deposition and what it holds. It does not ask whether to do the work; it asks for the click. An approval for one deposition is not an approval for the next.\" True from 2026-08-30T13:15Z until he retired it the same day, having been asked exactly the question it prescribed.",
+  "_why_a_gate_at_all_when_he_widened_the_grant": "⚠ SUPERSEDED, RETAINED (rule 1.2) — the gate this explains no longer exists; see `_why_the_gate_went`. It read: Because he wrote the gate into the same sentence that widened it. Publishing is irreversible — a published version's files cannot be edited, only superseded — so the cost of a wrong publish is a permanent record he has to supersede in public, under his own ORCID. The grant removes the need for HIM to operate the tooling; it does not remove him from the decision.",
+  "preconditions": [
+   "The authority record names the act (this block).",
+   "⛔ The draft's uploaded_manifest_digest EQUALS the archive manifest's archive_content_digest at the commit being posted, re-read at publish time and never inherited from a status line. Publishing a stale draft freezes an archive already behind the paper — the exact defect the whole 2026-08-29/30 correction removed, and it has gone stale twice.",
+   "The deposition is a DRAFT of the record the paper cites, not a new record.",
+   "⚠ AN `--approved-by` STRING IS STILL REQUIRED AND STILL RECORDED, but it no longer gates: trimcrae retired the per-publication approval on 2026-08-30. It names who authorised the act so the `exercised` list below can be audited."
+  ],
+  "recorded_utc": "2026-08-30T13:15:00Z",
+  "_what_the_exercised_list_is": "⛔ EVERY TIME THIS GRANT WAS ACTUALLY USED, because a grant with no record of its exercise cannot be audited and cannot be revoked knowingly. Each row names the deposition, the approval that authorised it, and the run that READ THE RECORD BACK — the last of which is the only entry that is a reading rather than a report. ⚠ This list is a receipt, not a gate: nothing checks it before publishing, and adding a row here does not authorise anything. The gate is `zenodo_deposit.refuse_unless_publishable`.",
+  "exercised": [
+   {
+    "paper": "PUB-ASO",
+    "deposition": 22166420,
+    "doi": "10.5281/zenodo.22166420",
+    "published_utc": "2026-08-30T14:13:07Z",
+    "approved_by": "trimcrae 2026-08-30 approved publishing deposition 22166420 (AskUserQuestion, irreversibility stated)",
+    "dispatched_at_commit": "dfb5a125e080a5c9a3f50c9d6ff5381a1bd16695",
+    "publish_run": 33316241659,
+    "verify_run": 33316420890,
+    "_read_back": "record=verify, the PUBLIC records API with no token: state 'done (submitted=True)', published 2026-08-30, type dataset, one file emc-aso-archive.zip 8411989 bytes md5:fa91dfc9eb8a7912.",
+    "_supersedes": "10.5281/zenodo.22061075, published 2026-08-23 by trimcrae by hand — the last deposition this repository published without the grant."
+   }
+  ],
+  "_why_the_gate_went": "⚠ THE GATE WAS ASKED EXACTLY ONCE AND THE ANSWER WAS THAT ASKING IS THE PROBLEM. It was written from his own sentence ('a quick approval request to me when ready') and it behaved as designed: the loop prepared the whole correction, verified it, and asked one question naming the deposition and its contents. He read it and said the asking is annoying. ★ CLAUDE.md §3 already says he is here for four triggers and to submit papers; a Zenodo archive version is a mechanical consequence of a manuscript correction the loop already made, so the click carried no decision he had not already delegated. ⛔ WHAT DID NOT CHANGE IS THE IRREVERSIBILITY, which is why the digest, draft and record-identity preconditions stay and stay enforced in code."
+ }
 }

@@ -185,14 +185,28 @@ def refuse_unless_publishable(paper_key, manifest, approved_by):
             "irreversible and the grant is the record of who allowed it; without one, this refuses. "
             "⛔ Do NOT add the block to make this run — the grant is trimcrae's to give.")
 
-    #: ⛔ THE APPROVAL IS PER PUBLICATION, WHICH IS trimcrae's OWN WORDING ("a quick approval request
-    #: to me when ready"). A standing grant that also carried standing approval would make the
-    #: sentence he added do nothing.
-    if grant.get("approval_is_required_per_publication") and not approved_by:
+    #: ⛔ `--approved-by` IS ALWAYS REQUIRED, AND SINCE 2026-08-30 IT IS A RECORD RATHER THAN A GATE.
+    #: trimcrae retired the per-publication approval that day, verbatim: "On second thought, this is
+    #: annoying. I don't want my approval to gate Zenodo. Just do it." — said in answer to exactly
+    #: the one question the retired gate prescribed, for deposition 22180100.
+    #: ★ THE STRING STAYS MANDATORY BECAUSE THE `exercised` LIST IS ONLY AUDITABLE IF EVERY ROW SAYS
+    #: WHO AUTHORISED IT. A grant with no record of its exercise cannot be revoked knowingly, and an
+    #: empty authoriser is exactly the row nobody can later account for. What went is the requirement
+    #: that a HUMAN answer before each publish; what stays is that the act must name its authority.
+    #: ⚠ IT IS NOT CHECKED AGAINST HIM AND NEVER WAS — this has always been an honesty mechanism.
+    #: The checks that actually refuse are the grant, digest and draft-identity ones around it, each
+    #: computed from a committed artifact.
+    #: ⚠ The flag is still READ, so restoring the human gate is one boolean in
+    #: publication-authority.json, and a value of true makes the message below say so.
+    if not approved_by:
+        gated = grant.get("approval_is_required_per_publication")
         raise SystemExit(
-            "the grant requires an approval for THIS deposition and --approved-by was not given. "
-            "Ask, then pass what he said. An approval for one deposition is not an approval for "
-            "the next.")
+            "--approved-by was not given, and every publish must name the authority it acts under. "
+            + ("The grant ALSO requires an approval for THIS deposition: ask, then pass what he "
+               "said — an approval for one deposition is not an approval for the next."
+               if gated else
+               "trimcrae retired the per-publication approval on 2026-08-30, so this is a record "
+               "rather than a gate: pass the standing grant and what he said when he gave it."))
 
     #: deposit-state.json sits beside the paper's manifest. Derived rather than configured, so a
     #: paper added to PAPERS cannot silently arrive without one and be published unchecked.
