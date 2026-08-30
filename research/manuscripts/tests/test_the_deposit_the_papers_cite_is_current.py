@@ -129,6 +129,60 @@ def test_an_unpublished_version_or_a_drifted_tree_is_openly_tracked():
             "checklist that keeps a solved blocker open is one nobody reads.")
 
 
+def test_a_declared_drift_states_the_size_it_actually_has():
+    """⛔⛔ AN ACKNOWLEDGEMENT WHOSE CONTENT IS FALSE SATISFIED THIS FILE FOR FIVE COMMITS.
+
+    ⚠ Measured by three of round 22's five seats independently, 2026-08-30. §3-iv read "★ IT IS
+    EXACTLY ONE FILE … No manuscript source, table, figure, sequence file or `.docx` moved" while the
+    real figure was FIFTEEN, including the journal article and all four of its PDFs. It was true when
+    written at `3df0be6c5` and false from `29a44d203`, which changed the article and did not revisit
+    the section.
+
+    ⛔ AND `_open_blocking_section_declares_the_drift` COULD NOT SEE IT, BECAUSE IT ASKS WHETHER THE
+    STRING "PUBLISHED DEPOSIT IS BEHIND" APPEARS. Presence of an acknowledgement is not correctness
+    of one — the same distinction this file's own docstring already draws twice, at the level of
+    WHERE the item sits ("a section is a SLICE, not a substring") and of WHAT VERB it uses ("a report
+    that the refresh already happened is not an instruction to perform it"). This is the third
+    instance, one level up again: the item said the right words about the wrong number.
+
+    ★ SO THE DECLARATION MUST NAME THE SIZE, AND THE SIZE IS DERIVED FROM GIT RATHER THAN READ FROM
+    THE PROSE. A count typed into the checklist that disagrees with the manifests fails here, which
+    is the only reading under which "acknowledged" means anything.
+
+    ⚠ WHAT THIS DELIBERATELY DOES NOT DO: demand a particular sentence, a particular wording, or that
+    the drift be FIXED. Drift between deposits is normal; a gate that required a current deposit
+    would be red for weeks and would get switched off. It requires only that the number in the
+    section be the number git computes.
+    """
+    state, manifest = _json(STATE, "what was deposited"), _json(MANIFEST, "what is archivable")
+    if manifest.get("archive_content_digest") == state["published"]["manifest_digest"]:
+        pytest.skip("the tree matches the published deposit, so there is no drift to size "
+                    "— SKIP IS DELIBERATE and is the settled state between deposits")
+
+    rev = state["published"].get("git_revision")
+    shown = subprocess.run(
+        ["git", "show", f"{rev}:research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"],
+        cwd=REPO, capture_output=True, text=True)
+    if shown.returncode != 0:
+        pytest.skip(f"the manifest is unreadable at the published revision {str(rev)[:12]}; "
+                    "test_the_published_record_is_corroborated_by_git_rather_than_declared owns that")
+    was = {f["path"]: f["sha256"] for f in json.loads(shown.stdout)["files"]}
+    now = {f["path"]: f["sha256"] for f in manifest["files"]}
+    changed = sorted(p for p in was if p in now and was[p] != now[p])
+    n = len(changed) + len(set(now) - set(was)) + len(set(was) - set(now))
+
+    text = open(CHECKLIST, encoding="utf-8").read()
+    section = _open_blocking_section(text)
+    assert re.search(rf"(?<![\d.]){n}(?![\d.])", section), (
+        f"the deposited set has changed in {n} path(s) since the published record's revision "
+        f"{str(rev)[:12]}, and '{_OPEN_HEADING}' never states that number.\n\n"
+        f"changed: {', '.join(os.path.basename(c) for c in changed[:6])}"
+        f"{' …' if len(changed) > 6 else ''}\n\n"
+        "An acknowledgement that does not name the size of what it acknowledges is a sentence, not a "
+        "reading — it goes stale the next time a deposited file moves and nothing notices. Re-measure "
+        "and state the current figure.")
+
+
 def test_the_recorded_upload_digest_is_corroborated_by_git_rather_than_declared():
     """⛔⛔ A POPULATED FIELD IS NOT A MEASURED ONE, AND THIS ONE COULD BE DECLARED BY HAND.
 

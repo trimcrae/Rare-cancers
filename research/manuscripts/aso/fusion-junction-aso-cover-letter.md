@@ -63,13 +63,26 @@ status is a status FOR.*
 ⛔ *AND THE BRACKETS MUST BE FILLED OR CUT BEFORE THIS IS SENT — each is a fact this repository
 cannot supply and must not invent.* `[DATE]`, and the extended report's status bracket, which needs
 the venue it was submitted to.
-⚠ *The preprint bracket is GONE rather than waiting, because the paragraph it sat in now states the
-true position: no preprint is posted, and the author is holding until the extended report gets a
-response (checklist §3a). A bracket that reads `[PREPRINT DOI]` in a letter where no preprint
-exists is not a placeholder, it is a sentence waiting to become false — which is the defect the
-next paragraph records.* If one is posted before this is sent, restore the disclosure: Nucleic Acid
-Therapeutics asks for the preprint DOI in a designated field and asks to be told about the posting,
-and neither is optional once there is something to disclose. ⛔ *That bracket replaced a sentence that told
+⛔⛔ **THE PREPRINT DISCLOSURE IS RESTORED, BECAUSE THE CONDITION THE NOTE BELOW SET FOR RESTORING IT
+WAS MET ON 2026-08-27 AND NOBODY NOTICED FOR THREE DAYS.** `systems/graph/publications.json` records
+PUB-ASO as `state: posted_preprint` — Qeios, `10.32388/VL3LJR`, `published_at_utc`
+`2026-08-27T12:00:45Z`, `document.file` this journal article, read back at primary source from the
+Qeios API on a runner because the sandbox proxy blocks qeios.com. So the letter told an editor this
+article had never been posted while it was public under the author's own ORCID.
+⚠ *Superseded, retained (rule 1.2): "The preprint bracket is GONE rather than waiting, because the
+paragraph it sat in now states the true position: no preprint is posted, and the author is holding
+until the extended report gets a response (checklist §3a). A bracket that reads `[PREPRINT DOI]` in
+a letter where no preprint exists is not a placeholder, it is a sentence waiting to become false —
+which is the defect the next paragraph records." Its reasoning was right and its premise expired.
+The bracket was cut on 2026-08-25 when nothing was posted; two days later something was, and a cut
+bracket cannot go stale loudly the way a `[PREPRINT DOI]` placeholder would have. **Removing a
+placeholder is not the same as answering it.**
+★ AND THE PARAGRAPH IT POINTS AT RECORDS THIS EXACT FAILURE, ONE VENUE EARLIER: the bioRxiv status
+that stayed "awaiting screening" for three days after bioRxiv had declined. Same letter, same class,
+same duration — found by round 22's regression seat rather than by any gate, because no instrument
+joins this letter to `publications.json`.* Nucleic Acid Therapeutics asks for the preprint DOI in a
+designated field and asks to be told about the posting, and neither is optional once there is
+something to disclose. ⛔ *That bracket replaced a sentence that told
 the editor the extended report "was submitted to bioRxiv as a preprint on 2026-08-20 and is awaiting
 screening". **bioRxiv declined it on 2026-08-23 because the author is unaffiliated**, so the letter
 carried a false statement to a journal for three days. A status owned by a system outside this
@@ -230,9 +243,9 @@ the complete bounds on each claim are deposited in the archive cited in the manu
 availability statement, and I mention it here so the relationship is on the record
 rather than discovered later: the archive is a data and code deposit rather than a manuscript, it
 is under consideration nowhere, and the manuscript submitted
-here is not published or under consideration elsewhere. This condensed article has not been posted as a
-preprint; should that change before a decision, I will inform the editorial office and supply the
-DOI. I am the sole author, an unaffiliated
+here is not published or under consideration elsewhere. This condensed article was
+posted as a preprint on Qeios on 2026-08-27, doi:10.32388/VL3LJR, and I will supply that identifier
+in the designated field; I will inform the editorial office if a further version is posted. I am the sole author, an unaffiliated
 independent researcher with no institutional address. Analysis code, the screening pipelines and
 drafting were carried out with substantial AI assistance under my direction, which is disclosed in
 the manuscript; no AI tool is an author, every quantitative statement derived from sequence or from a

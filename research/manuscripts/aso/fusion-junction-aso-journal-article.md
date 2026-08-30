@@ -43,14 +43,14 @@ Extraskeletal myxoid chondrosarcoma (EMC) is an ultra-rare sarcoma usually defin
 in-frame *NR4A3* fusion. That junction is in no normal transcript, so an antisense
 gapmer could in principle cleave it, sparing its parents; none is reported for any
 *NR4A3* fusion in the literature retrieved here. This work is computational, executing an industry off-target framework's in-silico
-step; every sequence named is a research reagent not for administration. It sets out what a laboratory needs — two reagents at the most reported
+step; every sequence named is a research reagent not for administration. It sets out what a laboratory needs: two reagents at the most-reported
 breakpoints, 5′-GGGCATATCATCAAAC-3′ at *EWSR1* exon 12 and 5′-GGGCATATCTTGTGTG-3′ at
 *TAF15* exon 6, both to *NR4A3* exon 3, longest wild-type parent gap duplexes eight and nine base
-pairs; two screened controls; and a pre-registrable selectivity threshold. Both come from a panel of 190 junction-spanning 16-mers tiled at 5-6-5 across 38 in-frame junctions: 87 let a mature wild-type
+pairs; two screened controls; a pre-registrable selectivity threshold. Both come from a panel of 190 junction-spanning 16-mers tiled 5-6-5 across 38 in-frame junctions: 87 let a mature wild-type
 parent pair their whole catalytic gap over ten or more contiguous base pairs, and for 61 that
 parent is wild-type *NR4A3* itself. Ten is a convention, not a measurement: exon-terminus chimeras meet the same screen
 at 40.6% against the panel's 45.8%. Five test articles are named; the two fusion-positive EMC cell
-models are reported at an *NR4A3* exon-2 acceptor, not this panel's. The procedure producing them is released.
+models are reported at an *NR4A3* exon-2 acceptor, not this panel's. The design procedure is released.
 
 ## Keywords
 
@@ -161,7 +161,12 @@ Predicted transcriptome load separates the two: 123 gap-paired sense-strand near
 precursor RNA at two mismatches, one inside the catalytic gap, spanning an intron-exon boundary: the
 cost of the same ten shared donor bases that let one oligonucleotide span the *EWSR1*, *TAF15* and
 *FUS* breakpoints at once (Figure 1). The *TAF15* reagent carries no sense-strand precursor site.
-Both loads are predictions from sequence search rather than measured activity.
+The genome-wide screen does not separate them: 156 hybridisable gap-paired sites for the *EWSR1*
+reagent against 135 for the *TAF15* one. That screen counts every position of GRCh38, most of it
+never transcribed, so it is the less informative of the two for a reagent whose substrate is RNA —
+but it is the broader corpus, and the transcriptome contrast should not be read as a difference the
+whole genome supports. All three loads are predictions from sequence search rather than measured
+activity.
 
 Both reagents are phosphorothioate throughout, with wings of five contiguous β-D-oxy-locked
 residues, a high locked content against the two to four per wing taken here as usual, so these are
@@ -282,7 +287,7 @@ exon-2 acceptor in two cases only: a seam a published report places a patient at
 supplies from their own sequencing, checked against the builder's transcript models.
 
 Reagents exist at both acceptors: 5′-AGTGGGCTCTCCACGG-3′ at *EWSR1* exon 13 to exon 2 and 5′-AGTGGGCTCTTGTGTG-3′ at *TAF15* exon 6
-to exon 2, both at the panel's top margin. Neither reaches the ten-base-pair criterion, and their longest wild-type parent
+to exon 2, both at the panel's top margin. Neither of the two reaches the ten-base-pair criterion, and their longest wild-type parent
 duplexes through the whole gap are eight base pairs against wild-type *EWSR1* and nine against
 wild-type *NR4A3* — the second against the acceptor parent on which the selectivity ratio is
 defined, a closer call than either exon-3 reagent presents. A reagent selected for one acceptor is

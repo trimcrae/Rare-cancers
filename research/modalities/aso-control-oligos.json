@@ -1,51 +1,52 @@
 {
- "_what": "Two dinucleotide-preserving scramble controls, one per named reagent, each screened against the same mature wild-type parent transcripts as the reagent and emitted only if it clears the ten-base-pair criterion.",
- "_why": "The manuscript prescribed these as a class and named no sequence. External review, 2026-08-24.",
- "⛔_not_a_claim_of_inertness": "A control here is a sequence that FAILS the specificity screen the reagent passes, matched on length, base and dinucleotide composition. Nothing establishes that it has no biological activity, and nothing here has been synthesised or tested.",
- "_method": "Altschul-Erikson Eulerian dinucleotide shuffle (aso_parent_null.scramble_dinucleotide), screened by aso_parent_null._best_run over aso_parent_gap_pairing.mature_parents(). Deterministic: one recorded seed.",
- "seed": 20260824,
- "min_duplex_bp": 10,
- "n_controls": 2,
- "controls": [
-  {
-   "label": "control-1",
-   "for_reagent": "GGGCATATCATCAAAC",
-   "seam": "EWSR1 e12 :: NR4A3 e3",
-   "control_5to3": "GGGCATCAACATAATC",
-   "geometry": "5-6-5",
-   "draws_until_clean": 1,
-   "n_draws_refused": 0,
-   "refused": [],
-   "control_longest_parent_duplex_through_gap_bp": 6,
-   "control_longest_parent_duplex_gene": "TAF15",
-   "reagent_longest_parent_duplex_through_gap_bp": 8,
-   "reagent_longest_parent_duplex_gene": "TFG",
-   "preserves": [
-    "length",
-    "first base",
-    "last base",
-    "dinucleotide counts"
-   ]
-  },
-  {
-   "label": "control-2",
-   "for_reagent": "GGGCATATCTTGTGTG",
-   "seam": "TAF15 e6 :: NR4A3 e3",
-   "control_5to3": "GTATGTCATTGGCTGG",
-   "geometry": "5-6-5",
-   "draws_until_clean": 1,
-   "n_draws_refused": 0,
-   "refused": [],
-   "control_longest_parent_duplex_through_gap_bp": 7,
-   "control_longest_parent_duplex_gene": "EWSR1",
-   "reagent_longest_parent_duplex_through_gap_bp": 9,
-   "reagent_longest_parent_duplex_gene": "TFG",
-   "preserves": [
-    "length",
-    "first base",
-    "last base",
-    "dinucleotide counts"
-   ]
-  }
- ]
+  "_what": "Two dinucleotide-preserving scramble controls, one per named reagent, each screened against the same mature wild-type parent transcripts as the reagent and emitted only if it clears the ten-base-pair criterion.",
+  "_why": "The manuscript prescribed these as a class and named no sequence. External review, 2026-08-24.",
+  "⛔_not_a_claim_of_inertness": "A control here is a sequence that CLEARS the same specificity screen the reagent clears, matched on length, terminal bases, base composition and dinucleotide counts. Nothing establishes that it has no biological activity, and nothing here has been synthesised or tested.\n⛔ THIS FIELD SAID 'FAILS' UNTIL 2026-08-30 AND WAS THE DIRECT INVERSE OF `_what` IN THE SAME OBJECT, WHICH READS 'emitted only if it clears the ten-base-pair criterion'. The records prove which is right: both controls carry `control_longest_parent_duplex_through_gap_bp` of 6 and 7, under the criterion, i.e. they clear it. ⚠ IT IS THE CAVEAT-TO-OVERCLAIM INVERSION SHAPE, sitting green in an artifact rather than in prose — `lint_claims` cannot see it, because claim STRENGTH is orthogonal to claim DIRECTION. Nothing reader-facing was wrong: the article and Table 2 both say 'cleared the same mature-parent screen the reagent did'. What was wrong is the one field an auditor asking 'what IS a control here' would quote. Found by round 22's arithmetic seat.",
+  "_method": "Altschul-Erikson Eulerian dinucleotide shuffle (aso_parent_null.scramble_dinucleotide), screened by aso_parent_null._best_run over aso_parent_gap_pairing.mature_parents(). Deterministic: one recorded seed.",
+  "seed": 20260824,
+  "min_duplex_bp": 10,
+  "n_controls": 2,
+  "controls": [
+    {
+      "label": "control-1",
+      "for_reagent": "GGGCATATCATCAAAC",
+      "seam": "EWSR1 e12 :: NR4A3 e3",
+      "control_5to3": "GGGCATCAACATAATC",
+      "geometry": "5-6-5",
+      "draws_until_clean": 1,
+      "n_draws_refused": 0,
+      "refused": [],
+      "control_longest_parent_duplex_through_gap_bp": 6,
+      "control_longest_parent_duplex_gene": "TAF15",
+      "reagent_longest_parent_duplex_through_gap_bp": 8,
+      "reagent_longest_parent_duplex_gene": "TFG",
+      "preserves": [
+        "length",
+        "first base",
+        "last base",
+        "dinucleotide counts"
+      ]
+    },
+    {
+      "label": "control-2",
+      "for_reagent": "GGGCATATCTTGTGTG",
+      "seam": "TAF15 e6 :: NR4A3 e3",
+      "control_5to3": "GTATGTCATTGGCTGG",
+      "geometry": "5-6-5",
+      "draws_until_clean": 1,
+      "n_draws_refused": 0,
+      "refused": [],
+      "control_longest_parent_duplex_through_gap_bp": 7,
+      "control_longest_parent_duplex_gene": "EWSR1",
+      "reagent_longest_parent_duplex_through_gap_bp": 9,
+      "reagent_longest_parent_duplex_gene": "TFG",
+      "preserves": [
+        "length",
+        "first base",
+        "last base",
+        "dinucleotide counts"
+      ]
+    }
+  ],
+  "_superseded_not_a_claim_of_inertness": "A control here is a sequence that FAILS the specificity screen the reagent passes, matched on length, base and dinucleotide composition. Nothing establishes that it has no biological activity, and nothing here has been synthesised or tested."
 }

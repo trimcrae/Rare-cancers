@@ -263,7 +263,21 @@ def test_the_panel_size_is_the_screens_at_every_site_that_states_it(prose):
     # cannot be dropped silently. The COUNT is checked at every site that states it, and this
     # sentence is allowed to have none. Requiring the count back would buy nothing a pin does not
     # already hold, at the cost of a word in a paper whose page budget is a per-page charge.
-    assert re.search(r"procedure (?:that produced|producing|behind) (?:the |them\b)", prose, re.I), (
+    # ⚠ WIDENED 2026-08-30 TO MATCH THIS COMMENT'S OWN STANDARD, WHICH THE PATTERN DID NOT MEET.
+    # The line above says the claim "is required to be present in ANY WORDING" — and the pattern
+    # accepted exactly three. Round 22's abstract cut wrote "The design procedure is released",
+    # which is the same claim, names the procedure MORE directly than the anaphor it replaced, and
+    # failed here. ★ The verb is now required too: matching the noun alone would let "the design
+    # procedure is withheld" pass, so this asks for the release, not for a phrase.
+    # ⚠ AND IT IS ORDER-AGNOSTIC, because the wording this paper used before round 18 puts the verb
+    # FIRST — "Also released is the procedure that produced the 190 designs". A pattern requiring
+    # `released` to follow the noun phrase would reject a correct sentence, which is the same
+    # too-narrow failure being fixed here, one draft later.
+    _procedure = (r"procedure (?:that produced|producing|behind) (?:the |them\b)|design procedure\b")
+    _claims_release = any(
+        re.search(_procedure, s, re.I) and re.search(r"\breleased\b", s, re.I)
+        for s in re.split(r"(?<=[.!?])\s+", prose))
+    assert _claims_release, (
         "the journal article no longer says the design procedure is released. That release is what "
         "makes the panel reproducible rather than merely reported, and it is a claim about this "
         "deposit — not a restatement of the count, which the Abstract pin holds.")

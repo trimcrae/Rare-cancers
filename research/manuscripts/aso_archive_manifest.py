@@ -537,9 +537,22 @@ PROMISES = [
                         "The generator "
                         "refuses to build if any sequence the documents print is absent, so the "
                         "file cannot quietly stop being canonical."),
+        # ⛔⛔ THE GENERATOR'S RUNTIME INPUT, WHICH THE IMPORT CLOSURE CANNOT SEE. Round 22's
+        # arithmetic seat found `aso-control-oligos.json` and its producer absent from the deposit
+        # while the DEPOSITED `aso_sequence_manifest.py` reads that JSON at runtime (`_load(
+        # "aso-control-oligos.json")`) to write Table 2's two control rows into the deposited
+        # sequences CSV. So a reader holding only the archive could not regenerate the canonical
+        # file the Declarations tell them to order from, and could not re-derive the two controls
+        # (drawn under a recorded seed) — while `gaps.promises_resolving_to_no_file` read empty.
+        # ★ THE MECHANISM IS WORTH THE COMMENT: `gaps.import_closure` follows IMPORTS, and this is a
+        # DATA read. A closure over one edge type reports completeness it has not checked, which is
+        # the same "reports while measuring nothing" shape this repository has now hit in a
+        # workflow, a census lane and a citation-type gate.
         "patterns": ["research/manuscripts/aso/fusion-junction-aso-sequences.csv",
                      "research/manuscripts/aso/fusion-junction-aso-sequences.fasta",
                      "research/manuscripts/aso_sequence_manifest.py",
+                     "research/modalities/aso-control-oligos.json",
+                     "research/modalities/aso_control_oligos.py",
                      "research/manuscripts/tests/test_pdf_text_layer_is_orderable.py"],
     },
     {

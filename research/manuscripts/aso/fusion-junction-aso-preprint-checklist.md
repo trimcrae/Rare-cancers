@@ -386,38 +386,55 @@ standing aiXiv grant and carries a public DOI (`10.32388/VL3LJR`) with a version
 ORCID. ✅ The ordering constraint that made this two acts is now satisfied: v2's Data availability
 cites `10.5281/zenodo.22166420`, and that DOI resolves.
 
-### 3-iv · The published deposit is behind the tree already — and this is the ordinary kind
+### 3-iv · ⛔ THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS, and this time the reopening rule has fired
 
-⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY**, within minutes of being published and by
-construction. Declared here because
+⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY**, and unlike the last two entries under this
+heading it is no longer the ordinary kind. Declared here because
 [`test_the_deposit_the_papers_cite_is_current.py`](../tests/test_the_deposit_the_papers_cite_is_current.py)
-requires drift to be acknowledged rather than silent, which is the right rule and the reason that
-gate exists at all.
+requires drift to be acknowledged rather than silent.
 
-★ **IT IS EXACTLY ONE FILE, AND THE MEASUREMENT IS AGAINST THE MANIFEST'S OWN INVENTORY RATHER THAN
-AGAINST THE DIRECTORY.** Diffing the deposited 483-path set between the published record's
-`git_revision` and HEAD returns
-[`fusion-junction-aso-cover-letter.md`](./fusion-junction-aso-cover-letter.md), whose blocking note
-said the archive resolved to nothing — true when it was written and false the moment the record went
-live. **No manuscript source, table, figure, sequence file or `.docx` moved**, and the file set is
-unchanged at 483.
+★ **MEASURED AT THIS COMMIT, AGAINST THE MANIFEST'S OWN INVENTORY.** Diffing the deposited set
+between the published record's `git_revision` (`c84bc23d251a`, 483 paths, digest `1ddbb1e8a036…`)
+and HEAD returns **18 differences: 16 changed, 2 added, 0 removed** — among the changed,
+`fusion-junction-aso-journal-article.md` itself and **all four of its PDFs**.
 
-⛔ **AND THIS CHECKLIST IS NOT IN THE DEPOSITED SET, NOR IS `deposit-state.json`.** Worth stating
-because the natural assumption runs the other way and it changes what counts as drift: the two
-records that describe the deposit sit OUTSIDE it, so editing them cannot stale the archive, and the
-only files that can are the ones a reader actually receives. ⚠ *Superseded, retained (rule 1.2), and
-wrong within the same session it was written: an earlier draft of this item, and the note in
-`deposit-state.json` it took the claim from, both asserted that "the cover letter, this checklist,
-`deposit-state.json`, the coverage census, tooling and skills" are deposited. Only the first is.
-The claim was inherited rather than measured, and the check that settled it was reading the
-manifest's `files` list — four lines of Python against an artifact already on disk.*
+⭐ **THE TWO ADDITIONS ARE A REPAIR, NOT DRIFT.** `aso-control-oligos.json` and
+`aso_control_oligos.py` were absent from the deposit while the DEPOSITED `aso_sequence_manifest.py`
+reads that JSON at runtime to write Table 2's two control rows into the deposited sequences CSV — so
+the Data availability promise *"All code … are deposited"* was not literally true, and a reader
+holding only the archive could not regenerate the canonical file the Declarations tell them to order
+from. ⚠ `gaps.promises_resolving_to_no_file` read EMPTY throughout, because `gaps.import_closure`
+follows imports and this is a DATA read: a closure over one edge type reports a completeness it has
+not checked. Found by round 22's arithmetic seat; the deposit is now 485 paths.
 
-⛔ **SO THIS DOES NOT WARRANT A NEW VERSION, AND SAYING SO IS THE POINT OF THE ITEM.** §A-2 drew the
-distinction it rests on: drift that matters is a MANUSCRIPT moving away from what a reader is sent
-to; drift that does not is a submission document's status line. A reader following
-`10.5281/zenodo.22166420` gets the papers as they stand. ★ **The rule for reopening is the one §A-2
-stated and then met six days later** — a new version is warranted when a manuscript changes — so
-this item re-opens on a stated rule rather than on anyone's judgement at the time.
+⛔ **SO A NEW VERSION IS WARRANTED, ON THE RULE THIS ITEM STATED FOR ITSELF.** §A-2's reopening
+trigger is *a new version is warranted when a MANUSCRIPT changes*. One has. What the deposited copy
+still says, verbatim at `c84bc23d251a`: *"61 of the 87 do so against wild-type NR4A3"* — the
+membership wording over an argmax value that round 21 corrected at three sites — and *"Every
+reference's bibliographic record was retrieved from PubMed"*, a provenance claim
+`journal-reference-authors.json` contradicts and that the same round corrected. A reader following
+the DOI is handed an earlier copy of the paper they are reading, with a count they cannot reconcile
+against the current text.
+
+⚠ *Superseded, retained (rule 1.2), and it was TRUE WHEN WRITTEN AND FALSE FIVE COMMITS LATER:*
+"★ **IT IS EXACTLY ONE FILE, AND THE MEASUREMENT IS AGAINST THE MANIFEST'S OWN INVENTORY RATHER THAN
+AGAINST THE DIRECTORY.** … **No manuscript source, table, figure, sequence file or `.docx` moved**,
+and the file set is unchanged at 483." *Written at `3df0be6c5`; `29a44d203` then changed the article
+and did not update this section. ⛔ THE MEASUREMENT WAS RIGHT AND ITS SHELF LIFE WAS ONE COMMIT — a
+diff result written into prose is a reading with a date on it, which is the lesson §A-2 already
+records about "the diff is empty" and which this section has now repeated in its own voice.*
+
+⭐ **FOUND BY THREE OF ROUND 22'S FIVE SEATS INDEPENDENTLY** — the hostile referee and the
+citations-and-instruments seat each graded it a blocker against the outgoing set, and the regression
+seat filed the stale §3-iv as a repository finding. Independent convergence across lenses that could
+not see each other is the signal this method exists to produce.
+
+⛔ **WHAT IS NEEDED, IN THIS ORDER, AND THE ORDERING IS THE WHOLE POINT.** Reserve a new version and
+let it carry its own DOI; put that DOI in both papers; rebuild the chain against it; refresh the
+draft as the LAST act, after every rebuild the change implies; then publish. The refresh-before-
+publish rule has bitten twice and is not spent. **The publish itself needs trimcrae's approval for
+that deposition** — the standing Zenodo grant is per-publication, and an approval for 22166420 is
+not an approval for its successor.
 
 ## 3a · What is open now, and it is one decision rather than a defect
 

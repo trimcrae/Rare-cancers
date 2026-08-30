@@ -352,7 +352,15 @@ POLARITY = [
     # a row nobody can check, even while its direction test works.
     ("citation-provenance-statement",
      r"Every reference's bibliographic record was[^.]{0,240}\.",
-     r"retrieved from PubMed(?:, Europe PMC or Crossref)? rather than written from model output",
+     # ⛔ (3) THE SOURCE LIST IS REQUIRED, NOT OPTIONAL — round 22's regression seat caught this
+     # exact defect in round 21's own repair, one round later. Written first as
+     # `(?:, Europe PMC or Crossref)?`, the optional group accepted the bare "retrieved from
+     # PubMed" — the sentence the repair exists to replace, and the one
+     # journal-reference-authors.json contradicts. pinned-figures.json stated the correct policy
+     # in the very same commit ("The new pattern will not match the old wording, which is the
+     # point: reverting the prose fails the pin"), so one repair closed the revert path and this
+     # one left it open. Required now: reverting the Declaration fails here.
+     r"retrieved from PubMed, Europe PMC or Crossref rather than written from model output",
      r"written from model output rather than retrieved|"
      r"no citation was checked|generated from model output",
      "lint_citations.py, which anchors every prose identifier to a tracked fetch product (46 of 46 "
