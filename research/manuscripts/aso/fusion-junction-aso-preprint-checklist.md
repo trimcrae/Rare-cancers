@@ -442,7 +442,7 @@ absence is how 22166420 came to freeze an earlier copy of its own manuscript. It
 all** before this session and now has eight, both directions mutation-tested on a copy.
 
 
-### 3-v · ⛔ A THIRD ARCHIVE VERSION IS NEEDED, BECAUSE THE PUBLISHED ONE PROMISES CODE IT DOES NOT CONTAIN
+### 3-v · ⛔ A THIRD ARCHIVE VERSION IS DRAFTED AND NOT YET PUBLISHED — `10.5281/zenodo.22182180`
 
 ⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS AGAIN, AND THIS TIME IT IS AN OMISSION RATHER THAN A
 STALE COPY.** Round 23's citations-and-instruments seat found that `10.5281/zenodo.22180100` — live
@@ -464,12 +464,27 @@ artifacts, whose own comment says withholding an ensemble *"leaves the one numbe
 most wants to recompute uncheckable."* Same defect, one screen over, three published versions long.
 
 ★ **THE SIZE OF THE DRIFT, MEASURED AGAINST THE MANIFEST'S OWN INVENTORY.** Diffing the deposited set
-between the published record's revision and HEAD returns **28 differences: 18 changed, 10 added, 0
+between the published record's revision and HEAD returns **31 differences: 21 changed, 10 added, 0
 removed**, over 484 published paths and 494 now.
-⚠ *Superseded, retained (rule 1.2): "**23 differences: 13 changed, 10 added, 0 removed.**" True at
-`ba0ab8b1f`; the CI `.docx` rebuild that Table 1's caption fix staled moved five more deposited
-files. **That is the ordering rule biting for the fourth time on this record** — a count of the
-drift is only current until the next rebuild the change implies, exactly as a draft refresh is.* The ten additions are the duplex-energy screen and
+⚠ *Superseded, retained (rule 1.2): "**23 differences: 13 changed, 10 added, 0 removed**" (true at
+`ba0ab8b1f`, before the CI `.docx` rebuild that Table 1's caption fix staled), then "**28
+differences: 18 changed, 10 added, 0 removed**" (true at `b93499e94`, before the papers were
+repointed at the new DOI).* ⛔ **That is the same ordering rule three times in one evening, and it
+is worth more than any of the three numbers: a declared drift count is current only until the next
+rebuild the change implies — exactly as a draft refresh is.** Both are readings of an outside
+system with a date on them.
+
+⭐ **THE NEW VERSION IS OPEN AS A DRAFT: `10.5281/zenodo.22182180`**, deposition 22182180, opened
+from published record 22180100 (Actions run 33342288191 — *"opened NEW VERSION draft 22182180 of
+published record 22180100"*, *"cleared 1 inherited file(s)"*, *"DRAFT deposition 22182180 created.
+NOTHING IS PUBLISHED."*). Both papers and `aso_archive_manifest.py` now cite it.
+
+⛔ **AND IT IS DELIBERATELY NOT PUBLISHED YET, WHICH IS A CHANGE OF SEQUENCE RATHER THAN A DELAY.**
+Round 23 returned three blockers, **two of them inside the published archive**. Publishing before a
+round comes back clean would risk a fourth public version in one day, and a reserved DOI costs
+nothing until it is published — a draft can be refreshed indefinitely, which is exactly what
+reserve-then-rebuild is for. So round 24 runs first, against the commit being posted; the refresh is
+then the last act, and the publish follows it. The ten additions are the duplex-energy screen and
 its producer; four packaging modules the chain invokes; and four artifacts a deposited test opens by
 name — `aso-genome-offtarget-noncoding-acceptor.json`, `fusion-neoantigen-retraction.json`,
 `hybrid-intron-model.json` and `nr4a3-deposited-junctions.json`. The changed thirteen are round 23's
@@ -482,10 +497,23 @@ backstop was `gaps.import_closure` — computed from Python **imports**, which n
 invocation appears in, so `promises_resolving_to_no_file` read `[]` however many steps were absent.
 ⚠ It found the four test inputs on its first run, beyond the steps it was written for.
 
-⛔ **WHAT REMAINS: draft a new version from 22180100, refresh it as the LAST act, and publish.** The
-per-publication approval was retired on 2026-08-30, so the publish is the loop's; what still refuses
-is `refuse_unless_publishable`'s digest, grant and draft-identity check. Until it lands, the DOI both
-papers print resolves to a record missing the code behind four of their numbers.
+⛔ **WHAT REMAINS, IN THIS ORDER.**
+
+1. **Round 24**, against the commit being posted. Round 23 returned three blockers and two were
+   inside the published archive, so a publish before a clean round risks a fourth public version.
+2. **Refresh the draft** — dispatch `deposit-zenodo.yml` with `new_version=false`, which UPDATES
+   deposition 22182180 rather than making a second one, then write `pending.uploaded_at_git_revision`
+   and `pending.uploaded_manifest_digest` in [`deposit-state.json`](./deposit-state.json) from that
+   run. ⛔ **The refresh is the LAST act before the publish**, after every rebuild the change
+   implies. It has gone stale by being done early four times on this record.
+3. **Publish deposition 22182180.** trimcrae retired the per-publication approval on 2026-08-30
+   (*"I don't want my approval to gate Zenodo. Just do it"*), so this is the loop's own act; what
+   still refuses is `refuse_unless_publishable`'s grant, named-authority, digest and
+   draft-identity check, each computed from a committed artifact and each failing closed.
+4. **Then the Qeios v2 post, which is trimcrae's alone.**
+
+⚠ Until step 3 lands, the DOI both papers print is reserved and resolves to nothing, and the
+previously published 22180100 is a record missing the code behind four of their numbers.
 
 
 ## 3a · What is open now, and it is one decision rather than a defect
