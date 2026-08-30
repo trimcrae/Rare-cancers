@@ -396,11 +396,18 @@ Both papers, the cover letter and `aso_archive_manifest.py` now cite it.
 
 ★ **THE SIZE OF THE DRIFT, MEASURED AGAINST THE MANIFEST'S OWN INVENTORY.** Diffing the deposited
 set between the published record's `git_revision` (`c84bc23d251a`, 483 paths) and HEAD returns
-**22 differences: 19 changed, 2 added, 1 removed.** The two additions are round 22's deposit repair
+**23 differences: 20 changed, 2 added, 1 removed.** The two additions are round 22's deposit repair
 (`aso-control-oligos.json` and its producer, which the deposited `aso_sequence_manifest.py` reads at
 runtime). ★ **The removal is the cover letter**, which was never a scientific record and whose
 deposit had frozen a false status sentence into an immutable archive three times — §3ab. The rest is
 this correction and its rebuilt chain.
+⚠ *Superseded, retained (rule 1.2): "**22 differences: 19 changed, 2 added, 1 removed.**" True at
+`b8f0048b7`; the cover-letter removal and the `.docx` rebuild at `d94b06409` moved one more
+deposited file.* ⛔ **The 22 was never read by anything, and the guard that exists to read it
+reported green on it** — `test_a_declared_drift_states_the_size_it_actually_has` searched for the
+figure with digit-only lookarounds, so the `23` inside the sha `c84bc23d251a` quoted two lines above
+satisfied a search for a drift of 23 while this sentence said 22. Closed the same hour by excluding
+letters from both lookarounds.
 
 ★ **WHY A NEW VERSION, AND THE EVIDENCE IS UNUSUALLY STRONG.** The published record holds an EARLIER
 COPY OF THE PAPER THAT CITES IT. Found by **four of round 22's five blind seats independently**, from four

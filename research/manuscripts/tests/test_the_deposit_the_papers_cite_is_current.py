@@ -173,7 +173,15 @@ def test_a_declared_drift_states_the_size_it_actually_has():
 
     text = open(CHECKLIST, encoding="utf-8").read()
     section = _open_blocking_section(text)
-    assert re.search(rf"(?<![\d.]){n}(?![\d.])", section), (
+    #: ⛔⛔ THE LOOKAROUNDS MUST EXCLUDE LETTERS, NOT ONLY DIGITS — MEASURED 2026-08-30, HOURS AFTER
+    #: THIS GUARD WAS WRITTEN, AND IT WAS ALREADY HIDING A STALE NUMBER. The first version used
+    #: `(?<![\d.])` / `(?![\d.])`, so the `23` inside the git sha `c84bc23d251a` — which the section
+    #: quotes as the published revision — satisfied a search for a drift of 23 while the prose said
+    #: 22. A hex sha is 40 characters of digit pairs, and the section quotes one BY CONSTRUCTION, so
+    #: this guard had a ~1-in-3 chance of passing on any number it was given. ★ That is the exact
+    #: failure it was written to catch — an acknowledgement that reads right and measures nothing —
+    #: reproduced inside the acknowledgement's own instrument, one commit later.
+    assert re.search(rf"(?<![0-9A-Za-z.]){n}(?![0-9A-Za-z.])", section), (
         f"the deposited set has changed in {n} path(s) since the published record's revision "
         f"{str(rev)[:12]}, and '{_OPEN_HEADING}' never states that number.\n\n"
         f"changed: {', '.join(os.path.basename(c) for c in changed[:6])}"
@@ -181,6 +189,29 @@ def test_a_declared_drift_states_the_size_it_actually_has():
         "An acknowledgement that does not name the size of what it acknowledges is a sentence, not a "
         "reading — it goes stale the next time a deposited file moves and nothing notices. Re-measure "
         "and state the current figure.")
+
+
+def test_the_drift_figure_is_not_satisfied_by_a_digit_pair_inside_a_sha():
+    """⛔⛔ THE HOLE THAT MADE THE GUARD ABOVE VACUOUS, DRIVEN RATHER THAN DESCRIBED.
+
+    Measured 2026-08-30, hours after that guard was written and already hiding a stale number: the
+    section it reads quotes the published revision as a git sha BY CONSTRUCTION, a sha is 40
+    characters of digit pairs, and digit-only lookarounds let any of them stand in for the figure.
+    `c84bc23d251a` satisfied a search for a drift of 23 while the prose said 22.
+
+    ★ SO BOTH DIRECTIONS ARE ASSERTED. A number that appears only inside a sha must NOT count, and a
+    number stated in prose must. A guard whose safety rests on a comment is one edit from vacuous.
+    """
+    n = 23
+    pattern = rf"(?<![0-9A-Za-z.]){n}(?![0-9A-Za-z.])"
+    sha_only = "the published record's `git_revision` (`c84bc23d251a`, 483 paths)."
+    stated = "returns **23 differences: 20 changed, 2 added, 1 removed.**"
+    assert not re.search(pattern, sha_only), (
+        "a digit pair inside a git sha satisfies the drift figure, so the guard above reports green "
+        "on any acknowledgement that quotes a revision — which every one of them does")
+    assert re.search(pattern, stated), (
+        "the pattern no longer matches the figure stated in prose, so tightening it made the guard "
+        "unsatisfiable rather than correct")
 
 
 def test_the_recorded_upload_digest_is_corroborated_by_git_rather_than_declared():

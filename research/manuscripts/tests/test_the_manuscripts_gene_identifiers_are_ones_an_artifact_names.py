@@ -67,9 +67,10 @@ DOCUMENTS = {
     # ⛔ COVER LETTERS ARE OUT OF SCOPE — trimcrae, 2026-08-30: "Remove all checks on cover
     # letters." A letter is hand-written once, at a publisher's portal, against that venue's
     # requirements; nothing in this repository generates it and no instrument now reads it.
-    # ⚠ IT IS STILL DEPOSITED — the archive manifest carries it — so the shipped-document scan
-    # below skips it EXPLICITLY. Without that clause the scan demands this entry back, which is
-    # the guard silently reinstating the check it was told to delete.
+    # ⚠ IT IS ALSO NO LONGER DEPOSITED: `aso_archive_manifest.py` dropped it in the same change,
+    # so the archive went 485 -> 484 paths. The shipped-document scan below skips letters
+    # EXPLICITLY anyway, because that scan derives its scope FROM the manifest — leaving it to the
+    # manifest would silently reinstate this check the day anyone re-deposits a letter.
     "fusion-junction-aso-journal-article": os.path.join(ASO, "fusion-junction-aso-journal-article.md"),
     "fusion-junction-aso-journal-references": os.path.join(ASO, "fusion-junction-aso-journal-references.md"),
     "fusion-junction-aso-journal-tables": os.path.join(ASO, "fusion-junction-aso-journal-tables.md"),
@@ -259,9 +260,10 @@ def test_the_document_set_is_every_document_the_submission_ships():
     names = {os.path.basename(e["path"]) for e in shipped
              if e.get("path", "").endswith(".md") and "/aso/" in e.get("path", "")
              and os.path.exists(os.path.join(ASO, os.path.basename(e["path"])))}
-    #: ⛔ COVER LETTERS ARE SKIPPED, NOT FORGOTTEN. They remain deposited, so without this
-    #: clause the scan demands back the DOCUMENTS entry trimcrae's 2026-08-30 instruction
-    #: removed — the guard would silently reinstate the check it was told to delete.
+    #: ⛔ COVER LETTERS ARE SKIPPED, NOT FORGOTTEN. This scan takes its scope from the manifest,
+    #: so it would demand back the DOCUMENTS entry trimcrae's 2026-08-30 instruction removed the
+    #: day anyone re-deposits a letter — the guard reinstating the check it was told to delete.
+    #: Today the manifest carries none, so this clause is belt to that braces, deliberately.
     missing = sorted(n for n in names
                      if n[:-3] not in DOCUMENTS and not n.endswith("-cover-letter.md"))
     assert not missing, (
