@@ -316,9 +316,12 @@ it inside this section re-asserts it to
 which reads §3's slice and cannot tell a retraction from a live item. The appendix sets out why that
 placement is forced rather than tidy.*
 
-### 3-i · ✅ CLOSED — the corrected archive version is published, and it was read back
+### 3-i · ✅ CLOSED, AND SINCE SUPERSEDED — the 2026-08-29 drift correction
 
-**`10.5281/zenodo.22166420` is live as of 2026-08-30**, and it is the DOI both papers print. What it
+⚠ **`10.5281/zenodo.22166420` WAS the DOI both papers printed; it is now superseded by**
+**`10.5281/zenodo.22180100` — see §3-iv, which is the live record.** This item is kept because a
+Zenodo version is immutable and still resolves, so what 22166420 contains stays an answerable
+question. What it
 corrects is the drift measured on 2026-08-29: the record the papers cited had fallen 55 files behind
 them, in the overclaiming direction, and the deposited extended report still carried two statements
 this repository had already corrected. That finding is retained verbatim in Appendix A.
@@ -386,63 +389,58 @@ standing aiXiv grant and carries a public DOI (`10.32388/VL3LJR`) with a version
 ORCID. ✅ The ordering constraint that made this two acts is now satisfied: v2's Data availability
 cites `10.5281/zenodo.22166420`, and that DOI resolves.
 
-### 3-iv · ⛔ A CORRECTED ARCHIVE VERSION IS DRAFTED AND NOT YET PUBLISHED
+### 3-iv · ✅ CLOSED — the corrected archive version is published, and it was read back
 
-⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS**, and a new version is now open to correct it:
-**`10.5281/zenodo.22180100`**, draft deposition 22180100, opened from published record 22166420
-(Actions run 33329057228 — *"opened NEW VERSION draft 22180100 of published record 22166420"*,
-*"cleared 1 inherited file(s)"*, *"DRAFT deposition 22180100 created. NOTHING IS PUBLISHED."*).
-Both papers, the cover letter and `aso_archive_manifest.py` now cite it.
+**`10.5281/zenodo.22180100` is live as of 2026-08-30**, and it is the DOI both papers print. It
+supersedes `10.5281/zenodo.22166420` under the same concept DOI `10.5281/zenodo.22028915`. Actions
+run 33337181296 published it — *"publishing deposition 22180100 — IRREVERSIBLE"*, *"digest
+53d793d4c29d3a81… (matches the manifest)"*, *"PUBLISHED deposition 22180100. This cannot be
+undone."* — and run 33337239559 then dispatched `record=verify`, which fetches the PUBLIC records
+API **with no token**: `record 22180100`, `state: done (submitted=True)`, `published: 2026-08-30`,
+`type: dataset`, one file `emc-aso-archive.zip` at 8,418,455 bytes, and *"PUBLISHED. The DOI both
+papers cite resolves to this record."* ⚠ *"The script said so"* is a report about an outside system;
+that is a reading of one, and `deposit-state.json`'s own `_how_to_update` forbids writing the
+`published` block on anything less.
 
-★ **THE SIZE OF THE DRIFT, MEASURED AGAINST THE MANIFEST'S OWN INVENTORY.** Diffing the deposited
-set between the published record's `git_revision` (`c84bc23d251a`, 483 paths) and HEAD returns
-**23 differences: 20 changed, 2 added, 1 removed.** The two additions are round 22's deposit repair
+★ **WHAT IT CORRECTED, AND THE EVIDENCE WAS UNUSUALLY STRONG.** Record 22166420 held an EARLIER COPY
+OF THE PAPER THAT CITED IT, found by **four of round 22's five blind seats independently**: the
+hostile referee and the citations-and-instruments seat each graded it a blocker against the outgoing
+set; the arithmetic seat reached it by re-deriving the counts from raw sequence; the regression seat
+filed the stale checklist item that let it sit. The deposited manuscript read *"61 of the 87 do so
+against wild-type NR4A3"* — a MEMBERSHIP wording over an ARGMAX value, which differ by one design at
+ten base pairs and by eighty-one at six — and *"Every reference's bibliographic record was retrieved
+from PubMed"*, which `journal-reference-authors.json` contradicts. ⚠ **The cause was this loop's own
+round-21 repair**, which corrected the manuscript after the archive was published.
+
+★ **THE SIZE OF THE DRIFT IT CLOSED, MEASURED AGAINST THE MANIFEST'S OWN INVENTORY.** Diffing the
+deposited set between the superseded record's `git_revision` and the published one returns
+**23 differences: 20 changed, 2 added, 1 removed.** The additions are round 22's deposit repair
 (`aso-control-oligos.json` and its producer, which the deposited `aso_sequence_manifest.py` reads at
 runtime). ★ **The removal is the cover letter**, which was never a scientific record and whose
-deposit had frozen a false status sentence into an immutable archive three times — §3ab. The rest is
-this correction and its rebuilt chain.
+deposit had frozen a false status sentence into an immutable archive three times — §3ab.
+
 ⚠ *Superseded, retained (rule 1.2): "**22 differences: 19 changed, 2 added, 1 removed.**" True at
-`b8f0048b7`; the cover-letter removal and the `.docx` rebuild at `d94b06409` moved one more
-deposited file.* ⛔ **The 22 was never read by anything, and the guard that exists to read it
-reported green on it** — `test_a_declared_drift_states_the_size_it_actually_has` searched for the
-figure with digit-only lookarounds, so the `23` inside the sha `c84bc23d251a` quoted two lines above
-satisfied a search for a drift of 23 while this sentence said 22. Closed the same hour by excluding
-letters from both lookarounds.
+`b8f0048b7`; the cover-letter removal and the `.docx` rebuild moved one more deposited file.*
+⛔ **The 22 was never read by anything, and the guard that exists to read it reported green on it** —
+`test_a_declared_drift_states_the_size_it_actually_has` searched for the figure with digit-only
+lookarounds, so a `23` inside a quoted git sha satisfied a search for a drift of 23 while the
+sentence said 22. A hex sha is forty characters of digit pairs and this section quotes one by
+construction, so the guard had roughly a one-in-three chance of passing on any figure it was given.
+Closed the same hour by excluding letters from both lookarounds, with
+`test_the_drift_figure_is_not_satisfied_by_a_digit_pair_inside_a_sha` driving both directions.
 
-★ **WHY A NEW VERSION, AND THE EVIDENCE IS UNUSUALLY STRONG.** The published record holds an EARLIER
-COPY OF THE PAPER THAT CITES IT. Found by **four of round 22's five blind seats independently**, from four
-directions: the hostile referee and the citations-and-instruments seat each graded it a blocker
-against the outgoing set; the arithmetic seat reached it by re-deriving the counts from raw sequence;
-the regression seat filed the stale checklist item that let it sit. The deposited manuscript still
-reads *"61 of the 87 do so against wild-type NR4A3"* — a MEMBERSHIP wording over an ARGMAX value,
-which differ by one design at ten base pairs and by eighty-one at six — and *"Every reference's
-bibliographic record was retrieved from PubMed"*, which `journal-reference-authors.json`
-contradicts. ⚠ **The cause was this loop's own round-21 repair**, which corrected the manuscript
-after the archive was published.
+★ **PUBLISHED WITHOUT A PER-PUBLICATION APPROVAL, AND THE ORDER IS THE POINT.** The gate was obeyed
+first: the block was written, the notification sent, and the question asked, naming this deposition,
+its 484 files and its digest. trimcrae answered *"On second thought, this is annoying. I don't want
+my approval to gate Zenodo. Just do it."* — approving this publication and retiring the gate in one
+message, both of which are his to give, since he had written that gate into the sentence that
+created the grant four hours earlier. `approval_is_required_per_publication` is now false; the
+`--approved-by` string is required **unconditionally**, because retiring the gate is not retiring
+the audit record. ⛔ The check that actually protects the archive is untouched: the digest
+comparison, which is the one a human clicking Publish on zenodo.org cannot perform, and whose
+absence is how 22166420 came to freeze an earlier copy of its own manuscript. It had **no tests at
+all** before this session and now has eight, both directions mutation-tested on a copy.
 
-⛔ **THE ARCHIVE LINKS IN BOTH PAPERS NOW RESOLVE TO NOTHING, AND THAT IS THE ORDERING WORKING.** A
-published version's files cannot be edited, so the manuscript must print the identifier the archive
-WILL carry before the files are frozen. The window is deliberate and is tracked here rather than
-left to be discovered.
-
-⛔ **THE DRAFT IS ALREADY BEHIND THE TREE, BY CONSTRUCTION, AND MUST BE REFRESHED BEFORE IT IS
-PUBLISHED.** It was opened at `397dad3c9` (digest `d8cc44aebe04…`) and the papers were repointed and
-the chain rebuilt afterwards. `deposit-state.json` `pending` records that pair, and
-`refuse_unless_publishable` compares it against the manifest's `archive_content_digest` and **fails
-closed**, so a publish attempted now refuses rather than freezing a stale archive.
-
-⛔ **WHAT REMAINS, IN THIS ORDER.**
-
-1. **Refresh the draft** — dispatch `deposit-zenodo.yml` with `new_version=false` at the commit being
-   posted, and write `pending.uploaded_at_git_revision` and `pending.uploaded_manifest_digest` from
-   that run. ⛔ **The refresh is the LAST act before the publish**, after every rebuild the change
-   implies. It has gone stale twice on this record by being done too early, both times because a
-   rebuild landed after it and nothing said so.
-2. **Publish deposition 22180100** — needs **trimcrae's approval for THIS deposition**. The Zenodo
-   grant is standing but `approval_is_required_per_publication` is true, and the approval given for
-   22166420 is not an approval for its successor.
-3. **Then post Qeios v2**, which is trimcrae's alone. v2's Data availability cites this DOI, so a
-   reader who follows it before step 2 gets nothing.
 
 ## 3a · What is open now, and it is one decision rather than a defect
 
