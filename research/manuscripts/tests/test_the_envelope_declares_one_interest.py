@@ -17,12 +17,15 @@ the manuscript." A diagnosis is the author's own medical information and disclos
 paper is their call, not a guard's. Telling the EDITOR is the part that bears on the review, and the
 cover letter is a normal and sufficient route for it.
 
-⚠ SO THE PROPERTY IS NOT "every document declares it". It is:
-  1. the cover letter — which the editor reads — DOES declare it; and
-  2. the manuscript does not claim there are NO non-financial interests, because that would be
-     false. An omission is a choice; a false negative declaration is a misstatement.
-Both halves matter. Dropping (1) hides a real interest from the person it bears on; dropping (2)
-turns a private decision into an untrue sentence in a published paper.
+⚠ SO THE PROPERTY IS NOT "every document declares it". It is that the manuscript does not claim
+there are NO non-financial interests, because that would be false. An omission is a choice; a false
+negative declaration is a misstatement.
+
+⛔ AND THE COVER LETTER IS NO LONGER READ HERE. trimcrae, 2026-08-30: *"That's just cruft. I've told
+you like 3 times now. Remove all checks on cover letters."* A letter is hand-written once, at the
+moment a paper goes to a publisher, and it is not a preprint artifact — the author writes his own
+declaration into it then. Every guard below reads the MANUSCRIPT, which is the document that gets
+published and the one this repository generates.
 """
 from __future__ import annotations
 
@@ -33,15 +36,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 MANUSCRIPTS = os.path.abspath(os.path.join(HERE, ".."))
 ASO = os.path.join(MANUSCRIPTS, "aso")
 
-COVER_LETTER = os.path.join(ASO, "fusion-junction-aso-cover-letter.md")
 JOURNAL_ARTICLE = os.path.join(ASO, "fusion-junction-aso-journal-article.md")
 JOURNAL_TABLES = os.path.join(ASO, "fusion-junction-aso-journal-tables.md")
 
 #: The caption of whichever numbered table actually carries the control oligonucleotides. Matched on
 #: what the table IS, not on its number, because the number is the thing under test.
 _CONTROLS_TABLE = re.compile(r"^\*\*Table (\d+)\.[^*\n]*control oligonucleotide", re.M | re.I)
-#: How each document points at it. Both literals are quoted from the documents themselves.
-_LETTER_POINTS_AT = re.compile(r"both named as sequences in Table (\d+)")
+#: How the manuscript points at it. The literal is quoted from the manuscript itself.
 _ARTICLE_POINTS_AT = re.compile(r"named as sequences \(Table (\d+)\)")
 
 #: The disclosure as a PROPERTY rather than a phrase: the author has this disease.
@@ -82,13 +83,12 @@ def test_the_diagnosis_appears_nowhere_in_the_submission_envelope():
     "is it absent from BOTH documents", which is checkable in exactly the same way and fails just as
     loudly if a later edit — or a later reviewer's advice — puts it back.
     """
-    for name, path in (("manuscript", JOURNAL_ARTICLE), ("cover letter", COVER_LETTER)):
-        m = _PATIENT_INTEREST.search(_flat(path))
-        assert not m, (
-            f"the {name} names the author's diagnosis: ...{m.group(0)}...\n\n"
-            "It was removed from the whole submission envelope on 2026-08-24 at the author's "
-            "instruction. Do not reinstate it on a reviewer's advice — it is his medical "
-            "information and his call, and this guard exists because it was put back once already.")
+    m = _PATIENT_INTEREST.search(_flat(JOURNAL_ARTICLE))
+    assert not m, (
+        f"the manuscript names the author's diagnosis: ...{m.group(0)}...\n\n"
+        "It was removed on 2026-08-24 at the author's instruction. Do not reinstate it on a "
+        "reviewer's advice — it is his medical information and his call, and this guard exists "
+        "because it was put back once already.")
 
 
 def test_the_manuscript_does_not_deny_an_interest_it_has():
@@ -123,24 +123,21 @@ def test_the_manuscript_does_not_point_at_a_disclosure_that_is_not_there():
         "restore the disclosure to the letter; they may not disagree.")
 
 
-def test_the_cover_letter_names_the_table_the_controls_are_actually_in():
-    """⛔ THE LETTER TELLS AN EDITOR WHERE TO LOOK, AND A WRONG NUMBER THERE COSTS THE SUBMISSION.
+def test_the_manuscript_names_the_table_the_controls_are_actually_in():
+    """⛔ THE MANUSCRIPT TELLS A SCREENER WHERE TO LOOK, AND A WRONG NUMBER THERE COSTS THE
+    SUBMISSION.
 
     Nucleic Acid Therapeutics returns a manuscript WITHOUT REVIEW when its control-oligonucleotide
-    rule is not met, so the cover letter's paragraph on that rule is read by a screener before
-    anyone reads the paper. Revision item C2 asked for the controls to be named, and the letter now
-    sends the screener to a specific table. A screener who opens that table and finds the reagents
-    instead of the controls has been told something false about compliance, at the one step where
-    being wrong is expensive.
+    rule is not met, so the sentence naming the screened controls is read before anyone reads the
+    result. A screener who opens that table and finds the reagents instead of the controls has been
+    told something false about compliance, at the one step where being wrong is expensive.
 
-    ⛔⛔ AND THE NUMBER IS THE PART THAT ROTS. The letter, the manuscript and the tables file each
-    carry it, and the tables file is GENERATED — renumber a display item in `aso_journal_tables.py`
-    and two hand-written documents keep pointing at the old one, silently, because nothing reads a
-    number for meaning. This is the same three-documents-in-one-envelope failure the module opens
-    with, in its numeric form.
+    ⛔⛔ AND THE NUMBER IS THE PART THAT ROTS. The tables file is GENERATED — renumber a display item
+    in `aso_journal_tables.py` and the hand-written manuscript keeps pointing at the old one,
+    silently, because nothing reads a number for meaning.
 
     ★ SO THE TABLE IS FOUND BY WHAT IT CONTAINS, NEVER BY ITS NUMBER. The caption that says it holds
-    the control oligonucleotides decides which number is right, and both documents are then read
+    the control oligonucleotides decides which number is right, and the manuscript is then read
     against that. Nothing here hard-codes a 2.
     """
     tables = open(JOURNAL_TABLES, encoding="utf-8").read()
@@ -148,24 +145,15 @@ def test_the_cover_letter_names_the_table_the_controls_are_actually_in():
     assert len(found) == 1, (
         f"⛔ {len(found)} table(s) in fusion-junction-aso-journal-tables.md have a caption naming "
         f"the control oligonucleotides, and this guard needs exactly one to decide which number "
-        f"the other two documents should be pointing at. Found: {found or 'none'}.")
+        f"the manuscript should be pointing at. Found: {found or 'none'}.")
     number = found[0]
-
-    letter = re.sub(r"\s+", " ", open(COVER_LETTER, encoding="utf-8").read())
-    cited = _LETTER_POINTS_AT.search(letter)
-    assert cited, (
-        "⛔ the cover letter no longer names the table its control oligonucleotides are in. "
-        "Revision item C2 asks that the two screened controls be named, and a screener applying "
-        "the journal's two-control rule reads that paragraph before the paper.")
-    assert cited.group(1) == number, (
-        f"⛔ the cover letter sends the editor to Table {cited.group(1)} for the control "
-        f"oligonucleotides and they are in Table {number}. The tables file is generated, so the "
-        f"number moves there and stays put in the two hand-written documents.")
 
     article = re.sub(r"\s+", " ", open(JOURNAL_ARTICLE, encoding="utf-8").read())
     stated = _ARTICLE_POINTS_AT.search(article)
-    assert stated and stated.group(1) == number, (
-        f"⛔ the manuscript points at Table {stated.group(1) if stated else 'nothing'} for the "
-        f"controls and the cover letter points at Table {number}. Whichever is wrong, an editor "
-        f"holding both documents is reading a contradiction about the rule that returns "
-        f"manuscripts without review.")
+    assert stated, (
+        "⛔ the manuscript no longer names the table its control oligonucleotides are in. A "
+        "screener applying the journal's two-control rule reads that sentence before the result.")
+    assert stated.group(1) == number, (
+        f"⛔ the manuscript points at Table {stated.group(1)} for the control oligonucleotides and "
+        f"they are in Table {number}. The tables file is generated, so the number moves there and "
+        f"stays put in the hand-written manuscript.")

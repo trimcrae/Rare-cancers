@@ -63,19 +63,21 @@ myxoid chondrosarcoma; off-target screening
 
 EMC is defined in the large majority of cases by an in-frame fusion of *EWSR1* to
 *NR4A3*,<sup>1</sup><!--PMID:8634690--> with *TAF15* a substantial minority and *TCF12* and *TFG*
-rare.<sup>2</sup><!--PMID:32572850--> The disease responds poorly to conventional cytotoxic
-chemotherapy,<sup>3</sup><!--PMID:41055792--> though responses do
-occur,<sup>4</sup><!--PMID:24345066--> and a tyrosine-kinase inhibitor trialled in it gave disease
+rare.<sup>2</sup><!--PMID:32572850--> *FUS* is a further reported partner, in two of five
+variant cases in a recent series,<sup>3</sup><!--PMID:41755350--> and supplies eight of the
+junctions modelled here. The disease responds poorly to conventional cytotoxic
+chemotherapy,<sup>4</sup><!--PMID:41055792--> though responses do
+occur,<sup>5</sup><!--PMID:24345066--> and a tyrosine-kinase inhibitor trialled in it gave disease
 control more often than response — a reading composed from the review's response
-categories<sup>3</sup><!--PMID:41055792--> rather than from a figure stated in the trial
-report.<sup>5</sup><!--PMID:31331701-->
+categories<sup>4</sup><!--PMID:41055792--> rather than from a figure stated in the trial
+report.<sup>6</sup><!--PMID:31331701-->
 
 The fusion junction is the one feature of an EMC tumour that exists at the RNA level and in no
 normal cell. An antisense gapmer tiled across it recruits RNase-H1 to cleave the transcript it
 pairs, at the six-nucleotide DNA gap at the centre of a 5-6-5 architecture.
 Junction-directed nucleic-acid agents have a thirty-five-year lineage, reported against at least six
 fusion oncogenes: two as antisense oligonucleotides, the rest as RNA-interference agents, one of those from
-a lentiviral vector rather than an administered oligonucleotide.<sup>6,7,8,9,10,11</sup><!--PMID:1794439,9049825,33241214,21846246,23052253,37980543--> No
+a lentiviral vector rather than an administered oligonucleotide.<sup>7,8,9,10,11,12</sup><!--PMID:1794439,9049825,33241214,21846246,23052253,37980543--> No
 such design is reported for any *NR4A3* fusion in the literature retrieved here.
 
 What a junction design must survive follows from its construction. Both halves are parent-gene
@@ -85,14 +87,14 @@ the one this work screens for directly.
 RNase-H1 does not require the whole duplex, only that the gap be paired. That premise is adopted
 here rather than established, and its length requirement is stated in a different unit
 from the criterion this paper screens on. The requirement is reported as a DNA gap of at least six
-nucleotides, with seven to ten the working range;<sup>12</sup><!--PMID:24981949--> the screen below counts a liability only at ten
+nucleotides, with seven to ten the working range;<sup>13</sup><!--PMID:24981949--> the screen below counts a liability only at ten
 contiguous base pairs of duplex through that gap, a length of hybrid rather than a count of gap
 nucleotides. Whether a wild-type parent pairs the catalytic gap contiguously is therefore a separate
 question from overall similarity, and it is the one this work puts to all 190 designs. That direction is adopted here rather than
 retrieved: off-target effects are taken to be seen more often where an oligonucleotide's mismatches
 fall in its wings than where they fall in its central gap, on which reading a flanking mismatch is
 the more important one to avoid. An industry working group's 2025 off-target
-recommendations<sup>13</sup><!--PMID:39912803--> set five steps, as their abstract states: identification in silico with transcriptomics, a focus on cell types showing
+recommendations<sup>14</sup><!--PMID:39912803--> set five steps, as their abstract states: identification in silico with transcriptomics, a focus on cell types showing
 activity, in-vitro verification and margin assessment, risk assessment of what is confirmed, and
 management of what remains. This work performs the in-silico half of the first step and stops there;
 the margin measurement of the third is what the Discussion specifies, against the wild-type parent
@@ -105,9 +107,9 @@ parameters, the complete bounds on each claim and the per-design tables are in t
 deposit named under Data availability.
 
 Canonical transcripts for the five partner genes and for *NR4A3* were obtained from
-Ensembl.<sup>14</sup><!--PMID:39656687--> Junction-spanning 16-mer gapmers were tiled in a 5-6-5
+Ensembl.<sup>15</sup><!--PMID:39656687--> Junction-spanning 16-mer gapmers were tiled in a 5-6-5
 β-D-oxy-locked-nucleic-acid/DNA/β-D-oxy-locked-nucleic-acid
-geometry,<sup>12</sup><!--PMID:24981949--> one design per register at which the breakpoint falls
+geometry,<sup>13</sup><!--PMID:24981949--> one design per register at which the breakpoint falls
 inside the six-nucleotide DNA gap, which admits five per junction. That gap is the shortest length the cited source credits
 rather than its preferred one, and six is used because the genome-wide arm is not available above a
 16-mer. A design's gap-level margin is the count of junction-unique bases inside the gap on
@@ -128,7 +130,7 @@ pairs or more, ten being adopted rather than measured. Ten null ensembles were b
 identically: four shuffles of each design, two drawn base by base from uniform or
 composition-matched frequencies, and four chimeras of two real parent transcripts, two of
 them meeting at real exon termini. Melting temperatures are nearest-neighbour values for an unmodified DNA:RNA hybrid at
-250 nM strand.<sup>15</sup><!--PMID:7545436--> That is not a locked phosphorothioate
+250 nM strand.<sup>16</sup><!--PMID:7545436--> That is not a locked phosphorothioate
 oligonucleotide, so no absolute melting point is reported. Only the fusion-versus-parent separation
 is, and as a floor: the fusion duplex pairs all ten locked residues where each parent pairs five.
 
@@ -161,12 +163,9 @@ Predicted transcriptome load separates the two: 123 gap-paired sense-strand near
 precursor RNA at two mismatches, one inside the catalytic gap, spanning an intron-exon boundary: the
 cost of the same ten shared donor bases that let one oligonucleotide span the *EWSR1*, *TAF15* and
 *FUS* breakpoints at once (Figure 1). The *TAF15* reagent carries no sense-strand precursor site.
-The genome-wide screen does not separate them: 156 hybridisable gap-paired sites for the *EWSR1*
-reagent against 135 for the *TAF15* one. That screen counts every position of GRCh38, most of it
-never transcribed, so it is the less informative of the two for a reagent whose substrate is RNA —
-but it is the broader corpus, and the transcriptome contrast should not be read as a difference the
-whole genome supports. All three loads are predictions from sequence search rather than measured
-activity.
+The genome-wide screen does not separate them: 156 hybridisable gap-paired sites against
+135. It counts every position of GRCh38, most of it never transcribed, so the transcriptome contrast
+is not a difference the whole genome supports. All three loads are predictions from sequence search rather than measured activity.
 
 Both reagents are phosphorothioate throughout, with wings of five contiguous β-D-oxy-locked
 residues, a high locked content against the two to four per wing taken here as usual, so these are
@@ -178,9 +177,9 @@ under-call for reagents of this locked content. Both begin 5′-GGG, a contiguou
 carry a risk of sequence-dependent hepatotoxicity; that is a premise adopted here rather than a
 retrieved finding, and nothing here measures it.
 
-Discounted by the breakpoint distribution of an 18-case series,<sup>16</sup><!--PMID:12378528--> the
+Discounted by the breakpoint distribution of an 18-case series,<sup>17</sup><!--PMID:12378528--> the
 two junctions account for 68.4% of molecularly confirmed cases in a 58-case
-cohort.<sup>17</sup><!--PMID:36948401--> That prices which published junctions the two reagents
+cohort.<sup>18</sup><!--PMID:36948401--> That prices which published junctions the two reagents
 address; it is not a coverage measurement, no patient having been screened with
 either sequence. The range 39.9% to 82.8% quoted with it is not a confidence interval and carries no
 nominal level: two of its four inputs do not vary, and it assumes a breakpoint distribution reported
@@ -254,19 +253,19 @@ graded for a fusion protein, so an acceptor upstream of the *NR4A3* initiation c
 non-coding. That is the right filter for a degrader or a neoantigen and the wrong one for an
 RNase-H1 gapmer, which cleaves a transcript whether or not its reading frame survives. Exon 2 is a sequenced acceptor in this disease: *EWSR1*
 exon 7 joined to *NR4A3* exon 2 was resolved in one of five *EWSR1*-rearranged tumours of a
-whole-transcriptome series,<sup>18</sup><!--PMID:29937513--> and a *PGR*::*NR4A3* case joins exon 2
-to the *NR4A3* 5′ untranslated region.<sup>19</sup><!--PMID:36103645--> Beyond exon 3 the position
+whole-transcriptome series,<sup>19</sup><!--PMID:29937513--> and a *PGR*::*NR4A3* case joins exon 2
+to the *NR4A3* 5′ untranslated region.<sup>20</sup><!--PMID:36103645--> Beyond exon 3 the position
 is the reverse: across the exon-resolved *NR4A3* junctions retrieved here every acceptor is exon 2,
-exon 3, or a cryptic exon in intron 2,<sup>20</sup><!--PMID:31020999--> none 3′ of exon 3, so
+exon 3, or a cryptic exon in intron 2,<sup>21</sup><!--PMID:31020999--> none 3′ of exon 3, so
 nothing is designed there because no patient is reported there.
 
-Three are engineered constructs from a published functional study,<sup>20</sup><!--PMID:31020999-->
+Three are engineered constructs from a published functional study,<sup>21</sup><!--PMID:31020999-->
 whose exon spans that paper states verbatim; two of them, E-N and T-N*, carry exactly the junctions
 the reagents above span, so both named reagents have a stated test article. Rebuilding them is the faster route, but a heterologously over-expressed complementary DNA speaks to junction-selective knockdown of the intended
 transcript, not to activity at an endogenous locus.
 
 The other two are patient-derived, identity-clean models reported with two EMC
-tumours,<sup>21</sup><!--PMID:36316541--> USZ20-EMC1 (RRID:CVCL_C6MX) and USZ22-EMC2
+tumours,<sup>22</sup><!--PMID:36316541--> USZ20-EMC1 (RRID:CVCL_C6MX) and USZ22-EMC2
 (RRID:CVCL_C6MY) — the only source of a fusion-positive EMC cell identified here. They are available
 on request with no repository deposit, and are slow, at reported doubling times of five to six
 days. Their fusions are reported as *EWSR1* exon 13 and *TAF15* exon 6
@@ -276,7 +275,7 @@ acceptor or an unsupported numbering is not decidable from what is published. Th
 withdrawn version arose from an error of exactly this class.
 
 One reading is nonetheless more parsimonious. EMC's defining lesion produces a chimeric
-transcription factor.<sup>1,20</sup><!--PMID:8634690,31020999--> A donor joined to *NR4A3*'s
+transcription factor.<sup>1,21</sup><!--PMID:8634690,31020999--> A donor joined to *NR4A3*'s
 non-coding exon 2 would sit upstream of that gene's own initiation codon and so would not yield one
 — though it would leave that codon intact and place *NR4A3* under the donor's promoter, a lesion of
 another kind rather than none. A donor joined to the first coding exon — transcript exon 3 — does yield a chimera. On that reading USZ22-EMC2 carries the junction the *TAF15* reagent
@@ -299,7 +298,7 @@ the panel's 176 distinct sequences match at more than one.
 Routine diagnosis does not supply
 the seam, since
 break-apart *NR4A3* fluorescence in situ hybridisation detects a rearrangement irrespective of
-partner.<sup>3</sup><!--PMID:41055792-->
+partner.<sup>4</sup><!--PMID:41055792-->
 
 ### Controls for the knockdown experiment
 
@@ -315,12 +314,12 @@ screen is not a claim of inertness; it is the property a negative control has to
 
 An isogenic fusion-positive against fusion-negative comparison has been run in an analogous fusion
 sarcoma, against *NAB2::STAT6* in solitary fibrous
-tumour.<sup>22</sup><!--PMID:37370737--> It is specified here for these reagents, with the two
+tumour.<sup>23</sup><!--PMID:37370737--> It is specified here for these reagents, with the two
 screened controls above, which a knockdown assay alone cannot distinguish.
 
 Selectivity is the ratio of two half-maximal knockdown concentrations: wild-type *NR4A3* over the
-fusion, from a matched dose-response in the same wells. The cut of 5.0 is adopted as a convention.
-Its form and the cut are adopted here, not from the framework's third step.<sup>13</sup><!--PMID:39912803-->
+fusion, from a matched dose-response in the same wells. Its form and the cut of 5.0 are adopted
+here as conventions, not from the framework's third step.<sup>14</sup><!--PMID:39912803-->
 At an assumed
 replicate standard deviation of 0.35 on the natural-log scale — like the cut, adopted for
 pre-registration rather than measured here — six independent biological replicates
@@ -332,8 +331,9 @@ only on an anti-selective reading. Those figures are computed on that interval; 
 normal-approximation interval would move them. Such a test is void, and voidness is a property of the realised variance rather than of the design,
 so the gate applies to the upper confidence bound on a pilot's standard deviation: at or above the
 void figure for the count proposed, the decision is more replicates or no test, never three. The threshold is defined on the
-acceptor parent alone, so a reagent can clear it while pairing a donor transcript through its whole
-gap.
+acceptor parent alone, so a reagent can clear it while pairing another transcript through its whole
+gap. For both reagents named here that transcript is wild-type *TFG*, at eight and nine base
+pairs — a gene neither fusion involves, and one to read alongside the acceptor.
 
 
 
@@ -359,7 +359,7 @@ of the *EWSR1* exon 13 to *NR4A3* exon-2 seam above while clearing that reagent 
 noted with the reagents, arriving from a compartment the panel's selection never has to consider.
 
 The four junction-specificity reports cited
-here<sup>8,9,10,23</sup><!--PMID:33241214,21846246,23052253,36265509--> were all made on molecules
+here<sup>9,10,11,24</sup><!--PMID:33241214,21846246,23052253,36265509--> were all made on molecules
 already synthesised; no survey of design pipelines was performed, so the screen-before-synthesis
 claim is about this literature as retrieved and not a priority claim. Whether sparing wild-type *NR4A3* is worth a specificity cost is unsettled —
 reported paralogue redundancy and dosage effects point in opposite directions — and the archived
@@ -367,8 +367,9 @@ deposit does not resolve it.
 
 Three limits bound what any test of these reagents could show. All five screens address
 hybridisation rather than cleavage, and none establishes that a predicted duplex forms or is cut.
-The method-level novelty is nil: junction-directed oligonucleotides are long established. What is
-new here is the indication, and the screen applied before synthesis. And systemic delivery to a solid
+The
+method-level novelty is nil: junction-directed oligonucleotides are long established, and what is
+new here is the indication. And systemic delivery to a solid
 tumour remains unsolved, the gate this modality faces after any result reported here. Every source of a test article named here ends at someone culturing cells.
 
 ## Acknowledgments
@@ -409,7 +410,7 @@ citation was checked against the retrieved record. The author directed all work 
 
 **Data availability.** All code, graded artefacts, per-design tables, every screen's parameters and
 the complete bounds on each claim are deposited under
-[doi:10.5281/zenodo.22166420](https://doi.org/10.5281/zenodo.22166420), the citable record for
+[doi:10.5281/zenodo.22180100](https://doi.org/10.5281/zenodo.22180100), the citable record for
 them. An earlier version
 of these analyses placed the acceptor junction incorrectly through a coding-versus-transcript exon
 indexing error and was withdrawn in full; the panels were rebuilt and verified, and the complete

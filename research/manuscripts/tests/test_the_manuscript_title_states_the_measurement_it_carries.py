@@ -291,33 +291,6 @@ def test_the_titles_trade_clause_names_the_two_quantities_section_2_9_trades():
             "result from the one measured. §2.9 is the section this clause summarises.")
 
 
-#: The cover letter's `Re:` line is a SECOND HOME for the title, and the letter says so in its own
-#: margin note — "the line above is copied from it verbatim; retitle the manuscript and this line
-#: must be recopied, not retyped". Until 2026-08-22 that instruction was backed by nothing, and it
-#: had already failed twice: once carrying a pre-rename title, and once carrying the EXTENDED
-#: report's title after the submission split in two, so the one line an editor reads first named a
-#: manuscript the envelope did not contain.
-COVER_LETTER = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-cover-letter.md")
-
-
-def test_the_cover_letters_subject_line_is_the_submitted_manuscripts_own_title():
-    """⛔ THE ONE LINE AN EDITOR READS FIRST, AND IT NAMES A DOCUMENT."""
-    assert os.path.exists(COVER_LETTER), "the cover letter is missing; re-anchor this guard"
-    text = open(COVER_LETTER, encoding="utf-8").read()
-    line = [l for l in text.splitlines() if l.startswith("**Re:**")]
-    assert len(line) == 1, (
-        f"the cover letter carries {len(line)} `**Re:**` lines; exactly one names the submission")
-    stated = re.search(r'"(.+)"\s*$', line[0])
-    assert stated, f"the cover letter's Re: line quotes no title: {line[0]!r}"
-    want = _plain(_h1(ARTICLES["journal-article"]))
-    assert stated.group(1) == want, (
-        "the cover letter's Re: line and the submitted manuscript's title have diverged.\n"
-        f"  letter    : {stated.group(1)}\n"
-        f"  manuscript: {want}\n"
-        "Recopy the manuscript's H1 into the letter — do not retype it, and do not edit the "
-        "manuscript to match the letter.")
-
-
 #: What `corpus.n_with_parent_duplex_through_gap` COUNTS: designs that form a parent duplex. A title
 #: stating that count must say the designs do that, not the opposite of it.
 #:

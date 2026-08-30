@@ -120,12 +120,23 @@ DEFAULT_TARGETS = [
     # hand-added entry in the old style is invisible until an editor sees it." Nothing checked its
     # frontmatter `scope`/`purpose` block or any entry's prose for an R1-R5 overclaim before this line.
     "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
-    # ⛔ THE COVER LETTER IS A SUBMISSION TEXT AND NO LINTER OPENED IT (round 15 seat 3, 2026-08-22).
-    # It is the FIRST thing an editor reads and it makes claims of its own — a novelty claim, a fit
-    # statement paraphrasing the extended report, integrity declarations. Four of one seat's five P1s
-    # landed in this one file, which is what an unguarded surface looks like from the outside.
-    # ⚠ It is a submission text, so it belongs to gate 4 and gate 7 exactly as the manuscripts do.
-    "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
+    # ⛔⛔ COVER LETTERS ARE OUT OF SCOPE BY RULE, AND THE RULE IS WHAT MATTERS HERE RATHER THAN THE
+    # ONE PATH REMOVED. trimcrae, 2026-08-30: "I don't want all that engineering effort going into a
+    # cover letter that only goes out once for papers submitted to publishers. We shouldn't even have
+    # a test suite for cover letters" — and, on the version of this that only removed the expensive
+    # checks: "it's a millisecond level check that we have to modify for every single paper we want a
+    # cover letter for right? That's just not a good use of engineering resources."
+    # ★ THE COST WAS NEVER RUNTIME, IT WAS MAINTENANCE. Every hand-list naming a paper's letter is an
+    # edit owed on the next paper, forever, for a document that goes out once and is read by a human
+    # at submission. A list that has to be extended per paper is the shape this repository already
+    # knows regresses at the sibling it does not name.
+    # ⚠ Superseded, retained (rule 1.2): "⛔ THE COVER LETTER IS A SUBMISSION TEXT AND NO LINTER
+    # OPENED IT (round 15 seat 3, 2026-08-22). It is the FIRST thing an editor reads and it makes
+    # claims of its own ... Four of one seat's five P1s landed in this one file, which is what an
+    # unguarded surface looks like from the outside." That finding was real and the remedy has been
+    # re-scoped rather than reversed: the letter is written at submission, against that venue's
+    # requirements, and read then — and it is no longer deposited, so nothing it says reaches a
+    # reader of the archive.
     "research/manuscripts/nr4a3-program-map.md",
     # Added 2026-08-05, IN THE SAME COMMIT that moved THE ORDERED PLAN and the spend ladder out of the
     # map and into the systems model. ⚠ WITHOUT THIS LINE THE MOVE WOULD HAVE SILENTLY NARROWED

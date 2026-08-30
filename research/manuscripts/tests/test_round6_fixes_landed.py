@@ -53,7 +53,6 @@ SI = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-supplement
 # the pair — which is exactly the defect this file exists to catch, one document over.
 JOURNAL = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-journal-article.md")
 TABLES = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-submission-tables.md")
-LETTER = os.path.join(REPO, "research/manuscripts/aso/fusion-junction-aso-cover-letter.md")
 GEN_TABLES = os.path.join(REPO, "research/manuscripts/submission_tables.py")
 GEN_TRADE = os.path.join(REPO, "research/modalities/aso_gap_length_tradeoff.py")
 GEN_FIG = os.path.join(REPO, "research/manuscripts/figures/aso_gap_length_figure.py")
@@ -327,35 +326,6 @@ def test_the_larger_half_of_the_gap_is_named_correctly():
 def test_the_ethics_declaration_does_not_say_aggregate_data():
     """Several clinical facts come from single-patient reports, including the PGR breakpoint."""
     assert "published aggregate data" not in _flat(_read(ART))
-
-
-# --------------------------------------------------------------------------------------------
-# Cross-file: a fix applied to the manuscript and not to the packet.
-# --------------------------------------------------------------------------------------------
-
-def test_the_cover_letter_carries_the_manuscripts_corrected_reproducibility_claim():
-    """The manuscript split code-derived from literature-transcribed figures; the letter did not."""
-    letter = _flat(_read(LETTER))
-    phrase = "every quantitative statement is produced by code"
-    start = 0
-    while (i := letter.find(phrase, start)) != -1:
-        # Same window rule as the sign-error check: rule 1.2 requires the retired wording to be
-        # registered, so a quotation inside a supersession block is the correct state, not a relapse.
-        assert "uperseded" in letter[max(0, i - 400):i + len(phrase) + 120], (
-            "the cover letter still asserts the unsplit reproducibility claim the manuscript "
-            "retracted -- the clinical figures are transcribed, not code-produced"
-        )
-        start = i + len(phrase)
-    assert "transcribed from the publications cited for them" in letter, (
-        "the cover letter does not carry the corrected split"
-    )
-
-
-# --------------------------------------------------------------- the journal article's own copy
-#
-# Round 9 seat 3 found the journal article's section 5 restating two of the fixes this module
-# guards, with nothing reading them there. These are the same propositions, asserted at the second
-# home rather than assumed to have travelled.
 
 
 def test_the_journal_article_states_voidness_as_a_property_of_the_variance():

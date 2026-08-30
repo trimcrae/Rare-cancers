@@ -122,7 +122,7 @@ POLARITY = [
      # moment the paper stated the correct thing. Same trap `test_the_envelope_declares_one_interest`
      # records against its survivorship needle.
      r"(?<!No )Competing financial interests exist",
-     "the cover letter: 'I received no funding and have no financial competing interests'",
+     "the author's own funding statement: he received no funding for this work",
      "## Author Disclosure Statement\n\nCompeting financial interests exist."),
     ("ai-use",
      r"\*\*Use of artificial intelligence\.\*\*[^#]{0,140}",
@@ -240,7 +240,7 @@ POLARITY = [
      r"No participants were enrolled",
      r"(?<!No )[Pp]articipants were enrolled|participants were recruited|participants gave",
      "this repository enrolled nobody: there is no protocol, no consent form and no participant "
-     "record anywhere in it, and the same fact is stated in the cover letter",
+     "record anywhere in it, and no wet-lab work of any kind",
      "**Consent to participate.** Not applicable. Participants were enrolled."),
     ("no-individual-patient-data",
      r"\*\*Consent for publication\.\*\*[^*]{0,180}",
@@ -256,8 +256,8 @@ POLARITY = [
      r"No external funding",
      r"external funding was received|received external funding|funded by a grant|"
      r"supported by (?:a )?grant",
-     "the cover letter's own declaration, 'I received no funding and have no financial competing "
-     "interests', which test_the_envelope_declares_one_interest.py holds",
+     "the repository's own funding record: no grant, contract or institutional support of any "
+     "kind was received for this work",
      "**Funding statement.** External funding was received by the author."),
     # ⛔⛔ THE CONDEMNED ONE-SLIDE DESIGN — audit item UNGUARDED 6, AND THE ONE THAT COULD BE ACTED
     # ON. This sentence sits immediately after the paper prints `5′-AGGGCATATCTTGTGT-3′`, a

@@ -22,15 +22,30 @@ last_verified: 2026-08-13
 
 # Cover letter
 
-*✅ THE ARCHIVE ITEM IS CLOSED, AND IT WAS READ BACK RATHER THAN ASSUMED. Both papers cite
-**10.5281/zenodo.22166420**, and that version was published on 2026-08-30: `deposit-zenodo.yml`
-`record=verify` (Actions run 33316420890) fetched the public records API with no token and answered
-`state: done (submitted=True)`, `published: 2026-08-30`, and "PUBLISHED. The DOI both papers cite
-resolves to this record." So every archive link in both papers resolves. ⛔ What still stands
-between this letter and a mailbox is NOT an archive item: `publish_bar` is at 4/7 for PUB-ASO —
+*⛔ NOT SENDABLE YET, AND THE REASON IS THE ORDERING RATHER THAN A DEFECT. Both papers now cite
+**10.5281/zenodo.22180100**, a RESERVED BUT UNPUBLISHED version opened from the published record
+22166420 (Actions run 33329057228: "opened NEW VERSION draft 22180100 of published record 22166420",
+"cleared 1 inherited file(s)", "DRAFT deposition 22180100 created. NOTHING IS PUBLISHED."). Until it
+is published the archive links in both papers resolve to nothing. ★ THAT WINDOW IS THE
+RESERVE-THEN-REBUILD ORDERING WORKING: a published Zenodo version's files cannot be edited, so the
+manuscript must print the identifier the archive WILL carry before the files are frozen.
+⚠ WHY A NEW VERSION AT ALL, since 22166420 is published and resolves: because it holds an EARLIER
+COPY OF THIS PAPER. Round 22 found it by four of five blind seats independently — the deposited
+manuscript still carries "61 of the 87 do so against wild-type NR4A3", a membership wording over an
+argmax value, and an AI-use declaration naming PubMed alone as the bibliographic source when the
+author lists come from Europe PMC and one author count from Crossref. Both are corrected in the text
+above; a published version cannot be corrected in place, only superseded.
+⛔ What else stands between this letter and a mailbox: `publish_bar` is at 4/7 for PUB-ASO —
 `hardening_converged`, `preflight_full_green` and `independent_adversarial_seat` are each bound to
 the sha of the commit that gets posted — plus the date and the editor's name from the journal's
 current masthead, which this repository cannot supply.*
+
+⚠ *Superseded, retained (rule 1.2), and TRUE OF 22166420 WHEN WRITTEN: "✅ THE ARCHIVE ITEM IS
+CLOSED, AND IT WAS READ BACK RATHER THAN ASSUMED. Both papers cite 10.5281/zenodo.22166420, and that
+version was published on 2026-08-30 … So every archive link in both papers resolves." It stopped
+being true of THIS LETTER the moment the papers were repointed at 22180100 — the third time this
+sentence has turned over on a new identifier, which is the argument the note four paragraphs down
+already makes: name the identifier a status is a status FOR.*
 
 ⚠ *Superseded, retained (rule 1.2): "⛔ NOT SENDABLE. The archive item is OPEN AGAIN, on a new
 deposition, and it blocks this letter exactly as its predecessor did. … which is a RESERVED BUT

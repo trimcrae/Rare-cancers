@@ -47,8 +47,13 @@ SHIPPED = (
     "fusion-junction-aso-supplementary-information.md",
     "fusion-junction-aso-submission-tables.md",
     "fusion-junction-aso-journal-tables.md",
-    "fusion-junction-aso-cover-letter.md",
 )
+
+# ⛔ COVER LETTERS ARE OUT OF SCOPE — trimcrae, 2026-08-30: "We shouldn't even have a
+# test suite for cover letters." A letter is a submission document, goes out once, is
+# written at submission against that venue's requirements, and is no longer deposited
+# (aso_archive_manifest.py) so nothing it says reaches a reader of the archive.
+
 
 #: (claim, does this document raise the subject?, the quantifier class that may not govern it)
 CLAIMS = (

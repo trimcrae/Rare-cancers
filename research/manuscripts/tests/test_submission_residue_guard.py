@@ -6,7 +6,7 @@ repository's working prose: CLAUDE.md, AGENTS.md, the skills and the plans discu
 correctly, and plan files are written as `- [ ]` checklists. `lint_claims.py`'s founding lesson is
 that a linter which flags true statements gets switched off, and `lint_style.py` paid for it a
 second time when a cover letter's "Thank you for considering this manuscript" was reported as a
-defect. So the tests below do not merely check that honest prose passes: they check that honest
+defect — the letters have since left this gate's corpus entirely. So the tests below do not merely check that honest prose passes: they check that honest
 prose WOULD fire and is protected by SCOPE, because a guard whose safety rests on weak patterns is
 one string away from being loud, and a guard whose safety rests on its corpus is not.
 
@@ -251,8 +251,8 @@ def test_the_corpus_is_derived_from_four_committed_sources_and_reaches_the_compa
             "a paper in submission form is not in the corpus"
     pubs = lsr._publication_documents(ROOT)
     assert pubs and set(pubs) <= set(corpus), "a publication endpoint's manuscript is not in the corpus"
-    letters = [c for c in corpus if c.endswith("-cover-letter.md")]
-    assert len(letters) >= 5, "the cover letters are what an editor reads first: %r" % letters
+    assert not [c for c in corpus if c.endswith("-cover-letter.md")], \
+        "a cover letter is back in the outgoing corpus; trimcrae removed every check on them"
     assert any(c.endswith("-SI.md") for c in corpus), "no supplementary information reached the corpus"
 
 
@@ -274,28 +274,6 @@ def test_frontmatter_blanking_does_not_shift_the_reported_line():
     assert doc.splitlines()[7] == "TODO fix this.", "the fixture moved; re-derive the expected line"
     found = lsr.scan_text(doc, "paper.md")
     assert [f[1] for f in found] == [8], "the line number moved when the frontmatter was blanked"
-
-
-def test_a_cover_letter_keeps_its_correspondence_conventions():
-    """⛔ `lint_style.py` WAS GIVEN THE COVER LETTERS AND TAKEN OFF THEM AGAIN ON MEASUREMENT,
-    because it reported "Thank you for considering this manuscript" and "Yours sincerely" as
-    defects, "and a gate that reports a salutation as a defect is one its reader learns to skip".
-    "Please let me know if you need anything further" is in exactly that class."""
-    letter = "Dear Editor,\n\nPlease let me know if you need anything further.\n\nYours sincerely,\n"
-    assert not _hits(letter, "paper-cover-letter.md"), "a letter convention was reported as residue"
-    assert _hits(letter, "paper.md"), \
-        "the same sentence in a MANUSCRIPT is the assistant addressing its requester and must fire"
-
-
-def test_the_cover_letter_exemption_is_narrow():
-    """⚠ THE EXEMPTION IS PER-RULE, NOT PER-FILE. A cover letter is the document an editor reads
-    first; exempting it wholesale would put the highest-stakes page outside the gate."""
-    assert set(lsr.COVER_LETTER_EXEMPT) == {"handover", "handover-correspondence"}, \
-        "the exempt set changed — %r" % (lsr.COVER_LETTER_EXEMPT,)
-    letter = ("Dear Editor,\n\nAs an AI language model I summarise the work below.\n"
-              "**Date:** [DATE]\nTODO: name the venue.\n")
-    assert _hits(letter, "x-cover-letter.md") >= {"ai-self-reference", "todo-marker",
-                                                  "bracket-placeholder"}
 
 
 # ══════════════════════════════════════════════════════════════════════════════════════════

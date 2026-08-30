@@ -98,9 +98,10 @@ def endpoint_documents(repo=None):
         `companion_files` name the tables and reference list a submission is counted over. This is
         what keeps `fusion-junction-aso-journal-tables.md` in scope; the graph names only the
         article.
-      · `research/manuscripts/SUBMISSION-PACKET.md` — generated, and the only record that says which
-        cover letter belongs to which paper (`submission_packet.py` resolves it from the directory
-        because nothing else records it). This is what keeps the ASO cover letter in scope.
+      · `research/manuscripts/SUBMISSION-PACKET.md` — generated, and the only record of the
+        per-venue upload envelope. ⚠ It also names each paper's cover letter, and `offer` below
+        DROPS those: trimcrae removed every check on cover letters on 2026-08-30, and a censused
+        document with no instrument reading it is a coverage floor of zero pretending to be a gate.
 
     ⚠ A record entry naming a file that is not on disk is DROPPED rather than raising: an endpoint
     can be registered before it is written (`state: unwritten` carries no `document`), and a census
@@ -111,6 +112,23 @@ def endpoint_documents(repo=None):
 
     def offer(rel, record):
         rel = rel.replace(os.sep, "/")
+        # ⛔⛔ COVER LETTERS ARE NOT CENSUSED, AND THIS IS THE PREDICATE THAT KEEPS THEM OUT.
+        # trimcrae, 2026-08-30, in session: "We don't need a cover letter until it's time to submit
+        # to a publisher. Makes no sense to make one for a preprint" and "I don't want all that
+        # engineering effort going into a cover letter that only goes out once for papers submitted
+        # to publishers. We shouldn't even have a test suite for cover letters."
+        # ★ THIS IS THE HIGH-LEVERAGE SITE because the set is DERIVED rather than hand-listed:
+        # `COVERAGE_FLOOR` is built from it and `test_the_census_word_covered_survives_ablation`
+        # parametrises over that, so one predicate removes the letter from the census AND from the
+        # ablation suite, which is the expensive one — it mutates every covered sentence and re-runs
+        # each witness, minutes per run, for a document that goes out once.
+        # ⚠ WHAT THIS GIVES UP, STATED RATHER THAN GLOSSED: the letter's claims are no longer
+        # counted, ratcheted or ablation-tested. That is the intended trade — it is a submission
+        # document, not a scientific record (its own front matter says so), it carries no result,
+        # and it is written and read by a human at submission. It is also no longer deposited
+        # (aso_archive_manifest.py), so nothing it says reaches a reader of the archive.
+        if rel.endswith("-cover-letter.md"):
+            return
         if os.path.exists(os.path.join(repo, rel)):
             found.setdefault(rel, record)
 
@@ -181,8 +199,6 @@ COVERAGE_FLOOR = {
         {"covered": 7, "with_a_number_covered": 4},
     "research/manuscripts/aso/fusion-junction-aso-journal-tables.md":
         {"covered": 4, "with_a_number_covered": 1},
-    "research/manuscripts/aso/fusion-junction-aso-cover-letter.md":
-        {"covered": 6, "with_a_number_covered": 4},
     #: ⭐ FIRST CENSUS OF THIS DOCUMENT, 2026-08-26, AND THE LOW NUMBER IS THE FINDING. The census had
     #: never read it — its document set was three hand-typed entries, all three of one submission —
     #: while blind review seats hardened it with no instrument behind them. Measured at

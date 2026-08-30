@@ -2598,7 +2598,7 @@ unmodified DNA of the same sequence is a different molecule about which nothing 
 **Availability.** All code, graded artefacts and per-design tables are public at the repository
 `github.com/trimcrae/Rare-cancers`, and are to be released as a single archived version deposited
 from it
-under [doi:10.5281/zenodo.22166420](https://doi.org/10.5281/zenodo.22166420). Every result
+under [doi:10.5281/zenodo.22180100](https://doi.org/10.5281/zenodo.22180100). Every result
 reported here is re-derived, without network access or credentials, from the committed artefacts in
 that repository, which is what a reader can check today. That claim is meant to be checked rather
 than accepted: `./scripts/regenerate_aso_chain.sh` re-derives, in dependency order, the artefacts
@@ -2753,7 +2753,7 @@ sarcoma centre.
 manuscript and deposited as a separate file beside it, and included in the archive below.
 
 **Data and code availability.** The archive is that single deposited version, under
-[doi:10.5281/zenodo.22166420](https://doi.org/10.5281/zenodo.22166420), from
+[doi:10.5281/zenodo.22180100](https://doi.org/10.5281/zenodo.22180100), from
 `github.com/trimcrae/Rare-cancers`.
 `fusion-junction-aso-archive-manifest.json` lists every archived file with its SHA-256; it is
 generated with the archive and travels with the deposit.

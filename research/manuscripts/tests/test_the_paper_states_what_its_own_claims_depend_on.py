@@ -74,7 +74,7 @@ REQUIRED = [
     ("the threshold the falsification experiment turns on",
      r"cut of \d|threshold",
      "§5 exists to name an experiment that could falsify the ranking. An experiment with no "
-     "decision rule cannot falsify anything, and the cover letter tells the editor it has one."),
+     "decision rule cannot falsify anything."),
     # ⛔⛔ THE ARTIFACTS DENY THESE IN THEIR OWN PROSE AND NOTHING READ THE PAPER FOR THEM (round 16
     # seat 3, P1-b). Across the committed record, `_what_this_is_not` fields deny safety 56 times,
     # efficacy 50, selectivity 39 — and also knockdown, tolerability, delivery, a significance test

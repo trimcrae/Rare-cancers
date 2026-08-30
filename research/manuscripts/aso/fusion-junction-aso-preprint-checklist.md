@@ -386,55 +386,56 @@ standing aiXiv grant and carries a public DOI (`10.32388/VL3LJR`) with a version
 ORCID. ✅ The ordering constraint that made this two acts is now satisfied: v2's Data availability
 cites `10.5281/zenodo.22166420`, and that DOI resolves.
 
-### 3-iv · ⛔ THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS, and this time the reopening rule has fired
+### 3-iv · ⛔ A CORRECTED ARCHIVE VERSION IS DRAFTED AND NOT YET PUBLISHED
 
-⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY**, and unlike the last two entries under this
-heading it is no longer the ordinary kind. Declared here because
-[`test_the_deposit_the_papers_cite_is_current.py`](../tests/test_the_deposit_the_papers_cite_is_current.py)
-requires drift to be acknowledged rather than silent.
+⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS**, and a new version is now open to correct it:
+**`10.5281/zenodo.22180100`**, draft deposition 22180100, opened from published record 22166420
+(Actions run 33329057228 — *"opened NEW VERSION draft 22180100 of published record 22166420"*,
+*"cleared 1 inherited file(s)"*, *"DRAFT deposition 22180100 created. NOTHING IS PUBLISHED."*).
+Both papers, the cover letter and `aso_archive_manifest.py` now cite it.
 
-★ **MEASURED AT THIS COMMIT, AGAINST THE MANIFEST'S OWN INVENTORY.** Diffing the deposited set
-between the published record's `git_revision` (`c84bc23d251a`, 483 paths, digest `1ddbb1e8a036…`)
-and HEAD returns **18 differences: 16 changed, 2 added, 0 removed** — among the changed,
-`fusion-junction-aso-journal-article.md` itself and **all four of its PDFs**.
+★ **THE SIZE OF THE DRIFT, MEASURED AGAINST THE MANIFEST'S OWN INVENTORY.** Diffing the deposited
+set between the published record's `git_revision` (`c84bc23d251a`, 483 paths) and HEAD returns
+**22 differences: 19 changed, 2 added, 1 removed.** The two additions are round 22's deposit repair
+(`aso-control-oligos.json` and its producer, which the deposited `aso_sequence_manifest.py` reads at
+runtime). ★ **The removal is the cover letter**, which was never a scientific record and whose
+deposit had frozen a false status sentence into an immutable archive three times — §3ab. The rest is
+this correction and its rebuilt chain.
 
-⭐ **THE TWO ADDITIONS ARE A REPAIR, NOT DRIFT.** `aso-control-oligos.json` and
-`aso_control_oligos.py` were absent from the deposit while the DEPOSITED `aso_sequence_manifest.py`
-reads that JSON at runtime to write Table 2's two control rows into the deposited sequences CSV — so
-the Data availability promise *"All code … are deposited"* was not literally true, and a reader
-holding only the archive could not regenerate the canonical file the Declarations tell them to order
-from. ⚠ `gaps.promises_resolving_to_no_file` read EMPTY throughout, because `gaps.import_closure`
-follows imports and this is a DATA read: a closure over one edge type reports a completeness it has
-not checked. Found by round 22's arithmetic seat; the deposit is now 485 paths.
+★ **WHY A NEW VERSION, AND THE EVIDENCE IS UNUSUALLY STRONG.** The published record holds an EARLIER
+COPY OF THE PAPER THAT CITES IT. Found by **four of round 22's five blind seats independently**, from four
+directions: the hostile referee and the citations-and-instruments seat each graded it a blocker
+against the outgoing set; the arithmetic seat reached it by re-deriving the counts from raw sequence;
+the regression seat filed the stale checklist item that let it sit. The deposited manuscript still
+reads *"61 of the 87 do so against wild-type NR4A3"* — a MEMBERSHIP wording over an ARGMAX value,
+which differ by one design at ten base pairs and by eighty-one at six — and *"Every reference's
+bibliographic record was retrieved from PubMed"*, which `journal-reference-authors.json`
+contradicts. ⚠ **The cause was this loop's own round-21 repair**, which corrected the manuscript
+after the archive was published.
 
-⛔ **SO A NEW VERSION IS WARRANTED, ON THE RULE THIS ITEM STATED FOR ITSELF.** §A-2's reopening
-trigger is *a new version is warranted when a MANUSCRIPT changes*. One has. What the deposited copy
-still says, verbatim at `c84bc23d251a`: *"61 of the 87 do so against wild-type NR4A3"* — the
-membership wording over an argmax value that round 21 corrected at three sites — and *"Every
-reference's bibliographic record was retrieved from PubMed"*, a provenance claim
-`journal-reference-authors.json` contradicts and that the same round corrected. A reader following
-the DOI is handed an earlier copy of the paper they are reading, with a count they cannot reconcile
-against the current text.
+⛔ **THE ARCHIVE LINKS IN BOTH PAPERS NOW RESOLVE TO NOTHING, AND THAT IS THE ORDERING WORKING.** A
+published version's files cannot be edited, so the manuscript must print the identifier the archive
+WILL carry before the files are frozen. The window is deliberate and is tracked here rather than
+left to be discovered.
 
-⚠ *Superseded, retained (rule 1.2), and it was TRUE WHEN WRITTEN AND FALSE FIVE COMMITS LATER:*
-"★ **IT IS EXACTLY ONE FILE, AND THE MEASUREMENT IS AGAINST THE MANIFEST'S OWN INVENTORY RATHER THAN
-AGAINST THE DIRECTORY.** … **No manuscript source, table, figure, sequence file or `.docx` moved**,
-and the file set is unchanged at 483." *Written at `3df0be6c5`; `29a44d203` then changed the article
-and did not update this section. ⛔ THE MEASUREMENT WAS RIGHT AND ITS SHELF LIFE WAS ONE COMMIT — a
-diff result written into prose is a reading with a date on it, which is the lesson §A-2 already
-records about "the diff is empty" and which this section has now repeated in its own voice.*
+⛔ **THE DRAFT IS ALREADY BEHIND THE TREE, BY CONSTRUCTION, AND MUST BE REFRESHED BEFORE IT IS
+PUBLISHED.** It was opened at `397dad3c9` (digest `d8cc44aebe04…`) and the papers were repointed and
+the chain rebuilt afterwards. `deposit-state.json` `pending` records that pair, and
+`refuse_unless_publishable` compares it against the manifest's `archive_content_digest` and **fails
+closed**, so a publish attempted now refuses rather than freezing a stale archive.
 
-⭐ **FOUND BY THREE OF ROUND 22'S FIVE SEATS INDEPENDENTLY** — the hostile referee and the
-citations-and-instruments seat each graded it a blocker against the outgoing set, and the regression
-seat filed the stale §3-iv as a repository finding. Independent convergence across lenses that could
-not see each other is the signal this method exists to produce.
+⛔ **WHAT REMAINS, IN THIS ORDER.**
 
-⛔ **WHAT IS NEEDED, IN THIS ORDER, AND THE ORDERING IS THE WHOLE POINT.** Reserve a new version and
-let it carry its own DOI; put that DOI in both papers; rebuild the chain against it; refresh the
-draft as the LAST act, after every rebuild the change implies; then publish. The refresh-before-
-publish rule has bitten twice and is not spent. **The publish itself needs trimcrae's approval for
-that deposition** — the standing Zenodo grant is per-publication, and an approval for 22166420 is
-not an approval for its successor.
+1. **Refresh the draft** — dispatch `deposit-zenodo.yml` with `new_version=false` at the commit being
+   posted, and write `pending.uploaded_at_git_revision` and `pending.uploaded_manifest_digest` from
+   that run. ⛔ **The refresh is the LAST act before the publish**, after every rebuild the change
+   implies. It has gone stale twice on this record by being done too early, both times because a
+   rebuild landed after it and nothing said so.
+2. **Publish deposition 22180100** — needs **trimcrae's approval for THIS deposition**. The Zenodo
+   grant is standing but `approval_is_required_per_publication` is true, and the approval given for
+   22166420 is not an approval for its successor.
+3. **Then post Qeios v2**, which is trimcrae's alone. v2's Data availability cites this DOI, so a
+   reader who follows it before step 2 gets nothing.
 
 ## 3a · What is open now, and it is one decision rather than a defect
 
@@ -456,6 +457,40 @@ posting is not literally an updated version, but the clean readings are **post b
 or **post after a decision** — not during review. So the hold and the submission are compatible in
 one direction only: submitting now leaves posting-during-review as the awkward case, and posting
 first removes it entirely.
+
+## 3ab · ⛔ THE COVER LETTER IS A SUBMISSION ARTIFACT AND HAS NO PLACE IN A PREPRINT
+
+★★ **trimcrae, 2026-08-30, in session:** *"We don't need a cover letter until it's time to submit to
+a publisher. Makes no sense to make one for a preprint. Be sure that's in the process."*
+
+⛔ **SO IT IS NOT PREPARED, NOT KEPT CURRENT, AND NOT DEPOSITED FOR A PREPRINT.** It is written when
+a journal submission is actually being assembled, against that journal's requirements, with the
+date and the editor's name it needs. Until then it is a draft that nothing depends on.
+
+⚠ **AND IT WAS IN THE DEPOSITED ARCHIVE UNTIL THIS COMMIT, WHICH COST THREE INCIDENTS OF ONE SHAPE.**
+The archive's own promise for that row is *"the manuscript itself and the figures it prints"*, and a
+letter to an editor is neither — the letter's front matter says as much: *"It is a submission
+document, not a scientific record."* What a reader following the public DOI actually received was a
+letter addressed to a journal editor. Worse, each incident froze a **status sentence about an outside
+system** into an immutable record:
+
+- **Round 21** — the deposited copy asserted *"every archive link in both papers now resolves"*
+  after that claim had been withdrawn.
+- **Round 22** — the deposited copy read *"⛔ NOT SENDABLE … every archive link in both papers
+  currently resolves to nothing"*, inside the very archive whose DOI had just gone live.
+- **For a stretch it was the SINGLE drifted deposited file**, which is the entire reason §3-iv
+  existed in the form it did.
+
+★ **THE GENERAL RULE THIS IS AN INSTANCE OF.** A document whose content is a *status* — what has been
+posted, what resolves, what is awaiting a decision — decays without anyone editing it, and freezing
+one into an immutable public record guarantees it will eventually be false. The deposit carries
+results and the code that produced them; it does not carry claims about where the paper is in
+somebody else's process.
+
+✅ **WHAT STAYS.** The letter remains in the repository and its guards still read it — the
+competing-interests polarity row, the gene-identifier check, the residue guard. Guarding a document
+that exists is right. What changed is that it no longer ships to readers, no longer drifts the
+archive, and no longer gates a preprint.
 
 ## 3b · Deliberately not done, and why
 

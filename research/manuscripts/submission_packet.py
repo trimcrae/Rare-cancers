@@ -471,7 +471,12 @@ def main():
               f"{' (limit ' + str(lim['display_items']) + ')' if lim.get('display_items') else ''} |",
               f"| References | {m['references']}"
               f"{' (limit ' + str(lim['references']) + ')' if lim.get('references') else ''} |",
-              f"| Cover letter | {'n/a (preprint deposit)' if preprint else ('`' + letter + '`' if letter else 'MISSING')} |",
+              #: ⚠ NOT "MISSING" WHEN THERE IS NO LETTER. trimcrae, 2026-08-30: *"We don't need a
+              #: cover letter until it's time to submit to a publisher"* — a letter is hand-written
+              #: once, at the portal, and every automated check on one was removed that day. This
+              #: row reports what is on disk; the absence of a letter is the normal state of a
+              #: paper that has not been submitted yet, not a defect for a gate to name.
+              f"| Cover letter | {'n/a (preprint deposit)' if preprint else ('`' + letter + '`' if letter else 'write at submission')} |",
               f"| Supplementary file | {'yes' if si else 'none'} |",
               #: ⛔ THE BLINDED COPY IS PART OF THE ENVELOPE WHEREVER ONE EXISTS. NAT's guidelines
               #: state single-anonymized twice and double-anonymized once on the same page, so

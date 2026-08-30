@@ -64,7 +64,12 @@ MANIFEST = os.path.join(ASO, "fusion-junction-aso-archive-manifest.json")
 DOCUMENTS = {
     "aso-citations-priorart-2026-08-08": os.path.join(ASO, "aso-citations-priorart-2026-08-08.md"),
     "aso-delivery-antigen-2026-08-08": os.path.join(ASO, "aso-delivery-antigen-2026-08-08.md"),
-    "fusion-junction-aso-cover-letter": os.path.join(ASO, "fusion-junction-aso-cover-letter.md"),
+    # ⛔ COVER LETTERS ARE OUT OF SCOPE — trimcrae, 2026-08-30: "Remove all checks on cover
+    # letters." A letter is hand-written once, at a publisher's portal, against that venue's
+    # requirements; nothing in this repository generates it and no instrument now reads it.
+    # ⚠ IT IS STILL DEPOSITED — the archive manifest carries it — so the shipped-document scan
+    # below skips it EXPLICITLY. Without that clause the scan demands this entry back, which is
+    # the guard silently reinstating the check it was told to delete.
     "fusion-junction-aso-journal-article": os.path.join(ASO, "fusion-junction-aso-journal-article.md"),
     "fusion-junction-aso-journal-references": os.path.join(ASO, "fusion-junction-aso-journal-references.md"),
     "fusion-junction-aso-journal-tables": os.path.join(ASO, "fusion-junction-aso-journal-tables.md"),
@@ -254,7 +259,11 @@ def test_the_document_set_is_every_document_the_submission_ships():
     names = {os.path.basename(e["path"]) for e in shipped
              if e.get("path", "").endswith(".md") and "/aso/" in e.get("path", "")
              and os.path.exists(os.path.join(ASO, os.path.basename(e["path"])))}
-    missing = sorted(n for n in names if n[:-3] not in DOCUMENTS)
+    #: ⛔ COVER LETTERS ARE SKIPPED, NOT FORGOTTEN. They remain deposited, so without this
+    #: clause the scan demands back the DOCUMENTS entry trimcrae's 2026-08-30 instruction
+    #: removed — the guard would silently reinstate the check it was told to delete.
+    missing = sorted(n for n in names
+                     if n[:-3] not in DOCUMENTS and not n.endswith("-cover-letter.md"))
     assert not missing, (
         f"the submission ships {len(missing)} markdown document(s) this guard does not read: "
         f"{missing}\n\nAdd them to DOCUMENTS. A gene symbol off by one digit reads as a real gene, "

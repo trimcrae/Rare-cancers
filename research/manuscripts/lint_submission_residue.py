@@ -181,8 +181,11 @@ def _publication_documents(root):
 
 #: Companion roles a submission carries beside its manuscript. The suffixes are the ones
 #: `submission_packet._companion` already resolves; the stem-shortening rule is its too.
-_COMPANION_SUFFIXES = (("-cover-letter.md",),
-                       ("-SI.md", "-si.md", "-supplementary-information.md"))
+#: ⛔ COVER LETTERS ARE DELIBERATELY NOT HERE (trimcrae, 2026-08-30: *"Remove all checks on cover
+#: letters"*). A letter is written once, by hand, at the moment a paper goes to a publisher — it is
+#: never a preprint artifact — so every gate on it was per-paper maintenance bought with nothing.
+#: Removing it from the corpus is what retires the per-rule `in_cover_letters` exemption below.
+_COMPANION_SUFFIXES = (("-SI.md", "-si.md", "-supplementary-information.md"),)
 
 
 def targets(root=ROOT):
@@ -201,7 +204,7 @@ def targets(root=ROOT):
       4. `submission-metrics.json` -> `rows[].file` and `companion_files` — the papers in submission
          form, with the venue named.
 
-    Plus the cover letter and SI companions of each, by the directory convention
+    Plus the SI companion of each, by the directory convention
     `submission_packet._companion` already owns.
 
     ⚠ A SOURCE THAT CANNOT BE READ IS NOT SILENTLY SKIPPED — it raises, because a gate that quietly
@@ -253,62 +256,59 @@ def targets(root=ROOT):
 
 # ─────────────────────────────────── the two triggers ───────────────────────────────────
 
-#: (rule id, in_cover_letters, pattern, one line of why).
-#: ⛔ `in_cover_letters=False` MARKS A RULE THAT WOULD FIRE ON A CORRESPONDENCE CONVENTION, and it is
-#: the lesson `lint_style.py` records in its own TARGETS comment: that gate was given the cover
-#: letters and taken off them again on measurement, because it reported "Thank you for considering
-#: this manuscript" and "Yours sincerely" as defects, "and a gate that reports a salutation as a
-#: defect is one its reader learns to skip". "Please let me know if you need anything further" and
-#: "feel free to contact me" are letter conventions in exactly that class, and a response-to-
-#: reviewers letter legitimately says "I have revised the section". None of the three is a
-#: convention in a MANUSCRIPT, where each remains the assistant addressing its requester.
+#: (rule id, pattern, one line of why).
+#: ⚠ THREE OF THESE ONCE CARRIED A PER-RULE COVER-LETTER EXEMPTION, retired 2026-08-30 with the
+#: letters themselves. "Please let me know if you need anything further" and "feel free to contact
+#: me" are correspondence conventions, and "I have revised the section" is what a response-to-
+#: reviewers letter says; none of the three is a convention in a MANUSCRIPT, where each remains the
+#: assistant addressing its requester — so with no letter in the corpus the rules are unconditional.
 _RAW_RULES = (
     # ── trigger 2: residual model meta-comments ──────────────────────────────────────────
-    ("ai-self-reference", True,
+    ("ai-self-reference",
      r"(?i)\bas an?\s+(?:AI|A\.I\.|artificial intelligence|large language model|"
      r"language model|AI language model|AI assistant)\b",
      "the assistant naming itself"),
-    ("ai-self-reference", True,
+    ("ai-self-reference",
      r"(?i)\bI(?:'m|’m| am)\s+an?\s+(?:AI|language model|large language model|AI assistant)\b",
      "the assistant naming itself"),
-    ("ai-self-reference", True,
+    ("ai-self-reference",
      r"(?i)\bmy (?:knowledge cut-?off|training data|training cut-?off)\b",
      "the assistant describing its own training"),
-    ("assistant-opener", True,
+    ("assistant-opener",
      r"(?m)^\s*(?:\*\*|_)?(?:Certainly|Sure|Of course|Absolutely|Great question|No problem)[!,]",
      "a chat-reply opener at the start of a line"),
-    ("handover", True,
+    ("handover",
      r"(?i)\b(?:here|below)\s+(?:is|are|'s|’s)\s+(?:the|a|an|your)\s+"
      r"(?:revised|updated|rewritten|corrected|edited|complete|full|final|new)\b",
      "the assistant handing back an artefact"),
-    ("handover", False,
+    ("handover",
      r"(?i)\bI(?:'ve|’ve| have)\s+(?:updated|revised|rewritten|corrected|edited)\s+"
      r"the\s+(?:section|paragraph|text|draft|manuscript|document|above|following|passage)\b",
      "the assistant reporting what it did to the document"),
-    ("handover", True, r"(?i)\bwould you like me to\b", "the assistant offering further work"),
-    ("handover", True, r"(?i)\bis there anything else\b", "the assistant offering further work"),
-    ("handover", True, r"(?i)\bI hope (?:this|that) helps\b", "a chat sign-off"),
-    ("handover-correspondence", False, r"(?i)\blet me know if you\b",
-     "a chat sign-off; a letter convention, so cover letters are exempt"),
-    ("handover-correspondence", False,
+    ("handover", r"(?i)\bwould you like me to\b", "the assistant offering further work"),
+    ("handover", r"(?i)\bis there anything else\b", "the assistant offering further work"),
+    ("handover", r"(?i)\bI hope (?:this|that) helps\b", "a chat sign-off"),
+    ("handover-correspondence", r"(?i)\blet me know if you\b",
+     "a chat sign-off; in a manuscript it is the assistant addressing its requester"),
+    ("handover-correspondence",
      r"(?i)\bfeel free to (?:ask|let me|reach out|modify|adjust|edit|use)\b",
-     "a chat sign-off; a letter convention, so cover letters are exempt"),
-    ("assistant-refusal", True, r"(?i)\bI(?:'m|’m| am) sorry,? but\b",
+     "a chat sign-off; in a manuscript it is the assistant addressing its requester"),
+    ("assistant-refusal", r"(?i)\bI(?:'m|’m| am) sorry,? but\b",
      "the assistant refusing the task"),
-    ("assistant-refusal", True, r"(?i)\bI apolog(?:ise|ize) for\b",
+    ("assistant-refusal", r"(?i)\bI apolog(?:ise|ize) for\b",
      "the assistant apologising to its requester"),
-    ("assistant-refusal", True,
+    ("assistant-refusal",
      r"(?i)\bI cannot (?:provide|access|browse|generate|create|assist|help|comply|fulfil|fulfill)\b",
      "the assistant refusing the task"),
-    ("assistant-note", True,
+    ("assistant-note",
      r"(?i)\bNote:\s*I (?:could not|couldn'?t|was unable to|cannot|can'?t|have not|haven'?t)\s+"
      r"(?:verify|confirm|find|locate|access|check)\b",
      "an aside to the requester about what the assistant could not do"),
     # ── trigger 3: unremoved placeholder text ────────────────────────────────────────────
-    ("todo-marker", True, r"\b(?:TODO|FIXME|TKTK|TBD|TBC)\b", "an unresolved work marker"),
-    ("todo-marker", True, r"\bXXX+\b", "an unresolved work marker"),
-    ("lorem", True, r"(?i)\blorem ipsum\b", "filler text"),
-    ("bracket-placeholder", True,
+    ("todo-marker", r"\b(?:TODO|FIXME|TKTK|TBD|TBC)\b", "an unresolved work marker"),
+    ("todo-marker", r"\bXXX+\b", "an unresolved work marker"),
+    ("lorem", r"(?i)\blorem ipsum\b", "filler text"),
+    ("bracket-placeholder",
      r"(?i)\[\s*(?:insert|placeholder|citation needed|citation-needed|todo|tbd|name|city|country|"
      r"affiliation|email|address|editor|orcid|date|year|title|journal|volume|pages)\b[^\]]{0,40}\]"
      r"(?![\(\[])",
@@ -318,18 +318,18 @@ _RAW_RULES = (
     # `aso_archive_manifest.py` was written because the submission manuscript carried. Without the
     # required space it also matched `[PMID 17515897]` and every other bracketed citation tag in the
     # degrader SI: five false alarms on real, anchored references, measured before this line.
-    ("uppercase-slot", True,
+    ("uppercase-slot",
      r"\[[A-Z][A-Z ]{0,30}\s(?:DOI|DATE|NAME|ORCID|TITLE|CITY|COUNTRY|AFFILIATION|EMAIL|ADDRESS|"
      r"EDITOR|YEAR|TBD)\](?![\(\[])",
      "an unfilled bracketed slot in the repository's own shouting-caps form"),
-    ("angle-placeholder", True,
+    ("angle-placeholder",
      r"(?i)<\s*(?:placeholder|insert|todo|name|value|date|year|author)\b[^>]{0,40}>",
      "an unfilled angle-bracket slot"),
-    ("ref-placeholder", True, r"\bREF\?|\[REF\]|\[CITATION\]",
+    ("ref-placeholder", r"\bREF\?|\[REF\]|\[CITATION\]",
      "a reference the author meant to come back to"),
-    ("citation-needed", True, r"(?i)\bcitation needed\b",
+    ("citation-needed", r"(?i)\bcitation needed\b",
      "a reference the author meant to come back to"),
-    ("author-year-template", True, r"\(YEAR\)|\bAuthors? et al\.\s*\(?YEAR\)?",
+    ("author-year-template", r"\(YEAR\)|\bAuthors? et al\.\s*\(?YEAR\)?",
      "a citation template that was never filled in"),
     # ⚠ THE TWO LOOKAROUNDS ARE NOT SYMMETRIC, AND THE FIRST DRAFT'S `(?!\S)` MISSED THE COMMONEST
     # CASE: an empty bracket at the end of a sentence — "detected in 4/9 tumours []." — is followed
@@ -337,20 +337,12 @@ _RAW_RULES = (
     # actually lands. Left: not a word character or a closing bracket, so `x[]` in code is not a
     # finding. Right: not a word character or an opening bracket, so a markdown `[]()` link and a
     # reference-style `[][1]` are not findings either.
-    ("empty-bracket", True, r"(?<![\w\]\)])\[\s*\](?![\w\(\[])",
+    ("empty-bracket", r"(?<![\w\]\)])\[\s*\](?![\w\(\[])",
      "an empty bracket where something belonged"),
-    ("template-marker", True, r"\{\{[^}\n]{0,60}\}\}", "an unrendered template marker"),
+    ("template-marker", r"\{\{[^}\n]{0,60}\}\}", "an unrendered template marker"),
 )
 
-RULES = tuple((rid, re.compile(pat), in_letters, why)
-              for rid, in_letters, pat, why in _RAW_RULES)
-
-#: ⚠ Read from RULES rather than re-typed, so the exemption and the rules cannot drift apart.
-COVER_LETTER_EXEMPT = tuple(sorted({rid for rid, _p, in_letters, _w in RULES if not in_letters}))
-
-
-def _is_cover_letter(rel):
-    return rel.endswith("-cover-letter.md")
+RULES = tuple((rid, re.compile(pat), why) for rid, pat, why in _RAW_RULES)
 
 
 def _body(text):
@@ -377,11 +369,8 @@ def scan_text(text, rel=""):
     """[(rule id, line, matched text, the whole line)] for one document's body."""
     body = _body(text)
     lines = text.splitlines()
-    letter = _is_cover_letter(rel)
     out = []
-    for rid, pat, in_letters, _why in RULES:
-        if letter and not in_letters:
-            continue
+    for rid, pat, _why in RULES:
         for m in pat.finditer(body):
             n = body.count("\n", 0, m.start()) + 1
             quote = lines[n - 1].strip() if n - 1 < len(lines) else ""
@@ -423,7 +412,7 @@ def load_baseline(path=BASELINE):
 
 
 def _why_for(rule_id):
-    return next(w for rid, _p, _l, w in RULES if rid == rule_id)
+    return next(w for rid, _p, w in RULES if rid == rule_id)
 
 
 def check(report=False, root=ROOT, baseline_path=BASELINE, paths=None):

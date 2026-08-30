@@ -668,10 +668,24 @@ PROMISES = [
         # statement. Kept in the same table so there is one list, not two.
         "verbatim": False,
         "promise": "the manuscript itself and the figures it prints",
-        "contributes": ("The submission text, its Supporting Information, its cover letter, and "
-                        "the figure generators with their vector and raster output. The figures "
-                        "are generated from the same artifacts as the tables, so a reader can "
-                        "regenerate them."),
+        "contributes": ("The submission text, its Supporting Information, and the figure generators "
+                        "with their vector and raster output. The figures are generated from the "
+                        "same artifacts as the tables, so a reader can regenerate them."),
+        # ⛔⛔ THE COVER LETTER CAME OUT OF THE DEPOSIT ON 2026-08-30, AND IT SHOULD NEVER HAVE BEEN
+        # IN IT. trimcrae, in session: "We don't need a cover letter until it's time to submit to a
+        # publisher. Makes no sense to make one for a preprint." This row's own promise is "the
+        # manuscript itself and the figures it prints", and a letter to an editor is neither; the
+        # letter's own front matter says so — "It is a submission document, not a scientific record".
+        # ⚠ AND DEPOSITING IT COST THIS REPOSITORY THREE SEPARATE INCIDENTS, all the same shape: a
+        # status sentence about an outside system, frozen into an immutable public record. Round 21
+        # found the deposited copy asserting "every archive link in both papers now resolves" after
+        # that claim had been withdrawn. Round 22 found it reading "NOT SENDABLE ... resolves to
+        # nothing" inside the very archive whose DOI had just gone live. And for a stretch it was the
+        # SINGLE drifted file, which is the whole reason §3-iv of the checklist existed.
+        # ★ A READER FOLLOWING THE PUBLIC DOI WAS BEING HANDED A LETTER ADDRESSED TO A JOURNAL
+        # EDITOR. Nothing in the Data availability statement promises it, no result depends on it,
+        # and removing it deletes a recurring source of false statements in an immutable record
+        # rather than merely tidying the archive.
         # ⛔ THE SUPPORTING INFORMATION WAS ABSENT FROM THIS ROW UNTIL 2026-08-16, AND A DEPOSIT
         # MISSING IT IS THE WORST KIND OF HOLE: the main text points into it ("SI §S1") from six
         # places, so a reader following a cross-reference finds nothing and cannot tell whether the
@@ -680,7 +694,6 @@ PROMISES = [
         # firing on the one row whose patterns cannot glob.
         "patterns": ["research/manuscripts/aso/fusion-junction-aso-research-article.md",
                      "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
-                     "research/manuscripts/aso/fusion-junction-aso-cover-letter.md",
                      "research/manuscripts/figures/aso_*_figure.py",
                      "research/manuscripts/figures/aso-*.pdf",
                      "research/manuscripts/figures/aso-*.png",
@@ -1301,7 +1314,7 @@ def build():
         # ⚠ NOT DERIVED — it is issued by Zenodo and can only be transcribed. It is pinned so that
         # a transcription error appears as a linter failure rather than as a citation that resolves
         # to somebody else's record.
-        "deposition_doi": "10.5281/zenodo.22166420",
+        "deposition_doi": "10.5281/zenodo.22180100",
         "git_revision": _git("rev-parse", "HEAD"),
         # ⚠ EXCLUDES THE MANIFEST ITSELF, AND THE EXCLUSION IS THE WHOLE POINT — see
         # `_tree_clean_apart_from_this_manifest`. `null` means "no git available", never "clean".
