@@ -10,11 +10,11 @@
     "code": 1,
     "experiment": 24,
     "fetch": 22,
-    "fix": 18,
+    "fix": 19,
     "harden": 23,
     "negative": 32,
     "process": 7,
-    "process_defect": 163,
+    "process_defect": 164,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
@@ -25,7 +25,7 @@
     "done": 139,
     "in_progress": 6,
     "parked": 28,
-    "queued": 150,
+    "queued": 152,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -1105,6 +1105,37 @@
       },
       "requires_trimcrae": true,
       "requires_trimcrae_why": "posts a preprint AND approaches a group holding archival material. Two outward acts in one row."
+    },
+    {
+      "id": "AUT-PD-190",
+      "kind": "process_defect",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "trimcrae"
+      ],
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-30",
+      "filed_by": "session_013jxh1csBMw3e6TeBNJGJX4",
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "It is an authority question about an IRREVERSIBLE outward act, and the loop is the party the bar is blocking. Only he can answer it.",
+      "notified_utc": "2026-08-30T13:05:00Z",
+      "_score_basis": "free, and it is the single remaining thing between PUB-ASO and 7/7",
+      "score": 173.0,
+      "depends_on_evidence": "publish_bar --paper PUB-ASO at f21722ddd2bd: BLOCKED 4/7. Round 20's surviving blocker is 'Data availability cites a Zenodo version DOI that is a DRAFT, not a published record, so at this commit every archive link resolves to nothing' — confirmed independently by deposit-zenodo.yml record=verify (run 33279967090), which read the PUBLIC records API with no token and answered '404 ... exactly what a RESERVED but unpublished DOI does'. research/autonomy/publication-authority.json lists, in terms, among what was NOT granted: 'Zenodo publication, a GitHub release, a DOI mint ... Preparing them needs no permission; performing them does and was not granted.' scripts/zenodo_deposit.py has no publish path at all — '⛔ THIS SCRIPT NEVER PUBLISHES.'",
+      "what": "⛔⛔ A CIRCULAR DEPENDENCY BETWEEN THE BAR AND THE HUMAN, AND IT IS THE LAST THING STANDING.\n`hardening_converged` requires ZERO blockers. One blocker remains and it is not a defect anyone can repair: the paper cites a reserved-but-unpublished DOI, so its archive links resolve to nothing. That clears ONLY when trimcrae publishes deposition 22166420. Meanwhile the preprint checklist tells him not to publish until the round comes back clean. So the bar waits on the publish and the publish waits on the bar.\n★ AND THE STATE THE SEAT GRADED AS A BLOCKER IS THE DESIGNED ONE. reserve-then-rebuild EXISTS to make the paper cite the identifier the archive will carry BEFORE the files are frozen — deposit-state.json calls that window 'deliberate and the whole point'. A window the design creates on purpose is arguably a known-and-accepted condition rather than a blocker; grading it as a blocker makes a clause permanently unsatisfiable by any amount of loop work.\n⛔ THE LOOP MAY NOT RESOLVE THIS ITSELF, AND THAT IS THE POINT. Both available routes are barred to the party being blocked: re-grading the blocker changes how the bar grades, and publishing changes what the loop may do outwardly. research-loop's anti-gaming invariant — a bar may not be changed by the cycle it blocked — covers exactly this shape.\n★ TRIMCRAE ASKED, 2026-08-30: 'I thought you could autonomously do the Zenodo deposition.' The honest answer, given rather than inferred: the RESERVE and REFRESH are already autonomous and have been done twice; the PUBLISH is not, on two independent grounds — publication-authority.json does not grant it, and zenodo_deposit.py has no publish path by design. ⛔ HIS QUESTION WAS NOT TREATED AS THE GRANT. CLAUDE.md §3: being blocked is not authorisation, and this is the one act that cannot be taken back.\nWHAT HE HAS BEEN ASKED FOR, and what each answer implies:\n  (a) publish 22166420 himself — one act, the draft is verified current at c84bc23d251a / 1ddbb1e8a036 and needs no checking first;\n  (b) grant the loop that act for THIS paper, recorded in publication-authority.json, which also needs a publish path added to zenodo_deposit.py — it should refuse unless the authority record names the act AND the draft's digest equals the manifest's at the commit being posted, so it cannot freeze a stale archive;\n  (c) re-grade the unpublished-DOI window as expected rather than blocking.\n⛔ NOTHING WAS BUILT FOR (b) IN ADVANCE. Adding a publish path to a script whose header says 'THIS SCRIPT NEVER PUBLISHES' is a change to a safety property, made by the party that property is blocking; if he answers 'keep it human' it would have been a bar weakened for nothing.",
+      "score_inputs": {
+        "blocked_on_human": true
+      }
     },
     {
       "id": "AUT-PROP-032",
@@ -5528,6 +5559,33 @@
       "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
       "what": "⛔ TWO STEPS OF `scripts/regenerate_aso_chain.sh` FAIL IN A FRESH SANDBOX AND THE CHAIN STILL EXITS 0 ON THE STEP, SO THE DOCX DELIVERABLES SILENTLY DO NOT REGENERATE. `build_submission_parts.py` (title page + figure legends) and `build_submission_docx.py` (the Word manuscript) both fail with `LibreOffice did not write a .docx` / `Error: source file could not be loaded`, preceded by `Warning: failed to launch javaldx`. ★ NOT CAUSED BY ANY WORKING-TREE CHANGE, PROVED RATHER THAN ASSUMED: `git stash push -u` to a clean tree at origin/main 947d17a02 and re-run reproduces it identically, so it is the sandbox or the pinned LibreOffice, not the repository. `scripts/dev-setup.sh` had already run green. ⚠ WHY IT MATTERS BEYOND THE SANDBOX: a submission packet whose Word manuscript is whatever was last committed, while every PDF around it was rebuilt, is a stale artifact wearing a fresh chain's stamp — and the chain's own summary does not make the failure loud. Diagnose the LibreOffice invocation (javaldx/JRE, or the intermediate file it is handed), and make the chain fail loudly rather than continue past a step that wrote nothing.",
       "depends_on_evidence": "Observed 2026-08-30 running the full chain for AUT-PD-188. Logs: the session scratchpad's d0-aut-pd-188/d0-regen-chain.log (steps 'submission parts · title page and figure legends' and 'Word manuscript · submission format'), and the clean-tree reproduction described above. A third step, 'prior-art evidence', also failed but was NOT this defect: it wanted origin/literature-cache, which a shallow clone does not carry, and it passed after `git fetch origin literature-cache:refs/remotes/origin/literature-cache`.",
+      "score": 70.0,
+      "_score_inherited_from_route": "RT-ASO"
+    },
+    {
+      "id": "AUT-PD-191",
+      "kind": "fix",
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": "",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-30",
+      "filed_by": "CYC-INTERACTIVE-2026-08-30-pub-aso-round20",
+      "depends_on_evidence": "CI history on main, read 2026-08-30 via the Actions API: tests.yml is `failure` on EVERY run listed for main from 2026-08-29T19:37Z (291bb1095) through f21722ddd — 15 consecutive runs, INCLUDING b53290b37, the commit round 20 pinned and reviewed. So it predates this session's commits and is not caused by them. Reproduced locally at f21722ddd: `pytest systems/tests` gives 9 failed, 340 passed. The other three directories are clean on the same tree: modalities 8183 passed / 48 skipped, manuscripts 1566 passed, and `./scripts/preflight.sh` with PREFLIGHT_TESTS=1 reports PREFLIGHT OK.",
+      "what": "⛔⛔ `preflight.sh` NEVER RUNS `systems/tests`, SO THE COMMIT GATE AND THE PUBLICATION BAR ARE BOTH BLIND TO IT — AND IT HAS BEEN RED ON `main` FOR OVER A DAY.\n★ THE GAP, MEASURED IN THE SCRIPT: preflight's pytest gates are `research/modalities/tests` (line ~915), `research/manuscripts/tests` (~1049) and `scripts/tests research/autonomy/tests` (~1131). `systems/tests` appears in NONE of them. tests.yml runs all four — its own header says 'the ~9,200-test suite over modalities / manuscripts / systems / scripts'. So the local gate and CI disagree by one whole directory, and the directory they disagree about is the one that is failing.\n⛔⛔ THE CONSEQUENCE FOR THE PUBLICATION BAR IS THE POINT, NOT THE RED TRUNK. publish_bar clause 2 is 'PREFLIGHT_FULL=1 green on the posted commit', and its receipt is produced by `record_bar_evidence.py preflight` from a preflight LOG. Because preflight omits `systems/tests`, a local `PREFLIGHT_FULL=1` can exit 0 — and mint a green clause-2 receipt — on a tree whose CI is red. The clause would then certify 'the whole suite passed' on the strength of a run that never executed the failing tests. That is the 'a gate that quietly runs too little is not a faster gate' defect named in repo-gates, arriving inside the bar that clears a paper for publication.\n★ THE NINE FAILURES (all pre-existing, none introduced by round 20):\n  · systems/tests/test_autonomy_handoff.py — 4: the JSON payload carrying the whole create_session call; the prompt naming the receipt field health.py reads; and two on the sync command (stale-branch safety, one runnable shell line per statement).\n  · systems/tests/test_autonomy_health.py — 4: a frozen running entry turning `evidence_moving` red; a late receipt turning `cycle_delivering` red; a board near its own expiry being committed anyway; the seed state admitting the denominator is unknown.\n  · systems/tests/test_autonomy_priority.py — 1: `test_no_dollar_figure_is_ever_written_into_the_ledger` fails on `['$5.39']`, carried in entry `what` text. ⭐ NOTE WHAT THAT ONE IS: it is the executable form of the correction trimcrae made on 2026-08-30 about reporting DOLLARS on a Max plan, and it has been red ever since. Verified pre-existing: the string is present in the ledger at b53290b37, before any edit this session made.\nWHAT TO DO: fix the nine (they are loop-instrument tests, not paper tests), and then add `systems/tests` to preflight's pure-logic gate so the two can never diverge again. ⛔ ADD IT ONLY AFTER THE NINE ARE GREEN — wiring a red directory into the commit gate blocks every commit, which is how a gate gets switched off (repo-gates).",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": null,
       "score": 70.0,
       "_score_inherited_from_route": "RT-ASO"
     },
@@ -10617,34 +10675,6 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
-    },
-    {
-      "id": "AUT-PD-190",
-      "kind": "process_defect",
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "trimcrae"
-      ],
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-30",
-      "filed_by": "session_013jxh1csBMw3e6TeBNJGJX4",
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "It is an authority question about an IRREVERSIBLE outward act, and the loop is the party the bar is blocking. Only he can answer it.",
-      "notified_utc": "2026-08-30T13:05:00Z",
-      "_score_basis": "free, and it is the single remaining thing between PUB-ASO and 7/7",
-      "score": 198.0,
-      "depends_on_evidence": "publish_bar --paper PUB-ASO at f21722ddd2bd: BLOCKED 4/7. Round 20's surviving blocker is 'Data availability cites a Zenodo version DOI that is a DRAFT, not a published record, so at this commit every archive link resolves to nothing' — confirmed independently by deposit-zenodo.yml record=verify (run 33279967090), which read the PUBLIC records API with no token and answered '404 ... exactly what a RESERVED but unpublished DOI does'. research/autonomy/publication-authority.json lists, in terms, among what was NOT granted: 'Zenodo publication, a GitHub release, a DOI mint ... Preparing them needs no permission; performing them does and was not granted.' scripts/zenodo_deposit.py has no publish path at all — '⛔ THIS SCRIPT NEVER PUBLISHES.'",
-      "what": "⛔⛔ A CIRCULAR DEPENDENCY BETWEEN THE BAR AND THE HUMAN, AND IT IS THE LAST THING STANDING.\n`hardening_converged` requires ZERO blockers. One blocker remains and it is not a defect anyone can repair: the paper cites a reserved-but-unpublished DOI, so its archive links resolve to nothing. That clears ONLY when trimcrae publishes deposition 22166420. Meanwhile the preprint checklist tells him not to publish until the round comes back clean. So the bar waits on the publish and the publish waits on the bar.\n★ AND THE STATE THE SEAT GRADED AS A BLOCKER IS THE DESIGNED ONE. reserve-then-rebuild EXISTS to make the paper cite the identifier the archive will carry BEFORE the files are frozen — deposit-state.json calls that window 'deliberate and the whole point'. A window the design creates on purpose is arguably a known-and-accepted condition rather than a blocker; grading it as a blocker makes a clause permanently unsatisfiable by any amount of loop work.\n⛔ THE LOOP MAY NOT RESOLVE THIS ITSELF, AND THAT IS THE POINT. Both available routes are barred to the party being blocked: re-grading the blocker changes how the bar grades, and publishing changes what the loop may do outwardly. research-loop's anti-gaming invariant — a bar may not be changed by the cycle it blocked — covers exactly this shape.\n★ TRIMCRAE ASKED, 2026-08-30: 'I thought you could autonomously do the Zenodo deposition.' The honest answer, given rather than inferred: the RESERVE and REFRESH are already autonomous and have been done twice; the PUBLISH is not, on two independent grounds — publication-authority.json does not grant it, and zenodo_deposit.py has no publish path by design. ⛔ HIS QUESTION WAS NOT TREATED AS THE GRANT. CLAUDE.md §3: being blocked is not authorisation, and this is the one act that cannot be taken back.\nWHAT HE HAS BEEN ASKED FOR, and what each answer implies:\n  (a) publish 22166420 himself — one act, the draft is verified current at c84bc23d251a / 1ddbb1e8a036 and needs no checking first;\n  (b) grant the loop that act for THIS paper, recorded in publication-authority.json, which also needs a publish path added to zenodo_deposit.py — it should refuse unless the authority record names the act AND the draft's digest equals the manifest's at the commit being posted, so it cannot freeze a stale archive;\n  (c) re-grade the unpublished-DOI window as expected rather than blocking.\n⛔ NOTHING WAS BUILT FOR (b) IN ADVANCE. Adding a publish path to a script whose header says 'THIS SCRIPT NEVER PUBLISHES' is a change to a safety property, made by the party that property is blocking; if he answers 'keep it human' it would have been a bar weakened for nothing."
     }
   ]
 }
