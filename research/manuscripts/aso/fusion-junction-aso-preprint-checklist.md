@@ -386,6 +386,39 @@ standing aiXiv grant and carries a public DOI (`10.32388/VL3LJR`) with a version
 ORCID. ✅ The ordering constraint that made this two acts is now satisfied: v2's Data availability
 cites `10.5281/zenodo.22166420`, and that DOI resolves.
 
+### 3-iv · The published deposit is behind the tree already — and this is the ordinary kind
+
+⚠ **THE PUBLISHED DEPOSIT IS BEHIND THE REPOSITORY**, within minutes of being published and by
+construction. Declared here because
+[`test_the_deposit_the_papers_cite_is_current.py`](../tests/test_the_deposit_the_papers_cite_is_current.py)
+requires drift to be acknowledged rather than silent, which is the right rule and the reason that
+gate exists at all.
+
+★ **IT IS EXACTLY ONE FILE, AND THE MEASUREMENT IS AGAINST THE MANIFEST'S OWN INVENTORY RATHER THAN
+AGAINST THE DIRECTORY.** Diffing the deposited 483-path set between the published record's
+`git_revision` and HEAD returns
+[`fusion-junction-aso-cover-letter.md`](./fusion-junction-aso-cover-letter.md), whose blocking note
+said the archive resolved to nothing — true when it was written and false the moment the record went
+live. **No manuscript source, table, figure, sequence file or `.docx` moved**, and the file set is
+unchanged at 483.
+
+⛔ **AND THIS CHECKLIST IS NOT IN THE DEPOSITED SET, NOR IS `deposit-state.json`.** Worth stating
+because the natural assumption runs the other way and it changes what counts as drift: the two
+records that describe the deposit sit OUTSIDE it, so editing them cannot stale the archive, and the
+only files that can are the ones a reader actually receives. ⚠ *Superseded, retained (rule 1.2), and
+wrong within the same session it was written: an earlier draft of this item, and the note in
+`deposit-state.json` it took the claim from, both asserted that "the cover letter, this checklist,
+`deposit-state.json`, the coverage census, tooling and skills" are deposited. Only the first is.
+The claim was inherited rather than measured, and the check that settled it was reading the
+manifest's `files` list — four lines of Python against an artifact already on disk.*
+
+⛔ **SO THIS DOES NOT WARRANT A NEW VERSION, AND SAYING SO IS THE POINT OF THE ITEM.** §A-2 drew the
+distinction it rests on: drift that matters is a MANUSCRIPT moving away from what a reader is sent
+to; drift that does not is a submission document's status line. A reader following
+`10.5281/zenodo.22166420` gets the papers as they stand. ★ **The rule for reopening is the one §A-2
+stated and then met six days later** — a new version is warranted when a manuscript changes — so
+this item re-opens on a stated rule rather than on anyone's judgement at the time.
+
 ## 3a · What is open now, and it is one decision rather than a defect
 
 **⛔ THE CONDENSED PREPRINT IS ON HOLD, BY THE AUTHOR'S DECISION** (trimcrae, 2026-08-23: *"I'm
