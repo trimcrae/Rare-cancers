@@ -332,7 +332,16 @@ deposition 22166420, inheriting the concept DOI (Actions run 33276135878). Both 
 `aso_archive_manifest.py` now cite it, and the chain was regenerated against it, so the rebuilt
 6-page PDF carries the new DOI and no trace of the old one. Nothing is published.
 
-⛔⛔ **THE DRAFT IS BEHIND THE TREE AGAIN AND MUST BE REFRESHED BEFORE IT IS PUBLISHED.** Measured
+✅ **THE DRAFT IS CURRENT WITH THE TREE (2026-08-30, SECOND REFRESH).** `deposit-zenodo.yml` was
+dispatched with `new_version=false` at `c84bc23d251a` (Actions run 33310902661), and
+`deposit-state.json` `pending.uploaded_manifest_digest` `1ddbb1e8a036…` now EQUALS the archive
+manifest's `archive_content_digest`. ⛔ **THAT EQUALITY IS THE TEST, AND IT MUST BE RE-READ AT THE
+COMMIT BEING PUBLISHED — not inherited from this line**, because any later commit touching a
+deposited file makes the draft stale again without rewriting a word of this paragraph. That is
+how it went stale twice.
+
+⚠ *Superseded, retained (rule 1.2) — the round-20 reading that produced the second refresh:*
+*"⛔⛔ THE DRAFT IS BEHIND THE TREE AGAIN AND MUST BE REFRESHED BEFORE IT IS PUBLISHED." Measured
 at `b53290b37e71`: `deposit-state.json` `pending.uploaded_manifest_digest` is `bb5655ba9f1a…`, taken
 at `pending.uploaded_at_git_revision` `f6e313d98`; the archive manifest at this commit carries
 `archive_content_digest` `eff1258052fb…` at `git_revision` `9bd466fac`. Diffing the two manifests'
