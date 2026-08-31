@@ -464,12 +464,15 @@ artifacts, whose own comment says withholding an ensemble *"leaves the one numbe
 most wants to recompute uncheckable."* Same defect, one screen over, three published versions long.
 
 ★ **THE SIZE OF THE DRIFT, MEASURED AGAINST THE MANIFEST'S OWN INVENTORY.** Diffing the deposited set
-between the published record's revision and HEAD returns **31 differences: 21 changed, 10 added, 0
-removed**, over 484 published paths and 494 now.
+between the published record's revision and HEAD returns **33 differences: 21 changed, 12 added, 0
+removed**, over 484 published paths and 496 now. The twelve additions are the duplex-energy screen
+and its producer, `aso_falsification_power.py` (which produces five figures the Discussion prints
+and writes no artifact, so nothing else holds them), four packaging modules the chain invokes, and
+five artifacts a deposited test opens by name.
 ⚠ *Superseded, retained (rule 1.2): "**23 differences: 13 changed, 10 added, 0 removed**" (true at
-`ba0ab8b1f`, before the CI `.docx` rebuild that Table 1's caption fix staled), then "**28
-differences: 18 changed, 10 added, 0 removed**" (true at `b93499e94`, before the papers were
-repointed at the new DOI).* ⛔ **That is the same ordering rule three times in one evening, and it
+`ba0ab8b1f`), "**28 differences: 18 changed, 10 added, 0 removed**" (true at `b93499e94`), and
+"**31 differences: 21 changed, 10 added, 0 removed**" (true at `d05203703`, before round 24 added
+two more files to the archive).* ⛔ **That is the same ordering rule three times in one evening, and it
 is worth more than any of the three numbers: a declared drift count is current only until the next
 rebuild the change implies — exactly as a draft refresh is.** Both are readings of an outside
 system with a date on them.
