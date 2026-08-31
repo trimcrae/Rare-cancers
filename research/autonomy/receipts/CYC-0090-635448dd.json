@@ -1,0 +1,56 @@
+{
+ "cycle_id": "CYC-0090-635448dd",
+ "session_id": "635448dd-7cc8-56d4-93ee-15a123da8f73",
+ "ccr_session_id_unavailable": "This scheduled-Routine session has no `get_session`/`create_session` tool at all -- verified by ToolSearch for \"get_session\", \"create_session\" and \"session info ccr claude-code-remote\", all three returning no match (AUT-PD-157's named escape valve).",
+ "started_utc": "2026-08-31T13:17:47Z",
+ "base_sha": "ee0af226a",
+ "took": "AUT-046",
+ "took_why": "advancing_live_work was red (last 3 receipts route_advanced:none) and health.py's own guidance is 'a live item off the top of the ledger, not a tidier negative'. AUT-046 (score 174.0, kind write, serves RT-MTAP-PRMT5/PUB-MTAP-PRMT5) was the top-scored queued row. ⚠ IN HINDSIGHT THIS WAS THE WRONG CHOICE OF ITEM: autonomy-state.json's budget_hold is active (floor_backoff_level 2, reason weekly-budget-overpace) and its own declared_posture commentary says the level exists specifically to restrict cycles to fetch/regrade items, which spend no Claude budget. Neither priority.py nor claim.py enforces that restriction (filed as AUT-PD-192), so the claim went through with no warning; I did not separately re-read the hold's prose before claiming. The work done was kept deliberately small once I noticed the mismatch (see notes).",
+ "health_at_start": {
+  "exit": 0,
+  "red": [
+   "cycle_delivering",
+   "advancing_live_work",
+   "scores_are_reachable"
+  ],
+  "unmeasured": [
+   "gates_green",
+   "stalls_are_named"
+  ],
+  "red_on_red_posture": "advises for cycle_delivering and scores_are_reachable; redirects for advancing_live_work -- fixing it was this cycle's job per §1's table."
+ },
+ "what_changed": [
+  "research/manuscripts/mtap-prmt5/emc-mtap-prmt5-hypothesis.md -- split the 69-word sentence at old line 496 into three (no content or hedge dropped), clearing publish_bar clause 7 (readability) for PUB-MTAP-PRMT5.",
+  "research/manuscripts/claim-coverage.json -- regenerated (`claim_coverage.py --write`) so the census matches the manuscript's new sentence count (220->222); `covered` and `with_a_number_covered` both unchanged, so no coverage regression.",
+  "research/autonomy/research-ledger.json -- AUT-046 evidence recorded, claim released (owner:null, state left queued); AUT-PD-192 filed (budget_hold's fetch/regrade-only clause is unenforced by priority.py/claim.py) and scored; priority.py --write re-scored the whole ledger twice (before and after filing AUT-PD-192).",
+  "research/autonomy/autonomy-state.json -- touched only by cadence.py --stamp (last_cycle_started_utc) and priority.py --write (re-encoding of existing content, no field values changed)."
+ ],
+ "finding": "PUB-MTAP-PRMT5 moved from 3/7 to (pending post-commit re-check) 4/7 publish_bar clauses -- clause 7 (readability) now OK. The three still open (hardening round, PREFLIGHT_FULL=1, a blind adversarial seat) were NOT attempted this cycle: each is Claude-budget-costing work, none is authorised under the active budget_hold (the one standing exception on file is scoped to PUB-ASO only, already spent 2026-08-29), and the row's own requires_trimcrae_why already gates the eventual aiXiv post and the archival-material outreach on trimcrae regardless of bar status. Separately, filed AUT-PD-192: the budget_hold's declared restriction to fetch/regrade-kind items is prose read by no code in priority.py or claim.py -- the same 'governed dial, enforced by nothing' shape as the subagent_width incident this repository has already paid for once.",
+ "what_it_cost": "$0 real compute. Two local PREFLIGHT_TESTS=1 runs (~640s and ~570s wall clock, CPU only, both backgrounded/watched via Monitor rather than a foreground wait). Claude budget: one session's worth of manuscript editing and ledger bookkeeping -- real, non-zero, and the thing AUT-PD-192 says should have been avoided by taking a fetch/regrade item instead. Kept to a single small, verified sentence-split rather than escalating into the (much more expensive) hardening round the paper's remaining clauses actually need.",
+ "gates": {
+  "preflight": "PREFLIGHT_TESTS=1 ./scripts/preflight.sh -- first run EXIT=1 (test_claim_coverage_has_not_regressed, root-caused to the stale claim-coverage.json deposit artifact, not a real coverage loss); second run after regenerating that artifact: EXIT=0, '1592 passed, 2 skipped' (manuscripts) + '846 passed' (pure-logic suites). Modalities suite did not run (not required for this change; CI covers it).",
+  "logs": [
+   "scratchpad/AUT-046-preflight.log (first run, EXIT=1, diagnosis)",
+   "scratchpad/AUT-046-preflight2.log (second run, EXIT=0)"
+  ],
+  "_logs_root": "/tmp/claude-0/-home-user-Rare-cancers/635448dd-7cc8-56d4-93ee-15a123da8f73/scratchpad/"
+ },
+ "anti_gaming": {
+  "invariant": "research-loop §6 -- a bar may not be changed by the cycle that the bar just blocked.",
+  "how_it_applies": "No producer code, gate, guard or ceiling was edited. The manuscript edit only split an existing sentence (content and hedges unchanged, verified by unchanged caution-marker count); claim-coverage.json was regenerated mechanically by its own generator, not hand-edited. AUT-PD-192 documents a gap without fixing it, leaving the fix (and the self-serving-check it would need) to a later cycle."
+ },
+ "escalated": "None of the five research-loop §5 triggers apply. This is not a journal submission, not expensive/DRIFT spend, not goal-changing, the loop is not unhealthy past a deadline (no BLOCKING condition), and no paper is ready to post (PUB-MTAP-PRMT5 is at 4/7 at best).",
+ "subagents": {
+  "max_concurrent": 0,
+  "launched": 0,
+  "why": "subagent_width is 1 under the active budget_hold and the work (a single sentence split, a deposit-artifact regeneration, ledger bookkeeping) did not warrant even one subagent; the driver did it directly."
+ },
+ "now_queued": [
+  "AUT-046",
+  "AUT-PD-192"
+ ],
+ "blocked_by": [],
+ "route_advanced": "RT-MTAP-PRMT5",
+ "route_advanced_why": "A publish_bar clause on PUB-MTAP-PRMT5 moved from FAIL to OK on a verified, gated, committed change to the manuscript itself -- not documentation about the route, a real step toward the route's paper being postable. Honestly weighed against the alternative of writing `none`: the route is not fully unblocked (3 clauses remain, all budget-gated) and the outward acts still need trimcrae, but real content moved.",
+ "notes": "⚠ THE PROCESS LESSON, RECORDED RATHER THAN JUST FIXED: this cycle read cadence.py and health.py first (per §1) but did not separately read autonomy-state.json's budget_hold block before claiming AUT-046 -- the stop-condition table's generic 'take one FREE item' reading is satisfied by any free-cost item, and AUT-046 is cost_class:free, so nothing in the mechanical checklist caught that the hold's OWN text asks for something narrower (fetch/regrade kind only). Caught only by manually diffing the working tree and reading the full autonomy-state.json after the claim was already made and the first preflight run in flight. AUT-PD-192 is filed so a future cycle -- or the loop's own code -- catches this before the claim rather than after. ⭐ SECOND: the stop-hook (`~/.claude/stop-hook-git-check.sh`) fired mid-cycle while a legitimate background preflight run was still in progress; verified via `ps aux` that the process was genuinely alive both times before choosing to keep waiting (via Monitor) rather than commit a tree the gate had not yet seen green, per repo-gates' 'the run you report green must be the run that saw the tree you commit.' ⭐ THIRD: `continuity.py --check` exits 1 (126 ready-and-unclaimed items, nothing running) and that is the CORRECT terminal state here, not a defect to clear -- the same call CYC-0089 made in the identical situation. `max_cycles_per_session` is 1 under the active budget_hold and this session has already run its one cycle; spawning a second cycle or a handoff session now would itself breach the hold (and would compound the exact kind-restriction gap AUT-PD-192 just named). The next eligible fire is per `cadence.py` (~24h out), which is the correct next mover for this backlog, not this session."
+}

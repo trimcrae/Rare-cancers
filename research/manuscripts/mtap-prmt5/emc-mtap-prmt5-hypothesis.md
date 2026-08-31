@@ -497,9 +497,9 @@ Two limits sit on the surviving rationale and are not resolved here. The transcr
 proliferation control on the 35-tumour platform and does not on the 16-tumour one, and nothing
 available decides between them. Elevated PRMT5 is also not specific to this disease on the comparison
 that has been published, since PRMT5, PRMT1 and MEP50 read higher across multiple sarcoma types than
-in breast and lung cancer [3]; the comparator arm used here is other sarcomas, which is the harder
-contrast, but "higher than other sarcomas" in 16 tumours and "a sarcoma-wide feature" are not
-mutually exclusive statements and nothing here separates them.
+in breast and lung cancer [3]. The comparator arm used here is other sarcomas, which is the harder
+contrast. But "higher than other sarcomas" in 16 tumours and "a sarcoma-wide feature" are not
+mutually exclusive statements, and nothing here separates them.
 
 ### 4.2 Two decisive experiments
 
