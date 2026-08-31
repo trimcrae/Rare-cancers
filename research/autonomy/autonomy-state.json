@@ -92,6 +92,6 @@
       "cron_observed_how": "`list_triggers` on trig_01P9ZNSAw7rNLcKLBFYCwuHp, read back after he made the change — not his report of it, and not this session's request for it. ⚠ The field it replaces briefly asserted `cron_after: 13 13 * * *` while the edit was still REFUSED, which was a populated field that was not a measured one (CLAUDE.md §4). Caught and corrected the same hour; the lesson is that a field naming an outcome must be written by the observation, never by the ask."
     }
   },
-  "last_cycle_started_utc": "2026-08-31T13:17:47Z",
+  "last_cycle_started_utc": "2026-08-31T13:57:08Z",
   "_last_cycle_started_utc_means": "Written by `cadence.py --stamp` at §4.2 step 1, BEFORE the cycle does anything. It is what the cadence gate measures against, and it is stamped at the START rather than at the receipt so that a cycle which dies mid-flight still counts as a fire — otherwise a crashing cycle would be re-fired every four hours forever, which is the exact herd the gate exists to stop."
 }
