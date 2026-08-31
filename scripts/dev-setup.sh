@@ -444,7 +444,18 @@ fi
 if [ ! -f /usr/lib/libreoffice/share/registry/writer.xcd ]; then
   echo
   echo "== libreoffice-writer (build_submission_docx.py / build_submission_parts.py: the .docx chain) =="
-  if apt-get install -y -qq libreoffice-writer >/dev/null 2>&1 || sudo apt-get install -y -qq libreoffice-writer >/dev/null 2>&1; then
+  # ⛔ THE `apt-get update` IS LOAD-BEARING AND ITS ABSENCE COST A CYCLE (2026-08-31, CYC-0090).
+  # A container image carries a package index frozen at build time. The archive moves on, the pinned
+  # version disappears, and `apt-get install` then fails with a 404 on the .deb rather than with
+  # anything that reads as a stale index:
+  #     E: Failed to fetch .../libreoffice-writer_24.2.7-0ubuntu0.24.04.4_amd64.deb  404  Not Found
+  # ⚠ AND THE FAILURE WAS INVISIBLE, WHICH IS THE HALF THAT COST THE TIME. This branch sends its
+  # warning to stderr and is deliberately non-fatal, so the SessionStart hook still printed
+  # "DEV SETUP OK" over it. The session then ran the full ASO chain, watched three steps fail, and
+  # re-derived a diagnosis this very block already carries in words above.
+  # ★ ONE `apt-get update` clears it: measured that day, the identical install then succeeded.
+  if { apt-get update -qq >/dev/null 2>&1 || sudo apt-get update -qq >/dev/null 2>&1; :; } && \
+     { apt-get install -y -qq libreoffice-writer >/dev/null 2>&1 || sudo apt-get install -y -qq libreoffice-writer >/dev/null 2>&1; }; then
     echo "   installed: the Writer filters are present; .docx builds locally"
   else
     # ⚠ NOT FATAL, for the ghostscript reason: every Python gate still runs. The .docx steps fail

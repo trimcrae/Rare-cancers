@@ -1,0 +1,70 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "The CANONICAL round-27 record for this commit. It merges five blind seats.",
+  "_tallies_live_on_the_seat_records": "⛔ `blockers` and `p1s` are EMPTY here ON PURPOSE, and this is the convention that is correct against the code rather than the one the round-26 roll-up used. `publish_bar._seat_records` globs `PUB-ASO-<sha>*.json`, and `PUB-ASO-<sha>.json` matches that glob, so a roll-up carrying the union of its seats' findings is summed a second time alongside them. The five per-seat records carry the findings; the counts below are stated as scalars, which nothing sums. ⚠ The round-26 roll-up (7a7f40825) carries a populated union and therefore double-counts itself — filed as a defect this round rather than edited here, because that record is the round-26 evidence and rewriting a committed review record to suit a later reader is not a repair.",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "f9e5059912a5ee0a05f3c3973d9fb535fb14c61c",
+  "document_sha256": "7d22f98b506f0b1b359b65e5a260b0531aa2b3eda9a6ba5abb08312a813bfe86",
+  "blind": true,
+  "_blind_means": "Each seat was given the document path, the pinned sha and the document's digest at that sha, told the tree may drift and that the PIN is the subject, and forbidden research/autonomy/, CLAUDE.md, AGENTS.md, STRATEGY.md, CLAUDE-history.md, every skill file, every *-redteam* file, every *-cover-letter.md and every other seat's output. Each verified the digest itself before reading. Each was told READ-ONLY in the repository and given its own scratch directory under the session scratchpad, with every filename carrying its seat id. Dispatched CONCURRENTLY in one message. The brief named the OUTGOING ARTIFACT SET explicitly (paper-hardening §8.0a) and carried the no-findings clause of §4a verbatim; it stated no count, no yield expectation, no completion framing and no comparison to a sibling seat.",
+  "_four_seats_disclosed_incidental_leakage": "The arithmetic, statistics, hostile-referee and (by filename only) statistics seats each reported that a repository-wide grep returned lines from research/autonomy/ or a *-redteam* path. Each named the quantities it saw, said which it had already derived independently, scoped later searches away, and re-derived what it used. ⭐ ONE DISAGREEMENT IS WORTH KEEPING: the hostile-referee seat's own deep-depth uncensored count (187) DISAGREES with the count in the seat record its grep surfaced (36); it reported its own measurement and named the test that discriminates them, which is the behaviour a disclosure is for.",
+  "utc": "2026-08-31T15:20:00Z",
+  "round": 27,
+  "last_round": 27,
+  "seats": [
+    "PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c-seat-arithmetic.json",
+    "PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c-seat-citations-and-instruments.json",
+    "PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c-seat-hostile-referee.json",
+    "PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c-seat-regression.json",
+    "PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c-seat-statistics.json"
+  ],
+  "central_claim": "The NR4A3 fusion junction is the one tumour-exclusive feature of this disease at the RNA level; junction-spanning 5-10-5 gapmers can be designed at every in-frame junction modelled, roughly half the 190-design panel lets a mature wild-type parent pair the whole catalytic gap over ten or more contiguous base pairs, and two reagents are named that avoid it, with screened controls and a pre-registrable falsification design.",
+  "verdict": "supported_with_reservations",
+  "recommendation": "minor_revision",
+  "blockers": [],
+  "p1s": [],
+  "distinct_blockers": 3,
+  "blocker_instances": 3,
+  "p1_instances": 10,
+  "p2_instances": 21,
+  "_verdict_note": "⛔ NOT CONVERGED, AND THE CLAUSE-6 VERDICT IS DELIBERATELY NOT `supported`. No seat found the central scientific claim unsupported — the arithmetic and citations seats each re-derived every printed number and every identifier and returned `accept`, and the statistics seat returned zero findings above P2 — but three distinct blockers stand at this commit. Clause 6 asks whether a blind seat finds the claim supported, not whether it nearly does.",
+  "_the_three_blockers": [
+    {
+      "id": "R27-B1",
+      "seat": "regression",
+      "also_found_by": [
+        "statistics (P2)",
+        "arithmetic (P2)"
+      ],
+      "artifact": "fusion-junction-aso-journal-article.md (Results, gap-length paragraph) and all built deliverables",
+      "summary": "\"ten base pairs, more than the seven-to-ten the enzyme is reported to need\". Ten is the TOP of that range, not above it, and the paper's own Introduction states the range from the same source (PMID 24981949). The floor direction the sentence justifies survives; the comparison did not.",
+      "status": "fixed this round — replaced with \"the top of the seven-to-ten\"; the wording guard in test_journal_article_numbers.py was re-anchored with it and the re-anchor's reason recorded in the guard.",
+      "_independent_convergence": "⭐ Three lenses that could not see each other reached this sentence — the regression seat from round 26's diff, the statistics seat from the interval arithmetic, the arithmetic seat from the source verbatim. That is the strongest signal this loop produces that a finding is real, and it is why a finding two seats graded P2 was applied as a blocker."
+    },
+    {
+      "id": "R27-B2",
+      "seat": "regression",
+      "also_found_by": [
+        "citations-and-instruments (P2)"
+      ],
+      "artifact": "fusion-junction-aso-journal-article.md (Introduction, final paragraph) and all built deliverables",
+      "summary": "\"set five steps, the first in silico and the rest in the laboratory\". Steps 4 and 5 of PMID 39912803 are risk assessment and risk management — governance, not laboratory — as the deposited verbatim in lit-targets-aso-instruments.json says in its own words. The same sentence also called step 1 in-silico and then referred to \"the in-silico half of the first step\", which cannot both hold.",
+      "status": "fixed this round — replaced with \"only the first is even partly in silico, pairing complementarity prediction with transcriptomics\", which restores the referent the half-claim lost. The scope guard requiring \"the in-silico half of the first step\" inside the `This work performs…;` span is untouched."
+    },
+    {
+      "id": "R27-B3",
+      "seat": "hostile-referee",
+      "also_found_by": [
+        "citations-and-instruments (P1)",
+        "arithmetic (P2)"
+      ],
+      "artifact": "fusion-junction-aso-journal-article.md (Data availability) and all five built deliverables",
+      "summary": "Data availability cites doi:10.5281/zenodo.22182180 as \"the citable record\". deposit-state.json at the pin carries that DOI under `pending` — a drafted, unpublished version — with 10.5281/zenodo.22180100 the published record. Every archive link in the outgoing paper resolves to nothing, in the sentence that also routes a laboratory to the canonical sequence file for ordering safety.",
+      "status": "⛔ NOT FIXED AND NOT FIXABLE BY THE LOOP. Publishing a Zenodo version is irreversible and trimcrae's act. It is also not yet HIS to do: the draft was uploaded at git_revision b93499e94 and the archive manifest has moved since, so publishing it now would freeze an archive already behind the paper — round 20's blocker recurring. The order is: apply this round's repairs, refresh the draft against the settled tree, he publishes, then one final round on the resulting commit.",
+      "_why_it_is_a_blocker_and_not_a_P2": "paper-hardening §8.0a puts \"whether the archive the paper's DOIs resolve to actually CONTAINS what the paper promises it contains\" inside the outgoing artifact set by name, and records that rounds 21, 23 and 24 each found one of these and each was a blocker."
+    }
+  ],
+  "_trend": "Distinct blockers per round on this paper: round 24 seven, round 25 three, round 26 one, round 27 three. ⚠ THE COUNT WENT UP, AND THE HONEST READING IS NOT THAT THE PAPER DECAYED. Two of the three are round 26's own repairs overshooting (paper-hardening §8a: a round finding only damage from the previous round's repairs means the repairs, not the paper, are the problem — and both of these are exactly that shape). The third is not a prose defect at all and no earlier round could have cleared it, because it is an outside act that has not happened.",
+  "_what_no_seat_found": "No seat found the central claim unsupported, and every quantitative claim any seat attempted re-derived exactly — several recomputed from raw Ensembl-derived sequence rather than read back. All 515 archive-manifest paths hash identically to the pin with zero mismatches; all seven build stamps name the pinned manuscript digest; reference numbering is contiguous 1-24 by order of first citation in the markdown and in every typeset build; the figure travels as bytes rather than as a link in the .docx; and the language-discipline scan is clean — no efficacy, safety, therapeutic-window, clinical-readiness or proteome-wide-selectivity claim anywhere."
+}

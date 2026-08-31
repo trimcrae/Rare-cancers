@@ -1045,7 +1045,18 @@ def test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count(prose)
     #: alone" — which says the criterion does no filtering, and that argues for a CEILING. The
     #: artifact agrees: at 5-10-5, n_with_any_gap_pairing_window == n_at_or_above_min_duplex_bp.
     #: What actually makes it a floor is that pairing a ten-nucleotide gap demands ten base pairs,
-    #: above the enzyme's reported seven-to-ten, so shorter licensing runs go uncounted.
+    #: the TOP of the enzyme's reported seven-to-ten, so shorter licensing runs go uncounted.
+    #: ⚠ RE-ANCHORED 2026-08-31 (round 27), AND THE MEANING CHANGED RATHER THAN THE WORDING.
+    #: This assertion used to pin "more than the seven-to-ten". Ten is the TOP of that range,
+    #: not above it — the article's own Introduction states the range as "at least six
+    #: nucleotides, with seven to ten the working range" from the same source, so the paper
+    #: contradicted itself. Three round-27 seats reached it independently (regression,
+    #: statistics, arithmetic). The FLOOR direction is untouched and is why the anchor moved
+    #: with the prose instead of the prose being restored: the criterion still demands the most
+    #: the enzyme is reported to need, so a run shorter than ten that could still license
+    #: cleavage is still uncounted. ⛔ Do NOT re-anchor this to a phrase that drops the range —
+    #: the comparison to seven-to-ten is the reason, and repo-gates' rule is that the word and
+    #: its reason travel together.
     longest = max(present, key=lambda g: g["gap_nt"])
     m = longest["mature_parent_whole_gap_duplex"]
     assert m["n_with_any_gap_pairing_window"] == m["n_at_or_above_min_duplex_bp"], (
@@ -1060,7 +1071,7 @@ def test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count(prose)
         "reported to need seven to ten, so a shorter run that could still license cleavage is not "
         "counted. ⚠ This repository has shipped a reversed one-sided bound before — see "
         "junction-aso-thermo.json's ⚠_lna_not_modelled — so re-derive before changing this word.")
-    assert re.search(r"more than the seven-to-ten the enzyme is reported to need", flat), (
+    assert re.search(r"the top of the seven-to-ten the enzyme is reported to need", flat), (
         "the reason given for the floor is gone. Two rounds found the paragraph justifying it with "
         "'the criterion is met by the catalytic gap alone', which argues for a ceiling — the "
         "criterion doing no filtering makes the count MORE inclusive, not less. The direction "

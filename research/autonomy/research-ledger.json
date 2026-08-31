@@ -11,25 +11,25 @@
     "experiment": 24,
     "fetch": 22,
     "fix": 19,
-    "harden": 24,
+    "harden": 26,
     "negative": 32,
     "process": 7,
-    "process_defect": 165,
+    "process_defect": 167,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
     "write": 6
   },
   "n_by_state": {
-    "blocked": 2,
-    "done": 140,
-    "in_progress": 7,
+    "blocked": 3,
+    "done": 142,
+    "in_progress": 6,
     "parked": 28,
-    "queued": 152,
+    "queued": 154,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 87,
+  "n_unscored": 88,
   "n_unscored_open": 68,
   "entries": [
     {
@@ -5703,6 +5703,31 @@
       }
     },
     {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PD-193",
+      "kind": "process_defect",
+      "what": "⛔ A ROUND'S ROLL-UP RECORD IS COUNTED AS A SIXTH SEAT BY THE CLAUSE IT FEEDS, SO A ROLL-UP THAT CARRIES THE UNION OF ITS SEATS' FINDINGS DOUBLE-COUNTS THEM. Measured 2026-08-31 by CYC-0090-d7df5340 while writing round 27's record. `publish_bar._seat_records` globs `{pub_id}-{sha}*.json`, and the roll-up's own filename is `PUB-ASO-<sha>.json`, which that glob matches with `*` empty. The clause then computes `seat_blockers`/`seat_p1s` by summing `blockers`/`p1s` over every returned record, roll-up included.\n★ TWO CONVENTIONS ARE ON DISK AND THEY ARE OPPOSITE. PUB-ASO-b53290b37…json (round 20) carries EMPTY tallies and says so in a `_tallies_live_on_the_seat_records` field citing the round-7 PUB-FUSION-PARTNER precedent — that one is correct against the code. PUB-ASO-7a7f40825…json (round 26) carries a POPULATED union of 1 blocker and 5 P1s and its `_role` states the opposite rationale in words: 'carries the union of their tallies, so a derivation over the seat glob counts each finding exactly once.' Round 27's roll-up follows the round-20 convention and records why.\n⚠ IT HAS COST NOTHING YET, WHICH IS EXACTLY WHY IT IS FILED NOW. Clause 1 refuses on any blocker, so an over-count of a non-zero count changes no verdict, and neither round has ever cleared. The reachable failure is the OTHER direction: the clause also refuses when the hardening-state record 'under-reports its own seats' (`len(blockers) < len(seat_blockers)`), and a doubled seat total is what that comparison is made against — so a correct record-keeping round can be refused for under-reporting findings that exist once.\n★ THE FIX IS THE INPUT, NOT THE METER (paper-hardening §8.0a's rule, one level over): either the glob excludes the roll-up (`{pub_id}-{sha}-seat-*.json`) or the roll-up is required to carry empty tallies and a guard asserts it. ⛔ Whichever is chosen, `publish_bar.py` is a GOVERNED path — run amendment_guard, and note that the cycle blocked by clause 1 may not be the cycle that changes it.",
+      "score_inputs": {},
+      "score": 70.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-ASO"
+    },
+    {
       "id": "AUT-077",
       "_derived": true,
       "what": "Run the Stage 0 items: proteome-wide novelty, class II regeneration, anchor-position analysis, extended allele panel.",
@@ -5935,15 +5960,15 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "in_progress",
-      "owner": "CYC-0090-d7df5340",
-      "claimed_utc": "2026-08-31T13:59:48Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-31",
       "filed_by": "session_013jxh1csBMw3e6TeBNJGJX4",
       "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-7a7f408258c84adc2bc72bb2be5bd25fc4a3c464.json — round 26, 1 blocker and 5 P1s, all applied",
@@ -5971,7 +5996,8 @@
         "spawned_utc": "2026-08-31T13:54:56Z",
         "spawned_by": "session_013jxh1csBMw3e6TeBNJGJX4",
         "_why": "Spawned rather than run in the spawning session: research-loop §3 makes a full hardening cycle a SPAWNED SESSION, and trimcrae asked for a new one in the same breath ('Keep going then. Preferably in a new session since this one is getting old'). The prompt was built by handoff.py from origin/main and carries no findings from round 26 — a successor that inherits its predecessor's reasoning inherits its mistakes."
-      }
+      },
+      "_outcome": "⭐ ROUND 27 RAN AND DID NOT CONVERGE, WHICH IS THE ROUND'S RESULT RATHER THAN ITS FAILURE. Five blind seats on pin f9e5059912a5: 3 distinct blockers, 10 P1 instances, 21 P2 instances. Records: research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c*.json (five seats plus the canonical roll-up). Two blockers were prose defects and were fixed in this cycle as REPLACEMENTS, +4 words net (3,799 -> 3,803 against a 3,819 ceiling). The third, R27-B3, is the Data availability DOI naming an unpublished Zenodo draft; it is filed as AUT-PROP-054 and is trimcrae's act. ⛔ SO clause_1_hardening_converged STILL DOES NOT PASS, and it cannot pass at any pin until that act happens — this row's premise was that a round on the exact posted commit would close the clause, and the measurement says a round is necessary but not sufficient. Round 28 is AUT-PROP-055, deliberately BLOCKED on AUT-PROP-054 rather than queued, because a round run before the publish re-finds R27-B3 by construction and spends five seats to do it."
     },
     {
       "id": "AUT-043",
@@ -6781,6 +6807,39 @@
         "fruitless_attempts": 0,
         "age_factor": 0.2143
       }
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PROP-054",
+      "kind": "harden",
+      "what": "⛔⛔ PUB-ASO CANNOT CONVERGE UNTIL THE ZENODO DRAFT IS PUBLISHED, AND THAT IS trimcrae's ACT. Measured 2026-08-31 by round 27 (CYC-0090-d7df5340) at pin f9e5059912a5. The manuscript's Data availability cites doi:10.5281/zenodo.22182180 as 'the citable record'; deposit-state.json at that pin carries 22182180 under `pending` (drafted 2026-08-30) with 10.5281/zenodo.22180100 the only published record. So every archive link in the outgoing paper and in all five built deliverables resolves to nothing — in the sentence that also routes a laboratory to fusion-junction-aso-sequences.csv for the per-residue chemistry it must order from. Three of round 27's five seats reached it independently (hostile-referee BLOCKER, citations-and-instruments P1, arithmetic P2); the seat records at that pin carry the derivations.\n⛔ IT IS NOT YET HIS TO DO EITHER, AND THAT ORDER IS THE WHOLE POINT. `pending.uploaded_at_git_revision` is b93499e944 and the archive manifest has moved since, so publishing the draft as it stands would freeze an archive already behind the paper — round 20's blocker, recurring. ★ THE SEQUENCE: (1) round 27's prose repairs land [done, this cycle]; (2) refresh the draft by dispatching deposit-zenodo.yml with new_version=false against the settled tree, and update pending.uploaded_manifest_digest — free, CI, and the loop's to do; (3) trimcrae publishes https://zenodo.org/deposit/22182180 by hand — IRREVERSIBLE, his alone, and nothing else in this row may proceed past it; (4) one more hardening round on the commit that records the publish, which is the commit that gets posted.\n⚠ WHY THIS ROW EXISTS RATHER THAN A SENTENCE IN A REPLY: the census that produced it found NO open ledger row naming the Zenodo publish at all. The preprint checklist names it; continuity.py reads the ledger, not the checklist, so the one act blocking the paper with a public DOI was invisible to every instrument the loop has.",
+      "requires_trimcrae": true,
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c-seat-hostile-referee.json — R27-B3, with deposit-state.json read at the pin",
+      "score_inputs": {
+        "blocked_on_human": true
+      },
+      "score": 45.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-ASO"
     },
     {
       "id": "AUT-PD-093",
@@ -8477,6 +8536,38 @@
         "blocked_with_evidence": true
       },
       "score": -20.0,
+      "_score_inherited_from_route": "RT-ASO"
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "blocked",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": "AUT-PROP-054",
+      "blocked_evidence": "AUT-PROP-054 step 3 is an irreversible act reserved to trimcrae (CLAUDE.md §3). Round 27's R27-B3 stands at every commit until it happens.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PROP-055",
+      "kind": "harden",
+      "what": "ROUND 28 OF PUB-ASO — five blind seats on the commit that RECORDS THE ZENODO PUBLISH, then apply any survivors. ⛔ DO NOT RUN IT BEFORE AUT-PROP-054 STEP 3 HAS HAPPENED: round 27 closed two of its three blockers and the third (R27-B3, the unpublished Data availability DOI) is closed by an act outside this repository, so a round run before that act re-finds it by construction and burns five seats to do so. ⭐ SEAT SHAPE AND THE MAY-NOT-READ LIST: research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json, `_blind_means` — read it for the SHAPE, not for the findings, which are applied and must be re-derived rather than inherited. ⛔ PIN THE COMMIT FIRST and give every seat `git show <PIN>:<path>`; do not seat the working tree. ⛔ AND THE ROUND MUST FIELD AT LEAST SIX SEAT RECORDS AT ITS PIN — publish_bar's `_look_history` counts records matching PUB-ASO-<sha>*.json and refuses a converging round narrower than the widest earlier one; rounds 26 and 27 each put six there (five seats plus the roll-up). ⛔ THE PAPER MAY NOT GROW: the ceiling in test_a_hardening_round_may_not_grow_the_paper.py falls freely and may not rise without trimcrae's recorded say-so. ⭐ SPEND IS AUTHORISED — autonomy-state.json budget_hold.authorised_exceptions, his 2026-08-30 grant scoped to the PUB-ASO v2 goal. Read the grant, not the width dial.",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json — round 27, 3 blockers and 10 P1s",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      },
+      "score": -20.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
       "_score_inherited_from_route": "RT-ASO"
     },
     {
@@ -10772,6 +10863,29 @@
       "score_inputs": {
         "age_factor": 0.1429
       }
+    },
+    {
+      "serves": {
+        "route": "RT-LOOP",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PD-194",
+      "kind": "process_defect",
+      "what": "⛔ `dev-setup.sh` INSTALLS `libreoffice-writer` WITHOUT AN `apt-get update` FIRST, SO A STALE CONTAINER INDEX MAKES THE .docx CHAIN FAIL — AND THE SessionStart HOOK REPORTS 'DEV SETUP OK' OVER IT. Measured 2026-08-31 by CYC-0090-d7df5340, which paid for it.\n★ THE CHAIN, EACH LINK A COMMAND. The image's package index is frozen at build time; the Ubuntu archive has since moved past 24.2.7-0ubuntu0.24.04.4, so the install returns `E: Failed to fetch .../libreoffice-writer_24.2.7-0ubuntu0.24.04.4_amd64.deb  404  Not Found` for four .debs. The block is deliberately non-fatal and writes its warning to stderr, so the hook's success line was printed over the failure. `regenerate_aso_chain.sh` then failed three steps — aso_priorart_evidence.py, build_submission_parts.py, build_submission_docx.py — with `Error: source file could not be loaded`, which points at the INPUT and is the exact misdirection dev-setup.sh's own comment block records having cost this repository three days.\n⛔ SO THE DEFECT IS NOT THE MISSING PACKAGE — THAT WAS DIAGNOSED AND WRITTEN DOWN ON 2026-08-30, IN THIS FILE, ABOVE THE LINE THAT FAILS. It is that the automated remedy could not run and said nothing a reader would see. A probe that detects the condition, attempts the fix, fails, and reports OK is worse than no probe: the next session trusts it.\n★ FIXED IN THIS COMMIT, one line: `apt-get update -qq` before the install, with sudo fallbacks on both halves. Measured working — the identical install then succeeded and build_submission_docx.py wrote the .docx.\n⚠ WHAT IS NOT FIXED AND IS FILED RATHER THAN CLAIMED: the branch is still non-fatal by design (the ghostscript precedent, named in the block), so a future failure of this install is still only a stderr line under a green hook message. Making the hook surface its own warnings is a separate change to a separate file and is not taken here.",
+      "_score_basis": "loop-instrument defect, found and closed in the same cycle; filed for the record rather than for the queue",
+      "score_inputs": {}
     }
   ]
 }
