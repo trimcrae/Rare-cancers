@@ -230,6 +230,7 @@ def _deep_screens(root=None):
     list, not of a geometry, and it is what stops a lower bound being reported as a measurement.
     """
     pairs = []
+    absent = []
     for screen in ass.load_screens(GEOMETRY, ass.BLAST_SCREEN, root=(root or HERE),
                                    select=ass.is_deep):
         d = screen.artifact
@@ -237,6 +238,21 @@ def _deep_screens(root=None):
         lo, hi = screen.geometry.gap_region_1based
         for o in d.get("oligos", []):
             if o.get("status") != "screened":
+                # ⛔⛔ AN UNSCREENED DESIGN IS NOT AN ABSENT ONE, AND THIS `continue` MADE IT LOOK
+                # LIKE ONE (round 26's arithmetic seat, 2026-08-31). Three of the panel's 190 —
+                # CAGGGCATATCTCCAC and GCATATCTCCACCTCC at FUS e5, AGGGCATATCTTCATC at TFG e2 —
+                # returned `screen_failed` in the DEEP pass (a different set from the seven that
+                # failed at the default ceiling, which the manuscript does report). They dropped out
+                # here with no trace, and `n_designs_screened` below is written from the truncated
+                # list, so summing the table gives 187 while asserting nothing is missing.
+                # ⚠ NOTHING PRINTED MOVES — all three are liable at every cut from 6 to 10, so the
+                # 35/31/23/9/6 ladder, the published-junction ladder and the survivor count are
+                # unaffected and the omission runs in the conservative direction. That is exactly
+                # why it survived: an absence with no consequence is an absence nobody measures.
+                # ★ SO IT IS RECORDED RATHER THAN REPAIRED. The screen genuinely did not return;
+                # inventing a row would be worse. `_absent` travels to `junction_rows`, which writes
+                # it onto the junction it belongs to.
+                absent.append((label, o.get("antisense_5to3"), o.get("status")))
                 continue
             hits = o.get("offtargets") or []
             # ⛔ a truncated list would make every count below a lower bound wearing the costume of
@@ -256,7 +272,7 @@ def _deep_screens(root=None):
                 "n_gap_paired_loci": len(loci),
                 "gap_paired_loci": sorted(loci),
             }))
-    return pairs
+    return pairs, sorted(absent)
 
 
 def _load(name, key="per_design", root=None):
@@ -266,7 +282,7 @@ def _load(name, key="per_design", root=None):
     return {r["antisense_5to3"]: r for r in json.load(open(path, encoding="utf-8"))[key]}
 
 
-def junction_rows(deep, parent, premrna, genome):
+def junction_rows(deep, parent, premrna, genome, absent=()):
     """The per-junction rows and their ranking — ONE grader, shared by every table in this lane.
 
     ⛔ EXTRACTED 2026-08-15 SO THE PUBLISHED NON-CANONICAL SEAMS ARE SCORED BY THIS CODE AND NOT BY
@@ -306,8 +322,15 @@ def junction_rows(deep, parent, premrna, genome):
         }
         by_junction[label].append(row)
 
+    #: ⛔ AN ABSENT DESIGN IS RECORDED ON THE JUNCTION IT BELONGS TO, NOT ONLY AT THE TOP LEVEL. A
+    #: reader summing `n_designs_screened` across junctions has to be able to see WHERE the sum
+    #: falls short of the panel, or the total is one more number with no way to check it.
+    absent_by_junction = defaultdict(list)
+    for label, seq, status in absent:
+        absent_by_junction[label].append({"antisense_5to3": seq, "status": status})
+
     junctions = []
-    for label in sorted(by_junction, key=str):
+    for label in sorted(set(by_junction) | set(absent_by_junction), key=str):
         rows = by_junction[label]
         # ⛔ RANK, DO NOT SCORE, AND BREAK TIES ON MARGIN RATHER THAN ON RAW HITS. Parent liability
         # is disqualifying because sparing the wild-type parents is the modality's reason to exist;
@@ -333,6 +356,12 @@ def junction_rows(deep, parent, premrna, genome):
             "clinical_tier": tier,
             "breakpoint_refs": refs,
             "n_designs_screened": len(rows),
+            #: ⚠ `n_designs_screened` IS THE ROW COUNT AND NOT THE PANEL COUNT AT THIS JUNCTION,
+            #: and the two differ wherever the deep pass did not return. Named explicitly so a
+            #: reader summing the column knows what the sum is a sum of.
+            "n_designs_absent_because_the_deep_screen_did_not_return": len(absent_by_junction[label]),
+            "designs_absent_because_the_deep_screen_did_not_return":
+                sorted(absent_by_junction[label], key=lambda r: str(r["antisense_5to3"])),
             "n_designs_clearing_the_parent_screen": len(eligible),
             "best_available": eligible[0] if eligible else None,
             "best_by_gap_specificity_margin": max(
@@ -343,11 +372,11 @@ def junction_rows(deep, parent, premrna, genome):
 
 
 def build():
-    deep = _deep_screens()
+    deep, absent = _deep_screens()
     parent = _load("aso-parent-gap-pairing.json")
     premrna = _load("aso-premrna-offtarget.json")
     genome = _load("aso-genome-offtarget.json")
-    junctions = junction_rows(deep, parent, premrna, genome)
+    junctions = junction_rows(deep, parent, premrna, genome, absent)
 
     return {
         "what": ("The best available junction-spanning gapmer for EACH of the frame-compatible "

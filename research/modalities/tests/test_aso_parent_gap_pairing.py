@@ -94,6 +94,21 @@ def test_the_corpus_counts_match_the_manuscript():
         # ⚠ "healthy" -> "wild-type" 2026-08-17: a cold reader found the abstract was the only
         # place in the paper using "healthy"; every other home says wild-type. Either spelling
         # satisfies this pin, which is for the three FIGURES and their ten-base-pair criterion.
+        # ⛔⛔ DO NOT "HARMONISE" THIS WITH THE JOURNAL ARTICLE'S GUARD — THEY REQUIRE OPPOSITE
+        # PHRASINGS ON PURPOSE, and round 26's arithmetic seat correctly flagged the pair as
+        # looking like a contradiction (2026-08-31). `research/manuscripts/tests/
+        # test_journal_article_numbers.py` now REFUSES "N do so against wild-type NR4A3" and
+        # "N ... that parent is wild-type NR4A3" in the journal article, because 61 is an ARGMAX —
+        # the count of designs whose LONGEST parent duplex is against NR4A3 — while both of those
+        # readings sound like MEMBERSHIP, which is 62. The journal article was reworded to name the
+        # predicate outright. ★ THIS LINE STILL REQUIRES THE OLD WORDING BECAUSE THE DOCUMENT IT
+        # READS IS A FROZEN DEPOSITED CHECKPOINT: the extended report is published under a DOI and
+        # its text cannot be edited, only superseded. A guard over an immutable document must
+        # describe what that document SAYS; changing this pattern would not improve the extended
+        # report, it would only stop measuring it. The distinction the two guards draw is the same
+        # one — one of them is reading a document that can still be fixed.
+        # ⚠ AND THE NUMBER IS NOT IN DOUBT IN EITHER: 61 is `which_parent_supplies_it.NR4A3` in
+        # aso-parent-gap-pairing.json, read here from the artifact, in both documents.
         rf"\b{nr4a3}\b[^.]{{0,20}}?against (?:healthy|wild-type) \*NR4A3\*", txt), (
         "the abstract's parent-duplex sentence no longer carries all three figures with the "
         "ten-base-pair criterion they were counted under")

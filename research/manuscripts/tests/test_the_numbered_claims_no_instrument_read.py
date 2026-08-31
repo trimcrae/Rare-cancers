@@ -204,6 +204,64 @@ def test_the_two_transcriptome_loads_are_the_deep_screens_own(prose):
         f"screens now record {deep['EWSR1']} against {deep['TAF15']}")
 
 
+
+def test_the_locus_recount_that_reverses_the_load_comparison_is_the_tables_own(prose):
+    """⛔⛔ "but six gene loci against five" — THE CLAUSE THE SENTENCE TURNS ON, AND IT WAS BOUND BY
+    NOTHING (round 26's arithmetic seat, 2026-08-31).
+
+    ★ WHY IT IS A P1 RATHER THAN A NUMBER. The sentence is *"Predicted transcriptome load separates
+    the two ONLY BEFORE the hits are counted by gene"* — the whole point is that the ordering
+    REVERSES when 123-against-8 is recounted per locus. Swap the two numerals and the paper says
+    the recount CONFIRMS the separation, which is the opposite finding, in the paragraph that
+    decides how much weight a reader gives the raw hit counts above it. It was correct at the pin
+    and an ordinary edit would have made it wrong with nothing going red.
+
+    ⚠ COVERAGE SEARCHED BEFORE FILING, and this is the one-of-a-pair shape: the locus counts ARE
+    bound — in `research/modalities/tests/test_aso_submission_numbers.py` and
+    `test_junction_aso_locus_collapse.py`, which read the extended report and the submission tables.
+    The journal article is the OTHER home of the same material and no guard reached it.
+
+    ⛔ SO THE RELATION IS ASSERTED, NOT ONLY THE PAIR. A guard that pins 6 and 5 passes a rewrite
+    that keeps both numerals and drops the reversal.
+    """
+    named = _named_sequences(prose)
+    #: ⚠ THE LOCUS COLLAPSE IS THE TABLE'S FIELD, NOT THE SCREEN'S. `n_true_cleavage_risk` above is
+    #: on the screen's own oligo record; the per-gene recount this clause is about is computed when
+    #: the screens are joined, and lives on the design row of `aso-per-junction-table.json`. Reading
+    #: it from the screen raises rather than defaults — an absent field must not become a zero.
+    table = _load(os.path.join(MOD, "aso-per-junction-table.json"),
+                  "the per-junction table, which is where the per-gene locus collapse is recorded")
+    seams = {"EWSR1": "EWSR1_e12__NR4A3_e3", "TAF15": "TAF15_e6__NR4A3_e3"}
+    by_label = {j["junction_label"]: j for j in table["junctions"]}
+    loci = {}
+    for k, seq in named.items():
+        junction = by_label.get(seams[k])
+        assert junction is not None, (
+            f"the per-junction table no longer carries {seams[k]}, the seam the named {k} reagent "
+            "is designed at")
+        row = next((r for r in junction["designs"] if r.get("antisense_5to3") == seq), None)
+        assert row is not None, (
+            f"the per-junction table has no row for the named {k} reagent {seq}, so this guard has "
+            "no locus count to read. ⛔ A design can be absent from this table without being "
+            "absent from the panel — a deep re-screen that returned `screen_failed` drops its row.")
+        loci[k] = row["n_gap_paired_loci"]
+    _every_site(prose,
+                r"but (\w+) gene loci against (\w+)",
+                (_word(loci["EWSR1"]), _word(loci["TAF15"])),
+                "the two reagents' gap-paired GENE LOCI at the deeper ceiling")
+    hits = {k: _oligo(DEEP[k], named[k], f"the deep re-screen at the {k} seam")
+            ["n_true_cleavage_risk"] for k in named}
+    assert hits["EWSR1"] > hits["TAF15"], (
+        "the raw-hit half of this sentence no longer separates the two, so 'only before the hits "
+        f"are counted by gene' has nothing to be true of: {hits['EWSR1']} against {hits['TAF15']}")
+    assert loci["EWSR1"] - loci["TAF15"] == 1 and loci["EWSR1"] > loci["TAF15"], (
+        "the sentence says the per-LOCUS recount nearly closes a gap of "
+        f"{hits['EWSR1']}-against-{hits['TAF15']}; the table now records {loci['EWSR1']} loci "
+        f"against {loci['TAF15']}, which no longer supports 'only before the hits are counted by "
+        "gene'. ⛔ CHECK WHICH DIRECTION MOVED before re-anchoring — the claim is the REVERSAL, "
+        "not the pair of numerals.")
+
+
 def test_most_of_that_load_really_is_predicted_models(prose):
     """⛔ "Most of the 123 are predicted transcript models rather than curated records."
 
@@ -225,6 +283,131 @@ def test_most_of_that_load_really_is_predicted_models(prose):
     assert len(predicted) * 2 > len(hits), (
         f"the article says MOST of the {len(hits)} gap-paired hits are predicted models; the "
         f"accessions make it {len(predicted)}")
+
+
+
+def test_the_models_doubling_times_bracket_what_the_paper_rounds_them_to(prose):
+    """⛔ "reported doubling times of five to six days" — A LITERATURE NUMBER WITH NO INSTRUMENT
+    (round 26's arithmetic seat, 2026-08-31).
+
+    ⚠ THE SEAT FILED IT AS HAVING NO STRUCTURED HOME. It has one, and the seat had not reached it:
+    `research/modalities/emc-test-article-routes.json` carries the source sentence verbatim in
+    `post_receipt_speed_verbatim`, and that file is in the archive. What was missing was the BINDING
+    — nothing read the paper's rounded phrasing against the quoted figures, so `five to six` could
+    become `one to two` (a mutation this repository has actually run: the round-25 citations seat
+    reports it passing `lint_citations`, `lint_claims` and every other guard) without going red.
+
+    ★ THE ASSERTION IS THE BRACKET, NOT THE WORDS. The paper deliberately rounds 5.09 and 6.05 to
+    "five to six days" rather than reprinting two-decimal figures a reader would over-read; so the
+    guard checks that the rounded interval CONTAINS both quoted values and is the tightest whole-day
+    interval that does. A rewrite to a range that excludes either figure, or a looser one, fails.
+
+    ⛔ AND IT PARSES THE FIGURES OUT OF THE VERBATIM QUOTE rather than out of a curated field beside
+    it. A quote is the thing a reader can check against the source; a number typed next to it is one
+    more copy that can drift, which is the defect §1's one-fact-one-place rule names.
+    """
+    routes = _load(os.path.join(MOD, "emc-test-article-routes.json"),
+                   "the test-article routes record, which carries the models' growth rate as a "
+                   "verbatim quotation of PMC9813045")
+    quote = next((v for v in _verbatims(routes) if "doubling time" in v), None)
+    assert quote, ("emc-test-article-routes.json no longer carries a verbatim sentence about the "
+                   "models' doubling time, so this claim has lost its committed source")
+    days = sorted(float(x) for x in re.findall(r"(\d+\.\d+)\s*days?", quote))
+    assert len(days) == 2, (
+        f"expected two doubling times in the committed quote, found {days}: {quote[:120]!r}")
+    m = re.search(r"reported doubling times of (\w+) to (\w+)\s+days", prose)
+    assert m, ("§4's doubling-time sentence has been reworded; re-anchor this guard to it ⛔ CHECK "
+               "THE MEANING BEFORE THE REGEX: the sentence's job is to say the models are SLOW, and "
+               "a re-anchor that agrees with a faster number makes the finding disappear.")
+    low, high = _number(m.group(1)), _number(m.group(2))
+    assert low is not None and high is not None, (
+        f"the printed range {m.group(1)!r} to {m.group(2)!r} is not a pair of number words")
+    #: ⚠ THE PREDICATE IS ROUNDING, NOT CONTAINMENT, AND THE FIRST DRAFT OF THIS GUARD GOT IT
+    #: BACKWARDS — it asserted `low <= 5.09 and 6.05 <= high` and reddened on the true sentence,
+    #: because 6.05 is above six. "Doubling times of five to six days" reports TWO measured values
+    #: rounded to whole days, one per model; it does not assert an interval containing them. A gate
+    #: that reds on honest input is one its reader learns to skip, so the assertion is what the
+    #: sentence actually claims: each quoted figure rounds to the endpoint printed for it.
+    assert [round(d) for d in days] == [low, high], (
+        f"the paper reports doubling times of {low} to {high} days; the committed quotation of "
+        f"PMC9813045 gives {days[0]} and {days[1]}, which round to "
+        f"{[round(d) for d in days]}. ⛔ The claim is that these two models are SLOW — check "
+        "which side moved before re-anchoring.")
+    assert low < high, (
+        f"the printed range reads {low} to {high}, which is not increasing; the two models have "
+        "different doubling times and the sentence reports the slower one second")
+
+
+def _verbatims(doc):
+    """Every string under a key ending `_verbatim`, at any depth."""
+    out = []
+
+    def walk(node):
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if isinstance(v, str) and k.endswith("_verbatim"):
+                    out.append(v)
+                else:
+                    walk(v)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+
+    walk(doc)
+    return out
+
+
+def _number(word):
+    """A number word or numeral as an int, or None."""
+    words = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6,
+             "seven": 7, "eight": 8, "nine": 9, "ten": 10}
+    if word.isdigit():
+        return int(word)
+    return words.get(word.lower())
+
+
+
+def test_the_fus_partner_count_is_the_retrieved_abstracts_own(prose):
+    """⛔ "*FUS* is a further reported partner, in two of five variant cases in a recent series".
+
+    ⚠ FILED AS THE ONE NUMBER IN THE PAPER WITH NO COMMITTED SOURCE (round 26's arithmetic seat,
+    2026-08-31): the citation-resolution file verifies only that PMID 41755350 RESOLVES, and the
+    bibliography file carries title, journal, volume and pages with no abstract. So the two and the
+    five were a recollection, in a paper whose §7 rule is that an identifier is never written from
+    one. The abstract was retrieved and its sentence committed to the breakpoint census; this reads
+    the numbers back out of that quotation rather than out of a curated field beside it.
+
+    ⛔ THE DENOMINATOR IS A SELECTION, NOT A POPULATION, and the guard asserts the paper still says
+    so. The series is OF variant EMCs, so "two of five" is not a prevalence for FUS in EMC — and
+    "two of five cases" without "variant" would be exactly that claim.
+    """
+    census = _load(os.path.join(REPO, "research", "manuscripts", "aso",
+                                "lit-targets-aso-breakpoint-census.json"),
+                   "the breakpoint census, which carries the FUS series' abstract verbatim")
+    block = census.get("supplementary_record_2026_08_31_the_FUS_partner_count")
+    assert block, ("the breakpoint census no longer carries the retrieved FUS series record, so §1's "
+                   "partner count has no committed source again")
+    record = block["record"]
+    quote = record["verbatim"]
+    n_fus = len(re.findall(r"FUS::NR4A3", quote))
+    assert n_fus, f"the committed quotation names no FUS::NR4A3 fusion at all: {quote!r}"
+    #: The count is spelled as a word in the source sentence ("two FUS::NR4A3 fusions"), so read it
+    #: from there rather than counting mentions — one sentence, one occurrence, two tumours.
+    m = re.search(r"\b(\w+)\s+FUS::NR4A3\s+fusions?\b", quote)
+    assert m, f"the committed quotation does not state how many FUS::NR4A3 fusions: {quote!r}"
+    fus = _number(m.group(1))
+    d = re.search(r"\b(\w+)\s+cases of variant EMCs", record.get("verbatim_second", ""))
+    assert d, "the committed quotation does not state the series size"
+    total = _number(d.group(1))
+    assert fus and total, f"could not read {m.group(1)!r} of {d.group(1)!r} as numbers"
+    p = re.search(r"\*?FUS\*? is a further reported partner, in (\w+) of (\w+)\s+variant\s+cases",
+                  prose)
+    assert p, ("§1's FUS clause has been reworded; re-anchor this guard ⛔ AND CHECK THAT 'variant' "
+               "SURVIVED — the series selected for variant morphology and molecular findings, so "
+               "'two of five cases' without it asserts a prevalence the source does not support.")
+    assert (_number(p.group(1)), _number(p.group(2))) == (fus, total), (
+        f"the paper says {p.group(1)} of {p.group(2)}; the committed abstract gives {fus} "
+        f"FUS::NR4A3 fusions among {total} variant cases")
 
 
 # ────────────────────────────────────────────────────────── §2's coverage arithmetic
@@ -295,12 +478,40 @@ def test_the_cleanliness_bounds_are_the_screens_own_counts(prose):
     #: assessable" as the denominator behind 45.8% and met "87 of 190" four lines later.
     #: ★ Round 25's statistics seat graded it a blocker; the four numerals were all correct and the
     #: quantifier was not, which is why binding numerals alone was never enough.
-    assert not re.search(r"[Tt]wo bounds apply to every panel count", prose), (
+    #: ⛔ A LITERAL-STRING BAN IS NOT A BOUND CLAIM. The first version of this banned exactly
+    #: "two bounds apply to every panel count" — round 26's regression seat pointed out that "Both
+    #: bounds apply to every panel count", or any other re-widening, sails past it. What must be
+    #: refused is the RELATION: bounds asserted over every count rather than over a cleanliness
+    #: count. So match the shape, not the sentence.
+    assert not re.search(r"bounds?\b[^.]{0,60}\bappl(?:y|ies)\b[^.]{0,60}"
+                         r"\bevery\b[^.]{0,30}\b(?:panel\s+)?count", prose, re.I), (
         "the cleanliness bounds have been rescoped back to 'every panel count below'. They are "
         "properties of the ALIGNMENT screen: research/modalities/aso-parent-gap-pairing.json and "
         "aso-premrna-offtarget.json each carry 190 designs with no failure or truncation field, "
         "and aso-genome-offtarget.json calls its completeness 'definitional'. Scope the sentence "
         "to a count of designs the alignment screen calls clean, as the extended report does.")
+    #: ⛔ AND THE SCOPE CLAUSE IS LOAD-BEARING AND WAS UNREAD (round 26's regression seat, P1a).
+    #: The repair asserts that the parent, precursor and genome screens run over all 190 with no
+    #: failures and no censoring — which is TRUE, and is what makes the bound's narrowing honest
+    #: rather than convenient. A rewrite that said "all 183", dropped a screen name, or deleted
+    #: "no censoring" would have passed both halves above. So the clause is bound to the three
+    #: artifacts' own corpus sizes rather than to its own wording.
+    import json as _json
+    for name, key in (("aso-parent-gap-pairing.json", "n_designs"),
+                      ("aso-premrna-offtarget.json", "designs")):
+        with io.open(os.path.join(MOD, name), encoding="utf-8") as fh:
+            corpus = _json.load(fh)["corpus"]
+        n = corpus.get(key)
+        assert n == 190, (
+            f"{name} now screens {n} designs, not 190, and the manuscript's scope clause says the "
+            "parent, precursor and genome screens 'run over all 190 with no failures and no "
+            "censoring'. If a screen's corpus shrank, that clause is false and the cleanliness "
+            "bound may no longer be narrow — re-read the paragraph against the artifacts.")
+    assert re.search(r"run over all 190 with no failures and no censoring", prose), (
+        "the scope clause is gone. It is what makes narrowing the cleanliness bound honest rather "
+        "than convenient: the bound is narrow BECAUSE the other three screens are exhaustive. "
+        "Without it the paragraph asserts a limit and hides which screens it does not limit.")
+
     assert re.search(r"assessable for cleanliness", prose), (
         "the bound no longer says what it is a bound ON. 'Assessable at all' reads as a bound on "
         "the whole panel; the quantity is assessability for CLEANLINESS by one screen.")

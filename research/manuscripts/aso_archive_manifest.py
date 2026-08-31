@@ -159,6 +159,38 @@ PROMISES = [
                      "research/modalities/nr4a3-deposited-junctions.json"],
     },
     {
+        "id": "noncanonical_acceptor_screens",
+        "promise": "the screens behind the non-canonical acceptor table",
+        "contributes": ("The four screen artifacts and the design/alignment panels that "
+                        "`aso_noncoding_acceptor_screened_table.py` joins into "
+                        "`aso-noncoding-acceptor-screened-table.json` — the deposited table's own "
+                        "inputs, without which the chain step rebuilds it as an empty table."),
+        # ⛔⛔ THE TABLE WAS DEPOSITED AND ITS INPUTS WERE NOT, WHICH IS WORSE THAN DEPOSITING
+        # NEITHER (round 26's citations seat, 2026-08-31). `aso_noncoding_acceptor_screened_table.py`
+        # and its OUTPUT were both in the 496-path archive; the atlas, the mature-parent screen and
+        # the pre-mRNA screen it names as module-level constants were not, and neither was a single
+        # file of the `noncoding-acceptor/` directory the panel rows are built from. So the command
+        # the Availability statement tells a reader to run exited 0, printed `wrote …`, and
+        # REPLACED the deposited exon-2 rows — the 8 bp and 9 bp parent duplexes the paper's
+        # Test-articles section rests on — with a table carrying no junctions at all.
+        # ⚠ AND THE GUARD WRITTEN FOR EXACTLY THIS CLASS PASSED. `test_the_deposited_chain_can_run_
+        # from_the_deposit.py` parses the chain for MODULE invocations and checks those against the
+        # inventory; the module was deposited, so it saw nothing. That is the third iteration of one
+        # blindness — first the invocation verb, then the nested shell variable, now the module's
+        # own inputs — and it is closed by `test_every_input_an_invoked_module_names_is_in_the_
+        # archive`, which resolves each invoked module's module-level path constants by AST.
+        # ⭐ THE WHOLE DIRECTORY, NOT THE THREE THE PROBE NAMED. The rows are built by
+        # `aso_per_junction_table.junction_rows` over screens DISCOVERED BY PATTERN in `SCREEN_DIR`,
+        # so a hand-list of the files a static read happened to name would leave the table empty
+        # just as reliably — a glob is what makes this row survive the next screen added there.
+        "patterns": ["research/modalities/nr4a3-fusion-junction-atlas-noncoding-acceptor.json",
+                     "research/modalities/aso-parent-gap-pairing-noncoding-acceptor.json",
+                     "research/modalities/aso-premrna-offtarget-noncoding-acceptor.json",
+                     "research/modalities/junction-aso-thermo-noncoding-acceptor.json",
+                     "research/modalities/pgr-parent-engagement-noncoding-acceptor.json",
+                     "research/modalities/noncoding-acceptor/*.json"],
+    },
+    {
         "id": "graded_junction_atlas",
         "promise": "the graded junction atlas",
         "contributes": ("Grades all 231 donor-exon x acceptor-exon pairs across the five 5' "

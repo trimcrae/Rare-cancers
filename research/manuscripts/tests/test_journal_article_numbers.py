@@ -167,10 +167,13 @@ def test_the_panel_and_its_liable_count_are_the_screens_own(prose, pairing):
     assert re.search(rf"\b{n}\b[^.]*?16-mers", prose), \
         f"the panel size {n} from {os.path.basename(GAP_PAIRING)} is not the one the abstract tiles"
     assert re.search(rf"\b{liable}\b", prose), f"the liable count {liable} is absent from the article"
-    assert re.search(rf"\b{nr4a3}\b(?: of (?:the {liable}|those))?\s+that\s*\n?\s*parent is wild-type",
-                     _flat(prose)), \
+    assert re.search(rf"\b{nr4a3}\b(?: of (?:the {liable}|those))?\s+the longest is "
+                     r"wild-type", _flat(prose)), \
         f"{nr4a3} is the screen's ATTRIBUTION — the count of designs whose longest run over all six " \
-        "parents falls in NR4A3 — and the prose must say so in the words that name that predicate"
+        "parents falls in NR4A3 — and the prose must say so in the words that name that predicate. " \
+        "⛔ 'that parent is wild-type NR4A3' is NOT enough and is what this line used to accept: " \
+        "four of the 87 have two parents pairing the gap at the criterion, so 'that parent' has no " \
+        "unique antecedent for them and a reader counting membership gets 62, not 61."
     # ⛔ THE DENOMINATOR TOO, AT THE SITE THAT PRINTS IT. The line above accepts "61 of those"
     # from the abstract, so §3's own "61 of the 87" was never examined and `87 → 88` there passed
     # every gate — the article stating one count four times and another once.
@@ -186,8 +189,17 @@ def test_the_panel_and_its_liable_count_are_the_screens_own(prose, pairing):
     # ★ The old pattern would match the ambiguous wording again. This one requires the sentence to
     # name the parent-supplying predicate, so reverting to "do so against wild-type" fails here
     # rather than passing under a number that means something else.
+    # ⭐ TIGHTENED AGAIN 2026-08-31 (round 26's arithmetic seat). "for 61 of the 87 THAT PARENT is
+    # wild-type NR4A3" was itself the 2026-08-29 fix, and it is still loose: four of the 87 have TWO
+    # parents pairing the gap at >=10 bp, so "that parent" has no unique antecedent for them, and
+    # recomputing membership rather than argmax gives 62 — the seat named
+    # `TAF15_e9__NR4A3_e3 / GCATATCAGCATCTGT`, where NR4A3 runs 11 bp and TAF15 12. The paper now
+    # names the predicate outright ("the longest is wild-type NR4A3"), which is
+    # what the argmax field means, and this pattern requires it: both the earlier "do so against"
+    # and the intermediate "that parent is" now FAIL here rather than passing under an argmax
+    # number that answers a membership question.
     _every_site(prose,
-                r"and for (\d+) of the (\d+) that\s+parent is wild-type",
+                r"and for (\d+) of the (\d+) the longest is wild-type",
                 (str(nr4a3), str(liable)),
                 "the wild-type NR4A3 attribution, with the denominator it is a share of")
     # ⛔ TWO MORE SITES, FOUND BY MUTATION 2026-08-29 AND BOUND BY NOTHING UNTIL THEN. The three
@@ -1003,16 +1015,56 @@ def test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count(prose)
     # The census credited it to a guard matching scoping language rather than the number, which is
     # the "the pattern is structure rather than content" false positive `claim_coverage
     # ._binds_literal_text` describes — read there as coverage, and it was not.
+    # ⚠ RE-ANCHORED 2026-08-31 (round 26). The clause read "At 5-10-5 the criterion is met by the
+    # catalytic gap alone" — TRUE, and the wrong reason for the "floor" it justified: a criterion
+    # that does no filtering makes a count MORE inclusive. Rounds 25 and 26 both said so. The
+    # sentence now gives the reason that actually carries the direction (the ten paired bases the
+    # whole-gap criterion demands, against the enzyme's reported seven-to-ten), and the geometry it
+    # names is still bound here — that binding was added on 2026-08-28 after the ablation gate
+    # perturbed the architecture and nothing went red.
     _every_site(prose,
-                r"At (\d+-\d+-\d+) the criterion is met by the catalytic gap alone",
+                r"At (\d+-\d+-\d+) pairing the whole gap already demands",
                 present[-1]["architecture"],
-                "the geometry at which the catalytic gap alone meets the criterion")
+                "the geometry at which pairing the whole gap already meets the criterion")
 
     last = present[-1]["mature_parent_whole_gap_duplex"]
     assert last["n_with_any_gap_pairing_window"] == last["n_at_or_above_min_duplex_bp"], (
         "the two counts no longer converge at the longest geometry, so the article's 'met by the "
         "catalytic gap alone, so that last figure is a floor' has lost the observation behind it")
 
+
+    #: ⛔⛔ AND THE DIRECTION WORD, WHICH WAS THE ONE-SIDED BOUND IN THIS FILE THAT NOTHING READ.
+    #: Round 26's statistics seat found "floor" appearing in the repository ONLY inside this test's
+    #: assertion messages, never in a pattern matched against the prose — while its sister bound
+    #: four paragraphs earlier ("upper bounds on that separation") has a dedicated guard written
+    #: for exactly this failure. ⚠ AND THE REPOSITORY HAS ALREADY SHIPPED A REVERSED ONE-SIDED
+    #: BOUND ONCE: junction-aso-thermo.json's `⚠_lna_not_modelled` records that a field "previously
+    #: said the opposite, that LNA 'compresses ΔΔG' and the value is an UPPER bound".
+    #: ★ THE REASON IS BOUND WITH THE WORD, because the reason is what went wrong. Rounds 25 AND 26
+    #: both found the sentence justifying "floor" with "the criterion is met by the catalytic gap
+    #: alone" — which says the criterion does no filtering, and that argues for a CEILING. The
+    #: artifact agrees: at 5-10-5, n_with_any_gap_pairing_window == n_at_or_above_min_duplex_bp.
+    #: What actually makes it a floor is that pairing a ten-nucleotide gap demands ten base pairs,
+    #: above the enzyme's reported seven-to-ten, so shorter licensing runs go uncounted.
+    longest = max(present, key=lambda g: g["gap_nt"])
+    m = longest["mature_parent_whole_gap_duplex"]
+    assert m["n_with_any_gap_pairing_window"] == m["n_at_or_above_min_duplex_bp"], (
+        "at the longest geometry the ten-base-pair criterion no longer coincides with 'pairs the "
+        "whole gap', so the paragraph's reasoning about that figure needs re-deriving from "
+        "aso-gap-length-tradeoff.json rather than editing.")
+    flat = _flat(prose)
+    floor = re.search(r"that last figure is a (\w+)", flat)
+    assert floor and floor.group(1) == "floor", (
+        f"the three-geometry series now calls its last figure a {floor.group(1) if floor else 'nothing'!r}. "
+        "It is a FLOOR: at 5-10-5 the criterion demands ten paired bases where the enzyme is "
+        "reported to need seven to ten, so a shorter run that could still license cleavage is not "
+        "counted. ⚠ This repository has shipped a reversed one-sided bound before — see "
+        "junction-aso-thermo.json's ⚠_lna_not_modelled — so re-derive before changing this word.")
+    assert re.search(r"more than the seven-to-ten the enzyme is reported to need", flat), (
+        "the reason given for the floor is gone. Two rounds found the paragraph justifying it with "
+        "'the criterion is met by the catalytic gap alone', which argues for a ceiling — the "
+        "criterion doing no filtering makes the count MORE inclusive, not less. The direction "
+        "survives only on the enzyme-minimum argument, so the word and its reason travel together.")
 
 def test_the_ddg_separations_are_reported_with_the_direction_their_artifact_records(prose):
     """⛔ A ONE-DIRECTIONAL BOUND QUOTED AS A POINT VALUE READS AS MARGIN (round 18, seat 5).

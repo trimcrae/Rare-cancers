@@ -188,9 +188,22 @@ def build():
             "percent_range": [round(100 * t_lo, 1), round(100 * t_hi, 1)],
             "gain_percentage_points": round(100 * (t_point - point), 1),
             "why_it_is_not_named_in_the_papers": (
-                "It carries no test article: none of the five in the ASO papers' section 4 spans "
-                "EWSR1 exon 13 to NR4A3 exon 3, so naming it would put a reagent in front of a "
-                "laboratory with nothing to test it in."),
+                "This junction is third by reported prevalence and the selection takes the first "
+                "two. That is the papers' own stated reason and it is the only one."),
+            "⚠_the_reason_this_field_used_to_give_is_withdrawn": (
+                "Until 2026-08-31 this field read: \"It carries no test article: none of the five "
+                "in the ASO papers' section 4 spans EWSR1 exon 13 to NR4A3 exon 3, so naming it "
+                "would put a reagent in front of a laboratory with nothing to test it in.\" The "
+                "papers' test-articles section now argues that under the parsimonious reading — a "
+                "donor joined to NR4A3's non-coding exon 2 sits upstream of that gene's initiation "
+                "codon and yields no chimeric transcription factor — USZ20-EMC1 carries EWSR1 exon "
+                "13 joined to exon 3, which is THIS design's junction. So a test article for it "
+                "may well exist, and the retired sentence said the opposite INSIDE the deposit "
+                "both papers cite. ⛔ THIS DOES NOT PROMOTE THE DESIGN: that reading is an "
+                "inference and not a determination — the source report carries no sequenced "
+                "exon-exon boundary, no transcript accession and no junction sequence — so it "
+                "removes a reason rather than supplying one. Retained rather than deleted "
+                "(CLAUDE.md rule 1.2); found by round 26's arithmetic seat."),
         },
         "coverage": {
             "point_estimate": round(point, 4),

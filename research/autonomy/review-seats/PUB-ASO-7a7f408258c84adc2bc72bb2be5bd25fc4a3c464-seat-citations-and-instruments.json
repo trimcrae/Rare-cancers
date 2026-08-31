@@ -1,0 +1,23 @@
+{
+ "_schema": "emc-review-seat/1",
+ "paper": "PUB-ASO",
+ "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+ "reviewed_commit": "7a7f408258c84adc2bc72bb2be5bd25fc4a3c464",
+ "document_sha256": "bccc4c9e9eeebe0165133e7028d838c652eba3bb728387e2982f5887ac8e37c7",
+ "blind": true,
+ "seat": "citations-and-instruments",
+ "utc": "2026-08-31T00:00:00Z",
+ "round": 26,
+ "lens": "Every identifier, every quotation, and whether an instrument reads each claim.",
+ "verdict": "supported",
+ "recommendation": "minor_revision",
+ "blockers": [],
+ "p1s": [
+  {
+   "id": "R26-C-P1-2",
+   "summary": "Five artifacts the deposited regeneration chain reads by name were outside the archive, and the chain FAILS SILENTLY: a reader running the Availability statement's own command overwrites the deposited exon-2 table with an empty one, losing the printed 8 and 9 bp values. test_the_deposited_chain_can_run_from_the_deposit.py parses the chain for MODULE invocations only, and every module was deposited, so it passed.",
+   "status": "fixed",
+   "fix": "Reproduced on a scratch copy: removing the 19 undeposited artifacts made the rebuild emit 0 junction rows over a committed 4. Two fixes. (1) The archive now carries the noncoding-acceptor screens (new noncanonical_acceptor_screens promise row; 496 -> 515 files). (2) aso_noncoding_acceptor_screened_table._refuse_to_replace_a_populated_table exits 1 rather than writing an empty table over a populated one — verified firing, with the committed table intact afterwards. The guard is extended by test_every_input_an_invoked_module_names_is_in_the_archive, which resolves each invoked module's module-level path constants by AST and excludes the ones it opens for writing; the manifest itself is exempt because build_zip ships it beside its own file list, and that exemption is asserted against the packager."
+  }
+ ]
+}

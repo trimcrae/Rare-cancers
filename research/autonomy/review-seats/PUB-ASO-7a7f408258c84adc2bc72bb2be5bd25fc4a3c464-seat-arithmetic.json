@@ -1,0 +1,81 @@
+{
+ "_schema": "emc-review-seat/1",
+ "paper": "PUB-ASO",
+ "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+ "reviewed_commit": "7a7f408258c84adc2bc72bb2be5bd25fc4a3c464",
+ "document_sha256": "bccc4c9e9eeebe0165133e7028d838c652eba3bb728387e2982f5887ac8e37c7",
+ "blind": true,
+ "seat": "arithmetic",
+ "utc": "2026-08-31T00:00:00Z",
+ "round": 26,
+ "lens": "Every printed number re-derived from the artifact that produces it, not from another sentence.",
+ "verdict": "supported",
+ "recommendation": "minor_revision",
+ "blockers": [],
+ "p1s": [
+  {
+   "id": "R26-A-P1-1",
+   "summary": "'but six gene loci against five' carries the sentence's whole point — that predicted transcriptome load separates the two reagents ONLY before the hits are counted by gene — and no instrument read it. Inverting it reverses the finding.",
+   "status": "fixed",
+   "fix": "test_the_locus_recount_that_reverses_the_load_comparison_is_the_tables_own binds both counts to aso-per-junction-table.json AND asserts the reversal, so a rewrite keeping both numerals but dropping the relation fails. Ablation-verified."
+  },
+  {
+   "id": "R26-A-P1-2",
+   "summary": "'reported doubling times of five to six days' had a committed source (emc-test-article-routes.json's verbatim quotation of PMC9813045) but no binding; a previous round measured the same sentence surviving a mutation to 'one to two days'.",
+   "status": "fixed",
+   "fix": "test_the_models_doubling_times_bracket_what_the_paper_rounds_them_to parses 5.09 and 6.05 out of the committed quotation and asserts each rounds to the endpoint printed for it. Ablation-verified."
+  }
+ ],
+ "p2s": [
+  {
+   "id": "R26-A-P2-1",
+   "summary": "'that parent is wild-type NR4A3' reads as membership over an argmax value; 62 designs have NR4A3 pairing >=10 bp, and four of the 87 have two qualifying parents, so 'that parent' has no unique antecedent for them.",
+   "status": "fixed",
+   "fix": "All three sites now name the predicate — 'the longest such duplex is against wild-type NR4A3' — with the pins and both guards updated to require it and to refuse the two earlier phrasings."
+  },
+  {
+   "id": "R26-A-P2-2",
+   "summary": "'covers every position of GRCh38' / 'It counts every position of GRCh38' overstates by 4.88%: 151,138,112 of 3,099,747,808 windows carry an N and were skipped.",
+   "status": "fixed",
+   "fix": "Reworded to 'covers GRCh38 end to end ... skipping only windows that carry an ambiguous base' and 'It scans the whole assembly rather than the transcriptome'. ⚠ The artifact's own method.completeness still reads 'definitional: every position is tested'; correcting it needs a re-run of the genome screen, which is CI, so it is recorded and not hand-edited."
+  },
+  {
+   "id": "R26-A-P2-3",
+   "summary": "'those partial duplexes are not counted here and have not been measured' is true of the work but cheap to close; the seat measured 9 bp (EWSR1) and 10 bp (TAF15) at the exon-2/exon-3 seam, both with the gap incompletely paired.",
+   "status": "accepted_not_fixed",
+   "why": "True as written and it confirms 'neither in full'. Printing the two figures would need a committed artifact home and the abstract is at its 200-word cap. Recorded so a later round does not re-file it as new."
+  },
+  {
+   "id": "R26-A-P2-4",
+   "summary": "fusion-junction-aso-reagent-coverage.json, inside the 515-file deposit, gave a reason for not naming the third design that the paper's own test-articles section now contradicts.",
+   "status": "fixed",
+   "fix": "The field now states the paper's reason; the retired sentence is retained verbatim under a withdrawal key (rule 1.2) with why it is wrong."
+  },
+  {
+   "id": "R26-A-P2-5",
+   "summary": "aso-per-junction-table.json covers 187 of the panel's 190; three designs returned screen_failed in the DEEP pass and dropped out with no trace, while n_designs_screened was written from the truncated list.",
+   "status": "fixed",
+   "fix": "aso_per_junction_table._deep_screens now returns the absent designs beside the graded pairs and junction_rows records them per junction; 187 rows + 3 absent = 190, and a junction with only absent designs no longer disappears."
+  }
+ ],
+ "repository_findings": [
+  {
+   "id": "R26-A-RF-1",
+   "summary": "test_journal_article_numbers.py forbids the membership phrasing in the journal article while test_aso_parent_gap_pairing.py requires it of the extended report.",
+   "status": "documented",
+   "why": "Deliberate and not a contradiction: the extended report is a frozen deposited checkpoint whose text cannot be edited, only superseded, so a guard over it must describe what it SAYS. Recorded in the extended-report guard so the next session does not 'harmonise' them."
+  },
+  {
+   "id": "R26-A-RF-2",
+   "summary": "The 3-of-190 join gap lives in aso_per_junction_table.py.",
+   "status": "fixed",
+   "fix": "Same fix as R26-A-P2-5."
+  },
+  {
+   "id": "R26-A-RF-3",
+   "summary": "No committed artifact carried the evidence for 'FUS ... in two of five variant cases in a recent series' (PMID 41755350) — the one number the seat could not re-derive.",
+   "status": "fixed",
+   "fix": "The abstract was retrieved from PubMed and its NGS sentence committed to lit-targets-aso-breakpoint-census.json under its own truthful provenance block; test_the_fus_partner_count_is_the_retrieved_abstracts_own reads the two and the five back out of the quotation and asserts 'variant' survives, because the series selected for variants and the figure is not a prevalence. Ablation-verified."
+  }
+ ]
+}

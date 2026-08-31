@@ -155,10 +155,17 @@ def test_only_the_manuscripts_geometry_reaches_the_table():
     import aso_per_junction_table as P  # noqa: PLC0415
     import junction_aso_locus_collapse as C  # noqa: PLC0415
 
-    pairs = P._deep_screens()
+    #: ⚠ `_deep_screens` RETURNS TWO THINGS AS OF 2026-08-31 — the graded pairs and the designs the
+    #: deep pass did not return for. The second used to be a bare `continue`, so three of the
+    #: panel's 190 left no trace and `n_designs_screened` summed to 187 while asserting nothing was
+    #: missing.
+    pairs, absent = P._deep_screens()
     assert pairs, "no deep screens were read at all"
     lens = {len(seq) for _, seq, _ in pairs}
     assert lens == {C.MANUSCRIPT_OLIGO_LEN}, sorted(lens)
+    assert all(len(seq) == C.MANUSCRIPT_OLIGO_LEN for _, seq, _ in absent), (
+        "an unscreened design of another geometry is being recorded as absent from THIS table, "
+        "which would make the panel total wrong in the other direction")
 
     # the guard is only meaningful if something was actually there to exclude
     import aso_screen_sets as ass  # noqa: PLC0415

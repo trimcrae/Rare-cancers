@@ -388,5 +388,30 @@
    },
    "why_it_changed": "That entry read 'NO exon-resolved TCF12::NR4A3 breakpoint was found in 295 retrieved papers ... still an inference'. Both halves were true and the conclusion was wrong: the breakpoint was never published as an exon in prose, so no literature sweep could have found it. It was DEPOSITED. NCBI elink from PMID 11156374 to the nucleotide database returns AF289510.1 in one call, and an independent nuccore term search returns the same single record."
   }
+ },
+ "supplementary_record_2026_08_31_the_FUS_partner_count": {
+  "_why_here_and_not_in_records": "`records` above is the output of one corpus sweep and its `source` block describes THAT run. This record came from a different route on a different day, so it is kept separate rather than appended — a row inheriting a provenance block that does not describe it is the misfiling this repository has already paid for.",
+  "_what_it_settles": "The journal article's §1 says *FUS* is a further reported partner 'in two of five variant cases in a recent series'. Round 26's arithmetic seat recorded it as the ONE number in the paper it could not re-derive from any committed artifact: the 2026 citation-resolution file verifies only that the identifier resolves, and the bibliography-completion file holds title, journal, volume and pages with no abstract. This is that abstract's own sentence.",
+  "source": {
+   "route": "PubMed E-utilities article metadata, retrieved through the session's PubMed MCP tool",
+   "retrieved_utc": "2026-08-31",
+   "not_a_workflow_run": "No fetch-literature.yml dispatch produced this and none is claimed. The retrieval was a direct metadata call; the verbatim below is the abstract as PubMed serves it.",
+   "attribution": "PubMed; article DOI 10.1111/his.70131"
+  },
+  "record": {
+   "pmid": "41755350",
+   "doi": "10.1111/his.70131",
+   "authors": "Chen X, He X, Peng R, Chen M, Zhang H.",
+   "title": "A series of extraskeletal myxoid chondrosarcomas with rare morphological and molecular variations.",
+   "journal": "Histopathology",
+   "year": 2026,
+   "kind": "primary case series",
+   "verbatim": "Next-generation sequencing (NGS) identified an EWSR1::NR4A3 fusion, a novel FUS::NR4A2 fusion, a novel ACTB::NR4A3 fusion, and two FUS::NR4A3 fusions.",
+   "verbatim_second": "We described herein five cases of variant EMCs.",
+   "what_the_two_sentences_give": "Denominator five, and two of them FUS::NR4A3 — exactly the paper's 'two of five variant cases'. ⛔ THE SERIES IS OF VARIANT EMCs BY SELECTION, which is why the paper says 'variant cases' and not 'cases': two of five here is NOT a prevalence estimate for FUS in EMC, and nothing in this repository may read it as one.",
+   "junctions_named": [],
+   "⛔_no_exon_resolved_junction": "The abstract names partners and not exons, so this record adds NOTHING to the junction census above and must never be counted into it. It anchors a PARTNER COUNT and that alone.",
+   "role": "The sole committed evidence for §1's FUS partner clause."
+  }
  }
 }

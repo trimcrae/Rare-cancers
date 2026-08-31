@@ -28,6 +28,7 @@ existed then, and every step added afterwards arrived outside every promise glob
 """
 from __future__ import annotations
 
+import ast
 import io
 import json
 import os
@@ -173,6 +174,201 @@ def test_the_deposited_chain_does_not_read_an_undeposited_artifact():
         "a deposited test opens an artifact the archive does not carry, so the archive's own tests "
         "cannot run from the archive:\n  "
         + "\n  ".join(f"{k} — opened by {sorted(set(v))[0]}" for k, v in sorted(missing.items())))
+
+
+# ══════════════════════════════════════════════════════════════════════════════════════════
+# ⛔⛔ THE THIRD ITERATION OF ONE BLINDNESS: a deposited STEP whose INPUTS are not deposited
+# ══════════════════════════════════════════════════════════════════════════════════════════
+#: ⚠ THE GUARD ABOVE HAS NOW MISSED THE SAME CLASS THREE TIMES, EACH TIME ONE LEVEL FURTHER IN, and
+#: each time it passed while the archive was broken:
+#:   · round 23 — the chain invoked `python3 -m pytest`, matched; a BARE `pytest` did not (verb).
+#:   · round 24 — `FIG=$MAN/figures` was dropped as "contains a $", so the figure steps were unseen.
+#:   · round 26 — every MODULE the chain invokes was deposited, and three artifacts one of them
+#:     opens by name were not. `test_the_deposited_chain_does_not_read_an_undeposited_artifact`
+#:     could not see it either: that one is scoped to deposited TEST files, and this is a producer.
+#:
+#: ⛔ WHAT THE THIRD ONE COST, MEASURED. `aso_noncoding_acceptor_screened_table.py` and its output
+#: were both in the 496-path archive; its `ATLAS`, `PARENT_SCREEN` and `PREMRNA_SCREEN` were not, and
+#: neither was any file of the `noncoding-acceptor/` directory its rows are built from. A reader
+#: running the Availability statement's own command therefore got a clean exit and a table with NO
+#: junction rows written over the one holding the exon-2 reagents' 8 and 9 bp parent duplexes.
+#:
+#: ★ SO THIS READS THE MODULE THE WAY THE INTERPRETER DOES — module-level assignments, resolved by
+#: AST — rather than the way a reviewer reads a filename. `HERE = os.path.dirname(os.path.abspath(
+#: __file__))` and `os.path.join(HERE, "x.json")` are the two idioms every module in this lane uses,
+#: and both are evaluated here. A constant that resolves to no file on disk is not a finding: the
+#: question is only ever "this file exists in the tree and the archive does not carry it".
+_DATA_SUFFIXES = (".json", ".jsonl", ".csv", ".tsv", ".txt", ".fasta", ".fa")
+
+
+def _module_level_paths(full):
+    """Every filesystem path a module names at module level, as absolute paths.
+
+    Returned as `{constant name: absolute path}` — the NAME is what tells an input from an output.
+    Evaluates the two idioms this lane actually uses — `os.path.dirname(os.path.abspath(__file__))`
+    and `os.path.join(...)` over already-known names — and returns `None` for anything else rather
+    than guessing. A bare filename constant is resolved against the module's own directory and
+    against any module-level constant that names a real directory, because `SCREEN_DIR` plus a bare
+    `ATLAS` is precisely the shape that shipped broken.
+    """
+    tree = ast.parse(io.open(full, encoding="utf-8").read())
+    home = os.path.dirname(full)
+    env = {}
+
+    def ev(node):
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            return node.value
+        if isinstance(node, ast.Name):
+            return env.get(node.id)
+        if isinstance(node, ast.Call):
+            fn = node.func
+            name = fn.attr if isinstance(fn, ast.Attribute) else getattr(fn, "id", None)
+            if name == "join":
+                parts = [ev(a) for a in node.args]
+                if parts and all(isinstance(x, str) for x in parts):
+                    return os.path.join(*parts)
+            #: `dirname(abspath(__file__))` and its variants all denote the module's directory.
+            if name in ("dirname", "abspath", "realpath"):
+                return home
+        return None
+
+    for node in tree.body:
+        if not (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name)):
+            continue
+        value = ev(node.value)
+        if isinstance(value, str):
+            env[node.targets[0].id] = value
+
+    dirs = [home] + [v for v in env.values() if os.path.isdir(v)]
+    out = {}
+    for name, value in env.items():
+        if not value.endswith(_DATA_SUFFIXES):
+            continue
+        if os.path.isabs(value):
+            out[name] = os.path.normpath(value)
+            continue
+        for base in dirs:
+            cand = os.path.join(base, value)
+            if os.path.exists(cand):
+                out[name] = os.path.normpath(cand)
+                break
+    return out
+
+
+def _names_opened_for_writing(full):
+    """The module-level constant NAMES this module opens for writing — those are outputs.
+
+    ⛔ WITHOUT THIS THE GUARD REDS ON HONEST INPUT, which is how a gate gets loosened until it
+    measures nothing. Three chain steps name a path they PRODUCE: `aso_archive_manifest.py` writes
+    the manifest (which structurally cannot list itself), `svg_to_print_formats.py` writes
+    `print-formats-manifest.json` and re-reads the previous copy only to diff against it, and
+    `lint_citations.py --baseline` writes the provenance ledger. A reader missing an OUTPUT is not
+    missing anything.
+
+    ⭐ MATCHED BY AST ON THE CALL, NOT BY A TEXT SEARCH FOR THE FILENAME. A regex that asks
+    "does this file mention `open(..., 'w')` anywhere AND mention this basename anywhere" answers
+    yes for every producer that also reads something, which would excuse the exact omission this
+    file exists to catch.
+    """
+    tree = ast.parse(io.open(full, encoding="utf-8").read())
+    written = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        fn = node.func
+        name = fn.attr if isinstance(fn, ast.Attribute) else getattr(fn, "id", None)
+        if name != "open" or not node.args:
+            continue
+        mode = node.args[1] if len(node.args) > 1 else next(
+            (k.value for k in node.keywords if k.arg == "mode"), None)
+        literal = isinstance(mode, ast.Constant) and isinstance(mode.value, str)
+        if not literal or not any(c in mode.value for c in "wax"):
+            continue
+        if isinstance(node.args[0], ast.Name):
+            written.add(node.args[0].id)
+    return written
+
+
+def test_every_input_an_invoked_module_names_is_in_the_archive():
+    """⛔⛔ THE PROPERTY, ONE LEVEL IN FROM THE STEP LIST. A deposited step whose input is absent
+    fails as surely as an absent step — and worse, because it can succeed."""
+    manifest = _manifest()
+    deposited = {f["path"] for f in manifest["files"]}
+    #: ⚠ THE MANIFEST IS IN THE ARCHIVE AND CANNOT BE IN ITS OWN FILE LIST — a file cannot carry its
+    #: own hash. `zenodo_deposit.build_zip` writes it into the zip as an extra member beside the
+    #: listed files, and the deposition description records its digest separately for that reason.
+    #: So a step that reads it is reading something the reader HAS; excluding it here is the one
+    #: place this guard trusts a fact it cannot see in `files[]`, and it is asserted below rather
+    #: than assumed.
+    shipped_beside_the_list = {os.path.relpath(MANIFEST, REPO).replace(os.sep, "/")}
+    deposited |= shipped_beside_the_list
+    missing = {}
+    for rel in sorted(_invoked(_script())):
+        full = os.path.join(REPO, rel)
+        if not os.path.exists(full) or rel not in deposited:
+            continue
+        outputs = _names_opened_for_writing(full)
+        for name, path in sorted(_module_level_paths(full).items()):
+            if name in outputs:
+                continue
+            cand = os.path.relpath(path, REPO).replace(os.sep, "/")
+            if cand.startswith("..") or cand in deposited or not os.path.exists(path):
+                continue
+            missing.setdefault(cand, []).append(rel)
+    assert not missing, (
+        f"{len(missing)} artifact(s) a DEPOSITED chain step opens by name are not in the archive, "
+        "so the command the Availability statement names runs against inputs a reader does not "
+        "have:\n  "
+        + "\n  ".join(f"{k} — named by {sorted(set(v))[0]}" for k, v in sorted(missing.items()))
+        + "\n\n⛔ A step that reads a missing input may SUCCEED and write an empty artifact over a "
+        "populated one. Add the inputs to a `patterns` list in "
+        "research/manuscripts/aso_archive_manifest.py and re-derive the manifest.")
+
+
+def test_the_input_reader_actually_resolves_this_lanes_two_idioms():
+    """⛔ THE PRECONDITION, and the one that fails silently: a resolver that evaluates nothing
+    reports a complete archive for every archive. Driven against the module whose inputs were the
+    measured omission, so a refactor that renames `HERE` or moves the constants fails loudly."""
+    full = os.path.join(REPO, "research", "modalities",
+                        "aso_noncoding_acceptor_screened_table.py")
+    assert os.path.exists(full), "the module the third iteration was measured on has moved"
+    found = {os.path.relpath(p, REPO).replace(os.sep, "/")
+             for p in _module_level_paths(full).values()}
+    for rel in ["research/modalities/nr4a3-fusion-junction-atlas-noncoding-acceptor.json",
+                "research/modalities/aso-parent-gap-pairing-noncoding-acceptor.json",
+                "research/modalities/aso-premrna-offtarget-noncoding-acceptor.json",
+                "research/modalities/aso-genome-offtarget-noncoding-acceptor.json"]:
+        assert rel in found, (
+            f"the module-level path resolver no longer finds {rel}, which this module names as a "
+            "bare filename joined to HERE. It resolved all four when the guard was written, and a "
+            "resolver that finds nothing passes every archive")
+
+
+def test_the_table_module_refuses_to_overwrite_its_own_answer_with_an_empty_one():
+    """★ THE OTHER HALF OF THE FIX, ASSERTED RATHER THAN DESCRIBED. Depositing the inputs makes the
+    chain run TODAY; it does not stop a partial download, a dropped pattern or a run from the wrong
+    directory reproducing the destruction. `_refuse_to_replace_a_populated_table` is the standing
+    guard, and a guard nothing imports is this repository's own recorded failure mode."""
+    full = os.path.join(REPO, "research", "modalities",
+                        "aso_noncoding_acceptor_screened_table.py")
+    body = io.open(full, encoding="utf-8").read()
+    assert "_refuse_to_replace_a_populated_table(out)" in body, (
+        "the non-canonical table module no longer refuses to replace a populated table with an "
+        "empty one. That write is silent, exits 0, and destroys the only committed record of the "
+        "non-canonical junctions' screened numbers")
+
+
+def test_the_manifest_really_is_shipped_beside_its_own_file_list():
+    """⛔ THE ONE EXEMPTION ABOVE, DRIVEN AGAINST THE PACKAGER RATHER THAN BELIEVED. If the zip
+    builder ever stops adding the manifest itself, a chain step that reads it becomes a real
+    omission and the exemption would hide it — which is how an exemption written for a true reason
+    outlives the reason."""
+    body = io.open(os.path.join(REPO, "scripts", "zenodo_deposit.py"), encoding="utf-8").read()
+    assert "z.write(os.path.join(REPO, manifest_rel), manifest_rel)" in body, (
+        "scripts/zenodo_deposit.build_zip no longer writes the manifest into the archive, so the "
+        "manifest is NOT shipped beside its file list and the exemption in "
+        "test_every_input_an_invoked_module_names_is_in_the_archive is now hiding a real gap")
 
 
 def test_the_manifest_promise_row_for_the_chain_still_claims_completeness():

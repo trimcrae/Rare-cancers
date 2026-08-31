@@ -73,5 +73,27 @@
    "corpus": "resource-citations-2",
    "role": "Human Protein Atlas — read as a transport check only (Methods)"
   }
- ]
+ ],
+ "supplementary_record_2026_08_31_the_five_step_framework_verbatim": {
+  "_why_here": "The journal article used to enumerate all five steps of PMID 39912803's workflow inline, 33 words of a cited framework in a 6-page paper. The paper now states only its own SCOPE — the in-silico half of step 1, and step 3's margin measurement in the Discussion — because that is the paper's claim; the enumeration is the source's, and this is where it lives. ⛔ THE ENUMERATION HAD NO OTHER HOME: the extended report never carried it and is a frozen deposited checkpoint that cannot gain one, so cutting it from the article without this record would have removed it from the repository entirely.",
+  "source": {
+   "route": "PubMed E-utilities article metadata, retrieved through the session's PubMed MCP tool",
+   "retrieved_utc": "2026-08-31",
+   "not_a_workflow_run": "No fetch-literature.yml dispatch produced this and none is claimed.",
+   "attribution": "PubMed; article DOI 10.1089/nat.2024.0072"
+  },
+  "record": {
+   "pmid": "39912803",
+   "doi": "10.1089/nat.2024.0072",
+   "authors": "Andersson P, Burel SA, Estrella H, Foy J, Hagedorn PH, Harper TA, Henry SP, Hoflack JC, Holgersen EM, Levin AA, Morrison E, Pavlicek A, Penso-Dolfin L, Saxena U.",
+   "title": "Assessing Hybridization-Dependent Off-Target Risk for Therapeutic Oligonucleotides: Updated Industry Recommendations.",
+   "journal": "Nucleic Acid Ther",
+   "year": 2025,
+   "citation": "35:16-33",
+   "five_steps_verbatim": "The proposed workflow encompasses five key steps: (1) OffT identification throughcomplementarity prediction and transcriptomics analysis, (2) focus on cell types with relevant ONT activity, (3)verification and margin assessment, (4) risk assessment based on the OffT biological role, and (5) management of unavoidable OffTs.",
+   "⚠_the_two_missing_spaces_are_the_sources_own": "\"through\"+\"complementarity\" and \"(3)\"+\"verification\" run together in the abstract as PubMed serves it. Retained rather than tidied: a verbatim field that has been silently corrected is no longer a verbatim field, and the whole value of one is that a reader can match it against the source byte for byte.",
+   "what_the_paper_takes_from_it": "Step 1 is the only in-silico step and this work performs its in-silico half and stops; steps 2, 3, 4 and 5 are laboratory or governance steps this project has never done. Step 3 is the margin assessment the Discussion's falsification design specifies. ⛔ THE PAPER MAY NOT CLAIM MORE THAN STEP 1 — `test_the_manuscript_asserts_the_relation_its_artifacts_compute.py` forbids 'all five', 'the first three steps' and 'steps one to' at that sentence by name.",
+   "role": "The committed home of the framework the paper locates its own scope against."
+  }
+ }
 }

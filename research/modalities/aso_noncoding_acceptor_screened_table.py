@@ -208,14 +208,14 @@ def build():
     provenance, states = {}, {}
 
     # ── screen 2: the deep transcriptome BLAST arm (and, through it, the locus recount) ───────
-    deep, blast_state = [], None
+    deep, deep_absent, blast_state = [], [], None
     blast_screens = []
     try:
         ss = ass.load_screens(GEOMETRY, ass.BLAST_SCREEN, root=SCREEN_DIR,
                               select=ass.is_deep, allow_empty=True)
         blast_screens = sorted(ss.names)
         if blast_screens:
-            deep = APJT._deep_screens(root=SCREEN_DIR)
+            deep, deep_absent = APJT._deep_screens(root=SCREEN_DIR)
             blast_state = _screen_state(SCREEN_DIR, True, {
                 "screens": blast_screens, "geometry": ss.geometry.as_dict(),
                 "_geometry_is_measured": "from the designs in each artifact, then checked against "
@@ -335,7 +335,8 @@ def build():
     # table is built per junction: complete rows where an alignment screen exists, explicit-null
     # rows where it does not, and never a junction dropped because a sibling was luckier.
     lane_screens_all_ran = all(s["ran"] for s in states.values())
-    junctions = APJT.junction_rows(deep, parent, premrna, genome) if deep else []
+    junctions = (APJT.junction_rows(deep, parent, premrna, genome, deep_absent)
+                 if deep else [])
     for j in junctions:
         j["screens_complete"] = lane_screens_all_ran
     covered = {j["junction_label"] for j in junctions}
@@ -437,6 +438,54 @@ def build():
     }
 
 
+def _refuse_to_replace_a_populated_table(out):
+    """⛔⛔ A REBUILD THAT LOST ITS INPUTS MUST STOP, NOT OVERWRITE THE ANSWER WITH AN EMPTY ONE.
+
+    ⚠ WHAT THIS COST, MEASURED 2026-08-31 by round 26's citations seat. Three of this module's four
+    named inputs — the atlas, the mature-parent screen and the pre-mRNA screen — and every screen in
+    `SCREEN_DIR` were outside the 496-path archive, while `OUT` and this module were inside it. So a
+    reader who downloaded the DOI and ran the command the Availability statement names got a clean
+    exit, a `wrote …` line, and a table with **no junction rows** where the deposited copy had held
+    the exon-2 reagents' 8 and 9 bp parent duplexes. The screen-state block was honest — every
+    screen recorded `ran: false` with a rebuild instruction — and that is exactly what made it
+    dangerous: an honest record of absence WRITTEN OVER the measurement it replaced reads as a
+    result, and the numbers it replaced are not recoverable from the file that replaced them.
+
+    ★ SO THE ARCHIVE GAP AND THIS GUARD ARE TWO FIXES, NOT ONE. The inputs are now deposited
+    (`noncanonical_acceptor_screens` in `research/manuscripts/aso_archive_manifest.py`), which makes
+    the chain run. This refuses the destructive write anyway, because "the inputs are all present"
+    is a property of one archive at one moment and this module outlives it — a partial download, a
+    future row that drops a pattern, or a run from the wrong directory reproduces it exactly.
+
+    ⛔ THE TEST IS DESTRUCTION, NOT EMPTINESS. Writing an empty table where none existed is fine and
+    is how this lane bootstrapped; REPLACING rows with no rows is the failure. `--check` is
+    untouched: reporting staleness against a populated artifact is the whole point of that path.
+    """
+    if out.get("junctions"):
+        return
+    if not os.path.exists(OUT):
+        return
+    try:
+        prior = json.load(open(OUT, encoding="utf-8"))
+    except (OSError, ValueError):
+        return
+    if not prior.get("junctions"):
+        return
+    absent = sorted(name for name, s in (out.get("screens") or {}).items() if not s.get("ran"))
+    raise SystemExit(
+        "REFUSING TO OVERWRITE %s: this rebuild produced 0 junction rows and the committed copy "
+        "holds %d. That is not a result, it is a rebuild whose inputs are missing — %s did not "
+        "run. Restore the screen artifacts this module reads (%s in this directory, and the "
+        "junction-aso-* screens in %s/) and re-run; every one of them is in the paper's Zenodo "
+        "archive.\n⛔ Do NOT delete the committed table to get past this: its rows are the only "
+        "record of the non-canonical junctions' screened numbers, and an empty table that says "
+        "every screen is absent reads to a reader as an answer."
+        % (os.path.relpath(OUT, os.path.dirname(HERE)), len(prior["junctions"]),
+           ", ".join(absent) or "no screen", ", ".join([ATLAS, PARENT_SCREEN, PREMRNA_SCREEN,
+                                                        GENOME_SCREEN]),
+           os.path.basename(SCREEN_DIR)))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true",
@@ -454,6 +503,7 @@ def main(argv=None):
         print(f"non-canonical screened table --check: OK ({out['n_junctions']} junctions, "
               f"{out['n_screens_that_ran']}/{len(out['screens'])} screens)")
         return 0
+    _refuse_to_replace_a_populated_table(out)
     os.makedirs(SCREEN_DIR, exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=2, ensure_ascii=False)

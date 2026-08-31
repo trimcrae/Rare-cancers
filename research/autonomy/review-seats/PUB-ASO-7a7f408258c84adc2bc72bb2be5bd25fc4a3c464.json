@@ -1,0 +1,62 @@
+{
+ "_schema": "emc-review-seat/1",
+ "_role": "The CANONICAL round-26 record for this commit. It merges five blind seats and carries the union of their tallies, so a derivation over the seat glob counts each finding exactly once.",
+ "paper": "PUB-ASO",
+ "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+ "reviewed_commit": "7a7f408258c84adc2bc72bb2be5bd25fc4a3c464",
+ "document_sha256": "bccc4c9e9eeebe0165133e7028d838c652eba3bb728387e2982f5887ac8e37c7",
+ "blind": true,
+ "_blind_means": "Each seat was given the document path, the pinned sha and the document's digest at that sha, told the tree may drift and that the PIN is the subject, and forbidden research/autonomy/, CLAUDE.md, AGENTS.md, STRATEGY.md, CLAUDE-history.md, every skill file, every *-redteam* file, the cover letter and every other seat's output. Each verified the digest itself before reading. Dispatched CONCURRENTLY. THE DRIVER IS NOT BLIND and did not review: it dispatched, verified and applied.",
+ "_the_cover_letter_is_out_of_scope_as_of_this_round": "trimcrae, 2026-08-30: 'we should stop including the cover letter in what we give to the reviewers at all'. Measured basis: five cover-letter findings across two earlier rounds, none of which could matter to v2.",
+ "_one_seat_disclosed_incidental_leakage": "The arithmetic seat reported that three repository-wide git greps returned lines from research/autonomy/research-ledger.json and one earlier seat file. It named the three quantities it saw, stated it had already re-derived two of them independently before reading further, and re-derived all three end to end regardless. Recorded because a disclosed near-miss is evidence about the round's blindness and an undisclosed one is not.",
+ "utc": "2026-08-31T00:00:00Z",
+ "round": 26,
+ "last_round": 26,
+ "seats": [
+  "PUB-ASO-7a7f408258c84adc2bc72bb2be5bd25fc4a3c464-seat-arithmetic.json",
+  "PUB-ASO-7a7f408258c84adc2bc72bb2be5bd25fc4a3c464-seat-citations-and-instruments.json",
+  "PUB-ASO-7a7f408258c84adc2bc72bb2be5bd25fc4a3c464-seat-hostile-referee.json",
+  "PUB-ASO-7a7f408258c84adc2bc72bb2be5bd25fc4a3c464-seat-regression.json",
+  "PUB-ASO-7a7f408258c84adc2bc72bb2be5bd25fc4a3c464-seat-statistics.json"
+ ],
+ "central_claim": "Junction-spanning 5-6-5 gapmers can be designed at every in-frame NR4A3 fusion junction modelled, but roughly half the 190-design panel lets a mature wild-type parent pair the whole catalytic gap over ten or more contiguous base pairs — most often wild-type NR4A3 itself — so two reagents are named that avoid it (at 8 and 9 bp, against TFG), with two screened controls and a pre-registrable falsification design; the excess over an exon-terminus chimeric null is not resolved and the ten-base-pair cut is a convention.",
+ "verdict": "supported",
+ "recommendation": "minor_revision",
+ "blockers": [
+  {
+   "id": "R26-B1",
+   "seat": "regression",
+   "summary": "The round-25 cleanliness-bounds fix left a reason that argued for a ceiling where the sentence claims a floor.",
+   "status": "fixed"
+  }
+ ],
+ "p1s": [
+  {
+   "id": "R26-A-P1-1",
+   "seat": "arithmetic",
+   "status": "fixed"
+  },
+  {
+   "id": "R26-A-P1-2",
+   "seat": "arithmetic",
+   "status": "fixed"
+  },
+  {
+   "id": "R26-S-P1-1",
+   "seat": "statistics",
+   "status": "fixed"
+  },
+  {
+   "id": "R26-R-P1-1",
+   "seat": "regression",
+   "status": "fixed"
+  },
+  {
+   "id": "R26-C-P1-2",
+   "seat": "citations-and-instruments",
+   "status": "fixed"
+  }
+ ],
+ "⚠_this_record_does_not_declare_convergence": "One blocker and five P1s were filed and all were repaired, so the tree this record describes is not the tree that was reviewed. clause_1_hardening_converged requires a round whose seats read the EXACT commit being posted; that is round 27's job, against the commit these repairs land in. Recording round 26 raises the widest-round bound that clause reads, which is the honest direction.",
+ "_trend": "Blockers per round on this paper: round 24 seven (three of them this loop's own repairs), round 25 three (two of them repairs), round 26 one (an incomplete fix, not a new error). The hostile-referee seat filed six P1s at round 24 and zero here."
+}

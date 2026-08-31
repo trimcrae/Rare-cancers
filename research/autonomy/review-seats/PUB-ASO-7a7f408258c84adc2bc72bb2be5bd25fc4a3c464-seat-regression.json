@@ -1,0 +1,29 @@
+{
+ "_schema": "emc-review-seat/1",
+ "paper": "PUB-ASO",
+ "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+ "reviewed_commit": "7a7f408258c84adc2bc72bb2be5bd25fc4a3c464",
+ "document_sha256": "bccc4c9e9eeebe0165133e7028d838c652eba3bb728387e2982f5887ac8e37c7",
+ "blind": true,
+ "seat": "regression",
+ "utc": "2026-08-31T00:00:00Z",
+ "round": 26,
+ "lens": "Every fix applied since the previous pin, re-read for a repair that introduced a new error or left a second site stale.",
+ "verdict": "supported",
+ "recommendation": "minor_revision",
+ "blockers": [
+  {
+   "id": "R26-B1",
+   "summary": "The round-25 fix to the cleanliness-bounds sentence scoped the two bounds correctly but left the 'floor' reason arguing for a ceiling; a reader following it reaches the opposite conclusion.",
+   "status": "fixed",
+   "fix": "Rewrote the reason at 5-10-5 pairing so the whole gap already demands ten base pairs, making the last figure a floor, and bound the direction word to the reason in test_journal_article_numbers.py."
+  }
+ ],
+ "p1s": [
+  {
+   "id": "R26-R-P1-1",
+   "summary": "The Tables pointer was a second home of a round-25 fix and had not been updated with it.",
+   "status": "fixed"
+  }
+ ]
+}

@@ -464,15 +464,26 @@ artifacts, whose own comment says withholding an ensemble *"leaves the one numbe
 most wants to recompute uncheckable."* Same defect, one screen over, three published versions long.
 
 ★ **THE SIZE OF THE DRIFT, MEASURED AGAINST THE MANIFEST'S OWN INVENTORY.** Diffing the deposited set
-between the published record's revision and HEAD returns **33 differences: 21 changed, 12 added, 0
-removed**, over 484 published paths and 496 now. The twelve additions are the duplex-energy screen
-and its producer, `aso_falsification_power.py` (which produces five figures the Discussion prints
-and writes no artifact, so nothing else holds them), four packaging modules the chain invokes, and
-five artifacts a deposited test opens by name.
+between the published record's revision and HEAD returns **64 differences: 33 changed, 31 added, 0
+removed**, over 484 published paths and 515 now. The additions are the duplex-energy screen and its
+producer, `aso_falsification_power.py` (which produces five figures the Discussion prints and writes
+no artifact, so nothing else holds them), four packaging modules the chain invokes, five artifacts a
+deposited test opens by name, and — nineteen of the thirty-one — the screens behind the
+non-canonical acceptor table.
+⛔ **THOSE NINETEEN ARE A DEFECT REPAIR, NOT A WIDENING.** Round 26's citations seat found that
+`aso_noncoding_acceptor_screened_table.py` and its OUTPUT were both deposited while the atlas, the
+mature-parent screen, the pre-mRNA screen and every file of `research/modalities/noncoding-acceptor/`
+were not — so the command the Availability statement names ran, exited 0, and **overwrote the
+deposited exon-2 table with one carrying no junction rows**, losing the 8 bp and 9 bp parent duplexes
+the Test-articles section rests on. Reproduced on a scratch copy before the fix: 0 rows produced
+against 4 committed. The module now refuses that write, and the guard that missed it reads each
+invoked module's module-level path constants rather than only the chain's invocations.
 ⚠ *Superseded, retained (rule 1.2): "**23 differences: 13 changed, 10 added, 0 removed**" (true at
-`ba0ab8b1f`), "**28 differences: 18 changed, 10 added, 0 removed**" (true at `b93499e94`), and
+`ba0ab8b1f`), "**28 differences: 18 changed, 10 added, 0 removed**" (true at `b93499e94`),
 "**31 differences: 21 changed, 10 added, 0 removed**" (true at `d05203703`, before round 24 added
-two more files to the archive).* ⛔ **That is the same ordering rule three times in one evening, and it
+two more files to the archive), and "**33 differences: 21 changed, 12 added, 0 removed**" (true at
+`7a7f40825`, before round 26 added the non-canonical acceptor screens), and "**62 differences: 31
+changed, 31 added, 0 removed**" (true before round 26's length cut rebuilt the PDFs).* ⛔ **That is the same ordering rule three times in one evening, and it
 is worth more than any of the three numbers: a declared drift count is current only until the next
 rebuild the change implies — exactly as a draft refresh is.** Both are readings of an outside
 system with a date on them.

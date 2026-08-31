@@ -56,6 +56,29 @@ about the process rather than any one sentence, which is the strongest signal th
 - **⛔ A CORRECTION REPLACES TEXT; IT DOES NOT APPEND TO IT.** If the sentence is wrong, rewrite the
   sentence. A qualifier bolted onto a wrong sentence leaves the wrong sentence in the paper and adds a
   second one that argues with it.
+  - **★★ ENFORCED AS OF 2026-08-31 BY A LENGTH RATCHET, BECAUSE THIS RULE WAS CORRECT AND MEASURED BY
+    NOTHING FOR NINE DAYS.**
+    [`test_a_hardening_round_may_not_grow_the_paper.py`](./research/manuscripts/tests/test_a_hardening_round_may_not_grow_the_paper.py)
+    holds a main-text word CEILING per outgoing paper: it may fall freely and may not rise, and its
+    remedy text says in words that raising it to fit an edit is the self-serving amendment
+    `amendment_guard` exists to catch. The count comes from `submission_metrics.measure` rather than
+    a second counter — ⚠ the first draft counted its own way and got **4,120 against the
+    repository's 3,793**, an 8.6% disagreement that would have made the ceiling a bound on a
+    quantity nobody reports.
+    ⚠ **trimcrae, 2026-08-31, which is why it exists:** *"If we are going from 6 pages to 8 pages,
+    that's a 33% increase just in response to reviewer feedback. That's clearly over hedging and
+    scope creep. Not only should we aggressively cut the fat, we need to be more strict in our
+    process about adding more length to satisfy one of our internal reviewers."*
+    ⭐ **AND THE ROUND THAT TRIGGERED IT IS THE PROOF THE RULE WORKS.** Round 26's two prose
+    corrections were first written as EXPANSIONS — *"covers every position of GRCh38"* → *"covers
+    GRCh38 end to end, skipping only windows that carry an ambiguous base"* — costing 13 words and,
+    through re-wrapping, a whole page; an hour then went into cutting good prose to fund them, and
+    **four of those six cuts were wrong**, two breaking guards that deliberately pin their wording
+    and one INVERTING a provenance sentence into a false statement. Rewritten as REPLACEMENTS
+    (*"covers unambiguous GRCh38"*) the identical corrections came in **11 words shorter than the
+    text they replaced**, and the page came back with nothing cut at all. ★ **The finding was never
+    what cost the page. The prose was** — so the first move on a length failure is to re-read your
+    own repair, not to go hunting for fat.
 - **★ DERIVATIONS MOVE TO THE EXTENDED REPORT; THE BOUND STAYS IN THE PAPER AS ONE SENTENCE.** The
   arithmetic behind a bound is not the bound. A short paper's job is to state what is bounded and at
   what level, and to point at where it is derived.
