@@ -282,10 +282,28 @@ def test_the_cleanliness_bounds_are_the_screens_own_counts(prose):
     never_returned = len(rows) - len(counted)
     assessable = sum(1 for c in counted if c <= 15)
     _every_site(prose,
-                r"(\w+) of the (\d+) screens never returned, and the alignment screen censors the "
-                r"rest, leaving (\d+) of (\d+) assessable at all",
+                r"(\w+) of the (\d+) alignment screens never returned, and that screen censors the "
+                r"rest, leaving (\d+) of (\d+) assessable for cleanliness",
                 (_word(never_returned), str(len(rows)), str(assessable), str(len(counted))),
                 "the two cleanliness bounds, with both of their denominators")
+
+    #: ⛔⛔ THE SCOPE, NOT ONLY THE FOUR NUMERALS. Until 2026-08-31 this paragraph opened "Two
+    #: bounds apply to EVERY panel count below", and both bounds are properties of the alignment
+    #: screen alone — the parent, precursor and genome screens run over all 190 with no failures
+    #: and no censoring, which the paper itself says twice ("the one this work puts to all 190
+    #: designs"; "a screen applied uniformly to the whole panel"). A reader took "47 of 183
+    #: assessable" as the denominator behind 45.8% and met "87 of 190" four lines later.
+    #: ★ Round 25's statistics seat graded it a blocker; the four numerals were all correct and the
+    #: quantifier was not, which is why binding numerals alone was never enough.
+    assert not re.search(r"[Tt]wo bounds apply to every panel count", prose), (
+        "the cleanliness bounds have been rescoped back to 'every panel count below'. They are "
+        "properties of the ALIGNMENT screen: research/modalities/aso-parent-gap-pairing.json and "
+        "aso-premrna-offtarget.json each carry 190 designs with no failure or truncation field, "
+        "and aso-genome-offtarget.json calls its completeness 'definitional'. Scope the sentence "
+        "to a count of designs the alignment screen calls clean, as the extended report does.")
+    assert re.search(r"assessable for cleanliness", prose), (
+        "the bound no longer says what it is a bound ON. 'Assessable at all' reads as a bound on "
+        "the whole panel; the quantity is assessability for CLEANLINESS by one screen.")
 
 
 def test_the_panel_size_is_the_screens_at_every_site_that_states_it(prose):

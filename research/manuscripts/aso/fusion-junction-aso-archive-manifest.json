@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22182180",
-  "git_revision": "82d378a2adea7d2a0426803e6af6ff79aa88f2bb",
-  "git_tree_is_clean_apart_from_this_manifest": true,
+  "git_revision": "8b84ad19128b43f5c17de1d4f1c6fe0089c3a001",
+  "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "83fa8e145a378251f03ba195d6b5c305352b6d5b9a39d3dbcfa84b26fcef00aa",
+  "archive_content_digest": "ef5331363c74504ced947df826dbefcb8b18c9d086b3b32fc1f191a3ab8fbc95",
   "n_files": 496,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,8 +24,8 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 49674930,
-  "total_mib": 47.374,
+  "total_bytes": 49686721,
+  "total_mib": 47.385,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
@@ -35,15 +35,15 @@
       },
       ".py": {
         "n_files": 76,
-        "bytes": 3296522
+        "bytes": 3299876
       },
       ".md": {
         "n_files": 12,
-        "bytes": 730914
+        "bytes": 731184
       },
       ".pdf": {
         "n_files": 8,
-        "bytes": 1982382
+        "bytes": 1990549
       },
       ".png": {
         "n_files": 4,
@@ -193,7 +193,7 @@
     {
       "id": "reproduction_command",
       "promise_text": "the regeneration chain the Availability statement names",
-      "n_files": 22,
+      "n_files": 23,
       "files": [
         "research/manuscripts/build_submission_docx.py",
         "research/manuscripts/build_submission_parts.py",
@@ -207,6 +207,7 @@
         "research/manuscripts/submission-metrics.json",
         "research/manuscripts/submission_metrics.py",
         "research/manuscripts/submission_packet.py",
+        "research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py",
         "research/modalities/aso-genome-offtarget-noncoding-acceptor.json",
         "research/modalities/aso-per-junction-table.json",
         "research/modalities/aso_noncoding_acceptor_screened_table.py",
@@ -669,10 +670,8 @@
     {
       "id": "duplex_energy_rescore",
       "promise_text": "the off-target screen re-scored on duplex stability rather than on mismatch count, and the margins the two named reagents rest on",
-      "n_files": 4,
+      "n_files": 2,
       "files": [
-        "research/manuscripts/aso_falsification_power.py",
-        "research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py",
         "research/modalities/aso-offtarget-duplex-energy.json",
         "research/modalities/aso_offtarget_duplex_energy.py"
       ],
@@ -878,6 +877,16 @@
       "⛔_UNMAPPED": false
     },
     {
+      "id": "falsification_power",
+      "promise_text": "the power and void-variance calculation behind the replicate count the pre-registrable experiment names",
+      "n_files": 1,
+      "files": [
+        "research/manuscripts/aso_falsification_power.py"
+      ],
+      "_promise_still_in_manuscript": "n/a — descriptive label, not a quotation",
+      "⛔_UNMAPPED": false
+    },
+    {
       "id": "where_each_number_lives",
       "promise_text": "the files the Availability statement names one by one",
       "n_files": 12,
@@ -1058,15 +1067,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json",
       "bytes": 906,
-      "sha256": "0fbe3c511d3f2de56535d5b1e40f099cbbae423035bbf16648ffd87941dbbc76",
+      "sha256": "974055501c7c86930c7f34a38186c123b31be512c86132a84a789fb0a685f257",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
-      "bytes": 449699,
-      "sha256": "0682e795a5f5e45dec68f2d67662231ed7364882b8c58b697e806aae369cffd9",
+      "bytes": 451429,
+      "sha256": "d9ae9236c0bcee65937711aa925e333ab800700514a8bd03d26011806a984299",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1082,7 +1091,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json",
       "bytes": 906,
-      "sha256": "562ec53b507e6d693c2d5bab0b91955dbe42fd526e791ded14f29987e006ca2f",
+      "sha256": "05990d1d6c439bc9a823043bb4b72c43d23d72ba0bcbd613d18c286e5ee64124",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1097,8 +1106,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
-      "bytes": 379765,
-      "sha256": "53c047e7362677062eb5b9e8307300e12b3bedf02b4cd627bb3387165e62fc1c",
+      "bytes": 381903,
+      "sha256": "68b89b56cfd41983715b1115e7a958cebddc31209ba55268b470e6356acc0d48",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1106,15 +1115,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.build-stamp.json",
       "bytes": 904,
-      "sha256": "49bfc502ff4a2aaffc26d6217325565a72bad505a0f395b25ec3070162b3123d",
+      "sha256": "9017cb748a2cd70eff2b5654fc10ca3ebe4142312ac09c82e7f29a09d1e4bb2f",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
-      "bytes": 365234,
-      "sha256": "4e9b8c3041dcb0078453310dcaf802043c3b5ccdb16a3416f42e3e5f20a28bbb",
+      "bytes": 367808,
+      "sha256": "f0203b43612941173ae349c13ae798f7b12b3b776bddc006ad538a88bfe97e59",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1130,23 +1139,23 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json",
       "bytes": 895,
-      "sha256": "53c9b67d1313b009b45cbef9ea766ff389349d614165f874f9579b6421d504f5",
+      "sha256": "5ee610f8aabe7ee15b4cca23a1e485d38eead422646932c31e18c208a24b7084",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
-      "bytes": 31246,
-      "sha256": "4cd452c14b71116fe0d4054aec199ceb7568c7fe67cfd63ffe03196f310d6b62",
+      "bytes": 31416,
+      "sha256": "bccc4c9e9eeebe0165133e7028d838c652eba3bb728387e2982f5887ac8e37c7",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
-      "bytes": 458173,
-      "sha256": "4a7b0256eff204e39c68392c9005b7af82ff34101ffb4d3e177e9879994e3b84",
+      "bytes": 459898,
+      "sha256": "31763c5fda0f55f85d7550f65fe3cf95e1f3e48ff578f93f4852161e706c8d44",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1161,8 +1170,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
-      "bytes": 2598,
-      "sha256": "7e3a096103b349ffc99e5b7669c689731169c9ef63267507371582020c93665f",
+      "bytes": 2698,
+      "sha256": "defbbf6eddb81f52765ba280ebe698d3f1a4f58f94dcaac27f7a4c9896522e0c",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
@@ -1381,8 +1390,8 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 119147,
-      "sha256": "4989dd7baef15d4898de854abcaa556d010ae84791cf85290322bb8e255ecb1e",
+      "bytes": 121208,
+      "sha256": "039bb812eace75949bf27599bf5f28bf17e44c46034d659b3e08f4b98b2db204",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -1399,14 +1408,14 @@
       "path": "research/manuscripts/aso_falsification_power.py",
       "bytes": 4759,
       "sha256": "e0b6c4a52ec9b28357f46e42444271e6006dbc39b3f4f91ca32f04dd96e2138c",
-      "serves": "duplex_energy_rescore",
+      "serves": "falsification_power",
       "also_serves": [],
-      "contributes": "The fifth screen's re-scoring arm: every design's closest gap-paired off-target duplex by free energy rather than by mismatch count, with the two named reagents' separations from theirs, and the producer that writes it. ⚠ ITS TWO BOUNDS POINT OPPOSITE WAYS and the artifact says so in its own headers rather than leaving a reader to find out — the manuscript states one of them, and the deposit is where the other lives."
+      "contributes": "The falsification experiment's power and void-standard-deviation figures, DERIVED rather than typed: about 80% power at six biological replicates and about 30% at three to falsify a true selectivity of 3, and the realised standard deviations above which such a test is void — 0.65 at three replicates, 1.53 at six, 2.25 at ten. ⚠ It writes no artifact, so this module is the only place those five numbers can be reproduced from."
     },
     {
       "path": "research/manuscripts/aso_journal_tables.py",
-      "bytes": 19547,
-      "sha256": "b8e8ac82909ab791ac373e944a22107f310dd9bb3ee92adfb2073555c706ee92",
+      "bytes": 20840,
+      "sha256": "4e72b639a8cfc0c671395ded1c80957d503a4344534c251a4fbf0ed44e7dba67",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
@@ -1686,7 +1695,7 @@
     {
       "path": "research/manuscripts/submission-metrics.json",
       "bytes": 13057,
-      "sha256": "2f7f39b8bb6617acceb5f08d56bbd142e6623a7dfe42efc5be2dbb3c21e31a96",
+      "sha256": "18a8d1c955bb50ff9a85e66891116e9d83d4b3486e8d573664ccd9eb9e1f6cb3",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -1759,9 +1768,9 @@
       "path": "research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py",
       "bytes": 5973,
       "sha256": "fec90630b55d40124456f0d4e7fbb10047b18143df4972331968306e5065a0c5",
-      "serves": "duplex_energy_rescore",
+      "serves": "reproduction_command",
       "also_serves": [],
-      "contributes": "The fifth screen's re-scoring arm: every design's closest gap-paired off-target duplex by free energy rather than by mismatch count, with the two named reagents' separations from theirs, and the producer that writes it. ⚠ ITS TWO BOUNDS POINT OPPOSITE WAYS and the artifact says so in its own headers rather than leaving a reader to find out — the manuscript states one of them, and the deposit is where the other lives."
+      "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
     },
     {
       "path": "research/modalities/aso-control-oligos.json",

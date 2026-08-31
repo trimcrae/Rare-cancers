@@ -149,6 +149,10 @@ PROMISES = [
                      # written for the missing STEPS, on its first run — a step present in the
                      # archive whose INPUT is not is the same failure one level in, and the archive
                      # carries the tests, so a reader running them hits it.
+                     # ⚠ A CHAIN STEP THE GUARD'S REGEX MISSED, because the chain invokes it with
+                     # a bare `pytest` rather than `python3 -m pytest` — documented in the chain
+                     # itself. The regex is widened; the file belongs here, with the other steps.
+                     "research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py",
                      "research/modalities/aso-genome-offtarget-noncoding-acceptor.json",
                      "research/modalities/fusion-neoantigen-retraction.json",
                      "research/modalities/hybrid-intron-model.json",
@@ -445,24 +449,19 @@ PROMISES = [
                         "states one of them, and the deposit is where the other lives."),
         "patterns": ["research/modalities/aso-offtarget-duplex-energy.json",
                      "research/modalities/aso_offtarget_duplex_energy.py",
-                     # ⛔⛔ THE SAME DEFECT, ONE FILE OVER, FOUND ONE ROUND LATER (round 24's
-                     # statistics seat, 2026-08-31). `aso_falsification_power.py` produces FIVE
-                     # numbers the Discussion prints — about 80% power at six replicates and about
-                     # 30% at three, and the void standard deviations 0.65, 1.53 and 2.25 — and it
-                     # was not in the archive while Data availability promised all code was.
-                     # ⚠ AND ROUND 23'S GUARD COULD NOT CATCH IT: `test_the_deposited_chain_can_run
-                     # _from_the_deposit.py` measures modules the CHAIN invokes, and this one is not
-                     # a chain step. It writes no artifact — the five figures are computed and
-                     # printed, read from no committed JSON — so nothing else holds them either.
-                     # ★ That is why it belongs with a screen rather than with the chain: it is a
-                     # producer of published numbers, which is the property the promise is about.
-                     "research/manuscripts/aso_falsification_power.py",
-                     # ⚠ AND ONE CHAIN STEP THE GUARD'S REGEX MISSED, for a reason the chain
-                     # documents: it invokes this check with a bare `pytest`, not `python3 -m
-                     # pytest`, and the guard only matched `python3 …`. The regex is widened in the
-                     # same commit; the file is added here because the manifest's own promise says
-                     # every step the script invokes travels with it.
-                     "research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py"],
+                     # ⚠ TWO FILES WERE APPENDED HERE ON 2026-08-31 AND MOVED OUT AGAIN THE SAME
+                     # DAY (round 25's regression seat). Appending them to the nearest existing
+                     # pattern list got them INTO the archive and gave them this promise's `serves`
+                     # and `contributes`, so the deposited manifest described a power calculation
+                     # and a Word-file staleness check as "the fifth screen's re-scoring arm …
+                     # closest gap-paired off-target duplex by free energy". The files were present
+                     # and the index lied about them — which is the narrowed rule's own carve-out,
+                     # "misdescribe what the archive contains", and therefore still a blocker.
+                     # ★ THE LESSON IS THE CHECK I DID NOT RUN: I regenerated the manifest and
+                     # confirmed the PATHS were present. I never read what the ENTRIES said. They
+                     # now sit under `reproduction_guards` and `reproduction_command`, whose
+                     # promises actually describe them.
+],
     },
     {
         "id": "censoring_test_and_genomic_attempt",
@@ -646,7 +645,35 @@ PROMISES = [
                      "research/modalities/tests/test_junction_aso_graded.py",
                      "research/modalities/tests/test_junction_aso_locus_collapse.py",
                      "research/modalities/tests/test_junction_aso_seam.py",
-                     "research/modalities/tests/test_junction_seam_retraction.py"],
+                     "research/modalities/tests/test_junction_seam_retraction.py",
+                     ],
+    },
+    {
+        # ⛔⛔ FILED TWICE WRONG BEFORE IT WAS FILED RIGHT, AND THE SECOND MISFILING WAS A BLOCKER.
+        # Round 24's statistics seat found this module absent from the archive while it produces
+        # FIVE numbers the Discussion prints. The first repair appended it to the duplex-energy
+        # screen's pattern list, so the deposited manifest described a power calculation as "the
+        # fifth screen's re-scoring arm … by free energy" — round 25's regression seat caught that.
+        # The second attempt put it under `reproduction_guards`, whose per-file description is
+        # "Test that re-derives a manuscript number", and it is not a test.
+        # ★ THE CHECK THAT FOUND BOTH: regenerate the manifest and READ THE ENTRY, not just confirm
+        # the path is present. A file inherits its group's prose, so filing is a description.
+        # ⚠ IT IS THE ONE PRODUCER IN THIS ARCHIVE THAT WRITES NO ARTIFACT — the figures are
+        # computed and printed, held in no committed JSON — so if this module is missing, the
+        # numbers behind the pre-registered experiment's replicate count cannot be checked at all.
+        # That is also why the chain guard cannot see it: it is not a step of the chain.
+        "id": "falsification_power",
+        "verbatim": False,
+        "promise": ("the power and void-variance calculation behind the replicate count the "
+                    "pre-registrable experiment names"),
+        "quote": "every screen's parameters and the complete bounds on each claim",
+        "contributes": ("The falsification experiment's power and void-standard-deviation figures, "
+                        "DERIVED rather than typed: about 80% power at six biological replicates "
+                        "and about 30% at three to falsify a true selectivity of 3, and the "
+                        "realised standard deviations above which such a test is void — 0.65 at "
+                        "three replicates, 1.53 at six, 2.25 at ten. ⚠ It writes no artifact, so "
+                        "this module is the only place those five numbers can be reproduced from."),
+        "patterns": ["research/manuscripts/aso_falsification_power.py"],
     },
     {
         "id": "where_each_number_lives",

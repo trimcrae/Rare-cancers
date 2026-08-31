@@ -200,10 +200,12 @@ That is the case for screening it directly. The ten-base-pair criterion is
 adopted rather than measured.
 
 
-Two bounds apply to every panel count below. First, seven of the 190 screens never returned, and
-the alignment screen censors the rest, leaving 47 of 183 assessable at all — so a count of clean
-designs is a floor over that subset, not a total over the panel. Second, most designs clean at the
-default search ceiling are not clean at a deeper one.
+Two bounds apply to any count of designs called CLEAN by the alignment screen, and to those only —
+the parent, precursor and genome-wide screens below run over all 190 with no failures and no
+censoring. First, seven of the 190 alignment screens never returned, and that screen censors the
+rest, leaving 47 of 183 assessable for cleanliness — so a count of clean designs is a floor over
+that subset, not a total over the panel. Second, most designs clean at the default search ceiling
+are not clean at a deeper one.
 
 The two reagents above are what survived a screen applied uniformly to the whole panel. Across the
 38 in-frame junctions of five modelled partners, 190 junction-spanning designs were tiled and put

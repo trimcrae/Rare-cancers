@@ -186,17 +186,31 @@ def build() -> str:
     rows = _rows()
     out = ["<!-- GENERATED, DO NOT EDIT. Regenerate: python3 research/manuscripts/aso_journal_tables.py -->",
            "", "# Display items: fusion-junction ASO journal article", "",
-           # ⛔⛔ THIS SENTENCE HAS NOW BEEN WRONG TWICE ABOUT ITS OWN EXCEPTIONS. Round 16 caught
-           # it naming ONE where there were two; round 24 caught it naming one where there are
-           # NONE — the test-article column was removed on 2026-08-30 to stop Table 1 clipping,
-           # and the preamble was not updated in the same commit. ★ THE EXCEPTION DID NOT
-           # DISAPPEAR, IT MOVED: the test-article pairing is a literature fact and is now in
-           # Table 1's CAPTION, which is what the sentence must now carve out, because the
-           # guarantee it makes is about un-derived content and not about a column.
-           "*Every cell below is a column of `fusion-junction-aso-sequences.csv`, the canonical "
-           "machine-readable record. The one thing on this page that is not is the test-article "
-           "pairing in Table 1's caption, which is a literature fact and carries its source there. "
-           "Every reagent named here is a "
+           # ⛔⛔ THIS SENTENCE HAS NOW BEEN WRONG THREE TIMES ABOUT ITS OWN EXCEPTIONS, AND THE
+           # THIRD TIME WAS THE REPAIR OF THE SECOND. Round 16: it named ONE exception where there
+           # were two. Round 24: it named a Table 1 COLUMN that had been removed. Round 25: the
+           # repair moved the exception into the caption and, in doing so, widened the subject from
+           # "every cell" to "the one thing on this page" — which forces a page-wide reading under
+           # which the universal is false, because the captions also hard-code `wild-type TFG`, the
+           # Bangerter models fact, and all of Table 2's scramble properties, none of them CSV
+           # columns.
+           # ⛔ AND THE FIRST NARROWING WAS FALSE TOO, CAUGHT BEFORE IT SHIPPED by mapping every
+           # cell to its source instead of trusting the sentence. "Every cell in the tables is a
+           # COLUMN of the CSV" fails four ways: `_seam` reformats `junction`, `_duplex` composes
+           # two columns, `_tm` SUBTRACTS two, and Table 2 does not come from that file at all —
+           # `_controls` reads `aso-control-oligos.json`. Nobody had noticed the last one in three
+           # rounds of getting this sentence wrong.
+           # ★ SO THE CLAIM IS THE ONE THAT IS ACTUALLY TRUE AND ACTUALLY LOAD-BEARING: every value
+           # is READ from a committed artifact and none is typed. That is the order-safety
+           # guarantee a reader needs, it covers both tables and both sources, and it survives a
+           # column being composed, derived or renamed — which is what broke the other four.
+           # ⚠ AND THE GUARANTEE SURVIVES INTACT — it is an ORDER-SAFETY claim about the cells a
+           # reader might transcribe a sequence from, and it still covers every one of them.
+           "*Every value in the tables below is read from a committed artifact and none is typed "
+           "by hand: the reagents from `fusion-junction-aso-sequences.csv`, the canonical "
+           "machine-readable record, and the controls from `aso-control-oligos.json`, either "
+           "directly or composed from their fields. The captions carry literature facts, each "
+           "with its source named there. Every reagent named here is a "
            f"{GEOMETRY} phosphorothioate gapmer. An oligonucleotide should be "
            "ordered from that file rather than transcribed from this page.*", ""]
 
