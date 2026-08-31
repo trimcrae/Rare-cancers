@@ -11,7 +11,7 @@
     "experiment": 24,
     "fetch": 22,
     "fix": 19,
-    "harden": 23,
+    "harden": 24,
     "negative": 32,
     "process": 7,
     "process_defect": 164,
@@ -26,6 +26,7 @@
     "in_progress": 6,
     "parked": 28,
     "queued": 151,
+    "ready": 1,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -1069,51 +1070,6 @@
       }
     },
     {
-      "id": "AUT-046",
-      "_derived": true,
-      "what": "Post the preprint and put the MTAP stain in front of a group holding EMC archival material.",
-      "serves": {
-        "route": "RT-MTAP-PRMT5",
-        "publication": "PUB-MTAP-PRMT5",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "kind": "write",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "635448dd-7cc8-56d4-93ee-15a123da8f73",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-09",
-      "score": 174.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "prebuilt_bench",
-        "patient_path_scaled": 0.7,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": true,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": true,
-        "fruitless_attempts": 0,
-        "age_factor": 1.0
-      },
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "posts a preprint AND approaches a group holding archival material. Two outward acts in one row.",
-      "claimed_utc": "2026-08-31T13:19:34Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-08-31T13:19:34Z",
-          "fingerprint_at_dispatch": "2026-08-09|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-190",
       "kind": "process_defect",
       "serves": {
@@ -1466,6 +1422,51 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
+    },
+    {
+      "id": "AUT-046",
+      "_derived": true,
+      "what": "Post the preprint and put the MTAP stain in front of a group holding EMC archival material.",
+      "serves": {
+        "route": "RT-MTAP-PRMT5",
+        "publication": "PUB-MTAP-PRMT5",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "kind": "write",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "635448dd-7cc8-56d4-93ee-15a123da8f73",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-09",
+      "score": 166.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "prebuilt_bench",
+        "patient_path_scaled": 0.7,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": true,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": true,
+        "fruitless_attempts": 1,
+        "age_factor": 1.0
+      },
+      "claimed_utc": "2026-08-31T13:19:34Z",
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "posts a preprint AND approaches a group holding archival material. Two outward acts in one row.",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-31T13:19:34Z",
+          "fingerprint_at_dispatch": "2026-08-09|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-054",
@@ -3614,8 +3615,8 @@
         "strategy": "ST-DEPENDENCY"
       },
       "state": "in_progress",
-      "owner": "CI-panels-run-33253509586",
-      "claimed_utc": "2026-08-29T12:50:52Z",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3657,7 +3658,8 @@
       "score_inputs": {
         "fruitless_attempts": 3,
         "age_factor": 0.1429
-      }
+      },
+      "_lease_released_2026_08_31": "Lease released as litter, not as a takeover. `holder_liveness.py --check` reported it NOT OBSERVED, and the control plane then settled it: CI-panels-run-33253509586 — an Actions run from 2026-08-29; runs do not last two days. `continuity.py` was reporting 4 concurrent holders against a governed subagent_width of 1, so these three were blocking every startable row in the queue. ⛔ AUT-046 was left held — it was claimed 2026-08-31T13:19:34Z, twenty minutes before this reading, and a fresh lease is a worker, not litter."
     },
     {
       "id": "AUT-PD-028",
@@ -3819,8 +3821,8 @@
         "strategy": null
       },
       "state": "in_progress",
-      "owner": "CYC-0087-45cefa3b",
-      "claimed_utc": "2026-08-29T12:26:08Z",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3850,7 +3852,8 @@
       "score_inputs": {
         "fruitless_attempts": 1,
         "age_factor": 0.1429
-      }
+      },
+      "_lease_released_2026_08_31": "Lease released as litter, not as a takeover. `holder_liveness.py --check` reported it NOT OBSERVED, and the control plane then settled it: CYC-0087-45cefa3b — its session is archived; claim is from 2026-08-29. `continuity.py` was reporting 4 concurrent holders against a governed subagent_width of 1, so these three were blocking every startable row in the queue. ⛔ AUT-046 was left held — it was claimed 2026-08-31T13:19:34Z, twenty minutes before this reading, and a fresh lease is a worker, not litter."
     },
     {
       "id": "AUT-PD-172",
@@ -4272,8 +4275,8 @@
         "strategy": "ST-STRATEGY"
       },
       "state": "in_progress",
-      "owner": "session_015ot2aSG28GM5Y9zBXcjmKb",
-      "claimed_utc": "2026-08-29T12:34:30Z",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -4311,7 +4314,8 @@
       "score_inputs": {
         "fruitless_attempts": 2,
         "age_factor": 0.1429
-      }
+      },
+      "_lease_released_2026_08_31": "Lease released as litter, not as a takeover. `holder_liveness.py --check` reported it NOT OBSERVED, and the control plane then settled it: session_015ot2aSG28GM5Y9zBXcjmKb — SESSION_STATUS_ARCHIVED in the session list. `continuity.py` was reporting 4 concurrent holders against a governed subagent_width of 1, so these three were blocking every startable row in the queue. ⛔ AUT-046 was left held — it was claimed 2026-08-31T13:19:34Z, twenty minutes before this reading, and a fresh lease is a worker, not litter."
     },
     {
       "id": "AUT-PROP-051",
@@ -5664,6 +5668,36 @@
         "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
         "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
       }
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "ready",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "session_013jxh1csBMw3e6TeBNJGJX4",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-7a7f408258c84adc2bc72bb2be5bd25fc4a3c464.json — round 26, 1 blocker and 5 P1s, all applied",
+      "id": "AUT-PROP-053",
+      "kind": "harden",
+      "what": "ROUND 27 OF PUB-ASO — five blind seats on the CURRENT head of main, then apply any survivors. ⭐ WHY IT IS NEEDED RATHER THAN OPTIONAL: `publish_bar.clause_1_hardening_converged` requires `reviewed_commit == sha` — the seats must have read the EXACT commit being posted. Round 26 read pin 7a7f40825 and its repairs moved the tree well past that, so no round on record reviews what would go out. ⛔ PIN THE COMMIT FIRST and give every seat `git show <PIN>:<path>`; do not seat the working tree. Round 26's own record is at research/autonomy/review-seats/PUB-ASO-7a7f408258c84adc 2bc72bb2be5bd25fc4a3c464.json — read it for the seat shape and the may-not-read list, NOT for its findings, which are applied and must be re-derived rather than inherited. ⚠ THE COVER LETTER IS OUT OF REACH, NOT MERELY OUT OF SCOPE (trimcrae 2026-08-31): put `**/*-cover-letter.md` on the brief's may-not-read list beside research/autonomy/ and .claude/skills/. ⛔ AND THE PAPER MAY NOT GROW. trimcrae, 2026-08-31: 'If we are going from 6 pages to 8 pages, that's a 33% increase just in response to reviewer feedback. That's clearly over hedging and scope creep.' A correction REPLACES the sentence that is wrong; it does not append a qualifier to it. `test_a_hardening_round_may_not_grow_the_paper.py` now enforces that with a word ceiling that falls freely and may not rise without his recorded say-so — do NOT raise it to fit an edit. ★ SPEND IS AUTHORISED for this: autonomy-state.json budget_hold.authorised_exceptions carries his 2026-08-30 grant, 'Pursue the goal of getting ASO v2 submission ready regardless of weekly budget', scoped to the PUB-ASO v2 goal. Read the grant rather than the dial.",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "score_inputs": {},
+      "score": 70.0,
+      "_score_inherited_from_route": "RT-ASO"
     },
     {
       "id": "AUT-077",
