@@ -14,7 +14,7 @@
     "harden": 26,
     "negative": 32,
     "process": 7,
-    "process_defect": 167,
+    "process_defect": 168,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
@@ -25,12 +25,12 @@
     "done": 142,
     "in_progress": 6,
     "parked": 28,
-    "queued": 154,
+    "queued": 155,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 88,
-  "n_unscored_open": 68,
+  "n_unscored": 89,
+  "n_unscored_open": 69,
   "entries": [
     {
       "serves": {
@@ -10885,6 +10885,29 @@
       "kind": "process_defect",
       "what": "⛔ `dev-setup.sh` INSTALLS `libreoffice-writer` WITHOUT AN `apt-get update` FIRST, SO A STALE CONTAINER INDEX MAKES THE .docx CHAIN FAIL — AND THE SessionStart HOOK REPORTS 'DEV SETUP OK' OVER IT. Measured 2026-08-31 by CYC-0090-d7df5340, which paid for it.\n★ THE CHAIN, EACH LINK A COMMAND. The image's package index is frozen at build time; the Ubuntu archive has since moved past 24.2.7-0ubuntu0.24.04.4, so the install returns `E: Failed to fetch .../libreoffice-writer_24.2.7-0ubuntu0.24.04.4_amd64.deb  404  Not Found` for four .debs. The block is deliberately non-fatal and writes its warning to stderr, so the hook's success line was printed over the failure. `regenerate_aso_chain.sh` then failed three steps — aso_priorart_evidence.py, build_submission_parts.py, build_submission_docx.py — with `Error: source file could not be loaded`, which points at the INPUT and is the exact misdirection dev-setup.sh's own comment block records having cost this repository three days.\n⛔ SO THE DEFECT IS NOT THE MISSING PACKAGE — THAT WAS DIAGNOSED AND WRITTEN DOWN ON 2026-08-30, IN THIS FILE, ABOVE THE LINE THAT FAILS. It is that the automated remedy could not run and said nothing a reader would see. A probe that detects the condition, attempts the fix, fails, and reports OK is worse than no probe: the next session trusts it.\n★ FIXED IN THIS COMMIT, one line: `apt-get update -qq` before the install, with sudo fallbacks on both halves. Measured working — the identical install then succeeded and build_submission_docx.py wrote the .docx.\n⚠ WHAT IS NOT FIXED AND IS FILED RATHER THAN CLAIMED: the branch is still non-fatal by design (the ghostscript precedent, named in the block), so a future failure of this install is still only a stderr line under a green hook message. Making the hook surface its own warnings is a separate change to a separate file and is not taken here.",
       "_score_basis": "loop-instrument defect, found and closed in the same cycle; filed for the record rather than for the queue",
+      "score_inputs": {}
+    },
+    {
+      "serves": {
+        "route": "RT-LOOP",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PD-195",
+      "kind": "process_defect",
+      "what": "⛔⛔ A REBASE BEFORE PUSH SILENTLY ORPHANS EVERY ARTIFACT THAT RECORDS `HEAD`, AND THE REBASE IS THE ROUTINE MOVE WHEN A CONCURRENT SESSION HAS MOVED THE TRUNK. Measured 2026-08-31 by CYC-0090-d7df5340, on itself, and then recognised as the cause of a CI red this cycle had already mis-diagnosed once.\n★ THE MECHANISM, REPRODUCED RATHER THAN ARGUED. `aso_archive_manifest.py` stamps `git_revision` = HEAD at generation time. The prescribed ordering is: commit everything, regenerate the manifest against the committed tree, commit it. That records the PARENT commit's sha, which is correct — until `git rebase origin/main` before the push rewrites that parent. This cycle recorded 6820db2add67, rebased onto a trunk two commits ahead, and pushed; `git merge-base --is-ancestor 6820db2add67 HEAD` then exits non-zero. The sha still resolves in the LOCAL clone (it is in the reflog), so nothing looks wrong here, and it does not exist on the remote at all.\n⭐ AND THAT IS WHY CI WAS RED, WHICH THIS CYCLE FIRST EXPLAINED WRONG. tests.yml on f9e50599 failed `test_the_deposit_the_papers_cite_is_current` twice — `b93499e944013bbf199afe98ad402a516e63b798` and `fbb473bce3ac2ec214ee86b95db68b162160f0ea` reported as 'Not a valid object name'. Both resolve locally, so this cycle hypothesised a shallow `actions/checkout` clone. ⛔ THAT WAS A 'probably X' AND IT WAS WRONG. The runner clones from the REMOTE, where those commits were never pushed under those shas — an earlier session rebased before pushing, exactly as this one did. Same defect, three commits apart, in two different artifacts.\n★ THE GUARDS EXIST AND FIRE, WHICH IS THE ONLY REASON THIS IS VISIBLE: test_the_manifest_revision_is_a_commit_a_reader_can_resolve.py and the two deposit-state guards beside it. They catch it AFTER the push, in CI, which costs a commit each time.\n★ CANDIDATE FIXES, none taken here. (1) A pre-push hook that re-derives any artifact whose recorded revision is no longer an ancestor of HEAD — .githooks/pre-push already exists and is already pointed at by core.hooksPath. (2) Push first and rebase only on rejection, so the recorded sha is the one that lands — weaker, since the rejection path still rebases. (3) Record the TREE hash rather than the commit sha, which a rebase does not change; that is the only option immune to the mechanism rather than defending against it, and it is a change to what the artifact means, so it is a proposal and not a repair. ⚠ deposit-state.json's two orphaned revisions are still orphaned on the trunk and are NOT fixed by this row — they name uploads that really happened, so re-stamping them to a live sha would be inventing provenance, not repairing it. What they need is the observation of which commit each upload actually corresponds to, which only a re-dispatch can settle.",
+      "_score_basis": "loop-instrument defect measured live, with a CI red already attributable to it and a mis-diagnosis corrected by it",
       "score_inputs": {}
     }
   ]
