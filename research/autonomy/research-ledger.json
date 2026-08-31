@@ -10,7 +10,7 @@
     "code": 1,
     "experiment": 24,
     "fetch": 22,
-    "fix": 19,
+    "fix": 20,
     "harden": 26,
     "negative": 32,
     "process": 7,
@@ -22,7 +22,7 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 142,
+    "done": 143,
     "in_progress": 6,
     "parked": 28,
     "queued": 157,
@@ -5809,6 +5809,35 @@
       "_CORRECTION_2026_08_31": "⛔ THIS ROW WAS BLOCKED ON A PERMISSION THAT DOES NOT EXIST. It was filed `blocked` behind AUT-PROP-054 on the premise that the Zenodo publish is trimcrae's act and so round 28 could not proceed. The publish is the LOOP's under a standing grant since 2026-08-30 (publication-authority.json `zenodo_archive_publication`; see AUT-PD-196). The dependency on AUT-PROP-054 is REAL and unchanged — a round run before the deposit is published still re-finds R27-B3 by construction — but it is a sequencing dependency on work the loop does itself, not a wait on a human, so the row is queued rather than blocked. ⭐ THE DISTINCTION MATTERS TO THE QUEUE: `blocked` takes a row out of every cycle's reach and parks it until someone notices; `queued` behind free work does not."
     },
     {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PROP-056",
+      "kind": "fix",
+      "what": "MINT THE preflight_full_green RECEIPT FOR PUB-ASO'S POSTED COMMIT — the one blocking clause with no ledger row behind it, which is what continuity.py --clauses reports verbatim.\n* WHAT IT NEEDS: a PREFLIGHT_FULL=1 run on the commit being posted, its log committed under research/autonomy/preflight-logs/<sha>.log, and a receipt at research/autonomy/preflight-receipts/<sha>.json naming that log with a matching sha256. record_bar_evidence.py preflight writes it. Clause 2 RE-DERIVES the exit code from the committed log rather than reading it off the receipt, so the log must carry the FULL-mode banner and terminate in its own EXIT= marker.\nWHY NOT ALREADY DONE, AND WHY MINTING ONE EARLY IS WASTE: CYC-0090 ran PREFLIGHT_FULL=1 to EXIT=0 on 8572b5a6b (8178 modalities + 1592 manuscripts + 846 pure-logic, PREFLIGHT OK) — but that run authorised the ZENODO PUBLISH, and clause 2 binds the receipt to the commit being POSTED. Round 28's repairs would move the tree past 8572b5a6b, so a receipt minted for it is superseded before it is read. THE RIGHT MOMENT IS THE SAME COMMIT ROUND 28 SEATS READ: one FULL run, one receipt, and clauses 1, 2 and 6 all bind to that sha together. Take this WITH the round-28 row, not before.",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "preflight_full_green"
+      },
+      "score_inputs": {},
+      "score": 70.0,
+      "_score_inherited_from_route": "RT-ASO"
+    },
+    {
       "id": "AUT-077",
       "_derived": true,
       "what": "Run the Stage 0 items: proteome-wide novelty, class II regeneration, anchor-position analysis, extended allele panel.",
@@ -6895,7 +6924,7 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "queued",
+      "state": "done",
       "owner": null,
       "claimed_utc": null,
       "cost_class": "free",
@@ -6903,10 +6932,11 @@
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-31",
       "filed_by": "CYC-0090-d7df5340",
       "id": "AUT-PROP-054",
+      "_outcome": "✅ DONE, AND BY THE LOOP RATHER THAN BY trimcrae — which is the correction this row already carries. Deposition 22182180 published 2026-08-31T19:55:40Z under the standing grant (Actions run 33433162140, job 99623193678), and READ BACK with record=verify (run 33433350281) from the public records API with no token: state 'done (submitted=True)', published 2026-08-31, type dataset, one file emc-aso-archive.zip 8792814 bytes md5:a1627a57c7cc157e, closing 'PUBLISHED. The DOI both papers cite resolves to this record.'\n★ SO ROUND 27's R27-B3 IS CLOSED: the manuscript's Data availability DOI resolves, and the archive behind it is the 515-file tree round 27 produced rather than a version behind it. deposit-state.json's `pending` block is deleted and `published` names 22182180; the preprint checklist's §3-v is closed with the read-back quoted; publication-authority.json's `exercised` list carries the row.\n⚠ RECORDED RATHER THAN OMITTED: the publish dispatch used ref=main, which resolved to 77bebed710f1 — a commit AFTER the PREFLIGHT_FULL=1 run that gated 8572b5a6b. The driver's error. It cost nothing because the digest precondition is COMPUTED at publish time and the intervening commit touched no deposited file, so the frozen archive is byte-for-byte the gated tree. The gate held, not the sequencing.",
       "kind": "harden",
       "what": "⛔⛔ PUB-ASO CANNOT CONVERGE UNTIL THE ZENODO DRAFT IS PUBLISHED, AND THAT IS trimcrae's ACT. Measured 2026-08-31 by round 27 (CYC-0090-d7df5340) at pin f9e5059912a5. The manuscript's Data availability cites doi:10.5281/zenodo.22182180 as 'the citable record'; deposit-state.json at that pin carries 22182180 under `pending` (drafted 2026-08-30) with 10.5281/zenodo.22180100 the only published record. So every archive link in the outgoing paper and in all five built deliverables resolves to nothing — in the sentence that also routes a laboratory to fusion-junction-aso-sequences.csv for the per-residue chemistry it must order from. Three of round 27's five seats reached it independently (hostile-referee BLOCKER, citations-and-instruments P1, arithmetic P2); the seat records at that pin carry the derivations.\n⛔ IT IS NOT YET HIS TO DO EITHER, AND THAT ORDER IS THE WHOLE POINT. `pending.uploaded_at_git_revision` is b93499e944 and the archive manifest has moved since, so publishing the draft as it stands would freeze an archive already behind the paper — round 20's blocker, recurring. ★ THE SEQUENCE: (1) round 27's prose repairs land [done, this cycle]; (2) refresh the draft by dispatching deposit-zenodo.yml with new_version=false against the settled tree, and update pending.uploaded_manifest_digest — free, CI, and the loop's to do; (3) trimcrae publishes https://zenodo.org/deposit/22182180 by hand — IRREVERSIBLE, his alone, and nothing else in this row may proceed past it; (4) one more hardening round on the commit that records the publish, which is the commit that gets posted.\n⚠ WHY THIS ROW EXISTS RATHER THAN A SENTENCE IN A REPLY: the census that produced it found NO open ledger row naming the Zenodo publish at all. The preprint checklist names it; continuity.py reads the ledger, not the checklist, so the one act blocking the paper with a public DOI was invisible to every instrument the loop has.",
       "requires_trimcrae": false,

@@ -107,7 +107,13 @@ panel's own Wilson interval at the adopted ten-base-pair cut, 40.6 % in 38.9–5
 3. **Launch N blind seats with distinct lenses** (§4). No cross-talk.
 4. **Synthesize by grade** — blocker / P1 / P2 — and note where seats converged independently.
 5. **Verify every finding against the artifacts** (§5). Default REFUTED.
-6. **Apply survivors as REPLACEMENTS** (§1) — inside the budget where one applies, and replacing rather than appending in every case, which is the gate that does not depend on a venue.
+5a. **Record `introduced_by` on every blocker** (§5a). One `git log -S` per finding. It is a
+   diagnostic about the PROCESS and it never decides what may ship.
+6. **Apply survivors as REPLACEMENTS** (§1) — inside the budget where one applies, and replacing
+   rather than appending in every case, which is the gate that does not depend on a venue.
+6a. **⛔ EVERY EDIT PASSES THE REPAIR GATE BEFORE IT LANDS (§5b). A ROUND MAY NOT SHIP AN UNREVIEWED
+   REPAIR.** This is the step the series did not have, and it is where every recent blocker came
+   from.
 7. **Regenerate downstream artifacts with the chain script** (§7c), never by hand.
 8. **Gate** — `repo-gates`.
 9. **Commit with a message whose claims match its diff** (§7b).
@@ -246,6 +252,80 @@ assuming a structure nobody checked is the "populated field is not a measured on
 `fusion-junction-aso-research-article.md`. The short journal article had **zero coverage until round
 8**, which then found **24 blocker-grade charges** against it — a document nobody had ever reviewed,
 inside a submission seven rounds deep. **Enumerate what each round's seats actually read.**
+
+---
+
+## 5a · ★★ RECORD WHERE EVERY BLOCKER CAME FROM — THE MEASUREMENT THAT WOULD HAVE STOPPED THIS SERIES
+
+**⛔⛔ MOST BLOCKERS IN THIS SERIES ARE WRITTEN BY THE PREVIOUS ROUND'S OWN REPAIRS, AND NOBODY
+MEASURED IT FOR FOUR ROUNDS.** Round 27 of PUB-ASO, 2026-08-31, traced with one command per finding:
+
+    git log --oneline -S "<the offending string>" -- <the manuscript>
+
+Both of round 27's prose blockers return exactly two commits: `a294fee68` (round 26) **introduced**
+them, `fade4a548` (round 27) removed them. The third was not a paper defect at all — an unpublished
+Zenodo DOI, an outside-world state no round could clear. ★ **So ZERO of round 27's blockers were
+pre-existing defects the earlier rounds missed.** §8's own record says the same of round 24: six of
+its seven were prior repairs. The paper is not decaying and the seats are not filling a quota — the
+loop is breaking the paper with its own fixes.
+
+★ **SO EVERY BLOCKER CARRIES `introduced_by`, one of three values**, derived rather than judged:
+
+| value | how it is established |
+|---|---|
+| `pre_existing` | `git log -S` shows the text predates the first round of this series |
+| `prior_repair` | it shows a round's own repair commit introduced it — **name the commit** |
+| `not_a_paper_defect` | the artifact is correct; the defect is an outside-world state or a tooling record (§8.0a) |
+
+⛔⛔ **AND IT NEVER, EVER GATES WHAT MAY SHIP.** A false sentence is false whether it was written last
+week or last month, and a reader is misled exactly as much either way. `introduced_by` is a
+diagnostic about the PROCESS, in the same family as `route_advanced: none` — an alarm, never a
+licence. ⚠ *The first version of this section proposed exactly that licence — "converged = zero
+blockers of pre-existing origin" — and it was wrong: it would have loosened the one gate that is
+working, in the cycle that gate was blocking, which is what `amendment_guard` exists to refuse.
+Recorded because the wrong version is instructive: the pull toward weakening a bar arrives disguised
+as a process insight.*
+
+★ **WHAT THE NUMBER IS FOR: when a round's blockers are mostly `prior_repair`, STOP EDITING.** That
+is §8a's rule with a measurement behind it at last. Another round against undisciplined edits
+converts repair damage into more repair damage; the answer is §5b, not a rerun.
+
+---
+
+## 5b · ⛔⛔ THE REPAIR GATE — NO EDIT LANDS UNREVIEWED
+
+**THE STRUCTURAL DEFECT THIS CLOSES, STATED PLAINLY: a round REVIEWS THE PAPER AND NEVER REVIEWS THE
+REPAIR.** Five blind seats read 3,800 words at real cost. The four-word replacement that goes in
+afterwards is read by nobody until the next round, five more seats and a day later — by which time
+it is in the manuscript, in four PDFs, in the .docx, and possibly in a published archive.
+
+⛔ **AND IT IS WHY THE SERIES CANNOT CONVERGE.** `publish_bar.clause_1` requires zero blockers **on
+the commit being posted**. Any round that finds something produces repairs, which produce a new
+commit, which requires a new round. If a round's repairs reliably introduce a defect — and across
+rounds 24 and 27 they do — the loop cannot terminate by construction. **Twenty-seven rounds on a
+six-page paper is that fact, not bad luck.** The fix is not to relax the clause; it is to stop
+repairs from introducing defects, after which a clean round is reachable and the clause terminates
+on its own.
+
+★★ **THE GATE. Every proposed manuscript edit is checked on two axes BEFORE it is applied, and both
+are named in the round's record:**
+
+| | axis | the question | the measured failure it catches |
+|---|---|---|---|
+| **a** | **against its source** | does the artifact this new sentence cites actually say this? Re-derive the number, re-read the verbatim. | Round 27's five-steps blocker: the paper said steps 2–5 are laboratory work; the deposited verbatim of PMID 39912803 calls 4 and 5 risk assessment and management. One field, unread. |
+| **b** | **against every other site of the same fact** | does any other sentence in the outgoing set state this same quantity or relation, and do they now agree? | Round 26's gap-length blocker: it wrote "more than the seven-to-ten" 130 lines below the paper's own "with seven to ten the working range", from the same citation. Two sentences, one fact, contradicting. |
+
+⭐ **BOTH MEASURED FAILURES ARE CAUGHT BY ONE OF THE TWO AXES**, which is why this is a gate and not
+an exhortation. Axis (b) is CLAUDE.md rule 1 — one fact, one place — pointed at the edit instead of
+at the repository.
+
+⛔ **A ROUND MAY REPORT AND A ROUND MAY REPAIR, BUT THE REPAIR IS A SEPARATE, GATED UNIT.** §5 already
+says verification is a separate pass from application; what was missing is that application had no
+pass of its own. A repair that has not been through (a) and (b) is an unreviewed claim entering a
+paper under review.
+
+⚠ **THIS DOES NOT REPLACE THE REGRESSION SEAT.** That seat catches damage that has already landed;
+this gate stops it landing. Keep both — the seat is now the check on whether this gate is working.
 
 ---
 
@@ -564,6 +644,13 @@ blockers in plain sight.
   NOT THE PAPER, ARE NOW THE PROBLEM.** Tighten the edit discipline (§1's replace-don't-append, §5's
   re-derive-every-number, §7a's per-edit verify) rather than running another round. Another round
   against undisciplined edits just converts repair damage into more repair damage.
+  ⛔ **THIS RULE WAS CORRECT AND MEASURED BY NOTHING FOR THREE ROUNDS, WHICH IS WHY IT NEVER FIRED.**
+  It says "a round that finds ONLY" — and nobody was computing the proportion, so nobody could tell.
+  Round 24 was 6 of 7 prior repairs and ran again; rounds 25, 26 and 27 followed. **§5a now derives
+  `introduced_by` per blocker from `git log -S`, so this rule has an input**, and §5b is the repair
+  gate that makes the tightening a mechanism instead of an intention. ⚠ *A rule whose trigger nobody
+  computes is a rule that never fires — the same shape as `subagent_width` and the `notified_utc`
+  requirement, both of which cost this repository real work before they were measured.*
 - **★ PRE-REGISTER THE STOPPING RULE BEFORE THE FINAL ROUND RUNS.** One home for this manuscript's:
   [`fusion-junction-aso-deposit-stopping-rule.md`](./research/manuscripts/aso/fusion-junction-aso-deposit-stopping-rule.md).
   **A stopping rule written after the results are known is not a stopping rule, it is a justification** —

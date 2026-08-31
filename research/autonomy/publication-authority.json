@@ -68,6 +68,20 @@
   "exercised": [
    {
     "paper": "PUB-ASO",
+    "deposition": 22182180,
+    "doi": "10.5281/zenodo.22182180",
+    "published_utc": "2026-08-31T19:55:40Z",
+    "approved_by": "THE STANDING GRANT ITSELF, with no per-publication approval, and this is the first exercise of that kind. `approval_is_required_per_publication` has been false since trimcrae retired the gate on 2026-08-30 ('I don't want my approval to gate Zenodo. Just do it.'). The --approved-by string passed to the run names the grant, the cycle and the gate that authorised it: 'standing grant, publication-authority.json zenodo_archive_publication ...; exercised by CYC-0090-d7df5340 at commit 8572b5a6b after PREFLIGHT_FULL=1 exit 0 and round 27'.",
+    "dispatched_at_commit": "77bebed710f144a34649c4f336b4bf84791a505f",
+    "publish_run": 33433162140,
+    "verify_run": 33433350281,
+    "_read_back": "record=verify, the PUBLIC records API with no token: record 22182180, state 'done (submitted=True)', published 2026-08-31, type dataset, concept DOI 10.5281/zenodo.22028915, one file emc-aso-archive.zip 8792814 bytes md5:a1627a57c7cc157e. Closing line: 'PUBLISHED. The DOI both papers cite resolves to this record.'",
+    "_supersedes": "10.5281/zenodo.22180100, published 2026-08-30 under this same grant.",
+    "_what_it_carried": "Round 27's paper — 515 files at archive_content_digest a4d4ad6f1ca0…, taken at 866594627ab0. First published version to carry round 27's two prose corrections, and the version that adds the off-target duplex-energy screen and its output, whose absence from three earlier published versions was round 23's blocker.",
+    "⚠_the_dispatch_used_a_moving_ref_and_that_was_an_error": "⛔ RECORDED RATHER THAN OMITTED, BECAUSE THIS LIST IS AN AUDIT AND AN AUDIT THAT ONLY CARRIES THE CLEAN RUNS IS NOT ONE. `dispatched_at_commit` above is 77bebed710f1, NOT the 8572b5a6b that the PREFLIGHT_FULL=1 run gated: the dispatch passed ref=main, which GitHub resolves at dispatch time, and the trunk had moved under a concurrent session between the gate and the act. ★ IT COST NOTHING, AND THE REASON IS THE POINT: `refuse_unless_publishable` COMPUTES the digest precondition at publish time instead of inheriting it from a status line, and the intervening commit touched research/compute/credit-status.json and two Vast census files — no deposited path — so the archive frozen is byte-for-byte the tree that was gated. The run's own log names 'manifest revision 62823331' and 'digest : a4d4ad6f1ca0… (matches the manifest)'. ⛔ THE LESSON IS NOT 'ref=main IS FINE': it is that the gate, not the sequencing, is what held, and a publish should pin the sha it gated. Filed against the same class as AUT-PD-195."
+   },
+   {
+    "paper": "PUB-ASO",
     "deposition": 22166420,
     "doi": "10.5281/zenodo.22166420",
     "published_utc": "2026-08-30T14:13:07Z",

@@ -442,10 +442,29 @@ absence is how 22166420 came to freeze an earlier copy of its own manuscript. It
 all** before this session and now has eight, both directions mutation-tested on a copy.
 
 
-### 3-v · ⛔ A THIRD ARCHIVE VERSION IS DRAFTED AND NOT YET PUBLISHED — `10.5281/zenodo.22182180`
+### 3-v · ✅ CLOSED — the third archive version is PUBLISHED and was read back — `10.5281/zenodo.22182180`
 
-⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPERS AGAIN, AND THIS TIME IT IS AN OMISSION RATHER THAN A
-STALE COPY.** Round 23's citations-and-instruments seat found that `10.5281/zenodo.22180100` — live
+✅ **PUBLISHED 2026-08-31 BY THE LOOP, AND VERIFIED BY A READING RATHER THAN A REPORT.** Actions run
+33433162140 performed it; run 33433350281 (`record=verify`, the public records API, no token) then
+read it back: *record 22182180, state `done (submitted=True)`, published 2026-08-31, type dataset,
+concept DOI `10.5281/zenodo.22028915`, one file `emc-aso-archive.zip` 8,792,814 bytes
+md5:`a1627a57c7cc157e`*, closing **"PUBLISHED. The DOI both papers cite resolves to this record."**
+The archive is 515 files at `archive_content_digest a4d4ad6f1ca0…`, taken at `866594627ab0`, and it
+is the first published version carrying round 27's two prose corrections. The publish log records
+the precondition holding at the moment of the act: *"digest : a4d4ad6f1ca0… (matches the manifest)"*.
+
+⚠ **ONE ERROR WORTH KEEPING RATHER THAN BURYING:** the dispatch used `ref=main`, which resolved to
+`77bebed710f1` — a commit that landed *after* the `PREFLIGHT_FULL=1` run, not the `8572b5a6b` that
+run gated. That was the driver's mistake. It cost nothing only because the digest precondition is
+**computed at publish time rather than assumed**: the intervening commit touched a credit board and
+no deposited file, so what published is byte-for-byte the tree that was gated. The gate protected
+this, not the sequencing.
+
+⛔ **WHAT IT FIXED, retained because it is why this version exists.** Round 23's
+citations-and-instruments seat found that `10.5281/zenodo.22180100` — live since 2026-08-30, §3-iv —
+carried neither `aso_offtarget_duplex_energy.py` nor its output, while the
+manuscript's Data availability promises *"All code, graded artefacts, per-design tables, every
+screen's parameters and the complete bounds on each claim are deposited"* there. Round 23's citations-and-instruments seat found that `10.5281/zenodo.22180100` — live
 since 2026-08-30, §3-iv — carries neither `aso_offtarget_duplex_energy.py` nor its output, while the
 manuscript's Data availability promises *"All code, graded artefacts, per-design tables, every
 screen's parameters and the complete bounds on each claim are deposited"* there. Four numbers the
