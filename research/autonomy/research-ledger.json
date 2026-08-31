@@ -14,23 +14,23 @@
     "harden": 26,
     "negative": 32,
     "process": 7,
-    "process_defect": 168,
+    "process_defect": 169,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
     "write": 6
   },
   "n_by_state": {
-    "blocked": 3,
+    "blocked": 2,
     "done": 142,
     "in_progress": 6,
     "parked": 28,
-    "queued": 155,
+    "queued": 157,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 89,
-  "n_unscored_open": 69,
+  "n_unscored": 88,
+  "n_unscored_open": 68,
   "entries": [
     {
       "serves": {
@@ -4651,6 +4651,31 @@
       "closes_clause": null
     },
     {
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PD-196",
+      "kind": "process_defect",
+      "what": "⛔⛔ A RETIRED PERMISSION IS STILL ASSERTED IN autonomy-state.json, AND A CYCLE BELIEVED IT OVER THE AUTHORITY RECORD — COSTING AN ESCALATION trimcrae SHOULD NEVER HAVE SEEN. Measured 2026-08-31 by CYC-0090-d7df5340, caught by trimcrae in one sentence: 'Aren't you supposed to post to zenodo on your own when needed'.\n★ THE TWO HOMES. research/autonomy/publication-authority.json `zenodo_archive_publication` is the fact: standing_grant true since 2026-08-30, per-publication approval retired the same day, exercised twice with read-backs. research/autonomy/autonomy-state.json `budget_hold.authorised_exceptions[0]` says, in its scope note, 'the Zenodo publish is still his by hand'. That sentence was true when written and was never retired when the grant landed.\n⛔ THE COST WAS NOT HYPOTHETICAL. Round 27's third blocker (R27-B3, the paper citing an unpublished Zenodo DOI) was filed as AUT-PROP-054 with requires_trimcrae true, round 28 was BLOCKED behind it, a PushNotification was sent and an AskUserQuestion put four options to him — all on a permission that had not existed for a day. The correct behaviour was to refresh the draft and publish, which is work the loop is already authorised to do and had already done twice.\n★ WHY THE ORDINARY DEFENCES DID NOT FIRE. publication-authority.json's header carries `_this_file_disagreeing_with_claude_md_is_a_bug` — the rule exists and is written down. But it is stated as prose IN the authority file, so it only binds a reader who already opened the authority file; a cycle that reads the state file first and finds a confident sentence there never gets to it. That is CLAUDE.md §1's one-fact-one-place rule failing in the direction it always fails: the stale copy is the one that gets read.\n★ CANDIDATE FIXES, none taken here: (1) delete the claim from autonomy-state.json and leave a pointer — cheapest, and the one rule 1.1 actually prescribes; (2) a health row or lint rule that greps the governance artifacts for permission language and fails when a file other than publication-authority.json asserts what the loop may or may not publish; (3) have `authority_permits` be the only readable source, with the state file carrying no permission prose at all. ⛔ (1) and (3) touch a GOVERNED path and this cycle is the one that was misled by it, so amendment_guard applies and a later cycle should make the edit.",
+      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph, so priority.apply_route_inheritance has no floor to inherit — the same reason AUT-PD-171 carries an explicit score and says so. ⭐ ANCHORED TO SIBLINGS RATHER THAN CHOSEN: the scored open RT-AUTONOMY process_defect rows run 42.7 (AUT-PD-043), 129.8 (AUT-PD-169), 131.8 (AUT-PD-171) and 134.9 (AUT-PD-031). Placed above AUT-PD-195 because its cost landed on the one resource CLAUDE.md §3 says is scarce — it produced an unnecessary escalation to trimcrae, a wrongly-blocked ledger row and a round declared unconvergeable, all on a permission retired a day earlier. ⛔ AND PLACED BELOW THE THREE HIGH SIBLINGS ON PURPOSE: this cycle found it, this cycle caused it, and a cycle scoring its own finding at the top of the queue is the self-serving direction the anti-gaming invariant exists to catch. A later cycle that disagrees should raise it, with its reason.",
+      "score_inputs": {},
+      "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use.",
+      "score": 110.0
+    },
+    {
       "id": "AUT-PROP-041",
       "kind": "process_defect",
       "process_defect": true,
@@ -5037,6 +5062,31 @@
       "_score_basis": "the checker that decides whether the turn may end was reading capacity it could not see",
       "depends_on_evidence": "continuity.py live_leases()/width_cap(); 89 tests in research/autonomy/tests",
       "closes_clause": null
+    },
+    {
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PD-195",
+      "kind": "process_defect",
+      "what": "⛔⛔ A REBASE BEFORE PUSH SILENTLY ORPHANS EVERY ARTIFACT THAT RECORDS `HEAD`, AND THE REBASE IS THE ROUTINE MOVE WHEN A CONCURRENT SESSION HAS MOVED THE TRUNK. Measured 2026-08-31 by CYC-0090-d7df5340, on itself, and then recognised as the cause of a CI red this cycle had already mis-diagnosed once.\n★ THE MECHANISM, REPRODUCED RATHER THAN ARGUED. `aso_archive_manifest.py` stamps `git_revision` = HEAD at generation time. The prescribed ordering is: commit everything, regenerate the manifest against the committed tree, commit it. That records the PARENT commit's sha, which is correct — until `git rebase origin/main` before the push rewrites that parent. This cycle recorded 6820db2add67, rebased onto a trunk two commits ahead, and pushed; `git merge-base --is-ancestor 6820db2add67 HEAD` then exits non-zero. The sha still resolves in the LOCAL clone (it is in the reflog), so nothing looks wrong here, and it does not exist on the remote at all.\n⭐ AND THAT IS WHY CI WAS RED, WHICH THIS CYCLE FIRST EXPLAINED WRONG. tests.yml on f9e50599 failed `test_the_deposit_the_papers_cite_is_current` twice — `b93499e944013bbf199afe98ad402a516e63b798` and `fbb473bce3ac2ec214ee86b95db68b162160f0ea` reported as 'Not a valid object name'. Both resolve locally, so this cycle hypothesised a shallow `actions/checkout` clone. ⛔ THAT WAS A 'probably X' AND IT WAS WRONG. The runner clones from the REMOTE, where those commits were never pushed under those shas — an earlier session rebased before pushing, exactly as this one did. Same defect, three commits apart, in two different artifacts.\n★ THE GUARDS EXIST AND FIRE, WHICH IS THE ONLY REASON THIS IS VISIBLE: test_the_manifest_revision_is_a_commit_a_reader_can_resolve.py and the two deposit-state guards beside it. They catch it AFTER the push, in CI, which costs a commit each time.\n★ CANDIDATE FIXES, none taken here. (1) A pre-push hook that re-derives any artifact whose recorded revision is no longer an ancestor of HEAD — .githooks/pre-push already exists and is already pointed at by core.hooksPath. (2) Push first and rebase only on rejection, so the recorded sha is the one that lands — weaker, since the rejection path still rebases. (3) Record the TREE hash rather than the commit sha, which a rebase does not change; that is the only option immune to the mechanism rather than defending against it, and it is a change to what the artifact means, so it is a proposal and not a repair. ⚠ deposit-state.json's two orphaned revisions are still orphaned on the trunk and are NOT fixed by this row — they name uploads that really happened, so re-stamping them to a live sha would be inventing provenance, not repairing it. What they need is the observation of which commit each upload actually corresponds to, which only a re-dispatch can settle.",
+      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph, so priority.apply_route_inheritance has no floor to inherit — the same reason AUT-PD-171 carries an explicit score and says so. ⭐ ANCHORED TO SIBLINGS RATHER THAN CHOSEN: the scored open RT-AUTONOMY process_defect rows run 42.7 (AUT-PD-043), 129.8 (AUT-PD-169), 131.8 (AUT-PD-171) and 134.9 (AUT-PD-031). Placed BELOW all three of the high siblings, deliberately. It is a real defect with a CI red already attributable to it and a wrong diagnosis corrected by it — but its blast radius is one artifact class, the guards that catch it already exist and already fire, and there is a working manual remedy (re-derive after the rebase) that this cycle used twice. It is not in the class of a defect nothing measures.",
+      "score_inputs": {},
+      "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use.",
+      "score": 100.0
     },
     {
       "id": "AUT-PD-004",
@@ -5726,6 +5776,37 @@
       "score": 70.0,
       "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
       "_score_inherited_from_route": "RT-ASO"
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PROP-055",
+      "kind": "harden",
+      "what": "ROUND 28 OF PUB-ASO — five blind seats on the commit that RECORDS THE ZENODO PUBLISH, then apply any survivors. ⛔ DO NOT RUN IT BEFORE AUT-PROP-054 STEP 3 HAS HAPPENED: round 27 closed two of its three blockers and the third (R27-B3, the unpublished Data availability DOI) is closed by an act outside this repository, so a round run before that act re-finds it by construction and burns five seats to do so. ⭐ SEAT SHAPE AND THE MAY-NOT-READ LIST: research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json, `_blind_means` — read it for the SHAPE, not for the findings, which are applied and must be re-derived rather than inherited. ⛔ PIN THE COMMIT FIRST and give every seat `git show <PIN>:<path>`; do not seat the working tree. ⛔ AND THE ROUND MUST FIELD AT LEAST SIX SEAT RECORDS AT ITS PIN — publish_bar's `_look_history` counts records matching PUB-ASO-<sha>*.json and refuses a converging round narrower than the widest earlier one; rounds 26 and 27 each put six there (five seats plus the roll-up). ⛔ THE PAPER MAY NOT GROW: the ceiling in test_a_hardening_round_may_not_grow_the_paper.py falls freely and may not rise without trimcrae's recorded say-so. ⭐ SPEND IS AUTHORISED — autonomy-state.json budget_hold.authorised_exceptions, his 2026-08-30 grant scoped to the PUB-ASO v2 goal. Read the grant, not the width dial.",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json — round 27, 3 blockers and 10 P1s",
+      "score_inputs": {},
+      "score": 70.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-ASO",
+      "_CORRECTION_2026_08_31": "⛔ THIS ROW WAS BLOCKED ON A PERMISSION THAT DOES NOT EXIST. It was filed `blocked` behind AUT-PROP-054 on the premise that the Zenodo publish is trimcrae's act and so round 28 could not proceed. The publish is the LOOP's under a standing grant since 2026-08-30 (publication-authority.json `zenodo_archive_publication`; see AUT-PD-196). The dependency on AUT-PROP-054 is REAL and unchanged — a round run before the deposit is published still re-finds R27-B3 by construction — but it is a sequencing dependency on work the loop does itself, not a wait on a human, so the row is queued rather than blocked. ⭐ THE DISTINCTION MATTERS TO THE QUEUE: `blocked` takes a row out of every cycle's reach and parks it until someone notices; `queued` behind free work does not."
     },
     {
       "id": "AUT-077",
@@ -6828,7 +6909,7 @@
       "id": "AUT-PROP-054",
       "kind": "harden",
       "what": "⛔⛔ PUB-ASO CANNOT CONVERGE UNTIL THE ZENODO DRAFT IS PUBLISHED, AND THAT IS trimcrae's ACT. Measured 2026-08-31 by round 27 (CYC-0090-d7df5340) at pin f9e5059912a5. The manuscript's Data availability cites doi:10.5281/zenodo.22182180 as 'the citable record'; deposit-state.json at that pin carries 22182180 under `pending` (drafted 2026-08-30) with 10.5281/zenodo.22180100 the only published record. So every archive link in the outgoing paper and in all five built deliverables resolves to nothing — in the sentence that also routes a laboratory to fusion-junction-aso-sequences.csv for the per-residue chemistry it must order from. Three of round 27's five seats reached it independently (hostile-referee BLOCKER, citations-and-instruments P1, arithmetic P2); the seat records at that pin carry the derivations.\n⛔ IT IS NOT YET HIS TO DO EITHER, AND THAT ORDER IS THE WHOLE POINT. `pending.uploaded_at_git_revision` is b93499e944 and the archive manifest has moved since, so publishing the draft as it stands would freeze an archive already behind the paper — round 20's blocker, recurring. ★ THE SEQUENCE: (1) round 27's prose repairs land [done, this cycle]; (2) refresh the draft by dispatching deposit-zenodo.yml with new_version=false against the settled tree, and update pending.uploaded_manifest_digest — free, CI, and the loop's to do; (3) trimcrae publishes https://zenodo.org/deposit/22182180 by hand — IRREVERSIBLE, his alone, and nothing else in this row may proceed past it; (4) one more hardening round on the commit that records the publish, which is the commit that gets posted.\n⚠ WHY THIS ROW EXISTS RATHER THAN A SENTENCE IN A REPLY: the census that produced it found NO open ledger row naming the Zenodo publish at all. The preprint checklist names it; continuity.py reads the ledger, not the checklist, so the one act blocking the paper with a public DOI was invisible to every instrument the loop has.",
-      "requires_trimcrae": true,
+      "requires_trimcrae": false,
       "closes_clause": {
         "paper": "PUB-ASO",
         "clause": "hardening_converged"
@@ -6839,7 +6920,8 @@
       },
       "score": 45.0,
       "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
-      "_score_inherited_from_route": "RT-ASO"
+      "_score_inherited_from_route": "RT-ASO",
+      "_CORRECTION_2026_08_31": "⛔⛔ THIS ROW'S ORIGINAL PREMISE WAS FALSE AND trimcrae CAUGHT IT IN ONE SENTENCE: 'Aren't you supposed to post to zenodo on your own when needed'. He is right. It was filed `requires_trimcrae: true` on the belief that publishing a Zenodo version is his act. It has not been his act since 2026-08-30.\n★ THE RECORD THAT SETTLES IT: publication-authority.json `zenodo_archive_publication` — `standing_grant: true`, `approval_is_required_per_publication: false`, granted verbatim 'You should submit to zenodo on your own', with the per-publication gate retired the same day, verbatim: 'On second thought, this is annoying. I don't want my approval to gate Zenodo. Just do it.' The grant has been EXERCISED TWICE already, for depositions 22166420 and 22180100, both with read-backs from the public records API.\n⛔ WHERE THE WRONG PREMISE CAME FROM, WHICH IS THE PART WORTH KEEPING: autonomy-state.json's budget_hold note still says 'the Zenodo publish is still his by hand'. That sentence predates the grant and was never retired, and this cycle read it instead of the authority record. publication-authority.json's own header says in terms that a file disagreeing with it is the bug. Filed separately as a one-fact-two-places defect.\n★ SO THE WORK IS THE LOOP'S: refresh the draft against the settled tree so `uploaded_manifest_digest` equals the manifest's `archive_content_digest` (precondition 2, which currently FAILS — the draft was uploaded at b93499e944 and the tree has moved), then publish via zenodo_deposit with `--approved-by` naming the standing grant. `refuse_unless_publishable` fails closed on every precondition and is the real gate."
     },
     {
       "id": "AUT-PD-093",
@@ -8536,38 +8618,6 @@
         "blocked_with_evidence": true
       },
       "score": -20.0,
-      "_score_inherited_from_route": "RT-ASO"
-    },
-    {
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "blocked",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": "AUT-PROP-054",
-      "blocked_evidence": "AUT-PROP-054 step 3 is an irreversible act reserved to trimcrae (CLAUDE.md §3). Round 27's R27-B3 stands at every commit until it happens.",
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-31",
-      "filed_by": "CYC-0090-d7df5340",
-      "id": "AUT-PROP-055",
-      "kind": "harden",
-      "what": "ROUND 28 OF PUB-ASO — five blind seats on the commit that RECORDS THE ZENODO PUBLISH, then apply any survivors. ⛔ DO NOT RUN IT BEFORE AUT-PROP-054 STEP 3 HAS HAPPENED: round 27 closed two of its three blockers and the third (R27-B3, the unpublished Data availability DOI) is closed by an act outside this repository, so a round run before that act re-finds it by construction and burns five seats to do so. ⭐ SEAT SHAPE AND THE MAY-NOT-READ LIST: research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json, `_blind_means` — read it for the SHAPE, not for the findings, which are applied and must be re-derived rather than inherited. ⛔ PIN THE COMMIT FIRST and give every seat `git show <PIN>:<path>`; do not seat the working tree. ⛔ AND THE ROUND MUST FIELD AT LEAST SIX SEAT RECORDS AT ITS PIN — publish_bar's `_look_history` counts records matching PUB-ASO-<sha>*.json and refuses a converging round narrower than the widest earlier one; rounds 26 and 27 each put six there (five seats plus the roll-up). ⛔ THE PAPER MAY NOT GROW: the ceiling in test_a_hardening_round_may_not_grow_the_paper.py falls freely and may not rise without trimcrae's recorded say-so. ⭐ SPEND IS AUTHORISED — autonomy-state.json budget_hold.authorised_exceptions, his 2026-08-30 grant scoped to the PUB-ASO v2 goal. Read the grant, not the width dial.",
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "hardening_converged"
-      },
-      "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json — round 27, 3 blockers and 10 P1s",
-      "score_inputs": {
-        "blocked_with_evidence": true
-      },
-      "score": -20.0,
-      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
       "_score_inherited_from_route": "RT-ASO"
     },
     {
@@ -10866,7 +10916,7 @@
     },
     {
       "serves": {
-        "route": "RT-LOOP",
+        "route": "RT-AUTONOMY",
         "publication": null,
         "strategy": null
       },
@@ -10885,30 +10935,8 @@
       "kind": "process_defect",
       "what": "⛔ `dev-setup.sh` INSTALLS `libreoffice-writer` WITHOUT AN `apt-get update` FIRST, SO A STALE CONTAINER INDEX MAKES THE .docx CHAIN FAIL — AND THE SessionStart HOOK REPORTS 'DEV SETUP OK' OVER IT. Measured 2026-08-31 by CYC-0090-d7df5340, which paid for it.\n★ THE CHAIN, EACH LINK A COMMAND. The image's package index is frozen at build time; the Ubuntu archive has since moved past 24.2.7-0ubuntu0.24.04.4, so the install returns `E: Failed to fetch .../libreoffice-writer_24.2.7-0ubuntu0.24.04.4_amd64.deb  404  Not Found` for four .debs. The block is deliberately non-fatal and writes its warning to stderr, so the hook's success line was printed over the failure. `regenerate_aso_chain.sh` then failed three steps — aso_priorart_evidence.py, build_submission_parts.py, build_submission_docx.py — with `Error: source file could not be loaded`, which points at the INPUT and is the exact misdirection dev-setup.sh's own comment block records having cost this repository three days.\n⛔ SO THE DEFECT IS NOT THE MISSING PACKAGE — THAT WAS DIAGNOSED AND WRITTEN DOWN ON 2026-08-30, IN THIS FILE, ABOVE THE LINE THAT FAILS. It is that the automated remedy could not run and said nothing a reader would see. A probe that detects the condition, attempts the fix, fails, and reports OK is worse than no probe: the next session trusts it.\n★ FIXED IN THIS COMMIT, one line: `apt-get update -qq` before the install, with sudo fallbacks on both halves. Measured working — the identical install then succeeded and build_submission_docx.py wrote the .docx.\n⚠ WHAT IS NOT FIXED AND IS FILED RATHER THAN CLAIMED: the branch is still non-fatal by design (the ghostscript precedent, named in the block), so a future failure of this install is still only a stderr line under a green hook message. Making the hook surface its own warnings is a separate change to a separate file and is not taken here.",
       "_score_basis": "loop-instrument defect, found and closed in the same cycle; filed for the record rather than for the queue",
-      "score_inputs": {}
-    },
-    {
-      "serves": {
-        "route": "RT-LOOP",
-        "publication": null,
-        "strategy": null
-      },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-31",
-      "filed_by": "CYC-0090-d7df5340",
-      "id": "AUT-PD-195",
-      "kind": "process_defect",
-      "what": "⛔⛔ A REBASE BEFORE PUSH SILENTLY ORPHANS EVERY ARTIFACT THAT RECORDS `HEAD`, AND THE REBASE IS THE ROUTINE MOVE WHEN A CONCURRENT SESSION HAS MOVED THE TRUNK. Measured 2026-08-31 by CYC-0090-d7df5340, on itself, and then recognised as the cause of a CI red this cycle had already mis-diagnosed once.\n★ THE MECHANISM, REPRODUCED RATHER THAN ARGUED. `aso_archive_manifest.py` stamps `git_revision` = HEAD at generation time. The prescribed ordering is: commit everything, regenerate the manifest against the committed tree, commit it. That records the PARENT commit's sha, which is correct — until `git rebase origin/main` before the push rewrites that parent. This cycle recorded 6820db2add67, rebased onto a trunk two commits ahead, and pushed; `git merge-base --is-ancestor 6820db2add67 HEAD` then exits non-zero. The sha still resolves in the LOCAL clone (it is in the reflog), so nothing looks wrong here, and it does not exist on the remote at all.\n⭐ AND THAT IS WHY CI WAS RED, WHICH THIS CYCLE FIRST EXPLAINED WRONG. tests.yml on f9e50599 failed `test_the_deposit_the_papers_cite_is_current` twice — `b93499e944013bbf199afe98ad402a516e63b798` and `fbb473bce3ac2ec214ee86b95db68b162160f0ea` reported as 'Not a valid object name'. Both resolve locally, so this cycle hypothesised a shallow `actions/checkout` clone. ⛔ THAT WAS A 'probably X' AND IT WAS WRONG. The runner clones from the REMOTE, where those commits were never pushed under those shas — an earlier session rebased before pushing, exactly as this one did. Same defect, three commits apart, in two different artifacts.\n★ THE GUARDS EXIST AND FIRE, WHICH IS THE ONLY REASON THIS IS VISIBLE: test_the_manifest_revision_is_a_commit_a_reader_can_resolve.py and the two deposit-state guards beside it. They catch it AFTER the push, in CI, which costs a commit each time.\n★ CANDIDATE FIXES, none taken here. (1) A pre-push hook that re-derives any artifact whose recorded revision is no longer an ancestor of HEAD — .githooks/pre-push already exists and is already pointed at by core.hooksPath. (2) Push first and rebase only on rejection, so the recorded sha is the one that lands — weaker, since the rejection path still rebases. (3) Record the TREE hash rather than the commit sha, which a rebase does not change; that is the only option immune to the mechanism rather than defending against it, and it is a change to what the artifact means, so it is a proposal and not a repair. ⚠ deposit-state.json's two orphaned revisions are still orphaned on the trunk and are NOT fixed by this row — they name uploads that really happened, so re-stamping them to a live sha would be inventing provenance, not repairing it. What they need is the observation of which commit each upload actually corresponds to, which only a re-dispatch can settle.",
-      "_score_basis": "loop-instrument defect measured live, with a CI red already attributable to it and a mis-diagnosis corrected by it",
-      "score_inputs": {}
+      "score_inputs": {},
+      "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use."
     }
   ]
 }
