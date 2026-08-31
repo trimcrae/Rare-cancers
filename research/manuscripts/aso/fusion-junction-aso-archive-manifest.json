@@ -10,11 +10,11 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22182180",
-  "git_revision": "48c0a4f55b6925a992a8222122f31f7e7cb2e7b8",
+  "git_revision": "a294fee68f92f0edc4ac8a14b8c5ddb6af2fd9db",
   "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "981ee53856f4005c6e80d2adc7cbcf946671a1f6d46ef02ec1ae19c1e6b9b9a1",
-  "n_files": 496,
+  "archive_content_digest": "aa5880ff9ef0e2a1955c48b79e367932b292c04b6e0a833b26873e0814ffce52",
+  "n_files": 515,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
     "travels_with_the_deposit": true,
@@ -24,26 +24,26 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 49686721,
-  "total_mib": 47.385,
+  "total_bytes": 53108128,
+  "total_mib": 50.648,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
-        "n_files": 389,
-        "bytes": 42163714
+        "n_files": 408,
+        "bytes": 45576789
       },
       ".py": {
         "n_files": 76,
-        "bytes": 3299876
+        "bytes": 3311642
       },
       ".md": {
         "n_files": 12,
-        "bytes": 731184
+        "bytes": 730824
       },
       ".pdf": {
         "n_files": 8,
-        "bytes": 1990549
+        "bytes": 1987475
       },
       ".png": {
         "n_files": 4,
@@ -220,6 +220,35 @@
         "scripts/regenerate_aso_chain.sh"
       ],
       "_promise_still_in_manuscript": true,
+      "⛔_UNMAPPED": false
+    },
+    {
+      "id": "noncanonical_acceptor_screens",
+      "promise_text": "the screens behind the non-canonical acceptor table",
+      "n_files": 20,
+      "files": [
+        "research/modalities/aso-parent-gap-pairing-noncoding-acceptor.json",
+        "research/modalities/aso-premrna-offtarget-noncoding-acceptor.json",
+        "research/modalities/junction-aso-thermo-noncoding-acceptor.json",
+        "research/modalities/noncoding-acceptor/aso-insilico-evaluation-e13n2-deep500.json",
+        "research/modalities/noncoding-acceptor/aso-insilico-evaluation-e7n2-deep500.json",
+        "research/modalities/noncoding-acceptor/aso-insilico-evaluation-pgre2n2-deep500.json",
+        "research/modalities/noncoding-acceptor/aso-insilico-evaluation-taf15e6n2-deep500.json",
+        "research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+        "research/modalities/noncoding-acceptor/junction-aso-designs-e13n2-deep500.json",
+        "research/modalities/noncoding-acceptor/junction-aso-designs-e7n2-deep500.json",
+        "research/modalities/noncoding-acceptor/junction-aso-designs-pgre2n2-deep500.json",
+        "research/modalities/noncoding-acceptor/junction-aso-designs-taf15e6n2-deep500.json",
+        "research/modalities/noncoding-acceptor/junction-aso-offtarget-e13n2-deep500.json",
+        "research/modalities/noncoding-acceptor/junction-aso-offtarget-e7n2-deep500.json",
+        "research/modalities/noncoding-acceptor/junction-aso-offtarget-pgre2n2-deep500.json",
+        "research/modalities/noncoding-acceptor/junction-aso-offtarget-taf15e6n2-deep500.json",
+        "research/modalities/noncoding-acceptor/pgr-offtarget-locus-expression-inputs.json",
+        "research/modalities/noncoding-acceptor/pgr-offtarget-locus-expression.json",
+        "research/modalities/nr4a3-fusion-junction-atlas-noncoding-acceptor.json",
+        "research/modalities/pgr-parent-engagement-noncoding-acceptor.json"
+      ],
+      "_promise_still_in_manuscript": false,
       "⛔_UNMAPPED": false
     },
     {
@@ -1067,15 +1096,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json",
       "bytes": 906,
-      "sha256": "974055501c7c86930c7f34a38186c123b31be512c86132a84a789fb0a685f257",
+      "sha256": "a12aaaafe64b85e351f68c3e4cca4d1d0f11a3eb3999e91797e7dc1a308ebec4",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
-      "bytes": 451429,
-      "sha256": "d9ae9236c0bcee65937711aa925e333ab800700514a8bd03d26011806a984299",
+      "bytes": 450817,
+      "sha256": "7b971691139d3ebb9a06672a6098984d22cbd23117d564bf364aaa54ace2dad5",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1083,7 +1112,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-figure-legends.docx.build-stamp.json",
       "bytes": 688,
-      "sha256": "1a127501b6158b3d8093d5a9da05f5f9ec24e97eca87f49e16b82e5965b86960",
+      "sha256": "188be11818de3403f036252367314f7ad84557ff50f84a2475b4af63b4930740",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1091,7 +1120,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json",
       "bytes": 906,
-      "sha256": "05990d1d6c439bc9a823043bb4b72c43d23d72ba0bcbd613d18c286e5ee64124",
+      "sha256": "610f3640bec851d779131ab617362b1f3862f72470793ea33f1d9a147cd2069c",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1099,15 +1128,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json",
       "bytes": 989,
-      "sha256": "4eef4eccc49835bb3add228081a40ecbddf1d2eb1403756ff62733d42da65ed5",
+      "sha256": "63b36a86682c6f91d5ee0706a0a8c0c28b45d72df127c794f4c7a01e8fb68d69",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
-      "bytes": 381903,
-      "sha256": "68b89b56cfd41983715b1115e7a958cebddc31209ba55268b470e6356acc0d48",
+      "bytes": 381123,
+      "sha256": "b533dde749d8e72c2fc109a05bc0b2eca323419fc1a071a6cc0e8d9dae5f870e",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1115,15 +1144,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.build-stamp.json",
       "bytes": 904,
-      "sha256": "9017cb748a2cd70eff2b5654fc10ca3ebe4142312ac09c82e7f29a09d1e4bb2f",
+      "sha256": "b715ca71757b8247a48b1751c6568934e8963f59593fb772b7d385172252f828",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
-      "bytes": 367808,
-      "sha256": "f0203b43612941173ae349c13ae798f7b12b3b776bddc006ad538a88bfe97e59",
+      "bytes": 366736,
+      "sha256": "0bc275639ae6a579b7b1142ac0ab540a59c073c0b02ec49138cd788de12a3f2c",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1131,7 +1160,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-title-page.docx.build-stamp.json",
       "bytes": 680,
-      "sha256": "c9b78928ccb936266f44cc03e57f116383b45fdca6b6592b4b333f2c946bde39",
+      "sha256": "cc968a25968a2830ca083e128abc13c54ab3a568b1f5c6d50bfe1fbbfc73cf99",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1139,23 +1168,23 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json",
       "bytes": 895,
-      "sha256": "5ee610f8aabe7ee15b4cca23a1e485d38eead422646932c31e18c208a24b7084",
+      "sha256": "411554b7f9db8decf0b778424a5e4614e69b28c57efcbb87bbc86ce43d00c661",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
-      "bytes": 31416,
-      "sha256": "bccc4c9e9eeebe0165133e7028d838c652eba3bb728387e2982f5887ac8e37c7",
+      "bytes": 31056,
+      "sha256": "7d22f98b506f0b1b359b65e5a260b0531aa2b3eda9a6ba5abb08312a813bfe86",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
-      "bytes": 459898,
-      "sha256": "31763c5fda0f55f85d7550f65fe3cf95e1f3e48ff578f93f4852161e706c8d44",
+      "bytes": 459288,
+      "sha256": "517ecd87a92a639ae926770ce1c087e3f6400584e65a7b5f393271799420793f",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1194,8 +1223,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
-      "bytes": 6551,
-      "sha256": "c3172531cbb2989a5a1f7de3451cd9f613255c56f708924cfbb1319d4710b4b2",
+      "bytes": 7587,
+      "sha256": "aaf034b11eb988ac36221156411cb41cdd8b22330fc10538f58c05b4514ab90b",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
@@ -1290,8 +1319,8 @@
     },
     {
       "path": "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
-      "bytes": 38839,
-      "sha256": "e4148f3458447fa3c6d6a111908a4232f2aa5b6432c04159632a182c519e81d5",
+      "bytes": 41376,
+      "sha256": "306e54529c21da73aa53a066570686b62f6ed31f7a3eb86fcea5c2b398fab767",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
@@ -1324,8 +1353,8 @@
     },
     {
       "path": "research/manuscripts/aso/lit-targets-aso-instruments.json",
-      "bytes": 5851,
-      "sha256": "fafdf21f1a28cc306bbac2dc58e62551a4c52b3a94d78a688581c3f4c99b9647",
+      "bytes": 8630,
+      "sha256": "356cf005c0e9b918a2c7106f6ab33ce94b3ee0de6cca38fceb56d2c4952b71b5",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
@@ -1390,8 +1419,8 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 121208,
-      "sha256": "039bb812eace75949bf27599bf5f28bf17e44c46034d659b3e08f4b98b2db204",
+      "bytes": 123991,
+      "sha256": "c492c3c870e53c3260419658b051f1af4e09aa33e5f873e7c78399c5d8c26ada",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -1430,8 +1459,8 @@
     },
     {
       "path": "research/manuscripts/aso_reagent_coverage.py",
-      "bytes": 13751,
-      "sha256": "553d061da1abbf33e6c2aeaee701ffa0f0efd372bcd4ec3078b4918bd2f5cb88",
+      "bytes": 15007,
+      "sha256": "85b3ae905bd0e49464b4ff22364a66d0fef624512d0f3ef367a9ea22848b0701",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
@@ -1503,7 +1532,7 @@
     {
       "path": "research/manuscripts/figures/aso-figure-provenance.json",
       "bytes": 2133,
-      "sha256": "41d1a11090b019a67df579fa7e050247643a19fc875979d7d59434573893fb5f",
+      "sha256": "beff570dc9baa5b9b255235d317b76e5dc96c831c89ad2357a7103cbaae61edc",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -1686,8 +1715,8 @@
     },
     {
       "path": "research/manuscripts/pinned-figures.json",
-      "bytes": 140995,
-      "sha256": "393d0f62893fe912743531495d4eecb679ce3f54714541322ec16c91cd76d8d9",
+      "bytes": 140982,
+      "sha256": "897b7a3e93f834238e0209131e37c489e7510e8ba8b5c05fc8321cbfbf014b42",
       "serves": "correction_record",
       "also_serves": [],
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
@@ -1695,7 +1724,7 @@
     {
       "path": "research/manuscripts/submission-metrics.json",
       "bytes": 13057,
-      "sha256": "18a8d1c955bb50ff9a85e66891116e9d83d4b3486e8d573664ccd9eb9e1f6cb3",
+      "sha256": "5e0036865dbcc2563baa61781086b0fa75de3242256b3ea0a5f9fa487359b684",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -2689,6 +2718,14 @@
       "contributes": "The artefacts the Availability statement names by path that no other promise row resolves: the parent-null ensembles the observed liability rate is read against, the off-target expression readings, the gap-length comparison, and the base-level TCF12 breakpoint assignment — each with its producer, its committed offline input and its guard."
     },
     {
+      "path": "research/modalities/aso-parent-gap-pairing-noncoding-acceptor.json",
+      "bytes": 8182,
+      "sha256": "12abe52db94b22d348572528c7ef0473c84614bf8f52e4d946be408635807417",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
       "path": "research/modalities/aso-parent-gap-pairing.json",
       "bytes": 50809,
       "sha256": "a3cf1d505df650cbc44195f5f92090da3cefc21ace39a89e6642c240bbed7055",
@@ -2706,8 +2743,8 @@
     },
     {
       "path": "research/modalities/aso-per-junction-table.json",
-      "bytes": 165919,
-      "sha256": "aa5a0cecbf66cade5eb7c67f7d31fd65e410a8035131975accf88eb8b749234a",
+      "bytes": 171376,
+      "sha256": "657700ea770a6e640385f0f33d0865b746ee442c778dab35d5e0cd16a5207ff3",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -2719,6 +2756,14 @@
       "serves": "censoring_test_and_genomic_attempt",
       "also_serves": [],
       "contributes": "⭐ THE EVIDENCE THAT THE CENSORING GUARD IS LOAD-BEARING RATHER THAN MERELY CAUTIOUS. Seven design-and-junction records had no hybridisable retained hit and a raw count above the retention depth but below the search ceiling, so retention alone withheld a verdict; re-screened at a tenfold deeper ceiling, six are decided and NONE is clean (one design's 21 near-matches become 196 with 119 hybridisable). Relaxing the restriction would have promoted six records a deeper look refutes. ⚠ These are a SEPARATE measurement under their own suffix: a count at a deeper ceiling does not correct the shallower one, and no number in the manuscript is restated from them. Also included: the genome-wide arm's output, which ran against NCBI core_nt and saturated the hit ceiling on every query over a mixed corpus of assemblies, clones and patents — released so a reader need not repeat an attempt that did not yield an interpretable result."
+    },
+    {
+      "path": "research/modalities/aso-premrna-offtarget-noncoding-acceptor.json",
+      "bytes": 16865,
+      "sha256": "07d349e97eed64b600b32a994ea7fe3311e073a9bb5cedbd4683b29fbd260fb3",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
     },
     {
       "path": "research/modalities/aso-premrna-offtarget.json",
@@ -2802,8 +2847,8 @@
     },
     {
       "path": "research/modalities/aso_noncoding_acceptor_screened_table.py",
-      "bytes": 29445,
-      "sha256": "afd344916edd372b2a164e4d44922c30cf68ccd16eb1a3a0744ea6cd4ca08c90",
+      "bytes": 32697,
+      "sha256": "dcbc259a1357e83950a1fdb57d65d8ca60ed276dcc1a091979b9db69b7144b85",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -2842,8 +2887,8 @@
     },
     {
       "path": "research/modalities/aso_per_junction_table.py",
-      "bytes": 25972,
-      "sha256": "d2881eaa6f5d05bd79f2fa8e869d238b0cdb2aadfcd441dc2d5d6cf17bad3b19",
+      "bytes": 28458,
+      "sha256": "dd842d3c613383e46fa30799bcc0a75b1bf4f3f1c9a75ba974a221b1af074348",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -4801,6 +4846,14 @@
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
     },
     {
+      "path": "research/modalities/junction-aso-thermo-noncoding-acceptor.json",
+      "bytes": 19064,
+      "sha256": "46860f4fcd3ac03da9b10c54d150f93e2b9b6abc7e882245f16194bcae8ea8ac",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
       "path": "research/modalities/junction-aso-thermo.json",
       "bytes": 135716,
       "sha256": "e566e84e05226c3bcfda2ee552d8887ef3df6c44524c39b0a610d33bedceef95",
@@ -4881,12 +4934,126 @@
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
     },
     {
-      "path": "research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
-      "bytes": 93916,
-      "sha256": "88515cea6091bbb2384168176349dcccbade3e751d3600568020b94278abd1dc",
-      "serves": "reproduction_command",
+      "path": "research/modalities/noncoding-acceptor/aso-insilico-evaluation-e13n2-deep500.json",
+      "bytes": 17356,
+      "sha256": "6fd081e317e10bbdac1ca2b00fb53c4ec090c7223a6f195c94a620271dab1c4f",
+      "serves": "noncanonical_acceptor_screens",
       "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/aso-insilico-evaluation-e7n2-deep500.json",
+      "bytes": 10842,
+      "sha256": "9b90a050ea79bf4a9e0df891861d114bb6957582af540350de764f4c90fe5629",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/aso-insilico-evaluation-pgre2n2-deep500.json",
+      "bytes": 15439,
+      "sha256": "ba2113aaa93e7d4ca2fdd791dae82b50fbb6c7da5b7f15c78910ec567a2d9bcd",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/aso-insilico-evaluation-taf15e6n2-deep500.json",
+      "bytes": 16485,
+      "sha256": "8466510e8a907fa87a68b3a2271bdeccb9ad19b6fb190cae0705e3514e7adfd8",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/aso-noncoding-acceptor-screened-table.json",
+      "bytes": 94456,
+      "sha256": "ac696642bac17e0e665b499bd0205cfc833085ee555405df2eef55130608034f",
+      "serves": "reproduction_command",
+      "also_serves": [
+        "noncanonical_acceptor_screens"
+      ],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/junction-aso-designs-e13n2-deep500.json",
+      "bytes": 15713,
+      "sha256": "e2232e57e18e528508d3d2406b8bbe5599ac919b7c82ca2cecbf2ca73af3f4f8",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/junction-aso-designs-e7n2-deep500.json",
+      "bytes": 8819,
+      "sha256": "da10b04ec6155b9d5844f22451245ae159eff378c64dd098696ec9915172c949",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/junction-aso-designs-pgre2n2-deep500.json",
+      "bytes": 13423,
+      "sha256": "2ec6fae591d8d24168c3e6432a3693ae51e22b851e26a8dbb39d4485550ee023",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/junction-aso-designs-taf15e6n2-deep500.json",
+      "bytes": 15082,
+      "sha256": "ba0e245f2a7eb66ba1178a6ef44312411eaff6fb632b57d5d079f330eb156369",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/junction-aso-offtarget-e13n2-deep500.json",
+      "bytes": 628058,
+      "sha256": "42e8dc272fccf519a19035ea9c846c90427c86397d9a0c9a5d1a847c6349d532",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/junction-aso-offtarget-e7n2-deep500.json",
+      "bytes": 533110,
+      "sha256": "70c53fcc5dfc79af7558fe507d57d88507d03a79a8beabd0a2d776a18fea9025",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/junction-aso-offtarget-pgre2n2-deep500.json",
+      "bytes": 651310,
+      "sha256": "4279b0bc1e55497f8dc0bb14ed5c05b2f6535177683bcc65a8f7978610d9b614",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/junction-aso-offtarget-taf15e6n2-deep500.json",
+      "bytes": 861298,
+      "sha256": "2d3455577166480a0c36fc22e7276b1074a8f26f897002d89b5f58f190c47729",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/pgr-offtarget-locus-expression-inputs.json",
+      "bytes": 98422,
+      "sha256": "d7dddb96bcb5c515f80a59e407c35b854d956a8c10348db3e3bd0c5eaa662d14",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
+      "path": "research/modalities/noncoding-acceptor/pgr-offtarget-locus-expression.json",
+      "bytes": 238155,
+      "sha256": "06fe6f024d91f8668bfdb5ffdbf5be31fac9de437ea6220227ba3651e4974410",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
     },
     {
       "path": "research/modalities/nr4a3-deposited-junctions.json",
@@ -4911,6 +5078,14 @@
       "serves": "unrearranged_allele_scan",
       "also_serves": [],
       "contributes": "The scan that asks whether a design whose acceptor half is not exonic in the mature transcript pairs its whole catalytic gap against the patient's un-rearranged NR4A3 allele, at both seams it can reach: within intron 2 for the cryptic-exon acceptor and across the intron-1/exon-2 boundary for the exon-2 acceptors. Carries the three condemned designs, the two seams that keep a reagent, and the positive control the released tests pin."
+    },
+    {
+      "path": "research/modalities/nr4a3-fusion-junction-atlas-noncoding-acceptor.json",
+      "bytes": 225745,
+      "sha256": "65f75e9db0a1f05c7b1a3e59cbd7e45ab1219ffa1117d360a4fd8b95d3fab731",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
     },
     {
       "path": "research/modalities/nr4a3-fusion-junction-atlas-taf15intron2.json",
@@ -4953,6 +5128,14 @@
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
+      "path": "research/modalities/pgr-parent-engagement-noncoding-acceptor.json",
+      "bytes": 7371,
+      "sha256": "5b0fd7c2aeb2c1e4f7e680f596b2ac06a49d408e3cbcee1115bd6183c0e4038c",
+      "serves": "noncanonical_acceptor_screens",
+      "also_serves": [],
+      "contributes": "The four screen artifacts and the design/alignment panels that `aso_noncoding_acceptor_screened_table.py` joins into `aso-noncoding-acceptor-screened-table.json` — the deposited table's own inputs, without which the chain step rebuilds it as an empty table."
+    },
+    {
       "path": "research/modalities/tests/test_aso_gap_length_tradeoff.py",
       "bytes": 25939,
       "sha256": "b14fce7653b21982d5c09399f8f3efbd4e576a2157778d00c12ca4720b0359d4",
@@ -4986,8 +5169,8 @@
     },
     {
       "path": "research/modalities/tests/test_aso_parent_gap_pairing.py",
-      "bytes": 16254,
-      "sha256": "0d4dbbf44331585343844f542b538d5f2c0955fb7c5c4adccce10b74109ab740",
+      "bytes": 17673,
+      "sha256": "0b3502faeece272a9f3601a361252b4aacda9698e52c080f08419027a9a05d72",
       "serves": "mature_parent_gap_pairing_screen",
       "also_serves": [],
       "contributes": "For every design, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap. ⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: the alignment screen excludes parent records and filters at ≥14/16 identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon–exon junction. It is fully offline against the same cached sequence the pre-mRNA arm uses, and `--check` re-derives it."
@@ -5002,8 +5185,8 @@
     },
     {
       "path": "research/modalities/tests/test_aso_per_junction_table.py",
-      "bytes": 9868,
-      "sha256": "dbfccda504430ed071e4d6d83d6325e423d0e11827fca3a1c598732aef1b7b20",
+      "bytes": 10438,
+      "sha256": "37aea598f0662648737ba14c7e5ec5aac6ea44c5dad9d1cb285a8e87c9041f6b",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
