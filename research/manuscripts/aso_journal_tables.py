@@ -186,9 +186,17 @@ def build() -> str:
     rows = _rows()
     out = ["<!-- GENERATED, DO NOT EDIT. Regenerate: python3 research/manuscripts/aso_journal_tables.py -->",
            "", "# Display items: fusion-junction ASO journal article", "",
+           # ⛔⛔ THIS SENTENCE HAS NOW BEEN WRONG TWICE ABOUT ITS OWN EXCEPTIONS. Round 16 caught
+           # it naming ONE where there were two; round 24 caught it naming one where there are
+           # NONE — the test-article column was removed on 2026-08-30 to stop Table 1 clipping,
+           # and the preamble was not updated in the same commit. ★ THE EXCEPTION DID NOT
+           # DISAPPEAR, IT MOVED: the test-article pairing is a literature fact and is now in
+           # Table 1's CAPTION, which is what the sentence must now carve out, because the
+           # guarantee it makes is about un-derived content and not about a column.
            "*Every cell below is a column of `fusion-junction-aso-sequences.csv`, the canonical "
-           "machine-readable record, except the test-article column of Table 1, which is a "
-           "literature fact and carries its source in the caption. Every reagent named here is a "
+           "machine-readable record. The one thing on this page that is not is the test-article "
+           "pairing in Table 1's caption, which is a literature fact and carries its source there. "
+           "Every reagent named here is a "
            f"{GEOMETRY} phosphorothioate gapmer. An oligonucleotide should be "
            "ordered from that file rather than transcribed from this page.*", ""]
 

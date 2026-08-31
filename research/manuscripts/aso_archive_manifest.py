@@ -444,7 +444,25 @@ PROMISES = [
                         "own headers rather than leaving a reader to find out — the manuscript "
                         "states one of them, and the deposit is where the other lives."),
         "patterns": ["research/modalities/aso-offtarget-duplex-energy.json",
-                     "research/modalities/aso_offtarget_duplex_energy.py"],
+                     "research/modalities/aso_offtarget_duplex_energy.py",
+                     # ⛔⛔ THE SAME DEFECT, ONE FILE OVER, FOUND ONE ROUND LATER (round 24's
+                     # statistics seat, 2026-08-31). `aso_falsification_power.py` produces FIVE
+                     # numbers the Discussion prints — about 80% power at six replicates and about
+                     # 30% at three, and the void standard deviations 0.65, 1.53 and 2.25 — and it
+                     # was not in the archive while Data availability promised all code was.
+                     # ⚠ AND ROUND 23'S GUARD COULD NOT CATCH IT: `test_the_deposited_chain_can_run
+                     # _from_the_deposit.py` measures modules the CHAIN invokes, and this one is not
+                     # a chain step. It writes no artifact — the five figures are computed and
+                     # printed, read from no committed JSON — so nothing else holds them either.
+                     # ★ That is why it belongs with a screen rather than with the chain: it is a
+                     # producer of published numbers, which is the property the promise is about.
+                     "research/manuscripts/aso_falsification_power.py",
+                     # ⚠ AND ONE CHAIN STEP THE GUARD'S REGEX MISSED, for a reason the chain
+                     # documents: it invokes this check with a bare `pytest`, not `python3 -m
+                     # pytest`, and the guard only matched `python3 …`. The regex is widened in the
+                     # same commit; the file is added here because the manifest's own promise says
+                     # every step the script invokes travels with it.
+                     "research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py"],
     },
     {
         "id": "censoring_test_and_genomic_attempt",
@@ -1340,8 +1358,11 @@ def build():
             "It names every file the manuscript's "
             "availability statements promise, proves each one exists at a stated size and SHA-256, "
             "says in one line what each contributes, and records the gaps. It is the working list "
-            "a human uses to make the deposit and mint the DOI that fills the manuscript's two "
-            "remaining placeholders."),
+            "the deposit is built from, and the record against which a published version's "
+            "contents can be checked. ⚠ Corrected 2026-08-31 (round 24): this said the DOI it "
+            "mints \"fills the manuscript's two remaining placeholders\", and no placeholder has "
+            "survived since the first version — each new DOI REPLACES the one both papers "
+            "print."),
         "_generated_by": "research/manuscripts/aso_archive_manifest.py",
         "_derived_never_typed": (
             "Every path is resolved by glob from the promise it serves; every size and hash is "
@@ -1354,8 +1375,18 @@ def build():
             "cheap check a reader has that this file is derived rather than edited. The archive's "
             "identity is the git revision below, which is a fact about content."),
         "_what_this_is_not": [
-            "Not a deposit. Nothing here has been uploaded, registered or reserved, and this "
-            "module makes no network call of any kind.",
+            # ⚠ CORRECTED 2026-08-31 (round 24, hostile referee). This read "Nothing here has been
+            # uploaded, registered or reserved" while `deposition_doi` above names a RESERVED DOI
+            # and `emc-aso-archive.zip` is already uploaded to its draft — and `self_entry`
+            # marks this file as travelling WITH the deposit, so the false half rode into the
+            # archive. ★ THE TRUE STATEMENT IS ABOUT THIS MODULE, NOT ABOUT THE RECORD: the module
+            # reserves nothing and calls nothing; `scripts/zenodo_deposit.py` does both, and
+            # `research/manuscripts/aso/deposit-state.json` is where what-is-reserved lives.
+            "Not a deposit, and not a record of one. THIS MODULE uploads nothing, registers "
+            "nothing and makes no network call of any kind — it hashes the working tree and "
+            "writes JSON. ⚠ The DOI in `deposition_doi` above IS reserved, and may already be "
+            "published; scripts/zenodo_deposit.py performs those acts and "
+            "research/manuscripts/aso/deposit-state.json records which of them has happened.",
             "Not a claim that the archived predictions are correct. Every count in the deposit is "
             "a prediction from sequence search; no off-target activity and no RNase-H cleavage was "
             "measured anywhere in this work.",
@@ -1447,8 +1478,13 @@ def build():
             "5. RESERVE the DOI before publishing the deposition (Zenodo: 'Reserve DOI'). This is "
             "what makes step 6 possible: the manuscript can cite the DOI in the same version that "
             "is deposited, instead of citing a DOI that does not exist yet.",
-            "6. Paste the reserved DOI into the manuscript's two '[ARCHIVE DOI]' placeholders — "
-            "one in Methods -> Availability, one in Declarations -> Data and code availability. "
+            # ⚠ CORRECTED 2026-08-31 (round 24). This instructed pasting into "two '[ARCHIVE DOI]'
+            # placeholders", and no placeholder survives in either paper — both print a real DOI,
+            # which every version since has REPLACED rather than filled. An instruction naming a
+            # slot that no longer exists sends its reader looking for one.
+            "6. Replace the archive DOI the manuscripts currently print with the newly reserved "
+            "one — in the condensed article's Data availability, in the extended report's two "
+            "availability statements, and in the sequence files. "
             "Record it as `deposition_doi` in this module, which is where the article transcribes "
             "it from. ⚠ Superseded, retained: \"Register the DOI in "
             "research/manuscripts/pinned-figures.json so the consistency linter holds the two "

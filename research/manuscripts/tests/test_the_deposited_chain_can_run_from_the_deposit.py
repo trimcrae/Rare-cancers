@@ -47,7 +47,17 @@ MANIFEST = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-archive-manifes
 #: invocations and report a complete archive.
 _EXPECTED_VARS = {"MOD", "MAN", "FIG"}
 
-_INVOCATION = re.compile(r"python3\s+(\$(?P<var>\w+)/)?(?P<rel>[\w/]*\.py)")
+#: ⛔⛔ THE VERB LIST IS PART OF THE MEASUREMENT, AND MATCHING ONLY `python3` MADE THIS GUARD MISS A
+#: STEP ON ITS FIRST DAY. Round 24's statistics seat found `test_the_word_manuscript_is_current_and
+#: _whole.py` absent from the archive: the chain invokes it with a BARE `pytest`, deliberately and
+#: with a comment saying why, so a `python3`-only pattern could not see it — the guard written to
+#: enforce "every step the script invokes is deposited" was itself blind to a whole class of step.
+#: ★ THE GENERAL LESSON, WHICH OUTLIVES THE FIX: a guard that parses a script must enumerate the
+#: INVOCATION VERBS that script actually uses, and `test_the_parser_actually_finds_the_chains_steps`
+#: below asserts the count so a new verb fails loudly instead of shrinking the measured set.
+_INVOCATION = re.compile(
+    r"(?:python3|python|pytest|bash|sh)\s+(?:-m\s+\S+\s+)?"
+    r"(?:\$\{?(?P<var>\w+)\}?/)?(?P<rel>[\w/][\w/.-]*\.py)")
 
 
 def _manifest():
@@ -110,7 +120,7 @@ def test_the_parser_actually_finds_the_chains_steps():
         f"the chain no longer defines {sorted(_EXPECTED_VARS - set(variables))}; this guard resolves "
         "step paths through those variables and would silently match fewer steps")
     invoked = _invoked(src)
-    assert len(invoked) >= 20, (
+    assert len(invoked) >= 25, (
         f"only {len(invoked)} step module(s) parsed out of {os.path.relpath(CHAIN, REPO)}. The chain "
         "runs far more than that, so the invocation pattern has stopped matching and this guard is "
         "measuring nothing")

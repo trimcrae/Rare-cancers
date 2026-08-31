@@ -43,6 +43,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ASO = os.path.join(os.path.dirname(HERE), "aso")
 ARTICLE = os.path.join(ASO, "fusion-junction-aso-journal-article.md")
 
+#: Number words the manuscript may spell out instead of printing, so a guard can accept either.
+_WORD = {0: "zero", 1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+         7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve"}
+
 #: (id, span, require, forbid, decided_by, an inversion the `forbid` half MUST catch)
 POLARITY = [
     # ⛔⛔ THIS SPAN BOUND ONE OF THE CENTRAL NEGATIVE'S FOUR PROSE HOMES (round 17 seat B). The
@@ -314,27 +318,40 @@ POLARITY = [
     # test_the_discussion_recommends_the_two_published_junctions` holds the same relation against
     # the same artifact — but its `PAPER` is the EXTENDED REPORT, so the journal article's copy is
     # one of a pair with nothing on this side of it.
-    # ⚠ RE-ANCHORED 2026-08-30 (round 23). The scope pattern read "Three designs clear every
-    # screen", and the sentence now reads "Three designs pair no wild-type parent through the gap
-    # at all and clear every other screen applied here" — reworded because the paper used "clear"
-    # to mean two different things: liability is defined at ten base pairs, and "35 of the 38
-    # junctions have a design that clears the parent screen" uses that reading, while THIS count
-    # is reproducible only if "clear" means a longest run of ZERO. Under the paper's own stated
-    # criterion the answer would be six. ⛔ THE RELATION IS UNCHANGED — the row still guards that
-    # these designs sit at junctions no patient is reported to carry, which is what makes them
-    # mechanism controls rather than candidates. Only the sentence's opening moved.
+    # ⛔⛔ RE-ANCHORED TWICE IN TWO ROUNDS, AND THE FIRST RE-ANCHORING SHIPPED A FALSE CLAIM.
+    # Round 23 reworded the sentence because the paper used "clear" in two senses — liability is
+    # defined at ten base pairs, and "35 of the 38 junctions have a design that clears the parent
+    # screen" uses that reading. The rewrite was "Three designs pair no wild-type parent through
+    # the gap at all", and THAT IS FALSE: `aso-parent-gap-pairing.json` gives three survivors at
+    # the ten-base-pair criterion, of which only TWO have a longest run of zero. The third,
+    # GGGCATATCAAGCGCT at TCF12_e7__NR4A3_e3, pairs wild-type NR4A3 over eight base pairs —
+    # BELOW the criterion rather than absent. Round 24's regression seat caught it in all four
+    # PDFs and the .docx.
+    # ⚠ AND THE COMMENT THAT REPLACED IT WAS WRONG TOO: it said "under the paper's own stated
+    # criterion the answer would be six", which is neither branch — three at the stated criterion,
+    # two at run-of-zero. Recorded because a false number inside a guard's justification is how
+    # the next session inherits it as a fact.
+    # ★ WHY IT PASSED EVERY GATE, WHICH IS THE PART WORTH FIXING. The instrument that computes the
+    # two-of-three split, `research/modalities/tests/test_aso_parent_gap_pairing.py`, binds its
+    # prose assertions to the EXTENDED REPORT only — the condensed article was the unguarded half
+    # of a pair. `test_the_condensed_article_states_the_survivor_tiering` below closes that.
+    #: ⚠ THE SCOPE SPANS TWO SENTENCES ON PURPOSE. The claim now states the survivor tiering in one
+    #: sentence and the junction tiering in the next, and a `[^.]` scope stops at the first period —
+    #: which silently put the guarded half OUTSIDE the region and reported the relation missing.
     ("three-clean-designs-are-mechanism-controls",
-     r"Three designs pair no wild-type parent[^.]{0,260}\.",
-     r"none at a junction any patient is reported to carry",
+     r"Three designs clear every screen at the ten-base-pair criterion[^#]{0,420}?"
+     r"mechanism controls[^.]{0,40}\.",
+     r"[Nn]one (?:is )?at a junction any patient is reported to carry",
      r"each at a junction patients are reported to carry|"
      r"at a junction patients are reported to carry|"
      r"candidates rather than mechanism controls",
      "aso-per-junction-table.json:junctions[].clinical_tier — the five junctions tiered "
      "published_exon_resolved_breakpoint are EWSR1 e12/e13, TAF15 e6, TCF12 e5 and TFG e7, and "
      "none of the three designs clearing every screen is tiled at one of them",
-     "Three designs pair no wild-type parent through the gap at all and clear every other screen "
-     "applied here, each at a junction patients are reported to carry, which makes them candidates "
-     "rather than mechanism controls."),
+     "Three designs clear every screen at the ten-base-pair criterion — two pairing no wild-type "
+     "parent through the gap at any length, the third at eight base pairs against wild-type "
+     "*NR4A3*, below the criterion rather than absent. Each is at a junction patients are reported "
+     "to carry, which makes them candidates rather than mechanism controls, not controls."),
     # ⛔ THE AI-USE PROVENANCE SENTENCE — audit item UNGUARDED 2 / MISCOVERED F, AND A WINDOW THAT
     # WAS SEVENTY CHARACTERS SHORT. `POLARITY["ai-use"]` above binds the DISCLOSURE (a model was
     # used); the sentence that says the citations are real is a different claim and sits outside
@@ -637,3 +654,80 @@ def test_the_safety_clause_scope_is_derived_and_catches_more_than_one_document()
         "carried by the journal article, the extended report, the supplementary information and the "
         "deposit tables; a derivation finding fewer has stopped reading the siblings, which is the "
         "exact regression this section exists to prevent.")
+
+
+def test_the_condensed_article_states_the_survivor_tiering_the_artifact_computes():
+    """⛔⛔ THE ONE-OF-A-PAIR GAP THAT LET A FALSE CLAIM SHIP IN FOUR PDFs AND A .docx.
+
+    ⚠ Measured 2026-08-31 by round 24's regression seat. Round 23 reworded this sentence to fix a
+    real ambiguity — the paper used "clear" to mean two different things — and the rewrite said
+    "Three designs pair no wild-type parent through the gap at all". THAT IS FALSE: three designs
+    clear at the ten-base-pair criterion and only TWO have a longest run of zero; the third pairs
+    wild-type *NR4A3* over eight base pairs, below the criterion rather than absent.
+
+    ⛔ IT PASSED EVERY GATE, AND THE REASON IS THE SHAPE THIS REPOSITORY KEEPS PAYING FOR. The
+    instrument that computes the split — `research/modalities/tests/test_aso_parent_gap_pairing.py`
+    — binds its prose assertions to `PAPER = fusion-junction-aso-research-article.md`, the EXTENDED
+    report. The condensed article is a second home for the same material and had no guard on it, so
+    the extended report kept saying "two at any parent-duplex threshold" while the condensed one
+    said all three pair nothing, and nothing compared them.
+
+    ★ AND THE DIRECTION IS WHY THIS IS A TEST RATHER THAN A NOTE: the false version flattered the
+    paper, about wild-type *NR4A3* — the transcript the whole selectivity argument exists to spare.
+
+    ⚠ THIS ASSERTS THE RELATION, NOT A WORDING. It requires that the sentence name a criterion, give
+    the split the artifact computes, and use a word that marks the third design as below the cut
+    rather than absent. Any prose meeting those survives.
+    """
+    import json
+    pairing = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(HERE))),
+                           "research", "modalities", "aso-parent-gap-pairing.json")
+    with io.open(pairing, encoding="utf-8") as fh:
+        survivors = [r for r in json.load(fh)["per_design"] if not r.get("counts_as_liability")]
+    zero = [r for r in survivors if r.get("longest_parent_duplex_bp_through_gap") == 0]
+    assert survivors and zero, "the artifact computes no survivors; this guard would be vacuous"
+
+    text = _article()
+    m = re.search(r"Three designs clear every screen[^#]{0,420}?mechanism controls", text)
+    assert m, (
+        "the survivor sentence is gone or reworded past recognition. It is the paper's statement of "
+        "which designs clear everything and on what terms; if it moved, re-anchor this guard rather "
+        "than deleting it — the claim it protects shipped false in four PDFs once already.")
+    claim = m.group(0)
+
+    assert "ten-base-pair criterion" in claim, (
+        "the survivor sentence no longer names the criterion it holds at. Without it, 'clear' means "
+        "two different things in this paper — liability is defined at ten base pairs, and '35 of "
+        "the 38 junctions have a design that clears the parent screen' uses that reading.")
+    assert re.search(r"\btwo\b", claim), (
+        f"the sentence does not say how many survivors pair no parent at any length. The artifact "
+        f"computes {len(zero)} of {len(survivors)}, and collapsing that presents a "
+        "threshold-DEPENDENT result as a threshold-independent one.")
+    assert re.search(r"below the criterion rather than absent|below the threshold rather than absent",
+                     claim), (
+        "the sentence does not mark the remaining survivor as BELOW the criterion rather than free "
+        "of parent pairing. That distinction is the whole reason MIN_DUPLEX_BP is documented as a "
+        "stated choice, and losing it is an overclaim about wild-type NR4A3 specifically.")
+
+    #: ⚠ WHAT THIS ARTIFACT CAN AND CANNOT DECIDE, STATED RATHER THAN GLOSSED. Which three designs
+    #: clear EVERY screen needs the deep off-target and precursor screens intersected with this one
+    #: — `research/modalities/tests/test_aso_parent_gap_pairing.py` does that, and binds its prose
+    #: to the EXTENDED report. Here `counts_as_liability == False` is 103 designs, not three, so
+    #: this guard does NOT re-derive the survivor set. ⛔ It checks the one thing the sentence can
+    #: get wrong on this artifact alone and did: that the length and the parent it names for the
+    #: below-criterion survivor are a pair this file actually computes, and are not zero.
+    stated_bp = re.search(r"\b(eight|nine|ten|eleven|twelve|\d{1,2})\b base pairs against "
+                          r"wild-type \*?([A-Z][A-Z0-9]+)\*?", claim)
+    assert stated_bp, (
+        "the sentence names no length-and-parent for the below-criterion survivor. Stating that one "
+        "of the three is below the cut without saying how far below, or against which transcript, "
+        "leaves the reader unable to check the one design that is not free of parent pairing.")
+    word, parent = stated_bp.group(1), stated_bp.group(2)
+    bp = {v: k for k, v in _WORD.items()}.get(word, None) or int(word)
+    assert bp > 0, "a below-criterion survivor with a stated run of zero is a contradiction in terms"
+    match = [r for r in survivors
+             if r.get("longest_parent_duplex_bp_through_gap") == bp and r.get("parent") == parent]
+    assert match, (
+        f"the sentence states {bp} base pairs against wild-type {parent}, and no design below the "
+        f"criterion in aso-parent-gap-pairing.json has that pair. Re-derive it from `per_design[]` "
+        "`longest_parent_duplex_bp_through_gap` and `parent`.")

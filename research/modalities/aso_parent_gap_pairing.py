@@ -107,9 +107,22 @@ GAP = range(WING, OLIGO_LEN - WING)
 #: RNA downstream." TEN IS THE STRICT END of that range, so this count is a FLOOR: at 7 the same
 #: screen returns 175 of 190 rather than 87. That sentence is a discussion-section rationale citing
 #: prior work, not a measurement, and nothing measures it for a 5-6-5 LNA gapmer.
-#: ⭐ THE RESULT DOES NOT TURN ON THE VALUE, WHICH IS THE POINT WORTH KNOWING. The two designs that
-#: survive every screen have a longest run of ZERO — no window of any parent pairs their gap at any
-#: length — so the candidate set is threshold-independent. The margin ordering is strictly monotone
+#: ⛔⛔ THE RESULT PARTLY DOES TURN ON THE VALUE, AND THIS COMMENT SAID IT DOES NOT — CORRECTED
+#: 2026-08-31 BY ROUND 24'S ARITHMETIC SEAT. It read "The two designs that survive every screen have
+#: a longest run of ZERO … so the candidate set is threshold-independent." Both halves were wrong:
+#: three designs survive every screen, and only TWO of the three have a run of zero. The third,
+#: GGGCATATCAAGCGCT at TCF12_e7__NR4A3_e3, pairs wild-type NR4A3 over eight base pairs — BELOW this
+#: threshold rather than absent, so it is a candidate at ten and not at a stricter cut.
+#: ⚠ THIS IS THE THIRD SITE IN THIS ONE FILE TO CARRY A COUNT THE MANUSCRIPT OWNS, and the second
+#: to be corrected in two rounds: round 23 fixed the module docstring and the `_what_this_is_not`
+#: bullet, and left this one — the comment that DOCUMENTS MIN_DUPLEX_BP, which is the worst of the
+#: three to have wrong, because a reviewer downloading the archive to ask whether the central
+#: negative turns on an adopted threshold reads the answer on the line where it is defined.
+#: ★ WHAT IS ACTUALLY TRUE, AND IT IS WORTH MORE THAN THE CLAIM IT REPLACES: two of the three are
+#: candidates at ANY threshold, and one is a candidate at this one. `tests/test_aso_parent_gap_
+#: pairing.py::test_the_candidate_set_is_what_both_screens_leave` computes exactly that split and
+#: says why collapsing it "would present a threshold-dependent result as a threshold-independent
+#: one, which is the whole reason MIN_DUPLEX_BP is documented as a choice." The margin ordering is strictly monotone
 #: at every threshold from 6 to 12. And against NR4A3 the histogram is EMPTY at 10 and holds one
 #: design at 9, because a duplex at the real mature exon-2/exon-3 junction spans window positions
 #: 5..15 and so cannot be shorter than 11 bp: any threshold in [10, 11] returns the same 61.
@@ -224,14 +237,24 @@ def build():
             f"and returns {sum(1 for r in rows if r['longest_parent_duplex_bp_through_gap'] >= 7)} "
             f"of {len(rows)} at a threshold of 7. Every design's raw longest "
             f"run is released so another threshold can be applied without re-running this.",
-            # ⚠ THE COUNT WAS DROPPED, NOT UPDATED (round 23, 2026-08-30). This read "The two
-            # designs surviving every screen in the manuscript" while the manuscript said three —
-            # a stale restatement of the paper's own number, inside the archive the paper cites.
-            # The threshold-independence point never needed the count, and without it the sentence
-            # cannot go stale when the selection moves.
-            "Not a result that turns on that threshold. Every design that survives every screen "
-            "has a longest run of ZERO at any length, and the ordering by gap-level margin is "
-            "monotone at every threshold from 6 to 12.",
+            # ⛔⛔ THIS BULLET HAS NOW BEEN WRONG TWICE, IN OPPOSITE WAYS, AND THE SECOND TIME WAS
+            # WORSE. Round 23 found it saying "The two designs surviving every screen in the
+            # manuscript have a longest run of ZERO" while the manuscript said three — stale, but
+            # TRUE OF THE TWO IT NAMED. The repair universally quantified it ("Every design that
+            # survives every screen has a longest run of ZERO at any length"), which is FALSE: the
+            # third survivor pairs wild-type NR4A3 over eight base pairs. Round 24's regression
+            # seat caught it inside the deposit, one round later.
+            # ★ THE LESSON IS THE DIRECTION. Dropping a count to stop it going stale replaced a
+            # dated truth with a timeless overclaim — and this bullet exists to defend
+            # MIN_DUPLEX_BP as a stated choice rather than a load-bearing one, so asserting the
+            # survivor set is threshold-free is precisely the claim it must not make.
+            # ⚠ THE TIERING IS THE FACT, so it is stated rather than summarised away, and
+            # tests/test_aso_parent_gap_pairing.py computes the split.
+            "Not a result that turns on that threshold in the same way for every survivor, and the "
+            "difference is stated rather than averaged: of the designs surviving every screen, two "
+            "have a longest run of ZERO and are candidates at any length, and one is BELOW this "
+            "threshold rather than absent, at eight base pairs against wild-type NR4A3. The "
+            "ordering by gap-level margin is monotone at every threshold from 6 to 12.",
         ],
         "_cost": "$0 — offline, over two committed artifacts, no network and no credentials.",
         "method": {

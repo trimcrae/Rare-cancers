@@ -1,20 +1,20 @@
 {
-  "_what_this_is": "The deposit manifest for the fusion-junction ASO submission, whose title and article type are not restated here — they have one home, research/manuscripts/aso/fusion-junction-aso-research-article.md. It names every file the manuscript's availability statements promise, proves each one exists at a stated size and SHA-256, says in one line what each contributes, and records the gaps. It is the working list a human uses to make the deposit and mint the DOI that fills the manuscript's two remaining placeholders.",
+  "_what_this_is": "The deposit manifest for the fusion-junction ASO submission, whose title and article type are not restated here — they have one home, research/manuscripts/aso/fusion-junction-aso-research-article.md. It names every file the manuscript's availability statements promise, proves each one exists at a stated size and SHA-256, says in one line what each contributes, and records the gaps. It is the working list the deposit is built from, and the record against which a published version's contents can be checked. ⚠ Corrected 2026-08-31 (round 24): this said the DOI it mints \"fills the manuscript's two remaining placeholders\", and no placeholder has survived since the first version — each new DOI REPLACES the one both papers print.",
   "_generated_by": "research/manuscripts/aso_archive_manifest.py",
   "_derived_never_typed": "Every path is resolved by glob from the promise it serves; every size and hash is read from the working tree. Nothing in the file list is hand-entered, so a screen added or deleted after this was written changes the manifest without anyone remembering to.",
   "_cost": "$0 — reads the working tree, hashes it, writes one JSON. No network, no rental.",
   "_no_timestamp_on_purpose": "Two runs over an unchanged tree must produce byte-identical output; that is the only cheap check a reader has that this file is derived rather than edited. The archive's identity is the git revision below, which is a fact about content.",
   "_what_this_is_not": [
-    "Not a deposit. Nothing here has been uploaded, registered or reserved, and this module makes no network call of any kind.",
+    "Not a deposit, and not a record of one. THIS MODULE uploads nothing, registers nothing and makes no network call of any kind — it hashes the working tree and writes JSON. ⚠ The DOI in `deposition_doi` above IS reserved, and may already be published; scripts/zenodo_deposit.py performs those acts and research/manuscripts/aso/deposit-state.json records which of them has happened.",
     "Not a claim that the archived predictions are correct. Every count in the deposit is a prediction from sequence search; no off-target activity and no RNase-H cleavage was measured anywhere in this work.",
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22182180",
-  "git_revision": "4fddc6a91f97808f7ed6b3b99c379d7f4c89350d",
-  "git_tree_is_clean_apart_from_this_manifest": true,
+  "git_revision": "5aca1168c52bd0f34ddb23150f746a2a4d325b2c",
+  "git_tree_is_clean_apart_from_this_manifest": false,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "7540416e88edf90d6ee8a848cb45c544b796a27faad7d8ae8160ab42fedca06d",
-  "n_files": 494,
+  "archive_content_digest": "980589c42f4dc541cfa493d8cf028237b0bb4da286b378155cf5266f8cce00b2",
+  "n_files": 496,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
     "travels_with_the_deposit": true,
@@ -24,26 +24,26 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 49653714,
-  "total_mib": 47.353,
+  "total_bytes": 49674930,
+  "total_mib": 47.374,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 389,
-        "bytes": 42163512
+        "bytes": 42163714
       },
       ".py": {
-        "n_files": 74,
-        "bytes": 3279435
+        "n_files": 76,
+        "bytes": 3296522
       },
       ".md": {
         "n_files": 12,
-        "bytes": 730675
+        "bytes": 730914
       },
       ".pdf": {
         "n_files": 8,
-        "bytes": 1978694
+        "bytes": 1982382
       },
       ".png": {
         "n_files": 4,
@@ -75,7 +75,7 @@
     "3b. Record the manifest's OWN SHA-256 outside the manifest — `sha256sum research/manuscripts/aso/fusion-junction-aso-archive-manifest.json` — and paste it into the deposition description at step 4. See `self_entry` above: this file cannot carry its own hash, so the deposition record is where that hash lives.",
     "4. Create the deposition (Zenodo: New upload -> Dataset/Software; upload the zip; title 'Code and artefacts for: fusion-junction antisense oligonucleotides in extraskeletal myxoid chondrosarcoma'; author and ORCID; licence — CC-BY-4.0 for the artefacts and MIT or Apache-2.0 for the code is the usual pairing; keywords 'extraskeletal myxoid chondrosarcoma', 'EWSR1::NR4A3', 'antisense oligonucleotide', 'gapmer', 'fusion junction'). Attach `README` = the `_what_this_is` and `how_to_reproduce_offline` blocks of this file.",
     "5. RESERVE the DOI before publishing the deposition (Zenodo: 'Reserve DOI'). This is what makes step 6 possible: the manuscript can cite the DOI in the same version that is deposited, instead of citing a DOI that does not exist yet.",
-    "6. Paste the reserved DOI into the manuscript's two '[ARCHIVE DOI]' placeholders — one in Methods -> Availability, one in Declarations -> Data and code availability. Record it as `deposition_doi` in this module, which is where the article transcribes it from. ⚠ Superseded, retained: \"Register the DOI in research/manuscripts/pinned-figures.json so the consistency linter holds the two copies together\" — it cannot. lint_consistency.py reads every `artifact_figures` entry through float(), so that registry holds NUMBERS, and pinning a DOI there fails as `A-key-missing ... (ValueError)`, naming a missing key that is present. The two copies are held together by research/manuscripts/tests/test_aso_deposition_doi_is_one_fact.py instead.",
+    "6. Replace the archive DOI the manuscripts currently print with the newly reserved one — in the condensed article's Data availability, in the extended report's two availability statements, and in the sequence files. Record it as `deposition_doi` in this module, which is where the article transcribes it from. ⚠ Superseded, retained: \"Register the DOI in research/manuscripts/pinned-figures.json so the consistency linter holds the two copies together\" — it cannot. lint_consistency.py reads every `artifact_figures` entry through float(), so that registry holds NUMBERS, and pinning a DOI there fails as `A-key-missing ... (ValueError)`, naming a missing key that is present. The two copies are held together by research/manuscripts/tests/test_aso_deposition_doi_is_one_fact.py instead.",
     "7. Publish the deposition, then re-run `PREFLIGHT_FULL=1 ./scripts/preflight.sh` before submitting. Publishing is irreversible on Zenodo: the files of a published version cannot be edited, only superseded by a new version under the same concept DOI.",
     "8. If the gaps block below is non-empty, decide each one BEFORE step 7 — either close it (generate the missing artefact) or narrow the manuscript's wording. A promise that outruns the deposit is the one defect a reader will find first."
   ],
@@ -669,8 +669,10 @@
     {
       "id": "duplex_energy_rescore",
       "promise_text": "the off-target screen re-scored on duplex stability rather than on mismatch count, and the margins the two named reagents rest on",
-      "n_files": 2,
+      "n_files": 4,
       "files": [
+        "research/manuscripts/aso_falsification_power.py",
+        "research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py",
         "research/modalities/aso-offtarget-duplex-energy.json",
         "research/modalities/aso_offtarget_duplex_energy.py"
       ],
@@ -1056,15 +1058,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json",
       "bytes": 906,
-      "sha256": "f6724b2f9cb93b184110fe26f3b9f9629d43d52eede7e64c5257e51bb30c727e",
+      "sha256": "0fbe3c511d3f2de56535d5b1e40f099cbbae423035bbf16648ffd87941dbbc76",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
-      "bytes": 448983,
-      "sha256": "c91115aa05100a2bfb2097dfa8075a4e89c7c9178377487b133512607338f721",
+      "bytes": 449699,
+      "sha256": "0682e795a5f5e45dec68f2d67662231ed7364882b8c58b697e806aae369cffd9",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1080,7 +1082,7 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json",
       "bytes": 906,
-      "sha256": "530fc45278913dbf2c9537ffb7f4c63c057f45ae6a159e0b30d5f3baf9103b1e",
+      "sha256": "562ec53b507e6d693c2d5bab0b91955dbe42fd526e791ded14f29987e006ca2f",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1095,8 +1097,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
-      "bytes": 378178,
-      "sha256": "40835e6e0326566845f814e777523b71efc019c8b6c55085799ff80254780f53",
+      "bytes": 379765,
+      "sha256": "53c047e7362677062eb5b9e8307300e12b3bedf02b4cd627bb3387165e62fc1c",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1104,15 +1106,15 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.build-stamp.json",
       "bytes": 904,
-      "sha256": "6a60ce212521e07d1ee7ca851350aa77abd515cd621c181db088e14213c9b98d",
+      "sha256": "49bfc502ff4a2aaffc26d6217325565a72bad505a0f395b25ec3070162b3123d",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
-      "bytes": 364564,
-      "sha256": "84f88bf464b0e49e46ffa6742a2e6ac5e45b7b2c847e7291d703726c04cde798",
+      "bytes": 365234,
+      "sha256": "4e9b8c3041dcb0078453310dcaf802043c3b5ccdb16a3416f42e3e5f20a28bbb",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1128,23 +1130,23 @@
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json",
       "bytes": 895,
-      "sha256": "8da062afb8503735e3a4ac290a43ac7da3b983c49bd0278597502e991c652a55",
+      "sha256": "53c9b67d1313b009b45cbef9ea766ff389349d614165f874f9579b6421d504f5",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
-      "bytes": 31044,
-      "sha256": "9795e100be6fc967d0c2e176145f7a302b8759947b680af56cd754fd49c82028",
+      "bytes": 31246,
+      "sha256": "4cd452c14b71116fe0d4054aec199ceb7568c7fe67cfd63ffe03196f310d6b62",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
-      "bytes": 457458,
-      "sha256": "f1baa6e3e74db2c0d2f1473cb10732bc0027a64d945303c517f2d3e422e37ed9",
+      "bytes": 458173,
+      "sha256": "4a7b0256eff204e39c68392c9005b7af82ff34101ffb4d3e177e9879994e3b84",
       "serves": "deposited_documents",
       "also_serves": [],
       "contributes": "The built documents a depositor uploads: the version of record in submission format, the typeset preview of the same text, the Supporting Information rendered from the same builder, and the build stamps that record the SHA-256 of every source each PDF was rendered from."
@@ -1159,8 +1161,8 @@
     },
     {
       "path": "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
-      "bytes": 2561,
-      "sha256": "03a5710aa10b26b636dc114f43bb94e08f478b1c1f7e7bda9e6c688aa2070afb",
+      "bytes": 2598,
+      "sha256": "7e3a096103b349ffc99e5b7669c689731169c9ef63267507371582020c93665f",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
@@ -1379,8 +1381,8 @@
     },
     {
       "path": "research/manuscripts/aso_archive_manifest.py",
-      "bytes": 115742,
-      "sha256": "08bd02e3a9ca49ac308912c2cc796f4efeada91795b8ec0af5049db058bf94f1",
+      "bytes": 119147,
+      "sha256": "4989dd7baef15d4898de854abcaa556d010ae84791cf85290322bb8e255ecb1e",
       "serves": "manuscript_and_figures",
       "also_serves": [],
       "contributes": "The submission text, its Supporting Information, and the figure generators with their vector and raster output. The figures are generated from the same artifacts as the tables, so a reader can regenerate them."
@@ -1394,9 +1396,17 @@
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
     },
     {
+      "path": "research/manuscripts/aso_falsification_power.py",
+      "bytes": 4759,
+      "sha256": "e0b6c4a52ec9b28357f46e42444271e6006dbc39b3f4f91ca32f04dd96e2138c",
+      "serves": "duplex_energy_rescore",
+      "also_serves": [],
+      "contributes": "The fifth screen's re-scoring arm: every design's closest gap-paired off-target duplex by free energy rather than by mismatch count, with the two named reagents' separations from theirs, and the producer that writes it. ⚠ ITS TWO BOUNDS POINT OPPOSITE WAYS and the artifact says so in its own headers rather than leaving a reader to find out — the manuscript states one of them, and the deposit is where the other lives."
+    },
+    {
       "path": "research/manuscripts/aso_journal_tables.py",
-      "bytes": 18841,
-      "sha256": "6bab57ded7dedf57632241eb8d6744e080e4b17a1b12342a1b3ee656cdd447b9",
+      "bytes": 19547,
+      "sha256": "b8e8ac82909ab791ac373e944a22107f310dd9bb3ee92adfb2073555c706ee92",
       "serves": "per_design_tables",
       "also_serves": [],
       "contributes": "The manuscript tables and the generator that derives every cell of them from the artifacts, plus the per-locus re-count and the chance baseline the tables and the chance-expectation panel are read from."
@@ -1676,7 +1686,7 @@
     {
       "path": "research/manuscripts/submission-metrics.json",
       "bytes": 13057,
-      "sha256": "36f2c7879cf34724faec34e0bba662852afb9d813c9ed653313a8d410e8aaf90",
+      "sha256": "2f7f39b8bb6617acceb5f08d56bbd142e6623a7dfe42efc5be2dbb3c21e31a96",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -1744,6 +1754,14 @@
       "serves": "canonical_sequence_record",
       "also_serves": [],
       "contributes": "Every design the three deposit documents name, in CSV and FASTA, with its geometry, junction, gap-level margin, longest wild-type-parent duplex and an explicit do-not-order flag on every record the paper condemns. ⚠ THAT FLAG IS ON 257 OF THE 780 RECORDS, NOT ON THREE: 249 pair a wild-type parent through the whole catalytic gap at the ten-base-pair criterion, 5 carry a sense-strand near-match in parent precursor RNA that pairs the gap in full, and 3 more pair the patient's own un-rearranged NR4A3 allele. ⛔ THIS COUNT IS HARD-TYPED AND HAS BEEN WRONG ONCE: it said 252 after the pre-mRNA class was added to the file, so the deposit's own description under-reported the flag a laboratory reads first. This sentence named only the second class until 2026-08-19, which described the smaller hazard and left the larger one sounding like a clean file. The generator refuses to build if any sequence the documents print is absent, so the file cannot quietly stop being canonical."
+    },
+    {
+      "path": "research/manuscripts/tests/test_the_word_manuscript_is_current_and_whole.py",
+      "bytes": 5973,
+      "sha256": "fec90630b55d40124456f0d4e7fbb10047b18143df4972331968306e5065a0c5",
+      "serves": "duplex_energy_rescore",
+      "also_serves": [],
+      "contributes": "The fifth screen's re-scoring arm: every design's closest gap-paired off-target duplex by free energy rather than by mismatch count, with the two named reagents' separations from theirs, and the producer that writes it. ⚠ ITS TWO BOUNDS POINT OPPOSITE WAYS and the artifact says so in its own headers rather than leaving a reader to find out — the manuscript states one of them, and the deposit is where the other lives."
     },
     {
       "path": "research/modalities/aso-control-oligos.json",
@@ -2663,8 +2681,8 @@
     },
     {
       "path": "research/modalities/aso-parent-gap-pairing.json",
-      "bytes": 50607,
-      "sha256": "def273c881b01133d6a368b71b6bc9412eff75d4158bbe30a21ab22484922eb6",
+      "bytes": 50809,
+      "sha256": "a3cf1d505df650cbc44195f5f92090da3cefc21ace39a89e6642c240bbed7055",
       "serves": "mature_parent_gap_pairing_screen",
       "also_serves": [],
       "contributes": "For every design, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap. ⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: the alignment screen excludes parent records and filters at ≥14/16 identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon–exon junction. It is fully offline against the same cached sequence the pre-mRNA arm uses, and `--check` re-derives it."
@@ -2799,8 +2817,8 @@
     },
     {
       "path": "research/modalities/aso_parent_gap_pairing.py",
-      "bytes": 17113,
-      "sha256": "357cf3e3caa44cddbf815b0276a236c19b9e6ec67c799e6d7e3d41c075c4aa26",
+      "bytes": 19357,
+      "sha256": "45911f7e632cdbe78006f2a3f30e72dbe4d028636674c51c32f9457fcee4e713",
       "serves": "mature_parent_gap_pairing_screen",
       "also_serves": [],
       "contributes": "For every design, the longest contiguous duplex a MATURE wild-type parent transcript can form that pairs the whole six-nucleotide catalytic gap. ⭐ IT EXISTS BECAUSE THE OTHER THREE SCREENS STRUCTURALLY CANNOT ANSWER IT: the alignment screen excludes parent records and filters at ≥14/16 identity, the exhaustive scan admits ≤1 mismatch, and the pre-mRNA arm searches unspliced sequence and so cannot reach a mature exon–exon junction. It is fully offline against the same cached sequence the pre-mRNA arm uses, and `--check` re-derives it."

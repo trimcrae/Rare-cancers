@@ -50,7 +50,18 @@ def power_pct(n: int, cut: float = CUT, sigma: float = SIGMA,
               true_selectivity: float = TRUE_SELECTIVITY) -> float:
     """Exact one-sided power, at n replicates, to put the upper 95% bound below `cut` when the
     true selectivity is `true_selectivity` — a noncentral-t calculation, since a normal
-    approximation understates power at n=3."""
+    approximation OVERSTATES power badly at small n.
+
+    ⚠ THIS DOCSTRING SAID "understates" UNTIL 2026-08-31, WHICH IS THE OPPOSITE, and it was the
+    justification for choosing the exact calculation — so the module gave a correct reason
+    backwards. Measured with this module's own SIGMA, CUT and TRUE_SELECTIVITY: at n=3 the exact
+    figure is 30.42% and the normal approximation 71.50%, a 2.4-fold overstatement; at n=6, 81.28%
+    against 94.69%. Found by round 24's statistics seat.
+    ★ THE DIRECTION IS THE WHOLE POINT OF USING nct HERE. Overstating power at three replicates is
+    what would license running the experiment underpowered, which is precisely the decision the
+    void-variance gate exists to refuse — so a reader who took the approximation would reach the
+    opposite conclusion from the one this paper reports.
+    """
     df = n - 1
     log_cut, log_true = math.log(cut), math.log(true_selectivity)
     t_crit = stats.t.ppf(0.025, df)

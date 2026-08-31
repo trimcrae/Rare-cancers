@@ -367,13 +367,55 @@ instruction to go and grade the tooling. The seats did as they were told.
 earlier**, building the Zenodo publish path. The round was reviewing its own driver.
 
 ★★ **THE OUTGOING ARTIFACT SET — name it in every brief, and let each seat's blockers be about it.**
-The manuscript being posted, its display items, its references, the built PDFs and `.docx`, and
-**what the DOIs it prints actually resolve to**. That last clause is deliberate and must not be
-trimmed: a false sentence inside the deposited archive IS reader-facing, and round 21 found one.
+The manuscript being posted, its display items, its references, the built PDFs and `.docx`; the
+**deposited copy of any of those**; and **whether the archive the paper's DOIs resolve to actually
+CONTAINS what the paper promises it contains**. Round 21 found a deposited manuscript that was
+sixteen files behind the paper citing it, and rounds 23 and 24 each found code behind printed
+numbers missing from the archive while Data availability promised all code was there. All three are
+blockers and stay blockers.
 
 ⛔ **WHAT IS NOT IN IT: the repository's own tooling, tests, ledgers, receipts and state files.** A
 defect there is real, is worth fixing, and is **not a blocker on a paper**. Grade it and say where
 it lives. Nothing is lost by this — round 21's three all got fixed the same day.
+
+⛔⛔ **AND STALE PROSE INSIDE A DEPOSITED *CODE* FILE IS A P2, NOT A BLOCKER** (trimcrae, 2026-08-31,
+after four rounds of it). ⚠ **Measured that day: the archive is 496 files, 88 of them carrying
+hand-written prose, against 14 that are the paper and its display items** — so a comment documenting
+a constant graded the same as a wrong number in the abstract, and five seats reading 88 prose files
+will find something every round by construction. That is whack-a-mole, not convergence: rounds 21-24
+produced 18 blockers and **six of the seven in round 24 were introduced by this loop's own previous
+repairs.**
+★ **THE LINE, AND IT IS ABOUT WHAT A READER CAN BE MISLED INTO DOING.** A deposited comment that
+moves no printed number, breaks no promise the paper makes, and misstates nothing a reader would act
+on → **P2**, swept in batches. It becomes a **BLOCKER** the moment it does any of: contradict a
+number the paper prints, falsify a promise the paper or the manifest makes, or misdescribe what the
+archive contains.
+⚠ **THE NARROWING DOES NOT REACH THE PAPER.** Wrong text in the manuscript, its display items or its
+references is a blocker at any size — round 16's one real defect was a caption reading "two
+single-base slides" where the canonical file records one, and it was worth more than the other eight
+together.
+⛔ **AND IT IS NOT A LICENCE TO LEAVE THE ARCHIVE WRONG.** A P2 is still a defect and still gets
+fixed; what changes is that it no longer holds a paper. The right instrument for 88 files of prose
+is a SWEEP, not a five-seat sample — see `test_the_deposit_does_not_restate_a_count_the_paper_owns.py`,
+which closes the one class that bit three times in one file.
+
+⛔⛔ **THE COVER LETTER IS NOT IN THE OUTGOING SET AND SEATS MUST NOT BE GIVEN IT AT ALL** (trimcrae,
+2026-08-31: *"we should stop including the cover letter in what we give to the reviewers"*). Put
+`**/*-cover-letter.md` on the brief's **may-not-read** list beside `research/autonomy/` and
+`.claude/skills/`, so it is out of reach rather than merely out of scope.
+★ **WHY OUT OF REACH AND NOT JUST OUT OF SCOPE.** Leaving it readable but ungradeable wastes the
+scarcest thing a round has — a seat's attention — on a document that cannot produce a blocker.
+Measured across rounds 23 and 24: **five** findings against the cover letter, including one graded a
+BLOCKER that the seat itself then had to caveat as not gating the preprint, plus repeated reports
+that its status header names a superseded DOI. All were true. None could ever have mattered to v2.
+⚠ **AND IT IS THE ONE DOCUMENT WITH NO INSTRUMENT ON IT**, deliberately — trimcrae removed every
+automated check on cover letters on 2026-08-30 (*"That's just cruft"*), because a letter is
+hand-written once, at a publisher's portal, against that venue's requirements. A document nothing
+maintains between submissions will always read stale to a careful reviewer, and that is not a
+defect in the paper.
+⛔ **WHAT THIS DOES NOT MEAN: that the letter may go out wrong.** It is rewritten by hand at
+submission, which is when its claims are made true. Findings against it are worth recording for that
+moment; they are not worth a seat's round.
 
 ★ **EVERY BLOCKER NAMES THE OUTGOING ARTIFACT IT IS IN.** A blocker that cannot name one is, by that
 fact, not a blocker. This is the cheapest possible enforcement and it is a REPORTING requirement, so

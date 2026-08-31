@@ -158,8 +158,10 @@ slide and can carry opposite verdicts, and one slide from a named reagent is con
 5′-AGGGCATATCTTGTGT-3′ is one slide from the *TAF15* reagent and pairs 11 base pairs of wild-type
 *NR4A3* through its whole catalytic gap. Neither may be substituted for the other.
 
-Predicted transcriptome load separates the two: 123 gap-paired sense-strand near-matches for the
-*EWSR1* reagent at a deeper search ceiling than the default, against eight for the *TAF15* one. Most of the 123 are predicted transcript models rather than curated records. The *EWSR1* reagent also carries a sense-strand near-match in wild-type *TAF15*
+Predicted transcriptome load separates the two only before the hits are counted by gene: 123
+gap-paired sense-strand near-matches for the *EWSR1* reagent at a deeper search ceiling than the
+default, against eight for the *TAF15* one — but six gene loci against five. Most of the 123 are
+predicted transcript models rather than curated records. The *EWSR1* reagent also carries a sense-strand near-match in wild-type *TAF15*
 precursor RNA at two mismatches, one inside the catalytic gap, spanning an intron-exon boundary: the
 cost of the same ten shared donor bases that let one oligonucleotide span the *EWSR1*, *TAF15* and
 *FUS* breakpoints at once (Figure 1). The *TAF15* reagent carries no sense-strand precursor site.
@@ -222,9 +224,10 @@ designs to 266 and 342, so the rate falls from 45.8% to 33.1% and 25.4%: a longe
 per design without removing the liability. At 5-10-5 the criterion is met by the catalytic gap
 alone, so that last figure is a floor; the deposit gives the series.
 
-Three designs pair no wild-type parent through the gap at all and clear every other screen applied
-here, none at a junction any patient is reported to carry, which makes them mechanism controls
-rather than candidates. Selecting within each junction rather
+Three designs clear every screen at the ten-base-pair criterion — two pairing no wild-type parent
+through the gap at any length, the third at eight base pairs against wild-type *NR4A3*, below the
+criterion rather than absent. None is at a junction any patient is reported to carry, which makes
+them mechanism controls rather than candidates. Selecting within each junction rather
 than across the panel is what makes the two named reagents available: 35 of the 38 junctions have a design that
 clears the parent screen, and all five junctions with a published exon-resolved breakpoint have one.
 At nine base pairs 31 of the 38 still clear and three of the five published ones do; at eight, 23

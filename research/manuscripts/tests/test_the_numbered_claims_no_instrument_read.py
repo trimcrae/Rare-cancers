@@ -45,6 +45,9 @@ MODELS = os.path.join(MOD, "emc-model-junction-evidence.json")
 COLLAPSE = os.path.join(MOD, "junction-aso-offtarget-locus-collapse.json")
 
 #: The deep re-screens the two named reagents' transcriptome loads are quoted from.
+#: The genome-wide bitmap screen, whose per-design counts §2 quotes.
+GENOME = os.path.join(MOD, "aso-genome-offtarget.json")
+
 DEEP = {"EWSR1": os.path.join(MOD, "junction-aso-offtarget-e12n3-deep500-b1.json"),
         "TAF15": os.path.join(MOD, "junction-aso-offtarget-taf15e6n3-deep500-b1.json")}
 #: The same two junctions at the DEFAULT ceiling — the reading the sentence must NOT be quoting.
@@ -122,6 +125,51 @@ def _named_sequences(prose):
                   r"5′-([ACGT]{16})-3′ at \*?TAF15\*? exon \d+", prose)
     assert m, "§2 no longer names its two reagents in the construction this guard reads"
     return {"EWSR1": m.group(1), "TAF15": m.group(2)}
+
+
+# ─────────────────────────────────────────────────── §2's genome-wide load, and its relation
+def test_the_two_genome_wide_loads_are_the_genome_screens_own(prose):
+    """⛔⛔ "156 hybridisable gap-paired sites against 135" — RAISED BY THREE SEATS AND BOUND BY
+    NOTHING UNTIL 2026-08-31.
+
+    ⚠ Round 23's regression seat and round 24's statistics seat filed it independently as a P1, and
+    the ABLATION GATE then caught it from the other side: `claim_coverage` counted the sentence as
+    covered because the guards above open this file and match its neighbourhood, while perturbing
+    156->157 and 135->137 turned nothing red. That is the census's own failure mode — a pattern that
+    claims a sentence by STRUCTURE rather than by CONTENT — and it is why the ablation suite exists.
+
+    ★ IT IS THE UNGUARDED HALF OF A PAIR, which is this repository's most-repeated defect shape. The
+    transcriptome loads two sentences earlier (123 against eight) are bound by
+    `test_the_two_transcriptome_loads_are_the_deep_screens_own`; the genome pair beside them was not.
+
+    ⛔ AND THE RELATION IS BOUND TOO, NOT ONLY THE NUMERALS. "Does not separate them" is the claim;
+    two counts within a factor of 1.16 support it and a swap to a large ratio would not, so binding
+    the integers alone would pass a sentence that said the opposite of what the screen shows.
+    """
+    named = _named_sequences(prose)
+    rows = {}
+    for key, seq in named.items():
+        hit = [r for r in _load(GENOME, "the genome-wide screen")["per_design"]
+               if r.get("antisense_5to3") == seq]
+        assert len(hit) == 1, (
+            f"{os.path.basename(GENOME)} carries {len(hit)} records for the {key} reagent; the "
+            "genome load the article quotes is not attributable to one design")
+        rows[key] = hit[0]["counts"]["hybridisable_gap_paired_le2"]
+
+    _every_site(prose,
+                r"genome-wide screen does not separate them: (\d+) hybridisable gap-paired sites\s+"
+                r"against\s+(\d+)",
+                (str(rows["EWSR1"]), str(rows["TAF15"])),
+                "the two reagents' hybridisable gap-paired genome-wide loads")
+
+    #: ⛔ THE VERB. "Does not separate them" fails first if the two ever diverge, and the sentence
+    #: would then be the opposite of the screen. 1.5x is a deliberately loose ceiling — the point is
+    #: to catch a reversal or an order-of-magnitude gap, not to pin a ratio nobody claims.
+    lo, hi = sorted((rows["EWSR1"], rows["TAF15"]))
+    assert lo > 0 and hi / lo < 1.5, (
+        f"the genome screen now records {rows['EWSR1']} against {rows['TAF15']}, and §2 says it "
+        "'does not separate them'. Two counts this far apart do not support that verb — re-read "
+        "the sentence against the artifact rather than updating the numerals.")
 
 
 # ────────────────────────────────────────────────────────── §2's transcriptome load
