@@ -5703,7 +5703,13 @@
           "utc": "2026-08-31T13:59:48Z",
           "fingerprint_at_dispatch": "2026-08-31|None"
         }
-      ]
+      ],
+      "handoff": {
+        "child_session_id": "session_011JXp8gDqtZgcLyit6sbnqn",
+        "spawned_utc": "2026-08-31T13:54:56Z",
+        "spawned_by": "session_013jxh1csBMw3e6TeBNJGJX4",
+        "_why": "Spawned rather than run in the spawning session: research-loop §3 makes a full hardening cycle a SPAWNED SESSION, and trimcrae asked for a new one in the same breath ('Keep going then. Preferably in a new session since this one is getting old'). The prompt was built by handoff.py from origin/main and carries no findings from round 26 — a successor that inherits its predecessor's reasoning inherits its mistakes."
+      }
     },
     {
       "id": "AUT-077",
