@@ -1,0 +1,96 @@
+PINNED_SHA=7a7f408258c84adc2bc72bb2be5bd25fc4a3c464
+dev-setup: every interpreter the gates use already imports what they need — nothing to do.
+-- interpreter --
+   pytest: the bare `pytest` console script — ⛔ A UV TOOL IN ITS OWN ISOLATED VENV
+   OK   every probed package imports
+== lint_consistency ==
+lint_consistency: 0 ERROR across 26 target file(s)
+   OK
+== systems model (invariants, pointers, view drift) ==
+   FAILED -- rerun 'python3 systems/systems_check.py --check' to see why
+== EMC systems map (disputed identities, claim artifacts, view drift) ==
+   OK
+== claim strength (R1-R5: selectivity, efficacy, safety, window, readiness) ==
+   OK
+== changed prose (a qualifier dropped by an edit) ==
+lint_changed_prose: 0 changed passage(s) over the working tree
+   OK
+== citation provenance and publication type (every prose identifier traces to a fetch or to the ledger; every claim of TYPE agrees with PubMed) ==
+lint_citations: 1067 prose identifier(s), 106 unanchored, 237 in ledger (known_absent_upstream=1, unverified_at_baseline=143, verified=93)
+lint_citation_types: ADVISORY (exit code unaffected) research/modalities/nr4a3-druggability-reconciliation.md:69 cites a paper PubMed types as a Retracted Publication — [PubMed: 40646688 Orphan nuclear receptor transcription factors as drug target (Transcription 2025) types=['Journal Article', 'Review', 'Research Support, N.I.H., Extramural', 'Retracted Publication'] doi=https://doi.org/10.1080/21541264.2025.2521766]
+lint_citation_types: 23 type claim(s) checked against 13 cached record(s), 0 error(s), 1 retraction advisory(ies)
+   OK
+== manuscript prose style (journal register, not repository register) ==
+   FAILED -- rerun 'python3 research/manuscripts/lint_style.py' to see which lines
+== readability screen (ADVISORY: where to look, not whether the prose is good) ==
+   document                                             sent  mean  p90  max  >60w  FKGL  caution/1kw
+   response-endpoint-indolent-tumours.md                 320  18.8   35   53     0  11.4         12.3
+   emc-mtap-prmt5-hypothesis.md                          270  21.7   38   69     1  12.5         12.8
+   emc-mtap-prmt5-hypothesis-SI.md                        88  22.8   38  134     1  11.9         10.0
+   emc-atr-collaborator-package.md                       216  19.5   38   66     1  11.7          8.3
+   repurposing-hypotheses.md                             264  20.8   37   64     1  14.7          8.2
+   emc-surface-target-landscape.md                       299  21.3   38   80     2  13.4          8.2
+   emc-surface-target-landscape-si.md                    160  18.3   35   49     0  12.2         12.3
+   fusion-junction-aso-supplementary-information.md       98  22.6   45  103     3  12.0          7.7
+   fusion-junction-aso-journal-article.md                182  24.5   44   54     0  13.2          9.4
+   fusion-junction-aso-journal-tables.md                  12  24.5   38   75     1  13.5         10.2
+   fusion-junction-aso-journal-references.md              76  15.5   25   82     2  11.1          0.9
+   emc-vaccine-development-path.md                       695  24.4   45  108    18  13.2         11.5
+   
+   ⚠ This is a SCREEN. It says where to look. Whether the prose is good is decided by reading it — see the `scientific-writing` skill.
+== parser guard (every registered parser can still find its input) ==
+   OK
+== validate (EMC clinical registry evidence contract) ==
+   OK
+== generated deposit artifacts reproduce from their generators ==
+   OK   submission tables
+   OK   submission references
+   OK   submission metrics
+   OK   canonical sequence file
+   OK   journal article tables
+   OK   offtarget duplex energy
+   OK   submission packet
+   OK   vaccine-path manuscript tables
+   OK   archive manifest
+   OK   condensate CALVADOS findings
+   OK   ATR HRD sarcoma series
+   OK   single-slot artifact identity
+   OK   instrument census
+   OK   reopening-trigger registry join
+   OK   literature citation debt
+   OK   news-match queue
+== cycle receipts record the fan-out width the cap is checked against ==
+      pre-schema (< CYC-0023), width not readable by the cap check, grandfathered: CYC-0000-BOOTSTRAP ((no width recorded)), CYC-0001 ((no width recorded)), CYC-0002 ((no width recorded)), CYC-0003 ((no width recorded)), CYC-0005 ((no width recorded)), CYC-0007 ((no width recorded)), CYC-0009 ((no width recorded)), CYC-0011 (concurrent_max/dispatched), CYC-0012 (concurrent_max/dispatched), CYC-0013 (concurrent_max/dispatched), CYC-0014 (concurrent_max/dispatched), CYC-0015 ((no width recorded)), CYC-0016 (concurrent_max/dispatched), CYC-0018 (dispatched), CYC-0019 (concurrent_max/dispatched), CYC-0020 (launched), CYC-0021 (launched), CYC-0022 (launched)
+      87 governed receipt(s), 0 failure(s), 0 unreadable
+   OK
+== pytest (modalities: FULL, PREFLIGHT_FULL=1) ==
+8176 passed, 50 skipped, 25 warnings in 666.79s (0:11:06)
+   OK (0 failure(s), every one named in the sandbox baseline as dep-related;
+       0 module(s) could not be imported here and are counted separately)
+== pytest (manuscripts: endpoints, systems map, pooling, submission citations) ==
+1 failed, 1580 passed, 2 skipped, 17 warnings in 3088.93s (0:51:28)
+   FAILED:
+     FAILED research/manuscripts/tests/test_the_census_word_covered_survives_ablation.py::test_a_covered_sentence_has_a_witness_that_actually_goes_red[research/manuscripts/aso/fusion-junction-aso-journal-article.md] - AssertionError: 1 of 67 perturbed research/manuscripts/aso/fusion-junction-aso-journal-article.md sentences changed their number and NO witness the census names went red:
+== pytest (pure-logic suites nothing else runs: the selector's contract + the loop's instruments) ==
+9 failed, 837 passed in 758.43s (0:12:38)
+   FAILED:
+     FAILED research/autonomy/tests/test_a_score_must_derive_from_its_own_inputs.py::test_every_committed_derived_score_reproduces_from_its_own_inputs - AssertionError: derived rows whose arithmetic does not check out: [('AUT-010', ('refused_stale_input', "`score_inputs.age_factor` is 0.2143, but recomputing it from this row's own `last_evidence_utc`='2026-08-27' gives 0.2857 — the input on the record is not the input in force")), ('AUT-042', ('refused_stale_input', "`score_inputs.age_factor` is 0.2857, but recomputing it from this row's own `last_evidence_utc`='2026-08-26' gives 0.3571 — the input on the record is not the input in force")), ('AUT-057', ('refused_stale_input', "`score_inputs.age_factor` is 0.2857, but recomputing it from this row's own `last_evidence_utc`='2026-08-26' gives 0.3571 — the input on the record is not the input in force")), ('AUT-058', ('refused_stale_input', "`score_inputs.age_factor` is 0.2857, but recomputing it from this row's own `last_evidence_utc`='2026-08-26' gives 0.3571 — the input on the record is not the input in force")), ('AUT-064', ('refused_stale_input', "`score_inputs.age_factor` is 0.2857, but recomputing it from this row's own `last_evidence_utc`='2026-08-26' gives 0.3571 — the input on the record is not the input in force")), ('AUT-065', ('refused_stale_input', "`score_inputs.age_factor` is 0.2857, but recomputing it from this row's own `last_evidence_utc`='2026-08-26' gives 0.3571 — the input on the record is not the input in force")), ('AUT-025', ('refused_stale_input', "`score_inputs.age_factor` is 0.0714, but recomputing it from this row's own `last_evidence_utc`='2026-08-29' gives 0.1429 — the input on the record is not the input in force")), ('AUT-032', ('refused_stale_input', "`score_inputs.age_factor` is 0.3571, but recomputing it from this row's own `last_evidence_utc`='2026-08-25' gives 0.4286 — the input on the record is not the input in force")), ('AUT-049', ('refused_stale_input', "`score_inputs.age_factor` is 0.1429, but recomputing it from this row's own `last_evidence_utc`='2026-08-28' gives 0.2143 — the input on the record is not the input in force")), ('AUT-077', ('refused_stale_input', "`score_inputs.age_factor` is 0.7857, but recomputing it from this row's own `last_evidence_utc`='2026-08-19' gives 0.8571 — the input on the record is not the input in force")), ('AUT-051', ('refused_stale_input', "`score_inputs.age_factor` is 0.5, but recomputing it from this row's own `last_evidence_utc`='2026-08-23' gives 0.5714 — the input on the record is not the input in force")), ('AUT-035', ('refused_stale_input', "`score_inputs.age_factor` is 0.1429, but recomputing it from this row's own `last_evidence_utc`='2026-08-28' gives 0.2143 — the input on the record is not the input in force")), ('AUT-072', ('refused_stale_input', "`score_inputs.age_factor` is 0.1429, but recomputing it from this row's own `last_evidence_utc`='2026-08-28' gives 0.2143 — the input on the record is not the input in force")), ('AUT-061', ('refused_stale_input', "`score_inputs.age_factor` is 0.1429, but recomputing it from this row's own `last_evidence_utc`='2026-08-28' gives 0.2143 — the input on the record is not the input in force")), ('AUT-030', ('refused_stale_input', "`score_inputs.age_factor` is 0.1429, but recomputing it from this row's own `last_evidence_utc`='2026-08-28' gives 0.2143 — the input on the record is not the input in force")), ('AUT-039', ('refused_stale_input', "`score_inputs.age_factor` is 0.1429, but recomputing it from this row's own `last_evidence_utc`='2026-08-28' gives 0.2143 — the input on the record is not the input in force")), ('AUT-076', ('refused_stale_input', "`score_inputs.age_factor` is 0.1429, but recomputing it from this row's own `last_evidence_utc`='2026-08-28' gives 0.2143 — the input on the record is not the input in force"))]
+     FAILED research/autonomy/tests/test_the_unscored_population_can_only_shrink.py::test_the_documented_filings_are_admitted[scored] - admissibility.InadmissibleWrite: 135 inadmissible score change(s) in this ledger write:
+     FAILED research/autonomy/tests/test_the_unscored_population_can_only_shrink.py::test_the_documented_filings_are_admitted[prerequisite_of] - admissibility.InadmissibleWrite: 135 inadmissible score change(s) in this ledger write:
+     FAILED research/autonomy/tests/test_the_unscored_population_can_only_shrink.py::test_the_documented_filings_are_admitted[closed] - admissibility.InadmissibleWrite: 135 inadmissible score change(s) in this ledger write:
+     FAILED research/autonomy/tests/test_the_unscored_population_can_only_shrink.py::test_the_committed_ledger_still_writes_through_the_gate - admissibility.InadmissibleWrite: 135 inadmissible score change(s) in this ledger write:
+     FAILED research/autonomy/tests/test_the_unscored_population_can_only_shrink.py::test_a_grandfathered_row_may_still_be_edited - admissibility.InadmissibleWrite: 135 inadmissible score change(s) in this ledger write:
+     FAILED research/autonomy/tests/test_the_unscored_population_can_only_shrink.py::test_scoring_a_grandfathered_row_is_admitted - admissibility.InadmissibleWrite: 135 inadmissible score change(s) in this ledger write:
+     FAILED research/autonomy/tests/test_the_unscored_population_can_only_shrink.py::test_a_first_write_with_no_baseline_is_not_refused - admissibility.InadmissibleWrite: 135 inadmissible score change(s) in this ledger write:
+     FAILED research/autonomy/tests/test_the_unscored_population_can_only_shrink.py::test_a_closed_row_may_be_appended_unscored - admissibility.InadmissibleWrite: 135 inadmissible score change(s) in this ledger write:
+== unverified-output residue in the documents that go out (model meta-comments, placeholders) ==
+   lint_submission_residue: 33 outgoing document(s), 5 finding(s), 5 baselined, 0 new, 0 stale baseline row(s)
+   lint_submission_residue: hallucinated references are gate 6's trigger and remain PARTIAL — 5 named gaps in UNCOVERED_BY_LINT_CITATIONS.
+   OK
+== the cycle contract names every receipt field the receipt-schema gate requires ==
+      required by the gate, and named by the contract: `route_advanced`, `subagents`, `subagents.max_concurrent`, `ccr_session_id`
+      4 required field path(s), 5 key constant(s), 6093 chars of contract read, 0 disagreement(s)
+   OK
+
+PREFLIGHT FAILED -- do not commit.
+EXIT=1
