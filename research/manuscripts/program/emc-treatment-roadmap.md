@@ -494,11 +494,11 @@ record to be cited/verified before submission**). Synthetic-lethal: Boulay *Cell
 Immunotherapy: afami-cel (Tecelra) approval 2024; NY-ESO-1 in sarcoma (PMC3518519); ImmunoSarc /
 sarcoma IO (ASCO EDBK 2024); brenetafusp PRAME ImmTAC (Immunocore 2024). EMC-specific clinical signal:
 sunitinib response in EMC (PMC3534218); trabectedin in EMC — disease control, with **no objective
-response located in an EMC patient**: 0 of 2 in a randomised phase-2 sub-analysis with centrally
-reviewed imaging (PMID 27418251) and 0 of 3 in the Italian Sarcoma Group TrObs post-hoc
-(PMID 36568164), stated separately and not pooled
-(`research/literature/emc-trabectedin-denominator-2026-09-01.json`, which also records the withdrawn
-~12.5-month figure and the bounded PubMed search behind the negative). Surface targets: B7-H3 in
+response located in an EMC patient**. The two located series are stated separately and not pooled:
+0 of 2 in a randomised phase-2 sub-analysis with centrally reviewed imaging (PMID 27418251), and
+0 of 3 in the Italian Sarcoma Group TrObs post-hoc (PMID 36568164).
+`research/literature/emc-trabectedin-denominator-2026-09-01.json` records both, the withdrawn
+~12.5-month figure, and the bounded PubMed search behind the negative. Surface targets: B7-H3 in
 soft-tissue sarcoma (PMC11523878); FAPI
 radioligand therapy in sarcoma (Clin Cancer Res 2022). Repurposing/ex-vivo: carfilzomib (top ex-vivo
 hit) ± anthracycline/venetoclax in two patient-derived EMC models (Bangerter et al., *Human Cell* 2023;

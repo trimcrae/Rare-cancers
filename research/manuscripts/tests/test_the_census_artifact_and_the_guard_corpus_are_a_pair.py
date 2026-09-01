@@ -276,6 +276,16 @@ def _selective_excerpt(paper):
         pattern = "(?:" + re.escape(excerpt) + ")"
         if claim_coverage.is_selective(pattern, sents):
             return pattern
+    # ⛔ SKIP IS DELIBERATE, and the marker is here because `test_no_guard_can_silently_not_run`
+    # requires the DECISION to be recorded at the site rather than inferred from the message.
+    # What this declines on is a real property of the data, not a missing dependency: the helper
+    # needs one sentence of the paper whose 60-character excerpt is SELECTIVE — matching that
+    # sentence and no other — and a paper built from repeated boilerplate rows may contain none.
+    # ★ The direction is safe. This helper manufactures the pattern for a mutation, so no excerpt
+    # means there is no mutation to run and nothing to assert; it cannot hide a real disagreement,
+    # because the census comparison itself runs in the sibling tests without needing one.
+    # ⚠ It is a floor, not a licence: if this ever skips for EVERY paper the suite is asserting
+    # nothing, which is the vacuity failure this file's own docstring is about.
     pytest.skip(f"no sentence of {paper} yields a selective excerpt")
 
 

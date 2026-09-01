@@ -34,13 +34,19 @@ last_verified: 2026-09-01
   measurement.
 - **`PUB-ATR` — REFUTED / NO-CHANGE-NEEDED.** Already **0 over-ceiling** and already **PASS** at
   `HEAD b6397c5`, exactly as S5 predicted after the splitter fix. Nothing was changed.
-- **`PUB-NEOANTIGEN` — FIXED BY ANOTHER SEAT WHILE I HELD IT.** 4 over-ceiling at 19:41Z, **0** at
-  19:48:23Z, from an edit I did not make. It is a good pass (caution byte-identical, +1 word) and I
-  did **not** duplicate, revert or re-touch it. §5 records the ownership collision.
+- **`PUB-NEOANTIGEN` — FIXED BY S22-PROSE-A WHILE I HELD IT.** 4 over-ceiling at 19:41Z, **0** at
+  19:48:23Z, from an edit I did not make. It is a good pass (caution byte-identical, ±1 word) and I
+  did **not** duplicate, revert or re-touch it — **no pre-S22 copy of that file was ever taken, so
+  nothing in this seat could have reverted it.** §5 records the collision, §5.1 the evidence that I
+  never wrote the file, and §5.2 one word-count figure in the driver's message I could not reproduce.
 
 ⛔ **No number, identifier, PMID, citation, hedge, null, UNKNOWN or limitation was altered anywhere.**
 Every change is a punctuation split plus, at four sites, a supplied subject or a nominalisation turned
 into a finite verb. Caution markers are **byte-identical, marker for marker**, in both files I edited.
+
+⭐ **And all ten sentences I split were real prose, not instrument artefacts** — verified against both
+of the extractor defects S22 reported, with the live linter untouched (§5A). **Nothing here was
+reworded to satisfy a bug.**
 
 ---
 
@@ -164,18 +170,23 @@ They are `R4-confirms` on `validate`/`confirmed`, `R4-proves` on `prove`, and `R
 on `NR4A3-selective`. ⛔ Only `emc-surface-target-landscape.md` is in `lint_style.TARGETS`; it is
 clean before and after.
 
-### 1.6 · Clause 7 on the working tree
+### 1.6 · ⭐ Clause 7 AFTER — the real call, on the commit that carries this work
 
-Replayed with the clause's own logic (`LR.measure` on the working-tree file, then the `over_ceiling`
-branch and the `readability-baseline.json` lookup), because the real clause reads a committed sha
-and this seat may not commit (charter §1):
+⭐ **Not a replay.** The driver committed the wave as **`6f1be6d6df5b4957f3b3802cb44ae1a7d094447c`**
+while this seat was finishing, so `publish_bar.clause_7_readable_enough_to_review(pid, sha)` could be
+run for real against a sha that contains both my eight splits and S19-TRABECTEDIN's correction. All
+five of my edit sites were verified present at that sha before the call.
 
-| endpoint | clause 7 on the working tree |
+| endpoint | clause 7 at `6f1be6d` — the real call |
 |---|---|
-| PUB-EMC-PROGRAM | **FAIL** — 1 over ceiling, 72 w at line 487 (the deferred trabectedin sentence) |
+| PUB-EMC-PROGRAM | **FAIL** — 1 sentence over 60 words, longest **72 w at line 485** (the deferred trabectedin sentence, and nothing else) |
 | PUB-NEOANTIGEN | **PASS** — longest 54 w, mean 22.7 w, FKGL 13.4, caution 12.2/1000 w (no baseline pinned) |
 | PUB-SURFACE-TARGETS | **PASS** — longest 59 w, mean 20.9 w, FKGL 13.3, caution 8.2/1000 w **against a 7.9 baseline** |
 | PUB-ATR | **PASS** — longest 53 w, mean 20.3 w, FKGL 10.4, caution 17.1/1000 w (no baseline pinned) |
+
+⭐ **Three of four PASS on the committed record. `PUB-EMC-PROGRAM` fails on exactly one sentence, and
+it is the one I was told not to touch** — which is the prediction §5B made before the commit landed
+(*"expect 8-over → 1-over, not green"*), now confirmed by the bar itself rather than by my replay.
 
 ⭐ **`PUB-SURFACE-TARGETS` is the one paper of the four that is pinned in
 `readability-baseline.json`** (at 7.9), so its caution ratchet is live rather than inert. It measures
@@ -285,10 +296,13 @@ my four measures 8.2 against its 7.9 pin, before and after.
 
 ---
 
-## 5 · ⚠ A seat-ownership collision, measured
+## 5 · ⚠ A seat-ownership collision — measured before the driver named it, and now reconciled
 
 `research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md` was assigned to this seat as
-**exclusive**. It was edited by a different seat while I held it.
+**exclusive**. It was edited by **S22-PROSE-A** while I held it. The driver has since confirmed the
+cause: S22 was given "the vaccine-path document" in the same directory and read that as covering this
+file too. **The error is the driver's and the outcome is clean** — but I found it by `stat` before
+being told, which is the part worth keeping.
 
 ```
 19:41Z  my first --report:   4 sentences over ceiling, longest 80w at line 155
@@ -312,22 +326,130 @@ write and I re-measured before editing. **The collision was invisible until a `s
 charter's rule 2 was followed by both of us and still collided, because the collision is in the
 *prompts*, not in the seats' behaviour.
 
+### 5.1 · ⛔ I never wrote this file, and here is the evidence rather than the assurance
+
+The driver's message asks which of three cases applies. **Case 1: I never started it.** Falsifiable
+record, not memory:
+
+- The file's mtime is **`2026-09-01 19:48:23.996 UTC`** and has not moved since — it is S22's write.
+  Every file this seat wrote has a later mtime (`emc-treatment-roadmap.md` at 19:53:58,
+  `emc-surface-target-landscape.md` after it).
+- ⛔ **No pre-S22 buffer of this file was ever taken.** My only snapshot of it is
+  `git show HEAD:` output in scratch, taken for the caution census and never written back. There is
+  no copy anywhere in this seat's working set that could revert S22's pass.
+- I re-read the file from disk after the collision and again after the driver's message. Both reads
+  agree: **0 over ceiling, longest 54 w.**
+
+### 5.2 · ⚠ The driver's word figures for S22's pass match nothing on disk — an honest UNKNOWN
+
+The message reports S22 taking this file **5,068 → 5,067** words. I cannot reproduce either number by
+any method, at any commit:
+
+| metric | HEAD `b6397c5` | working tree | delta |
+|---|---:|---:|---:|
+| `wc -w` on the raw markdown | **4,956** | **4,957** | +1 |
+| `LR.measure()["words"]` (extracted prose) | **3,677** | **3,676** | **−1** |
+| the file at its previous two commits (`a4fcdca9a`, `0dce79be0`) | 4,785 / 4,672 | — | — |
+| every other `.md` in `research/manuscripts/neoantigen/` | none is 5,067 or 5,068 | — | — |
+
+⭐ **The magnitude and direction of S22's reported change reproduce exactly on one of these** — the
+extracted-prose count falls by 1 — so the *claim* ("essentially no length change") is sound and I
+have no reason to doubt S22's pass. **The absolute figures are what I cannot place**, and I am
+recording that rather than adopting a number I could not measure (CLAUDE.md §4: never write a figure
+from a report when a $0 reading is available). Most likely a different baseline or a different
+counter; **UNKNOWN which**, and it costs nothing to say so.
+
+⛔ **The substantive claim is confirmed independently and does hold:** 4 over-ceiling → **0**, caution
+markers **45 → 45 byte-identical**, `max_len` 80 → 54, FKGL 13.6 → 13.4. Clause 7 for `PUB-NEOANTIGEN`
+is **PASS** on the working tree. Nothing about my report changes.
+
+---
+
+## 5A · ⭐ The artefact probe — none of my ten flags was an instrument defect
+
+The driver relayed two further extractor defects found by S22 that **inflate** counts, with the
+correct instruction attached: *where the prose is right and the instrument is wrong, say so and leave
+it.* So before letting my ten rewrites stand, I tested whether any of them was a rewrite of prose that
+never needed one.
+
+**Method.** `lint_readability.py` is not an owned path and I did not touch it — `git status` on it is
+empty. I copied it to scratch and patched **both** defects out of the copy:
+
+1. **the numbered-item strip** (`re.sub(r"^\s*\d+\.\s+", "", t)`, `body()` line 135) disabled, so a
+   sentence-terminating numeral a hard wrap put at column 0 is no longer deleted;
+2. **the opener class widened** from `[A-Z(“"§ + callouts]` to `[A-Za-z0-9(“"§ + callouts]`, so a
+   sentence opening with a digit or a lowercase word splits.
+
+Then I re-measured the **pre-edit (HEAD) text** of both files I changed under the strict and the
+patched splitters and compared, sentence by sentence.
+
+| flag (at HEAD) | strict | both defects patched | verdict |
+|---|---:|---:|---|
+| roadmap:98 | 130 w | **130 w** | REAL |
+| roadmap:98 | 72 w | **72 w** | REAL |
+| roadmap:286 | 68 w | **68 w** | REAL |
+| roadmap:305 | 124 w | **124 w** | REAL |
+| roadmap:318 | 63 w | **63 w** | REAL |
+| roadmap:409 | 61 w | **61 w** | REAL |
+| roadmap:451 | 76 w | **76 w** | REAL |
+| roadmap:469 | 84 w | **84 w** | REAL |
+| surface-targets:124 | 72 w | **72 w** | REAL |
+| surface-targets:176 | 80 w | **80 w** | REAL |
+
+⭐ **Ten for ten, unchanged to the word.** Every sentence I split was genuinely that long: each is a
+colon-or-semicolon list of three to five ideas, which is `scientific-writing` §1.4 and not an
+extraction artefact. **No edit in §2 was made to satisfy a bug**, and none needs reverting if the
+instrument is fixed.
+
+⛔ **And the deferred sentence is real too**, which matters because it is the only thing still holding
+`PUB-EMC-PROGRAM` off clause 7:
+
+```
+strict splitter          : line 485/487, 72 w
+both defects patched out : line 485,     72 w   ← unchanged
+```
+
+So it cannot be dismissed as a measurement error, and the split named in §1.3 and ledger row 1 is
+genuinely required.
+
+⚠ For completeness, the patched splitter changes **nothing** across all four of my papers in their
+current state: roadmap 1 → 1, neoantigen 0 → 0, surface-targets 0 → 0, ATR 0 → 0. **S22's two defects
+are real and worth fixing, and neither of them touched this seat's worklist.**
+
+---
+
+## 5B · ⭐ S19-TRABECTEDIN's correction has now COMMITTED, and the prediction it drove was right
+
+When the driver's message arrived, the trabectedin correction had landed **in the working tree only**
+— `git show b6397c5:… | grep -c 'no objective response located'` returned **0**, against **1** on the
+tree. That mattered rather than being a quibble, because **clause 7 reads a committed sha**: at
+`b6397c5` the bar still measured the 32-word pre-correction sentence and reported
+`PUB-EMC-PROGRAM` failing on the **eight sentences I had already fixed**. So this section predicted:
+
+> *"Expect clause 7 to go 8-over → 1-over on the merge commit, not to go green."*
+
+**It committed as `6f1be6d` and it did exactly that** (§1.6): `PUB-EMC-PROGRAM` now fails on **one**
+sentence, 72 w at line 485, which is the corrected trabectedin material and nothing else.
+
+⛔ **I did not restore, re-hedge or reword any of that material**, and §3 lists it as deferred. The
+single edit that clears the endpoint is named in §1.3 and ledger row 1, and it belongs to the seat
+that owns the claim.
+
 ---
 
 ## 6 · What I could not do, and what it is actually waiting on
 
-- **`PUB-EMC-PROGRAM` clause 7 stays FAIL, and it is waiting on ONE more split inside the trabectedin
-  material** — not on me, not on the linter, and not on any fetch. §1.3 has the exact sentence, the
+- **`PUB-EMC-PROGRAM` clause 7 stays FAIL at `6f1be6d`, and it is waiting on ONE more split inside
+  the trabectedin material** — not on me, not on the linter, and not on any fetch. §1.3 has the exact sentence, the
   measurement showing that a split at the sunitinib boundary leaves 64 w, and the boundary that would
   work (between the negative and its two denominators). **The seat that owns that claim can clear it
   in one edit.**
 - **Nothing else is blocked.** Every other flagged sentence in every file I own is fixed or is
   another seat's already-landed work.
-- **The clause-7 "after" readings are a replay, not the real call.** The real clause reads a document
-  out of git at a pinned sha, and this seat may not commit (charter §1). I reproduced its logic
-  exactly (`LR.measure` + the `over_ceiling` branch + the baseline lookup). **The driver should re-run
-  `publish_bar.clause_7_readable_enough_to_review` against the merge commit** — a $0 call, and the
-  reading that counts.
+- ✅ **The clause-7 "after" readings are no longer a replay — RESOLVED.** The driver committed the
+  wave as `6f1be6d` while I was finishing, so the real call was made against a sha carrying this
+  work: **PUB-NEOANTIGEN, PUB-SURFACE-TARGETS and PUB-ATR all PASS; PUB-EMC-PROGRAM FAILs on the one
+  deferred sentence** (§1.6). Nothing here is waiting on a re-run.
 - **`./scripts/preflight.sh` was not run** — charter §6, it is the driver's job on a settled tree, and
   eleven other seats were mutating this one while I worked.
 - **I ran no git write command of any kind.**
@@ -348,18 +470,33 @@ charter's rule 2 was followed by both of us and still collided, because the coll
    itself, which S28-PROSE-C was instructed not to touch. ⭐ **The correction is right; only its
    sentence length is the problem, and nothing about the claim, its hedges or its PMIDs needs to
    change to fix it.**
+   ⚠ **AND IT IS NOT YET VISIBLE TO THE BAR.** At `HEAD b6397c5` the correction is uncommitted
+   (`git show HEAD:… | grep -c 'no objective response located'` → **0**; the same grep on the working
+   tree → **1**), and clause 7 reads a committed sha. So the bar currently reports
+   `PUB-EMC-PROGRAM` failing on the **8 sentences S28 already fixed**, and will switch to failing on
+   **this one** at the merge commit. **Expect 8-over → 1-over, not green.**
+   ⭐ Verified real, not an instrument artefact: the sentence measures **72 w** under the strict
+   splitter and **72 w** with both of S22's reported extractor defects patched out (§5A).
    **`kind`:** `manuscript` · **`state`:** `queued` · `cost_class`: free.
 
 2. **`what`:** ⚠ TWO SEATS OF THE 2026-09-01 WAVE WERE POINTED AT
-   `research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md` AS AN EXCLUSIVE OWNED PATH.
-   Measured: S28-PROSE-C read 4 over-ceiling sentences at 19:41Z; the file's mtime moved to
-   19:48:23Z with 58 insertions / 49 deletions that S28 did not make; at 19:49Z it read 0. **Nothing
-   was lost** — the other seat's pass is sound (caution 45 → 45 byte-identical, +1 word, the four
+   `research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md` AS AN EXCLUSIVE OWNED PATH —
+   **S22-PROSE-A BY A DIRECTORY-SHAPED PROMPT ("the vaccine-path document"), S28-PROSE-C BY AN
+   EXPLICIT FILE PATH.** Measured: S28 read 4 over-ceiling sentences at 19:41Z; the file's mtime
+   moved to 19:48:23Z with 58 insertions / 49 deletions S28 did not make; at 19:49Z it read 0.
+   **Nothing was lost** — S22's pass is sound (caution 45 → 45 byte-identical, ±1 word, the same four
    splits S28 had queued) and S28 stood down rather than writing over it. ⛔ **But the safety came
-   from a `stat` nobody required**, and the charter's rule 2 was obeyed by both seats: the collision
-   is in the seat PROMPTS, not the seats' behaviour. Candidate fix: the wave file should carry the
-   owned-path map as one table the driver derives, so an overlap is a build error rather than
-   something a seat notices by accident.
+   from a `stat` nobody required.** The charter's rule 2 was obeyed by both seats, so **the collision
+   is in the seat PROMPTS, not the seats' behaviour** — and a prompt that names a path by description
+   ("the vaccine-path document") cannot be checked against one that names a path literally.
+   ★ Candidate fix, and it is the cheap half: the wave file carries the owned-path map as **one table
+   of literal paths the driver derives**, and every seat prompt quotes its row from that table, so an
+   overlap is a build error rather than something a seat notices by accident. ⚠ A second, smaller
+   defect rides along: the driver's hand-off reported S22's word counts as **5,068 → 5,067**, which
+   reproduces no measurement of that file by `wc -w` (4,956 → 4,957) or by extracted prose
+   (3,677 → 3,676) at HEAD or in the tree — the −1 direction matches the extracted-prose count
+   exactly, the absolute figures match nothing. **A hand-off that carries a number a receiving seat
+   cannot reproduce is a number that will be copied forward.**
    **`kind`:** `process_defect` · **`state`:** `queued` · `cost_class`: free.
 
 3. **`what`:** ✅ REFUTED — `PUB-ATR` (`dependency/emc-atr-vulnerability-assessment.md`) NEEDED NO
@@ -382,3 +519,16 @@ charter's rule 2 was followed by both of us and still collided, because the coll
    **17.1**. ⚠ This is a decision, not a finding: pinning a baseline mid-sprint pins whatever the
    tree happens to hold, so it belongs to a settled tree and to the driver, not to a seat.
    **`kind`:** `decision` · **`state`:** `queued` · `cost_class`: free.
+
+5. **`what`:** ⭐ THE TWO EXTRACTOR DEFECTS REPORTED BY S22-PROSE-A ACCOUNT FOR **NONE** OF
+   S28-PROSE-C's TEN REWRITES — probed rather than assumed. Method, 2026-09-01: `lint_readability.py`
+   copied to scratch (**the live module untouched**, `git status` on it empty) with (a) the
+   numbered-item strip `re.sub(r"^\s*\d+\.\s+", "", t)` at `body()` line 135 disabled and (b) the
+   opener class widened from `[A-Z(“"§ + callouts]` to `[A-Za-z0-9(“"§ + callouts]`; both edited
+   files then re-measured at `HEAD b6397c5` under the strict and the patched splitters. **All ten
+   flags are identical to the word** (130, 124, 84, 76, 72, 72, 68, 63, 61 and 80 w), and the
+   deferred trabectedin sentence measures **72 w under both**. Across all four papers in their
+   current state the patched splitter changes nothing (1 / 0 / 0 / 0 either way). ⛔ **This confirms
+   S28 reworded no prose to satisfy a bug, and it is NOT evidence against S22's defects** — both are
+   real and worth fixing; they simply did not intersect this seat's worklist.
+   **`kind`:** `verification` · **`state`:** `done` · `cost_class`: free.

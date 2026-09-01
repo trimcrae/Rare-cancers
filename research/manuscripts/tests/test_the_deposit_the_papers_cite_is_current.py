@@ -267,6 +267,17 @@ def test_a_declared_drift_states_the_size_it_actually_has():
         ["git", "show", f"{rev}:research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"],
         cwd=REPO, capture_output=True, text=True)
     if shown.returncode != 0:
+        # ⛔ SKIP IS DELIBERATE, and it is narrower than it was an hour ago. `_commit_is_present`
+        # runs immediately above, so by the time this line is reachable a targeted fetch of that
+        # exact sha has already been tried and failed — this is no longer "a depth-1 checkout
+        # cannot see history", which was the real defect and is fixed, but the residue after the
+        # fix: a revision that even a targeted fetch cannot produce.
+        # ★ THE DECISION BEING RECORDED IS THAT A SIBLING OWNS THE FAILURE, not that nobody minds.
+        # `test_the_published_record_is_corroborated_by_git_rather_than_declared` ASSERTS on exactly
+        # this condition, so failing here too would report one defect twice and say nothing new.
+        # ⚠ Skipping is therefore correct only while that sibling still asserts it. If it is ever
+        # deleted or weakened, this skip becomes a guard quietly not running and must become an
+        # assertion — which is what `test_no_guard_can_silently_not_run` is for.
         pytest.skip(f"the manifest is unreadable at the published revision {str(rev)[:12]}; "
                     "test_the_published_record_is_corroborated_by_git_rather_than_declared owns that")
     was = {f["path"]: f["sha256"] for f in json.loads(shown.stdout)["files"]}
