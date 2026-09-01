@@ -152,6 +152,7 @@ WHAT THIS DOES NOT CATCH, STATED HERE RATHER THAN DISCOVERED LATER
 from __future__ import annotations
 
 import argparse
+import datetime as _dt
 import glob
 import json
 import os
@@ -338,7 +339,29 @@ def _stale_age(row: dict, inputs: dict, weights: dict, today=None):
     echoed = _num(inputs.get("age_factor"))
     if echoed is None:
         return f"`age_factor` is {inputs.get('age_factor')!r}, not a number"
-    live = round(_priority().age_factor(row, weights, today=today), 4)
+    # ⭐⭐ RECOMPUTE AGAINST THE TERM'S OWN BASIS DATE WHEN IT HAS ONE (AUT-PD-198).
+    # `priority.age_factor` is a function of the calendar day, so comparing an echoed value against
+    # TODAY made every scored open row inadmissible at UTC midnight — a red trunk daily, by
+    # construction, until some cycle happened to re-score. `priority.apply_age_factor` now stamps
+    # `age_factor_as_of` beside the value, so the question becomes "is this the value its own basis
+    # date produces?" instead of "is this the value today?".
+    # ⛔ THIS DOES NOT WEAKEN R4, AND THE DISTINCTION IS THE WHOLE POINT. A hand-edited age term
+    # still fails, because the number would not match the basis date stated next to it; only the
+    # passage of time stops firing, and elapsed time was never evidence of a fabricated score. The
+    # ageing itself is unaffected — `priority.py --write` is what advances a row's age term, and it
+    # always was; R4 is a consistency check, not the clock.
+    # ⚠ A ROW WITH NO BASIS DATE FALLS BACK TO TODAY, exactly as before, so nothing is grandfathered
+    # into silence: rows written before this change keep failing until one `--write` stamps them,
+    # which is one command and is the same command that fixed it by hand every previous morning.
+    as_of = inputs.get("age_factor_as_of")
+    basis = None
+    if isinstance(as_of, str):
+        try:
+            basis = _dt.date.fromisoformat(as_of.strip())
+        except ValueError:
+            return (f"`score_inputs.age_factor_as_of` is {as_of!r}, which is not an ISO date — the "
+                    "basis of the age term cannot be read, so the term beside it cannot be checked")
+    live = round(_priority().age_factor(row, weights, today=basis or today), 4)
     if abs(echoed - live) > 1e-4:
         return (f"`score_inputs.age_factor` is {echoed}, but recomputing it from this row's own "
                 f"`last_evidence_utc`={row.get('last_evidence_utc')!r} gives {live} — the input on "

@@ -53,6 +53,21 @@ LOG = HERE / "amendments.jsonl"
 # would quietly widen what it may edit without declaring anything.
 GOVERNED = (
     "research/autonomy/priority-weights.json",
+    # ⭐⭐ THE CODE THAT APPLIES THE WEIGHTS, AND THE GATE THAT ADMITS A SCORE, ADDED 2026-09-01
+    # (AUT-PD-198). The one-of-a-pair shape this repository keeps paying for: `priority-weights.json`
+    # was governed and `priority.py` was not, so the NUMBERS could not be changed quietly while the
+    # ARITHMETIC that consumes them could. `admissibility.py` decides whether a score is admissible
+    # at all — R1-R4 — and was likewise free.
+    # ⚠ FOUND BY WALKING THROUGH THE HOLE. CYC-0090 changed R4's firing condition in
+    # admissibility.py and added a field in priority.py, ran this guard, and got
+    # "PERMITTED — 0 governed path(s) touched". A change to what the ranker picks and to what counts
+    # as a legitimate score is exactly what "a bar may not be changed by the cycle it blocked" is
+    # about, and neither file was in scope.
+    # ⛔ THIS IS A TIGHTENING AND ONLY A TIGHTENING. It adds two paths and removes none, so every
+    # future edit here — including by the cycle that wrote this line — must be declared with its
+    # self_serving_check answered. Declared in amendments.jsonl for CYC-0090-d7df5340.
+    "research/autonomy/priority.py",
+    "research/autonomy/admissibility.py",
     "research/autonomy/publish_bar.py",
     "research/autonomy/publication-authority.json",
     "research/autonomy/amendment_guard.py",

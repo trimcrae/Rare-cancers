@@ -517,9 +517,11 @@ def apply_age_factor(entries: list[dict], weights: dict, today=None) -> list[dic
     term a reader sees is one they can re-derive — a score that moved for a reason nobody can check
     is the thing `_scores_are_not_evidence` warns about.
     """
+    import datetime as _dt  # module-local, matching `age_factor`'s own import below
     w = ((weights.get("terms") or {}).get("age") or {}).get("weight")
     if not isinstance(w, (int, float)):
         return entries
+    stamp = (today or _dt.date.today()).isoformat()
     for e in entries:
         if (e.get("state") or "queued") in CLOSED_STATES:
             continue
@@ -570,8 +572,21 @@ def apply_age_factor(entries: list[dict], weights: dict, today=None) -> list[dic
                 si = {}
                 e["score_inputs"] = si
             si["age_factor"] = f
+            # ⭐⭐ THE DATE THIS TERM WAS COMPUTED AGAINST, RECORDED BESIDE IT (AUT-PD-198).
+            # `age_factor` is a function of `date.today()`, so without this the echoed value is a
+            # reading whose basis is not on the record — and `admissibility._stale_age`, which
+            # recomputes against TODAY, then refuses every row at UTC midnight. That is not a
+            # hypothetical: the block above records the same rule deadlocking the loop, because a
+            # cycle could neither re-score nor claim and each failure blocked the other's fix. The
+            # trunk went red daily by construction until some cycle happened to re-score.
+            # ★ WITH THE BASIS ON THE RECORD, R4 ASKS THE RIGHT QUESTION: not "is this the value
+            # today?" but "is this the value its own basis date produces?" — which still catches a
+            # hand-edited age term (the number would not match its stated basis) while no longer
+            # firing on the passage of time, which is not a defect and never was.
+            si["age_factor_as_of"] = stamp
         elif si is not None:
             si.pop("age_factor", None)
+            si.pop("age_factor_as_of", None)
         if isinstance(e.get("score"), (int, float)):
             e["score"] = round(e["score"] + w * (f - prev), 1)
     return entries
