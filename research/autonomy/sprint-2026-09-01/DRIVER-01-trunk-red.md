@@ -1,3 +1,16 @@
+---
+id: DOC-SPRINT-DRIVER-01-TRUNK-RED
+title: "DRIVER 01 trunk red"
+level: L3
+kind: incident
+status: live
+purpose: "A finding made by the sprint driver rather than by a seat — what was measured, the observation that discriminated, and what was handed on."
+scope: "One finding, with the commands that produced it. It records what was handed to a seat; it is not that seat's report."
+audience: [autonomous research agents, maintainers]
+date: 2026-09-01
+last_verified: 2026-09-01
+---
+
 # DRIVER-01 — the trunk is red, and the guard that is red was checking a git with one commit in it
 
 **Found:** 2026-09-01, ~18:50Z (2:50 PM ET), by the driver, taking the free reading that

@@ -299,9 +299,16 @@ run_step "submission packet"   "python3 $MAN/submission_packet.py"              
 # RECOMPUTATION. `test_claim_coverage_has_not_regressed` runs the census itself and diffs it against
 # the committed artifact, so every edit to a manuscript leaves the artifact stale and the whole
 # manuscripts suite goes red on a file no step rebuilt — which is how it went red on this change,
-# reporting 76 committed against 79 counted. It takes under a second and has no --check of its own:
-# re-running it IS the check.
-run_step "claim coverage census" "python3 $MAN/claim_coverage.py --write"               ""
+# reporting 76 committed against 79 counted.
+# ⭐ IT HAS A REAL `--check` AS OF 2026-09-01 (AUT-PD-130), so this row no longer prints NOT VERIFIED.
+# ⚠ Until then the third field was empty and the comment here said "it has no --check of its own:
+# re-running it IS the check" — which made `--check` mode of this chain silently blind on the one
+# artifact whose two halves live in different directories: the census harvests its guard patterns
+# from `research/manuscripts/tests/`, so widening a guard's regex moves `covered` with no manuscript
+# byte touched, and `--write` mode would have quietly rewritten the artifact instead of reporting it.
+# ⛔ `--check` and `--write` share ONE producer, so this verifies FRESHNESS, not a second
+# implementation of the census. Cost: 1.8 s (measured 2026-09-01, three runs, 1.79 / 1.83 / 1.91 s).
+run_step "claim coverage census" "python3 $MAN/claim_coverage.py --write" "python3 $MAN/claim_coverage.py --check"
 # ⛔ THE CANONICAL SEQUENCE FILE IS DERIVED, AND IT RUNS BEFORE THE MANIFEST HASHES IT. Added
 # 2026-08-17: the deposited PDF prints table sequences without their delimiters, so whether a
 # copy-pasted oligo carries a trailing digit is a property of the reader's PDF extractor. The

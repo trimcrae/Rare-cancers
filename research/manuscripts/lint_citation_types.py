@@ -71,6 +71,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 CACHE = os.path.join(HERE, "citation-article-types.json")
+SWEEP = os.path.join(HERE, "citation-retraction-sweep.json")
 
 sys.path.insert(0, HERE)
 import lint_citations as LC  # noqa: E402  (the primitives live there; see the header)
@@ -297,6 +298,68 @@ def evaluate(found, recs, index):
     return errors, advis
 
 
+_SWEEP_MISSING = (
+    "no retraction sweep at %s — the repository-wide retraction check cannot run, so it fails. "
+    "⛔ THIS IS NOT A PASS. Regenerate it per that file's `_how_to_refresh`, in an interactive "
+    "session with the PubMed connector (this gate is offline and only READS the artifact).")
+
+
+def retraction_sweep(prose=None):
+    """(hits, not_swept, coverage) — retraction status for EVERY prose identifier in the repository.
+
+    ⛔⛔ WHY THIS IS A SEPARATE PASS FROM `evaluate()`, AND WHY THE OLD ONE WAS 1% OF THE JOB
+    (measured 2026-09-01, seat S27-RETRACTIONS). `evaluate()` raises its retraction advisory only for
+    an identifier that a TYPE CLAIM reached — the attributive `review (PMID X)` shape `_SCAN` binds.
+    That was never a coverage decision; it is a side effect of where the record happened to be in
+    hand. The run that prompted this printed **"23 type claim(s) checked against 13 cached
+    record(s), 1 retraction advisory"** while the same repository carried **1,077 prose
+    identifiers**. A citation to a retracted paper survives untouched as long as no sentence calls it
+    "a review" — and the guard's own green line reports the 23 rather than the 1,054 it did not look
+    at, which is this repository's recurring defect: a step that reports while measuring nothing.
+
+    ⭐ The sweep found a SECOND retracted paper that way — PMID 36062197, invisible to `evaluate()`
+    because no sentence type-claims it. `NOT_BOUND["retracted"]` is unchanged and still correct: a
+    retraction is not a prose type-claim. What changed is that the CORPUS is now every identifier
+    rather than whatever the type scanner happened to walk past.
+
+    ⚠ AND THE THIRD NUMBER IS THE POINT. `not_swept` is the identifiers with no row in the artifact
+    at all — cited since the last sweep, or never reachable. They are UNKNOWN and are reported as
+    prominently as the hits, because an absent reading is not a reading of absence and a sweep that
+    counts what it could not read as fine is the failure it exists to prevent.
+    """
+    if not os.path.exists(SWEEP):
+        return None, None, None
+    doc = json.load(open(SWEEP, encoding="utf-8"))
+    records, unknown = doc["records"], doc["unknown"]
+    if prose is None:
+        prose, _ = LC.survey()
+    ack = set()
+    for row in doc.get("acknowledged", []):
+        for ident in row["identifiers"]:
+            ack.add(ident.replace("PMID ", "").strip())
+    hits, not_swept, swept, unreachable = [], [], 0, 0
+    for kind, ids in sorted(prose.items()):
+        for ident, files in sorted(ids.items()):
+            key = "%s:%s" % (kind, ident)
+            rec = records.get(key)
+            if rec is None:
+                if key in unknown:
+                    unreachable += 1
+                else:
+                    not_swept.append((kind, ident, sorted(files)))
+                continue
+            swept += 1
+            if rec["status"] == "RETRACTED":
+                detail = doc["retracted_detail"].get(rec["pmid"], {})
+                hits.append((kind, ident, sorted(files), detail,
+                             bool({ident, rec["pmid"], detail.get("pmcid"), detail.get("doi")} & ack)))
+    return hits, not_swept, {
+        "total": sum(len(v) for v in prose.values()), "swept": swept,
+        "unreachable": unreachable, "not_swept": len(not_swept),
+        "swept_utc": doc.get("swept_utc"),
+    }
+
+
 def check(argv_report=False):
     recs, index = load_cache()
     if recs is None:
@@ -334,6 +397,44 @@ def check(argv_report=False):
     print("lint_citation_types: %d type claim(s) checked against %d cached record(s), %d error(s)%s"
           % (len(found), len(recs), len(errors),
              ", %d retraction advisory(ies)" % len(advis) if advis else ""))
+
+    # ⭐ THE REPOSITORY-WIDE PASS. See `retraction_sweep`. Still ADVISORY: the decision to make a
+    # retracted citation fail the build is a BAR CHANGE and it is argued, with the reading that
+    # refuses it tonight, in research/autonomy/sprint-2026-09-01/S27-RETRACTIONS.md — one of the two
+    # current hits is cited BECAUSE it is retracted, so an unconditional error would red the trunk on
+    # a document that is right as written. The `acknowledged` list in the sweep artifact is the
+    # mechanism that makes the error version reachable later without that collateral.
+    hits, not_swept, cov = retraction_sweep()
+    if cov is None:
+        print("::error::" + _SWEEP_MISSING % os.path.relpath(SWEEP, ROOT), file=sys.stderr)
+        rc_sweep = 2
+    else:
+        rc_sweep = 0
+        for kind, ident, files, detail, acked in hits:
+            print("lint_citation_types: RETRACTION (advisory, exit code unaffected) %s %s is cited "
+                  "in %s and PubMed types it %s%s — [PubMed: %s %s (%s %s) doi=%s]"
+                  % (kind, ident, ", ".join(files), detail.get("article_types"),
+                     # ⛔ THE LABEL NAMES WHERE THE REASON LIVES; IT DOES NOT PARAPHRASE IT. A first
+                     # draft printed "(cited because it is retracted)", which is true of PMID
+                     # 36062197 and FALSE of PMID 40646688 — that one is cited as the secondary
+                     # source a correction overrides. One gloss for two different situations is the
+                     # summary that quietly says the wrong thing about the case it did not mean.
+                     ("; ACKNOWLEDGED — see the `acknowledged` row for this file in %s"
+                      % os.path.relpath(SWEEP, ROOT))
+                     if acked else "; NOT acknowledged — read the sentence",
+                     detail.get("pmid"), (detail.get("title") or "")[:60], detail.get("journal"),
+                     detail.get("year"), detail.get("doi_url") or "n/a"))
+        for kind, ident, files in not_swept:
+            print("lint_citation_types: NOT SWEPT (advisory) %s %s in %s has no row in %s — its "
+                  "retraction status is UNKNOWN, which is not the same as clean."
+                  % (kind, ident, ", ".join(files), os.path.relpath(SWEEP, ROOT)))
+        print("lint_citation_types: retraction sweep (%s) — %d prose identifier(s): %d checked "
+              "against PubMed, %d retracted, %d outside PubMed's reach (arXiv/NCT/GEO/preprint, "
+              "meeting-abstract, dataset and PDB DOIs — UNKNOWN, not clean), %d NOT SWEPT."
+              % (cov["swept_utc"], cov["total"], cov["swept"], len(hits), cov["unreachable"],
+                 cov["not_swept"]))
+    if rc_sweep:
+        return rc_sweep
     if errors:
         print("lint_citation_types: %d type claim(s) disagree with PubMed — see errors above"
               % len(errors), file=sys.stderr)

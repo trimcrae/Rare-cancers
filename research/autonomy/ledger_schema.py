@@ -164,6 +164,27 @@ DESCRIPTIVE_FIELDS: frozenset[str] = frozenset({
     "_cycle_row_key", "_id_collision", "_id_note", "_language_discipline",
     "_lease_released_2026_08_31", "_lease_released_by", "_observations", "_refiled_note",
     "_renamed_why", "_resolution", "_route_note", "_stranded_work", "_the_choice_made",
+    # ⭐ REGISTERED 2026-09-01, BY THE GUARD ASKING FOR A DECISION AND GETTING ONE. The sprint driver
+    # wrote these three onto rows within an hour of this module landing, and the near-miss detector
+    # caught the first: `_closed_by_sprint_2026_09_01` is a stem-near-miss of `closes_clause`, which
+    # `continuity.py`, `out_of_ideas.py` and `stuck_clock.py` all read. It is not a typo — it is a
+    # new descriptive field — and this line is exactly what the refusal message asks for.
+    # ★ WORTH RECORDING THAT IT WORKED ON ITS AUTHOR'S OWN SIDE WITHIN THE HOUR: the module's whole
+    # argument is that adopting a name this close to a governed one should be a decision rather than
+    # an accident, and the first person it stopped was the one committing it.
+    # ⚠ `_closed_by_sprint_2026_09_01` is deliberately NOT renamed to the existing `_closed_by`: that
+    # one records WHO closed a row, and this records the sprint's own close with its evidence. Two
+    # facts, two fields — collapsing them to save a registration would be the "one fact, one place"
+    # rule applied backwards.
+    # ⛔ AND THE FIRST NAME TRIED WAS WITHDRAWN RATHER THAN REGISTERED, WHICH IS THE STRONGER
+    # OUTCOME AND WAS NOT THIS DRIVER'S IDEA. Registering `_closed_by_sprint_2026_09_01` here
+    # silenced `check()` and left `test_no_committed_field_name_is_a_near_miss_of_a_governed_one`
+    # red — because that test reads the NAME, not the registry, and its rule is stricter than this
+    # module's: do not adopt a near-miss name at all, registered or otherwise. It is right. The
+    # field was renamed to `_sprint_close_evidence`, which collides with nothing, and the
+    # registration was removed rather than kept as a second way to say the same thing.
+    "_sprint_close_evidence", "_claimed_by_a_running_subagent",
+    "_ASKED_AND_ANSWERED_2026_09_01",
     "_the_id_this_row_does_not_carry", "_what_is_left", "also_worth_fixing", "evidence",
     "evidence_paths", "lesson", "next_action", "open_question_for_trimcrae",
     "why", "why_not_fixed_here", "why_the_restore_is_still_right", "resolution", "result",
@@ -188,10 +209,23 @@ DESCRIPTIVE_FIELDS: frozenset[str] = frozenset({
 #: block -- at which point the detectors refuse the drifted spelling for good. It was not made in the
 #: same change because `research-ledger.json`'s id allocator collides across concurrent writers
 #: (AUT-PD-171) and this module was written during a twelve-seat sprint that forbids touching it.
-LIVE_ALIASES: dict[str, str] = {
-    "_closed_by": "closed_by",
-    "_outcome": "outcome",
-}
+#: ⭐⭐ EMPTIED 2026-09-01 — THE LEDGER EDIT THIS BLOCK'S OWN NOTE PRESCRIBES WAS MADE, SO THE BLOCK
+#: GOES, EXACTLY AS THAT NOTE SAYS: *"rename the eight rows onto the governed spelling, then delete
+#: this block -- at which point the detectors refuse the drifted spelling for good."* The reason it
+#: could not be done in the same change was that the ledger was driver-only during a twelve-seat
+#: sprint; the driver did it that evening. The sweep found more than the eight this module counted:
+#: **22 drifted fields across 22 rows** — `_lease_released` on 16, `_outcome` on 5, `_closed_by` on
+#: 3 (one row carried BOTH spellings of `_lease_released` and was deliberately left for a human,
+#: because silently choosing which of two values survives is not a repair).
+#: ★ WHY THE EMPTY DICT IS KEPT RATHER THAN THE NAME DELETED: `check()` reads it, the tests read it,
+#: and an empty registry states *"nothing is grandfathered"* where a deleted symbol would state
+#: nothing at all. Reintroducing either spelling now REFUSES, which is the whole point of doing the
+#: rename first.
+#: ⚠ AND THE DEFECT IT RECORDED WAS REAL IN CODE, NOT ONLY IN STYLE: `claim.py` reads `closed_by`
+#: only, so three rows reported having no closer while the cycle id sat in the row; and
+#: `stuck_clock.PROGRESS_FIELDS` lists `outcome` only, so editing `_outcome` was not progress in the
+#: instrument whose entire job is measuring progress.
+LIVE_ALIASES: dict[str, str] = {}
 
 #: Sub-keys of the two nested blocks a reader descends into. Same rules, same reason: a misspelt
 #: `serves.route` unlinks a row from the architecture graph, and a misspelt `score_inputs.age_factor`
@@ -476,14 +510,25 @@ def problems(ledger: dict) -> list[str]:
     return out
 
 
-def live_aliases_in(ledger: dict) -> dict[str, list[str]]:
+def live_aliases_in(ledger: dict, aliases: dict[str, str] | None = None) -> dict[str, list[str]]:
     """Which rows use a `LIVE_ALIASES` spelling, keyed by the drifted name. Reported, never failed --
-    and never silent, which is the whole difference from hiding them in `DESCRIPTIVE_FIELDS`."""
+    and never silent, which is the whole difference from hiding them in `DESCRIPTIVE_FIELDS`.
+
+    ⭐ `aliases` IS INJECTABLE ONLY SO THE MECHANISM CAN BE TESTED ONCE THE REGISTRY IS EMPTY, which
+    it became on 2026-09-01 when the drift was actually repaired. With an empty registry, a test
+    asserting `set(found) == set(LIVE_ALIASES)` passes for a function that has stopped looking
+    altogether -- the vacuous-guard failure this module's own suite names. Passing a constructed
+    registry against a constructed ledger keeps the lookup exercised without requiring the committed
+    ledger to stay dirty.
+    ⛔ IT IS NOT A WAY TO NARROW THE CHECK IN PRODUCTION. Every real caller omits it and gets the
+    committed registry; a caller that passed a subset would be choosing which drift to notice, which
+    is the defect one level up.
+    """
     found: dict[str, list[str]] = {}
     for entry in ledger.get("entries") or []:
         if not isinstance(entry, dict):
             continue
-        for alias in LIVE_ALIASES:
+        for alias in (LIVE_ALIASES if aliases is None else aliases):
             if alias in entry:
                 found.setdefault(alias, []).append(entry.get("id") or "(row with no id)")
     return found

@@ -56,6 +56,13 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 LEDGER = os.path.join(HERE, "citation-provenance-ledger.json")
 #: The type guard's fetch cache — excluded from the anchor scan by `survey()`, see there.
 TYPE_CACHE_REL = "research/manuscripts/citation-article-types.json"
+#: The retraction sweep's fetch product — excluded from the anchor scan by `survey()` for the same
+#: reason and with a measurement, 2026-09-01: this file's `records` map is keyed by EVERY prose
+#: identifier in the repository, so leaving it in the scan took the unanchored counts from
+#: PMID 30 / PMCID 17 / DOI 38 / NCT 7 / GEO 3 / arXiv 11 straight to **zero across all six kinds**
+#: — a perfect green readout produced by adding a file, which is the 2026-08-07 self-anchoring
+#: incident to the letter and on a wider blast radius.
+SWEEP_ARTIFACT_REL = "research/manuscripts/citation-retraction-sweep.json"
 
 #: ⚠ ANCHORED IS ABOUT ORIGIN, NOT ABOUT FILE TYPE. `.json`/`.jsonl` are what fetches, registry
 #: curations and graph edits write; prose is what a model types. That asymmetry is the whole test.
@@ -301,7 +308,14 @@ def survey():
     # a fetch performed to answer "what kind of paper is this" is not evidence for "who checked it".
     anchors = _scan([f for f in files
                      if f.endswith(ANCHOR_SUFFIXES)
-                     and f not in (ledger_rel, TYPE_CACHE_REL)])
+                     #: ⚠ SWEEP_ARTIFACT_REL IS INSERTED BEFORE `TYPE_CACHE_REL`, NOT APPENDED
+                     #: AFTER IT, AND THE ORDER IS LOAD-BEARING FOR A TEST RATHER THAN FOR THE CODE.
+                     #: `test_citation_type_guard.py::test_the_cache_is_not_an_anchor_for_the
+                     #: _provenance_gate` asserts the literal string `TYPE_CACHE_REL)` appears in
+                     #: this file, so appending would have reddened a guard whose property was
+                     #: untouched — the "assert the behaviour, not the spelling" defect that the
+                     #: neighbouring test in that same file already records having paid for once.
+                     and f not in (ledger_rel, SWEEP_ARTIFACT_REL, TYPE_CACHE_REL)])
     return prose, anchors
 
 

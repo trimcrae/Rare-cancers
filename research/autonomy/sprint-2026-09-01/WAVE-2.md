@@ -1,3 +1,16 @@
+---
+id: DOC-SPRINT-WAVE-2
+title: "WAVE 2"
+level: L3
+kind: memo
+status: live
+purpose: "The dispatch record of one wave of the 2026-09-01 sprint — which seats ran, what each owned, and why the wave was composed that way."
+scope: "One wave's dispatch, not its results — each seat's outcome is in its own findings file."
+audience: [autonomous research agents, maintainers]
+date: 2026-09-01
+last_verified: 2026-09-01
+---
+
 # Wave 2 — dispatched 2026-09-01 ~19:45Z (3:45 PM ET)
 
 Five seats, refilling the slots wave 1's finishers vacated. Seven wave-1 seats are still working,

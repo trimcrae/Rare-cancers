@@ -1,3 +1,16 @@
+---
+id: DOC-SPRINT-S15-CAREDELIVERY
+title: "S15 CAREDELIVERY"
+level: L3
+kind: memo
+status: live
+purpose: "The findings record of one sprint seat — what it measured, what it changed, and what it could not do."
+scope: "One seat of the 2026-09-01 sprint, bounded by the owned-paths list in its own prompt. It reports; it does not decide what lands."
+audience: [autonomous research agents, maintainers]
+date: 2026-09-01
+last_verified: 2026-09-01
+---
+
 # S15-CAREDELIVERY — five care-delivery judgement calls answered, and two recorded absences refuted from one file
 
 **Item(s):** AUT-042, AUT-057, AUT-058, AUT-064, AUT-065
