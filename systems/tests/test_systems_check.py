@@ -8,6 +8,7 @@ from __future__ import annotations
 import copy
 import inspect
 import json
+import shutil
 import os
 import re
 import subprocess
@@ -1215,36 +1216,63 @@ def test_every_edge_in_the_model_is_declared(graph):
         assert rel["sysml"] in ("verify", "allocate", "refine", "derive", "domain"), rel["sysml"]
 
 
-def test_an_undeclared_edge_fails_the_build(graph):
+def _graph_copy(tmp_path, monkeypatch, collection, mutate):
+    """A whole `systems/graph/` on scratch disk, with one collection mutated, wired into `sc`.
+
+    ⛔⛔ THE TWO TESTS BELOW USED TO MUTATE THE LIVE TRACKED FILES AND RESTORE THEM IN A `finally`.
+    That is the shape `tracked_tree_guard` refuses, and its refusal names why: under xdist another
+    worker reads the file WHILE it is mutated, and a restore that loses leaves an invented value in
+    a tracked artifact with the suite reporting only a flake (AUT-PD-186, measured 2026-08-29). It
+    is also the same window that put 13 inverted claims on `origin/main` in a commit taken during a
+    mutation seat (CLAUDE.md §6).
+    ⚠ THE RESTORE HERE WAS CORRECT AND THAT IS NOT THE POINT — a correct restore still leaves the
+    window open, and the cost of the window is paid by whoever commits during it, not by the test.
+    ★ `check_relations` re-reads the collections off disk (it enumerates from the SOURCE files
+    rather than the derived graph, on purpose), so repointing `sc.GRAPH` at a copy is enough — and
+    `sc.RELATIONS` is computed from `GRAPH` at import, so it has to be repointed too or the register
+    would still be read from the real tree.
+    """
+    dst = tmp_path / "graph"
+    shutil.copytree(os.path.join(SYS, "graph"), dst)
+    target = dst / f"{collection}.json"
+    rows = json.loads(target.read_text(encoding="utf-8"))
+    mutate(rows)
+    target.write_text(json.dumps(rows, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    monkeypatch.setattr(sc, "GRAPH", str(dst))
+    monkeypatch.setattr(sc, "RELATIONS", str(dst / "relations.json"))
+    return dst
+
+
+def test_an_undeclared_edge_fails_the_build(graph, tmp_path, monkeypatch):
     """Sabotage: add a new id-valued key nobody declared."""
-    import copy, tempfile, shutil
-    src = os.path.join(SYS, "graph", "blockers.json")
-    backup = open(src, encoding="utf-8").read()
-    rows = json.loads(backup)
-    rows[0]["caused_by_route"] = [graph["routes"][0]["id"]]
-    try:
-        open(src, "w", encoding="utf-8").write(json.dumps(rows, indent=2, ensure_ascii=False) + "\n")
-        f = sc.Findings()
-        sc.check_relations(graph, f)
-        assert any("[X1]" in e and "caused_by_route" in e for e in f.errors), \
-            "a new relation must not be able to appear unnamed"
-    finally:
-        open(src, "w", encoding="utf-8").write(backup)
+    _graph_copy(tmp_path, monkeypatch, "blockers",
+                lambda rows: rows[0].__setitem__("caused_by_route", [graph["routes"][0]["id"]]))
+    f = sc.Findings()
+    sc.check_relations(graph, f)
+    assert any("[X1]" in e and "caused_by_route" in e for e in f.errors), \
+        "a new relation must not be able to appear unnamed"
 
 
-def test_a_derived_edge_may_not_be_hand_written(graph):
+def test_a_derived_edge_may_not_be_hand_written(graph, tmp_path, monkeypatch):
     """[X2]: a computed fact with a written copy is rule 1's failure mode — the two drift silently."""
-    src = os.path.join(SYS, "graph", "instruments.json")
-    backup = open(src, encoding="utf-8").read()
-    rows = json.loads(backup)
-    rows[0]["verifies"] = ["R1"]
-    try:
-        open(src, "w", encoding="utf-8").write(json.dumps(rows, indent=2, ensure_ascii=False) + "\n")
-        f = sc.Findings()
-        sc.check_relations(graph, f)
-        assert any("[X2]" in e and "verifies" in e for e in f.errors)
-    finally:
-        open(src, "w", encoding="utf-8").write(backup)
+    _graph_copy(tmp_path, monkeypatch, "instruments",
+                lambda rows: rows[0].__setitem__("verifies", ["R1"]))
+    f = sc.Findings()
+    sc.check_relations(graph, f)
+    assert any("[X2]" in e and "verifies" in e for e in f.errors)
+
+
+def test_the_sabotage_helper_leaves_the_real_tree_untouched(tmp_path, monkeypatch):
+    """⛔ THE CONTROL THAT MAKES THE TWO ABOVE WORTH HAVING. A helper that silently wrote to the
+    tree anyway would pass both of them exactly as the old versions did — the guard is what caught
+    this, and a guard is not a substitute for the property being asserted."""
+    src = os.path.join(SYS, "graph", "blockers.json")
+    before = open(src, encoding="utf-8").read()
+    _graph_copy(tmp_path, monkeypatch, "blockers",
+                lambda rows: rows[0].__setitem__("caused_by_route", ["RT-ANY"]))
+    assert open(src, encoding="utf-8").read() == before, \
+        "the sabotage was applied to the live tracked file, not to the copy"
+    assert sc.GRAPH != os.path.join(SYS, "graph") and str(tmp_path) in sc.RELATIONS
 
 
 def test_a_lane_may_not_name_a_requirement_in_free_text(graph):

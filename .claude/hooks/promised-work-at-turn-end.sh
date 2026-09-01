@@ -54,7 +54,26 @@ if command -v jq >/dev/null 2>&1; then
   [[ "$(echo "$input" | jq -r '.stop_hook_active // false' 2>/dev/null)" == "true" ]] && exit 0
 fi
 
-REPO="${CLAUDE_PROJECT_DIR:-/home/user/Rare-cancers}"
+# ⛔⛔ DERIVED FROM THIS FILE'S OWN LOCATION, NOT FROM A HARDCODED ABSOLUTE PATH. The first version
+# read `REPO="${CLAUDE_PROJECT_DIR:-/home/user/Rare-cancers}"` and then `cd "$REPO" || exit 0`, so
+# anywhere `CLAUDE_PROJECT_DIR` is unset and that path does not exist, the hook EXITED 0 SILENTLY.
+# ⚠ MEASURED THE DAY IT LANDED, in CI run 33513565956: three of this hook's own tests failed on a
+# GitHub runner — `returncode=0, stdout='', stderr=''` on the three real stalls it catches locally —
+# because the runner has no `/home/user/Rare-cancers` and no `CLAUDE_PROJECT_DIR`. Every assertion
+# was correct; the hook was never reached. ★ THAT IS THIS REPOSITORY'S OLDEST SHAPE — a guard that
+# cannot run is not a guard that passed — arriving inside a hook written that same hour to stop a
+# different unmeasured rule. `CLAUDE_PROJECT_DIR` is still preferred when it names a real git tree,
+# because the harness knows which project it launched; the derivation is what makes the hook exist
+# everywhere else, including under test.
+_hook_dir=$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd) || _hook_dir=""
+REPO=""
+for cand in "${CLAUDE_PROJECT_DIR:-}" "${_hook_dir%/.claude/hooks}"; do
+  [ -n "$cand" ] || continue
+  if [ -d "$cand/.git" ] || git -C "$cand" rev-parse --git-dir >/dev/null 2>&1; then
+    REPO="$cand"; break
+  fi
+done
+[ -n "$REPO" ] || exit 0
 cd "$REPO" 2>/dev/null || exit 0
 
 STATE_DIR="${REPO}/.git/emc-hooks"

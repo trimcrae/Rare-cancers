@@ -102,6 +102,22 @@ def _lab(tmp_path, *, entries=None, state="seed", receipts=(), authority=None, g
     }
 
 
+def _seed_cycle_hours():
+    """The seed's OWN cadence, read rather than remembered.
+
+    ⛔⛔ THREE TESTS BELOW TYPED AN HOUR OFFSET AGAINST A REMEMBERED 4 h CADENCE, AND `_lab` COPIES
+    THE REAL `autonomy-state.json` ON PURPOSE — so the moment a budget hold moved the shipped dial
+    from 4 h to 24 h, every one of them went red while measuring nothing. Measured 2026-09-01: an
+    entry 30 h stale is "frozen over two cycles" at 4 h and is comfortably fresh at 24 h, and the
+    docstrings still said "Seed cycle 4 h, so 2 cycles is 8 h" — a restated constant, which is
+    exactly what CLAUDE.md rule 1 forbids and what this repository keeps paying for.
+    ★ THE POINT OF THESE TESTS IS THE MULTIPLE, NOT THE HOURS. "Two cycles late" is the property;
+    how long a cycle happens to be is the seed's business, and reading it here means the throttle
+    working can never be the reason this file is red.
+    """
+    return float(json.loads(STATE_JSON.read_text())["cycle_interval_hours"])
+
+
 def _cond(board, key):
     rows = [c for c in board["conditions"] if c["key"] == key]
     assert len(rows) == 1, f"expected exactly one {key} row, got {len(rows)}"
@@ -322,9 +338,10 @@ def test_an_unreadable_ledger_is_unmeasured_not_green(health, tmp_path):
 # ───────────────────────────────────────────────────────────────────────────────────── evidence_moving
 def test_a_running_entry_frozen_over_two_cycles_turns_evidence_moving_red(health, tmp_path):
     """§4's unproven-pipeline rule as a board row: an item in flight must show MOVEMENT, and 'no error
-    yet' is not movement. The seed cycle is 4 h, so 2 cycles is 8 h."""
+    yet' is not movement. The threshold is 2 cycles; the cycle length comes from the seed."""
+    stale = 2.5 * _seed_cycle_hours()   # comfortably past two cycles, whatever a cycle is
     entries = [{"id": "AUT-007", "state": "running",
-                "last_evidence_utc": _z(NOW - datetime.timedelta(hours=30))}]
+                "last_evidence_utc": _z(NOW - datetime.timedelta(hours=stale))}]
     row = _cond(health.build(**_lab(tmp_path, entries=entries)), "evidence_moving")
     assert row["needs_attention"] is True and row["verdict"] == "FROZEN"
 
@@ -404,8 +421,11 @@ def test_a_journal_submission_never_matches_a_grant(health, tmp_path):
 
 
 def test_a_late_receipt_turns_cycle_delivering_red(health, tmp_path):
-    """§2.2 — a fired Routine is not a delivered one. Seed cycle 4 h, deadline 2 periods = 8 h."""
-    row = _cond(health.build(**_lab(tmp_path, receipts=[_receipt(hours_ago=20)])), "cycle_delivering")
+    """§2.2 — a fired Routine is not a delivered one. The deadline is 2 periods; the period comes
+    from the seed rather than from this docstring's memory of it."""
+    late = 2.5 * _seed_cycle_hours()
+    row = _cond(health.build(**_lab(tmp_path, receipts=[_receipt(hours_ago=late)])),
+                "cycle_delivering")
     assert row["needs_attention"] is True and row["verdict"] == "LATE"
 
 
@@ -448,7 +468,10 @@ def test_a_board_near_its_own_expiry_is_committed_anyway(health, tmp_path):
     dead."""
     kwargs = _lab(tmp_path)
     first = health.build(**kwargs, previous=None)
-    later = dict(kwargs, now=NOW + datetime.timedelta(hours=9))  # 3 cycles of 4 h = 12 h expiry
+    # Just inside the 3-cycle expiry, derived from the seed's own cadence for the reason
+    # `_seed_cycle_hours` records: at 4 h this read 9 h and silently stopped being "near expiry"
+    # the moment the shipped dial moved to 24 h.
+    later = dict(kwargs, now=NOW + datetime.timedelta(hours=2.75 * _seed_cycle_hours()))
     assert health.build(**later, previous=first)["_commit_worthy"] is True
 
 
@@ -518,14 +541,60 @@ def test_no_dollar_figure_is_ever_written_into_the_board(health, tmp_path):
 def test_the_seed_state_admits_the_denominator_is_unknown(health):
     """§9.2 is explicit: the utilisation denominator is CALIBRATED from an observed window flip, and
     until one is seen the loop SAYS UNKNOWN rather than inventing one. A number here would put a
-    fabricated denominator underneath every utilisation reading the controller ever takes."""
+    fabricated denominator underneath every utilisation reading the controller ever takes.
+
+    ⛔⛔ THIS TEST USED TO ASSERT THE FACTORY DIALS AND WENT RED WHEN THE THROTTLE WORKED. Measured
+    2026-09-01: it required `backoff_level == 0`, `cycle_interval_hours == 4` and
+    `subagent_width == 5` of a file that is a LIVE CONTROL SURFACE, not a seed. trimcrae's budget
+    hold of 2026-08-29 set exactly those dials to 2 / 24 / 1 — the hold doing its job — and this
+    file has been red on `main` ever since (AUT-PD-191).
+    ★ THE DIALS ARE STILL CHECKED, AND AGAINST A STRICTER AUTHORITY: an active `budget_hold`
+    declares the posture it claims to have set, so the live dials must be AT LEAST AS TIGHT as that
+    declaration. A loosened dial under an active hold now fails here, which the old assertion could
+    not even express — it could only notice that the numbers were not the factory ones.
+    ⚠ AND `last_limit_flip` IS NO LONGER REQUIRED TO BE NULL. It was populated deliberately by
+    CYC-0088 from a child session's own `rate_limit_info`, and its own note records why that
+    CONSTRAINS the loop and loosens nothing: `allowed_warning` is a verdict, not a quota. Demanding
+    null was demanding that no observation had ever been made — CLAUDE.md §4's "an absent reading is
+    not a reading of absence", inverted. What §9.2 actually forbids is a DENOMINATOR nobody
+    measured, and that is what is asserted.
+    """
     state = json.loads(STATE_JSON.read_text())
     assert state["_schema"] == "emc-autonomy-state/1"
-    assert state["utilisation_denominator"] is None and state["last_limit_flip"] is None
+    assert state["utilisation_denominator"] is None, (
+        "a utilisation denominator appeared without a measured window. §9.2 requires UNKNOWN until "
+        "one is observed; a number here is fabricated and sits underneath every later reading.")
     assert "UNKNOWN" in state["_utilisation_denominator_means"]
-    assert state["backoff_level"] == 0 and state["cycle_interval_hours"] == 4
-    assert state["subagent_width"] == 5 and state["items_per_cycle"] == 1
-    assert state["utilisation_target"] == 0.8 and state["last_cycle_id"] is None
+    flip = state.get("last_limit_flip")
+    assert flip is None or (isinstance(flip, dict) and flip.get("source") and flip.get("utc")), (
+        "`last_limit_flip` is populated but names no source or no time, so it is a claim about an "
+        "outside system with no reading behind it")
+
+    # The dials themselves: every one present and of the right kind, whatever a hold has set them to.
+    for key in ("backoff_level", "cycle_interval_hours", "subagent_width", "items_per_cycle"):
+        assert isinstance(state.get(key), int) and state[key] >= 0, (
+            f"`{key}` is {state.get(key)!r}. Three health conditions read these dials, and a seed "
+            "that stops carrying one makes them unmeasurable rather than red.")
+    assert state["utilisation_target"] == 0.8
+
+    hold = state.get("budget_hold") or {}
+    if hold.get("active"):
+        # ⛔ A HOLD THAT GOVERNS NOTHING IS `subagent_width` ALL OVER AGAIN. The declaration names
+        # ceilings; the live dials must sit at or under them, and `floor_backoff_level` is a floor.
+        posture = hold.get("declared_posture") or {}
+        for dial, ceiling in (("cycle_interval_hours", "max_cycle_interval_hours"),
+                              ("subagent_width", "max_subagent_width"),
+                              ("items_per_cycle", "max_items_per_cycle")):
+            cap = posture.get(ceiling)
+            if cap is not None:
+                assert state[dial] <= cap, (
+                    f"budget_hold declares {ceiling} = {cap} and the live `{dial}` is "
+                    f"{state[dial]} — looser than the hold it is meant to be under.")
+        floor = hold.get("floor_backoff_level")
+        if floor is not None:
+            assert state["backoff_level"] >= floor, (
+                f"budget_hold declares floor_backoff_level {floor} and the live `backoff_level` is "
+                f"{state['backoff_level']} — the hold is recorded and not enforced.")
 
 
 def test_it_runs_against_the_real_repository_without_asserting_a_verdict(health):

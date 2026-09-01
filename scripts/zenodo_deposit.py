@@ -410,14 +410,50 @@ def main(argv=None):
             # work for a correction exactly as it worked for the first deposit.
             # ⚠ THE NEW DRAFT INHERITS THE OLD VERSION'S FILES. They are deleted before upload, so
             # what ships is the current archive and not a union of two.
-            act = api(base, token, "POST", f"/deposit/depositions/{dep_id}/actions/newversion")
-            latest = act.get("links", {}).get("latest_draft")
-            if not latest:
-                raise SystemExit("Zenodo accepted the newversion action but returned no "
-                                 "latest_draft link; open the record on Zenodo and finish by hand")
+            # ⛔⛔ ADOPT AN OPEN DRAFT BEFORE ASKING FOR ANOTHER ONE. `actions/newversion` is NOT
+            # idempotent and Zenodo will not open a second version while one is open, so a run that
+            # dies AFTER the POST leaves a draft this script could never reach again — every later
+            # attempt asked for a new version and was refused, and the refusal names files rather
+            # than drafts, which reads like an archive problem instead of a resume problem.
+            # ⚠ MEASURED 2026-09-01, both halves, in the real logs rather than reasoned:
+            #   · run 33498033370 — `POST .../22182180/actions/newversion` succeeded and the
+            #     immediately following `GET .../deposit/depositions/22229096` returned 504. The
+            #     draft existed; the script did not survive to use it.
+            #   · run 33498227279 — the retry POSTed newversion again and Zenodo answered
+            #     `400 files.enabled: "Please remove all files first."`. That is Zenodo declining to
+            #     open a second version, and no wording in it says so.
+            # ★ THE PUBLISHED RECORD ITSELF CARRIES THE ANSWER: its `links.latest_draft` points at
+            # the open draft when there is one. Reading it first makes the whole correction
+            # RESUMABLE — a transient failure anywhere after the POST costs a re-run, not a record.
+            # ⛔ AND IT IS CHECKED, NOT TRUSTED. An adopted draft that comes back `submitted`, or
+            # that is the published record itself, is not a draft; taking either would upload the
+            # corrected archive onto something a reader may already cite, so both refuse.
+            latest = (dep.get("links") or {}).get("latest_draft")
+            if latest:
+                print(f"  a new-version draft is ALREADY OPEN on record {existing.group(1)} — "
+                      "adopting it rather than asking Zenodo for a second one")
+            else:
+                act = api(base, token, "POST", f"/deposit/depositions/{dep_id}/actions/newversion")
+                latest = act.get("links", {}).get("latest_draft")
+                if not latest:
+                    raise SystemExit("Zenodo accepted the newversion action but returned no "
+                                     "latest_draft link; open the record on Zenodo and finish by "
+                                     "hand")
+            published_id = dep_id
             dep = api(base, token, "GET", latest)
             dep_id = dep["id"]
-            print(f"  opened NEW VERSION draft {dep_id} of published record {existing.group(1)}")
+            if dep.get("submitted"):
+                raise SystemExit(
+                    f"the draft link on record {published_id} resolved to deposition {dep_id}, "
+                    "which Zenodo reports as PUBLISHED. A published version's files cannot be "
+                    "changed and this run would have tried to replace them. Open the record on "
+                    "Zenodo and check its version history before re-running.")
+            if dep_id == published_id:
+                raise SystemExit(
+                    f"the draft link on record {published_id} resolved to that same record, so "
+                    "there is no new version to write to. Open the record on Zenodo and check its "
+                    "version history before re-running.")
+            print(f"  NEW VERSION draft {dep_id} of published record {published_id}")
             for old_file in dep.get("files", []):
                 api(base, token, "DELETE", f"/deposit/depositions/{dep_id}/files/{old_file['id']}")
             if dep.get("files"):

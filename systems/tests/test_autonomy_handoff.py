@@ -19,11 +19,30 @@ import handoff as H  # noqa: E402
 
 
 def _payload():
+    """The generated payload, with both of the generator's REFUSE-TO-SPAWN gates stood down.
+
+    ⛔⛔ WITHOUT THEM THIS HELPER MAKES EVERY TEST BELOW DEPEND ON THE HOUR OF THE DAY AND ON WHETHER
+    THE WORKING TREE HAS BEEN PUSHED. Both were measured on 2026-09-01, one after the other:
+      · exit 4, the CADENCE gate — "⛔ TOO SOON — 22.8 h since the last cycle against a declared
+        24 h cadence". Four tests in this file were red on `main` for exactly this, i.e. red at one
+        hour of the day and green at another (AUT-PD-191).
+      · exit 3, the DIVERGENCE gate — "ledger row filed in the working tree, absent from
+        origin/main". Fixing the first uncovered the second immediately, on an uncommitted row.
+    ★ BOTH REFUSALS ARE CORRECT AND NEITHER IS WHAT THESE TESTS MEASURE. Every assertion in this
+    file is about what the payload CARRIES — an environment, a source, a receipt field, a runnable
+    sync command — and none is about whether a successor is due or whether this tree is pushed.
+    Those are different properties, so they now have their own tests at the bottom of this file,
+    driven against a state file the test writes rather than against the live one.
+    ⚠ SO THE FLAGS ARE NOT A WORKAROUND HERE: using the wall clock and the push state as hidden
+    inputs to a completeness test WAS the defect, and standing them down is what makes these
+    assertions mean what they say. ⛔ What would be a workaround is standing them down in the tests
+    below, which assert the refusals themselves.
+    """
     import io
     import contextlib
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
-        assert H.main(["--json"]) == 0
+        assert H.main(["--json", "--ignore-cadence", "--allow-divergence"]) == 0
     return json.loads(buf.getvalue())
 
 
@@ -112,3 +131,59 @@ def test_the_sync_command_is_a_single_runnable_shell_line_per_statement():
     prompt = _payload()["create_session"]["prompt"]
     for ln in prompt.splitlines():
         assert not ln.rstrip().endswith("\\"), f"dangling continuation in generated prompt: {ln!r}"
+
+
+# ───────────────────────────────────────────────────────── the cadence gate, which nothing pinned
+def _state(tmp_path, **over):
+    """A governor file for the gate to read. `handoff.cadence_verdict` reads `H.STATE` by name."""
+    doc = {"_schema": "emc-autonomy-state/1", "cycle_interval_hours": 24,
+           "last_cycle_started_utc": None}
+    doc.update(over)
+    path = tmp_path / "autonomy-state.json"
+    path.write_text(json.dumps(doc), encoding="utf-8")
+    return path
+
+
+def _run(argv):
+    import contextlib
+    import io
+    out, err = io.StringIO(), io.StringIO()
+    with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+        code = H.main(argv)
+    return code, out.getvalue(), err.getvalue()
+
+
+def test_a_handoff_inside_the_declared_cadence_is_refused(tmp_path, monkeypatch):
+    """⛔ A HANDOFF CREATES A SESSION, SO IT IS A CADENCE EVENT. `handoff.py` says so in a comment
+    citing the incident it was added for — trimcrae's budget hold landed at 11:51Z and CYC-0088
+    built a handoff anyway — and until now nothing in this file exercised that branch at all."""
+    import datetime
+    recent = (datetime.datetime.now(datetime.timezone.utc)
+              - datetime.timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    monkeypatch.setattr(H, "STATE", _state(tmp_path, last_cycle_started_utc=recent))
+    code, _, err = _run(["--json", "--allow-divergence"])
+    assert code != 0, "a handoff one hour into a 24 h cadence was built without complaint"
+    # ⛔ NAME THE REFUSAL, DO NOT JUST COUNT IT. `main` has two refuse-to-spawn exits and an
+    # uncommitted ledger row makes the OTHER one fire — which is how this very test first passed
+    # for the wrong reason while the cadence branch went unexercised.
+    assert "cadence" in err.lower(), f"something refused, but not the cadence gate:\n{err}"
+
+
+def test_the_flag_is_what_lifts_it_and_nothing_else(tmp_path, monkeypatch):
+    """The refusal must be liftable deliberately, or the only way past it is to edit the governor —
+    which is the shape this repository calls "a bar changed by the cycle the bar just blocked"."""
+    import datetime
+    recent = (datetime.datetime.now(datetime.timezone.utc)
+              - datetime.timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    monkeypatch.setattr(H, "STATE", _state(tmp_path, last_cycle_started_utc=recent))
+    assert _run(["--json", "--ignore-cadence", "--allow-divergence"])[0] == 0
+
+
+def test_a_handoff_past_the_cadence_needs_no_flag(tmp_path, monkeypatch):
+    """⚠ THE CONTROL, AND IT IS THE HALF THAT KEEPS THE TWO ABOVE HONEST. A guard that refuses
+    everything passes the refusal test; this is what says the gate still opens."""
+    import datetime
+    old = (datetime.datetime.now(datetime.timezone.utc)
+           - datetime.timedelta(hours=48)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    monkeypatch.setattr(H, "STATE", _state(tmp_path, last_cycle_started_utc=old))
+    assert _run(["--json", "--allow-divergence"])[0] == 0

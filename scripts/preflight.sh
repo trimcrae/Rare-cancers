@@ -1126,9 +1126,38 @@ fi   # end of the "either large suite was asked for" block
 # They are folded into THIS invocation rather than given a step of their own, deliberately: the
 # comment below is about a fix bound to one call site regressing at its sibling, and a second copy of
 # this twenty-line decision block is exactly that sibling. 53 tests, 0.09 s.
-echo "== pytest (pure-logic suites nothing else runs: the selector's contract + the loop's instruments) =="
+# ⛔⛔ `systems/tests` WAS WIRED IN ON 2026-09-01 (AUT-PD-191), AND THE REASON IS THE PUBLICATION
+# BAR, NOT THE RED TRUNK. preflight's pytest gates were modalities, manuscripts, and this line;
+# `systems/tests` appeared in NONE of them, while tests.yml runs all four and is the authority. So
+# the local gate and CI disagreed by one whole directory — and that directory had been RED ON `main`
+# since 2026-08-29.
+# ★ WHAT THAT COST, STATED AS THE THING THAT MATTERS: `publish_bar` clause 2 is "PREFLIGHT_FULL=1
+# green on the posted commit", and its receipt is minted by `record_bar_evidence.py preflight` from
+# a preflight LOG. Because preflight omitted this directory, a local `PREFLIGHT_FULL=1` could exit 0
+# and mint a green clause-2 receipt on a tree whose CI was red — the clause certifying "the whole
+# suite passed" on the strength of a run that never executed the failing tests. A gate that quietly
+# runs too little is not a faster gate.
+# ⚠ IT WAS FILED ON 2026-08-30 AND DELIBERATELY NOT TAKEN THEN, with the right reason: wiring a red
+# directory into the commit gate blocks every commit, which is how a gate gets switched off. The
+# twelve failures went green first, and only then did this line change.
+#
+# ⭐⭐ IT RUNS BEHIND `PREFLIGHT_TESTS=1` / `PREFLIGHT_FULL=1`, NOT ON EVERY COMMIT, AND THAT IS THE
+# WHOLE FIX RATHER THAN HALF OF IT. `PREFLIGHT_FULL=1` sets `RUN_TESTS`, and FULL is the only tier
+# clause 2 ever reads — so the hole above is closed completely by this placement.
+# ⚠ THE COST IS WHY IT IS NOT IN THE DEFAULT TIER, MEASURED 2026-09-01 RATHER THAN GUESSED:
+# `pytest -n auto systems/tests` is **112 s** for 354 tests (serial it is far worse — 20% in ten
+# minutes). The default commit loop is ~78 s, so putting this in it roughly TRIPLES the loop. This
+# file's own history says that call is trimcrae's and is not one to make silently inside a merge —
+# it is the same sentence that guards moving gate 13 the other way.
+# ⛔ AND THE TRADE IS THE ONE ALREADY MADE FOR THE MANUSCRIPTS SUITE: a systems break is now caught
+# by CI minutes later and costs one more commit, instead of being caught before the commit. Moving
+# it into the default tier is one word — drop the `$SYSTEMS_TESTS` guard below — if he wants that
+# instead.
+SYSTEMS_TESTS=""
+[ "${RUN_TESTS:-0}" = "1" ] && SYSTEMS_TESTS="systems/tests"
+echo "== pytest (pure-logic suites nothing else runs: the selector's contract + the loop's instruments${SYSTEMS_TESTS:+ + the systems model}) =="
 sout=$(mktemp)
-$PYTEST $PYTEST_PAR scripts/tests research/autonomy/tests -q --continue-on-collection-errors >"$sout" 2>&1 || true
+$PYTEST $PYTEST_PAR scripts/tests research/autonomy/tests $SYSTEMS_TESTS -q --continue-on-collection-errors >"$sout" 2>&1 || true
 tail -1 "$sout"
 # ⛔ SAME TWO-SIGNAL DECISION AS THE MANUSCRIPTS BLOCK ABOVE, AND IT IS HERE FOR THE REASON THAT
 # BLOCK'S COMMENT GIVES: a fix bound to one call site regresses at its sibling (`paper-hardening`

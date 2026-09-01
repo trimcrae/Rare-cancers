@@ -47,7 +47,18 @@ if command -v jq >/dev/null 2>&1; then
   [[ "$(echo "$input" | jq -r '.stop_hook_active // false' 2>/dev/null)" == "true" ]] && exit 0
 fi
 
-REPO="${CLAUDE_PROJECT_DIR:-/home/user/Rare-cancers}"
+# ⛔ DERIVED FROM THIS FILE'S OWN LOCATION (AUT-PD-201): a hardcoded absolute path makes a hook a
+# no-op wherever the project lives somewhere else, and a hook that cannot run is not a hook that
+# passed. `CLAUDE_PROJECT_DIR` is still preferred when it names a real git tree.
+_hook_dir=$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd) || _hook_dir=""
+REPO=""
+for cand in "${CLAUDE_PROJECT_DIR:-}" "${_hook_dir%/.claude/hooks}"; do
+  [ -n "$cand" ] || continue
+  if [ -d "$cand/.git" ] || git -C "$cand" rev-parse --git-dir >/dev/null 2>&1; then
+    REPO="$cand"; break
+  fi
+done
+[ -n "$REPO" ] || exit 0
 cd "$REPO" 2>/dev/null || exit 0
 # ⛔⛔ READ THE TRUNK, NOT THE WORKING TREE — MEASURED 2026-08-29, BY THIS HOOK FAILING THAT WAY ON
 # ITS FIRST DAY. It reported FOURTEEN decisions parked on trimcrae that had ALREADY been cleared on
@@ -63,12 +74,44 @@ if [ -z "$LEDGER_JSON" ]; then
   LEDGER_JSON=$(cat research/autonomy/research-ledger.json)
 fi
 
-OUT=$(printf '%s' "$LEDGER_JSON" | python3 - <<'PYEOF'
-import json, sys, datetime
+# ⛔⛔ THE LEDGER IS PASSED IN THE ENVIRONMENT, NOT DOWN A PIPE, AND THAT IS THE WHOLE REASON THIS
+# HOOK NOW WORKS. It used to read `printf '%s' "$LEDGER_JSON" | python3 - <<'PYEOF'` — a pipe AND a
+# heredoc on the same stdin. The heredoc wins: it supplies the SCRIPT, and the piped JSON is
+# discarded, so `json.load(sys.stdin)` saw **zero bytes**, raised, and hit the bare
+# `except: sys.exit(0)` below. The hook printed nothing and exited 0, every single time.
+# ⚠ MEASURED 2026-09-01, not reasoned: `printf '%s' '<json>' | python3 - <<'PYEOF'` with a script
+# that reports `len(sys.stdin.read())` prints **0**. And on the same day, `git show
+# origin/main:research-ledger.json` carried FIFTEEN open `requires_trimcrae` rows, every one with
+# no `notified_utc` — precisely what this hook exists to refuse a stop over.
+# ⛔⛔ SO THE RULE CLAUDE.md §3 CALLS "ENFORCED BY THIS HOOK" HAS NEVER ONCE FIRED. That section was
+# written on 2026-08-29 BECAUSE a rule sat in the file that loads every session, correct and
+# measured by nothing, while fourteen decisions went unsent. Its remedy had the same defect, and the
+# count is now fifteen. ★ The `try/except: sys.exit(0)` is what made it silent rather than loud —
+# a swallow that cannot tell "this ledger is malformed" from "I was handed nothing", so it now says
+# which, on stderr, before standing down.
+# ⚠ AND IT IS THE PATH IN THE ENVIRONMENT, NOT THE JSON. The first fix put the ledger itself in
+# `LEDGER_JSON=` and hit `Argument list too long` (E2BIG) — the file is ~1 MB and the exec argument
+# block is not. A temp file costs nothing and has no size limit; the `trap` removes it on every exit
+# path, including the `exit 2` that refuses the stop.
+_ledger_tmp=$(mktemp) || exit 0
+trap 'rm -f "$_ledger_tmp"' EXIT
+printf '%s' "$LEDGER_JSON" > "$_ledger_tmp"
+OUT=$(LEDGER_PATH="$_ledger_tmp" python3 <<'PYEOF'
+import json, os, sys, datetime
 STALE_DAYS = 7
 try:
-    rows = json.load(sys.stdin)
+    raw = open(os.environ.get("LEDGER_PATH", ""), encoding="utf-8").read()
 except Exception:
+    raw = ""
+if not raw.strip():
+    print("[escalation-debt] the ledger reached this hook EMPTY, so nothing was checked — that is "
+          "UNMEASURED, not clean.", file=sys.stderr)
+    sys.exit(0)
+try:
+    rows = json.loads(raw)
+except Exception as exc:
+    print(f"[escalation-debt] the ledger did not parse ({type(exc).__name__}), so nothing was "
+          "checked — that is UNMEASURED, not clean.", file=sys.stderr)
     sys.exit(0)
 rows = rows if isinstance(rows, list) else (rows.get("entries") or [])
 now = datetime.datetime.now(datetime.timezone.utc)
@@ -84,7 +127,12 @@ never, stale, dated = [], [], []
 for e in rows:
     if not isinstance(e, dict) or not e.get("requires_trimcrae"):
         continue
-    if e.get("closed_utc") or e.get("status") in ("closed", "done"):
+    # ⚠ `state` IS THE FIELD THIS LEDGER USES; `status` DOES NOT EXIST ON THESE ROWS. Reading only
+    # `status` meant a closed decision was never skipped — harmless while the hook was inert, and a
+    # source of false alarms the moment it started firing. Both are read, so an older row shaped the
+    # other way still closes.
+    if e.get("closed_utc") or e.get("state") in ("closed", "done", "dropped") \
+            or e.get("status") in ("closed", "done"):
         continue
     n = e.get("notified_utc")
     row = (e.get("score") or 0, e.get("id", "?"), str(e.get("what") or "")[:88])

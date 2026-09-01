@@ -444,17 +444,32 @@ all** before this session and now has eight, both directions mutation-tested on 
 
 ### 3-vi · ⛔ OPEN — the published archive is BEHIND the paper again, by two deposited files, and this one is self-inflicted
 
-⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPER BY 13 DEPOSITED PATHS, THE FOURTH VERSION IS A DRAFT
-THIS REPOSITORY CANNOT REACH, AND ZENODO'S DEPOSIT API IS TIMING OUT.** Full evidence and the
-resume order: **`AUT-PD-197`**.
+⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPER BY 13 DEPOSITED PATHS AND THE FOURTH VERSION IS AN
+OPEN DRAFT THE SCRIPT ABANDONED MID-CORRECTION.** Full evidence and the resume order:
+**`AUT-PD-197`**.
 
 * **An orphaned draft exists: deposition `22229096`.** Run 33498033370's `newversion` POST succeeded
   and the next GET returned `504`, so the script died before deleting the files that draft inherits
   from 22182180, and wrote no record. Confirmed by the retry (33498227279) being refused
   `400 files.enabled: "Please remove all files first."` — Zenodo declining to open a second version
   while one is open, which is also why no fifth draft exists.
-* **Zenodo is the blocker, not us.** Run 33500476413 got `504` on a plain
-  `GET /deposit/depositions/22182180` — a read of the published record, before any mutation.
+* ⚠ **SUPERSEDED, RETAINED (rule 1.2) — THIS BULLET SAID "Zenodo is the blocker, not us" AND IT WAS
+  WRONG.** It read: *"Run 33500476413 got `504` on a plain `GET /deposit/depositions/22182180` — a
+  read of the published record, before any mutation."* The run and the status code are real; the
+  conclusion drawn from them was not. trimcrae caught it — *"It's never been blocked on Zenodo API
+  before. What's this about? Is there an outage?"* — and the reading that settled it was a
+  `record=verify` dispatch (run 33508963185) that read the published record from zenodo.org in
+  **three seconds**. The service was healthy throughout.
+  ★ **THE REAL CAUSE WAS OURS: `zenodo_deposit.api` had no retry**, so one transient 5xx raised
+  `SystemExit` and killed the run. Fixed under `AUT-PD-199` — bounded backoff on `429`/`5xx`, for
+  `GET` and `HEAD` only, because repeating a mutation is how one orphan becomes two.
+* ✅ **AND THE DRAFT IS REACHABLE AGAIN — `AUT-PD-200`.** `actions/newversion` is not idempotent
+  and Zenodo will not open a second version while one is open, so the script could never get back to
+  a draft it had already opened; every attempt asked for a new version and was refused. It now reads
+  the published record's own `links.latest_draft` **first** and adopts the open draft, which makes
+  the whole correction resumable: a transient failure after the POST costs a re-run, not a record.
+  ⛔ Checked rather than trusted — an adopted deposition that comes back `submitted`, or that is the
+  published record itself, refuses before anything is written.
 * ⛔ **ITS RESERVED DOI IS NOT KNOWN AND MAY NOT BE GUESSED.** All three prior versions had a DOI
   number equal to their deposition id; three matches is a pattern, not a reading, and CLAUDE.md §7
   forbids writing an identifier from recollection. A run must print it.
@@ -487,16 +502,25 @@ stood at `866594627ab0`, and the concept DOI `10.5281/zenodo.22028915` always re
 version. The cost is one superseded version and one extra round, not a corrected record.
 
 **THE ORDER, which is reserve-then-rebuild and may not be shortened:**
-1. Dispatch `deposit-zenodo.yml` with `new_version=true` — reserves the fourth version's DOI, drafts
-   nothing else, publishes nothing.
-2. Repoint the manuscript's Data availability at the reserved DOI. ⛔ That is a manuscript edit and
-   goes through `paper-hardening` §5b like any other.
-3. Rebuild the chain, re-derive the manifest against the committed tree.
-4. Refresh the draft (`new_version=false`) so the archive contains the manuscript that cites it.
-5. Publish, then **read the record back** with `record=verify` — the script's output is a report, not
+1. Dispatch `deposit-zenodo.yml` with `new_version=true` — adopts the open draft `22229096`,
+   reserves nothing new, publishes nothing. Read the reserved DOI **out of the run log**.
+2. Repoint at that DOI: `deposition_doi` in `research/manuscripts/aso_archive_manifest.py:1463`
+   (which is what the script resolves its target from) and the manuscript's Data availability.
+   ⛔ That is a manuscript edit and goes through `paper-hardening` §5b like any other.
+3. Rebuild the chain, re-derive the manifest, commit. ⭐ **THAT COMMIT IS THE PIN.**
+4. ⭐⭐ **Round 29 AND `PREFLIGHT_FULL` on the pin — BEFORE anything is published.** Two reasons,
+   and they are different: `publish_bar`'s three open clauses (`hardening_converged`,
+   `preflight_full_green`, `independent_adversarial_seat`) each bind to the commit being posted, so
+   a manuscript edit after the round re-opens all three; and the rule this section already states —
+   publish the archive only after a round on the exact commit returns no blockers.
+5. Refresh the draft (`new_version=false`) so the archive contains the manuscript that cites it.
+   ⚠ This step edits no tracked file, so it cannot invalidate step 4.
+6. Publish, then **read the record back** with `record=verify` — the script's output is a report, not
    a reading.
-6. ⭐ **Round 29 on that commit, and only then.** It is the first round in this series that starts
-   with no known defect in the paper.
+⚠ **STEPS 4 AND 6 WERE THE OTHER WAY ROUND HERE UNTIL 2026-09-01**, which is the ordering error that
+kept 28 rounds from converging: it put the publish, and therefore the manuscript edit the publish
+requires, after the round meant to close clauses that bind to the commit. `research/autonomy/goals.json`
+carries the same finding as `GOAL-ASO-V2`'s first reading.
 
 ---
 

@@ -35,6 +35,37 @@ def _head():
                           capture_output=True, text=True).stdout.strip()
 
 
+def test_the_hook_finds_its_repository_without_being_told_where_it_is(tmp_path):
+    """⛔⛔ THE GUARD THAT COULD NOT RUN, AND ITS OWN TESTS SAID SO BEFORE ANYONE ELSE DID.
+
+    ⚠ MEASURED IN CI RUN 33513565956, hours after this file landed: the three cases above failed on
+    a GitHub runner with `returncode=0, stdout='', stderr=''` — a silent exit, not a wrong verdict.
+    The hook read `REPO="${CLAUDE_PROJECT_DIR:-/home/user/Rare-cancers}"` and `cd`'d into it, and a
+    runner has neither, so it returned 0 before reading a single line of the transcript.
+    ★ EVERY ASSERTION IN THIS FILE WAS CORRECT AND THE HOOK WAS NEVER REACHED — "a guard that cannot
+    run is not a guard that passed", inside a hook written the same hour to stop a different rule
+    that nothing measured.
+    ⛔ SO THIS TEST DRIVES IT THE WAY THE RUNNER DOES: `CLAUDE_PROJECT_DIR` removed from the
+    environment entirely. Without it the hook must still find the repository from its own path, and
+    a stall must still be refused.
+    """
+    env = {k: v for k, v in os.environ.items() if k != "CLAUDE_PROJECT_DIR"}
+    os.makedirs(os.path.dirname(STATE), exist_ok=True)
+    with open(STATE, "w") as fh:
+        fh.write(_head())
+    transcript = tmp_path / "t.jsonl"
+    transcript.write_text(json.dumps({
+        "type": "assistant",
+        "message": {"role": "assistant",
+                    "content": [{"type": "text", "text": "Next: regenerate the chain and commit."}]},
+    }) + "\n", encoding="utf-8")
+    r = subprocess.run(["bash", HOOK], input=json.dumps({"transcript_path": str(transcript)}),
+                       capture_output=True, text=True, env=env)
+    assert r.returncode == REFUSES, (
+        "with CLAUDE_PROJECT_DIR unset the hook did not reach its own repository, so it passed by "
+        f"not looking (rc={r.returncode}, stderr={r.stderr[:200]!r})")
+
+
 def _run(tmp_path, text, head_prev=None):
     """Drive the hook with one assistant message and a chosen 'HEAD at last stop'."""
     os.makedirs(os.path.dirname(STATE), exist_ok=True)

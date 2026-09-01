@@ -53,6 +53,42 @@ def _json(path, what):
     return json.load(open(path, encoding="utf-8"))
 
 
+def _commit_is_present(rev):
+    """Is `rev` a commit this checkout can read — fetching it once if the clone is shallow?
+
+    ⛔⛔ AN ABSENT OBJECT IS NOT AN ABSENT COMMIT, AND THIS GUARD COULD NOT TELL THE DIFFERENCE.
+    Measured 2026-09-01: it was red on `main` reporting that the published record's revision "is not
+    a commit in this repository", while that sha sits on `origin/main` and resolves fine in a full
+    clone. `actions/checkout@v4` clones at depth 1, so CI has exactly one commit and every recorded
+    revision looks fabricated to it — CLAUDE.md §4, "an absent reading is not a reading of absence",
+    inside the guard whose whole job is to tell declared from corroborated.
+
+    ★ AND THE ANSWER IS A $0 FETCH RATHER THAN A DEGRADE. Measured against the real remote before
+    this was written: in a fresh `git clone --depth 1`, `git cat-file -e` on the recorded sha fails,
+    `git fetch --depth=1 origin <sha>` succeeds, and afterwards both `cat-file` and
+    `git show <sha>:…archive-manifest.json` work — the manifest read back at that revision carries
+    `archive_content_digest a4d4ad6f1ca0…`, the value `published.manifest_digest` records. So the
+    corroboration this file exists for RUNS IN CI instead of being announced as skipped, which is
+    what a sibling guard (`test_the_manifest_revision_is_a_commit_a_reader_can_resolve`) has to do
+    because it is checking reachability rather than content.
+
+    ⚠ IT RETURNS FALSE RATHER THAN RAISING WHEN THE FETCH CANNOT RUN. Offline, the honest reading is
+    still "this checkout cannot produce that commit"; the caller says so, and a genuinely fabricated
+    revision fails here for the same reason. Bounded to one attempt — a retry loop in a test is a
+    timeout waiting to be blamed on the network.
+    """
+    def _has():
+        return subprocess.run(["git", "cat-file", "-e", f"{rev}^{{commit}}"],
+                              cwd=REPO, capture_output=True).returncode == 0
+    if _has():
+        return True
+    if subprocess.run(["git", "rev-parse", "--is-shallow-repository"], cwd=REPO,
+                      capture_output=True, text=True).stdout.strip() != "true":
+        return False          # a full clone that lacks it genuinely lacks it
+    subprocess.run(["git", "fetch", "--depth=1", "origin", rev],
+                   cwd=REPO, capture_output=True, timeout=180)
+    return _has()
+
 def test_the_papers_cite_a_version_the_deposit_state_knows_about():
     """⛔ THE MANIFEST'S DOI IS EITHER WHAT IS PUBLISHED OR WHAT IS DRAFTED — NEVER A THIRD THING."""
     state, manifest = _json(STATE, "what was deposited"), _json(MANIFEST, "what is archivable")
@@ -298,12 +334,11 @@ def test_the_published_record_is_corroborated_by_git_rather_than_declared():
         f"{'no git revision' if not rev else 'no manifest digest'}. Both are needed for the record "
         "to be checkable at all, and `published` is the block every gate reads.")
 
-    exists = subprocess.run(["git", "cat-file", "-e", f"{rev}^{{commit}}"],
-                            cwd=REPO, capture_output=True)
-    assert exists.returncode == 0, (
-        f"`published.git_revision` is {rev[:12]}, which is not a commit in this repository. A "
-        "revision nobody can resolve corroborates nothing — and a reader who follows the DOI is "
-        "told this is the tree the archive was hashed from.")
+    assert _commit_is_present(rev), (
+        f"`published.git_revision` is {rev[:12]}, which is not a commit in this repository, and a "
+        "targeted fetch of that exact sha did not produce it either. A revision nobody can resolve "
+        "corroborates nothing — and a reader who follows the DOI is told this is the tree the "
+        "archive was hashed from.")
 
     shown = subprocess.run(
         ["git", "show", f"{rev}:research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"],
