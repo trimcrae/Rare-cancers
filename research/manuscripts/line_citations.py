@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify — and repair — the roadmap's `:NNNN` line citations into the paper and the SI.
+r"""Verify — and repair — the roadmap's `:NNNN` line citations into the paper and the SI.
 
 ⛔ WHY THIS EXISTS. The roadmap cites the manuscript and SI by LINE NUMBER, in the form
 
@@ -57,6 +57,44 @@ tempting fix and it is the dangerous one: it would repair them to a WRONG shared
       case where being wrong is worst.
 So: fix what is derivable from a quote in the file this tool owns; NAME everything else.
 
+⛔⛔ AND UNTIL 2026-09-01 IT CHECKED 18 OF THE ROADMAP'S 56 CITATIONS AND SAID NOTHING ABOUT THE OTHER 38
+(AUT-PD-134). The old `scan()` walked the citations, looked back 400 characters for a quoted phrase, and
+`continue`d when it found none — so 14 citations were never reported in any line of output, and the summary
+line's denominator was the 42 that survived that filter rather than the 56 that exist. A tool that prints
+`18 correct · 0 DRIFTED · 24 unresolved (42 quoted citations)` reads as a full accounting of the file. It
+was not one, and the guard on it only required `>= 10` resolved, so the reachable share could fall to a
+quarter without anything going red.
+★ THE FOUR MECHANISMS, EACH MEASURED ON THE TRUNK OF 2026-09-01 AND EACH FIXED HERE:
+  (1) **The lookback window manufactured phantom quotes.** The old code searched `text[start-400:start]`,
+      a slice that routinely cuts through the middle of an earlier quote — leaving its CLOSING `"*` in the
+      window, which then paired with the next OPENING `*"` and produced a "quote" spanning two table cells.
+      `:2140` was attached to `'* (`:2200–2203`) | ✓ **PASSES, in scope** | `R11` |…'`, a string that
+      appears nowhere in any manuscript and never could. Quotes are now located over the WHOLE file once,
+      so a quote is either wholly inside the lookback or not a candidate at all.
+  (2) **`*"…"*` also matched inside `**"…"**`.** Bold-plus-quotes is ordinary prose here
+      (`**THE "LBD" QUALIFIER IS LOAD-BEARING**`), and the old pattern's opening `*"` matched the second
+      asterisk of a `**"`. That swallowed a real citation quote 900 characters later: the paper quote
+      *"**four** NR4A3-unique cysteines"* was consumed by a span opening at an unrelated `**"no" outcome`.
+      The opening is now `(?<!\*)\*"`. ⚠ The CLOSING deliberately has no matching guard, because the
+      trunk really does write `*"…"***` where a citation quote sits inside a bold run.
+  (3) **A quote can follow its citation.** The roadmap writes `` `:2508`: *"…"* ``, `` `:2478` says *"…"* ``
+      and `` SI `:229` — *"…"* ``. Backwards-only attachment missed all three AND mis-attributed the next
+      citation, which then reached back past them for someone else's quote. `TRAILING` handles this form
+      and is deliberately a narrow grammar — punctuation and one attributive verb — read off the trunk.
+  (4) **A quoted phrase can wrap over more than two lines.** `_find` joined at most two, so a quote that
+      the paper wraps across three or four was reported UNRESOLVED. Two live citations were wrong by +68
+      and +15 lines behind that limit. The join window is now derived from the needle's own length.
+⭐ AND THE ATTACHMENT NOW CARRIES A CONFIDENCE, WHICH IS WHAT SEPARATES THE TWO HALVES THE LEDGER SAID MUST
+NOT BE FIXED AS ONE. A citation whose quote is separated from it by ANOTHER citation or by a sentence
+boundary is `confident=False`: still CHECKED and still reported, but **`--fix` refuses to rewrite it**.
+Correctness (did we attach the right quote?) is answered by refusing to act where the answer is unclear;
+staleness (has the paper stopped saying this?) is answered by `not_found`, unchanged and still never
+repaired. Neither can hide inside the other, and no match was loosened to raise a count: every status is
+reached by requiring the quoted text VERBATIM, modulo the same `_norm` typography folding as before.
+⛔ EVERY CITATION IS NOW REPORTED. `no_quote`, `quote_too_short` and `inside_a_quote` are printed as their
+own classes rather than dropped, and the total is asserted against the roadmap's own citation count, so
+the denominator can no longer shrink silently.
+
 Usage:
     python3 research/manuscripts/line_citations.py            # check, non-zero exit if any drifted
     python3 research/manuscripts/line_citations.py --fix      # rewrite the drifted ones in place
@@ -80,7 +118,40 @@ SI = os.path.join(HERE, "degrader", "nr4a3-degrader-paper-SI.md")
 CITE = re.compile(r"`:(\d+)(?:[–-](\d+))?`")
 
 #: The quoted phrase this repo uses, `*"…"*`. Non-greedy, and it may span the wrapped line.
-QUOTE = re.compile(r'\*"(.+?)"\*', re.S)
+#: ⛔ THE OPENING REFUSES `**"`. Bold-plus-quotes is ordinary prose in these documents, and matching the
+#: second asterisk of a `**"` opens a span that runs to the next `"*` anywhere in the file — measured
+#: 2026-09-01, one such span swallowed the genuine quote 900 characters downstream and handed the citation
+#: a phrase from an unrelated paragraph. ⚠ THE CLOSING HAS NO SUCH GUARD ON PURPOSE: the trunk writes
+#: `**SI `:229` — *"Lead — NR4A3-selective (the validated path)"***`, a citation quote inside a bold run,
+#: so refusing `"*` followed by `*` would drop a real quote. The asymmetry is measured, not aesthetic.
+QUOTE = re.compile(r'(?<!\*)\*"(.+?)"\*', re.S)
+
+#: ⭐ THE TRAILING FORM: a citation followed by the phrase it cites. Three spellings are on the trunk —
+#: `` `:2508`: *"…"* ``, `` `:2478` says *"…"* `` and `` SI `:229` — *"…"* `` — and a backwards-only
+#: attachment missed every one of them, then let the NEXT citation reach back past them and take a quote
+#: that was never its own. The grammar is deliberately narrow (punctuation plus one attributive verb, all
+#: read off the trunk rather than invented): widening it to "any nearby quote" is how `:92–99`, a citation
+#: with no quote at all, acquires the quote of the sentence after it.
+TRAILING = re.compile(r'\A[\s:—–\-]{0,3}(?:says|reads|states)?[\s:—–\-]{0,3}(?=(?<!\*)\*")')
+
+#: An elided quote, `*"A … B"*`. The elision is the author's; the literal string can never appear in the
+#: target, so the old resolver reported every one of them UNRESOLVED and could not tell an elision from a
+#: paraphrase. Each part is now required VERBATIM and IN ORDER, which is the elision's actual meaning and
+#: is strictly stronger than matching either part alone.
+ELIDE = re.compile(r"\s*(?:…|\.\.\.)\s*")
+
+#: What makes an attachment UNCONFIDENT: another citation, or a sentence/cell boundary, standing between
+#: the quote and the citation. Such a citation is still checked and still reported — it is only barred
+#: from `--fix`, because rewriting on a guessed attachment is how a citation comes to vouch for a
+#: sentence it does not contain.
+INTERVENING = re.compile(r"[.;|]\s|\n\s*\n")
+
+#: Shorter than this, a quoted phrase does not identify a line and the resolver refuses to guess.
+MIN_NEEDLE = 12
+
+#: Every citation gets exactly one of these, and the count is asserted against the roadmap's own citation
+#: count by the test suite — the denominator cannot shrink silently again.
+STATUSES = ("ok", "drifted", "not_found", "ambiguous", "quote_too_short", "no_quote", "inside_a_quote")
 
 #: How far back to look for the quote that a citation belongs to. A citation follows its quote closely;
 #: scanning further would start attaching citations to whatever quote happened to appear earlier.
@@ -101,7 +172,12 @@ def _norm(s):
     s = s.replace("’", "'").replace("‘", "'")
     s = s.replace("“", '"').replace("”", '"')
     s = s.replace("–", "-").replace("—", "-")
-    s = re.sub(r"[*`_]", "", s)
+    # ⛔ AND THE MARKDOWN BACKSLASH ESCAPE, symmetrically on both sides. The roadmap quotes the paper from
+    # inside a TABLE CELL, where a literal `|` must be written `\|`; the paper, not being in a table,
+    # writes it bare. Measured 2026-09-01: `*"a wedge contribution of roughly **\|S\| ≳ 0.65 kcal/mol**
+    # (2σ)"*` (`:1798`) failed to resolve for that reason alone, while the sentence sat at paper `:1871` —
+    # a citation wrong by +73 lines that the checker reported as an unresolvable paraphrase.
+    s = re.sub(r"[*`_\\]", "", s)
     s = re.sub(r"\s+", " ", s)
     return s.strip().lower()
 
@@ -113,46 +189,124 @@ def _load(path):
 
 
 def _find(needle, norm_lines):
-    """1-indexed line of the first line containing `needle`, or None.
+    """Every 1-indexed line at which `needle` BEGINS, or `None` if it is too short to identify one.
 
-    Falls back to a two-line join, because a quoted phrase in the target is frequently wrapped.
+    ⭐ IT RETURNS A LIST, NOT A LINE, so a quote that occurs twice is `ambiguous` rather than silently
+    pointed at whichever copy came first. Two roadmap citation pairs already share one quoted phrase while
+    citing DIFFERENT lines (`:387–394`/`:2549`, `:1405`/`:1425`), so a first-match resolver would collapse
+    both onto one line the moment that phrase became findable.
+
+    ⛔ THE JOIN WINDOW IS DERIVED FROM THE NEEDLE, not fixed at two lines. The old two-line limit was not a
+    rule about citations, it was a guess about wrapping, and two live citations were wrong by +68 and +15
+    lines behind it. Growth stops as soon as the accumulator is longer than the needle can require, and the
+    match must BEGIN inside the first line of the window — without that anchor a long enough window
+    contains the needle from almost any starting line, which reports every citation as ambiguous.
     """
     n = _norm(needle)
-    if len(n) < 12:                      # too short to identify a line; refuse rather than guess
-        return None
-    for i, l in enumerate(norm_lines):
-        if n in l:
-            return i + 1
-    for i in range(len(norm_lines) - 1):
-        if n in norm_lines[i] + " " + norm_lines[i + 1]:
-            return i + 1
-    return None
+    parts = [p for p in ELIDE.split(n) if p]
+    if len(parts) > 1:
+        parts = [p for p in parts if len(p) >= MIN_NEEDLE]
+    if not parts or min(len(p) for p in parts) < MIN_NEEDLE:
+        return None                      # too short to identify a line; refuse rather than guess
+    budget = sum(len(p) for p in parts) + 400
+    hits = []
+    for i, first in enumerate(norm_lines):
+        if not first:
+            continue
+        acc, j = first, i + 1
+        while True:
+            k = acc.find(parts[0])
+            if 0 <= k < len(first):
+                pos, whole = k + len(parts[0]), True
+                for p in parts[1:]:
+                    k2 = acc.find(p, pos)
+                    if k2 < 0:
+                        whole = False
+                        break
+                    pos = k2 + len(p)
+                if whole:
+                    hits.append(i + 1)
+                    break
+            if j >= len(norm_lines) or len(acc) > budget or j - i > 12:
+                break
+            acc, j = acc + " " + norm_lines[j], j + 1
+    return hits
+
+
+def _attach(text, quotes, spans, cite):
+    """The quote this citation cites, and whether the attachment is trustworthy enough to REWRITE on.
+
+    Returns `(quote_span_or_None, confident)`. The trailing form wins outright — it is unambiguous and it
+    is the form the backwards-only resolver both missed and mis-attributed. Otherwise the nearest quote
+    ENDING before the citation and within `LOOKBACK` is taken, and the attachment is marked unconfident if
+    anything stands between them that could mean the quote belongs to someone else.
+    """
+    cs, ce = cite.start(), cite.end()
+    trailing = TRAILING.match(text[ce:])
+    if trailing:
+        q = next((q for q in quotes if q[0] == ce + trailing.end()), None)
+        if q:
+            return q, True
+    back = [q for q in quotes if q[1] <= cs and cs - q[1] <= LOOKBACK]
+    if not back:
+        return None, True
+    q = back[-1]
+    gap = text[q[1]:cs]
+    return q, not (CITE.search(gap) or INTERVENING.search(gap))
 
 
 def scan():
-    """[(pos, start, end, cited_line, true_line, target, quote)] for every citation carrying a quote."""
+    """One record per citation in the roadmap — EVERY citation, each carrying a `status` from `STATUSES`.
+
+    ⛔ NOTHING IS DROPPED. The previous version `continue`d past any citation with no quote in its lookback
+    window, so 14 of the roadmap's 56 citations produced no output at all and the summary line's
+    denominator was 42. A citation this tool cannot check is now REPORTED as one it cannot check.
+    """
     with open(MAP, encoding="utf-8") as fh:
         text = fh.read()
     paper_raw, paper = _load(PAPER)
     si_raw, si = _load(SI)
 
+    quotes = [(m.start(), m.end(), m.group(1)) for m in QUOTE.finditer(text)]
+    cites = list(CITE.finditer(text))
+    spans = [(m.start(), m.end()) for m in cites]
+
     out = []
-    for m in CITE.finditer(text):
-        before = text[max(0, m.start() - LOOKBACK):m.start()]
-        quotes = QUOTE.findall(before)
-        if not quotes:
-            continue
-        quote = quotes[-1]
-        target = "SI" if SI_HINT.search(before) else "paper"
-        true_line = _find(quote, si if target == "SI" else paper)
-        out.append({
+    for m in cites:
+        rec = {
             "span": (m.start(), m.end()),
             "cited": int(m.group(1)),
             "cited_end": int(m.group(2)) if m.group(2) else None,
-            "true": true_line,
-            "target": target,
-            "quote": quote,
-        })
+            "true": None,
+            "target": None,
+            "quote": None,
+            "confident": True,
+        }
+        if any(q[0] < m.start() and q[1] > m.end() for q in quotes):
+            # A citation INSIDE a quoted phrase is part of the quotation, not a reference of this file's.
+            rec["status"] = "inside_a_quote"
+            out.append(rec)
+            continue
+        q, confident = _attach(text, quotes, spans, m)
+        rec["confident"] = confident
+        if q is None:
+            rec["status"] = "no_quote"
+            out.append(rec)
+            continue
+        rec["quote"] = q[2]
+        before = text[max(0, m.start() - LOOKBACK):m.start()]
+        rec["target"] = "SI" if SI_HINT.search(before) else "paper"
+        hits = _find(q[2], si if rec["target"] == "SI" else paper)
+        if hits is None:
+            rec["status"] = "quote_too_short"
+        elif not hits:
+            rec["status"] = "not_found"
+        elif len(hits) > 1:
+            rec["status"] = "ambiguous"
+        else:
+            rec["true"] = hits[0]
+            rec["status"] = "ok" if hits[0] == rec["cited"] else "drifted"
+        out.append(rec)
     return text, out
 
 
@@ -203,6 +357,36 @@ def declared_generator(body):
         if m:
             return m.group(1)
     return None
+
+
+#: ⛔ A HAND-WRITTEN CARRIER THAT DECLARES A BASIS COMMIT. AUT-PD-031 closed the fixer's silence about
+#: downstream copies and left one honest residual: the tool NAMES the hand-written carriers and CHECKS
+#: none, so that surface is UNMEASURED rather than measured-clean — and the row says plainly that deciding
+#: which are pinned-by-design versus genuinely rotted "is a reading job nobody has done".
+#: ⭐ THIS DOES NOT DO THE READING, AND IT MUST NOT BE MISTAKEN FOR IT. It reports the one half a machine
+#: can settle: whether the file's own header names the COMMIT its line numbers were taken against. A
+#: document that does is stating that its references are a snapshot, and advancing them would silently
+#: re-date the audit it records — the case where "repair" is worst. A document that does not has declared
+#: nothing, which is NOT evidence that its references are current: an absent reading is not a reading of
+#: absence, so both classes print as unchecked and neither is called clean.
+#: ⚠ MEASURED ON THE TRUNK, 2026-09-01, and the wording is the measurement's: three of the sixteen
+#: hand-written carriers name a basis commit in their header — `program/map-audit-strategy.md` (131
+#: citations, *"Audited: … at commit `f67d0781`"*) and the two ASO red-team rounds (12 between them,
+#: round 7 stating outright that *"every finding below is anchored on a verbatim quote and a line number
+#: at commit"*). The other thirteen carry about 287 citations and declare nothing either way.
+PIN_DECL = re.compile(r"\bcommit\s+`?([0-9a-f]{7,40})`?", re.I)
+
+
+def declared_pin(body):
+    """The basis commit this file's HEADER names, or None. PURE — same window as `declared_generator`.
+
+    ⛔ THE HEADER WINDOW IS THE POINT, and it is the same trap that caught the generator detector: this
+    module's own docstring QUOTES `map-audit-strategy.md`'s declaration verbatim so a reader can see the
+    form, and a whole-file search would make `line_citations.py` report itself as a pinned audit.
+    """
+    header = "\n".join(body.split("\n")[:GENERATOR_DECL_HEADER_LINES])
+    m = PIN_DECL.search(header)
+    return m.group(1) if m else None
 
 
 def carriers():
@@ -273,7 +457,20 @@ def report_carriers(found, header):
           "for lines in .py files and in sibling .md files. They are NAMED, not fixed:"
           % (len(hand_rows), "" if len(hand_rows) == 1 else "s", "ies" if len(hand_rows) == 1 else "y"))
     for f in hand_rows:
-        print("       %s" % f)
+        try:
+            with open(os.path.join(ROOT, f), encoding="utf-8") as fh:
+                body = fh.read()
+        except (OSError, UnicodeDecodeError):
+            print("       %s   (unreadable — not classified)" % f)
+            continue
+        pin = declared_pin(body)
+        n = len(CITE.findall(body))
+        # ⛔ BOTH LINES SAY "UNCHECKED". The pin note narrows the reading job AUT-PD-031 left open — it
+        # says which of these must NOT be advanced — and it never promises the rest are current.
+        print("       %-64s %3d citation(s)  %s"
+              % (f, n, ("its header names basis commit %s — these read as a SNAPSHOT; advancing them "
+                        "would re-date what the document records" % pin) if pin
+                 else "no basis commit declared; unchecked either way"))
 
 
 def main(argv=None):
@@ -282,28 +479,46 @@ def main(argv=None):
     args = ap.parse_args(argv)
 
     text, cites = scan()
-    drifted = [c for c in cites if c["true"] and c["true"] != c["cited"]]
-    unresolved = [c for c in cites if not c["true"]]
-    ok = [c for c in cites if c["true"] and c["true"] == c["cited"]]
+    by = {st: [c for c in cites if c["status"] == st] for st in STATUSES}
+    drifted = [c for c in by["drifted"] if c["confident"]]
+    needs_review = [c for c in by["drifted"] if not c["confident"]]
 
-    for c in drifted:
-        print(f"  DRIFTED  {c['target']} `:{c['cited']}` -> :{c['true']}   {c['quote'][:64]!r}")
-    for c in unresolved:
-        print(f"  UNRESOLVED  {c['target']} `:{c['cited']}` — quote not found, LEFT ALONE   "
+    for c in drifted + needs_review:
+        tag = "DRIFTED " if c["confident"] else "DRIFTED?"
+        print(f"  {tag}  {c['target']} `:{c['cited']}` -> :{c['true']}   {c['quote'][:64]!r}"
+              + ("" if c["confident"] else "   ⚠ attachment not confident — NOT auto-fixed"))
+    for c in by["ambiguous"]:
+        print(f"  AMBIGUOUS  {c['target']} `:{c['cited']}` — the quote occurs more than once, LEFT ALONE  "
+              f" {c['quote'][:64]!r}")
+    for c in by["not_found"]:
+        print(f"  NOT FOUND  {c['target']} `:{c['cited']}` — quote not in the target, LEFT ALONE   "
               f"{c['quote'][:64]!r}")
+    for c in by["quote_too_short"]:
+        print(f"  TOO SHORT  {c['target']} `:{c['cited']}` — quoted phrase is under {MIN_NEEDLE} characters "
+              f"and cannot identify a line   {c['quote'][:64]!r}")
+    for c in by["no_quote"]:
+        print(f"  NO QUOTE   `:{c['cited']}` — no quoted phrase attached, so nothing to check against")
+    for c in by["inside_a_quote"]:
+        print(f"  QUOTED     `:{c['cited']}` — appears INSIDE a quoted phrase; it is part of the "
+              f"quotation, not a reference of this file's")
 
     found = carriers()
 
     if args.fix and drifted:
         # rewrite back-to-front so earlier spans keep their offsets
         for c in sorted(drifted, key=lambda x: -x["span"][0]):
-            s, e = c["span"]
+            s0, e0 = c["span"]
             span = str(c["true"]) if c["cited_end"] is None else \
                 f"{c['true']}–{c['true'] + (c['cited_end'] - c['cited'])}"
-            text = text[:s] + f"`:{span}`" + text[e:]
+            text = text[:s0] + f"`:{span}`" + text[e0:]
         with open(MAP, "w", encoding="utf-8") as fh:
             fh.write(text)
         print(f"\nrewrote {len(drifted)} citation(s) in {os.path.relpath(MAP, ROOT)}")
+        if needs_review:
+            print("⛔ AND LEFT %d DRIFTED CITATION(S) ALONE, because the quote they were attached to is "
+                  "separated from them by another citation or a sentence boundary. Rewriting on a guessed "
+                  "attachment is how a citation comes to vouch for a sentence it does not contain — these "
+                  "need a reader, not a fixer." % len(needs_review))
         report_carriers(found, "⛔ THIS IS NOT THE WHOLE TREE. Other files carry the same line numbers:")
 
         stale = [(g, out) for g, okg, out in check_generated_carriers(found) if not okg]
@@ -321,15 +536,26 @@ def main(argv=None):
             # tests.yml both run the checker with no arguments), so nothing green is being turned red.
             return 1
         print("\n✓ every declared generator reports its committed copy still reproduces.")
-        return 0
+        return 1 if needs_review else 0
 
-    print(f"\nline_citations: {len(ok)} correct · {len(drifted)} DRIFTED · {len(unresolved)} unresolved "
-          f"({len(cites)} quoted citations)")
+    # ⛔ THE DENOMINATOR IS EVERY CITATION IN THE ROADMAP, and the classes sum to it. The old summary read
+    # "(42 quoted citations)" while the file held 56 — a full-looking accounting of a filtered subset is
+    # what let the checked share fall to a third without anything saying so (AUT-PD-134).
+    checked = len(by["ok"]) + len(by["drifted"])
+    print(f"\nline_citations: {len(by['ok'])} correct · {len(drifted)} DRIFTED · "
+          f"{len(needs_review)} drifted-but-unconfident · {len(by['ambiguous'])} ambiguous · "
+          f"{len(by['not_found'])} quote not found · {len(by['quote_too_short'])} quote too short · "
+          f"{len(by['no_quote'])} carry no quote · {len(by['inside_a_quote'])} inside a quotation")
+    print(f"  coverage: {checked} of {len(cites)} citations in {os.path.relpath(MAP, ROOT)} were resolved "
+          f"to a line ({100.0 * checked / len(cites):.0f}%). The rest are NAMED above, not skipped.")
     # ⚠ REPORTED, NOT GATED, in check mode. This checker is a member of the fast six and its name is
     # "roadmap line citations resolve"; failing it because an unrelated cell of a generated view drifted
     # would be a second gate wearing the first one's name. The staleness of a generated copy is gated by
     # preflight's generated-artifact loop, which now carries the census row.
     report_carriers(found, "Other files carrying the `:NNNN` syntax — NOT checked by this tool:")
+    # ⛔ ONLY A CONFIDENT DRIFT GATES. An unconfident one is a citation this tool declines to repoint; it
+    # was reported as UNRESOLVED and ungated before this change too, so nothing that used to be red has
+    # been made green — what changed is that it is now named as a drift a READER has to settle.
     return 1 if drifted else 0
 
 

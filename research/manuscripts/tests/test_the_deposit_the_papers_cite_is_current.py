@@ -76,6 +76,24 @@ def _commit_is_present(rev):
     still "this checkout cannot produce that commit"; the caller says so, and a genuinely fabricated
     revision fails here for the same reason. Bounded to one attempt — a retry loop in a test is a
     timeout waiting to be blamed on the network.
+
+    ⛔⛔ AND IT WAS BUILT FOR ONE OF THE TWO IDENTICAL SITES, WHICH LEFT THE TRUNK RED FOR THREE
+    COMMITS (measured 2026-09-01, S7-CHAIN). This helper landed with
+    `test_the_published_record_is_corroborated_by_git_rather_than_declared`; its twin,
+    `test_the_recorded_upload_digest_is_corroborated_by_git_rather_than_declared`, kept a bare
+    `git cat-file -e` and went red on `main` at c48875a00 (run 33532168479), 7e9409a4b
+    (33534733266) and bd8aac753 (33537002198) — one failure, the same one, every time. The last
+    GREEN run was 850edb335 (33523366953), whose head_sha IS the recorded
+    `pending.uploaded_at_git_revision`: the bare check could only ever pass while the recorded
+    revision happened to BE the checked-out tip, so its green was a coincidence rather than a
+    reading. ★ Reproduced against the real remote rather than argued: in a genuine
+    `git clone --depth 1` of `main`, `git cat-file -e 850edb3358ba^{commit}` fails,
+    `git fetch --depth=1 origin 850edb3358ba` returns 0, and afterwards `git show` reads the manifest
+    at that revision (381,097 bytes) carrying `archive_content_digest f59a02acd74e…` — exactly the
+    value `pending.uploaded_manifest_digest` records. The record was right; the instrument was blind.
+    ⭐ `test_every_git_corroboration_in_this_file_goes_through_the_fetching_helper` now asserts the
+    pair property at source level, because "remember to use the helper" is the convention that just
+    failed.
     """
     def _has():
         return subprocess.run(["git", "cat-file", "-e", f"{rev}^{{commit}}"],
@@ -88,6 +106,49 @@ def _commit_is_present(rev):
     subprocess.run(["git", "fetch", "--depth=1", "origin", rev],
                    cwd=REPO, capture_output=True, timeout=180)
     return _has()
+
+
+def test_every_git_corroboration_in_this_file_goes_through_the_fetching_helper():
+    """⛔⛔ THE ONE-OF-A-PAIR DEFECT, ASSERTED AT SOURCE LEVEL BECAUSE A CONVENTION ALREADY FAILED.
+
+    Two tests in this file corroborate a recorded revision against git, and on 2026-09-01 exactly
+    one of them used `_commit_is_present`. The other's bare `git cat-file -e` cannot distinguish
+    "this checkout does not HOLD that object" from "that commit does not EXIST", which in a depth-1
+    `actions/checkout@v4` is every recorded revision — so it painted `main` red for three commits
+    over a deposit record that was correct.
+
+    ★ THE ASSERTION IS ON THE SOURCE, NOT ON BEHAVIOUR, AND THAT IS DELIBERATE. A behavioural test
+    would have to manufacture a shallow clone to see the difference, which is precisely the
+    condition this sandbox cannot reproduce and CI is the only place that has. Reading the file is
+    the check that runs everywhere.
+
+    ⚠ IT DOES NOT BAN `git show`. Reading a blob at a revision is fine once the commit is present;
+    what is banned is deciding PRESENCE with a raw probe, because that is the decision the depth-1
+    horizon corrupts.
+
+    ⛔ IT MUST EXCLUDE ITS OWN BODY AS WELL AS THE HELPER'S, AND THE FIRST VERSION DID NOT — it
+    quoted the probe it forbids, matched itself, and failed on a correct tree. Same self-reference
+    trap `_tree_clean_apart_from_this_manifest` records in `aso_archive_manifest.py`: a checker that
+    names the thing it looks for is part of the corpus it searches.
+    """
+    src = open(os.path.abspath(__file__), encoding="utf-8").read()
+
+    def _body(name):
+        return src.split("def " + name, 1)[1].split("\ndef ", 1)[0]
+
+    helper = _body("_commit_is_present")
+    outside = src.replace(helper, "").replace(
+        _body("test_every_git_corroboration_in_this_file_goes_through_the_fetching_helper"), "")
+    probe = '"cat-' + 'file"'
+    assert probe not in outside, (
+        "a raw `git cat-file` presence probe exists outside `_commit_is_present`. In a depth-1 "
+        "checkout the object store holds one commit, so that probe reports every recorded revision "
+        "as fabricated — the failure that put this file's twin guard red on main for three "
+        "commits. Route it through `_commit_is_present`, which fetches the exact sha and returns "
+        "False only when the fetch itself cannot produce it.")
+    assert probe in helper, (
+        "`_commit_is_present` no longer probes for the object at all, so this guard is now "
+        "asserting that nobody does something nobody does — re-anchor it or retire it")
 
 def test_the_papers_cite_a_version_the_deposit_state_knows_about():
     """⛔ THE MANIFEST'S DOI IS EITHER WHAT IS PUBLISHED OR WHAT IS DRAFTED — NEVER A THIRD THING."""
@@ -196,6 +257,12 @@ def test_a_declared_drift_states_the_size_it_actually_has():
                     "— SKIP IS DELIBERATE and is the settled state between deposits")
 
     rev = state["published"].get("git_revision")
+    # ⛔ MAKE THE OBJECT PRESENT BEFORE READING IT, OR THIS GUARD SKIPS ITSELF IN CI. The `git show`
+    # below fails in a depth-1 `actions/checkout@v4` for the same reason the twin guards did, and
+    # the skip right after it is indistinguishable from "there is nothing to check" in a run
+    # summary. Fetching first costs one object and is the difference between a guard that ran and a
+    # guard that announced it could not — the skip stays as the honest floor when the fetch fails.
+    _commit_is_present(rev)
     shown = subprocess.run(
         ["git", "show", f"{rev}:research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"],
         cwd=REPO, capture_output=True, text=True)
@@ -283,11 +350,13 @@ def test_the_recorded_upload_digest_is_corroborated_by_git_rather_than_declared(
         "checked against anything. Both are written by the deposit workflow; if one is missing the "
         "draft's contents are unknown and it must not be published.")
 
-    exists = subprocess.run(["git", "cat-file", "-e", f"{rev}^{{commit}}"],
-                            cwd=REPO, capture_output=True)
-    assert exists.returncode == 0, (
+    # ⛔ `_commit_is_present`, NOT A BARE `cat-file` — see that helper's docstring for the three
+    # commits of red this exact line cost on 2026-09-01. The assertion is unchanged in strength: a
+    # revision that a targeted `git fetch` of that exact sha cannot produce still fails here.
+    assert _commit_is_present(rev), (
         f"deposit-state.json records the draft as built at {rev[:12]}, which is not a commit in "
-        "this repository. A revision nobody can resolve cannot corroborate anything.")
+        "this repository, and a targeted fetch of that exact sha did not produce it either. A "
+        "revision nobody can resolve cannot corroborate anything.")
 
     shown = subprocess.run(
         ["git", "show", f"{rev}:research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"],

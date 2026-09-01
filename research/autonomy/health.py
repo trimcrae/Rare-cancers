@@ -1168,10 +1168,67 @@ def c_budget_recovering(state, state_err, now):
         return _unmeasured(key, label, source, "LEVEL-UNREADABLE",
                            f"`backoff_level` is {level!r}, not a non-negative integer, so the budget "
                            f"posture cannot be read.")
-    if level == 0:
+    # ⛔⛔ AN ACTIVE HOLD IS CONSULTED AT LEVEL 0 TOO, AND UNTIL 2026-09-01 IT WAS NOT.
+    # This returned NO-BACKOFF here unconditionally, BEFORE the hold was read — so a hold whose
+    # `declared_posture` the live dials openly violated went completely unnoticed whenever
+    # `backoff_level` happened to be 0. The comment fifty lines below says "THE HOLD MUST GOVERN THE
+    # DIALS, OR IT IS DECORATION"; at level 0 it was decoration, by construction, in the one row
+    # written to catch exactly that.
+    # ⚠ FOUND BY WALKING INTO IT. The sprint of 2026-09-01 set a hold with a RAISED ceiling
+    # (width 12, 4 h cadence) and `backoff_level: 0` — a hold that pins a ceiling rather than a
+    # floor, which is a shape this row had never been given. Nine tests in
+    # `test_a_cadence_nobody_enforces_is_not_a_cadence.py` went red at once, every one of them
+    # building its fixture from the live state and mutating a single dial. They were right and the
+    # code was wrong: they assert that loosening a dial past its declared bound is NOTICED, and it
+    # was not being noticed at all.
+    # ★ THE DIRECTION, STATED BECAUSE THIS IS A GOVERNED PATH: this makes the row check MORE, never
+    # less. Level 0 with no active hold is still the same measured green it always was — that
+    # reading is untouched. What changes is that level 0 WITH a hold now has to honour it.
+    hold_at_zero = state.get("budget_hold") or {}
+    if level == 0 and not (isinstance(hold_at_zero, dict) and hold_at_zero.get("active")):
         return _green(key, label, source, "NO-BACKOFF",
                       "the governor records backoff level 0 — the loop is running at full cadence and "
                       "width.", {"backoff_level": 0})
+    if level == 0:
+        violations, unknown = hold_posture_violations(state)
+        review_after = _parse_ts(hold_at_zero.get("review_after_utc"))
+        floor = hold_at_zero.get("floor_backoff_level")
+        payload = {"backoff_level": 0, "budget_hold": {
+            "reason": hold_at_zero.get("reason"), "floor_backoff_level": floor,
+            "review_after_et": _et(review_after) if review_after
+            else hold_at_zero.get("review_after_utc"),
+            "posture_violations": [
+                {"dial": k, "live": v, "bound": b, "sense": s} for k, v, b, s in violations] or None,
+            "posture_keys_checked_by_nothing": unknown or None,
+        }}
+        if violations or unknown:
+            bits = [f"`{k}`={v!r} against a declared {'floor' if s == 'min' else 'ceiling'} of {b}"
+                    for k, v, b, s in violations]
+            bits += [f"`declared_posture.{k}` is read by nothing in HOLD_POSTURE_DIALS"
+                     for k in unknown]
+            return _red(key, label, source, "HOLD-NOT-IN-FORCE",
+                        f"a budget hold ({hold_at_zero.get('reason')!r}) is active but the live dials "
+                        f"do not honour it: " + "; ".join(bits) + ". A hold that governs nothing is "
+                        "`subagent_width` again — defined in JSON, asserted by one test, read by no "
+                        "code for a fortnight. Set the dials, or drop the hold; never leave both.",
+                        payload)
+        if isinstance(floor, int) and not isinstance(floor, bool) and level < floor:
+            return _red(key, label, source, "HOLD-FLOOR-BREACHED",
+                        f"the hold pins `backoff_level` at {floor} or above and it reads {level}. A "
+                        "clean cycle decrements the level (§9 property 3), so this is what that "
+                        "decrement looks like when it runs through a hold it should have stopped at.",
+                        payload)
+        if review_after is not None and now >= review_after:
+            return _red(key, label, source, "HOLD-NEEDS-A-FRESH-READING",
+                        f"the hold's review stamp ({_et(review_after)}) has passed. ⛔ It expires into "
+                        "a REVIEW, not into full cadence: take a fresh utilisation reading, write it "
+                        "to `last_utilisation_report`, and only then lift or step the hold down one "
+                        "level. A stamp passing is not evidence that the budget recovered.", payload)
+        return _green(key, label, source, "BUDGET-HELD",
+                      f"backoff is at level 0 under a deliberate hold "
+                      f"({hold_at_zero.get('reason')!r}) that pins a CEILING rather than a floor, "
+                      f"reviewable {_et(review_after) if review_after else '?'}. The dials honour it.",
+                      payload)
     since = _parse_ts(state.get("backoff_since_utc"))
     if since is None:
         return _unmeasured(key, label, source, "BACKOFF-AGE-UNKNOWN",

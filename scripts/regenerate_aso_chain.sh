@@ -37,14 +37,52 @@
 # network and are dispatched through .github/workflows/aso-offtarget.yml. This regenerates only what
 # is derivable offline from committed artifacts.
 #
-#   ./scripts/regenerate_aso_chain.sh            # regenerate, in order
-#   ./scripts/regenerate_aso_chain.sh --check    # exit 1 if anything is stale, change nothing
+#   ./scripts/regenerate_aso_chain.sh              # regenerate, in order
+#   ./scripts/regenerate_aso_chain.sh --check      # exit 1 if anything is stale, change nothing
+#   ./scripts/regenerate_aso_chain.sh --only docx  # only steps whose label matches, plus the manifest
+#   ./scripts/regenerate_aso_chain.sh --list       # print the step labels and exit
+#
+# ⛔⛔ TWO FAILURE CAUSES USED TO PRINT AS ONE VERDICT, AND A READER COULD NOT TELL THEM APART
+# (AUT-PD-001, measured again 2026-09-01 by S7-CHAIN). Every non-zero exit ended in
+# `ASO CHAIN: something is stale or failed`, which reads as a drift finding. Three of the steps here
+# do not fail for drift at all: the two .docx builds need `libreoffice-writer` (absent from a bare
+# sandbox until `dev-setup.sh` installs it), the print formats need `ghostscript`, and the prior-art
+# step needs `origin/literature-cache` fetched. On 2026-09-01 a full run in a clean copy of
+# `bd8aac753` had exactly ONE failing step — prior-art, needing a $0 `git fetch` — and printed the
+# same sentence a genuinely stale artifact would.
+# ★ SO THE VERDICT NAMES THE CAUSE AND THE EXIT CODE CARRIES IT: 1 = stale or failed, 3 = every
+# failure was a missing prerequisite this machine can install or fetch, and the remedy is printed.
+# ⛔ BOTH ARE NON-ZERO, DELIBERATELY. AUT-PD-189's complaint is that a step which wrote nothing must
+# not be survivable — "a submission packet whose Word manuscript is whatever was last committed,
+# while every PDF around it was rebuilt, is a stale artifact wearing a fresh chain's stamp". An
+# environment-blocked step is exactly that state; naming its cause must not soften it.
+#
+# ⛔ AND `--only` EXISTS BECAUSE A FULL RUN REWRITES OTHER PAPERS (AUT-PD-001). Measured 2026-08-27
+# and reproduced 2026-09-01: a clean run rewrote TWELVE tracked files, including two neoantigen PDFs
+# and two fusion-output PDFs, for a cycle that needed one artifact re-derived. `--only` runs the
+# matching steps and ALWAYS the archive manifest after them, because the manifest hashes whatever
+# they wrote — a scoped run that skipped it would leave the deposit describing files that moved.
+# ⚠ A SCOPED RUN NEVER PRINTS `ASO CHAIN OK`. It reports what it ran and what it did not look at,
+# because "OK" here means "every artifact in the chain is current" and a scoped run cannot know that.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 CHECK=0
-[ "${1:-}" = "--check" ] && CHECK=1
+ONLY=""
+LIST=0
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --check) CHECK=1 ;;
+    --list)  LIST=1 ;;
+    --only)  shift; ONLY="${1:-}"; [ -n "$ONLY" ] || { echo "--only needs a label substring" >&2; exit 2; } ;;
+    --only=*) ONLY="${1#--only=}" ;;
+    *) echo "unknown argument: $1" >&2; exit 2 ;;
+  esac
+  shift
+done
 unverified=""
+blocked=""
+skipped=0
 
 MOD=research/modalities
 MAN=research/manuscripts
@@ -57,7 +95,10 @@ fail=0
 # Globbed, never listed: a screen added by a dispatch must enter the corpus without anyone
 # remembering to add it here. `|| true` on the sweep because a coverage-only screen is REFUSED by
 # design and that refusal must not abort the chain.
-if [ "$CHECK" = 0 ]; then
+# ⚠ STEP 0 IS PART OF THE FULL RUN ONLY. It regrades the whole screen corpus, which is the
+# opposite of what `--only` is for, and it prints rather than returning a step label so it has
+# nothing to list.
+if [ "$CHECK" = 0 ] && [ -z "$ONLY" ] && [ "$LIST" = 0 ]; then
   say "graded re-scores (screens -> -graded.json)"
   # ⛔ THE DEEPER RE-SCREENS ARE EXCLUDED BY THE RELEASE'S OWN RULE, NOT BY AN OVERSIGHT.
   # The SI states the reason: the deeper re-screens "are released ungraded because the graded model
@@ -128,12 +169,41 @@ fi
 # ⚠ Fixed by making the gap VISIBLE rather than by inventing a diff: an unverifiable step is now
 # named as unverified, counted, and reprinted in the summary, so `--check` can no longer end in an
 # unqualified OK while producers remain uninspected.
+# ⭐ A FOURTH, OPTIONAL FIELD: the PREREQUISITE PROBE. It is a shell test that answers "can this
+# machine run this step at all?", and it is consulted ONLY when the step has already failed — a
+# probe that ran first would be a second place for the truth about whether a tool works, and the
+# tool's own failure is the better witness. Its job is to classify a failure that already happened,
+# never to skip work. A step with no probe that fails is STALE OR FAILED, which is the old
+# behaviour and stays the default.
 run_step() {
-  local label="$1" cmd="$2" chk="$3"
+  local label="$1" cmd="$2" chk="$3" needs="${4:-}"
+  if [ "$LIST" = 1 ]; then printf '%s\n' "$label"; return 0; fi
+  # ⛔ THE MANIFEST IS EXEMPT FROM `--only` AND THAT IS NOT A CONVENIENCE. It hashes every artifact
+  # the selected steps just rewrote, so a scoped run that skipped it publishes a deposit describing
+  # files that no longer exist in that form — the exact staleness this whole script was written to
+  # prevent, reintroduced by the flag meant to make it safer.
+  if [ -n "$ONLY" ] && [ "$label" != "archive manifest" ]; then
+    case "$label" in
+      *"$ONLY"*) : ;;
+      *) skipped=$((skipped + 1)); return 0 ;;
+    esac
+  fi
   say "$label"
   if [ "$CHECK" = 1 ]; then
     if [ -n "$chk" ]; then
-      if eval "$chk" >/dev/null 2>&1; then echo "   current"; else echo "   STALE"; fail=1; fi
+      if eval "$chk" >/dev/null 2>&1; then
+        echo "   current"
+      elif [ -n "$needs" ] && ! eval "$needs" >/dev/null 2>&1; then
+        # ⛔ "STALE" AND "I COULD NOT LOOK" ARE DIFFERENT ANSWERS AND ONLY ONE OF THEM IS A FINDING.
+        # A --check that reports STALE because a prerequisite is missing sends the reader to hunt a
+        # drift that is not there — CLAUDE.md §4, an absent reading is not a reading of absence.
+        echo "   UNCHECKABLE HERE: the prerequisite is missing, so staleness is UNKNOWN"
+        echo "     fix: $(_remedy "$needs")"
+        blocked="$blocked
+   · $label (--check could not run) — $(_remedy "$needs")"
+      else
+        echo "   STALE"; fail=1
+      fi
     else
       echo "   ⚠ NOT VERIFIED -- this producer has no --check mode"
       unverified="$unverified $label"
@@ -149,10 +219,30 @@ run_step() {
     if eval "$cmd" >/dev/null 2>&1; then
       echo "   ok"
     else
-      echo "   FAILED: $cmd"
-      fail=1
+      # ⛔ THE STEP FAILED. THE ONLY QUESTION LEFT IS WHETHER IT COULD EVER HAVE RUN HERE.
+      if [ -n "$needs" ] && ! eval "$needs" >/dev/null 2>&1; then
+        echo "   ENV-BLOCKED: $label — this machine cannot run it"
+        echo "     fix: $(_remedy "$needs")"
+        blocked="$blocked
+   · $label — $(_remedy "$needs")"
+      else
+        echo "   FAILED: $cmd"
+        fail=1
+      fi
     fi
   fi
+}
+
+# ⚠ ONE PLACE THAT TURNS A PROBE INTO AN INSTRUCTION, so a step declares WHAT it needs and never
+# repeats HOW to get it. A probe with no remedy here still classifies correctly and says so, rather
+# than printing an empty fix line — an unknown remedy is reported as unknown.
+_remedy() {
+  case "$1" in
+    *writer.xcd*)          echo "./scripts/dev-setup.sh  (installs libreoffice-writer; without the Writer filters soffice reports every input as unloadable)" ;;
+    *"command -v gs"*)     echo "./scripts/dev-setup.sh  (installs ghostscript)" ;;
+    *literature-cache*)    echo "git fetch origin literature-cache:refs/remotes/origin/literature-cache  (\$0, seconds)" ;;
+    *)                     echo "UNKNOWN — this probe has no remedy recorded in _remedy(); add one" ;;
+  esac
 }
 
 run_step "locus collapse"      "python3 $MOD/junction_aso_locus_collapse.py --write" ""
@@ -219,7 +309,8 @@ run_step "claim coverage census" "python3 $MAN/claim_coverage.py --write"       
 # every sequence the three documents name is present -- so this step fails rather than shipping a
 # "canonical" file that is missing a sequence the paper prints.
 run_step "canonical sequences" "python3 $MAN/aso_sequence_manifest.py" "python3 $MAN/aso_sequence_manifest.py --check"
-run_step "prior-art evidence"  "python3 $MAN/aso_priorart_evidence.py" "python3 $MAN/aso_priorart_evidence.py --check"
+run_step "prior-art evidence"  "python3 $MAN/aso_priorart_evidence.py" "python3 $MAN/aso_priorart_evidence.py --check" \
+         "git rev-parse --verify -q refs/remotes/origin/literature-cache"
 # ⛔ THE TWO DEPOSITED PDFs WERE NOT IN THIS CHAIN, AND THEY ARE THE FILES A READER DOWNLOADS
 # (added 2026-08-19). Measured that day: a prose fix to §2.10 was followed by `build_submission_pdf.py`
 # with no arguments, which writes the JOURNAL format and the SI and NOTHING ELSE — the submission
@@ -291,7 +382,8 @@ run_step "anonymized upload · journal format" "python3 $MAN/build_submission_pd
 # regeneration, naming a stamp no step here rebuilds. A producer whose output is hashed by the
 # staleness check must be a STEP of the chain, or the check measures a file nothing maintains.
 run_step "submission parts · title page and figure legends" "python3 $MAN/build_submission_parts.py" \
-         "python3 $MAN/build_submission_parts.py --check"
+         "python3 $MAN/build_submission_parts.py --check" \
+         "[ -f /usr/lib/libreoffice/share/registry/writer.xcd ]"
 # ⛔ THE PRINT DELIVERABLES ARE IN THE CHAIN AS OF 2026-08-25, and the reason is the packet, not the
 # figures. SUBMISSION-PACKET.md's upload manifest now names the EPS and TIFF files by reading
 # print-formats-manifest.json, so a stale manifest puts a stale filename on the checklist a
@@ -319,8 +411,11 @@ run_step "figure print formats · EPS and TIFF" \
 # passed in 8 minutes. Never install into the system interpreter to satisfy a tooling check — call
 # the tool the way the environment provides it.
 run_step "Word manuscript · submission format" "python3 $MAN/build_submission_docx.py" \
-         "pytest $MAN/tests/test_the_word_manuscript_is_current_and_whole.py -q"
+         "pytest $MAN/tests/test_the_word_manuscript_is_current_and_whole.py -q" \
+         "[ -f /usr/lib/libreoffice/share/registry/writer.xcd ]"
 run_step "archive manifest"    "python3 $MAN/aso_archive_manifest.py" "python3 $MAN/aso_archive_manifest.py --check"
+
+[ "$LIST" = 1 ] && exit 0
 
 # ── 2 · the gates that read what was just written ────────────────────────────────────────────
 say "gates"
@@ -328,9 +423,53 @@ for g in "python3 $MAN/lint_consistency.py" "python3 $MAN/lint_citations.py" "py
   if eval "$g" >/dev/null 2>&1; then echo "   OK   ${g##*/}"; else echo "   FAIL ${g##*/}"; fail=1; fi
 done
 
+# ── 3 · will the revision this manifest just recorded survive the push? ───────────────────────
+# ⛔ AUT-PD-141 / -175 / -195. `aso_archive_manifest.py` stamps `git_revision` from HEAD, and the
+# rebase that resolves a losing push race rewrites any commit that is not already on origin — so the
+# manifest reaches the trunk naming a sha no clone can resolve, with every guard on it green. This
+# asks the one question that discriminates, at the moment the answer is still actionable.
+# ⚠ IT IS REPORTED, NOT GATED, AND THE REASON IS THE GATE'S OWN HISTORY. A red here on a branch that
+# is about to be pushed for the first time would be a cry-wolf, and this file already carries what
+# happened the last time this module's strict check was wired into a gate. The ENFORCEMENT this
+# needs is the same command on the push path; see the module's `--check-revision-published`.
+say "manifest revision durability"
+if python3 $MAN/aso_archive_manifest.py --check-revision-published; then :; else
+  echo "   ⚠ the manifest names a revision that a rebase can orphan — see the message above."
+  echo "     This is NOT counted as a chain failure: the artifact is current, its provenance line"
+  echo "     is not yet durable, and the fix is an ordering rather than a regeneration."
+fi
+
+_blocked_only=0
+if [ "$fail" = 0 ] && [ -n "$blocked" ]; then _blocked_only=1; fi
+
+if [ -n "$blocked" ]; then
+  printf '\nASO CHAIN: %s step(s) could not run on this machine:%s\n' \
+    "$(printf '%s' "$blocked" | grep -c '^   ·')" "$blocked"
+  printf 'Each of those is a MISSING PREREQUISITE, not a stale artifact. Nothing above says the\n'
+  printf 'deliverable is current -- it says nobody here could rebuild or verify it.\n'
+fi
+# ⚠ THE SCOPE NOTE PRINTS BEFORE EVERY EXIT, NOT ONLY THE CLEAN ONE. A scoped run that ends
+# blocked or failed is still a run that did not look at most of the chain, and that is exactly when
+# a reader is most likely to quote the outcome as though it covered everything.
+if [ -n "$ONLY" ]; then
+  printf '\nASO CHAIN was SCOPED to "%s": %s step(s) were NOT LOOKED AT.\n' "$ONLY" "$skipped"
+fi
 if [ "$fail" != 0 ]; then
   printf '\nASO CHAIN: something is stale or failed -- see above.\n'
   exit 1
+fi
+if [ "$_blocked_only" = 1 ]; then
+  # ⛔ EXIT 3, NOT 0. A step that wrote nothing must not be survivable (AUT-PD-189) — the code only
+  # says WHY, so a caller that wants to tolerate a bare sandbox can, deliberately and in one place,
+  # while a caller that just checks `$?` still sees a failure.
+  printf '\nASO CHAIN: no staleness found, but the run was INCOMPLETE (missing prerequisites).\n'
+  exit 3
+fi
+if [ -n "$ONLY" ]; then
+  printf '\nASO CHAIN (SCOPED): the steps that ran are current.\n'
+  printf 'This is not `ASO CHAIN OK` and must not be quoted as one. Run the chain unscoped before\n'
+  printf 'any deposit, submission or release.\n'
+  exit 0
 fi
 if [ "$CHECK" = 1 ] && [ -n "$unverified" ]; then
   printf '\nASO CHAIN: every checkable producer is current, but --check CANNOT VOUCH FOR:%s\n' "$unverified"

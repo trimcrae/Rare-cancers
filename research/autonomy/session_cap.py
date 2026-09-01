@@ -84,6 +84,18 @@ UNAVAILABLE_FIELD = handoff.UNAVAILABLE_FIELD
 #: session claim it is at its cap, because "at cap" is exactly the claim it would buy.
 PLACEHOLDER_IDS = {"scheduled-routine-session", "unknown", "", None}
 
+#: ⛔⛔ THE MACHINE HALF OF `--check`'s ANSWER (AUT-PD-169). The turn-end hook must print DIFFERENT
+#: guidance for the two ways a session may stop — one has a successor running and one does not — and
+#: it must not tell them apart by grepping a sentence somebody may reword. That is AUT-PD-017's
+#: finding exactly ("a field name agreed in prose between two readers is not agreed at all"), and
+#: this repository has lost that agreement four separate times. `--check` prints
+#: `MAY STOP [<code>] — <why>`; `test_a_session_that_handed_off_is_not_a_session_that_did_not_try.py`
+#: asserts, in BOTH directions, that every code the hook branches on is one this module emits.
+HANDED_OFF = "HANDED-OFF"
+HANDOFF_BLOCKED = "HANDOFF-BLOCKED"
+MUST_NOT_STOP = "MUST-NOT-STOP"
+CODES = (HANDED_OFF, HANDOFF_BLOCKED, MUST_NOT_STOP)
+
 
 def cap() -> int | None:
     """`max_cycles_per_session`, READ rather than remembered. None when unreadable — and unreadable
@@ -158,39 +170,109 @@ def blocked_handoff(receipt: dict) -> str | None:
     return handoff.refusal_of(receipt) or handoff.mechanism_unavailable_of(receipt)
 
 
-def verdict() -> tuple[bool, str]:
-    """(may_stop, one-line reason). False is the safe direction and every unreadable input takes it."""
+def handed_off(receipt: dict, sid: str) -> str | None:
+    """The successor session THIS session created, or None.
+
+    ⛔⛔ AUT-PD-169, AND ITS ABSENCE IS WHAT MADE THE TURN-END HOOK INSTRUCT A LOGICAL IMPOSSIBILITY.
+    `verdict()` used to reach a session that had done exactly what `research-loop` §3 demands — built
+    the prompt with `handoff.py`, called `create_session`, recorded the child — and answer *"the
+    latest receipt records no handoff attempt — an absent record is a session that did not try"*.
+    Not a wording slip: `blocked_handoff()` deliberately returns None for a receipt carrying a child
+    id, and NOTHING ELSE READ THAT FIELD. So the one success the contract asks for scored identically
+    to never having tried, `--check` said MUST NOT STOP, and the hook fell through to its loud branch.
+
+    ⛔ WHAT THE LOUD BRANCH THEN TELLS THE SESSION TO DO IS THE DEFECT. Its option 1 says to CLAIM
+    THE ROW FOR THE WORKER THAT IS RUNNING IT. A spawned successor is not that kind of worker: it
+    runs the twelve-step contract and claims for ITSELF at step 4, under a cycle id
+    `CYC-NNNN-<discriminator(its own harness session uuid)>` — a uuid the control plane assigns
+    inside the child's container and never returns to `create_session`'s caller. `claim.decide()`
+    answers `YIELDED` for any `owner` that is set and is not the caller's own `me`, so **no owner
+    string the parent is able to write can ever match**, and obeying the hook guarantees the
+    successor hands back the one row it was created for — leaving that row leased to a session that
+    has ended until `priority.release_stale_claims` ages it out.
+
+    ⭐ WHY THIS FIELD AND NOT THE NEW ONE THE ROW PROPOSED. AUT-PD-169's preferred option (b) was a
+    `dispatched_to` ledger field distinct from `owner`. It is not needed: the falsifiable record
+    already exists and is already REQUIRED — `handoff.child_session_id` is what
+    `health.py:cycles_are_sized` grades an over-cap session on, and only a real `create_session`
+    produces it. A new ledger field would also need ageing (the row says so itself), and a field
+    nothing ages out is CYC-0003's immortal claim with a new name; it would also need a ledger write
+    at the one moment a handoff cannot make one (AUT-PD-174).
+
+    ⛔ A SESSION MAY NOT NAME ITSELF AS ITS OWN SUCCESSOR — AUT-PD-140's shape, one field over. A
+    self-referential record names no other worker, so it would buy a stop for work nobody is doing.
+    Both id spaces are checked, because the receipt carries both (`session_id` is the harness uuid,
+    `ccr_session_id` the `session_01…` id the session list speaks) and only one of them would be the
+    obvious thing to type.
+    """
+    child = handoff.child_session_id_of(receipt)
+    if not child:
+        return None
+    own = {str(sid).strip(), str(receipt.get("ccr_session_id") or "").strip(),
+           str(receipt.get("session_id") or "").strip()}
+    if child.strip() in own:
+        return None
+    return child
+
+
+def _verdict() -> tuple[bool, str, str]:
+    """(may_stop, reason code, one-line reason). False is the safe direction and every unreadable
+    input takes it."""
     c = cap()
     if c is None:
-        return False, "max_cycles_per_session is unreadable, so no cap can be claimed"
+        return False, MUST_NOT_STOP, "max_cycles_per_session is unreadable, so no cap can be claimed"
     sid_read = session_id_read()
     if not sid_read.value:
         # ⚠ ONE DECISION, TWO REPORTS. `sid_read.detail` distinguishes "unset" from "exported empty";
         # the answer is MUST NOT STOP either way, and it always was.
-        return False, (f"no usable session id, so this session cannot show which receipts are its "
-                       f"own — {sid_read.detail}")
+        return False, MUST_NOT_STOP, (
+            f"no usable session id, so this session cannot show which receipts are its "
+            f"own — {sid_read.detail}")
     sid = sid_read.value
     ours = mine(sid)
     if len(ours) < c:
-        return False, (f"this session has written {len(ours)} receipt(s) against a cap of {c} — "
-                       f"it has not yet done the work the cap is for")
+        return False, MUST_NOT_STOP, (
+            f"this session has written {len(ours)} receipt(s) against a cap of {c} — "
+            f"it has not yet done the work the cap is for")
+    # ⛔ CHECKED BEFORE THE BLOCKED BRANCH, BECAUSE A SESSION THAT HANDED OFF IS NOT A BLOCKED ONE
+    # and `blocked_handoff()` returns None for it BY DESIGN. Order is the whole fix: without this
+    # line the success falls through to the "did not try" refusal below.
+    child = handed_off(ours[-1], sid)
+    if child:
+        return True, HANDED_OFF, (
+            f"{len(ours)} receipt(s) at a cap of {c}, and this session HANDED OFF: its latest "
+            f"receipt records successor {child} under `{handoff.CHILD_ID_FIELD}`, which only a real "
+            f"create_session produces. The work continues in a fresh context.")
     why = blocked_handoff(ours[-1])
     if not why:
-        return False, (f"{len(ours)} receipt(s) written and the cap is {c}, but the latest receipt "
-                       f"records no handoff attempt — an absent record is a session that did not try")
-    return True, (f"{len(ours)} receipt(s) at a cap of {c}, and the handoff was attempted and "
-                  f"blocked: {why}")
+        return False, MUST_NOT_STOP, (
+            f"{len(ours)} receipt(s) written and the cap is {c}, but the latest receipt "
+            f"records no handoff attempt — an absent record is a session that did not try")
+    return True, HANDOFF_BLOCKED, (
+        f"{len(ours)} receipt(s) at a cap of {c}, and the handoff was attempted and "
+        f"blocked: {why}")
+
+
+def verdict() -> tuple[bool, str]:
+    """(may_stop, one-line reason) — the two-valued face `_verdict` wraps, kept for every caller
+    that does not branch on WHICH stop this is."""
+    may, _code, why = _verdict()
+    return may, why
 
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--check", action="store_true", help="exit 0 if this session may stop")
     args = ap.parse_args(argv)
-    may, why = verdict()
+    may, code, why = _verdict()
     if args.check:
-        print(("MAY STOP — " if may else "MUST NOT STOP — ") + why)
+        # ⛔ THE CODE IS IN BRACKETS AND IT IS PART OF THE CONTRACT, NOT DECORATION. The hook reads
+        # this line and prints different guidance for HANDED-OFF than for HANDOFF-BLOCKED; a test
+        # asserts both directions of that agreement.
+        print(("MAY STOP" if may else "MUST NOT STOP") + f" [{code}] — " + why)
         return 0 if may else 1
-    print(json.dumps({"may_stop": may, "why": why, "cap": cap(), "session_id": session_id()}, indent=2))
+    print(json.dumps({"may_stop": may, "reason_code": code, "why": why, "cap": cap(),
+                      "session_id": session_id()}, indent=2))
     return 0
 
 

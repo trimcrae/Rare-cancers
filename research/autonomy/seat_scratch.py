@@ -56,12 +56,19 @@ reports and a driver runs before it believes a seat — named in the seat prompt
 from __future__ import annotations
 
 import argparse
+import datetime
+import json
 import os
+import pathlib
 import re
 import sys
 
 # The parent under which per-seat worktrees are created by `research-loop` §3's worktree contract.
 DEFAULT_WORKTREE_PARENT = "/home/user/wt"
+
+#: Where a blind seat's record lives. `publish_bar._seat_records` globs this directory, so a record
+#: written anywhere else is a record the bar cannot read (`record_bar_evidence.py` header).
+SEATS_DIR = str(pathlib.Path(__file__).resolve().parent / "review-seats")
 
 _STAMP_SCAN_LINES = 20
 _SEAT_RE = re.compile(r"^SEAT=(\S+)\s*$")
@@ -180,6 +187,177 @@ def verify_log(path: str, parent: str = DEFAULT_WORKTREE_PARENT, expect_seat: st
 
 
 # ---------------------------------------------------------------------------------------------
+# --open-seat-record / --close-seat-record : the record is the seat's FIRST act, not its last.
+# ---------------------------------------------------------------------------------------------
+#
+# ⛔⛔ THE DEFECT (AUT-PROP-006, filed by CYC-0005). That cycle ran two blind seats, ACTED ON BOTH,
+# and PERSISTED NEITHER. The manuscript now carries their fixes while `publish_bar`'s convergence
+# clause still has nothing to read. ★ THE FAILURE IS ONE-DIRECTIONAL, WHICH IS WHY IT IS WORTH A
+# TOOL: the CHANGE survives a context loss and the EVIDENCE FOR IT DOES NOT. A seat that dies on the
+# way home costs its own work if it wrote first, and costs the round's whole record if it wrote last
+# — the same argument the 2026-09-01 sprint charter makes at §3, from the 107-agent fan-out whose
+# 40 successes had to be recovered by hand out of `journal.jsonl`.
+#
+# ★ SO THE ORDER IS: OPEN, LOOK, CLOSE. `--open-seat-record` writes an honest, EMPTY, `status: open`
+# record before the seat reads a line of the paper. `--close-seat-record` merges the findings in and
+# marks it complete. `close` REFUSES when no open record exists, so the write-first order is a
+# mechanism rather than an instruction.
+#
+# ⛔⛔ AND THE OPEN RECORD MUST NEVER BE ABLE TO CLEAR THE BAR — THIS IS THE HALF THAT MAKES THE
+# PROPOSAL SAFE RATHER THAN A NEW HOLE. An open record is honestly `blind: true` and honestly names
+# the commit it is going to read, so every filter in `publish_bar._seat_records` admits it, and a
+# seat that DIED would be counted as a look that found nothing. `clause_1_hardening_converged`
+# therefore REFUSES on any record at the pinned commit whose `status` is `open`. That coupling is
+# not optional: without it, writing the record first would turn every dead seat into a clean one.
+
+_OPEN, _COMPLETE = "open", "complete"
+
+
+def _utcnow() -> str:
+    return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def seat_record_path(seats_dir: str, paper: str, sha: str, lens: str) -> str:
+    """The one filename `publish_bar` counts as an independent look.
+
+    ⛔ THE `-seat-` SEGMENT IS LOAD-BEARING, NOT DECORATION. `publish_bar._is_seat_file` separates a
+    seat from a round roll-up on this prefix and nothing else (AUT-PD-193), because the roll-up is
+    filed as `{paper}-{sha}.json` and the record's own keys do not discriminate — roll-ups carry a
+    `seat` key and some seat files carry `lens` instead. Build the name here, never by hand.
+    """
+    return os.path.join(seats_dir, f"{paper}-{sha}-seat-{lens}.json")
+
+
+def open_seat_record(seats_dir: str, paper: str, sha: str, lens: str, *, document: str | None = None,
+                     document_sha256: str | None = None, utc: str | None = None):
+    """Write the empty, honest, `status: open` record. Returns (path, findings)."""
+    path = seat_record_path(seats_dir, paper, sha, lens)
+    now = utc or _utcnow()
+    existing = None
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                existing = json.load(fh)
+        except Exception as exc:
+            return path, [("UNREADABLE", path,
+                           f"a record already exists here and cannot be read ({type(exc).__name__}) "
+                           "— refusing to overwrite evidence")]
+        # ⛔ A CLOSED RECORD IS EVIDENCE AND IS NOT OVERWRITTEN. Re-opening one would erase a seat's
+        # reported findings with an empty shell, which is the one thing worse than losing them:
+        # it looks exactly like a seat that found nothing.
+        if existing.get("status") != _OPEN:
+            return path, [("CLOSED", path,
+                           f"a record for {paper} seat {lens!r} at {sha[:12]} already exists and is "
+                           f"not open (status={existing.get('status')!r}) — pick a distinct lens "
+                           "name rather than overwriting a seat's reported findings")]
+
+    record = {
+        "_schema": "emc-review-seat/1",
+        "status": _OPEN,
+        "_why_this_exists_before_the_review_does": (
+            "AUT-PROP-006. This record is written as the seat's FIRST act, so a seat that dies "
+            "leaves evidence that it looked rather than nothing at all. It is EMPTY and says so: "
+            "publish_bar.clause_1_hardening_converged REFUSES any round with an open record at the "
+            "commit it is grading, because an unfinished look must never be counted as a clean one."
+        ),
+        "paper": paper,
+        "pub_id": paper,
+        "reviewed_commit": sha,
+        "blind": True,
+        "seat": lens,
+        "lens": lens,
+        "document": document,
+        "document_sha256": document_sha256,
+        "opened_utc": (existing or {}).get("opened_utc", now),
+        "verdict": None,
+        "central_claim": None,
+        "blockers": [],
+        "p1s": [],
+    }
+    if existing is not None:
+        record["reopened_utc"] = now
+    os.makedirs(seats_dir, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(record, fh, indent=2)
+        fh.write("\n")
+    return path, []
+
+
+def close_seat_record(seats_dir: str, paper: str, sha: str, lens: str, findings: dict,
+                      *, utc: str | None = None):
+    """Merge a seat's reported findings into its OPEN record. Returns (path, findings-list).
+
+    ⛔ IT REFUSES WHEN NOTHING WAS OPENED. That refusal IS the write-first rule — an instruction
+    nobody can skip is worth more than a step in a contract nobody reads (CLAUDE.md: a rule whose
+    trigger nobody computes is a rule that never fires).
+    """
+    path = seat_record_path(seats_dir, paper, sha, lens)
+    if not os.path.exists(path):
+        return path, [("NO-OPEN-RECORD", path,
+                       "no open record to close — a seat writes its record BEFORE it reads the "
+                       "paper (AUT-PROP-006), so that a seat which dies leaves evidence. Run "
+                       "--open-seat-record first")]
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            record = json.load(fh)
+    except Exception as exc:
+        return path, [("UNREADABLE", path, f"cannot read the open record ({type(exc).__name__})")]
+    if record.get("status") != _OPEN:
+        return path, [("NOT-OPEN", path,
+                       f"this record is already {record.get('status')!r} — closing it again would "
+                       "overwrite a seat's reported findings")]
+    # ⛔ THE SEAT MAY NOT RESTATE WHAT THE OPEN RECORD ALREADY FIXED. `reviewed_commit`, `blind` and
+    # the lens are the seat's CONTRACT, written before it looked; letting the close overwrite them
+    # would let a seat that read another tree relabel itself afterwards, which is exactly the drift
+    # `paper-hardening` §3 pins a commit to prevent.
+    frozen = ("reviewed_commit", "blind", "seat", "lens", "paper", "pub_id", "opened_utc")
+    contradicted = [k for k in frozen
+                    if k in findings and findings[k] != record.get(k)]
+    if contradicted:
+        return path, [("CONTRADICTS-THE-OPEN-RECORD", path,
+                       f"the close would change {', '.join(sorted(contradicted))}, which the open "
+                       "record fixed before the seat read anything — a seat cannot relabel which "
+                       "commit or lens it was")]
+    record.update({k: v for k, v in findings.items() if k not in frozen})
+    record["status"] = _COMPLETE
+    record["closed_utc"] = utc or _utcnow()
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(record, fh, indent=2)
+        fh.write("\n")
+    return path, []
+
+
+def open_seat_records(seats_dir: str, paper: str, sha: str):
+    """Every record at this commit still marked open — the driver's read before it believes a round.
+
+    ⛔ AN OPEN RECORD IS A SEAT THAT DIED OR IS STILL RUNNING, AND THE TWO ARE INDISTINGUISHABLE
+    FROM HERE. `paper-hardening` §7d: six killed seats were reported as "running" in three separate
+    status boards, because a seat that died leaves a board that looks exactly like a seat that is
+    thinking. This lists them; it does not grade them.
+    """
+    out = []
+    try:
+        names = sorted(os.listdir(seats_dir))
+    except OSError as exc:
+        return [("MISSING", seats_dir, f"cannot list the seats directory ({type(exc).__name__})")]
+    prefix = f"{paper}-{sha}"
+    for name in names:
+        if not (name.startswith(prefix) and name.endswith(".json")):
+            continue
+        try:
+            with open(os.path.join(seats_dir, name), "r", encoding="utf-8") as fh:
+                record = json.load(fh)
+        except Exception as exc:
+            out.append(("UNREADABLE", name, f"({type(exc).__name__}) — unreadable is not empty"))
+            continue
+        if isinstance(record, dict) and record.get("status") == _OPEN:
+            out.append(("OPEN", name,
+                        f"opened {record.get('opened_utc')} and never closed — publish_bar refuses "
+                        "a round with an open record, because an unfinished look is not a clean one"))
+    return out
+
+
+# ---------------------------------------------------------------------------------------------
 
 def _report(findings, ok_msg: str) -> int:
     if not findings:
@@ -204,11 +382,55 @@ def main(argv=None) -> int:
                     help=f"parent of the per-seat worktrees (default {DEFAULT_WORKTREE_PARENT})")
     ap.add_argument("--seat", default=None,
                     help="expected seat id for --verify-log (default: the log's parent directory)")
+    # --- the seat record's lifecycle (AUT-PROP-006): open before you look, close when you report.
+    ap.add_argument("--open-seat-record", action="store_true",
+                    help="write this seat's EMPTY `status: open` record before it reads the paper")
+    ap.add_argument("--close-seat-record", action="store_true",
+                    help="merge --findings into this seat's open record and mark it complete")
+    ap.add_argument("--list-open-seat-records", action="store_true",
+                    help="every record at --paper/--sha still open — a seat that died or is running")
+    ap.add_argument("--paper", help="publication endpoint id, e.g. PUB-ASO")
+    ap.add_argument("--sha", help="the 40-character pinned commit the seat reviews")
+    ap.add_argument("--lens", help="this seat's lens, e.g. regression, arithmetic, hostile-referee")
+    ap.add_argument("--document", default=None, help="the manuscript path the seat reads")
+    ap.add_argument("--document-sha256", default=None, help="that document's digest at --sha")
+    ap.add_argument("--findings", metavar="FILE",
+                    help="JSON object of the seat's reported findings, for --close-seat-record")
+    ap.add_argument("--seats-dir", default=SEATS_DIR,
+                    help=f"directory holding the seat records (default {SEATS_DIR})")
     args = ap.parse_args(argv)
 
     if args.stamp:
         sys.stdout.write(stamp(args.stamp[0], args.stamp[1]))
         return 0
+    if args.open_seat_record or args.close_seat_record:
+        missing = [f"--{n}" for n, v in (("paper", args.paper), ("sha", args.sha),
+                                         ("lens", args.lens)) if not v]
+        if missing:
+            ap.error(f"a seat record needs {', '.join(missing)}")
+        if args.open_seat_record:
+            path, findings = open_seat_record(
+                args.seats_dir, args.paper, args.sha, args.lens,
+                document=args.document, document_sha256=args.document_sha256)
+            return _report(findings, f"opened {path} — now go and read the paper")
+        if not args.findings:
+            ap.error("--close-seat-record needs --findings FILE")
+        try:
+            with open(args.findings, "r", encoding="utf-8") as fh:
+                reported = json.load(fh)
+        except Exception as exc:
+            print(f"UNREADABLE: {args.findings}\n    ({type(exc).__name__}) — nothing was closed")
+            return 1
+        if not isinstance(reported, dict):
+            print(f"NOT-AN-OBJECT: {args.findings}\n    a seat's findings are a JSON object")
+            return 1
+        path, findings = close_seat_record(args.seats_dir, args.paper, args.sha, args.lens, reported)
+        return _report(findings, f"closed {path}")
+    if args.list_open_seat_records:
+        if not (args.paper and args.sha):
+            ap.error("--list-open-seat-records needs --paper and --sha")
+        return _report(open_seat_records(args.seats_dir, args.paper, args.sha),
+                       f"no open seat record for {args.paper} at {args.sha[:12]}")
     if args.audit_root:
         return _report(audit_root(args.audit_root),
                        f"every writer under {args.audit_root} owns a directory and prefixes its files")

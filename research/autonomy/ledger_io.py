@@ -60,6 +60,20 @@ def write_ledger(path: "str | os.PathLike", data: dict, check: bool = True) -> N
     before the evidence is allowed to change a row's score, state or `what`. It raises
     `admissibility.InadmissibleWrite`; it never writes a partial file.
 
+    ⛔⛔ AND IT IS THE FIELD-NAME GATE TOO (AUT-PD-030). Every reader of this file keys off exact
+    field names and nothing held a whitelist, so a one-edit misspelling was indistinguishable from a
+    new field. Measured on a scratch copy of the committed ledger, 2026-09-01: a row carrying
+    `require_trimcrae: true` — ONE deletion from `requires_trimcrae` — was offered by
+    `continuity.ready()`, was NOT flagged by `continuity.unclassified_outward()`, and drew no
+    complaint from `prepush_ledger_guard.py`, on the one field CLAUDE.md §3 exists to protect.
+    `ledger_schema.check_write` is that gate, HERE for the same reason `admissibility` is: this is
+    the one place a programmatic writer cannot get past. It raises `ledger_schema.SchemaViolation`;
+    it never writes a partial file.
+    ⚠ IT IS NOT THE WHOLE GATE, AND SAYING SO MATTERS: most ledger rows are hand-authored JSON that
+    never comes through this function at all. `tests/test_a_near_miss_field_name_cannot_enter_the_ledger.py`
+    runs the same schema over the COMMITTED file, and that test directory is in the default preflight
+    tier — so a hand edit is caught at the commit and a programmatic write is caught here.
+
     ⚠ `check=False` EXISTS FOR TESTS AND FOR NOTHING ELSE, AND IT IS NOT A WAY PAST A REFUSAL. A
     real writer whose score change is refused records why on the row (`_score_correction`) or
     re-derives the number; a test that is deliberately constructing an inadmissible ledger in order
@@ -70,6 +84,9 @@ def write_ledger(path: "str | os.PathLike", data: dict, check: bool = True) -> N
         # and `priority` imports this module — a top-level import would close the cycle.
         import admissibility  # noqa: PLC0415
 
+        import ledger_schema  # noqa: PLC0415
+
         admissibility.check_write(os.fspath(path), data)
+        ledger_schema.check_write(os.fspath(path), data)
     with open(path, "w", encoding="utf-8") as fh:
         fh.write(dumps_ledger(data))

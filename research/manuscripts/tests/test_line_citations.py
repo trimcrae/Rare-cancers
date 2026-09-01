@@ -22,7 +22,9 @@ comes to vouch for something it does not say.
 from __future__ import annotations
 
 import os
+import subprocess
 import sys
+import unicodedata
 
 import pytest
 
@@ -40,33 +42,279 @@ def scanned():
 
 
 def test_no_resolvable_line_citation_points_at_the_wrong_line(scanned):
-    drifted = [c for c in scanned if c["true"] and c["true"] != c["cited"]]
+    """⛔ THE ORIGINAL DEFECT: a citation that resolves, to the wrong line.
+
+    ⚠ SCOPED TO CONFIDENT ATTACHMENTS SINCE 2026-09-01, and the scoping is not a loosening. A citation
+    whose quote is separated from it by another citation or a sentence boundary is one `--fix` refuses to
+    rewrite — demanding a green build on it would demand a hand-edit the tool declines to specify. Before
+    this change such a citation was attached to a PHANTOM quote and reported UNRESOLVED, which gated
+    nothing either; what changed is that it is now named as a drift a reader has to settle, and
+    `test_an_unconfident_drift_is_reported_rather_than_swallowed` asserts it is still reported.
+    """
+    drifted = [c for c in scanned if c["status"] == "drifted" and c["confident"]]
     assert not drifted, (
         f"{len(drifted)} line citation(s) in the roadmap point at a line that does not contain the phrase "
         f"they quote:\n  "
         + "\n  ".join(f"{c['target']} `:{c['cited']}` should be :{c['true']} — {c['quote'][:70]!r}"
                       for c in drifted)
         + "\n⛔ Do NOT hand-edit these. Run `python3 research/manuscripts/line_citations.py --fix`, which "
-          "derives each from the quote it sits beside."
+          "derives each from the quote it sits beside, THEN regenerate the downstream copies it names."
     )
 
 
-def test_the_checker_still_resolves_a_useful_share_of_them(scanned):
-    """⭐ THE GUARD ON THE GUARD.
+def test_an_unconfident_drift_is_reported_rather_than_swallowed(scanned):
+    """⛔ THE SCOPING ABOVE MUST NOT BECOME A HIDING PLACE.
 
-    The test above passes trivially if the checker resolves NOTHING — a normalisation change, a regex slip,
-    or a rename of the target files would make every citation UNRESOLVED and the suite would go green while
-    checking zero citations. That is the same "absent reading is not a reading of absence" failure the rest
-    of this repository keeps paying for, in test form.
-
-    The bound is deliberately loose: it asserts the checker is alive and discriminating, not a fixed count.
+    `confident=False` buys exemption from the FIXER, never from the REPORT. Every drifted citation, of
+    either confidence, must carry a resolved line so a reader can settle it; a record that reached
+    `drifted` with `true=None` would be an exemption with nothing behind it.
     """
-    assert scanned, "no quoted line citations found at all — the scanner or the roadmap's format changed"
-    resolved = [c for c in scanned if c["true"]]
-    assert len(resolved) >= 10, (
-        f"only {len(resolved)} of {len(scanned)} citations resolved to a line. The checker is not doing its "
-        f"job — check `_norm`, `QUOTE` and the paper/SI paths before trusting a green run above."
+    for c in scanned:
+        if c["status"] == "drifted":
+            assert c["true"] and c["true"] != c["cited"], c
+
+
+def test_every_citation_in_the_roadmap_is_accounted_for(scanned):
+    """⛔⛔ AUT-PD-134: THE DENOMINATOR WAS THE DEFECT.
+
+    Until 2026-09-01 `scan()` dropped every citation that had no quoted phrase in its 400-character
+    lookback — fourteen of them — and then reported "(42 quoted citations)" as though that were the file.
+    A tool that silently narrows its own scope cannot be caught by a threshold on its output, because the
+    threshold is measured against the narrowed set.
+
+    ⭐ THE COUNT IS DERIVED, TWICE, INDEPENDENTLY. The expected total is re-derived here with `git grep -o`
+    — a different implementation from the module's own `CITE.finditer` — so this is a measurement rather
+    than a restatement of what `scan()` chose to walk.
+    """
+    r = subprocess.run(["git", "-C", ROOT, "grep", "-oE", r"`:[0-9]+([–-][0-9]+)?`", "--",
+                        os.path.relpath(lc.MAP, ROOT)], capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    expected = len([l for l in r.stdout.split("\n") if l.strip()])
+    assert expected > 0, "git grep found no citations in the roadmap at all — the syntax changed"
+    assert len(scanned) == expected, (
+        f"`scan()` returned {len(scanned)} records for {expected} citations in the roadmap. Every citation "
+        f"must produce a record, including the ones this tool cannot check — a dropped citation is one "
+        f"nothing will ever report on, which is exactly AUT-PD-134."
     )
+    unknown = {c["status"] for c in scanned} - set(lc.STATUSES)
+    assert not unknown, f"scan() invented statuses outside STATUSES: {unknown}"
+
+
+def test_the_checker_resolves_every_citation_an_independent_reader_can_resolve(scanned):
+    """⭐⭐ THE GUARD ON THE GUARD, AND IT IS DERIVED RATHER THAN TYPED.
+
+    It replaces `assert len(resolved) >= 10`, which was a number somebody chose. Ten was below the
+    then-live count of eighteen and far below the fifty-six citations in the file, so the checked share
+    could fall by half without anything going red — the guard permitted the rot it was written to catch.
+
+    ⛔ THE FLOOR IS NOW THE TREE ITSELF. A SECOND, INDEPENDENTLY WRITTEN normaliser (below — it folds the
+    same typography as `_norm` but shares no code with it) says which attached quotes are genuinely
+    present in their target. Every one of those must reach a status that means the checker FOUND it. If a
+    regex slip, a rename or a normalisation change makes `_norm` blind, this goes red at exactly the
+    citations that went dark, and the bound moves with the roadmap instead of ageing into a formality.
+
+    ⚠ IT IS DELIBERATELY NOT AN EQUALITY. `not_found` is the honest verdict for a paraphrase the paper has
+    since rewritten, and the independent reader must not be able to force a match the strict one refuses.
+    """
+    def _independently_normalised(s):
+        s = unicodedata.normalize("NFKC", s)
+        for a, b in (("\u2019", "'"), ("\u2018", "'"), ("\u201c", '"'), ("\u201d", '"'),
+                     ("\u2013", "-"), ("\u2014", "-")):
+            s = s.replace(a, b)
+        return " ".join("".join(ch for ch in s if ch not in "*`_\\").lower().split())
+
+    targets = {"paper": _independently_normalised(open(lc.PAPER, encoding="utf-8").read()),
+               "SI": _independently_normalised(open(lc.SI, encoding="utf-8").read())}
+    blind = []
+    for c in scanned:
+        if c["status"] != "not_found":
+            continue
+        parts = [p for p in lc.ELIDE.split(c["quote"]) if p.strip()]
+        if all(_independently_normalised(p) in targets[c["target"]] for p in parts):
+            blind.append(c)
+    assert not blind, (
+        f"{len(blind)} citation(s) quote text that IS in the target, and the checker reported it "
+        f"not-found. The resolver has gone blind to them:\n  "
+        + "\n  ".join(f"{c['target']} `:{c['cited']}` — {c['quote'][:70]!r}" for c in blind)
+    )
+
+
+# ─────────────────────────────────────────────────────────────────────────────────────────────────────
+# ⭐ THE RESOLVER'S OWN BEHAVIOUR, ON A SYNTHETIC TREE.
+#
+# ⛔ WHY A FIXTURE AND NOT THE ROADMAP. The guard the four tests below replace asserted a COUNT against
+# the live roadmap, so it measured the roadmap's prose as much as the resolver's code and could only ever
+# say "fewer than expected resolved" without saying which mechanism died. Each test here breaks exactly
+# one mechanism's back and names it, and none of them moves when the roadmap is edited.
+# ─────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+def _tree(tmp_path, monkeypatch, roadmap, paper, si="SI line one\n"):
+    m, p_, s_ = tmp_path / "map.md", tmp_path / "paper.md", tmp_path / "si.md"
+    m.write_text(roadmap, encoding="utf-8")
+    p_.write_text(paper, encoding="utf-8")
+    s_.write_text(si, encoding="utf-8")
+    monkeypatch.setattr(lc, "MAP", str(m))
+    monkeypatch.setattr(lc, "PAPER", str(p_))
+    monkeypatch.setattr(lc, "SI", str(s_))
+    return {c["cited"]: c for c in lc.scan()[1]}
+
+
+def test_the_resolver_is_alive_and_discriminating_on_a_synthetic_tree(tmp_path, monkeypatch):
+    """⭐ THE LIVENESS HALF OF THE OLD `>= 10`, WITHOUT ITS NUMBER.
+
+    A quote that is present at a known line must resolve TO that line, and a quote that is absent must
+    NOT resolve. A `_norm` regression, a `QUOTE` slip or a target-path rename fails the first half; a
+    resolver that has started guessing fails the second.
+    """
+    got = _tree(
+        tmp_path, monkeypatch,
+        roadmap=('*"the alpha sentence carries this"* (`:2`)\n\n'
+                 '*"a phrase the paper never contained"* (`:9`)\n'),
+        paper="filler line one\nthe alpha sentence carries this, plus more\nfiller\n",
+    )
+    assert got[2]["status"] == "ok" and got[2]["true"] == 2, got[2]
+    assert got[9]["status"] == "not_found" and got[9]["true"] is None, got[9]
+
+
+def test_a_bold_quoted_phrase_does_not_open_a_citation_quote(tmp_path, monkeypatch):
+    r"""⛔ MECHANISM 2 (2026-09-01). `**"…"**` is ordinary bold-plus-quotes prose in these documents, and
+    the old `\*"(.+?)"\*` matched the SECOND asterisk of a `**"`. The span then ran to the next `"*`
+    anywhere in the file — on the trunk, 900 characters downstream — swallowing the genuine citation quote
+    that lay between and handing the citation a phrase from an unrelated paragraph.
+
+    ⚠ AND THE CLOSING ASYMMETRY IS ASSERTED TOO, in the second half: the trunk writes a citation quote
+    INSIDE a bold run (`**SI `:229` — *"…"***`), so a matching guard on `"*` would drop a real quote. The
+    two halves are one test because a fix that adds `(?!\*)` passes the first and fails the second.
+
+    ⛔ THE SPECIMEN'S SHAPE IS LOAD-BEARING AND ITS FIRST VERSION SURVIVED THE MUTATION. `**"aside"**`
+    does NOT reproduce the defect: the phantom span opens at the `*"` and closes one word later at the
+    same run's `"*`, harming nothing. The trunk's actual shape is `**"quoted" then more words**` — the
+    closing quotation mark is NOT adjacent to the bold markers, so the span finds no close until the next
+    genuine citation quote and swallows it whole. Measured by mutation M1, 2026-09-01.
+    """
+    got = _tree(
+        tmp_path, monkeypatch,
+        roadmap=('Prose with **"bold" then several more words** in it, then the real one:\n'
+                 '*"the alpha sentence carries this"* (`:2`)\n'),
+        paper="filler line one\nthe alpha sentence carries this, plus more\nfiller\n",
+    )
+    assert got[2]["status"] == "ok" and got[2]["true"] == 2, (
+        "a `**\"…\"**` bold aside opened a quote span and swallowed the real citation quote", got[2])
+
+    got = _tree(
+        tmp_path, monkeypatch,
+        roadmap='**A heading `:2` — *"the alpha sentence carries this"*** and more\n',
+        paper="filler line one\nthe alpha sentence carries this, plus more\nfiller\n",
+    )
+    assert got[2]["status"] == "ok", (
+        "a citation quote written inside a bold run (`*\"…\"***`) is no longer matched at all", got[2])
+
+
+def test_a_quote_that_follows_its_citation_is_attached_to_it(tmp_path, monkeypatch):
+    """⛔ MECHANISM 3. The roadmap writes `` `:N`: *"…"* `` and `` `:N` says *"…"* ``. Backwards-only
+    attachment missed those AND let the next citation reach back past them for a quote that was never its
+    own — one citation lost, one mis-attributed, from a single gap.
+
+    The second half is the anti-widening assertion: a quote a full sentence later must NOT be swept up,
+    because "the nearest quote in either direction" is how a citation with no quote at all acquires one.
+    """
+    got = _tree(
+        tmp_path, monkeypatch,
+        roadmap='the paper `:2` says *"the alpha sentence carries this"* and that is all\n',
+        paper="filler line one\nthe alpha sentence carries this, plus more\nfiller\n",
+    )
+    assert got[2]["status"] == "ok" and got[2]["true"] == 2, got[2]
+
+    got = _tree(
+        tmp_path, monkeypatch,
+        roadmap='a bare reference (`:2`). A different sentence: *"the alpha sentence carries this"*\n',
+        paper="filler line one\nthe alpha sentence carries this, plus more\nfiller\n",
+    )
+    assert got[2]["status"] == "no_quote", (
+        "the trailing-quote grammar widened past punctuation and one attributive verb, so a citation with "
+        "no quote of its own took the next sentence's", got[2])
+
+
+def test_a_quote_wrapped_over_more_than_two_lines_still_resolves(tmp_path, monkeypatch):
+    """⛔ MECHANISM 4. `_find` joined at most two lines — a guess about wrapping, not a rule about
+    citations. Two live roadmap citations were wrong by +68 and +15 lines behind that limit, reported as
+    unresolvable paraphrases. The window is now derived from the needle's own length.
+
+    ⛔ AND THE ANCHOR IS ASSERTED WITH IT: a match must BEGIN on the line the resolver returns. Without
+    that, a window long enough to hold the needle holds it from almost any starting line, and every
+    citation becomes `ambiguous` — a failure that looks like strictness.
+    """
+    got = _tree(
+        tmp_path, monkeypatch,
+        roadmap='*"a quoted phrase that the paper happens to wrap across four separate lines"* (`:2`)\n',
+        paper=("filler line one\na quoted phrase that\nthe paper happens to\nwrap across four\n"
+               "separate lines and then continues\nfiller\n"),
+    )
+    assert got[2]["status"] == "ok" and got[2]["true"] == 2, got[2]
+
+
+def test_a_quote_that_occurs_twice_is_ambiguous_and_never_rewritten(tmp_path, monkeypatch):
+    """⛔ `_find` used to return the FIRST match and say nothing about the rest.
+
+    Two roadmap citation pairs already share one quoted phrase while citing DIFFERENT lines
+    (`:387–394`/`:2549`, `:1405`/`:1425`). A first-match resolver collapses both onto one line the moment
+    that phrase becomes findable, and the collapse is silent — the citations still point at real lines.
+    """
+    got = _tree(
+        tmp_path, monkeypatch,
+        roadmap='*"the alpha sentence carries this"* (`:2`)\n',
+        paper="filler\nthe alpha sentence carries this\nfiller\nthe alpha sentence carries this\n",
+    )
+    assert got[2]["status"] == "ambiguous" and got[2]["true"] is None, got[2]
+
+
+def test_a_quote_too_short_to_identify_a_line_is_reported_as_such(tmp_path, monkeypatch):
+    """⚠ `_find` refused a needle under `MIN_NEEDLE` and returned `None`, indistinguishable from "the
+    paper no longer says this". Three live citations (`SI :213`, quoting *"must clear"*) were counted as
+    stale paraphrases when the checker had simply declined to look."""
+    got = _tree(
+        tmp_path, monkeypatch,
+        roadmap='*"must clear"* (`:2`)\n',
+        paper="filler\nmust clear the bar\nfiller\n",
+    )
+    assert got[2]["status"] == "quote_too_short", got[2]
+
+
+def test_an_attachment_that_crosses_another_citation_is_reported_but_not_auto_fixed(tmp_path, monkeypatch,
+                                                                                   capsys):
+    """⭐⭐ THE TWO HALVES AUT-PD-134 SAID MUST NOT BE FIXED AS ONE.
+
+    Correctness — did we attach the right quote? — and staleness — has the paper stopped saying this? — are
+    different defects with different remedies, and a change that raised the resolved count by loosening
+    the match would have hidden the first while appearing to fix the second. The separation is this: an
+    attachment that crosses another citation or a sentence boundary is still CHECKED and still REPORTED,
+    and `--fix` will not rewrite it. This test asserts both halves, and that `--fix` still rewrites the
+    confident one in the same run — a fixer that refused everything would also pass half of this.
+    """
+    roadmap = ('*"the alpha sentence carries this"* (`:9`) and later, unrelated, (`:7`)\n'
+               '*"the beta sentence carries that"* (`:8`)\n')
+    got = _tree(tmp_path, monkeypatch, roadmap=roadmap,
+                paper="filler\nthe alpha sentence carries this\nthe beta sentence carries that\n")
+    assert got[9]["status"] == "drifted" and got[9]["confident"] and got[9]["true"] == 2, got[9]
+    assert got[7]["status"] == "drifted" and not got[7]["confident"] and got[7]["true"] == 2, (
+        "a citation separated from its quote by ANOTHER citation was treated as a confident attachment; "
+        "`--fix` would rewrite it on a guess", got[7])
+
+    monkeypatch.setattr(lc, "carriers", lambda: [])
+    monkeypatch.setattr(lc, "check_generated_carriers", lambda found: [])
+    rc = lc.main(["--fix"])
+    after = open(lc.MAP, encoding="utf-8").read()
+    assert "(`:2`)" in after, "`--fix` did not rewrite the confident drift at all"
+    assert "(`:7`)" in after, (
+        "`--fix` rewrote a citation whose attachment crosses another citation. That is a repair made on a "
+        "guessed attachment, which is how a citation comes to vouch for a sentence it does not contain."
+    )
+    out = capsys.readouterr().out
+    assert "LEFT 1 DRIFTED CITATION" in out, ("`--fix` was silent about the drift it declined to repair — "
+                                              "silence from a tool that just reported a success reads as "
+                                              "completeness.\n" + out)
+    assert rc != 0, "`--fix` exited 0 while leaving a drifted citation for a reader to settle"
 
 
 # ─────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -93,7 +341,6 @@ def test_the_checker_still_resolves_a_useful_share_of_them(scanned):
 
 import re            # noqa: E402
 import shutil        # noqa: E402
-import subprocess    # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(MANUSCRIPTS))
 
@@ -212,6 +459,56 @@ def test_the_detector_does_not_classify_a_file_that_merely_describes_it():
     )
     generated = [(f, g) for f, g in lc.carriers() if g]
     assert generated, "nothing is classified GENERATED any more — the detector is dead, not strict"
+
+
+def test_the_pin_detector_names_the_carriers_that_declare_a_basis_commit():
+    """⭐ AUT-PD-031'S RESIDUAL, HALF-SETTLED BY MACHINE AND HONEST ABOUT THE OTHER HALF.
+
+    The row closed the fixer's silence about downstream copies and left this open: the tool NAMES the
+    hand-written carriers and CHECKS none, and deciding which are pinned-by-design "is a reading job
+    nobody has done". A machine can settle one half of it — whether the document's own header names the
+    commit its line numbers were taken against — and `declared_pin` reports exactly that half.
+
+    ⛔ WHAT IT MUST NOT BECOME: evidence that the undeclared ones are current. Both classes print as
+    unchecked; this test asserts the detector still finds the declared ones, and the module asserts
+    nothing about the rest.
+    """
+    by_path = {f: g for f, g in lc.carriers()}
+    pinned = {}
+    for f, g in by_path.items():
+        if g:
+            continue
+        with open(os.path.join(ROOT, f), encoding="utf-8") as fh:
+            pin = lc.declared_pin(fh.read())
+        if pin:
+            pinned[f] = pin
+    assert "research/manuscripts/program/map-audit-strategy.md" in pinned, (
+        "the largest hand-written carrier states its own basis in its header — *\"Audited: … at commit "
+        "`f67d0781`\"* — and the detector no longer reads it. That is the one file where advancing a "
+        "line number would silently re-date an audit."
+    )
+    assert len(pinned) >= 1 and all(re.fullmatch(r"[0-9a-f]{7,40}", v) for v in pinned.values()), pinned
+
+
+def test_the_pin_detector_does_not_classify_the_module_that_describes_it():
+    """⛔ ONE-OF-A-PAIR, THE SAME TRAP THAT CAUGHT THE GENERATOR DETECTOR (M5, 2026-08-28).
+
+    `line_citations.py`'s docstring quotes `map-audit-strategy.md`'s declaration verbatim — including the
+    commit — so a whole-file search makes the module report ITSELF as a pinned audit. The window is the
+    fix, and this asserts it through `declared_pin` rather than re-implementing it, because a test that
+    re-applies `GENERATOR_DECL_HEADER_LINES` itself moves with a widened constant and survives.
+    """
+    with open(os.path.join(MANUSCRIPTS, "line_citations.py"), encoding="utf-8") as fh:
+        body = fh.read()
+    assert lc.PIN_DECL.search(body), (
+        "the specimen is gone from line_citations.py, so this test no longer tests anything: the module "
+        "no longer quotes a basis-commit declaration anywhere."
+    )
+    assert lc.declared_pin(body) is None, (
+        "line_citations.py classified itself as a document with a pinned basis commit. It is not one — it "
+        "merely QUOTES the declaration, in the docstring about that exact confusion. The header window is "
+        "too wide, or the declaration is being matched outside it."
+    )
 
 
 def test_a_generator_path_escaping_the_repository_is_refused_and_reported(tmp_path):

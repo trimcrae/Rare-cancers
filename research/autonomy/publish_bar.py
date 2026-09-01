@@ -148,6 +148,40 @@ def _seat_records(pub_id: str, sha: str) -> tuple[list[dict], list[str]]:
     return found, names
 
 
+def _is_seat_file(pub_id: str, sha: str, name: str) -> bool:
+    """Is this filename ONE INDEPENDENT LOOK, or the round's roll-up of several?
+
+    ⛔⛔ THE DEFECT THIS NAMES (AUT-PD-193, filed 2026-08-31 by CYC-0090-d7df5340, reproduced
+    2026-09-01 before this function was written). `_seat_records` globs `{pub_id}-{sha}*.json` and a
+    round's roll-up is filed as `{pub_id}-{sha}.json`, which that glob matches with `*` EMPTY. So
+    the roll-up was returned as a sixth seat, and clause 1 then summed `blockers`/`p1s` over every
+    returned record. Measured on the records on disk at the time:
+
+        PUB-ASO-7a7f408258c8 (round 26): glob returns 6 records (5 seats + 1 roll-up)
+            counted  2 blocker(s), 10 P1(s)
+            true     1 blocker,     5 P1(s)   <- the seats' own tallies
+
+    because that roll-up's `_role` says in words that it "carries the union of their tallies, so a
+    derivation over the seat glob counts each finding exactly once". Two opposite conventions are on
+    disk: PUB-ASO-b53290b37e71 (round 20) and PUB-ASO-f9e5059912a5 (round 27) carry EMPTY tallies
+    and cite the round-7 PUB-FUSION-PARTNER precedent for it; round 26 and PUB-ATR-c1bc934fec3c
+    carry a populated union. Only the first convention is correct against this code.
+
+    ★ THE DISCRIMINATOR IS THE FILENAME AND NOTHING ELSE, WHICH WAS MEASURED RATHER THAN CHOSEN.
+    The obvious alternatives are both wrong on the records on disk: roll-ups routinely carry a
+    `seat` key (PUB-ASO-b53290b37e71's reads "five blind seats - regression, arithmetic, ..."), and
+    the PUB-ATR seat files carry `lens` instead of `seat`, so neither key separates the two shapes.
+    The glob keys on the filename, so the filename is what has to answer for it.
+
+    ⚠ AND A THIRD SHAPE ALREADY EXISTS IN THE DIRECTORY:
+    `PUB-FUSION-PARTNER-69d8a6ac1c90-round4-p1-rederivation.json` is blind, matches the glob, and is
+    not a seat. `startswith` puts it on the correct side without anyone extending a list — a list is
+    a thing somebody must remember to extend, and the remembering is what fails
+    (`paper-hardening` §8b.2).
+    """
+    return name.startswith(f"{pub_id}-{sha}-seat-")
+
+
 def _look_history(pub_id: str) -> dict:
     """Every commit of this paper that a blind seat has reviewed, and how many seats reviewed it.
 
@@ -278,6 +312,64 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
         return _clause("hardening_converged", label, FAIL,
                        f"no blind seat record reviewed {sha[:12]}")
 
+    # ⛔⛔ A ROUND'S ROLL-UP IS NOT A LOOK, AND ITS TALLIES ARE NOT A SIXTH SEAT'S (AUT-PD-193).
+    # `_is_seat_file` carries the measurement. What follows is one narrowed COUNT and two added
+    # REFUSALS, and the direction of all three is the same: the count can only get smaller and the
+    # refusals can only turn a PASS into a FAIL, never the reverse. That is what `amendment_guard`
+    # requires of any change made while this clause is blocking papers, and this one was.
+    # ⭐⭐ AND THE BARE `{pub}-{sha}.json` IS NOT ALWAYS A ROLL-UP — WHICH IS WHY THIS IS A
+    # CONDITION AND NOT A FLAT EXCLUSION. `clause_6_independent_adversarial_seat` reads exactly
+    # that path, so it is the CANONICAL record of a round's adversarial seat, and rounds have been
+    # filed with nothing else: `PUB-FUSION-PARTNER-21bc8578b11a` carries 4 blockers and 9 P1s with
+    # no `-seat-` sibling on disk. The file is a ROLL-UP only when per-lens seat records sit beside
+    # it; alone, it IS the round's one look and its tallies are the round's tallies.
+    # ⚠ MEASURED, NOT REASONED. The first version of this check excluded the bare record
+    # unconditionally and was caught the same hour by the positive control in
+    # `systems/tests/test_autonomy_publish_bar.py::test_all_six_clauses_passing_is_what_it_takes`,
+    # whose one blind seat is filed at that very path — a gate that reds on true input, which
+    # `paper-hardening` §8b.1 rates worse than one that greens on false input, because the first
+    # thing anyone does to it is loosen it.
+    seat_only = [rec for rec, name in zip(seats, seat_names)
+                 if _is_seat_file(pub_id, sha, name)] or seats
+
+    # ⛔ AN OPEN SEAT RECORD REFUSES THE ROUND (AUT-PROP-006). A seat writes its record as its FIRST
+    # act — `seat_scratch.py --open-seat-record` — so a seat that dies leaves evidence instead of
+    # nothing. That record is honest about being blind and about which commit it reads, so nothing
+    # in the filters above excludes it, and a DEAD seat would otherwise be counted here as a look
+    # that found nothing. It is the exact shape this file's header forbids: absence of findings is
+    # evidence only when somebody finished looking. So an open record refuses, rather than counting.
+    open_seats = [name for rec, name in zip(seats, seat_names)
+                  if rec.get("status") == "open"]
+    if open_seats:
+        return _clause("hardening_converged", label, FAIL,
+                       f"blind seat record(s) still open at {sha[:12]}: "
+                       f"{', '.join(sorted(open_seats))} — a seat that has not closed its own record "
+                       "has not reported, and an unfinished look is not a clean one")
+
+    # ⛔ THE ROLL-UP CARRIES NO TALLIES OF ITS OWN. This is the input-side fix AUT-PD-193 asks for,
+    # and it is the one of the two options offered there that is a STRENGTHENING: refusing the
+    # convention that corrupts the count, rather than subtracting the roll-up from the sum. The
+    # subtraction is the tempting move and it is a LOOSENING — a roll-up is a SYNTHESIS, so it can
+    # grade a blocker no single seat filed (`paper-hardening` §8.0a: the obvious fix "would silently
+    # discard findings ... fix the input, never the meter"). Refusing here loses no finding: it says
+    # where the finding must be recorded, on a seat record, where it is counted exactly once.
+    # ⚠ ONLY WHERE THE RECORD IS ACTUALLY A ROLL-UP — i.e. where per-lens seat records exist beside
+    # it. Where it stands alone it is the round's one seat and its tallies are the only copy there
+    # is; refusing those would delete the round's findings rather than de-duplicate them.
+    has_named_seats = any(_is_seat_file(pub_id, sha, name) for name in seat_names)
+    loaded_rollups = [name for rec, name in zip(seats, seat_names)
+                      if has_named_seats and not _is_seat_file(pub_id, sha, name)
+                      and ((rec.get("blockers") or []) or (rec.get("p1s") or []))]
+    if loaded_rollups:
+        return _clause("hardening_converged", label, FAIL,
+                       f"round roll-up(s) {', '.join(sorted(loaded_rollups))} carry their own "
+                       "`blockers`/`p1s`. The tallies are summed over every record at this commit, "
+                       "so a roll-up carrying the union of its seats' findings counts each of them "
+                       "twice — and the doubled total is what the under-reporting check below "
+                       "compares the record against, so a correct record is refused for "
+                       "under-reporting findings that exist once. Tallies live on the seat records; "
+                       "the roll-up carries the narrative")
+
     # The tallies that decide are the seats' own, not the record's.
     seat_blockers = [item for seat in seats for item in (seat.get("blockers") or [])]
     seat_p1s = [item for seat in seats for item in (seat.get("p1s") or [])]
@@ -304,11 +396,29 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
     # records were never committed cannot raise it. That makes this check miss cases, never invent
     # them — stated because a bound in the permissive direction inside a permission is exactly the
     # thing this file's header says to distrust.
+    # ⛔⛔ THE TWO SIDES OF THIS COMPARISON ARE DELIBERATELY NOT SYMMETRICAL, AND SAYING SO IS THE
+    # POINT (AUT-PD-193, 2026-09-01). The declaring round is counted in SEATS (`seat_only`); the
+    # earlier rounds are counted in blind RECORDS, roll-ups included, exactly as before.
+    #
+    #   * counting the declaring round in seats LOWERS its number, so this check fires more often
+    #     — a STRENGTHENING, which is the only direction available to a cycle this bar is blocking.
+    #   * counting the priors in seats would LOWER `widest`, so the check would fire LESS often.
+    #     That is a LOOSENING and it is therefore NOT TAKEN HERE, however obviously right it looks.
+    #
+    # ⚠ AND THE COST OF NOT TAKING IT IS MEASURED, NOT HYPOTHETICAL. On the records on disk,
+    # `_look_history("PUB-ASO")` returns 6 for four earlier commits that fielded FIVE seats and one
+    # roll-up each, so `widest` is 6; a round fielding five seats and no roll-up (the round-27
+    # convention, PUB-ASO-6127da1ac1a2, 5 records / 5 seats) is refused for being narrower than a
+    # round that looked exactly as hard. THAT IS A FALSE REFUSAL AND IT IS LEFT STANDING ON PURPOSE:
+    # `amendment_guard` forbids a bar being loosened by the cycle it blocks, and a false refusal
+    # costs a round, while a false clearance costs a paper published under a real ORCID. A later
+    # cycle — or trimcrae — may symmetrise this line, declared in `amendments.jsonl`. Until then a
+    # round that has to clear the old bound clears it the honest way, by fielding another seat.
     priors = {seen: k for seen, k in _look_history(pub_id).items() if seen != sha}
     widest = max(priors.values(), default=0)
-    if len(seats) < widest:
+    if len(seat_only) < widest:
         return _clause("hardening_converged", label, FAIL,
-                       f"the round declaring convergence fielded {len(seats)} blind seat(s) against "
+                       f"the round declaring convergence fielded {len(seat_only)} blind seat(s) against "
                        f"{widest} on the widest earlier round ({len(priors)} earlier round(s) have "
                        "seat records). Rounds are repeated until one comes back clean, so a clean "
                        "round narrower than the ones before it is the loop stopping on its weakest "
@@ -320,7 +430,7 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
     coverage = ("0 open P1s" if not open_p1s else
                 f"{open_p1s} open P1(s) — coverage gaps, reported and not gating")
     return _clause("hardening_converged", label, PASS,
-                   f"round {rounds} on {sha[:12]}: 0 blockers across {len(seats)} blind seat(s), "
+                   f"round {rounds} on {sha[:12]}: 0 blockers across {len(seat_only)} blind seat(s), "
                    f"{coverage}, and no earlier round on record fielded more "
                    f"({len(priors)} earlier round(s) with seat records, widest {widest})")
 
