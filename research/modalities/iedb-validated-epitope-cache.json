@@ -1,0 +1,110 @@
+{
+  "_utc": "2026-09-01T20:18:42Z",
+  "_note": "the normalised IEDB records this calibration ran on — peptide, 4-digit HLA restriction, source antigen and which IEDB table it came from. Raw assay rows are not kept; the counts of what was read and what was dropped, with reasons, are.",
+  "resolved_columns": {
+    "mhc_search": {
+      "resolved": {
+        "sequence": "linear_sequence",
+        "allele": "mhc_allele_name",
+        "outcome": "qualitative_measure",
+        "mhc_class": "mhc_class",
+        "host": "host_organism_name"
+      },
+      "unresolved": [
+        "antigen"
+      ]
+    },
+    "tcell_search": {
+      "resolved": {
+        "sequence": "linear_sequence",
+        "allele": "mhc_allele_name",
+        "outcome": "qualitative_measure",
+        "mhc_class": "mhc_class",
+        "host": "host_organism_name"
+      },
+      "unresolved": [
+        "antigen"
+      ]
+    }
+  },
+  "fusion_errors": [
+    "mhc_search: no resolvable source-antigen column; cannot run the fusion probes",
+    "tcell_search: no resolvable source-antigen column; cannot run the fusion probes"
+  ],
+  "general_errors": [
+    "mhc_search allele HLA-A*01:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*01%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*02:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*02%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*02:03 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*02%3A03*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*02:06 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*02%3A06*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*03:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*03%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*11:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*11%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*23:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*23%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*24:02 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*24%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*26:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*26%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*30:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*30%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*30:02 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*30%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*31:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*31%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*32:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*32%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*33:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*33%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*68:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*68%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-A*68:02 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*68%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*07:02 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*07%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*08:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*08%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*13:02 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*13%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*14:02 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*14%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*15:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*15%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*18:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*18%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*27:05 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*27%3A05*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*35:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*35%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*38:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*38%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*40:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*40%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*40:02 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*40%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*44:02 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*44%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*44:03 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*44%3A03*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*46:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*46%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*51:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*51%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*53:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*53%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*57:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*57%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "mhc_search allele HLA-B*58:01 page 0: https://query-api.iedb.org/mhc_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*58%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*01:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*01%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*02:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*02%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*02:03 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*02%3A03*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*02:06 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*02%3A06*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*03:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*03%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*11:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*11%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*23:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*23%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*24:02 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*24%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*26:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*26%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*30:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*30%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*30:02 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*30%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*31:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*31%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*32:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*32%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*33:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*33%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*68:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*68%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-A*68:02 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-A*68%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*07:02 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*07%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*08:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*08%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*13:02 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*13%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*14:02 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*14%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*15:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*15%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*18:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*18%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*27:05 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*27%3A05*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*35:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*35%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*38:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*38%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*40:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*40%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*40:02 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*40%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*44:02 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*44%3A02*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*44:03 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*44%3A03*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*46:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*46%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*51:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*51%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*53:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*53%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*57:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*57%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request",
+    "tcell_search allele HLA-B*58:01 page 0: https://query-api.iedb.org/tcell_search?select=host_organism_name,linear_sequence,mhc_allele_name,mhc_class,qualitative_measure&mhc_allele_name=ilike.*HLA-B*58%3A01*&limit=1000&offset=0 -> HTTPError: HTTP Error 400: Bad Request"
+  ],
+  "n_raw_fusion_rows": 0,
+  "n_raw_general_rows": 0,
+  "dropped_fusion": {},
+  "dropped_general": {},
+  "arm_F_records": [],
+  "arm_N_records": []
+}
