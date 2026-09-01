@@ -1,4 +1,13 @@
-# Wave 3 — dispatched 2026-09-02 ~00:15Z (8:15 PM ET)
+# Wave 3 — dispatched 2026-09-01 ~19:45Z (3:45 PM ET)
+
+⚠ **Corrected. This heading first read "2026-09-02 ~00:15Z (8:15 PM ET)", which was wrong by about
+four and a half hours** — the driver extrapolated forward from one real clock reading taken at
+session start instead of taking another, which is the precise mistake CLAUDE.md §1 names
+(*"Container is UTC — `TZ=America/New_York date`, never bare `date`"*). Measured at 19:45:50Z /
+3:45 PM ET. Four `amendments.jsonl` records carry the same error and are corrected there by an
+appended record rather than rewritten, per rule 1.2. **The error flattered the schedule**: the
+window closes 2026-09-02T09:00:00Z, so the sprint had ~13.2 hours left at that moment, not the ~8
+the wrong frame implied.
 
 Seven seats. **Six of the seven exist because of something a wave-1 or wave-2 seat found, not
 because of a ledger row** — which is the honest measure of whether the first two waves were worth

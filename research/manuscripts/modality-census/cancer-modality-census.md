@@ -37,8 +37,8 @@ considered and dismissed, or may never have been pointed at, and those two situa
 responses. No prior document here could tell them apart.
 
 The 2026-08-07 sweep measured what that ambiguity had cost, from the inside. Four whole categories had
-been invisible to every previous search, and its diagnosis was not oversight but **instrument shape**:
-the portfolio's searches had all been molecular-modality-centric, so physical and locoregional
+been invisible to every previous search, and its diagnosis was not oversight but **instrument shape**.
+The portfolio's searches had all been molecular-modality-centric, so physical and locoregional
 treatment, the matrix as an address rather than an obstacle, non-cancer diseases sharing the phenotype,
 and treatment strategy as distinct from new agents were each outside the shape of every query anyone
 had written.

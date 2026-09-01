@@ -88,7 +88,7 @@ Three reasons, none of them consolation.
 **Adopted, not invented.** The enumeration below is
 [`systems/graph/integrity.json` → `_closure_model.kinds`](../../../systems/graph/integrity.json), which
 is the single home of these definitions and of the `permanent` / `needs_trigger` flags. The reason it
-is an enumerated field rather than prose is recorded there and is worth quoting, because it is the
+is an enumerated field rather than prose is recorded there. It is worth quoting, because it is the
 whole design brief: *"AI methods are advancing fast, so many currently-closed paths WILL be unblocked
 — and a register that files a permanent fact about a sequence alongside a limitation of today's
 free-energy engine loses exactly the information needed to know which is which."*
@@ -266,9 +266,9 @@ trigger that is never checked is a closure with a decorative escape hatch.**
 ### 4.4 · Closed on a premise about this disease — RT-SYNPROMOTER, and the reason it is the reopenable example
 
 A synthetic promoter driven by the fusion, wired to a suicide gene, is the most elegant idea in the
-search, and it has been built in the sibling disease: in Ewing sarcoma, EWSR1::FLI1 has **neomorphic**
+search, and it has been built in the sibling disease. In Ewing sarcoma, EWSR1::FLI1 has **neomorphic**
 DNA binding — it activates GGAA microsatellites that wild-type FLI1 does not — so a GGAA-based cassette
-is active only where the fusion is, and both an enhancer-based expression cassette and a GGAA-driven
+is active only where the fusion is. Both an enhancer-based expression cassette and a GGAA-driven
 HSV-TK/ganciclovir construct have been reported
 ([`emc-post-degrader-options.md` route 14](../program/emc-post-degrader-options.md#route-14---the-fusion-driven-synthetic-promoter-and-the-precise-reason-emc-is-a-harder-case-than-ewing)
 holds both citations).
@@ -338,8 +338,8 @@ argument for the taxonomy in §3.
 ### 5.1 · What was filed
 
 6-mercaptopurine is the one **approved** drug reported to activate NR4A3, acting through the
-N-terminal AF-1 rather than the ligand-binding domain — *"the N-terminal AF-1 domain delimited to
-between amino acids 1 and 112, preferentially recruits the steroid receptor coactivator (SRC)… SRC-2
+N-terminal AF-1 rather than the ligand-binding domain. Verbatim: *"the N-terminal AF-1 domain
+delimited to between amino acids 1 and 112, preferentially recruits the steroid receptor coactivator (SRC)… SRC-2
 modulates the activity of the AF-1 domain but not the C-terminal ligand binding domain (LBD)"*
 ([Wansa et al., *J Biol Chem* 2003;278(27):24776–90, PMID 12709428](https://pubmed.ncbi.nlm.nih.gov/12709428/);
 `EV-WANSA-2003`). That made it, in the repository's own words, *"the cheapest imaginable entry."*
