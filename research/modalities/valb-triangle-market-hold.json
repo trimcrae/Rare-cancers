@@ -1,6 +1,6 @@
 {
   "_what": "ternary lane $/ns market gate (CLAUDE.md \u00a76) for the valB closure TRIANGLE (T2+T3, 4 new legs; r0 reused as T1)",
-  "utc": "2026-08-31T23:50:28Z",
+  "utc": "2026-09-01T10:04:30Z",
   "n_units": 4,
   "basis_usd_per_ns": 0.003412,
   "plan_usd": 6.83,
@@ -14,41 +14,41 @@
       "tier": "bid",
       "interruptible": true,
       "depth": {
-        "offers_returned": 122,
-        "qualifying": 42,
-        "priceable": 42,
+        "offers_returned": 88,
+        "qualifying": 24,
+        "priceable": 24,
         "needed": 4,
         "used_for_mean": 4
       },
       "offers": [
         {
           "gpu": "RTX 4090",
-          "machine_id": 12227,
-          "min_bid_usd_h": 0.13333333333333333,
-          "usd_per_ns": 0.004679
+          "machine_id": 19781,
+          "min_bid_usd_h": 0.16,
+          "usd_per_ns": 0.00534
         },
         {
           "gpu": "RTX 4090",
-          "machine_id": 9427,
-          "min_bid_usd_h": 0.164,
-          "usd_per_ns": 0.005534
-        },
-        {
-          "gpu": "RTX 4080S",
-          "machine_id": 141481,
-          "min_bid_usd_h": 0.13333333333333333,
-          "usd_per_ns": 0.005626
+          "machine_id": 56108,
+          "min_bid_usd_h": 0.176,
+          "usd_per_ns": 0.006183
         },
         {
           "gpu": "RTX 4090",
-          "machine_id": 51777,
-          "min_bid_usd_h": 0.17333333333333334,
-          "usd_per_ns": 0.005928
+          "machine_id": 4590,
+          "min_bid_usd_h": 0.18,
+          "usd_per_ns": 0.006308
+        },
+        {
+          "gpu": "RTX 4090",
+          "machine_id": 26487,
+          "min_bid_usd_h": 0.19999999999999998,
+          "usd_per_ns": 0.006761
         }
       ],
-      "mean_usd_per_ns": 0.005442,
-      "ratio_vs_basis": 1.595,
-      "projected_usd": 9.08,
+      "mean_usd_per_ns": 0.006148,
+      "ratio_vs_basis": 1.802,
+      "projected_usd": 10.25,
       "fails_dollar_ceiling": false,
       "fails_ratio_ceiling": false,
       "clears": true
@@ -57,41 +57,41 @@
       "tier": "on-demand",
       "interruptible": false,
       "depth": {
-        "offers_returned": 153,
-        "qualifying": 46,
-        "priceable": 46,
+        "offers_returned": 106,
+        "qualifying": 25,
+        "priceable": 25,
         "needed": 4,
         "used_for_mean": 4
       },
       "offers": [
         {
-          "gpu": "RTX 4080S",
-          "machine_id": 36413,
-          "min_bid_usd_h": 0.19555555555555554,
-          "usd_per_ns": 0.007541
+          "gpu": "RTX 4090",
+          "machine_id": 51178,
+          "min_bid_usd_h": 0.321037037037037,
+          "usd_per_ns": 0.010688
         },
         {
           "gpu": "RTX 4090",
-          "machine_id": 36331,
-          "min_bid_usd_h": 0.30888888888888894,
-          "usd_per_ns": 0.009972
+          "machine_id": 51612,
+          "min_bid_usd_h": 0.33555555555555555,
+          "usd_per_ns": 0.010788
         },
         {
           "gpu": "RTX 4090",
-          "machine_id": 57734,
-          "min_bid_usd_h": 0.30888888888888894,
-          "usd_per_ns": 0.009972
+          "machine_id": 16346,
+          "min_bid_usd_h": 0.33674074074074073,
+          "usd_per_ns": 0.0111
         },
         {
           "gpu": "RTX 4090",
-          "machine_id": 21024,
-          "min_bid_usd_h": 0.32222222222222224,
-          "usd_per_ns": 0.01038
+          "machine_id": 26487,
+          "min_bid_usd_h": 0.3488888888888889,
+          "usd_per_ns": 0.011197
         }
       ],
-      "mean_usd_per_ns": 0.009466,
-      "ratio_vs_basis": 2.775,
-      "projected_usd": 15.79,
+      "mean_usd_per_ns": 0.010943,
+      "ratio_vs_basis": 3.208,
+      "projected_usd": 18.25,
       "fails_dollar_ceiling": true,
       "fails_ratio_ceiling": true,
       "clears": false
@@ -100,45 +100,45 @@
   "chosen_tier": "bid",
   "prefer_uninterruptible": true,
   "hold": false,
-  "reason": "bid tier clears at 1.595x basis; on-demand was NOT taken because it is over the rung's dollar ceiling (projected $15.79); over the $/ns drift line (the buy line) at 2.775x basis",
+  "reason": "bid tier clears at 1.802x basis; on-demand was NOT taken because it is over the rung's dollar ceiling (projected $18.25); over the $/ns drift line (the buy line) at 3.208x basis",
   "tier": "bid (interruptible)",
   "interruptible": true,
   "depth": {
-    "offers_returned": 122,
-    "qualifying": 42,
-    "priceable": 42,
+    "offers_returned": 88,
+    "qualifying": 24,
+    "priceable": 24,
     "needed": 4,
     "used_for_mean": 4
   },
   "offers": [
     {
       "gpu": "RTX 4090",
-      "machine_id": 12227,
-      "min_bid_usd_h": 0.13333333333333333,
-      "usd_per_ns": 0.004679
+      "machine_id": 19781,
+      "min_bid_usd_h": 0.16,
+      "usd_per_ns": 0.00534
     },
     {
       "gpu": "RTX 4090",
-      "machine_id": 9427,
-      "min_bid_usd_h": 0.164,
-      "usd_per_ns": 0.005534
-    },
-    {
-      "gpu": "RTX 4080S",
-      "machine_id": 141481,
-      "min_bid_usd_h": 0.13333333333333333,
-      "usd_per_ns": 0.005626
+      "machine_id": 56108,
+      "min_bid_usd_h": 0.176,
+      "usd_per_ns": 0.006183
     },
     {
       "gpu": "RTX 4090",
-      "machine_id": 51777,
-      "min_bid_usd_h": 0.17333333333333334,
-      "usd_per_ns": 0.005928
+      "machine_id": 4590,
+      "min_bid_usd_h": 0.18,
+      "usd_per_ns": 0.006308
+    },
+    {
+      "gpu": "RTX 4090",
+      "machine_id": 26487,
+      "min_bid_usd_h": 0.19999999999999998,
+      "usd_per_ns": 0.006761
     }
   ],
-  "mean_usd_per_ns": 0.005442,
-  "ratio_vs_basis": 1.595,
-  "projected_usd": 9.08,
+  "mean_usd_per_ns": 0.006148,
+  "ratio_vs_basis": 1.802,
+  "projected_usd": 10.25,
   "fails_dollar_ceiling": false,
   "fails_ratio_ceiling": false,
   "mode": "triangle",
