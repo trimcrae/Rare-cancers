@@ -1,0 +1,381 @@
+{
+  "_utc": "2026-09-01T19:57:44Z",
+  "_cost": "$0 — GitHub-hosted CPU runner; no GPU, no paid API.",
+  "_what": "Section 6.1 step 1 of emc-vaccine-development-path.md: the acceptance threshold calibrated against experimentally validated epitopes, or the record that it cannot be.",
+  "_the_specification_quoted": "Defend the acceptance threshold, or record that it cannot be defended. Computational, needs nothing but public data. Calibrate the cut against experimentally validated epitopes, and if no validated set restricted to fusion-junction peptides exists, that absence is itself the finding and Section 2.3's curve is the only honest report of coverage. Until this is done every figure in B1 is a point on a curve.",
+  "_the_reading_taken": "§6.1 step 1 says 'experimentally validated epitopes' unqualified; §B1 says calibrating on anything but fusion-junction epitopes 'would import an assumption about junction peptides that is the very thing in question'. Those pick different sets. The HARDER reading is taken: only arm F can settle the cut; arm N is the comparator §B1 refuses.",
+  "⛔_what_this_is_not": "A calibrated binding threshold is a calibrated binding threshold. Nothing here is evidence of presentation on a tumour, immunogenicity, efficacy, safety, a therapeutic window or clinical readiness. Arm F's epitopes were validated on OTHER fusions in OTHER diseases.",
+  "⚠_circularity": "MHCflurry is trained on IEDB, so an arm F or arm N epitope may be in its training set. The bias runs one way: every sensitivity here is an UPPER BOUND on the cut's true sensitivity, and a cut that misses validated epitopes here misses them a fortiori.",
+  "_preregistered": {
+    "min_n_for_a_calibration": 30,
+    "max_ci_width_for_a_calibration": 0.2,
+    "declared": "at the top of vaccine_threshold_calibration.py, before any datum is read, so the sufficiency of the set cannot be decided by the count it returns"
+  },
+  "_conventional_threshold": 0.5,
+  "_panel": [
+    "HLA-A*01:01",
+    "HLA-A*02:01",
+    "HLA-A*02:03",
+    "HLA-A*02:06",
+    "HLA-A*03:01",
+    "HLA-A*11:01",
+    "HLA-A*23:01",
+    "HLA-A*24:02",
+    "HLA-A*26:01",
+    "HLA-A*30:01",
+    "HLA-A*30:02",
+    "HLA-A*31:01",
+    "HLA-A*32:01",
+    "HLA-A*33:01",
+    "HLA-A*68:01",
+    "HLA-A*68:02",
+    "HLA-B*07:02",
+    "HLA-B*08:01",
+    "HLA-B*13:02",
+    "HLA-B*14:02",
+    "HLA-B*15:01",
+    "HLA-B*18:01",
+    "HLA-B*27:05",
+    "HLA-B*35:01",
+    "HLA-B*38:01",
+    "HLA-B*40:01",
+    "HLA-B*40:02",
+    "HLA-B*44:02",
+    "HLA-B*44:03",
+    "HLA-B*46:01",
+    "HLA-B*51:01",
+    "HLA-B*53:01",
+    "HLA-B*57:01",
+    "HLA-B*58:01"
+  ],
+  "_grid": [
+    0.05,
+    0.1,
+    0.2,
+    0.3,
+    0.37,
+    0.3736,
+    0.4,
+    0.4033,
+    0.4061,
+    0.45,
+    0.458,
+    0.4986,
+    0.5,
+    0.75,
+    1.0,
+    1.5,
+    2.0,
+    3.0,
+    5.0
+  ],
+  "_random_seed": 20260901,
+  "_sources": [
+    "IEDB Query API (IQ-API), https://query-api.iedb.org — PostgREST over the Immune Epitope Database. Schema discovered at run time and recorded below.",
+    "MHCflurry 2.x Class1PresentationPredictor, the same predictor and the same presentation-percentile column as epitope-allele-matrix.json."
+  ],
+  "errors": [
+    "schema discovery failed: https://query-api.iedb.org/ -> URLError: <urlopen error [Errno 110] Connection timed out>"
+  ],
+  "_schema_discovery": null,
+  "_fetch_provenance": "none — schema discovery failed",
+  "_resolved_columns": {},
+  "_fusion_fetch_is_complete": false,
+  "_ingest": {
+    "n_raw_fusion_rows": 0,
+    "n_raw_general_rows": 0,
+    "dropped_fusion_with_reason": {},
+    "dropped_general_with_reason": {},
+    "n_fusion_pairs": 0,
+    "n_nonfusion_pairs": 0,
+    "arm_N_is_a_bounded_sample": false,
+    "arm_N_max_pairs": 5000,
+    "distinct_fusion_source_antigen_names": [],
+    "_inclusion_rule": "a source-antigen name matching any of FUSION_NAME_PATTERNS; every matched name is listed above so the rule is auditable, and a record returned by a fusion probe whose name does not match is moved to arm N rather than counted as a fusion epitope",
+    "_general_pool_is_not_exhaustive": "arm N pages at most 3000 rows per allele per IEDB table. It is a comparator, not a population estimate, and §B1 refuses it as a calibration anyway."
+  },
+  "arm_F_fusion_junction_validated": {
+    "_label": "THE CALIBRATION",
+    "_note": "Experimentally validated MHC class I epitopes from fusion/chimeric source antigens. This is the only arm §B1 permits to settle the cut.",
+    "rank_column": null,
+    "n_pairs": 0,
+    "n_distinct_peptides": 0,
+    "alleles_mhcflurry_cannot_score": [],
+    "⚠_unscreened_is_not_negative": "an allele MHCflurry carries no model for is absent from these counts, never counted as a miss",
+    "ecdf": [],
+    "at_the_conventional_cut": null,
+    "calls": []
+  },
+  "arm_N_nonfusion_validated": {
+    "_label": "⛔ NOT THE CALIBRATION — the comparator §B1 refuses",
+    "_note": "Validated epitopes from non-fusion antigens on the paper's own panel. Reported so a reader can see what the refused calibration would have said. Quoting it as the calibration imports exactly the assumption about junction peptides that is under test.",
+    "rank_column": null,
+    "n_pairs": 0,
+    "n_distinct_peptides": 0,
+    "alleles_mhcflurry_cannot_score": [],
+    "⚠_unscreened_is_not_negative": "an allele MHCflurry carries no model for is absent from these counts, never counted as a miss",
+    "ecdf": [],
+    "at_the_conventional_cut": null,
+    "calls": []
+  },
+  "verdict": {
+    "n_distinct_validated_fusion_junction_epitopes": 0,
+    "meets_preregistered_min_n": false,
+    "ci_width_at_the_conventional_cut": null,
+    "meets_preregistered_ci_width": false,
+    "the_set_is_a_calibration_set": false,
+    "_the_fusion_probe_fetch_was_complete": false,
+    "⛔_absence_is_only_claimable_if_the_fetch_was_complete": "If _fusion_fetch_is_complete is false, a small arm F is a reading the collector could not take, NOT a reading of absence, and the finding below must not be quoted.",
+    "finding": "WITHHELD. The IEDB fetch did not complete, so the size of the validated fusion-junction set was not measured on this run."
+  },
+  "arm_D_decoy_null": {
+    "_label": "THE NULL §7 SAYS THE SCREEN LACKS",
+    "_note": "§7: 'no decoy control and no null expectation ... the calls that pass are reported as what the screen returned rather than as an enrichment over chance.' These are length-matched random peptides from the same reviewed human proteome the novelty search uses, over the same panel.",
+    "rank_column": "presentation_percentile",
+    "n_decoy_peptides": 1740,
+    "decoy_multiple": 10,
+    "provenance": {
+      "n_proteome_records": 42547,
+      "n_usable_sequences": 42494,
+      "draws_attempted": 1740,
+      "per_length": {
+        "8": 360,
+        "9": 410,
+        "10": 460,
+        "11": 510
+      },
+      "proteome_source": "https://rest.uniprot.org/uniprotkb/stream?query=%28proteome%3AUP000005640%29+AND+%28reviewed%3Atrue%29&format=fasta&includeIsoform=true&compressed=true"
+    },
+    "pass_rate_by_threshold": [
+      {
+        "threshold": 0.05,
+        "n_pass": 39,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.000659,
+        "exact_95ci": [
+          0.000469,
+          0.000901
+        ]
+      },
+      {
+        "threshold": 0.1,
+        "n_pass": 91,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.001538,
+        "exact_95ci": [
+          0.001239,
+          0.001888
+        ]
+      },
+      {
+        "threshold": 0.2,
+        "n_pass": 155,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.00262,
+        "exact_95ci": [
+          0.002224,
+          0.003066
+        ]
+      },
+      {
+        "threshold": 0.3,
+        "n_pass": 235,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.003972,
+        "exact_95ci": [
+          0.003481,
+          0.004513
+        ]
+      },
+      {
+        "threshold": 0.37,
+        "n_pass": 284,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.004801,
+        "exact_95ci": [
+          0.00426,
+          0.005391
+        ]
+      },
+      {
+        "threshold": 0.3736,
+        "n_pass": 287,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.004851,
+        "exact_95ci": [
+          0.004307,
+          0.005445
+        ]
+      },
+      {
+        "threshold": 0.4,
+        "n_pass": 306,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.005172,
+        "exact_95ci": [
+          0.00461,
+          0.005784
+        ]
+      },
+      {
+        "threshold": 0.4033,
+        "n_pass": 308,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.005206,
+        "exact_95ci": [
+          0.004642,
+          0.00582
+        ]
+      },
+      {
+        "threshold": 0.4061,
+        "n_pass": 310,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.00524,
+        "exact_95ci": [
+          0.004674,
+          0.005855
+        ]
+      },
+      {
+        "threshold": 0.45,
+        "n_pass": 341,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.005764,
+        "exact_95ci": [
+          0.00517,
+          0.006407
+        ]
+      },
+      {
+        "threshold": 0.458,
+        "n_pass": 348,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.005882,
+        "exact_95ci": [
+          0.005282,
+          0.006532
+        ]
+      },
+      {
+        "threshold": 0.4986,
+        "n_pass": 381,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.00644,
+        "exact_95ci": [
+          0.005811,
+          0.007118
+        ]
+      },
+      {
+        "threshold": 0.5,
+        "n_pass": 381,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.00644,
+        "exact_95ci": [
+          0.005811,
+          0.007118
+        ]
+      },
+      {
+        "threshold": 0.75,
+        "n_pass": 584,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.009872,
+        "exact_95ci": [
+          0.009091,
+          0.010701
+        ]
+      },
+      {
+        "threshold": 1.0,
+        "n_pass": 773,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.013066,
+        "exact_95ci": [
+          0.012167,
+          0.014014
+        ]
+      },
+      {
+        "threshold": 1.5,
+        "n_pass": 1097,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.018543,
+        "exact_95ci": [
+          0.017471,
+          0.019662
+        ]
+      },
+      {
+        "threshold": 2.0,
+        "n_pass": 1436,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.024273,
+        "exact_95ci": [
+          0.023048,
+          0.025545
+        ]
+      },
+      {
+        "threshold": 3.0,
+        "n_pass": 2100,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.035497,
+        "exact_95ci": [
+          0.03402,
+          0.037019
+        ]
+      },
+      {
+        "threshold": 5.0,
+        "n_pass": 3260,
+        "n_peptide_allele_tests": 59160,
+        "pass_rate": 0.055105,
+        "exact_95ci": [
+          0.053279,
+          0.056974
+        ]
+      }
+    ],
+    "presenting_alleles_under_the_null_at_the_conventional_cut": {
+      "draws": 2000,
+      "mean": 22.619,
+      "median": 23,
+      "p05": 14,
+      "p95": 29,
+      "max": 33,
+      "distribution": {
+        "7": 3,
+        "9": 5,
+        "10": 3,
+        "11": 16,
+        "12": 14,
+        "13": 28,
+        "14": 34,
+        "15": 37,
+        "16": 60,
+        "17": 70,
+        "18": 109,
+        "19": 126,
+        "20": 119,
+        "21": 156,
+        "22": 140,
+        "23": 156,
+        "24": 181,
+        "25": 170,
+        "26": 131,
+        "27": 148,
+        "28": 110,
+        "29": 90,
+        "30": 48,
+        "31": 30,
+        "32": 11,
+        "33": 5
+      }
+    },
+    "observed_presenting_alleles_in_the_screen": 4,
+    "p_value_random_set_reaches_the_observed_count": 1.0,
+    "⚠_what_this_p_value_is": "the fraction of random length-matched peptide sets of the screen's own size that present on at least as many panel alleles as the screen did, at the conventional cut. It is a null for the SCREEN, not a test of any peptide."
+  }
+}
