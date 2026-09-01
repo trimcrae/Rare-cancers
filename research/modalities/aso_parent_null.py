@@ -23,7 +23,8 @@ sit at five offsets inside a 16-mer window, so an arbitrary 16-mer meets one at 
 by chance alone. That is small against 87/190 and it is emphatically not zero, and no reader could
 have derived which without being told the span.
 
-WHAT THIS MEASURES. Six null ensembles, every one of them pushed through the SAME instrument as the
+WHAT THIS MEASURES. Ten ensembles — FOUR nulls, THREE decomposition arms and THREE terminus
+chimeras, listed in that order below — every one of them pushed through the SAME instrument as the
 real designs — `aso_parent_gap_pairing.longest_run_through_gap`, the same six mature parents spliced
 from the same committed record, forward orientation only, the same `MIN_DUPLEX_BP`. Only the query
 changes; nothing about the screen does.
@@ -62,6 +63,29 @@ question than "WHERE does 87 come from", and the second is answerable on the sam
                              merely what any parent-to-parent chimera gives, this arm returns it,
                              and screen 4's headline is a restatement of the design rule rather
                              than a finding about EMC breakpoints.
+
+⭐ AND THREE TERMINUS CHIMERAS, which ask whether a REAL splice boundary is what makes a junction
+liable, rather than any join between two real transcripts:
+
+  donor_terminus_chimera     donor half ENDS AT A REAL EXON 3' TERMINUS; the NR4A3 half is a uniform
+                             interior window. Only ONE of the two ends is a real terminus, which is
+                             what separates it from the two arms below.
+  exon_terminus_chimera      BOTH halves end at real exon termini — a join between two genuine exon
+                             boundaries that is not a reported breakpoint.
+  exon_terminus_chimera_novel_acceptor
+                             the same, with the acceptor drawn from an exon terminus the reported
+                             breakpoints do not use.
+
+⚠ THESE THREE WERE ABSENT FROM THIS DOCSTRING UNTIL 2026-09-01, AND THE HEADER SAID "Six" WHILE THE
+MODULE EMITTED TEN. Found by round 28's statistics seat; `introduced_by` is pre_existing — `git log
+-S "Six null ensembles"` returns only f37ee6783, the commit that created this module when six arms
+was the truth. The count then grew and the header did not follow. ⛔ IT MATTERED BECAUSE THE PAPER
+PRINTS "Ten null ensembles were built and screened" AND THIS FILE IS IN THE DEPOSITED ARCHIVE THAT
+SENTENCE CITES, so a referee downloading the DOI to check the number met a summary that contradicted
+it. Deposited prose is normally a P2; contradicting a number the paper prints is what promotes it.
+★ The count is now stated as its composition (4 + 3 + 3) rather than as a bare total, because a bare
+total is what went stale — a reader can check a composition against the list beneath it, and could
+not check "Six" against anything.
 
 ⚠ A DECOMPOSITION THAT COULD NOT DISCRIMINATE WAS RUN FIRST AND IS RECORDED SO IT IS NOT RETRIED.
 The first version of this module scrambled the DONOR half and the ACCEPTOR half of each window,

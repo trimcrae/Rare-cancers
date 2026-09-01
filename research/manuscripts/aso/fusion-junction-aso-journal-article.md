@@ -216,7 +216,7 @@ mismatch.
 Lengthening the catalytic gap does not remove this liability, because every base inside the gap comes from the donor or the acceptor exon. Across three geometries the liable count holds at 87, 88 and 87 while the panel grows from 190
 designs to 266 and 342, so the rate falls from 45.8% to 33.1% and 25.4%: a longer gap buys margin
 per design without removing the liability. At 5-10-5 pairing the whole gap already demands ten
-base pairs, the top of the seven-to-ten the enzyme is reported to need, so a shorter run that could
+base pairs, the top of the seven-to-ten the enzyme is reported to prefer, so a shorter run that could
 still license cleavage goes uncounted and that last figure is a floor; the deposit gives the series.
 
 Three designs clear every screen at the ten-base-pair criterion — two pairing no wild-type parent

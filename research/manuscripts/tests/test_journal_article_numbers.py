@@ -1071,7 +1071,23 @@ def test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count(prose)
         "reported to need seven to ten, so a shorter run that could still license cleavage is not "
         "counted. ⚠ This repository has shipped a reversed one-sided bound before — see "
         "junction-aso-thermo.json's ⚠_lna_not_modelled — so re-derive before changing this word.")
-    assert re.search(r"the top of the seven-to-ten the enzyme is reported to need", flat), (
+    #: ⚠ RE-ANCHORED AGAIN 2026-09-01 (round 28), AND THE WORD THAT MOVED IS THE WHOLE FINDING.
+    #: Round 27 changed "more than the seven-to-ten" to "the top of the seven-to-ten", fixing the
+    #: arithmetic — ten IS the top of that range — and left "need" attached to it. That is the
+    #: wrong quantity: `aso-gap-length-tradeoff.json` carries
+    #: `min_contiguous_dna_nt_for_rnaseh1.values = [5, 6]` with both anchors quoted ("requires a gap
+    #: size of at least five for cleavage to occur"; "sufficient to activate RNase H. In general,
+    #: this is six or more bases") and says in terms that neither is presented as the answer. Seven
+    #: to ten is the reported OPTIMUM. The article already knew this at two other sites — "at least
+    #: six nucleotides, with seven to ten the working range" and "the shortest length the cited
+    #: source credits rather than its PREFERRED one" — so the paper contradicted itself, and by
+    #: making the rest of the sentence correct round 27 made the mis-description load-bearing.
+    #: ⛔ THE FLOOR DIRECTION IS UNTOUCHED AND IS BETTER FOUNDED FOR IT: the criterion demands ten
+    #: where the enzyme is reported to cleave at five or six, so a shorter run that could still
+    #: license cleavage goes uncounted. ★ "prefer" is the article's own word at the third site; two
+    #: candidate repairs were rejected first for naming a single minimum the artifact refuses to
+    #: pick, and for contradicting the "at least six" site.
+    assert re.search(r"the top of the seven-to-ten the enzyme is reported to prefer", flat), (
         "the reason given for the floor is gone. Two rounds found the paragraph justifying it with "
         "'the criterion is met by the catalytic gap alone', which argues for a ceiling — the "
         "criterion doing no filtering makes the count MORE inclusive, not less. The direction "
