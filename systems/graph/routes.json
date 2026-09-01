@@ -1716,7 +1716,9 @@
     "objects": [
       "OBJ-FUS-T1"
     ],
-    "evidence": [],
+    "evidence": [
+      "EV-PALMERINI-2022"
+    ],
     "artifacts": [],
     "distinct_from": [
       {
@@ -1814,7 +1816,8 @@
     "next": {
       "best_next_action": "Keep as cited landscape context, at the weight the record supports: disease control in a handful of EMC patients, 0 objective responses located in 5, and no EMC-specific median PFS. ⛔ Do not quote ~12.5 months as an EMC figure and do not write 'EMC responder'. Free next step: curate Palmerini 2022 (PMID 36568164) into the registry.",
       "cost": "$0"
-    }
+    },
+    "_evidence_wired_2026_09_01": "⭐ RECOVERED FROM A STRANDED BRANCH, AND IT IS THE HUNK THE SEAT DELIBERATELY DID NOT WRITE. `claude/aut071-s1-CYC-0074` did the Palmerini/TrObs read on 2026-08-29 — four days before tonight's S19-TRABECTEDIN independently repeated it and got the same numbers (3 EMC patients, 0 objective responses, 2 SD, 1 PD). Its route prose is superseded by tonight's better version, but the registry row and this evidence node were on no other ref, and `RT-TRABECTEDIN.evidence` was `[]` on `main`. S34-STRANDED wrote the evidence node and the legacy projection but withheld THIS line, because `routes.json` was being edited by two other seats at the time. Applied once that cleared.\n⚠ WHAT IT DOES NOT DO: it wires an existing measurement to the route that rests on it. It adds no claim. The route's corrected denominator — 5 across two series, stated separately and explicitly not pooled — is tonight's S19 work and is unchanged by this."
   },
   {
     "id": "RT-PPARG-DOWNSTREAM",

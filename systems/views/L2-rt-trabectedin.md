@@ -141,4 +141,6 @@ Keep as cited landscape context, at the weight the record supports: disease cont
 
 **L5 objects:** [OBJ-FUS-T1](L5-evidence-base.md#objects--the-biological-and-molecular-entities-the-program-reasons-about)
 
+**L5 evidence:** [EV-PALMERINI-2022](L5-evidence-base.md#evidence--the-literature-this-program-cites)
+
 [← ST-REPURPOSING](L1-st-repurposing.md) · [← L0](L0-ecosystem.md)

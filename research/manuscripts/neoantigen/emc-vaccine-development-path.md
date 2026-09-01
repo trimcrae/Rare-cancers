@@ -507,7 +507,7 @@ row, for the reason Section 3.1 gives.
 
 | ID | Limit | Bounded by | Best available answer today | Cost to move | What would move it |
 |---|---|---|---|---|---|
-| B1 | Predicted class I coverage is low and panel-dependent | instrument, partly disease | 8.5% / 12.3% public junction, 27.4% / 30.4% pooled, on 10 / 34 alleles; 0.0% at a 0.37 cut | **computational** — needs nobody's permission | Wider panels; a defended threshold; measured presentation |
+| B1 | Predicted class I coverage is low and panel-dependent | instrument, partly disease | 8.5% / 12.3% public junction, 27.4% / 30.4% pooled, on 10 / 34 alleles; 0.0% at a 0.37 cut; below a length-matched decoy null, per Section 7 | **computational** — needs nobody's permission | Wider panels; a defended threshold; measured presentation |
 | B2 | Presentation predicted, never measured | instrument and access | Presentation percentiles on 174 peptides, from the predictor named in Section 2.2 | **tissue + a proteomics facility** — the binding constraint on this route | Immunopeptidomics on EMC tissue or a patient-derived line |
 | B3 | Self-adjacency and central tolerance | disease | Lead peptide is 1 substitution (position 1, not an anchor under the general class I convention) from DMPCVQAQY in an *NR4A3* isoform, against a chance expectation of 0.02; 0 of 11 binders has an anchor-only near-self neighbour under that convention, 6 of 11 if position 1 counts, which is not established here | **a T-cell assay on matched donors** — needs material and a laboratory | T-cell reactivity assay against the specific peptide-HLA complex |
 | B4 | One strong CD4 epitope, on one allele of 23 | instrument | 44 binders, 1 strong (SYGQQNMPCVQAQYS on DRB1\*14:01, 66.1 nM) over 14 of 23 alleles; class II coverage 6.5%, combined CD8 and CD4 1.8% | **computational**, and now largely spent | A class II threshold; measured presentation |
@@ -538,7 +538,8 @@ much as by the tumour.
 
 **Evidence.** The 34-allele screen finds 4 presenting alleles and 30.4%; the ten-allele screen finds 3 and
 27.4%. Both rest on five strong peptide-allele calls, one per presenting allele, and Section 2.3 gives
-their threshold sensitivity.
+their threshold sensitivity. Section 7 reports the decoy null these figures are now measured against,
+and the screen falls below it rather than above it.
 
 **A high-confidence tier, and it is empty.** The natural response to an undefended cut is to report a
 conservative tier beside it, and the conventional conservative cut for class I presentation is 0.2.
@@ -672,11 +673,12 @@ or without position 3 — makes six of the 13 scored near-self hits anchor-only,
 binders**, every one of them against the same *NR4A3* isoform, Q92570-3, that Section B5 is about. Three
 of those six differ from their self neighbour at position 1 alone, and the lead peptide NMPCVQAQY against
 DMPCVQAQY is one of the three; the other three differ at positions 1 and 2, and position 2 is a primary
-anchor under every convention. **Whether position 1 is an anchor for HLA-A\*01:01, B\*07:02, B\*15:01,
-B\*35:01 or B\*44:02 is not established here**, no allele-specific binding motif being held in this work,
-so the zero above is a result under a stated convention rather than a property of these peptides. Second,
-sequence distance is not receptor distance: peptides three substitutions apart can present near-identical
-surfaces and peptides one apart can present different ones. Third, the ordering of the two configurations
+anchor under every convention. **Whether position 1 is an anchor for HLA-A\*01:01, A\*30:02,
+B\*07:02, B\*15:01, B\*35:01 or B\*44:02 is not established here**, no allele-specific binding motif being
+held in this work, so the zero above is a result under a stated convention rather than a property of
+these peptides. Second, sequence distance is not receptor distance: peptides three substitutions apart
+can present near-identical surfaces and peptides one apart can present different ones. Third, the
+ordering of the two configurations
 holds where the near-self peptide is itself presented on the same allele, which is what an anchor
 difference would put in doubt, and presentation of these self peptides is measured nowhere in this work.
 This search excludes one more failure mode — a close self peptide nobody had looked for —
@@ -1221,13 +1223,31 @@ specific sequences named here, NMPCVQAQY included, as conditioned on the canonic
 than as properties of the locus. Which transcript a patient's fusion actually uses is not decidable
 from annotation and is not decided here. The binder counts and every coverage figure derived from
 them depend on an acceptance threshold this paper does not defend, and no multiplicity correction is
-applied anywhere. The screen tested 174 peptides against 10 and then 34 alleles at two thresholds,
-with no decoy control and no null expectation. The calls that pass are therefore reported as what
-the screen returned rather than as an enrichment over chance. The near-self search of B3 is the one
-analysis here that carries a null, and it carries one because a count of near-self neighbours is
-meaningless without the number a peptide of that length and composition finds by chance; the binding
-screen still has none, and a shuffle null for predicted binding would need a defended threshold to
-be a null of anything.
+applied anywhere. The screen tested 174 peptides against 10 and then 34 alleles at two thresholds.
+It now has a decoy null, and it sits below that null. Ten length-matched random peptides were drawn
+per junction peptide from the same reviewed human proteome the novelty search uses — 1,740 in all,
+matching the screen's own 36 8-mers, 41 9-mers, 46 10-mers and 51 11-mers — and were scored on the
+34-allele panel through the same presentation percentile. They pass at the conventional cut on
+0.644% of 59,160 peptide-allele tests, exact 95% confidence interval 0.581% to 0.712%, which is also
+a reading of the instrument: a percentile of 0.5 admits more than the 0.5% its name implies, and the
+interval excludes 0.5%. Resampling 174 of those decoys 2,000 times, a random set of the screen's own
+size presents on a median of 23 of the 34 alleles, a mean of 22.6 and a minimum of 7, and the closed
+form for that pass rate gives 22.95, so the figure is arithmetic rather than resampling noise. This
+screen presents on 4 of them, and no random set fell that low. The coverage figures are therefore
+not an enrichment over chance in either direction: the deviation is negative, and these junction
+peptides are a worse source of predicted class I binders than arbitrary human sequence of the same
+lengths. That bounds the screen and not any peptide in it. A set can fall below a random background
+and still contain real binders, so the null does not say the four strong calls are false, and
+predicted binding against predicted binding is not evidence about presentation, immunogenicity,
+safety or benefit. Three things bound the null itself. It is computed at the same undefended cut as
+the calls it is a null for, so it inherits that limitation rather than removing it. Its decoys are
+arbitrary peptides of matched length rather than composition-matched shuffles of the junction
+peptides, so it does not separate this junction from the amino-acid composition of the peptides
+spanning it. And its decoys are drawn from the proteome those peptides were filtered against for
+novelty, so they are self peptides — the background the percentile scale is itself defined against,
+and not a background of neoantigens. The near-self search of B3 carries its own null for the same
+reason a binding screen needs one: a count of near-self neighbours is meaningless without the number
+a peptide of that length and composition finds by chance.
 
 The IMMUNOSARC II EMC cohort result is a conference abstract, single-arm and not peer reviewed, and it
 evaluates a combination whose component with the larger independent EMC evidence base is the tyrosine
@@ -1313,6 +1333,11 @@ outputs to a separate cache branch from which they are copied in. So the artifac
 the record of a run that happened, verifiable by their embedded timestamps and input hashes, rather than
 the output of continuous re-execution. An earlier version of this section said they were regenerated in
 continuous integration; that was not true of any branch a reader would fetch.
+
+The decoy null of Section 7 is generated by `vaccine_threshold_calibration.py`, whose artifact is
+`vaccine-threshold-calibration.json`; it imports its peptide lengths and its acceptance cut from
+`coverage_threshold_curve.py` and its proteome fetch from `junction_proteome_novelty.py`, so the null
+and the screen it is a null for cannot be computed against different conventions.
 
 Clinical figures are quoted from the curated EMC registry at `research/data/emc-clinical-registry.json`,
 which carries a structured citation entry for every source and a retrieval note for those whose
@@ -1545,4 +1570,5 @@ is indistinguishable from a claim that was never made.
 | Section 6, that no report on another fusion "measured presentation at all" | The same study measures processing and presentation, though not abundance. The bullet now separates the two, because step 3 of Section 6.1 turns on abundance. |
 | The B6 and B7 rows of Section 3, cost to move "not movable by any computation" | True of each limit and false of the evidence bearing on it: a computation over public archival series moved what is known about both. Those cells now name what the remaining move costs, which is spatial profiling on tissue. |
 | B3, that a difference at T-cell-receptor contact positions rather than at anchors is "the configuration in which cross-recognition is most plausible and in which central tolerance is most likely to have acted" | Inverted, and it contradicted the next sentence of its own section. B3 defines anchor positions as the ones affecting binding and contact positions as the ones affecting recognition, and then calls an anchor-only neighbour "the worst case: an identical TCR-facing surface distinguished only by residues the T cell cannot see". A difference the receptor reads is what leaves a repertoire possible, so the ordering runs the other way. The clause had been carried onward into falsifier 3 of `shared-vs-individualized-neoantigen-evidence.md`, which is corrected in the same direction. |
-| B3 and the Abstract, "no binder in the screen has a near-self neighbour differing only at anchors", stated without the convention it depends on | The count is zero under the general class I convention of position 2 and the C-terminus and stays zero when position 3 is added, which is the caveat this paper had raised against itself. Counting position 1 as an anchor makes it six of the 11 binders, all six against the same *NR4A3* isoform, and no allele-specific motif for the five restricting alleles is held in this work. Both statements now name the convention and the six. |
+| B3 and the Abstract, "no binder in the screen has a near-self neighbour differing only at anchors", stated without the convention it depends on | The count is zero under the general class I convention of position 2 and the C-terminus and stays zero when position 3 is added, which is the caveat this paper had raised against itself. Counting position 1 as an anchor makes it six of the 11 binders, all six against the same *NR4A3* isoform, and no allele-specific motif for the six restricting alleles is held in this work. Both statements now name the convention and the six. |
+| Section 7, "with no decoy control and no null expectation", and the calls "reported as what the screen returned rather than as an enrichment over chance" | A decoy null now exists and the screen sits below it. Length-matched random peptides from the same reviewed human proteome pass at 0.644% of 59,160 peptide-allele tests, and a random set of the screen's own size presents on a median of 23 of the 34 panel alleles against this screen's 4. What was disclosed as a missing control is now a measured deviation from chance in the negative direction, reported in Section 7. It bears on the screen and not on whether any of the four strong calls is real. |

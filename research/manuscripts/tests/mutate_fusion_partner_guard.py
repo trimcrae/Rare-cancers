@@ -87,9 +87,16 @@ REGISTER = os.path.join("research", "manuscripts", "fusion-partner",
 # (`paper-hardening` §8b.1a). That is why the positive control below refuses to score anything at
 # all unless the unmutated tree is green: there is no state in which a pre-existing failure in one
 # module is silently charged to the other.
+# ⭐ THREE GUARD MODULES SINCE 2026-08-29 (AUT-PD-147). The synthesis's claims have a QUANTITY half,
+# a RELATION half and — measured by the ablation harness on 2026-08-28, and guarded by nothing until
+# that item — a PROVENANCE half: `NR4A3` -> `NR4A7` in the endpoint declaration left every guard
+# above green, because a gene symbol is neither a quantity nor a claim word. The identifier guard is
+# run for every mutation for the same reason the other two are: a mutation that reaches no
+# instrument reports exactly what an instrument that never fires reports.
 TESTS = [os.path.join("research", "manuscripts", "tests", name) for name in (
     "test_fusion_partner_prose_matches_its_artifact.py",
     "test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py",
+    "test_the_fusion_partner_gene_identifiers_are_ones_an_artifact_names.py",
 )]
 
 #: Each mutation is (label, anchor, mutated, binding_it_targets).
@@ -604,6 +611,48 @@ MUTATIONS = [
      "own cited sources state ([4], [12])",
      "own cited sources state ([4], [15])",
      "the external-share attribution binding — the named-sources half"),
+    # ---- AUT-PD-147, 2026-08-29: the PROVENANCE half — a gene symbol, not a number or a verb -----
+    # ⛔⛔ THE FIRST OF THESE IS THE MEASURED DEFECT ITSELF, RESTORED VERBATIM. The ablation harness
+    # perturbed the endpoint declaration's `NR4A3` to `NR4A7` on 2026-08-28 and every guard reading
+    # this document stayed green — the two modules above, the three linters and the pooling check.
+    # ⭐ AND THE REST ARE THE SAME CORRUPTION AT OTHER SITES, WHICH IS THE WHOLE POINT: the document
+    # prints `NR4A3` 71 times, `TAF15` 100 and `EWSR1` 46, so a guard that asks "is the right symbol
+    # in here anywhere" passes while one site is wrong. Every one of these changes exactly one.
+    ("identifier: NR4A3 -> NR4A7 in the endpoint declaration (the defect AUT-PD-147 was filed on)",
+     "*The NR4A3 5′ fusion partner is a candidate",
+     "*The NR4A7 5′ fusion partner is a candidate",
+     "the unattested-identifier check, at the one site the ablation harness perturbed"),
+    ("identifier: NR4A3 -> NR4A7 at §7's ask, 38 lines and one section away from the endpoint",
+     "Report the *NR4A3* partner alongside response",
+     "Report the *NR4A7* partner alongside response",
+     "the unattested-identifier check reaching a SECOND site of the same 71-occurrence symbol"),
+    ("identifier: TAF15 -> TAF19 at one of its 100 sites",
+     "and *TAF15* in a minority",
+     "and *TAF19* in a minority",
+     "the unattested-identifier check, single-site against the document's most-repeated symbol"),
+    ("identifier: EWSR1 -> EWSR7 at one of its 46 sites",
+     "partner is *EWSR1* in most cases",
+     "partner is *EWSR7* in most cases",
+     "the unattested-identifier check, single-site on the comparison's other arm"),
+    # ⛔ AND THE REGISTER IS IN SCOPE TOO. A correction register states what this repository got
+    # wrong; a wrong gene symbol inside a correction is still a wrong gene symbol, and the register
+    # was as unguarded as the manuscript.
+    ("identifier: TAF15 -> TAF19 in the correction register's row A3",
+     "| A3 | TAF15::NR4A3 prevalence quoted as",
+     "| A3 | TAF19::NR4A3 prevalence quoted as",
+     "the unattested-identifier check reaching the second prose document of this synthesis"),
+    # ⭐⭐ THE TWO BELOW LEAVE EVERY TOKEN ON THE PAGE ATTESTED, so the check above is green on both
+    # and only the fusion-pair binding can see them. That is the attested-to-attested drift class the
+    # identifier corpus is structurally blind to, closed inside the `::` construction by reading the
+    # permitted pairs out of `emc-fusion-partner-pooling.json`.
+    ("pair: EWSR1::NR4A3 written BACKWARDS at one site — both symbols still real and attested",
+     "**Not** that EWSR1::NR4A3 patients should receive",
+     "**Not** that NR4A3::EWSR1 patients should receive",
+     "the fusion-pair check's ORDER half — a backwards pair names a different rearrangement"),
+    ("pair: TAF15::NR4A3 -> TAF15::NR4A2, a real paralogue the corpus attests",
+     "**Not** that TAF15::NR4A3 is an independent prognostic factor",
+     "**Not** that TAF15::NR4A2 is an independent prognostic factor",
+     "the fusion-pair check's 3'-partner half, which the identifier corpus cannot see"),
 ]
 
 
@@ -762,7 +811,9 @@ def main():
             # attributions; a mutation caught by `relations` alone is that binding's own evidence.
             short = {"test_fusion_partner_prose_matches_its_artifact.py": "numbers",
                      "test_fusion_partner_prose_asserts_the_relations_its_artifact_computes.py":
-                         "relations"}
+                         "relations",
+                     "test_the_fusion_partner_gene_identifiers_are_ones_an_artifact_names.py":
+                         "identifiers"}
             who = "+".join(short.get(os.path.basename(t), os.path.basename(t))
                            for t in caught_by)
             print(f"  {'⛔ SURVIVED' if not caught_by else '✅ caught  '}  "

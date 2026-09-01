@@ -40,6 +40,15 @@ import urllib.request
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import envread  # noqa: E402
 
+# ⛔ WHY THE HTTP DESCRIBER IS IMPORTED FROM `await_ci` RATHER THAN COPIED HERE. Two modules in this
+# directory poll the same Actions API about the same repository, and this file already carries a note
+# (DEFAULT_REPO, AUT-PROP-034) about what happened the last time they each kept their own copy of a
+# shared fact. One fact, one place (CLAUDE.md §1) applies to a diagnostic routine exactly as it does
+# to a number. ⚠ The seat that wrote this (S37-ERROR-BODIES, 2026-09-01) owned only these two files,
+# so the shared helper lives in the larger of the two rather than in a module of its own; promoting
+# it to `research/autonomy/httperr.py` is a one-line follow-up and is recorded as such.
+import await_ci  # noqa: E402
+
 #: The authority on whether the trunk is green. CLAUDE.md §6: `tests.yml` runs BOTH suites in full on
 #: every push with the real dependencies, and it — not a local preflight — is what decides `main`.
 WORKFLOW = "tests.yml"
@@ -189,8 +198,17 @@ def main(argv=None) -> int:
     except (urllib.error.URLError, urllib.error.HTTPError, OSError, ValueError, KeyError) as exc:
         # ⛔ FAIL CLOSED. No file -> health.py reports `gates_green` unmeasured, which is what we
         # actually know. Never substitute a guess for a reading.
-        print("[gates-verdict] could NOT read %s (%s: %s) — writing nothing, so the row stays "
-              "`unmeasured`, which is the honest state" % (WORKFLOW, type(exc).__name__, exc))
+        # ⛔ AND SAY WHY IT COULD NOT BE READ, IN THE SERVER'S OWN WORDS (S37-ERROR-BODIES,
+        # 2026-09-01). Failing closed is only half the job: `gates_green: unmeasured` is honest but
+        # it is also INERT — it names no action, and this row had already sat unmeasured for 47.2 h
+        # once (see `test_main_keeps_a_per_commit_verdict`). `str(HTTPError)` yields
+        # `HTTP Error 403: Forbidden` — the REASON, never the body — so a rate limit that clears in
+        # four minutes and a token that will never work again printed the same sentence. They no
+        # longer do: `describe_http_error` quotes the body and, on a 403, the `X-RateLimit-*`
+        # headers that separate those two cases.
+        print("[gates-verdict] could NOT read %s (%s) — writing nothing, so the row stays "
+              "`unmeasured`, which is the honest state"
+              % (WORKFLOW, await_ci.describe_http_error(exc)))
         return 0
 
     verdict = decide(runs, now)

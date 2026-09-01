@@ -261,6 +261,33 @@ def test_the_command_line_exits_non_zero_and_says_which_document_moved(clone):
     assert "--write" in proc.stderr, "the remedy is not in the message a reader sees"
 
 
+def test_a_missing_artifact_is_refused(clone):
+    """⛔ AN ABSENT ARTIFACT IS NOT A REPRODUCING ONE, AND ONLY THE PROCESS CAN SAY SO.
+
+    `disagreements()` never sees this case — it is handed the file's text — so the branch that
+    decides it lives in `main()` alone, and nothing bound it until now. It is the cheapest way to
+    make this gate green while measuring nothing: delete the file the check compares against and a
+    check that returns 0 on absence reports "no disagreement" for a census nobody can read.
+    ⚠ FOUND BY MUTATION, NOT BY READING (2026-08-29, seat s4): flipping that one `return 1` to
+    `return 0` left all 17 tests of this module green, the only survivor of thirteen single-site
+    mutations. The other twelve — each half of the comparison, the byte backstop, the unreadable
+    JSON branch, the unknown-flag error, the `--write --check` refusal, the document name in the
+    message, and the wiring in each of preflight, CI and the regeneration chain — were caught.
+    """
+    path = os.path.join(clone, "research/manuscripts/claim-coverage.json")
+    saved = os.readlink(path) if os.path.islink(path) else None
+    os.remove(path)
+    try:
+        proc = _check(clone)
+        assert proc.returncode != 0, "the check accepted a census artifact that is not there"
+        assert "--write" in proc.stderr, "the remedy is not in the message a reader sees"
+    finally:
+        if saved is not None:
+            os.symlink(saved, path)
+        else:
+            shutil.copyfile(claim_coverage.ARTIFACT, path)
+
+
 def _selective_excerpt(paper):
     """A literal from one of `paper`'s own sentences that binds exactly that sentence.
 
