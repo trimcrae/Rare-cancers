@@ -652,7 +652,7 @@ proteome's own composition, and the comparison this paper needs is an order of m
 tail probability. **Neither difference is at an anchor, under the convention applied here.** Position
 1 and position 5 face outward or into the groove's middle rather than serving as the primary anchors at
 position 2 and the C-terminus, so a T cell raised against the neoepitope reads a surface that differs from
-the self peptide's at the positions it actually contacts — which is the **less** adverse of the two
+the self peptide's at the positions it actually contacts — which is the less adverse of the two
 configurations, and that ordering is what the filter is for: a difference the receptor can read leaves
 open that a repertoire exists, while a difference it cannot read does not. An earlier version of this
 section stated the ordering the other way round; the withdrawal is recorded in Appendix C.
