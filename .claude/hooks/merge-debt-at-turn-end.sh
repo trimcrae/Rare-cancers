@@ -34,6 +34,79 @@
 # ⛔ NO GREEN STATE THAT RECORDING CAN BUY. There is no flag, no marker file and no "I intend to merge
 # later" — those are self-issued permission slips, the shape of the failure this replaces. The only
 # ways past it are the real ones: be on `main`, have nothing ahead of it, or merge.
+#
+# =====================================================================================================
+# ⭐⭐ 2026-09-01 — THE HOOK HAD TWO ALWAYS-GREEN PATHS, AND BOTH FIRED CONSTANTLY WHILE THE
+# POPULATION IT GUARDS NEARLY DOUBLED. S31-ORPHANS found them; S35-DRIFTGUARD reproduced both against
+# a controlled fixture and rewrote the file. The paragraph above claiming "no green state" was TRUE
+# ABOUT RECORDING and FALSE ABOUT EVERYTHING ELSE: two ordinary states bought silence for free.
+#
+# ⛔ HOLE 1 — IT MEASURED `origin/main...HEAD`, SO IT COULD ONLY EVER SEE THE BRANCH THE STOPPING
+# SESSION WAS SITTING ON. A branch pushed by a DIFFERENT session is not `HEAD` anywhere; once that
+# session ends there is no stop left for it to fire on. The old file never ran `for-each-ref` and
+# never ran `ls-remote` — `for-each-ref` appeared in its comments only. Reproduced in a throwaway
+# fixture: with `origin/seat/s3-stranded` pushed and unmerged and the session moved off it, the hook
+# printed ZERO mentions of that branch on any HEAD, and exited 0.
+#
+# ⛔ HOLE 2 — A DIRTY TREE SILENCED THE WHOLE FILE. `git status --porcelain` non-empty exited 0.
+# Reproduced with a one-file control: same branch, same 1 unmerged commit, clean tree -> exit 2;
+# add ONE untracked file -> exit 0. During a twelve-seat sprint the tree is never clean, so the
+# hook was unconditionally off for exactly the window in which the most branches get created.
+#
+# ⛔ THE COST, MEASURED 2026-09-01: 37 branches on `origin` share this trunk's history and carry
+# unmerged commits (152 distinct commits). The 2026-08-29 census said "20+". Seventeen of the 37 were
+# pushed on 2026-08-28/29 by one archived seat cohort. Nothing in this repository enumerated `origin`
+# at all — the 2026-08-29 number was produced by a human-driven one-off, never by an instrument.
+#
+# ★★ THE FIX IS TWO HALVES WITH DIFFERENT RULES, BECAUSE THEY ANSWER DIFFERENT QUESTIONS.
+#   HALF A — "does THIS session owe a merge?"  `origin/main...HEAD`, as before, dirty-tree exit KEPT.
+#   HALF B — "does ANY branch on origin owe a merge?"  `for-each-ref` over already-fetched remote
+#            refs. Runs on every branch INCLUDING `main` and a detached HEAD, and is NOT gated on the
+#            tree, because a dirty worktree is a fact about this session's uncommitted edits and
+#            carries no information whatever about whether somebody else's pushed branch is on the
+#            trunk. That asymmetry is the whole of hole 2.
+#
+# ⭐ WHY HALF A KEEPS THE DIRTY EXIT, STATED SO IT CAN BE ARGUED WITH. Two reasons, both checked
+# rather than assumed. (1) `~/.claude/stop-hook-git-check.sh` is wired at the launcher level and was
+# run on this tree on 2026-09-01: it exits 2 on uncommitted changes TODAY, so that state is already
+# alarmed and a second alarm for one state teaches the reader to skim both. (2) Mid-edit, HALF A's
+# instruction — "MERGE IT, not next turn" — is genuinely the wrong advice, and a hook that gives
+# wrong advice at every stop of a sprint is the wall this file's header refuses to become.
+# ⛔ WHAT IS NOT TRADED AWAY: the suppressed count is still PRINTED, as one line inside HALF B's
+# block. A dirty tree now defers the merge ADVICE; it no longer buys silence about the debt.
+#
+# ⭐ WHY `--contains=<root of main>` AND NOT A `merge-base` LOOP — THIS IS THE PART THAT HAD TO BE
+# CHEAP, AND IT WAS MEASURED, NOT ASSUMED. A Stop hook cannot spend seconds per stop; this one has a
+# 15 s timeout in `.claude/settings.json`.
+#     naive: `for ref in $(for-each-ref --no-merged); do git merge-base origin/main $ref; done`
+#            -> 183 candidate refs, 20.0 s. OVER THE TIMEOUT. It is slow for the exact reason it
+#            looks cheap: proving NO common ancestor makes git walk both histories to the end.
+#     this: one `git for-each-ref --no-merged=origin/main --contains=<root>` -> 0.28 s.
+#     whole HALF B, five consecutive runs: 0.451 / 0.452 / 0.457 / 0.460 / 0.462 s.
+# The two methods were compared as SETS, not as counts: both return the same 37 refs, `diff` empty.
+# ⭐ And root-containment excludes the workflow data refs STRUCTURALLY rather than by name — all 13
+# `*-cache` refs plus `email-outbox` and `figure-renders` are orphan refs sharing no root with the
+# trunk, so they fall out of the query itself. A name-glob exclusion list would have been one more
+# thing to keep in sync, and one more place to quietly widen.
+#
+# ⚠ NO FETCH, STILL — BUT THE STALENESS IS NOW REPORTED RATHER THAN REASONED AWAY. The old comment
+# argued a stale remote ref "cannot produce a false silence". That is true of HALF A (its AHEAD is
+# exact) and FALSE of HALF B, which compares other people's refs against a last-known `origin/main`:
+# a branch merged since the last fetch reads as stranded, and a branch pushed since the last fetch is
+# invisible. Measured 2026-09-01: `git ls-remote` put origin/main at 105df270 while this clone's
+# remote-tracking ref sat at 1d01f079, EIGHT MINUTES after the last fetch. So HALF B prints the age of
+# the last fetch and calls its own number a reading, not a truth. Fetching from a Stop hook would put
+# a network round trip in the stopping path, which is what the original comment correctly refused.
+#
+# ⚠ AND IN A SHALLOW CLONE THE CENSUS UNDER-REPORTS. This checkout is shallow (`is-shallow-repository`
+# = true), grafted at 2026-08-04. `--max-parents=0` therefore returns the GRAFT boundary, not the true
+# root, so HALF B really asks "does this ref contain main's earliest LOCALLY KNOWN commit?" — and a
+# branch that forked below the graft cannot be classified at all. 141 of the refs this clone calls
+# "no common ancestor" have tips BELOW the graft: they are UNMEASURED, not merged, and calling them
+# "pre-rewrite history" is a claim this clone cannot support. The error direction is FALSE SILENCE,
+# so the printed count is a LOWER BOUND and says so. All 37 reported today have tips from 2026-08-06
+# onward, well above the graft, so the reading is sound for every branch it names.
+# =====================================================================================================
 
 set -uo pipefail
 
@@ -47,58 +120,164 @@ if command -v jq >/dev/null 2>&1; then
   fi
 fi
 
-REPO="${CLAUDE_PROJECT_DIR:-/home/user/Rare-cancers}"
+# REPO discovery, copied from `escalation-debt-at-turn-end.sh`: CLAUDE_PROJECT_DIR when the harness
+# sets it, otherwise the repo this hook file physically lives in. A hook that silently measures the
+# wrong tree is worse than one that measures nothing.
+_hook_dir=$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd) || _hook_dir=""
+REPO=""
+for cand in "${CLAUDE_PROJECT_DIR:-}" "${_hook_dir%/.claude/hooks}"; do
+  [ -n "$cand" ] || continue
+  if git -C "$cand" rev-parse --git-dir >/dev/null 2>&1; then REPO="$cand"; break; fi
+done
+[ -n "$REPO" ] || exit 0
 cd "$REPO" 2>/dev/null || exit 0
-git rev-parse --git-dir >/dev/null 2>&1 || exit 0
 
-BRANCH=$(git branch --show-current 2>/dev/null)
-[ -z "$BRANCH" ] && exit 0
-[ "$BRANCH" = "main" ] && exit 0
+HAVE_ORIGIN_REFS=$(git for-each-ref --count=1 --format=x refs/remotes/origin 2>/dev/null)
 
-# ⚠ NO FETCH. A Stop hook must be fast and must never fail the turn on a network hiccup, so this
-# reads the last-known `origin/main`. That makes BEHIND a lower bound and AHEAD exact — and AHEAD is
-# what this hook is about, so reading a stale remote ref cannot produce a false silence.
-git rev-parse --verify -q origin/main >/dev/null 2>&1 || exit 0
-read -r BEHIND AHEAD < <(git rev-list --left-right --count origin/main...HEAD 2>/dev/null | tr '\t' ' ')
-[ "${AHEAD:-0}" -eq 0 ] && exit 0
-
-# ⛔ A DIRTY TREE IS SOMEBODY ELSE'S ALARM. `stop-hook-git-check.sh` already fires on uncommitted
-# changes; firing here too would stack two warnings for one state and teach the reader to skim both.
-# This hook is about COMMITTED work that is not on the trunk.
-if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+# ⛔ AN ABSENT READING IS NOT A READING OF ABSENCE (CLAUDE.md §4). If this is a clone of something —
+# it has remote-tracking refs — but `origin/main` will not resolve, the honest report is UNMEASURED,
+# and UNMEASURED is not a reason to go quiet. A repo with no origin at all is not this repository and
+# is left alone.
+if ! git rev-parse --verify -q origin/main >/dev/null 2>&1; then
+  if [ -n "$HAVE_ORIGIN_REFS" ]; then
+    {
+      echo "⛔ merge-debt: \`origin/main\` does not resolve in this checkout, so NOTHING was measured."
+      echo "   That is UNMEASURED, not clean. Neither your own merge debt nor the branch census ran."
+      echo "   Fix the remote (\`git remote -v\`, \`git fetch origin main\`) and stop again."
+    } >&2
+    exit 2
+  fi
   exit 0
 fi
 
+# ─────────────────────────────────────────────────────────────────────────────────────────────────
+# HALF A — the merge debt of THIS session's own branch.
+# ─────────────────────────────────────────────────────────────────────────────────────────────────
+A_AHEAD=0; A_BEHIND=0; A_BRANCH=""; A_DIRTY=0
+BRANCH=$(git branch --show-current 2>/dev/null)
+if [ -n "$BRANCH" ] && [ "$BRANCH" != "main" ]; then
+  # ⚠ `--left-right --count A...B` prints LEFT then RIGHT: left = on origin/main only (BEHIND),
+  # right = on HEAD only (AHEAD). Getting this pair backwards inverts the hook, so it is spelled out.
+  read -r A_BEHIND A_AHEAD < <(git rev-list --left-right --count origin/main...HEAD 2>/dev/null | tr '\t' ' ')
+  A_BEHIND=${A_BEHIND:-0}; A_AHEAD=${A_AHEAD:-0}
+  A_BRANCH="$BRANCH"
+  [ -n "$(git status --porcelain 2>/dev/null)" ] && A_DIRTY=1
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────────────────────────
+# HALF B — every branch on `origin` that carries unmerged commits, whoever pushed it and whenever.
+# Not gated on HEAD. Not gated on the worktree. One `for-each-ref`, no network.
+# ─────────────────────────────────────────────────────────────────────────────────────────────────
+B_REFS=""; B_N=0; B_COMMITS=0
+ROOT=$(git rev-list --max-parents=0 origin/main 2>/dev/null | tail -1)
+if [ -n "$ROOT" ]; then
+  B_REFS=$(git for-each-ref --no-merged=origin/main --contains="$ROOT" \
+             --sort=-committerdate --format='%(refname:short)' refs/remotes/origin 2>/dev/null)
+  if [ -n "$B_REFS" ]; then
+    B_N=$(printf '%s\n' "$B_REFS" | grep -c .)
+    # shellcheck disable=SC2086 — deliberate word splitting: these are ref names, one per line.
+    B_COMMITS=$(git rev-list --count $B_REFS --not origin/main 2>/dev/null || echo 0)
+  fi
+fi
+
+# Nothing to say only when BOTH halves are quiet — and HALF A is quiet on a dirty tree by the trade
+# argued in the header.
+if [ "$B_N" -eq 0 ] && { [ "$A_AHEAD" -eq 0 ] || [ "$A_DIRTY" -eq 1 ]; }; then
+  exit 0
+fi
+
+FETCH_AGE="unknown"
+if [ -f .git/FETCH_HEAD ]; then
+  _m=$(date -u -r .git/FETCH_HEAD +%s 2>/dev/null || echo "")
+  if [ -n "$_m" ]; then
+    _d=$(( $(date -u +%s) - _m ))
+    if [ "$_d" -lt 3600 ]; then FETCH_AGE="$((_d / 60)) min ago"; else FETCH_AGE="$((_d / 3600)) h ago"; fi
+  fi
+fi
+
 {
-  echo "⛔ $AHEAD commit(s) on '$BRANCH' are NOT on main. Committed, clean, and off the trunk."
-  echo
-  git log --oneline --no-decorate origin/main..HEAD 2>/dev/null | head -8 | sed 's/^/   /'
-  [ "$AHEAD" -gt 8 ] && echo "   … and $((AHEAD - 8)) more"
-  echo
-  if [ "${BEHIND:-0}" -gt 0 ]; then
-    echo "⚠ '$BRANCH' is also $BEHIND commit(s) BEHIND main (last-known ref; fetch for the true count)."
-    echo "   Merging main IN first is the same rule — CLAUDE.md §7, 'merge early and often'."
+  # ── HALF A ─────────────────────────────────────────────────────────────────────────────────────
+  if [ "$A_AHEAD" -gt 0 ] && [ "$A_DIRTY" -eq 0 ]; then
+    echo "⛔ $A_AHEAD commit(s) on '$A_BRANCH' are NOT on main. Committed, clean, and off the trunk."
+    echo
+    git log --oneline --no-decorate origin/main..HEAD 2>/dev/null | head -8 | sed 's/^/   /'
+    [ "$A_AHEAD" -gt 8 ] && echo "   … and $((A_AHEAD - 8)) more"
+    echo
+    if [ "$A_BEHIND" -gt 0 ]; then
+      echo "⚠ '$A_BRANCH' is also $A_BEHIND commit(s) BEHIND main (last-known ref; fetch for the true count)."
+      echo "   Merging main IN first is the same rule — CLAUDE.md §7, 'merge early and often'."
+      echo
+    fi
+    echo "⛔⛔ MERGING TO main NEEDS NO PERMISSION, AND READING A BRANCH INSTRUCTION AS IF IT DID IS"
+    echo "   THE MISTAKE THIS HOOK EXISTS FOR. CLAUDE.md §6: \"A MERGE OR PUSH TO \`main\` IS THE COMMIT"
+    echo "   LOOP, NOT PUBLICATION\" — ordinary work, gated by ./scripts/preflight.sh and nothing else."
+    echo "   An instruction to develop on a named branch says where work LANDS. It does not say the"
+    echo "   trunk goes unsynced, and it is not a reason to ask (CLAUDE.md §3: a gate you could resolve"
+    echo "   is never an escalation)."
+    echo
+    echo "★ ONE OF THESE IS TRUE, AND THE REPLY SHOULD SAY WHICH:"
+    echo "   1. It is ready. Then MERGE IT — preflight, merge to main, push. Not next turn."
+    echo "   2. It is genuinely not ready — a half-finished change a merge would ship broken. Then say"
+    echo "      WHAT is unfinished. \"I'll merge when the feature is done\" is not that; this repository"
+    echo "      merges early and often precisely so that 'done' is never the first merge."
+    echo "   3. Somebody outside this session must decide — and that is rare enough that it needs a"
+    echo "      reason, not a habit."
+    echo
+  elif [ "$A_AHEAD" -gt 0 ] && [ "$A_DIRTY" -eq 1 ]; then
+    echo "⚠ This checkout ('$A_BRANCH') also has $A_AHEAD commit(s) off the trunk. The worktree is dirty,"
+    echo "   so the merge instruction is deferred to the next clean stop — \`~/.claude/stop-hook-git-check.sh\`"
+    echo "   already owns the uncommitted-changes alarm, and stacking two warnings on one state teaches"
+    echo "   skimming. ⛔ The DEBT is not deferred, only the advice: it is printed here every stop."
     echo
   fi
-  echo "⛔⛔ MERGING TO main NEEDS NO PERMISSION, AND READING A BRANCH INSTRUCTION AS IF IT DID IS"
-  echo "   THE MISTAKE THIS HOOK EXISTS FOR. CLAUDE.md §6: \"A MERGE OR PUSH TO \`main\` IS THE COMMIT"
-  echo "   LOOP, NOT PUBLICATION\" — ordinary work, gated by ./scripts/preflight.sh and nothing else."
-  echo "   An instruction to develop on a named branch says where work LANDS. It does not say the"
-  echo "   trunk goes unsynced, and it is not a reason to ask (CLAUDE.md §3: a gate you could resolve"
-  echo "   is never an escalation)."
-  echo
-  echo "★ ONE OF THESE IS TRUE, AND THE REPLY SHOULD SAY WHICH:"
-  echo "   1. It is ready. Then MERGE IT — preflight, merge to main, push. Not next turn."
-  echo "   2. It is genuinely not ready — a half-finished change a merge would ship broken. Then say"
-  echo "      WHAT is unfinished. \"I'll merge when the feature is done\" is not that; this repository"
-  echo "      merges early and often precisely so that 'done' is never the first merge."
-  echo "   3. Somebody outside this session must decide — and that is rare enough that it needs a"
-  echo "      reason, not a habit."
-  echo
-  echo "⚠ WHY THIS IS NOT PEDANTRY. Measured 2026-08-29: 20+ branches on origin carry unmerged"
-  echo "   commits, most a month stale, and one bug got diagnosed twice in one hour by two sessions"
-  echo "   that could not see each other. §7 calls branch drift a DATA-LOSS BUG for that reason."
-  echo
+
+  # ── HALF B ─────────────────────────────────────────────────────────────────────────────────────
+  if [ "$B_N" -gt 0 ]; then
+    echo "⛔ $B_N branch(es) on origin carry $B_COMMITS unmerged commit(s). §7 calls this a DATA-LOSS BUG."
+    echo "   These share this trunk's history and are not ancestors of the last-known origin/main."
+    echo "   Newest first (refs as last fetched, $FETCH_AGE — no fetch is run from a Stop hook):"
+    echo
+    printf '%s\n' "$B_REFS" | head -12 | while read -r _r; do
+      [ -n "$_r" ] || continue
+      _c=$(git rev-list --count "origin/main..$_r" 2>/dev/null || echo '?')
+      _d=$(git log -1 --format=%cs "$_r" 2>/dev/null || echo '????-??-??')
+      # ⚠ This checkout's own upstream branch is NOT excluded — it is a branch on origin carrying
+      # unmerged commits and that is simply true. It is MARKED instead, so a reader does not mistake
+      # HALF A's subject for somebody else's stranded work. Excluding it would be the first of the
+      # convenience exclusions that turn a census into a filter.
+      if [ -n "$A_BRANCH" ] && [ "$_r" = "origin/$A_BRANCH" ]; then
+        printf '   %-4s %s  %s   ← this checkout (HALF A above)\n' "$_c" "$_d" "$_r"
+      else
+        printf '   %-4s %s  %s\n' "$_c" "$_d" "$_r"
+      fi
+    done
+    [ "$B_N" -gt 12 ] && echo "   … and $((B_N - 12)) more"
+    echo
+    echo "★ THIS IS NOT YOUR BRANCH AND THAT IS THE POINT. The old hook measured origin/main...HEAD, so"
+    echo "   it could only see the branch the stopping session sat on — and a branch pushed by a session"
+    echo "   that has ENDED is exactly the case it could not represent. Four seat branches sat unmerged"
+    echo "   for four days under a green hook; the census then found 37, not four."
+    echo
+    echo "★ WHAT TO DO, AND NONE OF IT IS 'note it and move on':"
+    echo "   1. Read one. \`git log --oneline origin/main..<ref>\` and \`git diff origin/main...<ref>\` are"
+    echo "      free, local and already fetched. Most of these are one commit."
+    echo "   2. Worth keeping -> merge it (preflight, merge, push). That is the commit loop, not"
+    echo "      publication, and it needs nobody's permission."
+    echo "   3. Superseded or empty -> say so IN WRITING with the reading that shows it, and the branch"
+    echo "      can be deleted. A branch nobody has read is not 'probably nothing'."
+    echo "   4. Cannot be judged from here -> record it on the owning ledger row's \`_stranded_work\`"
+    echo "      with the branch name AND its tip sha. That field is the only thing in this repository"
+    echo "      that has ever actually recovered a stranded branch (S31: AUT-PD-130 -> seat/s1)."
+    echo "      ⛔ It does NOT silence this hook. Only merging or deleting the branch does."
+    echo
+    echo "⚠ THE NUMBER IS A LOWER BOUND, TWICE OVER, AND NEITHER IS FIXABLE FROM A STOP HOOK:"
+    echo "   • refs are as of the last fetch ($FETCH_AGE); anything pushed since is invisible here."
+    if [ "$(git rev-parse --is-shallow-repository 2>/dev/null)" = "true" ]; then
+      echo "   • this clone is SHALLOW, so a branch forked below the graft cannot be classified at all"
+      echo "     and is counted as neither merged nor stranded. UNMEASURED, not clean."
+    fi
+    echo
+  fi
   echo "⚠ Fires once per stop. It will not ask twice — answer it now."
 } >&2
 

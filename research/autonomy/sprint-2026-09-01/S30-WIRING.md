@@ -26,7 +26,7 @@ row costs **1.85 s** in the gate (three standalone runs: 1.79 / 1.83 / 1.91 s), 
 1.8 s to the second decimal, and it **stays in the default tier** — the reasoning is measured below.
 
 ⚠ **The regenerated census is a snapshot of a moving tree and is NOT final.** See
-[§ The census is a snapshot](#the-census-is-a-snapshot-the-driver-must-re-run---check-on-the-settled-tree).
+§ The census is a snapshot.
 
 ---
 

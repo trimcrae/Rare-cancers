@@ -774,7 +774,23 @@ gen_fail=""
 # ⛔ NO ROW HERE CITES ANYTHING AUTOMATICALLY. Both verify a decision a human made; the ledger's
 # `declined` status exists so that "we looked and it is not owed" stays distinguishable from
 # "nobody looked". Measured cost of the pair: under 0.3 s.
+# ⭐ THE CLAIM-COVERAGE ROW IS AUT-PD-130 AND IT IS THE MOST EXPENSIVE SINGLE ROW IN THIS GATE —
+# 1.8 s, measured 2026-09-01 over three runs (1.79 / 1.83 / 1.91 s), against 4.80 s for the sixteen
+# pre-existing rows put together (next largest: the archive manifest at 1.48 s). It is here anyway,
+# because it is the only row that can catch an edit whose two halves live in different directories:
+# `claim-coverage.json` harvests its guard patterns from `research/manuscripts/tests/`, so WIDENING
+# A GUARD'S REGEX MOVES `covered` WITH NO MANUSCRIPT BYTE
+# TOUCHED. That is not hypothetical — `83aede1` did exactly it, `covered` went 99 -> 101, and `main`
+# was red on a clean tree for ~35 minutes, during which every sentence witnessed only by the red
+# module scored a false BLIND in the ablation harness.
+# ⚠ THE COMPARISON ITSELF IS NOT NEW; ITS PLACEMENT IS. It has existed since 2026-08-22 inside
+# `test_claim_coverage_has_not_regressed`, in the manuscripts suite — opt-in locally behind
+# PREFLIGHT_TESTS=1, and in CI only after the push that ships the stale artifact. Same shape as the
+# series-mismatch and instrument-census rows above: a `--check` that already existed and that nothing
+# in the commit loop ran. ⭐ It earned the 1.8 s within its first hour: on 2026-09-01 it caught the
+# census going stale TWICE IN TEN MINUTES from concurrent manuscript edits, each time in 1.8 s.
 for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
+         "research/manuscripts/claim_coverage.py|claim coverage census|--check" \
          "research/manuscripts/submission_citations.py|submission references|--check" \
          "research/manuscripts/submission_metrics.py|submission metrics|--check" \
          "research/manuscripts/aso_sequence_manifest.py|canonical sequence file|--check" \

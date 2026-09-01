@@ -1,0 +1,79 @@
+{
+  "_what": "The retraction NOTICES behind every retracted paper this repository cites, as fetched from PubMed on 2026-09-01. One record per notice, plus the article it retracts.",
+  "_why_it_is_a_separate_file_from_the_sweep": "citation-retraction-sweep.json is keyed by EVERY prose identifier in the repository, so lint_citations.survey() excludes it from the anchor scan — measured 2026-09-01: leaving it in took the unanchored counts to zero for all six identifier kinds. That exclusion is correct for the sweep and wrong for these records, which are an ordinary fetch product of a handful of identifiers and SHOULD anchor them. Splitting the two is what lets a notice be cited in prose without the citation looking like it was typed from memory.",
+  "_attribution": "According to PubMed. Titles, journals, publication types and DOIs below are PubMed's, retrieved through the PubMed MCP connector (get_article_metadata, convert_article_ids) on 2026-09-01. PubMed's terms require its metadata to travel with a resolvable DOI link, so every record carries doi_url.",
+  "_what_this_does_not_prove": "A notice record proves a retraction HAPPENED and gives its identifier and date. It does not carry the GROUNDS: PubMed holds no abstract for either notice, and the notice texts sit behind publisher domains that this sandbox's egress proxy refuses (CONNECT 403). `stated_grounds: UNKNOWN` is an honest unknown and must not be filled in from recollection or from a search-result snippet.",
+  "retrieved_utc": "2026-09-01",
+  "notices": [
+    {
+      "notice": {
+        "pmid": "42622620",
+        "title": "Statement of Retraction: Orphan nuclear receptor transcription factors as drug targets.",
+        "journal": "Transcription",
+        "published": "2026-08-20",
+        "doi": "10.1080/21541264.2026.2714669",
+        "doi_url": "https://doi.org/10.1080/21541264.2026.2714669",
+        "article_types": [
+          "Journal Article",
+          "Retraction Notice"
+        ],
+        "stated_grounds": "UNKNOWN",
+        "why_unknown": "PubMed returns '[Abstract not available]' for this record; doi.org and tandfonline.com are refused by the egress proxy (curl: (56) CONNECT tunnel failed, response 403, measured 2026-09-01). Resolvable by a $0 CI fetch from a runner with full internet.",
+        "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/42622620/"
+      },
+      "retracts": {
+        "pmid": "40646688",
+        "pmcid": "PMC12263127",
+        "doi": "10.1080/21541264.2025.2521766",
+        "doi_url": "https://doi.org/10.1080/21541264.2025.2521766",
+        "title": "Orphan nuclear receptor transcription factors as drug targets.",
+        "journal": "Transcription",
+        "year": "2025",
+        "citation": "16(2-3):224-260",
+        "article_types": [
+          "Journal Article",
+          "Review",
+          "Research Support, N.I.H., Extramural",
+          "Retracted Publication"
+        ],
+        "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40646688/"
+      },
+      "cited_in": [
+        "research/modalities/nr4a3-druggability-reconciliation.md",
+        "research/manuscripts/degrader/nr4a3-degrader-paper.md"
+      ]
+    },
+    {
+      "notice": {
+        "pmid": "37565162",
+        "pmcid": "PMC10412175",
+        "doi": "10.1155/2023/9867930",
+        "doi_url": "https://doi.org/10.1155/2023/9867930",
+        "published": "2023",
+        "stated_grounds": "UNKNOWN",
+        "why_unknown": "The PMID<->PMCID<->DOI triple was re-fetched here (convert_article_ids, 2026-09-01), but the notice text was not: PMC is refused by the egress proxy. The repository's own prior-art record (research/literature/no-wet-lab-archetypes-2026-08-12.json) characterises it as part of the Hindawi paper-mill sweep, and that characterisation came from WebSearch result text rather than a fetched notice — it is recorded there with that caveat and is not upgraded here.",
+        "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37565162/"
+      },
+      "retracts": {
+        "pmid": "36062197",
+        "pmcid": "PMC9428684",
+        "doi": "10.1155/2022/2896049",
+        "doi_url": "https://doi.org/10.1155/2022/2896049",
+        "title": "Network Pharmacology, Molecular Docking, and Experimental Validation to Unveil the Molecular Targets and Mechanisms of Compound Fuling Granule to Treat Ovarian Cancer.",
+        "journal": "Oxid Med Cell Longev",
+        "year": "2022",
+        "citation": "2022:2896049",
+        "article_types": [
+          "Journal Article",
+          "Retracted Publication"
+        ],
+        "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36062197/"
+      },
+      "cited_in": [
+        "research/manuscripts/no-wet-lab-publication-archetypes.md",
+        "research/literature/no-wet-lab-archetypes-2026-08-12.json"
+      ]
+    }
+  ],
+  "_why_every_record_carries_pubmed_url": "lint_citations.PATTERNS['PMID'] requires the literal token 'PMID' adjacent to the digits, a pubmed.ncbi.nlm.nih.gov URL, or an EXT_ID — a lowercase JSON key \"pmid\": \"...\" anchors NOTHING, and that comment in lint_citations.py records a drafting agent hitting gate 4 over exactly this. The fix is the one that file names: the artifact carries the URL form a real fetch produces. Measured here, 2026-09-01: without pubmed_url, PMID 42622620 stayed UNANCHORED while its own fetched record sat in this file."
+}

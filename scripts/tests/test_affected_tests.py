@@ -20,6 +20,13 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 
 import affected_tests as A  # noqa: E402
 
+#: ⛔⛔ THE COMMITTED RECORD'S PATH, CAPTURED AT IMPORT — BEFORE ANY FIXTURE CAN REWRITE IT.
+#: `_validated` below rewrites `A.VALIDATION_RECORD` for every test in this file, so a test that
+#: reads it after collection sees the temp record, never the committed one. A test whose SUBJECT is
+#: the committed record must bind here and re-point the module at it. See the comment above
+#: `test_the_committed_record_matches_the_committed_gatekeepers`.
+COMMITTED_RECORD = A.VALIDATION_RECORD
+
 
 @pytest.fixture(autouse=True)
 def _validated(monkeypatch, tmp_path_factory):
@@ -27,7 +34,14 @@ def _validated(monkeypatch, tmp_path_factory):
 
     Otherwise a test exercising the scoping path would be answering "is the selector validated
     right now?" instead of the question it was written to ask, and would go red for a reason that
-    has nothing to do with it. The two tests that are about the record patch it themselves.
+    has nothing to do with it.
+
+    ⛔ EVERY TEST THAT IS *ABOUT* THE RECORD MUST RE-POINT `A.VALIDATION_RECORD` ITSELF. This
+    docstring used to say "the two tests that are about the record patch it themselves", which was
+    true of the two that patch it and false of the third, whose whole job was to notice a stale
+    committed record — so it was handed a record that matched by construction and could not fail.
+    Four tests now re-point it: the two that fabricate a wrong hash, the one that points at a
+    missing file, and the one that binds `COMMITTED_RECORD`.
     """
     rec = tmp_path_factory.mktemp("val") / "selector-validation.json"
     rec.write_text(json.dumps({"validated": {
@@ -253,12 +267,30 @@ def test_an_unreadable_validation_record_takes_the_whole_suite(fake, tmp_path, m
     assert A.select() is None
 
 
-def test_the_committed_record_matches_the_committed_gatekeepers():
+# ⛔⛔ THIS TEST COULD NOT FAIL FOR EIGHTEEN COMMITS (2026-09-01, sprint seat S26-CANNOT-FAIL).
+# The `_validated` autouse fixture above rewrites `A.VALIDATION_RECORD` to a temp record built from
+# the hashes ON DISK, so the one test whose subject is the COMMITTED record was handed a record that
+# matched by construction. Measured, not reasoned: `affected_tests._unvalidated_gatekeepers()`
+# against the real record returned `{'scripts/preflight.sh'}` and calling this function directly
+# raised its AssertionError, while `pytest scripts/tests/test_affected_tests.py` reported 17 passed.
+# That is why CLAUDE.md §6's "permanent tripwire" went unnoticed: the guard written to shout about
+# it had been silent since 2026-08-26. It now binds `COMMITTED_RECORD`, which is read at import,
+# before any fixture runs — and it asserts that the path it read is the committed one, so a future
+# fixture that rewrites the constant cannot silence this test without the assertion naming it.
+
+
+def test_the_committed_record_matches_the_committed_gatekeepers(monkeypatch):
     """⚠ THE RECORD IS PART OF THE COMMIT THAT CHANGES THE SELECTOR, NOT A LATER CHORE.
 
     A record left stale costs a full run on every commit until someone notices — the safe direction,
     but a silent tax. This fails loudly instead, and names the command that fixes it.
     """
+    monkeypatch.setattr(A, "VALIDATION_RECORD", COMMITTED_RECORD)
+    expected = os.path.join(ROOT, "scripts", "selector-validation.json")
+    assert os.path.abspath(A.VALIDATION_RECORD) == os.path.abspath(expected), (
+        f"this test must read the COMMITTED record at {expected}, and it is reading "
+        f"{A.VALIDATION_RECORD}. A record built by a fixture matches the tree by construction, so "
+        "the assertion below would be about nothing.")
     stale = A._unvalidated_gatekeepers()
     assert stale is not None, f"{A.VALIDATION_RECORD} is unreadable or incomplete"
     assert not stale, (

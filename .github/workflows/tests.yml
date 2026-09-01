@@ -222,6 +222,20 @@ jobs:
           # --check-archive, not --check: the manifest stamps git_revision, which advances on every
           # commit, so the strict form is red the instant you commit the manifest you just built.
           python3 research/manuscripts/aso_archive_manifest.py --check-archive
+      # ⭐ ITS OWN STEP, NOT A LINE IN THE ONE ABOVE, BECAUSE IT IS NOT AN ASO DEPOSIT ARTIFACT
+      # (AUT-PD-130, 2026-09-01). The census covers all 27 censused manuscripts, and a reader
+      # scanning the CI log for why the job went red should see the census named rather than a
+      # traceback under a step called "ASO deposit artifacts".
+      # ⛔ THE PAIR IT GUARDS SPANS TWO DIRECTORIES, WHICH IS WHY NOTHING ELSE CATCHES IT:
+      # `claim-coverage.json` harvests its guard patterns from `research/manuscripts/tests/`, so
+      # widening a guard's regex moves `covered` with NO manuscript byte touched. `83aede1` did
+      # exactly that, `covered` went 99 -> 101, and `main` was red on a clean tree for ~35 minutes.
+      # ⚠ The comparison has existed since 2026-08-22 inside `test_claim_coverage_has_not_regressed`,
+      # in the manuscripts suite -- which is the OTHER job in this file, i.e. behind the 19-28 minute
+      # pytest step this job was split off from. Here it is ~2 s and names its own document.
+      # Stdlib-only, no git history, so the shallow checkout above is sufficient.
+      - name: The claim-coverage census reproduces from the live corpus
+        run: python3 research/manuscripts/claim_coverage.py --check
       - name: Endpoint producer logic and --check are real (not just wired)
         run: |
           python3 -m pytest research/manuscripts/tests/test_endpoint_logic.py \
