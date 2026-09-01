@@ -36,6 +36,7 @@ import zenodo_deposit as Z  # noqa: E402
 
 PUBLISHED = 22182180
 DRAFT = 22229096
+CONCEPT = 22028915
 
 MANIFEST = {
     "git_revision": "0" * 40,
@@ -49,16 +50,24 @@ def _draft(dep_id=DRAFT, submitted=False):
     return {
         "id": dep_id,
         "submitted": submitted,
+        "conceptrecid": CONCEPT,
         "files": [{"id": "inherited-1"}, {"id": "inherited-2"}],
         "links": {"bucket": "https://zenodo.org/api/files/bucket", "html": "https://zenodo.org/x"},
         "metadata": {"prereserve_doi": {"doi": f"10.5281/zenodo.{dep_id}"}},
     }
 
 
-def _run(monkeypatch, tmp_path, published_links, draft=None, argv=None):
-    """Drive main() with every real side effect replaced. Returns (calls, exit_or_exc)."""
+def _run(monkeypatch, tmp_path, published_links, draft=None, argv=None, listing=None):
+    """Drive main() with every real side effect replaced. Returns (calls, exit_or_exc).
+
+    `listing` is what `GET /deposit/depositions?…` returns — the endpoint that actually answers
+    "is a draft already open on this record?". ⛔ `links.latest_draft` DOES NOT ANSWER IT: measured
+    live in run 33519701596, it resolved to the PUBLISHED record itself, and adopting on the
+    strength of it would have uploaded over the version both papers cite.
+    """
     calls = []
     draft = draft if draft is not None else _draft()
+    listing = [] if listing is None else listing
 
     seen_published = []
 
@@ -72,7 +81,10 @@ def _run(monkeypatch, tmp_path, published_links, draft=None, argv=None):
         # mutation: deleting that guard left this file green.
         if method == "GET" and str(PUBLISHED) in path and not seen_published:
             seen_published.append(path)
-            return {"id": PUBLISHED, "submitted": True, "links": published_links, "files": []}
+            return {"id": PUBLISHED, "submitted": True, "links": published_links,
+                    "conceptrecid": CONCEPT, "files": []}
+        if method == "GET" and path.startswith("/deposit/depositions?"):
+            return listing
         if method == "POST" and path.endswith("actions/newversion"):
             return {"links": {"latest_draft": f"/deposit/depositions/{DRAFT}"}}
         if method == "GET":
@@ -107,8 +119,8 @@ def _run(monkeypatch, tmp_path, published_links, draft=None, argv=None):
 
 def test_an_open_draft_is_adopted_and_newversion_is_never_posted(monkeypatch, tmp_path):
     """The whole point: the run that resumes must not ask Zenodo for a second version."""
-    calls, out = _run(monkeypatch, tmp_path,
-                      {"latest_draft": f"/deposit/depositions/{DRAFT}"})
+    calls, out = _run(monkeypatch, tmp_path, {},
+                      listing=[{"id": DRAFT, "submitted": False, "conceptrecid": CONCEPT}])
     assert out == 0, out
     posts = [p for m, p in calls if m == "POST"]
     assert not any(p.endswith("actions/newversion") for p in posts), \
@@ -118,8 +130,8 @@ def test_an_open_draft_is_adopted_and_newversion_is_never_posted(monkeypatch, tm
 def test_the_adopted_draft_gets_its_inherited_files_cleared(monkeypatch, tmp_path):
     """⛔ The step the 504 skipped. A new version inherits the old one's files, so a run that
     adopts a draft and does not clear them ships a UNION of two archives."""
-    calls, out = _run(monkeypatch, tmp_path,
-                      {"latest_draft": f"/deposit/depositions/{DRAFT}"})
+    calls, out = _run(monkeypatch, tmp_path, {},
+                      listing=[{"id": DRAFT, "submitted": False, "conceptrecid": CONCEPT}])
     assert out == 0
     deletes = [p for m, p in calls if m == "DELETE"]
     assert len(deletes) == 2, f"inherited files were not cleared: {deletes}"
@@ -135,12 +147,58 @@ def test_with_no_open_draft_it_still_opens_one(monkeypatch, tmp_path):
         "no draft was open, so the run had to open one and did not"
 
 
+def test_a_latest_draft_link_is_not_treated_as_a_draft(monkeypatch, tmp_path):
+    """⛔⛔ THE LIVE FAILURE THAT WROTE THIS TEST, run 33519701596. `links.latest_draft` on published
+    record 22182180 resolved to 22182180 — the link tracks the latest VERSION, which is normally
+    the published one, and is not a draft pointer. The first adoption believed it and was stopped
+    only by the refusal at the call site. With no open draft in the listing, the run must open a
+    version the ordinary way and must NOT adopt whatever that link names."""
+    calls, out = _run(monkeypatch, tmp_path,
+                      {"latest_draft": f"/deposit/depositions/{PUBLISHED}"}, listing=[])
+    assert out == 0, out
+    assert any(m == "POST" and p.endswith("actions/newversion") for m, p in calls), \
+        "the run adopted something on the strength of latest_draft instead of opening a version"
+
+
+def test_a_draft_of_a_different_record_is_not_adopted(monkeypatch, tmp_path):
+    """A draft open on some OTHER record shares the account, not the concept. Adopting it would
+    upload this paper's archive onto an unrelated deposition."""
+    calls, out = _run(monkeypatch, tmp_path, {},
+                      listing=[{"id": 999999, "submitted": False, "conceptrecid": 111}])
+    assert out == 0
+    assert any(m == "POST" and p.endswith("actions/newversion") for m, p in calls), \
+        "a draft with a different conceptrecid was adopted as this record's new version"
+
+
+def test_an_older_published_version_is_never_mistaken_for_the_open_draft(monkeypatch, tmp_path):
+    """⛔⛔ THE DISASTER CASE, AND NO TEST REACHED IT UNTIL A MUTATION SAID SO.
+
+    Every version of a record shares its `conceptrecid`, so the listing this search reads contains
+    the record's OLD PUBLISHED VERSIONS as well as any draft. 10.5281/zenodo.22182180 already has
+    two predecessors. Dropping the `submitted` filter therefore does not merely widen the search —
+    it makes the run adopt a published version whose id is not the current one, sail past the
+    `dep_id == published_id` check, and upload the corrected archive over an archive a reader may
+    already have cited. Irreversible, and it would look like success.
+
+    ⚠ FOUND BY MUTATION, NOT BY READING: removing `row.get("submitted")` from the filter left this
+    file entirely green, because every listing in it happened to contain only unpublished rows —
+    fixtures shaped like the happy path. That is the third time in one session a double was shaped
+    like its own assumption.
+    """
+    older = {"id": 22166420, "submitted": True, "conceptrecid": CONCEPT}
+    calls, out = _run(monkeypatch, tmp_path, {}, listing=[older])
+    assert out == 0, out
+    assert any(m == "POST" and p.endswith("actions/newversion") for m, p in calls), \
+        "an older PUBLISHED version was adopted as the open draft"
+    assert not any(m == "DELETE" and str(older["id"]) in p for m, p in calls), \
+        "the run began deleting the files of a published version"
+
+
 def test_a_published_target_is_refused(monkeypatch, tmp_path):
     """⛔ The dangerous adoption. If the link resolves to something Zenodo calls submitted, this
     run would replace the files of a version a reader may already cite."""
-    calls, out = _run(monkeypatch, tmp_path,
-                      {"latest_draft": f"/deposit/depositions/{DRAFT}"},
-                      draft=_draft(submitted=True))
+    calls, out = _run(monkeypatch, tmp_path, {}, draft=_draft(submitted=True),
+                      listing=[{"id": DRAFT, "submitted": False, "conceptrecid": CONCEPT}])
     assert isinstance(out, SystemExit), "a submitted target was accepted as a draft"
     assert "PUBLISHED" in str(out)
     assert not any(m in ("PUT", "DELETE") for m, _ in calls), \
@@ -149,9 +207,8 @@ def test_a_published_target_is_refused(monkeypatch, tmp_path):
 
 def test_a_self_referential_link_is_refused(monkeypatch, tmp_path):
     """A link that points back at the published record leaves nothing to write to."""
-    calls, out = _run(monkeypatch, tmp_path,
-                      {"latest_draft": f"/deposit/depositions/{PUBLISHED}"},
-                      draft=_draft(dep_id=PUBLISHED))
+    calls, out = _run(monkeypatch, tmp_path, {}, draft=_draft(dep_id=PUBLISHED),
+                      listing=[{"id": PUBLISHED + 1, "submitted": False, "conceptrecid": CONCEPT}])
     assert isinstance(out, SystemExit), "the record adopted itself as its own new version"
     assert not any(m in ("PUT", "DELETE") for m, _ in calls)
 
@@ -162,7 +219,7 @@ def test_the_reserved_doi_is_read_from_the_response(monkeypatch, tmp_path, capsy
     prior versions happened to match that way."""
     draft = _draft()
     draft["metadata"]["prereserve_doi"]["doi"] = "10.5281/zenodo.99999999"
-    calls, out = _run(monkeypatch, tmp_path,
-                      {"latest_draft": f"/deposit/depositions/{DRAFT}"}, draft=draft)
+    calls, out = _run(monkeypatch, tmp_path, {}, draft=draft,
+                      listing=[{"id": DRAFT, "submitted": False, "conceptrecid": CONCEPT}])
     assert out == 0
     assert "10.5281/zenodo.99999999" in capsys.readouterr().out

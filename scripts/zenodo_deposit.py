@@ -213,6 +213,49 @@ def api(base, token, method, path, payload=None, raw=None, ctype="application/js
             _sleep(_RETRY_BACKOFF[attempt])
 
 
+def _open_draft_of(base, token, published, concept):
+    """The UNPUBLISHED draft already open on this record, or None. Reads only.
+
+    ⛔⛔ `links.latest_draft` DOES NOT MEAN "AN UNPUBLISHED DRAFT EXISTS", AND ASSUMING IT DID WOULD
+    HAVE OVERWRITTEN A PUBLISHED ARCHIVE. Measured live 2026-09-01, run 33519701596: the first
+    version of this adoption read `latest_draft` off published record 22182180 and it resolved to
+    **22182180 itself**. The refusal at the call site caught it — "which Zenodo reports as
+    PUBLISHED" — on the guard's first real run, and the alternative was uploading the corrected
+    archive over the version both papers cite. ★ That link tracks the latest VERSION, which is
+    normally the published one; it is not a draft pointer.
+
+    ★ SO THE DRAFT IS FOUND BY LISTING, WHICH IS WHAT ACTUALLY ANSWERS THE QUESTION: the depositions
+    endpoint returns this account's depositions including unpublished ones, and a new version shares
+    its record's `conceptrecid`. An entry that is not `submitted`, carries that concept id and is
+    not the published record itself IS the open draft — the one at 22229096, orphaned when a 504
+    killed the run that opened it (AUT-PD-197).
+
+    ⛔ IT NEVER MUTATES AND IT NEVER GUESSES. Returning None means "found nothing", and the caller
+    then opens a version the ordinary way; it does not mean "there is nothing", which is why the
+    caller re-checks `submitted` on whatever it ends up with rather than trusting this function.
+    """
+    if not concept:
+        return None
+    for path in (f"/deposit/depositions?status=draft&size=100&all_versions=1",
+                 f"/deposit/depositions?size=100&all_versions=1"):
+        try:
+            rows = api(base, token, "GET", path)
+        except SystemExit:
+            continue                      # this listing shape is unsupported; try the next
+        if not isinstance(rows, list):
+            continue
+        for row in rows:
+            if not isinstance(row, dict) or row.get("submitted"):
+                continue
+            if row.get("conceptrecid") != concept:
+                continue
+            if row.get("id") == published.get("id"):
+                continue
+            print(f"  a new-version draft is ALREADY OPEN on record {published.get('id')}: "
+                  f"deposition {row['id']} — adopting it rather than asking Zenodo for a second one")
+            return api(base, token, "GET", f"/deposit/depositions/{row['id']}")
+    return None
+
 def refuse_unless_publishable(paper_key, manifest, approved_by):
     """⛔ THE THREE CONDITIONS FOR AN IRREVERSIBLE PUBLISH. Every one FAILS CLOSED.
 
@@ -428,31 +471,33 @@ def main(argv=None):
             # ⛔ AND IT IS CHECKED, NOT TRUSTED. An adopted draft that comes back `submitted`, or
             # that is the published record itself, is not a draft; taking either would upload the
             # corrected archive onto something a reader may already cite, so both refuse.
-            latest = (dep.get("links") or {}).get("latest_draft")
-            if latest:
-                print(f"  a new-version draft is ALREADY OPEN on record {existing.group(1)} — "
-                      "adopting it rather than asking Zenodo for a second one")
-            else:
+            published_id = dep_id
+            concept = dep.get("conceptrecid")
+            dep = _open_draft_of(base, token, dep, concept)
+            if dep is None:
                 act = api(base, token, "POST", f"/deposit/depositions/{dep_id}/actions/newversion")
                 latest = act.get("links", {}).get("latest_draft")
                 if not latest:
                     raise SystemExit("Zenodo accepted the newversion action but returned no "
                                      "latest_draft link; open the record on Zenodo and finish by "
                                      "hand")
-            published_id = dep_id
-            dep = api(base, token, "GET", latest)
+                dep = api(base, token, "GET", latest)
             dep_id = dep["id"]
+            # ⛔ THE SAME TWO REFUSALS APPLY TO A DRAFT WE OPENED AND TO ONE WE ADOPTED. Uploading
+            # the corrected archive onto a version a reader may already cite is the one outcome
+            # worth aborting for, and `_open_draft_of` cannot be the only thing standing in front
+            # of it — a helper's guarantee is not a guard.
             if dep.get("submitted"):
                 raise SystemExit(
-                    f"the draft link on record {published_id} resolved to deposition {dep_id}, "
+                    f"the deposition this run resolved to for record {published_id} is {dep_id}, "
                     "which Zenodo reports as PUBLISHED. A published version's files cannot be "
                     "changed and this run would have tried to replace them. Open the record on "
                     "Zenodo and check its version history before re-running.")
             if dep_id == published_id:
                 raise SystemExit(
-                    f"the draft link on record {published_id} resolved to that same record, so "
-                    "there is no new version to write to. Open the record on Zenodo and check its "
-                    "version history before re-running.")
+                    f"record {published_id} resolved to itself, so there is no new version to "
+                    "write to. Open the record on Zenodo and check its version history before "
+                    "re-running.")
             print(f"  NEW VERSION draft {dep_id} of published record {published_id}")
             for old_file in dep.get("files", []):
                 api(base, token, "DELETE", f"/deposit/depositions/{dep_id}/files/{old_file['id']}")

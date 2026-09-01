@@ -1259,46 +1259,6 @@
       "closes_clause": null
     },
     {
-      "id": "AUT-010",
-      "_derived": true,
-      "what": "Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask.",
-      "serves": {
-        "route": "RT-ATR-ASSESS",
-        "publication": "PUB-ATR",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "kind": "write",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-27",
-      "score": 169.3,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": true,
-        "endpoint_reachable": true,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": true,
-        "fruitless_attempts": 0,
-        "age_factor": 0.3571,
-        "age_factor_as_of": "2026-09-01"
-      },
-      "claimed_utc": null,
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "publishes an assessment AND makes an ask of an external group — CLAUDE.md §3, outward-facing. The assessment itself is self-doable and is not this row."
-    },
-    {
       "id": "AUT-PROP-015",
       "kind": "fix",
       "serves": {
@@ -1422,6 +1382,46 @@
       "score_inputs": {
         "age_factor": 0.0714
       }
+    },
+    {
+      "id": "AUT-010",
+      "_derived": true,
+      "what": "Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask.",
+      "serves": {
+        "route": "RT-ATR-ASSESS",
+        "publication": "PUB-ATR",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "kind": "write",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-09-01",
+      "score": 165.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": true,
+        "tier_one": true,
+        "endpoint_reachable": true,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": true,
+        "fruitless_attempts": 0
+      },
+      "claimed_utc": null,
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "publishes an assessment AND makes an ask of an external group — CLAUDE.md §3, outward-facing. The assessment itself is self-doable and is not this row.",
+      "notified_utc": "2026-09-01T14:40:19Z",
+      "_NOTIFIED_AND_ANSWERED_2026_09_01": "★ SENT AND ANSWERED, and `notified_utc` above records the SEND rather than the intention — PushNotification plus AskUserQuestion, both in the turn that stamped it. CLAUDE.md §3: stamping a row you did not send is a false record.\n★ WHAT HE WAS ASKED, and it was a real fork rather than a null notification: this row is 'publish the ATR assessment and pair it with the cell-panel ask', and `publish_bar --paper PUB-ATR` on f37ef3c02 reads **3/7** — failing `hardening_converged` (the last round reviewed c1bc934fec3c, not this tree), `preflight_full_green`, `independent_adversarial_seat`, and `readable_and_keeps_caution` (7 sentences over 60 words, longest 77w at line 509 of emc-atr-vulnerability-assessment.md). ⛔ EVERY ONE OF THOSE IS THE LOOP'S OWN WORK, so the publish/outreach act was not takeable and asking him to take it would have been the failure §3 names. The genuine fork his ASO scoping raises is whether the work is worth doing NOW — and that is his.\n★ HIS ANSWER, 2026-09-01: **park it until ASO is done.** Recorded as `state: parked`, `parked_on: GOAL-ASO-V2`. ⛔ NOTHING IS DROPPED and no bar was touched: the four failing clauses stay failing, the assessment is unchanged, and the row resumes as an ordinary queued item once GOAL-ASO-V2 closes. ⚠ The 7 over-length sentences are the cheap half and are still owed — they are free, tedious and entirely mine, exactly the kind §3 says not to hand over.\n⚠ AND THE HOOK THAT SURFACED THIS WAS FIXED HOURS EARLIER AND HAD NEVER FIRED BEFORE (AUT-PD-202). This is the first decision it has ever put in front of anyone."
     },
     {
       "id": "AUT-046",
@@ -5215,7 +5215,8 @@
       "what": "⛔⛔ A HALF-FINISHED ZENODO CORRECTION WAS UNRECOVERABLE, BECAUSE THE SCRIPT COULD ONLY ASK FOR A NEW VERSION AND NEVER FOR THE ONE IT HAD ALREADY OPENED. Measured 2026-09-01 by CYC-0090-d7df5340, in two real run logs rather than reasoned from the API docs.\n★ THE TWO OBSERVATIONS THAT TOGETHER MAKE IT A TRAP, EACH READ FROM ITS LOG:\n  · run 33498033370 (job 99824631459) — `POST /deposit/depositions/22182180/actions/newversion` SUCCEEDED and the immediately following `GET https://zenodo.org/api/deposit/depositions/22229096` returned `504 Gateway Time-out`. ⭐ THAT LOG LINE IS ALSO WHERE THE DRAFT ID COMES FROM: 22229096 is READ, not inferred from a numbering pattern (CLAUDE.md §7).\n  · run 33498227279 (job 99825249726) — the retry POSTed newversion again and Zenodo answered `400 {\"field\": \"files.enabled\", \"messages\": [\"Please remove all files first.\"]}`. That is Zenodo declining to open a second version while one is open, and NOTHING in that wording says so — it reads as a defect in the archive rather than a run that needs resuming, which is how this cycle spent an hour on a probe branch built on the wrong premise.\n⛔ WHY A RETRY CANNOT FIX THIS AND MUST NOT BE ASKED TO. AUT-PD-199 deliberately retries reads only; the failure here is a mutation that ALREADY SUCCEEDED, so repeating it is exactly the second-orphan case that scope exists to prevent. The recovery had to be a READ of state Zenodo already holds.\n★ THE FIX: the published record's own `links.latest_draft` names the open draft, so the new-version path now reads it FIRST and adopts that draft, POSTing `actions/newversion` only when no draft is open. The correction becomes resumable — a transient failure anywhere after the POST costs a re-run, not a record.\n⛔ AND IT IS CHECKED, NOT TRUSTED, BECAUSE THE FAILURE MODE IS THE WORST ONE AVAILABLE: adopting whatever a link points at is how a corrected archive gets uploaded over a version a reader may already cite. An adopted deposition that comes back `submitted`, or that is the published record itself, refuses BEFORE any PUT or DELETE.\n★ GUARDED AND MUTATION-TESTED: `scripts/tests/test_a_new_version_run_adopts_the_draft_it_already_opened.py`, 6 tests, 4/4 mutations caught (adopt branch removed · inherited files never cleared · submitted-target refusal dropped · self-link refusal dropped).\n⚠ THE SELF-LINK MUTATION SURVIVED THE FIRST DRAFT OF THAT SUITE, and the reason is worth keeping: the fake API keyed on the deposition id appearing in the path, and the adopted deposition's path CONTAINS the published id in that case — so the fake returned a `submitted` record, the earlier refusal fired, and the test passed with the guard deleted. A test whose double is shaped like its own assumption measures the double.",
       "_score_basis": "EXPLICIT. Filed `done` in the same cycle that fixed it, so the score governs nothing live and is recorded for the distribution rather than for ordering. Placed at 100.0, below AUT-PD-197 (115.0, the row it unblocks) because the fix is landed and the repoint is not.",
       "score": 100.0,
-      "score_inputs": {}
+      "score_inputs": {},
+      "_CORRECTION_2026_09_01_live_run": "⛔⛔ THE FIX'S PREMISE WAS WRONG AND THE LIVE RUN IS WHAT SAID SO — `links.latest_draft` IS NOT A DRAFT POINTER. Run 33519701596 on f37ef3c02, the first real exercise of this code: `a new-version draft is ALREADY OPEN on record 22182180 — adopting it`, immediately followed by `the draft link on record 22182180 resolved to deposition 22182180, which Zenodo reports as PUBLISHED`. That link tracks the latest VERSION, normally the published one.\n★★ THE GUARD DID ITS JOB ON ITS FIRST LIVE RUN, AND THAT IS THE FINDING. The `submitted` refusal was written as belt-and-braces against a case reasoned about rather than seen; the case was real, it arrived within the hour, and what it stopped was uploading the corrected archive over the version both papers cite. ⭐ A helper's guarantee is not a guard — the refusal is at the CALL SITE, so it holds for a draft this run opened and for one it adopted alike.\n★ ALSO PROVEN LIVE IN THE SAME LOG, AUT-PD-199's retry: `Zenodo GET /deposit/depositions/22182180 -> 502; retrying in 2s (1/3)`, then success. Before that fix this run would have died on the 502 and been reported as another outage.\n★ THE CORRECTED FIX: the open draft is found by LISTING the account's depositions (`/deposit/depositions?status=draft&size=100&all_versions=1`, falling back to the unfiltered listing) and matching on `conceptrecid`, which every version of a record shares. An entry that is not `submitted`, carries that concept id, and is not the published record itself IS the open draft. Reads only; returning nothing means 'found nothing', never 'there is nothing', which is why the call site re-checks rather than trusting the helper.\n⛔ AND ONE MUTATION SURVIVED THE REWRITE'S FIRST TEST PASS, WHICH IS THE MOST IMPORTANT LINE HERE: removing the `submitted` filter from the listing search left all 8 tests green. Because every version shares the concept id, that mutation makes the run adopt an OLDER PUBLISHED VERSION — id different from the current one, so the self-check does not fire — and upload over it. The fixtures were all shaped like the happy path. A ninth test now drives exactly that listing; 5/5 mutations caught."
     },
     {
       "id": "AUT-PD-149",

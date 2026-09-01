@@ -465,11 +465,17 @@ OPEN DRAFT THE SCRIPT ABANDONED MID-CORRECTION.** Full evidence and the resume o
   `GET` and `HEAD` only, because repeating a mutation is how one orphan becomes two.
 * ✅ **AND THE DRAFT IS REACHABLE AGAIN — `AUT-PD-200`.** `actions/newversion` is not idempotent
   and Zenodo will not open a second version while one is open, so the script could never get back to
-  a draft it had already opened; every attempt asked for a new version and was refused. It now reads
-  the published record's own `links.latest_draft` **first** and adopts the open draft, which makes
+  a draft it had already opened; every attempt asked for a new version and was refused. It now finds
+  the open draft by **listing this account's depositions and matching `conceptrecid`**, which makes
   the whole correction resumable: a transient failure after the POST costs a re-run, not a record.
   ⛔ Checked rather than trusted — an adopted deposition that comes back `submitted`, or that is the
   published record itself, refuses before anything is written.
+  ⚠ **SUPERSEDED, RETAINED (rule 1.2): the first version read `links.latest_draft` and that is NOT a
+  draft pointer.** Run 33519701596 resolved it to record 22182180 **itself** — the link tracks the
+  latest VERSION, normally the published one. ★ The refusal above caught it on the guard's first
+  live run, and what it stopped was uploading the corrected archive over the version both papers
+  cite. The same log also shows AUT-PD-199's retry working: `GET … -> 502; retrying in 2s (1/3)`,
+  then success.
 * ⛔ **ITS RESERVED DOI IS NOT KNOWN AND MAY NOT BE GUESSED.** All three prior versions had a DOI
   number equal to their deposition id; three matches is a pattern, not a reading, and CLAUDE.md §7
   forbids writing an identifier from recollection. A run must print it.
