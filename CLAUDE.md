@@ -371,14 +371,28 @@ act you'd commit *before* thinking to consult anything:
 - **⛔ CHECKPOINT AFTER EACH UNIT, UPLOAD AS YOU WRITE (`s3_upload_mode="Continuous"`), AND DEFAULT EVERY GPU
   RUN TO SPOT** — spot is only safe *because* of the checkpointing.
 - **⛔ BEFORE COMMITTING, `./scripts/preflight.sh` MUST PASS**, exit code unmasked. **That plain command
-  is the answer almost every time — it is the commit loop, it costs about **75 seconds**, and it runs
-  EVERY fast gate: the doc linters, the systems model, medical integrity, citation provenance and the
-  generated-artifact check, plus gate 13, the test selector's own contract.**
-  ⚠ *Measured 2026-08-24: fast gates **31.4 s** + gate 13 **39.3 s** = **77.5 s**. Gate 13 was added
-  to `main` as "a fast, offline, pure-logic suite"; it is half the loop, because each of its 55 tests
-  builds the selector's import graph and shells out to git. Moving it behind `PREFLIGHT_TESTS=1`
-  would take the commit loop back to ~31 s — that is trimcrae's call, not a silent one to make
-  inside a merge.*
+  is the answer almost every time — it is the commit loop, and it runs EVERY fast gate: the doc
+  linters, the systems model, medical integrity, citation provenance and the generated-artifact
+  check, plus gate 13, the pure-logic suites nothing else runs (the test selector's own contract
+  **and** the loop's instruments).**
+  ⛔⛔ **IT COSTS MINUTES, NOT SECONDS — ABOUT NINE ON A QUIET BOX. BUDGET THE TURN AROUND THAT,
+  WHICH IS WHAT THE WHOLE "background it and take the next task" SECTION BELOW IS FOR.**
+  ⚠ *Re-measured 2026-09-01 from one timestamped default run, and the split is the point: the*
+  **fast gates are 81.3 s** *— `dev-setup`/interpreter probe 15.3 s before gate 1, citation
+  provenance 44.4 s, everything else 21.6 s between them — and* **gate 13 is the rest**: 446.3 s on
+  a quiet box (2026-08-29, 789 tests) rising to **1 247.8 s under twelve-way sprint contention**
+  (2026-09-01). So gate 13 is **85–94 % of the loop**, not half of it.
+  ⚠ *Superseded, retained (rule 1.2): the loop "costs about **75 seconds**", and "Measured
+  2026-08-24: fast gates **31.4 s** + gate 13 **39.3 s** = **77.5 s** … each of its 55 tests builds
+  the selector's import graph and shells out to git". **Neither figure was wrong when taken and the
+  growth is SCOPE AND POPULATION, not a per-test regression**: on 2026-08-24 gate 13 covered
+  `scripts/tests` ALONE, five files; `research/autonomy/tests` was added to it on 2026-08-27 and went
+  from 0 to 47 files in two days. The five 2026-08-24 files are byte-identical today. Evidence, and
+  the refutation of the "one slow file serializes it" hypothesis, in
+  [`S6-COMMITLOOP.md`](./research/autonomy/sprint-2026-09-01/S6-COMMITLOOP.md).*
+  ⛔ **Moving gate 13 behind `PREFLIGHT_TESTS=1` would take the commit loop back to ~81 s — and it is
+  trimcrae's call, not a silent one to make inside a merge.** That sentence is unchanged by the
+  re-measurement; only the numbers on either side of it moved.
   - ⭐⭐ **A GATE RUNNING IS NOT A REASON TO STOP WORKING, AND POLLING IT IS NOT WORK**
     (trimcrae, 2026-08-25: *"it absolutely murders our wall clock time when we wait for preflight
     when we KNOW there's more work to be done"*). **Preflight and CI gate the COMMIT, not the

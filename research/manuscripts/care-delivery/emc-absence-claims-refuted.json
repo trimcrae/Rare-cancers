@@ -1,0 +1,96 @@
+{
+  "_what": "Two 'absence' findings this repository holds about extraskeletal myxoid chondrosarcoma, each checked against the very corpus it names, and each refuted by a file inside that corpus.",
+  "_why_this_file_exists": "CLAUDE.md §4: an absent reading is not a reading of absence, and a populated field is not a measured one. Both rows below are hard-coded string constants in their generator scripts rather than values computed from the corpus at generation time, so nothing in the build could disagree with them. This file records the discriminating observation as a byte identity — a blob SHA plus the verbatim sentence — so the refutation is a comparison rather than an argument.",
+  "_not_medical_advice": "Nothing here is medical advice, and nothing here asserts efficacy, safety, a therapeutic window or clinical readiness. Every row below records that a treatment was DELIVERED and reported. A count of what was done carries no comparator and no outcome.",
+  "_no_synthetic_data": "Measured 2026-09-01: `grep -c SAMPLE_SYNTHETIC research/data/emc-clinical-registry.json` returns 0, and none of the five modality artifacts read for this check carries the flag. No row in this file derives from the clinical registry at all; every count is transcribed from one named open-access full text.",
+  "_generated_by": "hand-written by seat S15-CAREDELIVERY, sprint 2026-09-01. ⛔ NOT a generated artifact and NOT registered in systems/graph/artifacts.json — it records observations about two artifacts this seat did not own and could not correct.",
+  "_authored_utc": "2026-09-01T19:18:06Z",
+
+  "the_source_that_refutes_both": {
+    "source_id": "masunaga2025",
+    "pmid": "40885991",
+    "pmcid": "PMC12398172",
+    "doi": "10.1186/s13018-025-06245-6",
+    "journal": "J Orthop Surg Res",
+    "year": 2025,
+    "cohort": "171 patients pathologically diagnosed with extraskeletal myxoid chondrosarcoma, Japanese National Bone and Soft Tissue Tumor Registry Database, 2002-2022",
+    "⭐_the_identifiers_are_not_written_from_recollection": "PMID, PMCID and DOI are all printed in the retrieved full text itself and were read from it; they also match research/modalities/emc-site-curation.json, which confirmed PMID 40885991 against the PMC record on 2026-08-27.",
+    "how_it_was_read_2026_09_01": "GitHub contents API, repository trimcrae/Rare-cancers, ref refs/heads/literature-cache, at branch commit 0eac3e3aaa5b3e02c258611588e20162a7996515. No git write command was run and the branch was not checked out.",
+    "⭐_ONE_BLOB_IN_BOTH_CORPORA": {
+      "blob_sha": "79a8c197243ff4202a713d437def379c5f499a68",
+      "paths": [
+        "literature/emc-care-delivery-and-classification/PMC12398172.txt",
+        "literature/emc-radiotherapy-2026-08-26/PMC12398172.txt"
+      ],
+      "size_bytes": 29623,
+      "⛔_why_the_identity_matters": "The two absences below were recorded against two DIFFERENT corpora, which invites the reading that each corpus simply lacked this paper. It does not: the API returns the same blob SHA at both paths, so one identical file sits inside both corpora and contains both refuting sentences."
+    }
+  },
+
+  "refutations": [
+    {
+      "id": "REF-01-metastasectomy",
+      "the_claim_refuted": {
+        "artifact": "research/modalities/emc-care-delivery-evidence.json",
+        "pointer": "absences[] -> id 'no-emc-metastasectomy-literature'",
+        "query_as_recorded": "metastasectom* within the EMC-matching subset of a 554-record open-access corpus retrieved 2026-08-09",
+        "result_as_recorded": "ZERO records.",
+        "reading_as_recorded": "no paper in this corpus asks the question in EMC",
+        "what_depends_on_it": [
+          "systems/graph/routes.json -> RT-METASTASECTOMY grade: 'A 554-record open-access corpus retrieved 2026-08-09 contains ZERO EMC records matching metastasectom*. ... nobody has asked the question in this histology.'",
+          "research-ledger AUT-042, whose proposed note is built on that absence"
+        ]
+      },
+      "the_discriminating_observation": {
+        "file": "literature/emc-care-delivery-and-classification/PMC12398172.txt",
+        "in_the_corpus_named_by_the_query": true,
+        "verbatim": "Eight patients (27.6%) underwent metastasectomy, including six, one, and one who underwent lung, bone, and lymph node resections, respectively.",
+        "section": "Results -> 'Patients with metastases at diagnosis'",
+        "term_matched": "metastasectomy, which matches metastasectom*"
+      },
+      "verdict": "REFUTED. The corpus the query names contains a record matching the query term, so 'ZERO records' is false of that corpus.",
+      "⛔_what_is_NOT_claimed": "That any search was run and returned the wrong answer. The result is a string literal in the generator (research/modalities/emc_care_delivery_evidence.py, ABSENCES[0]['result'] = 'ZERO records.'), so what is established is that the recorded value disagrees with the corpus — not what an executed search would have returned.",
+      "⚠_the_narrower_claim_that_survives": "No reachable series studies metastasectomy AS AN INTERVENTION with a comparator. Masunaga reports the count and no outcome by it. Bishop reports 5 of 13 distant recurrers resected and states that salvage surgery was not associated with improved disease-specific survival (p = 0.15) at 13 patients. So the honest absence is of a COMPARATIVE study, not of the literature."
+    },
+    {
+      "id": "REF-02-carbon-ion",
+      "the_claim_refuted": {
+        "artifact": "research/modalities/emc-radiotherapy-contradiction.json",
+        "pointer": "carbon_ion.found_in_this_histology = false",
+        "query_as_recorded": "354 open-access full texts retrieved for a radiotherapy-scoped EMC query (literature-cache: emc-radiotherapy-2026-08-26); 228 mention extraskeletal myxoid chondrosarcoma. The 2025 comprehensive EMC review in that corpus (Remiszewski et al., PMC12504171) contains no occurrence of 'carbon' at all.",
+        "what_depends_on_it": [
+          "systems/graph/routes.json -> RT-RT-INTENSIFY grade: 'carbon ion appears nowhere in it across a 354-paper open-access corpus including a 2025 comprehensive EMC review. Arms exist; registries of them do not.'",
+          "research-ledger AUT-058, whose particle-census half is the only part not already published in DOC-EMC-RT-REAPPRAISAL"
+        ]
+      },
+      "the_discriminating_observation": {
+        "file": "literature/emc-radiotherapy-2026-08-26/PMC12398172.txt",
+        "in_the_corpus_named_by_the_query": true,
+        "verbatim": "Of the eight patients who did not undergo surgery, two received carbon ion therapy, one received proton beam therapy, and one received conventional radiotherapy.",
+        "section": "Results -> 'Patients without metastases at diagnosis'",
+        "stratum": "the 8 of 142 patients localized at diagnosis who did not undergo surgery"
+      },
+      "verdict": "REFUTED. Carbon-ion therapy has been delivered to patients with this histology and reported in an open-access series that sits inside the corpus the census names.",
+      "⛔⛔_THE_AGGRAVATING_FACT": "The artifact did not miss this sentence — it CONSIDERED AND REJECTED IT. Its own field reads: 'A web-search synthesis reported that two received carbon ion therapy, one received proton beam therapy in a large clinical series. Read against the sources, that belongs to EXTRACRANIAL CHONDROSARCOMA generally, not to this histology, and it was not carried into this record. An AI search summary is a lead, never a citation.' That sentence is verbatim Masunaga 2025, whose entire cohort is 171 pathologically diagnosed EMC patients. The lead was correct and the verification step reached the wrong source. CLAUDE.md §4: a remembered or dismissed reading about a search tool understates in exactly the direction that kills a route.",
+      "⛔_AND_A_GUARD_NOW_LOCKS_THE_WRONG_ANSWER_IN": "research/modalities/emc_radiotherapy_contradiction.py fails its own check if the value ever becomes true — 'the carbon-ion finding has flipped without its search being redone'. That guard was written to stop an unexamined flip and it now also stops a corrected one, so fixing the value requires editing the guard in the same commit. Recorded because a seat that corrects the value alone will see a red build and may conclude the correction is wrong.",
+      "counts_now_readable_and_previously_absent": {
+        "carbon_ion_patients": 2,
+        "proton_beam_patients": 1,
+        "conventional_radiotherapy_patients": 1,
+        "denominator": 8,
+        "denominator_means": "patients localized at diagnosis who did not undergo surgery, within a 171-patient series",
+        "⛔_no_outcome_is_printed_per_modality": "The paper excludes all eight non-operated patients from its prognostic analysis, so no local control, survival or toxicity figure attaches to any of these four. Each is an existence proof of an arm and nothing more.",
+        "⛔_do_not_compute_a_rate": "2 of 171 and 2 of 8 answer different questions and neither is a treatment-utilisation rate for this disease. No rate is derived here."
+      }
+    }
+  ],
+
+  "⛔_the_common_mechanism": "Both values are literals in a generator rather than quantities the generator computes from the corpus it names. Nothing in the build reads the corpus, so no gate could have caught either. This is the failure mode CLAUDE.md §4 names as 'a plausible-looking record is more dangerous than an empty one': both fields are populated, well-caveated, and wrong.",
+
+  "⛔_what_this_file_does_not_do": [
+    "It does not correct either artifact. Both live outside this seat's owned paths and the corrections are the driver's to sequence.",
+    "It does not re-run either search. It reads one file out of each corpus and reports what that file says.",
+    "It does not assert that either corpus is complete, or that carbon ion or metastasectomy is more common in this disease than the series report. It bounds nothing upward.",
+    "It asserts no efficacy for carbon ion, proton beam, radiotherapy or metastasectomy in this or any disease."
+  ]
+}

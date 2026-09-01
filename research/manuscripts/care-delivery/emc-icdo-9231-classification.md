@@ -291,6 +291,34 @@ registry set, reaching us through a review rather than from its source [7]. A ra
 year windows and two registry coverages would look like a measurement and would not be one. It is
 also unnecessary, since one study supplies both halves on matched terms.
 
+### 6.1 What a topography restriction buys, and what it does not
+
+The obvious operational reading of section 6 is that a registry study of this disease must restrict
+on topography as well as on morphology. That reading is right, and it is incomplete in a way that
+matters to whoever writes the next analysis plan, because sections 4.2 and 5 have already recorded
+the two halves separately and nobody has joined them.
+
+A topography restriction applied to a morphology-9231/3 cohort removes the bone-primary share
+measured in section 6, and it does not make the remainder an extraskeletal myxoid chondrosarcoma
+cohort. It removes primary extraskeletal myxoid chondrosarcoma arising in bone along with
+everything else at a bone site, which section 5 reports as a documented entity rather than a
+theoretical one; so the restriction discards some of the disease it is meant to isolate, by an
+amount nobody has counted. And it does nothing at all about the other direction. The lymph node
+analysis of section 4.2 states in its own Discussion that it could not rule out extraskeletal
+myxoid chondrosarcoma sitting inside the extraskeletal "chondrosarcoma, not otherwise specified"
+cases it retained. Those cases carry a different morphology code at a soft-tissue site, so no
+filter on topography reaches them.
+
+The consequence is a sequence, not a caveat. Restrict on topography, because section 6 prices what
+the restriction is worth and the price is not small. Then state the residual, in both directions,
+as unquantified — because it is, and because a cohort that has been filtered on site reads as a
+clean cohort to every downstream reader unless the residual is written next to it. We do not
+quantify the residual here. Neither of the two readings that would bound it is available from the
+published record: the first needs a cross-tabulation of site against histology for a
+morphology-9231/3 pull, and the second needs a count of extraskeletal myxoid chondrosarcoma
+misassigned to 9220/3, which no published cohort reports because reporting it would require the
+central review that registry studies do not have.
+
 ## 7. Limitations
 
 This report reads published cohorts and registry documentation. It does not re-analyse any

@@ -1,0 +1,728 @@
+{
+ "_what": "Sensitivity of §B3's near-self anchor-only null to the anchor convention, computed exhaustively by recording the MINIMAL anchor set that would flip each hit.",
+ "_why": "junction-selfsimilarity.json states the null and, in the same file, states that its anchor assignment is a general class I rule rather than an allele-specific motif. This measures how far the null travels across conventions instead of leaving the caveat unquantified.",
+ "⛔_what_this_is_not": "NOT a safety, immunogenicity or presentation result — every upstream input is a binding PREDICTION plus a sequence-distance search, and sequence distance is not T-cell-receptor distance. NOT a determination of the correct anchor convention for any allele: this repository holds no allele-specific motif source, so the true anchor set for each allele below is UNKNOWN here. NOT a new proteome search — one committed artifact is re-read and no hit is added to it.",
+ "_method": "for each recorded near-self hit, mismatch positions are RECOMPUTED from the two peptide strings and cross-checked against the artifact's own field; a hit is anchor-only under an anchor set A iff its mismatch positions are a subset of A, so the mismatch position set is the minimal such A and every superset also flips it. Named conventions are labels over that lattice, each carrying whether it is sourced.",
+ "_input": {
+  "file": "junction-selfsimilarity.json",
+  "generated_utc": "2026-08-23T17:32:49Z",
+  "n_queries": 11,
+  "max_mismatches": 2,
+  "proteome": {
+   "source": "UniProtKB REST",
+   "url": "https://rest.uniprot.org/uniprotkb/stream?query=%28proteome%3AUP000005640%29+AND+%28reviewed%3Atrue%29&format=fasta&includeIsoform=true&compressed=true",
+   "proteome_id": "UP000005640",
+   "reviewed_only": true,
+   "isoforms_included": true,
+   "trembl_included": false,
+   "n_sequences": 42547,
+   "n_residues": 24555578
+  },
+  "anchor_convention_declared_by_the_input": "Anchors taken as P2 and the C-terminus for every length, which is the general class I rule and not an allele-specific motif. HLA-A*01:01 reads P3 as a primary anchor; rows for peptides called on it are marked and should be read with that caveat."
+ },
+ "_cost": "$0 — local recomputation over a committed artifact; no network, no predictor, no GPU.",
+ "n_hit_records": 14,
+ "n_scored_hits": 13,
+ "n_exact_self_hits_excluded_from_scoring": 1,
+ "⚠_exact_self_is_worse_than_anchor_only": "An exact-self hit has no mismatches at all, so it is a strictly worse case than any anchor-only hit and is excluded from the convention scoring rather than counted as a clean negative. These are the §B5 withdrawals, not a finding of this module.",
+ "exact_self_hits": [
+  {
+   "query": "DMPCVQAQY",
+   "length": 9,
+   "alleles_called_on": [
+    "HLA-B*35:01"
+   ],
+   "self_peptide": "DMPCVQAQY",
+   "accession": "Q92570-3",
+   "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+   "n_mismatches": 0,
+   "mismatch_positions": [],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [],
+   "minimal_set_in_c_terminal_terms": [],
+   "exact_self": true,
+   "artifact_all_mismatches_at_anchors": false
+  }
+ ],
+ "input_bookkeeping_disagreements": [],
+ "conventions": [
+  {
+   "id": "P2_and_C_terminus",
+   "anchor_positions": {
+    "from_n_terminus": [
+     2
+    ],
+    "from_c_terminus_offsets": [
+     0
+    ]
+   },
+   "sourced": true,
+   "source": "junction-selfsimilarity.json → ⚠_anchor_convention (the convention that artifact states it used: 'P2 and the C-terminus for every length, which is the general class I rule and not an allele-specific motif')",
+   "role": "REPRODUCTION — this run must return the input artifact's own per-hit verdicts. A disagreement means one of the two files is wrong and is reported, not smoothed.",
+   "n_hits_anchor_only": 0,
+   "n_queries_with_an_anchor_only_hit": 0,
+   "queries_with_an_anchor_only_hit": [],
+   "anchor_only_hits": []
+  },
+  {
+   "id": "P2_P3_and_C_terminus",
+   "anchor_positions": {
+    "from_n_terminus": [
+     2,
+     3
+    ],
+    "from_c_terminus_offsets": [
+     0
+    ]
+   },
+   "sourced": true,
+   "source": "junction-selfsimilarity.json → ⚠_anchor_convention, second clause: 'HLA-A*01:01 reads P3 as a primary anchor'. Applied here to every peptide rather than only to A*01:01 rows, which is the conservative direction: it can only ADD anchor-only hits, never remove one.",
+   "role": "SENSITIVITY — the widest set the input artifact itself names.",
+   "n_hits_anchor_only": 0,
+   "n_queries_with_an_anchor_only_hit": 0,
+   "queries_with_an_anchor_only_hit": [],
+   "anchor_only_hits": []
+  },
+  {
+   "id": "P1_P2_and_C_terminus",
+   "anchor_positions": {
+    "from_n_terminus": [
+     1,
+     2
+    ],
+    "from_c_terminus_offsets": [
+     0
+    ]
+   },
+   "sourced": false,
+   "source": "UNSOURCED VARIANT. No allele-specific motif source in this repository says P1 is an anchor for these alleles. Included solely to locate which position the null turns on. A count under this row is NOT a claim that P1 is an anchor.",
+   "role": "SENSITIVITY — unsourced.",
+   "n_hits_anchor_only": 6,
+   "n_queries_with_an_anchor_only_hit": 6,
+   "queries_with_an_anchor_only_hit": [
+    "DLDMPCVQAQY",
+    "FDDMPCVQAQY",
+    "GDMPCVQAQY",
+    "LDMPCVQAQY",
+    "NMPCVQAQY",
+    "RGDMPCVQAQY"
+   ],
+   "anchor_only_hits": [
+    {
+     "query": "NMPCVQAQY",
+     "self_peptide": "DMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1
+     ],
+     "alleles_called_on": [
+      "HLA-B*15:01"
+     ]
+    },
+    {
+     "query": "RGDMPCVQAQY",
+     "self_peptide": "NVDMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1,
+      2
+     ],
+     "alleles_called_on": [
+      "HLA-A*01:01"
+     ]
+    },
+    {
+     "query": "DLDMPCVQAQY",
+     "self_peptide": "NVDMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1,
+      2
+     ],
+     "alleles_called_on": [
+      "HLA-A*01:01"
+     ]
+    },
+    {
+     "query": "FDDMPCVQAQY",
+     "self_peptide": "NVDMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1,
+      2
+     ],
+     "alleles_called_on": [
+      "HLA-A*01:01"
+     ]
+    },
+    {
+     "query": "GDMPCVQAQY",
+     "self_peptide": "VDMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1
+     ],
+     "alleles_called_on": [
+      "HLA-B*44:02"
+     ]
+    },
+    {
+     "query": "LDMPCVQAQY",
+     "self_peptide": "VDMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1
+     ],
+     "alleles_called_on": [
+      "HLA-A*01:01"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P1_P2_P3_and_C_terminus",
+   "anchor_positions": {
+    "from_n_terminus": [
+     1,
+     2,
+     3
+    ],
+    "from_c_terminus_offsets": [
+     0
+    ]
+   },
+   "sourced": false,
+   "source": "UNSOURCED VARIANT, as above, widened by the P3 clause. The most permissive set considered; it is an upper bound on how many hits any convention over these positions could call anchor-only.",
+   "role": "SENSITIVITY — unsourced, upper bound.",
+   "n_hits_anchor_only": 6,
+   "n_queries_with_an_anchor_only_hit": 6,
+   "queries_with_an_anchor_only_hit": [
+    "DLDMPCVQAQY",
+    "FDDMPCVQAQY",
+    "GDMPCVQAQY",
+    "LDMPCVQAQY",
+    "NMPCVQAQY",
+    "RGDMPCVQAQY"
+   ],
+   "anchor_only_hits": [
+    {
+     "query": "NMPCVQAQY",
+     "self_peptide": "DMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1
+     ],
+     "alleles_called_on": [
+      "HLA-B*15:01"
+     ]
+    },
+    {
+     "query": "RGDMPCVQAQY",
+     "self_peptide": "NVDMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1,
+      2
+     ],
+     "alleles_called_on": [
+      "HLA-A*01:01"
+     ]
+    },
+    {
+     "query": "DLDMPCVQAQY",
+     "self_peptide": "NVDMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1,
+      2
+     ],
+     "alleles_called_on": [
+      "HLA-A*01:01"
+     ]
+    },
+    {
+     "query": "FDDMPCVQAQY",
+     "self_peptide": "NVDMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1,
+      2
+     ],
+     "alleles_called_on": [
+      "HLA-A*01:01"
+     ]
+    },
+    {
+     "query": "GDMPCVQAQY",
+     "self_peptide": "VDMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1
+     ],
+     "alleles_called_on": [
+      "HLA-B*44:02"
+     ]
+    },
+    {
+     "query": "LDMPCVQAQY",
+     "self_peptide": "VDMPCVQAQY",
+     "accession": "Q92570-3",
+     "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+     "mismatch_positions": [
+      1
+     ],
+     "alleles_called_on": [
+      "HLA-A*01:01"
+     ]
+    }
+   ]
+  }
+ ],
+ "reproduction_of_the_input_artifacts_verdicts": {
+  "this_run_under_the_artifacts_own_convention": [],
+  "the_artifacts_own_per_hit_verdicts": [],
+  "agree": true,
+  "artifact_headline_n_anchor_only_near_self_total": 0,
+  "this_run_n_hits_anchor_only_under_that_convention": 0
+ },
+ "the_null_turns_on_these_positions": {
+  "positions_not_in_the_sourced_baseline_whose_inclusion_flips_at_least_one_hit": [
+   "1"
+  ],
+  "n_hits_each_such_position_participates_in": {
+   "1": 12,
+   "2": 6
+  },
+  "⚠_reading": "A position listed here is one whose anchor status decides the headline. Its true status for the alleles involved is UNKNOWN in this repository.",
+  "⚠_how_to_read_this_against_the_manuscript": "§B3 of emc-vaccine-development-path.md does not merely adopt a convention: it gives a structural reason, that positions 1 and 5 'face outward or into the groove's middle rather than serving as the primary anchors at position 2 and the C-terminus'. That argument concerns PRIMARY anchors. It neither asserts nor excludes a secondary-anchor role at P1, and a secondary anchor is still a residue the T cell does not read. So this module does not show the manuscript is wrong. It shows the headline null is worth exactly the strength of the P1 premise, and that if P1 acts as an anchor for these alleles then six of the eleven binders fall into the configuration §B3 itself names as the worst case — 'an identical TCR-facing surface distinguished only by residues the T cell cannot see'."
+ },
+ "⛔_read_this_before_quoting_the_result_in_either_direction": "Two live documents in this repository state OPPOSITE answers to which configuration deletes the repertoire, and this result speaks directly to that question. emc-vaccine-development-path.md §B3 calls anchor-only the worst case — 'an identical TCR-facing surface distinguished only by residues the T cell cannot see'. shared-vs-individualized-neoantigen-evidence.md, falsifier 3, instead says the route is in trouble if 'the seam residues fall at T-cell-receptor contact positions rather than anchors'. They cannot both be the failing configuration. This module does not adjudicate it: it reports WHERE the differences fall, exhaustively and per convention, and the direction that reading implies for the route depends on a reconciliation that has not happened. Do not quote this artifact as support for or against the route until it has.",
+ "alleles_whose_anchor_sets_are_unknown_here": [
+  "HLA-A*01:01",
+  "HLA-B*07:02",
+  "HLA-B*15:01",
+  "HLA-B*35:01",
+  "HLA-B*44:02"
+ ],
+ "seam_mechanism_cross_check": {
+  "_what": "Whether each hit that the P1 convention flips is a seam-proximal peptide differing from an acceptor-gene isoform at the seam, as novelty-seam-test.json's mechanism predicts, rather than an unrelated coincidence of position.",
+  "_source": "novelty-seam-test.json → collision_alphabet, stems_each_alphabet_residue_precedes",
+  "collision_alphabet": [
+   "D"
+  ],
+  "n_flipped_hits": 6,
+  "n_whose_shared_suffix_is_an_acceptor_isoform_stem": 6,
+  "rows": [
+   {
+    "query": "NMPCVQAQY",
+    "self_peptide": "DMPCVQAQY",
+    "accession": "Q92570-3",
+    "mismatch_positions": [
+     1
+    ],
+    "shared_suffix_after_the_last_mismatch": "MPCVQAQY",
+    "suffix_is_an_acceptor_isoform_stem": true
+   },
+   {
+    "query": "RGDMPCVQAQY",
+    "self_peptide": "NVDMPCVQAQY",
+    "accession": "Q92570-3",
+    "mismatch_positions": [
+     1,
+     2
+    ],
+    "shared_suffix_after_the_last_mismatch": "DMPCVQAQY",
+    "suffix_is_an_acceptor_isoform_stem": true
+   },
+   {
+    "query": "DLDMPCVQAQY",
+    "self_peptide": "NVDMPCVQAQY",
+    "accession": "Q92570-3",
+    "mismatch_positions": [
+     1,
+     2
+    ],
+    "shared_suffix_after_the_last_mismatch": "DMPCVQAQY",
+    "suffix_is_an_acceptor_isoform_stem": true
+   },
+   {
+    "query": "FDDMPCVQAQY",
+    "self_peptide": "NVDMPCVQAQY",
+    "accession": "Q92570-3",
+    "mismatch_positions": [
+     1,
+     2
+    ],
+    "shared_suffix_after_the_last_mismatch": "DMPCVQAQY",
+    "suffix_is_an_acceptor_isoform_stem": true
+   },
+   {
+    "query": "GDMPCVQAQY",
+    "self_peptide": "VDMPCVQAQY",
+    "accession": "Q92570-3",
+    "mismatch_positions": [
+     1
+    ],
+    "shared_suffix_after_the_last_mismatch": "DMPCVQAQY",
+    "suffix_is_an_acceptor_isoform_stem": true
+   },
+   {
+    "query": "LDMPCVQAQY",
+    "self_peptide": "VDMPCVQAQY",
+    "accession": "Q92570-3",
+    "mismatch_positions": [
+     1
+    ],
+    "shared_suffix_after_the_last_mismatch": "DMPCVQAQY",
+    "suffix_is_an_acceptor_isoform_stem": true
+   }
+  ]
+ },
+ "accessions_of_the_flipped_hits": [
+  "Q92570-3"
+ ],
+ "hits": [
+  {
+   "query": "MPPPLRGDM",
+   "length": 9,
+   "alleles_called_on": [
+    "HLA-B*07:02"
+   ],
+   "self_peptide": "MPPPLRGGP",
+   "accession": "Q01844",
+   "protein": "EWS_HUMAN RNA-binding protein EWS",
+   "n_mismatches": 2,
+   "mismatch_positions": [
+    8,
+    9
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    8,
+    9
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P8",
+    "P_omega"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "MPPPLRGDM",
+   "length": 9,
+   "alleles_called_on": [
+    "HLA-B*07:02"
+   ],
+   "self_peptide": "MPPPLRGGP",
+   "accession": "Q01844-2",
+   "protein": "EWS_HUMAN Isoform EWS-B of RNA-binding protein EWS",
+   "n_mismatches": 2,
+   "mismatch_positions": [
+    8,
+    9
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    8,
+    9
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P8",
+    "P_omega"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "MPPPLRGDM",
+   "length": 9,
+   "alleles_called_on": [
+    "HLA-B*07:02"
+   ],
+   "self_peptide": "MPPPLRGGP",
+   "accession": "Q01844-3",
+   "protein": "EWS_HUMAN Isoform 3 of RNA-binding protein EWS",
+   "n_mismatches": 2,
+   "mismatch_positions": [
+    8,
+    9
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    8,
+    9
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P8",
+    "P_omega"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "MPPPLRGDM",
+   "length": 9,
+   "alleles_called_on": [
+    "HLA-B*07:02"
+   ],
+   "self_peptide": "MPPPLRGGP",
+   "accession": "Q01844-5",
+   "protein": "EWS_HUMAN Isoform 5 of RNA-binding protein EWS",
+   "n_mismatches": 2,
+   "mismatch_positions": [
+    8,
+    9
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    8,
+    9
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P8",
+    "P_omega"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "MPPPLRGDM",
+   "length": 9,
+   "alleles_called_on": [
+    "HLA-B*07:02"
+   ],
+   "self_peptide": "MPPPLRGGP",
+   "accession": "Q01844-6",
+   "protein": "EWS_HUMAN Isoform 6 of RNA-binding protein EWS",
+   "n_mismatches": 2,
+   "mismatch_positions": [
+    8,
+    9
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    8,
+    9
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P8",
+    "P_omega"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "NMPCVQAQY",
+   "length": 9,
+   "alleles_called_on": [
+    "HLA-B*15:01"
+   ],
+   "self_peptide": "DMPCVQAQY",
+   "accession": "Q92570-3",
+   "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+   "n_mismatches": 1,
+   "mismatch_positions": [
+    1
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    1
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P1"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "NMPCVQAQY",
+   "length": 9,
+   "alleles_called_on": [
+    "HLA-B*15:01"
+   ],
+   "self_peptide": "EMPCIQAQY",
+   "accession": "P22736-2",
+   "protein": "NR4A1_HUMAN Isoform 2 of Nuclear receptor subfamily 4immunitygroup A member 1",
+   "n_mismatches": 2,
+   "mismatch_positions": [
+    1,
+    5
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    1,
+    5
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P1",
+    "P5"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "RGDMPCVQAQY",
+   "length": 11,
+   "alleles_called_on": [
+    "HLA-A*01:01"
+   ],
+   "self_peptide": "NVDMPCVQAQY",
+   "accession": "Q92570-3",
+   "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+   "n_mismatches": 2,
+   "mismatch_positions": [
+    1,
+    2
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    1,
+    2
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P1",
+    "P2"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "DLDMPCVQAQY",
+   "length": 11,
+   "alleles_called_on": [
+    "HLA-A*01:01"
+   ],
+   "self_peptide": "NVDMPCVQAQY",
+   "accession": "Q92570-3",
+   "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+   "n_mismatches": 2,
+   "mismatch_positions": [
+    1,
+    2
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    1,
+    2
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P1",
+    "P2"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "DMPCVQAQY",
+   "length": 9,
+   "alleles_called_on": [
+    "HLA-B*35:01"
+   ],
+   "self_peptide": "DMPCVQAQY",
+   "accession": "Q92570-3",
+   "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+   "n_mismatches": 0,
+   "mismatch_positions": [],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [],
+   "minimal_set_in_c_terminal_terms": [],
+   "exact_self": true,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "DMPCVQAQY",
+   "length": 9,
+   "alleles_called_on": [
+    "HLA-B*35:01"
+   ],
+   "self_peptide": "EMPCIQAQY",
+   "accession": "P22736-2",
+   "protein": "NR4A1_HUMAN Isoform 2 of Nuclear receptor subfamily 4immunitygroup A member 1",
+   "n_mismatches": 2,
+   "mismatch_positions": [
+    1,
+    5
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    1,
+    5
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P1",
+    "P5"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "FDDMPCVQAQY",
+   "length": 11,
+   "alleles_called_on": [
+    "HLA-A*01:01"
+   ],
+   "self_peptide": "NVDMPCVQAQY",
+   "accession": "Q92570-3",
+   "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+   "n_mismatches": 2,
+   "mismatch_positions": [
+    1,
+    2
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    1,
+    2
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P1",
+    "P2"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "GDMPCVQAQY",
+   "length": 10,
+   "alleles_called_on": [
+    "HLA-B*44:02"
+   ],
+   "self_peptide": "VDMPCVQAQY",
+   "accession": "Q92570-3",
+   "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+   "n_mismatches": 1,
+   "mismatch_positions": [
+    1
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    1
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P1"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  },
+  {
+   "query": "LDMPCVQAQY",
+   "length": 10,
+   "alleles_called_on": [
+    "HLA-A*01:01"
+   ],
+   "self_peptide": "VDMPCVQAQY",
+   "accession": "Q92570-3",
+   "protein": "NR4A3_HUMAN Isoform 3 of Nuclear receptor subfamily 4 group A member 3",
+   "n_mismatches": 1,
+   "mismatch_positions": [
+    1
+   ],
+   "minimal_anchor_set_that_would_call_this_anchor_only": [
+    1
+   ],
+   "minimal_set_in_c_terminal_terms": [
+    "P1"
+   ],
+   "exact_self": false,
+   "artifact_all_mismatches_at_anchors": false
+  }
+ ]
+}

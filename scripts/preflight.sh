@@ -79,6 +79,11 @@ cd "$(dirname "$0")/.."
 # (PYTHONDONTWRITEBYTECODE=1, caches deleted) -- the strictly-worse form, since it recompiles on
 # every import where the prefix directory at least caches within the run. **+0.6 s, about 2%.**
 # Compilation is CPU, and CPU is free (CLAUDE.md §5).
+# ⚠ THE RATIO IS THE FINDING HERE AND IT STANDS; THE ABSOLUTE SECONDS DO NOT. That suite was 213
+# tests on 2026-08-27 and is ~800 now, so "32.5 s" no longer describes this gate -- re-read it as
+# "+2 % of whatever the gate currently costs", and read the gate's own cost off the block beside the
+# PREFLIGHT_TESTS tiering below, which was re-measured 2026-09-01. Recorded because a cost figure
+# nothing re-measures is the exact rot AUT-PD-164 was filed about.
 PREFLIGHT_PYCACHE="$(mktemp -d)"
 export PYTHONPYCACHEPREFIX="$PREFLIGHT_PYCACHE"
 trap 'rm -rf "$PREFLIGHT_PYCACHE"' EXIT
@@ -279,13 +284,50 @@ _preflight_reached_first_check=1
 # rewrite or nothing at all: the measurement that opened this was a run on a CLEAN TREE at
 # origin/main, which still executed all 878.
 #
-# ⚠ AND GATE 13 IS NOW HALF THE DEFAULT LOOP, WHICH IS WORTH SOMEBODY'S DECISION RATHER THAN MY
-# SILENT ONE. It was added on `main` on the reasoning that it is "a fast, offline, pure-logic suite";
-# measured here it is **39.3 s of the 77.5 s**, because each of its 55 tests builds the selector's
-# import graph over ~400 modules and shells out to git. It is left exactly where `main` put it --
-# reversing another session's deliberate placement inside a merge is not this change's business --
-# but the "fast" in that note is not what the clock says, and moving it under PREFLIGHT_TESTS would
-# take the commit loop to ~31 s.
+# ⛔⛔ GATE 13 IS NOT HALF THE DEFAULT LOOP -- IT IS 85-94 % OF IT, AND THE NUMBERS ABOVE ARE A
+# SNAPSHOT OF A SMALLER GATE. Re-measured 2026-09-01 (AUT-PD-164 / AUT-PD-172 / AUT-PD-183, seat
+# S6-COMMITLOOP) from one timestamped default run of this script:
+#
+#   fast gates                        81.3 s   <- of which the dev-setup/interpreter probe is 15.3 s
+#                                                 BEFORE gate 1, and citation provenance is 44.4 s
+#   + gate 13                        446.3 s   quiet box, 2026-08-29, 789 tests
+#                                  1 247.8 s   under twelve-way sprint contention, 2026-09-01
+#
+# ⚠ Superseded, retained (CLAUDE.md rule 1.2): "ten fast gates 31.4 s ... + gate 13, the selector
+# contract 39.3 s ... the DEFAULT tier is 77.5 s"; "GATE 13 IS NOW HALF THE DEFAULT LOOP ... it is
+# **39.3 s of the 77.5 s**, because each of its 55 tests builds the selector's import graph over ~400
+# modules and shells out to git ... moving it under PREFLIGHT_TESTS would take the commit loop to
+# ~31 s." (The last clause is now ~81 s.)
+#
+# ⭐ NOTHING REGRESSED -- THE GATE'S SCOPE AND POPULATION GREW, AND THAT WAS MEASURED RATHER THAN
+# ASSUMED. On 2026-08-24 this line ran `scripts/tests` ALONE, five files; `research/autonomy/tests`
+# was added on 2026-08-27 and went from 0 to 47 files in two days. The five 2026-08-24 files are
+# byte-identical today and were re-timed on one machine: **79 tests in 74.4 s** against the recorded
+# 55 tests in 39.3 s -- 0.94 s/test now against 0.72 s/test then, on a box carrying eleven other
+# seats. Per-test cost did not move; the suite did.
+# ⛔ AND THE "one slow file serializes it" HYPOTHESIS IS REFUTED, NOT UNRESOLVED. `tests.yml` already
+# passes `--durations=25`; on run 33523366953 the 25 slowest tests of an 11,012-test suite include
+# NONE from `scripts/tests` or `research/autonomy/tests`, and the 25th costs 24.09 s.
+#
+# ⭐⭐ AND MOST OF THIS GATE IS ONE COMMAND, COUNTED RATHER THAN GUESSED. With a counting shim in
+# front of `git` on PATH, one run of this gate makes **50 270 git invocations, of which 48 230 --
+# 96 % -- are `git show <sha>:research/autonomy/research-ledger.json`** over 371 distinct commits:
+# **130 complete walks of the ledger's history in a single gate run**, from
+# `research/autonomy/stuck_clock.py::ledger_versions()` (`git log --follow`, then one `git show` per
+# commit, each 1.25 MB blob parsed as JSON) reached with its default `repo=REPO`. One walk timed
+# directly is **7.5 s for 372 versions**, so that is ~975 CPU-seconds per gate run -- about 55 % of
+# the quiet 446 s -- and roughly 60 GB of blob text.
+# ⛔ THE CONSEQUENCE IS THE PART TO REMEMBER: **this gate's cost scales with COMMIT COUNT, not with
+# test count.** Every ledger commit this loop makes adds one more blob to all 130 walks, of a file
+# that is itself growing; the count moved 371 -> 372 inside the twenty minutes it took to measure it.
+# So the gate gets slower with no test added, which is exactly the accretion AUT-PD-164 described.
+# ★ Filed, not fixed here: memoise `ledger_versions(repo, path)` on `(repo, HEAD)` and/or stream the
+# blobs with `git cat-file --batch` instead of forking per commit. Both keep every assertion
+# identical; both live in `research/autonomy/`, outside the seat that measured this.
+#
+# It is left exactly where `main` put it -- reversing another session's deliberate placement inside a
+# merge is not this change's business -- and moving it under PREFLIGHT_TESTS is still trimcrae's
+# call, now worth ~81 s rather than ~31 s.
 #
 # ⛔ AND SCOPING IT WAS TRIED FIRST, PROPERLY, AND THE MEASUREMENT KILLED IT. A selector for this
 # suite was built and validated against ground truth — all 50 guards traced in their own processes

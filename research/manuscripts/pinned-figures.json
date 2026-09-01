@@ -1848,6 +1848,18 @@
    "must_not_appear_in": [
     "research/manuscripts/neoantigen/emc-vaccine-development-path.md"
    ]
+  },
+  {
+   "id": "commit_loop_about_75_seconds",
+   "pattern": "about \\*{0,2}75 seconds",
+   "current": "the DEFAULT commit loop is minutes, not seconds — about 9 min on a quiet box: fast gates 81.3 s + gate 13 446.3 s (2026-08-29, 789 tests), rising to 1247.8 s for gate 13 under twelve-way sprint contention (2026-09-01). One home: CLAUDE.md §6.",
+   "retired_by": "re-measured 2026-09-01 by sprint seat S6-COMMITLOOP from one timestamped default `./scripts/preflight.sh` (AUT-PD-164 / AUT-PD-172 / AUT-PD-183). The 75 s was a 2026-08-24 reading taken when gate 13 covered `scripts/tests` alone; `research/autonomy/tests` joined it on 2026-08-27 and grew 0 -> 47 files in two days. Evidence: research/autonomy/sprint-2026-09-01/S6-COMMITLOOP.md"
+  },
+  {
+   "id": "commit_loop_gate13_39s_55_tests",
+   "pattern": "gate 13 \\*\\*39\\.3 s\\*\\*|\\*\\*77\\.5 s\\*\\*|its 55 tests",
+   "current": "gate 13 is 446.3 s over 789 tests on a quiet box (2026-08-29) and 1247.8 s under twelve-way contention (2026-09-01); it covers `scripts/tests` AND `research/autonomy/tests`, which the 2026-08-24 reading predates. One home: CLAUDE.md §6.",
+   "retired_by": "same S6-COMMITLOOP re-measurement, 2026-09-01. The growth is scope and population, not a per-test regression: the five `scripts/tests` files present on 2026-08-24 are byte-identical today, and CI's own --durations=25 on run 33523366953 lists no test from either directory among the 25 slowest in an 11,012-test suite."
   }
  ],
  "subset_checks": [
