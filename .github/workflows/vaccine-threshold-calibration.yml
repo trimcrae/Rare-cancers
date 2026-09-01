@@ -1,0 +1,183 @@
+name: Vaccine acceptance-threshold calibration (§6.1 step 1)
+
+# Runs `research/modalities/vaccine_threshold_calibration.py`, which is Section 6.1 STEP 1 of
+# research/manuscripts/neoantigen/emc-vaccine-development-path.md: calibrate the acceptance
+# threshold against experimentally validated epitopes, or record that it cannot be defended.
+#
+# ⛔ WHY IT IS NOT A STEP IN modalities-run.yml. Two reasons, both deliberate:
+#   1. modalities-run.yml is a ~40-minute pipeline whose publish step does
+#      `rm -f research/modalities/*.json` on the cache branch and copies back only its own
+#      enumerated list. An artifact added there without also editing that list is deleted on the
+#      next run. This job publishes to its own branch and cannot be clobbered by that one.
+#   2. This is a self-contained question with its own fetch (IEDB) and its own failure modes; it
+#      should be re-runnable on its own in ~20 minutes rather than behind fpocket and AlphaFold.
+#
+# Both halves are unavailable in the dev sandbox, measured 2026-09-01:
+#   python3 -c "import mhcflurry"        -> ModuleNotFoundError
+#   curl https://query-api.iedb.org/     -> curl (56) CONNECT tunnel failed, response 403
+#
+# Results are pushed to the `vaccine-calibration-cache` branch AND uploaded as a run artifact, so a
+# failed push never costs the result:
+#   git fetch origin vaccine-calibration-cache
+#   git checkout vaccine-calibration-cache -- research/modalities/
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "schema_probe = discover the live IEDB schema only (fast, no MHCflurry); full = the calibration"
+        type: choice
+        options: [full, schema_probe]
+        default: full
+      skip_decoys:
+        description: "skip arm D (the decoy null); it needs the UniProt proteome fetch"
+        type: boolean
+        default: false
+  # ⭐ A NEW workflow file cannot be workflow_dispatch-ed from a branch — dispatch reads the file
+  # from the DEFAULT branch, so a file that is not yet on main 404s. A push trigger reads the
+  # workflow from the PUSHED commit, so this fires on its own branch with no merge to main. Once
+  # this file reaches main the workflow_dispatch above becomes usable at any ref.
+  push:
+    branches: [claude/s24-threshold-calibration]
+    paths:
+      - research/modalities/vaccine_threshold_calibration.py
+      - .github/workflows/vaccine-threshold-calibration.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: vaccine-threshold-calibration
+  cancel-in-progress: false
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      # ⛔ STAMPED BEFORE ANY GENERATOR RUNS. A file left over from a previous checkout EXISTS;
+      # existence is not the question, "did this run write it" is.
+      - name: Stamp the run start
+        run: echo "RUN_STARTED=$(date +%s)" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ⭐ RUNS FIRST, AND WITHOUT MHCflurry. If the pip install or the model download breaks, this
+      # step has already recorded the live IEDB schema — which is the one thing this session could
+      # not read from the sandbox and the one thing the next edit to the script will need.
+      - name: IEDB schema probe (no MHCflurry; records the live column list whatever else happens)
+        continue-on-error: true
+        run: |
+          python research/modalities/vaccine_threshold_calibration.py --dump-schema-only
+          cp research/modalities/vaccine-threshold-calibration.json \
+             research/modalities/vaccine-threshold-calibration-schema-probe.json
+          python - <<'PY'
+          import json
+          d = json.load(open("research/modalities/vaccine-threshold-calibration-schema-probe.json"))
+          s = d.get("_schema_discovery")
+          print("schema:", None if not s else {k: len(v) for k, v in s["columns_of_tables_used"].items()})
+          for e in d.get("errors", []):
+              print("::warning title=IEDB schema probe::" + str(e))
+          PY
+
+      - name: Install MHCflurry and its class I presentation models
+        if: ${{ github.event.inputs.mode != 'schema_probe' }}
+        run: |
+          set -e
+          python -m pip install --upgrade pip
+          pip install "mhcflurry==2.1.4" "tensorflow-cpu<2.16" pandas
+          mhcflurry-downloads fetch models_class1_presentation
+
+      - name: Calibrate the acceptance threshold against experimentally validated epitopes
+        if: ${{ github.event.inputs.mode != 'schema_probe' }}
+        continue-on-error: true
+        run: |
+          python research/modalities/vaccine_threshold_calibration.py \
+            ${{ github.event.inputs.skip_decoys == 'true' && '--no-decoys' || '' }}
+
+      # ⛔ THE STEPS ABOVE ARE continue-on-error, SO A GREEN TICK IS NOT EVIDENCE OF OUTPUT. This
+      # step is the only thing that says whether THIS run wrote the artifact, and it compares mtime
+      # against RUN_STARTED rather than testing existence.
+      - name: Which artifacts did THIS run actually write
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os, sys, time
+          started = float(os.environ["RUN_STARTED"])
+          rows, bad = [], []
+          for name in ["vaccine-threshold-calibration.json",
+                       "vaccine-threshold-calibration-schema-probe.json",
+                       "iedb-validated-epitope-cache.json"]:
+              p = os.path.join("research/modalities", name)
+              if not os.path.exists(p):
+                  rows.append((name, "MISSING")); bad.append(name); continue
+              age = os.path.getmtime(p)
+              state = "WRITTEN" if age >= started else "STALE"
+              rows.append((name, state))
+              if state == "STALE":
+                  bad.append(name)
+          for n, s in rows:
+              print(f"  {s:8s} {n}")
+              if s != "WRITTEN":
+                  print(f"::error title=artifact not written by this run::{n} is {s}")
+          v = "research/modalities/vaccine-threshold-calibration.json"
+          if os.path.exists(v):
+              d = json.load(open(v))
+              ver = d.get("verdict") or {}
+              print("::notice title=calibration verdict::" + str(ver.get("finding", "no verdict"))[:400])
+              print(json.dumps({k: ver.get(k) for k in
+                                ["n_distinct_validated_fusion_junction_epitopes",
+                                 "the_set_is_a_calibration_set",
+                                 "_the_fusion_probe_fetch_was_complete"]}, indent=1))
+          PY
+
+      - name: Upload the results as a run artifact (survives a failed push)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vaccine-threshold-calibration
+          if-no-files-found: warn
+          path: |
+            research/modalities/vaccine-threshold-calibration.json
+            research/modalities/vaccine-threshold-calibration-schema-probe.json
+            research/modalities/iedb-validated-epitope-cache.json
+
+      - name: Publish to the vaccine-calibration-cache branch
+        if: always()
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p "$RUNNER_TEMP/res"
+          # ⛔ The stub guard refuses to publish a failure stub over a real artifact — a JSON object
+          # whose every top-level key is `_`-prefixed carries no data. Reused rather than
+          # re-implemented; it is the one home of that test.
+          python research/modalities/artifact_stub_guard.py --stage "$RUNNER_TEMP/res" \
+            research/modalities/vaccine-threshold-calibration.json \
+            research/modalities/vaccine-threshold-calibration-schema-probe.json \
+            research/modalities/iedb-validated-epitope-cache.json || true
+          if [ -z "$(ls -A "$RUNNER_TEMP/res" 2>/dev/null)" ]; then
+            echo "nothing publishable"; exit 0
+          fi
+          git fetch origin vaccine-calibration-cache || true
+          # ⛔ CLEAR THE WORKTREE COPIES FIRST. `git checkout -B` refuses when an untracked file
+          # would be overwritten by the branch being checked out, and these three filenames exist on
+          # both sides. The publishable copies are already staged in $RUNNER_TEMP/res.
+          rm -f research/modalities/*.json research/modalities/*.png
+          git checkout -- research/modalities 2>/dev/null || true
+          if git show-ref --verify --quiet refs/remotes/origin/vaccine-calibration-cache; then
+            git checkout -B vaccine-calibration-cache origin/vaccine-calibration-cache
+          else
+            git checkout --orphan vaccine-calibration-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          cp "$RUNNER_TEMP"/res/*.json research/modalities/
+          git add research/modalities/*.json
+          git commit -m "Vaccine acceptance-threshold calibration (§6.1 step 1): run ${GITHUB_RUN_ID}" \
+            || { echo "no changes"; exit 0; }
+          git push origin vaccine-calibration-cache
