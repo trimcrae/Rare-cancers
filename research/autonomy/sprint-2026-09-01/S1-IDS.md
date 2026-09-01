@@ -2,10 +2,13 @@
 id: DOC-SPRINT-S1-IDS
 title: "S1-IDS — the entry-id allocator now carries the discriminator its sibling always had"
 level: L3
-kind: process
+kind: memo
 status: live
 date: 2026-09-01
 audience: [autonomous research agents, maintainers]
+purpose: "The findings record of sprint seat S1-IDS — what it measured, what it changed, and what it could not do. Written before the seat returned, so a seat that dies costs its own work and nothing else."
+scope: "One seat of the 2026-09-01 sprint, bounded by the owned-paths list in its own prompt. It reports; it does not decide what lands."
+last_verified: 2026-09-01
 ---
 
 # S1-IDS — `ids.next_entry_id` collided; it no longer can

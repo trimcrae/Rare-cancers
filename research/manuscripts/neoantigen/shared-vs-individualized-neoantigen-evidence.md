@@ -206,7 +206,8 @@ the one option this disease cannot buy.
   acceptance threshold and the predictor by more than the distance between them. **Quote them from the
   paper's §2.3 and Appendix B, never bare.**
 - **Self-adjacency.** The lead peptide sits one residue from a sequence in a normal *NR4A3* isoform and
-  two from a paralogue peptide, with neither difference at an anchor position.
+  two from a paralogue peptide, with neither difference at an anchor position under the general class I
+  convention of position 2 and the C-terminus.
 - **The tumour.** A cold microenvironment and a myxoid matrix proposed to exclude lymphocytes — the
   properties `BLK-ANTIGEN-COLD` names, and the ones a vaccine cannot address by itself.
 - **Trial arithmetic.** Applying the fusion-partner fraction and the HLA fraction to the accrual rate of
@@ -268,7 +269,9 @@ remains unknown after reading it:
 
 - Whether **any** junction peptide is presented on EMC tissue: never measured, in this repository or
   anywhere identified.
-- Whether the novel seam residues fall at anchor positions or at T-cell-receptor contact positions.
+- Whether the anchor convention decides it: the near-self search has been run `[REPO]` and places the
+  seam differences away from the anchors under the general class I convention, but position 1's anchor
+  status for the five restricting alleles is unresolved here and flips six of the 11 binders.
 - Whether EMC retains HLA class I at the **protein** level, per tumour rather than per cohort.
 - Whether a wider allele panel or a better predictor raises coverage enough to change the trial
   arithmetic.
@@ -329,9 +332,22 @@ Stated as falsifiers, so that a future session can check them rather than re-arg
 2. **Immunopeptidomics on EMC tissue or a patient-derived line finds no junction peptide presented.**
    This bounds the whole route and is already listed as a required validation, blocked on
    `BLK-NO-EMC-DATA`.
-3. **The seam residues fall at T-cell-receptor contact positions rather than anchors**, such that
-   central tolerance to the near-self *NR4A3*-isoform neighbour has deleted the repertoire. This is a
-   computable Stage 0 item, not a blocked one.
+3. **The seam residues fall only at anchor positions rather than at T-cell-receptor contact
+   positions**, so that the neoepitope and its near-self *NR4A3*-isoform neighbour present the same
+   surface to a receptor and central tolerance to the neighbour has deleted the repertoire.
+   ⚠ **Corrected 2026-09-01: this falsifier previously named the opposite configuration** — contact
+   positions rather than anchors — which inverts it, because a difference the receptor can read is
+   what leaves a repertoire possible. It was written from a clause in the vaccine paper's §B3 that
+   stated the same ordering the wrong way round; that clause is now withdrawn there, in its Appendix
+   C, and §B3's own next sentence had always named the anchor-only case as the worst one.
+   The near-self search has been run `[REPO]`
+   ([`junction-selfsimilarity.json`](../../modalities/junction-selfsimilarity.json)): under the
+   general class I convention of position 2 and the C-terminus, no binder is in this configuration.
+   ⛔ **And it is not the fully computable item this row used to claim.** The convention is not
+   allele-specific; counting position 1 as an anchor puts six of the 11 binders in the failing
+   configuration, all six against the same *NR4A3* isoform, and this repository holds no
+   allele-specific binding motif for HLA-A\*01:01, B\*07:02, B\*15:01, B\*35:01 or B\*44:02. What is
+   computable has been computed; what remains needs a motif source that has to be fetched.
 4. **HLA class I is lost at the protein level in individual EMC tumours**, as opposed to the cohort-level
    transcript reads that currently show it flat rather than lost.
 5. **Wider allele panels and better predictors fail to raise coverage**, leaving the eligible-patient

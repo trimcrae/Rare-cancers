@@ -113,7 +113,7 @@
     ],
     "coverage_cd8_and_cd4_combined": 0.0178
   },
-  "_class_ii_note": "Class-II (CD4 helper) coverage is over DRB1 alleles presenting a STRONG binder in patient-cd4-demo.json (MHCnuggets, EWSR1 e7::e3 junction). That screen tested only a 3-allele DR panel (DRB1*01:01, DRB1*03:01, DRB1*04:01, DRB1*04:04, DRB1*07:01, DRB1*08:01, DRB1*09:01, DRB1*11:01, DRB1*12:01, DRB1*13:01, DRB1*13:02, DRB1*14:01, DRB1*15:01, DRB1*15:02, DRB1*16:01, DRB3*01:01, DRB4*01:01, DRB5*01:01, DPB1*02:01, DPB1*04:01, DQB1*02:01, DQB1*03:01, DQB1*06:02), so this coverage is a FLOOR over a tested panel, not a complete DR scan: untested DR alleles may also present the helper peptides, which would only raise coverage. coverage_cd8_and_cd4_combined = P(>=1 class-I allele) x P(>=1 class-II allele), treating HLA-A/B and DRB1 as independent loci.",
+  "_class_ii_note": "Class-II (CD4 helper) coverage is over DRB1 alleles presenting a STRONG binder in patient-cd4-demo.json (MHCnuggets, EWSR1 e7::e3 junction). That screen tested only a 23-allele class-II panel (DRB1*01:01, DRB1*03:01, DRB1*04:01, DRB1*04:04, DRB1*07:01, DRB1*08:01, DRB1*09:01, DRB1*11:01, DRB1*12:01, DRB1*13:01, DRB1*13:02, DRB1*14:01, DRB1*15:01, DRB1*15:02, DRB1*16:01, DRB3*01:01, DRB4*01:01, DRB5*01:01, DPB1*02:01, DPB1*04:01, DQB1*02:01, DQB1*03:01, DQB1*06:02), so this coverage is a FLOOR over a tested panel, not a complete class-II scan: untested alleles may also present the helper peptides, which would only raise coverage. coverage_cd8_and_cd4_combined = P(>=1 class-I allele) x P(>=1 class-II allele), treating HLA-A/B and DRB1 as independent loci.",
   "\u26d4_class_ii_provenance": {
     "class_ii_input": "patient-cd4-demo.json",
     "class_ii_junction_context": "QYSQQSSSYGQQ|NMPCVQAQYSPS",

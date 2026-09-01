@@ -35,33 +35,38 @@ in EMC.*
 
 ## Abstract
 
-Extraskeletal myxoid chondrosarcoma (EMC) is defined in ~90% of cases by an in-frame fusion of *EWSR1*
-(or, in ~16%, *TAF15*) to the orphan nuclear receptor *NR4A3*, on an otherwise quiet genome. The repo's
-small-molecule track pursues an NR4A3-degrader that engages the **NR4A3 ligand-binding domain (LBD)** —
-selective for NR4A3 over its NR4A1/2 paralogues, but **not** selective for the fusion, because that LBD is
-shared with wild-type NR4A3. This paper pursues the orthogonal, immune-level **fusion-exclusive** axis: the
-handful of residues spanning the EWSR1→NR4A3 junction form a peptide present in no normal protein, so a
-T-cell response against it spares wild-type NR4A3 and wild-type EWSR1 at the sequence level. ⚠ It does NOT follow that no normal cell is affected: the novelty test behind this compares the junction peptides against those two parent proteins only (`fusion_breakpoints.emit_junction`'s novelty filter — a line number would rot, and this one already did), never against the human proteome, and no safety claim is made or supported.
-We summarise the already-committed, reproducible evidence base for this approach and frame the clinical
-modalities it enables — personalised neoantigen vaccine, TCR-T, and soluble-TCR (ImmTAC)-style products —
-without performing or asserting any new computation. Breakpoint-resolved prediction (junctions derived at the
-**transcript** level from real Ensembl exon structure, MHCflurry-2.0) grades all **27** declared exon pairs
-and emits **5 in-frame junctions** (EWSR1 exons 7/9/10/12/13 → NR4A3 exon 3) yielding **11 distinct predicted
-binders**, 4 of them strong, with **no single pan-EMC epitope**: the most-shared candidate appears in 4 of 5
-junctions and is a weak binder, three of the five junctions return no strong binder at all, and every strong
-binder is breakpoint-specific. HLA class-I population coverage (AFND frequencies, IEDB formula) is **≈8.5%**
-for the commonly reported EWSR1 e7::NR4A3 e3 public junction (B\*15:01 alone; 8.51%, 95% CI 8.26–8.76%) and
-**≈27%** for all strong-binder alleles pooled (27.4%, 95% CI 26.6–28.1%), with **large regional variation**
-(1.4% Melanesia to 60% Northern Europe). ⚠ *Superseded, retained (updated 2026-08-22): "The class-II
-(CD4 helper) arm and the combined both-arms figure are **withdrawn pending regeneration** of the
-class-II demo, which still rests on the retracted seam (§3)."* The class II demo has since been
-rebuilt on the transcript model and the arm is reported and negative. ⚠ *Superseded, retained
-(corrected 2026-08-28): "the both-arms figure is not computed rather than withdrawn".* It is computed:
-the class-II branch evaluates once an allele qualifies, and one does. Both have one home,
-[`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4.
-The honest conclusion is that a fusion-exclusive EMC immunotherapy is **personalised by necessity** (no
-off-the-shelf pan-EMC epitope) and that its addressable fraction on a single public junction is **under a
-tenth of patients**. The decisive experiment is wet-lab and stated as such. All figures are
+Extraskeletal myxoid chondrosarcoma (EMC) is defined in ~90% of cases by an in-frame fusion of
+*EWSR1* (or, in ~16%, *TAF15*) to the orphan nuclear receptor *NR4A3*, on an otherwise quiet genome.
+The repo's small-molecule track pursues an NR4A3-degrader that engages the **NR4A3 ligand-binding
+domain (LBD)** — selective for NR4A3 over its NR4A1/2 paralogues, but **not** selective for the
+fusion, because that LBD is shared with wild-type NR4A3. This paper pursues the orthogonal,
+immune-level **fusion-exclusive** axis: the handful of residues spanning the EWSR1→NR4A3 junction
+form a peptide present in no normal protein, so a T-cell response against it spares wild-type NR4A3
+and wild-type EWSR1 at the sequence level. ⚠ It does NOT follow that no normal cell is affected: the
+novelty test behind this compares the junction peptides against those two parent proteins only
+(`fusion_breakpoints.emit_junction`'s novelty filter — a line number would rot, and this one already
+did), never against the human proteome, and no safety claim is made or supported. We summarise the
+already-committed, reproducible evidence base for this approach and frame the clinical modalities it
+enables — personalised neoantigen vaccine, TCR-T, and soluble-TCR (ImmTAC)-style products — without
+performing or asserting any new computation. Breakpoint-resolved prediction (junctions derived at
+the **transcript** level from real Ensembl exon structure, MHCflurry-2.0) grades all **27** declared
+exon pairs and emits **5 in-frame junctions** (EWSR1 exons 7/9/10/12/13 → NR4A3 exon 3) yielding
+**11 distinct predicted binders**, 4 of them strong, with **no single pan-EMC epitope**. The
+most-shared candidate appears in 4 of 5 junctions and is a weak binder, three of the five junctions
+return no strong binder at all, and every strong binder is breakpoint-specific. HLA class-I
+population coverage (AFND frequencies, IEDB formula) is **≈8.5%** for the commonly reported EWSR1
+e7::NR4A3 e3 public junction (B\*15:01 alone; 8.51%, 95% CI 8.26–8.76%) and **≈27%** for all
+strong-binder alleles pooled (27.4%, 95% CI 26.6–28.1%), with **large regional variation** (1.4%
+Melanesia to 60% Northern Europe). ⚠ *Superseded, retained (updated 2026-08-22): "The class-II (CD4
+helper) arm and the combined both-arms figure are **withdrawn pending regeneration** of the class-II
+demo, which still rests on the retracted seam (§3)."* The class II demo has since been rebuilt on
+the transcript model and the arm is reported and negative. ⚠ *Superseded, retained (corrected
+2026-08-28): "the both-arms figure is not computed rather than withdrawn".* It is computed: the
+class-II branch evaluates once an allele qualifies, and one does. Both have one home,
+[`emc-vaccine-development-path.md`](./emc-vaccine-development-path.md) §B4. The honest conclusion is
+that a fusion-exclusive EMC immunotherapy is **personalised by necessity** (no off-the-shelf pan-EMC
+epitope) and that its addressable fraction on a single public junction is **under a tenth of
+patients**. The decisive experiment is wet-lab and stated as such. All figures are
 hypothesis-generating and require sarcoma-immunology review.
 
 > ⚠ *Superseded, retained (2026-08-07 seam correction): **7** in-frame junctions, **26** distinct binders,
@@ -90,27 +95,30 @@ levels:
    as selectivity handles ([`nr4a3-degrader-paper.md`](../degrader/nr4a3-degrader-paper.md) §2.3). But the NR4A3 LBD
    is **identical in the fusion and in wild-type NR4A3**, so a degrader cannot distinguish the oncoprotein
    from the normal receptor — it is NR4A3-selective, *not fusion-selective*.
-3. **Fusion-exclusive** — the layer this paper targets. The few residues that span the EWSR1→NR4A3 seam
-   form a sequence that exists in **no normal protein**: neither in wild-type EWSR1 (which ends before the
-   seam) nor in wild-type NR4A3 (which begins after it). A peptide drawn across that seam is therefore both
-   **tumour-exclusive** (only fusion-positive cells make it) and **fusion-exclusive** (it is absent from the
-   wild-type receptor the degrader cannot avoid). If such a peptide is presented on MHC, a T-cell response
-   against it is the **cleanest possible selectivity** for EMC: it spares wild-type NR4A3 and EWSR1 at the sequence level — ⚠ NOT every
-   normal cell, which no test here has assessed, and — because the fusion is the truncal, clonal driver present in every tumour cell and
-   never subclonally lost — it cannot be escaped by antigen loss the way a passenger-mutation response can.
+3. **Fusion-exclusive** — the layer this paper targets. The few residues that span the EWSR1→NR4A3
+   seam form a sequence that exists in **no normal protein**: neither in wild-type EWSR1 (which ends
+   before the seam) nor in wild-type NR4A3 (which begins after it). A peptide drawn across that seam
+   is therefore both **tumour-exclusive** (only fusion-positive cells make it) and
+   **fusion-exclusive** (it is absent from the wild-type receptor the degrader cannot avoid). If
+   such a peptide is presented on MHC, a T-cell response against it is the **cleanest possible
+   selectivity** for EMC: it spares wild-type NR4A3 and EWSR1 at the sequence level — ⚠ NOT every
+   normal cell, which no test here has assessed. And because the fusion is the truncal, clonal
+   driver present in every tumour cell and never subclonally lost, it cannot be escaped by antigen
+   loss the way a passenger-mutation response can.
 
 This is the rationale for an *immune-level* fusion-unique approach as a complement to the small-molecule
 degrader. The degrader removes NR4A3 (fusion or wild-type) wherever it is; the junction neoantigen marks
 *only* fusion-expressing cells for immune attack. They attack the same disease from non-overlapping
 selectivity premises, and neither needs a druggable pocket on the disordered EWSR1 transactivation domain.
 
-**Why this is not already a therapy.** Not because the biology is unknown, but because the steps past
-"know the variant" are hard, and they are exactly the honest caveats of §6: the breakpoint varies between
-patients (no single off-the-shelf product), the junction is *mostly self-sequence* (only the seam is
-foreign, so central tolerance may have pruned reactive T cells), sarcomas are low-mutational-burden "cold"
-tumours, and a bespoke per-patient product for an ultra-rare cancer has weak commercial pull. The value of
-an in-silico analysis is to quantify what *is* tractable — which junctions exist, which peptides are
-predicted presented, and on how many patients — so a clinical collaborator can judge feasibility.
+**Why this is not already a therapy.** Not because the biology is unknown, but because the steps
+past "know the variant" are hard, and they are exactly the honest caveats of §6. The breakpoint
+varies between patients (no single off-the-shelf product), the junction is *mostly self-sequence*
+(only the seam is foreign, so central tolerance may have pruned reactive T cells), sarcomas are
+low-mutational-burden "cold" tumours, and a bespoke per-patient product for an ultra-rare cancer has
+weak commercial pull. The value of an in-silico analysis is to quantify what *is* tractable — which
+junctions exist, which peptides are predicted presented, and on how many patients — so a clinical
+collaborator can judge feasibility.
 
 ---
 
@@ -152,13 +160,14 @@ one defect produced both.
 > reverse. Both readings are computed at run time and recorded in the artifact's
 > `_superseded_cds_model_comparison`.
 
-The corrected panel grades **all 27 declared exon pairs** (EWSR1 exons 6–14 × NR4A3 exons 2–4) and emits
-peptides for the **5** it can defend: **EWSR1 exons 7, 9, 10, 12 and 13 → NR4A3 exon 3**. The other 22 are
-*explicit refusals* carried in the artifact's `junctions_graded`, not silent omissions — 9 `NON_CODING_ACCEPTOR`
-(NR4A3 exon 2 carries no CDS; a fusion to it retains 176 nt of 5′UTR before NR4A3's ATG), 9 `SEAM_NOT_PRODUCED`
-(NR4A3 exon 4 resumes at residue 318, outside the corrected plausible range), and 4 `OUT_OF_FRAME`. **e11 is
-among the refusals**: it is the only declared donor cut that falls on a codon boundary, so it is precisely the
-one the two coordinate systems disagree about.
+The corrected panel grades **all 27 declared exon pairs** (EWSR1 exons 6–14 × NR4A3 exons 2–4) and
+emits peptides for the **5** it can defend: **EWSR1 exons 7, 9, 10, 12 and 13 → NR4A3 exon 3**. The
+other 22 are *explicit refusals* carried in the artifact's `junctions_graded`, not silent omissions
+— 9 `NON_CODING_ACCEPTOR` (NR4A3 exon 2 carries no CDS; a fusion to it retains 176 nt of 5′UTR
+before NR4A3's ATG), 9 `SEAM_NOT_PRODUCED` (NR4A3 exon 4 resumes at residue 318, outside the
+corrected plausible range), and 4 `OUT_OF_FRAME`. **And e11 is among the refusals**: it is the only
+declared donor cut that falls on a codon boundary, so it is precisely the one the two coordinate
+systems disagree about.
 
 **Every emitted seam carries a codon belonging to neither parent.** EWSR1 ends 1 nt past a codon boundary at
 all five cuts; that leftover base plus the 2 retained acceptor-5′UTR bases compose one novel codon, after which

@@ -125,11 +125,12 @@
     "id": "ART-HLA-COVERAGE",
     "path": "research/modalities/hla-coverage.json",
     "produced_by": "research/modalities/hla_coverage.py",
-    "workflow": null,
+    "workflow": ".github/workflows/modalities-run.yml",
     "published_to": [
-      "main"
+      "main",
+      "modalities-cache"
     ],
-    "note": "Class-II coverage is a FLOOR over a tested 3-allele DR panel, and the junction it is computed on is OBJ-MODEL-E7E3."
+    "note": "Class-II coverage is a FLOOR over the tested class-II panel, which the artifact's own `_class_ii_note` states and enumerates; the junction it is computed on is OBJ-MODEL-E7E3. ⛔ THE PANEL SIZE IS DELIBERATELY NOT RE-TYPED HERE (2026-09-01). This note said '3-allele DR panel' from 2026-08-04, which was true of the panel then; the panel widened to DR/DP/DQ on 2026-08-23 and this copy did not move, so the graph stated one size while the same graph's RT-VACCINE grade stated another. A size typed into a map of the artifact is a second home for a fact the artifact owns (CLAUDE.md rule 1). ⛔ AND THE `workflow`/`published_to` FIELDS WERE WRONG IN THE WAY THAT CAUSED THE STALENESS: this row said `workflow: null` and `published_to: [main]`, but `.github/workflows/modalities-run.yml` runs `hla_coverage.py` and its publish step pushes to `modalities-cache`, from which somebody must snapshot by hand. Measured 2026-09-01: the corrected artifact reached `modalities-cache` on 2026-08-29 (d7bfcaf28) and `main` was still carrying the pre-fix copy three days later, with every gate green — `check_artifacts` asks whether a cited artifact EXISTS on this branch, never whether it MATCHES the copy its producing workflow published."
   },
   {
     "id": "ART-EMC-CLINICAL-REGISTRY",

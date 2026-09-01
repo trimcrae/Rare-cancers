@@ -53,52 +53,56 @@ report is a single patient.
 reports what current instruments and access establish about the target, separates limits of the tumour
 from limits of method or access, and records for each movable limit what would move it.
 
-**Methods.** Junctions were derived at the transcript level from Ensembl exon structure, so the acceptor
-exon is retained whole including its 5' untranslated region. Class I binding was predicted with MHCflurry
-2.1.4, models release 2.2.0 [2], on a ten-allele panel for the junction screen and a 34-allele panel for
-the coverage scan, calling a peptide strong at a presentation percentile of 0.5 or below; class II binding
-with MHCnuggets [12] on 23 class II alleles across DR, DP and DQ at 100 and 1000 nM. Coverage is the union carrier frequency of
-the presenting alleles over Allele Frequency Net Database records [1]; the sampling model a pooled
-binomial would require does not hold, so no confidence interval is placed on it and three other
-readings are reported in its place: the exact within-locus form of the coverage expression,
-distribution-free Fréchet bounds on the between-locus dependence the formula assumes away, and the
-empirical spread of the same quantity recomputed inside each source population. Novelty was assessed by exact-match search against the UniProt reviewed human proteome
-including isoforms, with the unreviewed entries of the same reference proteome searched separately and
-reported separately. Clinical figures come from a curated EMC registry. No wet-laboratory data were
-generated.
+**Methods.** Junctions were derived at the transcript level from Ensembl exon structure, so the
+acceptor exon is retained whole including its 5' untranslated region. Class I binding was predicted
+with MHCflurry 2.1.4, models release 2.2.0 [2], on a ten-allele panel for the junction screen and a
+34-allele panel for the coverage scan; a peptide is called strong at a presentation percentile of
+0.5 or below. Class II binding used MHCnuggets [12] on 23 class II alleles across DR, DP and DQ at
+100 and 1000 nM. Coverage is the union carrier frequency of the presenting alleles over Allele
+Frequency Net Database records [1]. The sampling model a pooled binomial would require does not
+hold, so no confidence interval is placed on it. Three other readings are reported in its place: the
+exact within-locus form of the coverage expression, distribution-free Fréchet bounds on the
+between-locus dependence the formula assumes away, and the empirical spread of the same quantity
+recomputed inside each source population. Novelty was assessed by exact-match search against the
+UniProt reviewed human proteome including isoforms, with the unreviewed entries of the same
+reference proteome searched separately and reported separately. Clinical figures come from a curated
+EMC registry. No wet-laboratory data were generated.
 
-**Results.** Of 27 declared exon pairs, 5 are in frame, yielding 174 junction-spanning peptides and 11
-distinct predicted binders of which 4 are strong; there is no pan-EMC epitope. Predicted coverage is a
-property of the screen as much as of the junction: the commonly reported *EWSR1* exon 7 to *NR4A3* exon 3
-junction covers 8.5% on ten alleles, presented on HLA-B\*15:01 alone, and 12.3% on 34, where the same lead
-peptide is also strong on HLA-A\*30:02; pooling every in-frame junction gives 27.4% and 30.4% on those two
-panels. None is a ceiling. Coverage against the acceptance threshold is
-computed here as a continuous function rather than sampled: it is a step function, every step is one
-peptide-allele call, and the four steps below the conventional cut all fall inside a window 0.0844
-percentile units wide that closes before the cut is reached. Across the span of cuts this field
-routinely uses it runs from 0% at a conservative 0.2 through 30.4% at 0.5 to 72.6% at 2.0, so the
-reported figure is one point on a curve rather than an estimate with a tolerance. It also moves with the predictor: an independently
-trained class I model over the same peptides and panel returns 8 presenting alleles and 45.2% at its own
-conventional cut, sharing only three alleles with the four above. In place of the confidence interval
-withdrawn from earlier versions, the pooled figure is bounded three ways: the exact within-locus form
-raises it by 0.33 percentage points, so it cannot be too high for that reason; Fréchet bounds place it
-in [17.5%, 29.9%] under any linkage disequilibrium whatever; and recomputed inside each of the 112
-source populations that measured the whole presenting panel it has a median of 24.5% and a range of 0%
-to 66.0%. That last is an order of magnitude wider than the other two, and wider than the panel and
-the predictor axes, though not than the threshold. Dropping Hardy-Weinberg and between-locus
-independence together bounds the same figure in [9.2%, 31.1%] while assuming nothing about genotypes
-or haplotypes. 170 of 174
-peptides are absent from the reviewed human proteome including isoforms and all 4 strong binders survive;
-the 4 that do not occur in an *NR4A3* isoform, belong to the four aspartate-seam junctions, and cost one
-predicted binder. A near-self search at one to two substitutions places the lead peptide one residue from
-DMPCVQAQY in that isoform and two from a paralogue peptide, neither difference at an anchor, against a
-chance expectation of 0.02; no binder in the screen has a near-self neighbour differing only at anchors.
-On a class II panel widened from three DRB1 alleles to 23 across DR, DP and DQ, 44 peptide-allele pairs
-bind and one is strong, on DRB1\*14:01, so combined CD8 and CD4 coverage is computable for the first time
-and is 1.8%. The candidate construct is a 15-residue synthetic long peptide carrying both arms. The four
-out-of-frame junctions, screened here for the first time, give read-through tracts of 9 to 31 residues
-before a premature stop, and their 10 strong calls are tighter than any in-frame call — the only peptides
-in this work surviving a conservative cut come from junctions that cannot encode the driver.
+**Results.** Of 27 declared exon pairs, 5 are in frame, yielding 174 junction-spanning peptides and
+11 distinct predicted binders of which 4 are strong; there is no pan-EMC epitope. Predicted coverage
+is a property of the screen as much as of the junction: the commonly reported *EWSR1* exon 7 to
+*NR4A3* exon 3 junction covers 8.5% on ten alleles, presented on HLA-B\*15:01 alone, and 12.3% on
+34, where the same lead peptide is also strong on HLA-A\*30:02; pooling every in-frame junction
+gives 27.4% and 30.4% on those two panels. None is a ceiling. Coverage against the acceptance
+threshold is computed here as a continuous function rather than sampled: it is a step function,
+every step is one peptide-allele call, and the four steps below the conventional cut all fall inside
+a window 0.0844 percentile units wide that closes before the cut is reached. Across the span of cuts
+this field routinely uses it runs from 0% at a conservative 0.2 through 30.4% at 0.5 to 72.6% at
+2.0, so the reported figure is one point on a curve rather than an estimate with a tolerance. It
+also moves with the predictor: an independently trained class I model over the same peptides and
+panel returns 8 presenting alleles and 45.2% at its own conventional cut, sharing only three alleles
+with the four above. In place of the confidence interval withdrawn from earlier versions, the pooled
+figure is bounded three ways. The exact within-locus form raises it by 0.33 percentage points, so it
+cannot be too high for that reason. Fréchet bounds place it in [17.5%, 29.9%] under any linkage
+disequilibrium whatever. Recomputed inside each of the 112 source populations that measured the
+whole presenting panel, it has a median of 24.5% and a range of 0% to 66.0%. That last is an order
+of magnitude wider than the other two, and wider than the panel and the predictor axes, though not
+than the threshold. Dropping Hardy-Weinberg and between-locus independence together bounds the same
+figure in [9.2%, 31.1%] while assuming nothing about genotypes or haplotypes. 170 of 174 peptides
+are absent from the reviewed human proteome including isoforms and all 4 strong binders survive; the
+4 that do not occur in an *NR4A3* isoform, belong to the four aspartate-seam junctions, and cost one
+predicted binder. A near-self search at one to two substitutions places the lead peptide one residue
+from DMPCVQAQY in that isoform and two from a paralogue peptide, neither difference at an anchor
+under the general class I convention of position 2 and the C-terminus, against a chance expectation
+of 0.02; no binder in the screen has a near-self neighbour differing only at anchors under that
+convention, though six of the 11 would if position 1 counted as an anchor, which no allele-specific
+motif held here can settle. On a class II panel widened from three DRB1 alleles to 23 across DR, DP
+and DQ, 44 peptide-allele pairs bind and one is strong, on DRB1\*14:01, so combined CD8 and CD4
+coverage is computable for the first time and is 1.8%. The candidate construct is a 15-residue
+synthetic long peptide carrying both arms. The four out-of-frame junctions, screened here for the
+first time, give read-through tracts of 9 to 31 residues before a premature stop, and their 10
+strong calls are tighter than any in-frame call — the only peptides in this work surviving a
+conservative cut come from junctions that cannot encode the driver.
 
 **What bounds each conclusion.** Ten limits are enumerated in Section 3 and graded there as bounded by
 the disease, by current instruments, or by access. Two of them, the cold-tumour limit and the
@@ -140,25 +144,26 @@ The result does not transfer to EMC, and Section 4 sets out the axis on which th
 shows is that the manufacturing and delivery apparatus for an individualised RNA vaccine exists as a
 clinical reality rather than as a proposal.
 
-A closer precedent than melanoma exists for the modality proposed here, and it is much smaller. A 9-mer
-peptide spanning the SYT-SSX junction of synovial sarcoma, restricted to HLA-A\*24:02, was given to six
-patients in a phase I trial [17] and then to 21 patients across four protocols by the Japanese
-Musculoskeletal Oncology Group [18]. Peptide-specific cytotoxic T cells were induced in some patients,
-delayed-type hypersensitivity responses were absent in both trials, half the 12 patients on the arms
-combining peptide with incomplete Freund's adjuvant and interferon-alpha had stable disease during the
-vaccination period, and one patient in that series developed an intracerebral haemorrhage after the second
-vaccination; an accompanying evaluation of the later trial concluded that no robust immune response to the
-target epitope had been shown [19]. More recently, an off-the-shelf multi-peptide vaccine spanning the
-type 1 *EWSR1*::*FLI1* breakpoint, given with GM-CSF and topical imiquimod after multimodal therapy,
-raised de novo polyfunctional CD4+ T-cell responses against all four fusion-derived peptides in one
-patient with metastatic Ewing sarcoma, first detected at about month 7 and persisting beyond two years
-[20]. That report is a single patient and carries no control arm, so it supports no response rate and no
-statement about how such a construct would perform in anyone else. Fusion-derived neoantigens have
-separately been shown to elicit cytotoxic T-cell responses in fusion-driven tumours, alongside evidence
-of negative selective pressure against them [21].
-The human evidence for fusion-junction vaccination is therefore one case report and two small early-phase
-trials in a different translocation sarcoma: more than nothing, and much less than a demonstration that
-the approach works. Nothing in it concerns *EWSR1*::*NR4A3* or EMC.
+A closer precedent than melanoma exists for the modality proposed here, and it is much smaller. A
+9-mer peptide spanning the SYT-SSX junction of synovial sarcoma, restricted to HLA-A\*24:02, was
+given to six patients in a phase I trial [17] and then to 21 patients across four protocols by the
+Japanese Musculoskeletal Oncology Group [18]. Peptide-specific cytotoxic T cells were induced in
+some patients, and delayed-type hypersensitivity responses were absent in both trials. Half the 12
+patients on the arms combining peptide with incomplete Freund's adjuvant and interferon-alpha had
+stable disease during the vaccination period, and one patient in that series developed an
+intracerebral haemorrhage after the second vaccination. An accompanying evaluation of the later
+trial concluded that no robust immune response to the target epitope had been shown [19]. More
+recently, an off-the-shelf multi-peptide vaccine spanning the type 1 *EWSR1*::*FLI1* breakpoint,
+given with GM-CSF and topical imiquimod after multimodal therapy, raised de novo polyfunctional CD4+
+T-cell responses against all four fusion-derived peptides in one patient with metastatic Ewing
+sarcoma, first detected at about month 7 and persisting beyond two years [20]. That report is a
+single patient and carries no control arm, so it supports no response rate and no statement about
+how such a construct would perform in anyone else. Fusion-derived neoantigens have separately been
+shown to elicit cytotoxic T-cell responses in fusion-driven tumours, alongside evidence of negative
+selective pressure against them [21]. The human evidence for fusion-junction vaccination is
+therefore one case report and two small early-phase trials in a different translocation sarcoma:
+more than nothing, and much less than a demonstration that the approach works. Nothing in it
+concerns *EWSR1*::*NR4A3* or EMC.
 
 ## 2. Results: the target and its current evidence base
 
@@ -262,19 +267,19 @@ That ten-allele panel is the instrument behind every binder figure here, and a w
 34-allele screen of the same peptides at the same threshold returns five strong peptide-allele calls
 rather than four, because NMPCVQAQY is also strong on HLA-A\*30:02. Section 2.3 reports both panels.
 
-**The out-of-frame junctions.** Twenty-two of the 27 pairs carry no peptides
-above, and four of those are out of frame — *EWSR1* exons 6, 8, 11 and 14 joined to *NR4A3* exon 3. A
-frameshifted junction reads the acceptor exon in a novel register, so every residue after the seam is
-non-self until a stop codon, and in other tumours that class is the richest antigen source available
-rather than the poorest. Here it is not. The four read-through tracts are 9, 9, 31 and 9 residues
-long before a premature stop, yielding 97 distinct 8- to 11-mers in total; and three of the four —
-those from *EWSR1* exons 6, 8 and 14 — converge on the identical eight-residue core YALRPSPI,
-differing only in the seam residue, because a frameshift into the same acceptor exon reads the same
-nucleotides in the same shifted register. The antigen supply from this class is therefore one short
-peptide and one 31-residue tract, not four independent ones. All four premature stops lie between
-1,542 and 1,610 nucleotides upstream of the chimera's last exon-exon junction, which is the
-canonical configuration for nonsense-mediated decay by the 50-nucleotide rule — a positional
-criterion computed from the transcript model, not a decay measurement, and reported as such.
+**The out-of-frame junctions.** Twenty-two of the 27 pairs carry no peptides above, and four of
+those are out of frame — *EWSR1* exons 6, 8, 11 and 14 joined to *NR4A3* exon 3. A frameshifted
+junction reads the acceptor exon in a novel register, so every residue after the seam is non-self
+until a stop codon, and in other tumours that class is the richest antigen source available rather
+than the poorest. Here it is not. The four read-through tracts are 9, 9, 31 and 9 residues long
+before a premature stop, yielding 97 distinct 8- to 11-mers in total. Three of the four — those from
+*EWSR1* exons 6, 8 and 14 — converge on the identical eight-residue core YALRPSPI, differing only in
+the seam residue, because a frameshift into the same acceptor exon reads the same nucleotides in the
+same shifted register. The antigen supply from this class is therefore one short peptide and one
+31-residue tract, not four independent ones. All four premature stops lie between 1,542 and 1,610
+nucleotides upstream of the chimera's last exon-exon junction, which is the canonical configuration
+for nonsense-mediated decay by the 50-nucleotide rule — a positional criterion computed from the
+transcript model, not a decay measurement, and reported as such.
 
 Screened against the same 34-allele panel at the same cut, those 97 peptides return 10 strong
 peptide-allele calls across 8 alleles, all of them from the single 31-residue tract, and the three
@@ -364,14 +369,14 @@ headline figure from 30.4% to 45.2% on identical inputs, and the intersection of
 alleles of a union of nine. The lead allele HLA-B\*15:01 is in the intersection, which is the one
 place in this paper where two independent instruments say the same thing.
 
-**None of this is an argument for a looser cut.** A threshold chosen because it raises coverage would be the same defect this paper
-exists to name, arriving from the other side; the 28 alleles at a percentile of 5 are not a better
-answer than the 4 at 0.5, they are a demonstration that the question "what fraction of patients
-could this reach?" has no answer until somebody defends a cut, and nobody has. Figure 2 plots the function on a log
-axis, which is the axis its shape needs: the four steps span 0.0844 percentile units and a linear
-axis collapses them into the left margin. The whole curve is deposited as
-`coverage-threshold-curve.json`, so a reader who would set the cut elsewhere can read off what it
-gives instead of taking three points on trust.
+**None of this is an argument for a looser cut.** A threshold chosen because it raises coverage
+would be the same defect this paper exists to name, arriving from the other side. The 28 alleles at
+a percentile of 5 are not a better answer than the 4 at 0.5. They are a demonstration that the
+question "what fraction of patients could this reach?" has no answer until somebody defends a cut,
+and nobody has. Figure 2 plots the function on a log axis, which is the axis its shape needs: the
+four steps span 0.0844 percentile units and a linear axis collapses them into the left margin. The
+whole curve is deposited as `coverage-threshold-curve.json`, so a reader who would set the cut
+elsewhere can read off what it gives instead of taking three points on trust.
 
 **It is an average over populations that do not resemble one another.** The pooled figure is a single
 number laid over a distribution whose ends are more than forty-fold apart, and a reader planning anything for a
@@ -504,7 +509,7 @@ row, for the reason Section 3.1 gives.
 |---|---|---|---|---|---|
 | B1 | Predicted class I coverage is low and panel-dependent | instrument, partly disease | 8.5% / 12.3% public junction, 27.4% / 30.4% pooled, on 10 / 34 alleles; 0.0% at a 0.37 cut | **computational** — needs nobody's permission | Wider panels; a defended threshold; measured presentation |
 | B2 | Presentation predicted, never measured | instrument and access | Presentation percentiles on 174 peptides, from the predictor named in Section 2.2 | **tissue + a proteomics facility** — the binding constraint on this route | Immunopeptidomics on EMC tissue or a patient-derived line |
-| B3 | Self-adjacency and central tolerance | disease | Lead peptide is 1 substitution (position 1, not an anchor) from DMPCVQAQY in an *NR4A3* isoform, against a chance expectation of 0.02; 0 of 11 binders has an anchor-only near-self neighbour | **a T-cell assay on matched donors** — needs material and a laboratory | T-cell reactivity assay against the specific peptide-HLA complex |
+| B3 | Self-adjacency and central tolerance | disease | Lead peptide is 1 substitution (position 1, not an anchor under the general class I convention) from DMPCVQAQY in an *NR4A3* isoform, against a chance expectation of 0.02; 0 of 11 binders has an anchor-only near-self neighbour under that convention, 6 of 11 if position 1 counts, which is not established here | **a T-cell assay on matched donors** — needs material and a laboratory | T-cell reactivity assay against the specific peptide-HLA complex |
 | B4 | One strong CD4 epitope, on one allele of 23 | instrument | 44 binders, 1 strong (SYGQQNMPCVQAQYS on DRB1\*14:01, 66.1 nM) over 14 of 23 alleles; class II coverage 6.5%, combined CD8 and CD4 1.8% | **computational**, and now largely spent | A class II threshold; measured presentation |
 | B5 | Seam-proximal peptides of four junctions occur in an *NR4A3* isoform | instrument, one failure mode resolved | 170 of 174 novel proteome-wide; one binder withdrawn | **computational** — needs nobody's permission | Sequence novelty answered; cross-reactivity is not, and the filter should become isoform-aware |
 | B6 | Immunologically cold microenvironment | disease, addressable in combination | Quieter than comparator sarcomas on both archival cohorts; two individual-patient reports point the other way | **spatial profiling on tissue** | A vaccine supplies antigen; a checkpoint inhibitor supplies release |
@@ -543,19 +548,19 @@ half its size. That is reported rather than suppressed, and it is the sharpest a
 of what these predictions are worth: they are not a set of confident calls with a permissive tail,
 they are entirely a permissive tail.
 
-**What would clear or move it.** Three things, in ascending cost. Extending the panels beyond 10 and 34
-class I alleles to the full validated set is a computational task and would raise the denominator. The
-acceptance threshold is a convention rather than a result — nothing here defends 0.5 against 0.4 or 0.6 —
-and settling what the cut should be for junction peptides would do more to this figure than any panel
-extension. Calibrating that cut against a benchmark of experimentally validated neoepitopes is the
-form that settling would take. The experimentally validated fusion-junction epitopes in the literature are
-individual sequences across a few fusions, the HLA-A\*24:02-restricted SYT-SSX junction peptide [17,18],
-the four *EWSR1*::*FLI1* breakpoint peptides of the Ewing sarcoma case report [20] and the fusion
-neoantigens of a head and neck series [21], and a handful of epitopes is not a set against which a
-threshold can be calibrated; calibrating on point-mutation neoantigens instead would import an assumption
-about junction peptides that is the very thing in question. Measured immunopeptidomics (B2) could promote
-peptides the predictor ranks weakly or remove ones it ranks strongly, in a direction not knowable in
-advance.
+**What would clear or move it.** Three things, in ascending cost. Extending the panels beyond 10 and
+34 class I alleles to the full validated set is a computational task and would raise the
+denominator. The acceptance threshold is a convention rather than a result — nothing here defends
+0.5 against 0.4 or 0.6 — and settling what the cut should be for junction peptides would do more to
+this figure than any panel extension. Calibrating that cut against a benchmark of experimentally
+validated neoepitopes is the form that settling would take. The experimentally validated
+fusion-junction epitopes in the literature are individual sequences across a few fusions: the
+HLA-A\*24:02-restricted SYT-SSX junction peptide [17,18], the four *EWSR1*::*FLI1* breakpoint
+peptides of the Ewing sarcoma case report [20] and the fusion neoantigens of a head and neck series
+[21]. A handful of epitopes is not a set against which a threshold can be calibrated. Calibrating on
+point-mutation neoantigens instead would import an assumption about junction peptides that is the
+very thing in question. Measured immunopeptidomics (B2) could promote peptides the predictor ranks
+weakly or remove ones it ranks strongly, in a direction not knowable in advance.
 
 **Residual.** Some fraction of patients will have no presented junction peptide and no second antigen to
 substitute. That fraction is a real and permanent exclusion from this approach, and it should be stated
@@ -601,14 +606,14 @@ route from predicted to observed.
 **What a negative would have to specify to mean anything, and this paper cannot supply it.** The
 sentence "a negative result would be close to decisive" appeared in an earlier version of this
 section and was doing no work, because a null eluate bounds nothing until three quantities are fixed
-in advance: a stated limit of detection in peptide copies per cell, so that "not presented" is
-separated from "below the instrument"; a stated number of independent specimens and their HLA types,
-since the lead peptide is presented on one allele and a specimen not carrying it cannot test the
-claim; and a positive control peptide of known abundance eluted in the same run, without which a
-null is indistinguishable from a failed elution. This paper names those three requirements and does
-not meet any of them — naming them is not the same as having them. Their absence is why B2 is graded
-as bounded by access rather than by the disease, and it is what makes this the highest-value single
-experiment in the ledger.
+in advance. The first is a stated limit of detection in peptide copies per cell, so that "not
+presented" is separated from "below the instrument". The second is a stated number of independent
+specimens and their HLA types, since the lead peptide is presented on one allele and a specimen not
+carrying it cannot test the claim. The third is a positive control peptide of known abundance eluted
+in the same run, without which a null is indistinguishable from a failed elution. This paper names
+those three requirements and does not meet any of them — naming them is not the same as having them.
+Their absence is why B2 is graded as bounded by access rather than by the disease, and it is what
+makes this the highest-value single experiment in the ledger.
 
 **Cost and owner.** Requires tissue and a proteomics facility. It is not computational and cannot be
 performed by this programme.
@@ -644,23 +649,37 @@ is the neighbour count attributable to *q* being a string of those residues rath
 that particular sequence. For NMPCVQAQY, *μ* = 0.02 against an observed 2. **No p-value is quoted and
 none should be:** 50 draws bound a rate near zero loosely, the draws are not independent of the
 proteome's own composition, and the comparison this paper needs is an order of magnitude, not a
-tail probability. **Neither difference is at an anchor.** Position
+tail probability. **Neither difference is at an anchor, under the convention applied here.** Position
 1 and position 5 face outward or into the groove's middle rather than serving as the primary anchors at
 position 2 and the C-terminus, so a T cell raised against the neoepitope reads a surface that differs from
-the self peptide's at the positions it actually contacts — which is the configuration in which
-cross-recognition is most plausible and in which central tolerance is most likely to have acted.
-**And no binder in the screen has an anchor-only neighbour.** Zero of the 11 has a near-self peptide whose
-differences are confined to anchor positions, which would have been the worst case: an identical
-TCR-facing surface distinguished only by residues the T cell cannot see. MPPPLRGDM's five neighbours are
+the self peptide's at the positions it actually contacts — which is the **less** adverse of the two
+configurations, and that ordering is what the filter is for: a difference the receptor can read leaves
+open that a repertoire exists, while a difference it cannot read does not. An earlier version of this
+section stated the ordering the other way round; the withdrawal is recorded in Appendix C.
+**And no binder in the screen has an anchor-only neighbour under that convention.** Zero of the 11 has a
+near-self peptide whose differences are confined to anchor positions, which would have been the worst
+case: an identical TCR-facing surface distinguished only by residues the T cell cannot see.
+MPPPLRGDM's five neighbours are
 one *EWSR1* peptide, MPPPLRGGP, counted once per isoform, differing at positions 8 and 9 — and against a
 chance expectation of 1.34 for that peptide, five is not distinguishable from chance.
 
-**Two caveats carried with the result.** The anchor assignment is the general class I rule of
-position 2 and the C-terminus applied uniformly,
-not an allele-specific motif; HLA-A\*01:01 in particular reads position 3 as a primary anchor, and the
-artifact marks every row so a reader can apply that. And sequence distance is not receptor distance:
-peptides three substitutions apart can present near-identical surfaces and peptides one apart can present
-different ones. This search excludes one more failure mode — a close self peptide nobody had looked for —
+**Three caveats carried with the result, and the first of them is load-bearing.** The anchor assignment
+is the general class I rule of position 2 and the C-terminus applied uniformly, not an allele-specific
+motif, and the artifact marks every row so a reader can apply a different one. Adding position 3, which
+HLA-A\*01:01 reads as a primary anchor, to every peptide leaves the count at zero, so the caveat this
+paper had raised against itself does not bite. Position 1 does. **Counting position 1 as an anchor — with
+or without position 3 — makes six of the 13 scored near-self hits anchor-only, across six of the 11
+binders**, every one of them against the same *NR4A3* isoform, Q92570-3, that Section B5 is about. Three
+of those six differ from their self neighbour at position 1 alone, and the lead peptide NMPCVQAQY against
+DMPCVQAQY is one of the three; the other three differ at positions 1 and 2, and position 2 is a primary
+anchor under every convention. **Whether position 1 is an anchor for HLA-A\*01:01, B\*07:02, B\*15:01,
+B\*35:01 or B\*44:02 is not established here**, no allele-specific binding motif being held in this work,
+so the zero above is a result under a stated convention rather than a property of these peptides. Second,
+sequence distance is not receptor distance: peptides three substitutions apart can present near-identical
+surfaces and peptides one apart can present different ones. Third, the ordering of the two configurations
+holds where the near-self peptide is itself presented on the same allele, which is what an anchor
+difference would put in doubt, and presentation of these self peptides is measured nowhere in this work.
+This search excludes one more failure mode — a close self peptide nobody had looked for —
 and leaves the question of whether a repertoire exists exactly where it was.
 
 **What the clinical prior art bears on it.** Junction peptides from two other fusions have raised T-cell
@@ -897,17 +916,17 @@ rather than a signalling programme.
 
 **Evidence.** The myxoid matrix is the disease's defining histological compartment. The oncofetal
 chondroitin sulfate pathway is the mechanism proposed for it here by analogy: the glycosaminoglycan
-biosynthesis genes of that pathway are differentially expressed and correlated with immune response in
-placenta and colorectal cancer [8], which is the tissue setting that study examined. That pathway has
-since been read in the same two EMC cohorts and the reading does not carry the analogy across: the
-linker and core-protein modules are higher in EMC than in the comparator sarcomas on both platforms, the
-backbone-polymerisation and 4-O-sulfotransferase modules disagree between platforms, the sulfate-donor
-module is lower on both, and three sulfotransferase modules fall below the read's own readability floor.
-Values have one home, `research/modalities/emc-expression-panels.json`, read 2. A transcript level is a
-capacity to build a glycan and not the glycan, so the inference from those tissues to this one remains
-the author's. Transforming growth factor beta inhibition, which is the standard proposal for
-immune-excluded tumours, was set aside for EMC precisely on the ground that the exclusion here is
-physical rather than driven by a fibroblast programme.
+biosynthesis genes of that pathway are differentially expressed and correlated with immune response
+in placenta and colorectal cancer [8], which is the tissue setting that study examined. That pathway
+has since been read in the same two EMC cohorts and the reading does not carry the analogy across.
+The linker and core-protein modules are higher in EMC than in the comparator sarcomas on both
+platforms, the backbone-polymerisation and 4-O-sulfotransferase modules disagree between platforms,
+the sulfate-donor module is lower on both, and three sulfotransferase modules fall below the read's
+own readability floor. Values have one home, `research/modalities/emc-expression-panels.json`, read
+2. A transcript level is a capacity to build a glycan and not the glycan, so the inference from
+those tissues to this one remains the author's. Transforming growth factor beta inhibition, which is
+the standard proposal for immune-excluded tumours, was set aside for EMC precisely on the ground
+that the exclusion here is physical rather than driven by a fibroblast programme.
 
 **Why this limit is distinct from B6.** A cold tumour lacks a response. An excluded tumour may have a
 response that cannot reach the target. These require different interventions, and an intervention aimed at
@@ -953,12 +972,12 @@ have one home, `research/modalities/emc-expression-panels.json`, reads 8 and 19.
 
 **What points the other way, in individual patients.** Twelve archival EMC tumours profiled by
 whole-transcriptome targeted sequencing carry more B-cell infiltration in the low-risk half of the
-series than in the high-risk half, and proof-of-concept multiplex immunofluorescence on two of the
-specimens reports exhausted CD3+CD8+PD1+ T cells and FOXP3+ regulatory T cells in the high-risk one;
-the authors state that every immunofluorescence comparison is a within-specimen region-of-interest
+series than in the high-risk half. Proof-of-concept multiplex immunofluorescence on two of the
+specimens reports exhausted CD3+CD8+PD1+ T cells and FOXP3+ regulatory T cells in the high-risk one.
+The authors state that every immunofluorescence comparison is a within-specimen region-of-interest
 analysis, that their prognostic model overfits, and that the work is exploratory and
-hypothesis-generating [15]. A single reported case profiled as immune-enriched despite a low mutational
-burden is graded in Section 4 [16]. Neither is a cohort estimate, and a quiet
+hypothesis-generating [15]. A single reported case profiled as immune-enriched despite a low
+mutational burden is graded in Section 4 [16]. Neither is a cohort estimate, and a quiet
 distribution with occasional infiltrated members is consistent with both those observations and with
 the paragraph above. What the twelve-tumour series adds beyond direction is that the variation it
 reports is within EMC rather than between EMC and something else, which is the axis a
@@ -994,14 +1013,14 @@ individualised product in melanoma do not obviously extend to a disease with thi
 individualised product. First, the antigen is not discovered per patient by tumour sequencing but is
 determined by which exon pair the patient carries, of which five are in frame; the design space is
 therefore small, enumerable in advance, and shared across patients with the same breakpoint. Second,
-because the fusion is truncal, the antigen does not need re-selection over the disease course. A small
-fixed panel of breakpoint-specific constructs, allocated by a diagnostic assay, is closer to a stratified
-product than to a bespoke one. A construct of that shape has been made and administered once already: the
-Ewing sarcoma vaccine was an off-the-shelf multi-peptide product spanning a recurrent breakpoint rather
-than a per-patient design [20], and routine fusion analysis in a clinical genomics workflow finds EWS
-breakpoints clustered tightly, with about three quarters of Ewing sarcoma and desmoplastic small round
-cell tumours sharing one exon 7 motif [22]. Whether that is commercially tractable is a question for a
-platform holder and not one this analysis can answer.
+because the fusion is truncal, the antigen does not need re-selection over the disease course. A
+small fixed panel of breakpoint-specific constructs, allocated by a diagnostic assay, is closer to a
+stratified product than to a bespoke one. A construct of that shape has been made and administered
+once already: the Ewing sarcoma vaccine was an off-the-shelf multi-peptide product spanning a
+recurrent breakpoint rather than a per-patient design [20]. Routine fusion analysis in a clinical
+genomics workflow finds EWS breakpoints clustered tightly, with about three quarters of Ewing
+sarcoma and desmoplastic small round cell tumours sharing one exon 7 motif [22]. Whether that is
+commercially tractable is a question for a platform holder and not one this analysis can answer.
 
 ### B10. Trial design below the randomisation threshold
 
@@ -1040,23 +1059,24 @@ EMC-specific evidence available for an immunotherapy-containing regimen, and not
 The preceding mixed-histology phase Ib/II study of the same combination is published [4].
 
 Three features make this backbone the natural context for the vaccine question. The antiangiogenic
-component addresses B7 by a mechanism — vascular normalisation reduces the physical and vascular barriers
-to lymphocyte entry — and antiangiogenic tyrosine kinase inhibitors carry the most consistent prospective
-signal in this disease: pazopanib gave an objective response in 4 of 22 evaluable patients with a median
-progression-free survival of about 19 months [11], and a sunitinib series reported activity in translocated
-EMC [13]. The checkpoint component addresses the release arm of B6. Neither addresses antigen supply,
-which is what the vaccine would contribute.
+component addresses B7 by a mechanism: vascular normalisation reduces the physical and vascular
+barriers to lymphocyte entry. Antiangiogenic tyrosine kinase inhibitors carry the most consistent
+prospective signal in this disease — pazopanib gave an objective response in 4 of 22 evaluable
+patients with a median progression-free survival of about 19 months [11], and a sunitinib series
+reported activity in translocated EMC [13]. The checkpoint component addresses the release arm of
+B6. Neither addresses antigen supply, which is what the vaccine would contribute.
 
 **One reported single-agent checkpoint response, and what it changes.** The checkpoint half of that
-backbone has never been given alone in a reported EMC cohort, and one patient has been reported outside
-one: a man with *EWSR1*::*NR4A3* EMC, microsatellite stable at a tumour mutational burden of 0.67 mut/Mb and with *TSC2*
-loss, whose microenvironment a commercial assay profiled as immune-enriched and fibrotic with high PD-L1,
-and who received single-agent pembrolizumab with a near-complete response reported over 15 cycles [16].
-One patient in an industry-authored conference abstract that has not been peer reviewed supports no
-response rate, and it is not read here as a promotion of the checkpoint arm. What it does is name the
-selection axis: the markers conventionally used to choose a patient for checkpoint inhibition and the
-markers describing that patient's microenvironment pointed in opposite directions in the same tumour,
-which is the heterogeneity B8's cohort reading permits and cannot measure. That is a question for B8's
+backbone has never been given alone in a reported EMC cohort, and one patient has been reported
+outside one. The patient was a man with *EWSR1*::*NR4A3* EMC, microsatellite stable at a tumour
+mutational burden of 0.67 mut/Mb and with *TSC2* loss, whose microenvironment a commercial assay
+profiled as immune-enriched and fibrotic with high PD-L1. He received single-agent pembrolizumab
+with a near-complete response reported over 15 cycles [16]. One patient in an industry-authored
+conference abstract that has not been peer reviewed supports no response rate, and it is not read
+here as a promotion of the checkpoint arm. What it does is name the selection axis: the markers
+conventionally used to choose a patient for checkpoint inhibition and the markers describing that
+patient's microenvironment pointed in opposite directions in the same tumour, which is the
+heterogeneity B8's cohort reading permits and cannot measure. That is a question for B8's
 observation to settle, not a case for adding a third agent.
 
 This is also the architecture of the melanoma programme behind the recent announcement, where the
@@ -1181,31 +1201,33 @@ including this one.
 
 ## 7. Limitations
 
-All binding figures are predictions from sequence-based models and no EMC-specific validation of either
-model exists. They predict peptide-MHC affinity alone: proteasomal cleavage and TAP transport are not
-modelled here, so a strong call bounds what could be presented rather than naming a peptide that
-is. Coverage is computed by multiplying non-carrier frequencies across alleles, which assumes independence
-both between loci and between alleles at the same locus. The same-locus case arises here —
-two alleles pooled are both HLA-B — and handling it correctly moves the pooled figure by about 0.3
-percentage points. Cross-locus haplotype linkage disequilibrium is not modelled and its effect is not
-estimated; bounding it would need haplotype-frequency data rather than the allele frequencies used here. The
-population-to-region mapping is an approximation, regional figures are point values on samples as small as
-579 individuals, and the frequencies are pooled across populations whose allele frequencies differ by more
-than the figures being reported. A fourth dependence sits underneath all of these and was not measured until now: every peptide in
-Section 2 is derived from one canonical transcript per gene, and across the 970 in-frame transcript
-pairs tested under B5 no junction peptide is common to all of them. The seam residue itself takes
-nine values, so the peptide identities move with it. The counts are more stable than the identities —
+All binding figures are predictions from sequence-based models and no EMC-specific validation of
+either model exists. They predict peptide-MHC affinity alone: proteasomal cleavage and TAP transport
+are not modelled here, so a strong call bounds what could be presented rather than naming a peptide
+that is. Coverage is computed by multiplying non-carrier frequencies across alleles, which assumes
+independence both between loci and between alleles at the same locus. The same-locus case arises
+here — two alleles pooled are both HLA-B — and handling it correctly moves the pooled figure by
+about 0.3 percentage points. Cross-locus haplotype linkage disequilibrium is not modelled and its
+effect is not estimated; bounding it would need haplotype-frequency data rather than the allele
+frequencies used here. The population-to-region mapping is an approximation, regional figures are
+point values on samples as small as 579 individuals, and the frequencies are pooled across
+populations whose allele frequencies differ by more than the figures being reported. A fourth
+dependence sits underneath all of these and was not measured until now: every peptide in Section 2
+is derived from one canonical transcript per gene, and across the 970 in-frame transcript pairs
+tested under B5 no junction peptide is common to all of them. The seam residue itself takes nine
+values, so the peptide identities move with it. The counts are more stable than the identities —
 each pair yields 30, 34 or 38 novel peptides and no other value — but a reader should take the
 specific sequences named here, NMPCVQAQY included, as conditioned on the canonical annotation rather
 than as properties of the locus. Which transcript a patient's fusion actually uses is not decidable
-from annotation and is not decided here. The binder counts and every coverage figure derived from them depend on an
-acceptance threshold this paper does not defend, and no multiplicity correction is applied anywhere: 174
-peptides were screened against 10 and then 34 alleles at two thresholds, with no decoy control and no null
-expectation, so the calls that pass are reported as what the screen returned rather than as an enrichment
-over chance. The near-self search of B3 is the one analysis here that carries a null, and it carries one
-because a count of near-self neighbours is meaningless without the number a peptide of that length and
-composition finds by chance; the binding screen still has none, and a shuffle null for predicted binding
-would need a defended threshold to be a null of anything.
+from annotation and is not decided here. The binder counts and every coverage figure derived from
+them depend on an acceptance threshold this paper does not defend, and no multiplicity correction is
+applied anywhere. The screen tested 174 peptides against 10 and then 34 alleles at two thresholds,
+with no decoy control and no null expectation. The calls that pass are therefore reported as what
+the screen returned rather than as an enrichment over chance. The near-self search of B3 is the one
+analysis here that carries a null, and it carries one because a count of near-self neighbours is
+meaningless without the number a peptide of that length and composition finds by chance; the binding
+screen still has none, and a shuffle null for predicted binding would need a defended threshold to
+be a null of anything.
 
 The IMMUNOSARC II EMC cohort result is a conference abstract, single-arm and not peer reviewed, and it
 evaluates a combination whose component with the larger independent EMC evidence base is the tyrosine
@@ -1249,30 +1271,30 @@ is the union carrier frequency of the presenting alleles on pooled AFND frequenc
 
 ## 8. Methods and reproducibility
 
-Every figure in Sections 2 and 3 is generated by a script in `research/modalities/` and is committed as a
-JSON artifact beside it: `fusion_breakpoints.py` for the junction set and predicted binders,
-`hla_coverage.py` for population coverage, `coverage_scan.py` for the coverage-versus-allele-count
-curve, `coverage_threshold_curve.py` for the coverage-versus-threshold curve of Section 2.3,
-`junction_proteome_novelty.py` for the proteome search of Section B5,
-`junction_frameshift_peptides.py` for the out-of-frame screen of Section 2.2,
-`junction_selfsimilarity.py` for the near-self search of Section B3,
-`predictor_concordance.py` for the second-predictor check,
-`coverage_uncertainty.py` for the within-locus form, the Fréchet bounds and the between-population
-spread of Section 2.3, `novelty_seam_test.py` for the one-residue pre-screen of Section B5 and its
-validation, `patient_neoepitopes.py` and
-`patient_cd4_epitopes.py` for the per-patient shortlisters, and `vaccine_construct.py` for the candidate
-construct and its minimal synthetic long peptide. The corresponding artifacts are
+Every figure in Sections 2 and 3 is generated by a script in `research/modalities/` and is committed
+as a JSON artifact beside it. The junction and coverage figures come from `fusion_breakpoints.py`
+(the junction set and predicted binders), `hla_coverage.py` (population coverage),
+`coverage_scan.py` (the coverage-versus-allele-count curve) and `coverage_threshold_curve.py` (the
+coverage-versus-threshold curve of Section 2.3). The screens come from
+`junction_proteome_novelty.py` (the proteome search of Section B5),
+`junction_frameshift_peptides.py` (the out-of-frame screen of Section 2.2),
+`junction_selfsimilarity.py` (the near-self search of Section B3) and `predictor_concordance.py`
+(the second-predictor check). The rest come from `coverage_uncertainty.py` (the within-locus form,
+the Fréchet bounds and the between-population spread of Section 2.3), `novelty_seam_test.py` (the
+one-residue pre-screen of Section B5 and its validation), `patient_neoepitopes.py` and
+`patient_cd4_epitopes.py` (the per-patient shortlisters) and `vaccine_construct.py` (the candidate
+construct and its minimal synthetic long peptide). The corresponding artifacts are
 `fusion-breakpoint-neoantigens.json`, `hla-coverage.json`, `coverage-curve.json`,
 `coverage-threshold-curve.json`, `epitope-allele-matrix.json`, `epitope-allele-loose-matrix.json`,
 `junction-proteome-novelty.json`, `junction-frameshift-peptides.json`,
 `junction-selfsimilarity.json`, `predictor-concordance.json`, `coverage-uncertainty.json`,
-`novelty-seam-test.json`, `patient-cd4-demo.json` and
-`vaccine-construct.json`. The two tables in this paper are generated from those artifacts by
-`vaccine_path_tables.py` and a build fails if a cell and its source diverge. The predictor versions those artifacts record are MHCflurry 2.1.4 with models
-release 2.2.0 for class I and MHCnuggets 2.4.1 for class II. MHCnuggets publishes no models-release
-identifier separate from its package version — it ships its trained weights inside the distribution —
-so the version is the whole of the provenance available for that arm, and the artifact records why
-rather than leaving the field blank.
+`novelty-seam-test.json`, `patient-cd4-demo.json` and `vaccine-construct.json`. The two tables in
+this paper are generated from those artifacts by `vaccine_path_tables.py` and a build fails if a
+cell and its source diverge. The predictor versions those artifacts record are MHCflurry 2.1.4 with
+models release 2.2.0 for class I and MHCnuggets 2.4.1 for class II. MHCnuggets publishes no
+models-release identifier separate from its package version — it ships its trained weights inside
+the distribution — so the version is the whole of the provenance available for that arm, and the
+artifact records why rather than leaving the field blank.
 
 <!-- GENERATED by vaccine_path_tables.py (class-i-panel) — do not hand-edit -->
 
@@ -1522,3 +1544,5 @@ is indistinguishable from a claim that was never made.
 | B4, that the class II arm is the lesser of the two | Two of three fusion-specific restrictions recovered from endogenously presented breakpoints were class II, and the one reported de novo vaccine response was CD4+. Three observations are a pattern to test, and B4 now asserts neither ranking; what remains ordered is the accuracy of the two predictors. |
 | Section 6, that no report on another fusion "measured presentation at all" | The same study measures processing and presentation, though not abundance. The bullet now separates the two, because step 3 of Section 6.1 turns on abundance. |
 | The B6 and B7 rows of Section 3, cost to move "not movable by any computation" | True of each limit and false of the evidence bearing on it: a computation over public archival series moved what is known about both. Those cells now name what the remaining move costs, which is spatial profiling on tissue. |
+| B3, that a difference at T-cell-receptor contact positions rather than at anchors is "the configuration in which cross-recognition is most plausible and in which central tolerance is most likely to have acted" | Inverted, and it contradicted the next sentence of its own section. B3 defines anchor positions as the ones affecting binding and contact positions as the ones affecting recognition, and then calls an anchor-only neighbour "the worst case: an identical TCR-facing surface distinguished only by residues the T cell cannot see". A difference the receptor reads is what leaves a repertoire possible, so the ordering runs the other way. The clause had been carried onward into falsifier 3 of `shared-vs-individualized-neoantigen-evidence.md`, which is corrected in the same direction. |
+| B3 and the Abstract, "no binder in the screen has a near-self neighbour differing only at anchors", stated without the convention it depends on | The count is zero under the general class I convention of position 2 and the C-terminus and stays zero when position 3 is added, which is the caveat this paper had raised against itself. Counting position 1 as an anchor makes it six of the 11 binders, all six against the same *NR4A3* isoform, and no allele-specific motif for the five restricting alleles is held in this work. Both statements now name the convention and the six. |

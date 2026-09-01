@@ -106,18 +106,18 @@ and show its central structural result: the "ready" and "driver-directed" quadra
 the field's real gap is a driver-directed route, which is the program's target. (2) We make the first
 systematic computational case against the EWSR1::NR4A3 driver: AlphaFold2 + fpocket find the
 transactivation domain disordered and the best NR4A3 ligand-binding-domain cavity only borderline
-druggable (fpocket druggability 0.495, sub-threshold) — which is *why* we reframe the driver as a
+druggable (fpocket druggability 0.495, sub-threshold). That is *why* we reframe the driver as a
 degradation/knockdown problem and define two driver-directed modalities: a **NR4A3 degrader** (removes
 the oncoprotein without occupying the collapsed pocket) and a uniquely tumour-specific **fusion-junction
 ASO/siRNA** (silences only the fusion transcript). For each we generate first in-silico evidence and
 name the decisive wet experiment. (3) We attach a falsifiable kill-criterion to every route. New
-computed evidence reported here is honest about its weight: the degrader's make-or-break premise —
+computed evidence reported here is honest about its weight. The degrader's make-or-break premise —
 that EMC is *addicted* to its fusion — is supported only at the level of a **class prior** (FET-fusion
-sarcomas are fusion-addicted; FLI1 in Ewing has gene effect −0.93 with 74% of lines dependent), an
-analogy that does **not** establish NR4A3-fusion-specific dependence (the partners differ) and that the
-dTAG experiment we hand to others would settle; the ASO's first transcriptome-wide screen returns a
+sarcomas are fusion-addicted; FLI1 in Ewing has gene effect −0.93 with 74% of lines dependent). That
+analogy does **not** establish NR4A3-fusion-specific dependence (the partners differ), and the dTAG
+experiment we hand to others would settle it. The ASO's first transcriptome-wide screen returns a
 deliberately uncomfortable result (0 of 5 designed gapmers are transcriptome-clean), converting a
-"fusion-specific in principle" claim into a measured specificity bar; and DepMap surrogate mining
+"fusion-specific in principle" claim into a measured specificity bar. DepMap surrogate mining
 (sarcoma lines stand in for the absent EMC line) nominates **B7-H3** and **PRAME** as the strongest
 surface/antigen targets while down-weighting NY-ESO-1/MAGE-A4 cell therapy and a fusion-junction
 vaccine. The gap we address is **categorical, not one of efficacy**: no therapy in EMC clinical use
@@ -210,7 +210,7 @@ intersection — no route is both — is precisely the categorical gap, and the 
 | Route | **Axis A — near-term readiness** | **Axis B — driver-directedness** |
 |---|---|---|
 | Anti-angiogenic TKI + checkpoint inhibitor | **Now** — approved; real EMC responder | **Generic** — anti-angiogenic + checkpoint; disease-agnostic |
-| Trabectedin (± RT / combo) | **Now** — approved; reported EMC responder | **Targeted (indirect)** — displaces the fusion TF from promoters (mechanism-fit), not fusion-selective |
+| Trabectedin (± RT / combo) | **Now** — approved; EMC disease control reported, **no EMC objective response located** | **Targeted (indirect)** — displaces the fusion TF from promoters (mechanism-fit), not fusion-selective |
 | Carfilzomib + anthracycline (± venetoclax) | **Now** — approved; best *ex-vivo* EMC evidence | **Generic** — proteasome inhibitor; empirical ex-vivo hit, no fusion rationale |
 | B7-H3 (CD276) ADC / bispecific | **Confirm-gated** — needs EMC B7-H3 IHC | **Targeted (indirect)** — surface antigen (not the fusion); fastest such route |
 | PRAME ImmTAC / cell therapy | **Confirm-gated** — needs EMC PRAME IHC | **Targeted (indirect)** — cancer-testis antigen; basket access via brenetafusp |
@@ -283,12 +283,12 @@ distinguish NR4A2; `nr4a-selectivity.json`). Full statement and evidence:
 ⚠ *Superseded, retained: "the design target is **NR4A3-selective, NR4A1/2-sparing**", which stated one bar
 over both paralogues.* This is a specification for the warhead, not a demonstrated property.
 
-*What we are running (WIP, pipelines built, results pending — not claimed here):* (i) molecular
-dynamics of the NR4A3 LBD to test whether a transient/cryptic druggable pocket opens that the static
-AlphaFold model misses — a positive result would directly challenge the "undruggable" prior of §1;
-(ii) de-novo selective-warhead/binder design scored against NR4A1/2; (iii) an AF3-class ternary-complex
-model of NR4A3–PROTAC–E3 geometry (re-primed now that open AF3-class tools shipped). These are the
-substance of the **split-out lead result paper** ([`nr4a3-degrader-paper.md`](../degrader/nr4a3-degrader-paper.md)),
+*What we are running (WIP, pipelines built, results pending — not claimed here).* (i) Molecular
+dynamics of the NR4A3 LBD tests whether a transient/cryptic druggable pocket opens that the static
+AlphaFold model misses; a positive result would directly challenge the "undruggable" prior of §1.
+(ii) De-novo selective-warhead/binder design is scored against NR4A1/2. (iii) An AF3-class
+ternary-complex model of NR4A3–PROTAC–E3 geometry is re-primed now that open AF3-class tools shipped.
+These are the substance of the **split-out lead result paper** ([`nr4a3-degrader-paper.md`](../degrader/nr4a3-degrader-paper.md)),
 which reports the cryptic-pocket result (the orthosteric pocket opens to fpocket druggability 0.751,
 above the calibrated drug-bound NR band — preliminary, 30 ns in progress); this EMC-program paper claims
 the program and the structural rationale, and cites that paper for the degrader's in-silico outputs.
@@ -303,24 +303,24 @@ delivery is the unsolved problem** for oligonucleotides generally. Degrader and 
 **complementary** — potent-but-not-fusion-specific vs. fusion-specific-but-delivery-limited.
 
 **In-silico evaluation arm (runs without a wet lab; its questions are sequence/RNA, not structure;
-`aso_insilico.py`):** (i) a **transcriptome-wide off-target screen** — every candidate's target window
-is scanned against the whole human RefSeq transcriptome (GRCh38) for exact and ≤1-mismatch matches
-(seed-and-extend), because hybridization-dependent off-target RNase-H cleavage is the dominant
-gapmer-toxicity mode and "not a perfect complement of the two parents" is too weak a specificity bar;
-(ii) **target-site accessibility**, folding the fusion mRNA (ViennaRNA partition function) to rank
-candidates by the single-stranded probability of their RNase-H site (potency); (iii) **sequence-liability
-filters** (CpG/TLR9 immunostimulation, G-quadruplex, homopolymer runs); and (iv) an **siRNA seed-region
-off-target** module, reporting each candidate's seed 7-mer, whether the seed *straddles the junction*
-(a fusion-unique seed, the design goal), and its transcriptome occurrence count. The output is a ranked,
-off-target-screened shortlist across **both** chemistries — it advances *specificity and potency-site
-selection only*; it does **not** address delivery.
+`aso_insilico.py`) — four modules.** (i) A **transcriptome-wide off-target screen** scans every
+candidate's target window against the whole human RefSeq transcriptome (GRCh38) for exact and
+≤1-mismatch matches (seed-and-extend), because hybridization-dependent off-target RNase-H cleavage is
+the dominant gapmer-toxicity mode and "not a perfect complement of the two parents" is too weak a
+specificity bar. (ii) **Target-site accessibility** folds the fusion mRNA (ViennaRNA partition
+function) to rank candidates by the single-stranded probability of their RNase-H site (potency).
+(iii) **Sequence-liability filters** cover CpG/TLR9 immunostimulation, G-quadruplex and homopolymer
+runs. (iv) An **siRNA seed-region off-target** module reports each candidate's seed 7-mer, whether
+the seed *straddles the junction* (a fusion-unique seed, the design goal), and its transcriptome
+occurrence count. The output is a ranked, off-target-screened shortlist across **both** chemistries
+— it advances *specificity and potency-site selection only*; it does **not** address delivery.
 
 *Result (first pass, reported as a negative-leaning result — this is the screen working, not a flaw).*
 Screening the 5 fusion-specific gapmers against the full human RefSeq transcriptome (186,185 transcripts)
-returns: **none is transcriptome-clean** — every candidate has at least one near-complementary off-target
-at ≤1 mismatch (best candidate: 0 exact but 8 one-mismatch hits); the junction sites are **poorly
-accessible** (best ≈0.35 unpaired probability); they are **GC-rich (~75%)**; and only **2 of 5** place
-the RISC seed across the junction. The "not a perfect complement of the two parents" heuristic passes all
+returns four results. **None is transcriptome-clean**: every candidate has at least one
+near-complementary off-target at ≤1 mismatch (best candidate: 0 exact but 8 one-mismatch hits). The
+junction sites are **poorly accessible** (best ≈0.35 unpaired probability). They are **GC-rich
+(~75%)**. And only **2 of 5** place the RISC seed across the junction. The "not a perfect complement of the two parents" heuristic passes all
 5; the stricter transcriptome-wide bar fails all 5. The actionable read is that a viable oligo here needs
 **wider design latitude than the canonical 16-mer at the canonical breakpoint** — longer/shifted gapmers
 or a junction-in-seed siRNA — pushed until the ≤1-mismatch off-target count reaches zero on an
@@ -412,11 +412,11 @@ pieces, not unfinished results:
 - **Done:** structural druggability call (§1); FET-fusion-addiction class prior (§4.1); ASO
   transcriptome off-target + accessibility screen (§4.2); surrogate target-expression mining (§5); HLA
   coverage.
-- **Running (pipelines built; the substance of the planned result paper):** (i) **molecular dynamics of
-  the NR4A3 LBD** to test for a transient/cryptic druggable pocket the static model misses — a positive
-  result would overturn the "undruggable" prior; (ii) **de-novo selective warhead/binder design**
-  (structure-based generative small-molecule design; or RFdiffusion→ProteinMPNN→AF2 for a binder),
-  scored for selectivity against NR4A1/NR4A2; (iii) the **AF3-class ternary-complex** model.
+- **Running (pipelines built; the substance of the planned result paper).** (i) **Molecular dynamics of
+  the NR4A3 LBD** tests for a transient/cryptic druggable pocket the static model misses; a positive
+  result would overturn the "undruggable" prior. (ii) **De-novo selective warhead/binder design**
+  (structure-based generative small-molecule design; or RFdiffusion→ProteinMPNN→AF2 for a binder) is
+  scored for selectivity against NR4A1/NR4A2; and (iii) the **AF3-class ternary-complex** model.
 - **Watching (method-watch trigger table, `method-watch.md`):** a usable in-silico tumour-delivery
   predictor (would let us score the B7-H3-targeted junction-siRNA and re-grade the ASO gate); a
   virtual-cell/perturbation model that predicts a held-out knockdown phenotype (would substitute in
@@ -455,10 +455,10 @@ completed in this paper. First, **EMC's clean, single-driver biology makes it an
 proof-of-concept indication** for a mechanism hard to validate in messier, multi-driver common tumours:
 the fusion is truncal and near-universal, so an effect is causally interpretable. Second, **each lead
 here has a plausible path to common cancers** that should be assessed alongside the EMC case to widen
-the addressable population and the incentive to develop it — the NR4A receptor family (NR4A1/2/3) is
-implicated across leukaemia, melanoma, prostate, breast and colorectal cancer (and the "degrade an
-undruggable nuclear-receptor TF via its retained LBD" *platform* is itself transferable); B7-H3, PRAME
-and FAP are already pan-cancer targets; and the repurposed agents carry other-cancer evidence. **These
+the addressable population and the incentive to develop it. The NR4A receptor family (NR4A1/2/3) is
+implicated across leukaemia, melanoma, prostate, breast and colorectal cancer, and the "degrade an
+undruggable nuclear-receptor TF via its retained LBD" *platform* is itself transferable. B7-H3, PRAME
+and FAP are already pan-cancer targets, and the repurposed agents carry other-cancer evidence. **These
 broader-indication claims are stated as hypotheses to be substantiated with the same public-data
 pipelines used here (which already cover all lineages); they are not computed in this draft.** The
 recommendation is that any candidate which firms up be accompanied by a **broader-indication analysis** —
@@ -469,11 +469,11 @@ than asserting its result.
 For an orphan cancer with no models and no market, a computation-only program can do the thing the field
 most lacks: take the driver seriously. We give a reproducible framework whose central result is that no
 *ready* route attacks the EWSR1::NR4A3 driver, and we define the driver-directed program that aims to
-fill that gap — a NR4A3 degrader (rationalised by the very structural finding that rules out occupancy,
-its make-or-break fusion-addiction premise supported only as a class prior and explicitly gated on a
-dTAG test) and a uniquely tumour-specific fusion-junction ASO/siRNA (whose first transcriptome-wide
-screen sets a concrete specificity bar and whose delivery we propose but do not solve). The gap is
-**categorical**: current EMC care — surgery ± radiotherapy, anti-angiogenic TKIs, anthracycline
+fill that gap. Its first arm is a NR4A3 degrader, rationalised by the very structural finding that
+rules out occupancy; its make-or-break fusion-addiction premise is supported only as a class prior and
+is explicitly gated on a dTAG test. Its second arm is a uniquely tumour-specific fusion-junction
+ASO/siRNA, whose first transcriptome-wide screen sets a concrete specificity bar and whose delivery we
+propose but do not solve. The gap is **categorical**: current EMC care — surgery ± radiotherapy, anti-angiogenic TKIs, anthracycline
 chemotherapy — is entirely generic or borrowed, and *nothing in use targets the driver*. We make no
 efficacy claim against that standard (our candidates are untested and such a claim would be unprovable);
 we claim only that the driver-directed routes, and the surface/antigen routes promoted on surrogate data
@@ -493,9 +493,13 @@ record to be cited/verified before submission**). Synthetic-lethal: Boulay *Cell
 (10.1016/j.cell.2017.07.036; EWSR1 prion-domain BAF retargeting); Brien *eLife* 2018 (BRD9 degrader).
 Immunotherapy: afami-cel (Tecelra) approval 2024; NY-ESO-1 in sarcoma (PMC3518519); ImmunoSarc /
 sarcoma IO (ASCO EDBK 2024); brenetafusp PRAME ImmTAC (Immunocore 2024). EMC-specific clinical signal:
-sunitinib response in EMC (PMC3534218); trabectedin + radiotherapy long-term response in metastatic EMC
-(**case report — full bibliographic identifier (PMID/DOI) outstanding; OPEN reference item, must be
-completed before submission**). Surface targets: B7-H3 in soft-tissue sarcoma (PMC11523878); FAPI
+sunitinib response in EMC (PMC3534218); trabectedin in EMC — disease control, with **no objective
+response located in an EMC patient**. The two located series are stated separately and not pooled:
+0 of 2 in a randomised phase-2 sub-analysis with centrally reviewed imaging (PMID 27418251), and
+0 of 3 in the Italian Sarcoma Group TrObs post-hoc (PMID 36568164).
+`research/literature/emc-trabectedin-denominator-2026-09-01.json` records both, the withdrawn
+~12.5-month figure, and the bounded PubMed search behind the negative. Surface targets: B7-H3 in
+soft-tissue sarcoma (PMC11523878); FAPI
 radioligand therapy in sarcoma (Clin Cancer Res 2022). Repurposing/ex-vivo: carfilzomib (top ex-vivo
 hit) ± anthracycline/venetoclax in two patient-derived EMC models (Bangerter et al., *Human Cell* 2023;
 PMID 36316541; full text CI-verified, `fact-check-log.md`). Fusion-junction ASO (5 fusion-specific

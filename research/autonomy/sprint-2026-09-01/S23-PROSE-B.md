@@ -2,10 +2,13 @@
 id: DOC-SPRINT-S23-PROSE-B
 title: "S23-PROSE-B — the four short-tail readability papers, split to zero"
 level: L3
-kind: process
+kind: memo
 status: live
 date: 2026-09-01
 audience: [autonomous research agents, maintainers]
+purpose: "The findings record of sprint seat S23-PROSE-B — what it measured, what it changed, and what it could not do. Written before the seat returned, so a seat that dies costs its own work and nothing else."
+scope: "One seat of the 2026-09-01 sprint, bounded by the owned-paths list in its own prompt. It reports; it does not decide what lands."
+last_verified: 2026-09-01
 ---
 
 # S23-PROSE-B — nine over-ceiling sentences in four papers, split

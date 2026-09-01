@@ -1,0 +1,174 @@
+{
+  "id": "LIT-EMC-TRABECTEDIN-DENOMINATOR-2026-09-01",
+  "title": "What the located EMC trabectedin denominator actually is",
+  "date_utc": "2026-09-01",
+  "written_by": "sprint-2026-09-01 seat S19-TRABECTEDIN",
+  "purpose": "RT-TRABECTEDIN and a submission-targeted manuscript both carried figures the cited registry withdrew on 2026-08-07, and one asserted a 'reported EMC responder' with no identifier. This artifact records, at primary source, every EMC patient this repository has located who received trabectedin, what response each series reports, and what may NOT be combined with what.",
+
+  "the_question": "How many EMC patients has this repository located who received trabectedin, and how many objective responses are reported among them?",
+
+  "answer": {
+    "located_emc_patients_on_trabectedin_with_formal_response_assessment": 5,
+    "located_objective_responses_in_those_patients": 0,
+    "series_count": 2,
+    "pooled": false,
+    "why_not_pooled": "Two different designs (a randomised phase 2 sub-analysis with central radiology review; a retrospective real-world post-hoc with investigator-assessed RECIST 1.1) on two different populations (Japan, JapicCTI-121850; Italy, ISG TrObs 2010-2015). POLICY-evidence §2.6(a) forbids a pooled estimate across populations §2.1 would not pool, and §2.6(c) permits only counts and order statistics. The two rows are therefore stated SEPARATELY. '5' is a count of located patients, not a pooled denominator, and it carries no interval.",
+    "median_pfs_in_emc": "UNKNOWN — no EMC-specific median PFS exists in the located record. See `withdrawn_figures` below. The absence is the finding; it is not replaced by another median."
+  },
+
+  "series": [
+    {
+      "key": "morioka2016",
+      "citation": "Morioka H, Takahashi S, Araki N, et al. Results of sub-analysis of a phase 2 study on trabectedin treatment for extraskeletal myxoid chondrosarcoma and mesenchymal chondrosarcoma. BMC Cancer 2016.",
+      "pmid": "27418251",
+      "pmcid": "PMC4946242",
+      "doi": "10.1186/s12885-016-2511-y",
+      "design": "sub-analysis of a randomised phase 2 trial (trabectedin vs best supportive care) in translocation-related sarcoma; central radiology review",
+      "registration": "JapicCTI-121850",
+      "country": "Japan",
+      "arm_composition": "5 subjects allocated to trabectedin: 2 EMC + 3 mesenchymal chondrosarcoma",
+      "emc_n": 2,
+      "emc_objective_responses": 0,
+      "emc_best_response": "stable disease in both",
+      "emc_individual_pfs_months": [13.0, 7.4],
+      "emc_individual_os_months": [26.4, 10.4],
+      "arm_single_objective_response_was": "a mesenchymal chondrosarcoma patient (subject 3)",
+      "provenance": "primary",
+      "read_level": "full text, read by this repository on 2026-08-07; re-read here from the committed registry correction rather than re-fetched",
+      "already_in_repository_as": "research/data/emc-clinical-registry.json -> treatments.systemicEvidence[6] (agent 'Trabectedin', n 2, orrEvents 0) and treatments.systemicEvidenceCorrections.superseded -> row 'Trabectedin'"
+    },
+    {
+      "key": "palmerini2022",
+      "citation": "Palmerini E, Sanfilippo R, Grignani G, et al. Transcription regulators and ultra-rare and other rare translocation-related sarcomas treated with trabectedin: a proof of principle from a post-hoc analysis. Front Oncol 2022;12:1042479.",
+      "pmid": "36568164",
+      "pmcid": "PMC9780071",
+      "doi": "10.3389/fonc.2022.1042479",
+      "design": "post-hoc analysis of a case series drawn from the Italian Sarcoma Group TrObs study (NCT02793050), a non-interventional retrospective study of 512 anthracycline-pretreated advanced STS patients enrolled at 20 Italian sites, January 2010 to December 2015; investigator-assessed RECIST 1.1",
+      "country": "Italy",
+      "arm_composition": "36 patients with ultra-rare or other rare translocation-related sarcoma; 35 evaluable for response; EMC n=3",
+      "emc_n": 3,
+      "emc_objective_responses": 0,
+      "emc_best_response": "Table 2, EMC row: ORR '-', stable disease 2 (66.7%), disease control 2 (66.7%), progressive disease 1 (33.3%), total 3",
+      "emc_median_pfs_months": "not reported — Table 3 reports PFS by histology only for the three histologies that produced an objective response (ASPS, SFT, DSRCT); EMC is not among them",
+      "arm_wide_orr": "8.6% (3/35, 95% CI 2.8-23.4%)",
+      "arm_wide_responders_were": "one SFT partial response, one ASPS partial response, one DSRCT complete response — no EMC responder",
+      "arm_wide_median_pfs_months": 3.3,
+      "provenance": "primary",
+      "read_level": "FULL TEXT, retrieved 2026-09-01 via the PubMed MCP get_full_text_article on PMC9780071; Tables 1, 2 and 3 read directly",
+      "was_already_in_repository_as": "an unused raw abstract in research/literature/rt-lung-mets-probe.json (queries.emc_topic_lung_mets.top[22] and queries.emc_topic_lung_mets_local_therapy.top[12]); in no registry row and in no prose before this artifact"
+    }
+  ],
+
+  "explicitly_not_added": [
+    {
+      "key": "chiusole2020",
+      "citation": "Chiusole B, Le Cesne A, Rastrelli M, et al. Extraskeletal Myxoid Chondrosarcoma: Clinical and Molecular Characteristics and Outcomes of Patients Treated at Two Institutions. Front Oncol 2020;10:828.",
+      "pmid": "32612944",
+      "pmcid": "PMC7308468",
+      "doi": "10.3389/fonc.2020.00828",
+      "what_it_reports": "second-line trabectedin, disease control in 2 of 3 EMC patients",
+      "why_not_added": [
+        "It reports a DISEASE-CONTROL RATE, not response counts. The source does not separate objective responses from clinical benefit, so no {events, denom} pair for an objective response can be extracted (POLICY-evidence §2.1(2); this is already the registry's own recorded reason for holding the row at pool:false).",
+        "⚠ POPULATION-OVERLAP RISK, UNRESOLVED. Chiusole's cohort is Istituto Oncologico Veneto (Padova, Italy) plus Institut Gustave Roussy, diagnoses 1980-2018. Palmerini's TrObs cohort is 20 Italian sites, enrolment 2010-2015 — a window that sits inside Chiusole's. Both report exactly 3 EMC patients on trabectedin and both report exactly 2 of 3 with disease control. Whether these are the same three patients is NOT established here, and POLICY-evidence §2.3 puts the burden the other way: where populations may overlap, the smaller/overlapping cohort stays out. Adding it would risk counting the same patients twice."
+      ],
+      "what_would_resolve_it": "The TrObs primary publication (Palmerini, Cancers 2021) lists its 20 participating sites; if Istituto Oncologico Veneto is among them the overlap is real and the two rows must never be summed. Not fetched here — the ISG site list is not in the post-hoc full text."
+    }
+  ],
+
+  "withdrawn_figures": [
+    {
+      "figure": "median PFS ~12.5 months for trabectedin in EMC",
+      "status": "WITHDRAWN as an EMC figure on 2026-08-07 and NOT replaced",
+      "what_it_actually_is": "the Kaplan-Meier median PFS of the Morioka trabectedin arm across all five mixed subjects (95% CI 7.4 to not reached). Table 2's five individual PFS values are 13.0, 7.4, 22.2, 7.5 and 12.5 months, so it coincides with subject 5's own value — also a mesenchymal chondrosarcoma patient. The two EMC subjects' values are 13.0 and 7.4 months.",
+      "one_home": "research/data/emc-clinical-registry.json -> treatments.systemicEvidenceCorrections.superseded -> row 'Trabectedin'",
+      "note": "A withdrawn median is not replaced by a different median. Palmerini reports no EMC-specific median PFS either (Table 3 is restricted to the three histologies that produced an objective response), so the located record contains NO EMC median PFS for trabectedin."
+    },
+    {
+      "figure": "n=5 EMC patients, secondary provenance",
+      "status": "WITHDRAWN on 2026-08-07",
+      "what_it_actually_is": "n=2 EMC patients, PRIMARY provenance. The '5' came from reading the Morioka abstract's phrase 'five subjects with EMCS and MCS' as five EMC patients; the full text's Methods state the split — 'we adopted TWO EMCS subjects and three MCS subjects who had been allocated to the trabectedin group'.",
+      "coincidence_warning": "⛔ A DIFFERENT AND CORRECT '5' NOW EXISTS: the located EMC denominator across BOTH series is 5 patients (2 + 3). It is a different quantity from the withdrawn single-series n=5 and must never be presented as a vindication of it."
+    }
+  ],
+
+  "the_reported_emc_responder_claim": {
+    "claim_as_written": "'Now — approved; reported EMC responder', asserted for the row 'Trabectedin (± RT / combo)' in research/manuscripts/program/emc-treatment-roadmap.md and research/manuscripts/program/emc-treatment-strategy.md",
+    "status_2026_09_01": "NOT SUPPORTED by any source this repository has read. Replaced in emc-treatment-roadmap.md by this seat; the strategy-document copy and three weaker copies are named below and were not touched (not this seat's paths).",
+    "search_performed": {
+      "tool": "PubMed MCP search_articles, run 2026-09-01",
+      "queries": [
+        {
+          "query": "\"extraskeletal myxoid chondrosarcoma\" AND trabectedin",
+          "query_translation": "\"extraskeletal myxoid chondrosarcoma\"[All Fields] AND (\"trabectedin\"[Supplementary Concept] OR \"trabectedin\"[All Fields] OR \"trabectedin\"[MeSH Terms])",
+          "total_count": 7,
+          "has_more": false,
+          "pmids": ["41323055", "36636521", "36568164", "32612944", "28698435", "27418251", "24555529"]
+        },
+        {
+          "query": "(\"myxoid chondrosarcoma\" OR \"extra-skeletal myxoid chondrosarcoma\" OR \"EWSR1-NR4A3\" OR \"EWSR1::NR4A3\") AND (trabectedin OR yondelis)",
+          "total_count": 7,
+          "has_more": false,
+          "pmids": ["41323055", "36636521", "36568164", "32612944", "28698435", "27418251", "24555529"],
+          "note": "Deliberately widened (alternate spelling, fusion synonyms, brand name) to test whether the 7-record result was an artefact of the exact phrase. It returned the identical seven records."
+        }
+      ],
+      "records_and_what_each_reports": [
+        {"pmid": "27418251", "reports": "0 objective responses in 2 EMC patients — the series above"},
+        {"pmid": "36568164", "reports": "0 objective responses in 3 EMC patients — the series above"},
+        {"pmid": "32612944", "reports": "disease control in 2 of 3 on second-line trabectedin; no response counts"},
+        {"pmid": "36636521", "reports": "EMC of the vulva; trabectedin given FOURTH line after pazopanib, doxorubicin and eribulin. The abstract's own conclusion attributes three years without local recurrence to RADIOTHERAPY: 'suggesting the effectiveness of radiotherapy in local control'. No trabectedin response is reported. This is the closest indexed match to the roadmap's unidentified 'trabectedin + radiotherapy' case and it does not support the claim."},
+        {"pmid": "41323055", "reports": "'Excellent Response ... Repeatedly Treated with Surgical Excision or Stereotactic Radiotherapy Alone'. Trabectedin appears only as background. Not a trabectedin response."},
+        {"pmid": "28698435", "reports": "review (Japanese); groups EMC among histologies 'reported to have little response' to cytotoxic chemotherapy. No EMC trabectedin response."},
+        {"pmid": "24555529", "reports": "review; names trabectedin for other histologies and names SUNITINIB, not trabectedin, for EMC. No EMC trabectedin response."}
+      ],
+      "bound_on_this_negative": "This is a bounded search over PubMed-indexed titles and abstracts on one date, with two of the seven read at abstract level only. It establishes that no reported objective response to trabectedin in an EMC patient is indexed in PubMed under these queries. It is NOT a claim that no such report exists anywhere — see the candidate below, which is not PubMed-indexed."
+    },
+    "candidate_identifier_located": {
+      "doi": "10.4172/clinical-practice.1000433",
+      "title_as_recorded": "Impressive response and longterm survival in a patient with metastatic extraskeletal myxoid chondrosarcoma treated with radiotherapy and trabectedin: a synergistic activity",
+      "date_as_recorded": "2018-10-04",
+      "where_this_repository_already_holds_it": "research/modalities/emc-atr-vulnerability.json -> part_b_emc_tumour_signature.dataset_search.zenodo.hits[9], and the same row in research/modalities/emc-atr-vulnerability-inputs.json. It arrived as a Zenodo DOI-search metadata hit and has never been read.",
+      "verification_status": "⛔ UNVERIFIED. Nobody in this repository has opened this article. POLICY-evidence §1.3 forbids treating an unfetched primary as verified, so it may not carry a claim.",
+      "readings_taken_2026_09_01": [
+        {"door": "NCBI ID converter (PubMed MCP convert_article_ids, id_type=doi)", "result": "record returned with the DOI echoed and NO pmid and NO pmcid", "meaning": "not indexed in PubMed or PMC — which is why the 7-record sweep above cannot contain it"},
+        {"door": "api.crossref.org (curl and WebFetch)", "result": "EGRESS_BLOCKED at this sandbox's proxy (curl: CONNECT tunnel failed, 403)", "meaning": "a proxy refusal, not a reading"},
+        {"door": "doi.org", "result": "EGRESS_BLOCKED"},
+        {"door": "www.openaccessjournals.com", "result": "EGRESS_BLOCKED"},
+        {"door": "api.semanticscholar.org", "result": "EGRESS_BLOCKED"},
+        {"door": "www.ebi.ac.uk (Europe PMC REST)", "result": "EGRESS_BLOCKED"},
+        {"door": "WebSearch", "result": "returned no link to the article itself; the search summary asserted a journal ('Clinical Practice') and publisher, which is a search-engine synthesis and not a primary reading. Recorded as UNKNOWN rather than as a fact."}
+      ],
+      "what_it_would_and_would_not_settle": "Even fully verified it is a single case report of trabectedin GIVEN WITH RADIOTHERAPY whose own title claims synergy between the two, against 0 objective responses in 5 EMC patients assessed formally in two series. It cannot support a monotherapy claim, and it cannot make 'reported EMC responder' an accurate summary of the located record. It is worth completing because the manuscript's reference list carries it as an OPEN item due before submission — not because it changes the correction.",
+      "next_rung": "An Actions-runner fetch (ci-escape-hatches §1 rung 1) of the DOI, since every door reachable from this sandbox is blocked. Not taken from a seat: this is a driver call, and the answer does not change any edit made today."
+    }
+  },
+
+  "where_the_wrong_figures_propagated": {
+    "corrected_by_this_seat": [
+      "systems/graph/routes.json -> RT-TRABECTEDIN (rationale, supporting_evidence, closure_note, remaining_unknowns, readiness, next) and its generated view systems/views/L2-rt-trabectedin.md",
+      "research/manuscripts/program/emc-treatment-roadmap.md -> the Figure-2 table Axis-A cell and the corresponding reference-list entry"
+    ],
+    "still_carrying_an_unsupported_responder_claim_not_this_seats_paths": [
+      "research/manuscripts/program/emc-treatment-strategy.md line 168 ('reported EMC responder') and line 227 ('trabectedin (fusion-TF mechanism + EMC responder)')",
+      "research/manuscripts/modality-census/emerging-modalities-scan-emc.md lines 31, 39 and 95 ('has an EMC responder'; 'impressive response and long-term survival on trabectedin (+ radiotherapy)'; 'EMC responder')",
+      "research/IDEAS.md line 169 ('a reported impressive EMC responder' — the '+ radiotherapy' qualifier dropped entirely, which is the strongest of all the copies and the least supported)",
+      "systems/AUDIT-2026-08-06-routes.md line 633 — a dated audit record quoting the pre-correction figures; historical, correct to leave as a record of what was found that day"
+    ],
+    "carrying_the_withdrawn_figure_correctly_already": [
+      "research/data/emc-clinical-registry.json — holds the correction itself",
+      "research/manuscripts/endpoint/emc-systemic-therapy-pooling.json — carries the same correction verbatim, independently"
+    ],
+    "not_wrong_as_written": [
+      "research/data/emc-clinical-registry.json studies.items[5].notes — 'median PFS reported ~12.5 months in the trabectedin group' is a true statement about the ARM, not about EMC. Flagged only because the phrasing invites the misreading that produced this whole defect."
+    ]
+  },
+
+  "what_this_artifact_does_not_claim": [
+    "No efficacy claim for trabectedin in EMC. Disease control in a small number of patients is not efficacy.",
+    "No claim that trabectedin is inactive in EMC. 0 of 5 is a count from a very small located record with wide uncertainty; POLICY-evidence §2.5's limitations apply in full.",
+    "No safety, eligibility, therapeutic-window or clinical-readiness claim.",
+    "No claim that the Chiusole and Palmerini patients ARE the same patients — only that overlap has not been excluded and therefore they may not be summed."
+  ],
+
+  "sources_note": "Literature metadata and the PMC9780071 full text in this artifact were retrieved from PubMed on 2026-09-01. DOIs: 10.3389/fonc.2022.1042479, 10.1186/s12885-016-2511-y, 10.3389/fonc.2020.00828, 10.7759/cureus.33601, 10.1159/000548238, 10.1586/14737140.2014.885840."
+}

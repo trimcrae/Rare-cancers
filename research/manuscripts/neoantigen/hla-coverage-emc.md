@@ -99,10 +99,10 @@ allele-frequency mirror updates.
   populations where the public CD8 junction does best). Requiring **both** a class-I and a
   class-II allele therefore covers only **≈16% of patients globally**.
 - **Conclusions:** A public, off-the-shelf fusion-neoantigen approach to EMC is **partial by
-  construction** and **inequitable if framed by a single global number**: the most "public"
+  construction** and **inequitable if framed by a single global number**. The most "public"
   junction misses ~70% of patients overall and ~90% of Sub-Saharan African and Latin American
-  patients, and demanding both CD8 *and* CD4 coverage from public epitopes drops the addressable
-  fraction to ~16% — with the CD8-best and CD4-best populations barely overlapping. This is the
+  patients. Demanding both CD8 *and* CD4 coverage from public epitopes drops the addressable
+  fraction to ~16%, with the CD8-best and CD4-best populations barely overlapping. This is the
   quantitative argument for a **personalised** pipeline (sequence the patient's breakpoint →
   predict junction epitopes → match to the patient's own class-I *and* class-II HLA), with
   public junctions reserved for the specific allele groups where coverage is genuinely high.
@@ -136,10 +136,10 @@ therefore requires an honest **population-coverage** estimate, which is the cont
 this analysis.
 
 **Why isn't this already a therapy?** Not because the biology is unknown, but because the
-pieces past "know the variant" are hard: the breakpoint varies between patients (so there is
-no single off-the-shelf product), the junction is mostly self-sequence (EWSR1 and NR4A3 are
-both self proteins — only the seam is foreign, so central tolerance may have pruned reactive
-T cells), sarcomas are low-mutational-burden "cold" tumours, and a bespoke per-patient product
+pieces past "know the variant" are hard. The breakpoint varies between patients, so there is
+no single off-the-shelf product. The junction is mostly self-sequence: EWSR1 and NR4A3 are
+both self proteins; only the seam is foreign, so central tolerance may have pruned reactive
+T cells. Sarcomas are low-mutational-burden "cold" tumours, and a bespoke per-patient product
 for an ultra-rare cancer has no commercial pull and cannot easily be trialled at scale.
 Personalised neoantigen vaccines are nonetheless in late-phase trials in other tumours, and
 fusion-directed approaches are being explored in other sarcomas — EMC simply has no champion.
@@ -262,9 +262,9 @@ surveys respectively); wide CIs / class-I gaps reflect that — treat as indicat
 The headline figures use only the alleles that won best-binder per peptide — a *floor*. The
 real design question is: as a public vaccine presents the junction on **more** HLA alleles,
 how fast does population coverage rise, and where does it plateau? `coverage_scan.py` scans a
-broad common HLA-A/-B panel (≈34 alleles) through MHCflurry, takes every allele presenting a
-strong junction binder, and — because under 1 − ∏(1 − af)² the greedy-optimal order is simply
-descending allele frequency — plots **cumulative coverage vs. number of alleles**, globally
+broad common HLA-A/-B panel (≈34 alleles) through MHCflurry and takes every allele presenting a
+strong junction binder. Because under 1 − ∏(1 − af)² the greedy-optimal order is simply
+descending allele frequency, it plots **cumulative coverage vs. number of alleles**, globally
 and per region (Figure `coverage-curve.png`; data `coverage-curve.json`).
 
 *[Numbers below are filled from the CI artifact once the broad-panel scan completes; the
@@ -329,13 +329,13 @@ hand off to the bench.
 ## 5. Reproducibility
 
 `python research/modalities/hla_coverage.py` fetches the two public sources (AFND frequencies +
-ISO/UN M49 region map), reads the project's class-I and class-II epitope JSONs for the
-presenting alleles, recomputes every number above, and writes `hla-coverage.json` (global +
+ISO/UN M49 region map) and reads the project's class-I and class-II epitope JSONs for the
+presenting alleles. It recomputes every number above and writes `hla-coverage.json` (global +
 per-region, class I + II + combined, with CIs, sample sizes and the unassigned-population audit).
 `coverage_scan.py` builds the §3.3 curve + chart (MHCflurry broad-panel scan → `coverage-curve.json`
 + `coverage-curve.png`), and `vaccine_construct.py` builds the §3.4 construct
 (`vaccine-construct.json`, no network — deterministic from the committed epitope JSONs). The
-MHCflurry/matplotlib steps run in CI (`.github/workflows/modalities-run.yml`). The step runs in CI (`.github/workflows/modalities-run.yml`).
+MHCflurry/matplotlib steps run in CI (`.github/workflows/modalities-run.yml`).
 If a source is unreachable the script records `source_unavailable` rather than emitting a
 fabricated number.
 

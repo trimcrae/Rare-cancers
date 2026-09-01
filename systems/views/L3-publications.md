@@ -206,7 +206,7 @@ The gap in EMC care is categorical rather than a matter of degree — nothing in
 | route | role | what it contributes |
 |---|---|---|
 | [RT-ICI-TKI](L2-rt-ici-tki.md) — Checkpoint inhibitor + anti-angiogenic TKI combinati | `context` | The comparator arm: the most consistently active class in EMC, cited to size the gap rather than analysed. Promoting it to a contribution would overstate what was done. |
-| [RT-TRABECTEDIN](L2-rt-trabectedin.md) — Trabectedin (± RT or combination) | `context` | Cited to establish current care and the categorical gap. Explicitly not this program's contribution — it is clinical-evidence synthesis, and a single response must not be overstated. |
+| [RT-TRABECTEDIN](L2-rt-trabectedin.md) — Trabectedin (± RT or combination) | `context` | Cited to establish current care and the categorical gap. Explicitly not this program's contribution — it is clinical-evidence synthesis. ⛔ There is no single EMC response to overstate: the located record is 0 objective responses in 5 EMC patients across two series. |
 
 ### PUB-ENDPOINT — Objective response and disease control on identical patients: what the response summary discards across 552 trial arms
 

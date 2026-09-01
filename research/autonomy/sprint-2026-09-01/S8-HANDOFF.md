@@ -2,10 +2,13 @@
 id: DOC-SPRINT-S8-HANDOFF
 title: "S8-HANDOFF — the three handoff/claim defects: one fixed, one refuted-and-corrected, one dissolved in a proven patch"
 level: L3
-kind: process
+kind: memo
 status: live
 date: 2026-09-01
 audience: [autonomous research agents, maintainers]
+purpose: "The findings record of sprint seat S8-HANDOFF — what it measured, what it changed, and what it could not do. Written before the seat returned, so a seat that dies costs its own work and nothing else."
+scope: "One seat of the 2026-09-01 sprint, bounded by the owned-paths list in its own prompt. It reports; it does not decide what lands."
+last_verified: 2026-09-01
 ---
 
 # S8-HANDOFF — the handoff knot, the lineage ceiling, and the claim deadlock

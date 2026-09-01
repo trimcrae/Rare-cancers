@@ -150,7 +150,24 @@ LEDGER = os.path.join(AUTONOMY, "research-ledger.json")
 #: ever forces the ceiling DOWN — a fix that shrinks the population must re-pin at the new count,
 #: which is why this constant cannot drift upward by neglect. Superseded, retained: **73**, and
 #: before it **80**. The honest end state is still 0.
-MAX_UNSCORED_OPEN = 69
+#: ⭐⭐ 0 AS OF 2026-09-01, WHICH IS THE END STATE THE LINE ABOVE HAS BEEN NAMING SINCE THE RATCHET
+#: LANDED: *"The honest end state is still 0."* The population is empty. `health.py`'s
+#: `scores_are_reachable` had read UNRANKABLE-WORK for 88 hours — 68 open rows carrying no score, so
+#: no cycle could be offered them and no handoff listed them. Seat S21-UNSCORED enumerated all 68,
+#: settled every one, and the driver applied it: 65 scored with a prose `_score_basis`, 3 moved to
+#: `done` because the work was finished and the row had simply never been closed.
+#: ⛔ AND THE COUPLING THIS CONSTANT DOCUMENTS IS WHAT FORCED THE 0. The comment above is explicit
+#: that a fix which shrinks the population must re-pin at the new count, and that the ceiling only
+#: ever moves DOWN. 69 against a real 0 is 69 of slack against an allowance of 2, so
+#: `test_the_ratchet_is_not_vacuous` would go red on exactly the commit that fixed the thing. The
+#: coupling worked.
+#: ★ WHAT THIS NOW MEANS, PLAINLY: any future write that appends an open row with no score turns
+#: this red. That is the strictest this constant can ever be, and it is the direction the whole
+#: file was built to travel. `admissibility.refuse_population_growth` refuses such a write at
+#: `ledger_io.write_ledger`; this is the committed-file backstop for a write that goes around it —
+#: and S21 measured that such a path exists, because a text edit bypasses `write_ledger` entirely.
+#: Superseded, retained: **69**, before it **73**, before it **80**.
+MAX_UNSCORED_OPEN = 0
 
 
 def _committed():
@@ -357,9 +374,32 @@ def test_the_open_unscored_population_does_not_grow():
 def test_the_ratchet_is_not_vacuous():
     """⚠ A ceiling far above the real count asserts nothing (the vacuous-guard failure
     `paper-hardening` §8b names, and the one that let an emptied constant pass a parametrised test).
-    The pin must sit ON the measured population, not above it."""
+    The pin must sit ON the measured population, not above it.
+
+    ⭐⭐ THE POPULATION REACHED ZERO ON 2026-09-01 AND THIS GUARD SAID SO ITSELF. Its own instruction
+    when that happened was *"no open unscored rows at all — delete MAX_UNSCORED_OPEN and assert
+    `not ids`"*, and that is what this now does. The ratchet is no longer a ceiling that may be
+    approached; it is an absolute: **no open ledger row may carry no score, ever.**
+
+    ★ `MAX_UNSCORED_OPEN` IS KEPT AT 0 RATHER THAN DELETED, deliberately, and the difference
+    matters. The instruction said delete it; keeping it pinned at 0 makes the sibling ratchet above
+    assert exactly the same thing, so the two tests cannot drift apart, and it leaves the
+    supersession chain (80 → 73 → 69 → 0) readable at the constant a future reader will look for.
+    ⛔ A deleted constant is also the easier thing to quietly reintroduce with a number on it.
+
+    ⛔ AND THE VACUITY CHECK IS NOT RETIRED — IT IS INVERTED, WHICH IS STRICTER. It used to refuse a
+    ceiling with slack. It now refuses any slack at all, because at 0 the only way to create slack
+    is to raise the constant, and raising it is the edit `amendment_guard.py` exists to catch. If
+    this file is ever found with `MAX_UNSCORED_OPEN > 0` again, the population grew and somebody
+    re-pinned to fit — which is precisely the move this test was written to make impossible."""
     ids = _unscored_open(_committed()["entries"])
-    assert ids, "no open unscored rows at all — delete MAX_UNSCORED_OPEN and assert `not ids`"
-    assert MAX_UNSCORED_OPEN - len(ids) <= 2, (
-        f"MAX_UNSCORED_OPEN is {MAX_UNSCORED_OPEN} against a real population of {len(ids)}: the "
-        "ratchet has slack it was never meant to have. Lower it to the measured count.")
+    assert not ids, (
+        f"{len(ids)} open ledger row(s) carry no `score`, and the population has been EMPTY since "
+        f"2026-09-01. A row with no score sorts below every scored row and no ranking term can "
+        f"reach it — the anti-starvation age factor included — so it will never be picked. Give it "
+        f"a `score` and a `_score_basis`, or a `prerequisite_of` naming the row it unblocks. "
+        f"⛔ Do NOT raise MAX_UNSCORED_OPEN to make this pass. Ids: {sorted(ids)[:8]}")
+    assert MAX_UNSCORED_OPEN == 0, (
+        f"MAX_UNSCORED_OPEN is {MAX_UNSCORED_OPEN} against an EMPTY population. The only reason to "
+        "raise it above 0 is to make room for an unscored row, which is the weakening this pair "
+        "exists to refuse.")

@@ -99,7 +99,7 @@ flowchart LR
 | **[RT-PPARG-DOWNSTREAM](L2-rt-pparg-downstream.md)**<br/>PPARG downstream-effector (repurpose TZDs) | ✓ blocked | concept | `internal_note` | [PUB-REPURPOSING](L3-publications.md) ◐ *contributing* | The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-emc.md). What remains is a PPA |
 | **[RT-RET](L2-rt-ret.md)**<br/>RET-selective inhibitors | ✓ parked | computed | `internal_note` | [PUB-KINASE-LEADS](L3-publications.md) ◔ *contributing* | Report it as the kinase paper's strongest lead and its clearest cautionary case: the one kinase reported activ |
 | **[RT-RXR](L2-rt-rxr.md)**<br/>RXR-heterodimer modulation of the fusion | ✓ closed | scoped | `internal_note` | [PUB-CLOSED-ROUTES](L3-publications.md) ◐ *contributing* | Nothing. The scan carries the one observation that would reopen it. |
-| **[RT-TRABECTEDIN](L2-rt-trabectedin.md)**<br/>Trabectedin (± RT or combination) | ○ ready | concept | `internal_note` | [PUB-EMC-PROGRAM](L3-publications.md) ◐ *context* | Keep as cited landscape context. Do not overstate a single response. |
+| **[RT-TRABECTEDIN](L2-rt-trabectedin.md)**<br/>Trabectedin (± RT or combination) | ○ ready | concept | `internal_note` | [PUB-EMC-PROGRAM](L3-publications.md) ◐ *context* | Keep as cited landscape context, at the weight the record supports: disease control in a handful of EMC patien |
 | **[RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md)**<br/>Trabectedin + a PPARγ agonist (all approved drugs) | ○ blocked | concept | `experimental_proposal` | [PUB-REPURPOSING](L3-publications.md) ◐ *contributing* | Hold the ask until the PPARγ direction can be stated. Re-grade automatically when EMC expression data lands. |
 ## What this family buys the portfolio — blockers it RETIRES
 

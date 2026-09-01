@@ -363,7 +363,80 @@ def regional_table(racc, e7e3_raw, all_raw, cd4_raw):
                                        -(kv[1]["coverage_any_strong_binder_allele"] or 0))))
 
 
+def check():
+    """Offline staleness check on the COMMITTED artifact. No network, pure stdlib, sub-second.
+
+    ⛔ WHY THIS EXISTS, AND WHY IT DELIBERATELY DOES NOT RE-RUN THE PRODUCER (2026-09-01).
+    On 2026-08-28 the `_class_ii_note` count was changed from a typed "3" to a derived
+    `len(cd4_panel)`, with a comment recording that the stale count had already been quoted onward
+    into a manuscript. THE GENERATOR WAS FIXED AND THE ARTIFACT WAS NEVER REGENERATED, so the
+    committed file went on saying "a 3-allele DR panel" beside a list of twenty-three alleles for
+    four days under green gates -- and the artifact is the copy every reader and every downstream
+    manuscript quotes. Nothing went red because `scripts/preflight.sh`'s generated-artifact gate is
+    an OPT-IN ALLOWLIST (17 producers on 2026-09-01) and this producer was not on it; and it was not
+    on it because a full re-run needs the AFND and ISO fetches, which no commit-loop gate can afford
+    to depend on.
+
+    ⭐ THE WAY OUT IS THAT THE DEFECT WAS NEVER IN THE NETWORKED HALF. Every field this check reads
+    is derived from committed local inputs -- `patient-cd4-demo.json` -- and the specific failure was
+    a SELF-CONTRADICTION inside one string: a count that disagreed with the list printed beside it.
+    That is checkable with no network at all. So this mode verifies the locally-derivable invariants
+    and says plainly that it is NOT a check of the frequency figures, rather than pretending to a
+    completeness it does not have. A gate that guards the cheap half is not a weaker gate than none;
+    a gate that claims to guard the expensive half without fetching it would be.
+
+    Exit 0 = consistent; exit 1 = stale, with the disagreement printed.
+    """
+    problems = []
+    try:
+        with open(OUT) as fh:
+            art = json.load(fh)
+    except (OSError, ValueError) as exc:
+        print(f"hla-coverage.json unreadable: {exc}", file=sys.stderr)
+        return 1
+
+    cd4_alleles_list, cd4_panel, _seam = load_class_ii_alleles(CD4_DEMO)
+    note = art.get("_class_ii_note") or ""
+
+    # (1) the count the note STATES vs the list the note PRINTS -- the 2026-08-28 defect exactly.
+    m = re.search(r"only a (\d+)-allele [^(]*\(([^)]*)\)", note)
+    if not m:
+        problems.append("the _class_ii_note no longer states 'only a <N>-allele ... (<list>)'; "
+                        "this check can no longer read it, which is a staleness of the CHECK")
+    else:
+        stated = int(m.group(1))
+        listed = [a.strip() for a in m.group(2).split(",") if a.strip()]
+        if stated != len(listed):
+            problems.append(f"_class_ii_note says a {stated}-allele panel and prints "
+                            f"{len(listed)} alleles beside it")
+        # (2) and both against the file that DEFINES the panel.
+        if cd4_panel is not None and sorted(listed) != sorted(cd4_panel):
+            problems.append(f"_class_ii_note's panel ({len(listed)} alleles) is not the panel in "
+                            f"{os.path.basename(CD4_DEMO)} ({len(cd4_panel)} alleles)")
+
+    # (3) the class-II helper set is a derived field: it must still be the strong calls on disk.
+    got = art.get("global", {}).get("class_ii_cd4_helper_alleles")
+    if got is not None and sorted(got) != sorted(cd4_alleles_list):
+        problems.append(f"class_ii_cd4_helper_alleles is {got}; the strong calls in "
+                        f"{os.path.basename(CD4_DEMO)} are {cd4_alleles_list}")
+
+    if problems:
+        for p in problems:
+            print("  " + p, file=sys.stderr)
+        print("  ⛔ regenerate with `python3 research/modalities/hla_coverage.py` "
+              "(needs the AFND + ISO fetches; both were reachable from the dev sandbox "
+              "on 2026-09-01, and from any Actions runner)", file=sys.stderr)
+        return 1
+    print("hla-coverage.json: class-II panel note and helper set agree with "
+          f"{os.path.basename(CD4_DEMO)} "
+          "(⚠ the AFND frequency figures are NOT checked here -- that needs the fetch)")
+    return 0
+
+
 def main():
+    if "--check" in sys.argv[1:]:
+        sys.exit(check())
+
     with open(BREAKPOINTS) as fh:
         bp = json.load(fh)
 
