@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-TRABECTEDIN — Trabectedin (± RT or combination)
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ ready · concept · confidence low · verified 2026-08-05
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ○ ready · concept · confidence low · verified 2026-09-01
 
 **Grade** (owned by [`research/IDEAS.md`](../../research/IDEAS.md)): NEAR-TERM LEAD — approved, mechanism-fit
 
@@ -45,19 +45,20 @@ flowchart LR
 
 ## Scientific rationale
 
-Trabectedin is approved and used in sarcoma, and this repo's clinical registry records DISEASE CONTROL in EMC — n=5, secondary provenance, median PFS ~12.5 months, mostly stable disease, with NO response rate recorded. ⚠ The single 'impressive response' in the literature is a RADIOTHERAPY + trabectedin case, so it does not support this route, whose alias is trabectedin MONOTHERAPY. No efficacy, safety, eligibility or clinical-readiness claim is made for EMC.
+Trabectedin is approved and used in sarcoma, and the argument for it here is mechanistic — it is proposed to displace FET-fusion transcription factors from target promoters, the mechanism invoked for FUS::DDIT3 in myxoid liposarcoma. ⛔ THE EMC CLINICAL RECORD IS SMALL AND CONTAINS NO LOCATED OBJECTIVE RESPONSE. Two independent series report EMC patients treated with trabectedin under formal response assessment and neither records one: Morioka 2016 (PMID 27418251, randomised phase 2 sub-analysis, central radiology review) contributes TWO EMC subjects of a five-subject arm whose other three had mesenchymal chondrosarcoma — both EMC subjects had stable disease, PFS 13.0 and 7.4 months, and the arm's single objective response was an MCS patient; Palmerini 2022 (PMID 36568164, Italian Sarcoma Group TrObs post-hoc, investigator-assessed RECIST 1.1) contributes THREE EMC patients — 0 objective responses, 2 stable, 1 progressive. Located EMC record: 0 objective responses in 5 patients, stated SEPARATELY and NOT pooled (two designs, two populations — POLICY-evidence §2.6). ⛔ THE ~12.5-MONTH MEDIAN PFS PREVIOUSLY QUOTED HERE AS AN EMC FIGURE WAS WITHDRAWN BY THE CITED REGISTRY ON 2026-08-07 AND IS NOT REPLACED BY ANOTHER MEDIAN — it is the Morioka arm's Kaplan-Meier median over all five mixed subjects and coincides with subject 5's own value, also mesenchymal chondrosarcoma. No EMC-specific median PFS exists in the located record. ⚠ The 'impressive response' case in the literature is a RADIOTHERAPY + trabectedin case whose own title claims synergy between the two, so it does not support this route's monotherapy alias; a candidate identifier for it has been located but is UNVERIFIED and is not indexed in PubMed. Denominator, search and every reading: research/literature/emc-trabectedin-denominator-2026-09-01.json. No efficacy, safety, eligibility or clinical-readiness claim is made for EMC, and 0 of 5 is far too small to claim inactivity either.
 
 ## Supporting evidence
 
 | ref | supports | strength |
 |---|---|---|
-| `ART-EMC-CLINICAL-REGISTRY` | a 5-patient SECONDARY-provenance series reporting disease control (median PFS ~12.5 months, mostly stable disease); no response rate is recorded, and the registry's own intro says cytotoxic chemotherapy mainly stabilises disease | `transferred` |
+| `ART-EMC-CLINICAL-REGISTRY` | the EMC trabectedin row as CORRECTED on 2026-08-07: n=2 EMC subjects of a 5-subject mixed arm, PRIMARY provenance, orrEvents 0, both stable disease. The registry also records that the arm-wide ~12.5-month median PFS is withdrawn as an EMC figure (treatments.systemicEvidenceCorrections.superseded, row 'Trabectedin'), and its own intro says cytotoxic chemotherapy mainly stabilises disease. ⚠ It does not yet carry the second series (Palmerini 2022, PMID 36568164, EMC n=3, 0 objective responses) — that row is proposed, and until it lands the registry alone understates the located denominator | `direct` |
 
 ## Remaining unknowns
 
-- Whether the mechanistic fit is real or a post-hoc story fitted to a single response.
+- Whether the mechanistic fit is real or a post-hoc story. ⚠ It cannot be a story fitted to a single EMC response, because no objective response in an EMC patient has been located — the fit is argued from myxoid liposarcoma and from disease control.
 - How the agent interacts with the fusion's specific programme, which has never been measured in EMC.
-- The '± RT' half of this route is unaddressed, and the only impressive-response case is an RT COMBINATION — the registry records radiotherapy in localized EMC as `contested` and adjuvant chemotherapy as `consensus-against`.
+- The '± RT' half of this route is unaddressed, and the only claimed impressive-response case is an RT COMBINATION whose identifier is UNVERIFIED and not PubMed-indexed — the registry records radiotherapy in localized EMC as `contested` and adjuvant chemotherapy as `consensus-against`.
+- Whether a third Italian series (Chiusole 2020, PMID 32612944 — disease control in 2 of 3 on second-line trabectedin) describes patients already counted in the Italian TrObs post-hoc. Both report 3 EMC patients and 2 of 3 with disease control, and the TrObs enrolment window sits inside Chiusole's. Until that is excluded the rows may not be summed (POLICY-evidence §2.3).
 
 ## Required validation
 
@@ -80,8 +81,8 @@ Trabectedin is approved and used in sarcoma, and this repo's clinical registry r
 
 | route | the axis it turns on | blockers the distinction turns on | why |
 |---|---|---|---|
-| [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | combination vs monotherapy | `BLK-NO-EMC-DATA` | monotherapy rests on a disease-control series, NOT on the RT-combination responder case and a mechanism fit; the combination rests additionally on a published result in a sibling sarcoma and on the fusion→PPARG axis |
-| [RT-CARFILZOMIB](L2-rt-carfilzomib.md) | unbiased screen hit vs mechanism-fit argument | `BLK-NO-EMC-DATA` | trabectedin is argued from mechanism fit plus a clinical disease-control series; carfilzomib is an empirical ex-vivo screen hit with no fusion rationale |
+| [RT-TRABECTEDIN-PPARG](L2-rt-trabectedin-pparg.md) | combination vs monotherapy | `BLK-NO-EMC-DATA` | monotherapy rests on two small disease-control series with 0 located objective responses in EMC, NOT on the RT-combination case (whose identifier is unverified) and a mechanism fit; the combination rests additionally on a published result in a sibling sarcoma and on the fusion→PPARG axis |
+| [RT-CARFILZOMIB](L2-rt-carfilzomib.md) | unbiased screen hit vs mechanism-fit argument | `BLK-NO-EMC-DATA` | trabectedin is argued from mechanism fit plus small clinical disease-control series (0 objective responses located in 5 EMC patients); carfilzomib is an empirical ex-vivo screen hit with no fusion rationale |
 | [RT-HDAC-BET](L2-rt-hdac-bet.md) | whether the closure is about molecular selectivity or about clinical activity | `BLK-CLASS-INHERITANCE` | this route stays live because its claim is clinical activity; RT-HDAC-BET is closed only on the fusion-SELECTIVITY claim, and both are chromatin-acting and neither is molecularly fusion-selective |
 
 ## Readiness — what this could become today
@@ -91,7 +92,8 @@ Trabectedin is approved and used in sarcoma, and this repo's clinical registry r
 This is clinical-evidence synthesis rather than a computational contribution. It belongs as landscape context in a paper, not as a result.
 
 **Missing:**
-- a larger clinical series
+- a larger EMC series — the located record is 5 patients across two series with 0 objective responses
+- the second series (Palmerini 2022, PMID 36568164) as a curated registry row, and an EV-/ART- id for it so this route can cite it directly rather than in prose
 
 ## Where this route ends — the paper
 
@@ -99,7 +101,7 @@ This is clinical-evidence synthesis rather than a computational contribution. It
 
 `context` · ◐ `drafted` · aimed at `journal_submission`
 
-**This route contributes:** Cited to establish current care and the categorical gap. Explicitly not this program's contribution — it is clinical-evidence synthesis, and a single response must not be overstated.
+**This route contributes:** Cited to establish current care and the categorical gap. Explicitly not this program's contribution — it is clinical-evidence synthesis. ⛔ There is no single EMC response to overstate: the located record is 0 objective responses in 5 EMC patients across two series.
 
 **The paper would claim:** The gap in EMC care is categorical rather than a matter of degree — nothing in clinical use addresses the driver — and a computation-only program can enumerate the driver-directed routes, state a falsifiable kill criterion for each, and place the borrowed standard-of-care agents as context rather than as its own contribution.
 
@@ -129,7 +131,7 @@ Nothing computational advances it. Its role is as the near-term comparator any n
 
 ## Best next action
 
-Keep as cited landscape context. Do not overstate a single response.
+Keep as cited landscape context, at the weight the record supports: disease control in a handful of EMC patients, 0 objective responses located in 5, and no EMC-specific median PFS. ⛔ Do not quote ~12.5 months as an EMC figure and do not write 'EMC responder'. Free next step: curate Palmerini 2022 (PMID 36568164) into the registry.
 
 *Cost:* $0
 

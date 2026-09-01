@@ -2,10 +2,13 @@
 id: DOC-SPRINT-S12-TWOPOP
 title: "S12-TWOPOP — the two-population scheduling model, four medians carried separately, one with no dispersion at all"
 level: L3
-kind: experiment
+kind: memo
 status: live
 date: 2026-09-01
 audience: [autonomous research agents, maintainers]
+purpose: "The findings record of sprint seat S12-TWOPOP — what it measured, what it changed, and what it could not do. Written before the seat returned, so a seat that dies costs its own work and nothing else."
+scope: "One seat of the 2026-09-01 sprint, bounded by the owned-paths list in its own prompt. It reports; it does not decide what lands."
+last_verified: 2026-09-01
 ---
 
 # S12-TWOPOP — the two-population scheduling model, four medians carried separately, one of them with no dispersion at all

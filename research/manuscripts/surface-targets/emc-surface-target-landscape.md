@@ -125,7 +125,7 @@ Surface-antigen prioritisation for EMC has had to run on surrogates because the 
 absent from usable public expression data. A prior-art screen run for this work supports the underlying
 gap. A Europe PMC retrieval of 322 EMC-linked records, 238 of them with full text, was hand-screened for
 surfaceome, surface antigen, cell-surface protein, chimeric antigen receptor, radioligand,
-antibody-drug conjugate and immunotherapy terms, and returned three EMC-specific records, none of which
+antibody-drug conjugate and immunotherapy terms. It returned three EMC-specific records, none of which
 is a systematic surface-antigen map: a radiotherapy case report [3], a single case describing an
 immunosuppressive tumour microenvironment in EMC with pleural metastases [4], and a multidisciplinary
 review of uncommon soft-tissue sarcomas [5]. That screen matched titles and abstracts, not full text, so
@@ -174,12 +174,12 @@ a tumour-versus-normal contrast; it mechanically favours mesenchymal antigens be
 is epithelial-dominated.
 
 Four limits of this instrument were computed (Supplementary Note S1). The scanned
-population is tumour-cell monoculture, so it contains no stromal or fibroblast compartment; an antigen
+population is tumour-cell monoculture, so it contains no stromal or fibroblast compartment. An antigen
 carried only by stroma reads at the floor, demonstrated by LRRC15, an established sarcoma
 cancer-associated-fibroblast antigen with a clinical antibody-drug conjugate programme behind it, at
-`frac_expressed` 0.0; a glycan such as oncofetal chondroitin sulfate is the product of a biosynthetic
-pathway rather than of one gene [14] and so cannot be ranked;
-and CSPG4 has no per-gene row in any committed artifact of this instrument.
+`frac_expressed` 0.0. A glycan such as oncofetal chondroitin sulfate is the product of a biosynthetic
+pathway rather than of one gene [14], and so cannot be ranked.
+And CSPG4 has no per-gene row in any committed artifact of this instrument.
 
 ### Normal-tissue prior
 

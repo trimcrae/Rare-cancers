@@ -2,10 +2,13 @@
 id: DOC-SPRINT-S7-CHAIN
 title: "S7-CHAIN — an artifact that records a commit sha, produced at a moment that is not the moment it is published"
 level: L3
-kind: process
+kind: memo
 status: live
 date: 2026-09-01
 audience: [autonomous research agents, maintainers]
+purpose: "The findings record of sprint seat S7-CHAIN — what it measured, what it changed, and what it could not do. Written before the seat returned, so a seat that dies costs its own work and nothing else."
+scope: "One seat of the 2026-09-01 sprint, bounded by the owned-paths list in its own prompt. It reports; it does not decide what lands."
+last_verified: 2026-09-01
 ---
 
 # S7-CHAIN — the sha-recorded-at-the-wrong-moment cluster
