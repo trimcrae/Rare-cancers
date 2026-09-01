@@ -131,10 +131,6 @@ RANDOM_SEED = 20260901
 
 #: PostgREST root. Verified as the documented form of an IQ-API query 2026-09-01 via the example
 #: `https://query-api.iedb.org/mhc_search?linear_sequence=eq.SIINFEKL` (IEDB help / IQ-API docs).
-#: ⛔ The COLUMN names below are NOT quoted from documentation this session could reach
-#: (help.iedb.org and discuss.iedb.org are both blocked at the egress proxy). They are CANDIDATES;
-#: `resolve_columns` picks whichever exists in the live OpenAPI schema and records the choice, and a
-#: column it cannot resolve is a hard failure that dumps the real schema rather than a guess.
 IEDB_ROOT = "https://query-api.iedb.org"
 IEDB_TABLES = ["mhc_search", "tcell_search"]
 #: Probed by `diagnose_reachability` so a network failure names its own layer instead of arriving as
@@ -150,11 +146,22 @@ COLUMN_CANDIDATES = {
     "sequence": ["linear_sequence", "epitope_linear_sequence", "linear_peptide_seq"],
     "allele": ["mhc_allele_name", "mhc_allele_names", "allele_name", "mhc_restriction"],
     "outcome": ["qualitative_measure", "assay_qualitative_measure", "qualitative_measures"],
-    "antigen": ["source_antigen_names", "source_antigen_name", "parent_source_antigen_names",
-                "antigen_name", "source_molecule_name", "source_antigen_source_org_names"],
-    "mhc_class": ["mhc_allele_class", "mhc_class", "class"],
-    "host": ["host_organism_names", "host_organism_name", "r_object_source_organism_names"],
+    # ⭐ MEASURED, NOT GUESSED. Run 33554351704's schema probe returned the live 85/86-column lists
+    # for mhc_search and tcell_search; the first draft's plural `source_antigen_names` does not
+    # exist there and `antigen` resolved to nothing, which is why that run's fusion probes could not
+    # be sent. These are read off that probe.
+    "antigen": ["parent_source_antigen_name", "source_antigen_name", "source_antigen_names",
+                "antigen_name"],
+    # A second antigen field, because a curator may name the fusion on either. Both are probed and
+    # both are read into the audit blob; neither is required.
+    "antigen_molecule": ["r_object_source_molecule_name", "curated_source_antigen",
+                         "antigen_description"],
+    "mhc_class": ["mhc_class", "mhc_allele_class"],
+    "host": ["host_organism_name", "host_organism_names"],
 }
+#: Every resolvable antigen-naming column. Probed separately and concatenated when the inclusion
+#: rule is applied, so a fusion named on only one of them is still found.
+ANTIGEN_FIELDS = ["antigen", "antigen_molecule"]
 #: Only `sequence` and `allele` are structurally required — the rest degrade to "not filtered on",
 #: which is recorded rather than silently assumed.
 REQUIRED_COLUMNS = ["sequence", "allele"]
@@ -210,6 +217,15 @@ def _get(url, tries=3, timeout=180):
             })
             with urllib.request.urlopen(req, timeout=timeout) as fh:
                 return json.loads(fh.read().decode("utf-8", "replace"))
+        except urllib.error.HTTPError as exc:
+            # ⛔ THE BODY IS THE DIAGNOSIS. PostgREST answers a bad filter with 400 AND a JSON
+            # message naming the offending clause; run 33554351704 threw 68 of them away and left
+            # "HTTP Error 400" as the whole record. Never discard it again.
+            try:
+                body = exc.read().decode("utf-8", "replace")[:400]
+            except Exception:  # noqa: BLE001
+                body = "<body unreadable>"
+            last = f"HTTPError {exc.code}: {body}"
         except Exception as exc:  # noqa: BLE001
             last = f"{type(exc).__name__}: {exc}"
     raise RuntimeError(f"{url} -> {last}")
@@ -225,6 +241,9 @@ def diagnose_reachability(timeout=25):
     a slow response body (a read timeout raises differently) — but the artifact could not say that,
     and CLAUDE.md §4 wants the observation that discriminates, recorded, not a reading of the error
     string after the fact. This makes the next failure self-diagnosing and bounds its cost.
+    ⭐ The next run (33554351704) reached the same host in 2 s, so that failure was intermittent
+    rather than a standing refusal of GitHub-hosted runners — which is exactly the distinction this
+    function exists to let a future run make without guessing.
     """
     import socket  # noqa: PLC0415
     import time  # noqa: PLC0415
@@ -323,10 +342,10 @@ def fetch_table(table, cols, probes):
     """
     rows, errors, seen = [], [], set()
     select = ",".join(sorted(set(cols.values())))
-    antigen_col = cols.get("antigen")
-    if not antigen_col:
+    antigen_cols = [cols[f] for f in ANTIGEN_FIELDS if cols.get(f)]
+    if not antigen_cols:
         return [], [f"{table}: no resolvable source-antigen column; cannot run the fusion probes"]
-    for probe in probes:
+    for antigen_col, probe in [(c, p) for c in antigen_cols for p in probes]:
         for page in range(MAX_PAGES):
             url = (f"{IEDB_ROOT}/{table}?select={select}"
                    f"&{antigen_col}=ilike.{urllib.parse.quote(probe, safe='*')}"
@@ -334,7 +353,7 @@ def fetch_table(table, cols, probes):
             try:
                 batch = _get(url)
             except Exception as exc:  # noqa: BLE001
-                errors.append(f"{table} probe {probe!r} page {page}: {exc}")
+                errors.append(f"{table} {antigen_col} probe {probe!r} page {page}: {exc}")
                 break
             if not batch:
                 break
@@ -349,34 +368,39 @@ def fetch_table(table, cols, probes):
     return rows, errors
 
 
-def fetch_general(table, cols, alleles):
-    """Arm N's pool: validated epitopes on the paper's own panel alleles, no antigen filter.
+def fetch_general(table, cols, lengths, table_columns):
+    """Arm N's pool: validated epitopes of the screen's peptide lengths, filtered to the panel later.
 
-    Queried per allele so the request stays bounded and so an allele that returns nothing is
-    distinguishable from an allele that was never asked about.
+    ⛔ FILTERED ON LENGTH, NOT ON AN ALLELE STRING. The first draft sent
+    `mhc_allele_name=ilike.*HLA-A*01:01*` per panel allele and PostgREST answered **400 to all 68 of
+    them** (run 33554351704) — an HLA name carries both `*` and `:`, which are a wildcard and a
+    reserved character in a PostgREST filter value. `linear_sequence_length` is an integer column
+    with no such hazard, and restricting the allele afterwards costs nothing because `ALLELE_RE`
+    already keeps only 4-digit HLA-A/B/C names, which are class I by construction.
+    ⚠ It stays a BOUNDED SAMPLE either way — arm N is the comparator §B1 refuses, and paying for a
+    census of it would be deepening a test past its purpose.
     """
     rows, errors = [], []
     select = ",".join(sorted(set(cols.values())))
-    allele_col = cols.get("allele")
-    if not allele_col:
-        return [], [f"{table}: no resolvable allele column"]
-    for allele in alleles:
-        for page in range(MAX_PAGES_GENERAL):
-            url = (f"{IEDB_ROOT}/{table}?select={select}"
-                   f"&{allele_col}=ilike.{urllib.parse.quote('*' + allele + '*', safe='*')}"
-                   f"&limit={PAGE}&offset={page * PAGE}")
-            try:
-                batch = _get(url)
-            except Exception as exc:  # noqa: BLE001
-                errors.append(f"{table} allele {allele} page {page}: {exc}")
-                break
-            if not batch:
-                break
-            for r in batch:
-                r["_iedb_table"] = table
-                rows.append(r)
-            if len(batch) < PAGE:
-                break
+    length_col = "linear_sequence_length"
+    if length_col not in set(table_columns):
+        return [], [f"{table}: no {length_col} column in the live schema; arm N not fetched"]
+    for page in range(MAX_PAGES_GENERAL):
+        url = (f"{IEDB_ROOT}/{table}?select={select}"
+               f"&{length_col}=gte.{min(lengths)}&{length_col}=lte.{max(lengths)}"
+               f"&limit={PAGE}&offset={page * PAGE}")
+        try:
+            batch = _get(url)
+        except Exception as exc:  # noqa: BLE001
+            errors.append(f"{table} general page {page}: {exc}")
+            break
+        if not batch:
+            break
+        for r in batch:
+            r["_iedb_table"] = table
+            rows.append(r)
+        if len(batch) < PAGE:
+            break
     return rows, errors
 
 
@@ -416,7 +440,7 @@ def normalise_rows(rows, cols, lengths):
         if not alleles:
             drop("no 4-digit HLA-A/B/C restriction")
             continue
-        antigen = _text(r.get(cols.get("antigen")))
+        antigen = " | ".join(x for x in (_text(r.get(cols.get(f))) for f in ANTIGEN_FIELDS) if x)
         for allele in sorted(set(alleles)):
             key = (seq, allele)
             rec = kept.setdefault(key, {"peptide": seq, "allele": allele,
@@ -704,6 +728,7 @@ def main(argv=None):
         schema = discover_schema()
         result["_schema_discovery"] = {
             "info": schema["info"], "n_tables": schema["n_tables"],
+            "schema_source": schema.get("schema_source"),
             "columns_of_tables_used": {t: schema["tables"].get(t, []) for t in IEDB_TABLES},
         }
     except Exception as exc:  # noqa: BLE001
@@ -759,7 +784,7 @@ def main(argv=None):
             rows, errs = fetch_table(table, cols, IEDB_ANTIGEN_PROBES)
             raw_f.extend(rows)
             fusion_errors.extend(errs)
-            grows, gerrs = fetch_general(table, cols, panel)
+            grows, gerrs = fetch_general(table, cols, lengths, schema['tables'][table])
             raw_g.extend(grows)
             general_errors.extend(gerrs)
         n_raw_fusion, n_raw_general = len(raw_f), len(raw_g)
@@ -825,8 +850,9 @@ def main(argv=None):
                             "returned by a fusion probe whose name does not match is moved to arm "
                             "N rather than counted as a fusion epitope"),
         "_general_pool_is_not_exhaustive": (
-            f"arm N pages at most {MAX_PAGES_GENERAL * PAGE} rows per allele per IEDB table. It is "
-            f"a comparator, not a population estimate, and §B1 refuses it as a calibration anyway."),
+            f"arm N pages at most {MAX_PAGES_GENERAL * PAGE} rows per IEDB table, filtered on "
+            f"linear_sequence_length rather than on an allele string. It is a comparator, not a "
+            f"population estimate, and §B1 refuses it as a calibration anyway."),
     }
 
     # ── predict ───────────────────────────────────────────────────────────────────────────────
