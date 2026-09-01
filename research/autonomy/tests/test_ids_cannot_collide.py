@@ -144,15 +144,147 @@ def test_the_ranker_refuses_a_ledger_with_a_duplicated_id(tmp_path, monkeypatch,
     assert "AUT-PD-012" in err and "used 2 times" in err
 
 
+# ---------------------------------------------------------------------------------------------
+# ⛔⛔ THE OTHER HALF OF THE PAIR (AUT-PD-171). `next_receipt` carried the discriminator from
+# 2026-08-27; `next_entry_id`, the next allocator in the same file, did not, and it collided FIVE
+# MEASURED TIMES on 2026-08-29 across three sessions — AUT-PD-169, 176, 177/178, 178, 179.
+# ---------------------------------------------------------------------------------------------
+
+def test_two_sessions_reading_the_same_ledger_get_different_entry_ids():
+    """⛔⛔ THE COLLISION, REPRODUCED — the entry-id twin of the receipt test at the top of this file.
+    Both sessions read one committed ledger, neither can see the other, neither yields. Under the
+    old `max+1` derivation both were handed `AUT-PD-204`, and `priority.py` refuses a ledger with a
+    duplicated id, so the loser's whole commit was blocked until it renumbered every reference by
+    hand — measured five times on 2026-08-29, twice for the SAME two rows in one cycle."""
+    entries = [{"id": "AUT-PD-203"}]
+    id_a = I.next_entry_id("AUT-PD", entries, session_id=SESSION_A)
+    id_b = I.next_entry_id("AUT-PD", entries, session_id=SESSION_B)
+    assert id_a != id_b, (
+        "two sessions were handed the same ledger id from identical committed state. Whoever "
+        "pushes second is blocked and must renumber across five files and re-run a ~13.5-minute "
+        "gate — which is the whole of what this defect cost.")
+    assert I.duplicate_ids([{"id": id_a}, {"id": id_b}]) == {}, (
+        "the two rows still collide once both land, so nothing was fixed")
+
+
+def test_both_sessions_still_claim_the_same_entry_ordinal():
+    """⚠ THE ORDINAL IS SHARED ON PURPOSE, exactly as it is for receipts, and this pins that it is a
+    decision rather than an accident. Two cycles reading the same ledger ARE both the 204th filing
+    anybody had committed when they started. What the record needs is for both to survive saying
+    so — not for one to be renamed into a lie about its place."""
+    entries = [{"id": "AUT-PD-203"}]
+    a = I.parse_entry_id(I.next_entry_id("AUT-PD", entries, session_id=SESSION_A))
+    b = I.parse_entry_id(I.next_entry_id("AUT-PD", entries, session_id=SESSION_B))
+    assert a[:2] == b[:2] == ("AUT-PD", 204)
+    assert a[2] != b[2] and a[2] == I.discriminator(SESSION_A)
+
+
+def test_the_ordinal_advances_past_a_discriminated_id():
+    """⛔⛔ THE ONE-OF-A-PAIR DEFECT THIS FIX COULD TRIVIALLY HAVE SHIPPED, and it is worse than the
+    bug it replaces. Widening the MINT without widening the SCAN leaves the allocator's ordinal
+    frozen at the last bare id forever, because a discriminated id no longer matches the pattern it
+    counts — so the very next call, IN THE SAME SESSION, returns the id it just issued. That is not
+    a cross-session race a rebase would catch: it is one session silently naming two different rows
+    the same thing, in one file, with no second pusher to notice."""
+    entries = [{"id": "AUT-PD-203"}]
+    first = I.next_entry_id("AUT-PD", entries, session_id=SESSION_A)
+    entries.append({"id": first})
+    second = I.next_entry_id("AUT-PD", entries, session_id=SESSION_A)
+    assert second != first, (
+        f"the allocator issued {first} twice to one session — it cannot see its own last id")
+    assert I.parse_entry_id(second)[1] == I.parse_entry_id(first)[1] + 1
+
+
+def test_an_entry_id_is_refused_rather_than_minted_without_a_session(monkeypatch):
+    """⛔ NOT A CLOCK, NOT A COUNTER, AND NOT A SILENT BARE ID — the same refusal `discriminator()`
+    already makes for receipts. An allocator that quietly drops the discriminator when it cannot
+    find a session hands back a collidable id while LOOKING like it solved the problem, and the
+    collision then surfaces ~13.5 minutes later as somebody else's blocked push.
+    ⚠ BOTH ENV FAULTS ARE TESTED SEPARATELY because they are different bugs in different places
+    (AUT-PROP-034): unset is a sandbox or a bare `python3 -c`; exported-empty is a harness that set
+    the variable to nothing, and `os.environ.get(X, default)` would hand back that empty string."""
+    entries = [{"id": "AUT-PD-203"}]
+    for bad in ("", "----"):
+        with pytest.raises(ValueError):
+            I.next_entry_id("AUT-PD", entries, session_id=bad)
+    monkeypatch.delenv(I.SESSION_ENV, raising=False)
+    with pytest.raises(ValueError) as unset:
+        I.next_entry_id("AUT-PD", entries)
+    assert "unset" in str(unset.value)
+    monkeypatch.setenv(I.SESSION_ENV, "   ")
+    with pytest.raises(ValueError) as empty:
+        I.next_entry_id("AUT-PD", entries)
+    assert "EXPORTED AND EMPTY" in str(empty.value), (
+        "an exported-empty session id must not be reported as an absent one — the person who has "
+        "to fix it needs to know which fault it is")
+
+
+def test_the_session_is_read_from_the_environment_when_it_is_not_passed(monkeypatch):
+    """⭐ THE DOCUMENTED CALL SITE IS TWO-ARGUMENT AND MUST GAIN THE FIX WITHOUT BEING REWRITTEN.
+    `.claude/skills/research-loop/SKILL.md` §2 step 10 tells every cycle to call
+    `ids.next_entry_id("AUT-PD", entries)`. Requiring a third argument would have left every cycle
+    following the contract EXACTLY minting the old collidable id until the contract was edited —
+    the writer/reader gap this repository has now lost four times (AUT-PD-146)."""
+    monkeypatch.setenv(I.SESSION_ENV, SESSION_B)
+    got = I.next_entry_id("AUT-PD", [{"id": "AUT-PD-203"}])
+    assert got == f"AUT-PD-204-{I.discriminator(SESSION_B)}"
+
+
+def test_the_discriminator_is_the_session_and_not_the_moment():
+    """⛔ A CLOCK WOULD PASS EVERY OTHER TEST IN THIS FILE AND BE WRONG. Two calls by ONE session
+    against ONE state describe one intended row, so they must name it identically; a timestamp or a
+    counter would hand back two different ids for the same row and re-introduce, inside a single
+    session, the ambiguity the discriminator exists to remove."""
+    entries = [{"id": "AUT-PD-203"}]
+    assert (I.next_entry_id("AUT-PD", entries, session_id=SESSION_A)
+            == I.next_entry_id("AUT-PD", entries, session_id=SESSION_A))
+
+
 def test_entry_ids_are_allocated_over_the_whole_ledger_not_by_eye():
-    """⚠ THIS HALF IS HONESTLY STILL max+1 AND THE TEST SAYS SO. Ledger entries merge through git, so
-    a concurrent filing surfaces as a rebase conflict or is caught by the assertion above. The value
-    is that the derivation is written down ONCE instead of re-eyeballed by every session — which is
-    how `AUT-PD-012` was issued twice by two cycles that never overlapped."""
+    """The derivation is written down ONCE instead of being re-eyeballed by every session — which is
+    how `AUT-PD-012` was issued twice by two cycles that never overlapped. ⛔ AND A PREFIX MUST NOT
+    BLEED: `AUT`, `AUT-PD`, `AUT-PROP`, `AUT-BIX`, `AUT-COV`, `AUT-RT` and `AUT-INC` all live on the
+    committed ledger, so an `AUT-PD` row must not advance the `AUT` counter."""
     entries = [{"id": "AUT-PD-001"}, {"id": "AUT-PD-012"}, {"id": "AUT-PROP-009"}, {"id": "AUT-078"}]
-    assert I.next_entry_id("AUT-PD", entries) == "AUT-PD-013"
-    assert I.next_entry_id("AUT-PROP", entries) == "AUT-PROP-010"
-    assert I.next_entry_id("AUT-COV", entries) == "AUT-COV-001", "an unused prefix must start at 1"
+    def ordinal(prefix):
+        return I.parse_entry_id(I.next_entry_id(prefix, entries, session_id=SESSION_A))[1]
+    assert ordinal("AUT-PD") == 13
+    assert ordinal("AUT-PROP") == 10
+    assert ordinal("AUT") == 79, "an AUT-PD row advanced the AUT counter — the prefixes bled"
+    assert ordinal("AUT-COV") == 1, "an unused prefix must start at 1"
+
+
+def test_every_id_on_the_committed_ledger_still_parses():
+    """⚠ THE NEW SHAPE MUST NOT BLIND A READER, which is the failure the receipt half already paid
+    for: `session_reaper` carried its own `^CYC-\\d+\\.json$` and stopped seeing every new receipt.
+    Both shapes are parsed by one regex, and the 344 committed rows are the corpus."""
+    with open(LEDGER, encoding="utf-8") as fh:
+        entries = json.load(fh)["entries"]
+    assert entries, "no ledger entries found; this test would pass vacuously"
+    unparsed = [e["id"] for e in entries if I.parse_entry_id(e.get("id")) is None]
+    assert unparsed == [], f"ids on the committed ledger that no reader can parse: {unparsed}"
+    assert I.parse_entry_id("AUT-PD-169") == ("AUT-PD", 169, None)
+    assert I.parse_entry_id("AUT-PD-169-6b009680") == ("AUT-PD", 169, "6b009680")
+    assert I.parse_entry_id("not-an-id") is None
+
+
+def test_two_concurrent_filings_merge_without_a_renumber(monkeypatch):
+    """⭐ THE HARM, END TO END. On 2026-08-29 both rows existed, both were correct, and the ledger
+    that resulted was UNRANKABLE — `priority.py` refuses a duplicated id — so the second pusher
+    renumbered across five files and re-ran the gate. Here the same two filings land in one ledger
+    and the ranker reads it."""
+    import priority as P
+    real = P.build_ledger()
+    committed = real["entries"]
+    row_a = {"id": I.next_entry_id("AUT-PD", committed, session_id=SESSION_A)}
+    row_b = {"id": I.next_entry_id("AUT-PD", committed, session_id=SESSION_B)}
+    merged = committed + [row_a, row_b]
+    assert I.duplicate_ids(merged) == {}, (
+        "two concurrent filings against the REAL committed ledger still collide")
+    monkeypatch.setattr(P, "build_ledger", lambda: dict(real, entries=merged))
+    assert P.main(["--limit", "1"]) == 0, (
+        "the ranker refused a ledger holding two concurrent filings — exit 3 is the duplicate-id "
+        "refusal, and it is what blocked the loser's whole commit on 2026-08-29")
 
 
 # ---------------------------------------------------------------------------------------------

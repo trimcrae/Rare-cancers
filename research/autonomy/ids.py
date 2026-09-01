@@ -29,6 +29,16 @@ concurrency was outside the derivation BY CONSTRUCTION. Measured 2026-08-27:
   three instances at the commit that created them. It is wired into `priority.py` and into
   `research/autonomy/tests`, which preflight gate 15 and tests.yml both run.
 
+⛔⛔ AND FOR TWO DAYS THE FIX WAS APPLIED TO ONE HALF OF A PAIR (AUT-PD-171, closed 2026-09-01).
+`next_receipt()` carried the discriminator; `next_entry_id()` — the next allocator in this file,
+32 lines below it — stayed `max(committed) + 1` and said so. It collided FIVE MEASURED TIMES on 2026-08-29 across three
+sessions — AUT-PD-169, then 176, then 177/178, then 178 again, then 179 — and the compounding is the
+part that is not obvious: the window is not the derivation instant, it is the WHOLE GATE. A row is
+allocated when it is WRITTEN and validated when it is PUSHED, ~13.5 minutes apart against a trunk
+that moves every 2-5 minutes, so one cycle was renumbered TWICE for one $0 finding, across five
+files and a commit message each time. `next_entry_id()` now takes the same discriminator, from the
+same place, and two sessions can both be the Nth filing without sharing a name.
+
 ⚠ WHAT THIS DELIBERATELY DOES NOT DO: renumber history. Receipts already on the trunk keep their
 bare `CYC-NNNN` ids — a receipt is immutable committed history, `receipt_schema.cycle_number()`
 parses both shapes, and rewriting them to look collision-proof would be a fiction about what the
@@ -38,8 +48,17 @@ record actually was.
 from __future__ import annotations
 
 import os
+import pathlib
 import re
+import sys
 from collections import Counter
+
+# ⚠ sys.path, not a package import: this directory is a flat set of scripts run as `python3
+# research/autonomy/<name>.py`, and `priority.py` and `session_cap.py` already reach their
+# neighbours exactly this way. It makes the import work under `spec_from_file_location` too, which
+# is how `systems/tests` loads modules from here.
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import envread  # noqa: E402
 
 RECEIPT_ID = re.compile(r"^CYC-(\d+)(?:-([0-9a-z]{4,16}))?$")
 
@@ -111,20 +130,95 @@ def write_receipt(receipt_dir: str, session_id: str, payload: dict) -> str:
     return path
 
 
-def next_entry_id(prefix: str, entries: list[dict]) -> str:
-    """The next ledger id under `prefix`, derived over the WHOLE ledger rather than by eye.
+#: The harness variable that names the session this process IS. ⛔ SPELLED ONCE, HERE, and it is
+#: the same variable `session_cap.session_id()` reads: a name agreed in prose between two readers is
+#: not agreed at all (AUT-PD-013).
+SESSION_ENV = "CLAUDE_CODE_SESSION_ID"
 
-    ⚠ THIS ONE IS HONESTLY STILL max+1, AND SAYS SO. Ledger entries merge through git, so a
-    concurrent filing surfaces as a rebase conflict or is caught by `duplicate_ids()` at the commit —
-    which is what the item asks for and what caught nothing before. The value here is that the
-    derivation is written down ONCE instead of being re-eyeballed by every session, which is how
-    `AUT-PD-012` was issued twice by two SEQUENTIAL cycles.
+#: The shape of a ledger entry id, bare (`AUT-PD-169`) or discriminated (`AUT-PD-169-6b009680`).
+#: ⛔ ONE REGEX FOR THE ALLOCATOR AND EVERY READER, because the receipt half of this module has
+#: already paid for the alternative: `session_reaper` carried its own `^CYC-\d+\.json$` and went
+#: blind to every discriminated receipt the moment one existed.
+#: ⚠ A PREFIX MAY ITSELF CONTAIN HYPHENS — `AUT`, `AUT-PD`, `AUT-PROP`, `AUT-BIX` are all live on
+#: the committed ledger — so the prefix is lazy and the ordinal is the first all-digit segment. The
+#: separator stays optional to match the derivation this replaces, which accepted `AUT169` too.
+ENTRY_ID = re.compile(
+    r"^(?P<prefix>[A-Za-z][A-Za-z-]*?)-?(?P<ordinal>\d+)"
+    r"(?:-(?P<discriminator>[0-9a-z]{4,16}))?$")
+
+
+def parse_entry_id(entry_id: str) -> tuple[str, int, str | None] | None:
+    """`(prefix, ordinal, discriminator | None)` for a ledger id, or `None` if it is not one.
+
+    ⭐ THE READER'S HALF OF THE SHAPE CHANGE, AND IT IS NOT DECORATION. `priority.merge()` derives
+    its own `AUT-NNN` ids from `int(id.rsplit("-", 1)[-1])`, which reads a discriminator as the
+    ordinal and throws — caught by a bare `except ValueError: pass`, so the row silently stops
+    contributing to the used-ordinal set. That file is not this seat's to edit; this function is
+    what its one-line fix should call.
     """
-    pat = re.compile(rf"^{re.escape(prefix)}-?(\d+)$")
-    used = [int(m.group(1)) for m in
-            (pat.match(str(e.get("id", ""))) for e in entries or []) if m]
+    m = ENTRY_ID.match(str(entry_id or ""))
+    if not m:
+        return None
+    return m.group("prefix"), int(m.group("ordinal")), m.group("discriminator")
+
+
+def session_discriminator(session_id: str | None = None) -> str:
+    """`discriminator()` for a session given explicitly, or for the session this process IS.
+
+    ⛔ AN ABSENT SESSION IS A LOUD FAILURE, NEVER A BARE ID. `discriminator()` already refuses a
+    clock and a counter for this reason; an allocator that quietly drops the discriminator when it
+    cannot find a session hands back a collidable id while looking like it solved the problem, which
+    is worse than raising, because the collision then surfaces ~13.5 minutes later as somebody
+    else's blocked push.
+    ⚠ AND THE READ IS THREE-VALUED (`envread`, AUT-PROP-034): **unset** — no harness variable, the
+    case a sandbox or a bare `python3 -c` hits — is a different fault from **exported empty**, which
+    is a harness that set it to nothing, and the caller who has to fix it needs to know which.
+    """
+    if session_id is not None:
+        return discriminator(session_id)
+    r = envread.read(SESSION_ENV, default=None,
+                     what="the session that owns the ledger row being allocated")
+    if not r.value:
+        raise ValueError(
+            f"cannot allocate a ledger id: {r.detail} ⛔ Pass `session_id=` explicitly, or export "
+            f"{SESSION_ENV}. This does NOT fall back to a bare `max+1` id: that derivation put "
+            "concurrency outside itself by construction and collided five measured times on "
+            "2026-08-29 (AUT-PD-171).")
+    return discriminator(r.value)
+
+
+def next_entry_id(prefix: str, entries: list[dict], session_id: str | None = None) -> str:
+    """The next ledger id under `prefix`, carrying this session's discriminator so that two
+    concurrent filings cannot be handed one name.
+
+    ⚠ SUPERSEDED, RETAINED (CLAUDE.md rule 1.2). This docstring used to read *"THIS ONE IS HONESTLY
+    STILL max+1, AND SAYS SO. Ledger entries merge through git, so a concurrent filing surfaces as a
+    rebase conflict or is caught by `duplicate_ids()` at the commit — which is what the item asks
+    for."* Both sentences were true and the conclusion was wrong: a rebase conflict and a refused
+    push are how the loser LEARNS, not how the collision is avoided, and the loser is whoever pushes
+    second, which nobody knows until the push. Measured cost, five occurrences on 2026-08-29: one
+    cycle renumbered the same two rows twice, across five files and a commit message each time, and
+    re-ran a ~13.5-minute gate after each — because an id appears in ledger cross-references, module
+    docstrings, refusal messages, test assertions and amendment declarations.
+
+    ⭐ THE ORDINAL IS STILL SHARED, AND THAT IS THE POINT — the same trade `next_receipt()` makes.
+    Two cycles that read the same committed ledger ARE both the 204th filing anybody had committed
+    when they started; what the record needs is for both to survive saying so, not for one to be
+    renamed into a lie about its place. What must never be shared is the NAME.
+
+    ⛔ THE ORDINAL COUNTS DISCRIMINATED IDS TOO, and this is the one-of-a-pair defect this fix could
+    trivially have shipped: widening the mint without widening the scan freezes the ordinal at the
+    last bare id forever, so every later session — INCLUDING THIS ONE, on its second row — reuses
+    it. `test_ids_cannot_collide` pins both halves.
+    """
+    disc = session_discriminator(session_id)
+    used = []
+    for e in entries or []:
+        parsed = parse_entry_id(str(e.get("id", "")))
+        if parsed and parsed[0] == prefix:
+            used.append(parsed[1])
     width = 3
-    return f"{prefix}-{max(used, default=0) + 1:0{width}d}"
+    return f"{prefix}-{max(used, default=0) + 1:0{width}d}-{disc}"
 
 
 def duplicate_ids(entries: list[dict]) -> dict[str, int]:

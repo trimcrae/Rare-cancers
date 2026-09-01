@@ -141,6 +141,41 @@ def body(md: str) -> list[tuple[int, str]]:
 
 _ABBREV = re.compile(r"\b(?:e\.g|i\.e|vs|cf|et al|Fig|Eq|approx|ca|Dr|Prof|No)\.", re.I)
 
+#: ⛔ THE HOUSE CALLOUT GLYPHS, WHICH ARE SENTENCE OPENERS AND WERE NOT TREATED AS ONE. Measured
+#: 2026-08-28 (AUT-PD-142) and again 2026-09-01: this repository opens an emphatic sentence with a
+#: glyph on nearly every page, and the original opener class was `[A-Z(“"]` only, so `… nothing. ⛔ The
+#: banner once claimed …` was measured as ONE sentence. Two real examples, both still in the tree at
+#: the time of the fix, are pinned in
+#: `tests/test_the_readability_splitter_breaks_where_a_sentence_does.py`.
+#:
+#: ⭐ THE DIRECTION OF THE OLD DEFECT WAS THE SAFE ONE AND THE DIRECTION OF THIS FIX IS THE UNSAFE
+#: ONE, WHICH IS WHY THE SET IS ENUMERATED RATHER THAN A CHARACTER-CLASS RULE. Failing to split
+#: OVERSTATES a length: the screen was stricter than it should be, so nothing was ever let through by
+#: it. Splitting where a sentence does not end UNDERSTATES a length, and an understated length is a
+#: sentence that walks past `--check` and past publish_bar clause 7. So a glyph earns a place here
+#: only if it is used in this repository to OPEN a sentence, never as an operator inside one.
+#:
+#: ⛔ DELIBERATELY EXCLUDED, and each exclusion is a measurement rather than a taste:
+#:   * `→ ⇒ − ± ≈ ≥ ≤ √ ∈ ≠` and every other math or arrow operator — they occur mid-formula
+#:     (`⚑ is that verdict`-style prose aside, `≈190 ns/day` follows `i.e.` and `⇒` reads as
+#:     "implies"), so a break before one can end a sentence that has not ended.
+#:   * `—` (em dash), 131 occurrences after terminal punctuation across the corpus — it is this
+#:     repository's most common MID-sentence mark, and the post-period cases are list artefacts.
+#:   * `[` — ambiguous with a trailing citation marker (`… breakpoint. [7]`), which belongs to the
+#:     sentence before it, not the one after.
+#:   * A bare digit or lowercase opener — a sentence in these manuscripts never starts with one, and
+#:     the false-split cost is asymmetric (see above).
+_CALLOUT_OPENERS = "⛔⚠★⭐⭑✅✓✔✗✕✖❌◐○◆⏸⏳⚑⚙⚖⚫⚪🔒📦📏📞🗺⏱✍↯"
+
+#: ⛔ AND TERMINAL PUNCTUATION CAN SIT INSIDE A CLOSER. `… own home.) What holds it …` and
+#: `… EMCs.” So the honest reading …` both end a sentence, and the original lookbehind `(?<=[.!?])`
+#: saw `)` and `”` and refused both. Each branch is fixed-width, which `re` requires of a lookbehind.
+#: `§` joins the opener class for the same reason: `… outside this task's file scope). §3a-quater's
+#: reading …` is two sentences and was reported as one.
+_SENTENCE_SPLIT = re.compile(
+    r"(?:(?<=[.!?])|(?<=[.!?][”’\"')\]]))\s+(?=[A-Z(“\"§" + _CALLOUT_OPENERS + r"])"
+)
+
 
 def paragraphs(lines: list[tuple[int, str]]) -> list[tuple[int, str]]:
     """Join wrapped lines back into paragraphs, keeping each paragraph's first line number.
@@ -182,14 +217,28 @@ def sentences(lines: list[tuple[int, str]]) -> list[tuple[int, str]]:
     out: list[tuple[int, str]] = []
     for ln, text in paragraphs(lines):
         guarded = _ABBREV.sub(lambda m: m.group(0).replace(".", "\x00"), text)
-        for part in re.split(r"(?<=[.!?])\s+(?=[A-Z(“\"])", guarded):
+        for part in _SENTENCE_SPLIT.split(guarded):
             p = part.replace("\x00", ".").strip()
             # ⚠ THREE WORDS, NOT FOUR. The threshold exists to drop fragments (a table label, a
             # stray list stub), not prose. At four it silently discarded real short sentences —
             # "The reagent works." — which both undercounts sentences AND inflates the reported
             # mean, since the mean is exactly what short sentences pull down. A screen that hides
             # good writing from its own average is measuring the wrong thing.
-            if len(p.split()) >= 3 and re.search(r"[a-z]{3}", p):
+            #
+            # ⛔⛔ AND THE `[a-z]{3}` HALF DISCARDS AN ALL-CAPS SENTENCE, WHICH IS A WHOLE PROSE
+            # CLASS IN THIS REPOSITORY. Measured 2026-09-01 while fixing the glyph splitter above,
+            # and the two defects hid each other: while `⚠ THE TIER DOES NOT MOVE, AND NEITHER DOES
+            # THE RANK.` was glued to the lowercase sentence before it, the joined string contained
+            # lowercase and survived; splitting correctly exposed it to this filter and DELETED it.
+            # In `emc-atr-vulnerability-assessment.md` that cost two caution markers ("does not",
+            # "neither") and dropped the document from 17.1 to 16.8 markers per 1000 words — a
+            # readability fix silently spending caution, which is the one outcome §4 of the
+            # `scientific-writing` skill exists to prevent.
+            # ⭐ THE EXEMPTION IS NARROW ON PURPOSE: a leading callout glyph, and nothing else. A
+            # general case-insensitive test also admits reference-list stubs (`PMID 31765367;
+            # PMC6894367.`, `Int J Mol Sci 19:E1855.`) as sentences, which is a different wrong
+            # answer — measured across the same corpus, 44 such fragments.
+            if len(p.split()) >= 3 and (re.search(r"[a-z]{3}", p) or p[0] in _CALLOUT_OPENERS):
                 out.append((ln, p))
     return out
 

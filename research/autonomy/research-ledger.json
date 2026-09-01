@@ -485,6 +485,47 @@
       "what": "✅ DONE 2026-08-27, commit 99e723e5e — AND IT REFUSED THE INSTRUCTION IT WAS GIVEN, CORRECTLY. The dispatch said: reproduce the audit's ablation finding and, if it reproduces, DELETE the exemption. The number reproduced exactly (SAMPLE=6 → applied=6 blind=0) and the agent did not stop there: ablating ALL 76 covered numbered sentences — what PREFLIGHT_FULL does, and what a 6-sentence sample never reaches — gives applied=71 blind=3. The exemption's own recorded sentence IS STILL BLIND under the identical perturbations (56→57, 000→007), as are two others, all three credited solely by the harvested wildcard `HTTP \\d{3}` sitting exactly where the claim is. ⛔ SO DELETING IT WOULD HAVE SHIPPED A RED PUBLICATION GATE. The real defect was SCOPE: three blind sentences removed a 269-sentence manuscript from the gate, leaving 68 falsifiable claims unfalsified. Narrowed from document-keyed to SENTENCE-keyed, each row carrying its measured perturbation and matching exactly one censused sentence, so a row EXPIRES when its sentence is fixed — the old shape never could. Document back in the gate, 6 passed. ⭐ SECOND FINDING: the NAT instruction had ALREADY FIRED — trimcrae read the venue page in a browser 2026-08-23 and captured it, four days before the audit called the note stale; the 403 half reproduces and is retained. Abstract re-measured with the module's own splitter: 220 / 399 against bounds 250 / 400."
     },
     {
+      "id": "AUT-010",
+      "_derived": true,
+      "what": "Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask.",
+      "serves": {
+        "route": "RT-ATR-ASSESS",
+        "publication": "PUB-ATR",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "kind": "write",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-09-01",
+      "score": 190.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": true,
+        "tier_one": true,
+        "endpoint_reachable": true,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-ATR is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": null,
+      "requires_trimcrae_why": "publishes an assessment AND makes an ask of an external group — CLAUDE.md §3, outward-facing. The assessment itself is self-doable and is not this row.",
+      "notified_utc": "2026-09-01T14:40:19Z",
+      "_NOTIFIED_AND_ANSWERED_2026_09_01": "★ SENT AND ANSWERED, and `notified_utc` above records the SEND rather than the intention — PushNotification plus AskUserQuestion, both in the turn that stamped it. CLAUDE.md §3: stamping a row you did not send is a false record.\n★ WHAT HE WAS ASKED, and it was a real fork rather than a null notification: this row is 'publish the ATR assessment and pair it with the cell-panel ask', and `publish_bar --paper PUB-ATR` on f37ef3c02 reads **3/7** — failing `hardening_converged` (the last round reviewed c1bc934fec3c, not this tree), `preflight_full_green`, `independent_adversarial_seat`, and `readable_and_keeps_caution` (7 sentences over 60 words, longest 77w at line 509 of emc-atr-vulnerability-assessment.md). ⛔ EVERY ONE OF THOSE IS THE LOOP'S OWN WORK, so the publish/outreach act was not takeable and asking him to take it would have been the failure §3 names. The genuine fork his ASO scoping raises is whether the work is worth doing NOW — and that is his.\n★ HIS ANSWER, 2026-09-01: **park it until ASO is done.** Recorded as `state: parked`, `parked_on: GOAL-ASO-V2`. ⛔ NOTHING IS DROPPED and no bar was touched: the four failing clauses stay failing, the assessment is unchanged, and the row resumes as an ordinary queued item once GOAL-ASO-V2 closes. ⚠ The 7 over-length sentences are the cheap half and are still owed — they are free, tedious and entirely mine, exactly the kind §3 says not to hand over.\n⚠ AND THE HOOK THAT SURFACED THIS WAS FIXED HOURS EARLIER AND HAD NEVER FIRED BEFORE (AUT-PD-202). This is the first decision it has ever put in front of anyone."
+    },
+    {
       "id": "AUT-PD-035",
       "kind": "process_defect",
       "process_defect": true,
@@ -666,8 +707,9 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
-      "claimed_utc": null,
       "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-IPD-SURVIVAL is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": null,
       "requires_trimcrae_why": "digitization and an admit/refuse judgement against a documented quality floor; nothing leaves the repo"
     },
     {
@@ -797,6 +839,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-LOCOREGIONAL is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "claimed_utc": null,
       "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (locoregional curation landed)"
     },
@@ -834,8 +878,210 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-LOCOREGIONAL is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "claimed_utc": null,
       "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (locoregional curation landed)"
+    },
+    {
+      "id": "AUT-042",
+      "_derived": true,
+      "what": "⛔ Do NOT re-curate the open-access series for lesion burden -- it was looked for and is not printed. What is left is a judgement call: whether an EMC note saying 'local therapy of metastases is already standard for roughly a quarter of these patients, with no comparator anywhere in the literature' is worth writing as the route's honest endpoint. ⚠ Superseded, retained: \"Curate metastatic site and lesion burden from the open-access EMC series and size the metastasectomy-eligible fraction.\" The site half is done; the burden half is impossible from print, so the fraction cannot be sized as asked.",
+      "serves": {
+        "route": "RT-METASTASECTOMY",
+        "publication": "PUB-CARE-DELIVERY",
+        "strategy": "ST-CARE-DELIVERY"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-01",
+      "score": 180.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "clinical_adoption",
+        "patient_path_scaled": 0.9,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CARE-DELIVERY is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "requires_trimcrae_why": "the row's own words: 'What is left is a judgement call: whether an EMC note … is worth writing'. The curation half is explicitly closed ('Do NOT re-curate'), so ONLY the publish decision remains, and that is his.",
+      "notified_utc": "2026-09-01T16:54:38Z",
+      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
+    },
+    {
+      "id": "AUT-057",
+      "_derived": true,
+      "what": "Decide what an ordering-only prognostic statement is worth publishing as. The coefficients are in hand (ART-PROGNOSTIC-COEFFICIENTS) and the missing baseline hazard is not obtainable from any reachable source, so the choice is between reporting the cross-cohort consistency of surgical margin as a short honest note and holding the route until a series prints a reference-group curve with numbers at risk. ⛔ Do NOT re-attempt the reconstruction path for this route's covariates — that question is answered.",
+      "serves": {
+        "route": "RT-RISK-MODEL",
+        "publication": "PUB-CARE-DELIVERY",
+        "strategy": "ST-CARE-DELIVERY"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-01",
+      "score": 180.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "clinical_adoption",
+        "patient_path_scaled": 0.9,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CARE-DELIVERY is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "requires_trimcrae_why": "'Decide what an ordering-only prognostic statement is worth publishing as' — the coefficients are in hand and the missing baseline hazard is unobtainable, so the technical work is done and the residue is a publication judgement.",
+      "notified_utc": "2026-09-01T16:54:38Z",
+      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
+    },
+    {
+      "id": "AUT-058",
+      "_derived": true,
+      "what": "⛔ Do NOT re-run the particle search or re-litigate the contradiction — both are done and recorded in ART-RT-CONTRADICTION. The finding worth something is the negative one: two series that the field reads as conflicting are statistically consistent, and neither is powered. Whether that is worth writing up is a judgement call about what we publish. ⚠ Superseded, retained: \"Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does not need per-patient data.\"",
+      "serves": {
+        "route": "RT-RT-INTENSIFY",
+        "publication": "PUB-LOCOREGIONAL",
+        "strategy": "ST-LOCOREGIONAL"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-01",
+      "score": 180.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "clinical_adoption",
+        "patient_path_scaled": 0.9,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-LOCOREGIONAL is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "requires_trimcrae_why": "the row's own deliverable is 'whether that is worth writing up is a judgement call about what we publish' — a portfolio decision, §2's 'genuine goal-changing decision'. ⚠ THE WRITE-UP HALF IS SELF-DOABLE and is not blocked by this; file it separately if wanted rather than letting the decision hold the prose hostage.",
+      "notified_utc": "2026-09-01T16:54:38Z",
+      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-LOCOREGIONAL).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-LOCOREGIONAL` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
+    },
+    {
+      "id": "AUT-064",
+      "_derived": true,
+      "what": "Decide whether an EMC margin note is worth writing from what is now in hand -- a positive-margin rate with an honest denominator range across two independent cohorts, plus Chiusole's outcome-by-margin contrast. ⛔ Do NOT re-curate these two papers for treatment setting or unplanned excision: both were measured absent, and the absence is a property of the publications, not of the curation.",
+      "serves": {
+        "route": "RT-SURGICAL-QUALITY",
+        "publication": "PUB-CARE-DELIVERY",
+        "strategy": "ST-CARE-DELIVERY"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-01",
+      "score": 180.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "clinical_adoption",
+        "patient_path_scaled": 0.9,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CARE-DELIVERY is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "requires_trimcrae_why": "'Decide whether an EMC margin note is worth writing from what is now in hand' — the rate and its honest denominator range already exist across two cohorts. What remains is whether it becomes a paper.",
+      "notified_utc": "2026-09-01T16:54:38Z",
+      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
+    },
+    {
+      "id": "AUT-065",
+      "_derived": true,
+      "what": "⛔ Do NOT wait on RT-IPD-SURVIVAL for this -- it has produced data and the data is the wrong shape, which is now recorded. The honest options are to write the observation up as a short note (a judgement call about what we publish, not a technical one) or to leave the route open against a series that prints a time-to-recurrence curve WITH numbers at risk. ⚠ Superseded, retained: \"Wait on RT-IPD-SURVIVAL for the recurrence hazard, then build the state-transition model.\"",
+      "serves": {
+        "route": "RT-SURVEILLANCE",
+        "publication": "PUB-CARE-DELIVERY",
+        "strategy": "ST-CARE-DELIVERY"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-01",
+      "score": 180.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "clinical_adoption",
+        "patient_path_scaled": 0.9,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CARE-DELIVERY is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "requires_trimcrae_why": "same shape: 'a judgement call about what we publish, not a technical one'. The observation is recorded; only the publish decision is his.",
+      "notified_utc": "2026-09-01T16:54:38Z",
+      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
     },
     {
       "id": "AUT-PROP-033",
@@ -1384,46 +1630,6 @@
       }
     },
     {
-      "id": "AUT-010",
-      "_derived": true,
-      "what": "Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask.",
-      "serves": {
-        "route": "RT-ATR-ASSESS",
-        "publication": "PUB-ATR",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "kind": "write",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-09-01",
-      "score": 165.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": true,
-        "endpoint_reachable": true,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": true,
-        "fruitless_attempts": 0
-      },
-      "claimed_utc": null,
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "publishes an assessment AND makes an ask of an external group — CLAUDE.md §3, outward-facing. The assessment itself is self-doable and is not this row.",
-      "notified_utc": "2026-09-01T14:40:19Z",
-      "_NOTIFIED_AND_ANSWERED_2026_09_01": "★ SENT AND ANSWERED, and `notified_utc` above records the SEND rather than the intention — PushNotification plus AskUserQuestion, both in the turn that stamped it. CLAUDE.md §3: stamping a row you did not send is a false record.\n★ WHAT HE WAS ASKED, and it was a real fork rather than a null notification: this row is 'publish the ATR assessment and pair it with the cell-panel ask', and `publish_bar --paper PUB-ATR` on f37ef3c02 reads **3/7** — failing `hardening_converged` (the last round reviewed c1bc934fec3c, not this tree), `preflight_full_green`, `independent_adversarial_seat`, and `readable_and_keeps_caution` (7 sentences over 60 words, longest 77w at line 509 of emc-atr-vulnerability-assessment.md). ⛔ EVERY ONE OF THOSE IS THE LOOP'S OWN WORK, so the publish/outreach act was not takeable and asking him to take it would have been the failure §3 names. The genuine fork his ASO scoping raises is whether the work is worth doing NOW — and that is his.\n★ HIS ANSWER, 2026-09-01: **park it until ASO is done.** Recorded as `state: parked`, `parked_on: GOAL-ASO-V2`. ⛔ NOTHING IS DROPPED and no bar was touched: the four failing clauses stay failing, the assessment is unchanged, and the row resumes as an ordinary queued item once GOAL-ASO-V2 closes. ⚠ The 7 over-length sentences are the cheap half and are still owed — they are free, tedious and entirely mine, exactly the kind §3 says not to hand over.\n⚠ AND THE HOOK THAT SURFACED THIS WAS FIXED HOURS EARLIER AND HAD NEVER FIRED BEFORE (AUT-PD-202). This is the first decision it has ever put in front of anyone."
-    },
-    {
       "id": "AUT-PD-054",
       "kind": "process_defect",
       "process_defect": true,
@@ -1526,6 +1732,45 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "an internal session-lifecycle mechanism; nothing published, submitted or deposited"
+    },
+    {
+      "id": "AUT-073",
+      "_derived": true,
+      "what": "Publish the eligibility map — this is the one route in the portfolio whose output could reach a patient without any new science, and its absence finding about the driver gene is a reportable fact about how the registry indexes rare disease.",
+      "serves": {
+        "route": "RT-TRIAL-REACH",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "kind": "experiment",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-01",
+      "score": 160.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 0,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-STRATEGY-ARCH is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "requires_trimcrae_why": "publishes the eligibility map. ⚠ §3 is per paper, per act: he must name THIS one for THIS act.",
+      "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-STRATEGY-ARCH` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were."
     },
     {
       "id": "AUT-PD-026",
@@ -1732,202 +1977,9 @@
         "cost_class": "free",
         "blocked_on_human": false,
         "fruitless_attempts": 0
-      }
-    },
-    {
-      "id": "AUT-042",
-      "_derived": true,
-      "what": "⛔ Do NOT re-curate the open-access series for lesion burden -- it was looked for and is not printed. What is left is a judgement call: whether an EMC note saying 'local therapy of metastases is already standard for roughly a quarter of these patients, with no comparator anywhere in the literature' is worth writing as the route's honest endpoint. ⚠ Superseded, retained: \"Curate metastatic site and lesion burden from the open-access EMC series and size the metastasectomy-eligible fraction.\" The site half is done; the burden half is impossible from print, so the fraction cannot be sized as asked.",
-      "serves": {
-        "route": "RT-METASTASECTOMY",
-        "publication": "PUB-CARE-DELIVERY",
-        "strategy": "ST-CARE-DELIVERY"
       },
-      "kind": "experiment",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-01",
-      "score": 155.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "clinical_adoption",
-        "patient_path_scaled": 0.9,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": true,
-        "fruitless_attempts": 0
-      },
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "the row's own words: 'What is left is a judgement call: whether an EMC note … is worth writing'. The curation half is explicitly closed ('Do NOT re-curate'), so ONLY the publish decision remains, and that is his.",
-      "notified_utc": "2026-09-01T16:54:38Z",
-      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
-    },
-    {
-      "id": "AUT-057",
-      "_derived": true,
-      "what": "Decide what an ordering-only prognostic statement is worth publishing as. The coefficients are in hand (ART-PROGNOSTIC-COEFFICIENTS) and the missing baseline hazard is not obtainable from any reachable source, so the choice is between reporting the cross-cohort consistency of surgical margin as a short honest note and holding the route until a series prints a reference-group curve with numbers at risk. ⛔ Do NOT re-attempt the reconstruction path for this route's covariates — that question is answered.",
-      "serves": {
-        "route": "RT-RISK-MODEL",
-        "publication": "PUB-CARE-DELIVERY",
-        "strategy": "ST-CARE-DELIVERY"
-      },
-      "kind": "experiment",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-01",
-      "score": 155.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "clinical_adoption",
-        "patient_path_scaled": 0.9,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": true,
-        "fruitless_attempts": 0
-      },
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "'Decide what an ordering-only prognostic statement is worth publishing as' — the coefficients are in hand and the missing baseline hazard is unobtainable, so the technical work is done and the residue is a publication judgement.",
-      "notified_utc": "2026-09-01T16:54:38Z",
-      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
-    },
-    {
-      "id": "AUT-058",
-      "_derived": true,
-      "what": "⛔ Do NOT re-run the particle search or re-litigate the contradiction — both are done and recorded in ART-RT-CONTRADICTION. The finding worth something is the negative one: two series that the field reads as conflicting are statistically consistent, and neither is powered. Whether that is worth writing up is a judgement call about what we publish. ⚠ Superseded, retained: \"Search the particle registries by histology, which is $0 and is the only input to the reappraisal that does not need per-patient data.\"",
-      "serves": {
-        "route": "RT-RT-INTENSIFY",
-        "publication": "PUB-LOCOREGIONAL",
-        "strategy": "ST-LOCOREGIONAL"
-      },
-      "kind": "experiment",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-01",
-      "score": 155.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "clinical_adoption",
-        "patient_path_scaled": 0.9,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": true,
-        "fruitless_attempts": 0
-      },
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "the row's own deliverable is 'whether that is worth writing up is a judgement call about what we publish' — a portfolio decision, §2's 'genuine goal-changing decision'. ⚠ THE WRITE-UP HALF IS SELF-DOABLE and is not blocked by this; file it separately if wanted rather than letting the decision hold the prose hostage.",
-      "notified_utc": "2026-09-01T16:54:38Z",
-      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-LOCOREGIONAL).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-LOCOREGIONAL` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
-    },
-    {
-      "id": "AUT-064",
-      "_derived": true,
-      "what": "Decide whether an EMC margin note is worth writing from what is now in hand -- a positive-margin rate with an honest denominator range across two independent cohorts, plus Chiusole's outcome-by-margin contrast. ⛔ Do NOT re-curate these two papers for treatment setting or unplanned excision: both were measured absent, and the absence is a property of the publications, not of the curation.",
-      "serves": {
-        "route": "RT-SURGICAL-QUALITY",
-        "publication": "PUB-CARE-DELIVERY",
-        "strategy": "ST-CARE-DELIVERY"
-      },
-      "kind": "experiment",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-01",
-      "score": 155.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "clinical_adoption",
-        "patient_path_scaled": 0.9,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": true,
-        "fruitless_attempts": 0
-      },
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "'Decide whether an EMC margin note is worth writing from what is now in hand' — the rate and its honest denominator range already exist across two cohorts. What remains is whether it becomes a paper.",
-      "notified_utc": "2026-09-01T16:54:38Z",
-      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
-    },
-    {
-      "id": "AUT-065",
-      "_derived": true,
-      "what": "⛔ Do NOT wait on RT-IPD-SURVIVAL for this -- it has produced data and the data is the wrong shape, which is now recorded. The honest options are to write the observation up as a short note (a judgement call about what we publish, not a technical one) or to leave the route open against a series that prints a time-to-recurrence curve WITH numbers at risk. ⚠ Superseded, retained: \"Wait on RT-IPD-SURVIVAL for the recurrence hazard, then build the state-transition model.\"",
-      "serves": {
-        "route": "RT-SURVEILLANCE",
-        "publication": "PUB-CARE-DELIVERY",
-        "strategy": "ST-CARE-DELIVERY"
-      },
-      "kind": "experiment",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-01",
-      "score": 155.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "clinical_adoption",
-        "patient_path_scaled": 0.9,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": true,
-        "fruitless_attempts": 0
-      },
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "same shape: 'a judgement call about what we publish, not a technical one'. The observation is recorded; only the publish decision is his.",
-      "notified_utc": "2026-09-01T16:54:38Z",
-      "_NOTIFIED_AS_A_GROUP_2026_09_01": "★ SURFACED AS A NAMED GROUP AND ANSWERED, and the provenance is recorded here so the claim is falsifiable rather than asserted. ⛔ `notified_utc` on this row does NOT mean it was sent on its own — it means it was inside a group that was sent, and a reader who cannot tell those apart cannot audit the stamp.\n★ THE QUESTION, VERBATIM AS PUT TO HIM (AskUserQuestion + PushNotification, 2026-09-01): \"Two of the 13 unsent decisions serve papers that read 0/7 — PUB-CARE-DELIVERY (4 rows) and PUB-LOCOREGIONAL (1 row). Every clause is open including endpoint_declared, which means the manuscript doesn't meaningfully exist yet. How should I treat rows like these?\" This row is one of those five (PUB-CARE-DELIVERY).\n★ HIS ANSWER, VERBATIM: \"ASO only today.\"\n★ THE MEASUREMENT BEHIND THE QUESTION: `publish_bar --paper PUB-CARE-DELIVERY` on 850edb3358ba reads 0/7 — every clause open, `endpoint_declared` among them, which is the bar's way of saying the manuscript does not meaningfully exist. So the act this row asks for was not takeable, and the fork actually put to him was what to DO with rows of that shape.\n⚠ AND THE FIRST PASS DECLINED TO STAMP THESE, WHICH WAS OVER-CAUTION RATHER THAN RIGOUR. The reasoning was that they had not been named individually; re-reading the question, five of them were named as a group, with their count and their bar reading, and he answered the group. Refusing to record a real send is its own kind of false record — it leaves the escalation hook chasing a decision that has been made.\n⛔ WHAT IS NOT CLAIMED: that this row is parked in any load-bearing way. It is `_derived`, and `priority.py`'s `merge()` re-derives queued/blocked/parked on every score — see AUT-PD-203. The SEND is the durable record; the park is not."
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-LOCOREGIONAL is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-PD-056",
@@ -2000,7 +2052,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-TXN-DEPENDENCY is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-PD-021",
@@ -2315,6 +2369,8 @@
         "age_factor": 0.2143,
         "age_factor_as_of": "2026-09-01"
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-SURFACE-TARGETS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "claimed_utc": null,
       "dispatch_log": [
         {
@@ -2431,6 +2487,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-KINASE-LEADS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "claimed_utc": null,
       "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (kinase-leads patch landed)"
     },
@@ -2494,6 +2552,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-TXN-DEPENDENCY is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "claimed_utc": null,
       "depends_on_evidence": "research/literature/fet-fusion-chaperone-clientship-2026-08-27.json"
     },
@@ -2531,6 +2591,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-KINASE-LEADS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "claimed_utc": null,
       "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (kinase-leads patch landed)"
     },
@@ -2596,6 +2658,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-KINASE-LEADS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "claimed_utc": null,
       "_lease_released": "⚠ LEASE RELEASED 2026-08-27 IN A SWEEP: the holder finished and its work was landed, but the claim was never released — step 9 of the cycle contract says release it whether you finished, failed or gave up, and the driver did it for none of six seats. ⛔ NOT HOUSEKEEPING: `continuity.py`'s capacity check counts owners as live workers, so six stale leases read as '5 workers AT CAPACITY' when exactly ONE was running — the guard built an hour earlier would have refused to dispatch anything. A lease is only a true signal if it is released. (kinase-leads patch landed)"
     },
@@ -2633,6 +2697,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-KINASE-LEADS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "claimed_utc": null
     },
     {
@@ -2881,15 +2947,15 @@
       "_requires_trimcrae_why": "a coordination tool; nothing published or deposited"
     },
     {
-      "id": "AUT-073",
+      "id": "AUT-044",
       "_derived": true,
-      "what": "Publish the eligibility map — this is the one route in the portfolio whose output could reach a patient without any new science, and its absence finding about the driver gene is a reportable fact about how the registry indexes rare disease.",
+      "what": "Decide the framing and the venue, which is an outward-facing call.",
       "serves": {
-        "route": "RT-TRIAL-REACH",
-        "publication": "PUB-STRATEGY-ARCH",
-        "strategy": "ST-STRATEGY"
+        "route": "RT-MODALITY-CENSUS",
+        "publication": "PUB-MODALITY-CENSUS",
+        "strategy": "ST-DISSEMINATION"
       },
-      "kind": "experiment",
+      "kind": "write",
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
@@ -2904,19 +2970,19 @@
       "score": 135.0,
       "score_inputs": {
         "live": true,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
         "pursue_now": true,
         "tier_one": false,
-        "endpoint_reachable": false,
+        "endpoint_reachable": true,
         "blocker_leverage": 0,
         "cost_class": "free",
-        "blocked_on_human": true,
+        "blocked_on_human": false,
         "fruitless_attempts": 0
       },
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "publishes the eligibility map. ⚠ §3 is per paper, per act: he must name THIS one for THIS act.",
-      "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-STRATEGY-ARCH` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were."
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MODALITY-CENSUS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-MODALITY-CENSUS` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were."
     },
     {
       "kind": "process_defect",
@@ -4910,44 +4976,6 @@
       "closes_clause": null
     },
     {
-      "id": "AUT-044",
-      "_derived": true,
-      "what": "Decide the framing and the venue, which is an outward-facing call.",
-      "serves": {
-        "route": "RT-MODALITY-CENSUS",
-        "publication": "PUB-MODALITY-CENSUS",
-        "strategy": "ST-DISSEMINATION"
-      },
-      "kind": "write",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-01",
-      "score": 110.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": true,
-        "blocker_leverage": 0,
-        "cost_class": "free",
-        "blocked_on_human": true,
-        "fruitless_attempts": 0
-      },
-      "requires_trimcrae": true,
-      "_requires_trimcrae_why": "Its own text is 'Decide the framing and the venue, which is an outward-facing call' — CLAUDE.md §3 reserves exactly that for trimcrae. The flag was unset, so priority.py ranked it 147.0 and the CYC-0075 handoff prompt offered it as the top takeable item. Set by CYC-0075-6d9383a0.",
-      "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-MODALITY-CENSUS` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were."
-    },
-    {
       "serves": {
         "route": "RT-ASO",
         "publication": "PUB-ASO",
@@ -5757,7 +5785,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-STRATEGY-ARCH is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-PD-189",
@@ -6012,7 +6042,9 @@
         "fruitless_attempts": 0,
         "age_factor": 0.9286,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-VACCINE-PATH is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-007",
@@ -6127,6 +6159,48 @@
       "_score_basis": "Closed in the same cycle that filed it; a record rather than a queue item. Filed at the RT-AUTONOMY sibling floor rather than argued upward — the defect reddened the trunk daily and had deadlocked the loop once, but it is fixed, measured and governed here.",
       "score": 70.0,
       "score_inputs": {}
+    },
+    {
+      "id": "AUT-061",
+      "_derived": true,
+      "what": "Unchanged in substance and sharpened in content: report the negative, now with the specific gap it fills — the field states its evidence limitations for adjuvant chemotherapy, immunotherapy and metastasectomy, and states none for the ORDER in which agents are given, while recommending one. ⛔ Whether and where to publish that is a judgement call about what we publish, not a technical one, and it is not settled here.",
+      "serves": {
+        "route": "RT-SEQUENCING",
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": "ST-STRATEGY"
+      },
+      "kind": "experiment",
+      "state": "parked",
+      "parked_on": [
+        "TECH-RECONSTRUCTED-IPD"
+      ],
+      "parked_by_graph_status": "parked",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-28",
+      "score": 67.4,
+      "score_inputs": {
+        "live": false,
+        "patient_path": "no_bench_needed",
+        "patient_path_scaled": 1.0,
+        "pursue_now": false,
+        "tier_one": false,
+        "endpoint_reachable": false,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0,
+        "age_factor": 0.2857,
+        "age_factor_as_of": "2026-09-01"
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-STRATEGY-ARCH is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "requires_trimcrae_why": "same shape: 'whether and where to publish that is a judgement call about what we publish'. The negative itself is already characterised."
     },
     {
       "id": "AUT-008",
@@ -6465,6 +6539,8 @@
         "blocked_on_human": false,
         "fruitless_attempts": 0
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-TCIP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "claimed_utc": null,
       "dispatch_log": [
         {
@@ -6677,7 +6753,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-SURFACE-TARGETS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-014",
@@ -6714,7 +6792,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-SURFACE-TARGETS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-063",
@@ -6754,6 +6834,8 @@
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-SURFACE-TARGETS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "clamp": "blocked_without_evidence_becomes_a_check"
     },
     {
@@ -6794,7 +6876,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-SURFACE-TARGETS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-013",
@@ -6833,6 +6917,8 @@
         "fruitless_attempts": 0,
         "blocked_with_evidence": true
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-REPURPOSING is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "clamp": "blocked_without_evidence_becomes_a_check",
       "claimed_utc": null,
       "dispatch_log": [
@@ -6879,6 +6965,8 @@
         "fruitless_attempts": 0,
         "blocked_with_evidence": true
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-REPURPOSING is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "clamp": "blocked_without_evidence_becomes_a_check",
       "claimed_utc": "2026-08-28T18:41:33Z",
       "dispatch_log": [
@@ -7116,7 +7204,9 @@
         "fruitless_attempts": 0,
         "age_factor": 0.2857,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-NEOANTIGEN is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-022",
@@ -7329,6 +7419,8 @@
         "age_factor": 0.2857,
         "age_factor_as_of": "2026-09-01"
       },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-REPURPOSING is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
       "clamp": "blocked_without_evidence_becomes_a_check"
     },
     {
@@ -7364,47 +7456,6 @@
       "what": "⛔ THE '176 SARCOMA LINES' CORRECTION SWEEP IS NOW COMPLETE IN THE TRUNK BUT ITS OWN 'STILL LIVE ELSEWHERE' LIST IS STALE, AND A STALE LIST OF KNOWN ERRORS READS AS OPEN WORK. research/manuscripts/dependency/emc-kinase-leads-source-verification.md §4 names census_route_expression_grading.py, its generated artifact and emc-transcriptional-proteostatic-dependency.md as still carrying the superseded denominator; all three now read '91 screened sarcoma lines (of 176 sarcoma models)'. ⭐ AND THE LAST TWO LIVE COPIES WERE FIXED 2026-08-29 (AUT-PD-110) — systems/graph/routes.json's RT-TXN-CDK supporting-evidence row ('dependencies in 100% of 176 sarcoma lines') and research/modalities/emc_proteostasis_read.py's docstring ('94.5% and 96.7% of 176 sarcoma lines'), neither of which that list named. ⚠ THE ITEM IS THE LIST, NOT THE NUMBER: update §4 to say the sweep closed and on what date, and record the two files the list missed so the next census of this error starts from what is true. ⚠ It touches a manuscript-adjacent memo, so it needs PREFLIGHT_TESTS=1.",
       "_renamed_from": "AUT-PD-179",
       "_renamed_why": "re-allocated at merge: every id this row has been filed under was taken by a concurrent session in the interval (first AUT-PD-177/178 in 35fb816f5, then AUT-PD-179 at the first merge). Ids are counted against the MERGED ledger after each rebase, which is what caught the collision each time."
-    },
-    {
-      "id": "AUT-061",
-      "_derived": true,
-      "what": "Unchanged in substance and sharpened in content: report the negative, now with the specific gap it fills — the field states its evidence limitations for adjuvant chemotherapy, immunotherapy and metastasectomy, and states none for the ORDER in which agents are given, while recommending one. ⛔ Whether and where to publish that is a judgement call about what we publish, not a technical one, and it is not settled here.",
-      "serves": {
-        "route": "RT-SEQUENCING",
-        "publication": "PUB-STRATEGY-ARCH",
-        "strategy": "ST-STRATEGY"
-      },
-      "kind": "experiment",
-      "state": "parked",
-      "parked_on": [
-        "TECH-RECONSTRUCTED-IPD"
-      ],
-      "parked_by_graph_status": "parked",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "score": 42.4,
-      "score_inputs": {
-        "live": false,
-        "patient_path": "no_bench_needed",
-        "patient_path_scaled": 1.0,
-        "pursue_now": false,
-        "tier_one": false,
-        "endpoint_reachable": false,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": true,
-        "fruitless_attempts": 0,
-        "age_factor": 0.2857,
-        "age_factor_as_of": "2026-09-01"
-      },
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "same shape: 'whether and where to publish that is a judgement call about what we publish'. The negative itself is already characterised."
     },
     {
       "id": "AUT-PD-005",
@@ -7474,7 +7525,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CLOSED-ROUTES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-002",
@@ -7514,7 +7567,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-PARKED-MODALITIES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-004",
@@ -7556,7 +7611,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-ANDGATE is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-006",
@@ -7595,7 +7652,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-018",
@@ -7632,7 +7691,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CLOSED-ROUTES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-023",
@@ -7669,7 +7730,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CLOSED-ROUTES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-024",
@@ -7708,7 +7771,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-026",
@@ -7745,7 +7810,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CLOSED-ROUTES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-028",
@@ -7788,7 +7855,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-PARKED-MODALITIES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-031",
@@ -7827,7 +7896,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MATRIX-ADDRESS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-033",
@@ -7864,7 +7935,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MATRIX-ADDRESS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-038",
@@ -7901,7 +7974,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MATRIX-ADDRESS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-040",
@@ -7940,7 +8015,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-047",
@@ -7977,7 +8054,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-NR-OUTSIDE-NR4A3 is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-050",
@@ -8016,7 +8095,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-BIOMARKER-DEP is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-056",
@@ -8058,7 +8139,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-PARKED-MODALITIES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-066",
@@ -8139,7 +8222,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CLOSED-ROUTES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-069",
@@ -8179,7 +8264,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-NEOANTIGEN is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-075",
@@ -8366,7 +8453,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CLOSED-ROUTES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-030",
@@ -8405,7 +8494,9 @@
         "fruitless_attempts": 0,
         "age_factor": 0.2857,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-NR-OUTSIDE-NR4A3 is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-039",
@@ -8444,7 +8535,9 @@
         "fruitless_attempts": 0,
         "age_factor": 0.2857,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MATRIX-ADDRESS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-076",
@@ -8484,7 +8577,9 @@
         "fruitless_attempts": 0,
         "age_factor": 0.2857,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-HLA-COVERAGE is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-BIX-003",
@@ -8640,7 +8735,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-PARKED-MODALITIES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-055",
@@ -8680,7 +8777,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-PARKED-MODALITIES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-005",
@@ -8758,7 +8857,9 @@
         "fruitless_attempts": 0,
         "age_factor": 1.0,
         "age_factor_as_of": "2026-09-01"
-      }
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-CLOSED-ROUTES is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it."
     },
     {
       "id": "AUT-027",
