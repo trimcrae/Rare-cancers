@@ -162,14 +162,21 @@ def _goal_publications():
     """
     path = os.environ.get("GOALS_PATH", "")
     if not path or not os.path.exists(path):
+        # ⛔ STDERR, NOT STDOUT. `OUT=$(...)` captures stdout and `[ -z "$OUT" ] && exit 0` treats
+        # any of it as a finding, so a diagnostic printed here BECOMES an escalation. Measured
+        # 2026-09-01: this line alone made the hook refuse two of its own tests, whose temp repos
+        # have no goals.json — a notice about a degraded reading manufacturing the very refusal it
+        # was describing. Same class as `paper-hardening` §8b.1a, where a batched checker's own
+        # state became a finding about the paper.
         print("[escalation] goals.json was not readable, so NOTHING is scoped and the whole ledger "
-              "is enforced. That is the safe direction and a degraded reading, not a clean one.")
+              "is enforced. That is the safe direction and a degraded reading, not a clean one.",
+              file=sys.stderr)
         return None
     try:
         doc = json.load(open(path, encoding="utf-8"))
     except Exception as exc:
         print(f"[escalation] goals.json did not parse ({type(exc).__name__}); the whole ledger is "
-              "enforced. Degraded, not clean.")
+              "enforced. Degraded, not clean.", file=sys.stderr)
         return None
     pubs = {(g.get("done_condition") or {}).get("paper")
             for g in (doc.get("goals") or []) if g.get("state") == "open"}
@@ -255,7 +262,8 @@ if stale:
     sys.exit(0)
 if out_of_scope:
     print(f"[escalation] {out_of_scope} unsent decision(s) sit OUTSIDE the active goal "
-          f"({', '.join(sorted(GOAL_PUBS))}) and are reported, not enforced. They are still owed.")
+          f"({', '.join(sorted(GOAL_PUBS))}) and are reported, not enforced. They are still owed.",
+          file=sys.stderr)
 if not never:
     sys.exit(0)
 

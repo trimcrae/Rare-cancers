@@ -207,6 +207,15 @@ def test_a_declared_drift_states_the_size_it_actually_has():
     # cover — a revision that genuinely cannot be produced even after a targeted fetch — and it now
     # says which of those two things happened.
     if not _commit_is_present(rev):
+        # ⚠ SKIP IS DELIBERATE, and it is narrow. Reaching here means the recorded revision cannot
+        # be produced even after a targeted fetch — either this checkout is offline, or the sha is
+        # genuinely not on the remote. The SECOND case is a real defect and it is already owned by
+        # `test_the_published_record_is_corroborated_by_git_rather_than_declared`, which FAILS on
+        # it in this same file. Failing here too would report one cause twice and send whoever
+        # reads the build to the drift figure instead of to the missing commit.
+        # ⛔ What this must never become is the old behaviour: that skip fired whenever the object
+        # was merely ABSENT, which in CI's depth-1 clone was always, so the drift-size guard never
+        # ran and a skip read like a decision somebody took. The fetch is what narrowed it.
         pytest.skip(f"the published revision {str(rev)[:12]} cannot be produced by this checkout "
                     "even after a targeted fetch; "
                     "test_the_published_record_is_corroborated_by_git_rather_than_declared owns that")

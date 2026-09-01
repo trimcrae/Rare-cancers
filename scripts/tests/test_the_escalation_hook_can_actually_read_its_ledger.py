@@ -76,6 +76,32 @@ def test_a_ledger_it_cannot_read_says_so_instead_of_passing_quietly(tmp_path):
         f"state that hid this defect for days. stderr={r.stderr[:300]!r}")
 
 
+def test_a_diagnostic_is_not_a_finding(tmp_path):
+    """⛔⛔ STDOUT IS THE FINDING CHANNEL, SO ANYTHING PRINTED THERE BECOMES AN ESCALATION.
+
+    ⚠ MEASURED 2026-09-01, by this file going red on its own hook. The goal-scoping added that day
+    printed "[escalation] goals.json was not readable ... degraded, not clean" on STDOUT when no
+    goals file exists — true, useful, and fatal: the wrapper is `OUT=$(...)` followed by
+    `[ -z "$OUT" ] && exit 0`, so a non-empty stdout IS the signal that something must be escalated.
+    A notice describing a degraded reading therefore MANUFACTURED the refusal it was describing, and
+    it did so in the temp repos these tests run in, which have no goals.json.
+
+    ★ THE GENERAL FORM, worth more than the instance and the same shape as `paper-hardening`
+    §8b.1a: when a checker's OUTPUT is its verdict, every diagnostic it writes to that channel is
+    indistinguishable from a finding. Diagnostics leave by stderr; only findings leave by stdout.
+    """
+    root = _ledger(tmp_path, [
+        {"id": "AUT-X", "requires_trimcrae": True, "state": "done", "score": 1.0, "what": "closed"},
+    ])
+    r = _run(root)
+    assert r.returncode == 0, (
+        "the hook refused a stop with nothing to escalate, so something it PRINTED was counted as a "
+        f"finding. stdout={r.stdout[:200]!r}")
+    assert "goals.json" in r.stderr, (
+        "the degraded-scoping notice vanished entirely; it must still be SAID, just not on the "
+        "channel that means 'escalate this'")
+
+
 def test_a_notified_row_does_not_refuse(tmp_path):
     """⚠ THE CONTROL. A hook that refuses everything passes the first test; this says it still opens
     — and `notified_utc` is what opens it, which is the whole point of requiring the stamp."""
