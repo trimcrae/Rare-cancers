@@ -55,6 +55,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 import io
 import urllib.error
 import urllib.request
@@ -152,19 +153,64 @@ def description(paper, manifest, manifest_rel, manifest_digest):
         f"asserts efficacy, safety, delivery or clinical readiness.</p>")
 
 
-def api(base, token, method, path, payload=None, raw=None, ctype="application/json"):
+#: ⛔ RETRY SAFE READS ONLY, AND NEVER A MUTATION (AUT-PD-199, 2026-09-01).
+#: GET and HEAD have no side effect, so repeating one after a gateway error costs nothing and is
+#: correct. POST/PUT/DELETE against this API are NOT idempotent — `actions/newversion` creates a
+#: draft, a file PUT uploads bytes, `actions/publish` is irreversible — so a blind retry can leave
+#: the record in a state nobody asked for. ⚠ THAT IS NOT HYPOTHETICAL: on 2026-09-01 a 504 landed
+#: on the GET *after* a successful `newversion` POST, orphaning draft 22229096 with the files it
+#: inherits still attached. Retrying the POST is what would have made a SECOND orphan.
+_RETRY_METHODS = frozenset({"GET", "HEAD"})
+#: 5xx is the server saying "not now"; 4xx is the server saying "not like that", and repeating a
+#: malformed or unauthorised request is noise. 429 is included because it is explicitly a
+#: "come back later".
+_RETRY_STATUS = frozenset({429, 500, 502, 503, 504})
+_RETRY_ATTEMPTS = 4
+_RETRY_BACKOFF = (2, 6, 15)
+
+
+def api(base, token, method, path, payload=None, raw=None, ctype="application/json",
+        _sleep=time.sleep):
+    """One Zenodo API call, with a bounded retry on transient failures of SAFE methods.
+
+    ⛔⛔ THIS FUNCTION HAD NO RETRY AT ALL, AND THAT — NOT A ZENODO OUTAGE — IS WHAT BLOCKED THE ASO
+    ARCHIVE ON 2026-09-01. Any `HTTPError` raised `SystemExit` immediately, so a single transient
+    504 from Zenodo's gateway was fatal to a whole run. Three runs died that way and the cycle
+    reported "Zenodo's deposit API is down"; a `record=verify` dispatch minutes later read the
+    published record in THREE SECONDS. The service was healthy the entire time. ★ The tell was
+    available and unread: two of the three failures were 504s on GETs — reads, which are exactly
+    the calls a retry fixes — and the third was a 400 that was Zenodo correctly refusing to open a
+    second version while one was open, i.e. not a failure at all.
+    ⚠ CLAUDE.md §4: a remembered or inferred fact about an outside system is a dated observation.
+    "The API is down" was inferred from three responses on one endpoint and was wrong.
+    """
     url = path if path.startswith("http") else f"{base}{path}"
     sep = "&" if "?" in url else "?"
     body = raw if raw is not None else (json.dumps(payload).encode() if payload is not None else None)
-    req = urllib.request.Request(f"{url}{sep}access_token={token}", data=body, method=method)
-    if body is not None:
-        req.add_header("Content-Type", ctype)
-    try:
-        with urllib.request.urlopen(req, timeout=600) as resp:
-            text = resp.read().decode()
-            return json.loads(text) if text else {}
-    except urllib.error.HTTPError as exc:
-        raise SystemExit(f"Zenodo {method} {path} -> {exc.code}: {exc.read().decode()[:800]}")
+    last = None
+    for attempt in range(_RETRY_ATTEMPTS):
+        req = urllib.request.Request(f"{url}{sep}access_token={token}", data=body, method=method)
+        if body is not None:
+            req.add_header("Content-Type", ctype)
+        try:
+            with urllib.request.urlopen(req, timeout=600) as resp:
+                text = resp.read().decode()
+                return json.loads(text) if text else {}
+        except urllib.error.HTTPError as exc:
+            detail = exc.read().decode()[:800]
+            retryable = method.upper() in _RETRY_METHODS and exc.code in _RETRY_STATUS
+            if not retryable or attempt == _RETRY_ATTEMPTS - 1:
+                # ⭐ SAY WHETHER IT WAS RETRIED, so the next reader does not have to infer it from
+                # the wall clock. A one-shot failure and an exhausted retry are different findings.
+                tried = (f" after {attempt + 1} attempt(s)" if retryable else
+                         " (not retried: "
+                         + ("unsafe method" if method.upper() not in _RETRY_METHODS
+                            else f"{exc.code} is not transient") + ")")
+                raise SystemExit(f"Zenodo {method} {path} -> {exc.code}{tried}: {detail}")
+            last = exc.code
+            print(f"  Zenodo {method} {path} -> {last}; retrying in "
+                  f"{_RETRY_BACKOFF[attempt]}s ({attempt + 1}/{_RETRY_ATTEMPTS - 1})")
+            _sleep(_RETRY_BACKOFF[attempt])
 
 
 def refuse_unless_publishable(paper_key, manifest, approved_by):

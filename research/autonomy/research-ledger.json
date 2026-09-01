@@ -14,18 +14,18 @@
     "harden": 26,
     "negative": 32,
     "process": 7,
-    "process_defect": 169,
+    "process_defect": 171,
     "proposal": 17,
     "regrade": 8,
     "verify": 2,
     "write": 6
   },
   "n_by_state": {
-    "blocked": 3,
-    "done": 143,
+    "blocked": 2,
+    "done": 145,
     "in_progress": 6,
     "parked": 28,
-    "queued": 157,
+    "queued": 158,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -4625,6 +4625,32 @@
       }
     },
     {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 3,
+      "last_evidence_utc": "2026-09-01",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PD-197",
+      "kind": "fix",
+      "requires_trimcrae": false,
+      "what": "⛔⛔ AN ORPHANED ZENODO DRAFT (22229096) EXISTS AND THE REPOSITORY CANNOT REACH IT, PLUS THE DOI'S REAL HOME IS NOT WHERE THIS CYCLE ASSUMED. Measured 2026-09-01 by CYC-0090-d7df5340, which caused the orphan.\n★ HOW THE ORPHAN WAS MADE. Run 33498033370 dispatched `new_version=true` to reserve version four. Its `POST .../actions/newversion` SUCCEEDED — `zenodo_deposit.py` raises a distinct SystemExit when that call returns no `latest_draft` link, and it did not — and the immediately following GET on the returned draft returned 504. The script died there, so the loop that deletes the files the new draft INHERITS from 22182180 never ran, and nothing was written to any record.\n★ CONFIRMED, NOT INFERRED: the retry (33498227279) asked for another new version and Zenodo refused `400 files.enabled: \"Please remove all files first.\"` — how Zenodo declines to open a second version while a draft is open. That refusal is also why no FIFTH draft exists.\n⛔⛔ AND THE CORRECTION THAT MATTERS MOST, BECAUSE THIS CYCLE GOT IT WRONG AND BUILT ON IT: `zenodo_deposit.py` resolves which deposition to act on from `declared = manifest.get(\"deposition_doi\")` (line ~321) — the ARCHIVE MANIFEST — and NOT from deposit-state.json. `deposition_doi` is a HARDCODED LITERAL in `research/manuscripts/aso_archive_manifest.py` at line 1463, bound to the manuscript by `test_aso_deposition_doi_is_one_fact.py`. So THAT line is the repoint site, and editing deposit-state.json's `pending` cannot redirect the script at all.\n⚠ THIS CYCLE BUILT A WHOLE PROBE BRANCH ON THE WRONG PREMISE. `cyc0090-zenodo-probe` carried a provisional `pending` block so a `ref=<branch>` dispatch could reach the orphan; it could never have worked, and the run proves it — the log shows the script going to 22182180, the manifest's DOI, exactly as the code says it would. The branch was deleted locally; the REMOTE ref could not be deleted (`git push --delete` and the refspec form both return `fatal: the remote end hung up unexpectedly`, and the GitHub tools available here expose no delete-branch call). ⛔ IT MUST NEVER BE MERGED: its content is an unverified DOI that would red the trunk.\n★ WHAT A RESUMING SESSION SHOULD DO, IN ORDER. (1) Check the Zenodo deposit API is healthy — a `record=verify` dispatch reads the PUBLISHED record with no token and is the cheapest probe. (2) Dispatch `new_version=true` again; Zenodo will either hand back the OPEN draft 22229096 or refuse with the same 400, and either answer is informative. (3) Read the reserved DOI out of the run log — do NOT infer it from the deposition number, even though all three prior versions matched that way (CLAUDE.md §7). (4) Edit `deposition_doi` in aso_archive_manifest.py:1463 to the READ value, repoint the manuscript's Data availability, rebuild the chain, re-derive the manifest, commit — that commit is the PIN. (5) Round 29 + PREFLIGHT_FULL on the pin. (6) Only then refresh the draft, publish, read back. Checklist §3-vi carries the same order and the reason it may not be shortened.\n⚠ WHAT IS NOT WRONG: 10.5281/zenodo.22182180 is published, resolves, and is a complete self-consistent archive of the paper as it stood at 866594627ab0. The drift is 13 deposited paths, declared in checklist §3-vi. Nothing published is incorrect.",
+      "_score_basis": "EXPLICIT, and typed because RT-ASO's floor would not express this. Anchored to the scored open process_defect distribution (42.7 / 129.8 / 131.8 / 134.9) and placed at 115.0: it BLOCKS the named goal — PUB-ASO cannot reach 7/7 until the archive is re-versioned — which puts it above AUT-PD-196's 110.0. ⛔ Deliberately below the three high siblings: this cycle both caused the orphan and filed the row, and a cycle scoring its own mess to the top of the queue is the direction the anti-gaming invariant exists to catch.",
+      "score": 115.0,
+      "score_inputs": {},
+      "_CORRECTION_2026_09_01": "⛔⛔ THIS ROW'S STATED CAUSE WAS WRONG AND trimcrae CAUGHT IT: 'It's never been blocked on Zenodo API before. What's this about? Is there an outage?' There was no outage. It was filed `blocked` on 'zenodo.org deposit API returning 504', inferred from three responses on ONE endpoint.\n★ THE READING THAT SETTLED IT, taken instead of asserting again: a `record=verify` dispatch (Actions run 33508963185, job 99859727369) read the published record from zenodo.org in THREE SECONDS — 'PUBLISHED. The DOI both papers cite resolves to this record.' The service was healthy the whole time.\n★ THE REAL CAUSE IS OURS AND IS NOW FIXED: `zenodo_deposit.api` had NO RETRY, so a single transient 5xx raised SystemExit and killed the run. AUT-PD-199. Two of the three failures were 504s on GETs — reads, exactly what a retry recovers — and the third was a 400 that was Zenodo correctly refusing to open a second version while one was open, i.e. not a failure at all.\n⚠ WHAT REMAINS TRUE AND KEEPS THIS ROW OPEN: draft 22229096 is still orphaned with its inherited files attached, its reserved DOI is still unread, and the repoint site is still the literal at aso_archive_manifest.py:1463. Only the CAUSE and the `blocked` state were wrong. The row is queued, not blocked: nothing outside this repository is stopping it."
+    },
+    {
       "id": "AUT-PD-164",
       "kind": "process_defect",
       "process_defect": true,
@@ -5949,6 +5975,57 @@
         "checked": "git merge-base --is-ancestor <sha> origin/main -> false, 2026-08-28T23:35Z",
         "⛔": "DO NOT REDO THIS ROW FROM SCRATCH BEFORE READING THE BRANCH. The seat finished and pushed; only the merge is missing. CLAUDE.md §7 calls branch drift a data-loss bug, and an unrecorded branch is that bug with the pointer missing."
       }
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-09-01",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PD-199",
+      "kind": "process_defect",
+      "requires_trimcrae": false,
+      "what": "⛔⛔ `zenodo_deposit.api` HAD NO RETRY, SO ONE TRANSIENT 504 KILLED A WHOLE DEPOSIT RUN — AND THE CYCLE DIAGNOSED IT AS A ZENODO OUTAGE. Measured 2026-09-01 by CYC-0090-d7df5340, which made both errors.\n★ THE CODE: `except urllib.error.HTTPError as exc: raise SystemExit(...)`. No retry, no backoff, and no distinction between 4xx (our request is wrong — repeating it is noise) and 5xx (their gateway blinked — repeating a READ is correct). The timeout was already a generous 600 s, so this was never slowness.\n⛔ THE WRONG DIAGNOSIS IS THE MORE INSTRUCTIVE HALF. Three runs died and the cycle wrote 'Zenodo's deposit API is down' into a ledger row, a checklist section and a commit message. trimcrae asked whether there was actually an outage; a `record=verify` dispatch then read the published record in THREE SECONDS (run 33508963185). Three responses on one endpoint were generalised into a claim about a service's health, which is the 'probably X' CLAUDE.md §4 forbids — and the discriminating observation cost one dispatch.\n★ THE FIX, AND ITS SCOPE IS THE POINT: retry is bounded (4 attempts, 2/6/15 s backoff) and applies ONLY to GET and HEAD, and only on 429/500/502/503/504. ⛔ Mutations are never retried. `actions/newversion` creates a draft, a file PUT uploads bytes and `actions/publish` is irreversible; a blind retry of a POST is how a SECOND orphaned draft gets made, and this cycle had already made the first — the 504 landed on the GET *after* a successful newversion POST.\n★ GUARDED AND MUTATION-TESTED, not asserted: `scripts/tests/test_zenodo_api_retries_reads_and_never_mutations.py`, 15 tests covering both halves — reads recover, writes never repeat, 4xx is not retried, an exhausted retry does not read like a one-shot failure, and the backoff table covers the attempt bound. 4/4 mutations caught on a hardlink clone: retry-every-method, retry-4xx, retry-nothing (the original defect) and a short backoff table.",
+      "_score_basis": "Closed in the same cycle that filed it, so this is a record rather than a queue item. Filed at the sibling floor rather than argued upward: the defect is real and cost three runs plus one wrong diagnosis, but it is fixed, guarded and mutation-tested here.",
+      "score": 70.0,
+      "score_inputs": {},
+      "_id_note": "⚠ ALLOCATED AS AUT-PD-198 AND RENUMBERED TO 199 IN THE SAME CYCLE, BEFORE EITHER WAS COMMITTED. `zenodo_deposit.py` and its test file already cite AUT-PD-199, and priority.py / admissibility.py — already on the trunk — cite AUT-PD-198 for a DIFFERENT defect. The allocator offered 198 because no row had ever claimed it: the midnight fix was committed citing an id nobody filed. Both rows now exist and both references resolve."
+    },
+    {
+      "serves": {
+        "route": "RT-AUTONOMY",
+        "publication": null,
+        "strategy": null
+      },
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-09-01",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PD-198",
+      "kind": "process_defect",
+      "requires_trimcrae": false,
+      "what": "⛔⛔ THE TRUNK WENT RED AT UTC MIDNIGHT EVERY DAY, BY CONSTRUCTION, AND THE ANTI-GAMING GUARD COULD NOT SEE THE FILES THAT DID IT. Measured 2026-09-01 by CYC-0090-d7df5340. Fixed in commit b2afbdaf2; this row is the record the code comments in `priority.py` and `admissibility.py` point at.\n★ THE MECHANISM: `priority.age_factor` is a function of `date.today()`, and R4 (`refused_stale_input`) recomputed a row's echoed `age_factor` against TODAY. At midnight every scored open row's recorded input stopped matching, and the gate refused all of them — 141 rows, ten tests, on a tree nobody had touched. It also reddened a PREFLIGHT_FULL run that had already passed 8178 modalities and 1590 manuscripts tests, purely by running long enough to cross midnight.\n⚠ AND IT HAD DEADLOCKED THE LOOP BEFORE: priority.py's own comment records `check_write` then refusing EVERY ledger write, so a cycle could neither re-score nor claim and each failure blocked the other's fix.\n★ THE FIX: `apply_age_factor` stamps `score_inputs.age_factor_as_of` beside the value; R4 recomputes against that basis when present, falling back to today when absent so nothing is grandfathered into silence. The question becomes 'is this the value its own basis date produces?' rather than 'is this the value today?'.\n⛔ IT NARROWS WHAT A GATE FIRES ON, MADE BY THE CYCLE THAT GATE HAD BLOCKED, SO IT WAS MEASURED: clock +1 day and +30 days, 0 of 217 rows refused where all would have; forging a row's `age_factor` still refuses; forging the new `age_factor_as_of` ALSO refuses, because value and basis must be mutually consistent. R4's purpose is intact — what stopped firing is the passage of time, which was never evidence of a fabricated score.\n★ SECOND FINDING, FOUND BY WALKING THROUGH THE HOLE: `amendment_guard` returned 'PERMITTED — 0 governed path(s) touched' on that diff. GOVERNED listed `priority-weights.json` but not `priority.py`, and not `admissibility.py` at all — the numbers were protected while the arithmetic consuming them, and the gate deciding whether a score is legitimate, were free. Both are now GOVERNED (two added, none removed), and all three edits are declared in amendments.jsonl.",
+      "_score_basis": "Closed in the same cycle that filed it; a record rather than a queue item. Filed at the RT-AUTONOMY sibling floor rather than argued upward — the defect reddened the trunk daily and had deadlocked the loop once, but it is fixed, measured and governed here.",
+      "score": 70.0,
+      "score_inputs": {}
     },
     {
       "id": "AUT-008",
@@ -8375,33 +8452,6 @@
       },
       "score": 26.4,
       "_score_inherited_from_route": "RT-FUSION-OUTPUT"
-    },
-    {
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "blocked",
-      "owner": null,
-      "claimed_utc": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": "zenodo.org deposit API returning 504 on plain GETs, 2026-09-01",
-      "blocked_evidence": "Three consecutive Actions runs against zenodo.org/api. 33498033370: `GET /deposit/depositions/22229096 -> 504 Gateway Time-out`. 33498227279: `POST /deposit/depositions/22182180/actions/newversion -> 400 files.enabled \"Please remove all files first.\"`. 33500476413: `GET /deposit/depositions/22182180 -> 504 Gateway Time-out` — a plain read of the published record, before any mutation. The third is the one that settles it as an OUTAGE rather than our state: nothing about a bare GET depends on this repository.",
-      "retry_budget": 3,
-      "attempts": 3,
-      "last_evidence_utc": "2026-09-01",
-      "filed_by": "CYC-0090-d7df5340",
-      "id": "AUT-PD-197",
-      "kind": "fix",
-      "requires_trimcrae": false,
-      "what": "⛔⛔ AN ORPHANED ZENODO DRAFT (22229096) EXISTS AND THE REPOSITORY CANNOT REACH IT, PLUS THE DOI'S REAL HOME IS NOT WHERE THIS CYCLE ASSUMED. Measured 2026-09-01 by CYC-0090-d7df5340, which caused the orphan.\n★ HOW THE ORPHAN WAS MADE. Run 33498033370 dispatched `new_version=true` to reserve version four. Its `POST .../actions/newversion` SUCCEEDED — `zenodo_deposit.py` raises a distinct SystemExit when that call returns no `latest_draft` link, and it did not — and the immediately following GET on the returned draft returned 504. The script died there, so the loop that deletes the files the new draft INHERITS from 22182180 never ran, and nothing was written to any record.\n★ CONFIRMED, NOT INFERRED: the retry (33498227279) asked for another new version and Zenodo refused `400 files.enabled: \"Please remove all files first.\"` — how Zenodo declines to open a second version while a draft is open. That refusal is also why no FIFTH draft exists.\n⛔⛔ AND THE CORRECTION THAT MATTERS MOST, BECAUSE THIS CYCLE GOT IT WRONG AND BUILT ON IT: `zenodo_deposit.py` resolves which deposition to act on from `declared = manifest.get(\"deposition_doi\")` (line ~321) — the ARCHIVE MANIFEST — and NOT from deposit-state.json. `deposition_doi` is a HARDCODED LITERAL in `research/manuscripts/aso_archive_manifest.py` at line 1463, bound to the manuscript by `test_aso_deposition_doi_is_one_fact.py`. So THAT line is the repoint site, and editing deposit-state.json's `pending` cannot redirect the script at all.\n⚠ THIS CYCLE BUILT A WHOLE PROBE BRANCH ON THE WRONG PREMISE. `cyc0090-zenodo-probe` carried a provisional `pending` block so a `ref=<branch>` dispatch could reach the orphan; it could never have worked, and the run proves it — the log shows the script going to 22182180, the manifest's DOI, exactly as the code says it would. The branch was deleted locally; the REMOTE ref could not be deleted (`git push --delete` and the refspec form both return `fatal: the remote end hung up unexpectedly`, and the GitHub tools available here expose no delete-branch call). ⛔ IT MUST NEVER BE MERGED: its content is an unverified DOI that would red the trunk.\n★ WHAT A RESUMING SESSION SHOULD DO, IN ORDER. (1) Check the Zenodo deposit API is healthy — a `record=verify` dispatch reads the PUBLISHED record with no token and is the cheapest probe. (2) Dispatch `new_version=true` again; Zenodo will either hand back the OPEN draft 22229096 or refuse with the same 400, and either answer is informative. (3) Read the reserved DOI out of the run log — do NOT infer it from the deposition number, even though all three prior versions matched that way (CLAUDE.md §7). (4) Edit `deposition_doi` in aso_archive_manifest.py:1463 to the READ value, repoint the manuscript's Data availability, rebuild the chain, re-derive the manifest, commit — that commit is the PIN. (5) Round 29 + PREFLIGHT_FULL on the pin. (6) Only then refresh the draft, publish, read back. Checklist §3-vi carries the same order and the reason it may not be shortened.\n⚠ WHAT IS NOT WRONG: 10.5281/zenodo.22182180 is published, resolves, and is a complete self-consistent archive of the paper as it stood at 866594627ab0. The drift is 13 deposited paths, declared in checklist §3-vi. Nothing published is incorrect.",
-      "_score_basis": "EXPLICIT, and typed because RT-ASO's floor would not express this. Anchored to the scored open process_defect distribution (42.7 / 129.8 / 131.8 / 134.9) and placed at 115.0: it BLOCKS the named goal — PUB-ASO cannot reach 7/7 until the archive is re-versioned — which puts it above AUT-PD-196's 110.0. ⛔ Deliberately below the three high siblings: this cycle both caused the orphan and filed the row, and a cycle scoring its own mess to the top of the queue is the direction the anti-gaming invariant exists to catch.",
-      "score": 25.0,
-      "score_inputs": {
-        "blocked_with_evidence": true
-      }
     },
     {
       "id": "AUT-027",

@@ -1,0 +1,39 @@
+{
+  "_what_this_is": "The goals the loop is working TOWARD, each with a machine-readable done-condition. ⛔ THIS IS NOT THE LEDGER. The ledger holds ITEMS — units of work a cycle can take; this holds OBJECTIVES, which no single cycle completes and which outlive the cycle that advances them. An item is done when its work is done; a goal is done when a condition computed from committed artifacts says so.",
+  "_why_this_exists": "⛔⛔ THE ONE REAL GOAL IN PLAY WAS PROSE IN A DIFFERENT FILE'S SCOPE NOTE, AND NOTHING READ IT. trimcrae set 'get ASO v2 submission ready' on 2026-08-30 and it lived inside `autonomy-state.json`'s `budget_hold.authorised_exceptions` — a field about SPENDING — where it authorised a budget exception and tracked nothing. Meanwhile `publish_bar` computes seven clauses from committed artifacts, `health.py` grades twelve conditions and `continuity.py` refuses to go quiet while ready work exists. The goal that justified spending against a budget hold was the least instrumented object in the system.\n⚠ MEASURED 2026-09-01 (CYC-0090), and it is why this file exists rather than being a good idea: a full session of real work — a published Zenodo archive, two hardening rounds, four process defects found and fixed — moved `publish_bar` from 4/7 to 4/7. Every individual step was warranted. Nothing measured the distance to the objective, so nothing could say the distance had not closed. trimcrae asked for it directly: 'For now, the loop should just track the goal of the ASO paper.'",
+  "_how_to_read_it": "`python3 research/autonomy/goal_progress.py --check`. It computes each goal's done-condition live and prints the distance. ⛔ IT NEVER READS A STORED VERDICT: `readings` below is a HISTORY for spotting a goal that is not moving, and a reader who trusts it instead of recomputing has the staleness problem this file was built to end (CLAUDE.md §4 — a populated field is not a measured one).",
+  "_scope_2026_09_01": "⭐ ONE GOAL, DELIBERATELY. trimcrae: 'For now, the loop should just track the goal of the ASO paper.' The schema admits more; adding one is a decision, not a formality, because a goals file that accumulates aspirations is a wish list and this repository already has a ledger for work.",
+  "goals": [
+    {
+      "id": "GOAL-ASO-V2",
+      "title": "PUB-ASO is submission-ready for its v2 preprint post",
+      "state": "open",
+      "set_by": "trimcrae, 2026-08-30, verbatim: \"Pursue the goal of getting ASO v2 submission ready regardless of weekly budget.\"",
+      "_set_by_note": "Recorded verbatim rather than paraphrased. The same sentence is the authority for the budget exception in autonomy-state.json `budget_hold.authorised_exceptions`; this row does not restate that grant, it points at it — the grant is about SPEND and this row is about the OBJECTIVE, and they went stale together once already by being one sentence in one place.",
+      "done_condition": {
+        "kind": "publish_bar",
+        "paper": "PUB-ASO",
+        "requires": "every clause passes on the commit being posted",
+        "_command": "python3 research/autonomy/publish_bar.py --paper PUB-ASO --sha <HEAD> --json",
+        "_reads": "n_passed == n_clauses. ⛔ The clause COUNT is read from the tool's output, never typed here — CLAUDE.md rule 1, and this file has already watched a hard-coded 'six' go stale in a sibling record when a seventh clause landed."
+      },
+      "_what_done_does_not_mean": "⛔ IT DOES NOT MEAN POSTED. `publish_bar` at full marks says the paper MAY be posted; PUB-ASO is excluded by name from the standing aiXiv grant and its Qeios v2 post is trimcrae's own act (publication-authority.json `scope.excluded_papers`). This goal completes when the paper is READY and he is told; the posting is his and is not part of the condition.",
+      "blocks_on_a_human": false,
+      "_blocks_on_a_human_note": "⚠ Set false ON EVIDENCE, and it was wrong for several hours on 2026-09-01. The Zenodo publish that clause 1 depends on was believed to be trimcrae's act and was escalated to him; publication-authority.json `zenodo_archive_publication` has granted it to the loop since 2026-08-30, with the per-publication approval retired the same day. See AUT-PD-196. Nothing between here and READY needs a human.",
+      "authorises": [
+        "Spend against the weekly budget hold for work on this goal only — autonomy-state.json `budget_hold.authorised_exceptions`, the 2026-08-30 grant.",
+        "The hardening rounds needed to reach full marks, and the gates those require."
+      ],
+      "readings": [
+        {
+          "utc": "2026-09-01T13:30:00Z",
+          "by": "CYC-0090-d7df5340",
+          "passed": 4,
+          "of": 7,
+          "open": ["hardening_converged", "preflight_full_green", "independent_adversarial_seat"],
+          "_note": "All three bind to the commit being posted, and the manuscript moved after round 28's repairs, so all three are open against the current HEAD. ⭐ THE STRUCTURAL FINDING THIS READING EXISTS TO CARRY: the deposit flow required a manuscript edit (a new version DOI) AFTER the round that closes the clauses, so a clean round could not converge. Checklist §3-vi now orders it reserve → repoint → PIN → round + PREFLIGHT_FULL → refresh → publish, which is the first ordering under which this goal can reach full marks."
+        }
+      ]
+    }
+  ]
+}

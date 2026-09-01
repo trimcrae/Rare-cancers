@@ -34,6 +34,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bash \"${CLAUDE_PROJECT_DIR:-.}/.claude/hooks/promised-work-at-turn-end.sh\"",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "printf '%s' '{\"systemMessage\":\"\ud83d\udd14 Claude finished its turn \u2014 over to you.\"}'"
           }
         ]
