@@ -37,19 +37,32 @@ route `RT-VACCINE-COMBINATION` → publication `PUB-VACCINE-PATH`, strategy `ST-
    Random 174-peptide sets of the same length composition: **median 23, mean 22.6, minimum 7 over
    2,000 draws.** Not one of the 2,000 fell to the screen's 4. Numbers, method and limits in §5.
 
-2. **The calibration proper is WITHHELD, and that is a measured non-result rather than a finding.**
-   IEDB was unreachable from the runner, so arm F is empty *because the collector could not read*,
-   not because the set is small. The artifact's `_fusion_fetch_is_complete: false` gates the claim
-   automatically — the fail-closed design did its job, and `verdict.finding` reads `WITHHELD` rather
-   than announcing that no validated fusion-junction epitopes exist.
+2. **The calibration proper is WITHHELD on all three completed runs, and that is a measured
+   non-result rather than a finding.** Arm F is empty *because the collector could not read* — an
+   unreachable host on run 1, a source-antigen column that does not exist on run 2, `offset` without
+   `order` on run 3 — never because the set is small. `_fusion_fetch_is_complete: false` gates the
+   claim automatically on every one of them, and `verdict.finding` reads `WITHHELD` rather than
+   announcing that no validated fusion-junction epitopes exist. ⛔ **Whoever closes this must not
+   read a zero arm F as §B1's "a handful".**
 
-3. **A third run is in flight on the fix.** Run 2 reached IEDB in 2 seconds and returned its live
-   85/86-column schema, which **named two defects in my own queries** — the source-antigen column I
-   had guessed does not exist, and every arm N filter answered 400 because an HLA name carries `*`
-   and `:`. Both are fixed against the measurement (§5(c)) and run `33555613485` is testing them.
+3. ⛔ **And one methodological finding against myself, which is the part I would least want dropped.**
+   Run 2 returned IEDB's live 85/86-column schema and **falsified a source-antigen column I had
+   written from a candidate list** (§5(c)). I then diagnosed that run's 68 HTTP 400s from the status
+   code alone — an HLA name's `*` and `:` breaking a filter value — and rewrote a function on it.
+   Run 3 kept the response body for the first time and **all 90 failures carried one message that
+   refuted it**: `offset` with no `order` (§5(d)). ⚠ The wrong fix looked like it worked, because a
+   discarded 400 returns an empty list, and an empty list from a fusion probe is indistinguishable
+   from *"no validated fusion-junction epitopes exist"* — the exact claim §6.1 step 1 invites.
+   `_fusion_fetch_is_complete` is the only reason three runs said WITHHELD instead of publishing a
+   fabricated absence. **47 of 61 `except HTTPError` handlers in this repository discard the body
+   the same way**, `await_ci.py` among them (§5(d), ledger row 8).
+
+4. **A fourth run carries the real fix and is running long.** `33556831052`. §5(e) names the two
+   hypotheses for the slowness and the terminus that discriminates them, and says why I did not push
+   a hedge before that terminus.
 
 S13 wrote that §6.1 step 1 "needs the driver to dispatch". It did not — `ci-escape-hatches` routes
-exactly this, and three runs have now gone out from this seat, none of them costing a dollar.
+exactly this, and four runs have now gone out from this seat, none of them costing a dollar.
 
 ## 1 · What §6.1 step 1 actually specifies, quoted
 
@@ -309,7 +322,7 @@ workflow, so its committed copy is on `vaccine-calibration-cache`; run `33554351
 after publish to the triggering branch instead. Both locations are named in this file's §7, and the
 run-artifact upload is unaffected and identical in both.
 
-### (e) The dispatch, and the verification that what runs is what I wrote
+### (f) The dispatch, and the verification that what runs is what I wrote
 
 Branch `claude/s24-threshold-calibration` created from `main` (all five inputs the module reads were
 confirmed present on `main` first: `epitope-allele-matrix.json` — 34-allele panel, 4 presenting alleles —
@@ -344,13 +357,14 @@ reaches `main`.
 
 ---
 
-## 5 · The results — three runs
+## 5 · The results — four runs
 
 | run | head | what it settled |
 |---|---|---|
 | `33551737511` | `fc9a947761` | **Arm D landed** (§5(a)) — the decoy null, and the screen sits below it. IEDB unreachable, so the calibration is WITHHELD (§5(b)). |
 | `33554351704` | `3f5c1269a5` | **IEDB reachable in 2 s**, so run 1's nine-minute timeout was intermittent. The live 85/86-column schema came back and named two defects in my own queries (§5(c)). Calibration still WITHHELD. |
-| `33555613485` | `6f1f18e1b8` | Both defects fixed against that measurement. **In flight at hand-off** — see the board. |
+| `33555613485` | `6f1f18e1b8` | Fusion probes sent for the first time — and **all 90 queries 400'd with one message that refuted my own run-2 diagnosis** (§5(d)). Calibration still WITHHELD. |
+| `33556831052` | `976e79c1e5` | The real fix: `order` on every paged query. **Running long at hand-off** — §5(e). |
 
 Everything below is read from the published artifacts, not from a log.
 
@@ -468,13 +482,14 @@ www.iedb.org        dns ['8.37.117.163']  tcp_443 connected in 0.0s
 https://query-api.iedb.org/  FAILED URLError: <urlopen error Tunnel connection failed: 403 Forbidden>
 ```
 
-### (c) Run `33554351704` — the schema probe paid for itself, and named two defects in my own queries
+### (c) Run `33554351704` — the schema probe paid for itself, and found two defects in my own queries
 
 Completed `success` 2026-09-01T20:22Z. **The IEDB schema probe took 2 seconds** against run 1's
 ~9 minutes of connect timeouts, and returned the live PostgREST schema: **39 tables, 85 columns on
 `mhc_search`, 86 on `tcell_search`.** That is the one fact this session could not obtain from the
-sandbox, and it immediately falsified two things I had written from candidate lists rather than from
-the source:
+sandbox, and it immediately falsified a column name I had written from a candidate list rather than
+from the source. Two defects, and ⚠ **my first reading of the second one was wrong — §5(d) corrects
+it, and the correction is left visible below rather than tidied away.**
 
 1. ⛔ **`antigen` resolved to NOTHING, so arm F's fusion probes were never sent.** My candidate list
    had the plural `source_antigen_names`; the live column is **`parent_source_antigen_name`**, and a
@@ -483,18 +498,21 @@ the source:
    *different* columns — both are found:
    `distinct_fusion_source_antigen_names: ['EWSR1-FLI1 chimeric protein', 'SS18-SSX1 fusion protein']`.
 
-2. ⛔ **All 68 arm N queries returned HTTP 400.** The filter was
-   `mhc_allele_name=ilike.*HLA-A*01:01*` — an HLA name carries both `*` (a wildcard) and `:` (a
-   reserved character) inside a PostgREST filter value. Arm N now pages on `linear_sequence_length`,
-   an integer column with no such hazard, and restricts the allele client-side; `ALLELE_RE` already
-   keeps only 4-digit HLA-A/B/C names, which are class I by construction. ⚠ Arm N remains a bounded
-   sample and remains the comparator §B1 refuses — this was never the calibration.
-
-3. ⛔ **And the 400s carried a diagnosis that my code threw away.** PostgREST answers a bad filter
-   with a JSON message naming the offending clause; the artifact recorded 68 identical
-   `HTTPError: HTTP Error 400` lines and none of the bodies. `_get` now reads and keeps the body.
+2. ⛔ **All 68 arm N queries returned HTTP 400** — and the artifact recorded 68 identical
+   `HTTPError: HTTP Error 400` lines with **none of the response bodies**, because `_get` discarded
+   them. The run named the symptom and destroyed the explanation. `_get` now keeps the body.
    *A failure whose own explanation is discarded is the same defect as the errno with no layer, one
    level up.*
+
+   ⚠⚠ **AND WHAT I WROTE HERE FIRST WAS WRONG — SEE §5(d).** With no body to read, I diagnosed the
+   400s from the status code as an HLA name's `*` and `:` breaking a PostgREST filter value, and
+   rewrote `fetch_general` on that basis. **Run 3's captured bodies refuted it:** the cause was
+   `offset` with no `order`, on every query including page 0, and it had nothing to do with the
+   allele string. This paragraph is corrected rather than deleted because the correction is the
+   finding. ⭐ The length-based arm N query is **kept** — one bounded query per table instead of 34,
+   and `ALLELE_RE` already restricts to 4-digit HLA-A/B/C, which are class I by construction — but it
+   is kept on its own merits, not on the rationale it was written with. Arm N remains a bounded
+   sample and remains the comparator §B1 refuses; it was never the calibration.
 
 ⚠ **What run 2 did NOT settle.** Whether run 1's timeout was IEDB-side or that runner's egress: two
 observations from two runs cannot separate them, and one success does not prove a stable route. The
@@ -506,6 +524,103 @@ broken pip install, and it is the step that produced the session's most useful m
 was not "the run still half-worked" — it was that **the unknown I had honestly labelled UNKNOWN came
 back as a fact, and the fact contradicted my candidates.** That is the whole argument for measuring a
 schema at run time instead of writing column names from a doc you could not open.
+
+### (d) ⛔ Run `33555613485` — I made a "probably X" and the measured body refuted it
+
+Completed `success` 2026-09-01T20:36Z. The antigen column resolved correctly this time
+(`parent_source_antigen_name` + `r_object_source_molecule_name`), so **the fusion probes were sent for
+the first time** — and all 90 queries returned 400. But this run kept the HTTP response body, which
+run 2 had discarded, and every one of the 90 carried the same message:
+
+```
+{"message":"Unsupported request",
+ "details":"Query string appears to include an offset parameter without an order parameter.
+            Please resubmit the query with an order parameter to ensure consistent paging.
+            The query was not sent to the API."}
+```
+
+⛔ **That refutes what I wrote after run 2.** I had diagnosed the 68 arm N 400s as an HLA name's `*`
+and `:` breaking a PostgREST filter value, and rewrote `fetch_general` on that basis. **It was a
+plausible reading of a status code with no body behind it — a "probably X" — and it was wrong.** The
+cause is `offset` with no `order`, on *every* query including page 0, and it has nothing to do with
+the allele string. It was never a filter-syntax problem; it is a paging guard on IEDB's gateway,
+which says in its own words that *the query was not sent to the API*.
+
+**Four things follow, and I am recording all of them rather than only the fix.**
+
+1. **The fix is `ORDER_BY`** — one parameter on every paged query. Verified locally against the URL
+   builder rather than assumed: every constructed URL now carries `order=linear_sequence` beside
+   `offset=`. Run `33556831052` is testing it.
+2. **The wrong comment is corrected in place, not deleted.** `fetch_general`'s docstring now opens by
+   saying the diagnosis it used to carry was wrong and what the real one is. The length-based query
+   is **kept** — genuinely better, one bounded query per table instead of 34 — but for a different
+   reason than the one it was written for, and the file says so. A fix that survives on a false
+   rationale is a landmine for the next reader.
+3. ⛔ **AND IT IS NOT MY BUG ALONE — IT IS THE REPOSITORY'S DEFAULT.** Measured over every `.py`
+   under `research/` and `scripts/`, by matching each `except ... HTTPError` handler against whether
+   its next eight lines call `.read()`:
+
+   ```
+   except-HTTPError handlers that KEEP the body:    14
+   except-HTTPError handlers that DISCARD the body: 47
+   ```
+
+   ⚠ **`research/autonomy/await_ci.py:175` is one of the 47**, and so is
+   `research/autonomy/gates_verdict.py:198` — the wake mechanism this findings file tells the driver
+   to arm, and the gate-verdict reader. This is the class trimcrae named on 2026-08-01 (*"fix the
+   underlying root cause, not just address it as a one off"*), and it cost this seat two of its four
+   runs. Ledger row 8.
+4. ⭐ **The methodological point is the one worth carrying.** CLAUDE.md §4 says to root-cause with a
+   real diagnostic and never a "probably X". I violated that on run 2 — and the violation was *cheap
+   to make and expensive to spot*, because the wrong fix looked like it worked: it changed the query
+   shape, the run completed, the step went green. It only failed to produce data. **What caught it
+   was not reasoning; it was four lines that keep an error body.**
+
+### (e) ⚠ Run `33556831052` is running LONG, and that is recorded as a signal rather than reassured away
+
+CLAUDE.md §4: materially slower than predicted is evidence something is wrong, and the first
+divergence is the one to dig at. The free reading — step 7's duration on all four runs, from their
+completed records rather than from a live poll — is this:
+
+| run | step 7 | what its IEDB fetch did |
+|---|---|---|
+| `33551737511` | **624 s** | three 180 s connect timeouts (540 s), then arm D |
+| `33554351704` | **219 s** | 68 instant 400s, then arm D |
+| `33555613485` | **199 s** | 90 instant 400s, then arm D |
+| `33556831052` | **1796 s and counting** | ? |
+
+⭐ **Runs 2 and 3 bound the cost of everything that is not the IEDB fetch at ~200 s** — that figure
+covers the UniProt proteome pull, the 59,160 decoy predictions and the 2,000-draw null, because in
+both runs the IEDB half failed instantly. So run 4 has spent roughly **1,600 s inside the IEDB
+fetch**, against 0 s and 540 s on the runs before it.
+
+**Two hypotheses, and I am not picking one:**
+
+- **(H1) The `order` fix worked and the fetch is pulling data.** 88 probe-column combinations, each
+  paged up to 60 × 1000 rows, with a server-side sort now forced on every page. Slow *is* the
+  predicted signature of success here, because every previous run's fetch was fast precisely by
+  failing.
+- **(H2) The queries are now timing out rather than 400ing.** Each combination costs 3 tries ×
+  180 s = 540 s before the page loop breaks, so ~1,600 s is about three combinations in.
+
+⛔ **I cannot discriminate them from here** — GitHub returns 404 for a job's logs until the job
+completes, so the step's own output is unreadable while it runs, and the artifact is not written
+until the step ends. ⚠ **This is exactly the case where a "probably it's just slow" would be the same
+defect §5(d) already caught me in, so it is left UNKNOWN.**
+
+★ **The observation that will discriminate, at no cost, is the run's own terminus.** Under H2 the job
+needs 88 × 540 s ≈ 13 hours and must therefore die on the workflow's `timeout-minutes: 120`; under H1
+it completes. **So: a completed run means H1 and the calibration is in hand; a run cancelled at the
+120-minute cap means H2.** Either terminus is a reading.
+
+⛔ **And I deliberately did NOT push a fix before that terminus.** The obvious hedge — a wall-clock
+budget on the whole IEDB fetch, so a dead endpoint cannot eat a 120-minute job, with a partial fetch
+correctly leaving `_fusion_fetch_is_complete: false` — is defensible on its own merits and is a real
+hardening. But pushing it now would queue a fifth run behind a fourth whose answer is minutes away
+and would truncate a legitimately slow fetch under H1. **Acting on an undiscriminated hypothesis is
+the same move §5(d) already caught me making.** The local file is therefore byte-identical to branch
+head `976e79c1e5`; the budget is written down here, not in the code, until the terminus says which
+hypothesis it is for.
 
 ---
 
@@ -533,6 +648,36 @@ Two new files plus this one. **No pre-existing file was edited, and no git write
 4. **The manuscript itself.** §6.1 step 1 stays unchanged until the run's answer is read. ⛔ Nothing from
    this seat may be written into `emc-vaccine-development-path.md` before that.
 
+### ⚠ A `git reset --hard` in this working tree destroyed part of this seat's work, twice over
+
+Detected 2026-09-01T21:14Z, and only because I re-compared my local files against the copies I had
+pushed to the branch. `git reflog` shows five `reset: moving to HEAD` entries and a sibling seat's
+commit titled, verbatim, *"the driver destroyed a seat's finished work with `git reset --hard`, and
+the charter did not forbid it"* — so this is a known sprint incident and mine is another instance of
+it, not a new one.
+
+**What it cost here, specifically.** Once the driver committed my files they became *tracked*, so my
+later working-tree edits were reset away:
+
+| lost | state after the reset |
+|---|---|
+| the `ORDER_BY` fix in `vaccine_threshold_calibration.py` | local file reverted to the pre-fix 52,314-byte version |
+| §5(d) of this file, in full | the document ran straight from §5(c) to §5(e) |
+| §5(c)'s correction | ⛔ **the REFUTED `*`-and-`:` diagnosis was left standing as if current** |
+| the repo-wide error-body measurement and its ledger row | gone without trace |
+
+⛔ **The third row is the dangerous one.** A destructive reset does not merely lose work — it can
+*restore a superseded claim to apparent currency*, which is worse than losing it, because the next
+reader has no signal that it was ever corrected.
+
+**Why nothing was actually lost to the world, and what that says.** The code was safe because every
+version went to GitHub through the API, so the branch and all four CI runs are unaffected; the prose
+was recoverable because it was still in this session's context. ⭐ **The recovery check is worth
+generalising: compare each owned file against the copy you pushed, not against your memory of it.**
+And the error-body count was **re-measured rather than restored** — it had moved from 46 to 47 and the
+line numbers had shifted, because concurrent seats kept editing those files while this seat worked.
+Restoring the remembered number would have committed a stale one.
+
 ---
 
 ## 7 · What I could not do, and what it is actually waiting on
@@ -540,19 +685,21 @@ Two new files plus this one. **No pre-existing file was edited, and no git write
 ⚠ **A CI run does not wake a session by itself.** Nothing here is "blocked"; one thing is pending a
 second reading.
 
-1. **The calibration proper — arm F.** Two runs failed to produce it for two *different* reasons
-   (§5(b), §5(c)), both now addressed. The third is in flight: **`33555613485`, branch
-   `claude/s24-threshold-calibration`, head `6f1f18e1b89dd73a01712abd1c2cf2d5d8469c52`**, started
-   2026-09-01T20:29:26Z. **`research/autonomy/await_ci.py` is keyed by SHA, not by run id** (read
-   from its own `--sha` interface, not assumed):
+1. **The calibration proper — arm F.** Three runs failed to produce it for three *different* reasons
+   — an unreachable host (§5(b)), a source-antigen column that does not exist (§5(c)), and `offset`
+   with no `order` (§5(d)) — each diagnosed from a measurement and each fixed. The fourth is in
+   flight: **`33556831052`, branch `claude/s24-threshold-calibration`, head
+   `976e79c1e5ce2a62c035cef827fd6190ac141075`**, started 2026-09-01T20:41:53Z, and running long
+   (§5(e)). **`research/autonomy/await_ci.py` is keyed by SHA, not by run id** (read from its own
+   `--sha` interface, not assumed):
 
    ```
-   python3 research/autonomy/await_ci.py --sha 6f1f18e1b89dd73a01712abd1c2cf2d5d8469c52
+   python3 research/autonomy/await_ci.py --sha 976e79c1e5ce2a62c035cef827fd6190ac141075
    ```
 
    launched with `run_in_background` so its exit is the wake. Read the result from, in order of
    convenience: the run's `::notice title=calibration verdict::` annotation; the workflow artifact
-   `vaccine-threshold-calibration`; the committed copy on the branch itself (runs 2 and 3 publish to
+   `vaccine-threshold-calibration`; the committed copy on the branch itself (runs 2 onward publish to
    the triggering branch — ⚠ run 1's copy is on `vaccine-calibration-cache`, which predates the
    §4(e) publish fix).
 
@@ -693,6 +840,26 @@ I may not write these. Proposed:
    sampling of the same one), and it does not change arm D's reading either way — a set that
    underperforms arbitrary peptides underperforms them whatever the reason.
 
+8. ⛔ **New row — "47 of 61 `except HTTPError` handlers in this repository discard the response
+   body, `await_ci.py` and `gates_verdict.py` among them."** `kind: hardening`, `state: queued`,
+   `cost_class: free`, local. Measured 2026-09-01 by matching each handler against whether its next
+   eight lines call `.read()`; the count and site list are reproducible from that rule, and ⚠ the
+   line numbers move as concurrent seats edit those files, so **re-run the rule rather than quoting
+   a stale offset**. **This is not a style complaint — it cost this seat two of its four CI runs**
+   (§5(d)): a 400 whose body is thrown away returns an empty list, and an empty list from a database
+   query is indistinguishable from a true absence. ⚠ `await_ci.py` is on the list and is the
+   mechanism this file asks the driver to arm, so a failed poll there reports its status code and
+   destroys the server's explanation of it. A guard asserting that a networked fetcher keeps the
+   body would be the durable fix, in the shape of `test_no_hand_rolled_publish.py`. Not written
+   here: not my paths, and 47 sites is a task to sequence, not to absorb.
+
+9. **New row — "A `git reset --hard` in the shared sprint tree destroyed tracked-file edits from at
+   least two seats."** `kind: hardening`, `state: queued`, `cost_class: free`, local. A sibling seat
+   has already filed the general case; this row records that **S24 was hit too**, and adds the
+   detail that matters most: because the reset reverted a *correction*, it left a refuted diagnosis
+   reading as current (§6, last subsection). Charter §1 forbids seats from git-writing and says
+   nothing about the driver; that asymmetry is the gap.
+
 ⛔ **Not proposed, deliberately: lowering `MIN_N_FOR_A_CALIBRATION` if arm F comes back small.** That is
 the bar the run was pre-registered against, and moving it after seeing the count is the exact
 anti-gaming violation the pre-registration exists to prevent. A small arm F over a complete fetch **is**
@@ -705,8 +872,12 @@ is the only honest report of coverage."*
 
 | item | state | cost | where to read it |
 |---|---|---|---|
-| Actions run **`33555613485`** — §6.1 step 1, third attempt: the real IEDB column names, arm N paged on length instead of an allele string, HTTP error bodies kept. Branch `claude/s24-threshold-calibration`, head `6f1f18e1b8`. | started 2026-09-01T20:29:26Z, `in_progress` at hand-off | **$0** (GitHub-hosted CPU) | `::notice title=calibration verdict::`; artifact `vaccine-threshold-calibration`; the committed copy on the branch. Wake with `python3 research/autonomy/await_ci.py --sha 6f1f18e1b89dd73a01712abd1c2cf2d5d8469c52` under `run_in_background`. |
+| Actions run **`33556831052`** — §6.1 step 1, fourth attempt (`order` on every paged query). Branch `claude/s24-threshold-calibration`, head `976e79c1e5`. | started 2026-09-01T20:41:53Z; **step 7 at 1,796 s and counting** against 199–624 s on runs 1–3 — see §5(e), which names the two hypotheses and the terminus that discriminates them | **$0** (GitHub-hosted CPU) | `::notice title=calibration verdict::`; artifact `vaccine-threshold-calibration`; the committed copy on the branch. Wake with `python3 research/autonomy/await_ci.py --sha 976e79c1e5ce2a62c035cef827fd6190ac141075` under `run_in_background`. |
 
-Runs `33551737511` and `33554351704` are **finished** (both `success`) and are reported in §5; neither
-is in flight. **Total real-dollar cost of this seat: $0** — three GitHub-hosted CPU runs, no GPU, no
-paid API.
+⚠ **Read the terminus, not just the verdict.** A run that COMPLETES means the fetch finally worked;
+a run CANCELLED at the workflow's `timeout-minutes: 120` means the queries are timing out rather than
+returning, and the fix is in §5(e).
+
+Runs `33551737511`, `33554351704` and `33555613485` are **finished** (all `success`) and are reported
+in §5; none is in flight. **Total real-dollar cost of this seat: $0** — four GitHub-hosted CPU runs,
+no GPU, no paid API.
