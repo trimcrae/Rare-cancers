@@ -442,11 +442,35 @@ absence is how 22166420 came to freeze an earlier copy of its own manuscript. It
 all** before this session and now has eight, both directions mutation-tested on a copy.
 
 
-### 3-vi · ⛔ OPEN — the published archive is BEHIND the paper again, by two deposited files, and this one is self-inflicted
+### 3-vi · ✅ CLOSED — the fourth archive version is PUBLISHED and was read back — `10.5281/zenodo.22229096`
 
-⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPER BY 13 DEPOSITED PATHS AND THE FOURTH VERSION IS AN
-OPEN DRAFT THE SCRIPT ABANDONED MID-CORRECTION.** Full evidence and the resume order:
-**`AUT-PD-197`**.
+✅ **PUBLISHED 2026-09-01 AND READ BACK FROM ZENODO, NOT FROM THE SCRIPT.** Actions run 33560898366
+(`record=verify`), verbatim: *"record 22229096 — 10.5281/zenodo.22229096"*, *"state : done
+(submitted=True)"*, *"published : 2026-09-01"*, *"files : 1 / emc-aso-archive.zip 8808345 bytes"*,
+and the verdict *"PUBLISHED. The DOI both papers cite resolves to this record."* The publish itself
+(run 33560736487) recorded the digest check passing at the irreversible moment: *"digest :
+ff4da79f8acf… (matches the manifest)"*.
+
+⭐ **AND IT CARRIES THE MANUSCRIPT THAT CITES IT**, which is the whole point and what the version it
+supersedes did not do. 22182180 held an archive built before the DOI repoint, so a reader following
+the citation reached a paper pointing at a different version. That was round 29's fourth blocker,
+filed independently by the hostile-referee and citations seats, and this closes it.
+
+⚠ **IT TOOK THREE DISPATCHES AND THE TWO THAT DID NOT PUBLISH ARE THE ONES WORTH KEEPING.** Run
+33560379054 refused at the verify step — *"manifest does not describe this tree: 0 missing, 1
+changed"* — **before touching Zenodo**, because a parallel session changed a DEPOSITED file
+(`research/data/emc-clinical-registry.json`, commit ca9c6da22) between the refresh and the publish.
+★ **THE RULE THAT FOLLOWS: refresh-then-publish is only valid while no deposited file moves between
+the two**, and two sessions writing one trunk can break that at any moment. Re-hash the manifest's
+own 515 declared paths immediately before dispatching the publish; a diff stat cannot tell a
+deposited path from a neighbouring one. The gate being computed rather than promised is what made
+the cost a re-run instead of a wrong archive frozen under a DOI for ever.
+
+⚠ **SUPERSEDED, RETAINED (rule 1.2)** — this section read *"⛔ OPEN — the published archive is BEHIND
+the paper again"* and carried the orphaned-draft account and the resume order. The orphan
+(deposition 22229096, stranded when a 504 killed the run that opened it) was recovered by listing
+the account's depositions and matching `conceptrecid`, refreshed twice, and published. `AUT-PD-197`
+holds the full history.
 
 * **An orphaned draft exists: deposition `22229096`.** Run 33498033370's `newversion` POST succeeded
   and the next GET returned `504`, so the script died before deleting the files that draft inherits

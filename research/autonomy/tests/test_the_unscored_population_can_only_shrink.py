@@ -160,28 +160,18 @@ def test_the_committed_ledger_still_writes_through_the_gate(baseline):
     _write(path, data)
 
 
-def test_a_grandfathered_row_may_still_be_edited(baseline):
-    """An existing unscored row is not frozen — it is simply not allowed to have COMPANY."""
-    path, data = baseline
-    after = copy.deepcopy(data)
-    row = next(e for e in after["entries"]
-               if e.get("score") is None and (e.get("state") or "queued") not in CLOSED)
-    # ⚠ `what` ONLY. Touching `last_evidence_utc` here trips R4 (the echoed `score_inputs.age_factor`
-    # stops matching the row's own date) — a real, separate rule, and letting it fire in this test
-    # would make a green run mean "R4 is quiet" rather than "R5 grandfathers this row".
-    row["what"] = (row.get("what") or "") + " (edited)"
-    _write(path, after)
-
-
-def test_scoring_a_grandfathered_row_is_admitted(baseline):
-    """The remedy has to be reachable, or the gate is a trap rather than a ratchet."""
-    path, data = baseline
-    after = copy.deepcopy(data)
-    row = next(e for e in after["entries"]
-               if e.get("score") is None and (e.get("state") or "queued") not in CLOSED)
-    row["score"] = 37.0
-    row["_score_basis"] = "hand-filed while clearing the unscored backlog"
-    _write(path, after)
+# ⭐⭐ THE TWO GRANDFATHERING TESTS WERE DELETED 2026-09-01 BECAUSE THE BACKLOG THEY GUARDED IS GONE,
+# AND THAT IS THIS RATCHET SUCCEEDING RATHER THAN BEING SWITCHED OFF. They asserted that an existing
+# unscored row may still be edited, and that scoring one is admitted — both of which need a row with
+# `score: None` to operate on. `n_unscored_open` is now 0, so each began raising StopIteration on its
+# own `next(...)`: not a failure of the rule, an empty search.
+# ⚠ THE REMEDY IS THE ONE WRITTEN AT THE SITE, NOT ONE INVENTED HERE. `test_the_population_is_not_
+# already_empty` said in terms what to do when it went red: "the backlog is CLEARED: delete the
+# grandfathering tests and assert `n_unscored_open == 0` instead." It is doing exactly that, so the
+# deletion is the prescribed step rather than a convenience.
+# ⛔ AND THE RULE ITSELF IS UNTOUCHED. R5 still refuses a NEW unscored row — every refusal test above
+# builds its own row and still runs. What is gone is the allowance for pre-existing ones, which is
+# the direction a ratchet is supposed to move: it can only tighten.
 
 
 # ---------------------------------------------------------------------------------------------
@@ -230,9 +220,21 @@ def test_the_refusal_is_a_refusal():
     assert A.REFUSED_UNSCORED_NEW in A.REFUSALS
 
 
-def test_the_population_is_not_already_empty():
-    """⚠ VACUITY. Every refusal test above builds its own row, so this suite would keep passing on
-    an empty ledger — but the grandfathering tests, which are the ones that decide whether the rule
-    can ship, assert nothing at all once the population is gone. When this goes red the backlog is
-    CLEARED: delete the grandfathering tests and assert `n_unscored_open == 0` instead."""
-    assert _committed()["n_unscored_open"] > 0
+def test_the_population_is_empty_and_may_not_grow_again():
+    """⭐ THE RATCHET'S END STATE, REACHED 2026-09-01. This asserted `n_unscored_open > 0` — a
+    VACUITY guard, because every refusal test above builds its own row and would keep passing on an
+    empty ledger, while the grandfathering tests assert nothing once the population is gone.
+
+    ⚠ ITS OWN REMEDY IS WHAT WAS FOLLOWED: "When this goes red the backlog is CLEARED: delete the
+    grandfathering tests and assert `n_unscored_open == 0` instead." It went red because the count
+    reached zero, which is the outcome the rule existed to produce.
+    ⛔ SO THE ASSERTION IS INVERTED, NOT REMOVED. Zero is now the required state, and a row that
+    reappears unscored fails HERE as well as at R5 — the vacuity this test guarded against is
+    replaced by a floor, so the suite still cannot pass on a ledger that quietly regrew a backlog.
+    """
+    n = _committed()["n_unscored_open"]
+    assert n == 0, (
+        f"the unscored-open population is back to {n}. R5 refuses a NEW unscored row, so this is "
+        "either a row that slipped in before the rule, or the header is stale — regenerate with "
+        "`python3 research/autonomy/priority.py --write` and, if it persists, score the row. The "
+        "count only goes down.")
