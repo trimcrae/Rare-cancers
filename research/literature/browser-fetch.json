@@ -4,66 +4,524 @@
   "_scope": "Public policy and author-guidance pages only. No login, no paywalled content, no article full text.",
   "_generator": "scripts/venue_policy_browser_fetch.py",
   "targets": {
-    "aws-budgets-actions-controls": {
-      "url": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-controls.html",
+    "mhc_motif_atlas_home": {
+      "url": "http://mhcmotifatlas.org/home",
       "attempts": [
         {
           "n": 1,
           "status": 200,
-          "chars": 4227
+          "chars": 723
         }
       ],
-      "final_url": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-controls.html",
+      "final_url": "http://mhcmotifatlas.org/home",
       "status": 200,
-      "title": "Configuring budget actions - AWS Cost Management",
-      "chars": 4227,
+      "title": "MHC Motif Atlas",
+      "chars": 723,
       "probe_hits": {},
-      "text": "Select your cookie preferences\n\nWe use essential cookies and similar tools that are necessary to provide our site and services. We use performance cookies to collect anonymous statistics, so we can understand how customers use our site and make improvements. Essential cookies cannot be deactivated, but you can choose “Customize” or “Decline” to decline performance cookies.\n\nIf you agree, AWS and approved third parties will also use cookies to provide useful site features, remember your preferences, and display relevant content, including relevant advertising. To accept or decline all non-essential cookies, choose “Accept” or “Decline.” To make more detailed choices, choose “Customize.”\n\nAccept\nDecline\nCustomize\nSkip to main content\nEnglish\nPreferences \nContact Us\nFeedback\nGet started\nService guides\nDeveloper tools\nAI resources\nSearch in this guide\nCreate an AWS Account\nAWS Cost Management\nUser Guide\nUse AWS Billing and Cost Management for AWS\nGetting started with AWS Cost Management\nUsing the console home page\nControlling cost management data access with Billing View\nVisualizing and analyzing cost and usage data using Dashboards\nAnalyzing your costs and usage with AWS Cost Explorer\nUnderstanding your costs using Cost Explorer reports\nManaging your costs with AWS Budgets\nBest practices for AWS Budgets\nCreating a budget\nViewing your budgets\nEditing a budget\nDownloading a budget\nCopying a budget\nDeleting a budget\nConfiguring budget actions\nSetting up a role for AWS Budgets to run budget actions\nConfiguring a budget action\nReviewing and approving your budget action\nCreating an Amazon SNS topic for budget notifications\nReceiving budget alerts in chat applications\nReporting your metrics with AWS Budgets Reports\nDetecting unusual spend with AWS Cost Anomaly Detection\nIdentifying opportunities with Cost Optimization Hub\nOptimizing your cost with rightsizing recommendations\nGenerating estimates with Pricing Calculator\nManaging your costs with Amazon Q Developer\nManaging your costs with Savings Plans\nUsing AWS Billing and Cost Management console with our new AWS experience\nSecurity\nQuotas and restrictions\nDocument history\nDocumentation\nAWS Billing and Cost Management\nUser Guide\nDocumentation\nAWS Billing and Cost Management\nUser Guide\nConfiguring budget actions\n PDF\n RSS\n Markdown\nFocus mode\n\nYou can use AWS Budgets to run an action on your behalf when a budget exceeds a certain cost or usage threshold. To do this, after you set a threshold, configure a budget action to run either automatically or after your manual approval.\n\nYour available actions include applying an IAM policy or a service control policy (SCP). They also include targeting specific Amazon EC2 or Amazon RDS instances in your account. You can use SCPs so that you don't need to provision any new resources during the budget period.\n\nNote\n\nFrom the management account, you can apply an SCP to another account. However, you can't target Amazon EC2 or Amazon RDS instances in another account.\n\nYou can also configure multiple actions to initiate at the same notification threshold. For example, you can configure actions to initiate automatically when you reach 90 percent of your forecasted costs for the month. To do so, perform the following actions:\n\nApply a custom Deny IAM policy that restricts the ability for a user, group, or role to provision additional Amazon EC2 resources.\n\nTarget specific Amazon EC2 instances in US East (N. Virginia) us-east-1.\n\nTopics\n\nSetting up a role for AWS Budgets to run budget actions\n\nConfiguring a budget action\n\nReviewing and approving your budget action\n\nDid this page help you?\nYes\nNo\nProvide feedback\nNext topic:Setting up a role for AWS Budgets to run budget actions\nPrevious topic:Deleting a budget\nGet Started\nAWS Hands-On Tutorials \nAWS Solutions Library \nAWS Decision Guides\nService Guides\nChoosing a generative AI service\nAWS service guides\nAWS CLI Tutorials on GitHub \nDeveloper Tools\nAWS Code Example Library\nAWS CLI\nAWS Builder Center \nAWS Developer Tools Blog \nHelpful Links\nDownload the AWS Docs MCP Server \nSign into the AWS Console \nAWS re:Post \nPrivacySite termsCookie preferences © 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved.\nEnglish\nTop"
+      "text": "Home\nClass I Alleles\nClass II Alleles\nTools\nF.A.Q.\nWelcome to the MHC Motif Atlas\nThe MHC Motif Atlas allows you to visualise and compare binding motifs (as well as other properties) for thousands of MHC-I and MHC-II alleles.\nExplore the Landscape of\nMHC Class I Specificities\nExplore the Landscape of\nMHC Class II Specificities\nTools for Predictions and Analyses of MHC Ligands\nFrequently Asked Questions\nThe MHC Motif Atlas is developed by the Gfeller Lab at the Department of Oncology, Ludwig Institute for Cancer Research, University of Lausanne & the Swiss Institute of Bioinformatics.\nThe MHC Motif Atlas is developed by the Gfeller lab at the University of Lausanne. For feedback or questions, get in touch by email.",
+      "author_facing_links": [
+        {
+          "text": "Home",
+          "href": "http://mhcmotifatlas.org/home"
+        },
+        {
+          "text": "Class I Alleles",
+          "href": "http://mhcmotifatlas.org/class1"
+        },
+        {
+          "text": "Class II Alleles",
+          "href": "http://mhcmotifatlas.org/class2"
+        },
+        {
+          "text": "Tools",
+          "href": "http://mhcmotifatlas.org/tools"
+        },
+        {
+          "text": "F.A.Q.",
+          "href": "http://mhcmotifatlas.org/faq"
+        },
+        {
+          "text": "Gfeller Lab",
+          "href": "https://gfellerlab.org/"
+        },
+        {
+          "text": "Department of Oncology",
+          "href": "https://www.unil.ch/dof/"
+        },
+        {
+          "text": "Ludwig Institute for Cancer Research",
+          "href": "https://www.ludwigcancerresearch.org/location/lausanne/"
+        },
+        {
+          "text": "University of Lausanne",
+          "href": "https://unil.ch/index.html"
+        },
+        {
+          "text": "the Swiss Institute of Bioinformatics",
+          "href": "https://www.sib.swiss/"
+        },
+        {
+          "text": "",
+          "href": "https://sccl.ch/"
+        },
+        {
+          "text": "get in touch by email",
+          "href": "javascript:location='mailto:\\u0064\\u0061\\u0076\\u0069\\u0064\\u002e\\u0067\\u0066\\u0065\\u006c\\u006c\\u0065\\u0072\\u0040\\u0075\\u006e\\u0069\\u006c\\u002e\\u0063\\u0068';void 0"
+        }
+      ]
     },
-    "aws-budgets-create-budget-action-cli": {
-      "url": "https://docs.aws.amazon.com/cli/latest/reference/budgets/create-budget-action.html",
+    "mhc_motif_atlas_class1": {
+      "url": "http://mhcmotifatlas.org/class1",
       "attempts": [
         {
           "n": 1,
           "status": 200,
-          "chars": 12017
+          "chars": 2712
         }
       ],
-      "final_url": "https://docs.aws.amazon.com/cli/latest/reference/budgets/create-budget-action.html",
+      "final_url": "http://mhcmotifatlas.org/class1",
       "status": 200,
-      "title": "create-budget-action — AWS CLI 2.36.33 Command Reference",
-      "chars": 12017,
-      "probe_hits": {
-        "subscription": [
-          "--subscribers (list) [required] A list of subscribers. Constraints: min: 1 max: 11 (structure) The subscriber to a budget notification. The subscriber consists of a subscription type and either an Amazon SNS topic or an email address. For example, an email subscriber has the following parameters: A subscriptionType of EMAIL An address of examp",
-          "on. The subscriber consists of a subscription type and either an Amazon SNS topic or an email address. For example, an email subscriber has the following parameters: A subscriptionType of EMAIL An address of example@example.com SubscriptionType -> (string) [required] The type of notification that Amazon Web Services sends to a subscriber. Possib",
-          "an Amazon SNS topic or an email address. For example, an email subscriber has the following parameters: A subscriptionType of EMAIL An address of example@example.com SubscriptionType -> (string) [required] The type of notification that Amazon Web Services sends to a subscriber. Possible values: SNS EMAIL Address -> (string) [required] The ad"
-        ]
-      },
-      "text": "AWS CLI Command Reference\nHome\nUser Guide\nForum\nGitHub\n← create-budget / create-notification →\n\nTable of Contents\ncreate-budget-action\nDescription\nSynopsis\nOptions\nGlobal Options\nOutput\nQuick search\nSearch box  Search\nFeedback\n\nDid you find this page useful? Do you have a suggestion to improve the documentation? Give us feedback.\nIf you would like to suggest an improvement or fix for the AWS CLI, check out our contributing guide on GitHub.\n\nUser Guide\n\nFirst time using the AWS CLI? See the User Guide for help getting started.\n\n[ aws . budgets ]\n\ncreate-budget-action¶\nDescription¶\n\nCreates a budget action.\n\nSee also: AWS API Documentation\n\nSynopsis¶\n  create-budget-action\n--account-id <value>\n--budget-name <value>\n--notification-type <value>\n--action-type <value>\n--action-threshold <value>\n--definition <value>\n--execution-role-arn <value>\n--approval-model <value>\n--subscribers <value>\n[--resource-tags <value>]\n[--cli-input-json | --cli-input-yaml]\n[--generate-cli-skeleton <value>]\n[--debug]\n[--endpoint-url <value>]\n[--no-verify-ssl]\n[--no-paginate]\n[--output <value>]\n[--query <value>]\n[--profile <value>]\n[--region <value>]\n[--version <value>]\n[--color <value>]\n[--no-sign-request]\n[--ca-bundle <value>]\n[--cli-read-timeout <value>]\n[--cli-connect-timeout <value>]\n[--cli-binary-format <value>]\n[--no-cli-pager]\n[--cli-auto-prompt]\n[--no-cli-auto-prompt]\n[--cli-error-format <value>]\n\nOptions¶\n\n--account-id (string) [required]\n\nThe account ID of the user. It’s a 12-digit number.\n\nConstraints:\n\nmin: 12\nmax: 12\npattern: \\d{12}\n\n--budget-name (string) [required]\n\nA string that represents the budget name. The “:” and “\" characters, and the “/action/” substring, aren’t allowed.\n\nBudget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.\n\nConstraints:\n\nmin: 1\nmax: 100\npattern: ^(?![^:\\\\]*/action/|(?i).*<script>.*</script>.*)[^:\\\\]+$\n\n--notification-type (string) [required]\n\nThe type of a notification. It must be ACTUAL or FORECASTED.\n\nPossible values:\n\nACTUAL\nFORECASTED\n\n--action-type (string) [required]\n\nThe type of action. This defines the type of tasks that can be carried out by this action. This field also determines the format for definition.\n\nPossible values:\n\nAPPLY_IAM_POLICY\nAPPLY_SCP_POLICY\nRUN_SSM_DOCUMENTS\n\n--action-threshold (structure) [required]\n\nThe trigger threshold of the action.\n\nActionThresholdValue -> (double) [required]\n\nThe threshold of a notification.\n\nConstraints:\n\nmin: 0\nmax: 15000000000000\n\nActionThresholdType -> (string) [required]\n\nThe type of threshold for a notification.\n\nPossible values:\n\nPERCENTAGE\nABSOLUTE_VALUE\n\nShorthand Syntax:\n\nActionThresholdValue=double,ActionThresholdType=string\n\n\nJSON Syntax:\n\n{\n  \"ActionThresholdValue\": double,\n  \"ActionThresholdType\": \"PERCENTAGE\"|\"ABSOLUTE_VALUE\"\n}\n\n\n--definition (structure) [required]\n\nSpecifies all of the type-specific parameters.\n\nIamActionDefinition -> (structure)\n\nThe Identity and Access Management (IAM) action definition details.\n\nPolicyArn -> (string) [required]\n\nThe Amazon Resource Name (ARN) of the policy to be attached.\n\nConstraints:\n\nmin: 25\nmax: 684\npattern: ^arn:aws(-eusc|-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::(\\d{12}|aws):policy(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$\n\nRoles -> (list)\n\nA list of roles to be attached. There must be at least one role.\n\nConstraints:\n\nmin: 1\nmax: 100\n\n(string)\n\nConstraints:\n\nmin: 1\nmax: 576\npattern: ^([\\u0021-\\u007F]+\\u002F)?[\\w+=,.@-]+$\n\nGroups -> (list)\n\nA list of groups to be attached. There must be at least one group.\n\nConstraints:\n\nmin: 1\nmax: 100\n\n(string)\n\nConstraints:\n\nmin: 1\nmax: 640\npattern: ^([\\u0021-\\u007F]+\\u002F)?[\\w+=,.@-]+$\n\nUsers -> (list)\n\nA list of users to be attached. There must be at least one user.\n\nConstraints:\n\nmin: 1\nmax: 100\n\n(string)\n\nConstraints:\n\nmin: 1\nmax: 576\npattern: ^([\\u0021-\\u007F]+\\u002F)?[\\w+=,.@-]+$\n\nScpActionDefinition -> (structure)\n\nThe service control policies (SCPs) action definition details.\n\nPolicyId -> (string) [required]\n\nThe policy ID attached.\n\nConstraints:\n\nmin: 10\nmax: 130\npattern: ^p-[0-9a-zA-Z_]{8,128}$\n\nTargetIds -> (list) [required]\n\nA list of target IDs.\n\nConstraints:\n\nmin: 1\nmax: 100\n\n(string)\n\nConstraints:\n\nmin: 12\nmax: 68\npattern: ^(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$)|(\\d{12})\n\nSsmActionDefinition -> (structure)\n\nThe Amazon Web Services Systems Manager (SSM) action definition details.\n\nActionSubType -> (string) [required]\n\nThe action subType.\n\nPossible values:\n\nSTOP_EC2_INSTANCES\nSTOP_RDS_INSTANCES\n\nRegion -> (string) [required]\n\nThe Region to run the SSM document.\n\nConstraints:\n\nmin: 9\nmax: 20\npattern: ^\\w{2,4}-\\w+(-\\w+)?-\\d$\n\nInstanceIds -> (list) [required]\n\nThe EC2 and RDS instance IDs.\n\nConstraints:\n\nmin: 1\nmax: 100\n\n(string)\n\nConstraints:\n\nmin: 1\nmax: 63\npattern: ^i-(\\w{8}|\\w{17})$|^[a-zA-Z]([\\w-]{0,61}\\w)?$\n\nShorthand Syntax:\n\nIamActionDefinition={PolicyArn=string,Roles=[string,string],Groups=[string,string],Users=[string,string]},ScpActionDefinition={PolicyId=string,TargetIds=[string,string]},SsmActionDefinition={ActionSubType=string,Region=string,InstanceIds=[string,string]}\n\n\nJSON Syntax:\n\n{\n  \"IamActionDefinition\": {\n    \"PolicyArn\": \"string\",\n    \"Roles\": [\"string\", ...],\n    \"Groups\": [\"string\", ...],\n    \"Users\": [\"string\", ...]\n  },\n  \"ScpActionDefinition\": {\n    \"PolicyId\": \"string\",\n    \"TargetIds\": [\"string\", ...]\n  },\n  \"SsmActionDefinition\": {\n    \"ActionSubType\": \"STOP_EC2_INSTANCES\"|\"STOP_RDS_INSTANCES\",\n    \"Region\": \"string\",\n    \"InstanceIds\": [\"string\", ...]\n  }\n}\n\n\n--execution-role-arn (string) [required]\n\nThe role passed for action execution and reversion. Roles and actions must be in the same account.\n\nConstraints:\n\nmin: 32\nmax: 618\npattern: ^arn:aws(-eusc|-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$\n\n--approval-model (string) [required]\n\nThis specifies if the action needs manual or automatic approval.\n\nPossible values:\n\nAUTOMATIC\nMANUAL\n\n--subscribers (list) [required]\n\nA list of subscribers.\n\nConstraints:\n\nmin: 1\nmax: 11\n\n(structure)\n\nThe subscriber to a budget notification. The subscriber consists of a subscription type and either an Amazon SNS topic or an email address.\n\nFor example, an email subscriber has the following parameters:\n\nA subscriptionType of EMAIL\nAn address of example@example.com\n\nSubscriptionType -> (string) [required]\n\nThe type of notification that Amazon Web Services sends to a subscriber.\n\nPossible values:\n\nSNS\nEMAIL\n\nAddress -> (string) [required]\n\nThe address that Amazon Web Services sends budget notifications to, either an SNS topic or an email.\n\nWhen you create a subscriber, the value of Address can’t contain line breaks.\n\nConstraints:\n\nmin: 1\nmax: 2147483647\npattern: (.*[\\n\\r\\t\\f\\ ]?)*\n\nShorthand Syntax:\n\nSubscriptionType=string,Address=string ...\n\n\nJSON Syntax:\n\n[\n  {\n    \"SubscriptionType\": \"SNS\"|\"EMAIL\",\n    \"Address\": \"string\"\n  }\n  ...\n]\n\n\n--resource-tags (list)\n\nAn optional list of tags to associate with the specified budget action. Each tag consists of a key and a value, and each key must be unique for the resource.\n\nConstraints:\n\nmin: 0\nmax: 200\n\n(structure)\n\nThe tag structure that contains a tag key and value.\n\nKey -> (string) [required]\n\nThe key that’s associated with the tag.\n\nConstraints:\n\nmin: 1\nmax: 128\n\nValue -> (string) [required]\n\nThe value that’s associated with the tag.\n\nConstraints:\n\nmin: 0\nmax: 256\n\nShorthand Syntax:\n\nKey=string,Value=string ...\n\n\nJSON Syntax:\n\n[\n  {\n    \"Key\": \"string\",\n    \"Value\": \"string\"\n  }\n  ...\n]\n\n\n--cli-input-json | --cli-input-yaml (string) Reads arguments from the JSON string provided. The JSON string follows the format provided by --generate-cli-skeleton. If other arguments are provided on the command line, those values will override the JSON-provided values. It is not possible to pass arbitrary binary values using a JSON-provided value as the string will be taken literally. This may not be specified along with --cli-input-yaml.\n\n--generate-cli-skeleton (string) Prints a JSON skeleton to standard output without sending an API request. If provided with no value or the value input, prints a sample input JSON that can be used as an argument for --cli-input-json. Similarly, if provided yaml-input it will print a sample input YAML that can be used with --cli-input-yaml. If provided with the value output, it validates the command inputs and returns a sample output JSON for that command. The generated JSON skeleton is not stable between versions of the AWS CLI and there are no backwards compatibility guarantees in the JSON skeleton generated.\n\nGlobal Options¶\n\n--debug (boolean)\n\nTurn on debug logging.\n\n--endpoint-url (string)\n\nOverride command’s default URL with the given URL.\n\n--no-verify-ssl (boolean)\n\nBy default, the AWS CLI uses SSL when communicating with AWS services. For each SSL connection, the AWS CLI will verify SSL certificates. This option overrides the default behavior of verifying SSL certificates.\n\n--no-paginate (boolean)\n\nDisable automatic pagination. If automatic pagination is disabled, the AWS CLI will only make one call, for the first page of results.\n\n--output (string)\n\nThe formatting style for command output.\n\njson\ntext\ntable\nyaml\nyaml-stream\noff\n\n--query (string)\n\nA JMESPath query to use in filtering the response data.\n\n--profile (string)\n\nUse a specific profile from your credential file.\n\n--region (string)\n\nThe region to use. Overrides config/env settings.\n\n--version (string)\n\nDisplay the version of this tool.\n\n--color (string)\n\nTurn on/off color output.\n\non\noff\nauto\n\n--no-sign-request (boolean)\n\nDo not sign requests. Credentials will not be loaded if this argument is provided.\n\n--ca-bundle (string)\n\nThe CA certificate bundle to use when verifying SSL certificates. Overrides config/env settings.\n\n--cli-read-timeout (int)\n\nThe maximum socket read time in seconds. If the value is set to 0, the socket read will be blocking and not timeout. The default value is 60 seconds.\n\n--cli-connect-timeout (int)\n\nThe maximum socket connect time in seconds. If the value is set to 0, the socket connect will be blocking and not timeout. The default value is 60 seconds.\n\n--cli-binary-format (string)\n\nThe formatting style to be used for binary blobs. The default format is base64. The base64 format expects binary blobs to be provided as a base64 encoded string. The raw-in-base64-out format preserves compatibility with AWS CLI V1 behavior and binary values must be passed literally. When providing contents from a file that map to a binary blob fileb:// will always be treated as binary and use the file contents directly regardless of the cli-binary-format setting. When using file:// the file contents will need to properly formatted for the configured cli-binary-format.\n\nbase64\nraw-in-base64-out\n\n--no-cli-pager (boolean)\n\nDisable cli pager for output.\n\n--cli-auto-prompt (boolean)\n\nAutomatically prompt for CLI input parameters.\n\n--no-cli-auto-prompt (boolean)\n\nDisable automatically prompt for CLI input parameters.\n\n--cli-error-format (string)\n\nThe formatting style for error output. By default, errors are displayed in enhanced format.\n\nlegacy\njson\nyaml\ntext\ntable\nenhanced\nOutput¶\n\nAccountId -> (string)\n\nThe account ID of the user. It’s a 12-digit number.\n\nConstraints:\n\nmin: 12\nmax: 12\npattern: \\d{12}\n\nBudgetName -> (string)\n\nA string that represents the budget name. The “:” and “\" characters, and the “/action/” substring, aren’t allowed.\n\nBudget names are validated for content. Names that contain phone numbers, URLs, or email addresses combined with certain terms may be rejected.\n\nConstraints:\n\nmin: 1\nmax: 100\npattern: ^(?![^:\\\\]*/action/|(?i).*<script>.*</script>.*)[^:\\\\]+$\n\nActionId -> (string)\n\nA system-generated universally unique identifier (UUID) for the action.\n\nConstraints:\n\nmin: 36\nmax: 36\npattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$\n← create-budget / create-notification →\n© Copyright 2026, Amazon Web Services. Created using Sphinx."
+      "title": "MHC Class I",
+      "chars": 2712,
+      "probe_hits": {},
+      "text": "Home\nClass I Alleles\nClass II Alleles\nTools\nF.A.Q.\nMHC Motif Atlas: Class I alleles\nDownload Data\nUnmodified Ligands\nPhosphorylated Ligands\nAll Ligands\nMHC-I Sequences\nX-ray Structures\nAlleles\nSearch for alleles \nSelected Alleles:\nHLA-B*07:02\nAlleles with naturally presented ligands in our curated data are listed below. Others can be found using the search bar above.\nHLA-A*01:01\nHLA-A*02:01\nHLA-A*02:02\nHLA-A*02:03\nHLA-A*02:04\nHLA-A*02:05\nHLA-A*02:06\nHLA-A*02:07\nHLA-A*02:11\nHLA-A*02:20\nHLA-A*02:52\nHLA-A*03:01\nHLA-A*03:02\nHLA-A*11:01\nHLA-A*11:02\nHLA-A*23:01\nHLA-A*24:02\nHLA-A*24:07\nHLA-A*25:01\nHLA-A*26:01\nHLA-A*26:08\nHLA-A*29:02\nHLA-A*30:01\nHLA-A*30:02\nHLA-A*31:01\nHLA-A*32:01\nHLA-A*33:01\nHLA-A*33:03\nHLA-A*34:01\nHLA-A*34:02\nHLA-A*36:01\nHLA-A*66:01\nHLA-A*68:01\nHLA-A*68:02\nHLA-A*69:01\nHLA-A*74:01\nHLA-B*07:04\nHLA-B*08:01\nHLA-B*13:01\nHLA-B*13:02\nHLA-B*14:01\nHLA-B*14:02\nHLA-B*15:01\nHLA-B*15:02\nHLA-B*15:03\nHLA-B*15:10\nHLA-B*15:11\nHLA-B*15:13\nHLA-B*15:17\nHLA-B*15:18\nHLA-B*18:01\nHLA-B*18:03\nHLA-B*18:05\nHLA-B*27:04\nHLA-B*27:05\nHLA-B*27:09\nHLA-B*35:01\nHLA-B*35:02\nHLA-B*35:03\nHLA-B*35:07\nHLA-B*35:08\nHLA-B*37:01\nHLA-B*38:01\nHLA-B*38:02\nHLA-B*39:01\nHLA-B*39:05\nHLA-B*39:06\nHLA-B*39:24\nHLA-B*40:01\nHLA-B*40:02\nHLA-B*40:06\nHLA-B*40:32\nHLA-B*41:01\nHLA-B*42:01\nHLA-B*44:02\nHLA-B*44:03\nHLA-B*44:05\nHLA-B*45:01\nHLA-B*46:01\nHLA-B*47:01\nHLA-B*48:01\nHLA-B*49:01\nHLA-B*50:01\nHLA-B*51:01\nHLA-B*51:08\nHLA-B*52:01\nHLA-B*53:01\nHLA-B*54:01\nHLA-B*55:01\nHLA-B*55:02\nHLA-B*56:01\nHLA-B*57:01\nHLA-B*57:03\nHLA-B*58:01\nHLA-B*58:02\nHLA-B*67:01\nHLA-B*73:01\nHLA-B*81:01\nHLA-C*01:02\nHLA-C*02:02\nHLA-C*03:02\nHLA-C*03:03\nHLA-C*03:04\nHLA-C*04:01\nHLA-C*04:03\nHLA-C*05:01\nHLA-C*06:02\nHLA-C*07:01\nHLA-C*07:02\nHLA-C*07:04\nHLA-C*08:01\nHLA-C*08:02\nHLA-C*12:02\nHLA-C*12:03\nHLA-C*12:04\nHLA-C*14:02\nHLA-C*14:03\nHLA-C*15:02\nHLA-C*15:05\nHLA-C*16:01\nHLA-C*16:02\nHLA-C*17:01\nHLA-E*01:03\nHLA-G*01:01\nHLA-G*01:03\nHLA-G*01:04\nH2-Db\nH2-Dd\nH2-Dq\nH2-Kb\nH2-Kd\nH2-Kk\nH2-Kq\nH2-Ld\n8 mer\n9 mer\n10 mer\n11 mer\n12 mer\n13 mer\n14 mer\nLength Distribution\nMultiple Specificities\nPhosphorylated Ligands\nLigands\nHLA-B*07:02\nDownload Ligands\nUnmodified Ligands\nPhosphorylated Ligands\n PDB Structures\n6AT5 - APRGPHGGAASGL - 1.5 [Å]\n4U1H - TPQDLNTML - 1.59 [Å]\n5WMP - TPRVTGGGAM - 1.6 [Å]\n5WMO - RPPIFIRRL - 1.62 [Å]\n3VCL - RPHERNGFTVL - 1.7 [Å]\n5EO0 - RPMTFKGAL - 1.7 [Å]\n5WMN - SPIVPSFDM - 1.82 [Å]\n5EO1 - RPMTYKGAL - 1.85 [Å]\n6UJ7 - SPNGTIQNIL - 1.9 [Å]\n7LFZ - IPRRNVATL - 1.9 [Å]\n7LGT - SPKLHFYYL - 1.97 [Å]\n6AVF - APRGPHGGAASGL - 2.03 [Å]\n4U1K - RPQVPLRPM - 2.09 [Å]\n6UJ8 - SPNGTIRNIL - 2.25 [Å]\n7LG0 - SPRWYFYYL - 2.3 [Å]\n6AVG - APRGPHGGAASGL - 2.6 [Å]\n7LGD - SPRWYFYYL - 2.88 [Å]\n6UJ9 - SPNGTIQNIL - 2.9 [Å]\n6VMX - RPPIFIRRL - 3.1 [Å]\nB0702\n\nPeptide Length Distribution",
+      "author_facing_links": [
+        {
+          "text": "Home",
+          "href": "http://mhcmotifatlas.org/home"
+        },
+        {
+          "text": "Class I Alleles",
+          "href": "http://mhcmotifatlas.org/class1"
+        },
+        {
+          "text": "Class II Alleles",
+          "href": "http://mhcmotifatlas.org/class2"
+        },
+        {
+          "text": "Tools",
+          "href": "http://mhcmotifatlas.org/tools"
+        },
+        {
+          "text": "F.A.Q.",
+          "href": "http://mhcmotifatlas.org/faq"
+        },
+        {
+          "text": "Unmodified Ligands",
+          "href": "http://mhcmotifatlas.org/data/classI/MS/Peptides/all_peptides.txt"
+        },
+        {
+          "text": "Phosphorylated Ligands",
+          "href": "http://mhcmotifatlas.org/data/classI/phospho/Peptides/all_peptides.txt"
+        },
+        {
+          "text": "All Ligands",
+          "href": "http://mhcmotifatlas.org/data/classI/all_peptides.txt"
+        },
+        {
+          "text": "MHC-I Sequences",
+          "href": "http://mhcmotifatlas.org/data/classI/MHC_I_sequences.txt"
+        },
+        {
+          "text": "X-ray Structures",
+          "href": "http://mhcmotifatlas.org/data/classI/MHC_I_structures.txt"
+        },
+        {
+          "text": "Unmodified Ligands",
+          "href": "http://mhcmotifatlas.org/data/classI/MS/Peptides/B0702.txt"
+        },
+        {
+          "text": "Phosphorylated Ligands",
+          "href": "http://mhcmotifatlas.org/data/classI/phospho/Peptides/B0702.txt"
+        },
+        {
+          "text": "6AT5 - APRGPHGGAASGL - 1.5 [Å]",
+          "href": "https://www.rcsb.org/structure/6AT5"
+        },
+        {
+          "text": "4U1H - TPQDLNTML - 1.59 [Å]",
+          "href": "https://www.rcsb.org/structure/4U1H"
+        },
+        {
+          "text": "5WMP - TPRVTGGGAM - 1.6 [Å]",
+          "href": "https://www.rcsb.org/structure/5WMP"
+        },
+        {
+          "text": "5WMO - RPPIFIRRL - 1.62 [Å]",
+          "href": "https://www.rcsb.org/structure/5WMO"
+        },
+        {
+          "text": "3VCL - RPHERNGFTVL - 1.7 [Å]",
+          "href": "https://www.rcsb.org/structure/3VCL"
+        },
+        {
+          "text": "5EO0 - RPMTFKGAL - 1.7 [Å]",
+          "href": "https://www.rcsb.org/structure/5EO0"
+        },
+        {
+          "text": "5WMN - SPIVPSFDM - 1.82 [Å]",
+          "href": "https://www.rcsb.org/structure/5WMN"
+        },
+        {
+          "text": "5EO1 - RPMTYKGAL - 1.85 [Å]",
+          "href": "https://www.rcsb.org/structure/5EO1"
+        },
+        {
+          "text": "6UJ7 - SPNGTIQNIL - 1.9 [Å]",
+          "href": "https://www.rcsb.org/structure/6UJ7"
+        },
+        {
+          "text": "7LFZ - IPRRNVATL - 1.9 [Å]",
+          "href": "https://www.rcsb.org/structure/7LFZ"
+        },
+        {
+          "text": "7LGT - SPKLHFYYL - 1.97 [Å]",
+          "href": "https://www.rcsb.org/structure/7LGT"
+        },
+        {
+          "text": "6AVF - APRGPHGGAASGL - 2.03 [Å]",
+          "href": "https://www.rcsb.org/structure/6AVF"
+        },
+        {
+          "text": "4U1K - RPQVPLRPM - 2.09 [Å]",
+          "href": "https://www.rcsb.org/structure/4U1K"
+        },
+        {
+          "text": "6UJ8 - SPNGTIRNIL - 2.25 [Å]",
+          "href": "https://www.rcsb.org/structure/6UJ8"
+        },
+        {
+          "text": "7LG0 - SPRWYFYYL - 2.3 [Å]",
+          "href": "https://www.rcsb.org/structure/7LG0"
+        },
+        {
+          "text": "6AVG - APRGPHGGAASGL - 2.6 [Å]",
+          "href": "https://www.rcsb.org/structure/6AVG"
+        },
+        {
+          "text": "7LGD - SPRWYFYYL - 2.88 [Å]",
+          "href": "https://www.rcsb.org/structure/7LGD"
+        },
+        {
+          "text": "6UJ9 - SPNGTIQNIL - 2.9 [Å]",
+          "href": "https://www.rcsb.org/structure/6UJ9"
+        },
+        {
+          "text": "6VMX - RPPIFIRRL - 3.1 [Å]",
+          "href": "https://www.rcsb.org/structure/6VMX"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MixMHCpred/Logos/class1_8/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MixMHCpred/Logos/class1_9/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MixMHCpred/Logos/class1_10/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MixMHCpred/Logos/class1_11/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MixMHCpred/Logos/class1_12/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MixMHCpred/Logos/class1_13/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MixMHCpred/Logos/class1_14/B0702.png"
+        },
+        {
+          "text": "Peptide Length Distribution",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/len_dists/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_8/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_9/B0702_1.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_9/B0702_2.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_9/B0702_3.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_9/B0702_4.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_10/B0702_1.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_10/B0702_2.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_11/B0702_1.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_11/B0702_2.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_12/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_13/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_14/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/phospho/Logos/class1_8/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/phospho/Logos/class1_9/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/phospho/Logos/class1_10/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/phospho/Logos/class1_11/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/phospho/Logos/class1_12/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/phospho/Logos/class1_13/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/phospho/Logos/class1_14/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_9/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_10/B0702.png"
+        },
+        {
+          "text": "",
+          "href": "http://mhcmotifatlas.org/data/Logos/classI/MS/Logos/class1_11/B0702.png"
+        }
+      ]
     },
-    "aws-budgets-quotas": {
-      "url": "https://docs.aws.amazon.com/cost-management/latest/userguide/management-limits.html",
+    "mhc_motif_atlas_class1_download": {
+      "url": "http://mhcmotifatlas.org/class1_download",
+      "attempts": [
+        {
+          "n": 1,
+          "status": 404,
+          "chars": 27
+        },
+        {
+          "n": 2,
+          "status": 404,
+          "chars": 27
+        },
+        {
+          "n": 3,
+          "status": 404,
+          "chars": 27
+        },
+        {
+          "n": 4,
+          "status": 404,
+          "chars": 27
+        }
+      ],
+      "status": null
+    },
+    "mhc_motif_atlas_faq": {
+      "url": "http://mhcmotifatlas.org/faq",
       "attempts": [
         {
           "n": 1,
           "status": 200,
-          "chars": 5146
+          "chars": 9308
         }
       ],
-      "final_url": "https://docs.aws.amazon.com/cost-management/latest/userguide/management-limits.html",
+      "final_url": "http://mhcmotifatlas.org/faq",
       "status": 200,
-      "title": "Quotas and restrictions - AWS Cost Management",
-      "chars": 5146,
-      "probe_hits": {
-        "subscription": [
-          "alues per customer managed monitor (linked accounts or tag values) 10 Values per customer managed monitor (cost category values) 1 General Quotas (Apply to Both) Alert subscriptions per account 100 Email recipients per subscription 10 Amazon SNS topics per subscription 1 Monitors per alert subscription 502 maximum (all monitors can be attached) Tim",
-          "or tag values) 10 Values per customer managed monitor (cost category values) 1 General Quotas (Apply to Both) Alert subscriptions per account 100 Email recipients per subscription 10 Amazon SNS topics per subscription 1 Monitors per alert subscription 502 maximum (all monitors can be attached) Time to detect anomaly after usage Up to 24 hours Hist",
-          "managed monitor (cost category values) 1 General Quotas (Apply to Both) Alert subscriptions per account 100 Email recipients per subscription 10 Amazon SNS topics per subscription 1 Monitors per alert subscription 502 maximum (all monitors can be attached) Time to detect anomaly after usage Up to 24 hours Historical data required for detection 10"
-        ]
-      },
-      "text": "Select your cookie preferences\n\nWe use essential cookies and similar tools that are necessary to provide our site and services. We use performance cookies to collect anonymous statistics, so we can understand how customers use our site and make improvements. Essential cookies cannot be deactivated, but you can choose “Customize” or “Decline” to decline performance cookies.\n\nIf you agree, AWS and approved third parties will also use cookies to provide useful site features, remember your preferences, and display relevant content, including relevant advertising. To accept or decline all non-essential cookies, choose “Accept” or “Decline.” To make more detailed choices, choose “Customize.”\n\nAccept\nDecline\nCustomize\nSkip to main content\nEnglish\nPreferences \nContact Us\nFeedback\nGet started\nService guides\nDeveloper tools\nAI resources\nSearch in this guide\nCreate an AWS Account\nAWS Cost Management\nUser Guide\nUse AWS Billing and Cost Management for AWS\nUsing AWS Billing and Cost Management console with our new AWS experience\nSecurity\nQuotas and restrictions\nDocument history\nDocumentation\nAWS Billing and Cost Management\nUser Guide\nDocumentation\nAWS Billing and Cost Management\nUser Guide\nQuotas and restrictions\n PDF\n RSS\n Markdown\nFocus mode\n\nThe following table describes the current quotas, restrictions, and naming constraints within AWS Cost Management features.\n\nFor a list of quotas and restrictions for features in the AWS Billing console, see Quotas and restrictions in the AWS Billing User Guide.\n\nTopics\n\nBudgets\n\nBudget reports\n\nCost Explorer\n\nAWS Cost Anomaly Detection\n\nAWS Pricing Calculator\n\nBilling View\n\nAWS Billing and Cost Management Dashboards\n\nBudgets\n\nNumber of free budgets with actions per account\n\n\t\n\n2\n\n\n\n\nNumber of actions per budget\n\n\t\n\n10\n\n\n\n\nNumber of budget actions per account\n\n\t\n\n100\n\n\n\n\nTotal number of budgets per management account\n\n\t\n\n20,000\n\n\n\n\nTotal number of budgets using a custom billing view\n\n\t\n\n150\n\n\n\n\nCharacters allowed in a budget name\n\n\t\n\n0-9\n\nA-Z and a-z\n\nSpace\n\nThe following symbols: _.:/=+-%@\n\nBudget reports\n\nMaximum number of budget reports\n\n\t\n\n50\n\n\n\n\nMaximum number of budgets per budget report\n\n\t\n\n50\n\n\n\n\nMaximum email recipients in a budget report\n\n\t\n\n50\n\nCost Explorer\nMaximum number of reports that you can save per account\t\n\n300\n\n\nMaximum number of filters in the GetCostAndUsage operation (API)\t\n\n100\n\nAWS Cost Anomaly Detection\n\nAWS Managed Monitor Quotas\n\nAWS managed monitor for AWS services per account (management and member)\t1\nAdditional AWS managed monitors (linked account, cost allocation tag, or cost category) per management account\t1\nTotal AWS managed monitors per management account\t2\nTotal AWS managed monitors per member account\t1\nValues tracked per AWS managed monitor\t5,000\n\nCustomer Managed Monitor Quotas\n\nTotal customer managed monitors per management account\t500\nValues per customer managed monitor (linked accounts or tag values)\t10\nValues per customer managed monitor (cost category values)\t1\n\nGeneral Quotas (Apply to Both)\n\nAlert subscriptions per account\t100\nEmail recipients per subscription\t10\nAmazon SNS topics per subscription\t1\nMonitors per alert subscription\t502 maximum (all monitors can be attached)\nTime to detect anomaly after usage\tUp to 24 hours\nHistorical data required for detection\t10 days minimum\nUnsupported services\t\n\nAWS Marketplace (except third-party foundation models on Amazon Bedrock)\n\nAWS Support\n\nWorkSpaces\n\nCost Explorer\n\nBudgets\n\nAWS Shield\n\nAmazon Route 53\n\nAWS Certificate Manager\n\nOnly analyzes Usage charge type and NetUnblendedCost\n\nAWS Pricing Calculator\n\nMaximum number of workload estimates an account can create in a month\n\n\t\n\n50\n\n\n\n\nMaximum number of modifications that can be made in a single workload estimate\n\n\t\n\n350\n\n\n\n\nMaximum number of usage lines that can be added to a single workload estimate\n\n\t\n\n2000\n\n\n\n\nMaximum number of usage lines that can be added to a single bill estimate\n\n\t\n\n2000\n\nBilling View\n\nMaximum number of billing views that you can create per account\n\n\t\n\n3000\n\nAWS Billing and Cost Management Dashboards\n\nMaximum number of widgets per dashboard\n\n\t\n\n20\n\n\n\n\nMaximum number of dashboards per account\n\n\t\n\n50\n\n\n\n\nMaximum number of scheduled reports per account\n\n\t\n\n100\n\n\n\n\nMinimum schedule frequency\n\n\t\n\nHourly\n\n\n\n\nMaximum schedule period (endTime)\n\n\t\n\n3 years from current time\n\n\n\n\nPre-signed URL expiry (report download link)\n\n\t\n\n15 days\n\nOn this page\nBudgets\nBudget reports\nCost Explorer\nAWS Cost Anomaly Detection\nAWS Pricing Calculator\nBilling View\nAWS Billing and Cost Management Dashboards\nDid this page help you?\nYes\nNo\nProvide feedback\nNext topic:Document history\nPrevious topic:Infrastructure security\nGet Started\nAWS Hands-On Tutorials \nAWS Solutions Library \nAWS Decision Guides\nService Guides\nChoosing a generative AI service\nAWS service guides\nAWS CLI Tutorials on GitHub \nDeveloper Tools\nAWS Code Example Library\nAWS CLI\nAWS Builder Center \nAWS Developer Tools Blog \nHelpful Links\nDownload the AWS Docs MCP Server \nSign into the AWS Console \nAWS re:Post \nPrivacySite termsCookie preferences © 2026, Amazon Web Services, Inc. or its affiliates. All rights reserved.\nEnglish\nTop"
+      "title": "Frequently Asked Questions",
+      "chars": 9308,
+      "probe_hits": {},
+      "text": "Home\nClass I Alleles\nClass II Alleles\nTools\nF.A.Q.\nMHC Motif Atlas: F.A.Q.\nWhat are MHC molecules?\nMHC molecules are responsible for the presentation on the cell surface of peptides recognized by T cells. MHC stands for Major Histocompatibility Complex. Two main classes of MHC molecules exist. MHC-I, also called Class I Human Leukocyte Antigen (HLA-I) in human, present intracellular peptides for recognition by CD8+ T cells. In human, HLA-I are encoded by 5 genes (HLA-A/B/C/E/G). HLA-A/B/C genes are expressed in most cell types, while HLA-E and HLA-G are only expressed in specialized cell types. MHC-I molecules form heterodimers with B2M. MHC-II present mainly extracellular peptides coming from phagocytosis or endocytosis for recognition by CD4+ T cells. MHC-II are expressed primarily in antigen presenting cells (e.g., B cells or dendritic cells). In human, MHC-II genes are encoded by 9 genes (HLA-DRA1/B1/B3/B4/B5, DPA1/B1 and DQA1/B1). Within each set of genes, MHC-II form heterodimers with an alpha chain and the beta chain (e.g., HLA-DPA1 – HLA-DPB1). MHC genes are the most polymorphic genes in the human genome and tens of thousands of different alleles have been observed in the human population. MHC molecules are found in all jawed vertebrate species.\nHow should I interpret the nomenclature of MHC molecules?\nDue to the huge polymorphism of MHC molecules, a specific nomenclature has been established. In human, MHC are called HLA and the different alleles are designated with names like “HLA-A*01:01:01:01”. The part before the asterix refers to the gene (e.g., HLA-A or HLA-DRB1). The second part (between ‘*’ and ‘:’) refers to the main classes of MHC alleles. The third part represents polymorphisms within the main classes of MHC alleles. The fourth part represents polymorphism at the DNA level that does not change the amino acid sequence. The last part represents polymorphism in intronic regions. When dealing with proteins, the last two parts are omitted and HLA names like HLA-A*01:01 provide a unique identifier for each allele. For simplicity, the 'HLA-' can also be omitted. In mouse, MHC-I alleles start with 'H2-D/K/L' (e.g., H2-Kb) and MHC-II alleles with H2-A/E (e.g., H2-Aa-f).\nWhat does a motif represent?\nA motif is a visualization of the main sequence patterns within a group of peptides (e.g., 9-mer peptides binding to a MHC-I allele). At each position, the frequency (f_a) of each amino acid (a) is computed. These frequencies are then renormalized by the background amino acid frequencies (from the human proteome), and normalized again to 1 (i.e., p_a = raw frequency normalized by the background frequency and further normalized to 1). The height of each letter is proportional to these normalized amino acid frequencies. The total height of the letters at a given position represents the information content :\n\n\nlog\n⁡\n(\n20\n)\n+\n∑\n𝑎\n=\n1\n20\n𝑝\n𝑎\nlog\n⁡\n(\n𝑝\n𝑎\n)\nThe logarithm is typically taken in base 2, hence the maximum at\n𝑙\n𝑜\n𝑔\n2\n(\n20\n)\n=\n4.3219\nwhen only one amino acid is found at this position, representing a fully specific position. The colors of the amino acid represents their main biochemical properties: black for hydrophobic (A,F,I,L,M,P,V,W), green for polar (C,G,N,Q,S,T,Y), blue for positively charged (H,K,R), red for negatively charged (D,E). In addition, phosphorylated residues (S,T,Y) are shown in purple. All motifs shown in the MHC Motif Atlas were visualized with ggseqlogo (Wagih, Bioinformatics 2017). Motifs are very useful to rapidly grasp the main properties of a set of peptides like the ligands of a MHC molecules. Motifs are also referred to as 'sequence logos'.\nWhat are the differences between MHC-I and MHC-II motifs?\nMHC-I molecules accommodate peptides of different lengths (typically 8-14) with the main anchor residues at the second and last positions. Longer (>9) peptides generally bulge out from the binding site (see exceptions discussed in Guillaume et al. PNAS 2018). For this reason different motifs are needed to represent the properties of peptides of different lengths. MHC-II molecules bind peptides of length 12 to 21 but with a conserved 9-mer binding core and flanking residues extending on both sides of the core. Therefore the motifs of MHC-II molecules do not change across different lengths of the ligands.\nWhat does “Peptide Length Distribution” represent?\nFor MHC-I alleles, the distribution of the lengths of the peptides changes substantially across alleles (e.g., HLA-A*01:01 has many long ligands, while HLA-C alleles are often much more restricted to 9-mers). This is why we show the Peptide Length Distribution for each allele. Similarly for MHC-II alleles, the peptide length distribution is shown for each allele.\nWhat does “Multiple specificities” stand for?\nFor several alleles, a simple motif is too limited to describe of the binding specificity, because different classes of peptides can bind to the same allele. These different classes of peptides can represent different binding modes (e.g., C-terminal extensions in 10-mers of HLA-A*68:01 (Guillaume et al. PNAS 2018)) or different combinations of amino acids (e.g., mutually exclusive positively charged residues in HLA-B*07:02 (Bassani-Sternberg and Gfeller, 2016) or HLA-DRB1*08:01 (Racle et al. 2022)). Multiple motifs are useful to capture these different classes of peptides.\nWhat does ‘Phosphorylated ligands’ mean?\nMHC ligands are not restricted to the 20 natural amino acids, but can also display peptides containing post-translational modifications (PTMs). Among all PTMs in MHC-I ligands, phosphorylation is the one with the largest number of known peptides (Solleder et al. MCP 2020). Reliable motifs for MHC-I phosphorylated ligands could be defined and are displayed in the MHCMotifAtlas. The phosphorylated residues (S, T or Y) are shown in purple in those motifs.\nWhat are the motifs referred to as 'Ligands'?\nAmino acid frequencies in MHC ligands coming from MHC peptidomics data are strongly influenced by the amino acid frequency in the human proteome. A correct description of the MHC binding specificity needs to account for this bias by renormalizing the amino acid frequencies computed in the raw ligands. The motifs shown by default in the MHC Motif Atlas include this renormalization. For MHC alleles with known ligands, we also provide the option to visualize the motifs representing the raw ligands, without any correction for the amino acid background frequencies in the human proteome (i.e., based on f_a and not p_a values). As expected, rare amino acids in the human proteome, like M, are smaller in the motifs describing the raw ligands compared to those including renormalization by the amino acid frequencies in the human proteome that are shown by default.\nWhat does binding core offset mean?\nFor MHC-II ligands, the binding is characterized by a core region of 9-amino acids (exception in one MHC-II allele in chicken with a 10-mer core) responsible for the interactions with the MHC-II binding site and flanking residues on both sides of the core. Analysis of MHC-II ligands indicate that the core is preferentially positioned at specific positions, with a preference for one residue to the right of the middle of the peptide. This can be quantified by computing the offset of the binding core from the middle of the peptide. An offset of 0 means that the core is found in the middle of a peptide with an odd length, and is not defined for peptides with an even length. An offset of 1 means that the core is shifted by one residue from the middle of the peptide towards the C-terminus (see discussion in Racle et al. Nature Biotech 2019 for the differences between peptides with odd and even numbers of residues). The fact that binding core offset shows preferences for values around 1 represents another component of the specificity of MHC-II molecules that is useful to improve predictions of MHC-II ligands.\nWhat are N- and C-terminal motifs for MHC-II ligands\nBeyond the MHC-II motifs which determine the amino acid preferences within the binding core, MHC-II ligands show specificity in their N- and C-termini. This specificity reflects the influence of the class II antigen processing pathway (e.g., cleavage, chaperone,...). The signal is especially visible at the first three and last three residues, with a preference for proline at the second position from the N-terminus.\nWhy don’t HLA-DR alleles include information about the HLA-DRA1 gene?\nHLA-DRA1 is the only conserved, non-polymorphic HLA gene in human. As such all HLA-DRB1/3/4/5 alleles always form heterodimer with the same HLA-DRA1*01:01 allele, and therefore this information is omitted from the allele name. Reversely, HLA-DP and HLA-DQ form dimers, and the complexes are designated with the full name (HLA-DPA1*01:03 - HLA*DPB1*02:01).\nWho Developed the MHC Motif Atlas?\nThe MHC Motif Atlas has been developed by the Gfeller Lab at the Department of Oncology and Ludwig Institute for Cancer Research at the University of Lausanne, also affiliated to the Swiss Institute of Bioinformatics.\nCan I ask specific questions or give feedback?\nYou can contact David Gfeller by email.\nHow should I cite the MHC Motif Atlas?\nIf you use data from the MHC Motif Atlas in some of your publications, you should cite Tadros et al. NAR 2022.",
+      "author_facing_links": [
+        {
+          "text": "Home",
+          "href": "http://mhcmotifatlas.org/home"
+        },
+        {
+          "text": "Class I Alleles",
+          "href": "http://mhcmotifatlas.org/class1"
+        },
+        {
+          "text": "Class II Alleles",
+          "href": "http://mhcmotifatlas.org/class2"
+        },
+        {
+          "text": "Tools",
+          "href": "http://mhcmotifatlas.org/tools"
+        },
+        {
+          "text": "F.A.Q.",
+          "href": "http://mhcmotifatlas.org/faq"
+        },
+        {
+          "text": "Wagih, Bioinformatics 2017",
+          "href": "https://pubmed.ncbi.nlm.nih.gov/29036507/"
+        },
+        {
+          "text": "Guillaume et al. PNAS 2018",
+          "href": "https://pubmed.ncbi.nlm.nih.gov/29712860/"
+        },
+        {
+          "text": "Bassani-Sternberg and Gfeller, 2016",
+          "href": "https://doi.org/10.4049/jimmunol.1600808"
+        },
+        {
+          "text": "Racle et al. 2022",
+          "href": "https://doi.org/10.1101/2022.06.26.497561"
+        },
+        {
+          "text": "Solleder et al. MCP 2020",
+          "href": "https://pubmed.ncbi.nlm.nih.gov/31848261/"
+        },
+        {
+          "text": "Racle et al. Nature Biotech 2019",
+          "href": "https://pubmed.ncbi.nlm.nih.gov/31611696/"
+        },
+        {
+          "text": "Gfeller Lab",
+          "href": "https://gfellerlab.org/"
+        },
+        {
+          "text": "David Gfeller",
+          "href": "javascript:location=\"mailto:david.gfeller@unil.ch\";void 0"
+        },
+        {
+          "text": "Tadros et al. NAR 2022",
+          "href": "https://doi.org/10.1093/nar/gkac965"
+        }
+      ]
+    },
+    "iedb_mhci_tools_download": {
+      "url": "http://tools.iedb.org/mhci/download/",
+      "attempts": [
+        {
+          "n": 1,
+          "status": 200,
+          "chars": 3198
+        }
+      ],
+      "final_url": "https://tools.iedb.org/mhci/download/",
+      "status": 200,
+      "title": "MHC-I Download",
+      "chars": 3198,
+      "probe_hits": {},
+      "text": "IEDB Analysis Resource\n×\nNext-Generation Tools site available!\nThis tool has been integrated into the T Cell, Class I tool on our Next-Generation Tools site. Head on over for a completely redesigned user experience.\nHome\nHelp\nExample\nReference\nDownload\nContact\nScoring matrices of SMM and SMMPMBEC - Download\nTo download the dataset in tar.gz format: \nDataset used for retraining the IEDB class I binding prediction tools.\nDescription of the dataset: The dataset is largely identical to that of Kim et al (2014), described above, but includes additional data that was not publicly available at the time.\nDate of the dataset generation: 2013\nDetails on the dataset generation: The dataset was compiled from three sources: the IEDB, the Sette lab, and the Buus lab. If a peptide/allele combination had more than 1 measurement among the three sources, its geometric mean was taken.\nData format: Compressed text file containing binding data.\nDataset availability: binding_data_2013.zip\nDataset used for training and testing of the NetMHCpan-4.1 method\nDataset availability: https://services.healthtech.dtu.dk/suppl/immunology/NAR_NetMHCpan_NetMHCIIpan/\nDataset used for training and testing of the NetMHCpan-4.0 method\nDescription of the dataset: The training binding data are partitioned in 5 files to be used for cross-validation. For instance do the f000_ba and f000_el files contain the binding affinity and eluted ligand training data, and the c000_ba and c000_el files the binding affinity and eluted ligand test data for the first cross-validation partitioning. It is critical that this data partitioning is maintained.\nNote that the BA data - binding affinity - are identical to the ones used for training of NetMHC-4.0 and NetMHCpan-3.0.\nDataset availability: https://services.healthtech.dtu.dk/immunology/NetMHCpan-4.0/\nMHC-I binding predictions - Download\nThe MHC_I binding tool contains a collection of following peptide binding prediction methods for Major Histocompatibility Complex (MHC) class I molecules.The collection is a mixture of pythons scripts and linux 32-bit environment specific binaries.\nann\nsmm\nsmmpmbec\ncomblib_sidney2008\nconsensus\nnetmhcpan\npickpocket\nnetmhccons\n\n\n\nLicense Agreements\nBy downloading the standalone tool, you are consenting to be bound by and become a party as the \"Licensee\" for the use of NetMHC 3.0\".\nAlso you are consenting the terms and conditions of the Non-Profit Open Software License (\"Non-Profit OSL\") version 3.0\nPlease read folowing two agreements before proceeding. If you do not agree to all of the terms of these two agreements, you must not click the download button, not install the product nor use the product, and you do not become a LICENSEE under these agreements.\n\n\n\nTo download the tools in tar.gz format: \nTo return to the main page: \nFor previous versions, please click here.\nAll IEDB Tools Downloads\nDownload and licensing information for all IEDB Tools is available on the Next-Generation Tools site.\n\n\n© 2005-2026 | IEDB Home | Help | Contact\nSupported by a contract from the National Institute of Allergy and Infectious Diseases, a component of the National Institutes of Health in the Department of Health and Human Services.",
+      "author_facing_links": [
+        {
+          "text": "IEDB Analysis Resource",
+          "href": "https://tools.iedb.org/"
+        },
+        {
+          "text": "T Cell, Class I",
+          "href": "https://nextgen-tools.iedb.org/pipeline?tool=tc1"
+        },
+        {
+          "text": "Next-Generation Tools",
+          "href": "https://nextgen-tools.iedb.org/"
+        },
+        {
+          "text": "Home",
+          "href": "https://tools.iedb.org/mhci/"
+        },
+        {
+          "text": "Help",
+          "href": "https://tools.iedb.org/mhci/help/"
+        },
+        {
+          "text": "Example",
+          "href": "https://tools.iedb.org/mhci/example/"
+        },
+        {
+          "text": "Reference",
+          "href": "https://tools.iedb.org/mhci/reference/"
+        },
+        {
+          "text": "Download",
+          "href": "https://tools.iedb.org/mhci/download/"
+        },
+        {
+          "text": "Contact",
+          "href": "https://tools.iedb.org/mhci/contact/"
+        },
+        {
+          "text": "binding_data_2013.zip",
+          "href": "https://tools.iedb.org/static/main/binding_data_2013.zip"
+        },
+        {
+          "text": "https://services.healthtech.dtu.dk/suppl/immunology/NAR_NetMHCpan_NetMHCIIpan/",
+          "href": "https://services.healthtech.dtu.dk/suppl/immunology/NAR_NetMHCpan_NetMHCIIpan/"
+        },
+        {
+          "text": "https://services.healthtech.dtu.dk/immunology/NetMHCpan-4.0/",
+          "href": "https://services.healthtech.dtu.dk/suppl/immunology/NetMHCpan-4.0/"
+        },
+        {
+          "text": "here",
+          "href": "https://downloads.iedb.org/tools/mhci"
+        },
+        {
+          "text": "Next-Generation Tools",
+          "href": "https://nextgen-tools.iedb.org/download-all"
+        },
+        {
+          "text": "IEDB Home",
+          "href": "https://www.iedb.org/"
+        },
+        {
+          "text": "Help",
+          "href": "https://help.iedb.org/"
+        },
+        {
+          "text": "Contact",
+          "href": "mailto:help@iedb.org"
+        },
+        {
+          "text": "National Institute of Allergy and Infectious Diseases",
+          "href": "https://www.niaid.nih.gov/"
+        }
+      ]
     }
   },
-  "_targets_overridden": "TARGETS were REPLACED by the caller via BROWSER_TARGETS_JSON (3 URLs); the built-in venue corpus did not run. Public pages only -- this is not a paywall route."
+  "_targets_overridden": "TARGETS were REPLACED by the caller via BROWSER_TARGETS_JSON (5 URLs); the built-in venue corpus did not run. Public pages only -- this is not a paywall route."
 }
