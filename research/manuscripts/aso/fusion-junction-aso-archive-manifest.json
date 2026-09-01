@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22229096",
-  "git_revision": "a09b795eb3f85a45c9b5974261e1006ada48f46f",
+  "git_revision": "43d343fdd97880840134d1f8b5e6a471d6b695d2",
   "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "c9c333d0ad5adbf70b5599b260290f31ef211e6a647ad23912e52b8712260886",
+  "archive_content_digest": "ff4da79f8acf129dc46fffa22cb92fbabbf79bfbb419154dc66b066bc1ca291a",
   "n_files": 515,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,14 +24,14 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 53149992,
-  "total_mib": 50.688,
+  "total_bytes": 53153738,
+  "total_mib": 50.691,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 408,
-        "bytes": 45578267
+        "bytes": 45582013
       },
       ".py": {
         "n_files": 76,
@@ -1023,8 +1023,8 @@
   "files": [
     {
       "path": "research/data/emc-clinical-registry.json",
-      "bytes": 97876,
-      "sha256": "593764a2cabf64cc99f4b17dc64d64095262ea757aa12ef30c2db5f0ccd07234",
+      "bytes": 101622,
+      "sha256": "bd0cfcacf6c6b91e97534c5f9c81df4a63eb6ba693e86bd651a99cd007da4094",
       "serves": "retrieval_records",
       "also_serves": [],
       "contributes": "Bibliographic record each numbered reference was rendered from, and the retrieval products those records were harvested out of. No field in the reference list is typed from recollection."
