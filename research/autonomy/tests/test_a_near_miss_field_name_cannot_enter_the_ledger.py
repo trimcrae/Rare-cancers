@@ -133,15 +133,44 @@ def test_no_committed_field_name_is_a_near_miss_of_a_governed_one(ledger):
 _DISMISSED = {"_CLOSED_2026_09_01"}
 
 
-def test_the_two_live_aliases_are_reported_rather_than_hidden(ledger):
+def test_a_live_alias_is_reported_rather_than_hidden(ledger):
     """⛔ receipt_schema.py's precedent, applied: the item that commissioned this module was filed
-    against a checker that HID what it could not read. `_closed_by` (3 rows) is invisible to
-    `claim.py`'s closer lookup and `_outcome` (5 rows) is invisible to `stuck_clock.PROGRESS_FIELDS`,
-    so the drift must be printed rather than buried in the descriptive vocabulary."""
+    against a checker that HID what it could not read, so drift must be PRINTED rather than buried in
+    the descriptive vocabulary.
+
+    ⭐⭐ RENAMED AND REPOINTED 2026-09-01, BECAUSE THE DRIFT IT PINNED IS REPAIRED. This was
+    `test_the_two_live_aliases_are_reported_rather_than_hidden` and it asserted, against the
+    COMMITTED ledger, that `AUT-PD-146` still carried `_closed_by` and `AUT-PD-099` still carried
+    `_outcome`. Both are now spelt correctly: the driver's sweep renamed **22 drifted fields across
+    22 rows** — 16 `_lease_released`, 5 `_outcome`, 3 `_closed_by` — which is more than the eight
+    `ledger_schema`'s own note counted. `LIVE_ALIASES` is consequently empty, exactly as that note
+    prescribed (*"rename the rows onto the governed spelling, then delete this block"*).
+    ⛔ SO THE OLD ASSERTIONS PINNED A DEFECT'S EXISTENCE AND FIXING IT BROKE THEM. That is a test
+    whose fixture was the bug, and the honest repair is to keep what it was really guarding — that
+    the reporting path WORKS — while removing its dependence on production still being broken.
+    ⚠ AND THE NEW VERSION IS NOT VACUOUS, which is the trap this file names elsewhere: an empty
+    `LIVE_ALIASES` would make `set(found) == set(LIVE_ALIASES)` pass for a `live_aliases_in` that
+    had been emptied out or deleted. So the mechanism is exercised on a CONSTRUCTED ledger — the
+    same device `test_the_ranked_table_survives_a_row_with_no_score` uses, and for the same reason:
+    a suite whose subject is emptying the committed ledger must not need the committed ledger to be
+    dirty.
+    """
     found = ledger_schema.live_aliases_in(ledger)
-    assert set(found) == set(ledger_schema.LIVE_ALIASES)
-    assert "AUT-PD-146" in found["_closed_by"]
-    assert "AUT-PD-099" in found["_outcome"]
+    assert set(found) == set(ledger_schema.LIVE_ALIASES), (
+        "the committed ledger's live aliases disagree with the registry. If a row reintroduced a "
+        "drifted spelling, rename it; if an alias was retired, empty the registry entry too.")
+
+    # ⛔ The mechanism, on a ledger built here, so this test still fails if `live_aliases_in` stops
+    # looking. Registering an alias must make a row carrying it REPORTED, by id.
+    constructed = {"entries": [
+        {"id": "AUT-X-900", "state": "queued", "_closed_by": "CYC-0001"},
+        {"id": "AUT-X-901", "state": "queued", "closed_by": "CYC-0002"},
+    ]}
+    reported = ledger_schema.live_aliases_in(constructed, aliases={"_closed_by": "closed_by"})
+    assert "AUT-X-900" in reported["_closed_by"], (
+        "a row carrying a registered alias was not reported — the drift would be invisible again")
+    assert "AUT-X-901" not in reported.get("_closed_by", []), (
+        "the correctly-spelt row was reported as drifted; the check is matching the wrong name")
 
 
 @pytest.mark.parametrize("value", [None, "true", "false", 1, 0, ""])

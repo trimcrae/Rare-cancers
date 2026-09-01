@@ -1,0 +1,298 @@
+{
+  "_what": "A per-route re-test of BLK-NO-EMC-DATA against the committed EMC-tissue expression reads, for the sixteen routes whose required_validation is marked feasible_today=false on that blocker AND whose own text names an expression or tissue read. One verdict per required_validation ENTRY, never one verdict for the set.",
+  "_why": "AUT-PD-116 records that sixteen live routes sit behind this blocker and that a committed artifact answers it for six of them. Sixteen routes behind one string is the defect; replacing it with a different single string would repeat it. CLAUDE.md §0: 'Blocked is a claim that needs evidence, and it is usually wrong' — and the same section's converse, which governs every row below: declaring a route unblocked when the data does not support its next step puts in-silico work on a foundation that is not there.",
+  "_execution_model": "$0. No fetch, no CI, no GPU. Every reading below was already committed; this file adjudicates, it does not measure.",
+  "_this_artifact_computes_nothing_new": "Every figure has its one home in research/modalities/emc-expression-panels.json (readings) and research/modalities/emc-surface-normal-window.json (the normal-tissue prior). This file carries ADDRESSES into them and never re-types a number. The precedent is research/modalities/census-route-expression-grading.json, which states the same rule for the same source.",
+  "_language_discipline": "⛔ NOTHING HERE ASSERTS EFFICACY, SELECTIVITY, SAFETY, A THERAPEUTIC WINDOW OR CLINICAL READINESS for any agent, antigen or class in EMC. A transcript is not a protein, a copy number, an activity, a dependency, a glycan epitope or a presented peptide. An UNBLOCKED verdict below is a statement about a RECORD, never about a therapy.",
+  "generated_utc": "2026-09-01T20:30:00Z",
+  "baseline": {
+    "head": "b6397c5666efbf7d6755dfaedabc6a4bef24a8ee",
+    "routes_read_from": "git show HEAD:systems/graph/routes.json — the working tree copy was mid-edit by concurrent seats and is NOT the baseline",
+    "note_on_one_route": "RT-TRABECTEDIN differs between HEAD and the working tree (a concurrent trabectedin correction). Its required_validation[0] is untouched by that edit, so the verdict below holds on both."
+  },
+  "the_blocker_as_written": {
+    "id": "BLK-NO-EMC-DATA",
+    "defined_in": "systems/graph/blockers.json",
+    "name_verbatim": "EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)",
+    "statement_about_verbatim": "data availability — the repo-wide rate-limiter, not any one route",
+    "what_would_retire_it_verbatim": "an EMC dependency or drug-response screen (a second EMC line in DepMap, a CRISPR screen, or an ex-vivo panel)",
+    "⭐_the_finding_in_one_sentence": "THE BLOCKER NEVER CLAIMED EXPRESSION DATA WAS MISSING. Its own record scopes it to FUNCTIONAL-GENOMICS data and twice refuses a retirement offered to it — for the fourth SRA cohort and for the 2026-08-24 methylation cohort — on exactly the ground that a tumour profiling dataset is not a dependency screen. Sixteen routes attached an EXPRESSION-or-TISSUE-read requirement to it anyway. The blocker is right and the routes are wrong to cite it.",
+    "⛔_therefore": "Nothing in this file retires BLK-NO-EMC-DATA or weakens it. No EMC dependency screen, CRISPR screen or ex-vivo drug-response panel has appeared. It continues to name exactly what it always named.",
+    "the_precedent_this_correction_follows": {
+      "blocker": "BLK-NO-CURATED-CLINICAL-DATA",
+      "what_it_records_verbatim": "Six routes across ST-LOCOREGIONAL and ST-STRATEGY inherited BLK-NO-EMC-DATA, whose own record scopes it to FUNCTIONAL-GENOMICS data (one DepMap line, no CRISPR). None of the six needs a dependency screen, so all six lost it. Only FOUR gained this one.",
+      "⭐_why_it_is_the_model": "The same defect, already adjudicated once, and the correction was deliberately NON-UNIFORM: four routes gained a new blocker, two were unblocked outright, and one was left showing a disagreement for its grade owner to settle rather than papered over. That is the shape the sixteen below need."
+    }
+  },
+  "the_artifact_that_answers_the_expression_half": {
+    "id": "ART-EMC-EXPRESSION-PANELS",
+    "path": "research/modalities/emc-expression-panels.json",
+    "committed": "2026-08-29 (89218de88); first landed 2026-08-07",
+    "what_it_is": "Targeted gene and curated-panel reads in the two readable EMC array series — GSE24369 on GPL6244 (6 EMC vs 29 comparator sarcomas) and GSE4303 on GPL3290 (10 vs 6). 479 gene_reads; twenty reads plus a control.",
+    "the_control_passes_so_the_reads_are_licensed": "reads.control — ENO3 is clearly higher in EMC on BOTH platforms, which is the artifact's own stated precondition for quoting anything below it (reads.control.how_to_read_this_first). NR4A3 is higher on GPL6244.",
+    "⛔_what_it_cannot_settle_and_every_verdict_below_inherits_this": [
+      "NOT PROTEIN. reads.read_8_SURFACE_ANTIGEN.what_it_cannot_settle (1).",
+      "NOT SURFACE LOCALISATION OR DENSITY. Same field, (2).",
+      "NOT TUMOUR-RESTRICTED. Every contrast is EMC vs OTHER SARCOMAS, not tumour vs normal. Same field, (3). The normal-tissue axis lives in emc-surface-normal-window.json and is an RNA prior, never a safety statement.",
+      "NOT DECONVOLVED. Bulk archival tissue; a stromal antigen can read high because the compartment is present. Same field, (4).",
+      "NOT A COPY NUMBER. reads.read_9_MTAP_PRMT5.what_it_cannot_settle.",
+      "NOT A DEPENDENCY. reads.read_13_TXN_CDK.what_it_cannot_settle — 'a flat read does NOT exclude the class'.",
+      "NOT A GLYCAN EPITOPE. reads.read_2_CS_GAG_PAPS.what_it_cannot_settle — 'A SULFATION PATTERN HAS NO GENE'.",
+      "NOT PRESENTATION. No peptide-HLA quantity exists anywhere in the artifact.",
+      "READABILITY IS AN INSTRUMENT STATE, NEVER A LOW READING. A gene with no probe is `readable: false` and nothing in this file may report it as absent."
+    ]
+  },
+  "⛔_the_refutation_that_has_to_come_first": {
+    "the_claim_tested": "AUT-PD-116: 'not one of them cites ART-EMC-EXPRESSION-PANELS — the committed artifact that answers that half.'",
+    "literally_true": "Confirmed at HEAD. Grepping each of the sixteen route records for the artifact id returns zero hits; one route (RT-VACCINE-COMBINATION) names the file PATH inside remaining_unknowns.",
+    "⭐_but_substantively_refuted_for_six_of_the_sixteen": "The row measured citation of an ID and concluded blindness to a READING. Six of the sixteen — RT-MTAP-PRMT5, RT-TXN-CDK, RT-MATRIX-SYNTHESIS, RT-MATRIX-ADDRESS, RT-IMMUNOCYTOKINE, RT-HYPOXIA-PRODRUG — have already been graded against this exact artifact, and each cites that grading as ART-CENSUS-ROUTE-GRADING (research/modalities/census-route-expression-grading.json, whose `source_artifact` field is emc-expression-panels.json). For four of them the grade CHANGED as a result. The reading was consumed; it was consumed through a second id.",
+    "⭐_and_a_seventh_route_is_answered_in_a_MANUSCRIPT": "RT-SSTR2, RT-B7H3, RT-FAP-RLT, RT-CART-SURFACE and RT-TCRT-CTA all have their EMC-tissue readings reported in research/manuscripts/surface-targets/emc-surface-target-landscape.md, a live submission text whose `canonical_for` claims 'what EMC tumour tissue says about' the surface prioritisation. The stale layer is the route JSON, not the repository's knowledge.",
+    "⛔_and_the_row_ALSO_overstates_in_the_dangerous_direction": "AUT-PD-116 names six routes as ones the artifact 'already answers'. Three of those six it does NOT answer, and the artifact says so in its own words: RT-JUNCTION-NEOANTIGEN asks for PRESENTATION (no peptide-HLA quantity exists here), RT-FUSION-OUTPUT asks for FUSION-TYPE-STRATIFIED data (neither series carries a partner label — `platforms.<file>.sample_annotations_verbatim` mentions EWSR1, TAF15 and 'fusion' zero times in both), and RT-MTAP-PRMT5 asks for a COPY NUMBER. The row's own text warns against batching and names the last two of these; its summary line does not carry the warning, and a reader who takes the summary would unblock three routes on data that cannot reach them."
+  },
+  "verdict_scale": {
+    "UNBLOCKED": "the required_validation entry, AS WRITTEN, is satisfied by a committed artifact. BLK-NO-EMC-DATA comes off that entry and the entry is marked done with its citation.",
+    "PARTIAL": "one disjunct or one axis of the entry is satisfied and the rest is not. The entry must be SPLIT so the taken half is recorded and the untaken half keeps a blocker that names it correctly.",
+    "STILL_BLOCKED_WRONG_BLOCKER": "the entry is not satisfied, and BLK-NO-EMC-DATA is not what it is waiting on. The residual blocker is named.",
+    "STILL_BLOCKED_BLOCKER_CORRECT": "the entry is not satisfied and BLK-NO-EMC-DATA is the right blocker. ⚠ NO ROUTE IN THIS POPULATION SCORES THIS — by construction, because the population was selected for naming an expression or tissue read and this blocker is about functional-genomics data. RT-SYNLETH-DEP, which asks for 'an EMC-specific dependency screen', is the route that DOES correctly carry it, and it is outside this sixteen."
+  },
+  "routes": {
+    "RT-SSTR2": {
+      "entry": "required_validation[0]",
+      "text_verbatim": "A receptor imaging scan in an EMC patient, or an expression readout on EMC tissue",
+      "verdict": "PARTIAL",
+      "which_half_is_taken": "The second disjunct. SSTR2 is READABLE on GPL6244 and NOT READABLE on GPL3290 (an instrument state, not a low reading).",
+      "evidence_address": "emc-expression-panels.json -> reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses.SSTR2, and cross_platform_board.per_gene.SSTR2 (state READABLE_ON_ONE_PLATFORM_ONLY). Written up in research/manuscripts/surface-targets/emc-surface-target-landscape.md, section 'SSTR2 and the GD2 proxy'.",
+      "the_direction_of_the_reading": "UNSUPPORTIVE without being decisive: present, mid-distribution, and not elevated over comparator sarcomas. The somatostatin-receptor family panel could not be scored on GPL3290 at all.",
+      "the_claim_it_supports": "SSTR2 transcript is present at mid-array level in EMC tumour tissue and is not elevated over comparator sarcomas on the one platform that reads it.",
+      "⛔_the_claim_it_does_NOT_support": "Receptor protein density, surface localisation, tumour-to-normal uptake ratio, or that a somatostatin-receptor theranostic would image or treat anything in EMC. emc-surface-normal-window.json puts SSTR2 in broad_liability, so the window prior is unfavourable as well.",
+      "next_action_the_data_now_permits": "Record the taken half: split the entry so the imaging disjunct keeps BLK-NO-WET-LAB, and drop BLK-NO-EMC-DATA. Replace readiness.missing, which reads ['any expression measurement in EMC'] and is now FALSE, with the protein-level residual. Cite ART-EMC-EXPRESSION-PANELS.",
+      "grade_change": "NONE. Tier 3 stands, and the reading lowers the prior for the scan rather than removing the reason to perform it (the landscape manuscript's own wording).",
+      "residual_blocker": "BLK-NO-WET-LAB — a receptor scan or an SSTR2 stain on archival EMC."
+    },
+    "RT-B7H3": {
+      "entry": "required_validation[0]",
+      "text_verbatim": "Selectivity measured on real EMC tissue rather than surrogates",
+      "verdict": "PARTIAL",
+      "which_half_is_taken": "The 'on real EMC tissue rather than surrogates' half. CD276 is READABLE on GPL6244 and NOT READABLE on GPL3290.",
+      "evidence_address": "emc-expression-panels.json -> reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses.CD276; normal-tissue prior at emc-surface-normal-window.json -> broad_liability.",
+      "⛔_which_half_is_NOT_taken_and_it_is_the_word_in_the_requirement": "SELECTIVITY. read_8's own what_it_cannot_settle (3) says the contrast here is EMC vs OTHER SARCOMAS and is not tumour-vs-normal, which is the axis the word names. The EMC-tissue read replaces the cell-line surrogate; it does not measure selectivity.",
+      "the_direction_of_the_reading": "AGAINST the antigen, on both available axes, which makes the route's existing negative stronger rather than weaker. The landscape manuscript's wording: 'the profile of an antigen that is expressed and non-discriminating rather than absent'.",
+      "the_claim_it_supports": "CD276 transcript is expressed in EMC tumour tissue and reads lower than comparator sarcomas on the one platform that reads it; its normal-tissue RNA prior is broad.",
+      "⛔_the_claim_it_does_NOT_support": "That CD276 is absent from EMC, or any protein-level or tumour-vs-normal selectivity statement.",
+      "next_action_the_data_now_permits": "Scope readiness.missing from ['a tissue-level measurement'] — now false — to a PROTEIN-level tissue measurement, and drop BLK-NO-EMC-DATA from the entry.",
+      "grade_change": "NONE, and it must not be a promotion in either direction: the negative is now supported by an EMC-tissue read instead of only by a surrogate.",
+      "residual_blocker": "BLK-NO-WET-LAB — protein-level, tumour-versus-normal."
+    },
+    "RT-CART-SURFACE": {
+      "entry": "required_validation[0]",
+      "text_verbatim": "A selective surface antigen confirmed on EMC tissue",
+      "verdict": "PARTIAL",
+      "⭐_what_actually_happened": "This route's `next` says 'the antigen search re-runs automatically when EMC expression data lands'. IT LANDED, AND THE SEARCH RAN. read_8's cross_platform_board scores 100 genes; exactly five are CONCORDANT_UP_ON_BOTH (ALCAM, BGN, CD44, GPC1, VCAN), and of those only ALCAM carries a RESTRICTED normal-tissue window prior. A binder ladder for it is already recorded in research/modalities/alcam-precedent.json.",
+      "evidence_address": "emc-expression-panels.json -> reads.read_8_SURFACE_ANTIGEN.cross_platform_board.by_state; emc-surface-normal-window.json -> restricted_window_candidates and broad_liability.",
+      "⛔⛔_AND_THIS_IS_THE_ROUTE_WHERE_THE_DANGEROUS_DIRECTION_IS_LIVE": "DO NOT record a selective antigen. 'Selective' is not established and the route's own owning manuscript demotes the candidate: emc-surface-target-landscape.md reports ALCAM's EMC median in the sequencing cohort at 0.578 against a normal-organ median of 0.631 — below normal organs — and states that no candidate route names it. Unblocking a CAR-T route on a transcript contrast in n=6 and n=10 archival tumours, against an antigen its own exposure axis demotes, is precisely the error AUT-PD-116 records for RT-PRAME-IMMTAC, in the same direction.",
+      "the_claim_it_supports": "The EMC-tissue antigen search the route was waiting on has been run over a 100-gene board and returned no antigen that is both concordantly elevated in EMC tissue and restricted on the normal-tissue prior once the exposure axis is applied.",
+      "next_action_the_data_now_permits": "Replace next.best_next_action — 'the antigen search re-runs automatically when EMC expression data lands' is now a description of something that has happened, and leaving it standing hides a completed search behind a promise. Record the board, the five concordant genes and ALCAM's demotion. Drop BLK-NO-EMC-DATA from the entry.",
+      "readiness_missing": "['a selective surface antigen'] STAYS TRUE and is not edited.",
+      "grade_change": "NONE.",
+      "residual_blocker": "BLK-NO-WET-LAB (protein and surface density) and BLK-ANTIGEN-COLD, both already on the entry."
+    },
+    "RT-FAP-RLT": {
+      "entries": [
+        "required_validation[0]",
+        "required_validation[1]"
+      ],
+      "text_verbatim_0": "An expression or imaging readout on EMC tissue",
+      "text_verbatim_1": "Bystander/crossfire dose from FAP-positive stroma to tumour cells, and a tumour-to-normal uptake ratio",
+      "verdict": "PARTIAL on [0]; STILL_BLOCKED_WRONG_BLOCKER on [1]",
+      "which_half_is_taken": "The expression disjunct of [0], and on BOTH platforms — FAP is FLAT_ON_BOTH, which is a taken reading and not a missing one.",
+      "evidence_address": "emc-expression-panels.json -> reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses.FAP and cross_platform_board.per_gene.FAP; interpretation in emc-surface-target-landscape.md, 'Route-named therapeutic addresses'.",
+      "the_comparator_caveat_that_must_travel_with_it": "GSE24369's comparators are desmoid fibromatosis and fibrosarcoma — fibroblastic lesions in which FAP is expected to be high. The manuscript's own conclusion: this is not a reading that EMC lacks FAP; it is a reading that a FAP-directed route cannot claim EMC as a selectively FAP-rich indication among soft-tissue tumours.",
+      "⛔_A_CONFLICT_THIS_SEAT_FOUND_AND_DOES_NOT_OWN": "research/manuscripts/surface-targets/fap-rlt-2026-regrade.md, in the same directory, carries a 2026-08-29 re-read and still states 'EMC-specific evidence: none ... still none REPORTED', and explicitly defends `missing: [\"any measurement in EMC\"]` as 'the explicit test this re-grade had to pass'. A transcript measurement on two platforms exists and is discussed by the sibling manuscript. ⚠ THE MEMO'S SUBSTANTIVE POINT SURVIVES AND MUST NOT BE SOFTENED: no FAP PROTEIN, IHC or imaging value in EMC has been reported — the one EMC case inside PMID 38964294's 133-case FAP-IHC cohort has unreported scores, so a fully successful extraction ask would still leave the protein gap open. ⭐ AND THE REPOSITORY HAS ALREADY RULED ON THE PROTEIN HALF: CYC-0074 (2026-08-29) records that readiness.missing=['any measurement in EMC'] 'would still stand' even after a fully successful extraction of that one case's scores. THIS SEAT DOES NOT REVERSE THAT. What is wrong is only that the words are now ambiguous between protein and transcript, and one reading of them is false. The fix is to scope both records to protein/imaging, which leaves the route's negative intact and slightly stronger.",
+      "the_claim_it_supports": "FAP transcript is abundant in absolute terms in EMC tumour tissue and is not elevated relative to comparator sarcomas on either platform.",
+      "next_action_the_data_now_permits": "Scope readiness.missing from ['any measurement in EMC'] to the protein/imaging residual; cite ART-EMC-EXPRESSION-PANELS; drop BLK-NO-EMC-DATA from [0] and from [1] (a bystander dose and an uptake ratio are wet measurements and were never a public-data question).",
+      "grade_change": "NONE. Not a promotion — the class evidence and the EMC evidence still move in opposite directions, which is the fap-rlt-2026-regrade memo's own framing.",
+      "residual_blocker": "BLK-NO-WET-LAB on both entries."
+    },
+    "RT-TCRT-CTA": {
+      "entry": "required_validation[0]",
+      "text_verbatim": "A real EMC expression series",
+      "verdict": "UNBLOCKED",
+      "why": "Two real EMC expression series are read, on EMC tumour tissue, with a passing control. The requirement AS WRITTEN is satisfied and BLK-NO-EMC-DATA cannot stand on it.",
+      "⛔⛔_AND_THE_ANSWER_IT_WAS_WANTED_FOR_IS_MOSTLY_UNREADABLE_WHICH_IS_THE_POINT_OF_THIS_ROW": "The series exist and the cancer-testis antigens largely cannot be read on them. cross_platform_board.by_state puts CTAG1B, MAGEA3 and SSX2 in NOT_READABLE_ON_EITHER_PLATFORM, and MAGEA1, MAGEA4, MAGEC2 and CTAG2 in READABLE_ON_ONE_PLATFORM_ONLY. Those are INSTRUMENT states. ⛔ The route's supporting_evidence currently reads 'EMC is cancer-testis-antigen-low on the available measured data' at strength `surrogate`, citing ART-CTA-EXPRESSION (131 sarcoma lines, ZERO EMC lines). THAT STRENGTH MUST NOT BE UPGRADED ON THIS ARTIFACT. Reporting an unreadable probe as a low antigen is the exact failure the artifact's own standing rule forbids.",
+      "the_claim_it_supports": "An EMC tumour-tissue expression series now exists in this repository, and on the two readable platforms three of the named cancer-testis antigens have no probe at all.",
+      "next_action_the_data_now_permits": "Replace readiness.missing ['a real EMC expression series'] — now false — with the narrower and true residual: a CTA-CAPABLE EMC expression platform. Drop BLK-NO-EMC-DATA. ⭐ And the named live step is the fourth public cohort (PRJNA1357027 / SRP640302, n = 12 FFPE, whose publication names the assay as whole-transcriptome TempO-Seq — blockers.json, and research/modalities/emc-sra-study.json): whether its gene space covers the three unreadable CTAs is a $0 manifest question and would decide the route's re-grade.",
+      "grade_change": "NONE. 'DOWNGRADED to weak' stands; nothing here promotes it and nothing here strengthens the CTA-low claim.",
+      "residual_blocker": "None from BLK-NO-EMC-DATA. The residual is instrument coverage, which is a readable-platform question, not a data-availability one."
+    },
+    "RT-JUNCTION-NEOANTIGEN": {
+      "entry": "required_validation[1]",
+      "text_verbatim": "Measured presentation on EMC tissue",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "⛔_named_by_AUT-PD-116_as_answered_and_it_is_not": "PRESENTATION is a peptide-HLA measurement. No peptide-HLA quantity exists anywhere in emc-expression-panels.json. What the artifact reads is the antigen-presentation MACHINERY, which is a precondition and not the requirement.",
+      "what_IS_answered_and_is_narrower": "The class-I precondition. cross_platform_board.by_state has HLA-A, HLA-C and TAP1 as FLAT_ON_BOTH, HLA-B as READABLE_ON_ONE_PLATFORM_ONLY, and B2M as MOVED_ON_ONE_FLAT_ON_THE_OTHER — i.e. readable and not lost against comparator sarcomas. ⚠ B2M's move on GPL6244 is DOWNWARD in EMC and is a caution the route should carry, not a promotion.",
+      "⭐_the_sibling_route_already_carries_this_correction_and_this_one_does_not": "RT-VACCINE-COMBINATION's remaining_unknowns was corrected against this exact read (it names emc-expression-panels.json and the SI tables). RT-JUNCTION-NEOANTIGEN's remaining_unknowns still reads 'Whether a junction peptide is presented at all, and at what level — EMC is antigen-cold' with no precondition reading attached. Same fact, two routes, one updated.",
+      "next_action_the_data_now_permits": "Add the class-I precondition reading to remaining_unknowns with the B2M caution, mirroring the sibling route's wording, and drop BLK-NO-EMC-DATA from the entry. ⛔ The entry itself STAYS OPEN.",
+      "grade_change": "NONE.",
+      "residual_blocker": "BLK-ANTIGEN-COLD (already present) and BLK-NO-WET-LAB — immunopeptidomics is a tissue measurement and was never a public-expression-data question."
+    },
+    "RT-FUSION-OUTPUT": {
+      "entries": [
+        "required_validation[4]",
+        "required_validation[5]"
+      ],
+      "text_verbatim_4": "Fusion knockdown or degradation in a genuinely fusion-positive EMC model, with RNA-seq. No such experiment was retrieved in the corpora searched",
+      "text_verbatim_5": "Fusion-type-stratified EMC expression data, so the EWSR1 and TAF15 arms can be read apart rather than as a mixture",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER on both",
+      "⛔_named_by_AUT-PD-116_as_answered_and_it_is_not": "[5] asks for STRATIFICATION, and neither readable series carries a fusion-partner label. Measured: `platforms.<file>.sample_annotations_verbatim` in emc-expression-panels.json contains the strings 'EWSR1', 'TAF15' and 'fusion' ZERO times, in both files. Reading EWSR1 and TAF15 gene abundance is not the same quantity as splitting the EMC arm by which partner each tumour carries.",
+      "and_the_nearest_candidate_does_not_close_it_either": "The fourth public cohort (PRJNA1357027) carries per-sample EWSR1 break-apart FISH status — a fusion-PRESENCE call, not a PARTNER call — so it does not answer [5] as written. GSE140686's validation table carries one partner-labelled case (an 'EWSR1:NR4A3 fusion' sample), which is n = 1 and is methylation rather than expression.",
+      "entry_4": "A knockdown with RNA-seq is a wet experiment. BLK-NO-WET-LAB is already on it and is the whole of it.",
+      "next_action_the_data_now_permits": "Drop BLK-NO-EMC-DATA from both entries and leave both OPEN. [5]'s residual should name what would satisfy it: a cohort with per-sample fusion-PARTNER calls, which no readable EMC dataset in this repository currently carries.",
+      "grade_change": "NONE. The route's next action is 'Submit'; nothing here touches that.",
+      "residual_blocker": "BLK-NO-WET-LAB on [4]; on [5], an unnamed cohort-composition gap that is neither a functional-genomics blocker nor a wet-lab one."
+    },
+    "RT-MTAP-PRMT5": {
+      "entry": "required_validation[2]",
+      "text_verbatim": "A gene-level copy-number read of the locus in any EMC cohort",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "⛔_named_by_AUT-PD-116_as_answered_and_it_is_not_and_the_artifact_says_so_in_its_own_words": "reads.read_9_MTAP_PRMT5.what_it_cannot_settle: 'A TRANSCRIPT IS NOT A COPY NUMBER ... expression can TRIAGE this question but cannot answer it.' The requirement names the one instrument this artifact explicitly is not.",
+      "what_IS_answered_and_how_strong_it_is": "A triage, already graded, already consumed: census-route-expression-grading.json -> routes['RT-MTAP-PRMT5'] returns 'SUPPORTED, WITH THE LOCUS READ POWERED ON ONE PLATFORM ONLY', with the locus group underpowered on GPL3290 (2 of 3 genes readable, no score emitted). ⚠ AND THE TRIAGE IS WEAKER THAN THE ROUTE'S OWN DIRECTION SENTENCE: the direction it needed is 'MTAP DOWN in EMC, at the floor, together with CDKN2A', and on the powered platform MTAP itself is not at the floor — the group result there is carried by CDKN2A. Figures have their one home in emc-expression-panels.json -> reads.read_9_MTAP_PRMT5 and in the grading artifact's routes['RT-MTAP-PRMT5'].genes.",
+      "⭐_the_live_lead_this_seat_found": {
+        "what": "The route's own grader named the decisive next observation: 'a copy-number or methylation read of the locus, not another expression series' (census-route-expression-grading.json -> routes['RT-MTAP-PRMT5'].route_action, 2026-08-09). A candidate source was committed FIFTEEN DAYS LATER and nothing connects them.",
+        "the_source": "research/modalities/emc-data-level-sweep.json -> arms.pan_sarcoma_methylation_deposit. GSE140686: 12 EMC cases joined to deposited samples on an identifier BOTH the deposit and the paper declare, 24 IDATs, every one HEAD-probed and reachable, 9 on GPL13534 and 3 on GPL21145.",
+        "why_it_is_relevant_to_THIS_route": "The requirement is a copy-number read at 9p21, not a methylation landscape. Intensity-derived copy-number profiling from methylation arrays is an established modality; whether it can be run here is a separate question, below.",
+        "⛔_UNKNOWN_AND_STATED_AS_UNKNOWN": "Whether an intensity-based copy-number read at this locus can be derived from these IDATs in this repository's CI is NOT established. Measured in this sandbox: no `Rscript`, and `methylprep`, `pandas` and `GEOparse` are all absent; `grep -rn` over the repository returns ZERO hits for any copy-number-from-methylation method. This is a candidate, not a plan.",
+        "⛔_AND_A_SETTLED_CALL_THAT_MUST_NOT_BE_RE-LITIGATED": "trimcrae ruled on 2026-08-24 (new-evidence-routes.md §5.6) that this cohort is NOT a priority paper, and separately REFUSED a broad 'methylation landscape of EMC' paper on the merits at n = 12. THIS PROPOSAL IS NEITHER. It is a targeted locus read serving a different route's stated requirement, and it is raised for the driver to put to him rather than taken.",
+        "the_bars_it_inherits_regardless": "n = 12; ten of the twelve are the classifier's own training set; two array platforms; FFPE."
+      },
+      "next_action_the_data_now_permits": "Drop BLK-NO-EMC-DATA from the entry and leave the entry OPEN with its residual restated as a copy-number instrument. Raise the IDAT feasibility question as its own row.",
+      "grade_change": "NONE. The route's next action is 'Post the preprint and put the MTAP stain in front of a group holding EMC archival material' and nothing here changes it.",
+      "residual_blocker": "A copy-number instrument. Not BLK-NO-EMC-DATA (that names dependency and drug-response screens), and arguably not BLK-NO-WET-LAB either, since a candidate public source exists."
+    },
+    "RT-TRABECTEDIN": {
+      "entry": "required_validation[0]",
+      "text_verbatim": "A larger EMC series, or a measured effect on the fusion's transcriptional output",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "why_neither_disjunct_is_answered": "'A larger EMC series' is a CLINICAL series — the expression panels add no patients. 'A measured effect on the fusion's transcriptional output' requires a PERTURBATION; the panel measures baseline abundance and no drug exposure exists anywhere in it.",
+      "the_blocker_that_actually_fits_the_first_disjunct": "BLK-NO-CURATED-CLINICAL-DATA, whose own retired_by_action records this exact re-attribution being performed for six other routes.",
+      "next_action_the_data_now_permits": "Split the entry. The clinical half moves to BLK-NO-CURATED-CLINICAL-DATA; the perturbation half to BLK-NO-WET-LAB. BLK-NO-EMC-DATA comes off.",
+      "⚠_concurrency": "A concurrent seat is correcting this route's clinical record tonight. That edit does not touch required_validation[0]; sequence this change after it.",
+      "grade_change": "NONE from this seat.",
+      "residual_blocker": "BLK-NO-CURATED-CLINICAL-DATA and BLK-NO-WET-LAB."
+    },
+    "RT-SYNPROMOTER": {
+      "entry": "required_validation[0]",
+      "text_verbatim": "A direct read of the fusion's DNA-binding specificity in EMC",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "why": "Binding specificity is a chromatin-occupancy measurement. No expression artifact can reach it and no public EMC deposit contains one.",
+      "next_action_the_data_now_permits": "Drop BLK-NO-EMC-DATA; the entry stays open on BLK-NO-WET-LAB and BLK-VECTOR-DELIVERY (already present).",
+      "⚠_a_separate_defect_on_this_route_owned_by_another_row": "It is recorded `closed` while carrying a TR-* revival trigger, which systems/CONVENTIONS.md §4.1 makes `parked`. That is AUT-PD-088, not this row.",
+      "grade_change": "NONE.",
+      "residual_blocker": "BLK-NO-WET-LAB."
+    },
+    "RT-TXN-CDK": {
+      "entry": "required_validation[1]",
+      "text_verbatim": "A measurement in a fusion-positive EMC model",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "why": "The requirement names a MODEL. The panel is archival tumour tissue, which is a different and in some ways better object, but it is not what the entry asks for.",
+      "already_consumed": "census-route-expression-grading.json -> routes['RT-TXN-CDK'] grades the abundance read SUPPORTED and then records that the dependency screen closed the window; the route's grade already carries both halves.",
+      "next_action_the_data_now_permits": "Drop BLK-NO-EMC-DATA; the entry stays open on BLK-NO-WET-LAB, which is already on it.",
+      "grade_change": "NONE. Closed on the axis that matters, and this seat found nothing that reopens it.",
+      "residual_blocker": "BLK-NO-WET-LAB."
+    },
+    "RT-MATRIX-SYNTHESIS": {
+      "entry": "required_validation[1]",
+      "text_verbatim": "A measurement of the matrix compartment in EMC tissue",
+      "verdict": "UNBLOCKED",
+      "why": "The measurement was taken and graded. reads.read_2_CS_GAG_PAPS reads the CS backbone, the 4-O and 6-O sulfotransferase arms, the PAPS donor module and the core proteoglycans in EMC tumour tissue; census-route-expression-grading.json returns 'AGAINST AS STATED' and the route's grade already carries that verdict.",
+      "the_claim_it_supports": "The route's premise as stated — that a matrix-defining tumour runs its biosynthetic machinery hotter than its neighbours — is not what the reading shows.",
+      "next_action_the_data_now_permits": "Mark the entry taken, cite ART-EMC-EXPRESSION-PANELS beside the existing ART-CENSUS-ROUTE-GRADING, and drop BLK-NO-EMC-DATA. This is bookkeeping catching up with a grade that already moved.",
+      "grade_change": "NONE — it already happened, on 2026-08-09.",
+      "residual_blocker": "None on this entry. An ABSOLUTE (rather than relative-to-comparator) matrix measurement would need tissue, which is BLK-NO-WET-LAB, and is a different requirement that would have to be written."
+    },
+    "RT-MATRIX-ADDRESS": {
+      "entry": "required_validation[1]",
+      "text_verbatim": "A stain or binding assay for the oncofetal chondroitin-sulfate pattern on EMC tissue, which is the only instrument that can reach the route's premise",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "why_and_the_artifact_says_it_verbatim": "reads.read_2_CS_GAG_PAPS.what_it_cannot_settle: 'A SULFATION PATTERN HAS NO GENE.' The entry's own text already names a stain or a binding assay as the only instrument that reaches it. No expression deposit, public or otherwise, could ever have satisfied this.",
+      "already_consumed": "census-route-expression-grading.json returns 'NOT SUPPORTED ON CAPACITY — AND THE ROUTE'S OWN QUESTION IS STILL UNREADABLE', and the route's grade carries it.",
+      "next_action_the_data_now_permits": "Drop BLK-NO-EMC-DATA. It is the clearest case in the sixteen of a correct 'still blocked' hanging on the wrong blocker.",
+      "grade_change": "NONE.",
+      "residual_blocker": "BLK-NO-WET-LAB, alone."
+    },
+    "RT-IMMUNOCYTOKINE": {
+      "entry": "required_validation[1]",
+      "text_verbatim": "A measurement of the matrix compartment in EMC tissue",
+      "verdict": "PARTIAL",
+      "which_half_is_taken": "The gene level. FN1, TNC and FAP are read on both platforms and graded — 'PRESENT, NOT SELECTIVE' in census-route-expression-grading.json.",
+      "which_half_is_not": "The ISOFORM level, which is the route's actual address. A gene-level probe cannot see an alternatively spliced oncofetal domain; the route's readiness.missing already says exactly this.",
+      "⭐_the_route_already_names_its_own_live_next_step_and_it_is_reachable": "next.best_next_action reads 'Establish whether the fourth public cohort's data type can resolve fibronectin and tenascin isoforms at all.' That cohort's publication names the assay as whole-transcriptome TempO-Seq (recorded in blockers.json -> BLK-NO-EMC-DATA.retired_by_action, anchored to research/literature/emc-fourth-cohort-publication-2026-08-24.json). TempO-Seq is a fixed-probe assay, so whether it resolves a spliced domain is a probe-manifest question and not an experiment. ⚠ The answer is UNKNOWN from this tree; naming the question as answerable is the finding, not the answer.",
+      "next_action_the_data_now_permits": "Split the entry: mark the gene-level half taken with its citation, and restate the open half as the isoform-resolved read. Drop BLK-NO-EMC-DATA from the taken half.",
+      "grade_change": "NONE.",
+      "residual_blocker": "An isoform-resolved instrument. Whether that is reachable from an existing public cohort is the open $0 question above."
+    },
+    "RT-HYPOXIA-PRODRUG": {
+      "entry": "required_validation[1]",
+      "text_verbatim": "A measurement of the matrix compartment in EMC tissue",
+      "verdict": "UNBLOCKED, AND THE ENTRY IS THE WRONG REQUIREMENT FOR THIS ROUTE",
+      "⛔_the_defect_this_row_actually_found": "The string is a verbatim copy of the one on RT-MATRIX-SYNTHESIS and RT-IMMUNOCYTOKINE, and this route's premise is HYPOXIA, not the matrix compartment. Three routes carry an identical requirement and only two of them are about the thing it names.",
+      "what_the_route_actually_rests_on": "reads.read_5_HYPOXIA (readability_verdict TAKEN), audited by research/modalities/emc-hypoxia-confounds.json, with the grade WITHDRAWN by the owning memo emc-hypoxia-reading.md §5 — the audit restricts the signature to one platform. The route's grade already carries all of this.",
+      "next_action_the_data_now_permits": "Drop BLK-NO-EMC-DATA and either delete the copied entry or replace it with the requirement the route actually has, which the owning memo already states. ⛔ The owning memo's ruling stands and nothing here revisits the class.",
+      "grade_change": "NONE. The grade is withdrawn and stays withdrawn.",
+      "residual_blocker": "None from this blocker. The route's real residual is owned by emc-hypoxia-reading.md §5, not by systems/graph."
+    },
+    "RT-VACCINE-COMBINATION": {
+      "entries": [
+        "required_validation[2]",
+        "required_validation[3]"
+      ],
+      "text_verbatim_2": "Immunopeptidomics on EMC tissue or a patient-derived line",
+      "text_verbatim_3": "T-cell reactivity against identified peptide-HLA complexes",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER on [2]; [3] is correctly blocked and BLK-NO-EMC-DATA is still wrong on it",
+      "why": "Both are wet measurements. Neither is a public-data-availability question, and no expression artifact reaches either.",
+      "⭐_the_route_prose_is_already_current": "remaining_unknowns was corrected against emc-expression-panels.json (the class-I precondition group, with HLA-A, HLA-C and TAP1 reading FLAT_ON_BOTH rather than lost) and states the narrower genuine unknown. Only the validation rows are stale.",
+      "next_action_the_data_now_permits": "Drop BLK-NO-EMC-DATA from both entries; both stay OPEN.",
+      "grade_change": "NONE. The route's Stage 0 computational items are its live work and are untouched by this.",
+      "residual_blocker": "BLK-NO-WET-LAB on [2]; BLK-ANTIGEN-COLD (already present) plus BLK-NO-WET-LAB on [3]."
+    }
+  },
+  "tally": {
+    "population": 16,
+    "UNBLOCKED": [
+      "RT-TCRT-CTA",
+      "RT-MATRIX-SYNTHESIS",
+      "RT-HYPOXIA-PRODRUG"
+    ],
+    "PARTIAL": [
+      "RT-SSTR2",
+      "RT-B7H3",
+      "RT-CART-SURFACE",
+      "RT-FAP-RLT",
+      "RT-IMMUNOCYTOKINE"
+    ],
+    "STILL_BLOCKED_WRONG_BLOCKER": [
+      "RT-TRABECTEDIN",
+      "RT-JUNCTION-NEOANTIGEN",
+      "RT-SYNPROMOTER",
+      "RT-FUSION-OUTPUT",
+      "RT-TXN-CDK",
+      "RT-MTAP-PRMT5",
+      "RT-MATRIX-ADDRESS",
+      "RT-VACCINE-COMBINATION"
+    ],
+    "STILL_BLOCKED_BLOCKER_CORRECT": [],
+    "⭐_the_number_that_matters": "BLK-NO-EMC-DATA should come off ALL SIXTEEN of the entries that name an expression or tissue read, and NONE of the sixteen is thereby promoted, re-graded or made ready. Three requirements are satisfied outright, five are half-satisfied and need splitting, and eight remain genuinely open on a blocker that names what they are actually waiting on.",
+    "⛔_what_this_does_NOT_do": "It does not retire BLK-NO-EMC-DATA, which continues to name the absence of an EMC dependency or drug-response screen. RT-SYNLETH-DEP ('An EMC-specific dependency screen') carries it correctly and is outside this population. ⚠ 44 of the 77 routes reference this blocker somewhere; 16 are adjudicated here and the other 28 were NOT tested by this seat — their attribution is UNKNOWN, not endorsed. It changes no grade, no readiness level and no route status."
+  },
+  "_limits": [
+    "THIS IS A RECORDS ADJUDICATION, NOT A MEASUREMENT. Every reading it rests on was committed before this file existed and is owned elsewhere.",
+    "THE POPULATION IS RECONSTRUCTED, NOT INHERITED. AUT-PD-116 names sixteen routes and enumerates only six. The sixteen here are derived by the row's own stated reproduce recipe plus a text filter for an expression-or-tissue read, and the filter returns exactly sixteen at HEAD. A different filter would return a different set, and the per-entry verdicts stand independently of the count.",
+    "EVERY VERDICT IS ABOUT A required_validation ENTRY, NEVER ABOUT A ROUTE. A route with one satisfied entry and three open ones is not unblocked.",
+    "n = 6 and n = 10 archival tumours on two decade-old array platforms, uncorrected for multiple testing. That bound is inherited by every UNBLOCKED and PARTIAL verdict above and does not weaken with re-use.",
+    "NO CLINICAL, EFFICACY, SAFETY OR WINDOW STATEMENT IS MADE OR IMPLIED. No patient data is used. No identifier, PMID, accession or figure in this file was written from recollection; each is copied from the committed artifact named beside it."
+  ],
+  "_paths_this_seat_did_not_own_and_did_not_touch": {
+    "systems/graph/routes.json": "held by two concurrent seats. Every change above is written as an instruction, not applied.",
+    "systems/graph/blockers.json": "owned by this seat but deliberately NOT edited: BLK-NO-EMC-DATA's own statement is the record that is CORRECT, and any edit forces a systems/views regeneration that would rewrite four view files another seat is holding. The proposed addition is in the seat's findings file.",
+    "research/autonomy/research-ledger.json": "sprint-wide no-touch."
+  }
+}

@@ -1,3 +1,16 @@
+---
+id: DOC-SPRINT-DRIVER-02-hold-at-level-zero
+title: "DRIVER 02 hold at level zero"
+level: L3
+kind: incident
+status: live
+purpose: "A finding made by the sprint driver rather than by a seat — what was measured, the observation that discriminated, and what was handed on."
+scope: "One finding, with the commands that produced it. It records what was handed to a seat; it is not that seat's report."
+audience: [autonomous research agents, maintainers]
+date: 2026-09-01
+last_verified: 2026-09-01
+---
+
 # DRIVER-02 — an active budget hold was never consulted at backoff level 0
 
 **Found:** 2026-09-01 ~23:30Z, by walking into it. S8-HANDOFF reported nine red tests in

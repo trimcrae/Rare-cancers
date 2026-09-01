@@ -1,3 +1,16 @@
+---
+id: DOC-SPRINT-S14-DETECTOR
+title: "S14 DETECTOR"
+level: L3
+kind: memo
+status: live
+purpose: "The findings record of one sprint seat — what it measured, what it changed, and what it could not do."
+scope: "One seat of the 2026-09-01 sprint, bounded by the owned-paths list in its own prompt. It reports; it does not decide what lands."
+audience: [autonomous research agents, maintainers]
+date: 2026-09-01
+last_verified: 2026-09-01
+---
+
 # S14-DETECTOR — a mechanical detector for the symmetric-paralogue-requirement defect
 
 **Item(s):** AUT-009 · **Owned paths:** `research/manuscripts/lint_asymmetry.py` (NEW — the detector),

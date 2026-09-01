@@ -1,3 +1,16 @@
+---
+id: DOC-SPRINT-WAVE-3
+title: "WAVE 3"
+level: L3
+kind: memo
+status: live
+purpose: "The dispatch record of one wave of the 2026-09-01 sprint — which seats ran, what each owned, and why the wave was composed that way."
+scope: "One wave's dispatch, not its results — each seat's outcome is in its own findings file."
+audience: [autonomous research agents, maintainers]
+date: 2026-09-01
+last_verified: 2026-09-01
+---
+
 # Wave 3 — dispatched 2026-09-01 ~19:45Z (3:45 PM ET)
 
 ⚠ **Corrected. This heading first read "2026-09-02 ~00:15Z (8:15 PM ET)", which was wrong by about

@@ -2,7 +2,7 @@
 id: DOC-SPRINT-S30-WIRING
 title: "S30-WIRING — the census check, wired into the three places that can refuse a commit"
 level: L3
-kind: process
+kind: memo
 status: live
 date: 2026-09-01
 audience: [autonomous research agents, maintainers]
@@ -26,7 +26,7 @@ row costs **1.85 s** in the gate (three standalone runs: 1.79 / 1.83 / 1.91 s), 
 1.8 s to the second decimal, and it **stays in the default tier** — the reasoning is measured below.
 
 ⚠ **The regenerated census is a snapshot of a moving tree and is NOT final.** See
-[§ The census is a snapshot](#the-census-is-a-snapshot-the-driver-must-re-run-check-on-the-settled-tree).
+[§ The census is a snapshot](#the-census-is-a-snapshot-the-driver-must-re-run---check-on-the-settled-tree).
 
 ---
 
