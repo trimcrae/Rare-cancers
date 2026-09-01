@@ -494,6 +494,21 @@ two repairs both touch **deposited** files — `fusion-junction-aso-journal-arti
 header that contradicted the paper's "Ten") — so the manifest at `dcc556ad3efe` now reads
 `f59a02acd74e…`. A published Zenodo version's files cannot be edited, only superseded.
 
+⭐ **VERSION FOUR IS OPEN AS A DRAFT AND THE PAPERS NOW CITE IT: `10.5281/zenodo.22229096`**,
+deposition 22229096, recovered from orphan and refilled by Actions run 33523360707 — *"a
+new-version draft is ALREADY OPEN on record 22182180: deposition 22229096 — adopting it"*, *"cleared
+1 inherited file(s)"*, *"uploaded emc-aso-archive.zip"*, *"reserved DOI : 10.5281/zenodo.22229096"*.
+⛔ **IT IS NOT PUBLISHED AND MUST BE REFRESHED FIRST.** The archive it holds was uploaded at
+`850edb3358ba`, which PREDATES the DOI repoint — so the draft currently contains a paper citing the
+previous version. Step 5 of the order below is what fixes that, and
+`test_a_pending_draft_still_matches_the_tree_it_was_built_from` is what will say so if it is skipped.
+
+**The drift against the published record is now 15 deposited paths, all changed, none added or
+removed.** ⚠ It was 13 when this section opened; the DOI repoint moved `aso_archive_manifest.py`
+and the research article as well. The set is: the journal article and the research article, the four
+PDFs and the Word/parts files with their seven build stamps, `aso_archive_manifest.py`, and
+`research/modalities/aso_parent_null.py`.
+
 ⛔ **WHY THIS EXISTS AT ALL, STATED PLAINLY RATHER THAN AS BAD LUCK.** This checklist said, at
 `a9dd5d34`: *"Neither act above should happen before that round comes back without blockers."* The
 loop published 22182180 to close round 27's dead-DOI blocker **before round 28 ran**, and round 28

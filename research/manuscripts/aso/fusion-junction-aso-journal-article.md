@@ -408,7 +408,7 @@ citation was checked against the retrieved record. The author directed all work 
 
 **Data availability.** All code, graded artefacts, per-design tables, every screen's parameters and
 the complete bounds on each claim are deposited under
-[doi:10.5281/zenodo.22182180](https://doi.org/10.5281/zenodo.22182180), the citable record for
+[doi:10.5281/zenodo.22229096](https://doi.org/10.5281/zenodo.22229096), the citable record for
 them. An earlier version
 of these analyses placed the acceptor junction incorrectly through a coding-versus-transcript exon
 indexing error and was withdrawn in full; the panels were rebuilt and verified, and the complete

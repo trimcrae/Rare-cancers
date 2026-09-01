@@ -1460,7 +1460,26 @@ def build():
         # ⚠ NOT DERIVED — it is issued by Zenodo and can only be transcribed. It is pinned so that
         # a transcription error appears as a linter failure rather than as a citation that resolves
         # to somebody else's record.
-        "deposition_doi": "10.5281/zenodo.22182180",
+        # ⚠ VERSION FOUR, 2026-09-01. Read out of Actions run 33523360707's log — "reserved DOI :
+        # 10.5281/zenodo.22229096" — and NOT inferred from the deposition number, even though all
+        # four versions have now matched that way. Four matches is a pattern, not a reading, and
+        # CLAUDE.md's repo-basics rule forbids writing an identifier from recollection.
+        # ⚠ THAT SENTENCE FIRST CITED THE RULE WITH A BARE SECTION MARK AND TURNED A GUARD RED.
+        # Every section-mark reference in this file resolves against the ARTICLE's own sections
+        # (`test_every_section_cross_reference_resolves`), because three such pointers here once
+        # survived a renumber that made their target not exist. The guard was right and the citation
+        # was ambiguous; this file's convention is "CLAUDE.md rule 1", with no section mark.
+        # ⛔ AND WRITING THIS NOTE REINTRODUCED THE FAULT ONCE: quoting the offending reference
+        # verbatim is itself a reference, and the guard reads the whole file. It went red a second
+        # time on the explanation of why it went red the first time. Describe the shape, never
+        # reproduce it — the same lesson the ledger's price guard taught the same day.
+        # ⚠ SUPERSEDED, RETAINED (rule 1.2): 10.5281/zenodo.22182180, version three, published
+        # 2026-08-31. It remains published and resolves; the concept DOI 10.5281/zenodo.22028915
+        # always points at the newest version. It is superseded because round 28 repaired two
+        # DEPOSITED files — the journal article's `need`→`prefer` correction and the
+        # `aso_parent_null.py` header that contradicted the paper's "Ten" — so the archive it holds
+        # is no longer the archive this paper describes.
+        "deposition_doi": "10.5281/zenodo.22229096",
         "git_revision": _git("rev-parse", "HEAD"),
         # ⚠ EXCLUDES THE MANIFEST ITSELF, AND THE EXCLUSION IS THE WHOLE POINT — see
         # `_tree_clean_apart_from_this_manifest`. `null` means "no git available", never "clean".
