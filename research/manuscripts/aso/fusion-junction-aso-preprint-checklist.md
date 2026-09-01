@@ -503,10 +503,18 @@ new-version draft is ALREADY OPEN on record 22182180: deposition 22229096 — ad
 previous version. Step 5 of the order below is what fixes that, and
 `test_a_pending_draft_still_matches_the_tree_it_was_built_from` is what will say so if it is skipped.
 
-**The drift against the published record is now 15 deposited paths, all changed, none added or
-removed.** ⚠ It was 13 when this section opened; the DOI repoint moved `aso_archive_manifest.py`
-and the research article as well. The set is: the journal article and the research article, the four
-PDFs and the Word/parts files with their seven build stamps, `aso_archive_manifest.py`, and
+**The drift against the published record is now 17 deposited paths, all changed, none added or
+removed.** ⚠ It was 13 when this section opened and 15 an hour later; each restatement is a
+re-measurement, not an edit. The DOI repoint moved `aso_archive_manifest.py` and the research
+article, and then the sequence files moved too — **the archive DOI is printed in the header of
+`fusion-junction-aso-sequences.csv` and its FASTA sibling**, which is a fifth home for that
+identifier and the one a reader meets when they open the sequence file on its own, away from the
+paper. ⭐ THAT IS WHY THE RUNBOOK'S ORDER IS sequences → PDFs → manifest AND NOT ANY OTHER: the PDFs
+quote the CSV, so a PDF built before the CSV is stale against a file it quotes. Rebuilding in the
+wrong order is what `aso_sequence_manifest.py --check` caught here — *"a stale generated file ships
+a claim its own artifacts no longer support: canonical sequence file"*.
+The set is: the journal article and the research article, the four PDFs and the Word/parts files
+with their seven build stamps, the two sequence files, `aso_archive_manifest.py`, and
 `research/modalities/aso_parent_null.py`.
 
 ⛔ **WHY THIS EXISTS AT ALL, STATED PLAINLY RATHER THAN AS BAD LUCK.** This checklist said, at
