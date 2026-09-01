@@ -39,6 +39,17 @@ Corpus: dispatched via `.github/workflows/fetch-literature.yml` on 2026-08-09 (r
 554 open-access records, known-positive control PMID 32856598 passed), published to the
 `literature-cache` branch under `literature/emc-care-delivery-and-classification/`.
 
+⛔⛔ ONE RECORDED ABSENCE WAS FALSE AGAINST THIS CORPUS AND WAS CORRECTED 2026-09-01.
+`absences[no-emc-metastasectomy-literature].result` read `"ZERO records."` -- a hard-coded string
+literal, not a value anything computed. PMC12398172 (Masunaga 2025, 171 EMC patients) sits INSIDE
+the corpus the query names and reports metastasectomy in eight of its 29 metastatic patients. The
+value is now DERIVED from `CORPUS_QUOTES` by `absence_result()`, every quote is pinned by blob
+SHA, and `_check_structure()` fails if a verdict and its evidence disagree. ⚠ The corpus has not
+been re-swept, so the row states a measured LOWER BOUND and an UNKNOWN total rather than a new
+count -- replacing one unmeasured number with another would repeat the defect.
+⛔ The correction records that metastasectomy was PERFORMED. It asserts no efficacy, no safety and
+no therapeutic window: the source prints no outcome by metastasectomy at all.
+
 Stdlib only.
 Run:     python3 research/modalities/emc_care_delivery_evidence.py
 Verify:  python3 research/modalities/emc_care_delivery_evidence.py --check
@@ -50,6 +61,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -207,20 +219,108 @@ FINDINGS = [
 # ---------------------------------------------------------------------------
 # 3 - an absence, reported as a result
 # ---------------------------------------------------------------------------
+# ⛔⛔ WHY CORPUS_QUOTES EXISTS. Until 2026-09-01 the row below read `"result": "ZERO records."`
+# as a hard-coded literal. Nothing in the build read the corpus the query named, so no gate could
+# disagree with it -- and it was false: PMC12398172, a file INSIDE that corpus, reports
+# metastasectomy in this histology. CLAUDE.md s4: an absent reading is not a reading of absence,
+# and a populated field is not a measured one. Every absence verdict below is now COMPUTED from
+# the quotes here, so a verdict and its evidence cannot drift apart.
+CORPUS_QUOTES = [
+    {
+        "corpus": "emc-care-delivery-and-classification",
+        "path": "literature/emc-care-delivery-and-classification/PMC12398172.txt",
+        "blob_sha": "79a8c197243ff4202a713d437def379c5f499a68",
+        "also_at": "literature/emc-radiotherapy-2026-08-26/PMC12398172.txt",
+        "read_via": "GitHub contents API, repository trimcrae/Rare-cancers, ref "
+        "refs/heads/literature-cache, branch commit 0eac3e3aaa5b3e02c258611588e20162a7996515",
+        "read_utc": "2026-09-01T19:30:00Z",
+        "source_id": "masunaga2025",
+        "pmid": "40885991",
+        "pmcid": "PMC12398172",
+        "series": "171 patients pathologically diagnosed with extraskeletal myxoid chondrosarcoma, "
+        "Japanese National Bone and Soft Tissue Tumor Registry Database, 2002-2022",
+        "section": "Results -> 'Patients with metastases at diagnosis'",
+        "text": "Eight patients (27.6%) underwent metastasectomy, including six, one, and one who "
+        "underwent lung, bone, and lymph node resections, respectively.",
+        "denominator": 29,
+        "denominator_means": "the 29 of 171 patients who had distant metastases at diagnosis; "
+        "27 had lung metastases and two peritoneal dissemination",
+        "⛔_no_outcome_is_printed_by_metastasectomy": "The paper reports survival for this cohort "
+        "split by whether advanced-stage CHEMOTHERAPY was given, never by whether a metastasectomy "
+        "was performed. No comparator, no survival and no recurrence figure attaches to the eight.",
+    },
+]
+
+
+def corpus_hits(term: str) -> list:
+    """Quotes in CORPUS_QUOTES whose verbatim text contains `term`, case-insensitively.
+
+    ⛔ THIS CAN ONLY EVER TURN AN ABSENCE INTO A PRESENCE, AND THAT ASYMMETRY IS THE POINT.
+    An empty return means the term is absent from the quotes committed HERE. It is not a sweep of
+    the named corpus and it never certifies a zero -- an absence still needs a sweep receipt of
+    its own. What it buys is that a recorded presence cannot be silently deleted, and a recorded
+    absence cannot survive a quote that contradicts it, which is the failure this table repairs.
+    """
+    t = term.lower()
+    return [q for q in CORPUS_QUOTES if t in q["text"].lower()]
+
+
+def absence_result(term: str) -> str:
+    """The `result` string of an absence row, DERIVED from the corpus quotes rather than typed."""
+    hits = corpus_hits(term)
+    if not hits:
+        return (
+            f"NOT ASSERTED. No quote committed in CORPUS_QUOTES matches `{term}`, and this file "
+            "holds no term-census receipt over the named corpus, so the number of matching "
+            "records is UNKNOWN. ⛔ This is not a zero and may not be quoted as one."
+        )
+    where = "; ".join(
+        f"{h['path']} (blob {h['blob_sha'][:12]}, {h['source_id']}, PMID {h['pmid']})"
+        for h in hits
+    )
+    return (
+        f"⛔ NOT ZERO -- REFUTED 2026-09-01. At least {len(hits)} record in the corpus this query "
+        f"names matches `{term}`: {where}. The value recorded here from 2026-08-09 to 2026-09-01 "
+        'was the literal string "ZERO records.", which no gate compared against the corpus. '
+        "⚠ The corpus has NOT been re-swept, so the total number of matching records remains "
+        f"UNKNOWN; {len(hits)} is a measured lower bound, not a count. Re-establishing the count "
+        "costs one term census over the literature-cache branch and no money."
+    )
+
+
 ABSENCES = [
     {
         "id": "no-emc-metastasectomy-literature",
         "route": "RT-METASTASECTOMY",
         "query": "metastasectom* within the EMC-matching subset of a 554-record open-access "
         "corpus retrieved 2026-08-09",
-        "result": "ZERO records.",
-        "reading": "⭐ The absence is the finding and it is the route's justification, not an "
-        "obstacle to it. EMC is indolent, lung-metastasis-dominant and measured in decades -- the "
-        "profile for which pulmonary metastasectomy is standard practice in sarcoma generally -- "
-        "and no paper in this corpus asks the question in EMC. ⚠ An open-access corpus is not the "
-        "literature: this bounds what a 554-record open-access sweep contains, and a closed-access "
-        "series or a chapter could exist. The claim is 'not found here', never 'does not exist'.",
-        "provenance": "[API]",
+        "term_searched": "metastasectom",
+        "status": "REFUTED" if corpus_hits("metastasectom") else "recorded",
+        "result": absence_result("metastasectom"),
+        "quotes": corpus_hits("metastasectom"),
+        "reading": "⛔ THE ABSENCE AS RECORDED IS REFUTED, AND A NARROWER ONE SURVIVES IN ITS "
+        "PLACE. Masunaga 2025 reports that eight of the 29 patients who presented with distant "
+        "metastases (27.6 %) underwent metastasectomy -- six lung, one bone, one lymph node. That "
+        "is a count of what was DONE. ⛔ The paper prints no outcome by metastasectomy: no "
+        "survival, no recurrence and no comparator attaches to those eight patients, so nothing "
+        "here states or implies that metastasectomy helps, harms, is safe or is appropriate in "
+        "this or any disease. ⭐ WHAT SURVIVES, AND IT IS STILL THE ROUTE'S JUSTIFICATION: no "
+        "reachable series studies metastasectomy AS AN INTERVENTION against a comparator. Bishop "
+        "2019 is the only comparison and it is uninformative at n = 13 (salvage surgery p = 0.15). "
+        "EMC is indolent, lung-metastasis-dominant and measured in decades -- the profile for "
+        "which pulmonary metastasectomy is standard practice in sarcoma generally -- and no EMC "
+        "cohort has been studied to find out whether the operation changes any outcome in "
+        "this disease. ⚠ An "
+        "open-access corpus is not the literature, and this row now records one quoted record "
+        "rather than a sweep: how many of the 554 records match is UNKNOWN.",
+        "⭐_REFUTATION_IS_ON_THE_RECORD_2026_09_01": "This row asserted `ZERO records.` for "
+        "23 days against a corpus that contained a matching record. The refutation, its quote and "
+        "its pinned blob SHA may not be removed to make this row read clean again -- "
+        "`_check_structure` fails if this marker is present and no quote supports it.",
+        "provenance": "[FT]",
+        "⚠_provenance_upgraded_with_the_correction": "This row was [API] while it asserted a "
+        "zero it had not measured. It is [FT] now because the sentence that refutes it was read "
+        "in the retrieved full text, whose blob SHA is pinned above.",
     },
 ]
 
@@ -244,7 +344,12 @@ def build() -> dict:
         "findings": FINDINGS,
         "absences": ABSENCES,
         "rows_by_route": by_route,
-        "pmids": sorted({r["pmid"] for r in FINDINGS} | {s["pmid"] for s in ICD_O["sides"]}),
+        "corpus_quotes": CORPUS_QUOTES,
+        "pmids": sorted(
+            {r["pmid"] for r in FINDINGS}
+            | {s["pmid"] for s in ICD_O["sides"]}
+            | {q["pmid"] for q in CORPUS_QUOTES}
+        ),
         "verification_level": (
             "Mixed and labelled per row. Most rows are [API] -- the structured Europe PMC record, "
             "i.e. the abstract. An abstract is not a paper and a number read from one has not "
@@ -255,7 +360,79 @@ def build() -> dict:
     }
 
 
+def _check_structure() -> list[str]:
+    """An absence in this file must be the value its corpus quotes derive, never a typed one.
+
+    ⛔ ADDED 2026-09-01, BECAUSE THIS MODULE HAD NO STRUCTURAL GUARD AT ALL. `check()` compared
+    the artifact against `build()` and nothing else, so a literal absence and its artifact agreed
+    with each other forever while both disagreed with the corpus. Comparing a generator to its own
+    output cannot catch a wrong input; it can only catch a hand edit downstream of one.
+    """
+    errs: list[str] = []
+    for q in CORPUS_QUOTES:
+        where = q.get("path", "<no path>")
+        if not re.fullmatch(r"[0-9a-f]{40}", str(q.get("blob_sha", ""))):
+            errs.append(
+                f"{where}: blob_sha is not a 40-character git object id -- a quote with no "
+                "pinned blob cannot be re-checked by byte comparison"
+            )
+        if q.get("corpus", "\0") not in where:
+            errs.append(f"{where}: does not sit under the corpus it names ({q.get('corpus')!r})")
+        if len(str(q.get("text", ""))) < 40:
+            errs.append(f"{where}: verbatim text is too short to be a quote")
+        for field in ("read_via", "read_utc", "source_id", "pmid", "section"):
+            if not q.get(field):
+                errs.append(f"{where}: quote carries no {field}")
+    for row in ABSENCES:
+        term = row.get("term_searched")
+        if not term:
+            errs.append(f"{row['id']}: names no term_searched, so its result cannot be derived")
+            continue
+        hits = corpus_hits(term)
+        if row["result"] != absence_result(term):
+            errs.append(
+                f"{row['id']}: `result` is not the string its corpus quotes derive -- an absence "
+                "in this file may not be typed"
+            )
+        if hits and row.get("status") != "REFUTED":
+            errs.append(
+                f"{row['id']}: a committed quote matches its own search term but the row is not "
+                f"marked REFUTED (status {row.get('status')!r})"
+            )
+        # ⚠ Substring-matching for "ZERO records." was tried here first and fired on this row's
+        # own correction notice, which QUOTES the retracted literal. A guard that cannot tell a
+        # retracted value from an asserted one forces the retraction to be deleted to go green,
+        # which is the opposite of what it is for. Anchor on the verdict, not on the vocabulary.
+        if hits and not row["result"].startswith("⛔ NOT ZERO"):
+            errs.append(
+                f"{row['id']}: does not open by refusing the zero its own committed quote "
+                "contradicts"
+            )
+        # ⛔ THE RATCHET, added after mutation-testing this guard on 2026-09-01. `status` and
+        # `result` are both DERIVED, so emptying CORPUS_QUOTES makes every derived field agree
+        # with an unasserted absence and the row goes quietly back to saying nothing -- the
+        # refutation erased with a green build. The marker below is NOT derived, so deleting the
+        # evidence while the row still claims to carry a refutation is a red build, and going
+        # green requires visibly deleting a correction notice from a tracked file.
+        if any(k.startswith("⭐_REFUTATION_IS_ON_THE_RECORD") for k in row) and not hits:
+            errs.append(
+                f"{row['id']}: carries a refutation notice but no quote supports it -- the "
+                "evidence behind a recorded refutation may not be deleted"
+            )
+        if row.get("status") == "REFUTED" and not hits:
+            errs.append(
+                f"{row['id']}: is marked REFUTED but no quote supports it -- the evidence behind "
+                "a recorded refutation may not be deleted"
+            )
+    return errs
+
+
 def check() -> int:
+    errs = _check_structure()
+    for e in errs:
+        print(f"ERROR: {e}", file=sys.stderr)
+    if errs:
+        return 1
     if not os.path.exists(OUT):
         print(f"MISSING: {OUT}", file=sys.stderr)
         return 1
@@ -277,6 +454,11 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     if args.check:
         return check()
+    errs = _check_structure()
+    for e in errs:
+        print(f"ERROR: {e}", file=sys.stderr)
+    if errs:
+        return 1
     payload = build()
     with open(OUT, "w", encoding="utf-8") as fh:
         json.dump(payload, fh, indent=2, ensure_ascii=False)

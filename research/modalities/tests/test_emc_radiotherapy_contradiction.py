@@ -151,13 +151,29 @@ def test_both_comparable_estimates_are_primary():
 
 
 def test_the_carbon_ion_finding_records_how_it_was_searched(doc):
+    """⛔ REWRITTEN 2026-09-01. This test asserted `found_in_this_histology is False` — it was a
+    third copy of the same wrong literal, alongside the value and the guard, and all three agreed
+    with each other while disagreeing with the corpus. A test that pins an answer cannot catch a
+    wrong answer; what it can pin is that the answer is derived and that the search is described
+    honestly enough for a reader to re-run it.
+    """
     ci = doc["carbon_ion"]
-    assert ci["found_in_this_histology"] is False
+    assert ci["found_in_this_histology"] is True
+    # the original census is retained rather than deleted — its error is part of the record
     assert "354" in ci["how_searched"]
-    assert "⛔_absence_of_evidence" in ci
-    assert "may exist and be unpublished" in ci["⛔_absence_of_evidence"]
-    # the rejected search-summary lead is recorded rather than silently dropped
-    assert "never a citation" in ci["⚠_a_search_summary_suggested_otherwise_and_was_not_used"]
+    assert "one review" in ci["how_searched"].lower(), (
+        "the census must say what it actually swept: a term count over one review cannot support "
+        "a claim about a 354-text corpus"
+    )
+    # what is genuinely still unknown is stated as unknown, not as a zero
+    assert "⛔_what_is_still_UNKNOWN" in ci
+    assert "not a sweep" in ci["⛔_what_is_still_UNKNOWN"]
+    # the lead that was wrongly dismissed is recorded, and so is why the dismissal was wrong
+    lead = ci["⚠_the_lead_was_right_and_the_verification_reached_the_wrong_source"]
+    assert "never a citation" in lead, (
+        "the rule the lead was refused under is unchanged and must stay on the record"
+    )
+    assert "verbatim" in lead and "wrong source" in lead
 
 
 def test_no_efficacy_claim_is_made(doc):
@@ -202,3 +218,102 @@ def test_the_garbled_table_is_flagged_and_depended_on_by_nothing(doc):
     note = b["⚠_the_univariate_table_could_not_be_parsed_reliably"]
     assert "NOT REPORTED AS A DISCREPANCY" in note
     assert "nothing in this module depends on it" in note
+
+
+# ---------------------------------------------------------------------------
+# The false-absence class (added 2026-09-01, seat S18-FALSE-ABSENCES)
+# ---------------------------------------------------------------------------
+# ⛔⛔ WHAT THESE ARE FOR, AND WHY THE OLD GUARD MADE IT WORSE. From 2026-08-26 this module held
+# `CARBON_ION["found_in_this_histology"] = False` as a literal, plus a guard that failed the build
+# if it ever became true — "the carbon-ion finding has flipped without its search being redone".
+# The value was already wrong. PMC12398172 (Masunaga 2025, 171 EMC patients, blob
+# 79a8c197243ff4202a713d437def379c5f499a68) sits inside the corpus the census names and states:
+# "Of the eight patients who did not undergo surgery, two received carbon ion therapy, one
+# received proton beam therapy, and one received conventional radiotherapy." So the guard was
+# holding a false absence in place and would have reddened the build on the correction.
+# A guard must bind to the evidence, never to the answer.
+
+
+def test_the_carbon_ion_verdict_is_derived_from_its_corpus_quotes():
+    assert rc.CARBON_ION["found_in_this_histology"] is bool(rc.corpus_mentions("carbon ion"))
+    assert rc.CARBON_ION["found_in_this_histology"] is True, (
+        "the corpus quote reporting carbon-ion therapy in this histology is unreachable"
+    )
+    assert rc._check_corpus_derivation() == []
+
+
+def test_retyping_the_original_false_literal_goes_red(monkeypatch):
+    """The exact mutation that reintroduces the defect the old guard protected."""
+    monkeypatch.setitem(rc.CARBON_ION, "found_in_this_histology", False)
+    errs = rc._check_corpus_derivation()
+    assert any("may not be typed" in e for e in errs), errs
+
+
+def test_deleting_the_corpus_evidence_goes_red(monkeypatch):
+    """The ratchet. Emptying the quotes makes a typed False agree with the derivation again, so
+    without this the correction could be erased with every structural guard green."""
+    monkeypatch.setattr(rc, "CORPUS_QUOTES", [])
+    monkeypatch.setitem(rc.CARBON_ION, "found_in_this_histology", False)
+    errs = rc._check_corpus_derivation()
+    assert any("may not be deleted" in e for e in errs), errs
+
+
+def test_every_corpus_quote_is_pinned_by_a_real_blob_sha():
+    import re as _re
+
+    assert rc.CORPUS_QUOTES
+    for q in rc.CORPUS_QUOTES:
+        assert _re.fullmatch(r"[0-9a-f]{40}", q["blob_sha"]), q["path"]
+        assert q["corpus"] in q["path"]
+        assert len(q["text"]) >= 40
+        assert q["pmid"] and q["read_via"] and q["read_utc"] and q["section"]
+
+
+def test_the_quote_actually_contains_the_term_the_verdict_turns_on():
+    """A quote that does not carry its own search term proves nothing about the term."""
+    hits = rc.corpus_mentions("carbon ion")
+    assert hits
+    for h in hits:
+        assert "carbon ion" in h["text"].lower()
+
+
+def test_a_delivered_arm_count_may_never_be_recorded_without_its_no_outcome_marker(monkeypatch):
+    """⛔ The one way this correction could become an overclaim: a count with no marker that no
+    outcome attaches to it reads as evidence the treatment did something."""
+    stripped = {k: v for k, v in rc.CARBON_ION["patients_reported"].items()
+                if not k.startswith("⛔_no_outcome")}
+    monkeypatch.setitem(rc.CARBON_ION, "patients_reported", stripped)
+    errs = rc._check_corpus_derivation()
+    assert any("no outcome" in e for e in errs), errs
+
+
+def test_the_correction_asserts_no_efficacy_for_any_particle_modality():
+    """CLAUDE.md §1: never imply efficacy, safety, a therapeutic window or clinical readiness.
+
+    ⚠ NEGATION-AWARE ON PURPOSE. A bare substring test fires on the disclaimer itself — "nothing
+    here states or implies that X is effective" contains "is effective" — which pushes an author
+    to delete the disclaimer to go green. That is the same orthogonality CLAUDE.md §6 records
+    between claim STRENGTH and claim DIRECTION, so the test has to read direction too.
+    """
+    negators = ("no ", "not ", "never", "nothing", "neither", "cannot", "without", "n't",
+                "refus", "does not", "may not")
+    blob = json.dumps(rc.CARBON_ION, ensure_ascii=False).lower()
+    for banned in ("carbon ion works", "effective in emc", "is effective", "improved survival",
+                   "well tolerated", "should be used", "therapeutic window", "proven benefit"):
+        i = blob.find(banned)
+        while i != -1:
+            window = blob[max(0, i - 140):i]
+            assert any(n in window for n in negators), (
+                f"the carbon-ion record asserts efficacy or safety: "
+                f"...{blob[max(0, i - 90):i + len(banned) + 30]}..."
+            )
+            i = blob.find(banned, i + 1)
+    assert "no outcome" in blob, "the record must state that no outcome attaches to these patients"
+
+
+def test_the_counts_carry_their_denominator_and_refuse_a_rate():
+    """2 of 8 and 2 of 171 answer different questions; neither is a utilisation rate."""
+    p = rc.CARBON_ION["patients_reported"]
+    assert p["carbon_ion"] == 2 and p["proton_beam"] == 1
+    assert p["denominator"] == 8 and p["denominator_means"]
+    assert any(k.startswith("⛔_do_not_compute_a_rate") for k in p)
