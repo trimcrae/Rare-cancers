@@ -444,8 +444,29 @@ all** before this session and now has eight, both directions mutation-tested on 
 
 ### 3-vi · ⛔ OPEN — the published archive is BEHIND the paper again, by two deposited files, and this one is self-inflicted
 
-⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPER, AND A FOURTH ARCHIVE VERSION IS NEEDED AND IS NOT YET
-DRAFTED.** `10.5281/zenodo.22182180`
+⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPER BY 13 DEPOSITED PATHS, THE FOURTH VERSION IS A DRAFT
+THIS REPOSITORY CANNOT REACH, AND ZENODO'S DEPOSIT API IS TIMING OUT.** Full evidence and the
+resume order: **`AUT-PD-197`**.
+
+* **An orphaned draft exists: deposition `22229096`.** Run 33498033370's `newversion` POST succeeded
+  and the next GET returned `504`, so the script died before deleting the files that draft inherits
+  from 22182180, and wrote no record. Confirmed by the retry (33498227279) being refused
+  `400 files.enabled: "Please remove all files first."` — Zenodo declining to open a second version
+  while one is open, which is also why no fifth draft exists.
+* **Zenodo is the blocker, not us.** Run 33500476413 got `504` on a plain
+  `GET /deposit/depositions/22182180` — a read of the published record, before any mutation.
+* ⛔ **ITS RESERVED DOI IS NOT KNOWN AND MAY NOT BE GUESSED.** All three prior versions had a DOI
+  number equal to their deposition id; three matches is a pattern, not a reading, and CLAUDE.md §7
+  forbids writing an identifier from recollection. A run must print it.
+* ⛔⛔ **AND THE REPOINT SITE IS NOT WHERE THIS CYCLE FIRST LOOKED.** `zenodo_deposit.py` resolves its
+  target from `manifest.get("deposition_doi")`, and that is a **hardcoded literal in
+  `research/manuscripts/aso_archive_manifest.py:1463`**, bound to the manuscript by
+  `test_aso_deposition_doi_is_one_fact.py`. Editing `deposit-state.json`'s `pending` redirects
+  nothing. A probe branch built on that wrong reading is recorded in AUT-PD-197; it was deleted
+  locally, its remote ref could not be deleted from this environment, and **it must never be
+  merged.**
+
+`10.5281/zenodo.22182180`
 (published 2026-08-31, §3-v) holds the archive at `archive_content_digest a4d4ad6f1ca0…`. Round 28's
 two repairs both touch **deposited** files — `fusion-junction-aso-journal-article.md` (the
 `need` → `prefer` correction) and `research/modalities/aso_parent_null.py` (the "Six null ensembles"

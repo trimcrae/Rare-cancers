@@ -10,7 +10,7 @@
     "code": 1,
     "experiment": 24,
     "fetch": 22,
-    "fix": 20,
+    "fix": 21,
     "harden": 26,
     "negative": 32,
     "process": 7,
@@ -21,7 +21,7 @@
     "write": 6
   },
   "n_by_state": {
-    "blocked": 2,
+    "blocked": 3,
     "done": 143,
     "in_progress": 6,
     "parked": 28,
@@ -8259,6 +8259,33 @@
       },
       "score": 26.4,
       "_score_inherited_from_route": "RT-FUSION-OUTPUT"
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "blocked",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": "zenodo.org deposit API returning 504 on plain GETs, 2026-09-01",
+      "blocked_evidence": "Three consecutive Actions runs against zenodo.org/api. 33498033370: `GET /deposit/depositions/22229096 -> 504 Gateway Time-out`. 33498227279: `POST /deposit/depositions/22182180/actions/newversion -> 400 files.enabled \"Please remove all files first.\"`. 33500476413: `GET /deposit/depositions/22182180 -> 504 Gateway Time-out` — a plain read of the published record, before any mutation. The third is the one that settles it as an OUTAGE rather than our state: nothing about a bare GET depends on this repository.",
+      "retry_budget": 3,
+      "attempts": 3,
+      "last_evidence_utc": "2026-09-01",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PD-197",
+      "kind": "fix",
+      "requires_trimcrae": false,
+      "what": "⛔⛔ AN ORPHANED ZENODO DRAFT (22229096) EXISTS AND THE REPOSITORY CANNOT REACH IT, PLUS THE DOI'S REAL HOME IS NOT WHERE THIS CYCLE ASSUMED. Measured 2026-09-01 by CYC-0090-d7df5340, which caused the orphan.\n★ HOW THE ORPHAN WAS MADE. Run 33498033370 dispatched `new_version=true` to reserve version four. Its `POST .../actions/newversion` SUCCEEDED — `zenodo_deposit.py` raises a distinct SystemExit when that call returns no `latest_draft` link, and it did not — and the immediately following GET on the returned draft returned 504. The script died there, so the loop that deletes the files the new draft INHERITS from 22182180 never ran, and nothing was written to any record.\n★ CONFIRMED, NOT INFERRED: the retry (33498227279) asked for another new version and Zenodo refused `400 files.enabled: \"Please remove all files first.\"` — how Zenodo declines to open a second version while a draft is open. That refusal is also why no FIFTH draft exists.\n⛔⛔ AND THE CORRECTION THAT MATTERS MOST, BECAUSE THIS CYCLE GOT IT WRONG AND BUILT ON IT: `zenodo_deposit.py` resolves which deposition to act on from `declared = manifest.get(\"deposition_doi\")` (line ~321) — the ARCHIVE MANIFEST — and NOT from deposit-state.json. `deposition_doi` is a HARDCODED LITERAL in `research/manuscripts/aso_archive_manifest.py` at line 1463, bound to the manuscript by `test_aso_deposition_doi_is_one_fact.py`. So THAT line is the repoint site, and editing deposit-state.json's `pending` cannot redirect the script at all.\n⚠ THIS CYCLE BUILT A WHOLE PROBE BRANCH ON THE WRONG PREMISE. `cyc0090-zenodo-probe` carried a provisional `pending` block so a `ref=<branch>` dispatch could reach the orphan; it could never have worked, and the run proves it — the log shows the script going to 22182180, the manifest's DOI, exactly as the code says it would. The branch was deleted locally; the REMOTE ref could not be deleted (`git push --delete` and the refspec form both return `fatal: the remote end hung up unexpectedly`, and the GitHub tools available here expose no delete-branch call). ⛔ IT MUST NEVER BE MERGED: its content is an unverified DOI that would red the trunk.\n★ WHAT A RESUMING SESSION SHOULD DO, IN ORDER. (1) Check the Zenodo deposit API is healthy — a `record=verify` dispatch reads the PUBLISHED record with no token and is the cheapest probe. (2) Dispatch `new_version=true` again; Zenodo will either hand back the OPEN draft 22229096 or refuse with the same 400, and either answer is informative. (3) Read the reserved DOI out of the run log — do NOT infer it from the deposition number, even though all three prior versions matched that way (CLAUDE.md §7). (4) Edit `deposition_doi` in aso_archive_manifest.py:1463 to the READ value, repoint the manuscript's Data availability, rebuild the chain, re-derive the manifest, commit — that commit is the PIN. (5) Round 29 + PREFLIGHT_FULL on the pin. (6) Only then refresh the draft, publish, read back. Checklist §3-vi carries the same order and the reason it may not be shortened.\n⚠ WHAT IS NOT WRONG: 10.5281/zenodo.22182180 is published, resolves, and is a complete self-consistent archive of the paper as it stood at 866594627ab0. The drift is 13 deposited paths, declared in checklist §3-vi. Nothing published is incorrect.",
+      "_score_basis": "EXPLICIT, and typed because RT-ASO's floor would not express this. Anchored to the scored open process_defect distribution (42.7 / 129.8 / 131.8 / 134.9) and placed at 115.0: it BLOCKS the named goal — PUB-ASO cannot reach 7/7 until the archive is re-versioned — which puts it above AUT-PD-196's 110.0. ⛔ Deliberately below the three high siblings: this cycle both caused the orphan and filed the row, and a cycle scoring its own mess to the top of the queue is the direction the anti-gaming invariant exists to catch.",
+      "score": 25.0,
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
     },
     {
       "id": "AUT-027",
