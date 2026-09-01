@@ -14,13 +14,18 @@ WHAT THE MANUSCRIPT ASKS FOR, QUOTED, BECAUSE THE DESIGN IS ITS DESIGN AND NOT A
      finding and Section 2.3's curve is the only honest report of coverage. Until this is done
      every figure in B1 is a point on a curve."
 
-§B1, which says what "calibrate" is allowed to mean here, verbatim:
+§B1, which says what "calibrate" is allowed to mean here, verbatim (lines 553-563 as of
+2026-09-01; ⚠ re-punctuated by a concurrent sprint seat while this module was being written, so
+quote it from the file rather than from here):
 
     "Calibrating that cut against a benchmark of experimentally validated neoepitopes is the form
      that settling would take. The experimentally validated fusion-junction epitopes in the
-     literature are individual sequences across a few fusions ... and a handful of epitopes is not
-     a set against which a threshold can be calibrated; calibrating on point-mutation neoantigens
-     instead would import an assumption about junction peptides that is the very thing in question."
+     literature are individual sequences across a few fusions: the HLA-A*24:02-restricted SYT-SSX
+     junction peptide [17,18], the four EWSR1::FLI1 breakpoint peptides of the Ewing sarcoma case
+     report [20] and the fusion neoantigens of a head and neck series [21]. A handful of epitopes
+     is not a set against which a threshold can be calibrated. Calibrating on point-mutation
+     neoantigens instead would import an assumption about junction peptides that is the very thing
+     in question."
 
 ⚠ THE ONE AMBIGUITY, AND THE READING TAKEN. §6.1 step 1 says "experimentally validated epitopes"
 unqualified; §B1 says a calibration on anything other than fusion-junction epitopes imports the very
@@ -132,6 +137,14 @@ RANDOM_SEED = 20260901
 #: column it cannot resolve is a hard failure that dumps the real schema rather than a guess.
 IEDB_ROOT = "https://query-api.iedb.org"
 IEDB_TABLES = ["mhc_search", "tcell_search"]
+#: Probed by `diagnose_reachability` so a network failure names its own layer instead of arriving as
+#: one opaque errno. `www.iedb.org` is the control: if it connects and the query host does not, the
+#: query host is the problem rather than IEDB or the runner's egress.
+IEDB_HOST_CANDIDATES = ["query-api.iedb.org", "www.iedb.org"]
+IEDB_URL_CANDIDATES = [
+    IEDB_ROOT + "/",
+    IEDB_ROOT + "/mhc_search?select=linear_sequence&limit=1",
+]
 
 COLUMN_CANDIDATES = {
     "sequence": ["linear_sequence", "epitope_linear_sequence", "linear_peptide_seq"],
@@ -202,21 +215,91 @@ def _get(url, tries=3, timeout=180):
     raise RuntimeError(f"{url} -> {last}")
 
 
-def discover_schema():
-    """The live PostgREST OpenAPI document. Recorded in the artifact whatever else happens.
+def diagnose_reachability(timeout=25):
+    """DNS, TCP-connect and HTTP, separately, per candidate — so a failure NAMES ITS OWN LAYER.
+
+    ⛔ WHY THIS EXISTS, AND IT IS NOT DEFENSIVE PROGRAMMING. Run 33551737511 (2026-09-01) failed with
+    `URLError: <urlopen error [Errno 110] Connection timed out>` against the PostgREST root, three
+    times, costing nine minutes of the job and yielding no information beyond "something did not
+    work". Errno 110 is ETIMEDOUT **on connect**, which already excludes a DNS failure (Errno -2) and
+    a slow response body (a read timeout raises differently) — but the artifact could not say that,
+    and CLAUDE.md §4 wants the observation that discriminates, recorded, not a reading of the error
+    string after the fact. This makes the next failure self-diagnosing and bounds its cost.
+    """
+    import socket  # noqa: PLC0415
+    import time  # noqa: PLC0415
+    out = {}
+    for host in IEDB_HOST_CANDIDATES:
+        rec = {}
+        try:
+            infos = socket.getaddrinfo(host, 443, proto=socket.IPPROTO_TCP)
+            rec["dns"] = sorted({i[4][0] for i in infos})
+        except Exception as exc:  # noqa: BLE001
+            rec["dns"] = f"FAILED {type(exc).__name__}: {exc}"
+            out[host] = rec
+            continue
+        t0 = time.time()
+        try:
+            sock = socket.create_connection((host, 443), timeout=timeout)
+            sock.close()
+            rec["tcp_443"] = f"connected in {time.time() - t0:.1f}s"
+        except Exception as exc:  # noqa: BLE001
+            rec["tcp_443"] = (f"FAILED {type(exc).__name__}: {exc} "
+                              f"after {time.time() - t0:.1f}s")
+        out[host] = rec
+    for url in IEDB_URL_CANDIDATES:
+        t0 = time.time()
+        try:
+            _get(url, tries=1, timeout=timeout)
+            out[url] = f"HTTP OK in {time.time() - t0:.1f}s"
+        except Exception as exc:  # noqa: BLE001
+            out[url] = f"FAILED {exc} after {time.time() - t0:.1f}s"
+    return out
+
+
+def discover_schema(timeout=45):
+    """The live PostgREST column list. Recorded in the artifact whatever else happens.
 
     ⚠ THE POINT IS THAT NOTHING HERE IS A REMEMBERED COLUMN NAME. If IEDB renames a field, this run
     fails with the real list in hand instead of returning an empty set that reads like an absence.
+
+    ⭐ TWO SOURCES, AND THE SECOND IS NOT A CONSOLATION PRIZE. The OpenAPI root is preferred because
+    it describes every table at once. If it is unreachable, **one sample row per table carries the
+    same information for the tables this job uses** — a returned row's keys ARE that table's columns —
+    so the fallback is exact rather than approximate, and it is recorded as `schema_source` so a
+    reader knows which one answered.
     """
-    doc = _get(IEDB_ROOT + "/")
-    defs = doc.get("definitions") or (doc.get("components") or {}).get("schemas") or {}
-    tables = {}
-    for name, spec in defs.items():
-        props = sorted((spec or {}).get("properties", {}).keys())
-        if props:
-            tables[name] = props
-    return {"n_tables": len(tables), "tables": tables,
-            "info": (doc.get("info") or {}).get("title")}
+    try:
+        doc = _get(IEDB_ROOT + "/", tries=2, timeout=timeout)
+        defs = doc.get("definitions") or (doc.get("components") or {}).get("schemas") or {}
+        tables = {}
+        for name, spec in defs.items():
+            props = sorted((spec or {}).get("properties", {}).keys())
+            if props:
+                tables[name] = props
+        if tables:
+            return {"n_tables": len(tables), "tables": tables,
+                    "info": (doc.get("info") or {}).get("title"),
+                    "schema_source": "PostgREST OpenAPI root"}
+        root_err = "the OpenAPI root returned no table definitions"
+    except Exception as exc:  # noqa: BLE001
+        root_err = f"{type(exc).__name__}: {exc}"
+
+    tables, errs = {}, {}
+    for table in IEDB_TABLES:
+        try:
+            rows = _get(f"{IEDB_ROOT}/{table}?limit=1", tries=2, timeout=timeout)
+            if rows:
+                tables[table] = sorted(rows[0].keys())
+            else:
+                errs[table] = "the table answered with zero rows, so its columns are unknown"
+        except Exception as exc:  # noqa: BLE001
+            errs[table] = f"{type(exc).__name__}: {exc}"
+    if not tables:
+        raise RuntimeError(f"OpenAPI root: {root_err}; sample-row fallback: {errs}")
+    return {"n_tables": len(tables), "tables": tables, "info": None,
+            "schema_source": f"one sample row per table (OpenAPI root unavailable: {root_err})",
+            "fallback_errors": errs}
 
 
 def resolve_columns(schema, table):
@@ -526,8 +609,9 @@ def decoy_pool(length_counts, exclude, multiple, seed):
 def presenting_allele_null(pool, panel, scored, n_peptides, threshold, draws, seed):
     """How many presenting alleles does a RANDOM peptide set of the screen's size buy at this cut?
 
-    §7: "no decoy control and no null expectation ... the calls that pass are reported as what the
-    screen returned rather than as an enrichment over chance." This is the missing null.
+    §7, verbatim: "The screen tested 174 peptides against 10 and then 34 alleles at two thresholds,
+    with no decoy control and no null expectation. The calls that pass are therefore reported as
+    what the screen returned rather than as an enrichment over chance." This is the missing null.
     """
     rng = random.Random(seed)
     counts = []
@@ -625,6 +709,9 @@ def main(argv=None):
     except Exception as exc:  # noqa: BLE001
         result["errors"].append(f"schema discovery failed: {exc}")
         result["_schema_discovery"] = None
+        # ⛔ A FAILURE THAT CANNOT SAY WHICH LAYER FAILED IS NOT A DIAGNOSIS. Taken here, once, while
+        # the failure is live — not deferred to a later run that may not reproduce it.
+        result["_iedb_reachability"] = diagnose_reachability()
         schema = None
 
     if args.dump_schema_only:
@@ -855,10 +942,12 @@ def main(argv=None):
             ge = sum(v for k2, v in dist.items() if int(k2) >= observed)
             result["arm_D_decoy_null"] = {
                 "_label": "THE NULL §7 SAYS THE SCREEN LACKS",
-                "_note": ("§7: 'no decoy control and no null expectation ... the calls that pass are "
-                          "reported as what the screen returned rather than as an enrichment over "
-                          "chance.' These are length-matched random peptides from the same reviewed "
-                          "human proteome the novelty search uses, over the same panel."),
+                "_note": ("§7, verbatim: 'The screen tested 174 peptides against 10 and then 34 "
+                          "alleles at two thresholds, with no decoy control and no null expectation. "
+                          "The calls that pass are therefore reported as what the screen returned "
+                          "rather than as an enrichment over chance.' These decoys are "
+                          "length-matched random peptides from the same reviewed human proteome the "
+                          "novelty search uses, over the same panel."),
                 "rank_column": column,
                 "n_decoy_peptides": len(pool), "decoy_multiple": DECOY_MULTIPLE,
                 "provenance": prov,

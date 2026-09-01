@@ -16,10 +16,12 @@ name: Vaccine acceptance-threshold calibration (§6.1 step 1)
 #   python3 -c "import mhcflurry"        -> ModuleNotFoundError
 #   curl https://query-api.iedb.org/     -> curl (56) CONNECT tunnel failed, response 403
 #
-# Results are pushed to the `vaccine-calibration-cache` branch AND uploaded as a run artifact, so a
-# failed push never costs the result:
-#   git fetch origin vaccine-calibration-cache
-#   git checkout vaccine-calibration-cache -- research/modalities/
+# Results are committed BACK TO THE TRIGGERING BRANCH through `research/compute/publish_artifacts.sh`
+# — the repository's one primitive for "commit these artifacts and push them" — and are also uploaded
+# as a run artifact, so a failed push never costs the result.
+# ⛔ NOT a hand-rolled `git checkout -B` onto a side branch. `tests/test_no_hand_rolled_publish.py`
+# forbids a NEW hand-rolled publish, and it was RIGHT to: this file's first draft had one, the guard
+# went red on it locally (2026-09-01), and the fix is the primitive rather than a registry entry.
 
 on:
   workflow_dispatch:
@@ -80,6 +82,9 @@ jobs:
           d = json.load(open("research/modalities/vaccine-threshold-calibration-schema-probe.json"))
           s = d.get("_schema_discovery")
           print("schema:", None if not s else {k: len(v) for k, v in s["columns_of_tables_used"].items()})
+          r = d.get("_iedb_reachability")
+          if r:
+              print("::warning title=IEDB unreachable::" + json.dumps(r)[:900])
           for e in d.get("errors", []):
               print("::warning title=IEDB schema probe::" + str(e))
           PY
@@ -133,6 +138,9 @@ jobs:
                                 ["n_distinct_validated_fusion_junction_epitopes",
                                  "the_set_is_a_calibration_set",
                                  "_the_fusion_probe_fetch_was_complete"]}, indent=1))
+              r = d.get("_iedb_reachability")
+              if r:
+                  print("::warning title=IEDB unreachable::" + json.dumps(r)[:900])
           PY
 
       - name: Upload the results as a run artifact (survives a failed push)
@@ -146,38 +154,29 @@ jobs:
             research/modalities/vaccine-threshold-calibration-schema-probe.json
             research/modalities/iedb-validated-epitope-cache.json
 
-      - name: Publish to the vaccine-calibration-cache branch
+      - name: Publish the results to the triggering branch (the one publish primitive)
         if: always()
         run: |
-          set -e
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          set -uo pipefail
           mkdir -p "$RUNNER_TEMP/res"
           # ⛔ The stub guard refuses to publish a failure stub over a real artifact — a JSON object
           # whose every top-level key is `_`-prefixed carries no data. Reused rather than
-          # re-implemented; it is the one home of that test.
+          # re-implemented; it is the one home of that test. It stages the survivors, and only the
+          # survivors' paths are handed to the publish primitive.
           python research/modalities/artifact_stub_guard.py --stage "$RUNNER_TEMP/res" \
             research/modalities/vaccine-threshold-calibration.json \
             research/modalities/vaccine-threshold-calibration-schema-probe.json \
             research/modalities/iedb-validated-epitope-cache.json || true
-          if [ -z "$(ls -A "$RUNNER_TEMP/res" 2>/dev/null)" ]; then
-            echo "nothing publishable"; exit 0
+          PATHS=""
+          for f in "$RUNNER_TEMP"/res/*.json; do
+            [ -e "$f" ] || continue
+            PATHS="$PATHS research/modalities/$(basename "$f")"
+          done
+          if [ -z "$PATHS" ]; then
+            echo "::warning title=nothing publishable::no artifact survived the stub guard"
+            exit 0
           fi
-          git fetch origin vaccine-calibration-cache || true
-          # ⛔ CLEAR THE WORKTREE COPIES FIRST. `git checkout -B` refuses when an untracked file
-          # would be overwritten by the branch being checked out, and these three filenames exist on
-          # both sides. The publishable copies are already staged in $RUNNER_TEMP/res.
-          rm -f research/modalities/*.json research/modalities/*.png
-          git checkout -- research/modalities 2>/dev/null || true
-          if git show-ref --verify --quiet refs/remotes/origin/vaccine-calibration-cache; then
-            git checkout -B vaccine-calibration-cache origin/vaccine-calibration-cache
-          else
-            git checkout --orphan vaccine-calibration-cache
-            git rm -rf . >/dev/null 2>&1 || true
-          fi
-          mkdir -p research/modalities
-          cp "$RUNNER_TEMP"/res/*.json research/modalities/
-          git add research/modalities/*.json
-          git commit -m "Vaccine acceptance-threshold calibration (§6.1 step 1): run ${GITHUB_RUN_ID}" \
-            || { echo "no changes"; exit 0; }
-          git push origin vaccine-calibration-cache
+          # PUBLISH_IF_CHANGED=1 because this is an EVENT publish, not a lane heartbeat: a commit
+          # asserting a calibration ran on a run that produced nothing is worse than no commit.
+          PUBLISH_IF_CHANGED=1 bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "Vaccine acceptance-threshold calibration (§6.1 step 1): run ${GITHUB_RUN_ID}" $PATHS
