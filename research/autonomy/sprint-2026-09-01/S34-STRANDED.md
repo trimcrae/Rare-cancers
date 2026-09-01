@@ -189,7 +189,9 @@ Patches **P3a** (new file) and **P3b** (harness), both clean.
 
 #### 2.7 `claude/aut-pd-145-s2-CYC-0074` — `76a8f7f2d` — **OBSOLETE**
 
-`unscored_ratchet.py` + a 203-line test that measure the entry condition for landing
+`unscored_ratchet.py` (**a file that exists only on that branch — it is on no ref this checkout
+carries, and naming it here is a pointer to the branch's contents, not to a path a reader can
+open**) plus a 203-line test, together measuring the entry condition for landing
 `MAX_UNSCORED_OPEN`. **The ratchet itself landed on the trunk** on 2026-08-29 (`CYC-0083-381d0696`,
 pinned at 73 — seven *below* the 80 it was written against — later re-pinned **down** to 69), and
 `AUT-PD-145` is `done`. The condition this instrument existed to measure was met, by hand, twice.

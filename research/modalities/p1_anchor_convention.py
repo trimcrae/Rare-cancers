@@ -726,7 +726,7 @@ def main():
             "general_class_I_statement_this_is_tested_against": (
                 "'Primary anchor residues are mainly found at the second and last positions of these "
                 "peptides' -- The MHC Motif Atlas, Nucleic Acids Research 2023, "
-                "doi:10.1093/nar/gkac965. A general class I statement, not an allele-specific one, "
+                "doi:10.1093/nar/gkac965 (PMC9825574). A general class I statement, not an allele-specific one, "
                 "and the statement junction-selfsimilarity.json's convention encodes."),
         },
         "_provenance": {

@@ -937,6 +937,28 @@
         "accessed": "2026-08-07",
         "verified": true
       },
+      "palmerini2022trobsultrarare": {
+        "short": "Palmerini 2022 (TrObs ultra-rare sub-analysis)",
+        "type": "journal-article",
+        "title": "Transcription regulators and ultra-rare and other rare translocation-related sarcomas treated with trabectedin: A proof of principle from a post-hoc analysis.",
+        "authors": "Palmerini E, Sanfilippo R, Grignani G, Buonadonna A, Romanini A, Badalamenti G, Ferraresi V, Vincenzi B, Comandone A, Pizzolorusso A, Brunello A, Gelsomino F, De Pas T, Ibrahim T, Gurrieri L, Grosso F, Zanelli F, Pantaleo MA, Milesi L, Ciuffreda L, Ferrari V, Marchesi E, Quattrini I, Righi A, Setola E, Carretta E, Casali PG, Picci P, Ferrari S.",
+        "journal": "Frontiers in Oncology",
+        "year": 2022,
+        "pmid": "36568164",
+        "pmcid": "PMC9780071",
+        "doi": "10.3389/fonc.2022.1042479",
+        "url": "https://doi.org/10.3389/fonc.2022.1042479",
+        "license": "CC-BY-4.0",
+        "openAccess": true,
+        "design": "post-hoc case-series analysis of TrObs, a non-interventional retrospective study of trabectedin in routine practice; response assessed by the treating physician per RECIST 1.1, NOT by central review",
+        "registration": "NCT02793050",
+        "n": 36,
+        "population": "the ultra-rare and other rare translocation-related sarcoma patients within TrObs (512 anthracycline-pretreated advanced soft-tissue-sarcoma patients, 20 Italian sites); THREE of the 36 had extraskeletal myxoid chondrosarcoma",
+        "studyPeriod": [2010, 2015],
+        "accessed": "2026-08-29",
+        "retrievalNote": "Identified 2026-08-29 by the AUT-071 literature read (research/literature/trabectedin-emc-clinical-2026-08-29.json) and read from PubMed Central full text, Table 2. Before that this PMID existed in the repository only as an incidental search hit inside research/literature/rt-lung-mets-probe.json, a probe about radiotherapy to lung metastases, and no route or registry row cited it.",
+        "verified": true
+      },
       "martinbroto2020immunosarc1": {
         "short": "Martin-Broto 2020 (IMMUNOSARC I)",
         "type": "journal-article",
@@ -1283,6 +1305,20 @@
         "armWideMedianPfsMonths": 12.5,
         "result": "Sub-analysis of a randomised phase 2 trial in translocation-related sarcoma (JapicCTI-121850), central radiology review. The full text's Methods state the split - two EMC subjects and three mesenchymal chondrosarcoma subjects - and Table 2 gives each individually. Both EMC subjects had stable disease, with PFS of 13.0 and 7.4 months and overall survival of 26.4 and 10.4 months. The arm's single objective response was a mesenchymal chondrosarcoma patient. The arm-wide median PFS of 12.5 months is numerically the individual PFS of that arm's subject 5, who also has mesenchymal chondrosarcoma; it is not an EMC figure.",
         "sourceId": "morioka2016trabectedin",
+        "provenance": "primary"
+      },
+      {
+        "agent": "Trabectedin (second EMC-specific series)",
+        "n": 3,
+        "nBasis": "the 3 extraskeletal myxoid chondrosarcoma patients within a 36-patient ultra-rare/rare translocation-related sarcoma sub-analysis of the TrObs retrospective study",
+        "orrEvents": 0,
+        "orr": 0,
+        "diseaseControlEvents": 2,
+        "progressiveDiseaseEvents": 1,
+        "result": "Table 2 of the source gives an EMC row: of 3 evaluable EMC patients, 0 had an objective response, 2 had stable disease and 1 had progressive disease (disease control 2 of 3). NO EMC-specific progression-free or overall survival is reported - Table 3 breaks PFS out by histology only for the three histologies that produced an objective response, and EMC is not among them. Response was assessed by the treating physician per RECIST 1.1, not by central radiology review. ⚠ POPULATION OVERLAP IS UNRESOLVED AND THIS ROW IS THEREFORE CONTEXT, NOT POOLED (systems/POLICY-evidence.md 2.3): TrObs enrolled at 20 Italian sites in 2010-2015, chiusole2020 covers Istituto Oncologico Veneto (Padova) over 1980-2018 and already carries 'second line ... trabectedin 66% of 3', the two series report the same n=3 and the same 2-of-3 disease control, and one author (A. Brunello, IOV Padova) appears on both papers. Neither paper names its EMC patients' treating centre, so the overlap cannot be excluded from either full text. Adding this row does not change the EMC-specific objective-response count for trabectedin, which remains ZERO in every series located here.",
+        "pool": false,
+        "contextReason": "population-overlap",
+        "sourceId": "palmerini2022trobsultrarare",
         "provenance": "primary"
       },
       {

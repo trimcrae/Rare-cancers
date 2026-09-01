@@ -40,6 +40,39 @@ No `git add`, `git commit`, `git push`, `git stash`, `git checkout`, `git rebase
 **Why:** twelve seats sharing one index means one seat's `git add` captures eleven seats' work
 mid-flight. That is not a hypothetical — it is the measured 2026-08-27 incident.
 
+### 1a · ⛔⛔ AND THE SAME RULE BINDS THE DRIVER, WHICH THIS FILE DID NOT SAY UNTIL IT COST SOMETHING.
+
+**Measured 2026-09-01, ~21:20Z: the driver ran `git reset --hard HEAD` in this shared tree** — inside
+a loop testing whether some stranded branches merged cleanly, where it was tidying up after
+`git merge --abort`. It discarded every uncommitted change to a tracked file, its own and everyone
+else's. What it destroyed: six manuscript edits a seat had finished and gated, six re-applied
+patches, a ledger closure recording a decision trimcrae had just made, and a set of frontmatter
+repairs.
+
+★ **THE GAP WAS EXACTLY THIS SECTION'S SCOPE.** Rule 1 forbids SEATS the git write commands. It said
+nothing about the driver, and the driver is the one process in the wave that legitimately runs git
+all night — so the rule that would have stopped it read, to its author, as a rule about somebody
+else. **A shared tree loses work in both directions and neither raises an error:** `git add -A`
+commits what a seat is midway through writing, `git reset --hard` discards what a seat has finished
+writing.
+
+⛔ **SO: `git reset --hard`, `git checkout -- <path>`, `git stash` and `git merge --abort` are
+FORBIDDEN IN THIS TREE WHILE ANY SEAT IS RUNNING — to the driver as much as to a seat.** The driver
+commits and pushes by path; nothing else. A merge that needs aborting is a merge that belongs in a
+separate worktree, which is where every merge in this sprint was already being done.
+
+⭐ **AND THE RECOVERY IS THE ARGUMENT FOR RULE 3.** Everything came back, because the two things that
+survive a hard reset are untracked files and the scratchpad: the seat's findings file held every
+number needed to rebuild its edit, and the driver's scripts and patches were on disk. The seat that
+lost its work detected the loss itself — `git diff --stat` empty on a file `git status` had shown
+modified, with `HEAD` unmoved — rebuilt from an atomic script asserting one match per anchor, and
+then **re-derived every figure against the post-reset tree rather than assuming its inputs had
+survived**. It also filed its own first explanation, which blamed a seat, retained beside the true
+cause rather than deleted.
+⚠ Its conclusion is the one worth carrying: *"had I written the findings file at the end as a report
+of finished work, one command would have destroyed the work and the record of it together"* — the
+107-agent fan-out's failure mode, reached by a different route.
+
 ### 2 · ⛔ EDIT ONLY THE PATHS YOUR PROMPT NAMES AS YOURS.
 
 Your prompt carries an **OWNED PATHS** list. Editing anything outside it collides with another seat
