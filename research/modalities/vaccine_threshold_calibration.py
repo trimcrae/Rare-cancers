@@ -190,6 +190,12 @@ IEDB_ANTIGEN_PROBES = [
     "*CIC*DUX4*", "*BCOR*CCNB3*", "*ASPSCR1*TFE3*", "*COL1A1*PDGFB*",
 ]
 
+#: ⛔ EVERY PAGED QUERY MUST CARRY THIS. IEDB's gateway refuses any query with `offset` and no
+#: `order` — "The query was not sent to the API" — so a paged fetch without it returns 400 on page 0
+#: and reads, to a caller that discards the body, exactly like an empty table. Measured on run
+#: 33555613485 across all 90 failures. `linear_sequence` is always in the select list.
+ORDER_BY = "linear_sequence"
+
 POSITIVE_OUTCOME = re.compile(r"positive", re.I)
 ALLELE_RE = re.compile(r"HLA-[ABC]\*\d{2}:\d{2}")
 PAGE = 1000
@@ -218,9 +224,11 @@ def _get(url, tries=3, timeout=180):
             with urllib.request.urlopen(req, timeout=timeout) as fh:
                 return json.loads(fh.read().decode("utf-8", "replace"))
         except urllib.error.HTTPError as exc:
-            # ⛔ THE BODY IS THE DIAGNOSIS. PostgREST answers a bad filter with 400 AND a JSON
-            # message naming the offending clause; run 33554351704 threw 68 of them away and left
-            # "HTTP Error 400" as the whole record. Never discard it again.
+            # ⛔ THE BODY IS THE DIAGNOSIS, AND IT ALREADY OVERTURNED A GUESS. Run 33554351704
+            # threw away 68 response bodies and left "HTTP Error 400" as the whole record; the
+            # diagnosis written from the status code alone (an HLA name's `*` and `:`) was WRONG.
+            # The first run that kept the body got the real cause in one line: `offset` with no
+            # `order`. Never discard it again.
             try:
                 body = exc.read().decode("utf-8", "replace")[:400]
             except Exception:  # noqa: BLE001
@@ -349,7 +357,7 @@ def fetch_table(table, cols, probes):
         for page in range(MAX_PAGES):
             url = (f"{IEDB_ROOT}/{table}?select={select}"
                    f"&{antigen_col}=ilike.{urllib.parse.quote(probe, safe='*')}"
-                   f"&limit={PAGE}&offset={page * PAGE}")
+                   f"&order={ORDER_BY}&limit={PAGE}&offset={page * PAGE}")
             try:
                 batch = _get(url)
             except Exception as exc:  # noqa: BLE001
@@ -371,12 +379,25 @@ def fetch_table(table, cols, probes):
 def fetch_general(table, cols, lengths, table_columns):
     """Arm N's pool: validated epitopes of the screen's peptide lengths, filtered to the panel later.
 
-    ⛔ FILTERED ON LENGTH, NOT ON AN ALLELE STRING. The first draft sent
-    `mhc_allele_name=ilike.*HLA-A*01:01*` per panel allele and PostgREST answered **400 to all 68 of
-    them** (run 33554351704) — an HLA name carries both `*` and `:`, which are a wildcard and a
-    reserved character in a PostgREST filter value. `linear_sequence_length` is an integer column
-    with no such hazard, and restricting the allele afterwards costs nothing because `ALLELE_RE`
-    already keeps only 4-digit HLA-A/B/C names, which are class I by construction.
+    ⚠⚠ THE COMMENT THAT USED TO BE HERE WAS A WRONG DIAGNOSIS, AND IT IS CORRECTED RATHER THAN
+    QUIETLY DELETED. Run 33554351704 answered 400 to all 68 allele queries, and this function was
+    rewritten on the reasoning that an HLA name carries `*` and `:` — a wildcard and a reserved
+    character in a PostgREST filter value. **That was a "probably X" and it was wrong.** Run
+    33555613485 kept the HTTP response body for the first time and all 90 failures, allele queries
+    and fusion probes alike, carried one message:
+
+        {"message":"Unsupported request","details":"Query string appears to include an offset
+         parameter without an order parameter.  Please resubmit the query with an order parameter
+         to ensure consistent paging.  The query was not sent to the API."}
+
+    ⛔ **The cause was `offset` without `order`, on every query including page 0, and it had nothing
+    to do with the allele string.** `ORDER_BY` below is the actual fix. CLAUDE.md §4: the mechanism
+    is the observation that discriminates, and a plausible reading of an error CODE is not one.
+
+    ⭐ The length filter is KEPT, because it is better on its own merits — one bounded query per
+    table instead of 34, no wildcard semantics to reason about — and because `ALLELE_RE` already
+    keeps only 4-digit HLA-A/B/C names, which are class I by construction. It is kept for a
+    different reason than the one it was written for, and that distinction is the point.
     ⚠ It stays a BOUNDED SAMPLE either way — arm N is the comparator §B1 refuses, and paying for a
     census of it would be deepening a test past its purpose.
     """
@@ -388,7 +409,7 @@ def fetch_general(table, cols, lengths, table_columns):
     for page in range(MAX_PAGES_GENERAL):
         url = (f"{IEDB_ROOT}/{table}?select={select}"
                f"&{length_col}=gte.{min(lengths)}&{length_col}=lte.{max(lengths)}"
-               f"&limit={PAGE}&offset={page * PAGE}")
+               f"&order={ORDER_BY}&limit={PAGE}&offset={page * PAGE}")
         try:
             batch = _get(url)
         except Exception as exc:  # noqa: BLE001
