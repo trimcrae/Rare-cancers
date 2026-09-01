@@ -442,7 +442,47 @@ absence is how 22166420 came to freeze an earlier copy of its own manuscript. It
 all** before this session and now has eight, both directions mutation-tested on a copy.
 
 
+### 3-vi · ⛔ OPEN — the published archive is BEHIND the paper again, by two deposited files, and this one is self-inflicted
+
+⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPER, AND A FOURTH ARCHIVE VERSION IS NEEDED AND IS NOT YET
+DRAFTED.** `10.5281/zenodo.22182180`
+(published 2026-08-31, §3-v) holds the archive at `archive_content_digest a4d4ad6f1ca0…`. Round 28's
+two repairs both touch **deposited** files — `fusion-junction-aso-journal-article.md` (the
+`need` → `prefer` correction) and `research/modalities/aso_parent_null.py` (the "Six null ensembles"
+header that contradicted the paper's "Ten") — so the manifest at `dcc556ad3efe` now reads
+`f59a02acd74e…`. A published Zenodo version's files cannot be edited, only superseded.
+
+⛔ **WHY THIS EXISTS AT ALL, STATED PLAINLY RATHER THAN AS BAD LUCK.** This checklist said, at
+`a9dd5d34`: *"Neither act above should happen before that round comes back without blockers."* The
+loop published 22182180 to close round 27's dead-DOI blocker **before round 28 ran**, and round 28
+then found two defects in deposited files. The dead DOI blocked **posting**, not continuing to work.
+One archive version was spent for nothing, and the correct ordering was already written down.
+★ **THE RULE THAT FOLLOWS, AND IT IS NOT NEW — IT IS THE ONE THAT WAS IGNORED:** publish the archive
+only after a hardening round on the exact commit returns no blockers. Not before, however dead the
+DOI looks.
+
+⚠ **NOTHING PUBLISHED IS WRONG.** 22182180 is a complete, self-consistent archive of the paper as it
+stood at `866594627ab0`, and the concept DOI `10.5281/zenodo.22028915` always resolves to the newest
+version. The cost is one superseded version and one extra round, not a corrected record.
+
+**THE ORDER, which is reserve-then-rebuild and may not be shortened:**
+1. Dispatch `deposit-zenodo.yml` with `new_version=true` — reserves the fourth version's DOI, drafts
+   nothing else, publishes nothing.
+2. Repoint the manuscript's Data availability at the reserved DOI. ⛔ That is a manuscript edit and
+   goes through `paper-hardening` §5b like any other.
+3. Rebuild the chain, re-derive the manifest against the committed tree.
+4. Refresh the draft (`new_version=false`) so the archive contains the manuscript that cites it.
+5. Publish, then **read the record back** with `record=verify` — the script's output is a report, not
+   a reading.
+6. ⭐ **Round 29 on that commit, and only then.** It is the first round in this series that starts
+   with no known defect in the paper.
+
+---
+
 ### 3-v · ✅ CLOSED — the third archive version is PUBLISHED and was read back — `10.5281/zenodo.22182180`
+
+⚠ **SUPERSEDED BY §3-vi ABOVE, RETAINED (rule 1.2).** This version published and resolves; it is
+simply no longer current with the tree. What follows was true when written.
 
 ✅ **PUBLISHED 2026-08-31 BY THE LOOP, AND VERIFIED BY A READING RATHER THAN A REPORT.** Actions run
 33433162140 performed it; run 33433350281 (`record=verify`, the public records API, no token) then
