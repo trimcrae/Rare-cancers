@@ -23,9 +23,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 153,
-    "in_progress": 6,
+    "in_progress": 8,
     "parked": 30,
-    "queued": 152,
+    "queued": 150,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -7759,84 +7759,6 @@
       "_score_inherited_from_route": "RT-ASO"
     },
     {
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "in_progress",
-      "owner": "CYC-0090-d7df5340",
-      "claimed_utc": "2026-09-01T20:20:31Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-31",
-      "filed_by": "CYC-0090-d7df5340",
-      "id": "AUT-PROP-055",
-      "kind": "harden",
-      "what": "ROUND 28 OF PUB-ASO — five blind seats on the commit that RECORDS THE ZENODO PUBLISH, then apply any survivors. ⛔ DO NOT RUN IT BEFORE AUT-PROP-054 STEP 3 HAS HAPPENED: round 27 closed two of its three blockers and the third (R27-B3, the unpublished Data availability DOI) is closed by an act outside this repository, so a round run before that act re-finds it by construction and burns five seats to do so. ⭐ SEAT SHAPE AND THE MAY-NOT-READ LIST: research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json, `_blind_means` — read it for the SHAPE, not for the findings, which are applied and must be re-derived rather than inherited. ⛔ PIN THE COMMIT FIRST and give every seat `git show <PIN>:<path>`; do not seat the working tree. ⛔ AND THE ROUND MUST FIELD AT LEAST SIX SEAT RECORDS AT ITS PIN — publish_bar's `_look_history` counts records matching PUB-ASO-<sha>*.json and refuses a converging round narrower than the widest earlier one; rounds 26 and 27 each put six there (five seats plus the roll-up). ⛔ THE PAPER MAY NOT GROW: the ceiling in test_a_hardening_round_may_not_grow_the_paper.py falls freely and may not rise without trimcrae's recorded say-so. ⭐ SPEND IS AUTHORISED — autonomy-state.json budget_hold.authorised_exceptions, his 2026-08-30 grant scoped to the PUB-ASO v2 goal. Read the grant, not the width dial.",
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "hardening_converged"
-      },
-      "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json — round 27, 3 blockers and 10 P1s",
-      "score_inputs": {
-        "age_factor": 0.0714,
-        "age_factor_as_of": "2026-09-01"
-      },
-      "score": 70.9,
-      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
-      "_score_inherited_from_route": "RT-ASO",
-      "_CORRECTION_2026_08_31": "⛔ THIS ROW WAS BLOCKED ON A PERMISSION THAT DOES NOT EXIST. It was filed `blocked` behind AUT-PROP-054 on the premise that the Zenodo publish is trimcrae's act and so round 28 could not proceed. The publish is the LOOP's under a standing grant since 2026-08-30 (publication-authority.json `zenodo_archive_publication`; see AUT-PD-196). The dependency on AUT-PROP-054 is REAL and unchanged — a round run before the deposit is published still re-finds R27-B3 by construction — but it is a sequencing dependency on work the loop does itself, not a wait on a human, so the row is queued rather than blocked. ⭐ THE DISTINCTION MATTERS TO THE QUEUE: `blocked` takes a row out of every cycle's reach and parks it until someone notices; `queued` behind free work does not.",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-01T20:20:31Z",
-          "fingerprint_at_dispatch": "2026-08-31|None"
-        }
-      ]
-    },
-    {
-      "serves": {
-        "route": "RT-ASO",
-        "publication": "PUB-ASO",
-        "strategy": "ST-RNA"
-      },
-      "state": "in_progress",
-      "owner": "CYC-0090-d7df5340",
-      "claimed_utc": "2026-09-01T20:20:31Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-31",
-      "filed_by": "CYC-0090-d7df5340",
-      "id": "AUT-PROP-056",
-      "kind": "fix",
-      "what": "MINT THE preflight_full_green RECEIPT FOR PUB-ASO'S POSTED COMMIT — the one blocking clause with no ledger row behind it, which is what continuity.py --clauses reports verbatim.\n* WHAT IT NEEDS: a PREFLIGHT_FULL=1 run on the commit being posted, its log committed under research/autonomy/preflight-logs/<sha>.log, and a receipt at research/autonomy/preflight-receipts/<sha>.json naming that log with a matching sha256. record_bar_evidence.py preflight writes it. Clause 2 RE-DERIVES the exit code from the committed log rather than reading it off the receipt, so the log must carry the FULL-mode banner and terminate in its own EXIT= marker.\nWHY NOT ALREADY DONE, AND WHY MINTING ONE EARLY IS WASTE: CYC-0090 ran PREFLIGHT_FULL=1 to EXIT=0 on 8572b5a6b (8178 modalities + 1592 manuscripts + 846 pure-logic, PREFLIGHT OK) — but that run authorised the ZENODO PUBLISH, and clause 2 binds the receipt to the commit being POSTED. Round 28's repairs would move the tree past 8572b5a6b, so a receipt minted for it is superseded before it is read. THE RIGHT MOMENT IS THE SAME COMMIT ROUND 28 SEATS READ: one FULL run, one receipt, and clauses 1, 2 and 6 all bind to that sha together. Take this WITH the round-28 row, not before.",
-      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
-      "closes_clause": {
-        "paper": "PUB-ASO",
-        "clause": "preflight_full_green"
-      },
-      "score_inputs": {
-        "age_factor": 0.0714,
-        "age_factor_as_of": "2026-09-01"
-      },
-      "score": 70.9,
-      "_score_inherited_from_route": "RT-ASO",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-01T20:20:31Z",
-          "fingerprint_at_dispatch": "2026-08-31|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-077",
       "_derived": true,
       "what": "Run the Stage 0 items: proteome-wide novelty, class II regeneration, anchor-position analysis, extended allele panel.",
@@ -8279,6 +8201,86 @@
         "age_factor": 0.2857,
         "age_factor_as_of": "2026-09-01"
       }
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "in_progress",
+      "owner": "CYC-0090-d7df5340",
+      "claimed_utc": "2026-09-01T20:20:31Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PROP-055",
+      "kind": "harden",
+      "what": "ROUND 28 OF PUB-ASO — five blind seats on the commit that RECORDS THE ZENODO PUBLISH, then apply any survivors. ⛔ DO NOT RUN IT BEFORE AUT-PROP-054 STEP 3 HAS HAPPENED: round 27 closed two of its three blockers and the third (R27-B3, the unpublished Data availability DOI) is closed by an act outside this repository, so a round run before that act re-finds it by construction and burns five seats to do so. ⭐ SEAT SHAPE AND THE MAY-NOT-READ LIST: research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json, `_blind_means` — read it for the SHAPE, not for the findings, which are applied and must be re-derived rather than inherited. ⛔ PIN THE COMMIT FIRST and give every seat `git show <PIN>:<path>`; do not seat the working tree. ⛔ AND THE ROUND MUST FIELD AT LEAST SIX SEAT RECORDS AT ITS PIN — publish_bar's `_look_history` counts records matching PUB-ASO-<sha>*.json and refuses a converging round narrower than the widest earlier one; rounds 26 and 27 each put six there (five seats plus the roll-up). ⛔ THE PAPER MAY NOT GROW: the ceiling in test_a_hardening_round_may_not_grow_the_paper.py falls freely and may not rise without trimcrae's recorded say-so. ⭐ SPEND IS AUTHORISED — autonomy-state.json budget_hold.authorised_exceptions, his 2026-08-30 grant scoped to the PUB-ASO v2 goal. Read the grant, not the width dial.",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c.json — round 27, 3 blockers and 10 P1s",
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "age_factor_as_of": "2026-09-01",
+        "fruitless_attempts": 1
+      },
+      "score": 62.9,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-ASO",
+      "_CORRECTION_2026_08_31": "⛔ THIS ROW WAS BLOCKED ON A PERMISSION THAT DOES NOT EXIST. It was filed `blocked` behind AUT-PROP-054 on the premise that the Zenodo publish is trimcrae's act and so round 28 could not proceed. The publish is the LOOP's under a standing grant since 2026-08-30 (publication-authority.json `zenodo_archive_publication`; see AUT-PD-196). The dependency on AUT-PROP-054 is REAL and unchanged — a round run before the deposit is published still re-finds R27-B3 by construction — but it is a sequencing dependency on work the loop does itself, not a wait on a human, so the row is queued rather than blocked. ⭐ THE DISTINCTION MATTERS TO THE QUEUE: `blocked` takes a row out of every cycle's reach and parks it until someone notices; `queued` behind free work does not.",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-01T20:20:31Z",
+          "fingerprint_at_dispatch": "2026-08-31|None"
+        }
+      ]
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": "ST-RNA"
+      },
+      "state": "in_progress",
+      "owner": "CYC-0090-d7df5340",
+      "claimed_utc": "2026-09-01T20:20:31Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-08-31",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PROP-056",
+      "kind": "fix",
+      "what": "MINT THE preflight_full_green RECEIPT FOR PUB-ASO'S POSTED COMMIT — the one blocking clause with no ledger row behind it, which is what continuity.py --clauses reports verbatim.\n* WHAT IT NEEDS: a PREFLIGHT_FULL=1 run on the commit being posted, its log committed under research/autonomy/preflight-logs/<sha>.log, and a receipt at research/autonomy/preflight-receipts/<sha>.json naming that log with a matching sha256. record_bar_evidence.py preflight writes it. Clause 2 RE-DERIVES the exit code from the committed log rather than reading it off the receipt, so the log must carry the FULL-mode banner and terminate in its own EXIT= marker.\nWHY NOT ALREADY DONE, AND WHY MINTING ONE EARLY IS WASTE: CYC-0090 ran PREFLIGHT_FULL=1 to EXIT=0 on 8572b5a6b (8178 modalities + 1592 manuscripts + 846 pure-logic, PREFLIGHT OK) — but that run authorised the ZENODO PUBLISH, and clause 2 binds the receipt to the commit being POSTED. Round 28's repairs would move the tree past 8572b5a6b, so a receipt minted for it is superseded before it is read. THE RIGHT MOMENT IS THE SAME COMMIT ROUND 28 SEATS READ: one FULL run, one receipt, and clauses 1, 2 and 6 all bind to that sha together. Take this WITH the round-28 row, not before.",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "preflight_full_green"
+      },
+      "score_inputs": {
+        "age_factor": 0.0714,
+        "age_factor_as_of": "2026-09-01",
+        "fruitless_attempts": 1
+      },
+      "score": 62.9,
+      "_score_inherited_from_route": "RT-ASO",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-01T20:20:31Z",
+          "fingerprint_at_dispatch": "2026-08-31|None"
+        }
+      ]
     },
     {
       "serves": {
