@@ -286,13 +286,55 @@ class Version:
     rows: dict
 
 
+#: ⛔⛔ THE COMMIT LOOP'S SINGLE BIGGEST COST LIVED IN THIS FUNCTION, AND IT SCALED WITH COMMIT
+#: COUNT RATHER THAN WITH ANYTHING ANYONE WAS WATCHING. Measured 2026-09-01 by seat S6-COMMITLOOP,
+#: counted with a `git` shim on PATH rather than estimated: **48,230 of gate 13's 50,270 git calls
+#: — 96% — were `git show <sha>:research-ledger.json`**, over 371 commits. That is ~130 complete
+#: walks of the ledger's entire history in one gate run: ~975 CPU-seconds and roughly 60 GB of blob
+#: text, about 55% of a gate that is itself 85-94% of the commit loop.
+#: ★ AND THE DENOMINATOR IS THE REPOSITORY'S OWN COMMIT COUNT, which is the part that made it
+#: invisible: nothing regressed, no test got slower, no code changed. Every commit this repository
+#: makes was making its own commit loop slower, by one more `git show` per walk per run. It went
+#: 371 to 372 inside twenty minutes on the night it was found.
+#: ⭐ THE CACHE IS KEYED ON (repo, path, HEAD), NOT ON (repo, path). History is append-only, so two
+#: calls at the same HEAD MUST return the same answer — but two calls at different HEADs must not,
+#: and a process that commits between them is the ordinary case here, not an exotic one. Keying on
+#: HEAD makes the cache a memo of a pure function rather than a bet that nothing moved.
+#: ⚠ WHAT THIS DOES NOT CHANGE: every assertion, every skip, every verdict. It is the same list,
+#: computed once per HEAD instead of once per caller.
+_VERSIONS_CACHE: dict[tuple[str, str, str], list["Version"]] = {}
+
+
+def _head_sha(repo: str) -> str:
+    """The commit the cache is keyed on, or `""` when it cannot be read.
+
+    ⛔ AN UNREADABLE HEAD DISABLES THE CACHE RATHER THAN SHARING ONE BUCKET. Returning a constant
+    on failure would make every call at every unreadable HEAD collide into a single entry — a
+    correctness bug bought for a performance win, which is the trade this repository refuses. `""`
+    is returned and the caller treats it as "do not cache".
+    """
+    try:
+        return _git(["rev-parse", "HEAD"], repo).strip()
+    except Exception:
+        return ""
+
+
 def ledger_versions(repo: str = REPO, path: str = LEDGER_PATH) -> list[Version]:
     """Every committed version of the ledger, oldest first, as `{id: row}` maps.
 
     ⚠ A version that will not parse is SKIPPED rather than treated as an empty ledger: a
     half-written file in history must not read as "every row was deleted and re-created", which would
     reset every clock in one step. Skipping is the direction that preserves the stall.
+
+    ⭐ MEMOISED PER (repo, path, HEAD) — see `_VERSIONS_CACHE` above for the measurement that
+    demanded it. The returned list is shared between callers, so it must be treated as read-only;
+    every consumer in this module already reads it that way.
     """
+    head = _head_sha(repo)
+    key = (repo, path, head)
+    if head and key in _VERSIONS_CACHE:
+        return _VERSIONS_CACHE[key]
+
     out: list[Version] = []
     try:
         log = _git(["log", "--follow", "--format=%H %ct", "--", path], repo)
@@ -310,6 +352,8 @@ def ledger_versions(repo: str = REPO, path: str = LEDGER_PATH) -> list[Version]:
         rows = {e["id"]: e for e in entries if isinstance(e, dict) and e.get("id")}
         when = datetime.datetime.fromtimestamp(int(ts), datetime.timezone.utc)
         out.append(Version(sha=sha, when=when, rows=rows))
+    if head:
+        _VERSIONS_CACHE[key] = out
     return out
 
 

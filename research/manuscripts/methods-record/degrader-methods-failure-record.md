@@ -51,8 +51,8 @@ last_verified: 2026-08-06
 ## 1 · Abstract (draft)
 
 Computational drug-discovery programs report the funnels that worked. This paper reports one that did not, in
-the form the field is short of: an **instrument-by-instrument audit** in which every method used to support a
-paralogue-selectivity statement was first put to a test whose answer was already known, and the results —
+the form the field is short of: an **instrument-by-instrument audit**. Every method used to support a
+paralogue-selectivity statement was first put to a test whose answer was already known. The results —
 including the failures, the non-resolutions and the tests that were never run — are enumerated rather than
 discarded. The worked system is the nuclear receptor NR4A3 and a hypothesised bivalent degrader against it;
 the paper's subject is the **register**, not the target.
