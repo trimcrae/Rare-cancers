@@ -5918,9 +5918,9 @@
         "publication": "PUB-ASO",
         "strategy": "ST-RNA"
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0090-d7df5340",
+      "claimed_utc": "2026-09-01T20:20:31Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -5944,7 +5944,13 @@
       "score": 70.9,
       "_score_basis": "inherited from the lowest-scoring derived row on RT-ASO (70.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
       "_score_inherited_from_route": "RT-ASO",
-      "_CORRECTION_2026_08_31": "⛔ THIS ROW WAS BLOCKED ON A PERMISSION THAT DOES NOT EXIST. It was filed `blocked` behind AUT-PROP-054 on the premise that the Zenodo publish is trimcrae's act and so round 28 could not proceed. The publish is the LOOP's under a standing grant since 2026-08-30 (publication-authority.json `zenodo_archive_publication`; see AUT-PD-196). The dependency on AUT-PROP-054 is REAL and unchanged — a round run before the deposit is published still re-finds R27-B3 by construction — but it is a sequencing dependency on work the loop does itself, not a wait on a human, so the row is queued rather than blocked. ⭐ THE DISTINCTION MATTERS TO THE QUEUE: `blocked` takes a row out of every cycle's reach and parks it until someone notices; `queued` behind free work does not."
+      "_CORRECTION_2026_08_31": "⛔ THIS ROW WAS BLOCKED ON A PERMISSION THAT DOES NOT EXIST. It was filed `blocked` behind AUT-PROP-054 on the premise that the Zenodo publish is trimcrae's act and so round 28 could not proceed. The publish is the LOOP's under a standing grant since 2026-08-30 (publication-authority.json `zenodo_archive_publication`; see AUT-PD-196). The dependency on AUT-PROP-054 is REAL and unchanged — a round run before the deposit is published still re-finds R27-B3 by construction — but it is a sequencing dependency on work the loop does itself, not a wait on a human, so the row is queued rather than blocked. ⭐ THE DISTINCTION MATTERS TO THE QUEUE: `blocked` takes a row out of every cycle's reach and parks it until someone notices; `queued` behind free work does not.",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-01T20:20:31Z",
+          "fingerprint_at_dispatch": "2026-08-31|None"
+        }
+      ]
     },
     {
       "serves": {
