@@ -87,8 +87,23 @@ printf '%s' "$HEAD_NOW" > "$LAST_HEAD_FILE" 2>/dev/null || true
 
 # First run in a container has no baseline. Say nothing rather than guess.
 [ -z "$HEAD_PREV" ] && exit 0
-# Work landed this turn. Whatever the prose said, something was delivered.
-[ "$HEAD_NOW" != "$HEAD_PREV" ] && exit 0
+# ⛔⛔ WORK LANDING THIS TURN EXEMPTS A PRESENT-TENSE PROMISE AND NOT A FUTURE-TENSE ONE, AND THAT
+# SPLIT IS THE WHOLE NARROWING. Until 2026-09-01 an unequal HEAD exited 0 unconditionally, on the
+# reasoning that a turn which delivered something is not a stall.
+# ⚠ MEASURED THE SAME DAY, BY trimcrae HAVING TO ASK "Why did you stop?": a turn pushed the ASO pin
+# — real work, HEAD moved — and then closed with "Next on the checklist order is round 29 plus
+# PREFLIGHT_FULL against it" and ended. The commit exempted the whole turn INCLUDING the promise
+# made after it, so the hook stayed silent on exactly the shape it exists to catch.
+# ★ THE DISTINCTION THAT FIXES IT WITHOUT REDDING ON TRUE INPUT. A present-tense announcement
+# ("Fixing both: …", "Running the suite:") describes work this turn is doing, and a commit in the
+# same turn is evidence it was done — that stays exempt. A FUTURE-tense commitment ("I'll …",
+# "Next: …", "I will …") is about the step AFTER whatever landed, so by construction no commit in
+# this turn can have fulfilled it. Those are checked whether or not HEAD moved.
+# ⛔ A live "In flight" board still exonerates both, and that is what keeps this from pushing
+# sessions toward blocking waits (CLAUDE.md §1).
+FUTURE_ONLY=0
+[ "$HEAD_NOW" != "$HEAD_PREV" ] && FUTURE_ONLY=1
+export FUTURE_ONLY
 
 TRANSCRIPT=""
 if command -v jq >/dev/null 2>&1; then
@@ -146,13 +161,27 @@ if board and not re.search(r"nothing in flight", last, re.I):
 # ★ So the first-person commitment matches ANYWHERE in a sentence — that phrasing is the violation
 # wherever it sits (CLAUDE.md §2) — while the bare gerunds stay line-anchored, because "running the
 # suite" mid-prose is ordinary description and only "Running X:" as an announcement is a promise.
-PATTERNS = [
-    r"^\s*(?:[-*>]\s*)?(?:\*\*)?Next(?:\s+steps?)?(?:\*\*)?\s*[:—-]",
+# ⭐ SPLIT BY TENSE, because the HEAD exemption now applies to one half and not the other.
+# FUTURE: a commitment to a step AFTER this turn. No commit in this turn can fulfil it, so it is
+# checked even when work landed.
+# ⚠ THE COLON WAS NOT PART OF THE DEFECT AND REQUIRING IT MISSED A REAL STALL. This read
+# `Next(?:\s+steps?)?\s*[:—-]` — an announcement heading — and the stall trimcrae caught was the
+# prose form: "Remaining on the checklist's order: round 29 plus PREFLIGHT_FULL on this pin". Same
+# act, no heading. So the openers are matched LINE-ANCHORED with no punctuation requirement, which
+# keeps mid-sentence "next" out (ordinary description) while catching the sentence that names the
+# next action as the last thing a turn does.
+FUTURE = [
+    r"^\s*(?:[-*>]\s*)?(?:\*\*)?(?:Next|Remaining|Still to (?:do|come)|What(?:'s| is) (?:left|next))\b",
     r"\bI(?:'ll|’ll| will| am going to| plan to| intend to)\s+\w",
-    r"^\s*(?:[-*>]\s*)?(?:\*\*)?(?:Fixing|Doing|Building|Running|Applying|Committing|Starting|Correcting)\b[^.\n]{0,100}:",
     r"\bnext(?:,| I| step)[^.\n]{0,60}\b(?:I'll|I will|is to)\b",
     r"^\s*(?:[-*>]\s*)?(?:\*\*)?(?:Now|Then|After that)\b[^.\n]{0,60}\b(?:I'll|I will)\b",
 ]
+# PRESENT: an announcement of work this turn is doing. A commit in the same turn is evidence it
+# was done, so these are checked only when nothing landed.
+PRESENT = [
+    r"^\s*(?:[-*>]\s*)?(?:\*\*)?(?:Fixing|Doing|Building|Running|Applying|Committing|Starting|Correcting)\b[^.\n]{0,100}:",
+]
+PATTERNS = FUTURE if os.environ.get("FUTURE_ONLY") == "1" else FUTURE + PRESENT
 hits = []
 for pat in PATTERNS:
     for m in re.finditer(pat, last, re.I | re.M):

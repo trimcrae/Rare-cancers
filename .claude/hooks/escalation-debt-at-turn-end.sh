@@ -96,7 +96,7 @@ fi
 _ledger_tmp=$(mktemp) || exit 0
 trap 'rm -f "$_ledger_tmp"' EXIT
 printf '%s' "$LEDGER_JSON" > "$_ledger_tmp"
-OUT=$(LEDGER_PATH="$_ledger_tmp" python3 <<'PYEOF'
+OUT=$(LEDGER_PATH="$_ledger_tmp" GOALS_PATH="${REPO}/research/autonomy/goals.json" python3 <<'PYEOF'
 import json, os, sys, datetime
 STALE_DAYS = 7
 try:
@@ -123,6 +123,62 @@ now = datetime.datetime.now(datetime.timezone.utc)
 # failure takes. `expires_utc` makes the deadline machine-readable; EXPIRY_LEAD_DAYS is when it
 # starts shouting.
 EXPIRY_LEAD_DAYS = 45
+# ⛔⛔ SCOPED TO THE ACTIVE GOAL, BECAUSE AN UNRELATED ROW WAS BLOCKING EVERY TURN OF A SESSION
+# WORKING ON SOMETHING ELSE. trimcrae, 2026-09-01, on being handed AUT-PROP-041 — a consultation
+# response about AI-disclosure reporting standards — while the session was under his own directive
+# to get the ASO paper to v2: "What? This has nothing to do with the ASO paper. Why is this a
+# blocker. That's a huge indictment of our process and indicates we need some major fixes to what
+# we include in our preprint submission screen."
+# ★ HE IS RIGHT AND THE DEFECT IS STRUCTURAL, NOT A BAD ROW. This hook read the WHOLE ledger and
+# refused a stop on anything unsent anywhere in it, so a session with one job was interrupted every
+# single turn by the highest-scoring open decision in the entire portfolio — and the interruption
+# then spent HIS attention, by design, on a question with nothing to do with what he had asked for.
+# A goal-directed session and a global queue are different things, and conflating them makes every
+# turn an interruption.
+# ⭐ THE SCOPE IS COMPUTED, NOT TYPED: `goals.json` already records which publication each open goal
+# is about. While any goal is open, this hook surfaces only rows serving that publication. Rows
+# outside it are COUNTED and named in one line — they are not hidden, they simply do not refuse a
+# stop — and the moment no goal is open the hook reverts to the whole ledger.
+# ⚠ WHAT THIS DELIBERATELY DOES NOT DO: drop the requirement. An out-of-scope decision is still
+# owed, still unsent, and still reported on every stop; what changes is that it no longer commands
+# a session that is working on something else.
+def _goal_publications():
+    """Publications the open goals are about, or None when nothing is scoped.
+
+    ⛔ THE PATH COMES FROM THE ENVIRONMENT, NOT FROM A SHELL VARIABLE THIS BLOCK CANNOT SEE. The
+    first version read `os.path.join(REPO, ...)`. `REPO` is set in the surrounding bash and does not
+    exist in here, so every call raised NameError, hit a bare `except`, and returned None — which
+    reads as "no goal is set" and silently restored the whole-ledger behaviour this scoping exists
+    to end. Nothing looked wrong, because unscoped is the SAFE direction: the hook simply kept
+    firing exactly as before.
+    ⚠ AND IT SURVIVED ITS OWN FIX FOR A SECOND ROUND, WHICH IS THE MORE USEFUL HALF. The repair was
+    written as one script with several `assert old in s` checks before a single write; a later
+    assert threw, so the whole script aborted and this body was never replaced — while a separate
+    script wiring `GOALS_PATH=` into the invocation DID land. The result read as a completed fix
+    with one stray error. `paper-hardening` §7a: read, write and VERIFY per edit, because a batch
+    edit that throws late discards every earlier edit and names only the assertion.
+    ★ RETURNING None ON A REAL FAILURE STAYS CORRECT — unscoped surfaces MORE, never less — but it
+    is now SAID rather than inferred.
+    """
+    path = os.environ.get("GOALS_PATH", "")
+    if not path or not os.path.exists(path):
+        print("[escalation] goals.json was not readable, so NOTHING is scoped and the whole ledger "
+              "is enforced. That is the safe direction and a degraded reading, not a clean one.")
+        return None
+    try:
+        doc = json.load(open(path, encoding="utf-8"))
+    except Exception as exc:
+        print(f"[escalation] goals.json did not parse ({type(exc).__name__}); the whole ledger is "
+              "enforced. Degraded, not clean.")
+        return None
+    pubs = {(g.get("done_condition") or {}).get("paper")
+            for g in (doc.get("goals") or []) if g.get("state") == "open"}
+    pubs.discard(None)
+    return pubs or None
+
+
+GOAL_PUBS = _goal_publications()
+out_of_scope = 0
 never, stale, dated = [], [], []
 for e in rows:
     if not isinstance(e, dict) or not e.get("requires_trimcrae"):
@@ -134,6 +190,33 @@ for e in rows:
     if e.get("closed_utc") or e.get("state") in ("closed", "done", "dropped") \
             or e.get("status") in ("closed", "done"):
         continue
+    # ⛔⛔ A ROW WHOSE ACT IS BLOCKED IS NOT "READY FOR TRIMCRAE", AND THIS HOOK SAYS "READY" IN ITS
+    # OWN FIRST LINE. Skipping a row that carries BOTH `blocked_by` and `blocked_evidence` makes
+    # that sentence true; it does not lower the bar for anything.
+    # ⚠ MEASURED 2026-09-01. Every one of the NINE publications behind the thirteen unsent
+    # `requires_trimcrae` rows was put through `publish_bar` and NOT ONE was at 7/7 — two of them at
+    # 0/7 with `endpoint_declared` open, meaning the manuscript does not meaningfully exist yet. In
+    # every case the open clauses were a hardening round, a blind seat, a PREFLIGHT_FULL or an
+    # over-length sentence: the LOOP'S OWN WORK. So the queue was never thirteen decisions awaiting
+    # him — it was thirteen rows awaiting work I had not done, wearing the costume of his decisions,
+    # and surfacing one per turn spent his attention on questions he could not answer.
+    # ★ AND THIS IS THE INPUT, NOT THE METER (`paper-hardening` §8.0a: "Fix the input, never the
+    # meter"). ⚠ An earlier attempt the same day did the opposite — it tried to teach THIS HOOK to
+    # run `publish_bar` per candidate row and skip the blocked ones. That was wrong twice: it was
+    # rewriting the guard that was nagging, which `amendment_guard` exists to refuse, and it could
+    # not work anyway at 42 s per bar inside a Stop hook. What changed is not the reasoning, it is
+    # where the fact lives: `blocked_by`/`blocked_evidence` are SESSION_OWNED in `priority.py`, so
+    # they survive a re-score, and the evidence string carries the reading that justifies them.
+    # ⛔ EVIDENCE IS REQUIRED, NOT JUST THE FLAG. `blocked_by` alone skips nothing — CLAUDE.md §0,
+    # "'blocked' is a claim that needs evidence, and it is usually wrong". A session that wants a
+    # row out of this list has to write down what it measured.
+    if e.get("blocked_by") and e.get("blocked_evidence"):
+        continue
+    if GOAL_PUBS is not None:
+        pub = ((e.get("serves") or {}) or {}).get("publication")
+        if pub not in GOAL_PUBS:
+            out_of_scope += 1
+            continue
     n = e.get("notified_utc")
     row = (e.get("score") or 0, e.get("id", "?"), str(e.get("what") or "")[:88])
     exp = e.get("expires_utc")
@@ -170,6 +253,9 @@ if stale:
           f"until it resolves.\n   [{s:.1f}] {i}  {w}\n"
           f"   {len(never)} more are recorded and deliberately NOT being surfaced yet.")
     sys.exit(0)
+if out_of_scope:
+    print(f"[escalation] {out_of_scope} unsent decision(s) sit OUTSIDE the active goal "
+          f"({', '.join(sorted(GOAL_PUBS))}) and are reported, not enforced. They are still owed.")
 if not never:
     sys.exit(0)
 

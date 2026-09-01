@@ -78,8 +78,15 @@ liable, rather than any join between two real transcripts:
 
 ⚠ THESE THREE WERE ABSENT FROM THIS DOCSTRING UNTIL 2026-09-01, AND THE HEADER SAID "Six" WHILE THE
 MODULE EMITTED TEN. Found by round 28's statistics seat; `introduced_by` is pre_existing — `git log
--S "Six null ensembles"` returns only f37ee6783, the commit that created this module when six arms
-was the truth. The count then grew and the header did not follow. ⛔ IT MATTERED BECAUSE THE PAPER
+-S "Six null ensembles"` returns only f37ee6783, the commit that created this module. ⛔ AND THE
+HEADER WAS ALREADY WRONG THERE, BY ONE, RATHER THAN GOING STALE AS THE COUNT GREW: that commit's
+own arm tuple names SEVEN, and `aso-parent-null.json` at that revision carries seven
+`null_ensembles` keys. ⚠ Round 28's repair asserted the gentler story — "the commit that created
+this module when six arms was the truth" — which is a claim about a past tree that nobody checked
+against it; round 29's regression seat did check, and it is false. The distinction is not
+bookkeeping: "a count that went stale" invites a policy of re-checking counts, and "a count that
+was never right" invites checking the claim against the artifact at the revision it names, which
+is the only one of the two that would have caught this. ⛔ IT MATTERED BECAUSE THE PAPER
 PRINTS "Ten null ensembles were built and screened" AND THIS FILE IS IN THE DEPOSITED ARCHIVE THAT
 SENTENCE CITES, so a referee downloading the DOI to check the number met a summary that contradicted
 it. Deposited prose is normally a P2; contradicting a number the paper prints is what promotes it.

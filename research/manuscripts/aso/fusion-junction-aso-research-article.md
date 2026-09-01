@@ -249,7 +249,7 @@ catalytic gap against the patient's own un-rearranged *NR4A3* allele, which that
 **A second class not to be ordered, and it is much larger (§2.5).** Any design a wild-type parent
 pairs through the whole catalytic gap at ten base pairs or more surrenders the advantage the
 modality has, and that is this paper's central negative rather than a side finding: 87 of the 190
-panel designs, and 249 of the 780 records the canonical file holds, the records whose
+panel designs, and 249 of the 780 design records the canonical file holds, the records whose
 `mature_parent_duplex_through_gap_bp` column reaches ten, which is the column the count is
 reproducible from. They are marked ⚑ in Tables 3 and 4 and carry `do_not_order` in the canonical
 file. The three designs of the paragraph above carry `do_not_order` for the un-rearranged-allele reason,
@@ -2585,7 +2585,7 @@ clean design at the other five, where one was available and it picked a design p
 wild-type parent through the whole catalytic gap — four of those against wild-type *NR4A3*. Those rows carry
 `do_not_order`, as does every one of the 249 records whose `mature_parent_duplex_through_gap_bp`
 reaches the criterion applied throughout; three further records carry the flag for the separate
-un-rearranged-allele reason of §2.6, and five for the pre-mRNA screen of §2.10, so 257 of the 780
+un-rearranged-allele reason of §2.6, and five for the pre-mRNA screen of §2.10, so 257 of the 780 design records
 carry it in all. An empty `do_not_order` is not a clearance: the
 flag is set at ten base pairs, while 175 of the 190 panel designs pair a parent through the whole
 gap at a cut of seven and 181 do so at a cut of six, the shortest rung on the ladder (§2.9). A typeset table cell is not a
@@ -2749,19 +2749,19 @@ extraskeletal myxoid chondrosarcoma seeking treatment should be directed to a cl
 sarcoma centre.
 
 **Supplementary Information.** The sections cited above as SI §S1 to §S6 are in
-`fusion-junction-aso-supplementary-information.md`, rendered to PDF from the same builder as this
-manuscript and deposited as a separate file beside it, and included in the archive below.
+`fusion-junction-aso-supplementary-information.md`, deposited as a separate markdown file beside
+this one and included in the archive below. No PDF of it is built.
 
 **Data and code availability.** The archive is that single deposited version, under
 [doi:10.5281/zenodo.22229096](https://doi.org/10.5281/zenodo.22229096), from
 `github.com/trimcrae/Rare-cancers`.
 `fusion-junction-aso-archive-manifest.json` lists every archived file with its SHA-256; it is
 generated with the archive and travels with the deposit.
-Two renderings of this manuscript travel with it and their text is the same:
-`fusion-junction-aso-research-article.md` in submission format is the version of record, the one to
-cite and to deposit onward, and the typeset preview beside it is the same text set as a printed
-article. `fusion-junction-aso-submission-tables.md` is the machine-readable copy of Tables 1 to 7,
-whose content is printed in both renderings.
+This manuscript travels as markdown only: `fusion-junction-aso-research-article.md` is the
+version of record, the one to cite and to deposit onward, and no typeset rendering of it is built or
+deposited. The PDFs in the archive are renderings of the condensed journal article, which is a
+different paper with its own title, abstract and reference list.
+`fusion-junction-aso-submission-tables.md` is the machine-readable copy of Tables 1 to 7.
 Artefacts include the graded junction
 atlas, per-junction design panels, all five screens, the per-junction reagent table behind Table 2,
 the graded re-scores under

@@ -107,10 +107,65 @@ def test_an_honest_ending_is_not_refused(tmp_path, closing):
     assert r.returncode == 0, f"the hook fired on a correct ending:\n{closing}\n{r.stderr[:400]}"
 
 
-def test_work_that_landed_exempts_the_turn_whatever_the_prose_says(tmp_path):
-    """A promise beside a real commit is a plan for the NEXT step, not a stall."""
-    r = _run(tmp_path, "Next: regenerate the chain and commit.", head_prev="0" * 40)
+def test_work_that_landed_exempts_a_present_tense_announcement(tmp_path):
+    """An announcement of what this turn is doing, beside a commit, is a fulfilled promise."""
+    r = _run(tmp_path, "Fixing both: the client gets a bounded retry, and the ledger row gets "
+                       "corrected.", head_prev="0" * 40)
     assert r.returncode == 0
+
+
+def test_work_that_landed_does_NOT_exempt_a_future_tense_promise(tmp_path):
+    """⛔⛔ THE NARROWING, AND THE STALL THAT FORCED IT.
+
+    ⚠ MEASURED 2026-09-01, by trimcrae having to ask "Why did you stop? Were you unable to set your
+    own goal?" — the turn had pushed the ASO pin, which is real work and moved HEAD, and then closed
+    with "Next on the checklist order is round 29 plus PREFLIGHT_FULL against it" and ended. The
+    commit exempted the whole turn INCLUDING the promise made after it, so this hook stayed silent
+    on precisely the shape it was written to catch, one turn after being written.
+
+    ★ THE DISTINCTION: a commit in THIS turn is evidence that a present-tense announcement was
+    carried out. It is no evidence at all about a FUTURE-tense commitment, which is by construction
+    about the step after whatever landed. So work landing exempts the first and not the second.
+
+    ⚠ A live "In flight" board still exonerates both — that is what keeps the hook from pushing
+    sessions toward blocking waits, and it is asserted separately below.
+    """
+    r = _run(tmp_path, "Remaining on the checklist's order: round 29 plus `PREFLIGHT_FULL` on this "
+                       "pin; then refresh the draft; then publish and read back.\n\n"
+                       "Nothing in flight.", head_prev="0" * 40)
+    assert r.returncode == REFUSES, (
+        "a commit in this turn exempted a promise about the NEXT step, which is the stall trimcrae "
+        f"had to point out (rc={r.returncode})")
+
+
+def test_the_prose_form_of_a_plan_is_caught_without_a_heading(tmp_path):
+    """⚠ The first narrowing still missed this, and the miss is instructive: the pattern required
+    `Next` to be followed by a colon, so it recognised an ANNOUNCEMENT HEADING and not the same act
+    written as a sentence. Both real stalls of the day were prose."""
+    r = _run(tmp_path, "Next on the checklist order is round 29 plus PREFLIGHT_FULL against it.",
+             head_prev="0" * 40)
+    assert r.returncode == REFUSES, f"prose plan not caught (rc={r.returncode})"
+
+
+def test_a_future_promise_beside_a_commit_is_still_exempt_when_a_board_is_printed(tmp_path):
+    """The correct shape must survive the narrowing: dispatch the work, print the board, say what
+    is next. Condition 3 is what makes this hook a guard rather than a nag."""
+    text = ("Pushed as bd8aac753.\n"
+            "Next: round 29 on that pin.\n\n"
+            "In flight: 5 blind seats and one PREFLIGHT_FULL, running, ~25 min, $0 — their "
+            "completion wakes this session.")
+    r = _run(tmp_path, text, head_prev="0" * 40)
+    assert r.returncode == 0, f"the hook fired on a dispatched-and-reported turn: {r.stderr[:300]}"
+
+    # ⛔ AND THE PROMISE MUST ACTUALLY BE DETECTABLE, OR THIS ASSERTS NOTHING. ⚠ The first version
+    # of this test put "Next:" mid-line, where the line-anchored opener never matched — so it
+    # passed with the board check DELETED, and a mutation run said so. A test whose subject is not
+    # present measures nothing, and it looks exactly like a test that passed.
+    without_board = text.split("\n\nIn flight:")[0]
+    r2 = _run(tmp_path, without_board, head_prev="0" * 40)
+    assert r2.returncode == REFUSES, (
+        "the same message without its board was not refused, so the case above proves nothing "
+        "about the board — the promise itself is going undetected")
 
 
 def test_it_cannot_trap_a_session(tmp_path):

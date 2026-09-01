@@ -196,12 +196,26 @@ def test_a_declared_drift_states_the_size_it_actually_has():
                     "— SKIP IS DELIBERATE and is the settled state between deposits")
 
     rev = state["published"].get("git_revision")
+    # ⛔ THE THIRD SITE OF THE SAME PAIR, AND ITS FAILURE MODE IS A SILENT SKIP RATHER THAN A RED.
+    # Two tests in this file resolve a recorded revision and both now fetch it when the clone is
+    # shallow; this one read it raw and skipped when it could not. In CI — `actions/checkout@v4`,
+    # depth 1 — that meant the drift-size guard NEVER RAN, and a skip reads like a decision somebody
+    # took rather than a guard that could not reach its evidence.
+    # ★ SCOPED BY THE PROPERTY, NOT BY A LIST (`paper-hardening` §8b.2): every site here that needs
+    # a recorded revision now goes through `_commit_is_present` first, so a site added later fails
+    # loudly instead of inheriting the raw call. The skip below is kept for the ONE case it should
+    # cover — a revision that genuinely cannot be produced even after a targeted fetch — and it now
+    # says which of those two things happened.
+    if not _commit_is_present(rev):
+        pytest.skip(f"the published revision {str(rev)[:12]} cannot be produced by this checkout "
+                    "even after a targeted fetch; "
+                    "test_the_published_record_is_corroborated_by_git_rather_than_declared owns that")
     shown = subprocess.run(
         ["git", "show", f"{rev}:research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"],
         cwd=REPO, capture_output=True, text=True)
-    if shown.returncode != 0:
-        pytest.skip(f"the manifest is unreadable at the published revision {str(rev)[:12]}; "
-                    "test_the_published_record_is_corroborated_by_git_rather_than_declared owns that")
+    assert shown.returncode == 0, (
+        f"the published revision {str(rev)[:12]} resolves but its archive manifest cannot be read "
+        "there. That is a damaged object, not an absent one, and it must not pass as a skip.")
     was = {f["path"]: f["sha256"] for f in json.loads(shown.stdout)["files"]}
     now = {f["path"]: f["sha256"] for f in manifest["files"]}
     changed = sorted(p for p in was if p in now and was[p] != now[p])
@@ -283,11 +297,20 @@ def test_the_recorded_upload_digest_is_corroborated_by_git_rather_than_declared(
         "checked against anything. Both are written by the deposit workflow; if one is missing the "
         "draft's contents are unknown and it must not be published.")
 
-    exists = subprocess.run(["git", "cat-file", "-e", f"{rev}^{{commit}}"],
-                            cwd=REPO, capture_output=True)
-    assert exists.returncode == 0, (
-        f"deposit-state.json records the draft as built at {rev[:12]}, which is not a commit in "
-        "this repository. A revision nobody can resolve cannot corroborate anything.")
+    # ⛔⛔ ONE OF A PAIR, AND THE SECOND HALF WAS LEFT RAW FOR HOURS AFTER THE FIRST WAS FIXED.
+    # `_commit_is_present` was written this morning for the PUBLISHED corroboration below, because
+    # `actions/checkout@v4` clones at depth 1 and every recorded revision looks fabricated to a
+    # one-commit clone. This sibling — the same check, on the PENDING block — kept its raw
+    # `cat-file` and went red on `main` at the very next push, reporting that 850edb3358ba "is not
+    # a commit in this repository" while that sha sits on origin/main.
+    # ⚠ `paper-hardening` §6 is the section about exactly this class, and it was read the same day:
+    # "whenever a deliverable gains a second form, enumerate every instrument that names the first
+    # and ask whether it should name both." The pair here is not two documents, it is two BLOCKS of
+    # one state file — published and pending — and the fix went to one of them.
+    assert _commit_is_present(rev), (
+        f"deposit-state.json records the draft as built at {rev[:12]}, which this checkout cannot "
+        "produce even after a targeted fetch. A revision nobody can resolve cannot corroborate "
+        "anything.")
 
     shown = subprocess.run(
         ["git", "show", f"{rev}:research/manuscripts/aso/fusion-junction-aso-archive-manifest.json"],

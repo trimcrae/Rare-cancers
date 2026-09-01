@@ -45,6 +45,23 @@ def _head() -> str | None:
         return None
 
 
+def _pinned_commit(paper: str) -> str | None:
+    """The commit the paper's last hardening round actually reviewed, or None.
+
+    ⛔ READ, NEVER GUESSED. `hardening-state/<PUB>.json` is written by `record_bar_evidence.py` and
+    names `reviewed_commit`; that is the same field `publish_bar.clause_1` compares against the sha
+    it is asked about, so reading it here makes the tracker ask about the commit the bar can
+    actually clear.
+    """
+    path = os.path.join(HERE, "hardening-state", f"{paper}.json")
+    try:
+        rec = json.load(open(path, encoding="utf-8"))
+    except Exception:
+        return None
+    sha = rec.get("reviewed_commit")
+    return sha if isinstance(sha, str) and len(sha) == 40 else None
+
+
 def _publish_bar(paper: str, sha: str):
     """Run the bar and return its parsed JSON, or (None, why)."""
     cmd = [sys.executable, os.path.join(HERE, "publish_bar.py"),
@@ -72,10 +89,24 @@ def measure(goal: dict) -> dict:
         # goal" as "this goal is fine" is the exact inversion this file refuses.
         return {"status": UNKNOWN, "detail": f"done_condition.kind is {kind!r}, which this "
                                              "checker does not know how to compute"}
-    sha = _head()
+    # ⛔⛔ THE BAR IS SATISFIED AT THE PIN, NOT AT HEAD, AND MEASURING HEAD MEANT THIS TRACKER COULD
+    # NEVER READ MET. All three of `publish_bar`'s hard clauses bind to the commit being posted, and
+    # the artifacts that clear them — the seat records, the hardening record, the PREFLIGHT_FULL
+    # receipt — are COMMITTED AFTERWARDS, which necessarily moves HEAD past that commit. So a
+    # tracker reading HEAD asks the bar about a commit no round has reviewed, for ever.
+    # ⚠ MEASURED 2026-09-01, in the instrument written the same morning to stop exactly this class
+    # of mistake: goals.json's own docstring says a checker that reads a stored verdict is the
+    # "populated field is not a measured one" failure, and this one recomputed faithfully — against
+    # the wrong subject. Recomputing the wrong thing is not better than reading a stale record.
+    # ★ THE PIN IS READ FROM THE HARDENING RECORD, which is where the round writes which commit its
+    # seats actually reviewed. HEAD is the fallback for a goal with no round yet, and the reading
+    # says which of the two it used so nobody has to infer it.
+    sha, basis = _pinned_commit(cond.get("paper", "")), "the reviewed pin"
     if not sha:
-        return {"status": UNKNOWN, "detail": "HEAD is unreadable, so there is no commit to measure "
-                                             "the bar against"}
+        sha, basis = _head(), "HEAD (no hardening record names a reviewed commit yet)"
+    if not sha:
+        return {"status": UNKNOWN, "detail": "neither a reviewed pin nor HEAD is readable, so there "
+                                             "is no commit to measure the bar against"}
     data, why = _publish_bar(cond.get("paper", ""), sha)
     if data is None:
         return {"status": UNKNOWN, "detail": why}
@@ -91,7 +122,8 @@ def measure(goal: dict) -> dict:
     return {
         "status": MET if passed == total else OPEN,
         "passed": passed, "of": total, "open": openc, "sha": sha,
-        "detail": f"{passed}/{total} clauses on {sha[:12]}"
+        "basis": basis,
+        "detail": f"{passed}/{total} clauses on {sha[:12]} ({basis})"
                   + (f" — open: {', '.join(str(c) for c in openc)}" if openc else ""),
     }
 

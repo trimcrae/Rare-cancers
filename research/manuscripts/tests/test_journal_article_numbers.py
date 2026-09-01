@@ -1068,9 +1068,17 @@ def test_the_three_geometries_are_reported_as_a_rate_and_not_a_bare_count(prose)
     assert floor and floor.group(1) == "floor", (
         f"the three-geometry series now calls its last figure a {floor.group(1) if floor else 'nothing'!r}. "
         "It is a FLOOR: at 5-10-5 the criterion demands ten paired bases where the enzyme is "
-        "reported to need seven to ten, so a shorter run that could still license cleavage is not "
-        "counted. ⚠ This repository has shipped a reversed one-sided bound before — see "
-        "junction-aso-thermo.json's ⚠_lna_not_modelled — so re-derive before changing this word.")
+        "reported to cleave at five or six, so a shorter run that could still license cleavage is "
+        "not counted. ⚠ This repository has shipped a reversed one-sided bound before — see "
+        "junction-aso-thermo.json's ⚠_lna_not_modelled — so re-derive before changing this word.\n"
+        "⛔ THIS MESSAGE SAID \"reported to need seven to ten\" UNTIL 2026-09-01, WHICH IS THE "
+        "EXACT MIS-DESCRIPTION ROUND 28 CORRECTED IN THE PAPER, LEFT STANDING IN THE GUARD THAT "
+        "CHECKS IT. Seven to ten is the reported OPTIMUM; the minimum is five or six "
+        "(`aso-gap-length-tradeoff.json`, `min_contiguous_dna_nt_for_rnaseh1.values = [5, 6]`), and "
+        "the floor direction rests on the MINIMUM. Round 29's regression seat found the function "
+        "arguing both ways — the assertion below now requires \"prefer\" while this message taught "
+        "\"need\". `paper-hardening` §8b.1: a guard whose remedy text states the wrong fact teaches "
+        "the wrong fix to whoever reads it under a red build.")
     #: ⚠ RE-ANCHORED AGAIN 2026-09-01 (round 28), AND THE WORD THAT MOVED IS THE WHOLE FINDING.
     #: Round 27 changed "more than the seven-to-ten" to "the top of the seven-to-ten", fixing the
     #: arithmetic — ten IS the top of that range — and left "need" attached to it. That is the

@@ -95,7 +95,17 @@ def test_the_criterion_class_is_the_size_box_1_prints_over_the_denominator_it_pr
     """"249 of the 780 records the canonical file holds" — both halves, from the file itself."""
     total, at_criterion, _, _ = _class_sizes()
     box = _box1()
-    printed = re.search(r"(\d+)\s+of\s+the\s+(\d+)\s+records", box)
+    # ⛔ "design records", NOT "records" — AND THE WORD IS THE REPAIR, NOT NOISE IN THE PATTERN.
+    # Round 29's arithmetic seat: the prose read "249 of the 780 records the canonical file holds"
+    # while the file holds 782 and says so four times in its own header, so a reader doing what the
+    # sentence says gets 257 of 782 and cannot reproduce the printed denominator. 780 is the DESIGN
+    # population, and it is the right one — this guard's own docstring explains why counting the two
+    # controls would shrink the reported liability rate without a single design changing.
+    # ⚠ The obvious fix, 780 → 782, would have made the prose agree with the CSV header and the
+    # denominator dishonest. The repair was to name the population; this pattern has to follow it,
+    # in the same commit, or the honest sentence reds the guard (`paper-hardening` §8b.1: a gate
+    # that reds on true input is the one its reader learns to loosen).
+    printed = re.search(r"(\d+)\s+of\s+the\s+(\d+)\s+(?:design\s+)?records", box)
     assert printed, (
         f"Box 1 no longer sizes the do-not-order class against the canonical file. It should read "
         f"{at_criterion} of the {total} records; without the denominator the count is a number "
