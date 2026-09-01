@@ -240,6 +240,144 @@ def _run(cmd, workspace):
     return subprocess.run(cmd, cwd=workspace, capture_output=True, text=True).returncode != 0
 
 
+#: ⛔⛔ A QUANTITY WRITTEN IN WORDS WAS UNFALSIFIABLE BY CONSTRUCTION UNTIL 2026-09-01 (AUT-PD-148,
+#: filed 2026-08-28 by CYC-0070 while READING a BLIND verdict rather than trusting it). `ablate`
+#: perturbed digit runs and nothing else, so a sentence stating "two of five variant cases … eight of
+#: the junctions" reached the caller as `not-applied — the sentence states no number`. Measured on
+#: this tree before the fix: **157 covered sentences across the censused documents carry a number
+#: word, and 29 of them contain NO digit at all**, so the harness answered "there is nothing here to
+#: perturb" about sentences stating three quantities each. The gate above them was blind twice over —
+#: `_sample` in `test_the_census_word_covered_survives_ablation.py` also required a digit, so those
+#: 29 were never even offered.
+#: ★ ROUND 15 ALREADY FOUND THIS ONE LEVEL UP AND IT IS RECORDED IN `claim_coverage`'s OWN DOCSTRING:
+#: *"'ten' is a WORD, so no numeric instrument read it"*. The census was widened; the harness that
+#: falsifies the census was not.
+#:
+#: ⚠ WHAT THE REPLACEMENT TABLE IS FOR, AND WHY IT PREFERS THE SAME LENGTH. The perturbation must
+#: change the QUANTITY and as little else as possible: a swap that also changes the character count
+#: can redden a page-budget, justification or word-count guard, and a red from THAT is a false RED —
+#: the sentence would be reported bound while its quantity stayed unwatched. Same-length swaps
+#: ("three" -> "seven", "one" -> "two") remove that channel wherever English allows it. Where it does
+#: not (`hundred` -> `thousand`), the swap is still the honest one and the residue is stated below.
+#: ⛔ THE RESIDUE, STATED RATHER THAN GLOSSED — what this perturbation CANNOT reach:
+#:   · a quantity carried by a word this table does not list (`several`, `most`, `a majority`,
+#:     `dozens`, `an order of magnitude`) — those are not numbers and no single-site swap makes them
+#:     falsifiable;
+#:   · a compound written across words (`twenty-seven`, `two hundred`) is perturbed at ONE of its
+#:     parts, which is a real change of the quantity but not the change a reader would make;
+#:   · `one` and `second` also occur as a pronoun and as a unit of time. Both are perturbed. A guard
+#:     reddening on "one might expect" -> "two might expect" is answering this module's actual
+#:     question — *would anything notice if this text changed* — and the docstring is explicit that
+#:     that is NOT the same question as *is this sentence's own claim watched*. The gap is reported,
+#:     never hidden: `quantity_kind` below lets a caller count word-only sentences separately.
+_NUMBER_WORD_SWAP = {
+    # cardinals
+    "zero": "four", "one": "two", "two": "six", "three": "seven", "four": "nine",
+    "five": "nine", "six": "ten", "seven": "three", "eight": "seven", "nine": "four",
+    "ten": "six", "eleven": "twelve", "twelve": "eleven", "thirteen": "fourteen",
+    "fourteen": "thirteen", "fifteen": "sixteen", "sixteen": "fifteen",
+    "seventeen": "nineteen", "eighteen": "fourteen", "nineteen": "eighteen",
+    "twenty": "thirty", "thirty": "twenty", "forty": "fifty", "fifty": "forty",
+    "sixty": "forty", "seventy": "sixty", "eighty": "sixty", "ninety": "eighty",
+    "hundred": "thousand", "thousand": "hundred",
+    # ordinals
+    "first": "third", "second": "fourth", "third": "fifth", "fourth": "eighth",
+    "fifth": "sixth", "sixth": "ninth", "seventh": "fourth", "eighth": "fourth",
+    "ninth": "sixth", "tenth": "sixth",
+    # multiplicatives and the two fractions that carry counts in these papers
+    #: ⛔ THE MULTIPLICATIVE SET IS CLOSED UNDER ITS OWN SWAPS. A target that is not itself a key
+    #: is a word this module can produce and cannot perturb, so a paper that already said
+    #: "sevenfold" would have been unfalsifiable at exactly the site the swap invented.
+    "twofold": "tenfold", "threefold": "sevenfold", "fourfold": "fivefold",
+    "fivefold": "ninefold", "sixfold": "ninefold", "sevenfold": "threefold",
+    "eightfold": "threefold", "ninefold": "fivefold", "tenfold": "twofold",
+    "half": "third", "quarter": "third",
+}
+
+#: ⚠ THE SORT IS DEFENSIVE, NOT LOAD-BEARING, AND THAT IS A CORRECTION A MUTATION MADE (2026-09-01).
+#: This comment first claimed longest-alternative-first was what stops `seventeen` being matched as
+#: `seven` with a stray `teen` left behind. Reversing the sort in a scratch copy left all 16 tests
+#: GREEN: the `\b` on BOTH sides is what does the work, because `seven` inside `seventeen` fails the
+#: trailing word boundary. Python's `|` is indeed first-match rather than longest-match, so the sort
+#: is kept as protection against a future entry the anchors cannot separate — but the property the
+#: tests actually hold is the ANCHORING, and saying otherwise would have credited the wrong line.
+_NUMBER_WORD = re.compile(
+    r"\b(?:%s)\b" % "|".join(sorted(_NUMBER_WORD_SWAP, key=len, reverse=True)), re.I)
+
+#: What kind of quantity a sentence states, so a caller can COUNT the word-only ones rather than
+#: folding them into a single verdict. AUT-PD-148 asked for this before it asked for the mutation:
+#: "a status the reader can count is worth more than a mutation that might rewrite prose into
+#: nonsense". Both are here; this is the half that costs nothing and can never lie.
+DIGITS, WORDS, BOTH, NONE = "digits", "words", "both", "none"
+
+
+def _match_case(original, replacement):
+    """`Three` -> `Seven`, `THREE` -> `SEVEN`, `three` -> `seven`. Nothing else is preserved."""
+    if original.isupper():
+        return replacement.upper()
+    if original[:1].isupper():
+        return replacement[:1].upper() + replacement[1:]
+    return replacement
+
+
+def perturbations(span, skip):
+    """Every single-site change this module knows how to make to `span`, digits before words.
+
+    Each entry is `(start, end, before, after)` with offsets into `span`.
+
+    ⛔ DIGITS COME FIRST AND THAT ORDER IS LOAD-BEARING, not cosmetic. `ablate` stops at the first
+    perturbation that trips a guard, so putting digits first leaves every verdict this harness
+    reached before 2026-09-01 exactly where it was: a sentence that was red on a digit is still red
+    on the same digit, with the same `reason` string. The word swaps can only ever convert a BLIND or
+    a NOT_APPLIED into a red, which is the direction that removes a false negative.
+    ⛔ AND NOTHING INSIDE A STRIPPED SPAN IS EVER PERTURBED (`skip`), for either kind — a number word
+    inside a dropped heading or a fenced block is not part of the flattened claim.
+    """
+    out = []
+    for m in re.finditer(r"\d+", span):
+        if any(s <= m.start() < e for s, e in skip):
+            continue
+        run = m.group(0)
+        out.append((m.start(), m.end(), run, run[:-1] + ("7" if run[-1] != "7" else "4")))
+    for m in _NUMBER_WORD.finditer(span):
+        if any(s <= m.start() < e for s, e in skip):
+            continue
+        word = m.group(0)
+        out.append((m.start(), m.end(), word,
+                    _match_case(word, _NUMBER_WORD_SWAP[word.lower()])))
+    return out
+
+
+def states_a_quantity(sentence):
+    """Does this censused sentence state a quantity at all — in digits OR in number words?
+
+    ⛔ THE POPULATION PREDICATE FOR THE GATE ABOVE THIS MODULE, AND IT LIVES HERE SO THERE IS ONE
+    COPY. Before AUT-PD-148 the rule existed twice — `re.finditer(r"\\d+")` here and
+    `re.search(r"\\d", …)` in `_sample` — and BOTH had to be widened for a word quantity to become
+    testable. A sentence the gate never offers is as unfalsifiable as one the harness cannot
+    perturb, and the second copy is the one that gets forgotten.
+    ⚠ Takes the FLATTENED census sentence, which by construction contains only text that survived
+    `_prose`, so there is no stripped span to exclude here.
+    """
+    return bool(re.search(r"\d", sentence) or _NUMBER_WORD.search(sentence))
+
+
+def quantity_kind(span, skip):
+    """`digits` | `words` | `both` | `none` — what the perturbable part of this span states.
+
+    ⚠ A COUNT, NOT A VERDICT. It says what a reader would have to check, not whether anything checks
+    it. `words` is the population AUT-PD-148 is about; before the fix every one of them scored
+    `not-applied` and was invisible in the gate's own accounting.
+    """
+    kinds = {"digits" if before[:1].isdigit() else "words" for _s, _e, before, _a
+             in perturbations(span, skip)}
+    if kinds == {"digits"}:
+        return DIGITS
+    if kinds == {"words"}:
+        return WORDS
+    return BOTH if kinds else NONE
+
+
 #: Witness-set signature -> (commands, indices already red BEFORE any mutation). Once per set.
 _BASELINE_CACHE = {}
 
@@ -301,6 +439,19 @@ def _baseline_reds(witnesses, workspace):
     return _BASELINE_CACHE[key]
 
 
+def subtraction_note(commands, already_red):
+    """The clause a BLIND verdict carries when part of its witness set could not run.
+
+    ⛔ A PURE FUNCTION SO IT CAN BE TESTED WITHOUT AN ABLATION. The clause is the only place a
+    reader learns that "no guard noticed" was computed from a fraction of the guards, and a message
+    nothing asserts is a message that quietly disappears in the next edit.
+    """
+    if not already_red:
+        return ""
+    return (f" \u26a0 {already_red} of {commands} guard command(s) were ALREADY red on the unmutated "
+            f"clone and were subtracted, so this verdict rests on {commands - already_red} of them")
+
+
 def ablate(paper_key, row, witnesses=None):
     """Perturb the sentence IN A CLONE, run its guards there, and report whether anything noticed.
 
@@ -314,6 +465,10 @@ def ablate(paper_key, row, witnesses=None):
     "absent reading read as a reading of absence" this module was written to stop.
     ★ A sentence is bound if ANY perturbation of it trips a guard, which is what "would anything
     notice if this changed?" actually means. The first trip wins and the rest are not run.
+
+    ⛔⛔ AND SINCE 2026-09-01 A QUANTITY WRITTEN IN WORDS IS A PERTURBATION TOO (AUT-PD-148). Every
+    result carries `quantity_kind` — `digits`, `words`, `both` or `none` — so a caller can count the
+    word-only sentences instead of reading their old `not-applied` as "there is nothing here".
     """
     path = cc.PAPERS[paper_key]
     original = io.open(path, encoding="utf-8").read()
@@ -321,7 +476,7 @@ def ablate(paper_key, row, witnesses=None):
 
     hit = _locate(original, row["sentence"])
     if hit is None:
-        return {"status": NOT_APPLIED, "red": [], "witnesses": ws,
+        return {"status": NOT_APPLIED, "red": [], "witnesses": ws, "quantity_kind": NONE,
                 "reason": "the censused sentence has no home in the raw file even allowing for line "
                           "wrapping — the flattener and the file have diverged"}
     span = original[hit.start():hit.end()]
@@ -330,11 +485,12 @@ def ablate(paper_key, row, witnesses=None):
     # guard red and report the SENTENCE bound while its own number stayed unwatched — a false RED,
     # which is the direction that lies in the reassuring direction. See `claim_coverage.stripped_spans`.
     _skip = cc.stripped_spans(span)
-    runs = [m for m in re.finditer(r"\d+", span)
-            if not any(s <= m.start() < e for s, e in _skip)]
-    if not runs:
-        return {"status": NOT_APPLIED, "red": [], "witnesses": ws,
-                "reason": "the sentence states no number, so this module defines no perturbation"}
+    sites = perturbations(span, _skip)
+    kind = quantity_kind(span, _skip)
+    if not sites:
+        return {"status": NOT_APPLIED, "red": [], "witnesses": ws, "quantity_kind": kind,
+                "reason": "the sentence states no quantity, in digits or in number words, so this "
+                          "module defines no perturbation"}
 
     workspace = _workspace()
     mirror = _mirror(path, workspace)
@@ -347,24 +503,37 @@ def ablate(paper_key, row, witnesses=None):
     # it is measuring the file, not the guards — and caught this the moment it was introduced.
     cmds, already_red = _baseline_reds(ws, workspace)
     if cmds and len(already_red) == len(cmds):
-        return {"status": NOT_APPLIED, "red": [], "witnesses": ws,
+        return {"status": NOT_APPLIED, "red": [], "witnesses": ws, "quantity_kind": kind,
                 "reason": f"all {len(cmds)} guard(s) reading this document are ALREADY red on the "
                           "unmutated tree, so nothing here can be measured. Fix the tree first — a "
                           "red baseline makes every sentence look bound."}
+    # ⛔⛔ A BLIND VERDICT MUST STATE HOW MUCH OF ITS WITNESS SET COULD ACTUALLY RUN, AND UNTIL
+    # 2026-09-01 IT DID NOT (measured this session, and it nearly cost a false finding). The bailout
+    # above fires only when EVERY command is red at baseline; at 25 red of 26 it does not fire, and
+    # the module returns a full APPLIED/BLIND verdict computed from the one surviving command — a
+    # sentence "no guard noticed" when twenty-five of its guards were never in a position to notice.
+    # ⚠ MEASURED, NOT HYPOTHETICAL: `_witness_cmds` runs `sys.executable -m pytest`, so a driver
+    # interpreter without pytest reddens every pytest witness at baseline. Running this harness under
+    # the sandbox's `/usr/local/bin/python3` gave `26 commands, 25 already red` and reported the
+    # journal article's FUS sentence BLIND. Re-run under the interpreter that HAS pytest: 1 red
+    # (a stale census artifact), and the same sentence goes RED on `two -> six`.
+    # ★ The number is now carried in every result and printed in the blind reason, so the reader of a
+    # BLIND cannot mistake "the guards could not run" for "the guards did not care" — the same
+    # false-BLIND direction `_baseline_reds` was written for, one level up.
+    baseline = {"commands": len(cmds), "already_red": len(already_red)}
+    subtracted = subtraction_note(len(cmds), len(already_red))
     tried = []
     try:
-        for m in runs:
-            run = m.group(0)
-            new_run = run[:-1] + ("7" if run[-1] != "7" else "4")
-            tried.append(f"{run}->{new_run}")
+        for start, end, was, now in sites:
+            tried.append(f"{was}->{now}")
             _write_without_following_the_link(
                 mirror,
-                original[:hit.start() + m.start()] + new_run + original[hit.start() + m.end():])
+                original[:hit.start() + start] + now + original[hit.start() + end:])
             fired = [i for i, cmd in enumerate(cmds)
                      if i not in already_red and _run(cmd, workspace)]
             if fired:
-                return {"status": APPLIED, "red": ws, "witnesses": ws,
-                        "reason": f"{run} -> {new_run}"}
+                return {"status": APPLIED, "red": ws, "witnesses": ws, "quantity_kind": kind,
+                        "baseline": baseline, "reason": f"{was} -> {now}"}
     finally:
         _write_without_following_the_link(mirror, original)
         after = hashlib.sha256(io.open(path, encoding="utf-8").read().encode()).hexdigest()
@@ -372,5 +541,6 @@ def ablate(paper_key, row, witnesses=None):
             raise SystemExit(
                 f"FATAL: the REAL {os.path.basename(path)} changed during an ablation "
                 f"({before[:12]} -> {after[:12]}). Recover it from git before doing anything else.")
-    return {"status": APPLIED, "red": [], "witnesses": ws,
-            "reason": "no guard reading this file noticed any of: " + ", ".join(tried)}
+    return {"status": APPLIED, "red": [], "witnesses": ws, "quantity_kind": kind,
+            "baseline": baseline,
+            "reason": "no guard reading this file noticed any of: " + ", ".join(tried) + subtracted}

@@ -1628,6 +1628,107 @@ _REPO_STATE_FIELDS = ("git_revision", "git_tree_is_clean_apart_from_this_manifes
 _CLEAN_FLAG = "git_tree_is_clean_apart_from_this_manifest"
 
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# ⛔⛔ A REVISION RECORDED BEFORE THE PUSH DIES IN THE REBASE THAT PUSHES IT (AUT-PD-141, -175, -195)
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# `git_revision` is stamped from HEAD at generation time and five deposited PDFs print it as their
+# provenance line. `git rebase origin/main` before a push — the routine move when a concurrent
+# session has moved the trunk — rewrites every local commit, so a revision recorded at a LOCAL HEAD
+# reaches the trunk naming a commit that exists only in this container's reflog.
+#
+# ★ THE MECHANISM, MEASURED RATHER THAN ARGUED (2026-09-01, S7-CHAIN, two-clone A/B race):
+#     recorded a LOCAL-ONLY HEAD  -> after one racing rebase: `git cat-file -e` still RESOLVES (the
+#                                    reflog), `git branch -a --contains` is EMPTY, and
+#                                    `git merge-base --is-ancestor <rev> origin/main` exits non-zero.
+#     recorded a PUSHED tip       -> after TWO racing rebases: still contained in `origin/main`, still
+#                                    an ancestor. Nothing rewrote it, because origin's history is
+#                                    never rewritten.
+#
+# ★★ SO THE DESIGN DECISION IS: KEEP THE COMMIT SHA, AND MAKE THE MOMENT IT IS TAKEN CHECKABLE.
+# The alternative on the table (AUT-PD-195 candidate 3) was to record a content digest instead,
+# "the only option immune to the mechanism rather than defending against it". That reasoning is
+# wrong in two ways and the second is decisive:
+#   (1) A PUSHED SHA IS EQUALLY IMMUNE. `origin/main` is append-only in this repository, so a commit
+#       that is on origin at recording time is an ancestor of every later origin tip, forever. It is
+#       not a defence against the rebase; the rebase cannot reach it.
+#   (2) THE CONTENT DIGEST ALREADY EXISTS AND ANSWERS A DIFFERENT QUESTION. `archive_content_digest`
+#       is right there in this manifest and is what `deposit-state.json` corroborates against.
+#       Replacing the sha with a digest would duplicate that field (CLAUDE.md rule 1: one fact, one
+#       place) while DESTROYING the only thing the sha does — name a point in history a reader can
+#       check out. The deposit's own step 1 is "check out the revision named in `git_revision`", and
+#       a tree hash is not checkoutable.
+#
+# ⛔ AND IT IS A CHECK, NOT A CONVENTION. AUT-PD-141 is explicit that "regenerate after every rebase"
+# fails as a remembered pairing (AUT-PD-130). The single bit that separates the two measured cases is
+# available AT RECORDING TIME — `git branch -r --contains HEAD` was `origin/main` in one and empty in
+# the other, before any rebase happened — so it is computed here and reported, at the moment the
+# mistake is made rather than after CI has paid for it.
+_REVISION_DURABILITY_FIX = (
+    "Fetch and rebase FIRST, then regenerate: `git fetch origin && git rebase origin/main && "
+    "python3 research/manuscripts/aso_archive_manifest.py`. That records a commit that is already "
+    "on origin, which no later rebase can rewrite. If the push then races, rebase and regenerate "
+    "again — a retry alone re-pushes the dead sha.")
+
+
+def _revision_durability(rev):
+    """Will `rev` still name a commit after the rebase that pushes it? Returns (state, detail).
+
+    ★ FOUR STATES, AND THE UNCHECKABLE ONE IS NAMED RATHER THAN FOLDED INTO "fine". CLAUDE.md §4:
+    an absent reading is not a reading of absence.
+
+      PUBLISHED    a remote-tracking ref contains it. A rebase cannot rewrite it — origin's history
+                   is append-only — so it survives whatever happens to the local branch.
+      LOCAL_ONLY   it resolves here and NO remote-tracking ref contains it. This is the defect: the
+                   next rebase orphans it and every guard downstream still reads a well-formed sha.
+      ORPHANED     it does not resolve at all. The rebase already happened.
+      UNCHECKED    git could not answer, or this clone has no remote-tracking refs, or the commit is
+                   outside a shallow clone's graft boundary.
+
+    ⚠ SHALLOWNESS IS NOT A BLANKET DEGRADE HERE, AND THAT IS DELIBERATE. This sandbox reports
+    `--is-shallow-repository: true` while holding 10,974 commits back to 2026-08-04, so degrading on
+    that flag alone would make the check answer UNCHECKED in the one place it most needs to run. The
+    honest boundary is the OBJECT: if the commit resolves, `--contains` walked a graph that holds it
+    and its answer is exact; if it does not resolve, shallowness is a live explanation and the
+    reading is refused instead of reported as ORPHANED.
+    """
+    if _git("rev-parse", "--git-dir") is None:
+        return "UNCHECKED", "git cannot answer here"
+    remote_refs = _git("for-each-ref", "--format=%(refname)", "refs/remotes")
+    if not remote_refs:
+        return "UNCHECKED", ("this clone has no remote-tracking refs, so there is nothing a "
+                             "revision could be published to")
+    resolves = _git("cat-file", "-e", "%s^{commit}" % rev) is not None
+    if not resolves:
+        if _git("rev-parse", "--is-shallow-repository") == "true":
+            return "UNCHECKED", ("%s is outside this shallow clone's graft boundary, so whether it "
+                                 "exists cannot be decided here" % rev[:12])
+        return "ORPHANED", ("%s is not a commit in this repository at all — the rebase that would "
+                            "orphan it has already happened" % rev[:12])
+    containing = _git("for-each-ref", "--contains", rev, "--format=%(refname)", "refs/remotes")
+    if containing:
+        return "PUBLISHED", containing.splitlines()[0]
+    return "LOCAL_ONLY", ("%s resolves here but no remote-tracking ref contains it, so it exists "
+                          "only in this clone" % rev[:12])
+
+
+def _revision_durability_report(rev):
+    """The human-readable line for `rev`'s durability, or None when it is PUBLISHED."""
+    state, detail = _revision_durability(rev)
+    if state == "PUBLISHED":
+        return None
+    if state == "UNCHECKED":
+        return ("⚠ REVISION DURABILITY UNCHECKED: %s. The manifest records git_revision %s; whether "
+                "it survives a rebase was NOT decided here." % (detail, rev[:12]))
+    return (
+        "⛔ %s REVISION: %s.\n"
+        "  Every deposited PDF prints this sha as its provenance line and the deposit's own step 1\n"
+        "  is `git checkout` it. A rebase before the push rewrites any commit that is not already on\n"
+        "  origin, so this manifest is one `git push` away from naming a commit no clone can\n"
+        "  resolve — and nothing downstream can tell, because an orphaned sha is still a well-formed\n"
+        "  sha.\n"
+        "  ⭐ %s" % (state, detail, _REVISION_DURABILITY_FIX))
+
+
 def _dirty_tree_refusal(old_text):
     """The refusal message for a manifest generated against a dirty tree, or None if it is sound.
 
@@ -1705,6 +1806,74 @@ def _archive_only(art):
 
 
 def main(argv):
+    # ⛔ `--check-revision-published` READS THE FILE ON DISK AND NEVER BUILDS. It answers one
+    # question — will the revision this artifact already records survive the push? — so re-deriving
+    # 483 hashes to answer it would be both slow and wrong: the durability of the RECORDED sha is a
+    # fact about the committed artifact, not about the tree right now.
+    # ⭐ IT IS SEPARATE FROM `--check` AND `--check-archive` ON PURPOSE. `--check-archive` is the
+    # preflight gate and deliberately drops the repository-state fields (see `_archive_only`);
+    # folding a revision check into it would reintroduce the 2026-08-17 cry-wolf failure that
+    # separation exists to prevent. This is the PUSH-TIME question and belongs on the push path.
+    # ⛔⛔ "IS THIS PATH IN THE ARCHIVE?" — THE QUERY 33 WORKFLOWS NEED AND NONE COULD ASK
+    # (AUT-PD-168). A workflow that commits a tracked file has no cheap way to know whether that
+    # file is one of the 483 the deposit manifest hashes, so it pushes, the manifest goes stale
+    # invisibly, and the trunk goes red on the NEXT commit — which is always somebody else's.
+    # Measured 2026-08-29: aa6d9d9a9 rewrote `research/modalities/emc-expression-panels.json`, an
+    # inventoried file, and the two commits after it went red on both jobs having touched nothing
+    # archived.
+    # ⭐ THE AUDIT THAT ROW ASKED FOR SAYS THE ANSWER IS NOT "ADD A STEP TO EACH WORKFLOW": 33 of 34
+    # can write an inventoried file and adding the regeneration to each is 31 more chances to
+    # forget. The answer is ONE shared publish step that owns it — and a shared step needs exactly
+    # this predicate, which is why it lives here, at the module that defines the inventory, rather
+    # than as a list somebody maintains next to the publisher.
+    # ⚠ IT READS THE MANIFEST ON DISK AND DOES NOT BUILD. The inventory is resolved by glob from the
+    # promises, so rebuilding it to answer a membership question would take ~483 hashes to learn
+    # something the committed artifact already states — and would answer about the tree as it is
+    # mid-publish rather than as it was committed.
+    if "--is-inventoried" in argv:
+        paths = [a for a in argv[argv.index("--is-inventoried") + 1:] if not a.startswith("--")]
+        if not paths:
+            print("--is-inventoried needs at least one repository-relative path", file=sys.stderr)
+            return 2
+        if not os.path.exists(OUT):
+            # ⛔ FAIL LOUD, NOT QUIET. "I could not read the inventory" must not answer "no" — a
+            # caller wiring this into a publish step would then skip the regeneration exactly when
+            # the manifest is most broken.
+            print("no manifest on disk, so archive membership is UNKNOWN", file=sys.stderr)
+            return 2
+        try:
+            inventory = {f["path"] for f in json.load(open(OUT, encoding="utf-8"))["files"]}
+        except (ValueError, KeyError, TypeError):
+            print("the manifest on disk carries no readable file list, so archive membership is "
+                  "UNKNOWN", file=sys.stderr)
+            return 2
+        hits = [p for p in (os.path.normpath(x) for x in paths) if p in inventory]
+        for h in hits:
+            print(h)
+        return 0 if hits else 1
+    if "--check-revision-published" in argv:
+        if not os.path.exists(OUT):
+            print("no manifest on disk, so it records no revision at all", file=sys.stderr)
+            return 1
+        try:
+            rev = json.load(open(OUT, encoding="utf-8")).get("git_revision")
+        except ValueError:
+            print("the manifest on disk is not readable JSON", file=sys.stderr)
+            return 1
+        if not (isinstance(rev, str) and len(rev) == 40):
+            print("the manifest records no usable git_revision: %r" % (rev,), file=sys.stderr)
+            return 1
+        report = _revision_durability_report(rev)
+        if report is None:
+            print("git_revision %s is on a remote-tracking ref; a rebase cannot rewrite it"
+                  % rev[:12])
+            return 0
+        print(report, file=sys.stderr)
+        # ⚠ UNCHECKED IS NOT A FAILURE AND IS NOT A PASS — it exits 0 with the weakening ANNOUNCED,
+        # the same choice `test_the_manifest_revision_is_a_commit_a_reader_can_resolve` makes for a
+        # shallow clone. A check that cannot look must say so; making it red would get it switched
+        # off in exactly the clones (fresh, remote-less, CI) where it can never answer.
+        return 0 if report.startswith("⚠") else 1
     checking = "--check" in argv or "--check-archive" in argv
     old_text = None
     if checking:
@@ -1755,6 +1924,22 @@ def main(argv):
     unmapped = art["gaps"]["promises_resolving_to_no_file"]
     print(f"wrote {os.path.relpath(OUT, REPO)}: {art['n_files']} files, "
           f"{art['total_mib']} MiB", file=sys.stderr)
+    # ⛔ SAY IT AT THE MOMENT THE MISTAKE IS MADE (AUT-PD-141, -175, -195). The revision just
+    # stamped is the one a later rebase orphans, and the bit that decides it is available NOW —
+    # afterwards the only witness is CI, a commit later, on somebody else's push.
+    # ⚠ IT WARNS AND DOES NOT REFUSE, AND THE ENFORCEMENT IS `--check-revision-published` ON THE
+    # PUSH PATH. Refusing here would break the legitimate case where a session regenerates on a
+    # branch it is about to push for the first time. Measured 2026-09-01: three workflows invoke this
+    # module by name (`aso-submission-parts.yml`, `emc-expression-datasets.yml`, and `tests.yml`
+    # which only checks it) and every interactive session runs it through
+    # `scripts/regenerate_aso_chain.sh`. A generator that starts exiting non-zero on a normal flow
+    # gets its exit code ignored, which is how a real refusal stops being read. ⛔ A warning is NOT the fix — CLAUDE.md's "recorded is not enforced"
+    # — it is the early signal beside it.
+    _rev = art.get("git_revision")
+    if isinstance(_rev, str) and len(_rev) == 40:
+        _durability = _revision_durability_report(_rev)
+        if _durability:
+            print(_durability, file=sys.stderr)
     if unmapped:
         print(f"⛔ UNMAPPED PROMISES: {unmapped}", file=sys.stderr)
     if unchecked:

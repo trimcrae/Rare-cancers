@@ -1,0 +1,195 @@
+{
+ "_what": "Provenance for the four Stage 0 items named in ledger row AUT-077: the artifact that produced each, the figure derived from it, and whether the vaccine manuscript states that figure.",
+ "_why": "AUT-077 stands `queued` with `attempts: 0` over work that had already been run. This is the evidence for closing it, assembled so it can be checked.",
+ "⛔_what_this_is_not": "Not a scientific result and not a quality judgement. It records that an analysis ran and that a document states its number. Every figure it points at is a binding PREDICTION or a sequence search, not a measurement of presentation, immunogenicity, efficacy or safety.",
+ "_method": "each headline is derived from the artifact and then used as a search string against the manuscript, so an item is 'landed' only when both the artifact and the statement exist. Nothing here is typed from a document.",
+ "_manuscript": {
+  "path": "research/manuscripts/neoantigen/emc-vaccine-development-path.md",
+  "n_lines": 1524,
+  "last_commit": "2026-08-19"
+ },
+ "_cost": "$0 — committed files and read-only git. No network, no predictor, no GPU.",
+ "ledger_row": {
+  "id": "AUT-077",
+  "what": "Run the Stage 0 items: proteome-wide novelty, class II regeneration, anchor-position analysis, extended allele panel.",
+  "state_when_this_ran": "queued",
+  "attempts_when_this_ran": 0
+ },
+ "n_items": 4,
+ "n_landed": 4,
+ "items": [
+  {
+   "aut077_phrase": "proteome-wide novelty",
+   "artifact": "junction-proteome-novelty.json",
+   "script": "junction_proteome_novelty.py",
+   "entered_repo": "2026-08-19",
+   "last_change": {
+    "date": "2026-08-19",
+    "subject": "seam provenance verified, and the isoform collision resolves to four specific junctions"
+   },
+   "headline_derived_from_the_artifact": {
+    "n_peptides_tested": 174,
+    "n_novel_proteome_wide": 170,
+    "n_found_in_proteome": 4,
+    "n_predicted_binders_found_in_proteome": 1,
+    "proteome": "UP000005640",
+    "n_sequences_searched": 42547
+   },
+   "manuscript_probes": [
+    {
+     "needle": "170 of 174",
+     "found": true,
+     "manuscript_lines": [
+      90,
+      509,
+      1169
+     ]
+    }
+   ],
+   "instrument_limit": "exact-substring absence from the reviewed human proteome. It bounds sequence identity and says nothing about a near neighbour, about processing, about presentation or about immunogenicity.",
+   "landed": true
+  },
+  {
+   "aut077_phrase": "class II regeneration",
+   "artifact": "patient-cd4-demo.json",
+   "script": "patient_cd4_epitopes.py",
+   "entered_repo": "2026-08-04",
+   "last_change": {
+    "date": "2026-08-23",
+    "subject": "Close the class II provenance gap the paper had been disclosing, and confirm the proteome cache"
+   },
+   "headline_derived_from_the_artifact": {
+    "n_alleles_screened": 23,
+    "n_predicted_binders": 44,
+    "n_strong": 1,
+    "strong_calls": [
+     {
+      "peptide": "SYGQQNMPCVQAQYS",
+      "allele": "DRB1*14:01",
+      "ic50_nM": 66.1
+     }
+    ],
+    "junction_context": "QYSQQSSSYGQQ|NMPCVQAQYSPS",
+    "alleles_without_a_model": [],
+    "predictor": "MHCnuggets"
+   },
+   "manuscript_probes": [
+    {
+     "needle": "23 class II alleles",
+     "found": true,
+     "manuscript_lines": [
+      60,
+      698
+     ]
+    },
+    {
+     "needle": "SYGQQNMPCVQAQYS",
+     "found": true,
+     "manuscript_lines": [
+      508,
+      701
+     ]
+    },
+    {
+     "needle": "66.1",
+     "found": true,
+     "manuscript_lines": [
+      508,
+      701
+     ]
+    }
+   ],
+   "instrument_limit": "MHCnuggets class II binding predictions. The manuscript itself grades class II prediction as substantially less accurate than class I, so one strong call on one allele is a weak positive, and no class II call here is evidence of presentation or of help delivered to a CD8 response.",
+   "landed": true
+  },
+  {
+   "aut077_phrase": "anchor-position analysis",
+   "artifact": "junction-selfsimilarity.json",
+   "script": "junction_selfsimilarity.py",
+   "entered_repo": "2026-08-23",
+   "last_change": {
+    "date": "2026-08-23",
+    "subject": "Close the class II provenance gap the paper had been disclosing, and confirm the proteome cache"
+   },
+   "headline_derived_from_the_artifact": {
+    "n_queries": 11,
+    "max_mismatches": 2,
+    "n_queries_with_any_near_self": 8,
+    "n_anchor_only_near_self_total": 0,
+    "anchor_convention_used": "Anchors taken as P2 and the C-terminus for every length, which is the general class I rule and not an allele-specific motif. HLA-A*01:01 reads P3 as a primary anchor; rows for peptides called on it are marked and should be read with that caveat."
+   },
+   "manuscript_probes": [
+    {
+     "needle": "Zero of the 11",
+     "found": true,
+     "manuscript_lines": [
+      652
+     ]
+    },
+    {
+     "needle": "0 of 11 binders",
+     "found": true,
+     "manuscript_lines": [
+      507
+     ]
+    }
+   ],
+   "instrument_limit": "a Hamming-distance search plus one anchor convention. Sequence distance is not T-cell-receptor distance, and the convention is a general class I rule rather than an allele-specific motif — see junction-anchor-convention-sensitivity.json, which measures how far the null travels across conventions.",
+   "⚠_extended_by": "junction-anchor-convention-sensitivity.json (2026-09-01)",
+   "landed": true
+  },
+  {
+   "aut077_phrase": "extended allele panel",
+   "artifact": "hla-coverage.json (+ coverage-threshold-curve.json)",
+   "script": "hla_coverage.py (+ coverage_threshold_curve.py)",
+   "entered_repo": "2026-08-04",
+   "last_change": {
+    "date": "2026-08-23",
+    "subject": "Vaccine paper: four CI results written in, three of which change what the paper says"
+   },
+   "last_change_curve": {
+    "date": "2026-08-23",
+    "subject": "Vaccine paper: four CI results written in, three of which change what the paper says"
+   },
+   "headline_derived_from_the_artifact": {
+    "n_alleles_in_the_panel": 34,
+    "panel_source": "epitope-allele-matrix.json → panel",
+    "n_panel_alleles_presenting_anything_at_or_below_the_curve_ceiling": 28,
+    "⚠_the_difference": "The remaining panel alleles present no junction peptide at any threshold the data speaks to (ceiling 5.0). That is a negative reading, not a missing frequency: it was checked against the curve's own allele set and the two agree exactly.",
+    "alleles_presenting_at_the_conventional_threshold": [
+     "HLA-A*01:01",
+     "HLA-A*30:02",
+     "HLA-B*07:02",
+     "HLA-B*15:01"
+    ],
+    "conventional_threshold": 0.5,
+    "coverage_at_the_conventional_threshold": 0.304,
+    "lowest_threshold_with_any_presenting_allele": 0.3736
+   },
+   "manuscript_probes": [
+    {
+     "needle": "34-allele",
+     "found": true,
+     "manuscript_lines": [
+      58,
+      262,
+      279,
+      534,
+      746,
+      748,
+      1243,
+      1279,
+      1494
+     ]
+    }
+   ],
+   "instrument_limit": "a class I HLA-A and HLA-B panel with no HLA-C and no class II allele, over allele frequencies pooled across populations whose frequencies differ by more than the figures reported. Every coverage number is therefore a partial coverage of the class I repertoire, and a predicted-presentation figure is not evidence that any patient's tumour presents anything.",
+   "landed": true
+  }
+ ],
+ "⛔_what_none_of_these_four_covers": [
+  "Step 1 of the manuscript's own §6.1 ordering — calibrating the acceptance threshold against experimentally validated epitopes — which is computational, needs only public data, and has NOT been run. coverage-threshold-curve.json supplies the threshold-agnostic curve, which is what the manuscript says is the honest report UNTIL that calibration exists; it is not the calibration.",
+  "Any measurement. Steps 2 to 4 of §6.1 need synthesised peptides, EMC tissue and matched donors, and no in-silico item substitutes for one of them.",
+  "A near-self search for the class II peptides. The one that exists covers the 11 class I binders only."
+ ]
+}

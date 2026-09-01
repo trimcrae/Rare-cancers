@@ -108,12 +108,31 @@ def test_below_the_cap_must_not_stop(env):
 
 
 def test_a_session_that_did_hand_off_is_not_blocked(env):
-    """⛔ A child session means the ordinary path applies. Claiming "blocked" while holding a
-    successor id would let a healthy session use this branch to stop early."""
+    """⛔ A child session means this module's BLOCKED branch does not apply. Claiming "blocked" while
+    holding a successor id would let a healthy session use that branch to stop early.
+
+    ⚠ AMENDED 2026-09-01 (AUT-PD-169, seat S8-HANDOFF), AND THE GUARANTEE IS UNCHANGED WHILE ONE
+    ASSERTION IS. This test used to read the composite `verdict()` and assert `not may` — which
+    checked the stated guarantee only by PROXY, and the proxy held for the wrong reason: nothing
+    read `handoff.child_session_id` at all, so a session that had successfully handed off scored
+    identically to one that never tried and was told MUST NOT STOP. The turn-end hook then fell
+    through to its loud branch, whose option 1 instructs the parent to claim the row for its
+    successor — and a successor claims for ITSELF under a cycle id derived from a harness uuid the
+    parent never sees, so `claim.decide()` YIELDS on every owner string the parent can write.
+    ⭐ SO THE GUARANTEE IS NOW ASSERTED WHERE IT LIVES — `blocked_handoff()` still returns None, and
+    the verdict still does not take the blocked route — and the composite answer is asserted to be
+    the SEPARATE handed-off one rather than a refusal. Nothing here is loosened: `_verdict()` still
+    requires `cap` receipts from THIS session, and a self-named or blank child id still buys nothing
+    (`test_a_session_that_handed_off_is_not_a_session_that_did_not_try.py`).
+    """
     env([_r(refused=REFUSAL), _r(child="sess-cccc3333", refused=REFUSAL)])
-    may, why = C.verdict()
-    assert not may
-    assert "no handoff attempt" in why
+    assert C.blocked_handoff(_r(child="sess-cccc3333", refused=REFUSAL)) is None, (
+        "a receipt carrying a successor id is being read as a BLOCKED handoff — that is the branch "
+        "this test exists to keep it out of")
+    may, code, why = C._verdict()
+    assert code == C.HANDED_OFF, f"the blocked branch was reached after all: {code} — {why}"
+    assert may, why
+    assert "sess-cccc3333" in why
 
 
 def test_an_unreadable_cap_buys_nothing(env, monkeypatch, tmp_path):

@@ -116,20 +116,77 @@ def test_the_ablation_harness_uses_this_locator():
     assert ca._locate(raw, "The two junctions account for 68.4% of cases.") is not None
 
 
-def test_fence_CONTENT_is_prose_to_the_flattener_and_that_is_a_separate_defect():
-    """⚠ FOUND BY THIS FILE'S OWN FIRST DRAFT, WHICH ASSUMED A FENCED BLOCK WAS DROPPED WHOLE.
+def test_fence_CONTENT_is_not_prose():
+    """⛔⛔ AUT-PD-149, FIXED 2026-09-01. THIS ASSERTION IS THE INVERSE OF THE ONE IT REPLACES.
 
-    `_prose` drops lines STARTING WITH ``` and keeps everything between them, so a code block's
-    contents are flattened into claim prose and can be censused as a sentence. Three censused
-    documents carry fences today, `emc-fusion-partner-stratification.md` among them. That is filed
-    as its own row rather than fixed here: changing what `_prose` keeps moves `covered` for every
-    document and every floor that holds one, which is the blast radius `claim_coverage` already
-    records for the pattern-narrowing question.
-    ⛔ THE TEST PINS THE CURRENT BEHAVIOUR SO THE FIX IS A DELIBERATE CHANGE WITH THIS ASSERTION
-    FAILING, not a silent shift in what counts as a claim.
+    Until today `_prose` dropped lines STARTING WITH ``` and kept everything between them, so a code
+    block's contents were flattened into claim prose and censused as a sentence. The old test pinned
+    that behaviour deliberately, so that changing it would be a visible act rather than a silent
+    shift in what counts as a claim. This is that act.
+
+    ★ WHAT THE CHANGE MOVED, MEASURED against the committed census at bd8aac753 rather than argued:
+
+        emc-atr-collaborator-package.md          sentences 144 -> 145, uncovered 144 -> 145
+        response-endpoint-indolent-tumours.md    sentences 267 -> 268, with_a_number 106 -> 105
+        emc-fusion-partner-stratification.md     with_a_number 221 -> 219
+
+    `covered` moved for NO document, so no coverage floor moves and none is lowered — the blast
+    radius `claim_coverage` records for the pattern-narrowing question did not materialise here,
+    because the four affected sentences were uncovered non-claims. What shrank is the DENOMINATOR:
+    three of the four had `has_number: True` on the `3` of `python3`.
     """
     assert cc._flatten("A claim.\n\n```\nsome code line\n```\n\nmore claim.") == (
+        "A claim. more claim.")
+
+
+def test_a_tilde_fence_is_dropped_too():
+    """Markdown's other fence marker. A flattener that knows one and not the other is a list."""
+    assert cc._flatten("A claim.\n\n~~~\nsome code line\n~~~\n\nmore claim.") == (
+        "A claim. more claim.")
+
+
+def test_an_unterminated_fence_is_left_alone_rather_than_swallowing_the_file():
+    """⛔ THE FAILURE DIRECTION A GREEDY BLOCK PATTERN WOULD HAVE: an odd number of markers, and
+    everything after the last one disappears from the census with no gate saying so. The block
+    pattern requires BOTH markers; a lone one still falls to the line filter, exactly as before."""
+    assert cc._flatten("A claim.\n\n```\nsome code line\n\nmore claim.") == (
         "A claim. some code line more claim.")
+
+
+def test_a_sentence_spanning_a_whole_fenced_block_is_still_locatable():
+    """⛔ THE PAIRING RULE. `_prose` and `_GAP` are one transformation; a construct stripped by the
+    first and unknown to the second makes every sentence carrying it unlocatable, which scores it
+    NOT_APPLIED — covered, and perturbed by nothing (AUT-PD-132)."""
+    raw = ("Reproduction is one command.\n\n```\npython3 research/manuscripts/thing.py --check\n"
+           "```\n\nVerified this session: 68.4% of cases.")
+    flat = "Reproduction is one command. Verified this session: 68.4% of cases."
+    m = cc.locate(raw, flat)
+    assert m is not None, "a sentence spanning a fenced block could not be located"
+    assert cc._flatten(m.group(0)) == flat
+
+
+def test_a_digit_inside_a_fenced_block_is_never_perturbed():
+    """⛔⛔ THE FALSE *RED* AUT-PD-149 LEFT OPEN, AND IT IS THE DANGEROUS DIRECTION. `ablate`
+    perturbs every digit run in the located span that survives flattening. Before the fix the span
+    could contain `python3 … --check`, so `python3` -> `python7` was a mutation of a COMMAND, and any
+    guard reddening on it would have reported the sentence's own claim bound."""
+    import re
+    raw = ("Reproduction is one command.\n\n```\npython3 research/manuscripts/thing.py --check\n"
+           "```\n\nVerified this session: 68.4% of 58 cases.")
+    flat = "Reproduction is one command. Verified this session: 68.4% of 58 cases."
+    span = cc.locate(raw, flat).group(0)
+    skip = cc.stripped_spans(span)
+    runs = [m.group(0) for m in re.finditer(r"\d+", span)
+            if not any(s <= m.start() < e for s, e in skip)]
+    assert runs == ["68", "4", "58"], f"perturbable runs were {runs}"
+    assert "3" not in runs, "the `3` of `python3` is perturbable — a false RED is now possible"
+
+
+def test_the_fence_branch_of_the_gap_carries_both_flags():
+    """⚠ THE BUG INSIDE THE FIX, IN THE SHAPE THIS FILE ALREADY MEASURED ONCE. The fence block needs
+    `(?s:` so `.` crosses the newlines INSIDE the block AND `(?m:` so the two markers anchor to their
+    own lines. Either flag alone is a branch that matches nothing, silently."""
+    assert "(?sm:" in cc._GAP, "the fenced-block branch lost a flag scope"
 
 
 # ---------------------------------------------------------------------------------------------

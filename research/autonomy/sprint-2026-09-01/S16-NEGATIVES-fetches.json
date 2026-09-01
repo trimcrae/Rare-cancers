@@ -1,0 +1,123 @@
+{
+  "_what_this_is": "Retrieval provenance for the literature identifiers seat S16-NEGATIVES cites in research/autonomy/sprint-2026-09-01/S16-NEGATIVES.md and had to fetch itself. It exists so that gate 12 (research/manuscripts/lint_citations.py) can see a fetch behind each one rather than a bare number in prose. Every record below is an identifier this seat RETRIEVED on 2026-09-01; nothing here is written from recollection.",
+  "_seat": "S16-NEGATIVES",
+  "_date_utc": "2026-09-01",
+  "_how_obtained": "PubMed E-utilities via this session's PubMed MCP server: mcp__PubMed__search_articles for the query, then mcp__PubMed__get_article_metadata for each PMID. Article metadata retrieved from PubMed; DOIs recorded verbatim as PubMed returned them.",
+  "_what_this_does_not_do": "It does not record a full-text read. Every record below is an ABSTRACT-level retrieval unless read_level says otherwise, and the findings file states its conclusions at that weight.",
+
+  "query_run": {
+    "tool": "mcp__PubMed__search_articles",
+    "query": "extraskeletal myxoid chondrosarcoma AND trabectedin",
+    "query_translation_returned_by_the_tool": "(\"chondrosarcoma extraskeletal myxoid\"[Supplementary Concept] OR \"chondrosarcoma extraskeletal myxoid\"[All Fields] OR \"extraskeletal myxoid chondrosarcoma\"[All Fields]) AND (\"trabectedin\"[Supplementary Concept] OR \"trabectedin\"[All Fields] OR \"trabectedin\"[MeSH Terms])",
+    "total_count": 7,
+    "has_more": false,
+    "pmids_returned": ["41323055", "36636521", "36568164", "32612944", "28698435", "27418251", "24555529"],
+    "the_bound_on_this_search": "This is PubMed's indexed intersection of the two terms, over titles, abstracts and index terms. It is NOT a statement that no other report exists: a trabectedin response inside a mixed-histology series whose abstract names neither term would not appear here, and four of the seven were read only at abstract level. The findings file states the negative at exactly this weight and no stronger."
+  },
+
+  "records": [
+    {
+      "pmid": "36568164",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36568164/",
+      "pmcid": "PMC9780071",
+      "doi": "10.3389/fonc.2022.1042479",
+      "title": "Transcription regulators and ultra-rare and other rare translocation-related sarcomas treated with trabectedin: A proof of principle from a post-hoc analysis",
+      "journal": "Frontiers in Oncology",
+      "year": 2022,
+      "read_level": "abstract",
+      "why_this_seat_fetched_it": "AUT-071 asks whether any sentence overstates a single trabectedin response in EMC. This is a second, independent EMC-labelled trabectedin dataset.",
+      "what_its_abstract_states": "Post-hoc analysis of the Italian Sarcoma Group TrObs study (NCT02793050). 36 patients with ultra-rare and other rare translocation-related sarcoma treated with trabectedin, of whom extraskeletal myxoid chondrosarcoma n=3. Among 35 evaluable for response, ORR 8.6% (95% CI 2.8-23.4%): partial responses in one solitary fibrous tumour and one alveolar soft part sarcoma, complete response in one desmoplastic small round cell tumour.",
+      "what_this_seat_concluded_from_it": "The three responders are named by histology and none is extraskeletal myxoid chondrosarcoma. Quoted at abstract level only; whether the paper reports the three EMC patients' individual best responses is UNREAD.",
+      "status_in_this_repository_at_time_of_fetch": "present only as a raw abstract record inside research/literature/rt-lung-mets-probe.json; absent from research/data/emc-clinical-registry.json and from every manuscript."
+    },
+    {
+      "pmid": "28698435",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/28698435/",
+      "doi": null,
+      "title": "[Histology-Specific Chemotherapy in Soft-Tissue Sarcomas]",
+      "journal": "Gan To Kagaku Ryoho",
+      "year": 2017,
+      "language": "jpn",
+      "read_level": "abstract",
+      "why_this_seat_fetched_it": "One of the seven records in the query above; checked so the negative covers the whole result set rather than a convenient subset.",
+      "what_its_abstract_states": "Review. Names extraskeletal myxoid chondrosarcoma among subtypes 'reported to have little response' to doxorubicin-based cytotoxic chemotherapy, and discusses trabectedin as a second-line option in Japan without reporting an EMC-specific response.",
+      "what_this_seat_concluded_from_it": "No reported objective response to trabectedin in an EMC patient."
+    },
+    {
+      "pmid": "24555529",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/24555529/",
+      "doi": "10.1586/14737140.2014.885840",
+      "title": "Emerging therapies for adult soft tissue sarcoma",
+      "journal": "Expert Review of Anticancer Therapy",
+      "year": 2014,
+      "read_level": "abstract",
+      "why_this_seat_fetched_it": "One of the seven records in the query above.",
+      "what_its_abstract_states": "Review. Names trabectedin as histology-driven chemotherapy for leiomyosarcoma, solitary fibrous tumour and myxoid/round cell liposarcoma, and names sunitinib -- not trabectedin -- for extraskeletal myxoid chondrosarcoma.",
+      "what_this_seat_concluded_from_it": "No reported objective response to trabectedin in an EMC patient."
+    },
+    {
+      "pmid": "36636521",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36636521/",
+      "pmcid": "PMC9831112",
+      "doi": "10.7759/cureus.33601",
+      "title": "Extraskeletal Myxoid Chondrosarcoma of the Vulva: A Case Report",
+      "journal": "Cureus",
+      "year": 2023,
+      "read_level": "abstract",
+      "already_anchored_elsewhere": "research/literature/fusion-consensus-probe.json",
+      "why_this_seat_fetched_it": "It is the closest indexed match to the unidentified 'trabectedin + radiotherapy long-term response in metastatic EMC' case report that research/manuscripts/program/emc-treatment-roadmap.md flags as an OPEN reference item.",
+      "what_its_abstract_states": "EWSR1-NR4A3-confirmed EMC of the vulva. Trabectedin was given as FOURTH-line chemotherapy after pazopanib, doxorubicin and eribulin. The paper's own stated conclusion is 'there was no local recurrence for three years after radiotherapy, suggesting the effectiveness of radiotherapy in local control'.",
+      "what_this_seat_concluded_from_it": "If this is the case the roadmap means, the long-term control it reports is attributed by its own authors to radiotherapy, not to trabectedin. ⚠ This seat does NOT assert that this is the case the roadmap means -- the roadmap gives no identifier, which is the defect being reported."
+    },
+    {
+      "pmid": "41323055",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/41323055/",
+      "pmcid": "PMC12659415",
+      "doi": "10.1159/000548238",
+      "title": "Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxoid Chondrosarcoma Repeatedly Treated with Surgical Excision or Stereotactic Radiotherapy Alone: A Case Report",
+      "journal": "Case Reports in Oncology",
+      "year": 2025,
+      "read_level": "abstract",
+      "already_anchored_elsewhere": "research/literature/rt-lung-mets-probe.json, research/literature/emc-prior-art-2026-08-09.json; full text already read by this repository under AUT-RT-001 / CYC-0054",
+      "why_this_seat_fetched_it": "Its title contains both 'Excellent Response' and a radiotherapy modality, so it is a candidate for the roadmap's unidentified case.",
+      "what_this_seat_concluded_from_it": "It is NOT a trabectedin response. The response is to surgical excision or stereotactic ablative radiotherapy ALONE, as its own title states; trabectedin appears only in a background sentence about ongoing studies."
+    },
+    {
+      "pmid": "32856598",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32856598/",
+      "doi": "10.1158/1055-9965.EPI-20-0447",
+      "title": "Long-term Outcomes for Extraskeletal Myxoid Chondrosarcoma: A SEER Database Analysis",
+      "journal": "Cancer Epidemiology, Biomarkers & Prevention",
+      "year": 2020,
+      "read_level": "abstract",
+      "already_anchored_elsewhere": "research/modalities/emc-icdo-contamination.json",
+      "why_this_seat_fetched_it": "It is the named reopen condition for PUB-EMC-CLASSIFICATION (AUT-051): whether it restricted on topography. Its reachability was last measured 2026-08-23 and a reachability record is a dated observation.",
+      "pmcid_check_2026_09_01": "mcp__PubMed__convert_article_ids returned the pmid only, with NO pmcid field -- still not in PMC, no NIH author-manuscript deposit.",
+      "what_its_abstract_states": "'We queried the Surveillance, Epidemiology, and End Results (SEER) 1973-2016 database for patients with myxoid chondrosarcoma (ICD-O-3: 9231/3).' No topography restriction is stated. 'Locoregional disease (LRD) was found in 373 (85%) of patients.'",
+      "what_this_seat_concluded_from_it": "Unchanged from what is already committed: the abstract states no topography restriction, and the absence of a stated restriction is not evidence that none was applied. The reopen condition is NOT met. 373/439 = 84.97% reconciles with the abstract's own 85%, which corroborates the 439 independently of the 2025 review it otherwise reaches this repository through."
+    },
+    {
+      "pmcid": "PMC7492874",
+      "pmid": "32963861",
+      "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32963861/",
+      "doi": "10.1155/2020/2684746",
+      "title": "Extraskeletal Myxoid Chondrosarcoma: Long-Term Survival in the Setting of Metastatic Disease",
+      "year": 2020,
+      "read_level": "full text",
+      "already_anchored_elsewhere": "research/data/emc-clinical-registry.json references list",
+      "why_this_seat_fetched_it": "It sits in the registry's reference list beside the trabectedin entry with the note 'long-term survival is possible even with metastatic EMC', and its title makes it a candidate for the roadmap's unidentified long-term-response case.",
+      "what_its_full_text_states": "Three EMC patients with pulmonary metastases managed with close clinical and radiographic OBSERVATION. Its own words for each: 'No systemic treatment was received.' Its take-home messages begin 'EMC does not respond well to currently available systemic treatments'.",
+      "what_this_seat_concluded_from_it": "⛔ RULED OUT as the roadmap's missing trabectedin citation. It is an observation-only series and mentions no trabectedin. Recorded because its position in the reference list makes it an easy mis-attribution."
+    }
+  ],
+
+  "identifiers_cited_in_the_findings_file_that_this_seat_did_not_fetch": {
+    "_why_listed": "So the findings file's evidence base is separable into what this seat retrieved and what it read out of already-committed artifacts.",
+    "PMID 31283732 / PMC6903832": "the topography-split study supplying 404 and 191 -- read from research/modalities/emc-icdo-contamination.json -> topography_split_study and size, which records a full-text read of the article PDF",
+    "PMC9303001": "the pan-sarcoma base-rate study -- same artifact, base_rate_of_bone_primaries",
+    "PMC7563993": "the 2020 EMC review supporting primary EMC of bone -- same artifact, bone_primary_is_not_automatically_not_emc",
+    "PMC9290890": "CBTRUS grouping document, the third reading -- same artifact, third_reading",
+    "PMID 27418251": "the trabectedin sub-analysis -- read from research/data/emc-clinical-registry.json -> treatments.systemicEvidenceCorrections, which records a full-text read",
+    "PMID 32612944": "Chiusole 2020 -- same registry, systemicEvidence row"
+  }
+}

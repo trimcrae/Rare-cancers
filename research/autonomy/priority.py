@@ -36,6 +36,7 @@ from __future__ import annotations
 import argparse
 import json
 import pathlib
+import re
 import sys
 from typing import Any
 
@@ -118,6 +119,101 @@ PARKED_STATE = "parked"
 def _load(name: str) -> Any:
     with (GRAPH / name).open() as fh:
         return json.load(fh)
+
+
+#: The authority record, read rather than remembered. `publish_bar.py::authority_permits` is the
+#: enforcement; this is the same file, consulted for a different question — not "may this post
+#: happen?" but "is there a human decision in this row at all?".
+AUTHORITY_FILE = HERE / "publication-authority.json"
+
+
+def _aixiv_grant_covers(endpoint: dict | None) -> bool:
+    """Is this endpoint's outward act one the standing aiXiv grant already permits, unattended?
+
+    ⛔⛔ WHY THIS EXISTS, AND IT IS A CORRECTION TO A ROW THIS FUNCTION'S ABSENCE PRODUCED.
+    `requires_trimcrae` was never computed. It was hand-typed onto rows once and then carried
+    across every re-score by `merge()`'s forward-compat `setdefault` loop, so a judgement made in
+    one session became a permanent property of the row that nothing re-examined. Measured
+    2026-09-01: thirteen rows carried it, `publish_bar` said the act was impossible on all thirteen,
+    and the Stop hook chased them one per stop (AUT-PD-203).
+
+    ⚠ AND IT COST A REAL ESCALATION THE SAME DAY. AUT-073 ("publish the eligibility map") carried
+    `requires_trimcrae_why: "§3 is per paper, per act: he must name THIS one for THIS act"`. Its
+    endpoint, PUB-STRATEGY-ARCH, is aimed at `preprint` — an aiXiv post, which the standing grant has
+    covered since 2026-08-26. The hook fired, a session escalated it, and trimcrae answered:
+    *"You don't need my permission to post to aixiv ever. That should be written into your rules.
+    This was not a good use of escalation."* ★ CLAUDE.md §3 ALREADY SAID SO, in the bullet added
+    after this exact misreading happened once before. **A rule that had already been written twice
+    was broken a third time, because it lived in prose and nothing computed it.** This is the
+    computation.
+
+    ★ THE ANSWER IS DERIVED FROM TWO COMMITTED ARTIFACTS AND NOTHING ELSE:
+      `systems/graph/publications.json` → `target_venue`, and
+      `research/autonomy/publication-authority.json` → the aiXiv grant and its deny-list.
+    A venue this repository has no standing grant for — a journal, a DOI, a release, an outreach
+    package — is untouched and stays his.
+
+    ⛔ FAIL CLOSED, IN THE DIRECTION THAT KEEPS THE ESCALATION. Anything unreadable, any endpoint
+    with no venue, any grant that is not live, returns False — which leaves the row exactly as it
+    was. This function may only ever REMOVE a false escalation; it can never create one.
+
+    ⚠⚠ AND IT CONTRADICTS A DOCSTRING IN THIS SAME FILE, WHICH IS SAID HERE RATHER THAN LEFT FOR A
+    READER TO TRIP OVER. `apply_requires_trimcrae` says the field "is therefore unreachable at
+    derive time", on two stated grounds: `build_entries` reads only `systems/graph`, and a route
+    legitimately has several next steps of which only one is his act. **Both grounds are about
+    setting the field TRUE, and both survive.** Deciding an arbitrary row IS his needs ledger
+    context this function does not have — so it never does that. Deciding that a row's endpoint is
+    covered by a standing grant needs the graph and the authority file, which is all this reads;
+    and the several-next-steps objection is handled by `_names_an_act_beyond_posting`, which is why
+    that screen exists rather than the venue test standing alone. ★ The narrower reading is the
+    correct one: TRUE is unreachable at derive time, FALSE-by-standing-grant is not.
+    """
+    if not isinstance(endpoint, dict):
+        return False
+    if endpoint.get("target_venue") != "preprint":
+        return False
+    try:
+        with AUTHORITY_FILE.open() as fh:
+            authority = json.load(fh)
+    except (OSError, ValueError):
+        return False  # cannot read the grant -> cannot claim it covers anything
+    aixiv = authority.get("aixiv")
+    if not isinstance(aixiv, dict) or aixiv.get("standing_grant") is not True:
+        return False
+    scope = aixiv.get("scope")
+    if not isinstance(scope, dict):
+        return False
+    excluded = scope.get("excluded_papers")
+    if isinstance(excluded, dict) and endpoint.get("id") in excluded:
+        return False  # PUB-ASO is named here, by trimcrae, and stays his
+    return True
+
+
+#: ⛔ THE SECOND-ACT SCREEN, AND IT EXISTS BECAUSE THE FIRST VERSION OF THIS CHANGE WOULD HAVE
+#: SWALLOWED A REAL ESCALATION. AUT-046 reads "Post the preprint AND put the MTAP stain in front of
+#: a group holding EMC archival material." Its endpoint is aimed at `preprint`, so the venue test
+#: above clears it — and the SECOND act, approaching a group, is outreach under trimcrae's name that
+#: no grant covers and that he has never delegated. Clearing that row would have deleted a genuine
+#: decision on the strength of a venue field that describes only half of it.
+#: ★ SO THE VENUE TEST IS NECESSARY AND NOT SUFFICIENT: a row is cleared only if its text names no
+#: act beyond posting.
+#: ⚠ AND THIS IS A TEXT SCREEN, WHICH IS WEAKER THAN THE VENUE TEST AND IS SAID SO PLAINLY. It reads
+#: prose a human wrote, so a second act phrased in words absent from this list slips through. It is
+#: used anyway because it fails in the direction that KEEPS an escalation, and because the state it
+#: replaces is not "a careful judgement" — it is a field nothing has recomputed since the day it was
+#: typed. A row wrongly retained costs one notification; a row wrongly cleared costs a decision that
+#: is never made. Those are not symmetric, and the screen is tuned for the cheaper mistake.
+_SECOND_ACT = re.compile(
+    r"\b(e-?mail|contact|approach|reach out|outreach|collaborat|put .{0,30}in front of|"
+    r"journal submission|submit .{0,20}to a journal|zenodo|doi|mint|release|press|"
+    r"qeios|correspond|introduce)", re.I)
+
+
+def _names_an_act_beyond_posting(entry: dict) -> bool:
+    """Does this row's own text name an act the aiXiv grant does not reach?"""
+    haystack = " ".join(str(entry.get(k) or "") for k in (
+        "what", "requires_trimcrae_why", "_requires_trimcrae_why"))
+    return bool(_SECOND_ACT.search(haystack))
 
 
 def load_weights() -> dict:
@@ -326,6 +422,40 @@ def build_entries(weights: dict | None = None) -> list[dict]:
                 "score_inputs": inputs,
             }
         )
+
+    # ⛔⛔ THE ONE THING THIS PASS MAY DO TO `requires_trimcrae`: TURN IT OFF, NEVER ON.
+    # The field is otherwise hand-typed and carried forward for ever by `merge()`'s setdefault
+    # loop, so a judgement made once outlives the reason for it. This clears it — and ONLY clears
+    # it — where the outward act is one the standing aiXiv grant already permits unattended.
+    # ★ Written EXPLICITLY as False so `merge()`'s `entry.setdefault(key, value)` cannot resurrect
+    # the stale True from the previous generation of the row. The key is OMITTED in every other
+    # case, deliberately, so that a hand-set `requires_trimcrae` on a journal, DOI, release or
+    # outreach row survives untouched — see the "ALWAYS WRITTEN, INCLUDING AS None" note above for
+    # why the distinction between writing None and omitting the key is load-bearing here.
+    # ⛔ THE ANTI-GAMING ANSWER, WRITTEN DOWN RATHER THAN LEFT IMPLICIT (amendment_guard.py): this
+    # makes the loop escalate LESS, which is the direction that deserves suspicion. Three things
+    # defend it and none of them is convenience. (1) trimcrae asked for it in these words, on
+    # 2026-09-01: "You don't need my permission to post to aixiv ever. That should be written into
+    # your rules." (2) It is computed from two committed artifacts, so it is falsifiable by reading
+    # them rather than by trusting this session. (3) It makes the loop do MORE work, not less — a
+    # row it can no longer file as "awaiting trimcrae" is a row it has to finish.
+    # ⚠ Keyed on the entry's own `serves.publication` rather than zipped against the route list.
+    # A zip would be correct today — `entries` is built in `sorted(routes, key=id)` order — and
+    # would silently mis-pair the moment anything filters or reorders either list. This is the
+    # cheaper thing to get right once.
+    for entry in entries:
+        endpoint = endpoints.get((entry.get("serves") or {}).get("publication"))
+        if _aixiv_grant_covers(endpoint) and not _names_an_act_beyond_posting(entry):
+            entry["requires_trimcrae"] = False
+            entry["_requires_trimcrae_why"] = (
+                "DERIVED, not judged: this route's endpoint "
+                f"{(endpoint or {}).get('id')} is aimed at `preprint`, the standing aiXiv grant in "
+                "publication-authority.json covers it, and it is not in that grant's "
+                "`excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the "
+                "paper is READY — publish_bar decides that, and it is the loop's own work either "
+                "way. If this route ever acquires an act at another venue, that act is his and this "
+                "field is not the place to record it."
+            )
 
     entries = apply_clamps(entries, weights)
     entries.sort(key=lambda e: (-e["score"], e["serves"]["route"]))
@@ -623,12 +753,23 @@ def merge(generated: list[dict], existing: dict | None) -> list[dict]:
     # it — so the route is not an identity.
     by_route = {e["serves"]["route"]: e for e in prior
                 if e.get("_derived") and isinstance(e.get("serves"), dict) and e["serves"].get("route")}
+    # ⛔⛔ THE ORDINAL IS PARSED BY `ids.parse_entry_id`, NOT BY SPLITTING ON THE LAST DASH.
+    # This read `int(id.rsplit("-", 1)[-1])` inside a bare `except ValueError: pass`, which was
+    # correct for exactly as long as every ledger id ended in its ordinal. It stopped being correct
+    # on 2026-09-01, when `ids.next_entry_id` began appending a session discriminator to stop two
+    # concurrent sessions minting the same id (AUT-PD-171): `AUT-PD-204-6b009680` splits to
+    # `6b009680`, `int()` raises, and the `except` swallows it — so a discriminated row is INVISIBLE
+    # to `used`, and the derived `AUT-NNN` counter stops de-conflicting against it.
+    # ⚠ THE FAILURE MODE IS SILENT AND THE `except` IS WHY: nothing goes red, the id set is simply
+    # short, and the next derived row is minted onto a number a hand-filed row already holds — where
+    # `merge()`'s duplicate check finds it, one step too late to say what caused it. Found by the
+    # seat that made the change, in the file it does not own, and handed over rather than reached
+    # into. One regex, in `ids`, read by allocator and readers alike.
     used = set()
     for e in prior:
-        try:
-            used.add(int(str(e.get("id", "")).rsplit("-", 1)[-1]))
-        except ValueError:
-            pass
+        parsed = ids.parse_entry_id(str(e.get("id", "")))
+        if parsed is not None:
+            used.add(parsed[1])
     next_id = max(used) + 1 if used else 1
 
     for entry in generated:

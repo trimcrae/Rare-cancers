@@ -1,0 +1,1584 @@
+{
+  "_schema": "emc-scheduling-medians/1",
+  "_generated_by": "research/modalities/emc_scheduling_medians.py",
+  "_do_not_hand_edit": "Every median, interval, quote, citation and count here is read at run time from research/manuscripts/endpoint/emc-systemic-therapy-pooling.json and recomputed by the generator. To change an input, change it in that file and regenerate; a hand edit will be silently overwritten and will not carry the provenance the number arrived with.",
+  "_input_artifact": {
+    "path": "research/manuscripts/endpoint/emc-systemic-therapy-pooling.json",
+    "sha256": "5c0d5f65a44ddd28d9cd79f9c86e34a6b4effc52d9c6a7412bd8d66d53fc450d",
+    "why_the_digest_is_here": "so a reader can prove which bytes these four medians came from without re-deriving them, and so a change to the owner file is a byte comparison rather than an argument."
+  },
+  "title": "The two-population scheduling model for extraskeletal myxoid chondrosarcoma, calibrated to four medians carried separately - one of which has no dispersion at all",
+  "route": "RT-SCHEDULING",
+  "ledger_item": "AUT-060",
+  "what_this_is_not": {
+    "not_a_pool": "no quantity here combines two arms. POLICY-evidence s2.4 never merges time-anchored endpoints and the owner artifact refuses the neighbouring pool explicitly (analyses.A7_the_pool_that_is_refused).",
+    "not_a_ranking": "the four arms are different regimens, different lines, different eras, different countries and two different response-assessment standards. They are printed in the order the owner file prints them and no ordering is implied.",
+    "not_a_test": "no test statistic and no p-value is computed anywhere in this file, for the reasons the owner artifact already states.",
+    "not_a_prediction": "no progression-free survival is emitted for any schedule, adaptive or continuous. Every rate parameter of this model is unmeasured in EMC in vivo, so a number with a time unit on it would be a simulation output wearing clinical clothes.",
+    "asserts_nothing_about_any_drug": "no efficacy, comparative-effectiveness, safety, therapeutic-window or clinical-readiness statement is made about pazopanib, sunitinib, nivolumab, anthracyclines, ifosfamide, trabectedin, apatinib or any other agent, and no treatment recommendation of any kind, including a negative one. Adaptive scheduling has never been tested in EMC or in any sarcoma."
+  },
+  "method": {
+    "policy": "systems/POLICY-evidence.md s2.4 (time-to-event carried per row, never merged) and s2.6(f) (a median-to-rate conversion is a labelled DISPLAY quantity and may never be an input to a summary).",
+    "s2_6f_compliance": "every rate in this file is a per-arm display quantity. No summary anywhere in the output takes a rate as an input: the only cross-arm objects computed are (a) the max/min ratio of the four MEDIANS in `convention_vs_data`, which is a ratio of the published times themselves, and (b) worst-case variation ratios in `identifiability`, which are properties of the MODEL's response to its own parameter grid and contain no patient data.",
+    "model": "two-population competitive Lotka-Volterra, carrying capacity normalised to 1, symmetric competition, drug acts only on the sensitive population - the same structural form as research/modalities/emc-adaptive-pazopanib.json so the two are comparable.",
+    "progression_rule": "RECIST 1.1 size criterion measured from the NADIR. New-lesion progression has no representation in a two-compartment burden model and is not modelled; it shortens real progression-free time relative to the model's.",
+    "burden_unit_conventions": {
+      "diameter_1.20": 1.2,
+      "volume_1.728": 1.728
+    },
+    "integrator": "explicit Euler, dt = 1.0 day, horizon 25.0 years",
+    "fit": "bisection on r_R to 1e-9/day against each arm's own median",
+    "grid": {
+      "initial_resistant_fraction": [
+        0.0001,
+        0.001,
+        0.01,
+        0.05,
+        0.2
+      ],
+      "resistance_cost": [
+        0.0,
+        0.3
+      ],
+      "delta_over_r_S": 3.0,
+      "initial_burden_fraction_of_K": 0.5
+    },
+    "scope_declared_up_front": "deterministic integration, one progression rule, two burden conventions, one parameter grid. No bootstrap, no Monte Carlo, no replicate seeds, no reactive sensitivity layer. CLAUDE.md s5: run each test to its field standard and stop.",
+    "identification_assumption": "the observed MEDIAN of a cohort's progression-free times is identified with the single deterministic time to progression of one model trajectory. That is the standard median-calibration assumption and it is false in detail: the median of a distribution of times is not the time of the median parameter set. It is stated here rather than buried because it, and not the arithmetic, is the weakest joint in the chain."
+  },
+  "the_parameterisation_this_file_exists_for": {
+    "statement": "four medians, four parameters, four intervals of THREE DIFFERENT KINDS, and one arm with no interval at all.",
+    "dispersion_kinds_present": [
+      "ci95",
+      "none",
+      "observed_range"
+    ],
+    "n_arms": 4,
+    "n_arms_whose_interval_can_be_propagated": 3,
+    "n_arms_carried_as_a_point_with_no_width": 1,
+    "kind_definitions": {
+      "ci95": {
+        "what_it_is": "a 95% confidence interval on the median, published by the source",
+        "may_be_propagated": true,
+        "how": "mapped endpoint-for-endpoint through the same monotone transform used for the point. A monotone reparameterisation of an interval preserves its coverage, so the result is a 95% interval FOR THE TRANSFORMED PARAMETER -- conditional on the model that does the transforming, whose own error the interval does not cover."
+      },
+      "observed_range": {
+        "what_it_is": "the minimum and maximum progression-free time OBSERVED among that cohort's patients",
+        "may_be_propagated": true,
+        "how": "mapped the same way, and the result is a range of PER-PATIENT rates, NOT an uncertainty interval on the arm's median rate. ⛔ It must never be read as a confidence interval: an observed range widens with sample size where a confidence interval narrows, so the two move in OPPOSITE directions and quoting one as the other inverts what the number means."
+      },
+      "none": {
+        "what_it_is": "the source prints no interval, no range and no number at risk",
+        "may_be_propagated": false,
+        "how": "nothing is propagated. The transformed point is emitted with `interval: null` and `propagated: false`. ⛔ A zero-width interval is NOT emitted, because `[x, x]` is indistinguishable in every downstream reading from a quantity measured to arbitrary precision."
+      }
+    },
+    "⛔_the_error_this_blocks": "emitting [9.0, 9.0] for the Chiusole arm. A zero-width interval is indistinguishable downstream from a quantity measured to arbitrary precision, so the arm with the WEAKEST dispersion reporting would plot as the STRONGEST. The artifact emits null with a reason instead, at every level.",
+    "⭐_and_the_inversion_worth_noticing": "the arm with no dispersion is the best-verified median in the set - Chiusole's 9 months was re-acquired three independent ways at HTTP 200 after this repository had asserted, wrongly and twice, that the paper reported no median at all. The arm with the tightest interval, pazopanib's 19 months (95% CI 11-27), is read from a REVIEW's account of the trial rather than from the trial report. Interval width and evidentiary standing are orthogonal, and only the width is visible in a plot."
+  },
+  "arms": [
+    {
+      "arm": "pazopanib_phase2",
+      "regimen": "Pazopanib 800 mg/day",
+      "regimen_class": "VEGFR-directed TKI",
+      "median_pfs_months": 19.0,
+      "dispersion": {
+        "kind": "ci95",
+        "interval_months": [
+          11.0,
+          27.0
+        ],
+        "as_the_source_reports_it": "95% confidence interval",
+        "may_be_propagated": true
+      },
+      "provenance_of_this_median": "SECONDARY FOR THE MEDIAN. The cohort's response counts are primary (the trial report), but the source row states the median PFS of 19 months (95% CI 11-27) is read from the Remiszewski 2025 review's account of the same trial. The sibling model research/modalities/emc_adaptive_pazopanib.py records the same thing independently: the primary abstract does not state a median PFS.",
+      "design_tier": "prospective trial, central molecular confirmation",
+      "n_started": 26,
+      "source": {
+        "sourceId": "stacchiotti2019pazopanib",
+        "short": "Stacchiotti 2019",
+        "pmid": "31331701",
+        "pmcid": null,
+        "doi": "10.1016/S1470-2045(19)30319-5",
+        "year": 2019,
+        "type": "journal-article",
+        "read_from": "research/manuscripts/endpoint/emc-systemic-therapy-pooling.json -> cohorts[pazopanib_phase2] and analyses.A5_time_to_event_never_pooled.emc_specific_medians"
+      },
+      "continuous_exposure_assumption": "FAIR. Continuously dosed oral agents taken until progression, which is what the calibration assumes."
+    },
+    {
+      "arm": "sunitinib_nivolumab_immunosarc2",
+      "regimen": "Sunitinib 37.5 mg/day x14d then 25 mg/day + nivolumab 240 mg q2w",
+      "regimen_class": "VEGFR-directed TKI + PD-1 inhibitor",
+      "median_pfs_months": 13.2,
+      "dispersion": {
+        "kind": "ci95",
+        "interval_months": [
+          5.7,
+          20.7
+        ],
+        "as_the_source_reports_it": "95% confidence interval",
+        "may_be_propagated": true
+      },
+      "provenance_of_this_median": "PRIMARY BUT CONFERENCE ABSTRACT ONLY. The median and its CI are quoted verbatim from the abstract; no full paper exists against which to check them, and the source row records two internal inconsistencies elsewhere in the same abstract.",
+      "design_tier": "prospective trial, central pathology; CONFERENCE ABSTRACT ONLY",
+      "n_started": 24,
+      "source": {
+        "sourceId": "immunosarc2emc2025",
+        "short": "Hindi 2025 (ASCO abstract)",
+        "pmid": null,
+        "pmcid": null,
+        "doi": "10.1200/JCO.2025.43.16_suppl.11513",
+        "year": 2025,
+        "type": "conference-abstract",
+        "read_from": "research/manuscripts/endpoint/emc-systemic-therapy-pooling.json -> cohorts[sunitinib_nivolumab_immunosarc2] and analyses.A5_time_to_event_never_pooled.emc_specific_medians"
+      },
+      "continuous_exposure_assumption": "FAIR. Continuously dosed oral agents taken until progression, which is what the calibration assumes."
+    },
+    {
+      "arm": "anthracycline_italian_rcn",
+      "regimen": "Anthracycline-based chemotherapy (10/11 combined with ifosfamide)",
+      "regimen_class": "cytotoxic chemotherapy",
+      "median_pfs_months": 8.0,
+      "dispersion": {
+        "kind": "observed_range",
+        "interval_months": [
+          2.0,
+          10.0
+        ],
+        "as_the_source_reports_it": "observed range, not a confidence interval",
+        "may_be_propagated": true
+      },
+      "provenance_of_this_median": "PRIMARY. 'Median PFS was 8 (range 2-10) months' is quoted from the primary report (Clin Sarcoma Res 2013;3:16), which the source row resolved from a review's free-text reference and confirmed against the Europe PMC record.",
+      "design_tier": "retrospective series, central pathology review + molecular confirmation",
+      "n_started": 11,
+      "source": {
+        "sourceId": "stacchiotti2013anthracycline",
+        "short": "Stacchiotti 2013 (anthracycline)",
+        "pmid": null,
+        "pmcid": null,
+        "doi": "10.1186/2045-3329-3-16",
+        "year": 2013,
+        "type": "journal-article",
+        "read_from": "research/manuscripts/endpoint/emc-systemic-therapy-pooling.json -> cohorts[anthracycline_italian_rcn] and analyses.A5_time_to_event_never_pooled.emc_specific_medians"
+      },
+      "continuous_exposure_assumption": "APPROXIMATE. The calibration below reads the median as time under continuous drug exposure ending at progression. Cytotoxic chemotherapy is given for a bounded number of cycles, so part of this arm's progression-free time is OFF treatment and the fitted rate is a blend of on- and off-treatment growth. Recorded per arm rather than corrected; it is one more reason the four arms are not comparable."
+    },
+    {
+      "arm": "chiusole_metastatic_chemo",
+      "regimen": "chemotherapy for metastatic disease",
+      "regimen_class": null,
+      "median_pfs_months": 9.0,
+      "dispersion": {
+        "kind": "none",
+        "interval_months": null,
+        "as_the_source_reports_it": "NONE REPORTED - the source prints this median with no interval, no range and no number at risk",
+        "may_be_propagated": false
+      },
+      "provenance_of_this_median": "PRIMARY, FULL TEXT, VERIFIED THREE WAYS -- and with no dispersion of any kind. The source row records three independent HTTP 200 acquisitions of the sentence (Europe PMC full-text XML, PMC HTML, publisher landing page) under GitHub Actions run 31276131242. ⭐ This arm is therefore the BEST-VERIFIED median in the set and the ONE THAT CANNOT BE PROPAGATED. Verification standing and dispersion availability are orthogonal, and a model that ranks arms by interval width has silently ranked them by how their sources chose to typeset a result.",
+      "design_tier": null,
+      "n_started": null,
+      "source": {
+        "sourceId": "chiusole2020",
+        "short": "Chiusole 2020",
+        "pmid": "32612944",
+        "pmcid": "PMC7308468",
+        "doi": "10.3389/fonc.2020.00828",
+        "year": 2020,
+        "type": "journal-article",
+        "read_from": "research/manuscripts/endpoint/emc-systemic-therapy-pooling.json -> context_only_no_extractable_counts[chiusole_metastatic_chemo] and analyses.A5_time_to_event_never_pooled.emc_specific_medians"
+      },
+      "continuous_exposure_assumption": "FAIR. Continuously dosed oral agents taken until progression, which is what the calibration assumes."
+    }
+  ],
+  "L1_analytic_calibration": [
+    {
+      "arm": "pazopanib_phase2",
+      "median_pfs_months": 19.0,
+      "dispersion_kind": "ci95",
+      "by_convention": {
+        "diameter_1.20": {
+          "progression_threshold_burden_ratio": 1.2,
+          "resistant_compartment_growth_rate_lower_bound_per_month": 0.009596,
+          "equivalent_doubling_time_upper_bound_months": 72.234,
+          "why_a_bound_and_not_an_estimate": "the median covers time to nadir PLUS the regrowth phase; only the regrowth phase is exponential at r_R, so any non-zero time to nadir makes the true r_R larger than this. New-lesion progression, which the model cannot represent, pushes the same way.",
+          "interval": {
+            "kind": "ci95",
+            "propagated": true,
+            "growth_rate_bound_per_month": [
+              0.006753,
+              0.016575
+            ],
+            "doubling_time_bound_months": [
+              41.82,
+              102.648
+            ],
+            "reading": "a 95% interval for the transformed parameter, by equivariance of a monotone reparameterisation. It covers the sampling error in the median and NOTHING about the model that transformed it."
+          }
+        },
+        "volume_1.728": {
+          "progression_threshold_burden_ratio": 1.728,
+          "resistant_compartment_growth_rate_lower_bound_per_month": 0.028788,
+          "equivalent_doubling_time_upper_bound_months": 24.078,
+          "why_a_bound_and_not_an_estimate": "the median covers time to nadir PLUS the regrowth phase; only the regrowth phase is exponential at r_R, so any non-zero time to nadir makes the true r_R larger than this. New-lesion progression, which the model cannot represent, pushes the same way.",
+          "interval": {
+            "kind": "ci95",
+            "propagated": true,
+            "growth_rate_bound_per_month": [
+              0.020258,
+              0.049724
+            ],
+            "doubling_time_bound_months": [
+              13.94,
+              34.216
+            ],
+            "reading": "a 95% interval for the transformed parameter, by equivariance of a monotone reparameterisation. It covers the sampling error in the median and NOTHING about the model that transformed it."
+          }
+        }
+      }
+    },
+    {
+      "arm": "sunitinib_nivolumab_immunosarc2",
+      "median_pfs_months": 13.2,
+      "dispersion_kind": "ci95",
+      "by_convention": {
+        "diameter_1.20": {
+          "progression_threshold_burden_ratio": 1.2,
+          "resistant_compartment_growth_rate_lower_bound_per_month": 0.013812,
+          "equivalent_doubling_time_upper_bound_months": 50.184,
+          "why_a_bound_and_not_an_estimate": "the median covers time to nadir PLUS the regrowth phase; only the regrowth phase is exponential at r_R, so any non-zero time to nadir makes the true r_R larger than this. New-lesion progression, which the model cannot represent, pushes the same way.",
+          "interval": {
+            "kind": "ci95",
+            "propagated": true,
+            "growth_rate_bound_per_month": [
+              0.008808,
+              0.031986
+            ],
+            "doubling_time_bound_months": [
+              21.67,
+              78.697
+            ],
+            "reading": "a 95% interval for the transformed parameter, by equivariance of a monotone reparameterisation. It covers the sampling error in the median and NOTHING about the model that transformed it."
+          }
+        },
+        "volume_1.728": {
+          "progression_threshold_burden_ratio": 1.728,
+          "resistant_compartment_growth_rate_lower_bound_per_month": 0.041437,
+          "equivalent_doubling_time_upper_bound_months": 16.728,
+          "why_a_bound_and_not_an_estimate": "the median covers time to nadir PLUS the regrowth phase; only the regrowth phase is exponential at r_R, so any non-zero time to nadir makes the true r_R larger than this. New-lesion progression, which the model cannot represent, pushes the same way.",
+          "interval": {
+            "kind": "ci95",
+            "propagated": true,
+            "growth_rate_bound_per_month": [
+              0.026423,
+              0.095959
+            ],
+            "doubling_time_bound_months": [
+              7.223,
+              26.232
+            ],
+            "reading": "a 95% interval for the transformed parameter, by equivariance of a monotone reparameterisation. It covers the sampling error in the median and NOTHING about the model that transformed it."
+          }
+        }
+      }
+    },
+    {
+      "arm": "anthracycline_italian_rcn",
+      "median_pfs_months": 8.0,
+      "dispersion_kind": "observed_range",
+      "by_convention": {
+        "diameter_1.20": {
+          "progression_threshold_burden_ratio": 1.2,
+          "resistant_compartment_growth_rate_lower_bound_per_month": 0.02279,
+          "equivalent_doubling_time_upper_bound_months": 30.414,
+          "why_a_bound_and_not_an_estimate": "the median covers time to nadir PLUS the regrowth phase; only the regrowth phase is exponential at r_R, so any non-zero time to nadir makes the true r_R larger than this. New-lesion progression, which the model cannot represent, pushes the same way.",
+          "interval": {
+            "kind": "observed_range",
+            "propagated": true,
+            "growth_rate_bound_per_month": [
+              0.018232,
+              0.091161
+            ],
+            "doubling_time_bound_months": [
+              7.604,
+              38.018
+            ],
+            "reading": "⛔ NOT A CONFIDENCE INTERVAL. This is the spread of the cohort's own observed progression-free times, re-expressed as rates. It describes between-patient variation, widens with cohort size, and may not be compared with the two CI arms above as though it were the same object."
+          }
+        },
+        "volume_1.728": {
+          "progression_threshold_burden_ratio": 1.728,
+          "resistant_compartment_growth_rate_lower_bound_per_month": 0.068371,
+          "equivalent_doubling_time_upper_bound_months": 10.138,
+          "why_a_bound_and_not_an_estimate": "the median covers time to nadir PLUS the regrowth phase; only the regrowth phase is exponential at r_R, so any non-zero time to nadir makes the true r_R larger than this. New-lesion progression, which the model cannot represent, pushes the same way.",
+          "interval": {
+            "kind": "observed_range",
+            "propagated": true,
+            "growth_rate_bound_per_month": [
+              0.054696,
+              0.273482
+            ],
+            "doubling_time_bound_months": [
+              2.535,
+              12.673
+            ],
+            "reading": "⛔ NOT A CONFIDENCE INTERVAL. This is the spread of the cohort's own observed progression-free times, re-expressed as rates. It describes between-patient variation, widens with cohort size, and may not be compared with the two CI arms above as though it were the same object."
+          }
+        }
+      }
+    },
+    {
+      "arm": "chiusole_metastatic_chemo",
+      "median_pfs_months": 9.0,
+      "dispersion_kind": "none",
+      "by_convention": {
+        "diameter_1.20": {
+          "progression_threshold_burden_ratio": 1.2,
+          "resistant_compartment_growth_rate_lower_bound_per_month": 0.020258,
+          "equivalent_doubling_time_upper_bound_months": 34.216,
+          "why_a_bound_and_not_an_estimate": "the median covers time to nadir PLUS the regrowth phase; only the regrowth phase is exponential at r_R, so any non-zero time to nadir makes the true r_R larger than this. New-lesion progression, which the model cannot represent, pushes the same way.",
+          "interval": {
+            "kind": "none",
+            "propagated": false,
+            "growth_rate_bound_per_month": null,
+            "doubling_time_bound_months": null,
+            "reading": "the source prints no interval, no range and no number at risk, so no interval exists to propagate and none is manufactured. ⛔ The uncertainty on this arm is UNKNOWN, which is not the same as small, and `[9.0, 9.0]` is never emitted."
+          }
+        },
+        "volume_1.728": {
+          "progression_threshold_burden_ratio": 1.728,
+          "resistant_compartment_growth_rate_lower_bound_per_month": 0.060774,
+          "equivalent_doubling_time_upper_bound_months": 11.405,
+          "why_a_bound_and_not_an_estimate": "the median covers time to nadir PLUS the regrowth phase; only the regrowth phase is exponential at r_R, so any non-zero time to nadir makes the true r_R larger than this. New-lesion progression, which the model cannot represent, pushes the same way.",
+          "interval": {
+            "kind": "none",
+            "propagated": false,
+            "growth_rate_bound_per_month": null,
+            "doubling_time_bound_months": null,
+            "reading": "the source prints no interval, no range and no number at risk, so no interval exists to propagate and none is manufactured. ⛔ The uncertainty on this arm is UNKNOWN, which is not the same as small, and `[9.0, 9.0]` is never emitted."
+          }
+        }
+      }
+    }
+  ],
+  "convention_vs_data": {
+    "convention_factor_on_every_rate": 3.0,
+    "how_it_arises": "ln(theta_volume)/ln(theta_diameter). Every rate this file computes is proportional to ln(theta), so switching burden-unit convention multiplies all of them by exactly this.",
+    "spread_of_the_four_medians_max_over_min": 2.375,
+    "median_months_used": [
+      8.0,
+      9.0,
+      13.2,
+      19.0
+    ],
+    "verdict": "THE UNDECLARED MODELLING CHOICE MOVES THE CALIBRATED PARAMETER FURTHER THAN THE FOUR COHORTS DIFFER FROM EACH OTHER.",
+    "so_what": "a reader comparing a rate from this model against a rate from any other model must check the burden-unit convention FIRST, because it dominates every between-arm difference available in this disease's published record. Neither convention is 'correct'; both are reported for every arm and neither is nominated as the default."
+  },
+  "L2_fitted_two_population_model": [
+    {
+      "arm": "pazopanib_phase2",
+      "median_pfs_months": 19.0,
+      "by_convention": {
+        "diameter_1.20": {
+          "grid": [
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.198363,
+              "fitted_doubling_time_months": 3.494,
+              "reproduced_ttp_months": 19.023,
+              "adaptive_ratio_nadir_rule": 0.1451,
+              "adaptive_ratio_baseline_rule": 1.4207,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.160352,
+              "fitted_doubling_time_months": 4.323,
+              "reproduced_ttp_months": 19.023,
+              "adaptive_ratio_nadir_rule": 0.1261,
+              "adaptive_ratio_baseline_rule": 1.4335,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.158365,
+              "fitted_doubling_time_months": 4.377,
+              "reproduced_ttp_months": 19.023,
+              "adaptive_ratio_nadir_rule": 0.1831,
+              "adaptive_ratio_baseline_rule": 1.3817,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.129256,
+              "fitted_doubling_time_months": 5.363,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.1574,
+              "adaptive_ratio_baseline_rule": 1.3842,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.119018,
+              "fitted_doubling_time_months": 5.824,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.2457,
+              "adaptive_ratio_baseline_rule": 1.3098,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.098477,
+              "fitted_doubling_time_months": 7.039,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.2076,
+              "adaptive_ratio_baseline_rule": 1.3223,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.09283,
+              "fitted_doubling_time_months": 7.467,
+              "reproduced_ttp_months": 19.023,
+              "adaptive_ratio_nadir_rule": 0.3299,
+              "adaptive_ratio_baseline_rule": 1.2047,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.077776,
+              "fitted_doubling_time_months": 8.912,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.2785,
+              "adaptive_ratio_baseline_rule": 1.2293,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.072271,
+              "fitted_doubling_time_months": 9.591,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.6038,
+              "adaptive_ratio_baseline_rule": 1.0941,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.061464,
+              "fitted_doubling_time_months": 11.277,
+              "reproduced_ttp_months": 19.023,
+              "adaptive_ratio_nadir_rule": 0.475,
+              "adaptive_ratio_baseline_rule": 1.1009,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            }
+          ],
+          "fitted_r_R_spread_over_the_whole_grid": {
+            "min": 0.061464,
+            "max": 0.198363,
+            "max_over_min": 3.2273
+          },
+          "adaptive_ratio_spread_nadir_rule": {
+            "min": 0.1261,
+            "max": 0.6038,
+            "max_over_min": 4.7883
+          },
+          "adaptive_ratio_spread_baseline_rule": {
+            "min": 1.0941,
+            "max": 1.4335,
+            "max_over_min": 1.3102
+          },
+          "l1_analytic_bound_per_month": 0.009596,
+          "l1_bound_is_below_every_fitted_value": true
+        },
+        "volume_1.728": {
+          "grid": [
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.221949,
+              "fitted_doubling_time_months": 3.123,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.2664,
+              "adaptive_ratio_baseline_rule": 1.371,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.182382,
+              "fitted_doubling_time_months": 3.801,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.2266,
+              "adaptive_ratio_baseline_rule": 1.381,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.182119,
+              "fitted_doubling_time_months": 3.806,
+              "reproduced_ttp_months": 19.023,
+              "adaptive_ratio_nadir_rule": 0.323,
+              "adaptive_ratio_baseline_rule": 1.3068,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.151398,
+              "fitted_doubling_time_months": 4.578,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.2734,
+              "adaptive_ratio_baseline_rule": 1.3273,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.143556,
+              "fitted_doubling_time_months": 4.828,
+              "reproduced_ttp_months": 19.023,
+              "adaptive_ratio_nadir_rule": 0.4128,
+              "adaptive_ratio_baseline_rule": 1.2514,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.121173,
+              "fitted_doubling_time_months": 5.72,
+              "reproduced_ttp_months": 19.023,
+              "adaptive_ratio_nadir_rule": 0.3437,
+              "adaptive_ratio_baseline_rule": 1.261,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.119502,
+              "fitted_doubling_time_months": 5.8,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.5087,
+              "adaptive_ratio_baseline_rule": 1.1547,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.102124,
+              "fitted_doubling_time_months": 6.787,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.4256,
+              "adaptive_ratio_baseline_rule": 1.1711,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.10565,
+              "fitted_doubling_time_months": 6.561,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.699,
+              "adaptive_ratio_baseline_rule": 1.0694,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.091311,
+              "fitted_doubling_time_months": 7.591,
+              "reproduced_ttp_months": 18.99,
+              "adaptive_ratio_nadir_rule": 0.59,
+              "adaptive_ratio_baseline_rule": 1.0674,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            }
+          ],
+          "fitted_r_R_spread_over_the_whole_grid": {
+            "min": 0.091311,
+            "max": 0.221949,
+            "max_over_min": 2.4307
+          },
+          "adaptive_ratio_spread_nadir_rule": {
+            "min": 0.2266,
+            "max": 0.699,
+            "max_over_min": 3.0847
+          },
+          "adaptive_ratio_spread_baseline_rule": {
+            "min": 1.0674,
+            "max": 1.381,
+            "max_over_min": 1.2938
+          },
+          "l1_analytic_bound_per_month": 0.028788,
+          "l1_bound_is_below_every_fitted_value": true
+        }
+      }
+    },
+    {
+      "arm": "sunitinib_nivolumab_immunosarc2",
+      "median_pfs_months": 13.2,
+      "by_convention": {
+        "diameter_1.20": {
+          "grid": [
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.285604,
+              "fitted_doubling_time_months": 2.427,
+              "reproduced_ttp_months": 13.175,
+              "adaptive_ratio_nadir_rule": 0.1446,
+              "adaptive_ratio_baseline_rule": 1.4215,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.230728,
+              "fitted_doubling_time_months": 3.004,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.1269,
+              "adaptive_ratio_baseline_rule": 1.4339,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.22808,
+              "fitted_doubling_time_months": 3.039,
+              "reproduced_ttp_months": 13.175,
+              "adaptive_ratio_nadir_rule": 0.182,
+              "adaptive_ratio_baseline_rule": 1.3612,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.186062,
+              "fitted_doubling_time_months": 3.725,
+              "reproduced_ttp_months": 13.175,
+              "adaptive_ratio_nadir_rule": 0.1571,
+              "adaptive_ratio_baseline_rule": 1.3846,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.171456,
+              "fitted_doubling_time_months": 4.043,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.2438,
+              "adaptive_ratio_baseline_rule": 1.3105,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.141813,
+              "fitted_doubling_time_months": 4.888,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.2065,
+              "adaptive_ratio_baseline_rule": 1.3209,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.133746,
+              "fitted_doubling_time_months": 5.183,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.3308,
+              "adaptive_ratio_baseline_rule": 1.2057,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.112028,
+              "fitted_doubling_time_months": 6.187,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.2786,
+              "adaptive_ratio_baseline_rule": 1.2291,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.104133,
+              "fitted_doubling_time_months": 6.656,
+              "reproduced_ttp_months": 13.175,
+              "adaptive_ratio_nadir_rule": 0.606,
+              "adaptive_ratio_baseline_rule": 1.094,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.088546,
+              "fitted_doubling_time_months": 7.828,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.4776,
+              "adaptive_ratio_baseline_rule": 1.1007,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            }
+          ],
+          "fitted_r_R_spread_over_the_whole_grid": {
+            "min": 0.088546,
+            "max": 0.285604,
+            "max_over_min": 3.2255
+          },
+          "adaptive_ratio_spread_nadir_rule": {
+            "min": 0.1269,
+            "max": 0.606,
+            "max_over_min": 4.7754
+          },
+          "adaptive_ratio_spread_baseline_rule": {
+            "min": 1.094,
+            "max": 1.4339,
+            "max_over_min": 1.3107
+          },
+          "l1_analytic_bound_per_month": 0.013812,
+          "l1_bound_is_below_every_fitted_value": true
+        },
+        "volume_1.728": {
+          "grid": [
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.319579,
+              "fitted_doubling_time_months": 2.169,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.2662,
+              "adaptive_ratio_baseline_rule": 1.3712,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.262438,
+              "fitted_doubling_time_months": 2.641,
+              "reproduced_ttp_months": 13.175,
+              "adaptive_ratio_nadir_rule": 0.2269,
+              "adaptive_ratio_baseline_rule": 1.3812,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.262306,
+              "fitted_doubling_time_months": 2.643,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.3234,
+              "adaptive_ratio_baseline_rule": 1.3076,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.217945,
+              "fitted_doubling_time_months": 3.18,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.2736,
+              "adaptive_ratio_baseline_rule": 1.3271,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.20681,
+              "fitted_doubling_time_months": 3.352,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.4129,
+              "adaptive_ratio_baseline_rule": 1.2514,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.174501,
+              "fitted_doubling_time_months": 3.972,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.3433,
+              "adaptive_ratio_baseline_rule": 1.2369,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.172171,
+              "fitted_doubling_time_months": 4.026,
+              "reproduced_ttp_months": 13.175,
+              "adaptive_ratio_nadir_rule": 0.5087,
+              "adaptive_ratio_baseline_rule": 1.1548,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.147095,
+              "fitted_doubling_time_months": 4.712,
+              "reproduced_ttp_months": 13.175,
+              "adaptive_ratio_nadir_rule": 0.4264,
+              "adaptive_ratio_baseline_rule": 1.1714,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.152198,
+              "fitted_doubling_time_months": 4.554,
+              "reproduced_ttp_months": 13.207,
+              "adaptive_ratio_nadir_rule": 0.6965,
+              "adaptive_ratio_baseline_rule": 1.0694,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.13152,
+              "fitted_doubling_time_months": 5.27,
+              "reproduced_ttp_months": 13.175,
+              "adaptive_ratio_nadir_rule": 0.591,
+              "adaptive_ratio_baseline_rule": 1.0671,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            }
+          ],
+          "fitted_r_R_spread_over_the_whole_grid": {
+            "min": 0.13152,
+            "max": 0.319579,
+            "max_over_min": 2.4299
+          },
+          "adaptive_ratio_spread_nadir_rule": {
+            "min": 0.2269,
+            "max": 0.6965,
+            "max_over_min": 3.0696
+          },
+          "adaptive_ratio_spread_baseline_rule": {
+            "min": 1.0671,
+            "max": 1.3812,
+            "max_over_min": 1.2943
+          },
+          "l1_analytic_bound_per_month": 0.041437,
+          "l1_bound_is_below_every_fitted_value": true
+        }
+      }
+    },
+    {
+      "arm": "anthracycline_italian_rcn",
+      "median_pfs_months": 8.0,
+      "by_convention": {
+        "diameter_1.20": {
+          "grid": [
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.470176,
+              "fitted_doubling_time_months": 1.474,
+              "reproduced_ttp_months": 8.016,
+              "adaptive_ratio_nadir_rule": 0.1475,
+              "adaptive_ratio_baseline_rule": 1.4227,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.379318,
+              "fitted_doubling_time_months": 1.827,
+              "reproduced_ttp_months": 8.016,
+              "adaptive_ratio_nadir_rule": 0.127,
+              "adaptive_ratio_baseline_rule": 1.4313,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.375719,
+              "fitted_doubling_time_months": 1.845,
+              "reproduced_ttp_months": 8.016,
+              "adaptive_ratio_nadir_rule": 0.1844,
+              "adaptive_ratio_baseline_rule": 1.3612,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.306169,
+              "fitted_doubling_time_months": 2.264,
+              "reproduced_ttp_months": 8.016,
+              "adaptive_ratio_nadir_rule": 0.1598,
+              "adaptive_ratio_baseline_rule": 1.3853,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.282595,
+              "fitted_doubling_time_months": 2.453,
+              "reproduced_ttp_months": 7.984,
+              "adaptive_ratio_nadir_rule": 0.2469,
+              "adaptive_ratio_baseline_rule": 1.3094,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.233559,
+              "fitted_doubling_time_months": 2.968,
+              "reproduced_ttp_months": 7.984,
+              "adaptive_ratio_nadir_rule": 0.2099,
+              "adaptive_ratio_baseline_rule": 1.2954,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.220505,
+              "fitted_doubling_time_months": 3.143,
+              "reproduced_ttp_months": 8.016,
+              "adaptive_ratio_nadir_rule": 0.3279,
+              "adaptive_ratio_baseline_rule": 1.2057,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.184594,
+              "fitted_doubling_time_months": 3.755,
+              "reproduced_ttp_months": 7.984,
+              "adaptive_ratio_nadir_rule": 0.2798,
+              "adaptive_ratio_baseline_rule": 1.2278,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.171704,
+              "fitted_doubling_time_months": 4.037,
+              "reproduced_ttp_months": 7.984,
+              "adaptive_ratio_nadir_rule": 0.6049,
+              "adaptive_ratio_baseline_rule": 1.0946,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.145947,
+              "fitted_doubling_time_months": 4.749,
+              "reproduced_ttp_months": 7.984,
+              "adaptive_ratio_nadir_rule": 0.4774,
+              "adaptive_ratio_baseline_rule": 1.1012,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            }
+          ],
+          "fitted_r_R_spread_over_the_whole_grid": {
+            "min": 0.145947,
+            "max": 0.470176,
+            "max_over_min": 3.2216
+          },
+          "adaptive_ratio_spread_nadir_rule": {
+            "min": 0.127,
+            "max": 0.6049,
+            "max_over_min": 4.763
+          },
+          "adaptive_ratio_spread_baseline_rule": {
+            "min": 1.0946,
+            "max": 1.4313,
+            "max_over_min": 1.3076
+          },
+          "l1_analytic_bound_per_month": 0.02279,
+          "l1_bound_is_below_every_fitted_value": true
+        },
+        "volume_1.728": {
+          "grid": [
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.526178,
+              "fitted_doubling_time_months": 1.317,
+              "reproduced_ttp_months": 7.984,
+              "adaptive_ratio_nadir_rule": 0.2675,
+              "adaptive_ratio_baseline_rule": 1.3702,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.431493,
+              "fitted_doubling_time_months": 1.606,
+              "reproduced_ttp_months": 8.016,
+              "adaptive_ratio_nadir_rule": 0.2295,
+              "adaptive_ratio_baseline_rule": 1.3637,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.432144,
+              "fitted_doubling_time_months": 1.604,
+              "reproduced_ttp_months": 8.016,
+              "adaptive_ratio_nadir_rule": 0.3238,
+              "adaptive_ratio_baseline_rule": 1.3099,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.358664,
+              "fitted_doubling_time_months": 1.933,
+              "reproduced_ttp_months": 8.016,
+              "adaptive_ratio_nadir_rule": 0.2746,
+              "adaptive_ratio_baseline_rule": 1.3289,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.340887,
+              "fitted_doubling_time_months": 2.033,
+              "reproduced_ttp_months": 7.984,
+              "adaptive_ratio_nadir_rule": 0.4156,
+              "adaptive_ratio_baseline_rule": 1.25,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.287404,
+              "fitted_doubling_time_months": 2.412,
+              "reproduced_ttp_months": 8.016,
+              "adaptive_ratio_nadir_rule": 0.3443,
+              "adaptive_ratio_baseline_rule": 1.2361,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.283835,
+              "fitted_doubling_time_months": 2.442,
+              "reproduced_ttp_months": 7.984,
+              "adaptive_ratio_nadir_rule": 0.5103,
+              "adaptive_ratio_baseline_rule": 1.1542,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.242363,
+              "fitted_doubling_time_months": 2.86,
+              "reproduced_ttp_months": 7.984,
+              "adaptive_ratio_nadir_rule": 0.428,
+              "adaptive_ratio_baseline_rule": 1.1711,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.25086,
+              "fitted_doubling_time_months": 2.763,
+              "reproduced_ttp_months": 7.984,
+              "adaptive_ratio_nadir_rule": 0.6996,
+              "adaptive_ratio_baseline_rule": 1.0698,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.216702,
+              "fitted_doubling_time_months": 3.199,
+              "reproduced_ttp_months": 7.984,
+              "adaptive_ratio_nadir_rule": 0.5926,
+              "adaptive_ratio_baseline_rule": 1.068,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            }
+          ],
+          "fitted_r_R_spread_over_the_whole_grid": {
+            "min": 0.216702,
+            "max": 0.526178,
+            "max_over_min": 2.4281
+          },
+          "adaptive_ratio_spread_nadir_rule": {
+            "min": 0.2295,
+            "max": 0.6996,
+            "max_over_min": 3.0484
+          },
+          "adaptive_ratio_spread_baseline_rule": {
+            "min": 1.068,
+            "max": 1.3702,
+            "max_over_min": 1.283
+          },
+          "l1_analytic_bound_per_month": 0.068371,
+          "l1_bound_is_below_every_fitted_value": true
+        }
+      }
+    },
+    {
+      "arm": "chiusole_metastatic_chemo",
+      "median_pfs_months": 9.0,
+      "by_convention": {
+        "diameter_1.20": {
+          "grid": [
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.418792,
+              "fitted_doubling_time_months": 1.655,
+              "reproduced_ttp_months": 8.969,
+              "adaptive_ratio_nadir_rule": 0.1465,
+              "adaptive_ratio_baseline_rule": 1.4208,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.337991,
+              "fitted_doubling_time_months": 2.051,
+              "reproduced_ttp_months": 8.969,
+              "adaptive_ratio_nadir_rule": 0.1282,
+              "adaptive_ratio_baseline_rule": 1.4319,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.334592,
+              "fitted_doubling_time_months": 2.072,
+              "reproduced_ttp_months": 9.002,
+              "adaptive_ratio_nadir_rule": 0.1825,
+              "adaptive_ratio_baseline_rule": 1.3604,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.272742,
+              "fitted_doubling_time_months": 2.541,
+              "reproduced_ttp_months": 9.002,
+              "adaptive_ratio_nadir_rule": 0.1569,
+              "adaptive_ratio_baseline_rule": 1.384,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.251627,
+              "fitted_doubling_time_months": 2.755,
+              "reproduced_ttp_months": 9.002,
+              "adaptive_ratio_nadir_rule": 0.2445,
+              "adaptive_ratio_baseline_rule": 1.3088,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.208007,
+              "fitted_doubling_time_months": 3.332,
+              "reproduced_ttp_months": 8.969,
+              "adaptive_ratio_nadir_rule": 0.2088,
+              "adaptive_ratio_baseline_rule": 1.2945,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.196326,
+              "fitted_doubling_time_months": 3.531,
+              "reproduced_ttp_months": 9.002,
+              "adaptive_ratio_nadir_rule": 0.3285,
+              "adaptive_ratio_baseline_rule": 1.2057,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.164377,
+              "fitted_doubling_time_months": 4.217,
+              "reproduced_ttp_months": 8.969,
+              "adaptive_ratio_nadir_rule": 0.2784,
+              "adaptive_ratio_baseline_rule": 1.2299,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.15287,
+              "fitted_doubling_time_months": 4.534,
+              "reproduced_ttp_months": 9.002,
+              "adaptive_ratio_nadir_rule": 0.6022,
+              "adaptive_ratio_baseline_rule": 1.093,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.129951,
+              "fitted_doubling_time_months": 5.334,
+              "reproduced_ttp_months": 8.969,
+              "adaptive_ratio_nadir_rule": 0.4762,
+              "adaptive_ratio_baseline_rule": 1.1011,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            }
+          ],
+          "fitted_r_R_spread_over_the_whole_grid": {
+            "min": 0.129951,
+            "max": 0.418792,
+            "max_over_min": 3.2227
+          },
+          "adaptive_ratio_spread_nadir_rule": {
+            "min": 0.1282,
+            "max": 0.6022,
+            "max_over_min": 4.6973
+          },
+          "adaptive_ratio_spread_baseline_rule": {
+            "min": 1.093,
+            "max": 1.4319,
+            "max_over_min": 1.3101
+          },
+          "l1_analytic_bound_per_month": 0.020258,
+          "l1_bound_is_below_every_fitted_value": true
+        },
+        "volume_1.728": {
+          "grid": [
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.468651,
+              "fitted_doubling_time_months": 1.479,
+              "reproduced_ttp_months": 9.002,
+              "adaptive_ratio_nadir_rule": 0.2664,
+              "adaptive_ratio_baseline_rule": 1.3721,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.0001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.384469,
+              "fitted_doubling_time_months": 1.803,
+              "reproduced_ttp_months": 8.969,
+              "adaptive_ratio_nadir_rule": 0.2271,
+              "adaptive_ratio_baseline_rule": 1.3801,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.384835,
+              "fitted_doubling_time_months": 1.801,
+              "reproduced_ttp_months": 9.002,
+              "adaptive_ratio_nadir_rule": 0.3248,
+              "adaptive_ratio_baseline_rule": 1.3086,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.001,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.3195,
+              "fitted_doubling_time_months": 2.169,
+              "reproduced_ttp_months": 8.969,
+              "adaptive_ratio_nadir_rule": 0.2747,
+              "adaptive_ratio_baseline_rule": 1.329,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.303524,
+              "fitted_doubling_time_months": 2.284,
+              "reproduced_ttp_months": 9.002,
+              "adaptive_ratio_nadir_rule": 0.4124,
+              "adaptive_ratio_baseline_rule": 1.2527,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.01,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.25596,
+              "fitted_doubling_time_months": 2.708,
+              "reproduced_ttp_months": 8.969,
+              "adaptive_ratio_nadir_rule": 0.3443,
+              "adaptive_ratio_baseline_rule": 1.2368,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.252716,
+              "fitted_doubling_time_months": 2.743,
+              "reproduced_ttp_months": 8.969,
+              "adaptive_ratio_nadir_rule": 0.5092,
+              "adaptive_ratio_baseline_rule": 1.1548,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.05,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.215822,
+              "fitted_doubling_time_months": 3.212,
+              "reproduced_ttp_months": 8.969,
+              "adaptive_ratio_nadir_rule": 0.4249,
+              "adaptive_ratio_baseline_rule": 1.1712,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.0,
+              "fitted_r_R_per_month": 0.223368,
+              "fitted_doubling_time_months": 3.103,
+              "reproduced_ttp_months": 9.002,
+              "adaptive_ratio_nadir_rule": 0.6971,
+              "adaptive_ratio_baseline_rule": 1.0708,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            },
+            {
+              "initial_resistant_fraction": 0.2,
+              "resistance_cost": 0.3,
+              "fitted_r_R_per_month": 0.192971,
+              "fitted_doubling_time_months": 3.592,
+              "reproduced_ttp_months": 8.969,
+              "adaptive_ratio_nadir_rule": 0.5934,
+              "adaptive_ratio_baseline_rule": 1.0666,
+              "censored_nadir_rule": false,
+              "censored_baseline_rule": false
+            }
+          ],
+          "fitted_r_R_spread_over_the_whole_grid": {
+            "min": 0.192971,
+            "max": 0.468651,
+            "max_over_min": 2.4286
+          },
+          "adaptive_ratio_spread_nadir_rule": {
+            "min": 0.2271,
+            "max": 0.6971,
+            "max_over_min": 3.0696
+          },
+          "adaptive_ratio_spread_baseline_rule": {
+            "min": 1.0666,
+            "max": 1.3801,
+            "max_over_min": 1.2939
+          },
+          "l1_analytic_bound_per_month": 0.060774,
+          "l1_bound_is_below_every_fitted_value": true
+        }
+      }
+    }
+  ],
+  "L3_what_moves_the_answer": {
+    "the_question": "A two-population model has five free parameters and a median is one constraint. What actually moves the number you get out -- the data, or the choices nobody declared?",
+    "free_parameters_in_the_model": {
+      "count": 5,
+      "names": [
+        "r_S",
+        "r_R",
+        "delta (drug kill rate)",
+        "f0 (initial resistant fraction)",
+        "N0 (initial burden relative to carrying capacity)"
+      ],
+      "constraints_available": 4,
+      "and_they_do_not_stack": "the four medians constrain FOUR DIFFERENT COHORTS on FOUR DIFFERENT REGIMENS. They are four one-constraint problems, not one four-constraint problem, and POLICY-evidence s2.4 is what forbids treating them as the latter. Even taken together they are four constraints on five parameters, and the shortfall is not the point -- the point is the table below."
+    },
+    "ranked": [
+      {
+        "degree_of_freedom": "burden-unit convention (RECIST diameters vs spherical volumes)",
+        "who_chooses_it": "the modeller, and it is usually not stated",
+        "measured_or_exact": "exact",
+        "factor_on_the_calibrated_rate": 3.0
+      },
+      {
+        "degree_of_freedom": "initial resistant fraction f0, swept over 3.3 decades (0.0001 to 0.2)",
+        "who_chooses_it": "nobody -- it is unmeasured in EMC and no published series reports it",
+        "measured_or_exact": "measured over the grid",
+        "factor_on_the_calibrated_rate": 2.7447
+      },
+      {
+        "degree_of_freedom": "THE DATA: the spread of the four published EMC medians themselves, 8.0 to 19.0 months",
+        "who_chooses_it": "the published record",
+        "measured_or_exact": "exact, from the four medians as read from the owner artifact",
+        "factor_on_the_calibrated_rate": 2.375
+      },
+      {
+        "degree_of_freedom": "fitness cost of resistance, 0.0 to 0.3",
+        "who_chooses_it": "nobody -- unmeasured in EMC",
+        "measured_or_exact": "measured over the grid",
+        "factor_on_the_calibrated_rate": 1.2395
+      }
+    ],
+    "n_undeclared_or_unmeasured_choices_that_move_it_at_least_as_much_as_the_data": 2,
+    "verdict": "2 of the three modelling degrees of freedom move the calibrated growth rate at least as far as the entire spread between the four published EMC cohorts does (2.375x). The model does not see through its own assumptions to the data: a rate quoted from it without its burden-unit convention and its assumed resistant fraction is not a quantity at all.",
+    "⛔_the_hypothesis_this_refutes_is_the_one_this_module_was_built_on": "The prior expectation was that under continuous dosing the sensitive compartment is suppressed early, so a median would read out the resistant compartment's growth RATE cleanly and carry no information about its SIZE. That would have been a tidy result: the medians pin the parameter the adaptive question does not turn on. THE GRID DOES NOT SHOW IT. Sweeping f0 over the grid changes the rate fitted to the SAME median by up to 2.745x, because at the modelled initial burden (0.5 of carrying capacity) logistic saturation and the depth of the nadir both depend on f0. The medians do not cleanly identify anything.",
+    "what_that_costs_the_route": "calibrating to all four medians does not make a scheduling prediction identifiable, and adding a fifth median would not either. ⛔ This is a statement about identifiability, not about whether any schedule would help any patient; the model makes no such claim in either direction.",
+    "what_would_change_it": "not more medians. Serial imaging with per-lesion volumes, or a circulating-tumour-DNA series through a treatment interruption, would speak to the resistant fraction and to the burden trajectory directly, and the burden-unit convention stops mattering the moment volumes rather than diameter sums are the measured quantity. Under POLICY-evidence s2.7 a Kaplan-Meier curve WITH its numbers-at-risk table can be inverted to patient-level times, which adds censoring structure and would let these arms be modelled as distributions rather than as their medians -- but it recovers times and events and never the resistant fraction, so it does not close this gap either. research/modalities/emc_ipd_survival.py holds that instrument with an empty CURVES table."
+  },
+  "adaptive_rule_vs_recist": {
+    "the_exact_argument": "the withdrawal trigger is burden <= 0.5 x baseline, so the burden at withdrawal IS the nadir. Full recovery to baseline is a ratio of 2.0 above that nadir. The largest progression threshold either burden-unit convention uses is 1.728. 2.0 > 1.728, so the recovery phase crosses the progression threshold BY CONSTRUCTION, under both conventions, for every parameter value.",
+    "measured_consequence": {
+      "adaptive_over_continuous_nadir_rule": {
+        "min": 0.1261,
+        "max": 0.6996,
+        "max_over_min": 5.548
+      },
+      "adaptive_over_continuous_baseline_rule": {
+        "min": 1.0666,
+        "max": 1.4339,
+        "max_over_min": 1.3444
+      },
+      "n_grid_cells": 80,
+      "cells_where_adaptive_is_longer_nadir_rule": 0,
+      "cells_where_adaptive_is_longer_baseline_rule": 80
+    },
+    "what_this_is_and_is_not": "It is a statement about two DEFINITIONS -- a withdrawal rule and an endpoint -- and it holds whatever the biology is. ⛔ It is NOT evidence that adaptive scheduling would shorten anyone's disease control: an endpoint that fires on a planned, reversible rebound is measuring the schedule rather than the disease. ⛔ It is also NOT a defect found in the sibling model research/modalities/emc-adaptive-pazopanib.json, which measures progression from BASELINE; under that rule the same grid gives ratios above 1, which is why the rule choice is reported here as a first-class result instead of being fixed silently in one direction.",
+    "the_open_question_this_raises": "which progression definition an adaptive-schedule study in a solid tumour should use, and whether a burden-fraction withdrawal rule and a nadir-referenced endpoint can coexist at all. ⛔ NOT ANSWERED HERE, and deliberately not asserted about field practice: no survey of how adaptive-therapy trials define progression has been done in this repository, and a claim about what other groups routinely do needs one."
+  },
+  "nadir_vs_baseline_rule": {
+    "reference_arm": "pazopanib_phase2",
+    "convention": "diameter_1.20",
+    "fitted_r_R_per_month": 0.158365,
+    "ttp_months_nadir_rule_recist_1_1": 19.023,
+    "ttp_months_baseline_rule": 52.074,
+    "baseline_rule_censored_at_horizon": false,
+    "why_this_is_here": "RECIST 1.1 measures progression from the NADIR and this module does the same. The sibling model research/modalities/emc_adaptive_pazopanib.py measures it from the BASELINE burden. The two rules are not equivalent whenever the drug produces any depth of response, and the gap is shown here at one fitted point instead of being asserted. ⛔ This is a difference in convention, not a defect found in that model, whose outputs are all dimensionless ratios in which a common rule largely cancels."
+  },
+  "verification": {
+    "n_grid_cells_checked": 80,
+    "worst_ttp_reproduction_error_months": 0.031,
+    "one_integration_step_months": 0.032854,
+    "fit_converged_within_one_step_everywhere": true,
+    "analytic_bound_below_every_numerical_fit": true,
+    "why_that_check_matters": "the closed form and the ODE integration are independent implementations of the same claim. The derivation says the analytic value is a LOWER bound on the fitted rate, because the median covers time to nadir as well as the regrowth phase. If a fitted value ever fell below it, one of the two would be wrong and this file would not know which.",
+    "zero_width_intervals_emitted": [],
+    "no_zero_width_interval_emitted": true
+  },
+  "misattributed_figures": {
+    "why_this_block_is_here": "RT-SCHEDULING's second claim does not depend on the model at all. It survives whatever the model does, and it is the finding with the shortest path to a reader.",
+    "owner": "research/manuscripts/endpoint/emc-systemic-therapy-pooling.json -> analyses.A5_time_to_event_never_pooled.figures_that_are_NOT_emc_medians_but_circulate_as_such",
+    "n_entries_in_the_roster": 5,
+    "n_that_are_time_valued_pfs_figures": 4,
+    "n_that_are_rates_not_medians": 1,
+    "reconciliation": "the roster holds 5 entries and the route's grade says FOUR misattributed PFS figures. Both are correct: 4 of the entries are quoted in MONTHS and are median-PFS figures, and 1 is a PERCENTAGE at a fixed timepoint, which is a progression-free RATE and a different object. The count is derived here from the unit rather than carried as a number, so it cannot drift from its own roster.",
+    "time_valued": [
+      {
+        "figure": "12.5 months",
+        "attributed_to": "trabectedin in EMC",
+        "actually": "the Kaplan-Meier median of a mixed EMC/mesenchymal-chondrosarcoma arm of five, coinciding with the individual PFS of subject 5, who has mesenchymal chondrosarcoma. The two EMC subjects' own values are 13.0 and 7.4 months."
+      },
+      {
+        "figure": "12.4 months",
+        "attributed_to": "apatinib in EMC",
+        "actually": "all 33 patients of a five-subtype chondrosarcoma cohort"
+      },
+      {
+        "figure": "8.5 months",
+        "attributed_to": "sunitinib in EMC",
+        "actually": "the median FOLLOW-UP of the sunitinib series. That paper states 'Median progression free survival (PFS) has not been reached.'"
+      },
+      {
+        "figure": "5.2 months",
+        "attributed_to": "anthracycline +/- ifosfamide (Chiusole)",
+        "actually": "Drilon's median time to disease progression on chemotherapy, which Chiusole's own Discussion attributes to Drilon by name. Chiusole 2020's chemotherapy median PFS is 9 months, not 5.2 - it is listed in emc_specific_medians above."
+      }
+    ],
+    "rate_valued": [
+      {
+        "figure": "48% 6-month PFS",
+        "attributed_to": "sunitinib+nivolumab context",
+        "actually": "IMMUNOSARC I's whole mixed soft-tissue-sarcoma cohort"
+      }
+    ],
+    "the_one_that_is_categorically_different": "'8.5 months' attributed to sunitinib in EMC is that series' median FOLLOW-UP, from a paper whose own text says median progression-free survival was NOT REACHED. A median follow-up and a median PFS are not the same quantity measured differently; a not-reached median is a NON-NUMBER, and substituting an available number for it converts an absence of evidence into a value. POLICY-evidence s2.7(e) names exactly this by requiring 'not reached' be preserved as a non-number.",
+    "not_checked": "whether any of these figures has propagated into treatment guidance, a guideline or a trial design. RT-SCHEDULING's own remaining_unknowns names that check as the thing that would raise this finding's weight considerably, and it has not been done here."
+  },
+  "what_this_lets_the_program_say": {
+    "1_the_specification_is_now_executed_not_only_correct": "RT-SCHEDULING's grade said the route's named input does not exist and that what does exist is 'exactly a parameters-as-intervals model with one parameter that has no interval at all'. That was a specification. This file is that model, and the parameterisation survives contact with the arithmetic: three kinds of dispersion coexist in one output and the fourth arm propagates nothing.",
+    "2_a_bound_where_there_was_no_number": "each arm's median bounds the growth rate of whatever compartment progressed, in months, per arm, with that arm's own interval of that arm's own kind. The repository previously held these four medians as literature figures and nothing downstream of them.",
+    "3_the_modelling_choices_dominate_the_data": "ranked in `L3_what_moves_the_answer`: the burden-unit convention and the unmeasured initial resistant fraction each move the calibrated rate at least as far as the entire spread between the four published cohorts. A rate quoted from a model of this disease without both of those stated is not a quantity. That is the headline, it is a negative, and it is reported at full strength.",
+    "4_a_definitional_collision_nobody_had_noticed": "a burden-fraction withdrawal rule and a nadir-referenced RECIST endpoint cannot coexist: the withdrawal defines the nadir and the planned rebound crosses the progression threshold by construction, under both burden conventions and at every parameter value (`adaptive_rule_vs_recist`, an exact argument rather than a numerical one). Any future adaptive-schedule proposal in this disease has to say what its progression endpoint is before it says anything else.",
+    "5_the_misattributed_figures_stand_alone": "they need no model, they are counted from their own roster by unit, and their weight is bounded by one check nobody has run - whether any of them reached treatment guidance.",
+    "at_what_weight": "MODEL OUTPUT ON PUBLISHED SUMMARY STATISTICS. Four single-arm cohorts, two of them retrospective, one median read from a review, one from a conference abstract, one with no dispersion at all, all identified with a deterministic trajectory under an assumption stated in `method.identification_assumption`. Nothing here is evidence about a patient. ⭐ The two findings that do NOT depend on the burden-unit convention are the strongest ones: the ranking in `L3_what_moves_the_answer` (the convention is one of the ranked rows, not an input to the ranking) and `adaptive_rule_vs_recist` (which holds under both conventions and at every parameter value). Every rate with a unit on it is convention-dependent and must be quoted with its convention or not at all."
+  },
+  "not_a_recommendation": "This is a model of published summary statistics and its own uncertainty. It is not clinical advice, it does not rank treatments, and it must not be read as endorsing or discouraging any therapy or any schedule. EMC care belongs with a specialist sarcoma centre."
+}

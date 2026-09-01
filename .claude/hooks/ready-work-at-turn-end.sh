@@ -115,6 +115,17 @@ rc=$?
 # ⛔ EARNED AND FALSIFIABLE, NEVER A FLAG: session_cap.py requires `cap` receipts FROM THIS SESSION
 # plus a handoff attempted and blocked in the platform's own words. An absent record is a session
 # that did not try and stays red. Every unreadable input answers MUST NOT STOP.
+# ⛔⛔ AND THERE ARE TWO WAYS TO EARN IT, NOT ONE (AUT-PD-169, measured 2026-09-01). The branch above
+# was written for a session whose handoff was REFUSED. A session whose handoff SUCCEEDED scored
+# identically to one that never tried — `blocked_handoff()` returns None for a receipt carrying a
+# child id by design, and nothing else read that field — so the one success the contract asks for
+# fell through to the loud branch below, whose option 1 says to CLAIM THE ROW FOR THE WORKER THAT IS
+# RUNNING IT. A spawned successor claims for ITSELF at step 4 under a cycle id built from a harness
+# uuid that did not exist when the parent spawned it, so `claim.decide()` YIELDS on every owner
+# string the parent can write: obeying the hook guarantees the successor hands back the row it was
+# created for. ⭐ The two states get different prose because their remedies differ — one has a
+# successor running and one does not — and they are told apart by the machine code session_cap.py
+# prints in brackets, never by grepping a sentence (AUT-PD-017).
 CAP_CHECK="$REPO/research/autonomy/session_cap.py"
 if [[ -f "$CAP_CHECK" ]]; then
   if capline=$(cd "$REPO" && timeout 15 python3 "$CAP_CHECK" --check 2>/dev/null); then
@@ -124,13 +135,27 @@ if [[ -f "$CAP_CHECK" ]]; then
       echo "✅ THIS SESSION MAY STOP — and stopping is the CORRECT action, not a deferral."
       echo "   $capline"
       echo
-      echo "★ The work above is real and stays queued. What ends here is THIS SESSION, not the loop:"
-      echo "   the driver Routine fires on its own schedule and that firing IS the successor. Handing"
-      echo "   off early is an optimisation the platform has refused; it was never what keeps the"
-      echo "   loop alive."
-      echo "⛔ DO NOT START ANOTHER CYCLE HERE. Past the cap a session compacts repeatedly and loses"
-      echo "   the verdict — measured once at 23 compactions and a 7.6 MB transcript, and again as"
-      echo "   the nine-cycle run this branch exists to end."
+      if [[ "$capline" == *"[HANDED-OFF]"* ]]; then
+        echo "★ A SUCCESSOR IS RUNNING. The work above is real, it stays queued, and it is THAT"
+        echo "   session's to choose from — its contract re-scores the queue itself (step 3) and"
+        echo "   claims what it picks (step 4). The prompt it was handed says in terms that the"
+        echo "   queue is 'a pointer, not a plan'."
+        echo "⛔ DO NOT CLAIM ANY ROW FOR IT. A successor claims under a cycle id derived from its"
+        echo "   OWN harness session uuid, which did not exist when you spawned it — so claim.py"
+        echo "   answers YIELDED for every owner string you are able to write, and a pre-claimed"
+        echo "   row is one it is guaranteed to hand straight back (AUT-PD-169). The falsifiable"
+        echo "   record that it exists is the child id already in your receipt, not a lease."
+        echo "⛔ DO NOT START ANOTHER CYCLE HERE either. Past the cap a session compacts repeatedly"
+        echo "   and loses the verdict — measured at 23 compactions and a 7.6 MB transcript."
+      else
+        echo "★ The work above is real and stays queued. What ends here is THIS SESSION, not the loop:"
+        echo "   the driver Routine fires on its own schedule and that firing IS the successor. Handing"
+        echo "   off early is an optimisation the platform has refused; it was never what keeps the"
+        echo "   loop alive."
+        echo "⛔ DO NOT START ANOTHER CYCLE HERE. Past the cap a session compacts repeatedly and loses"
+        echo "   the verdict — measured once at 23 compactions and a 7.6 MB transcript, and again as"
+        echo "   the nine-cycle run this branch exists to end."
+      fi
     } >&2
     exit 0
   fi
@@ -145,9 +170,9 @@ fi
   echo "   This is a Stop hook because the harness runs it whether or not anyone remembers to."
   echo
   echo "★ ONE OF THESE IS TRUE, AND THE REPLY SHOULD SAY WHICH:"
-  echo "   1. Something IS running that this cannot see — a subagent, a dispatched workflow, a"
-  echo "      spawned session. Then say so on the in-flight board — AND CLAIM THE ITEM FOR THE"
-  echo "      WORKER THAT IS RUNNING IT: set \`owner\` and \`claimed_utc\` on its ledger row."
+  echo "   1a. A SUBAGENT OR A DISPATCHED WORKFLOW is running that this cannot see — a worker that"
+  echo "      does NOT call claim.py itself. Then say so on the in-flight board — AND CLAIM THE"
+  echo "      ITEM FOR THE WORKER THAT IS RUNNING IT: set \`owner\` and \`claimed_utc\` on its row."
   echo "      ⛔⛔ CLAIMING FOR YOURSELF IS NOT AN ANSWER AND NO LONGER SILENCES THIS (AUT-PD-140,"
   echo "      2026-08-28). A claim reading \`CYC-…-<this session>\` names THIS session as the worker,"
   echo "      so when this session stops nothing is running for it. Measured: that claim took the"
@@ -161,6 +186,18 @@ fi
   echo "      being offered. A guard that cries wolf is a guard that gets tuned out — which is how"
   echo "      this repository has already lost the value of several. CLAIM AT DISPATCH, in the same"
   echo "      action that spawns the agent."
+  echo "   1b. ⛔⛔ A SPAWNED SESSION IS RUNNING — AND FOR THAT ONE, DO NOT CLAIM (AUT-PD-169)."
+  echo "      A session running the cycle contract claims for ITSELF at step 4, under a cycle id"
+  echo "      \`CYC-NNNN-<discriminator of ITS OWN harness session uuid>\` — a uuid the platform"
+  echo "      assigns inside the child's container and never returns to create_session's caller."
+  echo "      claim.py's decide() answers YIELDED for any owner that is set and is not the caller's"
+  echo "      own, so NO owner string you are able to write will ever match, and a pre-claimed top"
+  echo "      row is one the successor is guaranteed to hand straight back — leaving it leased to a"
+  echo "      session that has ended until priority.py ages the lease out."
+  echo "      ★ THE FALSIFIABLE RECORD IS ALREADY REQUIRED AND IT IS NOT A LEASE: put the child's"
+  echo "      id in your receipt under \`handoff.child_session_id\`. Only a real create_session can"
+  echo "      produce it, health.py's cycles_are_sized already grades an over-cap session on it,"
+  echo "      and session_cap.py --check now reads it — so once it is recorded, this stops asking."
   echo "   2. An item above is genuinely blocked on trimcrae or the outside world. Then say which"
   echo "      and why — CLAUDE.md §0: \"'Blocked' is a claim that needs evidence, and it is usually"
   echo "      wrong.\""

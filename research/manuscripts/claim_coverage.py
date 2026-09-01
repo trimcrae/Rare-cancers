@@ -306,6 +306,36 @@ ABLATION_BLOCKED_BY_A_KNOWN_FALSE_POSITIVE = {
             "the only digits are the cross-reference `section 2.4`; measured 2026-08-28 after the "
             "locator fix, 2 -> 7 and 4 -> 7 turned nothing red. The sentence states no quantity — "
             "it is a footer merged with the next heading by the flattener",
+        #: ⛔⛔ THE FIRST TWO ROWS THE WORD-QUANTITY PERTURBATION FOUND (AUT-PD-148, 2026-09-01), AND
+        #: BOTH ARE DEFECTS BEING RECORDED RATHER THAN A GATE BEING LOOSENED. Neither sentence was
+        #: reachable by this gate before today: `ablate` perturbed digits only and `_sample` selected
+        #: on digits only, so a claim written in words was unfalsifiable twice over. Widening both is
+        #: what surfaced them, on the first run, which is the same thing that happened when the
+        #: ablation scope was widened on 2026-08-27.
+        #: ⚠ THE BASELINE WAS CLEAN FOR BOTH — the verdict carries no subtraction note, so `ablate`
+        #: ran all six guard commands that read this document. These are measurements, not artefacts
+        #: of a red tree.
+        #: ★ THE FIRST IS A REAL UNBOUND CLAIM AND THE HONEST FIX IS NOT AN EXEMPTION. "almost half
+        #: of arms" is a headline quantity of the Conclusions, and the guard the census credits it to
+        #: says nothing about it. Binding it belongs in that guard, which the seat recording this did
+        #: not own; the row is here so the defect is visible and expires the moment the sentence is
+        #: bound or reworded.
+        "returns nothing in almost half of arms":
+            "the census credits only `test_endpoint_manuscript_figures.py`, which reads the "
+            "manuscript's figure references and asserts nothing about this quantity; measured "
+            "2026-09-01, half -> third turned nothing red. ⛔ A REAL UNBOUND CLAIM, not a false "
+            "positive of the census: the fix is to bind 'almost half of arms' to the endpoint "
+            "corpus artifact that computes it, and this row disappears when that lands",
+        #: ⚠ THE SECOND IS THE OPPOSITE, AND IT IS THE RESIDUE `claim_ablation` NAMES IN ITS OWN
+        #: TABLE: a number word used as a NOUN for a value rather than as a count. No guard should
+        #: redden on it, and the harness cannot tell the two uses apart.
+        "at these arm sizes a zero is frequently uninterpretable":
+            "the only quantity word is `zero`, and it names the VALUE a zero-event arm reports "
+            "rather than counting anything — `a zero` is the subject of the sentence. Measured "
+            "2026-09-01, zero -> four turned nothing red, and it should not have: the perturbed "
+            "sentence states no different quantity, it states nonsense. ⚠ `zero` stays in the "
+            "perturbation table because 'zero reported responses' and 'a zero-event arm' elsewhere "
+            "in this corpus ARE counts; the ambiguity is the residue, recorded rather than removed",
     },
 }
 
@@ -328,11 +358,35 @@ _COMMENT = re.compile(r"<!--.*?-->", re.S)
 _SUP = re.compile(r"<sup>.*?</sup>", re.S)
 
 
+#: ⛔⛔ A FENCED BLOCK'S CONTENTS ARE NOT PROSE, AND UNTIL 2026-09-01 THEY WERE (AUT-PD-149, filed
+#: 2026-08-28 by this file's own sibling test, fixed here). `_prose` dropped lines STARTING WITH
+#: ``` and kept everything between them, so a code block was flattened into claim prose and censused
+#: as a sentence. MEASURED at bd8aac753, before the fix: three censused documents carry fences, and
+#: FOUR censused sentences were a claim glued to a shell command —
+#:   "…which is the quantity under test. python3 research/manuscripts/endpoint_corpus.py --check
+#:    python3 research/manuscripts/orr_dcr_reread.py --check …"
+#: Every one of them was `has_number: True`, and in three of the four the ONLY digit is the `3` of
+#: `python3`. So the defect moved two counts at once: it inflated `sentences` and `with_a_number`
+#: (the denominators every floor is read against) with text nobody claims, and it put non-claims in
+#: the UNCOVERED list, which is the census's actual finding.
+#: ⚠ THE THIRD EFFECT IS THE ONE THAT MADE THIS WORTH FIXING RATHER THAN RECORDING. A censused
+#: sentence carrying a command line is a perturbation target: `claim_ablation` mutates every digit
+#: run the span survives with, so `python3` -> `python7` was a mutation of a COMMAND, and any guard
+#: reddening on it would have reported the sentence's CLAIM bound. That is the false-RED direction
+#: `stripped_spans` exists to close, reached by a different route — so the block is registered there
+#: too, not only dropped here.
+#: ⛔ AN UNTERMINATED FENCE IS LEFT ALONE: the block pattern needs both markers, and a lone marker
+#: line still falls to the `_DROPPED_LINE` filter below. A document with an odd number of fences
+#: therefore behaves exactly as it did before, rather than swallowing the rest of the file.
+_FENCE_BLOCK = re.compile(r"^[ \t]*(?:```|~~~)[^\n]*\n.*?^[ \t]*(?:```|~~~)[^\n]*$", re.M | re.S)
+
+
 def _prose(path):
     text = io.open(path, encoding="utf-8").read()
     text = _FRONTMATTER.sub("", text)
     text = _COMMENT.sub("", text)
     text = _SUP.sub("", text)
+    text = _FENCE_BLOCK.sub("", text)
     keep = [ln for ln in text.splitlines()
             if ln.strip() and not ln.lstrip().startswith(("#", "|", ">", "```"))]
     return re.sub(r"\s+", " ", " ".join(keep))
@@ -351,12 +405,16 @@ _DROPPED_LINE = re.compile(r"^[ \t]*(?:#|\||>|```)[^\n]*$", re.M)
 #: the patterns without those scopes silently changes what they match — measured: without `(?m:)`
 #: the dropped-line branch anchored to the ends of the WHOLE FILE and matched nothing, leaving 9 of
 #: the 15 sentences still unlocatable, every one of them across a heading, a table row or a quote.
-_GAP = "(?:\\s|(?s:%s)|(?s:%s)|(?m:%s))*" % (_COMMENT.pattern, _SUP.pattern, _DROPPED_LINE.pattern)
+#: ⚠ AND THE FENCE BRANCH NEEDS BOTH FLAGS (`(?sm:`), for the two reasons separately: `.` must cross
+#: the newlines INSIDE the block, and `^`/`$` must mean line edges so the two markers anchor to
+#: their own lines. One flag without the other is a pattern that matches nothing, silently.
+_GAP = "(?:\\s|(?s:%s)|(?s:%s)|(?m:%s)|(?sm:%s))*" % (
+    _COMMENT.pattern, _SUP.pattern, _DROPPED_LINE.pattern, _FENCE_BLOCK.pattern)
 
 
 def stripped_spans(fragment):
-    """The (start, end) regions of `fragment` that `_prose` deletes — comments, `<sup>` runs, and
-    whole dropped lines.
+    """The (start, end) regions of `fragment` that `_prose` deletes — comments, `<sup>` runs,
+    whole dropped lines, and fenced blocks.
 
     ⛔⛔ THE REASON THIS EXISTS IS A FALSE *RED*, WHICH IS THE DANGEROUS DIRECTION. Once `locate`
     could match across a stripped construct, the span handed to `claim_ablation.ablate` could contain
@@ -366,9 +424,13 @@ def stripped_spans(fragment):
     would still have been unwatched, and the gate would have said the opposite.
     ★ A perturbation may only touch text that survives flattening, because that is the only text the
     census ever claimed to cover.
+    ⚠ `_FENCE_BLOCK` JOINED THIS TUPLE ON 2026-09-01 WITH THE FLATTENER FIX (AUT-PD-149), and it
+    closes the same direction by the same argument: before the fix a censused sentence could carry
+    `python3 … --check`, and `3` was a perturbable digit run belonging to a command rather than to a
+    claim.
     """
     spans = []
-    for rx in (_COMMENT, _SUP, _DROPPED_LINE):
+    for rx in (_COMMENT, _SUP, _DROPPED_LINE, _FENCE_BLOCK):
         spans.extend((m.start(), m.end()) for m in rx.finditer(fragment))
     return spans
 
@@ -408,9 +470,16 @@ def locate(text, sentence):
 
 
 def _flatten(fragment):
-    """`_prose`'s transformation applied to a fragment, for the round-trip check in `locate`."""
+    """`_prose`'s transformation applied to a fragment, for the round-trip check in `locate`.
+
+    ⛔ EVERY STRIPPING STEP `_prose` GAINS MUST LAND HERE TOO, in the same order. The two functions
+    are one transformation with two entry points, and a fragment flattened by a stale copy no longer
+    reproduces the sentence the census recorded — which makes `locate` return None and the sentence
+    NOT_APPLIED, i.e. covered and perturbed by nothing (AUT-PD-132).
+    """
     fragment = _COMMENT.sub("", fragment)
     fragment = _SUP.sub("", fragment)
+    fragment = _FENCE_BLOCK.sub("", fragment)
     keep = [ln for ln in fragment.splitlines()
             if ln.strip() and not ln.lstrip().startswith(("#", "|", ">", "```"))]
     return re.sub(r"\s+", " ", " ".join(keep)).strip()
@@ -637,24 +706,20 @@ def uncovered(paper_key):
                                  if not r["has_number"] and not r["covered"]]}
 
 
-def main(argv=None):
-    argv = list(sys.argv[1:] if argv is None else argv)
-    write = "--write" in argv
-    for arg in argv:
-        if arg.startswith("--uncovered="):
-            key = arg.split("=", 1)[1]
-            if key not in PAPERS:
-                print(f"{key} is not a censused document. The census reads what "
-                      f"`claim_coverage.endpoint_documents` selects:\n  "
-                      + "\n  ".join(PAPERS), file=sys.stderr)
-                return 2
-            found = uncovered(key)
-            for half in ("with_a_number", "without_a_number"):
-                print(f"\n=== uncovered, {half.replace('_', ' ')} "
-                      f"({len(found[half])}) — {key}\n")
-                for s in found[half]:
-                    print(f"  * {s}")
-            return 0
+#: The one committed copy of this census. ⚠ NAMED HERE rather than typed at each use, because
+#: `--write`, `--check` and the freshness test all have to mean the same file.
+ARTIFACT = os.path.join(HERE, "claim-coverage.json")
+
+
+def build_report():
+    """The whole census, as the artifact records it. ⛔ NO PRINTING AND NO WRITING.
+
+    `--write` and `--check` must be the SAME derivation or the check verifies a second
+    implementation of the census rather than the census. This repository has already shipped a
+    `--check` that regenerated its own reference and exited 0 (see the note beside the CI step
+    "EMC evidence artifacts reproduce from their generators"), and the defence against that is
+    one producer function with two callers, not two functions that agree today.
+    """
     report = {"_what": __doc__.strip().splitlines()[0],
               "_generated_by": "research/manuscripts/claim_coverage.py",
               "_scope": "every document a committed record calls a publication endpoint, or a part "
@@ -674,16 +739,127 @@ def main(argv=None):
             #: `uncovered()` for the 1.1 MB measurement that took them out of the artifact.
             "uncovered": n - cov, "uncovered_with_a_number": len(num) - num_cov,
         }
-        print(f"{key}: {cov}/{n} sentences read by something "
-              f"({num_cov}/{len(num)} of those stating a number)")
+    return report
+
+
+def render(report):
+    """The exact bytes `--write` puts on disk, so `--check` can compare bytes and not opinions."""
+    return json.dumps(report, indent=1, ensure_ascii=False) + "\n"
+
+
+def disagreements(report, committed_text):
+    """Every way the committed artifact differs from a live census. Empty list = it reproduces.
+
+    ⛔⛔ WHY A DIFF AND NOT A BOOLEAN. The reader of a red gate has to know WHICH document moved, or
+    the only actionable advice is "regenerate and hope" — and a regeneration is exactly what makes a
+    real regression disappear into a green run. Each line names the field, the committed value and
+    the live one.
+    ⚠ THE FIELD COMPARISON RUNS BOTH WAYS, and then the bytes are compared as a backstop: a
+    document dropped from the census leaves its counts behind looking like a reading of a document
+    nothing measures, and a change to `named_by` (which records WHICH RECORD put each document in
+    scope) moves no count at all while changing what the artifact says the census read.
+    """
+    try:
+        committed = json.loads(committed_text)
+    except ValueError as exc:
+        return [f"the committed artifact is not readable JSON ({exc})"]
+    if not isinstance(committed, dict):
+        return ["the committed artifact is not a JSON object"]
+    out = []
+    live_papers, com_papers = report["papers"], committed.get("papers") or {}
+    for paper, fields in live_papers.items():
+        for field, value in fields.items():
+            was = com_papers.get(paper, {}).get(field)
+            if was != value:
+                out.append(f"papers.{paper}.{field}: committed {was!r}, "
+                           f"the census now reports {value!r}")
+    out += [f"papers.{paper}: in the committed artifact but no longer censused, so its numbers are "
+            f"a reading of nothing" for paper in sorted(set(com_papers) - set(live_papers))]
+    for key in [k for k in report if k != "papers"]:
+        if committed.get(key) != report[key]:
+            out.append(f"{key}: the committed value is not the one this module now derives")
+    out += [f"{key}: in the committed artifact and no longer produced at all"
+            for key in sorted(set(committed) - set(report))]
+    #: ⛔ AND IF EVERY FIELD AGREES AND THE BYTES DO NOT, SAY SO RATHER THAN PASSING. A hand edit
+    #: that reformats or reorders the file leaves `--write` producing something different from what
+    #: is committed, which is the staleness this gate exists to refuse.
+    if not out and committed_text != render(report):
+        out.append("every field agrees but the committed bytes are not what --write would produce "
+                   "(a hand edit to formatting, ordering or whitespace)")
+    return out
+
+
+#: What `--check` prints above its diff. Kept as a constant so the guard that proves the check is
+#: real can bind the message without re-typing it.
+STALE_HEADER = "claim-coverage.json is stale — it is not what the live census computes:"
+STALE_REMEDY = ("\nRe-run `python3 research/manuscripts/claim_coverage.py --write` and commit the "
+                "result in THIS change.\n"
+                "⛔ If you did not touch a manuscript, look at research/manuscripts/tests/: the "
+                "census harvests its patterns from that corpus, so widening a guard's regex moves "
+                "`covered` with no manuscript byte touched. That edit and this artifact are a pair "
+                "even though they live in different directories.")
+
+
+def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    write = "--write" in argv
+    check = "--check" in argv
+    #: ⛔⛔ AN UNRECOGNISED FLAG IS AN ERROR, NOT A NO-OP, AND THAT IS THE WHOLE POINT OF THE CHECK
+    #: MODE (AUT-PD-130). Until this line every argument this script did not know was silently
+    #: ignored and the run exited 0 — so wiring `claim_coverage.py --verify` into a gate would have
+    #: bought a green row that measured nothing, which is the exact defect recorded against
+    #: `emc_systemic_therapy_pooling.py` in `.github/workflows/tests.yml`.
+    unknown = [a for a in argv
+               if a not in ("--write", "--check") and not a.startswith("--uncovered=")]
+    if unknown:
+        print(f"unrecognised argument(s): {' '.join(unknown)}\n"
+              f"usage: claim_coverage.py [--write | --check | --uncovered=<repo-relative path>]",
+              file=sys.stderr)
+        return 2
+    #: ⛔ AND THE TWO MODES MAY NOT BE COMBINED. A verify that regenerates its own reference first
+    #: passes unconditionally; that is not a hypothetical failure mode in this repository.
+    if write and check:
+        print("--write and --check together verify nothing: the write would produce the reference "
+              "the check then reads. Run one.", file=sys.stderr)
+        return 2
+    if check:
+        report = build_report()
+        if not os.path.exists(ARTIFACT):
+            print(f"{os.path.relpath(ARTIFACT, REPO)} is missing.{STALE_REMEDY}", file=sys.stderr)
+            return 1
+        bad = disagreements(report, io.open(ARTIFACT, encoding="utf-8").read())
+        if bad:
+            print(STALE_HEADER + "\n  " + "\n  ".join(bad) + STALE_REMEDY, file=sys.stderr)
+            return 1
+        print(f"claim-coverage.json reproduces from the live census "
+              f"({len(report['papers'])} documents)")
+        return 0
+    for arg in argv:
+        if arg.startswith("--uncovered="):
+            key = arg.split("=", 1)[1]
+            if key not in PAPERS:
+                print(f"{key} is not a censused document. The census reads what "
+                      f"`claim_coverage.endpoint_documents` selects:\n  "
+                      + "\n  ".join(PAPERS), file=sys.stderr)
+                return 2
+            found = uncovered(key)
+            for half in ("with_a_number", "without_a_number"):
+                print(f"\n=== uncovered, {half.replace('_', ' ')} "
+                      f"({len(found[half])}) — {key}\n")
+                for s in found[half]:
+                    print(f"  * {s}")
+            return 0
+    report = build_report()
+    for key, row in report["papers"].items():
+        print(f"{key}: {row['covered']}/{row['sentences']} sentences read by something "
+              f"({row['with_a_number_covered']}/{row['with_a_number']} of those stating a number)")
     if write:
         #: ⚠ THIS ARTIFACT MOVED OUT OF `aso/` ON 2026-08-26 AND THE MOVE IS THE POINT. While the
         #: census read one submission it was an ASO deposit artifact; it now reads every publication
         #: endpoint in the repository, and a repo-wide census filed under one paper's directory is a
         #: fact stored where nobody looking for it would look.
-        out = os.path.join(HERE, "claim-coverage.json")
-        io.open(out, "w", encoding="utf-8").write(json.dumps(report, indent=1, ensure_ascii=False) + "\n")
-        print(f"wrote {os.path.relpath(out, REPO)}")
+        io.open(ARTIFACT, "w", encoding="utf-8").write(render(report))
+        print(f"wrote {os.path.relpath(ARTIFACT, REPO)}")
     return 0
 
 

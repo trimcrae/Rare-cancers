@@ -84,8 +84,24 @@ def _sample(rows, paper):
 
     ⛔ THE EXEMPTED SENTENCES COME OUT BEFORE THE SPACING, NOT AFTER, so a document does not lose a
     sample slot to a sentence this gate has already agreed not to ask about.
+
+    ⛔⛔ THE POPULATION IS "STATES A QUANTITY", NOT "CONTAINS A DIGIT" (AUT-PD-148, 2026-09-01). This
+    line used to read `re.search(r"\\d", r["sentence"])`, which is the SECOND of the two copies of
+    that rule — the first was in `claim_ablation.ablate` — and a sentence had to pass BOTH for its
+    quantity to be tested at all. So a claim written in words was unfalsifiable twice over: the
+    harness said "the sentence states no number" and this gate never offered it.
+    ★ MEASURED, AND THE CASE THAT DISCRIMINATES IS A SENTENCE THAT IS WELL GUARDED:
+      "*FUS* is a further reported partner, in two of five variant cases in a recent series, and
+       supplies eight of the junctions modelled here."
+      before  ablate -> not-applied, "the sentence states no number"
+      after   ablate -> applied, "two -> six", RED — 25 guard modules noticed, including the one
+              written for that very clause, which reads the two and the five out of a committed
+              abstract quotation.
+    So the old reading was not "this claim is unwatched"; it was the instrument declining to look at
+    a claim that IS watched. The predicate now has one home, `claim_ablation.states_a_quantity`.
     """
-    covered = [r for r in rows if r["covered"] and re.search(r"\d", r["sentence"])
+    covered = [r for r in rows if r["covered"]
+               and claim_ablation.states_a_quantity(r["sentence"])
                and not claim_coverage.ablation_exempt(paper, r["sentence"])]
     if os.environ.get("PREFLIGHT_FULL") or len(covered) <= SAMPLE:
         return covered
