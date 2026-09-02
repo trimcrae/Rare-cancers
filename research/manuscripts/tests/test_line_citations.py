@@ -807,3 +807,34 @@ def test_fix_names_and_exits_non_zero_when_a_generator_cannot_be_asked(tmp_path)
         "one.\n" + proc.stdout + proc.stderr)
     assert "UNMEASURED" in proc.stdout and "gen/g.py" in proc.stdout, proc.stdout + proc.stderr
     assert "NOT CHECKED by this tool" in proc.stdout.strip().split("\n")[-1], proc.stdout
+
+
+def test_the_exit_code_separates_a_broken_tree_from_an_unaskable_one():
+    """⛔⛔ THE FIX FOR A SILENT TOOL MUST NOT BE A PERMANENTLY RED ONE, AND `2` IS NOT A SOFTENING.
+
+    ⚠ MEASURED, and it is why this contract exists rather than a single non-zero: `research-ledger.json`
+    is UNMEASURABLE BY CONSTRUCTION. `priority.py` stamps `score_inputs.age_factor_as_of` from today's
+    date, so the ledger is not byte-reproducible from the graph and its generator cannot honestly carry a
+    read-only `--check` at all. Folding that into the WRONG code would leave `--fix` red on every run of
+    every day, over a condition nobody can clear — CLAUDE.md §6: "a gate that reddens under load is one
+    people learn to re-run — worse than no gate".
+
+    ⛔ AND THE ANSWER IS NEVER 0. `EXIT_UNMEASURED` is non-zero, stops a `&&` chain, and is named in the
+    verdict every run. What it declines to do is claim the tree is broken when the truth is that one copy
+    cannot be asked — and it must never MASK a real fault, which is the last case below.
+    """
+    found = [("a.md", "g1.py"), ("b.md", "g2.py")]
+    assert lc.EXIT_UNMEASURED != 0, "an unmeasured copy that exits 0 is the silence this row is about"
+    assert lc.EXIT_WRONG != lc.EXIT_UNMEASURED != lc.EXIT_CLEAN
+    cases = (
+        ([("g1.py", lc.GEN_FRESH, ""), ("g2.py", lc.GEN_FRESH, "")], lc.EXIT_CLEAN),
+        ([("g1.py", lc.GEN_FRESH, ""), ("g2.py", lc.GEN_UNMEASURED, "")], lc.EXIT_UNMEASURED),
+        ([("g1.py", lc.GEN_STALE, ""), ("g2.py", lc.GEN_FRESH, "")], lc.EXIT_WRONG),
+        # ⛔ THE ONE THAT MATTERS MOST: a standing condition must never downgrade a real fault.
+        ([("g1.py", lc.GEN_STALE, ""), ("g2.py", lc.GEN_UNMEASURED, "")], lc.EXIT_WRONG),
+    )
+    for gen_results, want in cases:
+        assert lc.verdict(found, gen_results, rewrote=0)[1] == want, (gen_results, want)
+    # ⚠ A drift left for a reader is WRONG NOW, not a standing condition.
+    assert lc.verdict(found, [("g1.py", lc.GEN_FRESH, ""), ("g2.py", lc.GEN_UNMEASURED, "")],
+                      rewrote=0, needs_review=1)[1] == lc.EXIT_WRONG

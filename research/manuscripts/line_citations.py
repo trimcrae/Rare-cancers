@@ -42,9 +42,14 @@ So a `--fix` run printed a
 MANUFACTURED staleness finding (an argparse usage error) directly beside the real census one. §4: an
 absent reading is not a reading of absence, and a plausible-looking record is more dangerous than an
 empty one; folding the two together also teaches the reader to discount the block holding the real find.
-★ THREE THINGS ARE NOW SAYABLE — `GEN_FRESH`, `GEN_STALE`, `GEN_UNMEASURED` — and unmeasured is as loud
-as stale and exits non-zero just the same. What changed is the REASON printed, which is the half a
-reader acts on.
+★ THREE THINGS ARE NOW SAYABLE — `GEN_FRESH`, `GEN_STALE`, `GEN_UNMEASURED` — and three exit codes say
+them: `0` clean, `1` something is WRONG NOW, `2` nothing known-wrong and a copy could not be asked.
+⛔ `2` IS NOT A SOFTENING. It is non-zero, it stops a `&&` chain, and it can never be read as done; what
+it refuses to do is claim the tree is broken when the truth is that one copy is unmeasurable. That
+matters because `research-ledger.json` is unmeasurable BY CONSTRUCTION — `priority.py` stamps
+`age_factor_as_of` from today's date, so the ledger is not byte-reproducible from the graph and cannot
+honestly carry a read-only `--check` at all. Folding it into `1` would leave `--fix` red every run of
+every day over a condition nobody can clear, and §6 already names what that produces.
 ⛔ AND THE PROHIBITION IN `check_generated_carriers` IS NOW ENFORCED RATHER THAN WRITTEN. It said "this
 function must never regenerate" while handing `--check` to any path a file declared — and a generator
 shaped like `instrument_census.py` (`if "--check" in argv: … else: WRITE`) rewrites the tree on any argv
@@ -123,6 +128,9 @@ the denominator can no longer shrink silently.
 Usage:
     python3 research/manuscripts/line_citations.py            # check, non-zero exit if any drifted
     python3 research/manuscripts/line_citations.py --fix      # rewrite the drifted ones in place
+
+Exit codes: 0 nothing outstanding · 1 something is WRONG NOW (a stale copy, or a drift left for a
+reader) · 2 nothing known-wrong and a generated copy could not be asked.
 """
 from __future__ import annotations
 
@@ -184,6 +192,10 @@ LOOKBACK = 400
 
 #: A citation preceded by "SI" within this many characters targets the SI, not the paper.
 SI_HINT = re.compile(r"\bSI\b[^.]{0,80}$")
+
+#: ⭐ WHAT AN EXIT CODE MEANS HERE. `EXIT_UNMEASURED` is deliberately NON-ZERO and deliberately NOT
+#: `EXIT_WRONG`: see `verdict`. Ordered, so `max()` never downgrades a real fault to a standing one.
+EXIT_CLEAN, EXIT_UNMEASURED, EXIT_WRONG = 0, 2, 1
 
 
 def _norm(s):
@@ -595,17 +607,30 @@ def verdict(found, gen_results, rewrote=None, needs_review=0):
 
     `gen_results is None` means the generators were NOT ASKED in this mode (the checker does not run
     them — see the note in `main`), and the verdict says that rather than letting silence imply it.
+
+    ⭐⭐ THREE EXIT CODES, BECAUSE THE FIX FOR A SILENT TOOL MUST NOT BE A PERMANENTLY RED ONE.
+      `0` nothing outstanding · `1` something is WRONG NOW (a copy is STALE, or drifted citations were
+      left for a reader) · `2` nothing is known to be wrong and a copy is UNMEASURED.
+    ⚠ MEASURED, AND IT IS WHY THIS IS NOT COSMETIC: `research-ledger.json` is UNMEASURABLE BY
+    CONSTRUCTION, not by omission. Its generator writes `score_inputs.age_factor_as_of` from TODAY'S
+    DATE, so the ledger is not byte-reproducible from the graph and `priority.py` cannot honestly have a
+    read-only `--check` at all. Folding that into `1` would make `--fix` red on every run of every day,
+    for a condition nobody can clear — and CLAUDE.md §6 already names what that produces: "a gate that
+    reddens under load is one people learn to re-run — worse than no gate." ⛔ THE ANSWER IS NOT EXIT 0.
+    A standing condition is still a condition; `2` is non-zero, so it still stops a `&&` chain and still
+    cannot be read as done — it simply does not claim the tree is broken when what is true is that one
+    copy cannot be asked.
     """
     n_hand, n_hand_cites = hand_written_surface(found)
     n_copies = len([1 for _, g in found if g])
     n_gen = len({g for _, g in found if g})
-    lines, code, clauses = [], 0, []
+    lines, code, clauses = [], EXIT_CLEAN, []
 
     if rewrote is not None:
         clauses.append("rewrote %d citation(s) in %s" % (rewrote, os.path.relpath(MAP, ROOT)))
     if needs_review:
         clauses.append("LEFT %d drifted citation(s) for a reader" % needs_review)
-        code = 1
+        code = EXIT_WRONG
 
     if gen_results is None:
         clauses.append("%d generated cop%s behind %d generator(s) NOT ASKED in check mode (run --fix, "
@@ -622,7 +647,7 @@ def verdict(found, gen_results, rewrote=None, needs_review=0):
                 lines.append("     python3 %s" % g)
                 for line in (out or "(no output)").split("\n"):
                     lines.append("        %s" % line)
-            code = 1
+            code = EXIT_WRONG
         if unmeasured:
             lines.append("\n⛔ AND %d GENERATED COP%s UNMEASURED — this tool could not ask, which is NOT "
                          "the same as an answer:" % (len(unmeasured),
@@ -631,7 +656,12 @@ def verdict(found, gen_results, rewrote=None, needs_review=0):
                 lines.append("     %s" % g)
                 for line in (out or "(no output)").split("\n"):
                     lines.append("        %s" % line)
-            code = 1
+            # ⛔⛔ NEVER DOWNGRADES A REAL FAULT, AND `max()` IS THE WRONG TOOL FOR THAT — measured by
+            # the guard on this contract, 2026-09-02. The exit NUMBERS are conventional (1 is the
+            # ordinary shell failure, so WRONG must own it) and they run OPPOSITE to severity, so
+            # `max(EXIT_WRONG, EXIT_UNMEASURED)` returns UNMEASURED and quietly downgrades a stale copy
+            # to a standing condition. Severity is stated, not inferred from the integers.
+            code = EXIT_WRONG if code == EXIT_WRONG else EXIT_UNMEASURED
         clauses.append("of %d generator(s) behind %d generated cop%s: %d fresh · %d STALE · %d UNMEASURED"
                        % (n_gen, n_copies, "y" if n_copies == 1 else "ies",
                           len(fresh), len(stale), len(unmeasured)))
@@ -730,7 +760,7 @@ def main(argv=None):
     lines, _ = verdict(found, None)
     for line in lines:
         print(line)
-    return 1 if drifted else 0
+    return EXIT_WRONG if drifted else EXIT_CLEAN
 
 
 if __name__ == "__main__":
