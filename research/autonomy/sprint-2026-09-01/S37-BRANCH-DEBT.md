@@ -1,6 +1,6 @@
 ---
 id: DOC-SPRINT-S37-BRANCH-DEBT
-title: "S37-BRANCH-DEBT — the merge-debt hook's eighteen, discharged: thirteen superseded and recorded as such, three merged for content, two recorded as stranded with the blockers that stop them"
+title: "S37-BRANCH-DEBT — the merge-debt hook's eighteen, discharged: thirteen superseded and recorded as such, two merged for content, three recorded as stranded with the measurement that blocks each"
 level: L3
 kind: memo
 status: live
@@ -45,7 +45,7 @@ The set was enumerated here rather than taken from a prompt:
 | `claude/aut071-s1-CYC-0074` | 2 | **A** merged `-s ours` | the trabectedin JSON S38 called branch-only is on `main`; main's `routes.json` has **12** trabectedin references against **10** |
 | `claude/aut-pd-147-s3-CYC-0074` | 1 | **A** merged `-s ours` | 3 paths, 0 absent, 2 identical; the only diff is `research-ledger.json`, Lane 1, where the trunk is authoritative |
 | `claude/aut-pd-130-s4-CYC-0074` | 3 | **A** merged `-s ours` | main's `claim_coverage.py` is **867 lines against 782**; the paired test **425 against 394** |
-| `seat/s3-unscreened-endpoints` | 1 | **C** merged | a 305-line guard on **1 ref of 302**, and 210 lines of `lint_style.py` main does not have |
+| `seat/s3-unscreened-endpoints` | 1 | **S** merged then **backed out** | the guard is real; its ratchet was pinned 2026-08-28 and **8 documents have drifted past it since**, and both remedies are barred to this seat |
 | `seat/s1-aut-pd-130` | 2 | **A** merged `-s ours` | same file set as its sibling; main's `claim_coverage.py` **867 against 678** |
 | `claude/nr4a3-gapmer-presubmission-d4vqmp` | 6 | **A** merged `-s ours` | main's ASO article is **4,695 words against 4,579**, and eight days newer — taking this branch would roll the submission back |
 | `claude/preprint-host-unaffiliated-srzofd` | 12 | **C** merged (path-scoped) | 5 of its 7 branch-only paths recovered; the 2 build-stamps refused on a measurement |
@@ -59,8 +59,13 @@ The set was enumerated here rather than taken from a prompt:
 | `ci-input/tcip-interface-floor-2026-08-07` | 4 | **A** merged `-s ours` | all 4 byte-identical; **80 of 80** added lines on `main` |
 | `claude/tcip-effector-stage-ci` | 2 | **A** merged `-s ours` | **5,713 of 5,713** added lines on `main` |
 
-**Thirteen A/B · three C · two S.** Every one of the eighteen is now either an ancestor of `main` or
-carries a `_stranded_work` record naming its branch and tip sha.
+**Thirteen A/B · two C · three S.** Every one of the eighteen is now either an ancestor of `main` or
+carries a record naming its branch and tip sha.
+
+⚠ **`seat/s3-unscreened-endpoints` changed verdict during this session, and the gate is why.** It was
+merged for content, the full run went red on 11 failures inside the merged module, and it was backed
+out. §3a records the numbers. That is a better outcome than the merge would have been — the failures
+name exactly what a later session must clear — but it means the branch still holds its work.
 
 ---
 
@@ -88,11 +93,14 @@ lists which are safe.
 
 ---
 
-## §3 · THE THREE MERGED FOR CONTENT
+## §3 · THE TWO MERGED FOR CONTENT, AND THE ONE THAT WAS MERGED AND BACKED OUT
 
-### 3a · `seat/s3-unscreened-endpoints` @ `88ac1c7c3` — a clause that could not fail
+### 3a · `seat/s3-unscreened-endpoints` @ `88ac1c7c3` — merged, run, and BACKED OUT
 
-The only one of the eighteen whose content merged cleanly. It adds
+⛔ **THE VERDICT ON THE BRANCH IS UNCHANGED — the guard is real and worth having — and it still
+cannot land today. The gate established that, not a judgement call.** It merged cleanly, the full
+run went red on **11 failures, every one inside the merged module**, and the content was reverted.
+The branch adds
 `research/manuscripts/tests/test_every_publication_endpoint_is_style_screened_or_recorded.py` (305
 lines, on **1 ref of 302**, on no path of `main`) and a 210-line endpoint register in
 `research/manuscripts/lint_style.py` — 522 lines on `main`, 718 here, so not a rename.
@@ -115,6 +123,33 @@ is screened; it asserts that every endpoint has been **decided about**, in a com
 DIFFERENT row … a clean auto-merge would silently overwrite one with the other."* `research-ledger.json`
 was the merge's only conflict and was taken from `main` unchanged. Verified after resolution: **390
 ledger ids, 0 duplicates**, trunk `AUT-PD-141` subject intact.
+
+#### Why it was backed out — the numbers, which are the useful part
+
+The register was measured on 2026-08-28 at `origin/main` `170314393`. `main` has moved for five days
+underneath it, and the guard correctly noticed:
+
+* **`test_a_recorded_debt_may_fall_and_may_not_rise` fails for 8 documents.** Verbatim, for one:
+  *"`nr4a3-degrader-paper.md` was pinned at **1170** findings and now measures **1176** … Fix the
+  DOCUMENT. Lowering the pinned number to match is the edit this test exists to make visible."*
+* **`test_nothing_is_both_screened_and_recorded_as_unscreened` fails** because `main` has since added
+  `care-delivery/emc-trial-reachability.md` to `lint_style.TARGETS`, so its recorded row *"has
+  outlived its decision"*.
+* **`test_the_caution_baseline_covers_every_screened_document` fails** for that same document.
+
+⛔⛔ **BOTH REMEDIES ARE EDITS THIS SEAT MAY NOT MAKE.** *Fix the documents* — but two of the eight
+are `dependency/emc-atr-vulnerability-assessment.md` and `care-delivery/emc-trial-reachability.md`,
+both pinned under blind review and out of bounds. *Re-pin the numbers* — the edit the test's own
+message names as the one it exists to expose, and the "raise a ceiling to land your own test" move
+`amendment_guard` refuses. **Landing the guard by weakening it would turn a working ratchet into a
+rubber stamp in the same commit that praises it for catching drift.**
+
+⭐ **ONE FINDING SURVIVES THE BACKOUT AND MUST NOT BE LOST WITH IT.**
+`emc-trial-reachability.md` is in `TARGETS` **with no readability baseline**, so `publish_bar`
+clause 7's caution floor compares against nothing and returns PASS for it **on `main` today**. It
+needs no part of this branch to fix — `python3 research/manuscripts/lint_readability.py
+--write-baseline` — but it is a bar change on a paper under review, so it is recorded here rather
+than taken silently.
 
 ### 3b · `claude/preprint-host-unaffiliated-srzofd` @ `06171eeee` — the submission record
 
@@ -242,13 +277,15 @@ reported as deleted.
 `worktree-agent-ab0b548a575724822` · `worktree-agent-a8e9ae2f991db8def` · `claude/ci-a3b5-lanes` ·
 `ci-input/tcip-interface-floor-2026-08-07` · `claude/tcip-effector-stage-ci`
 
-**Safe — content merged:** `seat/s3-unscreened-endpoints`.
+**Safe — content merged:** none beyond the `-s ours` set above; the two path-scoped recoveries and
+`seat/s3` all still hold content.
 
 ⛔ **DO NOT DELETE — content still only on the branch:**
 `claude/preprint-host-unaffiliated-srzofd` (two build-stamps, §3b) ·
 `claude/best-paper-submission-tqa0cn` (the `txgnn_predict.py` history, and 77 paths not taken) ·
 `claude/emc-symptom-treatment-742257` (§4a, everything) ·
-`cyc0073-d4ccfde4-work` (the receipt text, §4b).
+`cyc0073-d4ccfde4-work` (the receipt text, §4b) ·
+**`seat/s3-unscreened-endpoints` (§3a — merged, reverted, and the only home of the guard).**
 
 ---
 
