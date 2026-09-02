@@ -15,8 +15,18 @@ Output...], arguments=[...])`:
   * `environment`                    → estimator env.
 
 Env knobs: SPOT (default 1; 0 = on-demand fallback for a type with no spot quota), MAX_RUNTIME, MAX_WAIT.
+
+⛔⛔ THE NO-GPU BAN IS CHECKED HERE, AND THIS IS THE SAGEMAKER HALF OF IT. 21 lane modules
+(`nr4a3_*_sagemaker.py`, `fusion_cofold_sagemaker.py`) call this helper directly and NONE of them goes
+through `gpu_backend.Backend.submit`, so a gate on the backend adapters alone would have left every
+SageMaker lane open. One gate, read from `research/autonomy/gpu_ban.py`; the decision itself lives in
+`autonomy-state.json -> gpu_spend_prohibited` and is not restated here.
 """
 import os
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "autonomy"))
+import gpu_ban as _gpu_ban  # noqa: E402
 
 
 def _to_hyperparameters(arguments):
@@ -48,6 +58,10 @@ def submit_spot(*, entry_point, source_dir, base_job_name, output_prefix,
                 max_run=None, spot=None, max_wait=None, wait=True, role=None, sess=None,
                 checkpoint_s3_uri=None):
     """Build + fit a spot PyTorch Training job. Returns the estimator. `inputs` = {channel_name: s3_uri}."""
+    # ⛔ BEFORE THE SDK IS EVEN IMPORTED. A refused lane must not need AWS credentials, a session or a
+    # bucket to learn it is refused, and must not spend an API call deciding what it is not allowed to buy.
+    _gpu_ban.assert_permitted(f"sagemaker_submit.submit_spot({base_job_name!r}) — a billable SageMaker "
+                              f"Training job on {os.environ.get('INSTANCE', instance)}")
     import sagemaker
     from sagemaker.pytorch import PyTorch
     from sagemaker.inputs import TrainingInput

@@ -427,6 +427,10 @@ jobs:
           OK=0
           for Z in "$ZONE" us-central1-b us-central1-c us-central1-f; do
             # us-central1 ONLY — quota exists nowhere else (CLAUDE.md §6). Never add another region.
+            # ⛔ NO-GPU BAN (autonomy-state.json -> gpu_spend_prohibited). One gate: research/autonomy/gpu_ban.py.
+            # Inline, immediately above the meter, rather than a job-level step: a step can be reordered away from
+            # the thing it guards, and a relaunch is a NEW PURCHASE (CLAUDE.md §6) that must face it again.
+            python3 "${GITHUB_WORKSPACE:-.}/research/autonomy/gpu_ban.py" --context "gpu-fanout-rep-gcp: GCE GPU VM" || exit 3
             if gcloud compute instances create "$VM" \
                 --zone="$Z" --machine-type=g2-standard-8 \
                 $PROV_FLAGS \
