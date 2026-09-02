@@ -114,6 +114,65 @@
             }
           }
         },
+        "pending_version": {
+          "type": "object",
+          "required": [
+            "state",
+            "submitted_by",
+            "reported_utc",
+            "source",
+            "published_at_utc",
+            "verification_status"
+          ],
+          "additionalProperties": false,
+          "description": "⛔ A VERSION SUBMITTED TO THE VENUE THAT HAS NOT APPEARED. Optional, and NOT a second `posted` — `posted` records the act that gave a document an outside reader, and this records one that has not happened yet. The two must never be merged: everything in `posted` is transcribed from the publisher's own record (CLAUDE.md §7), while everything here rests on the submitter's report and is unverifiable at primary source until the venue publishes.\n★ WHY THIS EXISTS. Before it, the schema had exactly two positions for a version — absent, or inside `posted` with a REQUIRED `published_at_utc`. A submitted-not-yet-posted version fits neither, so a cycle recording one had to choose between failing the build and writing a publication date for something that has not published. ⚠ Added 2026-09-02 after trimcrae said \"I uploaded v2 of the ASO preprint\" and then corrected it to \"I submitted v2 … it just hasn't posted yet\" — one edit away from a populated field nobody had measured, which CLAUDE.md §4 calls more dangerous than an empty one.\n⛔ IT DOES NOT MOVE `state`. A submission is not a posting, so `state` keeps describing what a reader can actually reach; this block is the only record that a later version is in flight.",
+          "properties": {
+            "state": {
+              "enum": [
+                "SUBMITTED_NOT_YET_POSTED",
+                "UNDER_REVIEW",
+                "DECLINED",
+                "WITHDRAWN"
+              ],
+              "description": "⛔ NONE OF THESE IS A POSTING. When the version appears, this block is DELETED and its content moves into `posted` — transcribed from the publisher's record at that point, never copied across from here, because nothing here was read at primary source."
+            },
+            "version_label_expected": {
+              "type": "string",
+              "description": "⚠ EXPECTED, not assigned. The venue assigns the label, and it has surprised this project before — aiXiv followed version 1.9 with 2.0. Never cite this as the version."
+            },
+            "submitted_by": {
+              "type": "string",
+              "description": "Who submitted, and whether an agent grant was used — CLAUDE.md §3: publish only the paper trimcrae named, as the paper it is, per paper and per act."
+            },
+            "reported_utc": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string",
+              "description": "Where the claim that a submission happened comes from. A submitter's own report is primary evidence for the SUBMISSION and says nothing whatever about the POSTING."
+            },
+            "published_at_utc": {
+              "type": "null",
+              "description": "⛔ REQUIRED AND MUST BE NULL — the one field in this schema whose only legal value is null. It is required rather than forbidden so that the absence is EXPLICIT in every record: a reader sees a date field answered `null` instead of wondering whether the writer forgot it. An absent reading is not a reading of absence (CLAUDE.md §4). A version with a real publication date belongs in `posted`, not here."
+            },
+            "verification_status": {
+              "enum": [
+                "UNVERIFIED_AT_PRIMARY_SOURCE",
+                "VERIFIED_STILL_PENDING"
+              ],
+              "description": "Whether anyone has checked the venue itself since the submission was reported. ⛔ `VERIFIED_STILL_PENDING` requires reading the venue's own record and finding no public version — reading a fetch workflow's RUN RECORD is not reading its artifact (research-loop §8.4)."
+            },
+            "_verification_status_means": {
+              "type": "string"
+            },
+            "_means": {
+              "type": "string"
+            },
+            "_published_at_utc_is_null_because": {
+              "type": "string"
+            }
+          }
+        },
         "target_venue": {
           "enum": [
             "internal_note",
