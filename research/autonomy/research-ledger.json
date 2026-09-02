@@ -32,8 +32,8 @@
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 24,
-  "n_unscored_open": 1,
+  "n_unscored": 23,
+  "n_unscored_open": 0,
   "entries": [
     {
       "serves": {
@@ -7290,6 +7290,46 @@
       "score_inputs": {}
     },
     {
+      "id": "AUT-PROP-058-11f2347b-3f863124",
+      "kind": "proposal",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "requires_trimcrae": true,
+      "requires_trimcrae_why": "It governs HOW RULES GET ADDED to this repository, so a cycle adopting it for itself is the shape `amendment_guard` exists to refuse. The proposal is written; the adoption is his.",
+      "notified_utc": null,
+      "what": "⛔⛔ THREE PROTECTIONS IN THIS REPOSITORY WERE RECORDED AND ENFORCED BY NOTHING, AND THE THIRD WAS BEING VIOLATED WHILE IT WAS BEING WRITTEN DOWN. PROPOSE: no bar, cap or prohibition may be declared without, in the SAME COMMIT, either the code that reads it or an explicit UNENFORCED marker naming what is holding the line instead.\n★ THE THREE, EACH MEASURED RATHER THAN RECALLED:\n(1) `subagent_width` — a governed number `grep -rn` proved no code read: two hits, the JSON defining it and one test asserting it equals 5. Compliance was luck. Recorded in CLAUDE.md §1.\n(2) `max_versions_per_paper: 3` — measured 2026-09-02: three hits, none of them a reader, and `authority_permits('PUB-VACCINE-PATH','aixiv','new_version')` returns ok=True for a paper already carrying ELEVEN posted versions. The cap exists because eleven versions of one paper never moved its rating above 6 and trended DOWN; an uncapped loop would have put ten near-identical versions under trimcrae's ORCID.\n(3) `gpu_spend_prohibited` — trimcrae, 2026-09-02: 'You shouldn't be doing any GPU runs as part of this automation.' It was written into `autonomy-state.json` at 16:20Z. Between 15:55Z and 16:15Z the ternary Vast lane had already made FOUR launch attempts, and it kept dispatching afterwards from a supervisor loop that a cron removal does not stop.\n⭐ THE COMMON SHAPE, AND IT IS NOT FORGETFULNESS: in all three the rule was CORRECT, VISIBLE and WELL-ARGUED, and something else was the only thing actually holding the line — in (3) a price gate, which refused two attempts and let an unrelated fault kill the other two. ⛔ A ROUTINE THAT HAPPENS TO REFUSE IS NOT A CONTROL. Nothing billed, and $0 was the outcome of a gate doing an adjacent job, not of the ban working.\n★ WHY A NEW RULE RATHER THAN MORE CARE: CLAUDE.md ALREADY says 'RECORDED IS NOT ENFORCED' and cites (1) by name. That sentence was in front of every session that then shipped (2) and (3). A rule this repository has already written, and violated twice more since, is not a rule that needs restating — it needs a gate, which is the proposal's own argument turned on itself.",
+      "next_action": "Add a preflight check that walks the declared bars/caps/prohibitions in `autonomy-state.json` and `publication-authority.json` and, for each, asserts either a reader exists or an `_UNENFORCED` field names what is holding the line and why. ⛔ It must fail CLOSED on a declaration it cannot classify — an unclassifiable bar is the exact state all three of these were in. Mind `scripts/tier-budgets.json`: this belongs in the cheapest tier that runs on every commit, and adding it is a budget decision, not a free one.",
+      "evidence": [
+        "CLAUDE.md §1 (subagent_width, and health.py:fanout_is_governed added to measure it)",
+        "research/autonomy/publication-authority.json scope.max_versions_per_paper",
+        "research/autonomy/autonomy-state.json gpu_spend_prohibited._ENFORCEMENT_IS_NOT_THIS_FIELD",
+        "research/modalities/ternary-vast-launch-attempts.json — four attempts 15:55:42Z-16:15:44Z on 2026-09-02",
+        "commit disabling the GPU launch triggers, 2026-09-02"
+      ],
+      "route": null,
+      "last_evidence_utc": "2026-09-02",
+      "retry_budget": 3,
+      "score_inputs": {
+        "blocked_on_human": true
+      },
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_strategy_was": "ST-AUTONOMY",
+        "_strategy_remap_note": "⛔ `ST-AUTONOMY` NAMES NO ID IN systems/graph/strategies.json (13 ids) — the driver invented it when filing this row, and `priority.py` refused it. Nulled per the AUT-PD-177 convention rather than added to the graph, because adding it would manufacture a strategy to satisfy a pointer, which is a claim about the architecture the architecture does not make.\n★ AND NULL IS THE HONEST VALUE HERE, not a placeholder: this proposal serves no route, no paper and no strategy. It is a governance change about how bars are DECLARED, so its beneficiary is the loop's own integrity. Inventing a served id to make it rank would be the scoring equivalent of the defect the proposal describes."
+      },
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "_score_basis": "HAND-SET, AS THE LEDGER'S `_role` REQUIRES OF A SESSION-ADDED ROW: 'AN ENTRY A SESSION ADDS MUST CARRY A `score` AND A `_score_basis` … a row with no score is pinned BELOW every scored row by the sort and no ranking term can reach it — including the anti-starvation age factor.' This row served no route, paper or strategy, so `apply_route_inheritance` had no floor to inherit and the scorer returned None.\n★ 95.0 IS DELIBERATELY LOW AND THE REASONING IS THE POINT. It sits below every open process_defect (125-137) and far below live research (the eligibility map at 160.0, the ATR assessment at 190.9), because CLAUDE.md §0 is explicit that live routes outrank the loop's own housekeeping. A proposal about how bars get declared advances no EMC route and reaches no patient. Ranking it near the top would be this repository's most-named failure — the loop documenting itself instead of doing research — committed by the very row that complains about ungoverned rules.\n⛔ IT IS FILED SO IT IS NOT LOST, NOT SO IT IS TAKEN NEXT. It also `requires_trimcrae`, so a high score would only surface it faster to a queue that cannot act on it.",
+      "_score_basis_provenance": "Set by the driver 2026-09-02 after `test_an_unscored_row_is_ranked_by_nothing` and `test_the_unscored_population_can_only_shrink` went red on this row. ⛔ THE FAILURE WAS MISATTRIBUTED FIRST: a seat reported the three red tests as pre-existing trunk debt reproducing on clean `origin/main`, which was true only because this row had already been pushed to main when it looked. All 23 other unscored rows are `done`; the guard is about the OPEN population, and this row took it from 0 to 1. Checking cost one command and stopped a false 'not mine'.",
+      "score": 95.0
+    },
+    {
       "id": "AUT-BIX-001",
       "kind": "process_defect",
       "serves": {
@@ -13159,32 +13199,6 @@
       "_score_basis": "loop-instrument defect, found and closed in the same cycle; filed for the record rather than for the queue",
       "score_inputs": {},
       "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use."
-    },
-    {
-      "id": "AUT-PROP-058-11f2347b-3f863124",
-      "kind": "proposal",
-      "state": "queued",
-      "cost_class": "free",
-      "owner": null,
-      "claimed_utc": null,
-      "requires_trimcrae": true,
-      "requires_trimcrae_why": "It governs HOW RULES GET ADDED to this repository, so a cycle adopting it for itself is the shape `amendment_guard` exists to refuse. The proposal is written; the adoption is his.",
-      "notified_utc": null,
-      "what": "⛔⛔ THREE PROTECTIONS IN THIS REPOSITORY WERE RECORDED AND ENFORCED BY NOTHING, AND THE THIRD WAS BEING VIOLATED WHILE IT WAS BEING WRITTEN DOWN. PROPOSE: no bar, cap or prohibition may be declared without, in the SAME COMMIT, either the code that reads it or an explicit UNENFORCED marker naming what is holding the line instead.\n★ THE THREE, EACH MEASURED RATHER THAN RECALLED:\n(1) `subagent_width` — a governed number `grep -rn` proved no code read: two hits, the JSON defining it and one test asserting it equals 5. Compliance was luck. Recorded in CLAUDE.md §1.\n(2) `max_versions_per_paper: 3` — measured 2026-09-02: three hits, none of them a reader, and `authority_permits('PUB-VACCINE-PATH','aixiv','new_version')` returns ok=True for a paper already carrying ELEVEN posted versions. The cap exists because eleven versions of one paper never moved its rating above 6 and trended DOWN; an uncapped loop would have put ten near-identical versions under trimcrae's ORCID.\n(3) `gpu_spend_prohibited` — trimcrae, 2026-09-02: 'You shouldn't be doing any GPU runs as part of this automation.' It was written into `autonomy-state.json` at 16:20Z. Between 15:55Z and 16:15Z the ternary Vast lane had already made FOUR launch attempts, and it kept dispatching afterwards from a supervisor loop that a cron removal does not stop.\n⭐ THE COMMON SHAPE, AND IT IS NOT FORGETFULNESS: in all three the rule was CORRECT, VISIBLE and WELL-ARGUED, and something else was the only thing actually holding the line — in (3) a price gate, which refused two attempts and let an unrelated fault kill the other two. ⛔ A ROUTINE THAT HAPPENS TO REFUSE IS NOT A CONTROL. Nothing billed, and $0 was the outcome of a gate doing an adjacent job, not of the ban working.\n★ WHY A NEW RULE RATHER THAN MORE CARE: CLAUDE.md ALREADY says 'RECORDED IS NOT ENFORCED' and cites (1) by name. That sentence was in front of every session that then shipped (2) and (3). A rule this repository has already written, and violated twice more since, is not a rule that needs restating — it needs a gate, which is the proposal's own argument turned on itself.",
-      "next_action": "Add a preflight check that walks the declared bars/caps/prohibitions in `autonomy-state.json` and `publication-authority.json` and, for each, asserts either a reader exists or an `_UNENFORCED` field names what is holding the line and why. ⛔ It must fail CLOSED on a declaration it cannot classify — an unclassifiable bar is the exact state all three of these were in. Mind `scripts/tier-budgets.json`: this belongs in the cheapest tier that runs on every commit, and adding it is a budget decision, not a free one.",
-      "evidence": [
-        "CLAUDE.md §1 (subagent_width, and health.py:fanout_is_governed added to measure it)",
-        "research/autonomy/publication-authority.json scope.max_versions_per_paper",
-        "research/autonomy/autonomy-state.json gpu_spend_prohibited._ENFORCEMENT_IS_NOT_THIS_FIELD",
-        "research/modalities/ternary-vast-launch-attempts.json — four attempts 15:55:42Z-16:15:44Z on 2026-09-02",
-        "commit disabling the GPU launch triggers, 2026-09-02"
-      ],
-      "route": null,
-      "last_evidence_utc": "2026-09-02",
-      "retry_budget": 3,
-      "score_inputs": {
-        "blocked_on_human": true
-      }
     }
   ]
 }
