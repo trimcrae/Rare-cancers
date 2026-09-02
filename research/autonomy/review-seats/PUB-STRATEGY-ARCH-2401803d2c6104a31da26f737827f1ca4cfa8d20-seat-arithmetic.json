@@ -1,0 +1,122 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "reviewed_commit": "2401803d2c6104a31da26f737827f1ca4cfa8d20",
+  "document_sha256": "82b0c004ec1598e8fcfd656707fc9e91601d45dc3c647343cc8585b0668c8b9a",
+  "blind": true,
+  "status": "closed",
+  "seat": "arithmetic",
+  "seat_id": "s26-arith",
+  "lens": "arithmetic and quantity",
+  "round": null,
+  "_round_unknown": "The seat was given a pin, a document and a lens, and was not told its round number or its dispatching cycle. Recorded as null rather than guessed, because reading the hardening state or another seat's record to recover it would have cost the blindness.",
+  "utc": "2026-09-02T18:35:00Z",
+  "_blind_means": "Given the pinned sha, the document and the lens and nothing else. Told not to look for any other seat's record and that finding nothing is a legitimate result. Every number was re-derived by opening the three artifacts the paper's §7 cites AT THE PIN (git show <sha>:<path>) and recomputing, never by reading a summary sentence inside them — the NR4A3 finding string and the ISRCTN 'search for the histology' label are both places where the artifact's own prose disagrees with the artifact's own data, and both were caught that way.",
+  "_lens_scope": "Every printed figure in the document: enrolment counts, record counts, condition-list counts, endpoint counts, date counts, percentages and denominators. Prose, citations, claim strength and scope language were out of scope and are not graded here.",
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at the pin)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json (at the pin)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json (at the pin)",
+    "research/literature/non-us-registry-sweep-2026-08-09.json (at the pin)",
+    "research/literature/emc-clinical-sweep-c3.json (at the pin — the URL manifest behind NCT06239272)",
+    "research/manuscripts/pinned-figures.json (at the pin — to check whether any figure in this paper is pinned or guarded; none is)",
+    "research/manuscripts/program/emc-unexplored-treatment-lanes.md (date grep only, to test whether a third registry-read date exists behind §3.3)",
+    "research/autonomy/review-seats/PUB-ASO-3d5c709b69bc32a00a7776bf47303771d17d87f5-seat-arithmetic.json (schema only, a different paper)",
+    "research/autonomy/seat_scratch.py and research/autonomy/publish_bar.py (record-shape requirements only)"
+  ],
+  "central_claim": "Two recruiting interventional trials on one US registry admit extraskeletal myxoid chondrosarcoma under molecular eligibility — NCT05918640 on the FET fusion family, NCT06571734 on a translocation-associated soft-tissue-sarcoma cohort — while neither names the histology in its listed conditions, so no histology search returns them; and the counter-finding that both trials adjudicated as REFUSING the disease would have passed an automated keyword screen, which makes a keyword-built reachability map worse than no map.",
+  "verdict": "supported_with_reservations",
+  "recommendation": "revise",
+  "_verdict_means": "The central claim was attacked on its numbers and it held. The two admitting trials re-derive exactly from the cited artifacts — NCT06571734 RECRUITING / INTERVENTIONAL / PHASE2 / estimated_enrollment 73 with a verbatim admitting criterion and emc_in_listed_conditions false; NCT05918640 RECRUITING / PHASE1+PHASE2 with eligibility_basis 'fusion-family-defined (FET: EWSR1 / FUS / TAF15)' and the same four listed conditions the abstract prints — and both refusals re-derive from summary.refused = 2. The reservations are five printed quantities that do not re-derive cleanly. None of them falsifies a claim; every one is repairable by an edit that does not move the finding.",
+  "blockers": [],
+  "_blockers_empty_means": "⛔ A REPORTED READING, NOT AN ABSENT ONE. Every figure in the document was re-derived against the artifact that produces it and the derivation log records each attempt with its PASS/FAIL and the field it came from. Fourteen quantities re-derived exactly, including the two the paper's finding rests on. No figure in this document matches nothing, and no figure asserts a value the artifacts contradict outright.",
+  "p1s": [
+    {
+      "id": "ARITH-P1-01",
+      "summary": "The §3 table prints NCT06571734's listed conditions as a five-item list and the registry field has seven items — 'Ewing Sarcoma' is in the field and not in the paper's cell. The paper prints NCT05918640's four listed conditions completely one row above, and the abstract prints them completely again, so a reader has every reason to read these cells as the whole field. The omission is not neutral: the paper's own §4 counter-finding is about Ewing-sarcoma keyword traps, and a reader who opens the record finds Ewing sarcoma listed on the very trial the paper offers as the clean admitting example.",
+      "why_not_a_blocker": "The claim the cell supports — EMC is absent from the field — is true either way, and the two leiomyosarcoma entries being merged into 'metastatic and unresectable leiomyosarcoma' is a fair compression.",
+      "fix": "Add 'Ewing sarcoma' to the cell, or mark the cell as a partial list.",
+      "evidence": "research/literature/emc-trial-reachability-adjudication-2026-08-09.json, adjudications[NCT06571734].listed_conditions = ['Metastatic Leiomyosarcoma','Unresectable Leiomyosarcoma','Bone Sarcoma','Translocation-associated Soft Tissue Sarcoma','Synovial Sarcomas','Osteosarcoma Metastatic','Ewing Sarcoma'] (7 entries)"
+    },
+    {
+      "id": "ARITH-P1-02",
+      "summary": "The frontmatter scope says the two registries were 'read across three dates'. Every read in every cited artifact happened on one of two dates: the four ClinicalTrials.gov runs in fet-fusion-trial-eligibility carry url_fetch_window_et stamps all on 2026-08-07, the adjudication carries document_date_et 2026-08-09, and the non-US sweep carries _retrieval.date_et 2026-08-09. The paper's own §2 table names those same two dates and no third, and the abstract's 'one public registry twice and a second one once' is three READS, not three dates. §3.3 of emc-unexplored-treatment-lanes.md, the earlier work the 2026-08-07 sweep re-verified, is itself dated 2026-08-07, so no third date is hiding behind it either.",
+      "why_not_a_blocker": "It is the scope block, not a finding, and the body table carries the correct dates.",
+      "fix": "'read across two dates', or 'read three times across two dates'.",
+      "evidence": "fet-fusion-trial-eligibility-2026-08-07.json retrieval.runs[*].url_fetch_window_et (all 2026-08-07); emc-trial-reachability-adjudication-2026-08-09.json document_date_et; non-us-registry-sweep-2026-08-09.json _retrieval.date_et"
+    },
+    {
+      "id": "ARITH-P1-03",
+      "summary": "The abstract says the nine further registry records 'name no histology either'. Seven of the nine name at least one specific disease in their conditions field — 45 named-disease condition entries across the nine, from NCT07440290's nineteen-item list down to NCT05770102's ten — and one of them, NCT06988475, lists 'Soft Tissue Sarcoma', a class term that covers this disease. Only NCT05722886 ('Haematological Malignancy', 'Solid Tumour') and NCT03767075 ('Advanced Solid Tumor') name no disease at all.",
+      "why_not_a_blocker": "The 'either' plausibly carries the referent from the preceding sentence ('neither lists it'), so the intended reading is 'name no such histology' — and the §3 table cell states it correctly as 'various; none names this histology'. The abstract is the loose restatement of a body cell that is right.",
+      "fix": "'name this histology no more than the first two do', or simply 'do not name it either'.",
+      "evidence": "fet-fusion-trial-eligibility-2026-08-07.json, task_2_widened_search.molecularly_defined_not_histology_defined[*].listed_conditions"
+    },
+    {
+      "id": "ARITH-P1-04",
+      "summary": "§3 asserts 'The driver gene is absent from the index entirely', resting on a term search that the cited artifact classifies as a sample rather than an enumeration. That artifact's limits_of_this_screen[0] says a registry-wide term search returning full records is 'capped by response size, not by pageSize: 7 studies came back for pageSize=100. It is a sample of EWSR1-indexed trials, not an enumeration.' The NR4A3 search is the same instrument at the same pageSize, so its five results carry the same cap, and five results cannot establish absence 'entirely'. The paper carries none of that limit — §5 lists five limitations and this is not among them.",
+      "why_not_a_blocker": "The two sentences around it are correctly scoped to what the search returned ('a term search for the driver gene returns five studies', 'No trial that search returns is indexed to this disease's driver'), and both re-derive exactly. Five results also came back under a cap that admitted seven elsewhere, which is weak evidence against truncation. The overreach is one adverb on a correct paragraph.",
+      "fix": "Drop 'entirely', or add the source artifact's own caveat that a full-record term search is a size-capped sample.",
+      "evidence": "fet-fusion-trial-eligibility-2026-08-07.json, task_2_widened_search.limits_of_this_screen[0] and nr4a3_is_absent_from_the_registry_index.studies (5 records, none truncated: the NR4A3 payload appears in neither unparseable_records nor silently_damaged_records)"
+    },
+    {
+      "id": "ARITH-P1-05",
+      "summary": "§2 and the §3 table both say eligibility text was retrieved 'individually' for three of the nine basket records. Three of the nine carry eligibility_text_retrieved = true, but only two of those came from a per-NCT URL: NCT05722886 and NCT03767075. The third, NCT06988475, came from the bulk screen ct_sarcoma_2026_new, whose source_url is a query (query.cond=sarcoma&filter.overallStatus=RECRUITING|NOT_YET_RECRUITING&query.term=fusion+OR+transcription+factor+OR+degrader&pageSize=60). The same sentence's premise is also too strong: §2 says 'The large screens are fields-limited and carry no eligibility text', while the artifact's own instrument list describes ct_sarcoma_2026_new as 'unfielded so eligibility text is included'. One large screen does carry eligibility text, and it is the one that supplied the third record.",
+      "why_not_a_blocker": "These nine records are explicitly not adjudicated, so no admission or refusal in the paper rests on this retrieval. The count of three is right for 'has eligibility text'; it is the word 'individually' and the blanket claim about large screens that are wrong.",
+      "fix": "'eligibility text was retrieved for three of those nine, two of them individually and one inside an unfielded screen', and soften §2's 'the large screens ... carry no eligibility text' to 'the fielded screens'.",
+      "evidence": "fet-fusion-trial-eligibility-2026-08-07.json, molecularly_defined_not_histology_defined[7].retrieved_from.source_url; task_2_widened_search.instruments entry for ct_sarcoma_2026_new"
+    }
+  ],
+  "p2s": [
+    {
+      "id": "ARITH-P2-01",
+      "summary": "The abstract's 'Two recruiting interventional trials admit this disease and neither lists it' reads as a census and is not one, and the paper never states the rule that produced the two. The cited sweep marks two further records memo_claim_checked 'verified open and EMC-eligible' that are RECRUITING, interventional, and carry emc_in_listed_conditions false: NCT04040205 (abemaciclib, phase 2, conditions Chondrosarcoma / Osteosarcoma / Soft Tissue Sarcoma) and NCT01659203 (proton or photon RT, phase 1/2, condition Retroperitoneal Sarcoma). Both are defensibly excluded — each admits only a patient who ALSO has a CDK-pathway alteration or a retroperitoneal primary, whereas the paper's two admit on properties every case of this disease has by definition, and both name a class term a histology search would plausibly reach. That rule is the paper's, it is sound, and it is nowhere in the text, so a reader opening the artifact cannot reproduce the number two.",
+      "fix": "One clause: 'two of the four candidates adjudicated here', or state the by-definition admission rule.",
+      "evidence": "fet-fusion-trial-eligibility-2026-08-07.json, task_1_reverification_of_section_3_3.trials for NCT04040205 and NCT01659203"
+    },
+    {
+      "id": "ARITH-P2-02",
+      "summary": "'n = 73' and 'n = 5500' are printed bare in the §3 table, and both are the registry's TARGET enrolment, not an accrued sample size — the artifact's field is literally estimated_enrollment. In a paper whose whole subject is what a registry field does and does not mean, printing a planned figure with the notation a reader reserves for realised n is the wrong notation.",
+      "fix": "'planned enrolment 73' / 'planned enrolment 5500'.",
+      "evidence": "emc-trial-reachability-adjudication-2026-08-09.json, adjudications[NCT06571734].estimated_enrollment = 73 and adjudications[NCT04151342].estimated_enrollment = 5500"
+    },
+    {
+      "id": "ARITH-P2-03",
+      "summary": "§4.1 says 'searching that registry for this histology returns two trials'. The query actually executed was 'chondrosarcoma' — the parent term, not the histology. The count two re-derives exactly (query_chondrosarcoma.total_count = 2) and the direction of the imprecision is conservative, since the narrower query can only return a subset. But the sentence names a search that was not run, and the artifact's own label ('what a search for the histology actually returned') is where that came from.",
+      "fix": "'searching that registry for the parent term returns two trials'.",
+      "evidence": "non-us-registry-sweep-2026-08-09.json, endpoints[ISRCTN].queries = ['chondrosarcoma', 'sarcoma AND fusion'] against isrctn_what_it_holds.query_chondrosarcoma.total_count = 2"
+    },
+    {
+      "id": "ARITH-P2-04",
+      "summary": "Two smaller counting frictions. (a) §3's parenthetical labels five studies with four categories — '(exercise physiology, spinal-cord injury, neck pain, and a surgical cholangiocarcinoma series)' — because two of the five are the same Norwegian whey/strength-training pair; a reader who counts the parenthetical gets four. (b) The frontmatter scope accounts for five of the six endpoints (two read, three refused) and drops the WHO portal, which the abstract and §5 both report as a fourth unread non-US endpoint and as this sweep's own defect. The scope block is the one place the paper's endpoint accounting does not close.",
+      "fix": "'(two exercise-physiology studies, spinal-cord injury, neck pain, and a surgical cholangiocarcinoma series)'; and name the WHO portal in the scope block.",
+      "evidence": "fet-fusion-trial-eligibility-2026-08-07.json nr4a3_is_absent_from_the_registry_index.studies (NCT02968888 and NCT03033953 are both Norwegian School of Sport Sciences strength-training studies); non-us-registry-sweep-2026-08-09.json endpoints[WHO ICTRP]"
+    }
+  ],
+  "what_re_derived_exactly": [
+    "nine further registry records = 1 master screening protocol (NCT05722886) + 7 DETERMINE arms + 1 separate basket trial (NCT03767075), and exactly one arm (NCT07440290) is NOT_YET_RECRUITING",
+    "NCT06571734: RECRUITING, INTERVENTIONAL, PHASE2, estimated_enrollment 73, emc_in_listed_conditions false, verbatim admitting criterion present",
+    "NCT04151342: RECRUITING, OBSERVATIONAL/COHORT, estimated_enrollment 5500",
+    "NCT05918640: the four listed conditions the abstract prints, verbatim and complete; exactly one removal marker in its eligibility text, which is why §2 quotes no criterion from it",
+    "two candidates adjudicated as refusing (summary.refused = 2) out of four adjudicated (summary.candidates_adjudicated = 4), and those four are exactly the four the sweep left unconfirmed",
+    "three named histologies in NCT06094101's restricting criterion (rhabdomyosarcoma, Ewing, synovial)",
+    "NCT06239272: 42 listed conditions, 'Extraskeletal Myxoid Chondrosarcoma' among them, RECRUITING, and the verbatim criterion 'Patients must be 1-30 years'",
+    "five non-US endpoints attempted, one answered (ISRCTN), EU CTIS refusing for the second time on a second date",
+    "the driver-gene term search returning five studies, of which exactly one (NCT00733200, hilar cholangiocarcinoma, minor vs major liver resection) is a cancer study and none is a sarcoma study",
+    "'two registries, of five or more' — two read (ClinicalTrials.gov, ISRCTN) against six named endpoints"
+  ],
+  "_one_place_the_paper_is_more_accurate_than_its_artifact": "The cited artifact's own finding string says the NR4A3 term search returns five studies and 'NOT ONE is an oncology study', which its own data refutes — NCT00733200 is a cholangiocarcinoma resection trial. The paper does not repeat that error: it says 'the one cancer study among them is a surgical cholangiocarcinoma series'. Recorded because a seat that only checked the paper against artifact summary sentences would have raised a false finding here.",
+  "leaks": "Two, disclosed rather than discarded, and no finding rests on either. (1) `git grep -ln NCT06239272 <sha>` and an `ls` of research/autonomy/review-seats/ returned FILENAMES that include three PUB-STRATEGY-ARCH seat records at an earlier commit (f78666ce…) and the hardening state for this paper. No such file was opened and the seat's findings were all reached from the three cited artifacts. (2) One seat record for a DIFFERENT paper (PUB-ASO at 3d5c709b) was read in full, because the deliverable instruction requires matching an existing record's schema; it concerns a different manuscript and a different artifact set. Separately CLAUDE.md was injected into context by the harness before the seat's first command rather than read by any command of its own.",
+  "logs": [
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-arith/s26-arith-derivations.txt",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-arith/s26-arith-setup.log",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-arith/s26-arith-target.md",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-arith/s26-arith-art-fet-fusion-trial-eligibility-2026-08-07.json",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-arith/s26-arith-art-emc-trial-reachability-adjudication-2026-08-09.json",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-arith/s26-arith-art-non-us-registry-sweep-2026-08-09.json"
+  ],
+  "_logs_are_not_durable": "The seat's logs live in the session scratchpad, which dies with the container. The findings above are its report as delivered; every one names the artifact path and field that reproduces it, and s26-arith-derivations.txt is reproducible from the three cited artifacts at the pin.",
+  "_what_this_seat_did_not_do": "No live registry fetch. The document states its statuses are as posted on the retrieval date, so a 2026-09-02 reading of ClinicalTrials.gov or ISRCTN would measure registry drift rather than test the paper, and the egress proxy refuses clinicaltrials.gov in any case. Every figure was therefore graded against the artifacts the paper cites, which is what the paper asks a reader to do. Whether the driver-gene term search would return five studies today is UNKNOWN to this seat and is not claimed either way."
+}
