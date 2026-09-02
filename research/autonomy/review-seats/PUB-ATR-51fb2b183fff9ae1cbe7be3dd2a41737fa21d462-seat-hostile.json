@@ -1,0 +1,30 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "51fb2b183fff9ae1cbe7be3dd2a41737fa21d462",
+  "blind": true,
+  "seat": "hostile",
+  "lens": "hostile referee (accept/revise/reject)",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "c70fd29f1dd742f7c157b81959e2e4519ed0b660e29ebea408274d2522ebcb9b",
+  "opened_utc": "2026-09-02T21:13:25Z",
+  "verdict": "supported_with_reservations",
+  "referee_recommendation": "accept",
+  "central_claim": "The published FET-fusion -> impaired-ATM -> compensatory-ATR-dependency hypothesis is internally examined against public data (Cellosaurus, DepMap, GDSC2, GEO) for transfer to EMC, and the honest verdict is WEAK-tier: the hypothesis is neither supported nor refuted by anything computable from public data, because no computation here can put the ATM-suppression phenotype in front of an actual NR4A3 fusion.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The '27 classified samples in total' figure in Section 3.1 is arithmetically correct against the committed artifact, but the sentence's own itemized breakdown only sums to 22, and 2 of the 7 GSE4303 platform files it claims to have read from are never named anywhere in the document, so a reader cannot verify the total from the prose alone.",
+      "evidence": "Section 3.1, row 'three EMC samples per platform': '✖ Wrong, and it under-counts the dataset. ... Reading all seven: **10 EMC tumours sit together on GPL3290**, beside **3 GIST and 3 DFSP** on the same print run, with **4 MFH/UPS** on GPL3254 and 2 more GIST on GPL3335 — **27 classified samples** in total.' Summing the stated categories gives 10+3+3+4+2 = 22, not 27. I re-derived the class_counts for all seven GSE4303 platform blocks from the committed artifact (research/modalities/emc-atr-vulnerability.json at this commit): GPL2937 (3 samples, all unclassified), GPL2938 (3, all unclassified), GPL3254 (6: 4 MFH_UPS + 2 unclassified), GPL3288 (3: 2 DFSP + 1 unclassified), GPL3289 (3: 3 DFSP), GPL3290 (16: 10 EMC + 3 GIST + 3 DFSP), GPL3335 (2 GIST). Classified total = 0+0+4+0+2+3+16+2 = 27, which does match the printed figure -- but only because GPL3288's 2 DFSP and GPL3289's 3 DFSP (5 samples, on two platforms named nowhere in this document) are silently folded in. `grep -n 'GPL3288\\|GPL3289\\|GPL2938'` over the whole manuscript returns zero hits.",
+      "fix": "Either name all classified platforms/counts in the Section 3.1 sentence (add 'plus 5 more DFSP split across GPL3288 and GPL3289'), or state the total as a bare artifact-derived number without an itemized breakdown that appears to (but does not) sum to it. Low risk today because the number is correct, but a future arithmetic-verification pass that only checks 'does the itemization sum to the stated total' would read this as broken and could 'correct' 27 to 22, which would be wrong."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (at pinned commit 51fb2b183fff9ae1cbe7be3dd2a41737fa21d462, full 1144 lines)",
+    "research/modalities/emc-atr-vulnerability-inputs.json (at pinned commit, spot-checked for GSE4303 per-platform n_samples)",
+    "research/modalities/emc-atr-vulnerability.json (at pinned commit, spot-checked class_counts for all seven GSE4303 platform blocks to verify the '27 classified samples' figure)",
+    "git log / git show diff for the commit itself, to confirm the exact edit made to the PMID 34413129 paragraph (S2.1) and that no other copy of the removed panel-size figure survives elsewhere in the document"
+  ]
+}

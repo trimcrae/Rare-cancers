@@ -1,0 +1,30 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "51fb2b183fff9ae1cbe7be3dd2a41737fa21d462",
+  "blind": true,
+  "seat": "regression",
+  "lens": "regression on round 6's own repair",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "c70fd29f1dd742f7c157b81959e2e4519ed0b660e29ebea408274d2522ebcb9b",
+  "opened_utc": "2026-09-02T21:12:11Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "The document assesses whether EWSR1::NR4A3-driven extraskeletal myxoid chondrosarcoma is a plausible ATR-inhibitor target by the mechanism established in Ewing sarcoma, and grades the current in-silico evidence WEAK: one dependency-correlation test passes, but the only readily available DepMap EMC-labelled line (H-EMC-SS) is not confirmed to carry the fusion, and no DDR-specific transcriptional signature is found in the two real EMC tumour series that could be read.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The panel-size figure this commit dropped from S2.1 ('H-EMC-SS is one line of a ~14-line panel' → 'a multi-line sarcoma drug panel') is not carried into the document's own 'Appendix — superseded, retained' table, breaking the appendix's own stated invariant and the convention this exact document otherwise follows without exception for every other repaired number.",
+      "evidence": "Diff at this commit (git show 51fb2b183fff9ae1cbe7be3dd2a41737fa21d462 -- research/manuscripts/dependency/emc-atr-vulnerability-assessment.md) touches only lines 244-245, replacing '~14-line panel' with 'multi-line sarcoma drug panel in which EWSR1-translocation status is a covariate, not the object of study' — no other hunk in the commit. The Appendix section (lines 1115-1144 at this pin) opens with 'Per CLAUDE.md §1.2 a corrected number never disappears; it moves here so the live text carries only the current value and the old one stays quotable as history, not as data' — yet the superseded '~14-line' figure has no row there (grep for '14-line', '20-line', 'fourteen-line', 'twenty-line', and 'AUT-PD-211' over the whole document all return zero hits). The document's own precedent for exactly this shape of edit — an unsourced/contested specific claim removed rather than corrected to a new number — already exists at line 1136 ('~5–11% of EMC carries no identified FET partner' … 'removed rather than re-hedged'), which got a full appendix row. CLAUDE.md §1 rule (2), 'Corrections go in an appendix, not inline,' is the governing rule cited by the appendix's own header.",
+      "fix": "Add one row to the Appendix table quoting the superseded S2.1 sentence ('H-EMC-SS is one line of a ~14-line panel'), stating why it is wrong (disagreed with hemcss-label-priorart.json's ~20-line reading of the same PMID 34413129 panel; filed AUT-PD-211), and pointing at §2.1 as where the current (numberless) statement lives — the same shape as the existing '~5–11%' row at line 1136."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (full document, at the pinned commit)",
+    "research/modalities/emc-model-junction-evidence.json (at the pinned commit)",
+    "research/modalities/hemcss-label-priorart.json (at the pinned commit)",
+    "git show 51fb2b183fff9ae1cbe7be3dd2a41737fa21d462 -- research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (the commit's own diff and message)",
+    "git log --oneline -- research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (round history)"
+  ]
+}

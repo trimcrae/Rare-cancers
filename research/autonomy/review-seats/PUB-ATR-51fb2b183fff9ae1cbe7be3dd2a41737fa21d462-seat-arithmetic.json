@@ -1,0 +1,86 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "51fb2b183fff9ae1cbe7be3dd2a41737fa21d462",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "arithmetic against committed artifacts",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "c70fd29f1dd742f7c157b81959e2e4519ed0b660e29ebea408274d2522ebcb9b",
+  "opened_utc": "2026-09-02T21:17:42Z",
+  "verdict": "supported",
+  "central_claim": "The published FET-fusion -> impaired-ATM -> compensatory-ATR-dependency hypothesis is assessed for internal consistency in public data and for transfer to EMC: part A finds the DepMap 'EMC' line is recorded as not carrying the fusion, part B grades the EMC tumour signature WEAK (GENERIC_ONLY) on two readable series, part C finds the CRISPR knockout instrument blind, part D finds sensitivity does not track the mechanism (1 of 4 tests), and section 8 reports a competing HRD-selected sarcoma ATR programme.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The minimum-detectable-effect range '0.045-0.186 SD units' (printed twice, in the body and again in section 6.1) is correct but is carried by NO artifact field and produced by NO code, and the recipe as printed is ambiguous between t- and normal critical values, where the normal reading gives a visibly different range.",
+      "evidence": "Re-derived at the pin. Using SE = |delta|/|t| from research/modalities/emc-atr-vulnerability.json -> part_b_emc_tumour_signature.per_platform[*].contrast_EMC_vs_all_comparator_sarcoma_PROLIFERATION_ADJUSTED, and MDE = (t_.975(df) + t_.80(df)) * SE with the Welch df carried in each block, the twelve DDR concept x series values are: GSE4303/GPL3290 ATM 0.1352 (SE 0.0445, df 12.7), ATR-CHK1 0.1856 (SE 0.0587, df 8.6), replication stress 0.1442, stalled fork 0.1531, S-phase 0.1098, checkpoint 0.0939; GSE24369/GPL6244 ATM 0.0646, ATR-CHK1 0.1113, replication stress 0.0760, stalled fork 0.0449 (SE 0.0148, df 12.7), S-phase 0.1182, checkpoint 0.1080. min 0.0449, max 0.1856 -> '0.045-0.186' EXACTLY as printed, so the number is right. But the prose (lines 565-573) states only 'SE = |Delta|/|t| ... at 80 % power and two-sided alpha 0.05'; a reader taking the normal critical values (1.960 + 0.8416 = 2.8016), the natural default when no distribution is named, reproduces 0.041-0.164 instead. And the value has no home outside the prose: `grep` for 'power'/'MDE'/'detectable' over emc-atr-vulnerability.json returns only 'underpowered:' status strings, and `grep -n 't_.975|MDE|minimum_detectable|.ppf(' research/modalities/emc_atr_vulnerability.py` at the pin returns nothing, so `--check` cannot re-derive it and section 7's blanket 'nothing is hand-typed here that the artifact does not carry ... --check re-derives all of it offline' does not hold for it. Section 8's banner shows the document's own convention: it names its one non-re-derivable exception explicitly; this one is unnamed.",
+      "fix": "Either (a) compute the MDE inside emc_atr_vulnerability.py, emit it per concept per series into part_b (e.g. `minimum_detectable_effect_at_80pc_power`), and quote the artifact's range; or (b) keep it in prose but state the critical-value convention in the sentence that gives the formula ('t critical values on the Welch df carried in each contrast block, t_.975 + t_.80') and add the same one-line exception note section 8's banner already models, so a reader knows it is a hand derivation from committed fields rather than an artifact figure."
+    },
+    {
+      "summary": "This document has no `artifact_figures` entry in research/manuscripts/pinned-figures.json, so not one of its roughly two hundred machine-derived numbers is bound by a gate to the artifact field that produces it — and the document's own appendix records four separate rounds of exactly the drift such a binding exists to catch.",
+      "evidence": "At the pin, research/manuscripts/pinned-figures.json lists 'research/manuscripts/dependency/emc-atr-vulnerability-assessment.md' in `targets` (so the supersession-marker rules apply) but its 99 `artifact_figures` entries name it in no `must_appear_in`: the populated docs are fusion-junction-aso-research-article.md (25), fusion-junction-aso-journal-article.md (18), nr4a3-degrader-paper.md (14), emc-biomarker-selected-classes.md (10), and seven others. research/modalities/tests/test_emc_atr_vulnerability.py tests module behaviour only (planted-signal recovery, verdict logic, classifier buckets); no test reads the manuscript's printed values. The failure mode is not hypothetical for this paper: its own Appendix records (i) artifact commit ce630e2b4's superseded snapshot surviving in prose in three places — '20,324 (93.2 %)' against `per_platform[\"GSE24369_series_matrix.txt.gz\"].probe_mapping_diagnostic.n_mapped` 20629 / `accession_resolution_rate` 0.982, with ATM's sign wrong and S-phase/checkpoint transposed; (ii) '27,195' against `n_probes_mapped_to_symbols` 27196; (iii) '10,332' against `dataset_search.biostudies.total_per_query[\"NR4A3 sarcoma\"]` 10331; (iv) '25 EMC-titled SAMPLE records' against 11 rows with `is_emc_titled: true` out of a 25-long list. All four are prose-vs-artifact drift, all four were caught by a human/seat re-derivation rather than by a gate, and every current value now reads correctly against the pinned artifacts (verified this round).",
+      "fix": "Add `artifact_figures` entries for the load-bearing figures of each part, keyed to the fields they come from — e.g. part B `per_platform[\"GSE4303-GPL3290_series_matrix.txt.gz\"].n_probes_mapped_to_symbols` (27196) and `.probe_mapping_diagnostic.accession_resolution_rate` (0.582), the GSE24369 pair (20629 / 0.982), part C `knockout_instrument_with_matched_comparator.axis_mean_sarcoma_pool` (-1.34) and `delta_FET_minus_matched` (-0.0065), part D `mechanism_tests[*].mean_rho_across_ATR_inhibitors` (+0.2123, -0.1637, -0.0903, -0.1379) and `specificity[\"expr::proliferation_MYC\"].mean_rho_across_ATR_inhibitors` (-0.1711), section 8 `emc_model_identity_check.emc_labelled_samples[0].NR4A3_family_fraction` (0.0634) — so a regeneration that moves any of them reddens the commit that failed to update the prose."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+    "research/modalities/emc-atr-vulnerability.json",
+    "research/modalities/emc-atr-vulnerability-inputs.json",
+    "research/modalities/emc_atr_vulnerability.py",
+    "research/modalities/fet-ddr-axis-scan.json",
+    "research/modalities/depmap_sarcoma_dependency.py",
+    "research/modalities/atr-hrd-sarcoma-series.json",
+    "research/modalities/atr-hrd-sarcoma-series-inputs.json",
+    "research/modalities/hemcss-label-priorart.json",
+    "research/modalities/emc-model-junction-evidence.json",
+    "research/manuscripts/pinned-figures.json",
+    "research/modalities/tests/test_emc_atr_vulnerability.py"
+  ],
+  "_what_was_re_derived_and_matched": {
+    "_note": "Recorded because a seat that reports no blockers must show what it actually checked. Every value below was recomputed from the named field at the pin and matched the printed value.",
+    "part_a_section_2": [
+      "2 filtered fusion calls, verbatim AL158209.1--NEBL and VIM--RPS25, model present in a 1,670-model file — part_a_hemcss_identity.depmap_fusion_calls",
+      "NR4A3 0.941 log2(TPM+1), 83rd percentile, panel median 0.214, n=1,673 — part_a_hemcss_identity.depmap_expression.NR4A3 (83.1 / 0.214 / 1673)",
+      "16 distinct STR markers (15 loci + amelogenin) over 18 ST lines — enumerated from part_a.cellosaurus.record.ST in the inputs cache; D13S317 appears twice and 'Source(s):' is a header",
+      "GDSC residuals ceralasertib -0.005 / berzosertib +2.048 — part_d.gdsc_residual_ln_ic50_by_drug['azd6738'|'ve-822']['ACH-001519'] = -0.0047 / 2.0477"
+    ],
+    "part_b_section_3": [
+      "GSE4303/GPL3290 10 EMC vs 3 GIST + 3 DFSP (16 samples) and GSE24369/GPL6244 6 EMC vs 29 (17+6+6) — per_platform[*].class_counts",
+      "27 classified samples across the seven GSE4303 platforms: EMC 10 + DFSP 8 (2+3+3) + GIST 5 (3+2) + MFH_UPS 4",
+      "27,196 probes at 58.2 %, curated dictionary 630 + UniGene 37,279, 915 newly queried of 65,180, ncbi_global_budget_exhausted — GPL3290 probe_mapping_diagnostic",
+      "20,629 probes at 98.2 %; NCBI 4,303 queried -> 4,103 UIDs (95.4 %) -> 3,163 linked (73.5 %) -> 2,653 genes — GPL6244 probe_mapping_diagnostic",
+      "all nine raw deltas and t values of the GSE4303 table (ATR-CHK1 +0.2451/3.518, S-phase +0.3111/4.458, checkpoint +0.2564/4.006, replication stress +0.1563/2.421, ATM +0.1128/1.945, stalled fork +0.1445/1.896, MYC +0.3284/4.421, oxphos +0.3843/3.952, adipogenesis +0.2183/5.081) and all six proliferation-adjusted values (+0.0622, +0.1282, +0.0735, -0.0267, -0.0701, -0.0384)",
+      "HALLMARK DNA Repair +0.178 (t 3.33) not counted against adipogenesis +0.218 (t 5.08) counted — control_generic_DNA_repair 0.1778/3.329 vs control_adipogenesis 0.2183/5.081, consistent with the > 0.2 cut",
+      "GSE24369 pooled raw values (ATM -0.0041, ATR-CHK1 +0.0109, replication stress -0.0001, stalled fork -0.0088, S-phase +0.0440, checkpoint +0.0445; MYC +0.0844 t 3.342, oxphos +0.1131 t 5.918, adipogenesis +0.0473 t 2.114) and the FET-arm values (checkpoint +0.1034 t 1.735, ATM -0.0005 t -0.033)",
+      "gene-set overlap with the 398-gene proliferation union: ATR-CHK1 9/37 = 24.32 %, S-phase 54/200 = 27.0 %, checkpoint 68/200 = 34.0 %, unrelated controls 2.0-6.5 %, non-clearing DDR sets 3.3-15.8 % — recomputed from gene_sets.concepts in the inputs cache",
+      "search record: 35 GEO UIDs -> 10 series, 25 sample records of which 11 is_emc_titled, SRA 43 + 102 -> 13 studies, BioStudies 37 and 10,331"
+    ],
+    "part_c_section_4": [
+      "group sizes 20 / 71 / 1,123 — part_c_coordinated_dependency.group_sizes",
+      "every cell of the six-gene table (ATR -1.3859/-1.4452/0.2685/0.992/+1.231, ATRIP -0.7125/-0.6248/0.2158/0.726/-1.596, CHEK1 -1.9367/-1.9457/0.3627/1.000/+0.103, WEE1 -2.5997/-2.5023/0.4324/1.000/-1.097, ATM -0.0344/-0.0146/0.1901/0.007/-0.522, RPL5 -2.7439/-2.6289/0.3465/1.000/-1.260)",
+      "axis pool mean -1.34, delta -0.0065, within-group SD 0.1904 — knockout_instrument_with_matched_comparator",
+      "joint z -0.0475 vs +0.0134, t -0.41, 1/20 (5.0 %) vs 3/71 (4.2 %), 91 lines with all three — coordination"
+    ],
+    "part_d_section_5": [
+      "n=956 (azd6738) and 892 (ve-822) lines with a residual; GDSC2_8.5_27Oct23 with seven drugs present",
+      "all four mechanism-test mean rho (+0.2123, -0.1637, -0.0903, -0.1379) and all seven per-drug dependency rows (ceralasertib +0.252/6.352/597, berzosertib +0.1726/4.157/565, adavosertib +0.1571/3.893/601, olaparib +0.0336/0.822/601, talazoparib -0.053/-1.292/595, bortezomib +0.0213/0.519/596, paclitaxel +0.007/0.170/597)",
+      "all four signed non-DDR means recomputed from the per-drug pairs: +0.01415, +0.0367, -0.0333, +0.0616; and the |rho| versions 0.0142, 0.1829, 0.1589, 0.2029 — the last two match specificity[*].mean_abs_rho_across_non_DDR_controls exactly",
+      "expr::proliferation_MYC paclitaxel -0.1784 / bortezomib +0.1507, signed mean -0.0139, atri_specific true — specificity['expr::proliferation_MYC']",
+      "ATM ratio clause: |rho| 0.0903 against control mean 0.0333 is 2.71x where 1.5x (bar 0.0500) is asked; the 0.1 floor is missed by 0.0097",
+      "passing-row margin: 1.15 x 0.1711 = 0.19677, 0.2123 - 0.1968 = 0.0155, and 0.0155 / (1/sqrt(697) = 0.0379) = 0.41x",
+      "two-inhibitor disagreement 2.7-7.1x: 0.2394/0.0879 = 2.72, 0.1583/0.0224 = 7.07, 0.2354/0.0405 = 5.81; adavosertib 11x the control mean (0.1571/0.01415 = 11.1)",
+      "held-out signature 34 FET / 928 non-FET / 965 scored, 100 up + 100 down, 2,500 background columns — fet_signature and expression_scores_meta",
+      "headline group difference from fet-ddr-axis-scan.json welch_line_median_corrected: paclitaxel -0.5255 (t -3.076), azd6738 -0.4911, ve-822 -0.4233, olaparib -1.0163, talazoparib -2.0653",
+      "the three quoted cut expressions match the module verbatim: `abs(a) > 0.1 and abs(a) > 1.5 * abs(c0)` (line 2917), `abs(rho) > abs(prolif_rho) * 1.15` (line 2935), `tracks_mechanism = n_pass >= 2` (line 2974), `signature_specific_to_DDR = bool(ddr_up_adj) and len(ctrl_up) <= 1` (line 2331), MIN_GROUP_N 5 (line 336), MIN_SCORED_CONCEPTS 3 (line 2115), DEPENDENT_THRESHOLD -0.5 (depmap_sarcoma_dependency.py line 97)"
+    ],
+    "section_8": [
+      "68 deposited vs 62 accounted for; tumour subtypes 14/13/12/12/11 and cell models 2/1/1/1/1 — design_vs_contents and cohort_composition",
+      "platforms GPL24676 67 and GPL34281 1 (GSM9037837 / USZ-23_EMC3) — counted over the 68 sample records",
+      "identity check: NR4A3 13.332 TPM, rank 4 of 68, 7.0x the 1.896 panel median; LMS04 39.507, SS10 28.789, LMS12 17.031; NR4A1 196.784 / NR4A2 0.000 (ratio 14.8x, printed as 15x); family fraction 0.0634 rank 29 of 68 against median 0.0524; ACTB 4,423.63, GAPDH 2,574.69, ALB 0.4742, INS 0.000; 162,218-188,597 rows; index split 67 vs 1",
+      "the PMID 34413129 Figure 2A legend quote is verbatim against emc-model-junction-evidence.json (where_the_negative_appears) and hemcss-label-priorart.json (the_one_published_observation.verbatim_quote); the paper says only 'multi-line sarcoma drug panel' and prints NO panel size, which is the safe reading — the two artifacts disagree with each other on that figure ('14-line' in emc-model-junction-evidence.json against '~20-line' in hemcss-label-priorart.json), so any specific count in the prose would have been unsupported"
+    ]
+  }
+}
