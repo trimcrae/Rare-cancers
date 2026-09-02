@@ -54,6 +54,8 @@ import subprocess
 import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import deliverable_digest as _dd  # noqa: E402  (same directory, no package)
 REPO = HERE.parent.parent
 GRAPH = REPO / "systems" / "graph"
 MANUSCRIPTS = REPO / "research" / "manuscripts"
@@ -121,8 +123,108 @@ def _endpoint(pub_id: str) -> dict | None:
 # -------------------------------------------------------------------- the clauses
 
 
+#: ⛔ ONE DIGEST PER COMMIT, COMPUTED ONCE. `_covers` is called once per seat record per clause, and
+#: each miss shells out to git for every file in the deliverable set. The cache is keyed by commit
+#: and holds only what this process computed, so it cannot outlive a run or be seeded from a file.
+_DIGEST_CACHE: dict[tuple[str, str], str | None] = {}
+
+
+def _deliverable_digest_at(pub_id: str, sha: str) -> str | None:
+    """The digest of the paper AS A READER RECEIVES IT at `sha`, or None if it cannot be built.
+
+    ⛔ FAILS CLOSED, like every other reading in this file. `deliverable_digest` returns None when any
+    member of the set is unreadable at that commit — a partial digest would cover less than it names,
+    which is the too-loose half of the defect this replaces. None never compares equal to anything
+    here, so an unbuildable digest refuses the clause rather than skipping the check.
+    """
+    key = (pub_id, sha)
+    if key not in _DIGEST_CACHE:
+        try:
+            digest, _rows = _dd.deliverable_digest(pub_id, at=sha)
+        except Exception:
+            digest = None
+        _DIGEST_CACHE[key] = digest
+    return _DIGEST_CACHE[key]
+
+
+def _covers(pub_id: str, reviewed_commit, sha: str) -> bool:
+    """Did a review of `reviewed_commit` read the same paper that `sha` would publish?
+
+    ⛔⛔ THIS REPLACES `reviewed_commit == sha`, AND THE REPLACEMENT IS A RE-ANCHORING RATHER THAN A
+    RELAXATION — the distinction matters because `amendment_guard` exists to refuse the other kind.
+    The sha was wrong in BOTH directions at once:
+
+        too strict  it changes when nothing the review read changed, so a clean round is discarded
+                    by a commit to a ledger header or a test-selector hash
+        too loose   it never said WHAT was covered: a seat that read one file and a seat that read
+                    forty record the identical string
+
+    A digest over the deliverable set — the publication's own `document` from
+    `systems/graph/publications.json` plus the files built from it, derived and never hand-listed —
+    has both properties the sha lacked. It cannot stay equal when anything a reader receives changes,
+    and it cannot be produced without naming exactly what went into it.
+
+    ⚠ MEASURED, NOT ARGUED (AUT-PD-205-d7df5340, re-measured by CYC-0091-91c8e949 on 2026-09-02).
+    Over the 104 commits between round 32's pin `4ae4e9929` and this change, PUB-ASO's deliverable
+    digest held one value — `a6f7158552096aea…` — throughout. So the sha comparison discarded a
+    clean five-seat round 104 times to track zero real changes, and every one of those discards cost
+    another round.
+
+    ⛔ AN EXACT SHA MATCH STILL PASSES, AND IT IS CHECKED FIRST. Nothing that cleared the old test
+    fails the new one; the change only stops discarding reviews of bytes that did not move.
+    """
+    if not isinstance(reviewed_commit, str) or not reviewed_commit:
+        return False
+    if reviewed_commit == sha:
+        return True
+    here = _deliverable_digest_at(pub_id, sha)
+    there = _deliverable_digest_at(pub_id, reviewed_commit)
+    return here is not None and there is not None and here == there
+
+
+def _rollup_covering(pub_id: str, sha: str, err: str) -> tuple[dict | None, str]:
+    """The round roll-up filed at some OTHER commit that reviewed the same paper `sha` would publish.
+
+    ⛔ A ROLL-UP ONLY — the bare `{pub_id}-{commit}.json`, never a `-seat-` file. Clause 6 asks for
+    the round's canonical adversarial record, and widening it to any seat file would let a
+    single-lens seat stand in for the round's own verdict.
+    ⛔ AND IT REFUSES TO CHOOSE BETWEEN TWO CANDIDATES. If more than one covering roll-up exists, the
+    clause gets nothing rather than the first one sorted: picking would mean this function deciding
+    which review speaks for the paper, which is the judgement a clause may not make for itself.
+    """
+    try:
+        paths = sorted(SEATS_DIR.glob(f"{pub_id}-*.json"))
+    except Exception:
+        return None, err
+    found = []
+    for path in paths:
+        if "-seat-" in path.name:
+            continue
+        record, _ = _read_json(path)
+        if not isinstance(record, dict) or record.get("blind") is not True:
+            continue
+        if _covers(pub_id, record.get("reviewed_commit"), sha):
+            found.append((path.name, record))
+    if len(found) == 1:
+        return found[0][1], err
+    if len(found) > 1:
+        return None, (f"{len(found)} round roll-ups review the paper at {sha[:12]} "
+                      f"({', '.join(sorted(n for n, _ in found))}) and this clause will not choose "
+                      "between them")
+    return None, err
+
+
 def _seat_records(pub_id: str, sha: str) -> tuple[list[dict], list[str]]:
     """Every blind seat record in the repository that reviewed THIS paper at THIS commit.
+
+    ⛔⛔ `sha` HERE IS THE ROUND'S OWN COMMIT, NOT THE COMMIT BEING POSTED, AND THE EXACT MATCH BELOW
+    IS DELIBERATE. `_covers` decides which ROUND may speak for a posted commit; it must not decide
+    which seats make up a round. Pooling every seat that ever read the same bytes was tried first and
+    is wrong twice over: it merges rounds that are separate looks (PUB-ASO's digest
+    `a6f7158552096aea…` covers rounds 31 AND 32, ten seats), and it makes the clause unsatisfiable,
+    because a blocker filed by a superseded round can then only be cleared by changing the paper —
+    even when the defect it names is in a file the paper does not ship. A round is the set of seats
+    filed at one commit, and that is what this returns.
 
     ⛔ THIS IS THE FUNCTION THAT MAKES CLAUSE 1 A MEASUREMENT RATHER THAN A SELF-REPORT. Before it
     existed, the clause read `blockers` and `p1s` straight out of a file the loop writes for itself,
@@ -178,6 +280,11 @@ def _is_seat_file(pub_id: str, sha: str, name: str) -> bool:
     not a seat. `startswith` puts it on the correct side without anyone extending a list — a list is
     a thing somebody must remember to extend, and the remembering is what fails
     (`paper-hardening` §8b.2).
+    ⛔ `sha` HERE IS THE RECORD'S OWN `reviewed_commit`, NOT THE COMMIT BEING POSTED. Once records
+    filed at an earlier commit can count (see `_covers`), a roll-up and a seat are still told apart
+    by the filename — but by the filename each was FILED under. Passing the posted sha would classify
+    every record from another commit as a roll-up, which silently empties `seat_only` and turns the
+    width check below into a check on nothing.
     """
     return name.startswith(f"{pub_id}-{sha}-seat-")
 
@@ -203,6 +310,13 @@ def _look_history(pub_id: str) -> dict:
     ⛔ WHAT THIS CANNOT DO, SAID PLAINLY. A real alpha-spending boundary needs the seats' own
     miss rate, and nothing here measures it. No number is invented for it (CLAUDE.md §4); the two
     constraints the clause adds below are the ones that need no unknown parameter.
+
+    ⛔ STILL KEYED BY COMMIT, AND DELIBERATELY SO EVEN THOUGH `_covers` KEYS BY DIGEST. Keying this
+    by digest was tried and is a LOOSENING: two rounds that read identical bytes would collapse into
+    one bucket, and since the declaring round is excluded from `priors`, a round declaring at those
+    bytes would have every earlier look at them excluded along with itself — the width check would
+    then compare against the remaining, older, narrower rounds. A round is a set of seats filed at
+    one commit; this counts rounds, so it counts commits.
     """
     history = {}
     try:
@@ -290,14 +404,20 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
                        f"record states `last_round` as {record.get('last_round')!r} — a convergence "
                        "verdict has to say how many rounds produced it, because the rounds were "
                        "repeated until one came back clean")
-    if record.get("reviewed_commit") != sha:
+    round_commit = record.get("reviewed_commit")
+    if not _covers(pub_id, round_commit, sha):
         return _clause("hardening_converged", label, FAIL,
-                       f"last round reviewed {record.get('reviewed_commit')!r}, not {sha!r} — "
-                       "a review of a different tree is not a review of this one")
+                       f"last round reviewed {round_commit!r}, whose deliverable digest is "
+                       f"{str(_deliverable_digest_at(pub_id, str(round_commit)))[:16]!r} against "
+                       f"{str(_deliverable_digest_at(pub_id, sha))[:16]!r} at {sha[:12]} — a review "
+                       "of a different paper is not a review of this one")
 
     # ⛔ NO SEAT, NO CONVERGENCE. An empty round is not a converged round: absence of findings is
     # only evidence when somebody looked. CLAUDE.md §4.
-    seats, seat_names = _seat_records(pub_id, sha)
+    # ⭐ EVERY LOOKUP BELOW IS AGAINST `round_commit`, NEVER `sha`. The round that speaks for this
+    # commit may have been filed at another one; once it has, its seats, its filenames and its place
+    # in the round history are all facts about THAT commit.
+    seats, seat_names = _seat_records(pub_id, round_commit)
     declared = record.get("seats")
     if not isinstance(declared, list) or not declared:
         return _clause("hardening_converged", label, FAIL,
@@ -310,7 +430,7 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
                        f"commit: {', '.join(sorted(missing))}")
     if not seats:
         return _clause("hardening_converged", label, FAIL,
-                       f"no blind seat record reviewed {sha[:12]}")
+                       f"no blind seat record reviewed {str(round_commit)[:12]}")
 
     # ⛔⛔ A ROUND'S ROLL-UP IS NOT A LOOK, AND ITS TALLIES ARE NOT A SIXTH SEAT'S (AUT-PD-193).
     # `_is_seat_file` carries the measurement. What follows is one narrowed COUNT and two added
@@ -330,7 +450,7 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
     # `paper-hardening` §8b.1 rates worse than one that greens on false input, because the first
     # thing anyone does to it is loosen it.
     seat_only = [rec for rec, name in zip(seats, seat_names)
-                 if _is_seat_file(pub_id, sha, name)] or seats
+                 if _is_seat_file(pub_id, round_commit, name)] or seats
 
     # ⛔ AN OPEN SEAT RECORD REFUSES THE ROUND (AUT-PROP-006). A seat writes its record as its FIRST
     # act — `seat_scratch.py --open-seat-record` — so a seat that dies leaves evidence instead of
@@ -342,7 +462,7 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
                   if rec.get("status") == "open"]
     if open_seats:
         return _clause("hardening_converged", label, FAIL,
-                       f"blind seat record(s) still open at {sha[:12]}: "
+                       f"blind seat record(s) still open at {str(round_commit)[:12]}: "
                        f"{', '.join(sorted(open_seats))} — a seat that has not closed its own record "
                        "has not reported, and an unfinished look is not a clean one")
 
@@ -356,9 +476,9 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
     # ⚠ ONLY WHERE THE RECORD IS ACTUALLY A ROLL-UP — i.e. where per-lens seat records exist beside
     # it. Where it stands alone it is the round's one seat and its tallies are the only copy there
     # is; refusing those would delete the round's findings rather than de-duplicate them.
-    has_named_seats = any(_is_seat_file(pub_id, sha, name) for name in seat_names)
+    has_named_seats = any(_is_seat_file(pub_id, round_commit, name) for name in seat_names)
     loaded_rollups = [name for rec, name in zip(seats, seat_names)
-                      if has_named_seats and not _is_seat_file(pub_id, sha, name)
+                      if has_named_seats and not _is_seat_file(pub_id, round_commit, name)
                       and ((rec.get("blockers") or []) or (rec.get("p1s") or []))]
     if loaded_rollups:
         return _clause("hardening_converged", label, FAIL,
@@ -414,7 +534,10 @@ def clause_1_hardening_converged(pub_id: str, sha: str) -> dict:
     # costs a round, while a false clearance costs a paper published under a real ORCID. A later
     # cycle — or trimcrae — may symmetrise this line, declared in `amendments.jsonl`. Until then a
     # round that has to clear the old bound clears it the honest way, by fielding another seat.
-    priors = {seen: k for seen, k in _look_history(pub_id).items() if seen != sha}
+    # ⛔ EXCLUDED BY THE ROUND'S OWN COMMIT, NOT BY `sha`. Where the declaring round was filed
+    # elsewhere, excluding `sha` would leave that round's own seats in `priors` and compare it
+    # against itself, which nothing can fail.
+    priors = {seen: k for seen, k in _look_history(pub_id).items() if seen != round_commit}
     widest = max(priors.values(), default=0)
     if len(seat_only) < widest:
         return _clause("hardening_converged", label, FAIL,
@@ -686,16 +809,24 @@ def clause_6_independent_adversarial_seat(pub_id: str, sha: str) -> dict:
     quotes no claim, and would clear the bar for a document it never opened.
     """
     label = "a blind adversarial seat finds the claim supported"
+    # ⛔ THE CANONICAL PATH IS STILL `{pub}-{sha}.json` AND IS STILL TRIED FIRST. Only when this
+    # commit has no round of its own does the search widen to a roll-up filed at another commit that
+    # `_covers` says reviewed the same paper — and it is a SEARCH, not a fallback that lowers a bar:
+    # every property this clause checks below is then checked against that record exactly as it
+    # would have been against one filed here.
     record, err = _read_json(SEATS_DIR / f"{pub_id}-{sha}.json")
+    if record is None:
+        record, err = _rollup_covering(pub_id, sha, err)
     if record is None:
         return _clause("independent_adversarial_seat", label, UNVERIFIABLE,
                        err + " — run a blind seat on this commit")
     if not record.get("blind"):
         return _clause("independent_adversarial_seat", label, FAIL,
                        "seat was not blind; it is not independent evidence")
-    if record.get("reviewed_commit") != sha:
+    if not _covers(pub_id, record.get("reviewed_commit"), sha):
         return _clause("independent_adversarial_seat", label, FAIL,
-                       f"seat reviewed {record.get('reviewed_commit')!r}")
+                       f"seat reviewed {record.get('reviewed_commit')!r}, which is a different paper "
+                       f"from the one {sha[:12]} would publish")
     if record.get("verdict") != "supported":
         return _clause("independent_adversarial_seat", label, FAIL,
                        f"seat verdict: {record.get('verdict')!r}")

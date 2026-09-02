@@ -1,0 +1,83 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "3d5c709b69bc32a00a7776bf47303771d17d87f5",
+  "document_sha256": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+  "blind": true,
+  "status": "closed",
+  "seat": "statistics",
+  "round": 34,
+  "dispatched_by": "CYC-0091-91c8e949",
+  "utc": "2026-09-02T14:15:00Z",
+  "_blind_means": "Given the pinned sha and the outgoing artifact set and nothing else. Forbidden research/autonomy/ (every other seat record, the hardening state, the receipts, the ledger, the sprint notes, round33-seats and round34-prepin-seat), .claude/, CLAUDE.md, AGENTS.md, STRATEGY.md, every *-cover-letter.md, every fusion-junction-aso-paper-redteam*.md and the guard-coverage audit. Told that blindness is a property of its commands rather than its intentions, given the scoped git grep form, and told to DISCLOSE any leak rather than discard the finding. Instructed to refute by default and told in words that returning no findings is a complete and expected answer.",
+  "lens": "Statistics and experimental design: what each inferential statement actually bounds and whether the design behind it is licensed to bound it. Recomputed every inferential number from its upstream artifact rather than reading a recorded value. scipy is absent, so implemented the incomplete beta (Lentz continued fraction) for t quantiles, a chi-square-mixture Simpson integration for the noncentral-t power, and a 400,000-draw Monte Carlo cross-check; Wilson intervals by hand. Re-derived the panel rate 87/190 and its NR4A3 and own-parent splits from the 190 per-design records; rebuilt the whole cut ladder 6-13 for the panel and all ten null ensembles; checked which cuts put the strongest null inside the panel's Wilson interval and counted the sign changes of the signed excess; recomputed the 68.4% coverage point and its 39.9-82.8% composed range; re-derived the censoring counts by walking the 38 orientation-filtered screens; and recomputed all five falsification-design figures. Because the panel's 190 records are 176 distinct molecules at five overlapping registers per junction, also computed the junction-level design effect (1.43 at cut 10, 1.23 at cut 11) and re-tested the paper's one separation claim against a cluster-corrected interval. Verified the four PDF build stamps and the .docx stamp against the pin's own blob hashes, extracted the PDF text layer to confirm the statistical sentences survive rendering, and confirmed the deposited revision is an ancestor of the pin with a byte-identical diff over every statistics-bearing artifact.",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+    "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf (text layer, via pdfminer)",
+    "the four PDF build stamps and …-manuscript.docx.build-stamp.json",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+    "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/junction-aso-offtarget-locus-collapse.json and the 38 orientation-filtered alignment screens it indexes",
+    "research/manuscripts/aso_falsification_power.py",
+    "research/manuscripts/tests/test_journal_article_numbers.py",
+    "research/manuscripts/tests/test_the_printed_cut_ladder_is_the_measured_one.py",
+    "research/manuscripts/tests/test_the_numbered_claims_no_instrument_read.py",
+    "research/manuscripts/tests/test_the_paper_states_what_its_own_claims_depend_on.py"
+  ],
+  "central_claim": "At a ten-base-pair criterion, 87 of 190 junction-spanning 5-6-5 gapmer designs tiled across 38 modelled NR4A3 fusion junctions let a mature wild-type parent transcript pair their entire catalytic gap, so the binding constraint on a fusion-junction gapmer for EMC is discrimination from the parents, not designability — and that liability is not shown to be specific to EMC, since exon-terminus chimeric nulls meet the same screen at 40.6%, inside the panel's own 95% interval on 45.8%. Selecting within each junction rather than across the panel nevertheless yields two nameable reagents at the two most-reported breakpoints, both at the panel's top gap-level margin and neither reaching the criterion (8 and 9 bp, against wild-type TFG), plus two screened scramble controls. A pre-registrable falsification experiment is specified: a two-sided 95% upper bound on the wild-type-NR4A3-over-fusion IC50 ratio below a cut of 5.0, with about 80% power at six replicates against a true selectivity of 3, and a variance gate that voids the test above a realised SD of 0.65 at three replicates. Nothing is asserted about efficacy, potency, safety, delivery or clinical readiness.",
+  "verdict": "supported",
+  "recommendation": "minor",
+  "blockers": [],
+  "_blockers_empty_means": "Every inferential figure in the outgoing artifacts reproduced exactly: 87/190 = 45.789% -> 45.8%; 61 and 85 of the 87; Wilson95 [0.38859, 0.52887]; strongest null 0.40568 -> 40.6%; containment inside the panel interval at cuts 7, 8, 9, 10, 12, 13 and NOT at 6 or 11, matching 'every cut from seven to thirteen but eleven' exactly; four sign changes in the signed excess across cuts 6-13; scramble null 9.987% -> 10.0% and 3.911% -> 3.9%; junction-clearing ladder 35/31/23/9/6 and 5/3/2/0/0; 68.4%, 39.9-82.8% and 79.0%; seven never-returned and 47 of 183 assessable; noncentral-t power 81.28% (n=6) and 30.42% (n=3), Monte Carlo 81.32%/30.41%; void SDs 0.6479/1.5336/2.2498. Direction is right everywhere: selectivity is defined so larger is better, the void condition correctly implies the test can fail only on an anti-selective reading, the null comparison is written as an unresolved excess rather than as equivalence, and the composed coverage range is explicitly disclaimed as not a confidence interval. The one place the paper's use of a nominal interval is anti-conservative — the 'but eleven' separation, where the null falls BELOW the panel's lower bound — was re-tested against the junction-level design effect (1.234 at cut 11): widening to [0.36365, 0.52056] leaves the strongest null (0.34679) still outside, so the exception survives the clustering the paper does not correct for. Refuted, not a blocker.",
+  "p1s": [
+    {
+      "summary": "The assumed replicate SD 0.35 reaches the page at exactly one site and no guard reads it, so an edit to it silently desynchronises the two power figures that ARE guarded.",
+      "evidence": "fusion-junction-aso-journal-article.md line 323 is the only occurrence of 0.35 in the article. The producing constant is SIGMA = 0.35 at research/manuscripts/aso_falsification_power.py:43. The guard test_the_falsification_power_figures_are_derived_not_typed (research/manuscripts/tests/test_journal_article_numbers.py:452-483) binds only the OUTPUTS — its two regexes capture the power percentages, TRUE_SELECTIVITY and the three void SDs, never 0.35. Measured consequence: prose SD 0.45 would make the printed 'about 80%/30%' actually 60.9%/21.3%, and every guard stays green."
+    },
+    {
+      "summary": "The interval's sidedness is unbound, and it moves all three void thresholds by about 45%.",
+      "evidence": "fusion-junction-aso-journal-article.md line 326, 'the upper limit of a two-sided 95% interval below 5'. A scoped git grep for 'two-sided|one-sided|sided 95' over research/manuscripts/tests research/modalities/tests scripts/tests returns no test reading this article. The void regex at test_journal_article_numbers.py:99 contains neither 'two-sided' nor '95%'. Recomputed: a copy-edit to 'one-sided' makes the correct void SDs 0.955 / 1.956 / 2.776 against the printed 0.65 / 1.53 / 2.25, and nothing fails."
+    },
+    {
+      "summary": "The falsification cut is stated at two sites and only one is pinned — the one-of-a-pair gap, in the sentence whose own guard message names that exact risk.",
+      "evidence": "test_the_falsification_cut_is_the_stated_value (research/manuscripts/tests/test_the_paper_states_what_its_own_claims_depend_on.py:216) asserts re.search(r'cut of 5\\.0', text), pinning article line 321. The second statement of the same constant, line 326's 'interval below 5', is read by nothing — a scoped grep for 'interval below|below 5' over the three test directories returns rc=1. Changing that site alone to 'below 4' makes the void SD at three replicates 0.558 rather than the printed 0.65, and the paper self-contradictory, with every gate green."
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "The article never names the method behind 'the panel's own 95% interval', and never tells the reader the 190 records are dependent. The artifact field is rate_liable_wilson95, and aso-parent-null.json's own _what_this_is_not says the 190 records are 176 distinct molecules at overlapping registers and 'are not independent draws'. The repository's extended report carries the design-effect-corrected reading; none of that reaches the submitted article. Direction is favourable for the main claim and the one adverse case (cut 11) was verified to survive.",
+      "evidence": "fusion-junction-aso-journal-article.md line 236; research/modalities/aso-parent-null.json _what_this_is_not"
+    },
+    {
+      "summary": "The variance gate is not, as written, pre-registrable — no confidence level and no pilot size. At the paper's own sigma = 0.35 a 95% upper bound refuses three replicates from a 3- or 6-replicate pilot (1.545 and 0.731 against 0.65) but passes from a 10-replicate pilot (0.576). The title promises 'a pre-registrable knockdown experiment', so this is the one place the promise is not met by the text alone.",
+      "evidence": "fusion-junction-aso-journal-article.md lines 329-331"
+    },
+    {
+      "summary": "The interval construction is recoverable but never named — the reader must infer Student's t with n-1 df, and the sensitivity is large (a normal approximation gives 94.7%/71.5% power against the printed 81.3%/30.4%). One phrase would fix it.",
+      "evidence": "fusion-junction-aso-journal-article.md line 328"
+    },
+    {
+      "summary": "The SI's cross-references and reference numbering belong to a different document: it points '§n' at fusion-junction-aso-research-article.md and cites superscripts up to 53, while the journal article's list ends at 24. The SI reprints all seven entries at its end so it is self-resolving. Outside this lens; flagged so it is not lost.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md line 47 against fusion-junction-aso-journal-references.md"
+    },
+    {
+      "summary": "The article says 'The range 39.9% to 82.8% quoted with it' without that range being quoted anywhere else in the outgoing set (the SI carries a different pooled range, 57.5-90.7%). Cosmetic — the range is given in the same sentence — but 'quoted with it' points at nothing a reader of this paper can see.",
+      "evidence": "fusion-junction-aso-journal-article.md, coverage paragraph"
+    }
+  ],
+  "leaks": "Yes, one, disclosed by the seat rather than discarded. A `git grep -n \"falsification_cut_is_the_stated_value\" <pin> -- research` was scoped only to research/, not to the allowed subtrees, and returned one matching line each from research/autonomy/amendments.jsonl, research/autonomy/receipts/CYC-0024.json, three files under research/autonomy/review-seats/ (the statistics seats of three earlier rounds) and the guard-coverage audit. The three review-seat lines contained prior statistics seats' findings, including the SIGMA-unbound gap reported above as P1 1. The seat records that SIGMA was already on its written candidate list before that command ran, and that it re-verified P1s 1, 2 and 3 afterwards with properly scoped greps — but asks that P1 1 and P1 2 be treated as convergent-with-prior-seats rather than independent. ⭐ THAT DISCLOSURE IS THE DISCIPLINE WORKING: a leaked finding disclosed is worth more than a leaked finding silently kept, and the grade it costs the finding is the price of knowing.",
+  "logs": [
+    "<session scratchpad>/s34-statistics-round34/s34-statistics-recompute-summary.txt",
+    "<session scratchpad>/s34-statistics-round34/s34-statistics-power.txt",
+    "<session scratchpad>/s34-statistics-round34/s34-statistics-cluster.txt",
+    "<session scratchpad>/s34-statistics-round34/s34-statistics-pdftext.txt",
+    "<session scratchpad>/s34-statistics-round34/s34-statistics-log.txt"
+  ],
+  "_logs_are_not_durable": "The seat's logs live in the session scratchpad, which dies with the container. The findings above are its report as delivered; every one names the artifact path and field that reproduces it."
+}

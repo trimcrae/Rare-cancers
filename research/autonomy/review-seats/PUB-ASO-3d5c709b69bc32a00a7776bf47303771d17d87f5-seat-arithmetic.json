@@ -1,0 +1,73 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "3d5c709b69bc32a00a7776bf47303771d17d87f5",
+  "document_sha256": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+  "blind": true,
+  "status": "closed",
+  "seat": "arithmetic",
+  "round": 34,
+  "dispatched_by": "CYC-0091-91c8e949",
+  "utc": "2026-09-02T14:20:00Z",
+  "_blind_means": "Given the pinned sha and the outgoing artifact set and nothing else. Forbidden research/autonomy/ (including every other seat record, the hardening state, the receipts, the ledger and the sprint notes), .claude/, CLAUDE.md, AGENTS.md, STRATEGY.md, every *-cover-letter.md, every fusion-junction-aso-paper-redteam*.md and the guard-coverage audit. Told that blindness is a property of its commands rather than its intentions, given the scoped `git grep -n <pattern> <sha> -- research/manuscripts research/modalities systems scripts` form, and told to DISCLOSE any leak rather than discard the finding. Instructed to refute by default and told in words that returning no findings is a complete and expected answer.",
+  "lens": "Every number printed in the journal article and its display items, re-derived from the artifact or module that produces it rather than from a recorded summary field. Extracted the pinned tree to scratch and to a clean clone, then walked `per_design` directly to recompute the panel counts (190 designs / 38 junctions / 176 distinct sequences, 87 liable, 61 argmax-NR4A3, 85 own-parent, 9 multi-junction sequences); rebuilt the 6-13 bp cut ladders for the whole panel and for the five published junctions; recomputed the exon-terminus-chimera null rate, the panel's Wilson interval and the sign of the excess at every cut; recounted the alignment screens through aso_screen_sets to get 7 default-depth failures, 183 screened and 47 with a complete hit list; recounted gap-paired sense hits and their accession classes for both reagents; recomputed each liable design's identity against its own parent site from the spliced parent transcripts; recomputed the pre-mRNA own-parent longest runs from raw sequence; recomputed the coverage ladder's 68.4%, its 39.9-82.8% composed range, 79.0%, 94.8%, 98.3% and the SI's 82.9%, 57.5-90.7%, 67.1% and 87.4% by hand from the partner counts and Wilson bounds; re-implemented the noncentral-t power and the void-SD formula numerically because scipy is absent; recomputed both dTm floors from Biopython's Sugimoto table under the module's own conditions; recomputed the longest common donor suffix behind 'ten shared donor bases'; regenerated the tables file (byte-identical); checked every build stamp's built_from digest against the pinned sources; compared numeric tokens between the markdown and the rendered PDF; and compared the pinned artifacts against the archive the paper's DOI actually resolves to.",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+    "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
+    "the seven build stamps beside them",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+    "research/manuscripts/aso/deposit-state.json",
+    "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+    "research/manuscripts/aso/fusion-junction-aso-claim-audit-manifest.json",
+    "research/manuscripts/aso_journal_tables.py",
+    "research/manuscripts/aso_falsification_power.py",
+    "research/manuscripts/aso_sequence_manifest.py",
+    "research/manuscripts/aso_archive_manifest.py",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-gap-length-tradeoff.json",
+    "research/modalities/aso-per-junction-table.json",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/aso-genome-offtarget.json",
+    "research/modalities/aso-premrna-offtarget.json",
+    "research/modalities/junction-aso-thermo.json",
+    "research/modalities/nr4a3-fusion-junction-atlas.json",
+    "the 93 junction-aso-offtarget-*.json screens reached through aso_screen_sets.load_screens"
+  ],
+  "central_claim": "Two specific 16-mer 5-6-5 gapmers — 5'-GGGCATATCATCAAAC-3' at EWSR1 e12::NR4A3 e3 and 5'-GGGCATATCTTGTGTG-3' at TAF15 e6::NR4A3 e3 — are the best available junction-spanning designs at the two most-reported EMC breakpoints, and they are named as reagents with a pre-registrable knockdown experiment rather than as candidate drugs. The paper's substantive finding is negative and structural: across a uniformly screened panel of 190 designs at 38 in-frame junctions, 87 (45.8%) let a mature wild-type parent pair the whole catalytic gap over at least ten contiguous base pairs, 19 more do so in precursor RNA (93 condemned as a union), a longer gap does not remove the liability, and exon-terminus chimeric nulls meet the same screen at 40.6% — so most of that liability is what joining two exon termini of these genes gives, not something specific to this disease. Every quantity is a prediction from sequence search: no wet-lab work, no cleavage measurement, no efficacy, potency or safety claim.",
+  "verdict": "supported",
+  "recommendation": "accept",
+  "blockers": [],
+  "p1s": [],
+  "_p1s_empty_means": "⛔ AN EMPTY LIST HERE IS A REPORTED READING, NOT AN ABSENT ONE. This seat probed guard coverage for every load-bearing figure it re-derived — the 87/61/85/93 counts, the three geometry rates, 40.6%/45.8% and the interval-containment claim, the 35/31/23/9/6 and 5/3/2/0/0 ladders, 47-of-183 and the seven failures, 123/8 and 6/5 loci, 156/135, 8/45 and 3.2/3.0, 7-of-87, <=13 bp, 10.0%/3.9%, 68.4%/39.9-82.8%/79.0%, both dTm floors, all five power figures, the ten shared donor bases, 9-of-176, and the two exon-2 reagents' 8 and 9 bp — and found each bound to its artifact by a named test in research/manuscripts/tests or research/modalities/tests. It reports no printed quantity in the outgoing set that an ordinary edit could move silently.",
+  "p2s": [
+    {
+      "summary": "The claim-audit manifest is stale against the article it names: manuscript_sha256 is 40ace959a67c4ff… while the pinned article hashes to afd60b9ef7f3c1e…, and 28 of its 30 sampled sentences no longer appear in the article. Not in the outgoing set and not in the deposit's 516-path inventory, so it misleads no reader of the paper — but it is a sampling record that no longer describes the manuscript it names.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-claim-audit-manifest.json, field manuscript_sha256"
+    },
+    {
+      "summary": "The published deposit still carries a sentence the pin retracts: the deposited SI says its front-matter block 'IS STRIPPED FROM THE DEPOSITED PDF, which build_submission_pdf.py renders beside the manuscript', promising an SI PDF the archive does not contain. The pin replaces it with 'No PDF of this document is built and none is deposited'. The whole delta between deposit and pin is that sentence, a predicted_tm caveat block added to the sequences CSV, the binaries those rebuilt, and one added tooling module — nothing that moves a printed number.",
+      "evidence": "research/manuscripts/aso/deposit-state.json records doi:10.5281/zenodo.22229096 published at 4fd4698d… (515 files); the SI blob at that revision"
+    },
+    {
+      "summary": "aso_archive_manifest.py --check is red at the pin for a field with no content. The manifest's own deposit instructions treat a non-zero exit as 'the tree moved after the manifest was written', but at the pin the only difference a regeneration produces is git_revision 46ad62b -> 3d5c709b; the 516 paths, their hashes and archive_content_digest f58d3687… are unchanged. A check that reddens whenever any commit lands, including one touching no deposited file, is a gate people learn to override.",
+      "evidence": "research/manuscripts/aso_archive_manifest.py --check against the pinned manifest"
+    }
+  ],
+  "leaks": "Yes, one, disclosed by the seat rather than discarded. A `git grep -n \"screens released|n_screens_released|53 deeper|coverage-only|coverage_only\" <pin> -- research/modalities research/manuscripts` returned about eight matching lines from fusion-junction-aso-paper-redteam.md, -round2.md and -round7.md, which are on the blindness list: round 2 correcting an earlier '39 of the 40 screens' wording, and round 7 listing the SI's '39 of the 93 screens' and '53 deeper re-screens' sentences as items it was checking. The seat had already reached the 93/53/39 arithmetic independently from the archive manifest's gaps.screen_coverage block before that grep, and re-derived it from the manifest afterwards; no finding above rests on those lines, and it opened none of those files. Separately CLAUDE.md was injected into its context by the harness before its first command rather than read by any command of its own.",
+  "logs": [
+    "<session scratchpad>/s34-arithmetic-round34/s34-arithmetic-log.txt",
+    "<session scratchpad>/s34-arithmetic-round34/s34-arithmetic-derivations.txt",
+    "<session scratchpad>/s34-arithmetic-round34/s34-arithmetic-power.py",
+    "<session scratchpad>/s34-arithmetic-round34/s34-arithmetic-article-pdf.txt"
+  ],
+  "_logs_are_not_durable": "The seat's logs live in the session scratchpad, which dies with the container. The findings above are its report as delivered; every one names the artifact path and field that reproduces it."
+}

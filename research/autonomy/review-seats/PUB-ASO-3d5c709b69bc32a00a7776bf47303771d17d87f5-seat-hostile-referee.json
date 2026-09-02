@@ -1,0 +1,92 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "3d5c709b69bc32a00a7776bf47303771d17d87f5",
+  "document_sha256": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+  "blind": true,
+  "status": "closed",
+  "seat": "hostile-referee",
+  "round": 34,
+  "dispatched_by": "CYC-0091-91c8e949",
+  "utc": "2026-09-02T14:18:00Z",
+  "_blind_means": "Given the pinned sha and the outgoing artifact set and nothing else. Forbidden research/autonomy/ (every other seat record, the hardening state, the receipts, the ledger, the sprint notes, round33-seats and round34-prepin-seat), .claude/, CLAUDE.md, AGENTS.md, STRATEGY.md, every *-cover-letter.md, every fusion-junction-aso-paper-redteam*.md and the guard-coverage audit. Told that blindness is a property of its commands rather than its intentions, given the scoped git grep form, and told to DISCLOSE any leak rather than discard the finding. Instructed to refute by default, told explicitly that a completeness wish or a request for more work is a SUGGEST rather than a STOP and that a strong recommendation may not inflate a suggestion into a blocker, and told in words that returning no findings is a complete and expected answer.",
+  "lens": "Read the paper end to end as a submission to a journal publishing computational oncology and nucleic-acid therapeutics methods, then tried to break it. Re-derived every load-bearing number from the committed artifacts rather than checking it against a table that restates it — the panel arithmetic and the whole cut ladder out of per_design, the union of the mature and precursor screens by set intersection, the coverage product and its range from the Wilson bounds, the dTm floors by subtraction from the sequence CSV, the two controls' dinucleotide counts by counting them, and both power figures and all three void-SD figures by Monte-Carlo simulation of the t-interval the paper says it used. Checked reference numbering in the built PDF, checked that the anonymized build actually strips identity, checked all seven build stamps against the pin's inputs, and — the question this lens is most likely to catch — checked whether the archive the paper's DOI resolves to contains the paper that cites it, by extracting the deposited PDF's text and comparing it to the pin's. Then went looking for what the paper does not say: the per-site records of the genome arm for the two named reagents, and what the Supplementary Information is actually bound to.",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+    "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+    "the four article PDFs, text extracted, and the seven build stamps",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+    "research/manuscripts/aso/deposit-state.json",
+    "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+    "research/manuscripts/aso/lit-targets-aso-gap-length.json",
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md (cut-ladder table only, as a cross-check)",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-premrna-offtarget.json",
+    "research/modalities/aso-genome-offtarget.json",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/aso-gap-length-tradeoff.json",
+    "research/modalities/aso-control-oligos.json",
+    "research/modalities/junction-aso-offtarget-locus-collapse.json",
+    "research/manuscripts/tests/test_journal_article_numbers.py",
+    "research/manuscripts/tests/test_the_scramble_null_rates_are_bound_to_their_artifact.py",
+    "research/manuscripts/tests/test_the_numbered_claims_no_instrument_read.py",
+    "at 4fd4698daec0 (the revision published as DOI 10.5281/zenodo.22229096): the article PDF, the archive manifest, and diffs of the four outgoing markdown files, the sequences CSV and the build stamps"
+  ],
+  "central_claim": "Across 190 junction-spanning 5-6-5 gapmers tiled at 38 in-frame NR4A3 fusion junctions, the liability that follows from a junction design's own construction — a wild-type parent transcript pairing the design's whole catalytic gap — is common (87 of 190 at a ten-base-pair criterion, 61 of those with wild-type NR4A3 the longest pairing parent), it is largely invisible to a conventional identity-threshold off-target search, and screening for it directly is what makes two specific reagents nameable: 5'-GGGCATATCATCAAAC-3' at EWSR1 exon 12 and 5'-GGGCATATCTTGTGTG-3' at TAF15 exon 6, both to NR4A3 exon 3. The paper simultaneously claims the ten-base-pair criterion is an adopted convention rather than a measurement, and that the screen does not resolve an excess specific to this disease — exon-terminus chimeric nulls meet the same screen at 40.6% against the panel's 45.8%, inside the panel's own interval. Nothing about potency, efficacy, safety or delivery is claimed; the deliverable is two reagents, two screened controls, five test articles and a pre-registrable falsification experiment.",
+  "verdict": "supported",
+  "recommendation": "minor",
+  "blockers": [],
+  "_blockers_empty_means": "⛔ THE SEAT SAYS IN ITS OWN WORDS THAT IT TRIED HARD TO PRODUCE ONE AND COULD NOT. Every quantity it re-derived reproduced exactly, including the ones most likely to be typed: 190/38/87/61/85/176/9; the full cut ladder (181, 175, 143, 98, 87, 84, 35, 6 liable and 6, 9, 23, 31, 35, 37, 38, 38 clearing junctions); the union of the mature-parent and precursor screens (93, overlap 13, recomputed by set intersection); the energy re-score (8 fully paired, 45 within 2 kcal/mol, 3.206 -> 3.2 and 2.991 -> 3.0, both named reagents with zero near-matches inside 2 kcal/mol); the genome arm (156 against 135); the coverage arithmetic (0.5287 + 0.1552 = 68.4%, range 39.9-82.8%, 79.0% with the third design); Table 1's dTm floors (51.3 - 24.7 = 26.6 and 60.7 - 24.7 = 36.0); and Table 2's controls, which really do preserve length, first and last base, base composition and dinucleotide counts. Simulating the t-interval gives 0.304 and 0.814 power at three and six replicates, and ln(5)/(t*/sqrt(n)) gives 0.6479, 1.5336, 2.2498 — the paper's 0.65, 1.53, 2.25. The gap-length citation is correctly sourced: PMID 24981949 genuinely carries both the six-nucleotide minimum and the seven-to-ten optimum. References 1-24 are contiguous by first citation and render in that order. All seven build stamps match. The anonymized build carries no name, ORCID, e-mail or DOI. And the deposited journal-article PDF inside the DOI is TEXTUALLY IDENTICAL to the pin's — the deposit-drift defect this repository has shipped before does not recur for this paper.",
+  "p1s": [
+    {
+      "summary": "Nothing binds the paper to disclose a named reagent's exact 16/16 genomic matches, so a re-run that gave one to the other reagent would change no prose and redden no gate. The aggregate pair (156/135) and the 'does not separate them' verb are bound; no assertion connects per_design exact_sites for a named reagent to anything the article says. The article does report that reagent's TWO-MISMATCH genome-arm site, so the disclosure of one class of per-site genome finding is prose held by nothing while its sibling class is not disclosed at all.",
+      "evidence": "research/manuscripts/tests/test_the_numbered_claims_no_instrument_read.py::test_the_two_genome_wide_loads_are_the_genome_screens_own; research/modalities/tests/test_aso_genome_offtarget.py tests the artifact's own structure; a scoped git grep over both test directories finds no assertion joining per_design[…]['exact_sites'] for a named reagent to article prose"
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "The EWSR1 reagent has one perfect, hybridisable 16/16 genomic match and the paper never says so, while reporting a weaker site for the same reagent from the same artifact. Nothing in the text is false — the fully-paired-duplex sentence is scoped to the energy re-score, which excludes parent records by name — but a reader is not told that one of the two reagents proposed for synthesis has a perfect full-length hybridisable match in an annotated transcribed locus, the compartment a nuclear-acting gapmer works in. The mitigating fact, which the seat would want stated rather than left out: the artifact's own expected_per_design is 1.37305 exact sites by chance and this design's observed_over_expected.exact is 0.7283, so the site is BELOW chance expectation. One sentence naming the coordinate and that ratio would close it.",
+      "evidence": "research/modalities/aso-genome-offtarget.json, per_design record for antisense_5to3 'GGGCATATCATCAAAC', exact_sites[0]: seq 3, start 176354948, end 176354963, sense, 0 mismatches, gap_fully_paired true, hybridisable true, lncRNA ENSG00000304430, intronic, 7403 nt to nearest splice site; counts.exact = 1 against the TAF15 reagent's 0"
+    },
+    {
+      "summary": "The Supplementary Information in the outgoing set is the extended report's SI, not the journal article's, and its cross-references and reference numbers collide with the journal article's. Mitigating: a scoped grep of the article and tables for 'supplementary-information' returns nothing, so the journal article as it stands is self-contained and makes no promise this SI fulfils. The risk is at submission time, if this SI is uploaded beside it.",
+      "evidence": "fusion-junction-aso-supplementary-information.md body; the journal article has no numbered sections, one figure and a 24-entry reference list, while the SI's superscripts run to 53"
+    },
+    {
+      "summary": "The deposited copy of the SI states that a PDF of it is built and deposited; no such PDF exists. Graded P2 rather than blocker because the false sentence sits inside a YAML block the document itself labels repository routing front matter, and no scientific statement is affected.",
+      "evidence": "git show 4fd4698daec0:…/fusion-junction-aso-supplementary-information.md scope block, against the pin's replacement"
+    },
+    {
+      "summary": "The deposited extended report carries scramble-null rates from the wrong ensemble. Not a defect in an outgoing artifact — the extended report is a different paper, and the journal article's own control sentence is correct against the artifact — but it is a live drift in the cited archive, and re-depositing is the fix.",
+      "evidence": "git diff 4fd4698daec0 <pin> -- research/manuscripts/aso/fusion-junction-aso-research-article.md; research/modalities/aso-parent-null.json confirms 74.3/38.8 belong to scrambled_mononucleotide while the sentence's antecedent is the dinucleotide null at 85.4/47.9"
+    },
+    {
+      "summary": "The Methods do not name a single piece of software, version, or database release, and neither does the SI that would normally carry them. The archive manifest does carry a how_to_reproduce_offline recipe, so this is recoverable, but a referee at a methods journal would ask that the Methods stand alone for the paper's own stated goal of letting a reader re-run the screen for their own breakpoint. This is the single reason the seat would not write 'accept'.",
+      "evidence": "fusion-junction-aso-journal-article.md, Materials and Methods; fusion-junction-aso-supplementary-information.md §S1-S6"
+    },
+    {
+      "summary": "The canonical ordering record mixes three encodings in one boolean column: the two controls carry 'no' and the designs carry 'False'/'True'. The paper's Declarations tell a laboratory to order from that file; a naive truthiness test on the column reads 'False' as true.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-sequences.csv, column pairs_a_wild_type_parent_through_the_gap"
+    },
+    {
+      "summary": "Locked-gapmer hepatotoxicity is carried as an uncited adopted premise, and the direction of that choice understates a documented liability of the named reagents. Elsewhere the paper cites its premises; here the effect of not citing is to make a well-reported hazard of high-locked-content gapmers read as an assumption of the authors' own.",
+      "evidence": "fusion-junction-aso-journal-article.md, Results: 'High affinity is taken to carry a risk of sequence-dependent hepatotoxicity; that is a premise adopted here rather than a retrieved finding'"
+    },
+    {
+      "summary": "A readability point the paper's own union figure corrects: 13 of the 19 precursor-RNA designs are already condemned by the mature screen and only 6 are new. The union sentence lets a reader derive that; the paper never states it.",
+      "evidence": "recomputed from research/modalities/aso-premrna-offtarget.json and aso-parent-gap-pairing.json"
+    }
+  ],
+  "leaks": "Yes, one, disclosed by the seat. It ran `git diff --name-status 4fd4698daec0 3d5c709b69bc` unscoped, which printed FILE NAMES ONLY from research/autonomy/** (including five sibling seat filenames from earlier rounds, round33-seats, and about twenty sprint note titles) plus the names CLAUDE.md, STRATEGY.md and three .claude/hooks paths. It opened none of them and read no content from any; the seat filenames carry a commit sha and a lens label and no findings. Every scoped search it ran afterwards was restricted to research/manuscripts, research/modalities and scripts, and all findings above are traceable to the files listed under what_i_read.",
+  "logs": [
+    "<session scratchpad>/s34-referee-round34/s34-referee-cmds.log",
+    "<session scratchpad>/s34-referee-round34/s34-referee-findings.md",
+    "<session scratchpad>/s34-referee-round34/s34-referee-journal-article.txt and the -preprint, -manuscript, -anonymized and -deposited extractions"
+  ],
+  "_logs_are_not_durable": "The seat's logs live in the session scratchpad, which dies with the container. The findings above are its report as delivered; every one names the artifact path and field that reproduces it."
+}

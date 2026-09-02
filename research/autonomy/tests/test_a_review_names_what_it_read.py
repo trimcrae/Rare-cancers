@@ -135,19 +135,35 @@ def test_the_committed_publications_graph_is_what_it_reads():
     assert any(r.get("id") == PAPER for r in (rows if isinstance(rows, list) else rows.values()))
 
 
-def test_nothing_gates_on_this_module_yet_and_the_reason_is_recorded():
-    """⛔⛔ THE ONE THAT WILL LOOK WRONG TO A FUTURE READER, SO IT SAYS WHY IT IS HERE.
+def test_the_bar_reads_this_module_and_the_wiring_is_not_silently_removable():
+    """⭐ THE TRIPWIRE THAT USED TO LIVE HERE HAS FIRED AND BEEN ANSWERED, SO IT IS NOW ITS OWN
+    INVERSE — and that is why this is a REPLACEMENT rather than a deletion.
 
-    `publish_bar` does NOT import this module, deliberately: the re-binding is a governed change and
-    the cycle that built the instrument is blocked by the clause it would relax. This test asserts
-    that separation is still true, so that if a later cycle DOES land the re-binding it must come
-    here and delete this test — which is a deliberate act with the ledger row (AUT-PD-205-d7df5340)
-    in front of it, rather than a quiet import nobody notices.
+    ⚠ WHAT IT SAID BEFORE, RETAINED PER RULE 1.2 BECAUSE THE REASONING WAS RIGHT: `publish_bar` did
+    NOT import this module, deliberately, because the re-binding is a governed change and the cycle
+    that BUILT the instrument was blocked by the clause it would relax. It failed the moment
+    `deliverable_digest` appeared in `publish_bar.py`, and its failure message named the four things
+    that had to be true first: declare it in amendments.jsonl with the self_serving_check answered,
+    check that `amendment_guard` permits it for THAT cycle, close AUT-PD-205-d7df5340, and delete
+    this test.
+
+    ★ ALL FOUR HAPPENED ON 2026-09-02 UNDER CYC-0091-91c8e949, on trimcrae's explicit instruction
+    after he was shown the measurement — 104 commits between round 32's pin and the change, one
+    unchanged deliverable digest throughout, so the sha comparison discarded a clean six-seat round
+    104 times to track zero real changes. `amendment_guard --receipt ... --diff-from ...` returned
+    PERMITTED over three governed paths.
+
+    ⛔ DELETING IT OUTRIGHT WOULD HAVE LEFT THE WIRING GUARDED BY NOTHING, WHICH IS THE FAILURE THIS
+    REPOSITORY KEEPS PAYING FOR: a value connected to no code path (`subagent_width` for a
+    fortnight), a rule measured by nothing. The instrument is now load-bearing — clauses 1 and 6 of
+    the publication permission compute their answer from it — so the assertion is inverted rather
+    than removed, and an edit that quietly unwires it reddens the build instead of passing.
     """
     bar = open(os.path.join(AUTONOMY, "publish_bar.py"), encoding="utf-8").read()
-    if "deliverable_digest" in bar:
-        pytest.fail(
-            "publish_bar now reads deliverable_digest. That is the intended destination — but it "
-            "is a GOVERNED change: declare it in amendments.jsonl with the self_serving_check "
-            "answered, check `amendment_guard --receipt ... --diff-from ...` permits it for THIS "
-            "cycle, close AUT-PD-205-d7df5340, and delete this test.")
+    assert "deliverable_digest" in bar, (
+        "publish_bar no longer reads deliverable_digest. Clauses 1 and 6 identify a review by the "
+        "DIGEST of what it read rather than by the commit sha it happened at, and unwiring that "
+        "silently returns the bar to discarding a clean round on any unrelated commit — the defect "
+        "measured in AUT-PD-205-d7df5340. If the re-binding is genuinely being reverted, that is a "
+        "governed change in its own right: declare it in amendments.jsonl with the "
+        "self_serving_check answered, and rewrite this test to say so.")

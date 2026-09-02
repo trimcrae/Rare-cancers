@@ -1,0 +1,66 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "3d5c709b69bc32a00a7776bf47303771d17d87f5",
+  "document_sha256": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+  "blind": true,
+  "status": "closed",
+  "seat": "scope-and-language",
+  "round": 34,
+  "dispatched_by": "CYC-0091-91c8e949",
+  "utc": "2026-09-02T14:05:00Z",
+  "_blind_means": "Given the pinned sha and the outgoing artifact set and nothing else. Forbidden research/autonomy/ (every other seat record, the hardening state, the receipts, the ledger, the sprint notes, round33-seats and round34-prepin-seat), .claude/, CLAUDE.md, AGENTS.md, STRATEGY.md, every *-cover-letter.md, every fusion-junction-aso-paper-redteam*.md and the guard-coverage audit. Told that blindness is a property of its commands rather than its intentions, given the scoped git grep form, and told to DISCLOSE any leak rather than discard the finding. Instructed to refute by default, warned not to manufacture an overclaim by reading a denial-frame or design-frame sentence as an assertion, and told in words that returning no findings is a complete and expected answer.",
+  "lens": "R1-R5 scope and language discipline. Read every assertive sentence in the outgoing set and asked whether it implies proteome- or transcriptome-wide selectivity, efficacy, potency, safety, a therapeutic window, solved delivery or clinical readiness. Checked DIRECTION as well as strength on every claim carrying a directional word — the ten-base-pair convention sentence, 'those partial duplexes are not counted here and have not been measured', 'mostly but not wholly invisible', the cut ladder, the void-variance ladder and the selectivity ratio's orientation — because an inverted verb leaves every number correct and the meaning reversed. Recomputed the sha256 of every PDF/DOCX input at the pin against all seven build stamps. Cross-checked all eight named sequences against fusion-junction-aso-sequences.csv for margin, duplex length, duplex gene and do-not-order verdict. Diffed the deposited manifest at the published DOI's git_revision against the pin's to see whether the archive still contains what the paper promises, and traced the one added file to refute an apparent broken-import defect. Checked that each load-bearing denial is present and actually bound by a guard that reads the delivered document.",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+    "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+    "the four article build stamps and the three .docx build stamps",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json (at the pin and at deposit revision 4fd4698d)",
+    "research/manuscripts/aso/deposit-state.json",
+    "research/manuscripts/aso/lit-targets-aso-instruments.json",
+    "research/modalities/emc-model-junction-evidence.json",
+    "research/manuscripts/lint_claims.py",
+    "research/manuscripts/lint_citations.py",
+    "research/manuscripts/tests/test_aso_abstract_is_bounded.py",
+    "research/manuscripts/tests/test_the_paper_states_what_its_own_claims_depend_on.py",
+    "research/manuscripts/tests/test_the_manuscript_asserts_the_relation_its_artifacts_compute.py"
+  ],
+  "central_claim": "Across 190 junction-spanning 5-6-5 gapmers tiled at 38 in-frame NR4A3 fusion junctions, the liability that a junction design's own wild-type parent pairs its whole catalytic gap is common — 87 of 190 at an adopted ten-base-pair criterion, a rate not resolved against an exon-terminus chimeric null at 40.6% — and it is mostly invisible to a conventional identity-threshold off-target search, so it must be screened for directly. Selecting per junction rather than per design nonetheless leaves usable reagents: two 16-mers at the two most-reported breakpoints, each at the panel's top gap-level margin of three and each below the criterion at eight and nine base pairs against wild-type TFG, together with two screened scramble controls, five literature-reported test articles and a pre-registrable selectivity threshold with its power and voidness conditions. Nothing was synthesised or tested; all five screens address hybridisation rather than cleavage; and systemic delivery to a solid tumour remains the unsolved gate after any result the paper specifies.",
+  "verdict": "supported",
+  "recommendation": "minor",
+  "blockers": [],
+  "_blockers_empty_means": "⛔ A REPORTED READING, NOT AN ABSENT ONE, AND THE SEAT ENUMERATED WHAT IT COULD NOT BREAK. Direction is correct at every site the history shows has been inverted before: 'Ten is a convention, not a measurement'; 'those partial duplexes are not counted here and have not been measured'; 'mostly but not wholly invisible'; 'which makes them mechanism controls rather than candidates'; 'the range … is not a confidence interval'. The cut ladder is arithmetically right against duplexes of 8 and 9, and the voidness ladder rises with replicate count as it must. All eight named sequences match the canonical CSV exactly on junction, margin, duplex length, duplex gene and verdict, including the condemned one-slide neighbour at 11 bp wild-type NR4A3 with do_not_order set. All seven build stamps match recomputed source digests, so no stale rendering carries superseded language. The four load-bearing denials are present and genuinely bound, including the delivery limitation, whose bare r'delivery' guard was expected to be satisfied from elsewhere and is not — 'deliver*' occurs exactly twice in the article, so the guard binds the real sentence. A scan for demonstrat|confirm|establish|prove|ensure|guarantee|safe|efficac|potenc|therapeutic|clinical|selectiv|validat|novel|landmark|promising|effective returns nothing assertive: efficacy, potency, safety, therapeutic and clinical appear only inside the stripped front-matter scope block, every 'establish' is a denial or the sequencing requirement, and 'novelty' appears as 'The method-level novelty is nil'. lint_claims.py's DEFAULT_TARGETS does include the article, tables, references and SI, so R1-R5 is not blind to the outgoing set.",
+  "p1s": [
+    {
+      "summary": "The Abstract's statement of how much of the OSWG framework this work executes is read by no guard. The scope claim is bound in exactly one place, whose site anchor matches only the Introduction sentence; the Abstract carries an independent statement of the same scope that no site pattern reaches, and the abstract guard requires only two universal needles. So the abstract's framework claim could be widened to any of the six phrasings the Introduction forbids and every gate would stay green.",
+      "evidence": "research/manuscripts/tests/test_the_manuscript_asserts_the_relation_its_artifacts_compute.py, row 'in-silico-half-of-the-first-step', site anchor r'This work performs[^;]{0,140};' with forbid list r'all five of those steps|all five steps|each of the five steps|the whole of the first step|the first three steps|steps one to'; article lines 45-46 against lines 87-89; research/manuscripts/tests/test_aso_abstract_is_bounded.py UNIVERSAL_NEEDLES"
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "The Abstract asserts execution of the framework's in-silico step; the Introduction and the deposited instrument record both say HALF of it. The transcriptomics half was not done, so the abstract's compression claims a step the Results do not support, in the part of the paper that travels furthest. This is the un-repaired sibling of round 27's second blocker, which replaced the Introduction's version of the sentence and left the abstract untouched. The suggested repair is a replacement, not an addition.",
+      "evidence": "article lines 45-46 against lines 87-89; research/manuscripts/aso/lit-targets-aso-instruments.json carries the source verbatim and its own what_the_paper_takes_from_it reads 'this work performs its in-silico half and stops'. introduced_by: pre_existing — git log -S 'industry off-target framework's in-silico' returns only 9820f483a, while git log -S 'only the first is even partly in silico' returns fade4a548 (round 27), i.e. the body was corrected eight days after both were written and the abstract was not."
+    },
+    {
+      "summary": "The deposited copies of two outgoing artifacts are one commit behind the pin, and one carries a statement the repository has since corrected. Comparing the two manifests' inventories: 1 path added, 0 removed, 24 changed digests, of which the outgoing-set members are the SI, the sequences CSV and FASTA, and the four article PDFs. Both changes are clarifying prose rather than moved numbers or bounds, and the deposited article, tables and references are byte-identical to the pin's, so the paper's own text is faithfully archived.",
+      "evidence": "deposit-state.json published git_revision 4fd4698daec0…, manifest_digest ff4da79f8acf…, 515 files against the pin's f58d36879f8c… and 516. REFUTED while checking this: the one path the deposit lacks, research/manuscripts/citation_scan_cache.py, looked like the round-23 broken-import defect because lint_citations.py:55 imports it — but `git show 4fd4698…:research/manuscripts/lint_citations.py | grep citation_scan_cache` returns nothing and git log -S names 952076b6e, a commit after the deposit, so the published archive is internally runnable and this is not a defect."
+    },
+    {
+      "summary": "The Supplementary Information is orphaned from the journal article it ships with: a grep for 'supplement' over the article returns zero hits, while the SI's cross-references, section numbers, table numbers and superscripts all address the extended report. Nothing scientific is wrong — the seat verified that the four bounds §S6 defers to are in fact carried by the journal article's own coverage paragraph — so this is a packaging defect, not an unsupported claim.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md against fusion-junction-aso-journal-article.md and fusion-junction-aso-journal-references.md"
+    }
+  ],
+  "leaks": "none. Every search was scoped to research/manuscripts research/modalities systems scripts at the pin, and the seat additionally filtered the redteam, guard-coverage-audit and cover-letter paths out of the one grep whose scope could have reached them.",
+  "logs": [
+    "<session scratchpad>/s34-scope-round34/s34-scope-log.txt",
+    "<session scratchpad>/s34-scope-round34/s34-scope-diff-since-deposit.txt",
+    "<session scratchpad>/s34-scope-round34/s34-scope-manifest-pin.json",
+    "<session scratchpad>/s34-scope-round34/s34-scope-manifest-deposit.json",
+    "<session scratchpad>/s34-scope-round34/s34-scope-article.md and the three other extracted outgoing texts"
+  ],
+  "_logs_are_not_durable": "The seat's logs live in the session scratchpad, which dies with the container. The findings above are its report as delivered; every one names the artifact path and field that reproduces it."
+}

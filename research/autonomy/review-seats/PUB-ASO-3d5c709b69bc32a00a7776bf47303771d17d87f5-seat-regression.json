@@ -1,0 +1,85 @@
+{
+  "_schema": "emc-review-seat/1",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "3d5c709b69bc32a00a7776bf47303771d17d87f5",
+  "document_sha256": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+  "blind": true,
+  "status": "closed",
+  "seat": "regression",
+  "round": 34,
+  "dispatched_by": "CYC-0091-91c8e949",
+  "utc": "2026-09-02T14:21:00Z",
+  "_blind_means": "Given the pinned sha and the outgoing artifact set and nothing else. Forbidden research/autonomy/ (every other seat record, the hardening state, the receipts, the ledger, the sprint notes, round33-seats and round34-prepin-seat), .claude/, CLAUDE.md, AGENTS.md, STRATEGY.md, every *-cover-letter.md, every fusion-junction-aso-paper-redteam*.md and the guard-coverage audit. Told that blindness is a property of its commands rather than its intentions, given the scoped git grep form, and told to DISCLOSE any leak rather than discard the finding. Instructed to refute by default and told in words that returning no findings is a complete and expected answer.",
+  "_why_a_second_regression_seat_id": "This is round 34's regression seat, dispatched as s34b because an earlier regression seat (s34) had already run against a pin this round abandoned. That earlier record is at research/autonomy/round34-prepin-seat/ and is NOT clause-1 evidence; this one reviewed the round's actual pin and re-derived everything independently rather than inheriting it.",
+  "lens": "Regression on the previous rounds' repairs. Diffed each outgoing artifact against its state several commits back (the article's last change is c48875a00, the tables' 34182cbf8, the references' b8f0048b7, the SI's 19f9d2b41) and took every changed sentence back to the artifact that produces it. Re-derived the panel numbers from RAW SEQUENCE rather than reading recorded outputs: re-implemented longest_run_through_gap and mature_parents from aso_parent_gap_pairing.py against aso-premrna-sequences.json and nr4a3-fusion-junction-atlas.json and recomputed 190/87/61 plus the membership-vs-argmax split; re-implemented Student-t CDF/quantiles and the noncentral-t power integral by hand (no scipy) for the void-variance and power figures; recomputed the Wilson bounds behind the coverage range, the null cut-ladder comparison and the sign-change count, the mature-union-precursor count, and the reference-numbering integrity. Then asked of every repair whether its sibling call sites moved: checked each repaired string across the four PDFs, the three .docx files, the tables, the references, the SI, the archive manifest and the deposited data files, and checked whether a guard exists that would fire if the repair were reverted. Finally compared the archive the paper's DOI resolves to (built at 4fd4698da, 515 files) against the pin's manifest (516 files) file by file, and extracted the archived article PDF's text to test whether the deposited copy is the same paper.",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+    "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+    "the four article PDFs, the three .docx files and all seven build stamps",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+    "research/manuscripts/aso/deposit-state.json",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+    "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+    "research/manuscripts/aso/fusion-junction-aso-research-article.md (three line ranges, as a sibling-site source)",
+    "research/manuscripts/aso/fusion-junction-aso-submission-tables.md (one range)",
+    "research/manuscripts/aso/lit-targets-aso-instruments.json",
+    "research/modalities/aso-parent-gap-pairing.json and its 18mer, 20mer and noncoding-acceptor siblings",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-premrna-offtarget.json",
+    "research/modalities/aso-genome-offtarget.json",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/aso-per-junction-table.json",
+    "research/modalities/aso-premrna-sequences.json",
+    "research/modalities/nr4a3-fusion-junction-atlas.json",
+    "research/modalities/aso_parent_gap_pairing.py",
+    "research/manuscripts/submission_packet.py",
+    "research/manuscripts/tests/test_journal_article_numbers.py",
+    "research/manuscripts/tests/test_genomics_prose_matches_the_screen_artifacts.py",
+    "research/manuscripts/tests/test_the_numbered_claims_no_instrument_read.py",
+    "at 4fd4698daec0: the archive manifest, the article PDF and the article build stamp, plus git diff over research/manuscripts and research/modalities"
+  ],
+  "central_claim": "Across 38 modelled in-frame NR4A3 fusion junctions of five EMC partner genes, 87 of 190 junction-spanning 5-6-5 gapmer designs let a mature wild-type parent transcript pair their entire six-nucleotide catalytic gap over a contiguous duplex of at least ten base pairs — for 61 of those the longest such duplex is with wild-type NR4A3 itself — so the parent liability that a junction design's construction implies is real, is mostly invisible to a conventional identity-threshold off-target search, and is not resolved by lengthening the gap. Selecting within each junction rather than across the panel nonetheless yields two synthesis-ready reagents at the two most-reported breakpoints, whose longest wild-type parent gap duplexes are eight and nine base pairs, together with two screened scramble controls and a pre-registrable selectivity threshold and power calculation. The ten-base-pair criterion is an adopted convention rather than a measurement, and exon-terminus chimeric nulls meet the same screen at 40.6% against the panel's 45.8%, so no excess specific to this disease is demonstrated; nothing here is a claim of efficacy, cleavage, safety or delivery.",
+  "verdict": "supported",
+  "recommendation": "minor",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The scope repair on the fifth screen — 'unambiguous GRCh38' — is bound by no guard, and the wording it replaced still stands in three deposited files, so an ordinary edit reverting it would go green. The repair itself is real and correct: 4.88% of genome windows carry an N and are not scanned.",
+      "evidence": "research/modalities/aso-genome-offtarget.json: denominator.windows_total 3099747808, windows_with_N 151138112, windows_scanned 2948609696, n_fraction 0.0488. A guard search over every test that opens fusion-junction-aso-journal-article.md (29 files) returns only two that mention GRCh38/mitochondrial/unambiguous, and in both the string appears in a docstring or in an assertion about the 156/135 pair — neither touches the scope word. test_genomics_prose_matches_the_screen_artifacts.py DOES bind windows_with_N, but its PAPER constant (line 35) is aso/fusion-junction-aso-research-article.md, not the journal article."
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "One-of-N residue from the round-26 repair: 'that parent is wild-type NR4A3' -> 'the longest is wild-type NR4A3' moved all three journal-article sites and all four renderings, but the identical, still-wrong statement stands in two manuscripts deposited inside the archive the paper's DOI resolves to. Re-derived from raw sequence: 61 have NR4A3 as the LONGEST parent duplex but 62 pair NR4A3 at >=10 bp, the separating design being TAF15_e9__NR4A3_e3 / GCATATCAGCATCTGT (NR4A3 11 bp, TAF15 12 bp), and four of the 87 have two parents at >=10 bp. A membership reading of '61 of them pair' is therefore off by one.",
+      "evidence": "fusion-junction-aso-research-article.md:1267 and :2005; fusion-junction-aso-submission-tables.md:220. The journal article's own guard (test_journal_article_numbers.py:170-204) names this failure and enforces the corrected predicate — but only against the journal article. introduced_by: prior_repair a294fee68 (the repair that did not reach these sites); not_a_paper_defect for the outgoing set."
+    },
+    {
+      "summary": "The same 'every position of GRCh38' overstatement the journal article repaired still stands in the manifest a reader downloading the archive reads, and in three screen artifacts. Contradicted by the same file's windows_with_N. The manifest strings are emitted by aso_archive_manifest.py, so regenerating the manifest does not fix them. Moves no printed number in the outgoing set.",
+      "evidence": "fusion-junction-aso-archive-manifest.json lines 1861, 2833, 5163; research/modalities/aso-genome-offtarget.json:4 and its noncoding-acceptor and taf15intron2 siblings"
+    },
+    {
+      "summary": "Deposit drift: the archive is 24 changed files and one added file behind the pin — verified harmless to what the paper promises, with two named gaps. REFUTED as a blocker: the deposited article PDF and the pin's are both 41,611 characters of byte-identical text, and the article, tables and references markdown are unchanged between the two revisions, so the archive holds the same paper. What the archive lacks is round 30's SI change (confined to stripped front matter) and the predicted_tm caveat added to the sequences CSV and FASTA.",
+      "evidence": "deposit-state.json published.git_revision 4fd4698daec0…, n_files 515, manifest_digest ff4da79f8acf…; the pin's manifest git_revision 46ad62b1…, n_files 516, archive_content_digest f58d3687…"
+    },
+    {
+      "summary": "The anonymized rendering's Data availability is ungrammatical after the DOI substitution: it reads 'deposited under the archived deposit cited in the unblinded copy, the citable record for them.' A referee reads this sentence; it misleads nobody but reads as an artefact of the build.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf, extracted text"
+    },
+    {
+      "summary": "An unhedged universal about a cited framework replaced the enumeration that supported it: 'only the first is even partly in silico' is the paper's reading rather than the source's statement, since the kept verbatim gives step 4 as 'risk assessment based on the OffT biological role', a desk exercise rather than a bench one. The observation that would settle it is PMID 39912803's own text on how step 4 is performed. A reviewer would suggest, not stop.",
+      "evidence": "fusion-junction-aso-journal-article.md Introduction; research/manuscripts/aso/lit-targets-aso-instruments.json supplementary_record_2026_08_31_the_five_step_framework_verbatim.record.five_steps_verbatim"
+    }
+  ],
+  "leaks": "none. Every search was scoped to research/manuscripts research/modalities systems scripts at the pin, and redteam, cover-letter and guard-coverage paths were filtered out of grep output before reading; research/autonomy, .claude, CLAUDE.md, AGENTS.md and STRATEGY.md were never opened.",
+  "logs": [
+    "<session scratchpad>/s34b-regression-round34/s34b-regression-log.txt",
+    "<session scratchpad>/s34b-regression-round34/s34b-regression-article-diff-r25-pin.txt",
+    "<session scratchpad>/s34b-regression-round34/s34b-regression-txt-article.txt and the -preprint, -manuscript, -anonymized and -archived extractions",
+    "<session scratchpad>/s34b-regression-round34/s34b-regression-docx-manuscript.txt and the -titlepage and -figlegends extractions",
+    "<session scratchpad>/s34b-regression-round34/mod/ (staged re-derivation inputs)"
+  ],
+  "_logs_are_not_durable": "The seat's logs live in the session scratchpad, which dies with the container. The findings above are its report as delivered; every one names the artifact path and field that reproduces it."
+}
