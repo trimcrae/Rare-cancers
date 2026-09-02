@@ -1,0 +1,54 @@
+{
+  "cycle_id": "CYC-0092-f2f24a57",
+  "session_id": "f2f24a57-6834-5b7f-801e-d7949dea605b",
+  "ccr_session_id_unavailable": "ToolSearch for \"get_session\", \"create_session\" and \"session info ccr claude-code-remote\" all returned no match at cycle start -- this scheduled Routine's tool surface has no claude-code-remote MCP, per receipt_schema.py's CCR_UNAVAILABLE_FIELD escape valve (AUT-PD-157).",
+  "started_utc": "2026-09-02T20:15:20Z",
+  "ended_utc": "2026-09-02T22:05:00Z",
+  "base_sha": "7d05ceaa",
+  "took": "AUT-010",
+  "took_why": "Top-scored (182.0 at claim time) open, unowned, free-cost item on the re-scored queue; a live route (RT-ATR-ASSESS / PUB-ATR) with a clear next action already specified by a prior session's notes on the row.",
+  "health_at_start": {
+    "exit": 0,
+    "cadence": "MAY START -- 6.7h since last cycle against 4h cadence",
+    "budget_hold": "inactive -- lifted by trimcrae 2026-09-02T16:20:00Z",
+    "unmeasured": ["cycle_delivering", "advancing_live_work", "gates_green", "stalls_are_named"],
+    "note": "The two UNMEASURED-by-clock rows named the fix in their own text: land one receipt with a readable `ended_utc`. This receipt is that."
+  },
+  "what_changed": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md -- PUB-ATR round 5 APPLIED (commit 00e049a9): all 13 round-5 blockers fixed as replacements, not appends (PMID 34413129 mischaracterization x4 duplicate findings; 'two decades'->'five years' x2; GPL3290 accession-count error in main text and Appendix; a wrong artifact field name in S3.0; an abstract/GEO-summary misattribution in S8; a fibrosarcoma/myxofibrosarcoma table mislabel; a false 'beaten by more after adjustment' claim; an overclaimed part-D 'pre-registered' framing; SS3.4/SS6.1's irreconcilable part-B bound replaced with a quantified minimum-detectable-effect). Every new sentence split under the 60-word readability ceiling; caution markers unchanged.",
+    "research/manuscripts/emc-systems-map.json + .md -- fixed CLM-IDR-EMC's stale field pointer (renamed by commit 885f2877, unrelated, found only because this cycle's frequent origin/main fetches stopped masking it with a stale local ref); merged with another session's independent identical fix (AUT-PD-208) rather than duplicating. Also added H-EMC-SS `read_by` classifications for six new review-seat files and one ledger row.",
+    "research/autonomy/review-seats/PUB-ATR-00e049a9...-seat-{arithmetic,regression}.json -- round 6: arithmetic clean (0 blockers, 1 P1); regression found ONE real blocker (round 5's own repair introduced an unverified '~14-line panel' figure for PMID 34413129, disagreeing with one of its two cited sources). statistics/citations seats for this round landed earlier in commit 7a26c150 (0 blockers, 3 P1s), before this session's mid-cycle container restart.",
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (commit 51fb2b18) -- round 6's blocker fixed: dropped the contested panel-size figure rather than guess between two disagreeing artifacts. Filed AUT-PD-211 for the underlying artifact disagreement (still open, not a manuscript defect).",
+    "research/autonomy/review-seats/PUB-ATR-51fb2b18...-seat-*.json (5 files) + the bare roll-up PUB-ATR-51fb2b18....json + research/autonomy/hardening-state/PUB-ATR.json -- round 7: five fresh blind seats on the fix commit, 0 blockers, 5 P1s. Widest, cleanest round on record. publish_bar reached 6/7 clauses for PUB-ATR.",
+    "research/autonomy/research-ledger.json -- filed AUT-PD-211 (artifact panel-size disagreement, open), AUT-PD-212-f2f24a57-3128847a (PREFLIGHT_FULL=1 red on clean origin/main for five reasons unrelated to PUB-ATR, three not previously tracked), hand-scored AUT-PD-209-11f2347b-3bcd751f (a session-added row with serves.route:null that apply_route_inheritance could never score, which was the one open row blocking the unscored-population ratchet tests -- reapplied across four separate origin/main merges this cycle), and released AUT-010 (owner -> null) with a full status note: paper not postable despite 6/7 clauses, because (a) AUT-PD-212 blocks clause 2 repo-wide and (b) another session (s43-atr-stale-provenance) found and claimed a real pre-existing defect in the manuscript's S0 provenance cell and an uncited machinery-control artifact, missed by this cycle's ten total seat-looks because deliverable_digest binds a round to the manuscript's own bytes, never to the artifacts it cites."
+  ],
+  "blocked_by": [
+    {
+      "what": "PUB-ATR publish_bar clause 2 (PREFLIGHT_FULL=1 green)",
+      "path": "research/autonomy/research-ledger.json#AUT-PD-212-f2f24a57-3128847a",
+      "evidence": "PREFLIGHT_FULL=1 run twice against clean origin/main (0bc8c774, no local changes): 5 modalities-suite failures, none in code this cycle touched (an ASO offtarget scan KeyError, a GCP-fanout cron-format IndexError, a new ATM-stratification workflow hand-rolling commit+push, and the already-tracked SageMaker dispatch-cap failure)."
+    },
+    {
+      "what": "PUB-ATR's own manuscript correctness (a defect this cycle did not introduce or detect)",
+      "path": "research/autonomy/research-ledger.json#AUT-PD-212-11f2347b-edfa0647",
+      "evidence": "Claimed by s43-atr-stale-provenance mid-cycle. Verified independently before releasing AUT-010: emc-fet-idr-census.json now carries 11 occurrences of '431' and four `emc_EWSR1_NR4A3_reported_types` keys where the manuscript's S0 cell (untouched by any of this cycle's edits) still says '431 does not occur in that file' and 'holds ONE EMC record'; atm-status-atri-stratification.json (verdict INSTRUMENT_CANNOT_DETECT) is cited zero times in the manuscript."
+    }
+  ],
+  "subagents": {
+    "max_concurrent": 5,
+    "launched": 10,
+    "note": "Two waves of 5 concurrent blind review seats (round 6, round 7), each dispatched in one message. subagent_width is uncapped per trimcrae 2026-09-02 ('There shouldn't be a limit on parallel subagents'); 5 was chosen to match paper-hardening's five-lens convention and the widest prior round on this paper's own record."
+  },
+  "queued": [
+    "AUT-PD-211 (artifact panel-size disagreement between emc-model-junction-evidence.json and hemcss-label-priorart.json, needs a primary-source read of PMC8571037)",
+    "AUT-PD-212-f2f24a57-3128847a (PREFLIGHT_FULL red on main, 3 untracked failures)",
+    "AUT-PD-212-11f2347b-edfa0647 (owned by s43-atr-stale-provenance -- PUB-ATR's real remaining defect)",
+    "AUT-010 (released, will re-surface once the above clear)"
+  ],
+  "route_advanced": "RT-ATR-ASSESS",
+  "notes": [
+    "Repeated origin/main churn this cycle (dozens of concurrent sessions pushing): every commit required a fresh drift check and, when research-ledger.json conflicted, a stash-merge-reapply cycle. No work was lost, but it cost most of this cycle's wall time.",
+    "One container restart during this cycle lost an in-flight PREFLIGHT_FULL=1 run (re-run successfully after); a second restart lost nothing (working tree was clean, already pushed).",
+    "The AUT-PD-212-11f2347b-edfa0647 finding is the honest headline of this cycle: two full hardening rounds (10 seat-looks total) converged on 0 blockers while a real, severe defect sat in a section neither round's manuscript-bytes-only digest could see. The mechanism worked as designed (deliverable_digest correctly scopes a round to what it reviewed) and a fresh pair of eyes on a different day still found what ten seats missed -- the honest lesson, not a process failure to fix."
+  ]
+}
