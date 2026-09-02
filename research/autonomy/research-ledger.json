@@ -10,7 +10,7 @@
     "code": 1,
     "experiment": 24,
     "fetch": 23,
-    "fix": 21,
+    "fix": 22,
     "harden": 26,
     "negative": 32,
     "process": 7,
@@ -25,7 +25,7 @@
     "done": 155,
     "in_progress": 8,
     "parked": 30,
-    "queued": 150,
+    "queued": 151,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -497,13 +497,13 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SPRINT-2026-09-01/PUB-ATR-ROUND@20d33f3478fa",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 1,
+      "attempts": 2,
       "last_evidence_utc": "2026-09-01",
       "score": 190.9,
       "score_inputs": {
@@ -522,11 +522,12 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-ATR is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-01T21:35:00Z",
+      "claimed_utc": null,
       "requires_trimcrae_why": "publishes an assessment AND makes an ask of an external group — CLAUDE.md §3, outward-facing. The assessment itself is self-doable and is not this row.",
       "notified_utc": "2026-09-01T14:40:19Z",
       "_NOTIFIED_AND_ANSWERED_2026_09_01": "★ SENT AND ANSWERED, and `notified_utc` above records the SEND rather than the intention — PushNotification plus AskUserQuestion, both in the turn that stamped it. CLAUDE.md §3: stamping a row you did not send is a false record.\n★ WHAT HE WAS ASKED, and it was a real fork rather than a null notification: this row is 'publish the ATR assessment and pair it with the cell-panel ask', and `publish_bar --paper PUB-ATR` on f37ef3c02 reads **3/7** — failing `hardening_converged` (the last round reviewed c1bc934fec3c, not this tree), `preflight_full_green`, `independent_adversarial_seat`, and `readable_and_keeps_caution` (7 sentences over 60 words, longest 77w at line 509 of emc-atr-vulnerability-assessment.md). ⛔ EVERY ONE OF THOSE IS THE LOOP'S OWN WORK, so the publish/outreach act was not takeable and asking him to take it would have been the failure §3 names. The genuine fork his ASO scoping raises is whether the work is worth doing NOW — and that is his.\n★ HIS ANSWER, 2026-09-01: **park it until ASO is done.** Recorded as `state: parked`, `parked_on: GOAL-ASO-V2`. ⛔ NOTHING IS DROPPED and no bar was touched: the four failing clauses stay failing, the assessment is unchanged, and the row resumes as an ordinary queued item once GOAL-ASO-V2 closes. ⚠ The 7 over-length sentences are the cheap half and are still owed — they are free, tedious and entirely mine, exactly the kind §3 says not to hand over.\n⚠ AND THE HOOK THAT SURFACED THIS WAS FIXED HOURS EARLIER AND HAD NEVER FIRED BEFORE (AUT-PD-202). This is the first decision it has ever put in front of anyone.",
-      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A ROUND THAT IS RUNNING, NOT FOR THE DRIVER SESSION. Five blind adversarial seats (arithmetic, hostile-referee, citations-and-instruments, statistics, regression) plus one PREFLIGHT_FULL=1 are working against the pinned commit 20d33f3478fa34940552d26ea8ae05cdd7a23ad2, dispatched 2026-09-01 ~21:30Z.\n★ WHY A PINNED COMMIT AND NOT THE WORKING TREE: publish_bar clauses 1 (hardening_converged), 2 (preflight_full_green) and 6 (independent_adversarial_seat) are each bound to an EXACT sha. A census on 2026-09-01 measured every publication at or below 4/7 and concluded 'not one is at 7/7' — that is true of every paper at every ordinary commit, by construction, because those three clauses cannot be satisfied except by work aimed at one sha. This round is that work.\n⚠ THE CLAIM IS A LEASE, NOT A RESULT. It says which worker holds this row; it says nothing about whether the round will clear anything. Seats are instructed to report zero honestly, and a round that returns blockers is a round that did its job."
+      "_claimed_by_a_running_round": "⛔ CLAIMED FOR A ROUND THAT IS RUNNING, NOT FOR THE DRIVER SESSION. Five blind adversarial seats (arithmetic, hostile-referee, citations-and-instruments, statistics, regression) plus one PREFLIGHT_FULL=1 are working against the pinned commit 20d33f3478fa34940552d26ea8ae05cdd7a23ad2, dispatched 2026-09-01 ~21:30Z.\n★ WHY A PINNED COMMIT AND NOT THE WORKING TREE: publish_bar clauses 1 (hardening_converged), 2 (preflight_full_green) and 6 (independent_adversarial_seat) are each bound to an EXACT sha. A census on 2026-09-01 measured every publication at or below 4/7 and concluded 'not one is at 7/7' — that is true of every paper at every ordinary commit, by construction, because those three clauses cannot be satisfied except by work aimed at one sha. This round is that work.\n⚠ THE CLAIM IS A LEASE, NOT A RESULT. It says which worker holds this row; it says nothing about whether the round will clear anything. Seats are instructed to report zero honestly, and a round that returns blockers is a round that did its job.",
+      "lease_released": "claim by SPRINT-2026-09-01/PUB-ATR-ROUND@20d33f3478fa released after 8.4 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
     },
     {
       "id": "AUT-PD-035",
@@ -3117,14 +3118,14 @@
         "strategy": null
       },
       "state": "queued",
-      "owner": "SPRINT-2026-09-01/S34-STRANDED",
-      "claimed_utc": "2026-09-01T20:20:00Z",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-28",
       "filed_by": "CYC-0072-2e57571a",
       "depends_on_evidence": [
@@ -3146,7 +3147,8 @@
       "score": 134.9,
       "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. VERIFIED LIVE AT HEAD, NOT INHERITED FROM THE ROW: all four seat branches are still unmerged four days on — seat/s1-aut-pd-130 e0847032, seat/s3-unscreened-endpoints 88ac1c7c, seat/s4-aut-045 c8944f76, seat/s5-retest-blocks da4247dc, each `git merge-base --is-ancestor <sha> origin/main` false. CLAUDE.md §7 calls branch drift a data-loss bug; seat/s4 touches systems/graph/routes.json.",
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'anchored'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
-      "_claimed_by_a_running_subagent": "⛔ THE OWNER IS THE SEAT, NOT THE DRIVER SESSION. `ready-work-at-turn-end.sh` refuses a claim that names the stopping session, because when that session stops nothing is running for it (AUT-PD-140, measured 2026-08-28: such a claim took the lease count to capacity, `continuity.py` read AT-CAPACITY and returned 0, and the row sat untouched for 39 minutes while the hook said nothing). This names the worker actually holding it.\n⚠ CLAIMED LATE, AND THAT IS THE DEFECT: the hook says claim AT DISPATCH, in the same action that spawns the agent, and no wave of this sprint did. The rows were offered as ready while seats were working them."
+      "_claimed_by_a_running_subagent": "⛔ THE OWNER IS THE SEAT, NOT THE DRIVER SESSION. `ready-work-at-turn-end.sh` refuses a claim that names the stopping session, because when that session stops nothing is running for it (AUT-PD-140, measured 2026-08-28: such a claim took the lease count to capacity, `continuity.py` read AT-CAPACITY and returned 0, and the row sat untouched for 39 minutes while the hook said nothing). This names the worker actually holding it.\n⚠ CLAIMED LATE, AND THAT IS THE DEFECT: the hook says claim AT DISPATCH, in the same action that spawns the agent, and no wave of this sprint did. The rows were offered as ready while seats were working them.",
+      "lease_released": "claim by SPRINT-2026-09-01/S34-STRANDED released after 9.7 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
     },
     {
       "id": "AUT-PD-165",
@@ -7805,13 +7807,13 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "SPRINT-2026-09-01/S24-CALIBRATION",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-19",
       "score": 71.0,
       "score_inputs": {
@@ -7830,8 +7832,9 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-VACCINE-PATH is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-01T20:20:00Z",
-      "_claimed_by_a_running_subagent": "⛔ THE OWNER IS THE SEAT, NOT THE DRIVER SESSION. `ready-work-at-turn-end.sh` refuses a claim that names the stopping session, because when that session stops nothing is running for it (AUT-PD-140, measured 2026-08-28: such a claim took the lease count to capacity, `continuity.py` read AT-CAPACITY and returned 0, and the row sat untouched for 39 minutes while the hook said nothing). This names the worker actually holding it.\n⚠ CLAIMED LATE, AND THAT IS THE DEFECT: the hook says claim AT DISPATCH, in the same action that spawns the agent, and no wave of this sprint did. The rows were offered as ready while seats were working them."
+      "claimed_utc": null,
+      "_claimed_by_a_running_subagent": "⛔ THE OWNER IS THE SEAT, NOT THE DRIVER SESSION. `ready-work-at-turn-end.sh` refuses a claim that names the stopping session, because when that session stops nothing is running for it (AUT-PD-140, measured 2026-08-28: such a claim took the lease count to capacity, `continuity.py` read AT-CAPACITY and returned 0, and the row sat untouched for 39 minutes while the hook said nothing). This names the worker actually holding it.\n⚠ CLAIMED LATE, AND THAT IS THE DEFECT: the hook says claim AT DISPATCH, in the same action that spawns the agent, and no wave of this sprint did. The rows were offered as ready while seats were working them.",
+      "lease_released": "claim by SPRINT-2026-09-01/S24-CALIBRATION released after 9.7 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
     },
     {
       "id": "AUT-PD-069",
@@ -8243,14 +8246,14 @@
         "strategy": "ST-RNA"
       },
       "state": "in_progress",
-      "owner": "CYC-0090-d7df5340",
-      "claimed_utc": "2026-09-01T20:20:31Z",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-31",
       "filed_by": "CYC-0090-d7df5340",
       "id": "AUT-PROP-055",
@@ -8275,7 +8278,8 @@
           "utc": "2026-09-01T20:20:31Z",
           "fingerprint_at_dispatch": "2026-08-31|None"
         }
-      ]
+      ],
+      "lease_released": "claim by CYC-0090-d7df5340 released after 9.6 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
     },
     {
       "serves": {
@@ -8284,14 +8288,14 @@
         "strategy": "ST-RNA"
       },
       "state": "in_progress",
-      "owner": "CYC-0090-d7df5340",
-      "claimed_utc": "2026-09-01T20:20:31Z",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-08-31",
       "filed_by": "CYC-0090-d7df5340",
       "id": "AUT-PROP-056",
@@ -8314,7 +8318,8 @@
           "utc": "2026-09-01T20:20:31Z",
           "fingerprint_at_dispatch": "2026-08-31|None"
         }
-      ]
+      ],
+      "lease_released": "claim by CYC-0090-d7df5340 released after 9.6 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
     },
     {
       "serves": {
@@ -10868,6 +10873,30 @@
       "_score_basis": "⚠ RANKS LOW BECAUSE ITS ROUTES DO NOT EXIST HERE, WHICH IS EXACTLY WHAT IT ASKS TO FIX. `serves` is all-null because `ST-MORTALITY-MECHANISM` and its six RT rows are on origin/claude/emc-symptom-treatment-742257 and in no part of the trunk's graph. A row whose whole content is 'these routes are missing' cannot name one of them in `serves` without asserting they are already here.\n⛔ SO THE SCORE IS A MEASUREMENT OF THE DEFECT, NOT A JUDGEMENT ON THE WORK. The atlas adjudication, which recovered nothing and refused the recovery it was dispatched to consider, called this the higher-value recovery of the two precisely because supportive and mortality-mechanism care has NO counterpart on the trunk. Recovering the family is what gives this work a route to serve, after which it ranks on its merits.\n★ THE DURABLE POINTER IS `_stranded_work` BELOW, which the merge-debt hook names as the only field in this repository that has ever actually recovered a stranded branch.",
       "_stranded_work": "origin/claude/emc-symptom-treatment-742257 — carries ST-MORTALITY-MECHANISM and six RT-* routes present in its systems/graph/routes.json and in none of the trunk's, plus 2 manuscripts, 5 scripts, 4 tests and 4 literature probes. Verified per row rather than assumed. Census: research/autonomy/sprint-2026-09-01/S38-BRANCH-CENSUS.md (section C-10); adjudication note: S39-ATLAS-ADJUDICATION.md section 5. ⚠ The tip sha is deliberately NOT typed here from memory — read it with `git rev-parse origin/claude/emc-symptom-treatment-742257`, which is the instrument, in the same session that acts on it.",
       "_id_was": "⚠ SUPERSEDED, RETAINED: this row was filed as 'AUT-STRANDED-MORTALITY', which is not a ledger id — the grammar is PREFIX-ORDINAL, and that name has no ordinal. Three guards refused it (test_the_committed_ledger_passes_the_schema, test_every_committed_id_parses, test_every_id_on_the_committed_ledger_still_parses), each naming the rule and giving legal examples. The id here was minted by ids.next_entry_id rather than chosen."
+    },
+    {
+      "id": "AUT-084-e71cf460",
+      "kind": "fix",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [],
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "SPRINT-2026-09-01/S40-COVERAGE-INFLATION",
+      "prerequisite_of": null,
+      "closes_clause": null,
+      "score": 0.0,
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null
+      },
+      "what": "⛔⛔ THE COVERAGE CENSUS CREDITS A NUMERIC CLAIM TO A WITNESS THAT CANNOT READ A NUMBER, AND TWELVE SENTENCES ARE MARKED COVERED WITH NOTHING GUARDING THEIR QUANTITIES. Measured 2026-09-02 at ad87aa4c7 by running the ablation gate at FULL depth: 11 of 91 perturbed sentences in fusion-junction-aso-journal-article.md and 1 of 87 in emc-fusion-partner-stratification.md changed their number with no named witness going red.\n★ EVERY BLIND PERTURBATION IS A QUANTITY WRITTEN IN WORDS — six->ten, seven->three, fourth->eighth, second->fourth, Two->Six; 14 of 14, not one digit. Five credit test_universal_claims_are_scoped_to_what_was_measured.py, which checks scoping language and cannot see a number at all.\n⛔ ONE-OF-A-PAIR: AUT-PD-148 (2026-09-01) taught claim_ablation.py that a word is a quantity, making these sentences perturbable for the first time. claim_coverage.py was not touched and still credits `covered: bool(hits)` — any witness naming the file counts. The fix made the population visible without making the crediting rule correct for it.\n★ THE FIX: a sentence stating a quantity may be credited only to a witness that BINDS a quantity. It is a governed path and it moves `covered` on every manuscript at once, so it needs mutation tests and its own amendment record — that is why it is filed rather than rushed.\n⚠ IT BLOCKS THE SELECTOR RE-STAMP, DELIBERATELY. scripts/selector-validation.json is re-stampable only after a PREFLIGHT_FULL that exits 0, and this is a legitimate reason for it not to. Evidence: research/autonomy/sprint-2026-09-01/S40-COVERAGE-INFLATION.md",
+      "_score_basis": "Ranks low because `serves` is null — this is repository instrumentation, not a route's evidence. That is a property of the scorer's inputs, not of the finding's importance: it governs whether every manuscript's coverage number means anything, and it currently blocks the only run that can clear the selector tripwire."
     },
     {
       "id": "AUT-PD-061",
