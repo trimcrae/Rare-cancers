@@ -48,6 +48,30 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 BASELINE = os.path.join(HERE, "readability-baseline.json")
 
+# ⛔ THE BASELINE IS PINNED PER SUBMISSION TEXT, SO A DOCUMENT ENTERING `lint_style.TARGETS` MUST BE
+# PINNED IN THE SAME COMMIT — `--write-baseline` is not automatic and nothing used to notice.
+# ⚠ Measured 2026-08-28 (AUT-PD-141): `fusion-junction-aso-journal-references.md` was added to
+# `TARGETS` that day and never pinned, so `publish_bar` clause 7 read `baseline.get(doc) is None`
+# for a component of the paper posted at doi 10.32388/VL3LJR and returned PASS on its caution half
+# while comparing against nothing. `tests/test_every_publication_endpoint_is_style_screened_or_
+# recorded.py::test_the_caution_baseline_covers_every_screened_document` now fails on that gap.
+#
+# ⛔⛔ AND A REGENERATION IS NOT A FREE ACT, WHICH IS WHY THAT GAP WAS CLOSED BY ADDING ONE KEY
+# RATHER THAN BY RUNNING THIS FLAG. `--write-baseline` re-pins EVERY document at once, so it
+# silently accepts any FALL as the new floor — the exact laundering `--check` exists to refuse,
+# performed by the tool that defines the floor. A dry comparison on 2026-08-28 would have raised 8
+# pins and LOWERED one.
+# ⚠ THAT LOWERED PIN IS AN OPEN FINDING, RECORDED HERE BECAUSE THE JSON CANNOT HOLD IT — this
+# function writes four keys and would delete any note added beside them.
+# `fusion-junction-aso-supplementary-information.md` is pinned at 7.8 and `measure()` produces 7.7.
+# Both were checked at 648114f, the single commit that created this module AND the baseline, with
+# the document byte-identical (17 markers over 2,211 words) then and now. No hedge left the SI; the
+# pinned value was never reproducible from this generator. Correcting it changes a pinned figure and
+# is a deliberate act (CLAUDE.md rule 1.2), not a side effect of some other commit.
+# ★ SO: BEFORE RUNNING `--write-baseline`, DIFF IT FIRST. Any key whose value FALLS is a hedge, a
+# null or a limitation to account for by name, or a stale pin to correct on the record — never a
+# number to overwrite in passing.
+
 #: ⛔ THE CEILING IS A SPLITTING PROMPT, NOT A STYLE OPINION, and it is set from measurement rather
 #: than taste: at 60 words the published ASO article has 7 sentences (4.7%) over the line, every one
 #: of which is genuinely three thoughts joined by dashes. A 40-word line would have flagged 33 and
