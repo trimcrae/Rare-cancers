@@ -617,10 +617,10 @@
     {
       "id": "AUT-PD-212-11f2347b-edfa0647",
       "kind": "process_defect",
-      "state": "queued",
+      "state": "in_progress",
       "cost_class": "free",
-      "owner": null,
-      "claimed_utc": null,
+      "owner": "s43-atr-stale-provenance",
+      "claimed_utc": "2026-09-02T21:50:19Z",
       "attempts": 0,
       "blocked_by": null,
       "blocked_evidence": null,
@@ -646,7 +646,13 @@
         "hardening-state/PUB-ATR.json round 7 at 51fb2b183fff: 0 blockers, 5 P1s, 5 seats",
         "research/modalities/atm-status-atri-stratification.json — 0 citations in the manuscript"
       ],
-      "retry_budget": 3
+      "retry_budget": 3,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T21:50:19Z",
+          "fingerprint_at_dispatch": "2026-09-02|None"
+        }
+      ]
     },
     {
       "id": "AUT-PROP-029",
