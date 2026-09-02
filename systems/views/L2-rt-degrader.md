@@ -103,7 +103,7 @@ NR4A3 is a transcription factor with no orthosteric ligand, so occupancy-based i
 | **BLK-PARALOGUE-CONTROL** | `no_known_assay` | `TECH-NONCOVALENT-PARALOGUE-CONTROL` |
 | **BLK-PARALOGUE-DDG** | `requires_better_simulation_accuracy` | `TECH-FE-CRYPTIC-POCKET` |
 | **BLK-R4-BINDS** | `requires_wet_lab` | `TECH-EMC-MODEL-ACCESS` |
-| **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED** | `requires_authorization` | Ask for the decision. This blocker is cheaper to retire than any other in the register and it gates the one control that would tell the program whether its central quantitative claim is measurable at all. |
+| **BLK-SELECTIVITY-CONTROL-UNAUTHORIZED** | `requires_authorization` | NOT 'ask for the decision' -- it was asked and answered. This retires only if trimcrae lifts the standing no-GPU instruction by setting `active: false` in research/autonomy/autonomy-state.json -> gpu_spend_prohibited, which research/autonomy/gpu_ban.py reads and every GPU-billing path in this repository is gated on. Until then the correct next action on this row is NONE: re-deriving the price, re-scoring the rung or re-arguing the leverage all reach the same refusal, and a session that does so has rediscovered the 2026-09-02 mistake rather than found new work. |
 | **BLK-TERNARY-GEOMETRY** | `requires_better_structure_prediction` | `TECH-COFOLD-ASSEMBLY`, `TECH-E3-RECRUITER-STRUCTURE`, `TECH-OBSERVED-CRL` |
 
 ## Not to be confused with
