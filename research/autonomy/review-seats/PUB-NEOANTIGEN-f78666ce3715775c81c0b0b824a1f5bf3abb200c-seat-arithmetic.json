@@ -1,0 +1,96 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "_why_this_exists_before_the_review_does": "AUT-PROP-006. This record is written as the seat's FIRST act, so a seat that dies leaves evidence that it looked rather than nothing at all. It is EMPTY and says so: publish_bar.clause_1_hardening_converged REFUSES any round with an open record at the commit it is grading, because an unfinished look must never be counted as a clean one.",
+  "paper": "PUB-NEOANTIGEN",
+  "pub_id": "PUB-NEOANTIGEN",
+  "reviewed_commit": "f78666ce3715775c81c0b0b824a1f5bf3abb200c",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "arithmetic",
+  "document": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md",
+  "document_sha256": "dd299cc10bb2a3d96ef52a32da5b5e7ff0d844341070ee0414706b7fcd870307",
+  "opened_utc": "2026-09-02T16:52:23Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "Re-deriving the real in-frame EWSR1::NR4A3 junctions from the transcript model grades all 27 declared exon pairs, emits 5 junctions and 11 distinct predicted MHC-I binders (4 strong), none pan-EMC, and the HLA population coverage that follows is small (8.51% on the public e7::e3 junction, 27.4% pooled over all strong-binder alleles) - so a fusion-exclusive EMC immunotherapy is personalised by necessity and its public-junction addressable fraction is under a tenth of patients. Every one of those figures re-derives exactly from research/modalities/fusion-breakpoint-neoantigens.json and research/modalities/hla-coverage.json, so the central claim is supported.",
+  "blockers": [
+    {
+      "id": "B1",
+      "where": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md, \u00a76 Limitations, item 5",
+      "quote": "5. **Coverage floor and inequity.** Population coverage is partial (~30% public junction, ~58% all strong alleles, ~16% both-arms floor) and varies ~36-79% by region; a fixed allele panel tuned on one population under-serves others. The class-II / both-arms figures are floors over a 3-allele DR test panel",
+      "why": "All five figures in this sentence are the RETRACTED pre-2026-08-07 values, printed as live text with no supersession marker - and this paper's own abstract lists exactly these as withdrawn (its supersession box names '~30% / 29.7% e7::e3 coverage on A*11:01 + B*08:01', '~58% / 58.0% all-strong', '36% Sub-Saharan Africa to 79% Northern Europe', 'the ~16% both-arms floor'). Against research/modalities/hla-coverage.json at the pin: global.coverage_e7e3_public = 0.0851 (8.5%, not ~30%); global.coverage_any_strong_binder_allele = 0.2737 (27.4%, not ~58%); global.coverage_cd8_and_cd4_combined = 0.0178 (1.8%, not ~16% - a nine-fold overstatement); the regional spread in `regions` for coverage_any_strong_binder_allele runs 0.0137 (Melanesia) to 0.6043 (Northern Europe), i.e. 1.4-60%, and nothing in that file is 36% or 79%. The '3-allele DR test panel' is also wrong: hla-coverage.json `_class_ii_note` records a 23-allele DR/DP/DQ panel and patient-cd4-demo.json has n_alleles_screened = 23 with alleles_without_a_model = []. \u00a73 of this same paper states the corrected figures (8.51%, 27.4%, 1.4%-60%) and states explicitly that 'The panel is no longer three alleles', so \u00a76.5 also contradicts the paper's own body. A reader who reaches the Limitations section - the section a sceptical reader reads first - is told the route reaches roughly three times as many patients on a public junction, twice as many overall, and nine times as many on both arms, as the committed artifact supports.",
+      "fix": "Replace item 5 with: '**Coverage floor and inequity.** Population coverage is partial - 8.5% for the public e7::e3 junction, 27.4% pooled over all strong-binder alleles (\u00a73) - and varies from 1.4% (Melanesia) to 60% (Northern Europe) for any strong binder; a fixed allele panel tuned on one population under-serves others. The class-II and both-arms figures are floors over the 23-allele DR/DP/DQ test panel recorded in `hla-coverage.json`, and the coverage formula assumes cross-locus independence (it ignores linkage disequilibrium between HLA class-I and DRB1 loci).'"
+    },
+    {
+      "id": "B2",
+      "where": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md, \u00a74(a) Personalised neoantigen vaccine",
+      "quote": "**Personalised is necessary and acceptable:** \u00a72 shows there is no off-the-shelf pan-EMC epitope (necessity), while \u00a73 shows the presenting alleles are among the most common worldwide, so many patients carry >=1 (acceptability).",
+      "why": "This restates as live text the clause the paper's own abstract records as withdrawn: the supersession box in the abstract names 'the clause \"**acceptable** (the platforms already exist in humans, and many patients carry a presenting allele)\" - which the recomputed coverage no longer supports as written.' \u00a73 does not show that many patients carry a presenting allele: research/modalities/hla-coverage.json global.coverage_any_strong_binder_allele = 0.2737, and \u00a73 itself draws the complement - 'even the full multi-allele panel leaves ~73% with no predicted strong-binding class-I allele'. So \u00a74(a) cites \u00a73 for the opposite of what \u00a73 computes.",
+      "fix": "Replace the sentence with: '**Personalised is necessary, and its reach is bounded:** \u00a72 shows there is no off-the-shelf pan-EMC epitope (necessity), while \u00a73 shows that even pooling every strong-binder allele reaches only 27.4% of patients, so a vaccine built on these predicted binders leaves roughly three-quarters of patients with no predicted presenting class-I allele.'"
+    },
+    {
+      "id": "B3",
+      "where": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md, \u00a74 closing paragraph",
+      "quote": "Across all three, the fusion-exclusivity is the shared selling point: the target peptide is absent from the normal proteome, so on-target/off-tumour toxicity against wild-type NR4A3- or EWSR1-expressing tissue is, in principle, not possible - the failure mode that haunts shared-antigen TCR therapies.",
+      "why": "The paper's own abstract states the opposite of the premise and disclaims the conclusion: 'the novelty test behind this compares the junction peptides against those two parent proteins only (`fusion_breakpoints.emit_junction`'s novelty filter), never against the human proteome, and no safety claim is made or supported.' \u00a71 repeats it ('it spares wild-type NR4A3 and EWSR1 at the sequence level - NOT every normal cell, which no test here has assessed'). The artifact agrees: research/modalities/fusion-neoantigen-retraction.json breakpoint_artifact.what_was_checked records only 'every peptide the artifact asserts is absent from BOTH parent proteins', and its `what_this_does_NOT_establish` field states 'No efficacy, safety, tolerability or clinical claim is made or implied.' 'Absent from the normal proteome' is a proteome-wide selectivity claim that no committed artifact tests, and 'toxicity ... is, in principle, not possible' is a safety claim - both forbidden by the language discipline this paper is held to. systems/AUDIT-2026-08-06-routes.md line 492 already flagged the earlier wording of this same sentence ('cannot, in principle, harm any normal cell') for exactly this reason; the rewording did not remove the claim.",
+      "fix": "Replace the sentence with: 'Across all three, the fusion-exclusivity is the shared premise: the junction peptides are absent from both parent proteins, EWSR1 and NR4A3, so a response against them does not target the wild-type receptor at the sequence level. That novelty test was run against those two proteins only and never against the human proteome, so it bounds nothing about off-tumour toxicity, which remains untested here.'"
+    }
+  ],
+  "p1s": [
+    {
+      "id": "P1-a",
+      "where": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md (whole paper) - guard coverage",
+      "what": "No committed test binds any number in this manuscript to the artifact that produces it. `git grep -l 'fusion-junction-neoantigen-paper'` over research/manuscripts/tests, research/modalities/tests and scripts at the pin returns nothing, and the paper is absent from research/manuscripts/pinned-figures.json (which lists its sibling emc-vaccine-development-path.md four times, and that sibling IS guarded by research/manuscripts/tests/test_vaccine_path_numbers.py). So the paper's 27 / 5 / 11 / 4 / 38 counts, its whole binder table (11 rows of affinity and presentation percentile), its 8.51% and 27.4% coverages with their CIs, and its regional figures are all free-typed prose that would not go red if hla-coverage.json or fusion-breakpoint-neoantigens.json were regenerated with different values.",
+      "why_not_a_blocker": "Every one of those numbers re-derives correctly against the artifacts at this pin - I checked all of them - so the text is right today. But B1 is precisely this gap having already fired once: the \u00a73 numbers were updated when the seam was corrected and the \u00a76.5 copies were not, and nothing caught it for the ~3.5 weeks since. A guard that asserted every percentage in this paper against hla-coverage.json would have made B1 impossible."
+    },
+    {
+      "id": "P1-b",
+      "where": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md, \u00a73, final retained blockquote",
+      "what": "Inside the retained-superseded blockquote, the closing sentence asserts in the present tense: 'The mechanical point that a durable vaccine needs both arms, and that the class-II screen tested only a 3-allele DR test panel (DRB1*15:01/03:01/07:01) and so gives a **floor**, is unaffected.' Two sentences above it, in the same blockquote, the 2026-08-28 correction says 'The panel is no longer three alleles - every declared allele in a DR/DP/DQ panel several times that size was scored, and `alleles_without_a_model` is empty.' patient-cd4-demo.json confirms n_alleles_screened = 23. So the block's 'is unaffected' clause contradicts the block's own correction.",
+      "why_not_a_blocker": "It sits inside a blockquote whose header states 'The paragraph below describes the state before that rebuild and is retained as the record of it', so a careful reader can read it as historical. The live, unqualified version of the same error is \u00a76.5 and is filed as B1. But 'is unaffected' is a present-tense currency claim, and the next edit that trims a superseded block would carry it forward as live text."
+    },
+    {
+      "id": "P1-c",
+      "where": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md, \u00a73 and \u00a76.5 - class-II and both-arms figures",
+      "what": "The paper deliberately holds no copy of the class-II or both-arms numbers, pointing instead at emc-vaccine-development-path.md \u00a7B4 as their 'one home'. That is correct under one-fact-one-place, but it means nothing in this paper's own text is checkable against hla-coverage.json's `coverage_cd4_classii` (0.0649) and `coverage_cd8_and_cd4_combined` (0.0178), and the pointer is to a file that does not ship with this paper (the outgoing set is this markdown file alone).",
+      "why_not_a_blocker": "Omitting a number is not stating a wrong one, and \u00a73 characterises the direction honestly ('several-fold SMALLER than the retired figure', which 6.49% vs 28.4% supports). A reader of the shipped artifact simply cannot see the figure, which is a completeness problem rather than a false statement."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md (at the pin; sha256 dd299cc1... verified)",
+    "research/modalities/fusion-breakpoint-neoantigens.json",
+    "research/modalities/hla-coverage.json",
+    "research/modalities/patient-cd4-demo.json",
+    "research/modalities/fusion-neoantigen-retraction.json",
+    "research/modalities/fusion-neoantigen-predictions.json",
+    "research/modalities/fusion_neoantigen.py",
+    "research/data/emc-clinical-registry.json",
+    "research/manuscripts/modality-census/novel-modalities-factcheck.md",
+    "research/manuscripts/pinned-figures.json",
+    "systems/AUDIT-2026-08-06-routes.md",
+    "systems/graph/routes.json"
+  ],
+  "p2s": [
+    {
+      "id": "P2-a",
+      "where": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md, \u00a76.5, LD example",
+      "what": "The linkage-disequilibrium illustration names 'the A1-B8-DR3 ancestral haplotype links B*08:01 and DRB1*03:01'. Neither allele is in any set this paper now uses: hla-coverage.json's class-I sets are [HLA-B*15:01] and [HLA-A*01:01, HLA-B*07:02, HLA-B*15:01], and class_ii_cd4_helper_alleles is [DRB1*14:01]. The general point about cross-locus independence is sound, but the example is a leftover from the retracted allele set and will read to a reviewer as evidence the section was not updated."
+    },
+    {
+      "id": "P2-b",
+      "where": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md, YAML frontmatter",
+      "what": "The `title:` field is truncated mid-word - 'a fusion-exclusive immunot' - while the H1 on the next line carries the full title. The truncation has already propagated: systems/views/L2-rt-junction-neoantigen.md line 99, systems/views/L2-rt-tcr-immtac.md line 89 and systems/views/L3-publications.md all render the paper's name ending in 'immunot'. Since this markdown file IS the outgoing artifact, the broken title ships with it."
+    },
+    {
+      "id": "P2-c",
+      "where": "research/modalities/target-route-census.json line 219, research/modalities/target_route_census.py line 256, research/modalities/nr4a3_exon_audit.py line 12, research/manuscripts/program/target-route-options.md line 116",
+      "what": "Repository tooling (not the outgoing set) still describes fusion-breakpoint-neoantigens.json as carrying '7 in-frame junctions'. The committed artifact has n_inframe_junctions = 5. target-route-options.md marks it as superseded-retained; the census JSON and the two scripts state it flat. This is out of scope as a blocker per the brief and is recorded only so the stale string is findable."
+    },
+    {
+      "id": "P2-d",
+      "where": "research/manuscripts/neoantigen/fusion-junction-neoantigen-paper.md, \u00a72 and \u00a79 - predictor version",
+      "what": "The paper names the predictor 'MHCflurry-2.0' throughout and cites O'Donnell 2020. The artifact's `_predictor` block records tool 'MHCflurry', version '2.1.4', models_release '2.2.0'. The method name matches the citation, so this is not a wrong statement, but the exact tool and model-release version a reader would need to reproduce the table appears nowhere in the paper."
+    }
+  ],
+  "closed_utc": "2026-09-02T17:08:56Z"
+}
