@@ -1,0 +1,31 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "3dcb494fabb8649dff48774033a776b29b48dfb7",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "arithmetic (recompute every number)",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "45980b63528e2430db23e9218e649e94c6d4ebc9b9f5275640988b4339663a9b",
+  "opened_utc": "2026-09-02T23:47:22Z",
+  "verdict": "accept",
+  "referee_recommendation": "accept",
+  "central_claim": "The FET-fusion -> impaired-ATM -> compensatory-ATR-dependency hypothesis, measured on other FET fusions in other diseases, is structurally eligible in EMC's commonest fusion types but the in-silico transfer support (tumour transcriptome, CRISPR dependency, drug-response) is weak-to-null, so this document reports no EMC-specific ATR vulnerability finding, only an assessment of whether the class hypothesis is internally consistent and transfers.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The §3.4 table cell '27,196 (58.2%, was 662/1.0%)' for GSE4303/GPL3290 juxtaposes a PROBE count (27,196) with an ACCESSION-level resolution rate (58.2%), which are different denominators (41,614 probes-with-an-accession vs 65,180 distinct accessions) and are not related by simple division (27,196/41,614 = 65.4%, not 58.2%).",
+      "evidence": "Source `emc-atr-vulnerability.json` -> part_b per-platform block for GSE4303-GPL3290: `n_probes_with_an_accession: 41614`, `n_distinct_accessions: 65180`, `accession_resolution_rate: 0.582` (=37911/65180), `n_mapped: 27196` (probes). Both numbers are individually correct against their own artifact fields (27196 matches n_mapped exactly; 58.2% matches accession_resolution_rate rounded), and the surrounding prose in §3.2a/§3.4 does separate 'accession resolution' from 'usable probes' as two distinct quantities before the table compresses them into one cell. So this is not a wrong number, but the compressed table-cell notation invites a reader to treat 58.2% as the fraction of 27,196-over-41,614, which it is not.",
+      "fix": "Split the table cell into two clearly labelled figures, e.g. '27,196 probes mapped (accession resolution 58.2%; was 662 probes / 1.0% accession resolution)', or add a footnote clarifying the two different denominators, matching the disambiguation already present in the running prose."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md @ 3dcb494fa (full document, sha256 verified)",
+    "research/modalities/emc-fet-idr-census.json @ 3dcb494fa (Section 0 provenance cell: emc_EWSR1_NR4A3_reported_types, holds_for_every_reported_emc_type, per-type tally, RG-dipeptide counts, EWSR1::ATF1 exon10 comparator)",
+    "research/modalities/atm-status-atri-stratification.json @ 3dcb494fa (Part D ATM stratification: ATM gene azd6738/ve-822 Hodges-Lehmann shifts and CIs; BRCA2 gene olaparib/talazoparib Hodges-Lehmann shifts and CIs; arm sizes)",
+    "research/modalities/emc-atr-vulnerability-inputs.json @ 3dcb494fa (banner GDSC residual LN_IC50 for ACH-001519: azd6738 -0.0047, ve-822 2.0477; Cellosaurus ST block, 18 lines / 16 distinct markers)",
+    "research/modalities/emc-atr-vulnerability.json @ 3dcb494fa (Part B GSE24369/GPL6244 and GSE4303/GPL3290 probe-mapping diagnostics incl. NCBI UID/gene-link counts and elink error list; Part C per-gene CRISPR dependency table and ATR/ATRIP/CHEK1 coordination z-scores and bottom-quartile counts; Part D per-drug correlation table for azd6738/ve-822/paclitaxel/bortezomib/talazoparib across all ten predictors)"
+  ]
+}
