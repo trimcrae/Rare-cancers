@@ -3618,8 +3618,8 @@
         "strategy": null
       },
       "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
+      "state": "in_progress",
+      "owner": "s31-emc-data-blocks",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3633,7 +3633,14 @@
       "score_inputs": {},
       "score": 131.6,
       "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row names NO route at all, so `apply_route_inheritance` never reaches a floor lookup for it, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. SIXTEEN live treatment routes carry a required_validation marked feasible_today=false on BLK-NO-EMC-DATA whose own text names an expression or tissue read, and none cites ART-EMC-EXPRESSION-PANELS — which already answers it for six (RT-SSTR2, RT-B7H3, RT-FAP-RLT, RT-JUNCTION-NEOANTIGEN, RT-FUSION-OUTPUT, RT-MTAP-PRMT5). Its own precedent (RT-PRAME-IMMTAC) had the block false in the DANGEROUS direction. This is CLAUDE.md §0's 'blocked is a claim that needs evidence' applied to a fifth of the portfolio, at $0.",
-      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use."
+      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
+      "claimed_utc": "2026-09-02T19:13:24Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T19:13:24Z",
+          "fingerprint_at_dispatch": "2026-09-02|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-169",
