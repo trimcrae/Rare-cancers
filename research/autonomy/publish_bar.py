@@ -114,6 +114,27 @@ def _read_json(path: pathlib.Path):
         return None, f"unreadable: {_rel(path)} ({type(exc).__name__})"
 
 
+def _working_tree_is(commit: str) -> bool:
+    """Is the working tree EXACTLY `commit` — same HEAD, nothing uncommitted?
+
+    ⛔ SEPARATED FROM `_tree_at` SO IT CAN BE TESTED (2026-09-02). Inlined, this decision was
+    untestable by the one method that would catch a regression in it: a source mutation makes the
+    working tree DIRTY, so a test asserting the clean-tree branch cannot fire while the mutant is in
+    place, and the mutant survives for a reason that has nothing to do with coverage. As its own
+    predicate it can be forced either way from a test, and `_tree_at`'s two branches are then both
+    reachable on demand.
+    ⚠ BOTH HALVES ARE LOAD-BEARING AND THE SECOND IS THE EASY ONE TO DROP. Same HEAD with
+    uncommitted changes is NOT the sha — reading it would be the original defect wearing a check.
+    """
+    head = subprocess.run(["git", "rev-parse", "--verify", "HEAD"],
+                          capture_output=True, text=True, cwd=str(REPO))
+    dirty = subprocess.run(["git", "status", "--porcelain"],
+                           capture_output=True, text=True, cwd=str(REPO))
+    if head.returncode != 0 or dirty.returncode != 0:
+        return False
+    return head.stdout.strip() == commit and not dirty.stdout.strip()
+
+
 @contextlib.contextmanager
 def _tree_at(sha: str):
     """Yield `(root, err)` where `root` is a directory holding the repository AS OF `sha`.
@@ -136,17 +157,12 @@ def _tree_at(sha: str):
     ⛔ AND IT FAILS CLOSED. A sha that cannot be materialised yields `(None, why)`, and the caller
     returns UNVERIFIABLE. A bar that cannot read what it is grading has not passed it.
     """
-    head = subprocess.run(["git", "rev-parse", "--verify", "HEAD"],
-                          capture_output=True, text=True, cwd=str(REPO))
     target = subprocess.run(["git", "rev-parse", "--verify", f"{sha}^{{commit}}"],
                             capture_output=True, text=True, cwd=str(REPO))
     if target.returncode != 0:
         yield None, f"{sha[:12]} does not resolve to a commit in this repository"
         return
-    dirty = subprocess.run(["git", "status", "--porcelain"],
-                           capture_output=True, text=True, cwd=str(REPO))
-    if (head.returncode == 0 and dirty.returncode == 0
-            and head.stdout.strip() == target.stdout.strip() and not dirty.stdout.strip()):
+    if _working_tree_is(target.stdout.strip()):
         yield REPO, None
         return
 

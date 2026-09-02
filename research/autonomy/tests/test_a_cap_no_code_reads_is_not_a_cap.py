@@ -292,30 +292,112 @@ def _clean():
                               cwd=REPO).stdout.strip()
 
 
-def test_tree_at_takes_the_fast_path_EXACTLY_when_the_working_tree_IS_the_sha():
-    """⭐ THE PROPERTY THAT MAKES THIS CHANGE A NO-OP IN THE NORMAL CASE, ASSERTED IN BOTH STATES.
-
-    Clean tree at HEAD: `REPO` itself, because materialising would quietly drop clause 4's view of
-    UNTRACKED files — `lint_citations` passes `--others` deliberately so a fabricated citation in a
-    not-yet-`git add`ed draft is caught before the commit, and losing that would be a loosening
-    dressed as a correctness fix.
-    Dirty tree: NOT `REPO`, because then the working tree is not the sha and reading it would be the
-    original defect. ⛔ Written this way rather than as a `skip` on a dirty tree: a test that skips
-    in every sandbox and runs only in CI is one nobody sees fail.
+def test_the_fast_path_is_taken_when_the_working_tree_IS_the_sha(monkeypatch):
+    """⭐ THE PROPERTY THAT MAKES THIS CHANGE A NO-OP IN THE NORMAL CASE. Materialising a tree that
+    IS the sha would quietly drop clause 4's view of UNTRACKED files — `lint_citations` passes
+    `--others` deliberately, so a fabricated citation in a not-yet-`git add`ed draft is caught
+    before the commit, and losing that would be a loosening dressed as a correctness fix.
+    ⛔ THE PREDICATE IS FORCED RATHER THAN INHERITED, and that is the whole reason it is a separate
+    function: a source mutation makes the working tree DIRTY, so a test that asks the ambient tree
+    cannot reach this branch while a mutant is in place — and the mutant then survives for a reason
+    that has nothing to do with coverage. Measured 2026-09-02: it did.
     """
+    monkeypatch.setattr(PB, "_working_tree_is", lambda commit: True)
     with PB._tree_at(_head()) as (root, err):
         assert err is None, err
-        if _clean():
-            assert root == PB.REPO, "a clean tree at HEAD IS the sha; materialising it drops --others"
-        else:
-            assert root != PB.REPO, "a dirty tree is not the sha and must not be read as one"
-            assert (root / "research" / "autonomy" / "publish_bar.py").exists()
+        assert root == PB.REPO
+
+
+def test_a_tree_that_is_not_the_sha_is_materialised(monkeypatch):
+    monkeypatch.setattr(PB, "_working_tree_is", lambda commit: False)
+    with PB._tree_at(_head()) as (root, err):
+        assert err is None, err
+        assert root != PB.REPO, "a tree that is not the sha must not be read as one"
+        assert (root / "research" / "autonomy" / "publish_bar.py").exists()
+    assert not root.exists(), "the materialised tree must be cleaned up"
+
+
+def test_uncommitted_changes_mean_the_working_tree_is_NOT_the_sha(tmp_path):
+    """⛔ THE HALF THAT IS EASY TO DROP. Same HEAD with uncommitted changes is not the sha, and
+    reading it would be the original defect wearing a check. Asserted by making the tree dirty, so
+    it holds whatever state the sandbox is already in."""
+    marker = PB.REPO / ".s20-dirty-probe.tmp"
+    marker.write_text("probe", encoding="utf-8")
+    try:
+        assert PB._working_tree_is(_head()) is False
+    finally:
+        marker.unlink()
+
+
+def test_a_different_commit_is_never_the_working_tree():
+    assert PB._working_tree_is("0" * 40) is False
 
 
 def test_tree_at_refuses_a_sha_it_cannot_resolve():
     """⛔ FAIL CLOSED: a bar that cannot read what it is grading has not passed it."""
     with PB._tree_at("0" * 40) as (root, err):
         assert root is None and "does not resolve" in err
+
+
+@pytest.mark.parametrize("clause,linter", [
+    (PB.clause_3_claim_ceiling_honoured, "lint_claims.py"),
+    (PB.clause_4_identifiers_resolvable, "lint_citations.py"),
+])
+def test_the_linters_are_INVOKED_FROM_the_materialised_tree(monkeypatch, clause, linter):
+    """⛔⛔ THE ASSERTION THE UNRESOLVABLE-SHA TESTS CANNOT MAKE, AND THE ONE THE DEFECT NEEDED.
+
+    Handing a clause a sha that does not exist proves it CHECKS the sha; it never reaches the call,
+    so it cannot prove the call is made against that commit. Measured 2026-09-02: with only those
+    tests, single-site mutations returning clauses 3, 4 and 5 to `REPO / doc` and `MANUSCRIPTS /
+    lint_*.py` ALL SURVIVED — the exact defect being fixed, restored, with a green suite.
+
+    So the linter subprocess is intercepted and its argv and cwd are read. `git` is let through,
+    because `_tree_at` needs it to build the tree being asserted about.
+    """
+    monkeypatch.setattr(PB, "_working_tree_is", lambda commit: False)
+    seen = {}
+    real = subprocess.run
+
+    def fake(cmd, *a, **kw):
+        if cmd and str(cmd[0]) == "git":
+            return real(cmd, *a, **kw)
+        seen["cmd"] = [str(c) for c in cmd]
+        seen["cwd"] = str(kw.get("cwd"))
+        return subprocess.CompletedProcess(cmd, 0, "", "")
+
+    monkeypatch.setattr(PB.subprocess, "run", fake)
+    row = clause("PUB-VACCINE-PATH", _head())
+    assert seen, f"{linter} was never invoked, so this test asserted nothing"
+    assert row["verdict"] == PB.PASS, row["evidence"]
+
+    script = seen["cmd"][1]
+    assert script.endswith(linter), seen["cmd"]
+    assert not script.startswith(str(PB.REPO) + os.sep), (
+        f"{linter} was run from the WORKING TREE ({script}), not from the tree at the pinned sha")
+    assert seen["cwd"] != str(PB.REPO), f"{linter} ran with cwd = the working tree"
+    for arg in seen["cmd"][2:]:
+        assert not arg.startswith(str(PB.REPO) + os.sep), (
+            f"{linter} was handed a path in the working tree: {arg}")
+
+
+def test_clause_5_checks_the_document_at_the_sha_not_on_disk(monkeypatch):
+    """⛔ THE THIRD CLAUSE, FOUND BY GENERALISING. Its document check was `(REPO / doc).exists()`,
+    which is true right now for every endpoint — so at any sha the answer was PASS."""
+    monkeypatch.setattr(PB, "_working_tree_is", lambda commit: False)
+    real_exists = PB.pathlib.Path.exists
+    seen = []
+
+    def fake_exists(self):
+        seen.append(str(self))
+        return real_exists(self)
+
+    monkeypatch.setattr(PB.pathlib.Path, "exists", fake_exists)
+    PB.clause_5_endpoint_declared("PUB-VACCINE-PATH", _head())
+    doc_checks = [p for p in seen if p.endswith("emc-vaccine-development-path.md")]
+    assert doc_checks, "clause 5 never checked its document at all"
+    for p in doc_checks:
+        assert not p.startswith(str(PB.REPO) + os.sep), (
+            f"clause 5 checked the working-tree copy: {p}")
 
 
 @pytest.mark.parametrize("clause", [PB.clause_3_claim_ceiling_honoured,
