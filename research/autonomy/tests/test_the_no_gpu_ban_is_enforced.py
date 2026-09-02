@@ -228,6 +228,57 @@ def test_every_backend_adapter_is_gated_and_only_mock_is_exempt():
             "SaladBackend", "SlurmBackend"} <= adapters
 
 
+# ------------------------------------------------------------------------------------------------------------
+# ⚠⚠ THESE THREE ARE BEHAVIOURAL, AND THEY EXIST BECAUSE A SOURCE-INSPECTION TEST COULD NOT SEE THE BUG.
+# Mutation L4 — `__init_subclass__` left in the file but made a no-op, so no adapter's `submit` is ever
+# wrapped — SURVIVED the whole suite on the first pass: every string the coverage tests look for was still
+# there. That is the one-of-a-pair defect exactly: the test proved the TEXT and said nothing about the
+# WRAPPING. A gate is only measured by calling it.
+# ------------------------------------------------------------------------------------------------------------
+
+def _gpu_backend():
+    sys.path.insert(0, str(_REPO / "research/modalities"))
+    import gpu_backend  # noqa: PLC0415
+    return gpu_backend
+
+
+def test_a_real_backend_submit_actually_refuses_when_called():
+    gb = _gpu_backend()
+    for cls in (gb.VastBackend, gb.SageMakerBackend, gb.GCPBackend, gb.ModalBackend):
+        with pytest.raises(gpu_ban.GPUSpendProhibited):
+            cls().submit(gb.JobSpec(name="x", command=["true"]))
+
+
+def test_the_mock_backend_still_submits_because_it_bills_nothing():
+    """⚠ THE EXEMPTION IS MEASURED TOO. `mock` creates nothing and contacts nothing; if the wrapper ever
+    started refusing it, every dry run and half the modalities suite would go red for the wrong reason."""
+    gb = _gpu_backend()
+    assert gb.get_backend("mock").submit(gb.JobSpec(name="x", command=["true"])).job_id
+
+
+def test_a_backend_written_tomorrow_is_gated_with_no_edit_to_this_repository():
+    """★★ THE POINT OF WRAPPING AT `__init_subclass__` RATHER THAN IN EACH `submit`.
+    `vast-RENTAL-HOLD.json` records the failure this removes: a per-lane hold is "wrong the moment a
+    seventh lane is added". This defines an EIGHTH backend here, in a test file, and asserts it is gated
+    anyway — which is the only way to prove the wrapper is installed rather than merely written."""
+    gb = _gpu_backend()
+
+    class _EighthBackend(gb.Backend):
+        name = "eighth-provider-nobody-has-written-yet"
+
+        def self_terminate_cmd(self):
+            return []
+
+        def submit(self, spec):  # pragma: no cover — the gate must stop it before the body runs
+            raise AssertionError("the no-GPU ban did not stop a new backend's submit")
+
+        def status(self, handle):
+            return "unknown"
+
+    with pytest.raises(gpu_ban.GPUSpendProhibited):
+        _EighthBackend().submit(gb.JobSpec(name="x", command=["true"]))
+
+
 def test_the_sagemaker_submit_helper_is_gated_before_the_sdk_is_imported():
     """21 lane modules call `submit_spot` directly and none goes through a `Backend` adapter."""
     body = _SM.split("def submit_spot(")[1]
