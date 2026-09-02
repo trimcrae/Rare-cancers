@@ -1,0 +1,29 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "3dcb494fabb8649dff48774033a776b29b48dfb7",
+  "blind": true,
+  "seat": "regression",
+  "lens": "regression (do prior fixes hold, and did the latest edit land correctly)",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "45980b63528e2430db23e9218e649e94c6d4ebc9b9f5275640988b4339663a9b",
+  "opened_utc": "2026-09-02T23:45:40Z",
+  "verdict": "accept",
+  "referee_recommendation": "accept",
+  "central_claim": "The published FET-fusion → impaired-ATM → compensatory-ATR-dependency hypothesis is internally consistent with public data only in a structural (sequence) argument that itself splits across EMC's fusion types, while the three public-data correlational strands (EMC tumour transcriptome, cross-disease CRISPR dependency, cross-disease drug response) are each too weak or too blind to support or refute it, and no in-silico route can ever supply the direct wet-lab evidence (ATR-inhibitor sensitivity or ATM signalling capacity in a confirmed NR4A3-fusion cell) that would settle it.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The two new arm-size denominators Part D introduces for the ATM/ATR-inhibitor stratification (25 vs 922, and 21 vs 863) sit close to, but visibly differ from, the drug-level totals given a few lines earlier in the same section (956 lines with ceralasertib, 892 with berzosertib) with no explicit reconciling sentence pointing at the cause (9 GDSC models with no DepMap ATM call, excluded from both arms, per the source artifact's own `_absent_reading_note`). The numbers are internally correct against `atm-status-atri-stratification.json` (verified: azd6738 n=25/922, ve-822 n=21/863, matching the artifact exactly), so this is not a defect in the pinned text, but a reader comparing the two counts side by side could momentarily read it as an inconsistency.",
+      "evidence": "L654: 'ceralasertib/AZD6738 and 892 with berzosertib/VE-822' vs L678: 'ceralasertib HL −0.304 [−0.760, +0.159] on 25 ATM-null against 922 intact, berzosertib HL −0.520 [−1.191, +0.094] on 21 against 863'",
+      "fix": "Optional: add a short parenthetical at the first mention of the 25/922 and 21/863 arm sizes noting they exclude the small number of GDSC models with no DepMap ATM call, distinguishing them from the drug-level totals stated earlier in §5."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md @ 3dcb494fabb8649dff48774033a776b29b48dfb7 (full document, sha256 verified against the pinned hash)",
+    "research/modalities/atm-status-atri-stratification.json @ 3dcb494fabb8649dff48774033a776b29b48dfb7 (by_gene.ATM.join, instrument_reading.ATM_vs_ATR_inhibitors, instrument_reading.ATM_vs_non_DDR_controls, machinery_control_BRCA_vs_PARP.BRCA2, verdict, verdict_reading, _machinery_control_note)",
+    "research/modalities/emc-fet-idr-census.json @ 3dcb494fabb8649dff48774033a776b29b48dfb7 (emc_EWSR1_NR4A3_reported_types, per_emc_type for type1/type2/type5, holds_for_every_reported_emc_type, count of '431' occurrences)"
+  ]
+}
