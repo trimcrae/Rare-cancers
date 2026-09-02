@@ -63,7 +63,8 @@ listed conditions, so the trial is findable by the class and not by the histolog
 conditions field never names. Nine further registry records — a molecularly-defined master
 screening protocol with seven of its arms, one of those not yet recruiting, and one separate basket
 trial — name no histology either. The sharpest result is an
-absence: a term search for the driver gene returns five studies, none about this disease or any
+absence, bounded by the search that measured it: a term search for the driver gene returns five
+studies, none about this disease or any
 sarcoma, and the one cancer study among them is a surgical cholangiocarcinoma series that mentions
 the gene incidentally. No trial that search returns is indexed to this disease's driver.
 
@@ -129,11 +130,12 @@ The last row is kept separate from the three above it. A reachability claim that
 observational cohort alongside interventional trials inflates itself. Two trials admit and offer
 treatment; a third admits and offers enrolment in a registry.
 
-The driver gene is absent from the index entirely. A term search for it returns five studies
-(exercise physiology, spinal-cord injury, neck pain, and a surgical cholangiocarcinoma series) that
-mention the gene incidentally. Not one is about this disease, and the one cancer study among them is
-a hepatic-resection series rather than a study of the gene. No trial that search returns is indexed
-to this disease's driver.
+A term search for the driver gene returns five studies (exercise physiology, spinal-cord injury,
+neck pain, and a surgical cholangiocarcinoma series) that mention the gene incidentally. Not one is
+about this disease, and the one cancer study among them is a hepatic-resection series rather than a
+study of the gene. That search returns whole records, so it is capped by response size rather than
+page size, and no total was recorded: five is what it returned, not what the registry holds. No
+trial that search returns is indexed to this disease's driver.
 
 ## 4 · The counter-finding: the cost of a keyword map
 
