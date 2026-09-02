@@ -7,8 +7,9 @@ status: live
 canonical_for: ["the 2026-08-09 EMC trial-reachability finding"]
 purpose: >
   Report that patients with an ultra-rare fusion-driven sarcoma are eligible for recruiting trials
-  that no search of their own diagnosis will ever return, because eligibility is written on the
-  molecular lesion while search is written on the histology — and show that the obvious fix, a
+  that a condition search on their own diagnosis does not return, because eligibility is written on
+  the molecular lesion while the field that search reads is written on the histology — and show
+  that the obvious fix, a
   keyword map, is worse than no map.
 scope: >
   L3. Two public trial registries — one US, one UK — read across three dates, with every candidate's
@@ -43,8 +44,8 @@ a diagnosis is written: by histology.
 **The problem.** Trial eligibility is increasingly written the other way, on a fusion family, a
 molecular class, or a translocation, while the registry's *listed conditions*, the field a
 histology search matches against, continue to name the diseases the sponsor had in mind. When those
-two disagree, a patient can be eligible for a recruiting trial that no search of their own diagnosis
-will ever return.
+two disagree, a patient can be eligible for a recruiting trial that a condition search on their own
+diagnosis does not return.
 
 **What we did.** We read one public registry twice and a second one once, retrieving the full
 eligibility text of every adjudicated candidate individually rather than trusting a fielded screen.
@@ -84,8 +85,8 @@ criteria rather than match strings.
 
 A registry record has two fields that do different jobs and are written by different logic.
 
-**Listed conditions** are what a search matches. They are chosen by the sponsor and describe the
-diseases the trial was designed around.
+**Listed conditions** are the field a condition search matches. They are chosen by the sponsor and
+describe the diseases the trial was designed around.
 
 **Eligibility criteria** are what actually decides admission. Increasingly they are molecular: a
 fusion family, a pathway alteration, a class of rearrangement.
@@ -186,6 +187,10 @@ one trial at a time is the methodological content of this paper.
   refusal says what an endpoint would answer, never what a registry contains, so nothing above may
   be read as those registries having been searched and found empty. The geographic scope of this
   finding is partly measured, and not shown to generalise.
+- Every absence reported here is an absence from a condition search. The registry's free-text
+  search reads fields beyond the conditions list: the driver-gene term search returned trials whose
+  listed conditions are neck pain and spinal-cord injury. No free-text search on the disease name
+  was run, so whether one would surface these two trials is untested.
 - Statuses go stale. Every status here is as posted on the retrieval date.
 - This is not a matching service and no patient was involved.
 
@@ -193,8 +198,8 @@ one trial at a time is the methodological content of this paper.
 
 1. Sponsors whose eligibility is molecular should list the histologies that criterion admits in the
    conditions field. Listing the molecular class alone does not close the gap: NCT06571734 already
-   lists *translocation-associated soft tissue sarcoma*, and a search on the histology still does not
-   return it. The information already exists in the protocol; it is simply not in the field that
+   lists *translocation-associated soft tissue sarcoma*, and a condition search on the histology
+   still does not return it. The information already exists in the protocol; it is simply not in the field that
    search reads.
 2. Registries could index eligibility text, not only conditions.
 3. Anyone building a matching tool should read criteria rather than match strings. Section 4 is the
