@@ -61,17 +61,19 @@ ORCID: [0000-0002-1823-1451](https://orcid.org/0000-0002-1823-1451)
 
 On a small rare-tumour expression series, almost every gene set anyone scores comes back higher in
 the index arm. In a 10-versus-6 extraskeletal myxoid chondrosarcoma (EMC) series, PPARγ targets,
-hypoxia metagenes and adipogenesis all move alike, because a set's per-sample score is one draw from
-a distribution whose width depends on the set's **size** and on the platform, not on its biology: an
-arbitrary 19-gene set can print t = 3.16 and be indistinguishable from a random one. **We supply the
+hypoxia metagenes and adipogenesis all move alike. The reason is size, not biology: a set's
+per-sample score is one draw from a distribution whose width depends on the set's **size** and on the
+platform, so an arbitrary set can print t = 3.16 and be indistinguishable from a random one of the
+same size. **We supply the
 calibration that refuses such a read** — a size-matched empirical null drawn from the platform's own
 genes — and apply it to this disease's best-warranted set. Across 2,276 retrieved documents, **the
-set with a DNA-binding assay against an NR4A3 chimera is three genes: *SEMA3C*, *PPARG*, *ENO3***. In
-three cohorts on three platforms **that aggregate reaches 39% and 88% of its null threshold and does
-not clear**, while the published EMC phenotype clears it 11.9-fold and 4.2-fold in the same run — the
-instrument reads this disease, not this set. Exact label permutation, every
-comparator stratum separately, a matrix covariate and a muscle control then separate three genes
-usually treated alike: *SEMA3C* survives nothing and reverses sign with the comparator; *PPARG*'s
+set with a DNA-binding assay against an NR4A3 chimera is three genes: *SEMA3C*, *PPARG*, *ENO3***.
+Three is below the four-gene floor for a set score, so the set scored is those three pooled with the
+sixteen native-NR4A3 targets. On the two readable array platforms **that pooled set reaches 39% and
+88% of its null threshold and does not clear**, while the published EMC phenotype clears it 11.9-fold
+and 4.2-fold in the same run — the instrument reads this disease, not this set. Exact label
+permutation, every comparator stratum separately, a matrix covariate and a muscle control then
+separate the three: *SEMA3C* survives nothing and reverses sign with the comparator; *PPARG*'s
 strongest reading is circular, scored on the cohort that first published it; *ENO3* survives
 everything, but was the pre-designated positive control and is not an independent finding here.
 **The binding constraint is not sample size.** No experiment has measured where an NR4A3 fusion binds,
@@ -98,8 +100,10 @@ another move the same way and by similar amounts.
 The reason is not biology. A raw Welch contrast on the sample means uses the samples as its unit of
 variability and ignores that a set's per-sample score is one draw from a distribution whose width
 depends on the set's *size* and on the platform. At n = 10 versus 6 that width is large: the 95% band
-for an arbitrary 19-gene set on GPL3290 is [−0.297, +0.376] SD, so a set can print t = 3.16 and remain
-indistinguishable from a random set of the same size.
+for an arbitrary 17-gene set on GPL3290 is [−0.297, +0.376] SD, so a set can print t = 3.16 and remain
+indistinguishable from a random set of the same size. Seventeen is the size scored there: the pooled
+direct-target set names nineteen genes, and that platform reads two of them, *ICAM1* and *MYH7*, on
+no probe.
 
 **No read on such a series is interpretable until it is calibrated against a size-matched random gene
 set drawn from the same platform's own genes.** That calibration is the instrument this paper
@@ -248,8 +252,11 @@ if the observed delta falls outside the 95% band of that null; single genes are 
 way at set size 1.
 
 **The empirical p has a floor, and it is quoted as one.** With 4,000 draws and +1/+1 smoothing the
-smallest two-sided value the design can return is 2/4001 = 0.0005. Every such value below is
-therefore written **`p_emp ≤ 0.0005`** — the resolution limit of the null, not a measured value.
+smallest two-sided value the design can return is 2/4001 = 0.0005, and every such value below is
+written **`p_emp ≤ 0.0005`** — the resolution limit of the null, not a measured value. The floor is
+not the same on both platforms. A draw is discarded when the gene it picks leaves either arm below
+the three-sample contrast floor, so every size-1 null on GPL3290 retains 3,700 of its 4,000 draws and
+its floor there is 2/3701 = 0.00054, the value Table 4 prints for *ENO3*.
 Three further limits of the pool are stated rather than left implied: it is a **seeded 4,000-symbol
 random subsample** of each platform's mapped symbols (21% of GPL6244's 18,694, 27% of GPL3290's
 14,932), the same pool is reused at every set size, and the gene under test is not excluded from it.
@@ -316,8 +323,10 @@ was asserted equal to the primary artifact before anything was written.
    proxy and the contrast recomputed on the residuals. **The proxy is selected by provenance:** every
    candidate is checked against every gene this manuscript scores anywhere, and any gene drawn from
    an EMC-derived list is refused, because adjusting on a gene selected *because* it is high in EMC
-   removes EMC signal by construction. The surviving panel is 11 structural genes with no published
-   relationship to NR4A3 (*BGN, COL5A1, COL5A2, DCN, FN1, LUM, MMP2, POSTN, SPP1, TNC, VIM*). This is
+   removes EMC signal by construction. Two panels survive that filter: 11 structural genes
+   (*BGN, COL5A1, COL5A2, DCN, FN1, LUM, MMP2, POSTN, SPP1, TNC, VIM*) and 3 vascular genes (*ENG,
+   KDR, TEK*). The structural panel is the one §3.6 reports first; the vascular panel's reading is
+   reported beside it, because the two do not agree on GPL3290. This is
    a sensitivity analysis, not a correction: a proxy that is itself downstream of the fusion would
    over-adjust, and that possibility is not excluded.
 4. **The skeletal-muscle admixture control** (§3.5), plus a **leave-one-out jackknife** over the EMC
@@ -428,9 +437,10 @@ fusion cistrome. Both halves of that are demonstrated in the primary literature,
 | ***PLAGL1*** (directional falsifier) | **inside null, not a reading at this power** — d −0.4235, band [−0.606, +0.529] | AGREES — d −2.134, outside null, p_emp 0.013 |
 | ***SGK1*** (transcript/protein discordance) | AGREES (flat) — d −0.1807, band [−0.606, +0.529] | AGREES (flat) — d +0.6156, band [−1.314, +1.410] |
 
-**Five of the six control × platform cells carried a computable contrast, and all five agree with
-the published direction; none disagrees.** The sixth (*NR4A3* on GPL3290) is not measurable. Stated
-at the weight it deserves: one of the five, *PLAGL1* on GPL6244, is **inside its null band** and is
+**Seven of the eight control × platform cells carried a computable contrast, six of those are
+gradeable, and all six agree with the published direction; none disagrees.** The eighth (*NR4A3* on
+GPL3290) is not measurable. Stated at the weight it deserves: *PLAGL1* on GPL6244 is **inside its
+null band** and is
 therefore sign-concordant but not a reading at this power. The two *SGK1* cells agree by way of a
 prediction ("flat or down") that an inside-the-band reading satisfies, so those cells could not have
 refused the prediction downward, and their bands are printed above for that reason.
@@ -450,8 +460,8 @@ The measured global offset is tiny: −0.0084 SD on GPL6244 (t −1.592, over 18
 +0.0258 SD on GPL3290 (t +1.646, over 14,932). So the "most sets come back higher in EMC" pattern is
 not an arm-wide shift. What it is instead: at n = 6 versus 29 and n = 10 versus 6, the sampling
 variance of a set score is far larger than a Welch *t* on the sample means implies. On GPL3290 the 95%
-null band for a 19-gene set is [−0.297, +0.376], so a raw delta of +0.330 with t = 3.16 sits inside it
-(p_emp 0.083). **Figure 1** shows this directly.
+null band for the 17 readable members of that set is [−0.297, +0.376], so a raw delta of +0.330 with
+t = 3.16 sits inside it (p_emp 0.083). **Figure 1** shows this directly.
 
 Two structural properties of the comparator arms qualify every contrast below, and both are exploited
 rather than merely conceded. The GPL6244 comparator arm is **23/29 myxoid**, so it largely matches EMC
@@ -508,10 +518,11 @@ bar would remove that.
 EMC arises in deep soft tissue of the limb, so admixed skeletal muscle is the first alternative
 explanation a reader should reach for. GSE24369 contains two pooled skeletal-muscle RNA samples, in
 neither arm and used by no contrast, which fix the scale of what muscle looks like on this platform.
-*ENO3* does sit near the top of the muscle array (percentile 0.996). **So do three markers that are
-more muscle-restricted than it is — *ACTA1* 1.000, *MYH7* 1.000, *PYGM* 0.999, *MYL1* 0.998 — and none
-of them separates the tumour arms** (EMC − comparator −0.057, −0.043, +0.142, −0.150 percentile
-points, against *ENO3*'s +0.315). If the EMC arm carried skeletal muscle, the more muscle-restricted
+*ENO3* does sit near the top of the muscle array (percentile 0.996). **So do four markers that are
+more muscle-restricted than it is — *ACTA1* 1.000, *MYH7* 1.000, *PYGM* 0.999, *MYL1* 0.998 — and not
+one of them separates the tumour arms as *ENO3* does** (EMC − comparator −0.057, −0.043, +0.142,
+−0.150 percentile points, against *ENO3*'s +0.315). *PYGM*'s +0.142 is the largest of the four and is
+under half *ENO3*'s. If the EMC arm carried skeletal muscle, the more muscle-restricted
 markers would carry it too. This bounds admixture of *differentiated* skeletal muscle; it does not
 exclude a myogenic differentiation programme within the tumour, which would move a marker with no
 contaminating tissue present.
@@ -560,6 +571,15 @@ GPL3290 nothing moves (*ENO3* retains 100%, *PPARG* 97%, *SEMA3C* 99%). On GPL62
 does differ, *ENO3* retains 75% of its delta (+0.807 → +0.608), *PPARG* 32% (+0.307 → +0.099), and
 *SEMA3C* rises to 171% (+0.730 → +1.246) — it is high in EMC *despite* EMC's lower matrix score, which
 is consistent with its elevation being comparator-driven rather than matrix-driven.
+
+**The second surviving panel does not agree, and it is reported rather than left out.** The 3-gene
+vascular panel (*ENG, KDR, TEK*) passed the same provenance filter, and unlike the matrix panel it
+separates the arms on **both** platforms (Δ −0.406 on GPL6244, Δ −0.796 on GPL3290), so on GPL3290 it
+can move a contrast where the matrix panel cannot. Adjusted on it, *ENO3* retains **58%** of its
+GPL3290 delta (+3.811 → +2.219) and 78% of its GPL6244 delta; *PPARG* retains 42% and 30%; *SEMA3C*
+85% and 189%. So *ENO3*'s GPL3290 reading is not invariant to which qualified covariate is used, and
+the 100% above is a property of the matrix panel rather than of the gene. The ordering of the three
+is unchanged on either panel.
 
 ### 3.7 · A third cohort, calibrated against its own deposit
 
@@ -807,9 +827,9 @@ platform where that covariate differs and 100% on the platform where it does not
 2% of 14,120 genes in an independent cohort on an unrelated technology, the muscle markers are flat
 and more muscle-restricted than it is, and it carries more exact NBREs than its own
 composition-matched null. **The exception is the occupancy axis, and it is an exception for all
-three genes**: no class-A gene exceeds a background panel in any NR4A peak set (§3.11), and *ENO3*'s
-one nominally significant value falls in a **normal parotid gland** rather than any tumour — 2 hits
-in 36 tests against 1.8 expected, binomial p 0.54. ***SEMA3C* is the mirror image** — it fails the
+three genes**: no class-A gene exceeds a background panel in any NR4A peak set (§3.11). *ENO3* holds
+the only two nominally significant values, and the one from an NR4A3 experiment falls in a **normal
+parotid gland** rather than any tumour — 2 hits in 36 tests against 1.8 expected, binomial p 0.54. ***SEMA3C* is the mirror image** — it fails the
 permutation test on both platforms, reverses sign with comparator choice, is p = 0.84 against
 pool-matched comparators, and carries no exact NBRE. ***PPARG* sits between them, and lower than it
 first appeared**, because its strongest cell is circular.
