@@ -134,6 +134,51 @@ def test_the_skill_actually_calls_the_gate():
 
 # --------------------------------------------------------------------------- the budget hold
 
+def _held_state(**over):
+    """A state carrying an ACTIVE, well-formed budget hold — CONSTRUCTED, never read.
+
+    ⛔⛔ THE THIRD INSTANCE OF THE SAME DEFECT IN THIS FILE, AND THE FIRST TWO ARE WRITTEN UP TEN
+    LINES APART BELOW (2026-09-02: the floor test and the stuck test both stopped deriving their
+    fixtures from `live_state()` for exactly this reason). ⚠ MEASURED 2026-09-02: eight tests here
+    were red on clean `origin/main` — every one of them a hold test that read the live hold, and
+    every one red because the live hold is `active: false`, suspended for the sprint by the person
+    who set it. `c_budget_recovering` then returns NO-BACKOFF before it ever consults a posture, so
+    loosening a dial IS unnoticed, the assertion is correct, and the CODE IS FINE. The tests were
+    measuring the posture of a coordination file rather than the behaviour of the guard.
+    ★★ AND THE FALSE RED IS THE LESS DANGEROUS HALF, in the words this file already uses: a test
+    that derives its fixture from a live artifact does not fail when the behaviour breaks — it
+    fails, or PASSES, according to where the artifact happens to sit. Every one of these eight would
+    have gone GREEN-WHILE-EXERCISING-NOTHING under a hold shaped slightly differently.
+    ⭐ DRIVEN OFF `HOLD_POSTURE_DIALS`, so a dial added to the table gets a declared bound and a
+    live value here automatically — the same property `test_every_posture_dial_is_actually_checked`
+    already has, and the reason that test can keep asserting on `declared_posture[posture_key]`.
+    Each live dial is set EXACTLY to its declared bound: honouring the hold, and one step away from
+    violating it in either direction.
+    """
+    posture, dials = {}, {}
+    for pkey, (skey, sense) in health.HOLD_POSTURE_DIALS.items():
+        bound = 8 if sense == "min" else 4
+        posture[pkey] = bound
+        dials[skey] = bound
+    state = {
+        "backoff_level": 0,
+        "backoff_since_utc": "2026-09-01T00:00:00Z",
+        "budget_hold": {
+            "active": True,
+            "reason": "constructed-fixture (not a real hold — see _held_state)",
+            "floor_backoff_level": 0,
+            # ⛔ FAR ENOUGH OUT THAT THE REVIEW STAMP IS NOT THE THING UNDER TEST. A fixture whose
+            # review window has already passed reds every case here as HOLD-NEEDS-A-FRESH-READING,
+            # which is a different branch from the one each test names.
+            "review_after_utc": "2099-01-01T00:00:00Z",
+            "declared_posture": posture,
+        },
+    }
+    state.update(dials)
+    state.update(over)
+    return state
+
+
 def test_the_live_state_honours_its_own_hold():
     row = health.c_budget_recovering(live_state(), None, datetime.datetime.now(UTC))
     assert row["ok"], row["detail"]
@@ -144,7 +189,7 @@ def test_every_posture_dial_is_actually_checked(posture_key):
     """⭐ SINGLE-SITE MUTATION, DRIVEN OFF THE TABLE. Add a dial to HOLD_POSTURE_DIALS and this test
     grows a case on its own; wire it to nothing and that case fails."""
     state_key, sense = health.HOLD_POSTURE_DIALS[posture_key]
-    st = copy.deepcopy(live_state())
+    st = _held_state()
     bound = st["budget_hold"]["declared_posture"][posture_key]
     st[state_key] = bound - 1 if sense == "min" else bound + 1
     row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
@@ -153,10 +198,29 @@ def test_every_posture_dial_is_actually_checked(posture_key):
 
 
 def test_a_posture_key_nothing_reads_is_red_not_silently_skipped():
-    st = copy.deepcopy(live_state())
+    st = _held_state()
     st["budget_hold"]["declared_posture"]["max_something_invented"] = 1
     row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
     assert not row["ok"] and row["verdict"] == "HOLD-NOT-IN-FORCE"
+
+
+def test_a_live_dial_that_is_not_a_NUMBER_is_a_violation_not_a_pass():
+    """⛔ A DIAL THE ROW CANNOT READ IS A HOLD THAT IS NOT IN FORCE (CLAUDE.md §4: an absent reading
+    is not a reading of absence). `hold_posture_violations` says so in its own docstring — "a dial
+    that is absent or non-numeric counts as a VIOLATION, not as a pass" — and nothing asserted it,
+    so a mutation that turned that branch into `pass` survived every test in this file. The softer
+    reading, "nothing to check, therefore fine", is how a guard becomes decoration.
+    """
+    for missing in (None, "12", True, [4]):
+        st = _held_state()
+        skey = health.HOLD_POSTURE_DIALS["max_subagent_width"][0]
+        if missing is None:
+            st.pop(skey)
+        else:
+            st[skey] = missing
+        row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
+        assert not row["ok"] and row["verdict"] == "HOLD-NOT-IN-FORCE", (
+            f"`{skey}`={missing!r} is unreadable and was graded {row['verdict']!r}, not a violation")
 
 
 def test_a_clean_cycle_may_not_decrement_through_the_hold_floor():
@@ -174,7 +238,7 @@ def test_a_clean_cycle_may_not_decrement_through_the_hold_floor():
     exercising nothing. The floor property is a property of the code, so the posture that exercises
     it is built here.
     """
-    st = copy.deepcopy(live_state())
+    st = _held_state()
     st["budget_hold"]["floor_backoff_level"] = 2
     st["backoff_level"] = 1
     # ⛔ THE DURATION IS READ BEFORE THE FLOOR IS, so this line is load-bearing. A raised level with
@@ -186,6 +250,24 @@ def test_a_clean_cycle_may_not_decrement_through_the_hold_floor():
     assert not row["ok"] and row["verdict"] == "HOLD-FLOOR-BREACHED", (
         "a level below the hold's declared floor must be refused; got "
         f"{row['verdict']!r}")
+
+
+def test_the_floor_is_breached_at_level_ZERO_too_and_that_is_the_worst_case():
+    """⛔ ONE OF A PAIR, IN THE CODE THIS TIME. `c_budget_recovering` checks the hold floor TWICE —
+    once inside the level-0 branch and once in the raised-level branch — and the two blocks are
+    byte-identical. Every floor test above sets `backoff_level = 1`, so only the second copy was
+    exercised: a single-site mutation that disabled the LEVEL-0 copy passed all 22 tests.
+    ⭐ AND LEVEL 0 IS THE CASE THAT MATTERS MOST. The hold exists because `backoff_level` is a
+    failure counter that a clean cycle LOWERS; a level that has been decremented all the way to 0
+    through a floor of 2 is that decrement having run to completion, which is the exact event the
+    floor was pinned to stop.
+    """
+    st = _held_state()
+    st["budget_hold"]["floor_backoff_level"] = 2
+    assert st["backoff_level"] == 0, "the fixture must be at level 0 for this to test what it says"
+    row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
+    assert not row["ok"] and row["verdict"] == "HOLD-FLOOR-BREACHED", (
+        f"a level-0 breach of a floor of 2 was graded {row['verdict']!r}")
 
 
 def test_a_negative_backoff_level_is_unreadable_rather_than_below_every_floor():
@@ -205,7 +287,7 @@ def test_a_negative_backoff_level_is_unreadable_rather_than_below_every_floor():
 
 
 def test_the_hold_expires_into_a_review_never_into_full_cadence():
-    st = copy.deepcopy(live_state())
+    st = _held_state()
     st["budget_hold"]["review_after_utc"] = "2026-08-01T00:00:00Z"
     row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
     assert not row["ok"] and row["verdict"] == "HOLD-NEEDS-A-FRESH-READING"
@@ -215,8 +297,7 @@ def test_a_held_backoff_is_not_reported_as_stuck():
     """⚠ THE REGRESSION THIS EXTENSION EXISTS TO PREVENT. `budget_recovering`'s condition is entirely
     a DURATION, so before the hold was readable a deliberate multi-day hold went red at 24 h and
     stayed red — a permanent red on a governor doing exactly what it was told."""
-    st = copy.deepcopy(live_state())
-    st["backoff_since_utc"] = "2026-08-01T00:00:00Z"
+    st = _held_state(backoff_since_utc="2026-08-01T00:00:00Z")
     row = health.c_budget_recovering(st, None, datetime.datetime.now(UTC))
     assert row["ok"] and row["verdict"] == "BUDGET-HELD"
 

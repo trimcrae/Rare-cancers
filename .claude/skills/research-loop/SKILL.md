@@ -127,8 +127,8 @@ Check before anything else. A loop that works through its own alarm is the alarm
     `priority.py` now REFUSES a ledger with a duplicated id rather than ranking it.
     Contents of `research/autonomy/receipts/<cycle-id>.json`: what you took, what
     changed, what it cost, your session id, what is now queued, `blocked_by[]` (each with the
-    **path** of whatever refused you — §6 depends on this), and **`route_advanced`**: the id of the
-    live route you moved, or the literal `none`.
+    **path** of whatever refused you — §6 depends on this), **`ended_utc`** (below), and
+    **`route_advanced`**: the id of the live route you moved, or the literal `none`.
     - ⛔ **AND `subagents.max_concurrent` — SPELLED EXACTLY THAT, INCLUDING `0` FOR A CYCLE THAT
       SPAWNED NOBODY.** It is the only key `health.py`'s `fanout_is_governed` reads, and it is the
       dial the architecture records as having failed catastrophically. ⚠ *Measured 2026-08-27 over
@@ -160,6 +160,25 @@ Check before anything else. A loop that works through its own alarm is the alarm
       ⭐ **Spell the receipt's own id in `cycle_id` too.** `receipt_schema.audit` falls back to the
       FILENAME when that key is absent, so a receipt whose two disagree is graded under whichever
       one the reader reached for.
+    - ⛔ **AND `ended_utc` — THE RECEIPT'S OWN CLOCK, WRITTEN WHEN THE CYCLE ENDS, AS AN ISO-8601
+      UTC INSTANT (`2026-09-02T15:13:00Z`).** Required from
+      `receipt_schema.FIRST_CLOCK_GOVERNED_CYCLE` onward; earlier receipts are grandfathered.
+      ⛔ **`started_utc` IS NOT A SUBSTITUTE AND NEITHER IS ANY OTHER SPELLING.**
+      `health.py:c_cycle_delivering` asks whether a fired cycle *delivered*, and the start is
+      already owned by `cadence.py --stamp` in step 1 — writing it here too gives one fact two
+      homes, and dates the firing rather than the delivery.
+      ⚠ *Measured 2026-09-02: every receipt from CYC-0084 on carried `started_utc` and none of the
+      end-time spellings health.py reads, so all fifteen sorted to the FRONT of a `(timestamp or
+      "", filename)` sort and `receipts[-1]` resolved to the newest receipt still using the OLD
+      name. The board reported `LATE — the last receipt is 103.5 h old` for seven consecutive runs
+      while twelve receipts had landed inside that window, the newest 2.7 h old — and
+      `advancing_live_work` read the same stale tail and reported NOT-ADVANCING against three
+      four-day-old receipts. One field name, two false reds.* ⭐ **It was omission, not a redesign:
+      this contract had never named a receipt clock in any of its 25 versions, and the two
+      spellings interleaved within the same hours rather than switching over.* **A field name
+      agreed in prose between two files is a hope** — this is the fifth time that has cost
+      something here, so the clock is now a `*_KEY` constant the gate refuses a receipt without.
+
     - ⭐⭐ **AND THIS PARAGRAPH IS NOW MEASURED AGAINST THE GATE, WHICH IS WHY AUT-PD-146 COULD NOT BE
       CLOSED BY WRITING IT** (2026-08-29). `python3 research/autonomy/contract_check.py --check`
       DERIVES — by deleting fields from receipts the enforcer accepts and re-running it — the set of
