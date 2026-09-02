@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 178,
-    "in_progress": 9,
+    "in_progress": 10,
     "parked": 30,
-    "queued": 160,
+    "queued": 159,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -12008,7 +12008,7 @@
       "blocked_by": [
         "BLK-NO-WET-LAB"
       ],
-      "blocked_evidence": "RE-TESTED 2026-09-02 (s24-debt), and the block HOLDS. systems/graph/blockers.json -> BLK-NO-WET-LAB: kind 'requires_external_collaboration', name 'No wet lab and no collaborator — an ask needs a self-interested taker before its size matters', retired_by_action 'A collaborator who holds an EMC line — unchanged, and NOT retired by money.' Nothing in the loop retires that. ⭐ What DID change on 2026-08-23 is that the ask now has a SIZE (ART-WETLAB-CONTRACTING-COSTS; the portfolio's smallest ask prices at roughly $18k), and the blocker's own record says that 'DOES NOT WEAKEN THE BLOCKER'. ⚠ The row's own `what` still reads 'RE-TEST THE BLOCK before doing anything else — it is recorded without evidence'; this field is that evidence, so the re-test is discharged and the row is a genuine outside-world block rather than an untried one.",
+      "blocked_evidence": "RE-TESTED 2026-09-02 (s24-debt), and the block HOLDS. systems/graph/blockers.json -> BLK-NO-WET-LAB: kind 'requires_external_collaboration', name 'No wet lab and no collaborator — an ask needs a self-interested taker before its size matters', retired_by_action 'A collaborator who holds an EMC line — unchanged, and NOT retired by money.' Nothing in the loop retires that. ⭐ What DID change on 2026-08-23 is that the ask now has a SIZE (ART-WETLAB-CONTRACTING-COSTS; the portfolio's smallest ask is PRICED there — the figure is deliberately not restated here, because a price has one home and this row points at it (CLAUDE.md rule 1, enforced by `test_no_dollar_figure_is_ever_written_into_the_ledger`, which this row reddened on the trunk)), and the blocker's own record says that 'DOES NOT WEAKEN THE BLOCKER'. ⚠ The row's own `what` still reads 'RE-TEST THE BLOCK before doing anything else — it is recorded without evidence'; this field is that evidence, so the re-test is discharged and the row is a genuine outside-world block rather than an untried one.",
       "retry_budget": 3,
       "attempts": 1,
       "last_evidence_utc": "2026-09-02",
