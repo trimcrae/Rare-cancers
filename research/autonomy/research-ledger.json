@@ -16,7 +16,7 @@
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 193,
+    "process_defect": 194,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 180,
-    "in_progress": 11,
+    "in_progress": 10,
     "parked": 30,
-    "queued": 162,
+    "queued": 164,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -537,60 +537,6 @@
       "lease_released": "✅ CLOSED 2026-08-27. The unread survey was read AND re-run at five times the width, because trimcrae rejected it as a survey of the field: \"I'm not buying this is real survey of the field if you think that the only people doing auto-research are doing it on ML benchmarks.\" He was right, and the reason is METHODOLOGICAL rather than careless — the first scan searched GitHub for AI-scientist repositories, which samples code that turns a topic into a paper and CANNOT see a loop whose bottleneck is physical, a pre-LLM robot scientist, the living-evidence world, a commercial platform that publishes nothing, or a venue-level publication gate. ⭐ THE TWO HEADLINES THAT DID NOT SURVIVE: (1) \"not solved for our shape\" is half wrong — a long-lived loop with a persistent queue, resource governance, stall detection, human authority and provenance is solved in three other domains, two of them running for DECADES; (2) \"ahead on governance\" is a sampling artifact, and the honest verdict is UNAWARE, not ahead — level on principle, behind on anti-gaming/claim-strength/provenance, and genuinely unusual on exactly one thing (an author-side artifact-computed bar) for the DEFLATIONARY reason that almost nobody posts unattended. Result: research/method-watch-autonomy-prior-art-2.md. Ten $0 actions filed below as AUT-PROP-029 … AUT-PROP-038, ordered."
     },
     {
-      "id": "AUT-010",
-      "_derived": true,
-      "what": "Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask.",
-      "serves": {
-        "route": "RT-ATR-ASSESS",
-        "publication": "PUB-ATR",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "kind": "write",
-      "state": "in_progress",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "s27-atr-round4",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 2,
-      "last_evidence_utc": "2026-09-02",
-      "score": 190.0,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "named_bench",
-        "patient_path_scaled": 0.4,
-        "pursue_now": true,
-        "tier_one": true,
-        "endpoint_reachable": true,
-        "blocker_leverage": 6,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-ATR is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-02T18:20:21Z",
-      "requires_trimcrae_why": "publishes an assessment AND makes an ask of an external group — CLAUDE.md §3, outward-facing. The assessment itself is self-doable and is not this row.",
-      "notified_utc": "2026-09-01T14:40:19Z",
-      "_NOTIFIED_AND_ANSWERED_2026_09_01": "★ SENT AND ANSWERED, and `notified_utc` above records the SEND rather than the intention — PushNotification plus AskUserQuestion, both in the turn that stamped it. CLAUDE.md §3: stamping a row you did not send is a false record.\n★ WHAT HE WAS ASKED, and it was a real fork rather than a null notification: this row is 'publish the ATR assessment and pair it with the cell-panel ask', and `publish_bar --paper PUB-ATR` on f37ef3c02 reads **3/7** — failing `hardening_converged` (the last round reviewed c1bc934fec3c, not this tree), `preflight_full_green`, `independent_adversarial_seat`, and `readable_and_keeps_caution` (7 sentences over 60 words, longest 77w at line 509 of emc-atr-vulnerability-assessment.md). ⛔ EVERY ONE OF THOSE IS THE LOOP'S OWN WORK, so the publish/outreach act was not takeable and asking him to take it would have been the failure §3 names. The genuine fork his ASO scoping raises is whether the work is worth doing NOW — and that is his.\n★ HIS ANSWER, 2026-09-01: **park it until ASO is done.** Recorded as `state: parked`, `parked_on: GOAL-ASO-V2`. ⛔ NOTHING IS DROPPED and no bar was touched: the four failing clauses stay failing, the assessment is unchanged, and the row resumes as an ordinary queued item once GOAL-ASO-V2 closes. ⚠ The 7 over-length sentences are the cheap half and are still owed — they are free, tedious and entirely mine, exactly the kind §3 says not to hand over.\n⚠ AND THE HOOK THAT SURFACED THIS WAS FIXED HOURS EARLIER AND HAD NEVER FIRED BEFORE (AUT-PD-202). This is the first decision it has ever put in front of anyone.",
-      "_claimed_by_a_running_round": "⛔ CLAIMED AT DISPATCH FOR A RUNNING ROUND, NOT FOR THE DRIVER. Five blind adversarial seats are reviewing the pinned commit 0448a27a61fee7dd972834c444a953ef7b6464bf.\n★ WHY THIS ROUND EXISTS: publish_bar reads PUB-ATR at 4/7 and two of the three open clauses are this round — 'hardening converged' fails because the last recorded round reviewed a DIFFERENT commit ('a review of a different tree is not a review of this one'), and 'a blind adversarial seat finds the claim supported' has no record at this sha. The third, a PREFLIGHT_FULL receipt, is blocked by S40-COVERAGE-INFLATION and is not this round's to clear.\n⚠ AUTHORITY IS NOT A BLOCKER HERE: publish_bar reports 'authority: OK — granted trimcrae 2026-08-26, \"Broad: any paper meeting the bar\"'. The paper is held by the BAR, not by a person.",
-      "lease_released": "claim by s25-atr-assess released 2026-09-02T18:20Z on completion. A claim is a lease, not a deed — priority-weights.json claim_lease.",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T17:45:54Z",
-          "fingerprint_at_dispatch": "2026-09-01|None"
-        },
-        {
-          "utc": "2026-09-02T18:20:21Z",
-          "fingerprint_at_dispatch": "2026-09-02|None"
-        }
-      ],
-      "_s25_atr_assess_2026_09_02": "★ THE ROW'S NAMED HALF IS DONE AND THE OUTWARD HALF WAS NOT TOUCHED. This row is two acts and only one is the loop's: publishing the assessment is loop work under the standing aiXiv grant, and the PAIRED CELL-PANEL ASK is an approach to an outside group — CLAUDE.md §3, outward-facing. It was NOT sent, NOT drafted for sending, and is NOT a blocker on the publication. The two are separated here deliberately.\n★ WHAT LANDED: BLK-CLASS-INHERITANCE's retired_by_action — 'State plainly, wherever the transfer argument is used, that no NR4A3 fusion has been tested for the phenotype' — is now discharged for emc-atr-vulnerability-assessment.md. MEASURED, not assumed: at 143c252d4803 the paper carried 0 occurrences of 'class inheritance' / 'no NR4A3 fusion has been tested' / 'not an EMC measurement'; it now carries 2, at three load-bearing sites — the opening banner (canonical statement), §6.1 at the point the WEAK tier is declared, and a new item 1 in §6.2's CANNOT list. The banner's claim is bound to an artifact rather than asserted: emc-fet-idr-census.json -> positive_controls holds exactly two measured fusions, EWSR1::FLI1 (Ewing) and EWSR1::ATF1 (clear cell), each carrying _role 'the mechanism was MEASURED on this fusion', and neither is an NR4A3 fusion. ⛔ The blocker itself is NOT retired and cannot be by us; only its misreading is, which is what its own record says.\n★ PUB-ATR's what_it_would_claim in publications.json — 'the assessment states inside itself that class inheritance is not an EMC measurement' — was ASPIRATIONAL until this edit and is now true.\n⛔ WHY THE ROUND IS NOT A ROUND, STATED PLAINLY RATHER THAN DRESSED UP. The seat had no in-process subagent tool in its session (two ToolSearch queries returned no Task/Agent tool) and was forbidden create_session, and no CI workflow in this repository runs a review seat. So it could field NO blind look, and it wrote NO `blind: true` record — a seat that wrote the prose is not blind to it, and stamping one would be a false record in the same class as a fabricated receipt. What it ran instead were the driver's own checks, and they are recorded here rather than as seats:\n  · repair gate (paper-hardening §5b) caught TWO defects in this session's own edits before they landed. Axis (b): the first banner draft read 'CLASS INHERITANCE IS THE WHOLE OF THE TRANSFER ARGUMENT', which contradicts §0's own 'what still stands' table twelve lines below — the structural precondition census IS EMC-specific evidence computed from EMC's sequence. Rewritten to scope the claim to the VULNERABILITY and to say what the census adds: satisfying a precondition is not carrying the phenotype. Axis (a): the first §6.1 draft read 'All three tiers read EMC tumour transcripts, other diseases' cell lines and other diseases' drug responses', false of the WEAK tier whose verbatim criterion is 'only generic proliferation/DNA-damage genes are elevated' — transcripts alone. Re-attributed to the SCALE.\n  · arithmetic lens over §5 (part D), NO FINDINGS: every printed value re-derives from emc-atr-vulnerability.json — mean rho +0.2123/-0.1637/-0.0903/-0.1379, control means +0.0141/+0.0367/-0.0333/+0.0616, the |rho| row 0.014/0.183/0.159/0.203, proliferation_MYC signed mean -0.0139 graded atri_specific true, ATM's 2.7x ratio against a 1.5x bar missing the 0.1 floor by 0.0097, and the passing row's bar 1.15 x 0.1711 = 0.1968 cleared by 0.0155 = 0.41x the stated SE of 0.038.\n  · overclaim scan, NO FINDINGS: 353 sentences screened for a vulnerability/dependency/sensitivity word beside an EMC subject with no hedge, negation or transfer marker. 5 hits, all false positives — three filenames, the §1 verbatim criteria block, and a sentence that says in terms 'a statement about the drug rather than about EMC'. No sentence in the paper asserts an EMC-specific ATR vulnerability.\n  · caution count (scientific-writing §4), NO FINDINGS: markers ROSE 134 -> 135, so no qualification left the paper. Readability unchanged — 0 sentences over 60w, longest 58w, FKGL 10.5.\n  · axis (b) repo-wide: the new wording agrees verbatim with emc-atr-collaborator-package.md limitation 7 and its cover letter; nothing in the repository asserts any NR4A3 fusion HAS been tested for the phenotype.\n⚠ WORD DELTA, reported as a finding about the round rather than left unremarked (paper-hardening §1): 14,061 -> 14,361 main-file words, +300, +2.1%. The venue caps nothing, but the round GREW the paper. Every added word is a BOUND (§1 class 4); no bound, interval, condemnation or concession was removed to fund it, and none was cut at all.\n✅ A QUEUED ROUND-3 ITEM WAS CLOSED BY A $0 READ AND WAS SIMPLY FALSE AT HEAD: 'the paper is NOT in pinned-figures.json -> targets, so lint_consistency.py has never looked at it'. It IS one of the 29 targets and lint_consistency reports 0 ERROR across all 29. The cascade that item warned about does not exist.\n⛔ WHAT ROUND 4 NEEDS, and it needs a driver that can launch blind seats. (1) FIVE blind seats pinned to the posted commit, filed as PUB-ATR-<sha>-seat-*.json with blind:true — the widest earlier round on record is 5 (publish_bar._look_history over 0448a27a/20d33f34/c1bc934f = 5/4/5), and clause 1 refuses a declaring round narrower than that. (2) ALSO one bare PUB-ATR-<sha>.json ROLL-UP, because clause 6 reads only that path and requires verdict=='supported' plus a document_sha256 matching the document at that sha; the only roll-up on disk is round 1's and its verdict is 'needs_revision', so clause 6 has never been satisfiable for this paper. (3) A PREFLIGHT_FULL=1 receipt at the exact posted sha for clause 2 — a paper-scoped run cannot mint one. Rounds 2 and 3 filed per-lens seats and NO roll-up, which is why (2) is easy to miss.\n⛔ STILL OPEN, unchanged and NOT this session's to take: PMID 37205599 stands alone in emc_fet_idr_census.py, emc_fet_construct_designs.py and fet_ddr_axis_scan.py and their three artifacts — the regenerations are networked (UniProt/DepMap) so they belong in a CI lane, since editing the scripts without regenerating leaves script and artifact disagreeing. And emc_atr_vulnerability.py's atri_specific still grades on the SIGNED mean over non-DDR controls, which cancels on every expression predictor — re-verified against the artifact today: proliferation_MYC signed mean -0.0139, atri_specific true. Re-grading on |rho| moves verdicts across part D and is a decision with its own before/after table, not an end-of-round edit."
-    },
-    {
       "id": "AUT-046",
       "_derived": true,
       "what": "Post the preprint and put the MTAP stain in front of a group holding EMC archival material.",
@@ -834,6 +780,60 @@
       "claim_workers": 1,
       "_claim_workers_why": "held by the driver itself; the one fixed call site and both corrections to this row were produced in-session",
       "lease_released": "claim by CYC-0030-6be7fd5a released after 8.0 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
+    },
+    {
+      "id": "AUT-010",
+      "_derived": true,
+      "what": "Publish the assessment with the class-inheritance limit stated inside it, and pair it with the cell-panel ask.",
+      "serves": {
+        "route": "RT-ATR-ASSESS",
+        "publication": "PUB-ATR",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "kind": "write",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": "s27-atr-round4",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 2,
+      "last_evidence_utc": "2026-09-02",
+      "score": 182.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "named_bench",
+        "patient_path_scaled": 0.4,
+        "pursue_now": true,
+        "tier_one": true,
+        "endpoint_reachable": true,
+        "blocker_leverage": 6,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 1
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-ATR is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": "2026-09-02T18:20:21Z",
+      "requires_trimcrae_why": "publishes an assessment AND makes an ask of an external group — CLAUDE.md §3, outward-facing. The assessment itself is self-doable and is not this row.",
+      "notified_utc": "2026-09-01T14:40:19Z",
+      "_NOTIFIED_AND_ANSWERED_2026_09_01": "★ SENT AND ANSWERED, and `notified_utc` above records the SEND rather than the intention — PushNotification plus AskUserQuestion, both in the turn that stamped it. CLAUDE.md §3: stamping a row you did not send is a false record.\n★ WHAT HE WAS ASKED, and it was a real fork rather than a null notification: this row is 'publish the ATR assessment and pair it with the cell-panel ask', and `publish_bar --paper PUB-ATR` on f37ef3c02 reads **3/7** — failing `hardening_converged` (the last round reviewed c1bc934fec3c, not this tree), `preflight_full_green`, `independent_adversarial_seat`, and `readable_and_keeps_caution` (7 sentences over 60 words, longest 77w at line 509 of emc-atr-vulnerability-assessment.md). ⛔ EVERY ONE OF THOSE IS THE LOOP'S OWN WORK, so the publish/outreach act was not takeable and asking him to take it would have been the failure §3 names. The genuine fork his ASO scoping raises is whether the work is worth doing NOW — and that is his.\n★ HIS ANSWER, 2026-09-01: **park it until ASO is done.** Recorded as `state: parked`, `parked_on: GOAL-ASO-V2`. ⛔ NOTHING IS DROPPED and no bar was touched: the four failing clauses stay failing, the assessment is unchanged, and the row resumes as an ordinary queued item once GOAL-ASO-V2 closes. ⚠ The 7 over-length sentences are the cheap half and are still owed — they are free, tedious and entirely mine, exactly the kind §3 says not to hand over.\n⚠ AND THE HOOK THAT SURFACED THIS WAS FIXED HOURS EARLIER AND HAD NEVER FIRED BEFORE (AUT-PD-202). This is the first decision it has ever put in front of anyone.",
+      "_claimed_by_a_running_round": "⛔ CLAIMED AT DISPATCH FOR A RUNNING ROUND, NOT FOR THE DRIVER. Five blind adversarial seats are reviewing the pinned commit 0448a27a61fee7dd972834c444a953ef7b6464bf.\n★ WHY THIS ROUND EXISTS: publish_bar reads PUB-ATR at 4/7 and two of the three open clauses are this round — 'hardening converged' fails because the last recorded round reviewed a DIFFERENT commit ('a review of a different tree is not a review of this one'), and 'a blind adversarial seat finds the claim supported' has no record at this sha. The third, a PREFLIGHT_FULL receipt, is blocked by S40-COVERAGE-INFLATION and is not this round's to clear.\n⚠ AUTHORITY IS NOT A BLOCKER HERE: publish_bar reports 'authority: OK — granted trimcrae 2026-08-26, \"Broad: any paper meeting the bar\"'. The paper is held by the BAR, not by a person.",
+      "lease_released": "claim by s25-atr-assess released 2026-09-02T18:20Z on completion. A claim is a lease, not a deed — priority-weights.json claim_lease.",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T17:45:54Z",
+          "fingerprint_at_dispatch": "2026-09-01|None"
+        },
+        {
+          "utc": "2026-09-02T18:20:21Z",
+          "fingerprint_at_dispatch": "2026-09-02|None"
+        }
+      ],
+      "_s25_atr_assess_2026_09_02": "★ THE ROW'S NAMED HALF IS DONE AND THE OUTWARD HALF WAS NOT TOUCHED. This row is two acts and only one is the loop's: publishing the assessment is loop work under the standing aiXiv grant, and the PAIRED CELL-PANEL ASK is an approach to an outside group — CLAUDE.md §3, outward-facing. It was NOT sent, NOT drafted for sending, and is NOT a blocker on the publication. The two are separated here deliberately.\n★ WHAT LANDED: BLK-CLASS-INHERITANCE's retired_by_action — 'State plainly, wherever the transfer argument is used, that no NR4A3 fusion has been tested for the phenotype' — is now discharged for emc-atr-vulnerability-assessment.md. MEASURED, not assumed: at 143c252d4803 the paper carried 0 occurrences of 'class inheritance' / 'no NR4A3 fusion has been tested' / 'not an EMC measurement'; it now carries 2, at three load-bearing sites — the opening banner (canonical statement), §6.1 at the point the WEAK tier is declared, and a new item 1 in §6.2's CANNOT list. The banner's claim is bound to an artifact rather than asserted: emc-fet-idr-census.json -> positive_controls holds exactly two measured fusions, EWSR1::FLI1 (Ewing) and EWSR1::ATF1 (clear cell), each carrying _role 'the mechanism was MEASURED on this fusion', and neither is an NR4A3 fusion. ⛔ The blocker itself is NOT retired and cannot be by us; only its misreading is, which is what its own record says.\n★ PUB-ATR's what_it_would_claim in publications.json — 'the assessment states inside itself that class inheritance is not an EMC measurement' — was ASPIRATIONAL until this edit and is now true.\n⛔ WHY THE ROUND IS NOT A ROUND, STATED PLAINLY RATHER THAN DRESSED UP. The seat had no in-process subagent tool in its session (two ToolSearch queries returned no Task/Agent tool) and was forbidden create_session, and no CI workflow in this repository runs a review seat. So it could field NO blind look, and it wrote NO `blind: true` record — a seat that wrote the prose is not blind to it, and stamping one would be a false record in the same class as a fabricated receipt. What it ran instead were the driver's own checks, and they are recorded here rather than as seats:\n  · repair gate (paper-hardening §5b) caught TWO defects in this session's own edits before they landed. Axis (b): the first banner draft read 'CLASS INHERITANCE IS THE WHOLE OF THE TRANSFER ARGUMENT', which contradicts §0's own 'what still stands' table twelve lines below — the structural precondition census IS EMC-specific evidence computed from EMC's sequence. Rewritten to scope the claim to the VULNERABILITY and to say what the census adds: satisfying a precondition is not carrying the phenotype. Axis (a): the first §6.1 draft read 'All three tiers read EMC tumour transcripts, other diseases' cell lines and other diseases' drug responses', false of the WEAK tier whose verbatim criterion is 'only generic proliferation/DNA-damage genes are elevated' — transcripts alone. Re-attributed to the SCALE.\n  · arithmetic lens over §5 (part D), NO FINDINGS: every printed value re-derives from emc-atr-vulnerability.json — mean rho +0.2123/-0.1637/-0.0903/-0.1379, control means +0.0141/+0.0367/-0.0333/+0.0616, the |rho| row 0.014/0.183/0.159/0.203, proliferation_MYC signed mean -0.0139 graded atri_specific true, ATM's 2.7x ratio against a 1.5x bar missing the 0.1 floor by 0.0097, and the passing row's bar 1.15 x 0.1711 = 0.1968 cleared by 0.0155 = 0.41x the stated SE of 0.038.\n  · overclaim scan, NO FINDINGS: 353 sentences screened for a vulnerability/dependency/sensitivity word beside an EMC subject with no hedge, negation or transfer marker. 5 hits, all false positives — three filenames, the §1 verbatim criteria block, and a sentence that says in terms 'a statement about the drug rather than about EMC'. No sentence in the paper asserts an EMC-specific ATR vulnerability.\n  · caution count (scientific-writing §4), NO FINDINGS: markers ROSE 134 -> 135, so no qualification left the paper. Readability unchanged — 0 sentences over 60w, longest 58w, FKGL 10.5.\n  · axis (b) repo-wide: the new wording agrees verbatim with emc-atr-collaborator-package.md limitation 7 and its cover letter; nothing in the repository asserts any NR4A3 fusion HAS been tested for the phenotype.\n⚠ WORD DELTA, reported as a finding about the round rather than left unremarked (paper-hardening §1): 14,061 -> 14,361 main-file words, +300, +2.1%. The venue caps nothing, but the round GREW the paper. Every added word is a BOUND (§1 class 4); no bound, interval, condemnation or concession was removed to fund it, and none was cut at all.\n✅ A QUEUED ROUND-3 ITEM WAS CLOSED BY A $0 READ AND WAS SIMPLY FALSE AT HEAD: 'the paper is NOT in pinned-figures.json -> targets, so lint_consistency.py has never looked at it'. It IS one of the 29 targets and lint_consistency reports 0 ERROR across all 29. The cascade that item warned about does not exist.\n⛔ WHAT ROUND 4 NEEDS, and it needs a driver that can launch blind seats. (1) FIVE blind seats pinned to the posted commit, filed as PUB-ATR-<sha>-seat-*.json with blind:true — the widest earlier round on record is 5 (publish_bar._look_history over 0448a27a/20d33f34/c1bc934f = 5/4/5), and clause 1 refuses a declaring round narrower than that. (2) ALSO one bare PUB-ATR-<sha>.json ROLL-UP, because clause 6 reads only that path and requires verdict=='supported' plus a document_sha256 matching the document at that sha; the only roll-up on disk is round 1's and its verdict is 'needs_revision', so clause 6 has never been satisfiable for this paper. (3) A PREFLIGHT_FULL=1 receipt at the exact posted sha for clause 2 — a paper-scoped run cannot mint one. Rounds 2 and 3 filed per-lens seats and NO roll-up, which is why (2) is easy to miss.\n⛔ STILL OPEN, unchanged and NOT this session's to take: PMID 37205599 stands alone in emc_fet_idr_census.py, emc_fet_construct_designs.py and fet_ddr_axis_scan.py and their three artifacts — the regenerations are networked (UniProt/DepMap) so they belong in a CI lane, since editing the scripts without regenerating leaves script and artifact disagreeing. And emc_atr_vulnerability.py's atri_specific still grades on the SIGNED mean over non-DDR controls, which cancels on every expression predictor — re-verified against the artifact today: proliferation_MYC signed mean -0.0139, atri_specific true. Re-grading on |rho| moves verdicts across part D and is a decision with its own before/after table, not an end-of-round edit."
     },
     {
       "id": "AUT-PROP-012",
@@ -2085,7 +2085,7 @@
       "state": "queued",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "s22-hardening",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -2108,7 +2108,7 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-STRATEGY-ARCH is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-02T16:55:04Z",
+      "claimed_utc": null,
       "requires_trimcrae_why": "publishes the eligibility map. ⚠ §3 is per paper, per act: he must name THIS one for THIS act.",
       "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-STRATEGY-ARCH` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were.",
       "dispatch_log": [
@@ -2116,7 +2116,8 @@
           "utc": "2026-09-02T16:55:04Z",
           "fingerprint_at_dispatch": "2026-09-02|None"
         }
-      ]
+      ],
+      "_lease_released_2026_09_02": "Released by the driver. The lease named `s22-hardening`, a seat that had long finished; the apply seat that actually did round 2's work correctly declined to take a lease another worker still held, and said so. ⚠ THE LEASE OUTLIVING ITS WORKER IS THE FAILURE MODE `priority.py`'s lease-ageing exists for, and it did not fire here because the row was re-scored inside the same session — the age never reached the threshold. A worker that ends without releasing leaves a row that looks worked and is not."
     },
     {
       "id": "AUT-074",
@@ -3002,52 +3003,6 @@
       "_score_basis": "filed WITH a score, at AUT-PD-159's 137.0: same class exactly (a defect that reddens the trunk for EVERY session, which research-loop §1 makes a whole cycle's work) and it had in fact done so for five commits when this row was filed.",
       "depends_on_evidence": "Actions job 99042491482 (run 33230549448, head 8dd561be0) and the four preceding `tests (modalities)` runs back to e0c100475; local repro d76-repro.log; mutation log d76-mutate.log; the §5.2 table at df529936a carrying 10 rows against health.py CONDITION_ORDER's 12.",
       "what": "⛔⛔ A CONTRACT TEST NAMED A DOCUMENT IT NEVER READ, SO THE DOCUMENT ROTTED FOR THREE DAYS AND THEN REDDENED `main` FOR FIVE CONSECUTIVE COMMITS. `systems/tests/test_autonomy_health.py::test_all_5_2_conditions_are_present` failed on `main` from e0c100475 (CYC-0072, 2026-08-29T02:43Z) through 8dd561be0, five runs of `tests (modalities)`, every one of them `1 failed, 10802 passed`. Read from Actions job 99042491482: `AssertionError: the condition set drifted from the architecture §5.2 table — that is a DECLARED change (§10.4) ... Extra items in the left set: 'scores_are_reachable'`. Reproduced locally at df529936a before any edit (d76-repro.log, `1 failed, 74 passed`, EXIT=1).\n⛔ THE MECHANISM IS A DUPLICATE, NOT A MISSING EDIT. The test compared `health.py`'s CONDITION_ORDER against a LITERAL SET HAND-COPIED INTO THE TEST FILE, while its failure message told the reader the architecture §5.2 table was the contract. It never opened that file. So there were three declaration sites (health.py, the test literal, the §5.2 table) and only the first two were bound to each other — CLAUDE.md §1's one-fact-one-place violated in the one place that then FAILS CLOSED onto the trunk.\n⭐ AND THE DRIFT WAS ALREADY TWO ROWS DEEP, WHICH IS WHAT PROVES IT IS THE DUPLICATE AND NOT THE SLIP. `stalls_are_named` (added 2026-08-28, AUT-PROP-029) reached the test literal and NEVER reached the §5.2 table — so it drifted silently and no gate ever noticed. `scores_are_reachable` (added 2026-08-28, CYC-0072/AUT-PD-143) reached NEITHER, and only that second omission was loud. The duplicate caught one addition by luck and missed the other completely.\n⭐ A THIRD DRIFT IN THE SAME TABLE, FOUND WHILE FIXING IT: the header advertised an `on red` column and EVERY ONE OF THE TEN ROWS HAD THREE CELLS, NOT FOUR — the column was added to the header when CONDITION_ON_RED was introduced (2026-08-27, the day its absence killed the loop) and never filled in for a single row. Nothing bound it, so the classification that `research-loop` §1 branches on existed in code only.\n✅ CLOSED by CYC-0076-718151ec: the §5.2 table now carries all twelve conditions in CONDITION_ORDER order with the `on red` column populated, and the test PARSES that table instead of a literal, asserting key order against CONDITION_ORDER and on-red values against CONDITION_ON_RED. Mutation-tested 5/5 in a git worktree (d76-mutate.log): a deleted row, an added row, a flipped on-red value, a reordering, and a condition dropped from CONDITION_ORDER are each caught, against a green baseline. ⚠ WHAT THIS DOES NOT FIX, said plainly: nothing binds the table's `red when` and `why it exists` prose to the code, so those two columns can still go stale without a gate noticing — only the key set, their order, and the on-red classification are machine-checked."
-    },
-    {
-      "id": "AUT-PD-031",
-      "kind": "process_defect",
-      "process_defect": true,
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null,
-        "_route_was": "RT-AUTONOMY",
-        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
-      },
-      "state": "in_progress",
-      "owner": "s29-line-citations",
-      "claimed_utc": "2026-09-02T18:51:54Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-08-28",
-      "filed_by": "CYC-0023-6be7fd5a",
-      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
-      "score": 136.7,
-      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
-      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited",
-      "score_inputs": {
-        "fruitless_attempts": 0,
-        "age_factor": 0.3571,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "dispatch_log": [
-        {
-          "utc": "2026-08-28T20:34:34Z",
-          "fingerprint_at_dispatch": "2026-08-27|None"
-        },
-        {
-          "utc": "2026-09-02T18:51:54Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ],
-      "evidence": "WORKED BY SEAT s3 (CYC-0066-1f1a2449 fan-out). Branch `s3/aut-pd-031-line-citations-enumerate-carriers` @ 429241264f, rebased on origin/main, pushed, NOT MERGED. ⛔ THE ROW STAYS OPEN AND THE SEAT ARGUES WHY: its deliverable research/modalities/instrument-census.json existed and was in sync, and the defect was still fully live — an artifact on the trunk is not a finished item. Reproduced end to end: insert one blank line in nr4a3-degrader-paper.md, `line_citations.py --fix` prints 'rewrote 18 citation(s)', EXITS 0, and instrument_census.py --check immediately goes red. The fixer scanned 1 of the 19 tracked files carrying the syntax (466 occurrences). Second half, unguarded in the commit loop: `instrument_census.py --check` existed and NOTHING in preflight.sh ran it — its only enforcement was the opt-in modalities suite, which is why the original incident surfaced three commits late; now added to the generated-artifact loop at a measured 0.032 s. ⭐ THE FIX NAMES RATHER THAN REPAIRS, DELIBERATELY, and the decisive reason is measured not argued: the resolver is context-dependent, and for `:2140-2142` the roadmap's context yields a different quote than the census's because the census table has a column the roadmap does not — one ordinary edit and a 'repair' silently repoints a citation at a sentence it does not quote. Also, the largest hand-written carrier (program/map-audit-strategy.md, 131 citations) pins its line numbers to commit f67d0781 in its own header, and a fixer cannot tell a pinned reference from a rotted one. 10 tests, mutation-tested 9/9 with two earlier survivors fixed as real test defects; preflight EXIT=0 at PREFLIGHT_TESTS=1, 1467 passed. STILL OPEN: the tool now NAMES 16 hand-written carriers and CHECKS none — that surface is unmeasured rather than measured-clean, and deciding which are pinned-by-design is a reading job nobody has done. ⭐ BRANCH MERGED TO THE TRUNK 2026-08-28 by the CYC-0066 driver (s3/aut-pd-031-line-citations-enumerate-carriers), gated at PREFLIGHT_TESTS=1, EXIT=0, 1469 passed. Confirmed present on origin/main: `instrument_census` is now in preflight.sh's generated-artifact loop, so the census check runs in the COMMIT LOOP rather than only in the opt-in modalities suite — which is the half that let the original incident surface three commits late. ⛔ THE ROW REMAINS QUEUED, on the seat's own argument and not by oversight: the fixer now NAMES 16 hand-written carriers and CHECKS none of them, so that surface is UNMEASURED rather than measured-clean, and deciding which are pinned-by-design (map-audit-strategy.md pins its line numbers to commit f67d0781 in its own header) versus genuinely rotted is a reading job nobody has done."
     },
     {
       "id": "AUT-PD-059",
@@ -3966,6 +3921,52 @@
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use."
     },
     {
+      "id": "AUT-PD-031",
+      "kind": "process_defect",
+      "process_defect": true,
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_route_was": "RT-AUTONOMY",
+        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
+      },
+      "state": "in_progress",
+      "owner": "s29-line-citations",
+      "claimed_utc": "2026-09-02T18:51:54Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
+      "filed_by": "CYC-0023-6be7fd5a",
+      "what": "⛔ `line_citations.py --fix` REPAIRS ONE COPY OF A SHARED FACT AND IS SILENT ABOUT THE OTHERS, SO IT IS A FIXER YOU WILL TRUST TOO FAR. Measured 2026-08-27, and it put a RED TRUNK ON origin/main FOR HOURS. Annotating the retracted citation in the degrader paper shifted its lines by one. `--fix` corrected the roadmap's 18 drifted line citations, reported '18 rewritten', and I took that as done. But `research/modalities/instrument-census.json` and `.md` EMBED THEIR OWN COPIES of the same line references, derived from the same roadmap, behind a SEPARATE generator (`instrument_census.py`). `--fix` said nothing about them and had no way to. ⭐ THE SECOND COPY WAS ONLY FOUND THREE COMMITS LATER by a `PREFLIGHT_MODALITIES=1` run, because the census guard lives in the MODALITIES suite while the edit that broke it ran under `PREFLIGHT_TESTS=1` — the documented cost of making modalities opt-in, arriving exactly as CLAUDE.md §6 predicted it would. ⛔ THE CLASS, AND IT IS THE ONE THIS REPOSITORY KEEPS PAYING FOR: a fact with two homes and one fixer. `line_citations.py --fix` is trustworthy about the file it knows and silent about the file it does not, and silence from a tool that just said '18 rewritten' reads as completeness. ⭐ FIX, TWO PARTS: (1) `--fix` must ENUMERATE every artifact that carries a line reference into the roadmap — derive the list, do not type it — and either fix them all or NAME the ones it cannot. (2) The general form is AUT-PD-017's, one level out: this is the same defect as a field name agreed in prose between two files, except the shared thing is a LINE NUMBER and the disagreement is silent rather than a KeyError. ⚠ CHEAP: a grep for the citation syntax across tracked artifacts, plus a test that every file matching it is in the fixer's own list.",
+      "score": 128.7,
+      "_score_basis": "a fixer that reports success while leaving a second copy stale put a red trunk on main for hours",
+      "depends_on_evidence": "instrument-census drift :1309-1311 -> :1310-1312, found by PREFLIGHT_MODALITIES=1 three commits after line_citations.py --fix reported 18 rewritten",
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "a linter's fixer; nothing published, submitted or deposited",
+      "score_inputs": {
+        "fruitless_attempts": 1,
+        "age_factor": 0.3571,
+        "age_factor_as_of": "2026-09-02"
+      },
+      "dispatch_log": [
+        {
+          "utc": "2026-08-28T20:34:34Z",
+          "fingerprint_at_dispatch": "2026-08-27|None"
+        },
+        {
+          "utc": "2026-09-02T18:51:54Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "evidence": "WORKED BY SEAT s3 (CYC-0066-1f1a2449 fan-out). Branch `s3/aut-pd-031-line-citations-enumerate-carriers` @ 429241264f, rebased on origin/main, pushed, NOT MERGED. ⛔ THE ROW STAYS OPEN AND THE SEAT ARGUES WHY: its deliverable research/modalities/instrument-census.json existed and was in sync, and the defect was still fully live — an artifact on the trunk is not a finished item. Reproduced end to end: insert one blank line in nr4a3-degrader-paper.md, `line_citations.py --fix` prints 'rewrote 18 citation(s)', EXITS 0, and instrument_census.py --check immediately goes red. The fixer scanned 1 of the 19 tracked files carrying the syntax (466 occurrences). Second half, unguarded in the commit loop: `instrument_census.py --check` existed and NOTHING in preflight.sh ran it — its only enforcement was the opt-in modalities suite, which is why the original incident surfaced three commits late; now added to the generated-artifact loop at a measured 0.032 s. ⭐ THE FIX NAMES RATHER THAN REPAIRS, DELIBERATELY, and the decisive reason is measured not argued: the resolver is context-dependent, and for `:2140-2142` the roadmap's context yields a different quote than the census's because the census table has a column the roadmap does not — one ordinary edit and a 'repair' silently repoints a citation at a sentence it does not quote. Also, the largest hand-written carrier (program/map-audit-strategy.md, 131 citations) pins its line numbers to commit f67d0781 in its own header, and a fixer cannot tell a pinned reference from a rotted one. 10 tests, mutation-tested 9/9 with two earlier survivors fixed as real test defects; preflight EXIT=0 at PREFLIGHT_TESTS=1, 1467 passed. STILL OPEN: the tool now NAMES 16 hand-written carriers and CHECKS none — that surface is unmeasured rather than measured-clean, and deciding which are pinned-by-design is a reading job nobody has done. ⭐ BRANCH MERGED TO THE TRUNK 2026-08-28 by the CYC-0066 driver (s3/aut-pd-031-line-citations-enumerate-carriers), gated at PREFLIGHT_TESTS=1, EXIT=0, 1469 passed. Confirmed present on origin/main: `instrument_census` is now in preflight.sh's generated-artifact loop, so the census check runs in the COMMIT LOOP rather than only in the opt-in modalities suite — which is the half that let the original incident surface three commits late. ⛔ THE ROW REMAINS QUEUED, on the seat's own argument and not by oversight: the fixer now NAMES 16 hand-written carriers and CHECKS none of them, so that surface is UNMEASURED rather than measured-clean, and deciding which are pinned-by-design (map-audit-strategy.md pins its line numbers to commit f67d0781 in its own header) versus genuinely rotted is a reading job nobody has done."
+    },
+    {
       "id": "AUT-PD-175",
       "kind": "process_defect",
       "process_defect": true,
@@ -4059,6 +4060,41 @@
         "age_factor_as_of": "2026-09-02"
       },
       "_lease_released_2026_08_31": "Lease released as litter, not as a takeover. `holder_liveness.py --check` reported it NOT OBSERVED, and the control plane then settled it: CI-panels-run-33253509586 — an Actions run from 2026-08-29; runs do not last two days. `continuity.py` was reporting 4 concurrent holders against a governed subagent_width of 1, so these three were blocking every startable row in the queue. ⛔ AUT-046 was left held — it was claimed 2026-08-31T13:19:34Z, twenty minutes before this reading, and a fresh lease is a worker, not litter."
+    },
+    {
+      "id": "AUT-PD-207-11f2347b-a7bb35b4",
+      "kind": "process_defect",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "serves": {
+        "route": null,
+        "publication": "PUB-STRATEGY-ARCH",
+        "strategy": null,
+        "_why": "The defect is in the hardening PROCESS, and this paper is where it was measured."
+      },
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-02",
+      "score": 128.0,
+      "_score_basis": "HAND-SET, as the ledger's `_role` requires of a session-added row. Placed just below the open process_defect band (129–137) and far below live research, because it is loop housekeeping and CLAUDE.md §0 puts live routes first. It is NOT lower, because unlike most housekeeping this one has a measured patient-facing cost: the defect it names put a false statement about trial eligibility into the only patient-actionable sentence of the portfolio's most patient-reaching paper, and shipped it to the trunk.",
+      "what": "⛔⛔ A HARDENING ROUND'S *REPAIR* PASS INTRODUCED THE BLOCKER THE NEXT ROUND CAUGHT, AND NOTHING CHECKS A REPAIR BEFORE THE NEXT ROUND SEES IT. Measured 2026-09-02 on PUB-STRATEGY-ARCH.\n★ THE CHAIN, DERIVED BY `git log -S` RATHER THAN RECALLED. Round 2's four independent blind seats — consistency, hostile, statistics and citations, four different lenses — all named one sentence in §4.1: *\"It enrols ages 1 to 30, so for an adult patient a search of the diagnosis still returns nothing they could join.\"* It is false for adults aged 18–30, on a RECRUITING trial that lists the histology, whose bound is age AT BIOPSY and so is wider still. The sentence was introduced by commit `122c41412`, *\"apply round-1 blind-seat findings to PUB-STRATEGY-ARCH\"* — the previous round's own repair pass — and its message says it added \"the age limit that keeps the paper's point standing for adults\".\n⛔ SO THE REPAIR WAS MADE TO KEEP A CONCLUSION STANDING, AND MANUFACTURED A FALSE STATEMENT TO DO IT. That is the exact shape `amendment_guard` exists to refuse in governance, occurring in PROSE, where no guard looks. It is worse than the defect it replaced: the original was vague, this one is specific, actionable and wrong in the direction that tells a patient not to search.\n⭐ THE STRUCTURAL GAP: a round reviews a PINNED COMMIT, and the repair lands AFTER the pin. So every apply pass ships unreviewed prose, and the only thing that ever reads it is the next round — which is why this survived a full round and reached the trunk. Blind seats are the instrument, and the instrument is never pointed at the repairs.\n⚠ AND IT IS NOT RARE. The same apply seat caught TWO further defects in its own edits before landing — one deleting a disclosure that a load-bearing record was never re-fetched, one appending a qualifier instead of replacing the wrong sentence. It caught those by re-reading its own diff; nothing required it to.",
+      "next_action": "Make an apply pass's own output reviewable before it reaches the trunk. Options, to be argued rather than assumed: a repair-lens seat that reads ONLY the apply diff against the findings it claims to fix; requiring each repair to name the finding id it closes and the artifact field that verifies the replacement; or re-pinning and running one narrow seat over changed paragraphs only. ⛔ Do NOT answer this by adding a rule telling apply seats to be careful — the seat that introduced this one was following the rules, and the two defects it self-caught prove care is already present and is not sufficient. ⚠ Mind the tier budget (~1393/1400 in the commit loop) before adding any test.",
+      "evidence": [
+        "git log -1 122c41412 — 'apply round-1 blind-seat findings to PUB-STRATEGY-ARCH', 2026-09-02",
+        "research/autonomy/review-seats/PUB-STRATEGY-ARCH-2401803d2c6104a31da26f737827f1ca4cfa8d20-seat-consistency.json",
+        "research/autonomy/review-seats/PUB-STRATEGY-ARCH-2401803d2c6104a31da26f737827f1ca4cfa8d20-seat-hostile.json",
+        "research/autonomy/review-seats/PUB-STRATEGY-ARCH-2401803d2c6104a31da26f737827f1ca4cfa8d20-seat-statistics.json",
+        "research/autonomy/review-seats/PUB-STRATEGY-ARCH-2401803d2c6104a31da26f737827f1ca4cfa8d20-seat-citations.json",
+        "research/literature/fet-fusion-trial-eligibility-2026-08-07.json — NCT06239272 maximum_age '30 Years', emc_in_listed_conditions true"
+      ],
+      "retry_budget": 3
     },
     {
       "id": "AUT-PD-111",
