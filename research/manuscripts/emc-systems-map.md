@@ -449,7 +449,7 @@ The registry records **where** each figure lives, never the figure. The checker 
 
 | claim | document | what it quotes | its one home |
 |---|---|---|---|
-| `CLM-IDR-EMC` | [`emc-post-degrader-options.md`](program/emc-post-degrader-options.md) | route 1's RGG-retention table row for EWSR1::NR4A3 | `ART-IDR-CENSUS` → `/emc_canonical_EWSR1_NR4A3/rg_dipeptides_retained` |
+| `CLM-IDR-EMC` | [`emc-post-degrader-options.md`](program/emc-post-degrader-options.md) | route 1's RGG-retention table row for EWSR1::NR4A3 | `ART-IDR-CENSUS` → `/emc_EWSR1_NR4A3_reported_types/EWSR1_NR4A3_type2/rg_dipeptides_retained` |
 | `CLM-IDR-CONTROLS` | [`emc-post-degrader-options.md`](program/emc-post-degrader-options.md) | the positive-control rows beside it (the fusions in which ATM suppression was MEASURED) | `ART-IDR-CENSUS` → `/positive_controls_pass` |
 | `CLM-IDR-COMPARATIVE` | [`IDEAS.md`](../IDEAS.md) | the ATR route row's 'structural precondition is COMPUTED and it holds' sentence | `ART-IDR-CENSUS` → `/emc_vs_measured_fusions_comparative/rows` |
 | `CLM-CONSTRUCT-FRAME` | [`emc-atr-collaborator-package.md`](dependency/emc-atr-collaborator-package.md) | §7.2 'The four constructs — all four are in frame' | `ART-CONSTRUCT-DESIGNS` → `/n_constructs_in_frame` |

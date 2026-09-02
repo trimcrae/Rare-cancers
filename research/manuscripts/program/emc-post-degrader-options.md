@@ -304,22 +304,44 @@ fusion.** [`emc_fet_idr_census.py`](../../modalities/emc_fet_idr_census.py) →
 
 | fusion | EWSR1 retained | RG dipeptides kept | precondition |
 |---|---|---|---|
-| **EWSR1::NR4A3 (EMC, canonical)** | **1–264** | **0 of 30** | ✅ met, 35 residues of margin |
+| **EWSR1::NR4A3 (EMC, reported type 2 — the SECOND-commonest)** | **1–264** | **0 of 30** | ✅ met, 35 residues of margin |
 | EWSR1::FLI1 (Ewing, type 1) — *mechanism measured here* | 1–264 | 0 of 30 | ✅ met |
 | EWSR1::ATF1 (clear cell, e7) — *mechanism measured here* | 1–264 | 0 of 30 | ✅ met |
 | EWSR1::ATF1 (clear cell, **commonest** type, e8) | 1–324 | **7 of 30** | ✖ strict criterion — **and the mechanism was measured anyway** |
 
-⭑ **The headline: EMC's canonical fusion retains a segment that is BYTE-IDENTICAL to the Ewing
-type-1 fusion's** (`byte_identical: true`) — not similar, not homologous, the same 264 residues of
-EWSR1. Whatever the retained FET N-terminus does at a double-strand break in Ewing sarcoma, EMC's
-commonest fusion presents the same object.
+⭑ **The headline: EMC's reported type-2 fusion retains a segment that is BYTE-IDENTICAL to the
+Ewing type-1 fusion's** (`byte_identical: true`) — not similar, not homologous, the same 264 residues
+of EWSR1. Whatever the retained FET N-terminus does at a double-strand break in Ewing sarcoma, EMC's
+SECOND-commonest fusion presents the same object. ⛔ **It is the second-commonest, and the byte
+identity is its alone:** the census computes the comparison per type, and neither type 1 nor type 5
+is byte-identical to any measured fusion's retained half.
 
 ⚠ **And the controls calibrate the criterion instead of merely passing it**, which is why the last
 row matters more than the first three. The *commonest* reported clear-cell type keeps 7 of 30 RG
 dipeptides and the lesion was still measured in that disease — so "loses the RGG repeats" means
 losing the bulk, not literally all, and **the strict verdict is conservative**. The defensible claim
-is therefore comparative and needs no threshold at all: **EMC loses at least as much RGG content as
-every fusion in which ATM suppression has been measured.**
+is therefore comparative and needs no threshold at all: ⚠ *Superseded, retained (CLAUDE.md §1.2) —*
+***EMC loses at least as much RGG content as every fusion in which ATM suppression has been
+measured.*** *That sentence was written when the census carried ONE EMC record, the exon-7 cut, and
+it is true of that cut and of no other.*
+
+⛔ **CORRECTED 2026-09-02 (`AUT-PD-208`) — THE COMPARATIVE ANSWER SPLITS, AND THE COMMONEST REPORTED
+FUSION IS ON THE FAILING SIDE.** The census now carries every reported `EWSR1::NR4A3` type
+(`emc_EWSR1_NR4A3_reported_types`, keyed off the sourced junction registry) and computes the
+comparison **per type**, against all four measured comparator types:
+
+| reported EMC type | EWSR1 retained | RG kept | fraction | loses at least as much as … |
+|---|---|---|---|---|
+| type 2 (e7::e2, second-commonest) | 1–264 | 0 of 30 | 0.000 | **4 of 4** measured types |
+| type 1 (e12::e3, **commonest**) | 1–431 | 8 of 30 | 0.267 | **1 of 4** — only the clear-cell e10 type, which it ties |
+| type 5 (e13::e3, minority) | 1–472 | 11 of 30 | 0.367 | **0 of 4** |
+
+⛔ **Nothing in the criterion was relaxed to reach that reading** — `precondition_met` is still
+`rg_dipeptides_retained == 0` and the comparison is still `emc_fraction ≤ comparator_fraction`. The
+table above and the one above it are the same arithmetic over more fusions. **The bracket, not a
+verdict, is what the sequence argument supports:** EMC's two commonest types sit either side of the
+measured series rather than at one point inside it, and what the comparison licenses for type 1 and
+type 5 is their position on the axis, not a pass.
 
 ⚠ **Three limits, all recorded in the artifact.** This is a *sequence* argument — it cannot show that
 any NR4A3 fusion is recruited to DSBs or suppresses ATM, which is exactly the wet-lab ask. TAF15 and
@@ -1050,8 +1072,13 @@ paper's outline"** *, ranked below three ask-side items.)*
    in both directions: the ATR-inhibitor effect in FET lines survives correction for general
    chemosensitivity, and PARP inhibitors are 2–4× larger in the same lines despite having already
    failed clinically in Ewing. Route 1a keeps Tier 1; its in-vitro case is explicitly bounded.
-5. ✅ **DONE — the structural precondition is computed** and EMC's canonical fusion meets it with a
-   byte-identical FET segment to the Ewing fusion the mechanism was measured on (§3 route 1).
+5. ✅ **DONE — the structural precondition is computed, and it SPLITS by fusion type** (§3 route 1).
+   EMC's **second**-commonest reported fusion (type 2) meets it with a FET segment byte-identical to
+   the Ewing fusion the mechanism was measured on; the **commonest** (type 1) and the minority type 5
+   do not meet the strict criterion, and lose at least as much RGG content as 1 and 0 of the four
+   measured comparator types respectively. ⚠ *Superseded, retained (CLAUDE.md §1.2): this item read*
+   *"EMC's canonical fusion meets it with a byte-identical FET segment"*, *written when the census
+   carried one EMC record.*
 6. ✅ **DONE — the route-1b preregistration is written and committed**
    ([`emc-atri-prereg.md`](../../modalities/emc-atri-prereg.md)), before anyone has been approached. It
    carries the two design requirements this session's analyses produced — **a PARP-inhibitor arm as
