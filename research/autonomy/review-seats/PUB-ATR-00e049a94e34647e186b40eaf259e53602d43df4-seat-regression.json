@@ -1,6 +1,6 @@
 {
   "_schema": "emc-review-seat/1",
-  "status": "open",
+  "status": "complete",
   "paper": "PUB-ATR",
   "pub_id": "PUB-ATR",
   "reviewed_commit": "00e049a94e34647e186b40eaf259e53602d43df4",
@@ -10,9 +10,28 @@
   "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
   "document_sha256": "f5af78b0019f05a733e7155b710ea5dd81a6024a7e5b3ffa2934110ea7ffb9da",
   "opened_utc": "2026-09-02T20:41:07Z",
-  "verdict": null,
-  "central_claim": "",
-  "blockers": [],
+  "verdict": "needs_revision",
+  "central_claim": "The published FET-fusion -> impaired-ATM -> compensatory-ATR-dependency mechanism is structurally eligible in EMC's sequence but its computational (public-data) support is weak: EMC tumour transcripts show no proliferation-independent DDR signature (WEAK tier), the CRISPR dependency readout is saturated/uninformative, and ATR-inhibitor sensitivity tracks a shared dependency module rather than the mechanism specifically -- so the wet-lab ask survives on structural grounds alone, not on any in-silico finding.",
+  "blockers": [
+    {
+      "summary": "Round 5's rewritten §2.1 paragraph asserts H-EMC-SS is 'one line of a ~14-line panel' in PMID 34413129 (Gartrell et al.). This number was newly introduced by this exact repair (it did not exist in the pre-round-5 text) and is contradicted by one of the two artifacts the very same sentence cites by name as its source for this characterization.",
+      "evidence": "Paper line ~245-246 (git show 00e049a94e34647e186b40eaf259e53602d43df4:research/manuscripts/dependency/emc-atr-vulnerability-assessment.md): 'PMID 34413129 is an SLFN11 pediatric-sarcoma biomarker study, not an EMC or identity paper -- H-EMC-SS is one line of a ~14-line panel ... quoted verbatim in `emc-model-junction-evidence.json` and `hemcss-label-priorart.json`'. research/modalities/emc-model-junction-evidence.json -> ⚠_what_the_paper_is_about (and research/modalities/emc_model_junction_evidence.py line ~385, hardcoded in source) says 'a 14-line sarcoma drug panel', matching the paper. But research/modalities/hemcss-label-priorart.json -> papers_on_this_line.the_one_published_observation.what_it_is_not says 'across a ~20-line panel' -- a different number for the same paper's cell-line panel, in the second of the two artifacts the paper cites in the same sentence as corroborating the verbatim quote. Confirmed via `git show 00e049a94e34647e186b40eaf259e53602d43df4:research/modalities/hemcss-label-priorart.json` and `research/modalities/emc-model-junction-evidence.json`; also confirmed the paragraph is entirely new to round 5 via `git show 00e049a94e34647e186b40eaf259e53602d43df4 -- research/manuscripts/dependency/emc-atr-vulnerability-assessment.md` (diff hunk starting '@@ -236,11 +240,21 @@'). Neither the round-5 commit message nor the history record in emc-systems-map.json objects[18].read_by[97] (the file the task names as recording this correction's history) mentions or resolves a panel-size figure at all -- the discrepancy was not caught during the repair.",
+      "fix": "Either drop the specific panel-size figure from §2.1 (it is not load-bearing -- the paragraph's point is that the caution is a published parenthetical observation, not a curatorial verdict, which holds regardless of exact panel size), or resolve the 14 vs 20 disagreement against the actual PMC8571037 full text and correct whichever of the two artifacts (hemcss-label-priorart.json or emc-model-junction-evidence.json) is wrong, then re-cite the corrected number in the paper."
+    }
+  ],
   "p1s": [],
-  "what_i_read": []
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (full document, at the pinned commit, hash-verified)",
+    "research/modalities/hemcss-label-priorart.json",
+    "research/modalities/emc-model-junction-evidence.json",
+    "research/modalities/emc_model_junction_evidence.py (grep for the '14-line' string)",
+    "research/modalities/emc-atr-vulnerability.json (part_b_emc_tumour_signature: dataset_search, series_seeds, per_platform for GSE4303-GPL3290 and GSE24369, class_counts, sample_annotations_verbatim)",
+    "research/modalities/emc-atr-vulnerability-inputs.json (existence/size check only)",
+    "research/modalities/atr-hrd-sarcoma-series.json (series_record.summary, associated_publication.candidate_publication_read, further_searches)",
+    "research/manuscripts/emc-systems-map.json (objects[18].read_by[97])",
+    "research/autonomy/hardening-state/PUB-ATR.json (round 5 blocker list, for context on what was already found/fixed)",
+    "git show 00e049a94e34647e186b40eaf259e53602d43df4 -- research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (the round-5 diff itself)",
+    "git log --oneline -- research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+    "research/modalities/emc_atr_vulnerability.py (grep for 'fibrosarcoma' bucket key and the 1.15x proliferation-beat comment, lines ~270-330 and ~2915-2940)"
+  ]
 }
