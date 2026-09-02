@@ -1,0 +1,85 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "⛔ NOT clause-1 or clause-6 evidence. Held outside research/autonomy/review-seats/ on purpose — see README.md in this directory. It reviewed cbeaac0d2a3019bb45534f5ba0d215e727f3f6d8; round 34's pin is 3d5c709b69bc32a00a7776bf47303771d17d87f5.",
+  "paper": "PUB-ASO",
+  "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "reviewed_commit": "cbeaac0d2a3019bb45534f5ba0d215e727f3f6d8",
+  "document_sha256": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+  "blind": true,
+  "status": "closed",
+  "seat": "regression",
+  "dispatched_by": "CYC-0091-91c8e949",
+  "utc": "2026-09-02T14:05:00Z",
+  "lens": "Listed the last 25 commits touching each outgoing artifact, then diffed the article across 65eccd59f->pin and a294fee68->pin, the supplementary information across 830679576->pin and the tables across ba0ab8b1f->pin, and took every changed sentence back to the artifact that owns it. Re-derived from the modules' own JSON at the pin rather than from recorded prose: the 190/87/61/85/19/93 screen counts with the union recomputed by hand; the 8-fully-paired, 45-within-2-kcal and 3.2/3.0 kcal separations; the 156-vs-135 genome loads and 123-vs-8 deep transcriptome loads; the 6-vs-5 locus recount; the whole cut ladder (35/31/23/9/6 junctions, 5/3/2/0/0 published) recomputed from longest_parent_duplex_bp_through_gap and cross-checked against aso-parent-null.json cut_sensitivity; the null containment claim and the sign-change series; the null-ensemble partition 4/2/4/2, 40.6%/45.8%, 10.0%/3.9%; 68.4% [39.9, 82.8] and the SI's 82.9% [57.5, 90.7]; both reagents' 8 bp and 9 bp TFG labels and their 26.6/36.0 dTm floors composed from the CSV; and the falsification power and void-SD figures, re-implementing the noncentral-t by numerical integration because scipy is absent, reproducing 30.41%/81.28%/98.31% and 0.648/1.534/2.250. Checked every reference superscript resolves to the right PMID in contiguous first-citation order and that all four PDFs print the same numbering; checked all seven build stamps against sha256 of the pinned source blobs; confirmed the anonymized PDF carries no name, e-mail or ORCID. For the archive, diffed the manifest file-set between the published revision 4fd4698daec0 (515 files) and the pin (516), extracted the deposited PDFs and diffed their text against the pin's, and checked whether the one added file breaks the published archive's import closure.",
+  "what_i_read": [
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+    "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
+    "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+    "research/manuscripts/aso/deposit-state.json",
+    "research/manuscripts/aso/fusion-junction-aso-sequences.csv",
+    "research/manuscripts/aso/fusion-junction-aso-coverage-ladder.json",
+    "research/modalities/aso-parent-gap-pairing.json",
+    "research/modalities/aso-premrna-offtarget.json",
+    "research/modalities/aso-genome-offtarget.json",
+    "research/modalities/aso-parent-null.json",
+    "research/modalities/aso-offtarget-duplex-energy.json",
+    "research/modalities/aso-per-junction-table.json",
+    "research/manuscripts/aso_falsification_power.py",
+    "research/manuscripts/tests/test_the_manuscript_asserts_the_relation_its_artifacts_compute.py"
+  ],
+  "central_claim": "Across 38 modelled in-frame NR4A3 fusion junctions, 190 junction-spanning 5-6-5 gapmers were tiled and put through five in-silico specificity screens, and nearly half (87 of 190, 45.8%) let a mature wild-type parent transcript pair the whole catalytic gap over at least ten contiguous base pairs — a liability that is a property of joining two exon termini rather than of this disease, since exon-terminus chimeras meet the same screen at 40.6%, inside the panel's own 95% interval. Selecting within each junction rather than across the panel nevertheless yields two nameable reagents at the two most-reported breakpoints (EWSR1 e12 and TAF15 e6, both to NR4A3 exon 3), whose longest wild-type parent gap duplexes are 8 and 9 bp against wild-type TFG, together with two screened scramble controls and a pre-registrable selectivity threshold and power calculation. Nothing was synthesised or tested; every count is a prediction from sequence search, no efficacy, potency or safety is claimed, and the paper states that the two published fusion-positive EMC cell models are reported at an NR4A3 exon-2 acceptor rather than this panel's.",
+  "verdict": "supported",
+  "recommendation": "minor",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The abstract's scope phrase is a sibling of a repaired sentence and no guard reaches it. Round 27 (fade4a548) rewrote the Introduction to 'only the first is even partly in silico', and that Introduction sentence IS bound — test_the_manuscript_asserts_the_relation_its_artifacts_compute.py row 'in-silico-half-of-the-first-step', site pattern r\"This work performs[^;]{0,140};\". The abstract states the same scope in a construction that pattern cannot match, so one of the claim's two homes is guarded against widening and the other is not.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-article.md lines 45-46 ('This work is computational, executing an industry off-target framework's in-silico step') against line 94; a scoped `git grep -n \"even partly in silico\" -- research/manuscripts/tests research/modalities/tests scripts/tests` returns zero hits."
+    }
+  ],
+  "p2s": [
+    {
+      "summary": "The abstract's phrase presupposes something the repaired Introduction denies: it names 'an industry off-target framework's in-silico step' where line 94 says only the first step is 'even partly' in silico. Errs by omission rather than asserting a false quantity, so a SUGGEST.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-article.md:45-46 against :94-95",
+      "introduced_by": "pre_existing (git log -S 'executing an industry off-target framework' -> 9820f483a, before fade4a548)"
+    },
+    {
+      "summary": "Table 1's caption was not revisited when the article gained its parsimonious reading. The caption says the Bangerter et al. models 'match different designs, not these two'; the article says 'On that reading USZ22-EMC2 carries the junction the TAF15 reagent spans', flagged as an inference. The caption is not false — capitalised REPORTED scopes it to the as-reported numbering — and it errs conservative.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-journal-tables.md:7, generated from research/manuscripts/aso_journal_tables.py:228, against fusion-junction-aso-journal-article.md:280-282",
+      "introduced_by": "pre_existing (caption 0021ddd80 2026-08-22 predates the paragraph d22ee6872 2026-08-25, confirmed with git merge-base --is-ancestor)"
+    },
+    {
+      "summary": "The genome screen artifact kept the phrase the article was repaired away from: its `_what` still reads 'against every position of the reference genome' where the article now reads 'covers unambiguous GRCh38'. The artifact's own denominator refutes it — 151,138,112 of 3,099,747,808 windows carry an N and are not scanned (4.88%). Deposited-artifact prose; moves no printed number in the paper.",
+      "evidence": "research/modalities/aso-genome-offtarget.json `_what`, windows_total / windows_with_N / windows_scanned, against fusion-junction-aso-journal-article.md:116",
+      "introduced_by": "pre_existing (git log -S 'against every position of the reference genome' -> 164aac7a6)"
+    },
+    {
+      "summary": "The published archive at 10.5281/zenodo.22229096 promises a Supporting Information PDF that does not exist, and its SI copy repeats the claim. BOTH ARE ALREADY FIXED IN THE TREE (19f9d2b41 for the SI; the manifest at the pin reads 'the Supporting Information travels as markdown only'). The defect survives only in an immutable published record and is cleared by publishing the next archive version.",
+      "evidence": "the archive manifest committed at published revision 4fd4698daec0, `deposited_documents` file entries and promise_text with `_promise_still_in_manuscript: false`; the SI blob in that same published archive",
+      "introduced_by": "not_a_paper_defect"
+    },
+    {
+      "summary": "A forward-looking archive gap, recorded rather than raised as a break. The manifest at the pin lists 516 files against the published archive's 515: research/manuscripts/citation_scan_cache.py is new and is imported by lint_citations.py, which is in the reproduction_command promise's file list. The PUBLISHED archive is not broken — at 4fd4698daec0 neither the import nor the module exists — but the next deposit would break if the manifest were not regenerated, and it has been.",
+      "evidence": "manifest file counts at 4fd4698daec0 vs the pin; `git cat-file -e 4fd4698daec0:research/manuscripts/citation_scan_cache.py` -> absent; lint_citations.py:55 at the pin",
+      "introduced_by": "not_a_paper_defect"
+    },
+    {
+      "summary": "Stale justification inside a guard: row 'in-silico-half-of-the-first-step' carries decided_by 'steps two to five of the cited recommendations (PMID:39912803) are laboratory steps', which is the pre-fade4a548 framing the Introduction now contradicts. The guard's assertion is unaffected; only its stated witness is stale. Repository tooling, so P2.",
+      "evidence": "research/manuscripts/tests/test_the_manuscript_asserts_the_relation_its_artifacts_compute.py, row 'in-silico-half-of-the-first-step', field decided_by",
+      "introduced_by": "prior_repair fade4a548 (the repair moved the prose and left the guard's reason behind)"
+    },
+    {
+      "summary": "The SI's cross-references address a different document from the one it travels with: its section references and superscripts (22, 25, 28, 39, 41, 42, 53) are the extended report's numbering, while the outgoing journal article has 24 references and no numbered sections. Stated explicitly and the seven entries are repeated verbatim at the SI's end, so it resolves for a reader holding only the SI. Recorded because a reviewer receiving the SI beside the article will meet superscript 53 in a paper whose list ends at 24.",
+      "evidence": "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md:46-48",
+      "introduced_by": "pre_existing"
+    }
+  ],
+  "leaks": "none. Every search was scoped to research/manuscripts research/modalities systems scripts. One incidental exposure disclosed by the seat rather than hidden: a scoped grep printed the filename research/manuscripts/aso/fusion-junction-aso-guard-coverage-audit.md and three of its lines quoting a mutation of a sentence already under check. That path was not on the blindness list at dispatch; it was added to it for the seats that followed.",
+  "_logs_died_with_the_container": "The seat's own logs were written to its session scratchpad under s34-regression-round34/ and are not durable. The findings above are its report, transcribed by the driver; the re-derivations are reproducible from the paths named in each entry."
+}
