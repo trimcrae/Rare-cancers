@@ -1,6 +1,6 @@
 {
   "_schema": "emc-review-seat/1",
-  "status": "open",
+  "status": "complete",
   "_why_this_exists_before_the_review_does": "AUT-PROP-006. This record is written as the seat's FIRST act, so a seat that dies leaves evidence that it looked rather than nothing at all. It is EMPTY and says so: publish_bar.clause_1_hardening_converged REFUSES any round with an open record at the commit it is grading, because an unfinished look must never be counted as a clean one.",
   "paper": "PUB-STRATEGY-ARCH",
   "pub_id": "PUB-STRATEGY-ARCH",
@@ -11,8 +11,118 @@
   "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
   "document_sha256": "e86042c980ba4363aec1fd3ffd71e0ed64d4beb6df9a43eb756613d954a70932",
   "opened_utc": "2026-09-02T16:52:23Z",
-  "verdict": null,
-  "central_claim": null,
-  "blockers": [],
-  "p1s": []
+  "verdict": "supported_with_reservations",
+  "central_claim": "Recruiting trials exist whose eligibility criteria admit extraskeletal myxoid chondrosarcoma on a molecular or translocation-class criterion while their registry 'listed conditions' never name that histology, so no diagnosis search returns them; and because two trials that REFUSE the histology would pass a keyword screen, a reachability map built by string matching is worse than no map.",
+  "blockers": [
+    {
+      "id": "B1",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md \u00a73, table row 3, under the heading 'Trials admitting this disease without naming it' and the column 'why it admits'",
+      "quote": "| nine further trials, platform and basket designs, recruiting | defined by molecular alteration rather than histology | various; none names this histology | no |",
+      "why": "The table asserts that nine further trials ADMIT this disease. \u00a73's own prose three lines below says the opposite: 'Two trials admit and offer treatment; a third admits and offers enrolment in a registry.' The abstract also stops short of admission for these nine ('Nine further trials are molecularly rather than histologically defined'). The source record does not support admission either: research/literature/fet-fusion-trial-eligibility-2026-08-07.json \u2192 task_2_widened_search.molecularly_defined_not_histology_defined lists all nine with eligibility_basis 'molecularly defined, not histology-defined' and, for the master protocol NCT05722886, assessment 'Whether EWSR1::NR4A3 matches an open arm is a question for the trial team.' Seven of the nine are DETERMINE treatment arms keyed to BRAF (NCT05768178, NCT07440290), ALK (NCT05770037), TMB/MSI/CMMRD (NCT05770102), ROS1 (NCT05770544), HER2 (NCT05786716) and MET (NCT06988475) \u2014 none of which is this disease's driver \u2014 and five of those nine carry eligibility_text_retrieved:false, so no criterion was read at all. Not being histology-restricted is not admitting; putting these nine under 'why it admits' is exactly the REACHABLE/UNKNOWN blur the paper elsewhere polices.",
+      "fix": "Replace the row and its column entry with: '| nine further registry records, one platform protocol and its arms plus one basket trial | not histology-restricted; whether this disease's fusion matches any open arm was not determinable from the retrieved records, and five of the nine carry no retrieved eligibility text | various; none names this histology | no |', and change the table heading to 'Trials whose index would not surface this disease', so that only the two interventional trials and the observational cohort are stated to admit."
+    },
+    {
+      "id": "B2",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md \u00a73, table row 3, first cell",
+      "quote": "nine further trials, platform and basket designs, recruiting",
+      "why": "One of the nine is not recruiting. research/literature/fet-fusion-trial-eligibility-2026-08-07.json \u2192 task_2_widened_search.molecularly_defined_not_histology_defined, entry NCT07440290 ('DETERMINE Trial Treatment Arm 07: Dabrafenib in Combination With Trametinib\u2026') records overall_status 'NOT_YET_RECRUITING'. The paper's \u00a75 limitation 'Statuses go stale. Every status here is as posted on the retrieval date' does not rescue this: the status was already NOT_YET_RECRUITING on the retrieval date. In a paper about which trials a patient can reach, a recruitment status is precisely what a reader acts on.",
+      "fix": "Replace the cell with: 'nine further registry records, one platform protocol and its arms plus one basket trial; eight recruiting and one not yet recruiting as posted on 2026-08-07'."
+    },
+    {
+      "id": "B3",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md \u00a73, final paragraph (and the same claim in the Abstract: 'returns five studies, not one of which is an oncology study')",
+      "quote": "A registry-wide term search for it returns five studies (exercise physiology, spinal-cord injury, neck pain, and a surgical cholangiocarcinoma series) that mention the gene incidentally. Not one is an oncology study.",
+      "why": "The sentence is contradicted by its own parenthetical. research/literature/fet-fusion-trial-eligibility-2026-08-07.json \u2192 task_2_widened_search.nr4a3_is_absent_from_the_registry_index.studies[0] is NCT00733200, 'Surgical Treatment of Hilar Cholangiocarcinoma: Minor or Major Liver Resection?', listed_conditions ['Cholangiocarcinoma','Surgical Treatment','Hepatectomy'], intervention 'Minor or Major Liver Resection'. A resection trial in hilar cholangiocarcinoma is an oncology study. The claim the record actually supports is narrower and is the one the paper needs.",
+      "fix": "Replace both sites with: 'A registry-wide term search for it returns five studies \u2014 two exercise-physiology trials, one after spinal-cord injury, one in neck pain, and one surgical series in hilar cholangiocarcinoma \u2014 every one of which mentions the gene incidentally and none of which is a study of this disease or of its driver.'"
+    },
+    {
+      "id": "B4",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md \u00a72 (sources table, 'Non-US registries' row) and \u00a75 (third bullet)",
+      "quote": "four endpoints attempted, one answered, with a positive control in the same run",
+      "why": "Five non-US endpoints were attempted, not four. research/literature/non-us-registry-sweep-2026-08-09.json \u2192 endpoints lists ISRCTN (HTTP 200), WHO ICTRP (HTTP 404), EU CTIS (HTTP 403), ANZCTR (HTTP 403) and jRCT (SSL handshake failure), with ClinicalTrials.gov as the sixth entry marked 'role: positive control'. The paper's own \u00a75 then enumerates all five while still saying four: 'only one of four non-US endpoints answered. The EU endpoint returned an authentication error \u2026 and two more refused automated access. The WHO portal was not reached because this sweep's URL was wrong' \u2014 that is one answer plus four failures. The four appears to be the artifact's count of NON-ANSWERING endpoints ('THREE of the four non-US registries refused automated access and ICTRP was not reached') read as a count of endpoints attempted.",
+      "fix": "Replace the \u00a72 cell with 'five non-US endpoints attempted, one answered, with a positive control in the same run' and the \u00a75 opening with 'A non-US sweep ran on the date of this draft and only one of five non-US endpoints answered.'"
+    },
+    {
+      "id": "B5",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md Abstract, 'What we found'",
+      "quote": "The other has a cohort for *translocation-associated soft tissue sarcoma*, which EMC is; its listed conditions name leiomyosarcoma, synovial sarcoma and osteosarcoma.",
+      "why": "The registry field contains the admitting term itself. research/literature/emc-trial-reachability-adjudication-2026-08-09.json \u2192 adjudications[NCT06571734].listed_conditions is ['Metastatic Leiomyosarcoma','Unresectable Leiomyosarcoma','Bone Sarcoma','Translocation-associated Soft Tissue Sarcoma','Synovial Sarcomas','Osteosarcoma Metastatic','Ewing Sarcoma'] \u2014 and the paper's own \u00a73 table prints 'translocation-associated soft tissue sarcoma' among the listed conditions. The abstract's three-item enumeration silently drops the one entry that changes the reading, and the omission collides with \u00a76 Remedy 1, which proposes that sponsors 'list the histologies that criterion admits, or the molecular class itself, in the conditions field' \u2014 this sponsor already did. As written the abstract offers the trial as an instance of the failure the paper's own remedy would prevent.",
+      "fix": "Replace with: 'The other has a cohort for *translocation-associated soft tissue sarcoma*, which EMC is; the sponsor did list that class term among its conditions, alongside leiomyosarcoma, bone sarcoma, synovial sarcoma, osteosarcoma and Ewing sarcoma \u2014 but not this histology, so a search of the diagnosis still returns nothing while a search of the class term would have found it.'"
+    },
+    {
+      "id": "B6",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md Abstract, 'What we found'",
+      "quote": "One is eligibility-defined on the FET fusion family (EWSR1, FUS, TAF15), which is EMC's driver family",
+      "why": "This contradicts the abstract's own opening sentence \u2014 'defined by an *NR4A3* fusion, most often EWSR1::NR4A3' \u2014 and drops a hedge the body and the record both keep. \u00a73's table says only 'EMC's usual 5\u2032 partner is a FET protein', and research/literature/fet-fusion-trial-eligibility-2026-08-07.json \u2192 task_2_widened_search.confirmed_fusion_family_defined[0].assessment says \"EMC's usual 5' partner EWSR1 is a FET protein\". FET names the 5\u2032 partner family, not the driver family, and 'usual' is doing real work: on the record as committed, a case whose 5\u2032 partner is not a FET protein is not inside this trial's criterion. Calling FET 'EMC's driver family' converts a per-case eligibility question into a disease-level one.",
+      "fix": "Replace with: 'One is eligibility-defined on the FET fusion family (EWSR1, FUS, TAF15), and this disease's usual 5\u2032 partner, EWSR1, is a FET protein \u2014 so the criterion reaches the common form of the disease, though whether it reaches a case with a non-FET partner is not something the registry record settles.'"
+    },
+    {
+      "id": "B7",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md \u00a77 Data availability",
+      "quote": "Every trial identifier, every verbatim criterion quoted, and every adjudication is in `research/literature/fet-fusion-trial-eligibility-2026-08-07.json` and `research/literature/emc-trial-reachability-adjudication-2026-08-09.json`.",
+      "why": "Neither named file contains any of \u00a74.1's evidence. `git show <pin>:<path> | grep -i isrctn` returns nothing for both files; the UK records \u2014 ISRCTN07742377 with the verbatim exclusion criterion naming this histology, ISRCTN60791336 naming the parent term, the two-trial query result \u00a74.1 reports, and every endpoint result \u00a72 and \u00a75 rely on \u2014 live in research/literature/non-us-registry-sweep-2026-08-09.json, which \u00a77 never names. This paper ships alone, so \u00a77 is the reader's only route to the evidence, and as written it sends them to two files that do not hold half of it.",
+      "fix": "Replace with: 'Every trial identifier, every verbatim criterion quoted, and every adjudication is in `research/literature/fet-fusion-trial-eligibility-2026-08-07.json`, `research/literature/emc-trial-reachability-adjudication-2026-08-09.json` and, for \u00a74.1 and every non-US endpoint result, `research/literature/non-us-registry-sweep-2026-08-09.json`. All three record the retrieval URL, the run that fetched them and the date.'"
+    }
+  ],
+  "p1s": [
+    {
+      "id": "P1-a",
+      "where": "research/manuscripts/pinned-figures.json and research/manuscripts/claim-coverage.json, against research/manuscripts/care-delivery/emc-trial-reachability.md",
+      "what": "No guard binds any number, status or identifier in this paper to the artifacts that produce them. pinned-figures.json lists the paper at targets[14] but has no entry for it in artifact_figures (99 entries, 0 matching this paper or any of its three source JSONs), derivations, table_completeness or subset_checks. claim-coverage.json records this paper as 69 sentences, covered 0, with_a_number 8, with_a_number_covered 0. So 'five studies', 'nine further trials', 'n = 73', 'n = 5500', 'four endpoints', every NCT identifier and every recruitment status can be edited, or drift in the registry, with nothing going red. Pin at least the five counts and the recruitment statuses to their artifact fields.",
+      "why_not_a_blocker": "The gap is in repository tooling, not in the outgoing text \u2014 but B1, B2 and B4 are all instances of exactly what this gap fails to catch, so it is the highest-value P1 here."
+    },
+    {
+      "id": "P1-b",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md \u00a72, last sentence",
+      "what": "'That defect has since been fixed at the fetcher' is true at the pin \u2014 scripts/lit_fetch_urls.py now routes JSON payloads around strip_html, with the reasoning in the comment block at lines 218-247 \u2014 but nothing ties the sentence to the code. A refactor that reinstated strip_html over JSON would falsify a published methods claim silently. A test asserting that a JSON content-type is never passed through strip_html would close it.",
+      "why_not_a_blocker": "The sentence is correct as of the pinned tree; only a future edit would make it false."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at the pin)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json",
+    "research/literature/non-us-registry-sweep-2026-08-09.json",
+    "research/manuscripts/pinned-figures.json",
+    "research/manuscripts/claim-coverage.json",
+    "scripts/lit_fetch_urls.py"
+  ],
+  "p2s": [
+    {
+      "id": "P2-a",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md, YAML frontmatter `scope`",
+      "what": "'read across three dates' \u2014 there are two dates, not three. \u00a72's table gives 2026-08-07 and 2026-08-09 (twice); fet-fusion-trial-eligibility-2026-08-07.json \u2192 retrieval.runs are all four on 2026-08-07; non-us-registry-sweep-2026-08-09.json \u2192 _retrieval.date_et is 2026-08-09; and \u00a75 says the EU endpoint refused 'for the second time on a second date'. It appears to be a count of the three rows in \u00a72's table. Read 'across three retrievals on two dates'."
+    },
+    {
+      "id": "P2-b",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md \u00a72, transport-defect paragraph",
+      "what": "'the registry escapes comparison operators the same way' states a mechanism the source explicitly records as refuted. scripts/lit_fetch_urls.py lines 224-228: 'SUPERSEDED, RETAINED: this comment first said the trigger was HTML-ESCAPED brackets (`&lt;`/`&gt;`). That was wrong and the synthetic written from it did not reproduce the defect \u2014 modules survived. The real record settles it: 0 literal `<` and 13 orphaned literal `>` remain in the damaged file.' The registry emits LITERAL angle brackets in free-text criteria ('PLT < 100,000/mcL'), which is what the stripper ate. Kept at P2 rather than higher because 'escapes \u2026 the same way' is ambiguous enough to be read as 'writes them with the same characters'."
+    },
+    {
+      "id": "P2-c",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md \u00a73, table row 2, 'listed conditions' column",
+      "what": "The cell prints five conditions for NCT06571734 where the registry field carries seven \u2014 'Ewing Sarcoma' is dropped, and 'Metastatic Leiomyosarcoma'/'Unresectable Leiomyosarcoma' are merged (adjudication artifact, adjudications[NCT06571734].listed_conditions). The column reads as the field's contents. Either print all seven or mark the cell as a selection."
+    },
+    {
+      "id": "P2-d",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md Abstract and \u00a73, table row 3",
+      "what": "'Nine further trials' is nine registry records but two trial programmes: NCT05722886 (DETERMINE master screening protocol) plus its seven arms NCT05768178, NCT05770037, NCT05770102, NCT05770544, NCT05786716, NCT06988475, NCT07440290, and separately NCT03767075 (Basket of Baskets). The paper is otherwise scrupulous about not inflating a reachability count \u2014 \u00a73 keeps the observational cohort in its own row for exactly that reason \u2014 so the nine should be described as it is."
+    },
+    {
+      "id": "P2-e",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md \u00a73, table row 4 and the paragraph beneath it",
+      "what": "Neither the row nor 'a third admits and offers enrolment in a registry' says that NCT04151342 is geographically restricted. The adjudication artifact records it: adjudications[NCT04151342].\u26a0_geographic_limit, 'Participating sites are Canadian', and study_population_verbatim '\u2026from participating sites/cancer centres across Canada.' For a reachability paper that is a restriction on who can reach it."
+    },
+    {
+      "id": "P2-f",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md \u00a74.1, final paragraph",
+      "what": "'A map built by string matching would have carried both.' After \u00a74.1, 'both' most naturally reads as the two UK records just discussed, but the claim belongs to \u00a74's two US refusals \u2014 the UK trial's exclusion names the histology in full, so a string matcher would carry it for a different reason. Name which two."
+    },
+    {
+      "id": "P2-g",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md Abstract, 'What we did'",
+      "what": "'Three further non-US registries refused automated access; a positive control fetched in the same run returned normally, so those refusals are statements about those endpoints and not about our retrieval.' The sentence is true of the three refusals but omits the fourth failure, which WAS about our retrieval: non-us-registry-sweep-2026-08-09.json \u2192 endpoints[WHO ICTRP], 'THE URL WAS A GUESS AND IT WAS WRONG. A 404 here is a defect in this sweep, not a finding about ICTRP.' \u00a75 discloses it, so this is a suggestion rather than a blocker \u2014 but the abstract currently attributes every non-US failure to the endpoints."
+    }
+  ],
+  "closed_utc": "2026-09-02T17:06:53Z"
 }
