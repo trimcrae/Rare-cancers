@@ -1,0 +1,719 @@
+{
+ "_what": "Per route, which of the genes its BLK-NO-EMC-DATA-marked required_validation turns on can be read in the fourth EMC cohort (PRJNA1357027 / SRP640302) and in the two array series. One row per gene; no figure is re-typed.",
+ "_generated_by": "research/modalities/emc_fourth_cohort_route_readout.py",
+ "_cost": "$0 — reads four committed files; no fetch, no CI, no GPU.",
+ "_serves": [
+  "AUT-PD-116"
+ ],
+ "⛔ _what_a_true_row_is_not": [
+  "Not a phenotype, a protein, a surface location, a copy number or an activity.",
+  "Not a differential-expression result: emc-fourth-cohort-quant.json → why_no_differential_expression refuses one at this design.",
+  "Not a target, a therapeutic window, an efficacy, a selectivity or a safety claim.",
+  "Not a patient count: 12 runs are 12 tumours, and a tumour is not an outcome."
+ ],
+ "⛔ _what_a_false_row_is_not": "NOT a reading of absence. It means no probe in this deposit was matched to that gene by this quantifier — emc-fourth-cohort-quant.json → probe_map.'⚠ unassigned_means' and '⛔ gene_counts_units'. The gene may be on the panel and unmatched, or off it.",
+ "cohort": {
+  "bioproject": "PRJNA1357027",
+  "sra_study": "SRP640302",
+  "n_runs_read": 12,
+  "n_genes_with_at_least_one_assigned_probe": 862,
+  "gene_counts_sha256": "8aa3064a97a496a8fa09ef4ae8e472a612318e49ea91d0daac915a3b8fa180cc",
+  "gene_counts_recomputed_sha256": "8aa3064a97a496a8fa09ef4ae8e472a612318e49ea91d0daac915a3b8fa180cc",
+  "n_probes_offered": 1645,
+  "n_probes_assigned_to_one_gene": 906,
+  "n_probes_unassigned": 662,
+  "⚠ design_that_travels_with_every_row_below": "n = 12 FFPE tumours, one sequencing batch, archive collection years 1997–2020, split 6 good-prognosis versus 6 poor-prognosis by the depositors' own unexplained B/G key. A targeted templated-ligation panel, so the gene space is the panel's and not the transcriptome, notwithstanding the deposit's own 'whole human transcriptome' wording. No differential-expression result is available or computed at this n and design.",
+  "ewsr1_break_apart_fish": {
+   "per_run": {
+    "SRR35940646": "EWSR1+",
+    "SRR35940647": "EWSR1+",
+    "SRR35940648": "EWSR1-",
+    "SRR35940649": "EWSR1+",
+    "SRR35940650": "EWSR1+",
+    "SRR35940651": "EWSR1+",
+    "SRR35940652": "EWSR1+",
+    "SRR35940653": "EWSR1+",
+    "SRR35940654": "EWSR1-",
+    "SRR35940655": "EWSR1+",
+    "SRR35940656": "EWSR1-",
+    "SRR35940657": "EWSR1-"
+   },
+   "n_EWSR1_positive": 8,
+   "n_EWSR1_negative": 4,
+   "⛔ what_this_is_not": "A break-apart FISH call is EWSR1 REARRANGED versus not. It is not a partner identity: it does not say EWSR1::NR4A3 versus TAF15::NR4A3, and an EWSR1- case is not thereby a TAF15 case. It is the depositors' annotation, not a measurement taken here."
+  }
+ },
+ "the_two_array_series_this_is_read_against": {
+  "artifact": "research/modalities/emc-expression-panels.json",
+  "registered_as": "ART-EMC-EXPRESSION-PANELS",
+  "field_that_answers_a_gene_level_requirement": "gene_reads.<SYMBOL>.<series>.readable",
+  "field_that_answers_a_surface_requirement": "reads.read_8_SURFACE_ANTIGEN.cross_platform_board.by_state and reads.read_8_SURFACE_ANTIGEN.the_route_named_addresses"
+ },
+ "per_route": {
+  "RT-SSTR2": {
+   "genes_the_requirement_turns_on": [
+    "SSTR2"
+   ],
+   "per_gene": {
+    "SSTR2": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 0,
+   "n_genes_named": 1
+  },
+  "RT-B7H3": {
+   "genes_the_requirement_turns_on": [
+    "CD276",
+    "NCAM1"
+   ],
+   "per_gene": {
+    "CD276": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz"
+     ]
+    },
+    "NCAM1": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 0,
+   "n_genes_named": 2
+  },
+  "RT-CART-SURFACE": {
+   "genes_the_requirement_turns_on": [
+    "ALCAM",
+    "BGN",
+    "CD44",
+    "GPC1",
+    "VCAN"
+   ],
+   "per_gene": {
+    "ALCAM": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "BGN": {
+     "in_fourth_cohort": true,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CD44": {
+     "in_fourth_cohort": true,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "GPC1": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "VCAN": {
+     "in_fourth_cohort": true,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 3,
+   "n_genes_named": 5
+  },
+  "RT-FAP-RLT": {
+   "genes_the_requirement_turns_on": [
+    "FAP"
+   ],
+   "per_gene": {
+    "FAP": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 0,
+   "n_genes_named": 1
+  },
+  "RT-TCRT-CTA": {
+   "genes_the_requirement_turns_on": [
+    "CTAG1B",
+    "MAGEA3",
+    "SSX2",
+    "CTAG2",
+    "MAGEA4",
+    "PRAME"
+   ],
+   "per_gene": {
+    "CTAG1B": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": []
+    },
+    "MAGEA3": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": []
+    },
+    "SSX2": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": []
+    },
+    "CTAG2": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz"
+     ]
+    },
+    "MAGEA4": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "PRAME": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 0,
+   "n_genes_named": 6
+  },
+  "RT-JUNCTION-NEOANTIGEN": {
+   "genes_the_requirement_turns_on": [
+    "HLA-A",
+    "HLA-B",
+    "HLA-C",
+    "B2M",
+    "TAP1",
+    "TAP2"
+   ],
+   "per_gene": {
+    "HLA-A": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "HLA-B": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz"
+     ]
+    },
+    "HLA-C": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "B2M": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "TAP1": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "TAP2": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 0,
+   "n_genes_named": 6
+  },
+  "RT-FUSION-OUTPUT": {
+   "genes_the_requirement_turns_on": [
+    "EWSR1",
+    "TAF15",
+    "NR4A3",
+    "ENO3",
+    "PPARG",
+    "SEMA3C"
+   ],
+   "per_gene": {
+    "EWSR1": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "TAF15": {
+     "in_fourth_cohort": true,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "NR4A3": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "ENO3": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "PPARG": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "SEMA3C": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 1,
+   "n_genes_named": 6
+  },
+  "RT-MTAP-PRMT5": {
+   "genes_the_requirement_turns_on": [
+    "MTAP",
+    "PRMT5",
+    "MAT2A",
+    "CDKN2A"
+   ],
+   "per_gene": {
+    "MTAP": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "PRMT5": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "MAT2A": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CDKN2A": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 0,
+   "n_genes_named": 4
+  },
+  "RT-TRABECTEDIN": {
+   "genes_the_requirement_turns_on": [],
+   "per_gene": {},
+   "n_genes_with_a_fourth_cohort_probe": 0,
+   "n_genes_named": 0
+  },
+  "RT-SYNPROMOTER": {
+   "genes_the_requirement_turns_on": [
+    "NR4A3"
+   ],
+   "per_gene": {
+    "NR4A3": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 0,
+   "n_genes_named": 1
+  },
+  "RT-TXN-CDK": {
+   "genes_the_requirement_turns_on": [
+    "CDK7",
+    "CDK9",
+    "CDK12",
+    "CDK13"
+   ],
+   "per_gene": {
+    "CDK7": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CDK9": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CDK12": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CDK13": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 0,
+   "n_genes_named": 4
+  },
+  "RT-MATRIX-SYNTHESIS": {
+   "genes_the_requirement_turns_on": [
+    "CHSY1",
+    "CHPF",
+    "CSGALNACT1",
+    "CSGALNACT2",
+    "CHST11",
+    "CHST3",
+    "UST",
+    "PAPSS1",
+    "PAPSS2",
+    "ACAN",
+    "VCAN",
+    "BGN"
+   ],
+   "per_gene": {
+    "CHSY1": {
+     "in_fourth_cohort": true,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CHPF": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CSGALNACT1": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CSGALNACT2": {
+     "in_fourth_cohort": true,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CHST11": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CHST3": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "UST": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "PAPSS1": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "PAPSS2": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "ACAN": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "VCAN": {
+     "in_fourth_cohort": true,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "BGN": {
+     "in_fourth_cohort": true,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 4,
+   "n_genes_named": 12
+  },
+  "RT-MATRIX-ADDRESS": {
+   "genes_the_requirement_turns_on": [
+    "CSPG4",
+    "CHST11",
+    "CHST3"
+   ],
+   "per_gene": {
+    "CSPG4": {
+     "in_fourth_cohort": true,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CHST11": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CHST3": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 1,
+   "n_genes_named": 3
+  },
+  "RT-IMMUNOCYTOKINE": {
+   "genes_the_requirement_turns_on": [
+    "FN1",
+    "TNC"
+   ],
+   "per_gene": {
+    "FN1": {
+     "in_fourth_cohort": true,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "TNC": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 1,
+   "n_genes_named": 2
+  },
+  "RT-HYPOXIA-PRODRUG": {
+   "genes_the_requirement_turns_on": [
+    "CA9",
+    "VEGFA",
+    "SLC2A1",
+    "LDHA",
+    "HIF1A",
+    "EGLN3",
+    "ADM",
+    "P4HA1"
+   ],
+   "per_gene": {
+    "CA9": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "VEGFA": {
+     "in_fourth_cohort": true,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "SLC2A1": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "LDHA": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "HIF1A": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "EGLN3": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "ADM": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "P4HA1": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 1,
+   "n_genes_named": 8
+  },
+  "RT-VACCINE-COMBINATION": {
+   "genes_the_requirement_turns_on": [
+    "HLA-A",
+    "HLA-B",
+    "HLA-C",
+    "CD274",
+    "PDCD1",
+    "CTLA4"
+   ],
+   "per_gene": {
+    "HLA-A": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "HLA-B": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz"
+     ]
+    },
+    "HLA-C": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "CD274": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    },
+    "PDCD1": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz"
+     ]
+    },
+    "CTLA4": {
+     "in_fourth_cohort": false,
+     "readable_in_array_series": [
+      "GSE24369_series_matrix.txt.gz",
+      "GSE4303-GPL3290_series_matrix.txt.gz"
+     ]
+    }
+   },
+   "n_genes_with_a_fourth_cohort_probe": 0,
+   "n_genes_named": 6
+  }
+ },
+ "⭐ the_two_questions_S32_left_open_and_priced_at_one_fetch": {
+  "RT-TCRT-CTA": {
+   "question_verbatim": "whether CTAG1B, MAGEA3 and SSX2 are in the fourth cohort's gene space, since they are unreadable on both arrays",
+   "answer": "NO — none of the three has an assigned probe in the committed gene table.",
+   "array_state": "reads.read_8_SURFACE_ANTIGEN.cross_platform_board.by_state.NOT_READABLE_ON_EITHER_PLATFORM lists CTAG1B, MAGEA3 and SSX2.",
+   "⛔ therefore": "Three EMC tumour series now exist and all three of this route's named antigens remain UNREAD. That is an instrument state on three instruments, not a negative about the tumour, and it is not a downgrade of the route on evidence."
+  },
+  "RT-IMMUNOCYTOKINE": {
+   "question_verbatim": "whether the fourth cohort's data type can resolve the oncofetal fibronectin and tenascin spliced domains at all — the route's own next.best_next_action",
+   "answer": "NO.",
+   "why": [
+    "TNC has no assigned probe in the committed gene table, so the tenascin parent gene is not readable in this cohort at all.",
+    "FN1 has exactly one assigned probe across the 1,645 probes common to every run, and gene counts are summed over the probes assigned to a gene (emc-fourth-cohort-quant.json → '⛔ gene_counts_units').",
+    "The committed probe table carries probe_sequence and assigned_gene and no transcript or exon identity, so no domain-inclusion call is derivable from it."
+   ],
+   "⛔ therefore": "The isoform half of this route's requirement is untaken and the fourth cohort does not take it. An isoform-resolved read still needs transcript-resolved sequencing, or the vendor probe manifest with its per-probe transcript targets, which is not on disk."
+  }
+ }
+}
