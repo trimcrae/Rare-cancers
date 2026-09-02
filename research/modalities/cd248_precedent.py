@@ -389,7 +389,7 @@ def derive():
         "emc_specific_evidence": emc_specific_evidence(),
         "the_emc_read_that_pairs_with_this": {
             "artifact": "research/modalities/emc-expression-panels.json",
-            "address": "reads.read_7_SURFACE_ANTIGEN.CD248_followup",
+            "address": "reads.read_8_SURFACE_ANTIGEN.CD248_followup",
             "⛔_read_its_state_first": "If CD248 comes back NOT_READABLE_ON_EITHER_PLATFORM, that "
                                       "is an instrument statement and the route is unchanged — "
                                       "NOT a negative.",
