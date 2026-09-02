@@ -1485,15 +1485,15 @@
         "publication": "PUB-ATR",
         "strategy": "ST-DEPENDENCY"
       },
-      "state": "in_progress",
-      "owner": "s35-atm-stratify",
-      "claimed_utc": "2026-09-02T19:51:43Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 2,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-09-02",
       "filed_by": "AUT-010",
       "depends_on_evidence": "research/modalities/emc-atr-vulnerability-inputs.json -> part_d.gdsc_residual_ln_ic50_by_drug (7 drug maps, 892-965 lines each) and DepMap OmicsSomaticMutations / OmicsCNGene for the same models; research/modalities/atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml for the source's own ATM-LOF comparator.",
@@ -1513,7 +1513,16 @@
       ],
       "score_inputs": {
         "fruitless_attempts": 1
-      }
+      },
+      "finding": "⛔ RUN, AND THE FINDING IS ABOUT THE INSTRUMENT RATHER THAN ABOUT ATM. Artifact: research/modalities/atm-status-atri-stratification.json (verdict INSTRUMENT_CANNOT_DETECT), inputs cache research/modalities/atm-status-atri-inputs.json, module research/modalities/atm_status_atri_stratification.py, lane .github/workflows/atm-status-stratification.yml, registered ART-ATM-STATUS-ATRI. DepMap 24Q4 (figshare 27993248, fetched 2026-09-02T20:15:53Z) x GDSC2_8.5_27Oct23, residuals READ from part_d.gdsc_residual_ln_ic50_by_drug rather than recomputed.\n★ THE n, STATED BEFORE THE CONTRAST. Of the 965 GDSC2 models carrying any residual, 956 have a DepMap call and 9 were never profiled (excluded from BOTH arms — an absent reading is not a reading of absence). ATM-null arm = 25 (24 damaging LikelyLoF mutation, 1 deep deletion, 0 both); intact arm = 931. Panel-wide DepMap has 51 ATM damaging-mutation models and 1 deep deletion over 1,929 sequenced. The null arm spans 13 lineages (Bowel 5, Lymphoid 4, then ≤2 each), so it is not a lineage artefact.\n★ BOTH ATR INHIBITORS POINT THE PREDICTED WAY AND NEITHER CLEARS ITS CI. Hodges-Lehmann shift (ATM-null minus intact, LN_IC50, negative = more sensitive): azd6738 −0.304 [−0.760, +0.159], p 0.189; ve-822 −0.520 [−1.191, +0.094], p 0.093. Non-DDR controls flat: paclitaxel −0.162 [−0.687, +0.293]; bortezomib +0.019 [−0.324, +0.359]. PARP inhibitors go the OTHER way (olaparib +0.134, talazoparib +0.545). WEE1/mk-1775 −0.328 [−0.752, +0.102], reported only. Minimum detectable |Cliff's δ| at 80% power ≈ 0.33. Robust to the arm definition: a protein-truncating-by-consequence arm (n=22, independent of DepMap's LikelyLoF classifier) gives azd6738 −0.384, ve-822 −0.482 — same picture.\n⛔⛔ THE MACHINERY CONTROL FAILS, AND THAT IS THE RESULT. BRCA1/BRCA2 status against the two PARP inhibitors — the best-established genotype-drug association in cell-line pharmacology — run through the IDENTICAL pipeline, recovers NOTHING: BRCA2 n=37 vs 919 gives olaparib +0.173 [−0.079, +0.430] and talazoparib +0.248 [−0.254, +0.768] (both the WRONG direction), MDE |δ| ≈ 0.27; BRCA1 n=16 vs 940 is flat. ★ So this residual space is NOT SHOWN to resolve any genotype-drug association at these arm sizes, and part D's ATM null is therefore UNINFORMATIVE RATHER THAN NEGATIVE. ⚠ Stated at its true weight in BOTH directions: this does not prove the residual space is broken, and it does not rescue the mechanism — it shows the instrument has not earned the right to have its nulls read as evidence of absence.\n⚠ A POST-HOC SIGN PATTERN IS RECORDED IN THE ARTIFACT AND CLEARS NO BAR: the three replication-checkpoint drugs (azd6738, ve-822, mk-1775) all point 'more sensitive' while both PARP inhibitors point 'more resistant'. The seven drugs share models and a line-median correction so their signs are not independent, no contrast clears its CI, and it enters no verdict. It must not be quoted as support.",
+      "paper_changes_pending_apply_pass": "⛔ DO NOT APPLY IN THIS PASS — emc-atr-vulnerability-assessment.md is pinned under a live blind review round. What a later APPLY pass must write, and where:\n1. §5 (drug-response correlation). The section currently reports the ATM row as a null on a TRANSCRIPT PROXY and says a transcript score cannot observe a phosphorylation event. It must now also NAME the genetic stratification (the hostile seat's P1[5] finding was that the paper neither uses nor names it), report n=25 vs 931 with both ATR-inhibitor CIs, and state that the same residual space FAILED its BRCA/PARP machinery control. ⭐ The consequence is the load-bearing sentence: part D's drug-response nulls are uninformative at these arm sizes, not negative.\n2. §6.3 ('what would move the grade'). Add a prerequisite it does not currently name: a residual space DEMONSTRATED to resolve a known genotype-drug association. Without that, no part-D null bounds anything, and §6.3 currently lists no such requirement.\n3. §1 / the grading table row 'ATR-inhibitor sensitivity tracks the mechanism — no, 1 of 4 tests'. The 'no' must be re-read rather than re-scored: it is not evidence against the mechanism, it is an instrument not shown able to detect it. ⛔ THIS IS NOT A RE-GRADE — the bar is untouched and a cycle may not move the bar that blocked it; what changes is what the existing 'no' MEANS.\n4. The 'what this cannot conclude' list gains: this analysis cannot conclude ATM status is irrelevant to ATR-inhibitor sensitivity, only that this residual space did not resolve it at n=25 vs 931 with MDE |Cliff's δ| ≈ 0.33; and a truncating mutation is not the fusion-driven ATM SUPPRESSION the mechanism posits, so a null here does not bound the fusion lesion at all.\n5. §5's wrong-sign transcript correlation (ρ −0.090) is NOT replaced by this — both are reported, because they operationalise the same variable two ways and both come back empty.",
+      "evidence_artifacts": [
+        "research/modalities/atm-status-atri-stratification.json",
+        "research/modalities/atm-status-atri-inputs.json",
+        "research/modalities/atm_status_atri_stratification.py",
+        "research/modalities/tests/test_atm_status_atri_stratification.py",
+        ".github/workflows/atm-status-stratification.yml"
+      ]
     },
     {
       "id": "AUT-PD-208-11f2347b-8e081d15",
