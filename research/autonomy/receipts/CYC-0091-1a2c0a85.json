@@ -1,0 +1,57 @@
+{
+  "cycle_id": "CYC-0091-1a2c0a85",
+  "session_id": "1a2c0a85-5c59-53bd-a279-404198c91c13",
+  "ccr_session_id": "session_01AZZnMGoubfPUQpyoiB6RTh",
+  "started_utc": "2026-09-02T13:20:26Z",
+  "base_sha": "32f3b6349",
+  "took": "AUT-PD-068",
+  "took_why": "backoff_level=2 (budget_hold.floor_backoff_level restored the same morning by the pre-sprint posture, per autonomy-state.json _RESTORED_2026_09_02_the_sprint_window_closed) restricts this cycle to fetch/regrade items only. AUT-PD-068 was the top-scored (93.9) queued, unclaimed, unblocked item of kind `fetch` -- a $0 command (git fetch --unshallow) the item's own text says clears real censorship in two loop instruments.",
+  "health_at_start": {
+    "exit": 0,
+    "red": ["cycle_delivering", "advancing_live_work"],
+    "unmeasured": ["gates_green", "stalls_are_named"],
+    "red_on_red_posture": "Both reds are `advises`/non-blocking per health.py exit 0. `advancing_live_work` names its own fix as 'a live item off the top of the ledger' -- unreachable this cycle because backoff_level=2 restricts the queue to fetch/regrade, and the top-scored eligible item (AUT-PD-068) serves no route (RT-AUTONOMY -> null, loop upkeep). Followed the ledger's own score rather than hand-picking a lower-scored item with a route label just to make this field read better -- CLAUDE.md's own warning against a tidier record over an honest one."
+  },
+  "what_changed": [
+    "git fetch --unshallow origin in the working clone: shallow -> full history, 27,513 commits reachable.",
+    "research/autonomy/research-ledger.json -- AUT-PD-068 marked done with the observed result; claim released (owner: null).",
+    "research/autonomy/health.json -- fed the fresh stuck_clock verdict via --stall-verdict --write: stalls_are_named moved from NO-STALL-VERDICT (unmeasured) to a real STALLED-ROWS verdict naming 5 rows.",
+    "research/autonomy/autonomy-state.json -- cadence.py --stamp updated last_cycle_started_utc (mechanical, not a policy change)."
+  ],
+  "finding": "The censorship AUT-PD-068 described was real and the one-line fix cleared it completely. stuck_clock.py --check --json now reports shallow_clone=false and 0 censored rows across 203 (was unmeasurable past the shallow horizon for anything older); out_of_ideas.py --check --json likewise reports shallow_clone=false and 0 censored routes across 78. Unshallowing did not just remove a caveat -- it surfaced two genuine findings that were previously invisible: (1) 5 ledger rows are truly `stalled_needs_human` (AUT-011, AUT-007, AUT-008, AUT-045, AUT-016 -- each queued, 0 recorded attempts, stuck since 2026-09-01T15:15:07Z despite being marked `tried`), each needing a human re-scope/hand-over/close decision per stuck_clock's own contract, not more automated retries; (2) RT-ASO reads `out_of_ideas` (needs_attention: true, 5 empty rounds since the last measured improvement at 2026-09-01T19:27:19Z). Neither is this item's to resolve -- AUT-PD-068's scope was the unshallow and the re-measurement -- so both are left queued/visible in the ledger and the committed health board for a future cycle or for trimcrae, rather than acted on or escalated speculatively under this cycle's fetch/regrade-only posture.",
+  "what_it_cost": "$0 of compute -- one git fetch, two local Python scripts, one scoped preflight run. No subagents launched (backoff_level=2 caps subagent_width at 1 and this item needed none).",
+  "gates": {
+    "preflight_scoped": "./scripts/preflight.sh (no PREFLIGHT_TESTS/FULL flag -- no manuscript, SI, citation or deposit artifact touched) EXIT=0 on the committed tree. Log: /tmp/claude-0/-home-user-Rare-cancers/1a2c0a85-5c59-53bd-a279-404198c91c13/scratchpad/preflight_cyc091.log",
+    "amendment_guard": "NOT RUN -- no governed bar/guard code was touched this cycle, only ledger/state/health data files (research-ledger.json, autonomy-state.json, health.json), none of which is a bar amendment_guard's invariant governs.",
+    "logs": [
+      "/tmp/claude-0/-home-user-Rare-cancers/1a2c0a85-5c59-53bd-a279-404198c91c13/scratchpad/stuck_clock_unshallow.json",
+      "/tmp/claude-0/-home-user-Rare-cancers/1a2c0a85-5c59-53bd-a279-404198c91c13/scratchpad/out_of_ideas_unshallow.json",
+      "/tmp/claude-0/-home-user-Rare-cancers/1a2c0a85-5c59-53bd-a279-404198c91c13/scratchpad/preflight_cyc091.log"
+    ],
+    "_logs_root": "/tmp/claude-0/-home-user-Rare-cancers/1a2c0a85-5c59-53bd-a279-404198c91c13/scratchpad/"
+  },
+  "anti_gaming": {
+    "invariant": "research-loop §6 -- a bar may not be changed by the cycle that the bar just blocked.",
+    "how_it_applies": "No bar, guard, threshold or gate was touched. This cycle ran a diagnostic command and recorded what it revealed; nothing here makes any future cycle's success easier to report."
+  },
+  "escalated": "None. Nothing here matched one of the five research-loop §5 triggers: not a journal-submission recommendation, no spend, no goal-changing fact, the loop's health is degraded but not past an escalation deadline (restart intensity: 0 conditions past 5 consecutive red runs per health.py's own accounting), and no paper crossed publish_bar this cycle.",
+  "subagents": {
+    "max_concurrent": 0,
+    "launched": 0,
+    "why": "This Routine's tool surface has no Task/Agent tool this fire (confirmed: parallel subagents unavailable per the driver prompt's own caveat), and the item needed only sequential shell commands regardless."
+  },
+  "now_queued": [],
+  "blocked_by": [
+    {
+      "path": "research/autonomy/session_reaper.py (step 11 of the cycle contract)",
+      "detail": "session_reaper.py requires a session list on stdin from a `list_sessions`-shaped tool. ToolSearch for `list_sessions` returned no match in this scheduled Routine's tool surface (narrower than an interactive session's, as the driver prompt itself warns), and the peer-messaging `ListAgents` tool reports no other sessions reachable from this one, which is not the same input contract. Reaping was skipped this cycle rather than fabricated; no session is known to be sitting idle holding uncommitted work as a result of this cycle's own actions."
+    }
+  ],
+  "route_advanced": "none",
+  "route_advanced_why": "AUT-PD-068 serves no route (RT-AUTONOMY -> null in systems/graph, i.e. loop upkeep) -- honestly reported rather than inflated. It was still the correct item to take: it was the top-scored item in the only lane this cycle's budget posture permits (fetch/regrade), and it fixed a real measurement blindness (0 rows/routes censored now, vs an unknown prior count) rather than producing a negative write-up.",
+  "handoff": {
+    "child_session_id": null,
+    "_why_none": "max_cycles_per_session=1 under the current budget_hold.declared_posture; this session ran exactly one cycle and ends without a successor. The driver Routine fires again on its own schedule."
+  },
+  "notes": "1 backoff_level=2 / budget_hold.active=true (floor_backoff_level=2, restored 2026-09-02T12:00:00Z per the pre-sprint posture reactivating) constrained this cycle to fetch/regrade items only -- confirmed by reading autonomy-state.json directly rather than assumed. 2 Concurrent push collision handled correctly: after committing locally, `git fetch origin main` showed origin/main had moved 2 commits ahead (a concurrent session's PUB-ASO hand-off); rebased cleanly (no conflicting files) and pushed to origin/main, landing at d36253059. 3 claim.py's own commit-and-push (the claim itself) succeeded on its second attempt per its own compare-and-swap retry logic, confirming the lease mechanism is working as designed under concurrent access. 4 Did not take a second free-lane item (e.g. AUT-080, next-highest fetch item) -- items_per_cycle=1 under the current posture, honoured."
+}
