@@ -179,22 +179,42 @@ ROUTE_ADVANCED_KEY = "route_advanced"
 #: `started_utc` and none of the five end-time spellings health.py reads, so `_receipt_ts_raw`
 #: returned None for all of them, they sorted to the FRONT on the `(ts or "", file)` key, and
 #: `receipts[-1]` resolved to the newest receipt still using the OLD name.
-#: ⭐ AND IT WAS OMISSION, NOT A REDESIGN — the observation that discriminates: `SKILL.md` never
-#: named a receipt clock in ANY of its 25 historical versions, and the two spellings INTERLEAVE
-#: within the same hours (CYC-0084-e2d78138 `utc` at 09:20Z, CYC-0084-6b009680 `started_utc` at
-#: 09:26Z) rather than switching over. A redesign has a switchover and a rationale; this was each
-#: session copying whichever prior receipt it happened to open, exactly as AUT-PD-013 recorded for
-#: the fan-out key. So there is no design intent to defer to, and the name is settled here.
+#: ⭐ AND IT WAS OMISSION, NOT A REDESIGN. Four observations, each of which a deliberate switchover
+#: would have to contradict:
+#:   1. `SKILL.md` -- the contract that tells a cycle what to put in its receipt -- has NEVER named a
+#:      receipt clock, in any of its 25 versions before this one (`git log --follow`, grepped for
+#:      every spelling `health.py` reads: 0 hits in all 25). There was no design to change.
+#:   2. The spellings are NOT MONOTONE IN TIME, which is the discriminating observation: `utc` runs
+#:      CYC-0071..0083, `started_utc` appears EARLIER at CYC-0074-5a21085f, `utc` returns at
+#:      CYC-0084-e2d78138 (committed 09:20:27Z) and `started_utc` follows six minutes later at
+#:      CYC-0084-6b009680 (09:26:22Z). A redesign has a switchover; this alternates inside one hour.
+#:   3. CYC-0085-6b009680 carries NO time key at all, and CYC-0070-ba841eee carries BOTH
+#:      `started_utc` AND `finished_utc`. Neither is a thing a session implementing a decision does.
+#:   4. The commit that landed the first post-0084 `started_utc` receipt (b01f1843, "AUT-PD-167")
+#:      touches `receipt_schema.py`, `health.py`, `contract_check.py` and `SKILL.md` ZERO times --
+#:      it is a panel-attribution science commit that happened to carry a receipt.
+#: So this was each session copying whichever prior receipt it happened to open, exactly as
+#: AUT-PD-013 recorded for the fan-out key. There is no design intent to defer to, and because the
+#: contract never spoke, the name is a decision this constant now makes rather than restates.
 #:
 #: ⛔ WHY `ended_utc` AND NOT `started_utc`, ARGUED RATHER THAN ASSUMED. The condition this feeds
 #: asks "is a fired cycle actually DELIVERING a receipt?" and its own docstring draws the line: "a
 #: fired Routine is not a delivered one". The START is ALREADY MEASURED, by a different instrument,
 #: for a different purpose -- `cadence.py --stamp` writes `last_cycle_started_utc` at §2 step 1
 #: precisely so a cycle that dies mid-flight still counts as a fire. Blessing `started_utc` here
-#: would give the start time a second, worse home (CLAUDE.md §1: one fact, one place) and would bake
-#: in a PESSIMISTIC bias equal to the cycle's own duration -- measured at ~8 h on CYC-0090-d7df5340
-#: (started 13:57Z, receipt committed 21:55Z), which against the 8 h deadline of a 4 h cycle
-#: interval is enough to manufacture a false LATE on its own. That is the same defect one size down.
+#: would give the start time a second, worse home (CLAUDE.md §1: one fact, one place).
+#: ⚠ AND THE SIZE OF THE ERROR IT WOULD BAKE IN IS MEASURED, NOT ASSERTED. Over all 30 committed
+#: receipts carrying `started_utc`, against the author-date of the commit that ADDED each one --
+#: the only delivery time the repository actually records -- the lag is: median 0.53 h, mean 0.76 h,
+#: MAX 7.97 h (CYC-0090-d7df5340, started 13:57:08Z, delivered 21:55:23Z). Against the 8 h deadline
+#: of a 4 h cycle interval, one cycle's own duration nearly exhausts the whole budget, so a loop
+#: delivering exactly on time would report LATE on the strength of having taken a while.
+#: ⛔⛔ AND THE ERROR IS NOT EVEN ONE-SIDED, WHICH IS WHAT DISQUALIFIES IT OUTRIGHT. Three of the 30
+#: are NEGATIVE -- CYC-0012 -0.49 h, CYC-0010 -0.32 h, CYC-0007 -0.20 h -- receipts whose typed
+#: `started_utc` is LATER than the commit that delivered them. So it is not a conservative lower
+#: bound that merely reads pessimistic; it is a hand-typed field that errs in BOTH directions, and
+#: the direction that matters is the one that would make a stale loop look fresher than it is. That
+#: is fabricated freshness, the same defect this whole change exists to remove, one size down.
 ENDED_KEY = "ended_utc"
 
 #: ⭐ FIRST CYCLE REQUIRED TO CARRY `ended_utc`. CYC-0091 is the newest receipt on the trunk as this
