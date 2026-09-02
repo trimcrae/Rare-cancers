@@ -79,6 +79,35 @@ TARGET = "C397"
 
 OUT = os.path.join(HERE, "nr4a3-monovalent-reach.json")
 COMMITTED_BIVALENT = os.path.join(HERE, "nr4a3-linker-covalent-reach.json")
+THIOL_ENV = os.path.join(HERE, "nr4a3-thiol-environment.json")
+
+# ---- the reactivity-weighted accessibility criterion (`BLK-REACH-CATEGORICAL`'s retiring action) ---------
+# ⛔ THE POSITIVE CONTROL IS THE FAMILY'S ONLY LITERATURE-ANCHORED COVALENT SITE, AND IT IS THE ONLY ONE.
+#    n = 1 positive, n = 0 confirmed negatives. That is what makes "passes its own positive control"
+#    satisfiable BY CONSTRUCTION (put the floor at the control), and it is why control recovery is reported
+#    here as a CONVENTION rather than as a result. The falsifiable half is the discrimination test below.
+POSITIVE_CONTROL = "NR4A1 C551"
+RWA_NON_DISCRIMINATION_CEILING = 12          # of 18 — admit more than this and the criterion is a stamp
+
+# The three composites. Field lists only; every DIRECTION is read from `nr4a3-thiol-environment.json`
+# (rule 1 — this module may not mint a second home for a fact that has one). The one exception is
+# `sg_heavy_neighbours_within_6A`, which that artifact records but does not rank, so its direction is
+# declared HERE with its reason: more heavy atoms within 6 A of SG is a more buried sulfur, and burial at
+# the SG atom is the accessibility quantity `V17` gets wrong by measuring the whole residue instead.
+RWA_EXTRA_DIRECTIONS = {"sg_heavy_neighbours_within_6A": False}
+RWA_VARIANTS = {
+    # PRIMARY. Three physically independent axes: accessibility, thiolate H-bond stabilisation,
+    # electrostatic environment.
+    "RWA-3": ["rsa", "n_hbond_capable_donors_within_4A_of_SG", "net_formal_charge_within_8A"],
+    # Sensitivity: adds `nearest_cationic_group_A`, which is the SAME axis as the net charge — so this
+    # variant double-weights electrostatics and is reported to show what that does, not as a candidate.
+    "RWA-4": ["rsa", "n_hbond_capable_donors_within_4A_of_SG", "net_formal_charge_within_8A",
+              "nearest_cationic_group_A"],
+    # Sensitivity: SG-local burial in place of whole-residue RSA.
+    "RWA-3S": ["sg_heavy_neighbours_within_6A", "n_hbond_capable_donors_within_4A_of_SG",
+               "net_formal_charge_within_8A"],
+}
+RWA_PRIMARY = "RWA-3"
 
 
 # ==========================================================================================================
@@ -124,6 +153,158 @@ def mono_through_space_atoms(q, a, arm_reach: float, rise: float = RISE):
     if d <= arm_reach:
         return 1
     return max(1, int(math.ceil((d - arm_reach) / rise - 1e-9)))
+
+
+# ==========================================================================================================
+# THE REACTIVITY-WEIGHTED ACCESSIBILITY CRITERION — and the thing it is allowed to change
+# ==========================================================================================================
+def load_thiol_determinants(path=THIOL_ENV):
+    """The 18 family cysteines with their structural determinants, and the DIRECTION of each determinant.
+
+    ⛔ Directions are READ from the artifact's own `higher_value_argues_for_lower_pKa` flags, never typed
+    here: `nr4a3-thiol-environment.json` owns them and declared them before this criterion existed."""
+    if not os.path.exists(path):
+        return None, None, {"status": "UNREAD", "reason": "%s absent" % path}
+    with open(path) as fh:
+        d = json.load(fh)
+    rows = d.get("rows") or []
+    ranks = ((d.get("★_part_B_determinants") or {}).get("ranks") or {})
+    dirs = dict(RWA_EXTRA_DIRECTIONS)
+    for blk in ranks.values():
+        if "field" in blk and "higher_value_argues_for_lower_pKa" in blk:
+            dirs[blk["field"]] = bool(blk["higher_value_argues_for_lower_pKa"])
+    meta = {"status": "READ", "source": os.path.relpath(path, REPO), "n_rows": len(rows),
+            "generated_utc": d.get("_generated_utc"),
+            "directions_read_from_artifact": {k: v for k, v in dirs.items()
+                                              if k not in RWA_EXTRA_DIRECTIONS},
+            "directions_declared_in_this_module": RWA_EXTRA_DIRECTIONS}
+    return rows, dirs, meta
+
+
+def rwa_scores(rows, dirs, fields):
+    """Mean within-set percentile across `fields`. Zero fitted parameters: equal weights, fixed signs.
+
+    A percentile rather than a z-score because these determinants are on incommensurable units and because
+    the artifact that owns them already says a RANK is the honest output of this read."""
+    labels = ["%s %s" % (r["protein"], r["label"]) for r in rows]
+    n = len(rows)
+    per_field = {}
+    for f in fields:
+        vals = [r[f] for r in rows]
+        hi_is_good = dirs[f]
+        col = {}
+        for r, lab in zip(rows, labels):
+            v = r[f]
+            better = sum(1 for x in vals if (x < v if hi_is_good else x > v))
+            ties = sum(1 for x in vals if x == v)
+            col[lab] = (better + 0.5 * (ties - 1)) / (n - 1)
+        per_field[f] = col
+    return {lab: sum(per_field[f][lab] for f in fields) / len(fields) for lab in labels}
+
+
+def rwa_admitted(scores, control=POSITIVE_CONTROL):
+    """Admit any cysteine scoring at or above the ONE site known to work.
+
+    ⛔ This recovers the positive control BY CONSTRUCTION and that is stated, not claimed as a pass. With
+    one positive and no confirmed negatives no threshold can be fitted, so the weakest known positive sets
+    the floor — the standard convention, and the only one that adds no free parameter."""
+    if control not in scores:
+        return None, [], {"status": "REFUSED", "reason": "positive control %s absent" % control}
+    floor = scores[control]
+    admitted = sorted([k for k, v in scores.items() if v >= floor - 1e-12], key=lambda k: -scores[k])
+    return floor, admitted, {"status": "OK"}
+
+
+def rwa_decoy_null(window_rows, admitted, target=TARGET, chem_max=CHEM_MAX_ATOMS,
+                   max_subsets=2000, seed=20260902):
+    """★★ THE OBSERVATION THAT DISCRIMINATES, AND THE ONLY REASON A REOPENED WINDOW IS READABLE.
+
+    Filtering the competitor set can open a window for two completely different reasons: because the
+    cysteines removed were the ones that mattered (SELECTION), or simply because 17 competitors became 3
+    (ATTRITION). The counts look identical. This null separates them: hold the SIZE of the admitted
+    competitor set fixed and re-draw its MEMBERS from every family cysteine, then ask where the real
+    criterion's board sits in that distribution.
+
+    ⛔ A criterion whose board is at or below the median of its own size-matched null has contributed
+    NOTHING beyond attrition, and the window it "opened" is an artifact of how many competitors it
+    discarded. That is `R6`, and it fires on the number rather than on a judgement."""
+    comps = sorted({k for r in window_rows for k in r["all_competitors_atoms"]}
+                   - {"NR4A3 %s" % target})
+    keep = sorted(set(admitted) - {"NR4A3 %s" % target})
+    k = len([c for c in keep if c in comps])
+
+    def n_open(sub):
+        s = set(sub)
+        n = 0
+        for r in window_rows:
+            c = {a: v for a, v in r["all_competitors_atoms"].items() if a in s}
+            if CR.chemoselectivity_margin(r["target_atoms"], c, chem_max)["width"] > 0:
+                n += 1
+        return n
+
+    observed = n_open(keep)
+    if k > len(comps):
+        return {"status": "REFUSED", "reason": "admitted set larger than the competitor set"}
+    import itertools as _it
+    import random as _rnd
+    subs = list(_it.combinations(comps, k))
+    exhaustive = len(subs) <= max_subsets
+    if not exhaustive:
+        subs = _rnd.Random(seed).sample(subs, max_subsets)
+    dist = sorted(n_open(s) for s in subs)
+    mid = len(dist) // 2
+    median = dist[mid] if len(dist) % 2 else (dist[mid - 1] + dist[mid]) / 2.0
+    ge = sum(1 for x in dist if x >= observed)
+    return {
+        "status": "OK", "n_cells": len(window_rows), "k_competitors_retained": k,
+        "n_competitors_available": len(comps), "observed_n_open": observed,
+        "null_median_n_open": median, "null_min": dist[0], "null_max": dist[-1],
+        "n_subsets_evaluated": len(dist), "exhaustive": exhaustive,
+        "fraction_of_size_matched_subsets_at_or_above_observed": round(ge / len(dist), 4),
+        # R6, and it is a comparison rather than a fitted threshold
+        "R6_attrition_not_selection_FIRES": observed <= median,
+        "_reading": ("if a size-matched random subset opens as many cells as the criterion's, the "
+                     "criterion selected nothing — the window came from discarding %d of %d competitors."
+                     % (len(comps) - k, len(comps))),
+    }
+
+
+def reactivity_weighted_criterion(rows, dirs, meta):
+    """Every variant scored, admitted, and graded against the rejection conditions declared before the run.
+
+    ★ The pre-registered conditions live in `research/autonomy/sprint-2026-09-01/S56-REACH-CRITERION.md`
+    §4 and are evaluated here rather than narrated, so a later run cannot quietly pass one."""
+    out = {"_source": meta, "positive_control": POSITIVE_CONTROL, "variants": {},
+           "_control_recovery_is_by_construction": (
+               "the admission floor IS the control's score, so 'recovers the positive control' is a "
+               "convention and NOT a test. The falsifiable test is discrimination: how many of the "
+               "comparison set clear a bar set by the one site known to work."),
+           "_what_a_rank_still_cannot_say": (
+               "these are structural determinants of thiol pKa, not a pKa and not a measured reactivity. "
+               "A cysteine admitted here is a cysteine this program cannot rule OUT as a competitor; it is "
+               "never a cysteine shown to react.")}
+    if not rows:
+        out["status"] = "UNREAD"
+        return out
+    for name, fields in sorted(RWA_VARIANTS.items()):
+        sc = rwa_scores(rows, dirs, fields)
+        floor, admitted, st = rwa_admitted(sc)
+        out["variants"][name] = {
+            "fields": fields, "floor_is_the_control_score": floor,
+            "n_admitted": len(admitted), "n_scored": len(sc), "admitted": admitted,
+            "target_admitted": ("NR4A3 %s" % TARGET) in admitted,
+            "scores": {k: round(v, 4) for k, v in sorted(sc.items(), key=lambda kv: -kv[1])},
+            "status": st["status"],
+            # R1, declared before the run: a floor that admits more than this is a rubber stamp
+            "R1_non_discrimination_FIRES": len(admitted) > RWA_NON_DISCRIMINATION_CEILING,
+        }
+    prim = out["variants"].get(RWA_PRIMARY, {})
+    out["primary"] = RWA_PRIMARY
+    out["admitted_primary"] = prim.get("admitted", [])
+    out["target_admitted_primary"] = prim.get("target_admitted")
+    out["variants_agree_on_target_admission"] = len(
+        {v["target_admitted"] for v in out["variants"].values()}) == 1
+    return out
 
 
 # ==========================================================================================================
@@ -209,7 +390,7 @@ def reach_frame_paired(model, placements, anchors, numbering, unique_labels, lab
 # THE DECISION QUANTITY — the family-wide window, in both configurations
 # ==========================================================================================================
 def family_window(nr4a3_rows, paralogue_rows, key_field, convention, target=TARGET,
-                  chem_max=CHEM_MAX_ATOMS):
+                  chem_max=CHEM_MAX_ATOMS, admissible=None):
     """The interval of backbone-atom counts over which `target` is in reach and NO other cysteine in ANY of
     the three proteins is.
 
@@ -232,14 +413,22 @@ def family_window(nr4a3_rows, paralogue_rows, key_field, convention, target=TARG
             continue
         for pname in sorted(PENDANT_REACH, key=lambda k: PENDANT_REACH[k]):
             n_u = tgt["by_pendant"][pname][field]
-            competitors = {}
+            competitors, dropped = {}, []
             for prot, rows in group.items():
                 for r in rows:
                     if prot == "NR4A3" and r["cysteine"] == target:
                         continue
+                    lab = "%s %s" % (prot, r["cysteine"])
                     v = r["by_pendant"][pname][field]
+                    # ⛔ THE ONLY PLACE THE CRITERION TOUCHES THE ENUMERATION. A cysteine the criterion
+                    #    does not admit is not counted as a competitor. `admissible=None` is the
+                    #    unfiltered enumeration and is what every committed number was computed under.
+                    if admissible is not None and lab not in admissible:
+                        if v is not None:
+                            dropped.append(lab)
+                        continue
                     if v is not None:
-                        competitors["%s %s" % (prot, r["cysteine"])] = v
+                        competitors[lab] = v
             m = CR.chemoselectivity_margin(n_u, competitors, chem_max)
             intra = CR.chemoselectivity_margin(
                 n_u, {k2.split()[1]: v for k2, v in competitors.items() if k2.startswith("NR4A3")},
@@ -259,6 +448,7 @@ def family_window(nr4a3_rows, paralogue_rows, key_field, convention, target=TARG
                 "closer_is_a_PARALOGUE_cysteine": bool(m["blocked_by"]
                                                        and not m["blocked_by"].startswith("NR4A3")),
                 "rank_of_target": rank, "tied_with": ties,
+                "competitors_dropped_by_criterion": sorted(set(dropped)),
                 "intra_nr4a3_width": intra["width"],
                 "cost_of_the_paralogue_control_in_atoms": intra["width"] - m["width"],
                 "all_competitors_atoms": dict(ordered),
@@ -434,6 +624,34 @@ def build(seqs, cutoff=CLASH_PRIMARY_A, paralogue_ensembles=True, struct_root=RE
     bival_windows = {c: family_window(tgt["bival"], par_bival, "placement", c) for c in
                      ("through_space", "corridor")}
 
+    # ---- `BLK-REACH-CATEGORICAL`'s retiring action: the same enumeration, competitors filtered -----------
+    # ⛔ NOTHING ABOVE THIS LINE CHANGES. `mono_windows` / `bival_windows` are the unfiltered enumeration
+    #    and remain the artifact's headline numbers; the filtered board is reported BESIDE them, never
+    #    instead of them, because the criterion is an addition on top of a geometry result and not a
+    #    correction to it.
+    thiol_rows, thiol_dirs, thiol_meta = load_thiol_determinants()
+    criterion = reactivity_weighted_criterion(thiol_rows, thiol_dirs, thiol_meta)
+    rwa_boards = {}
+    for name, v in sorted(criterion.get("variants", {}).items()):
+        adm = set(v["admitted"])
+        mw = {c: family_window(tgt["mono"], par_mono, "anchor", c, admissible=adm)
+              for c in ("through_space", "corridor")}
+        bw = {c: family_window(tgt["bival"], par_bival, "placement", c, admissible=adm)
+              for c in ("through_space", "corridor")}
+        rwa_boards[name] = {
+            "target_admitted": v["target_admitted"],
+            "⛔_route_refuted_by_its_own_criterion": not v["target_admitted"],
+            "n_competitors_admitted": len([a for a in v["admitted"] if a != "NR4A3 %s" % TARGET]),
+            "monovalent": {c: window_summary(mw[c]) for c in mw},
+            "bivalent": {c: window_summary(bw[c]) for c in bw},
+            "decoy_null_monovalent_corridor": rwa_decoy_null(mono_windows["corridor"], v["admitted"]),
+            "monovalent_corridor_open_cells": [
+                {"cell": r["cell"], "pendant": r["pendant"], "width": r["width"],
+                 "window_lo": r["window_lo"], "window_hi": r["window_hi"],
+                 "closed_by": r["closed_by"], "dropped": r["competitors_dropped_by_criterion"]}
+                for r in mw["corridor"] if r["width"] > 0],
+        }
+
     # ---- robustness: the paralogue metadynamics ensembles ------------------------------------------------
     ens = {}
     if paralogue_ensembles:
@@ -537,6 +755,19 @@ def build(seqs, cutoff=CLASH_PRIMARY_A, paralogue_ensembles=True, struct_root=RE
             "monovalent": mono_windows,
             "bivalent": bival_windows,
         },
+        "reactivity_weighted_rerun": {
+            "_what": ("`BLK-REACH-CATEGORICAL.retired_by_action` — the same enumeration with competitor "
+                      "cysteines filtered by a reactivity-weighted accessibility criterion whose floor is "
+                      "the family's one literature-anchored covalent site."),
+            "⛔_this_is_not_a_reactivity_measurement": (
+                "the criterion ranks STRUCTURAL DETERMINANTS of thiol pKa read off static models. It "
+                "computes no pKa, no rate, no adduct and no selectivity beyond this three-protein set. A "
+                "cysteine it admits is one this program cannot rule out as a competitor."),
+            "⚠_the_n_is_one": ("one positive (%s), zero confirmed negatives. Control recovery is therefore "
+                               "BY CONSTRUCTION and is not evidence the criterion works." % POSITIVE_CONTROL),
+            "criterion": criterion,
+            "boards": rwa_boards,
+        },
         "summary": {
             "monovalent": {c: window_summary(mono_windows[c]) for c in mono_windows},
             "bivalent": {c: window_summary(bival_windows[c]) for c in bival_windows},
@@ -579,6 +810,66 @@ def build(seqs, cutoff=CLASH_PRIMARY_A, paralogue_ensembles=True, struct_root=RE
         "cross_checks": xchecks,
         "refusals": refusals,
         "unread_inputs": unread,
+    }
+
+
+def _rwa_answer(fired, filt):
+    """One sentence, and it refuses before it reports."""
+    if fired:
+        return "REFUSED — %s. No window is reported under this criterion." % "; ".join(fired)
+    n_open, n_cells = filt.get("n_open"), filt.get("n_cells")
+    if not n_open:
+        return ("STILL CLOSED — the family-wide window at %s is open in %d of %d corridor cells even after "
+                "every cysteine the criterion does not admit is removed from the competitor set. The "
+                "categorical axis does not survive the enumeration on the conservative convention, and it "
+                "is no longer the failing exposure cutoff that says so." % (TARGET, n_open, n_cells))
+    return ("OPEN IN %d OF %d corridor cells once non-admitted competitors are dropped. ⚠ A RANK on a "
+            "criterion with ONE positive and NO confirmed negatives — it can stop a route being refuted by "
+            "a competitor nobody can rule out, and it can never license one." % (n_open, n_cells))
+
+
+def _rwa_verdict(d):
+    """What the filtered board says, and the three ways it can say nothing.
+
+    ⛔ Written so the negative cases are as loud as the positive one: a criterion that admits nearly
+    everything, one whose variants disagree, and one that excludes the target itself are each a REFUSAL to
+    report a window, not a window of zero."""
+    blk = d.get("reactivity_weighted_rerun") or {}
+    crit, boards = blk.get("criterion") or {}, blk.get("boards") or {}
+    if not boards:
+        return {"status": "UNREAD", "_why": "no determinant artifact, so no criterion was applied"}
+    prim = crit.get("primary")
+    pv, pb = (crit.get("variants") or {}).get(prim, {}), boards.get(prim, {})
+    unfiltered = d["summary"]["monovalent"]["corridor"]
+    filt = (pb.get("monovalent") or {}).get("corridor", {})
+    fired = []
+    if pv.get("R1_non_discrimination_FIRES"):
+        fired.append("R1 non-discrimination — the floor admits more than %d of %d"
+                     % (RWA_NON_DISCRIMINATION_CEILING, pv.get("n_scored")))
+    if not crit.get("variants_agree_on_target_admission"):
+        fired.append("R2 variant disagreement — the variants do not agree on whether the target itself "
+                     "clears a floor set by the one site known to work")
+    if not pv.get("target_admitted"):
+        fired.append("R4 the target fails its own criterion")
+    null = pb.get("decoy_null_monovalent_corridor") or {}
+    if null.get("R6_attrition_not_selection_FIRES"):
+        fired.append("R6 attrition, not selection — the criterion's %d open corridor cells sit at or "
+                     "below the median (%s) of a size-matched null over %d random competitor subsets, so "
+                     "the window came from discarding competitors rather than from choosing which"
+                     % (null.get("observed_n_open"), null.get("null_median_n_open"),
+                        null.get("n_subsets_evaluated")))
+    return {
+        "decoy_null": null,
+        "criterion": prim, "fields": pv.get("fields"),
+        "n_admitted_of": [pv.get("n_admitted"), pv.get("n_scored")],
+        "admitted": pv.get("admitted"),
+        "corridor_open_unfiltered_over_filtered": [unfiltered["n_open"], filt.get("n_open"),
+                                                   unfiltered["n_cells"]],
+        "rejection_conditions_that_fired": fired,
+        "answer": _rwa_answer(fired, filt),
+        "⛔": ("this is a geometry board re-scored by structural determinants of thiol pKa. It is not a "
+               "reactivity measurement, not a selectivity claim beyond three proteins, and not evidence "
+               "that any bond forms."),
     }
 
 
@@ -658,6 +949,7 @@ def verdict(d):
             "closers": {"monovalent_corridor": co_m["closers_by_count"],
                         "bivalent_corridor": co_b["closers_by_count"]},
         },
+        "reactivity_weighted_rerun": _rwa_verdict(d),
         "_what_this_verdict_is_not": (
             "It is not a refutation of monovalent pocket modulation as a route — a non-covalent monovalent "
             "molecule has no cysteine to reach and is untouched by this measurement. What it refutes is "
@@ -733,6 +1025,38 @@ def to_markdown(d):
       % cc["admissibility_filter_retires"]["_reading"])
     A("")
 
+    rw = (d.get("verdict") or {}).get("reactivity_weighted_rerun") or {}
+    blk = d.get("reactivity_weighted_rerun") or {}
+    if rw and rw.get("status") != "UNREAD":
+        A("## 4b · The reactivity-weighted re-run — `BLK-REACH-CATEGORICAL`'s retiring action")
+        A("")
+        A("**%s**" % rw["answer"])
+        A("")
+        A("⛔ %s" % blk["⛔_this_is_not_a_reactivity_measurement"])
+        A("")
+        A("⚠ %s" % blk["⚠_the_n_is_one"])
+        A("")
+        A("| variant | determinants | admitted / scored | target admitted | corridor open (mono) | "
+          "size-matched null (median / max) |")
+        A("|---|---|---|---|---|---|")
+        for name, v in sorted((blk.get("criterion") or {}).get("variants", {}).items()):
+            b = (blk.get("boards") or {}).get(name, {})
+            co = (b.get("monovalent") or {}).get("corridor", {})
+            nl = b.get("decoy_null_monovalent_corridor") or {}
+            A("| `%s`%s | %s | **%d / %d** | %s | %s / %s | %s / %s |"
+              % (name, " (primary)" if name == (blk.get("criterion") or {}).get("primary") else "",
+                 ", ".join("`%s`" % f for f in v["fields"]), v["n_admitted"], v["n_scored"],
+                 "yes" if v["target_admitted"] else "**no**", co.get("n_open"), co.get("n_cells"),
+                 nl.get("null_median_n_open"), nl.get("null_max")))
+        A("")
+        A("**Admitted by the primary criterion:** %s"
+          % ", ".join("`%s`" % a for a in rw.get("admitted", [])))
+        A("")
+        if rw.get("rejection_conditions_that_fired"):
+            A("⛔ **Rejection conditions that fired:** %s"
+              % "; ".join(rw["rejection_conditions_that_fired"]))
+            A("")
+
     A("## 5 · Cross-checks (rule 1 — this module may not mint a second value)")
     A("")
     for k, v in d["cross_checks"].items():
@@ -785,7 +1109,39 @@ def main(argv=None):
     with open(args.out, "w") as fh:
         json.dump(d, fh, indent=1)
         fh.write("\n")
+    # ⛔⛔ THE FRONTMATTER IS EMITTED HERE BECAUSE IT WAS HAND-ADDED TO A GENERATED FILE AND EVERY
+    # REGENERATION SILENTLY STRIPPED IT. Measured 2026-09-02: the committed
+    # `nr4a3-monovalent-reach.md` carries a full `_backfilled: true` frontmatter block, this producer
+    # emitted none, and the first regeneration in months took `systems_check` gate D4 red — "has no
+    # frontmatter — purpose, scope, audience and freshness are undeclared".
+    # ★ THE SHAPE IS THE POINT, NOT THE FILE. A backfill applied to a GENERATED artifact is a change
+    # with a fuse in it: correct on the day, destroyed by the next run of the thing that writes it,
+    # and blamed on whoever happens to regenerate. The repository already forbids hand-editing
+    # `systems/views/` for this reason; this file is the same category and was not protected.
+    # ⚠ `last_verified` is deliberately NOT stamped with today's date. This block is regenerated by a
+    # machine that verified nothing about the prose around it, and a generator writing a fresh
+    # verification date every run is precisely the fabricated-provenance failure the repository has
+    # already paid for. It carries the honest `unverified`, exactly as the backfill left it.
+    _FRONTMATTER = "\n".join([
+        "---",
+        "id: DOC-NR4A3-MONOVALENT-REACH",
+        "title: Does removing the E3 arm rescue the categorical selectivity axis at C397?",
+        "level: L4",
+        "kind: memo",
+        "status: live",
+        "canonical_for: []",
+        "purpose: See the document body; purpose was not stated separately when frontmatter was backfilled.",
+        "scope: Scope not separately declared. Inferred kind `memo` from its location under research/modalities/.",
+        "audience: [maintainers, autonomous research agents]",
+        "date: 2026-08-05",
+        "last_verified: unverified",
+        "_backfilled: true",
+        "---",
+        "",
+        "",
+    ])
     with open(os.path.splitext(args.out)[0] + ".md", "w") as fh:
+        fh.write(_FRONTMATTER)
         fh.write(to_markdown(d))
 
     print(json.dumps(d["verdict"], indent=1)[:2500], flush=True)

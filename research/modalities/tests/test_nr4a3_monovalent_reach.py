@@ -256,3 +256,189 @@ def test_verdict_reports_per_convention_and_never_merges_them():
     assert v["cells_that_gained_a_window"]["max_width_gained"]["through_space"] == 2
     # the verdict must never claim a refutation of monovalent modulation as such
     assert "not a refutation of monovalent pocket modulation" in v["_what_this_verdict_is_not"]
+
+
+# ---------------------------------------------------------------------------------------------------------
+# 7 · THE REACTIVITY-WEIGHTED ACCESSIBILITY CRITERION (`BLK-REACH-CATEGORICAL`'s retiring action)
+#
+# What these pin, and why each matters more than it looks:
+#   a. the criterion's DIRECTIONS are read from `nr4a3-thiol-environment.json`, never typed in the module —
+#      a re-typed sign is exactly the "one fact, two homes" defect that lets a criterion drift into being
+#      tuned;
+#   b. control recovery is BY CONSTRUCTION for any score vector whatsoever. This is the test that stops a
+#      later session reporting "the criterion passes its positive control" as evidence of anything;
+#   c. the score is rank-based, so it is invariant to any strictly monotone rescaling of a determinant —
+#      the property that makes "equal weights" meaningful across incommensurable units;
+#   d. `admissible=None` must reproduce the unfiltered enumeration EXACTLY. The criterion is an addition
+#      beside the committed geometry result, never a correction to it;
+#   e. an all-admitting criterion must give the unfiltered board back — the degenerate case that shows
+#      discrimination, not control recovery, is the load-bearing test;
+#   f. the target is NOT exempt: a fixture where C397 scores last must report the route refuted by its own
+#      criterion rather than silently returning a window.
+# ---------------------------------------------------------------------------------------------------------
+def _cys_rows(labels, atoms, key_field="anchor", frame="f", key="A"):
+    """Minimal reach rows: {protein-less label -> atom count} in every pendant, both conventions."""
+    out = []
+    for lab in labels:
+        by = {p: {"arm_reach_A": e, "through_space_atoms": atoms[lab], "corridor_atoms": atoms[lab]}
+              for p, e in M.PENDANT_REACH.items()}
+        out.append({"frame": frame, key_field: key, "cysteine": lab, "unique": False, "by_pendant": by})
+    return out
+
+
+def _determinant_rows():
+    """Three cysteines, one determinant, unambiguous order: C397 > C551 (control) > C505."""
+    def r(prot, lab, rsa, hb, q):
+        return {"protein": prot, "label": lab, "rsa": rsa,
+                "n_hbond_capable_donors_within_4A_of_SG": hb, "net_formal_charge_within_8A": q,
+                "nearest_cationic_group_A": 7.0, "sg_heavy_neighbours_within_6A": 30}
+    return [r("NR4A3", "C397", 0.40, 4, 2), r("NR4A1", "C551", 0.16, 1, 1), r("NR4A1", "C505", 0.00, 0, 0)]
+
+
+def test_criterion_directions_are_read_from_the_artifact_and_never_typed_in_the_module():
+    rows, dirs, meta = M.load_thiol_determinants()
+    assert meta["status"] == "READ", meta
+    # every ranked determinant's sign came from the artifact, not from this module
+    for f in ("rsa", "n_hbond_capable_donors_within_4A_of_SG", "net_formal_charge_within_8A",
+              "nearest_cationic_group_A"):
+        assert f in meta["directions_read_from_artifact"], f
+    assert set(meta["directions_declared_in_this_module"]) == set(M.RWA_EXTRA_DIRECTIONS)
+    assert dirs["nearest_cationic_group_A"] is False, "nearer cation argues for a LOWER pKa"
+    assert dirs["rsa"] is True
+
+
+def test_control_recovery_is_by_construction_for_ANY_scores_so_it_is_not_evidence():
+    for scores in ({"NR4A1 C551": 0.0, "x": 1.0}, {"NR4A1 C551": 1.0, "x": 0.0},
+                   {"NR4A1 C551": 0.5, "x": 0.5, "y": 0.49}):
+        floor, admitted, st = M.rwa_admitted(scores)
+        assert st["status"] == "OK"
+        assert M.POSITIVE_CONTROL in admitted, "the floor IS the control, so it can never be excluded"
+        assert floor == scores[M.POSITIVE_CONTROL]
+
+
+def test_criterion_refuses_when_the_positive_control_is_absent():
+    floor, admitted, st = M.rwa_admitted({"NR4A9 C1": 1.0})
+    assert st["status"] == "REFUSED" and floor is None and admitted == []
+
+
+def test_scores_are_rank_based_so_a_monotone_rescale_of_a_determinant_changes_nothing():
+    rows, dirs, _ = M.load_thiol_determinants()
+    base = M.rwa_scores(rows, dirs, M.RWA_VARIANTS[M.RWA_PRIMARY])
+    squashed = [dict(r, rsa=math.sqrt(r["rsa"]) * 3.0) for r in rows]
+    assert M.rwa_scores(squashed, dirs, M.RWA_VARIANTS[M.RWA_PRIMARY]) == base
+
+
+def test_admissible_none_reproduces_the_unfiltered_enumeration_exactly():
+    tgt = _cys_rows(["C397", "C420"], {"C397": 5, "C420": 9})
+    par = {"NR4A1": _cys_rows(["C505"], {"C505": 7})}
+    unfiltered = M.family_window(tgt, par, "anchor", "corridor")
+    allowed = M.family_window(tgt, par, "anchor", "corridor",
+                              admissible={"NR4A3 C397", "NR4A3 C420", "NR4A1 C505"})
+    for a, b in zip(unfiltered, allowed):
+        assert {k: v for k, v in a.items() if k != "competitors_dropped_by_criterion"} == \
+               {k: v for k, v in b.items() if k != "competitors_dropped_by_criterion"}
+        assert a["competitors_dropped_by_criterion"] == []
+
+
+def test_filtering_drops_exactly_the_named_competitors_and_records_them():
+    tgt = _cys_rows(["C397", "C420"], {"C397": 5, "C420": 9})
+    par = {"NR4A1": _cys_rows(["C505"], {"C505": 4})}
+    closed = M.family_window(tgt, par, "anchor", "corridor")
+    assert all(r["width"] == 0 for r in closed), "a competitor at 4 atoms closes a target at 5"
+    opened = M.family_window(tgt, par, "anchor", "corridor",
+                             admissible={"NR4A3 C397", "NR4A3 C420"})
+    assert all(r["competitors_dropped_by_criterion"] == ["NR4A1 C505"] for r in opened)
+    assert all(r["width"] > 0 for r in opened), "dropping the only closer must open the window"
+    assert all("NR4A1 C505" not in r["all_competitors_atoms"] for r in opened)
+
+
+def test_a_criterion_that_admits_everything_is_the_unfiltered_board_and_R1_fires():
+    rows = _determinant_rows()
+    dirs = {"rsa": True, "n_hbond_capable_donors_within_4A_of_SG": True,
+            "net_formal_charge_within_8A": True, "nearest_cationic_group_A": False,
+            "sg_heavy_neighbours_within_6A": False}
+    # put the control LAST: every cysteine then clears a floor set at the bottom
+    flat = [dict(r) for r in rows]
+    for r in flat:
+        if r["label"] == "C551":
+            r.update(rsa=0.0, n_hbond_capable_donors_within_4A_of_SG=0, net_formal_charge_within_8A=0)
+    sc = M.rwa_scores(flat, dirs, M.RWA_VARIANTS[M.RWA_PRIMARY])
+    _, admitted, _ = M.rwa_admitted(sc)
+    assert len(admitted) == len(flat), "a bottom-ranked control admits the whole set"
+    # and the non-discrimination guard is what catches that, not the control
+    assert (len(admitted) > M.RWA_NON_DISCRIMINATION_CEILING) is (len(flat) >
+                                                                  M.RWA_NON_DISCRIMINATION_CEILING)
+
+
+def test_the_target_is_not_exempt_from_its_own_criterion():
+    rows = _determinant_rows()
+    dirs = {"rsa": True, "n_hbond_capable_donors_within_4A_of_SG": True,
+            "net_formal_charge_within_8A": True, "nearest_cationic_group_A": False,
+            "sg_heavy_neighbours_within_6A": False}
+    sunk = [dict(r) for r in rows]
+    for r in sunk:
+        if r["label"] == "C397":
+            r.update(rsa=0.0, n_hbond_capable_donors_within_4A_of_SG=0, net_formal_charge_within_8A=0)
+    sc = M.rwa_scores(sunk, dirs, M.RWA_VARIANTS[M.RWA_PRIMARY])
+    _, admitted, _ = M.rwa_admitted(sc)
+    assert "NR4A3 C397" not in admitted, "the target must be able to fail the criterion it is judged by"
+
+
+def test_the_committed_criterion_block_reports_every_variant_and_grades_R1():
+    rows, dirs, meta = M.load_thiol_determinants()
+    blk = M.reactivity_weighted_criterion(rows, dirs, meta)
+    assert set(blk["variants"]) == set(M.RWA_VARIANTS)
+    for name, v in blk["variants"].items():
+        assert M.POSITIVE_CONTROL in v["admitted"], name
+        assert v["n_scored"] == len(rows)
+        assert v["R1_non_discrimination_FIRES"] is (v["n_admitted"] > M.RWA_NON_DISCRIMINATION_CEILING)
+    assert blk["primary"] == M.RWA_PRIMARY
+
+
+# ---------------------------------------------------------------------------------------------------------
+# 8 · THE SIZE-MATCHED DECOY NULL — the guard that separates SELECTION from ATTRITION
+#
+# ⛔ Without this, "the window opened once the criterion was applied" and "the window opened because 14 of
+#    17 competitors were discarded" are the same number. These tests pin that the null is size-matched, that
+#    it fires on a criterion that only discards, and that it does NOT fire on one that genuinely selects.
+# ---------------------------------------------------------------------------------------------------------
+def _window_rows(target_atoms, competitors, n_cells=4):
+    """Minimal `family_window`-shaped rows: same target count, same competitor board, in every cell."""
+    return [{"cell": "c%d" % i, "target_atoms": target_atoms,
+             "all_competitors_atoms": dict(competitors)} for i in range(n_cells)]
+
+
+def test_decoy_null_is_size_matched_and_exhaustive_when_it_can_be():
+    rows = _window_rows(5, {"NR4A1 A": 9, "NR4A1 B": 9, "NR4A2 C": 9, "NR4A2 D": 9})
+    null = M.rwa_decoy_null(rows, ["NR4A3 C397", "NR4A1 A", "NR4A1 B"])
+    assert null["status"] == "OK"
+    assert null["k_competitors_retained"] == 2 and null["n_competitors_available"] == 4
+    assert null["exhaustive"] is True and null["n_subsets_evaluated"] == 6   # C(4,2)
+    assert null["_reading"].startswith("if a size-matched random subset")
+
+
+def test_decoy_null_FIRES_when_the_window_came_from_attrition_alone():
+    # every competitor is equally far away, so WHICH ones are kept cannot matter — only how many
+    rows = _window_rows(5, {"NR4A1 A": 9, "NR4A1 B": 9, "NR4A2 C": 9, "NR4A2 D": 9})
+    null = M.rwa_decoy_null(rows, ["NR4A3 C397", "NR4A1 A", "NR4A1 B"])
+    assert null["observed_n_open"] == null["null_median_n_open"] == null["null_max"]
+    assert null["R6_attrition_not_selection_FIRES"] is True
+    assert null["fraction_of_size_matched_subsets_at_or_above_observed"] == 1.0
+
+
+def test_decoy_null_does_NOT_fire_when_the_criterion_really_selected():
+    # one competitor closes the window and the criterion is the only 2-subset that drops it
+    rows = _window_rows(5, {"NR4A1 CLOSER": 4, "NR4A1 B": 9, "NR4A2 C": 9, "NR4A2 D": 9})
+    good = M.rwa_decoy_null(rows, ["NR4A3 C397", "NR4A1 B", "NR4A2 C"])
+    assert good["observed_n_open"] == len(rows)
+    assert good["observed_n_open"] > good["null_median_n_open"]
+    assert good["R6_attrition_not_selection_FIRES"] is False
+    bad = M.rwa_decoy_null(rows, ["NR4A3 C397", "NR4A1 CLOSER", "NR4A1 B"])
+    assert bad["observed_n_open"] == 0 and bad["R6_attrition_not_selection_FIRES"] is True
+
+
+def test_decoy_null_target_is_never_counted_as_its_own_competitor():
+    rows = _window_rows(5, {"NR4A1 A": 9, "NR4A1 B": 9})
+    null = M.rwa_decoy_null(rows, ["NR4A3 C397", "NR4A1 A"])
+    assert null["n_competitors_available"] == 2, "the target must not enter the competitor pool"
+    assert null["k_competitors_retained"] == 1

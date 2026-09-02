@@ -12,6 +12,7 @@ date: 2026-08-05
 last_verified: unverified
 _backfilled: true
 ---
+
 # Does removing the E3 arm rescue the categorical selectivity axis at C397?
 
 > **$0, CPU, pure stdlib.** GEOMETRY ONLY, $0 CPU, pure stdlib. No reactivity, potency, selectivity, developability, efficacy or clinical claim is made or implied. Reach can refute a route; it cannot license one.
@@ -55,6 +56,24 @@ _backfilled: true
 
 - **10 bivalent placements collapse to 5 monovalent anchors.** the ten bivalent cells are ten (a, b) pairs but only 5 distinct warhead anchors; with b gone they are 5 cells, and reporting ten would double-count.
 - **The admissibility filter retires.** a genuine advantage of the configuration, counted separately from the window result because 'more cells qualify' and 'the surviving cells are better' are different claims
+
+## 4b · The reactivity-weighted re-run — `BLK-REACH-CATEGORICAL`'s retiring action
+
+**REFUSED — R2 variant disagreement — the variants do not agree on whether the target itself clears a floor set by the one site known to work; R6 attrition, not selection — the criterion's 16 open corridor cells sit at or below the median (20.0) of a size-matched null over 680 random competitor subsets, so the window came from discarding competitors rather than from choosing which. No window is reported under this criterion.**
+
+⛔ the criterion ranks STRUCTURAL DETERMINANTS of thiol pKa read off static models. It computes no pKa, no rate, no adduct and no selectivity beyond this three-protein set. A cysteine it admits is one this program cannot rule out as a competitor.
+
+⚠ one positive (NR4A1 C551), zero confirmed negatives. Control recovery is therefore BY CONSTRUCTION and is not evidence the criterion works.
+
+| variant | determinants | admitted / scored | target admitted | corridor open (mono) | size-matched null (median / max) |
+|---|---|---|---|---|---|
+| `RWA-3` (primary) | `rsa`, `n_hbond_capable_donors_within_4A_of_SG`, `net_formal_charge_within_8A` | **4 / 18** | yes | 16 / 30 | 20.0 / 30 |
+| `RWA-3S` | `sg_heavy_neighbours_within_6A`, `n_hbond_capable_donors_within_4A_of_SG`, `net_formal_charge_within_8A` | **3 / 18** | yes | 17 / 30 | 22.0 / 30 |
+| `RWA-4` | `rsa`, `n_hbond_capable_donors_within_4A_of_SG`, `net_formal_charge_within_8A`, `nearest_cationic_group_A` | **2 / 18** | **no** | 17 / 30 | 22.0 / 30 |
+
+**Admitted by the primary criterion:** `NR4A3 C420`, `NR4A3 C397`, `NR4A1 C465`, `NR4A1 C551`
+
+⛔ **Rejection conditions that fired:** R2 variant disagreement — the variants do not agree on whether the target itself clears a floor set by the one site known to work; R6 attrition, not selection — the criterion's 16 open corridor cells sit at or below the median (20.0) of a size-matched null over 680 random competitor subsets, so the window came from discarding competitors rather than from choosing which
 
 ## 5 · Cross-checks (rule 1 — this module may not mint a second value)
 
