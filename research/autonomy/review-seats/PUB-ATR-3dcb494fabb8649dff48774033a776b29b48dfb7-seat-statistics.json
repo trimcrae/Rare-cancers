@@ -1,0 +1,33 @@
+{
+ "_schema": "emc-review-seat/1",
+ "status": "complete",
+ "paper": "PUB-ATR",
+ "pub_id": "PUB-ATR",
+ "reviewed_commit": "3dcb494fabb8649dff48774033a776b29b48dfb7",
+ "blind": true,
+ "seat": "statistics",
+ "lens": "statistics/methodology (does the design support the claim)",
+ "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+ "document_sha256": "45980b63528e2430db23e9218e649e94c6d4ebc9b9f5275640988b4339663a9b",
+ "opened_utc": "2026-09-02T23:20:00Z",
+ "verdict": "accept",
+ "referee_recommendation": "minor_revisions",
+ "central_claim": "In public data, computed evidence for a class-inherited FET-fusion -> impaired-ATM -> compensatory-ATR-dependency hypothesis transferring to EMC is weak-to-absent: EMC tumour transcriptomes show only generic proliferation (WEAK tier), cell-line CRISPR and drug-response instruments cannot discriminate the mechanism from adjacent DDR biology, and a new ATM-genotype stratification of the same GDSC2 residual space used by Part D fails to detect even the field-standard BRCA2/PARP-inhibitor pairing at these arm sizes, so Part D's ATM null is correctly downgraded from NEGATIVE to UNINFORMATIVE.",
+ "blockers": [],
+ "p1s": [
+  {
+   "summary": "The BRCA2/PARP-inhibitor 'machinery control' is described as 'the best-established genotype-drug pairing in cell-line pharmacology' with no citation and no accounting for zygosity/biallelic (LOH) status, which is the standard caveat for why BRCA-mutation-alone (vs. HRD score or confirmed biallelic loss) is a noisier predictor of PARP-inhibitor sensitivity in unselected pan-cancer cell-line panels than in engineered isogenic systems or BRCA-selected clinical cohorts. This doesn't change the paper's conclusion (the control is used to justify downgrading a null to 'uninformative', i.e. the more conservative reading, not to license a positive claim) but the framing overstates how surprising the control's non-detection is, and could be read as implying a stronger positive-control property than the underlying DepMap 'LikelyLoF' calls (used for the BRCA2 null arm, per research/modalities/atm-status-atri-stratification.json lines ~1829-1836) actually deliver absent LOH/zygosity filtering.",
+   "evidence": "Manuscript, Part D (line ~678): 'BRCA2 against the two PARP inhibitors — the best-established genotype-drug pairing in cell-line pharmacology — is also undetectable here'. Source artifact `_machinery_control_note` (atm-status-atri-stratification.json, near line 2954) uses identical uncited framing: 'The best-established genotype-drug association in cell-line pharmacology, run through the IDENTICAL pipeline.' No zygosity/LOH field or discussion appears anywhere in the ~2970-line JSON artifact (grep for zygos|biallelic|LOH|heterozygous|homozygous returns nothing) or in the manuscript.",
+   "fix": "Either cite the claim (e.g. Bryant et al. 2005 / Farmer et al. 2005 for the mechanism, plus a note that unselected pan-cancer panels show a weaker mutation-alone signal than isogenic/clinical settings), or soften to something like 'a well-established genotype-drug pairing' and add one clause noting the BRCA2 null arm is defined by DepMap's damaging/LikelyLoF calls without zygosity or LOH filtering, which is itself a limit on how strong a positive control this is expected to be even before considering arm size."
+  },
+  {
+   "summary": "The document's headline section (before Part D) states the mechanism's load-bearing prediction is testable 'only through ATM-pathway transcript abundance... and that proxy leaves no trace: ρ = −0.090' — this predates and does not mention the newer, more direct ATM-genetic-status stratification added later in §5, which is a second, independent (and better-motivated) test of the same load-bearing prediction and which itself returned UNINFORMATIVE rather than a clean null. A reader who stops at the headline would come away thinking the only instrument available for the ATM-signalling prediction is the expression proxy, when a genetic-status instrument now also exists (with its own, different limitation).",
+   "evidence": "Headline (line ~105-107): 'The mechanism's load-bearing prediction — low ATM signalling marks ATRi sensitivity — is testable here only through ATM-pathway transcript abundance, which is not ATM signalling capacity, and that proxy leaves no trace: ρ = −0.090... carried by one drug of two (§5).' Compare §5 (line ~678): the newly added ATM-genotype stratification against the identical GDSC2 residuals, verdict INSTRUMENT_CANNOT_DETECT / UNINFORMATIVE. These are not contradictory (transcript abundance and genetic status are different variables, as §5 itself notes at line ~588 and 730-731), but the headline's 'only through' is no longer literally true of the document as a whole once §5's new analysis is counted, and the headline is the section most likely to be quoted stand-alone.",
+   "fix": "Add a clause to the headline pointing at the new genetic-status stratification and its own UNINFORMATIVE verdict (one sentence), so 'testable here only through transcript abundance' is either qualified ('...only through transcript abundance for this correlation; a separate genetic-status test in §5 is also uninformative at these arm sizes, for a different reason') or the 'only' is removed."
+  }
+ ],
+ "what_i_read": [
+  "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md @ 3dcb494fabb8649dff48774033a776b29b48dfb7 (full document, 1146 lines; sha256 verified 45980b63528e2430db23e9218e649e94c6d4ebc9b9f5275640988b4339663a9b)",
+  "research/modalities/atm-status-atri-stratification.json @ 3dcb494fabb8649dff48774033a776b29b48dfb7 (full artifact, 2970 lines — prediction registration, ATM per-drug HL/CI contrasts for primary and sensitivity-analysis arms, BRCA2/PARP machinery-control block, detected[] arrays, verdict and verdict_reading)"
+ ]
+}
