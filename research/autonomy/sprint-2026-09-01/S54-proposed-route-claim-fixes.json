@@ -1,0 +1,337 @@
+{
+  "_what": "A PROPOSED, UNAPPLIED patch to systems/graph/routes.json produced by seat S54 for ledger item AUT-PD-104. Every entry is a claim a committed artifact refutes, with the artifact and the line that refutes it. NOTHING HERE HAS BEEN APPLIED.",
+  "_why_unapplied": "Flipping a blocker, a next-action or a readiness field is what makes the route ranker start offering a route. That call belongs to a cycle that can gate it, and another seat was editing systems/graph/blockers.json during this audit. S54 reads and proposes; it does not edit the graph.",
+  "_memo": "research/autonomy/sprint-2026-09-01/S54-ROUTE-CLAIMS-AUDIT.md",
+  "_baseline": {
+    "head": "b4cf28c6be8f464fc25e0cee06f6be50eb181138",
+    "working_tree_note": "Re-read after the driver's two uncommitted edits (systems/graph/blockers.json BLK-NO-EMC-DATA.retired_by_action; systems/graph/routes.json RT-SGK1 supporting_evidence what_it_supports) at 2026-09-02T09:37Z. No finding moved.",
+    "existence_instrument": "git cat-file -e HEAD:<path>, on the return code. Verified in both directions before use: rc=0 on CLAUDE.md, systems/graph/routes.json and research/modalities/emc-expression-panels.json; rc=128 on research/manuscripts/emc-supportive-effect-transfer.json (known absent) and on a deliberately fabricated path. git rev-parse was NOT used for existence: on an absent path it prints the unresolved path to stdout, so a `|| echo MISSING` fallback never fires."
+  },
+  "_scope": {
+    "claims_enumerated": 1200,
+    "field_classes": 15,
+    "routes": 77,
+    "verdicts": {
+      "REFUTED": 24,
+      "STALE": 5,
+      "UNVERIFIABLE": 82,
+      "HOLDS": 1012,
+      "UNMEASURED": 77
+    },
+    "unmeasured_is": "grade.value on all 77 routes. All 77 grade.owner.file pointers resolve at HEAD (29 distinct files, 0 absent); no grade's prose was re-derived against its owning document's current text. Named rather than claimed clean."
+  },
+  "_no_grade_changes": "No route grade, no confidence, no maturity and no state.status is changed by any entry below. No claim about efficacy, selectivity, safety or a therapeutic window in EMC is made or implied.",
+
+  "changes": [
+    {
+      "route": "RT-COVALENT-PROBE",
+      "rank": 1,
+      "field": "next.blocked_on",
+      "verdict": "REFUTED",
+      "current": ["BLK-REACH-CATEGORICAL"],
+      "proposed": [],
+      "refuted_by": {
+        "artifact": "systems/graph/blockers.json -> BLK-REACH-CATEGORICAL.retired_by_action",
+        "line": "Re-run the reach enumeration under a criterion that passes its own positive control, and report the result as a rank rather than a verdict until one exists. $0."
+      },
+      "justification": "The blocker's retiring action and the route's own next.best_next_action are the same sentence, and the blocker prices it at $0 itself. The field therefore says a $0 act is blocked by the thing the act retires. Corroborated inside the route: required_validation[0].feasible_today is already true, timing.recommendation is pursue_now, and timing.automation_outlook reads 'Fully automatable -- it is a $0 recalculation once the criterion is defined.' The blocker is kind: scientific_uncertainty -- not a bench, not a person, not a dataset, not a decision for trimcrae.",
+      "takeability": "THE ONE ROUTE THIS AUDIT MAKES MORE TAKEABLE. Cost: $0 real dollars. research/modalities/nr4a3_monovalent_reach.py declares itself '($0, CPU/CI only, pure stdlib.)' and INS-MONOVALENT-REACH carries known_answer_control.state: passes. The only new work is defining a reactivity-weighted accessibility criterion and calibrating it against NR4A1 C551, which instruments.json already names as V17's positive control at state: fails. Agent time, which CLAUDE.md section 5 prices at zero.",
+      "explicitly_not_proposed": "state.status stays 'blocked'. The route's other four blockers (BLK-NO-WET-LAB, BLK-NOT-FUSION-SELECTIVE, BLK-PARALOGUE-DDG, BLK-R4-BINDS) are untouched, and required_validation[1] ('Chemical synthesis and a binding assay') stays feasible_today: false on BLK-NO-WET-LAB."
+    },
+
+    {
+      "route": "RT-MONOVALENT",
+      "rank": 3,
+      "field": "required_validation[1]",
+      "verdict": "REFUTED",
+      "current": {
+        "what": "A stated selectivity requirement this route would have to meet",
+        "feasible_today": true,
+        "blocked_by": ["BLK-UNSIZED-REQUIREMENT"]
+      },
+      "proposed": {
+        "what": "A stated selectivity requirement this route would have to meet — ✅ DONE 2026-08-07, $0, research/manuscripts/degrader/selectivity-requirement-sizing.md §2. Stated as a pair (NR4A1 hard / NR4A2 soft) with the derivation and every assumption named. Its thresholds are forms with a range, not numbers, because the transfer functions that set A and B are unmeasured (MISSING-1, MISSING-2).",
+        "feasible_today": true,
+        "blocked_by": []
+      },
+      "refuted_by": {
+        "artifact": "research/manuscripts/degrader/selectivity-requirement-sizing.md",
+        "line": "§6(d) supplies this exact replacement block, verbatim, as pasteable JSON. Five of the document's six §6 blocks were applied to the graph on 2026-08-07; this one was not."
+      },
+      "justification": "The document exists at HEAD (git cat-file -e rc=0) and its §0 header reads 'BLK-UNSIZED-REQUIREMENT is held by three routes -- RT-MONOVALENT, RT-TCIP and RT-ASYMMETRIC ... This file is that statement.' The blocker's own current name in blockers.json agrees: 'The selectivity requirement is now STATED for all three routes'. The route's readiness.missing was updated to the post-sizing wording and this entry was not -- a one-of-a-pair defect inside one route object.",
+      "takeability": "None. The work is already done; only the record is wrong."
+    },
+    {
+      "route": "RT-MONOVALENT",
+      "field": "next.best_next_action",
+      "verdict": "REFUTED",
+      "current": "Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what makes every later grade of this route meaningful.",
+      "proposed": "NO REPLACEMENT TEXT PROPOSED BY THIS SEAT. The specification was written on 2026-08-07 (research/manuscripts/degrader/selectivity-requirement-sizing.md §2), so this action is discharged; what should replace it is a judgement about this route's ordering that S54 does not own. The sizing document's own §6(d) flagged exactly this and declined for the same reason: 'what replaces them is a judgement about this route's ordering that this lane does not own, so no replacement text is proposed. Flagging it is the edit.'",
+      "refuted_by": {
+        "artifact": "research/manuscripts/degrader/selectivity-requirement-sizing.md",
+        "line": "§0 — 'This file is that statement.'"
+      },
+      "justification": "state.last_verified on this route is 2026-08-06, one day before the document that refutes it. The route has not been re-read since the artifact answering it was committed 26 days ago."
+    },
+    {
+      "route": "RT-MONOVALENT",
+      "field": "timing.rationale",
+      "verdict": "REFUTED",
+      "current": "One of the two blockers unique to this route is retired by writing something down: nobody has stated how much selectivity this route would need, and until someone does, the route cannot be shown to meet or miss it. That is free and it is a prerequisite for grading the route at all.",
+      "proposed": "NO REPLACEMENT TEXT PROPOSED — same reason as next.best_next_action above. The 'nobody has stated' clause is false as of 2026-08-07 and must not survive the next edit of this field in any form.",
+      "refuted_by": {
+        "artifact": "systems/graph/blockers.json -> BLK-UNSIZED-REQUIREMENT.name",
+        "line": "The selectivity requirement is now STATED for all three routes, and three of its inputs are unmeasured dose-responses that only a bench produces"
+      },
+      "justification": "Refuted twice: by the sizing document and by the blocker record the graph itself already carries. ⛔ AND THIS IS NOT A PROMOTION: the sizing document's §0 item 1 says 'Nothing here is evidence that any of these three routes is more feasible than it was yesterday.' The thresholds remain forms with a range (0.50–3.49 kcal/mol, not bounded above), MISSING-1/MISSING-2 are unmeasured, and BLK-UNSIZED-REQUIREMENT stays on the route as a requires_wet_lab blocker. The correction removes a false to-do, not a barrier."
+    },
+
+    {
+      "route": "RT-PPARG-DOWNSTREAM",
+      "field": "next.best_next_action",
+      "verdict": "REFUTED",
+      "current": "The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-emc.md). What remains is a PPARγ activity readout in EMC, which is blocked by BLK-NO-EMC-DATA — not by an unrun literature pull.",
+      "proposed": "The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-emc.md) and so is the ACTIVITY half: the PPARγ target-gene readout was TAKEN 2026-08-24 and is analysed in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4, from ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY. What remains is a readout that separates PPARγ receptor output from adipogenic/lineage composition, which bulk archival tissue cannot deliver — a study-design limit on BLK-NO-WET-LAB, not a data-availability one, so a further bulk expression cohort does not lift it. ⚠ Superseded, retained: 'What remains is a PPARγ activity readout in EMC, which is blocked by BLK-NO-EMC-DATA'.",
+      "refuted_by": {
+        "artifact": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md",
+        "line": "line 179 — '## S4 · The PPARγ receptor-activity reading, and its adipogenic ceiling'. Present at HEAD, rc=0. The read itself is research/modalities/emc-expression-panels.json -> reads.read_3_PPARG_ACTIVITY."
+      },
+      "justification": "Refuted by two other fields of the SAME route object: required_validation[1] ('✅ TAKEN 2026-08-24') and readiness.missing[0] ('the target-gene activity readout itself is DONE'). required_validation[2] names the true residual and files it under BLK-NO-WET-LAB. state.last_verified is 2026-08-28 — three fields carry the 2026-08-24 read and `next` does not.",
+      "takeability": "None. The read is taken and its answer is that the direction is not settled."
+    },
+    {
+      "route": "RT-PPARG-DOWNSTREAM",
+      "field": "next.blocked_on",
+      "verdict": "REFUTED",
+      "current": ["BLK-NO-EMC-DATA"],
+      "proposed": ["BLK-NO-WET-LAB"],
+      "refuted_by": {
+        "artifact": "systems/graph/routes.json -> RT-PPARG-DOWNSTREAM.required_validation[2]",
+        "line": "A readout that separates PPARγ receptor output from lineage/adipogenic composition — bulk archival tissue cannot, which is a study-design limit rather than a data-availability one, so a further bulk expression cohort does not lift it"
+      },
+      "justification": "The route's own entry-level record already files the residual under BLK-NO-WET-LAB and states in its own words that more EMC data would not lift it. BLK-NO-EMC-DATA is kind: insufficient_data and reads as waiting on the world; the residual is a study design. Same polarity error S41 recorded for the clinical routes."
+    },
+
+    {
+      "route": "RT-TRABECTEDIN-PPARG",
+      "field": "next.best_next_action",
+      "verdict": "REFUTED",
+      "current": "Hold the ask until the PPARγ direction can be stated. Re-grade automatically when EMC expression data lands.",
+      "proposed": "The EMC expression read LANDED and was taken 2026-08-24 (ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY, analysed in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4) AND IT DOES NOT ESTABLISH A DIRECTION — the target-gene signal cannot be separated from an adipogenic differentiation programme in bulk archival tissue. The trigger this field named has fired and the answer was negative, so 'hold until the direction can be stated' now means holding on a bench readout rather than on data. ⚠ Superseded, retained: 'Hold the ask until the PPARγ direction can be stated. Re-grade automatically when EMC expression data lands.'",
+      "refuted_by": {
+        "artifact": "systems/graph/routes.json -> RT-TRABECTEDIN-PPARG.required_validation[0]",
+        "line": "An EMC expression read establishing the direction of PPARγ signalling — ✅ THE READ WAS TAKEN 2026-08-24 ... AND IT DOES NOT ESTABLISH A DIRECTION. Recorded as answered-in-the-negative rather than outstanding, because leaving it open would keep this route waiting on data that has already arrived."
+      },
+      "justification": "The route's own required_validation entry states, in its own words, the exact failure mode the next-action field is in. readiness.missing[0] agrees. ⛔ The direction is still NOT established — this correction says the trigger fired and returned a negative; it makes no claim about PPARγ direction, trabectedin activity or any combination.",
+      "takeability": "None."
+    },
+    {
+      "route": "RT-TRABECTEDIN-PPARG",
+      "field": "next.blocked_on",
+      "verdict": "REFUTED",
+      "current": ["BLK-NO-EMC-DATA"],
+      "proposed": ["BLK-NO-WET-LAB"],
+      "refuted_by": {
+        "artifact": "systems/graph/routes.json -> RT-TRABECTEDIN-PPARG.required_validation[1] and readiness.missing[1]",
+        "line": "'A cell panel, which needs a bench' (feasible_today: false, blocked_by: [BLK-NO-WET-LAB])"
+      },
+      "justification": "The EMC expression data the blocker stands for has arrived and been read; the route's own record names the residual as a bench."
+    },
+    {
+      "route": "RT-TRABECTEDIN-PPARG",
+      "field": "timing.revisit_trigger",
+      "verdict": "STALE",
+      "current": ["TECH-EMC-EXPRESSION-DATA"],
+      "proposed": "KEEP, but re-grade the technology row (see the technologies.json entry below). The trigger as written cannot fire again for this route: the read it waits on was taken on 2026-08-24.",
+      "justification": "Graded STALE rather than REFUTED because the technology's name specifies 'a fetchable public EMC RNA-seq or proteomics deposit' and what landed is decade-old microarray -- a different modality. The capability its why_it_matters describes did arrive."
+    },
+
+    {
+      "route": "RT-TCRT-CTA",
+      "field": "readiness.missing",
+      "verdict": "REFUTED",
+      "current": ["a real EMC expression series"],
+      "proposed": ["CTA probe coverage on the two readable EMC array platforms — the series themselves exist and were read (ART-EMC-EXPRESSION-PANELS: GSE24369 on GPL6244, 6 EMC vs 29 comparator sarcomas; GSE4303 on GPL3290, 10 vs 6, both _status: read, with a passing control arm). ⛔ A transcript reading is not a presentation reading, and the artifact's own _what_this_cannot_conclude refuses the protein and surface axes. ⚠ Superseded, retained: 'a real EMC expression series'."],
+      "refuted_by": {
+        "artifact": "research/modalities/emc-expression-panels.json",
+        "line": "platforms.GSE24369_series_matrix.txt.gz -> _status: 'read', platform: 'GPL6244', n_samples: 42, n_probes: 28459, plus reads.control (NR4A3 and ENO3 must be up, MKI67 flat) which the pipeline passes before any panel is scored"
+      },
+      "justification": "S32 adjudicated this route TAKEABLE/UNBLOCKED on 2026-09-01 and the graph still carries the absolute-absence wording. state.last_verified is 2026-08-05, before the panels artifact existed.",
+      "takeability": "None new — S32 already recorded it; this entry corrects the field S32 did not own."
+    },
+    {
+      "route": "RT-TCRT-CTA",
+      "field": "next.best_next_action",
+      "verdict": "REFUTED",
+      "current": "Keep registered for automatic re-grade when EMC expression data lands.",
+      "proposed": "The EMC expression data landed and was read (ART-EMC-EXPRESSION-PANELS, two series, passing control). The open question is CTA probe coverage on those two platforms, which is an instrument state readable at $0 from the same artifact. ⚠ Superseded, retained: 'Keep registered for automatic re-grade when EMC expression data lands.'",
+      "refuted_by": {
+        "artifact": "research/modalities/emc-expression-panels.json",
+        "line": "gene_reads holds 479 symbols with per-symbol readable/probe_ids across both platforms"
+      },
+      "justification": "A next-action naming a future event that has already occurred is an unanswered question wearing the costume of a status (CLAUDE.md §4)."
+    },
+    {
+      "route": "RT-TCRT-CTA",
+      "field": "timing.revisit_trigger",
+      "verdict": "STALE",
+      "current": ["TECH-EMC-EXPRESSION-DATA"],
+      "proposed": "KEEP, re-grade the technology row.",
+      "justification": "Same as RT-TRABECTEDIN-PPARG."
+    },
+
+    {
+      "route": "RT-FAP-RLT",
+      "field": "readiness.missing",
+      "verdict": "REFUTED",
+      "current": ["any measurement in EMC"],
+      "proposed": ["an IMAGING readout on EMC tissue, and the bystander/crossfire dosimetry — the EXPRESSION half is measured: FAP is readable in EMC tumour tissue on GPL6244 (ART-EMC-EXPRESSION-PANELS gene_reads.FAP, probe 8056257, 6 EMC and 29 comparator values). ⛔ A transcript reading is not a protein reading and this artifact's own limits refuse the surface, density and tumour-versus-stroma axes. ⚠ Superseded, retained: 'any measurement in EMC'."],
+      "refuted_by": {
+        "artifact": "research/modalities/emc-expression-panels.json",
+        "line": "gene_reads.FAP -> GSE24369_series_matrix.txt.gz: readable: true, platform GPL6244, probe_ids ['8056257'], n_EMC_with_a_value: 6, n_comparator_with_a_value: 29"
+      },
+      "justification": "It is the word 'any' that is refuted. The route's imaging and dosimetry halves are genuinely open and stay open; S41 already graded the dosimetry entry as carrying the wrong blocker.",
+      "takeability": "None. The residual halves need a bench and a scanner."
+    },
+    {
+      "route": "RT-FAP-RLT",
+      "field": "next.best_next_action",
+      "verdict": "REFUTED",
+      "current": "Keep registered for automatic re-grade when EMC expression data lands.",
+      "proposed": "The EMC expression data landed and FAP was read (ART-EMC-EXPRESSION-PANELS gene_reads.FAP, GPL6244). What is registered-and-waiting is the imaging half and the dosimetry, neither of which any expression deposit supplies. ⚠ Superseded, retained: 'Keep registered for automatic re-grade when EMC expression data lands.'",
+      "refuted_by": {
+        "artifact": "research/modalities/emc-expression-panels.json",
+        "line": "gene_reads.FAP readable: true"
+      },
+      "justification": "Trigger already fired."
+    },
+    {
+      "route": "RT-FAP-RLT",
+      "field": "timing.revisit_trigger",
+      "verdict": "STALE",
+      "current": ["TECH-EMC-EXPRESSION-DATA"],
+      "proposed": "KEEP, re-grade the technology row.",
+      "justification": "Same as above."
+    },
+
+    {
+      "route": "RT-CART-SURFACE",
+      "field": "next.best_next_action",
+      "verdict": "REFUTED",
+      "current": "Keep registered. The antigen search re-runs automatically when EMC expression data lands.",
+      "proposed": "The antigen search RAN: ART-EMC-EXPRESSION-PANELS reads.read_8_SURFACE_ANTIGEN scores the candidate surface addresses on both readable EMC array platforms, with a cross_platform_board and a the_route_named_addresses block. ⛔ It returned no selective surface antigen, and it could not have: the artifact's own ⛔_what_no_reading_here_can_establish refuses protein presence, surface localisation, surface DENSITY, tumour-cell versus stromal origin and tumour restriction against normal tissue. What this route still needs is a protein-level, tumour-versus-normal read, which is a bench. ⚠ Superseded, retained: 'Keep registered. The antigen search re-runs automatically when EMC expression data lands.'",
+      "refuted_by": {
+        "artifact": "research/modalities/emc-expression-panels.json",
+        "line": "reads.read_8_SURFACE_ANTIGEN — question: 'Which candidate surface / therapeutic-address antigens are READABLE in EMC tumour tissue on these two platforms, and which of them are higher in EMC than in the comparator sarcomas on BOTH?'"
+      },
+      "justification": "The search the field says will run automatically has already run. ⛔ readiness.missing ('a selective surface antigen') HOLDS and is NOT proposed for change — the search ran and found none, and the artifact refuses the selectivity axis outright.",
+      "takeability": "None."
+    },
+    {
+      "route": "RT-CART-SURFACE",
+      "field": "timing.revisit_trigger",
+      "verdict": "STALE",
+      "current": ["TECH-EMC-EXPRESSION-DATA"],
+      "proposed": "KEEP, re-grade the technology row.",
+      "justification": "Same as above."
+    },
+
+    {
+      "route": "RT-CARFILZOMIB",
+      "rank": 2,
+      "field": "next.blocked_on",
+      "verdict": "REFUTED",
+      "current": ["BLK-NO-EMC-DATA"],
+      "proposed": [],
+      "refuted_by": {
+        "artifact": "research/literature/carfilzomib-class-clinical-2026-08-28.json",
+        "line": "Exists at HEAD (rc=0). The route's own next.best_next_action says the query 'is recorded verbatim in research/literature/carfilzomib-class-clinical-2026-08-28.json and costs $0 to repeat', and next.cost is '$0'."
+      },
+      "justification": "INDEPENDENTLY RE-VERIFIED, NOT INHERITED — first found by S41 Finding 4. A literature query is not gated by a functional-genomics data blocker, and the field prices its own action at $0 in the same object. ⛔ Does not satisfy required_validation[0] ('A clinical series'), which S41 re-attributes to BLK-NO-CURATED-CLINICAL-DATA, and touches no grade.",
+      "takeability": "$0 literature query. Second-ranked, and it creates no work this audit did not already inherit from S41."
+    },
+
+    {
+      "_group": "supporting_evidence[].strength — ten `direct` entries whose evidence argues against or does not support their own route",
+      "verdict": "REFUTED",
+      "field": "supporting_evidence[*].strength",
+      "proposed_change_to_strength": "NONE. systems/schema/route.schema.json:62 admits only direct | transferred | class_inherited | surrogate with additionalProperties: false, so there is no value meaning 'this evidence argues against the route'. Forcing one of the four would be a worse lie than leaving it.",
+      "proposed_mitigation": "Append to each entry's what_it_supports the carrier the driver used on RT-SGK1/ART-NDRG1-PANEL-ATTRIBUTION: an explicit clause stating that `strength` reads `direct` and is false for this entry, that the schema cannot express a refutation, and 'read this text, not that field'. ⚠ THIS IS A MITIGATION AND NOT A FIX — the field still reads green to any machine reader. The schema change is filed as its own ledger row.",
+      "how_found": "NOT by reading the prose. A language scan of what_it_supports found 14 of the 60 direct entries and MISSED THREE of the ten (RT-ARGININE, RT-MDM2, RT-EZH2), whose text is phrased as a neutral measurement. The discriminator that catches all of them is the cited artifact's OWN grading field: research/modalities/census-route-expression-grading.json carries, per route, `direction_the_route_needed` and `route_action`.",
+      "entries": [
+        {"route": "RT-ARGININE", "ref": "ART-CENSUS-ROUTE-GRADING", "artifact_route_action": "down-grade: the premise as stated is not supported", "entry_text": "ASS1 is not low in EMC tumour tissue on either readable array platform, so the selecting feature for arginine deprivation is absent at transcript level"},
+        {"route": "RT-MDM2", "ref": "ART-CENSUS-ROUTE-GRADING", "artifact_route_action": "down-grade; the selection argument was the whole route and it is not supported", "entry_text": "the p53 transcriptional output group reads lower in EMC than in comparator sarcomas on both platforms, against the direction the class requires"},
+        {"route": "RT-EZH2", "ref": "ART-CENSUS-ROUTE-GRADING", "artifact_route_action": "down-grade", "entry_text": "neither PRC2 elevation nor SWI/SNF subunit loss is present in EMC on either platform"},
+        {"route": "RT-POLQ", "ref": "ART-CENSUS-ROUTE-GRADING", "artifact_route_action": "down-grade, but record the alt-EJ elevation rather than burying it — it is the one half of this class's requirement that IS present", "artifact_direction_the_route_needed": "alt-EJ up WITH homologous recombination down", "entry_text": "... so the combination this class requires is absent although one half of it is present"},
+        {"route": "RT-MATRIX-SYNTHESIS", "ref": "ART-CENSUS-ROUTE-GRADING", "artifact_route_action": "re-scope: the premise must be restated in a form this reading does not already contradict", "artifact_direction_the_route_needed": "CS biosynthetic and sulfation machinery HIGH in EMC", "entry_text": "the sulfate-donor module is lower in EMC than in comparator sarcomas on both readable platforms, against the route's stated premise"},
+        {"route": "RT-ALK-HIT", "ref": "ART-CENSUS-ROUTE-GRADING", "artifact_route_action": "demote and fold into the kinase paper as a corrected reading of a lead", "entry_text": "the named targets are readable on GPL6244 and the group scores lower in EMC there ... abundance cannot attribute a screen hit either way"},
+        {"route": "RT-SGK1", "ref": "ART-CENSUS-ROUTE-GRADING", "artifact_route_action": "keep at concept; the corroboration this route was registered for did not arrive", "entry_text": "SGK1 transcript is discordant across the two platforms while its canonical substrate NDRG1 is concordantly higher on both"},
+        {"route": "RT-SGK1", "ref": "ART-NDRG1-PANEL-ATTRIBUTION", "artifact_route_action": "n/a — the entry itself is the withdrawal", "entry_text": "⛔⛔ REFUTED AS A DIRECTIONAL FINDING, 2026-09-02 (AUT-PD-185)", "note": "ALREADY FILED by the driver on 2026-09-02. Listed here only so the population is complete; no new action proposed."},
+        {"route": "RT-PRAME-IMMTAC", "ref": "ART-EMC-EXPRESSION-PANELS", "artifact_route_action": "n/a", "entry_text": "The owed EMC-tissue expression read, and it points against this route rather than for it", "verified_from_artifact": "gene_reads.PRAME on GSE24369/GPL6244: readable true, probe 8074856, EMC mean_z -0.468 vs comparator -0.464, mean_array_percentile 0.3026 — reproducing the entry's 'delta = -0.004 ... at the 30th array percentile'"},
+        {"route": "RT-TRABECTEDIN", "ref": "ART-EMC-CLINICAL-REGISTRY", "artifact_route_action": "n/a", "entry_text": "n=2 EMC subjects of a 5-subject mixed arm, PRIMARY provenance, orrEvents 0, both stable disease ... the arm-wide ~12.5-month median PFS is withdrawn as an EMC figure"}
+      ],
+      "explicitly_left_alone": {
+        "mixed_positive_with_a_stated_ceiling": ["RT-TRABECTEDIN-PPARG/ART-EMC-EXPRESSION-PANELS", "RT-PPARG-DOWNSTREAM/ART-EMC-EXPRESSION-PANELS", "RT-FUSION-OUTPUT/EV-PMC6766969", "RT-FUSION-OUTPUT/EV-FILION-2009", "RT-CHAPERONE/ART-CENSUS-ROUTE-GRADING", "RT-DIAGNOSTIC-PATHWAY/ART-ICDO-CONTAMINATION"],
+        "correct_use_of_a_negative": ["RT-RXR/EV-ZETTERSTROM-1996 — a published primary negative is direct support for a route that IS a closure"]
+      }
+    }
+  ],
+
+  "adjacent_not_in_the_route_population": [
+    {
+      "file": "systems/graph/technologies.json",
+      "id": "TECH-EMC-EXPRESSION-DATA",
+      "field": "current_state / evidence / pending_signals[0].graded",
+      "verdict": "STALE",
+      "current": {
+        "current_state": "early_signals",
+        "evidence": ["The weekly scan fired on this trigger with new hits in its most recent run; none has yet been graded as a usable deposit."],
+        "pending_signals_0": {"paper_id": "PMC13039535", "seen_on": "2026-08-08", "graded": false}
+      },
+      "refuted_by": {
+        "artifact": "research/modalities/emc-expression-panels.json",
+        "line": "generated_utc 2026-08-29T12:51:32+00:00; platforms.GSE24369 _status: 'read' and platforms.GSE4303-GPL3290 _status: 'read'; 20 reads; gene_reads over 479 symbols"
+      },
+      "justification": "Two EMC tumour series were graded usable and read. ⛔ GRADED STALE AND NOT REFUTED, deliberately: the technology's name specifies 'a fetchable public EMC RNA-seq or proteomics deposit' and what landed is decade-old microarray — a different modality. What arrived is the CAPABILITY its why_it_matters names ('per-antigen expression confirmation on real EMC tissue'), not the deposit type its name names. 20 routes carry this technology as a revisit trigger, and pending_signals[0] has read graded: false for 25 days. Re-grading is $0.",
+      "not_proposed": "No edit is proposed to technologies.json by this seat — it is outside the audited population and outside the owned paths."
+    }
+  ],
+
+  "raised_not_patched": [
+    {
+      "what": "27 routes carry an entry-level required_validation[*].blocked_by that is absent from route-level blockers_inherited (24 of the 27 are BLK-NO-WET-LAB). Seven of those have blockers_inherited: [] outright: RT-PANNR4A-EXVIVO, RT-RXR, RT-ENDPOINT-CHOICE, RT-FUSION-OUTPUT, RT-MDT-LUNG, RT-SCHEDULING, RT-DIAGNOSTIC-PATHWAY.",
+      "why_not_patched": "Whether route-level inheritance is MEANT to be the union of its entries is a graph-semantics question this seat does not own. S41 found RT-ENDPOINT-CHOICE; the mechanical population is seven, and the wider one is 27.",
+      "cost_to_settle": "$0 — a decision plus a systems_check assertion."
+    },
+    {
+      "what": "research/manuscripts/degrader/selectivity-requirement-sizing.md §6 carries a six-block graph patch as pasteable JSON. Five blocks landed on 2026-08-07 and the sixth did not, in the same route object where four of the five did.",
+      "why_not_patched": "The patch content IS proposed above (RT-MONOVALENT entries). What is raised here is the process: a manuscript that writes its own graph patch has nothing that checks the patch landed.",
+      "cost_to_settle": "$0 — a guard that greps committed manuscripts for pasteable graph blocks and diffs them against the graph."
+    },
+    {
+      "what": "BLK-NO-FIELD-ATTENTION-MEASUREMENT is referenced by no route, deliberately and by its own documented design ('It holds the PAPER'). Its retired_by_action opens 'FREE AND TAKEABLE TODAY' and names a $0 term census over 554 committed records.",
+      "why_not_patched": "Nothing is wrong with it. Recorded because nothing in the route ranker will ever surface a free, takeable item that holds only a paper.",
+      "cost_to_settle": "n/a — this is a visibility observation, not a defect."
+    },
+    {
+      "what": "next.cost is '$0' on 77 of 77 routes. Each was checked against the action it prices and each holds.",
+      "why_not_patched": "Not a defect. But a field with one value across the whole population discriminates nothing, and a reader scanning for a cheap route learns nothing from it."
+    },
+    {
+      "what": "Three required_validation entries omit blocked_by entirely (RT-TRABECTEDIN-PPARG[0], RT-PPARG-DOWNSTREAM[1], RT-PRAME-IMMTAC[0]) where the other 145 carry it. All three are already-answered requirements, so the omission is benign in effect.",
+      "why_not_patched": "An unenforced optional key doing load-bearing work is a schema question, not a claim correction."
+    }
+  ],
+
+  "_what_holds_and_was_checked": [
+    "All 63 file paths named inside route records exist at HEAD.",
+    "All 31 artifact ids cited by routes resolve in artifacts.json; all 31 paths exist; none is a stub.",
+    "All 29 distinct grade.owner.file documents exist at HEAD.",
+    "Every blocker id referenced anywhere in routes.json resolves in blockers.json (21 blockers). Zero dangling.",
+    "No blocker appears in both blockers_inherited and blockers_retired on any route.",
+    "No route has state.status 'blocked' with no blocker recorded anywhere on it.",
+    "routes.json contains no running_job field (grep -c returns 0). The one occurrence in systems/graph/ is prose in strategies.json.",
+    "RT-CART-SURFACE.readiness.missing ('a selective surface antigen') HOLDS: the search ran and the artifact refuses the selectivity axis outright.",
+    "RT-MONOVALENT.readiness.missing HOLDS: it was correctly updated by the sizing document's §6(d) on 2026-08-07."
+  ]
+}
