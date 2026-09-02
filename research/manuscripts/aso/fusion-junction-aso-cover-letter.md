@@ -22,13 +22,14 @@ last_verified: 2026-08-13
 
 # Cover letter
 
-*⛔ NOT SENDABLE YET, AND THE REASON IS THE ORDERING RATHER THAN A DEFECT. Both papers now cite
-**10.5281/zenodo.22180100**, a RESERVED BUT UNPUBLISHED version opened from the published record
-22166420 (Actions run 33329057228: "opened NEW VERSION draft 22180100 of published record 22166420",
-"cleared 1 inherited file(s)", "DRAFT deposition 22180100 created. NOTHING IS PUBLISHED."). Until it
-is published the archive links in both papers resolve to nothing. ★ THAT WINDOW IS THE
-RESERVE-THEN-REBUILD ORDERING WORKING: a published Zenodo version's files cannot be edited, so the
-manuscript must print the identifier the archive WILL carry before the files are frozen.
+*⛔ NOT SENDABLE YET, AND THE REASON IS NO LONGER THE ARCHIVE. Both papers cite
+**10.5281/zenodo.22229096**, and that version IS PUBLISHED — read back from Zenodo's public records
+API by Actions run 33560898366 ("state : done (submitted=True)", "published : 2026-09-01"), not
+assumed. The archive links in both papers resolve.
+★ The rule this file already states four paragraphs down — *name the identifier a status is a
+status FOR* — is now enforced rather than written:
+`test_the_cover_letters_deposit_status_names_the_published_record` binds this paragraph to
+`deposit-state.json`, so the next turnover fails the build instead of reaching an editor.
 ⚠ WHY A NEW VERSION AT ALL, since 22166420 is published and resolves: because it holds an EARLIER
 COPY OF THIS PAPER. Round 22 found it by four of five blind seats independently — the deposited
 manuscript still carries "61 of the 87 do so against wild-type NR4A3", a membership wording over an
@@ -38,7 +39,29 @@ above; a published version cannot be corrected in place, only superseded.
 ⛔ What else stands between this letter and a mailbox: `publish_bar` is at 4/7 for PUB-ASO —
 `hardening_converged`, `preflight_full_green` and `independent_adversarial_seat` are each bound to
 the sha of the commit that gets posted — plus the date and the editor's name from the journal's
-current masthead, which this repository cannot supply.*
+current masthead, which this repository cannot supply.
+⚠ AND THE THREE OPEN CLAUSES ARE NOT A FORMALITY. On 2026-09-02 the publication tier's ablation
+sweep — which runs only under `PREFLIGHT_FULL=1`, over all 106 covered sentences rather than the
+commit loop's sample of six — found ELEVEN whose credited witnesses never went red, every one of
+them a quantity written as a WORD rather than as digits. Nine green commit-loop runs that day saw
+none of them. That is what the 25 minutes at this door is for.*
+
+⚠ *Superseded, retained (rule 1.2), FOURTH TURNOVER OF THIS SENTENCE, AND THE FIRST THAT REACHED A
+SUBMISSION DELIVERABLE. Until 2026-09-02 the live banner read: "Both papers now cite
+10.5281/zenodo.22180100, a RESERVED BUT UNPUBLISHED version ... Until it is published the archive
+links in both papers resolve to nothing." Every clause was false by then — the deliverables printed
+22229096, published 2026-09-01 and read back from Zenodo's records API. Round 32's
+citations-and-archive seat found it. `lint_citations` could not and should not: a retired identifier
+is perfectly well ANCHORED, and provenance is a different question from currency, exactly as claim
+strength is a different question from claim provenance (CLAUDE.md §7). ⚠ AND IT IS WRITTEN OUT IN FULL HERE, WHICH A FIRST ATTEMPT GOT WRONG TWICE. That draft inserted a
+space inside the retired identifier so it could not read as a live pointer — and thereby MANUFACTURED
+a shorter DOI that resolves to nothing, which `lint_citations` correctly flagged as unanchored,
+appearing only in prose. The second attempt then explained the mistake by QUOTING the manufactured
+identifier, and the gate flagged it again, for the same reason and just as correctly. ★ A citation
+that exists nowhere is a worse failure than a retired citation that is clearly labelled, and neither
+a space nor a quotation mark makes a string stop being an identifier. What separates history from a
+pointer here is the `Superseded, retained` marker — which is what the guard reads and what a human
+reads.*
 
 ⚠ *Superseded, retained (rule 1.2), and TRUE OF 22166420 WHEN WRITTEN: "✅ THE ARCHIVE ITEM IS
 CLOSED, AND IT WAS READ BACK RATHER THAN ASSUMED. Both papers cite 10.5281/zenodo.22166420, and that

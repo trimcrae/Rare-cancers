@@ -111,11 +111,18 @@ def render(rev, changed, added, removed):
         body = ("✅ **0 paths changed, 0 added, 0 removed** against the published record's manifest "
                 "at `%s`. The published archive is what this tree would deposit." % rev[:12])
     else:
-        body = ("⛔ **%d path%s changed, %d added, %d removed** against the published record's own "
-                "manifest at `%s`.\n\n<details><summary>every deposited path that differs</summary>"
+        # ⛔ THE TOTAL IS PRINTED FIRST, AND IT IS NOT DECORATION. `test_a_declared_drift_states_
+        # the_size_it_actually_has` searches this block for changed+added+removed. While added and
+        # removed are both zero that equals `changed` and the guard passes by COINCIDENCE — round
+        # 32's regression seat simulated 16 changed + 4 added and the correctly generated block went
+        # RED, because no standalone 20 appeared anywhere in it. A generated artifact whose own
+        # guard fails the moment the data takes a shape it has not yet taken is a latent false red.
+        body = ("⛔ **%d deposited path%s differ** from the published record: **%d changed, %d "
+                "added, %d removed** against its own manifest at `%s`.\n\n<details><summary>every deposited path that differs</summary>"
                 "\n\n%s\n\n</details>"
-                % (len(changed), "" if len(changed) == 1 else "s", len(added), len(removed),
-                   rev[:12],
+                % (len(changed) + len(added) + len(removed),
+                   "" if len(changed) + len(added) + len(removed) == 1 else "s",
+                   len(changed), len(added), len(removed), rev[:12],
                    "\n".join("* `%s`" % p for p in changed + ["+ " + p for p in added]
                              + ["− " + p for p in removed])))
     return BEGIN + "\n\n" + body + "\n\n" + END

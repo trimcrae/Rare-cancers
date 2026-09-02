@@ -44,6 +44,16 @@ DOCS = ["fusion-junction-aso-research-article.md",
 
 #: ⛔ THE TWO PREDICATES, AND THE WORDINGS THAT ASK FOR EACH. A sentence naming NR4A3 alongside one
 #: of these rates is making one of two different claims, and the artifact answers them differently.
+#: ⛔ THE THIRD FIELD, ADDED 2026-09-02. `rate_liable` is the scramble null's HEADLINE number — "10.0%
+#: of such scrambles pair a parent's whole catalytic gap" — and neither half of this file bound it.
+#: Found by running a mutation against the freshly-scoped argmax half: 10.0 -> 6.2, the mononucleotide
+#: arm's value at the same cut, passed all thirteen tests. ★ THAT IS THE ONE-OF-A-PAIR SHAPE FOR THE
+#: THIRD TIME IN TWO DAYS — predicate then ensemble, membership then argmax, and now the field the
+#: other two are computed against. The rule that keeps catching this repository is that a guard binds
+#: the thing in front of it; the discipline is to enumerate the axes and the fields, not to fix the
+#: instance.
+_LIABLE = re.compile(r"scrambles?\s+pair\s+a\s+parent'?s?\s+whole\s+catalytic\s+gap", re.I)
+
 _MEMBERSHIP = re.compile(r"pair(?:ing|s)?\s+wild-type\s+\*?NR4A3\*?\s+specifically", re.I)
 _ARGMAX = re.compile(r"the\s+longest\s+is\s+wild-type\s+\*?NR4A3\*?", re.I)
 #: The wording that reads as membership to any reader and was silently carrying the argmax.
@@ -86,13 +96,44 @@ _ENSEMBLE_WORDS = (
 
 
 def _ensemble_named_in(window):
-    """The ensemble a sentence names, or None. Dinucleotide is tested first: 'dinucleotide-preserving'
-    contains no 'mononucleotide', but ordering it first keeps the two from ever racing."""
+    """The ensemble NEAREST the claim, or None.
+
+    ⛔⛔ NEAREST, NOT FIRST-IN-A-PRIORITY-LIST, AND THE DIFFERENCE IS A WRONG ANSWER RATHER THAN A
+    MISSED ONE. The first version walked a fixed order and returned the first arm it found anywhere
+    in the window, so a passage that discusses the mononucleotide arm and then the dinucleotide one
+    would bind a mononucleotide claim to the dinucleotide values — the guard confidently checking
+    the wrong thing, which is worse than not checking. Scanning for the LAST mention before the
+    claim follows how the prose actually refers: the arm most recently named is the one "such
+    scrambles" means.
+    ⚠ AND THE LOOKBACK IS SENTENCE-BOUNDED RATHER THAN A CHARACTER COUNT (see `_ensemble_window`).
+    A number that happens to fit today is fitted to the instance; a sentence boundary is a unit of
+    the thing being read.
+    """
     w = window.lower()
+    best, where = None, -1
     for name, pats in _ENSEMBLE_WORDS:
-        if any(re.search(pat, w) for pat in pats):
-            return name
-    return None
+        for pat in pats:
+            for m in re.finditer(pat, w):
+                if m.start() > where:
+                    best, where = name, m.start()
+    return best
+
+
+#: How far back an ENSEMBLE may be established, in sentences. A cut is restated per claim; an arm is
+#: named once and referred to anaphorically after — "such scrambles", "the same null". Measured on
+#: the journal article: the antecedent of the control sentence's "such scrambles" sits 284 characters
+#: back, across two sentence boundaries, and a 200-character window could not see it. ⚠ THE FIX IS
+#: NOT A BIGGER NUMBER. Three sentences is the span over which this corpus actually carries a
+#: referent; if a paper ever needs more, that paper's sentence should name its arm instead.
+_ENSEMBLE_LOOKBACK_SENTENCES = 3
+
+
+def _ensemble_window(text, start, end):
+    """`text` back to the start of the third preceding sentence, forward to `end`."""
+    pre = text[:start]
+    bounds = [m.end() for m in re.finditer(r"(?<=[.;])\s+", pre)]
+    cut = bounds[-_ENSEMBLE_LOOKBACK_SENTENCES] if len(bounds) >= _ENSEMBLE_LOOKBACK_SENTENCES else 0
+    return text[cut:end]
 
 
 def _rates(field, cut=None, ensemble=None):
@@ -132,8 +173,8 @@ def _membership_rates(cut=None, ensemble=None):
     return _rates("rate_pairing_NR4A3_specifically", cut, ensemble)
 
 
-def _argmax_rates(cut=None):
-    return _rates("rate_liable_attributed_to_NR4A3", cut)
+def _argmax_rates(cut=None, ensemble=None):
+    return _rates("rate_liable_attributed_to_NR4A3", cut, ensemble)
 
 def _text(name):
     p = os.path.join(ASO, name)
@@ -201,7 +242,7 @@ def test_every_membership_rate_printed_is_the_membership_field(name):
         # 47.9, 64.0 and 52.3 all passed in place of 38.8.
         # ★ A sentence that NAMES its ensemble is admissible only against that ensemble. One that
         # names none is unchanged from before: the union, which is all the sentence has claimed.
-        ensemble = _ensemble_named_in(window)
+        ensemble = _ensemble_named_in(_ensemble_window(text, m.start(), m.end() + 40))
         allowed = _membership_rates(cut, ensemble)
         where = f"the {cut}-base-pair cut" if cut else "any cut (the sentence names none)"
         whose = f"the {ensemble} null" if ensemble else "any null ensemble (the sentence names none)"
@@ -211,6 +252,30 @@ def test_every_membership_rate_printed_is_the_membership_field(name):
             "reach this line: the argmax field `rate_liable_attributed_to_NR4A3`, which reads "
             "plausibly and is a different QUANTITY, and another ensemble's value at the same cut, "
             "which is the right quantity from the wrong ARM.")
+
+
+@pytest.mark.parametrize("name", DOCS)
+def test_every_liable_rate_printed_is_the_liable_field_of_the_arm_it_names(name):
+    """The scramble null's headline rate, bound to (field, cut, ensemble) like the other two.
+
+    ⛔ IT WAS UNBOUND UNTIL 2026-09-02 AND NOTHING NOTICED, because both existing halves keyed off
+    NR4A3-specific wordings and this claim mentions no gene at all. A guard family that covers two of
+    three fields reads as complete — the file had thirteen passing tests over it.
+    """
+    text = _text(name)
+    for m in _LIABLE.finditer(text):
+        window = text[max(0, m.start() - 160): m.end() + 60]
+        pcts = re.findall(r"(\d+\.\d)%", window)
+        if not pcts:
+            continue
+        cut = _cut_named_in(window)
+        ensemble = _ensemble_named_in(_ensemble_window(text, m.start(), m.end() + 60))
+        allowed = _rates("rate_liable", cut, ensemble)
+        assert any(p in allowed for p in pcts), (
+            f"{name} prints {pcts} for the share of scrambles pairing a parent's whole catalytic "
+            f"gap at cut {cut!r} on {ensemble!r}, and none is a `rate_liable` value there. The "
+            "other arm's value at the same cut is the substitution to expect — it is the right "
+            "quantity from the wrong ensemble.")
 
 
 @pytest.mark.parametrize("name", DOCS)
@@ -257,21 +322,30 @@ def test_every_argmax_rate_printed_is_the_argmax_field(name):
     wrong field is absent' fail differently, and a guard that checks only one is half a guard
     (`paper-hardening` §8b)."""
     text = _text(name)
-    d = json.load(open(NULL, encoding="utf-8"))
-    allowed = set()
-    for ens in d["null_ensembles"].values():
-        for row in (ens.get("cut_ladder") or {}).values():
-            v = row.get("rate_liable_attributed_to_NR4A3")
-            if isinstance(v, (int, float)):
-                allowed.add(f"{v * 100:.1f}")
     for m in _ARGMAX.finditer(text):
         window = text[max(0, m.start() - 200): m.end() + 40]
         pcts = re.findall(r"(\d+\.\d)%", window)
         if not pcts:
             continue          # the journal article states this one as a count, not a rate
+        # ⛔⛔ SCOPED BY CUT AND ENSEMBLE LIKE ITS MEMBERSHIP TWIN, ADDED 2026-09-02 — AND UNTIL THEN
+        # THIS HALF WAS A UNION OVER BOTH AXES WHILE THE OTHER HALF HAD BOTH. Round 31 bound
+        # membership to (cut, ensemble) and left this function reading every row of every arm, so
+        # the file LOOKED symmetric and was not. Round 32's regression seat measured the cost: at
+        # the journal article's control sentence, 3.9 -> 1.8 — the wrong arm at the right cut, the
+        # exact defect round 31 was convened for — still passed, as did 24.5, 29.4 and 3.5.
+        # ★ ONE-OF-A-PAIR, INSIDE THE FIX FOR A ONE-OF-A-PAIR DEFECT. `paper-hardening` §8b.2 says a
+        # fix bound to one call site regresses at its sibling; here the sibling was eighty lines
+        # below, in the same file, named "The mirror assertion".
+        cut = _cut_named_in(window)
+        ensemble = _ensemble_named_in(_ensemble_window(text, m.start(), m.end() + 40))
+        allowed = _argmax_rates(cut, ensemble)
+        where = f"the {cut}-base-pair cut" if cut else "any cut (the sentence names none)"
+        whose = f"the {ensemble} null" if ensemble else "any ensemble (the sentence names none)"
         assert any(p in allowed for p in pcts), (
-            f"{name} prints {pcts} beside an ARGMAX claim and none is a "
-            "`rate_liable_attributed_to_NR4A3` value in aso-parent-null.json")
+            f"{name} prints {pcts} beside an ARGMAX claim about {whose} read at {where}, and none "
+            "is a `rate_liable_attributed_to_NR4A3` value there. The membership field "
+            "`rate_pairing_NR4A3_specifically` reads plausibly and is a different QUANTITY; another "
+            "arm's value at the same cut is the right quantity from the wrong ARM.")
 
 
 def test_the_two_readings_really_do_differ_so_this_guard_is_not_vacuous():

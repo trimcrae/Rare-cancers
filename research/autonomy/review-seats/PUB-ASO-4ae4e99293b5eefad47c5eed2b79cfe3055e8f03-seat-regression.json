@@ -1,0 +1,75 @@
+{
+ "_schema": "emc-review-seat/1",
+ "paper": "PUB-ASO",
+ "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+ "reviewed_commit": "4ae4e99293b5eefad47c5eed2b79cfe3055e8f03",
+ "document_sha256": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+ "blind": true,
+ "seat": "regression",
+ "lens": "Whether round 31's repairs to this manuscript and its machinery introduced new defects. The repairs under review: (1) a sentence in the extended research article that read \"Read at seven, the same null returns 74.3% ... and 38.8%\" now reads \"the same dinucleotide-preserving null returns 85.4% ... and 47.9%\" — the earlier figures were the mononucleotide arm under a dinucleotide antecedent; (2) the cut-ladder table's column headed \"scramble null %\" is now \"scramble null % (mononucleotide)\", and the table's lead sentence names the arm too; (3) the guard test_the_scramble_null_rates_are_bound_to_their_artifact.py gained an ENSEMBLE axis and a new assertion that a membership rate read at a named cut must name its arm; (4) the preprint checklist's §3-vii deposit-drift count is no longer typed — research/manuscripts/aso_deposit_drift.py generates it between markers and its --check runs in preflight gate 11; (5) that item's guard, test_a_declared_drift_states_the_size_it_actually_has, now reads only the generated block instead of all of §3. Look for: a repaired number that disagrees with its artifact; a corrected fact left wrong at another of its homes; a generated block whose generator can print something false; a guard that passes while the defect it names is present; and — specifically — whether naming the mononucleotide arm in the ladder column has made any OTHER sentence that reads that column now inconsistent with it.",
+ "utc": "2026-09-02T04:03:39Z",
+ "what_i_read": [
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "research/manuscripts/aso/fusion-junction-aso-research-article.md",
+  "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+  "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",
+  "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+  "research/manuscripts/aso/deposit-state.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-title-page.docx.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-figure-legends.docx.build-stamp.json",
+  "research/modalities/aso-parent-null.json",
+  "research/manuscripts/aso_deposit_drift.py",
+  "research/manuscripts/aso_archive_manifest.py",
+  "research/manuscripts/claim_coverage.py",
+  "research/manuscripts/lint_consistency.py",
+  "research/manuscripts/pinned-figures.json",
+  "research/manuscripts/tests/test_the_scramble_null_rates_are_bound_to_their_artifact.py",
+  "research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py",
+  "research/manuscripts/tests/test_the_printed_cut_ladder_is_the_measured_one.py",
+  "research/manuscripts/tests/test_journal_article_numbers.py (assertion index only)",
+  "scripts/preflight.sh",
+  "scripts/selector-validation.json"
+ ],
+ "central_claim": "Two junction-spanning 16-mer 5-6-5 gapmers, at the two most-reported in-frame NR4A3 fusion breakpoints, are named as synthesisable research reagents together with screened controls and a pre-registrable selectivity test — selected from a 190-design panel by five in-silico specificity screens whose own central reading is negative, because the wild-type-parent liability the panel measures (45.8% at the adopted ten-base-pair cut) is not separable from what a chimera of two real exon termini produces (40.6%), and no efficacy, potency, safety or delivery claim is made.",
+ "verdict": "supported",
+ "recommendation": "minor",
+ "blockers": [],
+ "p1s": [],
+ "p2s": [
+  {
+   "summary": "Round 31 bound the MEMBERSHIP half of the scramble-null guard to (cut, ensemble) and left the ARGMAX half unbound on both axes, so the very substitution round 31 repaired — one null arm's value printed under another arm's antecedent — still passes at the journal article's own scramble-control sentence.",
+   "evidence": "test_every_argmax_rate_printed_is_the_argmax_field builds its accepted set inline over EVERY ensemble and EVERY cut (research/manuscripts/tests/test_the_scramble_null_rates_are_bound_to_their_artifact.py:255-270): 67 distinct printed values out of the artifact's 80 rows. The sibling helper _argmax_rates(cut=None) at line 135 is DEAD CODE — grep over the file shows it is defined and never called (only _membership_rates is, at line 205) — and it carries no `ensemble` parameter even so, so the file's apparent symmetry with the repaired membership path does not exist. Mutation-tested on scratch copies in /tmp/.../round32/regression-work (live tree untouched), replaying all four assertions against the journal article's sentence at line 307 (\"and for 3.9% the longest is wild-type *NR4A3*\"): 3.9 -> 1.8 PASSES (1.8 is rate_liable_attributed_to_NR4A3 for scrambled_mononucleotide at cut 10 — the wrong ARM at the RIGHT cut, exactly the round-31 defect class), 3.9 -> 24.5 PASSES, 3.9 -> 29.4 PASSES, 3.9 -> 3.5 PASSES; only 3.9 -> 99.9, a value belonging to no row at all, FAILS. Re-derived from research/modalities/aso-parent-null.json: the printed 3.9% is null_ensembles.scrambled_dinucleotide.cut_ladder.10.rate_liable_attributed_to_NR4A3 = 0.03911, and it is correct today.",
+   "what_edit_would_break_it": "Any later edit that re-reads this sentence off the mononucleotide column (1.8%) — the same reflex that produced the round-31 defect — lands a wrong number in the SUBMITTED article with every gate green. Deleting the dinucleotide antecedent in the preceding sentence has the same effect and is likewise unseen, because the argmax path never consults _ensemble_named_in at all.",
+   "where": "research/manuscripts/tests/test_the_scramble_null_rates_are_bound_to_their_artifact.py:255 (and the dead helper at :135); the unguarded site is research/manuscripts/aso/fusion-junction-aso-journal-article.md:307"
+  },
+  {
+   "summary": "Repair (5) narrowed test_a_declared_drift_states_the_size_it_actually_has to read ONLY the generated block, but the guard searches that block for the TOTAL (changed + added + removed) while aso_deposit_drift.py renders the three components and never the total — so a correctly generated block fails the guard the moment any deposited path is added or removed.",
+   "evidence": "The guard computes n = len(changed) + len(set(now)-set(was)) + len(set(was)-set(now)) at research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py:270 and asserts a standalone n inside _drift_item's slice at :287; _drift_item at :153-154 now returns only the bytes between the BEGIN/END markers. aso_deposit_drift.py:109-118 computes the same n but prints \"%d path(s) changed, %d added, %d removed\" from the three separate lengths. Simulated by calling the real render() (read-only import of research/manuscripts/aso_deposit_drift.py) and applying the guard's own regex to the block it produced: changed=18/added=0/removed=0 -> n=18, found: TRUE (today's state, which is why it is green); changed=16/added=4 -> n=20, headline \"16 paths changed, 4 added, 0 removed\", found: FALSE; changed=15/added=3 -> n=18, found: FALSE; changed=14/removed=4 -> n=18, found: FALSE. added>0 is reachable and has occurred: the manifest's inventory is resolved by glob (research/manuscripts/aso_archive_manifest.py:938, :1240, :1437), and this file's own history records a deposit where \"the repository had moved 16 files and added 4\". Today's drift block is correct: `python3 research/manuscripts/aso_deposit_drift.py --check` exits 0, and the committed block's 18 paths reproduce.",
+   "what_edit_would_break_it": "Adding one new deposited file — a new PDF under research/manuscripts/aso/, a new junction-aso-designs-*.json — turns this guard red on honest generated output. A gate that reds on true input is the one somebody loosens, and the loosening on offer (widen the slice back to §3, or drop the assertion) undoes exactly the narrowing round 31 made.",
+   "where": "research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py:270,287 against research/manuscripts/aso_deposit_drift.py:109-118"
+  },
+  {
+   "summary": "A corrected fact left wrong at another of its homes: the preprint checklist's round-30 narrative still records 38.8% as the value the repaired sentence's words asked for, and round 31 established that the value there is 47.9%.",
+   "evidence": "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md:499 reads \"an argmax printed under a membership predicate (23.9% where the words asked for 38.8%)\". Re-derived from research/modalities/aso-parent-null.json: at cut 7, scrambled_mononucleotide gives rate_liable_attributed_to_NR4A3 = 0.23918 (23.9%) and rate_pairing_NR4A3_specifically = 0.38755 (38.8%), while the sentence's actual arm, scrambled_dinucleotide, gives 0.29371 (29.4%) and 0.47866 (47.9%). The sentence in the research article now correctly reads 85.4% / 47.9% (research/manuscripts/aso/fusion-junction-aso-research-article.md:1731-1732). So the checklist's parenthesis is accurate as a history of what round 30 wrote and false as a statement of what the words ask for. Grep over all .md/.json/.py outside review records finds no other home of 74.3/38.8/23.9 in this family.",
+   "what_edit_would_break_it": "Nothing catches it: the checklist is not one of the three documents in the scramble-null guard's DOCS list, is not in the 515-path archive manifest, and its numbers are not pinned. The next reader repairing this section takes 38.8% as the settled value and can reintroduce it upstream.",
+   "where": "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md:499"
+  },
+  {
+   "summary": "The sentence that reads the ladder's scramble arm at the adopted cut still does not name that arm, and the two candidate arms differ by more than a factor of two — so renaming the column has left this one site as the only place in §2.5 where a scramble rate is quoted without saying which null it came from.",
+   "evidence": "research/manuscripts/aso/fusion-junction-aso-research-article.md:723-724: \"32.1% of designs carry their qualifying duplex against wild-type *NR4A3*, against 1.8% of scrambles — the count attributed to *NR4A3*, not the *NR4A3*-specific count of the ladder's last column.\" Re-derived: 32.1% = cut_sensitivity.observed_cut_ladder.10.rate_liable_attributed_to_NR4A3 (61/190) and 1.8% = null_ensembles.scrambled_mononucleotide.cut_ladder.10.rate_liable_attributed_to_NR4A3 (0.01818); the dinucleotide arm at the same cut and the same field is 0.03911 (3.9%). The clause disambiguates the PREDICATE (attributed vs specific) and not the ARM, and the two arms are both named in the immediately preceding sentences (6.2% mononucleotide, 10.0% dinucleotide, lines 708-709). This is the property round 31 declared uncheckable in test_a_membership_rate_read_at_a_named_cut_names_its_ensemble's own docstring; that assertion cannot reach here because it is scoped to the _MEMBERSHIP wording only, and the value printed here is an argmax.",
+   "what_edit_would_break_it": "Nothing binds it in either direction: no guard matches this phrasing, so substituting the dinucleotide arm's 3.9% — the arm the reader has just been told is the control a laboratory makes — passes every gate and is a 2.2-fold change to the paper's own null comparison.",
+   "where": "research/manuscripts/aso/fusion-junction-aso-research-article.md:724"
+  },
+  {
+   "summary": "Repair (2) itself is unguarded: deleting \"(mononucleotide)\" from the cut-ladder header and from the table's lead sentence restores the ambiguity round 31 judged defective, with every ladder assertion still green.",
+   "evidence": "test_the_printed_cut_ladder_is_the_measured_one.py hardcodes the arm for column 5 (line 120: ne[\"scrambled_mononucleotide\"][...][\"rate_liable\"]) and asserts nothing about the header naming it; its only header assertions (lines 68-84) are about the published-breakpoint column. Mutation-tested on a scratch copy: with \"| scramble null % (mononucleotide) |\" reduced to \"| scramble null % |\" and the lead sentence's \"the mononucleotide scramble null beside it\" reduced to \"the scramble null beside it\", every ladder assertion — the three header assertions and all eight scramble-cell comparisons — still passes. The scramble-null-rates guard cannot see it either: that lead sentence's membership match is skipped by the \"design\" lead-in test at line 178 and carries no percentage. Verified the column is correct today: all 88 ladder cells re-derive exactly from research/modalities/aso-parent-null.json (mononucleotide rate_liable 91.4/74.3/43.8/18.4/6.2/1.8/0.4/0.1 at cuts 6-13), and the sign-change count is 4.",
+   "what_edit_would_break_it": "Any tidy-up of the header — it is the longest cell in an eleven-column table and the parenthetical is the obvious thing to drop for width — silently returns the column to an unlabelled scramble arm, which is the state round 31 repaired, while the guard keeps binding it to the mononucleotide values.",
+   "where": "research/manuscripts/aso/fusion-junction-aso-research-article.md:641,643 against research/manuscripts/tests/test_the_printed_cut_ladder_is_the_measured_one.py:68-121"
+  }
+ ]
+}
