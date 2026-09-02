@@ -95,30 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-08-29T09:06:24Z",
-      "et": "5:06 AM ET",
-      "outcome": "failed",
-      "what_that_means": "the launch died before the rental was attempted (see `reason`)",
-      "stage": "rent (steps.rent.outcome=skipped)",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33244635220",
-      "gate_ratio_vs_basis": 1.115,
-      "gate_mean_usd_per_ns": 0.003804,
-      "gate_projected_usd": 8.16,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "bid tier clears at 1.115x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.593x basis",
-      "gate_board_depth": {
-        "offers_returned": 126,
-        "qualifying": 126,
-        "priceable": 78,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "n_requested": 4,
-      "n_rented": 0,
-      "reason": "task=edge-reps; job status failure; atom-map gate: could-not-run: pulling the stage caches from S3"
-    },
-    {
       "utc": "2026-08-29T09:07:28Z",
       "et": "5:07 AM ET",
       "outcome": "failed",
@@ -1387,12 +1363,36 @@
       "n_requested": 4,
       "n_rented": 0,
       "reason": "task=edge-reps; job status failure; atom-map gate: could-not-run: pulling the stage caches from S3"
+    },
+    {
+      "utc": "2026-09-02T15:12:02Z",
+      "et": "11:12 AM ET",
+      "outcome": "failed",
+      "what_that_means": "the launch died before the rental was attempted (see `reason`)",
+      "stage": "rent (steps.rent.outcome=skipped)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33646809367",
+      "gate_ratio_vs_basis": 1.722,
+      "gate_mean_usd_per_ns": 0.005876,
+      "gate_projected_usd": 9.8,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "bid tier clears at 1.722x basis; on-demand was NOT taken because it is over the rung's dollar ceiling (projected $16.66); over the $/ns drift line (the buy line) at 2.928x basis",
+      "gate_board_depth": {
+        "offers_returned": 60,
+        "qualifying": 22,
+        "priceable": 22,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "n_requested": 4,
+      "n_rented": 0,
+      "reason": "task=triangle; job status failure; atom-map gate: could-not-run: pulling the stage caches from S3"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 5522,
-    "through_utc": "2026-08-29T09:04:55Z"
+    "n_total": 5523,
+    "through_utc": "2026-08-29T09:06:24Z"
   }
 }
