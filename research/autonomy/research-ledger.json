@@ -5,7 +5,7 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
-    "analysis": 5,
+    "analysis": 7,
     "build": 1,
     "code": 1,
     "decide": 1,
@@ -16,7 +16,7 @@
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 194,
+    "process_defect": 195,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 180,
-    "in_progress": 10,
+    "in_progress": 11,
     "parked": 30,
-    "queued": 164,
+    "queued": 166,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -834,6 +834,96 @@
         }
       ],
       "_s25_atr_assess_2026_09_02": "★ THE ROW'S NAMED HALF IS DONE AND THE OUTWARD HALF WAS NOT TOUCHED. This row is two acts and only one is the loop's: publishing the assessment is loop work under the standing aiXiv grant, and the PAIRED CELL-PANEL ASK is an approach to an outside group — CLAUDE.md §3, outward-facing. It was NOT sent, NOT drafted for sending, and is NOT a blocker on the publication. The two are separated here deliberately.\n★ WHAT LANDED: BLK-CLASS-INHERITANCE's retired_by_action — 'State plainly, wherever the transfer argument is used, that no NR4A3 fusion has been tested for the phenotype' — is now discharged for emc-atr-vulnerability-assessment.md. MEASURED, not assumed: at 143c252d4803 the paper carried 0 occurrences of 'class inheritance' / 'no NR4A3 fusion has been tested' / 'not an EMC measurement'; it now carries 2, at three load-bearing sites — the opening banner (canonical statement), §6.1 at the point the WEAK tier is declared, and a new item 1 in §6.2's CANNOT list. The banner's claim is bound to an artifact rather than asserted: emc-fet-idr-census.json -> positive_controls holds exactly two measured fusions, EWSR1::FLI1 (Ewing) and EWSR1::ATF1 (clear cell), each carrying _role 'the mechanism was MEASURED on this fusion', and neither is an NR4A3 fusion. ⛔ The blocker itself is NOT retired and cannot be by us; only its misreading is, which is what its own record says.\n★ PUB-ATR's what_it_would_claim in publications.json — 'the assessment states inside itself that class inheritance is not an EMC measurement' — was ASPIRATIONAL until this edit and is now true.\n⛔ WHY THE ROUND IS NOT A ROUND, STATED PLAINLY RATHER THAN DRESSED UP. The seat had no in-process subagent tool in its session (two ToolSearch queries returned no Task/Agent tool) and was forbidden create_session, and no CI workflow in this repository runs a review seat. So it could field NO blind look, and it wrote NO `blind: true` record — a seat that wrote the prose is not blind to it, and stamping one would be a false record in the same class as a fabricated receipt. What it ran instead were the driver's own checks, and they are recorded here rather than as seats:\n  · repair gate (paper-hardening §5b) caught TWO defects in this session's own edits before they landed. Axis (b): the first banner draft read 'CLASS INHERITANCE IS THE WHOLE OF THE TRANSFER ARGUMENT', which contradicts §0's own 'what still stands' table twelve lines below — the structural precondition census IS EMC-specific evidence computed from EMC's sequence. Rewritten to scope the claim to the VULNERABILITY and to say what the census adds: satisfying a precondition is not carrying the phenotype. Axis (a): the first §6.1 draft read 'All three tiers read EMC tumour transcripts, other diseases' cell lines and other diseases' drug responses', false of the WEAK tier whose verbatim criterion is 'only generic proliferation/DNA-damage genes are elevated' — transcripts alone. Re-attributed to the SCALE.\n  · arithmetic lens over §5 (part D), NO FINDINGS: every printed value re-derives from emc-atr-vulnerability.json — mean rho +0.2123/-0.1637/-0.0903/-0.1379, control means +0.0141/+0.0367/-0.0333/+0.0616, the |rho| row 0.014/0.183/0.159/0.203, proliferation_MYC signed mean -0.0139 graded atri_specific true, ATM's 2.7x ratio against a 1.5x bar missing the 0.1 floor by 0.0097, and the passing row's bar 1.15 x 0.1711 = 0.1968 cleared by 0.0155 = 0.41x the stated SE of 0.038.\n  · overclaim scan, NO FINDINGS: 353 sentences screened for a vulnerability/dependency/sensitivity word beside an EMC subject with no hedge, negation or transfer marker. 5 hits, all false positives — three filenames, the §1 verbatim criteria block, and a sentence that says in terms 'a statement about the drug rather than about EMC'. No sentence in the paper asserts an EMC-specific ATR vulnerability.\n  · caution count (scientific-writing §4), NO FINDINGS: markers ROSE 134 -> 135, so no qualification left the paper. Readability unchanged — 0 sentences over 60w, longest 58w, FKGL 10.5.\n  · axis (b) repo-wide: the new wording agrees verbatim with emc-atr-collaborator-package.md limitation 7 and its cover letter; nothing in the repository asserts any NR4A3 fusion HAS been tested for the phenotype.\n⚠ WORD DELTA, reported as a finding about the round rather than left unremarked (paper-hardening §1): 14,061 -> 14,361 main-file words, +300, +2.1%. The venue caps nothing, but the round GREW the paper. Every added word is a BOUND (§1 class 4); no bound, interval, condemnation or concession was removed to fund it, and none was cut at all.\n✅ A QUEUED ROUND-3 ITEM WAS CLOSED BY A $0 READ AND WAS SIMPLY FALSE AT HEAD: 'the paper is NOT in pinned-figures.json -> targets, so lint_consistency.py has never looked at it'. It IS one of the 29 targets and lint_consistency reports 0 ERROR across all 29. The cascade that item warned about does not exist.\n⛔ WHAT ROUND 4 NEEDS, and it needs a driver that can launch blind seats. (1) FIVE blind seats pinned to the posted commit, filed as PUB-ATR-<sha>-seat-*.json with blind:true — the widest earlier round on record is 5 (publish_bar._look_history over 0448a27a/20d33f34/c1bc934f = 5/4/5), and clause 1 refuses a declaring round narrower than that. (2) ALSO one bare PUB-ATR-<sha>.json ROLL-UP, because clause 6 reads only that path and requires verdict=='supported' plus a document_sha256 matching the document at that sha; the only roll-up on disk is round 1's and its verdict is 'needs_revision', so clause 6 has never been satisfiable for this paper. (3) A PREFLIGHT_FULL=1 receipt at the exact posted sha for clause 2 — a paper-scoped run cannot mint one. Rounds 2 and 3 filed per-lens seats and NO roll-up, which is why (2) is easy to miss.\n⛔ STILL OPEN, unchanged and NOT this session's to take: PMID 37205599 stands alone in emc_fet_idr_census.py, emc_fet_construct_designs.py and fet_ddr_axis_scan.py and their three artifacts — the regenerations are networked (UniProt/DepMap) so they belong in a CI lane, since editing the scripts without regenerating leaves script and artifact disagreeing. And emc_atr_vulnerability.py's atri_specific still grades on the SIGNED mean over non-DDR controls, which cancels on every expression predictor — re-verified against the artifact today: proliferation_MYC signed mean -0.0139, atri_specific true. Re-grading on |rho| moves verdicts across part D and is a decision with its own before/after table, not an end-of-round edit."
+    },
+    {
+      "id": "AUT-PROP-059-11f2347b-8e081d15",
+      "kind": "analysis",
+      "what": "⛔ THE PROLIFERATION CONTROL THAT DECIDES THREE OF FOUR PART-D TESTS IS MYC TARGETS V1, AND MYC-DRIVEN REPLICATION STRESS IS THE COMPETING MECHANISM THE SOURCE PAPER HAD TO EXCLUDE EXPERIMENTALLY. Filed rather than caveated, because it is an ANALYSIS question and a caveat would paper over it (PUB-ATR round 4, hostile seat P1[4]).\n★ THE OBJECTION. `expr::proliferation_MYC` (Hallmark MYC Targets V1, 200 genes) is the nuisance variable in the part-D specificity bar `abs(rho) > abs(prolif_rho) * 1.15` at rho -0.1711; it is what part B's per-sample adjustment subtracts; and the fixed grading's WEAK tier is defined as \"only generic proliferation/DNA-damage genes are elevated\". A MYC-target set is NOT a mechanism-neutral nuisance variable for an ATR hypothesis: oncogene-induced replication stress is itself a nominated ATR-inhibitor-sensitivity axis, and the source paper treats it as a rival mechanism it must exclude — \"Previously described mechanisms of ATR sensitivity, most notably replication stress (RS), could also contribute to the elimusertib effects that we observed. To test this directly, we expressed RNAseH1, which degrades R-loops, the major source of oncogene-induced replication stress in ES\" (atr-hrd-sarcoma-series-inputs.json#mechanism_fulltext_xml).\n⛔ SO \"CANNOT BEAT THE PROLIFERATION CONTROL\" MAY MEAN \"CANNOT BEAT A SECOND REPLICATION-STRESS AXIS\" RATHER THAN \"IS ONLY GROWTH RATE\", AND THAT WEAKENS THE NEGATIVE THIS PAPER REPORTS, NOT THE POSITIVE. The manuscript addresses only gene-set OVERLAP (ATR-CHK1 9/37, S-phase/E2F 54/200, checkpoint 68/200 against the 398-gene proliferation union) — a membership argument, which is a different objection from the control being mechanistically loaded.\n★ WHAT WOULD SETTLE IT, AND IT IS $0. Mitotic Spindle (199 genes) is ALREADY computed in the same artifact as `proliferation_mitotic` and is not MYC-anchored. Re-run the part-D specificity bar and part B's adjustment against it, report both, and say whether any verdict moves. ⛔ RE-GRADING ON A NEW CONTROL IS A BAR CHANGE, so it is reported beside the existing grade and declared, never swapped in silently (CLAUDE.md §6, amendment_guard).",
+      "serves": {
+        "route": "RT-ATR-ASSESS",
+        "publication": "PUB-ATR",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "AUT-010",
+      "depends_on_evidence": "research/modalities/emc-atr-vulnerability.json -> part_d_drug_response_correlation.specificity['expr::proliferation_MYC'] rho -0.1711 and ['expr::proliferation_mitotic'] already computed; research/modalities/atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml carries the source's RNaseH1 exclusion experiment verbatim.",
+      "prerequisite_of": null,
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "score": 182.0,
+      "_score_is_null_why": "Filed by an APPLY seat, not by priority.py. ⛔ NOT hand-scored: this row is a finding handed to the queue, and inventing a number for it is exactly the edit the ledger's own _role forbids. Re-run `python3 research/autonomy/priority.py --write` to derive it from the graph — its route, publication and strategy joins all resolve, so the deriver has everything it needs.",
+      "_requires_trimcrae_why": "Self-doable and $0. Both are re-analyses of data already committed to this repository's own input cache; neither is outward-facing, neither buys compute, neither needs access trimcrae alone has.",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ATR-ASSESS (182.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-ATR-ASSESS"
+    },
+    {
+      "id": "AUT-PROP-060-11f2347b-8e081d15",
+      "kind": "analysis",
+      "what": "⛔ ATM GENETIC STATUS IS THE FIELD-STANDARD ATR-INHIBITOR-SENSITIVITY STRATIFIER, IT IS FREE IN THE DATASET PART D ALREADY READS, AND THIS PAPER NEITHER USES IT NOR NAMES IT (PUB-ATR round 4, hostile seat P1[5], second half). Filed rather than caveated: the gap is an unrun analysis, not a missing sentence.\n★ THE STATE. Part D operationalises the mechanism's load-bearing variable — ATM signalling — as `expr::ATM_signalling_DSB_repair`, a transcript score, and the manuscript now says in §5 that a transcript score cannot observe a phosphorylation event. DepMap carries ATM MUTATION and COPY-NUMBER calls for the same models part D maps to GDSC2, and the source paper's own comparator for its elimusertib IC50s is \"cancer cell lines with known pathogenic ATM loss of function mutations\". `grep -i 'ATM mutation|ATM loss|ATM-deficient|mutation status|copy number'` over the manuscript at the round-4 pin returned nothing, and §6.3's \"what would move the grade\" named no such analysis.\n★ THE WORK, AND IT IS $0 AND SELF-DOABLE. Stratify the SAME GDSC2 residuals already in `part_d.gdsc_residual_ln_ic50_by_drug` by DepMap ATM damaging-mutation / deep-deletion status, report the contrast for both ATR inhibitors with the non-DDR controls beside it, and state the n in each arm before reading anything off it. ⚠ IT IS A POSITIVE CONTROL ON THE INSTRUMENT AS MUCH AS A TEST: if ATM-null lines are NOT more ATRi-sensitive in this residual, the residual cannot detect the effect the mechanism predicts, and part D's ATM null is uninformative rather than negative. ⛔ It is the test a DNA-damage-response referee asks for first, and its absence is more damaging to the paper than the wrong-sign correlation it would replace.",
+      "serves": {
+        "route": "RT-ATR-ASSESS",
+        "publication": "PUB-ATR",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "AUT-010",
+      "depends_on_evidence": "research/modalities/emc-atr-vulnerability-inputs.json -> part_d.gdsc_residual_ln_ic50_by_drug (7 drug maps, 892-965 lines each) and DepMap OmicsSomaticMutations / OmicsCNGene for the same models; research/modalities/atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml for the source's own ATM-LOF comparator.",
+      "prerequisite_of": null,
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "score": 182.0,
+      "_score_is_null_why": "Filed by an APPLY seat, not by priority.py. ⛔ NOT hand-scored: this row is a finding handed to the queue, and inventing a number for it is exactly the edit the ledger's own _role forbids. Re-run `python3 research/autonomy/priority.py --write` to derive it from the graph — its route, publication and strategy joins all resolve, so the deriver has everything it needs.",
+      "_requires_trimcrae_why": "Self-doable and $0. Both are re-analyses of data already committed to this repository's own input cache; neither is outward-facing, neither buys compute, neither needs access trimcrae alone has.",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ATR-ASSESS (182.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-ATR-ASSESS"
+    },
+    {
+      "id": "AUT-PD-208-11f2347b-8e081d15",
+      "kind": "process_defect",
+      "what": "⛔ THE STRUCTURAL CENSUS ARTIFACT STILL CALLS EMC'S SECOND-COMMONEST FUSION 'canonical' AND RUNS ITS WHOLE COMPARATIVE VERDICT ON IT — THE CORRECTION REACHED THE PROSE AND NOT THE ARTIFACT (PUB-ATR round 4; hostile seat P1[0] and consistency seat P1[4], independently).\n★ THE STATE, MEASURED. `emc-fet-idr-census.json` holds exactly ONE EMC record, keyed `emc_canonical_EWSR1_NR4A3`, and it is EWSR1(1-264) / 0 of 30 RG / precondition_met true — i.e. TYPE 2. `grep -c 431` over the whole file returns 0, so the COMMONEST fusion is not in it at all. Its `emc_vs_measured_fusions_comparative._claim_under_test` — \"EMC's canonical fusion loses at least as much of EWSR1's RGG content as each fusion in which ATM suppression was MEASURED\" — carries `holds_against_every_measured_type: true` at emc_RG_retained_fraction 0.0 on all four rows. Substituting type 1's 0.267 (from emc-fet-construct-designs.json) against the two comparator rows at 0.0 makes `emc_loses_at_least_as_much` FALSE on two of four, so the flag would invert.\n★ THE MANUSCRIPT IS NOW CORRECT AND THE ARTIFACT IS NOT, WHICH IS THE WRONG WAY ROUND. This round's repair states in the paper which artifact carries which fusion and that the comparative claim is computed for type 2 only. THE FIX IS IN THE PRODUCER: rekey off 'canonical', add types 1 and 5, and report the comparative block PER TYPE. ⛔ Do NOT loosen the census criterion to make type 1 pass — the committed `_what_the_controls_calibrate` note is already the honest resolution (EWSR1::ATF1 exon 10, a MEASURED fusion, retains the same 8 of 30 and also reads NOT_MET, so the strict verdict is conservative and the retained FRACTION is the quantity to compare).\n★ AND THE SAME REGENERATION CLOSES A SECOND GAP IN THE SAME ARTIFACT (hostile seat P1[2]). `_control_rule` says the positive controls are \"the fusions the mechanism was measured on\" and carries TWO — EWSR1::FLI1 and EWSR1::ATF1, both EWSR1. The source measured it on FOUR across four diseases: those two plus EWSR1::WT1 (DSRCT) and FUS::CHOP (myxoid liposarcoma), the last a FUS fusion, verbatim in atr-hrd-sarcoma-series-inputs.json#mechanism_fulltext_xml. So the census's operational definitions — EWSR1's 30 RG dipeptides, the residue-299 RGG-free ceiling — are NEVER calibrated against a non-EWSR1 FET protein, while EMC's own minority partners include TAF15 and FUS and this document sweeps them. ⚠ The manuscript now DISCLOSES both halves (banner); what is open is the artifact. ⛔ Adding the two controls is a test of the definition, not a formality: if the precondition's definitions cannot recover FUS::CHOP's architecture, they do not generalise across the family they are being applied to, and that is a finding.",
+      "serves": {
+        "route": "RT-ATR-ASSESS",
+        "publication": "PUB-ATR",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "AUT-010",
+      "depends_on_evidence": "research/modalities/emc-fet-idr-census.json -> emc_canonical_EWSR1_NR4A3 (last_fet_residue_retained 264) and emc_vs_measured_fusions_comparative.holds_against_every_measured_type true; research/modalities/emc-fet-construct-designs.json -> constructs[] carries types 1/2/5 with census_precondition_verdict NOT_MET / PRECONDITION_MET / NOT_MET. Positive-control half: research/modalities/emc-fet-idr-census.json -> positive_controls holds 2 entries, both EWSR1; research/modalities/atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml names 4 measured fusions across 4 diseases.",
+      "prerequisite_of": null,
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "score": 182.0,
+      "_score_is_null_why": "Filed by an APPLY seat, not by priority.py. ⛔ NOT hand-scored: this row is a finding handed to the queue, and inventing a number for it is exactly the edit the ledger's own _role forbids. Re-run `python3 research/autonomy/priority.py --write` to derive it from the graph — its route, publication and strategy joins all resolve, so the deriver has everything it needs.",
+      "_requires_trimcrae_why": "Self-doable and $0. Both are re-analyses of data already committed to this repository's own input cache; neither is outward-facing, neither buys compute, neither needs access trimcrae alone has.",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ATR-ASSESS (182.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-ATR-ASSESS"
     },
     {
       "id": "AUT-PROP-012",
@@ -3610,39 +3700,6 @@
       "claimed_utc": null
     },
     {
-      "id": "AUT-PD-116",
-      "what": "⛔ SIXTEEN ROUTES CARRY A required_validation MARKED feasible_today=false ON BLK-NO-EMC-DATA WHOSE OWN TEXT NAMES AN EXPRESSION OR TISSUE READ, AND NOT ONE OF THEM CITES ART-EMC-EXPRESSION-PANELS — the committed artifact that answers that half. Measured 2026-08-28 over systems/graph/routes.json (77 routes) against research/modalities/emc-expression-panels.json gene_reads. SIX of the sixteen name a gene the artifact already reads on EMC tumour tissue: RT-SSTR2 (SSTR2), RT-B7H3 (CD276), RT-FAP-RLT (FAP), RT-JUNCTION-NEOANTIGEN (HLA-A/B/C, TAF15), RT-FUSION-OUTPUT (EWSR1, NR4A3, PPARG, SEMA3C, TAF15), RT-MTAP-PRMT5 (MAT2A, MTAP, PRMT5). RT-B7H3, RT-SSTR2 and RT-VACCINE-COMBINATION cite the landscape MANUSCRIPT but still hold the validation open. ⭐ THE SEVENTEENTH WAS ADJUDICATED THIS CYCLE AND ITS BLOCK WAS FALSE IN THE DANGEROUS DIRECTION: RT-PRAME-IMMTAC was graded 'NEW antigen-directed lead — best of the CTAs' on a cell-line surrogate while the EMC-tissue read that its own required_validation asked for had been committed four days earlier and reads at the floor of every readable cohort (AUT-053). ⚠ ADJUDICATE PER ROUTE AND DO NOT BATCH THIS: readable is NOT answered. RT-MTAP-PRMT5 asks for a gene-level COPY-NUMBER read, which an expression panel does not answer at all; RT-SSTR2 asks for 'a receptor imaging scan in an EMC patient, OR an expression readout', where only the second half is answered. The measurement here is the CANDIDATE LIST, not a verdict on any row. ⚠ AND THE SIBLING ROW IS AUT-052 (RT-PPARG-DOWNSTREAM), which asks for a PPARγ TARGET-GENE activity readout — PPARG itself is readable in the artifact and a target-gene activity score is a different question; that row is unclaimed and is the natural next one to adjudicate. Reproduce: iterate routes.json for required_validation entries with feasible_today false and BLK-NO-EMC-DATA, intersect the entry text with emc-expression-panels.json gene_reads keys, and grep each route record for ART-EMC-EXPRESSION-PANELS. ⭐ THIRD INSTANCE, 2026-08-28 (CYC-0063): AUT-052 / RT-PPARG-DOWNSTREAM and RT-TRABECTEDIN-PPARG both waited on 'a PPARγ ACTIVITY readout in EMC' behind BLK-NO-EMC-DATA. It exists — read_3_PPARG_ACTIVITY, null-calibrated, permutation-tested, written up in nr4a3-fusion-transcriptional-output-SI.md §S4 — and neither route cited it. ⚠ AND THIS INSTANCE SHARPENS THE CLASS: the memo pparg-direction-emc.md, the declared one home for that question, still read '⛔ Never measured, by anyone: PPARγ transcriptional output in EMC'. So the stale record is not only in systems/graph — a MANUSCRIPT asserting a negative about its own repository was four days out of date. Adjudicating a row in this class means checking the owning prose too, not only the route JSON.\n\n⚠ SUPERSEDED IN ITS COUNT, RETAINED (CLAUDE.md rule 1.2) — AMENDED 2026-09-02 BY S41-BLOCKED-ROUTE-AUDIT. **The headline's \"sixteen\" is a TEXT-FILTERED SUBSET and this row never said so.** The mechanical population — every `required_validation` entry with `feasible_today: false` and `BLK-NO-EMC-DATA` in `blocked_by` — is **28 entries across 23 routes** of 77, derived by a command printed in that memo rather than typed here.\n★ AND MOST OF IT WAS ALREADY DONE BEFORE THIS ROW WAS DISPATCHED: seat S32 adjudicated **19 entries across 16 routes** on 2026-09-01, committed in `research/modalities/emc-blk-no-emc-data-route-retest.json` (`1132109a5`). The set difference is exact — `adjudicated_not_in_pop: []` — so the sixteen this row names ARE S32's sixteen, and this row outlived its own closure by a day. That is the same one-fact-one-place failure that made AUT-PD-171 dispatch a seat at a defect fixed the day before.\n★ WHAT WAS GENUINELY NEW: **nine entries across seven routes had never been adjudicated by anybody** — the clinical, outcome and registry requirements, which nobody had checked against the blocker's own text. S41 adjudicates all nine.\n⛔ AND THE ANSWER IS AN HONEST NEGATIVE: **newly TAKEABLE TODAY = 0.** The seven routes were mis-LABELLED, not mis-GRADED — six carry the wrong blocker, three carry it correctly. UNDECIDABLE = 0, UNMEASURED = 0. The follow-up work is filed as its own rows rather than left in this one.",
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "s31-emc-data-blocks",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-02",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "In-repo reconciliation of route records against a committed artifact; no outward-facing act.",
-      "_renamed_from": "AUT-PD-115 — collided with the row filed by the concurrent session in c024c8a ('session_cap.py cannot tell a successful handoff from no handoff at all'), which reached the trunk first and keeps the string. Renamed on rebase per the precedence rule recorded in 51d4aa8. Caught by a post-rebase duplicate-id check, not by the diff or the merge output, which showed nothing.",
-      "score_inputs": {},
-      "score": 131.6,
-      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row names NO route at all, so `apply_route_inheritance` never reaches a floor lookup for it, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. SIXTEEN live treatment routes carry a required_validation marked feasible_today=false on BLK-NO-EMC-DATA whose own text names an expression or tissue read, and none cites ART-EMC-EXPRESSION-PANELS — which already answers it for six (RT-SSTR2, RT-B7H3, RT-FAP-RLT, RT-JUNCTION-NEOANTIGEN, RT-FUSION-OUTPUT, RT-MTAP-PRMT5). Its own precedent (RT-PRAME-IMMTAC) had the block false in the DANGEROUS direction. This is CLAUDE.md §0's 'blocked is a claim that needs evidence' applied to a fifth of the portfolio, at $0.",
-      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
-      "claimed_utc": "2026-09-02T19:13:24Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T19:13:24Z",
-          "fingerprint_at_dispatch": "2026-09-02|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-169",
       "kind": "process_defect",
       "process_defect": true,
@@ -4712,6 +4769,41 @@
       "score": 123.9,
       "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. TR-* revival triggers are defined only in the legacy emc-systems-map.json; systems/graph carries no TR-* record and nothing validates that a route's `revival_trigger` resolves. Three routes point at one. Pairs with AUT-PD-088 — a reopening condition the source of truth cannot see.",
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use."
+    },
+    {
+      "id": "AUT-PD-116",
+      "what": "⛔ SIXTEEN ROUTES CARRY A required_validation MARKED feasible_today=false ON BLK-NO-EMC-DATA WHOSE OWN TEXT NAMES AN EXPRESSION OR TISSUE READ, AND NOT ONE OF THEM CITES ART-EMC-EXPRESSION-PANELS — the committed artifact that answers that half. Measured 2026-08-28 over systems/graph/routes.json (77 routes) against research/modalities/emc-expression-panels.json gene_reads. SIX of the sixteen name a gene the artifact already reads on EMC tumour tissue: RT-SSTR2 (SSTR2), RT-B7H3 (CD276), RT-FAP-RLT (FAP), RT-JUNCTION-NEOANTIGEN (HLA-A/B/C, TAF15), RT-FUSION-OUTPUT (EWSR1, NR4A3, PPARG, SEMA3C, TAF15), RT-MTAP-PRMT5 (MAT2A, MTAP, PRMT5). RT-B7H3, RT-SSTR2 and RT-VACCINE-COMBINATION cite the landscape MANUSCRIPT but still hold the validation open. ⭐ THE SEVENTEENTH WAS ADJUDICATED THIS CYCLE AND ITS BLOCK WAS FALSE IN THE DANGEROUS DIRECTION: RT-PRAME-IMMTAC was graded 'NEW antigen-directed lead — best of the CTAs' on a cell-line surrogate while the EMC-tissue read that its own required_validation asked for had been committed four days earlier and reads at the floor of every readable cohort (AUT-053). ⚠ ADJUDICATE PER ROUTE AND DO NOT BATCH THIS: readable is NOT answered. RT-MTAP-PRMT5 asks for a gene-level COPY-NUMBER read, which an expression panel does not answer at all; RT-SSTR2 asks for 'a receptor imaging scan in an EMC patient, OR an expression readout', where only the second half is answered. The measurement here is the CANDIDATE LIST, not a verdict on any row. ⚠ AND THE SIBLING ROW IS AUT-052 (RT-PPARG-DOWNSTREAM), which asks for a PPARγ TARGET-GENE activity readout — PPARG itself is readable in the artifact and a target-gene activity score is a different question; that row is unclaimed and is the natural next one to adjudicate. Reproduce: iterate routes.json for required_validation entries with feasible_today false and BLK-NO-EMC-DATA, intersect the entry text with emc-expression-panels.json gene_reads keys, and grep each route record for ART-EMC-EXPRESSION-PANELS. ⭐ THIRD INSTANCE, 2026-08-28 (CYC-0063): AUT-052 / RT-PPARG-DOWNSTREAM and RT-TRABECTEDIN-PPARG both waited on 'a PPARγ ACTIVITY readout in EMC' behind BLK-NO-EMC-DATA. It exists — read_3_PPARG_ACTIVITY, null-calibrated, permutation-tested, written up in nr4a3-fusion-transcriptional-output-SI.md §S4 — and neither route cited it. ⚠ AND THIS INSTANCE SHARPENS THE CLASS: the memo pparg-direction-emc.md, the declared one home for that question, still read '⛔ Never measured, by anyone: PPARγ transcriptional output in EMC'. So the stale record is not only in systems/graph — a MANUSCRIPT asserting a negative about its own repository was four days out of date. Adjudicating a row in this class means checking the owning prose too, not only the route JSON.\n\n⚠ SUPERSEDED IN ITS COUNT, RETAINED (CLAUDE.md rule 1.2) — AMENDED 2026-09-02 BY S41-BLOCKED-ROUTE-AUDIT. **The headline's \"sixteen\" is a TEXT-FILTERED SUBSET and this row never said so.** The mechanical population — every `required_validation` entry with `feasible_today: false` and `BLK-NO-EMC-DATA` in `blocked_by` — is **28 entries across 23 routes** of 77, derived by a command printed in that memo rather than typed here.\n★ AND MOST OF IT WAS ALREADY DONE BEFORE THIS ROW WAS DISPATCHED: seat S32 adjudicated **19 entries across 16 routes** on 2026-09-01, committed in `research/modalities/emc-blk-no-emc-data-route-retest.json` (`1132109a5`). The set difference is exact — `adjudicated_not_in_pop: []` — so the sixteen this row names ARE S32's sixteen, and this row outlived its own closure by a day. That is the same one-fact-one-place failure that made AUT-PD-171 dispatch a seat at a defect fixed the day before.\n★ WHAT WAS GENUINELY NEW: **nine entries across seven routes had never been adjudicated by anybody** — the clinical, outcome and registry requirements, which nobody had checked against the blocker's own text. S41 adjudicates all nine.\n⛔ AND THE ANSWER IS AN HONEST NEGATIVE: **newly TAKEABLE TODAY = 0.** The seven routes were mis-LABELLED, not mis-GRADED — six carry the wrong blocker, three carry it correctly. UNDECIDABLE = 0, UNMEASURED = 0. The follow-up work is filed as its own rows rather than left in this one.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "in_progress",
+      "owner": "s31-emc-data-blocks",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "In-repo reconciliation of route records against a committed artifact; no outward-facing act.",
+      "_renamed_from": "AUT-PD-115 — collided with the row filed by the concurrent session in c024c8a ('session_cap.py cannot tell a successful handoff from no handoff at all'), which reached the trunk first and keeps the string. Renamed on rebase per the precedence rule recorded in 51d4aa8. Caught by a post-rebase duplicate-id check, not by the diff or the merge output, which showed nothing.",
+      "score_inputs": {
+        "fruitless_attempts": 1
+      },
+      "score": 123.6,
+      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row names NO route at all, so `apply_route_inheritance` never reaches a floor lookup for it, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. SIXTEEN live treatment routes carry a required_validation marked feasible_today=false on BLK-NO-EMC-DATA whose own text names an expression or tissue read, and none cites ART-EMC-EXPRESSION-PANELS — which already answers it for six (RT-SSTR2, RT-B7H3, RT-FAP-RLT, RT-JUNCTION-NEOANTIGEN, RT-FUSION-OUTPUT, RT-MTAP-PRMT5). Its own precedent (RT-PRAME-IMMTAC) had the block false in the DANGEROUS direction. This is CLAUDE.md §0's 'blocked is a claim that needs evidence' applied to a fifth of the portfolio, at $0.",
+      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
+      "claimed_utc": "2026-09-02T19:13:24Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T19:13:24Z",
+          "fingerprint_at_dispatch": "2026-09-02|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-181",
