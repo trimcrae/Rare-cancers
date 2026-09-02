@@ -1,0 +1,134 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "_why_this_exists_before_the_review_does": "AUT-PROP-006. This record is written as the seat's FIRST act, so a seat that dies leaves evidence that it looked rather than nothing at all. It is EMPTY and says so: publish_bar.clause_1_hardening_converged REFUSES any round with an open record at the commit it is grading, because an unfinished look must never be counted as a clean one.",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "2401803d2c6104a31da26f737827f1ca4cfa8d20",
+  "blind": true,
+  "seat": "consistency",
+  "lens": "consistency",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "82b0c004ec1598e8fcfd656707fc9e91601d45dc3c647343cc8585b0668c8b9a",
+  "opened_utc": "2026-09-02T18:12:04Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "In one US trial registry, two recruiting interventional trials admit extraskeletal myxoid chondrosarcoma on molecular eligibility (a FET fusion family; a translocation-associated soft-tissue-sarcoma cohort) while their listed conditions never name the histology, so no diagnosis search returns them - and both adjudicated refusals would have passed a keyword screen, so a reachability map built by string matching is worse than no map and eligibility text has to be read one trial at a time.",
+  "blockers": [
+    {
+      "id": "B1",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§4.1, final sentence of the bounding paragraph)",
+      "quote": "It enrols ages 1 to 30, so for an adult patient a search of the diagnosis still returns nothing they could join.",
+      "why": "The cited artifact refutes the clause it is built on. research/literature/fet-fusion-trial-eligibility-2026-08-07.json -> task_1_reverification_of_section_3_3, NCT06239272 records maximum_age '30 Years', minimum_age null, and verbatim_eligibility_sentence 'Inclusion Criteria - All Patients * Patients must be 1-30 years at the time of the biopsy that established the diagnosis of NRSTS.' with verbatim_sentence_is_transport_clean true. An adult aged 18-30 is inside that range, so for such a patient a search of the diagnosis DOES return a recruiting interventional trial (NCT06239272, emc_in_listed_conditions true, 42 listed conditions including 'Extraskeletal Myxoid Chondrosarcoma') that they could join. On the verbatim wording the bound is age AT BIOPSY, not age now, so it is looser still. This is the one sentence that keeps the paper's headline framing intact against the single record that both names and admits the disease - the sentence immediately before it concedes 'nothing here says that no listing anywhere names this disease and admits it', and then this clause takes the concession back for every adult. A reachability paper is read by patients and clinicians; a false 'nothing you could join' is the error this paper's own §4 argues costs the most.",
+      "fix": "It enrols only to age 30 - 'Patients must be 1-30 years at the time of the biopsy that established the diagnosis' - so for a patient diagnosed after 30, which is most of this disease's incidence, a search of the diagnosis still returns nothing they could join."
+    }
+  ],
+  "p1s": [
+    {
+      "id": "P1-a",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§2, the paragraph beginning 'The large screens are fields-limited')",
+      "what": "Two sentences of the retrieval method are refuted by the artifact they rest on. (i) 'The large screens are fields-limited and carry no eligibility text, so they can identify a candidate and can never confirm one.' research/literature/fet-fusion-trial-eligibility-2026-08-07.json -> task_2_widened_search.instruments records ct_sarcoma_2026_new as 'sarcoma + fusion/transcription factor/degrader, UNFIELDED SO ELIGIBILITY TEXT IS INCLUDED', and ct_ewsr1_term / ct_nr4a3_term as returning 'full records'; the same artifact's limits_of_this_screen scopes the fields-limited statement to 'The large screens (fusion, basket, sarcoma)' only. (ii) 'eligibility text was retrieved individually for three of those nine'. Of the three of nine carrying eligibility_text_retrieved true, only NCT05722886 and NCT03767075 have a retrieved_from.source_url of the per-study form https://clinicaltrials.gov/api/v2/studies/<NCT>?format=json. The third, NCT06988475, records payload ct_sarcoma_2026_new and source_url 'studies?query.cond=sarcoma&filter.overallStatus=RECRUITING|NOT_YET_RECRUITING&query.term=fusion+OR+transcription+factor+OR+degrader&pageSize=60' - a registry-wide screen, not an individual retrieval. NCT06988475 appears 0 times in research/literature/emc-trial-reachability-adjudication-2026-08-09.json. The paper's own §2 table defines 'individually' as 'every unconfirmed candidate re-fetched individually', so the word is not doing loose duty here.",
+      "why_not_a_blocker": "No adjudication moves. The nine are explicitly 'not adjudicated ... reported as molecularly defined and nothing more', and every admission and refusal in §§3-4 does rest on a per-trial retrieval. What breaks is the methods sentence, in the paragraph the paper uses to establish that its confirmations are per-trial - which is the paper's methodological selling point."
+    },
+    {
+      "id": "P1-b",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§3, final paragraph, first sentence; the claim is elevated in the Abstract as 'The sharpest result is an absence')",
+      "what": "'The driver gene is absent from the index entirely.' is contradicted by the next sentence of the same paragraph - 'A term search for it returns five studies' - and by research/literature/fet-fusion-trial-eligibility-2026-08-07.json -> task_2_widened_search.nr4a3_is_absent_from_the_registry_index.studies, which lists five NCT records the term search returned. The gene is in the index; no trial is indexed to it as a subject. Worse for an absence claim, the instrument is not shown to enumerate: the same artifact's limits_of_this_screen says 'The registry-wide EWSR1 term search returns full records and is therefore capped by response size, not by pageSize: 7 studies came back for pageSize=100. It is a SAMPLE of EWSR1-indexed trials, NOT AN ENUMERATION' - and ct_nr4a3_term is the same instrument on the same URL shape (query.term=NR4A3&pageSize=100&format=json, 'full records for a registry-wide NR4A3 term search'). The artifact nowhere states that the NR4A3 return was complete. The paper carries no such caveat here, in the Abstract, or in §5, while calling the absence its sharpest result - the shape CLAUDE.md §4 names as an absent reading passed off as a reading of absence.",
+      "why_not_a_blocker": "The defensible form of the finding is already in the paper twice - 'No trial that search returns is indexed to this disease's driver' closes both the Abstract and §3 - so a one-word edit plus one caveat sentence keeps the result at full strength. The five returned studies are real and none is about this disease or any sarcoma."
+    },
+    {
+      "id": "P1-c",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§2 transport paragraph vs the §3 table row 1, the Abstract, and §5)",
+      "what": "Half of the paper's headline count rests on a retrieval the paper itself flags as damaged, and the flag does not travel to where the claim is made. research/literature/fet-fusion-trial-eligibility-2026-08-07.json -> confirmed_fusion_family_defined records NCT05918640 with removal_markers_in_eligibility_text 1 and no verbatim criterion; §2 discloses that marker, but only as the reason a quote is missing, and adds 'was not re-fetched after the fix'. Every other admission and refusal in the paper WAS re-fetched individually on 2026-08-09 (research/literature/emc-trial-reachability-adjudication-2026-08-09.json retrieval.all_four_returned 'HTTP 200'). §3's table then states NCT05918640's eligibility basis flatly, the Abstract states 'Two recruiting interventional trials admit this disease' with no qualifier, and §5 Limitations does not mention transport at all - so the reader who never reaches §2's third paragraph cannot know that one of the two admissions is the only load-bearing read that was never repeated with the fixed fetcher. The stripper deletes a span from '<' to the next '>', so what a removal marker hides is exactly a restricting clause, and the direction of that risk is toward overcounting admissions.",
+      "why_not_a_blocker": "The FET-family wording the admission turns on WAS present in the text that was read (the artifact's assessment quotes its reading of it), and the record is not among silently_damaged_records, so no module vanished. The claim is not shown false - it is shown to be resting on the one read that a $0 CI re-fetch would settle."
+    },
+    {
+      "id": "P1-d",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (Abstract 'What we found' vs §4.1)",
+      "what": "§4.1 states 'The mechanism therefore runs in both directions, WHICH IS THE FULLER RESULT' and then bounds the central claim - 'One record does both ... so nothing here says that no listing anywhere names this disease and admits it'. Neither half reaches the Abstract. The Abstract's 'What we found' reports only the admit-without-naming direction plus the NR4A3 absence, mentions the UK registry only under 'What we did', and never names the exclusion finding or NCT06239272. A reader of the Abstract alone takes away an unqualified 'eligible but unfindable' and never meets the record that lists the histology and is recruiting. The front matter compounds it: canonical_for names 'the 2026-08-09 EMC trial-reachability finding' in the singular, while the body says the fuller result is two-directional.",
+      "why_not_a_blocker": "Both the finding and its bound are stated correctly in the body, and the Abstract makes no exhaustiveness claim that the bound falsifies. It is a coverage gap between abstract and body, not a false sentence."
+    }
+  ],
+  "p2s": [
+    {
+      "id": "P2-a",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (front matter `scope`) vs §2's table",
+      "what": "'read across three dates' against two distinct dates in the paper's own table: registry-wide screens 2026-08-07, per-trial eligibility 2026-08-09, non-US registries 2026-08-09. All four CI runs in research/literature/fet-fusion-trial-eligibility-2026-08-07.json -> retrieval.runs are 2026-08-07 (07:55-08:44 ET); research/literature/emc-trial-reachability-adjudication-2026-08-09.json and research/literature/non-us-registry-sweep-2026-08-09.json are both 2026-08-09. Three ROWS, two dates - and the Abstract's own 'one public registry twice and a second one once' is three reads across two dates. No third read date appears in any of the three artifacts §7 names."
+    },
+    {
+      "id": "P2-b",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (front matter `scope`) vs the Abstract and §5",
+      "what": "scope says only 'Three further non-US registries refused automated access and are reported as refusals rather than as absences', dropping the fourth unread endpoint that both the Abstract ('a fourth went unread because our own query URL was wrong') and §5 carry. research/literature/non-us-registry-sweep-2026-08-09.json -> endpoints records WHO ICTRP HTTP 404 with the warning 'THE URL WAS A GUESS AND IT WAS WRONG ... ICTRP remains genuinely uncovered'. The front matter is the part a reader of the registry sees without opening the paper."
+    },
+    {
+      "id": "P2-c",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§3 table, row 2, 'listed conditions' column)",
+      "what": "The NCT06571734 row renders six of the seven conditions the artifact records and silently drops 'Ewing Sarcoma'. research/literature/emc-trial-reachability-adjudication-2026-08-09.json -> adjudications[NCT06571734].listed_conditions is ['Metastatic Leiomyosarcoma','Unresectable Leiomyosarcoma','Bone Sarcoma','Translocation-associated Soft Tissue Sarcoma','Synovial Sarcomas','Osteosarcoma Metastatic','Ewing Sarcoma']. The dropped term is a translocation sarcoma, so its absence understates how many specific translocation histologies the sponsor enumerated beside the class term - which is exactly the ambiguity §5 raises ('whether the investigators ... read their own term as a general class or as the histologies they listed')."
+    },
+    {
+      "id": "P2-d",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§3 table, row 4)",
+      "what": "The 'listed conditions' cell for NCT04151342 holds a study-type note ('observational: it enrols the patient and does not treat them') rather than listed conditions, so the column's own semantics break in the row where the reader most needs them: the artifact's list is ['Cancer','Malignancies Multiple','Malignant Solid Tumor','Cancer, Therapy-Related','Molecular Sequence Variation','Genetic Alteration','Gene Fusion','Receptor Tyrosine Kinase Gene Mutation'] - it names 'Gene Fusion', which is the same class-term-not-histology pattern row 2 is about, and the paper never shows it. The same row also drops the artifact's explicit access limit, research/literature/emc-trial-reachability-adjudication-2026-08-09.json -> adjudications[NCT04151342]['⚠_geographic_limit'] 'Participating sites are Canadian'; the word Canada appears 0 times in the manuscript."
+    },
+    {
+      "id": "P2-e",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (Abstract 'What we did'; §5 third bullet)",
+      "what": "'Three further non-US registries refused automated access' and 'two more refused automated access' silently reclassify a transport failure as a policy refusal. research/literature/non-us-registry-sweep-2026-08-09.json -> endpoints records jRCT (Japan) as 'SSL handshake failure', not an HTTP status. The positive-control argument the paper leans on ('a positive control fetched in the same run returned normally, so those refusals are statements about those endpoints and not about our retrieval') discriminates a 403 from a broken fetcher; it does not discriminate a per-host TLS failure, which can sit on either side of the connection. The artifact's own framing sentence makes the same move, so the paper inherits it rather than introducing it."
+    },
+    {
+      "id": "P2-f",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§4.1, 'searching that registry for this histology returns two trials')",
+      "what": "The recorded query is the parent term, not the histology. research/literature/non-us-registry-sweep-2026-08-09.json -> endpoints[ISRCTN].queries is ['chondrosarcoma','sarcoma AND fusion'], and the two-trial count comes from isrctn_what_it_holds.query_chondrosarcoma.total_count 2. Nothing in the artifact records what a search for 'extraskeletal myxoid chondrosarcoma' returns in ISRCTN, and the direction of the difference is UNKNOWN. The artifact labels its own field '⚠_what_a_search_for_the_histology_actually_returned', so the conflation starts there."
+    },
+    {
+      "id": "P2-g",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§4.1, 'names it by its exact full name')",
+      "what": "The verbatim string in research/literature/non-us-registry-sweep-2026-08-09.json (ISRCTN07742377, how_it_names_it) is 'extra-skeletal myxoid chondrosarcoma' - the hyphenated variant. The manuscript spells the disease 'extraskeletal myxoid chondrosarcoma' throughout, and §4's second bullet makes the hyphenated adjective 'extra-skeletal' its worked example of a string that means a different disease. 'Exact full name' is therefore the one phrase in the paper that treats a hyphen as immaterial, twelve lines after the paper argues it is not."
+    },
+    {
+      "id": "P2-h",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§2, transport paragraph)",
+      "what": "The quoting rule is stated per sentence and applied per record. The paper: 'no sentence carrying a removal marker may be quoted, and it is why no criterion is quoted verbatim from NCT05918640, whose retrieved ELIGIBILITY TEXT carries one such marker'. research/literature/fet-fusion-trial-eligibility-2026-08-07.json -> transport_integrity.rule_applied is per sentence - 'unless that SENTENCE ITSELF carries no removal marker' - and the same artifact quotes NCT06239272 verbatim while recording removal_markers_in_eligibility_text 9, with verbatim_sentence_is_transport_clean true. Under the rule as the artifact states it, one marker somewhere in a record's eligibility text is not a reason nothing in that record can be quoted, so the paper's stated reason does not follow from its stated rule."
+    },
+    {
+      "id": "P2-i",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§2, 'the two refusals in §4 were only detectable that way')",
+      "what": "For one of the two the stated reason does not hold. research/literature/emc-trial-reachability-adjudication-2026-08-09.json records NCT07188532's brief_title_verbatim as 'Biologically-Adapted, Dose-Escalated Radiotherapy for the Treatment of Ewing Sarcoma', and the fields-limited screens the paper contrasts itself with carry BriefTitle (the ct_basket_recruiting_fixed URL in research/literature/fet-fusion-trial-eligibility-2026-08-07.json ends fields=NCTId|BriefTitle|OverallStatus|Phase|InterventionName|Condition|StudyType). A title naming a different disease is visible to exactly the screen the sentence says could not see it. What actually blocked the screen route for that trial is transport, not fielding: NCT07188532 is listed under transport_integrity.unparseable_records for BOTH ct_ewsr1_term and ct_sarcoma_2026_new - a reason the paper never gives."
+    },
+    {
+      "id": "P2-j",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (Abstract, 'What we found') vs §3's table row 3",
+      "what": "'Nine further registry records ... name no histology either' is false of the records as written; the table row states it correctly as 'various; none names this histology'. research/literature/fet-fusion-trial-eligibility-2026-08-07.json -> molecularly_defined_not_histology_defined shows those nine listing up to 19 conditions each, including 'Melanoma', 'Glioma', 'Colorectal Neoplasms', 'Neuroblastoma' and, for NCT06988475, 'Soft Tissue Sarcoma'. The elliptical reading ('name no [this] histology') is available, but the abstract is the half a reader keeps."
+    },
+    {
+      "id": "P2-k",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§2, 'That defect has since been fixed at the fetcher')",
+      "what": "True of the repository and unreconciled with the artifact. The fix is commit 6b5fbc239 'The literature fetcher ran the HTML stripper over JSON', 2026-08-07T14:08:22Z - after the 07:55-08:44 ET reads it repairs - and scripts/lit_fetch_urls.py at the pin routes structured payloads around strip_html. But research/literature/emc-trial-reachability-adjudication-2026-08-09.json, dated 2026-08-09 and the source of both admissions, still describes the defect in the present tense ('scripts/lit_fetch_urls.py PUTS every payload through strip_html()'), records 'Character loss against the manifest's recorded chars is 13-42 characters per record', and warns '⚠_residual: Comparison operators inside laboratory-value criteria MAY STILL BE DAMAGED'. A reader who checks the cited artifact meets a contradiction the paper does not address; one clause naming the fix commit, or saying the 08-09 run predates the ref carrying it, would close it."
+    },
+    {
+      "id": "P2-l",
+      "where": "research/manuscripts/care-delivery/emc-trial-reachability.md (§3, paragraph under the table)",
+      "what": "'a third admits and offers enrolment in a registry' reuses the paper's own load-bearing word for a different object. 'Registry' means a trial registry 27 other times in this document (title, abstract, §1, §2, §4.1, §5, §6); here it means a patient dataset - research/literature/emc-trial-reachability-adjudication-2026-08-09.json calls NCT04151342 'a real-world-evidence cohort ... a route into a DATASET, not into a treatment'. 'Enrolment in a data collection' would carry the same distinction without the collision."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pin 2401803d, sha256 82b0c004ec1598e8fcfd656707fc9e91601d45dc3c647343cc8585b0668c8b9a, extracted with git show)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json (all four adjudications, summary, _limits, transport_integrity)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json (task_1 nine re-verified trials, task_2 instruments / confirmed_fusion_family_defined / molecularly_defined_not_histology_defined / candidates / nr4a3_is_absent_from_the_registry_index / limits_of_this_screen, transport_integrity incl. unparseable_records)",
+    "research/literature/non-us-registry-sweep-2026-08-09.json (endpoints, isrctn_what_it_holds, what_this_does_and_does_not_close)",
+    "scripts/lit_fetch_urls.py at the pin, and git log --follow on it (fix commit 6b5fbc239, 2026-08-07T14:08:22Z)",
+    "systems/graph/publications.json -> PUB-STRATEGY-ARCH (document mapping confirmed: it points at this file)",
+    "research/manuscripts/lint_style.py (the manuscript is in its submission-text scope; it is the only .py in the repo that names this document)",
+    "research/manuscripts/care-delivery/ tree at the pin (no SI, no PDF, no build stamp for this document)"
+  ],
+  "_what_i_tried_to_break_and_could_not": [
+    "The nine-record arithmetic. 'a master screening protocol, seven of its arms (one not yet recruiting) and one separate basket trial' = 1 + 7 + 1 = 9, and the artifact's list is exactly NCT05722886 (DETERMINE master), arms 01-07 (NCT05770037, NCT05770102, NCT05770544, NCT05786716, NCT05768178, NCT06988475, NCT07440290 - the last NOT_YET_RECRUITING), plus NCT03767075 (Basket of Baskets). Every element checks.",
+    "The non-US endpoint arithmetic. Five non-US endpoints attempted, one answered, EU CTIS 403 for the second time on a second date, ANZCTR 403, jRCT SSL, ICTRP unread on our own bad URL: 1+1+2+1 = 5, and the Abstract, §2's table and §5 all agree.",
+    "The NR4A3 term-search contents. Five studies, four topics (two whey/strength-training, one spinal-cord injury, one neck pain, one hilar cholangiocarcinoma resection); the Abstract's 'surgical cholangiocarcinoma series' and §3's 'hepatic-resection series' are the same NCT00733200 ('Minor or Major Liver Resection'). The paper is also MORE careful than its artifact here, which claims 'NOT ONE is an oncology study' while listing a cholangiocarcinoma trial.",
+    "NCT06571734's numbers: PHASE2, INTERVENTIONAL, TREATMENT, RECRUITING, estimated_enrollment 73, cohort 3 criterion verbatim - all match.",
+    "NCT04151342: OBSERVATIONAL, RECRUITING, estimated_enrollment 5500, 'such as but not limited to' - all match, and the paper's decision to keep it in a separate row is the artifact's own reading.",
+    "The keyword counter-finding: both refusals are recorded as refusals, both would have matched a string, and the artifact's summary calls it 'the methodological point the publication should carry'. The paper carries it.",
+    "NCT05918640's listed conditions (Ewing sarcoma, DSRCT, paediatric cancer, undifferentiated sarcoma) and its FET-family eligibility basis: verbatim from the artifact.",
+    "That the paper reports no efficacy, no patient and no outcome, and that its disclaimer, §5 and §8 hold: no R1-R5 language defect found by this lens."
+  ],
+  "closed_utc": "2026-09-02T18:34:12Z"
+}
