@@ -3,7 +3,7 @@
   "_why": "⛔ A SELECTOR CHANGE MUST BE FULL-GATED, AND 'IS IT DIRTY?' DOES NOT ASK THAT (2026-08-22, round 14 seat 4, reproduced exploit). The check was: an UNCOMMITTED selector edit takes the whole suite, a committed one has already been gated at its own commit. `git cherry-pick` falsifies the premise — it auto-commits, so the change arrives with a zero-width dirty window and the new selector immediately scopes itself. Seat 4 reproduced it: after a cherry-pick the new selector picks 0 modality modules and prints 'outside the modalities test domain, ignored', where the old selector on the identical git state says FULL. merge, revert and rebase are the same, and CLAUDE.md §7 MANDATES them. So the question is not how the content arrived; it is whether THIS content has been validated. That is a hash, and it is recorded here.",
   "_how_to_update": "Change the selector or preflight, run `PREFLIGHT_FULL=1 ./scripts/preflight.sh` to green, then `python3 scripts/record_selector_validation.py` and commit both in the same commit. Until you do, every run is FULL, which is the safe direction and the point.",
   "validated": {
-    "scripts/affected_tests.py": "a77c6097d374d28014fb3361ae9177652609e7603c450cf95815ed65b4dc69de",
-    "scripts/preflight.sh": "26262a6551499d701c8fc8d21bf96e11892f48b1019443e20801c8f82d4d0487"
+    "scripts/affected_tests.py": "26d00e9b2689cd4921400cf625e4a38a7b7ddee0105010f20ec4532f0b77a4a4",
+    "scripts/preflight.sh": "d092ef5233e4dd6cae1aa8b75f51409964c18280762cbf6bce5072401e75870c"
   }
 }
