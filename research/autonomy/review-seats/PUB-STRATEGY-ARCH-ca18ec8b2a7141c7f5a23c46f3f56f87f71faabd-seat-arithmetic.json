@@ -1,0 +1,37 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "arithmetic (recompute every number)",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "d7656305abadc8da96f1949dd7d1eab8a4da5df78f2815b53f081bb65c6f5264",
+  "opened_utc": "2026-09-02T23:20:00Z",
+  "verdict": "accept",
+  "referee_recommendation": "minor_revisions",
+  "central_claim": "At least two recruiting interventional trials, defined molecularly rather than by histology, admit extraskeletal myxoid chondrosarcoma without listing it as a condition — so a histology-based trial search misses them — and only per-trial reading of eligibility text (not a keyword screen) can tell those true admissions apart from two trials that would pass a keyword screen but actually refuse the disease.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The Section 2 fix (round 7) holds and is correct: the row now explicitly disclaims that 1,159 is not the sum of 400+199+526+5 (=1,130), and no other place in the document asserts or implies an exact reconciliation of 1,159. Independently verified every itemized count (400 at its pageSize=400 cap, 199, 526 as a query.cond search, 5 for the NR4A3 term search, plus the separately-named un-itemized EWSR1 term search and unfielded sarcoma screen) against fet-fusion-trial-eligibility-2026-08-07.json's task_2_widened_search.instruments and retrieval.unique_studies_indexed=1159. No blocker here — recorded for completeness of the round-7 verification the task asked for, not as a new finding.",
+      "evidence": "Doc line 112 (Section 2 table): '...1,159 unique studies indexed across all of them, which is not the sum of the counts named here.' fet.json: retrieval.unique_studies_indexed=1159; task_2_widened_search.instruments lists 400 (ct_fusion_recruiting_fixed, pageSize=400 exactly reached), 199 (ct_basket_recruiting_fixed), 526 (ct_sarcoma_recruiting_fixed, a query.cond=sarcoma search), plus ct_sarcoma_2026_new (unfielded, no count given), ct_ewsr1_term (4 records), and ct_nr4a3_term (the '5' driver-gene search, confirmed in section 3's prose: 'A registry-wide term search for NR4A3 returns 5 studies... exercise-physiology, spinal-cord-injury, neck-pain and cholangiocarcinoma-surgery' — matches the 5 studies literally present under ct_nr4a3_term in fet.json). 400+199+526+5=1130 ≠ 1159, and the doc correctly never claims otherwise anywhere else (grep for '1,159\\|1159\\|400\\|199\\|526' over the whole document returns only this one row).",
+      "fix": "No action needed — this is a pass-through confirmation, not a defect."
+    },
+    {
+      "summary": "One arithmetic claim in Section 2 — 'The search on the full histology name was re-run cleanly after the fix, the same afternoon. It returned 23 studies against a reported total of 23' — is not traceable to any of the three cited source artifacts, nor to any file named in Section 7's Data Availability. It is not contradicted by anything, but it is currently an unverifiable number sitting in a document whose whole rhetorical strategy is 'read the artifact, don't trust the restatement.'",
+      "evidence": "Searched fet-fusion-trial-eligibility-2026-08-07.json exhaustively (grep for every literal '23' substring, and for 'ct_emc_full_fixed'/'ct_emc_all'/'ct_myxoid_chondrosarcoma') — no field records a post-fix re-run of the EMC-histology condition search, nor any totalCount of 23. adj.json and nonus.json are the wrong endpoints structurally (adjudication and non-US sweep respectively) and also contain no such figure. Section 7's Data Availability lists only the three named files plus four URL manifests and one status file, none of which are cited for this specific re-run. This is the one number in the document I could not independently confirm against a committed artifact.",
+      "fix": "Either cite the specific literature-cache commit/payload that recorded the clean 23/23 re-run (Section 7 already names commits and payload IDs for other claims — the same discipline applied here would close the gap), or soften to 'a subsequent, uncommitted re-run returned 23 of 23' if no artifact backs the exact count."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (sha256 d7656305abadc8da96f1949dd7d1eab8a4da5df78f2815b53f081bb65c6f5264, verified)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+    "research/literature/non-us-registry-sweep-2026-08-09.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+    "research/modalities/emc-hypoxia-therapeutic-status.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (checked to verify the 'one completed, two terminated' status claim in Section 2)",
+    "git log/branch inspection of origin/literature-cache (surface scan only, to look for a source for the 23-studies claim; not exhaustive)"
+  ]
+}
