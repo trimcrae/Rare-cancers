@@ -1,0 +1,154 @@
+name: ATM status vs ATR-inhibitor sensitivity (DepMap x GDSC2)
+
+# ⭐ WHY THIS IS ITS OWN LANE RATHER THAN A STEP IN `depmap-dependency.yml`.
+# That workflow rewrites about twenty artifacts and takes up to 90 minutes; several of them are
+# under active editing by other work at any given time, and this analysis needs exactly two files
+# that nothing else writes. One lane, two artifacts, no shared blast radius — the same reasoning
+# `emc-expression-datasets.yml` records for splitting part B out ("One lane, two files").
+#
+# ⛔ WHY IT MUST RUN IN CI AT ALL. The dev sandbox cannot reach figshare/DepMap. Measured, not
+# assumed: `curl https://api.figshare.com/v2/articles/27993248` returns
+# `curl: (56) CONNECT tunnel failed, response 403` at this repository's egress proxy. CLAUDE.md §6 —
+# route it out rather than defer it.
+#
+# ⭐ NO `pip install`. `atm_status_atri_stratification.py` is pure stdlib on both halves: the fetch
+# streams the two DepMap CSVs with `csv.reader` and keeps only the three gene columns plus the
+# profiled-model sets, so the wide copy-number matrix never has to be materialised as a frame. That
+# is why this lane costs a checkout and a download rather than the ~2 minutes of dependency install
+# every other modalities lane pays.
+
+on:
+  workflow_dispatch:
+  # A push-triggered workflow runs from the pushed branch with no default-branch dependency, so this
+  # fires on the development branch without the file having to be on `main` first — the mechanism
+  # `modalities-run.yml` documents. The path scope keeps unrelated pushes from re-downloading ~1 GB.
+  push:
+    branches: [s35-atm-stratify]
+    paths:
+      - research/modalities/atm_status_atri_stratification.py
+      - .github/workflows/atm-status-stratification.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: atm-status-stratification
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    # Backstop only. The real hang-guard is the whole-transfer deadline inside
+    # depmap_sarcoma_dependency._download, which this module reuses precisely so it inherits that
+    # fix — `timeout=` on urlopen is per-socket-operation, so a dribbling peer never trips it.
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # ⛔ THE FETCH IS NOT SOFT-FAILED, AND THAT IS DELIBERATE.
+      # Most modalities steps carry `|| echo "soft-fail (network); non-blocking"` because they sit in
+      # a twenty-step lane where one unreachable source must not take the other nineteen down. This
+      # lane has ONE job. A silent soft-fail here would leave the derive step re-deriving from an
+      # absent cache, publishing nothing, and reporting green — the "measures nothing actionable"
+      # shape `scripts/preflight.sh` exists to refuse. If DepMap is unreachable, this run is red.
+      - name: Fetch DepMap ATM / BRCA1 / BRCA2 mutation + copy-number calls
+        timeout-minutes: 45
+        run: python3 research/modalities/atm_status_atri_stratification.py --refresh
+
+      - name: Derive the stratified contrast from the cached inputs
+        timeout-minutes: 10
+        run: python3 research/modalities/atm_status_atri_stratification.py
+
+      # The reproduce check: the derive half must be offline-reproducible from its inputs cache, so
+      # anyone can re-check every number in the artifact without network. It runs AFTER the derive
+      # above, so it compares the artifact just written against a fresh re-derive of it.
+      - name: Reproduce check — the derive half must re-derive byte-identically from its inputs
+        timeout-minutes: 10
+        run: python3 research/modalities/atm_status_atri_stratification.py --check
+
+      # ⛔ NO pytest STEP HERE, AND THAT IS A DECISION RATHER THAN AN OMISSION.
+      # The first version of this lane ran the module's own guards inline and the step failed: a
+      # vanilla runner has no pytest, and `actions/setup-python` does not supply one. The fix is not
+      # to add `pip install pytest` — it is to delete the step. `tests.yml` already runs all four
+      # test directories in full on every push, with the real dependencies, and CLAUDE.md §6 names it
+      # the authority; running a second, dependency-poor copy here would add a pip install to the one
+      # modalities lane that needs none, to re-answer a question CI answers better minutes later.
+      # That is the same "the expensive copy is the WEAKER one" finding that scoped the modalities
+      # suite in 2026-08-12 and took the manuscripts suite out of the commit loop in 2026-08-23.
+
+      # ---- publish ---------------------------------------------------------------------------
+      # ⚠ CLAUDE.md §7: an artifact whose only home is a side branch is a stale fact that reads as a
+      # current one. Stage once, stub-guarded, then commit that same set to the branch this run was
+      # dispatched from AND to modalities-cache.
+      - name: Stage results (drop failure stubs)
+        if: always()
+        timeout-minutes: 5
+        run: |
+          python3 research/modalities/artifact_stub_guard.py --stage "$RUNNER_TEMP/res" \
+            research/modalities/atm-status-atri-inputs.json \
+            research/modalities/atm-status-atri-stratification.json
+
+      - name: Publish results to the branch this run was dispatched from
+        if: always() && github.ref_type == 'branch'
+        timeout-minutes: 10
+        env:
+          BR: ${{ github.ref_name }}
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -- . || true
+          git clean -fd research/modalities || true
+          git fetch origin "$BR"
+          git checkout -B "$BR" "origin/$BR"
+          mkdir -p research/modalities
+          for p in "$RUNNER_TEMP"/res/*; do
+            [ -e "$p" ] || continue
+            cp "$p" "research/modalities/$(basename "$p")"
+            git add -f "research/modalities/$(basename "$p")" || true
+          done
+          git commit -m "ATM-status x ATR-inhibitor stratification of the GDSC2 residuals (CI)" \
+            || { echo "no changes"; exit 0; }
+          # `main` and busy branches take CI commits constantly, so rebase-and-retry rather than
+          # fail the publish and leave the artifacts only on modalities-cache.
+          for i in 1 2 3 4 5; do
+            git push origin "HEAD:$BR" && exit 0
+            echo "push $i rejected; rebasing onto origin/$BR"
+            git fetch origin "$BR" && git rebase "origin/$BR" || git rebase --abort || true
+            sleep 5
+          done
+          echo "could not publish to $BR after 5 attempts" >&2
+          exit 1
+
+      - name: Publish results to modalities-cache branch
+        if: always()
+        timeout-minutes: 10
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -- . || true
+          git clean -fd research/modalities || true
+          git fetch origin modalities-cache || true
+          if git show-ref --verify --quiet refs/remotes/origin/modalities-cache; then
+            git checkout -B modalities-cache origin/modalities-cache
+          else
+            git checkout --orphan modalities-cache
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p research/modalities
+          for p in "$RUNNER_TEMP"/res/*; do
+            [ -e "$p" ] || continue
+            cp "$p" "research/modalities/$(basename "$p")"
+            git add -f "research/modalities/$(basename "$p")" || true
+          done
+          git commit -m "ATM-status x ATR-inhibitor stratification (CI)" || { echo "no changes"; exit 0; }
+          for i in 1 2 3 4 5; do
+            git push origin HEAD:modalities-cache && exit 0
+            git fetch origin modalities-cache && git rebase origin/modalities-cache || git rebase --abort || true
+            sleep 5
+          done
+          exit 1

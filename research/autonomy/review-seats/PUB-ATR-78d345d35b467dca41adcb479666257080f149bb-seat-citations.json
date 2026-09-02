@@ -1,0 +1,106 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "_why_this_exists_before_the_review_does": "AUT-PROP-006. This record is written as the seat's FIRST act, so a seat that dies leaves evidence that it looked rather than nothing at all. It is EMPTY and says so: publish_bar.clause_1_hardening_converged REFUSES any round with an open record at the commit it is grading, because an unfinished look must never be counted as a clean one.",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "78d345d35b467dca41adcb479666257080f149bb",
+  "blind": true,
+  "seat": "citations",
+  "lens": "citations",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "2a4c7bddda6834268427127c5d0b2940c74475df5bd16bef1cd7765fdb84aa8f",
+  "opened_utc": "2026-09-02T19:44:30Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "The published FET-fusion -> impaired-ATM -> compensatory-ATR-dependency mechanism is assessed for EMC by inheritance from the FET class rather than measured in EMC; four in-silico parts grade the hypothesis WEAK, part A finds the DepMap line labelled EMC is recorded as not carrying the fusion, and the document claims no EMC-specific ATR vulnerability and no efficacy, potency, dose, safety, window or clinical-readiness claim.",
+  "blockers": [
+    {
+      "summary": "Section 2.1 mis-describes PMID 34413129: it says the paper 'names H-EMC-SS once, in a Materials-and-Methods cell-line list, and states no per-line fusion result', and that the Cellosaurus caution is 'not a finding quoted from it'. Two committed artifacts say the paper DOES report a per-line fusion result, verbatim, in the Figure 2A legend. The error runs against this paper's own most consequential finding: the published record is stronger than the paper reports it to be.",
+      "evidence": "research/modalities/hemcss-label-priorart.json -> papers_on_this_line.the_one_published_observation: pmid '34413129', verbatim_quote = 'Although extraskeletal myxoid chondrosarcoma (EMC) cancers such as H-EMC-SS typically have EWSR1-NR4A3 fusions, we did not detect a EWSR1 -translocation in this line.', location = 'Figure 2A legend. Verified verbatim in the fetched full text (S9).'; the same block's _verdict_ESTABLISHED reads 'Exactly one published sentence reports this line's fusion status, and it is incidental' and its significance field reads 'The observation is in print. \"Nobody has ever reported this\" would be FALSE.' Independently, research/modalities/emc-model-junction-evidence.json -> (the only-purchasable-EMC-line block) .the_primary_source_read_here_rather_than_the_registry_summary.where_the_negative_appears = 'the Figure 2A legend only, as a parenthetical: ... we did not detect a EWSR1-translocation in this line. n >= 2. There is no results sentence, figure, table or supplementary file reporting the assay for this line.' Both artifacts are committed at the pin (hemcss-label-priorart.json since 4f8dc1c98, 2026-08-15); the manuscript sentence was written later, in 32598e797 (2026-09-02).",
+      "fix": "Replace the sentence with what the two artifacts record. What is true: PMID 34413129 is an SLFN11 paediatric-sarcoma study whose subject is not this line, and its ONE sentence about H-EMC-SS's fusion status sits in the Figure 2A legend as a parenthetical - 'we did not detect a EWSR1-translocation in this line'. What is genuinely absent is the ASSAY, not the result: no results sentence, figure, table or supplement reports it for this line, the 'n >= 2' in that legend is the drug-assay replicate count, and the methods' PCR/FISH sentence is a blanket statement over the whole panel naming no probe, no primer and no per-line result - so it is not stated whether an EWSR1 break-apart FISH (which would exclude EWSR1::NR4A3 whatever the partner) or an EWSR1-FLI1 RT-PCR (which would not) was performed. The Cellosaurus caution therefore restates a published sentence rather than standing alone as a curatorial verdict. Section 2.2's boundary is unaffected and should stay as written."
+    },
+    {
+      "summary": "Section 3.0 cites a named artifact field that does not contain what the sentence says it contains. The GSM accessions and titles quoted there are correct, but they live in a different field; the field the paper names carries zero GSM accessions in every committed version of the file.",
+      "evidence": "Manuscript: 'the same artifact carries a `geo_search_for_newer_emc_data` block listing GSM600934-GSM600939, titled \"Extraskeletal myxoid chondrosarcoma 1\"...\"6\" (in GSE24369), and GSM715466/715467/715470/715472, titled STT5525_EMC, ... (in GSE28866)'. At the pin, research/modalities/emc-atr-vulnerability-inputs.json -> part_b.geo_search_for_newer_emc_data holds n_hits 35 and ten `datasets` rows, and EVERY row carries '\"n_emc_titled_samples\": 0, \"emc_sample_titles\": []' - including the GSE24369 and GSE28866 rows. A regex for GSM[0-9]+ over that whole block returns nothing. Its own _superseded_by field reads 'dataset_search - four archives, five GEO queries, GSM-level discovery', i.e. GSM-level discovery is what the LATER block added. Checked in all six committed versions of the file (f16ba5119 2026-08-05 20:00 through 61797d4c7 2026-08-12): 0 GSM ids and no EMC sample title in the block, every time; and emc-atr-vulnerability.json has never carried a field of that name in any committed version. The quoted accessions and titles are correct and DO trace, to part_b.series_seeds[1].evidence = 'GSM600934-GSM600939 titled Extraskeletal myxoid chondrosarcoma 1..6 in the GEO DataSets index (42 samples, 2011/05/02)' and part_b.series_seeds[2].evidence = 'GSM715466/715467/715470/715472 titled STT5525_EMC, STT5526_EMC, STT5527_EMC, STT5592_EMC (99 samples, 2012/08/24)', and to part_b.dataset_search.geo.samples[*].gsm.",
+      "fix": "Point the sentence at `part_b.series_seeds[1]-[2].evidence` (and, for the 25-sample listing, `part_b.dataset_search.geo.samples`) instead of `geo_search_for_newer_emc_data`. Nothing else in section 3.0 changes: the accessions, the titles, the counts and the argument are all corroborated at the corrected location."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "Almost no sentence in this document is read by any instrument, and a committed measurement says so. Nothing checks the class of statement both blockers above belong to - 'source X says Y'.",
+      "evidence": "research/manuscripts/claim-coverage.json -> papers['research/manuscripts/dependency/emc-atr-vulnerability-assessment.md'] = {sentences 161, covered 2, with_a_number 123, with_a_number_covered 2, uncovered 159, uncovered_with_a_number 121}. Coverage by instrument, checked at the pin: lint_claims.py DOES read it (via _publication_documents() over systems/graph/publications.json, whose PUB-ATR row's document.file names it) but only grades claim STRENGTH, R1-R5. lint_citations.py DOES read it (it scans every tracked .md) but its test is only that an identifier also appears in some tracked .json/.jsonl - its own docstring calls this 'a weaker and more honest test than is this citation real'. lint_consistency.py lists the file at pinned-figures.json -> targets[18], but of that registry's 99 artifact_figures, 81 superseded, 1 derivations, 1 table_completeness and 1 subset_checks entries, ZERO reference emc-atr-vulnerability - so not one of this paper's ~123 numeric sentences is pinned. No test under research/modalities/tests or research/manuscripts/tests opens the manuscript; the only .py files naming it are lint_readability.py, single_slot_identity.py and atr_hrd_sarcoma_series.py, all in comments or as a declared-by pointer.",
+      "fix": "Register this paper's load-bearing figures in pinned-figures.json artifact_figures against emc-atr-vulnerability.json and atr-hrd-sarcoma-series.json (the grading tier, the four part-D rho values and their bars, the two part-B probe/mapping counts, the part-C group sizes, the section 8.3 TPM/family-fraction rows), so a hand-typed drift reddens the commit loop. Separately, the 'source X says Y' class needs a guard of its own: the two blockers here are both quotations about a source that no instrument can see."
+    },
+    {
+      "summary": "lint_citations' anchor scan counts blind-review-seat records and hardening-state files as fetch products, which lets a manuscript identifier be anchored by an agent that merely quoted the manuscript.",
+      "evidence": "research/manuscripts/lint_citations.py -> survey() scans every tracked .json/.jsonl except three named files (citation-provenance-ledger.json, SWEEP_ARTIFACT_REL, TYPE_CACHE_REL). research/autonomy/review-seats/*.json and research/autonomy/hardening-state/*.json are not excluded. Measured at the pin for this paper's identifiers: PMID 34413129 anchors in 8 json files of which 4 are review-seat/hardening-state records; PMID 41651400 anchors in 8 of which 5 are, leaving only research/literature/carfilzomib-class-clinical-2026-08-28.json, research/manuscripts/emc-systems-map.json (a hand-edited registry) and research/method-watch-triggers.json - the module that actually fetched it, atr-hrd-sarcoma-series.json, stores it as a bare '\"pmid\": \"41651400\"' key, which this linter's own comment states anchors NOTHING. This is the self-anchoring class the three named exclusions already exist for: a seat record is prose written by a reviewing agent quoting the paper under review.",
+      "fix": "Add research/autonomy/review-seats/ and research/autonomy/hardening-state/ to the survey() exclusion set, with a test pinning the property (an identifier appearing only in prose plus a seat record must still count as unanchored). Note the exclusion order constraint already documented above TYPE_CACHE_REL."
+    },
+    {
+      "summary": "Section 8's declared producer still cites the superseded preprint alone in a field a reader sees, which is the exact defect the appendix records as fixed for the other module. Nothing checks that the two producers agree.",
+      "evidence": "The manuscript's section 8 banner declares atr_hrd_sarcoma_series.py -> atr-hrd-sarcoma-series.json as its producer, and the appendix's mechanism-paper row records that emc_atr_vulnerability.py 'went on citing the preprint alone in its docstring and _hypothesis_source' and now names the version of record - true, at emc_atr_vulnerability.py lines 10-11, 868 and 3131-3132. But research/modalities/atr_hrd_sarcoma_series.py line 7-8 still reads 'The EMC ATR route ... rests on ONE published mechanism (PMID 37205599)', and line ~1070 writes 'Route 1 rests on PMID 37205599, which nominates FET-fusion-driven ATM SUPPRESSION as the lesion' into atr-hrd-sarcoma-series.json -> q3_selection_biomarker._why_this_matters. The module does carry both identifiers as constants (MECHANISM_PMID = '41811428', MECHANISM_PREPRINT_PMID = '37205599') and does ask for the version of record first, so the paper's positive claims about it are accurate; the two prose fields were simply not swept.",
+      "fix": "Name the version of record first in atr_hrd_sarcoma_series.py's docstring and in the _why_this_matters string, regenerate atr-hrd-sarcoma-series.json, and add a test that every module-authored citation of the mechanism paper names PMID 41811428 before PMID 37205599 - a one-of-a-pair guard, since this pair has now been corrected in one half twice."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+    "research/manuscripts/dependency/emc-atr-collaborator-package.md",
+    "research/modalities/emc-atr-vulnerability-inputs.json",
+    "research/modalities/emc-atr-vulnerability.json",
+    "research/modalities/emc_atr_vulnerability.py",
+    "research/modalities/atr-hrd-sarcoma-series.json",
+    "research/modalities/atr-hrd-sarcoma-series-inputs.json",
+    "research/modalities/atr_hrd_sarcoma_series.py",
+    "research/modalities/fet-ddr-axis-scan.json",
+    "research/modalities/fet_ddr_axis_scan.py",
+    "research/modalities/emc-fet-idr-census.json",
+    "research/modalities/emc-fet-construct-designs.json",
+    "research/modalities/depmap_sarcoma_dependency.py",
+    "research/modalities/hemcss-label-priorart.json",
+    "research/modalities/emc-model-junction-evidence.json",
+    "research/modalities/emc-sra-study.json",
+    "research/modalities/emc-atri-prereg.md",
+    "research/modalities/emc-atri-outreach-DRAFT.md",
+    "research/manuscripts/lint_citations.py",
+    "research/manuscripts/lint_claims.py",
+    "research/manuscripts/lint_consistency.py",
+    "research/manuscripts/pinned-figures.json",
+    "research/manuscripts/citation-provenance-ledger.json",
+    "research/manuscripts/claim-coverage.json",
+    "research/manuscripts/claim_coverage.py",
+    "research/manuscripts/surface-targets/emc-surface-target-landscape.md",
+    "research/manuscripts/surface-targets/emc-surface-target-outreach.md",
+    "research/manuscripts/program/emc-post-degrader-options.md",
+    "research/manuscripts/aso/lit-targets-aso-verify.json",
+    "research/literature/citation-corrections-2026-08-09.json",
+    "research/literature/emc-fourth-cohort-publication-2026-08-24.json",
+    "research/method-watch-triggers.json",
+    "research/autonomy/research-ledger.json",
+    "systems/graph/publications.json",
+    "systems/graph/claims.json"
+  ],
+  "p2s": [
+    {
+      "summary": "'The draft now LEADS with \"DO NOT claim H-EMC-SS as an EMC line\"' overstates where the correction sits. Said twice - section 2.3's table and the appendix's last row.",
+      "evidence": "research/manuscripts/surface-targets/emc-surface-target-outreach.md is 135 lines; the '- [ ] DO NOT claim H-EMC-SS as an EMC line (2026-08-05)' item is at line 125, inside the 'Before sending - checklist', ten lines from the end. The correction IS in the email body earlier (line 58: 'the one DepMap line labelled EMC (H-EMC-SS) is recorded by Cellosaurus as not carrying an [EWSR1 fusion]') and the old sentence IS retained as superseded at line 130, so the row's verdict 'corrected' is right; only 'LEADS' is wrong."
+    },
+    {
+      "summary": "Section 1's table quotes a cut 'verbatim' that drops a guard from the code.",
+      "evidence": "The table header reads 'the cut, verbatim' and the row prints 'tracks_mechanism = n_pass >= 2'. research/modalities/emc_atr_vulnerability.py:2974 reads out['tracks_mechanism'] = bool(tests and n_pass >= 2). The 'tests and' guard - which is what makes an empty test list fail closed rather than pass - is not in the quotation. The other four quoted cuts are exact (MIN_GROUP_N = 5 at line 336, MIN_SCORED_CONCEPTS = 3 at 2115, abs(a) > 0.1 and abs(a) > 1.5 * abs(c0) at 2917, abs(rho) > abs(prolif_rho) * 1.15 at 2935, DEPENDENT_THRESHOLD = -0.5 at depmap_sarcoma_dependency.py:97)."
+    },
+    {
+      "summary": "The producing artifact dates Bangerter et al. a year earlier than the fetch record does. The manuscript is the one that is right.",
+      "evidence": "research/modalities/emc-atr-vulnerability.json -> part_b_emc_tumour_signature._limits[3] reads 'Bangerter et al. (Hum Cell 2022; PMID 36316541)'. The fetch records say 2023: emc-atr-vulnerability-inputs.json -> part_a.literature.results['\"H-EMC-SS\"'].rows[7] carries year '2023', and atr-hrd-sarcoma-series.json -> associated_publication.further_searches.by_authors gives pmid 36316541, journal 'Human cell', year '2023', doi 10.1007/s13577-022-00818-x. The manuscript prints 2023. Section 7 calls the artifact 'the home of every number here', so the stale year sits in the file a reader is sent to."
+    }
+  ],
+  "objections_i_raised_and_the_paper_already_answers": [
+    "That the headline's verbatim bound - 'it does not isolate ATR, and it must not be written as if it did' - might not exist in its cited source. It does: research/manuscripts/program/emc-post-degrader-options.md carries it at the end of the 'What bounds it' paragraph; my grep missed it only because the source writes 'it does **not** isolate ATR' with markdown emphasis inside the quoted string. Quoted accurately.",
+    "That section 8.2's first block quotation is not verbatim. The stored sentence (atr-hrd-sarcoma-series.json -> mechanism_paper_on_hr_deficiency.fulltext_sentences_mentioning_HR_or_BRCA_or_PARP[6]) reads '...defective HR 15 , we nominate...', where '15' is an extracted superscript reference marker; the source XML in atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml confirms it is a <sup><xref> citation. Stripping it restores the source sentence. The other four quotations match character for character, and n_such_sentences = n_such_sentences_stored = 54, as the paper says.",
+    "That section 8.2's four statements about how the PUBLISHED version rewords the preprint rest on no committed artifact. They do not, and the paper says so twice - in the section 8 banner and again in the paragraph itself - and states that one CI run of --fetch would produce them. Disclosed, not hidden.",
+    "That the Bangerter '> 90 % of the cases an NR4A3 rearrangement' quotation was written from recollection, since the ATR artifacts carry it only inside a module-authored _limits string. It is verbatim in research/manuscripts/aso/lit-targets-aso-verify.json -> records[49].abstract_verbatim: 'EMCs are translocation sarcomas and harbor in > 90% of the cases an NR4A3 rearrangement.'",
+    "That the volume and pages 'Hum Cell 2023;36:446-455' were hand-typed. Anchored in research/literature/submission-reference-metadata-2026-08-09.json and research/modalities/atr-hrd-sarcoma-series-inputs.json, among others.",
+    "That the collaborator-package cross-references (sections 2, 3 and 4) point at the wrong sections after that document was restructured. Checked: its section 2 (Methods) carries the construct arithmetic and the per-construct self-checks, its section 3 (Results) carries Table 4 and the retained-RG axis placement, and its section 4 (Pre-specified predictions) carries the TCF12 arm as P5. Loose but not wrong; Table 4 and Appendix A both exist."
+  ],
+  "notes": "Provenance is clean: every PMID (34413129, 36316541, 37205599, 41651400, 41811428, 42465974), DOI (10.1007/s13577-022-00818-x, 10.1016/j.canlet.2026.218300, 10.1101/2023.04.30.538578, 10.7717/peerj.21497), PMCID (PMC10187251), GEO accession (GSE4303, GSE24369, GSE28866, GSE43632, GSE80126, GSE299349, and the GSMs), SRA study (SRP640302, SRP445369), BioProject (PRJNA1273954) and cell-line identifier (CVCL_1238, ACH-001519, Cosmic-CLP 907290, RCB0508) in this document anchors in a genuine, non-seat fetch product at the pin, and the author lists, titles, journals, volumes and pages I checked all match those records. So do the gene-set citations (Reactome/Milacic, GO/Ashburner, MSigDB Hallmark/Liberzon, Enrichr/Kuleshov) with their per-concept library, matched term and gene counts; the grading criteria quoted 'word for word'; the five code cuts; the GDSC2 8.5 drug residuals; the structural-census fields including 'grep 431 returns 0'; the Cellosaurus 16-markers-over-18-lines arithmetic; and every section 8.1 and 8.3 field. The failures are both in the harder half of this lens - a real identifier or a real artifact field under a statement it does not support. Blocker 1 mis-reports what PMID 34413129 says about H-EMC-SS, in the direction that WEAKENS this paper's own finding, against two independent committed artifacts that quote the sentence verbatim. Blocker 2 names an artifact field that has never in any committed version held the accessions the sentence attributes to it, while the correct field sits two keys away. Neither touches the grading, the tier, or any numeric result. One disclosure: a repository-wide grep for the verbatim bound string incidentally printed two lines of prior-round seat-record JSON into my terminal; I did not open those records, did not read further, and no finding here rests on them - blocker 1, blocker 2 and every P1 were derived independently from the artifacts named in their evidence fields.",
+  "closed_utc": "2026-09-02T20:07:45Z"
+}

@@ -158,7 +158,8 @@ plus the fix.
 2. `emc_fet_frame_and_composition.py` read `research/manuscripts/lit-targets-aso-verify.json`, which
    `main` keeps under `aso/`. Repointed; its suite went **8 errors → 0**. The artifact then
    reproduced with two provenance lines changed and **no scientific value moved**.
-3. The recovered review response names `ACH-001519` (identity **DISPUTED**), which gate 3's `O4`
+3. The recovered review response names `ACH-001519` — H-EMC-SS, identity **DISPUTED** for
+   **not carrying the hallmark fusion on the curated record** — which gate 3's `O4`
    requires every tracked file to classify. Classified `unaffected` on the document's own words:
    *"nothing here reads it as EMC evidence, and it is named only as a reason a row was weakened."*
 
