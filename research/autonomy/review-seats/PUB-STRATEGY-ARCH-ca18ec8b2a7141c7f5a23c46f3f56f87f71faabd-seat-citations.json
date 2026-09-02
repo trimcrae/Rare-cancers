@@ -1,0 +1,41 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+  "blind": true,
+  "seat": "citations",
+  "lens": "citations/build/gates (identifiers resolve, frontmatter agrees with body)",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "d7656305abadc8da96f1949dd7d1eab8a4da5df78f2815b53f081bb65c6f5264",
+  "opened_utc": "2026-09-02T18:00:00Z",
+  "verdict": "accept",
+  "referee_recommendation": "accept",
+  "central_claim": "Patients with extraskeletal myxoid chondrosarcoma are eligible for at least two recruiting interventional trials that a condition/histology search on their own diagnosis would never surface, because eligibility is written on the fusion family or translocation class while the registry's searchable 'listed conditions' field names only the histologies the sponsor had in mind — and this cuts both ways (two other candidates that pass a keyword screen actually refuse the disease), so eligibility text must be read one trial at a time rather than matched by keyword.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The verbatim NCT05918640 eligibility quote is presented as a complete sentence but is actually a truncated clause of a longer sentence, with a manuscript-inserted period at the truncation point.",
+      "evidence": "Manuscript table (line 144): 'verbatim: *Patients must have a known FET fusion (fusion that contains EWSR1, FUS, or TAF15)*.' The source artifact's verbatim_eligibility_sentence (fet.json, task_1 record for NCT05918640) is: 'Patients must have a known FET fusion (fusion that contains EWSR1, FUS, or TAF15) as documented by next generation sequencing, polymerase chain reaction (PCR) or Fluorescence in situ hybridization (FISH).' The quoted fragment is accurate word-for-word up to its cutoff and does not change the criterion's meaning, but labeling a mid-sentence fragment 'verbatim' with a manuscript-added closing period is a minor precision gap that a future edit for length could worsen (e.g. if a later trim moved the cut point across a comparison operator or qualifier).",
+      "fix": "Either quote the full sentence, or mark the truncation with an ellipsis (e.g. '...TAF15) [as documented by NGS/PCR/FISH]') so 'verbatim' cannot be read as 'the complete sentence'. Not required before publication — meaning is unaffected — but tightens a label that currently overstates completeness."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (full text, 283 lines, sha256 verified)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (full text, 1445 lines)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (full text, 91 lines)",
+    "research/literature/non-us-registry-sweep-2026-08-09.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (full text, 89 lines)",
+    "existence check at ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd for the six data-availability paths named in §7: research/literature/emc-clinical-sweep-targets.json, emc-clinical-sweep-c3.json, emc-clinical-sweep-c4.json, research/manuscripts/modality-census/lit-targets-frontier-capability-2026-08-07.json, research/modalities/emc-hypoxia-therapeutic-status.json, scripts/lit_fetch_urls.py (all present)",
+    "existence check for the DOC-MODALITY-CENSUS id named in frontmatter `related`, found in research/manuscripts/modality-census/cancer-modality-census.md @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd"
+  ],
+  "_verification_notes": [
+    "sha256 of the fetched blob matched the pinned digest exactly before any review began.",
+    "Verified against source JSON, all correct: unique_studies_indexed=1159 (§2 table); NR4A3 term search returns exactly 5 studies matching the manuscript's categorisation (2 exercise-physiology, 1 spinal-cord-injury, 1 neck-pain, 1 surgical cholangiocarcinoma) and none is EMC or any sarcoma (§3, abstract); the 'nine further registry records' = DETERMINE master (NCT05722886) + its 7 arms (one, NCT07440290, NOT_YET_RECRUITING) + Basket of Baskets (NCT03767075) = 9, matching §3 row 3 and the abstract exactly; eligibility text was retrieved for exactly 3 of those 9 (NCT05722886, NCT03767075, NCT06988475 via the unfielded ct_sarcoma_2026_new payload), matching §2's 'three of those nine ... the third inside the unfielded screen'; NCT03767075's status_verified_date is 2024-04, matching §5's staleness note; NCT06571734's listed_conditions count is 10 in the 2026-08-07 sweep vs 7 in the 2026-08-09 re-fetch, matching the manuscript's 'The fielded screen two days earlier recorded ten; the difference is unexplained'; NCT06239272 carries exactly 42 listed conditions including 'Extraskeletal Myxoid Chondrosarcoma' and its eligibility sentence sets age 1-30 'at the time of the biopsy that established the diagnosis', matching §4.1's '42 listed conditions' and 'age 1 to 30 at the diagnostic biopsy rather than at enrolment'; the 4-candidate adjudication set (NCT06571734 admits/interventional, NCT04151342 admits/observational, NCT06094101 refuses, NCT07188532 refuses) matches adjudication.json's `adjudications` array and summary exactly, including the counter-finding language about both refusals passing a keyword screen; NCT07188532's listed condition 'Round Cell Sarcoma With EWSR1-non-ETS Fusion' (used in §6's remedies) is confirmed in fet.json; the transport-defect count 'twelve records lost, five recoverable from another payload in the same file' is exactly reproduced by unioning fet.json's unparseable_records and silently_damaged_records NCT-id sets (12 unique ids) and checking which of those 12 also appear as fully-keyed records elsewhere in the same file (exactly 5: NCT05836571, NCT07188532, NCT06094101, NCT07695311, NCT05275426); the non-US sweep's 5-endpoint / 1-answered / 2-refused / 1-TLS-failure / 1-wrong-URL breakdown (§4.1, §5, and the frontmatter `scope` field) matches nonus.json's `endpoints` array exactly, including which two ISRCTN queries returned which counts and which record excludes EMC by name (ISRCTN07742377) versus by parent term (ISRCTN60791336).",
+    "All eight identifiers printed in the body (NCT03767075, NCT04151342, NCT05918640, NCT06239272, NCT06571734, NCT07188532, ISRCTN07742377, ISRCTN60791336) resolve to real records in the cited source artifacts with matching titles, statuses, and listed-condition sets. NCT06094101 (PerVision) is discussed narratively in §4 without printing its NCT number — not an error, since no identifier is asserted for it, but noted for completeness.",
+    "PMID 32967265 (Stacchiotti et al., Cancers 2020) is used only for the FET-fusion-partner-frequency claim in the abstract; fet.json's `_supporting_literature_read_in_the_same_ci_run` block carries the matching verbatim quote (>70% EWSR1, ~20% TAF15, <5% FUS/TCF12/TFG) and correctly flags it as a secondary/review source rather than primary data — the manuscript's own phrasing ('as a review reports') matches that provenance flag.",
+    "Frontmatter cross-checked against body: `scope`'s '4 unread non-US endpoints' agrees with §5's four-endpoint breakdown (round 7's fix holds); `canonical_for`/`date`/`last_verified` all read 2026-08-09, consistent with the adjudication and non-US-sweep artifact dates the body cites; `related: [DOC-MODALITY-CENSUS]` resolves to a real document id in the repository at this commit.",
+    "All 10 in-body section cross-references (§3, §4, §4.1, §5) resolve to headings that actually exist in the document (§4.1 is a real '### 4.1' subsection under §4).",
+    "One P1 filed (truncated-quote labeling on NCT05918640); no blockers found. This is a densely fact-checked document — every sampled identifier, count, and derived total traced exactly to the underlying JSON artifacts, well beyond the NCT06571734 spot-check from round 4."
+  ]
+}
