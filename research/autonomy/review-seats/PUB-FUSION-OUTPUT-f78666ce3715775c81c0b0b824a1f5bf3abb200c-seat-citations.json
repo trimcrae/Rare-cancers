@@ -1,6 +1,6 @@
 {
   "_schema": "emc-review-seat/1",
-  "status": "open",
+  "status": "complete",
   "_why_this_exists_before_the_review_does": "AUT-PROP-006. This record is written as the seat's FIRST act, so a seat that dies leaves evidence that it looked rather than nothing at all. It is EMPTY and says so: publish_bar.clause_1_hardening_converged REFUSES any round with an open record at the commit it is grading, because an unfinished look must never be counted as a clean one.",
   "paper": "PUB-FUSION-OUTPUT",
   "pub_id": "PUB-FUSION-OUTPUT",
@@ -11,8 +11,109 @@
   "document": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md",
   "document_sha256": "f665c438dffc60074b50a5c0359b2cc9dff128bfd19bae0c615d88b60ca713bc",
   "opened_utc": "2026-09-02T16:31:26Z",
-  "verdict": null,
-  "central_claim": null,
-  "blockers": [],
-  "p1s": []
+  "verdict": "supported_with_reservations",
+  "central_claim": "A gene-set read on a small rare-tumour expression series is uninterpretable until an arbitrary set of the same size, drawn from the same platform's own genes, has been scored beside it; applied to the EWSR1::NR4A3 direct-target catalogue the A+B aggregate reaches only 39% and 88% of its size-matched threshold while the published EMC phenotype clears the same threshold 11.9-fold and 4.2-fold on the same instrument in the same run. I tested this as a citation/provenance lens: whether every identifier, reference and built artifact the reader receives is backed by a committed artifact in this repository.",
+  "blockers": [
+    {
+      "id": "B1",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-manuscript.pdf AND research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.pdf",
+      "quote": "!Figure 1 / !Figure 2 / !Figure 3 / !Figure 4 / !Figure 5  \u2014 the literal text that stands where each figure should be, in both built PDFs",
+      "why": "NEITHER BUILT PDF CONTAINS ANY OF THE FIVE FIGURES. Each `![Figure N](../figures/figN-....png)` line in the pinned markdown passes through unrendered and prints as the alt text `!Figure N`, followed by the caption, with no image. Measured three ways on the pinned blobs: (1) `/Subtype /Image` appears 4 times in each PDF and every one is an 80x76 RGB/alpha pair (the emoji glyphs), never a figure; `/Subtype /Form` appears 0 times, so nothing is embedded as vector either; (2) pypdf text extraction of both files returns the five literal stubs `!Figure 1`..`!Figure 5` (manuscript PDF lines 743, 752, 757, 765, 781); (3) rendering page 17 of nr4a3-fusion-transcriptional-output-manuscript.pdf with ghostscript shows four captions in a column with blank space above each and `!Figure 1`..`!Figure 4` printed as text. ROOT CAUSE, from the committed builder: research/manuscripts/build_submission_pdf.py, the `\"fusion-output\"` entry, sets `\"figures\": {}` \u2014 an empty figure map \u2014 while the sibling entries `\"vaccine-path\"` ({\"Figure 1.\": \"vaccine-junction-schematic.svg\", \"Figure 2.\": \"vaccine-threshold-curve.svg\"}) and the ASO entry declare theirs, and those PDFs carry no `!` stubs. The same entry's `stamp_sources` lists only the markdown, which is why BOTH build stamps report the PDFs current: their `_what` field says \"sha256 of each document AND figure this PDF renders\" but `built_from` holds one key, the .md at f665c438... . The harm is reader-facing and not cosmetic: the manuscript PDF's own /Subject calls it \"the version of record for this deposit\", and its body sends the reader to the missing figures five times \u2014 \"it is drawn in **Figure 1**\" (1.1), \"**Figure 1** shows this directly\" (3.4), \"**Figure 3** shows every tumour. **Figure 4** summarises which instrument supports which gene\" (3.5), \"**Figure 4** puts the ordering on one screen\" (3.12), \"The muscle-admixture objection, and its answer (Figure 5)\" (3.5). Figure 1 is the drawing of the paper's central contribution. Note also that fig1-fig5 exist only as .png and .pdf in research/manuscripts/figures/ \u2014 there is no .svg for any of them, while the builder inlines figures as SVG markup, so the map cannot simply be filled in.",
+      "fix": "Not a prose change: rebuild. Emit SVG alongside PNG/PDF from research/modalities/nr4a3_fusion_targets_figures.py for fig1-fig5, populate the `\"fusion-output\"` entry in research/manuscripts/build_submission_pdf.py with {\"Figure 1.\": \"fig1-size-matched-null.svg\", ... \"Figure 5.\": \"fig5-muscle-admixture-control.svg\"}, add those five files to that entry's `stamp_sources`, rebuild both PDFs, and confirm the rebuilt files contain no `!Figure` stub and five figure renderings."
+    },
+    {
+      "id": "B2",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md, section 1.3",
+      "quote": "The primary sources are, by contrast, ordinary references of this literature \u2014 42\u201370% of their citations come from EMC records, and each is cited by four to six EMC reviews.",
+      "why": "The committed measurement contradicts the 'each', and cannot produce the range. The sentence's antecedent, one clause earlier, is 'the three genes with a published fusion DNA-binding assay' (PPARG, SEMA3C, ENO3), so 'the primary sources' are Filion 2009, Brenca 2019 and Kim 2016. research/literature/fusion-consensus-probe.json \u2192 `queries` gives, per anchor: `filion_2009_pparg__citing_all` hit_count 52, `__citing_emc` 22 (42.3%), `__citing_emc_reviews` 4; `brenca_2019_sema3c__citing_all` hit_count **null** (the query returned no count), `__citing_emc` 19, `__citing_emc_reviews` 5; `kim_2016_eno3__citing_all` 12, `__citing_emc` 4 (33.3%), `__citing_emc_reviews` **0**. So Kim et al. \u2014 the ENO3 source, and ENO3 is the one gene the paper reports as surviving every test \u2014 is cited by ZERO EMC reviews, not four to six, and 33% not 42-70% of its citations are EMC records. The fourth anchor in the same file, `subramanian_2005_cohort`, gives 27/50 = 54% and 6 EMC reviews, so including it the honest range is 33-54%; no field in any committed artifact yields 70%, and Brenca's denominator is recorded as null so no fraction is derivable for it at all. This is load-bearing for the paragraph: the sentence is what carries 'the gap this addresses is not a contested claim in need of correction', and Appendix A already records two prior corrections of exactly this class of unmeasured literature claim.",
+      "fix": "The primary sources behind two of the three genes are ordinary references of this literature \u2014 42% of Filion *et al.*'s 52 citations and 54% of Subramanian *et al.*'s 50 come from EMC records, and they are cited by four and six EMC reviews respectively \u2014 while Kim *et al.*, the source for *ENO3*, is cited by **no** EMC review at all and only 4 of its 12 citations are EMC records."
+    },
+    {
+      "id": "B3",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.pdf (the typeset preview), Table 9",
+      "quote": "experiment | antigen | peaks | panel genes with a peak | ENO3 | PPARG   \u2014 the header as it prints, with the SEMA3C column absent; the final cell prints \"uninforma\"",
+      "why": "Table 9 has seven columns in the pinned markdown (\u2026| *ENO3* | *PPARG* | *SEMA3C* |) and the preview PDF clips the last one off the column edge. Measured: extracting the text of nr4a3-fusion-transcriptional-output.pdf and searching the Table 9 block (lines 989-1032) returns 0 occurrences of SEMA3C, and the three SEMA3C-only cell strings `1, p 0.46`, `1, p 0.32` and `1, p 0.68` are the ONLY markdown table cells in the whole paper absent from that PDF while present in nr4a3-fusion-transcriptional-output-manuscript.pdf, which prints all seven columns. The final row is cut mid-word \u2014 `uninformative` renders as `uninforma` \u2014 which is the signature of horizontal clipping rather than a layout choice; rendering page 7 confirms it visually. The reader of that file is then told in the prose immediately below that '*SEMA3C* carries at most one peak in one experiment' and that 'No class-A gene carries unusual NR4A occupancy' with no SEMA3C row to check either against. This is the same defect class a round-19 blind seat found in the ASO paper, and the guard written for it (research/manuscripts/tests/test_a_display_item_cell_is_not_clipped.py) is hard-coded to `MANUSCRIPTS/aso` and `fusion-junction-aso-journal-tables.md`, so it cannot see this paper (see P1-a). Stated honestly: this PDF's /Subject says 'NOT the deposited version \u2014 the file to cite and deposit is nr4a3-fusion-transcriptional-output-manuscript.pdf', so the deposited artifact is unaffected; it is still a built PDF shipped in the paper's directory that silently drops a column of data.",
+      "fix": "Not a prose change: narrow Table 9's cell padding or set the occupancy table to render at full body width in the typeset (journal-style) build, then re-extract the built PDF and assert that every cell of the source table survives \u2014 the check test_a_display_item_cell_is_not_clipped.py already performs for the ASO deposit."
+    },
+    {
+      "id": "B4",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md, section 3.5",
+      "quote": "So do three markers that are more muscle-restricted than it is \u2014 *ACTA1* 1.000, *MYH7* 1.000, *PYGM* 0.999, *MYL1* 0.998 \u2014 and none of them separates the tumour arms (EMC \u2212 comparator \u22120.057, \u22120.043, +0.142, \u22120.150 percentile points, against *ENO3*'s +0.315).",
+      "why": "The sentence says 'three markers' and then names FOUR and prints FOUR values, and the SI table it derives from agrees there are four: nr4a3-fusion-transcriptional-output-SI.md, TABLE S6, lists ACTA1 1.000, MYH7 1.000, PYGM 0.999 and MYL1 0.998 all above *ENO3*'s 0.996, each flagged `muscle-marker? yes`. The second half is also stronger than the same paper's own figure caption: 'none of them separates the tumour arms' against *PYGM* at +0.142, where the Figure 5 legend says only 'Three markers more muscle-restricted than *ENO3* sit at or below zero' \u2014 which is the correct statement of the same table and quietly concedes that the fourth does not. The muscle control is one of the four things section 4.2 names as new in this paper, so the size and the strength of its comparator panel are not incidental.",
+      "fix": "So do four markers that are more muscle-restricted than it is \u2014 *ACTA1* 1.000, *MYH7* 1.000, *PYGM* 0.999, *MYL1* 0.998 \u2014 and none of the four separates the tumour arms as *ENO3* does: three sit at or below zero and the fourth moves them less than half as far (EMC \u2212 comparator \u22120.057, \u22120.043, +0.142, \u22120.150 percentile points, against *ENO3*'s +0.315)."
+    }
+  ],
+  "p1s": [
+    {
+      "id": "P1-a",
+      "where": "research/manuscripts/tests/test_a_display_item_cell_is_not_clipped.py",
+      "what": "The clipped-table-cell guard is bound to one paper by three module-level constants \u2014 `ASO = os.path.join(MANUSCRIPTS, \"aso\")`, `TABLES = os.path.join(ASO, \"fusion-junction-aso-journal-tables.md\")` \u2014 so it reads only the ASO deposit's PDFs. Its own docstring says it is 'deliberately cause-blind' and asserts 'every cell of every source table survives into the built PDF', which is exactly the assertion PUB-FUSION-OUTPUT needs and does not get. The fix is to make the paper set a parameter driven by the same PAPERS dict build_submission_pdf.py already keys every other PDF guard off, so a new paper entering the builder inherits the guard rather than needing it re-written.",
+      "why_not_a_blocker": "It is a defect in this repository's test tooling, which the brief places out of the outgoing artifact set. Its symptom in the outgoing set is filed as B3."
+    },
+    {
+      "id": "P1-b",
+      "where": "research/manuscripts/build_submission_pdf.py and research/manuscripts/fusion-output/*.build-stamp.json",
+      "what": "Nothing asserts that a built PDF actually renders the figures its source markdown references. The stamp file's `_what` promises 'sha256 of each document AND figure this PDF renders', but the hashes come from that paper's `stamp_sources` tuple, which for `\"fusion-output\"` holds only the .md \u2014 so a build that rendered zero of five figures stamped itself current and stayed current across a rebuild. Two assertions would close it: for every `![...](...)` in a paper's markdown there is a corresponding key in that paper's `figures` map, and the built PDF's text layer contains no line matching `^!`.",
+      "why_not_a_blocker": "It is a build-tooling and guard-coverage gap rather than outgoing text. Its symptom in the outgoing set is filed as B1."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md (pinned, sha256 verified f665c438...)",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.pdf",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-manuscript.pdf",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.build-stamp.json",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-manuscript.build-stamp.json",
+    "research/manuscripts/fusion-output/lit-frenkel-2025-record.json",
+    "research/manuscripts/fusion-output/lit-targets-nr4a3-cistrome.json",
+    "research/manuscripts/fusion-output/nr4a3-cistrome-search-2026-08-08.md",
+    "research/manuscripts/fusion-output/emc-fourth-cohort-sra-2026-08-08.md",
+    "research/manuscripts/figures/figure-provenance.json",
+    "research/manuscripts/figures/ (fig1-fig5 PNG/PDF, and the SVG inventory)",
+    "research/manuscripts/build_submission_pdf.py",
+    "research/manuscripts/citation-retraction-sweep.json",
+    "research/manuscripts/aso/journal-reference-authors.json",
+    "research/manuscripts/aso/fusion-junction-aso-data-sources.json",
+    "research/manuscripts/tests/test_a_display_item_cell_is_not_clipped.py",
+    "research/manuscripts/tests/test_aso_figures_are_vector_not_raster.py",
+    "research/literature/fusion-consensus-probe.json",
+    "research/modalities/nr4a3-fusion-targets.json",
+    "research/modalities/nr4a3-fusion-targets-occupancy.json",
+    "research/modalities/nr4a3-fusion-targets-robustness.json",
+    "research/modalities/nr4a3-fusion-targets-confounds.json",
+    "research/modalities/gse28866-tumour-vs-normal.json",
+    "research/modalities/emc-expression-panels.json",
+    "research/modalities/emc-ret-target-scan.json",
+    "research/modalities/emc_ret_cistrome.py",
+    "research/modalities/emc-sra-study.json",
+    "research/modalities/geo-gse28866-brunner-series.json"
+  ],
+  "p2s": [
+    {
+      "id": "P2-a",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md, TABLE S1, the CCND1 row",
+      "what": "An identifier sits in an attributive slot after a type word that the same manuscript's own record contradicts. The row's citation reads 'Reviewed in Herring JA \u2026 Cells 2019;8:1373. PMID 31683815 \u2026; and in Haller F, et al. Nat Commun 2019;10:368. PMID 30664630' \u2014 placing Haller 2019 among the reviews. The main text treats PMID 30664630 as a primary experiment throughout: section 3.11 'Haller *et al.* mapped it: NR4A3 ChIP-seq in three carcinomas and one normal parotid gland at 8,501\u201318,666 peaks each', section 4.3 'NR4A3 ChIP-seq in three human acinic cell carcinoma tumours', and reference 6 lists it as a research article. The committed catalogue reproduces the same wording (research/modalities/nr4a3-fusion-targets.json \u2192 evidence_table.rows, gene CCND1), so the SI is faithful to the artifact and the artifact is where the wording should be corrected \u2014 'Reviewed in Herring JA \u2026 PMID 31683815; the same target is listed in Haller F, et al. Nat Commun 2019;10:368. PMID 30664630'. No classification changes: CCND1's class-B assay evidence rests on the Herring review, not on Haller."
+    },
+    {
+      "id": "P2-b",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md, reference 2 (repeated in section 2.2 and in the Data and code availability table)",
+      "what": "The volume, issue and page of reference 2 \u2014 '*Genome Biol* 2012;13(8):R75' \u2014 appear in NO committed artifact. Every other reference's volume/page string traces to one (252:1296-1300 and 17:5946-5951 to emc_ret_target_scan.py; 6:25944, 10:368, 217(1):83-93, 249(1):90-101, 106:105268, 22:11371, 8:1373 to nr4a3_fusion_targets.py; 206:433-444 to fusion-consensus-probe.json; 996-1010 to lit-frenkel-2025-record.json), while a grep of the whole pinned tree for '13(8):R75' and for 'R75' in any bibliographic context returns nothing outside this manuscript. The only committed record for PMID 22929540, research/modalities/geo-gse28866-brunner-series.json, carries doi, journal ('Genome biology'), pmid, title, year and the full author string \u2014 and no volume, issue or pageInfo field. The identifiers themselves (PMID, DOI) are held, so the reference is resolvable; what is unsourced is the locator, and the manuscript's own closing Note on citation provenance says bibliographic detail is 'given only to the depth the source supplies them'. Either land the volume/issue/page in that artifact from the same Europe PMC core record the Frenkel reference used, or drop them."
+    },
+    {
+      "id": "P2-c",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md, section 1.3 and reference 9a",
+      "what": "'the deposited probe artifact' is cited twice and named nowhere. Section 1.3 ends 'Query strings, counts and their limits are in the deposited probe artifact', and reference 9a says PMID 8634690 was 'Recovered from Europe PMC 2026-08-08 and recorded in the deposited probe artifact' \u2014 but no such filename appears in the Data and code availability table, in the artifact list, or anywhere in the manuscript or SI. It is research/literature/fusion-consensus-probe.json, which holds every count section 1.3 quotes (`emc_corpus_all` 1305, `emc_corpus_reviews` 261, `restate_pparg` 37 / `restate_pparg_reviews` 3, `restate_sema3c` 6 / 1, `restate_eno3` 2 / 0) and the PMID 8634690 record under `fusion_cloning_primary`. An external reader given the repository URL cannot resolve the pointer. Add the file to the Data and code availability artifact table and name it at both call sites. (The author list for reference 9a lives in a third file, research/manuscripts/aso/journal-reference-authors.json \u2192 by_pmid['8634690'], which is worth naming too if reference 9a's authors are to be traceable.)"
+    },
+    {
+      "id": "P2-d",
+      "where": "both built PDFs in research/manuscripts/fusion-output/",
+      "what": "Eight bold spans render as literal `**` asterisks in both PDFs \u2014 16 occurrences in each. Every one sits inside a markdown list item, so the renderer is not processing inline emphasis there: section 2.2's bullets ('the remaining 7 \u2014 **five solitary fibrous tumours and two pooled skeletal-muscle RNA samples** \u2014 are excluded', 'while **the 3 GIST samples are on Universal Human Reference \u2014 a different pool**'), section 2.6's numbered items 1 and 5 ('few enough to **enumerate completely**', 'A **raw count is never reported as a finding**', 'judged by a **binomial tail**'), section 3.8's item 2 (the Subramanian quote prints as `*\"High levels of expression of PPARG \u2026\"*`), section 3.11's ENO3 bullet, and two bullets in section 4.2. No fact changes; the emphasis is lost and stray markdown prints in a submission PDF."
+    },
+    {
+      "id": "P2-e",
+      "where": "research/modalities/nr4a3-fusion-targets-occupancy.json \u2192 verdict['\u26d4 what_this_is_not']",
+      "what": "A producer artifact's own summary field contradicts the data in the same file. It reads 'Every informative experiment here is NR4A1, a paralogue whose matched-cell-type peak sharing with NR4A3 is 0.347. All 12 NR4A3-specific peak sets are UNINFORMATIVE by the rule above' \u2014 while `verdict.informative_experiments` in the same object lists twelve entries of which four are the Zenodo NR4A3 acinic-cell-carcinoma peak sets (AciCC1/2/3 and Parotid_Gland3). The sentence is stale from before the Haller deposit was added; the manuscript itself gets it right ('Eight of the twelve informative experiments are NR4A1', Limitation 16). This is repo tooling, not the outgoing set, but it is the field a future session is most likely to quote."
+    }
+  ],
+  "closed_utc": "2026-09-02T17:21:21Z"
 }
