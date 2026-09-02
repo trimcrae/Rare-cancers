@@ -309,7 +309,26 @@ A revision loop aimed at a number is not, and this section is the measurement th
 6. **`mode=submit`** (or `new-version`) — double-gated: the workflow input *and* the script's
    `--i-understand-this-is-outward-facing`. A new version does **not** withdraw the old one; aiXiv
    keeps both rows under the same id.
-7. **Wait — and the wait is LONG and IRREGULAR.** v1.4 was posted at 15:15 UTC and reviewed about
+7. **⛔⛔ RECORD THE POST, IN THE SAME COMMIT AS THE RUN THAT MADE IT. THIS IS A STEP OF POSTING, NOT
+   BOOKKEEPING** — the version cap is computed from this register and nowhere else:
+
+       python3 research/autonomy/posting_register.py --record --pub-id PUB-X \
+           --aixiv-id aixiv.YYMMDD.NNNNNN --version <the version THE SERVER RETURNED> \
+           --act submit|new_version --posted-utc <ISO-8601 UTC>
+
+   ⚠ **Measured 2026-09-02, and it is why this step exists.** `publication-authority.json` had
+   declared `scope.max_versions_per_paper: 3` since the grant was written, and **no code read it** —
+   `authority_permits('PUB-VACCINE-PATH', 'aixiv', 'new_version')` returned `ok=True` for a paper
+   carrying **eleven** posted versions. `publish_bar.authority_permits` now refuses at the cap and
+   **FAILS CLOSED**: a count it cannot establish is not permission, so a post that is not recorded
+   blocks the *next* one rather than being forgiven.
+   ⛔ **The version is the one the SERVER returned**, never the one you asked for — §4a: 1.9 was
+   followed by 2.0.
+   ⛔ **Do NOT count review files instead.** A review file exists only where a `fetch` ran, so that
+   number is a LOWER BOUND, and a lower bound used as a cap silently permits posts past it.
+   `posting_register.py --check` reconciles the two in the one direction that is sound: a review file
+   with no row proves the register incomplete and refuses every aiXiv act until it is appended.
+8. **Wait — and the wait is LONG and IRREGULAR.** v1.4 was posted at 15:15 UTC and reviewed about
    **2 h 45 m** later. Our first four versions carried review ids 1362–1365, consecutive in aiXiv's
    global sequence; ⚠ **that did NOT generalise** — v1.4's review is id **1371**, so five other
    papers were reviewed in between and the "no other paper is being reviewed" reading held only for
@@ -330,7 +349,7 @@ A revision loop aimed at a number is not, and this section is the measurement th
    the branch after a single dispatch watches a static file forever. Re-dispatch each check.
    ⚠ **aixiv.science is not reachable from the dev sandbox** (403 at the egress proxy), so every
    check costs a CI dispatch. Space them to the cadence above rather than polling per minute.
-8. **`mode=calibrate`** before quoting any rating.
+9. **`mode=calibrate`** before quoting any rating.
 
 ⛔ **`start_attack_review` RETURNS HTTP 500** (measured twice, 2026-08-22 and 2026-08-23). The manual
 re-review path is broken server-side, so a review cannot be re-run on a fixed version and the

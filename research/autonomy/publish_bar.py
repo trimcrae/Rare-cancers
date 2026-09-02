@@ -46,16 +46,20 @@ EXIT CODES
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
 import os
 import json
 import pathlib
+import shutil
 import subprocess
 import sys
+import tempfile
 
 HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import deliverable_digest as _dd  # noqa: E402  (same directory, no package)
+import posting_register as _pr  # noqa: E402  (same directory, no package)
 REPO = HERE.parent.parent
 GRAPH = REPO / "systems" / "graph"
 MANUSCRIPTS = REPO / "research" / "manuscripts"
@@ -108,6 +112,60 @@ def _read_json(path: pathlib.Path):
         return None, f"absent: {_rel(path)}"
     except Exception as exc:  # unreadable, malformed, permissions
         return None, f"unreadable: {_rel(path)} ({type(exc).__name__})"
+
+
+@contextlib.contextmanager
+def _tree_at(sha: str):
+    """Yield `(root, err)` where `root` is a directory holding the repository AS OF `sha`.
+
+    ⛔⛔ WHY THIS EXISTS. Every clause takes `sha` and the bar's whole premise is that it grades the
+    COMMIT that will be posted. Clauses 1, 2, 6 and 7 honour it — clause 7 already reads its
+    document with `git show {sha}:{doc}`. ⚠ MEASURED 2026-09-02: clauses 3 and 4 did not. Clause 3
+    read `REPO / doc` and clause 4 shelled `lint_citations.py` with no arguments, so both graded the
+    WORKING TREE. A paper pinned at a reviewed commit could therefore be cleared by prose that only
+    exists uncommitted in somebody's sandbox, or blocked by a defect that commit does not contain —
+    and either way the verdict is about a tree no reader will ever see.
+
+    ⭐ THE FAST PATH IS AN EQUALITY, NOT AN OPTIMISATION, and it is what makes this change a no-op in
+    the normal case: when `HEAD` resolves to `sha` and the working tree is clean, the working tree IS
+    the sha, so `REPO` is returned unchanged and clause 4 keeps its documented behaviour of also
+    seeing untracked files (`lint_citations` passes `--others` deliberately, so a fabricated citation
+    in a not-yet-`git add`ed draft is caught before the commit). Materialising a tree there would
+    QUIETLY DROP that, which would be a loosening dressed as a correctness fix.
+
+    ⛔ AND IT FAILS CLOSED. A sha that cannot be materialised yields `(None, why)`, and the caller
+    returns UNVERIFIABLE. A bar that cannot read what it is grading has not passed it.
+    """
+    head = subprocess.run(["git", "rev-parse", "--verify", "HEAD"],
+                          capture_output=True, text=True, cwd=str(REPO))
+    target = subprocess.run(["git", "rev-parse", "--verify", f"{sha}^{{commit}}"],
+                            capture_output=True, text=True, cwd=str(REPO))
+    if target.returncode != 0:
+        yield None, f"{sha[:12]} does not resolve to a commit in this repository"
+        return
+    dirty = subprocess.run(["git", "status", "--porcelain"],
+                           capture_output=True, text=True, cwd=str(REPO))
+    if (head.returncode == 0 and dirty.returncode == 0
+            and head.stdout.strip() == target.stdout.strip() and not dirty.stdout.strip()):
+        yield REPO, None
+        return
+
+    tmp = tempfile.mkdtemp(prefix="publish-bar-tree-")
+    checkout = os.path.join(tmp, "tree")
+    added = subprocess.run(["git", "worktree", "add", "--detach", checkout, sha],
+                           capture_output=True, text=True, cwd=str(REPO))
+    if added.returncode != 0:
+        shutil.rmtree(tmp, ignore_errors=True)
+        yield None, (f"could not materialise the tree at {sha[:12]} "
+                     f"({(added.stderr or '').strip().splitlines()[-1:] or ['no detail']})")
+        return
+    try:
+        yield pathlib.Path(checkout), None
+    finally:
+        subprocess.run(["git", "worktree", "remove", "--force", checkout],
+                       capture_output=True, text=True, cwd=str(REPO))
+        shutil.rmtree(tmp, ignore_errors=True)
+        subprocess.run(["git", "worktree", "prune"], capture_output=True, text=True, cwd=str(REPO))
 
 
 def _endpoint(pub_id: str) -> dict | None:
@@ -624,24 +682,31 @@ def clause_3_claim_ceiling_honoured(pub_id: str, sha: str) -> dict:
     if not doc:
         return _clause("claim_ceiling_honoured", "claim strength within the endpoint's ceiling",
                        UNVERIFIABLE, f"{pub_id} has no document.file in publications.json")
-    path = REPO / doc
-    if not path.exists():
+    # ⛔ READ AT `sha`, NOT IN THE WORKING TREE (2026-09-02). This was `path = REPO / doc`, so the
+    # clause graded whatever happened to be on disk — see `_tree_at` for the whole diagnosis.
+    with _tree_at(sha) as (root, err):
+        if root is None:
+            return _clause("claim_ceiling_honoured", "claim strength within the endpoint's ceiling",
+                           UNVERIFIABLE, err)
+        path = root / doc
+        if not path.exists():
+            return _clause("claim_ceiling_honoured", "claim strength within the endpoint's ceiling",
+                           UNVERIFIABLE, f"document {doc} does not exist at {sha[:12]}")
+        try:
+            proc = subprocess.run(
+                [sys.executable, str(root / "research" / "manuscripts" / "lint_claims.py"),
+                 str(path)],
+                capture_output=True, text=True, timeout=300, cwd=str(root),
+            )
+        except Exception as exc:
+            return _clause("claim_ceiling_honoured", "claim strength within the endpoint's ceiling",
+                           UNVERIFIABLE, f"lint_claims did not run ({type(exc).__name__})")
+        if proc.returncode != 0:
+            tail = (proc.stdout or proc.stderr or "").strip().splitlines()
+            return _clause("claim_ceiling_honoured", "claim strength within the endpoint's ceiling",
+                           FAIL, f"lint_claims exit {proc.returncode}: {tail[-1] if tail else '—'}")
         return _clause("claim_ceiling_honoured", "claim strength within the endpoint's ceiling",
-                       UNVERIFIABLE, f"document {doc} does not exist")
-    try:
-        proc = subprocess.run(
-            [sys.executable, str(MANUSCRIPTS / "lint_claims.py"), str(path)],
-            capture_output=True, text=True, timeout=300, cwd=str(REPO),
-        )
-    except Exception as exc:
-        return _clause("claim_ceiling_honoured", "claim strength within the endpoint's ceiling",
-                       UNVERIFIABLE, f"lint_claims did not run ({type(exc).__name__})")
-    if proc.returncode != 0:
-        tail = (proc.stdout or proc.stderr or "").strip().splitlines()
-        return _clause("claim_ceiling_honoured", "claim strength within the endpoint's ceiling",
-                       FAIL, f"lint_claims exit {proc.returncode}: {tail[-1] if tail else '—'}")
-    return _clause("claim_ceiling_honoured", "claim strength within the endpoint's ceiling", PASS,
-                   f"lint_claims clean over {doc}")
+                       PASS, f"lint_claims clean over {doc} at {sha[:12]}")
 
 
 def clause_4_identifiers_resolvable(pub_id: str, sha: str) -> dict:
@@ -649,7 +714,7 @@ def clause_4_identifiers_resolvable(pub_id: str, sha: str) -> dict:
     fabricated PMID passes the claim linter. That has happened here twice."""
     endpoint = _endpoint(pub_id)
     doc = ((endpoint or {}).get("document") or {}).get("file")
-    if not doc or not (REPO / doc).exists():
+    if not doc:
         return _clause("identifiers_resolvable", "every identifier traces to a fetch or the ledger",
                        UNVERIFIABLE, f"{pub_id} has no readable document")
     # ⚠ lint_citations takes NO file arguments — it checks the whole tracked corpus and there is no
@@ -660,21 +725,39 @@ def clause_4_identifiers_resolvable(pub_id: str, sha: str) -> dict:
     #
     # Running it corpus-wide is the conservative reading and we keep it deliberately: an unresolved
     # identifier anywhere in the repository blocks every post until it is fixed.
-    try:
-        proc = subprocess.run(
-            [sys.executable, str(MANUSCRIPTS / "lint_citations.py")],
-            capture_output=True, text=True, timeout=600, cwd=str(REPO),
-        )
-    except Exception as exc:
+    #
+    # ⛔ AND THE CORPUS IS THE ONE AT `sha` (2026-09-02). `lint_citations` derives its ROOT from its
+    # own file location and walks `git ls-files` from there, so running the copy in a materialised
+    # tree scopes it to that commit with no new flag and no change to the linter. Running the
+    # WORKING TREE's copy against a pinned corpus is not expressible without editing `lint_citations`,
+    # and it is also the wrong direction to want: clause 2 already requires a green PREFLIGHT_FULL
+    # run bound to this same sha, so the linter at that sha is itself gated. When the sha IS the
+    # working tree, `_tree_at` hands back REPO and this is byte-for-byte the call it always made.
+    with _tree_at(sha) as (root, err):
+        if root is None:
+            return _clause("identifiers_resolvable",
+                           "every identifier traces to a fetch or the ledger", UNVERIFIABLE, err)
+        if not (root / doc).exists():
+            return _clause("identifiers_resolvable",
+                           "every identifier traces to a fetch or the ledger", UNVERIFIABLE,
+                           f"{pub_id}'s document {doc} does not exist at {sha[:12]}")
+        try:
+            proc = subprocess.run(
+                [sys.executable, str(root / "research" / "manuscripts" / "lint_citations.py")],
+                capture_output=True, text=True, timeout=600, cwd=str(root),
+            )
+        except Exception as exc:
+            return _clause("identifiers_resolvable",
+                           "every identifier traces to a fetch or the ledger", UNVERIFIABLE,
+                           f"lint_citations did not run ({type(exc).__name__})")
+        if proc.returncode != 0:
+            tail = (proc.stdout or proc.stderr or "").strip().splitlines()
+            return _clause("identifiers_resolvable",
+                           "every identifier traces to a fetch or the ledger", FAIL,
+                           f"lint_citations exit {proc.returncode}: {tail[-1] if tail else '—'} "
+                           "(corpus-wide at the pinned sha; the defect need not be in this paper)")
         return _clause("identifiers_resolvable", "every identifier traces to a fetch or the ledger",
-                       UNVERIFIABLE, f"lint_citations did not run ({type(exc).__name__})")
-    if proc.returncode != 0:
-        tail = (proc.stdout or proc.stderr or "").strip().splitlines()
-        return _clause("identifiers_resolvable", "every identifier traces to a fetch or the ledger",
-                       FAIL, f"lint_citations exit {proc.returncode}: {tail[-1] if tail else '—'} "
-                             "(corpus-wide; the defect need not be in this paper)")
-    return _clause("identifiers_resolvable", "every identifier traces to a fetch or the ledger",
-                   PASS, f"lint_citations clean corpus-wide, covering {doc}")
+                       PASS, f"lint_citations clean corpus-wide at {sha[:12]}, covering {doc}")
 
 
 def clause_5_endpoint_declared(pub_id: str, sha: str) -> dict:
@@ -897,7 +980,36 @@ def authority_permits(pub_id: str, venue: str, act: str) -> dict:
         return {"ok": False,
                 "why": (f"{pub_id} is excluded from the aiXiv grant for {act!r} — "
                         f"{str(excluded.get('why'))[:160]}")}
-    return {"ok": True, "why": f"granted: {aixiv.get('granted_by')}"}
+
+    # ⛔⛔ THE VERSION CAP, WHICH THIS FILE DECLARED AND NEVER READ. `scope.max_versions_per_paper`
+    # has been 3 since the grant was written, with the measurement beside it: eleven versions of
+    # `aixiv.260822.000005` never moved its rating above 6 and it trended DOWN as the paper improved.
+    # ⚠ MEASURED 2026-09-02, and it is the `subagent_width` shape a third time: `grep -rn
+    # max_versions_per_paper` found the JSON that defines it, one architecture mention, and one test
+    # asserting it is `>= 1`. NO CODE READ IT, and this function returned ok=True for
+    # `new_version` on a paper carrying ELEVEN posted versions against a cap of three.
+    # ⛔ IT GATES `submit` TOO, and that is not scope creep. The cap counts VERSIONS OF A PAPER, and
+    # a second `submit` of an already-posted paper adds one exactly as `new_version` does. For a
+    # paper with no postings the count is 0, so nothing about a first post changes.
+    cap = scope.get("max_versions_per_paper")
+    if not isinstance(cap, int) or isinstance(cap, bool) or cap < 1:
+        return {"ok": False,
+                "why": (f"`scope.max_versions_per_paper` is {cap!r}, not a positive integer, so the "
+                        "version cap cannot be read — and a cap this function cannot establish is "
+                        "not permission")}
+    posted = _pr.versions_posted(pub_id)
+    if not posted["ok"]:
+        return {"ok": False,
+                "why": (f"how many versions of {pub_id} are already on aiXiv cannot be established, "
+                        f"so the cap of {cap} cannot be checked: {posted['why']}")}
+    if posted["count"] >= cap:
+        return {"ok": False,
+                "why": (f"{pub_id} already carries {posted['count']} posted version(s) on aiXiv "
+                        f"against `max_versions_per_paper` = {cap}. "
+                        f"{str(scope.get('_max_versions_why'))[:200]}")}
+    return {"ok": True,
+            "why": (f"granted: {aixiv.get('granted_by')} — {posted['count']} of {cap} version(s) "
+                    "used")}
 
 
 def evaluate(pub_id: str, sha: str, venue: str = "aixiv", act: str = "submit") -> dict:
