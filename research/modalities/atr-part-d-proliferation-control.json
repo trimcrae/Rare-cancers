@@ -175,6 +175,744 @@
       "reading": "the incumbent proliferation control shares the replication-origin machinery with the ATR-activation set part D tests; the proposed comparator shares none of it. That is a membership fact about the gene lists, not an inference about biology."
     }
   },
-  "_status": "PRE-REGISTERED, NOT YET COMPUTED. `results` is null on purpose: this commit exists so the criterion is on the record before the number.",
-  "results": null
+  "_status": "COMPUTED",
+  "results": {
+    "_status": "COMPUTED",
+    "reproduction_check": {
+      "_what": "every predictor the committed artifact carries must come back with the identical mean rho across ATR inhibitors",
+      "per_predictor": {
+        "dependency::ATR_ATRIP_CHEK1_mean_gene_effect": {
+          "committed": 0.2123,
+          "recomputed": 0.2123,
+          "match": true
+        },
+        "expr::ATM_signalling_DSB_repair": {
+          "committed": -0.0903,
+          "recomputed": -0.0903,
+          "match": true
+        },
+        "expr::ATR_CHK1_activity": {
+          "committed": -0.1575,
+          "recomputed": -0.1575,
+          "match": true
+        },
+        "expr::DNA_damage_checkpoint": {
+          "committed": -0.1545,
+          "recomputed": -0.1545,
+          "match": true
+        },
+        "expr::S_phase_E2F": {
+          "committed": -0.1669,
+          "recomputed": -0.1669,
+          "match": true
+        },
+        "expr::control_oxphos": {
+          "committed": -0.0564,
+          "recomputed": -0.0564,
+          "match": true
+        },
+        "expr::proliferation_MYC": {
+          "committed": -0.1711,
+          "recomputed": -0.1711,
+          "match": true
+        },
+        "expr::replication_stress": {
+          "committed": -0.1637,
+          "recomputed": -0.1637,
+          "match": true
+        },
+        "expr::stalled_fork_response": {
+          "committed": -0.1484,
+          "recomputed": -0.1484,
+          "match": true
+        },
+        "signature::FET_fusion_heldout": {
+          "committed": -0.1379,
+          "recomputed": -0.1379,
+          "match": true
+        }
+      },
+      "n_checked": 10,
+      "n_matching": 10,
+      "all_match": true
+    },
+    "validity_check": {
+      "_what": "does the proposed comparator actually measure proliferation? A control that measures nothing is trivially easy to beat, and a verdict that flipped under one would be an artefact of a weak control.",
+      "yardstick": "expr::S_phase_E2F (Hallmark E2F Targets) \u2014 the canonical proliferation axis",
+      "\u26d4 why_the_yardstick_is_not_itself_a_candidate_control": "S_phase_E2F is a TESTED predictor in part D. It is used here only to ask whether the comparator behaves like a proliferation score.",
+      "declared_floor": 0.3,
+      "rho_mitotic_vs_S_phase_E2F": {
+        "rho": 0.4527,
+        "n": 1673,
+        "t": 20.754
+      },
+      "rho_MYC_vs_S_phase_E2F": {
+        "rho": 0.7264,
+        "n": 1673,
+        "t": 43.203
+      },
+      "rho_mitotic_vs_MYC": {
+        "rho": 0.0276,
+        "n": 1673,
+        "t": 1.129
+      },
+      "n_lines": 1673,
+      "comparator_is_a_usable_proliferation_proxy": true
+    },
+    "part_d_by_control": {
+      "C0_incumbent_proliferation_MYC": {
+        "control_predictor": "expr::proliferation_MYC",
+        "control_rho": -0.1711,
+        "bar_abs_rho_must_exceed": 0.196765,
+        "mechanism_tests": {
+          "signature::FET_fusion_heldout": {
+            "mean_rho_across_ATR_inhibitors": -0.1379,
+            "abs_rho": 0.1379,
+            "direction_predicted": "negative",
+            "direction_matches": true,
+            "magnitude_at_least_0.15": false,
+            "atri_specific": true,
+            "beats_the_proliferation_control": false,
+            "passes": false,
+            "\u2b50 criteria_failed": [
+              "magnitude>=0.15",
+              "beats_the_control"
+            ]
+          },
+          "expr::ATM_signalling_DSB_repair": {
+            "mean_rho_across_ATR_inhibitors": -0.0903,
+            "abs_rho": 0.0903,
+            "direction_predicted": "positive",
+            "direction_matches": false,
+            "magnitude_at_least_0.15": false,
+            "atri_specific": false,
+            "beats_the_proliferation_control": false,
+            "passes": false,
+            "\u2b50 criteria_failed": [
+              "direction",
+              "magnitude>=0.15",
+              "atri_specific",
+              "beats_the_control"
+            ]
+          },
+          "expr::replication_stress": {
+            "mean_rho_across_ATR_inhibitors": -0.1637,
+            "abs_rho": 0.1637,
+            "direction_predicted": "negative",
+            "direction_matches": true,
+            "magnitude_at_least_0.15": true,
+            "atri_specific": true,
+            "beats_the_proliferation_control": false,
+            "passes": false,
+            "\u2b50 criteria_failed": [
+              "beats_the_control"
+            ]
+          },
+          "dependency::ATR_ATRIP_CHEK1_mean_gene_effect": {
+            "mean_rho_across_ATR_inhibitors": 0.2123,
+            "abs_rho": 0.2123,
+            "direction_predicted": "positive",
+            "direction_matches": true,
+            "magnitude_at_least_0.15": true,
+            "atri_specific": true,
+            "beats_the_proliferation_control": true,
+            "passes": true,
+            "\u2b50 criteria_failed": []
+          }
+        },
+        "n_mechanism_tests_passed": 1,
+        "n_mechanism_tests_run": 4,
+        "tracks_mechanism": false,
+        "verdict": "SENSITIVITY_DOES_NOT_TRACK_MECHANISM",
+        "specificity_all_predictors": {
+          "dependency::ATR_ATRIP_CHEK1_mean_gene_effect": {
+            "mean_rho_across_ATR_inhibitors": 0.2123,
+            "mean_rho_across_non_DDR_controls": 0.0141,
+            "beats_the_proliferation_control": true
+          },
+          "expr::ATM_signalling_DSB_repair": {
+            "mean_rho_across_ATR_inhibitors": -0.0903,
+            "mean_rho_across_non_DDR_controls": -0.0333,
+            "beats_the_proliferation_control": false
+          },
+          "expr::ATR_CHK1_activity": {
+            "mean_rho_across_ATR_inhibitors": -0.1575,
+            "mean_rho_across_non_DDR_controls": 0.0215,
+            "beats_the_proliferation_control": false
+          },
+          "expr::DNA_damage_checkpoint": {
+            "mean_rho_across_ATR_inhibitors": -0.1545,
+            "mean_rho_across_non_DDR_controls": 0.0019,
+            "beats_the_proliferation_control": false
+          },
+          "expr::S_phase_E2F": {
+            "mean_rho_across_ATR_inhibitors": -0.1669,
+            "mean_rho_across_non_DDR_controls": 0.0151,
+            "beats_the_proliferation_control": false
+          },
+          "expr::control_oxphos": {
+            "mean_rho_across_ATR_inhibitors": -0.0564,
+            "mean_rho_across_non_DDR_controls": 0.002,
+            "beats_the_proliferation_control": false
+          },
+          "expr::proliferation_MYC": {
+            "mean_rho_across_ATR_inhibitors": -0.1711,
+            "mean_rho_across_non_DDR_controls": -0.0139,
+            "beats_the_proliferation_control": null
+          },
+          "expr::proliferation_MYC_and_mitotic_mean": {
+            "mean_rho_across_ATR_inhibitors": -0.1334,
+            "mean_rho_across_non_DDR_controls": -0.0327,
+            "beats_the_proliferation_control": false
+          },
+          "expr::proliferation_mitotic": {
+            "mean_rho_across_ATR_inhibitors": 0.0433,
+            "mean_rho_across_non_DDR_controls": -0.0439,
+            "beats_the_proliferation_control": false
+          },
+          "expr::replication_stress": {
+            "mean_rho_across_ATR_inhibitors": -0.1637,
+            "mean_rho_across_non_DDR_controls": 0.0367,
+            "beats_the_proliferation_control": false
+          },
+          "expr::stalled_fork_response": {
+            "mean_rho_across_ATR_inhibitors": -0.1484,
+            "mean_rho_across_non_DDR_controls": -0.0016,
+            "beats_the_proliferation_control": false
+          },
+          "signature::FET_fusion_heldout": {
+            "mean_rho_across_ATR_inhibitors": -0.1379,
+            "mean_rho_across_non_DDR_controls": 0.0616,
+            "beats_the_proliferation_control": false
+          }
+        }
+      },
+      "C1_primary_proliferation_mitotic": {
+        "control_predictor": "expr::proliferation_mitotic",
+        "control_rho": 0.0433,
+        "bar_abs_rho_must_exceed": 0.049795,
+        "mechanism_tests": {
+          "signature::FET_fusion_heldout": {
+            "mean_rho_across_ATR_inhibitors": -0.1379,
+            "abs_rho": 0.1379,
+            "direction_predicted": "negative",
+            "direction_matches": true,
+            "magnitude_at_least_0.15": false,
+            "atri_specific": true,
+            "beats_the_proliferation_control": true,
+            "passes": false,
+            "\u2b50 criteria_failed": [
+              "magnitude>=0.15"
+            ]
+          },
+          "expr::ATM_signalling_DSB_repair": {
+            "mean_rho_across_ATR_inhibitors": -0.0903,
+            "abs_rho": 0.0903,
+            "direction_predicted": "positive",
+            "direction_matches": false,
+            "magnitude_at_least_0.15": false,
+            "atri_specific": false,
+            "beats_the_proliferation_control": true,
+            "passes": false,
+            "\u2b50 criteria_failed": [
+              "direction",
+              "magnitude>=0.15",
+              "atri_specific"
+            ]
+          },
+          "expr::replication_stress": {
+            "mean_rho_across_ATR_inhibitors": -0.1637,
+            "abs_rho": 0.1637,
+            "direction_predicted": "negative",
+            "direction_matches": true,
+            "magnitude_at_least_0.15": true,
+            "atri_specific": true,
+            "beats_the_proliferation_control": true,
+            "passes": true,
+            "\u2b50 criteria_failed": []
+          },
+          "dependency::ATR_ATRIP_CHEK1_mean_gene_effect": {
+            "mean_rho_across_ATR_inhibitors": 0.2123,
+            "abs_rho": 0.2123,
+            "direction_predicted": "positive",
+            "direction_matches": true,
+            "magnitude_at_least_0.15": true,
+            "atri_specific": true,
+            "beats_the_proliferation_control": true,
+            "passes": true,
+            "\u2b50 criteria_failed": []
+          }
+        },
+        "n_mechanism_tests_passed": 2,
+        "n_mechanism_tests_run": 4,
+        "tracks_mechanism": true,
+        "verdict": "SENSITIVITY_TRACKS_MECHANISM",
+        "specificity_all_predictors": {
+          "dependency::ATR_ATRIP_CHEK1_mean_gene_effect": {
+            "mean_rho_across_ATR_inhibitors": 0.2123,
+            "mean_rho_across_non_DDR_controls": 0.0141,
+            "beats_the_proliferation_control": true
+          },
+          "expr::ATM_signalling_DSB_repair": {
+            "mean_rho_across_ATR_inhibitors": -0.0903,
+            "mean_rho_across_non_DDR_controls": -0.0333,
+            "beats_the_proliferation_control": true
+          },
+          "expr::ATR_CHK1_activity": {
+            "mean_rho_across_ATR_inhibitors": -0.1575,
+            "mean_rho_across_non_DDR_controls": 0.0215,
+            "beats_the_proliferation_control": true
+          },
+          "expr::DNA_damage_checkpoint": {
+            "mean_rho_across_ATR_inhibitors": -0.1545,
+            "mean_rho_across_non_DDR_controls": 0.0019,
+            "beats_the_proliferation_control": true
+          },
+          "expr::S_phase_E2F": {
+            "mean_rho_across_ATR_inhibitors": -0.1669,
+            "mean_rho_across_non_DDR_controls": 0.0151,
+            "beats_the_proliferation_control": true
+          },
+          "expr::control_oxphos": {
+            "mean_rho_across_ATR_inhibitors": -0.0564,
+            "mean_rho_across_non_DDR_controls": 0.002,
+            "beats_the_proliferation_control": true
+          },
+          "expr::proliferation_MYC": {
+            "mean_rho_across_ATR_inhibitors": -0.1711,
+            "mean_rho_across_non_DDR_controls": -0.0139,
+            "beats_the_proliferation_control": true
+          },
+          "expr::proliferation_MYC_and_mitotic_mean": {
+            "mean_rho_across_ATR_inhibitors": -0.1334,
+            "mean_rho_across_non_DDR_controls": -0.0327,
+            "beats_the_proliferation_control": true
+          },
+          "expr::proliferation_mitotic": {
+            "mean_rho_across_ATR_inhibitors": 0.0433,
+            "mean_rho_across_non_DDR_controls": -0.0439,
+            "beats_the_proliferation_control": null
+          },
+          "expr::replication_stress": {
+            "mean_rho_across_ATR_inhibitors": -0.1637,
+            "mean_rho_across_non_DDR_controls": 0.0367,
+            "beats_the_proliferation_control": true
+          },
+          "expr::stalled_fork_response": {
+            "mean_rho_across_ATR_inhibitors": -0.1484,
+            "mean_rho_across_non_DDR_controls": -0.0016,
+            "beats_the_proliferation_control": true
+          },
+          "signature::FET_fusion_heldout": {
+            "mean_rho_across_ATR_inhibitors": -0.1379,
+            "mean_rho_across_non_DDR_controls": 0.0616,
+            "beats_the_proliferation_control": true
+          }
+        }
+      },
+      "C2_consistency_MYC_and_mitotic_mean": {
+        "control_predictor": "expr::proliferation_MYC_and_mitotic_mean",
+        "control_rho": -0.1334,
+        "bar_abs_rho_must_exceed": 0.15341,
+        "mechanism_tests": {
+          "signature::FET_fusion_heldout": {
+            "mean_rho_across_ATR_inhibitors": -0.1379,
+            "abs_rho": 0.1379,
+            "direction_predicted": "negative",
+            "direction_matches": true,
+            "magnitude_at_least_0.15": false,
+            "atri_specific": true,
+            "beats_the_proliferation_control": false,
+            "passes": false,
+            "\u2b50 criteria_failed": [
+              "magnitude>=0.15",
+              "beats_the_control"
+            ]
+          },
+          "expr::ATM_signalling_DSB_repair": {
+            "mean_rho_across_ATR_inhibitors": -0.0903,
+            "abs_rho": 0.0903,
+            "direction_predicted": "positive",
+            "direction_matches": false,
+            "magnitude_at_least_0.15": false,
+            "atri_specific": false,
+            "beats_the_proliferation_control": false,
+            "passes": false,
+            "\u2b50 criteria_failed": [
+              "direction",
+              "magnitude>=0.15",
+              "atri_specific",
+              "beats_the_control"
+            ]
+          },
+          "expr::replication_stress": {
+            "mean_rho_across_ATR_inhibitors": -0.1637,
+            "abs_rho": 0.1637,
+            "direction_predicted": "negative",
+            "direction_matches": true,
+            "magnitude_at_least_0.15": true,
+            "atri_specific": true,
+            "beats_the_proliferation_control": true,
+            "passes": true,
+            "\u2b50 criteria_failed": []
+          },
+          "dependency::ATR_ATRIP_CHEK1_mean_gene_effect": {
+            "mean_rho_across_ATR_inhibitors": 0.2123,
+            "abs_rho": 0.2123,
+            "direction_predicted": "positive",
+            "direction_matches": true,
+            "magnitude_at_least_0.15": true,
+            "atri_specific": true,
+            "beats_the_proliferation_control": true,
+            "passes": true,
+            "\u2b50 criteria_failed": []
+          }
+        },
+        "n_mechanism_tests_passed": 2,
+        "n_mechanism_tests_run": 4,
+        "tracks_mechanism": true,
+        "verdict": "SENSITIVITY_TRACKS_MECHANISM",
+        "specificity_all_predictors": {
+          "dependency::ATR_ATRIP_CHEK1_mean_gene_effect": {
+            "mean_rho_across_ATR_inhibitors": 0.2123,
+            "mean_rho_across_non_DDR_controls": 0.0141,
+            "beats_the_proliferation_control": true
+          },
+          "expr::ATM_signalling_DSB_repair": {
+            "mean_rho_across_ATR_inhibitors": -0.0903,
+            "mean_rho_across_non_DDR_controls": -0.0333,
+            "beats_the_proliferation_control": false
+          },
+          "expr::ATR_CHK1_activity": {
+            "mean_rho_across_ATR_inhibitors": -0.1575,
+            "mean_rho_across_non_DDR_controls": 0.0215,
+            "beats_the_proliferation_control": true
+          },
+          "expr::DNA_damage_checkpoint": {
+            "mean_rho_across_ATR_inhibitors": -0.1545,
+            "mean_rho_across_non_DDR_controls": 0.0019,
+            "beats_the_proliferation_control": true
+          },
+          "expr::S_phase_E2F": {
+            "mean_rho_across_ATR_inhibitors": -0.1669,
+            "mean_rho_across_non_DDR_controls": 0.0151,
+            "beats_the_proliferation_control": true
+          },
+          "expr::control_oxphos": {
+            "mean_rho_across_ATR_inhibitors": -0.0564,
+            "mean_rho_across_non_DDR_controls": 0.002,
+            "beats_the_proliferation_control": false
+          },
+          "expr::proliferation_MYC": {
+            "mean_rho_across_ATR_inhibitors": -0.1711,
+            "mean_rho_across_non_DDR_controls": -0.0139,
+            "beats_the_proliferation_control": true
+          },
+          "expr::proliferation_MYC_and_mitotic_mean": {
+            "mean_rho_across_ATR_inhibitors": -0.1334,
+            "mean_rho_across_non_DDR_controls": -0.0327,
+            "beats_the_proliferation_control": null
+          },
+          "expr::proliferation_mitotic": {
+            "mean_rho_across_ATR_inhibitors": 0.0433,
+            "mean_rho_across_non_DDR_controls": -0.0439,
+            "beats_the_proliferation_control": false
+          },
+          "expr::replication_stress": {
+            "mean_rho_across_ATR_inhibitors": -0.1637,
+            "mean_rho_across_non_DDR_controls": 0.0367,
+            "beats_the_proliferation_control": true
+          },
+          "expr::stalled_fork_response": {
+            "mean_rho_across_ATR_inhibitors": -0.1484,
+            "mean_rho_across_non_DDR_controls": -0.0016,
+            "beats_the_proliferation_control": false
+          },
+          "signature::FET_fusion_heldout": {
+            "mean_rho_across_ATR_inhibitors": -0.1379,
+            "mean_rho_across_non_DDR_controls": 0.0616,
+            "beats_the_proliferation_control": false
+          }
+        }
+      }
+    },
+    "part_b_by_control": {
+      "C0_incumbent_proliferation_MYC_only": {
+        "control_concepts_subtracted": [
+          "proliferation_MYC"
+        ],
+        "pooled_proliferation_adjusted_delta": {
+          "ATM_signalling_DSB_repair": -0.2156,
+          "ATR_CHK1_activity": -0.0833,
+          "replication_stress": -0.1721,
+          "stalled_fork_response": -0.1839,
+          "S_phase_E2F": -0.0173,
+          "DNA_damage_checkpoint": -0.072
+        },
+        "ddr_concepts_elevated_after_proliferation_adjustment": [],
+        "unrelated_control_concepts_elevated": [
+          "control_adipogenesis",
+          "control_oxphos"
+        ],
+        "n_unrelated_controls_elevated": 2,
+        "signature_specific_to_DDR": false,
+        "\u2b50 which_clause_fails": [
+          "a DDR concept survives adjustment",
+          "at most one unrelated control is elevated"
+        ]
+      },
+      "C1_primary_proliferation_mitotic_only": {
+        "control_concepts_subtracted": [
+          "proliferation_mitotic"
+        ],
+        "pooled_proliferation_adjusted_delta": {
+          "ATM_signalling_DSB_repair": 0.0754,
+          "ATR_CHK1_activity": 0.2077,
+          "replication_stress": 0.1189,
+          "stalled_fork_response": 0.1071,
+          "S_phase_E2F": 0.2737,
+          "DNA_damage_checkpoint": 0.219
+        },
+        "ddr_concepts_elevated_after_proliferation_adjustment": [
+          "ATR_CHK1_activity",
+          "S_phase_E2F",
+          "DNA_damage_checkpoint"
+        ],
+        "unrelated_control_concepts_elevated": [
+          "control_adipogenesis",
+          "control_oxphos"
+        ],
+        "n_unrelated_controls_elevated": 2,
+        "signature_specific_to_DDR": false,
+        "\u2b50 which_clause_fails": [
+          "at most one unrelated control is elevated"
+        ]
+      },
+      "C2_committed_behaviour_BOTH_the_mean": {
+        "control_concepts_subtracted": [
+          "proliferation_MYC",
+          "proliferation_mitotic"
+        ],
+        "pooled_proliferation_adjusted_delta": {
+          "ATM_signalling_DSB_repair": -0.0701,
+          "ATR_CHK1_activity": 0.0622,
+          "replication_stress": -0.0267,
+          "stalled_fork_response": -0.0384,
+          "S_phase_E2F": 0.1282,
+          "DNA_damage_checkpoint": 0.0735
+        },
+        "ddr_concepts_elevated_after_proliferation_adjustment": [],
+        "unrelated_control_concepts_elevated": [
+          "control_adipogenesis",
+          "control_oxphos"
+        ],
+        "n_unrelated_controls_elevated": 2,
+        "signature_specific_to_DDR": false,
+        "\u2b50 which_clause_fails": [
+          "a DDR concept survives adjustment",
+          "at most one unrelated control is elevated"
+        ]
+      }
+    },
+    "grading_tier_under_every_combination": {
+      "partD=C0_incumbent_proliferation_MYC | partB=C0_incumbent_proliferation_MYC_only": {
+        "tier": "WEAK",
+        "predicates": {
+          "EMC_tumours_show_the_ATM_defect_replication_stress_signature": false,
+          "other_FET_fusion_models_show_selective_ATR_pathway_dependency": false,
+          "ATR_inhibitor_sensitivity_tracks_the_mechanism": false,
+          "only_generic_proliferation_DNA_damage_genes_elevated": true
+        }
+      },
+      "partD=C0_incumbent_proliferation_MYC | partB=C1_primary_proliferation_mitotic_only": {
+        "tier": "WEAK",
+        "predicates": {
+          "EMC_tumours_show_the_ATM_defect_replication_stress_signature": false,
+          "other_FET_fusion_models_show_selective_ATR_pathway_dependency": false,
+          "ATR_inhibitor_sensitivity_tracks_the_mechanism": false,
+          "only_generic_proliferation_DNA_damage_genes_elevated": true
+        }
+      },
+      "partD=C0_incumbent_proliferation_MYC | partB=C2_committed_behaviour_BOTH_the_mean": {
+        "tier": "WEAK",
+        "predicates": {
+          "EMC_tumours_show_the_ATM_defect_replication_stress_signature": false,
+          "other_FET_fusion_models_show_selective_ATR_pathway_dependency": false,
+          "ATR_inhibitor_sensitivity_tracks_the_mechanism": false,
+          "only_generic_proliferation_DNA_damage_genes_elevated": true
+        }
+      },
+      "partD=C1_primary_proliferation_mitotic | partB=C0_incumbent_proliferation_MYC_only": {
+        "tier": "WEAK",
+        "predicates": {
+          "EMC_tumours_show_the_ATM_defect_replication_stress_signature": false,
+          "other_FET_fusion_models_show_selective_ATR_pathway_dependency": false,
+          "ATR_inhibitor_sensitivity_tracks_the_mechanism": true,
+          "only_generic_proliferation_DNA_damage_genes_elevated": true
+        }
+      },
+      "partD=C1_primary_proliferation_mitotic | partB=C1_primary_proliferation_mitotic_only": {
+        "tier": "WEAK",
+        "predicates": {
+          "EMC_tumours_show_the_ATM_defect_replication_stress_signature": false,
+          "other_FET_fusion_models_show_selective_ATR_pathway_dependency": false,
+          "ATR_inhibitor_sensitivity_tracks_the_mechanism": true,
+          "only_generic_proliferation_DNA_damage_genes_elevated": true
+        }
+      },
+      "partD=C1_primary_proliferation_mitotic | partB=C2_committed_behaviour_BOTH_the_mean": {
+        "tier": "WEAK",
+        "predicates": {
+          "EMC_tumours_show_the_ATM_defect_replication_stress_signature": false,
+          "other_FET_fusion_models_show_selective_ATR_pathway_dependency": false,
+          "ATR_inhibitor_sensitivity_tracks_the_mechanism": true,
+          "only_generic_proliferation_DNA_damage_genes_elevated": true
+        }
+      },
+      "partD=C2_consistency_MYC_and_mitotic_mean | partB=C0_incumbent_proliferation_MYC_only": {
+        "tier": "WEAK",
+        "predicates": {
+          "EMC_tumours_show_the_ATM_defect_replication_stress_signature": false,
+          "other_FET_fusion_models_show_selective_ATR_pathway_dependency": false,
+          "ATR_inhibitor_sensitivity_tracks_the_mechanism": true,
+          "only_generic_proliferation_DNA_damage_genes_elevated": true
+        }
+      },
+      "partD=C2_consistency_MYC_and_mitotic_mean | partB=C1_primary_proliferation_mitotic_only": {
+        "tier": "WEAK",
+        "predicates": {
+          "EMC_tumours_show_the_ATM_defect_replication_stress_signature": false,
+          "other_FET_fusion_models_show_selective_ATR_pathway_dependency": false,
+          "ATR_inhibitor_sensitivity_tracks_the_mechanism": true,
+          "only_generic_proliferation_DNA_damage_genes_elevated": true
+        }
+      },
+      "partD=C2_consistency_MYC_and_mitotic_mean | partB=C2_committed_behaviour_BOTH_the_mean": {
+        "tier": "WEAK",
+        "predicates": {
+          "EMC_tumours_show_the_ATM_defect_replication_stress_signature": false,
+          "other_FET_fusion_models_show_selective_ATR_pathway_dependency": false,
+          "ATR_inhibitor_sensitivity_tracks_the_mechanism": true,
+          "only_generic_proliferation_DNA_damage_genes_elevated": true
+        }
+      }
+    }
+  },
+  "\u2b50 the_reading": {
+    "\u26d4 1_THE_PART_D_VERDICT_IS_NOT_ROBUST_TO_THE_CHOICE_OF_CONTROL": {
+      "under_C0_incumbent": {
+        "n_passed": 1,
+        "verdict": "SENSITIVITY_DOES_NOT_TRACK_MECHANISM"
+      },
+      "under_C1_mitotic": {
+        "n_passed": 2,
+        "verdict": "SENSITIVITY_TRACKS_MECHANISM"
+      },
+      "under_C2_both": {
+        "n_passed": 2,
+        "verdict": "SENSITIVITY_TRACKS_MECHANISM"
+      },
+      "tests_whose_pass_value_moves": [
+        "expr::replication_stress"
+      ],
+      "\u2b50 the_test_that_moves_fails_on_the_control_clause_ALONE_under_C0": {
+        "expr::replication_stress": [
+          "beats_the_control"
+        ]
+      },
+      "statement": "the paper's part-D negative is a fact about the control as much as about the mechanism. Reported at full strength: this is a WEAKENING of the negative the manuscript currently states, not a caveat on it."
+    },
+    "\u26d4 2_AND_C2_IS_NOT_A_NEW_CONTROL_AT_ALL_IT_IS_THE_ONE_PART_B_ALREADY_USES": {
+      "part_b_subtracts": [
+        "proliferation_MYC",
+        "proliferation_mitotic"
+      ],
+      "part_d_bar_uses": "expr::proliferation_MYC",
+      "statement": "`derive_part_b` collects EVERY concept whose role is `proliferation_control` and subtracts their per-sample mean; `derive_part_d` hard-codes the MYC one. So the same module already means two different things by 'the proliferation control', and had part D used part B's own control its verdict would have been the opposite. That is an internal inconsistency, not a judgement call."
+    },
+    "\u26d4 3_UNDER_THE_INCUMBENT_NO_EXPRESSION_PREDICTOR_CAN_PASS_BY_CONSTRUCTION": {
+      "the_control_is_the_largest_abs_rho_among_all_expression_predictors": "expr::proliferation_MYC",
+      "its_rho": -0.1711,
+      "bar_it_sets": 0.196765,
+      "next_largest_expression_predictor": [
+        "expr::S_phase_E2F",
+        -0.1669
+      ],
+      "only_predictor_that_clears_it": [
+        "dependency::ATR_ATRIP_CHEK1_mean_gene_effect"
+      ],
+      "statement": "the incumbent control is not a neutral baseline \u2014 it is the single most ATRi-correlated expression score in the grid, so the bar it sets exceeds every other expression predictor's correlation. `beats_the_proliferation_control` is therefore unpassable for any expression predictor under C0, and the one test that clears it does so from a different data type (CRISPR gene effect)."
+    },
+    "\u2b50 4_WHY_THE_TWO_CONTROLS_DISAGREE_IS_STRUCTURAL_AND_MEASURED": {
+      "S_phase_and_replication_flavoured_predictors": {
+        "expr::proliferation_MYC": -0.1711,
+        "expr::S_phase_E2F": -0.1669,
+        "expr::replication_stress": -0.1637,
+        "expr::ATR_CHK1_activity": -0.1575,
+        "expr::DNA_damage_checkpoint": -0.1545,
+        "expr::stalled_fork_response": -0.1484
+      },
+      "their_abs_rho_spread": 0.0227,
+      "the_one_M_phase_proliferation_set": {
+        "expr::proliferation_mitotic": 0.0433
+      },
+      "statement": "every transcriptionally S-phase/replication predictor clusters within a spread far below the 15 % margin the bar demands, while the one M-phase proliferation set sits near zero with the OPPOSITE sign. \u26d4 SO THE SHARED SIGNAL IS NOT 'PROLIFERATION' IN GENERAL: a genuine proliferation axis that is not a replication program does not carry it. What the measurement establishes is that the incumbent control and the predictors it is meant to control for are the SAME KIND OF SCORE, so 'generic proliferation' and 'replication program' are not separable by these instruments \u2014 which is exactly the ambiguity the objection named. \u26a0 THE FURTHER READING \u2014 that this is because ATR inhibition acts on replication \u2014 IS AN INTERPRETATION, consistent with the source paper's own framing of replication stress as the sensitivity axis and NOT established by anything measured here."
+    },
+    "\u26d4 5_THE_CAVEAT_ON_C1_AT_FULL_STRENGTH_A_PASS_UNDER_IT_IS_A_WEAK_PASS": {
+      "C1_control_rho": 0.0433,
+      "C1_bar": 0.049795,
+      "comparator_vs_canonical_proliferation_axis": {
+        "rho": 0.4527,
+        "n": 1673,
+        "t": 20.754
+      },
+      "incumbent_vs_canonical_proliferation_axis": {
+        "rho": 0.7264,
+        "n": 1673,
+        "t": 43.203
+      },
+      "statement": "the comparator cleared its declared validity floor, so its column is readable \u2014 but its own ATRi correlation is near zero, so the bar it sets is nearly non-discriminating, and it is a LOOSER proxy for the canonical proliferation axis than the incumbent is. \u26d4 The honest reading of C1 is therefore 'the bar stops discriminating', NOT 'the mechanism is confirmed'."
+    },
+    "\u2b50 6_PART_B_IS_ROBUST_TO_THE_CONTROL_AND_THAT_IS_A_STRENGTHENING": {
+      "signature_specific_to_DDR_under_each": {
+        "C0_incumbent_proliferation_MYC_only": false,
+        "C1_primary_proliferation_mitotic_only": false,
+        "C2_committed_behaviour_BOTH_the_mean": false
+      },
+      "but_the_clause_that_fails_differs": {
+        "C0_incumbent_proliferation_MYC_only": [
+          "a DDR concept survives adjustment",
+          "at most one unrelated control is elevated"
+        ],
+        "C1_primary_proliferation_mitotic_only": [
+          "at most one unrelated control is elevated"
+        ],
+        "C2_committed_behaviour_BOTH_the_mean": [
+          "a DDR concept survives adjustment",
+          "at most one unrelated control is elevated"
+        ]
+      },
+      "ddr_concepts_that_survive_adjustment_under_C1": [
+        "ATR_CHK1_activity",
+        "S_phase_E2F",
+        "DNA_damage_checkpoint"
+      ],
+      "statement": "part B's verdict does not move under any control, so that negative is stronger than the manuscript needs it to be. \u26d4 But its stated REASON is control-dependent: under the non-MYC control three DDR concepts DO survive the proliferation adjustment, and the verdict holds only because two unrelated hallmark sets are elevated too. A sentence saying the DDR concepts fail to survive adjustment is true of the committed control and not of this one."
+    },
+    "\u2b50 7_THE_OVERALL_GRADE_DOES_NOT_MOVE_UNDER_ANY_COMBINATION": {
+      "tiers_observed_across_all_combinations": [
+        "WEAK"
+      ],
+      "n_combinations": 9,
+      "statement": "`grade()` gates STRONG and MODERATE_PLUS on `signature_specific_to_DDR`, which fails on the unrelated-control clause independently of the proliferation control. So this analysis changes what part D may be SAID to have shown, and changes part B's stated reason. It does not change the paper's headline tier, and no bar was moved to reach that."
+    }
+  },
+  "_what_this_cannot_conclude": [
+    "\u26d4 IT CANNOT SAY WHICH CONTROL IS CORRECT. Both are defensible published proliferation sets. They disagree because they measure different halves of the cell cycle, and nothing here adjudicates that \u2014 the artifact reports every declared control rather than selecting one.",
+    "\u26d4 IT IS NOT EVIDENCE THAT ATR-INHIBITOR SENSITIVITY TRACKS THE MECHANISM. The pass under C1 rests on a near-zero bar, and reading it as a positive would be the exact error this analysis exists to catch, run in the other direction.",
+    "\u26d4 IT CHANGES NO GRADE AND MOVES NO BAR. The committed tier stands; this is reported beside it. A cycle may not change the bar that blocked it (amendment_guard).",
+    "\u26d4 IT CANNOT SEPARATE S-PHASE/REPLICATION-PROGRAM EXPRESSION FROM ONCOGENE-INDUCED REPLICATION STRESS. That separation is what the source paper's RNaseH1 experiment does, and it is wet lab. No choice of gene set on these instruments substitutes for it \u2014 a different control changes which confound is unmeasured, never whether one is.",
+    "\u26d4 IT SAYS NOTHING ABOUT EFFICACY. No efficacy, potency, dose, safety, therapeutic-window or clinical-readiness claim is made or implied; no ATR inhibitor has been put on an NR4A3-fusion-positive cell.",
+    "\u26a0 THE CELL-LINE PANEL IS NOT EMC. Part D correlates across the DepMap/GDSC panel, which contains no fusion-positive EMC line. Every column here inherits that limit unchanged."
+  ]
 }

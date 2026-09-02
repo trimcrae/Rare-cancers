@@ -232,6 +232,153 @@ def gene_set_composition(inputs):
     return comp
 
 
+# =============================================================================================
+# THE READING. ⛔ EVERY NUMBER IN IT IS DERIVED FROM `results`, NEVER TYPED — CLAUDE.md rule 1.1.
+# =============================================================================================
+def reading(res, comp):
+    d = res["part_d_by_control"]
+    b = res["part_b_by_control"]
+    c0, c1, c2 = (d["C0_incumbent_proliferation_MYC"],
+                  d["C1_primary_proliferation_mitotic"],
+                  d["C2_consistency_MYC_and_mitotic_mean"])
+    spec = c0["specificity_all_predictors"]
+    expr = {k: v["mean_rho_across_ATR_inhibitors"] for k, v in spec.items()
+            if k.startswith("expr::") and k != "expr::proliferation_MYC_and_mitotic_mean"}
+    top_expr = max(expr, key=lambda k: abs(expr[k]))
+    replication_flavoured = {k: v for k, v in expr.items() if k != "expr::proliferation_mitotic"
+                             and k != "expr::control_oxphos" and k != "expr::ATM_signalling_DSB_repair"}
+    spread = round(max(abs(v) for v in replication_flavoured.values())
+                   - min(abs(v) for v in replication_flavoured.values()), 4)
+    moved = [t for t in c0["mechanism_tests"]
+             if c0["mechanism_tests"][t]["passes"] != c1["mechanism_tests"][t]["passes"]]
+    tiers = {v["tier"] for v in res["grading_tier_under_every_combination"].values()}
+    return {
+        "⛔ 1_THE_PART_D_VERDICT_IS_NOT_ROBUST_TO_THE_CHOICE_OF_CONTROL": {
+            "under_C0_incumbent": {"n_passed": c0["n_mechanism_tests_passed"],
+                                   "verdict": c0["verdict"]},
+            "under_C1_mitotic": {"n_passed": c1["n_mechanism_tests_passed"],
+                                 "verdict": c1["verdict"]},
+            "under_C2_both": {"n_passed": c2["n_mechanism_tests_passed"],
+                              "verdict": c2["verdict"]},
+            "tests_whose_pass_value_moves": moved,
+            "⭐ the_test_that_moves_fails_on_the_control_clause_ALONE_under_C0": {
+                t: c0["mechanism_tests"][t]["⭐ criteria_failed"] for t in moved},
+            "statement": (
+                "the paper's part-D negative is a fact about the control as much as about the "
+                "mechanism. Reported at full strength: this is a WEAKENING of the negative the "
+                "manuscript currently states, not a caveat on it."),
+        },
+        "⛔ 2_AND_C2_IS_NOT_A_NEW_CONTROL_AT_ALL_IT_IS_THE_ONE_PART_B_ALREADY_USES": {
+            "part_b_subtracts": b["C2_committed_behaviour_BOTH_the_mean"][
+                "control_concepts_subtracted"],
+            "part_d_bar_uses": c0["control_predictor"],
+            "statement": (
+                "`derive_part_b` collects EVERY concept whose role is `proliferation_control` and "
+                "subtracts their per-sample mean; `derive_part_d` hard-codes the MYC one. So the "
+                "same module already means two different things by 'the proliferation control', "
+                "and had part D used part B's own control its verdict would have been the "
+                "opposite. That is an internal inconsistency, not a judgement call."),
+        },
+        "⛔ 3_UNDER_THE_INCUMBENT_NO_EXPRESSION_PREDICTOR_CAN_PASS_BY_CONSTRUCTION": {
+            "the_control_is_the_largest_abs_rho_among_all_expression_predictors": top_expr,
+            "its_rho": expr[top_expr],
+            "bar_it_sets": c0["bar_abs_rho_must_exceed"],
+            "next_largest_expression_predictor": sorted(
+                ((k, v) for k, v in expr.items() if k != top_expr),
+                key=lambda kv: -abs(kv[1]))[0],
+            "only_predictor_that_clears_it": [
+                t for t, v in c0["mechanism_tests"].items() if v["passes"]],
+            "statement": (
+                "the incumbent control is not a neutral baseline — it is the single most "
+                "ATRi-correlated expression score in the grid, so the bar it sets exceeds every "
+                "other expression predictor's correlation. `beats_the_proliferation_control` is "
+                "therefore unpassable for any expression predictor under C0, and the one test "
+                "that clears it does so from a different data type (CRISPR gene effect)."),
+        },
+        "⭐ 4_WHY_THE_TWO_CONTROLS_DISAGREE_IS_STRUCTURAL_AND_MEASURED": {
+            "S_phase_and_replication_flavoured_predictors": {
+                k: v for k, v in sorted(replication_flavoured.items(), key=lambda kv: kv[1])},
+            "their_abs_rho_spread": spread,
+            "the_one_M_phase_proliferation_set": {
+                "expr::proliferation_mitotic": expr["expr::proliferation_mitotic"]},
+            "statement": (
+                "every transcriptionally S-phase/replication predictor clusters within a spread "
+                "far below the 15 % margin the bar demands, while the one M-phase proliferation "
+                "set sits near zero with the OPPOSITE sign. ⛔ SO THE SHARED SIGNAL IS NOT "
+                "'PROLIFERATION' IN GENERAL: a genuine proliferation axis that is not a "
+                "replication program does not carry it. What the measurement establishes is that "
+                "the incumbent control and the predictors it is meant to control for are the SAME "
+                "KIND OF SCORE, so 'generic proliferation' and 'replication program' are not "
+                "separable by these instruments — which is exactly the ambiguity the objection "
+                "named. ⚠ THE FURTHER READING — that this is because ATR inhibition acts on "
+                "replication — IS AN INTERPRETATION, consistent with the source paper's own "
+                "framing of replication stress as the sensitivity axis and NOT established by "
+                "anything measured here."),
+        },
+        "⛔ 5_THE_CAVEAT_ON_C1_AT_FULL_STRENGTH_A_PASS_UNDER_IT_IS_A_WEAK_PASS": {
+            "C1_control_rho": c1["control_rho"],
+            "C1_bar": c1["bar_abs_rho_must_exceed"],
+            "comparator_vs_canonical_proliferation_axis":
+                res["validity_check"]["rho_mitotic_vs_S_phase_E2F"],
+            "incumbent_vs_canonical_proliferation_axis":
+                res["validity_check"]["rho_MYC_vs_S_phase_E2F"],
+            "statement": (
+                "the comparator cleared its declared validity floor, so its column is readable — "
+                "but its own ATRi correlation is near zero, so the bar it sets is nearly "
+                "non-discriminating, and it is a LOOSER proxy for the canonical proliferation "
+                "axis than the incumbent is. ⛔ The honest reading of C1 is therefore 'the bar "
+                "stops discriminating', NOT 'the mechanism is confirmed'."),
+        },
+        "⭐ 6_PART_B_IS_ROBUST_TO_THE_CONTROL_AND_THAT_IS_A_STRENGTHENING": {
+            "signature_specific_to_DDR_under_each": {
+                k: v["signature_specific_to_DDR"] for k, v in b.items()},
+            "but_the_clause_that_fails_differs": {
+                k: v["⭐ which_clause_fails"] for k, v in b.items()},
+            "ddr_concepts_that_survive_adjustment_under_C1": b[
+                "C1_primary_proliferation_mitotic_only"][
+                "ddr_concepts_elevated_after_proliferation_adjustment"],
+            "statement": (
+                "part B's verdict does not move under any control, so that negative is stronger "
+                "than the manuscript needs it to be. ⛔ But its stated REASON is control-"
+                "dependent: under the non-MYC control three DDR concepts DO survive the "
+                "proliferation adjustment, and the verdict holds only because two unrelated "
+                "hallmark sets are elevated too. A sentence saying the DDR concepts fail to "
+                "survive adjustment is true of the committed control and not of this one."),
+        },
+        "⭐ 7_THE_OVERALL_GRADE_DOES_NOT_MOVE_UNDER_ANY_COMBINATION": {
+            "tiers_observed_across_all_combinations": sorted(tiers),
+            "n_combinations": len(res["grading_tier_under_every_combination"]),
+            "statement": (
+                "`grade()` gates STRONG and MODERATE_PLUS on `signature_specific_to_DDR`, which "
+                "fails on the unrelated-control clause independently of the proliferation "
+                "control. So this analysis changes what part D may be SAID to have shown, and "
+                "changes part B's stated reason. It does not change the paper's headline tier, "
+                "and no bar was moved to reach that."),
+        },
+    }
+
+
+WHAT_THIS_CANNOT_CONCLUDE = [
+    "⛔ IT CANNOT SAY WHICH CONTROL IS CORRECT. Both are defensible published proliferation sets. "
+    "They disagree because they measure different halves of the cell cycle, and nothing here "
+    "adjudicates that — the artifact reports every declared control rather than selecting one.",
+    "⛔ IT IS NOT EVIDENCE THAT ATR-INHIBITOR SENSITIVITY TRACKS THE MECHANISM. The pass under C1 "
+    "rests on a near-zero bar, and reading it as a positive would be the exact error this "
+    "analysis exists to catch, run in the other direction.",
+    "⛔ IT CHANGES NO GRADE AND MOVES NO BAR. The committed tier stands; this is reported beside "
+    "it. A cycle may not change the bar that blocked it (amendment_guard).",
+    "⛔ IT CANNOT SEPARATE S-PHASE/REPLICATION-PROGRAM EXPRESSION FROM ONCOGENE-INDUCED "
+    "REPLICATION STRESS. That separation is what the source paper's RNaseH1 experiment does, and "
+    "it is wet lab. No choice of gene set on these instruments substitutes for it — a different "
+    "control changes which confound is unmeasured, never whether one is.",
+    "⛔ IT SAYS NOTHING ABOUT EFFICACY. No efficacy, potency, dose, safety, therapeutic-window or "
+    "clinical-readiness claim is made or implied; no ATR inhibitor has been put on an "
+    "NR4A3-fusion-positive cell.",
+    "⚠ THE CELL-LINE PANEL IS NOT EMC. Part D correlates across the DepMap/GDSC panel, which "
+    "contains no fusion-positive EMC line. Every column here inherits that limit unchanged.",
+]
+
+
 def build(prereg_only):
     with open(INPUTS) as fh:
         inputs = json.load(fh)
@@ -259,8 +406,12 @@ def build(prereg_only):
         out["results"] = None
     else:
         from _atr_part_d_control_compute import compute  # noqa: E402  (added in the results commit)
+        res = compute(inputs)
         out["_status"] = "COMPUTED"
-        out["results"] = compute(inputs)
+        out["results"] = res
+        if res.get("_status") == "COMPUTED":
+            out["⭐ the_reading"] = reading(res, out["gene_set_composition"])
+        out["_what_this_cannot_conclude"] = WHAT_THIS_CANNOT_CONCLUDE
     return out
 
 
