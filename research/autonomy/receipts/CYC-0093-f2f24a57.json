@@ -1,0 +1,29 @@
+{
+  "cycle_id": "CYC-0093-f2f24a57",
+  "session_id": "f2f24a57-6834-5b7f-801e-d7949dea605b",
+  "ccr_session_id": "session_01J89ZgwwuoJa9nBoTRvWGEf",
+  "started_utc": "2026-09-02T20:15:20Z",
+  "ended_utc": "2026-09-02T23:05:00Z",
+  "took": "AUT-073",
+  "took_why": "Continuation of this session's cycle after AUT-010/PUB-ATR was released (CYC-0092). Re-scored queue put AUT-073 (publish the eligibility map, PUB-STRATEGY-ARCH) at the top of the takeable band.",
+  "what_changed": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md -- THREE ROUNDS APPLIED AS REPLACEMENTS, NOT APPENDS. Round 4 (commit 227de322): fixed a Remedies/Limitations self-contradiction about trial NCT06571734, verified against research/literature/emc-trial-reachability-adjudication-2026-08-09.json before fixing. Round 5 (commit 2aa04dc9): fixed an uncited temporal-trend overclaim ('increasingly' -> 'often' in the Abstract and Section 1), verified the paper's own methodology is a two-date snapshot with no historical baseline. Round 6 (commit edbbaf3a): fixed the paper's own advertised key finding, which asserted a keyword reachability map is 'worse than no map at all' -- contradicted by Section 1's own account that the 'no map' baseline misses both real admitting trials -- by reusing the paper's already-correctly-hedged Section 4 language in both the frontmatter purpose and Section 1.",
+    "research/autonomy/review-seats/PUB-STRATEGY-ARCH-227de3222429975e75aeb9f61fce66857abdce2b-seat-*.json -- round 4's five blind seats (arithmetic, citations, hostile, regression, statistics): 1 blocker (hostile), 8 P1s total.",
+    "research/autonomy/review-seats/PUB-STRATEGY-ARCH-2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc-seat-*.json -- round 5's five blind seats: 1 blocker (statistics), 6 P1s total.",
+    "research/autonomy/review-seats/PUB-STRATEGY-ARCH-edbbaf3a...-seat-*.json -- round 6's five blind seats: 1 blocker (hostile), 3 P1s total.",
+    "research/manuscripts/claim-coverage.json -- regenerated after each manuscript edit (a manuscript edit invalidates the census).",
+    "research/autonomy/research-ledger.json -- released AUT-073 with a full account of all three rounds and why this session is stopping rather than continuing to a round 7; released AUT-010 (see CYC-0092) earlier in this session; hand-scored a session-added row with no route floor (AUT-PD-211, an artifact-disagreement finding from the PUB-ATR work); filed and closed AUT-PD-212-f2f24a57 (a pre-existing, unrelated PREFLIGHT_FULL red on clean origin/main, found while gating PUB-ATR's round 7 -- fixed as a repointed claim, per repo-gates: preflight red on main, not by your hand, is the cycle)."
+  ],
+  "cost": "$0 -- all Claude-plan agent dispatch and CI-free local work; no GPU, no paid API calls beyond the plan's own agent budget.",
+  "session_id_prose": "N/A",
+  "queued": [
+    "PUB-STRATEGY-ARCH still needs: round 7 (a fresh blind pass on commit edbbaf3a to confirm 0 blockers -- three consecutive rounds each found exactly one new, distinct defect, which paper-hardening's convergence test has not yet been satisfied by), then the independent-adversarial-seat roll-up, then PREFLIGHT_FULL=1 at the final commit, then the readability-baseline pin (a separate, paper-free commit).",
+    "PUB-ATR still needs: PREFLIGHT_FULL=1 at its final commit (blocked externally by AUT-PD-212 at the time it was attempted; another session may have cleared the underlying test failures since -- worth a fresh check before re-running).",
+    "AUT-PD-211 (open): the underlying 14-line vs ~20-line panel-size disagreement between two producer artifacts describing the same PMID -- needs a primary-source read to resolve, not a repository fix."
+  ],
+  "blocked_by": [],
+  "route_advanced": "RT-TRIAL-REACH",
+  "subagents": {
+    "max_concurrent": 5
+  }
+}
