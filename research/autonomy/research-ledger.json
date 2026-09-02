@@ -3968,29 +3968,6 @@
       }
     },
     {
-      "id": "AUT-PD-209-11f2347b-3bcd751f",
-      "what": "`closes_clause` HAS TWO SPELLINGS IN THE COMMITTED LEDGER AND ONE OF THEM NAMES A CLAUSE THAT DOES NOT EXIST. 15 rows use the dict shape {paper, clause}; FOUR use a bare string — AUT-PD-106/107/108 = 'PUB-ASO/hardening_converged' and AUT-PD-119 = 'PUB-ASO/gates_green'. ⚠ `gates_green` is not one of the seven functions in publish_bar.CLAUSES (hardening_converged, preflight_full_green, claim_ceiling_honoured, identifiers_resolvable, endpoint_declared, independent_adversarial_seat, readable_enough_to_review), so that row points at no clause at all. ⛔ THE FAILURE IS SILENT IN BOTH DIRECTIONS: a reader doing closes_clause['clause'] raises TypeError on a string, and one doing (closes_clause or {}).get('clause') raises AttributeError — measured 2026-09-02 when exactly that expression crashed while auditing PUB-MODALITY-CENSUS. A reader that guards with isinstance instead just DROPS the four rows, which is the quieter and worse outcome. ⭐ This is the near-miss class ledger_schema.py already governs for NAMES (it refused `_filed_by` in this same session) but does not check for VALUE SHAPE.",
-      "serves": {
-        "route": null,
-        "publication": "PUB-ASO",
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "queued",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-02",
-      "requires_trimcrae": false,
-      "filed_by": "s40-modality-census-venue",
-      "_why_filed": "Found while auditing PUB-MODALITY-CENSUS for AUT-044; NOT fixed here because these are PUB-ASO rows and repo-gates is explicit that a defect surfaced by an unrelated task is a separate task to raise, not to absorb. The fix is two parts: normalise the four rows onto the dict shape, and give ledger_schema a shape check for closes_clause so the string cannot return.",
-      "score": 131.0,
-      "_score_basis": "HAND-SET 2026-09-02 by s34-census-rekey, which did not file this row. ⛔ IT IS SET BECAUSE THE ROW LANDED ON `main` WITH NO SCORE AND TOOK THE UNSCORED-POPULATION RATCHET RED FOR EVERY SESSION — `test_the_population_is_empty_and_stays_empty` asserts n_unscored_open == 0, and the fix that test names is to SCORE the row, never to raise a ceiling to admit it. Nothing was raised. ★ PLACEMENT: inside the open process_defect band (129-137) and BELOW its sibling AUT-PD-209-11f2347b-8be8c63b at 133.0. That one had already halted the session that filed it (an out-of-disk gate run returning exit 1 with a zero-byte log); this one crashed one reader once and silently DROPS four rows for any reader that guards with isinstance, which is worse than a crash but has stopped nothing. Above the band floor because it touches publish-bar bookkeeping: AUT-PD-119 records `closes_clause` 'PUB-ASO/gates_green', which names no function in publish_bar.CLAUSES. ⚠ A PLACEMENT BY THE SESSION THAT UNBLOCKED THE GATE IS NOT THE FILER'S OWN JUDGEMENT — s40-modality-census-venue may re-set it, and should."
-    },
-    {
       "id": "AUT-032",
       "_derived": true,
       "what": "Keep as landscape context, cited and never overstated. It is the comparator, not a contribution.",
