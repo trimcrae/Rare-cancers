@@ -494,7 +494,14 @@ def load_receipts(receipts_dir=DEFAULT_RECEIPTS):
 #: so these are this module's choice and the writer must match one of them. File mtime is deliberately
 #: NOT a fallback: a fresh `git clone` rewrites every mtime, which would make an ancient receipt look
 #: like this minute's — a populated field that is not a measured one (CLAUDE.md §4).
-RECEIPT_TIME_KEYS = ("ended_utc", "finished_utc", "generated_utc", "cycle_ended_utc", "utc")
+#: ⛔ THE FIRST NAME IS IMPORTED, NEVER SPELLED (AUT-PD-013's lesson, applied to the clock after it
+#: cost seven false-red board runs on 2026-09-02). `receipt_schema.ENDED_KEY` owns the name for the
+#: writer and the reader both, and `receipt_schema.py --check` refuses the commit that lands a
+#: governed receipt without it. The four that follow are LEGACY SPELLINGS, retained read-only so the
+#: 98 receipts written before the constant existed can still be dated -- they are not alternatives a
+#: new receipt may choose, and `contract_check.py` will not let the contract offer them.
+RECEIPT_TIME_KEYS = (receipt_schema.ENDED_KEY, "finished_utc", "generated_utc", "cycle_ended_utc",
+                     "utc")
 
 
 def _receipt_ts_raw(receipt):
@@ -507,6 +514,53 @@ def _receipt_ts_raw(receipt):
 
 def _receipt_ts(receipt):
     return _parse_ts(_receipt_ts_raw(receipt))
+
+
+def _receipt_ordinal(receipt):
+    """`CYC-0084-e2d78138` -> 84, or None when the id yields no ordinal.
+
+    ⭐ A recency proxy that survives a missing clock, which is the only reason it is used here: it
+    is read from the id the writer allocates, so a receipt nobody can DATE can still be ORDERED.
+    Prefers the `cycle_id` field and falls back to the filename, the same precedence
+    `receipt_schema.audit` uses, so both graders answer for the same receipt.
+    """
+    rid = receipt.get(receipt_schema.CYCLE_ID_KEY)
+    if not isinstance(rid, str) or not rid.strip():
+        rid = receipt.get("_file", "").removesuffix(".json")
+    return receipt_schema.cycle_number(rid)
+
+
+def _undatable_at_or_above(receipts, floor_ordinal):
+    """Receipts this module can neither DATE nor rule out as newer than `floor_ordinal`.
+
+    ⛔⛔ THE ONE OBSERVATION BOTH RECEIPT-READING CONDITIONS NEED, AND NEITHER USED TO TAKE. Both
+    `c_cycle_delivering` and `c_advancing_live_work` answer by reading the TAIL of a list sorted on
+    `(timestamp or "", filename)`. A receipt carrying no readable clock sorts to the FRONT of that
+    list, so it is not merely undated — it is INVISIBLE to every reader of the tail, and the tail
+    then describes older receipts while looking exactly like the newest ones.
+    ⚠ MEASURED 2026-09-02: fifteen receipts carried `started_utc` and none of RECEIPT_TIME_KEYS.
+    `cycle_delivering` aged CYC-0084 (four days stale) and printed a confident `LATE ... 103.5 h`
+    while CYC-0091 sat 2.7 h old; `advancing_live_work` read CYC-0082/0083/0084, all
+    `route_advanced: none`, and printed NOT-ADVANCING — while the real newest three were RT-ASO,
+    none, RT-ASO, which is not a run of three and is GREEN. One field name, two false reds, seven
+    and twenty consecutive board runs respectively.
+    ⭐ THE ORDINAL IS WHAT MAKES THIS NON-LATCHING. Grading on "any clockless receipt anywhere"
+    would freeze both rows forever, because those fifteen are immutable committed history — the
+    failure that killed the loop on 2026-08-27. An ordinal is a recency proxy read from the id
+    rather than the clock, so the question stays narrow and answerable: could an undatable receipt
+    be newer than the ones I am about to read? Once governed receipts carry `ended_utc` the readable
+    ordinals climb past every clockless one and both rows recover unaided.
+    ⛔ AN UNREADABLE ORDINAL COUNTS AS "COULD BE NEWER" on both sides. A receipt this module can
+    neither date nor order is exactly the thing that must not be skipped in silence.
+    """
+    out = []
+    for r in receipts:
+        if _receipt_ts_raw(r) is not None:
+            continue
+        n = _receipt_ordinal(r)
+        if floor_ordinal is None or n is None or n >= floor_ordinal:
+            out.append(r["_file"])
+    return out
 
 
 def cycle_interval_hours(state):
@@ -562,6 +616,38 @@ def c_cycle_delivering(receipts, unreadable, interval_h, now):
                            f"{list(RECEIPT_TIME_KEYS)}, so its age cannot be taken. A receipt with no "
                            f"clock cannot testify to delivery.",
                            {"receipts_seen": len(receipts), "latest_receipt": latest["_file"]})
+    # ⛔⛔ IS `latest` ACTUALLY THE NEWEST RECEIPT, OR ONLY THE NEWEST ONE THIS MODULE CAN DATE?
+    # ⚠ MEASURED 2026-09-02, and it is the defect this guard exists for: 15 receipts carried
+    # `started_utc` and none of RECEIPT_TIME_KEYS, so `_receipt_ts_raw` returned None for all of
+    # them, the `(ts or "", file)` sort put them at the FRONT, and `receipts[-1]` resolved to
+    # CYC-0084 — four days stale — while CYC-0091 sat 2.7 h old at the other end of the list. The
+    # row reported a confident `LATE ... 103.5 h` for seven consecutive board runs. A stale receipt
+    # aged in place of the real newest is a MEASUREMENT OF THE WRONG THING, not a slow loop.
+    # ⭐ SCOPED BY CYCLE ORDINAL, AND THAT IS THE WHOLE DESIGN. "Any clockless receipt anywhere ->
+    # unmeasured" would LATCH: those 15 are immutable committed history, so the row could never go
+    # green again, which is exactly what killed `cycles_are_sized` on 2026-08-27 and with it the
+    # loop. The ordinal is a recency proxy that does NOT depend on the clock, so the honest question
+    # is narrow: could an undatable receipt be NEWER than the one being aged? Once governed receipts
+    # carry `ended_utc` the readable ordinal climbs past every clockless one and the row recovers on
+    # its own — the "newest-run" recovery RECEIPT_SCOPE already declares for this condition.
+    # ⛔ An UNREADABLE ordinal counts as "could be newer". A receipt this module can neither date nor
+    # order is precisely the thing that must not be silently skipped.
+    shadowing = _undatable_at_or_above(receipts, _receipt_ordinal(latest))
+    if shadowing:
+        return _unmeasured(key, label, source, "RECEIPT-TIME-UNREADABLE",
+                           f"{len(shadowing)} receipt(s) at or above the cycle ordinal of "
+                           f"{latest['_file']} carry none of {list(RECEIPT_TIME_KEYS)}, so they "
+                           f"cannot be dated and {latest['_file']} cannot be shown to be the newest "
+                           f"— its age is not a reading of delivery. Settle it: give each a "
+                           f"`{receipt_schema.ENDED_KEY}` (research-loop §2 step 10), which "
+                           f"`receipt_schema.py --check` now requires from "
+                           f"CYC-{receipt_schema.FIRST_CLOCK_GOVERNED_CYCLE:04d}. Undatable: "
+                           + ", ".join(shadowing[:6])
+                           + (f" (+{len(shadowing) - 6} more)" if len(shadowing) > 6 else ""),
+                           {"receipts_seen": len(receipts), "latest_receipt": latest["_file"],
+                            "undatable_receipts": len(shadowing),
+                            "unreadable_receipts": len(unreadable) or None})
+
     age_h = _hours(now, ts)
     deadline_h = CYCLE_MISS_PERIODS * interval_h
     payload = {"receipts_seen": len(receipts), "latest_receipt": latest["_file"],
@@ -605,6 +691,25 @@ def c_advancing_live_work(receipts, now):
                            f"no verdict yet. Settle it: {NO_ADVANCE_RUN - len(receipts)} more cycle(s).",
                            {"receipts_seen": len(receipts)})
     window = receipts[-NO_ADVANCE_RUN:]
+
+    # ⛔ IS THIS WINDOW THE NEWEST RUN, OR ONLY THE NEWEST DATABLE ONE? Same defect, same guard as
+    # `c_cycle_delivering` — see `_undatable_at_or_above`. A run of three `none` is a finding about
+    # the LAST three cycles; read off a tail that undatable receipts have fallen out of, it is a
+    # finding about whichever three the sort happened to leave there.
+    ordinals = [n for n in (_receipt_ordinal(r) for r in window) if n is not None]
+    shadowing = _undatable_at_or_above(receipts, min(ordinals) if len(ordinals) == len(window) else None)
+    if shadowing:
+        return _unmeasured(key, label, source, "WINDOW-NOT-PROVABLY-NEWEST",
+                           f"{len(shadowing)} receipt(s) carry no readable clock, so they sort ahead "
+                           f"of this window and it cannot be shown to be the last {NO_ADVANCE_RUN} "
+                           f"cycles. A run of `none` read off the wrong three receipts is an invented "
+                           f"finding, and this condition is the loop's own honesty instrument. Settle "
+                           f"it: give each a `{receipt_schema.ENDED_KEY}` (research-loop §2 step 10). "
+                           f"Undatable: " + ", ".join(shadowing[:6])
+                           + (f" (+{len(shadowing) - 6} more)" if len(shadowing) > 6 else ""),
+                           {"window": [r["_file"] for r in window],
+                            "undatable_receipts": len(shadowing)})
+
     raw = [(r["_file"], receipt_schema.route_advanced_of(r)) for r in window]
     absent = [f for f, v in raw if v is None]
     if absent:
