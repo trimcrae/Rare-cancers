@@ -1,0 +1,24 @@
+{
+  "_schema": "emc-tier-budgets/1",
+  "_role": "What each preflight tier is ALLOWED to cost, as a ceiling on test functions. Measured by scripts/tier_budget.py, enforced in the commit loop. Adding a test is free; adding one to a tier that is at its ceiling is a change to what every run of that tier costs, and this is where that becomes somebody's decision instead of nobody's.",
+  "_why_this_file_exists": "⛔⛔ THE BLOAT WAS ACCRETION AND NOBODY EVER DECIDED IT. Measured 2026-09-02: the publication gate took 9.7 minutes to check a 4,695-word paper. Gate 13 went 789 -> 1,030 -> 1,119 collected tests in about ten days. The modalities suite reached 8,212 tests -- 72 % of every publication run -- and failed in NONE of the eight committed PREFLIGHT_FULL logs. The repository holds 2,973 tests for one six-page paper. ★ EVERY ONE OF THOSE TESTS WAS JUSTIFIED BY A REAL INCIDENT, which is exactly why the TOTAL went unexamined: each addition was correct and the sum was never anyone's call. It took trimcrae saying '1000 pure logic tests for a 6 page paper seems insane' -- a human noticing -- which is this repository's definition of a rule nothing measures.",
+  "_how_to_raise_a_ceiling": "⛔ NOT BY EDITING THE NUMBER. Ask first whether the test belongs in a cheaper tier, and second whether something already in the tier has stopped earning its place -- a guard for an incident that can no longer recur is a guard to delete, and 2,973 tests for six pages says there are some. If the ceiling is genuinely wrong, raise it WITH the measurement that justifies it and declare the change in amendments.jsonl with the self_serving_check answered, exactly as for any other bar. A cycle that raises a ceiling to land its own test is the shape amendment_guard exists to refuse.",
+  "_what_this_does_not_measure": "⚠ IT COUNTS TEST FUNCTIONS, NOT SECONDS, AND NOT COLLECTED TESTS. Wall time varies with the box and with contention -- a gate that went red under load would be a gate people learn to re-run, which is worse than none. A parametrized function is one here and many to pytest. What a human controls is how many checks the repository ASKS FOR, so that is what is capped. ⛔ AND IT SAYS NOTHING ABOUT WHETHER A TEST IS GOOD: a tier under budget can still be full of guards that measure nothing, and a tier over budget may be entirely sound and simply in the wrong place.",
+  "tiers": {
+    "commit-loop": {
+      "directories": ["scripts/tests", "research/autonomy/tests", "systems/tests"],
+      "max_test_functions": 1400,
+      "why": "The pure-logic suites. At 1,277 functions on 2026-09-02, against a ceiling that leaves ~10 % of headroom for guards a real incident demands. ⛔ THESE ARE NOW OPT-IN (PREFLIGHT_TESTS=1) and out of both the default loop and any paper tier, so the ceiling protects CI's time and the opt-in run's, not the commit loop's. It is kept tight anyway: this is the tier that grew 789 -> 1,119 without anyone deciding to, and none of it is about a manuscript."
+    },
+    "paper-guards": {
+      "directories": ["research/manuscripts/tests"],
+      "max_test_functions": 1000,
+      "why": "The papers' own guards -- the only suite whose subject is the thing being published, and the one that has actually caught defects in it (the ablation gate found eleven blind sentences on 2026-09-02). At 876 functions. This is the tier to spend on: a ceiling here exists to force the question 'is this a NEW surface or a fourth guard on one already covered?', not to discourage binding a claim."
+    },
+    "modalities": {
+      "directories": ["research/modalities/tests"],
+      "max_test_functions": 7500,
+      "why": "The science suites for every route. At 7,134 functions across 429 modules, and the largest thing in the repository by an order of magnitude. ⚠ MEASURED: 0 failures across the eight committed PREFLIGHT_FULL logs, while costing 72 % of each. A publication run for one paper now takes the 39 modules guarding that paper's own deposit (`research/manuscripts/paper_scoped_tests.py`), so this ceiling governs CI and a repository-wide FULL run. It is deliberately close to the current count: this suite has already grown past the point where anyone reads its total."
+    }
+  }
+}

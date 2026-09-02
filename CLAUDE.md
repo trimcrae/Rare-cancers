@@ -370,15 +370,44 @@ act you'd commit *before* thinking to consult anything:
   not a label — and **every** rental is gated, resume and cold single unit included.
 - **⛔ CHECKPOINT AFTER EACH UNIT, UPLOAD AS YOU WRITE (`s3_upload_mode="Continuous"`), AND DEFAULT EVERY GPU
   RUN TO SPOT** — spot is only safe *because* of the checkpointing.
+- **⛔⛔ THE GATE HAS A BUDGET AND THE BUDGET IS A FILE, NOT A HABIT —
+  [`scripts/tier-budgets.json`](./scripts/tier-budgets.json), measured every commit by
+  [`tier_budget.py`](./scripts/tier_budget.py).** ⚠ *Added 2026-09-02, after the publication gate
+  reached **9.7 minutes to check a 4,695-word paper**.* Nothing in it was wrong. It had grown one
+  justified test at a time: gate 13 went **789 → 1 030 → 1 119** in ten days, the modalities suite
+  reached **8 212 tests — 72 % of every publication run, and 0 failures across the eight committed
+  PREFLIGHT_FULL logs** — and the repository held **2 973 tests for six pages**, of which the
+  commit loop ran the 1 119 that are *not* about the paper and skipped the 1 854 that are.
+  ★★ **EVERY ONE OF THOSE TESTS WAS JUSTIFIED BY A REAL INCIDENT, AND THAT IS EXACTLY WHY THE TOTAL
+  WENT UNEXAMINED** — each addition was correct and the sum was never anybody's decision. It took
+  trimcrae reading the number (*"1000 pure logic tests for a 6 page paper seems insane"*), which is
+  this file's own definition of a rule nothing measures.
+  ★ **SO BEFORE ADDING A TEST TO A TIER, THE QUESTION IS NOT "IS THIS GUARD GOOD?" — IT ALWAYS IS.**
+  It is: *does it belong in a cheaper tier, and has something already in this tier stopped earning
+  its place?* A guard for an incident that can no longer recur is a guard to delete. **Raising a
+  ceiling is the LAST of the three answers**, needs the measurement that justifies it, and is
+  declared like any other bar change — a cycle that raises a ceiling to land its own test is
+  precisely what `amendment_guard` refuses.
+  ⛔ **AND THE BUDGET IS IN TEST FUNCTIONS, NEVER SECONDS.** Wall time varies with the box and with
+  contention, and a gate that reddens under load is one people learn to re-run — worse than no gate.
 - **⛔ BEFORE COMMITTING, `./scripts/preflight.sh` MUST PASS**, exit code unmasked. **That plain command
   is the answer almost every time — it is the commit loop, and it runs EVERY fast gate: the doc
-  linters, the systems model, medical integrity, citation provenance and the generated-artifact
-  check, plus gate 13, the pure-logic suites nothing else runs (the test selector's own contract
-  **and** the loop's instruments).**
-  ⛔⛔ **IT COSTS ABOUT TWO MINUTES — 130.7 s, MEASURED 2026-09-02 ON ONE TIMESTAMPED DEFAULT RUN,
-  OF WHICH GATE 13 IS 57.1 s OVER 1 030 TESTS. STILL BACKGROUND IT AND TAKE THE NEXT TASK**, which
-  is what the whole section below is for — two minutes of serialized waiting, every commit, is the
-  cost that section exists to refuse.
+  linters, the systems model, medical integrity, citation provenance, the generated-artifact check
+  and the tier budget.**
+  ⛔⛔ **IT COSTS ABOUT 37 SECONDS (measured 2026-09-02), AND A PAPER'S PUBLICATION GATE —
+  `PREFLIGHT_PAPER=<PUB-ID> PREFLIGHT_FULL=1` — COSTS ABOUT 166 s, DOWN FROM 583 s.** The paper tier
+  runs every fast gate, the manuscripts suite **in full**, and the modality modules guarding *that
+  paper's own deposit* (39 of 429 for PUB-ASO, derived from its archive manifest); it does **not**
+  run the loop's own governance suites, because whether the ledger is tidy is not a fact about
+  whether a paper is fit to publish.
+  ⛔ **A PAPER-SCOPED RUN CANNOT MINT A CLAUSE-2 RECEIPT** — `record_bar_evidence` demands the
+  unscoped FULL banner, and `test_a_scoped_run_cannot_clear_the_publication_clause.py` keeps the two
+  strings from ever colliding.
+  ⚠ *Superseded, retained (rule 1.2): "IT COSTS ABOUT TWO MINUTES — 130.7 s … OF WHICH GATE 13 IS
+  57.1 s OVER 1 030 TESTS." Gate 13 is opt-in as of 2026-09-02 (trimcrae's call, given all four
+  options and their costs), so the default loop no longer runs it at all.*
+  ⭐ **STILL BACKGROUND IT AND TAKE THE NEXT TASK** — the section below is what half a minute of
+  serialized waiting, every commit, exists to refuse.
   ⚠ *THE ~9 MINUTES WAS REAL AND IT WAS FIXED, NOT RE-ESTIMATED. Three duplicate computations were
   deleted and no assertion changed: the ledger walk is memoised per HEAD and batched into one `git
   cat-file` (gate 13 **previously 446.3 s**, now **57.1 s**; git calls 50 270 → 3 783, on a suite

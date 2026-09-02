@@ -29,6 +29,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -86,6 +87,20 @@ def write_ledger(path: "str | os.PathLike", data: dict, check: bool = True) -> N
 
         import ledger_schema  # noqa: PLC0415
 
+        # ⛔⛔ DERIVE THE HEADER TOTALS BEFORE CHECKING THEM. They are counts of the rows in this
+        # very document, so a writer that appended a row and did not separately run
+        # `priority.py --write` left the file's own summary describing a ledger that no longer
+        # existed — and that is not a hypothetical tidiness point: across the eight committed
+        # PREFLIGHT_FULL logs, ledger bookkeeping is what failed the PUBLICATION gate in three of
+        # them, twice on 2026-09-02 alone, each costing a full re-run of a nine-minute gate. The
+        # modalities suite, 72 % of every one of those runs, failed in none of them.
+        # ★ CLAUDE.md §1: "a total is DERIVED, never typed — regenerate it." This is the one place
+        # every programmatic writer already passes through, so it is where the regeneration
+        # belongs. `header_problems` keeps guarding hand-authored edits, which never come here.
+        corrected = ledger_schema.derive_headers(data)
+        if corrected:
+            print("ledger_io: re-derived header total(s) %s from the rows" % ", ".join(corrected),
+                  file=sys.stderr)
         admissibility.check_write(os.fspath(path), data)
         ledger_schema.check_write(os.fspath(path), data)
     with open(path, "w", encoding="utf-8") as fh:

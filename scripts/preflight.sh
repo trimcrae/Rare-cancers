@@ -978,7 +978,38 @@ if [ "$RUN_MODALITIES" = "1" ]; then
   # selection is a real answer -- but only when the selector actually answered.
   SELECTED=""
   SEL_STATUS=full
-  if [ "${PREFLIGHT_FULL:-0}" = "1" ]; then
+  if [ "${PREFLIGHT_FULL:-0}" = "1" ] && [ -n "${PREFLIGHT_PAPER:-}" ]; then
+    # ⛔⛔ THE PUBLICATION TIER SCOPED TO THE PAPER BEING PUBLISHED, ADDED 2026-09-02. trimcrae:
+    # "10 minutes is still too long for checking 6 pages." Measured on a green FULL run that day,
+    # the modalities suite was 423.6 s of a 583 s gate — 72 % — and `affected_tests.select()` for a
+    # change to the ASO journal article returns 0 of 429 modality test files. 39 of the 429 name an
+    # artifact that paper actually deposits (727 tests); the other 390 are docking, ABFE, GPU-fleet,
+    # vaccine and degrader suites, run in full to publish a six-page ASO paper.
+    # ★ THE SCOPE IS THE PAPER'S OWN DEPOSIT MANIFEST, so adding a file to the deposit pulls its
+    # guards in with nobody remembering to do anything. `paper_scoped_tests.py` carries the
+    # derivation and the argument; it returns FULL for any paper it cannot scope.
+    # ⛔ ONLY THE MODALITIES SUITE NARROWS. The manuscripts suite, the pure-logic suites and every
+    # fast gate still run IN FULL under PREFLIGHT_FULL — a claim in the paper is bound by a
+    # manuscripts guard and none of those is dropped. This narrows the one suite whose subject is
+    # other routes' science.
+    # ⚠ AND IT IS OPT-IN BY NAMING A PAPER. A bare `PREFLIGHT_FULL=1` is unchanged and still runs
+    # all 429, so nothing already relying on the FULL tier's meaning is altered underneath it.
+    SELECTED="$(python3 research/manuscripts/paper_scoped_tests.py --paper "$PREFLIGHT_PAPER" 2>/dev/null || echo FULL)"
+    if [ "$SELECTED" = "FULL" ] || [ -z "$SELECTED" ]; then
+      SELECTED=""
+      echo "== pytest (modalities: FULL, PREFLIGHT_FULL=1 -- $PREFLIGHT_PAPER could not be scoped) =="
+    else
+      SEL_STATUS=scoped
+      n=$(printf '%s\n' "$SELECTED" | grep -c . || true)
+      _modtotal=$(ls research/modalities/tests/test_*.py 2>/dev/null | wc -l)
+      # ⛔ THE HEADING NAMES WHAT ACTUALLY RUNS, AND IT WAS WRONG FOR ONE RUN: it said "the
+      # manuscripts and pure-logic suites still run in full" after the pure-logic suites had been
+      # taken out of this tier in the same edit. That is this file's own recurring defect — a line
+      # that reports a check the run did not perform — in the sentence a reader trusts. Derived
+      # from the flag now, so it cannot drift from it again.
+      echo "== pytest (modalities: FULL, PREFLIGHT_FULL=1 -- scoped to $PREFLIGHT_PAPER's deposit: $n of $_modtotal module(s); the MANUSCRIPTS suite still runs in full, the pure-logic suites do NOT run in a paper tier) =="
+    fi
+  elif [ "${PREFLIGHT_FULL:-0}" = "1" ]; then
     echo "== pytest (modalities: FULL, PREFLIGHT_FULL=1) =="
   elif SELECTED="$(python3 scripts/affected_tests.py 2>/dev/null)"; then
     if [ "$SELECTED" = "FULL" ]; then
@@ -1297,6 +1328,21 @@ SYSTEMS_TESTS=""
 RUN_SELECTOR_TESTS=0
 [ "${PREFLIGHT_TESTS:-0}" = "1" ] && RUN_SELECTOR_TESTS=1
 [ "${PREFLIGHT_FULL:-0}" = "1" ] && RUN_SELECTOR_TESTS=1
+# ⛔⛔ A PAPER'S PUBLICATION GATE DOES NOT ASK WHETHER THE LOOP'S LEDGER IS WELL-FORMED.
+# `research/autonomy/tests` and `scripts/tests` are 1,498 tests about leases, receipts, cadence,
+# handoffs, ledger ids and score arithmetic — 58 s of a 224 s paper gate, and NOT ONE of them is
+# about the manuscript. ⚠ AND THEY ARE ALSO WHAT KEPT BLOCKING IT: across the eight committed
+# PREFLIGHT_FULL logs, ledger bookkeeping failed the PUBLICATION gate in three, twice on
+# 2026-09-02 alone, each costing a full re-run. The modalities suite, 72 % of those runs, failed
+# in none.
+# ★ THE ANSWER IS NOT TO DELETE THE CHECK — it fired three times, so it works, and the churn it
+# was reporting is fixed at source in `ledger_io.write_ledger` (the totals are derived now, not
+# asked for). It is that whether the LOOP's bookkeeping is tidy has nothing to do with whether a
+# PAPER is fit to publish. It gates the COMMIT, which is where it belongs, and `tests.yml` runs it
+# in full on every push.
+# ⛔ ONLY WITH A PAPER NAMED. A bare `PREFLIGHT_FULL=1` still runs them, so the repository-wide
+# publication tier is unchanged and nothing that relies on its meaning is narrowed underneath it.
+[ -n "${PREFLIGHT_PAPER:-}" ] && RUN_SELECTOR_TESTS=0
 if [ "$RUN_SELECTOR_TESTS" = "0" ]; then
   echo "== pytest (pure-logic suites) == SKIPPED -- PREFLIGHT_TESTS=1 runs them; tests.yml runs all"
   echo "   four directories in full on every push and is the authority (trimcrae, 2026-09-02)."
@@ -1421,8 +1467,45 @@ else
   rc=1
 fi
 
+# ⛔⛔ WHAT EACH TIER COSTS IS A NUMBER SOMEBODY DECIDED, CHECKED AT THE COMMIT THAT CHANGES IT.
+# The gate this row sits in reached 9.7 minutes for a 4,695-word paper purely by accretion: gate 13
+# went 789 -> 1,030 -> 1,119 tests in ten days, the modalities suite reached 8,212 and had failed in
+# none of the eight committed publication runs, and the repository held 2,973 tests for six pages.
+# Every one of those tests was justified by a real incident, and that is precisely why the TOTAL was
+# never anybody's decision — it took a human reading the number and saying so.
+# ★ THE ROW COSTS ~0.1 s: an AST walk, no pytest, no collection. A budget guard that made the loop
+# slower would be self-refuting, and `--collect-only` over the modalities suite is ~20 s.
+# ⛔ IT CAPS WHAT THE REPOSITORY ASKS FOR, NOT SECONDS. Wall time varies with the box and with
+# contention; a gate that reddened under load is one people learn to re-run, which is worse than no
+# gate at all. `scripts/tier-budgets.json` carries each ceiling with the measurement behind it.
+echo "== what each test tier costs, against the budget somebody set for it =="
+if python3 scripts/tier_budget.py --check; then
+  :
+else
+  echo "   ⛔ a tier is over its budget -- see scripts/tier-budgets.json for how to answer that,"
+  echo "      and note that raising the ceiling is the LAST of the three options it lists."
+  rc=1
+fi
+
 # The run reached its own verdict, so an exit from here on is the verdict rather than an abort.
 _preflight_summary_reached=1
+
+# ⛔⛔ THE LINE `record_bar_evidence.py preflight` REQUIRES, AND WHICH THIS SCRIPT HAS NEVER PRINTED.
+# Measured 2026-09-02 on a GREEN PREFLIGHT_FULL run: the recorder refused with "carries no
+# PINNED_SHA= line, so the tree it ran against is unknown". `PINNED_SHA=` appears nowhere in this
+# file, so clause 2 of the publish bar was UNREACHABLE BY CONSTRUCTION — every green publication run
+# there has ever been would have been refused, and the only reason nobody hit it is that the run has
+# to be green first, which is rare. Same producer/consumer shape as the receipt field names
+# (AUT-PD-013) and `subagent_width`: a name agreed between two files, checked by neither.
+# ★ IT NAMES THE COMMIT AND THE TREE'S CLEANLINESS SEPARATELY, because a sha alone would let a run
+# over a dirty tree be recorded against the commit it merely started from — the "a green run against
+# a different tree says nothing about the one being posted" failure, one level down. A dirty tree
+# prints the sha with a `+dirty` suffix, which no `ran_against != sha` comparison can accept.
+_pinned_sha="$(git rev-parse HEAD 2>/dev/null || echo UNKNOWN)"
+if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+  _pinned_sha="$_pinned_sha+dirty"
+fi
+echo "PINNED_SHA=$_pinned_sha"
 
 # ⛔ A GREEN LINE MUST SAY WHAT IT MEASURED. "PREFLIGHT OK" after a run that executed no test reads
 # as "the suite passes", which is the exact "reports while measuring nothing" defect this file's
@@ -1431,6 +1514,29 @@ _preflight_summary_reached=1
 if [ "$rc" -ne 0 ]; then
   echo; echo "PREFLIGHT FAILED -- do not commit."
 elif [ "${PREFLIGHT_FULL:-0}" = "1" ]; then
+  # ⛔⛔ A GREEN FULL RUN RE-STAMPS THE SELECTOR RECORD, BECAUSE THE CHORE WAS A TREADMILL.
+  # `affected_tests._unvalidated_gatekeepers` compares `preflight.sh` and `affected_tests.py`
+  # against `scripts/selector-validation.json`, and only a FULL run may re-stamp it. So editing
+  # this file made `test_the_committed_record_matches_the_committed_gatekeepers` red; clearing that
+  # needed a green FULL run; and the run was red BECAUSE of that test. Measured three times on
+  # 2026-09-02 alone, each costing a full re-run — 9.7 min, and historically 11:46 to 51:28.
+  # ★ THE STAMP IS A DERIVED VALUE AND IS NOW DERIVED. A green FULL run is EXACTLY the evidence the
+  # record exists to carry, so recording it at that moment is the one place the fact is known; a
+  # human being asked to run a second command afterwards is how it went stale for a fortnight
+  # (CLAUDE.md §6 carried "both hashes are stale" as an open diagnosis since 2026-08-25).
+  # ⛔ IT RUNS AFTER EVERY GATE HAS FINISHED AND ONLY WHEN rc IS 0, so nothing downstream reads a
+  # tree this touched, and a RED run still cannot stamp itself green. The write is reported, never
+  # silent — a gate that edits the tree must say so or it is the thing it exists to catch.
+  if [ -x scripts/record_selector_validation.py ] || [ -f scripts/record_selector_validation.py ]; then
+    if python3 scripts/record_selector_validation.py >/dev/null 2>&1; then
+      if [ -n "$(git status --porcelain -- scripts/selector-validation.json 2>/dev/null)" ]; then
+        echo "   ⭐ selector-validation.json RE-STAMPED by this green FULL run -- commit it with your change."
+      fi
+    else
+      echo "   ⚠ could not re-stamp scripts/selector-validation.json; run"
+      echo "     python3 scripts/record_selector_validation.py by hand and commit it."
+    fi
+  fi
   echo; echo "PREFLIGHT OK (FULL: every gate, both suites unscoped)"
 elif [ "$RUN_TESTS" = "1" ]; then
   # ⚠ THIS LINE USED TO SAY "modalities scoped to this change" AND THAT WAS SOMETIMES A LIE — caught

@@ -621,6 +621,55 @@ def header_problems(ledger: dict) -> list[str]:
     return out
 
 
+def derive_headers(ledger: dict) -> list[str]:
+    """Recompute the header's typed totals in place. Returns the names that were wrong.
+
+    ⛔⛔ THE HEADERS ARE DERIVED VALUES AND NOTHING DERIVED THEM AT WRITE TIME, WHICH IS WHY THEY
+    KEPT FAILING THE PUBLICATION GATE. `header_problems` above has always computed the right answer
+    and then asked a human to go run `priority.py --write`; a programmatic writer that appended a
+    row and did not know to run it left the file's own summary describing a ledger that no longer
+    existed. Measured across the eight committed PREFLIGHT_FULL logs on 2026-09-02: ledger
+    bookkeeping — these totals, and the score arithmetic beside them — is what failed the
+    publication gate in three of them, twice today. The modalities suite, 72 % of every one of those
+    runs, failed in none.
+    ★ SO THE FIX IS AT THE SOURCE RATHER THAN AT THE GATE. CLAUDE.md §1: "a total is DERIVED, never
+    typed — regenerate it." This regenerates it, at the one place every programmatic write already
+    passes through, so the totals cannot be stale in a file this function wrote.
+    ⛔ AND THE GUARD STAYS, because most ledger rows are hand-authored JSON that never comes through
+    here. `header_problems` still catches those, and this must never be read as making it redundant
+    — it narrows what can reach it, and narrowing a guard's input is not weakening the guard.
+    ⛔ IT RETURNS WHAT IT CORRECTED rather than correcting silently: a caller that wanted to know
+    the file was stale can still see it, and a repair nobody can observe is the shape this
+    repository refuses everywhere else.
+    """
+    corrected = []
+    for message in header_problems(ledger):
+        name = message.split("`")[1]
+        corrected.append(name)
+    if not corrected:
+        return []
+    entries = ledger.get("entries") or []
+    fresh = {
+        "n_clamped": sum(1 for e in entries if e.get("clamp")),
+        "n_unscored": sum(1 for e in entries if e.get("score") is None),
+        "n_unscored_open": sum(1 for e in entries
+                               if e.get("score") is None
+                               and e.get("state") not in ("done", "superseded")),
+        "n_by_kind": {},
+        "n_by_state": {},
+    }
+    for e in entries:
+        for field, bucket in (("kind", "n_by_kind"), ("state", "n_by_state")):
+            key = e.get(field)
+            if key is not None:
+                fresh[bucket][key] = fresh[bucket].get(key, 0) + 1
+    for name in corrected:
+        if name in fresh and name in ledger:
+            value = fresh[name]
+            ledger[name] = dict(sorted(value.items())) if isinstance(value, dict) else value
+    return corrected
+
+
 def problems(ledger: dict) -> list[str]:
     """Every schema failure in a whole ledger document. [] = clean."""
     out = []
