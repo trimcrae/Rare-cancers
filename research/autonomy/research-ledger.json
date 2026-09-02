@@ -8379,10 +8379,10 @@
         "strategy": "ST-NUCLEIC-ACID"
       },
       "kind": "fetch",
-      "state": "queued",
+      "state": "in_progress",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": null,
+      "owner": "s24-debt",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": [
@@ -8408,10 +8408,14 @@
         "age_factor_as_of": "2026-09-02"
       },
       "clamp": "blocked_without_evidence_becomes_a_check",
-      "claimed_utc": null,
+      "claimed_utc": "2026-09-02T16:55:04Z",
       "dispatch_log": [
         {
           "utc": "2026-08-28T22:45:10Z",
+          "fingerprint_at_dispatch": "2026-08-13|None"
+        },
+        {
+          "utc": "2026-09-02T16:55:04Z",
           "fingerprint_at_dispatch": "2026-08-13|None"
         }
       ],
