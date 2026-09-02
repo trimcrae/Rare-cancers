@@ -1,0 +1,33 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+  "blind": true,
+  "seat": "hostile",
+  "lens": "hostile referee (accept/revise/reject)",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "d7656305abadc8da96f1949dd7d1eab8a4da5df78f2815b53f081bb65c6f5264",
+  "opened_utc": "2026-09-02T23:36:49Z",
+  "verdict": "accept",
+  "referee_recommendation": "accept",
+  "central_claim": "Because ClinicalTrials.gov's condition field is written on histology while trial eligibility for this ultra-rare fusion sarcoma is often written on the molecular lesion, at least two recruiting interventional trials admit the disease without a histology search ever surfacing them, and a naive keyword/molecular-language screen is unsafe on its own because it also produces false positives that would send a patient toward a trial that will refuse them.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "Section 2's account of the post-fix, same-afternoon re-run of the full-histology-name search ('It returned 23 studies against a reported total of 23: those three, and NCT06239272...') is stated with the same declarative confidence as every other retrieval claim in the same paragraph, but unlike every other claim in that paragraph it carries no actions_run_id, slug, or literature_cache_commit, and the '23 studies'/'reported total of 23' figures do not appear anywhere in either research/literature/fet-fusion-trial-eligibility-2026-08-07.json or research/literature/emc-trial-reachability-adjudication-2026-08-09.json (the two artifacts this section otherwise draws on and that Section 7 names as holding 'every trial identifier ... and every adjudication'). I also checked the literature-cache branch history (commits 0e3b077a7, d69522f46, 76d293ade, 890612eea, 11b3177ce, 02458e005 and the full Aug-7 commit list) for a matching clean re-run payload of the EMC/myxoid-chondrosarcoma condition search and found none. The underlying NCT identifiers this claim rests on (NCT00720174, NCT05355753, NCT01189253, NCT06239272) ARE independently traceable elsewhere in fet.json/other cited files, so the paper's substantive conclusions (that the three lost records are closed studies, and NCT06239272 is the only re-surfaced admitting record) are not contradicted by anything I found -- but the specific reconciliation arithmetic ('23 against 23') is currently an uncited assertion inside a section that is otherwise scrupulous about citing the run that produced every other number.",
+      "evidence": "Manuscript §2: 'The search on the full histology name was re-run cleanly after the fix, the same afternoon. It returned 23 studies against a reported total of 23: those three, and NCT06239272, the one record that lists the histology, and not one of the trials §3 reports as admitting.' Compare fet.json's own accounting, which stops at: 'Twelve records were lost that way, five of them recoverable from another payload in the same file' -- fet.json's task_1/task_2 sections and its closing 'limits_of_this_screen' block (last lines of the file) never mention a 23-study re-run, a reported total of 23, or any post-fix condition-search payload; the only condition-search payloads named in fet.json are the damaged ct_emc_all and ct_myxoid_chondrosarcoma runs from the original 2026-08-07 07:55 AM ET sweep.",
+      "fix": "Either add the actions_run_id/slug/literature_cache_commit for the clean re-run (matching the citation style used for every other retrieval in §2), or if that payload was not separately committed, say so explicitly (e.g. 'not separately archived; recorded here from the run log') rather than stating the 23/23 figure with the same bare confidence as the archived retrievals around it."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (via git show; sha256 verified)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+    "research/literature/non-us-registry-sweep-2026-08-09.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+    "scripts/lit_fetch_urls.py @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (spot-checked strip_html defect description)",
+    "git log/show across origin/literature-cache and orphan literature-cache-update commits from 2026-08-07 (0e3b077a7, d69522f46, 76d293ade, 890612eea, 11b3177ce, 02458e005 and the full day's commit list) searching for a corroborating clean re-run payload of the EMC condition search; none found",
+    "git show ca18ec8b2 -- research/manuscripts/care-delivery/emc-trial-reachability.md (round 7's diff, to confirm the round-4/5/6/7 fixes named in the task brief are still present and unbroken)"
+  ]
+}
