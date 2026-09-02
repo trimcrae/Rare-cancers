@@ -1,0 +1,46 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "00e049a94e34647e186b40eaf259e53602d43df4",
+  "blind": true,
+  "seat": "citations",
+  "lens": "citations, build and gates",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "f5af78b0019f05a733e7155b710ea5dd81a6024a7e5b3ffa2934110ea7ffb9da",
+  "opened_utc": "2026-09-02T20:45:18Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "A replication-stress (ATR) vulnerability is inherited from the published FET-fusion class mechanism and is internally consistent in public data, but the document reports no EMC-specific ATR vulnerability: the class precondition splits by fusion type, the CRISPR/drug-response surrogate tests mostly fail to track the mechanism, and the EMC tumour transcriptome grades only WEAK.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "publish_bar's clause_1 (hardening_converged) and clause_6 (independent_adversarial_seat) both currently FAIL/UNVERIFIABLE for this exact pinned commit, and no PREFLIGHT_FULL receipt exists for it yet. This is not a defect in the document or the gate logic -- it is the expected state before this round's seats and a PREFLIGHT_FULL run land -- but it means the paper cannot legally post until: (a) this round's five seats are all filed against 00e049a9..., (b) the hardening-state record for PUB-ATR is updated to name this round's seats and reviewed_commit, and (c) a PREFLIGHT_FULL=1 receipt for this sha is committed.",
+      "evidence": "python3 research/autonomy/publish_bar.py --paper PUB-ATR --sha 00e049a94e34647e186b40eaf259e53602d43df4 --json returned may_post:false, n_passed:4/7, with hardening_converged FAIL ('last round reviewed 78d345d35b467dca41etc, whose deliverable digest is 5d6ac9188998881a against 9202c566871294b0 at 00e049a94e34 -- a review of a different paper is not a review of this one') and independent_adversarial_seat UNVERIFIABLE ('absent: research/autonomy/review-seats/PUB-ATR-00e049a94e34647e186b40eaf259e53602d43df4.json'), and preflight_full_green UNVERIFIABLE (no receipt file at research/autonomy/preflight-receipts/00e049a94e34647e186b40eaf259e53602d43df4.json). This confirms the gate mechanics bind correctly to the exact pinned sha (no drift) -- it is a live open item for the round to close, not a document defect.",
+      "fix": "No fix to the document. Ensure all five round-6 seats file against this exact commit, roll up hardening-state/PUB-ATR.json naming them and this reviewed_commit, and run+commit a PREFLIGHT_FULL=1 receipt before any post is attempted."
+    },
+    {
+      "summary": "lint_claims's R4-confirms WARNs on two uses of 'confirmed' in this document, neither of which is an overclaim on inspection, but the check only WARNs (does not ERROR/block), so a future edit that reused 'confirmed' in a genuinely load-bearing biological sentence would not be caught by this gate alone -- only by a human or blind-seat re-read.",
+      "evidence": "python3 research/manuscripts/lint_claims.py research/manuscripts/dependency/emc-atr-vulnerability-assessment.md -> 'lint_claims: 0 ERROR, 2 WARN across 1 file(s)', at line 511 ('the §3.2a diagnosis confirmed' -- about a code/transport-error diagnosis, not biology) and line 853 ('a cell confirmed to carry an NR4A3 fusion' -- used inside a negative statement that no such tested cell exists). Both are read-verified as non-overclaims against the pinned text.",
+      "fix": "No action needed on this document as written. If a future round adds a new 'confirmed' near a biological/efficacy claim, a human or seat should verify it is not silently graded as WARN-only when it should read as an R2-class overclaim."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (pinned at 00e049a94e34647e186b40eaf259e53602d43df4, full text)",
+    "research/manuscripts/lint_citations.py (source, and its live run output)",
+    "research/manuscripts/lint_claims.py (source, and its live run output on this document)",
+    "research/manuscripts/citation-provenance-ledger.json",
+    "research/autonomy/publish_bar.py (source, clauses 1, 4, 6, 7)",
+    "systems/graph/publications.json (PUB-ATR record)",
+    "research/modalities/emc-atr-vulnerability.json (pinned, producer artifact: part_b_emc_tumour_signature.per_platform, part_d_drug_response_correlation.mechanism_tests)",
+    "research/modalities/hemcss-label-priorart.json (grep for PMID 34413129)",
+    "research/modalities/emc-model-junction-evidence.json (grep for PMID 34413129)",
+    "research/modalities/atr-hrd-sarcoma-series.json and atr-hrd-sarcoma-series-inputs.json (grep for PMID 41651400)",
+    ".github/workflows/depmap-dependency.yml (existence check at pin)",
+    ".github/workflows/emc-expression-datasets.yml (existence check at pin)",
+    "research/modalities/emc_atr_vulnerability.py (existence check at pin)",
+    "research/manuscripts/dependency/emc-atr-collaborator-package.md (existence check at pin)",
+    "research/modalities/emc-atri-prereg.md (existence check at pin)",
+    "git log/diff for the manuscript file between the pin and current HEAD (byte-identical; HEAD is one commit ahead and that commit only adds this round's regression seat's own opening marker, not a content change)"
+  ]
+}
