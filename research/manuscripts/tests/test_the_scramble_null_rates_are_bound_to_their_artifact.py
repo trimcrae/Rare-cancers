@@ -75,10 +75,50 @@ def _cut_named_in(window):
     return int(m.group(1)) if m else None
 
 
-def _rates(field, cut=None):
+#: How each null ensemble is named in prose. ⛔ THE AXIS THE GUARD HAD NO OPINION ABOUT UNTIL
+#: ROUND 31, AND THE ONE THE DEFECT LIVED ON. A sentence that names its ensemble is making a claim
+#: about THAT ensemble, and admitting another arm's value is the same looseness the cut fix closed
+#: one axis earlier.
+_ENSEMBLE_WORDS = (
+    ("scrambled_dinucleotide", (r"dinucleotide[- ]preserving", r"\bdinucleotide\b")),
+    ("scrambled_mononucleotide", (r"mononucleotide",)),
+)
+
+
+def _ensemble_named_in(window):
+    """The ensemble a sentence names, or None. Dinucleotide is tested first: 'dinucleotide-preserving'
+    contains no 'mononucleotide', but ordering it first keeps the two from ever racing."""
+    w = window.lower()
+    for name, pats in _ENSEMBLE_WORDS:
+        if any(re.search(pat, w) for pat in pats):
+            return name
+    return None
+
+
+def _rates(field, cut=None, ensemble=None):
+    """Every printed-form rate for `field`, optionally scoped to one cut and ONE ENSEMBLE.
+
+    ⛔⛔ `ensemble` WAS ADDED 2026-09-02 BECAUSE WITHOUT IT THIS GUARD BLESSED A REAL DEFECT — the
+    one it was written for, one round after it was written. The accepted set was a UNION over all
+    ten null ensembles, so a sentence naming the dinucleotide null could print the MONONUCLEOTIDE
+    arm's value and pass. Round 31's regression seat mutation-tested it on scratch copies: at cut
+    seven, 38.8 -> 47.9 passed, -> 64.0 passed, -> 52.3 passed; only a number belonging to no
+    ensemble at that cut failed.
+    ★ AND THE DEFECT IT MISSED WAS EXACTLY THAT. The research article said "Read at seven, the same
+    null returns 74.3% ... and 38.8%" with a DINUCLEOTIDE antecedent, and 74.3/38.8 are the
+    mononucleotide arm; the dinucleotide null at seven is 85.4/47.9. Both printed figures
+    understated, in a sentence whose whole job is to warn a laboratory that a scramble passing at
+    ten is not certified at seven.
+    ⚠ THE SHAPE OF THE MISS IS THE ONE `paper-hardening` §8b.2 NAMES: the guard was scoped by
+    PREDICATE and CUT and simply had no opinion about the third axis. Scoping by a property you did
+    not think of is not possible; what is possible is to make the axis a parameter, so the next
+    caller that needs it has one instead of a union.
+    """
     d = json.load(open(NULL, encoding="utf-8"))
     out = set()
-    for ens in d["null_ensembles"].values():
+    for name, ens in d["null_ensembles"].items():
+        if ensemble is not None and name != ensemble:
+            continue
         ladder = ens.get("cut_ladder") or {}
         rows = [ladder[str(cut)]] if cut is not None and str(cut) in ladder else list(ladder.values())
         for row in rows:
@@ -88,8 +128,8 @@ def _rates(field, cut=None):
     return out
 
 
-def _membership_rates(cut=None):
-    return _rates("rate_pairing_NR4A3_specifically", cut)
+def _membership_rates(cut=None, ensemble=None):
+    return _rates("rate_pairing_NR4A3_specifically", cut, ensemble)
 
 
 def _argmax_rates(cut=None):
@@ -152,13 +192,63 @@ def test_every_membership_rate_printed_is_the_membership_field(name):
         # ★ So when the sentence names its cut — "at the ten-base-pair criterion", "Read at seven" —
         # only that cut's values are admissible.
         cut = _cut_named_in(window)
-        allowed = _membership_rates(cut)
+        # ⛔⛔ THE THIRD AXIS, ADDED 2026-09-02 AFTER THIS GUARD BLESSED THE DEFECT IT EXISTS FOR.
+        # The research article said "Read at seven, the same [dinucleotide] null returns ... 38.8%",
+        # and 38.8 is the MONONUCLEOTIDE arm; the dinucleotide value is 47.9. Both printed figures
+        # understated, in the sentence whose job is to warn a lab that a scramble passing at ten is
+        # not certified at seven. Scoped by predicate and by cut, this guard had no opinion about
+        # WHICH ensemble, so it accepted any arm's value — measured by round 31's regression seat:
+        # 47.9, 64.0 and 52.3 all passed in place of 38.8.
+        # ★ A sentence that NAMES its ensemble is admissible only against that ensemble. One that
+        # names none is unchanged from before: the union, which is all the sentence has claimed.
+        ensemble = _ensemble_named_in(window)
+        allowed = _membership_rates(cut, ensemble)
         where = f"the {cut}-base-pair cut" if cut else "any cut (the sentence names none)"
+        whose = f"the {ensemble} null" if ensemble else "any null ensemble (the sentence names none)"
         assert any(p in allowed for p in pcts), (
-            f"{name} prints {pcts} beside a MEMBERSHIP claim read at {where}, and none is a "
-            f"`rate_pairing_NR4A3_specifically` value there. The argmax field "
-            "`rate_liable_attributed_to_NR4A3` reads plausibly and is a different quantity — that "
-            "is the substitution this file exists for.")
+            f"{name} prints {pcts} beside a MEMBERSHIP claim about {whose} read at {where}, and "
+            f"none is a `rate_pairing_NR4A3_specifically` value there. Two different substitutions "
+            "reach this line: the argmax field `rate_liable_attributed_to_NR4A3`, which reads "
+            "plausibly and is a different QUANTITY, and another ensemble's value at the same cut, "
+            "which is the right quantity from the wrong ARM.")
+
+
+@pytest.mark.parametrize("name", DOCS)
+def test_a_membership_rate_read_at_a_named_cut_names_its_ensemble(name):
+    """⛔⛔ THE REGRESSION PATH THE ENSEMBLE FIX LEFT OPEN, CLOSED BY MEASUREMENT RATHER THAN BY HOPE.
+
+    `_ensemble_named_in` can only bind what a sentence claims, so deleting the word
+    "dinucleotide-preserving" from the sentence that carries the defect makes the guard fall back to
+    the union and go quiet. Mutation-tested 2026-09-02: with the ensemble word removed, restoring
+    the wrong arm's value passes all ten tests in this file. One word is the whole difference
+    between a bound claim and an unbound one.
+
+    ★ THE PROPERTY, AND IT IS A REAL ONE RATHER THAN A PATCH ON THIS SENTENCE. Ten null ensembles
+    give ten different membership rates at any given cut — 38.8 and 47.9 differ by nine points at
+    seven. A sentence precise enough to name its cut and not its arm is therefore not checkable by
+    anyone, reader or guard, and the number it prints could be any of ten.
+
+    ⚠ VERIFIED SAFE ON TRUE INPUT BEFORE IT WAS ADDED, which is `paper-hardening` §8b.1's rule: over
+    all three outgoing documents, every membership sentence that names a cut already names an
+    ensemble, so this reds nothing that is currently right. A gate that fires on honest prose is one
+    somebody loosens.
+    """
+    text = _text(name)
+    for m in _MEMBERSHIP.finditer(text):
+        window = text[max(0, m.start() - 160): m.end() + 40]
+        if "design" in text[max(0, m.start() - 90): m.start()].lower():
+            continue
+        if not re.findall(r"(\d+\.\d)%", window):
+            continue
+        cut = _cut_named_in(window)
+        if not cut:
+            continue
+        assert _ensemble_named_in(window), (
+            f"{name} reads a membership rate at the {cut}-base-pair cut without naming which null "
+            "ensemble it is reading. The ten arms give ten different values there — the "
+            "mononucleotide and dinucleotide scrambles are nine points apart at seven — so the "
+            "sentence cannot be checked by a reader or by this file. Name the arm.\n\n"
+            f"...{window[-160:]}")
 
 
 @pytest.mark.parametrize("name", DOCS)

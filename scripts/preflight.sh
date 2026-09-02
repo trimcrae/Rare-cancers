@@ -789,6 +789,19 @@ gen_fail=""
 # ⛔ NO ROW HERE CITES ANYTHING AUTOMATICALLY. Both verify a decision a human made; the ledger's
 # `declined` status exists so that "we looked and it is not owed" stays distinguishable from
 # "nobody looked". Measured cost of the pair: under 0.3 s.
+# ⛔⛔ THE DEPOSIT-DRIFT ROW WAS ADDED 2026-09-02, AND IT IS HERE BECAUSE THE NUMBER IT GUARDS WENT
+# STALE INSIDE ONE COMMIT. The preprint checklist's §3-vii declared "15 paths changed"; it was
+# exactly right when written at 19f9d2b41 and wrong at 05c1cac1e -- a commit about THIS SCRIPT's own
+# cost, which happened to touch three files that are also deposited (lint_citations.py,
+# pinned-figures.json, a .docx build stamp). The real figure was 18. Round 31's citations-and-archive
+# seat found it; no gate could have, because the number was typed.
+# ★ THE COUNT IS A FUNCTION OF 515 DEPOSITED PATHS, so any commit anywhere in this repository can
+# move it -- including one whose author has no idea the archive exists. That is precisely the class
+# CLAUDE.md §1 puts under "a total is DERIVED, never typed", and precisely the class this gate
+# exists for: "a file marked GENERATED was an instruction to humans backed by nothing".
+# ⚠ IT MUST RUN AFTER THE ARCHIVE MANIFEST ROW, WHICH IS WHY IT SITS IMMEDIATELY BELOW IT: it reads
+# that manifest's recorded digests, so a stale manifest makes it print a confident WRONG number
+# rather than a stale one. Ordering inside this list is the only thing enforcing that.
 # ⭐ THE CLAIM-COVERAGE ROW IS AUT-PD-130 AND IT IS THE MOST EXPENSIVE SINGLE ROW IN THIS GATE —
 # 1.8 s, measured 2026-09-01 over three runs (1.79 / 1.83 / 1.91 s), against 4.80 s for the sixteen
 # pre-existing rows put together (next largest: the archive manifest at 1.48 s). It is here anyway,
@@ -814,6 +827,7 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/manuscripts/submission_packet.py|submission packet|--check" \
          "research/manuscripts/vaccine_path_tables.py|vaccine-path manuscript tables|--check" \
          "research/manuscripts/aso_archive_manifest.py|archive manifest|--check-archive" \
+         "research/manuscripts/aso_deposit_drift.py|declared deposit drift|--check" \
          "research/modalities/emc_condensate_report.py|condensate CALVADOS findings|--check" \
          "research/modalities/atr_hrd_sarcoma_series.py|ATR HRD sarcoma series|--check" \
          "research/modalities/single_slot_identity.py|single-slot artifact identity|--check" \

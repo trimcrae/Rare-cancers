@@ -638,9 +638,9 @@ six base pairs, which is the only cut with an enzymological referent, since a co
 length presents exactly those six as RNA:DNA hybrid and the rest as locked-wing pairs; thirteen is
 the longest run any arm returns.
 
-**The cut ladder.** Every cut the instrument can reach, from the catalytic gap's own six base pairs to the thirteen that is the longest run any arm returns: the observed arm, its Wilson interval, the strongest null ensemble at that cut and the scramble null beside it, the signed excess of observed over strongest null, the junction-level reading, and how many designs pair wild-type *NR4A3* specifically. This is the paper's central negative and is set here, in the argument that reads it, rather than with the numbered tables: the excess over the strongest null changes sign four times down the column, so no cut in the range is a boundary the data picks out. Derived, like every table here, from the released artefacts; the adopted cut of ten is one row of it and is adopted, not measured.
+**The cut ladder.** Every cut the instrument can reach, from the catalytic gap's own six base pairs to the thirteen that is the longest run any arm returns: the observed arm, its Wilson interval, the strongest null ensemble at that cut and the mononucleotide scramble null beside it, the signed excess of observed over strongest null, the junction-level reading, and how many designs pair wild-type *NR4A3* specifically. This is the paper's central negative and is set here, in the argument that reads it, rather than with the numbered tables: the excess over the strongest null changes sign four times down the column, so no cut in the range is a boundary the data picks out. Derived, like every table here, from the released artefacts; the adopted cut of ten is one row of it and is adopted, not measured.
 
-| cut (bp) | liable designs | % | Wilson 95% | strongest null % | scramble null % | observed − strongest | strongest null vs the observed interval | junctions with a clearing design | designs still liable at the five published-breakpoint junctions | designs *NR4A3* pairs specifically |
+| cut (bp) | liable designs | % | Wilson 95% | strongest null % | scramble null % (mononucleotide) | observed − strongest | strongest null vs the observed interval | junctions with a clearing design | designs still liable at the five published-breakpoint junctions | designs *NR4A3* pairs specifically |
 |---|---|---|---|---|---|---|---|---|---|---|
 | 6 | 181 | 95.3 | 91.2–97.5 | 98.2 (exon-terminus, novel acceptor) | 91.4 | −2.9 | outside, above | 6 of 38 | 25 of 25 | 158 |
 | 7 | 175 | 92.1 | 87.4–95.2 | 91.4 (exon-terminus) | 74.3 | +0.7 | inside | 9 of 38 | 25 of 25 | 111 |
@@ -1728,8 +1728,8 @@ Three assay controls are required, and a knockdown assay alone distinguishes non
   catalytic gap over ten base pairs or more, wild-type *NR4A3* above all, since a control that
   engages the transcript the modality exists to spare is not a control. What a passed scramble is
   then clean at has to be said with it: it is clean at ten and not below it. Read at seven, the same
-  null returns 74.3% of scrambles pairing a wild-type parent's whole catalytic gap, and 38.8%
-  pairing wild-type *NR4A3* specifically, so passing this rule certifies the criterion applied
+  dinucleotide-preserving null returns 85.4% of scrambles pairing a wild-type parent's whole
+  catalytic gap, and 47.9% pairing wild-type *NR4A3* specifically, so passing this rule certifies the criterion applied
   throughout this paper and does not certify that the control spares the parents;
 - a fusion-negative isogenic comparator, since wild-type *NR4A3* may be too weakly expressed in an
   EMC line for the selectivity readout to be defined at all.

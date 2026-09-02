@@ -1,0 +1,60 @@
+{
+ "_schema": "emc-review-seat/1",
+ "paper": "PUB-ASO",
+ "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+ "reviewed_commit": "7ae3cb518f0e264a2bfd29e20b4b31e5ba949a36",
+ "document_sha256": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+ "blind": true,
+ "seat": "citations-and-archive",
+ "lens": "Whether every identifier the manuscript and its build artifacts print resolves to a real record — and specifically whether each PMID/DOI/PMCID supports the sentence that cites it, rather than merely existing. Check the deposit chain: that the archive manifest's recorded revision is a commit on origin, that its clean flag is honest, that the DOI the paper cites resolves to the record the repository believes it does, and that the preprint checklist's declaration of deposit drift matches what the manifest and the published record actually differ by.",
+ "utc": "2026-09-02T03:09:57Z",
+ "what_i_read": [
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "research/manuscripts/aso/fusion-junction-aso-journal-references.md",
+  "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
+  "research/manuscripts/aso/deposit-state.json",
+  "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md",
+  "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+  "research/manuscripts/aso/lit-targets-aso-breakpoint-census.json",
+  "research/manuscripts/aso/lit-targets-aso-gap-length.json",
+  "research/manuscripts/aso/fusion-junction-aso-2026-citation-resolution.json",
+  "research/manuscripts/aso/fusion-junction-aso-submission-references.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.pdf",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-title-page.docx.build-stamp.json",
+  "research/manuscripts/aso/fusion-junction-aso-journal-article-figure-legends.docx.build-stamp.json",
+  "research/manuscripts/aso_archive_manifest.py",
+  "research/manuscripts/lint_citations.py",
+  "research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py",
+  "research/modalities/emc-model-junction-evidence.json",
+  "research/modalities/emc-test-article-routes.json",
+  "research/autonomy/sprint-2026-09-01/S33-DEPOSIT.md",
+  "PubMed records for all 24 cited PMIDs (live read via the PubMed MCP, 2026-09-02)",
+  "GitHub Actions job 100032854734 (zenodo_verify record=verify) log, read live"
+ ],
+ "central_claim": "Because the NR4A3 fusion junction exists in no normal transcript, junction-spanning 16-mer gapmers can be designed and computationally screened for it, and this work names two such reagents at the two most-reported breakpoints together with screened controls, test articles and a pre-registrable selectivity threshold — while showing that the discriminating liability is the designs' own wild-type parents and that the screen's cut is a convention the null models do not separate the panel from.",
+ "verdict": "supported",
+ "recommendation": "minor",
+ "blockers": [
+  {
+   "summary": "The preprint checklist's OPEN deposit item declares the published archive to be behind the repository by '15 paths changed, 0 added, 0 removed'. At the reviewed commit git says 18 changed, 0 added, 0 removed. The declaration was exactly true one commit earlier and went stale at 05c1cac1 — the very commit the reviewed manifest records as its own git_revision — so the item that authorises the next (irreversible) Zenodo version understates what has moved by three deposited files, two of which it does not mention in any form. This is a defect in the deposit chain, not in the manuscript: no sentence of the paper is made untrue by it, and nothing published is wrong.",
+   "evidence": "Re-derived exactly as the repository's own guard does, from the pinned commit's blobs only. deposit-state.json:published.git_revision = 4fd4698daec0c39ac77544083dc35d053a4e1e7e; the archive manifest at the pin records git_revision 05c1cac1e6afd4c0d5fe3bad9823e272728d792d. Comparing the two manifests' {path: sha256} maps: 18 changed, 0 added, 0 removed (n = 18). The checklist at the pin says 15 in two places (heading and body). Walking every commit from 4fd4698d to the pin, the count is 0 through aa55257cf, becomes exactly 15 at 19f9d2b417fd ('round 30: five blockers…') — which is what §3-vii states and enumerates correctly — and becomes 18 at 05c1cac1e6af ('the commit loop: ~9 minutes to 131 s'), which moved three further DEPOSITED files: research/manuscripts/lint_citations.py, research/manuscripts/pinned-figures.json and research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json. §3-vii's 'What moved, and why each is a correction rather than churn' list names the two sequence files, both manuscripts, the SI, lit-targets-aso-round7-precedents.json, aso_archive_manifest.py, aso_sequence_manifest.py and 'the four journal PDFs and their build stamps' — the strings 'lint_citations', 'pinned-figures' and 'docx' do not occur anywhere in its 2,655 characters. Its stated cause ('because round 30 improved the paper after it was published') is therefore also incomplete: three of the 18 are not round 30 repairs. Corroborating facts that are NOT in question, all re-derived here: the manifest's git_revision is a real commit on origin/main (aso_archive_manifest.py --check-revision-published exits 0, 'is on a remote-tracking ref'); its clean flag is honest — all 515 inventoried sha256 values equal the blobs at 05c1cac1, 0 missing and 0 mismatched, and --check-archive reports 'manifest inventory is current'; the deposition DOI resolves to the record the repository believes — Actions job 100032854734 read zenodo.org live and printed 'record 22229096 — 10.5281/zenodo.22229096', 'state : done (submitted=True)', 'published : 2026-09-01', 'emc-aso-archive.zip 8808345 bytes md5:957ae067bc96c964', 'PUBLISHED. The DOI both papers cite resolves to this record.', matching deposit-state.json's quoted read-back word for word; and the manifest at 4fd4698d carries archive_content_digest ff4da79f8acf129dc46fffa22cb92fbabbf79bfbb419154dc66b066bc1ca291a, which is the manifest_digest deposit-state.json records for the published version.",
+   "what_edit_would_break_it": "Correcting the two numbers alone leaves the defect live, because the count is a function of HEAD: any later commit that touches one of the 515 inventoried paths silently re-stales it, and the guard that should say so does not (see the p1). The silent regression is the reverse one: fixing the p1's guard scope WITHOUT re-measuring, or re-measuring against the working tree rather than against deposit-state.json's published git_revision, would produce a number that is right about the wrong pair. The count must be re-derived from the two manifests at the moment of the deposit decision, and §3-vii's enumeration extended to the files that moved, or the next frozen archive ships under a declaration of what changed that is wrong.",
+   "where": "research/manuscripts/aso/fusion-junction-aso-preprint-checklist.md:445 and :451"
+  }
+ ],
+ "p1s": [
+  {
+   "summary": "test_a_declared_drift_states_the_size_it_actually_has cannot see the blocker above, and is green on a coincidence. It requires the git-derived drift count to appear anywhere in §3's 32,656-character slice, which includes CLOSED items and their retained history. The only standalone '18' in that slice sits inside a '⚠ Superseded, retained (rule 1.2)' quotation in the closed §3-iv, describing a different published record. This is the third recurrence of the defect the test's own docstring documents twice — the first version was satisfied by a '23' inside a git sha, which is why the lookarounds already exclude hex; the scope of the search was never narrowed with them.",
+   "evidence": "Simulated the guard's exact logic at the pin (no pytest run): n = 18 from the two manifests; _open_blocking_section slices from '## 3 · Open, and blocking the journal submission' to the next '## ', giving 32,656 characters spanning §3-i through §3-vii; re.search(r'(?<![0-9A-Za-z.])18(?![0-9A-Za-z.])', section) matches exactly once, at the §3-iv text '\"**28 differences: 18 changed, 10 added, 0 removed**\" (true at `b93499e94`)'. Mutation-tested on a COPY at <scratch>/citations-and-archive-checklist-copy.md (the live tree was never touched; git status shows no manuscript or checklist modification from this seat, and the document digest is unchanged at afd60b9ef7f3…): replacing only that retained-history quotation's '18 changed' with '77 changed' flips the assertion from pass to FAIL while §3-vii's bytes are identical across the mutation and still read '**15 paths changed, 0 added, 0 removed**'. The mutation was asserted to have landed (unique match count 1 before, 'output 28 differences: 18 changed' absent after). So the guard is measuring a retained history quote, not the declaration.",
+   "what_edit_would_break_it": "Scoping the search to the open drift item is the fix, but binding it to the literal heading string '### 3-vii' regresses the moment the item is renumbered — the item has already moved through 3-i, 3-iv and 3-vii. Scope it by the property the sibling helper already uses (_open_blocking_section_declares_the_drift finds the item by 'PUBLISHED DEPOSIT IS BEHIND') and search only that item's own slice; and exclude text inside a 'Superseded, retained' marker, which is where every stale count in this file is deliberately kept. Any fix that only tightens the lookarounds again repeats the 2026-08-30 patch and leaves the scope defect untouched.",
+   "where": "research/manuscripts/tests/test_the_deposit_the_papers_cite_is_current.py:243 (search), :112 (_open_blocking_section)"
+  }
+ ],
+ "p2s": []
+}

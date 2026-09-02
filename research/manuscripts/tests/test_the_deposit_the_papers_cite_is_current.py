@@ -45,6 +45,13 @@ CHECKLIST = os.path.join(ASO, "fusion-junction-aso-preprint-checklist.md")
 REPO = os.path.abspath(os.path.join(ASO, "..", "..", ".."))
 
 _OPEN_HEADING = "## 3 · Open, and blocking the journal submission"
+#: The item inside §3 that owns the deposit drift. Its size is searched in THIS slice
+#: and nowhere else — see `_drift_item`.
+_DRIFT_HEADING = "### 3-vii ·"
+#: The generated block's markers. One home for the size: `research/manuscripts/aso_deposit_drift.py`
+#: owns everything between them, and this guard reads nothing else.
+_BLOCK_BEGIN = "<!-- BEGIN GENERATED deposit-drift"
+_BLOCK_END = "<!-- END GENERATED deposit-drift"
 
 
 def _json(path, what):
@@ -114,6 +121,38 @@ def _open_blocking_section(text):
     if _OPEN_HEADING not in text:
         return ""
     return re.split(r"(?m)^## ", text.split(_OPEN_HEADING, 1)[1], maxsplit=1)[0]
+
+
+def _drift_item(text):
+    """The §3-vii sub-slice ONLY — not the whole of §3.
+
+    ⛔⛔ THE THIRD RECURRENCE OF ONE DEFECT, AND BOTH EARLIER FIXES MISSED IT. This guard's
+    lookarounds were hardened after `23` inside a git sha satisfied a search for a drift of 23; its
+    SCOPE never was. §3's slice is ~32,000 characters and includes CLOSED items and their retained
+    history, so the search can be satisfied by a number in a "Superseded, retained" quotation about
+    a different published record — which is what happened on 2026-09-02: §3-vii read "15 paths
+    changed" while git said 18, and the only standalone 18 in the slice sat inside the closed
+    §3-iv's history. Round 31's citations-and-archive seat mutation-tested it on a scratch copy:
+    changing that historical quote's "18 changed" to "77 changed" flipped this assertion from pass
+    to FAIL while §3-vii's bytes never moved. A guard satisfied by bytes it is not about is not a
+    guard.
+    ★ SCOPE BY THE PROPERTY: the declaration lives in the item that declares it.
+    """
+    section = _open_blocking_section(text)
+    if _DRIFT_HEADING not in section:
+        return ""
+    item = re.split(r"(?m)^### ", section.split(_DRIFT_HEADING, 1)[1], maxsplit=1)[0]
+    # ⛔ AND NARROWER STILL: THE GENERATED BLOCK, NOT THE WHOLE ITEM. Measured 2026-09-02 while
+    # fixing the scope above — narrowing §3 to §3-vii was not enough. A control that wrote a wrong
+    # count and then an unrelated "mention of 18" a line later, both inside §3-vii, STILL PASSED.
+    # The size has exactly one legitimate home, `aso_deposit_drift.py`'s block, and that is the
+    # slice to read; prose about the size elsewhere in the item must not be able to stand in for it.
+    # ⚠ The generator's own `--check` is the stronger binding (it compares the block byte for byte)
+    # and runs in the commit loop. This stays because it fails with the reader's question — "the
+    # declared size is not the measured size" — rather than with "a generated file is stale".
+    if _BLOCK_BEGIN in item and _BLOCK_END in item:
+        return item.split(_BLOCK_BEGIN, 1)[1].split(_BLOCK_END, 1)[0]
+    return item
 
 
 def _open_blocking_section_declares_the_drift(text):
@@ -231,7 +270,12 @@ def test_a_declared_drift_states_the_size_it_actually_has():
     n = len(changed) + len(set(now) - set(was)) + len(set(was) - set(now))
 
     text = open(CHECKLIST, encoding="utf-8").read()
-    section = _open_blocking_section(text)
+    section = _drift_item(text)
+    assert section, (
+        "the drift is declared in the item headed " + _DRIFT_HEADING + " inside "
+        + _OPEN_HEADING + ", and that item is not present. It is where the size must be "
+        "stated and it is the only slice this guard reads; a number anywhere else in "
+        "the section belongs to a different item.")
     #: ⛔⛔ THE LOOKAROUNDS MUST EXCLUDE LETTERS, NOT ONLY DIGITS — MEASURED 2026-08-30, HOURS AFTER
     #: THIS GUARD WAS WRITTEN, AND IT WAS ALREADY HIDING A STALE NUMBER. The first version used
     #: `(?<![\d.])` / `(?![\d.])`, so the `23` inside the git sha `c84bc23d251a` — which the section

@@ -442,15 +442,55 @@ absence is how 22166420 came to freeze an earlier copy of its own manuscript. It
 all** before this session and now has eight, both directions mutation-tested on a copy.
 
 
-### 3-vii · ⛔ OPEN — the published archive is BEHIND the paper again, by 15 deposited paths, because round 30 improved the paper after it was published
+### 3-vii · ⛔ OPEN — the published archive is BEHIND the paper again, because round 30 improved the paper after it was published
 
-⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPER BY 15 DEPOSITED PATHS.**
+⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPER.**
 `10.5281/zenodo.22229096` is published, resolves, and is no longer what this repository would
 archive. Round 30's five blockers were all repaired after the publish, and four of the repairs
-touch DEPOSITED files. Measured against the published record's own manifest at `4fd4698daec0`:
-**15 paths changed, 0 added, 0 removed.**
+touch DEPOSITED files.
 
-**What moved, and why each is a correction rather than churn:**
+⛔⛔ **THE SIZE BELOW IS GENERATED, AND THE REASON IS THAT THE TYPED ONE WENT STALE INSIDE ONE
+COMMIT.** This section read *"15 paths changed, 0 added, 0 removed"*, which was exactly true when it
+was written at `19f9d2b41` and false at `05c1cac1e` — a commit about the COMMIT LOOP that happened
+to touch three files which are also deposited (`lint_citations.py`, `pinned-figures.json` and a
+`.docx` build stamp). Round 31's citations-and-archive seat found it; nothing else could have.
+★ The count is a function of 515 deposited paths, so **any commit anywhere in this repository can
+move it, including one whose author has no idea this archive exists.** That is not a number a human
+can maintain, and CLAUDE.md §1 already says so: *a total is DERIVED, never typed*.
+`aso_deposit_drift.py` owns everything between the markers and `--check` runs in the commit loop.
+
+<!-- BEGIN GENERATED deposit-drift · aso_deposit_drift.py · DO NOT EDIT BY HAND -->
+
+⛔ **18 paths changed, 0 added, 0 removed** against the published record's own manifest at `4fd4698daec0`.
+
+<details><summary>every deposited path that differs</summary>
+
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.build-stamp.json`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-anonymized.pdf`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.build-stamp.json`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.docx.build-stamp.json`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-manuscript.pdf`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.build-stamp.json`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article-preprint.pdf`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article.build-stamp.json`
+* `research/manuscripts/aso/fusion-junction-aso-journal-article.pdf`
+* `research/manuscripts/aso/fusion-junction-aso-research-article.md`
+* `research/manuscripts/aso/fusion-junction-aso-sequences.csv`
+* `research/manuscripts/aso/fusion-junction-aso-sequences.fasta`
+* `research/manuscripts/aso/fusion-junction-aso-supplementary-information.md`
+* `research/manuscripts/aso/lit-targets-aso-round7-precedents.json`
+* `research/manuscripts/aso_archive_manifest.py`
+* `research/manuscripts/aso_sequence_manifest.py`
+* `research/manuscripts/lint_citations.py`
+* `research/manuscripts/pinned-figures.json`
+
+</details>
+
+<!-- END GENERATED deposit-drift -->
+
+**What moved in round 30, and why each of those is a correction rather than churn** — this list is
+the round-30 subset and is deliberately NOT the whole of the generated count above, because the rest
+is incidental traffic in files that happen to be deposited:
 * `fusion-junction-aso-sequences.csv` / `.fasta` — the two `predicted_tm_*` columns are now
   documented as **not** the melting temperature of the reagent a laboratory would order. They are
   nearest-neighbour predictions for an unmodified duplex; the article reports no absolute melting

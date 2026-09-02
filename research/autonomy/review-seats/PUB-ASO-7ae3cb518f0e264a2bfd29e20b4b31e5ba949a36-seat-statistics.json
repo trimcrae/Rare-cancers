@@ -1,0 +1,80 @@
+{
+ "_schema": "emc-review-seat/1",
+ "paper": "PUB-ASO",
+ "document": "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+ "reviewed_commit": "7ae3cb518f0e264a2bfd29e20b4b31e5ba949a36",
+ "document_sha256": "afd60b9ef7f3c1eead4927b8f812136ba4c9db8601df0898d4d94dabd3117377",
+ "blind": true,
+ "seat": "statistics",
+ "lens": "Whether the screens, thresholds, intervals and the proposed falsifying experiment bound what the prose says they bound. Recompute every stated proportion, interval and power figure from its module. Check that the quantity a stated standard deviation refers to is named, that an interval's level and sidedness are stated, that a null model's assumptions are the ones the data satisfy, and that a multiplicity claim matches the design actually prescribed.",
+ "utc": "2026-09-02T03:08:40Z",
+ "what_i_read": [
+  "research/manuscripts/aso/fusion-junction-aso-journal-article.md",
+  "research/manuscripts/aso/fusion-junction-aso-journal-tables.md",
+  "research/manuscripts/aso/fusion-junction-aso-supplementary-information.md",
+  "research/manuscripts/aso/fusion-junction-aso-reagent-coverage.json",
+  "research/manuscripts/aso_falsification_power.py",
+  "research/manuscripts/pinned-figures.json",
+  "research/manuscripts/tests/test_journal_article_numbers.py",
+  "research/manuscripts/tests/test_the_manuscript_asserts_the_relation_its_artifacts_compute.py",
+  "research/modalities/tests/test_aso_submission_numbers.py",
+  "research/modalities/tests/test_aso_parent_gap_pairing.py",
+  "research/modalities/aso-parent-null.json",
+  "research/modalities/aso-parent-gap-pairing.json",
+  "research/modalities/aso-parent-gap-pairing-18mer-5-8-5.json",
+  "research/modalities/aso-parent-gap-pairing-20mer-5-10-5.json",
+  "research/modalities/aso-parent-gap-pairing-noncoding-acceptor.json",
+  "research/modalities/aso-premrna-offtarget.json",
+  "research/modalities/aso-premrna-sequences.json",
+  "research/modalities/aso-offtarget-duplex-energy.json",
+  "research/modalities/aso-control-oligos.json",
+  "research/modalities/aso-genome-offtarget.json",
+  "research/modalities/aso-gap-length-tradeoff.json",
+  "research/modalities/aso-per-junction-table.json",
+  "research/modalities/junction-aso-thermo.json",
+  "research/modalities/junction-aso-offtarget-locus-collapse.json",
+  "research/modalities/junction-aso-offtarget-*.json (38 default-depth screens and their deep500 re-screens)",
+  "research/modalities/nr4a3-fusion-junction-atlas.json",
+  "research/modalities/aso_parent_gap_pairing.py",
+  "research/modalities/junction_aso_thermo.py",
+  "research/modalities/aso_screen_sets.py"
+ ],
+ "central_claim": "Two junction-spanning 16-mer gapmers at the two most-reported NR4A3 fusion breakpoints, plus two screened scramble controls and a pre-registrable selectivity test, are named as reagents on the strength of a five-screen in-silico specificity panel over 190 designs — a panel whose dominant liability is that the design's own wild-type parent can pair the whole catalytic gap, a liability the paper reports at its true weight and shows it cannot separate from an exon-terminus-chimera null.",
+ "verdict": "supported",
+ "recommendation": "minor",
+ "blockers": [],
+ "p1s": [
+  {
+   "summary": "The '95% interval' that carries the paper's only inferential comparison against the nulls is a Wilson binomial interval computed as if the 190 designs were independent Bernoulli draws — an assumption the producing artifact itself states the data violate — and the manuscript names neither the construction, the sidedness, nor the assumption.",
+   "evidence": "The sentence is 'at ten the strongest null's 40.6% falls inside the panel's own 95% interval on 45.8%, as at every cut from seven to thirteen but eleven.' I re-derived both halves exactly from research/modalities/aso-parent-null.json: the interval is `cut_sensitivity.observed_cut_ladder['10'].rate_liable_wilson95` = [0.38859, 0.52887] on 87/190 = 0.45789, and the strongest null at cut 10 is `null_ensembles.exon_terminus_chimera.rate_liable` = 0.40568, inside it. Walking cuts 6-13 with each cut's own panel Wilson interval and a per-cut argmax over the ten ensembles, the null falls inside at 7,8,9,10,12,13 and outside at 6 and 11 — so 'every cut from seven to thirteen but eleven' is exact. The construction, however, is only in the artifact, and that same artifact's `_what_this_is_not[0]` says: 'Not a significance test. The 190 design records are 176 distinct molecules tiled at overlapping registers across 38 junctions, so they are not independent draws and no test treating them as such would be right about its own denominator. Proportions carry Wilson intervals; the per-design paired rate is the honest comparison.' The manuscript uses the interval as exactly the test the artifact disclaims, and carries none of that sentence. Nothing in the manuscript or the SI contains the word 'Wilson' (grep over fusion-junction-aso-journal-article.md and fusion-junction-aso-supplementary-information.md: 'Wilson' appears only in the SI's coverage-ladder paragraph, line 147, about a different quantity). The one place the article does state sidedness is the Discussion's 'two-sided 95% interval' (line 326), so the Results sentence is also inconsistent with the paper's own standard one section later. I checked the direction and the claim survives: designs cluster 5-per-junction, ANOVA ICC at cut 10 is 0.106 (design effect 1.42) and at cut 11 is 0.057 (deff 1.23), so a deff-adjusted Wilson interval at cut 11 is [0.36625, 0.52076] and a 4000-replicate junction-level cluster bootstrap gives [0.36316, 0.52105] — the null's 0.34679 is outside all three, so the 'but eleven' exception is not an artifact of the independence assumption. De-duplicating to the 176 distinct sequences (taking each sequence's longest run) leaves the inside/outside pattern identical at all eight cuts. Sign changes of (panel - strongest null) across cuts 6-13 is 4, matching 'changes sign four times', and it is 4 against either exon-terminus ensemble held fixed as well.",
+   "what_edit_would_break_it": "The interval's construction lives only in the artifact, so nothing in the manuscript's guard set pins it. research/manuscripts/tests/test_journal_article_numbers.py binds the 45.8%/40.6% figures and the 'seven to thirteen but eleven' string to the artifact's numbers, but no guard binds the prose to a stated interval TYPE or to a stated independence assumption, because the prose states neither. If aso_parent_null.py's denominator is ever changed to the 176 distinct sequences, or the ensembles are re-drawn at a different `draws_per_design_per_ensemble` (currently 200), the interval moves and the sentence re-derives against whatever the artifact then holds — a reader can never tell which population the interval was over, and 'the panel's own 95% interval' reads identically either way. The same sentence would also survive unchanged if a future edit reported a per-junction or cluster-robust interval instead, which is the honest comparison the artifact names.",
+   "where": "research/manuscripts/aso/fusion-junction-aso-journal-article.md:235-236"
+  },
+  {
+   "summary": "The pre-registered replicate standard deviation of 0.35 never names the quantity it is the standard deviation OF, and the two available readings differ by a factor of sqrt(2) — enough to move the headline power at six replicates from about 80% to about 50%, which is the number that sets the prescribed replicate count.",
+   "evidence": "Line 322-324 reads 'At an assumed replicate standard deviation of 0.35 on the natural-log scale ... six independent biological replicates give about 80% power to falsify a true selectivity of 3 and three give about 30%.' Selectivity was defined one sentence earlier as a RATIO of two IC50s, so 0.35 could be the replicate SD of the log RATIO or the replicate SD of a single arm's log IC50. Running the producing module (research/manuscripts/aso_falsification_power.py, copied to scratch and run read-only) reproduces the printed figures exactly under the first reading: power 30.42% at n=3, 81.28% at n=6, 98.31% at n=10; void SDs 0.648, 1.534, 2.250 — so 'about 30%', 'about 80%', 'about 0.65', '1.53', '2.25' are all correct as printed, and the noncentral-t construction (t_crit = t.ppf(0.025, n-1), ncp = (ln3 - ln5)*sqrt(n)/sigma) is the right one for 'the upper limit of a two-sided 95% interval below 5'. Under the second reading with independent arms, sigma_ratio = 0.35*sqrt(2) = 0.495 and the same module gives 18.65% at n=3, 53.13% at n=6, 82.68% at n=10 — 'about 80% at six' becomes 'about 50% at six', and six replicates would no longer be the count a reader would pre-register. The paper's 'from a matched dose-response in the same wells' makes the arms paired, which puts the true ratio SD somewhere in [0, 0.495] but does not tell the reader which end 0.35 names. The module's own docstring is equally silent ('the underlying replicate SD of 0.35 on the natural-log scale'), so the referent exists nowhere in the repository. The void-SD figures are unambiguous by construction — they are SDs of the log ratio, since they are derived from the interval itself, log(5)*sqrt(n)/t_{.975,n-1} — which means the paper uses one unnamed symbol in two roles that must be the same quantity and never says so.",
+   "what_edit_would_break_it": "research/manuscripts/tests/test_journal_article_numbers.py::test_the_falsification_power_figures_are_derived_not_typed binds the five printed figures to aso_falsification_power.power_pct/void_sd, but its two regexes ('six independent biological replicates give about (\\d+)% power ...' and 'about (\\d+\\.\\d+) at three replicates ...') do not capture the '0.35' at all, and grep for 'SIGMA' or 'replicate standard deviation' across research/manuscripts/tests and research/modalities/tests returns no binding of the article's literal 0.35 to the module's SIGMA. So the prose figure 0.35 can be edited to any other number, or the phrase can be shortened past its 'on the natural-log scale' qualifier, and every gate stays green while the stated assumption and the computed power silently stop describing each other.",
+   "where": "research/manuscripts/aso/fusion-junction-aso-journal-article.md:322-324"
+  }
+ ],
+ "p2s": [
+  {
+   "summary": "The 10.0% and 3.9% scramble rates are quoted with no denominator, and the population they were actually measured over is not the population the sentence's own antecedent names.",
+   "evidence": "Lines 304-307: 'Two controls are named as sequences (Table 2): a dinucleotide-preserving scramble of each reagent ... 10.0% of such scrambles pair a parent's whole catalytic gap at the ten-base-pair criterion, and for 3.9% the longest is wild-type NR4A3.' The antecedent of 'such scrambles' is 'a dinucleotide-preserving scramble of each reagent' — two sequences. The numbers are research/modalities/aso-parent-null.json `null_ensembles.scrambled_dinucleotide.rate_liable` = 0.09987 and `.rate_liable_against_NR4A3` = 0.03911, measured over `n_draws` = 38000 — 200 dinucleotide-preserving scrambles of each of the 190 PANEL designs, not of the two reagents. The reagent-specific figure is in research/modalities/aso-control-oligos.json and is 0 of 2: both controls carry `draws_until_clean` 1 and `n_draws_refused` 0. Neither the 38,000 denominator nor the 200-draws-per-design clustering appears anywhere in the article, and no interval is given (the companion extended report states the same figure as '10.0% (9.7-10.3%)'). Nothing here is false — 10.0% is the right base rate for the class the sentence is arguing about — but a reader cannot tell what proportion of what was computed.",
+   "what_edit_would_break_it": "I could find no guard binding the journal article's 10.0% or 3.9% to `scrambled_dinucleotide`: grep for '0.09987', '0.03911', 'of such scrambles', 'aso-control-oligos' and the two control sequences across research/manuscripts/tests and research/modalities/tests returns nothing. Re-running aso_parent_null.py with a different `draws_per_design_per_ensemble` or `seed` moves both rates, and the sentence would keep a stale number with no gate failing. The mismatch also regresses the other way: an editor tightening 'such scrambles' to 'these scrambles' would convert a correct class rate into a false statement about two sequences whose measured rate is 0 of 2.",
+   "where": "research/manuscripts/aso/fusion-junction-aso-journal-article.md:304-307"
+  },
+  {
+   "summary": "The void-variance gate is specified as an upper confidence bound on a pilot's standard deviation with no confidence level, no sidedness and no pilot size, so the gate as written is not executable by the laboratory it is addressed to.",
+   "evidence": "Line 329-331: 'voidness is a property of the realised variance rather than of the design, so the gate applies to the upper confidence bound on a pilot's standard deviation: at or above the void figure for the count proposed, the decision is more replicates or no test, never three.' The void figures themselves are fully specified and re-derive exactly (void_sd(n) = log(5)*sqrt(n)/t_{0.975,n-1} = 0.648, 1.534, 2.250 at n = 3, 6, 10, from research/manuscripts/aso_falsification_power.py). The gate's other input does not: an upper bound on sigma from a pilot is a chi-square bound whose value depends on the pilot's degrees of freedom and the chosen level, and the paper names neither. At a one-sided 95% bound the pilot n changes the bound by a factor of roughly two between n = 3 and n = 10, which is the same order as the spacing between the three void figures the gate is compared against. Every other threshold in this paper is stated with its convention (the cut of 5.0 'adopted here as a convention', ten base pairs 'adopted rather than measured', 'a two-sided 95% interval'), so this one is the outlier rather than the house style.",
+   "what_edit_would_break_it": "Nothing computes this bound, so nothing can go stale — which is also why nothing would notice if the sentence were reworded into a different gate. The risk is that a reader supplies a level and a pilot size of their own and reaches a different go/no-go decision from the one the pre-registration intends, with the paper unable to adjudicate.",
+   "where": "research/manuscripts/aso/fusion-junction-aso-journal-article.md:329-331"
+  },
+  {
+   "summary": "The prescribed experiment carries two reagents and two controls against one 5.0 cut, and the paper says nothing about how the pair is to be read together; no multiplicity statement is made, correct or otherwise.",
+   "evidence": "Line 316: 'It is specified here for these reagents, with the two screened controls above.' Line 319-331 then states the decision rule, the power and the void gate entirely in the singular — one ratio, one two-sided 95% interval, one cut of 5.0. Two reagents each tested at an effective one-sided alpha of 0.025 gives a chance of falsely refuting at least one of the two that is roughly twice the per-reagent rate under independence; whether the pre-registration intends per-reagent decisions, a joint decision, or an either-clears rule is not stated. I want to be explicit that this contradicts nothing the paper claims: the paper makes no family-wise claim to be wrong about, and the direction of the omission is against its own reagents rather than for them, since the unadjusted rule refutes more readily than an adjusted one would. It is a gap in a section whose whole purpose is to be pre-registrable — a laboratory cannot pre-register a decision rule that does not say how many decisions it makes.",
+   "what_edit_would_break_it": "There is nothing to regress, because there is nothing written. If a later revision adds a third reagent (the EWSR1 exon 13 design priced at line 187-190 is already screened at the same top margin and would be the obvious addition), the per-reagent rule silently becomes a three-way family with no sentence needing to change.",
+   "where": "research/manuscripts/aso/fusion-junction-aso-journal-article.md:316-331"
+  }
+ ]
+}
