@@ -1,0 +1,73 @@
+{
+  "_what": "S56's PROPOSED changes to systems/graph/*.json. ⛔ NOT APPLIED — this seat did not edit the graph. Retiring BLK-REACH-CATEGORICAL is what makes the ranker start offering the two routes that inherit it, and that call belongs to a gated cycle.",
+  "_seat": "S56, sprint 2026-09-01",
+  "_evidence": "research/autonomy/sprint-2026-09-01/S56-REACH-CRITERION.md",
+  "_produced_by": "research/modalities/nr4a3_monovalent_reach.py -> research/modalities/nr4a3-monovalent-reach.json, key `reactivity_weighted_rerun`",
+  "_cost": "$0 — CPU, pure stdlib, no network, no rental, no install",
+  "★_headline": "The action BLK-REACH-CATEGORICAL names as its retirement has now been performed, at $0, and the finding is that the action CANNOT produce what the blocker asks for. The blocker should NOT be retired. It should be RESTATED so its retiring condition is falsifiable.",
+  "proposals": [
+    {
+      "id": "P1",
+      "target": "systems/graph/blockers.json :: BLK-REACH-CATEGORICAL",
+      "change": "restate_retired_by_action",
+      "retire_the_blocker": false,
+      "from": "Re-run the reach enumeration under a criterion that passes its own positive control, and report the result as a rank rather than a verdict until one exists. $0.",
+      "to": "Re-run the reach enumeration under a reactivity criterion calibrated on an EXTERNAL cysteine-reactivity dataset carrying at least one confirmed NEGATIVE, and report the result as a rank until one exists. ⛔ The in-family calibration is exhausted: with one positive (NR4A1 C551) and no confirmed negatives, 'passes its own positive control' is satisfiable by construction — the floor can always be placed at the control — so no criterion built from this comparison set alone can fail it. Performed and measured 2026-09-02 (S56).",
+      "why": "The retiring condition as written is unfalsifiable at n=1 positive, and a criterion that cannot fail its bar cannot retire a blocker by clearing it. A restatement keeps the blocker honest instead of retiring it on a bar nothing can miss."
+    },
+    {
+      "id": "P2",
+      "target": "systems/graph/routes.json :: RT-COVALENT-PROBE.next",
+      "change": "clear_blocked_on_and_replace_the_action",
+      "from": {
+        "best_next_action": "Build a reactivity-weighted accessibility criterion and calibrate it against the known covalent site, then re-run the reach enumeration under it. Report the result as a rank until the criterion passes.",
+        "cost": "$0",
+        "blocked_on": [
+          "BLK-REACH-CATEGORICAL"
+        ]
+      },
+      "to": {
+        "best_next_action": "DONE 2026-09-02 (S56) and it did not clear the axis. The criterion is built (`nr4a3_monovalent_reach.reactivity_weighted_criterion`, three variants) and the enumeration re-ran under it. Next: fetch an external cysteine-reactivity dataset carrying confirmed unreactive cysteines, so the criterion can be calibrated on something that can refute it. That is a networked read, not a local one.",
+        "cost": "$0 (CI fetch)",
+        "blocked_on": []
+      },
+      "why": "`next.blocked_on` asserted that a $0 act was blocked by the blocker that act retires. The act has now been taken and the field is empty of content, whatever happens to the blocker itself."
+    },
+    {
+      "id": "P3",
+      "target": "systems/graph/routes.json :: RT-COVALENT-PROBE.remaining_unknowns[1]",
+      "change": "replace_with_the_measured_answer",
+      "from": "Whether the reach geometry survives a criterion that passes its control — the current negative may be an artifact of the failing one.",
+      "to": "Measured 2026-09-02 (S56): it does not survive as a RESULT. Filtering competitors by a reactivity-weighted criterion takes the monovalent corridor board from 0/30 open to 16/30 — but a size-matched decoy null over all 680 three-competitor subsets has median 20 open, and 65.0% of random subsets of the same size open at least as many cells as the criterion's. The reopening is ATTRITION (17 competitors reduced to 3), not selection.",
+      "why": "The unknown named a question this seat answered. Leaving it open would let a later session re-run the same $0 work and read the 0/30 -> 16/30 flip as a rescue."
+    },
+    {
+      "id": "P4",
+      "target": "systems/graph/instruments.json :: V17",
+      "change": "append_to_known_answer_control.note",
+      "retire_the_instrument": false,
+      "append": " ⛔ AND IT MUST NEVER BE USED AS A COMPETITOR FILTER: applied to the family's 18 cysteines it admits 2, both of them in NR4A3 (C397 RSA 0.395, C420 0.311), and scores every cysteine of BOTH paralogues — including all three corridor closers — as not exposed. Filtering the reach enumeration by it would open the window at C397 almost everywhere by declaring the entire comparison set unreactive with a cutoff already known to produce a false negative. Measured 2026-09-02 (S56) from research/modalities/nr4a3-thiol-environment.json.",
+      "why": "The failure mode is currently recorded as 'a false negative on one site'. Its consequence — that the same cutoff would manufacture a route-rescuing result if anyone applied it downstream — was not recorded anywhere, and the $0 re-run the graph asks for is exactly the moment somebody would reach for it."
+    },
+    {
+      "id": "P5",
+      "target": "systems/graph/instruments.json :: INS-MONOVALENT-REACH",
+      "change": "no_change_proposed",
+      "why": "Its known-answer control still passes, and it passed LIVE in this session rather than only in the record: re-running the module on an unmodified checkout reproduced the committed nr4a3-monovalent-reach.json byte-for-byte (full-document equality), with all four cross-checks AGREES/HOLDS."
+    },
+    {
+      "id": "P6",
+      "target": "systems/graph/artifacts.json :: ART-MONOVALENT-REACH.note",
+      "change": "update_a_stale_count",
+      "from": "…; 18 tests. …",
+      "to": "…; 31 tests. …",
+      "why": "The note carries a live test count. `research/modalities/tests/test_nr4a3_monovalent_reach.py` held 18 tests when the note was written and holds 31 after S56 added the criterion and decoy-null sections (measured: `pytest -q` -> `31 passed`). A count in prose that nothing regenerates is the 'one fact, one place' defect; flagged rather than fixed because this seat may not edit `systems/`."
+    }
+  ],
+  "⛔_what_this_does_NOT_propose": [
+    "No grade, tier, readiness or status change for RT-COVALENT-PROBE. Its route-level state.status stays `blocked`: BLK-NO-WET-LAB, BLK-NOT-FUSION-SELECTIVE, BLK-PARALOGUE-DDG and BLK-R4-BINDS are untouched by anything here.",
+    "No claim that C397 is engageable, reactive, selective, or a covalent handle in any sense beyond the categorical sequence/geometry label this repository already uses.",
+    "No claim about NR4A3 paralogue selectivity, EMC efficacy, safety, a therapeutic window or clinical readiness.",
+    "No retirement of V17. Nothing here fixes its positive control."
+  ]
+}
