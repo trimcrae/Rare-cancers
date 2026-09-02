@@ -3231,9 +3231,9 @@
         "_route_was": "RT-AUTONOMY",
         "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "s24-debt",
+      "claimed_utc": "2026-09-02T16:55:04Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3252,7 +3252,12 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "internal merges of already-pushed branches; nothing outward-facing",
       "what": "⛔⛔ FOUR SEATS' FINISHED WORK IS SITTING ON PUSHED BRANCHES THAT NO ROW NAMED AND NOTHING WILL MERGE. Found 2026-08-28T23:35Z (CYC-0072-2e57571a) while releasing the dead leases of AUT-PD-150. Their driver, `session_01SVfJ6HmD2f5u4Z2TPwfTCG`, was ARCHIVED at 23:17:54Z with its own last summary reading 'landing loop attempt 2/4; gate re-gating on b94d4bc1c; 4 seats finishing' — so it died IN the landing loop, after the seats had pushed and before any of them merged. Verified by `git merge-base --is-ancestor <sha> origin/main` for each: all four false. ⭐ THE BRANCHES, WITH WHAT THEY CARRY: (1) `seat/s1-aut-pd-130` @ e0847032 — AUT-PD-130, the census/guard-corpus pairing the predecessor's handoff called 'cheap and not done'; touches claim_coverage.py, a new pairing test, preflight.sh, tests.yml, regenerate_aso_chain.sh, the ASO archive manifest. (2) `seat/s3-unscreened-endpoints` @ 88ac1c78 — lint_style.TARGETS vs systems/graph/publications.json, with a new test; ⛔ SEE THE COLLISION BELOW, this one has NO row of its own on the trunk. (3) `seat/s4-aut-045` @ c8944f76 — AUT-045 re-test, touches systems/graph/routes.json and two views. (4) `seat/s5-retest-blocks` @ da4247dc — IC-3 and IC-12 prechecks, two new research/modalities artifacts. ⛔⛔ AND MERGING (2) NAIVELY DESTROYS A LIVE ROW. Its ledger marks `AUT-PD-141` done for 'the register and readability screens are scoped by a hand-typed list, and 18 of 25 publication endpoints are outside it'. The TRUNK's `AUT-PD-141` is a DIFFERENT row — 'a rebase silently invalidates the archive manifest's provenance'. Two subjects, one id, and a clean auto-merge would silently overwrite one with the other. This is AUT-PD-144's mechanism (`ids.next_entry_id` is max+1 over a snapshot five concurrent sessions have already moved) landing on a branch instead of at a push. The seat's work must be renumbered to a fresh id at merge, and the trunk's AUT-PD-141 left alone. Checked on all four branches; s1, s4 and s5 are collision-free — their ledgers are merely 8-11 rows behind and must be rebased, never taken whole. ⚠ SIZE, SAID HONESTLY: this is FOUR merges each needing its own gate run, not one cycle's work. Whoever takes it should land them one at a time, and may split this row. Nothing here is a claim that the four branches are CORRECT — none has been reviewed by this cycle; the claim is only that they exist, that they are unmerged, and that they were about to be lost.",
-      "dispatch_log": [],
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T16:55:04Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
       "evidence": "",
       "score_inputs": {
         "age_factor": 0.3571,
