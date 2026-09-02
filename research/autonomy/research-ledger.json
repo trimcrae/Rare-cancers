@@ -25,10 +25,10 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 174,
+    "done": 175,
     "in_progress": 9,
     "parked": 30,
-    "queued": 162,
+    "queued": 161,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -7266,7 +7266,7 @@
     },
     {
       "id": "AUT-PD-068",
-      "what": "⛔ THE LOOP'S CLONE IS SHALLOW, AND IT CENSORS EVERY GIT-DERIVED INSTRUMENT. Measured 2026-08-28 by seat s35-outofideas: both stuck_clock.py and the new out_of_ideas.py are horizon-limited by it, so a route older than the horizon reads `unmeasurable` rather than measured — an absent reading, not a reading of absence (CLAUDE.md §4). Previously recorded in the same shape by the AUT-PD-052..059 sweep ('the shallow clone censors both git-derived instruments'), which is the second sighting. ★ FIX: `git fetch --unshallow` in the loop's working environment, then re-run `stuck_clock --check` and `out_of_ideas --check` and record what changed. It is one $0 command and it clears every censored reading in both modules. ⚠ Left to the driver because unshallowing mutates shared repository state while sibling seats hold worktrees off it.",
+      "what": "✅ DONE 2026-09-02 by CYC-0091. `git fetch --unshallow origin` run in the loop's working environment: `git rev-parse --is-shallow-repository` went true -> false, history depth 27,513 commits (was shallow-truncated). Re-ran both censored instruments against the now-deep clone: `stuck_clock.py --check --json` reports `shallow_clone: false` and **0 censored rows** (203 rows total), surfacing 5 previously-unmeasurable rows as genuinely `stalled_needs_human` (AUT-011, AUT-007, AUT-008, AUT-045, AUT-016 -- each stuck since 2026-09-01T15:15:07Z with 0 recorded attempts despite being marked tried). `out_of_ideas.py --check --json` likewise reports `shallow_clone: false`, 0 censored routes across 78 routes, and surfaces RT-ASO as `out_of_ideas` (needs_attention: true, 5 empty rounds since last improvement 2026-09-01T19:27:19Z). Fed the fresh stuck_clock verdict to `health.py --stall-verdict ... --write`: `stalls_are_named` moved from NO-STALL-VERDICT (unmeasured) to a real STALLED-ROWS verdict naming the 5 rows above. `gates_green` remains unmeasured (needs a CI-side writer, out of this item's scope). Original fix confirmed correct: the censorship was real and this one $0 command cleared it. The 5 newly-surfaced `stalled_needs_human` rows and RT-ASO's `out_of_ideas` verdict are left queued for a future cycle's decision (re-scope/hand-over/close) -- this item's scope was the unshallow and the re-measurement, not resolving what it revealed.",
       "serves": {
         "route": null,
         "publication": null,
@@ -7275,15 +7275,15 @@
         "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
       },
       "kind": "fetch",
-      "state": "in_progress",
-      "owner": "1a2c0a85-5c59-53bd-a279-404198c91c13",
+      "state": "done",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
+      "attempts": 1,
+      "last_evidence_utc": "2026-09-02",
       "score_inputs": {
         "age_factor": 0.3571,
         "age_factor_as_of": "2026-09-02"
@@ -7291,7 +7291,7 @@
       "score": 93.9,
       "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier S = latent, cosmetic or a proposal awaiting a decision, 64-94. `git fetch --unshallow` in the loop's working environment: ONE $0 COMMAND that clears every censored reading in stuck_clock.py and out_of_ideas.py, both of which currently report `unmeasurable` for anything past the shallow horizon. Left to a driver because it mutates shared repository state while seats hold worktrees.",
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
-      "claimed_utc": "2026-09-02T13:21:24Z",
+      "claimed_utc": null,
       "dispatch_log": [
         {
           "utc": "2026-09-02T13:21:24Z",
