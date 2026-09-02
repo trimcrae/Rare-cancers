@@ -381,3 +381,95 @@ def test_the_hook_completes_well_inside_its_configured_timeout(repo):
     start = time.monotonic()
     _run_hook(repo)
     assert time.monotonic() - start < 10.0, "the hook is nowhere near its 15 s budget"
+
+
+# ─────────────────────────────────────────────────────────────────────────────────────────────────
+# HALF A2 — the PULL half (added 2026-09-02 with CLAUDE.md §7's two lanes)
+#
+# trimcrae: "use branches but have it pull from main whenever there's a change". The obligation is
+# new; the counts are not — `origin/main...HEAD` already gives BEHIND as well as AHEAD, so this half
+# adds no process and cannot reintroduce the `merge-base` cost the test above pins out.
+#
+# ⛔⛔ AND THE LAST TEST IN THIS BLOCK IS THE ONE THAT MATTERS MOST. HALF A2 and HALF B fail in
+# OPPOSITE directions: a branch can pull `main` in every hour and still be abandoned, and pulling is
+# exactly what makes an abandoned branch look healthy. Losing (b) is the only way this rule change
+# does real harm, so it is asserted rather than assumed.
+# ─────────────────────────────────────────────────────────────────────────────────────────────────
+
+def _diverged(repo):
+    """Stand the session on a branch that has commits of its own AND is behind the trunk."""
+    _git(repo, "checkout", "-q", "-b", "work/feature", "origin/main~1")
+    (repo / "feature.txt").write_text("mine\n")
+    _git(repo, "add", "feature.txt")
+    _git(repo, "commit", "-qm", "work: mine, written against a trunk that has moved")
+
+
+def test_a_branch_that_has_not_pulled_main_in_is_named_as_divergent(repo):
+    _diverged(repo)
+    r = _run_hook(repo)
+    assert r.returncode == REFUSES, r.stderr
+    assert "has NOT pulled main in" in r.stderr, r.stderr
+    assert "DIVERGENT" in r.stderr, r.stderr
+    assert "git merge origin/main" in r.stderr, "the clean-tree case must give the actual command"
+
+
+def test_a_dirty_tree_defers_the_pull_instruction_but_not_the_reading(repo):
+    """⭐ THE SAME TRADE HALF A ALREADY MAKES, AND FOR THE OPPOSITE HALF OF THE REASON. 'Merge it now'
+    is wrong advice mid-edit; 'you are working against a stale trunk' is most useful exactly then,
+    because every further edit compounds it. So the INSTRUCTION is deferred and the READING is not."""
+    _diverged(repo)
+    (repo / "scratch-untracked.txt").write_text("mid-edit\n")
+    r = _run_hook(repo)
+    assert r.returncode == REFUSES, r.stderr
+    assert "has NOT pulled main in" in r.stderr, "a dirty tree silenced the divergence reading"
+    assert "DO IT NOW" not in r.stderr, "the merge instruction is wrong advice mid-edit"
+
+
+def test_a_branch_that_is_merely_behind_gets_one_line_not_a_block(repo):
+    """⚠ GRADED, NOT BINARY. Any branch is behind `main` within minutes; a block for that at every
+    stop is the wall this hook's header refuses to become. Nothing has been written against the stale
+    trunk yet, so this is a warning before the fact rather than a debt after it."""
+    _git(repo, "checkout", "-q", "-b", "work/fresh", "origin/main~1")
+    r = _run_hook(repo)
+    assert r.returncode == REFUSES, r.stderr
+    assert "behind main and carries nothing of its own yet" in r.stderr, r.stderr
+    assert "DIVERGENT" not in r.stderr, "a branch with no commits of its own is not divergent"
+
+
+def test_a_branch_level_with_main_says_nothing_about_pulling(repo):
+    """No false positive: the pull half must be silent on a branch that has pulled."""
+    _git(repo, "checkout", "-q", "main")
+    _git(repo, "merge", "-q", "--no-edit", "origin/seat/s3-stranded")
+    _git(repo, "push", "-q", "origin", "main")
+    _git(repo, "fetch", "-q", "origin")
+    _git(repo, "checkout", "-q", "-b", "work/uptodate")
+    r = _run_hook(repo)
+    assert r.returncode == ALLOWS, f"the pull half fired on a branch level with main: {r.stderr}"
+
+
+def test_pulling_main_in_does_not_silence_the_abandoned_branch_census(repo):
+    """⛔⛔ KEEP (b). This is the regression the rule change could plausibly cause: a branch is brought
+    fully up to date with `main` — HALF A2 has nothing to say about it — and it is STILL carrying work
+    nobody will merge. If HALF B ever went quiet here, 25 refs and 111 unmerged commits (live reading
+    2026-09-02) would stop being anybody's problem."""
+    _git(repo, "checkout", "-q", "-b", "work/pulled", "origin/seat/s3-stranded")
+    _git(repo, "merge", "-q", "--no-edit", "origin/main")     # pulled in, fully up to date
+    _git(repo, "push", "-q", "origin", "work/pulled")
+    _git(repo, "fetch", "-q", "origin")
+    r = _run_hook(repo)
+    assert r.returncode == REFUSES, "a pulled-but-unmerged branch bought silence"
+    assert "finished work nothing will merge" in r.stderr, r.stderr
+    assert "seat/s3-stranded" in r.stderr, r.stderr
+    assert "PULLING main IN DOES NOT FIX IT" in r.stderr, (
+        "the two checks answer different questions and the output must say so")
+
+
+def test_the_behind_count_has_exactly_one_home_in_the_output():
+    """CLAUDE.md rule 1. HALF A used to restate the behind-count as an aside inside its own block,
+    which is how it stayed advice instead of becoming a check."""
+    src = open(HOOK, encoding="utf-8").read()
+    body = src.split("set -uo pipefail", 1)[1]
+    code = "\n".join(l for l in body.splitlines() if not l.lstrip().startswith("#"))
+    assert "is also $A_BEHIND commit(s) BEHIND main" not in code, (
+        "the old aside is back; the behind-count belongs to HALF A2 alone")
+    assert code.count("A_DIVERGENT=1") == 1 and code.count("A_STALE=1") == 1
