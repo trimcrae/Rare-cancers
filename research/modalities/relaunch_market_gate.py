@@ -67,6 +67,8 @@ import sys
 import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "autonomy"))
+import gpu_ban as _gpu_ban  # noqa: E402
 
 from inflight_usd_per_ns import DRIFT_MULTIPLE    # noqa: E402  the drift line's ONE home (CLAUDE.md §1)
 
@@ -261,6 +263,28 @@ def gate(lane, unit_id, res, *, key=None, excluded=(), max_ratio=None, s3=None,
                     "a NEW PURCHASE, not a continuation.",
            "lane": lane, "unit_id": unit_id, "utc": _utcnow(now),
            "max_ratio_vs_basis": (RELAUNCH_MAX_RATIO_VS_BASIS if max_ratio is None else float(max_ratio))}
+
+    # ⛔⛔ THE NO-GPU BAN IS ASKED FIRST — BEFORE THE EXEMPTIONS, BEFORE THE BOARD, BEFORE ANY PRICE.
+    # ★★ THE ORDERING IS THE POINT, AND IT IS WRITTEN IN CODE BECAUSE PROSE DID NOT HOLD. On 2026-09-02 a
+    # cycle read the selectivity control's committed price ($25.45), compared it against CLAUDE.md §2's
+    # ≲$50 self-doable ceiling, and concluded the standing autonomy rule already authorised the buy. Every
+    # written rule it applied was applied correctly. trimcrae interrupted. This gate answers "is this RATE
+    # acceptable?"; he had already answered a different question with "no GPU at all", so a `CLEARS` here
+    # is not permission and never was.
+    # ⛔ AND IT IS AHEAD OF `EXEMPTIONS` DELIBERATELY. Those exempt the cases where waiting would genuinely
+    # lose work — a real and correct reason to bypass a PRICE ceiling, and no reason at all to bypass a
+    # category ban. An exemption that could out-rank the ban would make "we would lose work" into a
+    # self-issued purchase permission, which is the exact shape §3 refuses.
+    _banned = _gpu_ban.refusal(f"relaunch_market_gate.gate({lane}/{unit_id}) — renting one host")
+    if _banned:
+        doc.update({"hold": True, "hold_cause": "gpu_spend_prohibited", "ratio_vs_basis": None,
+                    "reason": _banned,
+                    "_ordering": "The ban is read BEFORE the exemptions, the board and the price. No $/ns "
+                                 "verdict was computed, because none of them could change this answer."})
+        print(f"[relaunch-gate] {lane}/{unit_id}: \u26d4 REFUSED BY STANDING INSTRUCTION (not by price)\n{_banned}",
+              flush=True)
+        _write_readout(doc, readout_path)
+        return True, doc
 
     ex_key, ex_why = exemption(already_held_instance=already_held_instance,
                                checkpoint_expires_utc=checkpoint_expires_utc, now=now)

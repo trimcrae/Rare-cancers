@@ -1375,6 +1375,10 @@ jobs:
             for round in $(seq 1 $PROV_ROUNDS); do   # spot: ~55 min capacity-probe (wait it out); on-demand: fail fast on quota
               for M in $MACHINES; do
                 for Z in $ZONES; do
+                  # ⛔ NO-GPU BAN (autonomy-state.json -> gpu_spend_prohibited). One gate: research/autonomy/gpu_ban.py.
+                  # Inline, immediately above the meter, rather than a job-level step: a step can be reordered away from
+                  # the thing it guards, and a relaunch is a NEW PURCHASE (CLAUDE.md §6) that must face it again.
+                  python3 "${GITHUB_WORKSPACE:-.}/research/autonomy/gpu_ban.py" --context "gpu-ternary-fep-gcp: GCE GPU VM" || exit 3
                   if gcloud compute instances create "$VM" \
                       --zone="$Z" --machine-type="$M" \
                       $PROV_FLAGS \

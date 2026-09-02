@@ -90,6 +90,49 @@ def _vast_rental_hold_neutralised_for_mechanics(monkeypatch):
     monkeypatch.setattr(gpu_backend, "vast_rental_hold", lambda root=None: None, raising=False)
 
 
+# =============================================================================================================
+# ⛔⛔ AND THE SAME IS TRUE OF THE NO-GPU BAN, WHICH IS A SECOND REAL STATE THESE TESTS MUST CONTROL FOR.
+#
+# trimcrae, 2026-09-02: "You shouldn't be doing any GPU runs as part of this automation." Recorded in
+# `research/autonomy/autonomy-state.json -> gpu_spend_prohibited` and enforced by `research/autonomy/gpu_ban.py`
+# at four call sites, three of which this suite exercises: `gpu_backend._vast_request`, every
+# `Backend.submit`, and `sagemaker_submit.submit_spot`. Correct in production; fatal to a unit test whose
+# subject is what a launcher DOES once it is past the gate.
+#
+# ⚠ ONE SEAM, NOT FOUR. Every call site holds a reference to the MODULE (`import gpu_ban as _gpu_ban`) and
+# both entry points funnel through `gpu_ban.read_ban`, so patching that one function neutralises all of
+# them — and there is no env-var bypass in `gpu_ban` itself, for the reason stated above: a spending gate
+# with a documented "set this to skip me" switch is not a gate. This lives in the test harness, which no
+# runner ever loads.
+#
+# ⚠ SCOPED TO THE MECHANICS, NOT TO THE GATE. `research/autonomy/tests/test_the_no_gpu_ban_is_enforced.py`
+# binds the real `read_ban` at import (`_real_read_ban`) and is in a different suite with a different
+# conftest, so the ban's OWN behaviour — including the reading of the committed state file — is never
+# measured against this stub.
+@pytest.fixture(autouse=True)
+def _gpu_ban_neutralised_for_mechanics(monkeypatch):
+    # ⚠ THE PATH IS INSERTED HERE RATHER THAN INHERITED. `gpu_backend` and `sagemaker_submit` both put
+    # `research/autonomy` on `sys.path` when they import, so in practice the bare `import gpu_ban` below
+    # already resolves by the time any fixture runs — but that makes this fixture's REACHABILITY a side
+    # effect of somebody else's import, and its `except: return` would turn a broken assumption into a
+    # SILENT no-op rather than an error. Measured 2026-09-02 with a positive control: disabling this
+    # fixture reddens 9 tests across test_vast_start_refusal.py and test_gpu_backend.py, so it is
+    # load-bearing and must not be allowed to fail quietly.
+    import os as _os
+    import sys as _sys
+    _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))),
+                                      "..", "autonomy"))
+    try:
+        import gpu_ban
+    except Exception:  # noqa: BLE001 — nothing imported the gate in this sandbox; nothing to neutralise
+        return
+    monkeypatch.setattr(
+        gpu_ban, "read_ban",
+        lambda state_path=None: {"refuses": False, "record": {"active": False}, "state_path": state_path,
+                                 "why": "neutralised by the modalities test harness"},
+        raising=False)
+
+
 # ⛔⛔ NO TEST MAY WRITE TO A GIT-TRACKED FILE. The rule, its measurement (AUT-PD-186) and the fix a
 # firing guard is asking for live in research/manuscripts/tests/tracked_tree_guard.py; this is the
 # binding for this suite. One module, three suites — a second copy would be a second thing to drift.

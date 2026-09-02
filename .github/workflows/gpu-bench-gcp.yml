@@ -279,6 +279,10 @@ jobs:
           CREATED=""
           for Z in $ZONES; do
             echo "--- trying zone $Z ($MACHINE ${ACCEL:-builtin}) ---"
+            # ⛔ NO-GPU BAN (autonomy-state.json -> gpu_spend_prohibited). One gate: research/autonomy/gpu_ban.py.
+            # Inline, immediately above the meter, rather than a job-level step: a step can be reordered away from
+            # the thing it guards, and a relaunch is a NEW PURCHASE (CLAUDE.md §6) that must face it again.
+            python3 "${GITHUB_WORKSPACE:-.}/research/autonomy/gpu_ban.py" --context "gpu-bench-gcp: GCE GPU VM" || exit 3
             if gcloud compute instances create "$VM" \
                 --zone="$Z" --machine-type="$MACHINE" $ACCEL \
                 $PROV_FLAGS \

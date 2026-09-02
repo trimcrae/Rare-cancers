@@ -536,8 +536,51 @@ act you'd commit *before* thinking to consult anything:
   cited; non-real registry data is flagged `SAMPLE_SYNTHETIC` and bannered (AGENTS.md → medical integrity).
   ⚠ **A hedged sentence on a fabricated PMID passes `lint_claims`** — claim STRENGTH is orthogonal to citation
   PROVENANCE. **Never write an identifier from recollection.**
-- **★★ KEEP EVERYTHING SYNCED TO `main` — BRANCH DRIFT IS A DATA-LOSS BUG.** Merge early and often, rebase
-  before every push, **never let a branch a workflow runs from be the only home of an artifact.**
+- **★★ KEEP EVERYTHING SYNCED TO `main` — BRANCH DRIFT IS A DATA-LOSS BUG.** **Never let a branch a
+  workflow runs from be the only home of an artifact.**
+  ⭑ **TWO LANES, AND WHICH LANE A FILE IS IN IS DECIDED BY THE FILE, NOT BY THE SESSION**
+  (trimcrae, 2026-09-02: *"use branches but have it pull from main whenever there's a change"*, and
+  *"rather than merging everything to main willy nilly"*).
+  - **⛔⛔ LANE 1 — COORDINATION STATE GOES STRAIGHT TO `main`, ALWAYS, NEVER ONTO A BRANCH:**
+    [`autonomy-state.json`](./research/autonomy/autonomy-state.json),
+    [`receipts/`](./research/autonomy/receipts/),
+    [`research-ledger.json`](./research/autonomy/research-ledger.json), and claims.
+    ★ **THE REASON IS MECHANICAL, NOT TIDINESS: THESE FILES *ARE* THE MECHANISM BY WHICH INDEPENDENT
+    SESSIONS AVOID COLLIDING, AND EVERY ONE OF THEM IS INERT OFF THE TRUNK.** `claim.py`'s
+    `PUSH_REFSPEC` is `HEAD:main` and its precondition is *"HEAD is origin/main AND the index is
+    HEAD"* — **the push to `main` IS the lock**, so a claim on a branch locks nothing and two
+    sessions take the same item. `health.py` reads the receipts directory of the checkout it is in,
+    and a fired cycle checks out `main` — a receipt written on a branch is invisible to every
+    instrument that judges the loop. Every cycle re-scores the ledger from the trunk, so a ledger
+    row that never lands is a row no cycle will ever pick.
+    ⚠ **THE COST IS NOT HYPOTHETICAL AND IT IS TODAY'S:** the **no-GPU ban** landed on 2026-09-02 in
+    `autonomy-state.json`. Had it sat on a branch, the next fired cycle would have read a trunk
+    without it and been free to spend — which is precisely the state a $25.45 rental was already
+    reasoning its way into.
+  - **LANE 2 — WORK PRODUCT DEVELOPS ON A BRANCH, AND THE BRANCH PULLS `main` IN ON EVERY CHANGE.**
+    Not once at the start and not before the final push: **every time the branch moves, merge `main`
+    in first.** A branch that has not pulled is reasoning from a trunk that no longer exists, and it
+    is the shape that produced two sessions fixing one bug in one hour.
+  - **⛔⛔ AND A WORK BRANCH MERGES TO `main` AS SOON AS IT IS GREEN AND COHERENT — *NOT* WHEN THE
+    FEATURE IS FINISHED.** Green and coherent means preflight passes and the tree makes sense to a
+    reader; it does **not** mean done. *"I'll merge when it's done"* is the exact reasoning that
+    stranded the branch population, and it is not a plan — it is a deferral with no trigger.
+    ⚠ **Live reading, 2026-09-02 1:04 PM ET: 25 refs on `origin` carry 111 unmerged commits by
+    ancestry, out of 174 unmerged refs in total.** Take the reading again rather than quoting this
+    one; it is a census, not a constant.
+  - **★ WHAT CHANGED HERE IS NARROWER THAN "SWITCH TO BRANCHES", AND READING IT WIDER BREAKS THE
+    TRUNK.** Exactly two things: parallel work no longer serialises through `main` mid-flight, and
+    every merge is gated rather than reflexive. **"Willy nilly" objected to UNDISCIPLINED merging,
+    not to merging** — the merge itself is still the goal, still needs no permission, and still
+    happens early and often. ⛔ Nothing here licenses holding a branch back, and nothing here moves
+    Lane 1 off the trunk.
+  - ⚠ **NO CONFLICT WITH THE DRIVER ROUTINE'S FROZEN PROMPT** (*"PUSH TO `main`, explicitly"*). Its
+    deliverable is receipts and ledger rows — Lane 1 — which go straight to `main` under this rule
+    anyway. The prompt needs no edit and is not a question for trimcrae.
+  ⚠ *Superseded, retained (rule 1.2): "Merge early and often, rebase before every push" as one
+  undifferentiated instruction for every file. Nothing in it was wrong — merging early is still the
+  rule and Lane 1 is stricter than it was — but it named no lane, so a session with a branch
+  instruction had to guess which files it covered, and the guessing is what this replaces.*
   ⛔⛔ **AND MERGING TO `main` NEEDS NO PERMISSION — A SESSION INSTRUCTION NAMING A DEVELOPMENT
   BRANCH DOES NOT GATE IT.** §6 already says a merge or push to `main` is the COMMIT LOOP, not
   publication: ordinary work, gated by `preflight.sh` and nothing else. An instruction to develop on
@@ -551,8 +594,16 @@ act you'd commit *before* thinking to consult anything:
   the other, each finding something the other missed. A census the same day found **20+ branches on
   `origin` carrying unmerged commits, most a month stale**, so this is the normal outcome rather than
   one session's slip.
+  ⭐ **AND THAT INCIDENT IS NOW AN ARGUMENT FOR THE PULL-FROM-`main` HALF, NOT AGAINST BRANCHES.**
+  The two sessions did not collide because one of them was on a branch; they collided because
+  neither branch ever pulled the other's work in. Lane 2's *pull on every change* is the half that
+  would have shown the second session the first one's fix.
   ★ **Enforced by [`merge-debt-at-turn-end.sh`](.claude/hooks/merge-debt-at-turn-end.sh), a `Stop`
-  hook, because this rule lived in prose and was measured by nothing.** Two checkers have already
+  hook, because this rule lived in prose and was measured by nothing.** It now measures both halves:
+  **(a)** a branch that has not pulled `main` in and is behind or divergent, and **(b)** a branch
+  carrying finished work nothing will merge. ⛔ **(b) IS NOT MADE REDUNDANT BY (a)** — pulling `main`
+  in does nothing whatever about abandonment, and losing that check is the one way this rule change
+  does real harm. Two checkers have already
   failed at this class of problem in this repository — one printed a green tick over the failure, the
   other was never consulted — and the stopping moment is precisely when nobody runs one more command.
   The harness runs a Stop hook whether or not anyone remembers to. **It has no green state that
