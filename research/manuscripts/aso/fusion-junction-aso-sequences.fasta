@@ -63,6 +63,15 @@
 ;   Not modelled: the free energies in the paper are computed for an unmodified DNA:RNA hybrid,
 ;   and backbone stereochemistry is not modelled anywhere in this work.
 ;
+; ⛔ THE TWO predicted_tm_* COLUMNS ARE NOT THE MELTING TEMPERATURE OF THE REAGENT YOU WOULD ORDER.
+; They are nearest-neighbour predictions for an UNMODIFIED DNA:RNA hybrid of the same sequence.
+; The reagents above carry β-D-oxy-LNA wings and a full phosphorothioate backbone, both of which
+; shift duplex stability substantially, and neither is modelled here. The article reports no
+; absolute melting point for exactly this reason.
+; ⭐ WHAT THEY ARE FOR: the SEPARATION between them — fusion versus best parent, computed the same
+; way for both, so the modification offset that makes each number wrong in absolute terms largely
+; cancels in the difference. Use the difference; do not quote either column as a Tm.
+;
 ; ⛔ THREE PARENT-DUPLEX COLUMNS, AND THEY ARE NOT INTERCHANGEABLE. Join on the right one:
 ;   mature_parent_duplex_through_gap_bp — a SEARCH over all six mature parent transcripts for a
 ;   duplex spanning this design's whole catalytic gap, with the gene it found in

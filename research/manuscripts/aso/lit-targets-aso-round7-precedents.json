@@ -27,7 +27,7 @@
  ],
  "B6_F1_parental_sparing_precedent_scope": {
   "manuscript_sentence_under_test": "The four demonstrations of parental sparing cited here were made in cells, on molecules already synthesised",
-  "verdict": "SURVIVES on committed evidence — the sentence is wrong for three of the four.",
+  "verdict": "SURVIVES on committed evidence — the sentence is wrong for ALL FOUR. ⚠ Superseded, retained (rule 1.2): \"the sentence is wrong for three of the four\"; see the 2026-09-02 correction on record 36265509.",
   "per_reference": {
    "33241214": {
     "reached_animal_model": true,
@@ -42,8 +42,9 @@
     "evidence_verbatim": "specific siRNAs in liposomal nanovectors were used to treat mice bearing orthotopic or subcutaneous xenograft tumors expressing the targeted fusion"
    },
    "36265509": {
-    "reached_animal_model": false,
-    "evidence_verbatim": "No in vivo model is described in the retrieved abstract."
+    "reached_animal_model": true,
+    "evidence_verbatim": "decreased relative cell growth and attenuation of tumor size",
+    "⚠_corrected_2026_09_02": "This row read `reached_animal_model: false` with evidence_verbatim \"No in vivo model is described in the retrieved abstract.\" That was WRONG, and it was wrong against an abstract THIS REPOSITORY had already stored: `lit-targets-aso-verify.json` holds the same abstract verbatim, ending \"decreased relative cell growth and attenuation of tumor size\" — tumour size is an in vivo readout. Found by round 30's citations seat, 2026-09-02, and confirmed against PubMed (Lee MS et al., Cancer Res Treat 2023;55(2):452-467, doi:10.4143/crt.2022.910), whose Methods head a section \"in vivo experiments\" (BALB/c nu/nu, subcutaneous HCC2429 xenograft) and whose Results report tumour regression.\n⛔ THE VERDICT LINE ABOVE IS NOW WRONG IN THE OTHER DIRECTION AND IS CORRECTED WITH IT: the sentence under test was wrong for ALL FOUR, not three. The extended report's prose was repaired in the same commit.\n⚠ introduced_by: prior_repair — a5323ad8c (2026-08-17) replaced \"were made in cells\" because it was wrong for three of the four, and got the fourth wrong in the fix. A repair that corrects a count by re-counting is exactly where an off-by-one lands."
    }
   }
  },

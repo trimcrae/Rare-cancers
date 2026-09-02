@@ -959,6 +959,29 @@ def _notes(rows, carrier="csv"):
          "hybrid, and backbone stereochemistry is not modelled anywhere in this work.",
          prefix="#   ")
     gap()
+    # ⛔⛔ THE TWO Tm COLUMNS WERE THE ONLY UNDOCUMENTED ONES IN A 117-LINE HEADER, AND THIS FILE IS
+    # WHAT A LABORATORY ORDERS FROM. Round 30's hostile referee, 2026-09-02; `introduced_by:
+    # pre_existing` (d2f714d17). The article's Methods say "no absolute melting point is reported"
+    # and Table 1's caption repeats it — while 196 rows here print `predicted_tm_fusion_c`, 51.3 °C
+    # for the lead reagent, directly beneath a CHEMISTRY block specifying LNA wings and a full
+    # phosphorothioate backbone. A reader is steered to take that as the Tm of the molecule they are
+    # about to order. It is not.
+    # ⚠ AND THE ONE NEARBY CAVEAT NAMED THE WRONG QUANTITY: the line above caveats "the free
+    # energies", and this file prints no free energy. A caveat attached to a column that does not
+    # exist protects nothing.
+    # ★ THE COLUMNS ARE KEPT, NOT DELETED. They are a real nearest-neighbour prediction and the
+    # SEPARATION between them is what the paper reports; deleting them would remove the reader's
+    # ability to check that separation. What was missing is what they are NOT.
+    para("⛔ THE TWO predicted_tm_* COLUMNS ARE NOT THE MELTING TEMPERATURE OF THE REAGENT YOU WOULD "
+         "ORDER. They are nearest-neighbour predictions for an UNMODIFIED DNA:RNA hybrid of the "
+         "same sequence. The reagents above carry β-D-oxy-LNA wings and a full phosphorothioate "
+         "backbone, both of which shift duplex stability substantially, and neither is modelled "
+         "here. The article reports no absolute melting point for exactly this reason.")
+    para("⭐ WHAT THEY ARE FOR: the SEPARATION between them — fusion versus best parent, computed "
+         "the same way for both, so the modification offset that makes each number wrong in "
+         "absolute terms largely cancels in the difference. Use the difference; do not quote either "
+         "column as a Tm.")
+    gap()
     para("⛔ THREE PARENT-DUPLEX COLUMNS, AND THEY ARE NOT INTERCHANGEABLE. Join on the right one:")
     para("mature_parent_duplex_through_gap_bp — a SEARCH over all six mature parent transcripts for "
          "a duplex spanning this design's whole catalytic gap, with the gene it found in "

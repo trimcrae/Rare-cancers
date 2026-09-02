@@ -18,9 +18,10 @@ scope: >
   nothing here asserts efficacy, potency, safety, a therapeutic window, delivery to a tumour, or
   clinical readiness for any sequence. Every sequence named is a research reagent for laboratory
   investigation only and must not be administered to any person or animal. ⚠ THIS BLOCK IS REPOSITORY
-  FRONT MATTER AND IS STRIPPED FROM THE DEPOSITED PDF, which
-  `build_submission_pdf.py` renders beside the manuscript; the operative research-use statement is
-  the one in the body below, not this block.
+  FRONT MATTER; the operative research-use statement is the one in the body below, not this block.
+  ⚠ Superseded, retained (rule 1.2): this said the block "IS STRIPPED FROM THE DEPOSITED PDF, which
+  `build_submission_pdf.py` renders beside the manuscript". No PDF of this document is built and
+  none is deposited — it travels as markdown only, which is what the research article states.
 audience: [external reviewers, collaborators, maintainers]
 date: 2026-08-16
 last_verified: 2026-08-16
