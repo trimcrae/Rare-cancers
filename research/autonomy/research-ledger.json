@@ -12,11 +12,11 @@
     "experiment": 26,
     "fetch": 24,
     "fix": 23,
-    "harden": 27,
+    "harden": 30,
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 196,
+    "process_defect": 197,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
@@ -28,12 +28,12 @@
     "done": 183,
     "in_progress": 13,
     "parked": 30,
-    "queued": 162,
+    "queued": 166,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 23,
-  "n_unscored_open": 0,
+  "n_unscored": 24,
+  "n_unscored_open": 1,
   "entries": [
     {
       "serves": {
@@ -3250,6 +3250,192 @@
       "_requires_trimcrae_why": "a coordination tool; nothing published or deposited"
     },
     {
+      "id": "AUT-044",
+      "_derived": true,
+      "what": "Close the three open publish_bar clauses for PUB-MODALITY-CENSUS, in this order: a hardening round (hardening_converged), an independent blind adversarial seat on the pinned commit (independent_adversarial_seat), then PREFLIGHT_FULL=1 recorded on that same commit (preflight_full_green). The aiXiv preprint venue is NOT a decision and never was: publication-authority.json's standing grant covers this paper and publish_bar.authority_permits returns ok=True for aixiv/submit, with PUB-ASO the single named exception.",
+      "serves": {
+        "route": "RT-MODALITY-CENSUS",
+        "publication": "PUB-MODALITY-CENSUS",
+        "strategy": "ST-DISSEMINATION"
+      },
+      "kind": "write",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "score": 135.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": true,
+        "blocker_leverage": 0,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MODALITY-CENSUS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": "2026-09-02T20:08:03Z",
+      "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-MODALITY-CENSUS` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were.",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T20:08:03Z",
+          "fingerprint_at_dispatch": "2026-09-01|None"
+        }
+      ],
+      "next_action": "Nothing here is a decision. Close the three open publish_bar clauses, in order, each filed as its own row: the hardening round, then a blind adversarial seat on the pinned commit, then PREFLIGHT_FULL=1 recorded on that same commit. Venue: aiXiv, settled by the standing grant. Framing: no reframing — see `_framing_options_2026_09_02`, which recommends posting the paper as the paper it is.",
+      "_framing_options_2026_09_02": {
+        "_what_this_is": "The framing half of AUT-044, worked out rather than deferred. CLAUDE.md §3 forbids reshaping a paper to chase a venue's taste, so these are OPTIONS WITH THEIR COSTS and a recommendation — not an edit anybody made to the manuscript. The manuscript's title and claims are untouched by this row.",
+        "the_paper_today": "research/manuscripts/modality-census/cancer-modality-census.md, 4,103 words. Title: 'What oncology can do, and what reaches extraskeletal myxoid chondrosarcoma — a modality census'. 217 modality classes across 19 groups and 4 bands, each graded against one ultra-rare fusion sarcoma: 41 on_board, 8 in_clinical_use, 33 already_rejected, 84 excluded, 31 candidate, 9 parked_capability, 11 not_applicable. Its methodological claim is the census-versus-search distinction, and §1 already calls that claim 'a modest one'. §2.1 records the paper correcting its own headline (127 -> 112 never-searched) and reversing its own band-level reading.",
+        "options": [
+          {
+            "id": "A",
+            "framing": "Methods paper — the census as a transferable instrument.",
+            "claims": "Enumerate-then-grade is a general instrument for any rare disease; the denominator is the contribution and EMC is the worked example.",
+            "audience": "meta-research, research-strategy, rare-disease methodology.",
+            "would_have_to_stop_claiming": "anything specific about what reaches EMC; the candidate list demotes to an illustration.",
+            "cost": "n=1. A methods reviewer asks for the instrument run on a second disease, and the paper cannot answer that today."
+          },
+          {
+            "id": "B",
+            "framing": "Disease landscape — what reaches EMC.",
+            "claims": "For this disease, here is the complete graded space and the live residue.",
+            "audience": "sarcoma community, EMC clinicians, rare-tumour boards.",
+            "would_have_to_stop_claiming": "methodological generality; the census-versus-search distinction becomes housekeeping.",
+            "cost": "reads as a review, which is the one reading §1 is written to head off. Also drops the strongest asset."
+          },
+          {
+            "id": "C",
+            "framing": "Negative-results paper — eighty-four classes closed.",
+            "claims": "The closures are the result; the field publishes almost none of them.",
+            "audience": "negative-results venues, meta-research.",
+            "would_have_to_stop_claiming": "the 31 candidates as a forward-looking contribution.",
+            "cost": "leads with the SOFTEST evidence in the paper. §6 says the excluded rows rest on mechanism-versus-biology arguments, which a single measurement can overturn."
+          },
+          {
+            "id": "D",
+            "framing": "Self-correcting instrument — §2.1's audit as the point.",
+            "claims": "An enumerated register is auditable in a way a search is not, and this one caught its own overstatement.",
+            "audience": "research integrity, meta-research.",
+            "would_have_to_stop_claiming": "the census as an oncology contribution at all.",
+            "cost": "makes the paper about its own error, for the smallest readership of the four."
+          },
+          {
+            "id": "E",
+            "framing": "No reframing — post it as the paper it is (census + triage, method stated modestly).",
+            "claims": "exactly what it claims now.",
+            "audience": "the union of A and B, which is who an aiXiv preprint reaches anyway.",
+            "would_have_to_stop_claiming": "nothing.",
+            "cost": "carries a methodological claim and a disease-specific claim at once, so neither is maximally sharp."
+          }
+        ],
+        "recommendation": "E — post as the paper it is. No manuscript change is warranted for the preprint.",
+        "why": [
+          "Every other option BUYS sharpness by DROPPING something the paper currently supports. A census that reports both halves honestly is what the work is; narrowing it would trade evidence for positioning, which is the trade CLAUDE.md §3 exists to refuse.",
+          "There is no venue pressure to reframe. aiXiv caps nothing on length (paper-hardening is explicit that its per-round word budget does not apply there), so no cut is forced.",
+          "The one thing measured to move an aiXiv rating is picking the right paper, NOT iterating the prose — eleven versions of another paper never cleared 6 and trended DOWN as the text improved (aixiv-submission §0). Reframing is that iteration by another name.",
+          "The paper's own §1 already states the methodological claim at its true weight and calls it modest. That is the honest framing; sharpening it into option A would make it less true."
+        ],
+        "when_this_reopens": "If a JOURNAL is ever pursued, the fork is real and it is A versus B, because a journal has a scope and a taste that aiXiv does not. That act is trimcrae's under CLAUDE.md §3 (per paper, per act) and `authority_permits` returns ok=False for journal/submit, so it is gated by code as well as by rule. Do not pre-decide it here."
+      },
+      "_next_action_provenance_2026_09_02": "⛔ THIS ROW'S `what` IS NOT EDITABLE HERE AND EDITING IT WOULD HAVE BEEN SILENTLY UNDONE. AUT-044 carries `_derived: true`; priority.py:382 sets `what` from `routes.json -> RT-MODALITY-CENSUS.next.best_next_action`, and merge()'s forward-compat loop uses `setdefault`, so a generated key always beats a hand-written one. The old text — 'Decide the framing and the venue, which is an outward-facing call.' — was therefore a MIRROR of the graph, and the self-contradiction with `requires_trimcrae: false` lived in the graph. Fixed at the source on 2026-09-02: `next.best_next_action`, `timing.rationale` and `remaining_unknowns[0]` on RT-MODALITY-CENSUS. This row's `what` re-derives from that.",
+      "_PARK_LIFTED_2026_09_02": "The 2026-09-01 park recorded trimcrae's 'ASO only today.' That instruction was scoped to that day and the day is over, so the park is lifted rather than renewed. Nothing about it needed his attention then and nothing does now: publish_bar re-read 4/7 on 2026-09-02 (up from 3/7 — `readable_enough_to_review` has since cleared), and all three remaining clauses are the loop's own work. `notified_utc` is STILL not stamped, and must not be: nothing was sent."
+    },
+    {
+      "id": "AUT-PROP-061-11f2347b-5a2b68da",
+      "what": "ROUND 1 OF PUB-MODALITY-CENSUS — blind seats on a pinned commit of research/manuscripts/modality-census/cancer-modality-census.md, then apply. ⭐ CLOSES publish_bar CLAUSE 1. ⚠ This paper has NEVER been hardened: research/autonomy/hardening-state/PUB-MODALITY-CENSUS.json does not exist, while five other papers have one. ⛔ RUN IT FIRST — the other two clauses bind to a commit, and any text change from this round invalidates a seat or a FULL receipt taken before it. Load `paper-hardening`; a full round is a SPAWNED SESSION, not more work in a running one (research-loop §3). ⛔ The likeliest blockers are named by the paper itself, so seat for them rather than rediscovering them: §6 concedes most `excluded` verdicts are judgements resting on mechanism-versus-biology arguments, and the 19-group taxonomy is the route's own `remaining_unknowns[1]` — 'the first thing a reviewer contests'.",
+      "serves": {
+        "route": "RT-MODALITY-CENSUS",
+        "publication": "PUB-MODALITY-CENSUS",
+        "strategy": "ST-DISSEMINATION"
+      },
+      "kind": "harden",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "closes_clause": {
+        "paper": "PUB-MODALITY-CENSUS",
+        "clause": "hardening_converged"
+      },
+      "_why_filed": "AUT-044 was the ONLY ledger row serving RT-MODALITY-CENSUS/PUB-MODALITY-CENSUS, so the three clauses actually blocking the paper had no home and no cycle could ever pick them. research-loop §2 step 12: a next step that is not a queued ledger item is not real. Filed 2026-09-02 out of AUT-044.",
+      "filed_by": "s40-modality-census-venue",
+      "score": 135.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-MODALITY-CENSUS (135.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-MODALITY-CENSUS"
+    },
+    {
+      "id": "AUT-PROP-062-11f2347b-5a2b68da",
+      "what": "Run a blind adversarial seat on the PINNED post-hardening commit of PUB-MODALITY-CENSUS and record it at research/autonomy/review-seats/PUB-MODALITY-CENSUS-<sha>.json. ⭐ CLOSES publish_bar CLAUSE 6. ⛔ SECOND, NOT FIRST: a seat receipt at a sha the hardening round then moves closes nothing — that is exactly why AUT-PROP-019 has been re-run twice on PUB-ASO. The seat must verify the digest it was given.",
+      "serves": {
+        "route": "RT-MODALITY-CENSUS",
+        "publication": "PUB-MODALITY-CENSUS",
+        "strategy": "ST-DISSEMINATION"
+      },
+      "kind": "harden",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "closes_clause": {
+        "paper": "PUB-MODALITY-CENSUS",
+        "clause": "independent_adversarial_seat"
+      },
+      "_why_filed": "AUT-044 was the ONLY ledger row serving RT-MODALITY-CENSUS/PUB-MODALITY-CENSUS, so the three clauses actually blocking the paper had no home and no cycle could ever pick them. research-loop §2 step 12: a next step that is not a queued ledger item is not real. Filed 2026-09-02 out of AUT-044.",
+      "filed_by": "s40-modality-census-venue",
+      "score": 135.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-MODALITY-CENSUS (135.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-MODALITY-CENSUS"
+    },
+    {
+      "id": "AUT-PROP-063-11f2347b-5a2b68da",
+      "what": "Run PREFLIGHT_FULL=1 at the FINAL PUB-MODALITY-CENSUS commit and record it with record_bar_evidence.py. ⭐ CLOSES publish_bar CLAUSE 2. ⛔ LAST, AND ON THE COMMIT THAT IS ACTUALLY POSTED — a receipt at an earlier sha closes nothing. ⛔ It must be the UNSCOPED FULL run: a PREFLIGHT_PAPER-scoped run cannot mint a clause-2 receipt (CLAUDE.md §6), and record_bar_evidence demands the unscoped banner. This is the ONLY member of the three that needs `PREFLIGHT_FULL=1`, which is reserved for publication acts.",
+      "serves": {
+        "route": "RT-MODALITY-CENSUS",
+        "publication": "PUB-MODALITY-CENSUS",
+        "strategy": "ST-DISSEMINATION"
+      },
+      "kind": "harden",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "closes_clause": {
+        "paper": "PUB-MODALITY-CENSUS",
+        "clause": "preflight_full_green"
+      },
+      "_why_filed": "AUT-044 was the ONLY ledger row serving RT-MODALITY-CENSUS/PUB-MODALITY-CENSUS, so the three clauses actually blocking the paper had no home and no cycle could ever pick them. research-loop §2 step 12: a next step that is not a queued ledger item is not real. Filed 2026-09-02 out of AUT-044.",
+      "filed_by": "s40-modality-census-venue",
+      "score": 135.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-MODALITY-CENSUS (135.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-MODALITY-CENSUS"
+    },
+    {
       "kind": "process_defect",
       "process_defect": true,
       "serves": {
@@ -4153,53 +4339,6 @@
       },
       "closed_by": "CYC-0072-1681f3fa",
       "what_was_observed": "✅ CLOSED by CYC-0072-1681f3fa. `priority.apply_route_inheritance` gives an unscored row the FINISHED score of the lowest-ranked derived row on its own route, plus its own age bonus, and `health.py`'s new `scores_are_reachable` (advises) reports the residue. MEASURED: unscored 104 → 84, open unscored 81 → 65, 20 rows entered the ranking. §0-POSITIVE and checked rather than asserted: AUT-PD-110 (RT-ALK-HIT), AUT-PD-099 and AUT-PROP-048 (RT-SGK1) now stand at 140.0, above the highest takeable RT-AUTONOMY process defect. RT-AUTONOMY is not a route in systems/graph, so its rows cannot inherit and cannot flood the queue — measured, not hoped.\n⛔ THE FILING'S PLACEMENT ADVICE WAS RE-DERIVED, NOT INHERITED, AND THE FIRST DRAFT GOT IT WRONG BY 90 POINTS. Mid-pipeline the floor is a PRE-penalty value: RT-PARTNER-STRAT read 195.0 while the sibling its own `_score_basis` cites, AUT-049, stands at 105.0 in the ledger a reader holds, and five sandbox process defects would have entered ABOVE the live research the pass exists to surface. Running last fixes both.\n⛔ AND A SECOND DEFECT THE FILING DID NOT PREDICT, worth 90 the other way: replacing a score invalidates the `score_inputs` flags asserting a penalty is already inside it. AUT-PROP-004 carries `blocked_with_evidence: true` beside `score: null`, so the first draft CREDITED it +90 instead of charging -90. `CHARGED_AGAINST_SCORE` is cleared on assignment.\nGuards: research/autonomy/tests/test_an_unscored_row_is_still_work.py, 22 tests, mutation-tested 13/13 and 6/6 across two harnesses."
-    },
-    {
-      "id": "AUT-044",
-      "_derived": true,
-      "what": "Decide the framing and the venue, which is an outward-facing call.",
-      "serves": {
-        "route": "RT-MODALITY-CENSUS",
-        "publication": "PUB-MODALITY-CENSUS",
-        "strategy": "ST-DISSEMINATION"
-      },
-      "kind": "write",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": "s40-modality-census-venue",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-01",
-      "score": 127.9,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": true,
-        "blocker_leverage": 0,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 1,
-        "age_factor": 0.0714,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MODALITY-CENSUS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-02T20:08:03Z",
-      "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-MODALITY-CENSUS` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were.",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T20:08:03Z",
-          "fingerprint_at_dispatch": "2026-09-01|None"
-        }
-      ]
     },
     {
       "id": "AUT-PD-028",
@@ -7575,7 +7714,7 @@
       "_score_basis": "HAND-SET, AS THE LEDGER'S `_role` REQUIRES OF A SESSION-ADDED ROW: 'AN ENTRY A SESSION ADDS MUST CARRY A `score` AND A `_score_basis` … a row with no score is pinned BELOW every scored row by the sort and no ranking term can reach it — including the anti-starvation age factor.' This row served no route, paper or strategy, so `apply_route_inheritance` had no floor to inherit and the scorer returned None.\n★ 95.0 IS DELIBERATELY LOW AND THE REASONING IS THE POINT. It sits below every open process_defect (125-137) and far below live research (the eligibility map at 160.0, the ATR assessment at 190.9), because CLAUDE.md §0 is explicit that live routes outrank the loop's own housekeeping. A proposal about how bars get declared advances no EMC route and reaches no patient. Ranking it near the top would be this repository's most-named failure — the loop documenting itself instead of doing research — committed by the very row that complains about ungoverned rules.\n⛔ IT IS FILED SO IT IS NOT LOST, NOT SO IT IS TAKEN NEXT. It also `requires_trimcrae`, so a high score would only surface it faster to a queue that cannot act on it.",
       "_score_basis_provenance": "Set by the driver 2026-09-02 after `test_an_unscored_row_is_ranked_by_nothing` and `test_the_unscored_population_can_only_shrink` went red on this row. ⛔ THE FAILURE WAS MISATTRIBUTED FIRST: a seat reported the three red tests as pre-existing trunk debt reproducing on clean `origin/main`, which was true only because this row had already been pushed to main when it looked. All 23 other unscored rows are `done`; the guard is about the OPEN population, and this row took it from 0 to 1. Checking cost one command and stopped a false 'not mine'.",
       "score": 95.0,
-      "_requires_trimcrae_was_true_and_that_was_my_error": "⛔ FILED AS AN ESCALATION EARLIER TODAY, BY ME, AND IT IS NOT ONE. The stated reason was that a cycle adopting this rule for itself is the shape `amendment_guard` exists to refuse. ★ THAT REASONING INSPECTS THE WRONG PROPERTY. `amendment_guard` refuses a bar being LOOSENED or re-pinned by the cycle the bar was blocking. This proposal only ever ADDS a refusal: it says a declared bar, cap or prohibition must ship with the code that reads it or an explicit UNENFORCED marker, and it fails closed on a declaration it cannot classify. Every outcome of adopting it constrains the loop MORE. There is no version of it that clears something for me.\n★ CLAUDE.md §3's test, applied honestly: *is there ANY action I could take that resolves this without weakening a bar?* Yes — write the gate. Tedious is not the same as his. He is here for program-shifting decisions, >$50 GPU spend, outward-facing acts, and to submit papers; a preflight check about declaring bars is none of those.\n⚠ AND THE ERROR HAS A COST BEYOND THE ROW. `escalation-debt-at-turn-end.sh` fires on every `requires_trimcrae` row carrying no `notified_utc`, so a row misfiled as an escalation either manufactures a notification he did not need or sits as permanent debt against the hook. A census on 2026-08-29 found fourteen such rows; mis-classification is how that population grows. The row stays queued as ordinary work, at its existing score, which CLAUDE.md §0 puts behind anything live."
+      "_requires_trimcrae_was_true_and_that_was_my_error": "⛔ FILED AS AN ESCALATION EARLIER TODAY, BY ME, AND IT IS NOT ONE. The stated reason was that a cycle adopting this rule for itself is the shape `amendment_guard` exists to refuse. ★ THAT REASONING INSPECTS THE WRONG PROPERTY. `amendment_guard` refuses a bar being LOOSENED or re-pinned by the cycle the bar was blocking. This proposal only ever ADDS a refusal: it says a declared bar, cap or prohibition must ship with the code that reads it or an explicit UNENFORCED marker, and it fails closed on a declaration it cannot classify. Every outcome of adopting it constrains the loop MORE. There is no version of it that clears something for me.\n★ CLAUDE.md §3's test, applied honestly: *is there ANY action I could take that resolves this without weakening a bar?* Yes — write the gate. Tedious is not the same as his. He is here for the four triggers CLAUDE.md §3 names — which include a GPU spend above the ceiling that section states, and pricing.md owns every figure, so none is restated here; a preflight check about declaring bars is none of those.\n⚠ AND THE ERROR HAS A COST BEYOND THE ROW. `escalation-debt-at-turn-end.sh` fires on every `requires_trimcrae` row carrying no `notified_utc`, so a row misfiled as an escalation either manufactures a notification he did not need or sits as permanent debt against the hook. A census on 2026-08-29 found fourteen such rows; mis-classification is how that population grows. The row stays queued as ordinary work, at its existing score, which CLAUDE.md §0 puts behind anything live."
     },
     {
       "id": "AUT-BIX-001",
@@ -13607,6 +13746,27 @@
       "_score_basis": "loop-instrument defect, found and closed in the same cycle; filed for the record rather than for the queue",
       "score_inputs": {},
       "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use."
+    },
+    {
+      "id": "AUT-PD-209-11f2347b-3bcd751f",
+      "what": "`closes_clause` HAS TWO SPELLINGS IN THE COMMITTED LEDGER AND ONE OF THEM NAMES A CLAUSE THAT DOES NOT EXIST. 15 rows use the dict shape {paper, clause}; FOUR use a bare string — AUT-PD-106/107/108 = 'PUB-ASO/hardening_converged' and AUT-PD-119 = 'PUB-ASO/gates_green'. ⚠ `gates_green` is not one of the seven functions in publish_bar.CLAUSES (hardening_converged, preflight_full_green, claim_ceiling_honoured, identifiers_resolvable, endpoint_declared, independent_adversarial_seat, readable_enough_to_review), so that row points at no clause at all. ⛔ THE FAILURE IS SILENT IN BOTH DIRECTIONS: a reader doing closes_clause['clause'] raises TypeError on a string, and one doing (closes_clause or {}).get('clause') raises AttributeError — measured 2026-09-02 when exactly that expression crashed while auditing PUB-MODALITY-CENSUS. A reader that guards with isinstance instead just DROPS the four rows, which is the quieter and worse outcome. ⭐ This is the near-miss class ledger_schema.py already governs for NAMES (it refused `_filed_by` in this same session) but does not check for VALUE SHAPE.",
+      "serves": {
+        "route": null,
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "filed_by": "s40-modality-census-venue",
+      "_why_filed": "Found while auditing PUB-MODALITY-CENSUS for AUT-044; NOT fixed here because these are PUB-ASO rows and repo-gates is explicit that a defect surfaced by an unrelated task is a separate task to raise, not to absorb. The fix is two parts: normalise the four rows onto the dict shape, and give ledger_schema a shape check for closes_clause so the string cannot return."
     }
   ]
 }

@@ -32,7 +32,7 @@ The census separates classes that were considered and dismissed from classes nob
 
 ## Remaining unknowns
 
-- Whether a census of this kind is judged a contribution or a review, which is a venue question this program cannot answer from the desk.
+- Whether a census of this kind is judged a contribution or a review. This is a question about JOURNAL fit and about how reviewers receive it; it does not gate the aiXiv preprint, which the standing grant already covers.
 - Whether the taxonomy's nineteen groups are the right partition, which is a choice and would be the first thing a reviewer contests.
 
 ## Required validation
@@ -61,7 +61,7 @@ Nothing has been run. This route was registered on 2026-08-09 from the modality 
 
 **Recommendation: `pursue_now`**
 
-The deliverable exists and needs nobody's cooperation, so there is nothing to wait for on the writing side; what remains is a framing and venue decision that is trimcrae's rather than this program's.
+The deliverable exists and needs nobody's cooperation, so there is nothing to wait for on the writing side. What remains is the loop's OWN work, not a decision: three open publish_bar clauses (hardening_converged, preflight_full_green, independent_adversarial_seat), measured 4/7 on 2026-09-02. ⛔ The previous text here read 'a framing and venue decision that is trimcrae's rather than this program's', and that was wrong on both halves. The aiXiv preprint venue is settled by the standing grant in publication-authority.json; a JOURNAL submission would be his, and is a separate, later act that no bar reaches.
 
 | horizon | effect |
 |---|---|
@@ -76,7 +76,7 @@ The deliverable exists and needs nobody's cooperation, so there is nothing to wa
 
 ## Best next action
 
-Decide the framing and the venue, which is an outward-facing call.
+Close the three open publish_bar clauses for PUB-MODALITY-CENSUS, in this order: a hardening round (hardening_converged), an independent blind adversarial seat on the pinned commit (independent_adversarial_seat), then PREFLIGHT_FULL=1 recorded on that same commit (preflight_full_green). The aiXiv preprint venue is NOT a decision and never was: publication-authority.json's standing grant covers this paper and publish_bar.authority_permits returns ok=True for aixiv/submit, with PUB-ASO the single named exception.
 
 *Cost:* $0
 
