@@ -1,0 +1,153 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "_why_this_exists_before_the_review_does": "AUT-PROP-006. This record is written as the seat's FIRST act, so a seat that dies leaves evidence that it looked rather than nothing at all. It is EMPTY and says so: publish_bar.clause_1_hardening_converged REFUSES any round with an open record at the commit it is grading, because an unfinished look must never be counted as a clean one.",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "2401803d2c6104a31da26f737827f1ca4cfa8d20",
+  "blind": true,
+  "seat": "hostile",
+  "lens": "hostile",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "82b0c004ec1598e8fcfd656707fc9e91601d45dc3c647343cc8585b0668c8b9a",
+  "opened_utc": "2026-09-02T18:26:10Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "Trial eligibility for an ultra-rare fusion sarcoma is increasingly written on a molecular class while the registry field a diagnosis search matches \u2014 listed conditions \u2014 still names the histologies the sponsor had in mind, so a patient can meet a recruiting trial's posted criteria while no search of their own diagnosis returns it; and the obvious remedy, a keyword-built reachability map, is worse than no map because eligibility text must be adjudicated one trial at a time.",
+  "blockers": [
+    {
+      "id": "B1-the-title-claim-was-never-tested-with-the-search-a-patient-runs",
+      "summary": "'No search of their own diagnosis will ever return' (front-matter purpose, abstract twice) and the title's 'unfindable' are UNIVERSAL claims about search, and the paper never ran the search. It ran condition searches (query.cond) and gene-term searches (query.term), and never a free-text search for the disease name against the two trials it says are unfindable.",
+      "evidence": "\u00a71 defines the mechanism by fiat \u2014 'Listed conditions are what a search matches' \u2014 and no instrument in \u00a72 or in the deposit tests that definition. The paper's own data contradicts the narrow model: the deposited NR4A3 term search (query.term=NR4A3) returns a neck-pain trial, two whey-protein trials and a spinal-cord-injury trial whose conditions fields are 'Neck Pain', 'Healthy/Young/Elderly' and 'Spinal Cord Injuries' \u2014 so ClinicalTrials.gov's term search demonstrably matches text OUTSIDE the conditions field. If NCT05918640's or NCT06571734's free text names the histology anywhere, the title claim is false; the paper does not say, and the deposit records no such check.",
+      "what_would_settle_it": "One $0 CI fetch: query.term='extraskeletal myxoid chondrosarcoma' (and the hyphenated variant) against ClinicalTrials.gov, recording totalCount and whether NCT05918640 / NCT06571734 appear. It will most likely come out the paper's way \u2014 which is exactly why running it converts an asserted premise into a measured one. If it is not run, 'no search' must be scoped to 'no condition search' everywhere it appears, including the title's logic."
+    },
+    {
+      "id": "B2-the-sharpest-result-is-an-absence-measured-on-an-instrument-the-deposit-calls-a-sample",
+      "summary": "'The driver gene is absent from the index entirely' (\u00a73) and 'The sharpest result is an absence' (abstract) are stated at maximum strength on a query the paper's own deposit describes as returning a sample rather than an enumeration, and no totalCount was recorded.",
+      "evidence": "fet-fusion-trial-eligibility-2026-08-07.json \u2192 task_2_widened_search.limits_of_this_screen[0], verbatim: 'The registry-wide EWSR1 term search returns full records and is therefore capped by response size, not by pageSize: 7 studies came back for pageSize=100. It is a sample of EWSR1-indexed trials, not an enumeration.' The NR4A3 query is the IDENTICAL form \u2014 https://clinicaltrials.gov/api/v2/studies?query.term=NR4A3&pageSize=100&format=json \u2014 so the same cap applies, and the nr4a3_is_absent_from_the_registry_index block records five study records and NO totalCount. Whether the cap bound at five is UNKNOWN and unrecorded. The paper discloses none of this: grep of the pinned text finds no 'totalCount', no 'sample', no 'enumerat' (the one hit is \u00a75 about protocols), no page-size or response-size caveat anywhere in \u00a72 or \u00a75. \u00a73 also self-contradicts across two sentences: 'absent from the index entirely' followed immediately by 'A term search for it returns five studies'.",
+      "what_would_settle_it": "Re-fetch recording totalCount (or use a fielded query with fields= so the cap is pageSize rather than response size). Failing that, both sentences must be scoped to what the capped query returned \u2014 'the five records this query returned' \u2014 and the response-size cap added to \u00a75. CLAUDE.md's own rule applies verbatim here: an absence of registry records is not an absence of trials."
+    },
+    {
+      "id": "B3-the-one-patient-facing-conclusion-sentence-is-false-as-written",
+      "summary": "\u00a74.1, lines 164-165: 'It enrols ages 1 to 30, so for an adult patient a search of the diagnosis still returns nothing they could join.' The inference does not follow from the paper's own number. An adult is 18 or over; NCT06239272 enrols 1-30; adults aged 18-30 are inside the range. The sentence tells that group there is nothing for them, and it is the paper's only sentence that speaks directly to a patient's situation.",
+      "evidence": "The paper states the age range itself ('ages 1 to 30'). fet-fusion-trial-eligibility-2026-08-07.json \u2192 task_1 trials[1]: NCT06239272, maximum_age '30 Years', overall_status RECRUITING, emc_in_listed_conditions TRUE, 42 listed conditions, INTERVENTIONAL, verbatim inclusion criterion 'Patients must be 1-30 years at the time of the biopsy that established the diagnosis of NRSTS.' So a recruiting interventional trial that LISTS the histology admits adults up to 30, and a diagnosis search returns it. The error runs in the harmful direction \u2014 it understates a young adult's options \u2014 in a paper the brief flags as one a patient or clinician might act on.",
+      "what_would_settle_it": "Two words: 'for a patient over 30'. If the paper wants the broader statement it must carry EMC's age distribution with a citation, which it currently does not report at all."
+    }
+  ],
+  "p1s": [
+    {
+      "id": "P1-the-count-of-two-pools-a-verbatim-criterion-with-an-interpretive-call-the-deposit-refuses",
+      "summary": "'Two recruiting interventional trials admit this disease' (abstract) gives equal weight to an explicit verbatim molecular criterion and to a class-term reading the paper's own adjudication declines to make.",
+      "evidence": "NCT05918640 carries a verbatim criterion naming the FET family \u2014 the admission is on the posted text. NCT06571734's admission rests on the cohort term 'translocation-associated soft tissue sarcoma', and emc-trial-reachability-adjudication-2026-08-09.json says of it, verbatim: \"'Translocation-associated Soft Tissue Sarcoma' is not further enumerated in the retrieved criteria, so whether the investigators read it as a general class or as the three histologies they listed is NOT determinable from the registry record.\" The paper carries that caveat in \u00a75 but the headline count does not reflect it, and the count is what a citing author will quote. 'Admit' also does the work of 'would accept', which \u00a75 correctly says is not a registry fact."
+    },
+    {
+      "id": "P1-half-the-headline-count-rests-on-a-payload-known-damaged-and-never-re-fetched",
+      "summary": "NCT05918640's eligibility text carries a transport removal marker and was never re-fetched after the fetcher was fixed. This is mentioned in \u00a72 as the reason for not quoting, and is absent from \u00a75 Limitations, where it belongs \u2014 it is a limitation on one of the two trials in the headline.",
+      "evidence": "Paper \u00a72: 'it is why no criterion is quoted verbatim from NCT05918640, whose retrieved eligibility text carries one such marker and was not re-fetched after the fix.' Deposit: removal_markers_in_eligibility_text = 1 for NCT05918640. The transport defect deletes spans between angle brackets, and the deposit's own two_failure_modes[1] names the silent mode \u2014 'the record still parses while whole modules have vanished'. Re-fetching is a $0 CI call on a pipeline that has already been fixed and already been dispatched twice; a referee will ask why it was not."
+    },
+    {
+      "id": "P1-the-results-table-misreports-the-one-registry-field-the-paper-is-about",
+      "summary": "\u00a73's 'listed conditions' column for NCT06571734 shows five terms; the deposit shows seven for the same trial on 2026-08-09 and ten on 2026-08-07. Three readings of the same field, none reconciled, in a paper whose entire thesis is what that field contains.",
+      "evidence": "Paper \u00a73: 'metastatic and unresectable leiomyosarcoma \u00b7 bone sarcoma \u00b7 translocation-associated soft tissue sarcoma \u00b7 synovial sarcoma \u00b7 osteosarcoma'. adjudication-2026-08-09 listed_conditions (7): + 'Ewing Sarcoma'. fet-fusion-2026-08-07 candidates_requiring_eligibility_text_verification listed_conditions (10): + 'Ewing Sarcoma Metastatic', 'Sarcoma Metastatic', 'Sarcoma of Bone'. The paper's row silently drops 'Ewing Sarcoma' with no ellipsis, and neither the paper nor either artifact notes that the two deposited reads disagree. The central claim is unaffected \u2014 emc_in_listed_conditions is false under all three readings \u2014 but a referee who checks one field and finds the deposit disagreeing with itself will re-check every other number."
+    },
+    {
+      "id": "P1-a-specific-recorded-staleness-warning-was-flattened-into-a-generic-one",
+      "summary": "One of the nine records in \u00a73's third row carries a RECRUITING flag last verified April 2024 and a deposited instruction to confirm with the site. The paper's \u00a75 says only 'Statuses go stale. Every status here is as posted on the retrieval date.'",
+      "evidence": "NCT03767075 (Basket of Baskets) \u2014 status_verified_date '2024-04', last_update_post_date '2024-04-25'; deposit assessment verbatim: 'its RECRUITING flag is over two years stale in the registry - confirm directly with the site.' The paper's abstract counts it inside 'Nine further registry records \u2026 name no histology either', with 'one of those not yet recruiting' as the only status qualification. A known specific caveat downgraded to a generic hedge is the failure mode this repository's own evidence discipline names."
+    },
+    {
+      "id": "P1-a-TLS-handshake-failure-is-reported-as-a-registry-refusing-access",
+      "summary": "The abstract's 'Three further non-US registries refused automated access' and \u00a75's 'two more refused automated access' count jRCT's SSL handshake failure as an endpoint policy refusal. The positive control cannot discriminate that from a client-side failure of our own, which is the same class of self-inflicted defect the paper correctly owns for the WHO URL.",
+      "evidence": "non-us-registry-sweep-2026-08-09.json endpoints: EU CTIS 'HTTP 403', ANZCTR 'HTTP 403', jRCT 'SSL handshake failure'. A 403 is a server answering and denying \u2014 the positive control makes that reading sound. An SSL handshake failure means no HTTP conversation happened at all, and it is equally consistent with our client's TLS version, cipher suite, SNI, CA bundle or egress proxy. The paper's own \u00a72 sentence \u2014 'a positive control fetched in the same run returned normally, so those refusals are statements about those endpoints and not about our retrieval' \u2014 does not hold for a transport-layer failure. Either re-attempt jRCT with the handshake diagnosed, or move it beside the WHO URL as 'unread, cause not established'."
+    },
+    {
+      "id": "P1-the-non-US-search-is-described-by-a-string-it-did-not-use",
+      "summary": "\u00a74.1: 'searching that registry for this histology returns two trials'. The executed ISRCTN query was the parent term 'chondrosarcoma', not the histology.",
+      "evidence": "non-us-registry-sweep-2026-08-09.json \u2192 endpoints[0] ISRCTN queries: ['chondrosarcoma', 'sarcoma AND fusion']; the count of two comes from isrctn_what_it_holds.query_chondrosarcoma.total_count = 2. The deposit repeats the same mislabel in its own key name. The substantive conclusion is unharmed (a narrower query returns no more), but in a paper arguing that the exact search string decides what a patient finds, misdescribing which string was searched is a methodological error in its own subject matter."
+    },
+    {
+      "id": "P1-remedy-1-is-in-tension-with-the-papers-own-counter-finding-and-omits-its-best-counterexample",
+      "summary": "\u00a76.1 asserts 'The information already exists in the protocol; it is simply not in the field that search reads.' For a FAMILY-defined criterion that is not true \u2014 the admitted-histology list does not exist and would have to be constructed by the sponsor, which is precisely the one-trial-at-a-time judgement \u00a74 says cannot be automated. And the paper omits the record that most sharply tests the remedy.",
+      "evidence": "NCT05918640 admits any tumour with an EWSR1/FUS/TAF15 fusion \u2014 a set spanning Ewing, DSRCT, clear cell sarcoma, myxoid liposarcoma, angiomatoid fibrous histiocytoma, low-grade fibromyxoid sarcoma, myoepithelial tumours and this histology; enumerating it is a new editorial act, not a transcription. The omitted counterexample is in the deposit: NCT07188532 LISTS a molecular condition \u2014 'Round Cell Sarcoma With EWSR1-non-ETS Fusion', which literally describes EWSR1::NR4A3's class \u2014 and the paper's own \u00a74 adjudicates it as REFUSING this disease. So a sponsor following Remedy 1's spirit produced exactly the false positive \u00a74 warns about. The paper mentions this trial only as the 'extra-skeletal' keyword trap and never as the counterexample to its own remedy."
+    },
+    {
+      "id": "P1-counts-are-reported-without-saying-they-are-lower-bounds-from-a-saturated-screen",
+      "summary": "The primary instrument for the paper's mechanism \u2014 the fusion screen \u2014 returned exactly its page limit and is therefore truncated. Nothing in the paper says its counts are lower bounds.",
+      "evidence": "fet-fusion-trial-eligibility-2026-08-07.json \u2192 task_2_widened_search.instruments[0]: payload ct_fusion_recruiting_fixed 'returns 400 recruiting studies', against a source_url carrying pageSize=400 \u2014 saturated. (The basket screen returned 199 of 400 and the sarcoma screen 526 of 1000, so those two are not truncated; only the fusion one is, and it is the one that matters.) \u00a72 says the large screens 'can identify a candidate and can never confirm one', which is about eligibility text, not about coverage. 'Two recruiting interventional trials admit this disease' reads as a census and is a floor."
+    },
+    {
+      "id": "P1-a-reachability-paper-that-reports-no-geography-setting-or-care-context",
+      "summary": "The word 'site' appears zero times; 'United States', 'Canada', 'Canadian' zero times; no sponsor, city or country anywhere. For a paper whose subject is whether a patient can reach a trial, indexing is only one of the barriers, and the deposit carries the others.",
+      "evidence": "Grep of the pinned text: 0 hits for site/United States/Canada/Canadian/Philadelphia/Northwestern/St. Jude. Deposit: NCT05918640 is sponsored by Children's Hospital of Philadelphia with minimum_age '10 Years' (a paediatric centre, which is a practical barrier for an adult independent of the posted maximum age); NCT06571734 is Northwestern University with an NCI collaborator; NCT04151342 carries an explicit deposit field '\u26a0_geographic_limit: Participating sites are Canadian', which the paper drops when it repeats that trial in \u00a73. Either state the scope ('reachability here means registry-indexing reachability only, not geographic or referral reachability') in \u00a71 and \u00a75, or carry the site facts."
+    },
+    {
+      "id": "P1-the-diagnosis-search-denominator-is-never-reported-and-its-payloads-were-partly-unreadable",
+      "summary": "The paper's premise is what a patient's own diagnosis search yields, and it never reports that search's result set for the US registry \u2014 while the deposit records those exact payloads as containing unparseable and silently damaged records.",
+      "evidence": "Deposit instruments[6]: 'ct_emc_full_fixed / ct_emc_all / ct_myxoid_chondrosarcoma \u2014 every study whose CONDITION list names EMC'. transport_integrity.unparseable_records: ct_emc_all \u2192 NCT00720174, NCT05355753; ct_myxoid_chondrosarcoma \u2192 NCT00720174, NCT05355753, NCT01189253. transport_integrity.silently_damaged_records: NCT05836571 and NCT01189253 lost conditionsModule, designModule and eligibilityModule in those same payloads. The paper reports exactly one record from this search (NCT06239272, in \u00a74.1) and no total, no statuses and no note that the search's own payloads were damaged. Every absence claim about the US registry rests on this unreported, partly unreadable set."
+    }
+  ],
+  "what_i_read": "The pinned document in full (216 lines, 2,172 words) via `git show 2401803d\u2026:research/manuscripts/care-delivery/emc-trial-reachability.md`; all three artifacts \u00a77 deposits (research/literature/fet-fusion-trial-eligibility-2026-08-07.json, emc-trial-reachability-adjudication-2026-08-09.json, non-us-registry-sweep-2026-08-09.json) end to end; systems/graph/publications.json PUB-STRATEGY-ARCH; and research/manuscripts/lint_claims.py run over the whole corpus. Every number in the paper was re-derived from the deposit rather than checked against a sentence restating it. I did not read any other seat's record.",
+  "recommendation": "major_revision",
+  "_verdict_note": "The mechanism SURVIVES my best attack and does so on a single case that needs no interpretation: NCT05918640's eligibility is a verbatim FET-family criterion ('a known FET fusion (fusion that contains EWSR1, FUS, or TAF15)'), its four listed conditions verifiably omit the histology, and the deposit records the retrieval. The counter-finding \u2014 both adjudicated refusals would have passed an automated keyword screen \u2014 is the paper's strongest contribution, is verbatim-supported in the deposit, and I could not break it. lint_claims.py reports 0 findings in this file (0 ERROR across 129 files): nothing implies efficacy, safety, a therapeutic window or clinical readiness, and the reachable/appropriate line is drawn explicitly in the banner and in \u00a75. What fails is narrower and fixable: three sentences state absence, unfindability and patient consequence at strengths their instruments do not carry, and the strongest of the three is FALSE as written in the direction that harms a patient. The verdict is 'with reservations' rather than 'not supported' because the central claim needs no new data to stand \u2014 only the three sentences reworded and four disclosures added.",
+  "p2s": [
+    {
+      "id": "P2-mentions-the-gene-incidentally-is-asserted-not-observed",
+      "summary": "\u00a73 and the abstract state that the five NR4A3 hits 'mention the gene incidentally'. Nothing in the deposit records where the term matched in any of them.",
+      "evidence": "The five records carry title, conditions, interventions and status; none of those fields contains 'NR4A3'. Whether the match came from a results field, an outcome description, an attached publication or the API's own term expansion is unrecorded. The direction is harmless \u2014 a broader match would only strengthen the absence \u2014 but it is a mechanism claim stated as observation, and 'UNKNOWN where the term matched' costs nothing."
+    },
+    {
+      "id": "P2-front-matter-says-three-dates-and-the-methods-table-shows-two",
+      "summary": "Front-matter scope: 'read across three dates'. \u00a72's table carries 2026-08-07, 2026-08-09 and 2026-08-09 \u2014 two distinct dates, three read campaigns.",
+      "evidence": "Paper \u00a72 table rows; abstract 'one public registry twice and a second one once'. Either 'three reads across two dates' or name the third date."
+    },
+    {
+      "id": "P2-exact-full-name-is-not-exact-and-the-paper-is-about-exactly-that",
+      "summary": "\u00a74.1: the UK trial 'names it by its exact full name'. The retrieved record reads 'extra-skeletal myxoid chondrosarcoma'; the paper spells the disease 'extraskeletal myxoid chondrosarcoma'.",
+      "evidence": "non-us-registry-sweep-2026-08-09.json, verbatim exclusion text: 'Histologically confirmed soft tissue sarcoma excluding: alveolar soft part sarcoma, gastrointestinal stromal tumour, Ewing's sarcoma family of tumours, rhabdomyosarcoma / Desmoplastic small round cell tumour, extra-skeletal myxoid chondrosarcoma'. The hyphenated form is a DIFFERENT STRING, it is the very orthographic variant \u00a74's second bullet builds a keyword trap on, and whether a registry's tokenizer treats the two as one term is the paper's own question. 'names it under a hyphenated variant of its full name' is both accurate and a better illustration of the thesis."
+    },
+    {
+      "id": "P2-the-bidirectional-finding-carries-no-identifier-in-the-text",
+      "summary": "\u00a74.1 is the paper's fuller result and names neither UK trial, while every US finding carries an NCT number.",
+      "evidence": "grep 'ISRCTN' on the pinned text: 0 hits. The deposit holds ISRCTN07742377 (the exclusion) and ISRCTN60791336 (the parent-term exclusion). A reader cannot check the bidirectional claim without cloning a repository."
+    },
+    {
+      "id": "P2-the-quoting-rule-is-stated-more-strictly-than-it-was-applied",
+      "summary": "\u00a72 says the rule was 'no sentence carrying a removal marker may be quoted' and then applies it at the level of the whole record for NCT05918640.",
+      "evidence": "The deposit records for NCT05918640 both removal_markers_in_eligibility_text = 1 and a verbatim_eligibility_sentence with verbatim_sentence_is_transport_clean = true. Declining to quote it is defensible conservatism; describing it as what the stated rule requires is not what the stated rule says."
+    },
+    {
+      "id": "P2-two-unquantified-rhetorical-claims",
+      "summary": "'This is a gap that a paper can close, which is unusual' and 'in a disease where the number of options is small enough that each one carries weight'.",
+      "evidence": "A paper does not close a registry-indexing gap \u2014 sponsors and registry operators do, and the paper's own Remedy 1 asks them to. The second claim is a count the paper never makes: it reports no total of trials that list this histology, which is the same denominator P1 above says is missing."
+    },
+    {
+      "id": "P2-the-deposits-clearest-second-instance-of-the-mechanism-is-dropped",
+      "summary": "NCT05275426 is described in the deposit as the clearest second instance of the exact mechanism and does not appear in the paper.",
+      "evidence": "Deposit screened_and_excluded: eligibility_basis 'fusion-defined and would have admitted EMC (a rearrangement between EWSR1 and a non-ETS family gene)', listed conditions 'Ewing Sarcoma; Ewing-Like Sarcoma', assessment 'CLOSED, not a route: retrieved status is COMPLETED \u2026 the clearest second instance of the mechanism'. Excluding it from a REACHABILITY count is correct. Excluding it from the MECHANISM argument gives away the paper's second-best verbatim example, and a completed trial cannot mislead a patient toward enrolment."
+    }
+  ],
+  "what_i_could_not_break": [
+    "The mechanism itself. NCT05918640 establishes it alone and without interpretation: a verbatim posted criterion on the FET family, four listed conditions that verifiably omit the histology, a recorded retrieval URL and run id. Even if every other trial in the paper fell, this case stands.",
+    "The counter-finding in \u00a74, which is the paper's best contribution and the part a referee is least likely to have seen argued elsewhere. Both refusals are verbatim in the deposit; both would pass a keyword screen; the inference that a map sending a patient toward a refusing trial is worse than no map follows.",
+    "The reachable-vs-appropriate line. The banner, \u00a75's 'Whether a trial team would accept this histology is their decision', the deposit's own \u26a0_what_this_does_not_establish blocks, and the deliberate separation of the observational cohort into its own row with 'A reachability claim that quietly counts an observational cohort alongside interventional trials inflates itself' are all acts of restraint against the paper's own interest. Only the abstract's bare verb 'admit' (P1 above) leaks.",
+    "Efficacy, safety, therapeutic window and clinical readiness. research/manuscripts/lint_claims.py at the pin: 0 ERROR, 173 WARN across 129 files, and ZERO of those warnings are in this document. Reading by hand, the two named agents appear only as trial descriptors and no sentence connects either to a response, a benefit or a rationale for use.",
+    "The refusal-is-not-absence discipline in \u00a75, which is better than the norm: the WHO ICTRP 404 is owned as the paper's own defect rather than reported as a finding, the positive control is stated, and 'nothing above may be read as those registries having been searched and found empty' is exact. My P1 is that ONE endpoint (jRCT) is on the wrong side of the line the paper itself drew correctly."
+  ],
+  "could_not_check": [
+    "Whether the response-size cap actually bound at five for the NR4A3 query \u2014 no totalCount was recorded and the sandbox egress proxy blocks clinicaltrials.gov, so this is UNKNOWN rather than refuted. The count may well be complete; the paper cannot currently show it.",
+    "Whether NCT05918640's or NCT06571734's free text names the histology anywhere \u2014 the full payloads live on the literature-cache branch and were not retrieved here. This is the observation B1 turns on.",
+    "Why the two deposited reads of NCT06571734's conditions field differ (10 on 08-07, 7 on 08-09). A registry update between the two dates is one explanation and a fields-limited-payload difference is another; neither artifact records which."
+  ],
+  "leaks": "Two disclosures. (1) CLAUDE.md was injected as project context by the harness, so I knew this repository's evidence-discipline rules, its lint_claims contract and its 'an absence of registry records is not an absence of trials' framing before reading the paper; those shaped how I graded absence claims. (2) To match the record schema I read the KEY STRUCTURE of PUB-ASO seat records (a different paper) and ran a repo-wide count of verdict/blocker pairings that necessarily touched other papers' verdict strings. I did not open, read or grep any PUB-STRATEGY-ARCH seat record, at this commit or any other, and I did not read research/autonomy/hardening-state/PUB-STRATEGY-ARCH.json or any hardening brief. I did read systems/graph/publications.json for the endpoint's registered claim, which disclosed that this endpoint spans three variables and the drafted paper covers one; that is a program fact and did not enter any finding above.",
+  "logs": [
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-hostile/s26-hostile-setup.log",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-hostile/s26-hostile-read.log",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-hostile/s26-hostile-data.log",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-hostile/s26-hostile-lint.log",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-hostile/s26-hostile-schema.log",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-hostile/s26-hostile-record.log",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-hostile/s26-hostile-target.md (the pinned document, extracted with git show)",
+    "/tmp/claude-0/-home-user-Rare-cancers/11f2347b-324b-547d-8b75-a80b48659984/scratchpad/s26-hostile/s26-hostile-findings.json"
+  ],
+  "_logs_are_not_durable": "The scratchpad is session-local. Every finding above cites a committed artifact path or a line of the pinned document, so none of it depends on a log surviving.",
+  "closed_utc": "2026-09-02T18:31:14Z"
+}
