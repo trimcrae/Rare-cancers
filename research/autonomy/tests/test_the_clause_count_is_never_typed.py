@@ -122,6 +122,36 @@ def _tracked_text_files() -> list[str]:
     return [p for p in out.split("\0") if p and p.endswith(keep)]
 
 
+#: ⛔⛔ THE SCOPE IS UNCHANGED; ONLY THE WAY IT IS REACHED IS. `_offences` used to open and read
+#: EVERY tracked text file in the repository and then discard the ~99 % that do not match
+#: `NAMES_THE_BAR` — 9.1 s, measured 2026-09-02, the single slowest test in gate 13 after
+#: `test_affected_tests.py`. `git grep` answers the identical question in one process, over the same
+#: file set, and hands back only the files that can possibly contain an offence.
+#: ★ THE PATTERNS COME FROM `NAMES_THE_BAR` ITSELF rather than being retyped here, so the two cannot
+#: drift: a new identifier added to that regex widens this pre-filter in the same edit. That is the
+#: whole safety condition — a pre-filter narrower than the predicate it precedes is a guard with a
+#: blind spot, which is the shape this repository keeps paying for.
+#: ⛔ AND IT KEEPS `--untracked`, WHICH IS THE HALF THE DOCSTRING BELOW EXISTS FOR: a guard that
+#: cannot see a brand-new file only fires after the mistake is committed and pushed.
+#: ⚠ ON ANY GIT FAILURE IT FALLS BACK TO THE FULL LISTING — slow and complete, never fast and blind.
+_BAR_GREP_TERMS = ("publish_bar", "publication-authority", "§6.1")
+
+
+def _files_that_might_name_the_bar() -> list[str]:
+    cmd = ["git", "-C", REPO, "grep", "-l", "-I", "-i", "--untracked", "--exclude-standard"]
+    for term in _BAR_GREP_TERMS:
+        cmd += ["-e", term]
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+    except (OSError, subprocess.SubprocessError):
+        return _tracked_text_files()
+    # git grep exits 1 when nothing matched, which here would mean the repository stopped naming its
+    # own publication bar — a fact worth failing on rather than silently reporting zero offences.
+    if r.returncode not in (0, 1):
+        return _tracked_text_files()
+    return [p for p in r.stdout.split("\n") if p]
+
+
 def _offences(markers: list[str]) -> list[tuple[str, int, str, int]]:
     """(path, line number, line, the count it typed) for every unmarked disagreement.
 
@@ -139,7 +169,7 @@ def _offences(markers: list[str]) -> list[tuple[str, int, str, int]]:
     """
     n = len(publish_bar.CLAUSES)
     bad = []
-    for rel in _tracked_text_files():
+    for rel in _files_that_might_name_the_bar():
         path = os.path.join(REPO, rel)
         try:
             with open(path, encoding="utf-8") as fh:
@@ -213,3 +243,54 @@ def test_a_subset_count_is_not_an_offence(markers):
     line = "`publish_bar.py` is the publication permission. Three of its clauses read an artifact"
     assert NAMES_THE_BAR.search(line)
     assert not COUNT.search(line), "a subset phrasing is being read as a total"
+
+
+def test_the_pre_filter_reaches_every_file_the_predicate_would_have():
+    """⛔⛔ A PRE-FILTER NARROWER THAN THE PREDICATE IT PRECEDES IS A GUARD WITH A BLIND SPOT.
+
+    `_offences` used to read every tracked text file and discard the ~99 % that do not name the bar
+    — 9.1 s, measured 2026-09-02, the slowest test in gate 13 after `test_affected_tests.py`.
+    `git grep` now hands back only the candidates. That is safe only while the two agree, and "they
+    agree" is the exact kind of claim this repository has watched decay: one set, named two ways, in
+    two places, checked by nobody.
+
+    ★ SO IT IS COMPUTED BOTH WAYS OVER THE REAL CORPUS AND COMPARED — once with the term list the
+    fast path uses, once with `NAMES_THE_BAR`'S OWN PATTERN handed to git as a regex. Same tool,
+    same file set, same binary handling, so any difference is a difference between the PATTERNS,
+    which is the only drift that can happen here.
+    ⚠ THE FIRST VERSION OF THIS TEST DID THE HONEST-LOOKING THING — re-read every tracked file in
+    Python and compared — and cost **10 s**, more than the 7 s the pre-filter saves. A guard that
+    reintroduces the bill it protects is not a guard, it is a relocation; this one is ~0.3 s.
+    """
+    fast = set(_files_that_might_name_the_bar())
+    r = subprocess.run(
+        ["git", "-C", REPO, "grep", "-l", "-I", "-i", "--untracked", "--exclude-standard",
+         "-E", NAMES_THE_BAR.pattern],
+        capture_output=True, text=True, timeout=120)
+    assert r.returncode in (0, 1), "git grep with the predicate's own pattern failed: %s" % r.stderr
+    predicate = {p for p in r.stdout.split("\n") if p}
+    assert predicate, (
+        "no file in the repository names the publication bar, which cannot be true while "
+        "publish_bar.py exists — the comparison below would then be vacuous")
+    missed = sorted(predicate - fast)
+    assert not missed, (
+        "the term list the fast path greps for does not reach %d file(s) that NAMES_THE_BAR "
+        "accepts: %s. Each could carry a stale clause count that now goes unseen — add the missing "
+        "identifier to _BAR_GREP_TERMS." % (len(missed), missed[:10]))
+
+
+def test_the_pre_filters_terms_track_the_regex_they_stand_in_for():
+    """⛔ THE TWO MUST MOVE TOGETHER, AND THIS FAILS ON THE EDIT RATHER THAN ON THE COMMIT THAT LATER
+    RELIES ON IT. Adding an identifier to `NAMES_THE_BAR` without adding it to `_BAR_GREP_TERMS`
+    leaves the fast path unable to reach files the predicate accepts — the one-of-a-pair defect this
+    repository has now paid for repeatedly (`paper-hardening` §8b.2). The test above catches it only
+    if such a file happens to EXIST today; this one catches it the moment the pair diverges."""
+    alternatives = [a for a in NAMES_THE_BAR.pattern.split("|") if a]
+    assert len(alternatives) == len(_BAR_GREP_TERMS), (
+        "NAMES_THE_BAR has %d alternative(s) and the pre-filter greps for %d term(s)"
+        % (len(alternatives), len(_BAR_GREP_TERMS)))
+    for alt in alternatives:
+        plain = alt.replace("\\.", ".")
+        assert plain in _BAR_GREP_TERMS, (
+            "NAMES_THE_BAR accepts %r and the pre-filter never greps for it, so a file whose only "
+            "mention of the bar is that form is invisible to this guard" % plain)

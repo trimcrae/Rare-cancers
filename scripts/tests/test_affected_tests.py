@@ -297,3 +297,87 @@ def test_the_committed_record_matches_the_committed_gatekeepers(monkeypatch):
         f"{sorted(stale)} do not match scripts/selector-validation.json. Run "
         "`PREFLIGHT_FULL=1 ./scripts/preflight.sh` to green, then "
         "`python3 scripts/record_selector_validation.py`, and commit both together.")
+
+
+def _tiny_tree(tmp_path, monkeypatch):
+    """A two-file stand-in for research/modalities, so the memo's behaviour is driven in
+    milliseconds instead of 4.4 s a build. ⛔ THE GUARD MUST NOT COST WHAT IT SAVED: written first
+    against the real tree, these two tests took 12 s of the 16.8 s this file then cost — a memo
+    whose guards reintroduce the bill it removed is not an optimisation, it is a relocation."""
+    mod = tmp_path / "modalities"
+    tests = mod / "tests"
+    tests.mkdir(parents=True)
+    (mod / "alpha.py").write_text("import json\n", encoding="utf-8")
+    (mod / "beta.py").write_text("import alpha\n", encoding="utf-8")
+    (tests / "test_beta.py").write_text("import beta\n", encoding="utf-8")
+    monkeypatch.setattr(A, "MOD", str(mod))
+    monkeypatch.setattr(A, "TESTS", str(tests))
+    A._GRAPH_MEMO.clear()
+    return mod, tests
+
+
+def test_the_graph_memo_is_keyed_on_the_files_it_parsed(tmp_path, monkeypatch):
+    """⛔⛔ A MEMO THAT OUTLIVES ITS INPUT IS A SELECTOR THAT SELECTS FOR YESTERDAY'S TREE.
+
+    `build_graph` AST-parses every module under research/modalities and every file in its tests/
+    directory — 4.4 s, measured 2026-09-02 — and this file called it nine times, which made
+    `test_affected_tests.py` **41.0 s** on its own and, under preflight's `--dist loadfile`, set gate
+    13's entire 55 s wall clock, on four cores with three of them idle.
+
+    ★ THE KEY IS (name, size, mtime_ns) OF EVERY FILE THE PARSE READS, never "an answer exists".
+    This drives all three directions: an untouched tree reuses, an ADDED module rebuilds, and an
+    EDITED module rebuilds. If the key ever weakened to a bare flag, a session that edited an import
+    would be handed a graph built before the edit and the selector would silently omit the tests
+    that edit actually reaches — the one direction this selector must never move, since it fails
+    SAFE to FULL everywhere else.
+    """
+    mod, _ = _tiny_tree(tmp_path, monkeypatch)
+    first = A.build_graph()
+    assert first[0] == {"alpha": set(), "beta": {"alpha"}}
+    assert A.build_graph() is first, (
+        "two calls with the tree untouched did not reuse one graph — the memo is not working, and "
+        "this file is about to cost 41 s again")
+
+    (mod / "gamma.py").write_text("import beta\n", encoding="utf-8")
+    after = A.build_graph()
+    assert after is not first, (
+        "a module was ADDED and build_graph returned the graph from before it existed. Every "
+        "selection made from that graph is blind to the new module and to everything importing it.")
+    assert after[0].get("gamma") == {"beta"}
+
+    # ⛔ AND AN EDIT IN PLACE, WHICH IS THE CASE A NAME-ONLY OR COUNT-ONLY KEY WOULD MISS: same file
+    # count, same names, different imports. The size and mtime are in the key for exactly this.
+    (mod / "alpha.py").write_text("import beta\nimport json\n", encoding="utf-8")
+    edited = A.build_graph()
+    assert edited is not after and edited[0].get("alpha") == {"beta"}, (
+        "an import was added to an existing module and the memo did not notice — the selector would "
+        "keep resolving dependencies against the previous version of the file")
+
+
+def test_an_unstattable_tree_disables_the_memo_rather_than_freezing_it(tmp_path, monkeypatch):
+    """⛔ FAIL OPEN ON THE MEMO, NEVER ON THE ANSWER. If the fingerprint cannot be taken, the right
+    behaviour is to rebuild every time — slow and correct — not to hand back whatever was cached
+    first. A `None` fingerprint must neither be stored under nor matched against."""
+    _tiny_tree(tmp_path, monkeypatch)
+    monkeypatch.setattr(A, "_graph_fingerprint", lambda: None)
+    a = A.build_graph()
+    b = A.build_graph()
+    assert a[0] is not None and a[0] == b[0]
+    assert a is not b, (
+        "with no fingerprint the graph was still memoised — a tree this selector cannot stat is one "
+        "it cannot know is unchanged, so it must re-derive")
+    assert A._GRAPH_MEMO == {}, "a graph was stored under a None key"
+
+
+def test_a_failed_parse_is_never_memoised(tmp_path, monkeypatch):
+    """⛔ `None, None` MEANS 'AN UNCERTAINTY — GO FULL', AND AN UNCERTAINTY MUST NOT BE CACHED. If a
+    syntax error were memoised, repairing the file would leave the selector answering FULL for the
+    rest of the process on a tree that is now perfectly parseable — and the next call after the
+    repair is exactly when a caller most needs the truth."""
+    mod, _ = _tiny_tree(tmp_path, monkeypatch)
+    (mod / "broken.py").write_text("def (\n", encoding="utf-8")
+    assert A.build_graph() == (None, None)
+    assert A._GRAPH_MEMO == {}, "a failed parse was stored in the memo"
+    (mod / "broken.py").write_text("import alpha\n", encoding="utf-8")
+    repaired = A.build_graph()
+    assert repaired[0] is not None and repaired[0].get("broken") == {"alpha"}

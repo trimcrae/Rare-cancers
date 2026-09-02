@@ -16,7 +16,7 @@
     "measure": 1,
     "negative": 32,
     "process": 8,
-    "process_defect": 191,
+    "process_defect": 192,
     "proposal": 17,
     "recover": 2,
     "regrade": 15,
@@ -28,7 +28,7 @@
     "done": 174,
     "in_progress": 8,
     "parked": 30,
-    "queued": 161,
+    "queued": 162,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -2884,6 +2884,33 @@
       ],
       "what": "⛔⛔ `main` IS RED AND HAS BEEN SINCE AUT-PD-167: FIVE ASSERTIONS IN test_ndrg1_panel_widening_is_declared.py STILL ENCODE THE CONTRACT THAT COMMIT DELIBERATELY REPLACED. b01f1843f pinned the panel read to `curated_only`, which makes `member_z()` return `{}` by design and re-keys `panel_membership_source` off the pin; the AUT-PROP-051 guard asserts the superseded widening behaviour and fails. Measured: 12 passed at b01f1843f^, 5 failed at ef3fe1a8b. ⭐ THE FIX IS NOT TO DELETE THE ASSERTIONS. Every property that file was written to catch is still real and still worth a guard -- the round-trip decode, the null's pool widening with the cache, and gene_reads winning over a doubly-carried gene -- they simply moved: the decoder is now `signature_member_z` and the wide behaviour is reachable by pinning `MEMBERSHIP_SOURCE`. So the file must exercise BOTH reads through the pin, and gain the assertion the pin created and nothing yet covers: that a read DECLINED on purpose renders differently from a read that could not be taken.",
       "next_action": null
+    },
+    {
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_route_was": "RT-AUTONOMY",
+        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
+      },
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "CYC-0090-d7df5340",
+      "id": "AUT-PD-205-d7df5340",
+      "kind": "process_defect",
+      "requires_trimcrae": false,
+      "what": "⛔⛔ THE PUBLISH BAR THROWS AWAY A CLEAN REVIEW SIXTY TIMES TO TRACK FOUR REAL CHANGES, AND THAT IS WHY A NIGHT OF HARDENING CANNOT CONVERGE. Measured 2026-09-02 by CYC-0090-d7df5340.\n★ THE MECHANISM IS ONE COMPARISON, MADE IN TWO CLAUSES: `clause_1_hardening_converged` and `clause_6_independent_adversarial_seat` both read `record['reviewed_commit'] != sha`. Any commit invalidates a clean round — including commits that touch nothing the review read, and including the commit that files the round's own record.\n★★ THE NUMBER. Over the sixty commits before this filing, PUB-ASO's deliverable files (the article, its renderings and their build stamps — fifteen paths) took FOUR distinct digests, in eight runs. So the sha comparison discarded a review sixty times to track four real changes. The article's own sha256 was byte-identical (afd60b9e…) across the pins 7ae3cb518, 4ae4e9929 and e0834faf4; five blind seats had read exactly those bytes; clause 1 failed at all three. That night cost 46 gate runs and 8 greens against 118 inserted and 12 deleted manuscript lines.\n⛔ AND THE SHA IS ALSO TOO LOOSE, WHICH IS WHY THE FIX IS A RE-ANCHORING RATHER THAN A RELAXATION. A sha says WHEN a review happened and never said WHAT it covered: a seat that read one file and a seat that read fifteen record the same string. A digest over the deliverable SET has both properties — it cannot stay equal when anything reviewed changed, and it cannot be produced without naming exactly what went into it.\n★ THE INSTRUMENT IS ALREADY COMMITTED AND GATES NOTHING: research/autonomy/deliverable_digest.py derives the set from the publication's own `document.file` in systems/graph/publications.json plus the files whose names extend its stem, so nothing is hand-listed. `--paper PUB-ASO [--sha X]` prints the digest and its members.\n⛔⛔ THE PATCH EXISTS, WAS RUN AGAINST THE LIVE RECORDS, AND WAS DELIBERATELY NOT LANDED. publish_bar.py is a GOVERNED path and CYC-0090-d7df5340's session goal is to get PUB-ASO to 7/7 — so this cycle is blocked by the very clause the change relaxes, which is the exact shape amendment_guard exists to refuse (architecture §10.4: 'a later cycle may make the identical change, declared; what is refused is making it under pressure, with the obstacle still in front of you'). The receipt's `blocked_by` records the blockage rather than being left empty to slip the change through, which would be a false record and has the same status here as a fabricated receipt.\n★ WHAT A LATER CYCLE HAS TO DO, so it need not re-derive any of this: (1) add `_deliverable_at(sha)` and `_covers(record, sha, digest)` to publish_bar — a record matches on its exact sha OR on a `deliverable_digest` it carries, and a record WITHOUT that field matches on the sha alone, so no legacy record is grandfathered in; (2) widen `_seat_records`'s glob from {pub}-{sha}*.json to {pub}-*.json filtered by `_covers`, which pools the pooled seats' FINDINGS as well as their count — that is what keeps it a strengthening; (3) make `_is_seat_file` match {pub}-<hex>-seat- by regex, since the sha in the name is now the record's own; (4) drop same-digest commits from `priors` in the widest-round check, because their seats are already counted in the numerator; (5) leave CLAUSE 2 BOUND TO THE SHA — it is the only clause that speaks for the whole tree, and an artifact drifting under a still-valid digest is caught there and in the manuscripts suite, not here; (6) have the seat and hardening writers stamp `deliverable_digest`. The diff is 271 lines and applies cleanly to e0834faf4.\n⚠ IT FAILS CLOSED THROUGHOUT: an unreadable publication row, a deliverable missing at the commit, or a git failure yields no digest; no digest matches nothing; and every record then falls back to the exact sha comparison in place today.",
+      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. Filed just above AUT-PD-031 (136.7), the previous top RT-AUTONOMY row, and the comparison is measured rather than argued: AUT-PD-031 put a red trunk on main once; this row discards a clean review sixty times per four real changes and is the largest single cost the loop pays, at 46 gate runs and 8 greens for 118 inserted manuscript lines on the night of 2026-09-01. It is deliberately NOT scored higher than the RT-AUTONOMY band's ceiling: the patch is written and tested, so what this row buys is one cycle's work, not a research result.",
+      "score": 138.0,
+      "score_inputs": {}
     },
     {
       "id": "AUT-PD-159",
@@ -8370,14 +8397,14 @@
         "_strategy_remap_note": "S51 (2026-09-02): `ST-RNA` names no strategy in systems/graph/strategies.json (13 strategies). Remapped to `ST-NUCLEIC-ACID`, which the graph determines rather than this script choosing: it is the `strategy` of this row's own route `RT-ASO`. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
       },
       "state": "in_progress",
-      "owner": "CYC-0090-d7df5340/round31-seats",
-      "claimed_utc": "2026-09-02T03:01:39Z",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-09-02",
       "filed_by": "CYC-0090-d7df5340",
       "id": "AUT-PROP-055",
@@ -8400,7 +8427,8 @@
           "utc": "2026-09-01T20:20:31Z",
           "fingerprint_at_dispatch": "2026-08-31|None"
         }
-      ]
+      ],
+      "lease_released": "claim by CYC-0090-d7df5340/round31-seats released after 8.6 h, past the 8 h lease. A claim is a lease, not a deed — see priority-weights.json claim_lease."
     },
     {
       "id": "AUT-061",

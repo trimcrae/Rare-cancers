@@ -50,7 +50,12 @@
     "why": "The five blind seats of round 27, dispatched CONCURRENTLY in one message with distinct lenses (regression, arithmetic, statistics, citations-and-instruments, hostile-referee). Width 5 exceeds the budget hold's dial of 1 and is authorised by trimcrae's 2026-08-30 grant for the PUB-ASO v2 goal, whose recorded spend shape is exactly 'five concurrent subagents and one PREFLIGHT_FULL'. All read-only in the repository, each with its own seat-prefixed scratch directory."
   },
   "now_queued": ["AUT-PROP-055", "AUT-PROP-056", "AUT-PD-193", "AUT-PD-195", "AUT-PD-196"],
-  "blocked_by": [],
+  "blocked_by": [
+    {
+      "path": "research/autonomy/publish_bar.py::clause_1_hardening_converged",
+      "detail": "This cycle's session goal is to get PUB-ASO to 7/7. Clause 1 (and clause 6) compare `record['reviewed_commit'] != sha`, so every commit — including the commit that files a round's own record — discards a clean round. Measured: over the sixty commits before 2026-09-02, PUB-ASO's deliverable bytes took four distinct digests in eight runs, so the comparison threw away a review sixty times to track four real changes; five blind seats had read byte-identical text (afd60b9e…) at 7ae3cb518, 4ae4e9929 and e0834faf4 and clause 1 failed at all three. ⛔ RECORDED RATHER THAN LEFT EMPTY BECAUSE THE ENTRY IS WHAT REFUSES THIS CYCLE'S OWN FIX: publish_bar.py is a GOVERNED path, the digest re-anchoring is written and tested (271 lines, applies cleanly to e0834faf4), and it is filed as AUT-PD-205-d7df5340 for a later cycle to land declared instead of being made here under the pressure of the clause it relaxes. An empty `blocked_by` would have permitted it silently, which is a false record with the same status as a fabricated receipt."
+    }
+  ],
   "route_advanced": "RT-ASO",
   "route_advanced_why": "⭐ HONESTLY YES, AND IT BREAKS FOUR CONSECUTIVE `none`s. Two false statements were removed from the manuscript that goes out — not a caveat added, a wrong sentence replaced — and both are in all four PDFs and the .docx. And the archive the paper's Data availability points at was PUBLISHED and read back, so a DOI that resolved to nothing this morning now resolves to the 515-file tree this round produced. That is the paper's own claim surface changing, not a record about it. ⛔ WHAT IT IS NOT: convergence. publish_bar is still short of 7/7 and round 28 is queued.",
   "handoff": {

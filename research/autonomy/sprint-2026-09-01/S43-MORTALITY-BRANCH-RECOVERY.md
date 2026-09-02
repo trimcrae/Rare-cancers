@@ -157,8 +157,8 @@ location of the correction.
 | `RT-RESPIRATORY-FAILURE` | **NEEDS-REGRADE** | Rationale: *"The mechanism is asserted everywhere in the clinical prose and tabulated nowhere."* The branch tabulated it. `emc-terminal-events.json` → `deaths_by_label`: **`respiratory_failure` 3**, against **`mechanism_unstated` 28** of 52. The branch's own `PUB-MORTALITY-MECHANISM.what_it_would_claim` reads *"respiratory failure is not dominant"*. The route is still `maturity: "concept"` with `readiness.missing: []`. ⭐ The premise **failed**, and that is a result, not a reason to drop the row. |
 | `RT-TREATMENT-HARM` | **RECOVER** | Every clause of its rationale verified against `origin/main` **today**: the registry's `drilon2008` cohort note reads *"13% metastatic at presentation; chemotherapy gave no objective responses (median PFS 5.2 mo)"*, and `systemicEvidenceCorrections.superseded[6]` on `main` independently re-attributes the 5.2 months to Drilon 2008 (PMID 18951519). Unretracted, uncorrected, no counterpart. Refresh `next` on entry — the count it asks for exists (2 `treatment_related` of 52). |
 | `RT-VTE-PROPHYLAXIS` | **RECOVER** | `grep -c -i thromb` over `main`'s registry = **0**; over `main`'s whole graph, no route or modality covers it (`MOD-ANTICOAGULANT` is `not_applicable` for *"no antitumour claim to assess"*). The row is a question carrying its own most-likely negative — *"reducing events is not the same as prolonging life"* — and nothing on either ref refutes it. `maturity: concept`, `readiness: internal_note`, nothing run: the row says so, so it is accurate as written. |
-| `RT-HOST-FACTOR` | **RECOVER** | No counterpart: every entry in `main`'s `outcomes.prognosticFactors` is a property of the tumour (size, grade, fusion partner, stage, site) or of its treatment (R0 resection); the one host property, *"Older age (e.g. > 60)"*, is not modifiable, which is this route's whole criterion. Its `readiness.missing` — *"the retrieved effect sizes and the bias assessment they have to be read through"* — is **accurate**: `emc_host_factor_model.py` declares `OUT = research/manuscripts/emc-host-factor-model.json` and that file is committed on **neither** ref. An honest row about unfinished work. |
-| `RT-EARLY-PALLIATIVE` | **NEEDS-REGRADE** | Same structure as `RT-HOST-FACTOR` but the row is **not** honest about it: `readiness.missing` is `[]` while `emc_supportive_effect_transfer.py` declares `OUT = research/manuscripts/emc-supportive-effect-transfer.json`, committed on neither ref. The route's substance stands (`main` has no palliative-care content at all, §2.1); one field is measurably wrong. |
+| `RT-HOST-FACTOR` | **RECOVER** | No counterpart: every entry in `main`'s `outcomes.prognosticFactors` is a property of the tumour (size, grade, fusion partner, stage, site) or of its treatment (R0 resection); the one host property, *"Older age (e.g. > 60)"*, is not modifiable, which is this route's whole criterion. Its `readiness.missing` — *"the retrieved effect sizes and the bias assessment they have to be read through"* — is **accurate**: `emc_host_factor_model.py`, which does not exist on `main`, declares `OUT = research/manuscripts/emc-host-factor-model.json` and that file is committed on **neither** ref. An honest row about unfinished work. |
+| `RT-EARLY-PALLIATIVE` | **NEEDS-REGRADE** | Same structure as `RT-HOST-FACTOR` but the row is **not** honest about it: `readiness.missing` is `[]` while `emc_supportive_effect_transfer.py` (which does not exist on `main`) declares `OUT = research/manuscripts/emc-supportive-effect-transfer.json`, committed on neither ref. The route's substance stands (`main` has no palliative-care content at all, §2.1); one field is measurably wrong. |
 
 ⛔ **A patch of the three RECOVER rows does not stand alone.** All six routes carry
 `strategy: "ST-MORTALITY-MECHANISM"` (graded NEEDS-REGRADE) and
@@ -184,11 +184,11 @@ smuggling ungraded rows in beside the graded ones.
 
 | file | verdict | evidence |
 |---|---|---|
-| `emc_mortality_decomposition.py` (512 l) | **RECOVER, blocked until §4.1 lands** | Its provenance guard **fails against `main`'s registry today** — measured, §4.1. |
-| `emc_relative_survival.py` (266 l) | **RECOVER** | Ederer II on published summary survival + a WHO GHO life table. `main` has **no** relative-survival machinery (§2.1). Complementary to `main`'s `research/modalities/emc_ipd_survival.py`, which reconstructs patient-level data from digitized curves and is blocked on `BLK-NO-CURATED-CLINICAL-DATA`; this method needs no curves. |
-| `emc_terminal_events.py` (212 l) | **RECOVER** | Fails if a quoted sentence no longer matches the retrieval artifact verbatim. No counterpart. |
-| `emc_host_factor_model.py` (276 l) | **RECOVER** | 15/15 of its tests pass. Output never produced (§2.3). |
-| `emc_supportive_effect_transfer.py` (208 l) | **RECOVER** | 11/11 of its tests pass. Output never produced (§2.3). |
+| `emc_mortality_decomposition.py` (512 l) — does not exist on `main` | **RECOVER, blocked until §4.1 lands** | Its provenance guard **fails against `main`'s registry today** — measured, §4.1. |
+| `emc_relative_survival.py` (266 l) — does not exist on `main` | **RECOVER** | Ederer II on published summary survival + a WHO GHO life table. `main` has **no** relative-survival machinery (§2.1). Complementary to `main`'s `research/modalities/emc_ipd_survival.py`, which reconstructs patient-level data from digitized curves and is blocked on `BLK-NO-CURATED-CLINICAL-DATA`; this method needs no curves. |
+| `emc_terminal_events.py` (212 l) — does not exist on `main` | **RECOVER** | Fails if a quoted sentence no longer matches the retrieval artifact verbatim. No counterpart. |
+| `emc_host_factor_model.py` (276 l) — does not exist on `main` | **RECOVER** | 15/15 of its tests pass. Output never produced (§2.3). |
+| `emc_supportive_effect_transfer.py` (208 l) — does not exist on `main` | **RECOVER** | 11/11 of its tests pass. Output never produced (§2.3). |
 
 **Committed results (5)** — the ledger's "six JSON results" is **five**
 
@@ -202,13 +202,12 @@ smuggling ungraded rows in beside the graded ones.
 
 | file | tests | on the branch's tree | on `main`'s |
 |---|---|---|---|
-| `test_emc_mortality_decomposition.py` | 19 | 19 pass | **18 pass, 1 fails** — §4.1 |
-| `test_emc_host_factor_model.py` | 15 | 15 pass | 15 pass |
-| `test_emc_supportive_effect_transfer.py` | 11 | 11 pass | 11 pass |
-| `test_lit_mortality_probe.py` | 25 | 25 pass | **24 pass, 1 fails** — §4.2 |
+| `test_emc_mortality_decomposition.py` — does not exist on `main`; the branch is its only home | 19 | 19 pass | **18 pass, 1 fails** — §4.1 |
+| `test_emc_host_factor_model.py` — does not exist on `main`; the branch is its only home | 15 | 15 pass | 15 pass |
+| `test_emc_supportive_effect_transfer.py` — does not exist on `main`; the branch is its only home | 11 | 11 pass | 11 pass |
+| `test_lit_mortality_probe.py` — does not exist on `main`; the branch is its only home | 25 | 25 pass | **24 pass, 1 fails** — §4.2 |
 
-⚠ **A real coverage gap, stated rather than left implicit:** `emc_relative_survival.py` and
-`emc_terminal_events.py` have **no test file**. Two of the five analysis scripts are unguarded, and one
+⚠ **A real coverage gap, stated rather than left implicit:** `emc_relative_survival.py` does not exist on `main` and has no test file on the branch either; `emc_terminal_events.py` does not exist on `main` and has none. Two of the five analysis scripts are unguarded, and one
 of them owns the paper's second, independent method.
 
 **Probe scripts (5)**
@@ -219,7 +218,7 @@ of them owns the paper's second, independent method.
 | `scripts/lit_host_factor_probe.py` (424 l) | **RECOVER** | 22 queries; no counterpart. |
 | `scripts/lit_attribution_probe.py` (165 l) | **RECOVER** | 17 queries on how a cause of death is *assigned* at all — SEER classification, death-certificate accuracy, Pohar-Perme net survival. Nothing on `main` asks this, and every disease-specific survival figure in the registry inherits the answer. |
 | `scripts/lit_lung_probe.py` (158 l) | **SUPERSEDED — salvage 7 queries** | §3.2. |
-| `scripts/lit_probe_common.py` (114 l) | **OBSOLETE standalone; RECOVER as a dependency** | Its own docstring: *"IT DELIBERATELY DOES NOT TOUCH THE EXISTING FOUR."* Verified — `main`'s `lit_lane_probe.py` and `lit_consensus_probe.py` import only stdlib. It refactors nothing that exists; its only consumers are the three probes above. |
+| `scripts/lit_probe_common.py` (114 l) — does not exist on `main` | **OBSOLETE standalone; RECOVER as a dependency** | Its own docstring: *"IT DELIBERATELY DOES NOT TOUCH THE EXISTING FOUR."* Verified — `main`'s `lit_lane_probe.py` and `lit_consensus_probe.py` import only stdlib. It refactors nothing that exists; its only consumers are the three probes above. |
 
 **Probe corpora (4)** — ⭑ and they are **measured runs, not scaffolds**
 
@@ -337,7 +336,7 @@ pembrolizumab n=1 case among them. **Six keys, by hand, plus the validator.**
 
 ### 4.2 · `main`'s literature workflow never invokes the probe
 
-`test_lit_mortality_probe.py` carries `test_the_probe_is_actually_wired_into_the_fetch_literature_workflow`,
+`test_lit_mortality_probe.py`, which does not exist on `main`, carries `test_the_probe_is_actually_wired_into_the_fetch_literature_workflow`,
 whose docstring says *"a value a caller passes is a hope, not a property"*. Run against each ref's
 workflow file in the same scratch tree:
 
@@ -359,7 +358,7 @@ slug guard, not a file take.
 
 | verdict | n | what |
 |---|---|---|
-| **RECOVER** | **30** | 2 manuscripts, 5 analysis scripts, 5 results, 4 tests, 3 probe scripts + `lit_probe_common.py` as their dependency, 3 corpora, 3 RECOVER graph rows (1 path: `routes.json`), `publications.json`, `modalities.json`, the registry (6 keys), `validate-registry.mjs`, `fetch-literature.yml`, `lint_style.py` |
+| **RECOVER** | **30** | 2 manuscripts, 5 analysis scripts, 5 results, 4 tests, 3 probe scripts + `lit_probe_common.py` (which does not exist on `main`) as their dependency, 3 corpora, 3 RECOVER graph rows (1 path: `routes.json`), `publications.json`, `modalities.json`, the registry (6 keys), `validate-registry.mjs`, `fetch-literature.yml`, `lint_style.py` |
 | **NEEDS-REGRADE** | **3** | `strategies.json`, `IDEAS.md`, `emc-treatment-strategy.md` |
 | **SUPERSEDED** | **8** | `lit_lung_probe.py`, `emc-lung-probe.json`, 5 figure PDFs, `figure-provenance.json` |
 | **OBSOLETE (regenerate)** | **12** | 7 added `systems/views/` + 5 modified `systems/views/` |

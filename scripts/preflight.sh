@@ -817,6 +817,11 @@ gen_fail=""
 # series-mismatch and instrument-census rows above: a `--check` that already existed and that nothing
 # in the commit loop ran. ⭐ It earned the 1.8 s within its first hour: on 2026-09-01 it caught the
 # census going stale TWICE IN TEN MINUTES from concurrent manuscript edits, each time in 1.8 s.
+# ⛔ THE FAN-OUT'S SCRATCH LIVES IN A PRIVATE TEMP DIRECTORY, NEVER IN THE TREE. Preflight is the
+# gate that checks the tree is clean; a gate writing scratch files into it would be checking its own
+# litter. Removed unconditionally after the reporting loop below.
+_genout="$(mktemp -d)"
+_geni=0
 for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "research/manuscripts/claim_coverage.py|claim coverage census|--check" \
          "research/manuscripts/submission_citations.py|submission references|--check" \
@@ -836,16 +841,40 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
          "scripts/citation_debt.py|literature citation debt|--check" \
          "scripts/news_match.py|news-match queue|--check"; do
   gen="${g%%|*}"; rest="${g#*|}"; label="${rest%%|*}"; mode="${rest##*|}"
-  # ⛔ THE GENERATOR'S OWN FAILURE TEXT REACHES THE READER AS OF AUT-PD-016 (2026-08-27). This line
-  # was `python3 "$gen" "$mode" >/dev/null 2>&1`, so every producer's diagnosis was discarded and
-  # the only remedy a reader ever saw was the generic "rerun and commit the result" below. For the
-  # archive manifest that generic advice is ACTIVELY WRONG — it is what regenerates the artifact
-  # against the same dirty tree and reproduces the defect — and the generator now says so in a
-  # message nobody could read. Capturing instead of discarding is what makes a per-producer remedy
-  # possible at all, and it costs one variable.
-  if gen_out="$(python3 "$gen" "$mode" 2>&1)"; then
+  # ⛔⛔ THE ROWS RUN CONCURRENTLY AND ARE READ BACK IN LIST ORDER (2026-09-02). Every row is an
+  # independent read-only `--check` against the committed tree — none writes, none reads another's
+  # output — and they were nonetheless started one at a time, so the gate cost the SUM of eighteen
+  # interpreter starts: 9.2 s of a 131.8 s commit loop, 7 %, on four idle cores.
+  # ⭐ THE OUTPUT IS UNCHANGED, WHICH IS THE POINT AND IS WHAT MAKES THIS SAFE TO DO. Each row's
+  # exit code and captured text go to a per-row file named by its INDEX, and the reporting loop
+  # below walks the list in order — so the log reads identically to the serial version, and the
+  # archive-manifest row still reports after the rows it is documented to follow.
+  # ⚠ AND THE ORDERING CONSTRAINT THE COMMENT ABOVE RECORDS IS A REPORTING one, not an execution
+  # one: the deposit-drift row reads the manifest ARTIFACT ON DISK, which no row here writes —
+  # every one of them is a `--check`, and a `--check` that wrote the tree would already be failing
+  # `git_tree_is_clean_apart_from_this_manifest`.
+  printf '%s\n' "$label" > "$_genout/$_geni.label"
+  printf '%s\n' "$gen" > "$_genout/$_geni.gen"
+  { python3 "$gen" "$mode" >"$_genout/$_geni.out" 2>&1; echo $? > "$_genout/$_geni.rc"; } &
+  _geni=$((_geni + 1))
+done
+wait || true
+_geni=0
+while [ -f "$_genout/$_geni.label" ]; do
+  label="$(cat "$_genout/$_geni.label")"
+  gen="$(cat "$_genout/$_geni.gen")"
+  gen_rc="$(cat "$_genout/$_geni.rc" 2>/dev/null || echo 1)"
+  gen_out="$(cat "$_genout/$_geni.out" 2>/dev/null || true)"
+  if [ "$gen_rc" = "0" ]; then
     echo "   OK   $label"
   else
+    # ⛔ THE GENERATOR'S OWN FAILURE TEXT REACHES THE READER AS OF AUT-PD-016 (2026-08-27). The row
+    # was once `python3 "$gen" "$mode" >/dev/null 2>&1`, so every producer's diagnosis was discarded
+    # and the only remedy a reader ever saw was the generic "rerun and commit the result" below. For
+    # the archive manifest that generic advice is ACTIVELY WRONG — it is what regenerates the
+    # artifact against the same dirty tree and reproduces the defect — and the generator now says so
+    # in a message nobody could read. Capturing instead of discarding is what makes a per-producer
+    # remedy possible at all, and the fan-out above keeps every byte of it.
     echo "   STALE $label -- rerun 'python3 $gen' and commit the result"
     # ⚠ AND WHERE THE PRODUCER DISAGREES WITH THAT LINE, THE PRODUCER WINS: it knows which of
     # "stale" and "must not be regenerated here" its own exit code meant. Indented so the block
@@ -855,7 +884,9 @@ for g in "research/manuscripts/submission_tables.py|submission tables|--check" \
     fi
     gen_fail="$gen_fail $label"; rc=1
   fi
+  _geni=$((_geni + 1))
 done
+rm -rf "$_genout"
 [ -n "$gen_fail" ] && echo "   ⛔ a stale generated file ships a claim its own artifacts no longer support:$gen_fail"
 
 # ⛔ THE CYCLE RECEIPT'S FAN-OUT FIELD, CHECKED AT THE MOMENT IT IS WRITTEN (AUT-PD-013, 2026-08-27).

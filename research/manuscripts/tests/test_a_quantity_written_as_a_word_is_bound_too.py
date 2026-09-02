@@ -45,8 +45,10 @@ MANUSCRIPTS = os.path.dirname(HERE)
 ROOT = os.path.dirname(os.path.dirname(MANUSCRIPTS))
 ARTICLE = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-journal-article.md")
 REPORT = os.path.join(MANUSCRIPTS, "aso", "fusion-junction-aso-research-article.md")
+PARTNER = os.path.join(MANUSCRIPTS, "fusion-partner", "emc-fusion-partner-stratification.md")
 GAP = os.path.join(ROOT, "research", "modalities", "aso-parent-gap-pairing.json")
 PREMRNA = os.path.join(ROOT, "research", "modalities", "aso-premrna-offtarget.json")
+ENERGY = os.path.join(ROOT, "research", "modalities", "aso-offtarget-duplex-energy.json")
 
 #: ⛔ ONE HOME FOR THE MAPPING, and it is deliberately the same trick the scramble-null guard uses:
 #: a word is turned into an integer and compared to a number an artifact COMPUTES. Anything that
@@ -73,6 +75,12 @@ def _artifacts():
         "oligo_len": gap["_geometry"]["oligo_len"],
         # the precursor arm's mismatch ceiling
         "max_mismatches": pre["method"]["max_mismatches"],
+        # ⭐ THE REAGENTS THE PAPER NAMES FOR SYNTHESIS, COUNTED FROM THE ARTIFACT THAT HOLDS THEM
+        # RATHER THAN FROM THE PROSE. "the two reagents" appeared three times with nothing reading
+        # it; the deposit enumerates them, so the count is derivable and was never a convention.
+        "named_reagents": len(json.load(open(ENERGY, encoding="utf-8"))["named_reagents"]),
+        # both locked wings together — what the fusion duplex pairs where a parent pairs one wing
+        "both_wings": 2 * gap["_geometry"]["wing"],
     }
 
 
@@ -97,6 +105,22 @@ BINDINGS = (
      "the gapmer's locked wing"),
     ("max_mismatches", r"condemns on a hit at up to (\w+) mismatches with the gap fully paired",
      "the precursor arm's mismatch ceiling"),
+    # ⛔ THE SECOND ROUND OF BINDINGS, 2026-09-02. The first closed six of eleven and I recorded the
+    # rest as "not bindable" — which was true of a literature range and of ordinals, and WRONG of
+    # these four. Each names a count the deposit enumerates; calling them conventions was a
+    # judgement made before looking for the artifact, and the ablation sweep is what refused it.
+    ("both_wings", r"the fusion duplex pairs all (\w+) locked residues",
+     "both locked wings together (2 x the wing), what the fusion duplex pairs"),
+    ("wing", r"locked residues where each parent pairs (\w+)",
+     "one locked wing, what a parent pairs against the same design"),
+    ("max_mismatches", r"the (\w+)-mismatch ceiling the near-match screens run at",
+     "the near-match screens' mismatch ceiling, stated a second time"),
+    ("named_reagents", r"The (\w+) reagents named for synthesis are the best available designs",
+     "the reagents the deposit enumerates under `named_reagents`"),
+    ("named_reagents", r"which published junctions the (\w+) reagents address",
+     "the same reagent set, priced for coverage"),
+    ("named_reagents", r"with the (\w+) screened controls above",
+     "the screened controls, one per named reagent"),
 )
 
 
@@ -126,6 +150,59 @@ def test_a_word_quantity_matches_the_artifact_that_computes_it(key, pattern, wha
         % (word, WORDS[word], what, art[key],
            os.path.relpath(GAP if key != "max_mismatches" else PREMRNA, ROOT),
            text[max(0, m.start() - 60): m.end() + 60]))
+
+
+def test_the_energy_stage_is_the_ordinal_its_own_artifact_records():
+    """"the energy-based second stage" — an ordinal, and a real fact rather than a label.
+
+    ⛔ ORDINALS WERE THE ONE THING I FIRST WROTE OFF AS UNBINDABLE, on the reasoning that binding
+    them pins paragraph order rather than a claim. That was right about the screens' prose ordering
+    and WRONG here: `aso-offtarget-duplex-energy.json`'s own `_why` records that the 2025
+    recommendations prescribe *"following an over-sensitive similarity search with an energy-based
+    re-evaluation of the candidates it returns"*. The energy step comes AFTER the search by
+    prescription, so "second" is a fact about the method with recorded evidence, and "fourth" would
+    be false.
+    ⚠ THE EVIDENCE IS THE ARTIFACT'S PROSE, NOT A COMPUTED FIELD, and this says so rather than
+    dressing it as a derivation. What it buys is what the gate asks for: perturb the ordinal and
+    this goes red.
+    """
+    why = json.load(open(ENERGY, encoding="utf-8"))["_why"]
+    assert "following an over-sensitive similarity search" in why, (
+        "the artifact no longer records that the energy step FOLLOWS the similarity search, which "
+        "is the whole evidence for the ordinal below. Re-anchor this against whatever now states "
+        "the stage order, or delete the binding — do not leave it asserting an order nothing holds.")
+    m = re.search(r"the energy-based (\w+) stage", _text(ARTICLE))
+    assert m, "the article no longer names the energy stage by ordinal; re-anchor or remove this row"
+    assert m.group(1).lower() == "second", (
+        "the article calls the energy re-evaluation the %r stage. Its own artifact records it as the "
+        "step that FOLLOWS the similarity search — the second of the two the recommendations "
+        "prescribe." % m.group(1))
+
+
+def test_the_count_of_at_risk_sentences_equals_the_number_the_paper_then_lists():
+    """A self-consistency binding: the count must equal what the paragraph enumerates.
+
+    ⛔ THE LAST BLIND SENTENCE ON THE FUSION-PARTNER PAPER, and the only one on it that the
+    2026-09-02 sweep found. "Two sentences in this paper are most at risk of being read as a census"
+    is followed by "The first is ..." and "The second is ...". Nothing read the count, so it could
+    drift away from the list it introduces with no witness.
+    ★ NO ARTIFACT COMPUTES THIS — it is a claim the document makes about ITSELF, so the document is
+    the right anchor. That is a weaker binding than an artifact and a real one: change the number
+    and this goes red; add a third qualified sentence without updating the count and it goes red too,
+    which is the drift actually worth catching.
+    """
+    text = _text(PARTNER)
+    m = re.search(r"(\w+) sentences in this paper are most at risk", text)
+    assert m, "the at-risk paragraph has moved; re-anchor this binding or remove it"
+    stated = WORDS.get(m.group(1).lower())
+    assert stated, "the paper writes %r where a number word was expected" % m.group(1)
+    after = text[m.end(): m.end() + 1800]
+    listed = len({o for o in ("first", "second", "third", "fourth", "fifth")
+                  if re.search(r"\bThe %s is\b" % o, after, re.I)})
+    assert stated == listed, (
+        "the paper says %r (%d) sentences are most at risk and then enumerates %d of them "
+        "(\"The first is\", \"The second is\", ...). One of the two moved without the other."
+        % (m.group(1), stated, listed))
 
 
 def test_the_geometry_sentence_agrees_with_the_architecture_it_names():

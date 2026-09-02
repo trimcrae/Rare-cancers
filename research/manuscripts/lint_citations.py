@@ -51,6 +51,9 @@ import re
 import subprocess
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import citation_scan_cache as _cache  # noqa: E402
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 LEDGER = os.path.join(HERE, "citation-provenance-ledger.json")
@@ -275,14 +278,43 @@ def _redact_failed_fetches(node):
 
 
 def _scan(paths):
-    """{kind: {identifier: {files}}} over `paths`."""
+    """{kind: {identifier: {files}}} over `paths`.
+
+    ⛔⛔ CACHED PER FILE, ON THE FILE'S BYTES AND THIS MODULE'S OWN SOURCE. Profiled 2026-09-02, this
+    function was 48.2 s of a 54.7 s run and gate 12 was 30 % of the whole commit loop: 24.1 s of
+    `re.findall`, 17.0 s across 13,028,986 recursive `_redact_failed_fetches` calls, and 5.7 s of
+    json round-tripping, over ~4,250 committed fetch products of which an ordinary commit touches
+    none. What a file contains is a pure function of its bytes, so re-deriving it every commit
+    carries no information.
+    ★ THE SCANNER'S OWN DIGEST IS IN THE KEY. `PATTERNS`, `TRAILING`, the redaction and the
+    bare-key corpus rule all live in this module, so widening any of them misses every entry —
+    without that, tightening the gate would leave it answering with the previous version of itself.
+    ⚠ The cache is untracked and disposable (`citation_scan_cache.CACHE`); a miss, an unreadable
+    file or a failed write all fall through to the full scan. See that module for the argument.
+    """
     found = collections.defaultdict(lambda: collections.defaultdict(set))
+    _scanner = None
+    try:
+        _scanner = _cache.scanner_digest()
+    except OSError:
+        pass
+    _entries = _cache.load()
+    _dirty = False
     for rel in paths:
         p = os.path.join(ROOT, rel)
         try:
-            text = open(p, encoding="utf-8", errors="replace").read()
+            raw = open(p, "rb").read()
         except (OSError, IsADirectoryError):
             continue
+        _key = _cache.key_for(rel, raw, _scanner)
+        _hit = _cache.lookup(_entries, _key)
+        if _hit is not None:
+            for kind, idents in _hit.items():
+                for ident in idents:
+                    found[kind][ident].add(rel)
+            continue
+        text = raw.decode("utf-8", errors="replace")
+        _seen = collections.defaultdict(set)
         scan_text = text
         # ⚠ SCOPED TO .json, NOT ANCHOR_SUFFIXES: no tracked .jsonl currently holds a fetch record
         # (measured 2026-08-28 — every `"attempts"` hit among tracked .jsonl is a different shape),
@@ -297,6 +329,7 @@ def _scan(paths):
         for kind in PATTERNS:
             for ident in extract(kind, scan_text):
                 found[kind][ident].add(rel)
+                _seen[kind].add(ident)
         # ⛔ A THIRD FORM: A FETCH CORPUS KEYED BY THE BARE IDENTIFIER (measured 2026-08-08).
         # `lit-targets-endpoint-benchmarks.json` stores rows as {"10913809": {...}} — no `PMID`
         # token, no URL, no `EXT_ID`. Nine genuinely fetched-and-quoted identifiers read as
@@ -310,6 +343,11 @@ def _scan(paths):
         if re.match(r"^lit-targets-[\w.-]+\.jsonl?$", os.path.basename(rel)):
             for m in re.findall(r'"(\d{6,9})"\s*:', text):
                 found["PMID"][m].add(rel)
+                _seen["PMID"].add(m)
+        _cache.record(_entries, _key, _seen)
+        _dirty = True
+    if _dirty:
+        _cache.save(_entries)
     return found
 
 

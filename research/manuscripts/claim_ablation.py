@@ -74,6 +74,7 @@ REPO = os.path.abspath(os.path.join(HERE, "..", ".."))
 
 sys.path.insert(0, HERE)
 import claim_coverage as cc  # noqa: E402
+import claim_ablation_cache as _cache  # noqa: E402
 
 #: The witness kinds the census emits, and the command that re-runs each one.
 _LINT_CONSISTENCY = [sys.executable, os.path.join(HERE, "lint_consistency.py")]
@@ -474,6 +475,31 @@ def ablate(paper_key, row, witnesses=None):
     original = io.open(path, encoding="utf-8").read()
     ws = list(witnesses) if witnesses is not None else guards_reading(os.path.basename(path))
 
+    # ⛔⛔ THE CACHE, AND WHY THE EXPENSIVE PART IS THE PART WORTH SKIPPING. Measured 2026-09-02:
+    # this function's real work — a guard's assertions — is 0.037 s, one pytest subprocess to run
+    # them is 0.43 s, and one ablation with its clone and every witness is 17.4 s. Over the 184 covered
+    # sentences of the floored documents that is 53 minutes, and it was paid on every publication run whether or not anything
+    # had moved. The night that produced this edited three sentences and re-verified all of them.
+    # ★ A HIT IS RETURNED ONLY WHEN THE SENTENCE, THE WITNESS SET AND EVERY WITNESS'S SOURCE ARE
+    # BYTE-IDENTICAL to when the verdict was recorded — the three things this function's answer is a
+    # function of. Everything else is a miss and re-runs. See `claim_ablation_cache` for why the
+    # artifact corpus is deliberately not in the key, and for the eleven ways it fails closed.
+    # ⛔ IT CANNOT LAUNDER A RED INTO A GREEN: a hit returns the recorded verdict either way, and
+    # `status` is recorded with it, so a NOT_APPLIED stays not-applied rather than reading as bound.
+    _key = _cache.key_for(paper_key, row["sentence"], ws)
+    _entries = _cache.load()
+    _hit = _cache.lookup(_entries, _key)
+    if _hit is not None and _hit.get("status") in (APPLIED, NOT_APPLIED):
+        out = {"status": _hit["status"], "red": ws if _hit["red"] else [], "witnesses": ws,
+               "quantity_kind": _hit.get("quantity_kind", NONE),
+               "reason": _hit.get("reason", ""), "cached": True}
+        # ⛔ AND THE BASELINE COMES BACK WITH IT WHERE THE ENTRY HAS ONE. A BLIND verdict is only
+        # readable beside how many of its witnesses could actually run; dropping that on the way
+        # through a cache would recreate the false-BLIND `_baseline_reds` exists to prevent.
+        if _hit.get("baseline") is not None:
+            out["baseline"] = _hit["baseline"]
+        return out
+
     hit = _locate(original, row["sentence"])
     if hit is None:
         return {"status": NOT_APPLIED, "red": [], "witnesses": ws, "quantity_kind": NONE,
@@ -532,6 +558,9 @@ def ablate(paper_key, row, witnesses=None):
             fired = [i for i, cmd in enumerate(cmds)
                      if i not in already_red and _run(cmd, workspace)]
             if fired:
+                _cache.record(_entries, _key, True, f"{was} -> {now}", ws,
+                              status=APPLIED, quantity_kind=kind, baseline=baseline)
+                _cache.save(_entries)
                 return {"status": APPLIED, "red": ws, "witnesses": ws, "quantity_kind": kind,
                         "baseline": baseline, "reason": f"{was} -> {now}"}
     finally:
@@ -541,6 +570,10 @@ def ablate(paper_key, row, witnesses=None):
             raise SystemExit(
                 f"FATAL: the REAL {os.path.basename(path)} changed during an ablation "
                 f"({before[:12]} -> {after[:12]}). Recover it from git before doing anything else.")
+    _cache.record(_entries, _key, False,
+                  "no guard reading this file noticed any of: " + ", ".join(tried) + subtracted,
+                  ws, status=APPLIED, quantity_kind=kind, baseline=baseline)
+    _cache.save(_entries)
     return {"status": APPLIED, "red": [], "witnesses": ws, "quantity_kind": kind,
             "baseline": baseline,
             "reason": "no guard reading this file noticed any of: " + ", ".join(tried) + subtracted}

@@ -374,8 +374,15 @@ def test_three_mints_in_one_comprehension_get_three_names():
     ⛔ NO CONCURRENCY IS INVOLVED, WHICH IS WHY NO TOKEN FIXES IT: a session id, a subagent id and a
     pid are all CONSTANT within one process. The ordinal is derived from a list that has not grown,
     so the second call re-derives the first call's answer."""
+    # ⛔ THE SESSION ID IS PASSED, NOT READ FROM THE ENVIRONMENT. `next_entry_id` raises when
+    # `CLAUDE_CODE_SESSION_ID` is unset, and it is unset on a CI runner — so as written this test
+    # asserted nothing about the allocator on the one machine that runs it on every push, and
+    # failed with a ValueError about the environment instead. ⚠ MEASURED on the trunk 2026-09-02
+    # (run 33618666310, `cannot allocate a ledger id: CLAUDE_CODE_SESSION_ID is unset`). The
+    # requirement under test is that three mints before any append get three ADVANCING names; the
+    # source of the discriminator is not part of it, and the sibling test below already passes one.
     entries = [{"id": "AUT-085"}]
-    rows = [{"id": I.next_entry_id("AUT", entries)} for _ in range(3)]
+    rows = [{"id": I.next_entry_id("AUT", entries, session_id=SESSION_A)} for _ in range(3)]
     assert I.duplicate_ids(rows) == {}, (
         "a caller that minted three ids before appending any of them was handed one name more than "
         "once — 'append first' is a convention, and this is what conventions are worth")

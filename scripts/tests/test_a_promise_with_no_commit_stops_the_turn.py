@@ -232,6 +232,18 @@ def test_the_hook_still_fires_inside_a_linked_worktree(tmp_path):
     made = subprocess.run(["git", "-C", REPO, "worktree", "add", "--detach", str(wt), "HEAD"],
                           capture_output=True, text=True)
     if made.returncode != 0:
+        # SKIP IS DELIBERATE. ⛔ AND IT IS THE ONE SHAPE `test_no_guard_can_silently_not_run` ASKS
+        # TO SEE A REASON FOR, so here is the reason rather than a marker. The condition under test
+        # is `.git` being a FILE, which only a LINKED WORKTREE produces — there is no way to
+        # synthesise it, and `git worktree add` is the only thing that makes one. Where the command
+        # itself fails (a filesystem that refuses the link, a repository already holding a worktree
+        # at this path, a sandbox without the permission) the precondition cannot be established at
+        # all, so there is nothing to assert about and a `fail` would report a broken hook on the
+        # evidence of a broken filesystem.
+        # ★ THE SKIP IS SAFE ONLY BECAUSE IT CANNOT HIDE A REGRESSION SILENTLY: it carries the
+        # command's own stderr, and CI creates the worktree successfully — measured, this test runs
+        # there rather than skipping. A future environment where it starts skipping shows the
+        # reason in the run's own output.
         pytest.skip(f"could not create a linked worktree here: {made.stderr[:200]}")
     try:
         assert os.path.isfile(wt / ".git"), (

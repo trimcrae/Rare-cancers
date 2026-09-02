@@ -178,8 +178,42 @@ def _module_imports(path, known):
     return {n for n in names if n in known}
 
 
+#: ⛔⛔ THE GRAPH IS MEMOISED ON WHAT IT IS BUILT FROM, NOT ON "I ALREADY DID THIS".
+#: Measured 2026-09-02: `build_graph` AST-parses every module under research/modalities and every
+#: file in its tests/ directory — about 4.4 s — and `scripts/tests/test_affected_tests.py` calls it,
+#: directly or through `select()`, nine times. That one file was **45 s of test time**, and because
+#: preflight runs gate 13 with `--dist loadfile` a file goes to ONE worker, so it set the gate's
+#: whole wall clock: 55.0 s of a 131.8 s commit loop, on four cores, three of them idle.
+#: ★ THE KEY IS THE (name, size, mtime_ns) OF EVERY FILE THE PARSE READS, so an edit to any of them
+#: busts it. That is the same discipline the ledger walk's memo uses — the reuse is keyed on the
+#: INPUTS, never on the fact that an answer exists — and it is what keeps this a speed-up rather
+#: than a stale answer. Stat-ing the tree costs ~5 ms against 4.4 s of parsing.
+#: ⚠ IT IS PROCESS-LOCAL AND DELIBERATELY NOT PERSISTED. A cross-run cache would be a file that can
+#: rot; this cannot outlive the interpreter that built it, and a `select()` in production calls the
+#: builder once anyway, so nothing about a real preflight run's answer changes.
+_GRAPH_MEMO = {}
+
+
+def _graph_fingerprint():
+    """What the graph is a function of, cheaply — or None, which disables the memo entirely."""
+    try:
+        rows = []
+        for directory in (MOD, TESTS):
+            for name in sorted(os.listdir(directory)):
+                if not name.endswith(".py"):
+                    continue
+                st = os.stat(os.path.join(directory, name))
+                rows.append((directory, name, st.st_size, st.st_mtime_ns))
+        return tuple(rows)
+    except OSError:
+        return None
+
+
 def build_graph():
     """(module -> modules it imports, test -> modules it imports). None on any parse failure."""
+    fingerprint = _graph_fingerprint()
+    if fingerprint is not None and fingerprint in _GRAPH_MEMO:
+        return _GRAPH_MEMO[fingerprint]
     known = {f[:-3] for f in os.listdir(MOD) if f.endswith(".py")}
     mod_edges, test_edges = {}, {}
     for name in sorted(known):
@@ -194,7 +228,16 @@ def build_graph():
         if got is None:
             return None, None
         test_edges[f] = got
-    return mod_edges, test_edges
+    # ⛔ A FAILED PARSE IS NEVER MEMOISED. `None, None` means "an uncertainty — go FULL", and the
+    # returns above take that path directly without reaching here, so the memo only ever holds a
+    # graph that was built completely.
+    # ⛔ STORE, THEN RETURN THE STORED OBJECT. Returning a fresh tuple here and caching a different
+    # one makes the first call's result a stranger to every later call's — harmless for equality,
+    # and it silently defeats any identity check a guard uses to prove the memo is live.
+    built = (mod_edges, test_edges)
+    if fingerprint is not None:
+        _GRAPH_MEMO[fingerprint] = built
+    return built
 
 
 def _reachable(seed, mod_edges):

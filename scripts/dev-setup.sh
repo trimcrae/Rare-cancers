@@ -162,8 +162,38 @@ _preflight_python() {
   fi
 }
 
+# ⛔⛔ ONE INTERPRETER FOR THE WHOLE LIST, NOT ONE PER MODULE — AND IT IS STILL A REAL `import`.
+# Measured 2026-09-02: `--if-needed` was 7.6 s of a 131.8 s commit loop, because this function
+# started a fresh interpreter per module and the lists are heavy (rdkit, scipy, matplotlib, numpy,
+# Bio, netCDF4). TEST_PROBE alone is 14 modules and is probed TWICE — once for the pytest
+# interpreter, once for the one that runs the suites — so an ordinary preflight paid 32 interpreter
+# starts and imported rdkit and matplotlib twice each, to learn that nothing had changed. Batched,
+# the same 14 modules cost 1.3 s against 2.2 s; deduplicated when the two interpreters resolve to
+# one path, that whole second probe disappears.
+# ⛔ IT REMAINS AN `import`, NEVER `find_spec`, AND THAT IS NOT NEGOTIABLE. This file's own header
+# records why: the sandbox's system interpreter carries a distro `cryptography` that raises
+# `pyo3_runtime.PanicException` when `pypdf` imports it. `find_spec` answers "present" and the gate
+# then dies at the import. The question has to be the one the gates actually ask.
+# ⭐ AND THE BATCH FALLS BACK. A module that kills the interpreter outright — a hard abort rather
+# than an exception — would take the whole batch down and report every module missing, which is the
+# false direction: it would trigger a reinstall of a complete environment. So a batch that dies
+# without answering re-runs the old one-process-per-module loop, which cannot lose more than the one
+# module that crashed. The fast path is the common path; the slow path is the correct one.
 _missing_in() {   # $1 = interpreter, $2 = module list; echoes what it cannot import
-  local py="$1" out=""
+  local py="$1" out="" batched=""
+  if batched="$("$py" -c '
+import sys
+missing = []
+for m in sys.argv[1].split():
+    try:
+        __import__(m)
+    except BaseException:
+        missing.append(m)
+sys.stdout.write(" ".join(missing))
+' "$2" 2>/dev/null)"; then
+    [ -n "$batched" ] && printf ' %s' "$batched" || printf ''
+    return 0
+  fi
   for m in $2; do
     "$py" -c "import $m" >/dev/null 2>&1 || out="$out $m"
   done
@@ -326,6 +356,13 @@ if [ "${1:-}" = "--if-needed" ]; then
   run_py="$(_preflight_python || true)"
   if [ -z "$run_py" ] || [ ! -x "$run_py" ]; then
     run_missing=" (no interpreter would run the suites)"
+  elif [ -n "$tool_py" ] && [ "$run_py" = "$tool_py" ]; then
+    # ⭐ THE TWO INTERPRETERS ARE USUALLY ONE FILE, AND PROBING IT TWICE ANSWERS THE SAME QUESTION
+    # TWICE. Measured 2026-09-02: on this sandbox both resolve to /usr/local/bin/python3, so the
+    # second pass re-imported rdkit, scipy and matplotlib to reach the identical verdict — about a
+    # third of `--if-needed`'s whole cost. ⛔ The check is on the RESOLVED PATH, so the moment they
+    # genuinely differ (a uv tool venv, the case this triple probe exists for) both are asked.
+    run_missing="$tool_missing"
   else
     run_missing="$(_missing_in "$run_py" "$TEST_PROBE")"
   fi
