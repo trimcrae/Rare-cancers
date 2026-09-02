@@ -16,7 +16,7 @@
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 200,
+    "process_defect": 201,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
@@ -26,7 +26,7 @@
   "n_by_state": {
     "blocked": 2,
     "done": 186,
-    "in_progress": 10,
+    "in_progress": 11,
     "parked": 30,
     "queued": 169,
     "superseded": 1
@@ -613,46 +613,6 @@
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a gate's anchor predicate; nothing published, submitted or deposited",
       "what": "⛔⛔ A FETCH THAT FAILED CAN ANCHOR A CITATION, AND ONE DID — IN A SUBMISSION MANUSCRIPT'S REFERENCE LIST. `lint_citations`' anchor test is 'this identifier appears in a tracked .json', not 'a SUCCESSFUL fetch of it exists'. ⚠ MEASURED 2026-08-27, and only because an unrelated CI run removed the false anchor. `fusion-junction-aso-journal-references.md:63` cites DOI 10.1089/nat.2024.0072 (Andersson et al., Nucleic Acid Ther 35:16-33). It was anchored by THREE records in research/literature/browser-fetch.json, every one of them a 403 whose stored text was a bot-protection interstitial and whose own note read '403 persisted under a real browser; not an IP or header-string problem and not fixable by retrying'. Three records saying WE COULD NOT READ THIS satisfied a gate that exists to establish that somebody did. ⭐ THE DISCRIMINATING OBSERVATION: `git show 372a065cd~1:…browser-fetch.json | grep -c` returns 3 and the same command at 372a065cd returns 0. That commit is a caller-supplied browser fetch that replaced TARGETS via BROWSER_TARGETS_JSON — BY DESIGN, and the file says so in `_targets_overridden`, so the CI job is NOT the defect and must not be filed as one. The gate did not break when the record vanished; it stopped being lied to. ⛔ AND THE FAILURE MODE IS THE ONE THIS REPOSITORY KEEPS PAYING FOR, stated in CLAUDE.md §4 in as many words: 'an absent reading is not a reading of absence, and a populated field is not a measured one… presence is never evidence of provenance'. The anchor test is a presence test. ⭐ SCOPE, MEASURED RATHER THAN FEARED: seven tracked json/jsonl carry non-2xx fetch records (arxiv-aso-route, preprint-host-eligibility, venue-fee-pages-2026-08-24, venue-policy-browser-fetch, emc-ret-cistrome{,-inputs}, and the now-rewritten browser-fetch), with 35-42 non-2xx status values each in the literature ones. Removing all six from the anchor set leaves exactly FOUR prose identifiers that lose their only anchor: GEO GSE118725, GEO GSE186197, GEO GSE186199, PMID 30413482. ⚠ THAT FOUR IS AN UPPER BOUND, NOT THE ANSWER — those files also hold successful records, and being in a file that CONTAINS failures is not the same as being anchored BY one. The real work is the per-record check: an identifier counts as anchored only if it appears inside a record whose own status says the fetch succeeded. ★ THE FIX IS TO MAKE THE ANCHOR PREDICATE READ THE RECORD, not the file. A record carrying a 4xx/5xx status, an explicit failure note, or no retrieved content anchors NOTHING. Then re-run and see which of the four (or fewer) genuinely need a provenance-ledger entry recording who checked them. ⚠ AND DO NOT SOLVE IT BY DELETING THE FAILURE RECORDS: a recorded 403 is real evidence that a route is closed — venue-policy-browser-fetch exists precisely to prove which publisher pages refuse a real browser — it is simply not evidence that a CITATION is real. Two different questions, one file. ✅ FIXED 2026-08-28, CYC-0034-schedule. lint_citations.py’s anchor scan now parses each tracked .json, walks it, and blanks (to `{\"url\": None, \"status\": <code>}`) the content of any record shaped like `{\"url\", \"attempts\": [...], \"status\"}` whose own top-level `status` is not a 2xx int — `_is_fetch_record` / `_fetch_succeeded` / `_redact_failed_fetches`, applied before the existing PATTERNS regex runs. Scoped to `.json` only (no tracked `.jsonl` currently uses this shape) and to the exact three-key signature so an unrelated int `attempts` counter (ledger rows) or a bare retry counter is never mistaken for an HTTP fetch log. ⭐ MEASURED, NOT ASSUMED, THAT THIS IS SAFE ON THE CURRENT TREE: diffed raw-text vs redacted-text extraction across all seven named corpora (arxiv-aso-route, browser-fetch, preprint-host-eligibility, venue-fee-pages-2026-08-24, venue-policy-browser-fetch, emc-ret-cistrome{,-inputs}) — zero identifiers removed by redaction on any of them, so the specific DOI this defect found (already cleared by the unrelated CI rewrite the ledger row describes) was the only live instance and no new ledger entries were needed. `lint_citations.py` unchanged at 98 unanchored / exit 0. Four new regression tests added to research/modalities/tests/test_lint_citations.py (14 passed, up from 10); `_is_fetch_record` and `_fetch_succeeded` each mutation-tested single-site, caught both times, restored."
-    },
-    {
-      "id": "AUT-PD-212-11f2347b-edfa0647",
-      "kind": "process_defect",
-      "state": "in_progress",
-      "cost_class": "free",
-      "owner": "s43-atr-stale-provenance",
-      "claimed_utc": "2026-09-02T21:50:19Z",
-      "attempts": 0,
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "cost_points_at": "research/compute/pricing.md",
-      "route": "RT-ATR-PANEL",
-      "serves": {
-        "route": "RT-ATR-PANEL",
-        "publication": "PUB-ATR",
-        "strategy": null,
-        "_why": "The paper is one clause from being postable under the standing aiXiv grant, over a paragraph its own committed artifact refutes."
-      },
-      "requires_trimcrae": false,
-      "notified_utc": null,
-      "last_evidence_utc": "2026-09-02",
-      "score": 186.0,
-      "_score_basis": "HAND-SET ABOVE EVERY OPEN ROW, and the only justification for that is IRREVERSIBILITY. PUB-ATR reads 6/7 on publish_bar; the single open clause is PREFLIGHT_FULL, which is a ~25-minute mechanical run, and `authority_permits('PUB-ATR','aixiv','submit')` is a standing grant needing no human. So the ONLY thing between a refuted paragraph and a public post under trimcrae's ORCID is that nobody has run one command yet. Everything else in the queue is recoverable with another commit; this is not.",
-      "what": "⛔⛔ A CONVERGED HARDENING ROUND CLEARED A PARAGRAPH THAT THE ARTIFACT IN THE SAME COMMIT REFUTES, AND THE PAPER IS NOW ONE MECHANICAL CLAUSE FROM AUTO-POSTING.\n★ THE CONTRADICTION, VERIFIED AT `origin/main` a3e0b2ac7 RATHER THAN RECALLED. The manuscript's §0 provenance cell states of `emc-fet-idr-census.json`: it \"holds ONE EMC record, keyed `emc_canonical_EWSR1_NR4A3`; it is type 2, and `431` DOES NOT OCCUR IN THAT FILE\", that \"types 1 and 5, and every NOT_MET, come from `emc_fet_construct_designs.py`\", and that the comparative claim \"is computed for type 2 and for no other\", with type 1's inversion stated as hypothetical (\"WOULD invert it\"). At that same commit the census carries FOUR emc keys headed by `emc_EWSR1_NR4A3_reported_types`, `431` occurs ELEVEN times, `holds_for_every_reported_emc_type` is present and FALSE, and the per-type rows are 12. Every clause of the paragraph is false, and the inversion it calls hypothetical is MEASURED.\n⛔ FIVE BLIND SEATS — INCLUDING AN ARITHMETIC LENS AND A CITATIONS LENS — RETURNED 0 BLOCKERS OVER IT. That is the finding that outlives this paragraph. `deliverable_digest` binds a round to the MANUSCRIPT's bytes and to nothing else, deliberately and correctly (it must not claim a review read 515 deposit paths). The consequence nobody had drawn: an artifact can be rewritten UNDER a converged round without moving any digest, and clause 1 keeps saying `OK`. The round was honest, the bar is working as designed, and the paper is still wrong.\n⚠ SECOND DEFECT, SAME COMMIT: `atm-status-atri-stratification.json` is cited ZERO times. It records that this residual space does not resolve BRCA2/olaparib — the textbook positive control — so part D's ATM nulls are UNINFORMATIVE rather than negative. The paper presents them as a bound.",
-      "next_action": "Rewrite the §0 provenance cell against the census as it now stands (per-type map, 431 present, NOT_MET sourced from the census, `holds_for_every_reported_emc_type` false, the inversion MEASURED not hypothetical) — a correction REPLACES the sentence, never appends to it. Then give part D the machinery-control result at full strength: the space is not shown to resolve a known genotype-drug association at these arm sizes, so its nulls bound less than the text claims. ⛔ Do NOT run PREFLIGHT_FULL on any commit until both land — that command is the last thing between this text and a public identifier. Editing the manuscript resets clause 1 by itself, which is the protection; take it early rather than last.",
-      "evidence": [
-        "origin/main a3e0b2ac7 — publish_bar --paper PUB-ATR: BLOCKED (6/7), only clause 2 open",
-        "manuscript: 1 occurrence of '`431` does not occur in that file'",
-        "research/modalities/emc-fet-idr-census.json at the same commit: 11 occurrences of 431",
-        "hardening-state/PUB-ATR.json round 7 at 51fb2b183fff: 0 blockers, 5 P1s, 5 seats",
-        "research/modalities/atm-status-atri-stratification.json — 0 citations in the manuscript"
-      ],
-      "retry_budget": 3,
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T21:50:19Z",
-          "fingerprint_at_dispatch": "2026-09-02|None"
-        }
-      ]
     },
     {
       "id": "AUT-PROP-029",
@@ -1341,6 +1301,49 @@
       "_claim_workers_why": "one worker; the two worktree seats each run in an isolated git worktree so a mutating seat never touches the live tree, and AUT-PROP-031 is held by the driver itself",
       "lease_released": "✅ DONE 2026-08-27 by the driver. `.claude/skills/paper-hardening/SKILL.md` gains §4a: a verbatim clause every seat prompt now ends with (\"Returning no findings is a complete and expected answer. Do not lower your bar to produce one.\"), the four shapes that count as pressure (a count, an expectation of yield, a completion framing, a comparison to a sibling seat), and the four that do NOT and stay. ⭐ THE HIGHEST-RISK COPY TURNED OUT TO BE IN THE SKILL RATHER THAN IN A PROMPT: §4's seat table records yield history (\"found the only blocker in round 13\", \"six of ten findings\"), which is evidence FOR THE DRIVER choosing seats and becomes a quota with a precedent the moment it is repeated to the seat. ⭐ AND THE OTHER TWO PROMPT HOMES WERE READ RATHER THAN ASSUMED CLEAN: routine-prompts.md's driver prompt and the research-loop skill carry none of the four shapes, and the driver prompt already ends with \"If the cycle did nothing, say that plainly\". Its one completion framing — a cycle without a receipt has failed — is a DELIVERABLE requirement rather than a yield expectation and stays. ⚠ The evidence is SEARCH-grade (SciIntegrity-Bench, arXiv:2605.10246; arxiv.org blocked at egress): safe to act on, not yet safe to quote in a manuscript.",
       "what": "✅ REAL WORK, VERIFIED INDEPENDENTLY AGAINST THE COMMITTED FILE AND THE COMMIT THAT LANDED IT — backfilled from that evidence, not invented after the fact. GROUNDED IN research/method-watch-autonomy-prior-art-2.md §5 (SEARCH-grade, arXiv:2605.10246, SciIntegrity-Bench; arxiv.org is blocked at this sandbox's egress, so the effect size is safe to ACT on and not yet safe to QUOTE in a manuscript). THE FINDING ACTED ON: 33 scenarios built so that honest acknowledgement of failure is the ONLY correct answer while completing the task requires misconduct; 231 runs across 7 frontier models gave a 34.2% overall integrity problem rate with no model at zero, and all seven synthesised data rather than admit infeasibility. Removing explicit completion pressure from the prompt cut UNDISCLOSED fabrication from 20.6% to 3.2% while the underlying synthesis rate was unchanged — i.e. the pressure does not change how often a model reaches for something it cannot support, it changes whether it tells you.\n\nWHAT WAS ACTUALLY BUILT (verified by reading the committed file, not by trusting the report): `.claude/skills/paper-hardening/SKILL.md` gained §4a, 'A SEAT THAT FINDS NOTHING HAS SUCCEEDED, AND THE PROMPT MUST SAY SO IN WORDS' — a verbatim clause every review-seat prompt now ends with ('Returning no findings is a complete and expected answer. Do not lower your bar to produce one...'), plus four shapes that count as completion pressure (a count, an expectation of yield, a completion framing, a comparison to a sibling seat) and four that do not and stay (the lens itself, the pinned commit, the artifact paths, the refute-by-default standard). The highest-risk copy turned out to be in the skill's own §4 seat table (which records yield history like 'found the only blocker in round 13') rather than in a seat prompt — that history is evidence for the DRIVER choosing seats and becomes a quota with a precedent the moment it is repeated to a seat. The other two prompt homes (`routine-prompts.md`'s driver prompt, the `research-loop` skill) were read and confirmed clean of all four pressure shapes rather than assumed clean.\n\nLANDED IN: commit `0ecc85a8e` ('anchor eight citations, and fix the gate that could not see them'), 2026-08-28T00:20:36Z, on the branch that reached main — confirmed via `git log -S\"lower your bar\" -- .claude/skills/paper-hardening/SKILL.md` and reading the diff, which matches the ledger row's own `lease_released` account verbatim.\n\n⚠ SEPARATE FINDING, NOT PAPERED OVER: NO CYCLE RECEIPT IN `research/autonomy/receipts/` NAMES AUT-PROP-031 AT ALL (grepped every receipt file for 'PROP-031', 'paper-hardening', 'Returning no findings', 'SKILL.md' — zero hits tying any receipt to this closure). The closing evidence lives only in the ledger row's own `lease_released` field and in the commit message of 0ecc85a8e, which bundled this fix into the SAME multi-topic commit as AUT-PD-036's citation-anchoring work and AUT-PD-041's filing — i.e. this item was closed by the driver directly, in-line with other work, without ever generating its own cycle receipt. The work itself verifies as real and specific (the file content matches the claimed change exactly, including the SciIntegrity-Bench numbers and the four-shapes taxonomy), so this is NOT the 'closed blind with no task description ever existing' failure mode point 3 warns against — but the absence of a receipt for an item the ledger otherwise treats as receipt-worthy is itself worth someone's attention as a process gap, separate from the content of the fix."
+    },
+    {
+      "id": "AUT-PD-212-11f2347b-edfa0647",
+      "kind": "process_defect",
+      "state": "in_progress",
+      "cost_class": "free",
+      "owner": "s43-atr-stale-provenance",
+      "claimed_utc": "2026-09-02T21:50:19Z",
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": "RT-ATR-PANEL",
+      "serves": {
+        "route": "RT-ATR-PANEL",
+        "publication": "PUB-ATR",
+        "strategy": null,
+        "_why": "The paper is one clause from being postable under the standing aiXiv grant, over a paragraph its own committed artifact refutes."
+      },
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-02",
+      "score": 178.0,
+      "_score_basis": "HAND-SET ABOVE EVERY OPEN ROW, and the only justification for that is IRREVERSIBILITY. PUB-ATR reads 6/7 on publish_bar; the single open clause is PREFLIGHT_FULL, which is a ~25-minute mechanical run, and `authority_permits('PUB-ATR','aixiv','submit')` is a standing grant needing no human. So the ONLY thing between a refuted paragraph and a public post under trimcrae's ORCID is that nobody has run one command yet. Everything else in the queue is recoverable with another commit; this is not.",
+      "what": "⛔⛔ A CONVERGED HARDENING ROUND CLEARED A PARAGRAPH THAT THE ARTIFACT IN THE SAME COMMIT REFUTES, AND THE PAPER IS NOW ONE MECHANICAL CLAUSE FROM AUTO-POSTING.\n★ THE CONTRADICTION, VERIFIED AT `origin/main` a3e0b2ac7 RATHER THAN RECALLED. The manuscript's §0 provenance cell states of `emc-fet-idr-census.json`: it \"holds ONE EMC record, keyed `emc_canonical_EWSR1_NR4A3`; it is type 2, and `431` DOES NOT OCCUR IN THAT FILE\", that \"types 1 and 5, and every NOT_MET, come from `emc_fet_construct_designs.py`\", and that the comparative claim \"is computed for type 2 and for no other\", with type 1's inversion stated as hypothetical (\"WOULD invert it\"). At that same commit the census carries FOUR emc keys headed by `emc_EWSR1_NR4A3_reported_types`, `431` occurs ELEVEN times, `holds_for_every_reported_emc_type` is present and FALSE, and the per-type rows are 12. Every clause of the paragraph is false, and the inversion it calls hypothetical is MEASURED.\n⛔ FIVE BLIND SEATS — INCLUDING AN ARITHMETIC LENS AND A CITATIONS LENS — RETURNED 0 BLOCKERS OVER IT. That is the finding that outlives this paragraph. `deliverable_digest` binds a round to the MANUSCRIPT's bytes and to nothing else, deliberately and correctly (it must not claim a review read 515 deposit paths). The consequence nobody had drawn: an artifact can be rewritten UNDER a converged round without moving any digest, and clause 1 keeps saying `OK`. The round was honest, the bar is working as designed, and the paper is still wrong.\n⚠ SECOND DEFECT, SAME COMMIT: `atm-status-atri-stratification.json` is cited ZERO times. It records that this residual space does not resolve BRCA2/olaparib — the textbook positive control — so part D's ATM nulls are UNINFORMATIVE rather than negative. The paper presents them as a bound.",
+      "next_action": "Rewrite the §0 provenance cell against the census as it now stands (per-type map, 431 present, NOT_MET sourced from the census, `holds_for_every_reported_emc_type` false, the inversion MEASURED not hypothetical) — a correction REPLACES the sentence, never appends to it. Then give part D the machinery-control result at full strength: the space is not shown to resolve a known genotype-drug association at these arm sizes, so its nulls bound less than the text claims. ⛔ Do NOT run PREFLIGHT_FULL on any commit until both land — that command is the last thing between this text and a public identifier. Editing the manuscript resets clause 1 by itself, which is the protection; take it early rather than last.",
+      "evidence": [
+        "origin/main a3e0b2ac7 — publish_bar --paper PUB-ATR: BLOCKED (6/7), only clause 2 open",
+        "manuscript: 1 occurrence of '`431` does not occur in that file'",
+        "research/modalities/emc-fet-idr-census.json at the same commit: 11 occurrences of 431",
+        "hardening-state/PUB-ATR.json round 7 at 51fb2b183fff: 0 blockers, 5 P1s, 5 seats",
+        "research/modalities/atm-status-atri-stratification.json — 0 citations in the manuscript"
+      ],
+      "retry_budget": 2,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T21:50:19Z",
+          "fingerprint_at_dispatch": "2026-09-02|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
     },
     {
       "id": "AUT-PD-037",
@@ -4366,6 +4369,30 @@
         "research/literature/fet-fusion-trial-eligibility-2026-08-07.json — NCT06239272 maximum_age '30 Years', emc_in_listed_conditions true"
       ],
       "retry_budget": 3
+    },
+    {
+      "id": "AUT-PD-212-f2f24a57-3128847a",
+      "what": "⛔ PREFLIGHT_FULL=1 IS RED ON CLEAN `origin/main` (0bc8c774, tree matched HEAD exactly, no `+dirty`), WHICH BLOCKS CLAUSE 2 FOR EVERY PAPER, NOT JUST PUB-ATR. 5 modalities-suite failures, none touched by this cycle's PUB-ATR work: (1) `test_aso_premrna_offtarget.py::test_the_refseq_scan_counts_nucleotides_and_not_only_records` — `KeyError: 'scanned_nt'`, the module's output dict no longer carries a key this test asserts on; a real code/test mismatch, not an env gap. (2) `test_gcp_fanout_rep.py::test_the_cron_is_a_backstop_that_names_the_supervisor_as_the_real_cadence` — `IndexError` splitting on a literal `'\\n  schedule:\\n'` block that no longer matches some workflow YAML's current formatting. (3)+(4) `test_no_hand_rolled_publish.py::test_no_new_hand_rolled_publish[atm-status-stratification.yml:run0/run1]` — a NEW workflow (from the ATM-stratification route, not filed by this cycle) hand-rolls commit+push instead of `research/compute/publish_artifacts.sh`, which the test's own message says has silently failed to publish on three other lanes (mid-rebase hang, false SUCCESS). (5) `test_workflow_dispatch_input_cap.py::test_no_workflow_exceeds_the_dispatch_input_cap[list-sagemaker-aws.yml]` — ALREADY TRACKED as AUT-PD-210 (queued), not re-filed here. None of (1)-(4) investigated further by this cycle: repo-gates/CLAUDE.md §6 — a defect surfaced by an unrelated task is a separate task to raise, not to absorb, and (1)/(2)/(3)/(4) each need domain context (ASO offtarget scan internals, the GCP fanout workflow's current YAML, and the ATM-stratification route's own publish step) this cycle does not have.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "filed_by": "CYC-round7-atr-preflight-full",
+      "_why_filed": "publish_bar.clause_2_preflight_full_green demands the UNSCOPED FULL banner (repo-gates: 'a paper-scoped run cannot mint a clause-2 receipt'), so PUB-ATR's last open clause cannot pass until origin/main's own FULL run is green — a blocker on this route, not a defect in it. Also blocks every OTHER paper's clause 2, so its priority should reflect that width once scored, not PUB-ATR's own value.",
+      "score": 128.0,
+      "_score_basis": "HAND-SET, as the ledger's `_role` requires of a session-added row with `serves.route: null`. Placed at the TOP of the open process_defect band because unlike most rows there this one blocks an outward-facing act (PUB-ATR is 6/7 clauses and otherwise ready) and blocks it for every paper in the portfolio, not just this one — still below live research per CLAUDE.md §0."
     },
     {
       "id": "AUT-PD-111",
