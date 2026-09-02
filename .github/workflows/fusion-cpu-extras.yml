@@ -14,7 +14,7 @@ on:
       task:
         description: "which task to run"
         type: choice
-        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census, pgr_transcript, pgr_tissue_expression, nr4a3_intron2_cryptic, nat_submission_meta, nat_scope_census, gcc_scope_census, aso_shape_census, venue_fee_screen]
+        options: [fusion, vast_smoke, nrv04_cys, nr4a_unique_residues, nr4a_e3_widened, nr4a_basin_search, nr4a_linker_chem, nr4a_e3_stage, e3_recruiter_stage, e3_vhl_recheck, vast_bid_advise, vast_price_history, nrv04_md_smoke, nrv04_build_smoke, nrv04_build_env, nrv04_charge_cache, nrv04_ffcache_status, nrv04_input_audit, nrv04_retro_prespend, nrv04_retro_price_forensics, nrv04_retro_secondaries, nrv04_adduct_build, nrv04_s3_tail, nrv04_bake, fep_bake, nrv04_vast_launch, step1_fanout, bioemu_bake, bioemu_run, bioemu_collect, bioemu_status, bioemu_stop, map_audit, map_diag, energy_probe, s1f_liveness, s_calibrator_survey, cys_chemoproteomics, fusion_census, pgr_transcript, pgr_tissue_expression, nr4a3_intron2_cryptic, nat_submission_meta, nat_scope_census, gcc_scope_census, aso_shape_census, venue_fee_screen, fusion_frame_trap]
         default: fusion
       fanout_mode:
         description: "step1_fanout: plan | stage | precheck | launch (dry) | launch_confirm (SPENDS) | collect | monitor | diag | reap (destroy + BLACKLIST a bad HOST) | block (stop launching a UNIT no host can fix) | stop"
@@ -395,6 +395,39 @@ jobs:
           bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
             "EWSR1::NR4A3 junction-model audit (Ensembl exon structure, CI)" \
             research/modalities/nr4a3-exon-audit.json
+
+  # FUSION FRAME-TRAP GENERALITY — does the EMC "untranslated acceptor sequence gets translated" trap
+  # occur anywhere else? Needs Ensembl REST (canonical transcript exon structure for ~60 fusion partner
+  # genes) and Europe PMC (the abstracts every breakpoint is quoted from), both 403'd at CONNECT by the
+  # dev sandbox. $0 CPU, pure stdlib, no pip.
+  # ⚠ Superseded, retained (rule 1.2): "THE `fusion_frame_trap` CHOICE OPTION EXISTS ONLY ON THIS BRANCH.
+  # That is dispatchable: the input SCHEMA is read from the dispatched ref, measured 2026-08-08
+  # (CLAUDE.md §6). The FILE must be on main, and it is." Both the option and the file are on `main` as of
+  # the 2026-09-02 stranded-branch recovery, so the dispatch needs no branch ref.
+  fusion_frame_trap:
+    if: ${{ github.event.inputs.task == 'fusion_frame_trap' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Fetch Ensembl transcript models + the Europe PMC breakpoint corpus
+        run: python research/modalities/fusion_frame_trap.py --refresh
+      - name: Commit the inputs back to the triggering branch
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          bash research/compute/publish_artifacts.sh "${{ github.ref_name }}" \
+            "Fusion frame-trap inputs (Ensembl canonical transcripts + Europe PMC corpus, CI)" \
+            research/modalities/fusion-frame-trap-inputs.json \
+            research/modalities/fusion-frame-trap.json
 
   # RUNG-5a part 1 — E3 ARM STAGING. Discovers, verifies and composes each recruiter arm (ligand-bound
   # substrate receptor + derived ligand exit vector + cullin-scaffold RING position bridged into the receptor
