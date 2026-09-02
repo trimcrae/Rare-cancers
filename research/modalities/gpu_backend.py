@@ -340,7 +340,16 @@ class Backend(ABC):
     #: ⚠ `mock` IS EXEMPT AND THAT IS NOT A BYPASS: `MockBackend` creates nothing, contacts nothing and
     #: bills nothing — it is the dry-run/test double. A caller reaches it only by asking for it BY NAME,
     #: and what it then returns is a fake handle, not a machine.
-    _GPU_BAN_EXEMPT_BACKENDS = frozenset({"mock", "abstract"})
+    #: ⛔⛔ `abstract` IS NOT ON THIS LIST AND MUST NOT BE PUT BACK. It was, until 2026-09-02, together
+    #: with a `getattr(self, "name", "abstract")` read below — so a subclass that never declared `name`
+    #: took the DEFAULT and landed on the exempt list. Measured that day: a complete concrete Backend
+    #: subclass with no `name` attribute returned from `.submit()` without the ban ever being consulted.
+    #: ⚠ NOTHING SHIPPED WAS EXPOSED — all eight backends declare a name, checked, not assumed — but the
+    #: hole was in the exact property this hook exists for. Its own comment above promises that "an
+    #: EIGHTH backend is gated on the day it is written"; an eighth backend that forgot one attribute
+    #: was not. A default that makes an UNCLASSIFIABLE case pass is the failure mode this repository
+    #: keeps paying for, and the direction is the whole point: an unnamed backend now REFUSES.
+    _GPU_BAN_EXEMPT_BACKENDS = frozenset({"mock"})
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -350,7 +359,9 @@ class Backend(ABC):
 
         @functools.wraps(fn)
         def _submit(self, *a, **kw):
-            if getattr(self, "name", "abstract") not in Backend._GPU_BAN_EXEMPT_BACKENDS:
+            # ⛔ FAILS CLOSED ON A MISSING NAME. The sentinel is deliberately a value no backend can
+            # declare, so "I could not identify this backend" can never collide with an exemption.
+            if getattr(self, "name", None) not in Backend._GPU_BAN_EXEMPT_BACKENDS:
                 _gpu_ban.assert_permitted(
                     f"{type(self).__name__}.submit — starting a billable GPU on the {getattr(self, 'name', '?')} backend")
             return fn(self, *a, **kw)

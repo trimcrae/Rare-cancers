@@ -221,8 +221,19 @@ def test_every_backend_adapter_is_gated_and_only_mock_is_exempt():
     lane is added'."""
     assert "def __init_subclass__(cls, **kwargs):" in _GB
     assert "_GPU_BAN_EXEMPT_BACKENDS" in _GB and "_gpu_ban.assert_permitted" in _GB
-    assert re.search(r'_GPU_BAN_EXEMPT_BACKENDS = frozenset\(\{"mock", "abstract"\}\)', _GB), (
+    # ⛔⛔ THIS PINNED `{"mock", "abstract"}` UNTIL 2026-09-02, AND IN DOING SO IT PINNED A BYPASS.
+    # `abstract` was not a backend — it was the DEFAULT of `getattr(self, "name", "abstract")`, so any
+    # subclass that never declared `name` resolved to it and was exempt. Measured that day: a complete
+    # concrete Backend with no `name` returned from `.submit()` with the ban never consulted. Nothing
+    # shipped was exposed (all eight adapters declare a name, checked) but the hook's own promise —
+    # "an EIGHTH backend is gated on the day it is written" — did not hold for one that forgot it.
+    # ★ THE SET SHRANK, WHICH IS WHY THIS EDIT IS ALLOWED WHILE THIS TEST WAS RED: fewer names may
+    # spend unchecked, never more. `amendment_guard` refuses a bar LOOSENED by the cycle it blocked;
+    # this is the opposite direction, and the assertion below is stricter than the one it replaces.
+    assert re.search(r'_GPU_BAN_EXEMPT_BACKENDS = frozenset\(\{"mock"\}\)', _GB), (
         "the exemption set changed — every name in it is a backend that may spend unchecked")
+    assert '"abstract"' not in _GB.split("_GPU_BAN_EXEMPT_BACKENDS")[1].split("\n")[0], (
+        "`abstract` is back on the exempt list; it is the unnamed-backend bypass, not a backend")
     adapters = set(re.findall(r"^class (\w+)\(Backend\):", _GB, re.M))
     assert {"VastBackend", "SageMakerBackend", "GCPBackend", "ModalBackend", "RunPodBackend",
             "SaladBackend", "SlurmBackend"} <= adapters
