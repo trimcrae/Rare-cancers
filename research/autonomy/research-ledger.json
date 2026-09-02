@@ -5,12 +5,12 @@
   "_generated_by": "python3 research/autonomy/priority.py --write",
   "_scores_are_not_evidence": "A score orders work; it asserts nothing about the science. Every input is echoed in score_inputs so a reader can check the arithmetic against the graph.",
   "n_by_kind": {
-    "analysis": 2,
+    "analysis": 4,
     "build": 1,
     "code": 1,
     "decide": 1,
     "experiment": 24,
-    "fetch": 25,
+    "fetch": 26,
     "fix": 23,
     "harden": 27,
     "measure": 1,
@@ -28,7 +28,7 @@
     "done": 177,
     "in_progress": 8,
     "parked": 30,
-    "queued": 161,
+    "queued": 164,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -13089,6 +13089,91 @@
       "_score_basis": "loop-instrument defect, found and closed in the same cycle; filed for the record rather than for the queue",
       "score_inputs": {},
       "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use."
+    },
+    {
+      "id": "AUT-113-11f2347b-f050ad8a",
+      "kind": "fetch",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "s23-live-research",
+      "requires_trimcrae": false,
+      "serves": {
+        "route": "RT-FUSION-OUTPUT",
+        "publication": "PUB-FUSION-OUTPUT",
+        "strategy": "ST-FUSION-DIRECT"
+      },
+      "what": "⭐ FETCH AND QUANTIFY PRJNA1357027 / SRP640302 — THE FOURTH EMC COHORT. THE LEDGER HAD NO ROW FOR THIS AT ALL, WHICH IS THE DEFECT THIS ROW CLOSES. `emc-sra-study.json` graded the deposit `EMC_PUBLIC_CANDIDATE` on 2026-08-08 with 12/12 runs carrying a populated `fastq_ftp` totalling 2,704,945,123 bytes and `transport_gate_passed: true`; `research/manuscripts/fusion-output/emc-fourth-cohort-sra-2026-08-08.md` §8 then listed four steps to turn that grade into a readable matrix and priced all four at $0. A search of this ledger for `PRJNA1357027`, `SRP640302`, `TempO`, `FISH_1` and `Siriraj` returned ZERO rows — only two DERIVED rows (AUT-033, AUT-047, both score 36.0) asking narrow questions OF a cohort nobody had filed a row to read. ⛔ AND TEN ROUTES NAME 'when EMC expression data lands' AS THEIR RE-GRADE TRIGGER while `TECH-EMC-EXPRESSION-DATA` still reads `current_state: early_signals` with evidence 'none has yet been graded as a usable deposit'. ★ THE ACT: `.github/workflows/emc-expression-datasets.yml` mode `fourth-cohort` (`research/modalities/emc_fourth_cohort_quant.py`) — ONE run pulled first and its read structure MEASURED, the other eleven unlocked only by that measurement, then probe-count matching, then probe->gene by verbatim match against human cDNA/ncRNA with the matched fraction reported as its own falsifier. $0: a free `ubuntu-latest` runner, pure stdlib, no GPU. ⛔ IT DOES NOT COMPUTE A DIFFERENTIAL-EXPRESSION RESULT: n = 12 is twelve tumours, six good-prognosis against six poor-prognosis, and that design does not support a confident differential-expression claim — the artifact carries that refusal as a field, and saying so plainly IS the result.",
+      "score": -79.1,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-FUSION-OUTPUT (-79.1) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-FUSION-OUTPUT"
+    },
+    {
+      "id": "AUT-114-11f2347b-f050ad8a",
+      "kind": "analysis",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "AUT-113-11f2347b-f050ad8a"
+      ],
+      "blocked_evidence": "Blocked on the ARTIFACT, not on the dispatch. ⛔ A FIRE IS NOT A DELIVERY: `TECH-EMC-EXPRESSION-DATA` may be re-graded only from `research/modalities/emc-fourth-cohort-quant.json` on disk, never from a run record. Until that file exists and has been read, this row stays blocked.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "s23-live-research",
+      "requires_trimcrae": false,
+      "serves": {
+        "route": "RT-FUSION-OUTPUT",
+        "publication": "PUB-FUSION-OUTPUT",
+        "strategy": "ST-FUSION-DIRECT"
+      },
+      "what": "RE-GRADE `TECH-EMC-EXPRESSION-DATA` FROM THE COMMITTED ARTIFACT ONCE AUT-113-11f2347b-f050ad8a LANDS, AND SPLIT THE CLAIM RATHER THAN WIDENING IT. Its `current_state` is `early_signals` with evidence 'none has yet been graded as a usable deposit'; ten routes carry it as a re-grade trigger. ⛔ THE TRAP IS ALREADY RECORDED IN THIS LEDGER on the same technology: the technology's NAME specifies RNA-seq and proteomics, so admitting a TARGETED LIGATION PANEL by widening the name would silently retire the trigger for every route waiting on it. What this deposit is, measured: single-end reads on one instrument model, an experiment title reading `Targeted RNA-seq (TempO-Seq) of EMC`, and a DESIGN_DESCRIPTION in the deposit's own SRA XML reading `TempO-Seq whole human transcriptome assay using BioSpyder reagents`. That is the depositors' description of their own deposit — one source, not two — and the probe-count measurement in AUT-113-11f2347b-f050ad8a is the independent check. ★ THE HONEST EDIT is to say what HAS arrived (a targeted whole-transcriptome ligation panel over 12 FFPE tumours, quantified) and what still has not (untargeted RNA-seq, proteomics), so each route's trigger fires on the event it actually needs.",
+      "score": -169.1,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-FUSION-OUTPUT (-79.1) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-FUSION-OUTPUT",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
+    },
+    {
+      "id": "AUT-115-11f2347b-f050ad8a",
+      "kind": "analysis",
+      "state": "queued",
+      "owner": null,
+      "claimed_utc": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": [
+        "AUT-113-11f2347b-f050ad8a"
+      ],
+      "blocked_evidence": "Blocked on AUT-113-11f2347b-f050ad8a's probe->gene assignment. Whether the panel carries a probe over the NR4A3 acceptor at all is a property of the panel, and the panel's content is what that row measures. Until the assignment exists this question cannot be posed, let alone answered.",
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "s23-live-research",
+      "requires_trimcrae": false,
+      "serves": {
+        "route": "RT-PARTNER-STRAT",
+        "publication": "PUB-FUSION-PARTNER",
+        "strategy": "ST-FUSION-DIRECT"
+      },
+      "what": "ASK WHETHER THE FOURTH COHORT'S PANEL CAN SPEAK TO THE FOUR `EWSR1-` SPECIMENS — memo §8 step 3. The deposit carries per-sample EWSR1 BREAK-APART FISH (`FISH_1`: EWSR1+ 8, EWSR1- 4), which says a locus is rearranged and does NOT name a partner; an `EWSR1-` EMC-labelled case is consistent with a TAF15 or TCF12 partner. ⛔ THE PRIOR IS AGAINST IT AND MUST NOT BE TALKED AROUND: `emc_fusion_read_scan.py` REFUSES a targeted probe deposit precisely because a fixed short amplicon inside one gene cannot span a junction, and a scan that returns zero from such a deposit carries NO information. So the answerable question is the narrow one — does the measured probe set contain any probe assigned to NR4A3, and does any probe sequence cross an NR4A3 exon boundary — and the expected answer is no. Report the no; do not report a zero read count as evidence about a tumour.",
+      "score": 19.3,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-PARTNER-STRAT (109.3) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-PARTNER-STRAT",
+      "score_inputs": {
+        "blocked_with_evidence": true
+      }
     }
   ]
 }
