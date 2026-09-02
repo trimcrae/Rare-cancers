@@ -25,8 +25,8 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 186,
-    "in_progress": 11,
+    "done": 187,
+    "in_progress": 10,
     "parked": 30,
     "queued": 169,
     "superseded": 1
@@ -1305,10 +1305,10 @@
     {
       "id": "AUT-PD-212-11f2347b-edfa0647",
       "kind": "process_defect",
-      "state": "in_progress",
+      "state": "done",
       "cost_class": "free",
-      "owner": "s43-atr-stale-provenance",
-      "claimed_utc": "2026-09-02T21:50:19Z",
+      "owner": null,
+      "claimed_utc": null,
       "attempts": 0,
       "blocked_by": null,
       "blocked_evidence": null,
@@ -1326,7 +1326,7 @@
       "score": 178.0,
       "_score_basis": "HAND-SET ABOVE EVERY OPEN ROW, and the only justification for that is IRREVERSIBILITY. PUB-ATR reads 6/7 on publish_bar; the single open clause is PREFLIGHT_FULL, which is a ~25-minute mechanical run, and `authority_permits('PUB-ATR','aixiv','submit')` is a standing grant needing no human. So the ONLY thing between a refuted paragraph and a public post under trimcrae's ORCID is that nobody has run one command yet. Everything else in the queue is recoverable with another commit; this is not.",
       "what": "⛔⛔ A CONVERGED HARDENING ROUND CLEARED A PARAGRAPH THAT THE ARTIFACT IN THE SAME COMMIT REFUTES, AND THE PAPER IS NOW ONE MECHANICAL CLAUSE FROM AUTO-POSTING.\n★ THE CONTRADICTION, VERIFIED AT `origin/main` a3e0b2ac7 RATHER THAN RECALLED. The manuscript's §0 provenance cell states of `emc-fet-idr-census.json`: it \"holds ONE EMC record, keyed `emc_canonical_EWSR1_NR4A3`; it is type 2, and `431` DOES NOT OCCUR IN THAT FILE\", that \"types 1 and 5, and every NOT_MET, come from `emc_fet_construct_designs.py`\", and that the comparative claim \"is computed for type 2 and for no other\", with type 1's inversion stated as hypothetical (\"WOULD invert it\"). At that same commit the census carries FOUR emc keys headed by `emc_EWSR1_NR4A3_reported_types`, `431` occurs ELEVEN times, `holds_for_every_reported_emc_type` is present and FALSE, and the per-type rows are 12. Every clause of the paragraph is false, and the inversion it calls hypothetical is MEASURED.\n⛔ FIVE BLIND SEATS — INCLUDING AN ARITHMETIC LENS AND A CITATIONS LENS — RETURNED 0 BLOCKERS OVER IT. That is the finding that outlives this paragraph. `deliverable_digest` binds a round to the MANUSCRIPT's bytes and to nothing else, deliberately and correctly (it must not claim a review read 515 deposit paths). The consequence nobody had drawn: an artifact can be rewritten UNDER a converged round without moving any digest, and clause 1 keeps saying `OK`. The round was honest, the bar is working as designed, and the paper is still wrong.\n⚠ SECOND DEFECT, SAME COMMIT: `atm-status-atri-stratification.json` is cited ZERO times. It records that this residual space does not resolve BRCA2/olaparib — the textbook positive control — so part D's ATM nulls are UNINFORMATIVE rather than negative. The paper presents them as a bound.",
-      "next_action": "Rewrite the §0 provenance cell against the census as it now stands (per-type map, 431 present, NOT_MET sourced from the census, `holds_for_every_reported_emc_type` false, the inversion MEASURED not hypothetical) — a correction REPLACES the sentence, never appends to it. Then give part D the machinery-control result at full strength: the space is not shown to resolve a known genotype-drug association at these arm sizes, so its nulls bound less than the text claims. ⛔ Do NOT run PREFLIGHT_FULL on any commit until both land — that command is the last thing between this text and a public identifier. Editing the manuscript resets clause 1 by itself, which is the protection; take it early rather than last.",
+      "next_action": "Nothing on these two edits. ⛔ THE OPEN QUESTION IS THE STRUCTURAL ONE and it needs its own row: what, if anything, should notice when an artifact a converged round's paper CITES changes after the pin. Options to be argued rather than assumed — a digest over the cited-artifact set recorded beside the deliverable digest and compared at clause 1; a staleness report that informs without gating; or an explicit decision that this is what rounds are for and no instrument is wanted. ⚠ Mind `scripts/tier-budgets.json`: the commit loop had seven test functions of headroom on 2026-09-02.",
       "evidence": [
         "origin/main a3e0b2ac7 — publish_bar --paper PUB-ATR: BLOCKED (6/7), only clause 2 open",
         "manuscript: 1 occurrence of '`431` does not occur in that file'",
@@ -1343,7 +1343,8 @@
       ],
       "score_inputs": {
         "fruitless_attempts": 1
-      }
+      },
+      "_done_by_the_driver_after_two_container_restarts": "⛔ THE SEAT THAT HELD THIS LEASE DIED TWICE TO CONTAINER RESTARTS WITHOUT PUSHING A BYTE, so the driver did the work in-thread rather than dispatch a third time. That is the correct call under the usage throttle and under restart risk both: a worker that has to be re-run from zero costs its whole context again, while an in-thread edit commits incrementally and survives.\n★ WHAT LANDED, BOTH REPLACEMENTS AND NEITHER AN APPEND (`paper-hardening`).\n(1) The §0 provenance cell now describes the census as it is: all three reported types under `emc_EWSR1_NR4A3_reported_types` with their retained halves and RG counts, every `NOT_MET` computed in the census itself, breakpoints projected from the construct module, `holds_for_every_reported_emc_type` FALSE, and the per-type tally 4/4 for type 2, 1/4 for type 1 (a tie with EWSR1::ATF1 exon 10 at 0.267) and 0/4 for type 5. The inversion the old text called hypothetical is stated as MEASURED, and the old reading is marked superseded rather than deleted.\n(2) Part D now carries `atm-status-atri-stratification.json`, which it had cited ZERO times. Both ATR inhibitors point as predicted and neither clears its interval (ceralasertib HL −0.304 [−0.760, +0.159], 25 vs 922; berzosertib HL −0.520 [−1.191, +0.094], 21 vs 863). ⭐ THE LOAD-BEARING HALF IS THE MACHINERY CONTROL: BRCA2 against the two PARP inhibitors, the identical pipeline, is ALSO undetectable and points the wrong way (olaparib +0.173 [−0.079, +0.430]; talazoparib +0.248 [−0.254, +0.768]). The artifact's verdict is `INSTRUMENT_CANNOT_DETECT`, so part D's ATM row is UNINFORMATIVE rather than negative — written in BOTH directions at equal strength, per the artifact's own `verdict_reading`.\n⚠ MY OWN FRAMING OF THE URGENCY WAS OVERSTATED AND IS CORRECTED HERE. I scored this 186.0 on the grounds that only an unrun PREFLIGHT_FULL stood between the refuted paragraph and a public post. A concurrent session then measured that PREFLIGHT_FULL is RED on clean `origin/main` (`AUT-PD-212-f2f24a57-3128847a`), so clause 2 could not have passed and no post was one command away. The defect was real and the paragraph was false; the countdown was not.\n★ THE STRUCTURAL FINDING STANDS AND IS THE REASON THIS ROW MATTERS BEYOND ITS TWO EDITS: five blind seats, an arithmetic lens and a citations lens among them, returned 0 blockers over a paragraph the artifact in the SAME COMMIT refutes. `deliverable_digest` binds a round to the MANUSCRIPT's bytes and nothing else — correctly, since it must not claim a review read 515 deposit paths — so an artifact can be rewritten UNDER a converged round without moving any digest while clause 1 keeps printing OK. Nothing measures that today."
     },
     {
       "id": "AUT-PD-037",
