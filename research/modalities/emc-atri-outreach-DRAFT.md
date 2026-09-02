@@ -36,7 +36,7 @@ _backfilled: true
 |---|---|---|
 | **The USZ (Zurich) group** — established USZ20-EMC1 and USZ22-EMC2 and *already runs ex-vivo drug-sensitivity and synergy screens on them* ([Bangerter et al., *Human Cell* 2023;36:446–455](https://link.springer.com/article/10.1007/s13577-022-00818-x)) | the single best fit in the world: they hold two of the ~4 EMC models and the assay is one they already do | **1** |
 | **The NCC (Japan) group** — established NCC-EMC1-C1, explicitly *"for screening experiments"* ([Iwata et al., *Human Cell* 2025](https://link.springer.com/article/10.1007/s13577-025-01250-7)) | a second, independent model — and the design needs ≥ 2 | **1** |
-| **The FET/ATR authors** (PMID 37205599) | they built the assay, hold the comparator lines, and EMC is the untested fourth TF-partner class in their own class argument | **2** |
+| **The FET/ATR authors** ([PMID 41811428](https://pubmed.ncbi.nlm.nih.gov/41811428/), the version of record; preprint PMID 37205599) | they built the assay, hold the comparator lines, and EMC is the untested fourth TF-partner class in their own class argument | **2** |
 | **Sarcoma translational labs / EMC-focused foundations** | model access and onward introductions | **1**, lightly edited |
 
 ⚠ **Verify every name, affiliation and address at send time.** None has been looked up, and a stale or
@@ -55,7 +55,7 @@ I'm writing to you rather than anyone else."]
 
 FET fusion oncoproteins impair ATM activation at double-strand breaks, leaving the ATR axis
 load-bearing; ATR inhibitors are synthetic lethal in Ewing sarcoma, clear cell sarcoma and DSRCT
-(PMID 37205599). EMC is FET-rearranged in ~89–95 % of cases, and its commonest fusion retains an
+(PMID 41811428). EMC is FET-rearranged in ~89–95 % of cases, and its commonest fusion retains an
 EWSR1 segment **byte-identical** to the Ewing fusion that work was done on — but **no NR4A3 fusion has
 ever been tested.**
 

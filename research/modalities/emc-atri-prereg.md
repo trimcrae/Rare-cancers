@@ -89,8 +89,9 @@ has agreed to run it and nobody has been asked.**
 **Published, in other diseases.** FET fusion oncoproteins are recruited to DNA double-strand breaks
 through the retained FET N-terminal intrinsically-disordered region and **suppress ATM activation and
 downstream signalling**, leaving the compensatory ATR axis load-bearing; ATR inhibition is therefore
-synthetic lethal in FET-rearranged cancers ([PMID 37205599](https://pubmed.ncbi.nlm.nih.gov/37205599/) /
-bioRxiv 10.1101/2023.04.30.538578). Reported evidence: elimusertib IC50 **20–60 nM** in FET-driven
+synthetic lethal in FET-rearranged cancers (Gracilla et al., *Cancer Research* 2026;86:2660-2677,
+[PMID 41811428](https://pubmed.ncbi.nlm.nih.gov/41811428/) — the version of record; preprint
+[PMID 37205599](https://pubmed.ncbi.nlm.nih.gov/37205599/) / bioRxiv 10.1101/2023.04.30.538578). Reported evidence: elimusertib IC50 **20–60 nM** in FET-driven
 lines, and significant anti-tumour responses in **5 of 5** FET-rearranged PDX models spanning an ETS
 partner (Ewing), a bZIP partner (clear cell sarcoma, EWSR1::ATF1) and a zinc-finger partner (DSRCT,
 EWSR1::WT1), the DSRCT model reaching a partial response by RECIST.
