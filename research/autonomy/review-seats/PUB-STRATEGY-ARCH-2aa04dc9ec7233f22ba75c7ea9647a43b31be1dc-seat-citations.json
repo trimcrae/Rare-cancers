@@ -1,0 +1,38 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc",
+  "blind": true,
+  "seat": "citations",
+  "lens": "citations, build and gates",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "6db6ce7562a268b6aad04845536f9eb7b14e33e48ddeeb641b552eb366048f6b",
+  "opened_utc": "2026-09-02T22:50:52Z",
+  "verdict": "supported",
+  "central_claim": "Two recruiting interventional clinical trials (NCT05918640, NCT06571734) admit patients with extraskeletal myxoid chondrosarcoma under molecular/fusion-family eligibility criteria while never naming the disease in their registry 'listed conditions' field, so a histology-based condition search on the patient's own diagnosis will not surface them, and the obvious fix (a keyword map) would be actively harmful because two other candidates that would pass a keyword screen (NCT06094101, NCT07188532) in fact refuse the disease.",
+  "blockers": [],
+  "p1s": [],
+  "notes": [
+    "sha256sum of the pinned blob matches the stated document_sha256 exactly (verified independently), and the pinned commit 2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc is identical to the current HEAD of the working tree, so no drift caveat is needed for this round.",
+    "python3 research/manuscripts/lint_citations.py run against the live tree: exit 0. No error or 'unresolved' finding for any identifier in this document. Full corpus retraction sweep (2026-09-01) shows PMID 32967265 (the only PMID cited in this document) as clean, not among the 6 retracted records.",
+    "python3 research/manuscripts/lint_claims.py research/manuscripts/care-delivery/emc-trial-reachability.md: 0 ERROR, 1 WARN (R4-confirms on 'NCT05918640 was confirmed separately on 2026-08-07', line 225). This WARN is non-blocking by design (lint_claims exits 0) and reads correctly here: 'confirmed' refers to a registry-retrieval fact backed by a committed artifact (research/literature/fet-fusion-trial-eligibility-2026-08-07.json), not to an unsupported scientific result, so it is not a language-discipline defect.",
+    "Manual read for R1-R5 overclaim categories (proteome-wide selectivity, EMC efficacy, safety, therapeutic window, clinical readiness) found none. The document explicitly disclaims efficacy ('Nothing here asserts that any intervention works in this disease'), disclaims clinical/matching authority in both the epigraph and section 8, and every eligibility/admission claim is scoped to registry text as posted, with repeated hedges ('as posted', 'is each trial team's decision', 'a registry record is not a protocol').",
+    "Spot-checked source artifacts at the pinned commit via `git show <sha>:<path>` for research/literature/fet-fusion-trial-eligibility-2026-08-07.json, research/literature/emc-trial-reachability-adjudication-2026-08-09.json and research/literature/non-us-registry-sweep-2026-08-09.json. Every trial identifier and quoted string checked traces verbatim: NCT05918640's quoted eligibility sentence and its four listed conditions match the artifact exactly, including the 'removal marker'/transport-clean provenance note in section 2 (fet-fusion-trial-eligibility-2026-08-07.json: 'removal_markers_in_eligibility_text': 1, 'verbatim_sentence_is_transport_clean': true). NCT06571734's seven listed conditions and its Cohort-3 criterion match the adjudication file verbatim. NCT04151342's estimated_enrollment (5500), observational/COHORT type, admitting criterion and Canadian-sites-only note all match. NCT06239272's listed_conditions array has exactly 42 entries, matching the paper's '42 conditions' claim, and its age-at-biopsy criterion (1-30 years) matches verbatim. NCT03767075's status_verified_date '2024-04' matches the paper's 'last verified in April 2024' claim. The two section-4 counter-examples (fusion-positive-but-histology-restricted trial; extra-skeletal/Ewing keyword trap) match NCT06094101 and NCT07188532's adjudications verbatim, including the exact restricting-criterion text. NCT07188532's listed_conditions in the 2026-08-07 sweep ('Ewing Sarcoma', 'Round Cell Sarcoma With EWSR1-non-ETS Fusion') match section 6's remedies claim verbatim. ISRCTN07742377 and ISRCTN60791336's exclusion-criteria text in the non-US sweep match section 4.1 verbatim, including the 2-trial/1-trial query counts for 'chondrosarcoma' and 'sarcoma AND fusion'. The non-US endpoint tally (5 non-US endpoints attempted, 1 (ISRCTN) answered, plus a ClinicalTrials.gov positive control) matches section 2's table and section 5's limitations exactly, including the WHO ICTRP 404-as-own-defect note and the jRCT TLS-handshake-failure note.",
+    "PMID 32967265 (Stacchiotti et al., Cancers 2020) traces to a verbatim-quoted passage in fet-fusion-trial-eligibility-2026-08-07.json's '_supporting_literature_read_in_the_same_ci_run' block (fetched via EuropePMC PMC7563993 full text), and the abstract's paraphrase ('most often to EWSR1, next to TAF15, and rarely to FUS, TCF12 or TFG, as a review reports') matches the source's percentages/ordering and is correctly attributed as a review (provenance: SECONDARY) rather than presented as primary-study data.",
+    "Instrument check: systems/graph/publications.json's PUB-STRATEGY-ARCH record has document.file == 'research/manuscripts/care-delivery/emc-trial-reachability.md', an exact match with no drift. research/autonomy/publish_bar.py's clause_4 (identifiers_resolvable) correctly runs lint_citations.py corpus-wide at the pinned sha via _tree_at, which is the only mode the linter supports (it takes no file argument) -- this is documented in the clause's own comment and is the conservative, correct reading. clause_1 (hardening_converged) reads seat files via SEATS_DIR.glob(f'{pub_id}-{sha}*.json') and _is_seat_file() requires the '-seat-' filename infix to avoid double-counting a round roll-up as a sixth seat; this file's name (PUB-STRATEGY-ARCH-2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc-seat-citations.json) matches that convention correctly. clause_6 (independent_adversarial_seat) reads the canonical roll-up path {pub_id}-{sha}.json first and falls back to a covering roll-up; it is not directly answered by this individual seat file, which is expected and correct given the round's file layout (a per-lens seat plus a separate roll-up). No defect found in any of the four clauses' handling of this paper."
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pin 2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json (at pin)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json (at pin)",
+    "research/literature/non-us-registry-sweep-2026-08-09.json (at pin)",
+    "research/manuscripts/citation-retraction-sweep.json",
+    "systems/graph/publications.json (at pin, PUB-STRATEGY-ARCH record)",
+    "research/autonomy/publish_bar.py (clause_1_hardening_converged, clause_4_identifiers_resolvable, clause_6_independent_adversarial_seat, clause_7_readable_enough_to_review, _seat_records, _is_seat_file, _look_history)",
+    "research/autonomy/review-seats/PUB-STRATEGY-ARCH-2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc-seat-regression.json (context only, to confirm round shape and document_sha256 agreement; not used as a source of findings)",
+    "research/manuscripts/lint_citations.py (run, not read in full)",
+    "research/manuscripts/lint_claims.py (grep for R1-R5 rule definitions)"
+  ]
+}

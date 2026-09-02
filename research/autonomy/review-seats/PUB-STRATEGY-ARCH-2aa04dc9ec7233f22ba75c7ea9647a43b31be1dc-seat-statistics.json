@@ -1,0 +1,26 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc",
+  "blind": true,
+  "seat": "statistics",
+  "lens": "statistics and methodology",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "6db6ce7562a268b6aad04845536f9eb7b14e33e48ddeeb641b552eb366048f6b",
+  "opened_utc": "2026-09-02T22:51:06Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "Two registries read on two snapshot dates show that trial eligibility is often written on a molecular/fusion class while the registry's searchable 'listed conditions' field names histologies, so a condition search on a patient's own EMC diagnosis misses recruiting trials that would in fact admit them, and that a keyword-based fix (rather than reading eligibility text trial-by-trial) would introduce costly false positives.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "Section 1's mechanism explanation includes an unhedged, uncited comparative claim about common cancers ('for a common cancer the two coincide, so nobody notices') that the paper's own evidence base -- an audit confined to an ultra-rare fusion-driven sarcoma across two registries -- never measures and cannot support. It is stated as settled fact rather than as speculation, and it is not even clearly true in general: molecularly-defined trials in common cancers (e.g. biomarker-selected basket/umbrella designs) can exhibit the identical listed-conditions/eligibility-criteria mismatch this paper describes for EMC, so the sentence risks readers taking a plausible-sounding but unaudited generalization as part of the paper's demonstrated finding.",
+      "evidence": "research/manuscripts/care-delivery/emc-trial-reachability.md, Section 1 ('The mechanism'), line: 'For a common cancer the two coincide, so nobody notices.' No registry data on common-cancer trials appears anywhere in the document; the scope frontmatter and Sections 2-5 describe retrieval scoped entirely to EMC/FET-fusion-sarcoma-related searches on two registries (ClinicalTrials.gov and one non-US registry).",
+      "fix": "Either hedge the sentence to mark it as an unaudited illustrative premise (e.g. 'For a common cancer the two fields may more often coincide by construction, though this audit did not test that -- so nobody notices') or delete it and let the two-field mechanism stand on its own without the common-cancer contrast, since the contrast is not load-bearing for the rest of the argument."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pinned commit 2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc, via git show)"
+  ]
+}

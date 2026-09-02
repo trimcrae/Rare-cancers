@@ -9,7 +9,8 @@ purpose: >
   Report that patients with an ultra-rare fusion-driven sarcoma are eligible for recruiting trials
   that a condition search on their own diagnosis does not return, because eligibility is written on
   the molecular lesion while the field that search reads is written on the histology — and show that
-  the obvious fix, a keyword map, is worse than no map.
+  the obvious fix, a keyword map, cannot tell a real admission from a false one on its own, so a
+  wrong hit does real harm in a disease where every trial carries weight.
 scope: >
   L3. Two public trial registries — one US, one UK — read on two dates, with every candidate's
   eligibility text retrieved individually and read. Two further non-US registries refused automated
@@ -76,8 +77,11 @@ indexed to this disease's driver.
 disease would have passed an automated keyword screen. One is titled for fusion-positive sarcoma and
 then restricts to three named histologies; the other contains the exact string *extra-skeletal*
 while meaning extraskeletal Ewing sarcoma. A reachability map built by keyword would have carried
-both, and a map that sends a patient toward a trial that will refuse them is worse than no map at
-all. Eligibility text has to be read one trial at a time.
+both, alongside the two trials that genuinely admit this disease and that only a molecular-language
+screen surfaces at all. The cost is not symmetric with the benefit: a map that sends a patient
+toward a trial that will refuse them does real harm, in a disease where the number of options is
+small enough that each one carries weight, and a keyword screen alone cannot tell the two apart.
+Eligibility text has to be read one trial at a time.
 
 **Why it matters.** Closing this gap needs no laboratory, no compound and no cell line. The fix is
 that trials whose eligibility is molecular should list the histologies that molecular criterion

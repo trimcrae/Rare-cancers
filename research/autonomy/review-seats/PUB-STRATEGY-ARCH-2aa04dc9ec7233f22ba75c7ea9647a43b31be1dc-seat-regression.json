@@ -1,0 +1,22 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc",
+  "blind": true,
+  "seat": "regression",
+  "lens": "regression on round 5's own repair",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "6db6ce7562a268b6aad04845536f9eb7b14e33e48ddeeb641b552eb366048f6b",
+  "opened_utc": "2026-09-02T22:47:51Z",
+  "verdict": "supported",
+  "central_claim": "Patients with an ultra-rare fusion-driven sarcoma are eligible for recruiting trials that a condition search on their own diagnosis does not return, because eligibility is often written on the molecular lesion while the registry's listed-conditions field is written on histology, and a keyword-based fix would be worse than no map at all.",
+  "blockers": [],
+  "p1s": [],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pin 2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc, via git show)",
+    "git show 2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc -- research/manuscripts/care-delivery/emc-trial-reachability.md (diff of this commit against its parent)"
+  ],
+  "notes": "1) Abstract 'The problem' paragraph now reads 'Trial eligibility is often written the other way...' (line 45) -- reads cleanly, no leftover temporal-trend implication in the sentence or its neighbors. 2) Section 1 'Eligibility criteria' paragraph now reads 'Often they are molecular: a fusion family, a pathway alteration, a class of rearrangement.' (line 96) -- same. 3) Grepped the full document body for 'increasingly' (case-insensitive): zero matches. The only remaining 'often' occurrences are these two edited sentences plus one unrelated, pre-existing, cited use in the Abstract's Background sentence ('most often to EWSR1', PMID 32967265, describing fusion-partner frequency, not eligibility-drafting trends) -- not a regression. 4) Both edited sentences are grammatical and logically coherent; longest sentence in either paragraph (the Abstract 'The problem' first sentence) is 40 words, well under the 60-word ceiling; all other sentences in both paragraphs are shorter. 5) Confirmed via `git show <commit> -- <path>` that this commit's diff touches ONLY these two lines (increasingly->often at line 45 and line 96) -- nothing else in the document changed, so no other part of the paper could have regressed from this commit. 6) The round-4 fix (the NCT06571734 molecular-class hedge) is intact and consistent: Section 5 states 'Whether the investigators of the translocation cohort read their own term as a general class or as the histologies they listed is precisely the question only they can answer,' and Section 6 Remedies item 1 cross-references it ('though whether this particular protocol enumerates one, rather than leaving the class term to the investigators' own judgment, is not something the registry record settles (§5)') -- both present, mutually consistent, and untouched by this commit's diff. No findings on this lens for this commit."
+}

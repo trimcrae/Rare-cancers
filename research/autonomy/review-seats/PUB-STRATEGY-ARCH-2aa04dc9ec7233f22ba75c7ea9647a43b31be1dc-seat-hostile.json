@@ -1,0 +1,40 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc",
+  "blind": true,
+  "seat": "hostile",
+  "lens": "hostile referee (accept/revise/reject)",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "6db6ce7562a268b6aad04845536f9eb7b14e33e48ddeeb641b552eb366048f6b",
+  "opened_utc": "2026-09-02T22:54:56Z",
+  "verdict": "needs_revision",
+  "referee_recommendation": "minor_revisions",
+  "central_claim": "Some clinical trials whose eligibility criteria are written molecularly (a fusion family or a translocation class) admit extraskeletal myxoid chondrosarcoma even though their listed-conditions field never names it, so a patient searching a public registry by their diagnosis will not find a trial they are eligible for -- and, symmetrically, a naive keyword-based fix produces false-positive matches to trials that actually refuse the disease, so eligibility text has to be read one trial at a time rather than string-matched.",
+  "blockers": [
+    {
+      "summary": "The abstract's headline framing -- that a keyword-built reachability map is 'worse than no map at all' -- is not supported by, and is in tension with, the paper's own mechanism, and it is the paper's advertised key contribution ('The finding that matters more than the count'), not a passing aside.",
+      "evidence": "Lines 75-80: '**The finding that matters more than the count.** Both trials we adjudicated as *refusing* this disease would have passed an automated keyword screen. ... A reachability map built by keyword would have carried both, and a map that sends a patient toward a trial that will refuse them is worse than no map at all. Eligibility text has to be read one trial at a time.' The same framing is asserted in the frontmatter purpose (line 12): 'the obvious fix, a keyword map, is worse than no map.'",
+      "fix": "Section 1 establishes the paper's own mechanism: a patient searching by histology (the 'no map' baseline) will NOT find the two real admitting trials (NCT05918640, NCT06571734) at all, because that is precisely the reachability gap this paper documents -- neither lists the histology in its conditions field. A keyword map built on molecular/fusion language is, on the paper's own evidence, the only mechanism shown here capable of surfacing those two real matches to a patient at all; it would also surface two false positives. Declaring the flawed map categorically 'worse than no map at all' ignores the true positives it uniquely provides and is not something two anecdotal false-positive cases establish -- no comparison of aggregate net benefit vs. harm is made, and 'no map' is not actually a neutral baseline here, it is the exact status quo the paper spends its whole first half showing is broken. Soften to something the evidence actually carries, e.g. 'a map that sends a patient toward a trial that will refuse them does real harm, in a disease where the number of options is small enough that each one carries weight' (the hedged version already used in §4, line 191-193) -- and drop the absolute 'worse than no map at all' comparison, or explicitly bound it (e.g. 'worse than no map for the two trials it gets wrong, even though it is the only route shown here to the two it gets right')."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "The Limitations bullet 'Two registries, of five or more' mixes a numerator drawn from two different categories (one US registry plus one non-US registry that succeeded) against a denominator ('five') that the very next sentence defines as non-US endpoints only -- so read as a literal fraction it does not add up, and a future edit tightening the wording could easily make the mismatch worse rather than better.",
+      "evidence": "Line 204-206: 'Two registries, of five or more. A non-US sweep ran on the date of this draft and only one of five non-US endpoints answered.' Per the Abstract (line 51) and §2's retrieval table, the paper actually read/attempted six registries in total (ClinicalTrials.gov, read twice, plus five non-US endpoints, one of which -- ISRCTN -- answered), succeeding on two (ClinicalTrials.gov and ISRCTN).",
+      "fix": "Either make the fraction consistent (e.g. 'Two registries, of six attempted' or 'Two of six'), or rewrite to avoid a numerator/denominator that silently spans different populations, e.g. 'Two registries read: ClinicalTrials.gov, and one of five non-US endpoints attempted.'"
+    },
+    {
+      "summary": "The sentence 'In the three records those two queries returned, the disease appears only as an exclusion' is ambiguous between (a) 'of the records that mention the disease, it is only ever as an exclusion' (supported) and (b) 'the disease is mentioned, as an exclusion, in all three records' (not supported -- the third record, a methylome-classifier study returned by the 'sarcoma AND fusion' query, is never described as mentioning the disease at all).",
+      "evidence": "Lines 182-184: 'In the three records those two queries returned, the disease appears only as an exclusion; where trials are indexed molecularly, it is admitted and never named.' Compare with lines 178-180, which describe the third record only as '*sarcoma AND fusion* returns one study, a diagnostic methylome classifier rather than a treatment trial' -- with no statement that it names the disease at all.",
+      "fix": "Disambiguate on the next edit, e.g. 'Of the three records those two queries returned, the two that mention the disease name it only as an exclusion' -- so a later tightening pass does not collapse the sentence onto the stronger, unsupported reading (b)."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pin 2aa04dc9ec7233f22ba75c7ea9647a43b31be1dc, via git show; sha256 verified)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json (at the same pin, to check the driver-gene search count and NCT06571734/NCT07188532 listed-conditions claims against source data)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json (at the same pin, to check the two §4 refusal examples -- NCT06094101 and NCT07188532 -- against source data)"
+  ]
+}
