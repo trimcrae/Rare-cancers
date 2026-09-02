@@ -65,7 +65,7 @@ last_verified: 2026-08-06
 | **PUB-LOCOREGIONAL**<br/>*Anatomical selectivity in an indolent, extremity-primary, lung-metastas…* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER WAS HALF RIGHT, AND THE HALF IT GOT WRONG IS THE INTERESTING ONE. … |
 | **PUB-MATRIX-ADDRESS**<br/>*The myxoid matrix as an address rather than an obstacle* | ◔ `outlined` | `preprint` | 4 | ⚠ ITS BLOCKER IS NOW RETIRED AND THE PAPER IS MOSTLY NEGATIVE. All four routes are graded as of 2026-08-09. … |
 | **PUB-NR-OUTSIDE-NR4A3**<br/>*Nuclear-receptor pharmacology outside NR4A3 in a NR4A3-driven sarcoma* | ◔ `outlined` | `preprint` | 2 | ⚠ ITS BLOCKER IS RETIRED AND BOTH ROUTES ARE GRADED, BOTH NEGATIVELY, FOR DIFFERENT REASONS. The dormancy route is UNREAD  … |
-| **PUB-CARE-DELIVERY**<br/>*What decides survival in extraskeletal myxoid chondrosarcoma, and what …* | ○ `unwritten` | `preprint` | 4 | Its four contributing routes are registered and their evidence is cited but not yet extracted. … |
+| **PUB-CARE-DELIVERY**<br/>*What decides survival in extraskeletal myxoid chondrosarcoma, and what …* | ○ `unwritten` | `preprint` | 4 | ⚠ Superseded, retained (rule 1.2): "Its four contributing routes are registered and their evidence is cited but not yet extracted. … |
 | **PUB-IPD-SURVIVAL**<br/>*A reconstructed patient-level survival dataset for extraskeletal myxoid…* | ○ `unwritten` | `preprint` | 1 | The paper is unwritten; the science for it now exists. ⚠ *Superseded, retained: "no published figure has been digitized into it yet."* One has  … |
 | **PUB-PARKED-MODALITIES**<br/>*Five modalities parked on a capability that does not exist yet: what wo…* | ○ `unwritten` | `preprint` | 5 | Every route it would cover is parked on a technology nobody has, so the paper has no result to report and would be a horizon scan. … |
 
@@ -488,11 +488,13 @@ Two nuclear-receptor routes exist in this disease that do not act on its own rec
 
 In extraskeletal myxoid chondrosarcoma the determinants of survival that have been studied least are the ones that decide it most: the completeness of the first operation, whether the diagnosis was known before it, and whether follow-up outlasts a disease that recurs for decades.
 
-**Not written because:** Its four contributing routes are registered and their evidence is cited but not yet extracted. The paper needs the reconstructed survival dataset (RT-IPD-SURVIVAL) to say anything quantitative; without it, it is an argument with citations rather than a result.
+**Not written because:** ⚠ Superseded, retained (rule 1.2): "Its four contributing routes are registered and their evidence is cited but not yet extracted. The paper needs the reconstructed survival dataset (RT-IPD-SURVIVAL) to say anything quantitative; without it, it is an argument with citations rather than a result." ⛔ BOTH HALVES ARE FALSE AS OF 2026-09-01. Six extraction artifacts exist and none of them consumes a reconstruction: 196 operated patients with a margin (research/modalities/emc-surgical-quality.json), 271 patients' primary site (emc-site-curation.json), 45 printed Cox coefficients (emc-prognostic-coefficients.json) and four printed time-to-event statistics (emc-recurrence-timing.json). RT-IPD-SURVIVAL has produced exactly one admissible curve — 11 patients, progression-free survival in advanced disease — which is the wrong shape for this paper and always was.
+
+⭐ THE REAL REASON IT IS UNWRITTEN IS A JUDGEMENT, NOT A GAP. The paper's strongest quantitative claim — that margin decides local recurrence — is the printed conclusion of the abstract of its own largest source (PMID 40885991: "Wide resection is mandatory to reduce the risk of local recurrence of localized EMCs"). The third clause of what_it_would_claim, whether the diagnosis was known before the operation, is unstudiable in EMC from the reachable record: treatment setting is reported by no reachable series. And the working title's second half — "what the literature has been looking at instead" — is an argument with no measurement behind it. ⭐ The one free step that would change this is a term census over the 554-record corpus already committed at literature/emc-care-delivery-and-classification/ on the literature-cache branch, which is now filed as BLK-NO-FIELD-ATTENTION-MEASUREMENT.
 
 **Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
 
-- **BLK-NO-CURATED-CLINICAL-DATA** (`insufficient_data`) — The clinical facts these routes need are IN the published record and have never been extracted into the registry
+- **BLK-NO-FIELD-ATTENTION-MEASUREMENT** (`insufficient_data`) — The paper's second half — what the literature has been looking at INSTEAD — rests on a corpus-wide term census nobody has run
 
 | route | role | what it contributes |
 |---|---|---|
@@ -511,7 +513,7 @@ What the published record of an ultra-rare cancer can and cannot yield as patien
 
 **Blocks on the PAPER** — deliberately not the same set its routes inherit, because a route can be blocked on a capability while its paper is publishable today as an honest negative:
 
-- **BLK-NO-CURATED-CLINICAL-DATA** (`insufficient_data`) — The clinical facts these routes need are IN the published record and have never been extracted into the registry
+- **BLK-NO-CURATED-CLINICAL-DATA** (`insufficient_data`) — Three of these six clinical fields are absent from the reachable publications, not merely un-extracted — and the other three are now extracted
 
 | route | role | what it contributes |
 |---|---|---|

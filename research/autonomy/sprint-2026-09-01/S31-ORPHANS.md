@@ -300,8 +300,8 @@ seat branches are precisely the case it cannot represent.**
 
 ⛔ **GAP 2 — A DIRTY TREE SILENCES IT COMPLETELY, AND THAT IS THIS SPRINT'S NORMAL STATE.** Measured
 just now: `git status --porcelain | wc -l` = **36**. The hook exits 0 at every stop tonight. The
-comment explains the choice (`stop-hook-git-check.sh`, not ours and in no repository directory —
-it is a user-level harness hook in `~/.claude/` — already fires on uncommitted changes, and two
+comment explains the choice (`stop-hook-git-check.sh` — a launcher-level user hook, not ours, living
+outside this repository — already fires on uncommitted changes, and two
 warnings for one state teaches skimming) and that reasoning is sound for a solo session — but in a
 twelve-seat tree the tree is *never* clean, so the merge-debt hook is **unconditionally off for the
 entire sprint**, which is exactly the window in which the most branches get created.

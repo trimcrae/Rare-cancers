@@ -691,8 +691,8 @@ picked up **`CVCL_1238`** — and this repository already records that object as
 ⛔ **That is the answer to open question 3's cell-line half, and the repo's own register gives it more
 sharply than either research pass did.** The single DepMap model carrying the OncotreeSubtype
 "Extraskeletal Myxoid Chondrosarcoma" is `OBJ-LINE-HEMCSS` / H-EMC-SS / `CVCL_1238`, and **the public
-record does not support the label.** An 18-locus STR profile exists, so the line is a real profiled
-entity — *the open question is what it is, not whether it exists.*
+record does not support the label.** An STR profile of 16 markers — 15 STR loci plus amelogenin —
+exists, so the line is a real profiled entity — *the open question is what it is, not whether it exists.*
 
 ⭐ **THE LOAD-BEARING EVIDENCE IS THE FUSION-CALL FILE, NOT THE CELLOSAURUS CAUTION** (trimcrae,
 2026-08-12, correcting an earlier draft of this section). The register's `evidence_verbatim` reads *"Does

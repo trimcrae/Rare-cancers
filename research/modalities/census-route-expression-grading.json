@@ -3,7 +3,17 @@
     "mat2a_percentile_gpl6244": 99,
     "mat2a_percentile_gpl3290": 84,
     "prmt5_percentile_gpl6244": 91,
-    "prmt5_percentile_gpl3290": 59
+    "prmt5_percentile_gpl3290": 59,
+    "biomarker_ass1_percentile_gpl6244": 92,
+    "biomarker_noxa_delta_gpl3290": 1.744,
+    "biomarker_p53_output_t_gpl6244": -2.203,
+    "biomarker_p53_output_t_gpl3290": -1.126,
+    "biomarker_prc2_core_t_gpl6244": -0.216,
+    "biomarker_prc2_core_t_gpl3290": 1.714,
+    "biomarker_guardians_t_gpl6244": -4.568,
+    "biomarker_guardians_t_gpl3290": -2.538,
+    "biomarker_alt_ej_t_gpl6244": 2.423,
+    "biomarker_alt_ej_t_gpl3290": 2.226
   },
   "_a_grader_must_read_the_audit_not_only_the_reading": "⛔ ADDED AFTER THIS FILE GOT IT WRONG. emc-expression-panels.json holds READINGS; emc-hypoxia-confounds.json holds the AUDIT of one of them. Grading from the first without the second produced a SUPPORTED verdict on a signature its own genome-wide null restricts to one of the two platforms. An audit that reaches some consumers of a shared reading and not others is this repository's most-repeated failure, and here the grader WAS the consumer it did not reach. Any future grader over this panel must check whether a confound audit exists for the read it is using.",
   "_what": "Verdicts for the modality-census routes whose selecting feature was ALREADY readable in emc-expression-panels.json. One reading per route, graded against the route's own stated premise.",
@@ -1979,7 +1989,7 @@
           }
         }
       },
-      "observed": "⚠ ONE HALF IS PRESENT AND THE OTHER IS NOT — which is not what this grade first said. The alt-EJ MODULE is HIGHER in EMC on BOTH platforms and concordantly so, and every readable member of it is higher on both. ⛔ The homologous-recombination arm is flat to mildly HIGHER rather than down, so the combination the class needs — alt-EJ up WITH HR down — is not present. The NHEJ contrast is flat on both, which is what makes the alt-EJ signal specific rather than a general repair-transcription effect. ⚠ The route's own primary gene is a weaker reading than its module: it is readable on only ONE platform, is barely higher there, and sits in the bottom quarter of that array's distribution — so the module carries this observation and the single gene does not.",
+      "observed": "⚠ ONE HALF IS PRESENT AND THE OTHER IS NOT — which is not what this grade first said. The alt-EJ MODULE is HIGHER in EMC on BOTH platforms and concordantly so, and every readable member of it is higher on both. ⛔ The homologous-recombination arm is flat to mildly HIGHER rather than down, so the combination the class needs — alt-EJ up WITH HR down — is not present. The NHEJ contrast is flat on both, so the elevation is specific AGAINST NHEJ. ⚠ It is not shown to be specific more broadly, and on GPL3290 it is not shown to be specific at all: the homologous-recombination module rises MORE there than the alt-EJ module (+0.2658 against +0.2578 SD), so the two move together on that platform and only GPL6244 separates them (+0.087 against -0.0438). ⚠ Three of the module's four members are single-strand-break and base-excision-repair factors (LIG3, PARP1, XRCC1), and no contrast against that pathway was read. ⚠ The route's own primary gene is a weaker reading than its module: it is readable on only ONE platform, is barely higher there, and sits in the bottom quarter of that array's distribution — so the module carries this observation and the single gene does not.",
       "verdict": "NOT SUPPORTED — the required COMBINATION is absent, because the homologous-recombination half is not there. ⚠ Not because neither half is: the alt-EJ half is present on both platforms.",
       "what_this_does_not_settle": "⛔ THE DEPENDENCY IS CREATED BY A REPAIR DEFECT, USUALLY A MUTATION, which this read cannot see at all — so the half that came back negative is the half this instrument is least able to measure, and an HR defect can be present with normal HR transcript. That makes this a weaker negative than the group scores alone suggest. It must also be read beside the WEAK grade the neighbouring ATR assessment already carries, since both rest on the same unproven replication-stress premise.",
       "route_action": "down-grade, but record the alt-EJ elevation rather than burying it — it is the one half of this class's requirement that EMC does appear to meet",

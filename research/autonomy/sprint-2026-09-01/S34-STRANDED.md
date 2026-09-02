@@ -189,9 +189,9 @@ Patches **P3a** (new file) and **P3b** (harness), both clean.
 
 #### 2.7 `claude/aut-pd-145-s2-CYC-0074` — `76a8f7f2d` — **OBSOLETE**
 
-`unscored_ratchet.py` (**a file that does not exist on this ref — it is only on that branch, and this checkout
+`unscored_ratchet.py` (⚠ **superseded, retained: this read "does not exist in this checkout — the file is only on that branch, on no ref this checkout
 carries, and naming it here is a pointer to the branch's contents, not to a path a reader can
-open**) plus a 203-line test, together measuring the entry condition for landing
+open". ⭐ **IT IS IN THE REPOSITORY NOW, AT `research/autonomy/unscored_ratchet.py`, RESCUED 2026-09-02 WITH ITS 11-CASE TEST.** A branch census read this branch rather than trusting the OBSOLETE verdict and found the file was single-ref — present on one of 302 refs and on no other — carrying findings recorded nowhere else: that a plain git ancestry range over one window **oscillated 84 → 85 → 84 → 85 inside four minutes while `--first-parent` was monotone**, because a commit that lived on a side branch carries a ledger missing every other branch's rows and so reports the population of a state the trunk was never in; and that an ancestry range silently admits commits whose timestamp PRECEDES its own start, two of which carried the +1 that made a series look as though it had risen when it had not. ⛔ Both are errors any instrument reading trunk history can make, this sprint's own branch census included. The OBSOLETE verdict on the branch stands — the ratchet it gated landed on the trunk on 2026-08-29 — but a branch being obsolete is not the same as every file on it being obsolete, and that distinction is what nearly lost this one**) plus a 203-line test, together measuring the entry condition for landing
 `MAX_UNSCORED_OPEN`. **The ratchet itself landed on the trunk** on 2026-08-29 (`CYC-0083-381d0696`,
 pinned at 73 — seven *below* the 80 it was written against — later re-pinned **down** to 69), and
 `AUT-PD-145` is `done`. The condition this instrument existed to measure was met, by hand, twice.
