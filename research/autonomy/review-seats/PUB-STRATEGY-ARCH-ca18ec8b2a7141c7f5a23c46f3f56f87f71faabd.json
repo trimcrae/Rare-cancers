@@ -1,0 +1,28 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "The CANONICAL round-8 roll-up record for this commit. It carries NO tallies of its own (paper-hardening §8.0a, AUT-PD-193) -- the five per-lens seat records beside it carry the blockers/p1s, counted exactly once each. This file exists so clause_6_independent_adversarial_seat has a bare `{pub}-{sha}.json` to read; clause_1_hardening_converged reads the seats.",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "reviewed_commit": "ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+  "document_sha256": "d7656305abadc8da96f1949dd7d1eab8a4da5df78f2815b53f081bb65c6f5264",
+  "blind": true,
+  "_blind_means": "Each of the five seats was given only the document path, the pinned commit sha and its document_sha256, told the tree may drift and the pin is the subject, and forbidden research/autonomy/, .claude/skills/ and each other's output. Each verified the digest before reading. Dispatched concurrently, in one message, with no cross-talk. THE DRIVER IS NOT BLIND: it dispatched, then synthesized this roll-up from the five completed records without re-reviewing the manuscript itself.",
+  "utc": "2026-09-02T23:45:00Z",
+  "round": 8,
+  "last_round": 8,
+  "seats": [
+    "PUB-STRATEGY-ARCH-ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd-seat-arithmetic.json",
+    "PUB-STRATEGY-ARCH-ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd-seat-citations.json",
+    "PUB-STRATEGY-ARCH-ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd-seat-hostile.json",
+    "PUB-STRATEGY-ARCH-ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd-seat-regression.json",
+    "PUB-STRATEGY-ARCH-ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd-seat-statistics.json"
+  ],
+  "central_claim": "Patients with the ultra-rare fusion sarcoma EMC are eligible for at least two recruiting interventional trials that a histology-based condition search on their diagnosis would never surface, because eligibility is written on the molecular lesion (fusion family or translocation class) while the registry's searchable 'listed conditions' field names only the histologies a sponsor had in mind -- and this cuts both ways, since two other trials that read as admitting under keyword matching in fact refuse EMC, so eligibility text has to be read one trial at a time rather than pattern-matched.",
+  "verdict": "supported",
+  "recommendation": "minor_revision",
+  "narrative": "Rounds 4-7 each found and fixed exactly one new, distinct real blocker (a Remedies/Limitations self-contradiction about NCT06571734; an uncited 'increasingly' temporal-trend claim the snapshot design can't support; the paper's own key finding overclaiming 'worse than no map at all'; and, in round 7, both a table row implying 1,159 is the sum of four named screen counts and a frontmatter scope field undercounting unread non-US endpoints at three instead of four). Round 8 re-ran all five lenses -- regression, statistics, citations, arithmetic, hostile -- against commit ca18ec8b, the exact fix commit from round 7, and every lens independently re-verified all four prior fixes hold, cross-checked the manuscript's identifiers and numeric claims against the three underlying source artifacts (fet-fusion-trial-eligibility-2026-08-07.json, emc-trial-reachability-adjudication-2026-08-09.json, non-us-registry-sweep-2026-08-09.json), and found ZERO blockers across all five seats -- the first zero-blocker round this paper has had. Seven P1s were reported (fragility notes about future drift, none a wrong statement today): two seats (arithmetic, hostile) independently converged on the same finding -- the 'returned 23 studies against a reported total of 23' histology re-search claim in Section 2 has no citation, unlike every other retrieval claim in the same paragraph, and the figure is not traceable to either named source artifact; the remaining five P1s are single-seat notes (an inferable-not-direct NCT07188532 match, repeated wording variance in the 'cost of a false positive' framing, an unhedged Abstract framing sentence, and a truncated-but-accurately-punctuated NCT05918640 quote). This satisfies paper-hardening's convergence test: a round with 0 blockers on the exact posted commit.",
+  "blockers": [],
+  "p1s_open_count": 7,
+  "_p1s_open_count_means": "The open P1 count travels beside the verdict per paper-hardening §8 (2026-08-29 decision): it does NOT gate. The seven P1s themselves are recorded once each, on their own seat records, not duplicated here (regression 2, statistics 1, citations 1, arithmetic 2, hostile 1 -- with one finding, the un-cited '23 studies' claim, independently reported by both arithmetic and hostile)."
+}
