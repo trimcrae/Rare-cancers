@@ -13,7 +13,8 @@
     "all_four_returned": "HTTP 200, application/json"
   },
   "transport_integrity": {
-    "the_known_defect": "scripts/lit_fetch_urls.py puts every payload through strip_html(), whose regex deletes the span from a '<' to the next '>'. ClinicalTrials.gov escapes angle brackets in free text, so eligibility criteria containing comparison operators can lose text — recorded in the 2026-08-07 sweep's own `transport_integrity` block.",
+    "the_known_defect": "scripts/lit_fetch_urls.py puts every payload through strip_html(), whose regex deletes the span from a '<' to the next '>'. ClinicalTrials.gov writes comparison operators as LITERAL angle brackets in free text, so eligibility criteria containing them can lose text — recorded in the 2026-08-07 sweep's own `transport_integrity` block.",
+    "⚠_superseded_retained": "This field previously read 'ClinicalTrials.gov escapes angle brackets in free text'. That account was tested and REFUTED — a synthetic written from it did not reproduce the defect — and the correction is recorded in the comment block of scripts/lit_fetch_urls.py. Retained because a guard written against ESCAPED brackets reproduces the bug.",
     "check_performed": "⚠ RUN BEFORE READING ANY CRITERION, not after. Each payload was asserted to still carry identificationModule, statusModule, conditionsModule and eligibilityModule — the silent failure mode is a record that still parses while whole modules have vanished.",
     "result": "4/4 modules present in all four payloads. Character loss against the manifest's recorded `chars` is 13-42 characters per record, consistent with whitespace collapsing rather than module deletion.",
     "⚠_residual": "Comparison operators inside laboratory-value criteria may still be damaged. That does not affect any adjudication below, all of which turn on histology and molecular-eligibility wording rather than on a numeric threshold."

@@ -63,8 +63,8 @@ registry read this repository has taken through this path.
 
 `scripts/lit_fetch_urls.py` puts every payload through `strip_html()`, whose
 `re.sub(r"(?s)<[^>]+>", " ", raw)` **deletes the span from a `<` to the next `>`**.
-ClinicalTrials.gov escapes angle brackets in free text as `\<` and `\>`, so any eligibility
-criterion containing a comparison operator loses everything up to the next one. Measured in the
+ClinicalTrials.gov writes comparison operators as **literal** `<` and `>` inside free-text criteria,
+so any criterion containing one loses everything up to the next `>`. Measured in the
 LIFFT record itself: `"(age \>16 years) or Lansky of at least 70 (age \ one week since last
 dose…"` — a whole clause gone, in a record that parsed perfectly.
 

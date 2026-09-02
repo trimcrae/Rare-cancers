@@ -38,7 +38,8 @@
     "unique_studies_indexed": 1159
   },
   "transport_integrity": {
-    "defect": "scripts/lit_fetch_urls.py puts every payload through strip_html(), whose re.sub(r'(?s)<[^>]+>', ' ', raw) deletes the span from a '<' to the next '>'. ClinicalTrials.gov escapes angle brackets in free text as backslash-< and backslash->, so eligibility criteria containing comparison operators lose text.",
+    "defect": "scripts/lit_fetch_urls.py puts every payload through strip_html(), whose re.sub(r'(?s)<[^>]+>', ' ', raw) deletes the span from a '<' to the next '>'. ClinicalTrials.gov writes comparison operators as LITERAL angle brackets inside free-text criteria ('PLT < 100,000/mcL'), so each one opens a span that closes at the next '>' and eligibility criteria containing comparison operators lose text.",
+    "⚠_superseded_retained": "This field previously read 'ClinicalTrials.gov escapes angle brackets in free text as backslash-< and backslash->'. That account was tested and REFUTED: a synthetic written from it did not reproduce the defect, modules survived, and the damaged file's own footprint is 0 literal '<' and 13 orphaned literal '>'. The record that settles it is the comment block in scripts/lit_fetch_urls.py, which carries the same correction. Retained rather than deleted because a methods reader who implements a guard against ESCAPED brackets reproduces the bug.",
     "two_failure_modes": [
       "LOUD: the deleted span crosses JSON structure and the record stops parsing. Detected per record; the NCT ids are listed under `unparseable_records`.",
       "SILENT and more dangerous: the record still parses while whole modules have vanished. Detected by asserting that every unfielded record carries identificationModule, statusModule, conditionsModule, designModule and eligibilityModule; violations are listed under `silently_damaged_records`."
