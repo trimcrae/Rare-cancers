@@ -52,21 +52,50 @@ on:
   # marker they resolve to the free `test`, so the busy push traffic at 7:08/7:24/7:28 AM priced nothing. A
   # held fleet is only correct while something is still looking for the price to fall, and for those 4.6 h
   # nothing was. The Routine now fires hourly at :05 independently of GitHub's scheduled-event delivery.
-  schedule:
-    - cron: "17 * * * *"
-  push:
-    branches:
-      - main
-      - claude/max-effort-2dq11l-4fs
-    paths:
-      - research/modalities/ternary_vast_launch.py
-      - research/modalities/ternary_vast_watchdog.py
-      - research/modalities/run_ternary_leg.sh
-      - research/modalities/tests/test_ternary_vast_launch.py
-      - .github/workflows/gpu-ternary-fep-vast.yml
-      # The poke file exists ONLY to trigger this workflow from a feature branch, where
-      # workflow_dispatch is not yet available. See research/modalities/ternary-vast-poke.txt.
-      - research/modalities/ternary-vast-poke.txt
+  # ⛔⛔ AUTOMATIC TRIGGERS DISABLED 2026-09-02 — THIS LANE RENTS GPUs AND THE AUTOMATION MAY NOT.
+  # trimcrae, 2026-09-02, verbatim: "You shouldn't be doing any GPU runs as part of this automation."
+  # Recorded and scoped at `research/autonomy/autonomy-state.json` -> `gpu_spend_prohibited`
+  # (`active: true`, `ceiling_usd: 0`). It is a CATEGORY ban, not a budget: a cheaper rental is not a
+  # smaller version of an allowed act, so the $/ns buy line and the CLAUDE.md §2 spend ceiling grant
+  # nothing here.
+  #
+  # ⚠ WHY BOTH TRIGGERS WENT, NOT JUST THE CRON. Measured the day of the ban:
+  # `ternary-vast-launch-attempts.json` recorded FOUR launch attempts in twenty minutes —
+  # 15:55:42Z and 16:02:13Z (`failed`, atom-map gate) and 16:05:49Z and 16:15:44Z
+  # (`refused-on-price`) — and they did not come from the hourly cron. The `push:` filter below
+  # included `main`, so ORDINARY MERGES TO THE TRUNK were firing this lane; three of those four
+  # timestamps sit within a minute of a merge made that afternoon. A ban that removed only the
+  # schedule would have left every future trunk merge attempting a rental.
+  #
+  # ⭐ AND NOTHING BILLED ONLY BECAUSE THE PRICE GATE HELD. Two of the four were stopped by
+  # `refused-on-price` and two by an unrelated failure — i.e. the market gate was the single control
+  # standing between this automation and live spend. That is luck, not compliance, which is exactly
+  # why the trigger is removed rather than trusted to keep being refused.
+  #
+  # ⛔ THE WATCHDOGS, REAPERS AND ALARMS ARE DELIBERATELY LEFT RUNNING (`vast-account-reaper.yml`,
+  # `vast-watchdog.yml`, `ternary-vast-watchdog.yml`, `ternary-leg-watchdog.yml`,
+  # `account-orphan-alarm.yml`, `fleet-supervision-alarm.yml`). They STOP billing rather than start
+  # it, so disabling them alongside the launchers would remove the safety net while leaving any
+  # already-live host un-reaped — strictly worse than doing nothing.
+  #
+  # `workflow_dispatch` is retained so a human can still run this deliberately. Restoring these
+  # triggers requires trimcrae lifting the ban; it is not an edit the loop may make on its own.
+  #
+  # schedule:
+  #   - cron: "17 * * * *"
+  # push:
+  #   branches:
+  #     - main
+  #     - claude/max-effort-2dq11l-4fs
+  #   paths:
+  #     - research/modalities/ternary_vast_launch.py
+  #     - research/modalities/ternary_vast_watchdog.py
+  #     - research/modalities/run_ternary_leg.sh
+  #     - research/modalities/tests/test_ternary_vast_launch.py
+  #     - .github/workflows/gpu-ternary-fep-vast.yml
+  #     # The poke file exists ONLY to trigger this workflow from a feature branch, where
+  #     # workflow_dispatch is not yet available. See research/modalities/ternary-vast-poke.txt.
+  #     - research/modalities/ternary-vast-poke.txt
   workflow_dispatch:
     inputs:
       task:
