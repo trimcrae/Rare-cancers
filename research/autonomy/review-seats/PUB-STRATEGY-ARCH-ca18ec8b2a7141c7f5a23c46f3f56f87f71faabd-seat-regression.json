@@ -1,0 +1,32 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+  "blind": true,
+  "seat": "regression",
+  "lens": "regression (do prior fixes hold, and did any introduce a new defect)",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "d7656305abadc8da96f1949dd7d1eab8a4da5df78f2815b53f081bb65c6f5264",
+  "opened_utc": "2026-09-02T23:30:08Z",
+  "verdict": "accept",
+  "referee_recommendation": "accept",
+  "central_claim": "Patients with an ultra-rare NR4A3-fusion sarcoma (EMC) are eligible for recruiting trials that a histology-based condition search on their diagnosis does not return, because eligibility is written on the molecular lesion while the searchable field is written on histology; per-trial reading found at least two such trials, but a keyword-based reachability map would also carry two trials that read as admitting but actually refuse this disease, so eligibility text must be read one trial at a time rather than matched by keyword.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "Section 6's claim that NCT07188532 is one of the two trials §4 adjudicates as refusing this disease is not independently checkable from §4's own text — §4's two bullets describe the refusing trials only by paraphrase ('titled for fusion-positive sarcoma and then restricts eligibility to three named histologies' / 'contains the literal adjective extra-skeletal while meaning extraskeletal Ewing sarcoma'), with no NCT identifier attached to either, so the reader must infer which bullet NCT07188532 corresponds to.",
+      "evidence": "§6: 'NCT07188532 shows the cost, listing *round cell sarcoma with EWSR1-non-ETS fusion* while §4 adjudicates it as refusing this disease.' vs §4's bullets, neither of which names an NCT id: 'one is titled for fusion-positive sarcoma and then restricts eligibility to three named histologies... the other contains the literal adjective *extra-skeletal* while meaning extraskeletal Ewing sarcoma.'",
+      "fix": "Attach the NCT id to the matching bullet in §4 (or state explicitly in §6 which of the two §4 bullets NCT07188532 is), so the cross-reference is verifiable without inference. Not a contradiction as written, just fragile traceability for an external reviewer checking the claim against the data files in §7."
+    },
+    {
+      "summary": "The frontmatter 'purpose' field and the Abstract/§4 use two slightly different formulations of the same 'cost of a false positive' finding, which is fine substantively (neither overclaims, and neither reintroduces the retired 'worse than no map at all' framing) but the wording drift is worth tightening for one-fact-one-place discipline.",
+      "evidence": "purpose: '...so a wrong hit does real harm in a disease where every trial carries weight.' vs Abstract: '...a map that sends a patient toward a trial that will refuse them does real harm, in a disease where the number of options is small enough that each one carries weight...' vs §4: 'it is a patient or a clinician pursuing a trial that will refuse them, in a disease where the number of options is small enough that each one carries weight.'",
+      "fix": "Make the frontmatter purpose field quote or closely mirror the Abstract/§4 phrasing verbatim rather than paraphrasing it a third way, per §1's one-fact-one-place rule."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md at ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (fetched via git show, sha256 verified d76563...5264)"
+  ]
+}
