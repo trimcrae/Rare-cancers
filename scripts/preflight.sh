@@ -1273,6 +1273,34 @@ fi   # end of the "either large suite was asked for" block
 # instead.
 SYSTEMS_TESTS=""
 [ "${RUN_TESTS:-0}" = "1" ] && SYSTEMS_TESTS="systems/tests"
+# ⛔⛔ OPT-IN AS OF 2026-09-02, ON trimcrae'S DECISION, AND THE MEASUREMENT THAT PUT IT TO HIM.
+# He asked "1000 pure logic tests for a 6 page paper seems insane". Measured that day, the framing
+# was generous — the real shape is worse:
+#
+#     gate 13, IN the commit loop      1,119 tests   39.0 s   the loop's OWN machinery
+#     research/manuscripts/tests       1,854 tests   63.7 s   the PAPER — and NOT in the commit loop
+#
+# So every commit verified the loop's leases, receipts, cadence and handoffs — 936 of the 1,119 are
+# `research/autonomy/tests` — and verified NOTHING about the manuscript, whose 1,854 guards have
+# been opt-in behind PREFLIGHT_TESTS=1 since 2026-08-23. 2,973 tests exist for a 4,695-word paper.
+# ★ HIS CHOICE, GIVEN ALL FOUR OPTIONS WITH THEIR COSTS: neither suite in the commit loop. That
+# leaves the fast doc and artifact linters — consistency, the systems model, claim strength,
+# citation provenance, the generated-artifact checks — at about 37 s, against 131.8 s this morning.
+# ⛔ THE COST IS REAL AND IS NOT HIDDEN: a break in either suite is now caught by `tests.yml`
+# minutes after the push instead of before it, and costs one more commit. That is the SAME trade
+# already taken for the manuscripts suite (2026-08-23) and the modalities suite (2026-08-25), and
+# `tests.yml` runs all four directories in full, on every push, with the real dependencies — it is
+# the authority and this line never was.
+# ⚠ WHAT THIS DOES NOT CHANGE: `PREFLIGHT_FULL=1` still runs everything, so the publication tier —
+# the only thing `publish_bar` clause 2 accepts — is untouched. Nothing that reaches an outside
+# reader has lost a check.
+RUN_SELECTOR_TESTS=0
+[ "${PREFLIGHT_TESTS:-0}" = "1" ] && RUN_SELECTOR_TESTS=1
+[ "${PREFLIGHT_FULL:-0}" = "1" ] && RUN_SELECTOR_TESTS=1
+if [ "$RUN_SELECTOR_TESTS" = "0" ]; then
+  echo "== pytest (pure-logic suites) == SKIPPED -- PREFLIGHT_TESTS=1 runs them; tests.yml runs all"
+  echo "   four directories in full on every push and is the authority (trimcrae, 2026-09-02)."
+else
 echo "== pytest (pure-logic suites nothing else runs: the selector's contract + the loop's instruments${SYSTEMS_TESTS:+ + the systems model}) =="
 sout=$(mktemp)
 $PYTEST $PYTEST_PAR scripts/tests research/autonomy/tests $SYSTEMS_TESTS -q --continue-on-collection-errors >"$sout" 2>&1 || true
@@ -1300,6 +1328,7 @@ else
   echo "   OK"
 fi
 rm -f "$sout"
+fi
 
 # ⛔ THE THREE THINGS A PREPRINT SERVER NOW BANS SUBMITTERS OVER (AUT-PROP-032, 2026-08-28).
 # A one-year submission ban is applied where there is "incontrovertible evidence" of unverified LLM
@@ -1430,10 +1459,22 @@ else
   # the tier, so 55 tests DO run in the default loop. A verdict line that names what it measured is
   # worth having only if it is re-derived when the gates move; this one is now written from what
   # actually ran rather than from what the tier was designed to run.
-  echo; echo "PREFLIGHT OK (fast gates + the selector's contract + the loop's instruments;"
-  echo "             NEITHER large suite ran here."
-  echo "             CI runs both on push. PREFLIGHT_TESTS=1 for the manuscripts suite,"
-  echo "             PREFLIGHT_MODALITIES=1 for the modalities suite,"
-  echo "             PREFLIGHT_FULL=1 before publishing.)"
+  # ⛔⛔ THE VERDICT NAMES WHAT ACTUALLY RAN, AND AS OF 2026-09-02 THAT IS FEWER THINGS. This line
+  # read "fast gates + the selector's contract + the loop's instruments" for one commit after gate
+  # 13 became opt-in — a green banner claiming a check the run had just skipped, which is this
+  # file's own recurring defect ("reports while measuring nothing") in the sentence a reader trusts
+  # most. It is DERIVED from the flags now rather than typed, so it cannot drift from them again.
+  _ran="fast gates only (doc + artifact linters)"
+  [ "$RUN_SELECTOR_TESTS" = "1" ] && _ran="$_ran + the selector's contract + the loop's instruments"
+  [ "$RUN_TESTS" = "1" ] && _ran="$_ran + the manuscripts suite"
+  [ "${PREFLIGHT_MODALITIES:-0}" = "1" ] || [ "${PREFLIGHT_FULL:-0}" = "1" ] && \
+    _ran="$_ran + the modalities suite"
+  echo; echo "PREFLIGHT OK ($_ran)"
+  echo "             ⛔ NO TEST SUITE THIS RUN DID NOT NAME ABOVE HAS PASSED. tests.yml runs all"
+  echo "             four directories in full on every push, with the real dependencies, and is"
+  echo "             the authority for anything not listed."
+  echo "             PREFLIGHT_TESTS=1 adds the manuscripts suite and the pure-logic ones,"
+  echo "             PREFLIGHT_MODALITIES=1 the modalities suite,"
+  echo "             PREFLIGHT_FULL=1 everything — the only tier publish_bar clause 2 accepts."
 fi
 exit "$rc"

@@ -170,7 +170,31 @@ def test_the_verdict_can_distinguish_a_modalities_only_run():
     tail = src[src.index("_preflight_summary_reached=1"):]
     assert 'elif [ "$RUN_MODALITIES" = "1" ]; then' in tail, (
         "the verdict has no branch for a modalities-only run")
-    neither = tail.index("NEITHER large suite ran here")
     modalities_branch = tail.index('elif [ "$RUN_MODALITIES" = "1" ]; then')
-    assert modalities_branch < neither, (
-        "the modalities-only branch must precede the catch-all that claims neither suite ran")
+    catch_all = tail.index("\nelse\n", modalities_branch)
+    assert modalities_branch < catch_all, (
+        "the modalities-only branch must precede the catch-all")
+
+    # ⛔⛔ AND THE CATCH-ALL MUST NOT NAME A SUITE AS HAVING RUN. Until 2026-09-02 this test keyed on
+    # the literal sentence "NEITHER large suite ran here", which the catch-all no longer prints —
+    # gate 13 became opt-in that day, so the branch now derives what ran from the flags instead of
+    # asserting a fixed tier. ⚠ KEYING ON THE SENTENCE WAS THE WEAKNESS: it made the test fail on a
+    # rewording and pass on any rewording that kept the words, which is the opposite of what it is
+    # for. The property is what matters — a verdict printed when neither large suite ran must not
+    # claim either of them.
+    catch_all_body = tail[catch_all:]
+    for suite in ("the manuscripts suite", "the modalities suite"):
+        for line in catch_all_body.split("\n"):
+            stripped = line.strip()
+            if not stripped.startswith("echo") or suite not in stripped:
+                continue
+            assert ("RUN_TESTS" in stripped or "RUN_MODALITIES" in stripped
+                    or "PREFLIGHT_TESTS=1 adds" in stripped or "PREFLIGHT_TESTS=1 " in stripped
+                    or "PREFLIGHT_MODALITIES=1 " in stripped or "$_ran" in stripped), (
+                "the catch-all verdict names %r on a line that is neither gated on its flag nor "
+                "offering the flag as a remedy, so a run that executed nothing would report it as "
+                "executed: %s" % (suite, stripped))
+    assert "NO TEST SUITE THIS RUN DID NOT NAME ABOVE HAS PASSED" in catch_all_body, (
+        "the catch-all no longer states that an unnamed suite has not passed. That sentence is the "
+        "whole defence against a green PREFLIGHT OK being read as 'the tests pass' — the "
+        "'reports while measuring nothing' defect this file exists for.")

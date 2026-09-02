@@ -68,6 +68,21 @@ GOVERNED = (
     # self_serving_check answered. Declared in amendments.jsonl for CYC-0090-d7df5340.
     "research/autonomy/priority.py",
     "research/autonomy/admissibility.py",
+    # ⭐⭐ THE COMMIT GATE ITSELF, AND THE SELECTOR THAT DECIDES WHICH TESTS IT RUNS, ADDED
+    # 2026-09-02. Found by walking through the hole a second time, exactly as AUT-PD-198 was:
+    # this cycle moved gate 13 — 1,119 tests — out of `scripts/preflight.sh`, ran this guard, and
+    # got "PERMITTED — 0 governed path(s) touched". ⛔ `preflight.sh` IS THE BAR EVERY COMMIT IN
+    # THIS REPOSITORY PASSES THROUGH. A cycle blocked by a gate could delete that gate and declare
+    # nothing, which is the precise act §10.4 exists to refuse, and the file was FREE.
+    # ⛔ `affected_tests.py` is the other half and has the same shape as the priority-weights pair:
+    # it decides WHICH tests a run selects, so narrowing it narrows every gate downstream without
+    # touching a gate. `selector-validation.json` is the record it is checked against.
+    # ⛔ THIS IS A TIGHTENING AND ONLY A TIGHTENING. It adds three paths and removes none, so every
+    # future edit to them — including by the cycle that wrote this line — must be declared with its
+    # self_serving_check answered. Declared in amendments.jsonl for CYC-0090-d7df5340.
+    "scripts/preflight.sh",
+    "scripts/affected_tests.py",
+    "scripts/selector-validation.json",
     "research/autonomy/publish_bar.py",
     "research/autonomy/publication-authority.json",
     "research/autonomy/amendment_guard.py",
