@@ -237,11 +237,43 @@ FALLBACK_CYCLE_INTERVAL_HOURS = 4.0
 #: this module's output, computed from git, which is the point.
 TERMINAL_STATE = "stalled_needs_human"
 
+#: ⛔⛔ THE MESSAGE MUST CARRY THE EVIDENCE `terminal()` ACTUALLY GATED ON, AND FOR THREE MONTHS IT
+#: CARRIED THE ONE FIELD THAT GATES NOTHING. `terminal()` refuses a verdict on `not self.tried`; it
+#: never reads `attempts`. But the sentence printed only `attempts`, so a row reached by two seats
+#: and released without advancing rendered as **"despite 0 recorded attempt(s)"** — which reads as
+#: *aged out without anybody trying*, the exact reading this module's `tried` gate exists to refuse.
+#: ⚠ MEASURED 2026-09-02, and the confusion is on the record rather than hypothetical: five rows
+#: (AUT-011, AUT-007, AUT-008, AUT-045, AUT-016) were claimed by SEAT-s4/s5-ba841eee at
+#: 2026-08-28 22:44-22:45 UTC and released with `owner: null` at 23:59:53 having advanced nothing.
+#: `attempts` stayed 0 because it is bumped by LEASE EXPIRY (priority-weights.json
+#: `claim_lease.periods` = 2), not by a clean claim-and-release. Receipt CYC-0091-1a2c0a85 wrote the
+#: puzzlement into the committed record — "each queued, 0 recorded attempts ... despite being marked
+#: `tried`" — and a later reader took the same rows for evidence that the detector MANUFACTURES
+#: human-blocked rows out of untouched ones. It does not. The classification was right and the
+#: sentence was wrong.
+#: ★ So the verdict now names both clocks' evidence: how automation reached the row (a claim, a
+#: retry, or both) and how long nothing came of it. `attempts` is still printed, because a retry
+#: count is real information; it is simply no longer the ONLY thing printed.
 TERMINAL_WHY = (
-    "no substantive change in {hours:.0f} h ({cycles:.1f} cycles) despite {attempts} recorded "
-    "attempt(s). Automation has stopped trying: a human decides whether this row is re-scoped, "
-    "handed over or closed."
+    "no substantive change in {hours:.0f} h ({cycles:.1f} cycles) despite {tried_via}. "
+    "Automation has stopped trying: a human decides whether this row is re-scoped, handed over or "
+    "closed."
 )
+
+#: How a row came to be `tried`, rendered for TERMINAL_WHY. ⛔ Never "0 attempts" alone: a row is
+#: only ever terminal because it WAS tried, so a phrase that reads as untried is a false statement
+#: about the very condition that produced the verdict.
+def _tried_via(claims: int, attempts: int) -> str:
+    parts = []
+    if claims:
+        parts.append(f"{claims} claim(s) by an automated seat")
+    if attempts:
+        parts.append(f"{attempts} recorded attempt(s)")
+    if not parts:
+        # Unreachable while `terminal()` gates on `tried`, and stated rather than assumed: if a
+        # future edit lets an untried row through, this says so instead of inventing a count.
+        return "no recorded claim or attempt (⛔ this row should not have been declared terminal)"
+    return " and ".join(parts)
 
 
 def cycle_interval_hours(state_path: str | None = None) -> float:
@@ -485,6 +517,10 @@ class Clocks:
     censored: bool = False                           # stuck_at is a lower bound (shallow horizon)
     tried: bool = False                              # automation ever claimed or retried this row
     attempts: int = 0
+    #: How many times an automated seat took this row (`owner` moved from unset to set). Counted
+    #: separately from `attempts`, which only a LEASE EXPIRY bumps: a seat that claims a row, does
+    #: nothing and releases it cleanly leaves `attempts` at 0 while having genuinely tried.
+    claims: int = 0
     identity_changed: bool = False                   # `serves.route` was re-pointed under this id
     unclassified_fields: set = field(default_factory=set)
     last_progress_fields: set = field(default_factory=set)
@@ -531,7 +567,7 @@ class Clocks:
             "state": TERMINAL_STATE,
             "since_utc": since.strftime("%Y-%m-%dT%H:%M:%SZ"),
             "why": TERMINAL_WHY.format(hours=hours, cycles=hours / (threshold_h / STUCK_AFTER_CYCLES),
-                                       attempts=self.attempts),
+                                       tried_via=_tried_via(self.claims, self.attempts)),
         }
 
 
@@ -560,6 +596,7 @@ def compute_clocks(versions: list[Version], shallow: bool = False) -> dict[str, 
                     censored=bool(shallow and version.sha == horizon_sha),
                     tried=bool(row.get("owner")) or bool(row.get("attempts")),
                     attempts=int(row.get("attempts") or 0),
+                    claims=1 if row.get("owner") else 0,
                 )
                 seen[entry_id] = row
                 continue
@@ -586,6 +623,10 @@ def compute_clocks(versions: list[Version], shallow: bool = False) -> dict[str, 
                 }
             clock.state = row.get("state")
             clock.attempts = int(row.get("attempts") or 0)
+            # ⛔ An EDGE, not a level: `owner` stays set for the whole life of a lease, so counting
+            # the level would count one claim once per commit the lease spans.
+            if row.get("owner") and not previous.get("owner"):
+                clock.claims += 1
             if row.get("owner") or int(row.get("attempts") or 0) > 0:
                 clock.tried = True
             seen[entry_id] = row
@@ -670,6 +711,7 @@ def main(argv: list[str] | None = None) -> int:
                 "updated_at": _fmt(c.updated_at), "stuck_at": _fmt(c.stuck_at),
                 "stuck_hours": round(c.stuck_hours(now) or 0.0, 2),
                 "censored": c.censored, "tried": c.tried, "attempts": c.attempts,
+                "claims": c.claims,
                 "identity_changed": c.identity_changed,
                 "unclassified_fields": sorted(c.unclassified_fields),
                 "terminal": terminal.get(c.entry_id),

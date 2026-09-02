@@ -1,0 +1,179 @@
+{
+  "_what": "The EMC-specific clinical read on TRABECTEDIN that RT-TRABECTEDIN never carried. Retrieved 2026-08-29 UTC (2026-08-28 evening ET) from PubMed through the PubMed MCP connector (`search_articles`, `get_article_metadata`, `get_full_text_article`) from the dev sandbox, because Europe PMC and most publisher hosts return 403 at this egress and PubMed does not.",
+  "_why": "AUT-071 stood in the queue reading, in its entirety, 'Keep as cited landscape context. Do not overstate a single response.' Its `last_evidence_utc` was 2026-08-05 and RT-TRABECTEDIN carried `evidence: []`, so the disposition had never been tested against a literature read. CLAUDE.md §4 says a $0 observation is never 'watching'. The query was taken. It returned a SECOND EMC-specific trabectedin response table that this repository held only as an incidental hit in an unrelated radiotherapy probe, and the route's own rationale was found restating three figures the repository's registry had already retracted.",
+  "_scope_and_what_this_is_not": "PubMed metadata plus, for PMC9780071 only, the PubMed Central full text including Tables 1-3. No full text was retrieved for any other record here. An absent reading is not a reading of absence — every field below is what PubMed returned and nothing is inferred from a title. NOTHING HERE ASSERTS EFFICACY, SAFETY, A THERAPEUTIC WINDOW OR CLINICAL READINESS FOR ANY AGENT IN EMC; the new record is a disease-control and response-count table in three patients.",
+  "_attribution": "According to PubMed. Metadata, abstracts and PMC full text retrieved from PubMed (NCBI). PubMed's terms require attribution and a resolvable DOI link wherever its metadata travels; `doi_url` is carried on every record below.",
+  "_retrieval": {
+    "date_utc": "2026-08-29",
+    "date_et": "2026-08-28",
+    "endpoint": "PubMed E-utilities via the PubMed MCP connector",
+    "tools": ["search_articles", "get_article_metadata", "get_full_text_article"],
+    "seat": "s1-aut071",
+    "cycle": "CYC-0074",
+    "ledger_item": "AUT-071"
+  },
+  "queries": [
+    {
+      "q": "trabectedin AND (extraskeletal myxoid chondrosarcoma OR EMC)",
+      "sort": "pub_date",
+      "total_count": 8,
+      "reading": "The whole of PubMed on this pairing is eight records. Seven were already reachable in this repository by identifier; the eighth, PMID 28698435, is a Japanese-language review held only in a sequence-sweep input file. The decision-relevant one is PMID 36568164, which this repository held ONLY as an incidental search hit inside research/literature/rt-lung-mets-probe.json — a probe asking whether ablative radiotherapy has ever been delivered to EMC lung metastases. It is not in research/data/emc-clinical-registry.json, not in RT-TRABECTEDIN.evidence (which is the empty list) and not in RT-TRABECTEDIN.supporting_evidence."
+    },
+    {
+      "q": "extraskeletal myxoid chondrosarcoma AND (chemotherapy OR systemic therapy OR trabectedin)",
+      "date_from": "2020",
+      "sort": "pub_date",
+      "total_count": 86,
+      "reading": "Breadth check on the disease-scoped form. It surfaced no trabectedin-in-EMC record absent from the eight above."
+    },
+    {
+      "q": "trabectedin AND translocation-related sarcoma",
+      "sort": "pub_date",
+      "total_count": 30,
+      "reading": "The CLASS-LEVEL query, run because the carfilzomib row (RT-CARFILZOMIB, 2026-08-28) established that an EMC-scoped screen is structurally unable to see drug-class evidence in the parent histology. For trabectedin the class read does NOT bring an EMC-specific number that the disease-scoped query missed — PMID 36568164 is returned by both. It did surface one record this repository does not hold and which bears on the route's future rather than its evidence: PMID 42600063."
+    },
+    {
+      "q": "extraskeletal myxoid chondrosarcoma",
+      "date_from": "2025/06",
+      "sort": "pub_date",
+      "total_count": 469,
+      "reading": "Recency sweep on the disease alone. Nothing in the returned page pairs trabectedin with EMC beyond PMID 41323055, which this repository already holds."
+    }
+  ],
+  "the_discriminating_observation": {
+    "record": "PMID 36568164",
+    "what_it_is": "Palmerini et al. 2022, Frontiers in Oncology 12:1042479 — a post-hoc case-series analysis of the ultra-rare and other rare translocation-related sarcoma patients inside TrObs, the Italian Sarcoma Group's non-interventional retrospective study of trabectedin in routine practice (ClinicalTrials.gov NCT02793050; 512 patients, 20 Italian sites, enrolled January 2010 to December 2015). The sub-analysis covers 36 patients, of whom THREE had extraskeletal myxoid chondrosarcoma.",
+    "the_emc_row_verbatim_from_table_2": {
+      "histology": "EMC",
+      "n_evaluable": 3,
+      "objective_responses": 0,
+      "objective_responses_printed_as": "– (the table's own dash, i.e. no complete or partial response recorded)",
+      "stable_disease": 2,
+      "stable_disease_pct_printed": "66.7%",
+      "disease_control": 2,
+      "disease_control_pct_printed": "66.7%",
+      "progressive_disease": 1,
+      "progressive_disease_pct_printed": "33.3%"
+    },
+    "what_is_NOT_in_the_source": "NO EMC-specific progression-free survival. Table 3 reports PFS by histology only for the three histologies that produced an objective response (alveolar soft part sarcoma, solitary fibrous tumour, desmoplastic small round cell tumour); EMC is not among them, so no EMC median PFS, no EMC 6-month PFS rate and no EMC overall survival can be read from this paper. Response assessment was by treating physician per RECIST 1.1, NOT by central radiology review — which is the opposite of PMID 27418251, whose EMC figures are centrally reviewed.",
+    "why_it_matters_to_this_route": "It is the SECOND EMC-specific trabectedin response denominator that exists, and it is the first one carrying an EMC patient with progressive disease on trabectedin. The repository's held figure (PMID 27418251, via the registry) is 2 EMC patients, 0 objective responses, both stable. Adding this record, the EMC-specific objective-response count across every series reachable here remains ZERO, on a larger denominator, and the disease-control picture now includes a progressor.",
+    "the_route_disposition_it_tests": "'Keep as cited landscape context. Do not overstate a single response.' The observation SUPPORTS that disposition and enlarges the evidence it rests on. It does not weaken it and it does not strengthen the route: a larger denominator with no objective responses is not a better case for the drug."
+  },
+  "the_overlap_question_this_opens": {
+    "status": "UNKNOWN — stated, not settled, and not to be pooled until it is",
+    "question": "Are Palmerini 2022's three EMC patients the same three EMC patients as the 'second line ... trabectedin 66% of 3' disease-control figure already carried in this repository from Chiusole 2020 (PMID 32612944)?",
+    "why_it_cannot_be_dismissed": [
+      "Both series report exactly n=3 EMC patients on trabectedin and exactly 2 of 3 disease control.",
+      "TrObs enrolled at 20 Italian sites between January 2010 and December 2015; Chiusole 2020's Italian institution is Istituto Oncologico Veneto (Padova) over 1980-2018, a window that contains all of TrObs's.",
+      "Antonella Brunello appears as an author on BOTH papers, at Veneto Institute of Oncology IOV-IRCCS, Padua on Palmerini 2022 and at Medical Oncology 1, Istituto Oncologico Veneto IRCCS, Padova on Chiusole 2020."
+    ],
+    "what_would_settle_it": "A per-centre breakdown of TrObs's EMC patients, which the sub-analysis does not report. Neither paper names its EMC patients' treating centre, so this is not resolvable from either full text; it would need the TrObs primary report (Palmerini et al., Cancers 2021, whose identifier is NOT recorded here and must not be written from recollection) or a direct enquiry.",
+    "consequence_under_the_evidence_contract": "systems/POLICY-evidence.md §2.3 — where populations may overlap, the smaller or overlapping cohort is context, not pooled. Until the overlap is excluded, this record is recorded as descriptive systemic-therapy evidence and is NOT added to research/manuscripts/endpoint/emc-systemic-therapy-pooling.json, whose corpus is pre-specified (§2.6(g)) and whose rows are integer {events, denom} pairs."
+  },
+  "the_stale_figure_this_read_found_in_the_graph": {
+    "where": "systems/graph/routes.json -> RT-TRABECTEDIN.rationale and RT-TRABECTEDIN.supporting_evidence[0].what_it_supports, and therefore the generated systems/views/L2-rt-trabectedin.md",
+    "what_it_said": "'this repo's clinical registry records DISEASE CONTROL in EMC — n=5, secondary provenance, median PFS ~12.5 months, mostly stable disease, with NO response rate recorded' and 'a 5-patient SECONDARY-provenance series ... (median PFS ~12.5 months, mostly stable disease)'",
+    "why_it_was_wrong": "All three of n=5, `secondary` provenance and the ~12.5-month median PFS were retracted by this repository's own registry before this read was taken. research/data/emc-clinical-registry.json -> treatments.systemicEvidenceCorrections, row 'Trabectedin', records: n is 2 EMC patients (the arm was 2 EMC and 3 mesenchymal chondrosarcoma), the row's provenance is `primary` (the split is stated in the source's own Methods and Table 2), and the 12.5-month median PFS is WITHDRAWN as an EMC figure because it is the mixed arm's Kaplan-Meier median and coincides with a mesenchymal chondrosarcoma patient's own value. The route was still quoting the pre-correction reading. CLAUDE.md §1: one fact, one place — the route now points at the registry instead of restating it.",
+    "what_was_and_was_not_changed": "The route's rationale and supporting_evidence were repointed and the retracted figures removed. The route's GRADE ('NEAR-TERM LEAD — approved, mechanism-fit', owned by research/IDEAS.md) was NOT touched: this read does not supply the evidence a grade change would need, and the grade is not this seat's to write."
+  },
+  "records": [
+    {
+      "pmid": "36568164",
+      "pmcid": "PMC9780071",
+      "doi": "10.3389/fonc.2022.1042479",
+      "doi_url": "https://doi.org/10.3389/fonc.2022.1042479",
+      "title": "Transcription regulators and ultra-rare and other rare translocation-related sarcomas treated with trabectedin: A proof of principle from a post-hoc analysis",
+      "journal": "Frontiers in Oncology",
+      "year": 2022,
+      "design": "post-hoc case-series analysis of a non-interventional retrospective study (TrObs, NCT02793050); response by treating physician per RECIST 1.1",
+      "held_here_before_this_read": "PMID present only as an incidental search hit in research/literature/rt-lung-mets-probe.json and research/modalities/nr4a3-nuccore-sweep-inputs.json. Not in the clinical registry; not on any route.",
+      "disposition": "INCLUDED — new EMC-specific systemic-therapy evidence; added to research/data/emc-clinical-registry.json -> treatments.systemicEvidence and to RT-TRABECTEDIN.supporting_evidence."
+    },
+    {
+      "pmid": "27418251",
+      "pmcid": "PMC4946242",
+      "doi": "10.1186/s12885-016-2511-y",
+      "doi_url": "https://doi.org/10.1186/s12885-016-2511-y",
+      "title": "Results of sub-analysis of a phase 2 study on trabectedin treatment for extraskeletal myxoid chondrosarcoma and mesenchymal chondrosarcoma",
+      "year": 2016,
+      "held_here_before_this_read": "YES — registry citation `morioka2016trabectedin`, with its n=5/12.5-month misreading already corrected on the record.",
+      "disposition": "ALREADY HELD, unchanged by this read."
+    },
+    {
+      "pmid": "32612944",
+      "pmcid": "PMC7308468",
+      "doi": "10.3389/fonc.2020.00828",
+      "doi_url": "https://doi.org/10.3389/fonc.2020.00828",
+      "title": "Extraskeletal Myxoid Chondrosarcoma: Clinical and Molecular Characteristics and Outcomes of Patients Treated at Two Institutions",
+      "year": 2020,
+      "held_here_before_this_read": "YES — registry citation `chiusole2020`, carrying 'second line ... trabectedin 66% of 3' inside the anthracycline row's result text.",
+      "disposition": "ALREADY HELD. It is the other side of the overlap question above."
+    },
+    {
+      "pmid": "41323055",
+      "pmcid": "PMC12659415",
+      "doi": "10.1159/000548238",
+      "doi_url": "https://doi.org/10.1159/000548238",
+      "title": "Excellent Response and Persistent Local Control of Metastatic Extraskeletal Myxoid Chondrosarcoma Repeatedly Treated with Surgical Excision or Stereotactic Radiotherapy Alone: A Case Report",
+      "year": 2025,
+      "held_here_before_this_read": "YES — research/literature/emc-prior-art-2026-08-09.json and the RT lung-metastases findings.",
+      "disposition": "ALREADY HELD, and it is NOT trabectedin evidence: the case's metastatic disease was managed with surgery or stereotactic radiotherapy, and trabectedin appears in its background as an agent under prospective study."
+    },
+    {
+      "pmid": "36636521",
+      "pmcid": "PMC9831112",
+      "doi": "10.7759/cureus.33601",
+      "doi_url": "https://doi.org/10.7759/cureus.33601",
+      "title": "Extraskeletal Myxoid Chondrosarcoma of the Vulva: A Case Report",
+      "year": 2023,
+      "held_here_before_this_read": "YES — research/literature/rt-lung-mets-probe.json and the ASO breakpoint census.",
+      "disposition": "EXCLUDED from evidence. One patient, in whom trabectedin was the FOURTH line and no outcome on trabectedin is reported. n=1 with no stated outcome is not a denominator."
+    },
+    {
+      "pmid": "28698435",
+      "doi": null,
+      "doi_url": null,
+      "title": "[Histology-Specific Chemotherapy in Soft-Tissue Sarcomas]",
+      "journal": "Gan To Kagaku Ryoho",
+      "year": 2017,
+      "language": "Japanese",
+      "held_here_before_this_read": "PMID present only in research/modalities/nr4a3-nuccore-sweep-inputs.json.",
+      "disposition": "EXCLUDED. A narrative review; it names EMC among histologies reported to respond poorly to doxorubicin/ifosfamide and discusses trabectedin's second-line role in liposarcoma subtypes. It carries no EMC-specific trabectedin count, and §1.3 of the evidence contract forbids laundering a review into a primary."
+    },
+    {
+      "pmid": "28404587",
+      "pmcid": "PMC5488331",
+      "doi": "10.1158/0008-5472.CAN-16-3351",
+      "doi_url": "https://doi.org/10.1158/0008-5472.CAN-16-3351",
+      "title": "CIC-DUX4 Induces Small Round Cell Sarcomas Distinct from Ewing Sarcoma",
+      "year": 2017,
+      "held_here_before_this_read": "YES.",
+      "disposition": "EXCLUDED. A mouse CIC-DUX4 model; no EMC and no NR4A3."
+    },
+    {
+      "pmid": "24555529",
+      "doi": "10.1586/14737140.2014.885840",
+      "doi_url": "https://doi.org/10.1586/14737140.2014.885840",
+      "title": "Emerging therapies for adult soft tissue sarcoma",
+      "year": 2014,
+      "held_here_before_this_read": "YES.",
+      "disposition": "EXCLUDED. Review; no EMC-specific trabectedin count."
+    },
+    {
+      "pmid": "42600063",
+      "doi": "10.1158/2767-9764.CRC-26-0377",
+      "doi_url": "https://doi.org/10.1158/2767-9764.CRC-26-0377",
+      "title": "Antitumor activity of novel transcriptional inhibitors ecubectedin and PM54 in soft tissue sarcoma patient-derived xenografts",
+      "journal": "Cancer Research Communications",
+      "year": 2026,
+      "held_here_before_this_read": "NO — this identifier appears nowhere in this repository.",
+      "disposition": "RECORDED, NOT EVIDENCE FOR THIS ROUTE. Two next-generation ecteinascidins (ecubectedin, PM54) were compared with trabectedin, lurbinectedin and doxorubicin across six soft-tissue-sarcoma patient-derived xenograft models: two leiomyosarcoma, two dedifferentiated liposarcoma, one synovial sarcoma and one CIC-rearranged sarcoma. THERE IS NO EMC MODEL AND NO NR4A3 MODEL IN IT, so it says nothing about this disease. It is recorded because the two translocation-related models were where the novel agents separated most from trabectedin, which is a claim about the DRUG CLASS's direction of travel and is the kind of dated reading CLAUDE.md §4 says goes stale downward."
+    }
+  ],
+  "what_this_read_did_not_answer": [
+    "Whether Palmerini 2022's three EMC patients overlap Chiusole 2020's three second-line trabectedin EMC patients. UNKNOWN — see `the_overlap_question_this_opens`.",
+    "EMC-specific progression-free or overall survival on trabectedin in TrObs. NOT REPORTED by the source; this is an absence in the paper, not an absence of the reading.",
+    "The '± RT' half of RT-TRABECTEDIN. No record returned by any query above pairs radiotherapy with trabectedin in an EMC patient; the trabectedin-plus-radiotherapy evidence this repository holds is in myxoid LIPOSARCOMA, a different disease.",
+    "Whether the TrObs primary report (Palmerini et al., Cancers 2021) carries an EMC row of its own. Its identifier is not held here and was NOT written from recollection; retrieving it is a separate $0 query."
+  ]
+}
