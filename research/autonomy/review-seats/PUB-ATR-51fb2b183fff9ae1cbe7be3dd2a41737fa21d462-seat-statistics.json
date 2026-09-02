@@ -1,0 +1,27 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "51fb2b183fff9ae1cbe7be3dd2a41737fa21d462",
+  "blind": true,
+  "seat": "statistics",
+  "lens": "statistics and experimental design",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "c70fd29f1dd742f7c157b81959e2e4519ed0b660e29ebea408274d2522ebcb9b",
+  "opened_utc": "2026-09-02T21:14:04Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "The published FET-fusion -> impaired-ATM -> compensatory-ATR-dependency hypothesis is structurally eligible for EMC's second-commonest fusion but not its commonest, and public-data tests of it (EMC tumour transcriptome, sarcoma CRISPR dependency, GDSC2 drug response) yield only a WEAK, non-mechanism-specific signal, so no EMC-specific ATR vulnerability is established or claimed.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "Part C's 'coordination' quartile statistic (1/20 FET lines vs 3/71 comparator lines in the joint bottom-quartile-on-all-three-genes bucket, reported as '5.0%' vs '4.2%') is printed with no uncertainty measure, unlike every other null comparison in this document, which computes an SE, a minimum-detectable-effect, or a Welch t alongside the point estimate. A Fisher's exact test on the underlying 2x2 counts (1/20 vs 3/71) gives p = 1.0 (recomputed independently from the two counts printed in the text) -- the two percentages are statistically indistinguishable noise from 1 and 3 raw events respectively, not weak evidence of anything. The paragraph's only hedge is about the correct null value (0.25^3 vs the comparator's own fraction, because ATR/ATRIP/CHEK1 are correlated by construction), not about the fragility of comparing 1 event to 3 events. This does not change Part C's overall verdict (INSTRUMENT_STILL_BLIND / no discrimination), which the surrounding joint z-score comparison (t = -0.41) already supports honestly -- but a reader skimming the two percentages in isolation could read '5.0% vs 4.2%' as a small directional signal, which the data cannot support at n=1 vs n=3.",
+      "evidence": "Section 4 ('PART C'), the paragraph beginning 'Coordination -- the claim that actually matters': 'Lines in the bottom quartile on all three at once: 1/20 (5.0%) of FET sarcoma lines against 3/71 (4.2%) of the comparator.' No SE, CI, or exact-test p-value is given for this comparison, in contrast to Section 3.4's proliferation-adjusted DDR contrasts (which state a minimum detectable effect derived from SE = |delta|/|t| with 80% power and two-sided alpha 0.05) and Section 5's drug-correlation rows (which state 'the standard error on a single rho is approx 0.038' at n approx 700 and explicitly flag when a passing margin is not distinguishable from zero).",
+      "fix": "Add a one-clause hedge after the 1/20-vs-3/71 sentence, e.g. 'Fisher's exact test on these counts gives p = 1.0 -- the two fractions rest on 1 and 3 lines respectively and are not distinguishable from each other or from noise; they are reported for completeness, not as an independent signal.' This keeps the section's existing conclusion (Part C does not discriminate) unchanged and simply prevents the raw percentages from reading as directional evidence they cannot carry."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (at pinned commit 51fb2b183fff9ae1cbe7be3dd2a41737fa21d462, verified sha256)",
+    "research/modalities/emc-atr-vulnerability.json (at pinned commit, part_b_emc_tumour_signature.per_platform contrasts used to independently recompute the Part B minimum-detectable-effect range and verify it against the text's stated 0.045-0.186 SD units, and part_b_emc_tumour_signature.* fields used to verify the elevated-concept / specificity-predicate values against the prose)"
+  ]
+}

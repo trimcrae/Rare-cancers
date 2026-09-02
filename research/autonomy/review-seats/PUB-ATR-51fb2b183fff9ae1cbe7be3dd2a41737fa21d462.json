@@ -1,0 +1,28 @@
+{
+  "_schema": "emc-review-seat/1",
+  "_role": "The CANONICAL round-7 roll-up record for this commit. It carries NO tallies of its own (paper-hardening §8.0a, AUT-PD-193) — the five per-lens seat records beside it carry the blockers/p1s, counted exactly once each. This file exists so clause_6_independent_adversarial_seat has a bare `{pub}-{sha}.json` to read; clause_1_hardening_converged reads the seats.",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "reviewed_commit": "51fb2b183fff9ae1cbe7be3dd2a41737fa21d462",
+  "document_sha256": "c70fd29f1dd742f7c157b81959e2e4519ed0b660e29ebea408274d2522ebcb9b",
+  "blind": true,
+  "_blind_means": "Each of the five seats was given only the document path, the pinned commit sha and its document_sha256, told the tree may drift and the pin is the subject, and forbidden research/autonomy/, .claude/skills/ and each other's output. Each verified the digest before reading. Dispatched concurrently, in one message, with no cross-talk. THE DRIVER IS NOT BLIND: it dispatched, then synthesized this roll-up from the five completed records without re-reviewing the manuscript itself.",
+  "utc": "2026-09-02T21:20:00Z",
+  "round": 7,
+  "last_round": 7,
+  "seats": [
+    "PUB-ATR-51fb2b183fff9ae1cbe7be3dd2a41737fa21d462-seat-arithmetic.json",
+    "PUB-ATR-51fb2b183fff9ae1cbe7be3dd2a41737fa21d462-seat-citations.json",
+    "PUB-ATR-51fb2b183fff9ae1cbe7be3dd2a41737fa21d462-seat-hostile.json",
+    "PUB-ATR-51fb2b183fff9ae1cbe7be3dd2a41737fa21d462-seat-regression.json",
+    "PUB-ATR-51fb2b183fff9ae1cbe7be3dd2a41737fa21d462-seat-statistics.json"
+  ],
+  "central_claim": "A replication-stress vulnerability can be assessed for EMC by inheritance from its FET-fusion class, and the assessment states inside itself that class inheritance is not an EMC measurement -- which is what makes it an assessment rather than a finding. It grades WEAK: EMC's DDR/replication-stress transcripts are elevated only as far as their generic proliferation is, on two independent EMC expression series, with parts C and D negative about the hypothesis's computational support.",
+  "verdict": "supported",
+  "recommendation": "minor_revision",
+  "narrative": "Round 6 (arithmetic, citations, hostile, regression, statistics -- statistics and citations landed in 7a26c150, arithmetic and hostile confirmed 0 blockers) found one real blocker, in the regression lens: round 5's rewritten S2.1 paragraph asserted an unsourced panel-size figure ('~14-line panel') that disagreed with one of its own two cited artifacts. Fixed in 51fb2b18 by dropping the contested figure rather than guessing between the two disagreeing sources (the disagreement itself is filed as ledger row AUT-PD-211, still open, and does not bear on any claim this paper makes). Round 7 re-ran all five lenses against that exact fix commit and found 0 blockers, 5 P1s (a rounding-boundary note, an Appendix-convention gap for the round-6 repair itself, an un-derived MDE formula, an un-pinned-figures-registered document, and an un-flagged single-Fisher-test comparison in Part C) -- all fragility notes about future drift, none a wrong statement in the paper today. No two seats converged on the same finding, and every P1 traces to a named artifact path/field. This is the widest round on record for this paper (5 seats, tied with round 5 and round 6) and the first to return zero blockers.",
+  "blockers": [],
+  "p1s_open_count": 5,
+  "_p1s_open_count_means": "The open P1 count travels beside the verdict per paper-hardening §8 (2026-08-29 decision): it does NOT gate. The five P1s themselves are recorded once each, on their own seat records, not duplicated here."
+}

@@ -1811,6 +1811,18 @@
           "use": "AUT-PD-211: records the same panel-size (14 vs ~20-line) disagreement between two producer artifacts, found by PUB-ATR round 6 regression seat.",
           "classification": "unaffected",
           "why_unaffected": "The row is a process-defect record about a citation panel-size count, not about H-EMC-SS fusion status or identity. It grounds no claim on the line."
+        },
+        {
+          "file": "research/autonomy/review-seats/PUB-ATR-51fb2b183fff9ae1cbe7be3dd2a41737fa21d462-seat-arithmetic.json",
+          "use": "Round-7 arithmetic seat re-derives H-EMC-SS/ACH-001519 numbers (fusion caller calls, NR4A3 TPM percentile) already established in the paper, confirming they still match the committed artifacts after round 6's repair.",
+          "classification": "unaffected",
+          "why_unaffected": "The seat RE-VERIFIES numbers this repository already carries about the line; it grounds no new claim and reaches no new verdict on H-EMC-SS identity or fusion status beyond what the paper itself already states."
+        },
+        {
+          "file": "research/autonomy/review-seats/PUB-ATR-51fb2b183fff9ae1cbe7be3dd2a41737fa21d462-seat-regression.json",
+          "use": "Round-7 regression seat confirms round 6's fix (dropping the contested ~14/~20-line panel-size figure from the S2.1 paragraph about H-EMC-SS and PMID 34413129) is clean and complete, with one P1 about the Appendix superseded-values convention.",
+          "classification": "unaffected",
+          "why_unaffected": "The seat verifies a PROSE EDIT (a figure removed, not a fusion-status claim), and files one P1 about documentation convention, not about H-EMC-SS identity or fusion status."
         }
       ],
       "distinct_from": [
