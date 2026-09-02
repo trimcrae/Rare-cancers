@@ -360,7 +360,25 @@ def retraction_sweep(prose=None):
     }
 
 
-def check(argv_report=False):
+def check(argv_report=False, prose=None):
+    """The type guard and the repository-wide retraction sweep.
+
+    ⭐⭐ `prose` IS A COST PARAMETER, NOT A BEHAVIOUR ONE, AND IT WAS 21 s OF EVERY COMMIT
+    (measured 2026-09-02). `lint_citations.check()` computes `survey()` — a full regex walk of every
+    tracked prose and artifact file — and then calls THIS function, which walked the identical
+    corpus a second time inside `retraction_sweep()`. cProfile over one gate-6 run: 101.6 s total,
+    of which `_scan` accounted for 95.4 s in **two disjoint halves of 47.6 s each**, the second one
+    recomputing the first's answer. Passing the prose half in deletes that half outright.
+    ⛔ IT IS NOT A CACHE AND HAS NO INVALIDATION. `None` means "nobody has it, compute it", which is
+    what every standalone caller and every test still does; a caller that HAS the answer hands over
+    the object it already holds. There is no stored state that can go stale between runs, which is
+    the failure mode a module-level memo of a working-tree scan would have had.
+    ⚠ WHAT IT MUST NEVER BECOME: a way to hand this guard a NARROWER corpus than `survey()` returns.
+    `retraction_sweep`'s whole point is that it covers every prose identifier rather than the 23 a
+    type claim happened to reach; a caller passing a filtered dict would silently shrink the sweep
+    while its own coverage line still printed a total. The only sanctioned argument is
+    `lint_citations.survey()[0]` in full.
+    """
     recs, index = load_cache()
     if recs is None:
         print("::error::no publication-type cache at %s — the guard cannot run, so it fails."
@@ -404,7 +422,7 @@ def check(argv_report=False):
     # current hits is cited BECAUSE it is retracted, so an unconditional error would red the trunk on
     # a document that is right as written. The `acknowledged` list in the sweep artifact is the
     # mechanism that makes the error version reachable later without that collateral.
-    hits, not_swept, cov = retraction_sweep()
+    hits, not_swept, cov = retraction_sweep(prose)
     if cov is None:
         print("::error::" + _SWEEP_MISSING % os.path.relpath(SWEEP, ROOT), file=sys.stderr)
         rc_sweep = 2

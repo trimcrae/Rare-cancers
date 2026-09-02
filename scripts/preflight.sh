@@ -284,14 +284,18 @@ _preflight_reached_first_check=1
 # rewrite or nothing at all: the measurement that opened this was a run on a CLEAN TREE at
 # origin/main, which still executed all 878.
 #
-# ⛔⛔ GATE 13 IS NOT HALF THE DEFAULT LOOP -- IT IS 85-94 % OF IT, AND THE NUMBERS ABOVE ARE A
-# SNAPSHOT OF A SMALLER GATE. Re-measured 2026-09-01 (AUT-PD-164 / AUT-PD-172 / AUT-PD-183, seat
-# S6-COMMITLOOP) from one timestamped default run of this script:
+# ⛔⛔ THE DEFAULT LOOP IS 130.7 s, MEASURED 2026-09-02 FROM ONE TIMESTAMPED DEFAULT RUN OF THIS
+# SCRIPT -- gate 13 is 57.1 s of it over 1 030 tests, i.e. 44 %. The numbers above are a snapshot of
+# a smaller AND a slower gate; both halves of that moved.
 #
-#   fast gates                        81.3 s   <- of which the dev-setup/interpreter probe is 15.3 s
-#                                                 BEFORE gate 1, and citation provenance is 44.4 s
-#   + gate 13                        446.3 s   quiet box, 2026-08-29, 789 tests
-#                                  1 247.8 s   under twelve-way sprint contention, 2026-09-01
+#   whole default tier               130.7 s   2026-09-02, this sandbox, 4 cores
+#   of which gate 13                  57.1 s   1 030 tests
+#
+# ⚠ Superseded, retained (CLAUDE.md rule 1.2), and it was CORRECT WHEN TAKEN -- it is the reading
+# that named the hot spot the fix removed: "GATE 13 IS NOT HALF THE DEFAULT LOOP -- IT IS 85-94 % OF
+# IT ... fast gates 81.3 s (of which the dev-setup/interpreter probe is 15.3 s BEFORE gate 1, and
+# citation provenance is 44.4 s) + gate 13 446.3 s quiet box, 2026-08-29, 789 tests / 1 247.8 s under
+# twelve-way sprint contention, 2026-09-01" (S6-COMMITLOOP; AUT-PD-164 / AUT-PD-172 / AUT-PD-183).
 #
 # ⚠ Superseded, retained (CLAUDE.md rule 1.2): "ten fast gates 31.4 s ... + gate 13, the selector
 # contract 39.3 s ... the DEFAULT tier is 77.5 s"; "GATE 13 IS NOW HALF THE DEFAULT LOOP ... it is
@@ -321,13 +325,24 @@ _preflight_reached_first_check=1
 # test count.** Every ledger commit this loop makes adds one more blob to all 130 walks, of a file
 # that is itself growing; the count moved 371 -> 372 inside the twenty minutes it took to measure it.
 # So the gate gets slower with no test added, which is exactly the accretion AUT-PD-164 described.
-# ★ Filed, not fixed here: memoise `ledger_versions(repo, path)` on `(repo, HEAD)` and/or stream the
-# blobs with `git cat-file --batch` instead of forking per commit. Both keep every assertion
-# identical; both live in `research/autonomy/`, outside the seat that measured this.
+# ⭐⭐ BOTH FIXES LANDED ON 2026-09-02 AND THE COUNT WAS RE-TAKEN WITH THE SAME SHIM. Memoised on
+# `(repo, path, HEAD)` and batched into ONE `git cat-file --batch` per walk:
+#
+#   git calls in one gate-13 run          50 270 -> 3 783
+#   of those, `show <sha>:...ledger.json` 48 230 -> 1 140
+#   one walk, timed directly                6.71 s -> 2.76 s, output compared element by element
+#   gate 13                              446.3 s -> 57.1 s, on 789 -> 1 030 tests
+#
+# Neither changes an assertion, which is why both are guarded rather than trusted:
+# `research/autonomy/tests/test_the_ledger_history_is_read_in_one_git_process.py` asserts the walk
+# still equals the per-commit one it replaced (unparseable versions included), that no `git show` is
+# spawned per commit, that the batch reader stays in sync across a `missing` rev and frames bodies by
+# BYTES, and that an unreadable batch falls back to the slow answer rather than to a SHORT history --
+# a shorter history moves the horizon forward and makes stuck rows look younger than they are.
 #
 # It is left exactly where `main` put it -- reversing another session's deliberate placement inside a
 # merge is not this change's business -- and moving it under PREFLIGHT_TESTS is still trimcrae's
-# call, now worth ~81 s rather than ~31 s.
+# call, now worth ~57 s rather than ~365 s, which is a much weaker trade than it was.
 #
 # ⛔ AND SCOPING IT WAS TRIED FIRST, PROPERLY, AND THE MEASUREMENT KILLED IT. A selector for this
 # suite was built and validated against ground truth — all 50 guards traced in their own processes

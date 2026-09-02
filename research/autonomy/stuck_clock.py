@@ -270,6 +270,54 @@ def _git(args: list[str], repo: str) -> str:
                           check=True).stdout
 
 
+def _cat_file_batch(revs: list[str], repo: str) -> dict[str, str]:
+    """`{rev: blob text}` for many revs in ONE git process, skipping anything git will not give.
+
+    ⛔⛔ THE SECOND HALF OF THE 2026-09-01 HOT-SPOT FIX, AND IT IS THE HALF THE MEMO CANNOT DO.
+    Memoising `ledger_versions` took gate 13 from 446 s to 54 s by cutting 130 walks to ~3, but a
+    walk is still one `git show` PROCESS PER COMMIT — 372 forks, 372 object-store openings, 372
+    ~1.25 MB blobs piped through a shell, ~7.5 s each. `git cat-file --batch` reads every rev on
+    stdin and answers on one stream, so a walk costs one fork instead of 372.
+
+    ⭐ THE PROTOCOL, READ FROM `git help cat-file` RATHER THAN REMEMBERED: for each input line git
+    writes `<oid> SP <type> SP <size> LF`, then exactly `<size>` BYTES, then one LF. A rev git
+    cannot resolve gets `<input> SP missing LF` and no body. Sizes are in bytes, so the stream is
+    read as bytes and each blob decoded afterwards — decoding first would desynchronise the reader
+    on the first non-ASCII character in the ledger, which is a silent corruption rather than an
+    error.
+
+    ⛔ IT FAILS TO AN EMPTY DICT, NEVER TO A GUESS. Any error — git too old, a truncated stream, a
+    header that does not parse — returns `{}` and the caller falls back to the per-commit `git
+    show` it has always used. A version this cannot read must look to `ledger_versions` exactly
+    like a version that would not parse: skipped, never treated as an empty ledger, because
+    "every row was deleted" resets every clock in one step.
+    """
+    if not revs:
+        return {}
+    try:
+        proc = subprocess.run(["git", "-C", repo, "cat-file", "--batch"],
+                              input=("\n".join(revs) + "\n").encode(),
+                              stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, check=True)
+    except Exception:
+        return {}
+    out: dict[str, str] = {}
+    buf, pos = proc.stdout, 0
+    for rev in revs:
+        nl = buf.find(b"\n", pos)
+        if nl < 0:
+            break
+        header = buf[pos:nl].decode("utf-8", "replace").split(" ")
+        pos = nl + 1
+        if len(header) != 3 or not header[2].isdigit():
+            # `missing`, `ambiguous`, or anything this parser does not recognise: no body follows,
+            # so the stream stays in sync and the rev is simply absent from the result.
+            continue
+        size = int(header[2])
+        out[rev] = buf[pos:pos + size].decode("utf-8", "replace")
+        pos += size + 1
+    return out
+
+
 def is_shallow(repo: str = REPO) -> bool:
     """⛔ A shallow clone cannot see when a row last advanced; it can only see the graft point."""
     try:
@@ -328,7 +376,10 @@ def ledger_versions(repo: str = REPO, path: str = LEDGER_PATH) -> list[Version]:
 
     ⭐ MEMOISED PER (repo, path, HEAD) — see `_VERSIONS_CACHE` above for the measurement that
     demanded it. The returned list is shared between callers, so it must be treated as read-only;
-    every consumer in this module already reads it that way.
+    every consumer in this module already reads it that way. ⛔ AND A ROW OBJECT IS SHARED BETWEEN
+    VERSIONS TOO when it did not change between them — the interning below, which is what keeps the
+    memo affordable. Read-only is therefore not a courtesy here; mutating one row would rewrite the
+    row's own history.
     """
     head = _head_sha(repo)
     key = (repo, path, head)
@@ -340,16 +391,57 @@ def ledger_versions(repo: str = REPO, path: str = LEDGER_PATH) -> list[Version]:
         log = _git(["log", "--follow", "--format=%H %ct", "--", path], repo)
     except subprocess.CalledProcessError:
         return out
+    commits = []
     for line in reversed(log.strip().splitlines()):
         if not line.strip():
             continue
         sha, _, ts = line.partition(" ")
+        commits.append((sha, ts))
+    # ⭐ ONE `git cat-file --batch` FOR THE WHOLE WALK, falling back per commit to `git show` for
+    # anything it could not answer — so an unreadable batch costs the old speed, never a wrong list.
+    blobs = _cat_file_batch([f"{sha}:{path}" for sha, _ in commits], repo)
+    # ⛔⛔ THE MEMO ABOVE TRADES CPU FOR MEMORY, AND WITHOUT THIS LINE IT TRADES IT AT 16x THE FAIR
+    # PRICE — IN THE SAME CURRENCY THE WHOLE FIX WAS ABOUT: something that grows with COMMIT COUNT.
+    # Measured 2026-09-02 against this repository's real history: the walk returns 380 versions
+    # holding **84 792 row objects, of which only 2 319 are distinct states** — a 36.6x redundancy,
+    # because the ordinary commit changes one row and copies 144.
+    # ⭐ SO A ROW THAT DID NOT CHANGE IS THE SAME OBJECT AS THE VERSION BEFORE IT. Two fresh
+    # processes, resident bytes read from `/proc/self/statm` after `gc.collect()`, each walking the
+    # same 380 versions:
+    #
+    #                      walk    holding the memo    after dropping it    => RETAINED BY THE MEMO
+    #   un-interned       7.33 s        466 MB               340 MB                  126 MB
+    #   interned          2.79 s        245 MB               237 MB                    8 MB
+    #
+    # ⚠ THE RETAINED COLUMN IS THE ONE THAT MATTERS AND IT IS THE ONE A CASUAL MEASUREMENT MISSES.
+    # `ru_maxrss` is a PEAK and barely moves here — transient parse arenas dominate it and CPython
+    # does not return freed pages to the OS — so an earlier draft of this comment recorded 652 MB,
+    # which was the delta INCLUDING that transient allocation, not what the cache holds. The number
+    # that scales with commit count, four times over under `pytest -n 4`, is the retained one.
+    # ⭐ And the walk gets FASTER as well, because dropping a duplicate costs less than keeping it.
+    # ⛔ AND IT CHANGES NO VERDICT, WHICH IS ASSERTED RATHER THAN ARGUED: `compute_clocks` compares
+    # rows with `!=`, so an interned row and an equal copy are already indistinguishable to it, and
+    # `test_the_ledger_history_is_read_in_one_git_process.py` pins every clock field against the
+    # un-interned walk over the real history.
+    # ⚠ THE OBLIGATION THIS CREATES: a row object may now be SHARED between versions, so nothing
+    # may mutate one. Every consumer in this module and in `learning_rate.py` / `out_of_ideas.py`
+    # reads them, and `ledger_versions`' docstring already says the returned list is read-only.
+    interned: dict = {}
+    for sha, ts in commits:
         try:
-            blob = _git(["show", f"{sha}:{path}"], repo)
+            blob = blobs.get(f"{sha}:{path}")
+            if blob is None:
+                blob = _git(["show", f"{sha}:{path}"], repo)
             entries = json.loads(blob).get("entries", [])
         except Exception:
             continue
         rows = {e["id"]: e for e in entries if isinstance(e, dict) and e.get("id")}
+        for entry_id, row in rows.items():
+            previous = interned.get(entry_id)
+            if previous is not None and previous == row:
+                rows[entry_id] = previous          # unchanged: keep one copy, drop the duplicate
+            else:
+                interned[entry_id] = row
         when = datetime.datetime.fromtimestamp(int(ts), datetime.timezone.utc)
         out.append(Version(sha=sha, when=when, rows=rows))
     if head:

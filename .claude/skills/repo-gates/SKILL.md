@@ -101,16 +101,20 @@ Extracted from CLAUDE.md §7 (plus §5's deliverable map) on 2026-08-15, **verba
     backlog while it runs. **Polling a running gate is not work.** Rule and evidence: CLAUDE.md §6.
   - **`./scripts/preflight.sh`** — every fast gate, **plus gate 13: the pure-logic suites nothing
     else runs** (`scripts/tests`, `research/autonomy/tests`, and the systems model), which
-    `preflight.sh:1218` runs unconditionally, outside the `RUN_TESTS` block. **About 9 minutes** on
-    a quiet box — fast gates **81.3 s**, gate 13 **446.3 s** quiet and **1 247.8 s** under
-    twelve-way contention, so **gate 13 is 85–94 % of the loop**. **This is the commit loop.**
-    ⚠ *Re-measured 2026-09-01 (S6-COMMITLOOP; AUT-PD-164 / AUT-PD-172 / AUT-PD-183). The growth is
-    SCOPE and POPULATION, not a per-test regression: `research/autonomy/tests` was wired into this
-    gate on 2026-08-27 and went 0 → 47 files in two days, and the five byte-identical 2026-08-24
-    files re-timed today collect 79 tests where they collected 55. ~55 % of gate 13 is ONE call —
-    `stuck_clock.ledger_versions()` walking the ledger's whole git history 130 times per run — so
-    the cost grows with COMMIT count, not with test count. The single largest FAST gate is citation
-    provenance at 44.4 s.*
+    `preflight.sh:1218` runs unconditionally, outside the `RUN_TESTS` block. **About two minutes** —
+    **130.7 s** measured end to end on 2026-09-02, of which gate 13 is **57.1 s over 1 030 tests**.
+    **This is the commit loop.**
+    ⚠ *The ~9-minute loop was FIXED on 2026-09-02, not re-estimated, and no assertion changed:
+    `stuck_clock.ledger_versions()` — S6-COMMITLOOP's named hot spot, 96 % of the gate's git calls —
+    is memoised per HEAD and batched into one `git cat-file`, and gate 6 stopped walking the whole
+    prose corpus twice. Gate 13 previously 446.3 s, now 57.1 s on a suite that grew 789 → 1 030
+    tests; gate 6 72.4 s → 37.7 s with byte-identical output. Evidence and the mutation results:
+    `research/autonomy/sprint-2026-09-01/S6b-COMMITLOOP-FIXED.md`. One home for the figure:
+    CLAUDE.md §6.*
+    ⚠ *Superseded 2026-09-02, retained (CLAUDE.md rule 1.2): "**About 9 minutes** on a quiet box —
+    fast gates **81.3 s**, gate 13 **446.3 s** quiet and **1 247.8 s** under twelve-way contention";
+    no longer current, "**gate 13 is 85–94 % of the loop**." Correct when taken, and it is the
+    measurement that made the fix findable.*
     ⚠ *Superseded 2026-09-01, retained (CLAUDE.md rule 1.2): "every fast gate, and **no test**.
     ~**30 s**." The tier has run tests since 2026-08-27, and the 30 s described a smaller fast tier
     that has since gained the receipt, residue and cycle-contract gates and a publication-type axis

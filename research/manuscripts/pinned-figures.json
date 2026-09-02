@@ -1852,14 +1852,32 @@
   {
    "id": "commit_loop_about_75_seconds",
    "pattern": "about \\*{0,2}75 seconds",
-   "current": "the DEFAULT commit loop is minutes, not seconds — about 9 min on a quiet box: fast gates 81.3 s + gate 13 446.3 s (2026-08-29, 789 tests), rising to 1247.8 s for gate 13 under twelve-way sprint contention (2026-09-01). One home: CLAUDE.md §6.",
+   "current": "the DEFAULT commit loop is 130.7 s — about two minutes — measured 2026-09-02 from one timestamped default run, of which gate 13 is 57.1 s over 1030 tests. One home: CLAUDE.md §6.",
    "retired_by": "re-measured 2026-09-01 by sprint seat S6-COMMITLOOP from one timestamped default `./scripts/preflight.sh` (AUT-PD-164 / AUT-PD-172 / AUT-PD-183). The 75 s was a 2026-08-24 reading taken when gate 13 covered `scripts/tests` alone; `research/autonomy/tests` joined it on 2026-08-27 and grew 0 -> 47 files in two days. Evidence: research/autonomy/sprint-2026-09-01/S6-COMMITLOOP.md"
   },
   {
    "id": "commit_loop_gate13_39s_55_tests",
    "pattern": "gate 13 \\*\\*39\\.3 s\\*\\*|\\*\\*77\\.5 s\\*\\*|its 55 tests",
-   "current": "gate 13 is 446.3 s over 789 tests on a quiet box (2026-08-29) and 1247.8 s under twelve-way contention (2026-09-01); it covers `scripts/tests` AND `research/autonomy/tests`, which the 2026-08-24 reading predates. One home: CLAUDE.md §6.",
+   "current": "gate 13 is 57.1 s over 1030 tests (2026-09-02); it covers `scripts/tests` AND `research/autonomy/tests`, which the 2026-08-24 reading predates. One home: CLAUDE.md §6.",
    "retired_by": "same S6-COMMITLOOP re-measurement, 2026-09-01. The growth is scope and population, not a per-test regression: the five `scripts/tests` files present on 2026-08-24 are byte-identical today, and CI's own --durations=25 on run 33523366953 lists no test from either directory among the 25 slowest in an 11,012-test suite."
+  },
+  {
+   "id": "commit_loop_about_nine_minutes",
+   "pattern": "ABOUT NINE ON A QUIET BOX|\\*\\*About 9 minutes\\*\\*|about \\*{0,2}9 min",
+   "current": "the DEFAULT commit loop is 130.7 s — about two minutes (measured 2026-09-02). The ~9 minutes was REAL and was FIXED rather than re-estimated: the ledger walk is memoised per HEAD and batched into one `git cat-file`, and gate 6 stopped walking the prose corpus twice. No assertion changed. One home: CLAUDE.md §6.",
+   "retired_by": "2026-09-02, following S6-COMMITLOOP's own diagnosis. Gate 13 446.3 s -> 57.1 s on a suite that grew 789 -> 1030 tests, git calls 50270 -> 3783; gate 6 72.4 s -> 37.7 s with byte-identical output, diffed. Both fixes guarded and mutation-tested (12 mutations, 12 caught). Evidence: research/autonomy/sprint-2026-09-01/S6b-COMMITLOOP-FIXED.md"
+  },
+  {
+   "id": "commit_loop_gate13_446s_85_to_94_percent",
+   "pattern": "446\\.3 s|1 247\\.8 s|1247\\.8 s|85[–-]94 ?%",
+   "current": "gate 13 is 57.1 s over 1030 tests and 44% of a 130.7 s default loop (2026-09-02). The 446.3 s / 1247.8 s readings described the gate BEFORE its hot spot was removed and were correct when taken — they are what made the fix findable. One home: CLAUDE.md §6.",
+   "retired_by": "2026-09-02. S6-COMMITLOOP counted 48230 of 50270 git calls as `git show <sha>:research-ledger.json` — ~130 whole walks of the ledger history per gate run, ~55% of the gate, growing with COMMIT count rather than test count — and filed the fix rather than taking it. Memoisation plus `git cat-file --batch` took one walk from 6.71 s to 2.76 s with an element-by-element identical result. Evidence: research/autonomy/sprint-2026-09-01/S6b-COMMITLOOP-FIXED.md"
+  },
+  {
+   "id": "commit_loop_citation_provenance_44s",
+   "pattern": "citation provenance (?:is|at) 44\\.4 s|44\\.4 s\\*",
+   "current": "gate 6 (citation provenance and publication type) is 37.7 s, down from 72.4 s on the same box, because it walked the whole prose corpus TWICE — `lint_citations.check()` computed `survey()` and `lint_citation_types.retraction_sweep()` recomputed it. One home: CLAUDE.md §6.",
+   "retired_by": "2026-09-02, from cProfile over one run: 101.6 s of which `_scan` was 95.4 s in two disjoint halves of 47.6 s each. The prose half is now handed over; `_redact_failed_fetches` no longer rebuilds 13004074 nodes to change none of them. Output diffed byte-for-byte. Guard: research/manuscripts/tests/test_the_citation_scan_is_not_run_twice.py"
   }
  ],
  "subset_checks": [

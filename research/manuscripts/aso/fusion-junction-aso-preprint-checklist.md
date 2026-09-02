@@ -442,6 +442,44 @@ absence is how 22166420 came to freeze an earlier copy of its own manuscript. It
 all** before this session and now has eight, both directions mutation-tested on a copy.
 
 
+### 3-vii · ⛔ OPEN — the published archive is BEHIND the paper again, by 15 deposited paths, because round 30 improved the paper after it was published
+
+⛔ **THE PUBLISHED DEPOSIT IS BEHIND THE PAPER BY 15 DEPOSITED PATHS.**
+`10.5281/zenodo.22229096` is published, resolves, and is no longer what this repository would
+archive. Round 30's five blockers were all repaired after the publish, and four of the repairs
+touch DEPOSITED files. Measured against the published record's own manifest at `4fd4698daec0`:
+**15 paths changed, 0 added, 0 removed.**
+
+**What moved, and why each is a correction rather than churn:**
+* `fusion-junction-aso-sequences.csv` / `.fasta` — the two `predicted_tm_*` columns are now
+  documented as **not** the melting temperature of the reagent a laboratory would order. They are
+  nearest-neighbour predictions for an unmodified duplex; the article reports no absolute melting
+  point for exactly that reason. This is the file the Declarations tell a lab to order from.
+* `fusion-junction-aso-research-article.md` — three repairs: an argmax printed under a membership
+  predicate (23.9% where the words asked for 38.8%), the same substitution at a second site, and a
+  false statement that a cited paper described no in vivo model when it reports tumour-size
+  attenuation in a xenograft.
+* `fusion-junction-aso-supplementary-information.md` — it described itself as being stripped from a
+  deposited PDF that is not built.
+* `lit-targets-aso-round7-precedents.json` — `reached_animal_model` was `false` for a paper whose
+  abstract, stored verbatim in this same repository, says otherwise.
+* `aso_archive_manifest.py` — a promise row promising a Supporting Information PDF that is not
+  built, plus the new `gaps` entry that makes a drifted promise fail the build.
+* `aso_sequence_manifest.py`, the four journal PDFs and their build stamps — regenerations of the
+  above.
+
+⚠ **NOTHING PUBLISHED IS FALSE IN A WAY A READER ACTS ON WRONGLY EXCEPT THE Tm COLUMNS**, and that
+one is why this is declared rather than left to the next cycle: the published CSV carries absolute
+melting temperatures under a chemistry block a reader would take them to describe.
+
+★ **THE ORDER, AND IT IS THE ONE THIS SECTION ALREADY LEARNED:** a new version is drafted and
+published only after a hardening round on the exact commit returns **no blockers**. Round 30 found
+five. Round 31 reviews these repairs; if it comes back clean, that commit is what gets deposited —
+publishing before then is what spent a version yesterday and again today.
+⛔ **So this item stays OPEN until round 31 returns clean.** It is not an instruction to publish now.
+
+---
+
 ### 3-vi · ✅ CLOSED — the fourth archive version is PUBLISHED and was read back — `10.5281/zenodo.22229096`
 
 ✅ **PUBLISHED 2026-09-01 AND READ BACK FROM ZENODO, NOT FROM THE SCRIPT.** Actions run 33560898366

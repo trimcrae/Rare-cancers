@@ -375,13 +375,22 @@ act you'd commit *before* thinking to consult anything:
   linters, the systems model, medical integrity, citation provenance and the generated-artifact
   check, plus gate 13, the pure-logic suites nothing else runs (the test selector's own contract
   **and** the loop's instruments).**
-  ⛔⛔ **IT COSTS MINUTES, NOT SECONDS — ABOUT NINE ON A QUIET BOX. BUDGET THE TURN AROUND THAT,
-  WHICH IS WHAT THE WHOLE "background it and take the next task" SECTION BELOW IS FOR.**
-  ⚠ *Re-measured 2026-09-01 from one timestamped default run, and the split is the point: the*
-  **fast gates are 81.3 s** *— `dev-setup`/interpreter probe 15.3 s before gate 1, citation
-  provenance 44.4 s, everything else 21.6 s between them — and* **gate 13 is the rest**: 446.3 s on
-  a quiet box (2026-08-29, 789 tests) rising to **1 247.8 s under twelve-way sprint contention**
-  (2026-09-01). So gate 13 is **85–94 % of the loop**, not half of it.
+  ⛔⛔ **IT COSTS ABOUT TWO MINUTES — 130.7 s, MEASURED 2026-09-02 ON ONE TIMESTAMPED DEFAULT RUN,
+  OF WHICH GATE 13 IS 57.1 s OVER 1 030 TESTS. STILL BACKGROUND IT AND TAKE THE NEXT TASK**, which
+  is what the whole section below is for — two minutes of serialized waiting, every commit, is the
+  cost that section exists to refuse.
+  ⚠ *THE ~9 MINUTES WAS REAL AND IT WAS FIXED, NOT RE-ESTIMATED. Three duplicate computations were
+  deleted and no assertion changed: the ledger walk is memoised per HEAD and batched into one `git
+  cat-file` (gate 13 **previously 446.3 s**, now **57.1 s**; git calls 50 270 → 3 783, on a suite
+  that GREW 789 → 1 030 tests), and gate 6 stopped walking the whole prose corpus twice (**72.4 s →
+  37.7 s**, byte-identical output). Both are guarded and mutation-tested — 15 mutations, 15 caught.
+  Evidence: [`S6b-COMMITLOOP-FIXED.md`](./research/autonomy/sprint-2026-09-01/S6b-COMMITLOOP-FIXED.md).*
+  ⚠ *Superseded, retained (rule 1.2): "IT COSTS MINUTES, NOT SECONDS — ABOUT NINE ON A QUIET BOX";
+  no longer current, "fast gates are **81.3 s** … gate 13 is the rest: **446.3 s** on a quiet box
+  (2026-08-29, 789 tests)"; and no longer current, "rising to **1 247.8 s** under twelve-way sprint
+  contention (2026-09-01). So gate 13 is **85–94 % of the loop**". **That reading was correct when
+  taken** — it is the measurement that named the hot spot this change removed, and the
+  96 %-of-git-calls count inside it is what made the fix findable. Gate 13 is now **44 %**.*
   ⚠ *Superseded, retained (rule 1.2): the loop "costs about **75 seconds**", and "Measured
   2026-08-24: fast gates **31.4 s** + gate 13 **39.3 s** = **77.5 s** … each of its 55 tests builds
   the selector's import graph and shells out to git". **Neither figure was wrong when taken and the
@@ -390,9 +399,11 @@ act you'd commit *before* thinking to consult anything:
   from 0 to 47 files in two days. The five 2026-08-24 files are byte-identical today. Evidence, and
   the refutation of the "one slow file serializes it" hypothesis, in
   [`S6-COMMITLOOP.md`](./research/autonomy/sprint-2026-09-01/S6-COMMITLOOP.md).*
-  ⛔ **Moving gate 13 behind `PREFLIGHT_TESTS=1` would take the commit loop back to ~81 s — and it is
-  trimcrae's call, not a silent one to make inside a merge.** That sentence is unchanged by the
-  re-measurement; only the numbers on either side of it moved.
+  ⛔ **Moving gate 13 behind `PREFLIGHT_TESTS=1` would take the commit loop to ~74 s — and it is
+  trimcrae's call, not a silent one to make inside a merge.** That sentence has survived two
+  re-measurements unchanged; only the numbers on either side of it move. ⚠ *And it is now a much
+  weaker trade than it was: the saving was 365 s and is 57 s, against losing the pre-commit check on
+  the selector's contract and the loop's own instruments.*
   - ⭐⭐ **A GATE RUNNING IS NOT A REASON TO STOP WORKING, AND POLLING IT IS NOT WORK**
     (trimcrae, 2026-08-25: *"it absolutely murders our wall clock time when we wait for preflight
     when we KNOW there's more work to be done"*). **Preflight and CI gate the COMMIT, not the
@@ -407,6 +418,16 @@ act you'd commit *before* thinking to consult anything:
     cheap and an idle wait is not** (§5: engineering and CPU are free), so kill a run the tree moved
     under rather than sit through it to protect it.
     ⛔ **What does not bend: the run you report green must be the run that saw the tree you commit.**
+    ⚠ **MEASURED 2026-09-02, and the cost is the reason this row is not advice: FIVE gate runs on
+    substantially one tree, ~70 minutes of wall clock, because each fix was started before the
+    previous run finished and invalidated it.** The pattern every time: read a failure, fix that one
+    thing, start a gate, then discover the next failure the same log had already reported. ★ **THE
+    DISCIPLINE IS TO BATCH — read the WHOLE log, fix everything it names, run every regeneration the
+    fixes imply, and only then start one run.** trimcrae, 2026-09-02, on being shown the arithmetic:
+    *"Ok make sure you do batching in the future then."*
+    ⛔ **And the rule above was already correct and already written when that happened.** It cost 70
+    minutes anyway, which is this repository's standard failure — a rule nothing measures. The number
+    is here so the next session inherits the cost rather than the exhortation.
     ⚠ *Second complaint of this family — 2026-08-23 produced `PREFLIGHT_TESTS=1` and the failure
     survived it, because the cost was never the suites, it was the serialization. Measured evidence:
     [CLAUDE-history.md](./CLAUDE-history.md).*
