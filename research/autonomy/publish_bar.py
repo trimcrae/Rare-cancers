@@ -773,9 +773,26 @@ def clause_5_endpoint_declared(pub_id: str, sha: str) -> dict:
         return _clause("endpoint_declared", "the endpoint is a declared falsifiable claim", FAIL,
                        f"what_it_would_claim is empty or too thin to falsify ({len(claim)} chars)")
     doc = (endpoint.get("document") or {}).get("file")
-    if not doc or not (REPO / doc).exists():
+    if not doc:
         return _clause("endpoint_declared", "the endpoint is a declared falsifiable claim", FAIL,
-                       f"endpoint names no existing document ({doc!r})")
+                       f"endpoint names no document ({doc!r})")
+    # ⛔ AT THE SHA, LIKE 3 AND 4 (2026-09-02). This was `(REPO / doc).exists()`, so the clause
+    # answered PASS for a sha that does not exist at all — found by
+    # `test_every_clause_that_takes_a_sha_actually_reads_at_it`, which was written for the other two
+    # and caught a third. The one-of-a-pair shape: two clauses were named in the diagnosis and the
+    # third looked identical from the outside.
+    # ⚠ WHAT THIS STILL DOES NOT FIX, STATED RATHER THAN LEFT FOR A READER TO DISCOVER: `_endpoint`
+    # reads `systems/graph/publications.json` from the WORKING TREE, here and in clauses 3, 4 and 7.
+    # So `what_it_would_claim` above is the endpoint as it stands now, not as it stood at `sha`.
+    # That is a separate change with a wider blast radius — every clause's endpoint lookup — and it
+    # is named here so the next reader does not have to rediscover it.
+    with _tree_at(sha) as (root, err):
+        if root is None:
+            return _clause("endpoint_declared", "the endpoint is a declared falsifiable claim",
+                           UNVERIFIABLE, err)
+        if not (root / doc).exists():
+            return _clause("endpoint_declared", "the endpoint is a declared falsifiable claim",
+                           FAIL, f"endpoint names a document absent at {sha[:12]} ({doc!r})")
     return _clause("endpoint_declared", "the endpoint is a declared falsifiable claim", PASS,
                    f"{pub_id} claims: {claim[:90]}...")
 
