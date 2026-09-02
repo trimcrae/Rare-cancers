@@ -129,13 +129,14 @@ marker-free criteria quotable. That defect has since been fixed at the fetcher.
 | trial | eligibility basis | listed conditions | EMC listed? |
 |---|---|---|---|
 | NCT05918640, lurbinectedin, phase 1/2, recruiting | verbatim: *Patients must have a known FET fusion (fusion that contains EWSR1, FUS, or TAF15)*. It therefore admits this disease when the partner is one of those three, and not when it is TCF12 or TFG | Ewing sarcoma · desmoplastic small round cell tumour · paediatric cancer · undifferentiated sarcoma | no |
-| NCT06571734, zanzalintinib, phase 2, recruiting, n = 73 | a cohort for translocation-associated soft tissue sarcoma, a class this disease belongs to; the record does not enumerate the class | all seven as retrieved 2026-08-09: metastatic leiomyosarcoma · unresectable leiomyosarcoma · bone sarcoma · translocation-associated soft tissue sarcoma · synovial sarcomas · metastatic osteosarcoma · Ewing sarcoma. The fielded screen two days earlier recorded ten; the difference is unexplained | no |
+| NCT06571734, zanzalintinib, phase 2, recruiting, target enrolment 73 | a cohort for translocation-associated soft tissue sarcoma, a class this disease belongs to; the record does not enumerate the class | all seven as retrieved 2026-08-09: metastatic leiomyosarcoma · unresectable leiomyosarcoma · bone sarcoma · translocation-associated soft tissue sarcoma · synovial sarcomas · metastatic osteosarcoma · Ewing sarcoma. The fielded screen two days earlier recorded ten; the difference is unexplained | no |
 | nine further registry records: a master screening protocol, seven of its arms (one not yet recruiting) and one separate basket trial | defined by molecular alteration rather than histology, and not adjudicated: eligibility text was retrieved for only three of the nine, and whether this disease's fusion matches an open arm is a question for the trial team | various; none names this histology | no |
-| NCT04151342, recruiting, n = 5500 | admits by wording, rare molecular alterations | observational: it enrols the patient and does not treat them | no |
+| NCT04151342, recruiting, target enrolment 5500 | admits by wording, rare molecular alterations | observational: it enrols the patient and does not treat them | no |
 
 The last row is kept separate from the three above it. A reachability claim that quietly counts an
 observational cohort alongside interventional trials inflates itself. Two trials admit and offer
-treatment; a third admits and offers enrolment in a registry. Those are counts of the four records
+treatment; a third admits and offers enrolment in an observational cohort. Those are counts of the
+four records
 adjudicated here, not of the registry.
 
 A term search for the driver gene returns five studies (exercise physiology, spinal-cord injury,
@@ -158,10 +159,11 @@ automated screen:
 ### 4.1 · Exclusion in the one non-US registry that answered
 
 This section was drafted the other way, and the full text inverted it. The sweep was written up as
-*"no non-US trial names this disease"*, which is true of the titles and false of the records. A UK
-phase III first-line soft-tissue-sarcoma trial names it by its exact full name in its eligibility
-criteria, in order to exclude it, alongside desmoplastic small round cell tumour. A second trial's
-exclusion list names the parent term.
+*"no non-US trial names this disease"*, which is true of the titles and false of the records. A
+phase III first-line soft-tissue-sarcoma trial registered as ISRCTN07742377 names the histology in
+its eligibility criteria, spelled *extra-skeletal myxoid chondrosarcoma*, in order to exclude it,
+alongside desmoplastic small round cell tumour. A second trial, ISRCTN60791336, names the parent
+term in its exclusion list.
 
 This is not a criticism of that trial. Excluding a histology expected to respond poorly to the
 agents under test is an ordinary and defensible design. The relevance is entirely about findability:
@@ -170,7 +172,7 @@ them about this histology; the one that mentions it does so to say no.
 
 The mechanism therefore runs in both directions, which is the fuller result. In the non-US registry
 read here the disease appears only as an exclusion; where trials are indexed molecularly, it is
-admitted and never named. One record does both, and it bounds the claim: NCT06239272 is a
+admitted and never named. One recruiting record does both, and it bounds the claim: NCT06239272 is a
 recruiting interventional trial that carries the histology among its 42 listed conditions, and its
 inclusion criterion is age 1 to 30 at the diagnostic biopsy rather than at enrolment. So nothing
 here says that no listing anywhere names this disease and admits it: for a patient inside that age
