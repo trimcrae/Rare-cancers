@@ -34,4 +34,8 @@ jobs:
             echo "::error::Add MODAL_TOKEN_ID and MODAL_TOKEN_SECRET repo secrets first (modal.com -> modal token new)."
             exit 1
           fi
+          # ⛔ NO-GPU BAN (autonomy-state.json -> gpu_spend_prohibited). One gate: research/autonomy/gpu_ban.py.
+          # Inline, immediately above the meter, rather than a job-level step: a step can be reordered away from
+          # the thing it guards, and a relaunch is a NEW PURCHASE (CLAUDE.md §6) that must face it again.
+          python3 "${GITHUB_WORKSPACE:-.}/research/autonomy/gpu_ban.py" --context "gpu-md: Modal A10G" || exit 3
           modal run research/modalities/nr4a3_md_modal.py --ns "${{ inputs.ns }}"

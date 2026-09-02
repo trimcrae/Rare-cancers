@@ -20,6 +20,7 @@ off-provider rather than silently.
 from __future__ import annotations
 
 import dataclasses
+import functools
 import json
 import os
 import re
@@ -38,6 +39,12 @@ from dataclasses import dataclass, field
 # vast_bid_optimizer still held a withdrawn 669 ns/day. Importing is what makes that class of drift impossible.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import vast_cost_model as _vcm  # noqa: E402
+
+# ⛔⛔ THE NO-GPU BAN. `research/autonomy/gpu_ban.py` is the ONE gate; this module is one of its four call
+# sites. Imported by path rather than copied, for the reason `vast_cost_model` is imported above: a second
+# copy of a policy is a policy that drifts. `research/modalities/../autonomy` is `research/autonomy`.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "autonomy"))
+import gpu_ban as _gpu_ban  # noqa: E402
 
 
 class NoQualifyingOffer(RuntimeError):
@@ -324,6 +331,33 @@ def _match_gpu(caps: dict, res: ResourceSpec):
 class Backend(ABC):
     name = "abstract"
 
+    #: ⛔⛔ THE NO-GPU BAN, APPLIED TO EVERY BACKEND AT CLASS-DEFINITION TIME.
+    #: Seven real adapters implement `submit` (SageMaker, Slurm, RunPod, Vast, Salad, GCP, Modal) and each
+    #: one starts a billable machine. Checking the ban in each of them would be seven copies of a policy —
+    #: and, exactly as `vast-RENTAL-HOLD.json` records of per-lane holds, "wrong the moment a seventh is
+    #: added". Wrapping here means an EIGHTH backend is gated on the day it is written, with no edit to
+    #: this file and none to `gpu_ban`.
+    #: ⚠ `mock` IS EXEMPT AND THAT IS NOT A BYPASS: `MockBackend` creates nothing, contacts nothing and
+    #: bills nothing — it is the dry-run/test double. A caller reaches it only by asking for it BY NAME,
+    #: and what it then returns is a fake handle, not a machine.
+    _GPU_BAN_EXEMPT_BACKENDS = frozenset({"mock", "abstract"})
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        fn = cls.__dict__.get("submit")
+        if fn is None or getattr(fn, "_gpu_ban_wrapped", False):
+            return
+
+        @functools.wraps(fn)
+        def _submit(self, *a, **kw):
+            if getattr(self, "name", "abstract") not in Backend._GPU_BAN_EXEMPT_BACKENDS:
+                _gpu_ban.assert_permitted(
+                    f"{type(self).__name__}.submit — starting a billable GPU on the {getattr(self, 'name', '?')} backend")
+            return fn(self, *a, **kw)
+
+        _submit._gpu_ban_wrapped = True
+        cls.submit = _submit
+
     def supports(self, res: ResourceSpec) -> bool:
         return _match_gpu(_CAPS.get(self.name, {}), res) is not None
 
@@ -495,6 +529,19 @@ def _vast_request(method: str, path: str, api_key: str, params=None, body=None, 
     SELF-HEALING against Vast's v0->v1 migration: on a 410 `deprecated_endpoint` the body names the replacement
     ("Use /api/v1/instances/ instead"), so we follow it once instead of hard-failing (keeps the adapter working
     as endpoints move without hardcoding a version per route)."""
+    # ⛔⛔ THE NO-GPU BAN, AT THE ONE DOOR EVERY VAST RENTAL GOES THROUGH.
+    # `PUT /asks/{id}/` is Vast's canonical create-instance call and the ONLY mutating call this repository
+    # makes against `/asks/`. Three call sites reach it — `VastBackend.submit` and `vast_bid_semantics_probe`
+    # twice — and the probe does NOT go through `VastBackend.submit`, so a gate on `submit` alone would have
+    # left a real rental path open. Gating the HTTP verb instead covers every present caller and every future
+    # one, and it is BELOW the retry loop, so a relaunch faces it again: CLAUDE.md §6, a relaunch is a NEW
+    # PURCHASE.
+    # ⚠ CREATION ONLY, and the shape of the test is what guarantees that: board reads are `GET`, teardown is
+    # `DELETE /instances/{id}/`, stop and reap are `PUT /instances/{id}/`. None of them match, so a stood-down
+    # account still tears down a host that somehow exists — the failure `vast_rental_hold` names, where
+    # "stood down" quietly becomes "billing unwatched".
+    if method in ("PUT", "POST", "PATCH") and path.startswith("/asks/"):
+        _gpu_ban.assert_permitted(f"vast {method} {path} — creating a rental (Vast create-instance)")
     # ---- the wave-scoped board cache (see `board_read_cache`) ------------------------------------------
     # GET + `/search/asks/` + cache open, or this is a no-op. `_hops` is deliberately NOT part of the key:
     # a retry of the same query is the same query, and the entry it writes is what a later hop would fetch.
