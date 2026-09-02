@@ -9045,19 +9045,17 @@
         "strategy": "ST-OCCUPANCY"
       },
       "kind": "fetch",
-      "state": "queued",
+      "state": "done",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": "s24-debt",
+      "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": [
-        "BLK-UNSIZED-REQUIREMENT"
-      ],
-      "blocked_evidence": null,
+      "blocked_by": [],
+      "blocked_evidence": "RE-TESTED 2026-08-28 (SEAT-s4-ba841eee) — THE BLOCK ON THIS ROW'S ACTION IS DISSOLVED; the blocker itself still holds in its restated form. Observation: the named action (write the selectivity requirement with its basis) was DONE on 2026-08-07 in research/manuscripts/degrader/selectivity-requirement-sizing.md §2 as REQ-MONO-1/2/3, and commit ba0f4a7f2 (2026-08-07) restated BLK-UNSIZED-REQUIREMENT to kind requires_wet_lab with kind_history — but that commit never touched RT-MONOVALENT's next.best_next_action, which `git log -S` shows unchanged since the graph was created on 2026-08-05. priority.py:286 reads this row's `what` straight from next.best_next_action and its `last_evidence_utc` from state.last_verified, so the row re-derived a discharged action for three weeks. Fixed at the source: required_validation[1] now carries sizing §6(d)'s replacement (blocked_by []), next/timing moved on, state.last_verified 2026-08-28. BASIS VERIFIED, not assumed: RT=0.592484902415 kcal/mol imported live from selectivity_margin_model, the whole (A,B) table recomputed to 2 dp (min 0.50, max 3.49, A=0.80/B=0.20 cell 1.64, RT*ln10 1.36) — every figure reproduces; targets=(0.70,0.80,0.90) and paralogue_ceiling=0.20 exist in that module, so the bolded cell is a stated CONVENTION reused for comparability, not a measurement; the NR4A1-HARD/NR4A2-SOFT asymmetry is sourced in research/modalities/nr4a2-sparing-bound.json rather than recalled. A, B1 and B2 remain UNKNOWN and only MISSING-1/2/4 (bench dose-responses) settle them — that is the half of the blocker that survives. NEW $0 LEAD: research/modalities/nr4a3-monovalent-reach.json contains zero occurrences of rsa/exposed/exposure/C7, so the exposure criterion the route's closure_note names is not applied inside the artifact carrying the covalent negative; whether it is inherited upstream is untraced and is the route's next action.",
       "retry_budget": 1,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-06",
+      "attempts": 1,
+      "last_evidence_utc": "2026-08-28",
       "score": 56.0,
       "score_inputs": {
         "live": false,

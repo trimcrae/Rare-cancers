@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-MONOVALENT — Monovalent LBD pocket modulation — a molecule that only OCCUPIES the NR4A3 LBD
 
-**Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ○ blocked · computed · confidence low · verified 2026-08-06
+**Family:** [ST-OCCUPANCY](L1-st-occupancy.md) · **state:** ○ blocked · computed · confidence low · verified 2026-08-28
 
 **Grade** (owned by [`research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md`](../../research/manuscripts/occupancy/nr4a3-monovalent-pocket-route.md#7--grade-against-the-failure-record)): REGISTERED, NOT PROMOTED — and specifically a DOWNGRADE of what the probe framing implies about a monovalent drug
 
@@ -77,14 +77,14 @@ If the ligand-binding domain is a functional handle in the chimera, occupancy al
 
 - Whether the ligand-binding domain is functionally actionable in the fusion, whose other end is a strong independent activator. Nobody has run that assay.
 - How much paralogue selectivity this route would need. ⭐ STATED 2026-08-07 (REQ-MONO-1/2/3, selectivity-requirement-sizing.md): a binary LBD ΔΔG against NR4A1 as a HARD gate and against NR4A2 as a disclosed residual, at RT·ln{[A/(1−A)]·[(1−B)/B]} — 0.50–3.49 kcal/mol over the plausible (A,B) rectangle and NOT bounded above, because the anti-target ceiling is unmeasured. ⛔ That range BRACKETS the degrader's figure rather than sitting under it, and the two are not comparable in any case; the covalent sub-form's requirement is a kinetic predicate rather than a ΔΔG at all.
-- Whether the covalent sub-form's negative is real: it rests on an exposure criterion that fails its own positive control.
+- Whether the covalent sub-form's negative is real: it rests on an exposure criterion that fails its own positive control. ⚠ RE-TESTED 2026-08-28 and NOT settled: the E3-arm-free artifact that carries this negative (research/modalities/nr4a3-monovalent-reach.json) contains no exposure or RSA term — its two conventions are chain-length rules (through_space permissive, corridor conservative) — so the exposure criterion is not applied inside it. Whether the negative nonetheless inherits C7 through an upstream input has not been traced; that trace is $0 and it is what would settle this.
 
 ## Required validation
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
 | A functional cell assay showing the domain is actionable in the chimera | ⛔ none built | **no** | BLK-FUNCTIONAL-ACTIONABILITY |
-| A stated selectivity requirement this route would have to meet | ⛔ none built | yes | BLK-UNSIZED-REQUIREMENT |
+| A stated selectivity requirement this route would have to meet — ✅ DONE 2026-08-07, $0, research/manuscripts/degrader/selectivity-requirement-sizing.md §2. Stated as a pair (NR4A1 hard / NR4A2 soft) with the derivation and every assumption named. Its thresholds are forms with a range, not numbers, because the transfer functions that set A and B are unmeasured (MISSING-1, MISSING-2). | ⛔ none built | yes | — |
 
 ## Blockers
 
@@ -138,11 +138,11 @@ Its central premise — that occupancy does something — has never been tested 
 
 **Recommendation: `pursue_now`**
 
-One of the two blockers unique to this route is retired by writing something down: nobody has stated how much selectivity this route would need, and until someone does, the route cannot be shown to meet or miss it. That is free and it is a prerequisite for grading the route at all.
+The free specification work is DONE (2026-08-07, REQ-MONO-1/2/3): the requirement now exists as a pair with its derivation and every assumption named, so a later result can be shown to MEET or MISS it. What remains splits in two — the thresholds need bench dose-responses (MISSING-1, MISSING-2) and no computation produces them, while the covalent sub-form's negative can still be re-tested at $0 by tracing whether it inherits the defective exposure criterion.
 
 | horizon | effect |
 |---|---|
-| Six months | None on the biology; the specification work is available now. |
+| Six months | None on the biology; the specification work is DONE (2026-08-07) and what is left of the requirement needs a bench (MISSING-1, MISSING-2). |
 | Two years | Depends entirely on whether a functional readout becomes reachable. |
 | Cost trend | flat |
 | Automation outlook | The specification is reasoning, not computation. |
@@ -161,7 +161,7 @@ One of the two blockers unique to this route is retired by writing something dow
 
 ## Best next action
 
-Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what makes every later grade of this route meaningful.
+Trace whether the covalent sub-form's negative actually inherits the defective exposure criterion C7. ⚠ RE-TESTED 2026-08-28: the free action this row named — write the selectivity requirement — was DONE on 2026-08-07 (REQ-MONO-1/2/3, research/manuscripts/degrader/selectivity-requirement-sizing.md §2), and this row had not been touched since the graph was created on 2026-08-05. The E3-arm-free artifact that carries the negative (research/modalities/nr4a3-monovalent-reach.json) contains no exposure or RSA term at all, so the caveat closure_note states may be inherited from an upstream input rather than applied inside it. The trace is $0 and it decides whether this route's one computed result stands.
 
 *Cost:* $0
 

@@ -1373,7 +1373,7 @@
       "status": "blocked",
       "maturity": "computed",
       "confidence": "low",
-      "last_verified": "2026-08-06"
+      "last_verified": "2026-08-28"
     },
     "rationale": "If the ligand-binding domain is a functional handle in the chimera, occupancy alone is enough and the entire ternary problem disappears. This is the cheapest possible version of the program, and it is registered explicitly as a DOWNGRADE of what the covalent-probe framing implies about a monovalent drug — the probe is a reagent, not evidence that occupancy is therapeutic.",
     "supporting_evidence": [
@@ -1386,7 +1386,7 @@
     "remaining_unknowns": [
       "Whether the ligand-binding domain is functionally actionable in the fusion, whose other end is a strong independent activator. Nobody has run that assay.",
       "How much paralogue selectivity this route would need. ⭐ STATED 2026-08-07 (REQ-MONO-1/2/3, selectivity-requirement-sizing.md): a binary LBD ΔΔG against NR4A1 as a HARD gate and against NR4A2 as a disclosed residual, at RT·ln{[A/(1−A)]·[(1−B)/B]} — 0.50–3.49 kcal/mol over the plausible (A,B) rectangle and NOT bounded above, because the anti-target ceiling is unmeasured. ⛔ That range BRACKETS the degrader's figure rather than sitting under it, and the two are not comparable in any case; the covalent sub-form's requirement is a kinetic predicate rather than a ΔΔG at all.",
-      "Whether the covalent sub-form's negative is real: it rests on an exposure criterion that fails its own positive control."
+      "Whether the covalent sub-form's negative is real: it rests on an exposure criterion that fails its own positive control. ⚠ RE-TESTED 2026-08-28 and NOT settled: the E3-arm-free artifact that carries this negative (research/modalities/nr4a3-monovalent-reach.json) contains no exposure or RSA term — its two conventions are chain-length rules (through_space permissive, corridor conservative) — so the exposure criterion is not applied inside it. Whether the negative nonetheless inherits C7 through an upstream input has not been traced; that trace is $0 and it is what would settle this."
     ],
     "required_validation": [
       {
@@ -1397,11 +1397,9 @@
         ]
       },
       {
-        "what": "A stated selectivity requirement this route would have to meet",
+        "what": "A stated selectivity requirement this route would have to meet — ✅ DONE 2026-08-07, $0, research/manuscripts/degrader/selectivity-requirement-sizing.md §2. Stated as a pair (NR4A1 hard / NR4A2 soft) with the derivation and every assumption named. Its thresholds are forms with a range, not numbers, because the transfer functions that set A and B are unmeasured (MISSING-1, MISSING-2).",
         "feasible_today": true,
-        "blocked_by": [
-          "BLK-UNSIZED-REQUIREMENT"
-        ]
+        "blocked_by": []
       }
     ],
     "readiness": {
@@ -1417,18 +1415,16 @@
     },
     "timing": {
       "recommendation": "pursue_now",
-      "rationale": "One of the two blockers unique to this route is retired by writing something down: nobody has stated how much selectivity this route would need, and until someone does, the route cannot be shown to meet or miss it. That is free and it is a prerequisite for grading the route at all.",
-      "six_month_delta": "None on the biology; the specification work is available now.",
+      "rationale": "The free specification work is DONE (2026-08-07, REQ-MONO-1/2/3): the requirement now exists as a pair with its derivation and every assumption named, so a later result can be shown to MEET or MISS it. What remains splits in two — the thresholds need bench dose-responses (MISSING-1, MISSING-2) and no computation produces them, while the covalent sub-form's negative can still be re-tested at $0 by tracing whether it inherits the defective exposure criterion.",
+      "six_month_delta": "None on the biology; the specification work is DONE (2026-08-07) and what is left of the requirement needs a bench (MISSING-1, MISSING-2).",
       "two_year_delta": "Depends entirely on whether a functional readout becomes reachable.",
       "cost_trend": "flat",
       "automation_outlook": "The specification is reasoning, not computation."
     },
     "next": {
-      "best_next_action": "Write down the selectivity requirement this route would have to meet, with its basis. It is $0 and it is what makes every later grade of this route meaningful.",
+      "best_next_action": "Trace whether the covalent sub-form's negative actually inherits the defective exposure criterion C7. ⚠ RE-TESTED 2026-08-28: the free action this row named — write the selectivity requirement — was DONE on 2026-08-07 (REQ-MONO-1/2/3, research/manuscripts/degrader/selectivity-requirement-sizing.md §2), and this row had not been touched since the graph was created on 2026-08-05. The E3-arm-free artifact that carries the negative (research/modalities/nr4a3-monovalent-reach.json) contains no exposure or RSA term at all, so the caveat closure_note states may be inherited from an upstream input rather than applied inside it. The trace is $0 and it decides whether this route's one computed result stands.",
       "cost": "$0",
-      "blocked_on": [
-        "BLK-UNSIZED-REQUIREMENT"
-      ]
+      "blocked_on": []
     }
   },
   {
