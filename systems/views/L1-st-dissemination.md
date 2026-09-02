@@ -60,7 +60,7 @@ flowchart LR
 | **[RT-ENDPOINT-CHOICE](L2-rt-endpoint-choice.md)**<br/>Reframe the endpoint systemic-therapy trials are judged on | ✓ ready | computed | `journal_submission` | [PUB-ENDPOINT](L3-publications.md) ◐ *primary* | Review the manuscript for external posting to medRxiv. Nothing else in the route is unrun. |
 | **[RT-FUSION-OUTPUT](L2-rt-fusion-output.md)**<br/>The fusion's transcriptional output, read in EMC tissue | ✓ active | validated_in_silico | `journal_submission` | [PUB-FUSION-OUTPUT](L3-publications.md) ◐ *primary* | Submit. The free in-silico work on this route is done: catalogue, null calibration, instrument controls, three |
 | **[RT-METHODS-PAPER](L2-rt-methods-paper.md)**<br/>The honest methods paper on the degrader program's own failure record | ○ ready | scoped | `journal_submission` | [PUB-METHODS](L3-publications.md) ◐ *primary* | Write it — no scientific blocker. ⚠ But the FRAMING choice (P1 vs P6) is trimcrae's and is not settled here. |
-| **[RT-MODALITY-CENSUS](L2-rt-modality-census.md)**<br/>The modality census as a publication | ○ ready | concept | `preprint` | [PUB-MODALITY-CENSUS](L3-publications.md) ◐ *primary* | Decide the framing and the venue, which is an outward-facing call. |
+| **[RT-MODALITY-CENSUS](L2-rt-modality-census.md)**<br/>The modality census as a publication | ○ ready | concept | `preprint` | [PUB-MODALITY-CENSUS](L3-publications.md) ◐ *primary* | Close the three open publish_bar clauses for PUB-MODALITY-CENSUS, in this order: a hardening round (hardening_ |
 ## What this family buys the portfolio — blockers it RETIRES
 
 - **BLK-NO-WET-LAB** (`requires_external_collaboration`) — No wet lab and no collaborator — an ask needs a self-interested taker before its size matters
