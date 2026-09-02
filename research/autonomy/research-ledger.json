@@ -1476,10 +1476,10 @@
         "strategy": "ST-DEPENDENCY"
       },
       "kind": "write",
-      "state": "queued",
+      "state": "in_progress",
       "parked_on": null,
       "parked_by_graph_status": null,
-      "owner": null,
+      "owner": "f2f24a57-6834-5b7f-801e-d7949dea605b",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -1502,7 +1502,7 @@
       },
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-ATR is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "claimed_utc": "2026-09-02T20:28:07Z",
+      "claimed_utc": "2026-09-02T23:40:47Z",
       "requires_trimcrae_why": "publishes an assessment AND makes an ask of an external group — CLAUDE.md §3, outward-facing. The assessment itself is self-doable and is not this row.",
       "notified_utc": "2026-09-01T14:40:19Z",
       "_NOTIFIED_AND_ANSWERED_2026_09_01": "★ SENT AND ANSWERED, and `notified_utc` above records the SEND rather than the intention — PushNotification plus AskUserQuestion, both in the turn that stamped it. CLAUDE.md §3: stamping a row you did not send is a false record.\n★ WHAT HE WAS ASKED, and it was a real fork rather than a null notification: this row is 'publish the ATR assessment and pair it with the cell-panel ask', and `publish_bar --paper PUB-ATR` on f37ef3c02 reads **3/7** — failing `hardening_converged` (the last round reviewed c1bc934fec3c, not this tree), `preflight_full_green`, `independent_adversarial_seat`, and `readable_and_keeps_caution` (7 sentences over 60 words, longest 77w at line 509 of emc-atr-vulnerability-assessment.md). ⛔ EVERY ONE OF THOSE IS THE LOOP'S OWN WORK, so the publish/outreach act was not takeable and asking him to take it would have been the failure §3 names. The genuine fork his ASO scoping raises is whether the work is worth doing NOW — and that is his.\n★ HIS ANSWER, 2026-09-01: **park it until ASO is done.** Recorded as `state: parked`, `parked_on: GOAL-ASO-V2`. ⛔ NOTHING IS DROPPED and no bar was touched: the four failing clauses stay failing, the assessment is unchanged, and the row resumes as an ordinary queued item once GOAL-ASO-V2 closes. ⚠ The 7 over-length sentences are the cheap half and are still owed — they are free, tedious and entirely mine, exactly the kind §3 says not to hand over.\n⚠ AND THE HOOK THAT SURFACED THIS WAS FIXED HOURS EARLIER AND HAD NEVER FIRED BEFORE (AUT-PD-202). This is the first decision it has ever put in front of anyone.",
@@ -1519,6 +1519,10 @@
         },
         {
           "utc": "2026-09-02T20:28:07Z",
+          "fingerprint_at_dispatch": "2026-09-02|None"
+        },
+        {
+          "utc": "2026-09-02T23:40:47Z",
           "fingerprint_at_dispatch": "2026-09-02|None"
         }
       ],
