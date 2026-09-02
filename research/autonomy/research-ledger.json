@@ -26,9 +26,9 @@
   "n_by_state": {
     "blocked": 2,
     "done": 181,
-    "in_progress": 10,
+    "in_progress": 11,
     "parked": 30,
-    "queued": 163,
+    "queued": 162,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -3610,39 +3610,6 @@
       "claimed_utc": null
     },
     {
-      "id": "AUT-PD-116",
-      "what": "⛔ SIXTEEN ROUTES CARRY A required_validation MARKED feasible_today=false ON BLK-NO-EMC-DATA WHOSE OWN TEXT NAMES AN EXPRESSION OR TISSUE READ, AND NOT ONE OF THEM CITES ART-EMC-EXPRESSION-PANELS — the committed artifact that answers that half. Measured 2026-08-28 over systems/graph/routes.json (77 routes) against research/modalities/emc-expression-panels.json gene_reads. SIX of the sixteen name a gene the artifact already reads on EMC tumour tissue: RT-SSTR2 (SSTR2), RT-B7H3 (CD276), RT-FAP-RLT (FAP), RT-JUNCTION-NEOANTIGEN (HLA-A/B/C, TAF15), RT-FUSION-OUTPUT (EWSR1, NR4A3, PPARG, SEMA3C, TAF15), RT-MTAP-PRMT5 (MAT2A, MTAP, PRMT5). RT-B7H3, RT-SSTR2 and RT-VACCINE-COMBINATION cite the landscape MANUSCRIPT but still hold the validation open. ⭐ THE SEVENTEENTH WAS ADJUDICATED THIS CYCLE AND ITS BLOCK WAS FALSE IN THE DANGEROUS DIRECTION: RT-PRAME-IMMTAC was graded 'NEW antigen-directed lead — best of the CTAs' on a cell-line surrogate while the EMC-tissue read that its own required_validation asked for had been committed four days earlier and reads at the floor of every readable cohort (AUT-053). ⚠ ADJUDICATE PER ROUTE AND DO NOT BATCH THIS: readable is NOT answered. RT-MTAP-PRMT5 asks for a gene-level COPY-NUMBER read, which an expression panel does not answer at all; RT-SSTR2 asks for 'a receptor imaging scan in an EMC patient, OR an expression readout', where only the second half is answered. The measurement here is the CANDIDATE LIST, not a verdict on any row. ⚠ AND THE SIBLING ROW IS AUT-052 (RT-PPARG-DOWNSTREAM), which asks for a PPARγ TARGET-GENE activity readout — PPARG itself is readable in the artifact and a target-gene activity score is a different question; that row is unclaimed and is the natural next one to adjudicate. Reproduce: iterate routes.json for required_validation entries with feasible_today false and BLK-NO-EMC-DATA, intersect the entry text with emc-expression-panels.json gene_reads keys, and grep each route record for ART-EMC-EXPRESSION-PANELS. ⭐ THIRD INSTANCE, 2026-08-28 (CYC-0063): AUT-052 / RT-PPARG-DOWNSTREAM and RT-TRABECTEDIN-PPARG both waited on 'a PPARγ ACTIVITY readout in EMC' behind BLK-NO-EMC-DATA. It exists — read_3_PPARG_ACTIVITY, null-calibrated, permutation-tested, written up in nr4a3-fusion-transcriptional-output-SI.md §S4 — and neither route cited it. ⚠ AND THIS INSTANCE SHARPENS THE CLASS: the memo pparg-direction-emc.md, the declared one home for that question, still read '⛔ Never measured, by anyone: PPARγ transcriptional output in EMC'. So the stale record is not only in systems/graph — a MANUSCRIPT asserting a negative about its own repository was four days out of date. Adjudicating a row in this class means checking the owning prose too, not only the route JSON.\n\n⚠ SUPERSEDED IN ITS COUNT, RETAINED (CLAUDE.md rule 1.2) — AMENDED 2026-09-02 BY S41-BLOCKED-ROUTE-AUDIT. **The headline's \"sixteen\" is a TEXT-FILTERED SUBSET and this row never said so.** The mechanical population — every `required_validation` entry with `feasible_today: false` and `BLK-NO-EMC-DATA` in `blocked_by` — is **28 entries across 23 routes** of 77, derived by a command printed in that memo rather than typed here.\n★ AND MOST OF IT WAS ALREADY DONE BEFORE THIS ROW WAS DISPATCHED: seat S32 adjudicated **19 entries across 16 routes** on 2026-09-01, committed in `research/modalities/emc-blk-no-emc-data-route-retest.json` (`1132109a5`). The set difference is exact — `adjudicated_not_in_pop: []` — so the sixteen this row names ARE S32's sixteen, and this row outlived its own closure by a day. That is the same one-fact-one-place failure that made AUT-PD-171 dispatch a seat at a defect fixed the day before.\n★ WHAT WAS GENUINELY NEW: **nine entries across seven routes had never been adjudicated by anybody** — the clinical, outcome and registry requirements, which nobody had checked against the blocker's own text. S41 adjudicates all nine.\n⛔ AND THE ANSWER IS AN HONEST NEGATIVE: **newly TAKEABLE TODAY = 0.** The seven routes were mis-LABELLED, not mis-GRADED — six carry the wrong blocker, three carry it correctly. UNDECIDABLE = 0, UNMEASURED = 0. The follow-up work is filed as its own rows rather than left in this one.",
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null
-      },
-      "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "s31-emc-data-blocks",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-02",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "In-repo reconciliation of route records against a committed artifact; no outward-facing act.",
-      "_renamed_from": "AUT-PD-115 — collided with the row filed by the concurrent session in c024c8a ('session_cap.py cannot tell a successful handoff from no handoff at all'), which reached the trunk first and keeps the string. Renamed on rebase per the precedence rule recorded in 51d4aa8. Caught by a post-rebase duplicate-id check, not by the diff or the merge output, which showed nothing.",
-      "score_inputs": {},
-      "score": 131.6,
-      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row names NO route at all, so `apply_route_inheritance` never reaches a floor lookup for it, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. SIXTEEN live treatment routes carry a required_validation marked feasible_today=false on BLK-NO-EMC-DATA whose own text names an expression or tissue read, and none cites ART-EMC-EXPRESSION-PANELS — which already answers it for six (RT-SSTR2, RT-B7H3, RT-FAP-RLT, RT-JUNCTION-NEOANTIGEN, RT-FUSION-OUTPUT, RT-MTAP-PRMT5). Its own precedent (RT-PRAME-IMMTAC) had the block false in the DANGEROUS direction. This is CLAUDE.md §0's 'blocked is a claim that needs evidence' applied to a fifth of the portfolio, at $0.",
-      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
-      "claimed_utc": "2026-09-02T19:13:24Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T19:13:24Z",
-          "fingerprint_at_dispatch": "2026-09-02|None"
-        }
-      ]
-    },
-    {
       "id": "AUT-PD-169",
       "kind": "process_defect",
       "process_defect": true,
@@ -3861,9 +3828,9 @@
         "_route_was": "RT-AUTONOMY",
         "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "s32-manifest-regen",
+      "claimed_utc": "2026-09-02T19:29:40Z",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
@@ -3895,7 +3862,13 @@
       "score_inputs": {
         "age_factor": 0.2857,
         "age_factor_as_of": "2026-09-02"
-      }
+      },
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T19:29:40Z",
+          "fingerprint_at_dispatch": "2026-08-29|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-098",
@@ -4712,6 +4685,41 @@
       "score": 123.9,
       "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. TR-* revival triggers are defined only in the legacy emc-systems-map.json; systems/graph carries no TR-* record and nothing validates that a route's `revival_trigger` resolves. Three routes point at one. Pairs with AUT-PD-088 — a reopening condition the source of truth cannot see.",
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use."
+    },
+    {
+      "id": "AUT-PD-116",
+      "what": "⛔ SIXTEEN ROUTES CARRY A required_validation MARKED feasible_today=false ON BLK-NO-EMC-DATA WHOSE OWN TEXT NAMES AN EXPRESSION OR TISSUE READ, AND NOT ONE OF THEM CITES ART-EMC-EXPRESSION-PANELS — the committed artifact that answers that half. Measured 2026-08-28 over systems/graph/routes.json (77 routes) against research/modalities/emc-expression-panels.json gene_reads. SIX of the sixteen name a gene the artifact already reads on EMC tumour tissue: RT-SSTR2 (SSTR2), RT-B7H3 (CD276), RT-FAP-RLT (FAP), RT-JUNCTION-NEOANTIGEN (HLA-A/B/C, TAF15), RT-FUSION-OUTPUT (EWSR1, NR4A3, PPARG, SEMA3C, TAF15), RT-MTAP-PRMT5 (MAT2A, MTAP, PRMT5). RT-B7H3, RT-SSTR2 and RT-VACCINE-COMBINATION cite the landscape MANUSCRIPT but still hold the validation open. ⭐ THE SEVENTEENTH WAS ADJUDICATED THIS CYCLE AND ITS BLOCK WAS FALSE IN THE DANGEROUS DIRECTION: RT-PRAME-IMMTAC was graded 'NEW antigen-directed lead — best of the CTAs' on a cell-line surrogate while the EMC-tissue read that its own required_validation asked for had been committed four days earlier and reads at the floor of every readable cohort (AUT-053). ⚠ ADJUDICATE PER ROUTE AND DO NOT BATCH THIS: readable is NOT answered. RT-MTAP-PRMT5 asks for a gene-level COPY-NUMBER read, which an expression panel does not answer at all; RT-SSTR2 asks for 'a receptor imaging scan in an EMC patient, OR an expression readout', where only the second half is answered. The measurement here is the CANDIDATE LIST, not a verdict on any row. ⚠ AND THE SIBLING ROW IS AUT-052 (RT-PPARG-DOWNSTREAM), which asks for a PPARγ TARGET-GENE activity readout — PPARG itself is readable in the artifact and a target-gene activity score is a different question; that row is unclaimed and is the natural next one to adjudicate. Reproduce: iterate routes.json for required_validation entries with feasible_today false and BLK-NO-EMC-DATA, intersect the entry text with emc-expression-panels.json gene_reads keys, and grep each route record for ART-EMC-EXPRESSION-PANELS. ⭐ THIRD INSTANCE, 2026-08-28 (CYC-0063): AUT-052 / RT-PPARG-DOWNSTREAM and RT-TRABECTEDIN-PPARG both waited on 'a PPARγ ACTIVITY readout in EMC' behind BLK-NO-EMC-DATA. It exists — read_3_PPARG_ACTIVITY, null-calibrated, permutation-tested, written up in nr4a3-fusion-transcriptional-output-SI.md §S4 — and neither route cited it. ⚠ AND THIS INSTANCE SHARPENS THE CLASS: the memo pparg-direction-emc.md, the declared one home for that question, still read '⛔ Never measured, by anyone: PPARγ transcriptional output in EMC'. So the stale record is not only in systems/graph — a MANUSCRIPT asserting a negative about its own repository was four days out of date. Adjudicating a row in this class means checking the owning prose too, not only the route JSON.\n\n⚠ SUPERSEDED IN ITS COUNT, RETAINED (CLAUDE.md rule 1.2) — AMENDED 2026-09-02 BY S41-BLOCKED-ROUTE-AUDIT. **The headline's \"sixteen\" is a TEXT-FILTERED SUBSET and this row never said so.** The mechanical population — every `required_validation` entry with `feasible_today: false` and `BLK-NO-EMC-DATA` in `blocked_by` — is **28 entries across 23 routes** of 77, derived by a command printed in that memo rather than typed here.\n★ AND MOST OF IT WAS ALREADY DONE BEFORE THIS ROW WAS DISPATCHED: seat S32 adjudicated **19 entries across 16 routes** on 2026-09-01, committed in `research/modalities/emc-blk-no-emc-data-route-retest.json` (`1132109a5`). The set difference is exact — `adjudicated_not_in_pop: []` — so the sixteen this row names ARE S32's sixteen, and this row outlived its own closure by a day. That is the same one-fact-one-place failure that made AUT-PD-171 dispatch a seat at a defect fixed the day before.\n★ WHAT WAS GENUINELY NEW: **nine entries across seven routes had never been adjudicated by anybody** — the clinical, outcome and registry requirements, which nobody had checked against the blocker's own text. S41 adjudicates all nine.\n⛔ AND THE ANSWER IS AN HONEST NEGATIVE: **newly TAKEABLE TODAY = 0.** The seven routes were mis-LABELLED, not mis-GRADED — six carry the wrong blocker, three carry it correctly. UNDECIDABLE = 0, UNMEASURED = 0. The follow-up work is filed as its own rows rather than left in this one.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "in_progress",
+      "owner": "s31-emc-data-blocks",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "In-repo reconciliation of route records against a committed artifact; no outward-facing act.",
+      "_renamed_from": "AUT-PD-115 — collided with the row filed by the concurrent session in c024c8a ('session_cap.py cannot tell a successful handoff from no handoff at all'), which reached the trunk first and keeps the string. Renamed on rebase per the precedence rule recorded in 51d4aa8. Caught by a post-rebase duplicate-id check, not by the diff or the merge output, which showed nothing.",
+      "score_inputs": {
+        "fruitless_attempts": 1
+      },
+      "score": 123.6,
+      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row names NO route at all, so `apply_route_inheritance` never reaches a floor lookup for it, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. SIXTEEN live treatment routes carry a required_validation marked feasible_today=false on BLK-NO-EMC-DATA whose own text names an expression or tissue read, and none cites ART-EMC-EXPRESSION-PANELS — which already answers it for six (RT-SSTR2, RT-B7H3, RT-FAP-RLT, RT-JUNCTION-NEOANTIGEN, RT-FUSION-OUTPUT, RT-MTAP-PRMT5). Its own precedent (RT-PRAME-IMMTAC) had the block false in the DANGEROUS direction. This is CLAUDE.md §0's 'blocked is a claim that needs evidence' applied to a fifth of the portfolio, at $0.",
+      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
+      "claimed_utc": "2026-09-02T19:13:24Z",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T19:13:24Z",
+          "fingerprint_at_dispatch": "2026-09-02|None"
+        }
+      ]
     },
     {
       "id": "AUT-PD-181",
