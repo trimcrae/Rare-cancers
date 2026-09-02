@@ -1,0 +1,32 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "3e0cd7ddb34d60b5d5d9d90964d19c63fa0daa87",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "arithmetic against committed artifacts",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "d678847e69eef84a2f04eb01572877eea06a9147d2f57988137111389a06b8e4",
+  "opened_utc": "2026-09-02T23:11:12Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "Patients with extraskeletal myxoid chondrosarcoma are eligible for recruiting trials that a condition search on their own diagnosis will never return, because eligibility is written on the molecular/fusion class while the searched conditions field is written on histology, and a naive keyword fix cannot reliably tell a real admission from a false one, so it must be adjudicated trial-by-trial.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "§2's sentence ‘those three, and NCT06239272, the one record that lists the histology’ reads, in isolation, as a claim that NCT06239272 is the only one of the 23 clean-rerun records that lists EMC in its conditions. It is not: fet-fusion-trial-eligibility-2026-08-07.json flags emc_in_listed_conditions:true for two other trials — NCT03600649 (listed_conditions includes the exact string ‘Extraskeletal Myxoid Chondrosarcoma’) and NCT05836571 (‘Locally Advanced Extraskeletal Myxoid Chondrosarcoma’) — and both also appear in the 23-record re-run list in emc-hypoxia-therapeutic-status.json's every_registered_EMC_trial.studies (NCT03600649, status UNKNOWN; NCT05836571, status ACTIVE_NOT_RECRUITING).",
+      "evidence": "research/literature/fet-fusion-trial-eligibility-2026-08-07.json, task_1_reverification_of_section_3_3.trials: NCT03600649 has emc_in_listed_conditions:true with 'Extraskeletal Myxoid Chondrosarcoma' verbatim in listed_conditions; NCT05836571 has emc_in_listed_conditions:true with 'Locally Advanced Extraskeletal Myxoid Chondrosarcoma'. research/modalities/emc-hypoxia-therapeutic-status.json, every_registered_EMC_trial (_n_total_reported:23, n=23 studies via query.cond=extraskeletal myxoid chondrosarcoma) lists both NCT03600649 and NCT05836571 alongside NCT06239272. So among the 23, at least 2–3 records (not 1) list the histology; NCT06239272 is unique only among *recruiting* trials — the qualifier §3's table states explicitly (‘One recruiting trial does list the histology’) but §2's earlier-appearing sentence drops.",
+      "fix": "In §2, qualify the clause — e.g. ‘NCT06239272, the one *recruiting* record that lists the histology’ — so the phrase matches §3's already-correct qualified claim and cannot be read as a count over the full 23."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pin 3e0cd7ddb34d60b5d5d9d90964d19c63fa0daa87)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json",
+    "research/modalities/emc-hypoxia-therapeutic-status.json",
+    "research/literature/non-us-registry-sweep-2026-08-09.json",
+    "git log/diff of edbbaf3a (round 6 edit) on research/manuscripts/care-delivery/emc-trial-reachability.md",
+    "git cat-file -e checks confirming existence of research/literature/emc-clinical-sweep-targets.json, emc-clinical-sweep-c3.json, emc-clinical-sweep-c4.json, research/manuscripts/modality-census/lit-targets-frontier-capability-2026-08-07.json, scripts/lit_fetch_urls.py"
+  ]
+}

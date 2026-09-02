@@ -13,9 +13,10 @@ purpose: >
   wrong hit does real harm in a disease where every trial carries weight.
 scope: >
   L3. Two public trial registries — one US, one UK — read on two dates, with every candidate's
-  eligibility text retrieved individually and read. Two further non-US registries refused automated
-  access and a third failed at the TLS handshake; all three are reported as unread endpoints rather
-  than as absences. It reports no experiment,
+  eligibility text retrieved individually and read. Of five non-US endpoints also attempted, two
+  refused automated access, a third failed at the TLS handshake, and a fourth (WHO) was never
+  reached because this sweep's own query URL was wrong; all four are reported as unread endpoints
+  rather than as absences. It reports no experiment,
   no patient and no treatment outcome, and it is not clinical advice.
 audience: [maintainers, external reviewers, autonomous research agents, collaborators]
 date: 2026-08-09
@@ -108,7 +109,7 @@ anywhere. The patient is inside the trial's own definition and outside its index
 
 | step | what | when |
 |---|---|---|
-| Registry-wide screens | fusion (400 studies, its page limit), basket (199) and sarcoma (526) screens, plus a term search on the driver gene; 1,159 unique studies indexed | 2026-08-07 |
+| Registry-wide screens | fusion (400 studies, its page limit), basket (199) and sarcoma (526) screens, a term search on the driver gene (5), and further queries including an unfielded sarcoma screen and a separate EWSR1 term search, none individually itemized; **1,159 unique studies indexed** across all of them, which is not the sum of the counts named here | 2026-08-07 |
 | Per-trial eligibility | every unconfirmed candidate re-fetched individually and its criteria read | 2026-08-09 |
 | Non-US registries | five endpoints attempted, one answered, with a positive control in the same run | 2026-08-09 |
 

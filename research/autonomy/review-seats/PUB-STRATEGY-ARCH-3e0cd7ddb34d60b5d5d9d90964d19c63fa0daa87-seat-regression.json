@@ -1,0 +1,27 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "3e0cd7ddb34d60b5d5d9d90964d19c63fa0daa87",
+  "blind": true,
+  "seat": "regression",
+  "lens": "regression on round 6's own repair",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "d678847e69eef84a2f04eb01572877eea06a9147d2f57988137111389a06b8e4",
+  "opened_utc": "2026-09-02T23:07:19Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "Patients with EMC are eligible for recruiting trials that a diagnosis-name condition search does not return, because eligibility is written on the molecular lesion while the searchable conditions field is written on the histology, and a naive keyword map cannot reliably tell a real admission from a false one, so mismatched search costs real harm in a disease where every trial option carries weight.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The frontmatter `purpose` field is a single 80-word sentence (joined by an em dash and 'and'/'because'/'so'), well over the repository's own 60-word prose ceiling used elsewhere in this document and enforced repo-wide by lint_readability.py's SENTENCE_CEILING=60. It is not caught by that gate only because lint_readability.py's body() function deliberately strips YAML frontmatter before measuring (research/manuscripts/lint_readability.py lines 95-107), so this is a real, uncaught density issue rather than a false alarm.",
+      "evidence": "research/manuscripts/care-delivery/emc-trial-reachability.md lines 8-13 (frontmatter `purpose:` field), verified at 80 words by direct word count. Compare research/manuscripts/lint_readability.py line 56 (`SENTENCE_CEILING = 60`) and lines 101-107 (frontmatter is excluded from the ceiling check by design). The paired Abstract passage this round also touched ('The finding that matters more than the count', lines 76-84) stays within the ceiling: its longest sentence is 50 words.",
+      "fix": "Split the purpose field at the em dash into two sentences ('Report that ... histology.' and 'Show that the obvious fix ... carries weight.'), matching the sentence-per-idea convention the rest of the document (and lint_readability.py's own ceiling) already follows. Not a blocker: the sentence is grammatically clean, logically consistent with Section 4, and introduces no unsupported claim -- this is a polish item, not a correctness one."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pinned commit 3e0cd7ddb34d60b5d5d9d90964d19c63fa0daa87, via git show)",
+    "research/manuscripts/lint_readability.py (to confirm the 60-word ceiling's real value, scope, and frontmatter exemption)"
+  ]
+}

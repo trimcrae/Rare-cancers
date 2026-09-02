@@ -1,0 +1,37 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "3e0cd7ddb34d60b5d5d9d90964d19c63fa0daa87",
+  "blind": true,
+  "seat": "statistics",
+  "lens": "statistics and methodology",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "d678847e69eef84a2f04eb01572877eea06a9147d2f57988137111389a06b8e4",
+  "opened_utc": "2026-09-02T23:10:33Z",
+  "verdict": "needs_revision",
+  "central_claim": "Trial registries index recruiting studies by a histology field even when the eligibility text that actually governs admission is written on a molecular lesion, so patients with an ultra-rare fusion-driven sarcoma (EMC) can be eligible for trials a diagnosis-name search will never surface, and a naive keyword map cannot reliably tell a real molecular admission from a false one, so eligibility text must be read one trial at a time.",
+  "blockers": [
+    {
+      "summary": "The headline pool size in Section 2's table, '1,159 unique studies indexed', is not reconstructable from the counts given in that same row and is arithmetically inconsistent with them, because one of the screens that must feed it is never assigned a count anywhere in the document.",
+      "evidence": "Section 2's table (row 1) states: 'fusion (400 studies, its page limit), basket (199) and sarcoma (526) screens, plus a term search on the driver gene; 1,159 unique studies indexed.' Summing the only counts given -- 400 + 199 + 526 + 5 (the driver-gene term search's count, given in the Abstract and Section 3 as 'returns five studies') -- is 1,130, which is 29 short of 1,159. A deduplicated union of several screens can only be LESS THAN OR EQUAL TO the sum of their raw per-screen counts (equality only at zero overlap), so 1,159 cannot be produced from a union of screens summing to 1,130 -- it requires at least one more, undisclosed contributor. The document confirms that contributor exists but never gives its size: the same Section 2 paragraph says 'one sarcoma screen was unfielded and did carry it' (i.e. a screen distinct from the 526-study fielded 'sarcoma' screen named in the table), and Section 5 disambiguates the two explicitly -- 'the sarcoma screen that returned 526 is a condition search, and the unfielded sarcoma screen combines the two [fusion + basket fields]' -- confirming it is a fifth, separately-sized screen. Its own study count appears nowhere in the document (grep for 'unfielded' across the whole file finds it named four times -- lines about role and provenance -- never with a number). So the table's own listed components (fusion, basket, sarcoma, driver-gene) cannot add up to the total it states in the same cell, and the missing screen needed to close the gap is real but its size is undisclosed.",
+      "fix": "Either report the unfielded sarcoma screen's own study count in the Section 2 table row (and show that 400 + 199 + 526 + 5 + [unfielded count], less overlap, reconciles to 1,159), or restate the row so it does not read as an exhaustive list of the screens that produced the total -- e.g. 'five registry-wide screens (four listed here plus an unfielded sarcoma screen, count in the deposit) combined to 1,159 unique studies.' As written, a reader who checks the arithmetic (as this review did) finds the total unsupported by the paper's own numbers."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "The Abstract's framing sentence 'Trial eligibility is often written the other way' asserts a frequency claim about how clinical trial eligibility is generally written, with no citation and no grounding in this paper's own (small, non-random, single-disease) evidence base, in a document that is otherwise scrupulous about hedging every frequency-adjacent statement.",
+      "evidence": "Abstract, 'The problem' paragraph: 'Trial eligibility is often written the other way, on a fusion family, a molecular class, or a translocation, while the registry's listed conditions... continue to name the diseases the sponsor had in mind.' This paper's own audit found molecular-only eligibility (no histology in listed conditions) in exactly 2 confirmed interventional trials plus up to 9 further unadjudicated records, against 1 trial that does list the histology among 42 conditions -- a sample far too small, and drawn from a single-disease, non-random registry snowball, to support a general 'often' about trial-eligibility-writing practice across the field. Nowhere else in the document is a base rate for how commonly molecular eligibility diverges from listed conditions asserted or cited; every other quantitative claim in the paper (Section 3's counts, Section 5's 'the counts here are floors', 'not shown to generalise') is carefully bounded to what was actually read.",
+      "fix": "Either cite external support for how commonly trial eligibility is written on molecular criteria (e.g. literature on the rise of basket/umbrella molecularly-defined trials), or soften to remove the frequency claim -- e.g. 'Trial eligibility can be written the other way' -- so the sentence reads as the mechanism this paper demonstrates rather than an established base rate."
+    },
+    {
+      "summary": "The 'asymmetric cost' framing ('The cost is not symmetric with the benefit') uses a comparative/magnitude-sounding term without ever establishing a magnitude or direction for either side, which under-specifies exactly the claim round 6 deliberately weakened ('worse than no map'), leaving room for a reader to reconstruct the retracted comparison from the new wording.",
+      "evidence": "Abstract: 'The cost is not symmetric with the benefit: a map that sends a patient toward a trial that will refuse them does real harm, in a disease where the number of options is small enough that each one carries weight, and a keyword screen alone cannot tell the two apart.' Echoed in Section 4: 'The cost of a false positive here is not a wasted query; it is a patient or a clinician pursuing a trial that will refuse them...' Neither passage quantifies or bounds the harm of a false positive against the benefit of a true positive; the paper's own evidence base for this claim is exactly 2 confirmed true admissions and 2 confirmed false positives (Section 4), a 1:1 ratio in the only instances measured, which by itself supports neither 'the cost outweighs the benefit' nor any other magnitude comparison. 'Not symmetric' is technically defensible as a claim about difference in KIND rather than magnitude, but the word choice imports a comparative connotation the evidence does not carry, and it sits immediately downstream of a claim (round 6's fix, per task context) that was retracted for exactly this kind of overreach.",
+      "fix": "Replace 'not symmetric' with language that is unambiguously about kind rather than magnitude, e.g. 'a false positive and a missed true positive are not the same kind of harm' or 'a keyword screen cannot weigh a wrong hit against a right one, and a wrong hit does concrete harm to a specific patient' -- removing the word that invites a magnitude reading the paper cannot support."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (as of commit 3e0cd7ddb34d60b5d5d9d90964d19c63fa0daa87, via git show)"
+  ]
+}

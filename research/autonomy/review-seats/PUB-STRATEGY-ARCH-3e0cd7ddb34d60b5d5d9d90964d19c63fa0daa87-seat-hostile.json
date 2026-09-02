@@ -1,0 +1,33 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "3e0cd7ddb34d60b5d5d9d90964d19c63fa0daa87",
+  "blind": true,
+  "seat": "hostile",
+  "lens": "hostile referee (accept/revise/reject)",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "d678847e69eef84a2f04eb01572877eea06a9147d2f57988137111389a06b8e4",
+  "opened_utc": "2026-09-02T23:10:56Z",
+  "verdict": "needs_revision",
+  "referee_recommendation": "minor_revisions",
+  "central_claim": "At least two recruiting interventional trials that a condition search on the EMC diagnosis itself would not return actually admit EMC because their eligibility criteria are written on a fusion family or translocation class rather than the histology, so a naive keyword-map fix is unsafe because it cannot distinguish that kind of real admission from a title/adjective false positive (two other trials that read as admitting under keyword matching in fact refuse EMC) -- eligibility text has to be read one trial at a time.",
+  "blockers": [
+    {
+      "summary": "The frontmatter `scope` field enumerates only three failed non-US registry endpoints ('all three'), but the abstract and Section 5 both establish there were four failure modes across five non-US endpoints attempted -- the frontmatter silently drops the fourth (the WHO portal, unread due to the sweep's own bad URL). A reader who trusts the frontmatter's stated scope boundary -- which the paper itself says exists precisely so 'nothing above may be read as those registries having been searched and found empty' -- gets an undercount of what was left unmeasured.",
+      "evidence": "Frontmatter scope (lines 14-19): 'Two further non-US registries refused automated access and a third failed at the TLS handshake; all three are reported as unread endpoints rather than as absences.' This names exactly THREE unread non-US outcomes (2 refused + 1 TLS-fail), on top of the one (UK/ISRCTN) that was read -- i.e. four non-US endpoints total in the frontmatter's account. But the Abstract (lines 53-55) says: 'Two further non-US registries refused automated access, a third failed at the TLS handshake, and a fourth went unread because our own query URL was wrong' -- four unread outcomes, five non-US endpoints total. Section 5 (lines 208-213) confirms the five-endpoint count explicitly: 'only one of five non-US endpoints answered... The EU endpoint returned an authentication error... and one more refused automated access; a third failed at the TLS handshake... The WHO portal was not reached because this sweep's URL was wrong.' The frontmatter's 'all three' is a precise, unhedged count that contradicts the precise counts given twice in the body (abstract and §5), which both include a fourth (WHO) endpoint.",
+      "fix": "Add the fourth outcome to the frontmatter scope sentence, e.g.: 'Two further non-US registries refused automated access, a third failed at the TLS handshake, and a fourth (the WHO portal) went unread because the sweep's own query URL was wrong; all four are reported as unread endpoints rather than as absences.' This restores agreement with the abstract and §5 without changing any substantive finding."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "The Section 2 sources-and-retrieval table reports a total of '1,159 unique studies indexed' immediately after listing four named screens whose raw counts sum to only 1,130 (400 fusion + 199 basket + 526 sarcoma + 5 driver-gene), which is less than 1,159 even before deduplication is applied (dedup can only lower a union count, never raise it above the raw sum of its listed inputs). The gap is plausibly explained by an unfielded sarcoma screen mentioned two sentences later in the prose ('one sarcoma screen was unfielded and did carry it'), but that screen's own contribution count is never stated anywhere in the document, so the 1,159 figure is currently unverifiable from the prose alone and its reconciliation depends on a fact (the unfielded screen's count) that isn't written down.",
+      "evidence": "Line 111: 'fusion (400 studies, its page limit), basket (199) and sarcoma (526) screens, plus a term search on the driver gene; 1,159 unique studies indexed'. 400+199+526+5=1130 < 1159. Line 116 introduces a fifth, uncounted source: 'one sarcoma screen was unfielded and did carry it [eligibility text]'; §5 (lines 220-227) separately confirms 'the sarcoma screen that returned 526 is a condition search, and the unfielded sarcoma screen combines the two' -- i.e. two distinct sarcoma screens exist, but only one (526) has a stated count.",
+      "fix": "Either give the unfielded sarcoma screen's own count in the Section 2 table row (so the components visibly reconcile to 1,159), or rephrase the row to make explicit that 1,159 includes an additional, uncounted screen not itemized in the row -- e.g. 'plus an unfielded sarcoma screen and a driver-gene term search; 1,159 unique studies indexed'. As written, a future edit to any one of the four itemized counts (e.g. a re-run of the page-limited fusion screen) has no way to check whether 1,159 still holds, since the number that would need to move with it is never recorded."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at commit 3e0cd7ddb34d60b5d5d9d90964d19c63fa0daa87, via git show)"
+  ]
+}
