@@ -1,111 +1,128 @@
 {
-  "_schema": "emc-autonomy-priority-weights/1",
-  "_role": "The ONE home of every weight the autonomy scorer applies. research/autonomy/priority.py types no weight; it reads them from here. Changing a research priority means editing this file, and the diff is the record of why the queue moved.",
-  "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#32--the-scorer--researchautonomyprioritypy",
-  "_objective": "Advance EMC treatment. Every weight below is an answer to 'how much does this field move a patient closer', and nothing else.",
-  "_read_this_when": "The queue's top item looks wrong. Do not special-case the item — fix the weight, and say in the commit message which reading of the objective changed.",
-  "terms": {
-    "live": {
-      "weight": 100.0,
-      "reads": "systems/graph/publications.json[].outcome_potential == 'live_positive', AND routes.json[].state.work_state != 'dead', AND closure_kind in (open, unset)",
-      "why": "CLAUDE.md §0: pursue routes that could still produce a result. This is the largest single term on purpose."
-    },
-    "patient_path": {
-      "weight": 40.0,
-      "reads": "publications.json[].patient_path, scaled by patient_path_scale below",
-      "why": "The north star is reaching a patient, and the program has no wet lab — so how the endpoint reaches one is the difference between a result and an activity."
-    },
-    "pursue_now": {
-      "weight": 20.0,
-      "reads": "routes.json[].timing.recommendation == 'pursue_now'",
-      "why": "A recorded judgement that waiting does not make this cheaper or better."
-    },
-    "tier_one": {
-      "weight": 15.0,
-      "reads": "routes.json[].grade.value starts with 'Tier 1'",
-      "why": "The options memo's tier, used ONLY as a coarse prior. Its Axis D input is deliberately not read — see _forbidden_inputs."
-    },
-    "endpoint_reachable": {
-      "weight": 15.0,
-      "reads": "routes.json[].readiness.attainable_today in ('preprint', 'journal_submission', 'chemrxiv')",
-      "why": "CLAUDE.md §5: every route's end goal is a paper. A route that can reach one today is nearer the only channel this program has."
-    },
-    "blocker_leverage": {
-      "weight": 4.0,
-      "reads": "count of OTHER routes sharing at least one blocker with this route (capped by blocker_leverage_cap)",
-      "why": "Retiring a widely-inherited blocker moves many routes at once. Per-route weight is small because the count does the work."
-    },
-    "cost": {
-      "weight": -12.0,
-      "reads": "cost_class_rank: free=0, cheap=1, expensive=2 — derived from routes.json[].next.cost, never typed here",
-      "why": "CLAUDE.md §5: cost sequences and right-sizes work; it never skips a decision-relevant run. Hence a penalty small enough that an expensive live route still outranks a free dead one."
-    },
-    "blocked_on_human": {
-      "weight": -25.0,
-      "reads": "the OR of two sources, because neither is complete alone (AUT-PD-127): routes.json[].state.authorization == 'needs_decision' or next.blocked_on naming a decision only trimcrae can make, applied at derive time; and the LEDGER ROW's own `requires_trimcrae`, applied post-merge by priority.py:apply_requires_trimcrae because build_entries reads only systems/graph and cannot see it. Reading routes.json alone left this term at 0 on all 12 rows that declare the field.",
-      "why": "The loop cannot advance it this cycle. Not -inf: it must stay visible enough to be escalated."
-    },
-    "fruitless_attempts": {
-      "weight": -8.0,
-      "reads": "research-ledger.json entries[].attempts since last_evidence_utc changed",
-      "why": "A route that has swallowed attempts without producing evidence is telling you something. Decays its own priority instead of needing a human to notice."
-    },
-    "blocked_with_evidence": {
-      "weight": -90.0,
-      "reads": "research-ledger.json entries[].state == 'blocked' AND a non-empty blocked_evidence, applied AFTER the merge because both are session state rather than graph state",
-      "why": "⛔ FOUND BY CYCLE CYC-0001, WHICH WOULD OTHERWISE HAVE LOOPED FOREVER. The top-scored item was established as blocked, with evidence — and it still scored 195 and still sorted first, so the next cycle would have re-derived the same block, and the one after that, every four hours. An EVIDENCED block is a real reason to stand down until it clears; the unevidenced kind is already handled by its own clamp, which turns it into a free re-test instead. The penalty is large but finite on purpose: the row stays visible and re-scores back to the top the moment the evidence is cleared."
-    },
-    "age": {
-      "weight": 12.0,
-      "_what": "A BOUNDED anti-starvation term: a row's score rises with how long it has waited and then SATURATES, so nothing waits forever and nothing can be dragged to the top by age alone.",
-      "_why": "The 2026-08-27 /deep-research pass found, 3-0 against attempted refutation, that NO verified orchestrator implements any anti-starvation mechanism — every shipped default is priority-then-FIFO or bare FIFO, with no ageing, no quota and no wait-time bound. AlabOS is a two-pass stable sort and greps clean for starvation|starve|aging|fairness|round-robin. This ledger had the same defect and the same symptom: 70+ queued rows, several filed weeks earlier and never taken.",
-      "_shape_is_borrowed": "Slurm's multifactor age factor, which rises linearly to PriorityMaxAge and then saturates. Fair-share was deliberately NOT taken: it arbitrates between competing USERS and there is one operator here, so importing it would be ceremony. Take the age term, leave the scheduler.",
-      "_ceiling_is_the_point": "At weight 12.0 a fully-aged row gains less than the `live` and `patient_path` terms can carry, so age breaks ties and rescues the forgotten without ever outranking a live, patient-facing route. An unbounded age term is how a queue inverts into pure FIFO."
-    }
+ "_schema": "emc-autonomy-priority-weights/1",
+ "_role": "The ONE home of every weight the autonomy scorer applies. research/autonomy/priority.py types no weight; it reads them from here. Changing a research priority means editing this file, and the diff is the record of why the queue moved.",
+ "_owner": "research/manuscripts/program/emc-autonomy-architecture.md#32--the-scorer--researchautonomyprioritypy",
+ "_objective": "Advance EMC treatment. Every weight below is an answer to 'how much does this field move a patient closer', and nothing else.",
+ "_read_this_when": "The queue's top item looks wrong. Do not special-case the item — fix the weight, and say in the commit message which reading of the objective changed.",
+ "terms": {
+  "live": {
+   "weight": 100.0,
+   "reads": "systems/graph/publications.json[].outcome_potential == 'live_positive', AND routes.json[].state.work_state != 'dead', AND closure_kind in (open, unset)",
+   "why": "CLAUDE.md §0: pursue routes that could still produce a result. This is the largest single term on purpose."
   },
-  "patient_path_scale": {
-    "no_bench_needed": 1.0,
-    "clinical_adoption": 0.9,
-    "prebuilt_bench": 0.7,
-    "named_bench": 0.4,
-    "none": 0.0,
-    "_why": "Ordered by what this program can actually cause with no wet lab. 'named_bench' is an ASK of someone else and is discounted, not excluded — the options memo's Axis W1 is about whether that taker is self-interested, and that judgement is a human's."
+  "patient_path": {
+   "weight": 40.0,
+   "reads": "publications.json[].patient_path, scaled by patient_path_scale below",
+   "why": "The north star is reaching a patient, and the program has no wet lab — so how the endpoint reaches one is the difference between a result and an activity."
   },
-  "cost_class_rank": {
-    "free": 0,
-    "cheap": 1,
-    "expensive": 2,
-    "_why": "CLAUDE.md §2's own ladder. A dollar figure is NEVER typed here or in priority.py — research/compute/pricing.md owns every cost, and an entry points at its rung."
+  "pursue_now": {
+   "weight": 20.0,
+   "reads": "routes.json[].timing.recommendation == 'pursue_now'",
+   "why": "A recorded judgement that waiting does not make this cheaper or better."
   },
-  "blocker_leverage_cap": 6,
-  "clamps": {
-    "negative_never_outranks_live": {
-      "enabled": true,
-      "why": "CLAUDE.md §0: a negative is a byproduct, never the objective. Weights alone will eventually let a well-graded finished write-up win — the highest-graded route in the portfolio today (RT-METHODS-PAPER, 'Tier 1, rank 1') is exactly that shape. This is a hard clamp applied AFTER scoring, not a weight."
-    },
-    "blocked_without_evidence_becomes_a_check": {
-      "enabled": true,
-      "why": "CLAUDE.md §0: 'blocked' is a claim that needs evidence and it is usually wrong. Such an entry is not filtered out — it is re-emitted as a kind:'fetch' entry that re-tests the block, because most blocked rows wait on a $0 observation."
-    }
+  "tier_one": {
+   "weight": 15.0,
+   "reads": "routes.json[].grade.value starts with 'Tier 1'",
+   "why": "The options memo's tier, used ONLY as a coarse prior. Its Axis D input is deliberately not read — see _forbidden_inputs."
   },
-  "_forbidden_inputs": {
-    "axis_d": "What we would end up HOLDING if the experiment never happens. It structurally promotes finished work over live leads and is a human tiebreaker only — CLAUDE.md §0. priority.py must never read it, and test_the_scorer_never_reads_axis_d asserts so.",
-    "aixiv_rating": "Unauthenticated and trivially forgeable — .claude/skills/aixiv-submission/SKILL.md §0. Never an input to anything.",
-    "recency": "How recently a route was touched is not evidence about whether it can produce a result."
+  "endpoint_reachable": {
+   "weight": 15.0,
+   "reads": "routes.json[].readiness.attainable_today in ('preprint', 'journal_submission', 'chemrxiv')",
+   "why": "CLAUDE.md §5: every route's end goal is a paper. A route that can reach one today is nearer the only channel this program has."
   },
-  "prerequisite_bonus": {
-    "value": 0.5,
-    "_why": "An entry carrying `prerequisite_of` inherits its parent's score PLUS this, so it sorts immediately above the thing it unblocks. ⛔ Without it the prerequisite is invisible: CYC-0001 filed a hardening round and a blind seat as the only path to posting the portfolio's top-ranked paper, and both scored null, so the driver would never have taken either and the paper would have stayed blocked while the loop worked down the rest of the list. The bonus is deliberately tiny — a prerequisite is worth exactly what it unblocks, not more."
+  "blocker_leverage": {
+   "weight": 4.0,
+   "reads": "count of OTHER routes sharing at least one blocker with this route (capped by blocker_leverage_cap)",
+   "why": "Retiring a widely-inherited blocker moves many routes at once. Per-route weight is small because the count does the work."
   },
-  "claim_lease": {
-    "periods": 2,
-    "_what": "A claim (`owner`) is a LEASE, not a deed. It expires after this many cycle periods and the item returns to the queue.",
-    "_why": "⛔ FOUND LIVE 2026-08-26, AND IT WAS A STALL ALREADY IN PROGRESS. CYC-0003 claimed AUT-PROP-002, finished its cycle, and never released the claim — there was no release step and no timestamp to age it by. merge() faithfully carries `owner` across every re-score, so the claim was PERMANENT: the next driver would see the item owned and skip it, forever, and the queue's top item would silently never be worked. A cycle that dies mid-item produces the identical result, which is the more dangerous version because nothing announces it.",
-    "_unstamped_claims_are_stale_immediately": "An `owner` with no `claimed_utc` cannot be aged, and an un-releasable claim is worse than a re-done item. Fail toward releasing."
+  "cost": {
+   "weight": -12.0,
+   "reads": "cost_class_rank: free=0, cheap=1, expensive=2 — derived from routes.json[].next.cost, never typed here",
+   "why": "CLAUDE.md §5: cost sequences and right-sizes work; it never skips a decision-relevant run. Hence a penalty small enough that an expensive live route still outranks a free dead one."
   },
-  "age_saturates_days": {
-    "value": 14.0,
-    "_what": "Days after which the age factor stops growing. A row waiting 14 days scores the same age bonus as one waiting 90 — the bound Slurm's PriorityMaxAge provides.",
-    "_why_this_number": "Two full weeks is the interval Rucio uses before it gives up on a STUCK rule entirely (stuck_at + 14 days -> SUSPENDED), so it is this survey's own precedent for 'long enough that waiting is itself the finding'. It is a tuning constant, not a measurement, and it says so."
+  "blocked_on_human": {
+   "weight": -25.0,
+   "reads": "the OR of two sources, because neither is complete alone (AUT-PD-127): routes.json[].state.authorization == 'needs_decision' or next.blocked_on naming a decision only trimcrae can make, applied at derive time; and the LEDGER ROW's own `requires_trimcrae`, applied post-merge by priority.py:apply_requires_trimcrae because build_entries reads only systems/graph and cannot see it. Reading routes.json alone left this term at 0 on all 12 rows that declare the field.",
+   "why": "The loop cannot advance it this cycle. Not -inf: it must stay visible enough to be escalated."
+  },
+  "fruitless_attempts": {
+   "weight": -8.0,
+   "reads": "research-ledger.json entries[].attempts since last_evidence_utc changed",
+   "why": "A route that has swallowed attempts without producing evidence is telling you something. Decays its own priority instead of needing a human to notice."
+  },
+  "blocked_with_evidence": {
+   "weight": -90.0,
+   "reads": "research-ledger.json entries[].state == 'blocked' AND a non-empty blocked_evidence, applied AFTER the merge because both are session state rather than graph state",
+   "why": "⛔ FOUND BY CYCLE CYC-0001, WHICH WOULD OTHERWISE HAVE LOOPED FOREVER. The top-scored item was established as blocked, with evidence — and it still scored 195 and still sorted first, so the next cycle would have re-derived the same block, and the one after that, every four hours. An EVIDENCED block is a real reason to stand down until it clears; the unevidenced kind is already handled by its own clamp, which turns it into a free re-test instead. The penalty is large but finite on purpose: the row stays visible and re-scores back to the top the moment the evidence is cleared."
+  },
+  "age": {
+   "weight": 12.0,
+   "_what": "A BOUNDED anti-starvation term: a row's score rises with how long it has waited and then SATURATES, so nothing waits forever and nothing can be dragged to the top by age alone.",
+   "_why": "The 2026-08-27 /deep-research pass found, 3-0 against attempted refutation, that NO verified orchestrator implements any anti-starvation mechanism — every shipped default is priority-then-FIFO or bare FIFO, with no ageing, no quota and no wait-time bound. AlabOS is a two-pass stable sort and greps clean for starvation|starve|aging|fairness|round-robin. This ledger had the same defect and the same symptom: 70+ queued rows, several filed weeks earlier and never taken.",
+   "_shape_is_borrowed": "Slurm's multifactor age factor, which rises linearly to PriorityMaxAge and then saturates. Fair-share was deliberately NOT taken: it arbitrates between competing USERS and there is one operator here, so importing it would be ceremony. Take the age term, leave the scheduler.",
+   "_ceiling_is_the_point": "At weight 12.0 a fully-aged row gains less than the `live` and `patient_path` terms can carry, so age breaks ties and rescues the forgotten without ever outranking a live, patient-facing route. An unbounded age term is how a queue inverts into pure FIFO."
+  },
+  "recurring_cost": {
+   "weight": 90.0,
+   "reads": "recurring_cost.{minutes_per_cycle, since_utc} on the row, accrued against recurring_cost_cycles_per_day and saturated by recurring_cost_saturates_hours",
+   "why": "⛔⛔ THE TERM THAT DID NOT EXIST WHILE THE LOOP FILED THE SAME DEFECT SIX TIMES. Between 2026-08-29 and 2026-09-01 six cycles independently measured that the commit gate had grown 11x — AUT-PD-155, -162, -164, -172, -174, -183 — and every one of them was still `queued` with `attempts: 0` on 2026-09-02, when trimcrae had to ask for the fix by hand. ★ THE CAUSE IS ON THE RECORD IN THE ROWS' OWN `_score_basis`, and it is not inattention. AUT-PD-164: 'It costs every cycle real wall-clock on every commit, which is the complaint trimcrae has already made twice about this loop, BUT IT BREAKS NOTHING — so it ranks' below. AUT-PD-183: 'it silently taxes every commit in the loop, BUT NOTHING IT BREAKS'. Each filer SAW the cost, judged one instance of it against things that break, and correctly concluded that one instance was small. Nobody multiplied. The product was 2.7 hours of wall clock by the time it was fixed. ★ SO THE NUMBER IS DERIVED AND ACCUMULATED HERE, NEVER JUDGED BY THE FILER. A row that costs the loop time scores HIGHER the longer it waits, because it is literally spending more the longer it waits — the one term in this file whose input is a debt already paid rather than a value hoped for. ⚠ THE WEIGHT IS SET SO THAT A REAL DEBT WINS, WHICH IS THE ONLY THING IT IS FOR. The six rows scored 97-125 against paper rows at 198-201, so anything under ~80 leaves them exactly where they were and this term is decoration. At 90 a fully-accrued row reaches ~206 and takes the queue — after 1.5 days at the 6.6 min/cycle the gate was actually costing, which is about when trimcrae complained the second time."
   }
+ },
+ "patient_path_scale": {
+  "no_bench_needed": 1.0,
+  "clinical_adoption": 0.9,
+  "prebuilt_bench": 0.7,
+  "named_bench": 0.4,
+  "none": 0.0,
+  "_why": "Ordered by what this program can actually cause with no wet lab. 'named_bench' is an ASK of someone else and is discounted, not excluded — the options memo's Axis W1 is about whether that taker is self-interested, and that judgement is a human's."
+ },
+ "cost_class_rank": {
+  "free": 0,
+  "cheap": 1,
+  "expensive": 2,
+  "_why": "CLAUDE.md §2's own ladder. A dollar figure is NEVER typed here or in priority.py — research/compute/pricing.md owns every cost, and an entry points at its rung."
+ },
+ "blocker_leverage_cap": 6,
+ "clamps": {
+  "negative_never_outranks_live": {
+   "enabled": true,
+   "why": "CLAUDE.md §0: a negative is a byproduct, never the objective. Weights alone will eventually let a well-graded finished write-up win — the highest-graded route in the portfolio today (RT-METHODS-PAPER, 'Tier 1, rank 1') is exactly that shape. This is a hard clamp applied AFTER scoring, not a weight."
+  },
+  "blocked_without_evidence_becomes_a_check": {
+   "enabled": true,
+   "why": "CLAUDE.md §0: 'blocked' is a claim that needs evidence and it is usually wrong. Such an entry is not filtered out — it is re-emitted as a kind:'fetch' entry that re-tests the block, because most blocked rows wait on a $0 observation."
+  }
+ },
+ "_forbidden_inputs": {
+  "axis_d": "What we would end up HOLDING if the experiment never happens. It structurally promotes finished work over live leads and is a human tiebreaker only — CLAUDE.md §0. priority.py must never read it, and test_the_scorer_never_reads_axis_d asserts so.",
+  "aixiv_rating": "Unauthenticated and trivially forgeable — .claude/skills/aixiv-submission/SKILL.md §0. Never an input to anything.",
+  "recency": "How recently a route was touched is not evidence about whether it can produce a result."
+ },
+ "prerequisite_bonus": {
+  "value": 0.5,
+  "_why": "An entry carrying `prerequisite_of` inherits its parent's score PLUS this, so it sorts immediately above the thing it unblocks. ⛔ Without it the prerequisite is invisible: CYC-0001 filed a hardening round and a blind seat as the only path to posting the portfolio's top-ranked paper, and both scored null, so the driver would never have taken either and the paper would have stayed blocked while the loop worked down the rest of the list. The bonus is deliberately tiny — a prerequisite is worth exactly what it unblocks, not more."
+ },
+ "claim_lease": {
+  "periods": 2,
+  "_what": "A claim (`owner`) is a LEASE, not a deed. It expires after this many cycle periods and the item returns to the queue.",
+  "_why": "⛔ FOUND LIVE 2026-08-26, AND IT WAS A STALL ALREADY IN PROGRESS. CYC-0003 claimed AUT-PROP-002, finished its cycle, and never released the claim — there was no release step and no timestamp to age it by. merge() faithfully carries `owner` across every re-score, so the claim was PERMANENT: the next driver would see the item owned and skip it, forever, and the queue's top item would silently never be worked. A cycle that dies mid-item produces the identical result, which is the more dangerous version because nothing announces it.",
+  "_unstamped_claims_are_stale_immediately": "An `owner` with no `claimed_utc` cannot be aged, and an un-releasable claim is worse than a re-done item. Fail toward releasing."
+ },
+ "age_saturates_days": {
+  "value": 14.0,
+  "_what": "Days after which the age factor stops growing. A row waiting 14 days scores the same age bonus as one waiting 90 — the bound Slurm's PriorityMaxAge provides.",
+  "_why_this_number": "Two full weeks is the interval Rucio uses before it gives up on a STUCK rule entirely (stuck_at + 14 days -> SUSPENDED), so it is this survey's own precedent for 'long enough that waiting is itself the finding'. It is a tuning constant, not a measurement, and it says so."
+ },
+ "recurring_cost_saturates_hours": {
+  "value": 1.0,
+  "why": "⭐ SATURATING FOR THE REASON `age_saturates_days` IS, AND THE ARGUMENT IS THAT DOCSTRING'S: an unbounded term does not fix a starving queue, it INVERTS it — here into 'whatever nags most often', which would put a 20-second annoyance above a live patient-facing route given enough days. One hour of wall clock ALREADY SPENT is the ceiling: past that the loop has paid more for the defect than any single cycle is worth, and no further accrual should be needed to make the case."
+ },
+ "recurring_cost_cycles_per_day": {
+  "value": 6,
+  "why": "⛔ PINNED HERE, NOT READ FROM `autonomy-state.json`, AND THAT IS DELIBERATE. 6 is the 4 h cadence. The budget governor MOVES `cycle_interval_hours` — it went 4 to 24 under a hold on 2026-08-29 and reddened a sibling test that had read it live — and a scoring term that shrinks because the loop slowed down would understate a debt exactly when the loop can least afford it. ⚠ Re-pin it if the cadence changes for good; do not make it track the governor."
+ },
+ "recurring_cost_minutes_cap": {
+  "value": 60.0,
+  "why": "⛔ A TYPO MUST NOT BE ABLE TO TAKE THE QUEUE. `minutes_per_cycle` is typed by a filer from a measurement, and this is the only term in this file whose input a filer supplies as a magnitude rather than as a flag — so it is clamped, and the clamp is reported in `score_inputs` rather than applied silently. 60 minutes per cycle is already a loop that spends a quarter of its 4 h cadence on one defect; nothing needs more headroom than that."
+ }
 }

@@ -156,6 +156,9 @@ def test_every_weight_the_scorer_applies_is_declared_in_the_weights_file(priorit
         "fruitless_attempts",
         "blocked_with_evidence",
         "age",
+        # ⛔ ADDED 2026-09-02. The accrued-debt term — see priority-weights.json's `why`, which
+        # records the six rows that measured the same defect and the zero attempts they drew.
+        "recurring_cost",
     }
     assert declared == expected, (
         "the scorer's terms and the weights file have diverged — one of them was edited alone"
@@ -167,7 +170,12 @@ def test_every_weight_the_scorer_applies_is_declared_in_the_weights_file(priorit
     # (test_an_unreadable_saturation_disables_the_term_rather_than_dividing_by_zero pins this).
     # It still reads the weight from the file, just not via the literal bracket pattern the other
     # terms use inside the single weighted-sum expression in build_entries.
-    DEFENSIVE_READ_TERMS = {"fruitless_attempts", "age"}
+    # ⚠ `recurring_cost` joins these for `age`'s exact reason and by copying its shape: it is read
+    # as `((weights.get("terms") or {}).get("recurring_cost") or {}).get("weight")` so that a
+    # missing or malformed weights file DISABLES the term rather than crashing the ranker — which
+    # matters more here than for `age`, because this term is what makes the loop take its own
+    # infrastructure debt, and a ranker that will not run takes nothing at all.
+    DEFENSIVE_READ_TERMS = {"fruitless_attempts", "age", "recurring_cost"}
     for term in expected:
         assert f'terms["{term}"]["weight"]' in source or term in DEFENSIVE_READ_TERMS, (
             f"term {term} is declared but the scorer does not read its weight from the file"
