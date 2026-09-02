@@ -425,3 +425,54 @@ def test_every_drug_in_the_part_d_cache_is_assigned_a_group(derive):
         "primary_damaging_mutation_or_deep_deletion"]["by_drug"]
     ungrouped = [d for d, r in rows.items() if r["group"] == "ungrouped"]
     assert not ungrouped, f"these drugs are in no reported group: {ungrouped}"
+
+
+# ---------------------------------------------------------------------------------------------
+# 10 · THE VALUE VOCABULARY MOVED UNDER A STABLE COLUMN NAME
+# ---------------------------------------------------------------------------------------------
+def test_the_truncating_arm_reads_the_24Q4_consequence_terms_not_only_the_legacy_classes(derive):
+    """⛔ THE DEFECT THIS MODULE'S OWN AUDIT CAUGHT ON ITS FIRST REAL RUN.
+
+    DepMap 24Q4 ships VEP sequence-ontology consequence terms in `VariantInfo` (`stop_gained`,
+    `frameshift_variant`, ...); older releases shipped severity classes (`damaging`,
+    `other non-conserving`) under the SAME column name. A value set asking only for the legacy
+    classes matches nothing on 24Q4 and the arm collapses to zero — which reads as "this gene has no
+    truncating variants" rather than "the vocabulary moved".
+    """
+    seq = _models(60)
+    rows = ([{"ModelID": m, "HugoSymbol": "ATM", "LikelyLoF": "False",
+              "VariantInfo": "stop_gained"} for m in seq[:8]] +
+            [{"ModelID": m, "HugoSymbol": "ATM", "LikelyLoF": "False",
+              "VariantInfo": "frameshift_variant"} for m in seq[8:16]] +
+            [{"ModelID": m, "HugoSymbol": "ATM", "LikelyLoF": "False",
+              "VariantInfo": "missense_variant"} for m in seq[16:40]])
+    resid = {"azd6738": {m: float(i % 6) for i, m in enumerate(seq)}}
+    art = derive(_inputs(sequenced=seq, cn_models=[], extra_rows=rows), resid)
+    g = art["by_gene"]["ATM"]
+    assert g["truncating_call_column"] == "VariantInfo"
+    assert g["n_models_protein_truncating"] == 16, (
+        "the 8 stop_gained + 8 frameshift models must be called truncating, and the 24 missense "
+        "ones must not")
+    arm = g["contrasts"]["protein_truncating_by_consequence"]
+    assert arm["n_null_arm"] == 16
+
+
+def test_the_legacy_severity_vocabulary_still_resolves(derive):
+    """The other half — a pre-24Q4 release must keep working."""
+    seq = _models(60)
+    rows = [{"ModelID": m, "HugoSymbol": "ATM", "LikelyLoF": "False",
+             "VariantInfo": "other non-conserving"} for m in seq[:14]]
+    resid = {"azd6738": {m: float(i % 6) for i, m in enumerate(seq)}}
+    art = derive(_inputs(sequenced=seq, cn_models=[], extra_rows=rows), resid)
+    assert art["by_gene"]["ATM"]["n_models_protein_truncating"] == 14
+
+
+def test_a_missense_only_gene_yields_no_truncating_call(derive):
+    """A definition that swept in `missense_variant` would make the truncating arm meaningless —
+    it would be every mutated line, not the loss-of-function ones."""
+    seq = _models(60)
+    rows = [{"ModelID": m, "HugoSymbol": "ATM", "LikelyLoF": "False",
+             "VariantInfo": "missense_variant"} for m in seq[:20]]
+    resid = {"azd6738": {m: 0.0 for m in seq}}
+    art = derive(_inputs(sequenced=seq, cn_models=[], extra_rows=rows), resid)
+    assert art["by_gene"]["ATM"]["n_models_protein_truncating"] == 0

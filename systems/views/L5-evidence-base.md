@@ -27,7 +27,7 @@ last_verified: 2026-08-06
 that will use it. It IS unreachable from the hierarchy, which is why it is shown rather than
 omitted, and why `[L5]` reports the count.
 
-**19 objects · 19 evidence items · 55 artifacts · 14 pinned claims.**
+**19 objects · 19 evidence items · 56 artifacts · 14 pinned claims.**
 
 ## Objects — the biological and molecular entities the program reasons about
 
@@ -85,6 +85,7 @@ omitted, and why `[L5]` reports the count.
 |---|---|---|---|
 | **ART-ALK-IHC-FET-2026** | `research/literature/alk-ihc-fet-tumours-2026-08-29.json` | `A live PubMed retrieval of PMID 42660639 through this container's PubMed MCP connector, plus exact binomial arithmetic (Clopper-Pearson intervals and Fisher's exact test) over that record's own quoted integer counts, computed with the standard library` | [RT-ALK-HIT](L2-rt-alk-hit.md) |
 | **ART-APO-POSE-SITE** | `research/modalities/apo-pose-site-in-regime.json` | `research/modalities/apo_pose_recovery.py` | `CLM-APO-SITE-IN-REGIME`, [RT-DEGRADER](L2-rt-degrader.md) |
+| **ART-ATM-STATUS-ATRI** | `research/modalities/atm-status-atri-stratification.json` | `research/modalities/atm_status_atri_stratification.py` | ⚠ **nothing** |
 | **ART-ATR-VULNERABILITY** | `research/modalities/emc-atr-vulnerability.json` | `research/modalities/emc_atr_vulnerability.py` | [RT-ATR-ASSESS](L2-rt-atr-assess.md) |
 | **ART-CARE-DELIVERY-EVIDENCE** | `research/modalities/emc-care-delivery-evidence.json` | `research/modalities/emc_care_delivery_evidence.py` | [RT-DIAGNOSTIC-PATHWAY](L2-rt-diagnostic-pathway.md), [RT-METASTASECTOMY](L2-rt-metastasectomy.md), [RT-POPULATION-REGISTRY](L2-rt-population-registry.md), [RT-RISK-MODEL](L2-rt-risk-model.md), [RT-SURGICAL-QUALITY](L2-rt-surgical-quality.md), [RT-SURVEILLANCE](L2-rt-surveillance.md) |
 | **ART-CENSUS-ROUTE-GRADING** | `research/modalities/census-route-expression-grading.json` | `research/modalities/census_route_expression_grading.py` | [RT-ALK-HIT](L2-rt-alk-hit.md), [RT-APOPTOSIS-DEP](L2-rt-apoptosis-dep.md), [RT-ARGININE](L2-rt-arginine.md), [RT-CHAPERONE](L2-rt-chaperone.md), [RT-EZH2](L2-rt-ezh2.md), [RT-HYPOXIA-PRODRUG](L2-rt-hypoxia-prodrug.md), [RT-IMMUNOCYTOKINE](L2-rt-immunocytokine.md), [RT-MATRIX-ADDRESS](L2-rt-matrix-address.md), [RT-MATRIX-SYNTHESIS](L2-rt-matrix-synthesis.md), [RT-MDM2](L2-rt-mdm2.md), [RT-MTAP-PRMT5](L2-rt-mtap-prmt5.md), [RT-NR2F1](L2-rt-nr2f1.md), [RT-POLQ](L2-rt-polq.md), [RT-RET](L2-rt-ret.md), [RT-SGK1](L2-rt-sgk1.md), [RT-TXN-CDK](L2-rt-txn-cdk.md) |

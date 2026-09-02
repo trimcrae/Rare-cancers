@@ -69,9 +69,15 @@ jobs:
         timeout-minutes: 10
         run: python3 research/modalities/atm_status_atri_stratification.py --check
 
-      - name: The module's own guards
-        timeout-minutes: 10
-        run: python3 -m pytest research/modalities/tests/test_atm_status_atri_stratification.py -q
+      # ⛔ NO pytest STEP HERE, AND THAT IS A DECISION RATHER THAN AN OMISSION.
+      # The first version of this lane ran the module's own guards inline and the step failed: a
+      # vanilla runner has no pytest, and `actions/setup-python` does not supply one. The fix is not
+      # to add `pip install pytest` — it is to delete the step. `tests.yml` already runs all four
+      # test directories in full on every push, with the real dependencies, and CLAUDE.md §6 names it
+      # the authority; running a second, dependency-poor copy here would add a pip install to the one
+      # modalities lane that needs none, to re-answer a question CI answers better minutes later.
+      # That is the same "the expensive copy is the WEAKER one" finding that scoped the modalities
+      # suite in 2026-08-12 and took the manuscripts suite out of the commit loop in 2026-08-23.
 
       # ---- publish ---------------------------------------------------------------------------
       # ⚠ CLAUDE.md §7: an artifact whose only home is a side branch is a stale fact that reads as a
