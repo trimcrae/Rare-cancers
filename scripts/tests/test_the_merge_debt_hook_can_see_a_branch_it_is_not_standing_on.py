@@ -473,3 +473,49 @@ def test_the_behind_count_has_exactly_one_home_in_the_output():
     assert "is also $A_BEHIND commit(s) BEHIND main" not in code, (
         "the old aside is back; the behind-count belongs to HALF A2 alone")
     assert code.count("A_DIVERGENT=1") == 1 and code.count("A_STALE=1") == 1
+
+
+# ─────────────────────────────────────────────────────────────────────────────────────────────────
+# ⚠⚠ HALF A2 IN ISOLATION — and this pair exists because mutation testing found the hole.
+#
+# Mutation H2 — dropping `A_DIVERGENT`/`A_STALE` from the early-exit condition, so the pull half can
+# never be the REASON the hook speaks — SURVIVED every test above. All of them run on a fixture where
+# `origin` already carries a stranded branch, so HALF B fires and the hook never reaches the early
+# exit at all. The tests proved A2's OUTPUT and said nothing about whether A2 could open its mouth.
+#
+# ⛔ AND THE LIVE REPOSITORY MASKS IT THE SAME WAY: HALF B has fired on every stop for weeks (25 refs,
+# 111 unmerged commits — live reading 2026-09-02 1:04 PM ET). A hole that only appears once the branch
+# census is finally clean is a hole nobody would meet until the day the debt is paid off.
+#
+# So these two put `origin` fully merged and keep the branch LOCAL: HALF B has nothing to say, and if
+# the hook speaks at all it is because the pull half made it.
+# ─────────────────────────────────────────────────────────────────────────────────────────────────
+
+def _origin_clean(repo):
+    """Leave origin fully merged, so HALF B is silent and only HALF A/A2 can speak."""
+    _git(repo, "checkout", "-q", "main")
+    _git(repo, "merge", "-q", "--no-edit", "origin/seat/s3-stranded")
+    _git(repo, "push", "-q", "origin", "main")
+    _git(repo, "push", "-q", "origin", ":seat/s3-stranded")
+    _git(repo, "fetch", "-q", "--prune", "origin")
+    assert _run_hook(repo).returncode == ALLOWS, "the fixture is not actually clean"
+
+
+def test_a_divergent_branch_is_reported_even_when_the_origin_census_is_clean(repo):
+    _origin_clean(repo)
+    _git(repo, "checkout", "-q", "-b", "work/local-only", "origin/main~1")
+    (repo / "feature.txt").write_text("mine\n")
+    _git(repo, "add", "feature.txt")
+    _git(repo, "commit", "-qm", "work: written against a trunk that has moved")
+    r = _run_hook(repo)
+    assert r.returncode == REFUSES, (
+        "with origin clean, the pull half was the only possible speaker and it stayed silent")
+    assert "has NOT pulled main in" in r.stderr, r.stderr
+
+
+def test_a_merely_behind_branch_is_reported_even_when_the_origin_census_is_clean(repo):
+    _origin_clean(repo)
+    _git(repo, "checkout", "-q", "-b", "work/behind-only", "origin/main~1")
+    r = _run_hook(repo)
+    assert r.returncode == REFUSES, "a stale branch bought silence once origin was clean"
+    assert "behind main and carries nothing of its own yet" in r.stderr, r.stderr
