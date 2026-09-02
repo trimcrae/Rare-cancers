@@ -1,0 +1,27 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "00e049a94e34647e186b40eaf259e53602d43df4",
+  "blind": true,
+  "seat": "statistics",
+  "lens": "statistics and experimental design",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "f5af78b0019f05a733e7155b710ea5dd81a6024a7e5b3ffa2934110ea7ffb9da",
+  "opened_utc": "2026-09-02T20:44:53Z",
+  "verdict": "supported",
+  "central_claim": "The published FET-fusion -> impaired-ATM -> compensatory-ATR-dependency mechanism is internally consistent as a class-level hypothesis but is graded WEAK for EMC specifically: EMC's structural precondition splits by fusion type, public EMC-tumour transcriptomes show only a generic-proliferation-scale DDR signature, DepMap CRISPR/drug-response correlations do not isolate ATR from neighbouring checkpoint kinases or general chemosensitivity, and no ATR inhibitor has ever been tested on a confirmed NR4A3-fusion-positive cell.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The part-B minimum-detectable-effect claim ('every DDR concept on both series is powered to see an effect of 0.045-0.186 SD units', lines 564-572 and repeated at line 828) is stated as computed from 'the committed contrast blocks' but the exact multiplier/method (asymptotic z vs per-df t-based noncentral power) is not named, so the range cannot be independently re-derived from the artifact alone -- and no MDE/power field exists in emc-atr-vulnerability.json to check against. Recomputing SE = |delta|/|t| from the committed contrast blocks (contrast_EMC_vs_all_comparator_sarcoma_PROLIFERATION_ADJUSTED for GSE4303-GPL3290 and GSE24369) and applying the conventional asymptotic multiplier 2.8 (z_.975 + z_.80) gives a range of roughly 0.041-0.164 SD units across the 12 DDR-concept/series values, not 0.045-0.186 -- the two ranges are close but not identical, and the gap (upper bound ~13% higher in the manuscript) is consistent with a per-df t-based multiplier (defensible, since the smallest arms have df as low as 6.9) but that method is not stated, so a future edit that quietly reverts to a flat z-based multiplier -- or changes group sizes -- could silently drift the printed range without any guard catching it, since the range is hand-typed prose rather than a field the producing module regenerates and lint_consistency could check.",
+      "evidence": "Lines 564-572, 828 of the manuscript vs. per_platform.\"GSE4303-GPL3290_series_matrix.txt.gz\".contrast_EMC_vs_all_comparator_sarcoma_PROLIFERATION_ADJUSTED and per_platform.\"GSE24369_series_matrix.txt.gz\".contrast_EMC_vs_all_comparator_sarcoma_PROLIFERATION_ADJUSTED in research/modalities/emc-atr-vulnerability.json (no field in that JSON is named power, mde, detectable, or standard_error at the top level of part_b_emc_tumour_signature).",
+      "fix": "State the exact MDE formula used (e.g. 'per-df two-sided t critical value + t-based power approximation, not the flat 2.8x asymptotic multiplier') in the same sentence, or add a `minimum_detectable_effect` block to part_b_emc_tumour_signature in emc-atr-vulnerability.json so the 0.045-0.186 range is a --check-reproducible artifact value rather than manuscript-only arithmetic."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (at pinned commit 00e049a94e34647e186b40eaf259e53602d43df4, full text, 1144 lines)",
+    "research/modalities/emc-atr-vulnerability.json (at pinned commit, part_a/b/c/d blocks and grading block)"
+  ]
+}

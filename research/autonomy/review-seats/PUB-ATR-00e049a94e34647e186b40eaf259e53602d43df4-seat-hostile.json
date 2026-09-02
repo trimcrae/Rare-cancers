@@ -1,0 +1,22 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "00e049a94e34647e186b40eaf259e53602d43df4",
+  "blind": true,
+  "seat": "hostile",
+  "lens": "hostile referee (accept/revise/reject)",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "f5af78b0019f05a733e7155b710ea5dd81a6024a7e5b3ffa2934110ea7ffb9da",
+  "opened_utc": "2026-09-02T20:44:18Z",
+  "verdict": "supported",
+  "referee_recommendation": "accept",
+  "central_claim": "This is an in-silico assessment of whether EMC (extraskeletal myxoid chondrosarcoma) inherits a FET-fusion-class ATR-pathway replication-stress vulnerability, reaching a WEAK-tier verdict on public data (structural precondition split by fusion type, no drug-response specificity beyond a drug-vs-drug internal consistency check, and a tumour transcriptome signature that does not exceed generic proliferation) — explicitly stating the hypothesis is neither supported nor refuted and that no computation here can touch whether an ATR inhibitor kills an NR4A3-fusion-positive cell.",
+  "blockers": [],
+  "p1s": [],
+  "notes": "Read the document in full (1,143 lines) at the pinned commit and verified document_sha256 by `git show <commit>:<path> | sha256sum` before review. This document is already the product of five prior hardening rounds and the density of internal self-correction is unusually high (an entire Appendix of superseded statements with exact reasons and cross-references, and a running practice of naming its own prior overclaims and where they were fixed). Under a hostile-referee lens I specifically checked: (1) every strong claim for an attached caveat where evidence is thin -- found none missing; every correlation/percentage I spot-checked (the ATM |rho| ratio-vs-floor arithmetic in Sec5, the 0.41x-SE margin on the one passing test, the SE=0.038 interval claim, the CRISPR dependent-fraction table) is internally consistent with the numbers quoted elsewhere. (2) internal contradictions -- the one place that looks like a contradiction at first read (Sec6.1's predicate table says the WEAK criterion reads 'yes, with only qualified' and the following paragraph then says 'neither series instantiates the verbatim WEAK criterion word for word') is not a contradiction: the second passage explicitly elaborates and justifies the qualification the first one flagged, and the document says outright that this paragraph 'used to say both did' and corrects that. This is the document doing the review's job on itself, not an unresolved inconsistency. (3) whether the WEAK-tier/neither-supported-nor-refuted framing is undercut anywhere -- it is restated with identical strength in the banner, Sec1, Sec6.1, Sec6.2, and Sec8.4 ('THE TIER DOES NOT MOVE'), so this is not a caveat living in only one place. (4) two-readings-one-overclaiming -- none found; even strong-sounding headline sentences ('THE ASK SURVIVES') are immediately qualified in the same breath ('a HOPE with no engaged collaborator'). (5) hedges dropped for readability -- checked the probe-mapping percentage pairing in Sec3 (27,196 probes 'at 58.2%', where 58.2% is actually the accession-resolution rate rather than a probe-mapping fraction, which would be ~65.4% of the 41,614-probe platform) and concluded this is at most a labeling ambiguity, not a misleading overclaim -- if anything a reader who misreads it would UNDERSTATE coverage, not overstate the paper's central findings, and it does not touch any of the graded claims. I did not find anything meeting the BLOCKER or P1 bar as defined (a claim unsupported by its own evidence, an internal contradiction, overclaiming that would mislead a reader acting on the text, or a caveat that lives in exactly one place and could be silently dropped). This is a clean pass under this lens.",
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (at commit 00e049a94e34647e186b40eaf259e53602d43df4, full 1,143 lines, via git show)"
+  ]
+}
