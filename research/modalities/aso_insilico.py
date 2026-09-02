@@ -269,13 +269,22 @@ def offtarget_scan(candidates, max_records=None):
         for ci in hit8:
             _score_candidate_in_record(candidates[ci], seeds[ci][1], acc, seq, L)
 
-    acc, parts, nrec = None, [], 0
+    # ⛔ `scanned_nt` IS COUNTED AT THE SCAN CALL, NOT ESTIMATED FROM THE RECORD COUNT. The manuscript's
+    # chance null needs the SPAN of what was searched, and without it §3.6 carried an ASSUMED 3e8-8e8 nt
+    # range — which is the whole reason its headline expectations are a 2.7x-wide band rather than
+    # single figures. A record count cannot supply that: transcript lengths vary by orders of magnitude.
+    # ⭐ Incremented beside each `scan_seq` call, so the number counts sequence that was ACTUALLY
+    # scanned. Under `max_records` that makes it the subset's span, never the corpus', and a span
+    # reported for sequence nobody read would be a denominator nothing was measured against.
+    acc, parts, nrec, nnt = None, [], 0, 0
     with gzip.open(tmp, "rt") as fh:
         for line in fh:
             if line.startswith(">"):
                 if acc is not None:
-                    scan_seq(acc, "".join(parts))
+                    seq = "".join(parts)
+                    scan_seq(acc, seq)
                     nrec += 1
+                    nnt += len(seq)
                     if max_records and nrec >= max_records:
                         acc = None
                         break
@@ -284,9 +293,12 @@ def offtarget_scan(candidates, max_records=None):
             else:
                 parts.append(line.strip().upper())
         if acc is not None:
-            scan_seq(acc, "".join(parts))
+            seq = "".join(parts)
+            scan_seq(acc, seq)
             nrec += 1
-    return {"status": "ok", "transcripts_scanned": nrec, "source": REFSEQ_RNA_URL}
+            nnt += len(seq)
+    return {"status": "ok", "transcripts_scanned": nrec, "scanned_nt": nnt,
+            "source": REFSEQ_RNA_URL}
 
 
 # ---------------------------------------------------------------------------
