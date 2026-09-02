@@ -1,6 +1,6 @@
 {
   "_schema": "emc-review-seat/1",
-  "status": "open",
+  "status": "complete",
   "_why_this_exists_before_the_review_does": "AUT-PROP-006. This record is written as the seat's FIRST act, so a seat that dies leaves evidence that it looked rather than nothing at all. It is EMPTY and says so: publish_bar.clause_1_hardening_converged REFUSES any round with an open record at the commit it is grading, because an unfinished look must never be counted as a clean one.",
   "paper": "PUB-FUSION-OUTPUT",
   "pub_id": "PUB-FUSION-OUTPUT",
@@ -11,8 +11,136 @@
   "document": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md",
   "document_sha256": "f665c438dffc60074b50a5c0359b2cc9dff128bfd19bae0c615d88b60ca713bc",
   "opened_utc": "2026-09-02T16:31:26Z",
-  "verdict": null,
-  "central_claim": null,
-  "blockers": [],
-  "p1s": []
+  "verdict": "supported_with_reservations",
+  "central_claim": "A gene-set read on a small rare-tumour expression series is uninterpretable until it is calibrated against a size-matched empirical null drawn from the same platform's own genes; on that instrument the pooled EWSR1::NR4A3 direct-target set reaches only 39% and 88% of the threshold it had to clear and does not clear, while the published EMC transcriptional phenotype overshoots the same threshold 11.9-fold and 4.2-fold in the same run.",
+  "blockers": [
+    {
+      "id": "B1",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md (Abstract; \u00a71.1; \u00a73.4; and both built PDFs, whose build stamps record this exact file sha256)",
+      "quote": "On GPL3290 the 95% null band for a 19-gene set is [\u22120.297, +0.376], so a raw delta of +0.330 with t = 3.16 sits inside it (p_emp 0.083).  [and \u00a71.1: \"the 95% band for an arbitrary 19-gene set on GPL3290 is [\u22120.297, +0.376] SD, so a set can print t = 3.16\"; and the Abstract: \"an arbitrary 19-gene set can print t = 3.16 and be indistinguishable from a random one\"]",
+      "why": "The band, the delta, the t and the p all come from one artifact row, and that row is computed at set size 17, not 19. research/modalities/nr4a3-fusion-targets.json -> set_scores.A_plus_B_all_dna_binding['GSE4303-GPL3290_series_matrix.txt.gz'] gives n_genes_requested 19, n_genes_readable 17, genes_not_readable ['ICAM1','MYH7'], and null_calibration.set_size 17 with null_q025 -0.29715, null_q975 0.37648, observed_delta 0.3301, score.t 3.159, p_empirical_two_sided 0.08298. The paper's own SI states the correct size: nr4a3-fusion-transcriptional-output-SI.md TABLE S2 row 'A_plus_B_all_dna_binding | GPL3290 | 17 | +0.3301 | [-0.2972, +0.3765]'. Since the paper's whole thesis is that the null band's width is set by the set's SIZE, attaching a size-17 band to a named 19-gene set is not cosmetic: a reader who draws 4,000 random 19-gene sets on GPL3290 to reproduce [\u22120.297, +0.376] will get a narrower band and cannot reproduce the figure. The error is in the Abstract, the Introduction and the Results, i.e. in the flagship illustration of the paper's contribution.",
+      "fix": "On GPL3290 the 95% null band for the 17 readable members of that set is [\u22120.297, +0.376], so a raw delta of +0.330 with t = 3.16 sits inside it (p_emp 0.083) \u2014 and the same holds in the Abstract and \u00a71.1, where \"19-gene set\" must read \"17-gene set\" (two of the 19 requested symbols, ICAM1 and MYH7, have no probe on GPL3290 and are scored as unread)."
+    },
+    {
+      "id": "B2",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u00a71.3 (and both built PDFs)",
+      "quote": "The primary sources are, by contrast, ordinary references of this literature \u2014 42\u201370% of their citations come from EMC records, and each is cited by four to six EMC reviews.",
+      "why": "Neither half re-derives from the artifact the sentence rests on. research/literature/fusion-consensus-probe.json defines four anchors (filion_2009_pparg, brenca_2019_sema3c, kim_2016_eno3, subramanian_2005_cohort). EMC-review citations, from queries.<anchor>__citing_emc_reviews.hit_count: Filion 4, Brenca 5, Kim 0, Subramanian 6 \u2014 so 'each is cited by four to six EMC reviews' is false for Kim et al. 2016, which is cited by ZERO EMC reviews, and Kim is the primary source for ENO3, the one gene this paper reports as surviving. Fraction of citations from EMC records, citing_emc/citing_all: Filion 22/52 = 42.3%, Kim 4/12 = 33.3%, Subramanian 27/50 = 54.0%; Brenca has queries.brenca_2019_sema3c__citing_all.hit_count = null (returned 0), so no fraction exists for it at all. No anchor in the artifact yields 70%, and the lowest is 33%, not 42% \u2014 so the stated range '42\u201370%' has neither endpoint in the record. Even restricted to Filion/Brenca/Subramanian the computable range is 42\u201354%.",
+      "fix": "Their primary sources sit in this literature's reference lists to differing degrees: Filion et al. (2009) draws 42% of its citations from EMC records and is cited by 4 EMC reviews, Subramanian et al. (2005) 54% and 6, and Brenca et al. (2019) is cited by 5 EMC reviews (its total-citation count could not be retrieved) \u2014 while Kim et al. (2016), the ENO3 source, draws 33% and is cited by no EMC review at all."
+    },
+    {
+      "id": "B3",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u00a73.5, the muscle-admixture paragraph (and both built PDFs)",
+      "quote": "So do three markers that are more muscle-restricted than it is \u2014 *ACTA1* 1.000, *MYH7* 1.000, *PYGM* 0.999, *MYL1* 0.998 \u2014 and none of them separates the tumour arms (EMC \u2212 comparator \u22120.057, \u22120.043, +0.142, \u22120.150 percentile points, against *ENO3*'s +0.315).",
+      "fix": "So do four markers that are more muscle-restricted than it is \u2014 *ACTA1* 1.000, *MYH7* 1.000, *PYGM* 0.999, *MYL1* 0.998 \u2014 and none of them separates the tumour arms as *ENO3* does (EMC \u2212 comparator \u22120.057, \u22120.043, +0.142, \u22120.150 percentile points, against *ENO3*'s +0.315).",
+      "why": "The count contradicts its own enumeration and its own artifact. Four markers are named, four deltas are given, and research/modalities/nr4a3-fusion-targets-confounds.json -> platforms['GSE24369_series_matrix.txt.gz'].muscle_admixture._reading.muscle_markers_read is ['ACTA1','MYH7','MYL1','PYGM'] \u2014 four, all with muscle_reference_mean_percentile (1.0, 1.0, 0.998, 0.999) above ENO3's 0.996. SI TABLE S6 also lists four. The figure-5 caption avoids the error by saying something different and narrower ('Three markers more muscle-restricted than ENO3 sit at or below zero'), which is true of three of the four; the body sentence transposes that 'three' onto the number of markers checked."
+    },
+    {
+      "id": "B4",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u00a74.3 item 4 (and both built PDFs)",
+      "quote": "It gives r = +0.37 (n = 6) and \u22120.35 (n = 10) for *ENO3* on the two platforms \u2014 opposite signs, no information.",
+      "why": "The GPL3290 correlation is over 9 EMC tumours, not 10. research/modalities/nr4a3-fusion-targets-confounds.json -> platforms['GSE4303-GPL3290_series_matrix.txt.gz'].within_emc_fusion_axis.genes.ENO3 = {'n': 9, 'r': -0.3531}. The axis is anchored on NR4A3's own within-sample z, and NR4A3 is readable in only 9 of the 10 GPL3290 EMC samples (nr4a3-fusion-targets.json -> gene_reads.NR4A3['GSE4303-GPL3290_series_matrix.txt.gz'].n_EMC_with_a_value = 9). The GPL6244 half is correct (r 0.3678, n 6).",
+      "fix": "It gives r = +0.37 (n = 6) and \u22120.35 (n = 9, the EMC samples with a readable *NR4A3* value on GPL3290) for *ENO3* on the two platforms \u2014 opposite signs, no information."
+    },
+    {
+      "id": "B5",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md \u00a7S7, Table S7 and the paragraph beneath it (the same 2/4/32 figures are carried into the main text \u00a73.13)",
+      "quote": "All six executed and none returned an error. Counts are the distinct records each query contributed that no earlier query had already returned, so the same deposit is never counted twice. [\u2026] Three of the four then returned records \u2014 **2, 4 and 32** \u2014 taking the search from 7 series to **22** and from 22 records to **56**.",
+      "why": "The six printed counts are 17, 2, 5, 0, 4 and 32, which sum to 60, not the 56 the same section states twice (and 22 + 2 + 4 + 32 = 60, not 56). They are therefore not de-duplicated, contrary to the caption. research/modalities/emc-cohort-search.json shows both facts: queries[].n_ids_returned is 17, 2, 5, 0, 4, 32 (raw returns), while candidates[].found_by \u2014 the field that actually assigns each of the 56 distinct records to one query \u2014 gives query 1: 17, query 2: 0, query 3: 5, query 4: 0, query 5: 4, query 6: 30, summing to query_summary.n_distinct_series_returned = 56. So query 2's two records were entirely records earlier queries had already returned (it contributed no new deposit at all) and query 6 contributed 30, not 32. This matters to the section's own argument, which is about what the syntax repair bought.",
+      "fix": "All six executed and none returned an error. Counts are raw returns; de-duplicated against every earlier query, the distinct records each contributed are 17, 0, 5, 0, 4 and 30, which is the 56 examined here. [and beneath it] Three of the four then returned records \u2014 2, 4 and 32 raw, of which 0, 4 and 30 were new \u2014 taking the search from 7 series to 22 and from 22 records to 56."
+    },
+    {
+      "id": "B6",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u00a72.3 and Table 4 (and both built PDFs)",
+      "quote": "The size-matched empirical null is 4,000 random gene sets of exactly the observed size [\u2026] With 4,000 draws and +1/+1 smoothing the smallest two-sided value the design can return is 2/4001 = 0.0005. Every such value below is therefore written `p_emp \u2264 0.0005` \u2014 the resolution limit of the null, not a measured value.  [Table 4: \"***ENO3*** (positive) | \u2026 | AGREES \u2014 d +3.8113, outside null, p_emp 0.00054\"]",
+      "why": "The single-gene (size-1) nulls on GPL3290 are drawn 3,700 times, not 4,000, so their floor is 2/3701 = 0.00054 rather than 2/4001 = 0.0005. Every GPL3290 gene-level null in research/modalities/nr4a3-fusion-targets.json carries null_calibration.n_draws = 3700 (66 of 66 computed entries; the GPL6244 entries and every set-level null are 4000). ENO3's printed p_emp of 0.00054 on GPL3290 is therefore exactly the resolution floor of its null and is the smallest value the design could return, yet Table 4 prints it as a measured value \u2014 the precise error \u00a72.3 forbids and that this paper's own Appendix A already retracted once (\"Every `p_emp = 0.0005` written as an equality | corrected 2026-08-08\").",
+      "fix": "The size-matched empirical null is 4,000 random gene sets of exactly the observed size, drawn from a seeded random pool of the platform's own mapped symbols; at set size 1 on GPL3290, where 300 pool symbols fall below the per-arm floor, 3,700 draws survive. With 4,000 draws and +1/+1 smoothing the smallest two-sided value the design can return is 2/4001 = 0.0005, and with 3,700 it is 2/3701 = 0.00054; every value at a floor is written `p_emp \u2264` that floor \u2014 the resolution limit of the null, not a measured value \u2014 so *ENO3* on GPL3290 reads `p_emp \u2264 0.00054`."
+    },
+    {
+      "id": "B7",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u00a73.11, third bullet under Table 9 (and both built PDFs)",
+      "quote": "A signal present in normal tissue and absent from the tumours is the opposite shape from a tumour-driven one, and one nominal hit in 36 tests is what chance gives.",
+      "why": "The same section, four sentences earlier, states the count as two: \"Across the 12 informative experiments, **2 of 36 gene-by-experiment tests reach p < 0.05 against 1.8 expected by chance \u2014 a binomial p of 0.54**\"; \u00a73.12 repeats \"2 hits in 36 tests against 1.8 expected, binomial p 0.54\". The artifact agrees with the two: research/modalities/nr4a3-fusion-targets-occupancy.json -> per_gene_summary.ENO3.n_experiments_enriched_at_0_05 = 2 (Parotid_Gland3 p 0.0348 and SRX1653203 p 0.0498), with PPARG and SEMA3C at 0. The quoted binomial p of 0.54 is P(X>=2 | n=36, p=0.05) = 0.543, not P(X>=1) = 0.842, so the denominator-36 statement of one hit is inconsistent with the test the section actually reports.",
+      "fix": "A signal present in normal tissue and absent from the tumours is the opposite shape from a tumour-driven one, and it is one of the two nominal hits in 36 tests that chance alone gives (binomial p 0.54)."
+    }
+  ],
+  "p1s": [
+    {
+      "id": "P1-a",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.build-stamp.json and -manuscript.build-stamp.json",
+      "what": "Both stamps declare '_what: sha256 of each document AND figure this PDF renders', but built_from carries exactly one entry \u2014 the manuscript markdown (f665c438\u2026, which matches the pinned file, so both PDFs are current today). No figure hash is recorded, and research/manuscripts/figures/figure-provenance.json states in its own _why that 'nothing in CI regenerates the figures'. Figure 1's annotation carries the 39%/88%/11.9\u00d7/4.2\u00d7 numbers and Figure 5 the muscle percentiles, so a regenerated or edited figure would leave both PDFs rendering stale numbers with the stamp still reporting a match.",
+      "why_not_a_blocker": "Everything is consistent at the pin: all seven source hashes in figure-provenance.json reproduce byte-for-byte from the pinned artifacts, and both PDF stamps match the pinned markdown. This is the guard gap, not a live error."
+    },
+    {
+      "id": "P1-b",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md Table 8 and the Figure 1 caption",
+      "what": "Table 8 labels each set with its REQUESTED size \u2014 'B \u00b7 native NR4A3 DNA-binding targets (16)', 'A+B pooled (19)', 'D \u00b7 published EMC phenotype \u2026 (21)' \u2014 in a single label spanning both platform columns, while the GPL3290 nulls behind those columns are computed at the READABLE sizes 14, 17 and 18 (nr4a3-fusion-targets.json -> set_scores.*['GSE4303-GPL3290\u2026'].null_calibration.set_size; SI TABLE S2 prints the readable sizes correctly). Nothing in the main text ties a Table 8 label to a per-platform readable count, so a change in the GPL3290 probe->symbol bridge would move every readable size and every null band while the printed labels stayed put.",
+      "why_not_a_blocker": "The deltas, thresholds and 'reached' percentages in Table 8 are all correct against the artifact, and the SI discloses the readable sizes. B1 is filed separately because \u00a71.1/\u00a73.4/the Abstract go further and attach a specific band to a named 19-gene set."
+    },
+    {
+      "id": "P1-c",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md Table 2, Table 5, and the Figure 3 caption",
+      "what": "Arm sizes vary per gene on GPL3290 and only one case is disclosed. Table 2 and the Figure 3 caption state '10 vs 6 (GPL3290)', and \u00a72.4 discloses only NR4A3's 9-vs-2. From nr4a3-fusion-targets.json -> gene_reads: PPARG on GPL3290 is 10 vs 5 (n_comparator_with_a_value = 5) and PLAGL1 is 8 vs 6. Figure 3 draws every tumour for the three class-A genes, so its PPARG/GPL3290 panel has five comparator points against a caption asserting six. The only trace in the outgoing text is the permutation floor: Table 5's PPARG GPL3290 p of 3.3 \u00d7 10\u207b\u2074 is 1/C(15,10) = 1/3003, the floor of a 10-vs-5 design, not of the 10-vs-6 design the caption implies.",
+      "why_not_a_blocker": "Every printed delta, p and q is correct for the arm it was actually computed on, and \u00a72.3's 'a gene with no probe is treated as an unread gene' plus \u00a72.4's NR4A3 example put a careful reader on notice that per-gene n varies. The reader still cannot recover the actual n from the paper."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md (at f78666ce, sha256 f665c438dffc60074b50a5c0359b2cc9dff128bfd19bae0c615d88b60ca713bc)",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.build-stamp.json",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-manuscript.build-stamp.json",
+    "research/manuscripts/fusion-output/gse243553-eno3-overlap-2026-08-08.md",
+    "research/manuscripts/fusion-output/nr4a3-cistrome-search-2026-08-08.md",
+    "research/manuscripts/fusion-output/emc-fourth-cohort-sra-2026-08-08.md",
+    "research/manuscripts/figures/figure-provenance.json",
+    "research/modalities/nr4a3-fusion-targets.json",
+    "research/modalities/nr4a3-fusion-targets-robustness.json",
+    "research/modalities/nr4a3-fusion-targets-confounds.json",
+    "research/modalities/nr4a3-fusion-targets-occupancy.json",
+    "research/modalities/nr4a3-fusion-targets-inputs.json",
+    "research/modalities/gse28866-tumour-vs-normal.json",
+    "research/modalities/emc-expression-panels.json",
+    "research/modalities/emc-ret-target-scan.json",
+    "research/modalities/emc-ret-cistrome.json",
+    "research/modalities/emc-cohort-search.json",
+    "research/literature/fusion-consensus-probe.json"
+  ],
+  "p2s": [
+    {
+      "id": "P2-a",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md Table 5",
+      "what": "Two of the six exact permutation p-values are at their design floor and are printed as measured values. ENO3 on GPL3290 is 1.3 \u00d7 10\u207b\u2074 = 1/8008 = C(16,10)\u207b\u00b9 and PPARG on GPL3290 is 3.3 \u00d7 10\u207b\u2074 = 1/3003 = C(15,10)\u207b\u00b9 (nr4a3-fusion-targets-robustness.json -> rows[].label_permutation.smallest_p_this_design_can_report = 0.00012488 and 0.000333, equal to the reported p_two_sided in both rows). \u00a73.6 and SI \u00a7S5 are scrupulous about exactly this for the stratified arms ('the design floor', '1/286 = 0.0035, quoted as the floor it is'); Table 5 is not."
+    },
+    {
+      "id": "P2-b",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md Table 9 row 'SRX1653203' vs the '2 of 36' count in the same section",
+      "what": "The Table 9 row is the hg38 build (n_peaks_total 22717, panel 0.3131, ENO3 p 0.0503 printed as '0.050', SEMA3C 0.3166 printed as '0.32'), but the second of the 'two nominal hits' is the hg19 value of the same experiment (ENO3 p 0.0498, enriched_at_0_05 true), which is the value nr4a3-fusion-targets-occupancy.json carries in per_gene_summary. A reader scanning Table 9 for the two p < 0.05 cells finds only one; the other prints as 0.050. \u00a72.6 states multiplicity is over experiments not builds, so the per-experiment value is defensible, but the table and the count are on different builds and nothing says so."
+    },
+    {
+      "id": "P2-c",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md \u00a7S4",
+      "what": "'five of the six arms are mouse-derived' against the same section's own species column, which reads mouse, mouse, mouse, mouse, human, 'unstated in the term' \u2014 four mouse, not five. The sixth (MSigDB Hallmark Adipogenesis) is recorded as species-unstated, which is why it cannot be counted as mouse."
+    },
+    {
+      "id": "P2-d",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md \u00a7S8, beneath Table S8",
+      "what": "'The deposit is read as hg19, on a worst-case recovery of 0.906 against 0.322, a ratio of 2.81.' The 0.906 is AciCC-1's hg19 recovery and 0.322 is AciCC-2's hg38 recovery \u2014 two different samples. The genuinely worst-case pairing is the lowest hg19 against the highest hg38, 0.906/0.336 = 2.70. The call is unaffected (both clear the stated 2.0 ratio and the 0.80 floor), but the printed ratio is not the worst case it is labelled as."
+    },
+    {
+      "id": "P2-e",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md Table 5 (+0.8075) vs SI TABLE S3 and \u00a73.6 (+0.8074 / +0.807)",
+      "what": "ENO3's GPL6244 delta is printed as +0.8075 in main-text Table 4 and Table 5 and as +0.8074 in SI TABLE S3 and TABLE S5. Both trace to their producers (nr4a3-fusion-targets.json welch delta_a_minus_b 0.8075; nr4a3-fusion-targets-robustness.json observed_delta_re_derived 0.8074, parity_with_artifact true), so this is an independent-reimplementation rounding difference rather than an error \u2014 but the same quantity reads differently at two sites in the outgoing set, and nothing in either document says why."
+    },
+    {
+      "id": "P2-f",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md, Abstract",
+      "what": "'In three cohorts on three platforms that aggregate reaches 39% and 88% of its null threshold and does not clear' \u2014 the aggregate set score exists on two platforms only. The 3SEQ cohort (GSE28866) carries no set score at all: \u00a72.5 states 'No z-score, no test and no confidence interval are used, because n = 4'. Only two percentages are given, so an attentive reader can infer it, but the sentence attaches a two-platform result to three cohorts."
+    },
+    {
+      "id": "P2-g",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u00a73.4",
+      "what": "'+0.0258 SD on GPL3290 (t +1.646, over 14,932)' \u2014 14,932 is the platform's distinct mapped-symbol universe (nr4a3-fusion-targets.json -> platforms['GSE4303-GPL3290\u2026'].n_distinct_symbols_on_platform), not the number of symbols any sample's offset was computed over: global_offset.n_symbols_per_sample ranges 10,880 to 14,730 across the 16 samples. The GPL6244 figure (18,694, flat across all 42 samples) is exact; the GPL3290 one reads as a per-sample count it is not."
+    }
+  ],
+  "closed_utc": "2026-09-02T17:19:12Z"
 }
