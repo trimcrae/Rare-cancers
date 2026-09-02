@@ -207,6 +207,27 @@ def test_one_version_attributed_to_two_papers_refuses(tmp_path, monkeypatch):
     assert PR.versions_posted("PUB-X")["ok"] is False
 
 
+def test_one_aixiv_id_may_not_belong_to_two_papers_even_at_DIFFERENT_versions(tmp_path, monkeypatch):
+    """⛔⛔ AN aiXiv ID IS A PAPER, AND THE CHECK USED TO BE KEYED ONE FIELD TOO NARROW.
+
+    ⚠ FOUND BY MUTATION TESTING, AND ONLY BECAUSE A SURVIVOR WAS ARGUED RATHER THAN WAVED THROUGH.
+    `P11` restores the design this module refuses — raising the count with the review-file lower
+    bound — and it survived. The first reading was "equivalent mutant: reconcile has passed, so every
+    observed version already has a row, so the union adds nothing". That is true only if one aiXiv id
+    has one owner. Keyed on `(aixiv_id, version)`, the ambiguity check let PUB-X own v1.0 and PUB-Y
+    own v1.1 of the SAME id, and then the union really does change the answer — so the mutant was not
+    equivalent, and the defect it exposed was in the check, not in the count.
+    """
+    rows = [_row(pub_id="PUB-X", version="1.0"),
+            _row(pub_id="PUB-Y", version="1.1", act="new_version")]
+    monkeypatch.setattr(PR, "REGISTER", _register(tmp_path, rows))
+    monkeypatch.setattr(PR, "REVIEWS_DIR", _reviews(
+        tmp_path, ["aixiv.260822.000005-1.0-reviews.json", "aixiv.260822.000005-1.1-reviews.json"]))
+    out = PR.versions_posted("PUB-X")
+    assert out["ok"] is False and out["count"] is None
+    assert "one paper" in out["why"]
+
+
 # ── 14-17 · reconciliation, one direction only ───────────────────────────────────────────────────
 
 def test_a_review_file_with_no_row_proves_the_register_incomplete(authority):

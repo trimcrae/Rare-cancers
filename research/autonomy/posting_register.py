@@ -110,7 +110,7 @@ def load(path: pathlib.Path | None = None) -> tuple[list[dict], list[str]]:
     except Exception as exc:
         return [], [f"{path.name} is unreadable ({type(exc).__name__})"]
 
-    seen: dict[tuple[str, str], str] = {}
+    seen: dict[str, str] = {}
     for i, line in enumerate(text.splitlines(), 1):
         if not line.strip():
             continue
@@ -143,13 +143,20 @@ def load(path: pathlib.Path | None = None) -> tuple[list[dict], list[str]]:
         if row.get("source") == RECORDED and not _is_utc_instant(row.get("posted_utc")):
             problems.append(f"line {i}: a row recorded at post time must carry `posted_utc` as an "
                             "ISO-8601 UTC instant")
-        key = (str(row.get("aixiv_id")), str(row.get("version_label")))
+        # ⛔ THE KEY IS THE aiXiv ID ALONE, NOT (id, version), AND THAT IS A CORRECTION (2026-09-02).
+        # An aiXiv id IS a paper — every version of it lives under the same id — so two `pub_id`s on
+        # one id is a data error whichever versions they name. Keyed on (id, version) the check
+        # missed the shape that matters: PUB-X owning v1.0 and PUB-Y owning v1.1 of the same id
+        # passed, and then no count on that id means anything. ⚠ FOUND BY MUTATION TESTING, as the
+        # reason a mutant this module's own docstring calls impossible was NOT equivalent after all
+        # — see `test_one_aixiv_id_may_not_belong_to_two_papers_even_at_different_versions`.
+        aixiv_id = str(row.get("aixiv_id"))
         owner = str(row.get("pub_id"))
-        if key in seen and seen[key] != owner:
-            problems.append(f"line {i}: {key[0]} v{key[1]} is attributed to both {seen[key]!r} and "
-                            f"{owner!r} — an ambiguous attribution makes every count on this id "
-                            "unreliable")
-        seen.setdefault(key, owner)
+        if aixiv_id in seen and seen[aixiv_id] != owner:
+            problems.append(f"line {i}: {aixiv_id} is attributed to both {seen[aixiv_id]!r} and "
+                            f"{owner!r} — an aiXiv id is one paper, so an ambiguous attribution "
+                            "makes every count on this id unreliable")
+        seen.setdefault(aixiv_id, owner)
         rows.append(row)
     return rows, problems
 
