@@ -161,9 +161,12 @@ that blocker not at all.
 | 6 | [RT-HDAC-BET](../../../systems/views/L2-rt-hdac-bet.md) — epigenetic agents to lower fusion expression | `premise_false` | no | EMC data replacing a sarcoma-wide transfer prior |
 | 7 | [RT-6MP](../../../systems/views/L2-rt-6mp.md) — 6-mercaptopurine / AF-1 agonism | `premise_false` | no ⚠ **was filed `definitional`** — §5 | a primary direction-of-effect measurement on the fusion |
 
-⚠ **Two honesty notes on the table, both from the register rather than from this paper.** RT-HDAC-BET's
-route *state* is `parked` with a `monitor` recommendation, not `closed` — what is closed is its
-fusion-selectivity claim, and §4.6 states the difference. RT-SYNPROMOTER's work state is `future`; it
+⚠ **Two honesty notes on the table, both from the register rather than from this paper.** **Four of the
+seven carry route *state* `parked`, not `closed`** — RT-HDAC-BET, RT-RXR, RT-SYNPROMOTER and RT-6MP,
+each with a `monitor` recommendation. What is closed in those four is the **claim**, not the route, and
+§4.6 states the difference. ⭐ **The `permanent` column and the route state therefore agree across all
+seven rows**: the three permanent closures are exactly the three routes recorded `closed`, and the four
+revivable ones are exactly the four recorded `parked`. RT-SYNPROMOTER's work state is `future`; it
 was never started, and closing an unstarted route is a legitimate act only because the closing premise
 is about the disease rather than about the effort.
 
@@ -321,12 +324,21 @@ recommend anything.
 
 ### 4.6 · The state a closure is filed under is not the same as the closure
 
-RT-HDAC-BET carries `status: parked` with a `monitor` recommendation while its selectivity claim is
-closed; RT-SYNPROMOTER carries `status: closed` with a `monitor` recommendation because two of its
-blockers are technology-gated. **A route's work state, its closure kind and its authorization state are
-three orthogonal axes**, and the register keeps them apart on purpose. The closure kind answers *may
+RT-HDAC-BET, RT-RXR, RT-SYNPROMOTER and RT-6MP each carry `status: parked` with a `monitor`
+recommendation while the claim this record closes is closed; the three permanent closures carry
+`status: closed` and no recommendation to revisit. **A route's work state, its closure kind and its
+authorization state are three orthogonal axes**, and the register keeps them apart on purpose —
+RT-SYNPROMOTER is `work_state: future` and was never started while RT-RXR is `work_state: complete`,
+and both sit under the same `premise_false` kind. The closure kind answers *may
 this ever be reopened, and by what*; it does not by itself say whether anyone is watching, and the
 watch list is a separate object with separate triggers.
+
+⚠ *Superseded, retained (CLAUDE.md rule 1.2): "RT-SYNPROMOTER carries `status: closed` with a `monitor`
+recommendation because two of its blockers are technology-gated." That was the register's reading until
+2026-09-02, when AUT-PD-088 corrected it: `systems/CONVENTIONS.md` §4.1 defines `closed` as carrying no
+trigger that would reopen the route, and RT-SYNPROMOTER named two technologies and a revival trigger.
+RT-RXR and RT-6MP were mis-filed the same way and moved with it. **No closure kind, no permanence
+verdict and no claim in this record changed** — only the state field the register files them under.*
 
 ---
 

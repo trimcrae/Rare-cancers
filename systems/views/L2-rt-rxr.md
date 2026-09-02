@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-RXR — RXR-heterodimer modulation of the fusion
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ closed · scoped · confidence high · verified 2026-08-05
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ parked · scoped · confidence high · verified 2026-08-05
 
 **Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md)): ✕ CLOSED 2026-08-03 — NR4A3 does not heterodimerise with RXR
 
@@ -71,7 +71,7 @@ Closed on a published measurement; the output is the closure and its citation.
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `closed`**
+**Recommendation: `monitor`**
 
 Closed on the receptor's own measured biology. It is `premise_false` and not `definitional`, so a contradicting primary measurement would reopen it — which is why it keeps a trigger rather than none.
 
