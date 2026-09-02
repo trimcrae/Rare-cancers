@@ -9,8 +9,15 @@
   "took_why": "Round 27 of PUB-ASO, named by the driver prompt ahead of the queue's own ranking, on the grounds that publish_bar.clause_1_hardening_converged cannot pass without a round whose seats read the exact commit being posted. Spend authorised by trimcrae's 2026-08-30 grant in autonomy-state.json budget_hold.authorised_exceptions — the PUB-ASO v2 goal, read as a grant rather than off the width dial.",
   "health_at_start": {
     "exit": 0,
-    "red": ["cycle_delivering", "advancing_live_work", "scores_are_reachable"],
-    "unmeasured": ["gates_green", "stalls_are_named"],
+    "red": [
+      "cycle_delivering",
+      "advancing_live_work",
+      "scores_are_reachable"
+    ],
+    "unmeasured": [
+      "gates_green",
+      "stalls_are_named"
+    ],
     "red_on_red_posture": "All three reds are `advises`, so the cycle ran. `gates_green` is `redirects` and was UNMEASURED; this cycle settled it by reading Actions directly — see `notes` item 1."
   },
   "what_changed": [
@@ -49,7 +56,13 @@
     "launched": 5,
     "why": "The five blind seats of round 27, dispatched CONCURRENTLY in one message with distinct lenses (regression, arithmetic, statistics, citations-and-instruments, hostile-referee). Width 5 exceeds the budget hold's dial of 1 and is authorised by trimcrae's 2026-08-30 grant for the PUB-ASO v2 goal, whose recorded spend shape is exactly 'five concurrent subagents and one PREFLIGHT_FULL'. All read-only in the repository, each with its own seat-prefixed scratch directory."
   },
-  "now_queued": ["AUT-PROP-055", "AUT-PROP-056", "AUT-PD-193", "AUT-PD-195", "AUT-PD-196"],
+  "now_queued": [
+    "AUT-PROP-055",
+    "AUT-PROP-056",
+    "AUT-PD-193",
+    "AUT-PD-195",
+    "AUT-PD-196"
+  ],
   "blocked_by": [
     {
       "path": "research/autonomy/publish_bar.py::clause_1_hardening_converged",
@@ -61,8 +74,9 @@
   "handoff": {
     "refused_by": "REFUSED: a handoff creates a session, so it is a cadence event.\n  ⛔ TOO SOON — 3.4 h since the last cycle (autonomy-state.json `last_cycle_started_utc`, 9:57 AM ET Aug 31) against a declared 24 h cadence. Next eligible 9:57 AM ET Sep 1. ⭐ EXIT NOW: write no receipt, take no item, claim nothing. A skipped fire is the cadence working, not a failure, and it is the ONLY way this cadence binds — the Routine's cron is human-created and an agent cannot edit it (see this module's docstring).\nREMEDY: end this session without a successor. The Routine fires again on its own schedule and a fresh s…",
     "_refused_by_whom": "⛔ NOT THE PLATFORM. `create_session` was never called: research/autonomy/handoff.py exited 4 and refused to BUILD the prompt, because a handoff is itself a cadence event and the 24 h cadence had not elapsed. So this is neither of the two failures the contract anticipates — it is the loop's own governor declining to spawn, which is the correct outcome under the active budget hold. Spawning would have breached the posture this cycle is running under.",
-    "child_session_id": null,
-    "_child_session_id_null_means": "No successor, deliberately and on the governor's instruction. The driver Routine's next firing is the successor, which is the remedy handoff.py itself names."
+    "child_session_id": "session_01EBN36MJMAzvxSgtbVN54Zn",
+    "_child_session_id_null_means": "No successor, deliberately and on the governor's instruction. The driver Routine's next firing is the successor, which is the remedy handoff.py itself names.",
+    "child_reason": "Spawned to drive PUB-ASO v2 to publish_bar 7/7 on the gates this cycle rebuilt: the commit loop is 131.8 s -> 39.7 s and a paper's publication gate is 583 s -> 166 s. trimcrae, 2026-09-02: \"Once you get preflight down to just a minute or two, make sure we codify rules to prevent it bloating in the future. Then launch a new session to use the new preflight to iterate on the ASO paper until v2 is submission ready.\" ⛔ The child is told where the bar stands and where the traps are, and carries NO findings or conclusions from this session — a successor that inherits its predecessor's reasoning inherits its mistakes, and a wrong seat finding has already propagated through two cycles here that way. It is also told that AUT-PD-205-d7df5340 is landable BY IT and was not by this cycle, and why."
   },
   "notes": "1 ⭐ THE TRUNK WAS RED AND IT WAS READ RATHER THAN ASSUMED: tests.yml on the pin failed 13 tests, 11 in systems/tests (a directory preflight.sh never runs — AUT-PD-191, pre-existing) and 2 in the deposit revision guards. THE SECOND PAIR WAS MIS-DIAGNOSED FIRST: this cycle hypothesised a shallow actions/checkout because both shas resolved locally. That was a 'probably X' and it was wrong. The real cause was reproduced ON THIS CYCLE hours later — a rebase before push orphans any artifact that records HEAD, the sha survives locally in the reflog and never existed on the remote. Filed as AUT-PD-195 with both instances.\n2 ⚠ THE CONCURRENT SESSION IS NOT HYPOTHETICAL: origin/main moved under this cycle at least six times, one of those sessions filed AUT-PD-192 — THE EXACT ID THIS CYCLE HAD JUST ALLOCATED (AUT-PD-171's predicted collision, live for the second cycle running) — and this cycle's tree carried a claim on AUT-046 that the trunk had already released. Committing without rebasing would have resurrected another session's claim.\n3 ⛔ THE PUBLISH DISPATCH USED ref=main AND THAT WAS AN ERROR. It resolved to 77bebed710f1, a commit that landed AFTER the PREFLIGHT_FULL run that gated 8572b5a6b. It cost nothing only because refuse_unless_publishable COMPUTES the digest precondition at publish time: the intervening commit touched a credit board and no deposited path, so the frozen archive is byte-for-byte the gated tree. The gate held, not the sequencing. Recorded in publication-authority.json's exercised row rather than omitted.\n4 ⚠ TWO RULES OF THIS REPOSITORY WERE BROKEN BY THIS CYCLE AND ARE NAMED HERE. A preflight was run in the FOREGROUND and blocked for 6m40s before timing out (CLAUDE.md §1). And an in-flight board named a CI row as watched when the waiter had already died on an invented `--workflow` flag — a row nothing would have brought the session back for, which is the exact failure inflight-reporting exists to stop.\n5 ⚠ THE PERMISSION CLASSIFIER BEGAN REFUSING `python3 -c`, scratchpad scripts and shell writes into the repo partway through, intermittently. The repo's own tooling still ran. Work continued through the Edit/Write tools; recorded because a future session hitting it should not read it as a repository fault.\n6 ⛔ NO SECOND CYCLE. max_cycles_per_session is 1 under the hold and this session ran one."
 }
