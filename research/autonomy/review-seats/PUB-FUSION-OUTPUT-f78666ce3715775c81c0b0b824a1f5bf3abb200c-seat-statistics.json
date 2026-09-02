@@ -1,6 +1,6 @@
 {
   "_schema": "emc-review-seat/1",
-  "status": "open",
+  "status": "complete",
   "_why_this_exists_before_the_review_does": "AUT-PROP-006. This record is written as the seat's FIRST act, so a seat that dies leaves evidence that it looked rather than nothing at all. It is EMPTY and says so: publish_bar.clause_1_hardening_converged REFUSES any round with an open record at the commit it is grading, because an unfinished look must never be counted as a clean one.",
   "paper": "PUB-FUSION-OUTPUT",
   "pub_id": "PUB-FUSION-OUTPUT",
@@ -11,8 +11,90 @@
   "document": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md",
   "document_sha256": "f665c438dffc60074b50a5c0359b2cc9dff128bfd19bae0c615d88b60ca713bc",
   "opened_utc": "2026-09-02T16:31:26Z",
-  "verdict": null,
-  "central_claim": null,
-  "blockers": [],
-  "p1s": []
+  "verdict": "supported_with_reservations",
+  "central_claim": "A gene-set read on a small rare-tumour expression series is uninterpretable until a size-matched random set drawn from the same platform's own genes is scored beside it; applied to the assembled NR4A3-fusion direct-target set, that aggregate reaches only 39% and 88% of its null threshold and does not clear, while the published EMC transcriptional phenotype clears the same threshold 11.9-fold and 4.2-fold on the same instrument in the same run, so the negative is bounded rather than underpowered.",
+  "blockers": [
+    {
+      "id": "B1",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md (\u00a72.3 and Table 4), reproduced in nr4a3-fusion-transcriptional-output-manuscript.pdf and nr4a3-fusion-transcriptional-output.pdf",
+      "quote": "With 4,000 draws and +1/+1 smoothing the smallest two-sided value the design can return is 2/4001 = 0.0005. Every such value below is therefore written `p_emp <= 0.0005` \u2014 the resolution limit of the null, not a measured value.  ...  | ***ENO3*** (positive) | AGREES \u2014 d +0.8075, outside null, p_emp 0.0195 | AGREES \u2014 d +3.8113, outside null, p_emp 0.00054 |",
+      "why": "The single-gene null on GPL3290 does not retain 4,000 draws. research/modalities/nr4a3-fusion-targets.json, gene_reads.ENO3[\"GSE4303-GPL3290_series_matrix.txt.gz\"].null_calibration.n_draws = 3700 (and every other GPL3290 gene row carries n_draws 3700; GPL6244 carries 4000). The producer research/modalities/nr4a3_fusion_targets.py::_null_scores discards any draw where a randomly chosen gene leaves fewer than MIN_GROUP_N_FOR_A_CONTRAST readable samples in either arm ('continue') and then returns n_draws = len(deltas), so the retained count is platform-dependent. With 3,700 retained draws the smallest two-sided value _empirical_p can return is 2*(0+1)/3701 = 0.00054 \u2014 which is exactly the value Table 4 prints for ENO3 on GPL3290, i.e. zero draws at least as extreme. The manuscript therefore (a) states a resolution limit of 0.0005 that is wrong for the platform carrying its largest per-gene effect, and (b) prints that platform's floor as a measured equality, sitting ABOVE the stated floor so that a reader applying the paper's own rule concludes it is a resolved value. Appendix A records this exact error class as corrected on 2026-08-08 ('Every `p_emp = 0.0005` written as an equality'); the GPL3290 instance survived because the draw count differs and is stated nowhere ('3,700' appears in neither the manuscript nor the SI).",
+      "fix": "Replace the \u00a72.3 sentence with: 'The empirical p has a floor, and it is quoted as one. A draw is discarded when the randomly chosen set leaves fewer than three readable samples in either arm, so the retained draw count is platform-dependent: 4,000 at every set size on GPL6244 and at set size 2 or more on GPL3290, but 3,700 for GPL3290 single genes. With +1/+1 smoothing the smallest two-sided value the design can return is therefore 2/4001 = 0.0005 in the first case and 2/3701 = 0.00054 in the second, and every value at that limit is written `p_emp <= ...` \u2014 the resolution limit of the null, not a measured value.' Replace the ENO3/GPL3290 cell of Table 4 with: 'AGREES \u2014 d +3.8113, outside null, p_emp <= 0.00054 (the floor of a 3,700-draw null)'."
+    },
+    {
+      "id": "B2",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md (Abstract, \u00a71.1, \u00a73.4 and the Table 8 row label), reproduced in both built PDFs",
+      "quote": "On GPL3290 the 95% null band for a 19-gene set is [\u22120.297, +0.376], so a raw delta of +0.330 with t = 3.16 sits inside it (p_emp 0.083).",
+      "why": "That band is a 17-gene null, not a 19-gene one. research/modalities/nr4a3-fusion-targets.json, set_scores.A_plus_B_all_dna_binding[\"GSE4303-GPL3290_series_matrix.txt.gz\"]: n_genes_requested 19, n_genes_readable 17, null_calibration.set_size 17, null_q025 -0.29715, null_q975 0.37648. research/modalities/nr4a3-fusion-targets-confounds.json, minimum_detectable_effect.sets.A_plus_B_all_dna_binding[\"GSE4303-GPL3290_series_matrix.txt.gz\"].set_size = 17. The paper's own SI (nr4a3-fusion-transcriptional-output-SI.md, TABLE S2) prints the row as 'A_plus_B_all_dna_binding | GPL3290 | 17 | +0.3301 | [-0.2972, +0.3765]'. Two of the nineteen members are unreadable on GPL3290, so the scored set and its size-matched null are seventeen genes. The same misstatement carries the Abstract ('an arbitrary 19-gene set can print t = 3.16'), \u00a71.1 ('the 95% band for an arbitrary 19-gene set on GPL3290 is [\u22120.297, +0.376] SD'), and the Table 8 label 'A+B pooled (19)' over a GPL3290 column that is 17 \u2014 as are the neighbouring labels '(16)' over a 14-gene GPL3290 score and '(21)' over an 18-gene one. In a paper whose contribution is that the null must be matched to the observed set size, stating the wrong size for the band is the one number a reader would reuse and could not reproduce.",
+      "fix": "Replace the \u00a73.4 sentence with: 'On GPL3290 the aggregate direct-target set has 17 readable members, and the 95% null band for a 17-gene set there is [\u22120.297, +0.376], so a raw delta of +0.330 with t = 3.16 sits inside it (p_emp 0.083).' Make the same substitution in the Abstract and \u00a71.1, and give Table 8 a readable-size column so each cell carries the size its own null was drawn at (GPL6244 19/16/21, GPL3290 17/14/18) instead of one parenthetical taken from the set definition."
+    },
+    {
+      "id": "B3",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md (\u00a72.6 item 1 and Table 5), reproduced in both built PDFs",
+      "quote": "Arm sizes give 1,623,160 and 8,008 distinct assignments \u2014 few enough to **enumerate completely**, so every reported p is exact rather than sampled.  ...  | **ENO3** | A \u00b7 fusion | **+0.8075** (7.3 \u00d7 10\u207b\u2075, q 0.00044) | **+3.8113** (1.3 \u00d7 10\u207b\u2074, q 0.00063) |  | **PPARG** | A \u00b7 fusion | +0.3071 (0.049, q 0.097) | +2.4809 (3.3 \u00d7 10\u207b\u2074, q 0.00083) \u2014 **circular, \u00a73.8** |",
+      "why": "Both GPL3290 p-values in Table 5 are the smallest value their enumeration can report, and neither is marked as such. research/modalities/nr4a3-fusion-targets-robustness.json, rows[]: ENO3/GPL3290 carries n_at_least_as_extreme = 1, n_labellings_total = 8008 and smallest_p_this_design_can_report = 0.00012488, equal to its reported p_two_sided 0.000125; PPARG/GPL3290 carries n_at_least_as_extreme = 1, n_labellings_total = 3003 and smallest_p_this_design_can_report = 0.000333, equal to its reported p_two_sided 0.000333. The same rows also refute the quoted Methods sentence: PPARG/GPL3290 has n_comparator = 5 and PLAGL1/GPL3290 has n_emc = 8, so their enumerations are C(15,10) = C(14,8) = 3,003, not 8,008, and the manuscript states 10 versus 6 for this platform throughout (\u00a72.2 Table 2, \u00a73.4). The paper applies exactly this floor discipline elsewhere \u2014 Table 6 annotates ENO3's pool-matched cell '(0.0035, the design floor)', \u00a73.6 says 'quoted as the floor it is', SI \u00a7S5 says 'no p below 1/286 = 0.0035 is reportable there however large the effect', and Limitation 6 repeats it \u2014 so the main results table is the one place where it lapses, on the two cells that carry the paper's headline ordering.",
+      "fix": "Replace the \u00a72.6 sentence with: 'Arm sizes give 1,623,160 assignments on GPL6244 and 8,008 on GPL3290 \u2014 few enough to enumerate completely, so every reported p is exact rather than sampled. Where a gene is unreadable in some samples the enumeration shrinks with its own arms: PPARG (10 versus 5) and PLAGL1 (8 versus 6) on GPL3290 enumerate 3,003 assignments, and no p below 1/8,008 = 1.2 \u00d7 10\u207b\u2074 or 1/3,003 = 3.3 \u00d7 10\u207b\u2074 respectively is reportable there however large the effect.' Rewrite the two Table 5 cells as '+3.8113 (<= 1.3 \u00d7 10\u207b\u2074, the design floor; q 0.00063)' and '+2.4809 (<= 3.3 \u00d7 10\u207b\u2074 on 10 vs 5, the design floor; q 0.00083) \u2014 circular, \u00a73.8'."
+    }
+  ],
+  "p1s": [
+    {
+      "id": "P1-a",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md and -SI.md (whole documents); the absence lives in research/manuscripts/tests/",
+      "what": "No guard binds any number in this manuscript to the artifact that produces it. `git grep -l nr4a3-fusion-transcriptional-output` over research/manuscripts/tests and research/modalities/tests at the pin returns only test_build_submission_pdf.py (which builds it) and test_fusion_partner_prose_matches_its_artifact.py, whose own comment at line 2034 calls this document 'the zero-coverage fusion-output manuscript' and deliberately does not open it. Every delta, band, threshold, percentage-of-threshold, exact p and BH q in \u00a73 and the SI is typed prose. An ordinary edit \u2014 a regenerated artifact, a re-typed table cell, a changed set membership \u2014 would move any of them with nothing red. This is the mechanism by which B1, B2 and B3 all reached a built PDF: each is a prose number that disagrees with a field in a committed JSON, and no test compares the two.",
+      "why_not_a_blocker": "The numbers a guard would bind are, with the three exceptions filed above, correct at the pin: I re-derived the offsets (\u22120.0084 / +0.0258 SD), the null bands, the 39%/88%/11.9\u00d7/4.2\u00d7 thresholds, all six Table 5 cells, every Table 6 cell, the covariate retentions, the muscle percentiles, the BH q-values (correctly computed within platform) and the binomial p 0.5433, and each reproduces from its artifact. The gap is coverage, not a wrong sentence."
+    },
+    {
+      "id": "P1-b",
+      "where": "research/modalities/nr4a3_fusion_targets.py and research/modalities/tests/test_nr4a3_fusion_targets.py",
+      "what": "Nothing asserts the relationship between the producer's retained draw count and the resolution floor the manuscript quotes. `_null_scores` returns n_draws = len(deltas) after discarding draws below the contrast floor, and accepts any count down to draws//2 (2,000) before returning None \u2014 so a change to the sample floor, the pool, or the platform's missingness can move the smallest reportable p by a factor of two with no test failing and no prose changing. The test module contains no assertion on n_draws, 4001, 3701 or the floor at all.",
+      "why_not_a_blocker": "The mechanism is correct and conservative; only its description in the manuscript is wrong, which is filed as B1. The producer would need a guard of the form 'the manuscript's stated floor equals 2/(n_draws+1) for every platform and set size it quotes'."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-manuscript.pdf",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.pdf",
+    "research/modalities/nr4a3-fusion-targets.json",
+    "research/modalities/nr4a3_fusion_targets.py",
+    "research/modalities/nr4a3-fusion-targets-robustness.json",
+    "research/modalities/nr4a3-fusion-targets-confounds.json",
+    "research/modalities/nr4a3-fusion-targets-occupancy.json",
+    "research/modalities/emc-expression-panels.json",
+    "research/modalities/tests/test_nr4a3_fusion_targets.py",
+    "research/manuscripts/tests/test_fusion_partner_prose_matches_its_artifact.py"
+  ],
+  "p2s": [
+    {
+      "id": "P2-a",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u00a72.3",
+      "what": "'The empirical p is the **two-sided** fraction of draws at least as extreme, with +1/+1 smoothing' does not describe what the code computes. research/modalities/nr4a3_fusion_targets.py::_empirical_p returns min(1, 2 * min(p_right, p_left)) with each tail smoothed as (count+1)/(n+1) \u2014 a doubled one-sided p, not the fraction of draws at least as extreme in absolute value. On these deliberately asymmetric nulls (the GPL3290 size-1 null is [\u22121.31352, +1.40969] about a mean of +0.05384) the two quantities differ, generally by up to a factor of two, with the implemented version the more conservative. The \u00a72.3 floor sentence's own arithmetic (2/4001 rather than 1/4001) already discloses the doubling; the descriptive sentence does not."
+    },
+    {
+      "id": "P2-b",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u00a72.6 item 3, \u00a73.6, \u00a73.12 and \u00a74.1",
+      "what": "The main text reports one covariate panel where the producer computed and the SI publishes two. research/modalities/nr4a3-fusion-targets-confounds.json, provenance_audit.panels holds 'matrix' (11 genes) and 'vascular' (ENG, KDR, TEK) under the identical selection rule, with rejected = {}. The manuscript says 'The surviving panel is 11 structural genes'. The vascular panel separates the arms on GPL3290 (arm_separation delta \u22120.7962, t \u22123.449) \u2014 the platform on which the matrix panel does not (+0.0064) \u2014 and adjusting on it retains only 58.2% of ENO3's delta (+3.8113 \u2192 +2.2190) and 41.6% of PPARG's; on GPL6244 it retains 78%. SI TABLE S5 prints all six of those rows, so the number is in the outgoing set, but \u00a73.6's 'on GPL3290 nothing moves', \u00a73.12's 'Matrix adjustment retains ... 100% on the platform where it does not [differ]' and \u00a74.1's restatement are true only of the matrix panel, and the informative adjustment for GPL3290 is the one a main-text reader never sees. Reporting both panels in \u00a73.6 would cost one clause and would remove the appearance that the panel reported per platform is the one that leaves the result intact."
+    },
+    {
+      "id": "P2-c",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u00a73.11 Table 9 and the paragraph beneath it",
+      "what": "The table's rounding contradicts the count the text draws from it. Table 9 prints SRX1653203 / ENO3 as '2, p 0.050', while research/modalities/nr4a3-fusion-targets-occupancy.json, per_gene_summary.ENO3.empirical_p_by_experiment.SRX1653203 = 0.0498. The text then says '2 of 36 gene-by-experiment tests reach p < 0.05', and the artifact's verdict.multiplicity agrees (n_enriched_at_0_05_observed 2, expected 1.8, binomial 0.5433, all of which I re-derived). A reader counting the table finds one cell below 0.05, not two. Print 0.0498 (three significant figures, as the parotid cell's 0.035 already is) so the table and the sentence say the same thing."
+    },
+    {
+      "id": "P2-d",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md, Abstract",
+      "what": "'In three cohorts on three platforms **that aggregate reaches 39% and 88% of its null threshold and does not clear**' attaches a three-cohort scope to a two-cohort measurement. The aggregate set carries a null-calibrated score on GPL6244 and GPL3290 only; \u00a72.5 states of the 3SEQ arm that 'No z-score, no test and no confidence interval are used, because n = 4', and set_scores in nr4a3-fusion-targets.json contains no GSE28866 entry for any set. Two numbers follow the clause, and \u00a73.9 and Table 8 are unambiguous, but the abstract sentence reads as a negative established in all three cohorts."
+    },
+    {
+      "id": "P2-e",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u00a73.3",
+      "what": "The bolded summary counts a cell the paper's own grading rule says is not gradeable: '**Five of the six control \u00d7 platform cells carried a computable contrast, and all five agree with the published direction; none disagrees.**' \u00a72.4 states that 'A reading whose delta falls *inside* the band is **not a reading at this power** and is not graded either way', and PLAGL1 on GPL6244 (d \u22120.4234, band [\u22120.606, +0.529], nr4a3-fusion-targets.json gene_reads.PLAGL1) is inside its band. The next sentence says so explicitly, and Appendix A records this framing as a deliberate replacement for 'four of four graded controls agree' \u2014 but the sentence that will be quoted is the one that scores an ungraded cell as an agreement. 'Five of the six cells carried a computable contrast; four are gradeable and all four agree, none disagrees, and the fifth (PLAGL1 on GPL6244) is inside its null band and is sign-concordant rather than a reading at this power' says the same thing without the tension."
+    },
+    {
+      "id": "P2-f",
+      "where": "research/modalities/nr4a3-fusion-targets-occupancy.json (repository tooling, not the paper)",
+      "what": "The artifact's own summary prose contradicts its own data. verdict['\u26d4 what_this_is_not'] reads 'Every informative experiment here is NR4A1, a paralogue ... All 12 NR4A3-specific peak sets are UNINFORMATIVE by the rule above', while verdict.informative_experiments lists four ZENODO NR4A3 peak sets (AciCC-1/2/3 and Parotid_Gland3) among its twelve. The manuscript is the correct party here \u2014 \u00a73.11 and Limitation 16 say eight of the twelve are NR4A1 and four are wild-type NR4A3 in acinic cell carcinoma \u2014 so the stale sentence is in the producer, left behind when the Haller deposit was added (Appendix A records that change as '86 peak sets, 8 informative experiments and 24 tests' superseded by 110/12/36). Anyone quoting the artifact rather than the paper would restate a retracted claim."
+    }
+  ],
+  "closed_utc": "2026-09-02T17:12:32Z"
 }
