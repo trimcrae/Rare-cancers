@@ -581,8 +581,10 @@ separates the arms on **both** platforms (Δ −0.406 on GPL6244, Δ −0.796 on
 can move a contrast where the matrix panel cannot. Adjusted on it, *ENO3* retains **58%** of its
 GPL3290 delta (+3.811 → +2.219) and 78% of its GPL6244 delta; *PPARG* retains 42% and 30%; *SEMA3C*
 85% and 189%. So *ENO3*'s GPL3290 reading is not invariant to which qualified covariate is used, and
-the 100% above is a property of the matrix panel rather than of the gene. The ordering of the three
-is unchanged on either panel.
+the 100% above is a property of the matrix panel rather than of the gene. **What the second panel
+does not change is which gene leads on either platform**: both panels rank *ENO3* first on GPL3290
+and *SEMA3C* first on GPL6244, so the disagreement is about how much of *ENO3*'s GPL3290 delta
+survives adjustment, not about the ordering this section reports.
 
 ### 3.7 · A third cohort, calibrated against its own deposit
 
