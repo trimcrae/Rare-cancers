@@ -272,7 +272,8 @@ unlikely but does not exclude it, and no adjusted number in this document is "th
 ### TABLE S4 — every stratified comparator contrast, with its own exact permutation p
 
 
-**GPL6244** — comparator sub-arms: class_LGFMS_only (n=17), class_desmoid_fibromatosis_only (n=6), class_fibrosarcoma_only (n=6), myxoid_comparators_only (n=23), non_myxoid_comparators_only (n=6)
+**GPL6244** — comparator sub-arms: class_LGFMS_only (n=17), class_desmoid_fibromatosis_only (n=6), class_fibrosarcoma_only (n=6, whose GEO sample titles read *Myxofibrosarcoma*; the label is the
+scoring module's bucket name and the samples are myxoid), myxoid_comparators_only (n=23), non_myxoid_comparators_only (n=6)
 
 | gene | class LGFMS only | class desmoid fibromatosis only | class fibrosarcoma only | myxoid comparators only | non myxoid comparators only |
 |---|---|---|---|---|---|
@@ -393,8 +394,9 @@ verbatim, because a search reported only by its conclusion cannot be checked or 
 | 5 | `"chondrosarcoma"[All Fields] AND "expression profiling"[Filter] AND "Homo sapiens"[Organism]` | deliberately over-broad: EMC samples inside a general chondrosarcoma series | 0 ⚠ | **4** |
 | 6 | `sarcoma[All Fields] AND "translocation"[All Fields] AND "expression profiling"[Filter]` | translocation-sarcoma panels, the kind of deposit EMC hides inside | 0 ⚠ | **32** |
 
-All six executed and none returned an error. Counts are the distinct records each query contributed
-that no earlier query had already returned, so the same deposit is never counted twice.
+All six executed and none returned an error. The counts are each query's own raw return and sum to
+60; the 56 records in §3.13 are what remains after de-duplication across the six, so a deposit
+returned by two queries is counted once there and twice here.
 
 ⚠ **Four queries first returned exactly zero, and that was a reading about the queries before it was
 a reading about GEO.** All four carry an `"expression profiling"[Filter]` clause; the two that

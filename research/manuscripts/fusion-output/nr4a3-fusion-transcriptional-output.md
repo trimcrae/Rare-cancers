@@ -141,7 +141,8 @@ disease, 261 are reviews, and the three genes with a published fusion DNA-bindin
 **3, 1 and 0 of those 261 reviews** respectively (*PPARG*, *SEMA3C*, *ENO3*; 37, 6 and 2 records in
 the corpus as a whole, and both *ENO3* records are about a different disease). The primary sources
 are, by contrast, ordinary references of this literature — 42–70% of their citations come from EMC
-records, and each is cited by four to six EMC reviews. So the gap this addresses is not a
+records, and three of the four are cited by four to six EMC reviews. The fourth, the *ENO3* source,
+is cited by none of them. So the gap this addresses is not a
 contested claim in need of correction; it is that a disease defined by a transcription-factor fusion
 has **no assembled account of what that fusion transcribes**, and the question is asked rarely enough
 that the distinction between the two above has had little occasion to be drawn. Query strings,
@@ -805,7 +806,7 @@ Three readings, in descending order of what they support.
   it fails.
 - ***ENO3* carries 2–4 peaks in every deep NR4A3 experiment and clears its panel in exactly one — the
   NORMAL parotid gland (p = 0.035), not any carcinoma.** A signal present in normal tissue and absent
-  from the tumours is the opposite shape from a tumour-driven one, and one nominal hit in 36 tests is
+  from the tumours is the opposite shape from a tumour-driven one, and two nominal hits in 36 tests is
   what chance gives.
 
 Two things this still does **not** say. NR4A3 in acinic cell carcinoma is **not the fusion and not
@@ -1050,8 +1051,9 @@ established by it, and a review outside the searched corpus could do so.
 4. **A within-EMC test against fusion level was attempted and does not discriminate at this n.**
    Holding disease constant and correlating each gene against *NR4A3* level inside the EMC arm is the
    only axis in these data that speaks to fusion *output* rather than EMC membership. It gives
-   r = +0.37 (n = 6) and −0.35 (n = 10) for *ENO3* on the two platforms — opposite signs, no
-   information. Reported so that the axis is not proposed again as though untried; *NR4A3* array
+   r = +0.37 (n = 6) and −0.35 (n = 9) for *ENO3* on the two platforms — opposite signs, no
+   information. The GPL3290 axis reads 9 of that arm's 10 tumours, because it is anchored on *NR4A3*
+   and one sample carries no readable *NR4A3* value. Reported so that the axis is not proposed again as though untried; *NR4A3* array
    signal is in any case the 3′ partner under a foreign promoter, not the fusion transcript.
 5. **An NBRE motif scan** — performed (§3.10). It cannot demonstrate binding and did not resolve the
    question. **What remains undone on this axis is not another scan**: sequence cannot settle
