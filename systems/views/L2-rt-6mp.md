@@ -18,7 +18,7 @@ last_verified: 2026-08-05
 
 # RT-6MP — 6-mercaptopurine / AF-1 agonism of the fusion
 
-**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ closed · scoped · confidence moderate · verified 2026-08-06
+**Family:** [ST-REPURPOSING](L1-st-repurposing.md) · **state:** ✓ parked · scoped · confidence moderate · verified 2026-08-06
 
 **Grade** (owned by [`research/manuscripts/program/emc-post-degrader-options.md`](../../research/manuscripts/program/emc-post-degrader-options.md)): ✕ closed on DIRECTION OF EFFECT (6-MP enhances NR4A3; the fusion is gain-of-function) and on non-selectivity — NOT on the refuted 'domain the fusion replaces'
 
@@ -91,7 +91,7 @@ Closed on DIRECTION OF EFFECT, not definitionally: 6-MP enhances NR4A3 activity 
 
 ## Strategic timing — the wait equation
 
-**Recommendation: `closed`**
+**Recommendation: `monitor`**
 
 Closed on direction of effect, not on domain loss. Only a primary measurement showing 6-MP suppresses rather than enhances fusion output, or that an internalised AF-1 behaves differently, would reopen it.
 

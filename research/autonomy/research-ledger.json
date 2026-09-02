@@ -25,8 +25,8 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 185,
-    "in_progress": 10,
+    "done": 186,
+    "in_progress": 9,
     "parked": 30,
     "queued": 168,
     "superseded": 1
@@ -4105,6 +4105,43 @@
       ]
     },
     {
+      "id": "AUT-PD-088",
+      "what": "THREE ROUTES RECORDED `closed` STILL CARRY A REOPENING TRIGGER: RT-SYNPROMOTER and RT-RXR carry TECH-* revisit_triggers, RT-6MP a TR-* revival_trigger, while systems/CONVENTIONS.md §4.1 defines `closed` as conclusively unworkable and carrying no TECH-*. By the convention's own words these are `parked`, not `closed`. ⚠ The distinction is not cosmetic on a rising frontier (CLAUDE.md §5): `parked` means revisit when capability X lands and is re-graded on a schedule; `closed` means never look again. Recording a revivable route as closed is how a live option gets lost quietly.\n\n★ RESOLVED 2026-09-02 by s38-closed-vs-parked. THE SWEEP WAS A CENSUS, NOT A SPOT-CHECK: all 77 routes tested in both directions. §4.1's literal test (`closed` carrying a `TECH-*`) has EXACTLY TWO hits -- RT-SYNPROMOTER and RT-RXR. The other direction (`parked` carrying no `TECH-*`) has ZERO. RT-6MP carries a `TR-*` and no `TECH-*`, so it passes §4.1's letter and fails its sense.\n⭐ THE DECISIVE EVIDENCE IS NOT §4.1's PROSE -- IT IS THE ENFORCED CLOSURE MODEL. All three routes are `closure_kind: premise_false`, which `research/manuscripts/emc-systems-map.json._closure_model` declares `permanent: false, needs_trigger: true` ('a stated premise was measured and is not true. Revivable only if the measurement or the underlying fact changes'). The map and the graph therefore DISAGREED, and the map is the half with a checker. So the STATE field was wrong in all three; the triggers are not stale, they are required by the model that governs them.\n⭐ INDEPENDENT CORROBORATION FROM A FIELD NOT TOUCHED: `state.work_state`. research-object.schema.json says '`dead` requires positive evidence of impossibility; a method that merely failed is `parked`'. The three routes that ARE correctly closed (RT-EWSR1-PROTEIN, RT-FET-LC-LIGAND, RT-DBD -- definitional / arithmetic_over_fixed_fact) are all `work_state: dead`. RT-SYNPROMOTER is `future`; RT-RXR and RT-6MP are `complete`. NONE of the three moved is `dead`. The graph already said they were not dead.\nCHANGED: `state.status` closed -> parked on RT-SYNPROMOTER, RT-RXR, RT-6MP; and `timing.recommendation` closed -> monitor on RT-RXR and RT-6MP, because a `closed` timing recommendation asserts the route 'must appear on no watch list' (RT-EWSR1-PROTEIN's own words) which contradicts `parked`. RANKING-NEUTRAL: `priority.py` reads `recommendation` only as `== 'pursue_now'`, so `closed` and `monitor` score identically. VERIFIED BY FIELD-BY-FIELD DIFF over all 77 routes: 5 field changes, 0 touching `grade`/`readiness`/`blockers_inherited`, 3 routes touched.\n★ WHAT THE CHANGE ACTUALLY BUYS: `priority.py::_kind` returns `regrade` for a route that is `parked` AND carries a `revival_trigger`, and returns it for no `closed` route -- so these three now enter the re-test schedule (emc-autonomy-architecture.md §8.2). It does NOT queue them as work: `parked` and `closed` are both in `NOT_TAKEABLE_STATUSES`, and `is_live` reads `work_state`+`closure_kind`, not `status`, so it is unchanged.\n⛔ LIVE READINGS TAKEN 2026-09-02 (rung 0 WebSearch, per ci-escape-hatches §0) RATHER THAN REMEMBERED -- NO TRIGGER HAS FIRED, so no route is live that was not live before:\n (a) RT-RXR / TECH-RXR-HETERODIMER-REPORT: NOT LANDED. The 2026 eLife paper 'Towards a unified molecular mechanism for ligand-dependent activation of NR4A-RXR heterodimers' works on Nurr1-RXRalpha (NR4A2) and Nur77-RXRgamma (NR4A1); it does not report NR4A3/NOR-1 heterodimerising with RXR. The published negative -- NOR-1 unable to form RXR heterodimers, which is what distinguishes it from NGFI-B and Nurr1 -- stands. `current_state: absent` is now CONFIRMED rather than assumed. ⚠ But the field is actively working this axis and the paper's own stated aim is to test whether the mechanism is shared ACROSS NR4A-RXR heterodimers, which makes the trigger more watch-worthy, not less -- the argument for `parked` over `closed`. ⚠ The TECH carries 4 UNGRADED scan signals; none is a heterodimer report (checked).\n (b) RT-6MP / TR-NR4A3-DIRECTION-OF-EFFECT: NOT LANDED. No report links 6-MP to the direction of effect on the EWSR1::NR4A3 fusion. The gain-of-function prior the closure rests on is corroborated (the fusion is a potent transcriptional activator), but that is the PRIOR, not the demonstration the trigger names.\n (c) RT-SYNPROMOTER / TECH-VECTOR-DELIVERY: NOT LANDED -- the vector-delivery literature is still hepatic and ex vivo; no solid-tumour platform at the coverage this route assumes. `current_state: absent` confirmed. TECH-EMC-EXPRESSION-DATA: still `early_signals`; a 2026 16-case EMC molecular study exists but whether it deposited data publicly is UNKNOWN and is left to the scan's human grader -- systems_check [X4] states the scan deliberately cannot change `current_state` itself.\n★ GUARD ADDED so this cannot regress silently: `systems_check.check_closed_carries_no_reopening_trigger` emits ERROR `[T8]` when a `closed` route names ANY reopening condition, `TECH-*` or `TR-*`. It is STRICTER than §4.1 (which names only `TECH-*`, because it predates the `TR-*` registry minted 2026-08-06) and so cannot contradict it. MUTATION-TESTED 4/4: reverting each of the three routes to `closed` fires [T8] naming that route (RT-6MP on the `TR-*` alone, which is the half §4.1's wording would have missed); RT-DBD reverted to `closed` correctly does NOT fire. routes.json restored byte-identical (sha256 273fa9d3e450ae79aea219b11843f20a49dd50db1fdc6637583c7ceecd824393).\n⚠ NO COMMITTED UNIT TEST FOR THE GUARD, AND THAT IS A BUDGET DECISION NOT AN OVERSIGHT: the guard lives in systems_check (cheapest tier, 0 test functions) but a pytest for it would land in `systems/tests`, which is in the `commit-loop` tier at 1393/1400 -- 7 functions of headroom. CLAUDE.md §6: raising a ceiling is the last of the three answers. A session with headroom should add one.\n⛔ THREE FINDINGS RECORDED RATHER THAN ACTED ON (out of this row's scope):\n 1. RT-DIAGNOSTIC-PATHWAY is `closed` with `closure_kind: premise_false` (non-permanent, needs_trigger) and NO trigger of any kind, and its `timing.recommendation` is still `pursue_now` -- stale, never updated when trimcrae closed it 2026-08-23 ('this is not a paper... drop it'). It carries no TECH-* so it does not violate §4.1 and was LEFT ALONE. Its closure is a scope decision, which no capability revives, so the likely defect is `closure_kind`, whose owner should rule. It is also the one graph-closed route ABSENT from emc-systems-map.json (40 routes vs the graph's 77), so its mismatch is unchecked from both directions.\n 2. RT-6MP is now parked on a `TR-*` with NO `TECH-*` mirror, and TR-NR4A3-DIRECTION-OF-EFFECT has `on_watch_list: false` and no `scan_trigger` -- so NOTHING SCANS FOR IT. RT-RXR's equivalent published-measurement condition does have a TECH-* mirror with a scan trigger. A parked route whose trigger nothing watches is this row's own defect one layer down. Minting the technology needs a forecast, so it is a graph change for the registry's owner, not a check.\n 3. CONVENTIONS.md §4.1 still names only `TECH-*`. The guard is stricter so nothing is misled, but the doc could be updated to name the `TR-*` register too. NOT done here deliberately: editing the convention in the same commit that enforces it is the shape `amendment_guard` refuses.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_route_was": "RT-AUTONOMY",
+        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
+      },
+      "kind": "process_defect",
+      "state": "done",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act.",
+      "score_inputs": {
+        "age_factor": 0.3571,
+        "age_factor_as_of": "2026-09-02"
+      },
+      "score": 129.9,
+      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. Three routes recorded `closed` still carry a reopening trigger (RT-SYNPROMOTER, RT-RXR carry TECH-*; RT-6MP a TR-*), which systems/CONVENTIONS.md §4.1 defines as `parked`, not `closed`. On a rising frontier (CLAUDE.md §5) that is how a live option is lost quietly.",
+      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T20:03:55Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
+    },
+    {
       "id": "AUT-PD-031",
       "kind": "process_defect",
       "process_defect": true,
@@ -5160,44 +5197,6 @@
       "score": 121.9,
       "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. One fact, two sources, both in the released deposit: the seven-to-ten hybridised-nucleotide RNase-H1 range is attributed to PMID 35664704 in the artifact and to PMID 24981949 in the journal article. lint_citations structurally cannot see it — both resolve; the defect is that two works are credited for one number.",
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use."
-    },
-    {
-      "id": "AUT-PD-088",
-      "what": "THREE ROUTES RECORDED `closed` STILL CARRY A REOPENING TRIGGER: RT-SYNPROMOTER and RT-RXR carry TECH-* revisit_triggers, RT-6MP a TR-* revival_trigger, while systems/CONVENTIONS.md §4.1 defines `closed` as conclusively unworkable and carrying no TECH-*. By the convention's own words these are `parked`, not `closed`. ⚠ The distinction is not cosmetic on a rising frontier (CLAUDE.md §5): `parked` means revisit when capability X lands and is re-graded on a schedule; `closed` means never look again. Recording a revivable route as closed is how a live option gets lost quietly.",
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null,
-        "_route_was": "RT-AUTONOMY",
-        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
-      },
-      "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "s38-closed-vs-parked",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 2,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act.",
-      "score_inputs": {
-        "age_factor": 0.3571,
-        "age_factor_as_of": "2026-09-02",
-        "fruitless_attempts": 1
-      },
-      "score": 121.9,
-      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. Three routes recorded `closed` still carry a reopening trigger (RT-SYNPROMOTER, RT-RXR carry TECH-*; RT-6MP a TR-*), which systems/CONVENTIONS.md §4.1 defines as `parked`, not `closed`. On a rising frontier (CLAUDE.md §5) that is how a live option is lost quietly.",
-      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
-      "claimed_utc": "2026-09-02T20:03:55Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T20:03:55Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
     },
     {
       "id": "AUT-PD-168",
@@ -10335,7 +10334,7 @@
       "parked_on": [
         "TR-NR4A3-DIRECTION-OF-EFFECT"
       ],
-      "parked_by_graph_status": "closed",
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -11049,7 +11048,7 @@
         "TECH-VECTOR-DELIVERY",
         "TR-VECTOR-TUMOUR-DELIVERY"
       ],
-      "parked_by_graph_status": "closed",
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -11688,7 +11687,7 @@
         "TECH-RXR-HETERODIMER-REPORT",
         "TR-NR4A3-RXR-HETERODIMER-REPORT"
       ],
-      "parked_by_graph_status": "closed",
+      "parked_by_graph_status": "parked",
       "owner": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",

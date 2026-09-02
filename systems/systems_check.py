@@ -954,6 +954,46 @@ def check_revisit_trigger_reachability(g, f):
                           f"the condition could fire in full and the route would still be blocked")
 
 
+def check_closed_carries_no_reopening_trigger(g, f):
+    """⭐ A `closed` route may not carry a condition that would reopen it (added 2026-09-02, AUT-PD-088).
+
+    CONVENTIONS.md §4.1 defines the two states by exactly this: `parked` is "failed with today's
+    tools; has a named `TECH-*` to reopen it" and `closed` is "conclusively unworkable; carries no
+    `TECH-*`". ⛔ NOTHING MEASURED IT. `systems_check` had no test tying `state.status` to the
+    trigger fields, so the distinction lived in prose alone.
+
+    ⛔ MEASURED, AND IT IS NOT BOOKKEEPING: three routes sat `closed` while naming what would revive
+    them -- RT-SYNPROMOTER and RT-RXR carrying `TECH-*` revisit_triggers, RT-6MP a `TR-*`
+    revival_trigger, all three `closure_kind: premise_false`, which `emc-systems-map.json`'s
+    `_closure_model` declares `permanent: false, needs_trigger: true`. On a rising frontier
+    (CLAUDE.md §5) `parked` means re-graded on a schedule and `closed` means never looked at again:
+    `priority.py::_kind` emits a `regrade` entry for a parked route carrying a `revival_trigger` and
+    emits none for a closed one. Filing a revivable route as `closed` therefore drops it out of the
+    re-test schedule silently, which is how a live option is lost.
+
+    ★ BOTH REGISTERS COUNT, and that is stricter than §4.1's wording rather than looser. §4.1 names
+    only `TECH-*` because it predates the `TR-*` revival registry (minted 2026-08-06);
+    `priority.py::parked_on` already reads both, "because they answer different halves and neither is
+    complete alone". A closure that names either is a closure that named its own way out.
+
+    ⚠ THE CONVERSE IS DELIBERATELY NOT CHECKED HERE. §4.1 also says a `parked` route HAS a named
+    `TECH-*`, and RT-6MP is parked on a `TR-*` alone -- its revival condition is a published
+    measurement with no `TECH-*` mirror, so nothing scans for it. That is a real gap, but closing it
+    means minting a technology and a forecast, which is a change to the graph rather than a check on
+    it. Recorded on AUT-PD-088; deliberately not enforced by this guard.
+    """
+    for r in g["routes"]:
+        if (r.get("state") or {}).get("status") != "closed":
+            continue
+        named = sorted(set(list((r.get("timing") or {}).get("revisit_trigger") or [])
+                           + list(r.get("revival_trigger") or [])))
+        if named:
+            f.err("[T8]", f"{r['id']} is recorded `closed` -- conclusively unworkable -- yet names "
+                          f"{named} as what would reopen it. A closure that names its own way out is "
+                          f"`parked` (CONVENTIONS.md §4.1): drop the trigger if the route is really "
+                          f"closed, or move it to `parked` so it is re-graded rather than forgotten")
+
+
 def check_requirements(g, f):
     """The requirement register, and the coverage question it exists to answer.
 
@@ -2433,6 +2473,7 @@ def run_checks(g, f):
     check_supporting_evidence_refs(g, f)
     check_trigger_blocker_agreement(g, f)
     check_revisit_trigger_reachability(g, f)
+    check_closed_carries_no_reopening_trigger(g, f)
     check_compute_case(g, f)
     return f
 
