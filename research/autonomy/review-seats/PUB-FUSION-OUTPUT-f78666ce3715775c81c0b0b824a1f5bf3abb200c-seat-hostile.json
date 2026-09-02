@@ -1,6 +1,6 @@
 {
   "_schema": "emc-review-seat/1",
-  "status": "open",
+  "status": "complete",
   "_why_this_exists_before_the_review_does": "AUT-PROP-006. This record is written as the seat's FIRST act, so a seat that dies leaves evidence that it looked rather than nothing at all. It is EMPTY and says so: publish_bar.clause_1_hardening_converged REFUSES any round with an open record at the commit it is grading, because an unfinished look must never be counted as a clean one.",
   "paper": "PUB-FUSION-OUTPUT",
   "pub_id": "PUB-FUSION-OUTPUT",
@@ -11,8 +11,119 @@
   "document": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md",
   "document_sha256": "f665c438dffc60074b50a5c0359b2cc9dff128bfd19bae0c615d88b60ca713bc",
   "opened_utc": "2026-09-02T16:31:26Z",
-  "verdict": null,
-  "central_claim": null,
-  "blockers": [],
-  "p1s": []
+  "verdict": "supported_with_reservations",
+  "central_claim": "A gene-set contrast on a small rare-tumour expression series is uninterpretable until a size-matched random set drawn from the same platform's own genes has been scored beside it; under that calibration the pooled published NR4A3/NR4A3-fusion direct-target set fails to clear its threshold on both readable array platforms while an independently derived published EMC phenotype clears the same threshold many-fold in the same run, so the failure is a bounded negative rather than a power problem, and of the three class-A genes only ENO3 survives every correlative axis \u2014 while remaining inseparable from disease association because no NR4A3-fusion cistrome in EMC chromatin exists.",
+  "blockers": [
+    {
+      "id": "B1",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u2014 \u00a73.3, and Appendix A row 'Four of four graded controls agree'",
+      "quote": "**Five of the six control \u00d7 platform cells carried a computable contrast, and all five agree with the published direction; none disagrees.** The sixth (*NR4A3* on GPL3290) is not measurable.",
+      "why": "The control grid is EIGHT cells, not six: Table 4 in the same section has four control rows (ENO3, NR4A3, PLAGL1, SGK1) and two platform columns. Seven of the eight carry a computable contrast; only NR4A3/GPL3290 does not. So both the numerator and the denominator are wrong as written. Separately, the denominator used is the wrong KIND: \u00a72.4 of the same manuscript states 'the denominator of any \"n of n agree\" statement is the number of gradeable readings, not the number of controls \u2014 \u00a73.3 gives both', and defines an inside-band reading as 'not a reading at this power \u2026 not graded either way'. Re-derived from research/modalities/nr4a3-fusion-targets.json \u2192 gene_reads, only FOUR of the eight cells fall outside their size-1 null bands \u2014 ENO3/GSE24369 (d +0.8074, band [\u22120.60637, +0.52874]), ENO3/GSE4303-GPL3290 (d +3.8112, band [\u22121.31352, +1.40969]), NR4A3/GSE24369 (d +0.7415) and PLAGL1/GSE4303-GPL3290 (d \u22122.1340). PLAGL1/GSE24369 (d \u22120.4234) and both SGK1 cells (d \u22120.1807, d +0.6156) are inside their bands. The gradeable count \u00a72.4 promises \u00a73.3 will give appears nowhere in \u00a73.3.",
+      "fix": "Replace the sentence with: 'The control grid is eight cells \u2014 four controls on two platforms. Seven carry a computable contrast; *NR4A3* on GPL3290 does not. Four of the eight are gradeable, meaning the delta falls outside its size-matched null band \u2014 *ENO3* on both platforms, *NR4A3* on GPL6244 and *PLAGL1* on GPL3290 \u2014 and all four agree with the published direction; none disagrees. The remaining three computable cells (*PLAGL1* on GPL6244 and both *SGK1* cells) fall inside their bands and are not readings at this power: they are sign-concordant, and their bands are printed above because a prediction that could not have been refused is not evidence that it was tested.'"
+    },
+    {
+      "id": "B2",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u2014 \u00a73.4 (and the same figure repeated in the Abstract and in \u00a71.1; Table 8 row label 'A+B pooled (19)')",
+      "quote": "On GPL3290 the 95% null band for a 19-gene set is [\u22120.297, +0.376], so a raw delta of +0.330 with t = 3.16 sits inside it (p_emp 0.083).",
+      "why": "That band is a SEVENTEEN-gene band, not a 19-gene band. research/modalities/nr4a3-fusion-targets.json \u2192 set_scores.A_plus_B_all_dna_binding['GSE4303-GPL3290_series_matrix.txt.gz'] records n_genes_requested 19, n_genes_readable 17, coverage 0.895, genes_not_readable ['ICAM1','MYH7'], and null_calibration.set_size 17 with _how = '4000 random gene sets of exactly 17 symbols'; null_q025 \u22120.29715, null_q975 0.37648 are the numbers quoted. The paper's own SI Table S2 records the row as 'A_plus_B_all_dna_binding | GPL3290 | 17'. The main text and SI therefore contradict each other, and the main text is the wrong side. This is not cosmetic: the paper's entire thesis is that a null band's width is set by the set's SIZE, so quoting a band under a size the set did not have is the exact error \u00a71.1 exists to refuse. The same undisclosed shrinkage applies to Table 8's other GPL3290 rows \u2014 B is labelled 16 and scored at 14, D is labelled 21 and scored at 18 (SI Table S2; same artifact).",
+      "fix": "Replace with: 'On GPL3290 two of the nineteen genes have no probe, so the set is scored \u2014 and its null drawn \u2014 at seventeen: the 95% band for an arbitrary 17-gene set on that platform is [\u22120.297, +0.376], and a raw delta of +0.330 with t = 3.16 sits inside it (p_emp 0.083).' Make the same correction in the Abstract and \u00a71.1, and print both the requested and the scored size in every Table 8 cell (A+B 19/19 on GPL6244 and 19/17 on GPL3290; B 16/16 and 16/14; D 21/21 and 21/18)."
+    },
+    {
+      "id": "B3",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u2014 Abstract",
+      "quote": "Across 2,276 retrieved documents, **the set with a DNA-binding assay against an NR4A3 chimera is three genes: *SEMA3C*, *PPARG*, *ENO3***. In three cohorts on three platforms **that aggregate reaches 39% and 88% of its null threshold and does not clear**",
+      "why": "'That aggregate' reads as the three-gene class-A set just named, and that set has NO score. Table 8 of the same manuscript: 'A \u00b7 fusion DNA-binding targets (3) | no score \u2014 3 genes, floor is 4 | no score \u2014 3 genes', matching research/modalities/nr4a3-fusion-targets.json \u2192 set_scores.A_fusion_dna_binding_targets, whose verdict on both platforms is 'UNDERPOWERED \u2026 NO SCORE EMITTED'. The 39% and 88% belong to the A+B pooled set, 16 of whose 19 members are class-B native-NR4A3 genes that \u00a73.2 of this same paper measures the transfer assumption to fail for. Second error in the same sentence: 'In three cohorts on three platforms' precedes a two-number result computed on two platforms only \u2014 the 3SEQ arm emits no set score at all (\u00a72.5: 'No z-score, no test and no confidence interval are used, because n = 4'; the artifact's set_scores carry only the two array keys).",
+      "fix": "Replace with: 'Across 2,276 retrieved documents, the set with a DNA-binding assay against an NR4A3 chimera is three genes: *SEMA3C*, *PPARG*, *ENO3*. Three genes are below the four-gene floor for a set score, so the widest defensible direct-target set \u2014 those three pooled with the sixteen carrying the same assay against native NR4A3 \u2014 was scored instead: on the two readable array platforms it reaches 39% and 88% of its size-matched null threshold and does not clear, while the published EMC phenotype clears the same threshold 11.9-fold and 4.2-fold in the same run.'"
+    },
+    {
+      "id": "B4",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u2014 \u00a73.5, 'The muscle-admixture objection, and its answer'",
+      "quote": "**So do three markers that are more muscle-restricted than it is \u2014 *ACTA1* 1.000, *MYH7* 1.000, *PYGM* 0.999, *MYL1* 0.998 \u2014 and none of them separates the tumour arms** (EMC \u2212 comparator \u22120.057, \u22120.043, +0.142, \u22120.150 percentile points, against *ENO3*'s +0.315).",
+      "why": "The sentence says three and lists four, and 'none of them separates the tumour arms' is not what the artifact shows. research/modalities/nr4a3-fusion-targets-confounds.json \u2192 platforms['GSE24369_series_matrix.txt.gz'].muscle_admixture.genes gives muscle_reference_mean_percentile ACTA1 1.0, MYH7 1.0, PYGM 0.999, MYL1 0.998 against ENO3 0.996 \u2014 four markers, not three, exceed ENO3 \u2014 and emc_minus_comparator PYGM +0.142, i.e. 45% of ENO3's +0.315 and in the same direction. The paper's own Figure 5 caption says something different again ('Three markers more muscle-restricted than *ENO3* sit at or below zero'), which is true only because PYGM does not; SI Table S6 lists all four rows.",
+      "fix": "Replace with: 'So do four markers that are more muscle-restricted than it is \u2014 *ACTA1* 1.000, *MYH7* 1.000, *PYGM* 0.999, *MYL1* 0.998 \u2014 and three of the four sit at or below zero between the tumour arms (EMC \u2212 comparator \u22120.057, \u22120.043 and \u22120.150 percentile points against *ENO3*'s +0.315); the fourth, *PYGM*, moves +0.142, less than half of *ENO3*'s shift and in the same direction. If the EMC arm carried differentiated skeletal muscle, all four would carry it and by more than *ENO3* does; the *PYGM* value is the one reading in this control that the admixture explanation is consistent with, and it is reported rather than dropped.'"
+    },
+    {
+      "id": "B5",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u2014 \u00a72.6 item 3, and the 'Covariate-adjusted sensitivity' paragraph of \u00a73.6 (carried forward in \u00a73.12 and \u00a74.1)",
+      "quote": "The surviving panel is 11 structural genes with no published relationship to NR4A3 (*BGN, COL5A1, COL5A2, DCN, FN1, LUM, MMP2, POSTN, SPP1, TNC, VIM*).",
+      "why": "Two panels survived that filter, not one, and the main text reports only the one that cannot move the GPL3290 contrast. research/modalities/nr4a3-fusion-targets-confounds.json \u2192 provenance_audit.panels lists BOTH 'matrix' (the 11 genes quoted) and 'vascular' (ENG, KDR, TEK) under the identical _selection string ('retained only if it appears in NO gene set this manuscript scores'), with rejected = {}. On GPL3290 the matrix panel does not separate the arms (arm_separation delta +0.0064, t 0.026) \u2014 which by \u00a73.6's own logic makes its 100% retention a null control rather than evidence about the gene \u2014 while the vascular panel DOES separate them (delta \u22120.7962, t \u22123.449) and takes *ENO3* from +3.8113 to +2.2190, fraction_of_raw_retained 0.582, and *PPARG* to 0.416. \u00a73.6 nonetheless writes 'on GPL3290 nothing moves (*ENO3* retains 100%, *PPARG* 97%, *SEMA3C* 99%)' and \u00a73.12 summarises the axis as 'Matrix adjustment retains 75% of its delta on the platform where that covariate differs and 100% on the platform where it does not'. The vascular rows appear in SI Table S5 and are never reconciled anywhere; the informative panel on GPL3290 is the omitted one.",
+      "fix": "Replace \u00a72.6's sentence with: 'Two panels survive that filter and both are reported: an 11-gene matrix panel (*BGN, COL5A1, COL5A2, DCN, FN1, LUM, MMP2, POSTN, SPP1, TNC, VIM*) and a 3-gene vascular panel (*ENG, KDR, TEK*).' and replace \u00a73.6's covariate paragraph with: 'The 11-gene matrix panel separates the arms on GPL6244 (\u0394 \u22120.518; EMC scores lower) and not at all on GPL3290 (\u0394 +0.006); the 3-gene vascular panel separates them on both (\u0394 \u22120.406 and \u0394 \u22120.796). Adjusting on a covariate that does not differ cannot move a contrast, so the informative cells are the three where the covariate does differ. There *ENO3* retains 75% of its delta (matrix, GPL6244), 78% (vascular, GPL6244) and 58% (vascular, GPL3290); *PPARG* retains 32%, 30% and 42%; *SEMA3C* rises above its raw delta on GPL6244 under both panels. *ENO3* is the only gene that keeps most of its effect under every panel that could have removed it, and the 58% cell is the largest reduction any adjustment here produces for it.'"
+    }
+  ],
+  "p1s": [
+    {
+      "id": "P1-a",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.build-stamp.json and \u2026-manuscript.build-stamp.json",
+      "what": "Both stamps declare '_what: sha256 of each document AND figure this PDF renders', but built_from carries exactly one entry \u2014 the manuscript .md. Neither the SI nor any of fig1\u2013fig5 is hashed. Both PDFs are in the outgoing set. An edit to the SI, or a regeneration of any figure, leaves both PDFs stale while the stamp still verifies clean.",
+      "why_not_a_blocker": "At this pin both stamps match the manuscript sha256 f665c438\u2026 exactly, and all seven figure-provenance source hashes re-derive correctly, so the shipped PDFs are current. The gap is that nothing would catch the next divergence."
+    },
+    {
+      "id": "P1-b",
+      "where": "research/manuscripts/figures/figure-provenance.json",
+      "what": "The artifact states its own gap \u2014 'nothing in CI regenerates the figures, so the only way a reader can tell a stale figure from a current one is to compare these hashes against the artifacts' \u2014 and the comparison is manual (`--check`). Five outgoing figures depend on seven artifacts with no automatic gate.",
+      "why_not_a_blocker": "I re-derived all seven sha256 prefixes from the pinned tree and every one matches (emc-ret-target-scan cc3c0548b6e7c77f, gse28866 ac0a17bd81dd8bc2, confounds fd8e60e7010d0922, inputs 427ae4c595b18cec, occupancy cc8e8b419ac013a5, robustness f00ae47c8143c284, targets 0c338c169678f475). The figures are current at the pin."
+    },
+    {
+      "id": "P1-c",
+      "where": "research/modalities/nr4a3_fusion_targets.py line ~1897, feeding the Abstract, \u00a73.1, \u00a73.11 and the whole of Figure 2",
+      "what": "The corpus totals the catalogue claim rests on \u2014 fulltext_documents_scanned 2276, catalogued_records 3669, documents_naming_both_a_cistrome_method_and_NR4A3_NOR1_TEC 153 \u2014 are hard-coded literals in the producer, not recomputed from the corpora, and the corpora themselves live on a separate branch (the artifact's own `reproduce` field: 'they are on the `literature-cache` branch under `literature/`'). A change to any corpus would not move the number the abstract carries.",
+      "why_not_a_blocker": "The literals are internally consistent \u2014 the five per-corpus fulltext_files (693, 461, 345, 13, 764) sum to 2,276 and the four index_records (1369, 792, 530, 978) to 3,669 \u2014 and refs/heads/literature-cache does exist on origin, so the corpora are not lost."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md (at pin f78666ce, sha256 verified f665c438\u2026)",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.build-stamp.json",
+    "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-manuscript.build-stamp.json",
+    "research/manuscripts/fusion-output/nr4a3-cistrome-search-2026-08-08.md",
+    "research/manuscripts/fusion-output/lit-targets-nr4a3-cistrome.json",
+    "research/manuscripts/figures/figure-provenance.json (all seven source hashes re-derived at the pin and matching)",
+    "research/modalities/nr4a3-fusion-targets.json",
+    "research/modalities/nr4a3-fusion-targets-confounds.json",
+    "research/modalities/nr4a3-fusion-targets-occupancy.json",
+    "research/modalities/gse28866-tumour-vs-normal.json",
+    "research/modalities/emc-ret-target-scan.json",
+    "research/modalities/emc-expression-panels.json",
+    "research/modalities/nr4a3_fusion_targets.py",
+    "research/modalities/nr4a3_fusion_targets_figures.py",
+    "research/literature/fusion-consensus-probe.json"
+  ],
+  "p2s": [
+    {
+      "id": "P2-a",
+      "where": "research/modalities/nr4a3-fusion-targets-occupancy.json \u2192 verdict['\u26d4 what_this_is_not']",
+      "what": "Stale and self-contradicting: it says 'Every informative experiment here is NR4A1, a paralogue' and 'All 12 NR4A3-specific peak sets are UNINFORMATIVE', while its own verdict.informative_experiments list carries the four Haller NR4A3 sets (ZENODO1483691 AciCC1/2/3 and Parotid_Gland3) and n_informative_experiments is 12 = 8 NR4A1 + 4 NR4A3. The manuscript (\u00a73.11, Table 9, Limitation 16) states this correctly; only the artifact caveat is wrong."
+    },
+    {
+      "id": "P2-b",
+      "where": "research/modalities/nr4a3-fusion-targets.json \u2192 _what_this_cannot_conclude['1b_no_fusion_cistrome_exists_in_the_retrieved_literature']",
+      "what": "This artifact is named in the manuscript's Data and code availability table, and its cistrome block still carries the pre-retraction framing with no pointer to the retraction that Appendix A and \u00a73.11 record \u2014 no mention of GSE243553 anywhere in it. The producer script says so explicitly at line ~1922: '\u26a0 THIS FIELD IS NOT YET IN THE COMMITTED nr4a3-fusion-targets.json \u2026 this line lands there on the next regeneration'. Nothing in the block is false (its `result` and `\u26d4_how_to_state_it` are scoped to the 2,276-document corpus), but a reader following the paper's own data pointer gets the superseded framing."
+    },
+    {
+      "id": "P2-c",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u2014 \u00a71.3 ('Query strings, counts and their limits are in the deposited probe artifact'), reference 9a ('recorded in the deposited probe artifact'), and Data and code availability",
+      "what": "The probe artifact is never named. It is research/literature/fusion-consensus-probe.json \u2014 I verified every \u00a71.3 count against it (emc_corpus_all 1305, emc_corpus_reviews 261, restate_pparg 37 / restate_pparg_reviews 3, restate_sema3c 6 / 1, restate_eno3 2 / 0) and every one is correct \u2014 but it is absent from the artifact table, so the counts that carry \u00a71.3, \u00a74.2's novelty statement and reference 9a's provenance are unverifiable from the deposit the paper points a reader to."
+    },
+    {
+      "id": "P2-d",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u2014 Table 7 caption, \u00a73.7, \u00a73.12, \u00a76",
+      "what": "'calibrated against all 14,120 genes in the same deposit' and 'in the top 2% of 14,120 genes' overstate the calibration denominator. research/modalities/gse28866-tumour-vs-normal.json \u2192 ratio_calibration records n_genes_in_deposit 14120 but n_genes_with_a_normal_ratio 13708 and n_genes_with_a_sarcoma_ratio 13247; genes with a zero comparator median 'are excluded from the distribution rather than ranked at the top'. \u00a72.5 states the three numbers correctly, so the body contradicts its own methods. ENO3's percentile is 98.0 against 13,708 genes."
+    },
+    {
+      "id": "P2-e",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u2014 Figure 3 caption, Table 5, Table 6",
+      "what": "Per-gene comparator n varies on GPL3290 and is disclosed only for NR4A3. research/modalities/nr4a3-fusion-targets.json \u2192 gene_reads.PPARG['GSE4303-GPL3290\u2026'] has n_comparator_with_a_value 5, not 6, and the confounds artifact records PPARG's class_GIST_only stratum as _status BELOW_FLOOR with n_comparator 3 \u2014 so one GIST spot is missing. Figure 3's caption states 'n = 6 EMC vs 29 comparators (GPL6244) and 10 vs 6 (GPL3290)' for every panel, and PPARG's GPL3290 contrast in Table 5 (+2.4809) rests on 10 vs 5. Neither the manuscript nor the SI records it."
+    },
+    {
+      "id": "P2-f",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u2014 References, closing 'Gene-set resources' paragraph",
+      "what": "Two things a referee will stop on. (i) The list ships with an explicit to-do \u2014 'full bibliographic identifiers to be completed against the primary sources before submission' \u2014 for Enrichr, ChEA, TRRUST and MSigDB, in a document whose header calls itself a submission-ready draft. (ii) The paper adopts 'competitive' (\u00a72.3) and 'self-contained' (\u00a72.6) nulls as terms of art and presents the size-matched null as 'the calibration, which is the contribution' (\u00a74.2), while the reference list contains no gene-set-methodology citation of any kind \u2014 all fourteen entries are disease, motif or target-biology sources. \u00a74.2's 'Nothing here is a first-in-field claim' is the paper's only defence against a prior-art objection, and it is unsupported by a single citation. This is the most likely single reason a gene-regulation referee rejects."
+    },
+    {
+      "id": "P2-g",
+      "where": "research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output.md \u2014 Figure 4 caption vs \u00a73.11",
+      "what": "The caption says the occupancy column 'reports the best empirical p any of twelve informative NR4A experiments gives against a 198-gene background panel, judged at a Bonferroni threshold for those twelve', while \u00a73.11 and research/modalities/nr4a3-fusion-targets-occupancy.json \u2192 verdict.multiplicity decide the axis by a binomial tail over 36 gene-by-experiment tests (2 observed, 1.8 expected, p_this_many_or_more_by_chance 0.5433). No Bonferroni threshold appears anywhere in the body or the artifact; the figure and the text state two different decision rules for the same column."
+    }
+  ],
+  "closed_utc": "2026-09-02T17:14:29Z"
 }
