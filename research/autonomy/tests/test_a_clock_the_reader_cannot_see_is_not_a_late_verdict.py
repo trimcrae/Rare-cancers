@@ -234,13 +234,67 @@ def test_receipts_below_the_cutoff_are_grandfathered():
     assert receipt_schema.problems(old, f"{rid}.json") == []
 
 
-def test_the_cutoff_is_ahead_of_every_committed_receipt():
-    """⛔ A cutoff at or below the newest receipt breaks the commit of a cycle already in flight."""
+def test_the_cutoff_neither_grades_history_nor_postpones_itself_forever():
+    """⛔ THE CUTOFF HAS TWO FAILURE DIRECTIONS AND BOTH ARE ASSERTED HERE.
+
+    TOO LOW retroactively fails receipts that are immutable committed history — the latch that
+    killed `cycles_are_sized` on 2026-08-27. `audit()["failures"]` is the direct reading of that:
+    it is the same walk `receipt_schema.py --check` runs at the commit.
+
+    TOO HIGH is the quieter one, and it is the reason this test replaced a plain
+    `FIRST_CLOCK_GOVERNED_CYCLE > newest`. A cutoff parked far in the future is a requirement that
+    never binds and a `health.py` row that never recovers, while every gate stays green — and the
+    old assertion not only failed to catch it, it was a TIME BOMB in the other direction: it goes
+    red the moment CYC-0094 itself lands, which is the cycle this constant exists to govern. The
+    bound below loosens as the loop advances, so it can only ever fail on a cutoff that was pushed
+    out to dodge the requirement.
+    """
     r = receipt_schema.audit()
-    newest = max((receipt_schema.cycle_number(rid) or 0) for rid in r["governed"])
-    assert receipt_schema.FIRST_CLOCK_GOVERNED_CYCLE > newest, (
-        f"cutoff {receipt_schema.FIRST_CLOCK_GOVERNED_CYCLE} would retroactively fail CYC-{newest:04d}")
     assert r["failures"] == [], f"the cutoff must not red the trunk: {r['failures']}"
+
+    newest = max((receipt_schema.cycle_number(rid) or 0) for rid in r["governed"])
+    assert receipt_schema.FIRST_CLOCK_GOVERNED_CYCLE <= newest + 5, (
+        f"cutoff {receipt_schema.FIRST_CLOCK_GOVERNED_CYCLE} sits {receipt_schema.FIRST_CLOCK_GOVERNED_CYCLE - newest} "
+        f"ordinals past the newest committed receipt (CYC-{newest:04d}). The lead exists only to clear "
+        "cycles already in flight; beyond that it is a requirement that never binds.")
+
+
+def test_the_sort_treats_a_missing_clock_as_the_OLDEST_not_the_NEWEST():
+    """⛔⛔ THE OTHER ONE-LINE FIX, AND IT IS WORSE THAN THE ONE THIS CHANGE REFUSED. Sorting
+    clockless receipts LAST (`_receipt_ts_raw(r) or "9999"`) also stops `receipts[-1]` from
+    resolving to a four-day-old receipt — so it looks like a fix, and with the shadow guard in
+    place both rows still come out UNMEASURED, so no other test in this file can tell. It is
+    fabricated freshness: it asserts, on no evidence, that a receipt nobody can date is the newest
+    one there is. The sort's honest position for an unreadable clock is the FRONT, where it says
+    "I cannot place this" rather than "this is the latest news".
+    ⭐ Tested through `load_receipts` rather than the lambda, because the lambda is the thing under
+    test and re-spelling it here would assert the copy rather than the code.
+    """
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        for name, doc in (("CYC-0090-clockless.json", {receipt_schema.CYCLE_ID_KEY: "CYC-0090-clockless",
+                                                       "started_utc": "2026-09-02T15:00:00Z"}),
+                          ("CYC-0084-dated.json", {receipt_schema.CYCLE_ID_KEY: "CYC-0084-dated",
+                                                   receipt_schema.ENDED_KEY: "2026-08-29T08:45:00Z"})):
+            with open(os.path.join(d, name), "w", encoding="utf-8") as fh:
+                json.dump(doc, fh)
+        receipts, unreadable = health.load_receipts(d)
+
+    assert unreadable == []
+    assert [r["_file"] for r in receipts] == ["CYC-0090-clockless.json", "CYC-0084-dated.json"], (
+        "an undatable receipt sorted to the BACK is being presented as the newest one there is")
+
+
+def test_a_non_string_clock_is_rejected_on_its_TYPE_not_on_its_text():
+    """⛔ `str(x)` IS NOT A PARSE. The type check must reject a non-string outright — a value whose
+    `str()` happens to be ISO-8601 is still a field JSON never carried, and coercing it would make
+    `ended_at_of` answer for something the file cannot contain. Every value in the parametrized
+    unparseable list survives a `str()` coercion, so this is the one shape that separates a type
+    check from a text check.
+    """
+    stamped = datetime.datetime(2026, 9, 2, 15, 13, tzinfo=UTC)
+    assert datetime.datetime.fromisoformat(str(stamped)), "the fixture must be str()-parseable"
+    assert receipt_schema.ended_at_of({receipt_schema.ENDED_KEY: stamped}) is None
 
 
 def test_the_contract_names_the_clock():
@@ -294,6 +348,41 @@ def test_an_unorderable_window_member_forces_the_widest_floor():
     row = health.c_advancing_live_work(receipts, NOW)
     assert row["unmeasured"] is True
     assert row["verdict"] == "WINDOW-NOT-PROVABLY-NEWEST"
+
+
+def test_a_receipt_with_no_cycle_id_is_still_ordered_by_its_filename():
+    """⛔ THE FALLBACK IS LOAD-BEARING, AND WITHOUT THIS TEST IT IS FREE TO DELETE. A receipt that
+    lost its `cycle_id` but kept its filename is ORDERABLE, and treating it as unorderable would
+    make every such receipt shadow every window forever — the latch this design refuses. ⚠ Zero
+    receipts on the trunk are in that state today, which is exactly why nothing else covers it:
+    a mutation that drops the fallback passes every other test in this file.
+    """
+    r = _r(84, legacy="2026-08-29T08:45:00Z")
+    del r[receipt_schema.CYCLE_ID_KEY]
+    assert health._receipt_ordinal(r) == 84
+
+    orphan = _r(90, suffix="clockless")
+    del orphan[receipt_schema.CYCLE_ID_KEY]
+    receipts = _sorted([_r(94, ended="2026-09-02T15:00:00Z"), orphan])
+    row = health.c_cycle_delivering(receipts, [], INTERVAL_H, NOW)
+    assert row["ok"] is True, "an orphan receipt 4 ordinals back is orderable and cannot shadow"
+
+
+def test_the_ordinal_reads_cycle_id_FIRST_the_way_receipt_schema_does():
+    """⛔ ONE RECEIPT, TWO GRADERS, ONE ANSWER. `receipt_schema.audit` resolves the id as
+    `receipt.get(CYCLE_ID_KEY) or <filename>`; if `health` reversed that, the enforcer and the
+    board would order the same receipt differently and each would be self-consistently wrong. The
+    docstring of `_receipt_ordinal` promises this precedence — this is the assertion behind it.
+    """
+    r = _r(84, legacy="2026-08-29T08:45:00Z")
+    r[receipt_schema.CYCLE_ID_KEY] = "CYC-0099-renamed"
+    r["_file"] = "CYC-0084-e2d78138.json"
+    assert health._receipt_ordinal(r) == 99, "cycle_id must win over the filename"
+
+    blank = _r(84, legacy="2026-08-29T08:45:00Z")
+    blank[receipt_schema.CYCLE_ID_KEY] = "   "
+    blank["_file"] = "CYC-0088-fallback.json"
+    assert health._receipt_ordinal(blank) == 88, "an empty cycle_id must fall through to the filename"
 
 
 def test_direction_a_actually_derives_the_clock_requirement():
