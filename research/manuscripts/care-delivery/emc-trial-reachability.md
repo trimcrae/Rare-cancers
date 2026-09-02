@@ -102,7 +102,7 @@ anywhere. The patient is inside the trial's own definition and outside its index
 
 | step | what | when |
 |---|---|---|
-| Registry-wide screens | fusion, basket and sarcoma screens, plus a term search on the driver gene | 2026-08-07 |
+| Registry-wide screens | fusion (400 studies, its page limit), basket (199) and sarcoma (526) screens, plus a term search on the driver gene; 1,159 unique studies indexed | 2026-08-07 |
 | Per-trial eligibility | every unconfirmed candidate re-fetched individually and its criteria read | 2026-08-09 |
 | Non-US registries | five endpoints attempted, one answered, with a positive control in the same run | 2026-08-09 |
 
@@ -122,7 +122,9 @@ same file. Three of the remaining seven came from the two condition searches on 
 itself; all three are closed studies, one completed and two terminated, so none of them changes a
 count of recruiting trials, and the condition searches were not re-run after the fix. The rule
 applied at the time barred quoting any sentence that itself carried a removal marker, which left
-marker-free criteria quotable. That defect has since been fixed at the fetcher.
+marker-free criteria quotable. NCT05918640's eligibility text carries one such marker and was not
+re-fetched after the fix, so the criterion quoted for it in §3 is the sentence the artifact records
+as transport-clean rather than a re-read one. That defect has since been fixed at the fetcher.
 
 ## 3 · Records with molecular eligibility and no histology in their conditions
 
@@ -204,8 +206,8 @@ where the number of options is small enough that each one carries weight.
   listed conditions are neck pain and spinal-cord injury. No free-text search on the disease name
   was run, so whether one would surface these two trials is untested.
 - The counts here are floors. Candidates entered the pool through keyword screens on titles,
-  conditions and interventions, and the fusion screen returned exactly its page limit of 400, so it
-  is truncated. A trial whose eligibility text admits a fusion family while its fielded metadata
+  conditions and interventions, and the fusion screen came back at its page limit, so it is
+  truncated. A trial whose eligibility text admits a fusion family while its fielded metadata
   carries none of those words could never enter the pool, which is §4's finding pointed at this
   paper's own numerator. Four candidates were adjudicated: two admit, one of them observationally,
   and two refuse.
