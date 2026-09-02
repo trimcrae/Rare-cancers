@@ -9,7 +9,7 @@ txgnn-run.yml); the dev sandbox has no network and no ML stack.
 
 Output: research/hypotheses/txgnn-emc-predictions.json
 """
-import os, sys, json, traceback
+import os, sys, json, statistics, traceback
 
 OUT = "research/hypotheses/txgnn-emc-predictions.json"
 COMPARISON_OUT = "research/hypotheses/txgnn-relatives-comparison.json"
@@ -138,7 +138,12 @@ def main():
         if i >= 3: break
         log("  sample disease:", k, "->", v)
 
-    # --- locate EMC + two data-rich relatives (the sparsity stress-test) ---------
+    # --- locate EMC + two commoner comparator disease nodes (the sparsity stress-test) ---
+    # ⚠ These are COMMONER IN THE POPULATION. Nothing here measures their knowledge-graph node
+    # degree or indication count, so calling them "data-rich" would assert the graph-side property
+    # the test needs and does not have. They are also not EMC's relatives: the WHO places EMC among
+    # tumours of uncertain differentiation, not among the cartilaginous tumours whose name it
+    # shares. `chondrosarcoma (disease)` was selected on node availability, by name.
     TARGETS = [
         ("EMC", "extraskeletal myxoid chondrosarcoma"),
         ("chondrosarcoma", "chondrosarcoma (disease)"),
@@ -184,7 +189,9 @@ def main():
         total = len(ranked)
         relevant = relevant_ranks(ranked, total)
         present = [r["percentile"] for r in relevant if r["rank"] is not None]
-        median_pct = round(sorted(present)[len(present) // 2], 1) if present else None
+        # A real median, not the upper-middle order statistic. The earlier form,
+        # `sorted(present)[len(present) // 2]`, is the (n/2 + 1)-th value for even n.
+        median_pct = round(statistics.median(present), 1) if present else None
         nm = str(names.get(disease_id, disease_id))
         label = label_of(disease_id)
         log(f"\n=== {label} ({nm}) : {total} drugs | relevant-drug median percentile = {median_pct} ===")
@@ -211,10 +218,13 @@ def main():
             json.dump(emc_block, f, indent=2)
         log(f"WROTE {OUT}")
     comp = {
-        "purpose": "Sparsity stress-test: do our mechanism/enumeration drugs rank higher for EMC's "
-                   "data-rich relatives (chondrosarcoma, soft-tissue sarcoma) than for EMC itself? A higher "
-                   "relevantMedianPercentile for the relatives isolates EMC's sparse KG neighbourhood — not "
-                   "model failure — as the cause of the EMC divergence.",
+        "purpose": "Sparsity stress-test: do our mechanism/enumeration drugs rank higher at two "
+                   "commoner sarcoma disease nodes (chondrosarcoma, soft-tissue sarcoma) than at the EMC "
+                   "node? ⚠ A higher relevantMedianPercentile at the comparators would be CONSISTENT WITH "
+                   "EMC's sparse KG neighbourhood being the cause of the divergence; it would not "
+                   "establish it, because nothing here measures node degree or indication count, and the "
+                   "released checkpoint is the held-out complex-disease split, so no node is a clean "
+                   "data-rich control.",
         "relation": "indication",
         "diseases": comparison,
     }
@@ -240,17 +250,53 @@ def ranked_from_scores(scores, drug_id2name):
     pairs.sort(key=lambda d: d["score"], reverse=True)
     return pairs
 
+#: Salt and hydrate forms of a queried agent, and nothing else. A name is accepted for a query only
+#: if its INN root is the query — never if the query is merely contained in it.
+#: ⛔ THE PREVIOUS MATCHER WAS A SUBSTRING TEST AND IT SILENTLY REPORTED THE WRONG MOLECULE
+#: (2026-08-10). `next((i, d) for i, d in enumerate(ranked, 1) if q in d["drug"].lower())` runs down
+#: a list sorted by DESCENDING score, so it returns the highest-scoring compound whose name contains
+#: the query. Measured in the committed artifacts' own `matched` fields: `doxorubicin` resolved to
+#: `13-deoxydoxorubicin` (EMC, soft-tissue sarcoma) and to `Zoptarelin doxorubicin`
+#: (chondrosarcoma), `apatinib` to `Lapatinib`, and `ifosfamide` to `Palifosfamide`. Three of 33
+#: queried agents were reported against a different molecule, and the highest-ranked "hit" of the
+#: whole exercise was one of them. `enumerate-drugs.mjs` had guarded the identical collision since
+#: it was written — its self-test asserts that "Lapatinib must NOT match apatinib" — so the fix
+#: existed in one file of this directory and not in its neighbour.
+SALT_SUFFIXES = (
+    "malate", "maleate", "mesylate", "mesilate", "esylate", "tosylate", "besylate",
+    "hydrochloride", "dihydrochloride", "hydrobromide", "sulfate", "sulphate", "phosphate",
+    "citrate", "tartrate", "succinate", "fumarate", "acetate", "sodium", "calcium",
+    "potassium", "anhydrous", "monohydrate", "dihydrate", "trihydrate", "alfa", "beta",
+)
+
+
+def name_matches_query(name, q):
+    """True when `name` IS the agent `q`, allowing a salt or hydrate form. Never a substring."""
+    toks = [t for t in "".join(c if c.isalnum() else " " for c in str(name).lower()).split() if t]
+    if not toks or toks[0] != q:
+        return False
+    return all(t in SALT_SUFFIXES for t in toks[1:])
+
+
 def relevant_ranks(ranked, total):
-    """For each EMC-relevant drug (RELEVANT), find its rank/percentile in the full list."""
+    """For each EMC-relevant drug (RELEVANT), find its rank/percentile in the full list.
+
+    Matching is EXACT on the INN root (salt forms allowed). A query with no exact match is
+    reported as `matched: None`, which means the agent is ABSENT FROM THE MODEL'S VOCABULARY and
+    is excluded from any summary statistic — it is never a low rank.
+    """
     out = []
     for q in RELEVANT:
-        hit = next(((i, d) for i, d in enumerate(ranked, 1) if q in d["drug"].lower()), None)
+        hit = next(((i, d) for i, d in enumerate(ranked, 1) if name_matches_query(d["drug"], q)),
+                   None)
         if hit:
             i, d = hit
             out.append({"query": q, "matched": d["drug"], "rank": i, "of": total,
+                        "match": "exact",
                         "score": d["score"], "percentile": round(100.0 * (1 - i / total), 1)})
         else:
-            out.append({"query": q, "matched": None, "rank": None, "of": total})
+            out.append({"query": q, "matched": None, "rank": None, "of": total,
+                        "match": "absent_from_vocabulary"})
     return out
 
 if __name__ == "__main__":

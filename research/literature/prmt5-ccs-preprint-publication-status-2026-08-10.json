@@ -1,0 +1,39 @@
+{
+ "_what": "Whether the bioRxiv preprint that is the original source of the PRMT5/clear-cell-sarcoma rationale has since been published in a peer-reviewed journal. Asked because emc-mtap-prmt5-hypothesis.md carried the caveat 'Its status since 2022 was not established here', and a caveat about not having looked is not a caveat a referee accepts.",
+ "_date_et": "2026-08-10",
+ "_asked_about": {
+  "preprint_doi": "10.1101/2022.03.23.485409",
+  "preprint_title": "PRMT5 as a Novel Druggable Vulnerability for EWSR1-ATF1-driven Clear Cell Sarcoma",
+  "preprint_server": "bioRxiv",
+  "preprint_posted": "2022-03-23",
+  "preprint_full_text_in_this_repository": "literature/emc-post-degrader-options/prmt5_ccs_biorxiv_pdf.txt"
+ },
+ "_answer": "YES — a peer-reviewed version exists.",
+ "published_version": {
+  "title": "Protein arginine methyltransferase 5 is essential for oncogene product EWSR1-ATF1-mediated gene transcription in clear cell sarcoma",
+  "authors": "Li BX, David LL, Davis LE, Xiao X.",
+  "journal": "Journal of Biological Chemistry",
+  "year": 2022,
+  "volume": "298",
+  "issue": "10",
+  "article": "102434",
+  "doi": "10.1016/j.jbc.2022.102434",
+  "pmcid": "PMC9513783",
+  "publisher_url": "https://www.jbc.org/article/S0021-9258(22)00877-8/fulltext",
+  "sciencedirect_url": "https://www.sciencedirect.com/science/article/pii/S0021925822008778",
+  "institutional_record_url": "https://ohsu.elsevierpure.com/en/publications/protein-arginine-methyltransferase-5-is-essential-for-oncogene-pr/"
+ },
+ "_retrieval": {
+  "method": "web search from the agent sandbox, 2026-08-10",
+  "queries": [
+   "\"PRMT5\" \"EWSR1-ATF1\" clear cell sarcoma druggable vulnerability published journal 2022 biorxiv 485409",
+   "\"Protein arginine methyltransferase 5 is essential for oncogene product EWSR1-ATF1-mediated gene transcription in clear cell sarcoma\" Journal of Biological Chemistry authors volume pages PMID",
+   "bioRxiv 2022.03.23.485409 \"Now published\" Journal of Biological Chemistry 10.1016/j.jbc.2022.102434 Li David Davis Xiao"
+  ],
+  "results_agreed_across_queries": true
+ },
+ "⛔_verification_level": "[SE] SEARCH-INDEX ONLY. Neither the publisher page (www.jbc.org), the PMC record (pmc.ncbi.nlm.nih.gov), the bioRxiv page (www.biorxiv.org) nor the institutional repository (ohsu.elsevierpure.com) could be retrieved from this environment: every one of them returns EGRESS_BLOCKED at the proxy, which is the same block CLAUDE.md §6 records for NCBI and Europe PMC. So the title, author list, volume, issue, article number, DOI and PMCID above are as returned by a search index and REPEATED CONSISTENTLY ACROSS THREE QUERIES — they are NOT read off the publisher's own record, and they must be confirmed against it before submission. What is established at this verification level is the fact the manuscript now asserts: that a peer-reviewed version exists.",
+ "⚠_the_quoted_findings_were_read_from_the_preprint_not_from_this_version": "Every statement the manuscript attributes to this source (PRMT5 enhances EWSR1-ATF1-driven transcription; silencing impaired proliferation and fusion-driven transcription; a clinical-stage PRMT5 inhibitor inhibited growth in vitro and in vivo) was read from the preprint full text committed at the path above. The published version was identified here, not read. The manuscript says so.",
+ "_pre_submission_action": "Confirm the bibliographic record against the publisher page or PubMed, and read the published version to check that the three findings quoted from the preprint survive peer review unchanged. Both are network reads this environment cannot make; a GitHub Actions runner can (fetch-literature.yml).",
+ "_no_clinical_claim": "This file records a bibliographic fact. It asserts nothing about efficacy, safety or clinical readiness for any agent in any disease."
+}

@@ -1,0 +1,740 @@
+{
+ "_title": "Multiplicity correction and three disclosure analyses for the EMC PRMT5 reading",
+ "_generated_by": "research/modalities/emc_prmt5_multiplicity.py",
+ "_source": "research/modalities/emc-expression-panels-inputs.json (the committed fetch cache) checked against research/modalities/emc-expression-panels.json (the committed reads). No network, no re-fetch, no new measurement.",
+ "_no_clinical_claim": "Nothing here asserts efficacy, safety, selectivity, a therapeutic window or clinical readiness for any agent in any disease.",
+ "⛔_an_adjusted_p_is_not_a_result": "It reports how often a labelling of THESE samples produces a statistic this large somewhere in the family. It does not make a hypothesis true, and a value that fails to clear a threshold does not make the underlying reading disappear.",
+ "per_platform": {
+  "GSE24369_series_matrix.txt.gz": {
+   "platform": "GPL6244",
+   "gse": "GSE24369",
+   "n_EMC": 6,
+   "n_comparator": 29,
+   "self_check_against_the_committed_reads": {
+    "n_genes_compared": 404,
+    "n_disagreeing": 0,
+    "worst_disagreement": null,
+    "_what": "the t this module re-derives from the fetch cache against the t committed in emc-expression-panels.json, for every gene the panel scored on this platform. A correction computed on a statistic that is not the published one would be worse than no correction, so a disagreement refuses the write."
+   },
+   "cache_merge": {
+    "_what": "the panel cache and the seeded random background, checked against each other before they were combined",
+    "n_symbols_panel_cache": 1857,
+    "n_symbols_random_background_cache": 4089,
+    "n_symbols_shared_and_value_identical": 497,
+    "n_symbols_merged": 5449
+   },
+   "per_gene_missingness": {
+    "n_genes_cached": 1857,
+    "n_with_at_least_one_missing_value": 0,
+    "frac_with_at_least_one_missing_value": 0.0,
+    "n_with_an_arm_below_the_panel_floor": 0,
+    "frac_with_an_arm_below_the_panel_floor": 0.0,
+    "_panel_floor": 3,
+    "_the_genome_wide_path_uses_2": "so a gene can be unscored by the panel and scored by the genome-wide placement, which is why one control carries a rank and no panel contrast."
+   },
+   "max_statistic_permutation": {
+    "_what": "the distribution of the LARGEST |t| in the family, over labellings of the arms. A gene's adjusted p is the fraction of labellings whose maximum reaches its observed |t| — the standard max-statistic (Westfall-Young style) control of the family-wise error rate. The labels are permuted exactly as the single-gene exact test permutes them.",
+    "family_size_genes": 5449,
+    "_family_composition": "5449 symbols scoreable under the panel's floor, merged from the panel cache and the seeded random background. 3978 of the array's 18724 mapped symbols are a uniform random sample, which is what makes the whole-array bracket below estimable rather than assumed.",
+    "n_random_symbols_in_family": 3973,
+    "n_symbols_on_the_platform": 18724,
+    "sampling_fraction_of_the_array": 0.2125,
+    "labelings": {
+     "kind": "sampled",
+     "n_labelings": 20000,
+     "seed": 20260810,
+     "total_labelings_possible": 1623160,
+     "_means": "a fixed-seed sample of the labellings, because enumerating all of them against a family this size is not affordable. The adjusted p carries a Monte-Carlo standard error, reported beside it."
+    },
+    "n_EMC": 6,
+    "n_comparator": 29,
+    "max_abs_t_null": {
+     "p50": 5.418,
+     "p90": 6.775,
+     "p95": 7.31,
+     "p99": 8.451,
+     "p100": 13.306
+    },
+    "adjusted_p": {
+     "PRMT5": {
+      "t": 6.236,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "fwer_adjusted_p_over_the_merged_family": 0.2081,
+      "n_labelings_whose_maximum_reached_it": 4161,
+      "whole_array_lower_bound": 0.2081,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 1.433,
+      "monte_carlo_se": 0.0029
+     },
+     "MAT2A": {
+      "t": 4.132,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "fwer_adjusted_p_over_the_merged_family": 0.9782,
+      "n_labelings_whose_maximum_reached_it": 19564,
+      "whole_array_lower_bound": 0.9782,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 44.63,
+      "monte_carlo_se": 0.001
+     },
+     "WDR77": {
+      "t": 2.819,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "fwer_adjusted_p_over_the_merged_family": 1.0,
+      "n_labelings_whose_maximum_reached_it": 20000,
+      "whole_array_lower_bound": 1.0,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 412.882,
+      "monte_carlo_se": 0.0
+     },
+     "MTAP": {
+      "t": 0.685,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "fwer_adjusted_p_over_the_merged_family": 1.0,
+      "n_labelings_whose_maximum_reached_it": 20000,
+      "whole_array_lower_bound": 1.0,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 9777.804,
+      "monte_carlo_se": 0.0
+     },
+     "CDKN2A": {
+      "t": -5.398,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "fwer_adjusted_p_over_the_merged_family": 0.5084,
+      "n_labelings_whose_maximum_reached_it": 10167,
+      "whole_array_lower_bound": 0.5084,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 5.457,
+      "monte_carlo_se": 0.0035
+     },
+     "CDKN2B": {
+      "t": -2.033,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "fwer_adjusted_p_over_the_merged_family": 1.0,
+      "n_labelings_whose_maximum_reached_it": 20000,
+      "whole_array_lower_bound": 1.0,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 1481.454,
+      "monte_carlo_se": 0.0
+     },
+     "NR4A3": {
+      "t": 4.663,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "fwer_adjusted_p_over_the_merged_family": 0.8498,
+      "n_labelings_whose_maximum_reached_it": 16996,
+      "whole_array_lower_bound": 0.8498,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 18.192,
+      "monte_carlo_se": 0.0025
+     },
+     "ENO3": {
+      "t": 3.607,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "fwer_adjusted_p_over_the_merged_family": 0.9998,
+      "n_labelings_whose_maximum_reached_it": 19996,
+      "whole_array_lower_bound": 0.9998,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 108.759,
+      "monte_carlo_se": 0.0001
+     },
+     "MKI67": {
+      "t": 0.528,
+      "n_EMC": 6,
+      "n_comparator": 29,
+      "fwer_adjusted_p_over_the_merged_family": 1.0,
+      "n_labelings_whose_maximum_reached_it": 20000,
+      "whole_array_lower_bound": 1.0,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 11616.862,
+      "monte_carlo_se": 0.0
+     }
+    },
+    "_how_to_read_the_bracket": "LOWER = the adjusted p measured over the merged family, which is a subset of the array, and adding symbols can only raise it. UPPER = Markov's inequality on the number K of array symbols whose permuted |t| reaches the observed value: P(max reaches it) = P(K >= 1) <= E[K], and E[K] is the random sample's mean exceedance count divided by the sampling fraction. The upper bound needs no independence assumption; it inherits the sampling error of one random draw of symbols, and it is loose when the exceedances cluster within labellings.",
+    "family_size_sensitivity": {
+     "_what": "PRMT5's adjusted p recomputed over nested random subsets of the RANDOM symbols alone, smallest first, so the curve is about array symbols rather than about the genes these reads asked for.",
+     "prmt5_adjusted_p_by_family_size": {
+      "50": 0.0156,
+      "100": 0.0156,
+      "250": 0.0156,
+      "500": 0.0308,
+      "1000": 0.0551,
+      "3973": 0.1681
+     }
+    },
+    "_tag": "GSE24369_series_matrix.txt.gz"
+   },
+   "deposited_samples_and_exclusions": {
+    "_what": "GSE24369 deposits more samples than the panel scores. This is every one of them, with the verbatim annotation that decided it.",
+    "n_deposited": 42,
+    "n_analysed": 35,
+    "class_counts_as_bucketed": {
+     "EMC": 6,
+     "LGFMS": 17,
+     "desmoid_fibromatosis": 6,
+     "fibrosarcoma": 6,
+     "unclassified": 7
+    },
+    "⚠_one_bucket_name_is_a_substring_artefact": "The six samples bucketed `fibrosarcoma` are annotated `Myxofibrosarcoma` in GEO; the bucket matches on the substring `fibrosarcoma`. Myxofibrosarcoma is a different entity, and the manuscript names the samples rather than the bucket.",
+    "excluded_samples": [
+     {
+      "gsm": "GSM600963",
+      "annotation_verbatim": "Solitary fibrous tumor 1 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor",
+      "reason": "no comparator bucket carries a pattern for this histology, so it fell through to `unclassified`; the exclusion was accidental rather than designed"
+     },
+     {
+      "gsm": "GSM600964",
+      "annotation_verbatim": "Solitary fibrous tumor 2 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor",
+      "reason": "no comparator bucket carries a pattern for this histology, so it fell through to `unclassified`; the exclusion was accidental rather than designed"
+     },
+     {
+      "gsm": "GSM600965",
+      "annotation_verbatim": "Solitary fibrous tumor 3 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor",
+      "reason": "no comparator bucket carries a pattern for this histology, so it fell through to `unclassified`; the exclusion was accidental rather than designed"
+     },
+     {
+      "gsm": "GSM600966",
+      "annotation_verbatim": "Solitary fibrous tumor 4 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor",
+      "reason": "no comparator bucket carries a pattern for this histology, so it fell through to `unclassified`; the exclusion was accidental rather than designed"
+     },
+     {
+      "gsm": "GSM600967",
+      "annotation_verbatim": "Solitary fibrous tumor 5 | soft tissue | sample type: tumor biopsy | tissue: Solitary fibrous tumor",
+      "reason": "no comparator bucket carries a pattern for this histology, so it fell through to `unclassified`; the exclusion was accidental rather than designed"
+     },
+     {
+      "gsm": "GSM600968",
+      "annotation_verbatim": "Skeletal muscle pooled RNA 1 | soft tissue | sample type: pooled RNA | tissue: Skeletal muscle",
+      "reason": "pooled normal tissue rather than a tumour, so it does not belong in a comparator arm of tumours"
+     },
+     {
+      "gsm": "GSM600969",
+      "annotation_verbatim": "Skeletal muscle pooled RNA 2 | soft tissue | sample type: pooled RNA | tissue: Skeletal muscle",
+      "reason": "pooled normal tissue rather than a tumour, so it does not belong in a comparator arm of tumours"
+     }
+    ],
+    "n_excluded_solitary_fibrous_tumour": 5,
+    "n_excluded_pooled_normal_tissue": 2,
+    "inclusion_sensitivity": {
+     "_what": "the primary contrasts recomputed with the solitary fibrous tumours added to the comparator arm. The two pooled skeletal-muscle samples stay out: they are normal tissue, not a comparator tumour.",
+     "n_comparator_with_them": 34,
+     "PRMT5": {
+      "t_as_published": 6.236,
+      "t_with_solitary_fibrous_tumours_included": 6.309
+     },
+     "MAT2A": {
+      "t_as_published": 4.132,
+      "t_with_solitary_fibrous_tumours_included": 3.976
+     },
+     "WDR77": {
+      "t_as_published": 2.819,
+      "t_with_solitary_fibrous_tumours_included": 2.449
+     },
+     "MTAP": {
+      "t_as_published": 0.685,
+      "t_with_solitary_fibrous_tumours_included": 0.7
+     },
+     "CDKN2A": {
+      "t_as_published": -5.398,
+      "t_with_solitary_fibrous_tumours_included": -5.658
+     },
+     "CDKN2B": {
+      "t_as_published": -2.033,
+      "t_with_solitary_fibrous_tumours_included": -1.821
+     },
+     "NR4A3": {
+      "t_as_published": 4.663,
+      "t_with_solitary_fibrous_tumours_included": 3.61
+     },
+     "ENO3": {
+      "t_as_published": 3.607,
+      "t_with_solitary_fibrous_tumours_included": 3.655
+     },
+     "MKI67": {
+      "t_as_published": 0.528,
+      "t_with_solitary_fibrous_tumours_included": 0.668
+     },
+     "RIOK1": {
+      "t_as_published": -1.645,
+      "t_with_solitary_fibrous_tumours_included": -1.177
+     },
+     "CLNS1A": {
+      "t_as_published": 2.526,
+      "t_with_solitary_fibrous_tumours_included": 1.499
+     }
+    }
+   },
+   "per_class_medians_PRMT5": {
+    "_what": "median z of PRMT5 per class, INCLUDING the classes the panel's arms exclude",
+    "genes": [
+     "PRMT5"
+    ],
+    "per_class": {
+     "desmoid_fibromatosis": {
+      "median_z": 1.0508,
+      "n_values": 6,
+      "n_samples": 6
+     },
+     "EMC": {
+      "median_z": 1.3044,
+      "n_values": 6,
+      "n_samples": 6
+     },
+     "LGFMS": {
+      "median_z": 1.0427,
+      "n_values": 17,
+      "n_samples": 17
+     },
+     "myxofibrosarcoma": {
+      "median_z": 0.937,
+      "n_values": 6,
+      "n_samples": 6
+     },
+     "solitary_fibrous_tumour": {
+      "median_z": 1.0525,
+      "n_values": 5,
+      "n_samples": 5
+     },
+     "pooled_skeletal_muscle_RNA": {
+      "median_z": 1.3434,
+      "n_values": 2,
+      "n_samples": 2
+     }
+    }
+   },
+   "excluded_sample_z": {
+    "_what": "z against that array's own probe distribution, for every deposited sample the panel's arms exclude. Same reduction as every other z in this work.",
+    "samples": {
+     "GSM600963": {
+      "gsm": "GSM600963",
+      "class": "solitary_fibrous_tumour",
+      "z_vs_array": {
+       "PRMT5": 1.1763,
+       "WDR77": 0.8423,
+       "RIOK1": 0.8938,
+       "CLNS1A": 0.9549
+      }
+     },
+     "GSM600964": {
+      "gsm": "GSM600964",
+      "class": "solitary_fibrous_tumour",
+      "z_vs_array": {
+       "PRMT5": 1.1432,
+       "WDR77": 0.9534,
+       "RIOK1": 0.8231,
+       "CLNS1A": 0.8825
+      }
+     },
+     "GSM600965": {
+      "gsm": "GSM600965",
+      "class": "solitary_fibrous_tumour",
+      "z_vs_array": {
+       "PRMT5": 0.8856,
+       "WDR77": 0.8699,
+       "RIOK1": 0.5864,
+       "CLNS1A": 1.082
+      }
+     },
+     "GSM600966": {
+      "gsm": "GSM600966",
+      "class": "solitary_fibrous_tumour",
+      "z_vs_array": {
+       "PRMT5": 1.0525,
+       "WDR77": 0.849,
+       "RIOK1": 1.1415,
+       "CLNS1A": 1.0648
+      }
+     },
+     "GSM600967": {
+      "gsm": "GSM600967",
+      "class": "solitary_fibrous_tumour",
+      "z_vs_array": {
+       "PRMT5": 0.9703,
+       "WDR77": 0.9175,
+       "RIOK1": 0.7351,
+       "CLNS1A": 0.9858
+      }
+     },
+     "GSM600968": {
+      "gsm": "GSM600968",
+      "class": "pooled_skeletal_muscle_RNA",
+      "z_vs_array": {
+       "PRMT5": 1.2695,
+       "WDR77": 1.3804,
+       "RIOK1": 0.4794,
+       "CLNS1A": 0.7856
+      }
+     },
+     "GSM600969": {
+      "gsm": "GSM600969",
+      "class": "pooled_skeletal_muscle_RNA",
+      "z_vs_array": {
+       "PRMT5": 1.4174,
+       "WDR77": 1.4351,
+       "RIOK1": 0.6199,
+       "CLNS1A": 0.956
+      }
+     }
+    }
+   },
+   "per_class_medians_methylosome_pooled": {
+    "_what": "median of the four methylosome genes' z pooled, per class, INCLUDING the classes the panel's arms exclude. Pooled values are not independent observations and no test is run on them.",
+    "genes": [
+     "PRMT5",
+     "WDR77",
+     "RIOK1",
+     "CLNS1A"
+    ],
+    "per_class": {
+     "desmoid_fibromatosis": {
+      "median_z": 0.9496,
+      "n_values": 24,
+      "n_samples": 6
+     },
+     "EMC": {
+      "median_z": 0.9283,
+      "n_values": 24,
+      "n_samples": 6
+     },
+     "LGFMS": {
+      "median_z": 0.8582,
+      "n_values": 68,
+      "n_samples": 17
+     },
+     "myxofibrosarcoma": {
+      "median_z": 0.8252,
+      "n_values": 24,
+      "n_samples": 6
+     },
+     "solitary_fibrous_tumour": {
+      "median_z": 0.9354,
+      "n_values": 20,
+      "n_samples": 5
+     },
+     "pooled_skeletal_muscle_RNA": {
+      "median_z": 1.1127,
+      "n_values": 8,
+      "n_samples": 2
+     }
+    }
+   }
+  },
+  "GSE4303-GPL3290_series_matrix.txt.gz": {
+   "platform": "GPL3290",
+   "gse": "GSE4303",
+   "n_EMC": 10,
+   "n_comparator": 6,
+   "self_check_against_the_committed_reads": {
+    "n_genes_compared": 362,
+    "n_disagreeing": 0,
+    "worst_disagreement": null,
+    "_what": "the t this module re-derives from the fetch cache against the t committed in emc-expression-panels.json, for every gene the panel scored on this platform. A correction computed on a statistic that is not the published one would be worse than no correction, so a disagreement refuses the write."
+   },
+   "cache_merge": {
+    "_what": "the panel cache and the seeded random background, checked against each other before they were combined",
+    "n_symbols_panel_cache": 1662,
+    "n_symbols_random_background_cache": 4080,
+    "n_symbols_shared_and_value_identical": 526,
+    "n_symbols_merged": 5216
+   },
+   "per_gene_missingness": {
+    "n_genes_cached": 1662,
+    "n_with_at_least_one_missing_value": 578,
+    "frac_with_at_least_one_missing_value": 0.3478,
+    "n_with_an_arm_below_the_panel_floor": 51,
+    "frac_with_an_arm_below_the_panel_floor": 0.0307,
+    "_panel_floor": 3,
+    "_the_genome_wide_path_uses_2": "so a gene can be unscored by the panel and scored by the genome-wide placement, which is why one control carries a rank and no panel contrast."
+   },
+   "max_statistic_permutation": {
+    "_what": "the distribution of the LARGEST |t| in the family, over labellings of the arms. A gene's adjusted p is the fraction of labellings whose maximum reaches its observed |t| — the standard max-statistic (Westfall-Young style) control of the family-wise error rate. The labels are permuted exactly as the single-gene exact test permutes them.",
+    "family_size_genes": 4848,
+    "_family_composition": "4848 symbols scoreable under the panel's floor, merged from the panel cache and the seeded random background. 3971 of the array's 14932 mapped symbols are a uniform random sample, which is what makes the whole-array bracket below estimable rather than assumed.",
+    "n_random_symbols_in_family": 3640,
+    "n_symbols_on_the_platform": 14932,
+    "sampling_fraction_of_the_array": 0.2659,
+    "labelings": {
+     "kind": "exhaustive",
+     "n_labelings": 8008,
+     "_means": "every assignment of the observed values to arms of the observed sizes was evaluated, so this correction carries NO sampling error from the labellings."
+    },
+    "n_EMC": 10,
+    "n_comparator": 6,
+    "max_abs_t_null": {
+     "p50": 5.635,
+     "p90": 7.688,
+     "p95": 9.698,
+     "p99": 12.322,
+     "p100": 17.812
+    },
+    "adjusted_p": {
+     "PRMT5": {
+      "t": 6.674,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "fwer_adjusted_p_over_the_merged_family": 0.2376,
+      "n_labelings_whose_maximum_reached_it": 1903,
+      "whole_array_lower_bound": 0.2376,
+      "whole_array_upper_bound_markov_estimate": 0.9945,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 0.995
+     },
+     "MAT2A": {
+      "t": 4.096,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "fwer_adjusted_p_over_the_merged_family": 0.9653,
+      "n_labelings_whose_maximum_reached_it": 7730,
+      "whole_array_lower_bound": 0.9653,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 24.015
+     },
+     "MTAP": {
+      "t": -2.271,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "fwer_adjusted_p_over_the_merged_family": 1.0,
+      "n_labelings_whose_maximum_reached_it": 8008,
+      "whole_array_lower_bound": 1.0,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 591.955
+     },
+     "CDKN2A": {
+      "t": 1.325,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "fwer_adjusted_p_over_the_merged_family": 1.0,
+      "n_labelings_whose_maximum_reached_it": 8008,
+      "whole_array_lower_bound": 1.0,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 2920.54
+     },
+     "NR4A3": {
+      "_status": "NOT SCORED on this platform under the panel's floor of 3 per arm, so there is no panel statistic to adjust. The genome-wide placement uses a floor of 2 and does emit a value; the two are different instruments."
+     },
+     "ENO3": {
+      "t": 13.222,
+      "n_EMC": 10,
+      "n_comparator": 6,
+      "fwer_adjusted_p_over_the_merged_family": 0.0097,
+      "n_labelings_whose_maximum_reached_it": 78,
+      "whole_array_lower_bound": 0.0097,
+      "whole_array_upper_bound_markov_estimate": 0.0066,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 0.007,
+      "⚠_the_upper_estimate_fell_below_the_measured_lower_bound": "which is impossible for the true quantities and means the estimate is not usable at this threshold. E[K] is estimated from one draw of the random symbols, and at an observed |t| this far into the tail that draw sees only a handful of exceedance events, so the estimate is dominated by its own sampling error. Read the lower bound, which is measured rather than estimated."
+     },
+     "MKI67": {
+      "t": 2.301,
+      "n_EMC": 9,
+      "n_comparator": 6,
+      "fwer_adjusted_p_over_the_merged_family": 1.0,
+      "n_labelings_whose_maximum_reached_it": 8008,
+      "whole_array_lower_bound": 1.0,
+      "whole_array_upper_bound_markov_estimate": 1.0,
+      "expected_symbols_on_the_whole_array_reaching_it_per_labeling": 560.85
+     }
+    },
+    "_how_to_read_the_bracket": "LOWER = the adjusted p measured over the merged family, which is a subset of the array, and adding symbols can only raise it. UPPER = Markov's inequality on the number K of array symbols whose permuted |t| reaches the observed value: P(max reaches it) = P(K >= 1) <= E[K], and E[K] is the random sample's mean exceedance count divided by the sampling fraction. The upper bound needs no independence assumption; it inherits the sampling error of one random draw of symbols, and it is loose when the exceedances cluster within labellings.",
+    "family_size_sensitivity": {
+     "_what": "PRMT5's adjusted p recomputed over nested random subsets of the RANDOM symbols alone, smallest first, so the curve is about array symbols rather than about the genes these reads asked for.",
+     "prmt5_adjusted_p_by_family_size": {
+      "50": 0.0368,
+      "100": 0.0368,
+      "250": 0.0368,
+      "500": 0.0405,
+      "1000": 0.0622,
+      "3640": 0.2079
+     }
+    },
+    "_tag": "GSE4303-GPL3290_series_matrix.txt.gz"
+   },
+   "reference_channel": {
+    "_what": "every value on a two-colour array is a ratio to the reference channel, so a comparator hybridised against a different reference differs from an EMC tumour in the denominator of the measurement as well as in the biology.",
+    "reference_channel_verbatim_per_class": {
+     "DFSP": {
+      "CRH": 3
+     },
+     "GIST": {
+      "UHR": 3
+     },
+     "EMC": {
+      "CRH-mRNA": 10
+     }
+    },
+    "emc_reference_channels": [
+     "CRH-mRNA"
+    ],
+    "⚠_whether_CRH_and_CRH_mRNA_are_the_same_pool_is_not_stated_in_the_record": "The GEO annotation writes the EMC reference as `CRH-mRNA` and the DFSP reference as `CRH`. Nothing in the deposit says whether those name one pool or two, so the DFSP contrast is described here as reference-MATCHED-BY-LABEL rather than as identical, and the GIST contrast as reference-DIFFERENT, which the deposit does say.",
+    "split_contrasts": {
+     "CRH": {
+      "n_comparator": 3,
+      "comparator_classes": [
+       "DFSP"
+      ],
+      "PRMT5": {
+       "t": 5.968,
+       "delta_a_minus_b": 0.7913,
+       "n_EMC": 10,
+       "n_comparator": 3
+      },
+      "MAT2A": {
+       "t": 2.175,
+       "delta_a_minus_b": 0.7206,
+       "n_EMC": 10,
+       "n_comparator": 3
+      },
+      "MTAP": {
+       "t": -1.592,
+       "delta_a_minus_b": -0.4155,
+       "n_EMC": 10,
+       "n_comparator": 3
+      },
+      "CDKN2A": {
+       "t": 1.108,
+       "delta_a_minus_b": 0.1887,
+       "n_EMC": 10,
+       "n_comparator": 3
+      },
+      "NR4A3": {
+       "_status": "arm below the floor"
+      },
+      "ENO3": {
+       "t": 13.517,
+       "delta_a_minus_b": 3.5154,
+       "n_EMC": 10,
+       "n_comparator": 3
+      },
+      "MKI67": {
+       "t": 1.09,
+       "delta_a_minus_b": 0.987,
+       "n_EMC": 9,
+       "n_comparator": 3
+      },
+      "RIOK1": {
+       "t": 0.769,
+       "delta_a_minus_b": 0.2928,
+       "n_EMC": 10,
+       "n_comparator": 3
+      },
+      "CLNS1A": {
+       "t": 1.168,
+       "delta_a_minus_b": 0.1739,
+       "n_EMC": 10,
+       "n_comparator": 3
+      }
+     },
+     "UHR": {
+      "n_comparator": 3,
+      "comparator_classes": [
+       "GIST"
+      ],
+      "PRMT5": {
+       "t": 4.317,
+       "delta_a_minus_b": 0.8417,
+       "n_EMC": 10,
+       "n_comparator": 3
+      },
+      "MAT2A": {
+       "t": 4.793,
+       "delta_a_minus_b": 0.7262,
+       "n_EMC": 10,
+       "n_comparator": 3
+      },
+      "MTAP": {
+       "t": -2.604,
+       "delta_a_minus_b": -0.7983,
+       "n_EMC": 10,
+       "n_comparator": 3
+      },
+      "CDKN2A": {
+       "t": 1.095,
+       "delta_a_minus_b": 0.1605,
+       "n_EMC": 10,
+       "n_comparator": 3
+      },
+      "NR4A3": {
+       "_status": "arm below the floor"
+      },
+      "ENO3": {
+       "t": 9.291,
+       "delta_a_minus_b": 4.1072,
+       "n_EMC": 10,
+       "n_comparator": 3
+      },
+      "MKI67": {
+       "t": 2.058,
+       "delta_a_minus_b": 1.4845,
+       "n_EMC": 9,
+       "n_comparator": 3
+      },
+      "RIOK1": {
+       "_status": "arm below the floor"
+      },
+      "CLNS1A": {
+       "t": 2.398,
+       "delta_a_minus_b": 0.4328,
+       "n_EMC": 10,
+       "n_comparator": 3
+      }
+     }
+    },
+    "pooled_for_comparison": {
+     "PRMT5": {
+      "t": 6.674,
+      "delta_a_minus_b": 0.8165,
+      "n_EMC": 10,
+      "n_comparator": 6
+     },
+     "MAT2A": {
+      "t": 4.096,
+      "delta_a_minus_b": 0.7234,
+      "n_EMC": 10,
+      "n_comparator": 6
+     },
+     "MTAP": {
+      "t": -2.271,
+      "delta_a_minus_b": -0.6069,
+      "n_EMC": 10,
+      "n_comparator": 6
+     },
+     "CDKN2A": {
+      "t": 1.325,
+      "delta_a_minus_b": 0.1746,
+      "n_EMC": 10,
+      "n_comparator": 6
+     },
+     "NR4A3": null,
+     "ENO3": {
+      "t": 13.222,
+      "delta_a_minus_b": 3.8113,
+      "n_EMC": 10,
+      "n_comparator": 6
+     },
+     "MKI67": {
+      "t": 2.301,
+      "delta_a_minus_b": 1.2358,
+      "n_EMC": 9,
+      "n_comparator": 6
+     },
+     "RIOK1": {
+      "t": 0.935,
+      "delta_a_minus_b": 0.2773,
+      "n_EMC": 10,
+      "n_comparator": 4
+     },
+     "CLNS1A": {
+      "t": 1.992,
+      "delta_a_minus_b": 0.3033,
+      "n_EMC": 10,
+      "n_comparator": 6
+     }
+    }
+   }
+  }
+ }
+}

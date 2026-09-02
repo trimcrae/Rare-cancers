@@ -1,0 +1,713 @@
+{
+ "_what": "effect sizes with intervals, minimum detectable effects, the family-composition sensitivity of the multiplicity correction, and four disclosures the manuscript prose asserted without a number.",
+ "_this_asserts_nothing_about_any_agent": "every quantity is a property of two archival expression deposits.",
+ "_source_artifacts": [
+  "emc-expression-panels.json",
+  "emc-expression-panels-inputs.json",
+  "emc-hypoxia-null-background.json",
+  "emc-prmt5-multiplicity.json"
+ ],
+ "per_platform": {
+  "GSE24369_series_matrix.txt.gz": {
+   "gse": "GSE24369",
+   "platform": "GPL6244",
+   "value_scale": "log2 single-channel intensity",
+   "_fold_caveat_on_two_colour": null,
+   "effect_sizes": {
+    "PRMT5": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 single-channel intensity",
+     "n_EMC_with_a_value": 6,
+     "n_comparator_with_a_value": 29,
+     "scored_by_the_panel": true,
+     "difference_log2": 0.5439,
+     "ci95_log2": [
+      0.3751,
+      0.7127
+     ],
+     "relative_difference_fold": 1.458,
+     "ci95_relative_difference_fold": [
+      1.297,
+      1.639
+     ],
+     "sd_EMC_log2": 0.1531,
+     "sd_comparator_log2": 0.2369,
+     "t_on_the_log2_scale": 7.1165,
+     "t_committed_on_the_z_scale": 6.236,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.2565,
+      "pooled_sd_log2": 0.2262,
+      "detectable_difference_log2": 0.2842,
+      "detectable_relative_difference_fold": 1.218,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "MAT2A": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 single-channel intensity",
+     "n_EMC_with_a_value": 6,
+     "n_comparator_with_a_value": 29,
+     "scored_by_the_panel": true,
+     "difference_log2": 0.722,
+     "ci95_log2": [
+      0.3442,
+      1.0998
+     ],
+     "relative_difference_fold": 1.649,
+     "ci95_relative_difference_fold": [
+      1.269,
+      2.143
+     ],
+     "sd_EMC_log2": 0.3607,
+     "sd_comparator_log2": 0.29,
+     "t_on_the_log2_scale": 4.6051,
+     "t_committed_on_the_z_scale": 4.132,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.2565,
+      "pooled_sd_log2": 0.3017,
+      "detectable_difference_log2": 0.3791,
+      "detectable_relative_difference_fold": 1.301,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "WDR77": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 single-channel intensity",
+     "n_EMC_with_a_value": 6,
+     "n_comparator_with_a_value": 29,
+     "scored_by_the_panel": true,
+     "difference_log2": 0.2132,
+     "ci95_log2": [
+      0.0618,
+      0.3646
+     ],
+     "relative_difference_fold": 1.159,
+     "ci95_relative_difference_fold": [
+      1.044,
+      1.288
+     ],
+     "sd_EMC_log2": 0.1396,
+     "sd_comparator_log2": 0.1959,
+     "t_on_the_log2_scale": 3.1539,
+     "t_committed_on_the_z_scale": 2.82,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.2565,
+      "pooled_sd_log2": 0.1885,
+      "detectable_difference_log2": 0.2368,
+      "detectable_relative_difference_fold": 1.178,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "MTAP": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 single-channel intensity",
+     "n_EMC_with_a_value": 6,
+     "n_comparator_with_a_value": 29,
+     "scored_by_the_panel": true,
+     "difference_log2": 0.1211,
+     "ci95_log2": [
+      -0.2231,
+      0.4653
+     ],
+     "relative_difference_fold": 1.088,
+     "ci95_relative_difference_fold": [
+      0.857,
+      1.381
+     ],
+     "sd_EMC_log2": 0.3141,
+     "sd_comparator_log2": 0.4701,
+     "t_on_the_log2_scale": 0.781,
+     "t_committed_on_the_z_scale": 0.685,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.2565,
+      "pooled_sd_log2": 0.45,
+      "detectable_difference_log2": 0.5654,
+      "detectable_relative_difference_fold": 1.48,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "CDKN2A": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 single-channel intensity",
+     "n_EMC_with_a_value": 6,
+     "n_comparator_with_a_value": 29,
+     "scored_by_the_panel": true,
+     "difference_log2": -0.9233,
+     "ci95_log2": [
+      -1.2917,
+      -0.5549
+     ],
+     "relative_difference_fold": 0.527,
+     "ci95_relative_difference_fold": [
+      0.408,
+      0.681
+     ],
+     "sd_EMC_log2": 0.3163,
+     "sd_comparator_log2": 0.612,
+     "t_on_the_log2_scale": -5.3675,
+     "t_committed_on_the_z_scale": -5.398,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.2565,
+      "pooled_sd_log2": 0.577,
+      "detectable_difference_log2": 0.725,
+      "detectable_relative_difference_fold": 1.653,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "CDKN2B": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 single-channel intensity",
+     "n_EMC_with_a_value": 6,
+     "n_comparator_with_a_value": 29,
+     "scored_by_the_panel": true,
+     "difference_log2": -0.2536,
+     "ci95_log2": [
+      -0.5562,
+      0.0489
+     ],
+     "relative_difference_fold": 0.839,
+     "ci95_relative_difference_fold": [
+      0.68,
+      1.034
+     ],
+     "sd_EMC_log2": 0.284,
+     "sd_comparator_log2": 0.3386,
+     "t_on_the_log2_scale": -1.9232,
+     "t_committed_on_the_z_scale": -2.033,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.2565,
+      "pooled_sd_log2": 0.3309,
+      "detectable_difference_log2": 0.4157,
+      "detectable_relative_difference_fold": 1.334,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "NR4A3": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 single-channel intensity",
+     "n_EMC_with_a_value": 6,
+     "n_comparator_with_a_value": 29,
+     "scored_by_the_panel": true,
+     "difference_log2": 1.4572,
+     "ci95_log2": [
+      0.7238,
+      2.1906
+     ],
+     "relative_difference_fold": 2.746,
+     "ci95_relative_difference_fold": [
+      1.652,
+      4.565
+     ],
+     "sd_EMC_log2": 0.6964,
+     "sd_comparator_log2": 0.687,
+     "t_on_the_log2_scale": 4.6765,
+     "t_committed_on_the_z_scale": 4.662,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.2565,
+      "pooled_sd_log2": 0.6884,
+      "detectable_difference_log2": 0.865,
+      "detectable_relative_difference_fold": 1.821,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "ENO3": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 single-channel intensity",
+     "n_EMC_with_a_value": 6,
+     "n_comparator_with_a_value": 29,
+     "scored_by_the_panel": true,
+     "difference_log2": 1.5677,
+     "ci95_log2": [
+      0.4749,
+      2.6605
+     ],
+     "relative_difference_fold": 2.964,
+     "ci95_relative_difference_fold": [
+      1.39,
+      6.323
+     ],
+     "sd_EMC_log2": 1.0445,
+     "sd_comparator_log2": 0.483,
+     "t_on_the_log2_scale": 3.5978,
+     "t_committed_on_the_z_scale": 3.607,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.2565,
+      "pooled_sd_log2": 0.6027,
+      "detectable_difference_log2": 0.7573,
+      "detectable_relative_difference_fold": 1.69,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "MKI67": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 single-channel intensity",
+     "n_EMC_with_a_value": 6,
+     "n_comparator_with_a_value": 29,
+     "scored_by_the_panel": true,
+     "difference_log2": 0.2663,
+     "ci95_log2": [
+      -0.8346,
+      1.3673
+     ],
+     "relative_difference_fold": 1.203,
+     "ci95_relative_difference_fold": [
+      0.561,
+      2.58
+     ],
+     "sd_EMC_log2": 1.0285,
+     "sd_comparator_log2": 1.2901,
+     "t_on_the_log2_scale": 0.5509,
+     "t_committed_on_the_z_scale": 0.528,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.2565,
+      "pooled_sd_log2": 1.254,
+      "detectable_difference_log2": 1.5757,
+      "detectable_relative_difference_fold": 2.981,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    }
+   },
+   "between_arm_variance_ratios": {
+    "_what": "var(EMC)/var(comparator) of the within-array z, across every gene the panel scores on this platform. A permutation test is exact for the null of exchangeability, not for a null of equal means; when the arms differ in scale, rejection can be produced by that difference.",
+    "n_genes": 404,
+    "frac_outside_0.5_to_2": 0.495,
+    "p10": 0.2168,
+    "p50": 0.9012,
+    "p90": 3.2194
+   },
+   "standard_error_percentile_within_the_family": {
+    "_what": "the fraction of scored genes on this platform whose Welch standard error is smaller than this gene's. A t can be large because the difference is large or because the standard error is small.",
+    "n_genes_in_the_reference_set": 1857,
+    "per_gene": {
+     "PRMT5": 0.1082,
+     "MAT2A": 0.4475,
+     "WDR77": 0.0673,
+     "MTAP": 0.4432,
+     "CDKN2A": 0.4906,
+     "CDKN2B": 0.377,
+     "NR4A3": 0.7399,
+     "ENO3": 0.853,
+     "MKI67": 0.8783
+    }
+   }
+  },
+  "GSE4303-GPL3290_series_matrix.txt.gz": {
+   "gse": "GSE4303",
+   "platform": "GPL3290",
+   "value_scale": "log2 two-colour ratio against a reference pool",
+   "_fold_caveat_on_two_colour": "on GPL3290 every value is a log2 ratio to a reference pool and the arms do not share one, so a 'fold' is a relative difference between arms and not a fold difference in transcript abundance.",
+   "effect_sizes": {
+    "PRMT5": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 two-colour ratio against a reference pool",
+     "n_EMC_with_a_value": 10,
+     "n_comparator_with_a_value": 6,
+     "scored_by_the_panel": true,
+     "difference_log2": 1.0936,
+     "ci95_log2": [
+      0.6879,
+      1.4993
+     ],
+     "relative_difference_fold": 2.134,
+     "ci95_relative_difference_fold": [
+      1.611,
+      2.827
+     ],
+     "sd_EMC_log2": 0.3975,
+     "sd_comparator_log2": 0.3372,
+     "t_on_the_log2_scale": 5.8662,
+     "t_committed_on_the_z_scale": 6.674,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.4467,
+      "pooled_sd_log2": 0.3771,
+      "detectable_difference_log2": 0.5456,
+      "detectable_relative_difference_fold": 1.46,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "MAT2A": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 two-colour ratio against a reference pool",
+     "n_EMC_with_a_value": 10,
+     "n_comparator_with_a_value": 6,
+     "scored_by_the_panel": true,
+     "difference_log2": 1.0121,
+     "ci95_log2": [
+      0.445,
+      1.5792
+     ],
+     "relative_difference_fold": 2.017,
+     "ci95_relative_difference_fold": [
+      1.361,
+      2.988
+     ],
+     "sd_EMC_log2": 0.4362,
+     "sd_comparator_log2": 0.5159,
+     "t_on_the_log2_scale": 4.02,
+     "t_committed_on_the_z_scale": 4.096,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.4467,
+      "pooled_sd_log2": 0.4662,
+      "detectable_difference_log2": 0.6745,
+      "detectable_relative_difference_fold": 1.596,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "WDR77": {
+     "readable": false
+    },
+    "MTAP": {
+     "readable": true,
+     "n_probes_mapping": 2,
+     "value_scale": "log2 two-colour ratio against a reference pool",
+     "n_EMC_with_a_value": 10,
+     "n_comparator_with_a_value": 6,
+     "scored_by_the_panel": true,
+     "difference_log2": -1.3768,
+     "ci95_log2": [
+      -2.2435,
+      -0.5101
+     ],
+     "relative_difference_fold": 0.385,
+     "ci95_relative_difference_fold": [
+      0.211,
+      0.702
+     ],
+     "sd_EMC_log2": 1.1399,
+     "sd_comparator_log2": 0.4202,
+     "t_on_the_log2_scale": -3.4489,
+     "t_committed_on_the_z_scale": -2.271,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.4467,
+      "pooled_sd_log2": 0.9478,
+      "detectable_difference_log2": 1.3712,
+      "detectable_relative_difference_fold": 2.587,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "CDKN2A": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 two-colour ratio against a reference pool",
+     "n_EMC_with_a_value": 10,
+     "n_comparator_with_a_value": 6,
+     "scored_by_the_panel": true,
+     "difference_log2": 0.0899,
+     "ci95_log2": [
+      -0.4033,
+      0.5832
+     ],
+     "relative_difference_fold": 1.064,
+     "ci95_relative_difference_fold": [
+      0.756,
+      1.498
+     ],
+     "sd_EMC_log2": 0.6358,
+     "sd_comparator_log2": 0.2651,
+     "t_on_the_log2_scale": 0.3939,
+     "t_committed_on_the_z_scale": 1.325,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.4467,
+      "pooled_sd_log2": 0.5338,
+      "detectable_difference_log2": 0.7723,
+      "detectable_relative_difference_fold": 1.708,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "CDKN2B": {
+     "readable": false
+    },
+    "NR4A3": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 two-colour ratio against a reference pool",
+     "n_EMC_with_a_value": 9,
+     "n_comparator_with_a_value": 2,
+     "scored_by_the_panel": false,
+     "difference_log2": 0.2813,
+     "ci95_log2": [
+      -0.4286,
+      0.9911
+     ],
+     "relative_difference_fold": 1.215,
+     "ci95_relative_difference_fold": [
+      0.743,
+      1.988
+     ],
+     "sd_EMC_log2": 0.9212,
+     "sd_comparator_log2": 0.0516,
+     "t_on_the_log2_scale": 0.9096,
+     "t_committed_on_the_z_scale": null,
+     "minimum_detectable_effect": {
+      "standardised_difference": 2.1901,
+      "pooled_sd_log2": 0.8687,
+      "detectable_difference_log2": 1.9026,
+      "detectable_relative_difference_fold": 3.739,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "ENO3": {
+     "readable": true,
+     "n_probes_mapping": 1,
+     "value_scale": "log2 two-colour ratio against a reference pool",
+     "n_EMC_with_a_value": 10,
+     "n_comparator_with_a_value": 6,
+     "scored_by_the_panel": true,
+     "difference_log2": 6.2609,
+     "ci95_log2": [
+      5.0473,
+      7.4745
+     ],
+     "relative_difference_fold": 76.686,
+     "ci95_relative_difference_fold": [
+      33.067,
+      177.847
+     ],
+     "sd_EMC_log2": 0.871,
+     "sd_comparator_log2": 1.1186,
+     "t_on_the_log2_scale": 11.74,
+     "t_committed_on_the_z_scale": 13.221,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.4467,
+      "pooled_sd_log2": 0.9667,
+      "detectable_difference_log2": 1.3986,
+      "detectable_relative_difference_fold": 2.636,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    },
+    "MKI67": {
+     "readable": true,
+     "n_probes_mapping": 2,
+     "value_scale": "log2 two-colour ratio against a reference pool",
+     "n_EMC_with_a_value": 9,
+     "n_comparator_with_a_value": 6,
+     "scored_by_the_panel": true,
+     "difference_log2": 1.7123,
+     "ci95_log2": [
+      -0.628,
+      4.0527
+     ],
+     "relative_difference_fold": 3.277,
+     "ci95_relative_difference_fold": [
+      0.647,
+      16.595
+     ],
+     "sd_EMC_log2": 0.6364,
+     "sd_comparator_log2": 2.2367,
+     "t_on_the_log2_scale": 1.8266,
+     "t_committed_on_the_z_scale": 2.301,
+     "minimum_detectable_effect": {
+      "standardised_difference": 1.4766,
+      "pooled_sd_log2": 1.4742,
+      "detectable_difference_log2": 2.1768,
+      "detectable_relative_difference_fold": 4.521,
+      "_definition": "the smallest true difference this design would detect in 80% of repetitions against a two-sided uncorrected 0.05. Against the family-wise threshold the paper actually applies it is several times larger."
+     }
+    }
+   },
+   "between_arm_variance_ratios": {
+    "_what": "var(EMC)/var(comparator) of the within-array z, across every gene the panel scores on this platform. A permutation test is exact for the null of exchangeability, not for a null of equal means; when the arms differ in scale, rejection can be produced by that difference.",
+    "n_genes": 362,
+    "frac_outside_0.5_to_2": 0.5912,
+    "p10": 0.1994,
+    "p50": 0.7749,
+    "p90": 3.6706
+   },
+   "standard_error_percentile_within_the_family": {
+    "_what": "the fraction of scored genes on this platform whose Welch standard error is smaller than this gene's. A t can be large because the difference is large or because the standard error is small.",
+    "n_genes_in_the_reference_set": 1611,
+    "per_gene": {
+     "PRMT5": 0.0416,
+     "MAT2A": 0.1273,
+     "MTAP": 0.37,
+     "CDKN2A": 0.0857,
+     "NR4A3": 0.2278,
+     "ENO3": 0.5382,
+     "MKI67": 0.8485
+    }
+   }
+  }
+ },
+ "family_composition_sensitivity": {
+  "GPL6244": {
+   "_labelings": {
+    "kind": "fixed-seed sample",
+    "n": 20000,
+    "seed": 20260810
+   },
+   "_computed_by": "emc_prmt5_multiplicity's own reduction, arm floor and max-statistic kernel, with the family as the only thing varied.",
+   "PRMT5_adjusted_p_by_family": {
+    "the_genes_the_paper_reports": {
+     "observed_abs_t": 6.2358,
+     "family_size_genes": 9,
+     "n_labelings": 20000,
+     "at_least_as_extreme": 3,
+     "fwer_adjusted_p": 0.00015
+    },
+    "the_curated_panel_cache": {
+     "observed_abs_t": 6.2358,
+     "family_size_genes": 1857,
+     "n_labelings": 20000,
+     "at_least_as_extreme": 1942,
+     "fwer_adjusted_p": 0.0971
+    },
+    "the_merged_family_the_paper_uses": {
+     "observed_abs_t": 6.2358,
+     "family_size_genes": 5449,
+     "n_labelings": 20000,
+     "at_least_as_extreme": 4162,
+     "fwer_adjusted_p": 0.2081
+    },
+    "the_merged_family_complete_cases_only": {
+     "observed_abs_t": 6.2358,
+     "family_size_genes": 5449,
+     "n_labelings": 20000,
+     "at_least_as_extreme": 4162,
+     "fwer_adjusted_p": 0.2081
+    }
+   },
+   "_reading": "the adjusted p is a property of the family, not of the data. A single value quoted without its family is uninterpretable."
+  },
+  "GPL3290": {
+   "_labelings": {
+    "kind": "exhaustive",
+    "n": 8008,
+    "seed": null
+   },
+   "_computed_by": "emc_prmt5_multiplicity's own reduction, arm floor and max-statistic kernel, with the family as the only thing varied.",
+   "PRMT5_adjusted_p_by_family": {
+    "the_genes_the_paper_reports": {
+     "observed_abs_t": 6.6741,
+     "family_size_genes": 6,
+     "n_labelings": 8008,
+     "at_least_as_extreme": 1,
+     "fwer_adjusted_p": 0.000125
+    },
+    "the_curated_panel_cache": {
+     "observed_abs_t": 6.6741,
+     "family_size_genes": 1611,
+     "n_labelings": 8008,
+     "at_least_as_extreme": 514,
+     "fwer_adjusted_p": 0.064186
+    },
+    "the_merged_family_the_paper_uses": {
+     "observed_abs_t": 6.6741,
+     "family_size_genes": 4848,
+     "n_labelings": 8008,
+     "at_least_as_extreme": 1903,
+     "fwer_adjusted_p": 0.237637
+    },
+    "the_merged_family_complete_cases_only": {
+     "observed_abs_t": 6.6741,
+     "family_size_genes": 3126,
+     "n_labelings": 8008,
+     "at_least_as_extreme": 250,
+     "fwer_adjusted_p": 0.031219
+    }
+   },
+   "_reading": "the adjusted p is a property of the family, not of the data. A single value quoted without its family is uninterpretable."
+  }
+ },
+ "per_class_tests_GPL6244": {
+  "LGFMS": {
+   "n_class": 17,
+   "median_EMC_minus_class": 0.2618,
+   "mean_EMC_minus_class": 0.2662,
+   "labelings": 100947,
+   "at_least_as_extreme": 4,
+   "exact_two_sided_p": 4e-05,
+   "bonferroni_within_figure_x4": 0.00016
+  },
+  "desmoid_fibromatosis": {
+   "n_class": 6,
+   "median_EMC_minus_class": 0.2536,
+   "mean_EMC_minus_class": 0.2386,
+   "labelings": 924,
+   "at_least_as_extreme": 6,
+   "exact_two_sided_p": 0.006494,
+   "bonferroni_within_figure_x4": 0.02597
+  },
+  "fibrosarcoma": {
+   "n_class": 6,
+   "median_EMC_minus_class": 0.3675,
+   "mean_EMC_minus_class": 0.279,
+   "labelings": 924,
+   "at_least_as_extreme": 14,
+   "exact_two_sided_p": 0.015152,
+   "bonferroni_within_figure_x4": 0.06061
+  },
+  "pooled_skeletal_muscle_RNA": {
+   "n_class": 2,
+   "median_EMC_minus_class": -0.039,
+   "mean_EMC_minus_class": -0.0534,
+   "labelings": 28,
+   "at_least_as_extreme": 15,
+   "exact_two_sided_p": 0.535714,
+   "bonferroni_within_figure_x4": 1.0
+  },
+  "solitary_fibrous_tumour": {
+   "n_class": 5,
+   "median_EMC_minus_class": 0.252,
+   "mean_EMC_minus_class": 0.2445,
+   "labelings": 462,
+   "at_least_as_extreme": 4,
+   "exact_two_sided_p": 0.008658,
+   "bonferroni_within_figure_x4": 0.03463
+  },
+  "_overlap": {
+   "n_comparator_tumour_samples": 34,
+   "n_at_or_above_the_lowest_EMC_sample": 9,
+   "n_normal_muscle_above_the_EMC_median": 1,
+   "_note": "these tests carry no correction for the number of genes on the array, so they do not bear on the family-wise result."
+  }
+ },
+ "reference_informative_contrast_GPL3290": {
+  "_what": "DFSP (reference `CRH`) against GIST (reference `UHR`). Neither shares the EMC arm's `CRH-mRNA` label, so this is the only contrast on the platform in which the reference pool differs and the disease class is held to the comparator arm.",
+  "gene": "PRMT5",
+  "n_DFSP": 3,
+  "n_GIST": 3,
+  "t_DFSP_vs_GIST": 0.2424,
+  "_reading": "a t near zero says the two reference pools do not move this gene between the two comparator halves. It does not make either half reference-matched to EMC."
+ },
+ "MKI67_GPL3290_basis": {
+  "_what": "the cellularity control's GPL3290 reading, by sample, because the contrast is carried by the comparator arm's two most extreme arrays rather than by high proliferation in EMC.",
+  "n_EMC_with_a_value": 9,
+  "comparator_z_ascending": [
+   -3.881,
+   -3.716,
+   -1.89,
+   -1.623,
+   -1.45,
+   -0.737
+  ],
+  "EMC_z_range": [
+   -1.564,
+   -0.413
+  ],
+  "EMC_mean_array_percentile": 0.1531,
+  "comparator_mean_array_percentile": 0.0579
+ },
+ "cache_sizes": {
+  "GPL6244": {
+   "n_symbols_the_two_caches_hold": 5449,
+   "n_symbols_that_clear_the_arm_floor_and_enter_the_family": 5449,
+   "n_dropped_by_the_arm_floor": 0
+  },
+  "GPL3290": {
+   "n_symbols_the_two_caches_hold": 5216,
+   "n_symbols_that_clear_the_arm_floor_and_enter_the_family": 4848,
+   "n_dropped_by_the_arm_floor": 368
+  }
+ }
+}

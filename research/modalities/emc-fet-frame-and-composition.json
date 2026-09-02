@@ -1,0 +1,684 @@
+{
+  "_title": "The donor-exon frame rule, the type-2 seam at nucleotide resolution, the symmetric compositional sweep, and the counted EMC fusion-type series",
+  "_status": "COMPUTED FROM COMMITTED INPUTS. No experiment, no reagent, no patient, no cell and no animal. No potency, efficacy, safety, selectivity or clinical claim is made or implied.",
+  "_inputs": {
+    "sequence_cache": "emc-construct-inputs.json",
+    "sequence_cache_fetched_utc": "2026-08-12T13:41:57Z",
+    "sequence_source": "https://rest.ensembl.org",
+    "frame_audit": "junction-mrna-frame-audit.json",
+    "construct_designs": "emc-fet-construct-designs.json",
+    "literature_retrieval_record": "research/manuscripts/aso/lit-targets-aso-verify.json"
+  },
+  "_cost": "$0 — CPU only, pure stdlib, no network call.",
+  "frame_rule": {
+    "_the_rule": "A 5' partner exon joined to NR4A3 exon 2 or exon 3 is in frame if and only if the donor exon ends one nucleotide into a codon, that is if its cumulative coding nucleotide count is congruent to 1 modulo 3. Both acceptors give the same register, because NR4A3 exon 2 is 174 nt, a multiple of three.",
+    "_why_both_acceptors_agree": {
+      "nr4a3_exon_2_length_nt": 174,
+      "nr4a3_exon_2_length_is_multiple_of_3": true,
+      "nr4a3_5utr_nt_retained_from_acceptor_exon_2": 176,
+      "nr4a3_5utr_nt_retained_from_acceptor_exon_3": 2
+    },
+    "ewsr1_donor_exons": [
+      {
+        "ewsr1_donor_exon": 1,
+        "ewsr1_coding_nt_through_exon": 13,
+        "ewsr1_last_whole_residue": 4,
+        "donor_end_phase": 1,
+        "in_frame_with_nr4a3_exon_2": true,
+        "in_frame_with_nr4a3_exon_3": true
+      },
+      {
+        "ewsr1_donor_exon": 2,
+        "ewsr1_coding_nt_through_exon": 50,
+        "ewsr1_last_whole_residue": 16,
+        "donor_end_phase": 2,
+        "in_frame_with_nr4a3_exon_2": false,
+        "in_frame_with_nr4a3_exon_3": false
+      },
+      {
+        "ewsr1_donor_exon": 3,
+        "ewsr1_coding_nt_through_exon": 102,
+        "ewsr1_last_whole_residue": 34,
+        "donor_end_phase": 0,
+        "in_frame_with_nr4a3_exon_2": false,
+        "in_frame_with_nr4a3_exon_3": false
+      },
+      {
+        "ewsr1_donor_exon": 4,
+        "ewsr1_coding_nt_through_exon": 226,
+        "ewsr1_last_whole_residue": 75,
+        "donor_end_phase": 1,
+        "in_frame_with_nr4a3_exon_2": true,
+        "in_frame_with_nr4a3_exon_3": true
+      },
+      {
+        "ewsr1_donor_exon": 5,
+        "ewsr1_coding_nt_through_exon": 413,
+        "ewsr1_last_whole_residue": 137,
+        "donor_end_phase": 2,
+        "in_frame_with_nr4a3_exon_2": false,
+        "in_frame_with_nr4a3_exon_3": false
+      },
+      {
+        "ewsr1_donor_exon": 6,
+        "ewsr1_coding_nt_through_exon": 581,
+        "ewsr1_last_whole_residue": 193,
+        "donor_end_phase": 2,
+        "in_frame_with_nr4a3_exon_2": false,
+        "in_frame_with_nr4a3_exon_3": false
+      },
+      {
+        "ewsr1_donor_exon": 7,
+        "ewsr1_coding_nt_through_exon": 793,
+        "ewsr1_last_whole_residue": 264,
+        "donor_end_phase": 1,
+        "in_frame_with_nr4a3_exon_2": true,
+        "in_frame_with_nr4a3_exon_3": true
+      },
+      {
+        "ewsr1_donor_exon": 8,
+        "ewsr1_coding_nt_through_exon": 974,
+        "ewsr1_last_whole_residue": 324,
+        "donor_end_phase": 2,
+        "in_frame_with_nr4a3_exon_2": false,
+        "in_frame_with_nr4a3_exon_3": false
+      },
+      {
+        "ewsr1_donor_exon": 9,
+        "ewsr1_coding_nt_through_exon": 1012,
+        "ewsr1_last_whole_residue": 337,
+        "donor_end_phase": 1,
+        "in_frame_with_nr4a3_exon_2": true,
+        "in_frame_with_nr4a3_exon_3": true
+      },
+      {
+        "ewsr1_donor_exon": 10,
+        "ewsr1_coding_nt_through_exon": 1045,
+        "ewsr1_last_whole_residue": 348,
+        "donor_end_phase": 1,
+        "in_frame_with_nr4a3_exon_2": true,
+        "in_frame_with_nr4a3_exon_3": true
+      },
+      {
+        "ewsr1_donor_exon": 11,
+        "ewsr1_coding_nt_through_exon": 1164,
+        "ewsr1_last_whole_residue": 388,
+        "donor_end_phase": 0,
+        "in_frame_with_nr4a3_exon_2": false,
+        "in_frame_with_nr4a3_exon_3": false
+      },
+      {
+        "ewsr1_donor_exon": 12,
+        "ewsr1_coding_nt_through_exon": 1294,
+        "ewsr1_last_whole_residue": 431,
+        "donor_end_phase": 1,
+        "in_frame_with_nr4a3_exon_2": true,
+        "in_frame_with_nr4a3_exon_3": true
+      },
+      {
+        "ewsr1_donor_exon": 13,
+        "ewsr1_coding_nt_through_exon": 1417,
+        "ewsr1_last_whole_residue": 472,
+        "donor_end_phase": 1,
+        "in_frame_with_nr4a3_exon_2": true,
+        "in_frame_with_nr4a3_exon_3": true
+      },
+      {
+        "ewsr1_donor_exon": 14,
+        "ewsr1_coding_nt_through_exon": 1580,
+        "ewsr1_last_whole_residue": 526,
+        "donor_end_phase": 2,
+        "in_frame_with_nr4a3_exon_2": false,
+        "in_frame_with_nr4a3_exon_3": false
+      },
+      {
+        "ewsr1_donor_exon": 15,
+        "ewsr1_coding_nt_through_exon": 1678,
+        "ewsr1_last_whole_residue": 559,
+        "donor_end_phase": 1,
+        "in_frame_with_nr4a3_exon_2": true,
+        "in_frame_with_nr4a3_exon_3": true
+      },
+      {
+        "ewsr1_donor_exon": 16,
+        "ewsr1_coding_nt_through_exon": 1931,
+        "ewsr1_last_whole_residue": 643,
+        "donor_end_phase": 2,
+        "in_frame_with_nr4a3_exon_2": false,
+        "in_frame_with_nr4a3_exon_3": false
+      },
+      {
+        "ewsr1_donor_exon": 17,
+        "ewsr1_coding_nt_through_exon": 1971,
+        "ewsr1_last_whole_residue": 657,
+        "donor_end_phase": 0,
+        "in_frame_with_nr4a3_exon_2": false,
+        "in_frame_with_nr4a3_exon_3": false
+      }
+    ],
+    "phase_1_donor_exons": [
+      1,
+      4,
+      7,
+      9,
+      10,
+      12,
+      13,
+      15
+    ],
+    "in_frame_donor_exons": [
+      1,
+      4,
+      7,
+      9,
+      10,
+      12,
+      13,
+      15
+    ],
+    "rule_holds_for_every_ewsr1_donor": true,
+    "taf15_exon_6": {
+      "coding_nt_through_exon": 484,
+      "last_whole_residue": 161,
+      "donor_end_phase": 1,
+      "in_frame_with_nr4a3_exon_3": true
+    },
+    "_cross_check_against_committed_audit": {
+      "artifact": "junction-mrna-frame-audit.json",
+      "n_rows_in_audit": 27,
+      "disagreements": []
+    },
+    "_limits": [
+      "Frame only. Being in frame is not evidence that a junction occurs in a patient, that its transcript is stable, or that its protein is made.",
+      "Canonical transcripts only, and one transcript per gene."
+    ]
+  },
+  "type2_seam": {
+    "junction": "EWSR1 exon 7 :: NR4A3 exon 2",
+    "ewsr1_coding_nt_through_exon_7": 793,
+    "ewsr1_whole_codons": 264,
+    "ewsr1_nucleotides_donated_across_the_seam": 1,
+    "nr4a3_5utr_nt_retained_total": 176,
+    "nr4a3_5utr_nt_from_exon_2": 174,
+    "nr4a3_5utr_nt_from_exon_3": 2,
+    "nucleotides_spanned_by_the_extra_residues": 177,
+    "_the_arithmetic": "1 nt donated by EWSR1 + 176 nt of NR4A3 5'UTR = 177 nt = 59 codons",
+    "extra_residues": 59,
+    "first_extra_residue_is_a_hybrid_codon": {
+      "codon": "AAG",
+      "residue": "K",
+      "position_in_the_chimeric_protein": 265,
+      "composition": "1 nt from EWSR1 + 2 nt from NR4A3"
+    },
+    "remaining_residues_encoded_by_nr4a3_alone": 58,
+    "extra_residue_sequence": "KPTAEEGSPASPGPEPGPLAVPGSTAGASPRRTSAPPTLSASAGETPSPTIQRARYPPD",
+    "internal_stop_codon_in_the_extension": false,
+    "chimeric_orf_length_aa": 949,
+    "nr4a3_moiety_starts_at_residue": 324,
+    "nr4a3_moiety_complete": true,
+    "matches_committed_construct_artifact": true,
+    "_the_extension_is_a_property_of_the_acceptor": "Any 5' partner exon joined to NR4A3 exon 2 retains the same 176 nt of NR4A3 5' untranslated sequence. The extension therefore belongs to the exon 2 acceptor, not to type 2 in particular; what type 2 fixes is the frame it is read in.",
+    "_limits": [
+      "A computed consequence of the canonical transcripts for a reported exon junction, not an observed protein. No transcript, peptide or antibody evidence is offered here."
+    ]
+  },
+  "composition": {
+    "symmetric_prefix_sweep": {
+      "_what": "The [S,Y,G,Q] fraction of every N-terminal prefix from 50 aa to full length in 10-aa steps, computed on the same grid for all four proteins. The published version of this test swept TCF12 alone and compared its best value against the FET proteins at one fixed 250-aa window, which is asymmetric and overstates the separation.",
+      "per_protein": {
+        "EWSR1": {
+          "length_aa": 656,
+          "n_prefixes": 61,
+          "best_sygq_fraction": 0.562,
+          "best_at_prefix": [
+            1,
+            290
+          ],
+          "lowest_sygq_fraction": 0.439,
+          "lowest_at_prefix": [
+            1,
+            560
+          ]
+        },
+        "TAF15": {
+          "length_aa": 592,
+          "n_prefixes": 55,
+          "best_sygq_fraction": 0.843,
+          "best_at_prefix": [
+            1,
+            70
+          ],
+          "lowest_sygq_fraction": 0.495,
+          "lowest_at_prefix": [
+            1,
+            390
+          ]
+        },
+        "FUS": {
+          "length_aa": 526,
+          "n_prefixes": 48,
+          "best_sygq_fraction": 0.819,
+          "best_at_prefix": [
+            1,
+            210
+          ],
+          "lowest_sygq_fraction": 0.59,
+          "lowest_at_prefix": [
+            1,
+            520
+          ]
+        },
+        "TCF12": {
+          "length_aa": 706,
+          "n_prefixes": 66,
+          "best_sygq_fraction": 0.4,
+          "best_at_prefix": [
+            1,
+            160
+          ],
+          "lowest_sygq_fraction": 0.316,
+          "lowest_at_prefix": [
+            1,
+            690
+          ]
+        },
+        "NR4A3": {
+          "length_aa": 626,
+          "n_prefixes": 58,
+          "best_sygq_fraction": 0.362,
+          "best_at_prefix": [
+            1,
+            80
+          ],
+          "lowest_sygq_fraction": 0.237,
+          "lowest_at_prefix": [
+            1,
+            620
+          ]
+        },
+        "FLI1": {
+          "length_aa": 452,
+          "n_prefixes": 41,
+          "best_sygq_fraction": 0.283,
+          "best_at_prefix": [
+            1,
+            60
+          ],
+          "lowest_sygq_fraction": 0.216,
+          "lowest_at_prefix": [
+            1,
+            190
+          ]
+        },
+        "ATF1": {
+          "length_aa": 271,
+          "n_prefixes": 23,
+          "best_sygq_fraction": 0.44,
+          "best_at_prefix": [
+            1,
+            50
+          ],
+          "lowest_sygq_fraction": 0.315,
+          "lowest_at_prefix": [
+            1,
+            260
+          ]
+        }
+      },
+      "lowest_fet_prefix_value": 0.439,
+      "lowest_fet_prefix_protein": "EWSR1",
+      "lowest_fet_prefix_span": [
+        1,
+        560
+      ],
+      "tcf12_best_prefix_value": 0.4,
+      "gap": 0.039,
+      "any_tcf12_prefix_reaches_the_lowest_fet_prefix": false,
+      "_reading": "The separation survives on the symmetric test and it is narrow: no TCF12 prefix of any length reaches the lowest value any FET prefix takes, but the margin is the gap above, not the difference against the fixed-window value."
+    },
+    "sygq_background_panel": {
+      "_what": "The same statistic on every protein the committed cache holds, so the TCF12 value can be read against a scale rather than against the FET proteins alone.",
+      "_limits": [
+        "Seven proteins is a comparison panel, not a proteome background. It bounds where the FET and non-FET values sit relative to each other and supplies no null distribution.",
+        "ATF1 is 271 aa, so its N-terminal 250-aa value is nearly its whole-protein value."
+      ],
+      "per_protein": {
+        "EWSR1": {
+          "n_terminal_250_aa": 0.54,
+          "whole_protein": 0.442,
+          "length_aa": 656,
+          "family": "FET"
+        },
+        "TAF15": {
+          "n_terminal_250_aa": 0.62,
+          "whole_protein": 0.562,
+          "length_aa": 592,
+          "family": "FET"
+        },
+        "FUS": {
+          "n_terminal_250_aa": 0.804,
+          "whole_protein": 0.586,
+          "length_aa": 526,
+          "family": "FET"
+        },
+        "TCF12": {
+          "n_terminal_250_aa": 0.368,
+          "whole_protein": 0.314,
+          "length_aa": 706,
+          "family": "non-FET"
+        },
+        "NR4A3": {
+          "n_terminal_250_aa": 0.264,
+          "whole_protein": 0.235,
+          "length_aa": 626,
+          "family": "non-FET"
+        },
+        "FLI1": {
+          "n_terminal_250_aa": 0.248,
+          "whole_protein": 0.272,
+          "length_aa": 452,
+          "family": "non-FET"
+        },
+        "ATF1": {
+          "n_terminal_250_aa": 0.324,
+          "whole_protein": 0.314,
+          "length_aa": 271,
+          "family": "non-FET"
+        }
+      },
+      "fet_range_n_terminal": [
+        0.54,
+        0.804
+      ],
+      "non_fet_range_n_terminal": [
+        0.248,
+        0.368
+      ]
+    },
+    "rg_content": {
+      "EWSR1": {
+        "rg_dipeptides": 30,
+        "rg_positions": [
+          300,
+          302,
+          304,
+          309,
+          314,
+          317,
+          321,
+          330,
+          455,
+          464,
+          471,
+          490,
+          494,
+          500,
+          503,
+          506,
+          563,
+          565,
+          572,
+          575,
+          581,
+          589,
+          592,
+          596,
+          600,
+          603,
+          607,
+          615,
+          633,
+          636
+        ]
+      },
+      "TAF15": {
+        "rg_dipeptides": 31,
+        "rg_positions": [
+          175,
+          185,
+          187,
+          195,
+          206,
+          326,
+          335,
+          337,
+          341,
+          343,
+          349,
+          395,
+          397,
+          403,
+          406,
+          408,
+          411,
+          415,
+          459,
+          467,
+          475,
+          483,
+          490,
+          498,
+          505,
+          512,
+          519,
+          528,
+          535,
+          562,
+          570
+        ]
+      },
+      "FUS": {
+        "rg_dipeptides": 24,
+        "rg_positions": [
+          213,
+          216,
+          218,
+          242,
+          244,
+          248,
+          251,
+          259,
+          377,
+          383,
+          386,
+          388,
+          394,
+          407,
+          473,
+          476,
+          481,
+          485,
+          487,
+          491,
+          495,
+          498,
+          503,
+          514
+        ]
+      },
+      "TCF12": {
+        "rg_dipeptides": 7,
+        "rg_positions": [
+          54,
+          74,
+          114,
+          299,
+          326,
+          527,
+          578
+        ]
+      },
+      "NR4A3": {
+        "rg_dipeptides": 2,
+        "rg_positions": [
+          371,
+          508
+        ]
+      },
+      "FLI1": {
+        "rg_dipeptides": 1,
+        "rg_positions": [
+          227
+        ]
+      },
+      "ATF1": {
+        "rg_dipeptides": 1,
+        "rg_positions": [
+          77
+        ]
+      }
+    },
+    "taf15_zero_rg_margin": {
+      "_two_conventions_that_differ_by_one": "The census reports the RG-free ceiling, the largest retained length carrying no RG dipeptide, which is one residue before the first RG. Subtracting the retained length from the ceiling gives the number of further residues that could be retained without touching an RG; subtracting it from the RG position gives the distance to that position.",
+      "taf15_first_rg_position": 175,
+      "rg_free_ceiling": 174,
+      "retained_at_taf15_exon_6": 161,
+      "residues_of_headroom_below_the_ceiling": 13,
+      "distance_to_the_first_rg_position": 14
+    }
+  },
+  "counted_fusion_type_frequencies": {
+    "_what": "Every counted EMC fusion-type series held in this repository's committed retrieval record, quoted by locating an anchor substring inside the stored abstract.",
+    "_why": "The manuscript ranked EWSR1::NR4A3 type 2 as the second commonest fusion. Neither source cited for that rank makes a frequency claim: one is a definition of the types and the other is an RT-PCR primer design. The rank appears to have been inferred from the type NUMBER. These are the counts that exist.",
+    "series": [
+      {
+        "series": "Panagopoulos 2002",
+        "pmid": "12378528",
+        "authors": "Panagopoulos I, Mertens F, Isaksson M, Domanski HA, Brosjö O, Heim S, Bjerkehagen B, Sciot R, Dal Cin P, Fletcher JA, Fletcher CD, Mandahl N.",
+        "title": "Molecular genetic characterization of the EWS/CHN and RBP56/CHN fusion genes in extraskeletal myxoid chondrosarcoma.",
+        "quotation": "The most frequent EWS/CHN transcript (type 1; 10 tumors), involved fusion of EWS exon 12 with CHN exon 3, and the second most common (type 5; two cases) was fusion of EWS exon 13 with CHN exon 3."
+      },
+      {
+        "series": "Okamoto 2001",
+        "pmid": "11679947",
+        "authors": "Okamoto S, Hisaoka M, Ishida T, Imamura T, Kanda H, Shimajiri S, Hashimoto H.",
+        "title": "Extraskeletal myxoid chondrosarcoma: a clinicopathologic, immunohistochemical, and molecular analysis of 18 cases.",
+        "quotation": "In a reverse-transcription polymerase chain reaction (RT-PCR) assay using paraffin-embedded specimens, EWS-CHN or TAF2N-CHN fusion gene transcripts characteristic of EMCS could be detected in 15 (83%) of the 18 cases: EWS-CHN type 1 in 11 cases, EWS-CHN type 2 in 1, and TAF2N-CHN in 3."
+      },
+      {
+        "series": "Sjogren 2003",
+        "pmid": "12598313",
+        "authors": "Sjögren H, Meis-Kindblom JM, Orndal C, Bergh P, Ptaszynski K, Aman P, Kindblom LG, Stenman G.",
+        "title": "Studies on the molecular pathogenesis of extraskeletal myxoid chondrosarcoma-cytogenetic, molecular genetic, and cDNA microarray analyses.",
+        "quotation": "All tumors contained translocation-generated or cryptic gene fusions, including EWS-TEC (five cases, of which one was a novel fusion), TAF2N-TEC (four cases), and TCF12-TEC (one case)."
+      }
+    ],
+    "genomic_breakpoint_mapping": {
+      "series": "Panagopoulos 2002",
+      "pmid": "12378528",
+      "quotation": "In CHN, 12 breakpoints were found in intron 2 and only two in intron 1.",
+      "_what_it_fixes": "A genomic break in NR4A3 intron 2 produces a transcript joining to exon 3; a break in intron 1 produces one joining to exon 2. The 12-to-2 split therefore maps the breakpoint literature's exon numbering onto transcript exon ranks 2 and 3, and it counts how often each acceptor is used."
+    },
+    "_reading": [
+      "Type 1 is the commonest EWSR1::NR4A3 transcript in every series that counts types.",
+      "Type 2 is counted once, in Okamoto's 15 fusion-positive cases, and does not appear among the counted types of Panagopoulos's 15 EWS/CHN cases, whose stated second commonest transcript is type 5.",
+      "TAF15::NR4A3 is counted in 3 of 18 (Panagopoulos), 3 of 15 fusion-positive (Okamoto) and 4 of 10 (Sjogren 2003), so it is the more frequently counted of the two zero-RG EMC fusions."
+    ],
+    "_not_pooled_and_why": "The series are reported separately rather than pooled. The reports come from overlapping centres and the abstracts as retrieved do not establish that the cases are non-overlapping, which the repository's pooling policy requires (systems/POLICY-evidence.md)."
+  },
+  "recruitment_axis_rows": {
+    "source_anchors": [
+      {
+        "row": "EWSR1-FLI1 (0 RGG domains)",
+        "rg_retained": 0,
+        "fraction": 0.0,
+        "status": "measured in the source",
+        "why_not_placeable": null
+      },
+      {
+        "row": "EWSR1-RGG(1)-FLI1",
+        "rg_retained": null,
+        "fraction": null,
+        "status": "measured in the source; not placeable on this axis",
+        "why_not_placeable": "the source does not identify which RGG-rich domain was reintroduced, so its retained RG count is unknown"
+      },
+      {
+        "row": "EWSR1-RGG(3)-FLI1 (the entire EWSR1 C-terminus)",
+        "rg_retained": 30,
+        "fraction": 1.0,
+        "status": "measured in the source",
+        "why_not_placeable": null
+      },
+      {
+        "row": "native EWSR1 (full length)",
+        "rg_retained": 30,
+        "fraction": 1.0,
+        "status": "measured in the source",
+        "why_not_placeable": null
+      }
+    ],
+    "reported_breakpoints_of_measured_fusions": [
+      {
+        "row": "EWSR1::FLI1 (Ewing, type 1) — EWSR1 e7",
+        "ewsr1_residues_retained": 264,
+        "rg_retained": 0,
+        "fraction": 0.0,
+        "status": "a reported breakpoint of a fusion in which the mechanism was measured"
+      },
+      {
+        "row": "EWSR1::ATF1 (clear cell, commonest type) — EWSR1 e8",
+        "ewsr1_residues_retained": 324,
+        "rg_retained": 7,
+        "fraction": 0.233,
+        "status": "a reported breakpoint of a fusion in which the mechanism was measured"
+      },
+      {
+        "row": "EWSR1::ATF1 (clear cell, reported type) — EWSR1 e7",
+        "ewsr1_residues_retained": 264,
+        "rg_retained": 0,
+        "fraction": 0.0,
+        "status": "a reported breakpoint of a fusion in which the mechanism was measured"
+      },
+      {
+        "row": "EWSR1::ATF1 (clear cell, reported type) — EWSR1 e10",
+        "ewsr1_residues_retained": 348,
+        "rg_retained": 8,
+        "fraction": 0.267,
+        "status": "a reported breakpoint of a fusion in which the mechanism was measured"
+      }
+    ],
+    "atf1_comparator_span": [
+      0.0,
+      0.267
+    ],
+    "_why_a_span": "Reference 1 built one EWSR1-ATF1 construct and the retrieved text does not state its EWSR1 breakpoint. Three EWSR1::ATF1 breakpoints are reported in the literature, retaining 0, 7 and 8 of 30 RG dipeptides, so the comparator is a span rather than a point.",
+    "emc_constructs": [
+      {
+        "construct": "EWSR1::NR4A3 type 1 — EWSR1 exon 12 :: NR4A3 exon 3",
+        "five_prime_gene": "EWSR1",
+        "rg_dipeptides_retained": 8,
+        "rg_dipeptides_total_in_wildtype": 30,
+        "fraction_of_wildtype_RG_retained": 0.267,
+        "rgg_boxes_touched": 1
+      },
+      {
+        "construct": "EWSR1::NR4A3 type 2 — EWSR1 exon 7 :: NR4A3 exon 2",
+        "five_prime_gene": "EWSR1",
+        "rg_dipeptides_retained": 0,
+        "rg_dipeptides_total_in_wildtype": 30,
+        "fraction_of_wildtype_RG_retained": 0.0,
+        "rgg_boxes_touched": 0
+      },
+      {
+        "construct": "EWSR1::NR4A3 type 5 — EWSR1 exon 13 :: NR4A3 exon 3",
+        "five_prime_gene": "EWSR1",
+        "rg_dipeptides_retained": 11,
+        "rg_dipeptides_total_in_wildtype": 30,
+        "fraction_of_wildtype_RG_retained": 0.367,
+        "rgg_boxes_touched": 2
+      },
+      {
+        "construct": "TAF15::NR4A3 — TAF15 exon 6 :: NR4A3 exon 3",
+        "five_prime_gene": "TAF15",
+        "rg_dipeptides_retained": 0,
+        "rg_dipeptides_total_in_wildtype": 31,
+        "fraction_of_wildtype_RG_retained": 0.0,
+        "rgg_boxes_touched": 0
+      }
+    ],
+    "firmly_measured_fractions": [
+      0.0,
+      1.0
+    ]
+  }
+}
