@@ -120,6 +120,15 @@ ledger ids, 0 duplicates**, trunk `AUT-PD-141` subject intact.
 
 Five of its seven branch-only paths recovered: the three PDFs of the **2026-08-21 Research Square
 submission of PUB-ASO**, and `scripts/preprint_host_policy_fetch.py` + `scripts/arxiv_route_fetch.py`.
+
+⛔ **The PDFs went into `aso/submitted-2026-08-21/`, not beside the live artifacts, and that was a
+measurement too.** Dropped into `aso/` they are swept up by `aso_archive_manifest.py`, whose deposit
+inventory globs `aso/*.pdf`: the manifest went **516 → 519 files, 50.7 → 55.5 MiB**, and listed all
+three under `documents_with_no_build_stamp`. That silently redefines the **current** deposit of a
+paper under live review to include a superseded version of it. The dated subdirectory keeps the
+record and leaves the inventory alone — the glob does not recurse — and a `README.md` there says
+which is which. Re-measured after the move: `n_files` back to **516**, the only inventory change
+being `lint_style.py`'s new bytes, which belong to the deposit legitimately.
 PUB-ASO is the one paper CLAUDE.md §3 excludes from the standing publication grant, so a submission
 record for it is exactly the class of artifact that must not be dropped silently.
 
