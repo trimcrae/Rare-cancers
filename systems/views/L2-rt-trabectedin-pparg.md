@@ -143,7 +143,7 @@ The ask is well formed and both drugs are approved, but the direction of the PPA
 
 ## Best next action
 
-Hold the ask until the PPARγ direction can be stated. Re-grade automatically when EMC expression data lands.
+The EMC expression read LANDED and was taken 2026-08-24 (ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY, analysed in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4) AND IT DOES NOT ESTABLISH A DIRECTION — recorded as answered-in-the-negative, not as still-waiting. What is left is a cell panel, which needs a bench. ⚠ Superseded, retained (rule 1.2): "Hold the ask until the PPARγ direction can be stated. Re-grade automatically when EMC expression data lands."
 
 *Cost:* $0
 

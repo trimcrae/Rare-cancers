@@ -130,7 +130,7 @@ Its central premise is directionally unresolved, and both cheap tests that were 
 
 ## Best next action
 
-The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-emc.md). What remains is a PPARγ activity readout in EMC, which is blocked by BLK-NO-EMC-DATA — not by an unrun literature pull.
+The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-emc.md) and so is the ACTIVITY half: the PPARγ target-gene readout was TAKEN 2026-08-24 and is analysed in research/manuscripts/fusion-output/nr4a3-fusion-transcriptional-output-SI.md §S4 (from ART-EMC-EXPRESSION-PANELS reads.read_3_PPARG_ACTIVITY). What remains is a readout that separates PPARγ receptor output from lineage/adipogenic composition, which bulk archival tissue cannot supply — a study-design limit, not a data-availability one, so no further expression cohort lifts it. ⚠ Superseded, retained (rule 1.2): "The literature half is CLOSED (research/manuscripts/repurposing/pparg-direction-emc.md). What remains is a PPARγ activity readout in EMC, which is blocked by BLK-NO-EMC-DATA — not by an unrun literature pull."
 
 *Cost:* $0
 

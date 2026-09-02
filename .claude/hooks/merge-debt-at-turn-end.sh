@@ -66,6 +66,36 @@
 #            carries no information whatever about whether somebody else's pushed branch is on the
 #            trunk. That asymmetry is the whole of hole 2.
 #
+# =====================================================================================================
+# ⭐⭐ 2026-09-02 — A THIRD HALF, BECAUSE THE RULE GAINED A SECOND OBLIGATION.
+# trimcrae: "use branches but have it pull from main whenever there's a change", and "rather than
+# merging everything to main willy nilly". CLAUDE.md §7 now runs two lanes: coordination state
+# (autonomy-state.json, receipts/, research-ledger.json, claims) goes STRAIGHT to `main` because each
+# of those files is inert off the trunk — `claim.py`'s push to `main` IS the lock, `health.py` reads
+# the checkout's receipts and a fired cycle checks out `main`, every cycle re-scores the ledger from
+# the trunk — while WORK PRODUCT develops on a branch that pulls `main` in on every change.
+#
+#   HALF A2 — "has this branch pulled `main` in?"  The pull half. Same `origin/main...HEAD` counts
+#             this hook already computes, read in the other direction (BEHIND rather than AHEAD).
+#
+# ⛔⛔ HALF A2 DOES NOT REPLACE HALF B AND MUST NEVER BE ALLOWED TO. They fail in opposite directions:
+# a branch can pull `main` in every hour and still be abandoned, and pulling is precisely what makes
+# an abandoned branch look healthy. HALF B is the check that costs something — it is the one that
+# names 25 refs carrying 111 unmerged commits (live reading 2026-09-02 1:04 PM ET, 174 unmerged refs
+# in total) — and dropping it is the only way this rule change does real harm.
+#
+# ⚠ WHY A2 IS GRADED RATHER THAN BINARY. Any branch is behind `main` within minutes, and a hook that
+# printed a block for that at every stop is the wall this file's header refuses to become. So:
+#   DIVERGENT (behind AND ahead) — the dangerous state, and the only one that gets a block. Commits
+#     were written against a trunk that has since moved; that is the 2026-08-29 shape, where two
+#     sessions fixed one bug in one hour because neither branch ever pulled the other's work in.
+#   STALE (behind, nothing of its own) — one line. Nothing has been written against the stale trunk
+#     yet, so this is a warning before the fact rather than a debt after it.
+# ⭐ AND IT USES THE COUNTS ALREADY COMPUTED. No `merge-base`, no extra process: that formulation
+# measured 20.0 s over 183 refs against a 15 s timeout and is pinned out by
+# `test_the_classification_is_one_process_and_not_a_merge_base_loop`.
+# =====================================================================================================
+#
 # ⭐ WHY HALF A KEEPS THE DIRTY EXIT, STATED SO IT CAN BE ARGUED WITH. Two reasons, both checked
 # rather than assumed. (1) `~/.claude/stop-hook-git-check.sh` is wired at the launcher level and was
 # run on this tree on 2026-09-01: it exits 2 on uncommitted changes TODAY, so that state is already
@@ -178,6 +208,12 @@ if [ -n "$BRANCH" ] && [ "$BRANCH" != "main" ]; then
   [ -n "$(git status --porcelain 2>/dev/null)" ] && A_DIRTY=1
 fi
 
+# HALF A2 — graded from the counts HALF A already has. DIVERGENT is the state that costs something.
+A_DIVERGENT=0; A_STALE=0
+if [ "$A_BEHIND" -gt 0 ]; then
+  if [ "$A_AHEAD" -gt 0 ]; then A_DIVERGENT=1; else A_STALE=1; fi
+fi
+
 # ─────────────────────────────────────────────────────────────────────────────────────────────────
 # HALF B — every branch on `origin` that carries unmerged commits, whoever pushed it and whenever.
 # Not gated on HEAD. Not gated on the worktree. One `for-each-ref`, no network.
@@ -202,7 +238,12 @@ fi
 
 # Nothing to say only when BOTH halves are quiet — and HALF A is quiet on a dirty tree by the trade
 # argued in the header.
-if [ "$B_N" -eq 0 ] && { [ "$A_AHEAD" -eq 0 ] || [ "$A_DIRTY" -eq 1 ]; }; then
+# ⛔ A2 IS NOT SILENCED BY A DIRTY TREE. HALF A's dirty-tree exit defers an instruction that would be
+# wrong mid-edit ("merge it, not next turn"); "you are working against a stale trunk" is not wrong
+# mid-edit — it is most useful exactly then, because every further edit compounds it. What the dirty
+# tree defers is the `git merge origin/main` INSTRUCTION, not the reading.
+if [ "$B_N" -eq 0 ] && [ "$A_DIVERGENT" -eq 0 ] && [ "$A_STALE" -eq 0 ] \
+   && { [ "$A_AHEAD" -eq 0 ] || [ "$A_DIRTY" -eq 1 ]; }; then
   exit 0
 fi
 
@@ -223,6 +264,29 @@ if [ -f "${_COMMON}/FETCH_HEAD" ]; then
 fi
 
 {
+  # ── HALF A2 — the PULL half (CLAUDE.md §7 lane 2) ──────────────────────────────────────────────
+  if [ "$A_DIVERGENT" -eq 1 ]; then
+    echo "⛔ '$A_BRANCH' has NOT pulled main in: $A_AHEAD commit(s) of its own written against a trunk"
+    echo "   that has since moved $A_BEHIND commit(s). That is DIVERGENT, not merely behind."
+    echo
+    echo "★ CLAUDE.md §7: a work branch \"pulls main in on EVERY change\" — not once at the start and not"
+    echo "   before the final push. A branch that has not pulled is reasoning from a trunk that no longer"
+    echo "   exists, and on 2026-08-29 that produced two sessions diagnosing and fixing the SAME bug"
+    echo "   within one hour, neither able to see the other."
+    if [ "$A_DIRTY" -eq 0 ]; then
+      echo "   ⭑ DO IT NOW: \`git fetch origin main && git merge origin/main\`, then re-run preflight."
+    else
+      echo "   ⚠ The worktree is dirty, so the merge INSTRUCTION is deferred to the next clean stop."
+      echo "     ⛔ The divergence is not deferred: it is printed here every stop, and every further edit"
+      echo "     is one more thing written against the stale trunk."
+    fi
+    echo
+  elif [ "$A_STALE" -eq 1 ]; then
+    echo "⚠ '$A_BRANCH' is $A_BEHIND commit(s) behind main and carries nothing of its own yet. Pull before"
+    echo "   you commit (\`git merge origin/main\`) — CLAUDE.md §7 lane 2. Refs as last fetched."
+    echo
+  fi
+
   # ── HALF A ─────────────────────────────────────────────────────────────────────────────────────
   if [ "$A_AHEAD" -gt 0 ] && [ "$A_DIRTY" -eq 0 ]; then
     echo "⛔ $A_AHEAD commit(s) on '$A_BRANCH' are NOT on main. Committed, clean, and off the trunk."
@@ -230,11 +294,8 @@ fi
     git log --oneline --no-decorate origin/main..HEAD 2>/dev/null | head -8 | sed 's/^/   /'
     [ "$A_AHEAD" -gt 8 ] && echo "   … and $((A_AHEAD - 8)) more"
     echo
-    if [ "$A_BEHIND" -gt 0 ]; then
-      echo "⚠ '$A_BRANCH' is also $A_BEHIND commit(s) BEHIND main (last-known ref; fetch for the true count)."
-      echo "   Merging main IN first is the same rule — CLAUDE.md §7, 'merge early and often'."
-      echo
-    fi
+    # ⚠ The behind-count is HALF A2's, above — one fact, one place (CLAUDE.md rule 1). It used to be
+    # restated here as an aside, which is how it stayed advice instead of becoming a check.
     echo "⛔⛔ MERGING TO main NEEDS NO PERMISSION, AND READING A BRANCH INSTRUCTION AS IF IT DID IS"
     echo "   THE MISTAKE THIS HOOK EXISTS FOR. CLAUDE.md §6: \"A MERGE OR PUSH TO \`main\` IS THE COMMIT"
     echo "   LOOP, NOT PUBLICATION\" — ordinary work, gated by ./scripts/preflight.sh and nothing else."
@@ -245,8 +306,10 @@ fi
     echo "★ ONE OF THESE IS TRUE, AND THE REPLY SHOULD SAY WHICH:"
     echo "   1. It is ready. Then MERGE IT — preflight, merge to main, push. Not next turn."
     echo "   2. It is genuinely not ready — a half-finished change a merge would ship broken. Then say"
-    echo "      WHAT is unfinished. \"I'll merge when the feature is done\" is not that; this repository"
-    echo "      merges early and often precisely so that 'done' is never the first merge."
+    echo "      WHAT is unfinished. ⛔ THE BAR IS GREEN AND COHERENT, NOT FINISHED (CLAUDE.md §7): a work"
+    echo "      branch merges as soon as preflight passes and the tree makes sense to a reader."
+    echo "      \"I'll merge when the feature is done\" is the reasoning that stranded the branch"
+    echo "      population — it is not a plan, it is a deferral with no trigger."
     echo "   3. Somebody outside this session must decide — and that is rare enough that it needs a"
     echo "      reason, not a habit."
     echo
@@ -260,7 +323,8 @@ fi
 
   # ── HALF B ─────────────────────────────────────────────────────────────────────────────────────
   if [ "$B_N" -gt 0 ]; then
-    echo "⛔ $B_N branch(es) on origin carry $B_COMMITS unmerged commit(s). §7 calls this a DATA-LOSS BUG."
+    echo "⛔ $B_N branch(es) on origin carry $B_COMMITS unmerged commit(s): finished work nothing will merge."
+    echo "   §7 calls this a DATA-LOSS BUG, and it is check (b): PULLING main IN DOES NOT FIX IT."
     echo "   These share this trunk's history and are not ancestors of the last-known origin/main."
     echo "   Newest first (refs as last fetched, $FETCH_AGE — no fetch is run from a Stop hook):"
     echo

@@ -30,4 +30,8 @@ jobs:
             echo "::error::MODAL_TOKEN_ID/SECRET secrets missing — add them in repo Settings → Secrets → Actions."
             exit 1
           fi
+          # ⛔ NO-GPU BAN (autonomy-state.json -> gpu_spend_prohibited). One gate: research/autonomy/gpu_ban.py.
+          # Inline, immediately above the meter, rather than a job-level step: a step can be reordered away from
+          # the thing it guards, and a relaunch is a NEW PURCHASE (CLAUDE.md §6) that must face it again.
+          python3 "${GITHUB_WORKSPACE:-.}/research/autonomy/gpu_ban.py" --context "modal-smoke: Modal T4" || exit 3
           modal run research/modalities/modal_smoke.py
