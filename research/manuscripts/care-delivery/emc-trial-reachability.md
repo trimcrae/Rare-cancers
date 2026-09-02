@@ -104,18 +104,23 @@ anywhere. The patient is inside the trial's own definition and outside its index
 | Per-trial eligibility | every unconfirmed candidate re-fetched individually and its criteria read | 2026-08-09 |
 | Non-US registries | five endpoints attempted, one answered, with a positive control in the same run | 2026-08-09 |
 
-The large screens are fields-limited and carry no eligibility text, so they can identify a candidate
-and can never confirm one. Every admission and every refusal reported below therefore rests on a
-per-trial retrieval, and the two refusals in §4 were only detectable that way. The basket records in
-§3's third row are the exception and are not adjudicated: eligibility text was retrieved individually
-for three of those nine, so they are reported as molecularly defined and nothing more.
+The fielded screens carry no eligibility text, so they can identify a candidate and can never
+confirm one; one sarcoma screen was unfielded and did carry it. Every admission and every refusal
+reported below therefore rests on a per-trial retrieval, and the two refusals in §4 were only
+detectable that way. The basket records in §3's third row are the exception and are not adjudicated:
+eligibility text was retrieved for three of those nine, two of them individually and the third
+inside the unfielded screen, so they are reported as molecularly defined and nothing more.
 
-The earlier read carried a transport defect. The fetcher passed registry payloads through an HTML
-stripper, which deletes spans between angle brackets; the registry escapes comparison operators the
-same way, so eligibility text containing them lost characters. The rule applied at the time was that
-no sentence carrying a removal marker may be quoted, and it is why no criterion is quoted verbatim
-from NCT05918640, whose retrieved eligibility text carries one such marker and was not re-fetched
-after the fix. That defect has since been fixed at the fetcher.
+The earlier read carried a transport defect with two modes, and the second one bounds this paper's
+coverage. The fetcher passed registry payloads through an HTML stripper, which deletes spans between
+angle brackets; the registry escapes comparison operators the same way, so eligibility text lost
+characters, and where a deleted span crossed the JSON structure a whole record or a whole module
+vanished. Twelve records were lost that way, five of them recoverable from another payload in the
+same file. Three of the remaining seven came from the two condition searches on the diagnosis
+itself; all three are closed studies, one completed and two terminated, so none of them changes a
+count of recruiting trials, and the condition searches were not re-run after the fix. The rule
+applied at the time barred quoting any sentence that itself carried a removal marker, which left
+marker-free criteria quotable. That defect has since been fixed at the fetcher.
 
 ## 3 · Trials admitting this disease without naming it
 
@@ -212,8 +217,14 @@ one trial at a time is the methodological content of this paper.
 Every trial identifier, every verbatim criterion quoted, and every adjudication is in
 `research/literature/fet-fusion-trial-eligibility-2026-08-07.json`,
 `research/literature/emc-trial-reachability-adjudication-2026-08-09.json` and, for the non-US sweep
-of §4.1 and its endpoint results, `research/literature/non-us-registry-sweep-2026-08-09.json`. Each
-records the retrieval URL, the run that fetched it and the date.
+of §4.1 and its endpoint results, `research/literature/non-us-registry-sweep-2026-08-09.json`. All
+three record the run that fetched them and the date. Only the first records a retrieval URL per
+record; the other two ran from inline manifests that were never committed, and name the API base
+only. The URL manifests behind the 2026-08-07 sweep are
+`research/literature/emc-clinical-sweep-targets.json`, `-c3.json` and `-c4.json`; the statuses of
+the three records the damaged condition searches dropped are in
+`research/modalities/emc-hypoxia-therapeutic-status.json`; the stripper fix is in
+`scripts/lit_fetch_urls.py`.
 
 ## 8 · Declarations
 
