@@ -2404,9 +2404,9 @@
         "publication": "PUB-ASO",
         "strategy": null
       },
-      "state": "queued",
-      "owner": null,
-      "claimed_utc": null,
+      "state": "in_progress",
+      "owner": "CYC-0091-91c8e949",
+      "claimed_utc": "2026-09-02T13:34:41Z",
       "_lease_released_by": "CYC-0091-91c8e949, 2026-09-02T13:31Z. The holder was 'seat:s33-regression (CYC-0090-d7df5340 blind seat, width 1)' — a blind seat of CYC-0090-d7df5340, whose receipt research/autonomy/receipts/CYC-0090-d7df5340.json is committed on the trunk. A cycle that has filed its receipt has ended and its seats end with it, so the lease was held by a worker that provably cannot be running; its one completed record is preserved at research/autonomy/round33-seats/. ⚠ RELEASED BY HAND RATHER THAN AGED OUT, and that is the part worth recording: priority.release_stale_claims expires a claim after cycle_interval_hours × weights.claim_lease.periods, which at the restored 24 h cadence is days away, while this row is the queue's top item and the only thing that closes publish_bar clause 1 for PUB-ASO. Taking another worker's lease is exactly the act that should leave evidence rather than be done silently.",
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
@@ -2434,6 +2434,10 @@
         {
           "utc": "2026-08-31T13:59:48Z",
           "fingerprint_at_dispatch": "2026-08-31|None"
+        },
+        {
+          "utc": "2026-09-02T13:34:41Z",
+          "fingerprint_at_dispatch": "2026-09-02|None"
         }
       ],
       "handoff": {
