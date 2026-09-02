@@ -439,7 +439,13 @@ jobs:
           # there is nothing to supervise. FAIL-ARMED — any doubt publishes as before, and idle is exit 10
           # so a traceback can never read as "nothing to supervise".
           # One home for the rule: research/modalities/fleet_armed.py
-          python3 research/modalities/fleet_armed.py tvast-market > /tmp/armed-tvast-market.json 2>&1; _ARMED=$?
+          # ⚠ `_ARMED=0; cmd || _ARMED=$?` AND NOT `cmd; _ARMED=$?` — this step runs under
+          # `set -eo pipefail`, so a bare non-zero exit aborts the step BEFORE `$?` is read.
+          # fleet_armed's IDLE code is 10, i.e. the ordinary empty-account case, so the bare form
+          # killed this gate on exactly the tick that most needed to dispatch. Same idiom, and the
+          # same warning, as step1-fanout-autoscale.yml's `armed` step.
+          _ARMED=0
+          python3 research/modalities/fleet_armed.py tvast-market > /tmp/armed-tvast-market.json 2>&1 || _ARMED=$?
           if [ "$_ARMED" -eq 10 ]; then
             echo "[gate] IDLE — nothing to supervise; this snapshot is not committed."
             cat /tmp/armed-tvast-market.json
@@ -1060,7 +1066,13 @@ jobs:
           # there is nothing to supervise. FAIL-ARMED — any doubt publishes as before, and idle is exit 10
           # so a traceback can never read as "nothing to supervise".
           # One home for the rule: research/modalities/fleet_armed.py
-          python3 research/modalities/fleet_armed.py valb-market > /tmp/armed-valb-market.json 2>&1; _ARMED=$?
+          # ⚠ `_ARMED=0; cmd || _ARMED=$?` AND NOT `cmd; _ARMED=$?` — this step runs under
+          # `set -eo pipefail`, so a bare non-zero exit aborts the step BEFORE `$?` is read.
+          # fleet_armed's IDLE code is 10, i.e. the ordinary empty-account case, so the bare form
+          # killed this gate on exactly the tick that most needed to dispatch. Same idiom, and the
+          # same warning, as step1-fanout-autoscale.yml's `armed` step.
+          _ARMED=0
+          python3 research/modalities/fleet_armed.py valb-market > /tmp/armed-valb-market.json 2>&1 || _ARMED=$?
           if [ "$_ARMED" -eq 10 ]; then
             echo "[gate] IDLE — nothing to supervise; this snapshot is not committed."
             cat /tmp/armed-valb-market.json
@@ -1211,7 +1223,13 @@ jobs:
           # there is nothing to supervise. FAIL-ARMED — any doubt publishes as before, and idle is exit 10
           # so a traceback can never read as "nothing to supervise".
           # One home for the rule: research/modalities/fleet_armed.py
-          python3 research/modalities/fleet_armed.py 5aks-market > /tmp/armed-5aks-market.json 2>&1; _ARMED=$?
+          # ⚠ `_ARMED=0; cmd || _ARMED=$?` AND NOT `cmd; _ARMED=$?` — this step runs under
+          # `set -eo pipefail`, so a bare non-zero exit aborts the step BEFORE `$?` is read.
+          # fleet_armed's IDLE code is 10, i.e. the ordinary empty-account case, so the bare form
+          # killed this gate on exactly the tick that most needed to dispatch. Same idiom, and the
+          # same warning, as step1-fanout-autoscale.yml's `armed` step.
+          _ARMED=0
+          python3 research/modalities/fleet_armed.py 5aks-market > /tmp/armed-5aks-market.json 2>&1 || _ARMED=$?
           if [ "$_ARMED" -eq 10 ]; then
             echo "[gate] IDLE — nothing to supervise; this snapshot is not committed."
             cat /tmp/armed-5aks-market.json

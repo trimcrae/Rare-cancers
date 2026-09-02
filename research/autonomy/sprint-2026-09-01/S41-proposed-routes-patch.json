@@ -1,0 +1,182 @@
+{
+  "_what": "A PROPOSED, UNAPPLIED patch to systems/graph/routes.json covering the nine required_validation entries across seven routes that carry feasible_today=false on BLK-NO-EMC-DATA and that seat S32 did not adjudicate. One instruction per ENTRY, never one per route. Written by seat S41 of sprint 2026-09-01 for AUT-PD-116.",
+  "_status": "PROPOSED — NOT APPLIED. systems/graph/routes.json was not edited by this seat.",
+  "_why_not_applied": "Re-attributing or removing a blocker changes what the ranker offers. CLAUDE.md §0 is the reason the audit was worth taking and it is also the reason the audit does not get to take the call: a seat that both finds the mis-filing and flips the flag has graded its own work. This file makes the call obvious and cheap for a cycle that can gate it.",
+  "_execution_model": "$0 to apply. No fetch, no CI, no GPU. Every judgement below rests on a record already committed at the baseline HEAD.",
+  "_language_discipline": "⛔ NOTHING HERE ASSERTS EFFICACY, SELECTIVITY, SAFETY, A THERAPEUTIC WINDOW OR CLINICAL READINESS for any agent, antigen or class in EMC. No route below is promoted, re-graded, made ready or moved in the portfolio. Every change is a blocker ATTRIBUTION: it renames what a route is waiting on and asserts nothing about whether the wait will end.",
+  "_findings_file": "research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md",
+  "generated_utc": "2026-09-02T00:00:00Z",
+
+  "baseline": {
+    "head": "b4cf28c6be8f464fc25e0cee06f6be50eb181138",
+    "routes_read_from": "systems/graph/routes.json, verified byte-identical to HEAD by `git diff --stat HEAD -- systems/graph/routes.json` returning empty",
+    "blockers_read_from": "systems/graph/blockers.json, same check",
+    "population_derivation": "python3: [(x['id'],v) for x in routes for v in (x.get('required_validation') or []) if v.get('feasible_today') is False and 'BLK-NO-EMC-DATA' in (v.get('blocked_by') or [])] -> 28 entries, 23 distinct routes, over 77 routes",
+    "already_adjudicated_elsewhere": "research/modalities/emc-blk-no-emc-data-route-retest.json (commit 1132109a5) covers 19 of the 28 entries across 16 routes. This patch covers the other 9 across 7 routes and amends none of S32's."
+  },
+
+  "the_reading_every_change_below_rests_on": {
+    "source": "systems/graph/blockers.json -> BLK-NO-EMC-DATA",
+    "name_verbatim": "EMC is nearly absent from public functional-genomics data (one DepMap line, n = 1, no CRISPR data)",
+    "retired_by_action_verbatim_fragment": "What WOULD retire it is an EMC dependency or drug-response screen (a second EMC line in DepMap, a CRISPR screen, or an ex-vivo panel), none of which exists",
+    "the_inference": "An entry whose requirement is neither a dependency screen nor a drug-response screen is not waiting on this blocker. S32 applied that to expression and tissue reads; this patch applies it to clinical, outcome and registry requirements, which is the half nobody had tested.",
+    "⛔_what_this_inference_does_NOT_license": "Retiring BLK-NO-EMC-DATA. It stays, correctly, on the three entries in `no_change_correct_as_filed` below, and this seat did not test the 38 routes that carry it in `blockers_inherited` at route level."
+  },
+
+  "proposed_changes": [
+    {
+      "route": "RT-ICI-TKI",
+      "entry": "required_validation[0]",
+      "entry_text_verbatim": "A larger EMC series or a registry analysis",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "change": {
+        "blocked_by_from": ["BLK-NO-EMC-DATA"],
+        "blocked_by_to": ["BLK-NO-CURATED-CLINICAL-DATA", "BLK-REGISTRY-DUA"],
+        "feasible_today": "unchanged, false"
+      },
+      "justification": "The requirement is clinical outcome evidence in two disjuncts — a larger patient series, or an analysis of a population registry — and neither is a dependency or drug-response screen, so BLK-NO-EMC-DATA does not reach either. The route's own record already names the residual correctly and never mentions functional-genomics data: readiness.missing reads 'a larger clinical series — unchanged. Four patient-level PFS values now exist for this route (km-swimmer-readings.json) and four patients is not a series.' The first disjunct is a reachable-set question about the clinical literature, which is exactly what BLK-NO-CURATED-CLINICAL-DATA states it is about ('THIS IS A STATEMENT ABOUT THE REACHABLE SET'). The second is population-registry microdata, which BLK-REGISTRY-DUA names by its own title. The entry stays feasible_today=false: nothing satisfies it today, and the point of the change is that its residual acquires an owner and an action instead of reading as an absence of data in the world.",
+      "grade_change": "NONE. The route's grade, its four IMMUNOSARC patient bars and its claim ceiling are untouched.",
+      "⚠_caveat_carried_forward": "BLK-REGISTRY-DUA's own record says '⚠ DO NOT DO THIS FIRST. The prior question is whether a SEER cohort keyed on ICD-O-3 9231/3 is an EMC cohort at all.' Attaching the blocker does not recommend buying the access."
+    },
+    {
+      "route": "RT-CARFILZOMIB",
+      "entry": "required_validation[0]",
+      "entry_text_verbatim": "A clinical series",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "change": {
+        "blocked_by_from": ["BLK-NO-EMC-DATA"],
+        "blocked_by_to": ["BLK-NO-CURATED-CLINICAL-DATA"],
+        "feasible_today": "unchanged, false"
+      },
+      "justification": "Two words, one category error: a clinical series is not a dependency or drug-response screen. What this entry is short of is a clinical publication that reports EMC patients treated with this class, which is a property of the reachable clinical literature and is the thing BLK-NO-CURATED-CLINICAL-DATA states. The route's evidence is ex-vivo on two patient-derived EMC models (EV-BANGERTER-2023) and its readiness already records the ceiling — 'no in-vivo and no clinical data in EMC' — so re-attribution changes nothing about what is known and only names the right wait.",
+      "grade_change": "NONE. The ex-vivo positive and the negative class-level clinical read (EV-MAKI-2005) both stand exactly as the grade records them."
+    },
+    {
+      "route": "RT-CARFILZOMIB",
+      "entry": "next.blocked_on",
+      "entry_text_verbatim": "[\"BLK-NO-EMC-DATA\"]",
+      "verdict": "FIELD IS WRONG AND IT IS SUPPRESSING A $0 ACTION",
+      "change": {
+        "blocked_on_from": ["BLK-NO-EMC-DATA"],
+        "blocked_on_to": [],
+        "note": "clear the field; do not substitute another blocker"
+      },
+      "justification": "⭐ THE CHEAPEST CORRECTION IN THIS PATCH AND THE ONLY ONE THAT UNSTICKS AN ACTION RATHER THAN A LABEL. The same `next` block holds cost '$0' and a best_next_action that reads 'Re-run the CLASS-LEVEL query, not the EMC one … the query that found them — a proteasome inhibitor against the parent histology — is recorded verbatim in research/literature/carfilzomib-class-clinical-2026-08-28.json and costs $0 to repeat. Two named $0 items remain open.' A literature query against a parent histology is not gated by the absence of an EMC dependency screen, and the field's own price says so. The referenced file exists at the baseline HEAD. ⛔ Clearing this field does NOT satisfy required_validation[0], which stays open on BLK-NO-CURATED-CLINICAL-DATA per the row above, and makes no claim about carfilzomib in EMC.",
+      "grade_change": "NONE."
+    },
+    {
+      "route": "RT-ENDPOINT-CHOICE",
+      "entry": "required_validation[2]",
+      "entry_text_verbatim": "A comparator that would separate treatment effect from natural history in the disease-control reading - a randomised no-treatment arm, or an observational within-patient design such as growth-modulation index or time to next treatment",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "change": {
+        "blocked_by_from": ["BLK-NO-EMC-DATA"],
+        "blocked_by_to": ["BLK-NO-CURATED-CLINICAL-DATA"],
+        "feasible_today": "unchanged, false",
+        "also_fix": "route.blockers_inherited is [] while this entry carries a blocker — an internal inconsistency the build does not catch. Applying this patch removes it as a side effect; a guard for the class is proposed separately in the findings file."
+      },
+      "justification": "Checked rather than assumed, because the second disjunct looked like it might be derivable from committed data. It is not. research/modalities/emc-ipd-survival.json reconstructs patient-level data from published Kaplan-Meier curves and its curve_schema.endpoint is one of os | dss | pfs | lrfs | dmfs — single-interval endpoints — while printed_patient_level_data.n_rows is 2. A growth-modulation index needs the ratio of a patient's progression-free interval on the current line to the one before it, and time to next treatment needs the date of the following line; both require PAIRED SEQUENTIAL intervals per patient, which no reachable artifact in this repository carries. The requirement therefore stays open, and it is open on the content of the clinical literature rather than on functional-genomics data.",
+      "grade_change": "NONE. The route's two satisfied entries and its six endpoint artifacts are untouched."
+    },
+    {
+      "route": "RT-PARTNER-STRAT",
+      "entry": "required_validation[0]",
+      "entry_text_verbatim": "Partner-stratified event counts from the largest outcome series. ✅ HALF DONE 2026-08-08: Huang 2023 (Mod Pathol, n = 58) was obtained - a human read Table 1 from the publisher's designated-free PDF, which returns HTTP 403 to every automated fetcher, so this was a bot block and not a paywall. Paioli 2021 (Ann Surg Oncol, n = 67) remains genuinely closed: oa_status closed, zero OA locations, both institutional-repository records metadata-only. ⚠ Superseded, retained: 'which exist today inside their paywalled full texts (Mod Pathol 2023, Ann Surg Oncol 2021)' - only one of the two was ever paywalled.",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "change": {
+        "blocked_by_from": ["BLK-NO-EMC-DATA"],
+        "blocked_by_to": ["BLK-NO-CURATED-CLINICAL-DATA"],
+        "feasible_today": "unchanged, false"
+      },
+      "justification": "The entry names its own residual and it is a single closed-access clinical publication, established with the evidence a reachability question needs (oa_status closed, zero OA locations, both institutional-repository records metadata-only). That is a property of the reachable clinical literature — BLK-NO-CURATED-CLINICAL-DATA, whose statement_about is explicitly the reachable set and whose census of that set's edge lives in research/literature/emc-km-reachability-census-2026-08-25.json. An EMC dependency screen would not produce this table. ⚠ The entry is HALF DONE and stays feasible_today=false, correctly: one of the two series named is in hand and the other is not.",
+      "grade_change": "NONE."
+    },
+    {
+      "route": "RT-PARTNER-STRAT",
+      "entry": "required_validation[1]",
+      "entry_text_verbatim": "The pazopanib trial's full fusion-partner distribution and its prior-therapy table, which together close both the overlap question and the composition of the comparator arm",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "change": {
+        "blocked_by_from": ["BLK-NO-EMC-DATA"],
+        "blocked_by_to": ["BLK-NO-CURATED-CLINICAL-DATA"],
+        "feasible_today": "unchanged, false"
+      },
+      "justification": "Two tables inside one clinical trial report. Whether they are printed at all, and whether the report is reachable, are both statements about the clinical literature; neither is a statement about functional-genomics data. Same blocker as the entry above and for the same reason.",
+      "grade_change": "NONE."
+    },
+    {
+      "route": "RT-PARTNER-STRAT",
+      "entry": "required_validation[2]",
+      "entry_text_verbatim": "A partner-stratified reanalysis of any registry with size and stage adjusted for - the test the two larger series already point at and neither could complete",
+      "verdict": "STILL_BLOCKED_WRONG_BLOCKER",
+      "change": {
+        "blocked_by_from": ["BLK-NO-EMC-DATA"],
+        "blocked_by_to": ["BLK-REGISTRY-DUA", "BLK-NO-CURATED-CLINICAL-DATA"],
+        "feasible_today": "unchanged, false"
+      },
+      "justification": "The requirement names a registry reanalysis with covariate adjustment, which needs registry microdata. BLK-REGISTRY-DUA is that blocker by its own title and its kind is requires_authorization — a materially different state from insufficient_data, because it has a named holder and a named act. BLK-NO-CURATED-CLINICAL-DATA is retained alongside it because a partner label is not a field population registries carry, so access alone would not complete the test. ⚠ BLK-REGISTRY-DUA's prior applies unchanged: the ICD-O-3 9231/3 contamination question comes first.",
+      "grade_change": "NONE."
+    },
+    {
+      "route": "RT-6MP",
+      "entry": "required_validation[0]",
+      "entry_text_verbatim": "A primary measurement of 6-MP's direction of effect on the EWSR1::NR4A3 fusion, not on wild-type NR4A3",
+      "verdict": "GENUINELY_BLOCKED_BLOCKER_DEFENSIBLE",
+      "change": {
+        "blocked_by_from": ["BLK-NO-EMC-DATA"],
+        "blocked_by_to": ["BLK-NO-EMC-DATA", "BLK-NO-WET-LAB"],
+        "feasible_today": "unchanged, false",
+        "kind": "ADDITION ONLY — nothing is removed"
+      },
+      "justification": "A primary measurement of a compound's direction of effect on a specific fusion protein is a perturbation experiment. BLK-NO-EMC-DATA is defensible on it, because an ex-vivo drug-response panel is one of the two things its retiring action names and such a panel could in principle carry it. But the entry's precise residual is a bench, and the route does not carry BLK-NO-WET-LAB at all. This is the one row in the patch that ADDS rather than replaces. ⚠ Bookkeeping with no ranking consequence: the route is closed on direction of effect (grade '✕ closed on DIRECTION OF EFFECT … and on non-selectivity'), its readiness is internal_note and its next.best_next_action is 'Nothing. Cite the closure.'",
+      "grade_change": "NONE."
+    }
+  ],
+
+  "no_change_correct_as_filed": [
+    {
+      "route": "RT-SYNLETH-DEP",
+      "entry": "required_validation[0]",
+      "entry_text_verbatim": "An EMC-specific dependency screen",
+      "verdict": "GENUINELY_BLOCKED_BLOCKER_CORRECT",
+      "justification": "This is verbatim the first half of BLK-NO-EMC-DATA's own retired_by_action. S32's verdict_scale independently names this route as the one that carries the blocker correctly and places it outside its sixteen. Nothing to change."
+    },
+    {
+      "route": "RT-ATR-PANEL",
+      "entry": "required_validation[0]",
+      "entry_text_verbatim": "The panel itself",
+      "verdict": "GENUINELY_BLOCKED_BLOCKER_CORRECT",
+      "justification": "The route's display_name resolves the pronoun: 'The ATR-inhibitor cell panel in EMC lines (the ask)'. An ex-vivo drug-response panel is the second half of the same retiring action. The entry also carries BLK-NO-WET-LAB, correctly. Nothing to change."
+    }
+  ],
+
+  "tally": {
+    "entries_in_this_patch": 9,
+    "routes_in_this_patch": 7,
+    "blocker_replaced": 6,
+    "blocker_added_not_replaced": 1,
+    "field_cleared": 1,
+    "no_change": 2,
+    "_note_on_arithmetic": "9 required_validation entries across 7 routes, plus 1 non-validation field (RT-CARFILZOMIB.next.blocked_on) which is listed as a tenth proposed change. 6 replaced + 1 added + 2 no-change = 9 entries; the field clear is separate.",
+    "routes_made_TAKEABLE_TODAY_by_this_patch": 0,
+    "routes_promoted_or_regraded_by_this_patch": 0,
+    "⭐_what_this_patch_buys": "Six entries stop reading as 'waiting on data that does not exist in the world' and start reading as what they are — a reachable-set question about the clinical literature (6 entries) and, on two of those, an authorization a named person can grant. One $0 literature action stops being recorded as blocked. Nothing becomes true that was not true before."
+  },
+
+  "_limits": [
+    "THIS IS A RECORDS ADJUDICATION, NOT A MEASUREMENT. No number, reading or claim was produced; every judgement rests on a record committed before this file existed.",
+    "THE POPULATION IS MECHANICAL, THE VERDICTS ARE JUDGEMENTS. The 28-entry population is derived by a printed one-line filter and is reproducible. Whether 'a clinical series' is better filed under BLK-NO-CURATED-CLINICAL-DATA than under BLK-NO-EMC-DATA is an editorial call, argued per row above and open to refutation on the same evidence.",
+    "EVERY VERDICT IS ABOUT AN ENTRY, NEVER ABOUT A ROUTE. RT-PARTNER-STRAT has three entries in this patch and a fourth that is already feasible_today=true; it is not thereby unblocked.",
+    "THE 38 ROUTES THAT CARRY BLK-NO-EMC-DATA IN blockers_inherited AT ROUTE LEVEL WERE NOT TESTED by this seat. Route-level attribution is UNKNOWN here, not endorsed. Only the 28 required_validation entries were adjudicated: 19 by S32, 9 here.",
+    "NO CLINICAL, EFFICACY, SAFETY OR WINDOW STATEMENT IS MADE OR IMPLIED, and no patient data is used. No identifier, blocker id, route id, accession or file path in this file was written from recollection; each was read from systems/graph/routes.json, systems/graph/blockers.json, research/modalities/, research/literature/ or research/autonomy/ at the baseline HEAD in this session."
+  ],
+
+  "_paths_this_seat_did_not_own_and_did_not_touch": {
+    "systems/graph/routes.json": "read-only. Every change above is written as an instruction, not applied.",
+    "systems/graph/blockers.json": "read-only. BLK-NO-EMC-DATA's own statement is the record that is CORRECT and needs no edit.",
+    "systems/views/": "generated; not opened for writing.",
+    "research/autonomy/research-ledger.json": "sprint-wide no-touch.",
+    "research/modalities/emc-blk-no-emc-data-route-retest.json": "seat S32's, committed at 1132109a5; verified, not amended.",
+    "git": "no write command was run — git log, git show, git diff --stat and git rev-parse only."
+  }
+}

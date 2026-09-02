@@ -1,0 +1,134 @@
+{
+  "_id": "ART-SPRINT-S55-PROPOSED-ROUTE-EVIDENCE",
+  "_kind": "proposed_patch",
+  "_status": "PROPOSED — NOT APPLIED",
+  "_written_by": "S55 (two-blind-routes seat)",
+  "_date": "2026-09-02",
+  "_baseline_head": "b4cf28c6be8f464fc25e0cee06f6be50eb181138",
+  "_literature_cache_ref": "origin/literature-cache @ 0eac3e3aaa5b3e02c258611588e20162a7996515",
+  "_target_file": "systems/graph/routes.json",
+  "_why_not_applied": "Another seat is auditing systems/graph/ during this sprint and S41's patch is pending on routes.json. A grade change is what makes the ranker start offering work, so it must land under one owner. This file is the proposal; the driver or the graph seat applies it.",
+  "_memo": "research/autonomy/sprint-2026-09-01/S55-TWO-BLIND-ROUTES.md",
+
+  "_evidence_id_being_added": "EV-BANGERTER-2023",
+  "_evidence_record_read_from": "systems/graph/evidence.json",
+  "_primary_source_read_from": "git show origin/literature-cache:literature/bangerter-2023-emc-exvivo/PMC9813045.txt",
+  "_primary_source_identifiers_as_recorded_in_evidence_json": {
+    "pmid": "36316541",
+    "doi": "10.1007/s13577-022-00818-x",
+    "pmcid": "PMC9813045",
+    "citation": "Bangerter et al. 2023, Hum Cell — ex-vivo drug sensitivity in patient-derived EMC models USZ20-EMC1 and USZ22-EMC2."
+  },
+
+  "_ceiling_that_must_travel_with_every_use_below": [
+    "The reported outcome is an ORDINAL BAND, not a value. Verbatim (PMC9813045.txt:48): \"Drug sensitivities were classified as (i) none, (ii) low to moderate and (iii) good to high.\" The paper computes AUC and IC50 and prints neither in the text for any compound.",
+    "The 40-drug screen ran on ONE model (USZ20-EMC1). The second model (USZ22-EMC2) never saw PU-H71 or HDM201.",
+    "PU-H71 and HDM201 were NOT validated. Only carfilzomib, doxorubicin and venetoclax went to dose-response; the screen's ordinal band for these two compounds has never been reproduced by any second experiment in the paper.",
+    "The one compound whose screen band WAS tested against validation and failed is venetoclax: 'moderate sensitivity' in the screen, and verbatim (PMC9813045.txt:48) \"there was no response to venetoclax as a monotherapy in the validation\". The screen's ordinal bands are therefore known to be falsifiable in this exact assay pair.",
+    "The screen dose range tops at 200 umol/l (Methods, PMC9813045.txt:37); the validation tops at 10 uM. With no printed AUC or IC50, a 'good sensitivity' band cannot be placed on a concentration axis and is not distinguishable from activity far above any achievable exposure.",
+    "No normal-cell or non-tumour comparator appears anywhere in the paper. There is no therapeutic index and none can be derived.",
+    "Replicate count for the SCREEN is not stated. The validation is explicitly 'in triplicates'; the screen is not.",
+    "No clinical exposure of any kind. This is ex vivo only.",
+    "5 of 40 compound identities are in the accessible record; 35 are in Fig. 2a/b only. The response matrix is not deposited (data availability: 'available from the corresponding author on reasonable request')."
+  ],
+
+  "routes": [
+    {
+      "route_id": "RT-MDM2",
+      "route_display_name_as_recorded": "MDM2 antagonism (p53 reactivation in a quiet genome)",
+      "current_grade_verbatim_first_clause": "⛔ NOT SUPPORTED (2026-08-09). The class needs a p53 axis that is intact AND LIVE.",
+      "current_next_best_next_action_verbatim": "Report the negative; the quiet-genome inference did not survive its own test.",
+      "current_timing_rationale_verbatim": "Only a sequence-level TP53 call would reopen it, and none is available.",
+
+      "verdict": "THE NEGATIVE'S MEASUREMENT STANDS; ITS INFERENTIAL WARRANT DOES NOT. 'Report the negative' does not survive.",
+      "verdict_precision": "This is NOT 'the negative is wrong'. The expression result (p53 transcriptional output reads lower in EMC on both platforms, ART-CENSUS-ROUTE-GRADING) is untouched and this patch does not contest one number in it. What fails is the UNSTATED SECOND STEP: that low p53 transcriptional output implies an MDM2/MDM4 antagonist is inactive in this disease. That step was never tested and two readings now bear against it. This is the 'reached without reading a relevant source' case, sharpened to the inference rather than the measurement.",
+
+      "proposed_add_to_supporting_evidence": [
+        {
+          "ref": "EV-BANGERTER-2023",
+          "what_it_supports": "HDM201 (MDM2/MDM4) is one of two targeted agents called best-performing in an ex-vivo EMC model. Verbatim (PMC9813045.txt:48): \"PU-H71 (HSP90) and HDM201 (MDM2/MDM4) performed best from the compounds tested and showed good sensitivity while the cells had a moderate sensitivity to venetoclax.\" ⛔ READ THE CEILING: an ORDINAL BAND on n = 1 model (USZ20-EMC1), UNVALIDATED, no AUC or IC50, no comparator, no concentration anchor, no clinical exposure. It is a signal to look further and nothing more. It does not support efficacy and cannot be read as one.",
+          "strength": "weak_direct",
+          "_direction": "against the route's current terminal negative, not in favour of the route's premise"
+        },
+        {
+          "ref": "EV-BANGERTER-2023",
+          "what_it_supports": "The screened model carries the class's selecting lesion by the authors' own annotation. Verbatim (PMC9813045.txt:45): \"The copy number profiles exhibited gains mainly in chromosome 1, where the MDM4 locus is located, and in chromosome 8, where MYC is located for USZ20-EMC1.\" ⛔ THIS IS A BROAD CHROMOSOME-1 GAIN THAT THE AUTHORS ANNOTATE FOR THE MDM4 LOCUS. It is NOT a focal MDM4 amplification call, carries no copy-number value, and the same paragraph reports \"a rather flat CNV plot for both models\". Do not restate it as 'MDM4 amplified'.",
+          "strength": "weak_direct"
+        }
+      ],
+
+      "proposed_add_to_remaining_unknowns": [
+        "⛔ TP53 STATUS REMAINS UNKNOWN AND THIS EVIDENCE DOES NOT CHANGE THAT. The strings TP53 and p53 appear ZERO times in the cached full text of PMC9813045 (grep -c -i, 29 246 bytes). An MDM2/MDM4 antagonist's activity is conditional on TP53 status, so an HDM201 response in a p53-null model would mean something entirely different. ⚠ An absent reading is not a reading of absence: do NOT infer wild-type TP53 from the body text's silence, and do NOT let the HDM201 band imply a p53-dependent mechanism the data cannot support.",
+        "★ THE DISCRIMINATING OBSERVATION EXISTS AND IS $0, WHICH FALSIFIES THIS ROUTE'S OWN timing.rationale. Bangerter Supplementary file1 (PDF 89 KB, linked from doi 10.1007/s13577-022-00818-x, CC BY open access) is Supplementary Table 1, the FoundationOne®HEME variant list for both models — verbatim (PMC9813045.txt:45): \"Details about these alterations are listed in the Supplementary Table 1.\" ⚠ SCOPE IT HONESTLY: that table lists alterations DETECTED, not the panel's gene list, so it can establish 'no TP53 alteration detected on a hybrid-capture panel of up to 406 genes' and cannot by itself establish wild-type. That is still strictly more than the current UNKNOWN, and it costs nothing.",
+        "Whether the screen's ordinal band for HDM201 survives a dose-response validation, which the paper never ran for this compound. The one band that was tested this way (venetoclax, moderate) did not survive."
+      ],
+
+      "proposed_replace_timing_rationale": {
+        "from": "Only a sequence-level TP53 call would reopen it, and none is available.",
+        "to": "⛔ CORRECTED 2026-09-02 (S55): the second clause was false. A sequence-level variant list for two fusion-confirmed EMC models is a $0 open-access fetch (Bangerter Supplementary Table 1, PDF 89 KB, doi 10.1007/s13577-022-00818-x). ⚠ Superseded, retained (rule 1.2): \"Only a sequence-level TP53 call would reopen it, and none is available.\"",
+        "_why": "The clause asserted the non-existence of the exact observation it named as decisive, in a paper this repository has cached in full. Same failure shape as BLK-NO-EMC-DATA's old retirement clause that S52 corrected, in the same paper, on the same day."
+      },
+
+      "proposed_replace_next": {
+        "from": {
+          "best_next_action": "Report the negative; the quiet-genome inference did not survive its own test.",
+          "cost": "$0"
+        },
+        "to": {
+          "best_next_action": "⛔ DO NOT REPORT THE NEGATIVE YET. Fetch Bangerter Supplementary Table 1 (PDF 89 KB, doi 10.1007/s13577-022-00818-x, CC BY) and record whether a TP53 alteration was DETECTED in USZ20-EMC1 or USZ22-EMC2 — the observation this route's own timing.rationale wrongly said did not exist. Then re-state the negative with what the pharmacologic reading actually is: an unvalidated ordinal band on one model, which does not support the route and does not license closing it either.",
+          "cost": "$0"
+        },
+        "_why": "The negative's expression measurement is fine. Publishing it while an ex-vivo EMC response to this exact drug class sits unread and uncited in this repository's own literature cache is the defect CLAUDE.md §0 exists to catch."
+      },
+
+      "proposed_grade_change": {
+        "from_value_class": "⛔ NOT SUPPORTED",
+        "to_value_class": "⛔ NOT SUPPORTED ON EXPRESSION · ◐ UNRESOLVED ON PHARMACOLOGY",
+        "_wording_note": "The grade string is the graph seat's to write and this file does not draft it. What the patch asserts is the SHAPE: the expression finding keeps its full original strength and its original wording; a second, separate clause records that the class's selecting drug has an ex-vivo EMC reading in the opposite direction at a weight far below the expression read, and that TP53 is UNKNOWN. ⛔ THE ROUTE DOES NOT BECOME SUPPORTED. n = 1, ordinal, unvalidated, no TP53 call, and the class's stated dose-limiting haematological toxicity liability is untouched.",
+        "_state_status_note": "state.status is currently 'parked' and timing.recommendation 'monitor'. Neither needs to move for this patch; what moves is that 'monitor' now has a named $0 action under it instead of a wait on TECH-EMC-EXPRESSION-DATA."
+      },
+
+      "_supporting_context_found_but_NOT_proposed_as_evidence": {
+        "what": "research/modalities/emc-cohort-search-inputs.json:317-326, GEO series GSE315379, \"Epigenetic regulation of p53 represents a targetable dependency in synovial sarcoma\", 18 samples, taxon Mus musculus, pubmed: null. Depositor summary reports MDM2 dependency in synovial sarcoma lines, that \"Very few synovial sarcomas in humans demonstrate TP53 mutation or loss\", that \"Transcriptome analysis revealed minimal change in p53 target gene expression, suggesting that expression of the fusion alone was sufficient to impact these\", and that HDM201 \"was modestly successful at slowing tumor growth, alone\" with panobinostat synergy.",
+        "why_it_matters": "It is the same inferential pattern this route graded on — a fusion-driven sarcoma with quiet p53 transcriptional output — and in it the quiet output coexists with reported MDM2 dependency and HDM201 activity. It is the second reading bearing against the route's unstated inferential step.",
+        "⛔_why_it_is_NOT_in_the_patch": "It is a GEO DEPOSITOR CLAIM, not a measurement — the artifact carries its own flag, verbatim: \"title and summary are the depositors' CLAIM, not a measurement\". pubmed is null, the organism is mouse, and it is a different disease. It cannot carry a grade and no evidence id exists for it. It is recorded here so the next session does not have to rediscover it, and so that the negative, if it is eventually written, is written knowing it.",
+        "⚠_correction_to_S52": "S52-BLOCKER-PRECISION.md:288 states that HDM201 \"appears elsewhere in the repository only as unrelated GEO sample titles ('HDM201 rep1/2/3')\". The sample titles at lines 2271/2276/2291 are the treatment arm of THIS series, and the series summary at line 326 is substantive and on-topic. The dismissal was wrong; the S52 conclusion it supported (that the S39 pointer has no home) is unaffected and still holds."
+      }
+    },
+
+    {
+      "route_id": "RT-CHAPERONE",
+      "route_display_name_as_recorded": "Chaperone dependency of the chimera (HSP90 and co-chaperones)",
+      "current_grade_value_class": "◐ PARTLY SUPPORTED (2026-08-09)",
+
+      "verdict": "CITE IT, DO NOT PROMOTE ON IT. The grade ◐ PARTLY SUPPORTED stands unchanged, and the addition is smaller than S52 framed it.",
+      "verdict_precision": "⛔ S52 §4.2 argues that a direct EMC observation is \"a different and better kind of evidence\" than the Ewing transfer. That is right about the DISEASE and wrong about the KIND. This route's own clientship artifact already defines the category and grades it: research/literature/fet-fusion-chaperone-clientship-2026-08-27.json:18, key d_fusion_driven_line_sensitive_to_an_HSP90_inhibitor, verbatim: \"ABUNDANT, AND IT IS THE WEAKEST CATEGORY. ... Sensitivity of a fusion-driven line is not clientship of the fusion\". Bangerter's PU-H71 result IS category (d). Moving a category-(d) observation from Ewing to EMC does not change its category, and by the route's own written standard category (d) cannot reach the route's premise, which is a binding question. ⚠ AND ON RIGOUR IT IS THE WEAKER OF THE TWO: the Ewing PU-H71 item in that same artifact carries an immunoblot/RPPA readout of fusion-protein depletion (verbatim: \"Exposure to PU-H71 resulted in depletion of critical proteins including AKT, pERK, RAF-1, c-MYC, c-KIT, IGF1R, hTERT and EWS-FLI1 in Ewing cell lines\"); Bangerter carries an unvalidated ordinal viability band on n = 1 with no protein readout at all.",
+
+      "proposed_add_to_supporting_evidence": [
+        {
+          "ref": "EV-BANGERTER-2023",
+          "what_it_supports": "The route's compound has a direct ex-vivo reading in THIS disease rather than only in Ewing sarcoma. Verbatim (PMC9813045.txt:48): \"PU-H71 (HSP90) and HDM201 (MDM2/MDM4) performed best from the compounds tested and showed good sensitivity\". ⛔ CATEGORY (d) BY THE ROUTE'S OWN TAXONOMY — a fusion-driven line sensitive to an HSP90 inhibitor — which that taxonomy calls the weakest category and explicitly distinguishes from clientship. An ORDINAL BAND on n = 1 model, unvalidated, no AUC, no normal-cell comparator, no concentration anchor. It does not answer the clientship premise, supplies no therapeutic index, and cannot distinguish tumour need from general need.",
+          "strength": "class_inherited",
+          "_strength_note": "Deliberately NOT 'direct'. It is direct on disease and indirect on premise, and the premise is what the route is graded against. Grading it 'direct' would let a viability band stand in for a binding measurement."
+        }
+      ],
+
+      "proposed_add_to_remaining_unknowns": [
+        "★ The PU-H71 AUC rank within the 23 targeted agents is in Fig. 2b of PMC9813045 and is UNREAD — the accessible record gives only the ordinal band. ⚠ It is also not obtainable: the response matrix is not deposited (data availability: \"available from the corresponding author on reasonable request\"), so this is a standing UNKNOWN rather than a queued fetch."
+      ],
+
+      "proposed_grade_change": null,
+      "_why_no_grade_change": "The clientship premise is untouched. This is a supporting_evidence and provenance addition. ⛔ It is not a promotion and must not be recorded as one.",
+
+      "proposed_next_change": null,
+      "_why_no_next_change": "next.best_next_action is the IntAct/BioGRID IM-22301 fetch (PMID 25036637 as recorded in the route), which addresses the binding premise. That is still the right next action and this reading does not displace it.",
+
+      "_process_defect_this_records": "research/literature/fet-fusion-chaperone-clientship-2026-08-27.json contains ZERO occurrences of Bangerter, USZ20, USZ22, EMC1, 9813045, 36316541 and 'ex vivo' (verified by string count at baseline HEAD), while containing 8 occurrences of PU-H71 — all of them in Ewing sarcoma or non-FET contexts. A clientship sweep on this route's own compound missed the one paper in which that compound was screened in this repository's own disease, in a full text this repository has cached. ⚠ The sweep's queries are recorded in the artifact and are Ewing-scoped (at :251, elided: \"(\\\"Ewing sarcoma\\\"[TIAB]) AND (geldanamycin OR \\\"17-AAG\\\" OR ... OR \\\"PU-H71\\\" OR \\\"HSP90 inhibitor\\\")\"), so this is a scoping miss rather than a fabrication."
+    }
+  ],
+
+  "_out_of_scope_here": {
+    "RT-APOPTOSIS-DEP": "S52 §7 row 4 (venetoclax result used in grade prose with no evidence id). Not this seat's brief and not drafted here. ⚠ If it is applied, the venetoclax reading must carry the validation reversal verbatim: 'moderate' in the screen and \"there was no response to venetoclax as a monotherapy in the validation\" (PMC9813045.txt:48).",
+    "systems/graph/blockers.json": "S52 already corrected BLK-NO-EMC-DATA.retired_by_action and this patch does not touch it. Nothing proposed here retires that blocker: an unvalidated ordinal band read out of a paper is a LITERATURE read, which the corrected clause explicitly says the blocker never gated."
+  }
+}

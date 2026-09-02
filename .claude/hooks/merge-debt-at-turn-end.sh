@@ -207,8 +207,15 @@ if [ "$B_N" -eq 0 ] && { [ "$A_AHEAD" -eq 0 ] || [ "$A_DIRTY" -eq 1 ]; }; then
 fi
 
 FETCH_AGE="unknown"
-if [ -f .git/FETCH_HEAD ]; then
-  _m=$(date -u -r .git/FETCH_HEAD +%s 2>/dev/null || echo "")
+# ⚠ FETCH_HEAD LIVES IN THE COMMON GIT DIR, AND `.git` IS A FILE IN A LINKED WORKTREE. Same class of
+# defect as the one fixed in promised-work-at-turn-end.sh on 2026-09-02, and same silent shape: the
+# `-f` test simply fails, so the age reads "unknown" forever rather than wrongly — a degraded reading
+# that looks exactly like a repository nobody has fetched in. `--git-common-dir` is the right scope
+# here, unlike the per-worktree state file: a fetch updates the shared FETCH_HEAD for every worktree.
+_COMMON=$(git rev-parse --git-common-dir 2>/dev/null) || _COMMON=".git"
+[ -n "$_COMMON" ] || _COMMON=".git"
+if [ -f "${_COMMON}/FETCH_HEAD" ]; then
+  _m=$(date -u -r "${_COMMON}/FETCH_HEAD" +%s 2>/dev/null || echo "")
   if [ -n "$_m" ]; then
     _d=$(( $(date -u +%s) - _m ))
     if [ "$_d" -lt 3600 ]; then FETCH_AGE="$((_d / 60)) min ago"; else FETCH_AGE="$((_d / 3600)) h ago"; fi

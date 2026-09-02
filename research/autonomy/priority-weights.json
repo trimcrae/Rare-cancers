@@ -32,8 +32,8 @@
   },
   "blocker_leverage": {
    "weight": 4.0,
-   "reads": "count of OTHER routes sharing at least one blocker with this route (capped by blocker_leverage_cap)",
-   "why": "Retiring a widely-inherited blocker moves many routes at once. Per-route weight is small because the count does the work."
+   "reads": "count of OTHER routes sharing at least one blocker with this route via `blockers_inherited`, capped by blocker_leverage_cap. ⛔ THE PEER SET IS UNFILTERED ON PURPOSE — a dead, closed or parked peer still counts. Restricting it to live, takeable peers was measured on the committed tree 2026-09-02 and refused: it changes 18 of 361 rows, every one a DEMOTION, every one already ranked #250-#316, the top 20 byte-identical — and one of the demoted is a `blocked_without_evidence_becomes_a_check` re-test row, the single row class this term exists to promote. See research/autonomy/tests/test_the_leverage_cap_is_load_bearing.py.",
+   "why": "Retiring a widely-inherited blocker moves many routes at once. ⛔ THE CAP IS WHAT MAKES THE SMALL PER-ROUTE WEIGHT SAFE — read blocker_leverage_cap's `_why` before touching either number. ⚠ Superseded, retained (CLAUDE.md rule 1.2): 'Per-route weight is small because the count does the work.' Measured 2026-09-02 on the committed graph, the count does NOT do the work: raw counts span 0-48 and the capped distribution is {0: 12, 2: 2, 4: 1, 6: 62}, so 62 of 77 routes sit at the ceiling and the term reads as a near-binary flag. That sentence describes the UNCAPPED term, which is a different scorer."
   },
   "cost": {
    "weight": -12.0,
@@ -83,6 +83,7 @@
   "_why": "CLAUDE.md §2's own ladder. A dollar figure is NEVER typed here or in priority.py — research/compute/pricing.md owns every cost, and an entry points at its rung."
  },
  "blocker_leverage_cap": 6,
+ "_blocker_leverage_cap_why": "⛔ PINNED BY research/autonomy/tests/test_the_leverage_cap_is_load_bearing.py AS OF 2026-09-02, AND BEFORE THAT BY NOTHING. `grep -rn blocker_leverage_cap --include=*.py` over the whole repository returned ONE hit — priority.py:318, the line that reads it — and no test asserted anything about it: the `subagent_width` shape CLAUDE.md §1 records, where compliance is luck. ★ IT IS LOAD-BEARING, MEASURED RATHER THAN ASSUMED. `BLK-NO-EMC-DATA` alone is inherited by 38 of 77 routes, so raw leverage reaches 48. Removing the cap moves 295 of the 361 ledger rows by more than five places and lifts AUT-053 from #268 to #30 on score alone — the queue inverts toward whichever route inherits the most widely-shared blocker, which is the opposite of a priority. ⚠ A TUNING CONSTANT, NOT A MEASUREMENT, and it says so: 6 is where the term stops separating routes on the committed graph, not a threshold anything derived.",
  "clamps": {
   "negative_never_outranks_live": {
    "enabled": true,
