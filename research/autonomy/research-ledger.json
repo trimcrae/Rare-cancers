@@ -12,11 +12,11 @@
     "experiment": 26,
     "fetch": 24,
     "fix": 23,
-    "harden": 27,
+    "harden": 30,
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 195,
+    "process_defect": 197,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
@@ -25,15 +25,15 @@
   },
   "n_by_state": {
     "blocked": 2,
-    "done": 183,
-    "in_progress": 13,
+    "done": 185,
+    "in_progress": 11,
     "parked": 30,
-    "queued": 161,
+    "queued": 166,
     "superseded": 1
   },
   "n_clamped": 12,
-  "n_unscored": 23,
-  "n_unscored_open": 0,
+  "n_unscored": 24,
+  "n_unscored_open": 1,
   "entries": [
     {
       "serves": {
@@ -844,15 +844,15 @@
         "publication": "PUB-ATR",
         "strategy": "ST-DEPENDENCY"
       },
-      "state": "in_progress",
-      "owner": "s36-prolif-control",
-      "claimed_utc": "2026-09-02T19:51:43Z",
+      "state": "done",
+      "owner": null,
+      "claimed_utc": null,
       "cost_class": "free",
       "cost_points_at": "research/compute/pricing.md",
       "blocked_by": null,
       "blocked_evidence": null,
       "retry_budget": 3,
-      "attempts": 0,
+      "attempts": 1,
       "last_evidence_utc": "2026-09-02",
       "filed_by": "AUT-010",
       "depends_on_evidence": "research/modalities/emc-atr-vulnerability.json -> part_d_drug_response_correlation.specificity['expr::proliferation_MYC'] rho -0.1711 and ['expr::proliferation_mitotic'] already computed; research/modalities/atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml carries the source's RNaseH1 exclusion experiment verbatim.",
@@ -869,79 +869,18 @@
           "utc": "2026-09-02T19:51:43Z",
           "fingerprint_at_dispatch": "2026-09-02|None"
         }
-      ]
-    },
-    {
-      "id": "AUT-PROP-060-11f2347b-8e081d15",
-      "kind": "analysis",
-      "what": "⛔ ATM GENETIC STATUS IS THE FIELD-STANDARD ATR-INHIBITOR-SENSITIVITY STRATIFIER, IT IS FREE IN THE DATASET PART D ALREADY READS, AND THIS PAPER NEITHER USES IT NOR NAMES IT (PUB-ATR round 4, hostile seat P1[5], second half). Filed rather than caveated: the gap is an unrun analysis, not a missing sentence.\n★ THE STATE. Part D operationalises the mechanism's load-bearing variable — ATM signalling — as `expr::ATM_signalling_DSB_repair`, a transcript score, and the manuscript now says in §5 that a transcript score cannot observe a phosphorylation event. DepMap carries ATM MUTATION and COPY-NUMBER calls for the same models part D maps to GDSC2, and the source paper's own comparator for its elimusertib IC50s is \"cancer cell lines with known pathogenic ATM loss of function mutations\". `grep -i 'ATM mutation|ATM loss|ATM-deficient|mutation status|copy number'` over the manuscript at the round-4 pin returned nothing, and §6.3's \"what would move the grade\" named no such analysis.\n★ THE WORK, AND IT IS $0 AND SELF-DOABLE. Stratify the SAME GDSC2 residuals already in `part_d.gdsc_residual_ln_ic50_by_drug` by DepMap ATM damaging-mutation / deep-deletion status, report the contrast for both ATR inhibitors with the non-DDR controls beside it, and state the n in each arm before reading anything off it. ⚠ IT IS A POSITIVE CONTROL ON THE INSTRUMENT AS MUCH AS A TEST: if ATM-null lines are NOT more ATRi-sensitive in this residual, the residual cannot detect the effect the mechanism predicts, and part D's ATM null is uninformative rather than negative. ⛔ It is the test a DNA-damage-response referee asks for first, and its absence is more damaging to the paper than the wrong-sign correlation it would replace.",
-      "serves": {
-        "route": "RT-ATR-ASSESS",
-        "publication": "PUB-ATR",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "state": "in_progress",
-      "owner": "s35-atm-stratify",
-      "claimed_utc": "2026-09-02T19:51:43Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-02",
-      "filed_by": "AUT-010",
-      "depends_on_evidence": "research/modalities/emc-atr-vulnerability-inputs.json -> part_d.gdsc_residual_ln_ic50_by_drug (7 drug maps, 892-965 lines each) and DepMap OmicsSomaticMutations / OmicsCNGene for the same models; research/modalities/atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml for the source's own ATM-LOF comparator.",
-      "prerequisite_of": null,
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "score": 182.0,
-      "_score_is_null_why": "Filed by an APPLY seat, not by priority.py. ⛔ NOT hand-scored: this row is a finding handed to the queue, and inventing a number for it is exactly the edit the ledger's own _role forbids. Re-run `python3 research/autonomy/priority.py --write` to derive it from the graph — its route, publication and strategy joins all resolve, so the deriver has everything it needs.",
-      "_requires_trimcrae_why": "Self-doable and $0. Both are re-analyses of data already committed to this repository's own input cache; neither is outward-facing, neither buys compute, neither needs access trimcrae alone has.",
-      "_score_basis": "inherited from the lowest-scoring derived row on RT-ATR-ASSESS (182.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
-      "_score_inherited_from_route": "RT-ATR-ASSESS",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T19:51:43Z",
-          "fingerprint_at_dispatch": "2026-09-02|None"
-        }
-      ]
-    },
-    {
-      "id": "AUT-PD-208-11f2347b-8e081d15",
-      "kind": "process_defect",
-      "what": "⛔ THE STRUCTURAL CENSUS ARTIFACT STILL CALLS EMC'S SECOND-COMMONEST FUSION 'canonical' AND RUNS ITS WHOLE COMPARATIVE VERDICT ON IT — THE CORRECTION REACHED THE PROSE AND NOT THE ARTIFACT (PUB-ATR round 4; hostile seat P1[0] and consistency seat P1[4], independently).\n★ THE STATE, MEASURED. `emc-fet-idr-census.json` holds exactly ONE EMC record, keyed `emc_canonical_EWSR1_NR4A3`, and it is EWSR1(1-264) / 0 of 30 RG / precondition_met true — i.e. TYPE 2. `grep -c 431` over the whole file returns 0, so the COMMONEST fusion is not in it at all. Its `emc_vs_measured_fusions_comparative._claim_under_test` — \"EMC's canonical fusion loses at least as much of EWSR1's RGG content as each fusion in which ATM suppression was MEASURED\" — carries `holds_against_every_measured_type: true` at emc_RG_retained_fraction 0.0 on all four rows. Substituting type 1's 0.267 (from emc-fet-construct-designs.json) against the two comparator rows at 0.0 makes `emc_loses_at_least_as_much` FALSE on two of four, so the flag would invert.\n★ THE MANUSCRIPT IS NOW CORRECT AND THE ARTIFACT IS NOT, WHICH IS THE WRONG WAY ROUND. This round's repair states in the paper which artifact carries which fusion and that the comparative claim is computed for type 2 only. THE FIX IS IN THE PRODUCER: rekey off 'canonical', add types 1 and 5, and report the comparative block PER TYPE. ⛔ Do NOT loosen the census criterion to make type 1 pass — the committed `_what_the_controls_calibrate` note is already the honest resolution (EWSR1::ATF1 exon 10, a MEASURED fusion, retains the same 8 of 30 and also reads NOT_MET, so the strict verdict is conservative and the retained FRACTION is the quantity to compare).\n★ AND THE SAME REGENERATION CLOSES A SECOND GAP IN THE SAME ARTIFACT (hostile seat P1[2]). `_control_rule` says the positive controls are \"the fusions the mechanism was measured on\" and carries TWO — EWSR1::FLI1 and EWSR1::ATF1, both EWSR1. The source measured it on FOUR across four diseases: those two plus EWSR1::WT1 (DSRCT) and FUS::CHOP (myxoid liposarcoma), the last a FUS fusion, verbatim in atr-hrd-sarcoma-series-inputs.json#mechanism_fulltext_xml. So the census's operational definitions — EWSR1's 30 RG dipeptides, the residue-299 RGG-free ceiling — are NEVER calibrated against a non-EWSR1 FET protein, while EMC's own minority partners include TAF15 and FUS and this document sweeps them. ⚠ The manuscript now DISCLOSES both halves (banner); what is open is the artifact. ⛔ Adding the two controls is a test of the definition, not a formality: if the precondition's definitions cannot recover FUS::CHOP's architecture, they do not generalise across the family they are being applied to, and that is a finding.",
-      "serves": {
-        "route": "RT-ATR-ASSESS",
-        "publication": "PUB-ATR",
-        "strategy": "ST-DEPENDENCY"
-      },
-      "state": "in_progress",
-      "owner": "s34-census-rekey",
-      "claimed_utc": "2026-09-02T19:51:43Z",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-02",
-      "filed_by": "AUT-010",
-      "depends_on_evidence": "research/modalities/emc-fet-idr-census.json -> emc_canonical_EWSR1_NR4A3 (last_fet_residue_retained 264) and emc_vs_measured_fusions_comparative.holds_against_every_measured_type true; research/modalities/emc-fet-construct-designs.json -> constructs[] carries types 1/2/5 with census_precondition_verdict NOT_MET / PRECONDITION_MET / NOT_MET. Positive-control half: research/modalities/emc-fet-idr-census.json -> positive_controls holds 2 entries, both EWSR1; research/modalities/atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml names 4 measured fusions across 4 diseases.",
-      "prerequisite_of": null,
-      "closes_clause": null,
-      "requires_trimcrae": false,
-      "score": 182.0,
-      "_score_is_null_why": "Filed by an APPLY seat, not by priority.py. ⛔ NOT hand-scored: this row is a finding handed to the queue, and inventing a number for it is exactly the edit the ledger's own _role forbids. Re-run `python3 research/autonomy/priority.py --write` to derive it from the graph — its route, publication and strategy joins all resolve, so the deriver has everything it needs.",
-      "_requires_trimcrae_why": "Self-doable and $0. Both are re-analyses of data already committed to this repository's own input cache; neither is outward-facing, neither buys compute, neither needs access trimcrae alone has.",
-      "_score_basis": "inherited from the lowest-scoring derived row on RT-ATR-ASSESS (182.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
-      "_score_inherited_from_route": "RT-ATR-ASSESS",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T19:51:43Z",
-          "fingerprint_at_dispatch": "2026-09-02|None"
-        }
-      ]
+      ],
+      "evidence": "research/modalities/atr-part-d-proliferation-control.json",
+      "finding": "⛔ ANSWERED, AND THE ANSWER IS THE ONE THAT WEAKENS THE PAPER: PART D'S NEGATIVE IS NOT ROBUST TO THE CHOICE OF PROLIFERATION CONTROL. Under the incumbent `expr::proliferation_MYC` (Hallmark MYC Targets V1, rho -0.1711) part D passes 1 of 4 mechanism tests and reads SENSITIVITY_DOES_NOT_TRACK_MECHANISM. Under Hallmark Mitotic Spindle (`proliferation_mitotic`, rho +0.0433) and under the MEAN OF BOTH (rho -0.1334) it passes 2 of 4 and reads SENSITIVITY_TRACKS_MECHANISM. The single test that moves is `expr::replication_stress`, which under the incumbent fails on the control clause ALONE — direction, |rho| >= 0.15 and atri_specific all already pass.\n⛔ AND THE THIRD COLUMN IS NOT A NEW CONTROL AT ALL — IT IS THE ONE PART B ALREADY USES. `derive_part_b` subtracts the per-sample mean of EVERY concept whose role is `proliferation_control` (both sets); `derive_part_d` hard-codes MYC alone. One module, two meanings of 'the proliferation control', and part B's own control inverts part D's verdict. That is an internal inconsistency, not a judgement call.\n⛔ WHY THE INCUMBENT IS UNBEATABLE BY CONSTRUCTION: at |rho| 0.1711 it is the LARGEST expression predictor in the grid, so its bar (0.1968) exceeds every other expression predictor's correlation. The only test that clears it does so from a different data type (CRISPR gene effect, +0.2123).\n⭐ THE MECHANISM OF THE DISAGREEMENT IS MEASURED, NOT INFERRED. Every transcriptionally S-phase/replication predictor clusters at rho -0.148 to -0.171 (spread 0.0227, far below the 15 % margin the bar demands); the one M-phase proliferation set sits at +0.0433, opposite sign — so the shared signal is not 'proliferation' in general, since a genuine proliferation axis that is not a replication program does not carry it. ⚠ Reading that as 'ATR inhibition acts on replication' is an INTERPRETATION, not measured here. The gene lists say the same thing: MYC Targets V1 contains NINE of the 37 members of the ATR-activation set part D tests — CDC45, CDK2, MCM2, MCM4, MCM5, MCM6, MCM7, ORC2, RFC4, the CMG helicase plus origin licensing — and Mitotic Spindle contains ZERO. The two proliferation sets overlap in ONE gene (YWHAE), Jaccard 0.0025, and correlate at rho 0.028 across 1673 lines.\n⛔ THE CAVEAT, AT THE SAME STRENGTH: Mitotic Spindle's own ATRi correlation is near zero, so the bar it sets (0.0498) barely discriminates, and it is a looser proxy for the canonical proliferation axis than the incumbent (rho vs E2F targets 0.4527 against 0.7264). The honest reading of that column is 'the bar stops discriminating', NOT 'the mechanism is confirmed'. Neither control is adjudicated correct; all declared columns are reported.\n⭐ TWO THINGS DO NOT MOVE, AND BOTH ARE STRENGTHENINGS. (1) Part B's verdict is False under all three controls — but its stated REASON is control-dependent: under mitotic-only adjustment three DDR concepts DO survive (ATR-CHK1 +0.208, S-phase/E2F +0.274, DNA-damage checkpoint +0.219) and the verdict holds only on the unrelated-control clause. (2) The grading tier is WEAK under all NINE part-B x part-D combinations, because `grade()` gates STRONG and MODERATE_PLUS on `signature_specific_to_DDR`, which fails independently of the proliferation control. NO BAR WAS MOVED AND NO GRADE WAS CHANGED.\n⭐ METHOD GUARANTEES: the comparator, its content argument and a validity floor were pre-registered in commit b85f954e1 with `results: null`, BEFORE the compute module existed; the harness reproduces all 10 committed mean rhos exactly; every declared comparator is reported and none was selected after the fact.",
+      "what_the_paper_must_say_and_where": [
+        "§5, the part-D specificity table and its 'vs proliferation control (ρ = −0.171)' column header (~L627, and the bar row at ~L202): NAME THE CONTROL. The column is computed against MYC Targets V1 ALONE, not against the two sets §4's gene-set table (~L411) lists as 'proliferation controls'. A reader today cannot tell which of the two the bar used.",
+        "⛔ §5 discussion (L713–716, the sentence is L715) CONTAINS THE ONE SENTENCE THIS RESULT REFUTES: 'Almost every expression predictor lands in the same −0.15 to −0.17 band … That is one signal wearing many names, and its name is growth rate.' The clustering is real and correctly observed; the INTERPRETATION is wrong. Mitotic Spindle — the other declared proliferation control, already scored in the same inputs cache — sits at +0.0433, opposite sign. The shared signal is the S-PHASE/REPLICATION PROGRAM, not growth rate. This is a replacement, not an appended caveat.",
+        "§5, beside the existing 'no interval is computed' paragraph (~L718–726): add that the incumbent control is the largest |ρ| among all expression predictors, so under it no expression predictor can clear 1.15× the control by construction, and that part D's verdict is 2/4 SENSITIVITY_TRACKS_MECHANISM under both the Mitotic Spindle control and the MYC+mitotic mean — reported beside the committed verdict, not in place of it.",
+        "§4/§5, the internal inconsistency: part B subtracts BOTH proliferation sets, part D's bar uses MYC alone. One module, two meanings.",
+        "§4 (~L518–528): the existing note that the proliferation control 'is not disjoint from what it adjusts' uses the 398-gene UNION. Sharpen it — the ATR–CHK1 overlap is 9/37 with MYC and 0/37 with mitotic — and record that under mitotic-only adjustment three DDR concepts survive, so part B's verdict rests on the unrelated-control clause rather than on the adjustment.",
+        "Limitations: the grade does not move (WEAK under all nine combinations), and no in-silico control separates S-phase program expression from oncogene-induced replication stress — that is what the source paper's RNaseH1 experiment does, and it is wet lab."
+      ],
+      "⛔ not_applied_here_and_why": "The manuscript is PINNED under a live blind review round; editing it would invalidate five seats' work. This row carries what must change and where; a later apply pass writes it."
     },
     {
       "id": "AUT-PROP-012",
@@ -1535,6 +1474,84 @@
       "what": "PROPOSAL, GROUNDED IN research/method-watch-autonomy-prior-art-2.md §2 (SOURCE-grade: k8s probes.md, OTP sup_princ.md, systemd man pages — the 'health board' and 'watchdog wired to an env var that does not exist' rows of §2's primitives table). THE FINDING, THREE PARTS: (1) Kubernetes' own docs name the classic bug of collapsing checks into one board — a dependency check inside LIVENESS (self-only → restart) rather than READINESS (self + dependencies → route away, NEVER restart) means a dependency blip fails liveness on every replica at once, restarting everything into a cold-start herd against the very dependency that just blipped; PROGRESS (work advancing) is a third, separate axis neither covers. (2) Neither OTP nor systemd nor Kubernetes lets a health check retry forever silently — OTP's `intensity`/`period` and systemd's `StartLimitBurst`/`StartLimitIntervalSec` make repeated failure ESCALATE TO A HUMAN after a bounded count, rather than retrying indefinitely. (3) `sd_watchdog_enabled()` returns THREE values (armed / not-armed / error), where `os.environ.get(VAR, default)` collapses all three into 'fine' and fails open silently.\n\n⚠ VERIFY BEFORE BUILDING ANYTHING: `research/autonomy/health.py` already exists and already reports ok/red/unmeasured per named condition (`c_cycle_delivering`, `c_advancing_live_work`, `c_evidence_moving`, `c_blocks_are_real`, `c_queue_is_takeable`, `c_cycles_are_sized`, `c_fanout_is_governed`, `c_budget_recovering`, `c_gates_green`, `c_authority_respected`), but it is a FLAT LIST — nothing in it is explicitly tagged liveness vs readiness vs progress, so the k8s failure mode (a readiness-shaped check wired to trigger a restart-shaped response) cannot be ruled out by inspection alone. Verified separately: no restart-intensity counter exists anywhere in research/autonomy/*.py (grepped for 'restart_intensity', 'StartLimitBurst', 'escalat*' — only prose mentions of escalation, no computed burst/period counter), and `research/autonomy/await_ci.py` and `gates_verdict.py` both still read `os.environ.get(VAR, default)` on paths that decide which repo/token to hit — the exact two-valued-collapse pattern this section warns against, though neither is currently flagged as 'safety-relevant' in this repo's own terms.\n\nTASK: (a) tag each existing `health.py` condition liveness/readiness/progress and check that nothing readiness-shaped is wired to a restart-equivalent response (this repo's closest analogue to a restart is a session's automatic hand-off/respawn); (b) add a restart-intensity counter so a condition that goes red on N consecutive dispatches escalates to trimcrae under CLAUDE.md §3 rather than the loop silently retrying forever; (c) audit every `os.environ.get(X, default)` call on a path that gates a real decision (starting with `await_ci.py`/`gates_verdict.py`) and replace the ones that matter with a three-valued read that distinguishes 'set correctly' / 'unset, using default' / 'set but unreadable'.  ✅ BUILT 2026-08-28 (CYC-0053-3217966b, seat s34-healthaxes, merged at 975b0b7). (a) AXIS AUDIT: 1 liveness / 5 readiness / 5 progress, tagged in health.py's CONDITION_AXIS. ⭐ THE VERDICT IS NOT 'CLEAN': one readiness-shaped condition IS wired to the restart-equivalent — `authority_respected`, the only `blocks` row — AND THAT IS CORRECT AND DELIBERATE. k8s forbids restarting on a dependency because a restart cannot FIX it; it says nothing about a dependency whose red means CONTINUING DOES IRREVERSIBLE HARM, and an outward act with no grant under trimcrae's name and ORCID is that case. The real defect was that it was UNBOUNDED: refuse → receipt → die → Routine fires → identical refusal, forever. Also measured: handoff.py mentions health.py in 8 prose comments and READS THE BOARD ZERO TIMES, so the respawn restart-equivalent is wired to no condition at all. Both facts are now machine-checked, and a readiness row may only sit on `blocks` if declared in READINESS_MAY_BLOCK with a reason and covered by the counter. (b) RESTART INTENSITY N=5, from systemd's DefaultStartLimitBurst=5 (verified by live search, not recall — freedesktop.org and erlang.org are both EGRESS_BLOCKED). OTP's default intensity=1 was REJECTED as too tight for this loop (one transient red on a half-written ledger would escalate, and this repository has already paid for an over-crying alarm); k8s CrashLoopBackOff is the counter-example, backing off forever and telling nobody. No period parameter, deliberately: consecutiveness IS the window, and a period could only let an unbroken outage age out of its own alarm. Unit is BOARD RUNS, not hours. (c) Four env reads converted to a three-valued read (envread.py): both pollers treated an exported-empty variable as a MEASUREMENT — os.environ.get returns '' rather than the default — making 'asked the wrong server' indistinguishable from an honest null, which is CLAUDE.md §4's env-echoed-default failure exactly. ~1,840 job-shaped knobs left alone with reasons. Incidental: the two pollers spelled the repo with different case and the API's case-insensitivity is why it survived; one constant each now, plus a test. 41/41 mutations caught — AND THE MUTATION PASS FOUND THREE OF THE SEAT'S OWN GUARDS TO BE FAKE: a render guard that passed with its summary line gutted (the words recurred elsewhere in the output), a provenance guard keyed on a string that appears twice so deleting the sentence carrying the NUMBER left it green, and one clause of the new counter that was unreachable defensive code — deleted rather than kept, because unreachable defensive code reads like a mechanism and is not one.",
       "score_inputs": {
         "age_factor": 0.0714
+      }
+    },
+    {
+      "id": "AUT-PROP-060-11f2347b-8e081d15",
+      "kind": "analysis",
+      "what": "⛔ ATM GENETIC STATUS IS THE FIELD-STANDARD ATR-INHIBITOR-SENSITIVITY STRATIFIER, IT IS FREE IN THE DATASET PART D ALREADY READS, AND THIS PAPER NEITHER USES IT NOR NAMES IT (PUB-ATR round 4, hostile seat P1[5], second half). Filed rather than caveated: the gap is an unrun analysis, not a missing sentence.\n★ THE STATE. Part D operationalises the mechanism's load-bearing variable — ATM signalling — as `expr::ATM_signalling_DSB_repair`, a transcript score, and the manuscript now says in §5 that a transcript score cannot observe a phosphorylation event. DepMap carries ATM MUTATION and COPY-NUMBER calls for the same models part D maps to GDSC2, and the source paper's own comparator for its elimusertib IC50s is \"cancer cell lines with known pathogenic ATM loss of function mutations\". `grep -i 'ATM mutation|ATM loss|ATM-deficient|mutation status|copy number'` over the manuscript at the round-4 pin returned nothing, and §6.3's \"what would move the grade\" named no such analysis.\n★ THE WORK, AND IT IS $0 AND SELF-DOABLE. Stratify the SAME GDSC2 residuals already in `part_d.gdsc_residual_ln_ic50_by_drug` by DepMap ATM damaging-mutation / deep-deletion status, report the contrast for both ATR inhibitors with the non-DDR controls beside it, and state the n in each arm before reading anything off it. ⚠ IT IS A POSITIVE CONTROL ON THE INSTRUMENT AS MUCH AS A TEST: if ATM-null lines are NOT more ATRi-sensitive in this residual, the residual cannot detect the effect the mechanism predicts, and part D's ATM null is uninformative rather than negative. ⛔ It is the test a DNA-damage-response referee asks for first, and its absence is more damaging to the paper than the wrong-sign correlation it would replace.",
+      "serves": {
+        "route": "RT-ATR-ASSESS",
+        "publication": "PUB-ATR",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "in_progress",
+      "owner": "s35-atm-stratify",
+      "claimed_utc": "2026-09-02T19:51:43Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "AUT-010",
+      "depends_on_evidence": "research/modalities/emc-atr-vulnerability-inputs.json -> part_d.gdsc_residual_ln_ic50_by_drug (7 drug maps, 892-965 lines each) and DepMap OmicsSomaticMutations / OmicsCNGene for the same models; research/modalities/atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml for the source's own ATM-LOF comparator.",
+      "prerequisite_of": null,
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "score": 174.0,
+      "_score_is_null_why": "Filed by an APPLY seat, not by priority.py. ⛔ NOT hand-scored: this row is a finding handed to the queue, and inventing a number for it is exactly the edit the ledger's own _role forbids. Re-run `python3 research/autonomy/priority.py --write` to derive it from the graph — its route, publication and strategy joins all resolve, so the deriver has everything it needs.",
+      "_requires_trimcrae_why": "Self-doable and $0. Both are re-analyses of data already committed to this repository's own input cache; neither is outward-facing, neither buys compute, neither needs access trimcrae alone has.",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ATR-ASSESS (182.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-ATR-ASSESS",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T19:51:43Z",
+          "fingerprint_at_dispatch": "2026-09-02|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
+      }
+    },
+    {
+      "id": "AUT-PD-208-11f2347b-8e081d15",
+      "kind": "process_defect",
+      "what": "⛔ THE STRUCTURAL CENSUS ARTIFACT STILL CALLS EMC'S SECOND-COMMONEST FUSION 'canonical' AND RUNS ITS WHOLE COMPARATIVE VERDICT ON IT — THE CORRECTION REACHED THE PROSE AND NOT THE ARTIFACT (PUB-ATR round 4; hostile seat P1[0] and consistency seat P1[4], independently).\n★ THE STATE, MEASURED. `emc-fet-idr-census.json` holds exactly ONE EMC record, keyed `emc_canonical_EWSR1_NR4A3`, and it is EWSR1(1-264) / 0 of 30 RG / precondition_met true — i.e. TYPE 2. `grep -c 431` over the whole file returns 0, so the COMMONEST fusion is not in it at all. Its `emc_vs_measured_fusions_comparative._claim_under_test` — \"EMC's canonical fusion loses at least as much of EWSR1's RGG content as each fusion in which ATM suppression was MEASURED\" — carries `holds_against_every_measured_type: true` at emc_RG_retained_fraction 0.0 on all four rows. Substituting type 1's 0.267 (from emc-fet-construct-designs.json) against the two comparator rows at 0.0 makes `emc_loses_at_least_as_much` FALSE on two of four, so the flag would invert.\n★ THE MANUSCRIPT IS NOW CORRECT AND THE ARTIFACT IS NOT, WHICH IS THE WRONG WAY ROUND. This round's repair states in the paper which artifact carries which fusion and that the comparative claim is computed for type 2 only. THE FIX IS IN THE PRODUCER: rekey off 'canonical', add types 1 and 5, and report the comparative block PER TYPE. ⛔ Do NOT loosen the census criterion to make type 1 pass — the committed `_what_the_controls_calibrate` note is already the honest resolution (EWSR1::ATF1 exon 10, a MEASURED fusion, retains the same 8 of 30 and also reads NOT_MET, so the strict verdict is conservative and the retained FRACTION is the quantity to compare).\n★ AND THE SAME REGENERATION CLOSES A SECOND GAP IN THE SAME ARTIFACT (hostile seat P1[2]). `_control_rule` says the positive controls are \"the fusions the mechanism was measured on\" and carries TWO — EWSR1::FLI1 and EWSR1::ATF1, both EWSR1. The source measured it on FOUR across four diseases: those two plus EWSR1::WT1 (DSRCT) and FUS::CHOP (myxoid liposarcoma), the last a FUS fusion, verbatim in atr-hrd-sarcoma-series-inputs.json#mechanism_fulltext_xml. So the census's operational definitions — EWSR1's 30 RG dipeptides, the residue-299 RGG-free ceiling — are NEVER calibrated against a non-EWSR1 FET protein, while EMC's own minority partners include TAF15 and FUS and this document sweeps them. ⚠ The manuscript now DISCLOSES both halves (banner); what is open is the artifact. ⛔ Adding the two controls is a test of the definition, not a formality: if the precondition's definitions cannot recover FUS::CHOP's architecture, they do not generalise across the family they are being applied to, and that is a finding.",
+      "serves": {
+        "route": "RT-ATR-ASSESS",
+        "publication": "PUB-ATR",
+        "strategy": "ST-DEPENDENCY"
+      },
+      "state": "in_progress",
+      "owner": "s34-census-rekey",
+      "claimed_utc": "2026-09-02T19:51:43Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "AUT-010",
+      "depends_on_evidence": "research/modalities/emc-fet-idr-census.json -> emc_canonical_EWSR1_NR4A3 (last_fet_residue_retained 264) and emc_vs_measured_fusions_comparative.holds_against_every_measured_type true; research/modalities/emc-fet-construct-designs.json -> constructs[] carries types 1/2/5 with census_precondition_verdict NOT_MET / PRECONDITION_MET / NOT_MET. Positive-control half: research/modalities/emc-fet-idr-census.json -> positive_controls holds 2 entries, both EWSR1; research/modalities/atr-hrd-sarcoma-series-inputs.json -> mechanism_fulltext_xml names 4 measured fusions across 4 diseases.",
+      "prerequisite_of": null,
+      "closes_clause": null,
+      "requires_trimcrae": false,
+      "score": 174.0,
+      "_score_is_null_why": "Filed by an APPLY seat, not by priority.py. ⛔ NOT hand-scored: this row is a finding handed to the queue, and inventing a number for it is exactly the edit the ledger's own _role forbids. Re-run `python3 research/autonomy/priority.py --write` to derive it from the graph — its route, publication and strategy joins all resolve, so the deriver has everything it needs.",
+      "_requires_trimcrae_why": "Self-doable and $0. Both are re-analyses of data already committed to this repository's own input cache; neither is outward-facing, neither buys compute, neither needs access trimcrae alone has.",
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-ATR-ASSESS (182.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-ATR-ASSESS",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T19:51:43Z",
+          "fingerprint_at_dispatch": "2026-09-02|None"
+        }
+      ],
+      "score_inputs": {
+        "fruitless_attempts": 1
       }
     },
     {
@@ -3153,47 +3170,6 @@
       "evidence": " ⭐ WORKED BY SEAT s4 AND THE ROW WAS STALE IN THE DIRECTION THAT MATTERED. It said the checker 'downgrades both to UNMEASURED'; measured against the two real receipts on the trunk it graded them OPPOSITE ways — CYC-0030-6be7fd5a (handoff.refused_by) unmeasured/HANDOFF-REFUSED, and CYC-0058-1ef8c95a (handoff.mechanism_unavailable) needs_attention/SESSION-OVERLOADED-NO-HANDOFF. health.py read only `refused_by`, so the ABSENT-TOOL shape fell through to the RED branch and was recorded as the session's own defect — while session_cap.py, already on the trunk from a different cycle, ALREADY read `mechanism_unavailable` on that same receipt and accepted it as an earned reason to stop. Two modules read one receipt and disagreed about whether stopping was correct behaviour or a failure, and the punished shape is the ordinary launch for an unattended cycle, not an edge case. MERGED (s4-AUT-PD-059-blocked-handoff-says-which): a distinct HANDOFF-MECHANISM-ABSENT verdict with its own remedy, the handoff PROMPT now names both failure fields, and session_cap.py stops hand-rolling the literal it had also declared. Mutation-tested 11/11, including an absence buying GREEN and an absence falling through to RED (the original defect). ⚠ The seat killed a false alarm it raised itself — it reported the autonomy suite 'stalled'; preflight ran it to completion, 631 passed in 331 s, and the apparent stall was three concurrent seats sharing this container, reproduced on a clean origin/main control. ⚠ The seat guessed a cycle_id for its two amendment records; the driver re-keyed them at merge. STILL OPEN, small: the red branch's remedy text does not yet name the two honest fields (the prompt does, which is where a session reads it), and ~20 trunk receipts record the fact under invented spellings like `_why_not_attempted` that nothing reads — deliberately not credited, since crediting invented spellings makes the field unfalsifiable."
     },
     {
-      "id": "AUT-044",
-      "_derived": true,
-      "what": "Decide the framing and the venue, which is an outward-facing call.",
-      "serves": {
-        "route": "RT-MODALITY-CENSUS",
-        "publication": "PUB-MODALITY-CENSUS",
-        "strategy": "ST-DISSEMINATION"
-      },
-      "kind": "write",
-      "state": "queued",
-      "parked_on": null,
-      "parked_by_graph_status": null,
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-09-01",
-      "score": 135.9,
-      "score_inputs": {
-        "live": true,
-        "patient_path": "none",
-        "patient_path_scaled": 0.0,
-        "pursue_now": true,
-        "tier_one": false,
-        "endpoint_reachable": true,
-        "blocker_leverage": 0,
-        "cost_class": "free",
-        "blocked_on_human": false,
-        "fruitless_attempts": 0,
-        "age_factor": 0.0714,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "requires_trimcrae": false,
-      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MODALITY-CENSUS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
-      "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-MODALITY-CENSUS` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were.",
-      "claimed_utc": null
-    },
-    {
       "id": "AUT-025",
       "_derived": true,
       "what": "Keep registered for automatic re-grade when EMC expression data lands. ⛔ CORRECTED 2026-09-02 (AUT-PD-116): the expression data landed and the FAP read is taken on both platforms (gene_reads.FAP; FLAT_ON_BOTH against comparator sarcomas). ⚠ Superseded, retained: \"Keep registered for automatic re-grade when EMC expression data lands.\" What remains is the PROTEIN and imaging gap, which CYC-0074 ruled on 2026-08-29 stays open even after a successful extraction.",
@@ -3272,6 +3248,192 @@
       "closes_clause": null,
       "requires_trimcrae": false,
       "_requires_trimcrae_why": "a coordination tool; nothing published or deposited"
+    },
+    {
+      "id": "AUT-044",
+      "_derived": true,
+      "what": "Close the three open publish_bar clauses for PUB-MODALITY-CENSUS, in this order: a hardening round (hardening_converged), an independent blind adversarial seat on the pinned commit (independent_adversarial_seat), then PREFLIGHT_FULL=1 recorded on that same commit (preflight_full_green). The aiXiv preprint venue is NOT a decision and never was: publication-authority.json's standing grant covers this paper and publish_bar.authority_permits returns ok=True for aixiv/submit, with PUB-ASO the single named exception.",
+      "serves": {
+        "route": "RT-MODALITY-CENSUS",
+        "publication": "PUB-MODALITY-CENSUS",
+        "strategy": "ST-DISSEMINATION"
+      },
+      "kind": "write",
+      "state": "queued",
+      "parked_on": null,
+      "parked_by_graph_status": null,
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "score": 135.0,
+      "score_inputs": {
+        "live": true,
+        "patient_path": "none",
+        "patient_path_scaled": 0.0,
+        "pursue_now": true,
+        "tier_one": false,
+        "endpoint_reachable": true,
+        "blocker_leverage": 0,
+        "cost_class": "free",
+        "blocked_on_human": false,
+        "fruitless_attempts": 0
+      },
+      "requires_trimcrae": false,
+      "_requires_trimcrae_why": "DERIVED, not judged: this route's endpoint PUB-MODALITY-CENSUS is aimed at `preprint`, the standing aiXiv grant in publication-authority.json covers it, and it is not in that grant's `excluded_papers`. Posting it needs nobody. ⚠ This says NOTHING about whether the paper is READY — publish_bar decides that, and it is the loop's own work either way. If this route ever acquires an act at another venue, that act is his and this field is not the place to record it.",
+      "claimed_utc": "2026-09-02T20:08:03Z",
+      "_PARKED_2026_09_01": "★ PARKED ON trimcrae'S OWN DIRECTIVE, NOT ON A JUDGEMENT: trimcrae, 2026-09-01, answering the escalation batch verbatim: \"ASO only today.\"\n★ AND THE ACT THIS ROW ASKS FOR IS NOT TAKEABLE TODAY, MEASURED RATHER THAN ASSERTED: `publish_bar --paper PUB-MODALITY-CENSUS` on 850edb3358ba reads 3/7 — open: hardening_converged, preflight_full_green, independent_adversarial_seat, readable_enough_to_review. Every open clause there is the LOOP'S OWN WORK — a hardening round, a blind seat, a PREFLIGHT_FULL, an over-length sentence. ⛔ So this was never a decision waiting on him.\n⛔⛔ `notified_utc` IS DELIBERATELY NOT STAMPED HERE. He was asked about AUT-010 and AUT-046 individually, and about the 0/7 group as a group; this row was not named in either question. Stamping it would be a false record — the same status as a fabricated receipt (CLAUDE.md §3) — even though his instruction plainly covers it. The park is the honest record of what happened; the stamp would not be.\n★ THE CENSUS THIS SITS IN, and it is the finding rather than the bookkeeping: all NINE publications behind the thirteen unsent `requires_trimcrae` rows were measured on 2026-09-01 and NOT ONE is at 7/7. The queue was never 'thirteen decisions awaiting trimcrae' — it was thirteen rows awaiting the loop's own work, wearing the costume of his decisions. That is a better answer to his 2026-08-29 complaint than the individual sends were.",
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T20:08:03Z",
+          "fingerprint_at_dispatch": "2026-09-01|None"
+        }
+      ],
+      "next_action": "Nothing here is a decision. Close the three open publish_bar clauses, in order, each filed as its own row: the hardening round, then a blind adversarial seat on the pinned commit, then PREFLIGHT_FULL=1 recorded on that same commit. Venue: aiXiv, settled by the standing grant. Framing: no reframing — see `_framing_options_2026_09_02`, which recommends posting the paper as the paper it is.",
+      "_framing_options_2026_09_02": {
+        "_what_this_is": "The framing half of AUT-044, worked out rather than deferred. CLAUDE.md §3 forbids reshaping a paper to chase a venue's taste, so these are OPTIONS WITH THEIR COSTS and a recommendation — not an edit anybody made to the manuscript. The manuscript's title and claims are untouched by this row.",
+        "the_paper_today": "research/manuscripts/modality-census/cancer-modality-census.md, 4,103 words. Title: 'What oncology can do, and what reaches extraskeletal myxoid chondrosarcoma — a modality census'. 217 modality classes across 19 groups and 4 bands, each graded against one ultra-rare fusion sarcoma: 41 on_board, 8 in_clinical_use, 33 already_rejected, 84 excluded, 31 candidate, 9 parked_capability, 11 not_applicable. Its methodological claim is the census-versus-search distinction, and §1 already calls that claim 'a modest one'. §2.1 records the paper correcting its own headline (127 -> 112 never-searched) and reversing its own band-level reading.",
+        "options": [
+          {
+            "id": "A",
+            "framing": "Methods paper — the census as a transferable instrument.",
+            "claims": "Enumerate-then-grade is a general instrument for any rare disease; the denominator is the contribution and EMC is the worked example.",
+            "audience": "meta-research, research-strategy, rare-disease methodology.",
+            "would_have_to_stop_claiming": "anything specific about what reaches EMC; the candidate list demotes to an illustration.",
+            "cost": "n=1. A methods reviewer asks for the instrument run on a second disease, and the paper cannot answer that today."
+          },
+          {
+            "id": "B",
+            "framing": "Disease landscape — what reaches EMC.",
+            "claims": "For this disease, here is the complete graded space and the live residue.",
+            "audience": "sarcoma community, EMC clinicians, rare-tumour boards.",
+            "would_have_to_stop_claiming": "methodological generality; the census-versus-search distinction becomes housekeeping.",
+            "cost": "reads as a review, which is the one reading §1 is written to head off. Also drops the strongest asset."
+          },
+          {
+            "id": "C",
+            "framing": "Negative-results paper — eighty-four classes closed.",
+            "claims": "The closures are the result; the field publishes almost none of them.",
+            "audience": "negative-results venues, meta-research.",
+            "would_have_to_stop_claiming": "the 31 candidates as a forward-looking contribution.",
+            "cost": "leads with the SOFTEST evidence in the paper. §6 says the excluded rows rest on mechanism-versus-biology arguments, which a single measurement can overturn."
+          },
+          {
+            "id": "D",
+            "framing": "Self-correcting instrument — §2.1's audit as the point.",
+            "claims": "An enumerated register is auditable in a way a search is not, and this one caught its own overstatement.",
+            "audience": "research integrity, meta-research.",
+            "would_have_to_stop_claiming": "the census as an oncology contribution at all.",
+            "cost": "makes the paper about its own error, for the smallest readership of the four."
+          },
+          {
+            "id": "E",
+            "framing": "No reframing — post it as the paper it is (census + triage, method stated modestly).",
+            "claims": "exactly what it claims now.",
+            "audience": "the union of A and B, which is who an aiXiv preprint reaches anyway.",
+            "would_have_to_stop_claiming": "nothing.",
+            "cost": "carries a methodological claim and a disease-specific claim at once, so neither is maximally sharp."
+          }
+        ],
+        "recommendation": "E — post as the paper it is. No manuscript change is warranted for the preprint.",
+        "why": [
+          "Every other option BUYS sharpness by DROPPING something the paper currently supports. A census that reports both halves honestly is what the work is; narrowing it would trade evidence for positioning, which is the trade CLAUDE.md §3 exists to refuse.",
+          "There is no venue pressure to reframe. aiXiv caps nothing on length (paper-hardening is explicit that its per-round word budget does not apply there), so no cut is forced.",
+          "The one thing measured to move an aiXiv rating is picking the right paper, NOT iterating the prose — eleven versions of another paper never cleared 6 and trended DOWN as the text improved (aixiv-submission §0). Reframing is that iteration by another name.",
+          "The paper's own §1 already states the methodological claim at its true weight and calls it modest. That is the honest framing; sharpening it into option A would make it less true."
+        ],
+        "when_this_reopens": "If a JOURNAL is ever pursued, the fork is real and it is A versus B, because a journal has a scope and a taste that aiXiv does not. That act is trimcrae's under CLAUDE.md §3 (per paper, per act) and `authority_permits` returns ok=False for journal/submit, so it is gated by code as well as by rule. Do not pre-decide it here."
+      },
+      "_next_action_provenance_2026_09_02": "⛔ THIS ROW'S `what` IS NOT EDITABLE HERE AND EDITING IT WOULD HAVE BEEN SILENTLY UNDONE. AUT-044 carries `_derived: true`; priority.py:382 sets `what` from `routes.json -> RT-MODALITY-CENSUS.next.best_next_action`, and merge()'s forward-compat loop uses `setdefault`, so a generated key always beats a hand-written one. The old text — 'Decide the framing and the venue, which is an outward-facing call.' — was therefore a MIRROR of the graph, and the self-contradiction with `requires_trimcrae: false` lived in the graph. Fixed at the source on 2026-09-02: `next.best_next_action`, `timing.rationale` and `remaining_unknowns[0]` on RT-MODALITY-CENSUS. This row's `what` re-derives from that.",
+      "_PARK_LIFTED_2026_09_02": "The 2026-09-01 park recorded trimcrae's 'ASO only today.' That instruction was scoped to that day and the day is over, so the park is lifted rather than renewed. Nothing about it needed his attention then and nothing does now: publish_bar re-read 4/7 on 2026-09-02 (up from 3/7 — `readable_enough_to_review` has since cleared), and all three remaining clauses are the loop's own work. `notified_utc` is STILL not stamped, and must not be: nothing was sent."
+    },
+    {
+      "id": "AUT-PROP-061-11f2347b-5a2b68da",
+      "what": "ROUND 1 OF PUB-MODALITY-CENSUS — blind seats on a pinned commit of research/manuscripts/modality-census/cancer-modality-census.md, then apply. ⭐ CLOSES publish_bar CLAUSE 1. ⚠ This paper has NEVER been hardened: research/autonomy/hardening-state/PUB-MODALITY-CENSUS.json does not exist, while five other papers have one. ⛔ RUN IT FIRST — the other two clauses bind to a commit, and any text change from this round invalidates a seat or a FULL receipt taken before it. Load `paper-hardening`; a full round is a SPAWNED SESSION, not more work in a running one (research-loop §3). ⛔ The likeliest blockers are named by the paper itself, so seat for them rather than rediscovering them: §6 concedes most `excluded` verdicts are judgements resting on mechanism-versus-biology arguments, and the 19-group taxonomy is the route's own `remaining_unknowns[1]` — 'the first thing a reviewer contests'.",
+      "serves": {
+        "route": "RT-MODALITY-CENSUS",
+        "publication": "PUB-MODALITY-CENSUS",
+        "strategy": "ST-DISSEMINATION"
+      },
+      "kind": "harden",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "closes_clause": {
+        "paper": "PUB-MODALITY-CENSUS",
+        "clause": "hardening_converged"
+      },
+      "_why_filed": "AUT-044 was the ONLY ledger row serving RT-MODALITY-CENSUS/PUB-MODALITY-CENSUS, so the three clauses actually blocking the paper had no home and no cycle could ever pick them. research-loop §2 step 12: a next step that is not a queued ledger item is not real. Filed 2026-09-02 out of AUT-044.",
+      "filed_by": "s40-modality-census-venue",
+      "score": 135.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-MODALITY-CENSUS (135.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-MODALITY-CENSUS"
+    },
+    {
+      "id": "AUT-PROP-062-11f2347b-5a2b68da",
+      "what": "Run a blind adversarial seat on the PINNED post-hardening commit of PUB-MODALITY-CENSUS and record it at research/autonomy/review-seats/PUB-MODALITY-CENSUS-<sha>.json. ⭐ CLOSES publish_bar CLAUSE 6. ⛔ SECOND, NOT FIRST: a seat receipt at a sha the hardening round then moves closes nothing — that is exactly why AUT-PROP-019 has been re-run twice on PUB-ASO. The seat must verify the digest it was given.",
+      "serves": {
+        "route": "RT-MODALITY-CENSUS",
+        "publication": "PUB-MODALITY-CENSUS",
+        "strategy": "ST-DISSEMINATION"
+      },
+      "kind": "harden",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "closes_clause": {
+        "paper": "PUB-MODALITY-CENSUS",
+        "clause": "independent_adversarial_seat"
+      },
+      "_why_filed": "AUT-044 was the ONLY ledger row serving RT-MODALITY-CENSUS/PUB-MODALITY-CENSUS, so the three clauses actually blocking the paper had no home and no cycle could ever pick them. research-loop §2 step 12: a next step that is not a queued ledger item is not real. Filed 2026-09-02 out of AUT-044.",
+      "filed_by": "s40-modality-census-venue",
+      "score": 135.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-MODALITY-CENSUS (135.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-MODALITY-CENSUS"
+    },
+    {
+      "id": "AUT-PROP-063-11f2347b-5a2b68da",
+      "what": "Run PREFLIGHT_FULL=1 at the FINAL PUB-MODALITY-CENSUS commit and record it with record_bar_evidence.py. ⭐ CLOSES publish_bar CLAUSE 2. ⛔ LAST, AND ON THE COMMIT THAT IS ACTUALLY POSTED — a receipt at an earlier sha closes nothing. ⛔ It must be the UNSCOPED FULL run: a PREFLIGHT_PAPER-scoped run cannot mint a clause-2 receipt (CLAUDE.md §6), and record_bar_evidence demands the unscoped banner. This is the ONLY member of the three that needs `PREFLIGHT_FULL=1`, which is reserved for publication acts.",
+      "serves": {
+        "route": "RT-MODALITY-CENSUS",
+        "publication": "PUB-MODALITY-CENSUS",
+        "strategy": "ST-DISSEMINATION"
+      },
+      "kind": "harden",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "closes_clause": {
+        "paper": "PUB-MODALITY-CENSUS",
+        "clause": "preflight_full_green"
+      },
+      "_why_filed": "AUT-044 was the ONLY ledger row serving RT-MODALITY-CENSUS/PUB-MODALITY-CENSUS, so the three clauses actually blocking the paper had no home and no cycle could ever pick them. research-loop §2 step 12: a next step that is not a queued ledger item is not real. Filed 2026-09-02 out of AUT-044.",
+      "filed_by": "s40-modality-census-venue",
+      "score": 135.0,
+      "_score_basis": "inherited from the lowest-scoring derived row on RT-MODALITY-CENSUS (135.0) plus this row's own age bonus, then charged its own penalties — the graph does not express this row, so it is worth no more than the least the graph already values on the same route (AUT-PD-143)",
+      "_score_inherited_from_route": "RT-MODALITY-CENSUS"
     },
     {
       "kind": "process_defect",
@@ -3549,6 +3711,40 @@
       "depends_on_evidence": "ToolSearch(\"get_session\", 5) -> no match; ToolSearch(\"create_session\", 10) -> no match; ToolSearch(\"session info ccr claude-code-remote\", 10) -> no match (only ExitWorktree, CronCreate/List/Delete, EnterWorktree, ListConnectors, Monitor, SearchMcpRegistry, SendMessage, SuggestConnectors -- none of them a session-identity tool); pytest research/autonomy/tests/test_receipt_schema.py -q = 40 passed post-fix, 6 failed with the escape-valve condition mutated to `if True`.",
       "_renamed_from": "AUT-PD-155",
       "_renamed_why": "AUT-PD-155 was independently allocated by a concurrent session (CYC-0074-5a21085f) for a different defect (commit-loop cost drift / gate 13 timing) and landed on origin/main first. Re-allocated to avoid a duplicate ledger id."
+    },
+    {
+      "id": "AUT-PD-209-11f2347b-8be8c63b",
+      "kind": "process_defect",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_why": "It serves the loop's ability to run at all. A seat that cannot write is a seat that produces nothing, and the failure is silent."
+      },
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-02",
+      "score": 133.0,
+      "_score_basis": "HAND-SET, as the ledger's `_role` requires of a session-added row. Placed at the TOP of the open process_defect band (129-137) rather than in the middle, because unlike every other row in that band this one had already stopped the session that filed it: a gate run returned exit 1 with a ZERO-BYTE log, which is indistinguishable from a broken gate. It is still below live research (CLAUDE.md §0).",
+      "what": "⛔⛔ EVERY SPAWNED SEAT CREATES A ~586 MB GIT WORKTREE AND NOTHING HAS EVER REMOVED ONE. Measured 2026-09-02: 36 dead worktrees held ~21 GB, the session's writable allowance hit 100% with 33 MB free, and `./scripts/preflight.sh` exited 1 having written a ZERO-BYTE log.\n★ THE FAILURE MODE IS THE POINT, NOT THE DISK. An out-of-space gate does not say it is out of space. It exits non-zero with no output, which reads exactly like a broken gate or a broken repository, and the correct first move -- read the whole log and batch the fixes (CLAUDE.md §6) -- returns NOTHING to work with. The discriminating observation was `df -h`, and nothing in the commit loop, the skills or the hooks points at it.\n⚠ AND THE ENVIRONMENT'S OWN NOTE SAYS `df` MISLEADS HERE: 'Avail at 0 with low Used means the allowance is spent, not that the machine is broken' -- 38 G used of 252 G, reported as 100%. So even the right command needs the right reading.\n★ THE ARITHMETIC IS UNFORGIVING AND IT IS NOT A ONE-OFF. A worktree is a full checkout of this repository. The session-shape rule in `research-loop` §3 prescribes parallel subagents as the NORMAL shape, and CLAUDE.md §1 sets `subagent_width` at 64. Sixty-four seats at 586 MB is 37 GB of working copies for a repository whose `.git` is 1.7 GB. **The governed width and the disk allowance have never been reconciled, and the width is the number the architecture already records as having failed catastrophically once.**\n⛔ NOTHING WAS LOST THIS TIME AND THAT WAS LUCK. All 36 removed worktrees were clean with nothing unpushed -- checked before deleting, one at a time. A seat that had died holding uncommitted work would have had it deleted by the cleanup that freed the disk, and the session doing the cleanup is under pressure precisely because it cannot write.",
+      "next_action": "Make worktree lifetime someone's job. Options to argue rather than assume: have the seat prompt template end with `git worktree remove`, which fails the moment a seat dies; a reaper that removes worktrees whose branch is merged and whose tree is clean, modelled on `session_reaper.py` and sharing its refusal to clear anything holding uncommitted work; or stop giving read-only seats a worktree at all -- the five blind seats in this same round read the pinned commit with `git show` and used ZERO disk, which is the cheapest fix and covers the largest population. ⛔ Whatever is chosen must ALSO make an out-of-space gate say so: a preflight that exits 1 with an empty log is the actual cost here, and a two-line disk check at the top of `preflight.sh` is cheaper than any of the above. ⚠ Mind `scripts/tier-budgets.json` before adding a test; a disk precondition is not a test.",
+      "evidence": [
+        "df -h / : 252G size, 38G used, 33M avail, 100% -- 2026-09-02 during this session",
+        "du -sh scratchpad : 28G before cleanup, 7.4G after removing 36 worktrees",
+        "scratchpad/drv-preflight-seats2.log : 0 bytes, exit 1",
+        "git worktree list : 36 worktrees under the session scratchpad, ~586 MB each",
+        "CLAUDE.md §1 subagent_width, read from research/autonomy/autonomy-state.json = 64"
+      ],
+      "retry_budget": 3
     },
     {
       "id": "AUT-PD-113",
@@ -3892,80 +4088,6 @@
         {
           "utc": "2026-08-29T04:52:07Z",
           "fingerprint_at_dispatch": "2026-08-29|None"
-        }
-      ]
-    },
-    {
-      "id": "AUT-PD-088",
-      "what": "THREE ROUTES RECORDED `closed` STILL CARRY A REOPENING TRIGGER: RT-SYNPROMOTER and RT-RXR carry TECH-* revisit_triggers, RT-6MP a TR-* revival_trigger, while systems/CONVENTIONS.md §4.1 defines `closed` as conclusively unworkable and carrying no TECH-*. By the convention's own words these are `parked`, not `closed`. ⚠ The distinction is not cosmetic on a rising frontier (CLAUDE.md §5): `parked` means revisit when capability X lands and is re-graded on a schedule; `closed` means never look again. Recording a revivable route as closed is how a live option gets lost quietly.\n\n★ RESOLVED 2026-09-02 by s38-closed-vs-parked. THE SWEEP WAS A CENSUS, NOT A SPOT-CHECK: all 77 routes tested in both directions. §4.1's literal test (`closed` carrying a `TECH-*`) has EXACTLY TWO hits -- RT-SYNPROMOTER and RT-RXR. The other direction (`parked` carrying no `TECH-*`) has ZERO. RT-6MP carries a `TR-*` and no `TECH-*`, so it passes §4.1's letter and fails its sense.\n⭐ THE DECISIVE EVIDENCE IS NOT §4.1's PROSE -- IT IS THE ENFORCED CLOSURE MODEL. All three routes are `closure_kind: premise_false`, which `research/manuscripts/emc-systems-map.json._closure_model` declares `permanent: false, needs_trigger: true` ('a stated premise was measured and is not true. Revivable only if the measurement or the underlying fact changes'). The map and the graph therefore DISAGREED, and the map is the half with a checker. So the STATE field was wrong in all three; the triggers are not stale, they are required by the model that governs them.\n⭐ INDEPENDENT CORROBORATION FROM A FIELD NOT TOUCHED: `state.work_state`. research-object.schema.json says '`dead` requires positive evidence of impossibility; a method that merely failed is `parked`'. The three routes that ARE correctly closed (RT-EWSR1-PROTEIN, RT-FET-LC-LIGAND, RT-DBD -- definitional / arithmetic_over_fixed_fact) are all `work_state: dead`. RT-SYNPROMOTER is `future`; RT-RXR and RT-6MP are `complete`. NONE of the three moved is `dead`. The graph already said they were not dead.\nCHANGED: `state.status` closed -> parked on RT-SYNPROMOTER, RT-RXR, RT-6MP; and `timing.recommendation` closed -> monitor on RT-RXR and RT-6MP, because a `closed` timing recommendation asserts the route 'must appear on no watch list' (RT-EWSR1-PROTEIN's own words) which contradicts `parked`. RANKING-NEUTRAL: `priority.py` reads `recommendation` only as `== 'pursue_now'`, so `closed` and `monitor` score identically. VERIFIED BY FIELD-BY-FIELD DIFF over all 77 routes: 5 field changes, 0 touching `grade`/`readiness`/`blockers_inherited`, 3 routes touched.\n★ WHAT THE CHANGE ACTUALLY BUYS: `priority.py::_kind` returns `regrade` for a route that is `parked` AND carries a `revival_trigger`, and returns it for no `closed` route -- so these three now enter the re-test schedule (emc-autonomy-architecture.md §8.2). It does NOT queue them as work: `parked` and `closed` are both in `NOT_TAKEABLE_STATUSES`, and `is_live` reads `work_state`+`closure_kind`, not `status`, so it is unchanged.\n⛔ LIVE READINGS TAKEN 2026-09-02 (rung 0 WebSearch, per ci-escape-hatches §0) RATHER THAN REMEMBERED -- NO TRIGGER HAS FIRED, so no route is live that was not live before:\n (a) RT-RXR / TECH-RXR-HETERODIMER-REPORT: NOT LANDED. The 2026 eLife paper 'Towards a unified molecular mechanism for ligand-dependent activation of NR4A-RXR heterodimers' works on Nurr1-RXRalpha (NR4A2) and Nur77-RXRgamma (NR4A1); it does not report NR4A3/NOR-1 heterodimerising with RXR. The published negative -- NOR-1 unable to form RXR heterodimers, which is what distinguishes it from NGFI-B and Nurr1 -- stands. `current_state: absent` is now CONFIRMED rather than assumed. ⚠ But the field is actively working this axis and the paper's own stated aim is to test whether the mechanism is shared ACROSS NR4A-RXR heterodimers, which makes the trigger more watch-worthy, not less -- the argument for `parked` over `closed`. ⚠ The TECH carries 4 UNGRADED scan signals; none is a heterodimer report (checked).\n (b) RT-6MP / TR-NR4A3-DIRECTION-OF-EFFECT: NOT LANDED. No report links 6-MP to the direction of effect on the EWSR1::NR4A3 fusion. The gain-of-function prior the closure rests on is corroborated (the fusion is a potent transcriptional activator), but that is the PRIOR, not the demonstration the trigger names.\n (c) RT-SYNPROMOTER / TECH-VECTOR-DELIVERY: NOT LANDED -- the vector-delivery literature is still hepatic and ex vivo; no solid-tumour platform at the coverage this route assumes. `current_state: absent` confirmed. TECH-EMC-EXPRESSION-DATA: still `early_signals`; a 2026 16-case EMC molecular study exists but whether it deposited data publicly is UNKNOWN and is left to the scan's human grader -- systems_check [X4] states the scan deliberately cannot change `current_state` itself.\n★ GUARD ADDED so this cannot regress silently: `systems_check.check_closed_carries_no_reopening_trigger` emits ERROR `[T8]` when a `closed` route names ANY reopening condition, `TECH-*` or `TR-*`. It is STRICTER than §4.1 (which names only `TECH-*`, because it predates the `TR-*` registry minted 2026-08-06) and so cannot contradict it. MUTATION-TESTED 4/4: reverting each of the three routes to `closed` fires [T8] naming that route (RT-6MP on the `TR-*` alone, which is the half §4.1's wording would have missed); RT-DBD reverted to `closed` correctly does NOT fire. routes.json restored byte-identical (sha256 273fa9d3e450ae79aea219b11843f20a49dd50db1fdc6637583c7ceecd824393).\n⚠ NO COMMITTED UNIT TEST FOR THE GUARD, AND THAT IS A BUDGET DECISION NOT AN OVERSIGHT: the guard lives in systems_check (cheapest tier, 0 test functions) but a pytest for it would land in `systems/tests`, which is in the `commit-loop` tier at 1393/1400 -- 7 functions of headroom. CLAUDE.md §6: raising a ceiling is the last of the three answers. A session with headroom should add one.\n⛔ THREE FINDINGS RECORDED RATHER THAN ACTED ON (out of this row's scope):\n 1. RT-DIAGNOSTIC-PATHWAY is `closed` with `closure_kind: premise_false` (non-permanent, needs_trigger) and NO trigger of any kind, and its `timing.recommendation` is still `pursue_now` -- stale, never updated when trimcrae closed it 2026-08-23 ('this is not a paper... drop it'). It carries no TECH-* so it does not violate §4.1 and was LEFT ALONE. Its closure is a scope decision, which no capability revives, so the likely defect is `closure_kind`, whose owner should rule. It is also the one graph-closed route ABSENT from emc-systems-map.json (40 routes vs the graph's 77), so its mismatch is unchecked from both directions.\n 2. RT-6MP is now parked on a `TR-*` with NO `TECH-*` mirror, and TR-NR4A3-DIRECTION-OF-EFFECT has `on_watch_list: false` and no `scan_trigger` -- so NOTHING SCANS FOR IT. RT-RXR's equivalent published-measurement condition does have a TECH-* mirror with a scan trigger. A parked route whose trigger nothing watches is this row's own defect one layer down. Minting the technology needs a forecast, so it is a graph change for the registry's owner, not a check.\n 3. CONVENTIONS.md §4.1 still names only `TECH-*`. The guard is stricter so nothing is misled, but the doc could be updated to name the `TR-*` register too. NOT done here deliberately: editing the convention in the same commit that enforces it is the shape `amendment_guard` refuses.",
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null,
-        "_route_was": "RT-AUTONOMY",
-        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
-      },
-      "kind": "process_defect",
-      "state": "done",
-      "owner": null,
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 1,
-      "last_evidence_utc": "2026-09-02",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act.",
-      "score_inputs": {
-        "age_factor": 0.3571,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "score": 129.9,
-      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. Three routes recorded `closed` still carry a reopening trigger (RT-SYNPROMOTER, RT-RXR carry TECH-*; RT-6MP a TR-*), which systems/CONVENTIONS.md §4.1 defines as `parked`, not `closed`. On a rising frontier (CLAUDE.md §5) that is how a live option is lost quietly.",
-      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
-      "claimed_utc": null,
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T20:03:55Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
-        }
-      ]
-    },
-    {
-      "id": "AUT-PD-098",
-      "what": "★★ SWEEP EVERY ROUTE GRADE FOR THE DEFECT CLASS AUT-062 FOUND BY READING ONE ROUTE: a TRANSCRIPT-ABUNDANCE number described as reporting a protein's ACTIVITY. ⛔ NOBODY HAS CHECKED WHETHER RT-SGK1'S WAS THE ONLY ONE, and that is the whole reason to run it — the defect is invisible to every existing gate, because the sentence is grammatical, hedged, cites a real artifact, and the number it quotes is correct. It is claim SCOPE again (the third orthogonality this repository recorded on 2026-08-28, after strength-vs-provenance and strength-vs-direction), pointed at the systems graph rather than at a manuscript. ★ THE DISCRIMINATOR IS CHEAP: any grade whose evidence is an expression series and whose language names activity, phosphorylation, signalling, pathway output or 'shaped' anything — read each candidate against what its cited artifact actually MEASURES. ⚠ Expect most to be fine; the value is the count, and a clean sweep is a real result worth recording.",
-      "serves": {
-        "route": null,
-        "publication": null,
-        "strategy": null,
-        "_route_was": "RT-AUTONOMY",
-        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
-      },
-      "kind": "process_defect",
-      "state": "in_progress",
-      "owner": "s39-transcript-vs-protein",
-      "cost_class": "free",
-      "cost_points_at": "research/compute/pricing.md",
-      "blocked_by": null,
-      "blocked_evidence": null,
-      "retry_budget": 3,
-      "attempts": 0,
-      "last_evidence_utc": "2026-08-28",
-      "requires_trimcrae": false,
-      "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act.",
-      "score_inputs": {
-        "age_factor": 0.3571,
-        "age_factor_as_of": "2026-09-02"
-      },
-      "score": 128.9,
-      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. Sweep every route grade for the defect AUT-062 found by reading ONE route: a transcript-abundance number described as reporting a protein's ACTIVITY. Claim SCOPE, invisible to every existing gate because the sentence is grammatical, hedged and cites a real artifact.",
-      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
-      "claimed_utc": "2026-09-02T20:03:06Z",
-      "dispatch_log": [
-        {
-          "utc": "2026-09-02T20:03:06Z",
-          "fingerprint_at_dispatch": "2026-08-28|None"
         }
       ]
     },
@@ -5004,6 +5126,43 @@
       "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use."
     },
     {
+      "id": "AUT-PD-088",
+      "what": "THREE ROUTES RECORDED `closed` STILL CARRY A REOPENING TRIGGER: RT-SYNPROMOTER and RT-RXR carry TECH-* revisit_triggers, RT-6MP a TR-* revival_trigger, while systems/CONVENTIONS.md §4.1 defines `closed` as conclusively unworkable and carrying no TECH-*. By the convention's own words these are `parked`, not `closed`. ⚠ The distinction is not cosmetic on a rising frontier (CLAUDE.md §5): `parked` means revisit when capability X lands and is re-graded on a schedule; `closed` means never look again. Recording a revivable route as closed is how a live option gets lost quietly.\n\n★ RESOLVED 2026-09-02 by s38-closed-vs-parked. THE SWEEP WAS A CENSUS, NOT A SPOT-CHECK: all 77 routes tested in both directions. §4.1's literal test (`closed` carrying a `TECH-*`) has EXACTLY TWO hits -- RT-SYNPROMOTER and RT-RXR. The other direction (`parked` carrying no `TECH-*`) has ZERO. RT-6MP carries a `TR-*` and no `TECH-*`, so it passes §4.1's letter and fails its sense.\n⭐ THE DECISIVE EVIDENCE IS NOT §4.1's PROSE -- IT IS THE ENFORCED CLOSURE MODEL. All three routes are `closure_kind: premise_false`, which `research/manuscripts/emc-systems-map.json._closure_model` declares `permanent: false, needs_trigger: true` ('a stated premise was measured and is not true. Revivable only if the measurement or the underlying fact changes'). The map and the graph therefore DISAGREED, and the map is the half with a checker. So the STATE field was wrong in all three; the triggers are not stale, they are required by the model that governs them.\n⭐ INDEPENDENT CORROBORATION FROM A FIELD NOT TOUCHED: `state.work_state`. research-object.schema.json says '`dead` requires positive evidence of impossibility; a method that merely failed is `parked`'. The three routes that ARE correctly closed (RT-EWSR1-PROTEIN, RT-FET-LC-LIGAND, RT-DBD -- definitional / arithmetic_over_fixed_fact) are all `work_state: dead`. RT-SYNPROMOTER is `future`; RT-RXR and RT-6MP are `complete`. NONE of the three moved is `dead`. The graph already said they were not dead.\nCHANGED: `state.status` closed -> parked on RT-SYNPROMOTER, RT-RXR, RT-6MP; and `timing.recommendation` closed -> monitor on RT-RXR and RT-6MP, because a `closed` timing recommendation asserts the route 'must appear on no watch list' (RT-EWSR1-PROTEIN's own words) which contradicts `parked`. RANKING-NEUTRAL: `priority.py` reads `recommendation` only as `== 'pursue_now'`, so `closed` and `monitor` score identically. VERIFIED BY FIELD-BY-FIELD DIFF over all 77 routes: 5 field changes, 0 touching `grade`/`readiness`/`blockers_inherited`, 3 routes touched.\n★ WHAT THE CHANGE ACTUALLY BUYS: `priority.py::_kind` returns `regrade` for a route that is `parked` AND carries a `revival_trigger`, and returns it for no `closed` route -- so these three now enter the re-test schedule (emc-autonomy-architecture.md §8.2). It does NOT queue them as work: `parked` and `closed` are both in `NOT_TAKEABLE_STATUSES`, and `is_live` reads `work_state`+`closure_kind`, not `status`, so it is unchanged.\n⛔ LIVE READINGS TAKEN 2026-09-02 (rung 0 WebSearch, per ci-escape-hatches §0) RATHER THAN REMEMBERED -- NO TRIGGER HAS FIRED, so no route is live that was not live before:\n (a) RT-RXR / TECH-RXR-HETERODIMER-REPORT: NOT LANDED. The 2026 eLife paper 'Towards a unified molecular mechanism for ligand-dependent activation of NR4A-RXR heterodimers' works on Nurr1-RXRalpha (NR4A2) and Nur77-RXRgamma (NR4A1); it does not report NR4A3/NOR-1 heterodimerising with RXR. The published negative -- NOR-1 unable to form RXR heterodimers, which is what distinguishes it from NGFI-B and Nurr1 -- stands. `current_state: absent` is now CONFIRMED rather than assumed. ⚠ But the field is actively working this axis and the paper's own stated aim is to test whether the mechanism is shared ACROSS NR4A-RXR heterodimers, which makes the trigger more watch-worthy, not less -- the argument for `parked` over `closed`. ⚠ The TECH carries 4 UNGRADED scan signals; none is a heterodimer report (checked).\n (b) RT-6MP / TR-NR4A3-DIRECTION-OF-EFFECT: NOT LANDED. No report links 6-MP to the direction of effect on the EWSR1::NR4A3 fusion. The gain-of-function prior the closure rests on is corroborated (the fusion is a potent transcriptional activator), but that is the PRIOR, not the demonstration the trigger names.\n (c) RT-SYNPROMOTER / TECH-VECTOR-DELIVERY: NOT LANDED -- the vector-delivery literature is still hepatic and ex vivo; no solid-tumour platform at the coverage this route assumes. `current_state: absent` confirmed. TECH-EMC-EXPRESSION-DATA: still `early_signals`; a 2026 16-case EMC molecular study exists but whether it deposited data publicly is UNKNOWN and is left to the scan's human grader -- systems_check [X4] states the scan deliberately cannot change `current_state` itself.\n★ GUARD ADDED so this cannot regress silently: `systems_check.check_closed_carries_no_reopening_trigger` emits ERROR `[T8]` when a `closed` route names ANY reopening condition, `TECH-*` or `TR-*`. It is STRICTER than §4.1 (which names only `TECH-*`, because it predates the `TR-*` registry minted 2026-08-06) and so cannot contradict it. MUTATION-TESTED 4/4: reverting each of the three routes to `closed` fires [T8] naming that route (RT-6MP on the `TR-*` alone, which is the half §4.1's wording would have missed); RT-DBD reverted to `closed` correctly does NOT fire. routes.json restored byte-identical (sha256 273fa9d3e450ae79aea219b11843f20a49dd50db1fdc6637583c7ceecd824393).\n⚠ NO COMMITTED UNIT TEST FOR THE GUARD, AND THAT IS A BUDGET DECISION NOT AN OVERSIGHT: the guard lives in systems_check (cheapest tier, 0 test functions) but a pytest for it would land in `systems/tests`, which is in the `commit-loop` tier at 1393/1400 -- 7 functions of headroom. CLAUDE.md §6: raising a ceiling is the last of the three answers. A session with headroom should add one.\n⛔ THREE FINDINGS RECORDED RATHER THAN ACTED ON (out of this row's scope):\n 1. RT-DIAGNOSTIC-PATHWAY is `closed` with `closure_kind: premise_false` (non-permanent, needs_trigger) and NO trigger of any kind, and its `timing.recommendation` is still `pursue_now` -- stale, never updated when trimcrae closed it 2026-08-23 ('this is not a paper... drop it'). It carries no TECH-* so it does not violate §4.1 and was LEFT ALONE. Its closure is a scope decision, which no capability revives, so the likely defect is `closure_kind`, whose owner should rule. It is also the one graph-closed route ABSENT from emc-systems-map.json (40 routes vs the graph's 77), so its mismatch is unchecked from both directions.\n 2. RT-6MP is now parked on a `TR-*` with NO `TECH-*` mirror, and TR-NR4A3-DIRECTION-OF-EFFECT has `on_watch_list: false` and no `scan_trigger` -- so NOTHING SCANS FOR IT. RT-RXR's equivalent published-measurement condition does have a TECH-* mirror with a scan trigger. A parked route whose trigger nothing watches is this row's own defect one layer down. Minting the technology needs a forecast, so it is a graph change for the registry's owner, not a check.\n 3. CONVENTIONS.md §4.1 still names only `TECH-*`. The guard is stricter so nothing is misled, but the doc could be updated to name the `TR-*` register too. NOT done here deliberately: editing the convention in the same commit that enforces it is the shape `amendment_guard` refuses.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_route_was": "RT-AUTONOMY",
+        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
+      },
+      "kind": "process_defect",
+      "state": "done",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 3,
+      "attempts": 1,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "A graph record correction and a $0 literature query; no outward-facing act.",
+      "score_inputs": {
+        "age_factor": 0.3571,
+        "age_factor_as_of": "2026-09-02"
+      },
+      "score": 129.9,
+      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. Three routes recorded `closed` still carry a reopening trigger (RT-SYNPROMOTER, RT-RXR carry TECH-*; RT-6MP a TR-*), which systems/CONVENTIONS.md §4.1 defines as `parked`, not `closed`. On a rising frontier (CLAUDE.md §5) that is how a live option is lost quietly.",
+      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T20:03:55Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ]
+    },
+    {
       "id": "AUT-PD-168",
       "kind": "process_defect",
       "process_defect": true,
@@ -5095,6 +5254,45 @@
         "age_factor": 0.2857,
         "age_factor_as_of": "2026-09-02"
       }
+    },
+    {
+      "id": "AUT-PD-098",
+      "what": "★★ SWEEP EVERY ROUTE GRADE FOR THE DEFECT CLASS AUT-062 FOUND BY READING ONE ROUTE: a TRANSCRIPT-ABUNDANCE number described as reporting a protein's ACTIVITY. ⛔ NOBODY HAS CHECKED WHETHER RT-SGK1'S WAS THE ONLY ONE, and that is the whole reason to run it — the defect is invisible to every existing gate, because the sentence is grammatical, hedged, cites a real artifact, and the number it quotes is correct. It is claim SCOPE again (the third orthogonality this repository recorded on 2026-08-28, after strength-vs-provenance and strength-vs-direction), pointed at the systems graph rather than at a manuscript. ★ THE DISCRIMINATOR IS CHEAP: any grade whose evidence is an expression series and whose language names activity, phosphorylation, signalling, pathway output or 'shaped' anything — read each candidate against what its cited artifact actually MEASURES. ⚠ Expect most to be fine; the value is the count, and a clean sweep is a real result worth recording.",
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_route_was": "RT-AUTONOMY",
+        "_route_remap_note": "S51 (2026-09-02): `RT-AUTONOMY` names no route in systems/graph/routes.json (77 routes) and is not a misspelling of one -- it is the filer saying 'this is the loop's own upkeep', which the graph deliberately does not model as a treatment route. `serves.route` is declared (ledger_schema.GOVERNED_SUBFIELDS) as the join key into that file, so a value meaning 'no route' is `null`. The row's kind and its id namespace already carry what the label carried. See research/autonomy/sprint-2026-09-01/S51-UNRESOLVABLE-ROUTES.md."
+      },
+      "kind": "process_defect",
+      "state": "done",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 1,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "requires_trimcrae_why": "An in-repo grade correction or a $0 scoring run against committed inputs; no outward-facing act.",
+      "score_inputs": {
+        "age_factor": 0.3571,
+        "age_factor_as_of": "2026-09-02",
+        "fruitless_attempts": 1
+      },
+      "score": 120.9,
+      "_score_basis": "EXPLICIT, AND TYPED ONLY BECAUSE IT CANNOT BE DERIVED. This row serves RT-AUTONOMY, which has no entry in systems/graph (0 of its 176 ledger rows are `_derived`), so `apply_route_inheritance` has no floor to inherit, and the five route terms in `priority-weights.json` (live, patient_path, pursue_now, tier_one, endpoint_reachable) have no source to read. Placed by S21-UNSCORED against the committed open RT-AUTONOMY band (floor AUT-PD-043 43.6, ceiling AUT-PD-031 135.8, read at 062a48ae): tier L = portfolio/treatment-facing, 120-135. Sweep every route grade for the defect AUT-062 found by reading ONE route: a transcript-abundance number described as reporting a protein's ACTIVITY. Claim SCOPE, invisible to every existing gate because the sentence is grammatical, hedged and cites a real artifact.",
+      "_score_basis_provenance": "S21-UNSCORED, sprint 2026-09-01, census taken at 062a48ae1c42bc71ec790d13d0565cc86be618ce. Confidence as filed by the seat: 'judged'. ⛔ PROSE BASIS, NOT A DERIVED score_inputs BLOCK — deliberately. A fabricated eight-term block would grade `admitted` while asserting the graph said something it never said; this grades UNMEASURED, which is the honest reading and the contract 179 committed rows already use.",
+      "claimed_utc": null,
+      "dispatch_log": [
+        {
+          "utc": "2026-09-02T20:03:06Z",
+          "fingerprint_at_dispatch": "2026-08-28|None"
+        }
+      ],
+      "evidence": "✅ SWEPT 2026-09-02 (seat s39-transcript-vs-protein). ⭐ THE ANSWER IS ZERO FURTHER INSTANCES, AND THE DENOMINATOR IS THE RESULT. Population: all 77 routes, 720 records across the 18 files of systems/graph, 16,481 sentences. ⛔ THE ARTIFACT SET WAS THE PART THAT WAS NEARLY WRONG: the graph registers only SIX expression series as ART-* ids, and a `git ls-tree` pass over research/modalities found EIGHTEEN — the twelve unregistered ones include emc-kinase-lane-panel-read.json (PRKDC and SGK1, i.e. this very defect's own lane), emc-fourth-cohort-quant.json (raw reads per gene), the three GTEx normal-tissue reads, and the hypoxia confound audit. A sweep scoped to the registered ids reaches 27 routes; the full set reaches 37, so scoping to the graph's own registry would have left 10 routes unexamined.\n★ THREE INDEPENDENT DISCRIMINATORS, RUN OVER THE SAME POPULATION. (1) CITATION-SCOPED: 45 graph records cite one of the 18 artifacts (37 routes, 7 artifact records, 1 modality); 289 sentences in them name a property an expression series cannot measure (activity, phosphorylation, signalling, protein, IHC, copy number, deletion, dependency, hypoxic state, isoform, surface density). All 289 read and cleared. (2) BARE-ASSERTION filter over those 289 — drop every sentence carrying a negation, hedge or attribution — leaves 102, all of them route titles, strategy ids, questions, required_validation items naming what is MISSING, or DepMap CRISPR dependency figures whose instrument genuinely does measure dependency. (3) NUMERIC FINGERPRINT, independent of the citation graph: sentences carrying BOTH an expression figure (percentile, SD units, t=, GSE/GPL accession) AND a non-expression property — 5 of 16,481, and all five are the DISCLAIMERS themselves.\n⛔ THE ONE KNOWN INSTANCE WAS ALREADY FIXED AND IS NOT REOPENED — by AUT-PD-099, commit 61231a22c, 2026-08-29 ('retract RT-SGK1's activity-shaped clause; correct the census reason'), verified here with `git log -S` rather than recalled. RT-SGK1's grade carries '⚠ Superseded, retained (corrected 2026-08-29)' over the original 'which is an activity-shaped reading rather than an abundance one', now reading 'that number is NDRG1 TRANSCRIPT ABUNDANCE, which is not a readout of SGK1 activity'. NO route grade, state, readiness or blockers_inherited was touched by this seat; no file under systems/ was modified at all.\n★ WHY THE NEGATIVE IS CREDIBLE RATHER THAN MERELY UNPRODUCTIVE — THE SWEEP WAS MUTATION-TESTED. Five synthetic defects of this exact class were injected into a SCRATCH COPY of systems/graph (never the live tree, CLAUDE.md §6): M1 restored RT-SGK1's pre-correction sentence verbatim; M2 'ASS1 protein is present in EMC at the 92nd percentile'; M3 'the CDK7 module is higher on both platforms, so EMC is CDK7-dependent'; M4 'SSTR2 receptor density on the EMC cell surface is sufficient for a theranostic'; M5 'HSP90 chaperone activity is elevated and the fusion is its client'. Discriminator (1) caught 5/5; (3) caught 4/5, its miss being M3, which carries no figure and is by construction (1)'s job. ⚠ THE FIRST RUN CAUGHT ONLY 4/5 AND 3/5 — M2 escaped both because the vocabulary had 'protein level' and 'at the protein' but not bare 'protein'. The vocabulary was widened and both were re-run against the clean tree; the verdict did not move.\n⭐ AND THE MECHANISM THAT KEPT THE GRAPH CLEAN IS WORTH RECORDING, BECAUSE IT IS WHAT A FUTURE SWEEP SHOULD CHECK FIRST: every one of the 18 expression artifacts carries an explicit limits statement — 18/18, measured, no exceptions — but there is NO CONVENTION FOR WHERE IT LIVES: the statement surfaces under 57 distinct top-level keys across the 18 files (`_what_this_cannot_conclude` + `_limits`, per-read `what_it_cannot_settle`, per-route `what_this_does_not_settle`, `_ceilings`, `_language_discipline`, `_framing`, `_what_this_is_not`, `platform_gate` + `value_kind`, `_absent_reading_warning` and `_discipline` among them, and several are ordinary data keys like `verdict`, `method`, `panels` and `ratio_calibration` that happen to carry the caveat inline). census-route-expression-grading.json gives all 16 of its route verdicts one, and the consuming route records restate the limit in the same breath as the number: RT-SSTR2 'says nothing about receptor density, protein or imaging avidity'; RT-B7H3 'SELECTIVITY is a protein and tumour-versus-normal axis'; RT-FAP-RLT 'reaches no protein, IHC or imaging value'; RT-MTAP-PRMT5 'A TRANSCRIPT IS NOT A COPY NUMBER'; RT-APOPTOSIS-DEP 'the axis abundance cannot measure'; RT-HYPOXIA-PRODRUG withdrew a SUPPORTED grade for precisely this error. RT-RET catches the defect in the PUBLISHED literature (PMID 28423517 rendering transcript abundance as 'expression and activation').\n⛔ A LEXICAL GUARD FOR THIS CLASS IS NOT FEASIBLE, AND THE MEASUREMENT SAYS SO RATHER THAN AN OPINION. Discriminator (1) has 100% power on the mutants and a 100% FALSE-POSITIVE RATE on the trunk — 289 fires, 0 defects. Discriminator (3) is far sharper (5 fires) and is WORSE as a gate, because all five fires are the correct disclaimers: the only way to make it green is to DELETE the caveat. ★ THE ROOT CAUSE IS THAT THE DISCRIMINATING FEATURE IS NOT LEXICAL. RT-SGK1 before and after its correction share every token class — instrument noun, figure, activity noun — and differ only in the POLARITY of the relation asserted between them ('is not a readout of' vs 'is an activity-shaped reading'). That is the strength-vs-DIRECTION orthogonality CLAUDE.md §6 already records from the `git add -A` incident ('an inverted sentence is still a sentence'); a pattern cannot read polarity across a clause boundary, and 'names activity' is a judgement.\n★ WHAT IS FEASIBLE IS STRUCTURAL AND IT IS NOT FILED AS FREE: assert that every expression-series artifact carries a non-empty limits field and that each of its reads does too — deterministic, no judgement, no false positives. ⚠ BUT IT WOULD BE GREEN ON DAY ONE (18/18 already comply), which is CLAUDE.md §6's own definition of a guard whose incident cannot currently recur, and the 57 distinct key names mean the check must either accept an alias list or force a rename across 18 committed artifacts. Cost if taken: ~3 test functions. ⛔ AND THE BUDGET IS TIGHTER THAN THE BUDGET FILE'S OWN PROSE SAYS — `scripts/tier-budgets.json` reads 'At 1,277 functions on 2026-09-02' for commit-loop and 7,134 for modalities, while `tier_budget.py --check` measured 1,393/1,400 and 7,189/7,500 on that same day, i.e. SEVEN functions of headroom in commit-loop rather than 123. ⚠ THAT IS A TYPED TOTAL DRIFTING FROM ITS DERIVED ONE (CLAUDE.md §1: a total is DERIVED, never typed) — recorded here rather than fixed, because the count moves with every seat that lands a test and the right repair is to stop typing it in the `why` prose, which is a change to that file's contract and not this row's business. A 3-function guard would fit commit-loop at 1,396/1,400; modalities and paper-guards (887/1,000) have real room. NOT BUILT BY THIS SEAT — filed as a decision with its cost, per §6's rule that the question is where a guard belongs and whether it earns its place, not whether it is good."
     },
     {
       "id": "AUT-PROP-047",
@@ -7516,7 +7714,7 @@
       "_score_basis": "HAND-SET, AS THE LEDGER'S `_role` REQUIRES OF A SESSION-ADDED ROW: 'AN ENTRY A SESSION ADDS MUST CARRY A `score` AND A `_score_basis` … a row with no score is pinned BELOW every scored row by the sort and no ranking term can reach it — including the anti-starvation age factor.' This row served no route, paper or strategy, so `apply_route_inheritance` had no floor to inherit and the scorer returned None.\n★ 95.0 IS DELIBERATELY LOW AND THE REASONING IS THE POINT. It sits below every open process_defect (125-137) and far below live research (the eligibility map at 160.0, the ATR assessment at 190.9), because CLAUDE.md §0 is explicit that live routes outrank the loop's own housekeeping. A proposal about how bars get declared advances no EMC route and reaches no patient. Ranking it near the top would be this repository's most-named failure — the loop documenting itself instead of doing research — committed by the very row that complains about ungoverned rules.\n⛔ IT IS FILED SO IT IS NOT LOST, NOT SO IT IS TAKEN NEXT. It also `requires_trimcrae`, so a high score would only surface it faster to a queue that cannot act on it.",
       "_score_basis_provenance": "Set by the driver 2026-09-02 after `test_an_unscored_row_is_ranked_by_nothing` and `test_the_unscored_population_can_only_shrink` went red on this row. ⛔ THE FAILURE WAS MISATTRIBUTED FIRST: a seat reported the three red tests as pre-existing trunk debt reproducing on clean `origin/main`, which was true only because this row had already been pushed to main when it looked. All 23 other unscored rows are `done`; the guard is about the OPEN population, and this row took it from 0 to 1. Checking cost one command and stopped a false 'not mine'.",
       "score": 95.0,
-      "_requires_trimcrae_was_true_and_that_was_my_error": "⛔ FILED AS AN ESCALATION EARLIER TODAY, BY ME, AND IT IS NOT ONE. The stated reason was that a cycle adopting this rule for itself is the shape `amendment_guard` exists to refuse. ★ THAT REASONING INSPECTS THE WRONG PROPERTY. `amendment_guard` refuses a bar being LOOSENED or re-pinned by the cycle the bar was blocking. This proposal only ever ADDS a refusal: it says a declared bar, cap or prohibition must ship with the code that reads it or an explicit UNENFORCED marker, and it fails closed on a declaration it cannot classify. Every outcome of adopting it constrains the loop MORE. There is no version of it that clears something for me.\n★ CLAUDE.md §3's test, applied honestly: *is there ANY action I could take that resolves this without weakening a bar?* Yes — write the gate. Tedious is not the same as his. He is here for program-shifting decisions, >$50 GPU spend, outward-facing acts, and to submit papers; a preflight check about declaring bars is none of those.\n⚠ AND THE ERROR HAS A COST BEYOND THE ROW. `escalation-debt-at-turn-end.sh` fires on every `requires_trimcrae` row carrying no `notified_utc`, so a row misfiled as an escalation either manufactures a notification he did not need or sits as permanent debt against the hook. A census on 2026-08-29 found fourteen such rows; mis-classification is how that population grows. The row stays queued as ordinary work, at its existing score, which CLAUDE.md §0 puts behind anything live."
+      "_requires_trimcrae_was_true_and_that_was_my_error": "⛔ FILED AS AN ESCALATION EARLIER TODAY, BY ME, AND IT IS NOT ONE. The stated reason was that a cycle adopting this rule for itself is the shape `amendment_guard` exists to refuse. ★ THAT REASONING INSPECTS THE WRONG PROPERTY. `amendment_guard` refuses a bar being LOOSENED or re-pinned by the cycle the bar was blocking. This proposal only ever ADDS a refusal: it says a declared bar, cap or prohibition must ship with the code that reads it or an explicit UNENFORCED marker, and it fails closed on a declaration it cannot classify. Every outcome of adopting it constrains the loop MORE. There is no version of it that clears something for me.\n★ CLAUDE.md §3's test, applied honestly: *is there ANY action I could take that resolves this without weakening a bar?* Yes — write the gate. Tedious is not the same as his. He is here for the four triggers CLAUDE.md §3 names — which include a GPU spend above the ceiling that section states, and pricing.md owns every figure, so none is restated here; a preflight check about declaring bars is none of those.\n⚠ AND THE ERROR HAS A COST BEYOND THE ROW. `escalation-debt-at-turn-end.sh` fires on every `requires_trimcrae` row carrying no `notified_utc`, so a row misfiled as an escalation either manufactures a notification he did not need or sits as permanent debt against the hook. A census on 2026-08-29 found fourteen such rows; mis-classification is how that population grows. The row stays queued as ordinary work, at its existing score, which CLAUDE.md §0 puts behind anything live."
     },
     {
       "id": "AUT-BIX-001",
@@ -13548,6 +13746,27 @@
       "_score_basis": "loop-instrument defect, found and closed in the same cycle; filed for the record rather than for the queue",
       "score_inputs": {},
       "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use."
+    },
+    {
+      "id": "AUT-PD-209-11f2347b-3bcd751f",
+      "what": "`closes_clause` HAS TWO SPELLINGS IN THE COMMITTED LEDGER AND ONE OF THEM NAMES A CLAUSE THAT DOES NOT EXIST. 15 rows use the dict shape {paper, clause}; FOUR use a bare string — AUT-PD-106/107/108 = 'PUB-ASO/hardening_converged' and AUT-PD-119 = 'PUB-ASO/gates_green'. ⚠ `gates_green` is not one of the seven functions in publish_bar.CLAUSES (hardening_converged, preflight_full_green, claim_ceiling_honoured, identifiers_resolvable, endpoint_declared, independent_adversarial_seat, readable_enough_to_review), so that row points at no clause at all. ⛔ THE FAILURE IS SILENT IN BOTH DIRECTIONS: a reader doing closes_clause['clause'] raises TypeError on a string, and one doing (closes_clause or {}).get('clause') raises AttributeError — measured 2026-09-02 when exactly that expression crashed while auditing PUB-MODALITY-CENSUS. A reader that guards with isinstance instead just DROPS the four rows, which is the quieter and worse outcome. ⭐ This is the near-miss class ledger_schema.py already governs for NAMES (it refused `_filed_by` in this same session) but does not check for VALUE SHAPE.",
+      "serves": {
+        "route": null,
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "kind": "process_defect",
+      "state": "queued",
+      "owner": null,
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "retry_budget": 3,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "requires_trimcrae": false,
+      "filed_by": "s40-modality-census-venue",
+      "_why_filed": "Found while auditing PUB-MODALITY-CENSUS for AUT-044; NOT fixed here because these are PUB-ASO rows and repo-gates is explicit that a defect surfaced by an unrelated task is a separate task to raise, not to absorb. The fix is two parts: normalise the four rows onto the dict shape, and give ledger_schema a shape check for closes_clause so the string cannot return."
     }
   ]
 }
