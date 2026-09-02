@@ -59,7 +59,7 @@ This is the experiment that converts the computed class argument into an EMC res
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| The panel itself | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
+| The panel itself  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). TESTED AND CORRECT AS FILED. The route's `display_name` resolves the pronoun — "The ATR-inhibitor cell panel in EMC lines (the ask)" — and an ex-vivo drug-response panel is the second half of the blocker's own `retired_by_action`. BLK-NO-WET-LAB is also correctly carried. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → "⭐ the_rule_this_adjudication_applies". | ⛔ none built | **no** | BLK-NO-WET-LAB, BLK-NO-EMC-DATA |
 
 ## Blockers
 

@@ -68,7 +68,7 @@ A synthetic-lethal partner would be an ordinary, already-druggable protein that 
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| An EMC-specific dependency screen | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-NO-WET-LAB |
+| An EMC-specific dependency screen  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). TESTED AND CORRECT AS FILED — this is the one class of requirement BLK-NO-EMC-DATA does hold. "An EMC-specific dependency screen" is verbatim the first half of the blocker's own `retired_by_action`. Nothing changes; the entry is now a tested attribution rather than an untested one. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → "⭐ the_rule_this_adjudication_applies". | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-NO-WET-LAB |
 
 ## Blockers
 

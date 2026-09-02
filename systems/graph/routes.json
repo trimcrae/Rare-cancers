@@ -897,7 +897,7 @@
     ],
     "required_validation": [
       {
-        "what": "The panel itself",
+        "what": "The panel itself\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). TESTED AND CORRECT AS FILED. The route's `display_name` resolves the pronoun — \"The ATR-inhibitor cell panel in EMC lines (the ask)\" — and an ex-vivo drug-response panel is the second half of the blocker's own `retired_by_action`. BLK-NO-WET-LAB is also correctly carried. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → \"⭐ the_rule_this_adjudication_applies\".",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-WET-LAB",
@@ -3211,10 +3211,11 @@
     ],
     "required_validation": [
       {
-        "what": "A larger EMC series or a registry analysis",
+        "what": "A larger EMC series or a registry analysis\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). STILL BLOCKED, WRONG BLOCKER. Both disjuncts are clinical: a larger patient series is a question about the REACHABLE SET of publications, which is what BLK-NO-CURATED-CLINICAL-DATA states it is about, and a registry analysis needs population microdata, which BLK-REGISTRY-DUA names in its own title. Neither is a dependency or drug-response screen. This route's own `readiness.missing` already names the residual correctly and never mentions functional-genomics data. ⚠ BLK-REGISTRY-DUA carries its own prior — \"DO NOT DO THIS FIRST … the prior question is whether a SEER cohort keyed on ICD-O-3 9231/3 is an EMC cohort at all\" — so attaching it recommends nothing and buys nothing. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → \"⭐ the_rule_this_adjudication_applies\".",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-CURATED-CLINICAL-DATA",
+          "BLK-REGISTRY-DUA"
         ]
       }
     ],
@@ -3328,10 +3329,10 @@
     ],
     "required_validation": [
       {
-        "what": "A clinical series",
+        "what": "A clinical series\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). STILL BLOCKED, WRONG BLOCKER. \"A clinical series\" is short of a clinical publication reporting EMC patients treated with this class — a property of the reachable literature, not of deposited functional-genomics data. ⛔ The route's ex-vivo evidence (EV-BANGERTER-2023, two patient-derived EMC models) and its ceiling — no in-vivo and no clinical data in EMC — are untouched. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → \"⭐ the_rule_this_adjudication_applies\".",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-CURATED-CLINICAL-DATA"
         ]
       }
     ],
@@ -3576,7 +3577,7 @@
     ],
     "required_validation": [
       {
-        "what": "An EMC-specific dependency screen",
+        "what": "An EMC-specific dependency screen\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). TESTED AND CORRECT AS FILED — this is the one class of requirement BLK-NO-EMC-DATA does hold. \"An EMC-specific dependency screen\" is verbatim the first half of the blocker's own `retired_by_action`. Nothing changes; the entry is now a tested attribution rather than an untested one. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → \"⭐ the_rule_this_adjudication_applies\".",
         "feasible_today": false,
         "blocked_by": [
           "BLK-NO-EMC-DATA",
@@ -4974,10 +4975,11 @@
     ],
     "required_validation": [
       {
-        "what": "A primary measurement of 6-MP's direction of effect on the EWSR1::NR4A3 fusion, not on wild-type NR4A3",
+        "what": "A primary measurement of 6-MP's direction of effect on the EWSR1::NR4A3 fusion, not on wild-type NR4A3\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). BLOCKER DEFENSIBLE AND KEPT; BLK-NO-WET-LAB ADDED, NOTHING REMOVED. A primary perturbation measurement on the fusion is functional-genomics data, so a deposited dataset would satisfy it — but the precise residual is a bench, and the entry did not say so. ⚠ Bookkeeping only: the route is closed on direction of effect and no ranking consequence follows. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → \"⭐ the_rule_this_adjudication_applies\".",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-EMC-DATA",
+          "BLK-NO-WET-LAB"
         ]
       }
     ],
@@ -5184,10 +5186,10 @@
         "blocked_by": []
       },
       {
-        "what": "A comparator that would separate treatment effect from natural history in the disease-control reading - a randomised no-treatment arm, or an observational within-patient design such as growth-modulation index or time to next treatment",
+        "what": "A comparator that would separate treatment effect from natural history in the disease-control reading - a randomised no-treatment arm, or an observational within-patient design such as growth-modulation index or time to next treatment\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). STILL BLOCKED, WRONG BLOCKER. A randomised no-treatment arm, a growth-modulation index or a time-to-next-treatment design is trial-design and clinical content, not a dependency screen. Checked rather than assumed: research/modalities/emc-ipd-survival.json reconstructs SINGLE-INTERVAL endpoints (`curve_schema.endpoint` = os | dss | pfs | lrfs | dmfs) and holds `printed_patient_level_data.n_rows: 2`; GMI and TTNT both need PAIRED SEQUENTIAL intervals per patient, which no reachable artifact carries. ⚠ AND ONE INCONSISTENCY SURVIVES THIS EDIT rather than being fixed by it: this route's `blockers_inherited` is `[]` while this entry carries a blocker. Substituting the blocker does not resolve that, and a route-level blocker list is a ranking input this reconciliation does not touch — it is filed, not silently corrected. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → \"⭐ the_rule_this_adjudication_applies\".",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-CURATED-CLINICAL-DATA"
         ]
       }
     ],
@@ -5557,24 +5559,25 @@
     ],
     "required_validation": [
       {
-        "what": "Partner-stratified event counts from the largest outcome series. ✅ HALF DONE 2026-08-08: Huang 2023 (Mod Pathol, n = 58) was obtained - a human read Table 1 from the publisher's designated-free PDF, which returns HTTP 403 to every automated fetcher, so this was a bot block and not a paywall. Paioli 2021 (Ann Surg Oncol, n = 67) remains genuinely closed: oa_status closed, zero OA locations, both institutional-repository records metadata-only. ⚠ Superseded, retained: 'which exist today inside their paywalled full texts (Mod Pathol 2023, Ann Surg Oncol 2021)' - only one of the two was ever paywalled.",
+        "what": "Partner-stratified event counts from the largest outcome series. ✅ HALF DONE 2026-08-08: Huang 2023 (Mod Pathol, n = 58) was obtained - a human read Table 1 from the publisher's designated-free PDF, which returns HTTP 403 to every automated fetcher, so this was a bot block and not a paywall. Paioli 2021 (Ann Surg Oncol, n = 67) remains genuinely closed: oa_status closed, zero OA locations, both institutional-repository records metadata-only. ⚠ Superseded, retained: 'which exist today inside their paywalled full texts (Mod Pathol 2023, Ann Surg Oncol 2021)' - only one of the two was ever paywalled.\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). STILL BLOCKED, WRONG BLOCKER. The entry's own text names its residual — one closed-access publication, oa_status closed with zero OA locations — which is a reachability gap in the clinical literature that no dependency screen would supply. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → \"⭐ the_rule_this_adjudication_applies\".",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-CURATED-CLINICAL-DATA"
         ]
       },
       {
-        "what": "The pazopanib trial's full fusion-partner distribution and its prior-therapy table, which together close both the overlap question and the composition of the comparator arm",
+        "what": "The pazopanib trial's full fusion-partner distribution and its prior-therapy table, which together close both the overlap question and the composition of the comparator arm\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). STILL BLOCKED, WRONG BLOCKER. A publication-content gap in a clinical trial report. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → \"⭐ the_rule_this_adjudication_applies\".",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-NO-CURATED-CLINICAL-DATA"
         ]
       },
       {
-        "what": "A partner-stratified reanalysis of any registry with size and stage adjusted for - the test the two larger series already point at and neither could complete",
+        "what": "A partner-stratified reanalysis of any registry with size and stage adjusted for - the test the two larger series already point at and neither could complete\n\n⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). STILL BLOCKED, WRONG BLOCKER, AND THE RE-ATTRIBUTION IS THE POINT RATHER THAN COSMETIC. BLK-NO-EMC-DATA is `kind: insufficient_data` and reads as waiting on the world; BLK-REGISTRY-DUA is `kind: requires_authorization` and its retiring action is one a named person can take. Filing an authorization gap under a data-nonexistence blocker makes a question with an owner look permanently dead. ⚠ The blocker's own \"DO NOT DO THIS FIRST\" prior travels with it. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → \"⭐ the_rule_this_adjudication_applies\".",
         "feasible_today": false,
         "blocked_by": [
-          "BLK-NO-EMC-DATA"
+          "BLK-REGISTRY-DUA",
+          "BLK-NO-CURATED-CLINICAL-DATA"
         ]
       },
       {

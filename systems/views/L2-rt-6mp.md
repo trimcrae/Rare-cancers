@@ -58,7 +58,7 @@ flowchart LR
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A primary measurement of 6-MP's direction of effect on the EWSR1::NR4A3 fusion, not on wild-type NR4A3 | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| A primary measurement of 6-MP's direction of effect on the EWSR1::NR4A3 fusion, not on wild-type NR4A3  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). BLOCKER DEFENSIBLE AND KEPT; BLK-NO-WET-LAB ADDED, NOTHING REMOVED. A primary perturbation measurement on the fusion is functional-genomics data, so a deposited dataset would satisfy it — but the precise residual is a bench, and the entry did not say so. ⚠ Bookkeeping only: the route is closed on direction of effect and no ranking consequence follows. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → "⭐ the_rule_this_adjudication_applies". | ⛔ none built | **no** | BLK-NO-EMC-DATA, BLK-NO-WET-LAB |
 
 ## Blockers
 

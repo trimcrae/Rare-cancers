@@ -63,7 +63,7 @@ This carries the best ex-vivo EMC drug-sensitivity evidence in the repository �
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A clinical series | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| A clinical series  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). STILL BLOCKED, WRONG BLOCKER. "A clinical series" is short of a clinical publication reporting EMC patients treated with this class — a property of the reachable literature, not of deposited functional-genomics data. ⛔ The route's ex-vivo evidence (EV-BANGERTER-2023, two patient-derived EMC models) and its ceiling — no in-vivo and no clinical data in EMC — are untouched. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → "⭐ the_rule_this_adjudication_applies". | ⛔ none built | **no** | BLK-NO-CURATED-CLINICAL-DATA |
 
 ## Blockers
 

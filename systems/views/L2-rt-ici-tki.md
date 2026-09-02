@@ -66,7 +66,7 @@ Both components are approved for OTHER indications, and one EMC partial responde
 
 | what | instrument | feasible today | blocked by |
 |---|---|---|---|
-| A larger EMC series or a registry analysis | ⛔ none built | **no** | BLK-NO-EMC-DATA |
+| A larger EMC series or a registry analysis  ⭐ ADJUDICATED 2026-09-02 (AUT-PD-116, seat s31-emc-data-blocks, applying S41). STILL BLOCKED, WRONG BLOCKER. Both disjuncts are clinical: a larger patient series is a question about the REACHABLE SET of publications, which is what BLK-NO-CURATED-CLINICAL-DATA states it is about, and a registry analysis needs population microdata, which BLK-REGISTRY-DUA names in its own title. Neither is a dependency or drug-response screen. This route's own `readiness.missing` already names the residual correctly and never mentions functional-genomics data. ⚠ BLK-REGISTRY-DUA carries its own prior — "DO NOT DO THIS FIRST … the prior question is whether a SEER cohort keyed on ICD-O-3 9231/3 is an EMC cohort at all" — so attaching it recommends nothing and buys nothing. Per-entry justification: research/autonomy/sprint-2026-09-01/S41-BLOCKED-ROUTE-AUDIT.md and S41-proposed-routes-patch.json. The rule this applies has one home: research/modalities/emc-fourth-cohort-route-readout.json → "⭐ the_rule_this_adjudication_applies". | ⛔ none built | **no** | BLK-NO-CURATED-CLINICAL-DATA, BLK-REGISTRY-DUA |
 
 ## Blockers
 
