@@ -159,10 +159,11 @@ that mentions it does so to say no.
 
 The mechanism therefore runs in both directions, which is the fuller result. In the non-US registry
 read here the disease appears only as an exclusion; where trials are indexed molecularly, it is
-admitted and never named. One record does both, and it bounds the claim: NCT06239272 carries the
-histology among its 42 listed conditions and is a recruiting interventional trial, so nothing here
-says that no listing anywhere names this disease and admits it. It enrols ages 1 to 30, so for an
-adult patient a search of the diagnosis still returns nothing they could join.
+admitted and never named. One record does both, and it bounds the claim: NCT06239272 is a
+recruiting interventional trial that carries the histology among its 42 listed conditions, and its
+inclusion criterion is age 1 to 30 at the diagnostic biopsy rather than at enrolment. So nothing
+here says that no listing anywhere names this disease and admits it: for a patient inside that age
+bound the diagnosis search does return this trial, and for a patient biopsied after 30 it does not.
 
 A map built by string matching would have carried both. The cost of a false positive here is not a
 wasted query; it is a patient or a clinician pursuing a trial that will refuse them, in a disease
