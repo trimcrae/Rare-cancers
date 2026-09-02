@@ -1,0 +1,180 @@
+{
+  "_what": "Whether PUB-ATR part D's four mechanism tests, its verdict and the grading tier that reads them survive replacing the MYC-Targets-V1 proliferation control with a proliferation control that is not built from MYC's transcriptional output.",
+  "_generated_by": "research/modalities/atr_part_d_proliferation_control.py",
+  "_cost": "$0 \u2014 reads two committed files; no fetch, no CI, no GPU.",
+  "_serves": [
+    "PUB-ATR",
+    "RT-ATR-ASSESS",
+    "AUT-PROP-059-11f2347b-8e081d15"
+  ],
+  "_reads": {
+    "inputs_cache": "research/modalities/emc-atr-vulnerability-inputs.json",
+    "committed_artifact": "research/modalities/emc-atr-vulnerability.json",
+    "statistics_reused_verbatim_from": "research/modalities/emc_atr_vulnerability.py"
+  },
+  "\u26d4 _this_changes_no_bar_and_re_grades_nothing": "The committed grade stands. This artifact reports beside it. Re-grading on a new control is a bar change and is declared, never swapped in silently.",
+  "preregistration": {
+    "\u2b50 _what_exactly_preceded_what": "EVERY WORD OF THIS PRE-REGISTRATION, AND THE `gene_set_composition` BLOCK THAT ARGUES FOR THE COMPARATOR, WAS WRITTEN BEFORE ANY COMPARATOR VERDICT WAS COMPUTED \u2014 before the compute module existed at all \u2014 and was generated into this artifact with `results: null`. That results-free artifact is committed on its own, ahead of the results commit, so `git log --follow` shows the two separately. \u26d4 WHAT WAS *NOT* UNSEEN, STATED PLAINLY RATHER THAN IMPLIED: the committed artifact's EXISTING numbers under the incumbent MYC control were read first \u2014 that is the state this analysis was asked to establish, and pretending otherwise would be the dishonest half of a pre-registration claim. What no one had seen when the comparator was fixed is any number produced UNDER the comparator. That is the guarantee this block makes, and it is the only one it makes.",
+    "the_question": "Do part D's four mechanism tests, its `tracks_mechanism` verdict, and the grading tier that reads them, depend on the CHOICE of `expr::proliferation_MYC` as the nuisance control \u2014 or do they hold under a proliferation control that is not built from the transcriptional output of the oncogene whose replication stress is the rival mechanism?",
+    "what_is_held_fixed": [
+      "The bar itself: `beats_the_proliferation_control` = abs(rho) > abs(control_rho) * 1.15.",
+      "The pass rule: direction_matches AND abs(rho) >= 0.15 AND atri_specific AND beats_control.",
+      "`tracks_mechanism` = at least 2 of the mechanism tests pass.",
+      "The grading tiers, verbatim, and the predicate wiring in `grade()`.",
+      "Every rho: recomputed from the SAME committed per-line scores with the SAME `_spearman`, so the only thing that moves between columns is which score supplies `control_rho`."
+    ],
+    "comparators_declared_in_advance": {
+      "C0_incumbent": {
+        "predictor": "expr::proliferation_MYC",
+        "gene_set": "MSigDB Hallmark 2020 'Myc Targets V1', 200 genes",
+        "role": "the control the committed artifact uses. Reported as the reference column."
+      },
+      "C1_primary": {
+        "predictor": "expr::proliferation_mitotic",
+        "gene_set": "MSigDB Hallmark 2020 'Mitotic Spindle', 199 genes",
+        "already_committed": "scored for all 1673 DepMap lines in emc-atr-vulnerability-inputs.json -> part_d.expression_scores_by_line.proliferation_mitotic. No fetch is needed and no new gene set is introduced by this analysis.",
+        "\u2b50 why_this_one_argued_from_CONTENT_not_from_its_NAME": [
+          "IT SHARES ONE GENE WITH MYC TARGETS V1 \u2014 YWHAE \u2014 out of 200 and 199, Jaccard 0.0025. The independence being claimed is quantified rather than asserted.",
+          "\u26d4 IT SHARES ZERO OF THE 37 MEMBERS OF THE ATR-ACTIVATION SET THE PAPER TESTS (Reactome 'Activation of ATR in Response to Replication Stress'), WHERE MYC TARGETS V1 SHARES NINE \u2014 and those nine are the replication-origin machinery itself: CDC45, CDK2, MCM2, MCM4, MCM5, MCM6, MCM7, ORC2, RFC4. That is the CMG helicase plus origin licensing and firing. The incumbent control is therefore not merely correlated with the mechanism by biology; it CONTAINS the mechanism's genes, which is the strongest form the objection can take.",
+          "Its own members are M-phase and cytoskeletal regulators \u2014 Rho GEFs and GAPs, kinesins, centrosomal and actin machinery, AURKA, BUB1, ANLN, BIRC5. That machinery acts AFTER replication is finished, so a line can score high on it without being under replication stress, which is exactly the separation a nuisance control for an ATR hypothesis has to have.",
+          "What it shares with MYC Targets V1 is the property we WANT a proliferation control to have and only that: both are expressed in cycling cells. The reader can check the claim from the numbers reported under `gene_set_composition`."
+        ]
+      },
+      "C2_secondary_consistency_NOT_an_independent_control": {
+        "predictor": "expr::proliferation_MYC_and_mitotic_mean",
+        "definition": "per line, the mean of the two proliferation_* scores.",
+        "\u26d4 why_it_cannot_answer_the_independence_question": "it contains MYC Targets V1, so a verdict that holds under it is not evidence that the verdict is independent of MYC. It is declared and reported for a different reason.",
+        "why_it_is_reported_anyway": "PART B ALREADY USES EXACTLY THIS MEAN. `derive_part_b` collects every concept whose role is `proliferation_control` \u2014 both of them \u2014 and subtracts their per-sample mean. So part B and part D currently adjust for DIFFERENT proliferation controls, and this column is the aligned reading."
+      }
+    },
+    "comparators_ruled_out_and_why": {
+      "expr::S_phase_E2F": "Hallmark E2F Targets is the textbook proliferation axis and is the tempting choice. \u26d4 IT IS RULED OUT BECAUSE IT IS A TESTED PREDICTOR IN PART D, not a control \u2014 using one of the reported predictors as the nuisance variable for the others is circular. It is used below ONLY as the independent yardstick for the validity check.",
+      "expr::control_oxphos / control_myogenesis / control_adipogenesis / control_generic_DNA_repair": "these are UNRELATED controls, not proliferation proxies. Substituting one would not be choosing a different proliferation control, it would be removing the control.",
+      "any gene set not already scored per line": "the committed inputs cache holds per-line SCORES for twelve concepts, not the DepMap expression matrix, so scoring a new set would require a fetch. Ruled out to keep this $0 and to keep the comparator inside the committed record."
+    },
+    "\u2b50 validity_check_on_the_comparator_declared_in_advance": {
+      "why": "A control is only informative if it MEASURES PROLIFERATION. A control that measures nothing is trivially easy to beat, and a verdict that flips under it would be an artefact of a weak control rather than evidence about the mechanism. So the comparator has to earn the role before its column is read.",
+      "test": "Spearman rho of `proliferation_mitotic` against `S_phase_E2F` across the DepMap lines, with the same statistic for `proliferation_MYC` reported beside it.",
+      "declared_floor": 0.3,
+      "\u26d4 what_happens_if_it_fails": "if rho(mitotic, S_phase_E2F) is below +0.30 the comparison is declared VOID and this artifact reports that the comparator is not a usable proliferation proxy. It does NOT then report a flipped verdict. The floor is arbitrary but FIXED before the number; the measured value is reported either way so a reader can apply their own."
+    },
+    "\u2b50 reproduction_check_declared_in_advance": "The harness must reproduce the committed artifact's `specificity.<predictor>.mean_rho_across_ATR_inhibitors` EXACTLY, for every predictor the committed artifact carries. \u26d4 If any value differs the run is VOID and this artifact reports the mismatch instead of any verdict \u2014 a re-analysis that cannot reproduce the number it is re-analysing is measuring its own harness.",
+    "\u26d4 what_will_be_reported": "Every mechanism test under EVERY declared comparator, side by side, with `passes` under each, plus n_passed, `tracks_mechanism` and the grading tier each implies. No comparator is selected as 'the right one' and no grade is changed. If the verdict does not move, that is a strengthening of the paper's negative and is reported as one. If it moves, the paper's central negative is weaker than stated and that is reported at full strength."
+  },
+  "gene_set_composition": {
+    "_reading": "n_shared_with_proliferation_MYC is the number of genes a set has in common with the INCUMBENT control. For a control meant to be mechanism-neutral, the number that matters is its overlap with the ATR-activation set the paper tests.",
+    "proliferation_MYC": {
+      "resolved_set": "Myc Targets V1",
+      "library": "MSigDB_Hallmark_2020",
+      "n_genes": 200
+    },
+    "proliferation_mitotic": {
+      "resolved_set": "Mitotic Spindle",
+      "library": "MSigDB_Hallmark_2020",
+      "n_genes": 199
+    },
+    "MYC_vs_mitotic": {
+      "n_intersection": 1,
+      "intersection_genes": [
+        "YWHAE"
+      ],
+      "n_union": 398,
+      "jaccard": 0.0025
+    },
+    "overlap_of_each_control_with_every_scored_concept": {
+      "ATM_signalling_DSB_repair": {
+        "role": "tested",
+        "n_genes": 61,
+        "n_shared_with_proliferation_MYC": 1,
+        "n_shared_with_proliferation_mitotic": 1
+      },
+      "ATR_CHK1_activity": {
+        "role": "tested",
+        "n_genes": 37,
+        "n_shared_with_proliferation_MYC": 9,
+        "n_shared_with_proliferation_mitotic": 0
+      },
+      "DNA_damage_checkpoint": {
+        "role": "tested",
+        "n_genes": 200,
+        "n_shared_with_proliferation_MYC": 29,
+        "n_shared_with_proliferation_mitotic": 39
+      },
+      "S_phase_E2F": {
+        "role": "tested",
+        "n_genes": 200,
+        "n_shared_with_proliferation_MYC": 35,
+        "n_shared_with_proliferation_mitotic": 19
+      },
+      "control_adipogenesis": {
+        "role": "unrelated_control",
+        "n_genes": 200,
+        "n_shared_with_proliferation_MYC": 3,
+        "n_shared_with_proliferation_mitotic": 1
+      },
+      "control_generic_DNA_repair": {
+        "role": "unrelated_control",
+        "n_genes": 150,
+        "n_shared_with_proliferation_MYC": 8,
+        "n_shared_with_proliferation_mitotic": 1
+      },
+      "control_myogenesis": {
+        "role": "unrelated_control",
+        "n_genes": 200,
+        "n_shared_with_proliferation_MYC": 1,
+        "n_shared_with_proliferation_mitotic": 4
+      },
+      "control_oxphos": {
+        "role": "unrelated_control",
+        "n_genes": 200,
+        "n_shared_with_proliferation_MYC": 11,
+        "n_shared_with_proliferation_mitotic": 2
+      },
+      "proliferation_MYC": {
+        "role": "proliferation_control",
+        "n_genes": 200,
+        "n_shared_with_proliferation_MYC": 200,
+        "n_shared_with_proliferation_mitotic": 1
+      },
+      "proliferation_mitotic": {
+        "role": "proliferation_control",
+        "n_genes": 199,
+        "n_shared_with_proliferation_MYC": 1,
+        "n_shared_with_proliferation_mitotic": 199
+      },
+      "replication_stress": {
+        "role": "tested",
+        "n_genes": 48,
+        "n_shared_with_proliferation_MYC": 1,
+        "n_shared_with_proliferation_mitotic": 1
+      },
+      "stalled_fork_response": {
+        "role": "tested",
+        "n_genes": 19,
+        "n_shared_with_proliferation_MYC": 2,
+        "n_shared_with_proliferation_mitotic": 1
+      }
+    },
+    "\u26d4 the_finding_that_decides_the_choice": {
+      "set": "Activation of ATR in Response to Replication Stress",
+      "n_genes": 37,
+      "shared_with_proliferation_MYC": [
+        "CDC45",
+        "CDK2",
+        "MCM2",
+        "MCM4",
+        "MCM5",
+        "MCM6",
+        "MCM7",
+        "ORC2",
+        "RFC4"
+      ],
+      "n_shared_with_proliferation_MYC": 9,
+      "shared_with_proliferation_mitotic": [],
+      "n_shared_with_proliferation_mitotic": 0,
+      "reading": "the incumbent proliferation control shares the replication-origin machinery with the ATR-activation set part D tests; the proposed comparator shares none of it. That is a membership fact about the gene lists, not an inference about biology."
+    }
+  },
+  "_status": "PRE-REGISTERED, NOT YET COMPUTED. `results` is null on purpose: this commit exists so the criterion is on the record before the number.",
+  "results": null
+}
