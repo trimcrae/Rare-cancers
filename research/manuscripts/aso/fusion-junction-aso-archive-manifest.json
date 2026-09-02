@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22229096",
-  "git_revision": "8c4faa5bc1a3313241cc5ab7da0559561fe76324",
+  "git_revision": "11d5de12d68e67f9034d8bdaa4c90d0ebdb25120",
   "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "8c4724e5350a15136591b320c4828e30926b5a678e10f46ee7041c749d3f1172",
+  "archive_content_digest": "de883bbedf4e6e493e13319ca6683562288918e2df13d089a9f19b66b06a0dd2",
   "n_files": 515,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,18 +24,18 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 53194932,
-  "total_mib": 50.731,
+  "total_bytes": 53196005,
+  "total_mib": 50.732,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 408,
-        "bytes": 45607299
+        "bytes": 45607450
       },
       ".py": {
         "n_files": 76,
-        "bytes": 3356503
+        "bytes": 3357425
       },
       ".md": {
         "n_files": 12,
@@ -2928,8 +2928,8 @@
     },
     {
       "path": "research/modalities/emc-atr-vulnerability.json",
-      "bytes": 342646,
-      "sha256": "773c0e582d64cde069ecc2e4f9b36a4b56b3cb9977ca520b49511d431f7b47eb",
+      "bytes": 342797,
+      "sha256": "8e6b766f3a09abaf56be56aa599dfc343f27ba54741794637194c56b303649e4",
       "serves": "test_articles_and_cell_models",
       "also_serves": [],
       "contributes": "The evidence behind section 3: the three published constructs with their author-stated exon spans, the two identity-clean patient-derived models with their RRIDs and the figure-legend fusion calls they rest on, the third line whose availability could not be established, and the fusion caller, expression reading and registry caution behind the statement that no NR4A3 fusion is detectable in H-EMC-SS on the public record. H-EMC-SS identity is DISPUTED (OBJ-LINE-HEMCSS): the evidence in this row is what makes that dispute checkable, and section 3's operative conclusion -- that the line cannot serve as a test article for any reagent named here -- does not rest on the line being EMC."
@@ -2984,8 +2984,8 @@
     },
     {
       "path": "research/modalities/emc_atr_vulnerability.py",
-      "bytes": 185539,
-      "sha256": "707f9f72ff142036da2ad152505b7e3cfa149436b94ee47a41767b2d1e2a144c",
+      "bytes": 186461,
+      "sha256": "52c63c8e6e114c2b94e1f2e45c57fb07222fcf745c393662755e5fcf799d6514",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
