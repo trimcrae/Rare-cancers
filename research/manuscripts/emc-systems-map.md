@@ -453,9 +453,9 @@ The registry records **where** each figure lives, never the figure. The checker 
 
 | claim | document | what it quotes | its one home |
 |---|---|---|---|
-| `CLM-IDR-EMC` | [`emc-post-degrader-options.md`](program/emc-post-degrader-options.md) | route 1's RGG-retention table row for EWSR1::NR4A3 | `ART-IDR-CENSUS` → `/emc_EWSR1_NR4A3_reported_types/EWSR1_NR4A3_type2/rg_dipeptides_retained` |
+| `CLM-IDR-EMC` | [`emc-post-degrader-options.md`](program/emc-post-degrader-options.md) | route 1's RGG-retention table row for EWSR1::NR4A3 (the reported type-2 row — 1–264, 0 of 30) | `ART-IDR-CENSUS` → `/emc_EWSR1_NR4A3_reported_types/EWSR1_NR4A3_type2/rg_dipeptides_retained` |
 | `CLM-IDR-CONTROLS` | [`emc-post-degrader-options.md`](program/emc-post-degrader-options.md) | the positive-control rows beside it (the fusions in which ATM suppression was MEASURED) | `ART-IDR-CENSUS` → `/positive_controls_pass` |
-| `CLM-IDR-COMPARATIVE` | [`IDEAS.md`](../IDEAS.md) | the ATR route row's 'structural precondition is COMPUTED and it holds' sentence | `ART-IDR-CENSUS` → `/emc_vs_measured_fusions_comparative/rows` |
+| `CLM-IDR-COMPARATIVE` | [`IDEAS.md`](../IDEAS.md) | the ATR route row's 'the structural precondition is COMPUTED, and it SPLITS BY FUSION TYPE' sentence | `ART-IDR-CENSUS` → `/emc_vs_measured_fusions_comparative/rows` |
 | `CLM-CONSTRUCT-FRAME` | [`emc-atr-collaborator-package.md`](dependency/emc-atr-collaborator-package.md) | §7.2 'The four constructs — all four are in frame' | `ART-CONSTRUCT-DESIGNS` → `/n_constructs_in_frame` |
 | `CLM-CONSTRUCT-TCF12` | [`emc-atr-collaborator-package.md`](dependency/emc-atr-collaborator-package.md) | §7.4 'TCF12 — the negative control checked out' | `ART-CONSTRUCT-DESIGNS` → `/tcf12_negative_control` |
 | `CLM-MONOVALENT-VERDICT` | [`nr4a3-monovalent-pocket-route.md`](occupancy/nr4a3-monovalent-pocket-route.md) | §3 'The result' — the E3-arm-free reach enumeration | `ART-MONOVALENT-REACH` → `/verdict/answer_on_the_conservative_convention` |
