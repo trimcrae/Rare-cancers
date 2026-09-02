@@ -338,6 +338,35 @@ def test_a_tree_that_is_not_the_sha_is_materialised(monkeypatch):
     assert not root.exists(), "the materialised tree must be cleaned up"
 
 
+@pytest.mark.parametrize("head_out,head_rc,dirty_out,dirty_rc,expected", [
+    ("abc123", 0, "",         0, True),   # same commit, nothing uncommitted -> it IS the sha
+    ("abc123", 0, " M x.py",  0, False),  # same commit, dirty -> NOT the sha
+    ("def456", 0, "",         0, False),  # different commit, clean -> NOT the sha
+    ("def456", 0, " M x.py",  0, False),
+    ("abc123", 1, "",         0, False),  # git could not read HEAD -> fail closed
+    ("abc123", 0, "",         1, False),  # git could not read status -> fail closed
+])
+def test_the_working_tree_predicate_needs_BOTH_halves_and_fails_closed(
+        monkeypatch, head_out, head_rc, dirty_out, dirty_rc, expected):
+    """⛔⛔ THE PREDICATE'S TRUTH TABLE, ASSERTED WITHOUT ASKING THE AMBIENT TREE.
+
+    ⚠ MEASURED 2026-09-02, and it is the same trap twice: a source mutation makes the working tree
+    DIRTY, so any test that reads the real repository sees `False` no matter what the predicate says,
+    and a mutation that drops the HEAD comparison entirely — making every clean tree "the sha" —
+    SURVIVED a suite that already had two tests aimed at it. Faking the two `git` reads is the only
+    way to reach the rows that matter.
+    ⛔ THE LAST TWO ROWS ARE THE POINT OF THE `returncode` GUARD: a git call that failed is not a
+    reading, and "I could not check" must never resolve to "it matches".
+    """
+    def fake(cmd, *a, **kw):
+        if "rev-parse" in cmd:
+            return subprocess.CompletedProcess(cmd, head_rc, head_out + "\n", "")
+        return subprocess.CompletedProcess(cmd, dirty_rc, dirty_out + "\n" if dirty_out else "", "")
+
+    monkeypatch.setattr(PB.subprocess, "run", fake)
+    assert PB._working_tree_is("abc123") is expected
+
+
 def test_uncommitted_changes_mean_the_working_tree_is_NOT_the_sha(tmp_path):
     """⛔ THE HALF THAT IS EASY TO DROP. Same HEAD with uncommitted changes is not the sha, and
     reading it would be the original defect wearing a check. Asserted by making the tree dirty, so

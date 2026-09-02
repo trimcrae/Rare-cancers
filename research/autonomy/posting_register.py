@@ -59,7 +59,6 @@ import json
 import os
 import pathlib
 import re
-import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent.parent
