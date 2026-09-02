@@ -1,0 +1,27 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "227de3222429975e75aeb9f61fce66857abdce2b",
+  "blind": true,
+  "seat": "regression",
+  "lens": "regression on round 4's own repair",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "00aa8302b1f903d5c5f1395e37a483930e86c46421130f92dc3a44c6decee989",
+  "opened_utc": "2026-09-02T22:27:50Z",
+  "verdict": "supported",
+  "central_claim": "At least two recruiting interventional trials admit extraskeletal myxoid chondrosarcoma on eligibility text written on the molecular lesion (a fusion family or a translocation class) while their listed-conditions field never names the disease, so a histology-based condition search does not surface them; a keyword-built reachability map would also carry two eligibility trials that in fact refuse the disease, so eligibility text must be read one trial at a time rather than string-matched.",
+  "blockers": [],
+  "p1s": [],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pin 227de3222429975e75aeb9f61fce66857abdce2b, full text, sha256 verified)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json (at pin)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json (at pin, NCT06571734 and NCT07188532 records)",
+    "git show 227de3222429975e75aeb9f61fce66857abdce2b -- research/manuscripts/care-delivery/emc-trial-reachability.md (the round-4 diff itself)",
+    "git show 227de3222429975e75aeb9f61fce66857abdce2b -- research/manuscripts/claim-coverage.json (the generated companion change in the same commit)",
+    "git log --oneline -- research/manuscripts/care-delivery/emc-trial-reachability.md (round history, confirming round 4 is the tip)",
+    "existence check at the pin for all six §7 data-availability paths and scripts/lit_fetch_urls.py"
+  ],
+  "notes": "1) The round-4 diff to the manuscript is isolated to §6 point 1 (12 lines changed, nothing else in the .md touched) — confirmed via `git show <pin> -- <path>`, so no other part of the document could have regressed in this commit. 2) §6 point 1 now reads 'a defined histology list MAY already exist in the protocol ... though whether this particular protocol enumerates one ... is not something the registry record settles (§5)' — hedged, and it explicitly cross-references §5, whose own hedge on NCT06571734 ('is precisely the question only they can answer', line ~202-203) is unchanged and matches. 3) grep for the retracted phrases 'already exists in the protocol' and 'simply not in the field' over the full document at this pin returns zero matches — the overclaim is fully gone, not just softened in one spot. 4) Sentence-by-sentence word count of the edited paragraph: 16, 29, ~50, 31, 19 words — all well under the 60-word ceiling; the longest (the hedge sentence itself) is dense with three subordinate clauses but grammatically sound and within budget, so not flagged. 5) Cross-checked the paragraph's two factual anchors against the underlying JSON at the pin: NCT06571734's listed_conditions include 'Translocation-associated Soft Tissue Sarcoma' (fet-fusion-trial-eligibility-2026-08-07.json) and the adjudication file's own hedge language ('is NOT determinable from the registry record and is exactly the kind of question only the trial team can answer') matches what §5/§6 now say; NCT07188532's listed_conditions include 'Round Cell Sarcoma With EWSR1-non-ETS Fusion' and its adjudication verdict is 'DOES NOT ADMIT', both consistent with the §6 sentence citing it. 6) Spot-checked adjacent adjudication numbers untouched by this round (the §3 table's 'ten' vs 'seven' listed conditions for NCT06571734 across the two retrieval dates, and the six §7 data-availability file paths plus the fetcher script) — all exist at the pin and are internally consistent; none of this was in round 4's diff so none of it could have regressed here, but it was checked per the assignment's instruction to re-check adjudication numbers in §3/§4/§7. No blocker or fragile-but-correct issue found in this lens on this commit."
+}

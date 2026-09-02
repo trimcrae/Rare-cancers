@@ -42,7 +42,7 @@ Correspondence: trimcrae@gmail.com
 reports (PMID 32967265). Patients and clinicians searching for trials search the way a diagnosis is
 written: by histology.
 
-**The problem.** Trial eligibility is increasingly written the other way, on a fusion family, a
+**The problem.** Trial eligibility is often written the other way, on a fusion family, a
 molecular class, or a translocation, while the registry's *listed conditions*, the field a
 histology search matches against, continue to name the diseases the sponsor had in mind. When those
 two disagree, a patient can be eligible for a recruiting trial that a condition search on their own
@@ -93,7 +93,7 @@ A registry record has two fields that do different jobs and are written by diffe
 **Listed conditions** are the field a condition search matches. They are chosen by the sponsor and
 describe the diseases the trial was designed around.
 
-**Eligibility criteria** are what actually decides admission. Increasingly they are molecular: a
+**Eligibility criteria** are what actually decides admission. Often they are molecular: a
 fusion family, a pathway alteration, a class of rearrangement.
 
 For a common cancer the two coincide, so nobody notices. For an ultra-rare disease that sits inside

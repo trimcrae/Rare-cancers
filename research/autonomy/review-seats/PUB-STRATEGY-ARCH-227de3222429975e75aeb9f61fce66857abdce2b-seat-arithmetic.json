@@ -1,0 +1,33 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "227de3222429975e75aeb9f61fce66857abdce2b",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "arithmetic against committed artifacts",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "00aa8302b1f903d5c5f1395e37a483930e86c46421130f92dc3a44c6decee989",
+  "opened_utc": "2026-09-02T22:31:59Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "At least two recruiting, interventional ClinicalTrials.gov trials (NCT05918640, NCT06571734) admit extraskeletal myxoid chondrosarcoma on their eligibility text while their listed-conditions field never names it, so a diagnosis-based condition search would not surface them; a keyword screen would also wrongly admit two other trials that in fact refuse the disease, which is why per-trial eligibility text has to be read individually rather than string-matched.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "None of the document's ~15 derived counts (400/199/526 screens, 1,159 unique studies, 12 lost/5 recoverable/7 remain, 9=1+7+1 molecularly-defined records, 5 adjudicated=4+1, 42 listed conditions, 23/23 histology re-run, ISRCTN 2/1) are registered in pinned-figures.json or covered by any test in research/manuscripts/tests/ that references the three source JSON files by name, so a future edit to either the prose or the underlying artifacts would not be caught by CI.",
+      "evidence": "Every one of these numbers was independently re-derived from the pinned artifacts and matched exactly (see re-derivations below), so nothing is wrong today. But: (1) `git show 227de3222429975e75aeb9f61fce66857abdce2b:research/manuscripts/pinned-figures.json` — the `targets` list contains only the bare path `research/manuscripts/care-delivery/emc-trial-reachability.md` with no corresponding `derivations[]` or `artifact_figures[]` entry for any of this paper's numbers; `derivations`, `artifact_figures`, `table_completeness` and `subset_checks` contain zero hits for 'reachab' or 'fet-fusion'. (2) None of the 111 files under `research/manuscripts/tests/` at this pin reference `fet-fusion-trial-eligibility-2026-08-07.json`, `emc-trial-reachability-adjudication-2026-08-09.json`, `non-us-registry-sweep-2026-08-09.json` or `emc-trial-reachability.md` (checked by grepping every test file's committed content against those four strings; zero matches). The multi-step derivations are the most exposed part: e.g. '12 lost, 5 of them recoverable ... seven remain ... three of the remaining seven' requires reconstructing set unions across `transport_integrity.unparseable_records` and `.silently_damaged_records` in fet.json (12 unique NCTs), cross-referencing which of those 12 reappear anywhere else in the same file (exactly 5: NCT05275426, NCT05836571, NCT06094101, NCT07188532, NCT07695311), and cross-referencing the remaining 3 (NCT00720174, NCT01189253, NCT05355753) against research/modalities/emc-hypoxia-therapeutic-status.json for their COMPLETED/TERMINATED/TERMINATED statuses. None of that chain is machine-checked.",
+      "fix": "Add entries to research/manuscripts/pinned-figures.json's artifact_figures/derivations sections for the headline counts (400/199/526/1159, the 12/5/7 transport-loss chain, the 9-record molecular set, the 5-record adjudication summary, the 42-condition count, the 23/23 re-run, and the ISRCTN 2/1 counts), each pointing at the exact JSON field, so lint_consistency.py starts catching drift; alternatively add a small test under research/manuscripts/tests/ that loads the three source JSONs and asserts these counts programmatically, the way the ASO paper's tests already do for its own artifacts."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json",
+    "research/literature/non-us-registry-sweep-2026-08-09.json",
+    "research/modalities/emc-hypoxia-therapeutic-status.json",
+    "research/manuscripts/pinned-figures.json",
+    "scripts/lit_fetch_urls.py",
+    "research/manuscripts/tests/ (directory listing, 111 files, grepped for artifact-name references)"
+  ]
+}

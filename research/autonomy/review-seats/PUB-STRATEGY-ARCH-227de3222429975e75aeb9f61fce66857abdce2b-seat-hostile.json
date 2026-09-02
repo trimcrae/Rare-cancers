@@ -1,0 +1,34 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "227de3222429975e75aeb9f61fce66857abdce2b",
+  "blind": true,
+  "seat": "hostile",
+  "lens": "hostile referee (accept/revise/reject)",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "00aa8302b1f903d5c5f1395e37a483930e86c46421130f92dc3a44c6decee989",
+  "opened_utc": "2026-09-02T22:31:48Z",
+  "verdict": "supported_with_reservations",
+  "referee_recommendation": "minor_revisions",
+  "central_claim": "For extraskeletal myxoid chondrosarcoma, at least two recruiting interventional trials are eligibility-admissible by their molecular criteria but are not returned by a condition/histology search of ClinicalTrials.gov because their listed-conditions field never names the disease, and a naive keyword-based reachability map would be actively worse than no map because it would also carry two trials that name a matching adjective/family but actually refuse the disease on read eligibility text.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "Section 6 point 1 names NCT07188532 and a specific fact about it (its listed condition 'round cell sarcoma with EWSR1-non-ETS fusion') that is never established anywhere in Section 3 or Section 4's prose, and neither of Section 4's two 'counter-finding' bullets is given an NCT ID in Section 4 itself. I confirmed against the underlying deposited JSON (research/literature/emc-trial-reachability-adjudication-2026-08-09.json, adjudications[3]) that NCT07188532 is indeed the second Section 4 bullet (the 'extra-skeletal' Ewing sarcoma trial) and that its listed_conditions do include that string, so the claim is accurate. But nothing in the manuscript's own text pins that correspondence -- a reader working only from the prose cannot tell which of the two unnamed Section 4 examples NCT07188532 refers to, or verify the listed-condition detail at all without opening the data file. The correspondence is correct now but is an invariant nothing in the document enforces.",
+      "evidence": "Section 4: 'one is titled for fusion-positive sarcoma and then restricts eligibility to three named histologies... the other contains the literal adjective *extra-skeletal* while meaning extraskeletal Ewing sarcoma' -- no NCT IDs given for either. Section 6 point 1, later: 'NCT07188532 shows the cost, listing *round cell sarcoma with EWSR1-non-ETS fusion* while §4 adjudicates it as refusing this disease.' The listed-condition detail and the ID both appear for the first time in §6, with no textual link back to which §4 bullet is meant.",
+      "fix": "In Section 4, name both trials by NCT ID inline (as every other trial discussed in the paper already is: NCT05918640, NCT06571734, NCT04151342, NCT06239272, NCT03767075, ISRCTN07742377, ISRCTN60791336), or add a parenthetical ID to each bullet so §6's later reference to NCT07188532 is traceable within the document itself rather than only in the deposited JSON."
+    },
+    {
+      "summary": "The first Section 4 counter-finding trial (the one 'titled for fusion-positive sarcoma and then restricts eligibility to three named histologies') is never identified by NCT ID anywhere in the manuscript text -- confirmed by grep across the whole document. This is the trial that, per the abstract, exemplifies 'the finding that matters more than the count,' yet it is the one trial in the paper a reader cannot look up from the prose alone.",
+      "evidence": "Grepping the pinned document for 'NCT06094101' (the ID I traced via the deposited adjudication file, adjudications[2], brief_title_verbatim 'Personalized Vaccination in Fusion+ Sarcoma Patients (PerVision)') returns zero matches; the trial is described only qualitatively in the abstract and in §4's first bullet.",
+      "fix": "Add the NCT ID inline in Section 4 (or a footnote/table row), matching the identifier discipline used everywhere else in the paper."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pinned commit 227de3222429975e75aeb9f61fce66857abdce2b, full text, verified sha256)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json (at the pinned commit, to verify the driver-gene 'five studies' enumeration, the NCT05918640 sponsor/age detail, and the NCT06094101/NCT07188532 identities behind Section 4's two unnamed bullets)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json (at the pinned commit, to verify which NCT ID each Section 4 bullet corresponds to and confirm the NCT07188532 listed-condition claim in Section 6)"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "227de3222429975e75aeb9f61fce66857abdce2b",
+  "blind": true,
+  "seat": "statistics",
+  "lens": "statistics and methodology",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "00aa8302b1f903d5c5f1395e37a483930e86c46421130f92dc3a44c6decee989",
+  "opened_utc": "2026-09-02T22:29:11Z",
+  "verdict": "needs_revision",
+  "central_claim": "A patient with EMC can be eligible for a recruiting trial (at least two identified cases) that a condition-field search on the diagnosis name will not return, because eligibility is increasingly written on the molecular lesion while listed conditions are written on histology, and a keyword-based fix is worse than no fix because it also surfaces trials that will refuse the patient.",
+  "blockers": [
+    {
+      "summary": "The Abstract and Section 1 both assert eligibility criteria are 'increasingly' molecular — an explicit temporal trend claim — but the paper's own methodology is a single-snapshot registry read with no historical comparison point and no citation for the trend, so nothing in the artifact supports 'increasingly' over 'sometimes' or 'in these records'.",
+      "evidence": "Abstract, 'The problem': \"Trial eligibility is increasingly written the other way, on a fusion family, a molecular class, or a translocation, while the registry's *listed conditions*, the field a histology search matches against, continue to name the diseases the sponsor had in mind.\" Restated in §1: \"Eligibility criteria are what actually decides admission. Increasingly they are molecular: a fusion family, a pathway alteration, a class of rearrangement.\" Contrast with the frontmatter scope declaration: \"L3. Two public trial registries — one US, one UK — read on two dates\" and §2's methods table, which describe one screening pass (2026-08-07) and one per-trial re-fetch (2026-08-09) — a single time window, not a longitudinal or historical comparison. No citation is attached to either 'increasingly' sentence (contrast the fusion-biology sentence one clause earlier in the Abstract, which does cite PMID 32967265), and no prior-period registry data appears anywhere in §2–§7 that could establish a rate of change.",
+      "fix": "Replace 'increasingly' in both the Abstract and §1 with a claim the snapshot actually supports (e.g. 'Trial eligibility is sometimes written the other way' or 'In the records this audit read, eligibility is often written...'), or, if the secular trend is a real and citable fact from the oncology-trials literature, attach a citation for it rather than let a two-date registry audit imply it measured the trend itself."
+    }
+  ],
+  "p1s": [
+    {
+      "summary": "The '1,159 unique studies indexed' total in §2's methods table is not traceable from the component counts given in the same table and section.",
+      "evidence": "§2 table, row 1: \"fusion (400 studies, its page limit), basket (199) and sarcoma (526) screens, plus a term search on the driver gene; 1,159 unique studies indexed.\" 400+199+526 = 1,125; the fourth item named in the same cell, the driver-gene term search, is elsewhere given as 5 studies (§3), bringing the sum to 1,130 — short of 1,159 by 29. §2's prose separately mentions \"one sarcoma screen was unfielded and did carry it [eligibility text]\", and §5 confirms \"the unfielded sarcoma screen combines the two [fusion and basket fields]\" — implying a fourth/fifth screen distinct from the 526-count fielded sarcoma screen — but its own study count is never stated anywhere in the document, so a reader cannot reconstruct how the union reaches 1,159.",
+      "fix": "State the unfielded sarcoma screen's own raw count (or the net-new unique studies it contributed after dedup against the other three screens) so 1,159 is derivable from numbers printed in the paper, consistent with this repository's own 'a total is derived, never typed' discipline."
+    },
+    {
+      "summary": "Section 6's remedy text treats NCT06571734's 7-item conditions list as a settled current fact without flagging the count instability the paper's own §3 records for that identical trial.",
+      "evidence": "§3 table, NCT06571734 row: \"all seven as retrieved 2026-08-09... The fielded screen two days earlier recorded ten; the difference is unexplained.\" §6 point 1 then states, with no retrieval-date qualifier and no reference back to that unexplained discrepancy: \"NCT06571734 already lists *translocation-associated soft tissue sarcoma*, and a condition search on the histology still does not return it.\"",
+      "fix": "Add an 'as of 2026-08-09' qualifier (or a cross-reference to the unexplained 7-vs-10 discrepancy) to the §6 sentence, so the remedy argument doesn't read as resting on a stable registry fact when the paper's own data shows that trial's listed-conditions count moved by three items in two days for an unexplained reason."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pinned commit 227de3222429975e75aeb9f61fce66857abdce2b, via git show)"
+  ]
+}

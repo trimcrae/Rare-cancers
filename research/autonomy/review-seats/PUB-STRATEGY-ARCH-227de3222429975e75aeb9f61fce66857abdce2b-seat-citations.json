@@ -1,0 +1,49 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "227de3222429975e75aeb9f61fce66857abdce2b",
+  "blind": true,
+  "seat": "citations",
+  "lens": "citations, build and gates",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "00aa8302b1f903d5c5f1395e37a483930e86c46421130f92dc3a44c6decee989",
+  "opened_utc": "2026-09-02T22:29:38Z",
+  "verdict": "supported_with_reservations",
+  "central_claim": "At least two recruiting interventional trials (NCT05918640, NCT06571734) admit extraskeletal myxoid chondrosarcoma on their eligibility criteria while their listed-conditions field never names the disease, so a condition search on the diagnosis would not surface them, and a keyword-built reachability map would in the same stroke wrongly admit two trials (NCT06094101, NCT07188532) that actually refuse the disease.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "No linter or gate in this repository recognises an ISRCTN identifier. The two ISRCTNs in section 4.1 (ISRCTN07742377, ISRCTN60791336) are correct at this pin but a transposed digit in either would pass every gate silently.",
+      "evidence": "`research/manuscripts/lint_citations.py` PATTERNS (git show 227de322...:research/manuscripts/lint_citations.py, lines ~113-127) has exactly six kinds: PMID, PMCID, DOI, NCT, GEO, ARXIV — no ISRCTN entry. `python3 research/manuscripts/lint_citations.py` run against the live tree confirms this (exit 0, 1114 prose identifiers tracked, none of them ISRCTN-shaped). Both ISRCTNs do trace correctly to research/literature/non-us-registry-sweep-2026-08-09.json (ISRCTN07742377's verbatim exclusion criterion and ISRCTN60791336's parent-term exclusion are both present verbatim in that file at the pin), so this is a coverage gap in the instrument, not a defect in the paper's content — the same class of gap `lint_citations.py`'s own AUT-PD-057 comment records having existed and been closed for arXiv identifiers.",
+      "fix": "Add an ISRCTN pattern (e.g. r'\\bISRCTN(\\d{8})\\b' plus the isrctn.com URL form) to PATTERNS in lint_citations.py, anchored against non-us-registry-sweep-2026-08-09.json, and add a mutation test that flips one digit and confirms it goes red."
+    },
+    {
+      "summary": "Zero of this document's sentences, and zero of its numeric sentences, are read by any instrument. Every count in the paper (400/199/526 screen sizes, 1,159 unique studies, 42 conditions, seven-vs-ten conditions, twelve/five/three/seven damaged records, target enrolments 73 and 5500, age bounds) is correct at this pin but would drift silently under an ordinary future edit.",
+      "evidence": "`research/manuscripts/claim-coverage.json` at the pin (git show 227de322...:research/manuscripts/claim-coverage.json) records for this document: {\"sentences\": 100, \"covered\": 0, \"with_a_number\": 26, \"with_a_number_covered\": 0, \"uncovered\": 100, \"uncovered_with_a_number\": 26}. `research/manuscripts/pinned-figures.json` at the pin lists this file only in `targets` (used by the superseded-value check), and its 99 `artifact_figures` entries contain zero matches for 'reachability', 'fet-fusion-trial' or 'non-us-registry'. I independently re-verified the load-bearing numbers by hand against the source JSON and all checked out (e.g. the 42-condition count for NCT06239272, the 23/23 re-run count in emc-hypoxia-therapeutic-status.json, and the five-record adjudication arithmetic in section 3/5) — the paper is correct now, but nothing would catch a future divergence.",
+      "fix": "Add artifact_figures entries binding at minimum: NCT06239272's 42 listed conditions (fet-fusion-trial-eligibility-2026-08-07.json), the two admitting trials' target enrolments (73, 5500), the 1,159 unique-studies-indexed figure, and the adjudication summary tallies (emc-trial-reachability-adjudication-2026-08-09.json -> summary) — the exact quantity a prior round's arithmetic seat found broken (ARITH-B1, now fixed at this pin, per research/autonomy/hardening-state/PUB-STRATEGY-ARCH.json's round-3 record) and that nothing currently guards against recurring."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md (at pin 227de3222429975e75aeb9f61fce66857abdce2b, sha256 verified)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json",
+    "research/literature/non-us-registry-sweep-2026-08-09.json",
+    "research/literature/fusion-consensus-probe.json",
+    "research/manuscripts/citation-article-types.json",
+    "research/manuscripts/citation-retraction-sweep.json",
+    "research/manuscripts/claim-ablation-cache.json",
+    "research/manuscripts/claim-coverage.json",
+    "research/manuscripts/pinned-figures.json",
+    "research/manuscripts/lint_citations.py",
+    "research/manuscripts/lint_claims.py",
+    "research/autonomy/publish_bar.py (clause_1, clause_4, clause_5, clause_6, clause_7)",
+    "systems/graph/publications.json (PUB-STRATEGY-ARCH record)",
+    "research/autonomy/hardening-state/PUB-STRATEGY-ARCH.json",
+    "research/autonomy/review-seats/PUB-STRATEGY-ARCH-78d345d35b467dca41adcb479666257080f149bb-seat-citations.json (prior round, for cross-check only)",
+    "research/modalities/emc-hypoxia-therapeutic-status.json",
+    "scripts/lit_fetch_urls.py (transport-defect comment block, lines ~210-235)",
+    "git diff 78d345d35b467dca41adcb479666257080f149bb..227de3222429975e75aeb9f61fce66857abdce2b for the manuscript and its two 2026-08-07/08-09 data artifacts"
+  ]
+}
