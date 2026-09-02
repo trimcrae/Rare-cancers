@@ -1,0 +1,30 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-STRATEGY-ARCH",
+  "pub_id": "PUB-STRATEGY-ARCH",
+  "reviewed_commit": "ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd",
+  "blind": true,
+  "seat": "statistics",
+  "lens": "statistics/methodology (does the design support the claim)",
+  "document": "research/manuscripts/care-delivery/emc-trial-reachability.md",
+  "document_sha256": "d7656305abadc8da96f1949dd7d1eab8a4da5df78f2815b53f081bb65c6f5264",
+  "opened_utc": "2026-09-02T23:32:04Z",
+  "verdict": "accept",
+  "referee_recommendation": "accept",
+  "central_claim": "A two-registry, two-date audit shows that at least two recruiting interventional (and one observational) clinical trials admit extraskeletal myxoid chondrosarcoma on their eligibility criteria while never naming it in the registry's listed-conditions field (because eligibility is written on the molecular lesion and the conditions field is written on histology), and that a naive keyword/string-matching fix for this gap would itself cause harm by also admitting two trials that read as matches but actually refuse the disease -- so eligibility text must be read one trial at a time rather than pattern-matched.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "The Abstract's opening motivating sentence ('Patients and clinicians searching for trials search the way a diagnosis is written: by histology.') is stated as a flat, unhedged behavioral fact, but nothing in the paper's two-date registry-snapshot design measures how patients or clinicians actually search. It functions as background framing rather than a finding, and no prior round appears to have hedged it the way the rest of the document hedges everything else (e.g. 'often', 'floor', 'not established here'). It is very unlikely to be read as a data claim given the surrounding rigor, but a future reviewer applying the same skepticism the rest of the paper invites could flag it as an assumption presented as fact.",
+      "evidence": "Abstract, opening sentence: 'Patients and clinicians searching for trials search the way a diagnosis is written: by histology.' No citation, no hedge, and no source artifact (fet-fusion-trial-eligibility-2026-08-07.json or emc-trial-reachability-adjudication-2026-08-09.json) measures search behavior -- both are registry-API reads, not user-behavior studies.",
+      "fix": "Optional: soften to something like 'Patients and clinicians searching for trials typically search the way a diagnosis is written: by histology' or reframe as the registry-mechanics fact that actually is verifiable (the condition field, not the criteria text, is what a condition search matches) rather than a claim about user behavior. Low priority given how narrow the gap is and how well-hedged everything else in the document already is."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/care-delivery/emc-trial-reachability.md @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (full document, sha256 verified against the pinned digest)",
+    "research/literature/fet-fusion-trial-eligibility-2026-08-07.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (full file: transport-integrity block, task_1 reverification of nine NCT records, task_2 widened search including the 400/199/526 fielded screens, the four unconfirmed candidates, the nine molecularly-defined-not-histology-defined records, the screened-and-excluded set, and the NR4A3 term-search five-study result)",
+    "research/literature/emc-trial-reachability-adjudication-2026-08-09.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (full file: all four per-trial adjudications and the summary block)",
+    "research/literature/non-us-registry-sweep-2026-08-09.json @ ca18ec8b2a7141c7f5a23c46f3f56f87f71faabd (full file, read as supplementary context for the Section 4.1 non-US registry claims, though not one of the two artifacts the task named as required)"
+  ]
+}
