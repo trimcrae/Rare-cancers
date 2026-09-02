@@ -12996,6 +12996,51 @@
       "_score_basis": "loop-instrument defect, found and closed in the same cycle; filed for the record rather than for the queue",
       "score_inputs": {},
       "_route_note": "Filed as RT-LOOP, corrected to RT-AUTONOMY the same cycle: RT-LOOP is not a route systems/graph carries, so priority.apply_route_inheritance had no floor to inherit and the rows landed unscored — invisible to every future cycle's ranking. RT-AUTONOMY is where every sibling loop-instrument defect lives (AUT-PD-031, 043, 169, 171). ⭐ Moving the route rather than typing a score is deliberate: a number this cycle chose for its own findings is the self-serving direction, and inheritance is the mechanism the siblings already use."
+    },
+    {
+      "serves": {
+        "route": "RT-ASO",
+        "publication": "PUB-ASO",
+        "strategy": null
+      },
+      "state": "in_progress",
+      "owner": "seat:s33-regression (CYC-0090-d7df5340 blind seat, width 1)",
+      "claimed_utc": "2026-09-02T12:25:46Z",
+      "cost_class": "free",
+      "cost_points_at": "research/compute/pricing.md",
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "retry_budget": 2,
+      "attempts": 0,
+      "last_evidence_utc": "2026-09-02",
+      "filed_by": "CYC-0090-d7df5340",
+      "depends_on_evidence": "research/autonomy/review-seats/PUB-ASO-7a7f408258c84adc2bc72bb2be5bd25fc4a3c464.json — round 26, 1 blocker and 5 P1s, all applied",
+      "id": "AUT-PROP-057-d7df5340",
+      "kind": "harden",
+      "what": "ROUND 33 OF PUB-ASO — six blind seats on 7d51f2051e95, to close publish_bar clause 1.\n⛔⛔ THE PAPER HAS NOT CHANGED SINCE ROUND 32 AND THAT IS THE WHOLE POINT OF THIS ROW. Measured 2026-09-02: the deliverable digest is a6f7158552096aea and the article's sha256 is afd60b9ef7f3c1ee at BOTH round 32's pin (4ae4e99293b5) and at 7d51f2051e95. Round 32 was clean — five blind seats, ZERO blockers, 7 P1s — on exactly these bytes. Clause 1 fails at the new pin for one reason: the commit sha moved.\n★ SO THIS ROUND RE-DERIVES A FACT FIVE SEATS ALREADY ESTABLISHED, AND IS RUN ANYWAY. AUT-PD-205-d7df5340 carries the fix — bind clauses 1 and 6 to the deliverable digest instead of the sha — and `publish_bar.py` is a GOVERNED path that the cycle blocked by clause 1 may not edit (architecture §10.4). CLAUDE.md §3's test is 'is there ANY action I could take that resolves this without weakening a bar?', and there is: run the seats, however tedious.\n⛔ SIX, NOT FIVE. `clause_1_hardening_converged` refuses a declaring round narrower than the widest earlier round on record, and `_look_history('PUB-ASO')` returns 6 for four earlier commits. Round 32 fielded five and would be refused on width alone.\n⛔ AND ONE AT A TIME. `budget_hold.declared_posture.max_subagent_width` is 1 at the restored pre-sprint posture. trimcrae's 2026-08-30 grant — 'Pursue the goal of getting ASO v2 submission ready regardless of weekly budget' — lifts the SPEND ceiling for this goal and says nothing about the width dial, which the 107-agent incident makes a ROBUSTNESS dial as well as a budget one (40 completed, 67 errored, the synthesis lost). Reading a spend grant as a width grant is the loosening this row declines to make.\n★ LENSES: arithmetic, citations-and-archive, hostile-referee, regression, statistics, and scope-and-language (R1-R5: no implied selectivity, efficacy, safety, therapeutic window or clinical readiness). Seats write their records to the session scratchpad, never into the tree, because a PREFLIGHT_FULL run is gating the same commit for clause 2 and reads the working tree.",
+      "_score_basis": "EXPLICIT. Just above AUT-PD-205-d7df5340 (138.0), which is the row this one exists BECAUSE of: the digest re-anchoring would make this round unnecessary and cannot be landed by the cycle it unblocks, so the honest path is to pay for the round. It is the last clause-1 obstacle on the only paper with a public DOI.",
+      "closes_clause": {
+        "paper": "PUB-ASO",
+        "clause": "hardening_converged"
+      },
+      "score_inputs": {
+        "fruitless_attempts": 1
+      },
+      "score": 139.0,
+      "_score_inherited_from_route": "RT-ASO",
+      "dispatch_log": [
+        {
+          "utc": "2026-08-31T13:59:48Z",
+          "fingerprint_at_dispatch": "2026-08-31|None"
+        }
+      ],
+      "handoff": {
+        "child_session_id": "session_011JXp8gDqtZgcLyit6sbnqn",
+        "spawned_utc": "2026-08-31T13:54:56Z",
+        "spawned_by": "session_013jxh1csBMw3e6TeBNJGJX4",
+        "_why": "Spawned rather than run in the spawning session: research-loop §3 makes a full hardening cycle a SPAWNED SESSION, and trimcrae asked for a new one in the same breath ('Keep going then. Preferably in a new session since this one is getting old'). The prompt was built by handoff.py from origin/main and carries no findings from round 26 — a successor that inherits its predecessor's reasoning inherits its mistakes."
+      },
+      "outcome": "⭐ ROUND 27 RAN AND DID NOT CONVERGE, WHICH IS THE ROUND'S RESULT RATHER THAN ITS FAILURE. Five blind seats on pin f9e5059912a5: 3 distinct blockers, 10 P1 instances, 21 P2 instances. Records: research/autonomy/review-seats/PUB-ASO-f9e5059912a5ee0a05f3c3973d9fb535fb14c61c*.json (five seats plus the canonical roll-up). Two blockers were prose defects and were fixed in this cycle as REPLACEMENTS, +4 words net (3,799 -> 3,803 against a 3,819 ceiling). The third, R27-B3, is the Data availability DOI naming an unpublished Zenodo draft; it is filed as AUT-PROP-054 and is trimcrae's act. ⛔ SO clause_1_hardening_converged STILL DOES NOT PASS, and it cannot pass at any pin until that act happens — this row's premise was that a round on the exact posted commit would close the clause, and the measurement says a round is necessary but not sufficient. Round 28 is AUT-PROP-055, deliberately BLOCKED on AUT-PROP-054 rather than queued, because a round run before the publish re-finds R27-B3 by construction and spends five seats to do it."
     }
   ]
 }
