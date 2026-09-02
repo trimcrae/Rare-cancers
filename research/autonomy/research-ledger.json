@@ -16,7 +16,7 @@
     "measure": 1,
     "negative": 33,
     "process": 8,
-    "process_defect": 197,
+    "process_defect": 198,
     "proposal": 18,
     "recover": 2,
     "regrade": 15,
@@ -28,7 +28,7 @@
     "done": 185,
     "in_progress": 10,
     "parked": 30,
-    "queued": 167,
+    "queued": 168,
     "superseded": 1
   },
   "n_clamped": 12,
@@ -5811,6 +5811,38 @@
       "_score_basis": "EXPLICIT. Filed `done` in the cycle that fixed it. 118.0 — above AUT-PD-200 (100.0) and AUT-PD-197 (115.0) because an unfired escalation hook is what let a PUBLISH decision sit unsent, and trimcrae has named that failure himself; below nothing else open.",
       "score": 118.0,
       "score_inputs": {}
+    },
+    {
+      "id": "AUT-PD-210-11f2347b-df2dd44f",
+      "kind": "process_defect",
+      "state": "queued",
+      "cost_class": "free",
+      "owner": null,
+      "claimed_utc": null,
+      "attempts": 0,
+      "blocked_by": null,
+      "blocked_evidence": null,
+      "cost_points_at": "research/compute/pricing.md",
+      "route": null,
+      "serves": {
+        "route": null,
+        "publication": null,
+        "strategy": null,
+        "_why": "A red gate on the trunk. It serves nothing downstream and blocks nothing; it is recorded so it is not lost."
+      },
+      "requires_trimcrae": false,
+      "notified_utc": null,
+      "last_evidence_utc": "2026-09-02",
+      "score": 118.0,
+      "_score_basis": "HAND-SET, below the open process_defect band (129-137). It is a red test and therefore real, but it blocks no paper and no route, the workflow it names cannot be dispatched by anyone in its current state anyway, and CLAUDE.md §0 puts live routes first. Filed rather than fixed because the repair is a SEMANTIC call about which input to drop, and a throttle is in force (autonomy-state usage_throttle).",
+      "what": "⛔ `.github/workflows/list-sagemaker-aws.yml` DECLARES ELEVEN `workflow_dispatch` INPUTS AGAINST GITHUB'S CAP OF TEN, so the workflow is UNDISPATCHABLE and `test_workflow_dispatch_input_cap.py` is red. ⚠ FOUND ON CLEAN `origin/main` BY A SEAT DOING UNRELATED WORK, which correctly refused to absorb it (CLAUDE.md §6: a pre-existing failure is a separate task to raise). Verified independently by the driver: the inputs are region, s3_prefix, mode, job_name, forensic_tag, instance_filter, shutdown_targets, shutdown_apply, keep_images, purge_include_tooling, purge_confirm.\n★ THE REPAIR IS NOT MECHANICAL AND THAT IS WHY THIS IS FILED RATHER THAN PATCHED. The two obvious merge candidates — `shutdown_apply` + `purge_confirm`, or `purge_include_tooling` + `purge_confirm` — are SAFETY INTERLOCKS on a path that deletes cloud resources, and collapsing two interlocks into one weakens a guard to satisfy a lint. Dropping `job_name` looks free under the GPU ban but it is a match substring for the savings/forensic modes, not a launch parameter. Somebody has to read the modes and decide.\n⚠ SECOND OBSERVATION, RECORDED AND NOT RESOLVED: this workflow carries NO reference to `gpu_ban` or `gpu_spend_prohibited`, while the ban's own record says guards went into nine workflows. That is only a hole if this one can LAUNCH; its modes read as listing, savings, forensics, shutdown and purge — inspection and CLEANUP, which the ban has no reason to block. UNVERIFIED either way, and an absent reading is not a reading of absence (CLAUDE.md §4).",
+      "next_action": "Read the workflow's modes, decide which input can go or merge WITHOUT collapsing two delete-path interlocks into one, and fix it. Then settle the second observation: establish by reading the job steps whether this workflow can start a billable resource, and if it can, put the gpu_ban gate in its path; if it cannot, record that so the next reader does not re-open it.",
+      "evidence": [
+        ".github/workflows/list-sagemaker-aws.yml — 11 workflow_dispatch inputs, GitHub's cap is 10",
+        "test_workflow_dispatch_input_cap.py — red on clean origin/main",
+        "grep for gpu_ban / gpu_spend_prohibited in that workflow: 0 hits"
+      ],
+      "retry_budget": 3
     },
     {
       "id": "AUT-PROP-051",
