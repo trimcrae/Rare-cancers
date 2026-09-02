@@ -552,6 +552,33 @@ def _undatable_at_or_above(receipts, floor_ordinal):
     ordinals climb past every clockless one and both rows recover unaided.
     ⛔ AN UNREADABLE ORDINAL COUNTS AS "COULD BE NEWER" on both sides. A receipt this module can
     neither date nor order is exactly the thing that must not be skipped in silence.
+
+    ⛔⛔ AND THE OBVIOUS SHORTCUT — "just read `started_utc`, a start is never after an end, so it can
+    only ever read PESSIMISTIC" — IS REFUSED, ON A MEASUREMENT THAT SAYS OTHERWISE. It is the first
+    thing every reader of this row proposes, so the refutation lives here rather than in a commit
+    message. `receipt_schema.ENDED_KEY`'s own comment argues it for the AGE; these are the two halves
+    a reader has to check separately, because the two conditions do not compute the same kind of
+    thing from the stamp.
+      · `c_cycle_delivering` computes a MAGNITUDE, `now - ts`, and reds when it exceeds the deadline.
+        Its direction argument would hold IF `started_utc <= ended_utc` held — an overstated age can
+        only manufacture a false RED. ⚠ BUT THE PREMISE IS FALSE AND IT WAS MEASURED, TWICE
+        INDEPENDENTLY (2026-09-02): over all 30 committed receipts carrying `started_utc`, against
+        the author date of the commit that ADDED each one — the only delivery time this repository
+        records — the lag is median +0.48 h, mean +0.76 h, max +7.97 h, and MIN −0.49 h, with THREE
+        of the 30 NEGATIVE (CYC-0007 −0.20 h, CYC-0010 −0.32 h, CYC-0012 −0.49 h). A negative lag is
+        a receipt whose typed start is LATER than its own delivery, so the age is UNDERSTATED and the
+        row reads FRESHER than the truth. That is the manufactured-freshness direction, and the field
+        is hand-typed, so the error has no bound to appeal to.
+      · `c_advancing_live_work` computes an IDENTITY — which three receipts are the newest — and no
+        direction argument reaches it AT ALL, even if the premise held. A lower-bound stamp depresses
+        a receipt's sort position, so a genuinely newer receipt drops out of the tail and a genuinely
+        older one drops in. Red flips to green whenever the displaced member is the non-`none` one:
+        the window prints ADVANCING while the true newest three are all `none`. The measured +7.97 h
+        outlier (CYC-0090-d7df5340) would sort ~8 h early against receipts spaced ~40 min apart —
+        several positions, on a window three deep.
+    ★ Guarded, not merely written: `test_started_utc_is_not_an_accepted_clock` and
+    `test_the_sort_treats_a_missing_clock_as_the_OLDEST_not_the_NEWEST` both fail if `started_utc`
+    is added to RECEIPT_TIME_KEYS (mutation-audited 2026-09-02, 5 mutations of this guard, 5 caught).
     """
     out = []
     for r in receipts:
@@ -638,10 +665,15 @@ def c_cycle_delivering(receipts, unreadable, interval_h, now):
                            f"{len(shadowing)} receipt(s) at or above the cycle ordinal of "
                            f"{latest['_file']} carry none of {list(RECEIPT_TIME_KEYS)}, so they "
                            f"cannot be dated and {latest['_file']} cannot be shown to be the newest "
-                           f"— its age is not a reading of delivery. Settle it: give each a "
-                           f"`{receipt_schema.ENDED_KEY}` (research-loop §2 step 10), which "
-                           f"`receipt_schema.py --check` now requires from "
-                           f"CYC-{receipt_schema.FIRST_CLOCK_GOVERNED_CYCLE:04d}. Undatable: "
+                           f"— its age is not a reading of delivery. ⛔ The named receipts are "
+                           f"COMMITTED HISTORY and back-filling them is NOT the fix: they are "
+                           f"immutable, and grading history is what latched a row and killed the "
+                           f"loop on 2026-08-27. Settle it: land ONE receipt at ordinal "
+                           f"≥ CYC-{receipt_schema.FIRST_CLOCK_GOVERNED_CYCLE:04d} carrying "
+                           f"`{receipt_schema.ENDED_KEY}` (research-loop §2 step 10) — the contract "
+                           f"names it and `receipt_schema.py --check` enforces it, so its readable "
+                           f"ordinal climbs past every clockless one and this row recovers unaided. "
+                           f"Undatable: "
                            + ", ".join(shadowing[:6])
                            + (f" (+{len(shadowing) - 6} more)" if len(shadowing) > 6 else ""),
                            {"receipts_seen": len(receipts), "latest_receipt": latest["_file"],
@@ -703,8 +735,13 @@ def c_advancing_live_work(receipts, now):
                            f"{len(shadowing)} receipt(s) carry no readable clock, so they sort ahead "
                            f"of this window and it cannot be shown to be the last {NO_ADVANCE_RUN} "
                            f"cycles. A run of `none` read off the wrong three receipts is an invented "
-                           f"finding, and this condition is the loop's own honesty instrument. Settle "
-                           f"it: give each a `{receipt_schema.ENDED_KEY}` (research-loop §2 step 10). "
+                           f"finding, and this condition is the loop's own honesty instrument. ⛔ The "
+                           f"named receipts are COMMITTED HISTORY and back-filling them is NOT the "
+                           f"fix. Settle it: land {NO_ADVANCE_RUN} receipts at ordinal "
+                           f"≥ CYC-{receipt_schema.FIRST_CLOCK_GOVERNED_CYCLE:04d} carrying "
+                           f"`{receipt_schema.ENDED_KEY}` (research-loop §2 step 10) — this window "
+                           f"is {NO_ADVANCE_RUN} deep, so it needs {NO_ADVANCE_RUN} of them before "
+                           f"the tail is provably the newest run. "
                            f"Undatable: " + ", ".join(shadowing[:6])
                            + (f" (+{len(shadowing) - 6} more)" if len(shadowing) > 6 else ""),
                            {"window": [r["_file"] for r in window],

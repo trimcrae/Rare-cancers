@@ -7,8 +7,8 @@
   "_backoff_level_means": "0 = full cadence and width. Raised by a cycle that ended without a receipt, lowered by a clean one (§9 property 3). Two dials hang off it: cycle interval (4 h -> 8 h -> 24 h) and subagent width (5 -> 2 -> 1). At level >= 2 the cycle takes only `fetch` and `regrade` items, which are dispatch-and-exit and consume no Claude budget — the loop keeps making progress on a spent budget instead of stopping.",
   "backoff_since_utc": null,
   "_backoff_since_utc_means": "⛔ STAMPED IN THE SAME WRITE THAT RAISED THE LEVEL, which is what the governor's own contract requires and what `test_a_held_backoff_is_not_reported_as_stuck` measures: the condition is entirely a DURATION, so a level with no start date makes it unanswerable and the row reports BACKOFF-AGE-UNKNOWN rather than a verdict. ★ This raise is the restoration of the pre-sprint floor at `budget_hold.reactivates_utc`, not a failure count — see `budget_hold._RESTORED_2026_09_02_the_sprint_window_closed`.",
-  "cycle_interval_hours": 4,
-  "subagent_width": 64,
+  "cycle_interval_hours": 8,
+  "subagent_width": 4,
   "_subagent_width_LIFTED_BY_TRIMCRAE_2026_09_02": "⛔⛔ THE CAP IS NO LONGER A GOVERNANCE LIMIT. trimcrae, 2026-09-02, in session, answering an AskUserQuestion that put the width dial to him against the 107-agent incident, verbatim: 'There shouldn't be a limit on parallel subagents.' He was asked because the six blind seats of PUB-ASO round 34 are independent of one another and were being run ONE AT A TIME under a dial of 1 — about 150 minutes of wall clock for work that finished in 25 when it was run concurrently, which is the measurement that prompted the question.\n★ WHY THE VALUE IS A NUMBER AND NOT `null`, SAID PLAINLY SO NOBODY READS 64 AS A LIMIT HE CHOSE. `health.py:c_fanout_is_governed` reports NO-CAP and grades the row UNMEASURED for any value that is not a positive integer, and CLAUDE.md is explicit that unmeasured is not ok — so `null` would not express 'no limit', it would blind the only instrument that can attribute an overrun after the fact. 64 is therefore a REPORTING CEILING, chosen to sit far above anything this loop has ever needed (the widest round on record is six seats) and below the only width ever OBSERVED to fail. It is not a budget and it is not his number.\n⚠ AND THE OBSERVATION THAT ARGUES FOR ANY CEILING AT ALL IS RETAINED RATHER THAN DELETED, because it is a measurement and his instruction does not repeal it: the 107-agent fan-out hit the account weekly limit with 40 completed, 67 errored and the synthesis lost, so the findings had to be recovered by hand from journal.jsonl. That is evidence about ROBUSTNESS at ~107 concurrent, not about 6. Nothing in this record licenses a fan-out of that size; what it licenses is not serialising work that is independent.\n⚠ Superseded, retained (rule 1.2): `subagent_width: 1`, the pre-sprint floor restored at `budget_hold.reactivates_utc`, and the ladder '5 -> 2 -> 1 by backoff_level' that governed it. The BACKOFF ladder still governs `cycle_interval_hours` and `items_per_cycle`; it no longer steps width, because width is no longer the dial being held.",
   "_subagent_width_means": "⚠ SUPERSEDED AS A CAP BY `_subagent_width_LIFTED_BY_TRIMCRAE_2026_09_02`, RETAINED PER RULE 1.2 BECAUSE THE UNIT IT DEFINES IS STILL THE UNIT. ⛔ THE UNIT IS MAXIMUM CONCURRENT SUBAGENTS, AND IT HAD NEVER BEEN STATED — which is why the cap was unenforceable rather than merely unenforced. Architecture §9 calls it 'parallel width' and the cycle contract says 'launch them in ONE message so they run concurrently', so CONCURRENT is the reading both texts support and it is now written down. The 107-agent incident (40 completed, 67 errored, synthesis lost) was one fan-out launched together, i.e. a concurrent width of 107 against this cap of 5. ⛔ WIDTH MOVES LAST AND MOVES DOWN FASTER THAN IT MOVES UP: 5 -> 2 -> 1 by backoff_level, because the architecture records it as the dial that failed catastrophically. ⚠ WHAT THIS DIAL DOES NOT GOVERN, SAID PLAINLY RATHER THAN LEFT TO BE DISCOVERED: the TOTAL number of subagents a cycle may spend serially. A cycle running 5, waiting, then 5 more, twenty times over, never exceeds this cap and can still exhaust a weekly budget. That total is UNGOVERNED and no number is invented for it here — inventing one would be a remembered figure standing in for a measurement (CLAUDE.md §4). The measurement that would settle it is `utilisation_denominator`, which is null until a window flip is OBSERVED.",
   "items_per_cycle": 1,
@@ -175,5 +175,53 @@
       "_spent_usd_evidence": "MEASURED, not assumed: the seat's scratch directory `scratchpad/s11-selectivity-gate/` was empty of every file — it had been created and nothing written — so the seat never reached a launch, a rental or a dispatch. The seat was cancelled by the interrupt and not resumed."
     },
     "_ENFORCEMENT_IS_NOT_THIS_FIELD": "⛔⛔ RECORDED IS NOT ENFORCED, AND THIS REPOSITORY HAS ALREADY PAID FOR THAT GAP TWICE — `subagent_width` was a governed number that `grep` proved no code read, and `max_versions_per_paper` was measured on this same day to be enforced by nothing while a paper carried 11 versions against a cap of 3. A prohibition that lives only in this file is the same shape. It must be read by the launch paths themselves and fail CLOSED, and until a gate asserts it, compliance here is luck."
+  },
+  "usage_throttle": {
+    "active": true,
+    "declared_utc": "2026-09-02",
+    "declared_by": "trimcrae",
+    "verbatim": "We're eating up usage too fast here. How can we slow it down? We prolly need to go at like 50% compared to our current rate for the rest of the week",
+    "target": "~50% of the 2026-09-02 rate, through the end of the week",
+    "review_after_utc": "2026-09-08",
+    "_what_the_spend_actually_is": "⛔ MEASURED, NOT ESTIMATED — from the harness's own per-subagent token counts on 2026-09-02. TWELVE completed subagents in one session consumed 3,108,817 tokens, mean 259k each. The driver's own turns are not close to this and neither is CI, which is $0. ★ ONE DOUBLE BLIND ROUND IS 77% OF IT: the ten seats of the PUB-ATR round 5 / PUB-STRATEGY-ARCH round 3 pair cost 2,386,368 tokens (reachability 939,687 over five seats; ATR 1,446,681 over five). The apply seat before them was 388,635 and the route-reconciliation seat 333,814. ⚠ Eight further seats were still running when this was written and are not in the total. THE LEVER IS SEAT-HOURS AND NOTHING ELSE COMES CLOSE.",
+    "measures": [
+      {
+        "measure": "cycle_interval_hours 4 -> 8",
+        "effect": "halves scheduled cycles, six a day to three",
+        "enforced_by": "research/autonomy/cadence.py --check, exit 3 when a fire is too soon",
+        "enforcement": "REAL — a gate that refuses, and research-loop §1 runs it before anything else",
+        "_note": "⭐ Deliberately does NOT touch trimcrae's cron (`13 */4 * * *`), which he set himself and which `update_trigger` refuses to change for an http_api-created Routine anyway. The cadence gate is the one place the cron and the declared interval are reconciled, so raising the interval is the supported way to halve the fires. He does not have to do anything."
+      },
+      {
+        "measure": "subagent_width 64 -> 4",
+        "effect": "caps CONCURRENT seats; ten-at-once rounds become impossible",
+        "enforced_by": "research/autonomy/health.py fanout_is_governed, reading receipts' subagents.max_concurrent",
+        "enforcement": "PARTIAL AND SAY SO — it is an AFTER-THE-FACT measurement of a committed receipt, not a gate that can refuse a dispatch. Nothing stops a session spawning a sixth seat; the board goes red afterwards. This is the same 'recorded is not enforced' shape AUT-PROP-058 is about, and pretending otherwise is how the last three of those got shipped."
+      },
+      {
+        "measure": "one paper per hardening round, never two at once",
+        "effect": "halves the cost of the single most expensive thing the loop does",
+        "enforced_by": null,
+        "enforcement": "UNENFORCED — prose in this field and in the driver's judgement, nothing else. ⚠ It is also the measure with the largest saving, which is the worst combination and is recorded here rather than hidden."
+      },
+      {
+        "measure": "no new round until EVERY blocker from the last one is applied",
+        "effect": "stops the round-repair-round treadmill; a round costs ~1.2M tokens and a wasted one costs the same as a useful one",
+        "enforced_by": "research/autonomy/publish_bar.py clause 1, indirectly",
+        "enforcement": "PARTIAL — the bar already refuses to count a round that did not review the commit being published, so a premature round buys nothing. That makes the waste visible; it does not prevent it."
+      },
+      {
+        "measure": "seat scope discipline: name what NOT to read, and require an early report",
+        "effect": "the five reachability seats averaged 188k and the five ATR seats 289k on the same task shape — a 54% spread that is scope, not difficulty",
+        "enforced_by": null,
+        "enforcement": "UNENFORCED — a property of how each seat prompt is written."
+      }
+    ],
+    "_what_is_NOT_being_cut_and_why": "⛔ NOT the publication bar. Narrowing a hardening round from five seats to three would save real tokens and is REFUSED: publish_bar clause 1 forbids a declaring round narrower than the widest earlier one precisely so the loop cannot stop on its weakest look, and cutting seats to save usage is that failure with a budget attached. Cost is a reason to sequence and right-size (CLAUDE.md §5), never to lower a bar.\n⛔ NOT the $0 observations, the gates, or CI. They are not what is expensive — the measurement above says so — and cutting them would trade a real protection for no saving.\n⛔ NOT live research. CLAUDE.md §0 outranks housekeeping under a throttle exactly as without one; the throttle changes HOW MUCH runs at once, not WHICH work is chosen.",
+    "_dials_before": {
+      "cycle_interval_hours": 4,
+      "subagent_width": 64,
+      "items_per_cycle": 1
+    }
   }
 }
