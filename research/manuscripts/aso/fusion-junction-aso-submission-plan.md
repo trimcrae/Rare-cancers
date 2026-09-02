@@ -91,6 +91,138 @@ ABOVE.** Against it:
 (the guidelines capture), the page count has another (the budget test), and this section states the
 verdict rather than the product.
 
+## 1a⁗ · GENES, CHROMOSOMES AND CANCER WAS PUT TO THE JOURNALS' OWN RECORDS, AND THE TWO AXES DISAGREE (2026-08-25)
+
+trimcrae asked whether GCC fits this paper better than NAT, and whether it is free. **Cost and fit
+point at different venues, and that is the finding rather than a failure to decide.**
+
+**Fee: GCC is the $0 route, and this is now read twice at primary source.** Wiley's author pages
+were retrieved from CI on 2026-08-10 — hybrid, the charge attaching only to an open-access option the
+corresponding author selects AFTER acceptance, a subscription article needing only a copyright or
+licence agreement ([`venue-fee-routes-2026-08-10.json`](../../literature/venue-fee-routes-2026-08-10.json),
+verdict `GCC.zero_dollar_route: VERIFIED`). On 2026-08-25 trimcrae read the journal's own Article
+Publication Charges section in a browser and it says the same thing: an APC applies *"if the Open
+Access option is selected"*, and it names no other author charge. **Rates have one home and are not
+restated here.**
+
+⚠ **ONE THING IS STILL OPEN AND IT IS THE ONLY THING THAT COULD MOVE THIS ROW.** Wiley states that
+page and colour charges are administered by individual journals and are NOT covered by open-access
+agreements. The capture above is GCC's fee section and contains no page or colour charge, but that
+is absence in an excerpt rather than a search of the page. **Closing it is a human browser read — the
+per-journal author-guideline pages 403 to the egress proxy AND to an Actions runner alike**
+(recorded 2026-08-10), so no session can take this observation. Until it is taken, GCC is $0 on a
+fee section that named nothing else, not $0 on a page searched for the words.
+
+**Fit: both journals were censused with the same instrument**, `nat_scope_census.py`, generalised to
+any journal on 2026-08-25 rather than duplicated. Artifacts:
+[`nat-scope-census.json`](nat-scope-census.json) and [`gcc-scope-census.json`](gcc-scope-census.json).
+⛔ **Both are keyword SCREENS over titles and abstracts, wrong in both directions on individual
+records, which is why every count ships with its candidates listed.**
+
+| what the record says | NAT | GCC |
+|---|---|---|
+| articles PubMed indexes | 614 | 4,060 |
+| computation-only candidates, of screened abstracts | 31 of 574 | 218 of 3,915 |
+| EMC papers | — | **12**, 1997–2025, including the TAF15::NR4A3 and novel-partner reports this manuscript cites |
+| therapeutic-oligonucleotide design papers | the industry off-target framework this paper executes, and a molecular-modelling paper on ASO analogs | **0 — see below** |
+
+★★ **THE DECIDING OBSERVATION IS NOT THE DRY/WET AXIS, WHICH IS A TIE.** Both journals publish
+computation-only work at a comparable rate — the two fractions above sit within a few tenths of a
+percentage point of each other, and the product is deliberately not typed here — so the objection this paper was braced for at NAT — *an
+oligonucleotide journal will want a knockdown* — is not answered by moving to GCC, and GCC does not
+gain the paper anything on that axis. What separates them is the MODALITY: GCC's 107 abstracts
+matching an oligonucleotide pattern are siRNA-as-a-laboratory-tool and microRNA biology, and the one
+title carrying the word "antisense" uses it for a DNA strand, not a drug. **In 4,060 articles the
+screen finds no therapeutic-oligonucleotide design paper.** Its therapeutically-flavoured
+computational work is prognostic and predictive genomics — a biomarker, not a reagent to synthesise.
+
+**So the trade is stated, and it is a decision rather than a calculation.** GCC has the disease, the
+fusion, the readers who hold EMC material, no fee and no page budget — and no precedent for a paper
+whose product is two sequences. NAT has the modality, the framework and one page of headroom under
+the author's cap on OUR page model rather than their compositor's §1a‴. **A GCC submission would
+require the junction census to LEAD and the gapmers to become its application, which changes what
+the paper is** — CLAUDE.md §3: reshaping a named paper is not a formatting choice and is not a
+session's call.
+
+★★ **AND THE OBJECTION AT GCC IS NOT "NOT NOVEL ENOUGH" — SAYING IT THAT WAY MAKES IT SOUND LIKE
+TWO CONTRADICTORY COMPLAINTS** (trimcrae, 2026-08-25: *"It seems like you're saying GCC is a bad fit
+because it's not novel enough and too novel"*). It is one complaint about OVERLAP, and it needs
+stating in the form a future session can act on.
+
+- **The paper carries no new observation of a tumour.** No new fusion partner, no new breakpoint, no
+  new sequencing, no patient. Every disease fact in it is compiled from published reports — which is
+  the half a cancer-genetics readership evaluates, and in that half this is a compilation.
+- **The paper's new results are real and are not that.** §3 is new: of 190 junction-spanning designs
+  87 let a mature wild-type parent pair the entire catalytic gap and 61 do so against wild-type
+  *NR4A3*; lengthening the gap cannot buy margin, for an arithmetic reason; and chimeras built at
+  real exon termini meet the same screen at 40.6% against the panel's 45.8%, so most of the liability
+  is not a property of real fusion junctions. Those are findings about the sequence architecture of
+  these transcripts — but their payload is legible only to somebody designing an oligonucleotide,
+  and that is the reader the census finds no precedent for.
+
+**So the novelty and the scope do not overlap: the new part is not the part GCC reads, and the part
+GCC reads is not new.** ⚠ At NAT the same paper has the mirror shape — the new part IS what that
+readership reads, and what is missing is the wet-lab margin measurement §5 specifies. Neither is a
+verdict; the two are different bets, and which one is worth taking is a decision, not a count.
+
+⛔ **AND ONE HALF OF THIS IS MEASURED WHILE THE OTHER IS NOT.** The censuses measured 12 EMC papers,
+218 computation-only candidates and no therapeutic-oligonucleotide design paper. *How a reviewer
+would phrase an objection* is inference from that record, not a reading of it, and must not be quoted
+back as though the census said it.
+
+⚠ **PLAN OF RECORD IS UNCHANGED BY THIS SECTION.** It records what the two records say. The venue
+is trimcrae's to set.
+
+## 1a⁵ · THE SHAPE PUBLISHES. IT IS THE FUSION HALF THAT HAS NO PRECEDENT (2026-08-25)
+
+trimcrae, 2026-08-25: *"Is there any journal anywhere in the world that has published a design only
+ASO paper?"* That is not a venue question — it asks whether this manuscript's SHAPE exists in the
+literature at all, and a null answer would have outranked every venue comparison above, because no
+choice between NAT and GCC would address it. **The answer is not null.** Artifact:
+[`aso-design-only-census.json`](aso-design-only-census.json), the same wet/dry screen as the two
+venue censuses with the journal scoping removed.
+
+**⛔ THE "NO WET LAB" OBJECTION IS WEAKER THAN THIS FILE HAS BEEN TREATING IT.** Of 15,916 indexed
+antisense papers, 539 report no wet-lab experiment, across 328 journals; excluding reviews, **323
+original papers across 183 journals**. A computation-only oligonucleotide paper is ordinary. The
+closest single analogue found is a 2024 *Virus Genes* paper designing an antisense oligonucleotide
+against hepatitis C entirely in silico — this paper's shape, published, with no experiment.
+
+**★★ AND THE FUSION COLUMN IS THE FINDING.** In the same 15,916 papers, **20** abstracts mention a
+fusion transcript, junction, oncogene, chimeric transcript or breakpoint AT ALL. Read: almost
+entirely BCR-ABL and BCL-2 work from 1991–2001 performed in cells and mice, plus three modern
+entries (a DNAJB1-PRKACA siRNA, and NAB2-STAT6). **None is a design-only fusion-junction paper.**
+The manuscript's prior-art claim therefore survives an instrument built to refute it, and the rare
+thing about this work is the COMBINATION — design-only *and* junction-directed — not either half.
+
+**Where this shape lands, which is largely not where this file has been looking:**
+
+| journal | computation-only papers (reviews excluded) |
+|---|---|
+| Nucleic Acids Research | 22 |
+| Molecular Therapy — Nucleic Acids | 16 |
+| bioRxiv | 10 |
+| **Nucleic Acid Therapeutics** | 7 (11 counting reviews) |
+| Int J Mol Sci · Mol Ther · RNA · Sci Rep | 6 each |
+| **Genes, Chromosomes and Cancer** | **0 — absent from the tally entirely** |
+
+⭐ **GCC's absence is now measured from two independent directions** and they agree: §1a⁗ found no
+therapeutic-oligonucleotide design paper in GCC's own 4,060 articles, and this census finds no GCC
+row among 328 journals that have published computation-only antisense work.
+
+⛔ **THIS DOES NOT SELECT A VENUE, AND TWO OF THE TOP ROWS ARE ALREADY REFUSED ON FEE.** NAR is
+fully open access and Molecular Therapy — Nucleic Acids was priced out at §1a″; bioRxiv declined
+this author as unaffiliated (§1). **A fee screen of the journals that actually publish this shape
+has NOT been run** and is the obvious next observation, but it is a new venue search rather than a
+correction to this one, and the venue is trimcrae's to set.
+
+⚠ **SCREEN LIMITS, UNCHANGED FROM THE OTHER TWO CENSUSES.** A keyword classifier cannot read a
+paper; none of the records above has been read beyond title and abstract, and the counts are wrong
+in both directions on individual records. Separately, **30 of the 15,916 records (0.2%) were not
+retrieved**, because the corpus exceeds PubMed's 9,999-record retrieval ceiling and must be
+bisected on publication date, which drops a record carrying no usable date. The artifact reports
+`n_retrieved` beside `n_indexed` so that gap is visible rather than smoothed over.
+
 ## 1a″ · The reviewer's two alternatives were priced, and both are worse (2026-08-24)
 
 External review proposed *Molecular Therapy — Nucleic Acids* or *NAR Cancer* as better first targets

@@ -1,0 +1,191 @@
+{
+  "account": "646605541856",
+  "cost_explorer": {
+    "end": "2026-08-14",
+    "start": "2026-06-15",
+    "status": "DENIED",
+    "window_days": 60
+  },
+  "ebs": {
+    "amis": [],
+    "detached_volumes_gb": 0,
+    "est_usd_per_month": 0.0,
+    "region_status": {
+      "us-east-1": "DENIED",
+      "us-east-2": "DENIED",
+      "us-west-2": "DENIED"
+    },
+    "snapshots": [],
+    "snapshots_gb": 0,
+    "volumes": [],
+    "volumes_gb": 0
+  },
+  "ecr": {
+    "est_usd_per_month": 1.88,
+    "repos": [
+      {
+        "est_usd_per_month": 0.97,
+        "gb": 9.657,
+        "image_status": "ok",
+        "lifecycle_policy": "ERROR: LifecyclePolicyNotFoundException",
+        "n_images": 1,
+        "region": "us-east-2",
+        "repo": "nr4a3-abfe"
+      },
+      {
+        "est_usd_per_month": 0.92,
+        "gb": 9.158,
+        "image_status": "ok",
+        "lifecycle_policy": "ERROR: LifecyclePolicyNotFoundException",
+        "n_images": 1,
+        "region": "us-east-2",
+        "repo": "nr4a3-fep"
+      }
+    ],
+    "status": "ok",
+    "total_gb": 18.81
+  },
+  "estimated_monthly_usd": {
+    "by_source": {
+      "CloudWatch Logs": 0.0,
+      "ECR (baked GPU images)": 1.88,
+      "S3": 62.27
+    },
+    "total": 64.15,
+    "total_is_a_floor": true,
+    "unknown_sources": [
+      "EBS volumes + snapshots (DENIED)"
+    ]
+  },
+  "generated_utc": "2026-08-13T01:46:39+00:00",
+  "logs": {
+    "est_usd_per_month": 0.0,
+    "groups": [
+      {
+        "gb": 0.0289,
+        "name": "/aws/sagemaker/TrainingJobs",
+        "region": "us-east-2",
+        "retention_days": null
+      },
+      {
+        "gb": 0.0023,
+        "name": "/aws/sagemaker/ProcessingJobs",
+        "region": "us-east-2",
+        "retention_days": null
+      }
+    ],
+    "never_expire_groups": 2,
+    "region_status": {
+      "us-east-1": "ok",
+      "us-east-2": "ok",
+      "us-west-2": "ok"
+    },
+    "total_gb": 0.031
+  },
+  "misc": {},
+  "note": "READ-ONLY census. Dollar figures are ESTIMATES at public list price unless the cost_explorer block says status=ok, in which case that block is the bill itself.",
+  "regions_scanned": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-2"
+  ],
+  "s3": {
+    "buckets": [
+      {
+        "bucket": "sagemaker-us-east-2-646605541856",
+        "by_class_bytes": {
+          "StandardStorage": 2907123191017.0
+        },
+        "created": "2026-06-25T00:38:33+00:00",
+        "est_usd_per_month": 62.27,
+        "gb": 2707.469,
+        "lifecycle": "DENIED",
+        "location_status": "ok",
+        "multipart_status": "DENIED",
+        "n_objects": 119082,
+        "prefix_status": "ok",
+        "region": "us-east-2",
+        "size_status": "ok",
+        "top_prefixes": {
+          "keys_walked": 27,
+          "prefixes": [
+            {
+              "bytes": 20836,
+              "n": 15,
+              "prefix": "nrv04-retro-results"
+            },
+            {
+              "bytes": 14638,
+              "n": 10,
+              "prefix": "nr4a3-step1-fanout"
+            },
+            {
+              "bytes": 92,
+              "n": 1,
+              "prefix": "vast-watchdog"
+            },
+            {
+              "bytes": 29,
+              "n": 1,
+              "prefix": "ternary-vast"
+            }
+          ],
+          "truncated": false
+        },
+        "total_bytes": 2907123191017.0,
+        "versioning": "DENIED"
+      },
+      {
+        "bucket": "cf-templates-v2kjpo1se7g0-us-east-2",
+        "by_class_bytes": {
+          "StandardStorage": 10605.0
+        },
+        "created": "2026-06-24T22:46:05+00:00",
+        "est_usd_per_month": 0.0,
+        "gb": 0.0,
+        "lifecycle": "DENIED",
+        "location_status": "ok",
+        "multipart_status": "DENIED",
+        "n_objects": 4,
+        "region": "us-east-2",
+        "size_status": "ok",
+        "total_bytes": 10605.0,
+        "versioning": "DENIED"
+      }
+    ],
+    "est_usd_per_month": 62.27,
+    "status": "ok",
+    "total_gb": 2707.47
+  },
+  "sagemaker": {
+    "region_status": {
+      "us-east-1": {
+        "apps": "ok",
+        "domains": "ok",
+        "endpoints": "ok",
+        "in_progress_processing": "ok",
+        "in_progress_training": "ok",
+        "in_progress_transform": "ok",
+        "notebook_instances": "ok"
+      },
+      "us-east-2": {
+        "apps": "ok",
+        "domains": "ok",
+        "endpoints": "ok",
+        "in_progress_processing": "ok",
+        "in_progress_training": "ok",
+        "in_progress_transform": "ok",
+        "notebook_instances": "ok"
+      },
+      "us-west-2": {
+        "apps": "ok",
+        "domains": "ok",
+        "endpoints": "ok",
+        "in_progress_processing": "ok",
+        "in_progress_training": "ok",
+        "in_progress_transform": "ok",
+        "notebook_instances": "ok"
+      }
+    }
+  }
+}

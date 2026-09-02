@@ -95,28 +95,6 @@
       "n_rented": 0
     },
     {
-      "utc": "2026-08-31T05:30:27Z",
-      "et": "1:30 AM ET",
-      "outcome": "dispatched",
-      "what_that_means": "the gate cleared and fired the launch workflow",
-      "stage": "triangle-gate",
-      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33360600428",
-      "gate_ratio_vs_basis": 1.883,
-      "gate_mean_usd_per_ns": 0.006423,
-      "gate_projected_usd": 10.71,
-      "gate_max_ratio_vs_basis": 1.9166094031192507,
-      "gate_hold": false,
-      "gate_reason": "bid tier clears at 1.883x basis; on-demand was NOT taken because it is over the rung's dollar ceiling (projected $16.21); over the $/ns drift line (the buy line) at 2.848x basis",
-      "gate_board_depth": {
-        "offers_returned": 118,
-        "qualifying": 36,
-        "priceable": 36,
-        "needed": 4,
-        "used_for_mean": 4
-      },
-      "reason": "board cleared both ceilings; dispatching task=triangle"
-    },
-    {
       "utc": "2026-08-31T05:31:35Z",
       "et": "1:31 AM ET",
       "outcome": "failed",
@@ -1403,12 +1381,36 @@
       "n_requested": 4,
       "n_rented": 0,
       "reason": "task=5aks; job status success"
+    },
+    {
+      "utc": "2026-09-02T16:53:58Z",
+      "et": "12:53 PM ET",
+      "outcome": "refused-on-price",
+      "what_that_means": "the board was read and NOTHING on it was within the buy line \u2014 the guard working, nothing rented, nothing billing, next tick re-checks",
+      "stage": "rent (steps.rent.outcome=success)",
+      "run_url": "https://github.com/trimcrae/Rare-cancers/actions/runs/33657345842",
+      "gate_ratio_vs_basis": 1.908,
+      "gate_mean_usd_per_ns": 0.006509,
+      "gate_projected_usd": 13.96,
+      "gate_max_ratio_vs_basis": 1.9166094031192507,
+      "gate_hold": false,
+      "gate_reason": "bid tier clears at 1.908x basis; on-demand was NOT taken because it is over the $/ns drift line (the buy line) at 2.572x basis",
+      "gate_board_depth": {
+        "offers_returned": 57,
+        "qualifying": 57,
+        "priceable": 31,
+        "needed": 4,
+        "used_for_mean": 4
+      },
+      "n_requested": 4,
+      "n_rented": 0,
+      "reason": "task=5aks; job status success"
     }
   ],
   "_seeded": "The first four rows are RECONSTRUCTED from the job logs of runs 30269185466, 30269249817 and 30270047942 on 2026-07-27, because the ledger did not exist while they ran. They are the reason it does. Every figure is quoted from a committed snapshot or a log line.",
   "_aged_out": {
     "_what": "routine rows the MAX_ATTEMPTS cap has aged out of this file, oldest first. NEVER an evidence row (`retain` / `reconstructed_from_job_log`) \u2014 those are exempt from the cap. Nothing is lost: recover any row from git with `ternary_launch_ledger.py --repair` (restores missing evidence) or `git log -p` on this file (everything else).",
-    "n_total": 5537,
-    "through_utc": "2026-08-31T05:30:26Z"
+    "n_total": 5538,
+    "through_utc": "2026-08-31T05:30:27Z"
   }
 }
