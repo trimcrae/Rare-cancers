@@ -1,0 +1,35 @@
+{
+  "_schema": "emc-review-seat/1",
+  "status": "complete",
+  "paper": "PUB-ATR",
+  "pub_id": "PUB-ATR",
+  "reviewed_commit": "00e049a94e34647e186b40eaf259e53602d43df4",
+  "blind": true,
+  "seat": "arithmetic",
+  "lens": "arithmetic against committed artifacts",
+  "document": "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md",
+  "document_sha256": "f5af78b0019f05a733e7155b710ea5dd81a6024a7e5b3ffa2934110ea7ffb9da",
+  "opened_utc": "2026-09-02T20:47:16Z",
+  "verdict": "supported",
+  "central_claim": "This is an in-silico assessment of whether the published FET-fusion -> impaired-ATM -> compensatory-ATR-dependency hypothesis is internally consistent in public data and transfers to EMC; it grades WEAK (the transcriptional shadow is not seen) and explicitly makes no efficacy/potency/clinical claim.",
+  "blockers": [],
+  "p1s": [
+    {
+      "summary": "Several rounded values sit at or just past the conventional half-up rounding boundary (e.g. GSE24369 DNA-damage-checkpoint raw delta 0.0445 printed as '+0.045' rather than '+0.044'; RPL5 panel_sd 0.3465 printed as '0.347'; NR4A1/NR4A3 fold '196.784/13.332=14.76' printed as '15x'). Every instance I checked is defensible under standard round-half-away-from-zero and none changes a qualitative reading, but the document has no stated rounding convention and no regenerating guard on the rounding step itself, so a future artifact regeneration that shifts a delta by a few units in the last decimal could silently flip a printed rounded value without any test catching it.",
+      "evidence": "emc-atr-vulnerability.json part_b_emc_tumour_signature.per_platform['GSE24369_series_matrix.txt.gz'].contrast_EMC_vs_all_comparator_sarcoma.DNA_damage_checkpoint.delta_a_minus_b = 0.0445 (paper prints '+0.045'); part_c_coordinated_dependency.per_gene.RPL5.panel_sd = 0.3465 (paper prints '0.347'); atr-hrd-sarcoma-series.json emc_model_identity_check.emc_labelled_samples[0]: NR4A1_TPM 196.784 / NR4A3_TPM 13.332 = 14.76x (paper prints '15x').",
+      "fix": "Not required for this commit (all values recompute correctly to the printed precision under ordinary rounding and no conclusion depends on the rounding direction). If a guard is wanted, add a regeneration test that re-derives each rounded display value from the artifact float and fails if the printed digit would change under either round-half-up or round-half-even, so a future artifact drift that crosses a rounding boundary is caught rather than silently accepted."
+    }
+  ],
+  "what_i_read": [
+    "research/manuscripts/dependency/emc-atr-vulnerability-assessment.md (full text, at the pin)",
+    "research/modalities/emc-atr-vulnerability.json (part_a_hemcss_identity, part_b_emc_tumour_signature incl. dataset_search and per_platform contrasts for all platforms, part_c_coordinated_dependency incl. per_gene and coordination, part_d_drug_response_correlation incl. correlations/specificity/mechanism_tests, grading)",
+    "research/modalities/emc-atr-vulnerability-inputs.json (part_d.gdsc_residual_ln_ic50_by_drug)",
+    "research/modalities/hemcss-label-priorart.json",
+    "research/modalities/emc-model-junction-evidence.json",
+    "research/modalities/atr-hrd-sarcoma-series.json (n_samples_parsed, design_vs_contents, material_type_counts, cohort_composition, emc_model_identity_check)",
+    "research/modalities/atr-hrd-sarcoma-series-inputs.json (checked for presence/existence only)",
+    "research/modalities/emc-fet-idr-census.json (wild_type_annotation, positive_controls, emc_canonical_EWSR1_NR4A3)",
+    "research/modalities/emc-fet-construct-designs.json (constructs: type1, type2, type5, domains_retained_and_lost)",
+    "research/modalities/fet-ddr-axis-scan.json (atr_inhibitor_sensitivity_gdsc.by_drug, welch_line_median_corrected deltas for paclitaxel/azd6738/ve-822/olaparib/talazoparib)"
+  ]
+}

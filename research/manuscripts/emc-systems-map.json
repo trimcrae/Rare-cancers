@@ -1799,6 +1799,18 @@
           "classification": "unaffected",
           "why_unaffected": "A memo about which git branches carry unmerged work. It states no biological claim of any kind, and the only reading of this model anywhere in it is the quoted sentence declining to read it as EMC evidence. Nothing in the memo's verdicts, counts or recommendations depends on what the line is.",
           "correction_marker": "not carrying the hallmark fusion on the curated record"
+        },
+        {
+          "file": "research/autonomy/review-seats/PUB-ATR-00e049a94e34647e186b40eaf259e53602d43df4-seat-regression.json",
+          "use": "BLOCKER finding: round 5 repair introduced a new panel-size claim (H-EMC-SS is one line of a ~14-line panel, PMID 34413129) that disagreed with one of the two artifacts it cited jointly (one says 14-line, the other ~20-line).",
+          "classification": "unaffected",
+          "why_unaffected": "The finding is about a PANEL-SIZE count in a citation, not about H-EMC-SS fusion status or identity. It reads no property this object dispute bears on and grounds no claim on the line; it is a review note about an inconsistency between two producer artifacts describing the same source paper."
+        },
+        {
+          "file": "research/autonomy/research-ledger.json",
+          "use": "AUT-PD-211: records the same panel-size (14 vs ~20-line) disagreement between two producer artifacts, found by PUB-ATR round 6 regression seat.",
+          "classification": "unaffected",
+          "why_unaffected": "The row is a process-defect record about a citation panel-size count, not about H-EMC-SS fusion status or identity. It grounds no claim on the line."
         }
       ],
       "distinct_from": [
