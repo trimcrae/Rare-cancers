@@ -1,3 +1,23 @@
+---
+id: DOC-ROUND33-SEATS
+title: "Round 33 seat records — held outside the directory the publish bar globs, because one of six is not a round"
+level: L3
+kind: memo
+status: live
+date: 2026-09-02
+audience: [autonomous research agents, maintainers]
+scope: >
+  Round 33 of PUB-ASO only, and only the seats completed before this directory is deleted.
+  It says nothing about any other paper, any other round, or whether round 33 converged.
+last_verified: 2026-09-02
+purpose: >
+  Say why completed blind-seat records for an UNFINISHED hardening round are committed here rather
+  than in research/autonomy/review-seats/, which is what clause 1 of the publish bar reads. A seat
+  record left in a session scratchpad dies with the container; the same record filed where the bar
+  counts it would turn a partial round into a round. This directory is the only place that is
+  neither.
+---
+
 # Round 33 seat records, held outside `review-seats/` on purpose
 
 ⛔⛔ **THESE ARE NOT YET CLAUSE-1 EVIDENCE, AND FILING THEM AS SUCH WOULD BE A FALSE RECORD.**
