@@ -10,10 +10,10 @@
     "Not a licence statement. The depositor chooses the licence at step 4 below."
   ],
   "deposition_doi": "10.5281/zenodo.22229096",
-  "git_revision": "d0b529cda0db4905ff373753a10e9c82c8dbe50e",
+  "git_revision": "e52beb7c34034f1da6b07b1e38bddc9cd5eaa025",
   "git_tree_is_clean_apart_from_this_manifest": true,
   "inventory_limited_to_tracked_files": true,
-  "archive_content_digest": "2cb8379575ffd509308aaa44f3d605a739b8005fa466f82d94fe1f8e742c95e9",
+  "archive_content_digest": "8c4724e5350a15136591b320c4828e30926b5a678e10f46ee7041c749d3f1172",
   "n_files": 515,
   "self_entry": {
     "path": "research/manuscripts/aso/fusion-junction-aso-archive-manifest.json",
@@ -24,18 +24,18 @@
     "_why_not_counted": "It is excluded from `files`, `n_files`, `total_bytes` and `archive_content_digest` for the same reason, which is also what keeps two runs over an unchanged tree byte-identical — the property this module's header calls the only cheap check a reader has that the file is derived rather than edited.",
     "how_a_reader_checks_it_anyway": "Two ways, neither needing a self-hash. (1) Re-derive it: check out `git_revision` and run `python3 research/manuscripts/aso_archive_manifest.py --check`, which rebuilds the whole file and exits non-zero on any difference. (2) Compare the downloaded copy's `sha256sum` against the value the deposition record states — step 4 below tells the depositor to record it there, which is the one place it can live without being self-referential."
   },
-  "total_bytes": 53168536,
-  "total_mib": 50.705,
+  "total_bytes": 53194932,
+  "total_mib": 50.731,
   "payload_file_types": {
     "_what": "Extension census of the payload, derived from the file list. A preprint or journal uploader that accepts only document, image and container types cannot take most of these one by one; step 3 below builds the single container that sidesteps the question entirely. Check the accepted types on the uploader itself — none is asserted here.",
     "by_extension": {
       ".json": {
         "n_files": 408,
-        "bytes": 45585699
+        "bytes": 45607299
       },
       ".py": {
         "n_files": 76,
-        "bytes": 3351707
+        "bytes": 3356503
       },
       ".md": {
         "n_files": 12,
@@ -1716,8 +1716,8 @@
     },
     {
       "path": "research/manuscripts/pinned-figures.json",
-      "bytes": 144821,
-      "sha256": "818f6c02c168e05dd0b41cd35e8d4d8f6bde5d62b58c1c85751f3c06ab0bf951",
+      "bytes": 153703,
+      "sha256": "85e1c19b75e0482c55c836a7165ab3f8cc4c58fbf739b5f7440f300357c36f06",
       "serves": "correction_record",
       "also_serves": [],
       "contributes": "The acceptor-seam exon-indexing correction: the grader that banners every affected artifact, the frame audit and regeneration record that show which junctions were re-emitted and which were refused, and the working record and red-team pass that narrate the withdrawal."
@@ -1725,7 +1725,7 @@
     {
       "path": "research/manuscripts/submission-metrics.json",
       "bytes": 13057,
-      "sha256": "38104a93909f897dd87e5286d2dcad1dad80f9ee84f316c141695eed82ca2321",
+      "sha256": "a147db965c3ce368df9cdb50629d64d8eab1f37df76bee2ffb5395107dd695ef",
       "serves": "reproduction_command",
       "also_serves": [],
       "contributes": "Re-derives every offline-derivable artefact below in dependency order and re-runs the consistency, citation and style gates; the command a reader is told to run to establish that this archive is current. The script AND every step it invokes that no other row here already carries."
@@ -2928,8 +2928,8 @@
     },
     {
       "path": "research/modalities/emc-atr-vulnerability.json",
-      "bytes": 330001,
-      "sha256": "e3349be38bf9e2f37cc9138e3d46afe128139825c61526d7f9206fa019e22df8",
+      "bytes": 342646,
+      "sha256": "773c0e582d64cde069ecc2e4f9b36a4b56b3cb9977ca520b49511d431f7b47eb",
       "serves": "test_articles_and_cell_models",
       "also_serves": [],
       "contributes": "The evidence behind section 3: the three published constructs with their author-stated exon spans, the two identity-clean patient-derived models with their RRIDs and the figure-legend fusion calls they rest on, the third line whose availability could not be established, and the fusion caller, expression reading and registry caution behind the statement that no NR4A3 fusion is detectable in H-EMC-SS on the public record. H-EMC-SS identity is DISPUTED (OBJ-LINE-HEMCSS): the evidence in this row is what makes that dispute checkable, and section 3's operative conclusion -- that the line cannot serve as a test article for any reagent named here -- does not rest on the line being EMC."
@@ -2952,8 +2952,8 @@
     },
     {
       "path": "research/modalities/emc-model-junction-evidence.json",
-      "bytes": 21536,
-      "sha256": "4e19cf253deaddb2eaa857291122f5ebe5df41836f29e0d151a9d7d37780a476",
+      "bytes": 21609,
+      "sha256": "3c7d88207c8c8bbd64037ff90d66153099aceb2445213f7132b3f88766ebfb10",
       "serves": "test_articles_and_cell_models",
       "also_serves": [],
       "contributes": "The evidence behind section 3: the three published constructs with their author-stated exon spans, the two identity-clean patient-derived models with their RRIDs and the figure-legend fusion calls they rest on, the third line whose availability could not be established, and the fusion caller, expression reading and registry caution behind the statement that no NR4A3 fusion is detectable in H-EMC-SS on the public record. H-EMC-SS identity is DISPUTED (OBJ-LINE-HEMCSS): the evidence in this row is what makes that dispute checkable, and section 3's operative conclusion -- that the line cannot serve as a test article for any reagent named here -- does not rest on the line being EMC."
@@ -2984,8 +2984,8 @@
     },
     {
       "path": "research/modalities/emc_atr_vulnerability.py",
-      "bytes": 181412,
-      "sha256": "d9b11a0f9ae1ec0a8cd5b1e128cd8621f9202d0cb383aae6fa32f10472aee0f5",
+      "bytes": 185539,
+      "sha256": "707f9f72ff142036da2ad152505b7e3cfa149436b94ee47a41767b2d1e2a144c",
       "serves": "import_closure",
       "also_serves": [],
       "contributes": "Imported by a released module. Not named by any availability promise; present because the code the promises DO name cannot be imported without it."
@@ -3000,8 +3000,8 @@
     },
     {
       "path": "research/modalities/emc_model_junction_evidence.py",
-      "bytes": 31958,
-      "sha256": "d79e40e7011418dc13c96ed279f329b73460a2e88bae4aa1b0da9d0b4c883eeb",
+      "bytes": 32627,
+      "sha256": "36dd67d7c301d61bc26b8286b1eaaf3ef977b42408c774b629fb8ce61e30cfae",
       "serves": "test_articles_and_cell_models",
       "also_serves": [],
       "contributes": "The evidence behind section 3: the three published constructs with their author-stated exon spans, the two identity-clean patient-derived models with their RRIDs and the figure-legend fusion calls they rest on, the third line whose availability could not be established, and the fusion caller, expression reading and registry caution behind the statement that no NR4A3 fusion is detectable in H-EMC-SS on the public record. H-EMC-SS identity is DISPUTED (OBJ-LINE-HEMCSS): the evidence in this row is what makes that dispute checkable, and section 3's operative conclusion -- that the line cannot serve as a test article for any reagent named here -- does not rest on the line being EMC."
