@@ -35,9 +35,11 @@ is the same discipline `gpu_backend.vast_rental_hold` already applies to the Vas
   PURCHASE (CLAUDE.md §6), so resume and watchdog-relaunch paths are inside every count below.
 =================================================================================================
   A. VAST — 3 create-instance call sites (`PUT /asks/{id}/`: `gpu_backend.VastBackend.submit`, and
-     `vast_bid_semantics_probe` twice), reached from 18 lane `.submit(...)` call sites across 14
-     modules (ternary, congeneric fan-out, protfep, nrv04 ×5, bioemu, paralogue MD ×2, abfe-sel,
-     selcal ×2, bench sweep, the two watchdog relaunch paths, vast_smoke).
+     `vast_bid_semantics_probe` twice), reached from 18 lane `.submit(...)` call sites across 12
+     modules: nrv04 ×5, vast_watchdog ×2 (a relaunch path), selcal ×2, and one each in ternary,
+     congeneric fan-out, protfep, bioemu, paralogue-MD launch, paralogue-MD ops, abfe-sel, bench
+     sweep and vast_smoke. ⚠ Counted, not remembered — `ternary_vast_watchdog` reaches `submit`
+     through the ternary lane rather than directly and is therefore NOT one of the 12.
      → GATED AT `gpu_backend._vast_request`, on a mutating method against `/asks/`. That is the
        single door: every Vast HTTP call in the repository goes through that function, and creation
        is the only thing that PUTs to `/asks/`. Board reads (`GET /search/asks/`), `destroy`, `stop`,
